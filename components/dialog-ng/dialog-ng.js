@@ -1,4 +1,3 @@
-/* global angular: false */
 import 'dom4';
 import {Inject} from 'angular-es6';
 import scrollbarWidth from 'scrollbar-width';
@@ -16,6 +15,7 @@ import '../dialog/dialog.scss';
  * @category Angular Components
  * @example-file ./dialog-ng__examples.html
  */
+/* global angular: false */
 const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
 
 class DialogController extends Inject {

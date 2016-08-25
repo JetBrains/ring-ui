@@ -1,5 +1,3 @@
-/* global angular */
-
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
@@ -13,6 +11,9 @@ import '../button/button.scss';
  * @description Button directive
  * @example-file ./button-ng__examples.html
  */
+
+/* global angular */
+
 const angularModule = angular.module('Ring.button', [Icon]);
 const ORDER_NOT_DEFINED = '-1';
 

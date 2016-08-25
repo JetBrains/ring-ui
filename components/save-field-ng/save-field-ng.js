@@ -1,3 +1,10 @@
+/**
+ * @name Save Field Ng
+ * @category Angular Components
+ * @description Directive: Wrapper with save button for inputs
+ * @example-file ./save-field-ng__examples.html
+ */
+
 /* global angular: false */
 import 'dom4';
 import '../form/form.scss';
@@ -22,13 +29,6 @@ const angularModule = angular.module('Ring.save-field', [
   Shortcuts,
   Button
 ]);
-
-/**
- * @name Save Field Ng
- * @category Angular Components
- * @description Directive: Wrapper with save button for inputs
- * @example-file ./save-field-ng__examples.html
- */
 
 angularModule.constant('rgSaveFieldShortcutsMode', {
   id: 'ring-save-field',
