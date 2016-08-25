@@ -1,10 +1,3 @@
-/**
- * @name Alert
- * @fileoverview Alert. Can be used to display notifications, shown inline in context.
- * Can also be used to display a stack of notifications. In this case use {@link Alerts}.
- * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- */
-
 import React from 'react';
 import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
@@ -14,6 +7,13 @@ import Loader from '../loader-inline/loader-inline';
 
 import './alert.scss';
 import '../badge/badge.scss';
+
+/**
+ * @name Alert
+ * @category Components
+ * @description An alert can be used to display notifications, shown inline in context.
+ * If you want to be able to display a stack of notifications, use {@link Alerts}.
+ */
 
 /**
  * List of available alert types.

@@ -1,8 +1,10 @@
 /**
  * @name Place Under Ng
- * @fileoverview This directive is a helper. Element with rg-place-under=".some-selector"
- * attribute will be manually positioned under the provided element. Target element
- * position should be 'absolute'
+ * @category Angular Components
+ * @description Sidebar trying to fill the entire right half of its container.
+ * To make sidebar have fixed positioning under some other element (e.g. toolbar),
+ * a selector for that element should be passed as placeUnderSibling parameter.
+ * @example-file ./place-under-ng__examples.html
  */
 
 import 'dom4';
@@ -10,15 +12,6 @@ import debounce from 'mout/function/debounce';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import {getDocumentScrollTop} from '../dom/dom';
-
-/**
- * @name Place Under Ng
- * @description Sidebar trying to fill the entire right half of its container.
- * To make sidebar have fixed positioning under some other element (e.g. toolbar),
- * a selector for that element should be passed as placeUnderSibling parameter.
- * @example-file ./place-under-ng__examples.html
- */
-
 
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);

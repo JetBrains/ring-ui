@@ -1,8 +1,10 @@
 /**
  * @name Icon
- * @fileoverview SVG icons component.
- * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- * @author alexander.anisimov@jetbrains.com (Alexander Anisimov)
+ * @category Components
+ * @constructor
+ * @description Icon component
+ * @extends {ReactComponent}
+ * @example-file ./icon__examples.html
  */
 
 import 'core-js/modules/es6.array.find';
@@ -15,13 +17,6 @@ import ClassName from '../class-name/class-name';
 import {Color, Size} from './icon__constants';
 import './icon.scss';
 
-/**
- * @name Icon
- * @constructor
- * @description Icon component
- * @extends {ReactComponent}
- * @example-file ./icon__examples.html
- */
 export default class Icon extends RingComponent {
   static propTypes = {
     color: PropTypes.string,

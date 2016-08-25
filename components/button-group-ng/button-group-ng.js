@@ -3,6 +3,11 @@ import 'dom4';
 import {getStyles} from '../dom/dom';
 import '../button-group/button-group.scss';
 
+/**
+ * @name Button Group Ng
+ * @category Angular Components
+ */
+
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
 

@@ -1,6 +1,7 @@
 /**
  * @name List
- * @fileoverview Item List.
+ * @category Components
+ * @description List of items
  */
 
 import 'core-js/modules/es6.array.find';

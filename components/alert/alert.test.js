@@ -1,8 +1,3 @@
-/**
- * @fileoverview Alert component tests
- * @author igor.alexeenko@jetbrains.com
- */
-
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Alert from './alert';

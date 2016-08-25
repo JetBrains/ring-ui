@@ -1,6 +1,3 @@
-/**
- * @name Template Ng
- */
 /* global angular */
 import {Inject} from 'angular-es6';
 
@@ -8,6 +5,7 @@ const angularModule = angular.module('Ring.template', []);
 
 /**
  * @name Template Ng
+ * @category Angular Components
  * @example
   <example name="Template Ng">
     <file name="index.html">

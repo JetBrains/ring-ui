@@ -1,12 +1,10 @@
-/**
- * @name Tabs Ng
- */
 /* global angular: false */
 
 import '../tabs/tabs.scss';
 
 /**
  * @name Tabs Ng
+ * @category Angular Components
  * @example
  * <example name="Tabs Ng">
      <file name="index.html">

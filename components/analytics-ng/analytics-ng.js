@@ -1,13 +1,10 @@
-/**
- * @name Analytics Ng
- */
 import analyticsInstance from '../analytics/analytics';
 import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
  * @name Analytics Ng
- *
+ * @category Angular Components
  * @example
  * <example name="Analytics Ng">
  *   <file name="index.js" webpack="true">

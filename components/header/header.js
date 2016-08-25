@@ -1,7 +1,7 @@
 /**
  * @name Header
- * @fileoverview Cross-service universal header.
- * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
+ * @category Components
+ * @description Customizable header
  */
 /* eslint-disable react/no-multi-comp */
 

@@ -11,6 +11,7 @@ import sniffer from '../sniffer/sniffer';
 
 /**
  * @name Old Browsers Message
+ * @category Components
  * @example
   <example name="Old Browsers Message">
     <file type="html">

@@ -1,10 +1,3 @@
-/**
- * @name Progress Bar
- * @author igor.alexeenko@jetbrains.com (Igor Alekseenko)
- * @fileoverview component represents the progress of a task.
- * (like HTML5 progress tag).
- */
-
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
@@ -12,7 +5,9 @@ import './progress-bar.scss';
 
 /**
  * @name Progress Bar
+ * @category Components
  * @constructor
+ * @description component represents the progress of a task (akin to HTML5 progress tag).
  * @extends {ReactComponent}
  * @example-file ./progress-bar__examples.html
  */

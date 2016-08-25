@@ -1,6 +1,3 @@
-/**
- * @name Shortcuts Hint Ng
- */
 import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
@@ -62,6 +59,7 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
 
 /**
  * @name Shortcuts Ng Hint Popup
+ * @category Angular Components
  * @description A popup with a listing of registered shortcuts
  * @example-file ./shortcuts-hint-ng__examples.html
 */

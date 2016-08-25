@@ -5,6 +5,7 @@ import './link.scss';
 
 /**
  * @name Link
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example

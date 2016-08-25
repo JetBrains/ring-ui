@@ -1,7 +1,7 @@
 /**
- * @author maxim.mazin
  * @name React Ng
- * @fileoverview AngularJS directive that proxies React components.
+ * @category Angular Components
+ * @description AngularJS directive that proxies React components.
  */
 
 /* global angular: false */

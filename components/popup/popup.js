@@ -1,6 +1,7 @@
 /**
  * @name Popup
- * @fileoverview Popup.
+ * @category Components
+ * @description Popup
  */
 
 import React, {PropTypes} from 'react';

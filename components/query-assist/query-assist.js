@@ -1,6 +1,7 @@
 /**
  * @name Query Assist
- * @fileoverview Query Assist
+ * @category Components
+ * @description Query Assist
  */
 
 import React, {PropTypes, DOM} from 'react';

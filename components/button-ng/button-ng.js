@@ -1,6 +1,3 @@
-/**
- * @name Button Ng
- */
 /* global angular */
 
 import 'dom4';
@@ -12,6 +9,7 @@ import '../button/button.scss';
 
 /**
  * @name Button Ng
+ * @category Angular Components
  * @description Button directive
  * @example-file ./button-ng__examples.html
  */

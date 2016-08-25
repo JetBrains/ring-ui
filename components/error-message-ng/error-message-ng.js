@@ -8,7 +8,10 @@ import '../error-message-ng/error-message-ng.scss';
 registerComponents({Icon});
 
 /**
- * A block for displaying error messages
+ * @name Error Message Ng
+ * @category Angular Components
+ * @description A block for displaying error messages
+ *
  * Usage:
  * <rg-error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
    {{ 'Service backend isn\'t available' | translate }}

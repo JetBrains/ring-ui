@@ -1,8 +1,3 @@
-/**
- * @fileoverview
- * @author igor.alexeenko (Igor Alekseyenko)
- */
-
 import ClassName from './class-name';
 
 describe('Classname', () => {
