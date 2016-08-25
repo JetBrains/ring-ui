@@ -14,6 +14,7 @@ function noop() {}
 
 /**
  * @name Tags Input
+ * @category Forms
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./tags-input__examples.html

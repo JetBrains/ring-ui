@@ -5,6 +5,7 @@ import './input.scss';
 
 /**
  * @name Input
+ * @category Forms
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./input__examples.html

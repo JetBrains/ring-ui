@@ -1,3 +1,8 @@
+/**
+ * @name ClassName
+ * @category Utilities
+ */
+
 class ClassName {
   constructor(baseName) {
     this.setBaseName(baseName);

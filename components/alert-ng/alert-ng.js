@@ -1,14 +1,14 @@
-/**
- * @name Alert Ng
- * @author maxim.erekhinskiy
- * @fileoverview AngularJS service that provides an interface to React-based Alerts component.
- */
-/* global angular: false */
-
 import {render} from 'react-dom';
 import ReactAlert from '../alert/alert';
 import ReactAlerts from '../alert/alerts';
 
+/**
+ * @name Alert Ng
+ * @category Angular Components
+ * @description AngularJS service that provides an interface to the React-based Alerts component.
+ */
+
+/* global angular: false */
 const angularModule = angular.module('Ring.alert', []);
 
 function alert() {

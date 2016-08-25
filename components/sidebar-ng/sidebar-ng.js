@@ -1,6 +1,3 @@
-/**
- * @name Sidebar Ng
- */
 /* global angular */
 
 import PlaceUnder from '../place-under-ng/place-under-ng';
@@ -15,6 +12,7 @@ registerComponents({Icon});
 
 /**
  * @name Sidebar Ng
+ * @category Angular Components
  * @description Sidebar trying to fill the entire right half of its container.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.

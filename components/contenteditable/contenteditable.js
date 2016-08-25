@@ -1,6 +1,7 @@
 /**
  * @name ContentEditable
- * @fileoverview ContentEditable component
+ * @category Forms
+ * @description ContentEditable component
  */
 
 import React from 'react';

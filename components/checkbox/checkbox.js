@@ -9,6 +9,7 @@ const ngModelStateField = 'checked';
 
 /**
  * @name Checkbox
+ * @category Forms
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./checkbox__examples.html

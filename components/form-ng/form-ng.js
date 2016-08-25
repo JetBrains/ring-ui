@@ -4,6 +4,11 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
 import '../input/input.scss';
 import AngularElastic from 'angular-elastic';
 
+/**
+ * @name Form Ng
+ * @category Angular Components
+ */
+
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
 angularModule.factory('getFormErrorMessages', [

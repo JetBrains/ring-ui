@@ -6,6 +6,7 @@ import './panel.scss';
 
 /**
  * @name Panel
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example

@@ -1,15 +1,12 @@
-/**
- * @name Popup Menu
- * @fileoverview Popup Menu.
- */
-
 import React from 'react';
 import Popup from '../popup/popup';
 import List from '../list/list';
 
 /**
  * @name Popup Menu
+ * @category Components
  * @constructor
+ * @description Popup menu
  * @extends {ReactComponent}
  * @example
 
