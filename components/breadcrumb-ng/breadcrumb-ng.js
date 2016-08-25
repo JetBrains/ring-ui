@@ -1,6 +1,5 @@
-import {reactNg} from '../react-ng/react-ng';
+import {reactNg, registerComponents} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
-import {registerComponents} from '../react-ng/react-ng';
 
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
