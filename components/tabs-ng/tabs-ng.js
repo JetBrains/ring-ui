@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import '../tabs/tabs.scss';
 
 /**
@@ -24,6 +22,7 @@ import '../tabs/tabs.scss';
      </file>
    </example>
  */
+/* global angular: false */
 const angularModule = angular.module('Ring.tabs', []);
 
 angularModule.directive('rgTabs', ($location, $rootScope) => ({
