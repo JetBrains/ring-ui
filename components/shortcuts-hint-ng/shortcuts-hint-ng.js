@@ -99,7 +99,7 @@ class HintPopupService {
 
 function shortcutKeySymbolFilter(shortcut) {
   const MAC_OS = sniffer.os.name === 'macos';
-  const KEY_SEPARATOR = MAC_OS ? ' ' : ' + ';
+  const KEY_SEPARATOR = MAC_OS ? '' : '+';
   const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
 
   return shortcut.
