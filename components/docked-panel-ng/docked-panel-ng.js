@@ -10,7 +10,7 @@ import './docked-panel-ng.scss';
  * @category Angular Components
  * @description Creates a panel docked at the bottom of the page.
  * @example
- * <example name="Docked Panel Ng">
+   <example name="Docked Panel Ng">
      <file name="index.html">
       <div ng-app='DockedPanelExample'>
         <div>
@@ -25,15 +25,15 @@ import './docked-panel-ng.scss';
           <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
         </div>
       </div>
-    </file>
-    <file name="index.js" webpack="true">
-     require('angular');
-     require('ring-ui/components/button/button.scss');
-     require('ring-ui/components/panel/panel.scss');
-     require('ring-ui/components/docked-panel-ng/docked-panel-ng');
-     angular.module('DockedPanelExample', ['Ring.docked-panel']);
-    </file>
-  </example>
+     </file>
+     <file name="index.js" webpack="true">
+      require('angular');
+      require('ring-ui/components/button/button.scss');
+      require('ring-ui/components/panel/panel.scss');
+      require('ring-ui/components/docked-panel-ng/docked-panel-ng');
+      angular.module('DockedPanelExample', ['Ring.docked-panel']);
+     </file>
+   </example>
  */
 
 /* global angular:false */
