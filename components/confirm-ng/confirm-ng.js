@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import Dialog from '../dialog-ng/dialog-ng';
 
 /**
@@ -13,6 +11,7 @@ import Dialog from '../dialog-ng/dialog-ng';
     </file>
    </example>
  */
+/* global angular: false */
 
 const angularModule = angular.module('Ring.confirm', [Dialog]);
 
