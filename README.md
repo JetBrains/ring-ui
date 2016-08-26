@@ -14,17 +14,17 @@ order: 1
 
 2. Install dependencies: `npm install`
 
-3. (Optional, Mac OS X / Linux) Install [status bar indicator application](https://github.com/roman01la/anybar-webpack#known-apps) to receive webpack build notifications.
+3. (Optional, Mac OS X / Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ## Available commands
 
-Start the server: `npm start` (runs the webpack dev server on http://localhost:9999. You can change the port using `npm config set ring-ui:port <port>`)
+To start the server: `npm start` (runs the webpack dev server on http://localhost:9999. You can change the port using `npm config set ring-ui:port <port>`)
 
-Run tests: `npm test`
+To run tests: `npm test`
 
-Lint code: `npm run lint`
+To lint code: `npm run lint`
 
-Build production files: `npm run build`
+To build production files: `npm run build`
 
 #### Custom port
 
@@ -32,9 +32,9 @@ Change the port using `npm config set ring-ui:port <port>`
 
 #### Hub URL
 
-You can change the URL of Hub server using `npm config set ring-ui:hub <hub uri>` or provide it as a command line option: `npm start|build -- --hub <hub uri>`.
+You can change the URL of the Hub server using `npm config set ring-ui:hub <hub uri>` or provide it as a command line option: `npm start|build -- --hub <hub uri>`.
 
-`<server uri>` should be either one of predefined values below or __any other URL__.
+`<server uri>` should be either one of the predefined values below or __any other URL__.
 
 Predefined values:
 
@@ -59,7 +59,7 @@ It will ask for component name and then create the skeleton for you.
   
 ## Building on host project side
 
-1. Add JetBrains internal registry to `.npmrc` in your project folder:
+1. Add the JetBrains internal registry to `.npmrc` in your project folder:
 
 ```
 echo 'registry = http://registry.npmjs.org' >> .npmrc
@@ -108,13 +108,13 @@ This reads Ring UI configuration and overrides some config params.
 
 3. Go to project root folder and type: `yo ring`. It will ask you to enter the name of the project
 and desired frameworks (plain JS, ReactJS or AngularJS). It will then create a project skeleton
-with testing infrastructure, webpack build configuration, ES6 support, ESLint and filled package.json dependencies.
+with testing infrastructure, webpack build configuration, ES6 support, ESLint and the required package.json dependencies.
 
-4. Go to generated project folder, type `npm install` and then `npm start`. You project is ready to develop.
+4. Go to the generated project folder and run `npm install` followed by `npm start`. You project is ready to be developed.
 
 ## Is Lodash or Underscore available?
 
-Instead of libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/).
+Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/).
 Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
 
 ## Is jQuery available?
@@ -132,7 +132,7 @@ Use `npm run setup-hooks` to install it.
 To enable the `Wallaby.js` test runner follow these steps:
  
 1. Download and install the [Wallaby.js plugin](http://wallabyjs.com/) for WebStorm.
-2. Make sure Node.js is available at `/usr/local/bin/node`, if not - create a symlink.  
+2. Make sure Node.js is available at `/usr/local/bin/node`, if not – create a symlink.  
 3. Run the `Wallaby` configuration in WebStorm.
 
 
