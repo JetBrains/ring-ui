@@ -1,7 +1,7 @@
 /**
  * @name Popup
  * @category Components
- * @description Popup
+ * @description Displays a popup.
  */
 
 import React, {PropTypes} from 'react';

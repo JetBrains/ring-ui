@@ -8,7 +8,7 @@ import './button.scss';
  * @name Button
  * @category Forms
  * @constructor
- * @description Button component
+ * @description Provides styled buttons.
  * @extends {RingComponent}
  * @example-file ./button__examples.html
  */

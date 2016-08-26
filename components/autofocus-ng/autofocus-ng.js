@@ -1,7 +1,7 @@
 /**
  * @name Autofocus Ng
  * @category Angular Components
- * @description Sets focus to the element if the condition is true. Supports rg-select as well
+ * @description Sets focus to the element if the condition is true. Supports rg-select as well.
  * @example-file ./autofocus-ng__examples.html
  */
 /* global angular */

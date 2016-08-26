@@ -1,7 +1,7 @@
 /**
  * @name ContentEditable
  * @category Forms
- * @description ContentEditable component
+ * @description Provides a ContentEditable component.
  */
 
 import React from 'react';

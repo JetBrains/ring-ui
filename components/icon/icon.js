@@ -2,7 +2,7 @@
  * @name Icon
  * @category Components
  * @constructor
- * @description Icon component
+ * @description Displays an icon.
  * @extends {ReactComponent}
  * @example-file ./icon__examples.html
  */

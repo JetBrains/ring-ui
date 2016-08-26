@@ -1,7 +1,7 @@
 /**
  * @name React Ng
  * @category Angular Components
- * @description AngularJS directive that proxies React components.
+ * @description An Angular directive for proxying React components.
  */
 
 /* global angular: false */
