@@ -12,18 +12,19 @@ function noop() {}
  * @name Auth
  * @category Components
  * @constructor
+ * @description Authenticates a user in [Hub](https://www.jetbrains.com/hub/).
  *
  * @prop {object} config
  * @prop {string} config.serverUri
  * @prop {string} config.redirect_uri
  * @prop {string} config.client_id
- * @prop {boolean=false} config.redirect — use redirects instead of loading token in the background.
+ * @prop {boolean=false} config.redirect — use redirects instead of loading the token in the background.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
  * @prop {boolean} config.cleanHash - whether or not location.hash will be cleaned after authorization is completed.
  * Should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
- * @prop {string[]} config.userFields List of users fields to be returned by auth.requestUser (default list is used in Header.HeaderHelper)
+ * @prop {string[]} config.userFields List of user data fields to be returned by auth.requestUser (default list is used in Header.HeaderHelper)
  *
  * @param {{
  *   serverUri: string,

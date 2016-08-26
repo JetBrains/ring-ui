@@ -23,13 +23,13 @@ const LOADER_DELAY = 150; // delay to show loader in ms
  * * `select` **`as`** `label` **`select as`** `buttontext` **`for`** `item` **`in`** `items`
  *
  * Where:
- * * `items`: an expression which evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
- * * `item`: local variable which will refer to each item in the items.
- * * `label`: The result of this expression will be the label for &lt;option&gt; element. The expression will most likely refer to the value variable (e.g. item.name).
- * * `select`: The result of this expression will be bound to the model of the parent &lt;select&gt; element. If not specified, select expression will default to item.
- * * `trackexpr`: Used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
- * * `buttontext`: Label for the selected item to be displayed on the button.
- * * `description`: Description of an item to display in the option list.
+ * * `items` is an expression that evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
+ * * `item` is a local variable that will refer to each item in the items.
+ * * `label` – the result of this expression will be the label for &lt;option&gt; element. The expression will most likely refer to the value variable (e.g. item.name).
+ * * `select` – the result of this expression will be bound to the model of the parent &lt;select&gt; element. If not specified, select expression will default to item.
+ * * `trackexpr` is used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
+ * * `buttontext` – label for the selected item to be displayed on the button.
+ * * `description` – description of an item to display in the option list.
  *
  * Examples:
  * * `item in items`

@@ -5,6 +5,7 @@ import '../checkbox/checkbox.scss';
 /**
  * @name Checkbox Ng
  * @category Angular Components
+ * @description Provides an Angular wrapper for Checkbox.
  * @example
  * <example name="Checkbox Ng">
      <file name="index.html">
