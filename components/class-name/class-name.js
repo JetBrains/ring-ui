@@ -1,6 +1,13 @@
 /**
  * @name ClassName
  * @category Utilities
+ * @description Manipulate the element class using BEM terms
+ * @example
+   <example name="ClassName">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 class ClassName {

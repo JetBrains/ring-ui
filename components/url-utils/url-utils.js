@@ -1,5 +1,17 @@
 import sniffer from '../sniffer/sniffer';
 
+/**
+ * @name urlUtils
+ * @category Utilities
+ * @description Provides a set of utilities for URL manipulation.
+ * @example
+   <example name="urlUtils">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
+ */
+
 export default class urlUtils {
   /**
    * @const {RegExp}
@@ -83,9 +95,9 @@ export default class urlUtils {
   }
 
   /**
-   * Resolve url for svg icons
+   * Resolve URL for SVG icons
    * @param {string} relUrl The value of xlink:href
-   * @return {string} The url relative to base url for current page
+   * @return {string} The URL relative to base URL for current page
    */
   static resolveRelativeURL(relUrl) {
     if (this.getBaseURI() && (sniffer.browser.name === 'firefox' || sniffer.browser.name === 'edge' || sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49)) {

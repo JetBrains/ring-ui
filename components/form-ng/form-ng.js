@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
 import '../input/input.scss';
 import AngularElastic from 'angular-elastic';
@@ -15,6 +13,7 @@ import AngularElastic from 'angular-elastic';
     </file>
    </example>
  */
+/* global angular: false */
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
