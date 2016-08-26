@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import {registerComponents, reactNg} from '../react-ng/react-ng';
 import Icon from '../icon/icon';
 
@@ -22,6 +20,7 @@ registerComponents({Icon});
     </file>
    </example>
  */
+/* global angular: false */
 
 const angularModule = angular.module('Ring.error-message', [reactNg]);
 

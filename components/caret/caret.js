@@ -5,7 +5,14 @@ import {getRect} from '../dom/dom';
  * @category Utilities
  * @description Manipulate the caret's position in a text box or a contenteditable element. Ported from [jquery-caret](https://plugins.jquery.com/caret/).
  * @see https://github.com/princed/caret
+ * @example
+   <example name="Caret">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
+
 export default class Caret {
   /**
    * Line endings RegExp
