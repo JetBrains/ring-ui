@@ -1,5 +1,5 @@
 /**
- * @description Select options popup
+ * @description Displays a popup with select's options.
  */
 
 import React from 'react';

@@ -3,7 +3,7 @@ import {getRect} from '../dom/dom';
 /**
  * @name Caret
  * @category Utilities
- * @description Caret utils. Ported from jquery-caret
+ * @description Manipulate the caret's position in a text box or a contenteditable element. Ported from jquery-caret.
  * @see https://github.com/princed/caret
  */
 export default class Caret {

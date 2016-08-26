@@ -17,7 +17,7 @@ import '../table/table.scss';
 /**
  * @name Table Ng
  * @category Angular Components
- * @description A table component
+ * @description Displays tabular data.
  * @example-file ./table-ng__examples.html
 */
 /*global angular*/
@@ -240,7 +240,7 @@ angularModule.directive('rgTableHeaderCheckbox', () => ({
   template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
 
   link(scope, iElement, iAttrs, tableCtrl) {
-    // todo: reduce number of recheckSelection() calls
+    // TODO: reduce number of recheckSelection() calls
     scope.allChecked = false;
 
     function recheckSelection() {

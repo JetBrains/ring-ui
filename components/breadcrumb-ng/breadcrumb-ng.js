@@ -9,7 +9,7 @@ registerComponents({Icon});
 /**
  * @name Breadcrumb Ng
  * @category Angular Components
- * @description Breadcrumb component for AngularJS apps
+ * @description Displays a breadcrumb.
  * @example
  * <example name="Breadcrumb Ng">
      <file name="index.html">

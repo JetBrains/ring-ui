@@ -1,7 +1,7 @@
 /**
  * @name Header
  * @category Components
- * @description Customizable header
+ * @description Displays a configurable page header.
  */
 /* eslint-disable react/no-multi-comp */
 
@@ -491,7 +491,7 @@ export default class Header extends RingComponent {
       );
     };
 
-    // todo(igor.alexeenko): This check treats only components created by
+    // FIXME this check treats only components created by
     // React.createClass() as valid. If an already existing component such as
     // React.DOM.img is passed, it won't work.
     if (this.props.logo && typeof this.props.logo.setState !== 'undefined' &&

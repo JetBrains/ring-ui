@@ -12,7 +12,7 @@ import './alert.scss';
  * @name Alerts
  * @constructor
  * @category Components
- * @description Alerts component displays a stack of alerts on top of the page.
+ * @description Displays a stack of alerts on top of the page.
  * @extends {RingComponent}
  * @example-file ./alerts__examples.html
  */
@@ -117,7 +117,6 @@ export default class Alerts extends RingComponent {
     const alertToAppend = render(createElement(Alert, lastAddedElement), this._containerClone);
     const heightToCompensate = findDOMNode(alertToAppend).offsetHeight;
 
-    // todo(igor.alexeenko): Merge vertical animation to element's height with animation from Header.
     this._stylesheet.insertRule(`.alert-enter { margin-top: -${heightToCompensate + this._gap}px }`, 0);
 
     unmountComponentAtNode(this._containerClone);

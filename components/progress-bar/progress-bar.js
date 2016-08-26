@@ -7,7 +7,7 @@ import './progress-bar.scss';
  * @name Progress Bar
  * @category Components
  * @constructor
- * @description This component represents the progress of a task (akin to HTML5 progress tag).
+ * @description Displays the progress of a task (akin to HTML5 progress tag).
  * @extends {ReactComponent}
  * @example-file ./progress-bar__examples.html
  */
