@@ -13,6 +13,7 @@ import './select.scss';
 /**
  * @name Select
  * @category Components
+ * @description Displays a select.
  * @example-file ./select__examples.html
  */
 

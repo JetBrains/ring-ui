@@ -8,6 +8,7 @@ import classNames from 'classnames';
  * @name Loader Screen
  * @category Components
  * @constructor
+ * @description Displays a large animated loader and an (optional) text. Use cases: while the site is loading, during major actions.
  * @extends {ReactComponent}
  * @example
     <example name="Loader Screen">

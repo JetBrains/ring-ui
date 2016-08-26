@@ -9,6 +9,7 @@ import './tooltip.scss';
  * @name Tooltip
  * @category Components
  * @constructor
+ * @description Displays a tooltip.
  * @extends {ReactComponent}
  * @example
    <example name="Tooltip">
