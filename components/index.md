@@ -14,11 +14,11 @@ plugins developed for JetBrains' products.
 
 [Igor Alexeenko](https://github.com/o0)
 
-Alexander Anisimov
+[Alexander Anisimov](https://github.com/anisimov74)
 
 [Eugene Datsky](https://github.com/princed) (project lead)
 
-Maxim Erekhinskiy
+[Maxim Erekhinskiy](https://github.com/nightflash)
 
 [Leonid Khachaturov](https://github.com/Leonya)
 
@@ -28,13 +28,13 @@ Maxim Erekhinskiy
 
 [Maxim Mazin](https://github.com/mazine) 
 
-Maxim Ryzhikov 
+[Maxim Ryzhikov](https://github.com/maksimr) 
 
-Evgeny Schepotiev 
+[Evgeny Schepotiev](https://github.com/zeckson) 
 
-Andrey Skladchikov 
+[Andrey Skladchikov](https://github.com/huston007) 
 
-Ekaterina Zaikina 
+[Ekaterina Zaikina](https://github.com/katriyna) 
 
 ## Links
  
