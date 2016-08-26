@@ -7,6 +7,7 @@ import './loader-inline.scss';
  * @name Loader Inline
  * @category Components
  * @constructor
+ * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
  * @extends {ReactComponent}
  * @example
    <example name="Loader Inline">

@@ -8,6 +8,7 @@ import './panel.scss';
  * @name Panel
  * @category Components
  * @constructor
+ * @description Displays a button panel.
  * @extends {ReactComponent}
  * @example
    <example name="Panel">
