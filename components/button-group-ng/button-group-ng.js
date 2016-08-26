@@ -6,6 +6,13 @@ import '../button-group/button-group.scss';
 /**
  * @name Button Group Ng
  * @category Angular Components
+ * @description Provides an Angular wrapper for Button Group.
+ * @example
+   <example name="Button Group Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 const CLASSNAME_FIRST = 'ring-button-group__first';

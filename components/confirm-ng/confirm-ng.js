@@ -5,6 +5,13 @@ import Dialog from '../dialog-ng/dialog-ng';
 /**
  * @name Confirm Ng
  * @category Angular Components
+ * @description Displays a confirmation prompt
+ * @example
+   <example name="Confirm Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 const angularModule = angular.module('Ring.confirm', [Dialog]);
@@ -23,7 +30,7 @@ angularModule.service('confirm', (dialog, $templateCache) => {
     },
     buttons: [
       {
-        label: (actionTitle || 'Ok'),
+        label: (actionTitle || 'OK'),
         default: !cancelIsDefault,
         close: false,
         action: () => {

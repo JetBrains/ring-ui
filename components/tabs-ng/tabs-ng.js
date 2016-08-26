@@ -5,7 +5,7 @@ import '../tabs/tabs.scss';
  * @category Angular Components
  * @description Displays a tab set.
  * @example
- * <example name="Tabs Ng">
+   <example name="Tabs Ng">
      <file name="index.html">
        <div ng-app="Ring.tabs">
          <rg-tabs class="container container_tabs">

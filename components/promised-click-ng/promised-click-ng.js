@@ -4,40 +4,40 @@ import 'dom4';
  * @category Angular Components
  * @description Directive for a button active state control
  * @example
-<example name="Promised Click Ng">
-  <file name="index.html">
-    <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
-      <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
-      <button class="ring-button" rg-promised-click test-directive>Via the controller</button>
-      <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
-    </div>
-  </file>
-  <file name="index.js" webpack="true">
-    require('ring-ui/components/button/button.scss');
-    require('angular');
-    require('ring-ui/components/promised-click-ng/promised-click-ng');
-    require('ring-ui/components/button-ng/button-ng');
+    <example name="Promised Click Ng">
+      <file name="index.html">
+        <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
+          <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
+          <button class="ring-button" rg-promised-click test-directive>Via the controller</button>
+          <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
+        </div>
+      </file>
+      <file name="index.js" webpack="true">
+        require('ring-ui/components/button/button.scss');
+        require('angular');
+        require('ring-ui/components/promised-click-ng/promised-click-ng');
+        require('ring-ui/components/button-ng/button-ng');
 
-    var buttonTestModule = angular.module('button-test', ['Ring.promised-click', 'Ring.button']);
+        var buttonTestModule = angular.module('button-test', ['Ring.promised-click', 'Ring.button']);
 
-    buttonTestModule.controller('testController', function($scope, $timeout) {
-      this.onClick = function () {
-        return $timeout(angular.noop, 1000);
-      };
-    });
-
-    buttonTestModule.directive('testDirective', ['$timeout', function($timeout) {
-      return {
-        require: 'rgPromisedClick',
-        link: function (scope, iElement, iAttrs, rgPromisedClick) {
-          rgPromisedClick.onClick(function () {
+        buttonTestModule.controller('testController', function($scope, $timeout) {
+          this.onClick = function () {
             return $timeout(angular.noop, 1000);
-          });
-        }
-      }
-    }]);
-  </file>
-</example>
+          };
+        });
+
+        buttonTestModule.directive('testDirective', ['$timeout', function($timeout) {
+          return {
+            require: 'rgPromisedClick',
+            link: function (scope, iElement, iAttrs, rgPromisedClick) {
+              rgPromisedClick.onClick(function () {
+                return $timeout(angular.noop, 1000);
+              });
+            }
+          }
+        }]);
+      </file>
+    </example>
 */
 
 /* global angular: false */

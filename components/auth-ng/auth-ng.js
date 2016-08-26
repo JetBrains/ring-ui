@@ -11,7 +11,7 @@ const angularModule = angular.module('Ring.auth', []);
 angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
    * @example
-   * <example name="Auth Ng">
+     <example name="Auth Ng">
        <file name="index.html">
          <div ng-app="test" ng-controller="testCtrl as ctrl">
             <h3>User info</h3>

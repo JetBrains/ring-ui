@@ -8,27 +8,27 @@ import '../icon/icon.scss';
  * @category Angular Components
  * @description Provides an Angular wrapper for Icon.
  * @example
- * <example name="Icon Ng">
- <file name="index.html">
- <div ng-app="TestApp" ng-controller="testCtrl">
- <rg-icon glyph="{{icon}}" size="14"></rg-icon>
- <rg-icon glyph="{{icon}}"></rg-icon>
- <rg-icon glyph="{{icon}}" color="ORANGE"></rg-icon>
- <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
- <rg-icon glyph="{{icon}}" size="64"></rg-icon>
- <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>
- </div>
- </file>
- <file name="index.js" webpack="true">
- require('angular');
- require('ring-ui/components/icon-ng/icon-ng');
- require('ring-ui/components/button-ng/button-ng');
- angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
-       $scope.icon = require('jetbrains-icons/distribution.svg');
-       $scope.error = require('jetbrains-icons/search-error.svg');
-     });
- </file>
- </example>
+    <example name="Icon Ng">
+      <file name="index.html">
+        <div ng-app="TestApp" ng-controller="testCtrl">
+          <rg-icon glyph="{{icon}}" size="14"></rg-icon>
+          <rg-icon glyph="{{icon}}"></rg-icon>
+          <rg-icon glyph="{{icon}}" color="ORANGE"></rg-icon>
+          <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
+          <rg-icon glyph="{{icon}}" size="64"></rg-icon>
+          <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>
+        </div>
+      </file>
+    <file name="index.js" webpack="true">
+      require('angular');
+      require('ring-ui/components/icon-ng/icon-ng');
+      require('ring-ui/components/button-ng/button-ng');
+      angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
+        $scope.icon = require('jetbrains-icons/distribution.svg');
+        $scope.error = require('jetbrains-icons/search-error.svg');
+      });
+    </file>
+  </example>
  */
 /* global angular: false */
 const angularModule = angular.module('Ring.icon', []);

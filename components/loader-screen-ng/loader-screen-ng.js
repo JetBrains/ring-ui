@@ -1,5 +1,3 @@
-/* global angular: false */
-
 import Loader from '../loader/loader';
 import {registerComponents, reactNg} from '../react-ng/react-ng';
 
@@ -9,9 +7,12 @@ import '../loader/loader.scss';
 registerComponents({Loader});
 
 /**
- * Loader service
+ * @name Loader Screen Ng
+ * @category Angular Components
+ * @description Provides an Angular wrapper for Loader Screen.
+ * Usage examples:
  *
- * 1. Use directive in body:
+ * 1. Use the directive in the document body:
  *   <div ring-loader-screen="{{ 'Loading' | translate}}"></div>
  *
  * 2. Add dependency for 'Ring.loader-screen' to your app
@@ -22,6 +23,7 @@ registerComponents({Loader});
  *    loaderScreen.startInitialLoading();
  *  }]);
  */
+/* global angular: false */
 
 const angularModule = angular.module('Ring.loader-screen', [reactNg]);
 
