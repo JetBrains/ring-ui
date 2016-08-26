@@ -7,6 +7,7 @@ import './link.scss';
  * @name Link
  * @category Components
  * @constructor
+ * @description Displays a link.
  * @extends {ReactComponent}
  * @example
    <example name="Link">
