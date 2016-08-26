@@ -10,7 +10,7 @@ registerComponents({Icon});
 /**
  * @name Error Message Ng
  * @category Angular Components
- * @description A block for displaying error messages
+ * @description Displays an error message.
  *
  * Usage:
  * <rg-error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">

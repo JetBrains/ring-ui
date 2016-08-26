@@ -1,7 +1,7 @@
 /**
  * @name Save Field Ng
  * @category Angular Components
- * @description Directive: Wrapper with save button for inputs
+ * @description Allows to create forms where some fields have their own Save buttons.
  * @example-file ./save-field-ng__examples.html
  */
 

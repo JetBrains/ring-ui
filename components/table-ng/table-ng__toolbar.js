@@ -1,7 +1,7 @@
 /**
  * @name Table Ng Toolbar
  * @category Angular Components
- * @description Sticky toolbar, mostly for tables, but can be used elsewhere too.
+ * @description Displays a sticky toolbar (mostly for tables, but can be used elsewhere too).
  */
 /*global angular*/
 import 'dom4';

@@ -5,7 +5,7 @@ import ReactAlerts from '../alert/alerts';
 /**
  * @name Alert Ng
  * @category Angular Components
- * @description AngularJS service that provides an interface to the React-based Alerts component.
+ * @description Provides an Angular service to the React-based **Alerts** component.
  */
 
 /* global angular: false */

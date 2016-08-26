@@ -13,7 +13,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, ale
 /**
  * @name Avatar Editor Ng
  * @category Angular Components
- * @description File input used to select images to be uploaded as Data URI. On-select attribute will receive the
+ * @description Allows to choose images to be uploaded as Data URI. On-select attribute will receive the
  * filename as `name` and the file contents as `data`.
  * @example
    <example name="Avatar Editor Ng">

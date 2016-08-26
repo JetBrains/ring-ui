@@ -1,7 +1,7 @@
 /**
  * @name Query Assist
  * @category Components
- * @description Query Assist
+ * @description Displays a Query Assist field.
  */
 
 import React, {PropTypes, DOM} from 'react';
