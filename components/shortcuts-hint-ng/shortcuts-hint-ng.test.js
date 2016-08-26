@@ -55,9 +55,9 @@ describe('Shortcuts Hint Ng', () => {
       shortcutSearchFilter = _shortcutSearchFilter_;
 
       fakeShortcuts = [
-        {key: 'shift+left+up', title: 'combination first'},
-        {key: 'ctrl+enter', title: 'some second'},
-        {key: 'meta+alt+down', title: 'combination third'}
+        {key: 'shift+left+up', titles: ['combination first']},
+        {key: 'ctrl+enter', titles: ['some second']},
+        {key: 'meta+alt+down', titles: ['combination third']}
       ];
     }));
 
@@ -97,8 +97,16 @@ describe('Shortcuts Hint Ng', () => {
 
     it('Should support multiple keys', () => {
       const filtered = shortcutSearchFilter([
-        {key: ['shift+left+up', 'shift+left+up'], title: 'combination first'}
+        {key: ['shift+left+up', 'shift+left+up'], titles: ['combination first']}
       ], 'combination');
+
+      filtered.length.should.be.equal(1);
+    });
+
+    it('Should support multiple titles', () => {
+      const filtered = shortcutSearchFilter([
+        {key: ['shift+left+up'], titles: ['combination first', 'combination second']}
+      ], 'second');
 
       filtered.length.should.be.equal(1);
     });
