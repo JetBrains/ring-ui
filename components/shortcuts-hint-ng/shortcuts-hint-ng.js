@@ -1,3 +1,4 @@
+import 'core-js/modules/es7.array.includes';
 import sniffer from '../sniffer/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
@@ -33,6 +34,7 @@ const macSymbolsMap = {
   home: 'Home',
   end: 'End',
   space: 'Space',
+  ins: 'Insert',
 
   left: '←',
   up: '↑',
@@ -49,10 +51,11 @@ const winSymbolsMap = {
   backspace: 'Backspace',
   esc: 'Esc',
   tab: 'Tab',
-  del: 'Del',
+  del: 'Delete',
   home: 'Home',
   end: 'End',
   space: 'Space',
+  ins: 'Insert',
 
   left: '←',
   up: '↑',
@@ -71,6 +74,15 @@ class HintPopupService {
 
   show(popupConfig = {}, shortcutModes) {
     const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
+
+    modes.forEach(mode => {
+      mode.shortcuts.forEach(shortcut => {
+        shortcut.titles = shortcut.titles || [];
+        if (shortcut.title && !shortcut.titles.includes(shortcut.title)) {
+          shortcut.titles.push(shortcut.title);
+        }
+      });
+    });
 
     return this.dialog.show(Object.assign({
       template: HintPopupTpl,
@@ -112,11 +124,11 @@ function shortcutSearchFilter(shortcuts, query = '') {
     const key = shortcut.key.join ? shortcut.key.join(' ') : shortcut.key;
     const keysPresentation = shortcutKeySymbolFilter(key);
 
-    if (!shortcut.title) {
+    if (!shortcut.titles.length) {
       return false;
     } else {
       const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const titleMatches = shortcut.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const titleMatches = shortcut.titles.join(' ').toLowerCase().indexOf(query.toLowerCase()) !== -1;
       const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
       return keyMatches || titleMatches || presentationMatches;
