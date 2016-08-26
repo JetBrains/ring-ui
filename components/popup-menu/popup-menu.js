@@ -9,7 +9,6 @@ import List from '../list/list';
  * @description Displays a popup menu.
  * @extends {ReactComponent}
  * @example
-
    <example name="Popup Menu">
      <file name="index.html">
        <div>

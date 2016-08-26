@@ -12,7 +12,7 @@ import debounce from 'mout/function/debounce';
 
 /**
  * @example
- * <example>
+   <example>
      <rg-table-toolbar stick>
         <ng-include src="'ring-ui/components/project-list/project-list__toolbar.tpl.html'"></ng-include>
      </rg-table-toolbar>

@@ -13,45 +13,45 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
  * @category Angular Components
  * @description Displays an error page, e.g. 404 Not Found.
  * @example
- * <example name="Error Page Ng">
-   <file name="index.html">
-    <div ng-app="Ring.error-page">
-        <div class="app" rg-error-page-background>
-            <div rg-error-page="{error: {status: 403}}"></div>
-        </div>
-    </div>
-   </file>
-   <file name="index.scss">
-     body {
-        margin: 0;
-     }
-   </file>
-   <file name="index.js" webpack="true">
-      require('angular');
-      require('angular-route');
-      require('ring-ui/components/error-page-ng/error-page-ng');
+   <example name="Error Page Ng">
+     <file name="index.html">
+      <div ng-app="Ring.error-page">
+          <div class="app" rg-error-page-background>
+              <div rg-error-page="{error: {status: 403}}"></div>
+          </div>
+      </div>
+     </file>
+     <file name="index.scss">
+       body {
+          margin: 0;
+       }
+     </file>
+     <file name="index.js" webpack="true">
+        require('angular');
+        require('angular-route');
+        require('ring-ui/components/error-page-ng/error-page-ng');
 
-      angular.module('Ring.auth', [])
-        .provider('auth', function() {
-          this.$get = function($q) {
-            var defer = $q.defer();
-            defer.resolve([]);
+        angular.module('Ring.auth', [])
+          .provider('auth', function() {
+            this.$get = function($q) {
+              var defer = $q.defer();
+              defer.resolve([]);
 
-            return {
-              auth: {
-                requestToken: function() {
-                  return defer.promise;
+              return {
+                auth: {
+                  requestToken: function() {
+                    return defer.promise;
+                  },
+                  getSecure: function() {
+                    return defer.promise;
+                  }
                 },
-                getSecure: function() {
-                  return defer.promise;
-                }
-              },
-              promise: defer.promise
+                promise: defer.promise
+              };
             };
-          };
-        });
-   </file>
- </example>
+          });
+     </file>
+   </example>
  */
 /* global angular: false */
 const angularModule = angular.module('Ring.error-page', [

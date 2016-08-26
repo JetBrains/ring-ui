@@ -166,45 +166,45 @@ function reactNgDirective($parse) {
  * <strong>Note: the attributes that should be passed to a React component should have a "react-" prefix!</strong>
  * @extends {ReactComponent}
  * @example
- <example name="React-ng">
-   <file name="index.html">
-     <div ng-app="react-ng-test">
-        <span ng-controller="testController" react-static="Icon" react-glyph="'#pencil'" size="64"></span>
-    </div>
-   </file>
+   <example name="React-ng">
+     <file name="index.html">
+       <div ng-app="react-ng-test">
+          <span ng-controller="testController" react-static="Icon" react-glyph="'#pencil'" size="64"></span>
+      </div>
+     </file>
 
-   <file name="index.js" webpack="true">
-     require('angular');
-     require('ring-ui/components/react-ng/react-ng')({
-         Icon: require('ring-ui/components/icon/icon')
-     });
+     <file name="index.js" webpack="true">
+       require('angular');
+       require('ring-ui/components/react-ng/react-ng')({
+           Icon: require('ring-ui/components/icon/icon')
+       });
 
-     angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', () => {});
-     require('jetbrains-icons/pencil.svg');
-   </file>
- </example>
+       angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', () => {});
+       require('jetbrains-icons/pencil.svg');
+     </file>
+   </example>
 
- <example name="React-ng performance">
-   <file name="index.html">
-     <div ng-app="react-ng-performance" ng-controller="testController" >
-        <div react-static="Button" ng-click="run = true" react-children="'Run!'"></div>
-        <span ng-if="run" ng-repeat="n in data" react-static="Icon" react-key="n" react-title="n" react-glyph="'#check'" size="16"></span>
-     </div>
-   </file>
+   <example name="React-ng performance">
+     <file name="index.html">
+       <div ng-app="react-ng-performance" ng-controller="testController" >
+          <div react-static="Button" ng-click="run = true" react-children="'Run!'"></div>
+          <span ng-if="run" ng-repeat="n in data" react-static="Icon" react-key="n" react-title="n" react-glyph="'#check'" size="16"></span>
+       </div>
+     </file>
 
-   <file name="index.js" webpack="true">
-     require('angular');
-     require('ring-ui/components/react-ng/react-ng')({
-       Icon: require('ring-ui/components/icon/icon'),
-       Button: require('ring-ui/components/button/button')
-     });
-     require('jetbrains-icons/check.svg');
+     <file name="index.js" webpack="true">
+       require('angular');
+       require('ring-ui/components/react-ng/react-ng')({
+         Icon: require('ring-ui/components/icon/icon'),
+         Button: require('ring-ui/components/button/button')
+       });
+       require('jetbrains-icons/check.svg');
 
-     angular.module('react-ng-performance', ['Ring.react-ng']).controller('testController', ($scope) => {
-       $scope.data = Array.from(Array(500).keys())
-     });
-   </file>
- </example>
+       angular.module('react-ng-performance', ['Ring.react-ng']).controller('testController', ($scope) => {
+         $scope.data = Array.from(Array(500).keys())
+       });
+     </file>
+   </example>
  */
 
 /*@ngInject*/

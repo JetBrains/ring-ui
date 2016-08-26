@@ -7,7 +7,7 @@ import '../checkbox/checkbox.scss';
  * @category Angular Components
  * @description Provides an Angular wrapper for Checkbox.
  * @example
- * <example name="Checkbox Ng">
+   <example name="Checkbox Ng">
      <file name="index.html">
        <div ng-app="TestApp">
          <div>Checked: {{checked}}</div>
@@ -26,7 +26,7 @@ import '../checkbox/checkbox.scss';
        require('ring-ui/components/button-ng/button-ng');
        angular.module('TestApp', ['Ring.button', 'Ring.checkbox'])
      </file>
- </example>
+   </example>
  */
 /* global angular: false */
 const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);

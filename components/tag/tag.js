@@ -5,6 +5,18 @@ import Icon from '../icon/icon';
 import './tag.scss';
 import CloseIcon from 'jetbrains-icons/close.svg';
 
+/**
+ * @name Tag
+ * @category Components
+ * @description Displays a tag.
+ * @example
+   <example name="Tag">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
+ */
+
 export default class Tag extends RingComponent {
   static propTypes = {
     onRemove: React.PropTypes.func,
