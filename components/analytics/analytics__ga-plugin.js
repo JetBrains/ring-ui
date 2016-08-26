@@ -1,6 +1,6 @@
 /**
  *
- * @param {string?} gaId Google analytics id (should be undefined in development)
+ * @param {string?} gaId Google Analytics ID (should be undefined in development)
  * @constructor
  */
 export default function AnalyticsGAPlugin(gaId, isDevelopment) {

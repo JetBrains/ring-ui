@@ -11,7 +11,7 @@ registerComponents({Icon});
  * @category Angular Components
  * @description Displays a breadcrumb.
  * @example
- * <example name="Breadcrumb Ng">
+   <example name="Breadcrumb Ng">
      <file name="index.html">
      <div ng-app="Example.breadcrumb">
        <div ng-controller="DemoCtrl">
@@ -34,7 +34,7 @@ registerComponents({Icon});
             }
          }]);
      </file>
- </example>
+   </example>
  */
 
 /* global angular: false */

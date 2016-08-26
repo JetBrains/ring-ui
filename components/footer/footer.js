@@ -114,39 +114,39 @@ class FooterLine extends RingComponent {
  * @returns {React} react component
  *
  * @example
- <example name="Footer">
- <file name="index.html">
- <div>
-   <div id="footer"></div>
- </div>
- </file>
- <file name="index.scss">
-  body {
-    margin: 0;
-  }
- </file>
- <file name="index.js" webpack="true">
- var render = require('react-dom').render;
- var Footer = require('ring-ui/components/footer/footer');
+   <example name="Footer">
+     <file name="index.html">
+      <div>
+       <div id="footer"></div>
+      </div>
+     </file>
+     <file name="index.scss">
+      body {
+        margin: 0;
+      }
+     </file>
+     <file name="index.js" webpack="true">
+      var render = require('react-dom').render;
+      var Footer = require('ring-ui/components/footer/footer');
 
- render(
- Footer.factory({
-       className: 'stuff',
-       left: [
-         [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
-         'Enterprise 8.0.2 EAP (build 27448)'
-       ],
-       center: [
-         [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
-         {url: 'http://teamcity.jetbrains.com/showagreement.html', label: 'License agreement', title: 'read me!'}
-       ],
-       right: [
-         {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-       ]
-     }
- ), document.getElementById('footer'));
- </file>
- </example>
+      render(
+      Footer.factory({
+           className: 'stuff',
+           left: [
+             [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
+             'Enterprise 8.0.2 EAP (build 27448)'
+           ],
+           center: [
+             [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
+             {url: 'http://teamcity.jetbrains.com/showagreement.html', label: 'License agreement', title: 'read me!'}
+           ],
+           right: [
+             {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
+           ]
+         }
+      ), document.getElementById('footer'));
+     </file>
+   </example>
  */
 export default class Footer extends RingComponent {
   /** @override */

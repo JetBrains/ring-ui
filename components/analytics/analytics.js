@@ -1,3 +1,13 @@
+/**
+ * @name Analytics
+ * @category Components
+ * @example
+   <example name="Analytics">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
+ */
 class Analytics {
   constructor() {
     this._plugins = [];

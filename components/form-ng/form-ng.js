@@ -7,6 +7,13 @@ import AngularElastic from 'angular-elastic';
 /**
  * @name Form Ng
  * @category Angular Components
+ * @description Provides an Angular wrapper for Form.
+ * @example
+   <example name="Form Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);

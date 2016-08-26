@@ -11,11 +11,16 @@ registerComponents({Icon});
  * @name Error Message Ng
  * @category Angular Components
  * @description Displays an error message.
- *
  * Usage:
  * <rg-error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
-   {{ 'Service backend isn\'t available' | translate }}
-   </rg-error-message>
+ *  {{ 'Service backend isn\'t available' | translate }}
+ * </rg-error-message>
+ * @example
+   <example name="Error Message Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 const angularModule = angular.module('Ring.error-message', [reactNg]);
