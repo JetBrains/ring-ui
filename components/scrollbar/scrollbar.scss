@@ -1,3 +1,15 @@
+/**
+ * @name Scrollbar
+ * @category Components
+ * @description Provides a custom styling for ::-webkit-scrollbar
+ * @example
+   <example name="Badge">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
+ */
+
 .ring-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;

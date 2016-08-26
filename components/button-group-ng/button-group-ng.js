@@ -1,4 +1,3 @@
-/* global angular: false */
 import 'dom4';
 import {getStyles} from '../dom/dom';
 import '../button-group/button-group.scss';
@@ -14,6 +13,7 @@ import '../button-group/button-group.scss';
     </file>
    </example>
  */
+/* global angular: false */
 
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
