@@ -11,7 +11,7 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
 /**
  * @name Error Page Ng
  * @category Angular Components
- * @description Directive for showing error pages (e.g. 404 Not Found)
+ * @description Displays an error page, e.g. 404 Not Found.
  * @example
  * <example name="Error Page Ng">
    <file name="index.html">

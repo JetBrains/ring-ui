@@ -1,7 +1,7 @@
 /**
  * @name List
  * @category Components
- * @description List of items
+ * @description Displays a list of items.
  */
 
 import 'core-js/modules/es6.array.find';

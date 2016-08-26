@@ -1,7 +1,7 @@
 /**
  * @name Footer
  * @category Components
- * @description This component defines the page footer.
+ * @description Displays a configurable page footer.
  *
  * A footer consists of three sections, each optional:
  * - left

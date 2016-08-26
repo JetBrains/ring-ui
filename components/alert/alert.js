@@ -11,7 +11,7 @@ import '../badge/badge.scss';
 /**
  * @name Alert
  * @category Components
- * @description An alert can be used to display notifications, shown inline in context. If you want to display a stack of notifications, use **Alerts** instead.
+ * @description Use **Alert** to display contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
 
 /**
@@ -89,15 +89,14 @@ export default class Alert extends RingComponent {
     closeable: false,
 
     /**
-     * Whether the component is rendered inside an {@code Alerts} container
-     * or separately. Sometimes alerts are used to show messages
-     * contextually.
+     * Whether an alert is rendered inside an {@code Alerts} container
+     * or standalone.
      * @type {boolean}
      */
     inline: true,
 
     /**
-     * Click handler on close element.
+     * Click handler on the "close" element.
      * @type {?function(SyntheticMouseEvent):undefined}
      */
     onCloseClick: null,
