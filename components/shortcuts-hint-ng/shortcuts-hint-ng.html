@@ -28,7 +28,12 @@
             <span class="shortcuts-hint__shortcut"
               ng-if="!hintPopupCtrl.isArray(shortcut.key)">{{shortcut.key | shortcutKeySymbol}}</span>
           </div>
-          <div class="shortcuts-hint__hint">{{shortcut.title}}</div>
+          <div class="shortcuts-hint__hint">
+            <span ng-repeat="title in shortcut.titles">
+              {{title}}
+              <br ng-if="!$last">
+            </span>
+          </div>
         </div>
       </div>
     </div>
