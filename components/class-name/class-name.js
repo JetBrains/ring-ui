@@ -1,7 +1,7 @@
 /**
  * @name ClassName
  * @category Utilities
- * @description Manipulate the element class using BEM terms
+ * @description Manipulate the element class using BEM (block-element-modifier) terms.
  * @example
    <example name="ClassName">
     <file name="index.html">

@@ -3,6 +3,13 @@
 /**
  * @name Compiler Ng
  * @category Angular Components
+ * @description TODO
+ * @example
+   <example name="Compiler Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
  */
 
 const angularModule = angular.module('Ring.compiler', []).
