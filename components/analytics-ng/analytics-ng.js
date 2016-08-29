@@ -5,6 +5,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 /**
  * @name Analytics Ng
  * @category Angular Components
+ * @description Provides an Angular wrapper for Analytics.
  * @example
    <example name="Analytics Ng">
      <file name="index.js" webpack="true">
@@ -52,7 +53,7 @@ const angularModule = angular.module('Ring.analytics', []);
 
 /**
  * @name analyticsProvider
- * @description Configures analytics with plugins
+ * @description Configures analytics with plugins.
  */
 angularModule.provider('analytics', function () {
   let configPlugins = [];
