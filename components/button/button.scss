@@ -77,11 +77,11 @@
   }
 }
 
-.ring-button__icon {
+.ring-button__icon.ring-button__icon {
   display: none;
 }
 
-.ring-button_icon .ring-button__icon {
+.ring-button_icon .ring-button__icon.ring-button__icon {
   display: inline-block;
 }
 
