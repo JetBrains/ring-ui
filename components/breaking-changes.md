@@ -6,9 +6,13 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 25-08-2016: SelectNg requires pack-size in infinite-scroll mode. 
+### 29-08-2016: The long-deprecated .ring-input__error-bubble and .ring-form__footer styles were removed
 
-Parameter infiniteScrollPackSize should be same with rest parameter $top in client code. 
+Please migrate to `.ring-error-bubble` and `.ring-panel`
+
+### 25-08-2016: SelectNg requires pack size to be specified in infinite scroll mode
+
+infiniteScrollPackSize should match the value of `$top` REST parameter. 
 
 Before:
 ```
@@ -94,7 +98,7 @@ safari 9.1
 safari 9 
 ```
 
-### 17-05-2016: ES6! All existing code was converted, new code should be written in ES6 only.
+### 17-05-2016: ES6! All existing code was converted, new code should be written in ES6 only
 
 ### 22-04-2016: Permissions: parameter "config" does not have property config.serviceId, use config.services instead    
 
@@ -160,7 +164,7 @@ After:
 
 ### 28-01-2016: CSS class .ring-form__error-bubble was renamed to .ring-error-bubble
 
-### 11-01-2016: Popup API change: "Corner" and "Direction" props replaced with "Directions" array.
+### 11-01-2016: Popup API change: "Corner" and "Direction" props replaced with "Directions" array
 
 The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
 "Corner" and "Direction" properties were dropped, "Directions" array was introduced. Example:
@@ -195,13 +199,13 @@ Please use `ring-input` instead.
 `jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`.
 Migration path: update `jetbrains-icons` and `jetbrains-logos`.   
 
-### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965).
+### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965)
 
 * If ring-input or ring-textarea is used outside of `ring-form__control`, it should have class `ring-input_medium` (`ring-textarea_medium`),
 otherwise it will have a width of 100%
 * Class `ring-input_full-width` renamed to `ring-form__control_full-width` (as `ring-input` is now full-width by default)
 
-### 19-11-2015: LoaderInline was reimplemented. 
+### 19-11-2015: LoaderInline was reimplemented
 
 Usages should be updated if you're not using the React component. ([See example](loader-inline.html)).
 
@@ -225,7 +229,7 @@ jQuery, when.js, and mout are not used anymore. See the detailed [migration guid
 
 E.g. you should use import `ring-ui/components/react-ng/react-ng` instead of `react-ng/react-ng`.
 
-### 29-10-2015: Loader was renamed to LoaderInline to give place to the brand new Loader.
+### 29-10-2015: Loader was renamed to LoaderInline to give place to the brand new Loader
 
 LoaderInline is `display: inline-block` by default and shouldn't be used as the main loader anymore.
 
