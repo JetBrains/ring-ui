@@ -1,5 +1,3 @@
-/* global angular: false */
-
 /**
  * @name Compiler Ng
  * @category Angular Components
@@ -11,6 +9,7 @@
     </file>
    </example>
  */
+/* global angular: false */
 
 const angularModule = angular.module('Ring.compiler', []).
   factory('rgCompiler', ($q, $controller, $injector, $compile) => options => {
@@ -20,7 +19,6 @@ const angularModule = angular.module('Ring.compiler', []).
     const resolve = angular.extend({}, options.resolve);
     const bindToController = options.bindToController;
 
-
     angular.forEach(resolve, (value, key) => {
       if (angular.isString(value)) {
         resolve[key] = $injector.get(value);
@@ -28,7 +26,6 @@ const angularModule = angular.module('Ring.compiler', []).
         resolve[key] = $injector.invoke(value);
       }
     });
-
 
     angular.extend(resolve, options.locals);
 
@@ -65,6 +62,5 @@ const angularModule = angular.module('Ring.compiler', []).
       };
     });
   });
-
 
 export default angularModule.name;
