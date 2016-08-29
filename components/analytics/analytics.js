@@ -1,6 +1,7 @@
 /**
  * @name Analytics
  * @category Components
+ * @description Provides a façade to Google Analytics and other web analytics services through a system of plugins.
  * @example
    <example name="Analytics">
     <file name="index.html">

@@ -3,7 +3,7 @@ import Dialog from '../dialog-ng/dialog-ng';
 /**
  * @name Confirm Ng
  * @category Angular Components
- * @description Displays a confirmation prompt
+ * @description Displays a confirmation prompt.
  * @example
    <example name="Confirm Ng">
     <file name="index.html">

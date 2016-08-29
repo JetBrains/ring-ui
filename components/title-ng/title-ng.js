@@ -1,6 +1,18 @@
+/**
+ * @name Title Ng
+ * @category Angular Components
+ * @description TODO
+ * @example
+   <example name="Title Ng">
+    <file name="index.html">
+      TODO example
+    </file>
+   </example>
+ */
 /* global angular: false */
 
 const angularModule = angular.module('Ring.title', []);
+
 angularModule.directive('rgPageTitle', () => ({
   scope: {
     rgPageTitle: '@',
@@ -35,6 +47,7 @@ angularModule.directive('rgPageTitle', () => ({
     $scope.$on('$destroy', off);
   }
 }));
+
 angularModule.service('pageTitle', function ($interpolate) {
   let delimiter = ' | ';
   let current = document.title;
