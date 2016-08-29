@@ -2,7 +2,7 @@ import 'dom4';
 /**
  * @name Promised Click Ng
  * @category Angular Components
- * @description Directive for a button active state control
+ * @description Controls the active state of a button.
  * @example
     <example name="Promised Click Ng">
       <file name="index.html">
