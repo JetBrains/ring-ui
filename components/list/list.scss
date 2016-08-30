@@ -124,7 +124,7 @@ $list-spacing: $ring-unit / 2;
     padding-left: $ring-unit * 2;
     text-align: right;
 
-    color: #ADADAD;
+    color: $ring-dark-gray-color;
     font-size: $ring-font-size-smaller;
   }
 }
@@ -151,10 +151,10 @@ $list-spacing: $ring-unit / 2;
 
 .ring-list__glyph {
   position: relative;
+  margin-right: $ring-unit;
   top: -2px;
   width: 20px;
   float: left;
-  margin-right: $ring-unit;
 
   color: $ring-dark-gray-color;
 
@@ -166,6 +166,10 @@ $list-spacing: $ring-unit / 2;
     float: right;
     margin-right: 0;
     margin-left: $ring-unit * 2;
+  }
+
+  &_checkbox {
+    margin-right: 0;
   }
 
   .ring-list__item_active & {

@@ -38,6 +38,7 @@ export default function ListItem(props) {
         <Icon
           className={classnames({
             'ring-list__glyph': true,
+            'ring-list__glyph_checkbox': true,
             'ring-list__glyph_hidden': !checkbox
           })}
           glyph={require('jetbrains-icons/check.svg')}
