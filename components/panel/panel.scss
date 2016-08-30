@@ -15,7 +15,11 @@
   background-color: #E9F8FF;
   background-color: rgba(37, 183, 255, 0.1);
 
-  & .ring-button {
+  &:empty {
+    display: none;
+  }
+
+  .ring-button {
     margin-right: 2*$ring-unit;
   }
 }
