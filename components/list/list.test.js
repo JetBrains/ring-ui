@@ -111,7 +111,7 @@ describe('List', () => {
         {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
       ]});
 
-      getFirstListItem().should.have.text('BarFoo');
+      getFirstListItem().should.have.text('FooBar');
     });
 
     it('should render span if link without href', () => {
