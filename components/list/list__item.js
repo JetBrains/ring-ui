@@ -33,6 +33,7 @@ export default function ListItem(props) {
       className={classes}
       style={style}
     >
+
       {checkbox !== undefined && (
         <Icon
           className={classnames({
@@ -63,13 +64,12 @@ export default function ListItem(props) {
           size={Icon.Size.Size18}
         />
       )}
-      {description && (
-        <div className="ring-list__description">{description}</div>
-      )}
-      {label && <div className="ring-list__label">{label}</div>}
-      {details && (
-        <div className={detailsClasses}>{details}</div>
-      )}
+
+      <div className="ring-list__text">
+        <div className="ring-list__text__label">{label}</div>
+        {description && <div className="ring-list__text__description">{description}</div>}
+      </div>
+      {details && <div className={detailsClasses}>{details}</div>}
       </span>
   );
 }
