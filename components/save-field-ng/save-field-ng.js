@@ -79,8 +79,9 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
     link(scope, iElem, iAttrs, ctrl, transclude) {
 
       /**
-       * Custom transclude is needed to place error-bubble directly after input controller (not after <span ng-transclude></span> which wrappes input).
-       * Otherwise class ring-error-bubble will be incorrect positioned (css style selector .ring-ctrl-<size> ~ .ring-error-bubble)
+       * Custom transclude is needed to place the error bubble right after the
+       * input controller, not after <span ng-transclude></span> which wraps the input.
+       * Relative positioning of the error bubble depends on that.
        */
       transclude(scope, () => {
         const placeholder = angular.element(iElem[0].querySelector('.ring-save-field__transclude-placeholder'));
@@ -298,10 +299,10 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       scope.focus = false;
 
       scope.$on('$destroy', () => {
-        // 1) Bindings already disabled at this moment, so replacing scope.value = ... have no effect
-        // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from outside
+        // 1) Bindings are already disabled by this time, so replacing scope.value = ... has no effect
+        // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from the outside
         // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
-        // but errorBubble works with scope only, so there would be a big refactoring at rgSaveField and other components
+        // but errorBubble works with scope only, so a large refactoring of rgSaveField and other components is needed.
         // This is the simplest solution:
         if (iAttrs.value) {
           $parse(iAttrs.value).assign(scope.$parent, scope.initial);
