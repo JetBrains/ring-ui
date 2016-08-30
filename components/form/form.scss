@@ -23,12 +23,12 @@ $ring-input-width: $ring-unit*25;
 }
 
 .ring-form_rows {
-  & .ring-form__label {
+  .ring-form__label {
     float: none;
     max-width: none;
   }
 
-  & .ring-form__control {
+  .ring-form__control {
     margin-left: 0;
     width: 42 * $ring-unit;
   }
@@ -112,7 +112,8 @@ $ring-input-width: $ring-unit*25;
   padding-top: $ring-unit/2;
   vertical-align: top;
 
-  & .ring-checkbox__label, & .ring-radio-btn__label {
+  .ring-checkbox__label,
+  .ring-radio-btn__label {
     top: -2px;
   }
 }
