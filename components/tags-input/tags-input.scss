@@ -10,11 +10,11 @@ $tags-input-padding: $ring-unit / 2;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
 
-  & .ring-input {
+  .ring-input {
     border: none;
   }
 
-  & .ring-select__icons {
+  .ring-select__icons {
     display: none;
   }
 }

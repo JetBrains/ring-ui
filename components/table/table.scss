@@ -71,7 +71,7 @@
   padding-left: $ring-unit*5;
 
   // fix header checkbox position in nested table
-  & .ring-table__header-checkbox {
+  .ring-table__header-checkbox {
     left: -26px;
   }
 }
@@ -317,7 +317,7 @@
   float: right;
   display: inline-block;
 
-  & .ring-button.ring-select {
+  .ring-button.ring-select {
     width: auto;
   }
 }
