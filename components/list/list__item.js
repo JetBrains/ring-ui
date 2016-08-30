@@ -65,10 +65,12 @@ export default function ListItem(props) {
         />
       )}
 
-      <div className="ring-list__text">
-        <div className="ring-list__text__label">{label}</div>
-        {description && <div className="ring-list__text__description">{description}</div>}
-      </div>
+      {(label || description) &&
+        <div className="ring-list__text">
+          {label && <div className="ring-list__text__label">{label}</div>}
+          {description && <div className="ring-list__text__description">{description}</div>}
+        </div>
+      }
       {details && <div className={detailsClasses}>{details}</div>}
       </span>
   );
