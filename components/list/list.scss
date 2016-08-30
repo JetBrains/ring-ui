@@ -109,22 +109,24 @@ $list-spacing: $ring-unit / 2;
   }
 }
 
-.ring-list__description {
-  display: block;
-  float: right;
-  margin-left: $ring-unit*2;
+.ring-list__text {
+  white-space: nowrap;
+  overflow: hidden;
 
-  color: #ADADAD;
-  @include ring-font;
-  font-size: $ring-font-size-smaller;
-
-  .ring-list__item_active & {
-    color: #FFF;
+  &__label {
+    float: left;
   }
-}
 
-.ring-list__label {
-  @include ring-ellipsis;
+  &__description {
+    @include ring-ellipsis;
+    @include ring-font;
+
+    padding-left: $ring-unit * 2;
+    text-align: right;
+
+    color: #ADADAD;
+    font-size: $ring-font-size-smaller;
+  }
 }
 
 .ring-list__icon {
@@ -152,6 +154,7 @@ $list-spacing: $ring-unit / 2;
   top: -2px;
   width: 20px;
   float: left;
+  margin-right: $ring-unit;
 
   color: $ring-dark-gray-color;
 
@@ -161,6 +164,8 @@ $list-spacing: $ring-unit / 2;
 
   &_right {
     float: right;
+    margin-right: 0;
+    margin-left: $ring-unit * 2;
   }
 
   .ring-list__item_active & {
