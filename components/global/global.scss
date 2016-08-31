@@ -79,3 +79,6 @@ $ring-overlay-z-index: 5;
 
 // Alerts, which should de displayed above overlays.
 $ring-alert-z-index: 6;
+
+// Note: footer also have top-margin, but currently this height doesn't take it into account.
+$ring-footer-height: $ring-unit*8;
