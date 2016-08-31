@@ -68,17 +68,17 @@ $ring-font-size-smaller: 11px;
 // Common z-index-values
 
 // Invisible element is an absolutely positioned element which should be below
-// all other elements on the page.
+// all other elements on the page
 $ring-invisible-element-z-index: -1;
 
-// Z-index for fixed elements.
+// z-index for position: fixed elements
 $ring-fixed-z-index: 1;
 
-// Elements which should overlay all other elements on the page.
+// Elements that should overlay all other elements on the page
 $ring-overlay-z-index: 5;
 
-// Alerts, which should de displayed above overlays.
+// Alerts should de displayed above overlays
 $ring-alert-z-index: 6;
 
-// Note: footer also have top-margin, but currently this height doesn't take it into account.
+// Note: footer also has top margin which isn't taken into account here
 $ring-footer-height: $ring-unit*8;
