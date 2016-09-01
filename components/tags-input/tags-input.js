@@ -156,7 +156,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   didMount() {
     if (this.props.autoOpen) {
       this.focusInput();
-      this.refs.select._showPopup();
+      this.refs.select._clickHandler();
     }
   }
 
