@@ -3,7 +3,9 @@
 .ring-button-group {
   display: inline-block;
   position: relative;
+
   font-size: 0;
+  white-space: nowrap;
 }
 
 .ring-button-group .ring-button {
