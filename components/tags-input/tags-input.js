@@ -38,7 +38,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     placeholder: React.PropTypes.string,
     canNotBeEmpty: React.PropTypes.bool,
     modalShortcuts: React.PropTypes.bool,
-    disabled: React.PropTypes.bool
+    disabled: React.PropTypes.bool,
+    autoOpen: React.PropTypes.bool
   };
 
   static defaultProps = {
@@ -49,7 +50,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     maxPopupHeight: 500,
     canNotBeEmpty: false,
     modalShortcuts: false,
-    disabled: false
+    disabled: false,
+    autoOpen: false
   };
 
   state = {
@@ -149,6 +151,13 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   willMount() {
     this.updateStateFromProps(this.props);
+  }
+
+  didMount() {
+    if (this.props.autoOpen) {
+      this.focusInput();
+      this.refs.select._showPopup();
+    }
   }
 
   willReceiveProps(props) {
