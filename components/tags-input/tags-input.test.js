@@ -60,6 +60,12 @@ describe('Tags Input', () => {
       });
       this.tagsInput.node.should.have.class('test-class');
     });
+
+    it('should auto open popup', () => {
+      const tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
+
+      tagsInput.refs.select._popup.isVisible().should.be.true;
+    });
   });
 
   it('Should add tag', function () {
