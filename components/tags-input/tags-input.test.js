@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, {unmountComponentAtNode} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
@@ -60,12 +60,13 @@ describe('Tags Input', () => {
       });
       this.tagsInput.node.should.have.class('test-class');
     });
+  });
 
-    it('should auto open popup', () => {
-      const tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
+  it('should auto open popup', function () {
+    unmountComponentAtNode(this.tagsInput.node);
+    const tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
 
-      tagsInput.refs.select._popup.isVisible().should.be.true;
-    });
+    tagsInput.refs.select._popup.isVisible().should.be.true;
   });
 
   it('Should add tag', function () {
