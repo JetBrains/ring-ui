@@ -146,7 +146,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           this.setState({suggestions, loading: false});
         }
       }).
-      catch(() => this.setState({loading: false}));
+      catch(() => this.node && this.setState({loading: false}));
   }
 
   willMount() {
