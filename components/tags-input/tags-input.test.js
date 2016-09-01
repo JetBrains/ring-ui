@@ -31,6 +31,11 @@ describe('Tags Input', () => {
       this.tagsInput.node.should.contain('.ring-select_input-mode');
     });
 
+    it('should auto open popup', function () {
+      this.tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
+      document.body.should.contain('.ring-popup');
+    });
+
     it('should render tag', function () {
       const renderedTag = this.tagsInput.renderTag(fakeTags[0]);
       const containerEl = document.createElement('div');
