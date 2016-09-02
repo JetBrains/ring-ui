@@ -1,13 +1,5 @@
 @import "../global/global";
 
-// Input error bubbles
-//
-// Markup:
-// <div class="ring-error-bubble-wrapper">
-//   <input class="ring-input ring-input_error ring-input-size_md" type="text">
-//   <div class="ring-error-bubble active">Wrong value</div>
-// </div>
-
 .ring-error-bubble {
   z-index: 2;
   box-sizing: border-box;
