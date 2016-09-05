@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/generator-ring.iml" filepath="$PROJECT_DIR$/.idea/generator-ring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ring-ui-generator.iml" filepath="$PROJECT_DIR$/.idea/ring-ui-generator.iml" />
     </modules>
   </component>
 </project>
