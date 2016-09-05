@@ -88,6 +88,6 @@ $ball-delay: 0.25s;
 
   &_third {
     opacity: 0.6;
-    animation-delay: initial;
+    animation-delay: 0s; // Use 0s instead of initial to support IE10+
   }
 }
