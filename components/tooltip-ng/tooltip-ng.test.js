@@ -11,18 +11,20 @@ describe('Tooltip Ng', () => {
   let RgTooltipPopup;
   let element;
   let popupWrapper;
+  let innerTextGetter;
 
   beforeEach(angular.mock.module(Tooltip));
 
-  beforeEach(inject(_RgTooltipPopup_ => {
+  beforeEach(inject(function (_RgTooltipPopup_) {
     RgTooltipPopup = _RgTooltipPopup_;
+    innerTextGetter = this.sinon.spy(() => INNER_TEXT);
   }));
 
   beforeEach(() => {
     const container = document.createElement('div');
     element = document.createElement('div');
     container.appendChild(element);
-    popupWrapper = new RgTooltipPopup(element, INNER_TEXT);
+    popupWrapper = new RgTooltipPopup(element, innerTextGetter);
   });
 
   it('Should open popup', () => {
@@ -48,6 +50,14 @@ describe('Tooltip Ng', () => {
   it('Should display message inside', () => {
     popupWrapper.displayTooltip();
     popupWrapper.popup.node.should.have.text(INNER_TEXT);
+  });
+
+  it('Should recalculate text on each opening', () => {
+    popupWrapper.displayTooltip();
+    popupWrapper.hideTooltip();
+    popupWrapper.displayTooltip();
+
+    innerTextGetter.should.been.calledTwice;
   });
 
   it('Should close popup', function () {
