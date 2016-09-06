@@ -60,7 +60,7 @@ name.directive('rgTooltip', RgTooltipPopup => ({
         return iAttrs.rgTooltip;
       }
     };
-    const popupWrapper = new RgTooltipPopup(element, getTooltipText());
+    const popupWrapper = new RgTooltipPopup(element, getTooltipText);
 
     element.addEventListener('mouseover', () => {
       popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
@@ -74,7 +74,7 @@ name.directive('rgTooltip', RgTooltipPopup => ({
   }
 }));
 
-name.factory('RgTooltipPopup', () => function (element, template) {
+name.factory('RgTooltipPopup', () => function (element, textGetter) {
   this.popup = null;
 
   this.displayTooltip = customClass => {
@@ -95,7 +95,7 @@ name.factory('RgTooltipPopup', () => function (element, template) {
 
         return undefined;
       }
-    }, template));
+    }, textGetter()));
   };
 
   this.hideTooltip = () => {
