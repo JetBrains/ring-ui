@@ -84,14 +84,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        right: noop,
-        left: noop,
-        up: noop,
-        down: noop,
-        'shift+up': noop,
-        'shift+down': noop,
-        space: noop,
         tab: ::this.tabPress
+      },
+      options: {
+        modal: true
       },
       scope: ::this.constructor.getUID('ring-select-popup-')
     };
