@@ -1,17 +1,18 @@
 @import "../global/global";
 
-$tags-input-padding: $ring-unit / 2;
+$tags-input-padding: $ring-unit / 4;
 
 .ring-tags-input {
   overflow: hidden;
   white-space: normal;
 
-  padding: $tags-input-padding $tags-input-padding 2px $tags-input-padding;
+  padding: $tags-input-padding;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
 
   .ring-input {
     border: none;
+    height: 18px;
   }
 
   .ring-select__icons {
