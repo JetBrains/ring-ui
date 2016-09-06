@@ -114,7 +114,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   isVisible() {
-    return this.refs.popup.isVisible();
+    return this.refs.popup && this.refs.popup.isVisible();
   }
 
   onListSelect(selected) {
