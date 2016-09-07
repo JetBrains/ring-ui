@@ -121,12 +121,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     if (this.props.autoOpen) {
       this.boundRequestHandler().
         catch(noop).
-        then(::this.setFocus);
+        then(::this.setCaretPosition);
     } else {
       this.requestStyleRanges().catch(noop);
     }
 
-    this.setFocus();
+    this.setCaretPosition();
   }
 
   /**
@@ -154,28 +154,17 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   willReceiveProps({caret, delay, focus, query}) {
-    let setFocus;
     this.setupRequestHandler(delay);
+    const shouldSetCaret = typeof caret === 'number';
+    const shouldSetFocus = typeof focus === 'boolean';
 
-    if (typeof focus === 'boolean') {
-      this.setShortcutsEnabled(focus);
-
-      if (focus === false && this.immediateState.focus === true) {
-        this.blurInput();
-      } else if (focus === true && this.immediateState.focus === false) {
-        setFocus = true;
-      }
-
-      this.immediateState.focus = focus;
-    }
-
-    if (typeof caret === 'number') {
+    if (shouldSetCaret) {
       this.immediateState.caret = caret;
-      setFocus = true;
     }
 
-    if (setFocus) {
-      this.setFocus();
+    if (shouldSetFocus || shouldSetCaret) {
+      const newFocus = shouldSetFocus ? focus : true;
+      this.setFocus(newFocus);
     }
 
     if (typeof query === 'string' && query !== this.immediateState.query) {
@@ -192,7 +181,18 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  setFocus() {
+  setFocus(focus) {
+    this.setShortcutsEnabled(focus);
+    this.immediateState.focus = focus;
+
+    if (focus === false && this.immediateState.focus === true) {
+      this.blurInput();
+    } else if (focus === true && this.immediateState.focus === false) {
+      this.setCaretPosition();
+    }
+  }
+
+  setCaretPosition() {
     const queryLength = this.immediateState.query != null && this.immediateState.query.length;
     const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
     const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
@@ -231,7 +231,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         this.closePopup();
       }
     } else {
-      this.setFocus();
+      this.setCaretPosition();
     }
 
     if (!this.mouseIsDownOnPopup) {
@@ -386,7 +386,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.immediateState = Object.assign(state, focusState);
 
     if (this.immediateState.caret !== currentCaret) {
-      this.setFocus();
+      this.setCaretPosition();
     }
 
     this.closePopup();
@@ -678,7 +678,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           className={inputClasses}
           ref={::this.refInput}
           disabled={this.props.disabled}
-          onComponentUpdate={::this.setFocus}
+          onComponentUpdate={::this.setCaretPosition}
 
           onBlur={::this.handleFocusChange}
           onClick={::this.handleCaretMove}
