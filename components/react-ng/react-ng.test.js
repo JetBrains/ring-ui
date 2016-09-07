@@ -56,6 +56,16 @@ describe('React Ng', () => {
 
       $scope.componentInstance.should.be.defined;
     });
+
+    it('should write component instance in provided nested scope field', () => {
+      $scope.instanceField = {};
+      $scope.instanceFieldName = 'instanceField.componentInstance';
+
+      $compile('<div react="Checkbox" react-instance="instanceFieldName"></div>')($scope);
+      $scope.$digest();
+
+      $scope.instanceField.componentInstance.should.be.defined;
+    });
   });
 
   describe('react directive with ngmodel', () => {
