@@ -12,11 +12,7 @@ describe('React Ng', () => {
   let $scope;
   let $compile;
 
-  function EmptyComponent() {
-    return <div />;
-  }
-
-  registerComponents({EmptyComponent, Checkbox});
+  registerComponents({Checkbox});
 
   beforeEach(window.module('Ring.react-ng'));
 
@@ -52,13 +48,13 @@ describe('React Ng', () => {
       checkPropertyPassingForTemplate('<div react="TestPropsComponent" from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
     });
 
-    it('should write component instance in provided scope constiable', () => {
+    it('should write component instance in provided scope field', () => {
       $scope.instanceFieldName = 'componentInstance';
 
-      $compile('<div react="EmptyComponent" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="Checkbox" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      expect($scope.componentInstance).to.be.defined;
+      $scope.componentInstance.should.be.defined;
     });
   });
 
@@ -71,7 +67,7 @@ describe('React Ng', () => {
       $compile('<div react="Checkbox" ng-model="defaultCheckboxState" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      expect($scope.componentInstance.state.checked).to.be.true;
+      $scope.componentInstance.state.checked.should.to.be.true;
     });
   });
 
