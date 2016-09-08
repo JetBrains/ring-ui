@@ -152,7 +152,7 @@ function reactNgDirective($parse) {
         const instanceProp = $parse(iAttrs[instanceAttr])(scope);
 
         if (typeof instanceProp === 'string') {
-          scope[instanceProp] = component;
+          scope.$eval(`${instanceProp} = component`, {component});
         }
       }
     }
