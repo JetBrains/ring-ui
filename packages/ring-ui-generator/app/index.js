@@ -16,28 +16,22 @@ module.exports = generators.Base.extend({
       type: 'confirm',
       name: 'useAngular',
       message: 'Do you want to use angular?'
-    }], function (answers) {
+    }]).then(answers => {
 
       this.fs.copyTpl(
-        this.templatePath('/src/**/*'),
-        this.destinationPath('/src/'),
+        this.templatePath('src/**/*'),
+        this.destinationPath('src/'),
         answers
       );
 
       this.fs.copyTpl(
-        this.templatePath('/*.+(json|js|eslintrc)'),
-        this.destinationPath('/'),
-        answers
-      );
-
-      this.fs.copyTpl(
-        this.templatePath('/eslintrc'),
-        this.destinationPath('/.eslintrc'),
+        this.templatePath('*.{json,js,eslintrc}'),
+        this.destinationPath(''),
         answers
       );
 
       this._copyUtilFiles();
-    }.bind(this));
+    });
   },
 
   _copyUtilFiles: function () {
