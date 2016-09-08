@@ -1,7 +1,7 @@
 {
-  "name": "generator-ring",
-  "version": "0.1.1",
-  "description": "Generator for Ring frontend apps",
+  "name": "generator-ring-ui",
+  "version": "1.0.0",
+  "description": "Generator for Ring UI frontend apps",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,8 @@
     "registry": "http://registry.npmjs.org"
   },
   "keywords": [
-    "yeoman",
-    "generator"
+    "yeoman-generator",
+    "ring-ui"
   ],
   "author": "Andrey Skladchikov",
   "license": "ISC",
