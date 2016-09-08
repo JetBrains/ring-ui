@@ -1,7 +1,7 @@
 const generateComponent = require('../generate-component');
 
 module.exports = generateComponent([
-  '%s.jsx',
+  '%s.js',
   '%s.scss',
-  '%s.test.jsx',
+  '%s.test.js',
 ]);
