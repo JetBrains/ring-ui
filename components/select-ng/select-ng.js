@@ -149,6 +149,12 @@ angularModule.directive('rgSelect', () => {
         return ctrl.loadedOptions;
       }
 
+      function resetMemorizedOptions() {
+        ctrl.lastSkip = -1;
+        ctrl.loadedOptions = [];
+        ctrl.stopLoadingNewOptions = false;
+      }
+
       function getType() {
         //$attrs.type as fallback, not recommended to use because of native "type" attribute
         return ctrl.selectType || $attrs.type;
@@ -378,6 +384,7 @@ angularModule.directive('rgSelect', () => {
           targetElement: getType() === 'dropdown' ? element : null,
           onBeforeOpen: () => {
             $scope.$evalAsync(() => {
+              resetMemorizedOptions();
               ctrl.loadOptionsToSelect(ctrl.query);
             });
           },
@@ -389,10 +396,8 @@ angularModule.directive('rgSelect', () => {
           onClose: () => {
             $scope.$evalAsync(() => {
               ctrl.onClose();
+              resetMemorizedOptions();
             });
-            ctrl.loadedOptions = [];
-            ctrl.lastSkip = -1;
-            ctrl.stopLoadingNewOptions = false;
           },
           onSelect: item => {
             $scope.$evalAsync(() => {
