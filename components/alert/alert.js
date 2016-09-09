@@ -1,3 +1,4 @@
+import 'dom4';
 import React from 'react';
 import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
@@ -184,10 +185,32 @@ export default class Alert extends RingComponent {
   }
 
   /**
+   * @param {SyntheticEvent} evt
+   * @private
+   */
+  _handleCaptionsLinksClick = evt => {
+    if (evt.target.matches('a')) {
+      if (this.props.inline) {
+        this.close();
+      } else {
+        this.props.onCloseClick(evt);
+      }
+    }
+  }
+
+  /**
    * @private
    */
   _getCaption() {
-    return (<span className="ring-alert__caption">{this.props.caption}{this.props.count > 1 && <span className="ring-badge ring-badge_gray">{this.props.count}</span>}</span>);
+    return (
+      <span
+        className="ring-alert__caption"
+        onClick={this._handleCaptionsLinksClick}
+      >
+        {this.props.caption}
+        {this.props.count > 1 && <span className="ring-badge ring-badge_gray">{this.props.count}</span>}
+      </span>
+    );
   }
 
   /**
