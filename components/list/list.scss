@@ -115,13 +115,13 @@ $list-spacing: $ring-unit / 2;
 
   &__label {
     float: left;
+    padding-right: $ring-unit * 2;
   }
 
   &__description {
     @include ring-ellipsis;
     @include ring-font;
 
-    padding-left: $ring-unit * 2;
     text-align: right;
 
     color: $ring-dark-gray-color;
