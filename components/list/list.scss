@@ -45,7 +45,7 @@ $list-spacing: $ring-unit / 2;
 }
 
 .ring-list__item {
-  @include ring-ellipsis;
+  white-space: nowrap;
 
   display: block;
   padding: 0 $ring-unit*2;
