@@ -20,6 +20,9 @@
   ],
   "main": "webpack.config.js",
   "scripts": {
+    "component:ng": "yo ring-ui:ng",
+    "component:react": "yo ring-ui:react",
+    "component:es6": "yo ring-ui:es6",
     "test": "karma start",
     "setup-hooks": "node tools/setup-hooks.js",
     "gemini-test": "babel-node tools/gemini-runner.js components/**/*.gemini.js",
@@ -72,6 +75,7 @@
     "finalhandler": "0.3.5",
     "gemini": "2.1.1",
     "gemini-teamcity": "2.1.1",
+    "generator-ring-ui": "1.0.17",
     "github-markdown-css": "2.0.7",
     "glob": "7.0.3",
     "highlight.js": "8.5.0",
@@ -96,7 +100,8 @@
     "webpack": "1.13.0",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.14.1",
-    "webpack-docs-plugin": "1.0.10-alpha"
+    "webpack-docs-plugin": "1.0.10-alpha",
+    "yo": "1.8.5"
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
