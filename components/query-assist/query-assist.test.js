@@ -175,7 +175,7 @@ describe('Query Assist', () => {
 
 
   describe('shortcuts', () => {
-    it('should enbale shortcuts when we set focus', function () {
+    it('should enable shortcuts when we set focus', function () {
       this.renderQueryAssist({focus: null});
       this.queryAssist.shortcutsEnabled().should.equal(false);
 
@@ -193,7 +193,7 @@ describe('Query Assist', () => {
     });
 
 
-    it('should not enbale shortcuts after rerender', function () {
+    it('should not enable shortcuts after rerender', function () {
       this.renderQueryAssist({focus: false, placeholder: 'bar'});
       this.queryAssist.shortcutsEnabled().should.equal(false);
 
