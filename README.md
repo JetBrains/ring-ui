@@ -46,14 +46,10 @@ Predefined values:
 
 ## Contributing
 
-1. Install Yeoman: `npm install yo -g`
-
-2. Install Ring UI Yeoman generator: `npm install -g generator-ring`.
-
-3. To add a new component, issue one of the following commands after changing to the `components` folder:
-  * For a plain JS component: `yo ring:plain`
-  * For a ReactJS component: `yo ring:jsx`
-  * For an AngularJS component: `yo ring:ng`
+To add a new component, issue one of the following commands after changing to the `components` folder:
+  * For a plain ES6 component: `npm run component:es6`
+  * For a ReactJS component: `npm run component:react`
+  * For an AngularJS component: `npm run component:ng`
   
 It will ask for component name and then create the skeleton for you.
   
