@@ -183,11 +183,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   setFocus(focus) {
     this.setShortcutsEnabled(focus);
-    this.immediateState.focus = focus;
 
     if (focus === false && this.immediateState.focus === true) {
+      this.immediateState.focus = focus;
       this.blurInput();
     } else if (focus === true && this.immediateState.focus === false) {
+      this.immediateState.focus = focus;
       this.setCaretPosition();
     }
   }
