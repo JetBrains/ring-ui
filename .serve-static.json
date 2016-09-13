@@ -1,0 +1,8 @@
+{
+  "append": true, // append log
+  "uid": "serve-static",
+  "script": "http-server",
+  "sourceDir": "./node_modules/.bin/",
+  "workingDir": ".",
+  "args": ["./docs/", "-p 9999"]
+}

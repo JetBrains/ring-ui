@@ -1,4 +1,4 @@
-import gemini from 'gemini';
+/* global gemini: false */
 
 gemini.suite('Select', () => {
   gemini.suite('Input based select', child => {
