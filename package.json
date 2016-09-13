@@ -25,7 +25,7 @@
     "component:es6": "yo ring-ui:es6",
     "test": "karma start",
     "setup-hooks": "node tools/setup-hooks.js",
-    "gemini-test": "babel-node tools/gemini-runner.js components/icon/icon.gemini.js",
+    "gemini-test": "babel-node tools/gemini-runner.js components/**/*.gemini.js",
     "gemini-test-ci": "babel-node tools/gemini-runner-ci.js",
     "gemini-gather": "babel-node tools/gemini-runner.js --gather",
     "build": "webpack --config webpack-docs.config.js",
