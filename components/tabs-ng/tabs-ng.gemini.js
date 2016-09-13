@@ -1,4 +1,4 @@
-import gemini from 'gemini';
+/* global gemini: false */
 
 gemini.suite('Tabs Ng', suite => {
   suite.
