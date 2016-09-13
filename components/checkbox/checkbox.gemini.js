@@ -1,4 +1,4 @@
-import gemini from 'gemini';
+/* global gemini: false */
 
 gemini.suite('Checkbox', parent => {
   parent.setUrl('/example-checkbox/');
