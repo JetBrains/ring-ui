@@ -1,13 +1,14 @@
-import gemini from 'gemini';
+/* global gemini: false */
+/* eslint-disable prefer-reflect, prefer-arrow-callback */
 
 gemini.suite('Icon Ng', suite => {
   suite.
     setUrl('/example-icon-ng/').
     setCaptureElements('body > div').
     capture('icons', actions => {
-      actions.executeJS(() => {
+      actions.executeJS(function () {
         // Disable loading buttons (ignore is too slow on IE)
-        Array.prototype.forEach.call(document.querySelectorAll('.ring-icon_loading'), node => { // eslint-disable-line prefer-reflect
+        Array.prototype.forEach.call(document.querySelectorAll('.ring-icon_loading'), function (node) {
           node.classList.remove('ring-icon_loading');
         });
       });

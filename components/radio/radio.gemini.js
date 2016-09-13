@@ -1,4 +1,4 @@
-import gemini from 'gemini';
+/* global gemini: false */
 
 gemini.suite('Radio button', suite => {
   suite.
