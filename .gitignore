@@ -13,10 +13,7 @@ Thumbs.db
 # Generated
 coverage
 dist
-docs
+gemini-report
 node_modules
 npm-debug.log
-tmp
 ring-ui-*.tgz
-
-gemini-report
