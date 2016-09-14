@@ -3,7 +3,6 @@
   "version": "2.5.0",
   "description": "JetBrains UI library",
   "config": {
-    "eslint-report": "eslint-report.xml",
     "port": 9999,
     "hub": "default",
     "hubs": {
@@ -32,8 +31,8 @@
     "start": "node --max-old-space-size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --port 9999 --server --host 0.0.0.0",
     "lint": "eslint --quiet .",
     "lint-hook": "eslint $ESLINT_HOOK_FILES",
-    "prelint-ci": "echo \"##teamcity[importData type='jslint' path='$npm_package_config_eslint_report']\"",
-    "lint-ci": "eslint --format jslint-xml . > $npm_package_config_eslint_report",
+    "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
+    "lint-ci": "eslint --format jslint-xml . > eslint-report.xml",
     "nibble": "eslint-nibble .",
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
