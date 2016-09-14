@@ -53,11 +53,11 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     'docs-app': './site/index.js',
     'example-common': './site/example-common.js',
     'docs-markdown': [
-      'README.md',
-      'components/index.md',
-      'components/breaking-changes.md',
-      'components/migration-to-2.3.0.md'
-    ].map(filename => path.join(__dirname, `${filename}`))
+      './README.md',
+      './docs/index.md',
+      './docs/breaking-changes.md',
+      './docs/migration-to-2.3.0.md'
+    ]
   },
   resolve: {
     alias: {
@@ -107,7 +107,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     }
   },
   output: {
-    path: path.resolve(__dirname, 'docs'),
+    path: path.resolve(__dirname, 'dist'),
     pathinfo: isServer,
     filename: '[name].js',
     publicPath // serve HMR update json's properly

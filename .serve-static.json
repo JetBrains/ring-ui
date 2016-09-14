@@ -4,5 +4,5 @@
   "script": "http-server",
   "sourceDir": "./node_modules/.bin/",
   "workingDir": ".",
-  "args": ["./docs/", "-p 9999"]
+  "args": ["./dist/", "-p 9999"]
 }
