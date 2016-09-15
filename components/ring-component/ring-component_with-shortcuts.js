@@ -5,28 +5,41 @@ export default class RingComponentWithShortcuts extends RingComponent {
   static letOverrideLifecycleMethods = true;
 
   toggleShortcuts(props) {
-    if (this.getShortcutsProps) {
-      if (props.shortcuts && !this.shortcutsScope) {
-        const shortcutsProps = this.getShortcutsProps();
+    if (!this.getShortcutsProps) {
+      return;
+    }
 
-        if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
-          throw new Error('Shortcuts\' props weren\'t provided');
-        }
+    function enableShortcuts(params) {
+      shortcuts.pushScope(params.shortcutsScope, params.shortcutsOptions);
+    }
 
-        shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
-        shortcuts.pushScope(shortcutsProps.scope, shortcutsProps.options);
-        this.shortcutsScope = shortcutsProps.scope;
+    function disableShortcuts(params) {
+      shortcuts.spliceScope(params.shortcutsScope);
+    }
 
-        return;
+    function initializeShortcuts(component) {
+      const shortcutsProps = component.getShortcutsProps();
+
+      if (!shortcutsProps || !shortcutsProps.map || !shortcutsProps.scope) {
+        throw new Error('Shortcuts\' props weren\'t provided');
       }
 
-      const hasScope = this.shortcutsEnabled();
+      shortcuts.bindMap(shortcutsProps.map, shortcutsProps);
+      component.shortcutsScope = shortcutsProps.scope;
+      component.shortcutsOptions = shortcutsProps.options;
+    }
 
-      if (props.shortcuts && !hasScope) {
-        shortcuts.pushScope(this.shortcutsScope);
-      } else if (!props.shortcuts && hasScope) {
-        shortcuts.spliceScope(this.shortcutsScope);
-      }
+    const isEnableShortcuts = props.shortcuts;
+    const isShortcutsAlreadyEnabled = this.shortcutsEnabled();
+
+    if (isEnableShortcuts && !this.shortcutsScope) {
+      initializeShortcuts(this);
+    }
+
+    if (isEnableShortcuts && !isShortcutsAlreadyEnabled) {
+      enableShortcuts(this);
+    } else if (!isEnableShortcuts && isShortcutsAlreadyEnabled) {
+      disableShortcuts(this);
     }
   }
 
