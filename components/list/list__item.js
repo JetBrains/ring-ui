@@ -87,7 +87,11 @@ ListItem.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   checkbox: PropTypes.bool,
-  description: PropTypes.string,
+  description: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.array
+  ]),
   glyph: PropTypes.string,
   icon: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
