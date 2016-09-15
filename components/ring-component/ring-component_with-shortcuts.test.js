@@ -47,30 +47,6 @@ describe('Ring Component With Shortcuts', () => {
     }));
   });
 
-  //function createComponent(props, callback) {
-  //  const TestClass = createClass();
-  //  component = renderIntoDocument(React.createElement(TestClass, props), callback);
-  //}
-  //
-  //function createComponentWithSubComponent(props, callback) {
-  //  const subKeyMap = {};
-  //  subKeyMap[key] = noop2;
-  //
-  //  const subComponent = createClass({
-  //    scope: scope2,
-  //    map: subKeyMap
-  //  });
-  //
-  //  const TestClass = createClass(null, function render() {
-  //    return React.createElement(subComponent, {
-  //      ref: 'subComponent',
-  //      shortcuts: this.props.shortcuts
-  //    }, null);
-  //  });
-  //
-  //  component = renderIntoDocument(React.createElement(TestClass, props), callback);
-  //}
-
   it('should throw with wrong config', () => {
     function createWrongComponent() {
       class WrongComponent extends RingComponentWithShortcuts {
@@ -147,38 +123,4 @@ describe('Ring Component With Shortcuts', () => {
     trigger();
     this.stub.should.not.have.been.called;
   });
-  //
-  //it('should trigger on subcomponent which shadows component\'s shortcut', function () {
-  //  createComponentWithSubComponent({
-  //    shortcuts: true
-  //  });
-  //
-  //  trigger();
-  //  noop.should.not.have.been.called;
-  //  noop2.should.have.been.called;
-  //});
-  //
-  //it('should disable shortcuts on component and subcomponent', function () {
-  //  createComponentWithSubComponent({
-  //    shortcuts: true
-  //  });
-  //
-  //  component.setProps({
-  //    shortcuts: false
-  //  });
-  //
-  //  shortcuts.getScope().should.be.empty;
-  //});
-  //
-  //it('should disable shortcuts on subcomponent', function () {
-  //  createComponentWithSubComponent({
-  //    shortcuts: true
-  //  });
-  //
-  //  component.refs.subComponent.setState({
-  //    shortcuts: false
-  //  });
-  //
-  //  shortcuts.getScope().should.deep.equal([scope]);
-  //});
 });
