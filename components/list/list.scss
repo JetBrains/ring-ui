@@ -6,6 +6,7 @@ $list-spacing: $ring-unit / 2;
   position: relative;
 
   padding-top: $list-spacing;
+  padding-bottom: $list-spacing;
   z-index: 1;
 
   line-height: normal;
@@ -45,12 +46,12 @@ $list-spacing: $ring-unit / 2;
 }
 
 .ring-list__item {
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 
-  display: block;
   padding: 0 $ring-unit*2;
 
-  text-align: left;
   font-size: $ring-font-size;
   line-height: $ring-unit*3;
 
@@ -85,6 +86,58 @@ $list-spacing: $ring-unit / 2;
   .ring-list &:hover {
     text-decoration: none;
   }
+
+  &__top {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__left {
+    flex-shrink: 0;
+  }
+
+  &__label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+
+    padding-right: $ring-unit * 2;
+  }
+
+  &__description {
+    flex-shrink: 100;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+
+    @include ring-font;
+
+    color: $ring-dark-gray-color;
+    font-size: $ring-font-size-smaller;
+  }
+
+  &__right {
+    flex-shrink: 0;
+  }
+
+  &__details {
+    color: $ring-dark-gray-color;
+    white-space: normal;
+    line-height: $ring-unit*2;
+    font-size: 12px;
+    margin-bottom: 6px;
+
+    &_padded {
+      margin-left: 20px;
+    }
+
+    .ring-list__item_active & {
+      color: #FFF;
+    }
+  }
 }
 
 // Redefine :last-child
@@ -109,29 +162,8 @@ $list-spacing: $ring-unit / 2;
   }
 }
 
-.ring-list__text {
-  white-space: nowrap;
-  overflow: hidden;
-
-  &__label {
-    float: left;
-    padding-right: $ring-unit * 2;
-  }
-
-  &__description {
-    @include ring-ellipsis;
-    @include ring-font;
-
-    text-align: right;
-
-    color: $ring-dark-gray-color;
-    font-size: $ring-font-size-smaller;
-  }
-}
-
 .ring-list__icon {
   display: block;
-  float: right;
   margin: $ring-unit/2 0 0 $ring-unit*2;
   width: $ring-unit*2;
   height: $ring-unit*2;
@@ -194,22 +226,6 @@ $list-spacing: $ring-unit / 2;
     color: $ring-dark-gray-color;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-  }
-}
-
-.ring-list__details {
-  color: $ring-dark-gray-color;
-  white-space: normal;
-  line-height: $ring-unit*2;
-  font-size: 12px;
-  margin-bottom: 6px;
-
-  &_padded {
-    margin-left: 20px;
-  }
-
-  .ring-list__item_active & {
-    color: #FFF;
   }
 }
 
