@@ -112,7 +112,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.immediateState = {
       query,
       caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
-      focus: this.props.autoOpen || this.props.focus
+      focus: Boolean(this.props.autoOpen || this.props.focus)
     };
 
     this.setupRequestHandler(this.props.delay);
@@ -181,13 +181,17 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
+  componentWillUpdate() {}
+
   setFocus(focus) {
     this.setShortcutsEnabled(focus);
 
-    if (focus === false && this.immediateState.focus === true) {
+    const isComponentFocused = Boolean(this.immediateState.focus);
+
+    if (focus === false && isComponentFocused) {
       this.immediateState.focus = focus;
       this.blurInput();
-    } else if (focus === true && this.immediateState.focus === false) {
+    } else if (focus === true && !isComponentFocused) {
       this.immediateState.focus = focus;
       this.setCaretPosition();
     }

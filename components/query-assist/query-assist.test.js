@@ -155,6 +155,54 @@ describe('Query Assist', () => {
   });
 
 
+  describe('setFocus', () => {
+    it('should set focus in query assist', function () {
+      this.renderQueryAssist({focus: null});
+
+      this.queryAssist.setFocus(true);
+
+      this.queryAssist.immediateState.focus.should.equal(true);
+    });
+
+    it('should remove focus from query assist', function () {
+      this.renderQueryAssist({focus: true});
+
+      this.queryAssist.setFocus(false);
+
+      this.queryAssist.immediateState.focus.should.equal(false);
+    });
+  });
+
+
+  describe('shortcuts', () => {
+    it('should enable shortcuts when we set focus', function () {
+      this.renderQueryAssist({focus: null});
+      this.queryAssist.shortcutsEnabled().should.equal(false);
+
+      this.queryAssist.setFocus(true);
+      this.queryAssist.shortcutsEnabled().should.equal(true);
+    });
+
+
+    it('should disable shortcuts when we remove focus', function () {
+      this.renderQueryAssist({focus: true});
+      this.queryAssist.shortcutsEnabled().should.equal(true);
+
+      this.queryAssist.setFocus(false);
+      this.queryAssist.shortcutsEnabled().should.equal(false);
+    });
+
+
+    it('should not enable shortcuts after rerender', function () {
+      this.renderQueryAssist({focus: false, placeholder: 'bar'});
+      this.queryAssist.shortcutsEnabled().should.equal(false);
+
+      this.queryAssist.rerender({placeholder: 'foo'});
+      this.queryAssist.shortcutsEnabled().should.equal(false);
+    });
+  });
+
+
   describe('init', () => {
     it('requestData should exist', function () {
       this.renderQueryAssist();
