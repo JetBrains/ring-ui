@@ -18,7 +18,7 @@ describe('Popup Menu', () => {
     popup.refs.List.should.exist;
 
     // We need it to maintain compatibility between Popup Menu and List
-    ReactDOM.findDOMNode(popup.refs.List.refs.inner).childNodes.length.should.equal(2);
+    ReactDOM.findDOMNode(popup.refs.List.refs.items).childNodes.length.should.equal(0);
   });
 
   it('should pass params to List', () => {
