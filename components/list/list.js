@@ -482,7 +482,7 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           <div style={topPaddingStyles}></div>
-          <div>
+          <div ref="items">
           {this.state.data.map((item, index) => {
             const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
             const realIndex = this.state.renderOptimizationSkip + index;
