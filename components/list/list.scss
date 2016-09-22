@@ -6,7 +6,6 @@ $list-spacing: $ring-unit / 2;
   position: relative;
 
   padding-top: $list-spacing;
-  padding-bottom: $list-spacing;
   z-index: 1;
 
   line-height: normal;
@@ -54,6 +53,7 @@ $list-spacing: $ring-unit / 2;
 
   font-size: $ring-font-size;
   line-height: $ring-unit*3;
+  text-align: left;
 
   outline: none;
   vertical-align: bottom;
