@@ -482,6 +482,7 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           <div style={topPaddingStyles}></div>
+          <div>
           {this.state.data.map((item, index) => {
             const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
             const realIndex = this.state.renderOptimizationSkip + index;
@@ -531,6 +532,7 @@ export default class List extends RingComponentWithShortcuts {
             }
             return createElement(element, props, null);
           })}
+          </div>
           <div style={bottomPaddingStyles}></div>
         </div>
         {this.hasOverflow() &&
