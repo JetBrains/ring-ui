@@ -8,7 +8,7 @@
   max-width: 36*$ring-unit;
   overflow: hidden;
   position: relative;
-  z-index: 1; // Required to see border-raduis on animated backgorund
+  z-index: 1; // Required to see border-radius on animated background
 
   &_light {
     background-color: rgba(255, 255, 255, 0.3);
