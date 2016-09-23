@@ -10,8 +10,12 @@ describe('List', () => {
   const Type = List.ListProps.Type;
   let list;
 
+  function getItemsContainer() {
+    return ReactDOM.findDOMNode(list.refs.items);
+  }
+
   function getFirstListItem() {
-    return ReactDOM.findDOMNode(list.refs.inner).childNodes[1];
+    return getItemsContainer().childNodes[0];
   }
 
   beforeEach(() => {
@@ -20,7 +24,7 @@ describe('List', () => {
 
   it('should be empty by default', () => {
     list.refs.inner.tagName.toLowerCase().should.equal('div');
-    list.refs.inner.childNodes.length.should.equal(2);
+    getItemsContainer().childNodes.length.should.equal(0);
   });
 
   it('should check type of item', () => {
@@ -65,7 +69,7 @@ describe('List', () => {
       ]});
 
       getFirstListItem().should.have.class('ring-list__item_action');
-      getFirstListItem().innerHTML.should.equal('');
+      getFirstListItem().innerText.should.equal('');
     });
 
     it('should render list item if type is not defined', () => {

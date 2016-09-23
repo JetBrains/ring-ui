@@ -18,8 +18,8 @@ export default function ListItem(props) {
     'ring-list__item_active': props.active && !props.disabled
   }, props.className);
   const detailsClasses = classnames({
-    'ring-list__details': props.details,
-    'ring-list__details_padded': props.icon !== undefined || props.checkbox !== undefined || props.glyph !== undefined
+    'ring-list__item__details': props.details,
+    'ring-list__item__details_padded': props.icon !== undefined || props.checkbox !== undefined || props.glyph !== undefined
   });
 
   const style = {
@@ -28,52 +28,55 @@ export default function ListItem(props) {
 
 
   return (
-    <span
+    <div
       {...restProps}
       className={classes}
       style={style}
     >
-
-      {checkbox !== undefined && (
-        <Icon
-          className={classnames({
-            'ring-list__glyph': true,
-            'ring-list__glyph_checkbox': true,
-            'ring-list__glyph_hidden': !checkbox
-          })}
-          glyph={require('jetbrains-icons/check.svg')}
-          size={Icon.Size.Size18}
-        />
-      )}
-      {glyph && (
-        <Icon
-          className="ring-list__glyph"
-          glyph={glyph}
-          size={Icon.Size.Size18}
-        />
-      )}
-      {icon && (
-        <div
-          className="ring-list__icon"
-          style={{backgroundImage: `url("${icon}")`}}
-        />
-      )}
-      {rightGlyph && (
-        <Icon
-          className="ring-list__glyph ring-list__glyph_right"
-          glyph={rightGlyph}
-          size={Icon.Size.Size18}
-        />
-      )}
-
-      {(label || description) &&
-        <div className="ring-list__text">
-          {label && <div className="ring-list__text__label">{label}</div>}
-          {description && <div className="ring-list__text__description">{description}</div>}
+      <div className="ring-list__item__top">
+        <div className="ring-list__item__left">
+          {checkbox !== undefined && (
+            <Icon
+              className={classnames({
+                'ring-list__glyph': true,
+                'ring-list__glyph_checkbox': true,
+                'ring-list__glyph_hidden': !checkbox
+              })}
+              glyph={require('jetbrains-icons/check.svg')}
+              size={Icon.Size.Size18}
+            />
+          )}
+          {glyph && (
+            <Icon
+              className="ring-list__glyph"
+              glyph={glyph}
+              size={Icon.Size.Size18}
+            />
+          )}
         </div>
-      }
+
+        <div className="ring-list__item__label">{label}</div>
+        <div className="ring-list__item__description">{description}</div>
+
+        <div className="ring-list__item__right">
+          {rightGlyph && (
+            <Icon
+              className="ring-list__glyph ring-list__glyph_right"
+              glyph={rightGlyph}
+              size={Icon.Size.Size18}
+            />
+          )}
+          {icon && (
+            <div
+              className="ring-list__icon"
+              style={{backgroundImage: `url("${icon}")`}}
+            />
+          )}
+        </div>
+      </div>
+
       {details && <div className={detailsClasses}>{details}</div>}
-      </span>
+    </div>
   );
 }
 
