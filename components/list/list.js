@@ -435,7 +435,7 @@ export default class List extends RingComponentWithShortcuts {
 
   hasOverflow() {
     if (this.refs.inner) {
-      return this.refs.inner.scrollHeight > this.refs.inner.clientHeight;
+      return this.refs.inner.scrollHeight - this.refs.inner.clientHeight > 1;
     }
 
     return false;
