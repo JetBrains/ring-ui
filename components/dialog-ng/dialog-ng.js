@@ -197,7 +197,21 @@ class DialogController extends Inject {
       shortcuts.setScope(this.currentShortcutsScope);
     }
 
+    this._resetFormState();
     this.$inject.$scope.$broadcast('dialog.hide');
+  }
+
+  _resetFormState() {
+    const dialogForm = this.dialogForm;
+    if (!dialogForm) {
+      return;
+    }
+
+    dialogForm.$setPristine();
+    dialogForm.$setUntouched();
+    dialogForm.$valid = true;
+    dialogForm.$invalid = false;
+    dialogForm.$error = {};
   }
 
   done() {
