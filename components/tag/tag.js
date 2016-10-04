@@ -22,6 +22,7 @@ export default class Tag extends RingComponent {
     onRemove: React.PropTypes.func,
     onClick: React.PropTypes.func,
     rgTagIcon: React.PropTypes.string,
+    rgTagTitle: React.PropTypes.string,
     readOnly: React.PropTypes.bool,
     focused: React.PropTypes.bool
   };
@@ -89,6 +90,7 @@ export default class Tag extends RingComponent {
       >
       {this.props.rgTagIcon ? (
         <Icon
+          title={this.props.rgTagTitle}
           className="ring-tag__icon"
           glyph={this.props.rgTagIcon}
           size={Icon.Size.Size12}
