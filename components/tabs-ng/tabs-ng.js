@@ -210,8 +210,6 @@ angularModule.directive('rgTabsPane', () => ({
   template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
 }));
 
-angularModule.filter('rgTabsFilter', () => {
-  return pans => pans.filter(pane => !pane.hidden);
-});
+angularModule.filter('rgTabsFilter', () => pans => pans.filter(pane => !pane.hidden));
 
 export default angularModule.name;
