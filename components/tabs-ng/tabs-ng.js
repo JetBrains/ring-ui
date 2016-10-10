@@ -40,7 +40,6 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
   controller: ['$scope', '$attrs', function ($scope) {
     $scope.panes = [];
     $scope.current = null;
-    const idsMap = {};
 
     function getTabParameterName() {
       return $scope.tabParameter || 'tab';
@@ -51,8 +50,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
     }
 
     function doSelect(newPane, skipUrlUpdate) {
-
-      if (newPane === $scope.panes[$scope.current] || newPane.ngDisabled) {
+      if (newPane === $scope.current || newPane.ngDisabled) {
         return;
       }
 
@@ -61,7 +59,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
 
         // Update current tab
         if (pane === newPane || pane.tabId === newPane) {
-          $scope.current = index;
+          $scope.current = newPane;
           pane.selected = true;
 
           if (!skipUrlUpdate) {
@@ -74,27 +72,29 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
     }
 
     function getNextPaneIndex(reverseOrder) {
-      let next = $scope.current;
+      const currentTabIndex = $scope.panes.indexOf($scope.current);
+      let next = currentTabIndex;
 
       do {
         next += (reverseOrder ? -1 : 1);
-      } while ($scope.panes[next].ngDisabled && next > -1 && next < $scope.panes.length);
+      } while (next > -1 && next < $scope.panes.length && ($scope.panes[next].ngDisabled || $scope.panes[next].hidden));
 
       if (next >= $scope.panes.length) {
         next = $scope.panes.length - 1;
-      }
-      if (next < 0) {
+      } else if (next < 0) {
         next = 0;
       }
+
+      // if no suitable tab found till the end of array
       if ($scope.panes[next].ngDisabled) {
-        return $scope.current;
+        return currentTabIndex;
       }
+
       return next;
     }
 
     this.addPane = pane => {
       $scope.panes.push(pane);
-      idsMap[pane.tabId] = pane;
 
       if ($scope.panes.length === 1 || pane.tabId === getTabIdFromUrl()) {
         doSelect(pane, true);
@@ -103,23 +103,38 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
 
     function getCurrentTab() {
       const currentTabId = getTabIdFromUrl();
+
       if (currentTabId) {
-        return idsMap[currentTabId];
+        const currentTab = $scope.panes.find(pane => pane.tabId === currentTabId);
+
+        if (currentTab && !currentTab.ngDisabled && !currentTab.hidden) {
+          return currentTab;
+        } else {
+          return $scope.panes[getNextPaneIndex()];
+        }
       } else {
         return $scope.panes[0];
       }
     }
 
-    $scope.$on('$destroy', $rootScope.$on('$routeUpdate', () => {
-      doSelect(getCurrentTab(), true);
-    }));
+
+    function checkCurrentTab() {
+      if ($scope.panes.length) {
+        doSelect(getCurrentTab(), true);
+      }
+    }
+
+
+    this.checkPane = checkCurrentTab;
+
+    $scope.$on('$destroy', $rootScope.$on('$routeUpdate', checkCurrentTab));
 
     // Exposed methods
     $scope.control = {};
 
-    $scope.control.isLast = () => $scope.current === $scope.panes.length - 1;
+    $scope.control.isLast = () => $scope.panes.indexOf($scope.current) === $scope.panes.length - 1;
 
-    $scope.control.isFirst = () => $scope.current === 0;
+    $scope.control.isFirst = () => $scope.panes.indexOf($scope.current) === 0;
 
     $scope.control.select = pane => {
       doSelect(pane, $scope.disableLocationChanging);
@@ -181,15 +196,22 @@ angularModule.directive('rgTabsPane', () => ({
     title: '@',
     counter: '@',
     selected: '=?',
-    ngDisabled: '=?'
+    ngDisabled: '=?',
+    hidden: '=?'
   },
 
   link(scope, element, attrs, tabsCtrl) {
     scope.tabId = scope.tabId || scope.title.toLowerCase();
     tabsCtrl.addPane(scope);
+
+    scope.$watch('hidden', val => val && tabsCtrl.checkPane());
   },
 
   template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
 }));
+
+angularModule.filter('rgTabsFilter', () => {
+  return pans => pans.filter(pane => !pane.hidden);
+});
 
 export default angularModule.name;
