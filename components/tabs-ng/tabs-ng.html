@@ -1,6 +1,6 @@
 <div class="ring-tabs" rg-shortcuts="ring-tabs" shortcuts-map="keyMap" shortcuts-focus="focus">
   <div class="ring-tabs__tabs" ng-class="tabsClass">
-    <div ng-repeat="pane in panes" ng-click="control.select(pane)"
+    <div ng-repeat="pane in panes | rgTabsFilter" ng-click="control.select(pane)"
       ng-attr-class="{{ tabClass(pane) }}">{{pane.title}}<span
       class="ring-tabs__btn__counter" ng-show="pane.counter !== undefined">{{ pane.counter }}</span>
     </div>
