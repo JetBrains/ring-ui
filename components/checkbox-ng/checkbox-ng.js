@@ -17,7 +17,8 @@ import '../checkbox/checkbox.scss';
          </div>
          <p style="width: 300px;">
            <rg-checkbox ng-disabled="disabled === true" ng-model="checked">Checkbox</rg-checkbox>
-           <br/>
+         </p>
+         <p style="width: 300px;">
            <rg-checkbox ng-disabled="disabled === true" ng-model="checked" ng-change="onNgChange()" invert-value>Inverted checkbox</rg-checkbox>
            <div>{{ changeText }}</div>
          </p>
