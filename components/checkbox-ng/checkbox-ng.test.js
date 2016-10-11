@@ -22,7 +22,7 @@ describe('Checkbox Ng', () => {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
 
-    iElement = $compile('<rg-checkbox disabled="disabled" ng-model="checked">Checkbox</rg-checkbox>')(scope);
+    iElement = $compile('<rg-checkbox ng-disabled="disabled" ng-model="checked">Checkbox</rg-checkbox>')(scope);
     element = iElement[0];
     scope.$digest();
   }));
@@ -60,16 +60,16 @@ describe('Checkbox Ng', () => {
     element.query('input').id.should.equal(element.htmlFor);
   });
 
-  it('should not add additional watchers with disabled expression constant', () => {
+  it('should not add additional watchers without disabled and ngDisabled', () => {
     scope = $rootScope.$new();
-    element = $compile('<rg-checkbox disabled="true">Checkbox</rg-checkbox>')(scope)[0];
+    element = $compile('<rg-checkbox>Checkbox</rg-checkbox>')(scope)[0];
     scope.$digest();
     should.not.exist(scope.$$watchers); // eslint-disable-line angular/no-private-call
   });
 
   it('should disable input with disabled expression constant', () => {
     scope = $rootScope.$new();
-    element = $compile('<rg-checkbox disabled="true">Checkbox</rg-checkbox>')(scope)[0];
+    element = $compile('<rg-checkbox ng-disabled="true">Checkbox</rg-checkbox>')(scope)[0];
     scope.$digest();
     element.should.contain('input:disabled');
   });
