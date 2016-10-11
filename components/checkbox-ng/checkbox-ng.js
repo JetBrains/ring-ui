@@ -65,13 +65,15 @@ angularModule.directive('rgCheckbox', () => ({
       return value;
     }
 
-    iAttrs.$observe('disabled', newDisabledValue => {
-      if (newDisabledValue) {
-        input.setAttribute('disabled', 'disabled');
-      } else {
-        input.removeAttribute('disabled');
-      }
-    });
+    if (iAttrs.disabled || iAttrs.ngDisabled) {
+      iAttrs.$observe('disabled', newDisabledValue => {
+        if (newDisabledValue) {
+          input.setAttribute('disabled', 'disabled');
+        } else {
+          input.removeAttribute('disabled');
+        }
+      });
+    }
 
     if (ngModelCtrl) {
       angular.element(input).on('click', ev => {
