@@ -6,7 +6,7 @@ $tags-input-padding: $ring-unit / 4;
   overflow: hidden;
   white-space: normal;
 
-  padding: $tags-input-padding;
+  padding: $tags-input-padding $tags-input-padding 0 $tags-input-padding;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
 
@@ -18,6 +18,10 @@ $tags-input-padding: $ring-unit / 4;
   .ring-select__icons {
     display: none;
   }
+}
+
+.ring-tags-input .ring-tag, .ring-tags-input .ring-select {
+  margin-bottom: $tags-input-padding;
 }
 
 .ring-tags-input.ring-tags-input_disabled {
