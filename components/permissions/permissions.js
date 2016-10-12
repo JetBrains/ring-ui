@@ -89,6 +89,15 @@ export default class Permissions {
   }
 
   /**
+   * Reloads permission cache from server
+   * @returns {Promise.<Permissions>} promise that is resolved when the permissions are reloaded
+   */
+  reload() {
+    this._promise = null;
+    return this.load();
+  }
+
+  /**
    * Waits till the permission cache is loaded then checks if the current user has the
    * given permissions in the project with the given id.
    *

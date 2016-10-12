@@ -75,6 +75,20 @@ describe('Permissions', () => {
     });
   });
 
+  describe('loading', () => {
+    it('should reload permissions', () => {
+      const auth = new Auth({serverUri: ''});
+      const permissions = new Permissions(auth);
+      sinon.stub(permissions, 'load').returns(Promise.resolve({}));
+      permissions._promise = Promise.resolve(permissions);
+
+      permissions.reload();
+
+      expect(permissions._promise).to.be.null;
+      permissions.load.should.have.been.called;
+    });
+  });
+
   describe('cache', () => {
     const permissionCache = new PermissionCache([
       createPermission('jetbrains.jetpass.project-read', null, true),
