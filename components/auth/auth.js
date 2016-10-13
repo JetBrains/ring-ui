@@ -25,6 +25,7 @@ function noop() {}
  * Should be set to false in angular > 1.2.26 apps to prevent infinite redirect in Firefox
  * @prop {User?} user
  * @prop {string[]} config.userFields List of user data fields to be returned by auth.requestUser (default list is used in Header.HeaderHelper)
+ * @prop {string[]} config.fetchCredentials
  *
  * @param {{
  *   serverUri: string,
@@ -34,6 +35,7 @@ function noop() {}
  *   scope: string[]?,
  *   optionalScopes: string[]?,
  *   cleanHash: boolean?,
+ *   fetchCredentials: string?,
  *   userFields: string[]?
  * }} config
  *
@@ -103,6 +105,7 @@ Auth.DEFAULT_CONFIG = {
   redirect: false,
   request_credentials: 'default',
   scope: [],
+  fetchCredentials: null,
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
   onLogout: noop,
@@ -273,11 +276,12 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
     statusText: 'Network request failed'
   };
 
-  return fetch(url, {
+  return this._fetch(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json'
-    }
+    },
+    credentials: this.config.fetchCredentials
   }).
     // Empty response — strange case found in the wild
     // @see https://youtrack.jetbrains.com/issue/JT-31942
@@ -293,6 +297,11 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
         return Promise.reject(error);
       }
     });
+};
+
+
+Auth.prototype._fetch = function (url, params) {
+  return fetch(url, params);
 };
 
 /**

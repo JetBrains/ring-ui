@@ -237,6 +237,37 @@ describe('Dialog Ng', () => {
 
       element.query('form .content').should.have.html(dialogConfig.data.text);
     });
+
+
+    describe('dialogForm', () => {
+      function getDialogFormObject(element) {
+        return global.angular.element(element).isolateScope().dialogForm;
+      }
+
+
+      it('should clear form state after close dialog', () => {
+        const element = renderDialog({
+          scope: $rootScope.$new(),
+          template: '<div/>'
+        });
+
+        let dialogForm = getDialogFormObject(element);
+        dialogForm.$setValidity('foo', false);
+        dialogForm.$valid.should.be.equal(false);
+
+
+        dialog.hide();
+
+
+        dialog.show({
+          scope: $rootScope.$new(),
+          template: '<div/>'
+        });
+
+        dialogForm = getDialogFormObject(element);
+        dialogForm.$valid.should.be.equal(true);
+      });
+    });
   });
 
 
