@@ -703,6 +703,33 @@ describe('Auth', () => {
 
       return response.should.become({name: 'user'});
     });
+
+    it('should not set credentials by default', function () {
+      this.sinon.spy(auth, '_fetch');
+
+      auth.getSecure('http://localhost:6666/users/me', 'token');
+
+      auth._fetch.should.have.been.calledWithMatch(
+        'http://localhost:6666/users/me',
+        {
+          credentials: null
+        }
+      );
+    });
+
+    it('should allow pass cookie policy for fetch', function () {
+      this.sinon.spy(auth, '_fetch');
+
+      auth.config.fetchCredentials = 'include';
+      auth.getSecure('http://localhost:6666/users/me', 'token');
+
+      auth._fetch.should.have.been.calledWithMatch(
+        'http://localhost:6666/users/me',
+        {
+          credentials: auth.config.fetchCredentials
+        }
+      );
+    });
   });
 
   describe('logout', () => {
