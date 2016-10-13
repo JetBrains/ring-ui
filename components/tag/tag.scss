@@ -5,8 +5,7 @@ $tag-background-color: #E6E6E6;
 .ring-tag {
   display: inline-block;
   margin-right: $ring-unit / 2;
-  padding: 0 $ring-unit / 2;
-  padding-top: 2px;
+  padding: 1px $ring-unit / 2;
   font-size: 12px;
 
   background-color: $tag-background-color;
@@ -30,8 +29,15 @@ $tag-background-color: #E6E6E6;
   }
 }
 
-.ring-tag__icon {
+.ring-tag__ring-icon {
   padding-right: $ring-unit / 2;
   color: $ring-dark-gray-color;
   @include ring-vertical-compensation(-1px);
+}
+
+.ring-tag__custom-icon {
+  vertical-align: bottom;
+  margin-right: $ring-unit / 2;
+  max-width: $ring-unit * 2;
+  max-height: $ring-unit * 2;
 }
