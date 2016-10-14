@@ -8,8 +8,6 @@ var serverBase = isDevelop ? 'http://localhost:8080/api' : 'api';
 var webpack = require('webpack');
 var pkgConfig = require('./package.json');
 
-//noinspection CodeAssistanceForRequiredModule
-
 var srcRegexp = /src.components.*\.js$/;
 
 var webpackConfig = webpackConfigMerger(
@@ -29,7 +27,7 @@ var webpackConfig = webpackConfigMerger(
       loaders: [
         {
           test: srcRegexp,
-          loaders: [<% if (useAngular){ %>'ng-annotate',<% } %> 'babel-loader?experimental&optional=runtime']
+          loaders: ['babel-loader?experimental&optional=runtime']
         },
         {test: /.*\/app\/.*\.html$/, loader: 'html'}
       ]
