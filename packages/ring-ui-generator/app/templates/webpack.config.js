@@ -21,9 +21,6 @@ const webpackConfig = webpackConfigMerger(
       library: '[name]',
       libraryTarget: 'umd'
     },
-    externals: {
-      jquery: false
-    },
     module: {
       loaders: [
         {
