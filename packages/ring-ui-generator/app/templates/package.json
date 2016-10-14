@@ -4,19 +4,19 @@
   "private": true,
   "config": {
     "src": "./src",
-    "dist": "./dist",
-    "eslint-ext": ".js,.jsx"
+    "dist": "./dist"
   },
   "scripts": {
     "build": "webpack -p --devtool sourcemap",
     "test": "node ./node_modules/karma/bin/karma start",
-    "lint": "eslint --ext $npm_package_config_eslint_ext .",
+    "lint": "eslint .",
     "ci-test": "node ./node_modules/karma/bin/karma start --teamcity",
     "start": "webpack-dev-server -d --history-api-fallback --inline --progress --colors --port 9000  --content-base ./dist"
   },
   "dependencies": {
     "babel": "4.7.8",
     "babel-core": "4.7.8",
+    "babel-eslint": "6.1.2",
     "babel-loader": "4.1.0",
     "babel-runtime": "4.7.8",
     "es5-shim": "^4.0.5",
@@ -27,12 +27,8 @@
     "webpack-config-merger": "0.0.3"
   },
   "devDependencies": {
-    "eslint": "0.18.0",
-    "eslint-plugin-filenames": "0.1.0",
-    "eslint-plugin-google-camelcase": "0.0.1",
-    "eslint-plugin-mocha": "0.2.2",
-    "eslint-plugin-one-variable-per-var": "0.0.3",
-    "eslint-plugin-react": "1.6.0",
+    "eslint": "3.7.1",
+    "eslint-config-jetbrains": "2.0.19",
     "karma": "~0.12.31",
     "karma-chai-plugins": "0.4.0",
     "karma-mocha": "0.1.10",

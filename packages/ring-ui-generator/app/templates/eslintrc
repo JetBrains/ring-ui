@@ -1,85 +1,11 @@
 {
-  "ecmaFeatures": {
-    "jsx": true,
-    //ES6 features
-    "ecmascript": 6,
-    "modules": true,
-    "arrowFunctions": true,
-    "classes": true,
-    "templateStrings": true,
-    "superInFunctions": true,
-    "spread": true,
-    "objectLiteralShorthandProperties": true,
-    "objectLiteralShorthandMethods": true,
-    "objectLiteralDuplicateProperties": true,
-    "objectLiteralComputedProperties": true,
-    "generators": true,
-    "forOf": true,
-    "destructuring": true,
-    "defaultParams": true,
-    "blockBindings": true,
-    "binaryLiterals": true
-  },
-  "rules": {
-    // Stylistic rules
-    "quotes": [2, "single"],
-    "strict": [2, "never"],
-    "indent": [2, 2],
-    "brace-style": [2, "1tbs"],
-    "comma-style": [2, "last"],
-    "camelcase": 0, // using google-camelcase instead
-    "space-in-parens": [2, "never"],
-    "space-after-keywords": [2, "always"],
-    "space-before-function-parentheses": [0, {"anonymous": "always", "named": "never"}], // to be enabled
-    // Enforce off-by-defaults
-    "consistent-return": 2,
-    "consistent-this": [2, "self"],
-    "no-bitwise": 2,
-    "no-lonely-if": 2,
-    "no-nested-ternary": 2,
-    "no-void": 2,
-    "radix": 2,
-    "no-throw-literal": 2,
-    "valid-jsdoc": 0, // to be enabled
-    "wrap-iife": 2,
-    // Relax on-by-defaults
-    "dot-notation": 0,
-    "no-underscore-dangle": 0,
-    "no-unused-expressions": 0,
-    // Plugins
-    "mocha/no-exclusive-tests": 2,
-    "filenames/filenames": [2, "^[a-z-_.]+$"],
-    "google-camelcase/google-camelcase": 2,
-    "one-variable-per-var/one-variable-per-var": 2,
-    "react/display-name": 0,
-    "react/jsx-quotes": [0, "double"],
-    "react/jsx-no-undef": 2,
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
-    "react/no-multi-comp": 0,
-    "react/prop-types": 0,
-    "react/react-in-jsx-scope": 2,
-    "react/self-closing-comp": 2,
-    "react/wrap-multilines": 2
-  },
-  "env": {
-    "browser": true,
-    "mocha": true
-  },
-  "globals": {
-    "expect": false,
-    "sinon": false,
-    "should": false,
-    "require": false,
-    "module": false
-  },
-  "plugins": [
-    "filenames",
-    "google-camelcase",
-    "mocha",
-    "one-variable-per-var",
-    "react"
+  "parser": "babel-eslint",
+  "extends": [
+    "jetbrains",
+    "jetbrains/bem",
+    "jetbrains/es6",
+    "jetbrains/node",
+    "jetbrains/react",
+    "jetbrains/test"
   ]
 }
