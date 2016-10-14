@@ -55,6 +55,7 @@ $ring-checkbox-size: 13px;
 
   &[disabled] + .ring-checkbox__icon {
     color: $ring-dark-gray-color;
+    opacity: 0.5;
   }
 
   &:checked:not([disabled]) + .ring-checkbox__icon {
