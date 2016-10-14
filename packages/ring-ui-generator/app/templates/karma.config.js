@@ -33,8 +33,7 @@ module.exports = config => {
 
     // list of files / patterns to load in the browser
     files: [
-      './src/**/*.test.js',
-      'node_modules/es5-shim/es5-shim.js'
+      './src/**/*.test.js'
     ],
 
 
@@ -64,6 +63,7 @@ module.exports = config => {
     // web server port
     port: 9876,
 
+    hostname: require('os').hostname(),
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -80,8 +80,17 @@ module.exports = config => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['Electron'],
 
+    electronOpts: {
+      // show: false,
+      // skipTaskbar: true,
+      height: 1024,
+      width: 768,
+      webPreferences: {
+        pageVisibility: true
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
