@@ -3,7 +3,7 @@ const changeCase = require('change-case');
 const findPort = require('find-port')
 
 module.exports = generators.Base.extend({
-  promt: function () {
+  prompting: function () {
     const cb = this.async();
 
     this.prompt([{
@@ -22,13 +22,7 @@ module.exports = generators.Base.extend({
     });
   },
 
-  files: function () {
-    this.fs.copyTpl(
-      this.templatePath('src/**/*'),
-      this.destinationPath('src/'),
-      this.props
-    );
-
+  configuring: function() {
     this.fs.copyTpl(
       this.templatePath('*.{json,js}'),
       this.destinationPath(''),
@@ -40,6 +34,14 @@ module.exports = generators.Base.extend({
     this.template('gitignore', '.gitignore');
     this.template('eslintignore', '.eslintignore');
     this.template('eslintrc', '.eslintrc');
+  },
+
+  files: function () {
+    this.fs.copyTpl(
+      this.templatePath('src/**/*'),
+      this.destinationPath('src/'),
+      this.props
+    );
   },
 
   install: function () {
