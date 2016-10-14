@@ -1,5 +1,6 @@
 const generators = require('yeoman-generator');
 const changeCase = require('change-case');
+const findPort = require('find-port')
 
 module.exports = generators.Base.extend({
   promt: function () {
@@ -11,10 +12,13 @@ module.exports = generators.Base.extend({
       message: 'What\'s your project name',
       default: this.appname
     }]).then(answers => {
-      const projectName = changeCase.paramCase(answers.projectName);
-      const camelCaseName = changeCase.camelCase(answers.projectName);
-      this.props = {projectName, camelCaseName};
-      cb();
+      findPort('127.0.0.1', 9010, 9100, ([port]) => {
+        console.log(port);
+        const projectName = changeCase.paramCase(answers.projectName);
+        const camelCaseName = changeCase.camelCase(answers.projectName);
+        this.props = {projectName, camelCaseName, port};
+        cb();
+      });
     });
   },
 

@@ -11,7 +11,7 @@
     "test": "node ./node_modules/karma/bin/karma start",
     "lint": "eslint .",
     "ci-test": "node ./node_modules/karma/bin/karma start --teamcity",
-    "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port 9000"
+    "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
     "presets": "jetbrains"

@@ -1,5 +1,5 @@
-import '!!file?name=favicon.ico!../../favicon.ico';
 import './app.scss';
+
 //Example of usage react components
 import React from 'react';
 import {render} from 'react-dom';
