@@ -1,19 +1,20 @@
 /* eslint-env node */
+/* eslint-disable modules/no-cjs */
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var webpackConfigMerger = require('webpack-config-merger');
-var argv = require('minimist')(process.argv);
-var isDevelop = argv.d !== undefined;
-var serverBase = isDevelop ? 'http://localhost:8080/api' : 'api';
-var webpack = require('webpack');
-var pkgConfig = require('./package.json');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpackConfigMerger = require('webpack-config-merger');
+const argv = require('minimist')(process.argv);
+const isDevelop = argv.d !== undefined;
+const serverBase = isDevelop ? 'http://localhost:8080/api' : 'api';
+const webpack = require('webpack');
+const pkgConfig = require('./package.json');
 
-var srcRegexp = /src.components.*\.js$/;
+const srcRegexp = /src.components.*\.js$/;
 
-var webpackConfig = webpackConfigMerger(
+const webpackConfig = webpackConfigMerger(
   require('ring-ui/webpack.config'),
   {
-    entry: pkgConfig.config.src + '/components/app/app.js',
+    entry: `${pkgConfig.config.src}/components/app/app.js`,
     output: {
       path: pkgConfig.config.dist,
       filename: '[name].js',
@@ -21,7 +22,7 @@ var webpackConfig = webpackConfigMerger(
       libraryTarget: 'umd'
     },
     externals: {
-      'jquery': false
+      jquery: false
     },
     module: {
       loaders: [
@@ -40,7 +41,7 @@ var webpackConfig = webpackConfigMerger(
       new webpack.DefinePlugin({
         AppBuildConfig: {
           version: JSON.stringify(process.env['version.number'] || 'dev'),
-          number: JSON.stringify(process.env['BUILD_NUMBER'] || 'dev'),
+          number: JSON.stringify(process.env.BUILD_NUMBER || 'dev'),
           backendUrl: JSON.stringify(serverBase)
         }
       }),

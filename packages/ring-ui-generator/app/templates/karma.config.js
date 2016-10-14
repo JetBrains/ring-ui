@@ -1,24 +1,25 @@
 /* eslint-env node */
+/* eslint-disable modules/no-cjs */
 
 // Karma configuration
 
-var argv = require('minimist')(process.argv);
+const argv = require('minimist')(process.argv);
 
-var getReporters = function () {
-  var reporters = ['progress'];
+const getReporters = () => {
+  const reporters = ['progress'];
   if (argv.teamcity) {
     reporters.push('teamcity');
   }
   return reporters;
 };
 
-var getWepbackConfig = function () {
-  var config = require('./webpack.config.js');
+const getWepbackConfig = () => {
+  const config = require('./webpack.config.js');
   config.devtool = 'inline-source-map';
   return config;
 };
 
-module.exports = function(config) {
+module.exports = config => {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -38,8 +39,7 @@ module.exports = function(config) {
 
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
