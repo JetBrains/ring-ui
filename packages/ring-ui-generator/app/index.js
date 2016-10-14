@@ -1,4 +1,5 @@
-var generators = require('yeoman-generator');
+const generators = require('yeoman-generator');
+const changeCase = require('change-case');
 
 module.exports = generators.Base.extend({
 
@@ -8,26 +9,19 @@ module.exports = generators.Base.extend({
       name: 'projectName',
       message: 'What\'s your project name',
       default: this.appname
-    }, {
-      type: 'confirm',
-      name: 'useReact',
-      message: 'Do you want to use React?'
-    }, {
-      type: 'confirm',
-      name: 'useAngular',
-      message: 'Do you want to use angular?'
     }]).then(answers => {
+      const projectName = changeCase.paramCase(answers.projectName);
 
       this.fs.copyTpl(
         this.templatePath('src/**/*'),
         this.destinationPath('src/'),
-        answers
+        {projectName}
       );
 
       this.fs.copyTpl(
-        this.templatePath('*.{json,js,eslintrc}'),
+        this.templatePath('*.{json,js}'),
         this.destinationPath(''),
-        answers
+        {projectName}
       );
 
       this._copyUtilFiles();
@@ -37,8 +31,8 @@ module.exports = generators.Base.extend({
   _copyUtilFiles: function () {
     this.template('npmrc', '.npmrc');
     this.template('editorconfig', '.editorconfig');
-    this.template('gitattributes', '.gitattributes');
     this.template('gitignore', '.gitignore');
     this.template('eslintignore', '.eslintignore');
+    this.template('eslintrc', '.eslintrc');
   }
 });
