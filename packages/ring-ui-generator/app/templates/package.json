@@ -11,17 +11,25 @@
     "test": "node ./node_modules/karma/bin/karma start",
     "lint": "eslint .",
     "ci-test": "node ./node_modules/karma/bin/karma start --teamcity",
-    "start": "webpack-dev-server -d --history-api-fallback --inline --progress --colors --port 9000  --content-base ./dist"
+    "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port 9000"
+  },
+  "babel": {
+    "presets": "jetbrains"
   },
   "dependencies": {
-    "babel": "4.7.8",
-    "babel-core": "4.7.8",
-    "babel-eslint": "6.1.2",
-    "babel-loader": "4.1.0",
-    "babel-runtime": "4.7.8",
-    "html-webpack-plugin": "^1.1.0",
-    "react": "0.11.2",
-    "ring-ui": "2.1.0-1911",
+    "autoprefixer": "6.5.1",
+    "babel-core": "6.16.0",
+    "babel-loader": "6.2.5",
+    "babel-preset-jetbrains": "1.0.6",
+    "babel-polyfill": "6.16.0",
+    "css-loader": "0.25.0",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.4",
+    "html-webpack-plugin": "2.22.0",
+    "postcss-loader": "0.13.0",
+    "react": "15.3.2",
+    "react-dom": "15.3.2",
+    "sass-loader": "^4.0.2",
     "webpack-config-merger": "0.0.3"
   },
   "devDependencies": {
@@ -37,8 +45,8 @@
     "karma-webpack": "1.5.0",
     "mocha": "2.1.0",
     "minimist": "^1.1.0",
-    "webpack": "1.7.3",
-    "webpack-dev-server": "^1.7.0"
+    "webpack": "1.13.2",
+    "webpack-dev-server": "1.16.2"
   },
   "engines": {
     "node": ">=0.8.0"
