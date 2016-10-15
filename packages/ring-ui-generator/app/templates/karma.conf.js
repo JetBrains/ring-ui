@@ -5,20 +5,6 @@
 
 const argv = require('minimist')(process.argv);
 
-const getReporters = () => {
-  const reporters = ['progress'];
-  if (argv.teamcity) {
-    reporters.push('teamcity');
-  }
-  return reporters;
-};
-
-const getWepbackConfig = () => {
-  const config = require('./webpack.config.js');
-  config.devtool = 'inline-source-map';
-  return config;
-};
-
 module.exports = config => {
   config.set({
 
@@ -28,7 +14,7 @@ module.exports = config => {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-jquery', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'chai-as-promised', 'sinon-chai'],
 
 
     // list of files / patterns to load in the browser
@@ -47,7 +33,10 @@ module.exports = config => {
       './src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
-    webpack: getWepbackConfig(),
+    webpack: Object.assign({}, require('./webpack.config.js'), {
+      devtool: 'inline-source-map',
+      entry: {}
+    }),
 
     webpackServer: {
       noInfo: true
@@ -57,7 +46,7 @@ module.exports = config => {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: getReporters(),
+    reporters: argv.teamcity ? ['progress', 'teamcity'] : ['progress'] ,
 
 
     // web server port
@@ -83,8 +72,8 @@ module.exports = config => {
     browsers: ['Electron'],
 
     electronOpts: {
-      // show: false,
-      // skipTaskbar: true,
+      show: false,
+      skipTaskbar: true,
       height: 1024,
       width: 768,
       webPreferences: {
