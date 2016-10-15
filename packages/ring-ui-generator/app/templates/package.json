@@ -10,7 +10,7 @@
     "build": "webpack -p --devtool sourcemap",
     "test": "karma start",
     "lint": "eslint .",
-    "ci-test": "karma start --teamcity",
+    "ci-test": "npm run lint && karma start --teamcity",
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
