@@ -10,4 +10,8 @@ html, .app {
   padding: 0;
   font-size: $ring-font-size;
   @include ring-font();
+
+  &__content {
+    margin: $ring-unit*4;
+  }
 }
