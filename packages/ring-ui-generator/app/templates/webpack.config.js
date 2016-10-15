@@ -13,8 +13,12 @@ const isDevelop = argv.p === undefined;
 const serverBase = isDevelop ? 'http://localhost:8080/api' : 'api';
 
 const srcPath = [path.join(__dirname, 'src')];
+const ringUiWebpackConfig = require('ring-ui');
 
-const webpackConfig = webpackConfigMerger(require('ring-ui/webpack.config'),
+// Patch ring-ui svg-sprite-loader config
+ringUiWebpackConfig.svgSpriteLoader.include.push(require('jetbrains-logos'), require('jetbrains-icons'));
+
+const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
   {
     entry: `${pkgConfig.config.src}/components/app/app.js`,
     resolve: {
@@ -25,7 +29,8 @@ const webpackConfig = webpackConfigMerger(require('ring-ui/webpack.config'),
     },
     output: {
       path: './dist',
-      filename: '[name].js'
+      filename: '[name].js',
+      devtoolModuleFilenameTemplate: '/[absolute-resource-path]'
     },
     module: {
       loaders: [
