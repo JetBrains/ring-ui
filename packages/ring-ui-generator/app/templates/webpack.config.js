@@ -9,7 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const argv = require('minimist')(process.argv);
 
 const pkgConfig = require('./package.json');
-const isDevelop = argv.d !== undefined;
+const isDevelop = argv.p === undefined;
 const serverBase = isDevelop ? 'http://localhost:8080/api' : 'api';
 
 const srcPath = [path.join(__dirname, 'src')];
@@ -68,7 +68,7 @@ const webpackConfig = webpackConfigMerger(require('ring-ui/webpack.config'),
           NODE_ENV: !isDevelop ? '"production"' : '"development"'
         }
       }),
-      // new webpack.optimize.DedupePlugin()
+      new webpack.optimize.DedupePlugin()
     ]
   });
 
