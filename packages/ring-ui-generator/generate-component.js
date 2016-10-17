@@ -1,3 +1,4 @@
+/* eslint-disable modules/no-cjs */
 const generators = require('yeoman-generator');
 const green = require('chalk').green;
 const format = require('util').format;
@@ -12,26 +13,26 @@ const RING_UI_NG_SUFFIX = ' Ng';
 const COMPONENT_DEFAULT_FILENAME = 'component';
 
 module.exports = params => generators.Base.extend({
-  constructor: function () {
-    generators.Base.apply(this, arguments);
+  constructor: function constructor() {
+    generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
 
     this.argument('componentName', {type: String, required: false});
   },
 
-  writing: function () {
-    const pkg = readPkgUp();
+  writing: function writing() {
+    const pkgFile = readPkgUp();
     const promptParams = [{
       type: 'input',
       name: 'componentName',
-      message: params.promptMessage || 'What\'s your component name is any case, ' + green('my component') + ' for example',
+      message: params.promptMessage || `What's your component name is any case, ${green('my component')} for example`,
       default: this.appname
     }];
 
-    const prompt = this.componentName ?
-      Promise.resolve({componentName: this.componentName})
+    const prompt = this.componentName
+      ? Promise.resolve({componentName: this.componentName})
       : this.prompt(promptParams);
 
-    Promise.all([pkg, prompt]).then(results => {
+    Promise.all([pkgFile, prompt]).then(results => {
       const pkg = results[0].pkg;
       const ringUIPath = results[0].path;
       const answers = results[1];
@@ -49,7 +50,7 @@ module.exports = params => generators.Base.extend({
 
       const ringUIComponentsPath = path.relative(componentPath, path.join(path.dirname(ringUIPath), 'components'));
       const ringUIRoot = isRingUI ? ringUIComponentsPath : `${RING_UI_PACKAGE}/components`;
-      const ringUIRootSass = isRingUI ? ringUIRoot : '~' + RING_UI_PACKAGE;
+      const ringUIRootSass = isRingUI ? ringUIRoot : `~${RING_UI_PACKAGE}`;
 
       const className = isRingUI ? RING_UI_CLASS_PREFIX + paramCaseName : paramCaseName;
       const pascalCaseName = changeCase.pascalCase(componentName);
@@ -58,7 +59,7 @@ module.exports = params => generators.Base.extend({
         ? RING_UI_DIRECTIVE_PREFIX + pascalCaseName
         : camelCaseName;
       const ngDirectiveTagName = isRingUI
-        ? RING_UI_DIRECTIVE_PREFIX + '-' + paramCaseName
+        ? `${RING_UI_DIRECTIVE_PREFIX}-${paramCaseName}`
         : paramCaseName;
 
       const templateContext = {
@@ -71,7 +72,7 @@ module.exports = params => generators.Base.extend({
         paramCaseNameSuffix,
         ringUIRoot,
         ringUIRootSass,
-        titleCaseName,
+        titleCaseName
       };
 
       params.fileTemplates.forEach(template => {
@@ -81,6 +82,6 @@ module.exports = params => generators.Base.extend({
           templateContext
         );
       });
-    })
+    });
   }
 });
