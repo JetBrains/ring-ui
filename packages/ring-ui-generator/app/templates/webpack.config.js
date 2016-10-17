@@ -11,7 +11,7 @@ const argv = require('minimist')(process.argv);
 const pkgConfig = require('./package.json');
 const isDevelop = argv.p === undefined;
 
-const srcPath = [path.join(__dirname, pkgConfig.config.src)];
+const componentsPath = [path.join(__dirname, pkgConfig.config.components)];
 const ringUiWebpackConfig = require('ring-ui');
 
 // Patch ring-ui svg-sprite-loader config
@@ -19,7 +19,7 @@ ringUiWebpackConfig.svgSpriteLoader.include.push(require('jetbrains-logos'), req
 
 const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
   {
-    entry: `${srcPath}/components/app/app.js`,
+    entry: `${componentsPath}/app/app.js`,
     resolve: {
       alias: {
         react: path.resolve('./node_modules/react'),
@@ -35,7 +35,7 @@ const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
       loaders: [
         {
           test: /\.scss$/,
-          include: srcPath,
+          include: componentsPath,
           loaders: [
             'style',
             'css',
@@ -45,7 +45,7 @@ const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
         },
         {
           test: /\.js$/,
-          include: srcPath,
+          include: componentsPath,
           loader: 'babel'
         }
       ]
