@@ -6,7 +6,7 @@ import './app.scss';
 
 const rootEl = document.getElementById('app__root');
 
-const renderApp = () => {
+let renderApp = () => {
   const AppRoot = require('./app__root');
   render(
     <AppRoot />,
@@ -17,6 +17,7 @@ const renderApp = () => {
 /* Hot Replacement support, won't be bundled to production */
 /* eslint-disable modules/no-exports-typo */
 if (module.hot) {
+  const renderAppHot = renderApp;
   const renderError = error => {
     const RedBox = require('redbox-react').default;
 
@@ -26,16 +27,16 @@ if (module.hot) {
     );
   };
 
-  const renderHot = () => {
+  renderApp = () => {
     try {
-      renderApp();
+      renderAppHot();
     } catch (error) {
       renderError(error);
     }
   };
 
   module.hot.accept('./app__root', () => {
-    setTimeout(renderHot);
+    setTimeout(renderApp);
   });
 }
 
