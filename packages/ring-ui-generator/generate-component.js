@@ -17,6 +17,7 @@ module.exports = params => generators.Base.extend({
     generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
 
     this.argument('componentName', {type: String, required: false});
+    this.option('path', {type: String, required: false, default: process.cwd()});
   },
 
   writing: function writing() {
@@ -46,7 +47,7 @@ module.exports = params => generators.Base.extend({
       const componentNameSuffix = isRingUINg ? componentName + RING_UI_NG_SUFFIX : componentName;
       const paramCaseNameSuffix = changeCase.paramCase(componentNameSuffix);
 
-      const componentPath = path.join(process.cwd(), paramCaseNameSuffix);
+      const componentPath = path.join(this.options.path, paramCaseNameSuffix);
 
       const ringUIComponentsPath = path.relative(componentPath, path.join(path.dirname(ringUIPath), 'components'));
       const ringUIRoot = isRingUI ? ringUIComponentsPath : `${RING_UI_PACKAGE}/components`;
@@ -78,7 +79,7 @@ module.exports = params => generators.Base.extend({
       params.fileTemplates.forEach(template => {
         this.fs.copyTpl(
           this.templatePath(format(template, COMPONENT_DEFAULT_FILENAME)),
-          this.destinationPath(path.join(paramCaseNameSuffix, format(template, paramCaseNameSuffix))),
+          this.destinationPath(path.join(componentPath, format(template, paramCaseNameSuffix))),
           templateContext
         );
       });
