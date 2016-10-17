@@ -35,6 +35,7 @@
     "webpack-config-merger": "0.0.5"
   },
   "devDependencies": {
+    "babel-eslint": "7.0.0",
     "electron-prebuilt": "1.4.3",
     "eslint": "3.7.1",
     "eslint-config-jetbrains": "2.0.19",
