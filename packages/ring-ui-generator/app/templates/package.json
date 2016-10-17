@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "config": {
-    "src": "./src",
+    "components": "./src/components",
     "dist": "./dist"
   },
   "scripts": {
+    "create-component": "yo ring-ui:react --path $npm_package_config_components",
     "build": "webpack -p --devtool sourcemap",
     "test": "karma start",
     "lint": "eslint .",
@@ -20,8 +21,8 @@
     "autoprefixer": "6.5.1",
     "babel-core": "6.17.0",
     "babel-loader": "6.2.5",
-    "babel-preset-jetbrains": "1.0.6",
     "babel-polyfill": "6.16.0",
+    "babel-preset-jetbrains": "1.0.6",
     "css-loader": "0.25.0",
     "file-loader": "0.9.0",
     "html-loader": "0.4.4",
@@ -39,17 +40,19 @@
     "electron-prebuilt": "1.4.3",
     "eslint": "3.7.1",
     "eslint-config-jetbrains": "2.0.19",
+    "generator-ring-ui": "<%= version %>",
     "karma": "1.3.0",
-    "karma-electron-launcher": "0.1.0",
     "karma-chai-plugins": "0.8.0",
+    "karma-electron-launcher": "0.1.0",
     "karma-mocha": "1.2.0",
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.0.0",
     "karma-webpack": "1.8.0",
-    "mocha": "3.1.2",
     "minimist": "1.1.0",
+    "mocha": "3.1.2",
     "webpack": "1.13.2",
-    "webpack-dev-server": "1.16.2"
+    "webpack-dev-server": "1.16.2",
+    "yo": "1.8.5"
   },
   "engines": {
     "node": ">=0.8.0"
