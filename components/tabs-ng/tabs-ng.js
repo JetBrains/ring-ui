@@ -29,6 +29,8 @@ const angularModule = angular.module('Ring.tabs', []);
 angularModule.directive('rgTabs', ($location, $rootScope) => ({
   restrict: 'E',
   transclude: true,
+  template: require('./tabs-ng.html'),
+  replace: true,
 
   scope: {
     tabParameter: '@',
@@ -37,16 +39,16 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
     disableLocationChanging: '='
   },
 
-  controller: ['$scope', '$attrs', function ($scope) {
+  controller($scope) {
     $scope.panes = [];
     $scope.current = null;
 
-    function getTabParameterName() {
-      return $scope.tabParameter || 'tab';
+    if (!$scope.tabParameter) {
+      $scope.tabParameter = 'tab';
     }
 
     function getTabIdFromUrl() {
-      return $location.search()[getTabParameterName()];
+      return $location.search()[$scope.tabParameter];
     }
 
     function doSelect(newPane, skipUrlUpdate) {
@@ -63,7 +65,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
           pane.selected = true;
 
           if (!skipUrlUpdate) {
-            $location.search(getTabParameterName(), newPane.tabId);
+            $location.search($scope.tabParameter, newPane.tabId);
           }
         } else { // Deselect all other
           pane.selected = false;
@@ -77,7 +79,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
 
       do {
         next += (reverseOrder ? -1 : 1);
-      } while (next > -1 && next < $scope.panes.length && ($scope.panes[next].ngDisabled || $scope.panes[next].hidden));
+      } while (next > -1 && next < $scope.panes.length && $scope.panes[next].ngDisabled);
 
       if (next >= $scope.panes.length) {
         next = $scope.panes.length - 1;
@@ -93,21 +95,13 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       return next;
     }
 
-    this.addPane = pane => {
-      $scope.panes.push(pane);
-
-      if ($scope.panes.length === 1 || pane.tabId === getTabIdFromUrl()) {
-        doSelect(pane, true);
-      }
-    };
-
     function getCurrentTab() {
       const currentTabId = getTabIdFromUrl();
 
       if (currentTabId) {
         const currentTab = $scope.panes.find(pane => pane.tabId === currentTabId);
 
-        if (currentTab && !currentTab.ngDisabled && !currentTab.hidden) {
+        if (currentTab && !currentTab.ngDisabled) {
           return currentTab;
         } else {
           return $scope.panes[getNextPaneIndex()];
@@ -117,6 +111,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       }
     }
 
+    // controller methods
 
     function checkCurrentTab() {
       if ($scope.panes.length) {
@@ -124,8 +119,24 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       }
     }
 
+    this.addTab = tab => {
+      $scope.panes.push(tab);
+
+      if ($scope.panes.length === 1 || tab.tabId === getTabIdFromUrl()) {
+        doSelect(tab, true);
+      }
+    };
+
+    this.removeTab = tab => {
+      const index = $scope.panes.indexOf(tab);
+
+      $scope.panes.splice(index, 1);
+      checkCurrentTab();
+    };
 
     this.checkPane = checkCurrentTab;
+
+    // scope
 
     $scope.$on('$destroy', $rootScope.$on('$routeUpdate', checkCurrentTab));
 
@@ -161,7 +172,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
 
     // For some reason ng-class doesn't work properly on tabs.
     // From time to time several tabs look like selected despite correct scope state.
-    // I think this bug depends on the frequency of addPane calls (actually on digests)
+    // I think this bug depends on the frequency of addTab calls (actually on digests)
     // and ng-class detection of added and removed classes becomes broken.
     // @maxim.erekhinskiy
     $scope.tabClass = pane => {
@@ -180,10 +191,7 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       return classes;
     };
 
-  }],
-
-  template: require('./tabs-ng.html'),
-  replace: true
+  }
 }));
 
 angularModule.directive('rgTabsPane', () => ({
@@ -192,24 +200,26 @@ angularModule.directive('rgTabsPane', () => ({
   transclude: true,
 
   scope: {
-    tabId: '@',
     title: '@',
     counter: '@',
+    tabId: '@?',
+    tabIndex: '@?',
     selected: '=?',
-    ngDisabled: '=?',
-    hidden: '=?'
+    ngDisabled: '=?'
   },
 
   link(scope, element, attrs, tabsCtrl) {
-    scope.tabId = scope.tabId || scope.title.toLowerCase();
-    tabsCtrl.addPane(scope);
+    scope.tabId = scope.tabId || scope.title.toLowerCase().replace(' ', '-');
+    scope.tabIndex = scope.tabIndex ? +scope.tabIndex : 0;
 
-    scope.$watch('hidden', val => val && tabsCtrl.checkPane());
+    tabsCtrl.addTab(scope);
+
+    scope.$on('$destroy', () => {
+      tabsCtrl.removeTab(scope);
+    });
   },
 
   template: '<div class="ring-tabs__content" ng-class="{\'ring-tabs__content_active\':selected}" ng-if="selected" ng-transclude></div>'
 }));
-
-angularModule.filter('rgTabsFilter', () => pans => pans.filter(pane => !pane.hidden));
 
 export default angularModule.name;
