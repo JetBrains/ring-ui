@@ -214,9 +214,9 @@ class DialogController extends Inject {
     dialogForm.$error = {};
   }
 
-  done() {
+  done(result) {
     this.resetPosition();
-    this.resolve();
+    this.resolve(result);
     this.hide();
   }
 
@@ -239,7 +239,7 @@ class DialogController extends Inject {
           const dontClose = res === false;
 
           if (!dontClose && (button.close !== false)) {
-            this.done();
+            this.done(res);
           }
         }).
         catch(errorMessage => {
