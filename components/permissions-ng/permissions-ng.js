@@ -157,6 +157,7 @@ angularModule.directive('rgPermissionIf', ($animate, userPermissions, $interpola
   priority: 600,
   terminal: true,
   restrict: 'A',
+  $$tlb: true, // eslint-disable-line angular/no-private-call
   require: '^?rgSomePermissions',
   link(scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
     let block;
