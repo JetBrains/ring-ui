@@ -239,7 +239,7 @@ class DialogController extends Inject {
           const dontClose = res === false;
 
           if (!dontClose && (button.close !== false)) {
-            this.reset();
+            this.done();
           }
         }).
         catch(errorMessage => {
