@@ -30,7 +30,7 @@
         class="ring-dialog__footer__item"
         ng-class="[{'ring-button_blue': button['default']}, button['cssClasses']]"
         ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
-        ng-hide="button.hidden"
+        ng-if="!button.hidden"
         ng-click="dialog.action(button)"
         loader="button.inProgress"
       >{{ button.label }}</rg-button>
