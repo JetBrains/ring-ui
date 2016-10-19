@@ -230,7 +230,7 @@ class DialogController extends Inject {
     if (button.action) {
       const actionResult = button.action(this.data, button, errorMessage => {
         this.error = errorMessage;
-      }, this.dialogForm);
+      }, this.dialogForm, this.buttons);
 
       button.inProgress = true;
 
