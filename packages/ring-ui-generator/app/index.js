@@ -2,40 +2,58 @@
 
 const generators = require('yeoman-generator');
 const changeCase = require('change-case');
-const findPort = require('find-port');
-const pkg = require('../package.json');
+const pify = require('pify');
+const {findAPortNotInUse} = pify(require('portscanner'));
+const latest = pify(require('npm-latest-version'));
+const ora = require('ora');
 
 const PORT_RANGE_START = 9010;
 const PORT_RANGE_END = 9100;
+const REGISTRY_URL = 'http://registry.npmjs.org';
+const packages = [
+  'generator-ring-ui',
+  'ring-ui',
+  'jetbrains-logos',
+  'jetbrains-icons'
+];
 
 module.exports = generators.Base.extend({
   prompting() {
-    const cb = this.async();
+    let spinner;
 
-    this.prompt([{
+    const prompt = this.prompt([{
       type: 'input',
       name: 'projectName',
       message: 'What\'s your project name',
       default: this.appname
     }]).then(answers => {
-      findPort('127.0.0.1', PORT_RANGE_START, PORT_RANGE_END, ([port]) => {
-        const {version} = pkg;
-        const projectName = changeCase.paramCase(answers.projectName);
-        const camelCaseName = changeCase.camelCase(answers.projectName);
+      spinner = ora('Getting info').start();
+      return answers;
+    });
 
-        this.props = {projectName, camelCaseName, port, version};
-        cb();
+    const portPromise = findAPortNotInUse(PORT_RANGE_START, PORT_RANGE_END, '127.0.0.1');
+    const packagesPromises = Promise.all(packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))).
+      then(latestVersions => {
+        const versions = {};
+        packages.forEach((packageName, i) => {
+          versions[changeCase.camelCase(packageName)] = latestVersions[i];
+        });
+        return versions;
       });
+
+    return Promise.all([prompt, portPromise, packagesPromises]).then(([answers, port, versions]) => {
+      const projectName = changeCase.paramCase(answers.projectName);
+      const camelCaseName = changeCase.camelCase(answers.projectName);
+
+      this.props = Object.assign({projectName, camelCaseName, port}, versions);
+    }).then(() => {
+      if (spinner) {
+        spinner.succeed();
+      }
     });
   },
 
   configuring() {
-    this.fs.copyTpl(
-      this.templatePath('*.{json,js}'),
-      this.destinationPath(''),
-      this.props
-    );
-
     this.template('npmrc', '.npmrc');
     this.template('editorconfig', '.editorconfig');
     this.template('gitignore', '.gitignore');
@@ -45,6 +63,12 @@ module.exports = generators.Base.extend({
 
   files() {
     this.fs.copyTpl(
+      this.templatePath('*.{json,js}'),
+      this.destinationPath(''),
+      this.props
+    );
+
+    this.fs.copyTpl(
       this.templatePath('src/**/*'),
       this.destinationPath('src/'),
       this.props
@@ -52,12 +76,6 @@ module.exports = generators.Base.extend({
   },
 
   install() {
-    this.npmInstall([
-      'ring-ui',
-      'jetbrains-logos',
-      'jetbrains-icons'
-    ], {save: true});
-
     this.installDependencies({
       bower: false,
       skipInstall: this.options['skip-install']
