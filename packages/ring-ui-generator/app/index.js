@@ -1,7 +1,7 @@
 /* eslint-disable modules/no-cjs */
 
 const generators = require('yeoman-generator');
-const changeCase = require('change-case');
+const {paramCase, camelCase} = require('change-case');
 const pify = require('pify');
 const {findAPortNotInUse} = pify(require('portscanner'));
 const latest = pify(require('npm-latest-version'));
@@ -36,14 +36,14 @@ module.exports = generators.Base.extend({
       then(latestVersions => {
         const versions = {};
         packages.forEach((packageName, i) => {
-          versions[changeCase.camelCase(packageName)] = latestVersions[i];
+          versions[camelCase(packageName)] = latestVersions[i];
         });
         return versions;
       });
 
     return Promise.all([prompt, portPromise, packagesPromises]).then(([answers, port, versions]) => {
-      const projectName = changeCase.paramCase(answers.projectName);
-      const camelCaseName = changeCase.camelCase(answers.projectName);
+      const projectName = paramCase(answers.projectName);
+      const camelCaseName = camelCase(answers.projectName);
 
       this.props = Object.assign({projectName, camelCaseName, port}, versions);
     }).then(() => {
