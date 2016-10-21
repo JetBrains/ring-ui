@@ -1,10 +1,15 @@
+/* eslint-disable modules/no-cjs */
+
 const generators = require('yeoman-generator');
 const changeCase = require('change-case');
 const findPort = require('find-port');
 const pkg = require('../package.json');
 
+const PORT_RANGE_START = 9010;
+const PORT_RANGE_END = 9100;
+
 module.exports = generators.Base.extend({
-  prompting: function () {
+  prompting() {
     const cb = this.async();
 
     this.prompt([{
@@ -13,7 +18,7 @@ module.exports = generators.Base.extend({
       message: 'What\'s your project name',
       default: this.appname
     }]).then(answers => {
-      findPort('127.0.0.1', 9010, 9100, ([port]) => {
+      findPort('127.0.0.1', PORT_RANGE_START, PORT_RANGE_END, ([port]) => {
         const {version} = pkg;
         const projectName = changeCase.paramCase(answers.projectName);
         const camelCaseName = changeCase.camelCase(answers.projectName);
@@ -24,7 +29,7 @@ module.exports = generators.Base.extend({
     });
   },
 
-  configuring: function() {
+  configuring() {
     this.fs.copyTpl(
       this.templatePath('*.{json,js}'),
       this.destinationPath(''),
@@ -38,7 +43,7 @@ module.exports = generators.Base.extend({
     this.template('eslintrc', '.eslintrc');
   },
 
-  files: function () {
+  files() {
     this.fs.copyTpl(
       this.templatePath('src/**/*'),
       this.destinationPath('src/'),
@@ -46,12 +51,12 @@ module.exports = generators.Base.extend({
     );
   },
 
-  install: function () {
+  install() {
     this.npmInstall([
       'ring-ui',
       'jetbrains-logos',
-      'jetbrains-icons',
-    ], { 'save': true });
+      'jetbrains-icons'
+    ], {save: true});
 
     this.installDependencies({
       bower: false,
