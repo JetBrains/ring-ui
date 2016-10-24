@@ -11,7 +11,8 @@
       "default": "***REMOVED***",
       "production": "https://hub.jetbrains.com"
     },
-    "host": "localhost"
+    "host": "localhost",
+    "components": "./components/"
   },
   "files": [
     "components/**/*.{js,scss,gif,html,svg}",
@@ -19,9 +20,9 @@
   ],
   "main": "webpack.config.js",
   "scripts": {
-    "component:ng": "yo ring-ui:ng",
-    "component:react": "yo ring-ui:react",
-    "component:es6": "yo ring-ui:es6",
+    "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
+    "component:react": "yo ring-ui:react --path $npm_package_config_components",
+    "component:es6": "yo ring-ui:es6 --path $npm_package_config_components",
     "test": "karma start",
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
@@ -70,7 +71,7 @@
     "forever": "0.15.2",
     "gemini": "4.9.3",
     "gemini-teamcity": "2.1.3",
-    "generator-ring-ui": "1.0.17",
+    "generator-ring-ui": "1.0.21",
     "github-markdown-css": "2.4.0",
     "glob": "7.0.6",
     "highlight.js": "9.6.0",
