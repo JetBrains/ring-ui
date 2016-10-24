@@ -5,7 +5,7 @@ import 'angular-mocks';
 
 import proxyAttrsModule from './proxy-attrs-ng';
 
-describe.only('Proxy attrs Ng', () => {
+describe('Proxy attrs Ng', () => {
   let proxyAttrs;
 
   const ngModelValue = 'wow';
