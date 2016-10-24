@@ -157,6 +157,7 @@ angularModule.directive('rgPermissionIf', ($animate, userPermissions, $interpola
   priority: 600,
   terminal: true,
   restrict: 'A',
+  // disable error about multiple transclude like in ngIf
   $$tlb: true, // eslint-disable-line angular/no-private-call
   require: '^?rgSomePermissions',
   link(scope, iElement, iAttrs, somePermittedCtrl, $transclude) {
