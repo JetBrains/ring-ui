@@ -3,6 +3,7 @@
 
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const cssnext = require('postcss-cssnext');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
@@ -39,7 +40,17 @@ const scssLoader = {
     resolveLoader('style'),
     resolveLoader('css'),
     `${resolveLoader('postcss')}?pack=ring-ui`,
-    `${resolveLoader('sass')}?outputStyle=expanded&includePaths[]=${componentsPath}`
+    `${resolveLoader('sass')}?outputStyle=expanded&includePaths[]=${componentsPath[0]}`
+  ]
+};
+
+const cssLoader = {
+  test: /\.css$/,
+  include: componentsPath,
+  loaders: [
+    `${resolveLoader('style')}?modules&importLoaders=1')`,
+    resolveLoader('css'),
+    `${resolveLoader('postcss')}?pack=ring-ui-cssnext`
   ]
 };
 
@@ -79,6 +90,7 @@ module.exports = {
     loaders: [
       svgSpriteLoader,
       svgLoader,
+      cssLoader,
       scssLoader,
       ngAnnotateLoader,
       babelLoader,
@@ -89,12 +101,14 @@ module.exports = {
   },
 
   postcss: {
-    'ring-ui': [autoprefixer]
+    'ring-ui': [autoprefixer],
+    'ring-ui-cssnext': [cssnext]
   },
   componentsPath,
 
   svgSpriteLoader,
   svgLoader,
+  cssLoader,
   scssLoader,
   ngAnnotateLoader,
   babelLoader,
