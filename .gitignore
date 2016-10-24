@@ -17,3 +17,4 @@ gemini-report
 node_modules
 npm-debug.log
 ring-ui-*.tgz
+yarn.lock
