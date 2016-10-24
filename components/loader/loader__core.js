@@ -199,6 +199,10 @@ export default class LoaderCore {
     }
   }
 
+  updateMessage(text) {
+    this.textNode.textContent = text || '';
+  }
+
   destroy() {
     this.isRunning = false;
   }
@@ -207,13 +211,13 @@ export default class LoaderCore {
     this.canvas = document.createElement('canvas');
     this.canvas.classList.add('ring-loader__canvas');
 
-    const textNode = document.createElement('div');
-    textNode.classList.add('ring-loader__text');
+    this.textNode = document.createElement('div');
+    this.textNode.classList.add('ring-loader__text');
 
-    textNode.textContent = this.props.message ? this.props.message : '';
+    this.textNode.textContent = this.props.message ? this.props.message : '';
 
     node.appendChild(this.canvas);
-    node.appendChild(textNode);
+    node.appendChild(this.textNode);
 
     this.initializeLoader();
 
