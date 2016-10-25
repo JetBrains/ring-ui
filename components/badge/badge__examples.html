@@ -1,0 +1,26 @@
+<example name="Badge">
+
+  <file type="html">
+    <div id="badges"></div>
+  </file>
+
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+
+     import Badge from 'ring-ui/components/badge/badge';
+
+     const renderBadgeDemo = () => (
+       <span>
+         <Badge>Simple</Badge>
+         <Badge active>Active</Badge>
+         <Badge gray>Gray</Badge>
+         <Badge valid>Valid</Badge>
+         <Badge invalid>Invalid</Badge>
+         <Badge disabled>Disabled</Badge>
+       </span>
+     );
+
+     render(renderBadgeDemo(), document.getElementById('badges'));
+  </file>
+</example>
