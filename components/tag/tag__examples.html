@@ -1,0 +1,24 @@
+<example name="Tag">
+
+  <file type="html">
+    <div id="tags"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+    import GroupIcon from 'jetbrains-icons/group.svg';
+
+    import Tag from 'ring-ui/components/tag/tag';
+
+    const renderBadgeDemo = () => (
+      <span>
+        <Tag>Simple</Tag>
+        <Tag readOnly={true}>Read only</Tag>
+        <Tag rgTagIcon={GroupIcon} rgTagTitle="I am an icon title">With icon title</Tag>
+      </span>
+    );
+
+    render(renderBadgeDemo(), document.getElementById('tags'));
+  </file>
+</example>
