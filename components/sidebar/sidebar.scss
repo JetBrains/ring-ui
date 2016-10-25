@@ -51,6 +51,7 @@
   float: left;
   width: 6*$ring-unit;
   height: 6*$ring-unit;
+  object-fit: contain;
   padding: 0 2*$ring-unit 0 5*$ring-unit;
 }
 
