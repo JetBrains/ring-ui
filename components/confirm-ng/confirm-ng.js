@@ -5,11 +5,25 @@ import Dialog from '../dialog-ng/dialog-ng';
  * @category Angular Components
  * @description Displays a confirmation prompt.
  * @example
-   <example name="Confirm Ng">
+  <example name="confirm-ng">
     <file name="index.html">
-      TODO example
+      <div id="loader" ng-app="TestApp">
+        <div rg-dialog></div>
+        <div ng-controller="TestCtrl"></div>
+      </div>
     </file>
-   </example>
+    <file name="index.js">
+      import angular from 'angular';
+      import ConfirmNg from 'ring-ui/components/confirm-ng/confirm-ng';
+
+      angular.module('TestApp', [ConfirmNg]).
+        controller('TestCtrl', function (confirm) {
+          confirm('Do you really want to proceed?').
+            then(() => console.log('Confirmed')).
+            catch(() => console.log('Declined'));
+        })
+    </file>
+  </example>
  */
 /* global angular: false */
 
