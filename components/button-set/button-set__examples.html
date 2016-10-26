@@ -1,0 +1,25 @@
+<example name="Button Set">
+  <file type="html">
+    <div>
+      <p>
+        <span id="button-set"></span>
+      </p>
+    </div>
+  </file>
+
+  <file type="js">
+    var React = require('react');
+    var render = require('react-dom').render;
+    var Button = require('ring-ui/components/button/button');
+    var ButtonSet = require('ring-ui/components/button-set/button-set');
+
+    render(
+      <ButtonSet>
+        <Button>1st button</Button>
+        <Button>2nd button</Button>
+        <Button>3rd button</Button>
+      </ButtonSet>
+      , document.getElementById('button-set')
+    );
+  </file>
+</example>
