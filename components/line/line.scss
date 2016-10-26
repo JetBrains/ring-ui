@@ -6,12 +6,12 @@
  * @description Draws a horizontal separator.
  * @example
    <example name="Line">
-     <file name="index.html">
+     <file type="html">
        <div>Before</div>
        <div class="ring-line"></div>
        <div>After</div>
      </file>
-     <file name="index.js" webpack="true">
+     <file type="js">
        require('ring-ui/components/line/line.scss');
      </file>
    </example>
