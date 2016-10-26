@@ -80,9 +80,10 @@
 
   margin: $ring-unit/2;
   padding: $ring-unit;
-  line-height: normal;
 
-  border: 0;
+  border: none;
+  font-size: 0;
+  line-height: 0;
   background: transparent;
   cursor: pointer;
 
