@@ -136,12 +136,15 @@ export default class Alert extends RingComponent {
       {
         this.props.closeable
         ? (
-          <Icon
+          <button
             className="ring-alert__close"
-            glyph={require('jetbrains-icons/close.svg')}
             onClick={this._handleCloseClick}
-            size={Icon.Size.Size16}
-          />
+          >
+            <Icon
+              glyph={require('jetbrains-icons/close.svg')}
+              size={Icon.Size.Size16}
+            />
+          </button>
         )
         : ''
       }
@@ -182,6 +185,7 @@ export default class Alert extends RingComponent {
     } else {
       this.props.onCloseClick(evt);
     }
+    return false;
   }
 
   /**
