@@ -1,6 +1,6 @@
 <example name="Palette">
   <file type="html">
-    <div ng-app="Example.palette" ng-controller="PaletteCtrl as paletteCtrl">
+    <div ng-app="Example.palette" ng-controller="PaletteCtrl as paletteCtrl" id="palette">
       <h4>ColorId</h4>
       <div ng-repeat="i in paletteCtrl.arr5" class="example">
         <div ng-repeat="j in paletteCtrl.arr7"
@@ -19,6 +19,7 @@
       </div>
     </div>
   </file>
+
   <file type="scss">
     .example {
       margin: 4px;
@@ -28,20 +29,14 @@
       }
     }
   </file>
+
   <file type="js">
-    require('angular');
-    require('ring-ui/components/palette/palette.scss');
-    require('./index.scss');
+    import 'angular';
+    import 'ring-ui/components/palette/palette.scss';
 
     angular.module('Example.palette', []).
       controller('PaletteCtrl', function () {
-        function xrange(num) {
-          var arr = new Array(num);
-          for (var i = 0; i < arr.length; ++i) {
-            arr[i] = i;
-          }
-          return arr;
-        }
+        const xrange = num => [...Array(num)].map((val, index) => index);
 
         this.arr5 = xrange(5);
         this.arr7 = xrange(7);
