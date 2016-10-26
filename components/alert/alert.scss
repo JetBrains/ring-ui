@@ -73,16 +73,23 @@
   margin-right: $ring-unit;
 }
 
-.ring-icon.ring-alert__close {
+.ring-alert__close {
   position: absolute;
   right: 0;
-  padding: 0 $ring-unit;
+  top: 2px;
 
-  fill: $ring-gray-color;
+  margin: $ring-unit/2;
+  padding: $ring-unit;
+  line-height: normal;
+
+  border: 0;
+  background: transparent;
   cursor: pointer;
 
-  &:hover {
-    fill: $ring-link-hover-color;
+  color: $ring-gray-color;
+
+  &:hover, &:focus {
+    color: $ring-link-hover-color;
   }
 }
 
