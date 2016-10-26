@@ -26,11 +26,13 @@
   color: $ring-link-color;
   font-size: $ring-font-size;
 
+  border: 0;
   border-bottom: 1px solid;
   border-color: rgba(0, 0, 0, 0.15);
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 
+  background: none;
   cursor: pointer;
 
   &.active,
@@ -43,6 +45,7 @@
     border: 1px solid;
     border-color: rgba(0, 0, 0, 0.2);
     padding: 0 $ring-unit * 2;
+    padding-bottom: 1px; // zero border compensation
     border-bottom: none;
 
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.03), transparent 80%);
