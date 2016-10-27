@@ -1,10 +1,7 @@
-import {reactNg, registerComponents} from '../react-ng/react-ng';
-import Icon from '../icon/icon';
 
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
 
-registerComponents({Icon});
 
 /**
  * @name Breadcrumb Ng
@@ -23,23 +20,23 @@ registerComponents({Icon});
        </div>
      </div>
      </file>
-     <file name="index.js" webpack="true">
+     <file name="index.js">
        require('angular');
        require('ring-ui/components/breadcrumb-ng/breadcrumb-ng');
 
        angular.module('Example.breadcrumb', ['Ring.breadcrumb'])
-         .controller('DemoCtrl', ['$scope', function($scope) {
+         .controller('DemoCtrl', function ($scope) {
             $scope.clickSecondLevel = function() {
               alert('Second level was clicked');
             }
-         }]);
+         });
      </file>
    </example>
  */
 
 /* global angular: false */
 
-const angularModule = angular.module('Ring.breadcrumb', [reactNg]);
+const angularModule = angular.module('Ring.breadcrumb', []);
 
 angularModule.directive('rgBreadcrumb', () => ({
   template: require('./breadcrumb-ng.html'),

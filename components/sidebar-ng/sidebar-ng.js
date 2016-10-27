@@ -1,12 +1,8 @@
 import PlaceUnder from '../place-under-ng/place-under-ng';
-
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-import Icon from '../icon/icon';
+import iconNg from '../icon-ng/icon-ng';
 
 import '../sidebar/sidebar.scss';
 import '../button/button.scss';
-
-registerComponents({Icon});
 
 /**
  * @name Sidebar Ng
@@ -18,7 +14,7 @@ registerComponents({Icon});
  */
 /* global angular */
 
-const angularModule = angular.module('Ring.sidebar', [reactNg, PlaceUnder]);
+const angularModule = angular.module('Ring.sidebar', [PlaceUnder, iconNg]);
 
 class SidebarController {
   constructor($scope) {
