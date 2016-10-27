@@ -1,9 +1,6 @@
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-import Icon from '../icon/icon';
+import iconNg from '../icon-ng/icon-ng';
 
 import '../error-message-ng/error-message-ng.scss';
-
-registerComponents({Icon});
 
 /**
  * @name Error Message Ng
@@ -18,8 +15,8 @@ registerComponents({Icon});
         </rg-error-message>
       </div>
     </file>
-    <file name="index.js" webpack="true">
-      import 'angular';
+    <file name="index.js">
+      import angular from 'angular';
       import errorMessageNg from 'ring-ui/components/error-message-ng/error-message-ng';
       import FrownIcon from 'jetbrains-icons/frown.svg';
 
@@ -32,7 +29,7 @@ registerComponents({Icon});
  */
 /* global angular: false */
 
-const angularModule = angular.module('Ring.error-message', [reactNg]);
+const angularModule = angular.module('Ring.error-message', [iconNg]);
 
 angularModule.directive('rgErrorMessage', () => ({
   replace: true,
