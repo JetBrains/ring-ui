@@ -1,31 +1,32 @@
-import Loader from '../loader/loader';
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-
+import loaderNg from '../loader-ng/loader-ng';
 import '../loader-screen/loader-screen.scss';
-import '../loader/loader.scss';
-
-registerComponents({Loader});
 
 /**
  * @name Loader Screen Ng
  * @category Angular Components
  * @description Provides an Angular wrapper for Loader Screen.
- * Usage examples:
- *
- * 1. Use the directive in the document body:
- *   <div ring-loader-screen="{{ 'Loading' | translate}}"></div>
- *
- * 2. Add dependency for 'Ring.loader-screen' to your app
- *
- * 3. Add run section to your app:
- *  app.run(['loaderScreen', function (loaderScreen) {
- *    loaderScreen.setVisible(true);
- *    loaderScreen.startInitialLoading();
- *  }]);
+ * @example
+ * <example name="Loader Screen Ng">
+    <file name="index.html">
+      <div ng-app="ExampleApp">
+        <div rg-loader-screen="Loading..."></div>
+      </div>
+    </file>
+    <file name="index.js">
+      import angular from 'angular';
+      import loaderScreenNg from 'ring-ui/components/loader-screen-ng/loader-screen-ng';
+
+      angular.module('ExampleApp', [loaderScreenNg]).
+        run((loaderScreen) => {
+          loaderScreen.setVisible(true);
+          loaderScreen.startInitialLoading();
+        });
+     </file>
+  </example>
  */
 /* global angular: false */
 
-const angularModule = angular.module('Ring.loader-screen', [reactNg]);
+const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 
 angularModule.service('loaderScreen', function ($timeout, $rootScope) {
   let initialLoading;

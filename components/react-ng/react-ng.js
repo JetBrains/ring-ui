@@ -164,6 +164,7 @@ function reactNgDirective($parse) {
  * @constructor
  * @description Directive to render React components once without updating and callbacks. Support ng-click, ng-class and other attributes manipulating.
  * <strong>Note: the attributes that should be passed to a React component should have a "react-" prefix!</strong>
+ * <strong>This component is deprecated - most components like Icon, Loader are now implemented as pure angular components.</strong>
  * @extends {ReactComponent}
  * @example
    <example name="React-ng">

@@ -1,14 +1,12 @@
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertNg from '../alert-ng/alert-ng';
-import {registerComponents, reactNg} from '../react-ng/react-ng';
-import Icon from '../icon/icon';
+import iconNg from '../icon-ng/icon-ng';
+import editIcon from 'jetbrains-icons/pencil.svg';
 
 import '../avatar-editor/avatar-editor.scss';
 import '../button/button.scss';
 
-registerComponents({Icon});
-
-const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, reactNg]);
+const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, iconNg]);
 
 /**
  * @name Avatar Editor Ng
@@ -55,6 +53,7 @@ function rgAvatarEditor() {
     transclude: true,
     controller($scope, $attrs, RingMessageBundle, alert) {
       let fileInput;
+      $scope.editIcon = editIcon;
 
       function setLang() {
         $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
