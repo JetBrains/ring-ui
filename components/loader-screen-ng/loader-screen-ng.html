@@ -1,5 +1,5 @@
 
 <div class="ring-loader-screen" ng-if="$root.isLoaderVisible()">
   <rg-loader class="ring-loader-screen__loader"
-    message="{{$root.isInitialLoading() && message}}"></rg-loader>
+    message="{{$root.isInitialLoading() ? message : ''}}"></rg-loader>
 </div>
