@@ -9,16 +9,26 @@ registerComponents({Icon});
  * @name Error Message Ng
  * @category Angular Components
  * @description Displays an error message.
- * Usage:
- * <rg-error-message code="{{ 'Disconnected' | translate }}" message="{{ 'No, no one\'s there.' | translate }}" icon="frown" links="[{href:'.',text:'home'}]">
- *  {{ 'Service backend isn\'t available' | translate }}
- * </rg-error-message>
  * @example
-   <example name="Error Message Ng">
+  <example name="Error Message Ng">
     <file name="index.html">
-      TODO example
+      <div ng-app="ExampleApp" ng-controller="DemoCtrl">
+        <rg-error-message code="Disconnected" message="No, no one\'s there." icon="{{errorIcon}}" links="[{href:'.',text:'home'}]">
+          Service backend isn't available
+        </rg-error-message>
+      </div>
     </file>
-   </example>
+    <file name="index.js" webpack="true">
+      import 'angular';
+      import errorMessageNg from 'ring-ui/components/error-message-ng/error-message-ng';
+      import FrownIcon from 'jetbrains-icons/frown.svg';
+
+      angular.module('ExampleApp', [errorMessageNg]).
+        controller('DemoCtrl', function($scope) {
+          $scope.errorIcon = FrownIcon;
+        });
+     </file>
+  </example>
  */
 /* global angular: false */
 
