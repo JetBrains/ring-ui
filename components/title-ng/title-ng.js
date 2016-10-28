@@ -61,9 +61,9 @@ angularModule.service('pageTitle', function ($interpolate) {
     setTitle(current ? element + delimiter + current : element);
   }
 
-  function replaceFirst(element) {
+  function replacePart(element, replaceIndex = 0) {
     const titleElements = current.split(delimiter);
-    titleElements[0] = element;
+    titleElements[replaceIndex === -1 ? titleElements.length - 1 : replaceIndex] = element;
 
     setTitle(titleElements.join(delimiter));
   }
@@ -92,8 +92,12 @@ angularModule.service('pageTitle', function ($interpolate) {
         this.updateElement(Data[fieldName || 'name']);
       });
     } else {
-      replaceFirst(fieldName ? element[fieldName] : element);
+      replacePart(fieldName ? element[fieldName] : element);
     }
+  };
+
+  this.setRootElement = element => {
+    replacePart(element, -1);
   };
 });
 
