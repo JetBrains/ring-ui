@@ -206,6 +206,19 @@ describe('List', () => {
       getFirstListItem().should.contain.text('custom item');
     });
 
+    it('Should support click on custom elements', () => {
+      const onClick = sinon.stub();
+      list.rerender({data: [
+        {
+          template: React.createElement('span', {}, 'custom item'),
+          rgItemType: List.ListProps.Type.CUSTOM,
+          onClick
+        }
+      ]});
+      TestUtils.Simulate.click(getFirstListItem());
+      onClick.should.have.been.clicked;
+    });
+
     it('Should support disable property for custom elements', () => {
       list.rerender({data: [
         {

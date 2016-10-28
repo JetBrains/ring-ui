@@ -11,7 +11,8 @@ const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
 
 export default function ListItem(props) {
-  const {checkbox, glyph, icon, rightGlyph, description, label, details, active, rgItemType, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const {checkbox, glyph, icon, rightGlyph, description, label,
+    details, active, rgItemType, tabIndex, onClick, onMouseOver, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !props.disabled,
@@ -26,10 +27,11 @@ export default function ListItem(props) {
     paddingLeft: `${(+props.level || 0) * RING_UNIT + DEFAULT_PADDING}px`
   };
 
-
   return (
     <div
-      {...restProps}
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
       className={classes}
       style={style}
     >
@@ -89,6 +91,7 @@ ListItem.propTypes = {
   details: PropTypes.string,
   disabled: PropTypes.bool,
   className: PropTypes.string,
+  tabIndex: PropTypes.number,
   checkbox: PropTypes.bool,
   description: PropTypes.oneOfType([
     PropTypes.string,
@@ -100,5 +103,7 @@ ListItem.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   level: PropTypes.number,
   rgItemType: PropTypes.number,
-  rightGlyph: PropTypes.string
+  rightGlyph: PropTypes.string,
+  onClick: PropTypes.func,
+  onMouseOver: PropTypes.func
 };
