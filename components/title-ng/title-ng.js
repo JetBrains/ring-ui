@@ -15,36 +15,46 @@ const angularModule = angular.module('Ring.title', []);
 
 angularModule.directive('rgPageTitle', () => ({
   scope: {
-    rgPageTitle: '@',
-    noTitle: '@',
+    rgPageTitle: '@?',
+    noTitle: '@?',
     delimiter: '@'
   },
 
-  controller($rootScope, $scope, $element, pageTitle, $injector) {
+  controller($rootScope, $scope, $element, $attrs, pageTitle, $injector) {
     const element = $element[0];
 
     pageTitle.setDelimiter($scope.delimiter);
 
     // Get title prefix from title element
     const elementText = element.textContent;
+    let offScopeWatch = angular.noop;
+
+    if ($attrs.rgPageTitle) {
+      offScopeWatch = $scope.$watch('rgPageTitle', newBaseTitle => {
+        pageTitle.setRootElement(newBaseTitle);
+      });
+    }
 
     // Set page title on route change
-    const off = $rootScope.$on('$routeChangeSuccess', (event, current) => {
-      let title = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
+    const offRouteWatch = $rootScope.$on('$routeChangeSuccess', (event, current) => {
+      let routeTitle = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
       pageTitle.setCurrent($scope.rgPageTitle || elementText);
 
       // Use title: false to prevent title change on route
-      if (title !== false) {
-        if (angular.isArray(title) || angular.isFunction(title)) {
+      if (routeTitle !== false) {
+        if (angular.isArray(routeTitle) || angular.isFunction(routeTitle)) {
           //Invoke injector
-          title = $injector.invoke(title);
+          routeTitle = $injector.invoke(routeTitle);
         }
-        pageTitle.addElement(title || $scope.noTitle);
+        pageTitle.addElement(routeTitle || $scope.noTitle);
       }
     });
 
-    $scope.$on('$destroy', off);
+    $scope.$on('$destroy', () => {
+      offRouteWatch();
+      offScopeWatch();
+    });
   }
 }));
 
