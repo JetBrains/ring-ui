@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
 export default function ListCustom(props) {
-  const {active, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const {active, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !disabled,
@@ -15,6 +15,7 @@ export default function ListCustom(props) {
       tabIndex={tabIndex}
       onClick={onClick}
       onMouseOver={onMouseOver}
+      onMouseUp={onMouseUp}
       className={classes}
     >
       {content}
@@ -34,7 +35,8 @@ ListCustom.propTypes = {
     PropTypes.string
   ]),
   onClick: PropTypes.func,
-  onMouseOver: PropTypes.func
+  onMouseOver: PropTypes.func,
+  onMouseUp: PropTypes.func
 };
 
 ListCustom.defaultProps = {
