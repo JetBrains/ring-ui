@@ -9,7 +9,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 ### 31-10-2016: ListItem and ListCustom are not passing all the props to DOM elements anymore
 
 Since React prohibits passing non-supported props to DOM-elements, now we have white list of supported props declared in PropTypes.
-Other props arent passed to `ListItem` and `ListCustom` anymore
+Other props aren't passed to `ListItem` and `ListCustom` anymore
 
 ### 29-08-2016: The long-deprecated .ring-input__error-bubble and .ring-form__footer styles were removed
 
