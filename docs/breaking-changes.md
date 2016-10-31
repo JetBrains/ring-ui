@@ -6,13 +6,18 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 31-10-2016: ListItem and ListCustom are not passing all the props to DOM elements anymore
+
+Since React prohibits passing non-supported props to DOM-elements, now we have white list of supported props declared in PropTypes.
+Other props arent passed to `ListItem` and `ListCustom` anymore
+
 ### 29-08-2016: The long-deprecated .ring-input__error-bubble and .ring-form__footer styles were removed
 
 Please migrate to `.ring-error-bubble` and `.ring-panel`
 
 ### 25-08-2016: SelectNg requires pack size to be specified in infinite scroll mode
 
-infiniteScrollPackSize should match the value of `$top` REST parameter. 
+infiniteScrollPackSize should match the value of `$top` REST parameter.
 
 Before:
 ```
@@ -29,8 +34,8 @@ After:
 ```
 
 ### 10-08-2016: Introduced new versioning system
- 
-To make Ring UI installable with `npm install ring-ui` we have changed the versioning scheme.  
+
+To make Ring UI installable with `npm install ring-ui` we have changed the versioning scheme.
 
 Before:
 ```
@@ -41,8 +46,8 @@ After:
 ```
 2.4.4996 (major.minor.build)
 ```
-  
-### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss 
+
+### 29-06-2016: Added "ring-" suffix to the constants in palette/palette.scss
 
 Before:
 ```
@@ -53,10 +58,10 @@ After:
 ```
 $ring-palette-array, $ring-palette-white-text, $ring-palette-grey-text
 ```
-  
-### 27-05-2016: rgba-attribute mixin was removed  
-  
-Use rgba colors directly as we no longer support ancient IE versions.  
+
+### 27-05-2016: rgba-attribute mixin was removed
+
+Use rgba colors directly as we no longer support ancient IE versions.
 
 Before:
 ```
@@ -68,9 +73,9 @@ After:
   border-color: rgba(0, 0, 0, 0.15);
 ```
 
-### 04-04-2016: Browser requirements for Autoprefixer should be specified in the target project (RG-963)    
+### 04-04-2016: Browser requirements for Autoprefixer should be specified in the target project (RG-963)
 
-Place a [`browserslist`](https://github.com/ai/browserslist#config-file) file in your project directory.                              
+Place a [`browserslist`](https://github.com/ai/browserslist#config-file) file in your project directory.
 Default query is `> 1%, last 2 versions, Firefox ESR` which currently resolves to:
 
 ```
@@ -95,12 +100,12 @@ op_mini 5.0-8.0
 opera 36
 opera 35
 safari 9.1
-safari 9 
+safari 9
 ```
 
 ### 17-05-2016: ES6! All existing code was converted, new code should be written in ES6 only
 
-### 22-04-2016: Permissions: parameter "config" does not have property config.serviceId, use config.services instead    
+### 22-04-2016: Permissions: parameter "config" does not have property config.serviceId, use config.services instead
 
 Before:
 ```
@@ -112,7 +117,7 @@ After:
 new Permissions(auth, {services: [auth.serviceId]})
 ```
 
-### 20-02-2016: `Button.Modifiers` enum was removed, attributes should be used instead    
+### 20-02-2016: `Button.Modifiers` enum was removed, attributes should be used instead
 
 Before:
 ```
@@ -124,7 +129,7 @@ After:
 <Button blue={true}>{'Button text'}</Button>
 ```
 
-### 03-02-2016: `in-space` parameter of `rg-permission` and `rg-permission-if` directives was renamed to `in-project` (RG-750)  
+### 03-02-2016: `in-space` parameter of `rg-permission` and `rg-permission-if` directives was renamed to `in-project` (RG-750)
 
 Before:
 ```
@@ -194,10 +199,10 @@ Please use the `rg-save-field` component instead.
 
 Please use `ring-input` instead.
 
-### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed  
+### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed
 
 `jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`.
-Migration path: update `jetbrains-icons` and `jetbrains-logos`.   
+Migration path: update `jetbrains-icons` and `jetbrains-logos`.
 
 ### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965)
 
@@ -212,20 +217,20 @@ Usages should be updated if you're not using the React component. ([See example]
 ### 02-11-2015: Auth: Hub 1.0 defaults applied
 
 * `redirect` param in Auth is now `false` by default
-* `redirect` param in Auth doesn't have the `background-unsafe` value anymore, so it should be removed from project's Auth configs 
+* `redirect` param in Auth doesn't have the `background-unsafe` value anymore, so it should be removed from project's Auth configs
 * Background token refresh always uses `request_credentials` mode `silent`
 
 ### 30-10-2015: webpack.config.js does not provide loaders for applications' code anymore, you will need to set up all the necessary loaders in your project configuration.
 
-### 30-10-2015: Icons are now loaded using [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader). They were also moved to a separate package (RG-550, RG-834)                        
+### 30-10-2015: Icons are now loaded using [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader). They were also moved to a separate package (RG-550, RG-834)
 
-Icon's `glyph` property now accepts URL from loader instead of ID, e.g. `<Icon glyph={require('jetbrains-icons/add.svg')}>`. 
+Icon's `glyph` property now accepts URL from loader instead of ID, e.g. `<Icon glyph={require('jetbrains-icons/add.svg')}>`.
 
-### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)                        
+### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)
 
 jQuery, when.js, and mout are not used anymore. See the detailed [migration guide](http://ring-ui.github.io/migration-to-2.3.0.html).
 
-### 30-10-2015: Components should be addressed by full path                        
+### 30-10-2015: Components should be addressed by full path
 
 E.g. you should use import `ring-ui/components/react-ng/react-ng` instead of `react-ng/react-ng`.
 
@@ -235,27 +240,27 @@ LoaderInline is `display: inline-block` by default and shouldn't be used as the 
 
 ### 22-05-2015: "user2" icon duplicate removed
 
-### 06-05-2015: Unused filtering functionality removed from `popup-menu` (RG-700) 
+### 06-05-2015: Unused filtering functionality removed from `popup-menu` (RG-700)
 
-`filter` property doesn't make sense anymore 
+`filter` property doesn't make sense anymore
 
-### 06-05-2015: `form-ng__update-text` is no more required in `form-ng` (part of RG-676) 
+### 06-05-2015: `form-ng__update-text` is no more required in `form-ng` (part of RG-676)
 
 `form-ng__update-text` should be required separately from `form-ng` in consuming code
 
-### 28-04-2015: `ring-island` refactoring (RG-662) 
+### 28-04-2015: `ring-island` refactoring (RG-662)
 
 * Renamed `_island.scss` to `island.scss`
 * Removed `display: block` from the main class and dropped the `.ring-island_inline` modifier completely
 
-### 21-04-2015: Removed deprecated Auth.prototype.isGuest method (RG-644) 
+### 21-04-2015: Removed deprecated Auth.prototype.isGuest method (RG-644)
 
 Use the `guest` field of the user object instead. It is included by default in `Auth.prototype.requestUser` response.
 
-### 20-04-2015: userFields introduced in Auth config (RG-640) 
+### 20-04-2015: userFields introduced in Auth config (RG-640)
 
 It's now required to set `userFields` in the `Auth` config if any fields other than `guest, id, name, profile/avatar/url` are needed in auth.requestUser.
-Please note that you need to explicitly specify `profile` sub-fields to request them, specifying `profile` won't do anything.     
+Please note that you need to explicitly specify `profile` sub-fields to request them, specifying `profile` won't do anything.
 
 Example:
 ```js
