@@ -11,7 +11,6 @@ import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
-import ClassName from '../class-name/class-name';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Popup from '../popup/popup';
@@ -25,12 +24,6 @@ import debounce from 'mout/function/debounce';
 import './header.scss';
 
 function noop() {}
-
-/**
- * @type {ClassName}
- * @private
- */
-const headerClassName = new ClassName('ring-header');
 
 /**
  * @const
@@ -55,7 +48,7 @@ const PRODUCTS_LOGOS = {
  * @return {?string}
  */
 function getServiceLogo(item, customClassName, iconSize = Icon.Size.Size48) {
-  const className = classNames(headerClassName.getElement('services-logo'), customClassName);
+  const className = classNames('ring-header__services-logo', customClassName);
   const iconKey = `ItemIcon-${item.id}`;
   const topLineServiceIcon = TOP_LINE_SERVICES_REGEXP.exec(item.applicationName);
 
@@ -223,12 +216,10 @@ export default class Header extends RingComponent {
    * @private
    */
   _getNavigationMenuDefaultLayout() {
-    const menuItemClassName = headerClassName.getElement('menu-item');
-
     return (
-      <div className={headerClassName.getElement('menu')}>{
+      <div className="ring-header__menu">{
         this.props.menu.map(({component, props, children}) => {
-          const newProps = Object.assign({}, props, {className: classNames(props.className, menuItemClassName)});
+          const newProps = Object.assign({}, props, {className: classNames(props.className, 'ring-header__menu-item')});
           return createElement(component, newProps, children);
         })
       }</div>
@@ -240,10 +231,8 @@ export default class Header extends RingComponent {
    * @private
    */
   _getMenuPopupData() {
-    const menuItemClassName = headerClassName.getElement('menu-item');
-
     return this.props.menu.slice(1).map(item => {
-      const classes = classNames(item.props.className || '', menuItemClassName);
+      const classes = classNames(item.props.className || '', 'ring-header__menu-item');
       return {
         rgItemType: PopupMenu.ListProps.Type.LINK,
         className: classes,
@@ -280,7 +269,7 @@ export default class Header extends RingComponent {
     const firstMenuElement = this.props.menu[0];
 
     return (
-      <div className={headerClassName.getElement('menu')}>
+      <div className="ring-header__menu">
         <span>
           <a className="ring-link"
             href={firstMenuElement.props.url}
@@ -311,8 +300,8 @@ export default class Header extends RingComponent {
 
   render() {
     return (
-      <div className={headerClassName.getClassName()}>
-        <div className={headerClassName.getElement('logo')}>
+      <div className="ring-header">
+        <div className="ring-header__logo">
           {this._getLogo()}
         </div>
 
@@ -358,9 +347,9 @@ export default class Header extends RingComponent {
    */
   _getLinkElement(href, isActive, className, children) {
     const fullClassName = classNames({
-      [className]: true,
-      [headerClassName.getClassName('services-current')]: isActive,
-      [headerClassName.getClassName('services-link')]: !isActive
+      'ring-header': true,
+      'ring-header__services-current': isActive,
+      'ring-header__services-link': !isActive
     });
 
     if (isActive) {
@@ -381,10 +370,10 @@ export default class Header extends RingComponent {
   _renderServiceLinkWithLogo(item, serviceLogo) {
     const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
-    return this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-item'), [
+    return this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-item', [
       serviceLogo,
       <span key={`ItemName-${item.id}`}
-        className={headerClassName.getElement('services-item-text')}
+        className="ring-header__services-item-text"
       >
         {item.name}
       </span>
@@ -394,7 +383,7 @@ export default class Header extends RingComponent {
   _getPopupTopLine() {
     return this.props.servicesList.sort(sortServices).
       filter(Header.isTopLineService).
-      map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, headerClassName.getElement('services-logo_top-line'), Icon.Size.Size32)));
+      map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, 'ring-header__services-logo_top-line', Icon.Size.Size32)));
   }
 
   /**
@@ -422,14 +411,14 @@ export default class Header extends RingComponent {
         const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
         linksList.push(
-          this._getLinkElement(item.homeUrl, isActive, headerClassName.getElement('services-stacked'), item.name)
+          this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-stacked', item.name)
         );
       }, this);
 
     if (iconsList.length && linksList.length) {
       return iconsList.concat((
         <div
-          className={headerClassName.getElement('services-line')}
+          className="ring-header__services-line"
           key="separator"
         ></div>
       ), linksList);
@@ -448,7 +437,7 @@ export default class Header extends RingComponent {
       this._servicesPopup = Popup.renderPopup(createElement(Popup, {
         anchorElement: findDOMNode(this.refs.services),
         autoRemove: true,
-        className: headerClassName.getClassName('services'),
+        className: 'ring-header__services',
         cutEdge: false,
         directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
         onClose: () => this.refs.services.setOpened(false),
@@ -512,13 +501,13 @@ export default class Header extends RingComponent {
    */
   _getRightMenu() {
     const extraElementClassName = classNames({
-      [headerClassName.getElement('user-menu-extra')]: true,
-      [headerClassName.getElement('user-menu-item')]: true
+      'ring-header__user-menu-extra': true,
+      'ring-header__user-menu-item': true
     });
 
     return (
-      <div className={headerClassName.getElement('right')}>
-        <div className={headerClassName.getElement('user-menu')}>
+      <div className="ring-header__right">
+        <div className="ring-header__user-menu">
           <div className={extraElementClassName}></div>
           {
             this.props.rightMenu.map(({component, props, children}) => (
@@ -542,7 +531,7 @@ export default class Header extends RingComponent {
    * @return {Element}
    */
   getExtraElement() {
-    return this.node.query(`.${headerClassName.getElement('user-menu-extra')}`);
+    return this.node.query('.ring-header__user-menu-extra');
   }
 
   /**
@@ -551,7 +540,7 @@ export default class Header extends RingComponent {
    * @return {Element}
    */
   getMenuElement() {
-    return this.node.query(`.${headerClassName.getElement('menu')}`);
+    return this.node.query('.ring-header__menu');
   }
 
   /**
@@ -559,8 +548,8 @@ export default class Header extends RingComponent {
    */
   getMenuItems() {
     const loginClassName = classNames({
-      [headerClassName.getElement('user-menu-item')]: true,
-      [headerClassName.getClassName('user-menu-item', 'login')]: true
+      'ring-header__user-menu-item': true,
+      'ring-header__user-menu-item_login': true
     });
 
     const menuItems = {
