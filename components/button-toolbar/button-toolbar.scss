@@ -1,30 +1,5 @@
 @import "../global/global";
 
-/**
-* @name Button Toolbar
-* @category Components
-* @description Displays a toolbar with several buttons.
-* @example
-  <example name="Button Toolbar">
-    <file name="index.html">
-      <div class="ring-button-toolbar">
-        <button class="ring-button ring-button_primary ring-button_delayed"><span class="ring-button__content">Do it</span></button>
-        <div class="ring-button-group">
-          <button class="ring-button">Just do it</button>
-          <button class="ring-button">Yes you can</button>
-          <button class="ring-button" disabled="disabled">Do it</button>
-        </div>
-        <button class="ring-button">Just do it</button>
-      </div>
-    </file>
-    <file name="index.js" webpack="true">
-      require('ring-ui/components/button-toolbar/button-toolbar.scss');
-      require('ring-ui/components/button/button.scss');
-      require('ring-ui/components/button-group/button-group.scss');
-    </file>
-  </example>
-*/
-
 .ring-button-toolbar {
   display: inline-block;
   font-size: 0;
