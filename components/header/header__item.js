@@ -6,7 +6,6 @@ import React from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
-import ClassName from '../class-name/class-name';
 
 /**
  * Fits a rectangular image into a square container. Sets the smaller side of an image
@@ -30,12 +29,6 @@ function fitImageIntoSquare(image, width, height) {
   image.setAttribute(dimension, SIZE.toString());
   image.style[margin] = `${Math.round(compensation)}px`;
 }
-
-/**
- * @type {ClassName}
- * @private
- */
-const itemClassName = new ClassName('ring-header__user-menu-item');
 
 /**
  * @constructor
@@ -63,9 +56,9 @@ export default class HeaderItem extends RingComponent {
     const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     const classes = classNames(
       {
-        [itemClassName.getClassName()]: true,
-        [itemClassName.getClassName(null, 'icon')]: true,
-        [itemClassName.getClassName(glyph)]: true,
+        'ring-header__user-menu-item': true,
+        'ring-header__user-menu-item_icon': true,
+        [`ring-header__user-menu-item__${glyph}`]: true,
         'ring-icon_loading': this.state.loading
       },
       className
@@ -109,13 +102,11 @@ export default class HeaderItem extends RingComponent {
    * @private
    */
   _getImage(restProps) {
-    const baseClass = new ClassName('ring-icon');
-
     const classes = classNames(
       {
-        [baseClass.getClassName()]: true,
-        [baseClass.getModifier('24')]: true,
-        [baseClass.getModifier(this.props.glyph)]: true
+        'ring-icon': true,
+        'ring-icon_24': true,
+        [`ring-icon_${this.props.glyp}`]: true
       },
       this.props.className
     );
@@ -126,7 +117,7 @@ export default class HeaderItem extends RingComponent {
         className={classes}
       >
         <img
-          className={baseClass.getElement('pic')}
+          className={'ring-icon__pic'}
           onLoad={function (evt) {
             const pic = evt.target;
             fitImageIntoSquare(pic, pic.width, pic.height);
