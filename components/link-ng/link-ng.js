@@ -10,7 +10,7 @@ import '../link/link.scss';
     <example name="link-ng">
       <file name="index.html">
         <div id="link" ng-app="TestApp">
-          <rg-link href="http://google.com" class="test-class">Open google</rg-link>
+          <rg-link href="http://example.com" class="test-class">Open example</rg-link>
         </div>
       </file>
       <file name="index.js">
