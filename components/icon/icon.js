@@ -12,7 +12,6 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import urlUtils from '../url-utils/url-utils';
-import ClassName from '../class-name/class-name';
 
 import {Color, Size} from './icon__constants';
 import './icon.scss';
@@ -25,7 +24,6 @@ export default class Icon extends RingComponent {
   };
 
   static defaultProps = ({
-    baseClass: new ClassName('ring-icon'),
     activeEvent: 'onClick',
     className: '',
     color: Color.DEFAULT,
@@ -39,13 +37,13 @@ export default class Icon extends RingComponent {
   static Size = Size;
 
   render() {
-    const {baseClass, className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...restProps} = this.props;
+    const {className, size, color, glyph, width, height, activeColor, activeEvent, hoverColor, ...restProps} = this.props;
     const currentColor = this.state.color || color;
 
     const classes = classNames(
       {
-        [baseClass.getModifier(currentColor)]: !!currentColor,
-        [baseClass.getClassName()]: true
+        'ring-icon': true,
+        [`ring-icon_${currentColor}`]: !!currentColor
       },
       className
     );
@@ -111,7 +109,7 @@ export default class Icon extends RingComponent {
         className={classes}
       >
         <svg
-          className={baseClass.getElement('i')}
+          className={'ring-icon__i'}
           style={style}
         >
           <use xlinkHref={xlinkHref}/>
