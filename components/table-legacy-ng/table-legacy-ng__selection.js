@@ -12,14 +12,14 @@ export default class Selection {
 
   setItems(items) {
     this.items = items;
-    this.emitEvent('rgTable:itemsChanged', items);
+    this.emitEvent('rgLegacyTable:itemsChanged', items);
   }
 
   activateItem(item) {
     if (item && !item.unselectable) {
       this.clearActivity();
       item.active = true;
-      this.emitEvent('rgTable:activateItem', item, this.items.indexOf(item));
+      this.emitEvent('rgLegacyTable:activateItem', item, this.items.indexOf(item));
     }
   }
 
@@ -102,7 +102,7 @@ export default class Selection {
     if (activeItem) {
       activeItem.active = false;
     }
-    this.emitEvent('rgTable:activateItem', null);
+    this.emitEvent('rgLegacyTable:activateItem', null);
   }
 
   checkItem(item) {
@@ -127,7 +127,7 @@ export default class Selection {
   }
 
   triggerSelectionChanged(item) {
-    this.emitEvent('rgTable:selectionChanged', item);
+    this.emitEvent('rgLegacyTable:selectionChanged', item);
   }
 
   getCheckedItems() {
