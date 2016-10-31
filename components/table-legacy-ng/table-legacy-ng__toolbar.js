@@ -13,14 +13,14 @@ import debounce from 'mout/function/debounce';
 /**
  * @example
    <example>
-     <rg-table-toolbar stick>
+     <rg-legacy-table-toolbar stick>
         <ng-include src="'ring-ui/components/project-list/project-list__toolbar.tpl.html'"></ng-include>
-     </rg-table-toolbar>
+     </rg-legacy-table-toolbar>
    </example>
  */
 
 const angularModule = angular.module('Ring.table.toolbar', []);
-angularModule.directive('rgTableToolbar', () => {
+angularModule.directive('rgLegacyTableToolbar', () => {
   const DEBOUNCE_INTERVAL = 10;
 
   return {

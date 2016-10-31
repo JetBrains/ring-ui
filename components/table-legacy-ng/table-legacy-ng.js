@@ -3,31 +3,31 @@ import debounce from 'mout/function/debounce';
 
 import {getStyles, getRect, getWindowHeight} from '../dom/dom';
 
-import Selection from './table-ng__selection';
-import SelectionNavigateActions from './table-ng__selection-navigate-actions';
-import TableToolbar from './table-ng__toolbar';
+import Selection from './table-legacy-ng__selection';
+import SelectionNavigateActions from './table-legacy-ng__selection-navigate-actions';
+import TableToolbar from './table-legacy-ng__toolbar';
 import PlaceUnder from '../place-under-ng/place-under-ng';
 
-import TablePager from './table-ng__pager';
+import TablePager from './table-legacy-ng__pager';
 
 import Checkbox from '../checkbox-ng/checkbox-ng';
 
-import '../table/table.scss';
+import '../table-legacy/table-legacy.scss';
 
 /**
  * @name Table Ng
  * @category Angular Components
  * @description Displays tabular data.
- * @example-file ./table-ng__examples.html
+ * @example-file ./table-legacy-ng__examples.html
 */
 /*global angular*/
 
 const angularModule = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
-angularModule.directive('rgTable', () => ({
+angularModule.directive('rgLegacyTable', () => ({
   restrict: 'E',
   transclude: true,
-  template: require('./table-ng.html'),
+  template: require('./table-legacy-ng.html'),
   controllerAs: 'ctrl',
 
   /**
@@ -69,14 +69,14 @@ angularModule.directive('rgTable', () => ({
   }
 }));
 
-angularModule.directive('rgTableHeader', getClosestElementWithCommonParent => {
+angularModule.directive('rgLegacyTableHeader', getClosestElementWithCommonParent => {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
   const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
 
   return {
     restrict: 'E',
-    template: require('./table-ng__header.html'),
+    template: require('./table-legacy-ng__header.html'),
     transclude: true,
     replace: true,
     link(scope, iElement, iAttrs) {
@@ -128,7 +128,7 @@ angularModule.directive('rgTableHeader', getClosestElementWithCommonParent => {
         scope.$evalAsync(() => {
           window.addEventListener('resize', resizeFixedHeader);
           window.addEventListener('scroll', scrollListener);
-          scope.$on('rgTable:itemsChanged', scrollListener);
+          scope.$on('rgLegacyTable:itemsChanged', scrollListener);
         });
       }
 
@@ -140,28 +140,28 @@ angularModule.directive('rgTableHeader', getClosestElementWithCommonParent => {
   };
 });
 
-angularModule.directive('rgTableBody', () => ({
+angularModule.directive('rgLegacyTableBody', () => ({
   restrict: 'E',
   template: '<tbody ng-transclude></tbody>',
   transclude: true,
   replace: true
 }));
 
-angularModule.directive('rgTableRow', () => ({
-  template: require('./table-ng__row.html'),
+angularModule.directive('rgLegacyTableRow', () => ({
+  template: require('./table-legacy-ng__row.html'),
   restrict: 'E',
   transclude: true,
   replace: true,
-  require: ['^rgTable', 'rgTableRow'],
+  require: ['^rgLegacyTable', 'rgLegacyTableRow'],
 
   scope: {
     rowItem: '='
   },
 
   link(scope, iElement, iAttrs, ctrls) {
-    const rgTableCtrl = ctrls[0];
-    const rgTableRowCtrl = ctrls[1];
-    rgTableRowCtrl.setSelection(rgTableCtrl.selection);
+    const rgLegacyTableCtrl = ctrls[0];
+    const rgLegacyTableRowCtrl = ctrls[1];
+    rgLegacyTableRowCtrl.setSelection(rgLegacyTableCtrl.selection);
   },
 
   controllerAs: 'rowCtrl',
@@ -221,7 +221,7 @@ angularModule.directive('rgTableRow', () => ({
       }
     }
 
-    $scope.$on('rgTable:activateItem', (e, item) => {
+    $scope.$on('rgLegacyTable:activateItem', (e, item) => {
       if (item === this.rowItem) {
         const scrollInfo = getRowOutOfViewInfo(element, 2);
         if (scrollInfo.isOutOfView) {
@@ -233,9 +233,9 @@ angularModule.directive('rgTableRow', () => ({
   }
 }));
 
-angularModule.directive('rgTableHeaderCheckbox', () => ({
+angularModule.directive('rgLegacyTableHeaderCheckbox', () => ({
   restrict: 'E',
-  require: '^rgTable',
+  require: '^rgLegacyTable',
   replace: true,
   template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
 
@@ -257,13 +257,13 @@ angularModule.directive('rgTableHeaderCheckbox', () => ({
       });
     }
 
-    scope.$on('rgTable:itemsChanged', () => {
+    scope.$on('rgLegacyTable:itemsChanged', () => {
       if (scope.allChecked) {
         markAllItemsAs(true);
       }
       recheckSelection();
     });
-    scope.$on('rgTable:selectionChanged', recheckSelection);
+    scope.$on('rgLegacyTable:selectionChanged', recheckSelection);
 
     scope.onClickChange = () => {
       markAllItemsAs(scope.allChecked);
@@ -274,10 +274,10 @@ angularModule.directive('rgTableHeaderCheckbox', () => ({
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model host
  */
-angularModule.directive('rgTableCheckboxCell', () => ({
+angularModule.directive('rgLegacyTableCheckboxCell', () => ({
   restrict: 'E',
   transclude: true,
-  require: '^rgTableRow',
+  require: '^rgLegacyTableRow',
   replace: true,
   template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><rg-checkbox ng-model="getRowItem().checked"/></td>',
 
@@ -297,12 +297,12 @@ angularModule.directive('rgTableCheckboxCell', () => ({
     active: makes title more bolder
   }}
  */
-angularModule.directive('rgTableTitle', () => ({
+angularModule.directive('rgLegacyTableTitle', () => ({
   restrict: 'E',
   transclude: true,
   replace: true,
   scope: true,
-  template: require('./table-ng__title.html'),
+  template: require('./table-legacy-ng__title.html'),
 
   link(scope, iElement, iAttrs) {
     /**
@@ -324,12 +324,12 @@ angularModule.directive('rgTableTitle', () => ({
     avatar: for columns contains avatar
   }}
  */
-angularModule.directive('rgTableColumn', () => ({
+angularModule.directive('rgLegacyTableColumn', () => ({
   restrict: 'E',
   transclude: true,
   replace: true,
   scope: true,
-  template: require('./table-ng__column.html'),
+  template: require('./table-legacy-ng__column.html'),
 
   link(scope, iElement, iAttrs) {
     const element = iElement[0];
