@@ -1,0 +1,17 @@
+@value unit from '../global/global.css';
+
+.buttonSet {
+  display: inline-block;
+  position: relative;
+
+  font-size: 0;
+  white-space: nowrap;
+
+  & :global(.ring-button) {
+    margin: 0 unit 0 0;
+  }
+
+  & > :global(.ring-button:last-child) {
+    margin-right: 0;
+  }
+}

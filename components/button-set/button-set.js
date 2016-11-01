@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import './button-set.scss';
+import styles from './button-set.css';
 
 /**
  * @name Button Set
@@ -13,7 +13,7 @@ import './button-set.scss';
  */
 export default class ButtonSet extends RingComponent {
   render() {
-    const classes = classNames('ring-button-set', this.props.className);
+    const classes = classNames(styles.buttonSet, this.props.className);
     return (
       <div
         {...this.props}

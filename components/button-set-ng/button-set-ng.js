@@ -1,5 +1,3 @@
-import '../button-set/button-set.scss';
-
 /**
  * @name Button Set Ng
  * @category Angular Components
