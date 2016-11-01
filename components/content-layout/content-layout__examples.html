@@ -1,0 +1,99 @@
+<example name="Content Layout">
+  <file type="html">
+    <div id="example"></div>
+  </file>
+  <file type="scss">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </file>
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+
+     import ContentLayout from 'ring-ui/components/content-layout/content-layout';
+
+     const renderLayoutDemo = () => (
+       <ContentLayout>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+       </ContentLayout>
+     );
+
+     render(renderLayoutDemo(), document.getElementById('example'));
+  </file>
+</example>
+
+<example name="Content Layout with sidebar on the left">
+  <file type="html">
+    <div id="example"></div>
+  </file>
+  <file type="scss">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      height: 500px;
+    }
+    .sidebar {
+      background-color: #EEEEEE;
+    }
+  </file>
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+
+     import ContentLayout from 'ring-ui/components/content-layout/content-layout';
+     import ContentLayoutSidebar from 'ring-ui/components/content-layout/content-layout__sidebar';
+
+     const renderLayoutDemo = () => (
+       <ContentLayout className="content">
+         <ContentLayoutSidebar className="sidebar">
+           This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         </ContentLayoutSidebar>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+       </ContentLayout>
+     );
+
+     render(renderLayoutDemo(), document.getElementById('example'));
+  </file>
+</example>
+
+<example name="Content Layout with sidebar on the right">
+  <file type="html">
+    <div id="example"></div>
+  </file>
+  <file type="scss">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .content {
+      height: 500px;
+    }
+    .sidebar {
+      background-color: #EEEEEE;
+    }
+  </file>
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+
+     import ContentLayout from 'ring-ui/components/content-layout/content-layout';
+     import ContentLayoutSidebar from 'ring-ui/components/content-layout/content-layout__sidebar';
+
+     const renderLayoutDemo = () => (
+       <ContentLayout className="content">
+         <ContentLayoutSidebar className="sidebar" right={true}>
+           This is sidebar. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+         </ContentLayoutSidebar>
+         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+       </ContentLayout>
+     );
+
+     render(renderLayoutDemo(), document.getElementById('example'));
+  </file>
+</example>

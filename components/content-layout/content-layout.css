@@ -1,0 +1,51 @@
+@value unit from '../global/global.css';
+
+.contentLayout {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  position: relative;
+}
+
+.sidebar {
+  min-width: calc(unit * 33);
+  max-width: calc(unit * 43);
+}
+
+@media (min-width: 960px) {
+  .contentLayoutContent {
+    margin: 0 calc(unit * 4);
+  }
+  .sidebar {
+    padding-left: calc(unit * 4);
+    padding-right: calc(unit * 2);
+  }
+}
+
+@media (max-width: 960px) {
+  .contentLayoutContent {
+    margin: 0 16px;
+  }
+  .sidebar {
+    position: absolute;
+    top: calc(unit * 2);
+    bottom: 0;
+    left: 0;
+    padding: 0 16px;
+  }
+
+  .sidebarRight {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    min-width: 0;
+    max-width: none;
+    width: 80%;
+  }
+}
+
+
