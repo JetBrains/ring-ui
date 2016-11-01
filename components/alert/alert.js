@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
+import Badge from '../badge/badge';
 
 import './alert.scss';
-import '../badge/badge.scss';
 
 /**
  * @name Alert
@@ -212,7 +212,12 @@ export default class Alert extends RingComponent {
         onClick={this._handleCaptionsLinksClick}
       >
         {this.props.caption}
-        {this.props.count > 1 && <span className="ring-badge ring-badge_gray">{this.props.count}</span>}
+        {this.props.count > 1 &&
+          <Badge
+            gray={true}
+            className="ring-alert__badge"
+          >{this.props.count}</Badge>
+        }
       </span>
     );
   }
