@@ -52,7 +52,7 @@ const cssLoader = {
   include: componentsPath,
   loaders: [
     resolveLoader('style'),
-    `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[name]__[hash:base64:7]')`,
+    `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]')`,
     `${resolveLoader('postcss')}?pack=ring-ui-cssnext`
   ]
 };
