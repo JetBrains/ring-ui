@@ -67,6 +67,10 @@
   white-space: normal;
 }
 
+.ring-alert__badge {
+  vertical-align: baseline;
+}
+
 .ring-alert__loader {
   top: 3px;
   margin-right: $ring-unit;
