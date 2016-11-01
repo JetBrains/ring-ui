@@ -6,10 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 31-10-2016: ListItem and ListCustom are not passing all the props to DOM elements anymore
+### 31-10-2016: ListItem and ListCustom no longer pass all props to DOM elements
 
-Since React prohibits passing non-supported props to DOM-elements, now we have white list of supported props declared in PropTypes.
-Other props aren't passed to `ListItem` and `ListCustom` anymore
+Since React prohibits passing non-supported props to DOM elements we now have a whitelist of supported props declared in PropTypes.
+Other props are no longer passed to `ListItem` and `ListCustom`.
 
 ### 29-08-2016: The long-deprecated .ring-input__error-bubble and .ring-form__footer styles were removed
 
