@@ -7,7 +7,7 @@ import './badge.scss';
  * @name Badge
  * @category Components
  * @constructor
- * @description Provides simple component for badges
+ * @description Displays a badge.
  * @extends {RingComponent}
  * @example-file ./badge__examples.html
  */
