@@ -1,0 +1,77 @@
+@value unit: 8px;
+
+@value text-color: #444;
+
+@value link-color: #1866C5;
+@value link-hover-color: #FF5A00;
+
+@value error-color: #C10000;
+
+@value gray-color: #CCC;
+@value dark-gray-color: #888;
+
+@value green-color: #4DA400;
+@value blue-color: #25B7FF;
+@value pink-color: #BC00DE;
+
+@value border-color: rgba(0, 0, 0, 0.2);
+@value outline-color: rgba(37, 183, 255, 0.5);
+
+@value border-radius: 3px;
+
+@value font-size: 13px;
+@value font-size-smaller: 11px;
+
+.clearfix {
+  &:after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+}
+
+.font {
+  color: text-color;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* To be used at large sizes */
+/* As close as possible to Helvetica Neue Thin (to replace Gotham) */
+.thin-font {
+  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: font-size;
+}
+
+.monospace-font {
+  font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+}
+
+.input-disabled {
+  border-color: #DEDEDE;
+  background-color: #F8F8F8;
+}
+
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Common z-index-values */
+
+/* Invisible element is an absolutely positioned element which should be below */
+/* all other elements on the page */
+@value invisible-element-z-index: -1;
+
+/* z-index for position: fixed elements */
+@value fixed-z-index: 1;
+
+/* Elements that should overlay all other elements on the page */
+@value overlay-z-index: 5;
+
+/* Alerts should de displayed above overlays */
+@value alert-z-index: 6;
+
+/* Note: footer also has top margin which isn't taken into account here */
+@value footer-height: calc(unit*8);
