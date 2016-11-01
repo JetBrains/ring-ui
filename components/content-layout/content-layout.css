@@ -20,6 +20,10 @@
     padding-left: calc(unit * 4);
     padding-right: calc(unit * 2);
   }
+  .sidebarRight {
+    padding-left: calc(unit * 2);
+    padding-right: calc(unit * 4);
+  }
 }
 
 @media (max-width: 960px) {
