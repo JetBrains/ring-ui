@@ -4,6 +4,8 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const cssnext = require('postcss-cssnext');
+const calc = require('postcss-calc');
+const values = require('postcss-modules-values');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
@@ -12,6 +14,7 @@ function resolveLoader(loader) {
 }
 
 const htmlLoaderOptions = `?${JSON.stringify({
+  interpolate: true,
   collapseBooleanAttributes: false,
   attrs: 'span:react-value-glyph rg-icon:glyph',
   root: require('jetbrains-icons')
@@ -48,8 +51,8 @@ const cssLoader = {
   test: /\.css$/,
   include: componentsPath,
   loaders: [
-    `${resolveLoader('style')}?modules&importLoaders=1')`,
-    resolveLoader('css'),
+    resolveLoader('style'),
+    `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[name]__[hash:base64:7]')`,
     `${resolveLoader('postcss')}?pack=ring-ui-cssnext`
   ]
 };
@@ -102,7 +105,11 @@ module.exports = {
 
   postcss: {
     'ring-ui': [autoprefixer],
-    'ring-ui-cssnext': [cssnext]
+    'ring-ui-cssnext': [
+      values,
+      cssnext,
+      calc
+    ]
   },
   componentsPath,
 
