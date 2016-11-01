@@ -10,6 +10,7 @@
     "jetbrains/test"
   ],
   "rules": {
+    "modules/no-mix-default-named": 0,
     // Possible Errors
     "valid-jsdoc": 1,
 
