@@ -18,10 +18,10 @@ describe('LinkNg', () => {
   }));
 
   it('should replace with a tag', () => {
-    element.tagName.should.equal('A');
+    element.should.match('a.ring-link');
   });
 
   it('should pass attributes to a tag', () => {
-    element.getAttribute('href').should.equal('http://google.com');
+    element.should.have.attribute('href', 'http://google.com');
   });
 });
