@@ -1,4 +1,4 @@
-import {Inject} from 'angular-es6';
+import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 import LoaderCore from '../loader/loader__core';
 
 /**
@@ -27,9 +27,15 @@ import LoaderCore from '../loader/loader__core';
  */
 
 /* global angular: false */
+
 const angularModule = angular.module('Ring.loader', []);
-class rgLoaderController extends Inject {
+
+class RgLoaderComponent extends RingAngularComponent {
   static $inject = ['$element'];
+
+  static bindings = {
+    message: '@'
+  };
 
   constructor(...args) {
     super(...args);
@@ -46,15 +52,6 @@ class rgLoaderController extends Inject {
   }
 }
 
-function rgLoaderComponent() {
-  return {
-    bindings: {
-      message: '@'
-    },
-    controller: rgLoaderController
-  };
-}
-
-angularModule.component('rgLoader', rgLoaderComponent());
+angularModule.component('rgLoader', RgLoaderComponent);
 
 export default angularModule.name;
