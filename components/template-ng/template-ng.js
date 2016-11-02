@@ -1,4 +1,4 @@
-import {Inject} from 'angular-es6';
+import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 
 /**
  * @name Template Ng
@@ -40,7 +40,7 @@ import {Inject} from 'angular-es6';
 /* global angular */
 const angularModule = angular.module('Ring.template', []);
 
-class rgTemplateController extends Inject {
+class RgTemplateController extends RingAngularComponent {
   static $inject = ['$scope', '$element', '$attrs', '$compile'];
 
   currentScope = null;
@@ -74,7 +74,7 @@ class rgTemplateController extends Inject {
 }
 
 angularModule.directive('rgTemplate', () => ({
-  controller: rgTemplateController
+  controller: RgTemplateController
 }));
 
 export default angularModule.name;

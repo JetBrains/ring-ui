@@ -100,7 +100,6 @@
   },
   "dependencies": {
     "angular-elastic": "2.5.1-jb",
-    "angular-es6": "3.2.1",
     "autoprefixer": "6.4.1",
     "babel-core": "6.14.0",
     "babel-loader": "6.2.5",
