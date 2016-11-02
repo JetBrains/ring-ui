@@ -1,8 +1,8 @@
 import 'dom4';
-import {Inject} from 'angular-es6';
 import scrollbarWidth from 'scrollbar-width';
 
 import {getStyles, getRect} from '../dom/dom';
+import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
@@ -19,7 +19,7 @@ import '../dialog/dialog.scss';
 /* global angular: false */
 const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
 
-class DialogController extends Inject {
+class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
 
   static BODY_MODAL_CLASS = 'ring-dialog-modal';
