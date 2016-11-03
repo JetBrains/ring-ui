@@ -430,7 +430,7 @@ function rgDialogDirective($timeout) {
 
     dialogTitle.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
-    scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
+    scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
 
     scope.$on('$destroy', () => {
       dialogTitle.removeEventListener('mousedown', onMousedown);
@@ -504,6 +504,7 @@ function rgDialogContentDirective($compile, $q) {
             // depends from global directives (shortcuts-app)
             angular.element(element).append(compiledData.element);
             compiledData.link(templateScope);
+            scope.$emit('rgDialogContentLoaded');
           });
       }
 
