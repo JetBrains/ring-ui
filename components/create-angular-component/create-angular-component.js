@@ -7,10 +7,9 @@ import RingAngularComponent from '../ring-angular-component/ring-angular-compone
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 
-function createAngularComponent(Component) {
-  const componentName = Component.name;
-  const angularModuleName = `Ring.${componentName[0].toLowerCase() + componentName.slice(1)}`;
-  const angularComponentName = `rg${componentName}`;
+function createAngularComponent(Component, name) {
+  const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
+  const angularComponentName = `rg${name}`;
 
   const propTypes = Component.propTypes;
   const propKeys = Object.keys(propTypes);

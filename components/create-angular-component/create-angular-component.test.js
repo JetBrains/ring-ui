@@ -27,7 +27,7 @@ class TestComponent extends RingComponent {
   }
 }
 
-const testModule = createAngularComponent(TestComponent).name;
+const testModule = createAngularComponent(TestComponent, 'TestComponent').name;
 
 describe('createAngularComponent', () => {
   let $componentController;
