@@ -8,6 +8,7 @@ import 'dom4';
       <file name="index.html">
         <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
           <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
+          <button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</button>
           <button class="ring-button" rg-promised-click test-directive>Via the controller</button>
           <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
         </div>
@@ -52,6 +53,16 @@ class PromisedClickController {
     if ($attrs.rgPromisedClick) {
       this.onClick(e => $parse($attrs.rgPromisedClick)($scope, e));
     }
+
+    switch ($attrs.promisedMode) {
+      case 'loader':
+        this.activeClass = 'ring-button_loader';
+        break;
+      default:
+      case 'active':
+        this.activeClass = 'ring-button_active';
+        break;
+    }
   }
 
   onClick(callback) {
@@ -80,11 +91,11 @@ class PromisedClickController {
 
   activate() {
     this.active = true;
-    this.element.classList.add('ring-button_active');
+    this.element.classList.add(this.activeClass);
 
     const done = () => {
       this.active = false;
-      this.element.classList.remove('ring-button_active');
+      this.element.classList.remove(this.activeClass);
     };
 
     this.promise.then(done, done);
