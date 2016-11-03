@@ -15,7 +15,7 @@
     "components": "./components/"
   },
   "files": [
-    "components/**/*.{js,scss,gif,html,svg}",
+    "components/**/*.{js,css,scss,gif,html,svg}",
     "webpack.config.js"
   ],
   "main": "webpack.config.js",
