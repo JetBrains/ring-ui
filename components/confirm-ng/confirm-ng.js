@@ -35,7 +35,7 @@ angularModule.service('confirm', (dialog, $templateCache) => {
   // We need this because dialog uses ngInclude
   $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
 
-  return (message, description, actionTitle, cancelTitle, cancelIsDefault) => dialog.show({
+  return (message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) => dialog.show({
     content: TEMPLATE_PATH,
     data: {
       message: (message || ''),
@@ -45,11 +45,8 @@ angularModule.service('confirm', (dialog, $templateCache) => {
       {
         label: (actionTitle || 'OK'),
         default: !cancelIsDefault,
-        close: false,
-        action: () => {
-          dialog.done();
-          return true;
-        }
+        close: true,
+        action: () => (actionFn ? actionFn() : true)
       },
       {
         label: (cancelTitle || 'Cancel'),
