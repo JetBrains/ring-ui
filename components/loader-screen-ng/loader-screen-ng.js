@@ -29,30 +29,47 @@ import '../loader-screen/loader-screen.scss';
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 
 angularModule.service('loaderScreen', function ($timeout, $rootScope) {
-  let initialLoading;
+  const initialLoadingTTL = 1500;
+  const ordinaryLoadingTTL = 70;
+
+  let initialLoading = false;
   let loadingFailed = false;
   let showLoader;
   let showLoaderPromise;
 
-  this.startInitialLoading = () => {
-    initialLoading = true;
+  this.startLoading = (ttl = ordinaryLoadingTTL) => {
+    if (showLoaderPromise) {
+      return; // already scheduled to show
+    }
 
     showLoaderPromise = $timeout(() => {
       this.setVisible(true);
-    }, 1500);
+    }, ttl);
+  };
+
+  this.stopLoading = () => {
+    if (showLoaderPromise) {
+      $timeout.cancel(showLoaderPromise);
+      showLoaderPromise = null;
+    }
+
+    this.setVisible(false);
+  };
+
+  this.startInitialLoading = () => {
+    initialLoading = true;
+    this.startLoading(initialLoadingTTL);
+  };
+
+  this.stopInitialLoading = () => {
+    initialLoading = false;
+    this.stopLoading();
   };
 
   $rootScope.isInitialLoading = () => initialLoading;
   $rootScope.isLoaderVisible = () => showLoader;
-  $rootScope.isLoadingFailed = () => loadingFailed;
 
-  this.stopInitialLoading = () => {
-    if (showLoaderPromise && !showLoaderPromise.$resolved) {
-      $timeout.cancel(showLoaderPromise);
-    }
-    initialLoading = false;
-    this.setVisible(false);
-  };
+  $rootScope.isLoadingFailed = () => loadingFailed;
 
   this.failInitialLoading = error => {
     this.stopInitialLoading();
