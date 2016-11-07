@@ -6,30 +6,30 @@ import 'angular-mocks';
 
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
-import createAngularComponent from './create-angular-component';
+import angularComponentFactory from './angular-component-factory';
 
 class TestComponent extends RingComponent {
   static propTypes = {
     id: PropTypes.string,
-    callback: PropTypes.func,
+    onClick: PropTypes.func,
     className: PropTypes.string
   }
 
   render() {
-    const {id, callback, className} = this.props;
+    const {id, onClick, className} = this.props;
     return (
       <div
         id={id}
-        onClick={callback({arg: 'a'})}
+        onClick={onClick({arg: 'a'})}
         className={className}
       />
     );
   }
 }
 
-const testModule = createAngularComponent(TestComponent, 'TestComponent').name;
+const testModule = angularComponentFactory(TestComponent, 'TestComponent').name;
 
-describe('createAngularComponent', () => {
+describe('angularComponentFactory', () => {
   let $componentController;
   let $compile;
   let $rootScope;
@@ -64,7 +64,7 @@ describe('createAngularComponent', () => {
   });
 
   it('should pass given css classes', () => {
-    const $element = $compile('<rg-test-component class="test-class1 test-class2"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component class-name="test-class1 test-class2"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
     component.should.have.class('test-class1');
     component.should.have.class('test-class2');
@@ -72,7 +72,7 @@ describe('createAngularComponent', () => {
 
   it('should pass function props as &-bindings', function () {
     $rootScope.callback = this.sinon.spy();
-    const $element = $compile('<rg-test-component callback="callback(arg)"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component on-click="callback(arg)"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
 
     component.dispatchEvent(new MouseEvent('click'));
