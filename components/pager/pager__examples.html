@@ -1,0 +1,99 @@
+<example name="Pager">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from './pager';
+
+    class Example extends Component {
+      state = {
+        total: 15,
+        current: 1
+      }
+
+      render() {
+        const {total, current} = this.state;
+        return <Pager total={total} current={current} goto={({n}) => this.setState({current: n})} />;
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
+
+<example name="Pager with a custom frame size">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from './pager';
+
+    class Example extends Component {
+      state = {
+        total: 15,
+        current: 1
+      }
+
+      render() {
+        const {total, current} = this.state;
+        return <Pager total={total} current={current} size={3} goto={({n}) => this.setState({current: n})} />;
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
+
+<example name="Pager with a custom frame size 2">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from './pager';
+
+    class Example extends Component {
+      state = {
+        total: 5,
+        current: 1
+      }
+
+      render() {
+        const {total, current} = this.state;
+        return <Pager total={total} current={current} size={5} goto={({n}) => this.setState({current: n})} />;
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
+
+<example name="Pager with a custom frame size 3">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from './pager';
+
+    class Example extends Component {
+      state = {
+        total: 8,
+        current: 1
+      }
+
+      render() {
+        const {total, current} = this.state;
+        return <Pager total={total} current={current} size={5} goto={({n}) => this.setState({current: n})} />;
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>

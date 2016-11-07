@@ -1,0 +1,18 @@
+@import "../global/global";
+
+.ring-pager {
+  user-select: none;
+}
+
+.ring-pager__links {
+  margin-bottom: 2*$ring-unit;
+}
+
+.ring-pager__link {
+  display: inline-block;
+  margin-right: 4*$ring-unit;
+
+  &_disabled {
+    color: $ring-dark-gray-color;
+  }
+}
