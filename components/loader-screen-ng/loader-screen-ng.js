@@ -29,7 +29,6 @@ import '../loader-screen/loader-screen.scss';
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 
 angularModule.service('loaderScreen', function ($timeout, $rootScope) {
-  const initialLoadingTTL = 1500;
   const ordinaryLoadingTTL = 70;
 
   let initialLoading = false;
@@ -58,12 +57,12 @@ angularModule.service('loaderScreen', function ($timeout, $rootScope) {
 
   this.startInitialLoading = () => {
     initialLoading = true;
-    this.startLoading(initialLoadingTTL);
+    this.setVisible(true);
   };
 
   this.stopInitialLoading = () => {
     initialLoading = false;
-    this.stopLoading();
+    this.setVisible(false);
   };
 
   $rootScope.isInitialLoading = () => initialLoading;
