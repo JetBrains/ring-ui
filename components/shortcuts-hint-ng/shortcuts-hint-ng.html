@@ -29,7 +29,7 @@
           </div>
           <div class="shortcuts-hint__hint">
             <span ng-repeat="title in shortcut.titles">
-              {{title}}
+              {{hintPopupCtrl.getTitle(title)}}
               <br ng-if="!$last">
             </span>
           </div>
