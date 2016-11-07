@@ -15,7 +15,7 @@ import Checkbox from '../checkbox-ng/checkbox-ng';
 import '../table-legacy/table-legacy.scss';
 
 /**
- * @name Table Ng
+ * @name Table Legacy Ng
  * @category Angular Components
  * @description Displays tabular data.
  * @example-file ./table-legacy-ng__examples.html

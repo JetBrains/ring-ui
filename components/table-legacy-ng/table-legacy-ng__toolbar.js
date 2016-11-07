@@ -1,5 +1,5 @@
 /**
- * @name Table Ng Toolbar
+ * @name Table Legacy Ng Toolbar
  * @category Angular Components
  * @description Displays a sticky toolbar (mostly for tables, but can be used elsewhere too).
  */
