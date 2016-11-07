@@ -8,11 +8,12 @@
 }
 
 .sidebarContainer {
-  height: 100%;
+  min-width: calc(unit * 43);
+  max-width: calc(unit * 43);
 }
 
 .sidebar {
-  min-width: calc(unit * 33);
+  min-width: calc(unit * 43);
   max-width: calc(unit * 43);
   height: 100%;
   overflow: auto;
@@ -32,8 +33,23 @@
     margin: 0 calc(unit * 4);
   }
   .sidebar {
+    box-sizing: border-box;
     padding-left: calc(unit * 4);
     padding-right: calc(unit * 2);
+  }
+
+  .sidebarFixedTop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .sidebarFixedBottom {
+    position: absolute;
+    top: auto;
+    left: 0;
+    bottom: 0;
   }
   .sidebarRight {
     padding-left: calc(unit * 2);
