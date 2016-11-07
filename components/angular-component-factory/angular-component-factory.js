@@ -7,7 +7,7 @@ import RingAngularComponent from '../ring-angular-component/ring-angular-compone
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 
-function createAngularComponent(Component, name) {
+function angularComponentFactory(Component, name) {
   const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
   const angularComponentName = `rg${name}`;
 
@@ -17,7 +17,7 @@ function createAngularComponent(Component, name) {
   const bindings = {};
   propKeys.forEach(key => {
     if (key === 'className') {
-      bindings.className = '@class';
+      bindings.className = '@className';
     } else if (funcTypes.includes(propTypes[key])) {
       bindings[key] = '&';
     } else {
@@ -61,4 +61,4 @@ function createAngularComponent(Component, name) {
     component(angularComponentName, AngularComponent);
 }
 
-export default createAngularComponent;
+export default angularComponentFactory;
