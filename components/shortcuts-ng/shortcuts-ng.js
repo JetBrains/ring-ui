@@ -10,7 +10,7 @@ angularModule.provider('shortcuts', function () {
   const mainModes = {};
   const reference = [];
 
-  this.mode = config => {
+  function addMode(config) {
     modes[config.id] = config.shortcuts;
     mainModes[config.id] = !!config.main;
 
@@ -19,11 +19,15 @@ angularModule.provider('shortcuts', function () {
     }
 
     return this;
-  };
+  }
+
+  this.mode = addMode;
 
   /*@ngInject*/
   this.$get = $rootScope => ({
-    bind: (name, handlers, scope) => {
+    addMode,
+
+    bind(name, handlers, scope) {
       const mode = modes[name];
 
       // Nothing to bind
@@ -56,7 +60,7 @@ angularModule.provider('shortcuts', function () {
       });
     },
 
-    triggerAction: (mode, action) => {
+    triggerAction(mode, action) {
       const actions = modes[mode];
 
       for (let i = actions.length - 1; i >= 0; i--) {
