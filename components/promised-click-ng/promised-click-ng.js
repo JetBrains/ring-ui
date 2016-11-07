@@ -45,22 +45,29 @@ import 'dom4';
 const angularModule = angular.module('Ring.promised-click', []);
 
 class PromisedClickController {
-  constructor($scope, $element, $attrs, $parse) {
+  constructor($scope, $element, $attrs, $parse, $timeout) {
     this.$scope = $scope;
     this.element = $element[0];
+    this.timeout = $timeout;
     this.active = false;
+    this.activePromise = null;
+    this.activeTTL = 0;
 
     if ($attrs.rgPromisedClick) {
       this.onClick(e => $parse($attrs.rgPromisedClick)($scope, e));
     }
 
+    const ttl = +$attrs.promisedTtl;
+
     switch ($attrs.promisedMode) {
       case 'loader':
         this.activeClass = 'ring-button_loader';
+        this.activeTTL = ttl || 50;
         break;
       default:
       case 'active':
         this.activeClass = 'ring-button_active';
+        this.activeTTL = ttl || 0;
         break;
     }
   }
@@ -91,9 +98,21 @@ class PromisedClickController {
 
   activate() {
     this.active = true;
-    this.element.classList.add(this.activeClass);
+
+    const setActive = () => this.element.classList.add(this.activeClass);
+
+    if (this.activeTTL === 0) {
+      setActive();
+    } else if (!this.activePromise) {
+      this.activePromise = this.timeout(setActive, this.activeTTL);
+    }
 
     const done = () => {
+      if (this.activePromise) {
+        this.timeout.cancel(this.activePromise);
+        this.activePromise = null;
+      }
+
       this.active = false;
       this.element.classList.remove(this.activeClass);
     };
