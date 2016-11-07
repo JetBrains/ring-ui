@@ -3,7 +3,7 @@ import 'angular-mocks';
 import './table-legacy-ng';
 import TableSelection from './table-legacy-ng__selection';
 
-describe('Table Ng', () => {
+describe('Table Legacy Ng', () => {
   let scope;
   let directiveController;
   let element;
