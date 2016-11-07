@@ -18,7 +18,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import classNames from 'classnames';
 
 import '../link/link.scss';
-import './pager.scss';
+import style from './pager.css';
 
 export default class Pager extends RingComponent {
   static propTypes = {
@@ -67,23 +67,23 @@ export default class Pager extends RingComponent {
       }
     }
 
-    const classes = classNames('ring-pager', className);
+    const classes = classNames(style.pager, className);
 
     const prevLinkClasses = classNames({
       'ring-link': current !== 1,
-      'ring-pager__link': true,
-      'ring-pager__link_disabled': current === 1
+      [style.link]: true,
+      [style.linkDisabled]: current === 1
     });
 
     const nextLinkClasses = classNames({
       'ring-link': current !== total,
-      'ring-pager__link': true,
-      'ring-pager__link_disabled': current === total
+      [style.link]: true,
+      [style.linkDisabled]: current === total
     });
 
     return (
       <div className={classes}>
-        <div className="ring-pager__links">
+        <div className={style.links}>
           <span
             className={prevLinkClasses}
             onClick={() => current !== 1 && goto({n: current - 1})}
