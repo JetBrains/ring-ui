@@ -75,8 +75,11 @@ class HintPopupService {
     modes.forEach(mode => {
       mode.shortcuts.forEach(shortcut => {
         shortcut.titles = shortcut.titles || [];
-        if (shortcut.title && !shortcut.titles.includes(shortcut.title)) {
-          shortcut.titles.push(shortcut.title);
+
+        const title = typeof shortcut.title === 'function' ? shortcut.title() : shortcut.title;
+
+        if (title && !shortcut.titles.includes(title)) {
+          shortcut.titles.push(title);
         }
       });
     });
