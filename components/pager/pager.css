@@ -1,0 +1,18 @@
+@value unit, dark-gray-color from '../global/global.css';
+
+.pager {
+  user-select: none;
+}
+
+.links {
+  margin-bottom: calc(unit * 2);
+}
+
+.link {
+  display: inline-block;
+  margin-right: calc(unit * 4);
+}
+
+.linkDisabled {
+  color: dark-gray-color;
+}
