@@ -27,18 +27,16 @@ export default class ContentLayout extends RingComponent {
     const childrenArray = [].concat(children);
     const sidebar = childrenArray.filter(child => child && child.type === ContentLayoutSidebar)[0];
     const contentChildren = childrenArray.filter(child => child !== sidebar);
-    const isRight = sidebar && sidebar.props.right;
 
     return (
       <div
         {...restProps}
         className={classes}
       >
-        {!isRight && sidebar}
+        {sidebar}
         <div className={styles.contentLayoutContent}>
           {contentChildren}
         </div>
-        {isRight && sidebar}
       </div>
     );
   }

@@ -36,6 +36,10 @@ export default class ContentLayoutSidebar extends RingComponent {
 
     const shouldFixateBottom = !this.state.bottomIsOutside && this.state.topIsOutside;
 
+    const containerClasses = classNames(styles.sidebarContainer, {
+      [styles.sidebarContainerRight]: right
+    });
+
     const classes = classNames(styles.sidebar, className, {
       [styles.sidebarRight]: right,
       [styles.sidebarFixedTop]: this.state.bottomIsOutside && this.state.topIsOutside,
@@ -47,7 +51,7 @@ export default class ContentLayoutSidebar extends RingComponent {
     };
 
     return (
-      <div className={styles.sidebarContainer}>
+      <div className={containerClasses}>
         <Waypoint
           onEnter={data => this.handleTopWaypoint(data)}
           onLeave={data => this.handleTopWaypoint(data)}
