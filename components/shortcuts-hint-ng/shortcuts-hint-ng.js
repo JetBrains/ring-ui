@@ -62,6 +62,8 @@ const winSymbolsMap = {
 
 /* global angular:false */
 const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]);
+const getTitle = title => (typeof title === 'function' ? title() : title);
+
 
 class HintPopupService {
   constructor(dialog, shortcuts) {
@@ -76,10 +78,8 @@ class HintPopupService {
       mode.shortcuts.forEach(shortcut => {
         shortcut.titles = shortcut.titles || [];
 
-        const title = typeof shortcut.title === 'function' ? shortcut.title() : shortcut.title;
-
-        if (title && !shortcut.titles.includes(title)) {
-          shortcut.titles.push(title);
+        if (shortcut.title && !shortcut.titles.includes(shortcut.title)) {
+          shortcut.titles.push(shortcut.title);
         }
       });
     });
@@ -104,6 +104,7 @@ class HintPopupService {
         ctrl.isArray = it => Array.isArray(it);
         ctrl.searchText = '';
         ctrl.searchPlaceholder = searchPlaceholder;
+        ctrl.getTitle = getTitle;
       }
     }, popupConfig));
   }
@@ -129,7 +130,7 @@ function shortcutSearchFilter(shortcuts, query = '') {
       return false;
     } else {
       const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const titleMatches = shortcut.titles.join(' ').toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const titleMatches = shortcut.titles.map(getTitle).join(' ').toLowerCase().indexOf(query.toLowerCase()) !== -1;
       const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
 
       return keyMatches || titleMatches || presentationMatches;
