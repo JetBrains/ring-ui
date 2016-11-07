@@ -39,6 +39,9 @@
     padding-left: calc(unit * 2);
     padding-right: calc(unit * 4);
   }
+  .sidebarContainerRight {
+    order: 1;
+  }
 }
 
 @media (max-width: 960px) {
