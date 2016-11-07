@@ -62,7 +62,7 @@ class PromisedClickController {
     switch ($attrs.promisedMode) {
       case 'loader':
         this.activeClass = 'ring-button_loader';
-        this.activeTTL = ttl || 50;
+        this.activeTTL = ttl || 70;
         break;
       default:
       case 'active':
