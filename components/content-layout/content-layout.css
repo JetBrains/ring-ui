@@ -7,9 +7,24 @@
   position: relative;
 }
 
+.sidebarContainer {
+  height: 100%;
+}
+
 .sidebar {
   min-width: calc(unit * 33);
   max-width: calc(unit * 43);
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebarFixedTop {
+  position: fixed;
+}
+
+.bottomMarker {
+  position: absolute;
+  bottom: 0;
 }
 
 @media (min-width: 960px) {
@@ -30,12 +45,23 @@
   .contentLayoutContent {
     margin: 0 16px;
   }
+
   .sidebar {
     position: absolute;
-    top: calc(unit * 2);
+    top: 0;
     bottom: 0;
     left: 0;
     padding: 0 16px;
+  }
+
+  .sidebarFixedTop {
+    position: fixed;
+  }
+
+  .sidebarFixedBottom {
+    position: absolute;
+    top: auto;
+    bottom: 0;
   }
 
   .sidebarRight {
