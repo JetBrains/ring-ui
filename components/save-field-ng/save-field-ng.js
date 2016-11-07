@@ -16,6 +16,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
 import Shortcuts from '../shortcuts-ng/shortcuts-ng';
 import Button from '../button-ng/button-ng';
+import PromisedClick from '../promised-click-ng/promised-click-ng';
 
 import 'dom4';
 
@@ -27,7 +28,8 @@ const angularModule = angular.module('Ring.save-field', [
    */
   Form,
   Shortcuts,
-  Button
+  Button,
+  PromisedClick
 ]);
 
 angularModule.constant('rgSaveFieldShortcutsMode', {
@@ -99,7 +101,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       function submitChanges() {
         if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope.value)) {
-          return;
+          return false;
         }
 
         function success() {
@@ -147,7 +149,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           }));
         }
 
-        onsave.
+        return onsave.
           then(success, error).
           then(() => {
             scope.loading = false;
