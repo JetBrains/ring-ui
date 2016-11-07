@@ -69,7 +69,7 @@ class HintPopupService {
     this.shortcuts = shortcuts;
   }
 
-  show(popupConfig = {}, shortcutModes) {
+  show(popupConfig = {}, shortcutModes, okButtonLabel = 'Got it', searchPlaceholder = 'Search') {
     const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
 
     modes.forEach(mode => {
@@ -87,7 +87,7 @@ class HintPopupService {
       autoWidth: true,
       controllerAs: 'hintPopupCtrl',
       buttons: [{
-        label: 'Got it',
+        label: okButtonLabel,
         default: true
       }],
       controller() {
@@ -100,6 +100,7 @@ class HintPopupService {
         ctrl.tailTemplate = popupConfig.tailTemplate;
         ctrl.isArray = it => Array.isArray(it);
         ctrl.searchText = '';
+        ctrl.searchPlaceholder = searchPlaceholder;
       }
     }, popupConfig));
   }
