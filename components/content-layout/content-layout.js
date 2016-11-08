@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
 
-import ContentLayoutSidebar from './content-layout-sidebar';
+import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 /**
@@ -25,7 +25,7 @@ export default class ContentLayout extends RingComponent {
     const classes = classNames(styles.contentLayout, className);
 
     const childrenArray = React.Children.toArray(children);
-    const sidebar = childrenArray.filter(child => child && child.type === ContentLayoutSidebar)[0];
+    const sidebar = childrenArray.filter(child => child && child.type === Sidebar)[0];
     const contentChildren = childrenArray.filter(child => child !== sidebar);
 
     return (

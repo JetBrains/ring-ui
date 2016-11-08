@@ -8,7 +8,7 @@ import RingComponent from '../ring-component/ring-component';
 const ABOVE = 'above';
 const INSIDE = 'inside';
 
-export default class ContentLayoutSidebar extends RingComponent {
+export default class Sidebar extends RingComponent {
   static propTypes = {
     right: PropTypes.bool,
     className: PropTypes.string
