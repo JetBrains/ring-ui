@@ -54,7 +54,7 @@ class PromisedClickController {
     this.activeTTL = 0;
 
     if ($attrs.rgPromisedClick) {
-      this.onClick(e => $parse($attrs.rgPromisedClick)($scope, e));
+      this.onClick(e => $parse($attrs.rgPromisedClick)($scope, {event: e}));
     }
 
     const ttl = +$attrs.promisedTtl;

@@ -5,6 +5,7 @@ import {getStyles, getRect} from '../dom/dom';
 import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 
 import '../button/button.scss';
@@ -17,7 +18,7 @@ import '../dialog/dialog.scss';
  * @example-file ./dialog-ng__examples.html
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
+const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg, rgCompilerModuleName]);
 
 class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
@@ -227,6 +228,10 @@ class DialogController extends RingAngularComponent {
   }
 
   action(button) {
+    if (button.inProgress) {
+      return undefined;
+    }
+
     if (button.action) {
       const actionResult = button.action(this.data, button, errorMessage => {
         this.error = errorMessage;
