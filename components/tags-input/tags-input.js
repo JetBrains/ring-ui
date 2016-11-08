@@ -18,7 +18,7 @@ function noop() {}
  * @constructor
  * @description Displays a tags input field.
  * @extends {ReactComponent}
- * @example-file ./tags-input__examples.html
+ * @example-file ./tags-input.examples.html
  */
 
 export default class TagsInput extends RingComponentWithShortcuts {

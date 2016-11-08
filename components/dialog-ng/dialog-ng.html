@@ -31,8 +31,9 @@
         ng-class="[{'ring-button_blue': button['default']}, button['cssClasses']]"
         ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
         ng-if="!button.hidden"
-        ng-click="dialog.action(button)"
-        loader="button.inProgress"
+
+        rg-promised-click="dialog.action(button)"
+        promised-mode="loader"
       >{{ button.label }}</rg-button>
     </div>
   </div>
