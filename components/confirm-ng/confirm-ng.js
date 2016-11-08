@@ -29,35 +29,28 @@ import Dialog from '../dialog-ng/dialog-ng';
 
 const angularModule = angular.module('Ring.confirm', [Dialog]);
 
-angularModule.service('confirm', (dialog, $templateCache) => {
-  const TEMPLATE_PATH = 'ring-ui/components/confirm-ng/confirm-ng.html';
-
-  // We need this because dialog uses ngInclude
-  $templateCache.put(TEMPLATE_PATH, require('./confirm-ng.html'));
-
-  return (message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) => dialog.show({
-    content: TEMPLATE_PATH,
-    data: {
-      message: (message || ''),
-      description
+angularModule.service('confirm', dialog => (message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) => dialog.show({
+  template: require('./confirm-ng.html'),
+  data: {
+    message: (message || ''),
+    description
+  },
+  buttons: [
+    {
+      label: (actionTitle || 'OK'),
+      default: !cancelIsDefault,
+      close: true,
+      action: () => (actionFn ? actionFn() : true)
     },
-    buttons: [
-      {
-        label: (actionTitle || 'OK'),
-        default: !cancelIsDefault,
-        close: true,
-        action: () => (actionFn ? actionFn() : true)
-      },
-      {
-        label: (cancelTitle || 'Cancel'),
-        default: !!cancelIsDefault,
-        action: () => {
-          dialog.reset();
-          return false;
-        }
+    {
+      label: (cancelTitle || 'Cancel'),
+      default: !!cancelIsDefault,
+      action: () => {
+        dialog.reset();
+        return false;
       }
-    ]
-  });
-});
+    }
+  ]
+}));
 
 export default angularModule.name;
