@@ -12,6 +12,7 @@ import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';
 
 import '../loader-inline/loader-inline';
+import ButtonSet from '../button-set-ng/button-set-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
 import Shortcuts from '../shortcuts-ng/shortcuts-ng';
@@ -29,6 +30,7 @@ const angularModule = angular.module('Ring.save-field', [
   Form,
   Shortcuts,
   Button,
+  ButtonSet,
   PromisedClick
 ]);
 
@@ -276,7 +278,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       scope.wording = {
         save: RingMessageBundle.form_save(),
-        saved: RingMessageBundle.form_saved()
+        saved: RingMessageBundle.form_saved(),
+        cancel: RingMessageBundle.form_cancel()
       };
 
       scope.keyMap = {
@@ -297,6 +300,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       };
 
       scope.submitChanges = submitChanges;
+
+      scope.cancelChanges = resetValue;
 
       scope.focus = false;
 
