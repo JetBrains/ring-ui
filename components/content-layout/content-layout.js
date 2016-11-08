@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
 
-import ContentLayoutSidebar from './content-layout__sidebar';
+import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 /**
@@ -12,7 +12,7 @@ import styles from './content-layout.css';
  * @framework React
  * @constructor
  * @description A component for simple content layout.
- * @example-file ./content-layout__examples.html
+ * @example-file ./content-layout.examples.html
  */
 
 export default class ContentLayout extends RingComponent {
@@ -24,8 +24,8 @@ export default class ContentLayout extends RingComponent {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles.contentLayout, className);
 
-    const childrenArray = [].concat(children);
-    const sidebar = childrenArray.filter(child => child && child.type === ContentLayoutSidebar)[0];
+    const childrenArray = React.Children.toArray(children);
+    const sidebar = childrenArray.filter(child => child && child.type === Sidebar)[0];
     const contentChildren = childrenArray.filter(child => child !== sidebar);
 
     return (

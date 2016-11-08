@@ -5,6 +5,7 @@ import {getStyles, getRect} from '../dom/dom';
 import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
+import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 
 import '../button/button.scss';
@@ -14,10 +15,10 @@ import '../dialog/dialog.scss';
  * @name Dialog Ng
  * @category Angular Components
  * @description Provides an Angular wrapper for Dialog.
- * @example-file ./dialog-ng__examples.html
+ * @example-file ./dialog-ng.examples.html
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.dialog', [RingButton, rgCompilerModuleName]);
+const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg, rgCompilerModuleName]);
 
 class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
@@ -227,6 +228,10 @@ class DialogController extends RingAngularComponent {
   }
 
   action(button) {
+    if (button.inProgress) {
+      return undefined;
+    }
+
     if (button.action) {
       const actionResult = button.action(this.data, button, errorMessage => {
         this.error = errorMessage;
@@ -431,6 +436,10 @@ function rgDialogDirective($timeout) {
     dialogTitle.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
     scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
+
+    // Backward compatibility for youtrack (if they are using "content" property)
+    // which is actually ng-inlude with $includeContentLoaded event in the end
+    scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
 
     scope.$on('$destroy', () => {
       dialogTitle.removeEventListener('mousedown', onMousedown);

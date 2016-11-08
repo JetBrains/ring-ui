@@ -1,4 +1,6 @@
-@value unit from '../global/global.css';
+@value unit, wide-screen-media, small-and-middle-screen-media, small-screen-media from '../global/global.css';
+
+@value sidebarWidth: calc(unit * 43);
 
 .contentLayout {
   display: flex;
@@ -8,13 +10,13 @@
 }
 
 .sidebarContainer {
-  min-width: calc(unit * 43);
-  max-width: calc(unit * 43);
+  min-width: sidebarWidth;
+  max-width: sidebarWidth;
 }
 
 .sidebar {
-  min-width: calc(unit * 43);
-  max-width: calc(unit * 43);
+  min-width: sidebarWidth;
+  max-width: sidebarWidth;
   height: 100%;
   overflow: auto;
 }
@@ -28,7 +30,7 @@
   bottom: 0;
 }
 
-@media (min-width: 960px) {
+@media wide-screen-media {
   .contentLayoutContent {
     margin: 0 calc(unit * 4);
   }
@@ -60,7 +62,7 @@
   }
 }
 
-@media (max-width: 960px) {
+@media small-and-middle-screen-media {
   .contentLayoutContent {
     margin: 0 16px;
   }
@@ -89,7 +91,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media small-screen-media {
   .sidebar {
     min-width: 0;
     max-width: none;

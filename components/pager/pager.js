@@ -4,7 +4,7 @@
  * @framework React
  * @extends {ReactComponent}
  * @description The pager.
- * @example-file ./pager__examples.html
+ * @example-file ./pager.examples.html
  */
 
 /* eslint-disable react/jsx-no-literals */

@@ -2,7 +2,7 @@
  * @name Save Field Ng
  * @category Angular Components
  * @description Allows to create forms where some fields have their own Save buttons.
- * @example-file ./save-field-ng__examples.html
+ * @example-file ./save-field-ng.examples.html
  */
 
 /* global angular: false */
@@ -12,10 +12,12 @@ import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';
 
 import '../loader-inline/loader-inline';
+import ButtonSet from '../button-set-ng/button-set-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import Form from '../form-ng/form-ng';
 import Shortcuts from '../shortcuts-ng/shortcuts-ng';
 import Button from '../button-ng/button-ng';
+import PromisedClick from '../promised-click-ng/promised-click-ng';
 
 import 'dom4';
 
@@ -27,7 +29,9 @@ const angularModule = angular.module('Ring.save-field', [
    */
   Form,
   Shortcuts,
-  Button
+  Button,
+  ButtonSet,
+  PromisedClick
 ]);
 
 angularModule.constant('rgSaveFieldShortcutsMode', {
@@ -99,7 +103,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       function submitChanges() {
         if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope.value)) {
-          return;
+          return false;
         }
 
         function success() {
@@ -147,7 +151,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           }));
         }
 
-        onsave.
+        return onsave.
           then(success, error).
           then(() => {
             scope.loading = false;
@@ -274,7 +278,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       scope.wording = {
         save: RingMessageBundle.form_save(),
-        saved: RingMessageBundle.form_saved()
+        saved: RingMessageBundle.form_saved(),
+        cancel: RingMessageBundle.form_cancel()
       };
 
       scope.keyMap = {
@@ -295,6 +300,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       };
 
       scope.submitChanges = submitChanges;
+
+      scope.cancelChanges = resetValue;
 
       scope.focus = false;
 
