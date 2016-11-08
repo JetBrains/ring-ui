@@ -4,7 +4,7 @@
  * @constructor
  * @description Displays an icon.
  * @extends {ReactComponent}
- * @example-file ./icon__examples.html
+ * @example-file ./icon.examples.html
  */
 
 import 'core-js/modules/es6.array.find';

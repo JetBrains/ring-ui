@@ -10,7 +10,7 @@ import './button.scss';
  * @constructor
  * @description Provides styled buttons.
  * @extends {RingComponent}
- * @example-file ./button__examples.html
+ * @example-file ./button.examples.html
  */
 export default class Button extends RingComponent {
   static propTypes = {

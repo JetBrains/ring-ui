@@ -9,7 +9,7 @@ import './badge.scss';
  * @constructor
  * @description Displays a badge.
  * @extends {RingComponent}
- * @example-file ./badge__examples.html
+ * @example-file ./badge.examples.html
  */
 export default class Badge extends RingComponent {
   static propTypes = {
