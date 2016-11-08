@@ -437,6 +437,10 @@ function rgDialogDirective($timeout) {
     document.addEventListener('focusin', onFocusin);
     scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
 
+    // Backward compatibility for youtrack (if they are using "content" property)
+    // which is actually ng-inlude with $includeContentLoaded event in the end
+    scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
+
     scope.$on('$destroy', () => {
       dialogTitle.removeEventListener('mousedown', onMousedown);
       document.removeEventListener('mousemove', onMousemove);
