@@ -3,7 +3,7 @@ import React from 'react';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import ContentLayout from './content-layout';
-import ContentLayoutSidebar from './content-layout__sidebar';
+import ContentLayoutSidebar from './content-layout-sidebar';
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {
