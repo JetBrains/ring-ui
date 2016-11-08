@@ -3,7 +3,7 @@ import React from 'react';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import ContentLayout from './content-layout';
-import ContentLayoutSidebar from './content-layout-sidebar';
+import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {
@@ -23,7 +23,7 @@ describe('Content Layout', () => {
 
   it('should render sidebar', () => {
     const component = renderIntoDocument(<ContentLayout>
-      <ContentLayoutSidebar>{'In sidebar'}</ContentLayoutSidebar>
+      <Sidebar>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
@@ -32,7 +32,7 @@ describe('Content Layout', () => {
 
   it('should render sidebar on the right', () => {
     const component = renderIntoDocument(<ContentLayout>
-      <ContentLayoutSidebar right={true}>{'In sidebar'}</ContentLayoutSidebar>
+      <Sidebar right={true}>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
