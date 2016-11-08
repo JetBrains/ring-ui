@@ -24,7 +24,7 @@ export default class ContentLayout extends RingComponent {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles.contentLayout, className);
 
-    const childrenArray = [].concat(children);
+    const childrenArray = React.Children.toArray(children);
     const sidebar = childrenArray.filter(child => child && child.type === ContentLayoutSidebar)[0];
     const contentChildren = childrenArray.filter(child => child !== sidebar);
 
