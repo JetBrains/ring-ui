@@ -75,3 +75,10 @@
 
 /* Note: footer also has top margin which isn't taken into account here */
 @value footer-height: calc(unit*8);
+
+
+/* Media queries */
+@value wide-screen-media: (min-width: 960px);
+@value small-and-middle-screen-media: (max-width: 959px);
+@value middle-screen-media: (min-width: 640px) and (max-width: 959px);
+@value small-screen-media: (max-width: 639px);

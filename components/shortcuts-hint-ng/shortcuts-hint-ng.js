@@ -15,7 +15,7 @@ import searchIcon from 'jetbrains-icons/search.svg';
  * @name Shortcuts Ng Hint Popup
  * @category Angular Components
  * @description Displays a popup listing all registered shortcuts.
- * @example-file ./shortcuts-hint-ng__examples.html
+ * @example-file ./shortcuts-hint-ng.examples.html
  */
 
 const macSymbolsMap = {

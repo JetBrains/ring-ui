@@ -119,7 +119,7 @@ const MenuItemsSequence = [
 /**
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./header__examples.html
+ * @example-file ./header.examples.html
  */
 export default class Header extends RingComponent {
   static MenuItemType = MenuItemType;

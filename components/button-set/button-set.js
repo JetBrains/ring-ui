@@ -9,7 +9,7 @@ import styles from './button-set.css';
  * @constructor
  * @description Allows to group several buttons and ensures that margins between them are consistent.
  * @extends {ReactComponent}
- * @example-file ./button-set__examples.html
+ * @example-file ./button-set.examples.html
  */
 export default class ButtonSet extends RingComponent {
   render() {

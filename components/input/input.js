@@ -9,7 +9,7 @@ import './input.scss';
  * @constructor
  * @description Text input fields of varying size.
  * @extends {ReactComponent}
- * @example-file ./input__examples.html
+ * @example-file ./input.examples.html
  */
 export default class Input extends RingComponent {
   static propTypes = {

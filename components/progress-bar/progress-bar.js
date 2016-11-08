@@ -9,7 +9,7 @@ import './progress-bar.scss';
  * @constructor
  * @description Displays the progress of a task (akin to HTML5 progress tag).
  * @extends {ReactComponent}
- * @example-file ./progress-bar__examples.html
+ * @example-file ./progress-bar.examples.html
  */
 export default class ProgressBar extends RingComponent {
   static propTypes = {
