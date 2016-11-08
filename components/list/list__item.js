@@ -11,7 +11,7 @@ const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
 
 export default function ListItem(props) {
-  const {checkbox, glyph, icon, rightGlyph, description, label, details, active, rgItemType, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const {checkbox, glyph, icon, rightGlyph, description, label, details, active, rgItemType, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !props.disabled,
@@ -72,6 +72,7 @@ export default function ListItem(props) {
               style={{backgroundImage: `url("${icon}")`}}
             />
           )}
+          {rightNodes}
         </div>
       </div>
 
@@ -97,6 +98,16 @@ ListItem.propTypes = {
   ]),
   glyph: PropTypes.string,
   icon: PropTypes.string,
+  rightNodes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.array
+  ]),
+  leftNodes: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.array
+  ]),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   level: PropTypes.number,
   rgItemType: PropTypes.number,
