@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
 
-import ContentLayoutSidebar from './content-layout__sidebar';
+import ContentLayoutSidebar from './content-layout-sidebar';
 import styles from './content-layout.css';
 
 /**
