@@ -12,7 +12,7 @@ import styles from './content-layout.css';
  * @framework React
  * @constructor
  * @description A component for simple content layout.
- * @example-file ./content-layout__examples.html
+ * @example-file ./content-layout.examples.html
  */
 
 export default class ContentLayout extends RingComponent {

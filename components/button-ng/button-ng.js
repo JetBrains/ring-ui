@@ -9,7 +9,7 @@ import '../button/button.scss';
  * @name Button Ng
  * @category Angular Components
  * @description Provides an Angular wrapper for Button.
- * @example-file ./button-ng__examples.html
+ * @example-file ./button-ng.examples.html
  */
 
 /* global angular */

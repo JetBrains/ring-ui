@@ -14,7 +14,7 @@ import './alert.scss';
  * @category Components
  * @description Displays a stack of alerts on top of the page.
  * @extends {RingComponent}
- * @example-file ./alerts__examples.html
+ * @example-file ./alerts.examples.html
  */
 
 export default class Alerts extends RingComponent {
