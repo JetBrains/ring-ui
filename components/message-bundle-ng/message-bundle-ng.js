@@ -31,6 +31,7 @@ function RingMessageBundle(ringI18n) {
   this.form_min = () => i18n('Is out of range');
   this.form_save = () => i18n('Save');
   this.form_saved = () => i18n('Saved');
+  this.form_cancel = () => i18n('Cancel');
   this.avatareditor_nosupport = () => i18n('Sorry, your browser doesn\'t support File API');
   this.avatareditor_noselected = () => i18n('No image file was selected');
   this.avatareditor_delete = () => i18n('Delete Image');
