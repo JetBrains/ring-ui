@@ -34,7 +34,7 @@ function noop() {}
  * @name QueryAssist
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./query-assist__examples.html
+ * @example-file ./query-assist.examples.html
  */
 export default class QueryAssist extends RingComponentWithShortcuts {
   static ngModelStateField = ngModelStateField;

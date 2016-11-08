@@ -9,7 +9,7 @@ import './button-group.scss';
  * @constructor
  * @description Allows to group several buttons.
  * @extends {ReactComponent}
- * @example-file ./button-group__examples.html
+ * @example-file ./button-group.examples.html
  */
 export default class ButtonGroup extends RingComponent {
   render() {

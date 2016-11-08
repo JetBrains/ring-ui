@@ -66,7 +66,7 @@ function isItemType(listItemType, item) {
  * @name List
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./list__examples.html
+ * @example-file ./list.examples.html
 */
 export default class List extends RingComponentWithShortcuts {
   static isItemType = isItemType;
