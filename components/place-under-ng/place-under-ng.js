@@ -4,7 +4,7 @@
  * @description Displays a sidebar that fills the entire right half of its container.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.
- * @example-file ./place-under-ng__examples.html
+ * @example-file ./place-under-ng.examples.html
  */
 
 import 'dom4';

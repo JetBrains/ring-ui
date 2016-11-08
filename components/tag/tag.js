@@ -9,7 +9,7 @@ import CloseIcon from 'jetbrains-icons/close.svg';
  * @name Tag
  * @category Components
  * @description Displays a tag.
- * @example-file ./tag__examples.html
+ * @example-file ./tag.examples.html
  */
 
 export default class Tag extends RingComponent {

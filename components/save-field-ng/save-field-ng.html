@@ -4,12 +4,22 @@
   <rg-button
     ng-show="saveFieldForm.$dirty && saveFieldForm.$valid"
     mode="blue"
-    loader="loading"
     class="ring-save-field__button ng-hide"
-    ng-click="submitChanges($event)"
     ng-mousedown="cancelBlur()"
+
+    rg-promised-click="submitChanges($event)"
+    promised-mode="loader"
   >
     {{wording.save}}
+  </rg-button>
+
+  <rg-button
+    ng-show="saveFieldForm.$dirty && !loading"
+    class="ring-save-field__button ng-hide"
+    ng-click="cancelChanges($event)"
+    ng-mousedown="cancelBlur()"
+  >
+    {{wording.cancel}}
   </rg-button>
 
   <rg-button

@@ -18,7 +18,7 @@ import '../table-legacy/table-legacy.scss';
  * @name Table Legacy Ng
  * @category Angular Components
  * @description Displays tabular data.
- * @example-file ./table-legacy-ng__examples.html
+ * @example-file ./table-legacy-ng.examples.html
 */
 /*global angular*/
 

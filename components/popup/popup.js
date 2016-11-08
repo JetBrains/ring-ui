@@ -123,7 +123,7 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
  * @constructor
  * @name Popup
  * @extends {ReactComponent}
- * @example-file ./popup__examples.html
+ * @example-file ./popup.examples.html
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {

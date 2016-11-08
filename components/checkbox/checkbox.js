@@ -12,7 +12,7 @@ const ngModelStateField = 'checked';
  * @category Forms
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./checkbox__examples.html
+ * @example-file ./checkbox.examples.html
  */
 export default class Checkbox extends RingComponent {
   static ngModelStateField = ngModelStateField;

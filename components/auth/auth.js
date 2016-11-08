@@ -39,7 +39,7 @@ function noop() {}
  *   userFields: string[]?
  * }} config
  *
- * @example-file ./auth__examples.html
+ * @example-file ./auth.examples.html
  */
 
 /* eslint-disable camelcase */

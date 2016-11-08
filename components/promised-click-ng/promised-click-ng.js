@@ -54,7 +54,7 @@ class PromisedClickController {
     this.activeTTL = 0;
 
     if ($attrs.rgPromisedClick) {
-      this.onClick(e => $parse($attrs.rgPromisedClick)($scope, e));
+      this.onClick(e => $parse($attrs.rgPromisedClick)($scope, {event: e}));
     }
 
     const ttl = +$attrs.promisedTtl;
@@ -62,7 +62,7 @@ class PromisedClickController {
     switch ($attrs.promisedMode) {
       case 'loader':
         this.activeClass = 'ring-button_loader';
-        this.activeTTL = ttl || 50;
+        this.activeTTL = ttl || 70;
         break;
       default:
       case 'active':

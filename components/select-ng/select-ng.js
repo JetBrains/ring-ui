@@ -39,7 +39,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
  * * `item.text select as item.fullText describe as item.fullDescription for item in items track by item.id`
  * * `item as item.text select as makeFullText(item) for item in items`
  *
- * @example-file ./select-ng__examples.html
+ * @example-file ./select-ng.examples.html
  */
 /* global angular: false */
 const angularModule = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
