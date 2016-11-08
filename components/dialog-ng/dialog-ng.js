@@ -15,7 +15,7 @@ import '../dialog/dialog.scss';
  * @name Dialog Ng
  * @category Angular Components
  * @description Provides an Angular wrapper for Dialog.
- * @example-file ./dialog-ng__examples.html
+ * @example-file ./dialog-ng.examples.html
  */
 /* global angular: false */
 const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg, rgCompilerModuleName]);

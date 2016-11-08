@@ -10,7 +10,7 @@ import '../button/button.scss';
  * @description Provides an Angular wrapper for Sidebar.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.
- * @example-file ./sidebar-ng__examples.html
+ * @example-file ./sidebar-ng.examples.html
  */
 /* global angular */
 

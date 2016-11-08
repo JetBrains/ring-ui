@@ -18,7 +18,7 @@ import '../table/table.scss';
  * @name Table Ng
  * @category Angular Components
  * @description Displays tabular data.
- * @example-file ./table-ng__examples.html
+ * @example-file ./table-ng.examples.html
 */
 /*global angular*/
 

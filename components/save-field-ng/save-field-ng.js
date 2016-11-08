@@ -2,7 +2,7 @@
  * @name Save Field Ng
  * @category Angular Components
  * @description Allows to create forms where some fields have their own Save buttons.
- * @example-file ./save-field-ng__examples.html
+ * @example-file ./save-field-ng.examples.html
  */
 
 /* global angular: false */
