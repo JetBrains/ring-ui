@@ -51,12 +51,12 @@ module.exports = params => generators.Base.extend({
 
       const ringUIComponentsPath = path.relative(componentPath, path.join(path.dirname(ringUIPath), 'components'));
       const ringUIRoot = isRingUI ? ringUIComponentsPath : `${RING_UI_PACKAGE}/components`;
-      const ringUIRootSass = isRingUI ? ringUIRoot : `~${RING_UI_PACKAGE}`;
+      const ringUIRootCss = isRingUI ? ringUIRoot : `${RING_UI_PACKAGE}`;
 
       const className = isRingUI ? RING_UI_CLASS_PREFIX + paramCaseName : paramCaseName;
       const pascalCaseName = changeCase.pascalCase(componentName);
       const titleCaseName = changeCase.titleCase(componentNameSuffix);
-      const ngDirectiveName = isRingUI
+      const ngComponentName = isRingUI
         ? RING_UI_DIRECTIVE_PREFIX + pascalCaseName
         : camelCaseName;
       const ngDirectiveTagName = isRingUI
@@ -66,15 +66,16 @@ module.exports = params => generators.Base.extend({
       const templateContext = {
         camelCaseName,
         className,
-        ngDirectiveName,
+        ngComponentName,
         ngDirectiveTagName,
         pascalCaseName,
         paramCaseName,
         paramCaseNameSuffix,
         ringUIRoot,
-        ringUIRootSass,
+        ringUIRootCss,
         titleCaseName
       };
+      console.log(templateContext);
 
       params.fileTemplates.forEach(template => {
         this.fs.copyTpl(
