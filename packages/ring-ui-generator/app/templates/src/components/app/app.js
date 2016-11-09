@@ -2,9 +2,11 @@ import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 
-import './app.scss';
+import styles from './app.css';
 
-const rootEl = document.getElementById('app__root');
+const appEl = document.querySelector('.<%= camelCaseName %>');
+appEl.classList.add(...styles.<%= camelCaseName %>.split(' '));
+const rootEl = document.createElement('div');
 
 let renderApp = () => {
   const AppRoot = require('./app__root');
@@ -41,3 +43,4 @@ if (module.hot) {
 }
 
 renderApp();
+appEl.appendChild(rootEl);

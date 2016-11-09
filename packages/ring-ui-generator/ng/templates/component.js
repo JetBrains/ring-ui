@@ -1,6 +1,6 @@
-import {Inject} from 'angular-es6';
+import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 
-import './<%= paramCaseNameSuffix %>.scss';
+import styles from './<%= paramCaseNameSuffix %>.css';
 
 /**
  * @name <%= titleCaseName %>
@@ -30,29 +30,22 @@ import './<%= paramCaseNameSuffix %>.scss';
 /* global angular: false */
 const angularModule = angular.module('Ring.<%= paramCaseName %>', []);
 
-class <%= ngDirectiveName %>Controller extends Inject {
+class <%= ngComponentName %>Component extends RingAngularComponent {
   static $inject = ['$scope', '$element', '$attrs', '$compile'];
+
+  static bindings = {
+    name: '@'
+  };
+
+  static template = require('./<%= paramCaseNameSuffix %>.html');
 
   constructor(...args) {
     super(...args);
-
     const {$attrs, $compile, $element, $scope} = this.$inject;
+    this.styles = styles;
   }
 }
 
-function <%= ngDirectiveName %>Directive() {
-  return {
-    restrict: 'E',
-    scope: {},
-    controller: <%= ngDirectiveName %>Controller,
-    bindToController: {
-      name: '@'
-    },
-    template: require('./<%= paramCaseNameSuffix %>.html'),
-    controllerAs: 'ctrl'
-  };
-}
-
-angularModule.directive('<%= ngDirectiveName %>', <%= ngDirectiveName %>Directive);
+angularModule.component('<%= ngComponentName %>', <%= ngComponentName %>Component);
 
 export default angularModule.name;
