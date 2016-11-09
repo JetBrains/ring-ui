@@ -1,0 +1,77 @@
+<example name="Table">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Table from './table';
+    import {URLRenderer} from './row';
+    import Pager from '../pager/pager';
+    import data from 'json!./table.examples.json';
+
+    class Example extends Component {
+      state = {
+        data: [],
+
+        columns: [
+          {
+            id: 'country',
+            title: 'Country'
+          },
+          {
+            id: 'city',
+            title: 'City'
+          },
+          {
+            id: 'url',
+            title: 'URL',
+            sortable: false,
+            renderer: URLRenderer
+          }
+        ],
+
+        meta: {
+          total: 0,
+          page: 0,
+          pageSize: 0,
+          pageTotal: 0
+        },
+
+        pageSize: 7
+      }
+
+      loadPage(n) {
+        const {pageSize} = this.state;
+        const pageData = data.slice((n - 1) * pageSize, (n - 1) * pageSize + pageSize);
+        const total = data.length;
+
+        const meta = {
+          total,
+          page: n,
+          pageSize,
+          pageTotal: Math.ceil(total / pageSize)
+        };
+
+        this.setState({data: pageData, meta});
+      }
+
+      componentWillMount() {
+        this.loadPage(1);
+      }
+
+      render() {
+        const {columns, data, meta} = this.state;
+
+        return (
+          <div>
+            <Table data={data} columns={columns} onSort={() => ::this.loadPage(1)} />
+            <Pager total={meta.pageTotal} current={meta.page} goto={({n}) => ::this.loadPage(n)} />
+          </div>
+        );
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('demo'));
+  </file>
+</example>

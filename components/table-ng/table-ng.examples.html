@@ -1,0 +1,34 @@
+<example name="rgTable">
+  <file type="html">
+    <div ng-app="Example.table" ng-controller="ExampleCtrl as ctrl">
+      <rg-table data="ctrl.data" columns="ctrl.columns"></rg-table>
+    </div>
+  </file>
+  <file type="js">
+    import 'angular/angular';
+    import RingTable from 'ring-ui/components/table-ng/table-ng';
+    import data from 'json!../table/table.examples.json';
+
+    const columns = [
+      {
+        id: 'country',
+        title: 'Country'
+      },
+      {
+        id: 'city',
+        title: 'City'
+      },
+      {
+        id: 'url',
+        title: 'URL'
+      }
+    ];
+
+    const exampleModule =  angular.module('Example.table', [RingTable]);
+
+    exampleModule.controller('ExampleCtrl', function () {
+      this.data = data;
+      this.columns = columns;
+    });
+  </file>
+</example>
