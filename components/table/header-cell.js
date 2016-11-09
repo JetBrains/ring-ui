@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
 import classNames from 'classnames';
 
@@ -9,6 +9,13 @@ import Icon from '../icon/icon';
 import style from './table.css';
 
 export default class HeaderCell extends RingComponent {
+  static propTypes = {
+    column: PropTypes.object.isRequired,
+    onSort: PropTypes.func,
+    sortKey: PropTypes.string,
+    sortOrder: PropTypes.bool
+  }
+
   onClick() {
     const {column, onSort, sortKey, sortOrder} = this.props;
     if (this.sortable && onSort) {
