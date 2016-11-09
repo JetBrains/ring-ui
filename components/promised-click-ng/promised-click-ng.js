@@ -1,4 +1,6 @@
 import 'dom4';
+import ttls from '../delayed/delayed';
+
 /**
  * @name Promised Click Ng
  * @category Angular Components
@@ -62,7 +64,7 @@ class PromisedClickController {
     switch ($attrs.promisedMode) {
       case 'loader':
         this.activeClass = 'ring-button_loader';
-        this.activeTTL = ttl || 70;
+        this.activeTTL = ttl || ttls.buttonLoader;
         break;
       default:
       case 'active':
