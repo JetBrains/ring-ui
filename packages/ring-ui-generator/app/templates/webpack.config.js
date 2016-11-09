@@ -4,7 +4,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const webpackConfigMerger = require('webpack-config-merger');
-const autoprefixer = require('autoprefixer');
+const cssnext = require('postcss-cssnext');
+const calc = require('postcss-calc');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const argv = require('minimist')(process.argv);
 
@@ -34,13 +35,12 @@ const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
     module: {
       loaders: [
         {
-          test: /\.scss$/,
+          test: /\.css$/,
           include: componentsPath,
           loaders: [
             'style',
-            'css',
-            `postcss?pack=${pkgConfig.name}`,
-            'sass?outputStyle=expanded'
+            'css?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]',
+            `postcss?pack=${pkgConfig.name}`
           ]
         },
         {
@@ -51,7 +51,10 @@ const webpackConfig = webpackConfigMerger(ringUiWebpackConfig,
       ]
     },
     postcss: {
-      [pkgConfig.name]: [autoprefixer]
+      [pkgConfig.name]: [
+        cssnext,
+        calc
+      ]
     },
     devServer: {
       stats: {
