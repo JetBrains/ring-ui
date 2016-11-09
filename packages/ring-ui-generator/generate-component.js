@@ -75,7 +75,6 @@ module.exports = params => generators.Base.extend({
         ringUIRootCss,
         titleCaseName
       };
-      console.log(templateContext);
 
       params.fileTemplates.forEach(template => {
         this.fs.copyTpl(
