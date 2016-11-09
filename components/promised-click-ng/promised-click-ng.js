@@ -60,17 +60,33 @@ class PromisedClickController {
     }
 
     const ttl = +$attrs.promisedTtl;
+    let currentMode = null;
 
-    switch ($attrs.promisedMode) {
-      case 'loader':
-        this.activeClass = 'ring-button_loader';
-        this.activeTTL = ttl || ttls.buttonLoader;
-        break;
-      default:
-      case 'active':
-        this.activeClass = 'ring-button_active';
-        this.activeTTL = ttl || 0;
-        break;
+    const setModeParams = mode => {
+      currentMode = mode;
+      switch (mode) {
+        case 'loader':
+          this.activeClass = 'ring-button_loader';
+          this.activeTTL = ttl || ttls.buttonLoader;
+          break;
+        default:
+        case 'active':
+          this.activeClass = 'ring-button_active';
+          this.activeTTL = ttl || 0;
+          break;
+      }
+    };
+
+    setModeParams($attrs.promisedMode);
+
+    if ($attrs.promisedMode && $attrs.promisedMode.indexOf('{{') !== -1) {
+      $attrs.$observe('promisedMode', newMode => {
+        if (newMode !== currentMode) {
+          this.active && this.element.classList.remove(this.activeClass);
+          setModeParams(newMode);
+          this.active && this.element.classList.add(this.activeClass);
+        }
+      });
     }
   }
 
