@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import RingComponent from '<%= ringUIRoot %>/ring-component/ring-component';
 
-import './<%= paramCaseName %>.scss';
+import styles from './<%= paramCaseName %>.css';
 
 /**
  * @name <%= titleCaseName %>
@@ -44,7 +44,7 @@ export default class <%= pascalCaseName %> extends RingComponent {
 
   render() {
     const {children, className, ...restProps} = this.props;
-    const classes = classNames('<%= className %>', className);
+    const classes = classNames(styles.<%= camelCaseName %>, className);
 
     return (
       <div
