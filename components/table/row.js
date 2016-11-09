@@ -1,11 +1,16 @@
 import 'core-js/modules/es6.number.is-finite';
 
-import React from 'react';
+import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
-import DefaultRenderer from './default-renderer';
-import NumberRenderer from './number-renderer';
+import DefaultRenderer from './renderer-default';
+import NumberRenderer from './renderer-number';
 
 export default class Row extends RingComponent {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    columns: PropTypes.array.isRequired
+  }
+
   render() {
     const {item, columns} = this.props;
     return (
