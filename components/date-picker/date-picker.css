@@ -1,0 +1,14 @@
+@value unit, gray-color, blue-color from  "../global/global.css";
+
+.datePicker {
+  display: inline-block;
+  border: 1px solid gray-color;
+}
+
+.datePicker.active {
+  border-color: blue-color;
+}
+
+.input.input {
+  border: none;
+}
