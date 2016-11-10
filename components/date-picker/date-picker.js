@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
 import DateInput from './date-input';
-import Popup from '../popup/popup';
+//import Popup from '../popup/popup';
 
 import {dateType} from './consts';
 import formats from './formats.json';
@@ -110,7 +110,7 @@ export default class DatePicker extends RingComponent {
 
   confirm(name) {
     this.select({
-      [name]: this.parseDate(this.state.text) || this.props[name],
+      [name]: this.parseDate(this.state.text) || this.props[name]
     });
   }
 
