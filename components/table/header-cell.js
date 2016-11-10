@@ -16,13 +16,6 @@ export default class HeaderCell extends RingComponent {
     sortOrder: PropTypes.bool
   }
 
-  onClick() {
-    const {column, onSort, sortKey, sortOrder} = this.props;
-    if (this.sortable && onSort) {
-      onSort(column, !(sortKey === column.id && sortOrder));
-    }
-  }
-
   render() {
     const {column, onSort, sortKey, sortOrder} = this.props;
 
@@ -46,9 +39,16 @@ export default class HeaderCell extends RingComponent {
 
     return (
       <th className={classes} onClick={::this.onClick}>
-        <span>{column.title}</span>
+        {column.title}
         {this.sortable && onSort ? <Icon className={style.sorter} glyph={glyph} size={size} /> : ''}
       </th>
     );
+  }
+
+  onClick() {
+    const {column, onSort, sortKey, sortOrder} = this.props;
+    if (this.sortable && onSort) {
+      onSort(column, !(sortKey === column.id && sortOrder));
+    }
   }
 }
