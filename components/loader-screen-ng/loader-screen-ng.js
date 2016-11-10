@@ -1,6 +1,8 @@
 import loaderNg from '../loader-ng/loader-ng';
 import '../loader-screen/loader-screen.scss';
 
+import ttls from '../delayed/delayed';
+
 /**
  * @name Loader Screen Ng
  * @category Angular Components
@@ -29,7 +31,7 @@ import '../loader-screen/loader-screen.scss';
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 
 angularModule.service('loaderScreen', function ($timeout, $rootScope) {
-  const ordinaryLoadingTTL = 70;
+  const ordinaryLoadingTTL = ttls.dataLoader;
 
   let initialLoading = false;
   let loadingFailed = false;
