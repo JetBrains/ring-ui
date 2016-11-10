@@ -23,7 +23,7 @@ export const weekdays = {
   TH: 4,
   FR: 5,
   SA: 6,
-  SU: 0,
+  SU: 0
 };
 
 export function linear(x0, y0, a) {
@@ -34,7 +34,7 @@ export function linear(x0, y0, a) {
 
     x(y) {
       return +x0 + (y - y0) / a;
-    },
+    }
   };
 }
 

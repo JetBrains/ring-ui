@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import classNames from 'classnames';
 import moment from 'moment';
 
 import Month from './month';
@@ -63,7 +62,7 @@ export default function Months(props) {
         if (dy < offset) {
           date = pxToDate.y(offset) + (dy - offset) * monthSpeed(months[1]);
         } else if (dy > bottomOffset) {
-          date = pxToDate.y(bottomOffset) + (dy - bottomOffset) * monthSpeed(months[3]);
+          date = pxToDate.y(bottomOffset) + (dy - bottomOffset) * monthSpeed(months[MONTHSBACK + 1]);
         } else {
           date = pxToDate.y(dy);
         }
@@ -73,7 +72,7 @@ export default function Months(props) {
     >
       <div
         style={{
-          top: Math.floor(calHeight / 2 - monthHeight(months[0]) - monthHeight(months[1]) + offset),
+          top: Math.floor(calHeight / 2 - monthHeight(months[0]) - monthHeight(months[1]) + offset)
         }}
         className={styles.days}
       >
