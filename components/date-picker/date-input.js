@@ -14,14 +14,31 @@ export default function DateInput({
   onActivate,
   onConfirm
 }) {
-  const hoverDateText = active && hoverDate && hoverDate.format(inputFormat);
-  const currentText = active && text;
-  const dateText = date && date.format(inputFormat);
+  let displayText = '';
+  if (active && hoverDate) {
+    displayText = hoverDate.format(inputFormat);
+  } else if (active && text != null) {
+    displayText = text;
+  } else if (date) {
+    displayText = date.format(inputFormat);
+  }
+
   return (
     <input
-      ref={el => el && (active ? el.focus() : el.blur())}
+      ref={el => {
+        if (!el) {
+          return;
+        }
+
+        if (active) {
+          el.focus();
+          text || el.select();
+        } else {
+          el.blur();
+        }
+      }}
       className="ring-input"
-      value={hoverDateText || currentText || dateText || ''}
+      value={displayText}
       onChange={e => onInput(e.target.value)}
       onFocus={onActivate}
       onKeyDown={e => e.key === 'Enter' && onConfirm()}
