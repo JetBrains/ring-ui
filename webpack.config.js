@@ -4,8 +4,7 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const cssnext = require('postcss-cssnext');
-const calc = require('postcss-calc');
-const values = require('postcss-modules-values');
+const replaceValues = require('postcss-modules-values-replace');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
@@ -110,14 +109,13 @@ module.exports = {
     ]
   },
 
-  postcss: {
+  postcss: webpack => ({
     'ring-ui': [autoprefixer],
     'ring-ui-cssnext': [
-      values,
-      cssnext,
-      calc
+      replaceValues({fs: webpack._compiler.inputFileSystem}),
+      cssnext
     ]
-  },
+  }),
   componentsPath,
 
   svgSpriteLoader,
