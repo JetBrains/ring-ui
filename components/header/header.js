@@ -347,6 +347,7 @@ export default class Header extends RingComponent {
    */
   _getLinkElement(href, isActive, className, children) {
     const fullClassName = classNames({
+      [className]: true,
       'ring-header': true,
       'ring-header__services-current': isActive,
       'ring-header__services-link': !isActive
