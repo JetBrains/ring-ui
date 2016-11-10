@@ -1,14 +1,85 @@
-@value unit, gray-color, blue-color from  "../global/global.css";
+@value unit, gray-color, blue-color, light-blue-color, error-color, link-hover-color, border-color, border-radius, ease from  "../global/global.css";
+@value cell-size: calc(unit * 3);
 
-.datePicker {
+.datePicker.datePicker {
+  padding-right: unit;
+}
+
+.displayDate {
   display: inline-block;
-  border: 1px solid gray-color;
+  text-align: left;
+  min-width: calc(unit * 11);
 }
 
-.datePicker.active {
-  border-color: blue-color;
+.displayDate.displayRange {
+  min-width: calc(unit * 22);
 }
 
-.input.input {
-  border: none;
+.weekend {
+  color: error-color;
+}
+
+.calendar {
+  box-shadow: 0 -1px border-color;
+  position: relative;
+  height: calc(unit * 40);
+  width: calc(unit * 37);
+  overflow: hidden;
+}
+
+.months {
+  position: absolute;
+  top: 0;
+  right: calc(unit * 12);
+  bottom: 0;
+  left: 0;
+}
+
+.days {
+  position: relative;
+  left: 0;
+}
+
+.month {
+  display: flex;
+  width: calc(unit * 21);
+  margin: unit calc(unit * 2);
+  flex-wrap: wrap;
+}
+
+.month > * {
+  line-height: cell-size;
+  height: cell-size;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.monthTitle {
+  flex-basis: calc(unit * 9);
+}
+
+.day {
+  position: relative;
+  text-align: right;
+  cursor: pointer;
+  border-radius: border-radius;
+  transition: background-color ease, color ease;
+  flex-basis: cell-size;
+  padding-right: calc(unit * 0.5);
+}
+
+.day.active {
+  background-color: light-blue-color;
+  color: link-hover-color;
+  transition: none;
+}
+
+.day.current {
+  color: #fff;
+  background-color: blue-color;
+}
+
+.day.empty {
+  pointer-events: none;
+  opacity: 0;
 }
