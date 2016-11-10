@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
@@ -52,8 +52,6 @@ import styles from './date-picker.css';
    </example>
  */
 
-const parsed = Object.create(null);
-
 export default class DatePicker extends RingComponent {
   static defaultProps = DatePopup.defaultProps;
   static propTypes = DatePopup.propTypes;
@@ -88,7 +86,7 @@ export default class DatePicker extends RingComponent {
     }
   }
 
-  handleClick(e) {
+  handleClick() {
     if (!this.popup) {
       this.createPopup();
     }
