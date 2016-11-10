@@ -6,54 +6,43 @@
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
     import Table from './table';
-    import {URLRenderer} from './row';
+    import Link from '../link/link';
     import Pager from '../pager/pager';
-    import data from 'json!./table.examples.json';
+    import mock from 'json!./table.examples.json';
+
+    const pageSize = 7;
+    const total = mock.length;
 
     class Example extends Component {
       state = {
         data: [],
-
-        columns: [
-          {
-            id: 'country',
-            title: 'Country'
-          },
-          {
-            id: 'city',
-            title: 'City'
-          },
-          {
-            id: 'url',
-            title: 'URL',
-            sortable: false,
-            renderer: URLRenderer
-          }
-        ],
-
-        meta: {
-          total: 0,
-          page: 0,
-          pageSize: 0,
-          pageTotal: 0
-        },
-
-        pageSize: 7
+        total,
+        page: 0,
+        pageSize,
+        pageTotal: Math.ceil(total / pageSize)
       }
 
-      loadPage(n) {
+      columns = [
+        {
+          id: 'country',
+          title: 'Country'
+        },
+        {
+          id: 'city',
+          title: 'City'
+        },
+        {
+          id: 'url',
+          title: 'URL',
+          sortable: false,
+          getValue: ({url}) => <Link href={url}>{url}</Link>
+        }
+      ]
+
+      loadPage(page) {
         const {pageSize} = this.state;
-        const pageData = data.slice((n - 1) * pageSize, (n - 1) * pageSize + pageSize);
-        const total = data.length;
-
-        const meta = {
-          total,
-          page: n,
-          pageSize,
-          pageTotal: Math.ceil(total / pageSize)
-        };
-
-        this.setState({data: pageData, meta});
+        const data = mock.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+        this.setState({data, page});
       }
 
       componentWillMount() {
@@ -61,12 +50,11 @@
       }
 
       render() {
-        const {columns, data, meta} = this.state;
-
+        const {data, page, pageTotal} = this.state;
         return (
           <div>
-            <Table data={data} columns={columns} onSort={() => ::this.loadPage(1)} />
-            <Pager total={meta.pageTotal} current={meta.page} goto={({n}) => ::this.loadPage(n)} />
+            <Table data={data} columns={this.columns} onSort={() => ::this.loadPage(1)} />
+            <Pager total={pageTotal} current={page} goto={({n}) => ::this.loadPage(n)} />
           </div>
         );
       }
