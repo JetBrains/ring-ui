@@ -2,12 +2,12 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import RingComponent from '../ring-component/ring-component';
-import DateInput from './date-input';
-//import Popup from '../popup/popup';
+import calendarIcon from 'jetbrains-icons/calendar.svg';
 
-import {dateType} from './consts';
-import formats from './formats.json';
+import RingComponent from '../ring-component/ring-component';
+import Popup from '../popup/popup';
+import Button from '../button/button';
+import DatePopup from './date-popup';
 
 import styles from './date-picker.css';
 
@@ -42,9 +42,6 @@ import styles from './date-picker.css';
                   date={this.state.date}
                   onChange={date => this.setState({date})}
                />
-               <div>
-                 {this.state.date.format('DD.MM.YYYY')}
-               </div>
              </div>
            );
          }
@@ -58,97 +55,75 @@ import styles from './date-picker.css';
 const parsed = Object.create(null);
 
 export default class DatePicker extends RingComponent {
-  static defaultProps = {
-    className: '',
-    date: null,
-    range: false,
-    from: null,
-    to: null,
-    format: 'D MMMM YYYY',
-    onChange() {}
-  };
+  static defaultProps = DatePopup.defaultProps;
+  static propTypes = DatePopup.propTypes;
 
-  static propTypes = {
-    className: PropTypes.string,
-    date: dateType,
-    range: PropTypes.bool,
-    from: dateType,
-    to: dateType,
-    format: PropTypes.string,
-    onChange: PropTypes.func
-  };
-
-  state = {
-    text: '',
-    hoverDate: null,
-    scrollDate: null,
-    active: null
-  };
-
-  parseDate(text) {
-    if (!(text in parsed)) {
-      const extendedFormats = [
-        this.props.format,
-        ...formats
-      ];
-      const date = moment(text, extendedFormats);
-      parsed[text] = date.isValid() ? date : null;
+  display() {
+    const {range, displayFormat, date} = this.props;
+    if (!range) {
+      return date && moment(date).format(displayFormat);
+    } else {
+      return '';
     }
-
-    return parsed[text];
   }
 
-  select(changes) {
-    if (!this.props.range) {
-      this.setState({
-        active: null,
-        text: ''
+  createPopup() {
+    this.popup = Popup.renderPopup(Popup.factory({
+      hidden: true,
+      autoRemove: false,
+      anchorElement: this.node
+    }));
+  }
+
+  updatePopup() {
+    if (this.popup) {
+      this.popup.rerender({
+        children: (
+          <DatePopup
+            {...this.props}
+            onComplete={::this.popup.hide}
+          />
+        )
       });
-      this.props.onChange(changes.date);
     }
   }
 
-  confirm(name) {
-    this.select({
-      [name]: this.parseDate(this.state.text) || this.props[name]
-    });
+  handleClick(e) {
+    if (!this.popup) {
+      this.createPopup();
+    }
+
+    if (!this.popup.isVisible()) {
+      this.popup.show(::this.updatePopup);
+    }
+  }
+
+  didUpdate() {
+    if (this.popup && this.popup.isVisible()) {
+      this.updatePopup();
+    }
   }
 
   render() {
-    const names = this.props.range ? ['from', 'to'] : ['date'];
-    const dates = names.reduce((obj, key) => {
-      const date = this.props[key];
-      return {
-        ...obj,
-        [key]: this.parseDate(date)
-      };
-    }, {});
     const classes = classNames(
       styles.datePicker,
-      {[styles.active]: this.state.active},
       this.props.className
+    );
+    const displayClasses = classNames(
+      styles.displayDate,
+      {[styles.displayRange]: this.props.range}
     );
 
     return (
-      <div
+      <Button
+        onClick={::this.handleClick}
+        icon={calendarIcon}
         className={classes}
       >
-        {names.map(name => (
-          <DateInput
-            {...this.props}
-            {...this.state}
-            key={name}
-            date={dates[name]}
-            active={this.state.active === name}
-            onActivate={() => this.setState({active: name})}
-            onInput={text => {
-              const scrollDate = this.parseDate(text);
-              this.setState(scrollDate ? {text, scrollDate} : {text});
-            }}
-            onConfirm={() => this.confirm(name)}
-          />
-        ))}
-      </div>
+        <span
+          className={displayClasses}
+        >{this.display()}</span>
+      </Button>
     );
   }
 }
