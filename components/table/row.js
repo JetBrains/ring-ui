@@ -1,5 +1,4 @@
 import 'core-js/modules/es6.number.is-finite';
-
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
 import DefaultRenderer from './renderer-default';
@@ -16,7 +15,9 @@ export default class Row extends RingComponent {
     return (
       <tr>{
         columns.map((column, key) => {
-          const value = item[column.id];
+          const getValue = column.getValue || (() => item[column.id]);
+          const value = getValue(item, column);
+
           let Renderer = column.renderer;
 
           if (!Renderer) {
@@ -36,8 +37,7 @@ export default class Row extends RingComponent {
             paddingLeft: `${gap + 10}px`
           };*/
 
-          const props = {key, item, column};
-          return <Renderer {...props} />;
+          return <Renderer key={key}>{value}</Renderer>;
         })
       }</tr>
     );

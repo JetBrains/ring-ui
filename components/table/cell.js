@@ -6,8 +6,8 @@ import style from './table.css';
 
 export default class Cell extends RingComponent {
   static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.any.isRequired
+    children: PropTypes.any.isRequired,
+    className: PropTypes.string
   }
 
   render() {
@@ -16,10 +16,6 @@ export default class Cell extends RingComponent {
       this.props.className
     );
 
-    return (
-      <td className={classes}>
-        {this.props.children}
-      </td>
-    );
+    return <td className={classes}>{this.props.children}</td>;
   }
 }

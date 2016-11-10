@@ -12,9 +12,8 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
 
-import Row from './row';
 import HeaderCell from './header-cell';
-
+import Row from './row';
 import style from './table.css';
 
 export default class Table extends RingComponent {
