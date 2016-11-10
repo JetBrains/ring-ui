@@ -17,7 +17,8 @@
         </option>
         <option name="RIGHT_MARGIN" value="80" />
         <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
-§        <JSCodeStyleSettings>
+        <JSCodeStyleSettings>
+          <option name="USE_DOUBLE_QUOTES" value="false" />
           <option name="CHAINED_CALL_DOT_ON_NEW_LINE" value="false" />
         </JSCodeStyleSettings>
         <XML>
