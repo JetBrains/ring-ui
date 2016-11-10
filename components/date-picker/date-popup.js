@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import classNames from 'classnames';
 import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
@@ -38,7 +37,7 @@ export default class DatePopup extends RingComponent {
   };
 
   state = {
-    text: '',
+    text: null,
     hoverDate: null,
     scrollDate: null,
     active: null
@@ -60,7 +59,7 @@ export default class DatePopup extends RingComponent {
 
   select(changes) {
     if (!this.props.range) {
-      this.setState({text: ''});
+      this.setState({text: null});
       this.props.onChange(changes.date);
       this.props.onComplete();
     }
