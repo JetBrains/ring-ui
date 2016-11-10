@@ -74,7 +74,7 @@ const jsonLoader = {
   test: /\.json$/,
   include: componentsPath,
   loader: resolveLoader('json')
-}
+};
 
 const whatwgLoader = {
   test: require.resolve('whatwg-fetch'),
