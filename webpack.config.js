@@ -2,9 +2,6 @@
 /* eslint-disable modules/no-cjs */
 
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const cssnext = require('postcss-cssnext');
-const replaceValues = require('postcss-modules-values-replace');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
@@ -41,7 +38,7 @@ const scssLoader = {
   loaders: [
     resolveLoader('style'),
     resolveLoader('css'),
-    `${resolveLoader('postcss')}?pack=ring-ui`,
+    resolveLoader('postcss'),
     `${resolveLoader('sass')}?outputStyle=expanded&includePaths[]=${componentsPath[0]}`
   ]
 };
@@ -52,7 +49,7 @@ const cssLoader = {
   loaders: [
     resolveLoader('style'),
     `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]')`,
-    `${resolveLoader('postcss')}?pack=ring-ui-cssnext`
+    resolveLoader('postcss')
   ]
 };
 
@@ -109,13 +106,6 @@ module.exports = {
     ]
   },
 
-  postcss: webpack => ({
-    'ring-ui': [autoprefixer],
-    'ring-ui-cssnext': [
-      replaceValues({fs: webpack._compiler.inputFileSystem}),
-      cssnext
-    ]
-  }),
   componentsPath,
 
   svgSpriteLoader,
