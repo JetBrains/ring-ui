@@ -2,14 +2,16 @@ import React, {PropTypes} from 'react';
 import moment from 'moment';
 
 import Month from './month';
+import MonthNames from './month-names';
 
 import styles from './date-picker.css';
 
-import {unit, cellHeight, calHeight, weekdays, linear} from './consts';
+import units, {weekdays, linear} from './consts';
+const {unit, cellSize, calHeight} = units;
 
 const WEEK = 7;
-const THURSDAYTOSUNDAY = WEEK + weekdays.SU - weekdays.TH;
-const FIVELINES = 32;
+const FRIDAYTOSUNDAY = WEEK + weekdays.SU - weekdays.FR;
+const FIVELINES = 31;
 const TALLMONTH = 6;
 const SHORTMONTH = 5;
 const PADDING = 2;
@@ -18,9 +20,9 @@ const MONTHSBACK = 2;
 
 function monthHeight(date) {
   const monthStart = moment(date).startOf('month');
-  const daysSinceLastThursday = (monthStart.day() + THURSDAYTOSUNDAY) % WEEK;
-  const monthLines = daysSinceLastThursday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
-  return monthLines * cellHeight + unit * PADDING;
+  const daysSinceLastFriday = (monthStart.day() + FRIDAYTOSUNDAY) % WEEK;
+  const monthLines = daysSinceLastFriday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
+  return monthLines * cellSize + unit * PADDING;
 }
 
 // in milliseconds per pixel
@@ -84,6 +86,7 @@ export default function Months(props) {
           />
         ))}
       </div>
+      <MonthNames {...props} />
     </div>
   );
 }

@@ -14,11 +14,11 @@ export default function Month(props) {
     clone().
     endOf('month');
 
-  // pad with empty cells starting from last thursday
+  // pad with empty cells starting from last friday
   const weekday = start.day();
   let day = start.
     clone().
-    weekday(weekday >= weekdays.TH ? weekdays.TH : weekdays.TH - WEEK);
+    weekday(weekday >= weekdays.FR ? weekdays.FR : weekdays.FR - WEEK);
   const days = [];
   while (day < end) {
     days.push(day);
