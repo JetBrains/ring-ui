@@ -1,5 +1,18 @@
-@value unit, gray-color, blue-color, light-blue-color, error-color, link-hover-color, border-color, border-radius, ease from  "../global/global.css";
-@value cell-size: calc(unit * 3);
+@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, border-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value cellSize: calc(unit * 3);
+@value calHeight: calc(unit * 36);
+@value calWidth: calc(unit * 37);
+@value yearHeight: calc(unit * 4);
+@value yearWidth: calc(unit * 7);
+
+.hoverable {
+  cursor: pointer;
+  transition: color .2s ease-out 0s;
+  &:hover {
+    color: link-hover-color;
+    transition: none;
+  }
+}
 
 .datePicker.datePicker {
   padding-right: unit;
@@ -22,15 +35,15 @@
 .calendar {
   box-shadow: 0 -1px border-color;
   position: relative;
-  height: calc(unit * 40);
-  width: calc(unit * 37);
+  height: calHeight;
+  width: calWidth;
   overflow: hidden;
 }
 
 .months {
   position: absolute;
   top: 0;
-  right: calc(unit * 12);
+  right: yearWidth;
   bottom: 0;
   left: 0;
 }
@@ -43,29 +56,31 @@
 .month {
   display: flex;
   width: calc(unit * 21);
-  margin: unit calc(unit * 2);
+  margin: calc(unit * 2);
   flex-wrap: wrap;
 }
 
 .month > * {
-  line-height: cell-size;
-  height: cell-size;
+  line-height: cellSize;
+  height: cellSize;
   flex-shrink: 0;
   box-sizing: border-box;
 }
 
 .monthTitle {
-  flex-basis: calc(unit * 9);
+  text-align: left;
+  font-weight: bold;
+  flex-basis: calc(unit * 12);
+  padding-left: calc(unit * 0.5);
 }
 
 .day {
   position: relative;
-  text-align: right;
+  text-align: center;
   cursor: pointer;
   border-radius: border-radius;
   transition: background-color ease, color ease;
-  flex-basis: cell-size;
-  padding-right: calc(unit * 0.5);
+  flex-basis: cellSize;
 }
 
 .day.active {
@@ -82,4 +97,66 @@
 .day.empty {
   pointer-events: none;
   opacity: 0;
+}
+
+.monthNames {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: calc(unit * 5);
+  box-shadow: -1px 0 border-color;
+}
+
+.monthName {
+  height: cellSize;
+  line-height: cellSize;
+  text-align: left;
+  padding-left: unit;
+  composes: hoverable;
+}
+
+.monthSlider {
+  position: absolute;
+  right: -1px;
+  left: 0;
+  z-index: fixed-z-index;
+  height: calc(unit * 6);
+  cursor: grab;
+  background-color: blue-color;
+  opacity: .1;
+  &:hover {
+    opacity: .15;
+  }
+
+  &.dragging {
+    cursor: grabbing;
+    opacity: .25;
+  }
+}
+
+.years {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: yearWidth;
+  box-shadow: -1px 0 border-color;
+}
+
+.year {
+  height: yearHeight;
+  line-height: yearHeight;
+  color: dark-gray-color;
+  composes: hoverable;
+}
+
+.currentYear {
+  color: text-color;
+  font-weight: bold;
+  cursor: auto;
+  transition: none;
+}
+
+.currentYear:hover {
+  color: text-color;
 }
