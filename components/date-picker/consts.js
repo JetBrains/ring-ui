@@ -1,18 +1,27 @@
 import {PropTypes} from 'react';
 import moment from 'moment';
 
-import styles from '../global/global.css';
+import styles from './date-picker.css';
 
-export const unit = parseInt(styles.unit, 10);
+/* doesn't work yet
+const units = ['unit', 'cellSize', 'calHeight', 'yearHeight'].
+  reduce((obj, key) => {
+    obj[key] = parseInt(styles[key], 10);
+    return obj;
+  }, {});*/
 
-const unitsInCal = 40;
-export const calHeight = unit * unitsInCal;
+const unit = parseInt(styles.unit, 10);
+
+const unitsInCal = 36;
+const calHeight = unit * unitsInCal;
 
 const unitsInCell = 3;
-export const cellHeight = unit * unitsInCell;
+const cellSize = unit * unitsInCell;
 
 const unitsInYear = 4;
-export const yearHeight = unit * unitsInYear;
+const yearHeight = unit * unitsInYear;
+
+export default {unit, cellSize, calHeight, yearHeight};
 
 export const yearLength = +moment.duration(1, 'year');
 
