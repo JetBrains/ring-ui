@@ -4,6 +4,7 @@ import moment from 'moment';
 import RingComponent from '../ring-component/ring-component';
 import DateInput from './date-input';
 import Months from './months';
+import Years from './years';
 
 import {dateType} from './consts';
 import formats from './formats.json';
@@ -59,7 +60,10 @@ export default class DatePopup extends RingComponent {
 
   select(changes) {
     if (!this.props.range) {
-      this.setState({text: null});
+      this.setState({
+        text: null,
+        scrollDate: null
+      });
       this.props.onChange(changes.date);
       this.props.onComplete();
     }
@@ -128,6 +132,7 @@ export default class DatePopup extends RingComponent {
             onHover={hoverDate => this.setState({hoverDate})}
             onSelect={date => this.select({[this.state.active]: date})}
           />
+          <Years {...calendarProps}/>
         </div>
       </div>
     );
