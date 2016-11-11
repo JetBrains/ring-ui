@@ -111,7 +111,10 @@ export default class DatePopup extends RingComponent {
               onInput={text => {
                 const scrollDate = this.parseDate(text);
                 scrollDate && this.scrollTo(scrollDate);
-                this.setState({text});
+                this.setState({
+                  text,
+                  hoverDate: null
+                });
               }}
               onConfirm={() => this.confirm(name)}
             />
