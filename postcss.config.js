@@ -7,12 +7,12 @@ const replaceValues = require('postcss-modules-values-replace');
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {
-  if (ctx.loader.resourcePath.match(scssRE)) {
+  if (scssRE.test(ctx.webpack.resourcePath)) {
     return [autoprefixer];
   }
 
   return [
-    replaceValues({fs: ctx.loader._compiler.inputFileSystem}),
+    replaceValues({fs: ctx.webpack._compiler.inputFileSystem}),
     cssnext
   ];
 };
