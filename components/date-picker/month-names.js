@@ -28,6 +28,13 @@ export default function MonthNames(props) {
     speed
   );
 
+  let top = 0;
+  let bottom = 0;
+  if (props.currentRange) {
+    [top, bottom] = props.currentRange.
+      map(date => Math.floor(pxToDate.x(date)));
+  }
+
   return (
     <div className={styles.monthNames}>
       {months.map(month => (
@@ -43,12 +50,21 @@ export default function MonthNames(props) {
             const end = month.
               clone().
               endOf('month');
-            props.onScroll((month + end) / 2);
+            props.onScrollChange((month + end) / 2);
           }}
         >
           {month.format('MMM')}
         </div>
       ))}
+      {props.currentRange &&
+        <div
+          className={styles.range}
+          style={{
+            top: top - 1,
+            height: bottom - top + 2
+          }}
+        />
+      }
       <MonthSlider
         {...props}
         pxToDate={pxToDate}
@@ -59,5 +75,6 @@ export default function MonthNames(props) {
 
 MonthNames.propTypes = {
   scrollDate: dateType,
-  onScroll: PropTypes.func
+  onScrollChange: PropTypes.func,
+  currentRange: PropTypes.arrayOf(dateType)
 };
