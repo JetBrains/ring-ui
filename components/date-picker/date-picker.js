@@ -18,7 +18,7 @@ import styles from './date-picker.css';
  * @constructor
  * @description TODO add Date Picker description
  * @example
-   <example name="date-picker">
+   <example name="Date picker (single date)">
      <file name="index.html">
        <div id="date-picker"></div>
      </file>
@@ -50,6 +50,43 @@ import styles from './date-picker.css';
        render(<DatePickerExample />, container);
      </file>
    </example>
+
+   <example name="Date picker (range)">
+     <file name="index.html">
+       <div id="date-picker"></div>
+     </file>
+
+     <file name="index.js">
+       import {render} from 'react-dom';
+       import React, {Component} from 'react';
+       import moment from 'moment';
+
+       import DatePicker from 'ring-ui/components/date-picker/date-picker';
+
+       const container = document.getElementById('date-picker');
+
+       class DatePickerExample extends Component {
+         state = {
+           from: moment(),
+           to: moment().add(1, 'day')
+         };
+
+         render() {
+           return (
+             <div>
+               <DatePicker
+                  {...this.state}
+                  range={true}
+                  onChange={::this.setState}
+               />
+             </div>
+           );
+         }
+       }
+
+       render(<DatePickerExample />, container);
+     </file>
+   </example>
  */
 
 export default class DatePicker extends RingComponent {
@@ -57,11 +94,24 @@ export default class DatePicker extends RingComponent {
   static propTypes = DatePopup.propTypes;
 
   display() {
-    const {range, displayFormat, date} = this.props;
+    const {range, displayFormat, date, from, to} = this.props;
     if (!range) {
-      return date && moment(date).format(displayFormat);
+      return date ? moment(date).format(displayFormat) : 'Select a date';
+    } else if (!from && !to) {
+      return 'Select a date range';
+    } else if (!to) {
+      return `${moment(from).format(displayFormat)} —`;
+    } else if (!from) {
+      return `— ${moment(to).format(displayFormat)}`;
+    } else if (displayFormat !== DatePopup.defaultProps.displayFormat ||
+        !from.isSame(to, 'year')) {
+      return `${moment(from).format(displayFormat)} — ${moment(to).format(displayFormat)}`;
+    } else if (!from.isSame(to, 'month')) {
+      return `${moment(from).format('D MMM')} — ${moment(to).format(displayFormat)}`;
+    } else if (!from.isSame(to, 'day')) {
+      return `${moment(from).format('D')} — ${moment(to).format(displayFormat)}`;
     } else {
-      return '';
+      return `${moment(to).format(displayFormat)}`;
     }
   }
 

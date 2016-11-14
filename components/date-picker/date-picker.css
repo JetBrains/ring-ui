@@ -1,17 +1,19 @@
 @value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, border-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value soft-blue-color: #cef;
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
-@value calWidth: calc(unit * 37);
+@value calWidth: calc(unit * 38);
 @value yearHeight: calc(unit * 4);
 @value yearWidth: calc(unit * 7);
 
 .hoverable {
   cursor: pointer;
   transition: color .2s ease-out 0s;
-  &:hover {
-    color: link-hover-color;
-    transition: none;
-  }
+}
+
+.hoverable:hover {
+  color: link-hover-color;
+  transition: none;
 }
 
 .datePicker.datePicker {
@@ -26,6 +28,27 @@
 
 .displayDate.displayRange {
   min-width: calc(unit * 22);
+}
+
+.datePopup {
+  text-align: left;
+  user-select: none;
+}
+
+.input.input {
+  width: calc(unit * 17);
+}
+
+.weekdays {
+  margin-top: calc(unit * 2);
+  color: dark-gray-color;
+}
+
+.weekday {
+  display: inline-block;
+  width: cellSize;
+  text-align: center;
+  text-transform: capitalize;
 }
 
 .weekend {
@@ -78,20 +101,43 @@
   position: relative;
   text-align: center;
   cursor: pointer;
-  border-radius: border-radius;
   transition: background-color ease, color ease;
   flex-basis: cellSize;
 }
 
-.day.active {
+.day.between {
   background-color: light-blue-color;
-  color: link-hover-color;
+  transition: none;
+}
+
+.day.activeBetween {
+  background-color: soft-blue-color;
   transition: none;
 }
 
 .day.current {
+  border-radius: border-radius;
   color: #fff;
   background-color: blue-color;
+}
+
+.day.active {
+  border-radius: border-radius;
+  background-color: soft-blue-color;
+  color: link-hover-color;
+  transition: none;
+}
+
+.day.from {
+  border-radius: border-radius 0 0 border-radius;
+}
+
+.day.to {
+  border-radius: 0 border-radius border-radius 0;
+}
+
+.day.from.to {
+  border-radius: border-radius;
 }
 
 .day.empty {
@@ -111,7 +157,6 @@
 .monthName {
   height: cellSize;
   line-height: cellSize;
-  text-align: left;
   padding-left: unit;
   composes: hoverable;
 }
@@ -125,14 +170,22 @@
   cursor: grab;
   background-color: blue-color;
   opacity: .1;
-  &:hover {
-    opacity: .15;
-  }
+}
 
-  &.dragging {
-    cursor: grabbing;
-    opacity: .25;
-  }
+.monthSlider:hover {
+  opacity: .15;
+}
+
+.monthSlider.dragging {
+  cursor: grabbing;
+  opacity: .25;
+}
+
+.range {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  background-color: blue-color;
 }
 
 .years {
@@ -144,6 +197,7 @@
 }
 
 .year {
+  text-align: center;
   height: yearHeight;
   line-height: yearHeight;
   color: dark-gray-color;
