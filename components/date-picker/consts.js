@@ -23,7 +23,7 @@ const yearHeight = unit * unitsInYear;
 
 export default {unit, cellSize, calHeight, yearHeight};
 
-export const yearLength = +moment.duration(1, 'year');
+export const yearDuration = +moment.duration(1, 'year');
 
 export const weekdays = {
   MO: 1,
@@ -60,3 +60,19 @@ export const dateType = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number
 ]);
+
+export function scheduleRAF() {
+  let scheduledCb;
+  let RAF;
+  return function schedule(cb) {
+    scheduledCb = cb;
+    if (!RAF) {
+      RAF = window.requestAnimationFrame(() => {
+        scheduledCb();
+        RAF = null;
+        scheduledCb = null;
+      });
+    }
+  };
+}
+

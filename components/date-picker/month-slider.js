@@ -4,19 +4,22 @@ import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
 
-import units, {yearLength, linear, dateType} from './consts';
+import units, {yearDuration, linear, dateType} from './consts';
 
 import styles from './date-picker.css';
 
 const YEAR = 12;
 
-export const speed = yearLength / (YEAR * units.cellSize);
+export const speed = yearDuration / (YEAR * units.cellSize);
 
 export default class MonthSlider extends RingComponent {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
-    pxToDate: PropTypes.func
+    pxToDate: React.PropTypes.shape({
+      x: PropTypes.func,
+      y: PropTypes.func
+    })
   };
 
   state = {
