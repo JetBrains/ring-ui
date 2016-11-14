@@ -131,6 +131,14 @@ describe('Query Assist', () => {
       this.queryAssist.immediateState.focus.should.equal(false);
     });
 
+    it('should set immediateState query prop to empty string passing null query', function () {
+      this.renderQueryAssist({
+        query: null
+      });
+
+      this.queryAssist.immediateState.query.should.equal('');
+    });
+
     it('should not set undefined state props to state on update', function () {
       this.renderQueryAssist();
 

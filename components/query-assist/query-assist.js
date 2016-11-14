@@ -167,8 +167,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.setFocus(newFocus);
     }
 
-    if (typeof query === 'string' && query !== this.immediateState.query) {
-      this.immediateState.query = query;
+    if ((query === null || typeof query === 'string') && query !== this.immediateState.query) {
+      this.immediateState.query = query || '';
       let callback = noop;
 
       if (query && this.props.autoOpen) {
