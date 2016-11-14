@@ -9,7 +9,7 @@ appEl.classList.add(...styles.<%= camelCaseName %>.split(' '));
 const rootEl = document.createElement('div');
 
 let renderApp = () => {
-  const AppRoot = require('./app__root');
+  const AppRoot = require('./app-root');
   render(
     <AppRoot />,
     rootEl
@@ -37,7 +37,7 @@ if (module.hot) {
     }
   };
 
-  module.hot.accept('./app__root', () => {
+  module.hot.accept('./app-root', () => {
     setTimeout(renderApp);
   });
 }
