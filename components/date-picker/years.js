@@ -6,7 +6,7 @@ import RingComponent from '../ring-component/ring-component';
 
 import styles from './date-picker.css';
 
-import units, {yearLength, linear, dateType} from './consts';
+import units, {yearDuration, linear, dateType} from './consts';
 const {yearHeight, calHeight} = units;
 
 let scrollTO;
@@ -17,7 +17,8 @@ const scrollDelay = 100;
 export default class Years extends RingComponent {
   static propTypes = {
     scrollDate: dateType,
-    onScroll: PropTypes.func
+    onScroll: PropTypes.func,
+    onScrollChange: PropTypes.func
   };
 
   state = {scrollDate: null};
@@ -54,14 +55,14 @@ export default class Years extends RingComponent {
       years.push(year);
     }
 
-    const pxToDate = linear(0, years[0], yearLength / yearHeight);
+    const pxToDate = linear(0, years[0], yearDuration / yearHeight);
 
     return (
       <div
         className={styles.years}
         onWheel={e => {
           e.preventDefault();
-          const scrollDate = linear(0, date, yearLength / yearHeight).
+          const scrollDate = linear(0, date, yearDuration / yearHeight).
             y(e.deltaY);
           this.setState({scrollDate});
           if (scrollTO) {
@@ -85,7 +86,7 @@ export default class Years extends RingComponent {
                 [styles.today]: item.isSame(moment(), 'year')
               }
             )}
-            onClick={() => this.setYear(item)}
+            onClick={() => this.props.onScrollChange(item)}
           >
             {item.format('YYYY')}
           </div>

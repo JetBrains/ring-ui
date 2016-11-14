@@ -10,6 +10,9 @@ let hoverTO;
 export default function Day(props) {
   const {
     day,
+    from,
+    currentRange,
+    activeRange,
     empty,
     onSelect,
     onHover
@@ -23,9 +26,11 @@ export default function Day(props) {
     return props[name] && isDay(props[name]);
   }
 
-  /*function inRange(range) {
+  function inRange(range) {
     return range && day.isBetween(...range, 'days');
-  }*/
+  }
+
+  const reverse = activeRange && activeRange[1] === from;
 
   return (
     <div
@@ -36,7 +41,13 @@ export default function Day(props) {
           [styles.today]: day.isSame(moment(), 'day'),
           [styles.active]: is('activeDate'),
           [styles.weekend]: [weekdays.SA, weekdays.SU].includes(day.day()),
-          [styles.empty]: empty
+          [styles.empty]: empty,
+          [styles.from]: (currentRange && isDay(currentRange[0]) && !reverse ||
+            activeRange && isDay(activeRange[0])),
+          [styles.to]: (currentRange && isDay(currentRange[1])) ||
+            activeRange && isDay(activeRange[1]),
+          [styles.between]: inRange(currentRange),
+          [styles.activeBetween]: inRange(activeRange)
         },
       )}
       onClick={() => onSelect(day)}
@@ -60,6 +71,9 @@ export default function Day(props) {
 
 Day.propTypes = {
   day: dateType,
+  from: dateType,
+  currentRange: PropTypes.arrayOf(dateType),
+  activeRange: PropTypes.arrayOf(dateType),
   empty: PropTypes.bool,
   onSelect: PropTypes.func,
   onHover: PropTypes.func
