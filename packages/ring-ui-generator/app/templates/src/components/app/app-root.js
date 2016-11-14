@@ -6,6 +6,8 @@ import Auth from 'ring-ui/components/auth/auth';
 import Footer from 'ring-ui/components/footer/footer';
 import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
 
+import styles from './app.css';
+
 export default class AppRoot extends RingComponent {
   willMount() {
     this.auth = new Auth({
@@ -21,7 +23,7 @@ export default class AppRoot extends RingComponent {
           auth={this.auth}
           logo={jetbrainsLogo}
         />
-        <div className="app__content">
+        <div className={styles.content}>
           {'App content'}
         </div>
         <Footer />
