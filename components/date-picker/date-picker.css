@@ -1,5 +1,6 @@
-@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, border-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
 @value soft-blue-color: #cef;
+@value border-color: #dfe5eb;
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 38);
@@ -93,7 +94,8 @@
 .monthTitle {
   text-align: left;
   font-weight: bold;
-  flex-basis: calc(unit * 12);
+  /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
+  width: calc(unit * 12);
   padding-left: calc(unit * 0.5);
 }
 
@@ -145,26 +147,41 @@
   opacity: 0;
 }
 
+.today::after {
+  position: absolute;
+  top: 0;
+  right: calc(unit * 0.5);
+  content: '•';
+}
+
+.day.today::after {
+  top: 9px;
+  right: 0;
+  width: 100%;
+  text-align: center;
+}
+
 .monthNames {
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
-  width: calc(unit * 5);
+  width: calc(unit * 6);
   box-shadow: -1px 0 border-color;
 }
 
 .monthName {
+  position: relative;
   height: cellSize;
   line-height: cellSize;
-  padding-left: unit;
+  padding-left: calc(unit * 1.5);
   composes: hoverable;
 }
 
 .monthSlider {
   position: absolute;
-  right: -1px;
-  left: 0;
+  right: 0px;
+  left: -1px;
   z-index: fixed-z-index;
   height: calc(unit * 6);
   cursor: grab;
@@ -197,6 +214,7 @@
 }
 
 .year {
+  position: relative;
   text-align: center;
   height: yearHeight;
   line-height: yearHeight;
