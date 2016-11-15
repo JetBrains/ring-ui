@@ -36,10 +36,12 @@
 }
 
 .columnLeft {
+  composes: column;
   text-align: left;
 }
 
 .columnCenter {
+  composes: column;
   left: 33.6%;
 }
 
@@ -48,6 +50,7 @@
 }
 
 .columnRight {
+  composes: column;
   top: calc(unit * 2);
   right: 0;
 
