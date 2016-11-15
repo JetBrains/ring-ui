@@ -5,25 +5,13 @@ import formats from './formats.json';
 
 import styles from './date-picker.css';
 
-/* doesn't work yet
 const units = ['unit', 'cellSize', 'calHeight', 'yearHeight'].
   reduce((obj, key) => {
     obj[key] = parseInt(styles[key], 10);
     return obj;
-  }, {});*/
+  }, {});
 
-const unit = parseInt(styles.unit, 10);
-
-const unitsInCal = 36;
-const calHeight = unit * unitsInCal;
-
-const unitsInCell = 3;
-const cellSize = unit * unitsInCell;
-
-const unitsInYear = 4;
-const yearHeight = unit * unitsInYear;
-
-export default {unit, cellSize, calHeight, yearHeight};
+export default units;
 
 export const yearDuration = +moment.duration(1, 'year');
 
