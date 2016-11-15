@@ -7,13 +7,10 @@ import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
 
-import {dateType} from './consts';
-import formats from './formats.json';
+import {dateType, parseDate} from './consts';
 
 import styles from './date-picker.css';
 import '../popup/popup.scss';
-
-const parsed = Object.create(null);
 
 const DELAYTIME = 10;
 
@@ -58,17 +55,11 @@ export default class DatePopup extends RingComponent {
   };
 
   parseDate(text) {
-    if (!(text in parsed)) {
-      const extendedFormats = [
-        this.props.inputFormat,
-        this.props.displayFormat,
-        ...formats
-      ];
-      const date = moment(text, extendedFormats);
-      parsed[text] = date.isValid() ? date : null;
-    }
-
-    return parsed[text];
+    return parseDate(
+      text,
+      this.props.inputFormat,
+      this.props.displayFormat
+    );
   }
 
   select(changes) {
@@ -124,7 +115,7 @@ export default class DatePopup extends RingComponent {
   }
 
   scheduleScroll() {
-    const current = this.state.scrollDate || this.props[this.state.active] || moment();
+    const current = this.state.scrollDate || this.parseDate(this.props[this.state.active]) || moment();
     const goal = this._scrollDate;
     if (!current || !goal || sameDay(goal, current)) {
       this._scrollDate = null;
@@ -178,7 +169,7 @@ export default class DatePopup extends RingComponent {
   }
 
   render() {
-    const {range, from, to} = this.props;
+    const {range} = this.props;
 
     const names = range ? ['from', 'to'] : ['date'];
     const dates = names.reduce((obj, key) => {
@@ -191,24 +182,24 @@ export default class DatePopup extends RingComponent {
 
     const activeDate = this.state.hoverDate || this.state.text && this.parseDate(this.state.text);
 
-    const currentRange = range && from && to && [from, to];
+    const currentRange = range && dates.from && dates.to && [dates.from, dates.to] || null;
     let activeRange = null;
     if (range && activeDate) {
       switch (this.state.active) {
         case 'from':
-          if (to && !activeDate.isAfter(to, 'days')) {
-            activeRange = [activeDate, to];
+          if (dates.to && !activeDate.isAfter(dates.to, 'days')) {
+            activeRange = [activeDate, dates.to];
           }
 
           break;
         case 'to':
-          if (!from) {
+          if (!dates.from) {
             break;
           }
-          if (activeDate.isBefore(from, 'days')) {
-            activeRange = [activeDate, from];
+          if (activeDate.isBefore(dates.from, 'days')) {
+            activeRange = [activeDate, dates.from];
           } else {
-            activeRange = [from, activeDate];
+            activeRange = [dates.from, activeDate];
           }
 
           break;
@@ -220,6 +211,7 @@ export default class DatePopup extends RingComponent {
     const calendarProps = {
       ...this.props,
       ...this.state,
+      ...dates,
       scrollDate: this.state.scrollDate || dates[this.state.active] || moment(),
       activeDate,
       currentRange,
