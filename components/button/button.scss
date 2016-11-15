@@ -171,8 +171,27 @@
   }
 }
 
+@keyframes button-loader-appear {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  99% {
+    display: block;
+    opacity: 0;
+  }
+
+  100% {
+    display: block;
+    opacity: 1;
+  }
+}
+
 .ring-button__loader {
   display: none;
+  opacity: 0;
+
   position: absolute;
   left: 0;
   bottom: 0;
@@ -197,6 +216,9 @@
 
   .ring-button_loader & {
     display: block;
+    opacity: 1;
+
+    animation: button-loader-appear 75ms linear 1;
   }
 
   .ring-button_loader.ring-button_default & {
