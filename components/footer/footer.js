@@ -29,7 +29,7 @@ class FooterColumn extends RingComponent {
 
   render() {
     const {position, children} = this.props;
-    const classes = classNames(styles.column, {
+    const classes = classNames({
       [styles.columnLeft]: position === 'left',
       [styles.columnCenter]: position === 'center',
       [styles.columnRight]: position === 'right'
@@ -49,7 +49,7 @@ class FooterColumn extends RingComponent {
  * @param year {int}
  * @returns {string}
  */
-function copyright(year) {
+export function copyright(year) {
   const currentYear = (new Date()).getUTCFullYear();
   const mdash = '—';
   let ret = '© ';
@@ -130,8 +130,8 @@ class FooterLine extends RingComponent {
       }
      </file>
      <file name="index.js" webpack="true">
-      var render = require('react-dom').render;
-      var Footer = require('ring-ui/components/footer/footer');
+      import {render} from 'react-dom';
+      import Footer from 'ring-ui/components/footer/footer';
 
       render(
       Footer.factory({
