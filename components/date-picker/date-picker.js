@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
 import calendarIcon from 'jetbrains-icons/calendar.svg';
 
@@ -8,6 +7,7 @@ import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button/button';
 import DatePopup from './date-popup';
+import {parseDate} from './consts';
 
 import styles from './date-picker.css';
 
@@ -26,14 +26,13 @@ import styles from './date-picker.css';
      <file name="index.js">
        import {render} from 'react-dom';
        import React, {Component} from 'react';
-       import moment from 'moment';
 
        import DatePicker from 'ring-ui/components/date-picker/date-picker';
 
        const container = document.getElementById('date-picker');
 
        class DatePickerExample extends Component {
-         state = {date: moment()}
+         state = {date: '20.09.14'}
 
          render() {
            return (
@@ -59,7 +58,6 @@ import styles from './date-picker.css';
      <file name="index.js">
        import {render} from 'react-dom';
        import React, {Component} from 'react';
-       import moment from 'moment';
 
        import DatePicker from 'ring-ui/components/date-picker/date-picker';
 
@@ -67,8 +65,8 @@ import styles from './date-picker.css';
 
        class DatePickerExample extends Component {
          state = {
-           from: moment(),
-           to: moment().add(1, 'day')
+           from: '20 January 2015',
+           to: '7 February 2015'
          };
 
          render() {
@@ -94,24 +92,34 @@ export default class DatePicker extends RingComponent {
   static propTypes = DatePopup.propTypes;
 
   display() {
-    const {range, displayFormat, date, from, to} = this.props;
+    const {range, displayFormat} = this.props;
+    const parse = text => parseDate(
+      text,
+      this.props.inputFormat,
+      this.props.displayFormat
+    );
+
+    const date = parse(this.props.date);
+    const from = parse(this.props.from);
+    const to = parse(this.props.to);
+
     if (!range) {
-      return date ? moment(date).format(displayFormat) : 'Select a date';
+      return date ? date.format(displayFormat) : 'Select a date';
     } else if (!from && !to) {
       return 'Select a date range';
     } else if (!to) {
-      return `${moment(from).format(displayFormat)} —`;
+      return `${from.format(displayFormat)} —`;
     } else if (!from) {
-      return `— ${moment(to).format(displayFormat)}`;
+      return `— ${to.format(displayFormat)}`;
     } else if (displayFormat !== DatePopup.defaultProps.displayFormat ||
         !from.isSame(to, 'year')) {
-      return `${moment(from).format(displayFormat)} — ${moment(to).format(displayFormat)}`;
+      return `${from.format(displayFormat)} — ${to.format(displayFormat)}`;
     } else if (!from.isSame(to, 'month')) {
-      return `${moment(from).format('D MMM')} — ${moment(to).format(displayFormat)}`;
+      return `${from.format('D MMM')} — ${to.format(displayFormat)}`;
     } else if (!from.isSame(to, 'day')) {
-      return `${moment(from).format('D')} — ${moment(to).format(displayFormat)}`;
+      return `${from.format('D')} — ${to.format(displayFormat)}`;
     } else {
-      return `${moment(to).format(displayFormat)}`;
+      return `${to.format(displayFormat)}`;
     }
   }
 
@@ -166,6 +174,7 @@ export default class DatePicker extends RingComponent {
       <Button
         onClick={::this.handleClick}
         icon={calendarIcon}
+        iconSize={17}
         className={classes}
       >
         <span

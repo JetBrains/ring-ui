@@ -86,7 +86,10 @@ export default class Years extends RingComponent {
                 [styles.today]: item.isSame(moment(), 'year')
               }
             )}
-            onClick={() => this.props.onScrollChange(item)}
+            onClick={() => this.props.onScrollChange(
+              moment(this.props.scrollDate).
+                year(moment(item).year())
+            )}
           >
             {item.format('YYYY')}
           </div>
