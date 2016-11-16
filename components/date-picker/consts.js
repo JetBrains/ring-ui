@@ -1,7 +1,7 @@
 import {PropTypes} from 'react';
 import moment from 'moment';
 
-import formats from './formats.json';
+import formats from './formats';
 
 import styles from './date-picker.css';
 
@@ -68,15 +68,16 @@ export function scheduleRAF() {
 
 const parsed = Object.create(null);
 export function parseDate(text, ...addFormats) {
-  if (!(text in parsed)) {
+  const key = `${text}__${addFormats.join('__')}`;
+  if (!(key in parsed)) {
     const extendedFormats = [
       ...addFormats,
       ...formats
     ];
     const date = moment(text, extendedFormats);
-    parsed[text] = date.isValid() ? date : null;
+    parsed[key] = date.isValid() ? date : null;
   }
 
-  return parsed[text];
+  return parsed[key];
 }
 
