@@ -188,7 +188,10 @@ export default class Footer extends RingComponent {
     });
 
     return (
-      <div className={classes}>{
+      <div
+        className={classes}
+        data-test="ring-footer"
+      >{
         [
           content(this.props.left, 'left'),
           content(this.props.center, 'center'),
