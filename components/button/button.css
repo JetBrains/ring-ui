@@ -1,0 +1,194 @@
+@value unit, font, border-radius, icon-color, border-hover-color, white-color, selected-background-color, main-color, error-color, gray-color, link-hover-color, icon-hover-color, disabled-color, ease from "../global/global.css";
+
+@value button-shadow: inset 0 0 0 1px;
+
+.button {
+  composes: font;
+  background-color: white-color;
+  text-decoration: none;
+
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+
+  box-sizing: border-box;
+  height: calc(unit * 3);
+  line-height: calc(unit * 3);
+  padding: 0 calc(unit * 2);
+  margin: 0;
+  outline: 0;
+
+  border: 0;
+  border-radius: border-radius;
+  box-shadow: button-shadow icon-color;
+  transition: box-shadow ease;
+
+  cursor: pointer;
+
+  &:not([disabled]):not(.loader) {
+    &:hover,
+    &:focus {
+      box-shadow: button-shadow border-hover-color;
+      z-index: 3;
+      transition: none;
+    }
+
+    &:active,
+    &.active {
+      background-color: selected-background-color;
+      box-shadow: button-shadow border-hover-color;
+      z-index: 2;
+    }
+  }
+
+  &&[disabled] {
+    color: disabled-color;
+    pointer-events: none;
+  }
+
+  &.primary {
+    color: white-color;;
+    background-color: main-color;
+    box-shadow: none;
+    transition: background-color ease;
+
+    &:not([disabled]):not(.loader) {
+      &:hover,
+      &:focus {
+        background-color: #007EE5;
+        box-shadow: none;
+        transition: none;
+      }
+
+      &:active,
+      &.active {
+        background-color: #1A98FF;
+        box-shadow: button-shadow #0062B2;
+      }
+    }
+
+    &[disabled] {
+      background-color: white-color;
+      box-shadow: button-shadow icon-color;
+    }
+  }
+
+  &.danger {
+    color: error-color;
+
+    &:not([disabled]):not(.loader) {
+      &:hover,
+      &:focus {
+        box-shadow: button-shadow #FFB2B2;
+      }
+
+      &:active,
+      &.active {
+        background-color: #FFE5E5;
+        box-shadow: button-shadow #FFB2B2;
+      }
+    }
+  }
+
+  &.text,
+  &.withIcon {
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    transition: color ease;
+
+    &:not([disabled]):not(.loader) {
+      &:hover {
+        transition: none;
+      }
+
+      &:hover,
+      &:focus,
+      &:active,
+      &.active {
+        background-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+
+  &.text {
+    color: main-color;
+
+    &:not([disabled]):not(.loader) {
+      &:hover {
+        color: link-hover-color;
+      }
+    }
+  }
+
+  &.withIcon {
+    color: gray-color;
+
+    & .icon {
+      vertical-align: 1px;
+      line-height: normal;
+      margin-right: calc(unit * 0.5);
+      color: icon-color;
+      transition: color ease;
+    }
+
+    &:not([disabled]):not(.loader) {
+      &:hover {
+        color: main-color;
+
+        & .icon {
+          color: icon-hover-color;;
+          transition: none;
+        }
+      }
+
+      &:active,
+      &.active {
+        & .icon {
+          color: main-color;
+        }
+      }
+    }
+
+    &[disabled] .icon {
+      color: #DBDBDB;
+    }
+  }
+
+  &::-moz-focus-inner {
+    outline: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  &.loader {
+    pointer-events: none;
+
+    animation: progress 300ms linear infinite;
+    background-repeat: repeat;
+    background-image: url(./loader-gray.svg);
+
+    &.primary {
+      background-image: url(./loader-white.svg);
+    }
+  }
+
+  &.delayed .content:after {
+    content: '…';
+  }
+
+  &.short {
+    width: calc(unit * 4);
+    padding: 0;
+  }
+}
+
+@keyframes progress {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -5px 0;
+  }
+}

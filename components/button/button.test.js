@@ -5,6 +5,8 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Button from './button';
 
+import styles from './button.css';
+
 describe('Button', () => {
   beforeEach(function () {
     this.button = TestUtils.renderIntoDocument(React.createElement(Button));
@@ -14,28 +16,24 @@ describe('Button', () => {
     TestUtils.isCompositeComponentWithType(this.button, Button).should.equal(true);
   });
 
-  it('should set _default modifier', function () {
-    this.button.node.should.have.class('ring-button_default');
-  });
-
   it('should set modifiers', function () {
     this.button.rerender({
       active: true,
-      blue: true,
       danger: true,
       delayed: true,
       loader: true,
       primary: true,
-      short: true
+      short: true,
+      text: true
     });
 
-    this.button.node.should.have.class('ring-button_active');
-    this.button.node.should.have.class('ring-button_blue');
-    this.button.node.should.have.class('ring-button_danger');
-    this.button.node.should.have.class('ring-button_delayed');
-    this.button.node.should.have.class('ring-button_loader');
-    this.button.node.should.have.class('ring-button_primary');
-    this.button.node.should.have.class('ring-button_short');
+    this.button.node.should.have.class(styles.active);
+    this.button.node.should.have.class(styles.danger);
+    this.button.node.should.have.class(styles.delayed);
+    this.button.node.should.have.class(styles.loader);
+    this.button.node.should.have.class(styles.primary);
+    this.button.node.should.have.class(styles.short);
+    this.button.node.should.have.class(styles.text);
   });
 
   it('should add icon', function () {
@@ -43,7 +41,7 @@ describe('Button', () => {
       icon: '#caret-down'
     });
 
-    this.button.node.should.have.class('ring-button_icon');
+    this.button.node.should.have.class(styles.withIcon);
     this.button.node.should.contain('svg[style*="16"]');
     this.button.node.query('use').should.have.attribute('xlink:href', '#caret-down');
   });

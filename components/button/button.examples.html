@@ -1,0 +1,48 @@
+<example name="Button">
+
+  <file type="scss">
+    #buttons > span {
+    margin: 8px;
+    }
+  </file>
+
+  <file type="html">
+    <div id="buttons">
+      <span id="button"></span><span id="button-icon"></span><span
+      id="button-text"></span><span id="button-short"></span>
+    </div>
+  </file>
+
+  <file type="js">
+    var render = require('react-dom').render;
+    var Button = require('ring-ui/components/button/button');
+
+    render(Button.factory({}, 'Button default'),
+      document.getElementById('button'));
+
+    render(Button.factory({
+      icon: require('jetbrains-icons/flag.svg')
+    }, 'Icon action'), document.getElementById('button-icon'));
+
+    render(Button.factory({
+      text: true,
+    }, 'Text action'), document.getElementById('button-text'));
+
+    render(Button.factory({
+      short: true,
+    }, '...'), document.getElementById('button-short'));
+
+    var container = document.getElementById('buttons');
+    [
+      'active', 'primary', 'danger', 'delayed', 'loader', 'disabled'
+    ].forEach(modifier => {
+      var node = document.createElement('span');
+      container.appendChild(node);
+
+      render(Button.factory({
+        [modifier]: true
+      }, 'Button ' + modifier), node);
+    });
+
+  </file>
+</example>

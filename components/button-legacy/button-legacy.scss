@@ -1,4 +1,4 @@
-@import "../../global/global";
+@import "../global/global";
 
 @mixin button-background($dark, $light) {
   background-color: #{$light};
