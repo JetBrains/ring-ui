@@ -14,25 +14,8 @@ import '../popup/popup.scss';
 
 const DELAYTIME = 10;
 
-function sameDay(next, prev) {
-  const nextMoment = moment(next);
-  const prevMoment = moment(prev);
-  if (nextMoment.isValid() && prevMoment.isValid()) {
-    return nextMoment.isSame(prevMoment, 'day');
-  }
-
-  return next === prev;
-}
-
 export default class DatePopup extends RingComponent {
   static defaultProps = {
-    className: '',
-    date: null,
-    range: false,
-    from: null,
-    to: null,
-    displayFormat: 'D MMM YYYY',
-    inputFormat: 'D MMMM YYYY',
     onChange() {}
   };
 
@@ -43,11 +26,7 @@ export default class DatePopup extends RingComponent {
     from: dateType,
     to: dateType,
     displayFormat: PropTypes.string,
-    displayMonthFormat: PropTypes.string,
-    displayDayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
-    datePlaceholder: PropTypes.string,
-    rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func
   };
 
@@ -57,6 +36,16 @@ export default class DatePopup extends RingComponent {
     scrollDate: null,
     active: null
   };
+
+  sameDay(next, prev) {
+    const nextMoment = this.parseDate(next);
+    const prevMoment = this.parseDate(prev);
+    if (nextMoment.isValid() && prevMoment.isValid()) {
+      return nextMoment.isSame(prevMoment, 'day');
+    }
+
+    return next === prev;
+  }
 
   parseDate(text) {
     return parseDate(
@@ -121,7 +110,7 @@ export default class DatePopup extends RingComponent {
   scheduleScroll() {
     const current = this.state.scrollDate || this.parseDate(this.props[this.state.active]) || moment();
     const goal = this._scrollDate;
-    if (!current || !goal || sameDay(goal, current)) {
+    if (!current || !goal || this.sameDay(goal, current)) {
       this._scrollDate = null;
       this._scrollTS = null;
       return;
@@ -167,7 +156,7 @@ export default class DatePopup extends RingComponent {
     }
 
     const name = this.state.active;
-    if (this.props[name] && !sameDay(this.props[name], prevProps[name])) {
+    if (this.props[name] && !this.sameDay(this.props[name], prevProps[name])) {
       this.setState({text: null});
     }
   }
