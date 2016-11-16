@@ -16,7 +16,7 @@ import React, {PropTypes, isValidElement} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Link from '../link/link';
-import './footer.scss';
+import styles from './footer.css';
 
 /**
  * @constructor
@@ -29,10 +29,14 @@ class FooterColumn extends RingComponent {
 
   render() {
     const {position, children} = this.props;
-    const classes = classNames('ring-footer__column', `ring-footer__column_${position}`);
+    const classes = classNames({
+      [styles.columnLeft]: position === 'left',
+      [styles.columnCenter]: position === 'center',
+      [styles.columnRight]: position === 'right'
+    });
     return (
       <div className={classes}>
-        <ul className="ring-footer__column__i">
+        <ul className={styles.columnItem}>
           {children}
         </ul>
       </div>
@@ -45,7 +49,7 @@ class FooterColumn extends RingComponent {
  * @param year {int}
  * @returns {string}
  */
-function copyright(year) {
+export function copyright(year) {
   const currentYear = (new Date()).getUTCFullYear();
   const mdash = '—';
   let ret = '© ';
@@ -96,7 +100,7 @@ class FooterLine extends RingComponent {
     }
 
     return (
-      <li className="ring-footer__line">
+      <li className={styles.line}>
         {items.map(renderItem)}
       </li>
     );
@@ -126,8 +130,8 @@ class FooterLine extends RingComponent {
       }
      </file>
      <file name="index.js" webpack="true">
-      var render = require('react-dom').render;
-      var Footer = require('ring-ui/components/footer/footer');
+      import {render} from 'react-dom';
+      import Footer from 'ring-ui/components/footer/footer';
 
       render(
       Footer.factory({
@@ -152,12 +156,15 @@ export default class Footer extends RingComponent {
   /** @override */
   static propTypes = {
     className: PropTypes.string,
+    floating: PropTypes.bool,
     left: PropTypes.array,
     center: PropTypes.array,
     right: PropTypes.array
   };
 
   render() {
+    const {floating} = this.props;
+
     function content(elements, position) {
       if (!elements) {
         return false;
@@ -176,10 +183,15 @@ export default class Footer extends RingComponent {
       );
     }
 
-    const classes = classNames('ring-footer', this.props.className);
+    const classes = classNames(styles.footer, this.props.className, {
+      [styles.footerFloating]: floating
+    });
 
     return (
-      <div className={classes}>{
+      <div
+        className={classes}
+        data-test="ring-footer"
+      >{
         [
           content(this.props.left, 'left'),
           content(this.props.center, 'center'),

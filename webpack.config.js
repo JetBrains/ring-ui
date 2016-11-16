@@ -2,10 +2,6 @@
 /* eslint-disable modules/no-cjs */
 
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const cssnext = require('postcss-cssnext');
-const calc = require('postcss-calc');
-const values = require('postcss-modules-values');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
@@ -42,7 +38,7 @@ const scssLoader = {
   loaders: [
     resolveLoader('style'),
     resolveLoader('css'),
-    `${resolveLoader('postcss')}?pack=ring-ui`,
+    resolveLoader('postcss'),
     `${resolveLoader('sass')}?outputStyle=expanded&includePaths[]=${componentsPath[0]}`
   ]
 };
@@ -53,7 +49,7 @@ const cssLoader = {
   loaders: [
     resolveLoader('style'),
     `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]')`,
-    `${resolveLoader('postcss')}?pack=ring-ui-cssnext`
+    resolveLoader('postcss')
   ]
 };
 
@@ -68,6 +64,12 @@ const babelLoader = {
   test: /\.js$/,
   include: componentsPath,
   loader: `${resolveLoader('babel')}?cacheDirectory=true`
+};
+
+const jsonLoader = {
+  test: /\.json$/,
+  include: componentsPath,
+  loader: resolveLoader('json')
 };
 
 const whatwgLoader = {
@@ -97,20 +99,13 @@ module.exports = {
       scssLoader,
       ngAnnotateLoader,
       babelLoader,
+      jsonLoader,
       whatwgLoader,
       htmlLoader,
       gifLoader
     ]
   },
 
-  postcss: {
-    'ring-ui': [autoprefixer],
-    'ring-ui-cssnext': [
-      values,
-      cssnext,
-      calc
-    ]
-  },
   componentsPath,
 
   svgSpriteLoader,

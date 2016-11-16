@@ -1,0 +1,235 @@
+@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value soft-blue-color: #cef;
+@value border-color: #dfe5eb;
+@value cellSize: calc(unit * 3);
+@value calHeight: calc(unit * 36);
+@value calWidth: calc(unit * 38);
+@value yearHeight: calc(unit * 4);
+@value yearWidth: calc(unit * 7);
+
+.hoverable {
+  cursor: pointer;
+  transition: color .2s ease-out 0s;
+}
+
+.hoverable:hover {
+  color: link-hover-color;
+  transition: none;
+}
+
+.datePicker.datePicker {
+  padding-right: unit;
+}
+
+.displayDate {
+  display: inline-block;
+  text-align: left;
+  min-width: calc(unit * 11);
+}
+
+.displayDate.displayRange {
+  min-width: calc(unit * 22);
+}
+
+.datePopup {
+  text-align: left;
+  user-select: none;
+}
+
+.input.input {
+  width: calc(unit * 17);
+}
+
+.weekdays {
+  margin-top: calc(unit * 2);
+  color: dark-gray-color;
+}
+
+.weekday {
+  display: inline-block;
+  width: cellSize;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.weekend {
+  color: error-color;
+}
+
+.calendar {
+  box-shadow: 0 -1px border-color;
+  position: relative;
+  height: calHeight;
+  width: calWidth;
+  overflow: hidden;
+}
+
+.months {
+  position: absolute;
+  top: 0;
+  right: yearWidth;
+  bottom: 0;
+  left: 0;
+}
+
+.days {
+  position: relative;
+  left: 0;
+}
+
+.month {
+  display: flex;
+  width: calc(unit * 21);
+  margin: calc(unit * 2);
+  flex-wrap: wrap;
+}
+
+.month > * {
+  line-height: cellSize;
+  height: cellSize;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.monthTitle {
+  text-align: left;
+  font-weight: bold;
+  /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
+  width: calc(unit * 12);
+  padding-left: calc(unit * 0.5);
+}
+
+.day {
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color ease, color ease;
+  flex-basis: cellSize;
+}
+
+.day.between {
+  background-color: light-blue-color;
+  transition: none;
+}
+
+.day.activeBetween {
+  background-color: soft-blue-color;
+  transition: none;
+}
+
+.day.current {
+  border-radius: border-radius;
+  color: #fff;
+  background-color: blue-color;
+}
+
+.day.active {
+  border-radius: border-radius;
+  background-color: soft-blue-color;
+  color: link-hover-color;
+  transition: none;
+}
+
+.day.from {
+  border-radius: border-radius 0 0 border-radius;
+}
+
+.day.to {
+  border-radius: 0 border-radius border-radius 0;
+}
+
+.day.from.to {
+  border-radius: border-radius;
+}
+
+.day.empty {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.today::after {
+  position: absolute;
+  top: 0;
+  right: calc(unit * 0.5);
+  font-size: unit;
+  content: '•';
+}
+
+.day.today::after {
+  top: 9px;
+  right: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.monthNames {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: calc(unit * 6);
+  box-shadow: -1px 0 border-color;
+}
+
+.monthName {
+  position: relative;
+  height: cellSize;
+  line-height: cellSize;
+  padding-left: calc(unit * 1.5);
+  composes: hoverable;
+}
+
+.monthSlider {
+  position: absolute;
+  right: 0px;
+  left: -1px;
+  z-index: fixed-z-index;
+  height: calc(unit * 6);
+  cursor: grab;
+  background-color: blue-color;
+  opacity: .1;
+}
+
+.monthSlider:hover {
+  opacity: .15;
+}
+
+.monthSlider.dragging {
+  cursor: grabbing;
+  opacity: .25;
+}
+
+.range {
+  position: absolute;
+  left: 0;
+  width: 2px;
+  background-color: blue-color;
+}
+
+.years {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: yearWidth;
+  box-shadow: -1px 0 border-color;
+}
+
+.year {
+  position: relative;
+  text-align: center;
+  height: yearHeight;
+  line-height: yearHeight;
+  color: dark-gray-color;
+  composes: hoverable;
+}
+
+.currentYear {
+  color: text-color;
+  font-weight: bold;
+  cursor: auto;
+  transition: none;
+}
+
+.currentYear:hover {
+  color: text-color;
+}

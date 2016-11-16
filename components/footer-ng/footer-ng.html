@@ -1,0 +1,13 @@
+<div ng-class=":: $ctrl.styles.footer" data-test="ring-footer">
+  <div ng-class=":: $ctrl.styles.columnLeft">
+    <div ng-transclude="left" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+
+  <div ng-class=":: $ctrl.styles.columnCenter">
+    <div ng-transclude="center" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+
+  <div ng-class=":: $ctrl.styles.columnRight">
+    <div ng-transclude="right" ng-class=":: $ctrl.styles.columnItem"></div>
+  </div>
+</div>
