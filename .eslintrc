@@ -16,7 +16,7 @@
 
     // Best Practices
     "complexity": [0, 5],
-    "no-magic-numbers": [1, { "ignore": [-1, 0, 1, 2] }],
+    "no-magic-numbers": [1, { "ignore": [-1, 0, 1] }],
 
     // Stylistic Issues
     "func-names": 1,

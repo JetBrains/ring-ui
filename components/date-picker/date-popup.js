@@ -43,7 +43,11 @@ export default class DatePopup extends RingComponent {
     from: dateType,
     to: dateType,
     displayFormat: PropTypes.string,
+    displayMonthFormat: PropTypes.string,
+    displayDayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
+    datePlaceholder: PropTypes.string,
+    rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func
   };
 
@@ -233,7 +237,9 @@ export default class DatePopup extends RingComponent {
               onActivate={() => this.setState({active: name})}
               onInput={text => {
                 const scrollDate = this.parseDate(text);
-                scrollDate && this.scrollTo(scrollDate);
+                if (scrollDate) {
+                  this.scrollTo(scrollDate);
+                }
                 this.setState({
                   text,
                   hoverDate: null
