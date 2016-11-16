@@ -22,7 +22,7 @@ import '../table-legacy/table-legacy.scss';
 */
 /*global angular*/
 
-const angularModule = angular.module('Ring.table', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
+const angularModule = angular.module('Ring.table-legacy', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
 angularModule.directive('rgLegacyTable', () => ({
   restrict: 'E',
