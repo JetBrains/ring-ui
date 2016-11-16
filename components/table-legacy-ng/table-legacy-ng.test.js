@@ -23,7 +23,7 @@ describe('Table Legacy Ng', () => {
     ];
   });
 
-  beforeEach(window.module('Ring.table'));
+  beforeEach(window.module('Ring.table-legacy'));
 
   /* global inject */
   beforeEach(inject(($rootScope, _$compile_) => {
