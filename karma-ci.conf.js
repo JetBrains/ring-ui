@@ -6,7 +6,7 @@ const generateConfig = require('./karma-base.conf.js');
 
 module.exports = config => {
   const configCI = deepAssign(generateConfig(config), {
-    browsers: ['wdIE9', 'wdIE10', 'wdIE11', 'wdFirefox', 'wdChrome'],
+    browsers: ['wdIE11', 'wdFirefox', 'wdChrome'],
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
