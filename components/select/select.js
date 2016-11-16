@@ -7,7 +7,7 @@ import SelectPopup from './select__popup';
 import List, {ListHint} from '../list/list';
 import Input from '../input/input';
 import Icon from '../icon/icon';
-import Button from '../button/button';
+import Button from '../legacy/button/button';
 import './select.scss';
 
 /**

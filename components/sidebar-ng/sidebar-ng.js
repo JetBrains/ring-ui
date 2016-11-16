@@ -2,7 +2,7 @@ import PlaceUnder from '../place-under-ng/place-under-ng';
 import iconNg from '../icon-ng/icon-ng';
 
 import '../sidebar/sidebar.scss';
-import '../button/button.scss';
+import '../legacy/button/button.scss';
 
 /**
  * @name Sidebar Ng
