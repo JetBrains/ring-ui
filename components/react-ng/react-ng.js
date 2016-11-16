@@ -197,7 +197,7 @@ function reactNgDirective($parse) {
        require('angular');
        require('ring-ui/components/react-ng/react-ng')({
          Icon: require('ring-ui/components/icon/icon'),
-         Button: require('ring-ui/components/legacy/button/button')
+         Button: require('ring-ui/components/button-legacy/button-legacy')
        });
        require('jetbrains-icons/check.svg');
 

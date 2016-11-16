@@ -8,7 +8,7 @@
 /* global angular: false */
 import 'dom4';
 import '../form/form.scss';
-import '../legacy/button/button.scss';
+import '../button-legacy/button-legacy.scss';
 import '../save-field-ng/save-field-ng.scss';
 
 import '../loader-inline/loader-inline';

@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from '../../ring-component/ring-component';
-import Icon from '../../icon/icon';
-import './button.scss';
+import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
+
+import styles from './button.css';
 
 /**
  * @name Button
- * @category Forms
+ * @category UI Language
  * @constructor
  * @description Provides styled buttons.
  * @extends {RingComponent}
@@ -37,6 +38,7 @@ export default class Button extends RingComponent {
       loader,
       primary,
       short,
+      text,
 
       // Props
       icon,
@@ -47,17 +49,16 @@ export default class Button extends RingComponent {
     } = this.props;
 
     const classes = classNames(
-      'ring-button',
+      styles.button,
       className, {
-        'ring-button_default': !blue && !primary,
-        'ring-button_active': active,
-        'ring-button_blue': blue,
-        'ring-button_danger': danger,
-        'ring-button_delayed': delayed,
-        'ring-button_icon': icon,
-        'ring-button_loader': loader,
-        'ring-button_primary': primary,
-        'ring-button_short': short
+        [styles.active]: active,
+        [styles.danger]: danger,
+        [styles.delayed]: delayed,
+        [styles.withIcon]: icon,
+        [styles.loader]: loader,
+        [styles.primary]: primary || blue,
+        [styles.short]: short,
+        [styles.text]: text
       }
     );
 
@@ -67,19 +68,17 @@ export default class Button extends RingComponent {
         className={classes}
         tabIndex={loader ? -1 : 0}
       >
-        <span className="ring-button__content">
-          {children}
+        <span className={styles.content}>
           {icon && (
-            <span className="ring-button__icon">
+            <span className={styles.icon}>
               <Icon
                 glyph={icon}
                 size={iconSize || 16}
               />
             </span>
           )}
+          {children}
         </span>
-
-        <span className="ring-button__loader"/>
       </button>
     );
   }

@@ -19,7 +19,7 @@ import List from '../list/list';
      <file name="index.js" webpack="true">
        var render = require('react-dom').render;
        var PopupMenu = require('ring-ui/components/popup-menu/popup-menu');
-       var Button = require('ring-ui/components/legacy/button/button');
+       var Button = require('ring-ui/components/button-legacy/button-legacy');
 
        var data = [
           {'label': 'Item'},
