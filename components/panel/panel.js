@@ -20,7 +20,7 @@ import './panel.scss';
        import React from 'react';
        import {render} from 'react-dom';
        import Panel from 'ring-ui/components/panel/panel';
-       import Button from 'ring-ui/components/legacy/button/button';
+       import Button from 'ring-ui/components/button-legacy/button-legacy';
 
        render(
          (

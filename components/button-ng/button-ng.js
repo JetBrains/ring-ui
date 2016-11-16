@@ -3,7 +3,7 @@ import 'core-js/modules/es7.array.includes';
 
 import Icon from '../icon-ng/icon-ng';
 
-import '../legacy/button/button.scss';
+import '../button-legacy/button-legacy.scss';
 
 /**
  * @name Button Ng
