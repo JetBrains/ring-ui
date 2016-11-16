@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
 import calendarIcon from 'jetbrains-icons/calendar.svg';
@@ -7,7 +7,7 @@ import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button/button';
 import DatePopup from './date-popup';
-import {parseDate} from './consts';
+import {dateType, parseDate} from './consts';
 
 import styles from './date-picker.css';
 
@@ -88,11 +88,42 @@ import styles from './date-picker.css';
  */
 
 export default class DatePicker extends RingComponent {
-  static defaultProps = DatePopup.defaultProps;
-  static propTypes = DatePopup.propTypes;
+  static defaultProps = {
+    className: '',
+    date: null,
+    range: false,
+    from: null,
+    to: null,
+    displayFormat: 'D MMM YYYY',
+    displayMonthFormat: 'D MMM',
+    displayDayFormat: 'D',
+    inputFormat: 'D MMMM YYYY',
+    datePlaceholder: '',
+    rangePlaceholder: PropTypes.string
+  };
+  static propTypes = {
+    className: PropTypes.string,
+    date: dateType,
+    range: PropTypes.bool,
+    from: dateType,
+    to: dateType,
+    displayFormat: PropTypes.string,
+    displayMonthFormat: PropTypes.string,
+    displayDayFormat: PropTypes.string,
+    inputFormat: PropTypes.string,
+    datePlaceholder: 'Select a date',
+    rangePlaceholder: 'Select a date range'
+  };
 
   display() {
-    const {range, displayFormat} = this.props;
+    const {
+      range,
+      displayFormat,
+      displayMonthFormat,
+      displayDayFormat,
+      datePlaceholder,
+      rangePlaceholder
+    } = this.props;
     const parse = text => parseDate(
       text,
       this.props.inputFormat,
@@ -104,20 +135,19 @@ export default class DatePicker extends RingComponent {
     const to = parse(this.props.to);
 
     if (!range) {
-      return date ? date.format(displayFormat) : 'Select a date';
+      return date ? date.format(displayFormat) : datePlaceholder;
     } else if (!from && !to) {
-      return 'Select a date range';
+      return rangePlaceholder;
     } else if (!to) {
       return `${from.format(displayFormat)} —`;
     } else if (!from) {
       return `— ${to.format(displayFormat)}`;
-    } else if (displayFormat !== DatePopup.defaultProps.displayFormat ||
-        !from.isSame(to, 'year')) {
+    } else if (!from.isSame(to, 'year')) {
       return `${from.format(displayFormat)} — ${to.format(displayFormat)}`;
     } else if (!from.isSame(to, 'month')) {
-      return `${from.format('D MMM')} — ${to.format(displayFormat)}`;
+      return `${from.format(displayMonthFormat)} — ${to.format(displayFormat)}`;
     } else if (!from.isSame(to, 'day')) {
-      return `${from.format('D')} — ${to.format(displayFormat)}`;
+      return `${from.format(displayDayFormat)} — ${to.format(displayFormat)}`;
     } else {
       return `${to.format(displayFormat)}`;
     }
