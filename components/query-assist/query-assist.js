@@ -348,7 +348,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   handleApply() {
     this.closePopup();
     this.immediateState.dirty = false;
-    this.setState({dirty: false});
+    // Only set dirty to false when query is saved already
+    if (this.immediateState.query === this.state.query) {
+      this.setState({dirty: false});
+    }
     return this.props.onApply(this.immediateState);
   }
 
