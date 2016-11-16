@@ -98,8 +98,8 @@ export default class DatePicker extends RingComponent {
     displayMonthFormat: 'D MMM',
     displayDayFormat: 'D',
     inputFormat: 'D MMMM YYYY',
-    datePlaceholder: '',
-    rangePlaceholder: PropTypes.string
+    datePlaceholder: 'Select a date',
+    rangePlaceholder: 'Select a date range'
   };
   static propTypes = {
     className: PropTypes.string,
@@ -111,8 +111,8 @@ export default class DatePicker extends RingComponent {
     displayMonthFormat: PropTypes.string,
     displayDayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
-    datePlaceholder: 'Select a date',
-    rangePlaceholder: 'Select a date range'
+    datePlaceholder: PropTypes.string,
+    rangePlaceholder: PropTypes.string
   };
 
   display() {
