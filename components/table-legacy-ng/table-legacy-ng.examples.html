@@ -34,7 +34,7 @@
     require('angular');
     require('ring-ui/components/table-legacy-ng/table-legacy-ng');
 
-    angular.module('test', ['Ring.table']).
+    angular.module('test', ['Ring.table-legacy']).
       controller('tableExample', function ($scope) {
         var ctrl = this;
 
@@ -66,7 +66,7 @@
 
 <example name="Table Legacy Ng without selection">
   <file type="html">
-    <div ng-app="Ring.table"
+    <div ng-app="Ring.table-legacy"
       ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
       <rg-legacy-table items="itemsArray" disable-selection="true">
         <rg-legacy-table-row row-item="item" ng-repeat="item in itemsArray">
@@ -147,7 +147,7 @@
     var QueryAssist = require('ring-ui/components/query-assist/query-assist');
     registerComponents({QueryAssist});
 
-    angular.module('test', ['Ring.table', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).
+    angular.module('test', ['Ring.table-legacy', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).
       controller('tableExample', function ($timeout, $scope) {
         var ctrl = this;
 
