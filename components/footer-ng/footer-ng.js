@@ -62,11 +62,6 @@ class rgFooterLineComponent extends RingAngularComponent {
   static transclude = true;
 
   static template = `<div class="${styles.line}" ng-transclude></div>`;
-
-  constructor(...args) {
-    super(...args);
-    this.styles = styles;
-  }
 }
 
 class rgFooterCopyrightComponent extends RingAngularComponent {
