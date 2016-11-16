@@ -12,6 +12,7 @@
 
 @value green-color: #4DA400;
 @value blue-color: #25B7FF;
+@value light-blue-color #E9F8FF;
 @value pink-color: #BC00DE;
 
 @value border-color: rgba(0, 0, 0, 0.2);
@@ -21,6 +22,8 @@
 
 @value font-size: 13px;
 @value font-size-smaller: 11px;
+
+@value ease: 0.15s ease-out;
 
 .clearfix {
   &:after {
