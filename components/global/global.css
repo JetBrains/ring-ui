@@ -1,14 +1,30 @@
 @value unit: 8px;
 
+/* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
+
+@value line-color: #DFE5EB;
+@value icon-color: #CFDBE5;
+@value icon-hover-color: #A1C7E5;
+@value border-hover-color: #80C6FF;
+@value main-color: #008EFF;
+
+@value search-color: #669ECC;
+@value hint-color: #406380;
+@value link-color: #0F5B99;
+@value link-hover-color: #FF008C;
+@value error-color: #E50000;
+@value success-color: #4DA400;
 @value text-color: #444;
-
-@value link-color: #1866C5;
-@value link-hover-color: #FF5A00;
-
-@value error-color: #C10000;
-
-@value gray-color: #CCC;
 @value dark-gray-color: #888;
+@value gray-color: #999;
+@value disabled-color: #BBB;
+@value light-gray-color: #CCC;
+
+@value white-color: #FFF;
+@value sidebar-background-color: #F7F9FA;
+@value selected-background-color: #E5F4FF;
+@value dark-selected-background-color: #001526;
+@value black-color: #000;
 
 @value green-color: #4DA400;
 @value blue-color: #25B7FF;
@@ -21,7 +37,8 @@
 @value border-radius: 3px;
 
 @value font-size: 13px;
-@value font-size-smaller: 11px;
+@value font-size-smaller: 12px;
+@value font-size-larger: 14px;
 
 @value ease: 0.15s ease-out;
 

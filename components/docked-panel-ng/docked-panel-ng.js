@@ -28,7 +28,7 @@ import './docked-panel-ng.scss';
      </file>
      <file name="index.js" webpack="true">
       require('angular');
-      require('ring-ui/components/button/button.scss');
+      require('ring-ui/components/legacy/button/button.scss');
       require('ring-ui/components/panel/panel.scss');
       require('ring-ui/components/docked-panel-ng/docked-panel-ng');
       angular.module('DockedPanelExample', ['Ring.docked-panel']);
