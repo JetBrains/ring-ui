@@ -44,6 +44,8 @@ import {copyright} from '../footer/footer';
 const angularModule = angular.module('Ring.footer', []);
 
 class rgFooterComponent extends RingAngularComponent {
+  styles = styles;
+
   static transclude = {
     left: '?rgFooterLeft',
     center: '?rgFooterCenter',
@@ -51,11 +53,6 @@ class rgFooterComponent extends RingAngularComponent {
   };
 
   static template = require('./footer-ng.html');
-
-  constructor(...args) {
-    super(...args);
-    this.styles = styles;
-  }
 }
 
 class rgFooterLineComponent extends RingAngularComponent {
