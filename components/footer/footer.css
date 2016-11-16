@@ -1,0 +1,68 @@
+@value unit, footer-height, font, font-size-smaller from  "../global/global.css";
+
+.footer {
+  position: relative;
+  height: footer-height;
+  margin: calc(unit * 5) calc(unit * 4) 0 calc(unit * 4);
+  padding-top: calc(unit * 2);
+  border-top: 1px solid #E5E5E5;
+  box-sizing: border-box;
+
+  text-align: center;
+  font-size: font-size-smaller;
+  composes: font;
+}
+
+.footerFloating {
+  composes: footer;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.column {
+  position: absolute;
+  width: 33%;
+}
+
+.columnItem {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+
+  vertical-align: top;
+}
+
+.columnLeft {
+  composes: column;
+  text-align: left;
+}
+
+.columnCenter {
+  composes: column;
+  left: 33.6%;
+}
+
+.columnCenter .line {
+  text-align: left;
+}
+
+.columnRight {
+  composes: column;
+  top: calc(unit * 2);
+  right: 0;
+
+  text-align: right;
+}
+
+.line {
+  list-style: none;
+  padding: 0;
+  line-height: calc(unit * 2);
+}
+
+.lineCenter {
+  text-align: left;
+}

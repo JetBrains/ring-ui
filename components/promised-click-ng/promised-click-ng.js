@@ -1,5 +1,4 @@
 import 'dom4';
-import ttls from '../delayed/delayed';
 
 /**
  * @name Promised Click Ng
@@ -9,9 +8,9 @@ import ttls from '../delayed/delayed';
     <example name="Promised Click Ng">
       <file name="index.html">
         <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
-          <button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</button>
-          <button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</button>
-          <button class="ring-button" rg-promised-click test-directive>Via the controller</button>
+          <rg-button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</rg-button>
+          <rg-button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
+          <rg-button class="ring-button" rg-promised-click test-directive>Via the controller</rg-button>
           <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
         </div>
       </file>
@@ -25,7 +24,7 @@ import ttls from '../delayed/delayed';
 
         buttonTestModule.controller('testController', function($scope, $timeout) {
           this.onClick = function () {
-            return $timeout(angular.noop, 1000);
+            return $timeout(angular.noop, 5000);
           };
         });
 
@@ -47,19 +46,15 @@ import ttls from '../delayed/delayed';
 const angularModule = angular.module('Ring.promised-click', []);
 
 class PromisedClickController {
-  constructor($scope, $element, $attrs, $parse, $timeout) {
+  constructor($scope, $element, $attrs, $parse) {
     this.$scope = $scope;
     this.element = $element[0];
-    this.timeout = $timeout;
     this.active = false;
-    this.activePromise = null;
-    this.activeTTL = 0;
 
     if ($attrs.rgPromisedClick) {
       this.onClick(e => $parse($attrs.rgPromisedClick)($scope, {event: e}));
     }
 
-    const ttl = +$attrs.promisedTtl;
     let currentMode = null;
 
     const setModeParams = mode => {
@@ -67,12 +62,10 @@ class PromisedClickController {
       switch (mode) {
         case 'loader':
           this.activeClass = 'ring-button_loader';
-          this.activeTTL = ttl || ttls.buttonLoader;
           break;
         default:
         case 'active':
           this.activeClass = 'ring-button_active';
-          this.activeTTL = ttl || 0;
           break;
       }
     };
@@ -117,20 +110,9 @@ class PromisedClickController {
   activate() {
     this.active = true;
 
-    const setActive = () => this.element.classList.add(this.activeClass);
-
-    if (this.activeTTL === 0) {
-      setActive();
-    } else if (!this.activePromise) {
-      this.activePromise = this.timeout(setActive, this.activeTTL);
-    }
+    this.element.classList.add(this.activeClass);
 
     const done = () => {
-      if (this.activePromise) {
-        this.timeout.cancel(this.activePromise);
-        this.activePromise = null;
-      }
-
       this.active = false;
       this.element.classList.remove(this.activeClass);
     };

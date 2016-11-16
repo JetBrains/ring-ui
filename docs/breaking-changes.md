@@ -6,6 +6,18 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 15-11-2016: Footer no longer supports the "ring-footer_floating" modifier, use "floating" prop instead
+
+Before:
+```
+<Footer className="ring-footer_floating"/>
+```
+
+After:
+```
+<Footer floating={true}/>
+```
+
 ### 31-10-2016: ListItem and ListCustom no longer pass all props to DOM elements
 
 Since React prohibits passing non-supported props to DOM elements we now have a whitelist of supported props declared in PropTypes.
