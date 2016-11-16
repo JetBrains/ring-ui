@@ -1,5 +1,4 @@
 import {isMounted, getStyles, getRect} from './dom';
-import sniffer from '../sniffer/sniffer';
 
 const nodes = [];
 
