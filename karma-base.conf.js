@@ -106,20 +106,6 @@ module.exports = config => {
         testName,
         browserName: 'internet explorer'
       },
-      wdIE10: {
-        base: 'WebDriver',
-        config: webdriverConfig,
-        'x-ua-compatible': 'IE=EmulateIE10',
-        testName,
-        browserName: 'internet explorer'
-      },
-      wdIE9: {
-        base: 'WebDriver',
-        config: webdriverConfig,
-        'x-ua-compatible': 'IE=EmulateIE9',
-        testName,
-        browserName: 'internet explorer'
-      },
       wdFirefox: {
         base: 'WebDriver',
         config: webdriverConfig,
