@@ -662,7 +662,7 @@ export default class Select extends RingComponentWithShortcuts {
     if (this.props.clear && this.state.selected) {
       icons.push(
         <span
-          className="ring-link"
+          className="ring-select__clear-icon"
           key="close"
           onClick={::this.clear}
         >
