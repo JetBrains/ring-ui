@@ -5,7 +5,7 @@ import calendarIcon from 'jetbrains-icons/calendar.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
-import Button from '../button/button';
+import Button from '../legacy/button/button';
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
 

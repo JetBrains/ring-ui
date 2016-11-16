@@ -8,7 +8,7 @@ import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 
-import '../button/button.scss';
+import '../legacy/button/button.scss';
 import '../dialog/dialog.scss';
 
 /**
