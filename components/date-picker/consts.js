@@ -68,6 +68,10 @@ export function scheduleRAF() {
 
 const parsed = Object.create(null);
 export function parseDate(text, ...addFormats) {
+  if (typeof text === 'number') {
+    return moment(text);
+  }
+
   const key = `${text}__${addFormats.join('__')}`;
   if (!(key in parsed)) {
     const extendedFormats = [
