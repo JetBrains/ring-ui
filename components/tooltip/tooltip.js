@@ -22,7 +22,7 @@ import './tooltip.scss';
        import {render} from 'react-dom';
 
        import Tooltip from 'ring-ui/components/tooltip/tooltip';
-       import Button from 'ring-ui/components/legacy/button/button';
+       import Button from 'ring-ui/components/button-legacy/button-legacy';
 
        const buttonWithTooltip = (
          <Tooltip title="Explanation">

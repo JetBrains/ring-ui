@@ -19,7 +19,7 @@ import './button-toolbar.scss';
       import React from 'react';
       import {render} from 'react-dom';
 
-      import Button from 'ring-ui/components/legacy/button/button';
+      import Button from 'ring-ui/components/button-legacy/button-legacy';
       import ButtonGroup from 'ring-ui/components/button-group/button-group';
       import ButtonToolbar from 'ring-ui/components/button-toolbar/button-toolbar';
 

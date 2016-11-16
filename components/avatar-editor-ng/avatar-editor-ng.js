@@ -4,7 +4,7 @@ import iconNg from '../icon-ng/icon-ng';
 import editIcon from 'jetbrains-icons/pencil.svg';
 
 import '../avatar-editor/avatar-editor.scss';
-import '../legacy/button/button.scss';
+import '../button-legacy/button-legacy.scss';
 
 const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, iconNg]);
 

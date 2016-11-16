@@ -11,7 +11,7 @@ import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
-import Button from '../legacy/button/button';
+import Button from '../button-legacy/button-legacy';
 import Icon from '../icon/icon';
 import Popup from '../popup/popup';
 import urlUtils from '../url-utils/url-utils';
