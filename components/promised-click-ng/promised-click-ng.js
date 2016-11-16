@@ -15,7 +15,7 @@ import 'dom4';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        require('ring-ui/components/button/button.scss');
+        require('ring-ui/components/legacy/button/button.scss');
         require('angular');
         require('ring-ui/components/promised-click-ng/promised-click-ng');
         require('ring-ui/components/button-ng/button-ng');

@@ -1,4 +1,4 @@
-@import "../global/global";
+@import "../../global/global";
 
 @mixin button-background($dark, $light) {
   background-color: #{$light};
@@ -211,7 +211,7 @@
     top: 0;
     animation: button-progress 200ms linear infinite;
     background-repeat: repeat;
-    background-image: url(./button-loader_white.svg);
+    background-image: url(button-loader_white.svg);
   }
 
   .ring-button_loader & {
@@ -222,6 +222,6 @@
   }
 
   .ring-button_loader.ring-button_default & {
-    background-image: url(./button-loader_gray.svg);
+    background-image: url(button-loader_gray.svg);
   }
 }
