@@ -48,7 +48,7 @@ export default class HeaderCell extends RingComponent {
   onClick() {
     const {column, onSort, sortKey, sortOrder} = this.props;
     if (this.sortable && onSort) {
-      onSort(column, !(sortKey === column.id && sortOrder));
+      onSort({column, order: !(sortKey === column.id && sortOrder)});
     }
   }
 }
