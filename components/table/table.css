@@ -5,7 +5,7 @@
 
 
 .headerCell {
-  color: #444;
+  color: #999;
   font-weight: normal;
 
   text-align: left;
@@ -19,9 +19,6 @@
   border-top: 1px solid #e6e6e6;
   border-bottom: 1px solid #e0e0e0;
   box-shadow: inset 0px 1px 0px 0px #f7f7f7;
-
-  .sorter {
-  }
 }
 
 .headerCell:first-child {
@@ -38,6 +35,10 @@
 
 .headerCellSorted {
   font-weight: bold;
+}
+
+.headerCell .sorter {
+  top: -2px;
 }
 
 
