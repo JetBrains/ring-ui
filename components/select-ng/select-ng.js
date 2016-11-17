@@ -334,7 +334,7 @@ angularModule.directive('rgSelect', () => {
       }
 
       function listenToDestroy() {
-        $element.on('$destroy', () => {
+        $scope.$on('$destroy', () => {
           unmountComponentAtNode(container);
         });
       }
