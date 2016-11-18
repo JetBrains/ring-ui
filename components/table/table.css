@@ -1,3 +1,18 @@
+.tableWrapper {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: none;
+}
+
+.loading .loader {
+  display: inline-block;
+}
+
 .table {
   border-spacing: 0;
   width: 100%;
