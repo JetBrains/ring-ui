@@ -11,22 +11,26 @@ import 'core-js/modules/es6.array.find';
 
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
+import classNames from 'classnames';
 
 import HeaderCell from './header-cell';
 import Row from './row';
 import style from './table.css';
 
+import LoaderInline from '../loader-inline/loader-inline';
+
 export default class Table extends RingComponent {
   static propTypes = {
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    loading: PropTypes.bool,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool
   }
 
   render() {
-    const {onSort, sortKey, sortOrder} = this.props;
+    const {loading, onSort, sortKey, sortOrder} = this.props;
 
     const columns = this.props.columns.filter(column => !column.subtree);
 
@@ -64,8 +68,15 @@ export default class Table extends RingComponent {
       }
     });
 
+    const wrapperClasses = classNames({
+      [style.tableWrapper]: true,
+      [style.loading]: loading
+    });
+
     return (
-      <div>
+      <div className={wrapperClasses}>
+        <LoaderInline className={style.loader}/>
+
         <table className={style.table}>
           <thead>
             <tr>{
