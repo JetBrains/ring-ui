@@ -63,6 +63,7 @@ export default class Button extends RingComponent {
 
     return (
       <button
+        type="button"
         {...props}
         className={classes}
         tabIndex={loader ? -1 : 0}
