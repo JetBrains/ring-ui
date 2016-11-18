@@ -44,22 +44,22 @@
     const container = document.getElementById('date-picker');
 
     class DatePickerExample extends Component {
-    state = {
-    from: '20 January 2015',
-    to: '7 February 2015'
-    };
+      state = {
+        from: '20 January 2015',
+        to: '7 February 2015'
+      };
 
-    render() {
-    return (
-    <div>
-      <DatePicker
-        {...this.state}
-        range={true}
-        onChange={::this.setState}
-      />
-    </div>
-    );
-    }
+      render() {
+        return (
+          <div>
+            <DatePicker
+              {...this.state}
+              range={true}
+              onChange={::this.setState}
+            />
+          </div>
+        );
+      }
     }
 
     render(<DatePickerExample />, container);
