@@ -19,36 +19,41 @@ export default class HeaderCell extends RingComponent {
   render() {
     const {column, onSort, sortKey, sortOrder} = this.props;
 
-    this.sortable = true;
-    if (column.sortable === false) {
-      this.sortable = false;
-    }
+    this.sortable = onSort && column.sortable !== false;
+    this.sorted = sortKey === column.id;
 
-    let glyph = require('jetbrains-icons/caret-down.svg');
-    if (sortKey === column.id && sortOrder) {
-      glyph = require('jetbrains-icons/caret-up.svg');
-    }
+    const glyph = do {
+      if (this.sorted && sortOrder) {
+        require('jetbrains-icons/caret-up.svg');
+      } else {
+        require('jetbrains-icons/caret-down.svg');
+      }
+    };
 
-    const size = Icon.Size.Size16;
+    const sorter = (
+      <span className={style.sorter}>
+        <Icon className={style.icon} glyph={glyph} size={Icon.Size.Size16}/>
+      </span>
+    );
 
     const classes = classNames({
       [style.headerCell]: true,
-      [style.headerCellSortable]: this.sortable && onSort,
-      [style.headerCellSorted]: sortKey === column.id
+      [style.headerCellSortable]: this.sortable,
+      [style.headerCellSorted]: this.sorted
     });
 
     return (
       <th className={classes} onClick={::this.onClick}>
         {column.title}
-        {this.sortable && onSort ? <Icon className={style.sorter} glyph={glyph} size={size} /> : ''}
+        {this.sorted ? sorter : ''}
       </th>
     );
   }
 
   onClick() {
-    const {column, onSort, sortKey, sortOrder} = this.props;
-    if (this.sortable && onSort) {
-      onSort({column, order: !(sortKey === column.id && sortOrder)});
+    if (this.sortable) {
+      const {column, onSort, sortOrder} = this.props;
+      onSort({column, order: !(this.sorted && sortOrder)});
     }
   }
 }
