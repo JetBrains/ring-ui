@@ -37,7 +37,11 @@
   font-weight: bold;
 }
 
-.headerCell .sorter {
+.sorter {
+  position: absolute;
+}
+
+.sorter .icon {
   top: -2px;
 }
 
