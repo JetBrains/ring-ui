@@ -6,6 +6,8 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 18-11-2016: All buttons receive type="button" by default. For submit buttons in forms, pass type="submit" explicitly.
+
 ### 15-11-2016: Footer no longer supports the "ring-footer_floating" modifier, use "floating" prop instead
 
 Before:
