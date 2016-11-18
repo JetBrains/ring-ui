@@ -68,20 +68,22 @@ export function scheduleRAF() {
 
 const parsed = Object.create(null);
 export function parseDate(text, ...addFormats) {
+  let date;
   if (typeof text !== 'string') {
-    return moment(text);
-  }
+    date = moment(text);
+  } else {
 
-  const key = `${text}__${addFormats.join('__')}`;
-  if (!(key in parsed)) {
-    const extendedFormats = [
-      ...addFormats,
-      ...formats
-    ];
-    const date = moment(text, extendedFormats);
-    parsed[key] = date.isValid() ? date : null;
-  }
+    const key = `${text}__${addFormats.join('__')}`;
+    if (!(key in parsed)) {
+      const extendedFormats = [
+        ...addFormats,
+        ...formats
+      ];
+      parsed[key] = moment(text, extendedFormats);
+    }
 
-  return parsed[key];
+    date = parsed[key];
+  }
+  return date.isValid() ? date : null;
 }
 

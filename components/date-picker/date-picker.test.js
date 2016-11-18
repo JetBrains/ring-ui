@@ -24,6 +24,10 @@ describe('Date Picker', () => {
     renderComponent({date: '01.11.16'}).node.should.have.text('1 Nov 2016');
   });
 
+  it('should accept a Date instance', () => {
+    renderComponent({date: new Date(0)}).node.should.have.text('1 Jan 1970');
+  });
+
   it('should render a popup on button click', () => {
     const picker = renderComponent();
     Simulate.click(picker.node);
