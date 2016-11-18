@@ -68,7 +68,7 @@ export function scheduleRAF() {
 
 const parsed = Object.create(null);
 export function parseDate(text, ...addFormats) {
-  if (typeof text === 'number') {
+  if (typeof text !== 'string') {
     return moment(text);
   }
 
