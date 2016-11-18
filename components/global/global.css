@@ -40,7 +40,7 @@
 @value font-size-smaller: 12px;
 @value font-size-larger: 14px;
 
-@value ease: 0.15s ease-out;
+@value ease: 0.3s ease-out;
 
 .clearfix {
   &:after {
