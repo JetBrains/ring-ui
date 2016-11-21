@@ -53,7 +53,7 @@
         const {data, page, pageTotal} = this.state;
         return (
           <div>
-            <Table data={data} columns={this.columns} onSort={() => ::this.loadPage(1)} />
+            <Table data={data} columns={this.columns} />
             <Pager total={pageTotal} current={page} goto={({n}) => ::this.loadPage(n)} />
           </div>
         );
