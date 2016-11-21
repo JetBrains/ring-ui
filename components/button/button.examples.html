@@ -1,48 +1,53 @@
 <example name="Button">
 
   <file type="scss">
-    #buttons > span {
-    margin: 8px;
+    .buttons > button {
+      margin: 8px;
     }
   </file>
 
   <file type="html">
     <div id="buttons">
-      <span id="button"></span><span id="button-icon"></span><span
-      id="button-text"></span><span id="button-short"></span>
     </div>
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var Button = require('ring-ui/components/button/button');
+    import {render} from 'react-dom';
+    import React from 'react';
+    import Button from 'ring-ui/components/button/button';
 
-    render(Button.factory({}, 'Button default'),
-      document.getElementById('button'));
+    const examples = (
+      <div className="buttons">
+        <Button>Button default</Button>
 
-    render(Button.factory({
-      icon: require('jetbrains-icons/flag.svg')
-    }, 'Icon action'), document.getElementById('button-icon'));
+        <Button
+          icon={require('jetbrains-icons/flag.svg')}
+        >Icon action</Button>
 
-    render(Button.factory({
-      text: true,
-    }, 'Text action'), document.getElementById('button-text'));
+        <Button
+          text={true}
+        >Text action</Button>
 
-    render(Button.factory({
-      short: true,
-    }, '...'), document.getElementById('button-short'));
+        <Button
+          short={true}
+        >...</Button>
 
-    var container = document.getElementById('buttons');
-    [
-      'active', 'primary', 'danger', 'delayed', 'loader', 'disabled'
-    ].forEach(modifier => {
-      var node = document.createElement('span');
-      container.appendChild(node);
+        {
+          [
+            'active', 'primary', 'danger', 'delayed', 'disabled', 'loader'
+          ].map(modifier => Button.factory({
+            [modifier]: true
+          }, 'Button ' + modifier))
+        }
 
-      render(Button.factory({
-        [modifier]: true
-      }, 'Button ' + modifier), node);
-    });
+        <Button
+          primary={true}
+          loader={true}
+        >Primary loader</Button>
+      </div>
+    );
+
+    render(examples, document.getElementById('buttons'));
 
   </file>
 </example>
