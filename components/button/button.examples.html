@@ -36,6 +36,7 @@
           [
             'active', 'primary', 'danger', 'delayed', 'disabled', 'loader'
           ].map(modifier => Button.factory({
+            key: modifier,
             [modifier]: true
           }, 'Button ' + modifier))
         }
