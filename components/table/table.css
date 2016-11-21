@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.loader {
+.loader.loader {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -61,6 +61,10 @@
 }
 
 
+.row {
+}
+
+
 .cell {
   color: #444;
   white-space: nowrap;
@@ -92,4 +96,8 @@
 
 .cellRight {
   text-align: right;
+}
+
+.row:hover .cell {
+  background-color: #fff;
 }
