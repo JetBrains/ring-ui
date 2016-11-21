@@ -32,7 +32,6 @@
   box-sizing: border-box;
   padding: 0 20px;
   border-top: 1px solid #e6e6e6;
-  border-bottom: 1px solid #e0e0e0;
   box-shadow: inset 0px 1px 0px 0px #f7f7f7;
 }
 
@@ -64,6 +63,9 @@
 .row {
 }
 
+.rowFocused {
+}
+
 
 .cell {
   color: #444;
@@ -75,11 +77,10 @@
 
   background-color: #f0f0f0;
 
-  height: 41px;
+  height: 40px;
   max-width: 400px;
-  box-sizing: border-box;
+  box-sizing: content-box;
   padding: 0 20px;
-  border-bottom: 1px solid #e6e6e6;
 }
 
 .cell:first-child {
@@ -98,6 +99,35 @@
   text-align: right;
 }
 
-.row:hover .cell {
+
+/* border */
+.cell {
+  border-top: 1px solid #e6e6e6;
+}
+
+.row:first-child .cell {
+  border-top: 1px solid #e0e0e0;
+}
+
+.row:last-child .cell {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.row:hover:not(.rowFocused) .cell {
   background-color: #fff;
+}
+
+.rowFocused .cell,
+.rowFocused:first-child .cell {
+  background-color: #e9f8ff;
+  border-top: 1px solid #25b7ff;
+}
+
+.rowFocused:last-child .cell {
+  border-bottom: 1px solid #25b7ff;
+}
+
+.rowFocused + .row .cell,
+.rowFocused + .row:hover .cell {
+  border-top: 1px solid #25b7ff;
 }

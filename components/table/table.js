@@ -29,12 +29,20 @@ export default class Table extends RingComponent {
     sortOrder: PropTypes.bool
   }
 
+  state = {
+    focusedRow: undefined
+  }
+
+  onRowFocus = focusedRow => {
+    this.setState({focusedRow});
+  }
+
   render() {
     const {loading, onSort, sortKey, sortOrder} = this.props;
 
     const columns = this.props.columns.filter(column => !column.subtree);
 
-    const subtreeKey = do {
+    /*const subtreeKey = do {
       const subtreeColumn = this.props.columns.find(column => column.subtree);
       if (subtreeColumn) {
         subtreeColumn.id;
@@ -54,18 +62,18 @@ export default class Table extends RingComponent {
         });
       }
       return result;
-    }
+    }*/
 
     const data = [];
     this.props.data.forEach(item => {
       item.__level = 0;
       data.push(item);
-      if (subtreeKey) {
+      /*if (subtreeKey) {
         const subtree = flattenSubtree(item, subtreeKey, 1);
         subtree.forEach(subitem => {
           data.push(subitem);
         });
-      }
+      }*/
     });
 
     const wrapperClasses = classNames({
@@ -89,7 +97,9 @@ export default class Table extends RingComponent {
 
           <tbody>{
             data.map((item, key) => {
-              const props = {key, item, columns};
+              const focused = this.state.focusedRow === item;
+              const onFocus = this.onRowFocus.bind(this, item);
+              const props = {key, item, columns, focused, onFocus};
               return <Row {...props} />;
             })
           }</tbody>
