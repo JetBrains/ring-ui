@@ -1,4 +1,4 @@
-@value unit, footer-height, font, font-size-smaller from  "../global/global.css";
+@value unit, fixed-z-index, footer-height, font, font-size-smaller from  "../global/global.css";
 
 .footer {
   position: relative;
@@ -17,8 +17,11 @@
   composes: footer;
   position: absolute;
   bottom: 0;
+  z-index: fixed-z-index;
+
   width: 100%;
   margin-right: 0;
+  margin-bottom: unit;
   margin-left: 0;
 }
 
