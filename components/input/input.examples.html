@@ -1,0 +1,60 @@
+<example name="input">
+  <file type="scss">
+    .inputs > div {
+      margin: 8px;
+    }
+  </file>
+
+  <file name="index.html">
+    <div id="inputs"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Input from 'ring-ui/components/input/input';
+
+    const container = document.getElementById('inputs');
+    const inputs = (
+      <div className="inputs">
+        <Input label="Labeled input" />
+        <Input
+          label="Label and hint"
+          placeholder="Hint"
+        />
+        <Input
+          label="Label and value"
+          defaultValue="Default value"
+        />
+        <Input
+          label="Active input"
+          active={true}
+        />
+        <Input
+          label="Disabled input"
+          disabled={true}
+          defaultValue="Default value"
+        />
+        <Input
+          label="Invalid input"
+          error="Error description"
+        />
+        <Input
+          label="Short input"
+          size="S"
+        />
+        <Input
+          label="Long input"
+          size="L"
+        />
+        <Input
+          label="Textarea"
+          multiline={true}
+        />
+      </div>
+    )
+
+    render(inputs, container);
+  </file>
+</example>

@@ -1,0 +1,62 @@
+@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, white-color, gray-color, disabled-color, main-color from  "../global/global.css";
+
+.container {
+  composes: font-lower;
+  padding: unit 0;
+  display: inline-block;
+  position: relative;
+  border-bottom: 1px solid line-color;
+
+  &.disabled {
+    border-bottom-style: dashed;
+  }
+}
+
+.input {
+  padding: 0;
+  font: inherit;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: disabled-color;
+  }
+
+  &[disabled] {
+    color: disabled-color;
+  }
+}
+
+.label {
+  color: gray-color;
+  pointer-events: none;
+  position: absolute;
+  background: white-color;
+  top: unit;
+  left: 0;
+  transition: all .15s ease-out;
+}
+
+.input:focus ~ .label,
+.container.active > .label,
+.container:not(.empty) > .label {
+  background: transparent;
+  font-size: font-size-smaller;
+  top: calc(- unit * 2);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0;
+  background: main-color;
+}
+
+.input:focus ~ .underline,
+.container.active > .underline {
+  width: 100%;
+  transition: width .15s ease-out;
+}
+
