@@ -19,7 +19,7 @@ import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
 
 import './query-assist.scss';
-import '../input/input.scss';
+import '../input-legacy/input-legacy.scss';
 
 const INPUT_BORDER_WIDTH = 1;
 const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +

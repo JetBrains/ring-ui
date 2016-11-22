@@ -5,7 +5,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Popup from '../popup/popup';
 import SelectPopup from './select__popup';
 import List, {ListHint} from '../list/list';
-import Input from '../input/input';
+import Input from '../input-legacy/input-legacy';
 import Icon from '../icon/icon';
 import Button from '../button-legacy/button-legacy';
 import './select.scss';

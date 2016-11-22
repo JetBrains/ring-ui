@@ -22,7 +22,7 @@ function noop() {}
      </file>
 
      <file name="index.js" webpack="true">
-       require('ring-ui/components/input/input.scss');
+       require('ring-ui/components/input-legacy/input-legacy.scss');
        var render = require('react-dom').render;
        var React = require('react');
 

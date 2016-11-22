@@ -1,15 +1,15 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import './input.scss';
+import './input-legacy.scss';
 
 /**
- * @name Input
+ * @name Input (legacy)
  * @category Forms
  * @constructor
  * @description Text input fields of varying size.
  * @extends {ReactComponent}
- * @example-file ./input.examples.html
+ * @example-file ./input-legacy.examples.html
  */
 export default class Input extends RingComponent {
   static propTypes = {
