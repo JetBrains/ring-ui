@@ -1,7 +1,7 @@
 import 'dom4';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
-import Input from '../input/input';
+import Input from '../input-legacy/input-legacy';
 import ErrorBubble from './error-bubble';
 
 describe('Error Bubble', () => {

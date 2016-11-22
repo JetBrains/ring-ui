@@ -8,7 +8,7 @@ import HintPopupTpl from './shortcuts-hint-ng.html';
 import iconNg from '../icon-ng/icon-ng';
 
 import './shortcuts-hint-ng.scss';
-import '../input/input.scss';
+import '../input-legacy/input-legacy.scss';
 import searchIcon from 'jetbrains-icons/search.svg';
 
 /**
