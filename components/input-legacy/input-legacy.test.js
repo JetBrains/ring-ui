@@ -1,6 +1,6 @@
 import 'dom4';
 import TestUtils from 'react-addons-test-utils';
-import Input from './input';
+import Input from './input-legacy';
 
 describe('Input', () => {
   const renderComponent = params => TestUtils.renderIntoDocument(Input.factory(params));

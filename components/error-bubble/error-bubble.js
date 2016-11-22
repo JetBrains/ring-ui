@@ -22,7 +22,7 @@ import './error-bubble.scss';
        import React from 'react';
 
        import ErrorBubble from 'ring-ui/components/error-bubble/error-bubble';
-       import Input from 'ring-ui/components/input/input';
+       import Input from 'ring-ui/components/input-legacy/input-legacy';
        import 'ring-ui/components/input-size/input-size.scss';
 
        const container = document.getElementById('container');
