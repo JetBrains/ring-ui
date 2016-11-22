@@ -36,9 +36,14 @@
 
 @value border-radius: 3px;
 
+@value font-size-larger: 14px;
 @value font-size: 13px;
 @value font-size-smaller: 12px;
-@value font-size-larger: 14px;
+
+@value line-height-taller: 21px;
+@value line-height: 20px;
+@value line-height-lower: 18px;
+@value line-height-lowest: 16px;
 
 @value ease: 0.3s ease-out;
 
@@ -51,8 +56,35 @@
 }
 
 .font {
+  font-size: font-size;
+  line-height: line-height;
   color: text-color;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+.font-lower{
+  composes: font;
+  line-height: line-height-lower;
+}
+
+.font-smaller {
+  composes: font-lower;
+  font-size: font-size-smaller;
+}
+
+.font-smaller-lower {
+  composes: font-lower;
+  line-height: line-height-lowest;
+}
+
+.font-larger-lower {
+  composes: font-lower;
+  font-size: font-size-larger;
+}
+
+.font-larger {
+  composes: font-larger-lower;
+  line-height: line-height-taller;
 }
 
 /* To be used at large sizes */
