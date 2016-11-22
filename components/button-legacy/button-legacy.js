@@ -5,8 +5,8 @@ import Icon from '../icon/icon';
 import './button-legacy.scss';
 
 /**
- * @name Button
- * @category Legacy
+ * @name Button (legacy)
+ * @category Forms
  * @constructor
  * @description Provides styled buttons.
  * @extends {RingComponent}

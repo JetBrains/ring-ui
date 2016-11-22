@@ -7,7 +7,7 @@ import {findDOMNode} from 'react-dom';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
-import Input from '../input/input';
+import Input from '../input-legacy/input-legacy';
 import LoaderInline from '../loader-inline/loader-inline';
 import classNames from 'classnames';
 

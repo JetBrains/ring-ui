@@ -7,7 +7,7 @@ import styles from './button.css';
 
 /**
  * @name Button
- * @category UI Language
+ * @category Components
  * @constructor
  * @description Provides styled buttons.
  * @extends {RingComponent}

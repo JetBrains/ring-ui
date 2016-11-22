@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {dateType} from './consts';
 
-import '../input/input.scss';
+import '../input-legacy/input-legacy.scss';
 import styles from './date-picker.css';
 
 export default function DateInput({
