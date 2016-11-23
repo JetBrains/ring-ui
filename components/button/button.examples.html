@@ -7,8 +7,8 @@
   </file>
 
   <file type="html">
-    <div id="buttons">
-    </div>
+    <div id="buttons"></div>
+    <div id="dynamic"></div>
   </file>
 
   <file type="js">
@@ -16,7 +16,7 @@
     import React from 'react';
     import Button from 'ring-ui/components/button/button';
 
-    const examples = (
+    const buttons = (
       <div className="buttons">
         <Button>Button default</Button>
 
@@ -34,21 +34,30 @@
 
         {
           [
-            'active', 'primary', 'danger', 'delayed', 'disabled', 'loader'
+            'active', 'primary', 'danger', 'delayed', 'disabled'
           ].map(modifier => Button.factory({
             key: modifier,
             [modifier]: true
           }, 'Button ' + modifier))
         }
+      </div>
+    );
 
+    render(buttons, document.getElementById('buttons'));
+
+    const dynamic = (
+      <div className="buttons">
+        <Button
+          loader={true}
+        >Button loader</Button>
         <Button
           primary={true}
           loader={true}
         >Primary loader</Button>
       </div>
-    );
+    )
 
-    render(examples, document.getElementById('buttons'));
+    render(dynamic, document.getElementById('dynamic'));
 
   </file>
 </example>
