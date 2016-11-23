@@ -1,10 +1,10 @@
 /*global angular*/
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
-const angularModule = angular.module('Ring.table.pager', [MessageBundle]);
-angularModule.directive('rgTablePager', ['$location', 'RingMessageBundle', ($location, RingMessageBundle) => ({
+const angularModule = angular.module('Ring.table-legacy.pager', [MessageBundle]);
+angularModule.directive('rgLegacyTablePager', ['$location', 'RingMessageBundle', ($location, RingMessageBundle) => ({
   restrict: 'E',
-  template: require('./table-ng__pager.html'),
+  template: require('./table-legacy-ng__pager.html'),
 
   scope: {
     skip: '=',
