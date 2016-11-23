@@ -2,14 +2,9 @@
 
 .container {
   composes: font-lower;
-  padding: unit 0;
+  padding-top: calc(unit * 3);
   margin: calc(unit * 5) 0;
   position: relative;
-  border-bottom: 1px solid line-color;
-
-  &.disabled {
-    border-bottom-style: dashed;
-  }
 }
 
 .input {
@@ -28,7 +23,9 @@
     color: disabled-color;
   }
 }
+
 textarea.input {
+  box-sizing: border-box;
   overflow: hidden;
   resize: none;
 }
@@ -38,7 +35,7 @@ textarea.input {
   pointer-events: none;
   position: absolute;
   background: white-color;
-  top: unit;
+  top:calc(unit * 3);
   left: 0;
   transition: all .15s ease-out;
 }
@@ -48,35 +45,45 @@ textarea.input {
 .container:not(.empty) > .label {
   background: transparent;
   font-size: font-size-smaller;
-  top: calc(- unit * 2);
+  top: 0;
 }
 
-.underline {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
+.underline{
+  height: unit;
+  border-bottom: 1px solid line-color;
+}
+
+.input[disabled] ~ .underline {
+  border-bottom-style: dashed;
+}
+
+.focusUnderline,
+.errorUnderline {
+  margin-top: -2px;
   height: 2px;
   width: 0;
   background: main-color;
 }
 
-.input:focus ~ .underline,
-.container.active > .underline,
-.error > .underline {
+.errorUnderline {
+  background: error-color;
+}
+
+.input:focus ~ .focusUnderline,
+.container.active > .focusUnderline,
+.error > .errorUnderline {
   width: 100%;
   transition: width .15s ease-out;
 }
 
 .errorText {
   color: error-color;
-  font-size: font-size-smaller;
-  position: absolute;
-  left: 0;
-  bottom: calc(- unit * 3);
-}
-
-.error > .underline {
-  background-color: error-color;
+  composes: font-smaller-lower;
+  box-sizing: border-box;
+  height: 0;
+  overflow: hidden;
+  padding-top: unit;
+  transition: height .3s ease-out;
 }
 
 .sizeS {
