@@ -41,7 +41,9 @@
       </script>
 
       <div rg-dialog=""></div>
-      <div ng-controller="ExampleCtrl"></div>
+      <div ng-controller="ExampleCtrl as ctrl">
+        <rg-button ng-click="ctrl.showDialog()">Show dialog</rg-button>
+      </div>
     </div>
   </file>
   <file type="scss">
@@ -54,17 +56,18 @@
     }
   </file>
   <file type="js">
-    require('ring-ui/components/dialog/dialog.scss');
-    require('ring-ui/components/panel/panel.scss');
-    require('ring-ui/components/input-size/input-size.scss');
+    import 'ring-ui/components/dialog/dialog.scss';
+    import 'ring-ui/components/panel/panel.scss';
+    import 'ring-ui/components/input-size/input-size.scss';
 
-    require('angular/angular');
-    require('ring-ui/components/dialog-ng/dialog-ng'),
-      require('ring-ui/components/select-ng/select-ng');
+    import 'angular/angular';
+    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
+    import Select from 'ring-ui/components/select-ng/select-ng';
+    import Button from 'ring-ui/components/button-ng/button-ng';
 
-    angular.module('Example.dialog', ['Ring.dialog', 'Ring.select']).
+    angular.module('Example.dialog', [Dialog, Select, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {
-        $timeout(function () {
+        this.showDialog = function () {
           dialog.show({
             cssClass: 'custom-css-class',
             title: 'Test',
@@ -93,8 +96,9 @@
               }
             ]
           });
-        }, 500);
+        };
 
+        $timeout(() => this.showDialog(), 500);
       }).
       controller('DialogExampleCtrl', function () {
         var dialogExampleCtrl = this;
