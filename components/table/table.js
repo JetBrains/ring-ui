@@ -7,6 +7,8 @@
  * @example-file ./table.examples.html
  */
 
+/* eslint-disable react/jsx-max-props-per-line */
+
 import 'core-js/modules/es6.array.find';
 
 import React, {PropTypes} from 'react';
@@ -26,21 +28,71 @@ export default class Table extends RingComponent {
     loading: PropTypes.bool,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool
+    sortOrder: PropTypes.bool,
+    onSelect: PropTypes.func
+  }
+
+  static defaultProps = {
+    onSelect: () => {}
   }
 
   state = {
-    focusedRow: undefined
+    focusedRow: undefined,
+    selectedRows: new Set(),
+    userSelectNone: false
   }
 
-  onRowFocus = focusedRow => {
-    this.setState({focusedRow});
+  onRowFocus = row => {
+    this.setState({focusedRow: row}, () => {
+      const {selectedRows, focusedRow} = this.state;
+      if (!selectedRows.size) {
+        this.props.onSelect({selection: new Set([focusedRow])});
+      }
+    });
+  }
+
+  onRowSelect = row => {
+    this.setState(({selectedRows}) => {
+      if (selectedRows.has(row)) {
+        selectedRows.delete(row);
+      } else {
+        selectedRows.add(row);
+      }
+      return {selectedRows};
+    }, () => {
+      const {selectedRows, focusedRow} = this.state;
+      if (selectedRows.size) {
+        this.props.onSelect({selection: selectedRows});
+      } else if (focusedRow) {
+        this.props.onSelect({selection: new Set([focusedRow])});
+      }
+    });
+  }
+
+  onMouseDown = e => {
+    if (e.shiftKey) {
+      this.setState({userSelectNone: true});
+    }
+  }
+
+  onMouseUp = () => {
+    this.setState({userSelectNone: false});
+  }
+
+  didMount() {
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  willUnmount() {
+    document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   render() {
     const {loading, onSort, sortKey, sortOrder} = this.props;
+    const {selectedRows, focusedRow} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
+    const multiSelection = selectedRows.size > 0;
 
     /*const subtreeKey = do {
       const subtreeColumn = this.props.columns.find(column => column.subtree);
@@ -81,11 +133,18 @@ export default class Table extends RingComponent {
       [style.loading]: loading
     });
 
+    const classes = classNames({
+      [style.table]: true,
+      [style.tableMultiSelection]: multiSelection,
+      [style.tableSingleSelection]: !multiSelection,
+      [style.userSelectNone]: this.state.userSelectNone
+    });
+
     return (
       <div className={wrapperClasses}>
         <LoaderInline className={style.loader}/>
 
-        <table className={style.table}>
+        <table className={classes} onMouseDown={this.onMouseDown}>
           <thead>
             <tr>{
               columns.map((column, key) => {
@@ -97,9 +156,15 @@ export default class Table extends RingComponent {
 
           <tbody>{
             data.map((item, key) => {
-              const focused = this.state.focusedRow === item;
-              const onFocus = this.onRowFocus.bind(this, item);
-              const props = {key, item, columns, focused, onFocus};
+              const props = {
+                key,
+                item,
+                columns,
+                focused: focusedRow === item,
+                selected: selectedRows.has(item),
+                onFocus: this.onRowFocus,
+                onSelect: this.onRowSelect
+              };
               return <Row {...props} />;
             })
           }</tbody>
