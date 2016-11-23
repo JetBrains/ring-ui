@@ -19,7 +19,8 @@
         total,
         page: 0,
         pageSize,
-        pageTotal: Math.ceil(total / pageSize)
+        pageTotal: Math.ceil(total / pageSize),
+        selection: new Set()
       }
 
       columns = [
@@ -39,22 +40,27 @@
         }
       ]
 
-      loadPage(page) {
+      loadPage = ({n: page}) => {
         const {pageSize} = this.state;
         const data = mock.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
         this.setState({data, page});
       }
 
+      onSelect = ({selection}) => {
+        this.setState({selection});
+      }
+
       componentWillMount() {
-        this.loadPage(1);
+        this.loadPage({n: 1});
       }
 
       render() {
-        const {data, page, pageTotal} = this.state;
+        const {data, page, pageTotal, selection} = this.state;
         return (
           <div>
-            <Table data={data} columns={this.columns} />
-            <Pager total={pageTotal} current={page} goto={({n}) => ::this.loadPage(n)} />
+            <Table data={data} columns={this.columns} onSelect={this.onSelect} />
+            <Pager total={pageTotal} current={page} goto={this.loadPage} />
+            <div>{[...selection].map(item => item.country).join(', ')}</div>
           </div>
         );
       }
