@@ -73,7 +73,7 @@
 }
 
 .font-smaller-lower {
-  composes: font-lower;
+  composes: font-smaller;
   line-height: line-height-lowest;
 }
 

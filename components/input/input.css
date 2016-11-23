@@ -1,9 +1,9 @@
-@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, white-color, gray-color, disabled-color, main-color from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, gray-color, disabled-color, main-color, error-color from  "../global/global.css";
 
 .container {
   composes: font-lower;
   padding: unit 0;
-  display: inline-block;
+  margin: calc(unit * 5) 0;
   position: relative;
   border-bottom: 1px solid line-color;
 
@@ -13,10 +13,12 @@
 }
 
 .input {
+  width: 100%;
   padding: 0;
   font: inherit;
   border: none;
   outline: none;
+  background-color: white-color;
 
   &::placeholder {
     color: disabled-color;
@@ -25,6 +27,10 @@
   &[disabled] {
     color: disabled-color;
   }
+}
+textarea.input {
+  overflow: hidden;
+  resize: none;
 }
 
 .label {
@@ -55,8 +61,32 @@
 }
 
 .input:focus ~ .underline,
-.container.active > .underline {
+.container.active > .underline,
+.error > .underline {
   width: 100%;
   transition: width .15s ease-out;
 }
 
+.errorText {
+  color: error-color;
+  font-size: font-size-smaller;
+  position: absolute;
+  left: 0;
+  bottom: calc(- unit * 3);
+}
+
+.error > .underline {
+  background-color: error-color;
+}
+
+.sizeS {
+  width: calc(unit * 12);
+}
+
+.sizeM {
+  width: calc(unit * 30);
+}
+
+.sizeL {
+  width: calc(unit * 50);
+}

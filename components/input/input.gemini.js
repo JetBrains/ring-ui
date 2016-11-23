@@ -1,8 +1,8 @@
 /* global gemini: false */
 
-/*gemini.suite('Input', suite => {
+gemini.suite('Input', suite => {
   suite.
     setUrl('/example-input/').
-    setCaptureElements('#input').
+    setCaptureElements('#inputs').
     capture('input');
-});*/
+});
