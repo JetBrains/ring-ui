@@ -1,0 +1,67 @@
+<example name="Date picker (single date)">
+  <file name="index.html">
+    <div id="date-picker"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import DatePicker from 'ring-ui/components/date-picker/date-picker';
+
+    const container = document.getElementById('date-picker');
+
+    class DatePickerExample extends Component {
+      state = {date: '20.09.14'}
+
+      render() {
+        return (
+          <div>
+            <DatePicker
+              date={this.state.date}
+              onChange={date => this.setState({date})}
+            />
+          </div>
+        );
+      }
+    }
+
+    render(<DatePickerExample />, container);
+  </file>
+</example>
+
+<example name="Date picker (range)">
+  <file name="index.html">
+    <div id="date-picker"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import DatePicker from 'ring-ui/components/date-picker/date-picker';
+
+    const container = document.getElementById('date-picker');
+
+    class DatePickerExample extends Component {
+      state = {
+        from: '20 January 2015',
+        to: '7 February 2015'
+      };
+
+      render() {
+        return (
+          <div>
+            <DatePicker
+              {...this.state}
+              range={true}
+              onChange={::this.setState}
+            />
+          </div>
+        );
+      }
+    }
+
+    render(<DatePickerExample />, container);
+  </file>
+</example>
