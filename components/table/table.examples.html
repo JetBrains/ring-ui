@@ -1,0 +1,65 @@
+<example name="Table">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Table from './table';
+    import Link from '../link/link';
+    import Pager from '../pager/pager';
+    import mock from './table.examples.json';
+
+    const pageSize = 7;
+    const total = mock.length;
+
+    class Example extends Component {
+      state = {
+        data: [],
+        total,
+        page: 0,
+        pageSize,
+        pageTotal: Math.ceil(total / pageSize)
+      }
+
+      columns = [
+        {
+          id: 'country',
+          title: 'Country'
+        },
+        {
+          id: 'city',
+          title: 'City'
+        },
+        {
+          id: 'url',
+          title: 'URL',
+          sortable: false,
+          getValue: ({url}) => <Link href={url}>{url}</Link>
+        }
+      ]
+
+      loadPage(page) {
+        const {pageSize} = this.state;
+        const data = mock.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
+        this.setState({data, page});
+      }
+
+      componentWillMount() {
+        this.loadPage(1);
+      }
+
+      render() {
+        const {data, page, pageTotal} = this.state;
+        return (
+          <div>
+            <Table data={data} columns={this.columns} />
+            <Pager total={pageTotal} current={page} goto={({n}) => ::this.loadPage(n)} />
+          </div>
+        );
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('demo'));
+  </file>
+</example>
