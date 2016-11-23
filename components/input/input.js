@@ -57,7 +57,6 @@ export default class Input extends RingComponent {
       size,
       active,
       multiline,
-      disabled,
 
       // Props
       label,
@@ -75,7 +74,6 @@ export default class Input extends RingComponent {
         [styles[`size${size}`]]: true,
         [styles.active]: active,
         [styles.error]: error,
-        [styles.disabled]: disabled,
         [styles.empty]: this.state.empty
       }
     );
@@ -92,7 +90,6 @@ export default class Input extends RingComponent {
       },
       className: styles.input,
       value: value || children,
-      disabled,
       ...props
     };
 
@@ -110,8 +107,17 @@ export default class Input extends RingComponent {
         )}
         <label className={styles.label}>{label}</label>
         <div className={styles.underline} />
+        <div className={styles.focusUnderline} />
+        <div className={styles.errorUnderline} />
         {typeof error === 'string' && (
-          <span className={styles.errorText}>{error}</span>
+          <div
+            className={styles.errorText}
+            ref={el => {
+              if (el) {
+                el.style.height = `${el.scrollHeight}px`;
+              }
+            }}
+          >{error}</div>
         )}
       </div>
     );
