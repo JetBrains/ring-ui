@@ -41,6 +41,10 @@ export default class Input extends RingComponent {
     this.setState({
       empty: !el.value
     });
+
+    if (this.props.multiline && el.scrollHeight > el.clientHeight) {
+      el.style.height = `${el.scrollHeight}px`;
+    }
   }
 
   shouldUpdate(nextProps, nextState) {
@@ -76,31 +80,38 @@ export default class Input extends RingComponent {
       }
     );
 
-    const TagName = multiline ? 'textarea' : 'input';
+    const inputProps = {
+      ref: el => {
+        if (el) {
+          this.checkValue(el);
+        }
+      },
+      onChange: e => {
+        onChange(e);
+        this.checkValue(e.target);
+      },
+      className: styles.input,
+      value: value || children,
+      disabled,
+      ...props
+    };
 
     return (
       <div
         className={classes}
       >
-        <TagName
-          ref={el => {
-            if (el) {
-              this.checkValue(el);
-            }
-          }}
-          onChange={e => {
-            onChange(e);
-            this.checkValue(e.target);
-          }}
-          className={styles.input}
-          value={value || children}
-          disabled={disabled}
-          {...props}
-        />
+        {multiline ? (
+          <textarea
+            rows="1"
+            {...inputProps}
+          />
+        ) : (
+          <input {...inputProps} />
+        )}
         <label className={styles.label}>{label}</label>
         <div className={styles.underline} />
         {typeof error === 'string' && (
-          <span className={styles.error}>{error}</span>
+          <span className={styles.errorText}>{error}</span>
         )}
       </div>
     );
