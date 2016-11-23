@@ -16,6 +16,7 @@
   },
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
+    "postcss.config.js",
     "webpack.config.js"
   ],
   "main": "webpack.config.js",

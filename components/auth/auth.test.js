@@ -9,10 +9,6 @@ import MockedStorage from 'imports?window=mocked-storage!../storage/storage__loc
 import sniffer from '../sniffer/sniffer';
 
 describe('Auth', () => {
-  if (sniffer.browser.name === 'ie' && sniffer.browser.version[0] < 10) {
-    return;
-  }
-
   describe('construction', () => {
     it('should require provide config', () => {
       expect(() => new Auth()).to.throw(Error, 'Config is required');
