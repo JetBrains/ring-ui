@@ -1,4 +1,10 @@
 <example name="input">
+  <file type="scss">
+    .inputs > div {
+      margin: 16px;
+    }
+  </file>
+
   <file name="index.html">
     <div id="inputs"></div>
   </file>
@@ -24,6 +30,7 @@
         <Input
           label="Active input"
           active={true}
+          defaultValue="Default value"
         />
         <Input
           label="Disabled input"
@@ -32,7 +39,7 @@
         />
         <Input
           label="Invalid input"
-          error="Error description"
+          error="Error description that wraps over lines because of being really long"
         />
         <Input
           label="Short input"
