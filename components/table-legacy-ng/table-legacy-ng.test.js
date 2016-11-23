@@ -1,9 +1,9 @@
 import 'angular';
 import 'angular-mocks';
-import './table-ng';
-import TableSelection from './table-ng__selection';
+import './table-legacy-ng';
+import TableSelection from './table-legacy-ng__selection';
 
-describe('Table Ng', () => {
+describe('Table Legacy Ng', () => {
   let scope;
   let directiveController;
   let element;
@@ -23,7 +23,7 @@ describe('Table Ng', () => {
     ];
   });
 
-  beforeEach(window.module('Ring.table'));
+  beforeEach(window.module('Ring.table-legacy'));
 
   /* global inject */
   beforeEach(inject(($rootScope, _$compile_) => {
@@ -33,16 +33,16 @@ describe('Table Ng', () => {
     scope.data = fakeData;
 
     element = $compile(
-    '<rg-table items="data.items">' +
-      '<rg-table-header></rg-table-header>' +
-      '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
+    '<rg-legacy-table items="data.items">' +
+      '<rg-legacy-table-header></rg-legacy-table-header>' +
+      '<rg-legacy-table-row row-item="item" ng-repeat="item in data.items">' +
         '<div class="ring-table__column">{{item.id}}</div>' +
-      '</rg-table-row>' +
-    '</rg-table>'
+      '</rg-legacy-table-row>' +
+    '</rg-legacy-table>'
     )(scope);
 
     scope.$digest();
-    directiveController = element.controller('rgTable');
+    directiveController = element.controller('rgLegacyTable');
   }));
 
   describe('DOM', () => {
@@ -57,14 +57,14 @@ describe('Table Ng', () => {
 
     it('Should set correct unlimited columns width', () => {
       element = $compile(
-        '<rg-table items="data.items">' +
-        '<rg-table-header></rg-table-header>' +
-        '<rg-table-row row-item="item" ng-repeat="item in data.items">' +
-          '<rg-table-column unlimited>{{item.id}}</rg-table-column>' +
-          '<rg-table-column unlimited>{{item.name}}</rg-table-column>' +
-          '<rg-table-column unlimited>{{item.name}}</rg-table-column>' +
-        '</rg-table-row>' +
-        '</rg-table>'
+        '<rg-legacy-table items="data.items">' +
+        '<rg-legacy-table-header></rg-legacy-table-header>' +
+        '<rg-legacy-table-row row-item="item" ng-repeat="item in data.items">' +
+          '<rg-legacy-table-column unlimited>{{item.id}}</rg-legacy-table-column>' +
+          '<rg-legacy-table-column unlimited>{{item.name}}</rg-legacy-table-column>' +
+          '<rg-legacy-table-column unlimited>{{item.name}}</rg-legacy-table-column>' +
+        '</rg-legacy-table-row>' +
+        '</rg-legacy-table>'
       )(scope);
       scope.$digest();
 
@@ -128,14 +128,14 @@ describe('Table Ng', () => {
         expect(selection.getActiveItem()).to.be.undefined;
       });
 
-      it('Should trigger rgTable:activateItem event on activation', () => {
+      it('Should trigger rgLegacyTable:activateItem event on activation', () => {
         selection.activateItem(fakeData.items[0]);
-        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:activateItem', fakeData.items[0]);
+        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgLegacyTable:activateItem', fakeData.items[0]);
       });
 
-      it('Should trigger rgTable:activateItem with empty item on clearActivity', () => {
+      it('Should trigger rgLegacyTable:activateItem with empty item on clearActivity', () => {
         selection.clearActivity();
-        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:activateItem', null);
+        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgLegacyTable:activateItem', null);
       });
     });
 
@@ -167,14 +167,14 @@ describe('Table Ng', () => {
         expect(checkedItems[1]).to.equal(fakeData.items[3]);
       });
 
-      it('Should trigger rgTable:selectionChanged event on checking', () => {
+      it('Should trigger rgLegacyTable:selectionChanged event on checking', () => {
         selection.checkItem(fakeData.items[2]);
-        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:selectionChanged');
+        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgLegacyTable:selectionChanged');
       });
 
-      it('Should trigger rgTable:selectionChanged event on unchecking', () => {
+      it('Should trigger rgLegacyTable:selectionChanged event on unchecking', () => {
         selection.uncheckItem(fakeData.items[2]);
-        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgTable:selectionChanged');
+        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgLegacyTable:selectionChanged');
       });
     });
 
@@ -188,7 +188,7 @@ describe('Table Ng', () => {
     });
 
     describe('Default table navigation actions', () => {
-      const SelectionNavigateActions = require('./table-ng__selection-navigate-actions');
+      const SelectionNavigateActions = require('./table-legacy-ng__selection-navigate-actions');
       let navigateActions;
       beforeEach(() => {
         navigateActions = new SelectionNavigateActions();
