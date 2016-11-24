@@ -104,7 +104,9 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
           let bottomOffset = 0;
           if (syncBottom.length) {
             for (let i = 0; i < syncBottom.length; i++) {
-              const elem = $window.document.querySelector(syncBottom[i]);
+              const syncBottomParams = syncBottom[i].split(';');
+              const elem = $window.document.querySelector(syncBottomParams[0]);
+              const extraMargin = syncBottomParams[1] ? parseInt(syncBottomParams[1], 10) : 0;
 
               if (elem) {
                 const boundingRect = elem.getBoundingClientRect();
@@ -115,7 +117,7 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
 
                 const marginTop = parseInt($window.getComputedStyle(elem).
                   getPropertyValue('margin-top'), 10);
-                bottomOffset = documentOffsetHeight - boundingRect.top + marginTop;
+                bottomOffset = documentOffsetHeight - boundingRect.top + marginTop + extraMargin;
                 if (bottomOffset < 0) {
                   bottomOffset = 0;
                 }
