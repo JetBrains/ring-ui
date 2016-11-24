@@ -26,14 +26,18 @@ export default class Table extends RingComponentWithShortcuts {
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     loading: PropTypes.bool,
+    onSelect: PropTypes.func,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool,
-    onSelect: PropTypes.func
+    sortOrder: PropTypes.bool
   }
 
   static defaultProps = {
-    onSelect: () => {}
+    loading: false,
+    onSelect: () => {},
+    onSort: () => {},
+    sortKey: 'id',
+    sortOrder: true
   }
 
   state = {
@@ -158,15 +162,32 @@ export default class Table extends RingComponentWithShortcuts {
     this.setState({focusedRow: undefined, selectedRows: new Set()});
   }
 
+  willReceiveProps(nextProps) {
+    const {data} = this.props;
+    if (data !== nextProps.data) {
+      this.setState({focusedRow: undefined, selectedRows: new Set()});
+    }
+  }
+
   didUpdate(prevProps, prevState) {
     const {selectedRows, focusedRow} = this.state;
-    if (selectedRows.size) {
+    let selection;
+
+    if (selectedRows.size || prevState.selectedRows.size) {
       const union = new Set([...selectedRows, ...prevState.selectedRows]);
       if (selectedRows.size !== union.size || prevState.selectedRows.size !== union.size) {
-        this.props.onSelect({selection: new Set(selectedRows)});
+        selection = new Set(selectedRows);
       }
-    } else if (focusedRow && focusedRow !== prevState.focusedRow) {
-      this.props.onSelect({selection: new Set([focusedRow])});
+    } else if (focusedRow !== prevState.focusedRow) {
+      if (focusedRow) {
+        selection = new Set([focusedRow]);
+      } else {
+        selection = new Set();
+      }
+    }
+
+    if (selection) {
+      this.props.onSelect({selection});
     }
   }
 
