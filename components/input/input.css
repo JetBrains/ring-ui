@@ -3,7 +3,6 @@
 .container {
   composes: font-lower;
   padding-top: calc(unit * 3);
-  margin: calc(unit * 5) 0;
   position: relative;
 }
 
