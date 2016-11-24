@@ -17,9 +17,9 @@ export default class HeaderCell extends RingComponent {
   }
 
   render() {
-    const {column, onSort, sortKey, sortOrder} = this.props;
+    const {column, sortKey, sortOrder} = this.props;
 
-    this.sortable = onSort && column.sortable !== false;
+    this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
 
     const glyph = do {
