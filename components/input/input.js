@@ -109,16 +109,14 @@ export default class Input extends RingComponent {
         <div className={styles.underline} />
         <div className={styles.focusUnderline} />
         <div className={styles.errorUnderline} />
-        {typeof error === 'string' && (
-          <div
-            className={styles.errorText}
-            ref={el => {
-              if (el) {
-                el.style.height = `${el.scrollHeight}px`;
-              }
-            }}
-          >{error}</div>
-        )}
+        <div
+          className={styles.errorText}
+          ref={el => {
+            if (el) {
+              el.style.height = `${el.scrollHeight}px`;
+            }
+          }}
+        >{typeof error === 'string' && error}</div>
       </div>
     );
   }
