@@ -16,11 +16,17 @@
 .table {
   border-spacing: 0;
   width: 100%;
+  outline: none;
 }
 
 
 .userSelectNone {
   user-select: none;
+}
+
+
+.row {
+  outline: none;
 }
 
 
@@ -114,23 +120,23 @@
 
 
   /* hovered borders */
-  & .row:hover:not(.rowFocused) .cell {
+  & .row:hover:not(:focus) .cell {
     background-color: #fff;
   }
 
 
   /* focused borders */
-  & .rowFocused .cell,
-  & .rowFocused:first-child .cell {
+  & :focus .cell,
+  & :focus:first-child .cell {
     background-color: #e9f8ff;
     border-top: 1px solid #25b7ff;
   }
 
-  & .rowFocused:last-child .cell {
+  & :focus:last-child .cell {
     border-bottom: 1px solid #25b7ff;
   }
 
-  & .rowFocused + .row .cell {
+  & :focus + .row .cell {
     border-top: 1px solid #25b7ff;
   }
 }
@@ -153,39 +159,39 @@
 
 
   /* hovered borders */
-  & .row:hover:not(.rowFocused) .cell {
+  & .row:hover:not(:focus) .cell {
     background-color: #fff;
   }
 
 
   /* focused borders */
-  & .rowFocused .cell,
-  & .rowFocused:first-child .cell {
+  & :focus .cell,
+  & :focus:first-child .cell {
     background-color: #f0f0f0;
     border-top: 1px solid #25b7ff;
   }
 
-  & .rowFocused:last-child .cell {
+  & :focus:last-child .cell {
     border-bottom: 1px solid #25b7ff;
   }
 
-  & .rowFocused + .row .cell {
+  & :focus + .row .cell {
     border-top: 1px solid #25b7ff;
   }
 
 
   /* selected borders */
-  & .rowSelected:not(.rowFocused) .cell {
+  & .rowSelected:not(:focus) .cell {
     background-color: #e9f8ff;
     border-top: 1px solid #d4edfa;
   }
 
-  & .rowSelected.rowFocused .cell {
+  & .rowSelected:focus .cell {
     background-color: #e9f8ff;
     border-top: 1px solid #25b7ff;
   }
 
-  & .rowFocused + .rowSelected .cell {
+  & :focus + .rowSelected .cell {
     background-color: #e9f8ff;
     border-top: 1px solid #25b7ff;
   }
