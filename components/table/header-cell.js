@@ -36,6 +36,8 @@ export default class HeaderCell extends RingComponent {
       </span>
     );
 
+    const value = column.getHeaderValue ? column.getHeaderValue() : column.title;
+
     const classes = classNames({
       [style.headerCell]: true,
       [style.headerCellSortable]: this.sortable,
@@ -44,8 +46,8 @@ export default class HeaderCell extends RingComponent {
 
     return (
       <th className={classes} onClick={::this.onClick}>
-        {column.title}
-        {this.sorted ? sorter : ''}
+        {value}
+        {this.sortable ? sorter : ''}
       </th>
     );
   }
