@@ -7,6 +7,7 @@ import classNames from 'classnames';
 
 import DefaultRenderer from './renderer-default';
 import NumberRenderer from './renderer-number';
+import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
@@ -14,58 +15,109 @@ export default class Row extends RingComponent {
   static propTypes = {
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
+    selectable: PropTypes.bool,
     focused: PropTypes.bool,
     selected: PropTypes.bool,
     onFocus: PropTypes.func,
     onSelect: PropTypes.func
   }
 
+  static defaultProps = {
+    selectable: true,
+    focused: false,
+    selected: false,
+    onFocus: () => {},
+    onSelect: () => {}
+  }
+
+  onFocus = () => {
+    const {selectable, item, focused, onFocus} = this.props;
+    if (selectable && !focused) {
+      onFocus(item);
+    }
+  }
+
   onClick = e => {
-    const {item, focused, onFocus, onSelect} = this.props;
-    if (e.shiftKey) {
-      onSelect(item, e);
-    } else if (!focused) {
-      onFocus(item, e);
+    const {selectable, item, onSelect} = this.props;
+    if (selectable && e.shiftKey) {
+      onSelect(item);
+    }
+  }
+
+  onCheckboxChange = () => {
+    const {item, onSelect} = this.props;
+    onSelect(item);
+  }
+
+  onCheckboxFocus = () => {
+    this.refs.row.focus();
+  }
+
+  didUpdate() {
+    const {props: {focused}, refs: {row}} = this;
+    if (focused && document.activeElement !== row) {
+      row.focus();
     }
   }
 
   render() {
-    const {item, columns, focused, selected} = this.props;
+    const {item, columns, selectable, selected} = this.props;
 
     const classes = classNames({
       [style.row]: true,
-      [style.rowFocused]: focused,
       [style.rowSelected]: selected
     });
 
+    const cells = [];
+
+    if (selectable) {
+      const checkboxCell = (
+        <DefaultRenderer key="checkbox">
+          <Checkbox
+            checked={selected}
+            onChange={this.onCheckboxChange}
+            onFocus={this.onCheckboxFocus}
+            tabIndex="-1"
+          />
+        </DefaultRenderer>
+      );
+      cells.push(checkboxCell);
+    }
+
+    columns.map((column, key) => {
+      const getValue = column.getValue || (() => item[column.id]);
+      const value = getValue(item, column);
+
+      let Renderer = column.renderer;
+
+      if (!Renderer) {
+        if (Number.isFinite(value)) {
+          Renderer = NumberRenderer;
+        } else {
+          Renderer = DefaultRenderer;
+        }
+      }
+
+      /*let gap = 0;
+      if (column.groupable) {
+        gap = item.__level * 10;
+      }
+
+      const style = {
+        paddingLeft: `${gap + 10}px`
+      };*/
+
+      cells.push(<Renderer key={key}>{value}</Renderer>);
+    });
+
     return (
-      <tr className={classes} onClick={this.onClick}>{
-        columns.map((column, key) => {
-          const getValue = column.getValue || (() => item[column.id]);
-          const value = getValue(item, column);
-
-          let Renderer = column.renderer;
-
-          if (!Renderer) {
-            if (Number.isFinite(value)) {
-              Renderer = NumberRenderer;
-            } else {
-              Renderer = DefaultRenderer;
-            }
-          }
-
-          /*let gap = 0;
-          if (column.groupable) {
-            gap = item.__level * 10;
-          }
-
-          const style = {
-            paddingLeft: `${gap + 10}px`
-          };*/
-
-          return <Renderer key={key}>{value}</Renderer>;
-        })
-      }</tr>
+      <tr
+        ref="row"
+        className={classes}
+        tabIndex="0"
+        onFocus={this.onFocus}
+        onClick={this.onClick}
+      >{cells}</tr>
     );
   }
 }
