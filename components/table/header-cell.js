@@ -10,6 +10,7 @@ import style from './table.css';
 
 export default class HeaderCell extends RingComponent {
   static propTypes = {
+    className: PropTypes.string,
     column: PropTypes.object.isRequired,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
@@ -38,7 +39,7 @@ export default class HeaderCell extends RingComponent {
 
     const value = column.getHeaderValue ? column.getHeaderValue() : column.title;
 
-    const classes = classNames({
+    const classes = classNames(this.props.className, {
       [style.headerCell]: true,
       [style.headerCellSortable]: this.sortable,
       [style.headerCellSorted]: this.sorted

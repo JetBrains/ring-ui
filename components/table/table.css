@@ -101,6 +101,11 @@
   text-align: right;
 }
 
+.cellCheckbox {
+  width: 1%;
+  padding-right: 0;
+}
+
 
 
 /* single selection mode */

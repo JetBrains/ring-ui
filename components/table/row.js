@@ -7,12 +7,14 @@ import classNames from 'classnames';
 
 import DefaultRenderer from './renderer-default';
 import NumberRenderer from './renderer-number';
+import CheckboxRenderer from './renderer-checkbox';
 import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
 export default class Row extends RingComponent {
   static propTypes = {
+    className: PropTypes.string,
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
@@ -63,7 +65,7 @@ export default class Row extends RingComponent {
   render() {
     const {item, columns, selectable, selected} = this.props;
 
-    const classes = classNames({
+    const classes = classNames(this.props.className, {
       [style.row]: true,
       [style.rowSelected]: selected
     });
@@ -72,14 +74,14 @@ export default class Row extends RingComponent {
 
     if (selectable) {
       const checkboxCell = (
-        <DefaultRenderer key="checkbox">
+        <CheckboxRenderer key="checkbox">
           <Checkbox
             checked={selected}
             onChange={this.onCheckboxChange}
             onFocus={this.onCheckboxFocus}
             tabIndex="-1"
           />
-        </DefaultRenderer>
+        </CheckboxRenderer>
       );
       cells.push(checkboxCell);
     }
