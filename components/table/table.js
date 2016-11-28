@@ -24,6 +24,7 @@ import Checkbox from '../checkbox/checkbox';
 
 export default class Table extends RingComponentWithShortcuts {
   static propTypes = {
+    className: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
@@ -224,6 +225,11 @@ export default class Table extends RingComponentWithShortcuts {
     if (selection) {
       this.props.onSelect({selection});
     }
+
+
+    if (!focusedRow && prevState.focusedRow) {
+      this.refs.table.focus();
+    }
   }
 
   didMount() {
@@ -288,7 +294,7 @@ export default class Table extends RingComponentWithShortcuts {
       const column = {
         getHeaderValue: () => checkbox
       };
-      headerCells.push(<HeaderCell key="checkbox" column={column}/>);
+      headerCells.push(<HeaderCell key="checkbox" column={column} className={style.cellCheckbox}/>);
     }
 
     columns.map((column, key) => {
@@ -301,7 +307,7 @@ export default class Table extends RingComponentWithShortcuts {
       [style.loading]: loading
     });
 
-    const classes = classNames({
+    const classes = classNames(this.props.className, {
       [style.table]: true,
       [style.tableMultiSelection]: multiSelection,
       [style.tableSingleSelection]: !multiSelection,
