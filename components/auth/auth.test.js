@@ -707,9 +707,7 @@ describe('Auth', () => {
 
       auth._fetch.should.have.been.calledWithMatch(
         'http://localhost:6666/users/me',
-        {
-          credentials: null
-        }
+        {}
       );
     });
 
