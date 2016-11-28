@@ -1,14 +1,6 @@
 @import '../global/global';
 @import "../form/form";
 
-/**
-/**
- * @name Dialog
- * @category Forms
- * @description Create dialogs such as popup forms, confirmation boxes, etc.
- * @example-file ./dialog.examples.html
-*/
-
 .ring-dialog__wrapper {
   z-index: $ring-overlay-z-index;
 

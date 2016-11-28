@@ -133,6 +133,7 @@
     "react-addons-css-transition-group": "15.3.1",
     "react-addons-test-utils": "15.3.1",
     "react-dom": "15.3.1",
+    "react-portal": "3.0.0",
     "react-waypoint": "4.0.2",
     "sass-loader": "4.0.2",
     "scrollbar-width": "3.1.1",
