@@ -1,6 +1,6 @@
 import scrollbarWidth from 'scrollbar-width';
+import {bodyWithoutScroll} from './dialog.css';
 
-const BODY_MODAL_CLASS = 'ring-dialog-modal';
 let isPrevented = false;
 
 export default {
@@ -9,7 +9,7 @@ export default {
       return;
     }
     isPrevented = true;
-    document.body.classList.add(BODY_MODAL_CLASS);
+    document.body.classList.add(bodyWithoutScroll);
 
     const scrollWidth = scrollbarWidth();
 
@@ -27,7 +27,7 @@ export default {
     }
     isPrevented = false;
 
-    document.body.classList.remove(BODY_MODAL_CLASS);
+    document.body.classList.remove(bodyWithoutScroll);
 
     if (this.previousBodyWidth !== null) {
       document.body.style.width = this.previousBodyWidth;

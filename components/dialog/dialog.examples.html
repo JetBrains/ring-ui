@@ -19,6 +19,9 @@
     import Dialog, {DialogHeader, DialogBody, DialogFooter} from 'ring-ui/components/dialog/dialog';
     import ButtonSet from 'ring-ui/components/button-set/button-set';
     import Button from 'ring-ui/components/button/button';
+    import Panel from 'ring-ui/components/panel/panel';
+    import {IslandHeader, IslandContent} from 'ring-ui/components/island/island';
+    import 'ring-ui/components/island/island.scss';
 
     class DialogDemo extends React.Component {
       state = {
@@ -42,14 +45,12 @@
             </div>
 
             <Dialog show={this.state.show}>
-              <DialogHeader>Hello dialog</DialogHeader>
-              <DialogBody>This is the dialog</DialogBody>
-              <DialogFooter>
-                <ButtonSet>
-                  <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
-                  <Button onClick={this.cancelDialog}>No</Button>
-                </ButtonSet>
-              </DialogFooter>
+              <IslandHeader>Hello dialog</IslandHeader>
+              <IslandContent>This is dialog content</IslandContent>
+              <Panel>
+                <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
+                <Button onClick={this.cancelDialog}>No</Button>
+              </Panel>
             </Dialog>
 
           </div>
@@ -99,6 +100,8 @@
   <file type="js">
     require('ring-ui/components/dialog/dialog.scss');
     require('ring-ui/components/input-legacy/input-legacy.scss');
+    require('ring-ui/components/dialog-ng/dialog-ng.scss');
+    require('ring-ui/components/input/input.scss');
     require('ring-ui/components/form/form.scss');
     require('ring-ui/components/panel/panel.scss');
     require('ring-ui/components/button-legacy/button-legacy.scss');
@@ -122,7 +125,7 @@
   </file>
 
   <file type="js">
-    require('ring-ui/components/dialog/dialog.scss');
+    require('ring-ui/components/dialog-ng/dialog-ng.scss');
     require('ring-ui/components/input-legacy/input-legacy.scss');
     require('ring-ui/components/form/form.scss');
     require('ring-ui/components/panel/panel.scss');
