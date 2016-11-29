@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
-import Button from '../button/button';
+import Button from '../button-legacy/button-legacy';
 import RingComponent from '../ring-component/ring-component';
 import {IslandContent} from '../island/island';
 import Panel from '../panel/panel';
@@ -22,7 +22,7 @@ import styles from './confirm.css';
        import {render} from 'react-dom';
        import React from 'react';
        import Confirm from 'ring-ui/components/confirm/confirm';
-       import Button from 'ring-ui/components/button/button';
+       import Button from 'ring-ui/components/button-legacy/button-legacy';
 
        class ConfirmDemo extends React.Component {
 
