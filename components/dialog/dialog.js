@@ -46,7 +46,10 @@ export default class Dialog extends RingComponent {
           className={classes}
           {...restProps}
         >
-          <div className={styles.content}>
+          <div
+            className={styles.content}
+            data-test="ring-dialog"
+          >
             {children}
           </div>
         </div>
