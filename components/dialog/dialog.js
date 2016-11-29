@@ -1,11 +1,9 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import Portal from 'react-portal';
-import scrollbarWidth from 'scrollbar-width';
+import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
 import './dialog.scss';
-
-const BODY_MODAL_CLASS = 'ring-dialog-modal';
 
 /**
  * @name Dialog
@@ -19,32 +17,16 @@ const BODY_MODAL_CLASS = 'ring-dialog-modal';
 export default class Dialog extends RingComponent {
   static propTypes = {
     className: PropTypes.string,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ]),
     show: PropTypes.bool.isRequired,
     onOutsideClick: PropTypes.func
   };
 
   defaultProps = {
     onOutsideClick: () => {}
-  }
-
-  preventBodyScrolling() {
-    document.body.classList.add(BODY_MODAL_CLASS);
-
-    const scrollWidth = scrollbarWidth();
-    const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
-    if (bodyHasScroll && scrollWidth > 0) {
-      this.previousBodyWidth = document.body.style.width;
-      document.body.style.width = `calc(100% - ${scrollWidth}px)`;
-    }
-  }
-
-  resetBodyScrollPrevention() {
-    document.body.classList.remove(BODY_MODAL_CLASS);
-    if (this.previousBodyWidth !== null) {
-      document.body.style.width = this.previousBodyWidth;
-      this.previousBodyWidth = null;
-    }
   }
 
   render() {
@@ -55,8 +37,8 @@ export default class Dialog extends RingComponent {
       <Portal
         closeOnEsc={true}
         isOpened={show}
-        onOpen={() => this.preventBodyScrolling()}
-        onClose={() => this.resetBodyScrollPrevention()}
+        onOpen={() => ScrollPreventer.prevent()}
+        onClose={() => ScrollPreventer.reset()}
         closeOnOutsideClick={true}
       >
         <div
@@ -65,9 +47,7 @@ export default class Dialog extends RingComponent {
           {...restProps}
         >
           <div className="ring-dialog__container">
-
             {children}
-
           </div>
           <div
             className="ring-dialog__layer"
