@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
-import Dialog, {DialogBody, DialogFooter} from '../dialog/dialog';
+import Dialog from '../dialog/dialog';
 import Button from '../button/button';
-import ButtonSet from '../button-set/button-set';
 import RingComponent from '../ring-component/ring-component';
+import {IslandContent} from '../island/island';
+import Panel from '../panel/panel';
 import styles from './confirm.css';
 
 /**
@@ -118,20 +119,18 @@ export default class Confirm extends RingComponent {
         className={this.props.className}
         show={this.state.show}
       >
-        <DialogBody className={styles.text}>{text}</DialogBody>
-        <DialogFooter>
-          <ButtonSet>
-            <Button
-              blue={true}
-              onClick={this.confirm}
-            >
-              {confirmText}
-            </Button>
-            <Button onClick={this.cancel}>
-              {cancelText}
-            </Button>
-          </ButtonSet>
-        </DialogFooter>
+        <IslandContent className={styles.text}>{text}</IslandContent>
+        <Panel>
+          <Button
+            blue={true}
+            onClick={this.confirm}
+          >
+            {confirmText}
+          </Button>
+          <Button onClick={this.cancel}>
+            {cancelText}
+          </Button>
+        </Panel>
       </Dialog>
     );
   }
