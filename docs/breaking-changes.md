@@ -8,10 +8,10 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ###298-11-2016: Several changes to Dialog and Island
 
-* dialog.scss now moved to dialog-ng component, because dialog itself has been reimplemented
-* island header and island content now has 32px spacing due to fit common usages
+* dialog.scss was moved to dialog-ng component because dialog itself has been reimplemented.
+* island header and island content now have 32px spacing to suit the most common use case.
 
-### 18-11-2016: All buttons have type="button" by default. To set another type (e.g. "submit") you have to pass it explicitly.
+### 18-11-2016: All buttons have type="button" by default. To set another type (e.g. "submit") you have to pass it explicitly
 
 ### 15-11-2016: Footer no longer supports the "ring-footer_floating" modifier, use "floating" prop instead
 
