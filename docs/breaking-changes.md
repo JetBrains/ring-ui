@@ -6,6 +6,11 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+###298-11-2016: Several changes to Dialog and Island
+
+* dialog.scss now moved to dialog-ng component, because dialog itself has been reimplemented
+* island header and island content now has 32px spacing due to fit common usages
+
 ### 18-11-2016: All buttons have type="button" by default. To set another type (e.g. "submit") you have to pass it explicitly.
 
 ### 15-11-2016: Footer no longer supports the "ring-footer_floating" modifier, use "floating" prop instead
