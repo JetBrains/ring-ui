@@ -2,11 +2,12 @@
 
 .container {
   composes: font-lower;
-  padding-top: calc(unit * 3);
+  padding-top: calc(unit * 2);
   position: relative;
 }
 
 .input {
+  min-height: calc(unit * 4);
   width: 100%;
   padding: 0;
   font: inherit;
@@ -20,6 +21,17 @@
 
   &[disabled] {
     color: disabled-color;
+  }
+
+  /*
+    Kill yellow webkit autocomplete
+    https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
+  */
+  &:-webkit-autofill {
+    &, &:hover, &:focus {
+      box-shadow: 0 0 0px 1000px white-color inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
   }
 }
 
@@ -47,8 +59,8 @@ textarea.input {
   top: 0;
 }
 
-.underline{
-  height: unit;
+.underline {
+  height: 1px;
   border-bottom: 1px solid line-color;
 }
 
