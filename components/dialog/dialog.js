@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Portal from 'react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
-import './dialog.scss';
+import styles from './dialog.css';
 
 /**
  * @name Dialog
@@ -31,7 +31,7 @@ export default class Dialog extends RingComponent {
 
   render() {
     const {show, children, className, ...restProps} = this.props;
-    const classes = classNames('ring-dialog__wrapper', 'active', className);
+    const classes = classNames(styles.container, className);
 
     return (
       <Portal
@@ -46,64 +46,14 @@ export default class Dialog extends RingComponent {
           className={classes}
           {...restProps}
         >
-          <div className="ring-dialog__container">
+          <div
+            className={styles.content}
+            data-test="ring-dialog"
+          >
             {children}
           </div>
-          <div
-            className="ring-dialog__layer"
-            onClick={this.props.onOutsideClick}
-          />
         </div>
       </Portal>
-    );
-  }
-}
-
-export class DialogHeader extends RingComponent {
-  render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames('ring-dialog__header', className);
-
-    return (
-      <div
-        className={classes}
-        {...restProps}
-      >
-        <span className="ring-dialog__header__title">{children}</span>
-      </div>
-    );
-  }
-}
-
-export class DialogBody extends RingComponent {
-  render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames('ring-dialog__content', className);
-
-    return (
-      <div
-        className={classes}
-        {...restProps}
-      >
-        {children}
-      </div>
-    );
-  }
-}
-
-export class DialogFooter extends RingComponent {
-  render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames('ring-dialog__footer', className);
-
-    return (
-      <div
-        className={classes}
-        {...restProps}
-      >
-        <div className="ring-dialog__footer__spacer"></div>
-        {children}
-      </div>
     );
   }
 }
