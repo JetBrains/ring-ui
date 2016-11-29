@@ -1,0 +1,6 @@
+@value unit from '../global/global.css';
+
+.text {
+  font-size: 19px;
+  margin-bottom: calc(unit * 2);
+}
