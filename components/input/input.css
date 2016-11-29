@@ -4,6 +4,10 @@
   composes: font-lower;
   padding-top: calc(unit * 2);
   position: relative;
+
+  & * {
+    box-sizing: border-box;
+  }
 }
 
 .input {
@@ -60,7 +64,7 @@ textarea.input {
 }
 
 .underline {
-  height: 1px;
+  height: 2px;
   border-bottom: 1px solid line-color;
 }
 
