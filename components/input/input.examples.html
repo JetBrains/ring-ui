@@ -17,9 +17,10 @@
 
     const container = document.getElementById('inputs');
     const inputs = (
-      <div className="inputs">
+      <form className="inputs">
         <Input label="Labeled input" />
         <Input
+          name="login"
           label="Label and hint"
           placeholder="Hint"
         />
@@ -53,7 +54,7 @@
           label="Autogrowing textarea"
           multiline={true}
         />
-      </div>
+      </form>
     )
 
     render(inputs, container);
