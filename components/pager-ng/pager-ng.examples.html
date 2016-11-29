@@ -1,0 +1,19 @@
+<example name="rgPager">
+  <file type="html">
+    <div ng-app="Example.pager" ng-controller="ExampleCtrl as ctrl">
+      <rg-pager total="ctrl.total" current="ctrl.current" goto="ctrl.current = n"></rg-pager>
+    </div>
+  </file>
+  <file type="js">
+    import 'angular/angular';
+    import RingPager from 'ring-ui/components/pager-ng/pager-ng';
+
+    const pagerModule = angular.module('Example.pager', [RingPager]);
+
+    pagerModule.controller('ExampleCtrl', function () {
+      this.total = 15;
+      this.current = 1;
+    });
+  </file>
+</example>
+

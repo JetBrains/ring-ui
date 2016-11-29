@@ -1,5 +1,4 @@
 import 'dom4';
-import scrollbarWidth from 'scrollbar-width';
 
 import {getStyles, getRect} from '../dom/dom';
 import RingAngularComponent from '../ring-angular-component/ring-angular-component';
@@ -7,6 +6,7 @@ import shortcuts from '../shortcuts/shortcuts';
 import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
+import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
 
 import '../button-legacy/button-legacy.scss';
 import '../dialog/dialog.scss';
@@ -22,8 +22,6 @@ const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg
 
 class DialogController extends RingAngularComponent {
   static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
-
-  static BODY_MODAL_CLASS = 'ring-dialog-modal';
 
   constructor(...args) {
     super(...args);
@@ -86,25 +84,6 @@ class DialogController extends RingAngularComponent {
     return dialogShortcuts;
   }
 
-  preventBodyScrolling() {
-    document.body.classList.add(this.constructor.BODY_MODAL_CLASS);
-
-    const scrollWidth = scrollbarWidth();
-    const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
-    if (bodyHasScroll && scrollWidth > 0) {
-      this.previousBodyWidth = document.body.style.width;
-      document.body.style.width = `calc(100% - ${scrollWidth}px)`;
-    }
-  }
-
-  resetBodyScrollPrevention() {
-    document.body.classList.remove(this.constructor.BODY_MODAL_CLASS);
-    if (this.previousBodyWidth !== null) {
-      document.body.style.width = this.previousBodyWidth;
-      this.previousBodyWidth = null;
-    }
-  }
-
   setTitle(title) {
     this.title = title;
   }
@@ -129,7 +108,7 @@ class DialogController extends RingAngularComponent {
     const {$q, $scope} = this.$inject;
 
     if (!this.inSidebar) {
-      this.preventBodyScrolling();
+      ScrollPreventer.prevent();
     }
 
     if (this.active) {
@@ -186,7 +165,7 @@ class DialogController extends RingAngularComponent {
 
   hide() {
     if (!this.inSidebar) {
-      this.resetBodyScrollPrevention();
+      ScrollPreventer.reset();
     }
 
     this.active = false;

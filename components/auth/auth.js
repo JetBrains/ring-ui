@@ -276,13 +276,21 @@ Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
     statusText: 'Network request failed'
   };
 
-  return this._fetch(url, {
+  const init = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json'
-    },
-    credentials: this.config.fetchCredentials
-  }).
+    }
+  };
+
+  // Supports Edge
+  // Native fetch in Edge doesn't accept anything but non-empty strings,
+  // otherwise it fails with TypeMismatchError
+  if (this.config.fetchCredentials != null) {
+    init.credentials = this.config.fetchCredentials;
+  }
+
+  return this._fetch(url, init).
     // Empty response — strange case found in the wild
     // @see https://youtrack.jetbrains.com/issue/JT-31942
     then((response = failedResponse) => {
