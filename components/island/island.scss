@@ -1,12 +1,5 @@
 @import '../global/global';
 
-/**
- * @name Island
- * @category Components
- * @description Displays an island.
- * @example-file ./island.examples.html
-*/
-
 .ring-island {
   @include ring-font;
 
@@ -80,9 +73,9 @@
 
   font-weight: bold;
 
-  padding: 0 $ring-unit*2;
+  padding: 0 $ring-unit*4;
 }
 
 .ring-island__content {
-  margin: $ring-unit*2;
+  margin: $ring-unit*2 $ring-unit*4;
 }
