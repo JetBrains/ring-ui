@@ -4,7 +4,7 @@
 
 import 'angular';
 import 'angular-mocks';
-import TablePager from './table-ng__pager';
+import TablePager from './table-legacy-ng__pager';
 
 describe('Table Ng Pager', () => {
   let scope;
@@ -13,7 +13,7 @@ describe('Table Ng Pager', () => {
   let $location;
 
   function createPager(total, top, skip) {
-    element = $compile(`<rg-table-pager total="${total}" top="${top}" skip="${skip}"></rg-table-pager>`)(scope);
+    element = $compile(`<rg-legacy-table-pager total="${total}" top="${top}" skip="${skip}"></rg-legacy-table-pager>`)(scope);
     scope.$digest();
   }
 
