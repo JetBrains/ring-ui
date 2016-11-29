@@ -9,7 +9,7 @@ import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
 
 import '../button/button.scss';
-import '../dialog/dialog.scss';
+import './dialog-ng.scss';
 
 /**
  * @name Dialog Ng

@@ -1,3 +1,25 @@
+<example name="Island in react">
+  <file type="html">
+    <div id="island"></div>
+  </file>
+
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+
+     import Island, {IslandContent, IslandHeader} from 'ring-ui/components/island/island';
+
+     const renderIslandDemo = () => (
+       <Island>
+         <IslandHeader>Title</IslandHeader>
+         <IslandContent>Content</IslandContent>
+       </Island>
+     );
+
+     render(renderIslandDemo(), document.getElementById('island'));
+  </file>
+</example>
+
 <example name="Island">
   <file type="html">
     <div>
