@@ -12,7 +12,7 @@
 
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
-import Button from '../button/button';
+import Button from '../button-legacy/button-legacy';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 import classNames from 'classnames';
