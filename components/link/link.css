@@ -1,0 +1,19 @@
+@value link-color, link-hover-color, ease from "../global/global.css";
+
+.link {
+  &, &:visited {
+    color: link-color;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color ease;
+  }
+
+  &.focus,
+  &.focus:visited,
+  &:hover,
+  &:focus {
+    color: link-hover-color;
+    text-decoration: underline;
+    transition: none;
+  }
+}
