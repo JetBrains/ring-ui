@@ -55,10 +55,12 @@ export default class Row extends RingComponent {
     this.refs.row.focus();
   }
 
-  didUpdate() {
+  didUpdate(prevProps) {
     const {props: {focused}, refs: {row}} = this;
-    if (focused && document.activeElement !== row) {
+    if (focused && !prevProps.focused) {
       row.focus();
+    } else if (!focused && prevProps.focused) {
+      row.blur();
     }
   }
 
