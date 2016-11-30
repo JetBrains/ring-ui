@@ -6,7 +6,7 @@ import style from './table.css';
 
 export default class Cell extends RingComponent {
   static propTypes = {
-    children: PropTypes.any.isRequired,
+    children: PropTypes.any,
     className: PropTypes.string
   }
 
