@@ -1,5 +1,15 @@
 <example name="input">
   <file type="scss">
+    body {
+      margin: 0;
+    }
+
+    .inputs {
+      display: flex;
+      flex-flow: column wrap;
+      max-height: 100vh;
+    }
+
     .inputs > div {
       margin: 16px;
     }
@@ -41,6 +51,10 @@
         <Input
           label="Invalid input"
           error="Error description that wraps over lines because of being really long"
+        />
+        <Input
+          label="Error without description"
+          error=""
         />
         <Input
           label="Short input"

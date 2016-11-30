@@ -20,10 +20,7 @@ export default class Input extends RingComponent {
     size: PropTypes.oneOf(['S', 'M', 'L']),
     label: PropTypes.string,
     active: PropTypes.bool,
-    error: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool
-    ]),
+    error: PropTypes.string,
     multiline: PropTypes.bool,
     onChange: PropTypes.func
   };
@@ -73,7 +70,7 @@ export default class Input extends RingComponent {
       {
         [styles[`size${size}`]]: true,
         [styles.active]: active,
-        [styles.error]: error,
+        [styles.error]: error != null,
         [styles.empty]: this.state.empty
       }
     );
@@ -116,7 +113,7 @@ export default class Input extends RingComponent {
               el.style.height = `${el.scrollHeight}px`;
             }
           }}
-        >{typeof error === 'string' && error}</div>
+        >{error}</div>
       </div>
     );
   }
