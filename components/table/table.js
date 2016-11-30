@@ -225,11 +225,6 @@ export default class Table extends RingComponentWithShortcuts {
     if (selection) {
       this.props.onSelect({selection});
     }
-
-
-    if (!focusedRow && prevState.focusedRow) {
-      this.refs.table.focus();
-    }
   }
 
   didMount() {
