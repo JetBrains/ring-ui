@@ -12,9 +12,11 @@ order: 1
 
 1. Install Node.js
 
-2. Install dependencies: `npm install`
+2. Install Xcode command line tool 
 
-3. (Optional, Mac OS X / Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
+3. Install dependencies: `npm install`
+
+4. (Optional, Mac OS X / Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ## Available commands
 
