@@ -16,12 +16,10 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import Dialog, {DialogHeader, DialogBody, DialogFooter} from 'ring-ui/components/dialog/dialog';
-    import ButtonSet from 'ring-ui/components/button-set/button-set';
+    import Dialog from 'ring-ui/components/dialog/dialog';
+    import {Header, Content} from 'ring-ui/components/island/island';
     import Button from 'ring-ui/components/button/button';
     import Panel from 'ring-ui/components/panel/panel';
-    import {IslandHeader, IslandContent} from 'ring-ui/components/island/island';
-    import 'ring-ui/components/island/island.scss';
 
     class DialogDemo extends React.Component {
       state = {
@@ -45,8 +43,8 @@
             </div>
 
             <Dialog show={this.state.show}>
-              <IslandHeader>Hello dialog</IslandHeader>
-              <IslandContent>This is dialog content</IslandContent>
+              <Header>Hello dialog</Header>
+              <Content>This is dialog content</Content>
               <Panel>
                 <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
                 <Button onClick={this.cancelDialog}>No</Button>
