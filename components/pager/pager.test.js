@@ -4,11 +4,15 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-tes
 import Pager from './pager';
 
 describe('Pager', () => {
-  const props = {total: 1, current: 1, goto: () => {}};
-  const renderComponent = params => renderIntoDocument(Pager.factory(Object.assign(props, params)));
+  const props = {total: 2, current: 1, goto: () => {}};
+  const renderComponent = params => renderIntoDocument(Pager.factory(Object.assign({}, props, params)));
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Pager).should.be.true;
+  });
+
+  it('should return null instead of node when total is less than 2', () => {
+    should.not.exist(renderComponent({total: 1}).node);
   });
 
   it('should wrap children with div', () => {
