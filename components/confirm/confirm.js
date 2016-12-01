@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 import RingComponent from '../ring-component/ring-component';
-import {IslandContent} from '../island/island';
+import {Content} from '../island/island';
 import Panel from '../panel/panel';
 import styles from './confirm.css';
 
@@ -119,7 +119,7 @@ export default class Confirm extends RingComponent {
         className={this.props.className}
         show={this.state.show}
       >
-        <IslandContent className={styles.text}>{text}</IslandContent>
+        <Content className={styles.text}>{text}</Content>
         <Panel>
           <Button
             blue={true}
