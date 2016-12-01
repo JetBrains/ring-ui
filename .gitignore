@@ -16,6 +16,7 @@ dist
 gemini-report
 node_modules
 npm-debug.log
+http-server.log
 ring-ui-*.tgz
 yarn.lock
 yarn-error.log
