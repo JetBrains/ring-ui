@@ -6,6 +6,19 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 05-12-2016: Alert API reimplemented
+
+* There are now two ways of using alerts in React: pure component way with 
+custom alerts stack management (see Alert Container example)
+and simple `alert-service`, which should cover most usages.
+* Alert now receives the message as child, not as `caption` prop.
+* Alert now is closeable by default.
+* Alert now has `timeout` property to define timeout for `onCloseRequest` call
+* Alert doesn't remove itself anymore. Now it calls `onCloseRequest` callback if it should be removed with animation. 
+Host component should then set `isClosing={true}` prop, which causes closing animation, and `onClose` callback call after finish.
+* To remove alert, one should `{remove, removeWithoutAnimation}` functions from alert-service.
+* [Angular] There are no more `setRemoveCallback` and `DOM` properties in alert-ng - see how alert remove API changed.
+
 ### 29-11-2016: Several changes to Dialog and Island
 
 * dialog.scss was moved to dialog-ng component because dialog itself has been reimplemented.

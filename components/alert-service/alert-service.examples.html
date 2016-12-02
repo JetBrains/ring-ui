@@ -1,0 +1,45 @@
+<example name="Alert Service">
+  <file type="html">
+    <div id="alert-service"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+    import Button from 'ring-ui/components/button/button';
+    import {showError, showMessage, remove} from 'ring-ui/components/alert-service/alert-service';
+
+    class AlertServiceDemo extends React.Component {
+      componentDidMount () {
+        setTimeout(() => {
+          showMessage('A initial message', 5000);
+          showError('Error message');
+        }, 100);
+      }
+
+      showError = () => {
+        this.lastKey = alert.showError('Something wrong happened');
+      }
+
+      showMessage = () => {
+        this.lastKey = showMessage('This is just a message', 5000);
+      }
+
+      removeLastAlert = () => {
+        remove(this.lastKey);
+      }
+
+      render() {
+        return (
+          <div>
+            <Button onClick={this.showError}>Show error</Button>
+            <Button onClick={this.showMessage}>Show message</Button>
+            <Button onClick={this.removeLastAlert}>Remove last alert</Button>
+          </div>
+        );
+      }
+    }
+
+    render(<AlertServiceDemo/>, document.getElementById('alert-service'));
+  </file>
+</example>
