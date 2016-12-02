@@ -6,7 +6,7 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-###298-11-2016: Several changes to Dialog and Island
+### 29-11-2016: Several changes to Dialog and Island
 
 * dialog.scss was moved to dialog-ng component because dialog itself has been reimplemented.
 * island header and island content now have 32px spacing to suit the most common use case.
