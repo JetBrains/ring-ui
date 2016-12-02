@@ -1,0 +1,104 @@
+@value unit, border-color, border-radius, error-color, gray-color, link-hover-color, font-size from '../global/global.css';
+@value animation-duration: 300ms;
+@value animation-easing: ease-out;
+
+.alert {
+  box-sizing: border-box;
+  position: relative;
+  min-height: calc(unit * 5);
+
+  margin: unit auto;
+  padding: 0 calc(unit*2);
+  border: solid 1px border-color;
+  border-radius: border-radius;
+
+  background: #FFF;
+  font-size: font-size;
+  line-height: calc(unit * 5);
+  white-space: nowrap;
+
+  pointer-events: auto;
+
+  transition: transform animation-duration animation-easing,
+              margin-top animation-duration animation-easing,
+              opacity animation-duration animation-easing;
+}
+
+.alertInline {
+   margin: unit;
+ }
+
+.error {
+  color: error-color;
+  word-wrap: break-word;
+}
+
+.icon {
+  display: inline-block;
+  height: 40px;
+  margin-right: unit;
+
+  line-height: 40px;
+  vertical-align: top;
+}
+
+.caption {
+  display: inline-block;
+  margin: 12px calc(unit * 4) 12px 0;
+
+  line-height: 20px;
+  vertical-align: middle;
+  white-space: normal;
+}
+
+.badge {
+  vertical-align: baseline;
+}
+
+.loader {
+  top: 3px;
+  margin-right: unit;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 2px;
+
+  margin: calc(unit/2);
+  padding: unit;
+
+  border: none;
+  font-size: 0;
+  line-height: 0;
+  background: transparent;
+  cursor: pointer;
+
+  color: gray-color;
+
+  &:hover, &:focus {
+    color: link-hover-color;
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animationOpen {
+  animation-name: show;
+  animation-duration: animation-duration;
+}
+
+.animationClosing {
+  opacity: 0;
+  transform: scale(0);
+}
