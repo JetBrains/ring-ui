@@ -10,9 +10,9 @@ order: 1
 
 ## Development environment setup
 
-1. Install Node.js
+1. Install Xcode command line tool (Optional, Mac OS X): `xcode-select --install`
 
-2. Install Xcode command line tool 
+2. Install Node.js
 
 3. Install dependencies: `npm install`
 
