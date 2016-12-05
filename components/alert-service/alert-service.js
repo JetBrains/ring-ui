@@ -6,10 +6,8 @@ import guid from 'mout/random/guid';
 
 /**
  * @name Alert Service
- * @constructor
  * @category Components
  * @description Service which incapsulates alerts stack management
- * @extends {RingComponent}
  * @example-file ./alert-service.examples.html
  */
 
