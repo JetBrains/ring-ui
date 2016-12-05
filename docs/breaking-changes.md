@@ -17,7 +17,7 @@ and 2) a simple `alert-service`, which should cover most usages.
 * Alert doesn't remove itself anymore. It now calls the `onCloseRequest` callback if it should be removed with an animation. 
 The host component should then set the `isClosing={true}` prop which performs the closing animation and calls the `onClose` callback after it finishes.
 * To remove an alert use `{remove, removeWithoutAnimation}` functions from alert-service.
-* [Angular] There are no more `setRemoveCallback` and `DOM` properties in alert-ng – see the description above.
+* [Angular] `alert-ng` component was removed – `alert-service` should be used instead.
 
 ### 29-11-2016: Several changes to Dialog and Island
 
