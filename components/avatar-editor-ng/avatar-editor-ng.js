@@ -1,12 +1,12 @@
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
-import alertNg from '../alert-ng/alert-ng';
+import {showError} from '../alert-service/alert-service';
 import iconNg from '../icon-ng/icon-ng';
 import editIcon from 'jetbrains-icons/pencil.svg';
 
 import '../avatar-editor/avatar-editor.scss';
 import '../button/button.scss';
 
-const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, alertNg, iconNg]);
+const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, iconNg]);
 
 /**
  * @name Avatar Editor Ng
@@ -98,7 +98,7 @@ function rgAvatarEditor() {
             }
           }
           if (e.target.files.length && !imageFileSelected) {
-            alert.error(RingMessageBundle.avatareditor_noselected());
+            showError(RingMessageBundle.avatareditor_noselected());
           }
         });
       };
@@ -111,7 +111,7 @@ function rgAvatarEditor() {
 
       $scope.controls.select = () => {
         if (!FileReader) {
-          alert.error(RingMessageBundle.avatareditor_nosupport());
+          showError(RingMessageBundle.avatareditor_nosupport());
         } else {
           fileInput.addEventListener('click', onClick);
           fileInput.dispatchEvent(new MouseEvent('click'));
