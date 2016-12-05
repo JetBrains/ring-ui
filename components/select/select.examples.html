@@ -16,25 +16,29 @@
     require('ring-ui/components/input-size/input-size.scss');
 
     var props = {
-    filter: true
+      filter: true
     };
 
     var data = {
-    data: [
-    {'label': 'One', 'key': '1', 'type': 'user'},
-    {'label': 'Group', 'key': '2', 'type': 'user'},
-    {'label': 'Three', 'key': '3', 'type': 'user'},
-    {'label': 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
-    ],
-    clear: true,
-    selected: {'label': 'Group', 'key': '2', 'type': 'user'}
+      data: [
+        {'label': 'One', 'key': '1', 'type': 'user'},
+        {'label': 'Group', 'key': '2', 'type': 'user'},
+        {'label': 'Three', 'key': '3', 'type': 'user'},
+        {
+          'label': 'With icon',
+          key: 4,
+          icon: 'http://flagpedia.net/data/flags/mini/de.png'
+        }
+      ],
+      clear: true,
+      selected: {'label': 'Group', 'key': '2', 'type': 'user'}
     };
 
     var select = render(Select.factory(props), document.getElementById('demo'))
     select.rerender(data);
 
-    document.getElementById('clear').addEventListener('click', function() {
-    select.rerender({selected: null});
+    document.getElementById('clear').addEventListener('click', function () {
+      select.rerender({selected: null});
     });
   </file>
 </example>
@@ -56,16 +60,19 @@
 
     var elementsNum = 100000;
     var selectedIndex = parseInt(elementsNum / 2);
-    var dataset  = [];
+    var dataset = [];
     for (var i = 0; i < elementsNum; i++) {
-    dataset.push({'label': 'element ' + i, 'key': i, 'type': 'user'});
+      dataset.push({'label': 'element ' + i, 'key': i, 'type': 'user'});
     }
 
     var props = {
-    data: dataset
+      data: dataset
     };
 
-    var select = render(Select.factory({filter: true, selected: dataset[selectedIndex]}), document.getElementById('demo'))
+    var select = render(Select.factory({
+      filter: true,
+      selected: dataset[selectedIndex]
+    }), document.getElementById('demo'))
     select.rerender(props);
   </file>
 </example>
@@ -90,19 +97,24 @@
     var icons = [deFlag, ruFlag, undefined];
 
     var elementsNum = 5;
-    var dataset  = [];
+    var dataset = [];
     for (var i = 0; i < elementsNum; i++) {
-    dataset.push({'label': 'element ' + i, 'key': i, description: 'description ' + i, icon: icons[i % 3]});
+      dataset.push({
+        'label': 'element ' + i,
+        'key': i,
+        description: 'description ' + i,
+        icon: icons[i % 3]
+      });
     }
 
     var props = {
-    data: dataset
+      data: dataset
     };
 
     var select = render(
-    Select.factory(
-    {filter: true, selected: [dataset[0], dataset[3]], multiple: true}),
-    document.getElementById('demo')
+      Select.factory(
+        {filter: true, selected: [dataset[0], dataset[3]], multiple: true}),
+      document.getElementById('demo')
     );
     select.rerender(props);
   </file>
@@ -118,13 +130,13 @@
     var Select = require('ring-ui/components/select/select');
 
     render(
-    Select.factory({disabled: true, loading: true}),
-    document.getElementById('demo1')
+      Select.factory({disabled: true, loading: true}),
+      document.getElementById('demo1')
     );
 
     render(
-    Select.factory({disabled: true, loading: true, type: Select.Type.INPUT}),
-    document.getElementById('demo2')
+      Select.factory({disabled: true, loading: true, type: Select.Type.INPUT}),
+      document.getElementById('demo2')
     );
   </file>
   <file type="scss">
@@ -144,13 +156,13 @@
     var Select = require('ring-ui/components/select/select');
 
     var data = [];
-    for(let i = 0; i < 20; i++) {
-    data.push({'label': 'Item ' + i, 'key': i});
+    for (let i = 0; i < 20; i++) {
+      data.push({'label': 'Item ' + i, 'key': i});
     }
 
     render(
-    Select.factory({ type: Select.Type.INPUT, data: data }),
-    document.getElementById('demo')
+      Select.factory({type: Select.Type.INPUT, data: data}),
+      document.getElementById('demo')
     );
   </file>
   <file type="scss">
@@ -170,16 +182,16 @@
     var Select = require('ring-ui/components/select/select');
 
     var data = [];
-    for(let i = 0; i < 20; i++) {
-    data.push({'label': 'Item ' + i, 'key': i});
+    for (let i = 0; i < 20; i++) {
+      data.push({'label': 'Item ' + i, 'key': i});
     }
 
     render(Select.factory({
-    type: Select.Type.INPUT,
-    allowAny: true,
-    hideArrow: true,
-    label: 'Placeholder without arrow',
-    data: data, selected: data[1]
+      type: Select.Type.INPUT,
+      allowAny: true,
+      hideArrow: true,
+      label: 'Placeholder without arrow',
+      data: data, selected: data[1]
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
@@ -199,14 +211,14 @@
     var Select = require('ring-ui/components/select/select');
 
     render(Select.factory({
-    filter: true,
-    data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Two', 'key': '2', disabled: true},
-    {'label': 'Two One', 'key': '2.1', level: 1},
-    {'label': 'Two Two', 'key': '2.2', level: 1},
-    {'label': 'Three', 'key': '3'}
-    ]
+      filter: true,
+      data: [
+        {'label': 'One', 'key': '1'},
+        {'label': 'Two', 'key': '2', disabled: true},
+        {'label': 'Two One', 'key': '2.1', level: 1},
+        {'label': 'Two Two', 'key': '2.2', level: 1},
+        {'label': 'Three', 'key': '3'}
+      ]
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
@@ -217,7 +229,8 @@
   </file>
 </example>
 
-<example name="Simple select with the default filter mode and a loading indicator">
+<example
+  name="Simple select with the default filter mode and a loading indicator">
   <file type="html">
     <div id="demo"></div>
   </file>
@@ -226,14 +239,14 @@
     var Select = require('ring-ui/components/select/select');
 
     render(Select.factory({
-    filter: true,
-    loading: true,
-    data: [
-    {'label': 'One', 'key': '1'},
-    {'label': 'Group', 'key': '2'},
-    {'label': 'Three', 'key': '3'}
-    ],
-    selected: {'label': 'Group', 'key': '2'}
+      filter: true,
+      loading: true,
+      data: [
+        {'label': 'One', 'key': '1'},
+        {'label': 'Group', 'key': '2'},
+        {'label': 'Three', 'key': '3'}
+      ],
+      selected: {'label': 'Group', 'key': '2'}
     }), document.getElementById('demo'));
   </file>
 </example>
@@ -248,27 +261,30 @@
     require('ring-ui/components/input-size/input-size.scss');
 
     var data = [];
-    for(let i = 0; i < 100; i++) {
-    data.push({'label': 'Item long long long long long  long long long label ' + i, 'key': i});
+    for (let i = 0; i < 100; i++) {
+      data.push({
+        'label': 'Item long long long long long  long long long label ' + i,
+        'key': i
+      });
     }
 
     render(Select.factory({
-    filter: {
-    placeholder: 'Select me',
-    value: 'One'
-    },
-    hint: 'Press down to do something',
-    add: {
-    prefix: 'Add name'
-    },
-    onAdd: function(value) {
-    console.log('Add', value);
-    },
-    data: data,
-    selected: data[49],
-    'onSelect': function(selected) {
-    console.log('onSelect, selected item:', selected);
-    }
+      filter: {
+        placeholder: 'Select me',
+        value: 'One'
+      },
+      hint: 'Press down to do something',
+      add: {
+        prefix: 'Add name'
+      },
+      onAdd: function (value) {
+        console.log('Add', value);
+      },
+      data: data,
+      selected: data[49],
+      'onSelect': function (selected) {
+        console.log('onSelect, selected item:', selected);
+      }
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
@@ -288,26 +304,26 @@
     var Select = require('ring-ui/components/select/select');
 
     var data = [];
-    for(let i = 0; i < 10; i++) {
-    data.push({'label': 'Item ' + i, 'key': i});
+    for (let i = 0; i < 10; i++) {
+      data.push({'label': 'Item ' + i, 'key': i});
     }
 
     render(Select.factory({
-    filter: {
-    placeholder: 'Select me',
-    value: 'One'
-    },
-    add: {
-    alwaysVisible: true,
-    label: 'Create New Blah Blah'
-    },
-    onAdd: function(value) {
-    console.log('Add', value);
-    },
-    data: data,
-    'onSelect': function(selected) {
-    console.log('onSelect, selected item:', selected);
-    }
+      filter: {
+        placeholder: 'Select me',
+        value: 'One'
+      },
+      add: {
+        alwaysVisible: true,
+        label: 'Create New Blah Blah'
+      },
+      onAdd: function (value) {
+        console.log('Add', value);
+      },
+      data: data,
+      'onSelect': function (selected) {
+        console.log('onSelect, selected item:', selected);
+      }
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
@@ -328,34 +344,34 @@
     var Select = require('ring-ui/components/select/select');
 
     render(Select.factory({
-    filter: true,
-    add: {
-    prefix: 'Add some item'
-    },
-    multiple: {
-    label: 'Change selected items', // override button label if something selected
-    removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
-    },
-    selected: [{'label': 'Two long label', 'key': '2'}],
-    data: [
-    {'label': 'One long label', 'key': '1'},
-    {'label': 'Two long label', 'key': '2'},
-    {'label': 'Three long label', 'key': '3'}
-    ],
-    onSelect: function(selected) {
-    console.log('onSelect, selected item:', selected);
-    },
-    onDeselect: function(deselected) {
-    console.log('onDeselect, deselected item:', deselected);
-    },
-    onChange: function(selection) {
-    console.log('onChange, selection:', selection);
-    var items = [];
-    selection.forEach(function(item) {
-    items.push(item.label);
-    });
-    document.getElementById('multipleCustomView').innerHTML = items.join(', ');
-    }
+      filter: true,
+      add: {
+        prefix: 'Add some item'
+      },
+      multiple: {
+        label: 'Change selected items', // override button label if something selected
+        removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
+      },
+      selected: [{'label': 'Two long label', 'key': '2'}],
+      data: [
+        {'label': 'One long label', 'key': '1'},
+        {'label': 'Two long label', 'key': '2'},
+        {'label': 'Three long label', 'key': '3'}
+      ],
+      onSelect: function (selected) {
+        console.log('onSelect, selected item:', selected);
+      },
+      onDeselect: function (deselected) {
+        console.log('onDeselect, deselected item:', deselected);
+      },
+      onChange: function (selection) {
+        console.log('onChange, selection:', selection);
+        var items = [];
+        selection.forEach(function (item) {
+          items.push(item.label);
+        });
+        document.getElementById('multipleCustomView').innerHTML = items.join(', ');
+      }
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
@@ -369,30 +385,34 @@
 <example name="Select as a dropdown without filter">
   <file type="html">
     <button id="demoButton">Click me</button>
-    <div id="demo" ></div>
-    <div id="changeResult" ></div>
+    <div id="demo"></div>
+    <div id="changeResult"></div>
   </file>
   <file type="js">
     var render = require('react-dom').render;
     var Select = require('ring-ui/components/select/select');
 
     var data = [];
-    for(let i = 0; i < 20; i++) {
-    data.push({'label': 'Item ' + i, 'description': 'Description for the item lalalalala ' + i, 'key': i});
+    for (let i = 0; i < 20; i++) {
+      data.push({
+        'label': 'Item ' + i,
+        'description': 'Description for the item lalalalala ' + i,
+        'key': i
+      });
     }
     var select = render(
-    Select.factory({
-    type: 2,
-    data: data,
-    onChange: function(selected) {
-    document.getElementById('changeResult').innerHTML = selected.label;
-    }
-    }),
-    document.getElementById('demo')
+      Select.factory({
+        type: Select.Type.CUSTOM,
+        data: data,
+        onChange: function (selected) {
+          document.getElementById('changeResult').innerHTML = selected.label;
+        }
+      }),
+      document.getElementById('demo')
     );
 
-    document.getElementById('demoButton').onclick = function() {
-    select._clickHandler();
+    document.getElementById('demoButton').onclick = function () {
+      select._clickHandler();
     }
   </file>
   <file type="scss">
