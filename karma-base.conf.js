@@ -1,11 +1,12 @@
 /* eslint-env node */
 /* eslint-disable modules/no-cjs */
+const url = require('url');
 
 module.exports = config => {
-  const webdriverConfig = {
-    hostname: '***REMOVED***',
-    port: 4545
-  };
+  const gridURL = process.env.SELENIUM_GRID || '***REMOVED***';
+  const {hostname, port} = url.parse(gridURL);
+
+  const webdriverConfig = {hostname, port};
 
   const buildVersion = process.env.npm_package_config_version || 'dev';
   const testName = `Ring UI library Karma unit tests, build #${buildVersion}`;
