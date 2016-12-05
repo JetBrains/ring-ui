@@ -87,6 +87,7 @@ const TypeToIconColor = {
             return <Alert
                 type={Alert.Type.SUCCESS}
                 onClose={this.onClose}
+                showWithAnimation={false}
                 onCloseRequest={this.onCloseRequest}
                 isClosing={isClosing}
               >
