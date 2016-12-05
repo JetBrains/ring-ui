@@ -8,16 +8,16 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 05-12-2016: Alert API reimplemented
 
-* There are now two ways of using alerts in React: pure component way with 
-custom alerts stack management (see Alert Container example)
-and simple `alert-service`, which should cover most usages.
-* Alert now receives the message as child, not as `caption` prop.
-* Alert now is closeable by default.
-* Alert now has `timeout` property to define timeout for `onCloseRequest` call
-* Alert doesn't remove itself anymore. Now it calls `onCloseRequest` callback if it should be removed with animation. 
-Host component should then set `isClosing={true}` prop, which causes closing animation, and `onClose` callback call after finish.
-* To remove alert, one should `{remove, removeWithoutAnimation}` functions from alert-service.
-* [Angular] There are no more `setRemoveCallback` and `DOM` properties in alert-ng - see how alert remove API changed.
+* There are now two ways to use alerts in React: 1) as a pure component with 
+custom management of alerts' stack (see Alert Container example),
+and 2) a simple `alert-service`, which should cover most usages.
+* Alert now receives the message as its child, not as `caption` prop.
+* Alert is now closeable by default.
+* Alert now has a `timeout` property to define timeout for `onCloseRequest` call.
+* Alert doesn't remove itself anymore. It now calls the `onCloseRequest` callback if it should be removed with an animation. 
+The host component should then set the `isClosing={true}` prop which performs the closing animation and calls the `onClose` callback after it finishes.
+* To remove an alert use `{remove, removeWithoutAnimation}` functions from alert-service.
+* [Angular] There are no more `setRemoveCallback` and `DOM` properties in alert-ng – see the description above.
 
 ### 29-11-2016: Several changes to Dialog and Island
 
