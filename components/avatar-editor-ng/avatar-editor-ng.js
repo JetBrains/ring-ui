@@ -51,7 +51,7 @@ function rgAvatarEditor() {
     },
     template: require('./avatar-editor-ng.html'),
     transclude: true,
-    controller($scope, $attrs, RingMessageBundle, alert) {
+    controller($scope, $attrs, RingMessageBundle) {
       let fileInput;
       $scope.editIcon = editIcon;
 
