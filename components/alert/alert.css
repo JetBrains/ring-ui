@@ -35,10 +35,7 @@
 
 .icon {
   display: inline-block;
-  height: 40px;
   margin-right: unit;
-
-  line-height: 40px;
   vertical-align: top;
 }
 
