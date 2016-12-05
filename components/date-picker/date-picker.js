@@ -2,12 +2,14 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
 import calendarIcon from 'jetbrains-icons/calendar.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button/button';
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
+import Icon from '../icon/icon';
 
 import styles from './date-picker.css';
 
@@ -27,12 +29,14 @@ export default class DatePicker extends RingComponent {
     range: false,
     from: null,
     to: null,
+    clear: false,
     displayFormat: 'D MMM YYYY',
     displayMonthFormat: 'D MMM',
     displayDayFormat: 'D',
     inputFormat: 'D MMMM YYYY',
     datePlaceholder: 'Select a date',
-    rangePlaceholder: 'Select a date range'
+    rangePlaceholder: 'Select a date range',
+    onChange() {}
   };
   static propTypes = {
     className: PropTypes.string,
@@ -40,51 +44,15 @@ export default class DatePicker extends RingComponent {
     range: PropTypes.bool,
     from: dateType,
     to: dateType,
+    clear: PropTypes.bool,
     displayFormat: PropTypes.string,
     displayMonthFormat: PropTypes.string,
     displayDayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
     datePlaceholder: PropTypes.string,
-    rangePlaceholder: PropTypes.string
+    rangePlaceholder: PropTypes.string,
+    onChange: PropTypes.func
   };
-
-  display() {
-    const {
-      range,
-      displayFormat,
-      displayMonthFormat,
-      displayDayFormat,
-      datePlaceholder,
-      rangePlaceholder
-    } = this.props;
-    const parse = text => parseDate(
-      text,
-      this.props.inputFormat,
-      this.props.displayFormat
-    );
-
-    const date = parse(this.props.date);
-    const from = parse(this.props.from);
-    const to = parse(this.props.to);
-
-    if (!range) {
-      return date ? date.format(displayFormat) : datePlaceholder;
-    } else if (!from && !to) {
-      return rangePlaceholder;
-    } else if (!to) {
-      return `${from.format(displayFormat)} —`;
-    } else if (!from) {
-      return `— ${to.format(displayFormat)}`;
-    } else if (!from.isSame(to, 'year')) {
-      return `${from.format(displayFormat)} — ${to.format(displayFormat)}`;
-    } else if (!from.isSame(to, 'month')) {
-      return `${from.format(displayMonthFormat)} — ${to.format(displayFormat)}`;
-    } else if (!from.isSame(to, 'day')) {
-      return `${from.format(displayDayFormat)} — ${to.format(displayFormat)}`;
-    } else {
-      return `${to.format(displayFormat)}`;
-    }
-  }
 
   createPopup() {
     this.popup = Popup.renderPopup(Popup.factory({
@@ -123,15 +91,64 @@ export default class DatePicker extends RingComponent {
     }
   }
 
+  clear(e) {
+    e.stopPropagation();
+    this.props.onChange(
+      this.props.range
+        ? {from: null, to: null}
+        : null
+    );
+  }
+
   render() {
     const classes = classNames(
       styles.datePicker,
       this.props.className
     );
+
     const displayClasses = classNames(
       styles.displayDate,
       {[styles.displayRange]: this.props.range}
     );
+
+    const {
+      range,
+      displayFormat,
+      displayMonthFormat,
+      displayDayFormat,
+      datePlaceholder,
+      rangePlaceholder,
+      clear
+    } = this.props;
+    const parse = text => parseDate(
+      text,
+      this.props.inputFormat,
+      this.props.displayFormat
+    );
+
+
+    const date = parse(this.props.date);
+    const from = parse(this.props.from);
+    const to = parse(this.props.to);
+
+    let text;
+    if (!range) {
+      text = date ? date.format(displayFormat) : datePlaceholder;
+    } else if (!from && !to) {
+      text = rangePlaceholder;
+    } else if (!to) {
+      text = `${from.format(displayFormat)} —`;
+    } else if (!from) {
+      text = `— ${to.format(displayFormat)}`;
+    } else if (!from.isSame(to, 'year')) {
+      text = `${from.format(displayFormat)} — ${to.format(displayFormat)}`;
+    } else if (!from.isSame(to, 'month')) {
+      text = `${from.format(displayMonthFormat)} — ${to.format(displayFormat)}`;
+    } else if (!from.isSame(to, 'day')) {
+      text = `${from.format(displayDayFormat)} — ${to.format(displayFormat)}`;
+    } else {
+      text = `${to.format(displayFormat)}`;
+    }
 
     return (
       <Button
@@ -142,7 +159,14 @@ export default class DatePicker extends RingComponent {
       >
         <span
           className={displayClasses}
-        >{this.display()}</span>
+        >{text}{clear && (date || from || to) && (
+          <Icon
+            className={styles.clear}
+            glyph={closeIcon}
+            size={Icon.Size.Size14}
+            onClick={::this.clear}
+          />
+        )}</span>
       </Button>
     );
   }
