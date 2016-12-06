@@ -51,7 +51,7 @@
         this.setState({sortKey, sortOrder});
       }
 
-      onPageChange = ({n: page}) => {
+      onPageChange = ({page}) => {
         this.setState({page});
       }
 
@@ -88,7 +88,7 @@
               sortKey={sortKey}
               sortOrder={sortOrder}
             />
-            <Pager total={pageTotal} current={page} goto={this.onPageChange} />
+            <Pager total={pageTotal} current={page} onPageChange={this.onPageChange} />
             <div>{[...selection].map(item => item.country).join(', ')}</div>
           </div>
         );
