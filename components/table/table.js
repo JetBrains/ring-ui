@@ -61,6 +61,8 @@ export default class Table extends RingComponentWithShortcuts {
         shift: this.onShiftKeyDown,
         'shift+up': this.onShiftUpPress,
         'shift+down': this.onShiftDownPress,
+        home: this.onHomePress,
+        end: this.onEndPress,
         space: this.onSpacePress,
         esc: this.onEscPress,
         'command+a': this.onCmdAPress,
@@ -175,6 +177,18 @@ export default class Table extends RingComponentWithShortcuts {
     const focusedRow = this.getNextRow();
     const selectedRows = this.shiftSelectRow();
     this.setState({focusedRow, selectedRows, disabledHover: true});
+  }
+
+  onHomePress = () => {
+    const {data} = this.props;
+    this.setState({focusedRow: data[0], disabledHover: true});
+    return false;
+  }
+
+  onEndPress = () => {
+    const {data} = this.props;
+    this.setState({focusedRow: data[data.length - 1], disabledHover: true});
+    return false;
   }
 
   onSpacePress = () => {
