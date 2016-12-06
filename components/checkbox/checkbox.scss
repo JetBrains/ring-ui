@@ -59,7 +59,7 @@ $ring-checkbox-size: 13px;
   }
 
   &:checked:not([disabled]) + .ring-checkbox__icon {
-    border: 1px solid $ring-blue-color;
+    border: 1px solid $ring-pale-blue-color;
   }
 
   &:not(:checked) + .ring-checkbox__icon .ring-icon {
@@ -67,7 +67,12 @@ $ring-checkbox-size: 13px;
   }
 
   &:focus + .ring-checkbox__icon,
+  &.ring-checkbox_focus + .ring-checkbox__icon,
   &:focus:checked + .ring-checkbox__icon,
+  &.ring-checkbox_focus:checked + .ring-checkbox__icon {
+    border: 1px solid $ring-blue-color;
+  }
+
   &:hover:not([disabled]) + .ring-checkbox__icon,
   &:hover:not([disabled]):checked + .ring-checkbox__icon {
     border: 1px solid $ring-link-hover-color;
