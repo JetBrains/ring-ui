@@ -1,7 +1,7 @@
 <example name="rgPager">
   <file type="html">
     <div ng-app="Example.pager" ng-controller="ExampleCtrl as ctrl">
-      <rg-pager total="ctrl.total" current="ctrl.current" goto="ctrl.current = n"></rg-pager>
+      <rg-pager total="ctrl.total" current="ctrl.current" on-page-change="ctrl.current = page"></rg-pager>
     </div>
   </file>
   <file type="js">
