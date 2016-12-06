@@ -1,5 +1,13 @@
 import Alert from '../alert/alert';
-import {showError, showMessage, showWarning, remove, removeWithoutAnimation, getShowingAlerts} from './alert-service';
+import {
+  showError,
+  showMessage,
+  showWarning,
+  remove,
+  removeWithoutAnimation,
+  getShowingAlerts,
+  setDefaultTimeout
+} from './alert-service';
 
 describe('Alert Service', () => {
   let alertKey;
@@ -11,6 +19,7 @@ describe('Alert Service', () => {
 
   afterEach(() => {
     clock.restore();
+    setDefaultTimeout(0);
     removeWithoutAnimation(alertKey);
   });
 
@@ -72,6 +81,13 @@ describe('Alert Service', () => {
     getShowingAlerts().filter(it => it.key === alertKey)[0].isClosing.should.be.true;
     clock.tick(1000);
 
+    getShowingAlerts().length.should.equal(0);
+  });
+
+  it('should allow configuting default timeout', () => {
+    setDefaultTimeout(1000);
+    alertKey = showMessage('foo');
+    clock.tick(2000);
     getShowingAlerts().length.should.equal(0);
   });
 });
