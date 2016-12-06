@@ -6,6 +6,6 @@ gemini.suite('Alert', suite => {
     setCaptureElements('body > div').
     capture('plain').
     capture('focused', (actions, find) => {
-      actions.focus(find('.ring-alert__close'));
+      actions.focus(find('*[data-test="alert-close"]'));
     });
 });
