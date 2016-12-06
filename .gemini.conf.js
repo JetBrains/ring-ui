@@ -2,11 +2,14 @@ const hostname = require('os').hostname();
 const fullHostname = hostname.indexOf('.') !== -1 ? hostname : `${hostname}.labs.intellij.net`;
 const rootUrl = `http://${fullHostname}:9999`;
 
+const gridUrl = process.env.SELENIUM_GRID || '***REMOVED***';
+
 console.log('Docsite url detected:', rootUrl);
+console.log('Grid at:', gridUrl);
 
 module.exports = {
   rootUrl,
-  gridUrl: '***REMOVED***',
+  gridUrl,
   retry: 5,
   system: {
     plugins: {

@@ -21,4 +21,14 @@ gemini.suite('Date Picker', () => {
       });
   });
 
+  gemini.suite('Clearable', child => {
+    child.
+      setUrl('/example-date-picker-clearable').
+      setCaptureElements('#date-picker', '.ring-popup').
+      capture('datePickerPopup', (actions, find) => {
+        actions.click(find('button'));
+        actions.mouseMove(find('body'), [0, 0]);
+      });
+  });
+
 });

@@ -1,13 +1,15 @@
 import 'dom4';
 import React from 'react';
-import {findDOMNode, unmountComponentAtNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import Badge from '../badge/badge';
+import {getRect} from '../dom/dom';
 
-import './alert.scss';
+import styles from './alert.css';
+
+const ANIMATION_TIME = 500;
 
 /**
  * @name Alert
@@ -48,12 +50,6 @@ const TypeToIconColor = {
 };
 
 /**
- * @const
- * @type {string}
- */
-const BASE_CLASS = 'ring-alert';
-
-/**
  * @constructor
  * @name Alert
  * @extends {ReactComponent}
@@ -64,14 +60,43 @@ const BASE_CLASS = 'ring-alert';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Alert = require('ring-ui/components/alert/alert');
+       import React from 'react';
+       import {render} from 'react-dom';
+       import Alert from 'ring-ui/components/alert/alert';
 
-       var alert = render(Alert.factory({
-         caption: 'Sample alert',
-         closeable: true,
-         type: Alert.Type.SUCCESS
-       }), document.querySelector('#alert-container'));
+       class AlertDemo extends React.Component {
+          state = {
+            show: true,
+            isClosing: false
+          };
+
+          onClose = () => {
+            this.setState({show: false});
+          }
+
+          onCloseRequest = () => {
+            this.setState({isClosing: true});
+          }
+
+          render() {
+            const {show, isClosing} = this.state;
+            if (!show) {
+              return null;
+            }
+
+            return <Alert
+                type={Alert.Type.SUCCESS}
+                onClose={this.onClose}
+                showWithAnimation={false}
+                onCloseRequest={this.onCloseRequest}
+                isClosing={isClosing}
+              >
+                Sample alert
+              </Alert>;
+          }
+       }
+
+       render(<AlertDemo/>, document.querySelector('#alert-container'));
      </file>
    </example>
  */
@@ -80,112 +105,56 @@ export default class Alert extends RingComponent {
 
   /** @override */
   static defaultProps = {
-    /** @type {Deferred} */
-    animationDeferred: null,
-
-    /** @type {ReactComponent|string} */
-    caption: null,
-
     /** @type {boolean} */
-    closeable: false,
-
+    closeable: true,
+    showWithAnimation: true,
+    type: Type.MESSAGE,
     /**
      * Whether an alert is rendered inside an {@code Alerts} container
      * or standalone.
      * @type {boolean}
      */
     inline: true,
-
+    isClosing: false,
+    timeout: 0,
+    onClose: () => {},
     /**
-     * Click handler on the "close" element.
+     * Fires when alert starts closing if timeout is out or user clicks "Close" button
      * @type {?function(SyntheticMouseEvent):undefined}
      */
-    onCloseClick: null,
-
-    /** @type {Type} */
-    type: Type.MESSAGE
+    onCloseRequest: () => {}
   };
 
-  didMount() {
-    if (this.props.animationResolver) {
-      if (typeof TransitionEvent === 'undefined') {
-        this.props.animationResolver(this);
-      }
+  state = {
+    height: null
+  };
 
-      findDOMNode(this).addEventListener('transitionend', this._handleTransitionEnd);
+  willReceiveProps(newProps) {
+    if (newProps.isClosing) {
+      this._close();
+    }
+  }
+
+  didMount() {
+    if (this.props.timeout > 0) {
+      this.hideTimeout = setTimeout(this.closeRequest, this.props.timeout);
     }
   }
 
   willUnmount() {
-    findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
+    clearTimeout(this.hideTimeout);
   }
 
-  /** @override */
-  render() {
-    const modifiedClassName = [BASE_CLASS, this.props.type].join('_');
-
-    const classes = classNames({
-      [BASE_CLASS]: true,
-      [modifiedClassName]: true,
-      'ring-alert_inline': this.props.inline
-    });
-
-    return (<div className={classes}>
-      {this._getIcon()}
-      {this._getCaption()}
-      {
-        this.props.closeable
-        ? (
-          <button
-            className="ring-alert__close"
-            onClick={this._handleCloseClick}
-          >
-            <Icon
-              glyph={require('jetbrains-icons/close.svg')}
-              size={Icon.Size.Size16}
-            />
-          </button>
-        )
-        : ''
-      }
-    </div>);
+  closeRequest = (...args) => {
+    const height = getRect(this.node).height;
+    this.setState({height});
+    return this.props.onCloseRequest(...args);
   }
 
-  /**
-   * Removes the component from the DOM.
-   * @throws {Error} Throws an error if the component rendered as part of Alerts
-   * stack is being deleted by this method.
-   */
-  close() {
-    if (this.props.inline) {
-      unmountComponentAtNode(findDOMNode(this).parentNode);
-      return;
-    }
-
-    throw new Error('Use Alerts.prototype.remove(index) to remove an alert.');
-  }
-
-  /**
-   * @private
-   */
-  _handleTransitionEnd = () => {
-    if (this.props.animationResolver) {
-      findDOMNode(this).removeEventListener('transitionend', this._handleTransitionEnd);
-      this.props.animationResolver(this);
-    }
-  }
-
-  /**
-   * @param {SyntheticEvent} evt
-   * @private
-   */
-  _handleCloseClick = evt => {
-    if (this.props.inline) {
-      this.close();
-    } else {
-      this.props.onCloseClick(evt);
-    }
-    return false;
+  _close() {
+    setTimeout(() => {
+      this.props.onClose();
+    }, ANIMATION_TIME);
   }
 
   /**
@@ -197,7 +166,7 @@ export default class Alert extends RingComponent {
       if (this.props.inline) {
         this.close();
       } else {
-        this.props.onCloseClick(evt);
+        this.closeRequest(evt);
       }
     }
   }
@@ -208,14 +177,14 @@ export default class Alert extends RingComponent {
   _getCaption() {
     return (
       <span
-        className="ring-alert__caption"
+        className={styles.caption}
         onClick={this._handleCaptionsLinksClick}
       >
-        {this.props.caption}
+        {this.props.children}
         {this.props.count > 1 &&
           <Badge
             gray={true}
-            className="ring-alert__badge"
+            className={styles.badge}
           >{this.props.count}</Badge>
         }
       </span>
@@ -232,7 +201,7 @@ export default class Alert extends RingComponent {
     if (iconModifier) {
       return (
         <Icon
-          className="ring-alert__icon"
+          className={styles.icon}
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
           glyph={iconModifier}
           size={Icon.Size.Size16}
@@ -240,10 +209,51 @@ export default class Alert extends RingComponent {
         );
     } else if (this.props.type === Type.LOADING) {
       return (
-        <Loader className="ring-alert__loader"/>
+        <Loader className={styles.loader}/>
       );
     }
 
     return '';
+  }
+
+  render() {
+    const {type, inline, isClosing, showWithAnimation, className} = this.props;
+
+    const classes = classNames(className, {
+      [styles.alert]: true,
+      [styles.animationOpen]: showWithAnimation,
+      [styles.error]: type === 'error',
+      [styles.alertInline]: inline,
+      [styles.animationClosing]: isClosing
+    });
+
+    const style = this.state.height ? {marginTop: -this.state.height} : null;
+
+    return (
+      <div
+        className={classes}
+        data-test="alert"
+        style={style}
+      >
+        {this._getIcon()}
+        {this._getCaption()}
+        {
+          this.props.closeable
+            ? (
+            <button
+              className={styles.close}
+              data-test="alert-close"
+              onClick={this.closeRequest}
+            >
+              <Icon
+                glyph={require('jetbrains-icons/close.svg')}
+                size={Icon.Size.Size16}
+              />
+            </button>
+          )
+            : ''
+        }
+      </div>
+    );
   }
 }
