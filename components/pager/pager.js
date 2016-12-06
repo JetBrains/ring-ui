@@ -82,65 +82,71 @@ export default class Pager extends RingComponent {
     });
 
     return (
-      <div className={classes}>
-        <div className={style.links}>
-          <span
-            className={prevLinkClasses}
-            onClick={() => current !== 1 && goto({n: current - 1})}
-          >← previous</span>
+      do {
+        if (total > 1) {
+          <div className={classes}>
+            <div className={style.links}>
+              <span
+                className={prevLinkClasses}
+                onClick={() => current !== 1 && goto({n: current - 1})}
+              >← previous</span>
 
-          <span
-            className={nextLinkClasses}
-            onClick={() => current !== total && goto({n: current + 1})}
-          >next page →</span>
-        </div>
+              <span
+                className={nextLinkClasses}
+                onClick={() => current !== total && goto({n: current + 1})}
+              >next page →</span>
+            </div>
 
-        <ButtonToolbar>
-          {
-            do {
-              if (start > 1) {
-                <ButtonGroup>
-                  <Button onClick={() => goto({n: 1})}>First page</Button>
-                </ButtonGroup>;
-              }
-            }
-          }
-
-          <ButtonGroup>
-            {start > 1 ? <Button onClick={() => goto({n: start - 1})}>...</Button> : ''}
-
-            {
-              do {
-                const buttons = [];
-                for (let i = start; i <= end; i++) {
-                  const button = (
-                    <Button
-                      key={i}
-                      active={i === current}
-                      onClick={() => goto({n: i})}
-                    >{i}</Button>
-                  );
-
-                  buttons.push(button);
+            <ButtonToolbar>
+              {
+                do {
+                  if (start > 1) {
+                    <ButtonGroup>
+                      <Button onClick={() => goto({n: 1})}>First page</Button>
+                    </ButtonGroup>;
+                  }
                 }
-                buttons;
               }
-            }
 
-            {end < total ? <Button onClick={() => goto({n: end + 1})}>...</Button> : ''}
-          </ButtonGroup>
+              <ButtonGroup>
+                {start > 1 ? <Button onClick={() => goto({n: start - 1})}>...</Button> : ''}
 
-          {
-            do {
-              if (end < total) {
-                <ButtonGroup>
-                  <Button onClick={() => goto({n: total})}>Last page</Button>
-                </ButtonGroup>;
+                {
+                  do {
+                    const buttons = [];
+                    for (let i = start; i <= end; i++) {
+                      const button = (
+                        <Button
+                          key={i}
+                          active={i === current}
+                          onClick={() => goto({n: i})}
+                        >{i}</Button>
+                      );
+
+                      buttons.push(button);
+                    }
+                    buttons;
+                  }
+                }
+
+                {end < total ? <Button onClick={() => goto({n: end + 1})}>...</Button> : ''}
+              </ButtonGroup>
+
+              {
+                do {
+                  if (end < total) {
+                    <ButtonGroup>
+                      <Button onClick={() => goto({n: total})}>Last page</Button>
+                    </ButtonGroup>;
+                  }
+                }
               }
-            }
-          }
-        </ButtonToolbar>
-      </div>
+            </ButtonToolbar>
+          </div>;
+        } else {
+          null;
+        }
+      }
     );
   }
 }

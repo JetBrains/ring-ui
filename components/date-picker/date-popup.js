@@ -68,6 +68,8 @@ export default class DatePopup extends RingComponent {
         ...this.props,
         ...changes
       };
+      from = this.parseDate(from);
+      to = this.parseDate(to);
 
       // proceed to setting the end by default
       let active = 'to';

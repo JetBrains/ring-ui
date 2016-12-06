@@ -4,7 +4,7 @@ import Cell from './cell';
 
 export default class DefaultRenderer extends RingComponent {
   static propTypes = {
-    children: PropTypes.any.isRequired
+    children: PropTypes.any
   }
 
   render() {
