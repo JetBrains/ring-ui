@@ -12,7 +12,7 @@
   position: relative;
   margin-top: 2*$ring-unit;
   padding: 2*$ring-unit 0 2*$ring-unit 2*$ring-unit;
-  background-color: #E9F8FF;
+  background-color: $ring-light-blue-color;
   background-color: rgba(37, 183, 255, 0.1);
 
   &:empty {
