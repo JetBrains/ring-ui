@@ -11,6 +11,7 @@ import guid from 'mout/random/guid';
  * @example-file ./alert-service.examples.html
  */
 
+let defaultTimeout = 0;
 let showingAlerts = [];
 const containerElement = document.createElement('div');
 
@@ -86,23 +87,27 @@ function addAlert(message, type, timeout) {
   return alert.key;
 }
 
-function showError(message, timeout = 0) {
+function setDefaultTimeout(timeout) {
+  defaultTimeout = timeout;
+}
+
+function showError(message, timeout = defaultTimeout) {
   return addAlert(message, Alert.Type.ERROR, timeout);
 }
 
-function showMessage(message, timeout = 0) {
+function showMessage(message, timeout = defaultTimeout) {
   return addAlert(message, Alert.Type.MESSAGE, timeout);
 }
 
-function showWarning(message, timeout = 0) {
+function showWarning(message, timeout = defaultTimeout) {
   return addAlert(message, Alert.Type.WARNING, timeout);
 }
 
-function showSuccessMessage(message, timeout = 0) {
+function showSuccessMessage(message, timeout = defaultTimeout) {
   return addAlert(message, Alert.Type.SUCCESS, timeout);
 }
 
-function showLoadingMessage(message, timeout = 0) {
+function showLoadingMessage(message, timeout = defaultTimeout) {
   return addAlert(message, Alert.Type.LOADING, timeout);
 }
 
@@ -114,6 +119,7 @@ export {
   showLoadingMessage,
   remove,
   removeWithoutAnimation,
+  setDefaultTimeout,
 
   getShowingAlerts
 };
