@@ -206,7 +206,7 @@ export default class Alert extends RingComponent {
           glyph={iconModifier}
           size={Icon.Size.Size16}
         />
-        );
+      );
     } else if (this.props.type === Type.LOADING) {
       return (
         <Loader className={styles.loader}/>
