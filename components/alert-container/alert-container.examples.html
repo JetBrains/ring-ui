@@ -1,0 +1,80 @@
+<example name="Alert Container">
+  <file type="html">
+    <div id="alert-container"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+    import Button from 'ring-ui/components/button/button';
+    import AlertContainer from 'ring-ui/components/alert-container/alert-container';
+    import Alert from 'ring-ui/components/alert/alert';
+
+    class AlertContainerDemo extends React.Component {
+      state = {
+        alerts: [
+          {type: Alert.Type.WARNING, key: 1, message: 'Test warning', isClosing: false},
+          {type: Alert.Type.MESSAGE, key: 2, message: 'Test message', isClosing: false}
+        ]
+      };
+
+      yetAnotherMessage = () => {
+        this.setState({
+          alerts: [{
+              type: Alert.Type.MESSAGE,
+              key: Date.now(),
+              message: 'Another message at ' + new Date()
+            },
+            ...this.state.alerts
+          ]
+        });
+      }
+
+      duplicateMessage = () => {
+        this.setState({
+          alerts: [{
+              type: Alert.Type.MESSAGE,
+              key: 123,
+              message: 'Duplicate message'
+            },
+            ...this.state.alerts
+          ]
+        });
+      }
+
+      onCloseAlert = (closedAlert) => {
+        this.setState({
+          alerts: this.state.alerts.filter(alert => alert !== closedAlert)
+        });
+      }
+
+      onCloseAlertClick = (alert) => {
+        const alertToclose = this.state.alerts.filter(it => alert.key === it.key)[0]
+        alertToclose.isClosing = true;
+        this.setState({alerts: [...this.state.alerts]});
+      }
+
+      render() {
+        return (
+          <div>
+            <Button onClick={this.yetAnotherMessage}>Create another message</Button>
+            <Button onClick={this.duplicateMessage}>Create duplicated message</Button>
+
+            <AlertContainer>
+              {this.state.alerts.map(alert => {
+                const {message, ...rest} = alert;
+                return (
+                  <Alert {...rest} onCloseRequest={() => this.onCloseAlertClick(alert)} onClose={() => this.onCloseAlert(alert)}>
+                    {message}
+                  </Alert>
+                );
+              })}
+            </AlertContainer>
+          </div>
+        );
+      }
+    }
+
+    render(<AlertContainerDemo/>, document.getElementById('alert-container'));
+  </file>
+</example>

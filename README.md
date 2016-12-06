@@ -10,11 +10,13 @@ order: 1
 
 ## Development environment setup
 
-1. Install Node.js
+1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 
-2. Install dependencies: `npm install`
+2. Install Node.js
 
-3. (Optional, Mac OS X / Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
+3. Install dependencies: `npm install`
+
+4. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ## Available commands
 

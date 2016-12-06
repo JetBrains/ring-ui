@@ -4,6 +4,8 @@
   display: inline-block;
   position: relative;
   width: 100%;
+  white-space: nowrap;
+  text-align: left;
   color: $ring-text-color;
 
   &_input-mode {
@@ -69,13 +71,6 @@
 
   &:not(.ring-button) &__icons {
     top: 2px;
-  }
-
-  // Redefine .ring-button styles
-  &.ring-select {
-    width: 100%;
-    text-align: left;
-    white-space: nowrap;
   }
 
   &__selected-icon {

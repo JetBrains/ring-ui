@@ -1,74 +1,92 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import Alert from './alert';
+import {
+  renderIntoDocument,
+  isCompositeComponentWithType
+} from 'react-addons-test-utils';
+import styles from './alert.css';
 
 describe('Alert', () => {
-  it('should render', () => {
-    const alertComponent = TestUtils.renderIntoDocument(
-        React.createElement(Alert, {caption: 'Test element'}));
-    alertComponent.should.be.defined;
+  const renderComponent = props => renderIntoDocument(<Alert {...props}/>);
+
+  let clock;
+  beforeEach(() => {
+    clock = sinon.useFakeTimers();
   });
 
-  describe('rendering', () => {
-    describe('rendering modes', () => {
-      it('should render a message', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', type: Alert.Type.MESSAGE}));
+  afterEach(() => {
+    clock.restore();
+  });
 
-        alertComponent.node.should.have.class('ring-alert_message');
-      });
+  it('should render', () => {
+    isCompositeComponentWithType(renderComponent({}), Alert).should.be.true;
+  });
 
-      it('should render an error', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', type: Alert.Type.ERROR}));
+  it('should render text', () => {
+    const alertComponent = renderComponent({
+      children: 'Test message',
+      type: Alert.Type.MESSAGE
+    });
+    alertComponent.node.should.contain.text('Test message');
+  });
 
-        alertComponent.node.should.have.class('ring-alert_error');
-      });
+  it('should transfer className', () => {
+    renderComponent({className: 'foo'}).node.should.have.class('foo');
+  });
 
-      it('should render a warning', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', type: Alert.Type.WARNING}));
+  it('should render component', () => {
+    const alertComponent = renderComponent({
+      children: <div>{'foo'}</div>,
+      type: Alert.Type.MESSAGE
+    });
+    alertComponent.node.should.contain.text('foo');
+  });
 
-        alertComponent.node.should.have.class('ring-alert_warning');
-      });
+  it('should render an error', () => {
+    const alertComponent = renderComponent({
+      children: 'Test',
+      type: Alert.Type.ERROR
+    });
+    alertComponent.node.should.have.class(styles.error);
+  });
 
-      it('should render a success message', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', type: Alert.Type.SUCCESS}));
+  it('should be closeable if by default', () => {
+    const alertComponent = renderComponent({children: 'Test element'});
 
-        alertComponent.node.should.have.class('ring-alert_success');
-      });
+    alertComponent.node.should.contain('*[data-test="alert-close"]');
+  });
 
-      it('should render a message if no type is specified', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element'}));
-
-        alertComponent.node.should.have.class('ring-alert_message');
-      });
+  it('should be not closeable if defined', () => {
+    const alertComponent = renderComponent({
+      children: 'Test element',
+      closeable: false
     });
 
-    describe('closeable alerts', () => {
-      it('should be closeable if it is defined in options', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', closeable: true}));
+    alertComponent.node.should.not.contain('*[data-test="alert-close"]');
+  });
 
-        const alertElement = alertComponent.node;
-        const closeElement = alertElement.querySelector('.ring-alert__close');
-
-        closeElement.should.not.be.null;
-      });
-
-      it('should be closed on click', () => {
-        const alertComponent = TestUtils.renderIntoDocument(
-            React.createElement(Alert, {caption: 'Test element', closeable: true}));
-
-        const alertElement = alertComponent.node;
-        const closeElement = alertElement.querySelector('.ring-alert__close');
-
-        TestUtils.Simulate.click(closeElement);
-
-        should.not.exist(alertElement.node);
-      });
+  it('should call onCloseRequest on click by close button', () => {
+    const closeSpy = sinon.spy();
+    const alertComponent = renderComponent({
+      children: 'Test element',
+      onCloseRequest: closeSpy
     });
+    const closeElement = alertComponent.node.querySelector('*[data-test="alert-close"]');
+
+    TestUtils.Simulate.click(closeElement);
+    closeSpy.should.have.been.called;
+  });
+
+  it('should call onCloseRequest on timeout', () => {
+    const closeSpy = sinon.spy();
+    renderComponent({
+      children: 'Test element',
+      timeout: 100,
+      onCloseRequest: closeSpy
+    });
+    clock.tick(500);
+
+    closeSpy.should.have.been.called;
   });
 });
