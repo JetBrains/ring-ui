@@ -72,7 +72,7 @@ export default class Row extends RingComponent {
   }
 
   render() {
-    const {item, columns, selectable, selected} = this.props;
+    const {item, columns, selectable, selected, focused} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -85,6 +85,7 @@ export default class Row extends RingComponent {
       const checkboxCell = (
         <CheckboxRenderer key="checkbox">
           <Checkbox
+            className={focused ? 'ring-checkbox_focus' : ''}
             checked={selected}
             onChange={this.onCheckboxChange}
             onFocus={this.onCheckboxFocus}
