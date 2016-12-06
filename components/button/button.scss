@@ -59,7 +59,7 @@
 
   &:active:not([disabled]):not(.ring-button_loader),
   &.ring-button_active:not([disabled]):not(.ring-button_loader) {
-    background: #e9f8ff;
+    background: $ring-light-blue-color;
     box-shadow: inset 0 0 0 1px #25b7ff, inset 0 1px 4px 0 rgba(3, 116, 172, 0.5);
     z-index: 2;
   }
