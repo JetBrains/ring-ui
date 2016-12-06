@@ -21,6 +21,7 @@ export default class Row extends RingComponent {
     focused: PropTypes.bool,
     selected: PropTypes.bool,
     onFocus: PropTypes.func,
+    onHover: PropTypes.func,
     onSelect: PropTypes.func
   }
 
@@ -29,6 +30,7 @@ export default class Row extends RingComponent {
     focused: false,
     selected: false,
     onFocus: () => {},
+    onHover: () => {},
     onSelect: () => {}
   }
 
@@ -37,6 +39,11 @@ export default class Row extends RingComponent {
     if (selectable && !focused) {
       onFocus(item);
     }
+  }
+
+  onMouseEnter = () => {
+    const {item, onHover} = this.props;
+    onHover(item);
   }
 
   onClick = e => {
@@ -120,6 +127,7 @@ export default class Row extends RingComponent {
         className={classes}
         tabIndex="0"
         onFocus={this.onFocus}
+        onMouseEnter={this.onMouseEnter}
         onClick={this.onClick}
       >{cells}</tr>
     );
