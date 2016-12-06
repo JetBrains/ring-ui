@@ -18,7 +18,7 @@ import Dialog from '../dialog-ng/dialog-ng';
 
       angular.module('TestApp', [ConfirmNg]).
         controller('TestCtrl', function (confirm) {
-          confirm('Do you really want to proceed?').
+          confirm('Do you really want to proceed?', 'Confirm description').
             then(() => console.log('Confirmed')).
             catch(() => console.log('Declined'));
         })
