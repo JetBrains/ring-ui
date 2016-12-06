@@ -163,11 +163,7 @@ export default class Alert extends RingComponent {
    */
   _handleCaptionsLinksClick = evt => {
     if (evt.target.matches('a')) {
-      if (this.props.inline) {
-        this.close();
-      } else {
-        this.closeRequest(evt);
-      }
+      this.closeRequest(evt);
     }
   }
 
