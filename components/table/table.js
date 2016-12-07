@@ -46,9 +46,11 @@ export default class Table extends RingComponentWithShortcuts {
 
   state = {
     focusedRow: undefined,
+    hoveredRow: undefined,
     selectedRows: new Set(),
     shortcuts: this.props.selectable,
-    userSelectNone: false
+    userSelectNone: false,
+    disabledHover: false
   }
 
   getShortcutsProps() {
@@ -59,6 +61,8 @@ export default class Table extends RingComponentWithShortcuts {
         shift: this.onShiftKeyDown,
         'shift+up': this.onShiftUpPress,
         'shift+down': this.onShiftDownPress,
+        home: this.onHomePress,
+        end: this.onEndPress,
         space: this.onSpacePress,
         esc: this.onEscPress,
         'command+a': this.onCmdAPress,
@@ -78,8 +82,16 @@ export default class Table extends RingComponentWithShortcuts {
     this.setState({userSelectNone: false});
   }
 
+  onMouseMove = () => {
+    this.setState({disabledHover: false});
+  }
+
   onRowFocus = row => {
     this.setState({focusedRow: row});
+  }
+
+  onRowHover = row => {
+    this.setState({hoveredRow: row});
   }
 
   onRowSelect = row => {
@@ -93,31 +105,37 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   getPrevRow = () => {
-    const {state: {focusedRow}, props: {data}} = this;
-    const i = data.indexOf(focusedRow) - 1;
-    if (i > -1) {
-      return data[i];
-    } else {
-      return data[data.length - 1];
-    }
-  }
+    const {state: {focusedRow, hoveredRow}, props: {data}} = this;
+    const row = focusedRow || hoveredRow;
+    const i = data.indexOf(row) - 1;
 
-  getNextRow = () => {
-    const {state: {focusedRow}, props: {data}} = this;
-    const i = data.indexOf(focusedRow) + 1;
-    if (i < data.length) {
+    if (i > -1) {
       return data[i];
     } else {
       return data[0];
     }
   }
 
+  getNextRow = () => {
+    const {state: {focusedRow, hoveredRow}, props: {data}} = this;
+    const row = focusedRow || hoveredRow;
+    const i = data.indexOf(row) + 1;
+
+    if (i < data.length) {
+      return data[i];
+    } else {
+      return data[data.length - 1];
+    }
+  }
+
   onUpPress = () => {
-    this.setState({focusedRow: this.getPrevRow()});
+    this.setState({focusedRow: this.getPrevRow(), disabledHover: true});
+    return false;
   }
 
   onDownPress = () => {
-    this.setState({focusedRow: this.getNextRow()});
+    this.setState({focusedRow: this.getNextRow(), disabledHover: true});
+    return false;
   }
 
   shiftSelectRow = () => {
@@ -152,28 +170,48 @@ export default class Table extends RingComponentWithShortcuts {
   onShiftUpPress = () => {
     const focusedRow = this.getPrevRow();
     const selectedRows = this.shiftSelectRow();
-    this.setState({focusedRow, selectedRows});
+    this.setState({focusedRow, selectedRows, disabledHover: true});
   }
 
   onShiftDownPress = () => {
     const focusedRow = this.getNextRow();
     const selectedRows = this.shiftSelectRow();
-    this.setState({focusedRow, selectedRows});
+    this.setState({focusedRow, selectedRows, disabledHover: true});
+  }
+
+  onHomePress = () => {
+    const {data} = this.props;
+    this.setState({focusedRow: data[0], disabledHover: true});
+    return false;
+  }
+
+  onEndPress = () => {
+    const {data} = this.props;
+    this.setState({focusedRow: data[data.length - 1], disabledHover: true});
+    return false;
   }
 
   onSpacePress = () => {
     const {focusedRow} = this.state;
     if (focusedRow) {
+      this.setState({disabledHover: true});
       this.onRowSelect(focusedRow);
+      return false;
     }
+    return true;
   }
 
   onEscPress = () => {
-    this.setState({focusedRow: undefined, selectedRows: new Set()});
+    this.setState({
+      focusedRow: undefined,
+      hoveredRow: undefined,
+      selectedRows: new Set(),
+      disabledHover: true
+    });
   }
 
   onCmdAPress = () => {
-    this.setState({selectedRows: new Set(this.props.data)});
+    this.setState({selectedRows: new Set(this.props.data), disabledHover: true});
     return false;
   }
 
@@ -228,10 +266,12 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   didMount() {
+    document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
   willUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
@@ -240,7 +280,6 @@ export default class Table extends RingComponentWithShortcuts {
     const {selectedRows, focusedRow} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
-    const multiSelection = selectedRows.size > 0;
 
     /*const subtreeKey = do {
       const subtreeColumn = this.props.columns.find(column => column.subtree);
@@ -304,9 +343,9 @@ export default class Table extends RingComponentWithShortcuts {
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
-      [style.tableMultiSelection]: multiSelection,
-      [style.tableSingleSelection]: !multiSelection,
-      [style.userSelectNone]: this.state.userSelectNone
+      [style.multiSelection]: selectedRows.size > 0,
+      [style.userSelectNone]: this.state.userSelectNone,
+      [style.disabledHover]: this.state.disabledHover
     });
 
     return (
@@ -328,6 +367,7 @@ export default class Table extends RingComponentWithShortcuts {
                 focused: focusedRow === item,
                 selected: selectedRows.has(item),
                 onFocus: this.onRowFocus,
+                onHover: this.onRowHover,
                 onSelect: this.onRowSelect
               };
               return <Row {...props} />;

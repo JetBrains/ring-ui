@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import Portal from 'react-portal';
 
 import RingComponent from '../ring-component/ring-component';
-import Alert from '../alert/alert';
 
-import styles from './alert-container.css';
+import styles from './container.css';
 
 /**
  * @name Alert Container
@@ -13,12 +12,9 @@ import styles from './alert-container.css';
  * @category Components
  * @description Displays a stack of alerts on top of the page.
  * @extends {RingComponent}
- * @example-file ./alert-container.examples.html
  */
 
 export default class Alerts extends RingComponent {
-  static Type = Alert.Type;
-
   render() {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles.alertContainer, className);

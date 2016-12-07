@@ -4,7 +4,7 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-tes
 import Pager from './pager';
 
 describe('Pager', () => {
-  const props = {total: 2, current: 1, goto: () => {}};
+  const props = {total: 2, current: 1, onPageChange: () => {}};
   const renderComponent = params => renderIntoDocument(Pager.factory(Object.assign({}, props, params)));
 
   it('should create component', () => {

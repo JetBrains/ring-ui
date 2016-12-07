@@ -3,3 +3,8 @@
 .text {
   font-size: 19px;
 }
+
+.description {
+  margin: calc(unit * 2) 0;
+  font-size: 13px;
+}
