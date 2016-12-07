@@ -4,6 +4,8 @@ import 'core-js/modules/es6.array.find';
  * Selection class, catches all selection and activation operations and triggers events
  */
 export default class Selection {
+  suggestedItem = null;
+
   constructor(items, emitEvent, singleActiveElementAsSelection = true) {
     this.items = items;
     this.emitEvent = emitEvent;
@@ -12,6 +14,7 @@ export default class Selection {
 
   setItems(items) {
     this.items = items;
+    this.suggestedItem = null;
     this.emitEvent('rgLegacyTable:itemsChanged', items);
   }
 
@@ -62,7 +65,10 @@ export default class Selection {
 
   activateNextItem() {
     const activeItemIndex = this.items.indexOf(this.getActiveItem());
-    if (activeItemIndex >= 0 && activeItemIndex < this.items.length - 1) {
+    if (activeItemIndex === -1 && this.suggestedItem) {
+      this.activateItem(this.suggestedItem);
+      return this.suggestedItem;
+    } else if (activeItemIndex >= 0 && activeItemIndex < this.items.length - 1) {
       const newActiveItem = this.findNextActiveItem(activeItemIndex, 1);
       this.activateItem(newActiveItem);
       return newActiveItem;
@@ -74,7 +80,10 @@ export default class Selection {
 
   activatePreviousItem() {
     const activeItemIndex = this.items.indexOf(this.getActiveItem());
-    if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
+    if (activeItemIndex === -1 && this.suggestedItem) {
+      this.activateItem(this.suggestedItem);
+      return this.suggestedItem;
+    } else if (activeItemIndex > 0 && activeItemIndex <= this.items.length - 1) {
       const newActiveItem = this.findNextActiveItem(activeItemIndex, 0);
       this.activateItem(newActiveItem);
       return newActiveItem;
@@ -150,5 +159,9 @@ export default class Selection {
     } else {
       return checked;
     }
+  }
+
+  setSuggestedItem(item) {
+    this.suggestedItem = item;
   }
 }
