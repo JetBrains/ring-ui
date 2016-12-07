@@ -1,9 +1,12 @@
-@value unit, text-color, dark-gray-color, blue-color, light-blue-color from '../global/global.css';
+@value global: '../global/global.css';
+@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color from global;
 
 @value dirty-blue-color: #D4EDFA;
-@value light-gray-color: #E6E6E6;
-@value pale-gray-color: #F0F0F0;
-@value yet-another-gray-color: #EBEBEB;
+
+@value table-border-color: #E6E6E6;
+@value table-background-color: #F0F0F0;
+@value table-header-background-color: #EBEBEB;
+@value table-caption-border-color: #DBDBDB;
 @value box-shadow-color: #F7F7F7;
 
 .tableWrapper {
@@ -45,12 +48,12 @@
   text-align: left;
   white-space: nowrap;
 
-  background-color: yet-another-gray-color;
+  background-color: table-header-background-color;
 
   height: calc(unit * 5 + 1);
   box-sizing: border-box;
   padding: 0 calc(unit * 2.5);
-  border-top: 1px solid light-gray-color;
+  border-top: 1px solid table-border-color;
   box-shadow: inset 0px 1px 0px 0px box-shadow-color;
 }
 
@@ -62,6 +65,7 @@
   padding-right: calc(unit * 4);
   width: 100%;
 }
+
 
 .headerCellSortable {
   cursor: pointer;
@@ -117,7 +121,7 @@
 
 .row {
   & {
-    background-color: pale-gray-color;
+    background-color: table-background-color;
   }
 
   @nest .table:not(.disabledHover) &:hover {
@@ -131,7 +135,7 @@
 
 
   & .cell {
-    border: 1px none light-gray-color;
+    border: 1px none table-border-color;
     border-top-style: solid;
   }
 
