@@ -10,19 +10,16 @@ import guid from 'mout/random/guid';
  * @example-file ./alert-service.examples.html
  */
 
-let defaultTimeout = 0;
-let showingAlerts = [];
-const containerElement = document.createElement('div');
+class AlertService {
+  defaultTimeout = 0;
+  showingAlerts = [];
+  containerElement = document.createElement('div');
 
-function getShowingAlerts() {
-  return [...showingAlerts];
-}
+  _getShowingAlerts() {
+    return [...this.showingAlerts];
+  }
 
-/**
- * Renders alert container into virtual node to skip mantaining container
- */
-function renderAlerts(alerts) {
-  const renderAlertContainer = () => {
+  renderAlertContainer(alerts) {
     if (alerts.length === 0) {
       return <span></span>;
     }
@@ -35,90 +32,85 @@ function renderAlerts(alerts) {
         })}
       </AlertContainer>
     );
-  };
-
-  render(renderAlertContainer(), containerElement);
-}
-
-function findSameAlert(message, type) {
-  return showingAlerts.filter(it => it.type === type && it.message === message)[0];
-}
-
-function startAlertClosing(alert) {
-  alert.isClosing = true;
-  renderAlerts(showingAlerts);
-}
-
-function remove(key) {
-  const alertToClose = showingAlerts.filter(alert => alert.key === key)[0];
-  if (!alertToClose) {
-    return;
-  }
-  startAlertClosing(alertToClose);
-}
-
-function removeWithoutAnimation(key) {
-  showingAlerts = showingAlerts.filter(alert => alert.key !== key);
-  renderAlerts(showingAlerts);
-}
-
-function addAlert(message, type, timeout) {
-  const sameAlert = findSameAlert(message, type);
-  if (sameAlert) {
-    sameAlert.count++;
-    renderAlerts(showingAlerts);
-    return sameAlert.key;
   }
 
-  const alert = {
-    key: guid(),
-    message,
-    type,
-    timeout,
-    isClosing: false,
-    onCloseRequest: () => startAlertClosing(alert),
-    onClose: () => removeWithoutAnimation(alert.key),
-    count: 1
-  };
+  /**
+   * Renders alert container into virtual node to skip mantaining container
+   */
+  renderAlerts() {
+    render(this.renderAlertContainer(this.showingAlerts), this.containerElement);
+  }
 
-  showingAlerts.push(alert);
-  renderAlerts(showingAlerts);
-  return alert.key;
+  findSameAlert(message, type) {
+    return this.showingAlerts.filter(it => it.type === type && it.message === message)[0];
+  }
+
+  startAlertClosing(alert) {
+    alert.isClosing = true;
+    this.renderAlerts();
+  }
+
+  remove(key) {
+    const alertToClose = this.showingAlerts.filter(alert => alert.key === key)[0];
+    if (!alertToClose) {
+      return;
+    }
+    this.startAlertClosing(alertToClose);
+  }
+
+  removeWithoutAnimation(key) {
+    this.showingAlerts = this.showingAlerts.filter(alert => alert.key !== key);
+    this.renderAlerts();
+  }
+
+  addAlert(message, type, timeout = this.defaultTimeout) {
+    const sameAlert = this.findSameAlert(message, type);
+    if (sameAlert) {
+      sameAlert.count++;
+      this.renderAlerts();
+      return sameAlert.key;
+    }
+
+    const alert = {
+      key: guid(),
+      message,
+      type,
+      timeout,
+      isClosing: false,
+      onCloseRequest: () => this.startAlertClosing(alert),
+      onClose: () => this.removeWithoutAnimation(alert.key),
+      count: 1
+    };
+
+    this.showingAlerts.push(alert);
+    this.renderAlerts();
+    return alert.key;
+  }
+
+  setDefaultTimeout(timeout) {
+    this.defaultTimeout = timeout;
+  }
+
+  error(message, timeout) {
+    return this.addAlert(message, Alert.Type.ERROR, timeout);
+  }
+
+  message(message, timeout) {
+    return this.addAlert(message, Alert.Type.MESSAGE, timeout);
+  }
+
+  warning(message, timeout) {
+    return this.addAlert(message, Alert.Type.WARNING, timeout);
+  }
+
+  successMessage(message, timeout) {
+    return this.addAlert(message, Alert.Type.SUCCESS, timeout);
+  }
+
+  loadingMessage(message, timeout) {
+    return this.addAlert(message, Alert.Type.LOADING, timeout);
+  }
 }
 
-function setDefaultTimeout(timeout) {
-  defaultTimeout = timeout;
-}
-
-function showError(message, timeout = defaultTimeout) {
-  return addAlert(message, Alert.Type.ERROR, timeout);
-}
-
-function showMessage(message, timeout = defaultTimeout) {
-  return addAlert(message, Alert.Type.MESSAGE, timeout);
-}
-
-function showWarning(message, timeout = defaultTimeout) {
-  return addAlert(message, Alert.Type.WARNING, timeout);
-}
-
-function showSuccessMessage(message, timeout = defaultTimeout) {
-  return addAlert(message, Alert.Type.SUCCESS, timeout);
-}
-
-function showLoadingMessage(message, timeout = defaultTimeout) {
-  return addAlert(message, Alert.Type.LOADING, timeout);
-}
-
-export {
-  showError,
-  showMessage,
-  showWarning,
-  showSuccessMessage,
-  showLoadingMessage,
-  remove,
-  removeWithoutAnimation,
-  setDefaultTimeout,
-
-  getShowingAlerts
-};
+const alertService = new AlertService();
+export default alertService;
