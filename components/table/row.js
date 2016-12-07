@@ -21,6 +21,7 @@ export default class Row extends RingComponent {
     focused: PropTypes.bool,
     selected: PropTypes.bool,
     onFocus: PropTypes.func,
+    onHover: PropTypes.func,
     onSelect: PropTypes.func
   }
 
@@ -29,6 +30,7 @@ export default class Row extends RingComponent {
     focused: false,
     selected: false,
     onFocus: () => {},
+    onHover: () => {},
     onSelect: () => {}
   }
 
@@ -37,6 +39,11 @@ export default class Row extends RingComponent {
     if (selectable && !focused) {
       onFocus(item);
     }
+  }
+
+  onMouseEnter = () => {
+    const {item, onHover} = this.props;
+    onHover(item);
   }
 
   onClick = e => {
@@ -65,7 +72,7 @@ export default class Row extends RingComponent {
   }
 
   render() {
-    const {item, columns, selectable, selected} = this.props;
+    const {item, columns, selectable, selected, focused} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -78,6 +85,7 @@ export default class Row extends RingComponent {
       const checkboxCell = (
         <CheckboxRenderer key="checkbox">
           <Checkbox
+            className={focused ? 'ring-checkbox_focus' : ''}
             checked={selected}
             onChange={this.onCheckboxChange}
             onFocus={this.onCheckboxFocus}
@@ -120,6 +128,7 @@ export default class Row extends RingComponent {
         className={classes}
         tabIndex="0"
         onFocus={this.onFocus}
+        onMouseEnter={this.onMouseEnter}
         onClick={this.onClick}
       >{cells}</tr>
     );

@@ -7,26 +7,26 @@
     import {render} from 'react-dom';
     import React from 'react';
     import Button from 'ring-ui/components/button/button';
-    import {showError, showMessage, remove} from 'ring-ui/components/alert-service/alert-service';
+    import alert from 'ring-ui/components/alert-service/alert-service';
 
     class AlertServiceDemo extends React.Component {
       componentDidMount () {
         setTimeout(() => {
-          showMessage('A initial message', 5000);
-          showError('Error message');
+          alert.message('A initial message', 5000);
+          alert.error('Error message');
         }, 100);
       }
 
       showError = () => {
-        this.lastKey = showError('Something wrong happened');
+        this.lastKey = alert.error('Something wrong happened');
       }
 
       showMessage = () => {
-        this.lastKey = showMessage('This is just a message', 5000);
+        this.lastKey = alert.message('This is just a message', 5000);
       }
 
       removeLastAlert = () => {
-        remove(this.lastKey);
+        alert.remove(this.lastKey);
       }
 
       render() {

@@ -1,3 +1,49 @@
+<example name="Alert">
+  <file type="html">
+    <div id="alert"></div>
+  </file>
+
+  <file type="js">
+   import React from 'react';
+   import {render} from 'react-dom';
+   import Alert from 'ring-ui/components/alert/alert';
+
+   class AlertDemo extends React.Component {
+      state = {
+        show: true,
+        isClosing: false
+      };
+
+      onClose = () => {
+        this.setState({show: false});
+      }
+
+      onCloseRequest = () => {
+        this.setState({isClosing: true});
+      }
+
+      render() {
+        const {show, isClosing} = this.state;
+        if (!show) {
+          return null;
+        }
+
+        return <Alert
+            type={Alert.Type.SUCCESS}
+            onClose={this.onClose}
+            showWithAnimation={false}
+            onCloseRequest={this.onCloseRequest}
+            isClosing={isClosing}
+          >
+            Sample alert
+          </Alert>;
+      }
+   }
+
+   render(<AlertDemo/>, document.querySelector('#alert'));
+  </file>
+</example>
+
 <example name="Alert Container">
   <file type="html">
     <div id="alert-container"></div>
@@ -7,8 +53,7 @@
     import {render} from 'react-dom';
     import React from 'react';
     import Button from 'ring-ui/components/button/button';
-    import AlertContainer from 'ring-ui/components/alert-container/alert-container';
-    import Alert from 'ring-ui/components/alert/alert';
+    import Alert, {Container} from 'ring-ui/components/alert/alert';
 
     class AlertContainerDemo extends React.Component {
       state = {
@@ -60,7 +105,7 @@
             <Button onClick={this.yetAnotherMessage}>Create another message</Button>
             <Button onClick={this.duplicateMessage}>Create duplicated message</Button>
 
-            <AlertContainer>
+            <Container>
               {this.state.alerts.map(alert => {
                 const {message, ...rest} = alert;
                 return (
@@ -69,7 +114,7 @@
                   </Alert>
                 );
               })}
-            </AlertContainer>
+            </Container>
           </div>
         );
       }
