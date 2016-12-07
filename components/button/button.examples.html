@@ -4,10 +4,20 @@
     .buttons > button {
       margin: 8px;
     }
+
+    .dark {
+      background: #000;
+    }
+
+    .inline {
+      display: inline-block;
+      padding: 8px;
+    }
   </file>
 
   <file type="html">
     <div id="buttons"></div>
+    <div id="dark"></div>
     <div id="dynamic"></div>
   </file>
 
@@ -45,16 +55,57 @@
 
     render(buttons, document.getElementById('buttons'));
 
-    const dynamic = (
-      <div className="buttons">
+    const dark = (
+      <div className="buttons dark">
         <Button
-          loader={true}
-        >Button loader</Button>
+          theme="dark"
+        >Button default</Button>
+
         <Button
-          primary={true}
-          loader={true}
-        >Primary loader</Button>
+          theme="dark"
+          icon={require('jetbrains-icons/flag.svg')}
+        >Icon action</Button>
+
+        <Button
+          theme="dark"
+          text={true}
+        >Text action</Button>
+
+        <Button
+          theme="dark"
+          short={true}
+        >...</Button>
+
+        {
+          [
+            'active', 'primary', 'danger', 'delayed', 'disabled'
+          ].map(modifier => Button.factory({
+            theme: 'dark',
+            key: modifier,
+            [modifier]: true
+          }, 'Button ' + modifier))
+        }
       </div>
+    );
+
+    render(dark, document.getElementById('dark'));
+
+    const dynamic = (
+    <div className="buttons">
+      <Button
+        loader={true}
+      >Button loader</Button>
+      <Button
+        primary={true}
+        loader={true}
+      >Primary loader</Button>
+      <div className="dark inline">
+        <Button
+          theme="dark"
+          loader={true}
+        >Dark loader</Button>
+      </div>
+    </div>
     )
 
     render(dynamic, document.getElementById('dynamic'));
