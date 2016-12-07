@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Alert from '../alert/alert';
-import AlertContainer from '../alert-container/alert-container';
+import Alert, {Container as AlertContainer} from '../alert/alert';
 import guid from 'mout/random/guid';
 
 /**

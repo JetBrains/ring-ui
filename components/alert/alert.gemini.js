@@ -9,3 +9,10 @@ gemini.suite('Alert', suite => {
       actions.focus(find('*[data-test="alert-close"]'));
     });
 });
+
+gemini.suite('Alert Container', suite => {
+  suite.
+    setUrl('/example-alert-container/index.html').
+    setCaptureElements('*[data-test="alert-container"]').
+    capture('plain');
+});
