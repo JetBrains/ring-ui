@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 
-import Alert from '../alert/alert';
-import AlertContainer from './alert-container';
+import Alert from './alert';
+import AlertContainer from './container';
 import React from 'react';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 

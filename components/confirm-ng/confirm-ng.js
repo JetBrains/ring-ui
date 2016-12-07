@@ -1,4 +1,4 @@
-import Dialog from '../dialog-ng/dialog-ng';
+import confirm from '../confirm-service/confirm-service';
 
 /**
  * @name Confirm Ng
@@ -18,7 +18,7 @@ import Dialog from '../dialog-ng/dialog-ng';
 
       angular.module('TestApp', [ConfirmNg]).
         controller('TestCtrl', function (confirm) {
-          confirm('Do you really want to proceed?').
+          confirm('Do you really want to proceed?', 'Confirm description').
             then(() => console.log('Confirmed')).
             catch(() => console.log('Declined'));
         })
@@ -27,30 +27,14 @@ import Dialog from '../dialog-ng/dialog-ng';
  */
 /* global angular: false */
 
-const angularModule = angular.module('Ring.confirm', [Dialog]);
+const angularModule = angular.module('Ring.confirm', []);
 
-angularModule.service('confirm', dialog => (message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) => dialog.show({
-  template: require('./confirm-ng.html'),
-  data: {
-    message: (message || ''),
-    description
-  },
-  buttons: [
-    {
-      label: (actionTitle || 'OK'),
-      default: !cancelIsDefault,
-      close: true,
-      action: () => (actionFn ? actionFn() : true)
-    },
-    {
-      label: (cancelTitle || 'Cancel'),
-      default: !!cancelIsDefault,
-      action: () => {
-        dialog.reset();
-        return false;
-      }
-    }
-  ]
-}));
+/* eslint-disable arrow-body-style */
+angularModule.service('confirm', $q => {
+  return function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
+    return $q.when(confirm(message, description, actionTitle, cancelTitle)).
+      then(() => actionFn && actionFn());
+  };
+});
 
 export default angularModule.name;

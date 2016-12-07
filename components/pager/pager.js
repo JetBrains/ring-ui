@@ -25,7 +25,7 @@ export default class Pager extends RingComponent {
     total: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
     size: PropTypes.number,
-    goto: PropTypes.func.isRequired,
+    onPageChange: PropTypes.func.isRequired,
     className: PropTypes.string
   }
 
@@ -34,7 +34,7 @@ export default class Pager extends RingComponent {
   }
 
   render() {
-    const {total, current, size, goto, className} = this.props;
+    const {total, current, size, onPageChange, className} = this.props;
 
     let start;
     let end;
@@ -88,12 +88,12 @@ export default class Pager extends RingComponent {
             <div className={style.links}>
               <span
                 className={prevLinkClasses}
-                onClick={() => current !== 1 && goto({n: current - 1})}
+                onClick={() => current !== 1 && onPageChange({page: current - 1})}
               >← previous</span>
 
               <span
                 className={nextLinkClasses}
-                onClick={() => current !== total && goto({n: current + 1})}
+                onClick={() => current !== total && onPageChange({page: current + 1})}
               >next page →</span>
             </div>
 
@@ -102,14 +102,14 @@ export default class Pager extends RingComponent {
                 do {
                   if (start > 1) {
                     <ButtonGroup>
-                      <Button onClick={() => goto({n: 1})}>First page</Button>
+                      <Button onClick={() => onPageChange({page: 1})}>First page</Button>
                     </ButtonGroup>;
                   }
                 }
               }
 
               <ButtonGroup>
-                {start > 1 ? <Button onClick={() => goto({n: start - 1})}>...</Button> : ''}
+                {start > 1 ? <Button onClick={() => onPageChange({page: start - 1})}>...</Button> : ''}
 
                 {
                   do {
@@ -119,7 +119,7 @@ export default class Pager extends RingComponent {
                         <Button
                           key={i}
                           active={i === current}
-                          onClick={() => goto({n: i})}
+                          onClick={() => onPageChange({page: i})}
                         >{i}</Button>
                       );
 
@@ -129,14 +129,14 @@ export default class Pager extends RingComponent {
                   }
                 }
 
-                {end < total ? <Button onClick={() => goto({n: end + 1})}>...</Button> : ''}
+                {end < total ? <Button onClick={() => onPageChange({page: end + 1})}>...</Button> : ''}
               </ButtonGroup>
 
               {
                 do {
                   if (end < total) {
                     <ButtonGroup>
-                      <Button onClick={() => goto({n: total})}>Last page</Button>
+                      <Button onClick={() => onPageChange({page: total})}>Last page</Button>
                     </ButtonGroup>;
                   }
                 }
