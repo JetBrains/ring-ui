@@ -15,6 +15,7 @@ import styles from './button.css';
  */
 export default class Button extends RingComponent {
   static propTypes = {
+    theme: PropTypes.oneOf('light', 'dark'),
     active: PropTypes.bool,
     blue: PropTypes.bool,
     danger: PropTypes.bool,
@@ -28,9 +29,14 @@ export default class Button extends RingComponent {
     className: PropTypes.string
   }
 
+  static defaultProps = {
+    theme: 'light'
+  }
+
   render() {
     const {
       // Modifiers
+      theme,
       active,
       blue,
       danger,
@@ -50,7 +56,9 @@ export default class Button extends RingComponent {
 
     const classes = classNames(
       styles.button,
-      className, {
+      className,
+      styles[theme],
+      {
         [styles.active]: active,
         [styles.danger]: danger,
         [styles.delayed]: delayed,
