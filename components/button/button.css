@@ -1,4 +1,4 @@
-@value unit, font, border-radius, icon-color, border-hover-color, white-color, selected-background-color, main-color, error-color, gray-color, link-hover-color, icon-hover-color, disabled-color, ease from "../global/global.css";
+@value unit, font, border-radius, icon-color, border-hover-color, white-color, black-color, text-color, dark-gray-color, selected-background-color, dark-selected-background-color, main-color, error-color, gray-color, link-hover-color, icon-hover-color, disabled-color, ease from "../global/global.css";
 
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
@@ -6,7 +6,6 @@
 
 .button {
   composes: font;
-  background-color: white-color;
   text-decoration: none;
 
   display: inline-block;
@@ -22,37 +21,66 @@
 
   border: 0;
   border-radius: border-radius;
-  box-shadow: button-shadow icon-color;
-  transition: box-shadow ease;
+  transition: all ease;
 
   cursor: pointer;
+
+  &.light {
+    background-color: white-color;
+    box-shadow: button-shadow icon-color;
+    color: text-color;
+  }
+  &.dark {
+    background-color: black-color;
+    box-shadow: button-shadow #263B4C;
+    color: dark-gray-color;
+  }
 
   &:not([disabled]):not(.loader) {
     &:hover,
     &:focus {
-      box-shadow: button-shadow border-hover-color;
       z-index: 3;
       transition: none;
+
+      &.light {
+         box-shadow: button-shadow border-hover-color;
+      }
+      &.dark {
+         box-shadow: button-shadow main-color;
+      }
     }
 
     &:active,
     &.active {
-      background-color: selected-background-color;
-      box-shadow: button-shadow border-hover-color;
       z-index: 2;
+
+      &.light {
+        box-shadow: button-shadow border-hover-color;
+        background-color: selected-background-color;
+      }
+      &.dark {
+        color: white-color;
+        box-shadow: button-shadow main-color;
+        background-color: dark-selected-background-color;
+      }
     }
   }
 
   &&[disabled] {
-    color: disabled-color;
     pointer-events: none;
+
+    &.light {
+      color: disabled-color;
+    }
+    &.dark {
+      color: text-color;
+    }
   }
 
   &.primary {
     color: white-color;;
     background-color: main-color;
     box-shadow: none;
-    transition: background-color ease;
 
     &:not([disabled]):not(.loader) {
       &:hover,
@@ -64,23 +92,20 @@
 
       &:active,
       &.active {
-        background-color: #1A98FF;
-        box-shadow: button-shadow #0062B2;
+        &.light {
+          background-color: #1A98FF;
+          box-shadow: button-shadow #0062B2;
+        }
+        &.dark {
+          background-color: #007EE5;
+          box-shadow: button-shadow border-hover-color;
+        }
       }
     }
 
     &[disabled] {
       background-color: white-color;
       box-shadow: button-shadow icon-color;
-    }
-
-    &.loader {
-      background-image: linear-gradient(
-        to right,
-        main-color,
-        #33a3ff 40%,
-        main-color 80%
-      );
     }
   }
 
@@ -90,13 +115,25 @@
     &:not([disabled]):not(.loader) {
       &:hover,
       &:focus {
-        box-shadow: button-shadow #FFB2B2;
+        &.light {
+          box-shadow: button-shadow #FFB2B2;
+        }
+        &.dark {
+          box-shadow: button-shadow #7F0000;
+        }
       }
 
       &:active,
       &.active {
-        background-color: #FFE5E5;
-        box-shadow: button-shadow #FFB2B2;
+        &.light {
+          background-color: #FFE5E5;
+          box-shadow: button-shadow #FFB2B2;
+        }
+        &.dark {
+          color: error-color;
+          background-color: #1A0000;
+          box-shadow: button-shadow #7F0000;
+        }
       }
     }
   }
@@ -106,7 +143,6 @@
     background-color: transparent;
     padding: 0;
     box-shadow: none;
-    transition: color ease;
 
     &:not([disabled]):not(.loader) {
       &:hover {
@@ -134,13 +170,24 @@
   }
 
   &.withIcon {
-    color: gray-color;
+
+    &.light {
+      color: gray-color;
+      & .icon {
+        color: icon-color;
+      }
+    }
+    &.dark {
+      color: dark-gray-color;
+      & .icon {
+        color: dark-gray-color;
+      }
+    }
 
     & .icon {
       vertical-align: 1px;
       line-height: normal;
       margin-right: calc(unit * 0.5);
-      color: icon-color;
       transition: color ease;
     }
 
@@ -162,8 +209,13 @@
       }
     }
 
-    &[disabled] .icon {
-      color: #DBDBDB;
+    &[disabled] {
+      &.light .icon {
+        color: #DBDBDB;
+      }
+      &.dark .icon {
+        color: #333;
+      }
     }
   }
 
@@ -179,12 +231,31 @@
     animation: progress 1s linear infinite;
     background-repeat: repeat;
     background-size: loader-width;
-    background-image: linear-gradient(
-      to right,
-      white-color,
-      selected-background-color 40%,
-      white-color 80%
-    );
+
+    &.light {
+      background-image: linear-gradient(
+        to right,
+        white-color,
+        selected-background-color 40%,
+        white-color 80%
+      );
+    }
+    &.dark {
+      background-image: linear-gradient(
+        to right,
+        black-color,
+        #002039 40%,
+        black-color 80%
+      );
+    }
+    &.primary {
+      background-image: linear-gradient(
+        to right,
+        main-color,
+        #33A3FF 40%,
+        main-color 80%
+      );
+    }
   }
 
   &.delayed .content:after {
