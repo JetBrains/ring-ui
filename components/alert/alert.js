@@ -53,52 +53,7 @@ const TypeToIconColor = {
  * @constructor
  * @name Alert
  * @extends {ReactComponent}
- * @example
-   <example name="Alert">
-     <file name="index.html">
-       <div id="alert-container"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import React from 'react';
-       import {render} from 'react-dom';
-       import Alert from 'ring-ui/components/alert/alert';
-
-       class AlertDemo extends React.Component {
-          state = {
-            show: true,
-            isClosing: false
-          };
-
-          onClose = () => {
-            this.setState({show: false});
-          }
-
-          onCloseRequest = () => {
-            this.setState({isClosing: true});
-          }
-
-          render() {
-            const {show, isClosing} = this.state;
-            if (!show) {
-              return null;
-            }
-
-            return <Alert
-                type={Alert.Type.SUCCESS}
-                onClose={this.onClose}
-                showWithAnimation={false}
-                onCloseRequest={this.onCloseRequest}
-                isClosing={isClosing}
-              >
-                Sample alert
-              </Alert>;
-          }
-       }
-
-       render(<AlertDemo/>, document.querySelector('#alert-container'));
-     </file>
-   </example>
+ * @example-file ./alert.examples.html
  */
 export default class Alert extends RingComponent {
   static Type = Type;
@@ -163,11 +118,7 @@ export default class Alert extends RingComponent {
    */
   _handleCaptionsLinksClick = evt => {
     if (evt.target.matches('a')) {
-      if (this.props.inline) {
-        this.close();
-      } else {
-        this.closeRequest(evt);
-      }
+      this.closeRequest(evt);
     }
   }
 
@@ -206,7 +157,7 @@ export default class Alert extends RingComponent {
           glyph={iconModifier}
           size={Icon.Size.Size16}
         />
-        );
+      );
     } else if (this.props.type === Type.LOADING) {
       return (
         <Loader className={styles.loader}/>
@@ -257,3 +208,5 @@ export default class Alert extends RingComponent {
     );
   }
 }
+
+export {default as Container} from './container';
