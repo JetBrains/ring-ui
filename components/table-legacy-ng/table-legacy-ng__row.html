@@ -1,4 +1,7 @@
-<tr ng-click="rowCtrl.setActiveItem(rowCtrl.rowItem)" class="ring-table__row" ng-class="{
+<tr ng-click="rowCtrl.setActiveItem(rowCtrl.rowItem)"
+  ng-mouseover="rowCtrl.onMouseOver(rowCtrl.rowItem)"
+  ng-mouseout="rowCtrl.onMouseOut(rowCtrl.rowItem)"
+  class="ring-table__row" ng-class="{
     'ring-table__row_active': rowCtrl.rowItem.active,
     'ring-table__row_checked': rowCtrl.rowItem.checked,
     'ring-table__row_active-checked': rowCtrl.rowItem.active && !rowCtrl.hasCheckedItems(),
