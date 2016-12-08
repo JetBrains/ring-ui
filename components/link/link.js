@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import styles from './link.css';
-console.log(styles);
+
 /**
  * @name Link
  * @category Components

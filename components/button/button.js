@@ -15,7 +15,7 @@ import styles from './button.css';
  */
 export default class Button extends RingComponent {
   static propTypes = {
-    theme: PropTypes.oneOf('light', 'dark'),
+    theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,
     blue: PropTypes.bool,
     danger: PropTypes.bool,
