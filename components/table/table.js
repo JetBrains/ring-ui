@@ -15,18 +15,18 @@ import React, {PropTypes} from 'react';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import classNames from 'classnames';
 
-import HeaderCell from './header-cell';
+import Header from './header';
 import Row from './row';
 import style from './table.css';
 
 import LoaderInline from '../loader-inline/loader-inline';
-import Checkbox from '../checkbox/checkbox';
 
 export default class Table extends RingComponentWithShortcuts {
   static propTypes = {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    caption: PropTypes.string,
     selectable: PropTypes.bool,
     loading: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -223,10 +223,6 @@ export default class Table extends RingComponentWithShortcuts {
     }
   }
 
-  onCheckboxFocus = () => {
-    this.refs.table.focus();
-  }
-
   willReceiveProps(nextProps) {
     const {data, selectable} = this.props;
 
@@ -276,7 +272,7 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   render() {
-    const {selectable, loading, onSort, sortKey, sortOrder} = this.props;
+    const {caption, selectable, loading, onSort, sortKey, sortOrder} = this.props;
     const {selectedRows, focusedRow} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -315,26 +311,9 @@ export default class Table extends RingComponentWithShortcuts {
       }*/
     });
 
-    const headerCells = [];
-
-    if (selectable) {
-      const checkbox = (
-        <Checkbox
-          checked={selectedRows.size === data.length}
-          onChange={this.onCheckboxChange}
-          onFocus={this.onCheckboxFocus}
-        />
-      );
-      const column = {
-        getHeaderValue: () => checkbox
-      };
-      headerCells.push(<HeaderCell key="checkbox" column={column} className={style.cellCheckbox}/>);
-    }
-
-    columns.map((column, key) => {
-      const props = {key, column, onSort, sortKey, sortOrder};
-      headerCells.push(<HeaderCell {...props}/>);
-    });
+    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
+    headerProps.checked = selectedRows.size === data.length;
+    headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
@@ -352,10 +331,8 @@ export default class Table extends RingComponentWithShortcuts {
       <div className={wrapperClasses}>
         <LoaderInline className={style.loader}/>
 
-        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0" ref="table">
-          <thead>
-            <tr>{headerCells}</tr>
-          </thead>
+        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0">
+          <Header {...headerProps} />
 
           <tbody>{
             data.map((item, key) => {

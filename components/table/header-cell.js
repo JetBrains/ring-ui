@@ -11,33 +11,35 @@ import style from './table.css';
 export default class HeaderCell extends RingComponent {
   static propTypes = {
     className: PropTypes.string,
+    colSpan: PropTypes.number,
+    tiny: PropTypes.bool,
     column: PropTypes.object.isRequired,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool
   }
 
+  static defaultProps = {
+    colSpan: 1,
+    tiny: false,
+    onSort: () => {}
+  }
+
   render() {
-    const {column, sortKey, sortOrder} = this.props;
+    const {colSpan, tiny, column, sortKey, sortOrder} = this.props;
 
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
 
-    const glyph = do {
+    const iconSize = tiny ? Icon.Size.Size14 : Icon.Size.Size16;
+
+    const iconGlyph = do {
       if (this.sorted && sortOrder) {
         require('jetbrains-icons/caret-up.svg');
       } else {
         require('jetbrains-icons/caret-down.svg');
       }
     };
-
-    const sorter = (
-      <span className={style.sorter}>
-        <Icon className={style.icon} glyph={glyph} size={Icon.Size.Size16}/>
-      </span>
-    );
-
-    const value = column.getHeaderValue ? column.getHeaderValue() : column.title;
 
     const classes = classNames(this.props.className, {
       [style.headerCell]: true,
@@ -46,9 +48,12 @@ export default class HeaderCell extends RingComponent {
     });
 
     return (
-      <th className={classes} onClick={::this.onClick}>
-        {value}
-        {this.sortable ? sorter : ''}
+      <th className={classes} colSpan={colSpan} onClick={::this.onClick}>
+        {column.getHeaderValue ? column.getHeaderValue() : column.title}
+
+        <span className={style.sorter}>
+          <Icon className={style.icon} glyph={iconGlyph} size={iconSize}/>
+        </span>
       </th>
     );
   }

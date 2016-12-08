@@ -191,6 +191,14 @@ angularModule.directive('rgLegacyTableRow', () => ({
       item && !item.unselectable && this.selection && this.selection.activateItem(item);
     };
 
+    this.onMouseOver = item => {
+      item && !item.unselectable && this.selection.setSuggestedItem(item);
+    };
+
+    this.onMouseOut = item => {
+      item && item === this.selection.suggestedItem && this.selection.setSuggestedItem(null);
+    };
+
     this.hasCheckedItems = () => {
       if (!this.selection) {
         return false;
