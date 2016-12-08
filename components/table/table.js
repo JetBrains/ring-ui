@@ -27,6 +27,7 @@ export default class Table extends RingComponentWithShortcuts {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
+    caption: PropTypes.string,
     selectable: PropTypes.bool,
     loading: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -276,7 +277,7 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   render() {
-    const {selectable, loading, onSort, sortKey, sortOrder} = this.props;
+    const {caption, selectable, loading, onSort, sortKey, sortOrder} = this.props;
     const {selectedRows, focusedRow} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -317,22 +318,26 @@ export default class Table extends RingComponentWithShortcuts {
 
     const headerCells = [];
 
-    if (selectable) {
-      const checkbox = (
-        <Checkbox
-          checked={selectedRows.size === data.length}
-          onChange={this.onCheckboxChange}
-          onFocus={this.onCheckboxFocus}
-        />
+    if (selectable && !caption) {
+      headerCells.push(
+        <th key="checkbox" className={classNames(style.headerCell, style.cellCheckbox)}>
+          <Checkbox
+            checked={selectedRows.size === data.length}
+            onChange={this.onCheckboxChange}
+            onFocus={this.onCheckboxFocus}
+          />
+        </th>
       );
-      const column = {
-        getHeaderValue: () => checkbox
-      };
-      headerCells.push(<HeaderCell key="checkbox" column={column} className={style.cellCheckbox}/>);
     }
 
     columns.map((column, key) => {
       const props = {key, column, onSort, sortKey, sortOrder};
+      if (caption) {
+        props.tiny = true;
+        if (key === 0) {
+          props.colSpan = 2;
+        }
+      }
       headerCells.push(<HeaderCell {...props}/>);
     });
 
@@ -354,7 +359,13 @@ export default class Table extends RingComponentWithShortcuts {
 
         <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0" ref="table">
           <thead>
-            <tr>{headerCells}</tr>
+            <tr className={style.header}>{
+              caption
+              ? <th className={classNames(style.headerCell, style.caption)} colSpan={headerCells.length + 1}>{caption}</th>
+              : headerCells
+            }</tr>
+
+            <tr className={style.subHeader}>{caption ? headerCells : ''}</tr>
           </thead>
 
           <tbody>{
