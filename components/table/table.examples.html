@@ -8,6 +8,7 @@
     import Table from './table';
     import Link from '../link/link';
     import Pager from '../pager/pager';
+    import Button from '../button/button';
     import mock from './table.examples.json';
 
     const pageSize = 7;
@@ -16,6 +17,7 @@
     class Example extends Component {
       state = {
         data: [],
+        caption: undefined,
         total,
         page: 1,
         pageSize,
@@ -77,7 +79,7 @@
       }
 
       render() {
-        const {data, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, page, pageTotal, selection, sortKey, sortOrder} = this.state;
         return (
           <div>
             <Table
@@ -87,9 +89,18 @@
               onSort={this.onSort}
               sortKey={sortKey}
               sortOrder={sortOrder}
+              caption={caption}
             />
+
             <Pager total={pageTotal} current={page} onPageChange={this.onPageChange} />
-            <div>{[...selection].map(item => item.country).join(', ')}</div>
+
+            <p>{
+              caption
+              ? <Button onClick={() => this.setState({caption: undefined})}>Without a caption</Button>
+              : <Button onClick={() => this.setState({caption: 'Countries'})}>With a caption</Button>
+            }</p>
+
+            <p>{[...selection].map(item => item.country).join(', ')}</p>
           </div>
         );
       }

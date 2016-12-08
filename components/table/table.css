@@ -1,9 +1,12 @@
-@value unit, text-color, dark-gray-color, blue-color, light-blue-color from '../global/global.css';
+@value global: '../global/global.css';
+@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color from global;
 
 @value dirty-blue-color: #D4EDFA;
-@value light-gray-color: #E6E6E6;
-@value pale-gray-color: #F0F0F0;
-@value yet-another-gray-color: #EBEBEB;
+
+@value table-border-color: #E6E6E6;
+@value table-background-color: #F0F0F0;
+@value table-header-background-color: #EBEBEB;
+@value table-caption-border-color: #DBDBDB;
 @value box-shadow-color: #F7F7F7;
 
 .tableWrapper {
@@ -33,91 +36,87 @@
 }
 
 
-.row {
-  outline: none;
-}
-
-
 .headerCell {
-  color: dark-gray-color;
-  font-weight: normal;
+  & {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    padding: 0 calc(unit * 2.5);
+  }
 
-  text-align: left;
-  white-space: nowrap;
+  &:first-child {
+    padding-left: calc(unit * 4);
+  }
 
-  background-color: yet-another-gray-color;
+  &:last-child {
+    padding-right: calc(unit * 4);
+    width: 100%;
+  }
 
-  height: calc(unit * 5 + 1);
-  box-sizing: border-box;
-  padding: 0 calc(unit * 2.5);
-  border-top: 1px solid light-gray-color;
-  box-shadow: inset 0px 1px 0px 0px box-shadow-color;
+  &.headerCellSorted {
+    font-weight: bold;
+  }
+
+  &.headerCellSortable {
+    cursor: pointer;
+  }
+
+  & .sorter {
+    display: none;
+    position: absolute;
+  }
+
+  &.headerCellSortable .sorter {
+    display: inline-block;
+  }
+
+  & .sorter .icon {
+    top: -2px;
+  }
 }
 
-.headerCell:first-child {
-  padding-left: calc(unit * 4);
+.header {
+  & {
+    color: dark-gray-color;
+    background-color: table-header-background-color;
+  }
+
+  & .headerCell {
+    height: calc(unit * 5 + 1);
+    box-sizing: border-box;
+    border-top: 1px solid table-border-color;
+    box-shadow: inset 0px 1px 0px 0px box-shadow-color;
+  }
+
+  & .caption {
+    text-transform: uppercase;
+    letter-spacing: .2em;
+  }
 }
 
-.headerCell:last-child {
-  padding-right: calc(unit * 4);
-  width: 100%;
-}
+.subHeader {
+  & {
+    font-size: 12px;
+    color: gray-color;
+    background-color: table-border-color;
+  }
 
-.headerCellSortable {
-  cursor: pointer;
-}
+  & .headerCell {
+    height: 25px;
+    box-sizing: border-box;
+    border-top: 1px solid table-caption-border-color;
+  }
 
-.headerCellSorted {
-  font-weight: bold;
-}
-
-.sorter {
-  position: absolute;
-}
-
-.sorter .icon {
-  top: -2px;
-}
-
-
-.cell {
-  color: text-color;
-  white-space: nowrap;
-
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  height: calc(unit * 5);
-  box-sizing: content-box;
-  padding: 0 calc(unit * 2.5);
-}
-
-.cell:first-child {
-  padding-left: calc(unit * 4);
-}
-
-.cell:last-child {
-  padding-right: calc(unit * 4);
-  width: 100%;
-}
-
-.cellUnlimited {
-  width: 100%;
-}
-
-.cellRight {
-  text-align: right;
-}
-
-.cellCheckbox {
-  padding-right: 0;
+  & .headerCell:first-child {
+    padding-left: calc(unit * 4);
+  }
 }
 
 
 .row {
   & {
-    background-color: pale-gray-color;
+    outline: none;
+    background-color: table-background-color;
   }
 
   @nest .table:not(.disabledHover) &:hover {
@@ -129,9 +128,8 @@
     background-color: light-blue-color;
   }
 
-
   & .cell {
-    border: 1px none light-gray-color;
+    border: 1px none table-border-color;
     border-top-style: solid;
   }
 
@@ -151,4 +149,41 @@
   &.rowSelected:not(:focus) + .rowSelected:not(:focus) .cell {
     border-top-color: dirty-blue-color;
   }
+}
+
+
+.cell {
+  & {
+    color: text-color;
+    white-space: nowrap;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    height: calc(unit * 5);
+    box-sizing: content-box;
+    padding: 0 calc(unit * 2.5);
+  }
+
+  &:first-child {
+    padding-left: calc(unit * 4);
+  }
+
+  &:last-child {
+    padding-right: calc(unit * 4);
+    width: 100%;
+  }
+}
+
+.cellUnlimited {
+  width: 100%;
+}
+
+.cellRight {
+  text-align: right;
+}
+
+.cellCheckbox {
+  padding-right: 0;
 }
