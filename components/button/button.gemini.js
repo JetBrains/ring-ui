@@ -3,6 +3,6 @@
 gemini.suite('Button', suite => {
   suite.
     setUrl('/example-button/').
-    setCaptureElements('#buttons').
+    setCaptureElements('#buttons', '#dark').
     capture('button');
 });
