@@ -15,12 +15,11 @@ import React, {PropTypes} from 'react';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import classNames from 'classnames';
 
-import HeaderCell from './header-cell';
+import Header from './header';
 import Row from './row';
 import style from './table.css';
 
 import LoaderInline from '../loader-inline/loader-inline';
-import Checkbox from '../checkbox/checkbox';
 
 export default class Table extends RingComponentWithShortcuts {
   static propTypes = {
@@ -224,10 +223,6 @@ export default class Table extends RingComponentWithShortcuts {
     }
   }
 
-  onCheckboxFocus = () => {
-    this.refs.table.focus();
-  }
-
   willReceiveProps(nextProps) {
     const {data, selectable} = this.props;
 
@@ -316,30 +311,9 @@ export default class Table extends RingComponentWithShortcuts {
       }*/
     });
 
-    const headerCells = [];
-
-    if (selectable && !caption) {
-      headerCells.push(
-        <th key="checkbox" className={classNames(style.headerCell, style.cellCheckbox)}>
-          <Checkbox
-            checked={selectedRows.size === data.length}
-            onChange={this.onCheckboxChange}
-            onFocus={this.onCheckboxFocus}
-          />
-        </th>
-      );
-    }
-
-    columns.map((column, key) => {
-      const props = {key, column, onSort, sortKey, sortOrder};
-      if (caption) {
-        props.tiny = true;
-        if (key === 0) {
-          props.colSpan = 2;
-        }
-      }
-      headerCells.push(<HeaderCell {...props}/>);
-    });
+    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
+    headerProps.checked = selectedRows.size === data.length;
+    headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
@@ -357,16 +331,8 @@ export default class Table extends RingComponentWithShortcuts {
       <div className={wrapperClasses}>
         <LoaderInline className={style.loader}/>
 
-        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0" ref="table">
-          <thead>
-            <tr className={style.header}>{
-              caption
-              ? <th className={classNames(style.headerCell, style.caption)} colSpan={headerCells.length + 1}>{caption}</th>
-              : headerCells
-            }</tr>
-
-            <tr className={style.subHeader}>{caption ? headerCells : ''}</tr>
-          </thead>
+        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0">
+          <Header {...headerProps} />
 
           <tbody>{
             data.map((item, key) => {
