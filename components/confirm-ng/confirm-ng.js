@@ -32,7 +32,14 @@ const angularModule = angular.module('Ring.confirm', []);
 /* eslint-disable arrow-body-style */
 angularModule.service('confirm', $q => {
   return function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
-    return $q.when(confirm(message, description, actionTitle, cancelTitle)).
+    return $q.when(confirm({
+      text: message,
+      description,
+      confirmLabel: actionTitle,
+      rejectLabel: cancelTitle,
+      cancelIsDefault,
+      onBeforeConfirm: actionFn
+    })).
       then(() => actionFn && actionFn());
   };
 });

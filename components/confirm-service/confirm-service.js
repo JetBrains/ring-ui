@@ -27,13 +27,20 @@ import React from 'react';
         }
 
         showConfirm = () => {
-          return confirm('Do you really want to proceed?').
+          return confirm({text: 'Do you really want to proceed?'}).
             then(() => console.info('Confirmed')).
             catch(() => console.warn('Rejected'));
         }
 
         showWithAnotherText = () => {
-          return confirm('There is another confirmation', 'Confirmation description', 'OK, confirm this', 'NO, cancel!').
+          return confirm({
+            text: 'There is another confirmation',
+            description: 'Confirmation description',
+            confirmLabel: 'OK, confirm this',
+            rejectLabel: 'NO, cancel!',
+            cancelIsDefault: true,
+            onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000))
+          }).
             then(() => console.info('Confirmed')).
             catch(() => console.warn('Rejected'));
         }
@@ -62,23 +69,47 @@ function renderConfirm(props) {
   render(<Confirm {...props}/>, containerElement);
 }
 
-export default function confirm(text, description, confirmText = 'OK', rejectText = 'Cancel') {
+export default function confirm({
+  text,
+  description,
+  confirmLabel = 'OK',
+  rejectLabel = 'Cancel',
+  cancelIsDefault,
+  onBeforeConfirm
+}) {
   return new Promise((resolve, reject) => {
-    renderConfirm({
-      show: true,
+    const props = {
       text,
       description,
-      confirmText,
-      rejectText,
+      confirmLabel,
+      rejectLabel,
+      cancelIsDefault,
+      show: true,
+
       onConfirm: () => {
+        if (onBeforeConfirm) {
+          renderConfirm({...props, inProgress: true});
+          return Promise.resolve(onBeforeConfirm()).
+            then(() => {
+              renderConfirm({show: false});
+              resolve();
+            }).
+            catch(err => {
+              renderConfirm({show: false});
+              reject(err);
+            });
+        }
         renderConfirm({show: false});
-        resolve();
+        return resolve();
       },
+
       onReject: () => {
         renderConfirm({show: false});
         reject();
       }
-    });
+    };
+
+    renderConfirm(props);
   });
 }
 
