@@ -39,8 +39,7 @@ angularModule.service('confirm', $q => {
       rejectLabel: cancelTitle,
       cancelIsDefault,
       onBeforeConfirm: actionFn
-    })).
-      then(() => actionFn && actionFn());
+    }));
   };
 });
 
