@@ -8,27 +8,27 @@ describe('Confirm Service', () => {
   afterEach(hideConfirm);
 
   it('should show confirm', () => {
-    confirm('foo');
+    confirm({text: 'foo'});
     getContainer().should.contain(`.${styles.text}`);
   });
 
   it('should show confirm text', () => {
-    confirm('foo');
+    confirm({text: 'foo'});
     getContainer().should.contain.text('foo');
   });
 
   it('should show confirm description', () => {
-    confirm('foo', 'descr');
+    confirm({text: 'foo', description: 'descr'});
     getContainer().should.contain.text('descr');
   });
 
   it('should show confirm button text', () => {
-    confirm('foo', '', 'confirm text');
+    confirm({text: 'foo', confirmLabel: 'confirm text'});
     getContainer().should.contain.text('confirm text');
   });
 
   it('should show reject button text', () => {
-    confirm('foo', '', '', 'reject text');
+    confirm({text: 'foo', rejectLabel: 'reject text'});
     getContainer().should.contain.text('reject text');
   });
 

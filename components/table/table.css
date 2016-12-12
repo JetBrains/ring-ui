@@ -162,6 +162,7 @@
     text-overflow: ellipsis;
 
     height: calc(unit * 5);
+    min-width: 80px;
     box-sizing: content-box;
     padding: 0 calc(unit * 2.5);
   }
@@ -173,6 +174,16 @@
   &:last-child {
     padding-right: calc(unit * 4);
     width: 100%;
+  }
+
+  @nest .table:not(.selectable) &:nth-child(1) {
+    min-width: 320px;
+    max-width: 640px;
+  }
+
+  @nest .table.selectable &:nth-child(2) {
+    min-width: 320px;
+    max-width: 640px;
   }
 }
 
@@ -186,4 +197,5 @@
 
 .cellCheckbox {
   padding-right: 0;
+  min-width: initial;
 }
