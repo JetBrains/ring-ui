@@ -18,6 +18,7 @@
       state = {
         data: [],
         caption: undefined,
+        selectable: true,
         total,
         page: 1,
         pageSize,
@@ -79,7 +80,8 @@
       }
 
       render() {
-        const {data, caption, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+
         return (
           <div>
             <Table
@@ -90,15 +92,23 @@
               sortKey={sortKey}
               sortOrder={sortOrder}
               caption={caption}
+              selectable={selectable}
             />
 
             <Pager total={pageTotal} current={page} onPageChange={this.onPageChange} />
 
-            <p>{
-              caption
-              ? <Button onClick={() => this.setState({caption: undefined})}>Without a caption</Button>
-              : <Button onClick={() => this.setState({caption: 'Countries'})}>With a caption</Button>
-            }</p>
+            <p>
+              {
+                selectable
+                ? <Button onClick={() => this.setState({selectable: false})}>Non-selectable</Button>
+                : <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
+              }
+              {
+                caption
+                ? <Button onClick={() => this.setState({caption: undefined})}>Without a caption</Button>
+                : <Button onClick={() => this.setState({caption: 'Countries'})}>With a caption</Button>
+              }
+            </p>
 
             <p>{[...selection].map(item => item.country).join(', ')}</p>
           </div>
