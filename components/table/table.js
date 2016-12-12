@@ -106,11 +106,13 @@ export default class Table extends RingComponentWithShortcuts {
 
   getPrevRow = () => {
     const {state: {focusedRow, hoveredRow}, props: {data}} = this;
-    const row = focusedRow || hoveredRow;
-    const i = data.indexOf(row) - 1;
+    const row = focusedRow;
+    const i = data.indexOf(row);
 
-    if (i > -1) {
-      return data[i];
+    if (i < 0) {
+      return hoveredRow;
+    } else if (i - 1 > -1) {
+      return data[i - 1];
     } else {
       return data[0];
     }
@@ -118,11 +120,13 @@ export default class Table extends RingComponentWithShortcuts {
 
   getNextRow = () => {
     const {state: {focusedRow, hoveredRow}, props: {data}} = this;
-    const row = focusedRow || hoveredRow;
-    const i = data.indexOf(row) + 1;
+    const row = focusedRow;
+    const i = data.indexOf(row);
 
-    if (i < data.length) {
-      return data[i];
+    if (i < 0) {
+      return hoveredRow;
+    } else if (i + 1 < data.length) {
+      return data[i + 1];
     } else {
       return data[data.length - 1];
     }
@@ -204,7 +208,6 @@ export default class Table extends RingComponentWithShortcuts {
   onEscPress = () => {
     this.setState({
       focusedRow: undefined,
-      hoveredRow: undefined,
       selectedRows: new Set(),
       disabledHover: true
     });
