@@ -64,43 +64,4 @@ export class Tabs extends RingComponent {
   }
 }
 
-export class Tab extends RingComponent {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    className: PropTypes.string
-  }
-
-  render() {
-    const {className, children} = this.props;
-    const classes = classNames(styles.tab, className);
-    return (
-      <div className={classes}>{children}</div>
-    );
-  }
-}
-
-export class SmartTabs extends RingComponent {
-  static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired
-  }
-
-  constructor(props) {
-    super(props);
-    const {children, initSelected} = props;
-    this.state = {
-      selected: initSelected || children[0].props.id || ['0']
-    };
-  }
-
-  render() {
-    const {children, initSelected, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-    return (
-      <Tabs
-        selected={this.state.selected}
-        onSelect={selected => this.setState({selected})}
-        {...restProps}
-      >{children}</Tabs>
-    );
-  }
-}
+export {default as Tab} from './tab';
