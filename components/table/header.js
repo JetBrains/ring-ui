@@ -51,7 +51,7 @@ export default class Header extends RingComponent {
       const props = {key, column, onSort, sortKey, sortOrder};
       if (caption) {
         props.tiny = true;
-        if (key === 0) {
+        if (selectable && key === 0) {
           props.colSpan = 2;
         }
       }
