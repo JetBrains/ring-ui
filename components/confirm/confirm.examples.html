@@ -15,6 +15,7 @@
           show: true,
           text: 'Do you really want to proceed?',
           description: 'Confirm description',
+          inProgress: false,
           onConfirm: () => {},
           onReject: () => {}
         }
@@ -72,8 +73,9 @@
             show={this.state.confirm.show}
             text={this.state.confirm.text}
             description={this.state.confirm.description}
-            confirmText="OK, continue"
-            rejectText="No, cancel"
+            inProgress={this.state.inProgress}
+            confirmLabel="OK, continue"
+            rejectLabel="No, cancel"
             onConfirm={this.state.confirm.onConfirm}
             onReject={this.state.confirm.onReject}
           />
