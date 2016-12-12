@@ -1,0 +1,51 @@
+@value unit, font, line-color, main-color, text-color, disabled-color from "../global/global.css";
+
+.tabs {
+  composes: font;
+}
+
+.titles {
+  box-shadow: inset 0 -1px 0 0 line-color;
+  margin-bottom: calc(unit * 2);
+}
+
+.title {
+  display: inline-block;
+  position: relative;
+  line-height: calc(unit * 4);
+  cursor: pointer;
+
+  & + & {
+    margin-left: calc(unit * 3);
+  }
+
+  &:hover:not(.selected) {
+    color: main-color;
+    box-shadow: inset 0 -1px 0 0 main-color;
+  }
+
+  &[disabled] {
+    color: disabled-color;
+    pointer-events: none;
+  }
+}
+
+.selected {
+  cursor: default;
+  font-weight: bold;
+  box-shadow: inset 0 -3px 0 0 text-color;
+}
+
+.visible {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
+.hidden {
+  font-weight: bold;
+  visibility: hidden;
+}
