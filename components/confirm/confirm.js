@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
-import Button from '../button/button';
+import Button from '../button-legacy/button-legacy';
 import RingComponent from '../ring-component/ring-component';
 import {Content} from '../island/island';
 import Panel from '../panel/panel';
