@@ -324,7 +324,8 @@ export default class Table extends RingComponentWithShortcuts {
       [style.table]: true,
       [style.multiSelection]: selectedRows.size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
-      [style.disabledHover]: this.state.disabledHover
+      [style.disabledHover]: this.state.disabledHover,
+      [style.selectable]: selectable
     });
 
     return (
