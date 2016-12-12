@@ -1,0 +1,92 @@
+<example name="Tabs">
+  <file name="index.html">
+    <div id="tabs"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import {Tabs, Tab} from 'ring-ui/components/tabs/tabs';
+
+    const container = document.getElementById('tabs');
+
+    class TabsExample extends Component {
+      state = {selected: 'first'};
+
+      render() {
+        return (
+          <Tabs
+            selected={this.state.selected}
+            onSelect={selected => this.setState({selected})}
+          >
+            <Tab
+              id="first"
+              title="First tab"
+            >
+              First tab content
+            </Tab>
+            <Tab
+              id="second"
+              title="Second tab"
+            >
+              Second tab content
+            </Tab>
+            <Tab
+              id="third"
+              title="Third tab"
+            >
+              Third tab content
+            </Tab>
+            <Tab
+              disabled
+              id="disabled"
+              title="Disabled tab"
+            >
+              Disabled tab content
+            </Tab>
+          </Tabs>
+        );
+      }
+    }
+
+    render(<TabsExample />, container);
+  </file>
+</example>
+
+<example name="Smart tabs">
+  <file name="index.html">
+    <div id="tabs"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
+
+    const container = document.getElementById('tabs');
+
+    const tabs = (
+      <SmartTabs>
+        <Tab title="First tab">
+          First tab content
+        </Tab>
+        <Tab title="Second tab">
+          Second tab content
+        </Tab>
+        <Tab title="Third tab">
+          Third tab content
+        </Tab>
+        <Tab
+          disabled
+          title="Disabled tab"
+        >
+          Disabled tab content
+        </Tab>
+      </SmartTabs>
+    );
+
+    render(tabs, container);
+  </file>
+</example>
