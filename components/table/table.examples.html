@@ -119,3 +119,55 @@
     render(createElement(Example, {}), document.getElementById('demo'));
   </file>
 </example>
+
+<example name="MultiTable">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import MultiTable from './multitable';
+    import Table from './table';
+    import mock from './table.examples2.json';
+
+    class Example extends Component {
+      columns1 = [
+        {
+          id: 'continent',
+          title: 'Continent'
+        },
+        {
+          id: 'url',
+          title: 'URL'
+        }
+      ]
+
+      columns2 = [
+        {
+          id: 'country',
+          title: 'Country'
+        },
+        {
+          id: 'city',
+          title: 'City'
+        },
+        {
+          id: 'url',
+          title: 'URL'
+        }
+      ]
+
+      render() {
+        return (
+          <MultiTable>
+            <Table data={mock.continents} columns={this.columns1} caption="Continents" />
+            <Table data={mock.countries} columns={this.columns2} caption="Countries" />
+          </MultiTable>
+        );
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('demo'));
+  </file>
+</example>
