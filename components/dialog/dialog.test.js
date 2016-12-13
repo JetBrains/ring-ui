@@ -1,6 +1,7 @@
 import 'dom4';
 import React from 'react';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {isCompositeComponentWithType} from 'react-addons-test-utils';
+import renderIntoDocument from 'render-into-document';
 
 import Dialog from './dialog';
 import styles from './dialog.css';
@@ -19,5 +20,34 @@ describe('Dialog', () => {
 
   it('should use passed className', () => {
     renderComponent({show: true, children, className: 'test-class'}).refs.dialog.should.match('.test-class');
+  });
+
+  it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', () => {
+    const closeSpy = sinon.spy();
+    const clickSpy = sinon.spy();
+    const instance = renderComponent({show: true, children, onOverlayClick: clickSpy, onCloseAttempt: closeSpy});
+    instance.handleClick({target: instance.refs.dialog});
+
+    closeSpy.should.have.been.called;
+    clickSpy.should.have.been.called;
+  });
+
+  it('should call onEscPress and onCloseAttempt callbacks on click by overlay', () => {
+    const closeSpy = sinon.spy();
+    const escSpy = sinon.spy();
+    const instance = renderComponent({show: true, children, onEscPress: escSpy, onCloseAttempt: closeSpy});
+
+    instance.handleKeyDown({key: 'Escape'});
+
+    closeSpy.should.have.been.called;
+    escSpy.should.have.been.called;
+  });
+
+  it('should not call onEscPress if is hidden', () => {
+    const escSpy = sinon.spy();
+    const instance = renderComponent({show: false, children, onEscPress: escSpy});
+    instance.handleKeyDown({key: 'Escape'});
+
+    escSpy.should.not.have.been.called;
   });
 });

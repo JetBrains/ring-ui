@@ -4,6 +4,7 @@ import Portal from 'react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
 import styles from './dialog.css';
+import getEventKey from 'react/lib/getEventKey';
 
 /**
  * @name Dialog
@@ -22,28 +23,57 @@ export default class Dialog extends RingComponent {
       PropTypes.node
     ]),
     show: PropTypes.bool.isRequired,
-    onOutsideClick: PropTypes.func
+    onOverlayClick: PropTypes.func,
+    onEscPress: PropTypes.func,
+    // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
+    // Use it if you don't need different behaviors for this cases.
+    onCloseAttempt: PropTypes.func
   };
 
-  defaultProps = {
-    onOutsideClick: () => {}
+  static defaultProps = {
+    onOverlayClick: () => {},
+    onEscPress: () => {},
+    onCloseAttempt: () => {}
+  }
+
+  didMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  willUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
+  handleClick = event => {
+    if (event.target !== this.refs.dialog) {
+      return;
+    }
+    this.props.onOverlayClick(event);
+    this.props.onCloseAttempt(event);
+  }
+
+  handleKeyDown = event => {
+    if (getEventKey(event) !== 'Escape' || !this.props.show) {
+      return;
+    }
+    this.props.onEscPress(event);
+    this.props.onCloseAttempt(event);
   }
 
   render() {
-    const {show, children, className, ...restProps} = this.props;
+    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     const classes = classNames(styles.container, className);
 
     return (
       <Portal
-        closeOnEsc={true}
         isOpened={show}
         onOpen={() => ScrollPreventer.prevent()}
         onClose={() => ScrollPreventer.reset()}
-        closeOnOutsideClick={true}
       >
         <div
           ref="dialog"
           className={classes}
+          onClick={this.handleClick}
           {...restProps}
         >
           <div
