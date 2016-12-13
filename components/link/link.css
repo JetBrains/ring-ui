@@ -8,10 +8,9 @@
     transition: color ease;
   }
 
-  &.focus,
-  &.focus:visited,
-  &:hover,
-  &:focus {
+  &.hover,
+  &.hover:visited,
+  &:hover {
     color: link-hover-color;
     text-decoration: underline;
     transition: none;

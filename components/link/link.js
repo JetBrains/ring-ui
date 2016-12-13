@@ -29,47 +29,33 @@ import styles from './link.css';
        const links = (
          <div className="links">
            <Link href="#hash">Link text</Link>
-           <Link href="#hash" focus={true}>Focused link</Link>
+           <Link href="#hash" hover={true}>Hovered link</Link>
+           <Link pseudo={true}>Pseudo link</Link>
          </div>
        );
 
        render(links, document.getElementById('links'));
      </file>
    </example>
-   <example name="Link focus">
-     <file name="index.html">
-       <div id="link"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Link = require('ring-ui/components/link/link');
-
-       render(
-         Link.factory({
-           href: "#hash",
-           focus: true
-         }, 'Link text'),
-         document.getElementById('link')
-       );
-     </file>
-   </example>
  */
 export default class Link extends RingComponent {
   static propTypes = {
-    focus: PropTypes.bool
+    focus: PropTypes.bool,
+    // for usage inside react-router's Link
+    pseudo: PropTypes.bool
   }
 
   render() {
-    const {focus, ...props} = this.props;
+    const {hover, pseudo, ...props} = this.props;
+    const Tag = pseudo ? 'span' : 'a';
     const classes = classNames(styles.link, this.props.className, {
-      [styles.focus]: focus
+      [styles.hover]: hover
     });
     return (
-      <a
+      <Tag
         {...props}
         className={classes}
-      >{this.props.children}</a>
+      >{this.props.children}</Tag>
     );
   }
 }
