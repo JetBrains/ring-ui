@@ -3,7 +3,8 @@
 import Alert from './alert';
 import AlertContainer from './container';
 import React from 'react';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {isCompositeComponentWithType} from 'react-addons-test-utils';
+import renderIntoDocument from 'render-into-document';
 
 describe('Alert Container', () => {
   const children = <Alert>{'Test'}</Alert>;
