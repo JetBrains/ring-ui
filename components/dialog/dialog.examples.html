@@ -42,7 +42,7 @@
               <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             </div>
 
-            <Dialog show={this.state.show}>
+            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
               <Header>Hello dialog</Header>
               <Content>This is dialog content</Content>
               <Panel>
