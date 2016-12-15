@@ -128,7 +128,7 @@ export default class Row extends RingComponent {
         className={classes}
         tabIndex="0"
         onFocus={this.onFocus}
-        onMouseEnter={this.onMouseEnter}
+        onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
       >{cells}</tr>
     );

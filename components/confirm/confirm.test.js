@@ -1,6 +1,7 @@
 import 'dom4';
 import React from 'react';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {isCompositeComponentWithType} from 'react-addons-test-utils';
+import renderIntoDocument from 'render-into-document';
 
 import Confirm from './confirm';
 import styles from './confirm.css';
