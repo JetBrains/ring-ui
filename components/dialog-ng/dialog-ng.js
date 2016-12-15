@@ -206,15 +206,25 @@ class DialogController extends RingAngularComponent {
     this.hide();
   }
 
+  getErrorMessage(errorResponse) {
+    if (errorResponse.data && errorResponse.data.error_description) {
+      return errorResponse.data.error_description;
+    }
+
+    return errorResponse;
+  }
+
   action(button) {
     if (button.inProgress) {
       return undefined;
     }
 
+    const errorReporter = errorResponse => {
+      this.error = this.getErrorMessage(errorResponse);
+    };
+
     if (button.action) {
-      const actionResult = button.action(this.data, button, errorMessage => {
-        this.error = errorMessage;
-      }, this.dialogForm, this.buttons);
+      const actionResult = button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
 
       button.inProgress = true;
 
@@ -226,9 +236,7 @@ class DialogController extends RingAngularComponent {
             this.done(res);
           }
         }).
-        catch(errorMessage => {
-          this.error = errorMessage;
-        }).
+        catch(errorReporter).
         finally(() => {
           button.inProgress = false;
         });
