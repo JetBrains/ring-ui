@@ -17,6 +17,7 @@ const isServer = process.argv.includes('--server');
 
 const nodeModulesPath = path.join(__dirname, 'node_modules');
 const publicPath = '/';
+const componentsPath = path.resolve(__dirname, 'components');
 
 const config = require('./package.json').config;
 
@@ -68,7 +69,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     loaders: [
       {
         test: /\.(js|scss)$/,
-        include: path.resolve(__dirname, 'components'),
+        include: componentsPath,
         loader: DocsPlugin.extract({extractor: 'jsdoc'})
       },
       {
@@ -92,6 +93,11 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
           'style',
           'css'
         ]
+      },
+      {
+        test: /\.json$/,
+        include: componentsPath,
+        loader: 'json'
       }
     ]
   },
