@@ -1,0 +1,19 @@
+{
+  "continents": [
+    {"id": 1, "continent": "Asia", "url": "https://en.wikipedia.org/wiki/Asia"},
+    {"id": 2, "continent": "Europe", "url": "https://en.wikipedia.org/wiki/Europe"},
+    {"id": 3, "continent": "America", "url": "https://en.wikipedia.org/wiki/America"},
+    {"id": 4, "continent": "Africa", "url": "https://en.wikipedia.org/wiki/Africa"},
+    {"id": 5, "continent": "Australia", "url": "https://en.wikipedia.org/wiki/Australia"}
+  ],
+  "countries": [
+    {"id": 1, "country": "Russia", "city": "Moscow", "url": "https://en.wikipedia.org/wiki/Russia"},
+    {"id": 2, "country": "France", "city": "Paris", "url": "https://en.wikipedia.org/wiki/France"},
+    {"id": 3, "country": "Sweden", "city": "Stockholm", "url": "https://en.wikipedia.org/wiki/Sweden"},
+    {"id": 4, "country": "USA", "city": "NYC", "url": "https://en.wikipedia.org/wiki/USA"},
+    {"id": 5, "country": "South Africa", "city": "Johannesburg", "url": "https://en.wikipedia.org/wiki/South Africa"},
+    {"id": 6, "country": "Finland", "city": "Helsinki", "url": "https://en.wikipedia.org/wiki/Finland"},
+    {"id": 7, "country": "Latvia", "city": "Riga", "url": "https://en.wikipedia.org/wiki/Latvia"},
+    {"id": 8, "country": "Norway", "city": "Oslo", "url": "https://en.wikipedia.org/wiki/Norway"}
+  ]
+}
