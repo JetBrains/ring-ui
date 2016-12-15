@@ -28,6 +28,7 @@ export default class Table extends RingComponentWithShortcuts {
     columns: PropTypes.array.isRequired,
     caption: PropTypes.string,
     selectable: PropTypes.bool,
+    autofocus: PropTypes.bool,
     loading: PropTypes.bool,
     onSelect: PropTypes.func,
     onSort: PropTypes.func,
@@ -37,6 +38,7 @@ export default class Table extends RingComponentWithShortcuts {
 
   static defaultProps = {
     selectable: true,
+    autofocus: false,
     loading: false,
     onSelect: () => {},
     onSort: () => {},
@@ -45,10 +47,11 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   state = {
+    focused: false,
     hoveredRow: undefined,
     focusedRow: undefined,
     selectedRows: new Set(),
-    shortcuts: this.props.selectable,
+    shortcuts: this.props.selectable && this.props.autofocus,
     userSelectNone: false,
     disabledHover: false
   }
@@ -225,7 +228,7 @@ export default class Table extends RingComponentWithShortcuts {
       focusedRow: undefined,
       selectedRows: new Set(),
       disabledHover: true
-    });
+    }, () => this.refs.table.focus());
   }
 
   onCmdAPress = () => {
@@ -241,6 +244,32 @@ export default class Table extends RingComponentWithShortcuts {
     }
   }
 
+  onFocusCapture = ({target}) => {
+    const focused = this.refs.table.contains(target);
+    if (focused && !this.state.focused) {
+      this.setState({
+        shortcuts: this.props.selectable,
+        focused: true
+      });
+    }
+  }
+
+  onBlurCapture = ({target}) => {
+    if (this.state.focused) {
+      setTimeout(() => {
+        const {table} = this.refs;
+        const blured = table.contains(target) && !table.contains(document.activeElement);
+        if (blured) {
+          this.setState({
+            shortcuts: false,
+            focused: false,
+            focusedRow: undefined
+          });
+        }
+      }, 1);
+    }
+  }
+
   willReceiveProps(nextProps) {
     const {data, selectable} = this.props;
 
@@ -251,7 +280,7 @@ export default class Table extends RingComponentWithShortcuts {
     if (selectable !== nextProps.selectable) {
       if (nextProps.selectable === false) {
         this.setState({shortcuts: false});
-      } else {
+      } else if (this.state.focused) {
         this.setState({shortcuts: true});
       }
     }
@@ -282,11 +311,19 @@ export default class Table extends RingComponentWithShortcuts {
   didMount() {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('focus', this.onFocusCapture, true);
+    document.addEventListener('blur', this.onBlurCapture, true);
+
+    if (this.props.autofocus) {
+      this.refs.table.focus();
+    }
   }
 
   willUnmount() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('focus', this.onFocusCapture, true);
+    document.removeEventListener('blur', this.onBlurCapture, true);
   }
 
   render() {
@@ -350,7 +387,7 @@ export default class Table extends RingComponentWithShortcuts {
       <div className={wrapperClasses}>
         <LoaderInline className={style.loader}/>
 
-        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0">
+        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0" ref="table">
           <Header {...headerProps} />
 
           <tbody>{

@@ -93,6 +93,7 @@
               sortOrder={sortOrder}
               caption={caption}
               selectable={selectable}
+              autofocus={true}
             />
 
             <Pager total={pageTotal} current={page} onPageChange={this.onPageChange} />
@@ -162,7 +163,7 @@
         return (
           <MultiTable>
             <Table data={mock.continents} columns={this.columns1} caption="Continents" />
-            <Table data={mock.countries} columns={this.columns2} caption="Countries" />
+            <Table data={mock.countries} columns={this.columns2} caption="Countries" autofocus={true} />
           </MultiTable>
         );
       }
