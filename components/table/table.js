@@ -15,7 +15,7 @@ import React, {PropTypes} from 'react';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import classNames from 'classnames';
 
-import focusSensor from './focus-sensor';
+import focusSensorFactory from '../global/focus-sensor-factory';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
@@ -381,4 +381,4 @@ class Table extends RingComponentWithShortcuts {
   }
 }
 
-export default focusSensor(Table);
+export default focusSensorFactory(Table);
