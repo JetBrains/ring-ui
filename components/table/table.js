@@ -267,7 +267,7 @@ class Table extends RingComponentWithShortcuts {
     const {selectedRows, focusedRow} = this.state;
     let selection;
 
-    if (selectedRows.size || prevState.selectedRows.size) {
+    if (selectedRows.size) {
       const union = new Set([...selectedRows, ...prevState.selectedRows]);
       if (selectedRows.size !== union.size || prevState.selectedRows.size !== union.size) {
         selection = new Set(selectedRows);
