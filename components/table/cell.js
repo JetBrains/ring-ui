@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-max-props-per-line */
+
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
 import classNames from 'classnames';
@@ -11,11 +13,7 @@ export default class Cell extends RingComponent {
   }
 
   render() {
-    const classes = classNames(
-      style.cell,
-      this.props.className
-    );
-
-    return <td className={classes}>{this.props.children}</td>;
+    const classes = classNames(style.cell, this.props.className);
+    return <td {...this.props} className={classes}>{this.props.children}</td>;
   }
 }
