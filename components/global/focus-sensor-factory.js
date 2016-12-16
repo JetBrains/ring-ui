@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 
 /* eslint-disable react/jsx-max-props-per-line */
 
-export default function focusSensor(ComposedComponent) {
+export default function focusSensorFactory(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
       autofocus: PropTypes.bool
