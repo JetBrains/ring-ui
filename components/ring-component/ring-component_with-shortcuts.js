@@ -1,5 +1,5 @@
 import RingComponent from '../ring-component/ring-component';
-import shortcuts from '../shortcuts/shortcuts';
+import shortcuts from '../shortcuts/core';
 
 export default class RingComponentWithShortcuts extends RingComponent {
   static letOverrideLifecycleMethods = true;
