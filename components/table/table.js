@@ -15,21 +15,23 @@ import React, {PropTypes} from 'react';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import classNames from 'classnames';
 
+import focusSensor from './focus-sensor';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
 
 import LoaderInline from '../loader-inline/loader-inline';
 
-export default class Table extends RingComponentWithShortcuts {
+class Table extends RingComponentWithShortcuts {
   static propTypes = {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     caption: PropTypes.string,
     selectable: PropTypes.bool,
-    autofocus: PropTypes.bool,
+    focused: PropTypes.bool,
     loading: PropTypes.bool,
+    onFocusReset: PropTypes.func,
     onSelect: PropTypes.func,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
@@ -38,8 +40,9 @@ export default class Table extends RingComponentWithShortcuts {
 
   static defaultProps = {
     selectable: true,
-    autofocus: false,
+    focused: false,
     loading: false,
+    onFocusReset: () => {},
     onSelect: () => {},
     onSort: () => {},
     sortKey: 'id',
@@ -47,11 +50,10 @@ export default class Table extends RingComponentWithShortcuts {
   }
 
   state = {
-    focused: false,
     hoveredRow: undefined,
     focusedRow: undefined,
     selectedRows: new Set(),
-    shortcuts: this.props.selectable && this.props.autofocus,
+    shortcuts: this.props.selectable && this.props.focused,
     userSelectNone: false,
     disabledHover: false
   }
@@ -228,7 +230,9 @@ export default class Table extends RingComponentWithShortcuts {
       focusedRow: undefined,
       selectedRows: new Set(),
       disabledHover: true
-    }, () => this.refs.table.focus());
+    });
+
+    this.props.onFocusReset();
   }
 
   onCmdAPress = () => {
@@ -244,45 +248,18 @@ export default class Table extends RingComponentWithShortcuts {
     }
   }
 
-  onFocusCapture = ({target}) => {
-    const focused = this.refs.table.contains(target);
-    if (focused && !this.state.focused) {
-      this.setState({
-        shortcuts: this.props.selectable,
-        focused: true
-      });
-    }
-  }
-
-  onBlurCapture = ({target}) => {
-    if (this.state.focused) {
-      setTimeout(() => {
-        const {table} = this.refs;
-        const blured = table.contains(target) && !table.contains(document.activeElement);
-        if (blured) {
-          this.setState({
-            shortcuts: false,
-            focused: false,
-            focusedRow: undefined
-          });
-        }
-      }, 1);
-    }
-  }
-
   willReceiveProps(nextProps) {
-    const {data, selectable} = this.props;
-
-    if (data !== nextProps.data) {
+    if (this.props.data !== nextProps.data) {
       this.setState({focusedRow: undefined, selectedRows: new Set()});
     }
 
-    if (selectable !== nextProps.selectable) {
-      if (nextProps.selectable === false) {
-        this.setState({shortcuts: false});
-      } else if (this.state.focused) {
-        this.setState({shortcuts: true});
-      }
+    if (this.props.focused !== nextProps.focused && !nextProps.focused) {
+      this.setState({focusedRow: undefined});
+    }
+
+    const shortcuts = nextProps.selectable && nextProps.focused;
+    if (shortcuts !== this.state.shortcuts) {
+      this.setState({shortcuts});
     }
   }
 
@@ -311,19 +288,11 @@ export default class Table extends RingComponentWithShortcuts {
   didMount() {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
-    document.addEventListener('focus', this.onFocusCapture, true);
-    document.addEventListener('blur', this.onBlurCapture, true);
-
-    if (this.props.autofocus) {
-      this.refs.table.focus();
-    }
   }
 
   willUnmount() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
-    document.removeEventListener('focus', this.onFocusCapture, true);
-    document.removeEventListener('blur', this.onBlurCapture, true);
   }
 
   render() {
@@ -387,7 +356,7 @@ export default class Table extends RingComponentWithShortcuts {
       <div className={wrapperClasses}>
         <LoaderInline className={style.loader}/>
 
-        <table className={classes} onMouseDown={this.onMouseDown} tabIndex="0" ref="table">
+        <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
 
           <tbody>{
@@ -411,3 +380,5 @@ export default class Table extends RingComponentWithShortcuts {
     );
   }
 }
+
+export default focusSensor(Table);
