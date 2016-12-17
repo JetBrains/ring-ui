@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Icon from '../icon/icon';
 
 import style from './table.css';
 
-export default class HeaderCell extends RingComponent {
+export default class HeaderCell extends Component {
   static propTypes = {
     className: PropTypes.string,
     tiny: PropTypes.bool,

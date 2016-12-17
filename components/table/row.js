@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
 import 'core-js/modules/es6.number.is-finite';
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Cell from './cell';
@@ -10,7 +9,7 @@ import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
-export default class Row extends RingComponent {
+export default class Row extends Component {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -60,7 +59,7 @@ export default class Row extends RingComponent {
     this.refs.row.focus();
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const {props: {focused}, refs: {row}} = this;
     if (focused && !prevProps.focused) {
       row.focus();
