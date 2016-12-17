@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import style from './table.css';
 
-export default class Cell extends RingComponent {
+export default class Cell extends Component {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string
