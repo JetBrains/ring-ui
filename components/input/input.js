@@ -86,7 +86,7 @@ export default class Input extends RingComponent {
         this.checkValue(e.target);
       },
       className: styles.input,
-      value: value || children,
+      value: value != null ? value : children,
       ...props
     };
 
