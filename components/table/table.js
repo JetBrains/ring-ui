@@ -11,18 +11,19 @@
 
 import 'core-js/modules/es6.array.find';
 
-import React, {PropTypes} from 'react';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import focusSensorFactory from '../global/focus-sensor-factory';
+import getUID from '../global/get-uid';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
 
+import Shortcuts from '../shortcuts/shortcuts';
 import LoaderInline from '../loader-inline/loader-inline';
 
-class Table extends RingComponentWithShortcuts {
+class Table extends Component {
   static propTypes = {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
@@ -56,25 +57,6 @@ class Table extends RingComponentWithShortcuts {
     shortcuts: this.props.selectable && this.props.focused,
     userSelectNone: false,
     disabledHover: false
-  }
-
-  getShortcutsProps() {
-    return {
-      map: {
-        up: this.onUpPress,
-        down: this.onDownPress,
-        shift: this.onShiftKeyDown,
-        'shift+up': this.onShiftUpPress,
-        'shift+down': this.onShiftDownPress,
-        home: this.onHomePress,
-        end: this.onEndPress,
-        space: this.onSpacePress,
-        esc: this.onEscPress,
-        'command+a': this.onCmdAPress,
-        'ctrl+a': this.onCmdAPress
-      },
-      scope: ::this.constructor.getUID('ring-table-')
-    };
   }
 
   onMouseDown = e => {
@@ -248,7 +230,7 @@ class Table extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.data !== nextProps.data) {
       this.setState({focusedRow: undefined, selectedRows: new Set()});
     }
@@ -263,7 +245,7 @@ class Table extends RingComponentWithShortcuts {
     }
   }
 
-  didUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const {selectedRows, focusedRow} = this.state;
     let selection;
 
@@ -285,19 +267,19 @@ class Table extends RingComponentWithShortcuts {
     }
   }
 
-  didMount() {
+  componentDidMount() {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
-  willUnmount() {
+  componentWillMount() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   render() {
     const {caption, selectable, loading, onSort, sortKey, sortOrder} = this.props;
-    const {selectedRows, focusedRow} = this.state;
+    const {selectedRows, focusedRow, shortcuts} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
 
@@ -354,6 +336,8 @@ class Table extends RingComponentWithShortcuts {
 
     return (
       <div className={wrapperClasses}>
+        {shortcuts ? <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} /> : ''}
+
         <LoaderInline className={style.loader}/>
 
         <table className={classes} onMouseDown={this.onMouseDown}>
@@ -379,6 +363,22 @@ class Table extends RingComponentWithShortcuts {
       </div>
     );
   }
+
+  shortcutsMap = {
+    up: this.onUpPress,
+    down: this.onDownPress,
+    shift: this.onShiftKeyDown,
+    'shift+up': this.onShiftUpPress,
+    'shift+down': this.onShiftDownPress,
+    home: this.onHomePress,
+    end: this.onEndPress,
+    space: this.onSpacePress,
+    esc: this.onEscPress,
+    'command+a': this.onCmdAPress,
+    'ctrl+a': this.onCmdAPress
+  }
+
+  shortcutsScope = getUID('ring-table-')
 }
 
 export default focusSensorFactory(Table);
