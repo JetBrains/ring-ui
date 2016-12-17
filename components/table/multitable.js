@@ -1,7 +1,6 @@
-import React, {PropTypes, Children, cloneElement} from 'react';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import React, {Component, PropTypes, Children, cloneElement} from 'react';
 
-export default class MultiTable extends RingComponentWithShortcuts {
+export default class MultiTable extends Component {
   static propTypes = {
     children: PropTypes.any
   }
