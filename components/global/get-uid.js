@@ -11,6 +11,5 @@ export default function getUID(name) {
 
   const id = String(idCounters[name]++);
 
-  // The "new" prefix is a temporary hack that should be removed when ring-component will be gone
-  return `new-${name}${id}`;
+  return name + id;
 }

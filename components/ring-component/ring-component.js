@@ -24,12 +24,15 @@ export default class RingComponent extends Component {
     return createElement(this, ...args);
   }
 
+  /**
+   * @deprecated This method is deprecated, use the "global/get-uid.js" helper instead
+   */
   static getUID(name) {
     if (!name) {
       throw Error('Parameter name is required in RingComponent.getUID()');
     }
     const id = String(this.idCounter++);
-    return name + id;
+    return `legacy-${name}${id}`;
   }
 
   node = null;
