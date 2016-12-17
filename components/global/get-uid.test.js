@@ -18,8 +18,4 @@ describe('getUid', () => {
     getUID('test').should.have.string('test');
     getUID('tset').should.have.string('tset');
   });
-
-  it('should return an id starting with the "new-" prefix (for a while)', () => {
-    getUID('test').should.match(/^new-/);
-  });
 });
