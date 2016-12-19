@@ -1,7 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '<%= ringUIRoot %>/ring-component/ring-component';
 
 import styles from './<%= paramCaseName %>.css';
 
@@ -18,27 +16,36 @@ import styles from './<%= paramCaseName %>.css';
      </file>
 
      <file name="index.js">
+       import React, {Component} from 'react';
        import {render} from 'react-dom';
-       import React from 'react';
 
        import <%= pascalCaseName %> from 'ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
 
        const container = document.getElementById('<%= paramCaseName %>');
-       const render<%= pascalCaseName %>Demo = clicks => (
-         <<%= pascalCaseName %>
-           onClick={() => render(render<%= pascalCaseName %>Demo(++clicks), container)}
-         >
-           {`<%= pascalCaseName %> (${clicks} clicks)`}
-         </<%= pascalCaseName %>>
-       );
+       class <%= pascalCaseName %>Demo extends Component {
+         state = {
+           clicks: 0
+         };
 
-       render(render<%= pascalCaseName %>Demo(0), container);
+         render() {
+           const {clicks} = this.state;
+
+           return (
+             <<%= pascalCaseName %> onClick={() => this.setState({clicks: clicks + 1})}>
+               {`<%= pascalCaseName %> (${clicks} clicks)`}
+             </<%= pascalCaseName %>>
+           );
+         }
+       }
+
+       render(<<%= pascalCaseName %>Demo />, container);
      </file>
    </example>
  */
 
-export default class <%= pascalCaseName %> extends RingComponent {
+export default class <%= pascalCaseName %> extends Component {
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string
   };
 
@@ -56,4 +63,3 @@ export default class <%= pascalCaseName %> extends RingComponent {
     );
   }
 }
-
