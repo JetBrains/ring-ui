@@ -1,0 +1,41 @@
+<example name="Simple grid">
+  <file name="index.html">
+    <div>
+      <div id="grid-simple"></div>
+    </div>
+  </file>
+
+  <file type="scss">
+    .cell {
+      background-color: silver;
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+    import {Grid, Row, Col} from './grid';
+
+    class GridDemo extends React.Component {
+      render() {
+        return (
+          <Grid>
+            <Row start="xs">
+              <Col md={6} lg={3}>
+                <div className="cell">Cell 1</div>
+              </Col>
+              <Col md={6} lg={3}>
+                <div className="cell">Cell 2</div>
+              </Col>
+              <Col md={12} lg={6}>
+                <div className="cell">Cell 3</div>
+              </Col>
+            </Row>
+          </Grid>
+        );
+      }
+    }
+
+    render(<GridDemo />, document.getElementById('grid-simple'));
+  </file>
+</example>
