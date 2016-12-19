@@ -5,6 +5,6 @@ module.exports = generateComponent({
     '%s.js',
     '%s.css',
     '%s.gemini.js',
-    '%s.test.js',
+    '%s.test.js'
   ]
 });
