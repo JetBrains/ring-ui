@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "jetbrains",
+    "jetbrains/bem",
+    "jetbrains/es6",
+    "jetbrains/node",
+    "jetbrains/react",
+    "jetbrains/angular",
+    "jetbrains/test"
+  ],
+  "rules": {
+    "modules/no-cjs": "off"
+  }
+}
