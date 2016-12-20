@@ -16,6 +16,15 @@
   white-space: nowrap;
   background: transparent;
 
+  outline: 1px solid $ring-gray-color;
+  outline-offset: -1px;
+  border-color: transparent;
+
+  &:active, &:focus {
+    outline: 1px solid $ring-blue-color;
+    border-color: transparent;
+  }
+
   &.ring-query-assist__input_gap {
     border-right-width: $ring-unit*3;
   }
