@@ -4,6 +4,8 @@ const generators = require('yeoman-generator');
 const {paramCase, camelCase} = require('change-case');
 const pify = require('pify');
 const {findAPortNotInUse} = pify(require('portscanner'));
+// We have to use deprecated npm-latest-version package
+// because there's no .npmrc in target folder on generator start
 const latest = pify(require('npm-latest-version'));
 const ora = require('ora');
 
