@@ -1,15 +1,12 @@
-@value unit, wide-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
+@value unit, breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
 
 @value gutter-width: (unit*2);
 @value gutter-compensation: -calc(gutter-width / 2);
 @value outer-margin: calc(unit*2);
-@value sm-min: 360px;
-@value md-min: 639px;
-@value lg-min: 959px;
 
-@value container-sm: calc(sm-min + gutter-width);
-@value container-md: calc(md-min + gutter-width);
-@value container-lg: calc(lg-min + gutter-width);
+@value container-sm: calc(breakpoint-small + gutter-width);
+@value container-md: calc(breakpoint-middle + gutter-width);
+@value container-lg: calc(breakpoint-large + gutter-width);
 
 .container-fluid, .container {
   margin-right: auto;
@@ -19,6 +16,7 @@
 .container-fluid {
   padding-right: outer-margin;
   padding-left: outer-margin;
+  min-width: calc(unit * 40)
 }
 
 .row {
@@ -623,7 +621,7 @@
   }
 }
 
-@media wide-screen-media {
+@media large-screen-media {
   .container {
     width: container-lg;
   }
