@@ -12,7 +12,7 @@
   "rules": {
     "modules/no-mix-default-named": "off",
     // Possible Errors
-    "valid-jsdoc": "error",
+    "valid-jsdoc": "warn",
 
     // Best Practices
     "complexity": ["off", 5],
