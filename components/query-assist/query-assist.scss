@@ -16,13 +16,15 @@
   white-space: nowrap;
   background: transparent;
 
-  outline: 1px solid $ring-gray-color;
-  outline-offset: -1px;
-  border-color: transparent;
-
-  &:active, &:focus {
-    outline: 1px solid $ring-blue-color;
+  &.ring-query-assist__input {
+    outline: 1px solid $ring-gray-color;
+    outline-offset: -1px;
     border-color: transparent;
+
+    &:active, &:focus {
+      outline: 1px solid $ring-blue-color;
+      border-color: transparent;
+    }
   }
 
   &.ring-query-assist__input_gap {
@@ -83,7 +85,6 @@
   width: $ring-unit*2;
 
   padding: 3px 4px 3px 5px;
-  background-color: #FFF;
 
   cursor: pointer;
   user-select: none;
