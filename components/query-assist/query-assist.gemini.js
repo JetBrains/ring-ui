@@ -14,7 +14,7 @@ gemini.suite('Query Assist', suite => {
         actions.waitForElementToShow('.ring-popup');
       }).
       capture('input', (actions, find) => {
-        actions.sendKeys(find('.ring-query-assist__input'), 'test');
+        actions.sendKeys(find('.ring-query-assist__input'), 'test.');
         actions.waitForElementToShow('.ring-popup');
       });
   });
