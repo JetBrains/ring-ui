@@ -7,7 +7,7 @@ const modificatorKeys = ['start', 'center', 'end', 'top', 'middle', 'bottom', 'a
 
 /**
  * Converts xs="middle" to class "middle-xs"
- * @param props
+ * @param {Object} props incoming props
  * @returns {Array} result modificator classes
  */
 function getModificatorsClassNames(props) {
