@@ -2,6 +2,7 @@ import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import styles from './grid.css';
 
 import {Grid, Row, Col} from './grid';
 
@@ -35,6 +36,14 @@ describe('Row', () => {
   it('should use passed className', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
+
+  it('should convert "center" modificator to appropriate className', () => {
+    findDOMNode(renderComponent({center: 'md'})).should.match(`.${styles['center-md']}`);
+  });
+
+  it('should convert "reverse" modificator to appropriate className', () => {
+    findDOMNode(renderComponent({reverse: true})).should.match(`.${styles.reverse}`);
+  });
 });
 
 describe('Col', () => {
@@ -50,5 +59,13 @@ describe('Col', () => {
 
   it('should use passed className', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+  });
+
+  it('should convert digital value to appropriate className', () => {
+    findDOMNode(renderComponent({xs: 2})).should.match(`.${styles['col-xs-2']}`);
+  });
+
+  it('should convert autosize to appropriate className', () => {
+    findDOMNode(renderComponent({xs: true})).should.match(`.${styles['col-xs']}`);
   });
 });
