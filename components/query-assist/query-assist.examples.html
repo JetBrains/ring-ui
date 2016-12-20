@@ -45,6 +45,73 @@
   </file>
 </example>
 
+<example name="QueryAssist (no auth)">
+  <file type="html">
+    <div id="query-assist">
+    </div>
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+
+    const log = obj => {
+      const div = document.createElement('div');
+      div.innerHTML = JSON.stringify(obj);
+      document.getElementById('query-assist').appendChild(div);
+    };
+
+    const dataSource = ({query, caret}) => ({
+      query,
+      caret,
+      styleRanges: [
+        {start: 0, length: 1, style: 'text'},
+        {start: 1, length: 1, style: 'field_value'},
+        {start: 2, length: 1, style: 'field_name'},
+        {start: 3, length: 1, style: 'operator'}
+      ],
+      suggestions: [{
+        prefix: 'login: ',
+        option: 'test',
+        suffix: ' ',
+        description: 'logins',
+        matchingStart: 0,
+        matchingEnd: query.length,
+        caret: 2,
+        completionStart: 0,
+        completionEnd: query.length,
+        group: 'logins'
+      }, {
+        prefix: 'login: ',
+        option: 'test.1',
+        suffix: ' ',
+        description: 'logins',
+        matchingStart: 0,
+        matchingEnd: query.length,
+        caret: 2,
+        completionStart: 0,
+        completionEnd: query.length,
+        group: 'logins'
+      }]
+    });
+
+    render(
+      <QueryAssist
+        placeholder="placeholder"
+        glass={true}
+        clear={true}
+        onApply={log}
+        hint="hint"
+        hintOnSelection="hint on selection"
+        dataSource={dataSource}
+      />,
+      document.getElementById('query-assist')
+    );
+  </file>
+</example>
+
+
 <example name="QueryAssist in AngularJS">
   <file type="html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
