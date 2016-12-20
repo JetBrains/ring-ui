@@ -17,7 +17,7 @@ const classMap = {
 
 /**
  * Converts props like "xs=9 xsOffset={2}" to classes "col-xs-9 col-xs-offset-2"
- * @param props
+ * @param {Object} props incoming props
  * @returns {Array} result classnames
  */
 function getClassNames(props) {
