@@ -77,11 +77,16 @@ module.exports = params => generators.Base.extend({
       };
 
       params.fileTemplates.forEach(template => {
-        this.fs.copyTpl(
-          this.templatePath(format(template, COMPONENT_DEFAULT_FILENAME)),
-          this.destinationPath(path.join(componentPath, format(template, paramCaseNameSuffix))),
-          templateContext
-        );
+        console.log(template);
+        if (typeof template === 'string' || template.ringUI === isRingUI) {
+          const templateString = template.template || template;
+
+          this.fs.copyTpl(
+            this.templatePath(format(templateString, COMPONENT_DEFAULT_FILENAME)),
+            this.destinationPath(path.join(componentPath, format(templateString, paramCaseNameSuffix))),
+            templateContext
+          );
+        }
       });
     });
   }
