@@ -1,4 +1,4 @@
-@value unit, wide-screen-media, extra-small-and-small-screen-media, small-screen-media from '../global/global.css';
+@value unit, middle-screen-media, large-screen-media, extra-small-screen-media, small-screen-media from '../global/global.css';
 
 @value sidebarWidth: calc(unit * 43);
 
@@ -23,6 +23,8 @@
   max-width: sidebarWidth;
   height: 100%;
   overflow: auto;
+  padding-left: calc(unit * 4);
+  padding-right: calc(unit * 2);
 }
 
 .sidebarFixedTop {
@@ -34,11 +36,9 @@
   bottom: 0;
 }
 
-@media middle-screen-media {
+@media middle-screen-media, large-screen-media {
   .sidebar {
     box-sizing: border-box;
-    padding-left: calc(unit * 4);
-    padding-right: calc(unit * 2);
   }
 
   .sidebarFixedTop {
@@ -63,7 +63,7 @@
   }
 }
 
-@media extra-small-and-small-screen-media {
+@media extra-small-screen-media, small-screen-media {
   .contentLayoutContent {
     margin: 0 16px;
   }
