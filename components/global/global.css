@@ -90,5 +90,3 @@
 @value small-screen-media: (min-width: breakpoint-small) and (max-width: calc(breakpoint-middle - 1));
 @value middle-screen-media: (min-width: breakpoint-middle) and (max-width: calc(breakpoint-large - 1));
 @value large-screen-media: (min-width: breakpoint-large);
-
-@value extra-small-and-small-screen-media: (max-width: 959px);
