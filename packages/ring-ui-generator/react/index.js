@@ -4,7 +4,10 @@ module.exports = generateComponent({
   fileTemplates: [
     '%s.js',
     '%s.css',
-    '%s.gemini.js',
+    {
+      template: '%s.gemini.js',
+      ringUI: true
+    },
     '%s.test.js'
   ]
 });
