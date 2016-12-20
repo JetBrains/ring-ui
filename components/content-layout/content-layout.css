@@ -9,6 +9,10 @@
   position: relative;
 }
 
+.contentLayoutContent {
+  margin: 0 calc(unit * 4);
+}
+
 .sidebarContainer {
   min-width: sidebarWidth;
   max-width: sidebarWidth;
@@ -30,10 +34,7 @@
   bottom: 0;
 }
 
-@media wide-screen-media {
-  .contentLayoutContent {
-    margin: 0 calc(unit * 4);
-  }
+@media middle-screen-media {
   .sidebar {
     box-sizing: border-box;
     padding-left: calc(unit * 4);
