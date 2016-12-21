@@ -6,6 +6,7 @@
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
     import Table from './table';
+    import Selection from './selection';
     import Link from '../link/link';
     import Pager from '../pager/pager';
     import Button from '../button/button';
@@ -17,13 +18,13 @@
     class Example extends Component {
       state = {
         data: [],
+        selection: new Selection(),
         caption: undefined,
         selectable: true,
         total,
         page: 1,
         pageSize,
         pageTotal: Math.ceil(total / pageSize),
-        selection: new Set(),
         sortKey: 'country',
         sortOrder: true
       }
@@ -46,8 +47,8 @@
         }
       ]
 
-      onSelect = ({selection}) => {
-        this.setState({selection});
+      onSelect = () => {
+        this.forceUpdate();
       }
 
       onSort = ({column: {id: sortKey}, order: sortOrder}) => {
@@ -59,11 +60,12 @@
       }
 
       componentWillMount() {
+        this.state.selection.on('change', this.onSelect);
         this.loadPage();
       }
 
       componentDidUpdate(prevProps, prevState) {
-        const {page, sortKey, sortOrder, selection} = this.state;
+        const {page, sortKey, sortOrder} = this.state;
         if (page !== prevState.page || sortKey !== prevState.sortKey || sortOrder !== prevState.sortOrder) {
           this.loadPage();
         }
@@ -76,6 +78,7 @@
         data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
         data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
+        this.state.selection.addGroup([data[3], data[5]]);
         this.setState({data});
       }
 
@@ -87,7 +90,7 @@
             <Table
               data={data}
               columns={this.columns}
-              onSelect={this.onSelect}
+              selection={selection}
               onSort={this.onSort}
               sortKey={sortKey}
               sortOrder={sortOrder}
