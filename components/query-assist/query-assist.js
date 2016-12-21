@@ -21,9 +21,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import './query-assist.scss';
 import '../input/input.scss';
 
-const INPUT_BORDER_WIDTH = 1;
-const POPUP_COMPENSATION = INPUT_BORDER_WIDTH +
-  PopupMenu.ListProps.Dimension.ITEM_PADDING +
+const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
 const ngModelStateField = 'query';

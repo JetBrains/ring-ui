@@ -9,20 +9,25 @@
 }
 
 .ring-query-assist__input {
-  z-index: 1;
   padding-top: 2px;
 
   overflow: hidden;
   white-space: nowrap;
   background: transparent;
 
+  position: relative;
+  top: 1px;
+  left: 1px;
+
   &.ring-query-assist__input {
-    outline: 1px solid $ring-gray-color;
-    outline-offset: -1px;
+    box-shadow: 0 0 0 1px $ring-gray-color;
     border-color: transparent;
+    height: $ring-unit*3 - 2;
+    width: calc(100% - 2px);
+    border-width: 0;
 
     &:active, &:focus {
-      outline: 1px solid $ring-blue-color;
+      box-shadow: 0 0 0 1px $ring-blue-color;
       border-color: transparent;
     }
   }
