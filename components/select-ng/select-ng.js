@@ -88,6 +88,7 @@ angularModule.directive('rgSelect', () => {
       infiniteScrollPackSize: '@',
 
       options: '@',
+      optionsScope: '=',
       label: '@',
       selectedLabel: '@',
       externalFilter: '=?',
@@ -128,7 +129,10 @@ angularModule.directive('rgSelect', () => {
       ctrl.selectInstance = null;
       ctrl.ngModelCtrl = null;
       ctrl.query = null;
-      ctrl.optionsParser = new SelectOptions($scope.$parent, ctrl.options);
+
+      const scope = ctrl.optionsScope ? ctrl.optionsScope : $scope.$parent;
+      ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
+
       ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
 
       ctrl.setNgModelCtrl = ngModelCtrl => {
