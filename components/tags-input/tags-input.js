@@ -33,7 +33,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     dataSource: React.PropTypes.func,
     onAddTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
-    customTagComponent: React.PropTypes.func,
+    customTagComponent: React.PropTypes.node,
     maxPopupHeight: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     canNotBeEmpty: React.PropTypes.bool,

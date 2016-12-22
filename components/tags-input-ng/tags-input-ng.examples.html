@@ -1,0 +1,43 @@
+<example name="Angular Tags Input">
+
+  <file type="html">
+    <div ng-app="Example.tagsInput" ng-controller="ExampleCtrl as ctrl">
+      <rg-tags-input
+        tags="ctrl.tags"
+        x-data-source="ctrl.dataSource(query)"
+        placeholder="Type something"
+        on-add-tag="ctrl.onAddTag(tag)"
+        on-remove-tag="ctrl.removeTag(tag)"
+      ></rg-tags-input>
+    </div>
+  </file>
+
+  <file type="js">
+    import 'angular/angular';
+    import RingProgressBar from 'ring-ui/components/tags-input-ng/tags-input-ng';
+
+    angular.module('Example.tagsInput', [RingProgressBar]).
+      controller('ExampleCtrl', function ($q, $interval) {
+        this.tags = [
+          {key: 'test1', label: 'test1'},
+          {key: 'test2', label: 'test2'}
+        ];
+
+        this.dataSource = function (query) {
+          return $q.when([
+            {key: 'test3', label: 'test3'},
+            {key: 'test4', label: 'test4'}
+          ]);
+        };
+
+        this.onAddTag = function (tag) {
+          console.log('Add tag', tag);
+        };
+
+        this.removeTag = function (tag) {
+          console.log('Remove tag', tag);
+        };
+      });
+  </file>
+</example>
+
