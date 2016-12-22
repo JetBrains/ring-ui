@@ -1,11 +1,12 @@
 /* global angular: false */
 
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../ring-angular-component/ring-angular-component';
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
+const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
 
 function angularComponentFactory(Component, name) {
   const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
@@ -20,6 +21,8 @@ function angularComponentFactory(Component, name) {
       bindings.className = '@className';
     } else if (funcTypes.includes(propTypes[key])) {
       bindings[key] = '&';
+    } else if (stringTypes.includes(propTypes[key])) {
+      bindings[key] = '@';
     } else {
       bindings[key] = '<';
     }
@@ -45,14 +48,16 @@ function angularComponentFactory(Component, name) {
       propKeys.forEach(key => {
         if (funcTypes.includes(propTypes[key])) {
           props[key] = (...rest) => {
-            $scope.$applyAsync(() => this[key](...rest));
+            const ret = this[key](...rest);
+            $scope.$applyAsync();
+            return ret;
           };
         } else {
           props[key] = this[key];
         }
       });
 
-      render(Component.factory(props), container);
+      render(<Component {...props}/>, container);
     }
   }
 
