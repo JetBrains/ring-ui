@@ -2,8 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ring UI - {{ page.name or page.title }}</title>
-{#<link rel="icon" href="assets/favicon.ico">#}
+<title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
 </head>
 <body>
 <div class="app">
@@ -12,22 +11,22 @@
 
   <div class="app__main">
     <div class="app__sidebar">
-      <h3 class="header nav__header">Ring UI library <div class="ring-ui-version">{{ page.source.packageInfo.version }}</div></h3>
+      <h3 class="header nav__header">Ring UI library <div class="ring-ui-version">{{ source.package.version }}</div></h3>
 
-      {% for category, pages in pagesByCategory %}
+      {% for categoryName, items in sourcesByCategory %}
         {% if category != 'Docs' %}
-          <h4 class="header">{{ category }}</h4>
+          <h4 class="header">{{ categoryName }}</h4>
         {% endif %}
 
         <ul class="nav">
-          {% for item in pages %}
-            {% set title = item.name or item.title or item.path %}
+          {% for item in items %}
+            {% set title = item.attrs.name or item.attrs.title or item.path %}
 
             <li class="nav__item">
-              {% if item.path == page.path %}
+              {% if item.path == source.path %}
                 <span class="nav__link _active">{{ title }}</span>
               {% else %}
-                <a class="nav__link" href="{{ item.path }}">{{ title }}</a>
+                <a class="nav__link" href="{{ item.page.url }}">{{ title }}</a>
               {% endif %}
             </li>
           {% endfor %}
@@ -37,32 +36,40 @@
     </div>
 
     <div class="app__content markdown-body">
-      <h1>{{ page.name or page.title }}</h1>
+      <h1>{{ source.attrs.name or source.attrs.title }}</h1>
 
-      {% if page.content %}
-        {{ page.content }}
+      {% if source.rendered %}
+        {{ source.rendered }}
       {% endif %}
 
-      {% for section in page.sections if page.sections %}
-        {% if section.description %}
-          {{ section.description | raw }}
-        {% endif %}
+      {% for block in source.blocks if source.blocks %}
 
-        {% for example in section.examples %}
-          <h3 id="{{ example.name | url_encode }}">{{ example.name }} <a href="#{{ example.name | url_encode }}">#</a></h3>
+        {{ block.attrs.description | raw }}
+
+        {% for example in block.examples %}
+          {% set id = example.attrs.name | replace({' ': '_', ':': ''}) | url_encode %}
+
+          <h3 id="{{ id }}">{{ example.attrs.name }} <a href="#{{ id }}">#</a></h3>
 
           <!-- Iframes -->
-          {% for file in example.files if file.type == 'html' and file.iframe != 'false' and file.render != 'false' %}
+          {% for file in example.files if file.type == 'html' %}
             <div class="markdown-example">
-              <iframe width="100%" height="auto" src="{{ publicPath }}{{ example.path }}" class="markdown-example__frame"></iframe>
-              <a href="{{ publicPath }}{{ example.path }}" class="markdown-example__link" target="_blank" title="Open in new tab">Example</a>
+              <iframe width="100%"
+                      height="auto"
+                      src="{{ publicPath }}{{ example.page.url }}"
+                      class="markdown-example__frame"></iframe>
+
+              <a href="{{ publicPath }}{{ example.page.url }}"
+                 class="markdown-example__link"
+                 target="_blank"
+                 title="Open in new tab">Example</a>
             </div>
           {% endfor %}
 
           <!-- Code examples -->
-          {% for file in example.files if file.type != 'scss' and file.show != 'false' and file.render != 'false' %}
+          {% for file in example.files if file.type != 'scss' and file.attrs['show-code'] != 'false' %}
             <div class="markdown-example-code">
-              <pre><code class="language-{{ file.type }}">{{ file.source | escape }}</code></pre>
+              <pre><code class="language-{{ file.type }}">{{ file.content | escape }}</code></pre>
             </div>
           {% endfor %}
 
