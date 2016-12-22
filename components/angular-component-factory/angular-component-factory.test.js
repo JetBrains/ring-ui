@@ -11,15 +11,21 @@ import angularComponentFactory from './angular-component-factory';
 class TestComponent extends RingComponent {
   static propTypes = {
     id: PropTypes.string,
+    someObj: PropTypes.object,
     onClick: PropTypes.func,
     className: PropTypes.string
   }
 
+  static defaultProps = {
+    someObj: {}
+  };
+
   render() {
-    const {id, onClick, className} = this.props;
+    const {id, someObj, onClick, className} = this.props;
     return (
       <div
         id={id}
+        data-some-obj={someObj.foo}
         onClick={onClick({arg: 'a'})}
         className={className}
       />
@@ -52,9 +58,24 @@ describe('angularComponentFactory', () => {
     ctrl.should.not.be.undefined;
   });
 
-  it('should use one-way binding for props', () => {
+  it('should use one-way binding for object props', () => {
+    $rootScope.testObj = {
+      foo: 'bar'
+    };
+    const $element = $compile('<rg-test-component some-obj="testObj"></rg-test-component>')($rootScope);
+    const component = $element[0].firstChild;
+    component.should.have.attribute('data-some-obj', 'bar');
+
+    $rootScope.testObj = {
+      foo: 'test value'
+    };
+    $rootScope.$digest();
+    component.should.have.attribute('data-some-obj', 'test value');
+  });
+
+  it('should use string binding for stgin props', () => {
     $rootScope.id = '1';
-    const $element = $compile('<rg-test-component id="id"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component id="{{id}}"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
     component.should.have.attribute('id', '1');
 
