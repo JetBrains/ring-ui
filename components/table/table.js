@@ -16,6 +16,7 @@ import classNames from 'classnames';
 
 import focusSensorFactory from '../global/focus-sensor-factory';
 import getUID from '../global/get-uid';
+import Selection from './selection';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
@@ -28,7 +29,7 @@ class Table extends Component {
     className: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
-    selection: PropTypes.instanceOf(Set).isRequired,
+    selection: PropTypes.instanceOf(Selection).isRequired,
     caption: PropTypes.string,
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
@@ -90,11 +91,11 @@ class Table extends Component {
   }
 
   onRowSelect = row => {
-    const selection = new Set(this.props.selection);
-    if (selection.has(row)) {
-      selection.delete(row);
+    const selection = new Selection(this.props.selection);
+    if (selection.selected.has(row)) {
+      selection.selected.delete(row);
     } else {
-      selection.add(row);
+      selection.selected.add(row);
     }
     this.props.onSelect(selection);
   }
@@ -147,10 +148,10 @@ class Table extends Component {
     const {focusedRow} = this.state;
 
     if (focusedRow) {
-      const selection = new Set(this.props.selection);
+      const selection = new Selection(this.props.selection);
 
       if (!this.shiftSelectionMode) {
-        if (selection.has(focusedRow)) {
+        if (selection.selected.has(focusedRow)) {
           this.shiftSelectionMode = 'deleting';
         } else {
           this.shiftSelectionMode = 'adding';
@@ -158,9 +159,9 @@ class Table extends Component {
       }
 
       if (this.shiftSelectionMode === 'deleting') {
-        selection.delete(focusedRow);
+        selection.selected.delete(focusedRow);
       } else if (this.shiftSelectionMode === 'adding') {
-        selection.add(focusedRow);
+        selection.selected.add(focusedRow);
       }
 
       this.props.onSelect(selection);
@@ -212,28 +213,28 @@ class Table extends Component {
       disabledHover: true
     });
 
-    this.props.onSelect(new Set());
+    this.props.onSelect(new Selection());
     this.props.onFocusReset();
   }
 
   onCmdAPress = () => {
-    this.props.onSelect(new Set(this.props.data));
+    this.props.onSelect(new Selection({selected: this.props.data}));
     this.setState({disabledHover: true});
     return false;
   }
 
   onCheckboxChange = checked => {
+    const selection = new Selection();
     if (checked) {
-      this.props.onSelect(new Set(this.props.data));
-    } else {
-      this.props.onSelect(new Set());
+      selection.selected = new Set(this.props.data);
     }
+    this.props.onSelect(selection);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.data !== nextProps.data) {
       this.setState({focusedRow: undefined});
-      this.props.onSelect(new Set());
+      this.props.onSelect(new Selection());
     }
 
     if (this.props.focused !== nextProps.focused && !nextProps.focused) {
@@ -297,7 +298,7 @@ class Table extends Component {
     });
 
     const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
-    headerProps.checked = selection.size === data.length;
+    headerProps.checked = selection.selected.size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
@@ -307,7 +308,7 @@ class Table extends Component {
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
-      [style.multiSelection]: selection.size > 0,
+      [style.multiSelection]: selection.selected.size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
       [style.disabledHover]: this.state.disabledHover,
       [style.selectable]: selectable
@@ -330,7 +331,7 @@ class Table extends Component {
                 columns,
                 selectable,
                 focused: focusedRow === item,
-                selected: selection.has(item),
+                selected: selection.selected.has(item),
                 onHover: this.onRowHover,
                 onFocus: this.onRowFocus,
                 onSelect: this.onRowSelect

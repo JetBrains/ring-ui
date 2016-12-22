@@ -6,6 +6,7 @@
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
     import Table from './table';
+    import Selection from './selection';
     import Link from '../link/link';
     import Pager from '../pager/pager';
     import Button from '../button/button';
@@ -17,7 +18,7 @@
     class Example extends Component {
       state = {
         data: [],
-        selection: new Set(),
+        selection: new Selection(),
         caption: undefined,
         selectable: true,
         total,
@@ -72,7 +73,7 @@
         data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
         data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
-        this.state.selection.add(data[3]).add(data[5]);
+        this.state.selection.selected.add(data[3]).add(data[5]);
         this.setState({data});
       }
 
@@ -109,7 +110,7 @@
               }
             </p>
 
-            <p>{[...selection].map(item => item.country).join(', ')}</p>
+            <p>{[...selection.getActive()].map(item => item.country).join(', ')}</p>
           </div>
         );
       }
