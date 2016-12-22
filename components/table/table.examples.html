@@ -6,7 +6,6 @@
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
     import Table from './table';
-    import Selection from './selection';
     import Link from '../link/link';
     import Pager from '../pager/pager';
     import Button from '../button/button';
@@ -18,7 +17,7 @@
     class Example extends Component {
       state = {
         data: [],
-        selection: new Selection(),
+        selection: new Set(),
         caption: undefined,
         selectable: true,
         total,
@@ -47,10 +46,6 @@
         }
       ]
 
-      onSelect = () => {
-        this.forceUpdate();
-      }
-
       onSort = ({column: {id: sortKey}, order: sortOrder}) => {
         this.setState({sortKey, sortOrder});
       }
@@ -60,7 +55,6 @@
       }
 
       componentWillMount() {
-        this.state.selection.on('change', this.onSelect);
         this.loadPage();
       }
 
@@ -78,7 +72,7 @@
         data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
         data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
-        this.state.selection.addGroup([data[3], data[5]]);
+        this.state.selection.add(data[3]).add(data[5]);
         this.setState({data});
       }
 
@@ -91,6 +85,7 @@
               data={data}
               columns={this.columns}
               selection={selection}
+              onSelect={selection => this.setState({selection})}
               onSort={this.onSort}
               sortKey={sortKey}
               sortOrder={sortOrder}
