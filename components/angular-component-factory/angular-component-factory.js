@@ -24,7 +24,7 @@ function addWarningOnPropertiesChange(object, name) {
     Object.defineProperty(obj, key, { // eslint-disable-line prefer-reflect
       get: () => value,
       set: val => {
-        console.warn(`Warning! You have modified a "${key}" property of object, which is passed to RingUI
+        console.warn(`Warning! You have modified a "${key}" property of object, which is passed to Ring UI
           angular-component-factory. This change is not handled by "${name}" component. 
           You should reassign object itself if you need this component to handle change.`, obj);
         value = val;
