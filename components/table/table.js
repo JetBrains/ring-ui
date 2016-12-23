@@ -84,35 +84,29 @@ class Table extends Component {
   }
 
   onRowFocus = row => {
-    if (this.props.selection.focused !== row) {
-      const selection = new Selection(this.props.selection);
-      selection.focused = row;
-      this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    if (selection.getFocus() !== row) {
+      onSelect(selection.setFocus(row));
     }
   }
 
   onRowSelect = row => {
-    const selection = new Selection(this.props.selection);
-    if (selection.selected.has(row)) {
-      selection.selected.delete(row);
-    } else {
-      selection.selected.add(row);
-    }
-    this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    onSelect(selection.toggle(row));
   }
 
   getPrevRow = () => {
     const {state: {hoveredRow}, props: {data}} = this;
-    const {focused} = this.props.selection;
+    const focused = this.props.selection.getFocus();
 
     let result = data[0];
 
-    if (data.includes(focused)) {
+    if (focused) {
       const prevRow = data[data.indexOf(focused) - 1];
       if (prevRow) {
         result = prevRow;
       }
-    } else if (data.includes(hoveredRow)) {
+    } else if (hoveredRow) {
       result = hoveredRow;
     }
 
@@ -121,16 +115,16 @@ class Table extends Component {
 
   getNextRow = () => {
     const {state: {hoveredRow}, props: {data}} = this;
-    const {focused} = this.props.selection;
+    const focused = this.props.selection.getFocus();
 
     let result = data[data.length - 1];
 
-    if (data.includes(focused)) {
+    if (focused) {
       const nextRow = data[data.indexOf(focused) + 1];
       if (nextRow) {
         result = nextRow;
       }
-    } else if (data.includes(hoveredRow)) {
+    } else if (hoveredRow) {
       result = hoveredRow;
     }
 
@@ -138,9 +132,8 @@ class Table extends Component {
   }
 
   onUpPress = () => {
-    const selection = new Selection(this.props.selection);
-    selection.focused = this.getPrevRow();
-    this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    onSelect(selection.setFocus(this.getPrevRow()));
 
     this.setState({disabledHover: true});
 
@@ -148,9 +141,8 @@ class Table extends Component {
   }
 
   onDownPress = () => {
-    const selection = new Selection(this.props.selection);
-    selection.focused = this.getNextRow();
-    this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    onSelect(selection.setFocus(this.getNextRow()));
 
     this.setState({disabledHover: true});
 
@@ -158,13 +150,12 @@ class Table extends Component {
   }
 
   shiftSelectRow = () => {
-    const {focused} = this.props.selection;
+    const {selection} = this.props;
+    const focused = selection.getFocus();
 
     if (focused) {
-      const selection = new Selection(this.props.selection);
-
       if (!this.shiftSelectionMode) {
-        if (selection.selected.has(focused)) {
+        if (selection.has(focused)) {
           this.shiftSelectionMode = 'deleting';
         } else {
           this.shiftSelectionMode = 'adding';
@@ -172,12 +163,10 @@ class Table extends Component {
       }
 
       if (this.shiftSelectionMode === 'deleting') {
-        selection.selected.delete(focused);
+        this.props.onSelect(selection.delete(focused));
       } else if (this.shiftSelectionMode === 'adding') {
-        selection.selected.add(focused);
+        this.props.onSelect(selection.add(focused));
       }
-
-      this.props.onSelect(selection);
     } else {
       this.shiftSelectionMode = 'adding';
     }
@@ -190,9 +179,8 @@ class Table extends Component {
   onShiftUpPress = () => {
     this.shiftSelectRow();
 
-    const selection = new Selection(this.props.selection);
-    selection.focused = this.getPrevRow();
-    this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    onSelect(selection.setFocus(this.getPrevRow()));
 
     this.setState({disabledHover: true});
   }
@@ -200,80 +188,85 @@ class Table extends Component {
   onShiftDownPress = () => {
     this.shiftSelectRow();
 
-    const selection = new Selection(this.props.selection);
-    selection.focused = this.getNextRow();
-    this.props.onSelect(selection);
+    const {selection, onSelect} = this.props;
+    onSelect(selection.setFocus(this.getNextRow()));
 
     this.setState({disabledHover: true});
   }
 
   onHomePress = () => {
-    const {data} = this.props;
-    const selection = new Selection(this.props.selection);
-    selection.focused = data[0];
-    this.props.onSelect(selection);
-
+    const {data, selection, onSelect} = this.props;
+    onSelect(selection.setFocus(data[0]));
     this.setState({disabledHover: true});
-
     return false;
   }
 
   onEndPress = () => {
-    const {data} = this.props;
-    const selection = new Selection(this.props.selection);
-    selection.focused = data[data.length - 1];
-    this.props.onSelect(selection);
-
+    const {data, selection, onSelect} = this.props;
+    onSelect(selection.setFocus(data[data.length - 1]));
     this.setState({disabledHover: true});
-
     return false;
   }
 
   onSpacePress = () => {
-    const {focused} = this.props.selection;
+    const {selection, onSelect} = this.props;
+    const focused = this.props.selection.getFocus();
+
     if (focused) {
+      onSelect(selection.toggle(focused));
       this.setState({disabledHover: true});
-      this.onRowSelect(focused);
       return false;
     }
+
     return true;
   }
 
   onEscPress = () => {
-    this.setState({
-      hoveredRow: undefined,
-      disabledHover: true
-    });
-
-    this.props.onSelect(new Selection());
-    this.props.onFocusReset();
+    const {onSelect, onFocusReset} = this.props;
+    this.setState({hoveredRow: undefined, disabledHover: true});
+    onSelect(new Selection());
+    onFocusReset();
   }
 
   onCmdAPress = () => {
-    const selection = new Selection(this.props.selection);
-    selection.selected = new Set(this.props.data);
-    this.props.onSelect(selection);
+    const {data, onSelect, selection} = this.props;
+
+    const focused = selection.getFocus();
+    const selected = new Set(data);
+    onSelect(new Selection({selected, focused}));
+
     this.setState({disabledHover: true});
+
     return false;
   }
 
   onCheckboxChange = checked => {
-    const selection = new Selection();
+    const {data, onSelect, onFocusReset} = this.props;
+    let selected;
+
     if (checked) {
-      selection.selected = new Set(this.props.data);
+      selected = new Set(data);
+    } else {
+      selected = new Set();
     }
-    this.props.onSelect(selection);
+
+    onSelect(new Selection({selected}));
+    onFocusReset();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.data !== nextProps.data) {
-      this.props.onSelect(new Selection());
+    const {data, selection, onSelect, selectable, focused} = this.props;
+
+    if (data !== nextProps.data) {
+      onSelect(new Selection());
     }
 
-    if (this.props.focused !== nextProps.focused && !nextProps.focused) {
-      const selection = new Selection(this.props.selection);
-      selection.focused = undefined;
-      this.props.onSelect(selection);
+    if (!nextProps.selectable && nextProps.selectable !== selectable) {
+      onSelect(new Selection({focused: selection.getFocus()}));
+    }
+
+    if (!nextProps.focused && nextProps.focused !== focused) {
+      onSelect(selection.setFocus(undefined));
     }
 
     const shortcuts = nextProps.selectable && nextProps.focused;
@@ -333,7 +326,7 @@ class Table extends Component {
     });
 
     const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
-    headerProps.checked = selection.selected.size === data.length;
+    headerProps.checked = selection.size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
@@ -343,7 +336,7 @@ class Table extends Component {
 
     const classes = classNames(this.props.className, {
       [style.table]: true,
-      [style.multiSelection]: selection.selected.size > 0,
+      [style.multiSelection]: selection.size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
       [style.disabledHover]: this.state.disabledHover,
       [style.selectable]: selectable
@@ -365,8 +358,8 @@ class Table extends Component {
                 item,
                 columns,
                 selectable,
-                focused: selection.focused === item,
-                selected: selection.selected.has(item),
+                focused: selection.getFocus() === item,
+                selected: selectable && selection.has(item),
                 onHover: this.onRowHover,
                 onFocus: this.onRowFocus,
                 onSelect: this.onRowSelect
