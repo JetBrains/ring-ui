@@ -2,7 +2,7 @@ import 'dom4';
 
 import {getStyles, getRect} from '../dom/dom';
 import RingAngularComponent from '../ring-angular-component/ring-angular-component';
-import shortcuts from '../shortcuts/shortcuts';
+import shortcuts from '../shortcuts/core';
 import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
@@ -206,15 +206,25 @@ class DialogController extends RingAngularComponent {
     this.hide();
   }
 
+  getErrorMessage(errorResponse) {
+    if (errorResponse.data && errorResponse.data.error_description) {
+      return errorResponse.data.error_description;
+    }
+
+    return errorResponse;
+  }
+
   action(button) {
     if (button.inProgress) {
       return undefined;
     }
 
+    const errorReporter = errorResponse => {
+      this.error = this.getErrorMessage(errorResponse);
+    };
+
     if (button.action) {
-      const actionResult = button.action(this.data, button, errorMessage => {
-        this.error = errorMessage;
-      }, this.dialogForm, this.buttons);
+      const actionResult = button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
 
       button.inProgress = true;
 
@@ -226,9 +236,7 @@ class DialogController extends RingAngularComponent {
             this.done(res);
           }
         }).
-        catch(errorMessage => {
-          this.error = errorMessage;
-        }).
+        catch(errorReporter).
         finally(() => {
           button.inProgress = false;
         });
