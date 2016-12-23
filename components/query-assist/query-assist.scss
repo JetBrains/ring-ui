@@ -9,12 +9,28 @@
 }
 
 .ring-query-assist__input {
-  z-index: 1;
   padding-top: 2px;
 
   overflow: hidden;
   white-space: nowrap;
   background: transparent;
+
+  position: relative;
+  top: 1px;
+  left: 1px;
+
+  &.ring-query-assist__input {
+    box-shadow: 0 0 0 1px $ring-gray-color;
+    border-color: transparent;
+    height: $ring-unit*3 - 2;
+    width: calc(100% - 2px);
+    border-width: 0;
+
+    &:active, &:focus {
+      box-shadow: 0 0 0 1px $ring-blue-color;
+      border-color: transparent;
+    }
+  }
 
   &.ring-query-assist__input_gap {
     border-right-width: $ring-unit*3;
@@ -38,10 +54,6 @@
   color: #9C9C9C;
   font-size: $ring-font-size;
   line-height: 20px;
-}
-
-.ring-query-assist__letter {
-  padding-top: 2px;
 }
 
 .ring-query-assist__letter_text {
@@ -74,7 +86,6 @@
   width: $ring-unit*2;
 
   padding: 3px 4px 3px 5px;
-  background-color: #FFF;
 
   cursor: pointer;
   user-select: none;

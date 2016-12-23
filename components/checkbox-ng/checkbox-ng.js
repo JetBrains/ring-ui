@@ -2,7 +2,7 @@ import '../icon-ng/icon-ng';
 
 import '../checkbox/checkbox.scss';
 
-import '../proxy-attrs-ng/proxy-attrs-ng';
+import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 /**
  * @name Checkbox Ng
@@ -77,12 +77,12 @@ import '../proxy-attrs-ng/proxy-attrs-ng';
    </example>
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.checkbox', ['Ring.icon', 'Ring.proxy-attrs']);
+const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-angularModule.directive('rgCheckbox', proxyAttrs => ({
+angularModule.directive('rgCheckbox', () => ({
   restrict: 'E',
   transclude: true,
   replace: true,

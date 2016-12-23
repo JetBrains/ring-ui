@@ -1,18 +1,15 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
 import 'core-js/modules/es6.number.is-finite';
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-import DefaultRenderer from './renderer-default';
-import NumberRenderer from './renderer-number';
-import CheckboxRenderer from './renderer-checkbox';
+import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
-export default class Row extends RingComponent {
+export default class Row extends Component {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -62,7 +59,7 @@ export default class Row extends RingComponent {
     this.refs.row.focus();
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const {props: {focused}, refs: {row}} = this;
     if (focused && !prevProps.focused) {
       row.focus();
@@ -83,7 +80,7 @@ export default class Row extends RingComponent {
 
     if (selectable) {
       const checkboxCell = (
-        <CheckboxRenderer key="checkbox">
+        <Cell key="checkbox" className={style.cellCheckbox}>
           <Checkbox
             className={focused ? 'ring-checkbox_focus' : ''}
             checked={selected}
@@ -91,7 +88,7 @@ export default class Row extends RingComponent {
             onFocus={this.onCheckboxFocus}
             tabIndex="-1"
           />
-        </CheckboxRenderer>
+        </Cell>
       );
       cells.push(checkboxCell);
     }
@@ -99,16 +96,6 @@ export default class Row extends RingComponent {
     columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
-
-      let Renderer = column.renderer;
-
-      if (!Renderer) {
-        if (Number.isFinite(value)) {
-          Renderer = NumberRenderer;
-        } else {
-          Renderer = DefaultRenderer;
-        }
-      }
 
       /*let gap = 0;
       if (column.groupable) {
@@ -119,7 +106,8 @@ export default class Row extends RingComponent {
         paddingLeft: `${gap + 10}px`
       };*/
 
-      cells.push(<Renderer key={key}>{value}</Renderer>);
+      const cellClasses = classNames({[style.cellRight]: Number.isFinite(value)});
+      cells.push(<Cell key={key} className={cellClasses}>{value}</Cell>);
     });
 
     return (

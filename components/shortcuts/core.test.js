@@ -1,5 +1,5 @@
 import simulateKeypress from 'simulate-keypress';
-import shortcuts from './shortcuts';
+import shortcuts from './core';
 import sniffr from '../sniffer/sniffer';
 
 describe('Shortcuts', () => {
