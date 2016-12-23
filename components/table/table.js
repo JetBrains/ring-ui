@@ -77,6 +77,13 @@ class Table extends Component {
     }
   }
 
+  onKeyDown = e => {
+    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
+    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
+      this.setState({disabledHover: true});
+    }
+  }
+
   onRowHover = row => {
     if (this.state.hoveredRow !== row) {
       this.setState({hoveredRow: row});
@@ -134,18 +141,12 @@ class Table extends Component {
   onUpPress = () => {
     const {selection, onSelect} = this.props;
     onSelect(selection.setFocus(this.getPrevRow()));
-
-    this.setState({disabledHover: true});
-
     return false;
   }
 
   onDownPress = () => {
     const {selection, onSelect} = this.props;
     onSelect(selection.setFocus(this.getNextRow()));
-
-    this.setState({disabledHover: true});
-
     return false;
   }
 
@@ -181,8 +182,6 @@ class Table extends Component {
 
     const {selection, onSelect} = this.props;
     onSelect(selection.setFocus(this.getPrevRow()));
-
-    this.setState({disabledHover: true});
   }
 
   onShiftDownPress = () => {
@@ -190,21 +189,17 @@ class Table extends Component {
 
     const {selection, onSelect} = this.props;
     onSelect(selection.setFocus(this.getNextRow()));
-
-    this.setState({disabledHover: true});
   }
 
   onHomePress = () => {
     const {data, selection, onSelect} = this.props;
     onSelect(selection.setFocus(data[0]));
-    this.setState({disabledHover: true});
     return false;
   }
 
   onEndPress = () => {
     const {data, selection, onSelect} = this.props;
     onSelect(selection.setFocus(data[data.length - 1]));
-    this.setState({disabledHover: true});
     return false;
   }
 
@@ -214,7 +209,6 @@ class Table extends Component {
 
     if (focused) {
       onSelect(selection.toggle(focused));
-      this.setState({disabledHover: true});
       return false;
     }
 
@@ -223,7 +217,7 @@ class Table extends Component {
 
   onEscPress = () => {
     const {onSelect, onFocusReset} = this.props;
-    this.setState({hoveredRow: undefined, disabledHover: true});
+    this.setState({hoveredRow: undefined});
     onSelect(new Selection());
     onFocusReset();
   }
@@ -234,8 +228,6 @@ class Table extends Component {
     const focused = selection.getFocus();
     const selected = new Set(data);
     onSelect(new Selection({selected, focused}));
-
-    this.setState({disabledHover: true});
 
     return false;
   }
@@ -278,11 +270,13 @@ class Table extends Component {
   componentDidMount() {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('keydown', this.onKeyDown, true);
   }
 
   componentWillMount() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
   render() {
