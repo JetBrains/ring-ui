@@ -22,6 +22,11 @@ config.devtool = 'eval';
 config.plugins = [
   new webpack.ProvidePlugin({
     fetch: '!exports?self.fetch!imports?self=>{},Promise=core-js/es6/promise!whatwg-fetch'
+  }),
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: '"development"'
+    }
   })
 ];
 
