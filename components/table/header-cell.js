@@ -1,17 +1,15 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Icon from '../icon/icon';
 
 import style from './table.css';
 
-export default class HeaderCell extends RingComponent {
+export default class HeaderCell extends Component {
   static propTypes = {
     className: PropTypes.string,
-    colSpan: PropTypes.number,
     tiny: PropTypes.bool,
     column: PropTypes.object.isRequired,
     onSort: PropTypes.func,
@@ -20,13 +18,12 @@ export default class HeaderCell extends RingComponent {
   }
 
   static defaultProps = {
-    colSpan: 1,
     tiny: false,
     onSort: () => {}
   }
 
   render() {
-    const {colSpan, tiny, column, sortKey, sortOrder} = this.props;
+    const {className, tiny, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
@@ -41,14 +38,14 @@ export default class HeaderCell extends RingComponent {
       }
     };
 
-    const classes = classNames(this.props.className, {
+    const classes = classNames(className, {
       [style.headerCell]: true,
       [style.headerCellSortable]: this.sortable,
       [style.headerCellSorted]: this.sorted
     });
 
     return (
-      <th className={classes} colSpan={colSpan} onClick={::this.onClick}>
+      <th {...restProps} className={classes} onClick={::this.onClick}>
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
         <span className={style.sorter}>

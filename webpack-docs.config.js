@@ -15,7 +15,6 @@ const createEntriesList = require('./site/create-entries-list');
 
 const isServer = process.argv.includes('--server');
 
-const nodeModulesPath = path.join(__dirname, 'node_modules');
 const publicPath = '/';
 const componentsPath = path.resolve(__dirname, 'components');
 
@@ -88,7 +87,10 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       // For github-markdown-css
       {
         test: /\.css$/,
-        include: nodeModulesPath,
+        include: [
+          path.resolve('./node_modules/github-markdown-css'),
+          path.resolve('./node_modules/highlight.js')
+        ],
         loaders: [
           'style',
           'css'
