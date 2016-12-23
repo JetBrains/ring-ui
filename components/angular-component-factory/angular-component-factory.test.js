@@ -73,7 +73,21 @@ describe('angularComponentFactory', () => {
     component.should.have.attribute('data-some-obj', 'test value');
   });
 
-  it('should use string binding for stgin props', () => {
+  it('should warn if one modify inner properties of passed object', function () {
+    this.sinon.stub(console, 'warn');
+
+    $rootScope.testObj = {
+      foo: 'bar'
+    };
+
+    $compile('<rg-test-component some-obj="testObj"></rg-test-component>')($rootScope);
+
+    $rootScope.testObj.foo = 'test-value';
+
+    console.warn.should.have.been.called;
+  });
+
+  it('should use string binding for string props', () => {
     $rootScope.id = '1';
     const $element = $compile('<rg-test-component id="{{id}}"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
