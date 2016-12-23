@@ -34,7 +34,7 @@ export default class Header extends Component {
 
     const headerCells = [];
 
-    if (selectable && !caption) {
+    if (selectable) {
       headerCells.push(
         <th key="checkbox" className={classNames(style.headerCell, style.cellCheckbox)}>
           <Checkbox
