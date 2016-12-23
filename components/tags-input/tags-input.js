@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
@@ -33,7 +33,12 @@ export default class TagsInput extends RingComponentWithShortcuts {
     dataSource: React.PropTypes.func,
     onAddTag: React.PropTypes.func,
     onRemoveTag: React.PropTypes.func,
-    customTagComponent: React.PropTypes.func,
+    customTagComponent: (props, propName, componentName) => {
+      if (props[propName] && !props[propName].prototype instanceof Component) {
+        return new Error(`Invalid prop ${propName} supplied to ${componentName}. Validation failed.`);
+      }
+      return null;
+    },
     maxPopupHeight: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     canNotBeEmpty: React.PropTypes.bool,

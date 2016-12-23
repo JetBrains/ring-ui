@@ -10,18 +10,18 @@
     "jetbrains/test"
   ],
   "rules": {
-    "modules/no-mix-default-named": 0,
+    "modules/no-mix-default-named": "off",
     // Possible Errors
-    "valid-jsdoc": 1,
+    "valid-jsdoc": "warn",
 
     // Best Practices
-    "complexity": [0, 5],
-    "no-magic-numbers": [1, { "ignore": [-1, 0, 1] }],
+    "complexity": ["off", 5],
+    "no-magic-numbers": ["warn", { "ignore": [-1, 0, 1] }],
 
     // Stylistic Issues
-    "func-names": 1,
+    "func-names": "warn",
 
     // Angular
-    "angular/directive-name": [2, "rg"]
+    "angular/directive-name": ["error", "rg"]
   }
 }

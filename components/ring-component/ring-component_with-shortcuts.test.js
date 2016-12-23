@@ -7,7 +7,7 @@ import simulateKeypress from 'simulate-keypress';
 import guid from 'mout/random/guid';
 
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
-import shortcuts from '../shortcuts/shortcuts';
+import shortcuts from '../shortcuts/core';
 
 describe('Ring Component With Shortcuts', () => {
   //const component;

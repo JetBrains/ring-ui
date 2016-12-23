@@ -3,20 +3,11 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 
-import proxyAttrsModule from './proxy-attrs-ng';
+import proxyAttrs from './proxy-attrs';
 
 describe('Proxy attrs Ng', () => {
-  let proxyAttrs;
-
   const ngModelValue = 'wow';
   const ngDisabledValue = '!getDisabledState()';
-
-  beforeEach(window.module(proxyAttrsModule));
-
-  /* global inject */
-  beforeEach(inject(_proxyAttrs_ => {
-    proxyAttrs = _proxyAttrs_;
-  }));
 
   it('should return untouched template if there in nothing to replace', () => {
     const sourceTemplate = '<span><button data-proxy-ng-model>Some text</button><span>';
@@ -82,33 +73,5 @@ describe('Proxy attrs Ng', () => {
       replace(/data-proxy-ng-model/g, `ng-model="${ngModelValue}"`);
 
     expect(replacedTemplate).to.be.equal(expectedTemplate);
-  });
-
-  it('should proxy attribute value to other attribute', () => {
-    const sourceTemplate = '<span><button my-own-model="%data-x-model%">Some text</button><span>';
-    const replacedTemplate = proxyAttrs(sourceTemplate)({}, {dataXModel: ngModelValue, $attr: {dataXModel: 'data-x-model'}});
-
-    expect(replacedTemplate).to.be.equal(sourceTemplate.replace('%data-x-model%', ngModelValue));
-  });
-
-  it('should proxy attribute value to many placeholders', () => {
-    const sourceTemplate = '<span><button my-own-model="%data-x-model%" my-other-model="%data-x-model%">%data-x-model%</button><span>';
-    const replacedTemplate = proxyAttrs(sourceTemplate)({}, {dataXModel: ngModelValue, $attr: {dataXModel: 'data-x-model'}});
-
-    expect(replacedTemplate).to.be.equal(sourceTemplate.replace(/%data-x-model%/g, ngModelValue));
-  });
-
-  it('should clean unused placeholders with their attributes', () => {
-    const sourceTemplate = '<span><button my-own-model="%data-x-model%" my-other-model="%data-x-model%">Some text</button><span>';
-    const replacedTemplate = proxyAttrs(sourceTemplate)({}, {$attr: {}});
-
-    expect(replacedTemplate).to.be.equal(sourceTemplate.replace('my-own-model="%data-x-model%"', '').replace('my-other-model="%data-x-model%"', ''));
-  });
-
-  it('should clean unused placeholders', () => {
-    const sourceTemplate = '<span><button>%data-x-model%</button><span>';
-    const replacedTemplate = proxyAttrs(sourceTemplate)({}, {$attr: {}});
-
-    expect(replacedTemplate).to.be.equal(sourceTemplate.replace('%data-x-model%', ''));
   });
 });

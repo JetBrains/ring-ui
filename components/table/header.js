@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import style from './table.css';
@@ -9,7 +8,7 @@ import style from './table.css';
 import HeaderCell from './header-cell';
 import Checkbox from '../checkbox/checkbox';
 
-export default class Header extends RingComponent {
+export default class Header extends Component {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
