@@ -1,13 +1,5 @@
 @value global: '../global/global.css';
-@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color from global;
-
-@value dirty-blue-color: #D4EDFA;
-
-@value table-border-color: #E6E6E6;
-@value table-background-color: #F0F0F0;
-@value table-header-background-color: #EBEBEB;
-@value table-caption-border-color: #DBDBDB;
-@value box-shadow-color: #F7F7F7;
+@value unit, text-color, border-hover-color, dark-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower from global;
 
 .tableWrapper {
   position: relative;
@@ -37,14 +29,19 @@
 
 .headerCell {
   & {
+    composes: font-smaller-lower;
+    color: dark-gray-color;
     font-weight: normal;
     text-align: left;
     white-space: nowrap;
-    padding: 0 calc(unit * 2.5);
+    height: calc(unit * 3);
+    padding-right: calc(unit * 5);
+    box-sizing: border-box;
+    box-shadow: inset 0px -1px 0px 0px line-color;
   }
 
   &:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(unit * 2);
   }
 
   &:last-child {
@@ -70,83 +67,39 @@
   }
 
   & .sorter .icon {
-    top: -2px;
+    top: -1px;
   }
 }
 
 .header {
-  & {
-    color: dark-gray-color;
-    background-color: table-header-background-color;
-  }
-
-  & .headerCell {
-    height: calc(unit * 5 + 1);
-    box-sizing: border-box;
-    border-top: 1px solid table-border-color;
-    box-shadow: inset 0px 1px 0px 0px box-shadow-color;
-  }
-
-  & .caption {
-    text-transform: uppercase;
-    letter-spacing: .2em;
-  }
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.subHeader {
-  & {
-    font-size: 12px;
-    color: gray-color;
-    background-color: table-border-color;
-  }
-
-  & .headerCell {
-    height: 25px;
-    box-sizing: border-box;
-    border-top: 1px solid table-caption-border-color;
-  }
-
-  & .headerCell:first-child {
-    padding-left: calc(unit * 4);
-  }
+.caption {
+  height: calc(unit * 4);
+  composes: font-smaller-lower;
+  color: text-color;
 }
-
 
 .row {
   & {
     outline: none;
-    background-color: table-background-color;
+    transition: background-color 0.15s ease-out;
   }
 
   @nest .table:not(.disabledHover) &:hover {
-    background-color: #FFF;
+    background-color: selected-background-color;
+    transition: none;
   }
 
   @nest .table:not(.multiSelection) &:focus,
   &.rowSelected {
-    background-color: light-blue-color;
+    background-color: sidebar-background-color;
   }
 
-  & .cell {
-    border: 1px none table-border-color;
-    border-top-style: solid;
-  }
-
-  &:last-child .cell {
-    border-bottom-style: solid;
-  }
-
-  &:focus .cell {
-    border-color: blue-color;
-    border-bottom-style: solid;
-  }
-
-  &:focus + .row .cell {
-    border-top-style: none;
-  }
-
-  &.rowSelected:not(:focus) + .rowSelected:not(:focus) .cell {
-    border-top-color: dirty-blue-color;
+  &:focus {
+    box-shadow: inset 0 0 0 2px border-hover-color;
   }
 }
 
@@ -154,20 +107,19 @@
 .cell {
   & {
     color: text-color;
-    white-space: nowrap;
 
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    height: calc(unit * 5);
-    min-width: 80px;
+    height: calc(unit * 4);
+    min-width: calc(unit * 10);
     box-sizing: content-box;
-    padding: 0 calc(unit * 2.5);
+    padding-right: calc(unit * 5);
   }
 
   &:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(unit * 2);
   }
 
   &:last-child {
@@ -175,14 +127,10 @@
     width: 100%;
   }
 
-  @nest .table:not(.selectable) &:nth-child(1) {
-    min-width: 320px;
-    max-width: 640px;
-  }
-
-  @nest .table.selectable &:nth-child(2) {
-    min-width: 320px;
-    max-width: 640px;
+  @nest .table:not(.selectable) &:nth-child(1),
+  .table.selectable &:nth-child(2) {
+    min-width: calc(unit * 40);
+    max-width: calc(unit * 80);
   }
 }
 
