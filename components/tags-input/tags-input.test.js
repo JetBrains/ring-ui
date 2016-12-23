@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import TagsInput from './tags-input';
