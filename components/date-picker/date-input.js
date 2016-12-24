@@ -1,9 +1,10 @@
 import React, {PropTypes} from 'react';
-import classNames from 'classnames';
+import {findDOMNode} from 'react-dom';
+
+import Input from '../input/input';
 
 import {dateType} from './consts';
 
-import '../input-legacy/input-legacy.scss';
 import styles from './date-picker.css';
 
 export default function DateInput({
@@ -26,8 +27,9 @@ export default function DateInput({
   }
 
   return (
-    <input
-      ref={el => {
+    <Input
+      ref={rgEl => {
+        const el = findDOMNode(rgEl);
         if (!el) {
           return;
         }
@@ -39,7 +41,7 @@ export default function DateInput({
           el.blur();
         }
       }}
-      className={classNames('ring-input', styles.input)}
+      className={styles.input}
       value={displayText}
       onChange={e => onInput(e.target.value)}
       onFocus={onActivate}
