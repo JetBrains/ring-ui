@@ -1,16 +1,17 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
+import scheduleRAF from '../global/schedule-raf';
+import linearFunction from '../global/linear-function';
 
 import Month from './month';
 import MonthNames from './month-names';
 
 import styles from './date-picker.css';
 
-import units, {weekdays, linear, scheduleRAF} from './consts';
+import units, {weekdays, WEEK, DOUBLE, HALF} from './consts';
 const {unit, cellSize, calHeight} = units;
 
-const WEEK = 7;
-const FRIDAYTOSUNDAY = WEEK + weekdays.SU - weekdays.FR;
+const FridayToSunday = WEEK + weekdays.SU - weekdays.FR;
 const FIVELINES = 31;
 const TALLMONTH = 6;
 const SHORTMONTH = 5;
@@ -20,7 +21,7 @@ const MONTHSBACK = 2;
 
 function monthHeight(date) {
   const monthStart = moment(date).startOf('month');
-  const daysSinceLastFriday = (monthStart.day() + FRIDAYTOSUNDAY) % WEEK;
+  const daysSinceLastFriday = (monthStart.day() + FridayToSunday) % WEEK;
   const monthLines = daysSinceLastFriday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
   return monthLines * cellSize + unit * PADDING;
 }
@@ -42,7 +43,7 @@ export default function Months(props) {
     clone().
     subtract(MONTHSBACK, 'months');
   const months = [month];
-  for (let i = 0; i < MONTHSBACK * 2; i++) {
+  for (let i = 0; i < MONTHSBACK * DOUBLE; i++) {
     month = month.
       clone().
       add(1, 'month');
@@ -50,7 +51,7 @@ export default function Months(props) {
   }
 
   const currentSpeed = scrollSpeed(scrollDate);
-  const pxToDate = linear(0, scrollDate, currentSpeed);
+  const pxToDate = linearFunction(0, scrollDate, currentSpeed);
   const offset = pxToDate.x(monthStart); // is a negative number
   const bottomOffset = monthHeight(scrollDate) + offset;
 
@@ -79,7 +80,7 @@ export default function Months(props) {
     >
       <div
         style={{
-          top: Math.floor(calHeight / 2 - monthHeight(months[0]) - monthHeight(months[1]) + offset)
+          top: Math.floor(calHeight * HALF - monthHeight(months[0]) - monthHeight(months[1]) + offset)
         }}
         className={styles.days}
       >

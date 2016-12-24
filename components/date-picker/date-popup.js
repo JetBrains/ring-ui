@@ -12,7 +12,7 @@ import {dateType, parseDate} from './consts';
 import styles from './date-picker.css';
 import '../popup/popup.scss';
 
-const DELAYTIME = 10;
+const scrollExpDelay = 10;
 
 export default class DatePopup extends RingComponent {
   static defaultProps = {
@@ -121,7 +121,7 @@ export default class DatePopup extends RingComponent {
     if (this._scrollTS) {
       const diff = goal - current;
       const dt = moment() - this._scrollTS;
-      const next = goal - diff * Math.E ** (-dt / DELAYTIME);
+      const next = goal - diff * Math.E ** (-dt / scrollExpDelay);
       this.setState({scrollDate: next});
     }
 
