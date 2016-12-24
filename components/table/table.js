@@ -53,7 +53,6 @@ class Table extends Component {
   }
 
   state = {
-    hoveredRow: undefined,
     shortcuts: this.props.selectable && this.props.focused,
     userSelectNone: false,
     disabledHover: false
@@ -81,12 +80,6 @@ class Table extends Component {
     const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
     if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
       this.setState({disabledHover: true});
-    }
-  }
-
-  onRowHover = row => {
-    if (this.state.hoveredRow !== row) {
-      this.setState({hoveredRow: row});
     }
   }
 
@@ -164,7 +157,6 @@ class Table extends Component {
 
   onEscPress = () => {
     const {selection, onSelect, onFocusReset} = this.props;
-    this.setState({hoveredRow: undefined});
     onSelect(selection.reset());
     onFocusReset();
   }
@@ -295,7 +287,6 @@ class Table extends Component {
                 selectable,
                 focused: selection.isFocused(item),
                 selected: selectable && selection.isSelected(item),
-                onHover: this.onRowHover,
                 onFocus: this.onRowFocus,
                 onSelect: this.onRowSelect
               };
