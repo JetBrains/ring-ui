@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
+
+import Input from '../input/input';
 
 import {dateType} from './consts';
 
-import '../input/input.scss';
 import styles from './date-picker.css';
 
 export default function DateInput({
@@ -26,8 +28,9 @@ export default function DateInput({
   }
 
   return (
-    <input
-      ref={el => {
+    <Input
+      ref={rgEl => {
+        const el = findDOMNode(rgEl);
         if (!el) {
           return;
         }
