@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
-import classNames from 'classnames';
 
 import Input from '../input/input';
 
@@ -42,7 +41,7 @@ export default function DateInput({
           el.blur();
         }
       }}
-      className={classNames('ring-input', styles.input)}
+      className={styles.input}
       value={displayText}
       onChange={e => onInput(e.target.value)}
       onFocus={onActivate}
