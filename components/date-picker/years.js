@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import linearFunction from '../global/linear-function';
 
 import RingComponent from '../ring-component/ring-component';
 
 import styles from './date-picker.css';
 
-import units, {yearDuration, linear, dateType} from './consts';
+import units, {yearDuration, dateType, DOUBLE, HALF} from './consts';
 const {yearHeight, calHeight} = units;
 
 let scrollTO;
@@ -48,21 +49,21 @@ export default class Years extends RingComponent {
       clone().
       subtract(YEARSBACK, 'years');
     const years = [year];
-    for (let i = 0; i < YEARSBACK * 2; i++) {
+    for (let i = 0; i < YEARSBACK * DOUBLE; i++) {
       year = year.
         clone().
         add(1, 'year');
       years.push(year);
     }
 
-    const pxToDate = linear(0, years[0], yearDuration / yearHeight);
+    const pxToDate = linearFunction(0, years[0], yearDuration / yearHeight);
 
     return (
       <div
         className={styles.years}
         onWheel={e => {
           e.preventDefault();
-          const scrollDate = linear(0, date, yearDuration / yearHeight).
+          const scrollDate = linearFunction(0, date, yearDuration / yearHeight).
             y(e.deltaY);
           this.setState({scrollDate});
           if (scrollTO) {
@@ -73,7 +74,7 @@ export default class Years extends RingComponent {
 
         style={{
           transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
-          top: Math.floor(calHeight / 2 - pxToDate.x(date))
+          top: Math.floor(calHeight * HALF - pxToDate.x(date))
         }}
       >
         {years.map(item => (

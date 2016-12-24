@@ -111,6 +111,10 @@
   font-weight: bold;
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
   width: calc(unit * 12);
+  @supports (flex-basis: 1px) {
+    flex-basis: calc(unit * 12);
+    width: auto;
+  }
   padding-left: calc(unit * 0.5);
 }
 
