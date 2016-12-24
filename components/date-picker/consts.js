@@ -13,8 +13,8 @@ const units = ['unit', 'cellSize', 'calHeight', 'yearHeight'].
 
 export default units;
 
-export const yearDuration = +moment.duration(1, 'year');
-
+export const YEAR = 12;
+export const WEEK = 7;
 export const weekdays = {
   MO: 1,
   TU: 2,
@@ -24,6 +24,12 @@ export const weekdays = {
   SA: 6,
   SU: 0
 };
+
+export const yearDuration = +moment.duration(1, 'year');
+export const yearScrollSpeed = yearDuration / (YEAR * units.cellSize);
+
+export const DOUBLE = 2;
+export const HALF = 0.5;
 
 export function linear(x0, y0, a) {
   return {
@@ -50,21 +56,6 @@ export const dateType = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number
 ]);
-
-export function scheduleRAF() {
-  let scheduledCb;
-  let RAF;
-  return function schedule(cb) {
-    scheduledCb = cb;
-    if (!RAF) {
-      RAF = window.requestAnimationFrame(() => {
-        scheduledCb();
-        RAF = null;
-        scheduledCb = null;
-      });
-    }
-  };
-}
 
 const parsed = Object.create(null);
 export function parseDate(text, ...addFormats) {

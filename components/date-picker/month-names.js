@@ -1,14 +1,13 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import linearFunction from '../global/linear-function';
 
-import MonthSlider, {speed} from './month-slider';
+import MonthSlider from './month-slider';
 
-import {linear, dateType} from './consts';
+import {dateType, YEAR, yearScrollSpeed, HALF} from './consts';
 
 import styles from './date-picker.css';
-
-const YEAR = 12;
 
 export default function MonthNames(props) {
   const scrollDate = moment(props.scrollDate);
@@ -22,10 +21,10 @@ export default function MonthNames(props) {
     );
   }
 
-  const pxToDate = linear(
+  const pxToDate = linearFunction(
     0,
     moment(props.scrollDate).startOf('year'),
-    speed
+    yearScrollSpeed
   );
 
   let top = 0;
@@ -50,7 +49,7 @@ export default function MonthNames(props) {
             const end = month.
               clone().
               endOf('month');
-            props.onScrollChange((month + end) / 2);
+            props.onScrollChange((month + end) * HALF);
           }}
         >
           {month.format('MMM')}
@@ -61,7 +60,7 @@ export default function MonthNames(props) {
           className={styles.range}
           style={{
             top: top - 1,
-            height: bottom - top + 2
+            height: (bottom + 1) - (top - 1)
           }}
         />
       }
