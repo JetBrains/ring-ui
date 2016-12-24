@@ -1,7 +1,7 @@
 export default class Selection {
   _data = []
   _selected = new Set()
-  _focused = undefined
+  _focused = null
 
   constructor({data, selected, focused} = {}) {
     if (data) {
@@ -21,49 +21,76 @@ export default class Selection {
     return new this.constructor({data, selected, focused});
   }
 
-  getFocus() {
-    return this._focused;
-  }
-
-  setFocus(value) {
+  focus(value) {
     return this.cloneWith({focused: value});
   }
 
+  select(value = this._focused) {
+    if (value) {
+      const selected = new Set(this._selected);
+      selected.add(value);
+      return this.cloneWith({selected});
+    } else {
+      return this;
+    }
+  }
+
+  deselect(value = this._focused) {
+    if (value) {
+      const selected = new Set(this._selected);
+      selected.delete(value);
+      return this.cloneWith({selected});
+    } else {
+      return this;
+    }
+  }
+
+  toggleSelection(value = this._focused) {
+    if (value) {
+      const selected = new Set(this._selected);
+
+      if (selected.has(value)) {
+        selected.delete(value);
+      } else {
+        selected.add(value);
+      }
+
+      return this.cloneWith({selected});
+    } else {
+      return this;
+    }
+  }
+
+  selectAll() {
+    return this.cloneWith({selected: new Set(this._data)});
+  }
+
   resetFocus() {
-    return this.cloneWith({focused: undefined});
+    return this.cloneWith({focused: null});
   }
 
-  get size() {
-    return this._selected.size;
+  resetSelection() {
+    return this.cloneWith({selected: new Set()});
   }
 
-  has(value) {
+  reset() {
+    return this.resetFocus().resetSelection();
+  }
+
+  isFocused(value) {
+    return this._focused === value;
+  }
+
+  isSelected(value) {
     return this._selected.has(value);
   }
 
-  add(value) {
-    const selected = new Set(this._selected);
-    selected.add(value);
-    return this.cloneWith({selected});
+  getFocused() {
+    return this._focused;
   }
 
-  delete(value) {
-    const selected = new Set(this._selected);
-    selected.delete(value);
-
-    return this.cloneWith({selected});
-  }
-
-  toggle(value) {
-    const selected = new Set(this._selected);
-
-    if (selected.has(value)) {
-      selected.delete(value);
-    } else {
-      selected.add(value);
-    }
-
-    return this.cloneWith({selected});
+  getSelected() {
+    return new Set(this._selected);
   }
 
   getActive() {
