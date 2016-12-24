@@ -1,16 +1,15 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import linearFunction from '../global/linear-function';
 
 import RingComponent from '../ring-component/ring-component';
 
-import units, {yearDuration, linear, dateType} from './consts';
+import units, {dateType, yearScrollSpeed} from './consts';
 
 import styles from './date-picker.css';
 
-const YEAR = 12;
-
-export const speed = yearDuration / (YEAR * units.cellSize);
+const COVERYEARS = 3;
 
 export default class MonthSlider extends RingComponent {
   static propTypes = {
@@ -44,7 +43,7 @@ export default class MonthSlider extends RingComponent {
 
   onMouseMove(e) {
     this.props.onScroll(
-      linear(0, this.props.scrollDate, speed).y(e.movementY)
+      linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
     );
   }
 
@@ -63,7 +62,7 @@ export default class MonthSlider extends RingComponent {
       startOf('day').
       subtract(1, 'year');
     const years = [year];
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i <= COVERYEARS; i++) {
       year = year.
         clone().
         add(1, 'year');
