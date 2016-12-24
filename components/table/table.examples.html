@@ -73,7 +73,9 @@
         data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
         data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
-        this.setState({data});
+        const selection = new Selection({data});
+
+        this.setState({data, selection});
       }
 
       render() {
@@ -113,14 +115,14 @@
 
             <p>
               {
-                selection.has(data[3])
-                ? <Button onClick={() => this.setState({selection: selection.delete(data[3])})}>Deselect {data[3].country}</Button>
-                : <Button onClick={() => this.setState({selection: selection.add(data[3])})}>Select {data[3].country}</Button>
+                selection.isSelected(data[3])
+                ? <Button onClick={() => this.setState({selection: selection.deselect(data[3])})}>Deselect {data[3].country}</Button>
+                : <Button onClick={() => this.setState({selection: selection.select(data[3])})}>Select {data[3].country}</Button>
               }
               {
-                selection.has(data[5])
-                ? <Button onClick={() => this.setState({selection: selection.delete(data[5])})}>Deselect {data[5].country}</Button>
-                : <Button onClick={() => this.setState({selection: selection.add(data[5])})}>Select {data[5].country}</Button>
+                selection.isSelected(data[5])
+                ? <Button onClick={() => this.setState({selection: selection.deselect(data[5])})}>Deselect {data[5].country}</Button>
+                : <Button onClick={() => this.setState({selection: selection.select(data[5])})}>Select {data[5].country}</Button>
               }
             </p>
           </div>
