@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
 
 import RingComponent from '../ring-component/ring-component';
-import {Tabs} from './tabs';
+import Tabs from './dumb-tabs';
 
-export class SmartTabs extends RingComponent {
+export default class SmartTabs extends RingComponent {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     initSelected: PropTypes.string
@@ -28,5 +28,3 @@ export class SmartTabs extends RingComponent {
     );
   }
 }
-
-export {default as Tab} from './tab';
