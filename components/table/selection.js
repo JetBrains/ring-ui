@@ -25,6 +25,34 @@ export default class Selection {
     return this.cloneWith({focused: value});
   }
 
+  moveUp() {
+    const {_focused: focused, _data: data} = this;
+    if (focused) {
+      const prevItem = data[data.indexOf(focused) - 1];
+      if (prevItem) {
+        return this.cloneWith({focused: prevItem});
+      } else {
+        return this;
+      }
+    } else {
+      return this.cloneWith({focused: data[data.length - 1]});
+    }
+  }
+
+  moveDown() {
+    const {_focused: focused, _data: data} = this;
+    if (focused) {
+      const prevItem = data[data.indexOf(focused) + 1];
+      if (prevItem) {
+        return this.cloneWith({focused: prevItem});
+      } else {
+        return this;
+      }
+    } else {
+      return this.cloneWith({focused: data[0]});
+    }
+  }
+
   select(value = this._focused) {
     if (value) {
       const selected = new Set(this._selected);
