@@ -1,8 +1,13 @@
 export default class Selection {
+  _data = []
   _selected = new Set()
   _focused = undefined
 
-  constructor({selected, focused} = {}) {
+  constructor({data, selected, focused} = {}) {
+    if (data) {
+      this._data = data;
+    }
+
     if (selected) {
       this._selected = new Set(selected);
     }
@@ -12,12 +17,24 @@ export default class Selection {
     }
   }
 
+  cloneWith({data, selected, focused}) {
+    return new this.constructor({
+      data: data || this._data,
+      selected: selected || this._selected,
+      focused: focused || this._focused
+    });
+  }
+
   getFocus() {
     return this._focused;
   }
 
   setFocus(value) {
-    return new this.constructor({selected: this._selected, focused: value});
+    return this.cloneWith({focused: value});
+  }
+
+  resetFocus() {
+    return this.cloneWith({focused: undefined});
   }
 
   get size() {
@@ -29,25 +46,19 @@ export default class Selection {
   }
 
   add(value) {
-    const focused = this._focused;
     const selected = new Set(this._selected);
-
     selected.add(value);
-
-    return new this.constructor({selected, focused});
+    return this.cloneWith({selected});
   }
 
   delete(value) {
-    const focused = this._focused;
     const selected = new Set(this._selected);
-
     selected.delete(value);
 
-    return new this.constructor({selected, focused});
+    return this.cloneWith({selected});
   }
 
   toggle(value) {
-    const focused = this._focused;
     const selected = new Set(this._selected);
 
     if (selected.has(value)) {
@@ -56,7 +67,7 @@ export default class Selection {
       selected.add(value);
     }
 
-    return new this.constructor({selected, focused});
+    return this.cloneWith({selected});
   }
 
   getActive() {
