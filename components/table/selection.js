@@ -17,12 +17,8 @@ export default class Selection {
     }
   }
 
-  cloneWith({data, selected, focused}) {
-    return new this.constructor({
-      data: data || this._data,
-      selected: selected || this._selected,
-      focused: focused || this._focused
-    });
+  cloneWith({data = this._data, selected = this._selected, focused = this._focused}) {
+    return new this.constructor({data, selected, focused});
   }
 
   getFocus() {
