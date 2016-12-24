@@ -100,93 +100,48 @@ class Table extends Component {
     onSelect(selection.toggleSelection(row));
   }
 
-  getPrevRow = () => {
-    const {state: {hoveredRow}, props: {data}} = this;
-    const focused = this.props.selection.getFocused();
-
-    let result = data[0];
-
-    if (focused) {
-      const prevRow = data[data.indexOf(focused) - 1];
-      if (prevRow) {
-        result = prevRow;
-      }
-    } else if (hoveredRow) {
-      result = hoveredRow;
-    }
-
-    return result;
-  }
-
-  getNextRow = () => {
-    const {state: {hoveredRow}, props: {data}} = this;
-    const focused = this.props.selection.getFocused();
-
-    let result = data[data.length - 1];
-
-    if (focused) {
-      const nextRow = data[data.indexOf(focused) + 1];
-      if (nextRow) {
-        result = nextRow;
-      }
-    } else if (hoveredRow) {
-      result = hoveredRow;
-    }
-
-    return result;
-  }
-
   onUpPress = () => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(this.getPrevRow()));
+    onSelect(selection.moveUp());
     return false;
   }
 
   onDownPress = () => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(this.getNextRow()));
+    onSelect(selection.moveDown());
     return false;
   }
 
   shiftSelectRow = () => {
-    const {selection} = this.props;
-    const focused = selection.getFocused();
-
-    if (focused) {
-      if (!this.shiftSelectionMode) {
-        if (selection.isSelected(focused)) {
-          this.shiftSelectionMode = 'deleting';
-        } else {
-          this.shiftSelectionMode = 'adding';
-        }
-      }
-
-      if (this.shiftSelectionMode === 'deleting') {
-        this.props.onSelect(selection.deselect(focused));
-      } else if (this.shiftSelectionMode === 'adding') {
-        this.props.onSelect(selection.select(focused));
-      }
+    const {selection, onSelect} = this.props;
+    if (this.shiftSelectionMode === 'adding') {
+      onSelect(selection.select());
     } else {
-      this.shiftSelectionMode = 'adding';
+      onSelect(selection.deselect());
     }
   }
 
   onShiftKeyDown = () => {
-    Reflect.deleteProperty(this, 'shiftSelectionMode');
+    const {selection} = this.props;
+    if (selection.isSelected(selection.getFocused())) {
+      this.shiftSelectionMode = 'deleting';
+    } else {
+      this.shiftSelectionMode = 'adding';
+    }
   }
 
   onShiftUpPress = () => {
     this.shiftSelectRow();
 
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(this.getPrevRow()));
+    onSelect(selection.moveUp());
   }
 
   onShiftDownPress = () => {
     this.shiftSelectRow();
 
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(this.getNextRow()));
+    onSelect(selection.moveDown());
   }
 
   onHomePress = () => {
