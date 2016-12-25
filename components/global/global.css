@@ -47,6 +47,7 @@
 @value line-height-lowest: 16px;
 
 @value ease: 0.3s ease-out;
+@value fast-ease: 0.15s ease-out;
 
 .clearfix {
   &:after {
