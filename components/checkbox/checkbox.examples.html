@@ -29,43 +29,51 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var Checkbox = require('ring-ui/components/checkbox/checkbox');
+    import {render} from 'react-dom';
+    import React from 'react';
+    import Checkbox from 'ring-ui/components/checkbox/checkbox';
 
-    render(Checkbox.factory(), document.getElementById('checkbox'));
+    render(<Checkbox />, document.getElementById('checkbox'));
 
-    render(Checkbox.factory({
-      checked: true
-    }), document.getElementById('checkbox-selected'));
+    render(
+      <Checkbox defaultChecked={true} />,
+      document.getElementById('checkbox-selected')
+    );
 
-    render(Checkbox.factory({
-      checked: true
-    }), document.getElementById('checkbox-selected'));
+    render(
+      <Checkbox
+        defaultChecked={true}
+        disabled={true}
+      >This checkbox is disabled</Checkbox>,
+      document.getElementById('checkbox-disabled')
+    );
 
-    render(Checkbox.factory({
-      checked: true,
-      disabled: true,
-      label: 'This checkbox is disabled'
-    }), document.getElementById('checkbox-disabled'));
+    render(
+      <Checkbox
+        defaultChecked={true}
+      >This checkbox is inside div with large line-heigth.</Checkbox>,
+      document.getElementById('checkbox-in-large-line-height-div')
+    );
 
-    render(Checkbox.factory({
-      checked: true,
-      label: 'This checkbox is inside div with large line-heigth.'
-    }), document.getElementById('checkbox-in-large-line-height-div'));
+    render(
+      <Checkbox
+        defaultChecked={true}
+      >This checkbox is inside div with small line-heigth.</Checkbox>,
+      document.getElementById('checkbox-in-small-line-height-div')
+    );
 
-    render(Checkbox.factory({
-      checked: true,
-      label: 'This checkbox is inside div with small line-heigth.'
-    }), document.getElementById('checkbox-in-small-line-height-div'));
+    render(
+      <Checkbox
+        defaultChecked={true}
+      >This checkbox is inside div with large font-size.</Checkbox>,
+      document.getElementById('checkbox-in-large-font-div')
+    );
 
-    render(Checkbox.factory({
-      checked: true,
-      label: 'This checkbox is inside div with large font-size.'
-    }), document.getElementById('checkbox-in-large-font-div'));
-
-    render(Checkbox.factory({
-      checked: true,
-      label: 'This checkbox is inside div with small font-size.'
-    }), document.getElementById('checkbox-in-small-font-div'));
+    render(
+      <Checkbox
+        defaultChecked={true}
+      >This checkbox is inside div with small font-size.</Checkbox>,
+      document.getElementById('checkbox-in-small-font-div')
+    );
   </file>
 </example>

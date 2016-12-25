@@ -1,0 +1,89 @@
+@value unit, font-size, text-color, icon-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
+
+@value checkbox-size: 14px;
+
+.checkbox {
+  color: text-color;
+  text-align: left;
+  outline: none;
+  display: inline-block;
+  position: relative;
+}
+
+.input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+
+  & + .cell {
+    content: "";
+    pointer-events: none;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+    display: inline-block;
+    box-sizing: border-box;
+    width: checkbox-size;
+    height: checkbox-size;
+    border: 1px solid icon-color;
+    border-radius: 3px;
+    background: transparent;
+    user-select: none;
+    transition: all ease;
+
+    & .icon {
+      position: absolute;
+      top: calc(- unit * 1.5);
+      opacity: 0;
+      transition: all fast-ease;
+      left: -1px;
+      width: checkbox-size;
+      height: checkbox-size;
+
+      & svg {
+        position: absolute;
+      }
+    }
+  }
+
+  &[disabled] {
+    pointer-events: none;
+  }
+
+  &[disabled] ~ span {
+    filter: grayscale(1);
+    color: color(text-color alpha(-50%))
+  }
+
+  &:checked + .cell {
+    border-color: border-hover-color;
+    background-color: selected-background-color;
+
+    & .icon {
+      opacity: 1;
+      top: calc(- unit * 0.5);
+    }
+  }
+
+  &:focus + .cell,
+  &.focus + .cell {
+    transition: none;
+    border-color: border-hover-color;
+    box-shadow: 0 0 0 1px border-hover-color;
+  }
+
+  &:hover + .cell {
+    transition: none;
+    border-color: border-hover-color;
+  }
+}
+
+.label {
+  margin-left: unit;
+  line-height: normal;
+}
