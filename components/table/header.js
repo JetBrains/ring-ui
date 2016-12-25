@@ -39,7 +39,7 @@ export default class Header extends Component {
         <th key="checkbox" className={classNames(style.headerCell, style.cellCheckbox)}>
           <Checkbox
             checked={checked}
-            onChange={onCheckboxChange}
+            onChange={e => onCheckboxChange(e.target.checked)}
             onFocus={e => e.target.blur()}
           />
         </th>
@@ -50,9 +50,6 @@ export default class Header extends Component {
       const props = {key, column, onSort, sortKey, sortOrder};
       if (caption) {
         props.tiny = true;
-        if (selectable && key === 0) {
-          props.colSpan = 2;
-        }
       }
       headerCells.push(<HeaderCell {...props}/>);
     });

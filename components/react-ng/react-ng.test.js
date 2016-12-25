@@ -77,7 +77,7 @@ describe('React Ng', () => {
       $compile('<div react="Checkbox" ng-model="defaultCheckboxState" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.componentInstance.state.checked.should.to.be.true;
+      $scope.componentInstance.refs.input.checked.should.to.be.true;
     });
   });
 

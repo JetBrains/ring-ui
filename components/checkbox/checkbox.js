@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 
-import './checkbox.scss';
+import styles from './checkbox.css';
 
 const ngModelStateField = 'checked';
 
 /**
  * @name Checkbox
- * @category Forms
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./checkbox.examples.html
@@ -23,85 +23,37 @@ export default class Checkbox extends RingComponent {
     /**
      * Add custom class for checkbox
      */
-    className: PropTypes.string,
-
-    /**
-     * Set component ID. If user does not pass an ID
-     * we generate a unique ID for checkbox to work correctly.
-     */
-    id: PropTypes.string
+    className: PropTypes.string
   };
 
   ngModelStateField = ngModelStateField;
 
-  state = {
-    id: this.constructor.getUID('ring-checkbox-'),
-    checked: this.props.checked,
-    disabled: this.props.disabled
-  };
-
-  willReceiveProps(props) {
-    if (props.checked !== undefined) {
-      this.state.checked = !!props.checked;
-    }
-
-    if (props.disabled !== undefined) {
-      this.state.disabled = !!props.disabled;
-    }
-  }
-
-  inputChange(e) {
-    const newValue = e.target.checked;
-
-    this.setState({
-      checked: newValue
-    }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(newValue);
-      }
-    });
-  }
-
   render() {
-    const id = this.props.id || this.state.id;
-    const {_onModelChange, inputChange, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-
-    const checkStyle = {
-      display: this.state.checked ? 'block' : 'none'
-    };
+    const {_onModelChange, children, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const classes = classNames(
-      'ring-checkbox__input',
+      styles.input,
       this.props.className
     );
 
     return (
       <label
-        className="ring-checkbox"
-        htmlFor={id}
+        className={styles.checkbox}
       >
-        <span className="ring-checkbox__input-wrapper">
-          <input
-            {...restProps}
-            ref="input"
-            disabled={this.state.disabled}
-            onChange={::this.inputChange}
-            type="checkbox"
-            className={classes}
-            id={id}
-            checked={Boolean(this.state.checked)}
+        <input
+          {...restProps}
+          ref="input"
+          type="checkbox"
+          className={classes}
+        />
+        <span className={styles.cell}>
+          <Icon
+            className={styles.icon}
+            glyph={require('jetbrains-icons/check.svg')}
+            size={Icon.Size.Size18}
           />
-          <span className="ring-checkbox__icon">
-            <Icon
-              className="ring-checkbox__icon__image"
-              color="black"
-              glyph={require('jetbrains-icons/check.svg')}
-              size={Icon.Size.Size18}
-              style={checkStyle}
-            />
-          </span>
         </span>
-        <span className="ring-checkbox__label">{this.props.label}</span>
+        <span className={styles.label}>{children}</span>
       </label>
     );
   }

@@ -24,23 +24,6 @@ describe('Checkbox', () => {
     this.checkbox.refs.input.should.have.property('type', 'checkbox');
   });
 
-  it('should generate id if not passed', function () {
-    this.checkbox.node.should.have.property('id');
-  });
-
-  it('should generate unique id', function () {
-    const secondCheckboxId = renderIntoDocument(React.createElement(Checkbox)).node.getAttribute('id');
-    this.checkbox.node.should.not.have.id(secondCheckboxId);
-  });
-
-  it('should set custom id', function () {
-    this.checkbox.rerender({
-      id: 'test'
-    });
-
-    this.checkbox.refs.input.should.have.id('test');
-  });
-
   it('should set name', function () {
     this.checkbox.rerender({
       name: 'test'
@@ -101,12 +84,5 @@ describe('Checkbox', () => {
 
     Simulate.change(this.checkbox.refs.input, eventMock);
     this.checkbox.refs.input.should.be.checked;
-  });
-
-  it('should connect label with input by id', function () {
-    const inputId = this.checkbox.refs.input.getAttribute('id');
-    const forId = this.checkbox.node.getAttribute('for');
-
-    expect(inputId).eq(forId);
   });
 });
