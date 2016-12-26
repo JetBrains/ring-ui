@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
-import Input from '../input/input';
+import Input from '../input-legacy/input-legacy';
 
 import {dateType} from './consts';
 
