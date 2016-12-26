@@ -72,14 +72,15 @@
 }
 
 .header {
-  text-transform: uppercase;
-  letter-spacing: 1px;
+
 }
 
 .caption {
+  text-transform: uppercase;
+  letter-spacing: 1px;
   height: calc(unit * 4);
   composes: font-smaller-lower;
-  color: text-color;
+  color: dark-gray-color;
 }
 
 .row {
