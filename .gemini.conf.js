@@ -10,7 +10,7 @@ console.log('Grid at:', gridUrl);
 module.exports = {
   rootUrl,
   gridUrl,
-  retry: 2,
+  retry: 5,
   system: {
     plugins: {
       teamcity: process.argv.indexOf('--teamcity') !== -1

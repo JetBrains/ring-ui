@@ -70,7 +70,7 @@
     "exports-loader": "0.6.3",
     "extract-loader": "0.0.2",
     "forever": "0.15.2",
-    "gemini": "4.14.3",
+    "gemini": "4.9.3",
     "gemini-teamcity": "2.1.3",
     "generator-ring-ui": "1.0.24",
     "github-markdown-css": "2.4.0",
