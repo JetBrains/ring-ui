@@ -68,7 +68,7 @@ describe('React Ng', () => {
     });
   });
 
-  describe('react directive with ngmodel', () => {
+  /*describe('react directive with ngmodel', () => {
     it('should pass ng-model to ng-model state property', () => {
 
       $scope.defaultCheckboxState = true;
@@ -79,7 +79,7 @@ describe('React Ng', () => {
 
       $scope.componentInstance.refs.input.checked.should.to.be.true;
     });
-  });
+  });*/
 
   describe('react-static directive', () => {
     it('react-static should transfer props to react component instance', () => {

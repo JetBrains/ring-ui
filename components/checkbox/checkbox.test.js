@@ -44,15 +44,15 @@ describe('Checkbox', () => {
   });
 
   it('should not call handler on change event if disabled', function () {
-    const inputChange = sinon.stub();
+    const onChange = sinon.stub();
 
     this.checkbox.rerender({
       disabled: true,
-      inputChange
+      onChange
     });
 
     Simulate.click(this.checkbox.node);
-    inputChange.should.have.not.been.called;
+    onChange.should.have.not.been.called;
   });
 
   it('should be unchecked by default', function () {
