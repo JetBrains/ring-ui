@@ -94,7 +94,7 @@ export default class Select extends RingComponentWithShortcuts {
     filterString: null,
     shortcuts: false,
     popupShortcuts: false,
-    prevFilterValue: ''
+    prevFilterValue: null
   };
 
   ngModelStateField = ngModelStateField;
@@ -720,7 +720,7 @@ export default class Select extends RingComponentWithShortcuts {
       });
 
       let filterValue;
-      if (this.props.allowAny && this.state.selected) {
+      if (this.state.selected) {
         filterValue = this._getItemLabel(this.state.selected);
       }
 
