@@ -3,6 +3,7 @@ const fullHostname = hostname.indexOf('.') !== -1 ? hostname : `${hostname}.labs
 const rootUrl = `http://${fullHostname}:9999`;
 
 const gridUrl = process.env.SELENIUM_GRID || '***REMOVED***';
+const windowSize = '1024x800';
 
 console.log('Docsite url detected:', rootUrl);
 console.log('Grid at:', gridUrl);
@@ -10,32 +11,29 @@ console.log('Grid at:', gridUrl);
 module.exports = {
   rootUrl,
   gridUrl,
-  retry: 5,
+  retry: 2,
+  suitesPerSession: 100, // workaround for Gemini bug
   system: {
     plugins: {
       teamcity: process.argv.indexOf('--teamcity') !== -1
     },
     projectRoot: __dirname
   },
-  desiredCapabilities: {
-    windowSize: '1024x800',
-    platform: 'WINDOWS'
-  },
   browsers: {
     chrome: {
-      windowSize: '1024x800',
+      windowSize,
       desiredCapabilities: {
         browserName: 'chrome'
       }
     },
     firefox: {
-      windowSize: '1024x800',
+      windowSize,
       desiredCapabilities: {
         browserName: 'firefox'
       }
     },
     ie: {
-      windowSize: '1024x800',
+      windowSize,
       desiredCapabilities: {
         browserName: 'internet explorer'
       }
