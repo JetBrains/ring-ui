@@ -239,7 +239,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
             customError.message = error;
             scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, false, customError);
           });
-      }, true);
+      });
 
       let inputNode = iElem[0].querySelector('input, .ring-save-field__input');
 
