@@ -7,5 +7,8 @@ gemini.suite('LinkNg', suite => {
     capture('link-ng', (actions, find) => {
       // Click on div to avoid unexpected hover on link
       actions.click(find('#link'));
+    }).
+    capture('link-ng hovered', (actions, find) => {
+      actions.mouseMove(find('.ring-link'));
     });
 });
