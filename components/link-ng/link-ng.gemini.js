@@ -9,6 +9,7 @@ gemini.suite('LinkNg', suite => {
       actions.click(find('#link'));
     }).
     capture('link-ng hovered', (actions, find) => {
-      actions.mouseMove(find('.ring-link'));
+      // Mousemove doesn't work in Chrome for some reason
+      actions.focus(find('.ring-link'));
     });
 });
