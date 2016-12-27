@@ -10,9 +10,14 @@ gemini.suite('Alert', suite => {
     });
 });
 
+const ANIMATION_DELAY = 600;
+
 gemini.suite('Alert Container', suite => {
   suite.
     setUrl('/example-alert-container/index.html').
     setCaptureElements('*[data-test="alert-container"]').
-    capture('plain');
+    capture('plain', actions => {
+      actions.waitForElementToShow('[data-test=alert]');
+      actions.wait(ANIMATION_DELAY);
+    });
 });
