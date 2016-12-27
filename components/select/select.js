@@ -735,13 +735,13 @@ export default class Select extends RingComponentWithShortcuts {
             value={filterValue}
             className={inputCS}
             style={style}
+            onInput={::this._filterChangeHandler}
             onChange={noop}
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()}
             onKeyDown={::this.props.onKeyDown}
-            onKeyUp={::this._filterChangeHandler}
           />
           {iconsNode}
         </div>
