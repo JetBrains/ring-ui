@@ -629,12 +629,20 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     // \u00a0 === &nbsp;
-    return query.split('').map((letter, index) => (
-      <span
-        className={classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS])}
-        key={index + letter}
-      >{letter === ' ' ? '\u00a0' : letter}</span>
-    ));
+    return query.split('').map((letter, index, letters) => {
+      const props = {
+        className: classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS]),
+        key: index + letter
+      };
+
+      if (letters.length - 1 === index) {
+        props['data-test'] = 'ring-query-assist-last-letter';
+      }
+
+      return (
+        <span {...props}>{letter === ' ' ? '\u00a0' : letter}</span>
+      );
+    });
   }
 
   shouldUpdate(props, state) {
@@ -682,6 +690,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       >
         <ContentEditable
           className={inputClasses}
+          data-test="ring-query-assist-input"
           ref={::this.refInput}
           disabled={this.props.disabled}
           onComponentUpdate={::this.setCaretPosition}
@@ -707,7 +716,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         </span>}
         {renderGlass &&
         <Icon
-          className="ring-query-assist__icon"
+          className="ring-query-assist__icon ring-query-assist__icon_glass"
           ref="glass"
           color="gray"
           glyph={require('jetbrains-icons/search.svg')}
