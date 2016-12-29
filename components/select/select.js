@@ -94,7 +94,7 @@ export default class Select extends RingComponentWithShortcuts {
     filterString: null,
     shortcuts: false,
     popupShortcuts: false,
-    prevFilterValue: ''
+    prevFilterValue: null
   };
 
   ngModelStateField = ngModelStateField;
@@ -141,7 +141,10 @@ export default class Select extends RingComponentWithShortcuts {
       label: this.props.getInitial()
     };
 
-    this.setState({selected}, function () {
+    this.setState({
+      selected,
+      prevFilterValue: this.getValueForFilter(selected)
+    }, function () {
       this.props.onChange(selected, event);
       this.props.onReset();
     });
@@ -163,12 +166,17 @@ export default class Select extends RingComponentWithShortcuts {
     this._rebuildMultipleMap(empty, multiple);
   }
 
+  getValueForFilter(selected) {
+    return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.prevFilterValue;
+  }
+
   willMount() {
     // set selected element if provided during init
     if (this.props.selected) {
       this.setState({
         selected: this.props.selected,
-        selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data)
+        selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data),
+        prevFilterValue: this.getValueForFilter(this.props.selected)
       });
     }
   }
@@ -189,7 +197,8 @@ export default class Select extends RingComponentWithShortcuts {
       const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
-        selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data))
+        selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data)),
+        prevFilterValue: this.getValueForFilter(selected)
       });
       this._rebuildMultipleMap(selected, this.props.multiple);
     }
@@ -720,7 +729,7 @@ export default class Select extends RingComponentWithShortcuts {
       });
 
       let filterValue;
-      if (this.props.allowAny && this.state.selected) {
+      if (this.state.selected) {
         filterValue = this._getItemLabel(this.state.selected);
       }
 
