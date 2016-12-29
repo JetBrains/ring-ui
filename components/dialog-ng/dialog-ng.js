@@ -207,7 +207,7 @@ class DialogController extends RingAngularComponent {
   }
 
   getErrorMessage(errorResponse) {
-    if (errorResponse.data && errorResponse.data.error_description) {
+    if (errorResponse && errorResponse.data && errorResponse.data.error_description) {
       return errorResponse.data.error_description;
     }
 
