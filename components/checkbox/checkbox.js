@@ -49,8 +49,8 @@ export default class Checkbox extends RingComponent {
         <span className={styles.cell}>
           <Icon
             className={styles.icon}
-            glyph={require('jetbrains-icons/check.svg')}
-            size={Icon.Size.Size18}
+            glyph={require('jetbrains-icons/checkmark.svg')}
+            size={Icon.Size.Size14}
           />
         </span>
         <span className={styles.label}>{children}</span>
