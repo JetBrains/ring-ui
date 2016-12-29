@@ -1,6 +1,5 @@
 @value global: '../global/global.css';
 @value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color from global;
-
 @value dirty-blue-color: #D4EDFA;
 
 @value table-border-color: #E6E6E6;
