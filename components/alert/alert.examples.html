@@ -109,7 +109,11 @@
               {this.state.alerts.map(alert => {
                 const {message, ...rest} = alert;
                 return (
-                  <Alert {...rest} onCloseRequest={() => this.onCloseAlertClick(alert)} onClose={() => this.onCloseAlert(alert)}>
+                  <Alert
+                    {...rest}
+                    onCloseRequest={() => this.onCloseAlertClick(alert)}
+                    onClose={() => this.onCloseAlert(alert)}
+                  >
                     {message}
                   </Alert>
                 );
