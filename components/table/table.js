@@ -206,7 +206,7 @@ class Table extends Component {
     document.addEventListener('keydown', this.onKeyDown, true);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     document.removeEventListener('keydown', this.onKeyDown, true);
