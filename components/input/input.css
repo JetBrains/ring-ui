@@ -1,9 +1,11 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, gray-color, disabled-color, main-color, error-color from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, gray-color, disabled-color, main-color, error-color, ease, fast-ease from  "../global/global.css";
 
 .container {
   composes: font-lower;
   padding-top: calc(unit * 2);
   position: relative;
+  box-sizing: border-box;
+  min-height: calc(unit * 8);
 
   & * {
     box-sizing: border-box;
@@ -17,10 +19,10 @@
   font: inherit;
   border: none;
   outline: none;
-  background-color: white-color;
+  background: transparent;
 
   &::placeholder {
-    color: disabled-color;
+    color: transparent;
   }
 
   &[disabled] {
@@ -33,14 +35,14 @@
   */
   &:-webkit-autofill {
     &, &:hover, &:focus {
-      box-shadow: 0 0 0px 1000px white-color inset;
-      transition: background-color 5000s ease-in-out 0s;
+      transition: background-color 50000s ease-in-out 0s;
     }
   }
 }
 
 textarea.input {
   box-sizing: border-box;
+  padding-top: unit;
   overflow: hidden;
   resize: none;
 }
@@ -49,10 +51,9 @@ textarea.input {
   color: gray-color;
   pointer-events: none;
   position: absolute;
-  background: white-color;
   top:calc(unit * 3);
   left: 0;
-  transition: all .15s ease-out;
+  transition: all fast-ease;
 }
 
 .input:focus ~ .label,
@@ -60,7 +61,12 @@ textarea.input {
 .container:not(.empty) > .label {
   background: transparent;
   font-size: font-size-smaller;
-  top: 0;
+  top: calc(unit / 2);
+}
+
+input:focus::placeholder {
+  color: disabled-color;
+  transition: color ease;
 }
 
 input:focus ~ .label {
@@ -72,7 +78,7 @@ input:focus ~ .label {
 }
 
 .underline {
-  height: 2px;
+  height: 1px;
   border-bottom: 1px solid line-color;
 }
 
@@ -82,13 +88,17 @@ input:focus ~ .label {
 
 .focusUnderline,
 .errorUnderline {
-  margin-top: -2px;
   height: 2px;
   width: 0;
+}
+
+.focusUnderline {
+  margin-top: -1px;
   background: main-color;
 }
 
 .errorUnderline {
+  margin-top: -2px;
   background: error-color;
 }
 
@@ -105,7 +115,7 @@ input:focus ~ .label {
   box-sizing: border-box;
   height: 0;
   overflow: hidden;
-  padding-top: unit;
+  padding: calc(unit / 2) 0 unit;
   transition: height .3s ease-out;
 }
 
