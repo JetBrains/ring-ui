@@ -25,16 +25,19 @@
         <div ng-repeat="line in dialog.description">{{ line }}</div>
       </div>
 
-      <rg-button
-        ng-repeat="button in dialog.buttons"
-        class="ring-dialog__footer__item"
-        ng-class="[{'ring-button_blue': button['default']}, button['cssClasses']]"
-        ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
-        ng-if="!button.hidden"
+      <div class="ring-dialog__footer__items">
+        <rg-button
+          ng-repeat="button in dialog.buttons"
+          class="ring-dialog__footer__item"
+          ng-class="[{'ring-button_blue': button['default']}, button['cssClasses']]"
+          ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
+          ng-if="!button.hidden"
 
-        rg-promised-click="dialog.action(button)"
-        promised-mode="loader"
-      >{{ button.label }}</rg-button>
+          rg-promised-click="dialog.action(button)"
+          promised-mode="loader"
+        >{{ button.label }}
+        </rg-button>
+      </div>
     </div>
   </div>
 
