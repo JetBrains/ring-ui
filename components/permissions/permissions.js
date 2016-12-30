@@ -1,7 +1,6 @@
 import PermissionCache from './permissions__cache';
 
 /**
- * @example
  * <code>
  *   const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.', services: [auth.serviceId]})
  *   permissions.load().then(function (p) {
