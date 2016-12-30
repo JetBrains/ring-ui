@@ -5,22 +5,19 @@
   <title>{{ example.name }}</title>
   <script src="{{ publicPath }}example-common.js"></script>
 </head>
-
 <body>
 
 <!-- example content -->
 {% for file in example.files if file.type == 'html' %}
   {% for asset in file.assets if asset.type == 'html' %}
-    {{ asset.source | raw }}
+    {{ asset.content | raw }}
   {% endfor %}
 {% endfor %}
 
 <!-- example assets -->
 {% for file in example.files %}
   {% for asset in file.assets %}
-    {% if asset.type == 'css' %}
-      <link rel="stylesheet" type="text/css" href="{{ publicPath }}{{ asset.path }}" />
-    {% elseif asset.type == 'js' %}
+    {% if asset.type == 'js' %}
       <script src="{{ publicPath }}{{ asset.path }}"></script>
     {% endif %}
   {% endfor %}
