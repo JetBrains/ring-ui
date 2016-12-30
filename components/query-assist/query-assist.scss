@@ -20,6 +20,7 @@
   left: 1px;
 
   &.ring-query-assist__input {
+    line-height: 17px;
     box-shadow: 0 0 0 1px $ring-gray-color;
     border-color: transparent;
     height: $ring-unit*3 - 2;
@@ -48,12 +49,12 @@
 .ring-query-assist__placeholder {
   display: block;
   position: absolute;
-  top: 3px;
-  left: 5px;
+  top: 2px;
+  left: 4px;
 
   color: #9C9C9C;
   font-size: $ring-font-size;
-  line-height: 20px;
+  line-height: 19px;
 }
 
 .ring-query-assist__letter_text {
@@ -80,7 +81,8 @@
 
 .ring-query-assist__icon {
   position: absolute;
-  top: 1px;
+  //top: 1px;
+  top: 0;
   right: 1px;
   height: $ring-unit*2;
   width: $ring-unit*2;
@@ -92,6 +94,10 @@
 
   &_loader {
     padding: 4px 4px 2px 5px;
+  }
+
+  &_glass {
+    top: -1px;
   }
 
   &:hover {
