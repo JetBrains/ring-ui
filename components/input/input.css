@@ -63,6 +63,14 @@ textarea.input {
   top: 0;
 }
 
+input:focus ~ .label {
+  color: main-color;
+}
+
+.error > input:focus ~ .label {
+  color: error-color;
+}
+
 .underline {
   height: 2px;
   border-bottom: 1px solid line-color;
