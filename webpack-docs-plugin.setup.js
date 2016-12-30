@@ -23,9 +23,9 @@ module.exports = () => {
   }));
 
   docpack.use(Docpack.HOOKS.AFTER_EXTRACT, (sources, done) => {
-    sources
-      .reduce((examples, source) => examples.concat(source.getExamples()), [])
-      .forEach(example => {
+    sources.
+      reduce((examples, source) => examples.concat(source.getExamples()), []).
+      forEach(example => {
         example.files.forEach(file => {
           file.type = file.attrs.type || file.attrs.name.split('.')[1] || 'js';
         });
@@ -48,28 +48,21 @@ module.exports = () => {
 
     url: example => (`examples/[name]/${example.attrs.name ? slug(example.attrs.name) : '[hash]'}.html`),
 
-    select: (sources => {
-      return sources.reduce((examples, source) => {
-        const exs = source.getExamples();
-        exs.forEach(example => (example.absolutePath = source.absolutePath));
-        examples = examples.concat(exs);
-        return examples;
-      }, []);
-    }),
+    select: sources => sources.reduce((examples, source) => {
+      const sourceExamples = source.getExamples();
+      sourceExamples.forEach(example => (example.absolutePath = source.absolutePath));
+      return examples.concat(sourceExamples);
+    }, []),
 
-    context: ((examples, currentExample) => {
-      return {example: currentExample};
-    })
+    context: (examples, currentExample) => ({example: currentExample})
   }));
 
   // Generate pages
   docpack.use(require('docpack-page-generator')({
     template: path.resolve(__dirname, 'site/page.twig'),
     url: '[name].html',
-    select: (sources => {
-      return sources.filter(source => source.getExamples().length > 0 || source.type == 'md');
-    }),
-    context: (sources) => {
+    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md'),
+    context: sources => {
       const categories = {Docs: []};
       const defaultCategory = 'Uncategorized';
 
