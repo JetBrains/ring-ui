@@ -2,7 +2,7 @@
 
 gemini.suite('Confirm', suite => {
   suite.
-    setUrl('/example-confirm/').
+    setUrl('/confirm/confirm.html').
     setCaptureElements('*[data-test=ring-dialog]').
     capture('confirm');
 });
