@@ -102,7 +102,6 @@
     "webpack": "1.13.2",
     "webpack-config-merger": "0.0.5",
     "webpack-dev-server": "1.15.1",
-    "webpack-docs-plugin": "1.0.12-alpha",
     "yo": "1.8.5"
   },
   "dependencies": {
