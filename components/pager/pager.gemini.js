@@ -2,7 +2,7 @@
 
 gemini.suite('Pager', suite => {
   suite.
-    setUrl('/example-pager/').
+    setUrl('/pager/pager.html').
     setCaptureElements('#pager').
     capture('pager');
 });
