@@ -2,7 +2,7 @@
 
 gemini.suite('Radio button', suite => {
   suite.
-    setUrl('/example-radio-button/').
+    setUrl('/radio/radio-button.html').
     setCaptureElements('#container').
     capture('radio button');
 });
