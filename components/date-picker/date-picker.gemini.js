@@ -3,7 +3,7 @@
 gemini.suite('Date Picker', () => {
   gemini.suite('Single date', child => {
     child.
-      setUrl('/example-date-picker-single-date').
+      setUrl('/date-picker/date-picker-single-date.html').
       setCaptureElements('#date-picker', '.ring-popup').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
@@ -13,7 +13,7 @@ gemini.suite('Date Picker', () => {
 
   gemini.suite('Range', child => {
     child.
-      setUrl('/example-date-picker-range').
+      setUrl('/date-picker/date-picker-range.html').
       setCaptureElements('#date-picker', '.ring-popup').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
@@ -23,7 +23,7 @@ gemini.suite('Date Picker', () => {
 
   gemini.suite('Clearable', child => {
     child.
-      setUrl('/example-date-picker-clearable').
+      setUrl('/date-picker/date-picker-clearable.html').
       setCaptureElements('#date-picker', '.ring-popup').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));

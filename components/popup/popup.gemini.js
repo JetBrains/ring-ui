@@ -3,14 +3,14 @@
 gemini.suite('Popup', () => {
   gemini.suite('Popups', child => {
     child.
-      setUrl('/example-popup').
+      setUrl('/popup/popup.html').
       setCaptureElements(['#top__left', '#top__right', '#bottom__left', '#bottom__right']).
       capture('popup-different-directions');
   });
 
   gemini.suite('Autoposition', child => {
     child.
-      setUrl('/example-auto-positioning-a-popup/').
+      setUrl('/popup/auto-positioning-a-popup.html').
       setCaptureElements(['#leftSide', '#rightSide', '#downSide', '#topSide']).
       capture('popup-autoposition');
   });
