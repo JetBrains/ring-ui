@@ -76,7 +76,7 @@ export default class HeaderHelper {
         return;
       }
 
-      if (response.profile && response.profile.avatar && response.profile.avatar.type !== 'defaultavatar') {
+      if (response.profile && response.profile.avatar && response.profile.avatar.url) {
         header.setProfilePicture(response.profile.avatar.url);
       }
 
