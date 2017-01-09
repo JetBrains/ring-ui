@@ -17,8 +17,8 @@ export default class Row extends Component {
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
     selected: PropTypes.bool,
-    onFocus: PropTypes.func,
     onHover: PropTypes.func,
+    onFocus: PropTypes.func,
     onSelect: PropTypes.func
   }
 
@@ -26,16 +26,9 @@ export default class Row extends Component {
     selectable: true,
     focused: false,
     selected: false,
-    onFocus: () => {},
     onHover: () => {},
+    onFocus: () => {},
     onSelect: () => {}
-  }
-
-  onFocus = () => {
-    const {selectable, item, focused, onFocus} = this.props;
-    if (selectable && !focused) {
-      onFocus(item);
-    }
   }
 
   onMouseEnter = () => {
@@ -43,20 +36,32 @@ export default class Row extends Component {
     onHover(item);
   }
 
-  onClick = e => {
-    const {selectable, item, onSelect} = this.props;
-    if (selectable && e.shiftKey) {
-      onSelect(item);
+  onFocus = () => {
+    const {item, selectable, focused, onFocus} = this.props;
+    if (selectable && !focused) {
+      onFocus(item);
     }
   }
 
-  onCheckboxChange = () => {
-    const {item, onSelect} = this.props;
-    onSelect(item);
+  onClick = e => {
+    if (e.shiftKey) {
+      this.toggleSelection();
+    }
   }
 
   onCheckboxFocus = () => {
     this.refs.row.focus();
+  }
+
+  onCheckboxChange = () => {
+    this.toggleSelection();
+  }
+
+  toggleSelection() {
+    const {item, selectable, onSelect} = this.props;
+    if (selectable) {
+      onSelect(item);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -84,8 +89,8 @@ export default class Row extends Component {
           <Checkbox
             className={focused ? 'ring-checkbox_focus' : ''}
             checked={selected}
-            onChange={this.onCheckboxChange}
             onFocus={this.onCheckboxFocus}
+            onChange={this.onCheckboxChange}
             tabIndex="-1"
           />
         </Cell>
@@ -115,8 +120,8 @@ export default class Row extends Component {
         ref="row"
         className={classes}
         tabIndex="0"
-        onFocus={this.onFocus}
         onMouseMove={this.onMouseEnter}
+        onFocus={this.onFocus}
         onClick={this.onClick}
       >{cells}</tr>
     );
