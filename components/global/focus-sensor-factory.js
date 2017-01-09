@@ -22,7 +22,7 @@ export default function focusSensorFactory(ComposedComponent) {
           <ComposedComponent
             {...this.props}
             focused={this.state.focused}
-            onFocusReset={this.onFocusReset}
+            onFocusRestore={this.onFocusRestore}
           />
         </div>
       );
@@ -62,7 +62,7 @@ export default function focusSensorFactory(ComposedComponent) {
       }
     }
 
-    onFocusReset = () => {
+    onFocusRestore = () => {
       this.refs.node.focus();
     }
   };
