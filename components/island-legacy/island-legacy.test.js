@@ -1,9 +1,9 @@
 import 'dom4';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import React from 'react';
-import Island from './island';
+import Island from './island-legacy';
 
-describe('Island', () => {
+describe('Island Legacy', () => {
   const renderComponent = params => renderIntoDocument(<Island {...params}/>);
 
   it('should create component', () => {

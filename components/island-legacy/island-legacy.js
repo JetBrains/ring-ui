@@ -1,14 +1,13 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import styles from './island.css';
+import './island-legacy.scss';
 
 /**
- * @name Island
- * @name Island
+ * @name Island Legacy
  * @category Components
  * @description Displays an island.
- * @example-file ./island.examples.html
+ * @example-file ./island-legacy.examples.html
  */
 
 export default class Island extends RingComponent {
@@ -16,13 +15,9 @@ export default class Island extends RingComponent {
     className: PropTypes.string
   };
 
-  static defaultProps = {
-    'data-test': 'ring-island'
-  };
-
   render() {
     const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.island, className);
+    const classes = classNames('ring-island', className);
 
     return (
       <div
@@ -35,5 +30,5 @@ export default class Island extends RingComponent {
   }
 }
 
-export {default as Header} from './header';
-export {default as Content} from './content';
+export {default as Header} from './header-legacy';
+export {default as Content} from './content-legacy';
