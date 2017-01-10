@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import styles from './island.css';
+import './island-legacy.scss';
 
 export default class Header extends RingComponent {
   static propTypes = {
@@ -10,15 +10,14 @@ export default class Header extends RingComponent {
 
   render() {
     const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.header, className);
+    const classes = classNames('ring-island__header', className);
 
     return (
       <div
         {...restProps}
-        data-test="ring-island-header"
         className={classes}
       >
-        <div className={styles.title}>
+        <div className="ring-island__title">
           {children}
         </div>
       </div>
