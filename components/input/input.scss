@@ -67,4 +67,5 @@
 textarea.ring-input {
   height: auto;
   min-height: 8*$ring_unit;
+  resize: vertical;
 }
