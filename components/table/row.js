@@ -58,9 +58,9 @@ export default class Row extends Component {
   }
 
   toggleSelection() {
-    const {item, selectable, onSelect} = this.props;
+    const {item, selectable, selected, onSelect} = this.props;
     if (selectable) {
-      onSelect(item);
+      onSelect(item, !selected);
     }
   }
 
