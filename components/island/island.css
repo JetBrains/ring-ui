@@ -1,0 +1,46 @@
+@value unit, border-radius from '../global/global.css';
+
+.island {
+  border: 1px solid rgba(0, 42, 76, 0.1);
+  border-radius: border-radius;
+
+  background-color: #FFF;
+  box-shadow: 0 2px 16px rgba(0, 42, 76, 0.15);
+
+  &_stack-right {
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    box-shadow: none;
+  }
+
+  &_stack-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    box-shadow: none;
+  }
+}
+
+.header {
+  min-height: calc(unit*4 - 2);
+  line-height: calc(unit*4 - 2);
+
+  border-bottom: 1px solid rgba(0, 42, 76, 0.1);
+  border-top-left-radius: border-radius;
+  border-top-right-radius: border-radius;
+}
+
+.title {
+  display: block;
+  float: left;
+
+  font-weight: bold;
+
+  padding: 0 calc(unit*4);
+}
+
+.content {
+  margin: calc(unit*2) calc(unit*4);
+}

@@ -35,11 +35,11 @@
   margin: 10% auto;
   padding: 0;
 
-  border: 1px solid #B4B4B4;
+  border: 1px solid rgba(0, 42, 76, 0.1);
   border-radius: $ring-border-radius;
 
   background: #FFF;
-  box-shadow: 0 0 $ring-unit*4 $ring-unit rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 16px rgba(0, 42, 76, 0.15);
 
   @include ring-font;
   text-align: left;
@@ -86,7 +86,6 @@
 
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-  background: $ring-light-blue-color;
 }
 
 .ring-dialog__footer__description {
@@ -126,15 +125,13 @@
 
 .ring-dialog__header {
   position: relative;
-  min-height: $ring-unit*3 - 2;
+  min-height: $ring-unit*4 - 2;
 
-  line-height: $ring-unit*3 - 2;
+  line-height: $ring-unit*4 - 2;
 
-  border-bottom: 1px solid #B4B4B4;
-  border-top-left-radius: $ring-border-radius;
-  border-top-right-radius: $ring-border-radius;
-
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+  border-bottom: 1px solid rgba(0, 42, 76, 0.1);
+  border-top-left-radius: border-radius;
+  border-top-right-radius: border-radius;
 }
 
 .ring-dialog__header__title {
@@ -143,7 +140,7 @@
   font-weight: bold;
 
   cursor: move;
-  text-align: center;
+  padding: 0 $ring-unit*4;
   user-select: none;
 }
 
