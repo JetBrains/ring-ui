@@ -97,7 +97,7 @@ describe('Tooltip', () => {
       });
 
       this.tooltip.showPopup();
-      this.tooltip.popup.node.should.have.class('tooltip-test-popup');
+      this.tooltip.popup.popup.should.have.class('tooltip-test-popup');
     });
 
     it('should close popup on unmount', function () {

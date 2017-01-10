@@ -1,0 +1,31 @@
+@value unit, overlay-z-index, white-color, border-radius, font from  "../global/global.css";
+
+.popup {
+  position: absolute;
+  z-index: overlay-z-index;
+  box-sizing: border-box;
+
+  text-align: center;
+
+  border: 1px solid #ADADAD; /* IE8- */
+  border-color: rgba(0, 0, 0, .2);
+
+  background-color: #FFF;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
+  border-radius: border-radius;
+
+  overflow-y: auto;
+
+  composes: font;
+}
+
+.filterWrapper {
+   padding: 0 calc(unit * 2);
+   margin: calc(unit * 2) 0 unit;
+}
+
+.attached {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
