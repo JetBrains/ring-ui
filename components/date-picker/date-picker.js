@@ -40,6 +40,7 @@ export default class DatePicker extends RingComponent {
   };
   static propTypes = {
     className: PropTypes.string,
+    popupClassName: PropTypes.string,
     date: dateType,
     range: PropTypes.bool,
     from: dateType,
@@ -58,7 +59,8 @@ export default class DatePicker extends RingComponent {
     this.popup = Popup.renderPopup(Popup.factory({
       hidden: true,
       autoRemove: false,
-      anchorElement: this.node
+      anchorElement: this.node,
+      className: this.props.popupClassName
     }));
   }
 

@@ -11,6 +11,8 @@ import Input from '../input-legacy/input-legacy';
 import LoaderInline from '../loader-inline/loader-inline';
 import classNames from 'classnames';
 
+import {filterWrapper} from '../popup/popup.css';
+
 function noop() {}
 
 export default class SelectPopup extends RingComponentWithShortcuts {
@@ -23,12 +25,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     filter: false, // can be either boolean or an object with "value" and "placeholder" properties
     message: null,
     anchorElement: null,
-    container: null,
     maxHeight: 250,
     loading: false,
-    minWidth: 'target',
+    minWidth: Popup.PopupProps.MinWidth.TARGET,
     onSelect: noop,
-    onClose: noop,
+    onCloseAttempt: noop,
     onFilter: noop,
     onLoadMore: noop
   };
@@ -43,42 +44,20 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   didMount() {
-    if (this.refs.filter) {
-      if (this.props.filter.value) {
-        findDOMNode(this.refs.filter).value = this.props.filter.value;
-      }
-      this.focusFilter();
-    }
-
     window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  willReceiveProps(nextProps) {
+    if (nextProps.hidden !== this.props.hidden) {
+      this.setState({
+        popupShortcuts: !nextProps.hidden,
+        shortcuts: !nextProps.hidden && this.props.filter
+      });
+    }
   }
 
   willUnmount() {
     window.document.removeEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  focusFilter() {
-    if (this.refs.filter) {
-      findDOMNode(this.refs.filter).focus();
-    }
-  }
-
-  show() {
-    this.refs.popup.show(() => this.focusFilter());
-
-    this.setState({
-      shortcuts: this.props.filter,
-      popupShortcuts: true
-    });
-  }
-
-  hide() {
-    this.refs.popup.hide();
-
-    this.setState({
-      shortcuts: false,
-      popupShortcuts: false
-    });
   }
 
   getShortcutsProps() {
@@ -86,19 +65,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       map: {
         tab: ::this.tabPress
       },
-      options: {
-        modal: true
-      },
       scope: ::this.constructor.getUID('ring-select-popup-')
     };
   }
 
-  remove() {
-    this.refs.popup.remove();
-  }
-
   listOnMouseOut() {
-    this.refs.list.clearSelected();
+    this.list.clearSelected();
   }
 
   mouseDownHandler() {
@@ -110,11 +82,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   listScrollToIndex(index) {
-    this.refs.list && this.refs.list.setActiveItem(index);
+    this.list && this.list.setActiveItem(index);
   }
 
   isVisible() {
-    return this.refs.popup && this.refs.popup.isVisible();
+    return this.popup && this.popup.isVisible();
   }
 
   onListSelect(selected) {
@@ -132,19 +104,25 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   tabPress(event) {
     event.preventDefault();
-    const listActiveItem = this.refs.list.state.activeItem;
+    const listActiveItem = this.list.state.activeItem;
     if (listActiveItem) {
       this.onListSelect(listActiveItem);
     }
-    this.hide();
+    this.props.onCloseAttempt();
   }
 
   getFilter() {
     if (this.props.filter) {
       return (
-        <div className="ring-popup__filter-wrapper">
+        <div className={filterWrapper}>
           <Input
-            ref="filter"
+            defaultValue={this.props.filter.value || ''}
+            ref={el => {
+              this.filter = el;
+              if (el) {
+                findDOMNode(el).focus();
+              }
+            }}
             className="ring-js-shortcuts ring-input_filter-popup"
             placeholder={this.props.filter.placeholder || ''}
             onInput={this.props.onFilter}
@@ -172,7 +150,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           maxHeight={this.props.maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
-          ref="list"
+          ref={el => {
+            this.list = el;
+          }}
           restoreActiveIndex={true}
           activateSingleItem={true}
           onSelect={::this.onListSelect}
@@ -195,17 +175,17 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
     return (
       <Popup
-        ref="popup"
-        hidden={true}
-        cutEdge={false}
+        ref={el => {
+          this.popup = el;
+        }}
+        hidden={this.props.hidden}
+        attached={false}
         className={classes}
         dontCloseOnAnchorClick={true}
+        keepMounted={true}
         anchorElement={this.props.anchorElement}
-        container={this.props.container}
-        autoRemove={false}
         minWidth={this.props.minWidth}
-        shortcuts={this.state.popupShortcuts}
-        onClose={this.props.onClose}
+        onCloseAttempt={this.props.onCloseAttempt}
         directions={this.props.directions}
         top={this.props.top}
         left={this.props.left}
