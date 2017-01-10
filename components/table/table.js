@@ -291,8 +291,8 @@ class Table extends Component {
                 selectable,
                 focused: selection.isFocused(item),
                 selected: selectable && selection.isSelected(item),
-                onFocus: this.onRowFocus,
-                onSelect: this.onRowSelect
+                onFocus: this.onRowFocus.bind(this, item),
+                onSelect: this.onRowSelect.bind(this, item)
               };
               return <Row {...props} />;
             })
