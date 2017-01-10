@@ -88,9 +88,13 @@ class Table extends Component {
     onSelect(selection.focus(row));
   }
 
-  onRowSelect = row => {
+  onRowSelect = (row, selected) => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.toggleSelection(row));
+    if (selected) {
+      onSelect(selection.select(row));
+    } else {
+      onSelect(selection.deselect(row));
+    }
   }
 
   onUpPress = () => {
