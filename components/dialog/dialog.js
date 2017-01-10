@@ -66,7 +66,7 @@ export default class Dialog extends RingComponent {
 
     return (
       <Portal
-        isOpened={show}
+        isOpen={show}
         onOpen={() => ScrollPreventer.prevent()}
         onClose={() => ScrollPreventer.reset()}
       >
