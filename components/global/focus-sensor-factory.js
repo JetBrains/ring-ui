@@ -7,12 +7,16 @@ export default function focusSensorFactory(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
       focused: PropTypes.bool,
-      autofocus: PropTypes.bool
+      autofocus: PropTypes.bool,
+      onFocus: PropTypes.func,
+      onBlur: PropTypes.func
     }
 
     static defaultProps = {
       focused: false,
-      autofocus: false
+      autofocus: false,
+      onFocus: () => {},
+      onBlur: () => {}
     }
 
     state = {
@@ -67,6 +71,7 @@ export default function focusSensorFactory(ComposedComponent) {
       const focused = this.node.contains(target);
       if (focused && !this.state.focused) {
         this.setState({focused: true});
+        this.props.onFocus();
       }
     }
 
@@ -77,6 +82,7 @@ export default function focusSensorFactory(ComposedComponent) {
           const blured = node.contains(target) && !node.contains(document.activeElement);
           if (blured) {
             this.setState({focused: false});
+            this.props.onBlur();
           }
         }, 1);
       }
