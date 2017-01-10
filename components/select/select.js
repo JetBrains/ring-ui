@@ -744,8 +744,7 @@ export default class Select extends RingComponentWithShortcuts {
             value={filterValue}
             className={inputCS}
             style={style}
-            onInput={::this._filterChangeHandler}
-            onChange={noop}
+            onChange={::this._filterChangeHandler}
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}

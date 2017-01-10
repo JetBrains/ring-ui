@@ -2,7 +2,7 @@
 
 gemini.suite('Alert', suite => {
   suite.
-    setUrl('/example-alert/index.html').
+    setUrl('/alert/alert.html').
     setCaptureElements('body > div').
     capture('plain').
     capture('focused', (actions, find) => {
@@ -14,7 +14,7 @@ const ANIMATION_DELAY = 600;
 
 gemini.suite('Alert Container', suite => {
   suite.
-    setUrl('/example-alert-container/index.html').
+    setUrl('/alert/alert-container.html').
     setCaptureElements('*[data-test="alert-container"]').
     capture('plain', actions => {
       actions.waitForElementToShow('[data-test=alert]');

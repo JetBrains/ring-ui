@@ -2,7 +2,7 @@
 
 gemini.suite('Panel', suite => {
   suite.
-    setUrl('/example-panel/').
+    setUrl('/panel/panel.html').
     setCaptureElements('body > div').
     capture('panel');
 });

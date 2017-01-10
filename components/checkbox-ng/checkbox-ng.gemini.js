@@ -2,7 +2,7 @@
 
 gemini.suite('Checkbox Ng', parent => {
   parent.
-    setUrl('/example-checkbox-ng/').
+    setUrl('/checkbox-ng/checkbox-ng.html').
     setCaptureElements('p').
     capture('default').
     capture('hovered', (actions, find) => {
