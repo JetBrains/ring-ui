@@ -60,9 +60,10 @@ describe('Checkbox', () => {
   });
 
   it('should check control', function () {
-    this.checkbox.rerender({
-      checked: true
-    });
+    this.checkbox = renderIntoDocument(React.createElement(Checkbox, {
+      checked: true,
+      onChange() {}
+    }));
 
     this.checkbox.refs.input.should.be.checked;
   });
