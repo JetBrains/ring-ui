@@ -6,26 +6,28 @@ import {findDOMNode} from 'react-dom';
 export default function focusSensorFactory(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
+      focused: PropTypes.bool,
       autofocus: PropTypes.bool
     }
 
     static defaultProps = {
+      focused: false,
       autofocus: false
     }
 
     state = {
-      focused: false
+      focused: this.props.focused
     }
 
     render() {
       return (
-        <div ref={this.onRefUpdate} tabIndex="0" style={{outline: 'none'}}>
-          <ComposedComponent
-            {...this.props}
-            focused={this.state.focused}
-            onFocusRestore={this.onFocusRestore}
-          />
-        </div>
+        <ComposedComponent
+          {...this.props}
+          ref={this.onRefUpdate}
+          focused={this.state.focused}
+          onFocusReset={this.onFocusReset}
+          onFocusRestore={this.onFocusRestore}
+        />
       );
     }
 
@@ -34,10 +36,14 @@ export default function focusSensorFactory(ComposedComponent) {
     }
 
     componentDidMount() {
+      const {props: {autofocus}, node} = this;
+
+      node.setAttribute('tabindex', '0');
+      node.style.outline = 'none';
+
       document.addEventListener('focus', this.onFocusCapture, true);
       document.addEventListener('blur', this.onBlurCapture, true);
 
-      const {props: {autofocus}, node} = this;
       if (autofocus) {
         node.focus();
       }
@@ -46,6 +52,15 @@ export default function focusSensorFactory(ComposedComponent) {
     componentWillUnmount() {
       document.removeEventListener('focus', this.onFocusCapture, true);
       document.removeEventListener('blur', this.onBlurCapture, true);
+    }
+
+    componentDidUpdate(prevProps) {
+      const {focused} = this.props;
+      if (focused && !prevProps.focused) {
+        this.onFocusRestore();
+      } else if (!focused && prevProps.focused) {
+        this.onFocusReset();
+      }
     }
 
     onFocusCapture = ({target}) => {
@@ -69,6 +84,10 @@ export default function focusSensorFactory(ComposedComponent) {
 
     onFocusRestore = () => {
       this.node.focus();
+    }
+
+    onFocusReset = () => {
+      this.node.blur();
     }
   };
 }
