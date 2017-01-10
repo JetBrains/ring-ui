@@ -11,7 +11,7 @@ describe('List', () => {
   let list;
 
   function getItemsContainer() {
-    return ReactDOM.findDOMNode(list.refs.items);
+    return ReactDOM.findDOMNode(list.items);
   }
 
   function getFirstListItem() {
@@ -23,7 +23,7 @@ describe('List', () => {
   });
 
   it('should be empty by default', () => {
-    list.refs.inner.tagName.toLowerCase().should.equal('div');
+    list.inner.tagName.toLowerCase().should.equal('div');
     getItemsContainer().childNodes.length.should.equal(0);
   });
 
@@ -77,7 +77,7 @@ describe('List', () => {
         {label: 'Hello!'}
       ]});
 
-      ReactDOM.findDOMNode(list.refs.inner).querySelector('.ring-list__item').should.be.defined;
+      list.inner.querySelector('.ring-list__item').should.be.defined;
     });
 
     it('should render a if href defined', () => {
