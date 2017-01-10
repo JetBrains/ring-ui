@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 /* eslint-disable react/jsx-max-props-per-line */
 
@@ -18,7 +19,7 @@ export default function focusSensorFactory(ComposedComponent) {
 
     render() {
       return (
-        <div ref="node" tabIndex="0" style={{outline: 'none'}}>
+        <div ref={this.onRefUpdate} tabIndex="0" style={{outline: 'none'}}>
           <ComposedComponent
             {...this.props}
             focused={this.state.focused}
@@ -28,11 +29,15 @@ export default function focusSensorFactory(ComposedComponent) {
       );
     }
 
+    onRefUpdate = component => {
+      this.node = findDOMNode(component);
+    }
+
     componentDidMount() {
       document.addEventListener('focus', this.onFocusCapture, true);
       document.addEventListener('blur', this.onBlurCapture, true);
 
-      const {props: {autofocus}, refs: {node}} = this;
+      const {props: {autofocus}, node} = this;
       if (autofocus) {
         node.focus();
       }
@@ -44,14 +49,14 @@ export default function focusSensorFactory(ComposedComponent) {
     }
 
     onFocusCapture = ({target}) => {
-      const focused = this.refs.node.contains(target);
+      const focused = this.node.contains(target);
       if (focused && !this.state.focused) {
         this.setState({focused: true});
       }
     }
 
     onBlurCapture = ({target}) => {
-      const {state: {focused}, refs: {node}} = this;
+      const {state: {focused}, node} = this;
       if (focused) {
         setTimeout(() => {
           const blured = node.contains(target) && !node.contains(document.activeElement);
@@ -63,7 +68,7 @@ export default function focusSensorFactory(ComposedComponent) {
     }
 
     onFocusRestore = () => {
-      this.refs.node.focus();
+      this.node.focus();
     }
   };
 }
