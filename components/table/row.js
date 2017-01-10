@@ -4,12 +4,14 @@ import 'core-js/modules/es6.number.is-finite';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
+import focusSensorFactory from '../global/focus-sensor-factory';
+
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
-export default class Row extends Component {
+class Row extends Component {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -18,8 +20,8 @@ export default class Row extends Component {
     focused: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
-    onFocus: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    onFocusRestore: PropTypes.func
   }
 
   static defaultProps = {
@@ -27,20 +29,13 @@ export default class Row extends Component {
     focused: false,
     selected: false,
     onHover: () => {},
-    onFocus: () => {},
-    onSelect: () => {}
+    onSelect: () => {},
+    onFocusRestore: () => {}
   }
 
   onMouseEnter = () => {
     const {item, onHover} = this.props;
     onHover(item);
-  }
-
-  onFocus = () => {
-    const {item, selectable, focused, onFocus} = this.props;
-    if (selectable && !focused) {
-      onFocus(item);
-    }
   }
 
   onClick = e => {
@@ -50,7 +45,7 @@ export default class Row extends Component {
   }
 
   onCheckboxFocus = () => {
-    this.refs.row.focus();
+    this.props.onFocusRestore();
   }
 
   onCheckboxChange = () => {
@@ -58,18 +53,9 @@ export default class Row extends Component {
   }
 
   toggleSelection() {
-    const {item, selectable, selected, onSelect} = this.props;
+    const {selectable, selected, onSelect} = this.props;
     if (selectable) {
-      onSelect(item, !selected);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const {props: {focused}, refs: {row}} = this;
-    if (focused && !prevProps.focused) {
-      row.focus();
-    } else if (!focused && prevProps.focused) {
-      row.blur();
+      onSelect(!selected);
     }
   }
 
@@ -121,9 +107,10 @@ export default class Row extends Component {
         className={classes}
         tabIndex="0"
         onMouseMove={this.onMouseEnter}
-        onFocus={this.onFocus}
         onClick={this.onClick}
       >{cells}</tr>
     );
   }
 }
+
+export default focusSensorFactory(Row);
