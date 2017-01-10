@@ -9,8 +9,7 @@ const webpackConfigMerger = require('webpack-config-merger');
 const webpackConfig = require('./webpack.config');
 const AnyBarWebpackPlugin = require('anybar-webpack');
 
-const DocsPlugin = require('webpack-docs-plugin');
-const docsPluginSetup = require('./webpack-docs-plugin.setup');
+const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
 
 const isServer = process.argv.includes('--server');
@@ -51,13 +50,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   entry: {
     components: createEntriesList('./components/*'),
     'docs-app': './site/index.js',
-    'example-common': './site/example-common.js',
-    'docs-markdown': [
-      './README.md',
-      './docs/index.md',
-      './docs/breaking-changes.md',
-      './docs/migration-to-2.3.0.md'
-    ]
+    'example-common': './site/example-common.js'
   },
   resolve: {
     alias: {
@@ -66,20 +59,11 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   },
   module: {
     loaders: [
-      {
-        test: /\.(js|scss)$/,
-        include: componentsPath,
-        loader: DocsPlugin.extract({extractor: 'jsdoc'})
-      },
-      {
-        test: /\.md$/,
-        loader: DocsPlugin.extract({extractor: 'markdown'})
-      },
       // HTML examples
       {
         test: /example\.html$/,
         loaders: [
-          `${require.resolve('file-loader')}?name=docs/[path][name].[ext]/examples/[hash].html`,
+          `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
           require.resolve('extract-loader'),
           webpackConfig.htmlLoader.loader
         ]
@@ -106,8 +90,9 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   devtool: isServer ? 'eval' : null,
   debug: isServer,
   devServer: {
+    inline: true,
     stats: {
-      assets: false,
+      assets: true,
       chunks: false,
       hash: false,
       children: false,
@@ -123,8 +108,10 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
   plugins: [
     new webpack.DefinePlugin({
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
-    })
-  ].concat(docsPluginSetup({publicPath}))
+    }),
+
+    docpackSetup()
+  ]
 });
 
 if (isServer) {
