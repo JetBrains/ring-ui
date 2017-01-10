@@ -3,7 +3,7 @@
 gemini.suite('Select', () => {
   gemini.suite('Input based select', child => {
     child.
-      setUrl('/example-simple-input-based-select').
+      setUrl('/select/simple-input-based-select.html').
       setCaptureElements('.ring-select', '.ring-popup').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-input'));
@@ -12,14 +12,14 @@ gemini.suite('Select', () => {
 
   gemini.suite('Select button', child => {
     child.
-      setUrl('/example-select-with-a-customized-filter-and-an-add-item-button').
+      setUrl('/select/select-with-a-customized-filter-and-an-add-item-button.html').
       setCaptureElements('.ring-select').
       capture('button');
   });
 
   gemini.suite('Select with filter', child => {
     child.
-      setUrl('/example-simple-select-with-the-default-filter-mode').
+      setUrl('/select/simple-select-with-the-default-filter-mode.html').
       setCaptureElements('.ring-select', '.ring-popup').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-select'));
@@ -29,7 +29,7 @@ gemini.suite('Select', () => {
 
   gemini.suite('Multivalue select with options descriptions', child => {
     child.
-      setUrl('/example-multiple-select-with-a-description').
+      setUrl('/select/multiple-select-with-a-description.html').
       setCaptureElements('.ring-popup').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-button'));

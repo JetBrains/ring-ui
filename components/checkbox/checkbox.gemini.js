@@ -1,7 +1,7 @@
 /* global gemini: false */
 
 gemini.suite('Checkbox', parent => {
-  parent.setUrl('/example-checkbox/');
+  parent.setUrl('/checkbox/checkbox.html');
 
   gemini.suite('Base checkboxes', child => {
     child.

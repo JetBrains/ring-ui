@@ -18,6 +18,7 @@
   margin: 0;
   padding-right: $ring-unit/ 2;
   padding-left: $ring-unit / 2;
+  padding-bottom: 3px;
   border: 1px solid $ring-gray-color;
   background-color: #FFF;
 
@@ -66,4 +67,5 @@
 textarea.ring-input {
   height: auto;
   min-height: 8*$ring_unit;
+  resize: vertical;
 }

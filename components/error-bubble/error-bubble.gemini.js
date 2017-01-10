@@ -2,7 +2,7 @@
 
 gemini.suite('Error Bubble', suite => {
   suite.
-    setUrl('/example-error-bubble/').
+    setUrl('/error-bubble/error-bubble.html').
     setCaptureElements('#container').
     capture('error bubble').
     capture('error bubble hidden', (actions, find) => {

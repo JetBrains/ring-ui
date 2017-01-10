@@ -23,7 +23,7 @@ const extraSmall = {
 gemini.suite('Grid', () => {
   gemini.suite('Responsive', child => {
     child.
-      setUrl('/example-responsive-grid/').
+      setUrl('/grid/responsive-grid.html').
       setCaptureElements('#grid').
       capture('grid-extra-small', actions => actions.setWindowSize(extraSmall.width, extraSmall.height)).
       capture('grid-small', actions => actions.setWindowSize(small.width, small.height)).
@@ -33,14 +33,14 @@ gemini.suite('Grid', () => {
 
   gemini.suite('Offset', child => {
     child.
-      setUrl('/example-grid-offset/').
+      setUrl('/grid/grid-offset.html').
       setCaptureElements('*[data-test="offset"]').
       capture('offset');
   });
 
   gemini.suite('Auto size', child => {
     child.
-      setUrl('/example-grid-auto-size/').
+      setUrl('/grid/grid-auto-size.html').
       setCaptureElements('*[data-test="auto-size"]').
       capture('auto-size-xs', actions => actions.setWindowSize(extraSmall.width, extraSmall.height)).
       capture('auto-size-s', actions => actions.setWindowSize(small.width, small.height)).
@@ -49,14 +49,14 @@ gemini.suite('Grid', () => {
 
   gemini.suite('Alignment', child => {
     child.
-      setUrl('/example-grid-alignment/').
+      setUrl('/grid/grid-alignment.html').
       setCaptureElements('*[data-test="alignment"]').
       capture('alignment');
   });
 
   gemini.suite('Distribution', child => {
     child.
-      setUrl('/example-grid-cols-distribution/').
+      setUrl('/grid/grid-cols-distribution.html').
       setCaptureElements('*[data-test="distribution"]').
       capture('distribution');
   });

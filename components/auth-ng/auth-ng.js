@@ -106,7 +106,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     }
 
     /**
-     * @type Promise.<string>
+     * @type {Promise.<string>}
      */
     const authInitPromise = auth.init();
 
