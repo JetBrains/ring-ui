@@ -1,38 +1,53 @@
 import React, {Component, PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 
 /* eslint-disable react/jsx-max-props-per-line */
 
 export default function focusSensorFactory(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
-      autofocus: PropTypes.bool
+      focused: PropTypes.bool,
+      autofocus: PropTypes.bool,
+      onFocus: PropTypes.func,
+      onBlur: PropTypes.func
     }
 
     static defaultProps = {
-      autofocus: false
+      focused: false,
+      autofocus: false,
+      onFocus: () => {},
+      onBlur: () => {}
     }
 
     state = {
-      focused: false
+      focused: this.props.focused
     }
 
     render() {
       return (
-        <div ref="node" tabIndex="0" style={{outline: 'none'}}>
-          <ComposedComponent
-            {...this.props}
-            focused={this.state.focused}
-            onFocusReset={this.onFocusReset}
-          />
-        </div>
+        <ComposedComponent
+          {...this.props}
+          ref={this.onRefUpdate}
+          focused={this.state.focused}
+          onFocusReset={this.onFocusReset}
+          onFocusRestore={this.onFocusRestore}
+        />
       );
     }
 
+    onRefUpdate = component => {
+      this.node = findDOMNode(component);
+    }
+
     componentDidMount() {
+      const {props: {autofocus}, node} = this;
+
+      node.setAttribute('tabindex', '0');
+      node.style.outline = 'none';
+
       document.addEventListener('focus', this.onFocusCapture, true);
       document.addEventListener('blur', this.onBlurCapture, true);
 
-      const {props: {autofocus}, refs: {node}} = this;
       if (autofocus) {
         node.focus();
       }
@@ -43,27 +58,42 @@ export default function focusSensorFactory(ComposedComponent) {
       document.removeEventListener('blur', this.onBlurCapture, true);
     }
 
+    componentDidUpdate(prevProps) {
+      const {focused} = this.props;
+      if (focused && !prevProps.focused) {
+        this.onFocusRestore();
+      } else if (!focused && prevProps.focused) {
+        this.onFocusReset();
+      }
+    }
+
     onFocusCapture = ({target}) => {
-      const focused = this.refs.node.contains(target);
+      const focused = this.node.contains(target);
       if (focused && !this.state.focused) {
         this.setState({focused: true});
+        this.props.onFocus();
       }
     }
 
     onBlurCapture = ({target}) => {
-      const {state: {focused}, refs: {node}} = this;
+      const {state: {focused}, node} = this;
       if (focused) {
         setTimeout(() => {
           const blured = node.contains(target) && !node.contains(document.activeElement);
           if (blured) {
             this.setState({focused: false});
+            this.props.onBlur();
           }
         }, 1);
       }
     }
 
+    onFocusRestore = () => {
+      this.node.focus();
+    }
+
     onFocusReset = () => {
-      this.refs.node.focus();
+      this.node.blur();
     }
   };
 }

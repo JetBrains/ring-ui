@@ -4,12 +4,14 @@ import 'core-js/modules/es6.number.is-finite';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
+import focusSensorFactory from '../global/focus-sensor-factory';
+
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
-export default class Row extends Component {
+class Row extends Component {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -17,25 +19,18 @@ export default class Row extends Component {
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
     selected: PropTypes.bool,
-    onFocus: PropTypes.func,
     onHover: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    onFocusRestore: PropTypes.func
   }
 
   static defaultProps = {
     selectable: true,
     focused: false,
     selected: false,
-    onFocus: () => {},
     onHover: () => {},
-    onSelect: () => {}
-  }
-
-  onFocus = () => {
-    const {selectable, item, focused, onFocus} = this.props;
-    if (selectable && !focused) {
-      onFocus(item);
-    }
+    onSelect: () => {},
+    onFocusRestore: () => {}
   }
 
   onMouseEnter = () => {
@@ -44,27 +39,23 @@ export default class Row extends Component {
   }
 
   onClick = e => {
-    const {selectable, item, onSelect} = this.props;
-    if (selectable && e.shiftKey) {
-      onSelect(item);
+    if (e.shiftKey) {
+      this.toggleSelection();
     }
   }
 
-  onCheckboxChange = () => {
-    const {item, onSelect} = this.props;
-    onSelect(item);
-  }
-
   onCheckboxFocus = () => {
-    this.refs.row.focus();
+    this.props.onFocusRestore();
   }
 
-  componentDidUpdate(prevProps) {
-    const {props: {focused}, refs: {row}} = this;
-    if (focused && !prevProps.focused) {
-      row.focus();
-    } else if (!focused && prevProps.focused) {
-      row.blur();
+  onCheckboxChange = () => {
+    this.toggleSelection();
+  }
+
+  toggleSelection() {
+    const {selectable, selected, onSelect} = this.props;
+    if (selectable) {
+      onSelect(!selected);
     }
   }
 
@@ -84,8 +75,8 @@ export default class Row extends Component {
           <Checkbox
             className={focused ? 'ring-checkbox_focus' : ''}
             checked={selected}
-            onChange={this.onCheckboxChange}
             onFocus={this.onCheckboxFocus}
+            onChange={this.onCheckboxChange}
             tabIndex="-1"
           />
         </Cell>
@@ -115,10 +106,11 @@ export default class Row extends Component {
         ref="row"
         className={classes}
         tabIndex="0"
-        onFocus={this.onFocus}
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
       >{cells}</tr>
     );
   }
 }
+
+export default focusSensorFactory(Row);

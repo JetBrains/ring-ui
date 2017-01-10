@@ -134,14 +134,14 @@ describe('Select', () => {
   it('Should call onFocus on input focus', function () {
     this.select.rerender({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.focus(this.select.refs.filter.node);
+    TestUtils.Simulate.focus(this.select.filter.node);
     this.select.props.onFocus.should.been.called;
   });
 
   it('Should call onBlur on input blur', function () {
     this.select.rerender({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.blur(this.select.refs.filter.node);
+    TestUtils.Simulate.blur(this.select.filter.node);
     this.select.props.onBlur.should.been.called;
   });
 
@@ -150,12 +150,9 @@ describe('Select', () => {
     this.select.rerender({type: Select.Type.INPUT});
     this.select._showPopup();
 
-    sinon.stub(this.select._popup, 'hide');
-    TestUtils.Simulate.blur(this.select.refs.filter.node);
-
+    TestUtils.Simulate.blur(this.select.filter.node);
     this.sinon.clock.tick();
-
-    this.select._popup.hide.should.have.been.called;
+    this.select._popup.props.hidden.should.be.true;
   });
 
 
@@ -232,14 +229,14 @@ describe('Select', () => {
         this.select.rerender({add: true});
         this.select.filterValue = this.sinon.stub().returns('');
         this.select._showPopup();
-        this.select._popup.node.should.not.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.not.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if enabled and filter query not empty', function () {
         this.select.rerender({add: true});
         this.select.filterValue = this.sinon.stub().returns('test');
         this.select._showPopup();
-        this.select._popup.node.should.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if alwaysVisible is set', function () {
@@ -249,7 +246,7 @@ describe('Select', () => {
           }
         });
         this.select._showPopup();
-        this.select._popup.node.should.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.contain('.ring-select__button');
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
@@ -260,7 +257,7 @@ describe('Select', () => {
           }
         });
         this.select._showPopup();
-        const addButton = this.select._popup.node.query('.ring-select__button');
+        const addButton = this.select._popup.popup.popup.query('.ring-select__button');
 
         addButton.should.contain.text('Add Something');
       });
@@ -270,7 +267,7 @@ describe('Select', () => {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        this.select._popup.node.should.contain('.ring-list__item_hint');
+        this.select._popup.popup.popup.should.contain('.ring-list__item_hint');
       });
 
       it('Hint should be placed under "add" button', function () {
@@ -279,7 +276,7 @@ describe('Select', () => {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        const hint = this.select._popup.node.queryAll('.ring-list__item_hint');
+        const hint = this.select._popup.popup.popup.queryAll('.ring-list__item_hint');
 
         hint.should.exist;
       });
@@ -339,8 +336,11 @@ describe('Select', () => {
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
       this.select.filterValue = this.sinon.stub().returns('a');
-      this.select.setState({focused: true});
-      TestUtils.Simulate.input(this.select._popup.refs.filter.node);
+      this.select.setState({
+        focused: true,
+        showPopup: true
+      });
+      TestUtils.Simulate.input(this.select._popup.filter.node);
       this.select.props.onFilter.should.been.called;
     });
 
@@ -383,20 +383,21 @@ describe('Select', () => {
 
     it('Should return input value if input mode enabled', function () {
       this.select.rerender({filter: false, type: Select.Type.INPUT});
-      this.select.refs.filter.node.value = 'test input';
+      this.select.filter.node.value = 'test input';
       this.select.filterValue().should.equal('test input');
     });
 
     it('Should set value to popup input if passed', function () {
+      this.select._showPopup();
       this.select.filterValue('test');
-      this.select._popup.refs.filter.node.value.should.equal('test');
+      this.select._popup.filter.node.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', function () {
       this.select.rerender({filter: false, type: Select.Type.INPUT});
 
       this.select.filterValue('test');
-      this.select.refs.filter.node.value.should.equal('test');
+      this.select.filter.node.value.should.equal('test');
     });
   });
 
@@ -571,34 +572,19 @@ describe('Select', () => {
   });
 
   describe('Popup', () => {
-    it('Should pass container to popup', () => {
-      const popupContainer = document.createElement('div');
-
-      const select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        selected: testData[0],
-        popupContainer
-      }));
-
-      select._showPopup();
-      select._popup.node.parentNode.parentNode.should.equal(popupContainer);
-    });
-
     it('Should pass loading message and indicator to popup if loading', function () {
       this.select.rerender({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.rerender.should.been.calledWith(this.sinon.match({
-        message: 'test message',
-        loading: true
-      }));
+      this.select._popup.props.message.should.equal('test message');
+      this.select._popup.props.loading.should.be.true;
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
       this.select.rerender({data: [], notFoundMessage: 'test not found'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
-      this.select._popup.rerender.should.been.calledWith(this.sinon.match({message: 'test not found'}));
+      this.select._popup.props.message.should.equal('test not found');
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
@@ -641,7 +627,6 @@ describe('Select', () => {
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         const ESC_KEY = 27;
         simulateKeypress(null, ESC_KEY);
-
         document.activeElement.should.equal(targetInput.node);
       });
 
@@ -656,22 +641,6 @@ describe('Select', () => {
 
         document.activeElement.should.not.equal(targetInput.node);
       });
-    });
-
-    it('Should put popup in container if specified', function () {
-      const target = document.createElement('div');
-      const container = document.createElement('div');
-      container.appendChild(target);
-
-      this.select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        filter: true,
-        targetElement: target,
-        popupContainer: container
-      }));
-      this.select._showPopup();
-
-      container.should.contain('.ring-popup');
     });
   });
 });

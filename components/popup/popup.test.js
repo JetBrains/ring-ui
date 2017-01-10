@@ -1,273 +1,202 @@
 /* eslint-disable func-names */
 
-import {createElement} from 'react';
-import {render} from 'react-dom';
+import {createElement, Component} from 'react';
 import 'dom4';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
-import TestUtils from 'react-addons-test-utils';
 import {getStyles, getRect} from '../dom/dom';
 
 import Popup from './popup';
+import {MinWidth} from './position';
+
+function renderPopup(props) {
+  return renderIntoDocument(createElement(Popup, props));
+}
 
 describe('Popup', () => {
   it('should create component', () => {
-    const popup = renderIntoDocument(createElement(Popup, null));
+    const popup = renderPopup();
     popup.should.exist;
   });
 
-  it('should be closed by pressing esc', () => {
-    const popup = renderIntoDocument(createElement(Popup, null));
-    popup.show();
+  it('should attempt to close by pressing esc', function () {
+    const onCloseAttempt = this.sinon.stub();
+    renderPopup({onCloseAttempt});
+
     simulateKeypress(null, 27); // Esc
 
-    should.not.exist(popup.node);
-  });
-
-  it('should call callback after rendering', done => {
-    // Timeout will be exceeded when done isn't called
-    Popup.renderPopup(createElement(Popup, null), {onRender: done});
-  });
-
-  it('should put popup in custom container if passed', () => {
-    const container = document.createElement('div');
-
-    Popup.renderPopup(createElement(Popup, null), {container});
-
-    container.should.not.be.empty;
-  });
-
-  it('should be closed by resizing window', done => {
-    const popup = renderIntoDocument(createElement(Popup, null));
-    const resize = document.createEvent('Event');
-    resize.initEvent('resize', true, false);
-
-    setTimeout(() => {
-      window.dispatchEvent(resize);
-
-      should.not.exist(popup.node);
-
-      done();
-    });
-  });
-
-  it('should save passed container', () => {
-    const fixedContainer = document.createElement('div');
-    fixedContainer.style.position = 'fixed';
-    const anchor = document.createElement('div');
-    fixedContainer.append(anchor);
-    document.body.append(fixedContainer);
-
-    const popup = Popup.renderPopup(createElement(Popup, {
-      anchorElement: anchor
-    }));
-
-    popup.props.container.should.be.equal(fixedContainer);
-  });
-
-  it('should remove all popups', done => {
-    const popup1 = renderIntoDocument(createElement(Popup, null));
-    popup1.show();
-
-    const container = document.createElement('div');
-    const anchor = document.createElement('div');
-    container.append(anchor);
-    document.body.append(container);
-
-    const popup2 = Popup.renderPopup(createElement(Popup, {
-      anchorElement: anchor
-    }));
-
-    Popup.hideAllPopups();
-
-    setTimeout(() => {
-      popup1.state.display.should.be.equals(0);
-      popup2.state.display.should.be.equals(0);
-      done();
-    });
+    onCloseAttempt.should.have.been.called;
   });
 
   describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);
 
-    it('should be closed by click outside the element', function (done) {
-      const onClose = this.sinon.stub();
-      const popup = renderIntoDocument(createElement(Popup, {
-        onClose
-      }));
+    it('should attempt to close by click outside the element', function (done) {
+      const onCloseAttempt = this.sinon.stub();
+      renderPopup({onCloseAttempt});
 
       setTimeout(() => {
         document.body.dispatchEvent(click);
 
-        onClose.should.have.been.called;
-
-        should.not.exist(popup.node);
+        onCloseAttempt.should.have.been.called;
 
         done();
       });
     });
 
-    it('should pass event to onClose callback when closing by clicking by document', function (done) {
-      const onCloseStub = this.sinon.stub();
+    it('should pass event to onCloseAttempt callback when closing by clicking by document', function (done) {
       const sinon = this.sinon;
-      renderIntoDocument(createElement(Popup, {
-        onClose: onCloseStub
-      }));
+      const onCloseAttempt = sinon.stub();
+      renderPopup({onCloseAttempt});
 
       setTimeout(() => {
         document.body.dispatchEvent(click);
-        onCloseStub.should.have.been.calledWith(sinon.match({type: 'click'}));
+        onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
         done();
       });
     });
 
     it('should not close popup if popup hidden', function (done) {
-      const onCloseStub = this.sinon.stub();
-      renderIntoDocument(createElement(Popup, {
+      const onCloseAttempt = this.sinon.stub();
+      renderPopup({
         hidden: true,
-        onClose: onCloseStub
-      }));
+        onCloseAttempt
+      });
 
       setTimeout(() => {
         document.body.dispatchEvent(click);
-        onCloseStub.should.not.have.been.called;
+        onCloseAttempt.should.not.have.been.called;
         done();
       });
     });
 
-    it('shouldn\'t be closed by click outside the element after hide', function (done) {
-      const onClose = this.sinon.stub();
-      const popup = TestUtils.renderIntoDocument(createElement(Popup, {
-        onClose
-      }));
+    it('should be closed by click outside the element after show', function (done) {
+      const onCloseAttempt = this.sinon.stub();
+      class Box extends Component {
+        state = {hidden: true};
 
-      setTimeout(() => {
-        popup.hide();
-        document.body.dispatchEvent(click);
+        render() {
+          return createElement(Popup, {
+            onCloseAttempt,
+            ...this.state
+          });
+        }
+      }
+      const box = renderIntoDocument(createElement(Box));
 
-        onClose.should.not.have.been.called;
-        done();
+      box.setState({hidden: false}, () => {
+        setTimeout(() => {
+          document.body.dispatchEvent(click);
+
+          onCloseAttempt.should.have.been.called;
+          done();
+        });
       });
     });
 
-    it('shouldn\'t be closed by click outside the element after show', function (done) {
-      const onClose = this.sinon.stub();
-      const popup = renderIntoDocument(createElement(Popup, {
-        onClose
-      }));
-      popup.hide();
-      popup.show();
+    it('shouldn\'n t be closed by click inside the element', function (done) {
+      const onCloseAttempt = this.sinon.stub();
+      const popup = renderPopup({onCloseAttempt});
 
       setTimeout(() => {
-        document.body.dispatchEvent(click);
+        popup.popup.dispatchEvent(click);
 
-        onClose.should.have.been.called;
-        done();
-      });
-    });
-
-    it('shouldn\'n t be closed by click inside the element', done => {
-      const popup = renderIntoDocument(createElement(Popup, null));
-
-      setTimeout(() => {
-        popup.node.dispatchEvent(click);
-
-        popup.node.should.exist;
+        onCloseAttempt.should.not.have.been.called;
         done();
       });
     });
   });
 
   describe('positioning', () => {
-    it('top-left direction', () => {
+    it('top-left direction', done => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const container = document.createElement('div');
-      document.body.append(container);
-
-      const popup = render(createElement(Popup, {
+      const popup = renderPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element
-      }), container);
+      });
 
-      popup.show();
+      const popupElement = popup.popup;
+      window.requestAnimationFrame(() => {
+        const elementOffset = getRect(element);
 
-      const popupElement = popup.node;
-      const elementOffset = getRect(element);
-
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + elementOffset.width - popup.node.clientWidth);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top - popup.node.clientHeight);
+        parseInt(getStyles(popupElement).left, 10).
+          should.equal(elementOffset.left + elementOffset.width - popupElement.clientWidth);
+        parseInt(getStyles(popupElement).top, 10).
+          should.equal(elementOffset.top - popupElement.clientHeight);
+        done();
+      });
     });
 
-    it('bottom-right corner', () => {
+    it('bottom-right corner', done => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const container = document.createElement('div');
-      document.body.append(container);
-
-      const popup = render(createElement(Popup, {
+      const popup = renderPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element
-      }), container);
+      });
 
-      popup.show();
+      const popupElement = popup.popup;
+      window.requestAnimationFrame(() => {
+        const elementOffset = getRect(element);
 
-      const popupElement = popup.node;
-      const elementOffset = getRect(element);
-
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height);
+        parseInt(getStyles(popupElement).left, 10).
+          should.equal(elementOffset.left);
+        parseInt(getStyles(popupElement).top, 10).
+          should.equal(elementOffset.top + elementOffset.height);
+        done();
+      });
     });
 
-    it('should add specified offset', () => {
+    it('should add specified offset', done => {
       const OFFSET = 10;
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
 
-      const container = document.createElement('div');
-      document.body.append(container);
-
-      const popup = render(createElement(Popup, {
+      const popup = renderPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element,
         left: OFFSET,
         top: OFFSET
-      }), container);
+      });
 
-      popup.show();
+      const popupElement = popup.popup;
+      window.requestAnimationFrame(() => {
+        const elementOffset = getRect(element);
 
-      const popupElement = popup.node;
-      const elementOffset = getRect(element);
-
-      parseInt(getStyles(popupElement).left, 10).should.equal(elementOffset.left + OFFSET);
-      parseInt(getStyles(popupElement).top, 10).should.equal(elementOffset.top + elementOffset.height + OFFSET);
+        parseInt(getStyles(popupElement).left, 10).
+          should.equal(elementOffset.left + OFFSET);
+        parseInt(getStyles(popupElement).top, 10).
+          should.equal(elementOffset.top + elementOffset.height + OFFSET);
+        done();
+      });
     });
 
-    it('Should support minWidth = target', () => {
+    it('Should support minWidth = MinWidth.TARGET', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
       document.body.append(element);
 
-      const popup = renderIntoDocument(createElement(Popup, {
-        minWidth: 'target',
+      const popup = renderPopup({
+        minWidth: MinWidth.TARGET,
         anchorElement: element
-      }));
+      });
 
-      parseInt(getStyles(popup.node).minWidth, 10).should.equal(70);
+      parseInt(getStyles(popup.popup).minWidth, 10).should.equal(70);
       element.remove();
     });
 
     it('Should support minWidth = some number in pixels', () => {
-      const popup = renderIntoDocument(createElement(Popup, {minWidth: '345'}));
+      const popup = renderPopup({minWidth: 345});
 
-      parseInt(popup.node.style.minWidth, 10).should.equal(345);
+      parseInt(popup.popup.style.minWidth, 10).should.equal(345);
     });
   });
 });
