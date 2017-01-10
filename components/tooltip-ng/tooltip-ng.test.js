@@ -35,21 +35,21 @@ describe('Tooltip Ng', () => {
 
   it('Should set ring-tooltip-ng class for popup', () => {
     popupWrapper.displayTooltip();
-    const popup = popupWrapper.popup.node;
+    const popup = popupWrapper.popup.popup;
 
     popup.should.have.class('ring-tooltip-ng');
   });
 
   it('Should set custom class for popup', () => {
     popupWrapper.displayTooltip('custom-class');
-    const popup = popupWrapper.popup.node;
+    const popup = popupWrapper.popup.popup;
 
     popup.should.have.class('custom-class');
   });
 
   it('Should display message inside', () => {
     popupWrapper.displayTooltip();
-    popupWrapper.popup.node.should.have.text(INNER_TEXT);
+    popupWrapper.popup.popup.should.have.text(INNER_TEXT);
   });
 
   it('Should recalculate text on each opening', () => {

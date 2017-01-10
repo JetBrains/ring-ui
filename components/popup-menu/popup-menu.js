@@ -52,9 +52,8 @@ export default class PopupMenu extends Popup {
       <div>
         <List
           ref="List"
-          {...this.props}
-          maxHeight={this._getStyles().maxHeight}
-          onSelect={this.props.onSelect}
+          {...this.getRestProps()}
+          maxHeight={this.position().maxHeight}
           shortcuts={this.shortcutsEnabled()}
         />
       </div>
