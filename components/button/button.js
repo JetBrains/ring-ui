@@ -17,11 +17,16 @@ export default class Button extends RingComponent {
   static propTypes = {
     theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,
-    blue: PropTypes.bool,
     danger: PropTypes.bool,
     delayed: PropTypes.bool,
     loader: PropTypes.bool,
     primary: PropTypes.bool,
+    blue(props, propName) {
+      if (propName in props) {
+        return new Error(`"${propName}" prop is deprecated. Use "primary" instead`);
+      }
+      return undefined;
+    },
     short: PropTypes.bool,
 
     icon: PropTypes.string,
