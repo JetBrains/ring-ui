@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
-import Button from '../button-legacy/button-legacy';
+import Button from '../button/button';
 import RingComponent from '../ring-component/ring-component';
 import {Content} from '../island/island';
 import Panel from '../panel/panel';
@@ -58,7 +58,7 @@ export default class Confirm extends RingComponent {
         <Panel>
           <Button
             data-test="confirm-ok-button"
-            blue={!cancelIsDefault}
+            primary={!cancelIsDefault}
             loader={inProgress}
             disabled={inProgress}
             onClick={onConfirm}
@@ -69,7 +69,7 @@ export default class Confirm extends RingComponent {
             data-test="confirm-reject-button"
             onClick={onReject}
             disabled={inProgress}
-            blue={cancelIsDefault}
+            primary={cancelIsDefault}
           >
             {rejectLabel}
           </Button>
