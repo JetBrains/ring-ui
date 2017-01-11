@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import './island.scss';
+import styles from './island.css';
 
 /**
  * @name Island
@@ -13,12 +13,19 @@ import './island.scss';
 
 export default class Island extends RingComponent {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    narrow: PropTypes.bool
+  };
+
+  static defaultProps = {
+    'data-test': 'ring-island'
   };
 
   render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames('ring-island', className);
+    const {children, className, narrow, ...restProps} = this.props;
+    const classes = classNames(styles.island, className, {
+      [styles.narrowIsland]: narrow
+    });
 
     return (
       <div
