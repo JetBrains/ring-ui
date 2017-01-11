@@ -26,6 +26,10 @@
     padding: calc(unit * 2) calc(unit * 4);
     background-color: transparent;
   }
+
+  & :global(.ring-panel .ring-button) {
+      margin-right: unit;
+  }
 }
 
 .bodyWithoutScroll {
