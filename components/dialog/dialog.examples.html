@@ -18,16 +18,18 @@
 
     import Dialog from 'ring-ui/components/dialog/dialog';
     import {Header, Content} from 'ring-ui/components/island/island';
-    import Button from 'ring-ui/components/button-legacy/button-legacy';
+    import Button from 'ring-ui/components/button/button';
+    import Input from 'ring-ui/components/input/input';
     import Panel from 'ring-ui/components/panel/panel';
 
     class DialogDemo extends React.Component {
       state = {
-        show: true
+        show: true,
+        text: ""
       };
 
       doAction = () => {
-        alert('action performed');
+        alert(`${this.state.text} performed`);
         this.setState({show: false});
       }
 
@@ -44,9 +46,15 @@
 
             <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
               <Header>Hello dialog</Header>
-              <Content>This is dialog content</Content>
+              <Content>
+                <Input
+                  label="Enter action name"
+                  value={this.state.text}
+                  onChange={e => this.setState({text: e.target.value})}
+                />
+              </Content>
               <Panel>
-                <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
+                <Button primary={true} onClick={this.doAction}>OK, lets do the action</Button>
                 <Button onClick={this.cancelDialog}>No</Button>
               </Panel>
             </Dialog>
