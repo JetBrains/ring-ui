@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Portal from 'react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
+import Island from '../island/island';
 import styles from './dialog.css';
 import getEventKey from 'react/lib/getEventKey';
 
@@ -76,12 +77,12 @@ export default class Dialog extends RingComponent {
           onClick={this.handleClick}
           {...restProps}
         >
-          <div
+          <Island
             className={styles.content}
             data-test="ring-dialog"
           >
             {children}
-          </div>
+          </Island>
         </div>
       </Portal>
     );

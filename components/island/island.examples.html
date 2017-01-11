@@ -1,4 +1,4 @@
-<example name="Island in react">
+<example name="Island">
   <file type="html">
     <div id="island"></div>
   </file>
@@ -10,7 +10,7 @@
 
      const renderIslandDemo = () => (
        <Island>
-         <Header>Title</Header>
+         <Header border>Title</Header>
          <Content>Content</Content>
        </Island>
      );
@@ -19,52 +19,37 @@
   </file>
 </example>
 
-<example name="Island">
+<example name="Island with scroll">
   <file type="html">
-    <div>
-      <div class="ring-island">
-        <div class="ring-island__content">Content</div>
-      </div>
-    </div>
+    <div id="island"></div>
+  </file>
+
+  <file type="scss">
+    .limited-island {
+      height: 200px;
+      width: 200px;
+    }
   </file>
 
   <file type="js">
-    require('ring-ui/components/island/island.scss');
-  </file>
-</example>
+    import {render} from 'react-dom';
+    import React from 'react';
+    import Island, {Header, Content} from 'ring-ui/components/island/island';
 
-<example name="Island with a header">
-  <file type="html">
-    <div>
-      <div class="ring-island">
-        <div class="ring-island__header">
-          <span class="ring-island__title">Title</span>
-        </div>
-        <div class="ring-island__content">Content</div>
-      </div>
-    </div>
-  </file>
+    const renderIslandDemo = () => (
+    <Island className="limited-island" narrow>
+      <Header border>Title</Header>
+      <Content fade>
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it to make a type specimen book. It has survived not only five
+        centuries, but also the leap into electronic typesetting, remaining
+        essentially unchanged.
+      </Content>
+    </Island>
+    );
 
-  <file type="js">
-    require('ring-ui/components/island/island.scss');
-  </file>
-</example>
-
-<example name="Island with a header and buttons">
-  <file type="html">
-    <div>
-      <div class="ring-island">
-        <div class="ring-island__header">
-          <span class="ring-island__title">Title</span>
-          <span class="ring-island__header-button">Button1</span>
-          <span class="ring-island__header-button">Button2</span>
-        </div>
-        <div class="ring-island__content">Content</div>
-      </div>
-    </div>
-  </file>
-
-  <file type="js">
-    require('ring-ui/components/island/island.scss');
+    render(renderIslandDemo(), document.getElementById('island'));
   </file>
 </example>

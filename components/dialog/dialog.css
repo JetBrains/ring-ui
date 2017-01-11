@@ -19,22 +19,17 @@
 }
 
 .content {
-  border: 1px solid #B4B4B4;
-  border-radius: border-radius;
-
-  background: #FFF;
-  box-shadow: 0 0 calc(unit * 4) unit rgba(0, 0, 0, .2);
-
   min-width: calc(unit * 50);
   max-width: calc(unit * 53);
 
-  & :global(.ring-island__title) {
-    float: none;
-    text-align: center;
+  & :global(.ring-panel) {
+    margin-top: 0;
+    padding: calc(unit * 2) calc(unit * 4);
+    background-color: transparent;
   }
 
-  & :global(.ring-panel) {
-    padding: calc(unit * 2) calc(unit * 4);
+  & :global(.ring-panel .ring-button) {
+      margin-right: unit;
   }
 }
 

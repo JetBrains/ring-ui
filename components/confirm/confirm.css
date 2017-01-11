@@ -1,10 +1,12 @@
-@value unit from '../global/global.css';
+@value unit, font-size from '../global/global.css';
 
 .text {
   font-size: 19px;
+  line-height: 28px;
+  padding-top: unit;
 }
 
 .description {
-  margin: calc(unit * 2) 0;
-  font-size: 13px;
+  margin-top: unit;
+  font-size: font-size;
 }
