@@ -1,0 +1,70 @@
+<example name="Island in react">
+  <file type="html">
+    <div id="island"></div>
+  </file>
+
+  <file type="js">
+     import {render} from 'react-dom';
+     import React from 'react';
+     import Island, {Header, Content} from 'ring-ui/components/island/island';
+
+     const renderIslandDemo = () => (
+       <Island>
+         <Header>Title</Header>
+         <Content>Content</Content>
+       </Island>
+     );
+
+     render(renderIslandDemo(), document.getElementById('island'));
+  </file>
+</example>
+
+<example name="Island">
+  <file type="html">
+    <div>
+      <div class="ring-island">
+        <div class="ring-island__content">Content</div>
+      </div>
+    </div>
+  </file>
+
+  <file type="js">
+    require('ring-ui/components/island/island.scss');
+  </file>
+</example>
+
+<example name="Island with a header">
+  <file type="html">
+    <div>
+      <div class="ring-island">
+        <div class="ring-island__header">
+          <span class="ring-island__title">Title</span>
+        </div>
+        <div class="ring-island__content">Content</div>
+      </div>
+    </div>
+  </file>
+
+  <file type="js">
+    require('ring-ui/components/island/island.scss');
+  </file>
+</example>
+
+<example name="Island with a header and buttons">
+  <file type="html">
+    <div>
+      <div class="ring-island">
+        <div class="ring-island__header">
+          <span class="ring-island__title">Title</span>
+          <span class="ring-island__header-button">Button1</span>
+          <span class="ring-island__header-button">Button2</span>
+        </div>
+        <div class="ring-island__content">Content</div>
+      </div>
+    </div>
+  </file>
+
+  <file type="js">
+    require('ring-ui/components/island/island.scss');
+  </file>
+</example>
