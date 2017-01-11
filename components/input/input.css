@@ -57,6 +57,7 @@ textarea.input {
 }
 
 .input:focus ~ .label,
+.input:-webkit-autofill ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
   background: transparent;
