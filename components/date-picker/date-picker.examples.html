@@ -20,6 +20,7 @@
             <DatePicker
               date={this.state.date}
               onChange={date => this.setState({date})}
+              popupClassName="test-popup"
             />
           </div>
         );
@@ -56,6 +57,7 @@
               {...this.state}
               onChange={::this.setState}
               range={true}
+              popupClassName="test-popup"
             />
           </div>
         );
@@ -89,6 +91,7 @@
               date={this.state.date}
               onChange={date => this.setState({date})}
               clear={true}
+              popupClassName="test-popup"
             />
           </div>
         );

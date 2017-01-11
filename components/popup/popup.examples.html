@@ -1,209 +1,201 @@
 <example name="Popup">
   <file type="scss">
-    .popup-example__button {
+    body {
+      overflow: hidden;
+    }
+
+    .button {
       position: absolute;
       left: 50px;
       bottom: 50px;
     }
 
-    .popup-example__anchor {
+    .anchor {
       position: absolute;
       width: 10px;
       height: 10px;
+    }
 
-      &_left {
-        left: 0;
-        top: 0;
-        background-color: red;
-      }
+    .topLeft {
+      left: 0;
+      top: 0;
+      background-color: red;
+    }
 
-      &_right {
-        right: 0;
-        top: 0;
-        background-color: blue;
-      }
+    .topRight {
+      right: 0;
+      top: 0;
+      background-color: blue;
+    }
 
-      &_bottom-left {
-        left: 0;
-        bottom: 0;
-        background-color: green;
-      }
+    .bottomLeft {
+      left: 0;
+      bottom: 0;
+      background-color: green;
+    }
 
-      &_bottom-right {
-        right: 0;
-        bottom: 0;
-        background-color: orange;
-      }
+    .bottomRight {
+      right: 0;
+      bottom: 0;
+      background-color: orange;
     }
   </file>
   <file type="html">
-    <div>
-      <div id="top__left"
-        class="popup-example__anchor popup-example__anchor_left"></div>
-      <div id="top__right"
-        class="popup-example__anchor popup-example__anchor_right"></div>
-      <div id="bottom__left"
-        class="popup-example__anchor popup-example__anchor_bottom-left"></div>
-      <button id="switch3" class="popup-example__button">Show again</button>
-      <div id="bottom__right"
-        class="popup-example__anchor popup-example__anchor_bottom-right"></div>
-    </div>
+    <div id="example"></div>
   </file>
   <file type="js">
-    var DOM = require('react').DOM;
-    var Popup = require('ring-ui/components/popup/popup');
-    var Directions = Popup.PopupProps.Directions;
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import classNames from 'classnames';
 
-    var container = DOM.span(null, 'Helloworld!');
+    import Popup from 'ring-ui/components/popup/popup';
 
-    var popup = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('top__left'),
-      directions: [Directions.BOTTOM_RIGHT],
-      autoRemove: false
-    }, container));
+    const {Directions} = Popup.PopupProps;
 
-    var popup2 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('top__right'),
-      directions: [Directions.BOTTOM_LEFT],
-      autoRemove: false
-    }, container));
+    const directionMap = {
+      topLeft: Directions.BOTTOM_RIGHT,
+      topRight: Directions.BOTTOM_LEFT,
+      bottomLeft: Directions.TOP_RIGHT,
+      bottomRight: Directions.TOP_LEFT
+    }
 
-    var popup3 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('bottom__left'),
-      directions: [Directions.TOP_RIGHT],
-      autoRemove: false
-    }, container));
+    const directionKeys = Object.keys(directionMap);
+    const initialState = directionKeys.reduce((acc, key) => {
+      acc[key] = true;
+      return acc;
+    }, {});
 
-    var popup4 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('bottom__right'),
-      directions: [Directions.TOP_LEFT],
-      autoRemove: false
-    }, container));
+    class PopupExample extends Component {
+      state = initialState;
 
-    document.getElementById('switch3').addEventListener('click', function () {
-      setTimeout(function () {
-        popup3.show();
-      }, 1);
-    });
+      renderPopup(key) {
+        return (
+          <div className={classNames("anchor", key)} key={key}>
+            <Popup
+              hidden={!this.state[key]}
+              onCloseAttempt={() => this.setState({[key]: false})}
+              directions={[directionMap[key]]}
+            >
+              <span>Helloworld!</span>
+            </Popup>
+          </div>
+        );
+      }
+
+      render() {
+        return (
+          <div>
+            {directionKeys.map(::this.renderPopup)}
+            <button
+              className="button"
+              onClick={() => setTimeout(() => {
+                this.setState({bottomLeft: true});
+              })}
+            >Show again</button>
+          </div>
+        );
+      }
+    }
+
+    render(<PopupExample />, document.getElementById('example'));
   </file>
 </example>
 
 <example name="Auto-positioning a popup">
-  <file type="html">
-    <div>
-      <div id="horizontalCenter" class="popup-example__message">Popup should
-        change open direction when reaching window borders
-      </div>
-      <div id="verticalCenter"
-        class="popup-example__message popup-example__message_vert">Popup should
-        change open direction when reaching window borders
-      </div>
-      <div id="leftSide"
-        class="popup-example__anchor popup-example__anchor_left">Left side open
-        popup
-      </div>
-      <div id="rightSide"
-        class="popup-example__anchor popup-example__anchor_right">Right side
-        open popup
-      </div>
-      <div id="downSide"
-        class="popup-example__anchor popup-example__anchor_bottom">Downside open
-        popup
-      </div>
-      <div id="topSide" class="popup-example__anchor popup-example__anchor_top">
-        Upside open popup
-      </div>
-    </div>
-  </file>
   <file type="scss">
-    .popup-example__message {
+    .message {
       position: absolute;
 
       top: 50%;
       left: 300px;
-
-      &_vert {
-        top: 20%;
-        width: 150px;
-      }
     }
 
-    .popup-example__anchor {
+    .vert {
+      top: 20%;
+      width: 150px;
+    }
+
+    .anchor {
       position: absolute;
+    }
 
-      &_left {
-        left: 0;
-        top: 50px;
-      }
+    .left {
+      left: 0;
+      top: 50px;
+    }
 
-      &_right {
-        right: 0;
-        top: 50px;
-      }
+    .right {
+      right: 0;
+      top: 50px;
+    }
 
-      &_bottom {
-        left: 150px;
-        bottom: 0;
-      }
+    .bottom {
+      left: 150px;
+      bottom: 0;
+    }
 
-      &_top {
-        right: 150px;
-        top: 0;
-      }
+    .top {
+      right: 150px;
+      top: 0;
     }
   </file>
+  <file type="html">
+    <div id="example"></div>
+  </file>
   <file type="js">
-    var DOM = require('react').DOM;
-    var Popup = require('ring-ui/components/popup/popup');
-    var Directions = Popup.PopupProps.Directions;
+    import React from 'react';
+    import {render} from 'react-dom';
 
-    var container = DOM.span({style: {whiteSpace: 'no-wrap'}}, 'This is popup');
+    import Popup from 'ring-ui/components/popup/popup';
 
-    var popup = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('leftSide'),
-      directions: [Directions.LEFT_BOTTOM, Directions.RIGHT_BOTTOM],
-      autoRemove: false
-    }, container));
+    const Directions = Popup.PopupProps.Directions;
 
-    var popup2 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('rightSide'),
-      directions: [Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM],
-      autoRemove: false
-    }, container));
+    const content = <span className="popup">This is popup</span>;
+    const example = (
+      <div>
+        <div className="message">Popup should
+          change open direction when reaching window borders
+          <Popup
+            directions={[Directions.TOP_CENTER]}
+          >{content}</Popup>
+        </div>
+        <div className="message vert">Popup should
+          change open direction when reaching window borders
+          <Popup
+            directions={[Directions.RIGHT_CENTER]}
+          >{content}</Popup>
+        </div>
+        <div className="anchor left">Left side open
+          popup
+          <Popup
+            directions={[Directions.LEFT_BOTTOM, Directions.RIGHT_BOTTOM]}
+          >{content}</Popup>
+        </div>
+        <div className="anchor right">Right side
+          open popup
+          <Popup
+            directions={[Directions.RIGHT_BOTTOM, Directions.LEFT_BOTTOM]}
+          >{content}</Popup>
+        </div>
+        <div className="anchor bottom">Downside open
+          popup
+          <Popup
+            directions={[Directions.BOTTOM_RIGHT, Directions.TOP_LEFT]}
+          >{content}</Popup>
+        </div>
+        <div className="anchor top">
+          Upside open popup
+          <Popup
+            directions={[Directions.TOP_LEFT, Directions.BOTTOM_RIGHT]}
+          >{content}</Popup>
+        </div>
+      </div>
+    );
 
-    var popup3 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('downSide'),
-      directions: [Directions.BOTTOM_RIGHT, Directions.TOP_LEFT],
-      autoRemove: false
-    }, container));
-
-    var popup4 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('topSide'),
-      directions: [Directions.TOP_LEFT, Directions.BOTTOM_RIGHT],
-      autoRemove: false
-    }, container));
-
-    var popup5 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('horizontalCenter'),
-      directions: [Directions.TOP_CENTER],
-      autoRemove: false
-    }, container));
-
-    var popup6 = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('verticalCenter'),
-      directions: [Directions.RIGHT_CENTER],
-      autoRemove: false
-    }, container));
+    render(example, document.getElementById('example'));
   </file>
 </example>
 <example name="Popup in a popup">
-  <file type="html">
-    <div>
-      <div id="parentPopupAnchor" class="popup-example__message">Parent popup
-        anchor
-      </div>
-    </div>
-  </file>
   <file type="scss">
     .parent-popup {
       width: 100px;
@@ -217,22 +209,86 @@
       margin: 8px;
     }
   </file>
+  <file type="html">
+    <div id="example"></div>
+  </file>
   <file type="js">
-    var DOM = require('react').DOM;
-    var Popup = require('ring-ui/components/popup/popup');
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
 
-    var parentPopupContent = DOM.div({className: 'parent-popup'}, 'This is parent popup');
-    var childPopupContent = DOM.div({className: 'child-popup'}, 'This is child popup');
+    import Popup from 'ring-ui/components/popup/popup';
 
-    var parentPopup = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementById('parentPopupAnchor'),
-      autoRemove: false
-    }, parentPopupContent));
+    class PopupBox extends Component {
+      state = {hidden: false};
 
-    var childPopup = Popup.renderPopup(Popup.factory({
-      anchorElement: document.getElementsByClassName('parent-popup')[0],
-      autoRemove: false
-    }, childPopupContent));
+      render() {
+        return (
+          <Popup
+            {...this.state}
+            onCloseAttempt={() => this.setState({hidden: true})}
+          >{this.props.children}</Popup>
+        );
+      }
+    }
 
+    const example = (
+      <div>
+        Parent popup anchor
+        <PopupBox>
+          <div className="parent-popup">
+            This is parent popup
+            <PopupBox>
+              <div className="child-popup">
+                This is child popup
+              </div>
+            </PopupBox>
+          </div>
+        </PopupBox>
+      </div>
+    );
+
+    render(example, document.getElementById('example'));
+  </file>
+</example>
+<example name="Popup inside a scrollable container">
+  <file type="scss">
+    body {
+      margin: 0;
+    }
+
+    .container {
+      height: 100vh;
+      overflow: auto;
+    }
+
+    .example {
+      height: 200vh;
+    }
+
+    .anchor{
+      display: inline-block;
+    }
+  </file>
+  <file type="html">
+    <div id="example"></div>
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+
+    import Popup from 'ring-ui/components/popup/popup';
+
+    const example = (
+      <div className="container">
+        <div className="example">
+          <div className="anchor">
+            Popup anchor
+            <Popup>Popup content</Popup>
+          </div>
+        </div>
+      </div>
+    );
+
+    render(example, document.getElementById('example'));
   </file>
 </example>

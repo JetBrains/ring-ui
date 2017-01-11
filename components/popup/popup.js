@@ -4,120 +4,50 @@
  * @description Displays a popup.
  */
 
-import React, {PropTypes} from 'react';
+import React, {PropTypes, cloneElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
+import Portal from 'react-portal';
 import classNames from 'classnames';
 import 'dom4';
+import 'core-js/modules/es7.array.includes';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
-import {getStyles, isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop, getWindowHeight} from '../dom/dom';
+import Listeners from '../global/dom-listeners';
+import getUID from '../global/get-uid';
+import scheduleRAF from '../global/schedule-raf';
+import position, {DEFAULT_DIRECTIONS, Directions, Dimension, Display, positionPropKeys, MaxHeight, MinWidth} from './position.js';
+import {getRect} from '../dom/dom';
 
-import './popup.scss';
+import styles from './popup.css';
 
-const Directions = {
-  BOTTOM_RIGHT: 'BOTTOM_RIGHT',
-  BOTTOM_LEFT: 'BOTTOM_LEFT',
-  BOTTOM_CENTER: 'BOTTOM_CENTER',
-  TOP_LEFT: 'TOP_LEFT',
-  TOP_RIGHT: 'TOP_RIGHT',
-  TOP_CENTER: 'TOP_CENTER',
-  RIGHT_TOP: 'RIGHT_TOP',
-  RIGHT_BOTTOM: 'RIGHT_BOTTOM',
-  RIGHT_CENTER: 'RIGHT_CENTER',
-  LEFT_TOP: 'LEFT_TOP',
-  LEFT_BOTTOM: 'LEFT_BOTTOM',
-  LEFT_CENTER: 'LEFT_CENTER'
+const legacyPopups = new Set();
+
+const Messages = {
+  STOP_RENDERING: 'Stop rendering the Popup element if you want it to disappear',
+  RENDER_DIRECTLY: 'Render Popup directly as a child',
+  SHOW: 'Pass "hidden" property to control popup visibility',
+  ON_CLOSE_ATTEMPT: 'Use "onCloseAttempt" callback to react to close attempts',
+  CUT_EDGE_RENAMED: '"cutEdge" property has been renamed to "attached"'
 };
 
-/**
- * When positioning a popup, directions will be tried in the listed order.
- * @type {Array.<string>}
- */
-const DEFAULT_DIRECTIONS = [
-  Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
-  Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  // Fall back to the first option
-  Directions.BOTTOM_RIGHT
-];
-
-/**
- * @enum {number}
- */
-const Dimension = {
-  MARGIN: 16,
-  BORDER_WIDTH: 1
-};
-
-class OpenedPopupRegistry {
-
-  _registry = {};
-
-  constructor() {}
-
-  _findNearestParentUid(reactPopupInstance) {
-    let checkingNode = reactPopupInstance.props.anchorElement;
-    while (checkingNode) {
-      const popupUid = checkingNode.getAttribute && checkingNode.getAttribute('data-popup-uid');
-      if (popupUid && this._registry[popupUid]) {
-        return popupUid;
-      }
-      checkingNode = checkingNode.parentNode;
+function legacyProp(propType, message) {
+  return function check(props, propName, ...restArgs) {
+    if (!props.legacy && propName in props) {
+      return new Error(`"${propName}" prop is deprecated. ${message}`);
     }
-
-    return undefined;
-  }
-
-  isRegistered(reactPopupInstance) {
-    return !!this._registry[reactPopupInstance.uid];
-  }
-
-  register(reactPopupInstance) {
-    if (this.isRegistered(reactPopupInstance)) {
-      return;
-    }
-
-    this._registry[reactPopupInstance.uid] = {
-      instance: reactPopupInstance,
-      childUid: null
-    };
-
-    const parentPopupIdentifier = this._findNearestParentUid(reactPopupInstance);
-    if (parentPopupIdentifier) {
-      this._registry[parentPopupIdentifier].childUid = reactPopupInstance.uid;
-    }
-  }
-
-  unregister(reactPopupInstance) {
-    this._registry[reactPopupInstance.uid] = undefined;
-  }
-
-  getChildren(reactPopupInstance) {
-    const openedChildrenUid = this._registry[reactPopupInstance.uid] && this._registry[reactPopupInstance.uid].childUid;
-    if (openedChildrenUid && this._registry[openedChildrenUid]) {
-      const child = this._registry[openedChildrenUid].instance;
-      return [child].concat(this.getChildren(child));
-    }
-    return [];
-  }
-
-  unregisterAll() {
-    Object.keys(this._registry).
-      forEach(registryItem => {
-        if (this._registry[registryItem]) {
-          this.unregister(this._registry[registryItem].instance);
-        }
-      });
-  }
-
-  getAllInstances() {
-    return Object.keys(this._registry).
-      filter(key => this._registry[key]).
-      map(key => this._registry[key].instance);
-  }
+    return propType(props, propName, ...restArgs);
+  };
 }
 
-const POPUP_REGISTRY = new OpenedPopupRegistry();
-
+function deprecateString(old, replacement) {
+  return function check(props, propName, ...restArgs) {
+    const isNumber = PropTypes.number(props, propName, ...restArgs);
+    if (isNumber instanceof Error) {
+      return new Error(`${propName}="${old}" is deprecated. use Popup.PopupProps.${replacement} instead`);
+    }
+    return isNumber;
+  };
+}
 
 /**
  * @constructor
@@ -127,59 +57,81 @@ const POPUP_REGISTRY = new OpenedPopupRegistry();
  */
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
-    anchorElement: PropTypes.object,
+    anchorElement: PropTypes.instanceOf(Node),
     className: PropTypes.string,
-    maxHeight: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
+    hidden: PropTypes.bool.isRequired,
+    onOutsideClick: PropTypes.func,
+    onEscPress: PropTypes.func,
+    // onCloseAttempt is a common callback for ESC pressing and outside clicking.
+    // Use it if you don't need different behaviors for this cases.
+    onCloseAttempt: PropTypes.func,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
     ]),
-    directions: PropTypes.array,
+    dontCloseOnAnchorClick: PropTypes.bool,
+    shortcuts: PropTypes.bool,
+    keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
+
+    directions: PropTypes.arrayOf(PropTypes.string),
+    autoPositioning: PropTypes.bool,
     left: PropTypes.number,
-    top: PropTypes.number
+    top: PropTypes.number,
+    maxHeight: deprecateString('screen', 'MaxHeight.SCREEN'),
+    minWidth: deprecateString('target', 'MinWidth.TARGET'),
+    sidePadding: PropTypes.number,
+
+    attached: PropTypes.bool, // Popup adjacent to an input, without upper border and shadow
+
+    legacy: PropTypes.bool,
+    autoRemove: legacyProp(PropTypes.bool, Messages.STOP_RENDERING),
+    onClose: legacyProp(PropTypes.func, Messages.ON_CLOSE_ATTEMPT),
+    cutEdge(props) {
+      if ('cutEdge' in props) {
+        return new Error(Messages.CUT_EDGE_RENAMED);
+      }
+      return null;
+    }
+  };
+
+  static contextTypes = {
+    parentPopupUid: PropTypes.string
+  };
+
+  static childContextTypes = {
+    parentPopupUid: PropTypes.string
   };
 
   static defaultProps = {
-    shortcuts: false,
+    shortcuts: true,
     hidden: false,
-    autoRemove: true,
-    cutEdge: true,
-    left: 0,
-    top: 0,
+    onOutsideClick() {},
+    onEscPress() {},
+    onCloseAttempt() {},
+    dontCloseOnAnchorClick: false,
+    keepMounted: false,
+
     directions: DEFAULT_DIRECTIONS,
     autoPositioning: true,
-    sidePadding: 8
+    left: 0,
+    top: 0,
+    sidePadding: 8,
+
+    attached: true, //TODO change to false in 3.0
+
+    legacy: false
   };
 
   static PopupProps = {
     Directions,
-    Dimension
+    Dimension,
+    MinWidth,
+    MaxHeight
   };
 
   static hideAllPopups() {
-    const allInstances = POPUP_REGISTRY.getAllInstances();
-    allInstances.forEach(instance => instance.hide());
-    POPUP_REGISTRY.unregisterAll();
-  }
-
-  /**
-   * Finds and returns the closest DOM node with position: fixed, or null if none found
-   * @param currentElement
-   * @returns {DOMNode|null}
-   */
-  static closestFixedParent(currentElement) {
-    if (!currentElement || currentElement === document.body) {
-      return null;
-    }
-
-    let node = currentElement;
-
-    while ((node = node.parentNode) && node instanceof Element) {
-      if (getStyles(node).position === 'fixed' || node.classList.contains('ring-popup-container-mark')) {
-        return node;
-      }
-    }
-
-    return null;
+    console.warn(`Popup.hideAllPopups is deprecated. ${Messages.SHOW}`);
+    legacyPopups.forEach(instance => instance.hide());
   }
 
   /**
@@ -188,83 +140,172 @@ export default class Popup extends RingComponentWithShortcuts {
    * @param {Function} callback Callback to execute after rendering
    * @param {Object=} params Optional params
    * @param {Function} params.onRender Callback to run after rendering
-   * @param {HTMLElement} params.container Container to put the popup element in
    * @return {HTMLElement}
    */
-  static renderPopup(component, {onRender, container: customContainer} = {}) {
-    const wrapperElement = document.createElement('div');
-    const container = customContainer || component.props && this.closestFixedParent(component.props.anchorElement) || document.body;
+  static renderPopup(element, {onRender} = {}) {
+    console.warn(`Popup.renderPopup is deprecated. ${Messages.RENDER_DIRECTLY}`);
+    const wrapperElement = document.createElement('span');
+    const container = element.props && element.props.anchorElement || document.body;
     container.appendChild(wrapperElement);
+    const cloned = cloneElement(element, {
+      legacy: true
+    });
 
-    const popupInstance = render(component, wrapperElement);
-
-    popupInstance.rerender({container}, onRender);
+    const popupInstance = render(cloned, wrapperElement, onRender);
     return popupInstance;
   }
 
-  state = {
-    display: this.props.hidden ? 0 : 1 // 0 - hidden, 1 - display in progress, 2 - visible
-  };
+  display = Display.SHOWING;
 
-  constructor(...args) {
-    super(...args);
+  listeners = new Listeners();
 
-    this.uid = this.constructor.getUID('ring-popup-');
+  constructor(props, ...restArgs) {
+    super(props, ...restArgs);
 
-    this._onWindowResize = this._onWindowResize.bind(this);
-    this._onDocumentClick = this._onDocumentClick.bind(this);
+    this.uid = getUID('popup-');
+
+    this.state = {
+      shortcuts: props.shortcuts && !props.hidden
+    };
+
     this.remove = this.remove.bind(this);
+    this.redrawScheduler = scheduleRAF();
   }
 
   getShortcutsProps() {
     return {
       map: {
-        esc: ::this.close
+        esc: ::this._onEscPress
       },
       scope: this.uid
     };
   }
 
-  didMount() {
-    if (!this.props.hidden) {
-      this._setListenersEnabled(true);
-    }
-    this._checkDisplay();
+  getChildContext() {
+    return {
+      parentPopupUid: this.uid
+    };
   }
 
-  didUpdate() {
-    this._checkDisplay();
+  didMount() {
+    this.mounted = true;
+    if (!this.props.hidden) {
+      this._setListenersEnabled(true);
+      this.display = Display.SHOWN;
+      this.forceUpdate();
+    }
+    if (this.props.legacy) {
+      legacyPopups.add(this);
+    }
+  }
+
+  willReceiveProps(nextProps) {
+    this.setState({
+      shortcuts: nextProps.shortcuts && !nextProps.hidden
+    });
+  }
+
+  didUpdate(prevProps) {
+    const {hidden} = this.props;
+    if (prevProps.hidden !== hidden) {
+      this._setListenersEnabled(!hidden);
+      this.display = this.props.hidden ? Display.SHOWING : Display.SHOWN;
+      this.forceUpdate();
+    }
   }
 
   willUnmount() {
+    this.mounted = false;
+    if (this.props.legacy) {
+      legacyPopups.delete(this);
+    }
     this._setListenersEnabled(false);
   }
 
   render() {
-    POPUP_REGISTRY.register(this);
-    const {onMouseDown, onMouseUp} = this.props;
-    const classes = classNames({
-      'ring-popup': true,
-      'ring-popup_bound': this.props.cutEdge
-    }, this.props.className);
+    const {className, hidden, attached, keepMounted, legacy, cutEdge} = this.props;
+    const classes = classNames(className, styles.popup, {
+      [styles.attached]: attached || legacy && cutEdge !== false
+    });
 
     return (
-      <div
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        data-popup-uid={this.uid}
-        className={classes}
-        style={this._getStyles()}
+      <span
+        ref={el => {
+          this.parent = el && el.parentElement;
+          if (el && this.mounted && this.context.parentPopupUid && !this.hasRedrawn) {
+            this._redraw();
+            this.hasRedrawn = true;
+          }
+        }}
       >
-        {this.getInternalContent()}
-      </div>
+        <Portal
+          isOpen={keepMounted || !hidden}
+          target={this.context.parentPopupUid}
+        >
+          <div
+            data-portaltarget={this.uid}
+            ref={el => {
+              this.container = el;
+            }}
+          >
+            <div
+              style={this.position()}
+              ref={el => {
+                this.popup = el;
+              }}
+              className={classes}
+              {...this.getRestProps()}
+            >
+              {this.getInternalContent()}
+            </div>
+          </div>
+        </Portal>
+      </span>
     );
+  }
+
+  getRestProps() {
+    return Object.keys(this.props).reduce((acc, key) => {
+      if (!(key in Popup.propTypes)) {
+        acc[key] = this.props[key];
+      }
+      return acc;
+    }, {});
+  }
+
+  position() {
+    const positionProps = positionPropKeys.reduce((acc, key) => {
+      acc[key] = this.props[key];
+      return acc;
+    }, {});
+
+    return position({
+      popup: this.popup,
+      anchor: this._getAnchor(),
+      ...positionProps,
+      display: this.props.hidden ? Display.HIDDEN : this.display
+    });
+  }
+
+  // we need forceUpdate for correct repositioning of popup
+  _redraw() {
+    if (!this.props.hidden) {
+      this.redrawScheduler(::this.forceUpdate);
+    }
+  }
+
+  _legacyOnly(method, message = Messages.SHOW) {
+    if (!this.props.legacy) {
+      throw new Error(`Popup#${method} is deprecated. ${message}`);
+    }
   }
 
   /**
    * Closes the popup and (optionally) removes it from the document
    */
   close(evt) {
+    this._legacyOnly('close');
+
     let onCloseResult;
 
     if (typeof this.props.onClose === 'function') {
@@ -275,33 +316,33 @@ export default class Popup extends RingComponentWithShortcuts {
       }
     }
 
-    if (this.props.autoRemove) {
+    if (this.props.autoRemove !== false) {
       this.remove();
     } else {
       this.hide();
     }
 
-    POPUP_REGISTRY::POPUP_REGISTRY.unregister(this);
-
     return onCloseResult;
   }
 
   hide(cb) {
-    this.setState({
-      display: 0,
-      shortcuts: false
-    }, cb);
+    this._legacyOnly('hide');
 
-    this._setListenersEnabled(false);
+    this.node && this.node.parentNode && this.rerender({
+      hidden: true
+    }, cb);
   }
 
   show(cb) {
-    this.setState({
-      display: 1,
-      shortcuts: true
-    }, cb);
+    this._legacyOnly('show');
 
-    this._setListenersEnabled(true);
+    this.node && this.node.parentNode && this.rerender({
+      hidden: false
+    }, cb);
+  }
+
+  _getAnchor() {
+    return this.props.anchorElement || this.parent;
   }
 
   /**
@@ -312,16 +353,20 @@ export default class Popup extends RingComponentWithShortcuts {
     if (enable && !this._listenersEnabled) {
       setTimeout(() => {
         this._listenersEnabled = true;
-        window.addEventListener('resize', this._onWindowResize);
-        document.addEventListener('click', this._onDocumentClick);
+        this.listeners.add(window, 'resize', ::this._redraw);
+        this.listeners.add(document, 'click', ::this._onDocumentClick);
+        let el = this._getAnchor();
+        while (el) {
+          this.listeners.add(el, 'scroll', ::this._redraw);
+          el = el.parentElement;
+        }
       }, 0);
 
       return;
     }
 
     if (!enable && this._listenersEnabled) {
-      window.removeEventListener('resize', this._onWindowResize);
-      document.removeEventListener('click', this._onDocumentClick);
+      this.listeners.removeAll();
       this._listenersEnabled = false;
     }
   }
@@ -342,18 +387,21 @@ export default class Popup extends RingComponentWithShortcuts {
    * @return {boolean}
    */
   isVisible() {
-    return this.state.display > 0;
+    return !this.props.hidden;
   }
 
   /**
    * Removes the popup from the document
    */
   remove() {
-    if (!this.node) {
+    this._legacyOnly('remove', Messages.STOP_RENDERING);
+
+    const {parent} = this;
+
+    if (!parent) {
       return;
     }
 
-    const parent = this.node.parentNode;
     unmountComponentAtNode(parent);
 
     if (parent.parentNode) {
@@ -361,11 +409,16 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  /**
-   * @private
-   */
-  _onWindowResize(evt) {
-    this.close(evt);
+  _onCloseAttempt(evt) {
+    if (this.props.legacy) {
+      this.close(evt);
+    }
+    this.props.onCloseAttempt(evt);
+  }
+
+  _onEscPress(evt) {
+    this.props.onEscPress(evt);
+    this._onCloseAttempt(evt);
   }
 
   /**
@@ -373,197 +426,20 @@ export default class Popup extends RingComponentWithShortcuts {
    * @private
    */
   _onDocumentClick(evt) {
-    if (!this.node || this.node.contains(evt.target) || !this._listenersEnabled) {
+    if (
+      this.container && this.container.contains(evt.target) ||
+      !this._listenersEnabled ||
+      this.props.dontCloseOnAnchorClick && this._getAnchor() && this._getAnchor().contains(evt.target)
+    ) {
       return;
     }
 
-    const children = POPUP_REGISTRY.getChildren(this);
-    const clickToChildPopupNode = children.some(
-      childPopup => childPopup.node && childPopup.node.contains(evt.target)
-    );
-    if (clickToChildPopupNode) {
-      return;
-    }
-
-    if (!this.props.anchorElement || !this.props.dontCloseOnAnchorClick || !this.props.anchorElement.contains(evt.target)) {
-      this.close(evt);
-    }
+    this.props.onOutsideClick(evt);
+    this._onCloseAttempt(evt);
   }
 
   getElementOffset(element) {
-    const elementRect = getRect(element);
-
-    if (this.props.container && this.props.container !== document.body) {
-      const containerRect = getRect(this.props.container);
-      elementRect.left -= containerRect.left;
-      elementRect.top -= containerRect.top;
-    }
-
-    return elementRect;
-  }
-
-  _verticalOverflow(styles, scrollingCoordinates) {
-    if (!this.props.autoPositioning) {
-      return 0;
-    }
-    const viewportMinX = scrollingCoordinates.top + this.props.sidePadding;
-    const viewportMaxX = scrollingCoordinates.top + getWindowHeight() - this.props.sidePadding;
-
-    const topOverflow = styles.top < viewportMinX ? viewportMinX - styles.top : 0;
-
-    const popupHeight = this.node.clientHeight;
-    const verticalDiff = viewportMaxX - styles.top - popupHeight;
-    const bottomOverflow = verticalDiff < 0 ? Math.abs(verticalDiff) : 0;
-
-    return topOverflow + bottomOverflow;
-  }
-
-  _horizontalOverflow(styles, scrollingCoordinates) {
-    if (!this.props.autoPositioning) {
-      return 0;
-    }
-    const viewportMinY = scrollingCoordinates.left + this.props.sidePadding;
-    const viewportMaxY = scrollingCoordinates.left + window.innerWidth - this.props.sidePadding;
-
-    const leftOverflow = styles.left < viewportMinY ? viewportMinY - styles.left : 0;
-
-    const popupWidth = this.node.clientWidth;
-    const horizontalDiff = viewportMaxY - styles.left - popupWidth;
-    const rightOverflow = horizontalDiff < 0 ? Math.abs(horizontalDiff) : 0;
-
-    return leftOverflow + rightOverflow;
-  }
-
-  _getPositionStyles(anchor, anchorLeft, anchorTop) {
-    const popupWidth = this.node.clientWidth;
-    const popupHeight = this.node.clientHeight;
-
-    const anchorBottom = anchorTop + anchor.height;
-    const anchorRight = anchorLeft + anchor.width;
-
-    const popupLeft = anchorLeft - popupWidth;
-    const popupTop = anchorTop - popupHeight;
-    const popupRightToLeft = anchorRight - popupWidth;
-    const popupHorizontalCenter = anchorLeft + anchor.width / 2 - popupWidth / 2;
-    const popupVerticalCenter = anchorTop + anchor.height / 2 - popupHeight / 2;
-    const popupBottomToTop = anchorBottom - popupHeight;
-
-    return {
-      [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom},
-      [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom},
-      [Directions.BOTTOM_CENTER]: {left: popupHorizontalCenter, top: anchorBottom},
-      [Directions.TOP_LEFT]: {left: popupRightToLeft, top: popupTop},
-      [Directions.TOP_RIGHT]: {left: anchorLeft, top: popupTop},
-      [Directions.TOP_CENTER]: {left: popupHorizontalCenter, top: popupTop},
-      [Directions.LEFT_BOTTOM]: {left: popupLeft, top: anchorTop},
-      [Directions.LEFT_TOP]: {left: popupLeft, top: popupBottomToTop},
-      [Directions.LEFT_CENTER]: {left: popupLeft, top: popupVerticalCenter},
-      [Directions.RIGHT_BOTTOM]: {left: anchorRight, top: anchorTop},
-      [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop},
-      [Directions.RIGHT_CENTER]: {left: anchorRight, top: popupVerticalCenter}
-    };
-  }
-
-  _getScrollingCoordinates() {
-    const isInsideBody = this.props.container === document.body;
-
-    if (isInsideBody) {
-      return {
-        top: getDocumentScrollTop(),
-        left: getDocumentScrollLeft()
-      };
-    }
-    if (this.props.container) {
-      const container = this.props.container;
-      return {
-        top: container.scrollTop,
-        left: container.scrollLeft
-      };
-    }
-
-    return {top: 0, left: 0};
-  }
-
-  /**
-   * @return {Object}
-   * @private
-   */
-  _getStyles() {
-    let styles = {
-      top: 0,
-      left: 0
-    };
-    const props = this.props;
-
-    let anchorElement = document.body;
-    if (isMounted(props.anchorElement)) {
-      anchorElement = props.anchorElement;
-    }
-
-    const anchor = this.getElementOffset(anchorElement);
-    const scroll = this._getScrollingCoordinates();
-    const anchorLeft = anchor.left + scroll.left;
-    const anchorTop = anchor.top + scroll.top;
-
-    if (this.node) {
-      const directionsMatrix = this._getPositionStyles(anchor, anchorLeft, anchorTop);
-
-      const directionStylesSortedByIncreasingOverflow = props.directions.
-        filter(direction => directionsMatrix[direction]).
-        map(direction => directionsMatrix[direction]).
-        sort((firstDirectionStyles, secondDirectionStyles) => {
-          const firstDirectionOverflow = this._verticalOverflow(firstDirectionStyles, scroll) + this._horizontalOverflow(firstDirectionStyles, scroll);
-          const secondDirectionOverflow = this._verticalOverflow(secondDirectionStyles, scroll) + this._horizontalOverflow(secondDirectionStyles, scroll);
-          return firstDirectionOverflow - secondDirectionOverflow;
-        });
-
-      styles = directionStylesSortedByIncreasingOverflow[0];
-    }
-
-    if (props.top) {
-      styles.top += props.top;
-    }
-
-    if (props.left) {
-      styles.left += props.left;
-    }
-
-    if (typeof props.maxHeight === 'number') {
-      styles.maxHeight = props.maxHeight;
-    }
-
-    if (props.maxHeight === 'screen') {
-      styles.maxHeight = window.innerHeight - styles.top - Dimension.MARGIN;
-    }
-
-    if (props.minWidth === 'target') {
-      styles.minWidth = anchor.width;
-    } else {
-      styles.minWidth = props.minWidth;
-    }
-    styles.minWidth = styles.minWidth && `${styles.minWidth.toString()}px`;
-
-    switch (this.state.display) {
-      case 0:
-        styles.left = 0;
-        styles.top = 0;
-        styles.display = 'none';
-        styles.visibility = 'hidden';
-        break;
-      case 1:
-        styles.left = 0;
-        styles.top = 0;
-        styles.display = 'block';
-        styles.visibility = 'hidden';
-        break;
-      default:
-      case 2:
-        styles.display = 'block';
-        styles.visibility = 'visible';
-        break;
-    }
-
-    return styles;
+    return getRect(element);
   }
 
   getInternalContent() {
