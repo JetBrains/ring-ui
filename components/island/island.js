@@ -22,7 +22,9 @@ export default class Island extends RingComponent {
 
   render() {
     const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.island, className);
+    const classes = classNames(styles.island, className, {
+      [styles.narrowIsland]: true
+    });
 
     return (
       <div

@@ -1,6 +1,13 @@
 @value unit, border-radius from '../global/global.css';
 
+@value gradientStart: rgba(255, 255, 255, 0);
+@value gradientStop: rgba(255, 255, 255, 0.8);
+
 .island {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
   border: 1px solid rgba(0, 42, 76, 0.1);
   border-radius: border-radius;
 
@@ -28,6 +35,39 @@
   padding: 0 calc(unit*4);
 }
 
+.narrowIsland .title {
+  padding: 0 calc(unit*2);
+}
+
 .content {
-  margin: calc(unit*2) calc(unit*4);
+  overflow: auto;
+  padding: calc(unit*2) calc(unit*4);
+}
+
+.narrowIsland .content {
+  padding: calc(unit*2) calc(unit*2);
+}
+
+.fadeTop {
+  position: absolute;
+  top: calc(unit*4);
+  left: 0;
+  width: 100%;
+  height: calc(unit * 3);
+
+  pointer-events: none;
+  background: linear-gradient(gradientStop, gradientStart);
+}
+
+.fadeBottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(unit * 3);
+
+  border-bottom-right-radius: border-radius;
+  border-bottom-left-radius: border-radius;
+  pointer-events: none;
+  background: linear-gradient(gradientStart, gradientStop);
 }
