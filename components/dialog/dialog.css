@@ -23,6 +23,7 @@
   max-width: calc(unit * 53);
 
   & :global(.ring-panel) {
+    margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4);
     background-color: transparent;
   }
