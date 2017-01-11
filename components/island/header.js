@@ -5,12 +5,15 @@ import styles from './island.css';
 
 export default class Header extends RingComponent {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    border: PropTypes.bool
   };
 
   render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.header, className);
+    const {children, className, border, ...restProps} = this.props;
+    const classes = classNames(styles.header, className, {
+      [styles.withBottomBorder]: border
+    });
 
     return (
       <div
