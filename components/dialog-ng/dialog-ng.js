@@ -10,6 +10,8 @@ import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
 
 import '../button/button.scss';
 import './dialog-ng.scss';
+import dialogStyles from '../dialog/dialog';
+import islandStyles from '../island/island';
 
 /**
  * @name Dialog Ng
@@ -31,6 +33,8 @@ class DialogController extends RingAngularComponent {
 
     this.dialogService = dialogService;
     this.previousBodyWidth = null;
+    this.dialogStyles = dialogStyles;
+    this.islandStyles = islandStyles;
 
     $q((resolve, reject) => {
       this.resolve = resolve;
