@@ -1,35 +1,44 @@
 <div
-  class="ring-dialog__wrapper"
-  ng-class="{ 'active': dialog.active, 'ring-dialog__wrapper_inline': dialog.inSidebar }"
+  ng-show="dialog.active"
+  ng-class="[!dialog.inSidebar && dialog.dialogStyles.container]"
+  ng-click="dialog.handleClick($event)"
 >
-  <div class="ring-dialog__container {{dialog.cssClass}}" ng-class="{
-    'ring-dialog__container_wide' : dialog.wideDialog,
-    'ring-dialog__container_auto-width' : dialog.autoWidth
-  }">
-    <div class="ring-dialog__header" ng-show="dialog.title">
-      <span class="ring-dialog__header__title">{{ dialog.title }}</span>
+  <div data-anchor="dialog-container"
+    ng-class="[
+      dialog.cssClass,
+      dialog.wideDialog && dialog.styles.wide,
+      dialog.autoWidth && dialog.styles.autoWidth,
+      !dialog.inSidebar && dialog.dialogStyles.content,
+      !dialog.inSidebar && dialog.islandStyles.island
+    ]"
+  >
+    <div ng-class="[dialog.islandStyles.header, dialog.styles.header]"
+      data-anchor="dialog-header"
+      ng-show="dialog.title">
+      <span ng-class="dialog.islandStyles.title">{{ dialog.title }}</span>
     </div>
 
-    <form name="dialog.dialogForm" class="ring-form ring-js-shortcuts ring-dialog__content" novalidate>
-      <rg-dialog-content></rg-dialog-content>
+    <div ng-class="[dialog.styles.content, dialog.islandStyles.content]">
+      <form name="dialog.dialogForm" class="ring-form ring-js-shortcuts" novalidate>
+        <rg-dialog-content></rg-dialog-content>
 
-      <div class="ring-form__group" ng-show="dialog.error">
-        <div class="ring-form__control ring-form__control_small">
-          <div class="ring-dialog_error">{{ dialog.error }}</div>
+        <div class="ring-form__group" ng-show="dialog.error">
+          <div class="ring-form__control ring-form__control_small">
+            <div ng-class="dialog.styles.error">{{ dialog.error }}</div>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
 
-    <div class="ring-dialog__footer" ng-if="dialog.description.length || dialog.buttons.length">
-      <div class="ring-dialog__footer__description" ng-if="dialog.description && dialog.description.length">
+    <div ng-class="dialog.styles.footer" ng-if="dialog.description.length || dialog.buttons.length">
+      <div ng-class="dialog.styles.footerDescription" ng-if="dialog.description && dialog.description.length">
         <div ng-repeat="line in dialog.description">{{ line }}</div>
       </div>
 
-      <div class="ring-dialog__footer__items">
+      <div ng-class="dialog.styles.footerItems">
         <rg-button
           ng-repeat="button in dialog.buttons"
-          class="ring-dialog__footer__item"
-          ng-class="[{'ring-button_blue': button['default']}, button['cssClasses']]"
+          ng-class="[dialog.styles.footerItem ,{'ring-button_blue': button['default']}, button['cssClasses']]"
           ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
           ng-if="!button.hidden"
 
@@ -39,8 +48,5 @@
         </rg-button>
       </div>
     </div>
-  </div>
-
-  <div class="ring-dialog__layer" ng-if="!dialog.inSidebar" ng-click="dialog.closeOnClick && dialog.hide()">
   </div>
 </div>

@@ -8,6 +8,8 @@ import simulateKeypress from 'simulate-keypress';
 import {getRect} from '../dom/dom';
 
 import Dialog from './dialog-ng';
+import styles from './dialog-ng.css';
+import dialogStyles from '../dialog/dialog.css';
 
 describe('Dialog Ng', () => {
   let dialog;
@@ -420,7 +422,7 @@ describe('Dialog Ng', () => {
       '<div></div>'
     );
 
-    element.should.contain('.ring-dialog__layer');
+    element.should.match(`.${dialogStyles.container}`);
   });
 
   it('should not have a layer in the "sidebar" mode', () => {
@@ -429,7 +431,7 @@ describe('Dialog Ng', () => {
       '<div></div>'
     );
 
-    element.should.not.contain('.ring-dialog__layer');
+    element.should.not.match(`.${dialogStyles.container}`);
   });
 
   it('should not be "wide" by default', () => {
@@ -437,9 +439,8 @@ describe('Dialog Ng', () => {
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    const container = element.query('.ring-dialog__container');
 
-    container.should.not.have.class('ring-dialog__container_wide');
+    element.should.not.contain(`.${styles.wide}`);
   });
 
   it('should be "wide" with a corresponding param', () => {
@@ -450,9 +451,8 @@ describe('Dialog Ng', () => {
       {},
       {wideDialog: true}
     );
-    const container = element.query('.ring-dialog__container');
 
-    container.should.have.class('ring-dialog__container_wide');
+    element.should.contain(`.${styles.wide}`);
   });
 
   describe('header', () => {
@@ -464,7 +464,7 @@ describe('Dialog Ng', () => {
         {title: 'Dialog Title'}
       );
 
-      element.query('.ring-dialog__header__title').should.have.text('Dialog Title');
+      element.query('*[data-anchor=dialog-header]').should.contain.text('Dialog Title');
     });
 
     it('should change title via the controller', () => {
@@ -478,7 +478,7 @@ describe('Dialog Ng', () => {
       ctrl.setTitle('New Dialog Title');
       scope.$digest();
 
-      element.query('.ring-dialog__header__title').should.have.text('New Dialog Title');
+      element.query('*[data-anchor=dialog-header]').should.contain.text('New Dialog Title');
     });
 
     it('should be draggable', () => {
@@ -487,20 +487,17 @@ describe('Dialog Ng', () => {
         '<div></div>'
       );
 
-      const container = element.query('.ring-dialog__container');
-      const header = element.query('.ring-dialog__header__title');
-      const rect = getRect(container);
+      const container = element.query('*[data-anchor=dialog-container]');
+      const header = element.query('*[data-anchor=dialog-header]');
 
       const mousedown = new CustomEvent('mousedown');
       const mousemove = new CustomEvent('mousemove');
       const mouseup = new CustomEvent('mouseup');
 
-      mousedown.clientX = 100;
-      mousedown.clientY = 105;
       header.dispatchEvent(mousedown);
 
-      mousemove.clientX = 140;
-      mousemove.clientY = 150;
+      mousemove.movementX = 140;
+      mousemove.movementY = 150;
       document.dispatchEvent(mousemove);
 
       document.dispatchEvent(mouseup);
@@ -509,8 +506,8 @@ describe('Dialog Ng', () => {
       mousemove.clientY = 200;
       document.dispatchEvent(mousemove);
 
-      getRect(container).should.have.property('left').closeTo(rect.left + 40, 0.1);
-      getRect(container).should.have.property('top').closeTo(rect.top + 45, 0.1);
+      parseFloat(container.style.left).should.be.closeTo(140, 0.1);
+      parseFloat(container.style.top).should.be.closeTo(150, 0.1);
     });
 
     it('should be draggable only inside the draggable zone', () => {
@@ -519,23 +516,21 @@ describe('Dialog Ng', () => {
         '<div></div>'
       );
 
-      const viewport = {height: window.innerHeight, width: window.innerWidth};
-      const container = element.query('.ring-dialog__container');
-      const header = element.query('.ring-dialog__header__title');
+      const container = element.query('*[data-anchor=dialog-container]');
+      const header = element.query('*[data-anchor=dialog-header]');
 
       const mousedown = new CustomEvent('mousedown');
       const mousemove = new CustomEvent('mousemove');
       const mouseup = new CustomEvent('mouseup');
+      const initialRect = getRect(container);
 
-      mousedown.clientX = 100;
-      mousedown.clientY = 105;
       header.dispatchEvent(mousedown);
 
-      mousemove.clientX = -10000;
-      mousemove.clientY = -20000;
+      mousemove.movementX = -10000;
+      mousemove.movementY = -10000;
       document.dispatchEvent(mousemove);
 
-      getRect(container).should.contain({left: 10, top: 10});
+      getRect(container).should.contain({left: initialRect.left, top: initialRect.top});
 
       mousemove.clientX = 30000;
       mousemove.clientY = 40000;
@@ -544,8 +539,8 @@ describe('Dialog Ng', () => {
       document.dispatchEvent(mouseup);
 
       getRect(container).should.contain({
-        bottom: viewport.height - 10,
-        right: viewport.width - 10
+        bottom: initialRect.bottom,
+        right: initialRect.right
       });
     });
   });
@@ -610,35 +605,35 @@ describe('Dialog Ng', () => {
     });
 
     it('should be closed by outside dialog if closeOnClick===true', () => {
-      const {element} = showDialog(
+      const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Button'}],
         {},
         {closeOnClick: true}
       );
-      element.query('.ring-dialog__layer').dispatchEvent(click);
+      element.dispatchEvent(click);
 
       $rootScope.$digest();
-      element.should.not.have.class('active');
+      ctrl.active.should.not.be.true;
     });
 
     it('should not be closed by outside dialog if closeOnClick is not set', () => {
-      const {element} = showDialog(
+      const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Button'}]
       );
-      element.query('.ring-dialog__layer').dispatchEvent(click);
+      element.dispatchEvent(click);
 
       $rootScope.$digest();
-      element.should.have.class('active');
+      ctrl.active.should.be.true;
     });
 
     it('should be closed if action returns promise and when it resolves', () => {
       const defer = $q.defer(); //eslint-disable-line
 
-      const {element} = showDialog(
+      const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{
@@ -649,17 +644,17 @@ describe('Dialog Ng', () => {
       element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
-      element.should.have.class('active');
+      ctrl.active.should.be.true;
 
       defer.resolve();
       $rootScope.$digest();
-      element.should.not.have.class('active');
+      ctrl.active.should.be.false;
     });
 
     it('should not be closed if action returns promise and when it resolves with "false"', () => {
       const defer = $q.defer(); //eslint-disable-line
 
-      const {element} = showDialog(
+      const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{
@@ -670,15 +665,15 @@ describe('Dialog Ng', () => {
       element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
-      element.should.have.class('active');
+      ctrl.active.should.be.true;
 
       defer.resolve(false);
       $rootScope.$digest();
-      element.should.have.class('active');
+      ctrl.active.should.be.true;
     });
 
     it('should not be closed by clicking a button that return "false"', () => {
-      const {element} = showDialog(
+      const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{
@@ -690,7 +685,7 @@ describe('Dialog Ng', () => {
 
       $rootScope.$digest();
 
-      element.should.have.class('active');
+      ctrl.active.should.be.true;
     });
 
     it('should invoke an "action" callback attached to a button', function () {
@@ -712,7 +707,7 @@ describe('Dialog Ng', () => {
         '<div></div>'
       );
 
-      element.should.not.contain('.ring-dialog__footer__description');
+      element.should.not.contain(`.${styles.footerDescription}`);
     });
 
     it('should have a given description', () => {
@@ -724,9 +719,9 @@ describe('Dialog Ng', () => {
         {description: 'Multiline\ndescription'}
       );
 
-      element.should.contain('.ring-dialog__footer__description');
+      element.should.contain(`.${styles.footerDescription}`);
 
-      const lines = element.query('.ring-dialog__footer__description').queryAll('div');
+      const lines = element.query(`.${styles.footerDescription}`).queryAll('div');
 
       lines.should.have.length(2);
       lines[0].should.have.text('Multiline');
