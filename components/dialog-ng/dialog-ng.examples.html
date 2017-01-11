@@ -107,6 +107,73 @@
   </file>
 </example>
 
+<example name="Dialog Ng in sidebar">
+  <file type="html">
+    <div ng-app="Example.dialog">
+
+      <script type="template" id="dialog-template">
+        <div>
+          <div class="ring-form__group">
+            <label class="ring-form__label" for="dialog__key">Key</label>
+            <div class="ring-form__control">
+              <input id="dialog__key" class="ring-input" type="text">
+            </div>
+          </div>
+      </script>
+
+      <rg-sidebar show="true">
+        <rg-dialog in-sidebar="true" active="true"></rg-dialog>
+      </rg-sidebar>
+
+      <div ng-controller="ExampleCtrl as ctrl">
+        <rg-button ng-click="ctrl.showDialog()">Show dialog</rg-button>
+      </div>
+    </div>
+  </file>
+
+  <file type="js">
+    import 'ring-ui/components/dialog-ng/dialog-ng.scss';
+    import 'ring-ui/components/panel/panel.scss';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    import 'angular/angular';
+    import Sidebar from 'ring-ui/components/sidebar-ng/sidebar-ng'
+    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
+    import Select from 'ring-ui/components/select-ng/select-ng';
+    import Button from 'ring-ui/components/button-ng/button-ng';
+
+    angular.module('Example.dialog', [Dialog, Select, Button, Sidebar]).
+      controller('ExampleCtrl', function ($q, $timeout, dialogInSidebar) {
+        this.showDialog = function () {
+          dialogInSidebar.show({
+            title: 'Test',
+            shortcuts: {
+              'ctrl+enter': angular.noop
+            },
+            template: document.getElementById('dialog-template').innerHTML,
+            controllerAs: 'dialogExampleCtrl',
+            controller: function () {
+              this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+            },
+            buttons: [
+              {
+                label: 'Save',
+                default: true,
+                action: angular.noop
+              },
+              {
+                label: 'Cancel',
+                close: true
+              }
+            ]
+          });
+        };
+
+        $timeout(() => this.showDialog(), 500);
+      });
+  </file>
+</example>
+
 <example name="Dialog large markup">
   <file type="html">
     <div ng-app="Example.dialog"
