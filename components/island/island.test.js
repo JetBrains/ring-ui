@@ -1,7 +1,8 @@
 import 'dom4';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import React from 'react';
-import Island from './island';
+import Island, {Content} from './island';
+import styles from './island.css';
 
 describe('Island', () => {
   const renderComponent = params => renderIntoDocument(<Island {...params}/>);
@@ -16,5 +17,12 @@ describe('Island', () => {
 
   it('should use passed className', () => {
     renderComponent({className: 'test-class'}).node.should.match('.test-class');
+  });
+
+  it('should render content fades', () => {
+    const node = renderIntoDocument(<Content fade={true}/>).node;
+
+    node.should.contain(`.${styles.fadeTop}`);
+    node.should.contain(`.${styles.fadeBottom}`);
   });
 });
