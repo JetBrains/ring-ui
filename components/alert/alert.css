@@ -1,4 +1,4 @@
-@value unit, border-color, border-radius, error-color, disabled-color, link-hover-color, font-size from '../global/global.css';
+@value unit, border-color, border-radius, error-color, gray-color, link-hover-color, font-size from '../global/global.css';
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -71,7 +71,7 @@
   background: transparent;
   cursor: pointer;
 
-  color: disabled-color;
+  color: gray-color;
 
   &:hover, &:focus {
     color: link-hover-color;

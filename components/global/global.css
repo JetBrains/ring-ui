@@ -15,10 +15,11 @@
 @value error-color: #E50000;
 @value success-color: #4DA400;
 @value text-color: #444;
-@value dark-gray-color: #888;
-@value gray-color: #999;
-@value disabled-color: #BBB;
-@value light-gray-color: #CCC;
+
+@value darker-gray-color: #888; /* headers & actions on black background */
+@value dark-gray-color: #999; /* headers & actions */
+@value gray-color: #BBB; /* disabled text & hints */
+@value light-gray-color: #CCC; /* active items on black background */
 
 @value white-color: #FFF;
 @value sidebar-background-color: #F7F9FA;
@@ -36,6 +37,8 @@
 @value outline-color: rgba(37, 183, 255, 0.5);
 
 @value border-radius: 3px;
+
+@value popup-border-color: rgba(0, 42, 76, 0.1);
 
 @value font-size-larger: 14px;
 @value font-size: 13px;
@@ -64,7 +67,7 @@
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
-.font-lower{
+.font-lower {
   composes: font;
   line-height: line-height-lower;
 }

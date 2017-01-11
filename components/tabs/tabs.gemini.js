@@ -2,7 +2,7 @@
 
 gemini.suite('Tabs', suite => {
   suite.
-    setUrl('/example-tabs/index.html').
+    setUrl('dumb-tabs/tabs.html').
     setCaptureElements('#tabs').
 
     capture('tab').

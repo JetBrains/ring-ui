@@ -27,7 +27,7 @@ const Messages = {
   RENDER_DIRECTLY: 'Render Popup directly as a child',
   SHOW: 'Pass "hidden" property to control popup visibility',
   ON_CLOSE_ATTEMPT: 'Use "onCloseAttempt" callback to react to close attempts',
-  CUT_EDGE_RENAMED: '"cutEdge" property has been renamed to "attached"'
+  CUT_EDGE_RENAMED: '"cutEdge" property has been renamed to "attached" with default of false'
 };
 
 function legacyProp(propType, message) {
@@ -117,7 +117,7 @@ export default class Popup extends RingComponentWithShortcuts {
     top: 0,
     sidePadding: 8,
 
-    attached: true, //TODO change to false in 3.0
+    attached: false,
 
     legacy: false
   };
