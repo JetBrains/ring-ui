@@ -1,27 +1,23 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import styles from './island.css';
+import './island-legacy.scss';
 
 export default class Header extends RingComponent {
   static propTypes = {
-    className: PropTypes.string,
-    border: PropTypes.bool
+    className: PropTypes.string
   };
 
   render() {
-    const {children, className, border, ...restProps} = this.props;
-    const classes = classNames(styles.header, className, {
-      [styles.withBottomBorder]: border
-    });
+    const {children, className, ...restProps} = this.props;
+    const classes = classNames('ring-island__header', className);
 
     return (
       <div
         {...restProps}
-        data-test="ring-island-header"
         className={classes}
       >
-        <div className={styles.title}>
+        <div className="ring-island__title">
           {children}
         </div>
       </div>
