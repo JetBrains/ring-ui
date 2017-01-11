@@ -1,4 +1,4 @@
-@value unit, overlay-z-index, white-color, border-radius, font from  "../global/global.css";
+@value unit, overlay-z-index, white-color, border-radius, font, popup-border-color from  "../global/global.css";
 
 .popup {
   position: absolute;
@@ -7,11 +7,10 @@
 
   text-align: center;
 
-  border: 1px solid #ADADAD; /* IE8- */
-  border-color: rgba(0, 0, 0, .2);
+  border: 1px solid popup-border-color;
 
   background-color: #FFF;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
+  box-shadow: 0 2px 8px 0 color(popup-border-color a(0.15));
   border-radius: border-radius;
 
   overflow-y: auto;

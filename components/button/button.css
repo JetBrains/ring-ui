@@ -1,4 +1,4 @@
-@value unit, font, border-radius, icon-color, border-hover-color, white-color, black-color, text-color, dark-gray-color, selected-background-color, dark-selected-background-color, main-color, error-color, gray-color, link-hover-color, icon-hover-color, disabled-color, ease from "../global/global.css";
+@value unit, font, border-radius, icon-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, error-color, dark-gray-color, link-hover-color, icon-hover-color, gray-color, ease from "../global/global.css";
 
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
@@ -33,7 +33,7 @@
   &.dark {
     background-color: black-color;
     box-shadow: button-shadow #263B4C;
-    color: dark-gray-color;
+    color: darker-gray-color;
   }
 
   &:not([disabled]):not(.loader) {
@@ -80,7 +80,7 @@
     pointer-events: none;
 
     &.light {
-      color: disabled-color;
+      color: gray-color;
     }
     &.dark {
       color: text-color;
@@ -183,15 +183,15 @@
   &.withIcon {
 
     &.light {
-      color: gray-color;
+      color: dark-gray-color;
       & .icon {
         color: icon-color;
       }
     }
     &.dark {
-      color: dark-gray-color;
+      color: darker-gray-color;
       & .icon {
-        color: dark-gray-color;
+        color: darker-gray-color;
       }
     }
 

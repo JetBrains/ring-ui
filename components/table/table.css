@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, text-color, border-hover-color, gray-color, dark-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease from global;
+@value unit, text-color, border-hover-color, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease from global;
 
 .tableWrapper {
   position: relative;
@@ -30,7 +30,7 @@
 .headerCell {
   & {
     composes: font-smaller-lower;
-    color: gray-color;
+    color: dark-gray-color;
     font-weight: normal;
     text-align: left;
     white-space: nowrap;
@@ -80,7 +80,7 @@
   letter-spacing: 1px;
   height: calc(unit * 4);
   composes: font-smaller-lower;
-  color: dark-gray-color;
+  color: darker-gray-color;
 }
 
 .row {

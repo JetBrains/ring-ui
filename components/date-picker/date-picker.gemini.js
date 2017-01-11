@@ -1,5 +1,7 @@
 /* global gemini: false */
 
+const UNHOVER_DELAY = 500;
+
 gemini.suite('Date Picker', () => {
   gemini.suite('Single date', child => {
     child.
@@ -8,6 +10,7 @@ gemini.suite('Date Picker', () => {
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
         actions.mouseMove(find('body'), [0, 0]);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
@@ -18,6 +21,7 @@ gemini.suite('Date Picker', () => {
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
         actions.mouseMove(find('body'), [0, 0]);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
@@ -28,6 +32,7 @@ gemini.suite('Date Picker', () => {
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
         actions.mouseMove(find('body'), [0, 0]);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
