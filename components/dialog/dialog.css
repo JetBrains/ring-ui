@@ -24,11 +24,11 @@
 
   & :global(.ring-panel) {
     margin-top: 0;
-    padding: calc(unit * 2) calc(unit * 4);
+    padding: 0 calc(unit * 4) calc(unit * 2);
     background-color: transparent;
   }
 
-  & :global(.ring-panel .ring-button) {
+  & :global(.ring-panel) button {
       margin-right: unit;
   }
 }
