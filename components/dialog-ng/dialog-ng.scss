@@ -115,7 +115,7 @@
 
   //Increase selector specificity when ring buttons are used as footer items
   &.ring-button {
-    margin-left: 2*$ring-unit;
+    margin-left: $ring-unit;
   }
 
   &.ring-button:first-of-type {
@@ -125,13 +125,9 @@
 
 .ring-dialog__header {
   position: relative;
-  min-height: $ring-unit*4 - 2;
+  min-height: $ring-unit*4;
 
-  line-height: $ring-unit*4 - 2;
-
-  border-bottom: 1px solid rgba(0, 42, 76, 0.1);
-  border-top-left-radius: border-radius;
-  border-top-right-radius: border-radius;
+  line-height: $ring-unit*4;
 }
 
 .ring-dialog__header__title {
