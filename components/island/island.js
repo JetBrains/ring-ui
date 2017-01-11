@@ -13,7 +13,8 @@ import styles from './island.css';
 
 export default class Island extends RingComponent {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    narrow: PropTypes.bool
   };
 
   static defaultProps = {
@@ -21,9 +22,9 @@ export default class Island extends RingComponent {
   };
 
   render() {
-    const {children, className, ...restProps} = this.props;
+    const {children, className, narrow, ...restProps} = this.props;
     const classes = classNames(styles.island, className, {
-      [styles.narrowIsland]: true
+      [styles.narrowIsland]: narrow
     });
 
     return (
