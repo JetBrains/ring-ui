@@ -10,7 +10,7 @@ export default class Content extends RingComponent {
   };
 
   static defaultProps = {
-    fade: true
+    fade: false
   };
 
   render() {
