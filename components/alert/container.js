@@ -22,7 +22,7 @@ export default class Alerts extends RingComponent {
 
     return (
       <Portal
-        isOpened={show}
+        isOpen={show}
       >
         <div
           data-test="alert-container"

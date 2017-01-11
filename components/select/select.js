@@ -52,13 +52,12 @@ export default class Select extends RingComponentWithShortcuts {
 
     type: Type.BUTTON,
     targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
-    popupContainer: null, // element to attach the popup to
     hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
     hideArrow: false,     // hide dropdown arrow icon
 
     maxHeight: 250,       // height of the options list, without the filter and the 'Add' button
-    minWidth: 'target',   // Popup width
+    minWidth: Popup.PopupProps.MinWidth.TARGET,   // Popup width
 
     selected: null,       // current selection (item / array of items)
 
@@ -89,12 +88,14 @@ export default class Select extends RingComponentWithShortcuts {
 
   state = {
     data: [],
+    shownData: [],
     selected: (this.props.multiple ? [] : null),
     selectedIndex: null,
     filterString: null,
     shortcuts: false,
     popupShortcuts: false,
-    prevFilterValue: null
+    prevFilterValue: null,
+    showPopup: false
   };
 
   ngModelStateField = ngModelStateField;
@@ -182,14 +183,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   didMount() {
-    this._createPopup();
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-  }
-
-  willUnmount() {
-    if (this._popup) {
-      this._popup.remove();
-    }
   }
 
   willReceiveProps(newProps) {
@@ -208,8 +202,18 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  didUpdate() {
-    this._refreshPopup();
+  didUpdate(prevProps, prevState) {
+    const {showPopup, shownData} = this.state;
+
+    if (prevState.showPopup && !showPopup) {
+      this.props.onClose();
+    } else if (!prevState.showPopup && showPopup) {
+      this.props.onOpen();
+    }
+
+    if (showPopup && this._popup && prevState.shownData.length > shownData.length) {
+      this._popup.listScrollToIndex(0);
+    }
   }
 
   static _getEmptyValue(multiple) {
@@ -236,92 +240,62 @@ export default class Select extends RingComponentWithShortcuts {
     return null;
   }
 
-  _createPopup() {
-    if (!this._popup) {
-      const anchorElement = this.props.targetElement || this.node;
-      const container = this.props.popupContainer;
-
-      this._popup = Popup.renderPopup(
-        <SelectPopup
-          maxHeight={this.props.maxHeight}
-          minWidth={this.props.minWidth}
-          directions={this.props.directions}
-          className={this.props.popupClassName}
-          top={this.props.top}
-          left={this.props.left}
-          filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
-          anchorElement={anchorElement}
-          onClose={::this._onClose}
-          onSelect={::this._listSelectHandler}
-          onFilter={::this._filterChangeHandler}
-          onLoadMore={::this.props.onLoadMore}
-        />,
-        {container}
-      );
-    }
-  }
-
-  _refreshPopup() {
-    if (this._popup.isVisible()) {
-      this._showPopup();
-    }
-  }
-
-  _showPopup() {
-    const data = this.getListItems(this.filterValue());
+  _renderPopup() {
+    const anchorElement = this.props.targetElement || this.node;
+    const {showPopup, shownData} = this.state;
     let message = null;
 
     if (this.props.loading) {
       message = this.props.loadingMessage;
-    } else if (!data.length) {
+    } else if (!shownData.length) {
       message = this.props.notFoundMessage;
     }
 
-    if (!data.length && this.props.allowAny) {
-      if (this._popup.isVisible()) {
-        this._hidePopup();
-      }
-      return;
-    }
+    return (
+      <SelectPopup
+        data={shownData}
+        message={message}
+        toolbar={showPopup && this.getToolbar()}
+        loading={this.props.loading}
+        activeIndex={this.state.selectedIndex}
+        hidden={!showPopup}
+        ref={el => {
+          this._popup = el;
+        }}
+        maxHeight={this.props.maxHeight}
+        minWidth={this.props.minWidth}
+        directions={this.props.directions}
+        className={this.props.popupClassName}
+        top={this.props.top}
+        left={this.props.left}
+        filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+        anchorElement={anchorElement}
+        onCloseAttempt={::this._onCloseAttempt}
+        onSelect={::this._listSelectHandler}
+        onFilter={::this._filterChangeHandler}
+        onLoadMore={::this.props.onLoadMore}
+      />
+    );
+  }
 
-    const shouldScrollToTop = this._popup.props.data && this._popup.props.data.length && this._popup.props.data.length > data.length;
-    this._popup.rerender({
-      data,
-      toolbar: this.getToolbar(),
-      message,
-      loading: this.props.loading,
-      activeIndex: this.state.selectedIndex
-    });
-  /**
-   * The number of items in the list usually decreases after filtering.
-   * When items are filtered, results should be displayed to the user starting from the top.
-   */
-    if (shouldScrollToTop) {
-      this._popup.listScrollToIndex(0);
-    }
-
-    this._popup.forceUpdate(() => {
-      !this._popup.isVisible() && this.props.onOpen();
-      this._popup.show();
+  _showPopup() {
+    const shownData = this.getListItems(this.filterValue());
+    this.setState({
+      showPopup: !!shownData.length || !this.props.allowAny,
+      shownData
     });
   }
 
   _hidePopup(tryFocusAnchor) {
-    const isVisible = this._popup.isVisible();
+    if (this.node && this.state.showPopup) {
+      this.setState({showPopup: false});
 
-    if (isVisible) {
-      this.props.onClose();
-
-      this._popup.hide();
-
-      if (this.node) {
-        let restoreFocusNode = tryFocusAnchor ? (this.props.targetElement || this.node) : this.node;
-        if (this.props.type === Type.INPUT) {
-          restoreFocusNode = findDOMNode(this.refs.filter);
-        }
-
-        restoreFocusNode.focus();
+      let restoreFocusNode = tryFocusAnchor ? (this.props.targetElement || this.node) : this.node;
+      if (this.props.type === Type.INPUT) {
+        restoreFocusNode = findDOMNode(this.filter);
       }
+
+      restoreFocusNode.focus();
     }
   }
 
@@ -423,9 +397,11 @@ export default class Select extends RingComponentWithShortcuts {
 
   filterValue(setValue) {
     if (this.isInputMode() || this.props.filter) {
-      const filter = findDOMNode(this.isInputMode() ? this.refs.filter : this._popup.refs.filter);
+      const filter = findDOMNode(this.isInputMode() ? this.filter : this._popup && this._popup.filter);
 
-      if (typeof setValue === 'string' || typeof setValue === 'number') {
+      if (!filter) {
+        return '';
+      } else if (typeof setValue === 'string' || typeof setValue === 'number') {
         filter.value = setValue;
       } else {
         return filter.value;
@@ -446,8 +422,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _clickHandler() {
-    if (this._popup && !this.props.disabled) {
-      if (this._popup.isVisible()) {
+    if (!this.props.disabled) {
+      if (this.state.showPopup) {
         this._hidePopup();
       } else {
         this.props.onBeforeOpen();
@@ -510,6 +486,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     if (!this.props.multiple) {
+      this._hidePopup(isSelectItemEvent);
       this.setState({
         selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
@@ -519,7 +496,6 @@ export default class Select extends RingComponentWithShortcuts {
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected, event);
         this.props.onChange(selected, event);
-        this._hidePopup(isSelectItemEvent);
       });
     } else {
       if (!selected.key) {
@@ -560,7 +536,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onClose(event) {
+  _onCloseAttempt(event) {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -606,8 +582,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
       window.setTimeout(() => {
-        this.props.onClose();
-        this._popup.hide();
+        this.setState({showPopup: false});
       });
     }
 
@@ -739,7 +714,9 @@ export default class Select extends RingComponentWithShortcuts {
           onClick={::this._clickHandler}
         >
           <Input
-            ref="filter"
+            ref={el => {
+              this.filter = el;
+            }}
             disabled={this.props.disabled}
             value={filterValue}
             className={inputCS}
@@ -752,6 +729,7 @@ export default class Select extends RingComponentWithShortcuts {
             onKeyDown={::this.props.onKeyDown}
           />
           {iconsNode}
+          {this._renderPopup()}
         </div>
       );
     } else if (this.isButtonMode()) {
@@ -765,6 +743,7 @@ export default class Select extends RingComponentWithShortcuts {
         >
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           {iconsNode}
+          {this._renderPopup()}
         </Button>
       );
     } else {

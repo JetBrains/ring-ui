@@ -6,7 +6,6 @@
 
 import 'core-js/modules/es6.array.find';
 import React, {PropTypes, createElement} from 'react';
-import {findDOMNode} from 'react-dom';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
 
@@ -252,7 +251,7 @@ export default class List extends RingComponentWithShortcuts {
   willMount() {
     this.checkActivatableItems(this.props.data);
 
-    if (this.props.activeIndex && this.props.data[this.props.activeIndex]) {
+    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
       this.setState({
         activeIndex: this.props.activeIndex,
         activeItem: this.props.data[this.props.activeIndex]
@@ -294,7 +293,9 @@ export default class List extends RingComponentWithShortcuts {
             break;
           }
         }
-      } else if (this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
+      }
+
+      if (activeIndex === null && this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
         activeIndex = 0;
         activeItem = props.data[0];
       } else if (props.activeIndex !== null && props.activeIndex !== undefined && props.data[props.activeIndex]) {
@@ -309,7 +310,7 @@ export default class List extends RingComponentWithShortcuts {
   didMount() {
     // we need to throttle rather than debounce to recalculate visible elements when holding UP/DOWN key
     this.scrollEndHandler = throttle(() => {
-      const innerContainer = findDOMNode(this.refs.inner);
+      const innerContainer = this.inner;
       if (innerContainer) {
         const maxScrollingPosition = innerContainer.scrollHeight;
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
@@ -326,6 +327,7 @@ export default class List extends RingComponentWithShortcuts {
 
   componentWillMount() {
     this.recalculateVisibleOptions();
+    super.componentWillMount();
   }
 
   setActiveItem(index) {
@@ -341,7 +343,7 @@ export default class List extends RingComponentWithShortcuts {
 
   recalculateVisibleOptions(fast, ignoreFocus) {
     const buffer = 10; // keep X items above and below of the visible area
-    const innerContainer = findDOMNode(this.refs.inner);
+    const innerContainer = this.inner;
 
     if (this.props.renderOptimization && this.props.maxHeight) {
       const height = this.props.maxHeight;
@@ -434,8 +436,8 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   hasOverflow() {
-    if (this.refs.inner) {
-      return this.refs.inner.scrollHeight - this.refs.inner.clientHeight > 1;
+    if (this.inner) {
+      return this.inner.scrollHeight - this.inner.clientHeight > 1;
     }
 
     return false;
@@ -478,11 +480,23 @@ export default class List extends RingComponentWithShortcuts {
         <div
           className="ring-list__i"
           onScroll={::this.scrollHandler}
-          ref="inner"
+          ref={el => {
+            if (el) {
+              const wasPresent = !!this.inner;
+              this.inner = el;
+              if (!wasPresent) {
+                this.forceUpdate();
+              }
+            }
+          }}
           style={innerStyles}
         >
           <div style={topPaddingStyles}></div>
-          <div ref="items">
+          <div
+            ref={el => {
+              this.items = el;
+            }}
+          >
           {this.state.data.map((item, index) => {
             const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
             const realIndex = this.state.renderOptimizationSkip + index;
