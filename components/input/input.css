@@ -37,6 +37,11 @@
     &, &:hover, &:focus {
       transition: background-color 50000s ease-in-out 0s;
     }
+
+    & ~ .label {
+      font-size: font-size-smaller;
+      top: calc(unit / 2);
+    }
   }
 }
 
@@ -57,10 +62,8 @@ textarea.input {
 }
 
 .input:focus ~ .label,
-.input:-webkit-autofill ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
-  background: transparent;
   font-size: font-size-smaller;
   top: calc(unit / 2);
 }
