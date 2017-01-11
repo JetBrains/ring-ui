@@ -6,6 +6,88 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 04-01-2016 (2.5.5847): Popup reimplemented
+* `Popup` should now be rendered directly, as any other react child
+* `anchorElement` becomes optional, the parent DOM element is used as default anchor
+* `container` prop isn't used anymore. Instead, for correct positioning inside scrollable containers, scroll events on anchor ancestors are listened to.
+* Imperative API is replaced with declarative
+
+Before:
+```js
+class TogglePopup extends Component {
+  renderPopup() {
+    this.popup = Popup.renderPopup(
+      <Popup
+        hidden={false}
+        anchorElement={this.refs.button}
+        onClose={::this.forceUpdate} // to keep button state in sync with popup
+        dontCloseOnAnchorClick={true}
+        autoRemove={false}
+      >
+        <div ref="popupContent" />
+      </Popup>
+    )
+  }
+  
+  toggle() {
+    if (!this.popup) {
+      this.renderPopup()
+    } else if (this.popup.isVisible()) {
+      this.popup.hide()
+    } else {
+      this.popup.show()
+    }
+  }
+  
+  render() {
+    return (
+      <Button
+        ref="button"
+        active={this.popup && this.popup.isVisible()}
+        onClick={::this.toggle}
+      >
+        Toggle
+      </Button>
+    )
+  }
+}
+```
+
+After:
+```js
+class TogglePopup extends Component {
+  state = {hidden: false};
+  
+  toggle() {
+    this.setState(state => ({hidden: !state.hidden}));
+  }
+  
+  render() {
+    return (
+      <Button
+        active={!this.state.hidden}
+        onClick={::this.toggle}
+      >
+        Toggle
+        
+        // Button becomes anchor here
+        <Popup
+          hidden={this.state.hidden}
+          // This is called on Esc press or outside click. There are also separate handlers for those two events
+          onCloseAttempt={() => this.setState({hidden: true})}
+          dontCloseOnAnchorClick={true}
+        >
+          // String refs don't work inside Popup. Use functional refs instead:
+          <div
+            ref={el => { this.popupContent = el; }}
+          />
+        </Popup>
+      </Button>
+    )
+  }
+}
+```
+
 ### 05-12-2016: Alert API reimplemented
 
 * There are now two ways to use alerts in React: 1) as a pure component with 

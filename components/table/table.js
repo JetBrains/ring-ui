@@ -34,7 +34,7 @@ class Table extends Component {
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
     loading: PropTypes.bool,
-    onFocusReset: PropTypes.func,
+    onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
@@ -45,7 +45,7 @@ class Table extends Component {
     selectable: true,
     focused: false,
     loading: false,
-    onFocusReset: () => {},
+    onFocusRestore: () => {},
     onSelect: () => {},
     onSort: () => {},
     sortKey: 'id',
@@ -88,9 +88,13 @@ class Table extends Component {
     onSelect(selection.focus(row));
   }
 
-  onRowSelect = row => {
+  onRowSelect = (row, selected) => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.toggleSelection(row));
+    if (selected) {
+      onSelect(selection.select(row));
+    } else {
+      onSelect(selection.deselect(row));
+    }
   }
 
   onUpPress = () => {
@@ -156,9 +160,9 @@ class Table extends Component {
   }
 
   onEscPress = () => {
-    const {selection, onSelect, onFocusReset} = this.props;
+    const {selection, onSelect, onFocusRestore} = this.props;
     onSelect(selection.reset());
-    onFocusReset();
+    onFocusRestore();
   }
 
   onCmdAPress = () => {
@@ -168,7 +172,7 @@ class Table extends Component {
   }
 
   onCheckboxChange = checked => {
-    const {selection, onSelect, onFocusReset} = this.props;
+    const {selection, onSelect, onFocusRestore} = this.props;
 
     if (checked) {
       onSelect(selection.selectAll());
@@ -176,7 +180,7 @@ class Table extends Component {
       onSelect(selection.reset());
     }
 
-    onFocusReset();
+    onFocusRestore();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -287,8 +291,8 @@ class Table extends Component {
                 selectable,
                 focused: selection.isFocused(item),
                 selected: selectable && selection.isSelected(item),
-                onFocus: this.onRowFocus,
-                onSelect: this.onRowSelect
+                onFocus: this.onRowFocus.bind(this, item),
+                onSelect: this.onRowSelect.bind(this, item)
               };
               return <Row {...props} />;
             })
