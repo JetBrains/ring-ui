@@ -1,4 +1,4 @@
-@value unit, gray-color from '../global/global.css';
+@value unit, dark-gray-color from '../global/global.css';
 
 .pager {
   user-select: none;
@@ -14,5 +14,5 @@
 }
 
 .linkDisabled {
-  color: gray-color;
+  color: dark-gray-color;
 }

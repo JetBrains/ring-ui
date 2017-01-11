@@ -2,7 +2,7 @@
 
 gemini.suite('Link', suite => {
   suite.
-    setUrl('/example-link/').
+    setUrl('/link/link.html').
     setCaptureElements('#links').
     capture('link');
 });
