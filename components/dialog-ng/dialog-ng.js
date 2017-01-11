@@ -9,9 +9,10 @@ import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
 
 import '../button/button.scss';
-import './dialog-ng.scss';
-import dialogStyles from '../dialog/dialog';
-import islandStyles from '../island/island';
+import '../form/form.scss';
+import styles from './dialog-ng.css';
+import dialogStyles from '../dialog/dialog.css';
+import islandStyles from '../island/island.css';
 
 /**
  * @name Dialog Ng
@@ -33,6 +34,8 @@ class DialogController extends RingAngularComponent {
 
     this.dialogService = dialogService;
     this.previousBodyWidth = null;
+
+    this.styles = styles;
     this.dialogStyles = dialogStyles;
     this.islandStyles = islandStyles;
 
@@ -86,6 +89,14 @@ class DialogController extends RingAngularComponent {
     }
 
     return dialogShortcuts;
+  }
+
+  handleClick(event) {
+    const isOverlayClicked = event.target === event.currentTarget;
+    if (this.inSidebar || !this.closeOnClick || !isOverlayClicked) {
+      return;
+    }
+    this.hide();
   }
 
   setTitle(title) {
@@ -318,62 +329,18 @@ class DialogInSidebarService extends DialogService {
 function rgDialogDirective($timeout) {
   function link(scope, iElement, iAttrs, dialogCtrl) {
     const node = iElement[0];
-    const dialogContainer = node.query('.ring-dialog__container');
-    const dialogTitle = node.query('.ring-dialog__header__title');
+    const dialogContainer = node.querySelector('*[data-anchor=dialog-container]');
+    const dialogHeader = node.querySelector('*[data-anchor=dialog-header]');
 
     // Left for backward compatibility with existing templates that use data directly from scope
     scope.dialogForm = dialogCtrl.dialogForm;
 
-    let pageHeight = null;
-    let pageWidth = null;
-
-    function setPosition(eventTop, eventLeft) {
-      pageHeight = window.innerHeight;
-      pageWidth = window.innerWidth;
-
-      let top;
-      if (eventTop === undefined) {
-        top = parseInt(getStyles(dialogContainer).top, 10);
-      } else {
-        top = eventTop;
-      }
-
-      let left;
-      if (eventLeft === undefined) {
-        left = parseInt(getStyles(dialogContainer).left, 10);
-      } else {
-        left = eventLeft;
-      }
-
-      const clearance = 10;
-      const maxTop = pageHeight - dialogContainer.offsetHeight - clearance;
-      const maxLeft = pageWidth - dialogContainer.offsetWidth - clearance;
-
-      if (top > maxTop) {
-        top = maxTop;
-      }
-
-      if (top < clearance) {
-        top = clearance;
-      }
-
-      if (left > maxLeft) {
-        left = maxLeft;
-      }
-
-      if (left < clearance) {
-        left = clearance;
-      }
-
+    function setPosition(top, left) {
       Object.assign(dialogContainer.style, {
         top: `${top}px`,
-        left: `${left}px`,
-        margin: '0'
+        left: `${left}px`
       });
     }
-
-    let titlePos = {};
-    let offsetContainer = {};
 
     // Focus first input
     function focusFirst() {
@@ -386,33 +353,40 @@ function rgDialogDirective($timeout) {
 
     function onMousemove(e) {
       e.preventDefault();
-      const top = offsetContainer.top - titlePos.top + e.clientY;
-      const left = offsetContainer.left - titlePos.left + e.clientX;
-      setPosition(top, left);
+
+      const pageHeight = window.innerHeight;
+      const pageWidth = window.innerWidth;
+      const clearance = 10;
+      const maxTop = pageHeight - clearance;
+      const maxLeft = pageWidth - clearance;
+
+      const newTop = getRect(dialogHeader).top + e.movementY;
+      const newLeft = getRect(dialogHeader).left + e.movementX;
+
+      if (newTop > maxTop || newTop < clearance) {
+        return;
+      }
+
+      if (newLeft > maxLeft || newLeft < clearance) {
+        return;
+      }
+
+      const offsetY = parseFloat(dialogContainer.style.top) || 0;
+      const offsetX = parseFloat(dialogContainer.style.left) || 0;
+      setPosition(offsetY + e.movementY, offsetX + e.movementX);
     }
 
     function onMouseup() {
-      titlePos = {};
-      offsetContainer = {};
       document.removeEventListener('mousemove', onMousemove);
       document.removeEventListener('mouseup', onMouseup);
-      window.removeEventListener('resize', setPosition);
     }
 
-    function onMousedown(e) {
-      titlePos = {
-        top: e.clientY,
-        left: e.clientX
-      };
-
-      offsetContainer = getRect(dialogContainer);
-
+    function onMousedown() {
       // Duct tape for all Ring 1.0 dropdown components inside
       node.dispatchEvent(new CustomEvent('ring.popup-close'));
 
       document.addEventListener('mousemove', onMousemove);
       document.addEventListener('mouseup', onMouseup);
-      window.addEventListener('resize', setPosition);
     }
 
     function onFocusin(e) {
@@ -424,7 +398,7 @@ function rgDialogDirective($timeout) {
 
     dialogCtrl.resetPosition = () => dialogContainer.removeAttribute('style');
 
-    dialogTitle.addEventListener('mousedown', onMousedown);
+    dialogHeader.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
     scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
 
@@ -433,7 +407,7 @@ function rgDialogDirective($timeout) {
     scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
 
     scope.$on('$destroy', () => {
-      dialogTitle.removeEventListener('mousedown', onMousedown);
+      dialogHeader.removeEventListener('mousedown', onMousedown);
       document.removeEventListener('mousemove', onMousemove);
       document.removeEventListener('mouseup', onMouseup);
       document.removeEventListener('focusin', onFocusin);
