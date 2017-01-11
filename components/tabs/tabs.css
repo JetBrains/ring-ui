@@ -1,4 +1,4 @@
-@value unit, font, line-color, main-color, text-color, disabled-color from "../global/global.css";
+@value unit, font, line-color, main-color, text-color, gray-color from "../global/global.css";
 
 .tabs {
   composes: font;
@@ -25,7 +25,7 @@
   }
 
   &[disabled] {
-    color: disabled-color;
+    color: gray-color;
     pointer-events: none;
   }
 }

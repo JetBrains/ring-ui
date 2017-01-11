@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, gray-color, disabled-color, main-color, error-color, ease, fast-ease from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, dark-gray-color, gray-color, main-color, error-color, ease, fast-ease from  "../global/global.css";
 
 .container {
   composes: font-lower;
@@ -26,7 +26,7 @@
   }
 
   &[disabled] {
-    color: disabled-color;
+    color: gray-color;
   }
 
   /*
@@ -48,7 +48,7 @@ textarea.input {
 }
 
 .label {
-  color: gray-color;
+  color: dark-gray-color;
   pointer-events: none;
   position: absolute;
   top:calc(unit * 3);
@@ -65,7 +65,7 @@ textarea.input {
 }
 
 input:focus::placeholder {
-  color: disabled-color;
+  color: gray-color;
   transition: color ease;
 }
 

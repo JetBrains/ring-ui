@@ -1,4 +1,4 @@
-@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value unit, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, font-lower from  "../global/global.css";
 @value soft-blue-color: #cef;
 @value border-color: #dfe5eb;
 @value cellSize: calc(unit * 3);
@@ -56,6 +56,7 @@
 }
 
 .weekdays {
+  composes: font-lower;
   margin-top: calc(unit * 2);
   color: dark-gray-color;
 }
