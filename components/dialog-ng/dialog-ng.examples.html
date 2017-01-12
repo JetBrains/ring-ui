@@ -56,7 +56,6 @@
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/dialog-ng/dialog-ng.scss';
     import 'ring-ui/components/panel/panel.scss';
     import 'ring-ui/components/input-size/input-size.scss';
 
@@ -71,6 +70,7 @@
           dialog.show({
             cssClass: 'custom-css-class',
             title: 'Test',
+            closeOnClick: true,
             shortcuts: {
               'ctrl+enter': angular.noop
             },
@@ -91,14 +91,15 @@
                 label: 'Long Action',
                 cssClasses: 'ring-button_danger custom-css-class-button-right',
                 action: function () {
-                  return $timeout(angular.noop, 2000);
+                  return $timeout(angular.noop, 2000).
+                    then(() => $q.reject('Some error'));
                 }
               }
             ]
           });
         };
 
-        $timeout(() => this.showDialog(), 500);
+        $timeout(() => this.showDialog());
       }).
       controller('DialogExampleCtrl', function () {
         var dialogExampleCtrl = this;
@@ -107,163 +108,68 @@
   </file>
 </example>
 
-<example name="Dialog large markup">
+<example name="Dialog Ng in sidebar">
   <file type="html">
-    <div ng-app="Example.dialog"
-      ng-controller="DialogExampleCtrl as dialogExampleCtrl">
-      <div class="ring-dialog__wrapper active">
-        <div class="ring-dialog__container">
-          <div class="ring-dialog__header">
-            <span class="ring-dialog__header__title">New space</span>
-          </div>
+    <div ng-app="Example.dialog">
 
-          <form class="ring-dialog__content ring-form">
-            <div class="ring-form__group">
-              <label class="ring-form__label" for="dialog__key">Key</label>
-              <div class="ring-form__control">
-                <input id="dialog__key" class="ring-input ring-input-size_md"
-                  type="text">
-              </div>
-            </div>
-
-            <div class="ring-form__group">
-              <label class="ring-form__label" for="dialog__name">Name</label>
-              <div class="ring-form__control">
-                <input id="dialog__name" class="ring-input ring-input-size_md"
-                  type="text">
-                <div class="ring-error-bubble active">Wrong value</div>
-                <div class="ring-form__control__description">Description</div>
-              </div>
-            </div>
-
-            <div class="ring-form__group">
-              <label for="rg-select-demo"
-                class="ring-form__label">Select</label>
-              <div class="ring-form__control">
-                <rg-select
-                  options="item.name for item in dialogExampleCtrl.arr track by item.name"
-                  id="rg-select-demo"
-                  class="ring-input-size_md"
-                ></rg-select>
-              </div>
-            </div>
-
-            <div class="ring-form__group">
-              <div class="ring-form__control">
-                <div react="Checkbox" label="'checkbox'"></div>
-              </div>
-            </div>
-
-            <div class="ring-form__group">
-              <label for="textarea-demo"
-                class="ring-form__label">Textarea</label>
-              <div class="ring-form__control">
-                <textarea id="textarea-demo"
-                  class="ring-input ring-input-size_md"></textarea>
-              </div>
-            </div>
-          </form>
-
-          <div class="ring-dialog__footer">
-            <div class="ring-dialog__footer__spacer"></div>
-            <button
-              class="ring-dialog__footer__item_first ring-dialog__footer__item ring-button ring-button_blue">
-              Create space
-            </button>
-            <button class="ring-dialog__footer__item ring-button">Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </file>
-
-  <file type="js">
-    require('ring-ui/components/dialog-ng/dialog-ng.scss');
-    require('ring-ui/components/panel/panel.scss');
-
-    require('angular/angular');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/react-ng/react-ng')({
-    Checkbox: require('ring-ui/components/checkbox/checkbox')
-    });
-
-    angular.module('Example.dialog', ['Ring.select', 'Ring.react-ng']).
-    controller('DialogExampleCtrl', function () {
-    var dialogExampleCtrl = this;
-    dialogExampleCtrl.arr = [{name: 'Ada'}, {name: 'Nik'}];
-    });
-
-    require('ring-ui/components/error-bubble/error-bubble.scss');
-    require('ring-ui/components/input-size/input-size.scss');
-  </file>
-</example>
-
-<example name="Dialog with control_small">
-  <file type="html">
-    <div class="ring-dialog__wrapper active">
-      <div class="ring-dialog__container">
-        <div class="ring-dialog__header">
-          <span
-            class="ring-dialog__header__title">Dialog with control_small</span>
-        </div>
-
-        <form class="ring-dialog__content ring-form">
+      <script type="template" id="dialog-template">
+        <div>
           <div class="ring-form__group">
-            <label class="ring-form__label" for="dialog__key">Small</label>
-            <div class="ring-form__control ring-form__control_small">
-              <input id="dialog__key" class="ring-input ring-input-size_md"
-                type="text">
-              <div class="ring-error-bubble active">I am a tip</div>
-              <div class="ring-form__control__description">
-                There is a small margin before control
-              </div>
+            <label class="ring-form__label" for="dialog__key">Key</label>
+            <div class="ring-form__control">
+              <input id="dialog__key" class="ring-input" type="text">
             </div>
           </div>
-        </form>
+      </script>
 
-        <div class="ring-dialog__footer">
-          <div class="ring-dialog__footer__spacer"></div>
-          <button
-            class="ring-dialog__footer__item_first ring-dialog__footer__item ring-button ring-button_blue">
-            Save
-          </button>
-          <button class="ring-dialog__footer__item ring-button">Cancel</button>
-        </div>
+      <rg-sidebar show="true">
+        <rg-dialog in-sidebar="true" active="true"></rg-dialog>
+      </rg-sidebar>
+
+      <div ng-controller="ExampleCtrl as ctrl">
+        <rg-button ng-click="ctrl.showDialog()">Show dialog</rg-button>
       </div>
     </div>
   </file>
 
   <file type="js">
-    require('ring-ui/components/dialog-ng/dialog-ng.scss');
-    require('ring-ui/components/input/input.scss');
-    require('ring-ui/components/form/form.scss');
-    require('ring-ui/components/panel/panel.scss');
-    require('ring-ui/components/button/button.scss');
-    require('ring-ui/components/input-size/input-size.scss');
-  </file>
-</example>
+    import 'ring-ui/components/panel/panel.scss';
+    import 'ring-ui/components/input-size/input-size.scss';
 
-<example name="The smallest dialog">
-  <file type="html">
-    <div class="ring-dialog__wrapper active">
-      <div class="ring-dialog__container">
-        <div class="ring-dialog__header">
-          <span class="ring-dialog__header__title">Small</span>
-        </div>
-        <div class="ring-dialog__content">
-          <div style="text-align: center"><b>Hello!</b></div>
-          <div style="text-align: center">I am a message</div>
-        </div>
-      </div>
-    </div>
-  </file>
+    import 'angular/angular';
+    import Sidebar from 'ring-ui/components/sidebar-ng/sidebar-ng'
+    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
+    import Select from 'ring-ui/components/select-ng/select-ng';
+    import Button from 'ring-ui/components/button-ng/button-ng';
 
-  <file type="js">
-    require('ring-ui/components/dialog-ng/dialog-ng.scss');
-    require('ring-ui/components/input/input.scss');
-    require('ring-ui/components/form/form.scss');
-    require('ring-ui/components/panel/panel.scss');
-    require('ring-ui/components/button/button.scss');
+    angular.module('Example.dialog', [Dialog, Select, Button, Sidebar]).
+      controller('ExampleCtrl', function ($q, $timeout, dialogInSidebar) {
+        this.showDialog = function () {
+          dialogInSidebar.show({
+            title: 'Test',
+            shortcuts: {
+              'ctrl+enter': angular.noop
+            },
+            template: document.getElementById('dialog-template').innerHTML,
+            controllerAs: 'dialogExampleCtrl',
+            controller: function () {
+              this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+            },
+            buttons: [
+              {
+                label: 'Save',
+                default: true,
+                action: angular.noop
+              },
+              {
+                label: 'Cancel',
+                close: true
+              }
+            ]
+          });
+        };
+
+        $timeout(() => this.showDialog(), 500);
+      });
   </file>
 </example>

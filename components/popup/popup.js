@@ -249,6 +249,7 @@ export default class Popup extends RingComponentWithShortcuts {
             }}
           >
             <div
+              data-test="ring-popup"
               style={this.position()}
               ref={el => {
                 this.popup = el;
