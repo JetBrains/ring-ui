@@ -214,13 +214,30 @@ class DialogController extends RingAngularComponent {
     return errorResponse;
   }
 
+  getFieldErrorMessage(errorResponse) {
+    if (errorResponse && errorResponse.data && errorResponse.data.error) {
+      return errorResponse.data.error;
+    }
+
+    return null;
+  }
+
   action(button) {
     if (button.inProgress) {
       return undefined;
     }
 
     const errorReporter = errorResponse => {
-      this.error = this.getErrorMessage(errorResponse);
+      const errorField = errorResponse && errorResponse.data && errorResponse.data.error_field;
+
+      if (errorField && this.dialogForm[errorField]) {
+        this.dialogForm[errorField].$invalid = true;
+        this.dialogForm[errorField].$error[errorField] = [{
+          message: this.getFieldErrorMessage(errorResponse)
+        }];
+      } else {
+        this.error = this.getErrorMessage(errorResponse);
+      }
     };
 
     if (button.action) {
