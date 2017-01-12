@@ -10,7 +10,7 @@ import Weekdays from './weekdays';
 import {dateType, parseDate} from './consts';
 
 import styles from './date-picker.css';
-import '../popup/popup.scss';
+import popupStyles from '../popup/popup.css';
 
 const scrollExpDelay = 10;
 
@@ -216,8 +216,11 @@ export default class DatePopup extends RingComponent {
     };
 
     return (
-      <div className={styles.datePopup}>
-        <div className="ring-popup__filter-wrapper">
+      <div
+        className={styles.datePopup}
+        data-test="ring-date-popup"
+      >
+        <div className={popupStyles.filterWrapper}>
           {names.map(name => (
             <DateInput
               {...this.props}

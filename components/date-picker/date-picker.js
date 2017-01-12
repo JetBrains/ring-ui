@@ -55,42 +55,14 @@ export default class DatePicker extends RingComponent {
     onChange: PropTypes.func
   };
 
-  createPopup() {
-    this.popup = Popup.renderPopup(Popup.factory({
-      hidden: true,
-      autoRemove: false,
-      anchorElement: this.node,
-      className: this.props.popupClassName
-    }));
-  }
+  state = {
+    showPopup: false
+  };
 
-  updatePopup() {
-    if (this.popup) {
-      this.popup.rerender({
-        children: (
-          <DatePopup
-            {...this.props}
-            onComplete={::this.popup.hide}
-          />
-        )
-      });
-    }
-  }
-
-  handleClick() {
-    if (!this.popup) {
-      this.createPopup();
-    }
-
-    if (!this.popup.isVisible()) {
-      this.popup.show(::this.updatePopup);
-    }
-  }
-
-  didUpdate() {
-    if (this.popup && this.popup.isVisible()) {
-      this.updatePopup();
-    }
+  togglePopup(show) {
+    this.setState({
+      showPopup: show != null ? show : !this.state.showPopup
+    });
   }
 
   clear(e) {
@@ -103,31 +75,38 @@ export default class DatePicker extends RingComponent {
   }
 
   render() {
-    const classes = classNames(
-      styles.datePicker,
-      this.props.className
-    );
-
-    const displayClasses = classNames(
-      styles.displayDate,
-      {[styles.displayRange]: this.props.range}
-    );
-
     const {
-      range,
-      displayFormat,
+      className,
+      popupClassName,
       displayMonthFormat,
       displayDayFormat,
       datePlaceholder,
       rangePlaceholder,
-      clear
+      clear,
+      ...datePopupProps
     } = this.props;
-    const parse = text => parseDate(
-      text,
-      this.props.inputFormat,
-      this.props.displayFormat
+
+    const {
+      range,
+      displayFormat,
+      inputFormat
+    } = datePopupProps;
+
+    const classes = classNames(
+      styles.datePicker,
+      className
     );
 
+    const displayClasses = classNames(
+      styles.displayDate,
+      {[styles.displayRange]: range}
+    );
+
+    const parse = text => parseDate(
+      text,
+      inputFormat,
+      displayFormat
+    );
 
     const date = parse(this.props.date);
     const from = parse(this.props.from);
@@ -153,23 +132,38 @@ export default class DatePicker extends RingComponent {
     }
 
     return (
-      <Button
-        onClick={::this.handleClick}
-        icon={calendarIcon}
-        iconSize={17}
-        className={classes}
-      >
-        <span
-          className={displayClasses}
-        >{text}{clear && (date || from || to) && (
-          <Icon
-            className={styles.clear}
-            glyph={closeIcon}
-            size={Icon.Size.Size14}
-            onClick={::this.clear}
+      <div>
+        <Button
+          onClick={() => this.togglePopup()}
+          icon={calendarIcon}
+          iconSize={17}
+          className={classes}
+          data-test="ring-date-picker"
+        >
+          <span
+            className={displayClasses}
+          >{text}{clear && (date || from || to) && (
+            <Icon
+              className={styles.clear}
+              glyph={closeIcon}
+              size={Icon.Size.Size14}
+              onClick={::this.clear}
+            />
+          )}</span>
+        </Button>
+        <Popup
+          hidden={!this.state.showPopup}
+          onCloseAttempt={() => this.togglePopup(false)}
+          dontCloseOnAnchorClick={true}
+          keepMounted={true}
+          className={popupClassName}
+        >
+          <DatePopup
+            {...datePopupProps}
+            onComplete={() => this.togglePopup(false)}
           />
-        )}</span>
-      </Button>
+        </Popup>
+      </div>
     );
   }
 }
