@@ -222,6 +222,8 @@ class DialogController extends RingAngularComponent {
     return null;
   }
 
+  serverErrorFields = [];
+
   action(button) {
     if (button.inProgress) {
       return undefined;
@@ -235,12 +237,21 @@ class DialogController extends RingAngularComponent {
         this.dialogForm[errorField].$error[errorField] = [{
           message: this.getFieldErrorMessage(errorResponse)
         }];
+        this.serverErrorFields.push(errorField);
       } else {
         this.error = this.getErrorMessage(errorResponse);
       }
     };
 
     if (button.action) {
+      if (!button.keepServerErrors) {
+        this.serverErrorFields.forEach(errorField => {
+          this.dialogForm[errorField].$invalid = false;
+          this.dialogForm[errorField].$error = {};
+        });
+        this.serverErrorFields = [];
+      }
+
       const actionResult = button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
 
       button.inProgress = true;
