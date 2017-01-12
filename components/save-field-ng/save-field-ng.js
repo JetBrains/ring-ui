@@ -297,9 +297,9 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         cancel: resetValue
       };
 
-      scope.submitChanges = ctrl.submitChanges = submitChanges;
+      scope.submitChanges = submitChanges;
 
-      scope.cancelChanges = ctrl.cancelChanges = resetValue;
+      scope.cancelChanges = resetValue;
 
       scope.focus = false;
 
