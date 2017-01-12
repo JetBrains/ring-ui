@@ -8,14 +8,14 @@ gemini.suite('Query Assist', suite => {
 
   gemini.suite('with popup', child => {
     child.
-      setCaptureElements(['#query-assist', '.test-popup']).
+      setCaptureElements(['#query-assist', '[data-test=ring-popup]']).
       capture('focused', (actions, find) => {
         actions.click(find('.ring-query-assist__input'));
         // eslint-disable-next-line prefer-arrow-callback
         actions.executeJS(function hideCaret() {
           document.querySelector('[data-test=ring-query-assist-input]').style = 'color: transparent;';
         });
-        actions.waitForElementToShow('.test-popup');
+        actions.waitForElementToShow('[data-test=ring-popup]');
       }).
       capture('input', (actions, find) => {
         actions.sendKeys(find('.ring-query-assist__input'), 'test ');
@@ -23,7 +23,7 @@ gemini.suite('Query Assist', suite => {
         actions.executeJS(function hideCaret() {
           document.querySelector('[data-test=ring-query-assist-last-letter]').style = 'color: transparent;';
         });
-        actions.waitForElementToShow('.test-popup');
+        actions.waitForElementToShow('[data-test=ring-popup]');
       });
   });
 });
