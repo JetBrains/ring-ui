@@ -8,7 +8,7 @@ import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
 
-import '../button/button.scss';
+import '../button-legacy/button-legacy.scss';
 import '../form/form.scss';
 import styles from './dialog-ng.css';
 import dialogStyles from '../dialog/dialog.css';
