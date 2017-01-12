@@ -113,7 +113,7 @@
 
     var select = render(
       Select.factory(
-        {filter: true, selected: [dataset[0], dataset[3]], multiple: true, popupClassName: 'test-popup'}),
+        {filter: true, selected: [dataset[0], dataset[3]], multiple: true}),
       document.getElementById('demo')
     );
     select.rerender(props);
@@ -161,7 +161,7 @@
     }
 
     render(
-      Select.factory({type: Select.Type.INPUT, data: data, popupClassName: 'test-popup'}),
+      Select.factory({type: Select.Type.INPUT, data: data}),
       document.getElementById('demo')
     );
   </file>
@@ -218,8 +218,7 @@
         {'label': 'Two One', 'key': '2.1', level: 1},
         {'label': 'Two Two', 'key': '2.2', level: 1},
         {'label': 'Three', 'key': '3'}
-      ],
-      popupClassName: 'test-popup'
+      ]
     }), document.getElementById('demo'));
   </file>
   <file type="scss">
