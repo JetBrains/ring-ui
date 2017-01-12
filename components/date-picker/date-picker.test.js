@@ -13,11 +13,11 @@ describe('Date Picker', () => {
   });
 
   it('should render a button', () => {
-    renderComponent().node.should.match(`button.${styles.datePicker}`);
+    renderComponent().node.firstChild.should.match(`button.${styles.datePicker}`);
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    renderComponent({className: 'test-class'}).node.firstChild.should.match('.test-class');
   });
 
   it('should parse and display passed date', () => {
