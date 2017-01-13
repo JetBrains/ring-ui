@@ -6,6 +6,7 @@ import {findDOMNode} from 'react-dom';
 export default function focusSensorFactory(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
+      ...ComposedComponent.propTypes,
       focused: PropTypes.bool,
       autofocus: PropTypes.bool,
       onFocus: PropTypes.func,
@@ -13,6 +14,7 @@ export default function focusSensorFactory(ComposedComponent) {
     }
 
     static defaultProps = {
+      ...ComposedComponent.defaultProps,
       focused: false,
       autofocus: false,
       onFocus: () => {},
