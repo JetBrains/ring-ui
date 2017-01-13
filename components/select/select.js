@@ -498,7 +498,7 @@ export default class Select extends RingComponentWithShortcuts {
         this.props.onChange(selected, event);
       });
     } else {
-      if (!selected.key) {
+      if (selected.key == null) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
