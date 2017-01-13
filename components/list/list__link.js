@@ -1,42 +1,30 @@
 import React, {PropTypes} from 'react';
 import classnames from 'classnames';
-
-import '../link/link.scss';
+import Link from '../link/link';
+import styles from './list.css';
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
 export default function ListLink(props) {
-  const {label, active, description, rgItemType, scrolling, url, ...restProps} = props; // eslint-disable-line no-unused-vars
-  const classes = classnames({
-    'ring-list__item': true,
-    'ring-link': true,
-    'ring-link_focus': active && scrolling
-  });
-
-  if (props.href) {
-    return (
-      <a
-        {...restProps}
-        className={classes}
-      >
-        {label}
-      </a>
-    );
-  }
+  const {className, label, active, description, rgItemType, url, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const classes = classnames(styles.item, className);
 
   return (
-    <span
+    <Link
+      hover={active}
+      pseudo={!props.href}
       {...restProps}
       className={classes}
     >
       {label}
-    </span>
+    </Link>
   );
 }
 
 ListLink.propTypes = {
+  className: PropTypes.string,
   active: PropTypes.bool,
   description: PropTypes.string,
   href: PropTypes.string,
@@ -45,6 +33,5 @@ ListLink.propTypes = {
     PropTypes.string
   ]),
   rgItemType: PropTypes.number,
-  scrolling: PropTypes.bool,
   url: PropTypes.string
 };

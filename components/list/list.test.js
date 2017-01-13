@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import List from './list';
 
+import styles from './list.css';
+
 import okIcon from 'jetbrains-icons/ok.svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
@@ -68,7 +70,7 @@ describe('List', () => {
         {}
       ]});
 
-      getFirstListItem().should.have.class('ring-list__item_action');
+      getFirstListItem().should.have.class(styles.action);
       getFirstListItem().innerText.should.equal('');
     });
 
@@ -77,7 +79,7 @@ describe('List', () => {
         {label: 'Hello!'}
       ]});
 
-      list.inner.querySelector('.ring-list__item').should.be.defined;
+      list.inner.querySelector('[data-test=ring-list-item]').should.be.defined;
     });
 
     it('should render a if href defined', () => {
@@ -85,7 +87,7 @@ describe('List', () => {
         {label: 'Hello!', href: 'http://www.jetbrains.com'}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.match('[data-test=ring-link]');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -96,7 +98,7 @@ describe('List', () => {
         {label: 'Hello!', url: 'http://www.jetbrains.com'}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.match('[data-test=ring-link]');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -107,7 +109,7 @@ describe('List', () => {
         {rgItemType: List.ListProps.Type.SEPARATOR}
       ]});
 
-      getFirstListItem().should.have.class('ring-list__separator');
+      getFirstListItem().should.have.class(styles.separator);
     });
 
     it('should render title', () => {
@@ -123,7 +125,7 @@ describe('List', () => {
         {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.match('[data-test=ring-link]');
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('span');
     });
@@ -133,7 +135,7 @@ describe('List', () => {
         {label: 'Hello!', type: List.ListProps.Type.ITEM}
       ]});
 
-      getFirstListItem().should.not.contain('.ring-list__icon');
+      getFirstListItem().should.not.contain(`.${styles.icon}`);
     });
 
     it('should render icon if provided', () => {
@@ -141,7 +143,7 @@ describe('List', () => {
         {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
       ]});
 
-      const icon = getFirstListItem().querySelector('.ring-list__icon');
+      const icon = getFirstListItem().querySelector(`.${styles.icon}`);
       expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
@@ -167,7 +169,7 @@ describe('List', () => {
           {label: 'Hello!', rgItemType: 'none'}
         ]});
 
-        getFirstListItem().should.have.class('ring-link');
+        getFirstListItem().should.match('[data-test=ring-link]');
         getFirstListItem().innerHTML.should.equal('Hello!');
         getFirstListItem().tagName.toLowerCase().should.equal('span');
       }).to.throw(Error, 'Unknown menu element type: none');
@@ -227,7 +229,7 @@ describe('List', () => {
           disabled: true
         }
       ]});
-      getFirstListItem().should.not.have.class('ring-list__item_action');
+      getFirstListItem().should.not.have.class(styles.action);
     });
   });
 });
