@@ -54,6 +54,7 @@ export default class Link extends RingComponent {
     return (
       <Tag
         {...props}
+        data-test="ring-link"
         className={classes}
       >{this.props.children}</Tag>
     );
