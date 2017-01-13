@@ -109,36 +109,31 @@ class Table extends Component {
     return false;
   }
 
-  shiftSelectRow = () => {
-    const {selection, onSelect} = this.props;
-    if (this.shiftSelectionMode === 'adding') {
-      onSelect(selection.select());
-    } else {
-      onSelect(selection.deselect());
-    }
-  }
-
   onShiftKeyDown = () => {
     const {selection} = this.props;
     if (selection.isSelected(selection.getFocused())) {
-      this.shiftSelectionMode = 'deleting';
+      this.shiftSelectionMode = 'deletion';
     } else {
-      this.shiftSelectionMode = 'adding';
+      this.shiftSelectionMode = 'addition';
     }
   }
 
   onShiftUpPress = () => {
-    this.shiftSelectRow();
-
     const {selection, onSelect} = this.props;
-    onSelect(selection.moveUp());
+    if (this.shiftSelectionMode === 'addition') {
+      onSelect(selection.select().moveUp());
+    } else {
+      onSelect(selection.deselect().moveUp());
+    }
   }
 
   onShiftDownPress = () => {
-    this.shiftSelectRow();
-
     const {selection, onSelect} = this.props;
-    onSelect(selection.moveDown());
+    if (this.shiftSelectionMode === 'addition') {
+      onSelect(selection.select().moveDown());
+    } else {
+      onSelect(selection.deselect().moveDown());
+    }
   }
 
   onHomePress = () => {
