@@ -577,14 +577,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
       if (suggestion.matchingStart !== suggestion.matchingEnd) {
         before = suggestion.option.substring(0, suggestion.matchingStart);
-        option = <span className="ring-list__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
+        option = <span className="ring-query-assist__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
         after = suggestion.option.substring(suggestion.matchingEnd);
       } else {
         option = suggestion.option;
       }
 
-      const prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
-      const suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
+      const prefix = !!suggestion.prefix && <span className="ring-query-assist__service">{suggestion.prefix}</span>;
+      const suffix = !!suggestion.suffix && <span className="ring-query-assist__service">{suggestion.suffix}</span>;
 
       const label = DOM.span({className: suggestion.className}, prefix, before, option, after, suffix);
 

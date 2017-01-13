@@ -449,9 +449,9 @@ describe('Query Assist', () => {
       const list = findDOMNode(this.queryAssist._popup.refs.List);
       const {length} = suggestions;
 
-      list.queryAll('.ring-list__item').should.have.length(length);
-      list.queryAll('.ring-list__highlight').should.have.length(length);
-      list.queryAll('.ring-list__service').should.have.length(length * 2);
+      list.queryAll('[data-test=ring-list-item]').should.have.length(length);
+      list.queryAll('.ring-query-assist__highlight').should.have.length(length);
+      list.queryAll('.ring-query-assist__service').should.have.length(length * 2);
     });
 
   });

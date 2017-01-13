@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
 import classnames from 'classnames';
+import styles from './list.css';
 
 export default function ListCustom(props) {
   const {active, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
-  const classes = classnames({
-    'ring-list__item': true,
-    'ring-list__item_action': !disabled,
-    'ring-list__item_active': active && !disabled
-  }, className);
+  const classes = classnames(styles.item, className, {
+    [styles.action]: !disabled,
+    [styles.active]: active && !disabled
+  });
 
   const content = (typeof template === 'function') ? template(props) : template;
   return (

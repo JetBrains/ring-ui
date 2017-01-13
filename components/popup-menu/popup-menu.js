@@ -17,28 +17,30 @@ import List from '../list/list';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var PopupMenu = require('ring-ui/components/popup-menu/popup-menu');
-       var Button = require('ring-ui/components/button-legacy/button-legacy');
+       import React from 'react';
+       import {render} from 'react-dom';
+       import PopupMenu, {ListProps} from 'ring-ui/components/popup-menu/popup-menu';
 
        var data = [
           {'label': 'Item'},
           {'label': 'Link to jetbrains.com', 'href': 'http://www.jetbrains.com'},
-          {'rgItemType': PopupMenu.ListProps.Type.SEPARATOR},
-          {'rgItemType': PopupMenu.ListProps.Type.LINK, 'label': 'Link Item'},
-          {'rgItemType': PopupMenu.ListProps.Type.LINK, 'label': 'Link Item With Additional Class', 'className': 'test'},
-          {'rgItemType': PopupMenu.ListProps.Type.SEPARATOR, 'description': 'Separator With Description'},
-          {'rgItemType': PopupMenu.ListProps.Type.TITLE, 'label': 'Title'},
-          {'rgItemType': PopupMenu.ListProps.Type.ITEM, 'label': '1 Element in group'},
-          {'rgItemType': PopupMenu.ListProps.Type.ITEM, 'label': '2 Element in group'}
+          {'rgItemType': ListProps.Type.SEPARATOR},
+          {'rgItemType': ListProps.Type.LINK, 'label': 'Link Item'},
+          {'rgItemType': ListProps.Type.LINK, 'label': 'Link Item With Additional Class', 'className': 'test'},
+          {'rgItemType': ListProps.Type.SEPARATOR, 'description': 'Separator With Description'},
+          {'rgItemType': ListProps.Type.TITLE, 'label': 'Title'},
+          {'rgItemType': ListProps.Type.ITEM, 'label': '1 Element in group'},
+          {'rgItemType': ListProps.Type.ITEM, 'label': '2 Element in group'}
        ];
 
-       var popupMenu = PopupMenu.renderPopup(PopupMenu.factory({
-         anchorElement: document.getElementById('popup'),
-         classNames: ['additional', 'class', 'names'],
-         shortcuts: true,
-         data: data
-       }, null));
+       const popupMenu = (
+         <PopupMenu
+           shortcuts={true}
+           data={data}
+         />
+       );
+
+       render(popupMenu, document.getElementById('popup'));
      </file>
    </example>
  */

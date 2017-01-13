@@ -267,7 +267,7 @@ describe('Select', () => {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        this.select._popup.popup.popup.should.contain('.ring-list__item_hint');
+        this.select._popup.popup.popup.should.contain('[data-test=ring-list-hint]');
       });
 
       it('Hint should be placed under "add" button', function () {
@@ -276,7 +276,7 @@ describe('Select', () => {
           hint: 'blah blah'
         });
         this.select._showPopup();
-        const hint = this.select._popup.popup.popup.queryAll('.ring-list__item_hint');
+        const hint = this.select._popup.popup.popup.queryAll('[data-test=ring-list-hint]');
 
         hint.should.exist;
       });
