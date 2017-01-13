@@ -1,10 +1,12 @@
 import React, {PropTypes} from 'react';
+import classnames from 'classnames';
+import styles from './list.css';
 
 export default function ListTitle({description, label}) {
   return (
-    <span className="ring-list__title ring-list__text">
-      <span className="ring-list__item__label ring-list__title-text">{label}</span>
-      <div className="ring-list__item__description">{description}</div>
+    <span className={styles.title}>
+      <span className={classnames(styles.label, styles.text)}>{label}</span>
+      <div className={styles.description}>{description}</div>
     </span>
   );
 }

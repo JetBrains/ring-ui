@@ -1,14 +1,9 @@
 import React, {PropTypes} from 'react';
-import classnames from 'classnames';
+import styles from './list.css';
 
 export default function ListSeparator({description}) {
-  const classes = classnames({
-    'ring-list__separator': true,
-    'ring-list__separator_empty': !description
-  });
-
   return (
-    <span className={classes}>{description}</span>
+    <span className={styles.separator}>{description}</span>
   );
 }
 

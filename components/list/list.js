@@ -8,10 +8,13 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes, createElement} from 'react';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
+import getUID from '../global/get-uid';
+import scheduleRAF from '../global/schedule-raf';
+import memoize from '../global/memoize';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
-import './list.scss';
+import styles from './list.css';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
 import ListLink from './list__link';
@@ -113,10 +116,13 @@ export default class List extends RingComponentWithShortcuts {
     activeItem: null,
     renderOptimizationSkip: 0,
     renderOptimizationPaddingTop: 0,
-    renderOptimizationPaddingBottom: 0
+    renderOptimizationPaddingBottom: 0,
+    hasOverflow: false
   };
 
   _activatableItems = false;
+
+  hoverScheduler = scheduleRAF();
 
   hasActivatableItems() {
     return this._activatableItems;
@@ -139,12 +145,14 @@ export default class List extends RingComponentWithShortcuts {
     item.disabled);
   }
 
-  hoverHandler(index) {
-    this.setState({
-      activeIndex: index,
-      activeItem: this.props.data[index]
-    });
-  }
+  hoverHandler = memoize(index => () =>
+    this.hoverScheduler(() =>
+      this.setState({
+        activeIndex: index,
+        activeItem: this.props.data[index]
+      })
+    )
+  );
 
   upHandler(e) {
     const index = this.state.activeIndex;
@@ -210,7 +218,7 @@ export default class List extends RingComponentWithShortcuts {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
-        this.selectHandler({item, event});
+        this.selectHandler(item)(event);
 
         if (item.href) {
           window.location.href = item.href;
@@ -222,7 +230,7 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  selectHandler({item, event}) {
+  selectHandler = memoize(item => event => {
     if (!this.props.useMouseUp && item.onClick) {
       item.onClick(item, event);
     }
@@ -234,7 +242,7 @@ export default class List extends RingComponentWithShortcuts {
     if (this.props.onSelect) {
       this.props.onSelect(item, event);
     }
-  }
+  });
 
   getFirst() {
     return this.props.data.find(item => item.rgItemType === Type.ITEM);
@@ -305,6 +313,10 @@ export default class List extends RingComponentWithShortcuts {
 
       this.setState({activeIndex, activeItem}, this.recalculateVisibleOptions);
     }
+  }
+
+  shouldUpdate(nextProps, nextState) {
+    return nextProps !== this.props || Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
   didMount() {
@@ -435,12 +447,10 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  hasOverflow() {
-    if (this.inner) {
-      return this.inner.scrollHeight - this.inner.clientHeight > 1;
-    }
-
-    return false;
+  checkOverflow() {
+    this.setState({
+      hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
+    });
   }
 
   getShortcutsProps() {
@@ -450,7 +460,7 @@ export default class List extends RingComponentWithShortcuts {
         down: ::this.downHandler,
         enter: ::this.enterHandler
       },
-      scope: ::this.constructor.getUID('ring-list-')
+      scope: getUID('list-')
     };
   }
 
@@ -467,9 +477,8 @@ export default class List extends RingComponentWithShortcuts {
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
-    const classes = classnames({
-      'ring-list': true,
-      'ring-list_scrolling': this.state.scrolling
+    const classes = classnames(styles.list, {
+      [styles.scrolling]: this.state.scrolling
     });
 
     return (
@@ -478,15 +487,12 @@ export default class List extends RingComponentWithShortcuts {
         onMouseOut={this.props.onMouseOut}
       >
         <div
-          className="ring-list__i"
+          className={styles.inner}
           onScroll={::this.scrollHandler}
           ref={el => {
             if (el) {
-              const wasPresent = !!this.inner;
               this.inner = el;
-              if (!wasPresent) {
-                this.forceUpdate();
-              }
+              this.checkOverflow();
             }
           }}
           style={innerStyles}
@@ -512,11 +518,10 @@ export default class List extends RingComponentWithShortcuts {
             props.key = props.key || props.rgItemType + (props.label || props.description);
 
             props.active = (realIndex === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler.bind(this, realIndex);
+            props.onMouseOver = this.hoverHandler(realIndex);
             props.tabIndex = -1;
-            props.scrolling = this.state.scrolling;
 
-            const selectHandler = event => this.selectHandler({item, event});
+            const selectHandler = this.selectHandler(item);
 
             if (this.props.useMouseUp) {
               props.onMouseUp = selectHandler;
@@ -549,16 +554,18 @@ export default class List extends RingComponentWithShortcuts {
           </div>
           <div style={bottomPaddingStyles}></div>
         </div>
-        {this.hasOverflow() &&
+        {this.state.hasOverflow && (
           <div
-            className="ring-list__fade"
+            className={styles.fade}
             style={fadeStyles}
-          />}
-        {hint &&
+          />
+        )}
+        {hint && (
           <ListHint
             key={this.props.hint + Type.ITEM}
             label={hint}
-          />}
+          />
+        )}
       </div>
     );
   }

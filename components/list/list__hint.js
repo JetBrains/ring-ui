@@ -1,4 +1,6 @@
 import React, {PropTypes} from 'react';
+import classnames from 'classnames';
+import styles from './list.css';
 
 /**
  * @constructor
@@ -6,7 +8,10 @@ import React, {PropTypes} from 'react';
  */
 export default function ListHint({label}) {
   return (
-    <span className="ring-list__item ring-list__item_hint">{label}</span>
+    <span
+      className={classnames(styles.item, styles.hint)}
+      data-test="ring-list-hint"
+    >{label}</span>
   );
 }
 
