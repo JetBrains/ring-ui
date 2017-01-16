@@ -45,8 +45,6 @@ function angularComponentFactory(Component, name) {
   propKeys.forEach(key => {
     if (key === 'className') {
       bindings.className = '@className';
-    } else if (funcTypes.includes(propTypes[key])) {
-      bindings[key] = '&';
     } else if (stringTypes.includes(propTypes[key])) {
       bindings[key] = '@';
     } else {
@@ -72,18 +70,20 @@ function angularComponentFactory(Component, name) {
 
       const props = {};
       propKeys.forEach(key => {
-        if (funcTypes.includes(propTypes[key])) {
-          props[key] = (...rest) => {
-            const ret = this[key](...rest);
-            $scope.$applyAsync();
-            return ret;
-          };
-        } else {
-          props[key] = this[key];
-        }
+        if (this[key]) {
+          if (funcTypes.includes(propTypes[key])) {
+            props[key] = (...rest) => {
+              const ret = this[key](...rest);
+              $scope.$applyAsync();
+              return ret;
+            };
+          } else {
+            props[key] = this[key];
+          }
 
-        if (process.env.NODE_ENV === 'development' && typeof this[key] === 'object') {
-          addWarningOnPropertiesChange(this[key], angularComponentName);
+          if (process.env.NODE_ENV === 'development' && typeof this[key] === 'object') {
+            addWarningOnPropertiesChange(this[key], angularComponentName);
+          }
         }
       });
 
