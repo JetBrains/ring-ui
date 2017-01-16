@@ -1,43 +1,41 @@
 <example name="Angular Tags Input">
-
   <file type="html">
     <div ng-app="Example.tagsInput" ng-controller="ExampleCtrl as ctrl">
       <rg-tags-input
         tags="ctrl.tags"
-        x-data-source="ctrl.dataSource(query)"
+        x-data-source="ctrl.dataSource"
         placeholder="Type something"
-        on-add-tag="ctrl.onAddTag(tag)"
-        on-remove-tag="ctrl.removeTag(tag)"
+        on-add-tag="ctrl.onAddTag"
+        on-remove-tag="ctrl.removeTag"
       ></rg-tags-input>
     </div>
   </file>
 
   <file type="js">
     import 'angular/angular';
-    import RingProgressBar from 'ring-ui/components/tags-input-ng/tags-input-ng';
+    import RingTagsInput from 'ring-ui/components/tags-input-ng/tags-input-ng';
 
-    angular.module('Example.tagsInput', [RingProgressBar]).
-      controller('ExampleCtrl', function ($q, $interval) {
+    angular.module('Example.tagsInput', [RingTagsInput]).
+      controller('ExampleCtrl', function ($q) {
         this.tags = [
           {key: 'test1', label: 'test1'},
           {key: 'test2', label: 'test2'}
         ];
 
-        this.dataSource = function (query) {
+        this.dataSource = ({query}) => {
           return $q.when([
             {key: 'test3', label: 'test3'},
             {key: 'test4', label: 'test4'}
           ]);
         };
 
-        this.onAddTag = function (tag) {
+        this.onAddTag = ({tag}) => {
           console.log('Add tag', tag);
         };
 
-        this.removeTag = function (tag) {
+        this.removeTag = ({tag}) => {
           console.log('Remove tag', tag);
         };
       });
   </file>
 </example>
-
