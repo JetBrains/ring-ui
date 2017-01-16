@@ -99,7 +99,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       function submitChanges() {
         if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope.value)) {
-          return;
+          return false;
         }
 
         function success() {
@@ -147,7 +147,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           }));
         }
 
-        onsave.
+        return onsave.
           then(success, error).
           then(() => {
             scope.loading = false;
@@ -274,7 +274,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
       scope.wording = {
         save: RingMessageBundle.form_save(),
-        saved: RingMessageBundle.form_saved()
+        saved: RingMessageBundle.form_saved(),
+        cancel: RingMessageBundle.form_cancel()
       };
 
       scope.keyMap = {
@@ -295,6 +296,8 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       };
 
       scope.submitChanges = submitChanges;
+
+      scope.cancelChanges = resetValue;
 
       scope.focus = false;
 

@@ -13,6 +13,15 @@
   </rg-button>
 
   <rg-button
+    ng-show="saveFieldForm.$dirty && !loading"
+    class="ring-save-field__button ng-hide"
+    ng-click="cancelChanges($event)"
+    ng-mousedown="cancelBlur()"
+  >
+    {{wording.cancel}}
+  </rg-button>
+
+  <rg-button
     ng-show="done"
     ng-disabled="true"
     class="ring-save-field__button ng-hide"
