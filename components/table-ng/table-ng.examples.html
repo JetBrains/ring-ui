@@ -1,12 +1,19 @@
 <example name="rgTable">
   <file type="html">
     <div ng-app="Example.table" ng-controller="ExampleCtrl as ctrl">
-      <rg-table data="ctrl.data" columns="ctrl.columns"></rg-table>
+      <rg-table
+        data="ctrl.data"
+        columns="ctrl.columns"
+        selection="ctrl.selection"
+        on-select="ctrl.onSelect"
+        autofocus="true"
+      ></rg-table>
     </div>
   </file>
   <file type="js">
     import 'angular/angular';
     import RingTable from 'ring-ui/components/table-ng/table-ng';
+    import Selection from 'ring-ui/components/table/selection';
     import data from '../table/table.examples.json';
 
     const columns = [
@@ -29,6 +36,11 @@
     exampleModule.controller('ExampleCtrl', function () {
       this.data = data;
       this.columns = columns;
+      this.selection = new Selection({data});
+
+      this.onSelect = selection => {
+        this.selection = selection;
+      }
     });
   </file>
 </example>
