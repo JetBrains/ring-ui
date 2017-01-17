@@ -7,6 +7,7 @@ import 'angular-mocks';
 import React, {PropTypes} from 'react';
 import RingComponent from '../ring-component/ring-component';
 import angularComponentFactory from './angular-component-factory';
+import TestUtils from 'react-addons-test-utils';
 
 class TestComponent extends RingComponent {
   static propTypes = {
@@ -26,7 +27,7 @@ class TestComponent extends RingComponent {
       <div
         id={id}
         data-some-obj={someObj.foo}
-        onClick={onClick({arg: 'a'})}
+        onClick={() => onClick('payload')}
         className={className}
       />
     );
@@ -105,15 +106,14 @@ describe('angularComponentFactory', () => {
     component.should.have.class('test-class2');
   });
 
-  it('should pass function props as &-bindings', function () {
+  it('should use one-way binding for function props', function () {
     $rootScope.callback = this.sinon.spy();
-    const $element = $compile('<rg-test-component on-click="callback(arg)"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component on-click="callback"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
 
-    component.dispatchEvent(new MouseEvent('click'));
-    $rootScope.$digest();
+    TestUtils.Simulate.click(component);
 
     $rootScope.callback.should.have.been.called;
-    $rootScope.callback.should.have.been.calledWith('a');
+    $rootScope.callback.should.have.been.calledWith('payload');
   });
 });
