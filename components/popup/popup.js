@@ -220,7 +220,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   render() {
-    const {className, hidden, attached, keepMounted, legacy, cutEdge} = this.props;
+    const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
     const classes = classNames(className, styles.popup, {
       [styles.attached]: attached || legacy && cutEdge !== false
     });
@@ -246,6 +246,8 @@ export default class Popup extends RingComponentWithShortcuts {
                 this.popup = el;
               }}
               className={classes}
+              onMouseDown={onMouseDown}
+              onMouseUp={onMouseUp}
             >
               {this.getInternalContent()}
             </div>
