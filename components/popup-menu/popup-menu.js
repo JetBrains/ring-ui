@@ -17,11 +17,11 @@ import List from '../list/list';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var PopupMenu = require('ring-ui/components/popup-menu/popup-menu');
-       var Button = require('ring-ui/components/button/button');
+       import React from 'react';
+       import {render} from 'react-dom';
+       import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
 
-       var data = [
+       const data = [
           {'label': 'Item'},
           {'label': 'Link to jetbrains.com', 'href': 'http://www.jetbrains.com'},
           {'rgItemType': PopupMenu.ListProps.Type.SEPARATOR},
@@ -33,12 +33,7 @@ import List from '../list/list';
           {'rgItemType': PopupMenu.ListProps.Type.ITEM, 'label': '2 Element in group'}
        ];
 
-       var popupMenu = PopupMenu.renderPopup(PopupMenu.factory({
-         anchorElement: document.getElementById('popup'),
-         classNames: ['additional', 'class', 'names'],
-         shortcuts: true,
-         data: data
-       }, null));
+       render(<PopupMenu data={data}/>, document.getElementById('popup'));
      </file>
    </example>
  */
