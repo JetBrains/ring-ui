@@ -457,8 +457,7 @@ describe('Query Assist', () => {
           this.suggestions = [];
           this.queryAssist.requestData().
             then(() => {
-
-              this.queryAssist._popup.isVisible().should.be.true;
+              this.queryAssist._popup.isVisible().should.be.false;
               done();
             });
         });
