@@ -1,6 +1,6 @@
 import React, {PropTypes, Component, cloneElement} from 'react';
 
-import '../link/link.scss';
+import Anchor from './anchor';
 
 /**
  * @name Dropdown
@@ -89,8 +89,7 @@ export default class Dropdown extends Component {
     const {children, anchor, initShown, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const anchorElement = typeof anchor === 'string'
-      // TODO: replace with text action in 3.0
-      ? <span className="ring-link ring-link_pseudo">{anchor}</span>
+      ? <Anchor>{anchor}</Anchor>
       : anchor;
 
     return (

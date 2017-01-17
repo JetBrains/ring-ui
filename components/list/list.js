@@ -36,7 +36,7 @@ const Type = {
 
 const Dimension = {
   ITEM_PADDING: 16,
-  ITEM_HEIGHT: 24,
+  ITEM_HEIGHT: 32,
   SEPARATOR_HEIGHT: 27,
   TITLE_HEIGHT: 42,
   INNER_PADDING: 8
@@ -498,7 +498,7 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           <div style={topPaddingStyles}></div>
-          <div className="ring-list__items"
+          <div className={styles.items}
             ref={el => {
               this.items = el;
             }}
