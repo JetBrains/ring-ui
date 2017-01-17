@@ -308,7 +308,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  handleResponse({query = '', caret = 0, styleRanges, suggestions}) {
+  handleResponse({query = '', caret = 0, styleRanges, suggestions = []}) {
     return new Promise((resolve, reject) => {
       if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
         // Do not setState on unmounted component
@@ -331,7 +331,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         if (!deepEquals(this.state.styleRanges, styleRanges)) {
           state.styleRanges = styleRanges;
         }
-        this.setState(state, () => resolve(suggestions));
+
+        this.setState(state, resolve);
       } else {
         reject(new Error('Current and response queries mismatch'));
       }
@@ -449,6 +450,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const suggestion = suggestions && suggestions[0];
 
     // Check of suggestion begins not from the end
+    // TODO Revise next two constants
     const completionStart = suggestion &&
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
@@ -516,8 +518,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     });
   }
 
-  renderSuggestions(suggestions) {
+  renderSuggestions() {
     const renderedSuggestions = [];
+    const {suggestions} = this.state;
 
     suggestions.forEach((suggestion, index, arr) => {
       const prevSuggestion = arr[index - 1] && arr[index - 1].group;
@@ -609,6 +612,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
       state.loading !== this.state.loading ||
+      state.showPopup !== this.state.showPopup ||
+      state.suggestions !== this.state.suggestions ||
       state.styleRanges !== this.state.styleRanges ||
       state.placeholderEnabled !== this.state.placeholderEnabled ||
       props.placeholder !== this.props.placeholder ||
@@ -711,7 +716,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           keepMounted={true}
           className={this.props.popupClassName}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
-          data={this.renderSuggestions(this.state.suggestions)}
+          data={this.renderSuggestions()}
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
           left={this.getPopupOffset(this.state.suggestions)}
