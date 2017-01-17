@@ -69,7 +69,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     dirty: !this.props.query,
     query: this.props.query,
     placeholderEnabled: !this.props.query,
-    shortcuts: true
+    shortcuts: true,
+    suggestions: [],
+    showPopup: false
   };
 
   constructor(...props) {
@@ -142,12 +144,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       } else {
         this.requestData = this.boundRequestHandler;
       }
-    }
-  }
-
-  willUnmount() {
-    if (this._popup) {
-      this._popup.remove();
     }
   }
 
@@ -283,7 +279,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const list = this._popup && this._popup.refs.List;
     const suggestion = list && (list.getSelected() || list.getFirst());
 
-    if (suggestion && this._popup && this._popup.isVisible()) {
+    if (suggestion && this.state.showPopup) {
       e.preventDefault();
 
       if (this.getQuery() !== this.immediateState.suggestionsQuery) {
@@ -303,7 +299,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   handleCaretMove(e) {
     const caret = this.caret.getPosition();
-    const popupHidden = (!this._popup || !this._popup.isVisible()) && e.type === 'click';
+    const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
       this.immediateState.caret = caret;
@@ -315,8 +311,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   handleResponse({query = '', caret = 0, styleRanges, suggestions}) {
     return new Promise((resolve, reject) => {
       if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
-        resolve(suggestions);
-
         // Do not setState on unmounted component
         if (!this.node) {
           return;
@@ -326,7 +320,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           dirty: this.immediateState.dirty,
           loading: false,
           placeholderEnabled: !query,
-          query
+          query,
+          suggestions,
+          showPopup: !!suggestions.length
         };
 
         this.immediateState.suggestionsQuery = query;
@@ -335,8 +331,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         if (!deepEquals(this.state.styleRanges, styleRanges)) {
           state.styleRanges = styleRanges;
         }
-
-        this.setState(state);
+        this.setState(state, () => resolve(suggestions));
       } else {
         reject(new Error('Current and response queries mismatch'));
       }
@@ -420,7 +415,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     return this.sendRequest(this.immediateState).
       then(::this.handleResponse).
-      then(::this.renderPopup).
       catch(noop);
   }
 
@@ -447,6 +441,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   getPopupOffset(suggestions) {
+    if (!this.input) {
+      return 0;
+    }
+
     // First suggestion should be enough?
     const suggestion = suggestions && suggestions[0];
 
@@ -456,6 +454,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       suggestion.completionStart;
 
     const completionStartNode = this.input.firstChild &&
+      suggestion &&
       suggestion.completionStart !== false &&
       suggestion.completionStart != null &&
       this.input.firstChild.childNodes[completionStart];
@@ -480,7 +479,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   handleCtrlSpace(e) {
     e.preventDefault();
 
-    if (!this._popup || !this._popup.isVisible()) {
+    if (!this.state.showPopup) {
       this.requestData();
     }
   }
@@ -493,47 +492,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.mouseIsDownOnInput = e.type === 'mousedown';
   }
 
-  renderPopup(suggestions) {
-    if (!suggestions.length || !this.node) {
-      this.closePopup();
-      return;
-    }
-
-    const renderedSuggestions = this.renderSuggestions(suggestions);
-
-    if (!this._popup || !this._popup.node) {
-      this._popup = PopupMenu.renderPopup(
-        <PopupMenu
-          anchorElement={this.node}
-          autoRemove={false} // required to prevent popup unmount on Esc
-          className={this.props.popupClassName}
-          directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
-          data={renderedSuggestions}
-          hint={this.props.hint}
-          hintOnSelection={this.props.hintOnSelection}
-          left={this.getPopupOffset(suggestions)}
-          maxHeight="screen"
-          onMouseDown={::this.trackPopupMouseState}
-          onMouseUp={::this.trackPopupMouseState}
-          onSelect={item => this.handleComplete(item, false)}
-          shortcuts={true}
-        />
-      );
-    } else {
-      this._popup.rerender({
-        data: renderedSuggestions,
-        hint: this.props.hint,
-        hintOnSelection: this.props.hintOnSelection,
-        left: this.getPopupOffset(suggestions)
-      });
-      this._popup.show();
-    }
-  }
-
   closePopup() {
-    if (this._popup) {
-      this._popup.close();
-    }
+    this.setState({showPopup: false});
   }
 
   clearQuery() {
@@ -658,13 +618,17 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       props.glass !== this.props.glass;
   }
 
-  refInput(node) {
+  refInput = node => {
     if (!node) {
       return;
     }
 
     this.input = findDOMNode(node);
     this.caret = new Caret(this.input);
+  }
+
+  refPopup = node => {
+    this._popup = node;
   }
 
   render() {
@@ -691,7 +655,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         <ContentEditable
           className={inputClasses}
           data-test="ring-query-assist-input"
-          ref={::this.refInput}
+          ref={this.refInput}
           disabled={this.props.disabled}
           onComponentUpdate={::this.setCaretPosition}
 
@@ -739,6 +703,23 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onClick={::this.clearQuery}
           size={Icon.Size.Size16}
         />}
+        <PopupMenu
+          hidden={!this.state.showPopup}
+          onCloseAttempt={::this.closePopup}
+          ref={this.refPopup}
+          anchorElement={this.node}
+          keepMounted={true}
+          className={this.props.popupClassName}
+          directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
+          data={this.renderSuggestions(this.state.suggestions)}
+          hint={this.props.hint}
+          hintOnSelection={this.props.hintOnSelection}
+          left={this.getPopupOffset(this.state.suggestions)}
+          maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
+          onMouseDown={::this.trackPopupMouseState}
+          onMouseUp={::this.trackPopupMouseState}
+          onSelect={item => this.handleComplete(item, false)}
+        />
       </div>
     );
   }

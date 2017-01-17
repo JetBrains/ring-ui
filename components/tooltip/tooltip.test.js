@@ -4,7 +4,7 @@ import React from 'react';
 import {unmountComponentAtNode} from 'react-dom';
 import 'dom4';
 
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-addons-test-utils';
+import {isCompositeComponentWithType, renderIntoDocument, Simulate} from 'react-addons-test-utils';
 
 import Tooltip from './tooltip';
 import Popup from '../popup/popup';
@@ -28,14 +28,15 @@ describe('Tooltip', () => {
       this.tooltip.node.should.match('span');
     });
 
-    it('should pass children as is', () => {
+    it('should wrap children', () => {
       const tooltip = renderIntoDocument(Tooltip.factory({
         title: 'test tooltip',
-        children: <div>{'test div'}</div>
+        children: <span>{'test span'}</span>
       }));
 
-      tooltip.node.should.have.text('test div');
-      tooltip.node.should.match('div');
+      tooltip.node.should.match('span');
+      tooltip.node.firstChild.should.have.text('test span');
+      tooltip.node.firstChild.should.match('span');
     });
 
     it('should pass props to children', function () {
@@ -70,7 +71,7 @@ describe('Tooltip', () => {
       });
 
       this.tooltip.showPopup();
-      should.not.exist(this.tooltip.popup);
+      this.tooltip.popup.isVisible().should.be.false;
     });
 
     it('should render with delay when provided', function () {
@@ -81,10 +82,10 @@ describe('Tooltip', () => {
 
       this.tooltip.showPopup();
 
-      should.not.exist(this.tooltip.popup);
+      this.tooltip.popup.isVisible().should.be.false;
 
       clock.tick(200);
-      this.tooltip.popup.node.should.exist;
+      this.tooltip.popup.isVisible().should.be.true;
 
       clock.restore();
     });
@@ -109,9 +110,9 @@ describe('Tooltip', () => {
 
     it('should not close popup on click on tooltip', function () {
       this.tooltip.showPopup();
-      this.tooltip.popup.close({target: this.tooltip.node});
+      Simulate.click(this.tooltip.node);
 
-      this.tooltip.popup.node.should.exist;
+      this.tooltip.popup.isVisible().should.be.true;
     });
   });
 });

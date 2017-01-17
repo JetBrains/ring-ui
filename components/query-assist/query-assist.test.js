@@ -415,43 +415,70 @@ describe('Query Assist', () => {
   });
 
   describe('suggestions', () => {
-    it('should not create popup when no suggestions provided', function () {
-      this.renderQueryAssist();
+    it('should not show popup when no suggestions provided', function (done) {
+      this.renderQueryAssist({
+        dataSource: ({query, caret}) => ({
+          query,
+          caret,
+          suggestions: []
+        })
+      });
 
-      this.queryAssist.renderPopup([]);
-
-      should.not.exist(this.queryAssist._popup);
+      this.queryAssist.requestData().
+        then(() => {
+          this.queryAssist._popup.isVisible().should.be.false;
+          done();
+        });
     });
 
-    it('should create popup when suggestions provided', function () {
+    it('should show popup when suggestions provided', function (done) {
       this.renderQueryAssist();
 
-      this.queryAssist.renderPopup(suggestions);
-
-      this.queryAssist._popup.should.exist;
-      this.queryAssist._popup.refs.List.should.exist;
+      this.queryAssist.requestData().
+        then(() => {
+          this.queryAssist._popup.isVisible().should.be.true;
+          this.queryAssist._popup.refs.List.should.exist;
+          done();
+        });
     });
 
-    it('should close popup with after zero suggestions provided', function () {
-      this.renderQueryAssist();
+    it('should close popup with after zero suggestions provided', function (done) {
+      this.renderQueryAssist({
+        dataSource: ({query, caret}) => ({
+          query,
+          caret,
+          suggestions: this.suggestions
+        })
+      });
 
-      this.queryAssist.renderPopup(suggestions);
-      this.queryAssist.renderPopup([]);
+      this.suggestions = suggestions;
+      this.queryAssist.requestData().
+        then(() => {
+          this.suggestions = [];
+          this.queryAssist.requestData().
+            then(() => {
 
-      this.queryAssist._popup.isVisible().should.be.false;
+              this.queryAssist._popup.isVisible().should.be.true;
+              done();
+            });
+        });
     });
 
-    it('should create popup with proper suggestions', function () {
+    it('should show popup with proper suggestions', function (done) {
       this.renderQueryAssist();
 
-      this.queryAssist.renderPopup(suggestions);
+      const TWICE = 2;
 
-      const list = findDOMNode(this.queryAssist._popup.refs.List);
-      const {length} = suggestions;
+      this.queryAssist.requestData().
+        then(() => {
+          const list = findDOMNode(this.queryAssist._popup.refs.List);
+          const {length} = suggestions;
 
-      list.queryAll('.ring-list__item').should.have.length(length);
-      list.queryAll('.ring-list__highlight').should.have.length(length);
-      list.queryAll('.ring-list__service').should.have.length(length * 2);
+          list.queryAll('.ring-list__item').should.have.length(length);
+          list.queryAll('.ring-list__highlight').should.have.length(length);
+          list.queryAll('.ring-list__service').should.have.length(length * TWICE);
+          done();
+        });
     });
 
   });
