@@ -495,7 +495,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   closePopup() {
-    this.setState({showPopup: false});
+    if (this.node) {
+      this.setState({showPopup: false});
+    }
   }
 
   clearQuery() {
