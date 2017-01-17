@@ -747,7 +747,11 @@ export default class Select extends RingComponentWithShortcuts {
         </Button>
       );
     } else {
-      return <span />;
+      return (
+        <span>
+          {this._renderPopup()}
+        </span>
+      );
     }
   }
 }
