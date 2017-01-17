@@ -60,13 +60,10 @@ describe('Tooltip Ng', () => {
     innerTextGetter.should.been.calledTwice;
   });
 
-  it('Should close popup', function () {
-    const popup = popupWrapper.popup = {
-      close: this.sinon.spy()
-    };
-
+  it('Should close popup', () => {
+    popupWrapper.displayTooltip();
     popupWrapper.hideTooltip();
 
-    popup.close.should.been.called;
+    popupWrapper.popup.isVisible().should.be.false;
   });
 });
