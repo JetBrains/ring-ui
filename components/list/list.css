@@ -5,7 +5,6 @@
 .list {
   position: relative;
 
-  padding-top: list-spacing;
   z-index: 1;
 
   line-height: normal;
@@ -39,6 +38,10 @@
   }
 }
 
+.items {
+  margin: list-spacing 0;
+}
+
 .item {
   display: flex;
   flex-direction: column;
@@ -53,10 +56,6 @@
   outline: none;
   vertical-align: bottom;
   text-decoration: none;
-
-  &:last-of-type {
-    margin-bottom: list-spacing;
-  }
 
   @nest .ring-list &:hover {
     text-decoration: none;
