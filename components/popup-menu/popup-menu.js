@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Popup from '../popup/popup';
 import List from '../list/list';
 
@@ -41,6 +41,25 @@ export default class PopupMenu extends Popup {
   static isItemType = List.isItemType;
   static ListProps = List.ListProps;
 
+  static propTypes = {
+    ...Popup.propTypes,
+    ...List.propTypes,
+    closeOnSelect: PropTypes.bool
+  };
+
+  static defaultProps = {
+    ...List.defaultProps,
+    ...Popup.defaultProps,
+    closeOnSelect: false
+  }
+
+  onSelect = (item, event) => {
+    if (this.props.closeOnSelect) {
+      this._onCloseAttempt(event);
+    }
+    this.props.onSelect(item, event);
+  };
+
   /** @override */
   getInternalContent() {
     return (
@@ -50,6 +69,7 @@ export default class PopupMenu extends Popup {
           {...this.props}
           maxHeight={this.position().maxHeight}
           shortcuts={this.shortcutsEnabled()}
+          onSelect={this.onSelect}
         />
       </div>
     );
