@@ -27,30 +27,32 @@ export default class Selection {
 
   moveUp() {
     const {_focused: focused, _data: data} = this;
-    if (focused) {
-      const prevItem = data[data.indexOf(focused) - 1];
-      if (prevItem) {
-        return this.cloneWith({focused: prevItem});
-      } else {
-        return this;
-      }
-    } else {
+
+    if (!focused) {
       return this.cloneWith({focused: data[data.length - 1]});
     }
+
+    const nextItem = data[data.indexOf(focused) - 1];
+    if (nextItem) {
+      return this.cloneWith({focused: nextItem});
+    }
+
+    return undefined;
   }
 
   moveDown() {
     const {_focused: focused, _data: data} = this;
-    if (focused) {
-      const prevItem = data[data.indexOf(focused) + 1];
-      if (prevItem) {
-        return this.cloneWith({focused: prevItem});
-      } else {
-        return this;
-      }
-    } else {
+
+    if (!focused) {
       return this.cloneWith({focused: data[0]});
     }
+
+    const nextItem = data[data.indexOf(focused) + 1];
+    if (nextItem) {
+      return this.cloneWith({focused: nextItem});
+    }
+
+    return undefined;
   }
 
   select(value = this._focused) {
