@@ -22,13 +22,10 @@
       <form name="dialog.dialogForm" class="ring-form ring-js-shortcuts" novalidate>
         <rg-dialog-content></rg-dialog-content>
 
-        <div class="ring-form__group" ng-show="dialog.error">
-          <div class="ring-form__control ring-form__control_small">
-            <div ng-class="dialog.styles.error">{{ dialog.error }}</div>
-          </div>
-        </div>
-      </form>
-    </div>
+      <div class="ring-form__group" ng-show="dialog.error">
+          <div ng-class="dialog.styles.error">{{ dialog.error }}</div>
+      </div>
+    </form>
 
     <div ng-class="dialog.styles.footer" ng-if="dialog.description.length || dialog.buttons.length">
       <div ng-class="dialog.styles.footerDescription" ng-if="dialog.description && dialog.description.length">
