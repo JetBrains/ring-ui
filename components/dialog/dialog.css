@@ -21,6 +21,7 @@
 .content {
   border: 1px solid #B4B4B4;
   border-radius: border-radius;
+  overflow-wrap: break-word;
 
   background: #FFF;
   box-shadow: 0 0 calc(unit * 4) unit rgba(0, 0, 0, .2);
