@@ -99,13 +99,23 @@ class Table extends Component {
 
   onUpPress = () => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.moveUp());
+    const newSelection = selection.moveUp();
+
+    if (newSelection) {
+      onSelect(newSelection);
+    }
+
     return false;
   }
 
   onDownPress = () => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.moveDown());
+    const newSelection = selection.moveDown();
+
+    if (newSelection) {
+      onSelect(newSelection);
+    }
+
     return false;
   }
 
@@ -118,21 +128,37 @@ class Table extends Component {
     }
   }
 
+  shiftSelect = selection => {
+    if (this.shiftSelectionMode === 'addition') {
+      return selection.select();
+    } else {
+      return selection.deselect();
+    }
+  }
+
   onShiftUpPress = () => {
     const {selection, onSelect} = this.props;
-    if (this.shiftSelectionMode === 'addition') {
-      onSelect(selection.select().moveUp());
+
+    const newSelection = this.shiftSelect(selection);
+    const newMovedSelection = newSelection.moveUp();
+
+    if (newMovedSelection) {
+      onSelect(newMovedSelection);
     } else {
-      onSelect(selection.deselect().moveUp());
+      onSelect(newSelection);
     }
   }
 
   onShiftDownPress = () => {
     const {selection, onSelect} = this.props;
-    if (this.shiftSelectionMode === 'addition') {
-      onSelect(selection.select().moveDown());
+
+    const newSelection = this.shiftSelect(selection);
+    const newMovedSelection = newSelection.moveDown();
+
+    if (newMovedSelection) {
+      onSelect(newMovedSelection);
     } else {
-      onSelect(selection.deselect().moveDown());
+      onSelect(newSelection);
     }
   }
 
