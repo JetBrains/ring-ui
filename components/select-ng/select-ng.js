@@ -400,7 +400,6 @@ angularModule.directive('rgSelect', () => {
           onClose: () => {
             $scope.$evalAsync(() => {
               ctrl.onClose();
-              resetMemorizedOptions();
             });
           },
           onSelect: item => {

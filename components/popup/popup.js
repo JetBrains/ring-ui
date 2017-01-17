@@ -156,21 +156,9 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   display = Display.SHOWING;
-
   listeners = new Listeners();
-
-  constructor(props, ...restArgs) {
-    super(props, ...restArgs);
-
-    this.uid = getUID('popup-');
-
-    this.state = {
-      shortcuts: props.shortcuts && !props.hidden
-    };
-
-    this.remove = this.remove.bind(this);
-    this.redrawScheduler = scheduleRAF();
-  }
+  redrawScheduler = scheduleRAF();
+  uid = getUID('popup-');
 
   getShortcutsProps() {
     return {
@@ -187,8 +175,12 @@ export default class Popup extends RingComponentWithShortcuts {
     };
   }
 
+  /** @override */
+  componentWillMount() {
+    this.setShortcutsEnabled(this.props.shortcuts && !this.props.hidden);
+  }
+
   didMount() {
-    this.mounted = true;
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
       this.display = Display.SHOWN;
@@ -199,10 +191,9 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps(nextProps) {
-    this.setState({
-      shortcuts: nextProps.shortcuts && !nextProps.hidden
-    });
+  /** @override */
+  componentWillUpdate(nextProps) {
+    this.setShortcutsEnabled(nextProps.shortcuts && !nextProps.hidden);
   }
 
   didUpdate(prevProps) {
@@ -215,11 +206,17 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   willUnmount() {
-    this.mounted = false;
     if (this.props.legacy) {
       legacyPopups.delete(this);
     }
     this._setListenersEnabled(false);
+  }
+
+  popupRef = el => {
+    this.parent = el && el.parentElement;
+    if (el && this.context.parentPopupUid) {
+      this._redraw();
+    }
   }
 
   render() {
@@ -230,13 +227,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     return (
       <span
-        ref={el => {
-          this.parent = el && el.parentElement;
-          if (el && this.mounted && this.context.parentPopupUid && !this.hasRedrawn) {
-            this._redraw();
-            this.hasRedrawn = true;
-          }
-        }}
+        ref={this.popupRef}
       >
         <Portal
           isOpen={keepMounted || !hidden}
@@ -255,7 +246,6 @@ export default class Popup extends RingComponentWithShortcuts {
                 this.popup = el;
               }}
               className={classes}
-              {...this.getRestProps()}
             >
               {this.getInternalContent()}
             </div>
@@ -263,15 +253,6 @@ export default class Popup extends RingComponentWithShortcuts {
         </Portal>
       </span>
     );
-  }
-
-  getRestProps() {
-    return Object.keys(this.props).reduce((acc, key) => {
-      if (!(key in Popup.propTypes)) {
-        acc[key] = this.props[key];
-      }
-      return acc;
-    }, {});
   }
 
   position() {
@@ -369,17 +350,6 @@ export default class Popup extends RingComponentWithShortcuts {
     if (!enable && this._listenersEnabled) {
       this.listeners.removeAll();
       this._listenersEnabled = false;
-    }
-  }
-
-  /**
-   * @private
-   */
-  _checkDisplay() {
-    if (this.state.display === 1) {
-      this.setState({
-        display: 2
-      });
     }
   }
 

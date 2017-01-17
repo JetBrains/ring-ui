@@ -88,12 +88,12 @@ export default class Pager extends RingComponent {
             <div className={style.links}>
               <span
                 className={prevLinkClasses}
-                onClick={() => current !== 1 && onPageChange({page: current - 1})}
+                onClick={() => current !== 1 && onPageChange(current - 1)}
               >← previous</span>
 
               <span
                 className={nextLinkClasses}
-                onClick={() => current !== total && onPageChange({page: current + 1})}
+                onClick={() => current !== total && onPageChange(current + 1)}
               >next page →</span>
             </div>
 
@@ -102,14 +102,14 @@ export default class Pager extends RingComponent {
                 do {
                   if (start > 1) {
                     <ButtonGroup>
-                      <Button onClick={() => onPageChange({page: 1})}>First page</Button>
+                      <Button onClick={() => onPageChange(1)}>First page</Button>
                     </ButtonGroup>;
                   }
                 }
               }
 
               <ButtonGroup>
-                {start > 1 ? <Button onClick={() => onPageChange({page: start - 1})}>...</Button> : ''}
+                {start > 1 ? <Button onClick={() => onPageChange(start - 1)}>...</Button> : ''}
 
                 {
                   do {
@@ -119,7 +119,7 @@ export default class Pager extends RingComponent {
                         <Button
                           key={i}
                           active={i === current}
-                          onClick={() => onPageChange({page: i})}
+                          onClick={() => onPageChange(i)}
                         >{i}</Button>
                       );
 
@@ -129,14 +129,14 @@ export default class Pager extends RingComponent {
                   }
                 }
 
-                {end < total ? <Button onClick={() => onPageChange({page: end + 1})}>...</Button> : ''}
+                {end < total ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
               </ButtonGroup>
 
               {
                 do {
                   if (end < total) {
                     <ButtonGroup>
-                      <Button onClick={() => onPageChange({page: total})}>Last page</Button>
+                      <Button onClick={() => onPageChange(total)}>Last page</Button>
                     </ButtonGroup>;
                   }
                 }
