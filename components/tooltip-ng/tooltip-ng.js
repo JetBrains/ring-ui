@@ -1,5 +1,6 @@
 import 'dom4';
 import {createElement} from 'react';
+import {render} from 'react-dom';
 import classNames from 'classnames';
 import Popup from '../popup/popup';
 import './tooltip-ng.scss';
@@ -74,33 +75,43 @@ name.directive('rgTooltip', RgTooltipPopup => ({
   }
 }));
 
-name.factory('RgTooltipPopup', () => function (element, textGetter) {
-  this.popup = null;
+name.factory('RgTooltipPopup', () => function (anchorElement, textGetter) {
+  this.wrapperElement = document.createElement('span');
+
+  this.defaultProps = {
+    anchorElement,
+    maxHeight: 400,
+    attached: false,
+    dontCloseOnAnchorClick: true
+  };
+
+  this.renderPopup = props => {
+    this.popup = render(
+      createElement(Popup, {
+        ...this.defaultProps,
+        ...props
+      }, this.text),
+      this.wrapperElement
+    );
+  };
 
   this.displayTooltip = customClass => {
-    const classes = classNames({
+    this.text = textGetter();
+
+    const className = classNames({
       'ring-tooltip-ng': true
     }, customClass);
 
-    this.popup = this.popup || Popup.renderPopup(createElement(Popup, {
-      anchorElement: element,
-      maxHeight: 400,
-      className: classes,
-      cutEdge: false,
-      onClose: evt => {
-        //RG-643 Don't close tooltip when clicking by element with opened tooltip
-        if (evt && element.contains(evt.target)) {
-          return false;
-        }
-
-        return undefined;
-      }
-    }, textGetter()));
+    this.renderPopup({
+      hidden: false,
+      className
+    });
   };
 
   this.hideTooltip = () => {
-    this.popup.close();
-    this.popup = null;
+    this.renderPopup({
+      hidden: true
+    });
   };
 });
 

@@ -498,7 +498,7 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           <div style={topPaddingStyles}></div>
-          <div
+          <div className="ring-list__items"
             ref={el => {
               this.items = el;
             }}

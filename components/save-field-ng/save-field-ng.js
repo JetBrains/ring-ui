@@ -72,6 +72,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
     transclude: true,
     template: require('./save-field-ng.html'),
     scope: {
+      api: '=?',
       value: '=',
       onSave: '&',
       afterSave: '&?',
@@ -289,6 +290,11 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         },
         cancel: resetValue,
         noop: angular.noop
+      };
+
+      scope.api = {
+        save: submitChanges,
+        cancel: resetValue
       };
 
       scope.submitChanges = ctrl.submitChanges = submitChanges;

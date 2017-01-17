@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Popup from '../popup/popup';
 import List from '../list/list';
 
@@ -21,7 +21,7 @@ import List from '../list/list';
        import {render} from 'react-dom';
        import PopupMenu, {ListProps} from 'ring-ui/components/popup-menu/popup-menu';
 
-       var data = [
+       const data = [
           {'label': 'Item'},
           {'label': 'Link to jetbrains.com', 'href': 'http://www.jetbrains.com'},
           {'rgItemType': ListProps.Type.SEPARATOR},
@@ -33,14 +33,7 @@ import List from '../list/list';
           {'rgItemType': ListProps.Type.ITEM, 'label': '2 Element in group'}
        ];
 
-       const popupMenu = (
-         <PopupMenu
-           shortcuts={true}
-           data={data}
-         />
-       );
-
-       render(popupMenu, document.getElementById('popup'));
+       render(<PopupMenu data={data}/>, document.getElementById('popup'));
      </file>
    </example>
  */
@@ -48,15 +41,35 @@ export default class PopupMenu extends Popup {
   static isItemType = List.isItemType;
   static ListProps = List.ListProps;
 
+  static propTypes = {
+    ...Popup.propTypes,
+    ...List.propTypes,
+    closeOnSelect: PropTypes.bool
+  };
+
+  static defaultProps = {
+    ...List.defaultProps,
+    ...Popup.defaultProps,
+    closeOnSelect: false
+  }
+
+  onSelect = (item, event) => {
+    if (this.props.closeOnSelect) {
+      this._onCloseAttempt(event);
+    }
+    this.props.onSelect(item, event);
+  };
+
   /** @override */
   getInternalContent() {
     return (
       <div>
         <List
           ref="List"
-          {...this.getRestProps()}
+          {...this.props}
           maxHeight={this.position().maxHeight}
           shortcuts={this.shortcutsEnabled()}
+          onSelect={this.onSelect}
         />
       </div>
     );

@@ -1,7 +1,11 @@
 <example name="rgPager">
   <file type="html">
     <div ng-app="Example.pager" ng-controller="ExampleCtrl as ctrl">
-      <rg-pager total="ctrl.total" current="ctrl.current" on-page-change="ctrl.current = page"></rg-pager>
+      <rg-pager
+        total="ctrl.total"
+        current="ctrl.current"
+        on-page-change="ctrl.onPageChange"
+      ></rg-pager>
     </div>
   </file>
   <file type="js">
@@ -13,7 +17,10 @@
     pagerModule.controller('ExampleCtrl', function () {
       this.total = 15;
       this.current = 1;
+
+      this.onPageChange = page => {
+        this.current = page;
+      }
     });
   </file>
 </example>
-
