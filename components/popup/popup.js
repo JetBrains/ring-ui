@@ -246,7 +246,6 @@ export default class Popup extends RingComponentWithShortcuts {
                 this.popup = el;
               }}
               className={classes}
-              {...this.getRestProps()}
             >
               {this.getInternalContent()}
             </div>
@@ -254,15 +253,6 @@ export default class Popup extends RingComponentWithShortcuts {
         </Portal>
       </span>
     );
-  }
-
-  getRestProps() {
-    return Object.keys(this.props).reduce((acc, key) => {
-      if (!(key in Popup.propTypes)) {
-        acc[key] = this.props[key];
-      }
-      return acc;
-    }, {});
   }
 
   position() {
