@@ -3,7 +3,6 @@ import 'dom4';
 import Select from './select';
 import List from '../list/list';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
