@@ -1,7 +1,8 @@
-import React, {createElement, Children, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 import Popup from '../popup/popup';
 import RingComponent from '../ring-component/ring-component';
+import Listeners from '../global/dom-listeners';
 
 import './tooltip.scss';
 
@@ -48,87 +49,77 @@ export default class Tooltip extends RingComponent {
     popupProps: {}
   };
 
+  state = {showPopup: false};
+
+  listeners = new Listeners();
+
   didMount() {
-    this.hidePopupHandler = this.hidePopup.bind(this);
-    this.showPopupHandler = this.showPopup.bind(this);
-
-    this.setHandlersEnabled(this.props.title);
-  }
-
-  willUnmount() {
-    this.hidePopup();
-    this.setHandlersEnabled(false);
-  }
-
-  didUpdate(nextProps) {
-    const titleStateHasChanged = Boolean(nextProps.title) === Boolean(this.props.title);
-
-    this.setHandlersEnabled(titleStateHasChanged);
-  }
-
-  setHandlersEnabled(condition) {
-    if (condition) {
-      this.node.addEventListener('mouseover', this.showPopupHandler);
-      this.node.addEventListener('mouseout', this.hidePopupHandler);
-      document.addEventListener('scroll', this.hidePopupHandler);
-    } else {
-      this.node.removeEventListener('mouseover', this.showPopupHandler);
-      this.node.removeEventListener('mouseout', this.hidePopupHandler);
-      document.removeEventListener('scroll', this.hidePopupHandler);
+    if (this.props.title) {
+      this.addListeners();
     }
   }
 
+  willUnmount() {
+    this.listeners.removeAll();
+  }
+
+  didUpdate(prevProps) {
+    if (!prevProps.title && this.props.title) {
+      this.addListeners();
+    } else if (prevProps.title && !this.props.title) {
+      this.listeners.removeAll();
+    }
+  }
+
+  addListeners() {
+    this.listeners.add(this.node, 'mouseover', ::this.showPopup);
+    this.listeners.add(this.node, 'mouseout', ::this.hidePopup);
+    this.listeners.add(document, 'scroll', ::this.hidePopup);
+  }
+
   showPopup() {
-    const {delay, title, popupProps} = this.props;
+    const {delay, title} = this.props;
 
     if (!title) {
       return;
     }
 
-    const renderPopup = () => {
-      const props = Object.assign({
-        anchorElement: this.node,
-        maxHeight: 400,
-        className: 'ring-tooltip',
-        cutEdge: false,
-        top: 4,
-        onClose: evt => {
-          //RG-643 Don't close tooltip when clicking by element with opened tooltip
-          if (evt && this.node && this.node.contains(evt.target)) {
-            return false;
-          }
-
-          return undefined;
-        }
-      }, popupProps);
-
-      this.popup = Popup.renderPopup(createElement(Popup, props, title));
+    const showPopup = () => {
+      this.setState({showPopup: true});
     };
 
     if (delay) {
-      this.timeout = setTimeout(renderPopup, delay);
+      this.timeout = setTimeout(showPopup, delay);
     } else {
-      renderPopup();
+      showPopup();
     }
   }
 
   hidePopup() {
     clearTimeout(this.timeout);
-
-    if (this.popup) {
-      this.popup.close();
-      this.popup = null;
-    }
+    this.setState({showPopup: false});
   }
 
   render() {
     const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
-    if (Children.count(children) === 1 && typeof children === 'object') {
-      return children;
-    // Autowrapping of text and array children
-    } else {
-      return <span {...restProps}>{children}</span>;
-    }
+    return (
+      <span {...restProps}>
+        {children}
+        <Popup
+          hidden={!this.state.showPopup}
+          onCloseAttempt={::this.hidePopup}
+          maxHeight={400}
+          className="ring-tooltip"
+          attached={false}
+          top={4}
+          dontCloseOnAnchorClick={true}
+          ref={el => {
+            this.popup = el;
+          }}
+          {...popupProps}
+        >{title}</Popup>
+      </span>
+    );
   }
 }

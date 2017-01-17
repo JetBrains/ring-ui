@@ -59,7 +59,7 @@ It will ask for component name and then create the skeleton for you.
 
 1. Add the JetBrains internal registry to `.npmrc` in your project folder:
 
-```
+``` shell
 echo 'registry = http://registry.npmjs.org' >> .npmrc
 ```
 
@@ -70,7 +70,7 @@ echo 'registry = http://registry.npmjs.org' >> .npmrc
 4. If you are building your app with webpack, make sure to `require` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
 `require` the components there. 
 
-```
+``` javascript
 require('ring-ui/components/react-ng/react-ng')({
   QueryAssist: require('ring-ui/components/query-assist/query-assist'),
   Footer: require('ring-ui/components/footer/footer')
@@ -82,7 +82,7 @@ require('ring-ui/components/shortcuts-ng/shortcuts-ng');
 
 5. Create `webpack.config.js` with the following contents (example):
 
-```
+``` javascript
 var webpackConfigMerger = require('webpack-config-merger');
 
 var webpackOptions = webpackConfigMerger(require('ring-ui'), {

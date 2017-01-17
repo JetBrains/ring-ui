@@ -187,6 +187,11 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(newProps) {
+    if ('data' in newProps) {
+      const shownData = this.getListItems(this.filterValue(), newProps.data);
+      this.setState({shownData});
+    }
+
     if ('selected' in newProps) {
       const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
@@ -341,7 +346,7 @@ export default class Select extends RingComponentWithShortcuts {
     </div>);
   }
 
-  getListItems(rawFilterString) {
+  getListItems(rawFilterString, data = this.props.data) {
     let filterString = rawFilterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
@@ -363,9 +368,9 @@ export default class Select extends RingComponentWithShortcuts {
       return itemToCheck.label.match(new RegExp(checkString, 'ig'));
     };
 
-    for (let i = 0; i < this.props.data.length; i++) {
-      const item = this.props.data[i];
-      if (check(item, filterString, this.props.data)) {
+    for (let i = 0; i < data.length; i++) {
+      const item = data[i];
+      if (check(item, filterString, data)) {
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
@@ -498,7 +503,7 @@ export default class Select extends RingComponentWithShortcuts {
         this.props.onChange(selected, event);
       });
     } else {
-      if (!selected.key) {
+      if (selected.key == null) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
@@ -747,7 +752,11 @@ export default class Select extends RingComponentWithShortcuts {
         </Button>
       );
     } else {
-      return <span />;
+      return (
+        <span>
+          {this._renderPopup()}
+        </span>
+      );
     }
   }
 }

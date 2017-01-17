@@ -54,6 +54,11 @@ describe('Select', () => {
     selectedIndex.should.equal(2);
   });
 
+  it('should update rendered data if props change', function () {
+    this.select.rerender({data: [testData[0]]});
+    this.select.state.shownData.should.deep.equal([testData[0]]);
+  });
+
   it('Should use selectedLabel for select button title if provided', function () {
     this.select.rerender({
       selected: {
