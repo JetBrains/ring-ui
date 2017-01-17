@@ -5,7 +5,6 @@ $list-spacing: $ring-unit / 2;
 .ring-list {
   position: relative;
 
-  padding-top: $list-spacing;
   z-index: 1;
 
   line-height: normal;
@@ -44,6 +43,10 @@ $list-spacing: $ring-unit / 2;
   }
 }
 
+.ring-list__items {
+  margin: $list-spacing 0;
+}
+
 .ring-list__item {
   display: flex;
   flex-direction: column;
@@ -58,10 +61,6 @@ $list-spacing: $ring-unit / 2;
   outline: none;
   vertical-align: bottom;
   text-decoration: none;
-
-  &:last-of-type {
-    margin-bottom: $list-spacing;
-  }
 
   &_error {
     color: #F00;
