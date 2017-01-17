@@ -1,8 +1,9 @@
 /* eslint-disable func-names */
-
+import 'dom4';
 import Select from './select';
 import List from '../list/list';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
@@ -150,7 +151,7 @@ describe('Select', () => {
     this.select.props.onBlur.should.been.called;
   });
 
-  it('Should close popup anyway if input lost focus in INPUT mode', function () {
+  it('Should close popup if input lost focus in INPUT mode', function () {
     this.sinon.useFakeTimers();
     this.select.rerender({type: Select.Type.INPUT});
     this.select._showPopup();
@@ -160,6 +161,16 @@ describe('Select', () => {
     this.select._popup.props.hidden.should.be.true;
   });
 
+  it('Should not close popup while clicking on popup in INPUT mode', function () {
+    this.sinon.useFakeTimers();
+    this.select.rerender({type: Select.Type.INPUT});
+    this.select._showPopup();
+
+    TestUtils.Simulate.mouseDown(this.select._popup.list.node);
+    TestUtils.Simulate.blur(this.select.filter.node);
+    this.sinon.clock.tick();
+    this.select._popup.props.hidden.should.be.false;
+  });
 
   describe('DOM', () => {
     it('Should place select button inside container', function () {
