@@ -1,0 +1,108 @@
+<example name="Dropdown">
+  <file name="index.html">
+    <div id="dropdown"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Dropdown from 'ring-ui/components/dropdown/dropdown';
+    import Popup from 'ring-ui/components/popup/popup';
+
+    const container = document.getElementById('dropdown');
+    const dropdown = (
+    <Dropdown
+      anchor="Click me"
+    >
+      <Popup>Popup content</Popup>
+    </Dropdown>
+    );
+
+    render(dropdown, container);
+  </file>
+</example>
+
+<example name="Dropdown with custom anchor and popup">
+  <file name="index.html">
+    <div id="dropdown"></div>
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Dropdown from 'ring-ui/components/dropdown/dropdown';
+    import Button from 'ring-ui/components/button/button';
+    import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+
+    const container = document.getElementById('dropdown');
+    const actions = ['Cut', 'Copy', 'Paste'];
+    const dropdown = (
+    <Dropdown
+      anchor={<Button delayed={true}>Edit</Button>}
+      >
+      <PopupMenu
+        closeOnSelect={true}
+        data={actions.map(label => ({label}))}
+      />
+    </Dropdown>
+    );
+
+    render(dropdown, container);
+  </file>
+</example>
+
+<example name="Dropdown with activeClassName">
+  <file name="index.html">
+    <div id="dropdown"></div>
+  </file>
+
+  <file name="index.scss">
+    @import "../global/global";
+
+    .cog {
+      display: inline-block;
+      color: $ring-gray-color;
+      transition: all 0.3s ease-out;
+      transform: rotate(0deg);
+
+      &:hover {
+        transition: transform 0.3s ease-out;
+        color: $ring-link-hover-color;
+      }
+    }
+
+    .rotated {
+      transform: rotate(90deg);
+    }
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Dropdown from 'ring-ui/components/dropdown/dropdown';
+    import Popup from 'ring-ui/components/popup/popup';
+    import Icon from 'ring-ui/components/icon/icon';
+    import cog from 'jetbrains-icons/cog.svg';
+
+    const container = document.getElementById('dropdown');
+    const dropdown = (
+      <Dropdown
+        className="cog"
+        activeClassName="rotated"
+        anchor={
+          <Icon
+            glyph={cog}
+            size={Icon.Size.Size18}
+          />
+        }
+      >
+        <Popup>Popup content</Popup>
+      </Dropdown>
+    );
+
+    render(dropdown, container);
+  </file>
+</example>

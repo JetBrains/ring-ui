@@ -1,3 +1,7 @@
+.dropdown {
+  display: inline-block;
+}
+
 .anchor {
   && {
     padding: 0;
