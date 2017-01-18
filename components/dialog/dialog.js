@@ -5,7 +5,7 @@ import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
 import Island from '../island/island';
 import styles from './dialog.css';
-import getEventKey from 'react/lib/getEventKey';
+import getEventKey from 'react-dom/lib/getEventKey';
 
 /**
  * @name Dialog
