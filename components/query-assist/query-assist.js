@@ -28,6 +28,10 @@ const ngModelStateField = 'query';
 
 function noop() {}
 
+function cleanText(text) {
+  return text.trim().replace(/([\n\r])+/g, ' ');
+}
+
 /**
  * @name QueryAssist
  * @constructor
@@ -295,6 +299,15 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     return true;
+  }
+
+  handlePaste(e) {
+    const INSERT_COMMAND = 'insertText';
+    if (e.clipboardData && document.queryCommandSupported(INSERT_COMMAND)) {
+      e.preventDefault();
+      const text = cleanText(e.clipboardData.getData('text/plain'));
+      document.execCommand(INSERT_COMMAND, false, text);
+    }
   }
 
   handleCaretMove(e) {
@@ -673,6 +686,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onKeyDown={::this.handleEnter}
           onKeyPress={::this.handleEnter}
           onKeyUp={::this.handleCaretMove}
+          onPaste={this.handlePaste}
 
           spellCheck="false"
         >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
