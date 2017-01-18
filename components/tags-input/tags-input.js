@@ -5,7 +5,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Select from '../select/select';
 import Tag from '../tag/tag';
 import Caret from '../caret/caret';
-import getEventKey from 'react/lib/getEventKey';
+import getEventKey from 'react-dom/lib/getEventKey';
 
 import './tags-input.scss';
 import '../input-size/input-size.scss';
