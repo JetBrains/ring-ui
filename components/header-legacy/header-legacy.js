@@ -1,5 +1,5 @@
 /**
- * @name Header
+ * @name Header Legacy
  * @category Components
  * @description Displays a configurable page header.
  */
@@ -16,12 +16,12 @@ import Icon from '../icon/icon';
 import Popup from '../popup/popup';
 import urlUtils from '../url-utils/url-utils';
 
-import HeaderItem from './header__item';
-import HeaderHelper from './header__helper';
+import HeaderItem from './header-legacy__item';
+import HeaderHelper from './header-legacy__helper';
 import PopupMenu from '../popup-menu/popup-menu';
 import debounce from 'mout/function/debounce';
 
-import './header.scss';
+import './header-legacy.scss';
 
 function noop() {}
 
@@ -119,7 +119,7 @@ const MenuItemsSequence = [
 /**
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./header.examples.html
+ * @example-file ./header-legacy.examples.html
  */
 export default class Header extends RingComponent {
   static MenuItemType = MenuItemType;
