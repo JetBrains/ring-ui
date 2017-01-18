@@ -67,7 +67,7 @@
           {% endfor %}
 
           <!-- Code examples -->
-          {% for file in example.files if file.type != 'scss' and file.attrs['show-code'] != 'false' %}
+          {% for file in example.files if file.attrs['show-code'] != 'false' %}
             <div class="markdown-example-code">
               <pre><code class="language-{{ file.type }}">{{ file.content | escape }}</code></pre>
             </div>
