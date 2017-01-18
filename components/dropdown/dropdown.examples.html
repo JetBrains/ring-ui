@@ -61,19 +61,12 @@
   <file name="index.scss">
     @import "../global/global";
 
-    .cog {
-      display: inline-block;
-      color: $ring-gray-color;
-      transition: all 0.3s ease-out;
+    .cog .ring-icon__i {
+      transition: transform 0.3s ease-out;
       transform: rotate(0deg);
-
-      &:hover {
-        transition: transform 0.3s ease-out;
-        color: $ring-link-hover-color;
-      }
     }
 
-    .rotated {
+    .rotated .ring-icon__i {
       transform: rotate(90deg);
     }
   </file>
@@ -84,7 +77,7 @@
 
     import Dropdown from 'ring-ui/components/dropdown/dropdown';
     import Popup from 'ring-ui/components/popup/popup';
-    import Icon from 'ring-ui/components/icon/icon';
+    import Button from 'ring-ui/components/button/button';
     import cog from 'jetbrains-icons/cog.svg';
 
     const container = document.getElementById('dropdown');
@@ -93,9 +86,9 @@
         className="cog"
         activeClassName="rotated"
         anchor={
-          <Icon
-            glyph={cog}
-            size={Icon.Size.Size18}
+          <Button
+            icon={cog}
+            onMouseDown={e => e.preventDefault()}
           />
         }
       >
