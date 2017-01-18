@@ -6,6 +6,22 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 18-01-2016: Existing Header moved to legacy folder
+
+Before:
+
+```js
+import Header from 'ring-ui/components/header/header';
+import HeaderHelper from 'ring-ui/components/header/header__helper';
+```
+
+After:
+
+```js
+import Header from 'ring-ui/components/header-legacy/header-legacy';
+import HeaderHelper from 'ring-ui/components/header-legacy/header-legacy__helper';
+```
+
 ### 04-01-2016 (2.5.5847): Popup reimplemented
 * `Popup` should now be rendered directly, as any other react child
 * `anchorElement` becomes optional, the parent DOM element is used as default anchor
