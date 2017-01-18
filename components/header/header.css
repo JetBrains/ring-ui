@@ -1,0 +1,29 @@
+@value unit from  "../global/global.css";
+
+.header {
+  display: flex;
+  height: calc(unit * 7);
+  align-items: baseline;
+  line-height: calc(unit * 7 - 2);
+  margin: 0 calc(unit * 4);
+}
+
+.item {
+  margin-right: calc(unit * 4);
+}
+
+.rightPart {
+  composes: header;
+  justify-content: flex-end;
+  margin: 0 0 0 auto;
+}
+
+.icon {
+  vertical-align: baseline;
+  height: calc(unit * 3);
+  width: calc(unit * 3);
+
+  &.icon.icon {
+    top: -1px;
+  }
+}
