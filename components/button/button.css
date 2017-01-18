@@ -198,8 +198,11 @@
     & .icon {
       vertical-align: 1px;
       line-height: normal;
-      margin-right: calc(unit * 0.5);
       transition: color ease;
+
+      &:not(:last-child) {
+        margin-right: calc(unit * 0.5);
+      }
     }
 
     &:not([disabled]):not(.loader) {
