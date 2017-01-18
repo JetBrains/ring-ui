@@ -3,13 +3,14 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 
 import Auth from '../auth/auth';
-import Header from '../header/header';
+import Header from '../header-legacy/header-legacy';
 import PopupMenu from '../popup-menu/popup-menu';
 import RingComponent from '../ring-component/ring-component';
 
 /**
  * @name Header Auth
  * @category Components
+ * @deprecated
  * @description Provides a façade to render Header with authorization elements.
  * Intended to replace HeaderHelper
  * @framework React
