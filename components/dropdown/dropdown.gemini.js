@@ -9,7 +9,7 @@ gemini.suite('Dropdown', () => {
       setCaptureElements('#dropdown', '[data-test=ring-popup]').
       capture('dropdown', (actions, find) => {
         actions.click(find('[data-test=ring-dropdown]'));
-        actions.mouseMove(find('[data-test=ring-popup]'));
+        actions.mouseMove(find('[data-test=ring-popup]'), [1, 1]);
         actions.wait(UNHOVER_DELAY);
       });
   });
@@ -20,7 +20,7 @@ gemini.suite('Dropdown', () => {
       setCaptureElements('#dropdown', '[data-test=ring-popup]').
       capture('dropdown', (actions, find) => {
         actions.click(find('[data-test=ring-dropdown]'));
-        actions.mouseMove(find('[data-test=ring-popup]'));
+        actions.mouseMove(find('[data-test=ring-popup]'), [1, 1]);
         actions.focus(find('[data-test=ring-popup]'));
         actions.wait(UNHOVER_DELAY);
       });
