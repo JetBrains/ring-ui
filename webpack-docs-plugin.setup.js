@@ -37,6 +37,7 @@ module.exports = () => {
   docpack.use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
 
   docpack.use(require('docpack-examples-compiler')({
+    applyParentCompilerPlugins: true,
     filename: path.resolve(__dirname, 'components/example.[type]'),
     outputFilename: 'examples/[name]/[hash]',
     filter: example => (!example.attrs.hasOwnProperty('compile') || example.attrs.compile !== 'false')
