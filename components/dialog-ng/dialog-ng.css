@@ -47,7 +47,7 @@
 
 .footer {
   height: auto;
-  padding: calc(unit * 2) calc(unit * 4);
+  padding-top: calc(unit * 2);
 
   font-size: 0;
   text-align: left;
