@@ -1,28 +1,22 @@
 /* global gemini: false */
 
-const UNHOVER_DELAY = 500;
-
 gemini.suite('Dropdown', () => {
   gemini.suite('Simple', suite => {
     suite.
       setUrl('/dropdown/dropdown.html').
-      setCaptureElements('#dropdown', '[data-test=ring-popup]').
+      setCaptureElements('[data-test=ring-dropdown]', '[data-test=ring-popup]').
       capture('dropdown', (actions, find) => {
         actions.click(find('[data-test=ring-dropdown]'));
-        actions.mouseMove(find('[data-test=ring-popup]'));
-        actions.wait(UNHOVER_DELAY);
+        actions.mouseMove(find('body'), [0, 0]);
       });
   });
 
   gemini.suite('Custom', suite => {
     suite.
       setUrl('/dropdown/dropdown-with-custom-anchor-and-popup.html').
-      setCaptureElements('#dropdown', '[data-test=ring-popup]').
+      setCaptureElements('[data-test=ring-dropdown]', '[data-test=ring-popup]').
       capture('dropdown', (actions, find) => {
         actions.click(find('[data-test=ring-dropdown]'));
-        actions.mouseMove(find('[data-test=ring-popup]'));
-        actions.focus(find('[data-test=ring-popup]'));
-        actions.wait(UNHOVER_DELAY);
       });
   });
 });
