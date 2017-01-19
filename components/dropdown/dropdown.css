@@ -1,3 +1,8 @@
 .dropdown {
   display: inline-block;
 }
+
+.chevron {
+  vertical-align: -1px;
+  margin-left: 2px;
+}
