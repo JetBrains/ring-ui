@@ -6,7 +6,7 @@
 
 import React, {PropTypes, cloneElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import Portal from 'react-portal';
+import Portal from '@hypnosphi/react-portal';
 import classNames from 'classnames';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
