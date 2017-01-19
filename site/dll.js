@@ -8,7 +8,7 @@ require.context('../node_modules/babel-runtime', true, /\.js$/);
 
 require('react');
 require('react-dom');
-require('react-portal');
+require('@hypnosphi/react-portal');
 require('react-waypoint');
 
 require('angular');
