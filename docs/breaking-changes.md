@@ -6,6 +6,25 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 20-01-2016: Webpack config structure change
+
+In order to migrate to webpack 2, we have to keep webpack.config clean of properties that don't match scheme.
+Since this change config moved to internal property `config`, and loaders moved to `loaders` properties:
+
+Before: 
+```js
+require('webpack-config-merger')(require('ring-ui'), {
+  ...
+});
+```
+
+After: 
+```js
+require('webpack-config-merger')(require('ring-ui').config, {
+  ...
+});
+```
+
 ### 18-01-2016: Existing Header moved to legacy folder
 
 Before:
