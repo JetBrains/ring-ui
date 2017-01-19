@@ -31,11 +31,18 @@ export default class Button extends RingComponent {
 
     icon: PropTypes.string,
     iconSize: PropTypes.number,
-    className: PropTypes.string
+    className: PropTypes.string,
+    onMouseDown: PropTypes.func
   }
 
   static defaultProps = {
-    theme: 'light'
+    theme: 'light',
+    onMouseDown() {}
+  }
+
+  onMouseDown = e => {
+    e.preventDefault();
+    this.props.onMouseDown(e);
   }
 
   render() {
@@ -56,6 +63,7 @@ export default class Button extends RingComponent {
       iconSize,
       className,
       children,
+      onMouseDown, // eslint-disable-line no-unused-vars
       ...props
     } = this.props;
 
@@ -79,6 +87,7 @@ export default class Button extends RingComponent {
       <button
         type="button"
         {...props}
+        onMouseDown={this.onMouseDown}
         className={classes}
         tabIndex={loader ? -1 : 0}
       >
@@ -91,7 +100,7 @@ export default class Button extends RingComponent {
               />
             </span>
           )}
-          {children}
+          <span>{children}</span>
         </span>
       </button>
     );
