@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
-import Portal from 'react-portal';
+import Portal from '@hypnosphi/react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
 import Island from '../island/island';
