@@ -9,9 +9,13 @@ const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
 
 function iterateRecursive(obj, iterator) {
+  if (!obj) {
+    return;
+  }
+
   Object.keys(obj).forEach(key => {
     if (typeof obj[key] === 'object') {
-      iterateRecursive(obj[key]);
+      iterateRecursive(obj[key], iterator);
     } else {
       iterator(obj, key);
     }
