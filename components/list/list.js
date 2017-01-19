@@ -220,7 +220,7 @@ export default class List extends RingComponentWithShortcuts {
         const item = this.props.data[this.state.activeIndex];
         this.selectHandler(item)(event);
 
-        if (item.href) {
+        if (item.href && !event.defaultPrevented) {
           window.location.href = item.href;
         }
       });
