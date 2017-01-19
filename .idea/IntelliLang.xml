@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="LanguageInjectionConfiguration">
+    <injection language="PostCSS" injector-id="xml">
+      <display-name>CSS example</display-name>
+      <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
+      <xpath-condition>@type='css'</xpath-condition>
+    </injection>
     <injection language="HTML" injector-id="xml">
       <display-name>HTML example</display-name>
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file")).withNamespace(string().equalTo("http://www.w3.org/1999/html"))]]></place>

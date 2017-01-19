@@ -2,6 +2,10 @@
 /* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
+// Generate dll before everything
+const execFileSync = require('child_process').execFileSync;
+execFileSync('./node_modules/.bin/webpack', ['--bail', '--config', 'webpack-dll.config.js'], {stdio: 'inherit'});
+
 const path = require('path');
 const webpack = require('webpack');
 
@@ -44,6 +48,8 @@ const hubProductionConfig = {
 
 // For docs-app entry point
 webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
+
+const contentBase = path.resolve(__dirname, 'dist');
 
 const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
   entry: {
@@ -90,6 +96,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
   },
   devtool: isServer ? 'eval' : false,
   devServer: {
+    contentBase,
     inline: true,
     stats: {
       assets: true,
@@ -100,7 +107,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
     }
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: contentBase,
     pathinfo: isServer,
     filename: '[name].js',
     publicPath // serve HMR update json's properly
@@ -109,7 +116,10 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
     new webpack.DefinePlugin({
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
     }),
-
+    new webpack.DllReferencePlugin({
+      context: __dirname,
+      manifest: require('./dist/dll-manifest.json')
+    }),
     docpackSetup()
   ]
 });
