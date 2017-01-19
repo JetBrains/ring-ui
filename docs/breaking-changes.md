@@ -8,7 +8,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 20-01-2016: Webpack config structure change
 
-In order to migrate to webpack 2, we have to keep webpack.config clean of properties that don't match scheme.
+In order to migrate to webpack 2, we have to keep webpack.config clean of properties that don't match [the schema](https://github.com/webpack/webpack/blob/028c51301733836abbedc88be7483af2623f5943/schemas/webpackOptionsSchema.json).
 Since this change config moved to internal property `config`, and loaders moved to `loaders` properties:
 
 Before: 
