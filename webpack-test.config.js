@@ -2,16 +2,17 @@
 /* eslint-disable modules/no-cjs */
 
 const path = require('path');
-const config = require('./webpack.config');
+const config = require('./webpack.config').config;
+const loaders = require('./webpack.config').loaders;
 const webpack = require('webpack');
 
 const helpersPath = path.join(__dirname, 'test-helpers');
 
 config.resolve = {
-  root: helpersPath
+  modules: [helpersPath]
 };
 
-config.babelLoader.include.push(helpersPath);
+loaders.babelLoader.include.push(helpersPath);
 
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
