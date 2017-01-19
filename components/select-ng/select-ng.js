@@ -7,7 +7,7 @@ import SelectLazy from './select-ng__lazy';
 
 import {render} from 'react-dom';
 import {createElement} from 'react';
-import getEventKey from 'react/lib/getEventKey';
+import getEventKey from 'react-dom/lib/getEventKey';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 

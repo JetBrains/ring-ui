@@ -12,7 +12,7 @@ import ReactDOM from 'react-dom';
 
 import hubConfig from 'ring-ui/site/hub-config';
 
-import Header from 'ring-ui/components/header/header';
+import Header from 'ring-ui/components/header-legacy/header-legacy';
 import Auth from 'ring-ui/components/auth/auth';
 
 const beautifyOptions = {

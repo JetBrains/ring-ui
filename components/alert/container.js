@@ -1,6 +1,6 @@
 import React, {cloneElement, Children} from 'react';
 import classNames from 'classnames';
-import Portal from 'react-portal';
+import Portal from '@hypnosphi/react-portal';
 
 import RingComponent from '../ring-component/ring-component';
 
