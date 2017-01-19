@@ -612,7 +612,7 @@ export default class Header extends RingComponent {
           data-test="header-login-button"
         >
           <Button
-            blue={true}
+            primary={true}
             onClick={this.props.onLoginClick}
           >{this.props.translationsDict.login}</Button>
         </div>
