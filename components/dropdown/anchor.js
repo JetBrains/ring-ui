@@ -11,7 +11,6 @@ export default function Anchor({children}) {
   return (
     <Button
       text={true}
-      onMouseDown={e => e.preventDefault()}
       className={styles.anchor}
     >
       {children}
