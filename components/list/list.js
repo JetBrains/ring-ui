@@ -146,12 +146,14 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   hoverHandler = memoize(index => () =>
-    this.hoverScheduler(() =>
-      this.setState({
-        activeIndex: index,
-        activeItem: this.props.data[index]
-      })
-    )
+    this.hoverScheduler(() => {
+      if (this.node) {
+        this.setState({
+          activeIndex: index,
+          activeItem: this.props.data[index]
+        });
+      }
+    })
   );
 
   upHandler(e) {
