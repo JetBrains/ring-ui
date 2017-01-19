@@ -1,8 +1,9 @@
 import React, {PropTypes, Component, cloneElement} from 'react';
 import classNames from 'classnames';
 
-import styles from './dropdown.css';
 import Anchor from './anchor';
+
+import styles from './dropdown.css';
 
 /**
  * @name Dropdown
