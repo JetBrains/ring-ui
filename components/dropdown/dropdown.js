@@ -1,8 +1,9 @@
 import React, {PropTypes, Component, cloneElement} from 'react';
 import classNames from 'classnames';
 
+import Anchor from './anchor';
+
 import styles from './dropdown.css';
-import '../link/link.scss';
 
 /**
  * @name Dropdown
@@ -43,8 +44,7 @@ export default class Dropdown extends Component {
     });
 
     const anchorElement = typeof anchor === 'string'
-      // TODO: replace with text action in 3.0
-      ? <span className="ring-link ring-link_pseudo">{anchor}</span>
+      ? <Anchor>{anchor}</Anchor>
       : anchor;
 
     return (
