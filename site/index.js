@@ -1,6 +1,6 @@
 import './index.scss';
 import 'github-markdown-css/github-markdown.css';
-import 'file?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
+import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 
 import highlight from 'highlight.js';
 import 'highlight.js/styles/github.css';
