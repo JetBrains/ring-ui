@@ -2,16 +2,13 @@
 /* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
-// Generate dll before everything
-const execFileSync = require('child_process').execFileSync;
-execFileSync('./node_modules/.bin/webpack', ['--bail', '--config', 'webpack-dll.config.js'], {stdio: 'inherit'});
-
 const path = require('path');
 const webpack = require('webpack');
 
 const webpackConfigMerger = require('webpack-config-merger');
 const webpackConfig = require('./webpack.config');
 const AnyBarWebpackPlugin = require('anybar-webpack');
+const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
@@ -116,11 +113,31 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
     new webpack.DefinePlugin({
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
     }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./dist/dll-manifest.json')
-    }),
-    docpackSetup()
+    docpackSetup(),
+    new DllBundlesPlugin({
+      bundles: {
+        vendor: [
+          'babel-polyfill',
+          'core-js',
+          'dom4',
+          'whatwg-fetch',
+          'react',
+          'react-dom',
+          '@hypnosphi/react-portal',
+          'react-waypoint',
+          'angular',
+          'classnames',
+          'combokeys',
+          'moment',
+          'simply-uuid'
+        ]
+      },
+      dllDir: './dist',
+      webpackConfig: {
+        devtool: 'cheap-module-source-map',
+        plugins: [] // DllBundlesPlugin will set the DllPlugin here
+      }
+    })
   ]
 });
 
