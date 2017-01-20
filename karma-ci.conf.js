@@ -3,6 +3,7 @@
 
 const deepAssign = require('deep-assign');
 const generateConfig = require('./karma-base.conf.js');
+process.env.BABEL_ENV = 'test';
 
 module.exports = config => {
   const configCI = deepAssign(generateConfig(config), {
@@ -14,7 +15,7 @@ module.exports = config => {
       ]
     },
     reporters: ['teamcity', 'coverage', 'coverage-html-index'],
-    webpack: require('./webpack-test-coverage.config'),
+    webpack: require('./webpack-test.config'),
     client: {
       mocha: {
         timeout: 60000

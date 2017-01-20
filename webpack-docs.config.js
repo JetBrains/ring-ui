@@ -19,7 +19,6 @@ const createEntriesList = require('./site/create-entries-list');
 const isServer = process.argv.includes('--server');
 
 const publicPath = '/';
-const componentsPath = path.resolve(__dirname, 'components');
 
 const config = require('./package.json').config;
 
@@ -48,11 +47,11 @@ const hubProductionConfig = {
 };
 
 // For docs-app entry point
-webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
+webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
 
 const contentBase = path.resolve(__dirname, 'dist');
 
-const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
+const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
   entry: {
     components: createEntriesList('./components/*'),
     'docs-app': './site/index.js',
@@ -63,6 +62,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       'ring-ui': __dirname
     }
   },
+  context: '.',
   module: {
     loaders: [
       // HTML examples
@@ -71,7 +71,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
         loaders: [
           `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
           require.resolve('extract-loader'),
-          webpackConfig.htmlLoader.loader
+          webpackConfig.loaders.htmlLoader.loader
         ]
       },
       // For github-markdown-css
@@ -82,19 +82,19 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
           path.resolve('./node_modules/highlight.js')
         ],
         loaders: [
-          'style',
-          'css'
+          'style-loader',
+          'css-loader'
         ]
       },
       {
-        test: /\.json$/,
-        include: componentsPath,
-        loader: 'json'
+        test: /\.twig$/,
+        loaders: [
+          'twig-loader'
+        ]
       }
     ]
   },
-  devtool: isServer ? 'eval' : null,
-  debug: isServer,
+  devtool: isServer ? 'eval' : false,
   devServer: {
     contentBase,
     inline: true,
