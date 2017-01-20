@@ -29,7 +29,7 @@
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
     "build": "webpack --config webpack-docs.config.js",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --port 9999 --server --host 0.0.0.0",
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --port 9999 --host 0.0.0.0",
     "lint": "eslint --quiet .",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml",
@@ -52,7 +52,18 @@
   "readmeFilename": "README.md",
   "babel": {
     "presets": "jetbrains",
-    "plugins": "transform-runtime"
+    "plugins": "transform-runtime",
+    "env": {
+      "test": {
+        "plugins": [
+          ["istanbul", {
+            "exclude": [
+              "**/*.test.js"
+            ]
+          }]
+        ]
+      }
+    }
   },
   "devDependencies": {
     "angular": "1.5.8",
@@ -61,6 +72,7 @@
     "anybar-webpack": "1.2.0",
     "babel-cli": "6.14.0",
     "babel-eslint": "7.1.1",
+    "babel-plugin-istanbul": "3.1.2",
     "babel-polyfill": "6.13.0",
     "deep-assign": "2.0.0",
     "docpack": "1.0.0",
@@ -82,7 +94,7 @@
     "glob": "7.0.6",
     "highlight.js": "9.6.0",
     "http-server": "0.9.0",
-    "isparta-instrumenter-loader": "1.0.1",
+    "isparta-loader": "2.0.0",
     "js-beautify": "1.6.4",
     "json-loader": "0.5.4",
     "karma": "1.3.0",
@@ -95,13 +107,14 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.4",
-    "karma-webpack": "1.8.0",
+    "karma-webpack": "2.0.1",
     "mocha": "3.0.2",
     "update-version": "1.0.1",
-    "wallaby-webpack": "0.0.23",
-    "webpack": "1.13.2",
-    "webpack-config-merger": "0.0.5",
-    "webpack-dev-server": "1.15.1",
+    "wallaby-webpack": "0.0.30",
+    "webpack": "2.2.0",
+    "webpack-config-merger": "0.1.0",
+    "webpack-dev-server": "2.2.0",
+    "twig-loader": "0.2.4",
     "yo": "1.8.5"
   },
   "dependencies": {
@@ -125,7 +138,7 @@
     "jetbrains-logos": "1.1.51",
     "moment": "2.15.2",
     "mout": "1.0.0",
-    "ng-annotate-loader": "0.1.1",
+    "ng-annotate-loader": "0.2.0",
     "node-sass": "3.9.3",
     "null-loader": "0.1.1",
     "postcss": "5.2.0",

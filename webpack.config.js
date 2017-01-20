@@ -85,29 +85,33 @@ const gifLoader = {
 
 // Minimal config for building components
 module.exports = {
-  module: {
-    loaders: [
-      svgSpriteLoader,
-      svgLoader,
-      cssLoader,
-      scssLoader,
-      ngAnnotateLoader,
-      babelLoader,
-      whatwgLoader,
-      htmlLoader,
-      gifLoader
-    ]
+  config: {
+    module: {
+      loaders: [
+        svgSpriteLoader,
+        svgLoader,
+        cssLoader,
+        scssLoader,
+        ngAnnotateLoader,
+        babelLoader,
+        whatwgLoader,
+        htmlLoader,
+        gifLoader
+      ]
+    }
   },
 
   componentsPath,
 
-  svgSpriteLoader,
-  svgLoader,
-  cssLoader,
-  scssLoader,
-  ngAnnotateLoader,
-  babelLoader,
-  whatwgLoader,
-  htmlLoader,
-  gifLoader
+  loaders: {
+    svgSpriteLoader,
+    svgLoader,
+    cssLoader,
+    scssLoader,
+    ngAnnotateLoader,
+    babelLoader,
+    whatwgLoader,
+    htmlLoader,
+    gifLoader
+  }
 };
