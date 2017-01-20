@@ -56,11 +56,14 @@
     "env": {
       "test": {
         "plugins": [
-          ["istanbul", {
-            "exclude": [
-              "**/*.test.js"
-            ]
-          }]
+          [
+            "istanbul",
+            {
+              "exclude": [
+                "**/*.test.js"
+              ]
+            }
+          ]
         ]
       }
     }
@@ -79,7 +82,7 @@
     "docpack-examples-compiler": "0.0.2",
     "docpack-jsdoc-extractor": "0.0.3",
     "docpack-markdown-extractor": "0.0.1",
-    "docpack-page-generator": "0.0.3",
+    "docpack-page-generator": "0.0.4",
     "electron-prebuilt": "1.3.5",
     "eslint": "3.11.1",
     "eslint-config-jetbrains": "2.0.18",
