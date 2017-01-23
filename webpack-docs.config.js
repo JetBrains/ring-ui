@@ -2,16 +2,13 @@
 /* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
-// Generate dll before everything
-const execFileSync = require('child_process').execFileSync;
-execFileSync('./node_modules/.bin/webpack', ['--bail', '--config', 'webpack-dll.config.js'], {stdio: 'inherit'});
-
 const path = require('path');
 const webpack = require('webpack');
 
 const webpackConfigMerger = require('webpack-config-merger');
 const webpackConfig = require('./webpack.config');
 const AnyBarWebpackPlugin = require('anybar-webpack');
+const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
@@ -19,7 +16,6 @@ const createEntriesList = require('./site/create-entries-list');
 const isServer = process.argv.includes('--server');
 
 const publicPath = '/';
-const componentsPath = path.resolve(__dirname, 'components');
 
 const config = require('./package.json').config;
 
@@ -48,11 +44,11 @@ const hubProductionConfig = {
 };
 
 // For docs-app entry point
-webpackConfig.babelLoader.include.push(path.resolve(__dirname, 'site'));
+webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
 
 const contentBase = path.resolve(__dirname, 'dist');
 
-const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
+const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
   entry: {
     components: createEntriesList('./components/*'),
     'docs-app': './site/index.js',
@@ -63,6 +59,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
       'ring-ui': __dirname
     }
   },
+  context: '.',
   module: {
     loaders: [
       // HTML examples
@@ -71,7 +68,7 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
         loaders: [
           `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
           require.resolve('extract-loader'),
-          webpackConfig.htmlLoader.loader
+          webpackConfig.loaders.htmlLoader.loader
         ]
       },
       // For github-markdown-css
@@ -82,19 +79,19 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
           path.resolve('./node_modules/highlight.js')
         ],
         loaders: [
-          'style',
-          'css'
+          'style-loader',
+          'css-loader'
         ]
       },
       {
-        test: /\.json$/,
-        include: componentsPath,
-        loader: 'json'
+        test: /\.twig$/,
+        loaders: [
+          'twig-loader'
+        ]
       }
     ]
   },
-  devtool: isServer ? 'eval' : null,
-  debug: isServer,
+  devtool: isServer ? 'eval' : false,
   devServer: {
     contentBase,
     inline: true,
@@ -116,11 +113,31 @@ const docsWebpackConfig = webpackConfigMerger(webpackConfig, {
     new webpack.DefinePlugin({
       hubConfig: JSON.stringify(isServer ? hubServerConfig : hubProductionConfig)
     }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./dist/dll-manifest.json')
-    }),
-    docpackSetup()
+    docpackSetup(),
+    new DllBundlesPlugin({
+      bundles: {
+        vendor: [
+          'babel-polyfill',
+          'core-js',
+          'dom4',
+          'whatwg-fetch',
+          'react',
+          'react-dom',
+          '@hypnosphi/react-portal',
+          'react-waypoint',
+          'angular',
+          'classnames',
+          'combokeys',
+          'moment',
+          'simply-uuid'
+        ]
+      },
+      dllDir: './dist',
+      webpackConfig: {
+        devtool: 'cheap-module-source-map',
+        plugins: [] // DllBundlesPlugin will set the DllPlugin here
+      }
+    })
   ]
 });
 
