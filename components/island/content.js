@@ -15,7 +15,7 @@ export default class Content extends RingComponent {
 
   render() {
     const {children, className, fade, ...restProps} = this.props;
-    const classes = classNames(styles.content, className);
+    const classes = classNames(styles.contentWrapper, className);
 
     return (
       <div
@@ -23,9 +23,11 @@ export default class Content extends RingComponent {
         data-test="ring-island-content"
         className={classes}
       >
-        {fade && <div className={styles.fadeTop} />}
-        {children}
-        {fade && <div className={styles.fadeBottom} />}
+        <div className={styles.content}>
+          {fade && <div className={styles.fadeTop} />}
+          {children}
+          {fade && <div className={styles.fadeBottom} />}
+        </div>
       </div>
     );
   }
