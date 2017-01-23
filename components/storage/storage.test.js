@@ -179,7 +179,7 @@ describe('Storage', () => {
     });
 
     const Storage = require('./storage__local');
-    const MockedStorage = require('imports?window=mocked-storage!./storage__local');
+    const MockedStorage = require('imports-loader?window=mocked-storage!./storage__local');
     const storage = new Storage();
     const storageSession = new Storage({
       type: 'session'
