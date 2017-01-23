@@ -24,8 +24,8 @@ export default class Content extends RingComponent {
         className={classes}
       >
         <div className={styles.content}>
-          {fade && <div className={styles.fadeTop} />}
           {children}
+          {fade && <div className={styles.fadeTop} />}
           {fade && <div className={styles.fadeBottom} />}
         </div>
       </div>
