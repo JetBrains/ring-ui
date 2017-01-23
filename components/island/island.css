@@ -4,7 +4,6 @@
 @value gradientStop: rgba(255, 255, 255, 0.8);
 
 .island {
-  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -39,6 +38,13 @@
   padding: 0 calc(unit*2);
 }
 
+.contentWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .content {
   overflow: auto;
   padding: calc(unit*2) calc(unit*4);
@@ -50,7 +56,7 @@
 
 .fadeTop {
   position: absolute;
-  top: calc(unit*4);
+  top: 0;
   left: 0;
   width: 100%;
   height: calc(unit * 3);
