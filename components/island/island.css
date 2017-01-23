@@ -65,6 +65,11 @@
   background: linear-gradient(gradientStop, gradientStart);
 }
 
+.contentWrapper:first-child .fadeTop {
+  border-top-right-radius: border-radius;
+  border-top-left-radius: border-radius;
+}
+
 .fadeBottom {
   position: absolute;
   left: 0;
