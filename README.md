@@ -104,7 +104,7 @@ This reads Ring UI configuration and overrides some config params.
 
 2. Install Ring UI yeoman generator: `npm i -g generator-ring-ui`
 
-3. Go to project root folder and type: `yo ring`. It will ask you to enter the name of the project
+3. Go to project root folder and type: `yo ring-ui`. It will ask you to enter the name of the project
 and desired frameworks (plain JS, ReactJS or AngularJS). It will then create a project skeleton
 with testing infrastructure, webpack build configuration, ES6 support, ESLint and the required package.json dependencies.
 
