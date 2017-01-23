@@ -2,26 +2,30 @@
 /* eslint-disable modules/no-cjs */
 
 const path = require('path');
-const config = require('./webpack.config');
+const config = require('./webpack.config').config;
+const loaders = require('./webpack.config').loaders;
 const webpack = require('webpack');
 
 const helpersPath = path.join(__dirname, 'test-helpers');
 
 config.resolve = {
-  root: helpersPath
+  modules: [
+    helpersPath,
+    'node_modules'
+  ]
 };
 
-config.babelLoader.include.push(helpersPath);
+loaders.babelLoader.include.push(helpersPath);
 
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
 };
 
-config.devtool = 'eval';
+config.devtool = false;
 
 config.plugins = [
   new webpack.ProvidePlugin({
-    fetch: '!exports?self.fetch!imports?self=>{},Promise=core-js/es6/promise!whatwg-fetch'
+    fetch: '!exports-loader?self.fetch!imports-loader?self=>{},Promise=core-js/es6/promise!whatwg-fetch'
   }),
   new webpack.DefinePlugin({
     'process.env': {
