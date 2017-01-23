@@ -1,4 +1,4 @@
-@value unit, overlay-z-index, border-radius from '../global/global.css';
+@value unit, overlay-z-index, border-radius, popup-border-color from '../global/global.css';
 
 .container {
   display: flex;
@@ -22,6 +22,10 @@
   min-width: calc(unit * 50);
   max-width: calc(unit * 53);
   overflow-wrap: break-word;
+
+  && {
+    box-shadow: 0 2px 16px color(popup-border-color a(0.15));
+  }
 
   & :global(.ring-panel) {
     margin-top: 0;
