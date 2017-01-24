@@ -20,7 +20,7 @@ order: 1
 
 ## Available commands
 
-To start the server: `npm start` (runs the webpack dev server on http://localhost:9999. You can change the port using `npm config set ring-ui:port <port>`)
+To start the server: `npm start` (runs the webpack dev server on http://localhost:9999)
 
 To run tests: `npm test`
 
@@ -28,22 +28,27 @@ To lint code: `npm run lint`
 
 To build production files: `npm run build`
 
-#### Custom port
+#### Settings
 
-Change the port using `npm config set ring-ui:port <port>`
+By default documenation configuration uses `development` environment.
+Use `--env.production` flag to switch it to `production`.
+Environment has effect on source-map generation mode and parameters below:
 
-#### Hub URL
+ * **port**
+ * **host**
+ * **hub** (Hub server URI)
+ * **clientId** (Ring UI service client id in Hub)
 
-You can change the URL of the Hub server using `npm config set ring-ui:hub <hub uri>` or provide it as a command line option: `npm start|build -- --hub <hub uri>`.
+You can chage them by following means (in order of precedence):
 
-`<server uri>` should be either one of the predefined values below or __any other URL__.
+1. Command line syntax: `npm <start|run build> -- --env.<param> <value>`
+Example: `npm start -- --env.port 8765`
 
-Predefined values:
+2. Local persistent settings using npm: `npm config set ring-ui:<param> <value>`
+Example: `npm config set ring-ui:port 8765`
 
-  * local: `http://localhost:8080/jetpass`
-  * jar: `http://localhost:8080`
-  * production: `https://hub.jetbrains.com`
-  * default: `***REMOVED***`
+3. Local persistent settings for selected environment: `npm config set ring-ui:<environment>:<param> <value>`  
+Example: `npm config set ring-ui:development:port 8765`
 
 
 ## Contributing
@@ -85,7 +90,7 @@ require('ring-ui/components/shortcuts-ng/shortcuts-ng');
 ``` javascript
 var webpackConfigMerger = require('webpack-config-merger');
 
-var webpackOptions = webpackConfigMerger(require('ring-ui'), {
+var webpackOptions = webpackConfigMerger(require('ring-ui').config, {
   entry: 'src/entry.js', // your entry point for webpack
   output: {
     path: 'path/to/dist',
@@ -119,11 +124,6 @@ Polyfills like `Array.prototype.find` that patch native objects should be import
 
 Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4';`) 
 and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
-
-## Pre-commit hook
-
-There is a pre-commit hook that runs static analysis checks and rejects the commit if they fail.
-Use `npm run setup-hooks` to install it.
 
 ## Wallaby support
 
