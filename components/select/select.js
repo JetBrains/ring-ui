@@ -591,10 +591,12 @@ export default class Select extends RingComponentWithShortcuts {
       });
     }
 
-    this.setState({
-      shortcuts: false,
-      focused: false
-    });
+    if (!this._popup.isClickingPopup) {
+      this.setState({
+        shortcuts: false,
+        focused: false
+      });
+    }
   }
 
   _inputShortcutsEnabled() {
