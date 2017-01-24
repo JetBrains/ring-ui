@@ -181,6 +181,7 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   didMount() {
+    this.mounted = true;
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
       this.display = Display.SHOWN;
@@ -215,6 +216,7 @@ export default class Popup extends RingComponentWithShortcuts {
       legacyPopups.delete(this);
     }
     this._setListenersEnabled(false);
+    this.mounted = false;
   }
 
   popupRef = el => {
@@ -276,10 +278,16 @@ export default class Popup extends RingComponentWithShortcuts {
     });
   }
 
+  _updateIfMounted() {
+    if (this.mounted) {
+      this.forceUpdate();
+    }
+  }
+
   // we need forceUpdate for correct repositioning of popup
   _redraw() {
     if (!this.props.hidden) {
-      this.redrawScheduler(::this.forceUpdate);
+      this.redrawScheduler(::this._updateIfMounted);
     }
   }
 
