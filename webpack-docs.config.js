@@ -26,7 +26,7 @@ webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
 module.exports = (env = {}) => {
   const {server, production} = env;
   const envString = production ? 'production' : 'development';
-  const devtool = server ? 'cheap-module-eval-source-map' : 'source-map';
+  const devtool = production ? false : 'cheap-module-eval-source-map';
 
   const getParam = name => (
     env[name] ||
