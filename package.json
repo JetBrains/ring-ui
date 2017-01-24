@@ -3,15 +3,17 @@
   "version": "2.6.0",
   "description": "JetBrains UI library",
   "config": {
-    "port": 9999,
-    "hub": "default",
-    "hubs": {
-      "local": "http://localhost:8080/jetpass",
-      "jar": "http://localhost:8080",
-      "default": "***REMOVED***",
-      "production": "https://hub.jetbrains.com"
+    "development": {
+      "port": 9999,
+      "host": "0.0.0.0",
+      "hub": "***REMOVED***",
+      "clientId": "0-0-0-0-0"
     },
-    "host": "localhost",
+    "production": {
+      "host": "ring-ui.github.io",
+      "hub": "https://hub.jetbrains.com",
+      "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698"
+    },
     "components": "./components/"
   },
   "files": [
@@ -29,7 +31,7 @@
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
     "build": "webpack --config webpack-docs.config.js",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --port 9999 --host 0.0.0.0",
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
     "lint": "eslint --quiet .",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml",
@@ -38,7 +40,7 @@
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build && npm run gemini-test-ci",
-    "prerelease-ci": "npm run build-ci && npm pack",
+    "prerelease-ci": "npm run build-ci -- --env.production && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
     "version": "update-version --patch"
   },
@@ -72,7 +74,6 @@
     "angular": "1.5.8",
     "angular-mocks": "1.5.8",
     "angular-route": "1.5.8",
-    "anybar-webpack": "1.2.0",
     "babel-cli": "6.14.0",
     "babel-eslint": "7.1.1",
     "babel-plugin-istanbul": "3.1.2",
