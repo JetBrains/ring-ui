@@ -267,15 +267,19 @@
 
     angular.module('test', ['Ring.select', 'Ring.dialog'])
     .run(function($templateCache) {
-      var tpl = '<rg-select ng-model="data.selectedItem" options="item in data.options"></rg-select>';
+      var tpl = '<rg-select ng-model="data.selectedItem" options="item in data.getOptions()"></rg-select>';
       $templateCache.put('test-tpl.html', tpl);
     })
     .controller('testCtrl', function($timeout, dialog) {
     var data = {
-      options: [
-        {key: 1, label: '11111'},
-        {key: 2, label: '22222'}
-      ]
+      getOptions: () => {
+        return $timeout(function() {
+          return [
+            {key: 1, label: '11111'},
+            {key: 2, label: '22222'}
+          ];
+        }, 1000);
+      }
     }
 
     $timeout(function(){
