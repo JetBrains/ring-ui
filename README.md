@@ -30,24 +30,24 @@ To build production files: `npm run build`
 
 #### Settings
 
-By default documenation configuration uses `development` environment.
-Use `--env.production` flag to switch it to `production`.
-Environment has effect on source-map generation mode and parameters below:
+By default, documentation is built using `development` environment.
+Use the `--env.production` flag to switch it to `production`.
+Environment has an effect on source map generation, it also affects the following parameters:
 
  * **port**
  * **host**
  * **hub** (Hub server URI)
- * **clientId** (Ring UI service client id in Hub)
+ * **clientId** (Ring UI service client ID in Hub)
 
-You can chage them by following means (in order of precedence):
+You can change them by the following means (in order of precedence):
 
-1. Command line syntax: `npm <start|run build> -- --env.<param> <value>`
+1. Command line switch: `npm <start|run build> -- --env.<param> <value>`
 Example: `npm start -- --env.port 8765`
 
-2. Local persistent settings using npm: `npm config set ring-ui:<param> <value>`
+2. Persistently using NPM: `npm config set ring-ui:<param> <value>`
 Example: `npm config set ring-ui:port 8765`
 
-3. Local persistent settings for selected environment: `npm config set ring-ui:<environment>:<param> <value>`  
+3. Persistently for a given environment: `npm config set ring-ui:<environment>:<param> <value>`  
 Example: `npm config set ring-ui:development:port 8765`
 
 
