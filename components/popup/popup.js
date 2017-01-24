@@ -197,11 +197,16 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   didUpdate(prevProps) {
-    const {hidden} = this.props;
+    const {hidden, children} = this.props;
+
     if (prevProps.hidden !== hidden) {
       this._setListenersEnabled(!hidden);
       this.display = this.props.hidden ? Display.SHOWING : Display.SHOWN;
       this.forceUpdate();
+    }
+
+    if (children !== prevProps.children) {
+      this._redraw();
     }
   }
 
