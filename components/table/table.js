@@ -267,7 +267,7 @@ class Table extends Component {
 
     const data = [];
     this.props.data.forEach(item => {
-      item.__level = 0;
+      //item.__level = 0;
       data.push(item);
       /*if (subtreeKey) {
         const subtree = flattenSubtree(item, subtreeKey, 1);
