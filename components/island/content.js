@@ -15,6 +15,8 @@ export default class Content extends Component {
   };
 
   onScroll = event => {
+    console.log('SCROLL!!!!')
+    debugger
     const {scrollTop, scrollHeight} = event.nativeEvent.target;
     this.props.onScroll({scrollTop, scrollHeight});
   }
