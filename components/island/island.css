@@ -50,7 +50,7 @@
 
 .fadeTop {
   position: absolute;
-  top: calc(unit*4);
+  margin-top: -calc(unit*2);
   left: 0;
   width: 100%;
   height: calc(unit * 3);
