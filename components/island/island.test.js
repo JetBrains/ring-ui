@@ -2,11 +2,10 @@ import 'dom4';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
 import Island, {AdaptiveIsland, Content, Header} from './island';
 import styles from './island.css';
 
-describe.only('Island', () => {
+describe('Island', () => {
   const renderComponent = params => renderIntoDocument(<Island {...params}/>);
 
   it('should create Island component', () => {
@@ -35,8 +34,8 @@ describe.only('Island', () => {
 
     it('should change header size if content is scrolled', () => {
       const instance = renderIntoDocument(<AdaptiveIsland>
-        <Header></Header>
-        <Content></Content>
+        <Header/>
+        <Content/>
       </AdaptiveIsland>);
 
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
@@ -67,7 +66,7 @@ describe.only('Island', () => {
 
     it('should change header title font size', () => {
       const size = 24;
-      const fontSize = size - 8;
+      const fontSize = size - 8; // eslint-disable-line no-magic-numbers
       const titleNode = findDOMNode(renderIntoDocument(<Header size={size}/>)).querySelector(`.${styles.title}`);
       titleNode.style.fontSize.should.equal(`${fontSize}px`);
     });
