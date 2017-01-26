@@ -11,7 +11,7 @@ const TITLE_RESIZE_SPEED = 0.5;
 
 export default function adaptiveIslandHOC(ComposedComponent) {
 
-  return class ResizingIsland extends Component {
+  return class AdaptiveIsland extends Component {
     state = {
       border: false,
       size: DEFAULT_SIZE

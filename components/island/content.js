@@ -11,7 +11,8 @@ export default class Content extends Component {
   };
 
   static defaultProps = {
-    fade: true
+    fade: true,
+    onScroll: () => {}
   };
 
   onScroll = event => {
@@ -21,7 +22,9 @@ export default class Content extends Component {
 
   render() {
     const {children, className, fade, ...restProps} = this.props;
-    const classes = classNames(styles.content, className);
+    const classes = classNames(styles.content, className, {
+      [styles.contentWithFades]: fade
+    });
 
     return (
       <div
@@ -30,9 +33,7 @@ export default class Content extends Component {
         className={classes}
         onScroll={this.onScroll}
       >
-        {fade && <div className={styles.fadeTop} />}
         {children}
-        {fade && <div className={styles.fadeBottom} />}
       </div>
     );
   }
