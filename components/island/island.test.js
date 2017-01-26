@@ -40,7 +40,7 @@ describe('Island', () => {
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
 
       instance.onContentScroll({scrollTop: 8});
-      headerNode.style.minHeight.should.equal('36px');
+      headerNode.style.lineHeight.should.equal('36px');
     });
   });
 
@@ -52,7 +52,6 @@ describe('Island', () => {
     it('should change header size', () => {
       const size = 22;
       const node = findDOMNode(renderIntoDocument(<Header size={size}/>));
-      node.style.minHeight.should.equal(`${size}px`);
       node.style.lineHeight.should.equal(`${size}px`);
     });
 
