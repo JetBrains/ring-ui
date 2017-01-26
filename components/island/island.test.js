@@ -40,7 +40,7 @@ describe('Island', () => {
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
 
       instance.onContentScroll({scrollTop: 8});
-      headerNode.style.minHeight.should.equal('28px');
+      headerNode.style.minHeight.should.equal('36px');
     });
   });
 
@@ -58,7 +58,7 @@ describe('Island', () => {
 
     it('should change header title font size', () => {
       const size = 24;
-      const fontSize = size - 8; // eslint-disable-line no-magic-numbers
+      const fontSize = size - 16; // eslint-disable-line no-magic-numbers
       const titleNode = findDOMNode(renderIntoDocument(<Header size={size}/>)).querySelector(`.${styles.title}`);
       titleNode.style.fontSize.should.equal(`${fontSize}px`);
     });
