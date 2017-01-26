@@ -59,3 +59,104 @@
     render(<DialogDemo />, document.getElementById('dialog'));
   </file>
 </example>
+
+<example name="Dialog with scroll">
+  <file name="index.html">
+    <div>
+      <div id="dialog"></div>
+    </div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Dialog from 'ring-ui/components/dialog/dialog';
+    import {Header, Content} from 'ring-ui/components/island/island';
+    import Button from 'ring-ui/components/button/button';
+    import Panel from 'ring-ui/components/panel/panel';
+
+    class DialogDemo extends React.Component {
+      state = {
+        show: true
+      };
+
+      doAction = () => {
+        alert('action performed');
+        this.setState({show: false});
+      }
+
+      cancelDialog = () => {
+        this.setState({show: false});
+      }
+
+      render() {
+        return (
+          <div>
+            <div>
+              <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
+            </div>
+
+            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
+              <Header>This is the dialog's header</Header>
+              <Content>
+                <div>
+                  <div>This is scrollable content</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                    since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five
+                    centuries, but also the leap into electronic typesetting, remaining
+                    essentially unchanged.</div>
+                </div>
+              </Content>
+              <Panel>
+                <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
+                <Button onClick={this.cancelDialog}>No</Button>
+              </Panel>
+            </Dialog>
+
+          </div>
+        );
+      }
+    }
+
+    render(<DialogDemo />, document.getElementById('dialog'));
+  </file>
+</example>

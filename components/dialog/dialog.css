@@ -23,6 +23,9 @@
   max-width: calc(unit * 53);
   overflow-wrap: break-word;
 
+  max-height: calc(100% - calc(unit * 8 + 2px));
+  margin: calc(unit * 4) 0;
+
   & :global(.ring-panel) {
     margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4);
