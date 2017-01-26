@@ -33,7 +33,9 @@ export default class Content extends Component {
         className={classes}
         onScroll={this.onScroll}
       >
-        {children}
+        <div className={styles.scrollableWrapper}>
+          {children}
+        </div>
       </div>
     );
   }
