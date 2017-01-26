@@ -3,7 +3,7 @@
 import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
-import RingAngularComponent from '../ring-angular-component/ring-angular-component';
+import RingAngularComponent from '../global/ring-angular-component';
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 const stringTypes = [PropTypes.string, PropTypes.string.isRequired];

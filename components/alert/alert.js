@@ -5,7 +5,7 @@ import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import Badge from '../badge/badge';
-import {getRect} from '../dom/dom';
+import {getRect} from '../global/dom';
 
 import styles from './alert.css';
 

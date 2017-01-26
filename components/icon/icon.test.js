@@ -3,7 +3,7 @@
 import {isCompositeComponentWithType, renderIntoDocument, Simulate} from 'react-addons-test-utils';
 import Icon from './icon';
 import expandIcon from 'jetbrains-icons/expand.svg';
-import urlUtils from '../url-utils/url-utils';
+import urlUtils from '../global/url-utils';
 
 describe('Icon', () => {
   beforeEach(function () {

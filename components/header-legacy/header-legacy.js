@@ -14,7 +14,7 @@ import RingComponent from '../ring-component/ring-component';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Popup from '../popup/popup';
-import urlUtils from '../url-utils/url-utils';
+import urlUtils from '../global/url-utils';
 
 import HeaderItem from './header-legacy__item';
 import HeaderHelper from './header-legacy__helper';
