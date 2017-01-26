@@ -1,6 +1,6 @@
 import 'dom4';
 import './loader.scss';
-import {getPixelRatio} from '../dom/dom';
+import {getPixelRatio} from '../global/dom';
 
 const INITIAL_TICKS = 100;
 
