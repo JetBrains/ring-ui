@@ -1,6 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import throttle from 'mout/function/throttle';
 import styles from './island.css';
+
+const noop = () => {};
+const FADE_SHOW_TROTTLING = 50;
 
 export default class Content extends Component {
   static propTypes = {
@@ -12,18 +16,34 @@ export default class Content extends Component {
 
   static defaultProps = {
     fade: true,
-    onScroll: () => {}
+    onScroll: noop
   };
+
+  state = {
+    scrolledToTop: true,
+    scrolledToBottom: false
+  }
+
+  calculateScrollPosition = throttle(scrollableNode => {
+    const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
+    const scrolledToTop = scrollTop === 0;
+    const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
+    this.setState({scrolledToTop, scrolledToBottom});
+  }, FADE_SHOW_TROTTLING)
 
   onScroll = event => {
     const {scrollTop, scrollHeight} = event.nativeEvent.target;
     this.props.onScroll({scrollTop, scrollHeight});
+    this.calculateScrollPosition(event.nativeEvent.target);
   }
 
   render() {
-    const {children, className, fade, ...restProps} = this.props;
+    const {children, className, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {scrolledToTop, scrolledToBottom} = this.state;
+
     const classes = classNames(styles.content, className, {
-      [styles.contentWithFades]: fade
+      [styles.contentWithTopFade]: fade && !scrolledToTop,
+      [styles.contentWithBottomFade]: fade && !scrolledToBottom
     });
 
     return (
@@ -31,9 +51,12 @@ export default class Content extends Component {
         {...restProps}
         data-test="ring-island-content"
         className={classes}
-        onScroll={this.onScroll}
       >
-        <div className={styles.scrollableWrapper}>
+        <div
+          className={styles.scrollableWrapper}
+          ref={this.calculateScrollPosition}
+          onScroll={fade ? this.onScroll : noop}
+        >
           {children}
         </div>
       </div>
