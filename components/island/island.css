@@ -16,7 +16,6 @@
 }
 
 .header {
-  min-height: calc(unit*4);
   line-height: calc(unit*4);
 }
 
