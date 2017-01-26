@@ -2,9 +2,9 @@ import React, {Component, Children, cloneElement} from 'react';
 import Header from './header';
 import Content from './content';
 
-const DEFAULT_SIZE = 32;
-const MIN_SIZE = 21;
-const BORDER_APPEAR_SIZE = 25;
+const DEFAULT_SIZE = 40;
+const MIN_SIZE = 30;
+const BORDER_APPEAR_SIZE = 35;
 const TITLE_RESIZE_SPEED = 0.5;
 
 /* eslint-disable react/prop-types */
