@@ -20,12 +20,6 @@ describe('Island', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
-  it('should render content fades', () => {
-    const node = findDOMNode(renderIntoDocument(<Content fade={true}/>));
-
-    node.should.have.class(styles.contentWithFades);
-  });
-
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
       isCompositeComponentWithType(renderIntoDocument(<AdaptiveIsland/>), AdaptiveIsland).should.be.true;
