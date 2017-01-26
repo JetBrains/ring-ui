@@ -53,7 +53,7 @@
   padding: calc(unit*2) calc(unit*2);
 }
 
-.contentWithFades:before {
+.contentWithTopFade:before {
   content: '';
   display: block;
   position: absolute;
@@ -65,7 +65,7 @@
   background: linear-gradient(gradientStop, gradientStart);
 }
 
-.contentWithFades:after {
+.contentWithBottomFade:after {
   content: '';
   display: block;
   position: absolute;
