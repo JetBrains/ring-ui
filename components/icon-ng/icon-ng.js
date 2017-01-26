@@ -1,5 +1,5 @@
 import 'dom4';
-import urlUtils from '../global/url-utils';
+import urlUtils from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
 import '../icon/icon.scss';
 
