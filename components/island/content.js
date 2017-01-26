@@ -25,6 +25,9 @@ export default class Content extends Component {
   }
 
   calculateScrollPosition = throttle(scrollableNode => {
+    if (!scrollableNode) {
+      return;
+    }
     const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
     const scrolledToTop = scrollTop === 0;
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
