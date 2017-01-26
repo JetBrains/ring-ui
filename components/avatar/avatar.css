@@ -1,0 +1,7 @@
+@value gray-color from  "../global/global.css";
+
+.empty {
+  border: 1px solid gray-color;
+  box-sizing: border-box;
+  display: inline-block;
+}
