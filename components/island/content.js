@@ -11,7 +11,7 @@ export default class Content extends Component {
   };
 
   static defaultProps = {
-    fade: false
+    fade: true
   };
 
   onScroll = event => {
