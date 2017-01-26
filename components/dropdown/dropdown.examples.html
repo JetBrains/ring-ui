@@ -12,11 +12,11 @@
 
     const container = document.getElementById('dropdown');
     const dropdown = (
-    <Dropdown
-      anchor="Click me"
-    >
-      <Popup>Popup content</Popup>
-    </Dropdown>
+      <Dropdown
+        anchor="Click me"
+      >
+        <Popup>Popup content</Popup>
+      </Dropdown>
     );
 
     render(dropdown, container);
@@ -39,14 +39,14 @@
     const container = document.getElementById('dropdown');
     const actions = ['Cut', 'Copy', 'Paste'];
     const dropdown = (
-    <Dropdown
-      anchor={<Button delayed={true}>Edit</Button>}
-      >
-      <PopupMenu
-        closeOnSelect={true}
-        data={actions.map(label => ({label}))}
-      />
-    </Dropdown>
+      <Dropdown
+        anchor={<Button delayed={true}>Edit</Button>}
+        >
+        <PopupMenu
+          closeOnSelect={true}
+          data={actions.map(label => ({label}))}
+        />
+      </Dropdown>
     );
 
     render(dropdown, container);
@@ -58,22 +58,22 @@
     <div id="dropdown"></div>
   </file>
 
-  <file type="scss">
-    @import "../global/global";
+  <file type="css">
+    @value gray-color, link-hover-color from "../global/global.css";
 
-    .cog {
+    :global(.cog) {
       display: inline-block;
-      color: $ring-gray-color;
+      color: gray-color;
       transition: all 0.3s ease-out;
       transform: rotate(0deg);
 
       &:hover {
         transition: transform 0.3s ease-out;
-        color: $ring-link-hover-color;
+        color: link-hover-color;
       }
     }
 
-    .rotated {
+    :global(.rotated) {
       transform: rotate(90deg);
     }
   </file>
@@ -89,18 +89,18 @@
 
     const container = document.getElementById('dropdown');
     const dropdown = (
-      <Dropdown
-        className="cog"
-        activeClassName="rotated"
-        anchor={
-          <Icon
-            glyph={cog}
-            size={Icon.Size.Size18}
-          />
-        }
-      >
-        <Popup>Popup content</Popup>
-      </Dropdown>
+    <Dropdown
+      className="cog"
+      activeClassName="rotated"
+      anchor={
+    <Icon
+      glyph={cog}
+      size={Icon.Size.Size18}
+    />
+    }
+    >
+    <Popup>Popup content</Popup>
+    </Dropdown>
     );
 
     render(dropdown, container);
