@@ -4,7 +4,7 @@ import classNames from 'classnames';
 // TODO Exract to global
 import {parseQueryString} from '../auth/auth__response-parser';
 import {encodeURL} from '../auth/auth__request-builder';
-import {getPixelRatio} from '../dom/dom';
+import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';
 

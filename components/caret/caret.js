@@ -1,4 +1,4 @@
-import {getRect} from '../dom/dom';
+import {getRect} from '../global/dom';
 
 /**
  * @name Caret

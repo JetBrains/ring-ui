@@ -1,5 +1,5 @@
 import 'dom4';
-import {getStyles} from '../dom/dom';
+import {getStyles} from '../global/dom';
 import '../button-group/button-group.scss';
 
 /**

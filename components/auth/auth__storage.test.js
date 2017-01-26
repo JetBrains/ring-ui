@@ -3,7 +3,7 @@
 
 import Auth from './auth';
 import AuthStorage from './auth__storage';
-import sniffer from '../sniffer/sniffer';
+import sniffer from '../global/sniffer';
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
