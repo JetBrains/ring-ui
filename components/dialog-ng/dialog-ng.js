@@ -1,7 +1,7 @@
 import 'dom4';
 
-import {getStyles, getRect} from '../dom/dom';
-import RingAngularComponent from '../ring-angular-component/ring-angular-component';
+import {getStyles, getRect} from '../global/dom';
+import RingAngularComponent from '../global/ring-angular-component';
 import shortcuts from '../shortcuts/core';
 import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';

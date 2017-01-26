@@ -1,5 +1,5 @@
 import 'dom4';
-import {getStyles} from '../dom/dom';
+import {getStyles} from '../global/dom';
 import shortcutsInstance from '../shortcuts/core';
 
 /* global angular: false */

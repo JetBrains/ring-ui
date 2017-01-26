@@ -10,7 +10,7 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
-import {getRect} from '../dom/dom';
+import {getRect} from '../global/dom';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';

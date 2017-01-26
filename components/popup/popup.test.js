@@ -5,7 +5,7 @@ import 'dom4';
 
 import renderIntoDocument from 'render-into-document';
 import simulateKeypress from 'simulate-keypress';
-import {getStyles, getRect} from '../dom/dom';
+import {getStyles, getRect} from '../global/dom';
 
 import Popup from './popup';
 import {MinWidth} from './position';

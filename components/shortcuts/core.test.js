@@ -1,6 +1,6 @@
 import simulateKeypress from 'simulate-keypress';
 import shortcuts from './core';
-import sniffr from '../sniffer/sniffer';
+import sniffr from '../global/sniffer';
 
 describe('Shortcuts', () => {
   const key = 'a';

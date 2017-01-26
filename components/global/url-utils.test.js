@@ -2,8 +2,8 @@
 
 import 'dom4';
 
-import sniffer from '../sniffer/sniffer';
-import urlUtils from '../url-utils/url-utils';
+import sniffer from '../global/sniffer';
+import urlUtils from '../global/url-utils';
 
 describe('Url Utils', () => {
   describe('fixUrl', () => {
