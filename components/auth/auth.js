@@ -4,7 +4,7 @@ import 'whatwg-fetch';
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
-import urlUtils from '../global/url-utils';
+import urlUtils from '../global/url';
 
 function noop() {}
 

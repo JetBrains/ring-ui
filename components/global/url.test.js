@@ -3,7 +3,7 @@
 import 'dom4';
 
 import sniffer from '../global/sniffer';
-import urlUtils from '../global/url-utils';
+import urlUtils from './url';
 
 describe('Url Utils', () => {
   describe('fixUrl', () => {
