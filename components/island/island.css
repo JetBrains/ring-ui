@@ -48,6 +48,34 @@
   padding: calc(unit*2) calc(unit*2);
 }
 
+.contentWithFades:before {
+  content: '';
+  display: block;
+  position: absolute;
+  margin-top: -calc(unit*2);
+  left: 0;
+  width: 100%;
+  height: calc(unit * 3);
+
+  pointer-events: none;
+  background: linear-gradient(gradientStop, gradientStart);
+}
+
+.contentWithFades:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(unit * 3);
+
+  border-bottom-right-radius: border-radius;
+  border-bottom-left-radius: border-radius;
+  pointer-events: none;
+  background: linear-gradient(gradientStart, gradientStop);
+}
+
 .fadeTop {
   position: absolute;
   margin-top: -calc(unit*2);
