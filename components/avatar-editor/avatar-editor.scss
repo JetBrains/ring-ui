@@ -13,8 +13,8 @@
 
 .ring-avatar-editor {
   position: relative;
-  width: $ring-unit*6;
-  height: $ring-unit*6;
+  width: $ring-unit*5;
+  height: $ring-unit*5;
   text-align: center;
   padding: 1px;
 
@@ -22,7 +22,7 @@
     content: '';
     display: inline-block;
     width: 0;
-    height: $ring-unit*6;
+    height: $ring-unit*5;
     vertical-align: middle;
   }
 }
@@ -58,8 +58,8 @@
 }
 
 .ring-avatar-editor__img {
-  max-width: $ring-unit*6;
-  max-height: $ring-unit*6;
+  max-width: $ring-unit*5;
+  max-height: $ring-unit*5;
   vertical-align: middle;
   cursor: pointer;
 }
@@ -75,7 +75,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  line-height: $ring-unit*6;
+  line-height: $ring-unit*5;
   width: 100%;
 
   vertical-align: middle;
