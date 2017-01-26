@@ -39,8 +39,8 @@
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
-    "build-ci": "npm run build && npm run gemini-test-ci",
-    "prerelease-ci": "npm run build-ci -- --env.production && npm pack",
+    "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
+    "prerelease-ci": "npm run build-ci && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
     "version": "update-version --patch"
   },
