@@ -21,6 +21,7 @@
 .content {
   min-width: calc(unit * 50);
   max-width: calc(unit * 53);
+  min-height: calc(unit * 20);
   overflow-wrap: break-word;
 
   max-height: calc(100% - calc(unit * 8 + 2px));
