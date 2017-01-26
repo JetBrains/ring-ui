@@ -2,7 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import styles from './island.css';
 
-const SIZE_FONT_DIFF = 8;
+const SIZE_FONT_DIFF = 16;
+const ADDITIONAL_PADDING_DIFF = 32;
 
 export default class Header extends Component {
   static propTypes = {
@@ -20,7 +21,8 @@ export default class Header extends Component {
 
     const headerStyle = size ? {
       minHeight: `${size}px`,
-      lineHeight: `${size}px`
+      lineHeight: `${size}px`,
+      paddingTop: `${size - ADDITIONAL_PADDING_DIFF}px`
     } : null;
 
     const fontSize = size ? (size - SIZE_FONT_DIFF) : null;
