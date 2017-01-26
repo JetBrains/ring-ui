@@ -20,7 +20,6 @@ export default class Header extends Component {
     });
 
     const headerStyle = size ? {
-      minHeight: `${size}px`,
       lineHeight: `${size}px`,
       paddingTop: `${size - ADDITIONAL_PADDING_DIFF}px`
     } : null;
