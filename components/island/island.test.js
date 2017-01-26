@@ -23,8 +23,7 @@ describe('Island', () => {
   it('should render content fades', () => {
     const node = findDOMNode(renderIntoDocument(<Content fade={true}/>));
 
-    node.should.contain(`.${styles.fadeTop}`);
-    node.should.contain(`.${styles.fadeBottom}`);
+    node.should.have.class(styles.contentWithFades);
   });
 
   describe('AdaptiveIsland', () => {
@@ -48,13 +47,6 @@ describe('Island', () => {
   describe('Header', () => {
     it('should render header', () => {
       isCompositeComponentWithType(renderIntoDocument(<Header/>), Header).should.be.true;
-    });
-
-    it('should change header size', () => {
-      const size = 22;
-      const node = findDOMNode(renderIntoDocument(<Header size={size}/>));
-      node.style.minHeight.should.equal(`${size}px`);
-      node.style.lineHeight.should.equal(`${size}px`);
     });
 
     it('should change header size', () => {
