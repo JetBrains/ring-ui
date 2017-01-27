@@ -2,7 +2,7 @@
   <file type="html">
     <div id="example"></div>
   </file>
-  <file type="scss">
+  <file type="css">
     body {
       margin: 0;
       padding: 0;
@@ -28,16 +28,13 @@
   <file type="html">
     <div id="example"></div>
   </file>
-  <file type="scss">
+  <file type="css">
     body {
       margin: 0;
       padding: 0;
     }
 
-    .content {
-    }
-
-    .sidebar {
+    :global(.sidebar) {
       background-color: #EEEEEE;
     }
   </file>
@@ -87,16 +84,16 @@
   <file type="html">
     <div id="example"></div>
   </file>
-  <file type="scss">
+  <file type="css">
     body {
       margin: 0;
       padding: 0;
     }
 
-    .content {
+    :global(.content) {
       height: 500px;
     }
-    .sidebar {
+    :global(.sidebar) {
       background-color: #EEEEEE;
     }
   </file>
