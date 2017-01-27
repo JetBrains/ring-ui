@@ -7,7 +7,7 @@
  * @example-file ./table.examples.html
  */
 
-/* eslint-disable react/jsx-max-props-per-line */
+/* eslint-disable react/jsx-max-props-per-line, new-cap */
 
 import 'core-js/modules/es6.array.find';
 
@@ -20,9 +20,36 @@ import Selection from './selection';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
+import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 
 import Shortcuts from '../shortcuts/shortcuts';
 import LoaderInline from '../loader-inline/loader-inline';
+
+const DraggableRow = SortableElement(({item, key, columns, disabled, selectable, selection, onRowFocus, onRowSelect}) => {
+  const props = {
+    item,
+    key,
+    columns,
+    disabled,
+    selectable,
+    focused: selection.isFocused(item),
+    selected: selectable && selection.isSelected(item),
+    onFocus: onRowFocus,
+    onSelect: onRowSelect
+  };
+  return <Row {...props} />;
+});
+
+const DraggableTable = SortableContainer(props => {
+  const {data, ...restProps} = props;
+  return (
+    <tbody>
+      {data.map((item, index) =>
+        <DraggableRow key={`item-${index}`} index={index} item={item} {...restProps}/>
+      )}
+    </tbody>
+  );
+});
 
 class Table extends Component {
   static propTypes = {
@@ -38,7 +65,8 @@ class Table extends Component {
     onSelect: PropTypes.func,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool
+    sortOrder: PropTypes.bool,
+    draggable: PropTypes.bool
   }
 
   static defaultProps = {
@@ -49,7 +77,8 @@ class Table extends Component {
     onSelect: () => {},
     onSort: () => {},
     sortKey: 'id',
-    sortOrder: true
+    sortOrder: true,
+    draggable: false
   }
 
   state = {
@@ -238,7 +267,7 @@ class Table extends Component {
   }
 
   render() {
-    const {selection, caption, selectable, loading, onSort, sortKey, sortOrder} = this.props;
+    const {selection, caption, selectable, draggable, loading, onSort, sortKey, sortOrder} = this.props;
     const {shortcuts} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -302,22 +331,15 @@ class Table extends Component {
 
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
-
-          <tbody>{
-            data.map((item, key) => {
-              const props = {
-                key,
-                item,
-                columns,
-                selectable,
-                focused: selection.isFocused(item),
-                selected: selectable && selection.isSelected(item),
-                onFocus: this.onRowFocus.bind(this, item),
-                onSelect: this.onRowSelect.bind(this, item)
-              };
-              return <Row {...props} />;
-            })
-          }</tbody>
+          <DraggableTable
+            data={data}
+            disabled={!draggable}
+            columns={columns}
+            selectable={selectable}
+            selection={selection}
+            onRowFocus={this.onRowFocus.bind(this)}
+            onRowSelect={this.onRowSelect.bind(this)}
+          />
         </table>
       </div>
     );
