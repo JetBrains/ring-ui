@@ -155,6 +155,7 @@
     "react-addons-css-transition-group": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-dom": "15.4.2",
+    "react-sortable-hoc": "0.4.10",
     "react-waypoint": "4.0.2",
     "sass-loader": "4.0.2",
     "scrollbar-width": "3.1.1",
