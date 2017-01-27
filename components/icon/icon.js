@@ -11,7 +11,7 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import urlUtils from '../url-utils/url-utils';
+import urlUtils from '../global/url';
 
 import {Color, Size} from './icon__constants';
 import './icon.scss';

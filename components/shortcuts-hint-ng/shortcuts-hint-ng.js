@@ -1,5 +1,5 @@
 import 'core-js/modules/es7.array.includes';
-import sniffer from '../sniffer/sniffer';
+import sniffer from '../global/sniffer';
 
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';

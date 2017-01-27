@@ -10,8 +10,8 @@
     </div>
   </file>
 
-  <file type="scss">
-    .ring-icon {
+  <file type="css">
+    :global(.ring-icon) {
       margin: 8px;
       padding: 8px;
     }
@@ -61,7 +61,6 @@
   </file>
 </example>
 
-* @example
 <example name="Icons list">
   <file type="html">
     <h3>All available icons are listed below. Place the cursor over an icon to
@@ -69,17 +68,17 @@
     <div id="all-icons"></div>
   </file>
 
-  <file type="scss">
-    @import '~ring-ui/components/global/global';
+  <file type="css">
+    @value unit, link-color from '../global/global.css';
 
-    .icon-example__container {
-      margin-left: -$ring-unit * 2;
+    :global(.icon-example__container) {
+      margin-left: calc(0 - calc(unit * 2));
     }
 
-    .ring-icon {
+    :global(.ring-icon) {
       margin: 8px;
       padding: 8px;
-      color: $ring-link-color;
+      color: link-color;
     }
   </file>
 
@@ -108,8 +107,8 @@
     <div id="logos"></div>
   </file>
 
-  <file type="scss">
-    .ring-icon {
+  <file type="css">
+    :global(.ring-icon) {
       margin: 8px;
       padding: 8px;
     }

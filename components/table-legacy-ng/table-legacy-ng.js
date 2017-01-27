@@ -1,7 +1,7 @@
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
-import {getStyles, getRect, getWindowHeight} from '../dom/dom';
+import {getStyles, getRect, getWindowHeight} from '../global/dom';
 
 import Selection from './table-legacy-ng__selection';
 import SelectionNavigateActions from './table-legacy-ng__selection-navigate-actions';

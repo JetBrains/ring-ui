@@ -21,7 +21,11 @@
 .content {
   min-width: calc(unit * 50);
   max-width: calc(unit * 53);
+  min-height: calc(unit * 15);
   overflow-wrap: break-word;
+
+  max-height: calc(100% - calc(unit * 8 + 2px));
+  margin: calc(unit * 4) 0;
 
   && {
     box-shadow: 0 2px 16px color(popup-border-color a(0.15));

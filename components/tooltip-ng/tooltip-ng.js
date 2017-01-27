@@ -36,8 +36,8 @@ import './tooltip-ng.scss';
         });
       </file>
 
-      <file name="index.scss">
-        .tooltip-example {
+      <file name="index.css">
+        :global(.tooltip-example) {
           margin: 16px;
         }
       </file>

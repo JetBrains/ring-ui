@@ -6,7 +6,7 @@
 /*global angular*/
 import 'dom4';
 
-import {getDocumentScrollTop} from '../dom/dom';
+import {getDocumentScrollTop} from '../global/dom';
 
 import debounce from 'mout/function/debounce';
 

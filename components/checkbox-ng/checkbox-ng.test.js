@@ -5,7 +5,7 @@ import 'angular-mocks';
 
 import Checkbox from './checkbox-ng';
 
-import sniffer from '../sniffer/sniffer';
+import sniffer from '../global/sniffer';
 
 describe('Checkbox Ng', () => {
   let scope;

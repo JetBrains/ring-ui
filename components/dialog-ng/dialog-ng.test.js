@@ -5,7 +5,7 @@ import 'angular';
 import 'angular-mocks';
 import 'dom4';
 import simulateKeypress from 'simulate-keypress';
-import {getRect} from '../dom/dom';
+import {getRect} from '../global/dom';
 
 import Dialog from './dialog-ng';
 import styles from './dialog-ng.css';
