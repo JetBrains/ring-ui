@@ -1,12 +1,12 @@
 <example name="Responsive grid">
-  <file name="index.html">
+  <file type="html">
     <div>
       <div id="grid"></div>
     </div>
   </file>
 
-  <file type="scss">
-    .cell {
+  <file type="css">
+    :global(.cell) {
       background-color: silver;
     }
   </file>
@@ -41,14 +41,14 @@
 </example>
 
 <example name="Grid offset">
-  <file name="index.html">
+  <file type="html">
     <div>
       <div id="grid"></div>
     </div>
   </file>
 
-  <file type="scss">
-    .cell {
+  <file type="css">
+    :global(.cell) {
       background-color: silver;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -113,14 +113,14 @@
 </example>
 
 <example name="Grid auto size">
-  <file name="index.html">
+  <file type="html">
     <div>
       <div id="grid"></div>
     </div>
   </file>
 
-  <file type="scss">
-    .cell {
+  <file type="css">
+    :global(.cell) {
       background-color: silver;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -169,17 +169,17 @@
 </example>
 
 <example name="Grid alignment">
-  <file name="index.html">
+  <file type="html">
     <div>
       <div id="grid"></div>
     </div>
   </file>
 
-  <file type="scss">
-    .cell {
+  <file type="css">
+    :global(.cell) {
       background-color: silver;
     }
-    .cell_tall {
+    :global(.cell_tall) {
       height: 64px;
     }
   </file>
@@ -253,14 +253,14 @@
 </example>
 
 <example name="Grid cols distribution">
-  <file name="index.html">
+  <file type="html">
     <div>
       <div id="grid"></div>
     </div>
   </file>
 
-  <file type="scss">
-    .cell {
+  <file type="css">
+    :global(.cell) {
       background-color: silver;
     }
   </file>
