@@ -21,7 +21,7 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
           </div>
       </div>
      </file>
-     <file name="index.scss">
+     <file name="index.css">
        body {
           margin: 0;
        }

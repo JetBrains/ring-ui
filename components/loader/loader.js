@@ -24,22 +24,21 @@ import LoaderCore from './loader__core';
 
        render(Loader.factory({message: 'Loading...'}), document.getElementById('loader2'));
      </file>
-     <file name="index.scss">
+     <file name="index.css">
        body {
           margin: 0;
        }
 
-      .loader-container {
-        padding: 32px;
+       :global(.loader-container) {
+         padding: 32px;
+       }
+       :global(.loader-container_black) {
+         background-color: black;
+       }
 
-        &_black {
-          background-color: black;
-
-          & .ring-loader__text {
-            color: #FFF;
-          }
-        }
-      }
+       :global(.loader-container_black) :global(.ring-loader__text) {
+         color: #FFF;
+       }
      </file>
     </example>
  */

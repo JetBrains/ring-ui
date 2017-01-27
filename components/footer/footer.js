@@ -124,7 +124,7 @@ class FooterLine extends RingComponent {
        <div id="footer"></div>
       </div>
      </file>
-     <file name="index.scss">
+     <file name="index.css">
       body {
         margin: 0;
       }

@@ -1,4 +1,4 @@
-import sniffer from '../sniffer/sniffer';
+import sniffer from '../global/sniffer';
 
 /**
  * @name Old Browsers Message

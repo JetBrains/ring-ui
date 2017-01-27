@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
+import adaptiveIslandHOC from '../island/adaptive-island-hoc';
 import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
 import styles from './island.css';
 
 /**
@@ -11,8 +11,9 @@ import styles from './island.css';
  * @example-file ./island.examples.html
  */
 
-export default class Island extends RingComponent {
+export default class Island extends Component {
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string,
     narrow: PropTypes.bool
   };
@@ -38,5 +39,8 @@ export default class Island extends RingComponent {
   }
 }
 
+const AdaptiveIsland = adaptiveIslandHOC(Island);
+
+export {AdaptiveIsland};
 export {default as Header} from './header';
 export {default as Content} from './content';

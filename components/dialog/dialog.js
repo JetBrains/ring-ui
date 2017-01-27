@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import RingComponent from '../ring-component/ring-component';
-import Island from '../island/island';
+import {AdaptiveIsland} from '../island/island';
 import styles from './dialog.css';
 import getEventKey from 'react-dom/lib/getEventKey';
 
@@ -77,12 +77,12 @@ export default class Dialog extends RingComponent {
           onClick={this.handleClick}
           {...restProps}
         >
-          <Island
+          <AdaptiveIsland
             className={styles.content}
             data-test="ring-dialog"
           >
             {children}
-          </Island>
+          </AdaptiveIsland>
         </div>
       </Portal>
     );

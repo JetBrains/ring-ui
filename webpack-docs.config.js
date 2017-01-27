@@ -14,7 +14,6 @@ const createEntriesList = require('./site/create-entries-list');
 
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
-const DEFAULT_HTTP_PORT = 80;
 
 const publicPath = '/';
 const distDir = 'dist';
@@ -36,18 +35,11 @@ module.exports = (env = {}) => {
 
   const port = Number(getParam('port'));
   const host = getParam('host');
-  const hub = getParam('hub');
+  const serverUri = getParam('hub');
   const clientId = getParam('clientId');
 
-  console.log(`Hub server used is ${colorInfo(hub)}`);
-  /* eslint-disable camelcase */
-  const hubConfig = {
-    serverUri: hub,
-    client_id: clientId,
-    request_credentials: 'skip',
-    redirect_uri: `http://${host}${port && port !== DEFAULT_HTTP_PORT ? `:${port}` : ''}/`
-  };
-  /* eslint-enable camelcase */
+  console.log(`Hub server used is ${colorInfo(serverUri)}`);
+  const hubConfig = JSON.stringify({serverUri, clientId});
 
   const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
     entry: {
@@ -112,9 +104,7 @@ module.exports = (env = {}) => {
       publicPath // serve HMR update jsons properly
     },
     plugins: [
-      new webpack.DefinePlugin({
-        hubConfig: JSON.stringify(hubConfig)
-      }),
+      new webpack.DefinePlugin({hubConfig}),
       docpackSetup(),
       new DllBundlesPlugin({
         bundles: {

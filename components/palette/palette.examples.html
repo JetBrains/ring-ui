@@ -20,13 +20,14 @@
     </div>
   </file>
 
-  <file type="scss">
-    .example {
+  <file type="css">
+    :global(.example) {
       margin: 4px;
-      div {
-        width: 90px;
-        display: inline-block;
-      }
+    }
+
+    :global(.example) div {
+      width: 90px;
+      display: inline-block;
     }
   </file>
 
