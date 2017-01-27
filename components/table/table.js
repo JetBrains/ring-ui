@@ -14,7 +14,7 @@ import 'core-js/modules/es6.array.find';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-import focusSensorFactory from '../global/focus-sensor-factory';
+import focusSensorHOC from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
 import Selection from './selection';
 import Header from './header';
@@ -340,4 +340,4 @@ class Table extends Component {
   shortcutsScope = getUID('ring-table-')
 }
 
-export default focusSensorFactory(Table);
+export default focusSensorHOC(Table);
