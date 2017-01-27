@@ -27,7 +27,6 @@ import styles from './avatar.css';
          width: 100px;
          margin-bottom: 16px;
        }
-
      </file>
 
      <file name="index.js">
@@ -76,6 +75,7 @@ export default class Avatar extends Component {
     dpr: PropTypes.number,
     className: PropTypes.string,
     size: PropTypes.number,
+    style: PropTypes.object,
     url: PropTypes.string
   };
 
@@ -83,38 +83,44 @@ export default class Avatar extends Component {
     dpr: getPixelRatio()
   };
 
+  state = {};
+
+  handleError = error => {
+    this.setState({error: error.nativeEvent.isTrusted});
+  };
+
   render() {
-    const {className, size = Size.Size18, url, dpr, ...restProps} = this.props;
-    const classes = classNames(!url && styles.empty, className);
+    const {size = Size.Size18, url, dpr, style = {}, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const style = {
+    const styleObj = {
       borderRadius: size <= Size.Size18 ? '2px' : '3px',
       height: sizeString,
-      width: sizeString
+      width: sizeString,
+      ...style
     };
 
-    if (!url) {
+    if (!url || this.state.error) {
       return (
         <span
-          className={classes}
-          style={style}
+          className={classNames(styles.empty, this.props.className)}
+          style={styleObj}
         />
       );
     }
 
     const [urlStart, query] = url.split('?');
     const queryParams = {
+      ...parseQueryString(query),
       dpr,
-      size,
-      ...parseQueryString(query)
+      size
     };
 
     return (
       <img
         {...restProps}
-        style={style}
+        onError={this.handleError}
+        style={styleObj}
         src={encodeURL(urlStart, queryParams)}
-        className={classes}
       />
     );
   }
