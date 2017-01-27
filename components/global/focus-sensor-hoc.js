@@ -3,7 +3,7 @@ import {findDOMNode} from 'react-dom';
 
 /* eslint-disable react/jsx-max-props-per-line */
 
-export default function focusSensorFactory(ComposedComponent) {
+export default function focusSensorHOC(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
       ...ComposedComponent.propTypes,
