@@ -40,34 +40,34 @@
       }
     });
   </file>
-  <file type="scss">
-    @import '~ring-ui/components/global/global';
+  <file type="css">
+    @value unit from '../global/global.css';
 
-    .place-under {
+    :global(.place-under) {
       position: fixed;
       top: 0;
       right: 0;
       width: 50%;
-      padding: $ring-unit * 2;
+      padding: calc(unit * 2);
       background-color: #888;
     }
 
-    .head {
+    :global(.head) {
       height: 30px;
     }
 
-    .target-element {
+    :global(.target-element) {
       position: static;
       top: 0;
       width: 100%;
-      padding: $ring-unit * 2;
+      padding: calc(unit * 2);
       background-color: #CCC;
     }
 
-    .scrollable {
+    :global(.scrollable) {
       height: 1000px;
-      padding: $ring-unit * 2;
-      padding-top: $ring-unit * 8;
+      padding: calc(unit * 2);
+      padding-top: calc(unit * 8);
       background-color: #EEE;
     }
   </file>

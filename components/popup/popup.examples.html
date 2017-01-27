@@ -1,40 +1,40 @@
 <example name="Popup">
-  <file type="scss">
+  <file type="css">
     body {
       overflow: hidden;
     }
 
-    .button {
+    :global(.button) {
       position: absolute;
       left: 50px;
       bottom: 50px;
     }
 
-    .anchor {
+    :global(.anchor) {
       position: absolute;
       width: 10px;
       height: 10px;
     }
 
-    .topLeft {
+    :global(.topLeft) {
       left: 0;
       top: 0;
       background-color: red;
     }
 
-    .topRight {
+    :global(.topRight) {
       right: 0;
       top: 0;
       background-color: blue;
     }
 
-    .bottomLeft {
+    :global(.bottomLeft) {
       left: 0;
       bottom: 0;
       background-color: green;
     }
 
-    .bottomRight {
+    :global(.bottomRight) {
       right: 0;
       bottom: 0;
       background-color: orange;
@@ -102,39 +102,39 @@
 </example>
 
 <example name="Auto-positioning a popup">
-  <file type="scss">
-    .message {
+  <file type="css">
+    :global(.message) {
       position: absolute;
 
       top: 50%;
       left: 300px;
     }
 
-    .vert {
+    :global(.vert) {
       top: 20%;
       width: 150px;
     }
 
-    .anchor {
+    :global(.anchor) {
       position: absolute;
     }
 
-    .left {
+    :global(.left) {
       left: 0;
       top: 50px;
     }
 
-    .right {
+    :global(.right) {
       right: 0;
       top: 50px;
     }
 
-    .bottom {
+    :global(.bottom) {
       left: 150px;
       bottom: 0;
     }
 
-    .top {
+    :global(.top) {
       right: 150px;
       top: 0;
     }
@@ -196,14 +196,14 @@
   </file>
 </example>
 <example name="Popup in a popup">
-  <file type="scss">
-    .parent-popup {
+  <file type="css">
+    :global(.parent-popup) {
       width: 100px;
       height: 100px;
       text-align: center;
     }
 
-    .child-popup {
+    :global(.child-popup) {
       background-color: red;
       text-align: center;
       margin: 8px;
@@ -251,12 +251,12 @@
   </file>
 </example>
 <example name="Popup inside a scrollable container">
-  <file type="scss">
+  <file type="css">
     body {
       margin: 0;
     }
 
-    .container {
+    :global(.container) {
       height: 100vh;
       overflow: auto;
     }

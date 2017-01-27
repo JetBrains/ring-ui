@@ -1,5 +1,5 @@
 <example name="Input">
-  <file name="index.html">
+  <file type="html">
     <div id="input"></div>
   </file>
 
@@ -14,7 +14,7 @@
   </file>
 </example>
 <example name="Input sizes">
-  <file name="index.html">
+  <file type="html">
     <div style="width: 600px">
       <div class="input-control-wrapper">
         <input type="number" class="ring-input">
@@ -38,13 +38,13 @@
       </div>
     </div>
   </file>
-  <file name="style.scss">
-    .input-control-wrapper {
-    position: relative;
-    margin: 16px;
+  <file type="css">
+    :global(.input-control-wrapper) {
+      position: relative;
+      margin: 16px;
     }
   </file>
-  <file name="index.js" webpack="true">
+  <file type="js">
     require('ring-ui/components/input/input.scss');
     require('ring-ui/components/input-size/input-size.scss');
   </file>
@@ -75,8 +75,8 @@
       </div>
     </div>
   </file>
-  <file type="scss">
-    .input-control-wrapper {
+  <file type="css">
+    :global(.input-control-wrapper) {
       position: relative;
       margin: 16px;
     }
