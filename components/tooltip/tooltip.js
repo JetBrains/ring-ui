@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 import Popup from '../popup/popup';
 import RingComponent from '../ring-component/ring-component';
-import Listeners from '../global/dom-listeners';
+import {Listeners} from '../global/dom';
 
 import './tooltip.scss';
 
