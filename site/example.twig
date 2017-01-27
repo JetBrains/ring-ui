@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>{{ example.name }}</title>
-  <script src="{{ publicPath }}vendor.dll.js"></script>
-  <script src="{{ publicPath }}example-common.js"></script>
+  <script src="../../vendor.dll.js"></script>
+  <script src="../../example-common.js"></script>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 {% for file in example.files %}
   {% for asset in file.assets %}
     {% if asset.type == 'js' %}
-      <script src="{{ publicPath }}{{ asset.path }}"></script>
+      <script src="../../{{ asset.path }}"></script>
     {% endif %}
   {% endfor %}
 {% endfor %}

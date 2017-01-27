@@ -1,7 +1,7 @@
 import debounce from 'mout/function/debounce';
 import 'dom4';
 
-import {getWindowHeight, getDocumentScrollTop} from '../dom/dom';
+import {getWindowHeight, getDocumentScrollTop} from '../global/dom';
 
 import './docked-panel-ng.scss';
 

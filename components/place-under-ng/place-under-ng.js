@@ -11,7 +11,7 @@ import 'dom4';
 import debounce from 'mout/function/debounce';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import {getDocumentScrollTop} from '../dom/dom';
+import {getDocumentScrollTop} from '../global/dom';
 
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);

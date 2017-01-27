@@ -1,7 +1,7 @@
 import 'dom4';
 import Combokeys from 'combokeys';
 import 'core-js/modules/es6.array.find-index';
-import sniffr from '../sniffer/sniffer';
+import sniffr from '../global/sniffer';
 
 class Shortcuts {
   ALLOW_SHORTCUTS_SELECTOR = '.ring-js-shortcuts';
