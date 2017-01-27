@@ -51,7 +51,6 @@ module.exports = params => generators.Base.extend({
 
       const ringUIComponentsPath = path.relative(componentPath, path.join(path.dirname(ringUIPath), 'components'));
       const ringUIRoot = isRingUI ? ringUIComponentsPath : `${RING_UI_PACKAGE}/components`;
-      const ringUIRootCss = isRingUI ? ringUIRoot : `${RING_UI_PACKAGE}/components`;
 
       const className = isRingUI ? RING_UI_CLASS_PREFIX + paramCaseName : paramCaseName;
       const pascalCaseName = changeCase.pascalCase(componentName);
@@ -72,7 +71,6 @@ module.exports = params => generators.Base.extend({
         paramCaseName,
         paramCaseNameSuffix,
         ringUIRoot,
-        ringUIRootCss,
         titleCaseName
       };
 
