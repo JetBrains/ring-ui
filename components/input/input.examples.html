@@ -1,26 +1,28 @@
 <example name="input">
-  <file type="scss">
+  <file type="css">
     body {
       margin: 0;
     }
 
-    .inputs {
-      display: flex;
-      flex-flow: column wrap;
-      max-height: 100vh;
-      margin-top: 8px;
-    }
+    :global {
+      .inputs {
+        display: flex;
+        flex-flow: column wrap;
+        max-height: 100vh;
+        margin-top: 8px;
+      }
 
-    .inputs > div {
-      margin: 0 16px;
+      .inputs > div {
+        margin: 0 16px;
+      }
     }
   </file>
 
-  <file name="index.html">
+  <file type="html">
     <div id="inputs"></div>
   </file>
 
-  <file name="index.js">
+  <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
 
