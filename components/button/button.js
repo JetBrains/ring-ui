@@ -100,7 +100,9 @@ export default class Button extends RingComponent {
               />
             </span>
           )}
-          <span>{children}</span>
+          {children && (
+            <span>{children}</span>
+          )}
         </span>
       </button>
     );
