@@ -87,6 +87,7 @@ class Row extends Component {
     const cells = [
       <Cell key="meta" className={style.metaColumn}>
         {draggable && <DragHandle/>}
+        {draggable && <span>&nbsp;</span>}
         {selectable &&
         <Checkbox
           className={focused ? 'ring-checkbox_focus' : ''}
