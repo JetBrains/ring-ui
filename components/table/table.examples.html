@@ -89,6 +89,7 @@
               columns={this.columns}
               selection={selection}
               onSelect={selection => this.setState({selection})}
+              onReorder={data => this.setState({data})}
               onSort={this.onSort}
               sortKey={sortKey}
               sortOrder={sortOrder}
