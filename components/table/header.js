@@ -12,6 +12,7 @@ export default class Header extends Component {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
+    draggable: PropTypes.bool,
     checked: PropTypes.bool,
     onCheckboxChange: PropTypes.func,
     columns: PropTypes.array.isRequired,
@@ -30,9 +31,15 @@ export default class Header extends Component {
   }
 
   render() {
-    const {caption, selectable, checked, onCheckboxChange, columns, onSort, sortKey, sortOrder} = this.props;
+    const {caption, selectable, draggable, checked, onCheckboxChange, columns, onSort, sortKey, sortOrder} = this.props;
 
     const headerCells = [];
+
+    if (draggable) {
+      headerCells.push(
+        <th key="drag" className={classNames(style.headerCell, style.cellCheckbox)} />
+      );
+    }
 
     if (selectable && !caption) {
       headerCells.push(

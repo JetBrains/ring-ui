@@ -3,6 +3,7 @@
 import 'core-js/modules/es6.number.is-finite';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import {sortableHandle} from 'react-sortable-hoc';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 
@@ -11,6 +12,8 @@ import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
+const DragHandle = sortableHandle(() => <span className={style.dragHandle}>::</span>);
+
 class Row extends Component {
   static propTypes = {
     className: PropTypes.string,
@@ -18,6 +21,7 @@ class Row extends Component {
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
+    draggable: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
@@ -27,6 +31,7 @@ class Row extends Component {
   static defaultProps = {
     selectable: true,
     focused: false,
+    draggable: false,
     selected: false,
     onHover: () => {},
     onSelect: () => {},
@@ -60,7 +65,7 @@ class Row extends Component {
   }
 
   render() {
-    const {item, columns, selectable, selected, focused} = this.props;
+    const {item, columns, selectable, selected, focused, draggable} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -68,6 +73,15 @@ class Row extends Component {
     });
 
     const cells = [];
+
+    if (draggable) {
+      const checkboxCell = (
+        <Cell key="draggable" className={style.cellCheckbox}>
+          <DragHandle/>
+        </Cell>
+      );
+      cells.push(checkboxCell);
+    }
 
     if (selectable) {
       const checkboxCell = (
