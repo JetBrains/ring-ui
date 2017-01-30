@@ -21,6 +21,7 @@
         selection: new Selection(),
         caption: undefined,
         selectable: true,
+        draggable: false,
         total,
         page: 1,
         pageSize,
@@ -79,7 +80,7 @@
       }
 
       render() {
-        const {data, caption, selectable, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable, page, pageTotal, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
@@ -93,6 +94,7 @@
               sortOrder={sortOrder}
               caption={caption}
               selectable={selectable}
+              draggable={draggable}
               autofocus={true}
             />
 
@@ -107,6 +109,11 @@
                 : <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
               }
               {" "}
+              {
+                draggable
+                ? <Button onClick={() => this.setState({draggable: false})}>Non-draggable</Button>
+                : <Button onClick={() => this.setState({draggable: true})}>Draggable</Button>
+              }
               {
                 caption
                 ? <Button onClick={() => this.setState({caption: undefined})}>Without a caption</Button>
