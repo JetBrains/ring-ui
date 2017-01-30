@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, dark-gray-color, gray-color, main-color, error-color, ease, fast-ease from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, dark-gray-color, gray-color, main-color, error-color, ease, fast-ease, blue-caret from  "../global/global.css";
 
 .container {
   composes: font-lower;
@@ -20,8 +20,10 @@
   border: none;
   outline: none;
   background: transparent;
+  composes: blue-caret;
 
   &::placeholder {
+    text-shadow: none;
     color: transparent;
   }
 
@@ -68,16 +70,18 @@ textarea.input {
   top: calc(unit / 2);
 }
 
-input:focus::placeholder {
+.noLabel .input::placeholder,
+.input:focus::placeholder {
   color: gray-color;
-  transition: color ease;
+  text-shadow: 0px 0px 0px gray-color;
+  transition: color ease, text-shadow ease;
 }
 
-input:focus ~ .label {
+.input:focus ~ .label {
   color: main-color;
 }
 
-.error > input:focus ~ .label {
+.error > .input:focus ~ .label {
   color: error-color;
 }
 
