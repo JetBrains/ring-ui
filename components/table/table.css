@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color from global;
+@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color from global;
 
 @value dirty-blue-color: #D4EDFA;
 
@@ -204,16 +204,27 @@
 }
 
 .dragHandle {
+  display: none;
   cursor: grab;
   position: absolute;
   padding: unit;
-  margin-top: -calc(unit);
-  margin-left: -calc(unit * 3);
+  color: gray-color;
+  margin-top: -calc(unit * 1.5);
+  margin-left: -calc(unit * 3.5);
+
+  &:hover {
+    color: link-hover-color;
+  }
+}
+
+.row:hover .dragHandle {
+  display: block;
 }
 
 .draggingRow {
   & .dragHandle {
     cursor: grabbing;
+    color: link-hover-color;
   }
 
   vertical-align: middle;
