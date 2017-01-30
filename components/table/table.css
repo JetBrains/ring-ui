@@ -45,6 +45,9 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
+    &:empty {
+      padding-left: 0;
+    }
   }
 
   &:last-child {
@@ -108,6 +111,9 @@
 
   & .headerCell:first-child {
     padding-left: calc(unit * 4);
+    &:empty {
+      padding-left: 0;
+    }
   }
 }
 
@@ -168,6 +174,9 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
+    &:empty {
+      padding-left: 0;
+    }
   }
 
   &:last-child {
@@ -175,12 +184,7 @@
     width: 100%;
   }
 
-  @nest .table:not(.selectable) &:nth-child(1) {
-    min-width: 320px;
-    max-width: 640px;
-  }
-
-  @nest .table.selectable &:nth-child(2) {
+  @nest .table &:nth-child(2) {
     min-width: 320px;
     max-width: 640px;
   }
@@ -194,15 +198,23 @@
   text-align: right;
 }
 
-.cellCheckbox {
+.metaColumn {
   padding-right: 0;
   min-width: initial;
 }
 
 .dragHandle {
   cursor: grab;
+  position: absolute;
+  padding: unit;
+  margin-top: -calc(unit);
+  margin-left: -calc(unit * 3);
 }
 
-.dragHandleActive {
-  cursor: grabbing;
+.draggingRow {
+  & .dragHandle {
+    cursor: grabbing;
+  }
+
+  vertical-align: middle;
 }

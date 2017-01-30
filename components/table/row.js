@@ -12,7 +12,7 @@ import Checkbox from '../checkbox/checkbox';
 
 import style from './table.css';
 
-const DragHandle = sortableHandle(() => <span className={style.dragHandle}>::</span>);
+const DragHandle = sortableHandle(() => <span className={style.dragHandle}>{'::'}</span>);
 
 class Row extends Component {
   static propTypes = {
@@ -72,31 +72,19 @@ class Row extends Component {
       [style.rowSelected]: selected
     });
 
-    const cells = [];
-
-    if (draggable) {
-      const checkboxCell = (
-        <Cell key="draggable" className={style.cellCheckbox}>
-          <DragHandle/>
-        </Cell>
-      );
-      cells.push(checkboxCell);
-    }
-
-    if (selectable) {
-      const checkboxCell = (
-        <Cell key="checkbox" className={style.cellCheckbox}>
-          <Checkbox
-            className={focused ? 'ring-checkbox_focus' : ''}
-            checked={selected}
-            onFocus={this.onCheckboxFocus}
-            onChange={this.onCheckboxChange}
-            tabIndex="-1"
-          />
-        </Cell>
-      );
-      cells.push(checkboxCell);
-    }
+    const cells = [
+      <Cell key="meta" className={style.metaColumn}>
+        {draggable && <DragHandle/>}
+        {selectable &&
+        <Checkbox
+          className={focused ? 'ring-checkbox_focus' : ''}
+          checked={selected}
+          onFocus={this.onCheckboxFocus}
+          onChange={this.onCheckboxChange}
+          tabIndex="-1"
+        />}
+      </Cell>
+    ];
 
     columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
