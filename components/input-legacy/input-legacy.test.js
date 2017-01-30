@@ -2,7 +2,7 @@ import 'dom4';
 import TestUtils from 'react-addons-test-utils';
 import Input from './input-legacy';
 
-describe('Input', () => {
+describe('Input Legacy', () => {
   const renderComponent = params => TestUtils.renderIntoDocument(Input.factory(params));
 
   it('should create component', () => {

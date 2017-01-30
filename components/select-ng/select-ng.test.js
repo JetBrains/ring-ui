@@ -6,6 +6,8 @@ import 'angular-mocks';
 import SelectNg from './select-ng';
 import Select from '../select/select';
 
+import styles from '../select/select.css';
+
 describe('Select Ng', () => {
   let scope;
   let element;
@@ -42,13 +44,13 @@ describe('Select Ng', () => {
     });
 
     it('Should render select inside container', () => {
-      element[0].should.contain('.ring-select');
+      element[0].should.contain('[data-test=ring-select]');
     });
 
     it('Should not render select if type=dropdown', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" type="dropdown"></rg-select>');
 
-      element[0].should.not.contain('.ring-select');
+      element[0].should.not.contain('[data-test=ring-select]');
     });
   });
 
@@ -232,7 +234,7 @@ describe('Select Ng', () => {
     it('Should be disabled if disabled', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
 
-      element[0].should.contain('.ring-select_disabled');
+      element[0].should.contain(`.${styles.disabled}`);
     });
 
     it('Should hide on route changes ($locationChangeSuccess)', function () {
