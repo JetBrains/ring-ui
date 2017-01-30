@@ -16,6 +16,7 @@
     require('ring-ui/components/input-size/input-size.scss');
 
     var props = {
+      selectedLabel: "Option",
       filter: true
     };
 
@@ -161,7 +162,7 @@
     }
 
     render(
-      Select.factory({type: Select.Type.INPUT, data: data}),
+      Select.factory({type: Select.Type.INPUT, data: data, clear: true}),
       document.getElementById('demo')
     );
   </file>

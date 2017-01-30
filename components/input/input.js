@@ -14,10 +14,18 @@ import styles from './input.css';
  * @example-file ./input.examples.html
  */
 
+const Size = {
+  S: 'S',
+  M: 'M',
+  L: 'L'
+};
+
 export default class Input extends RingComponent {
+  static Size = Size;
+
   static propTypes = {
     className: PropTypes.string,
-    size: PropTypes.oneOf(['S', 'M', 'L']),
+    size: PropTypes.string,
     label: PropTypes.string,
     active: PropTypes.bool,
     error: PropTypes.string,
@@ -26,7 +34,7 @@ export default class Input extends RingComponent {
   };
 
   static defaultProps = {
-    size: 'M',
+    size: Size.M,
     onChange() {}
   };
 
@@ -34,19 +42,41 @@ export default class Input extends RingComponent {
     empty: true
   };
 
-  checkValue(el) {
+  checkValue() {
     this.setState({
-      empty: !el.value
+      empty: !this.input.value
     });
 
-    if (this.props.multiline && el.scrollHeight > el.clientHeight) {
-      el.style.height = `${el.scrollHeight}px`;
+    if (this.props.multiline && this.input.scrollHeight > this.input.clientHeight) {
+      this.stretch(this.input);
     }
+  }
+
+  stretch(el) {
+    el.style.height = `${el.scrollHeight}px`;
+  }
+
+  didMount() {
+    this.checkValue();
+    this.stretch(this.error);
   }
 
   shouldUpdate(nextProps, nextState) {
     return nextProps !== this.props || nextState.empty !== this.state.empty;
   }
+
+  didUpdate() {
+    this.checkValue();
+    this.stretch(this.error);
+  }
+
+  errorRef = el => {
+    this.error = el;
+  };
+
+  inputRef = el => {
+    this.input = el;
+  };
 
   render() {
     const {
@@ -67,20 +97,17 @@ export default class Input extends RingComponent {
     const classes = classNames(
       styles.container,
       className,
+      [styles[`size${size}`]],
       {
-        [styles[`size${size}`]]: true,
         [styles.active]: active,
         [styles.error]: error != null,
-        [styles.empty]: this.state.empty
+        [styles.empty]: this.state.empty,
+        [styles.noLabel]: !this.props.label
       }
     );
 
     const inputProps = {
-      ref: el => {
-        if (el) {
-          this.checkValue(el);
-        }
-      },
+      ref: this.inputRef,
       onChange: e => {
         onChange(e);
         this.checkValue(e.target);
@@ -93,6 +120,7 @@ export default class Input extends RingComponent {
     return (
       <div
         className={classes}
+        data-test="ring-input"
       >
         {multiline ? (
           <textarea
@@ -108,11 +136,7 @@ export default class Input extends RingComponent {
         <div className={styles.errorUnderline} />
         <div
           className={styles.errorText}
-          ref={el => {
-            if (el) {
-              el.style.height = `${el.scrollHeight}px`;
-            }
-          }}
+          ref={this.errorRef}
         >{error}</div>
       </div>
     );
