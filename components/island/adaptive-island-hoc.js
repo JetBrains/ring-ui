@@ -15,7 +15,6 @@ export default function adaptiveIslandHOC(ComposedComponent) {
 
     onContentScroll = ({scrollTop}) => {
       const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
-      console.log(phase);
       this.setState({phase});
     }
 
