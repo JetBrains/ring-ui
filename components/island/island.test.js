@@ -51,9 +51,8 @@ describe('Island', () => {
 
     it('should change header title font size', () => {
       const size = 24;
-      const fontSize = size - 16; // eslint-disable-line no-magic-numbers
       const titleNode = findDOMNode(renderIntoDocument(<Header size={size}/>)).querySelector(`.${styles.title}`);
-      titleNode.style.fontSize.should.equal(`${fontSize}px`);
+      titleNode.style.fontSize.should.equal('6.4px');
     });
   });
 });
