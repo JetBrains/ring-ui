@@ -184,7 +184,7 @@
     width: 100%;
   }
 
-  @nest .table &:nth-child(2) {
+  &:nth-child(2) {
     min-width: 320px;
     max-width: 640px;
   }
