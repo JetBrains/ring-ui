@@ -52,7 +52,8 @@ describe('Island', () => {
     it('should change header title font size', () => {
       const size = 24;
       const titleNode = findDOMNode(renderIntoDocument(<Header size={size}/>)).querySelector(`.${styles.title}`);
-      titleNode.style.fontSize.should.equal('6.4px');
+      const fontSize = parseFloat(titleNode.style.fontSize);
+      fontSize.should.be.closeTo(6.4, 0.1);
     });
   });
 });
