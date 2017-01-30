@@ -1,19 +1,17 @@
 <example name="Button">
 
   <file type="css">
-    :global{
-      .buttons > button {
-        margin: 8px;
-      }
+    :global(.buttons) > button {
+      margin: 8px;
+    }
 
-      .dark {
-        background: #000;
-      }
+    :global(.dark) {
+      background: #000;
+    }
 
-      .inline {
-        display: inline-block;
-        padding: 8px;
-      }
+    :global(.inline) {
+      display: inline-block;
+      padding: 8px;
     }
   </file>
 
