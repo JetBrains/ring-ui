@@ -8,6 +8,7 @@ import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 import simulateKeypress from 'simulate-keypress';
 
+import styles from './select.css';
 
 describe('Select', () => {
   const testData = [
@@ -18,15 +19,19 @@ describe('Select', () => {
   ];
 
   beforeEach(function () {
-    this.select = renderIntoDocument(React.createElement(Select, {
-      data: testData,
-      selected: testData[0],
-      onChange: this.sinon.spy(),
-      onFilter: this.sinon.spy(),
-      onFocus: this.sinon.spy(),
-      onBlur: this.sinon.spy(),
-      filter: true
-    }));
+    this.renderSelect = props => {
+      this.select = renderIntoDocument(React.createElement(Select, {
+        data: testData,
+        selected: testData[0],
+        onChange: this.sinon.spy(),
+        onFilter: this.sinon.spy(),
+        onFocus: this.sinon.spy(),
+        onBlur: this.sinon.spy(),
+        filter: true,
+        ...props
+      }));
+    };
+    this.renderSelect({});
   });
 
   it('Should initialize', function () {
@@ -45,7 +50,7 @@ describe('Select', () => {
   });
 
   it('Should take provided className', function () {
-    this.select.rerender({className: 'foo-bar'});
+    this.renderSelect({className: 'foo-bar'});
     this.select.node.should.have.class('foo-bar');
   });
 
@@ -55,12 +60,12 @@ describe('Select', () => {
   });
 
   it('should update rendered data if props change', function () {
-    this.select.rerender({data: [testData[0]]});
+    this.renderSelect({data: [testData[0]]});
     this.select.state.shownData.should.deep.equal([testData[0]]);
   });
 
   it('Should use selectedLabel for select button title if provided', function () {
-    this.select.rerender({
+    this.renderSelect({
       selected: {
         key: 1, label: 'test1', selectedLabel: 'testLabel'
       }
@@ -91,7 +96,7 @@ describe('Select', () => {
   });
 
   it('Should clear selected when rerendering with no selected item', function () {
-    this.select.rerender({selected: null});
+    this.renderSelect({selected: null});
     expect(this.select.state.selected).to.be.null;
   });
 
@@ -109,16 +114,16 @@ describe('Select', () => {
   });
 
   it('Should open popup on key handling if not opened', function () {
+    this.renderSelect({type: Select.Type.INPUT});
     this.select._showPopup = this.sinon.spy();
-    this.select.rerender({type: Select.Type.INPUT});
     this.select.setState({focused: true});
     this.select._inputShortcutHandler();
     this.select._showPopup.should.been.calledOnce;
   });
 
   it('Should not open popup if disabled', function () {
+    this.renderSelect({disabled: true});
     this.select._showPopup = this.sinon.spy();
-    this.select.rerender({disabled: true});
     this.select._clickHandler();
     this.select._showPopup.should.not.been.called;
   });
@@ -131,105 +136,106 @@ describe('Select', () => {
   });
 
   it('Should call onAdd on adding', function () {
-    this.select.rerender({onAdd: this.sinon.spy()});
+    this.renderSelect({onAdd: this.sinon.spy()});
     this.select.addHandler();
     this.select.props.onAdd.should.been.calledOnce;
   });
 
   it('Should call onFocus on input focus', function () {
-    this.select.rerender({type: Select.Type.INPUT});
+    this.renderSelect({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.focus(this.select.filter.node);
+    TestUtils.Simulate.focus(this.select.filter);
     this.select.props.onFocus.should.been.called;
   });
 
   it('Should call onBlur on input blur', function () {
-    this.select.rerender({type: Select.Type.INPUT});
+    this.renderSelect({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.blur(this.select.filter.node);
+    TestUtils.Simulate.blur(this.select.filter);
     this.select.props.onBlur.should.been.called;
   });
 
   it('Should close popup if input lost focus in INPUT mode', function () {
     this.sinon.useFakeTimers();
-    this.select.rerender({type: Select.Type.INPUT});
+    this.renderSelect({type: Select.Type.INPUT});
     this.select._showPopup();
 
-    TestUtils.Simulate.blur(this.select.filter.node);
+    TestUtils.Simulate.blur(this.select.filter);
     this.sinon.clock.tick();
     this.select._popup.props.hidden.should.be.true;
   });
 
   it('Should not close popup while clicking on popup in INPUT mode', function () {
     this.sinon.useFakeTimers();
-    this.select.rerender({type: Select.Type.INPUT});
+    this.renderSelect({type: Select.Type.INPUT});
     this.select._showPopup();
 
     TestUtils.Simulate.mouseDown(this.select._popup.list.node);
-    TestUtils.Simulate.blur(this.select.filter.node);
+    TestUtils.Simulate.blur(this.select.filter);
     this.sinon.clock.tick();
     this.select._popup.props.hidden.should.be.false;
   });
 
   describe('DOM', () => {
     it('Should place select button inside container', function () {
-      this.select.node.should.have.class('ring-select');
+      this.select.node.should.have.class(styles.select);
     });
 
     it('Should disable select button if needed', function () {
-      this.select.rerender({
+      this.renderSelect({
         disabled: true
       });
-      this.select.node.should.have.class('ring-select_disabled');
-      this.select.node.should.have.attr('disabled');
+      this.select.node.should.have.class(styles.disabled);
+      this.select.button.should.have.attr('disabled');
     });
 
     it('Should not disable select button if not needed', function () {
-      this.select.rerender({
+      this.renderSelect({
         disabled: false
       });
-      this.select.node.should.not.have.attr('disabled');
+      this.select.button.should.not.have.attr('disabled');
     });
 
     it('Should place input inside in INPUT mode', function () {
-      this.select.rerender({type: Select.Type.INPUT});
+      this.renderSelect({type: Select.Type.INPUT});
+      this.select.node.should.contain('input');
     });
 
     it('Should place icons inside', function () {
-      this.select.node.should.contain('.ring-select__icons');
+      this.select.node.should.contain(`.${styles.icons}`);
     });
 
     it('Should add selected item icon to button', function () {
-      this.select.rerender({
+      this.renderSelect({
         selected: {
           key: 1,
           label: 'test',
           icon: 'fakeImageUrl'
         }
       });
-      this.select.node.should.contain('.ring-select__selected-icon');
+      this.select.node.should.contain(`.${styles.selectedIcon}`);
     });
 
     it('Should not display selected item icon if it is not provided', function () {
-      this.select.rerender({selected: {key: 1, label: 'test', icon: null}});
-      this.select.node.should.not.contain('.ring-select__selected-icon');
+      this.renderSelect({selected: {key: 1, label: 'test', icon: null}});
+      this.select.node.should.not.contain(`.${styles.selectedIcon}`);
     });
 
     it('Should display selected item icon', function () {
-      this.select.rerender({
+      this.renderSelect({
         selected: {
           key: 1,
           label: 'test',
           icon: 'http://fake.image/'
         }
       });
-      const icon = this.select.node.querySelector('.ring-select__selected-icon');
+      const icon = this.select.node.querySelector(`.${styles.selectedIcon}`);
       expect(icon.style.backgroundImage).to.contain('http://fake.image/');
     });
 
     it('Should place icons inside in INPUT mode', function () {
-      this.select.rerender({type: Select.Type.INPUT});
-      this.select.node.should.contain('.ring-select__icons');
+      this.renderSelect({type: Select.Type.INPUT});
+      this.select.node.should.contain(`.${styles.icons}`);
     });
 
     it('Should open select dropdown on click', function () {
@@ -241,44 +247,44 @@ describe('Select', () => {
 
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', function () {
-        this.select.rerender({add: true});
+        this.renderSelect({add: true});
         this.select.filterValue = this.sinon.stub().returns('');
         this.select._showPopup();
-        this.select._popup.popup.popup.should.not.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.not.contain(`.${styles.button}`);
       });
 
       it('Should add "Add" button if enabled and filter query not empty', function () {
-        this.select.rerender({add: true});
+        this.renderSelect({add: true});
         this.select.filterValue = this.sinon.stub().returns('test');
         this.select._showPopup();
-        this.select._popup.popup.popup.should.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.contain(`.${styles.button}`);
       });
 
       it('Should add "Add" button if alwaysVisible is set', function () {
-        this.select.rerender({
+        this.renderSelect({
           add: {
             alwaysVisible: true
           }
         });
         this.select._showPopup();
-        this.select._popup.popup.popup.should.contain('.ring-select__button');
+        this.select._popup.popup.popup.should.contain(`.${styles.button}`);
       });
 
       it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
-        this.select.rerender({
+        this.renderSelect({
           add: {
             alwaysVisible: true,
             label: 'Add Something'
           }
         });
         this.select._showPopup();
-        const addButton = this.select._popup.popup.popup.query('.ring-select__button');
+        const addButton = this.select._popup.popup.popup.query(`.${styles.button}`);
 
         addButton.should.contain.text('Add Something');
       });
 
       it('Should add hint if specified', function () {
-        this.select.rerender({
+        this.renderSelect({
           hint: 'blah blah'
         });
         this.select._showPopup();
@@ -286,7 +292,7 @@ describe('Select', () => {
       });
 
       it('Hint should be placed under "add" button', function () {
-        this.select.rerender({
+        this.renderSelect({
           add: true,
           hint: 'blah blah'
         });
@@ -316,7 +322,7 @@ describe('Select', () => {
         key: 1,
         description: 'test'
       }];
-      this.select.rerender({data: separators});
+      this.renderSelect({data: separators});
 
       const filtered = this.select.getListItems('foo');
       filtered.should.deep.equal(separators);
@@ -325,18 +331,18 @@ describe('Select', () => {
     it('Should use custom filter.fn if provided', function () {
       const filterStub = this.sinon.stub().returns(true);
 
-      this.select.rerender({
+      this.renderSelect({
         filter: {fn: filterStub}
       });
 
       const filtered = this.select.getListItems('test3');
 
       filtered.length.should.equal(testData.length);
-      filterStub.should.have.callCount(4);
+      filterStub.should.have.callCount(8);
     });
 
     it('Should write filter query on add button if enabled', function () {
-      this.select.rerender({
+      this.renderSelect({
         add: {
           prefix: 'Add some'
         }
@@ -355,7 +361,7 @@ describe('Select', () => {
         focused: true,
         showPopup: true
       });
-      TestUtils.Simulate.input(this.select._popup.filter.node);
+      TestUtils.Simulate.input(this.select._popup.filter);
       this.select.props.onFilter.should.been.called;
     });
 
@@ -366,7 +372,7 @@ describe('Select', () => {
     });
 
     it('Should open popup on input changes if in focus', function () {
-      this.select.rerender({type: Select.Type.INPUT});
+      this.renderSelect({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
       this.select.filterValue = this.sinon.stub().returns('a');
       this.select.setState({focused: true});
@@ -375,7 +381,7 @@ describe('Select', () => {
     });
 
     it('should filter if not focused but not in input mode', function () {
-      this.select.rerender({type: Select.Type.BUTTON});
+      this.renderSelect({type: Select.Type.BUTTON});
       this.sinon.spy(this.select, 'filterValue');
       this.select._filterChangeHandler();
 
@@ -383,7 +389,7 @@ describe('Select', () => {
     });
 
     it('Should not open popup on input changes if not in focus', function () {
-      this.select.rerender({type: Select.Type.INPUT});
+      this.renderSelect({type: Select.Type.INPUT});
 
       this.select._showPopup = this.sinon.spy();
       this.select._filterChangeHandler();
@@ -391,28 +397,28 @@ describe('Select', () => {
     });
 
     it('Should return empty string if not input mode and filter is disabled', function () {
-      this.select.rerender({filter: false, type: Select.Type.BUTTON});
+      this.renderSelect({filter: false, type: Select.Type.BUTTON});
 
       this.select.filterValue().should.equal('');
     });
 
     it('Should return input value if input mode enabled', function () {
-      this.select.rerender({filter: false, type: Select.Type.INPUT});
-      this.select.filter.node.value = 'test input';
+      this.renderSelect({filter: false, type: Select.Type.INPUT});
+      this.select.filter.value = 'test input';
       this.select.filterValue().should.equal('test input');
     });
 
     it('Should set value to popup input if passed', function () {
       this.select._showPopup();
       this.select.filterValue('test');
-      this.select._popup.filter.node.value.should.equal('test');
+      this.select._popup.filter.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', function () {
-      this.select.rerender({filter: false, type: Select.Type.INPUT});
+      this.renderSelect({filter: false, type: Select.Type.INPUT});
 
       this.select.filterValue('test');
-      this.select.filter.node.value.should.equal('test');
+      this.select.filter.value.should.equal('test');
     });
   });
 
@@ -422,13 +428,17 @@ describe('Select', () => {
     beforeEach(function () {
       selectedArray = testData.slice(0, 2);
 
-      this.select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        selected: selectedArray,
-        filter: true,
-        multiple: true,
-        onChange: this.sinon.spy()
-      }));
+      this.renderSelect = props => {
+        this.select = renderIntoDocument(React.createElement(Select, {
+          data: testData,
+          selected: selectedArray,
+          filter: true,
+          multiple: true,
+          onChange: this.sinon.spy(),
+          ...props
+        }));
+      };
+      this.renderSelect();
 
       /**
        * Disable code running in setTimeout to avoid side effects
@@ -459,7 +469,7 @@ describe('Select', () => {
     });
 
     it('Should detect selection is empty according on empty array', function () {
-      this.select.rerender({selected: []});
+      this.renderSelect({selected: []});
       this.select._selectionIsEmpty().should.be.true;
     });
 
@@ -475,12 +485,12 @@ describe('Select', () => {
     });
 
     it('Should clear selected when rerendering with no selected item in multiple mode', function () {
-      this.select.rerender({selected: null});
+      this.renderSelect({selected: null});
       this.select.state.selected.should.deep.equal([]);
     });
 
     it('Should update selected checkboxes on selected update', function () {
-      this.select.rerender({selected: []});
+      this.renderSelect({selected: []});
       this.select.getListItems(this.select.filterValue())[0].checkbox.should.be.false;
     });
 
@@ -511,7 +521,7 @@ describe('Select', () => {
       });
 
       it('Should call onDeselect on deselecting item', function () {
-        this.select.rerender({
+        this.renderSelect({
           onDeselect: this.sinon.spy()
         });
         this.select._listSelectHandler(testData[0]);
@@ -564,7 +574,7 @@ describe('Select', () => {
     });
 
     it('Should set call onSelect on selecting', function () {
-      this.select.rerender({
+      this.renderSelect({
         onSelect: this.sinon.spy()
       });
       this.select._listSelectHandler(testData[1]);
@@ -572,7 +582,7 @@ describe('Select', () => {
     });
 
     it('Should set call onChange on selecting', function () {
-      this.select.rerender({
+      this.renderSelect({
         onChange: this.sinon.spy()
       });
       this.select._listSelectHandler(testData[1]);
@@ -588,7 +598,7 @@ describe('Select', () => {
 
   describe('Popup', () => {
     it('Should pass loading message and indicator to popup if loading', function () {
-      this.select.rerender({loading: true, loadingMessage: 'test message'});
+      this.renderSelect({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.props.message.should.equal('test message');
@@ -596,7 +606,7 @@ describe('Select', () => {
     });
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
-      this.select.rerender({data: [], notFoundMessage: 'test not found'});
+      this.renderSelect({data: [], notFoundMessage: 'test not found'});
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.props.message.should.equal('test not found');
@@ -610,7 +620,7 @@ describe('Select', () => {
 
       this.select._showPopup();
       this.select._hidePopup();
-      document.activeElement.should.equal(this.select.node);
+      document.activeElement.should.equal(this.select.button);
     });
 
     describe('Focus after close', () => {

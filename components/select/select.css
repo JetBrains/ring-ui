@@ -1,0 +1,169 @@
+@value unit, font, font-smaller-lower, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
+
+.select {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+  color: text-color;
+}
+
+.message {
+  display: inline-block;
+  margin: unit 0;
+  padding: 0 calc(2 * unit);
+  text-align: center;
+}
+
+.toolbar {
+  border-top: 1px solid line-color;
+}
+
+.button {
+  &&& {
+    margin: unit 0;
+    padding: 0 calc(2 * unit);
+    text-align: left;
+    width: 100%;
+    height: calc(4 * unit);
+  }
+}
+
+.icons {
+  line-height: calc(unit * 4px);
+  position: absolute;
+  transition: color ease;
+  top: -3px;
+  right: 0;
+
+  :global(.ring-loader.ring-loader_inline) {
+    top: 2px;
+    margin-right: 2px;
+  }
+
+  @nest .inputMode & {
+    top: 13px;
+  }
+}
+
+.selectedIcon {
+  display: inline-block;
+  width: calc(2 * unit);
+  height: calc(2 * unit);
+  margin: 0 unit;
+
+  vertical-align: middle;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.clearIcon {
+  &&& {
+    padding: 0;
+    vertical-align: -2px;
+  }
+}
+
+.sizeS {
+  width: calc(unit * 12);
+}
+
+.sizeM {
+  width: calc(unit * 30);
+}
+
+.sizeL {
+  width: calc(unit * 50);
+}
+
+.buttonMode {
+  margin: calc(unit * 2) 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.value {
+  composes: ellipsis;
+  composes: font;
+  cursor: pointer;
+  text-align: left;
+  display: inline-block;
+  height: calc(unit * 4);
+  width: 100%;
+  vertical-align: top;
+  border: none;
+  border-bottom: 1px solid line-color;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+  padding: 0;
+  transition: color ease, border-color ease;
+
+  @nest .select:hover &,
+  &:focus {
+    &, & + .icons {
+      color: main-color;
+      transition: none;
+    }
+  }
+
+  &:focus {
+    border-color: main-color;
+  }
+
+  &.open, &:active {
+    border-color: transparent;
+  }
+
+  &::-moz-focus-inner {
+    outline: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  color: gray-color;
+
+  & .value {
+    border-bottom-style: dashed;
+    color: gray-color;
+  }
+}
+
+.label {
+  position: relative;
+  color: dark-gray-color;
+}
+
+.selectedLabel {
+  position: absolute;
+  composes: font-smaller-lower;
+  color: dark-gray-color;
+  top: calc(- unit * 1.5);
+}
+
+.filter {
+  width: 100%;
+  height: calc(unit * 4);
+  padding: 0 0 0 calc(unit * 5.5);
+  font: inherit;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid line-color;
+  composes: blue-caret;
+}
+
+.filterWrapper {
+  position: relative;
+}
+
+.filterIcon {
+  position: absolute;
+  left: calc(unit * 2);
+  top: 3px;
+  color: dark-gray-color;
+}
+

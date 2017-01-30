@@ -11,7 +11,7 @@ gemini.suite('Autofocus Ng', () => {
   gemini.suite('select', child => {
     child.
       setUrl('/autofocus-ng/autofocus-on-select.html').
-      setCaptureElements('.ring-select').
+      setCaptureElements('[data-test=ring-select]').
       capture('autofocused-select');
   });
 });

@@ -115,6 +115,16 @@
   text-overflow: ellipsis;
 }
 
+.blue-caret {
+  caret-color: main-color;
+
+  @supports not (caret-color: white) {
+    color: main-color;
+    text-shadow: 0px 0px 0px text-color;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 /* Common z-index-values */
 
 /* Invisible element is an absolutely positioned element which should be below */

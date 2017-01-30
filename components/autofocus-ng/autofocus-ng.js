@@ -7,7 +7,7 @@
 /* global angular */
 
 const angularModule = angular.module('Ring.autofocus', []);
-const RING_SELECT_SELECTOR = '.ring-select';
+const RING_SELECT_SELECTOR = '[data-test=ring-select__focus]';
 const RING_SELECT = 'rg-select';
 
 angularModule.directive('rgAutofocus', () => {
