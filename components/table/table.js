@@ -20,7 +20,7 @@ import Selection from './selection';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
-import {sortableContainer, sortableElement} from 'react-sortable-hoc';
+import {sortableContainer, sortableElement, arrayMove} from 'react-sortable-hoc';
 
 import Shortcuts from '../shortcuts/shortcuts';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -39,7 +39,7 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
   return <Row {...props} />;
 });
 
-const DraggableTable = sortableContainer(props => {
+const DraggableRows = sortableContainer(props => {
   const {data, ...restProps} = props;
   return (
     <tbody>
@@ -63,6 +63,7 @@ class Table extends Component {
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
     onSort: PropTypes.func,
+    onReorder: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool
@@ -75,6 +76,7 @@ class Table extends Component {
     onFocusRestore: () => {},
     onSelect: () => {},
     onSort: () => {},
+    onReorder: () => {},
     sortKey: 'id',
     sortOrder: true,
     draggable: false
@@ -123,6 +125,11 @@ class Table extends Component {
     } else {
       onSelect(selection.deselect(row));
     }
+  }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    const reorderedData = arrayMove(this.props.data, oldIndex, newIndex);
+    this.props.onReorder(reorderedData);
   }
 
   onUpPress = () => {
@@ -330,11 +337,12 @@ class Table extends Component {
 
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
-          <DraggableTable
+          <DraggableRows
             /* Sortable props */
             useDragHandle={true}
             disabled={!draggable}
             helperClass={style.dragHandleActive}
+            onSortEnd={this.onSortEnd.bind(this)}
 
             /* Row props */
             draggable={draggable}
