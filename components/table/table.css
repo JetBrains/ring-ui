@@ -198,3 +198,11 @@
   padding-right: 0;
   min-width: initial;
 }
+
+.dragHandle {
+  cursor: grab;
+}
+
+.dragHandleActive {
+  cursor: grabbing;
+}
