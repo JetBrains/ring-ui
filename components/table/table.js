@@ -312,7 +312,7 @@ class Table extends Component {
       }*/
     });
 
-    const headerProps = {caption, selectable, columns, draggable, onSort, sortKey, sortOrder};
+    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
     headerProps.checked = selection.getSelected().size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
@@ -341,7 +341,7 @@ class Table extends Component {
             /* Sortable props */
             useDragHandle={true}
             disabled={!draggable}
-            helperClass={style.dragHandleActive}
+            helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd.bind(this)}
 
             /* Row props */
