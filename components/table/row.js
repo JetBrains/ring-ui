@@ -4,7 +4,7 @@ import 'core-js/modules/es6.number.is-finite';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-import focusSensorFactory from '../global/focus-sensor-factory';
+import focusSensorHOC from '../global/focus-sensor-hoc';
 
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
@@ -113,4 +113,4 @@ class Row extends Component {
   }
 }
 
-export default focusSensorFactory(Row);
+export default focusSensorHOC(Row);
