@@ -3,16 +3,15 @@
   "version": "2.6.0",
   "description": "JetBrains UI library",
   "config": {
+    "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
     "development": {
       "port": 9999,
       "host": "0.0.0.0",
-      "hub": "***REMOVED***",
-      "clientId": "0-0-0-0-0"
+      "hub": "***REMOVED***"
     },
     "production": {
       "host": "ring-ui.github.io",
-      "hub": "https://hub.jetbrains.com",
-      "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698"
+      "hub": "https://hub.jetbrains.com"
     },
     "components": "./components/"
   },
