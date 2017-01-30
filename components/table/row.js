@@ -6,13 +6,25 @@ import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
+import dragIcon from 'jetbrains-icons/move.svg';
 
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
+import Icon from '../icon/icon';
 
 import style from './table.css';
 
-const DragHandle = sortableHandle(() => <span className={style.dragHandle}>{'::'}</span>);
+const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
+  return (
+    <div className={style.dragHandle}>
+      <Icon
+        className={style.clear}
+        glyph={dragIcon}
+        size={Icon.Size.Size14}
+      />
+    </div>
+  );
+});
 
 class Row extends Component {
   static propTypes = {
