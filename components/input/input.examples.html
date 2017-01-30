@@ -4,15 +4,13 @@
       margin: 0;
     }
 
-    :global {
-      .inputs {
-        display: flex;
-        flex-flow: column wrap;
-        max-height: 100vh;
-        margin-top: 8px;
-      }
+    :global(.inputs) {
+      display: flex;
+      flex-flow: column wrap;
+      max-height: 100vh;
+      margin-top: 8px;
 
-      .inputs > div {
+      & > div {
         margin: 0 16px;
       }
     }
