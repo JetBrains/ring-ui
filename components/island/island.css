@@ -16,6 +16,7 @@
 
 .header {
   line-height: calc(unit*4);
+  padding: 0 calc(unit*4);
 }
 
 .withBottomBorder {
@@ -27,13 +28,11 @@
 .title {
   display: block;
   float: left;
-
+  transform-origin: 0 50%;
   font-weight: bold;
-
-  padding: 0 calc(unit*4);
 }
 
-.narrowIsland .title {
+.narrowIsland .header {
   padding: 0 calc(unit*2);
 }
 

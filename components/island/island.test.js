@@ -3,7 +3,6 @@ import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import React from 'react';
 import Island, {AdaptiveIsland, Content, Header} from './island';
-import styles from './island.css';
 
 describe('Island', () => {
   const renderComponent = params => renderIntoDocument(<Island {...params}/>);
@@ -33,8 +32,8 @@ describe('Island', () => {
 
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
 
-      instance.onContentScroll({scrollTop: 8});
-      headerNode.style.lineHeight.should.equal('36px');
+      instance.onContentScroll({scrollTop: 10});
+      headerNode.style.lineHeight.should.equal('30px');
     });
   });
 
@@ -44,16 +43,9 @@ describe('Island', () => {
     });
 
     it('should change header size', () => {
-      const size = 22;
-      const node = findDOMNode(renderIntoDocument(<Header size={size}/>));
-      node.style.lineHeight.should.equal(`${size}px`);
-    });
-
-    it('should change header title font size', () => {
-      const size = 24;
-      const titleNode = findDOMNode(renderIntoDocument(<Header size={size}/>)).querySelector(`.${styles.title}`);
-      const fontSize = parseFloat(titleNode.style.fontSize);
-      fontSize.should.be.closeTo(6.4, 0.1);
+      const phase = 0.75;
+      const node = findDOMNode(renderIntoDocument(<Header phase={phase}/>));
+      node.style.lineHeight.should.equal('31px');
     });
   });
 });
