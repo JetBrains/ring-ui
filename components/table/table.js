@@ -7,7 +7,7 @@
  * @example-file ./table.examples.html
  */
 
-/* eslint-disable react/jsx-max-props-per-line, new-cap */
+/* eslint-disable react/jsx-max-props-per-line */
 
 import 'core-js/modules/es6.array.find';
 
@@ -20,17 +20,16 @@ import Selection from './selection';
 import Header from './header';
 import Row from './row';
 import style from './table.css';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 
 import Shortcuts from '../shortcuts/shortcuts';
 import LoaderInline from '../loader-inline/loader-inline';
 
-const DraggableRow = SortableElement(({item, key, columns, disabled, selectable, selection, onRowFocus, onRowSelect}) => {
+const DraggableRow = sortableElement(({item, columns, draggable, selectable, selection, onRowFocus, onRowSelect}) => {
   const props = {
     item,
-    key,
     columns,
-    disabled,
+    draggable,
     selectable,
     focused: selection.isFocused(item),
     selected: selectable && selection.isSelected(item),
@@ -40,7 +39,7 @@ const DraggableRow = SortableElement(({item, key, columns, disabled, selectable,
   return <Row {...props} />;
 });
 
-const DraggableTable = SortableContainer(props => {
+const DraggableTable = sortableContainer(props => {
   const {data, ...restProps} = props;
   return (
     <tbody>
@@ -306,7 +305,7 @@ class Table extends Component {
       }*/
     });
 
-    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
+    const headerProps = {caption, selectable, columns, draggable, onSort, sortKey, sortOrder};
     headerProps.checked = selection.getSelected().size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
@@ -332,8 +331,14 @@ class Table extends Component {
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
           <DraggableTable
-            data={data}
+            /* Sortable props */
+            useDragHandle={true}
             disabled={!draggable}
+            helperClass={style.dragHandleActive}
+
+            /* Row props */
+            draggable={draggable}
+            data={data}
             columns={columns}
             selectable={selectable}
             selection={selection}
