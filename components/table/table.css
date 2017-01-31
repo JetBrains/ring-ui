@@ -95,7 +95,7 @@
   }
 
   @nest .table:not(.multiSelection) &:focus,
-  &.rowSelected {
+  .rowSelected {
     background-color: sidebar-background-color;
   }
 
