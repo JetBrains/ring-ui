@@ -223,9 +223,11 @@
 
 .draggingRow {
   & .dragHandle {
+    display: block;
     cursor: grabbing;
     color: link-hover-color;
   }
 
+  background-color: #FFF;
   vertical-align: middle;
 }
