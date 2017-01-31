@@ -210,7 +210,7 @@
   padding: unit;
   color: gray-color;
   margin-top: -calc(unit * 1.5);
-  margin-left: -calc(unit * 3.5);
+  margin-left: -calc(unit * 3);
 
   &:hover {
     color: link-hover-color;

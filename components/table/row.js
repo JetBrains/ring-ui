@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
-import dragIcon from 'jetbrains-icons/move.svg';
+import dragIcon from 'jetbrains-icons/drag.svg';
 
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
