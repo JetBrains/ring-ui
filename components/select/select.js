@@ -2,6 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import SelectPopup from './select__popup';
 import List, {ListHint} from '../list/list';
@@ -64,7 +65,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     selected: null,       // current selection (item / array of items)
 
-    label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
+    label: '',  // BUTTON label or INPUT placeholder (nothing selected)
     selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
     hint: null,           // hint text to display under the list
 
@@ -206,7 +207,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({shownData});
     }
 
-    if ('selected' in props) {
+    if (props.selected !== null) {
       const selected = props.selected ? props.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
@@ -268,7 +269,7 @@ export default class Select extends RingComponentWithShortcuts {
         maxHeight={this.props.maxHeight}
         minWidth={this.props.minWidth}
         directions={this.props.directions}
-        className={this.props.popupClassName}
+        className={classNames(this.props.popupClassName, styles[`size${this.props.size}`])}
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
@@ -299,7 +300,6 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({showPopup: false});
 
       const restoreFocusNode = tryFocusAnchor && this.props.targetElement || this.node.query('[data-test=ring-select__focus]');
-
       restoreFocusNode.focus();
     }
   }
@@ -607,21 +607,13 @@ export default class Select extends RingComponentWithShortcuts {
     return (this.props.multiple && !this.state.selected.length) || !this.state.selected;
   }
 
-  _getSelectedLabel() {
-    if (this._selectionIsEmpty()) {
-      return this.props.label;
-    } else {
-      return this.props.selectedLabel || this._getSelectedString();
-    }
-  }
-
-  _getButtonLabel() {
-    return this._getSelectedLabel();
+  _getLabel() {
+    return this.props.label || this.props.selectedLabel || 'Please select option';
   }
 
   _getInputPlaceholder() {
     if (!this.props.allowAny) {
-      return this._getSelectedLabel();
+      return this._getLabel();
     } else {
       return '';
     }
@@ -679,6 +671,16 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     return icons;
+  }
+
+  _getAvatar() {
+    return this.state.selected && this.state.selected.avatar && (
+      <Avatar
+        className={styles.avatar}
+        url={this.state.selected.avatar}
+        size={AvatarSize.Size20}
+      />
+    );
   }
 
   popupRef = el => {
@@ -758,7 +760,8 @@ export default class Select extends RingComponentWithShortcuts {
             data-test="ring-select__focus"
             ref={this.buttonRef}
           >
-            {this._selectionIsEmpty() ? this.props.label : this._getSelectedString()}
+            {this._getAvatar()}
+            {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
           </button>
           {iconsNode}
           {this._renderPopup()}

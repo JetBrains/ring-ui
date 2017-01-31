@@ -254,3 +254,47 @@
     }), document.getElementById('list'));
   </file>
 </example>
+
+<example name="List of users">
+  <file type="html">
+    <div id='list'></div>
+  </file>
+  <file type="js">
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
+    import Loader from 'ring-ui/components/loader-inline/loader-inline'
+    import React, {Component} from 'react';
+    import Source from 'ring-ui/components/list/list__users-groups-source';
+    import hubConfig from 'ring-ui/site/hub-config';
+    import Auth from 'ring-ui/components/auth/auth';
+
+    class UserList extends Component {
+      state = {listData: null};
+      auth = new Auth(hubConfig);
+      source = new Source(this.auth);
+
+      componentDidMount() {
+        this.loadUsers();
+      }
+
+      async loadUsers() {
+        await this.auth.init();
+        const listData = await this.source.getForList('ring', Source.Filter.USERS);
+        this.setState({listData});
+      }
+
+      render() {
+        return this.state.listData ? (
+          <List
+            data={this.state.listData}
+            shortcuts={true}
+            onSelect={::console.log}
+          />
+        ) : <Loader />;
+      }
+    }
+
+    render(<UserList />, document.getElementById('list'));
+  </file>
+</example>
+
