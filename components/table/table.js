@@ -33,8 +33,8 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
     selectable,
     focused: selection.isFocused(item),
     selected: selectable && selection.isSelected(item),
-    onFocus: onRowFocus,
-    onSelect: onRowSelect
+    onFocus: selected => onRowFocus(item, selected),
+    onSelect: selected => onRowSelect(item, selected)
   };
   return <Row {...props} />;
 });
