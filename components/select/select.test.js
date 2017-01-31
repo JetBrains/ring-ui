@@ -658,12 +658,11 @@ describe('Select', () => {
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         TestUtils.Simulate.click(document.body);
 
-        document.activeElement.should.not.equal(targetInput.node);
+        targetInput.node.should.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', function () {
         this.select._hidePopup();
-
         document.activeElement.should.not.equal(targetInput.node);
       });
     });
