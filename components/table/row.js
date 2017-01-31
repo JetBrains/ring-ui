@@ -3,13 +3,28 @@
 import 'core-js/modules/es6.number.is-finite';
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
+import {sortableHandle} from 'react-sortable-hoc';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
+import dragIcon from 'jetbrains-icons/move.svg';
 
 import Cell from './cell';
 import Checkbox from '../checkbox/checkbox';
+import Icon from '../icon/icon';
 
 import style from './table.css';
+
+const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
+  return (
+    <div className={style.dragHandle}>
+      <Icon
+        className={style.clear}
+        glyph={dragIcon}
+        size={Icon.Size.Size14}
+      />
+    </div>
+  );
+});
 
 class Row extends Component {
   static propTypes = {
@@ -18,6 +33,7 @@ class Row extends Component {
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
+    draggable: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
@@ -27,6 +43,7 @@ class Row extends Component {
   static defaultProps = {
     selectable: true,
     focused: false,
+    draggable: false,
     selected: false,
     onHover: () => {},
     onSelect: () => {},
@@ -60,29 +77,27 @@ class Row extends Component {
   }
 
   render() {
-    const {item, columns, selectable, selected, focused} = this.props;
+    const {item, columns, selectable, selected, focused, draggable} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
       [style.rowSelected]: selected
     });
 
-    const cells = [];
-
-    if (selectable) {
-      const checkboxCell = (
-        <Cell key="checkbox" className={style.cellCheckbox}>
-          <Checkbox
-            className={focused ? 'ring-checkbox_focus' : ''}
-            checked={selected}
-            onFocus={this.onCheckboxFocus}
-            onChange={this.onCheckboxChange}
-            tabIndex="-1"
-          />
-        </Cell>
-      );
-      cells.push(checkboxCell);
-    }
+    const cells = [
+      <Cell key="meta" className={style.metaColumn}>
+        {draggable && <DragHandle/>}
+        {draggable && <span>&nbsp;</span>}
+        {selectable &&
+        <Checkbox
+          className={focused ? 'ring-checkbox_focus' : ''}
+          checked={selected}
+          onFocus={this.onCheckboxFocus}
+          onChange={this.onCheckboxChange}
+          tabIndex="-1"
+        />}
+      </Cell>
+    ];
 
     columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
