@@ -16,7 +16,8 @@
     require('ring-ui/components/input-size/input-size.scss');
 
     var props = {
-      selectedLabel: "Option",
+      selectedLabel: 'Option',
+      label: 'Please select option',
       filter: true
     };
 
@@ -41,6 +42,71 @@
     document.getElementById('clear').addEventListener('click', function () {
       select.rerender({selected: null});
     });
+  </file>
+</example>
+
+
+
+<example name="Select with server filtering">
+  <file type="html">
+    <div id='list'></div>
+  </file>
+  <file type="js">
+    import {render} from 'react-dom';
+    import Select from 'ring-ui/components/select/select';
+    import React, {Component} from 'react';
+    import Source from 'ring-ui/components/list/list__users-groups-source';
+    import hubConfig from 'ring-ui/site/hub-config';
+    import Auth from 'ring-ui/components/auth/auth';
+
+    const alwaysTrue = () => true;
+
+    class UserList extends Component {
+      state = {
+        users: [],
+        request: null
+      };
+      auth = new Auth(hubConfig);
+      source = new Source(this.auth);
+
+      componentDidMount() {
+        this.auth.init();
+        this.loadUsers();
+      }
+
+      loadUsers = async query => {
+        const request = this.source.getForList(query, Source.Filter.USERS);
+        this.setState({request});
+
+        const users = await request;
+
+        // only the latest request is relevant
+        if (this.state.request === request) {
+          this.setState({
+            users,
+            request: null
+          });
+        }
+      }
+
+      render() {
+        return (
+          <Select
+            data={this.state.users}
+            label="Add assignee"
+            selectedLabel="Assignee"
+            filter={{
+              placeholder: 'Search user',
+              fn: alwaysTrue // disable client filtering
+            }}
+            onFilter={this.loadUsers}
+            loading={!!this.state.request}
+          />
+        );
+      }
+    }
+
+    render(<UserList />, document.getElementById('list'));
   </file>
 </example>
 

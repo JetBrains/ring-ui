@@ -1,5 +1,6 @@
 import React, {PropTypes, PureComponent} from 'react';
 import classnames from 'classnames';
+import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon from '../icon/icon';
 import styles from './list.css';
 
@@ -18,6 +19,7 @@ export default class ListItem extends PureComponent {
       className,
       disabled,
       checkbox,
+      avatar,
       glyph,
       icon,
       rightGlyph,
@@ -66,6 +68,13 @@ export default class ListItem extends PureComponent {
                 className={styles.glyph}
                 glyph={glyph}
                 size={Icon.Size.Size18}
+              />
+            )}
+            {avatar && (
+              <Avatar
+                className={styles.avatar}
+                url={avatar}
+                size={AvatarSize.Size20}
               />
             )}
           </div>
@@ -122,6 +131,7 @@ ListItem.propTypes = {
     PropTypes.element,
     PropTypes.array
   ]),
+  avatar: PropTypes.string,
   glyph: PropTypes.string,
   icon: PropTypes.string,
   rightNodes: PropTypes.oneOfType([

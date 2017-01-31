@@ -39,7 +39,7 @@ describe('List Users Groups Source', () => {
           type: 'user',
           label: 'test user',
           description: 'testUser',
-          icon: 'http://test.com.url'
+          avatar: 'http://test.com.url'
         });
       });
   });

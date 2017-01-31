@@ -175,6 +175,11 @@
   color: dark-gray-color;
 }
 
+.avatar {
+  composes: glyph;
+  top: 0;
+}
+
 .hidden {
   visibility: hidden;
 }
