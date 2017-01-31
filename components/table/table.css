@@ -42,9 +42,6 @@
 
   &:first-child {
     padding-left: calc(unit * 2);
-    &:empty {
-      padding-left: 0;
-    }
   }
 
   &:last-child {
@@ -124,9 +121,6 @@
 
   &:first-child {
     padding-left: calc(unit * 2);
-    &:empty {
-      padding-left: 0;
-    }
   }
 
   &:last-child {
@@ -151,19 +145,18 @@
 .metaColumn {
   padding-right: 0;
   min-width: initial;
+  position: relative;
 }
 
 .dragHandle {
-  display: none;
-  cursor: grab;
-  position: absolute;
-  padding: unit;
-  color: icon-color;
-  margin-top: -calc(unit * 1.5);
-  margin-left: -calc(unit * 3.5);
-
-  &:hover {
-    color: icon-hover-color;
+  &&& {
+    display: none;
+    cursor: grab;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    padding: 0px 1px 4px;
   }
 }
 
@@ -172,9 +165,15 @@
 }
 
 .draggingRow {
-  & .dragHandle {
+  background-color: selected-background-color;
+  transition: none;
+
+  && .dragHandle {
+    display: block;
     cursor: grabbing;
-    color: main-color;
+    & svg {
+      color: main-color;
+    }
   }
 
   vertical-align: middle;
