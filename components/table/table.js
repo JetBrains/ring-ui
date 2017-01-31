@@ -227,7 +227,8 @@ class Table extends Component {
     return false;
   }
 
-  onCheckboxChange = checked => {
+  onCheckboxChange = e => {
+    const {checked} = e.target;
     const {selection, onSelect, onFocusRestore} = this.props;
 
     if (checked) {
