@@ -7,6 +7,8 @@ import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 
+import selectStyles from '../select/select.css';
+
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
@@ -28,7 +30,7 @@ describe('Tags Input', () => {
     });
 
     it('should render select in input mode', function () {
-      this.tagsInput.node.should.contain('.ring-select_input-mode');
+      this.tagsInput.node.should.contain(`.${selectStyles.inputMode}`);
     });
 
     it('should render tag', function () {
