@@ -86,7 +86,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   getInputNode() {
     if (!this.input) {
-      this.input = this.refs.select.filter.node;
+      this.input = this.refs.select.filter;
       this.caret = new Caret(this.input);
     }
     return this.input;
