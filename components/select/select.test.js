@@ -646,13 +646,13 @@ describe('Select', () => {
       it('Should restore focus on provided target element after closing popup', function () {
         this.select._hidePopup(true);
 
-        document.activeElement.should.equal(targetInput.node);
+        targetInput.node.should.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         const ESC_KEY = 27;
         simulateKeypress(null, ESC_KEY);
-        document.activeElement.should.equal(targetInput.node);
+        targetInput.node.should.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
@@ -663,7 +663,7 @@ describe('Select', () => {
 
       it('Should not restore focus on provided target element after closing popup', function () {
         this.select._hidePopup();
-        document.activeElement.should.not.equal(targetInput.node);
+        targetInput.node.should.not.equal(document.activeElement);
       });
     });
   });
