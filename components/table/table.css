@@ -199,18 +199,20 @@
 }
 
 .metaColumn {
+  position: relative;
   padding-right: 0;
   min-width: initial;
 }
 
 .dragHandle {
   display: none;
-  cursor: grab;
   position: absolute;
+  left: unit;
+  top: 0;
+
+  cursor: grab;
   padding: unit;
   color: gray-color;
-  margin-top: -calc(unit * 1.5);
-  margin-left: -calc(unit * 3);
 
   &:hover {
     color: link-hover-color;
