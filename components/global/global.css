@@ -37,6 +37,7 @@
 @value outline-color: rgba(37, 183, 255, 0.5);
 
 @value border-radius: 3px;
+@value border-radius-small: 2px;
 
 @value popup-border-color: rgba(0, 42, 76, 0.1);
 

@@ -4,7 +4,7 @@ import 'whatwg-fetch';
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
-import urlUtils from '../global/url';
+import {getAbsoluteBaseURL, getOrigin, fixUrl, encodeURL} from '../global/url';
 
 function noop() {}
 
@@ -101,7 +101,7 @@ export default function Auth(config) {
  */
 Auth.DEFAULT_CONFIG = {
   client_id: '0-0-0-0-0',
-  redirect_uri: urlUtils.getAbsoluteBaseURL(),
+  redirect_uri: getAbsoluteBaseURL(),
   redirect: false,
   request_credentials: 'default',
   scope: [],
@@ -270,7 +270,7 @@ Auth.prototype.forceTokenUpdate = function () {
  * @return {Promise} promise from fetch request
  */
 Auth.prototype.getSecure = function (absoluteUrl, accessToken, params) {
-  const url = AuthRequestBuilder.encodeURL(absoluteUrl, params);
+  const url = encodeURL(absoluteUrl, params);
   const failedResponse = {
     status: 0,
     statusText: 'Network request failed'
@@ -519,8 +519,8 @@ Auth.prototype._validateScopes = function (storedToken) {
  * @private
  */
 Auth.prototype._canValidateAgainstUser = function () {
-  const clientOrigin = urlUtils.getOrigin(this.config.redirect_uri);
-  const serverOrigin = urlUtils.getOrigin(this.config.serverUri);
+  const clientOrigin = getOrigin(this.config.redirect_uri);
+  const serverOrigin = getOrigin(this.config.serverUri);
 
   return clientOrigin === serverOrigin || Auth.HAS_CORS;
 };
@@ -597,7 +597,7 @@ Auth.prototype._getValidatedToken = function (validators) {
  * @private
  */
 Auth.prototype._redirectCurrentPage = function (url) {
-  window.location = urlUtils.fixUrl(url);
+  window.location = fixUrl(url);
 };
 
 /**

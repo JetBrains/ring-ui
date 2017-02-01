@@ -1,5 +1,10 @@
 @value unit, error-color, font-size-smaller from '../global/global.css';
 
+.dialogContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .inSidebar {
   && {
     position: static;
@@ -25,13 +30,24 @@
 }
 
 .header {
-  cursor: move;
-  user-select: none;
+  && {
+    cursor: move;
+    user-select: none;
+    padding-top: unit;
+    font-size: 24px;
+  }
 }
 
 .inSidebar .header {
   cursor: text;
   user-select: text;
+}
+
+.scrollableWrapper {
+  && {
+    overflow: visible;
+    width: auto;
+  }
 }
 
 .content {
@@ -47,7 +63,7 @@
 
 .footer {
   height: auto;
-  padding-top: calc(unit * 2);
+  padding: calc(unit * 2) calc(unit * 4);
 
   font-size: 0;
   text-align: left;

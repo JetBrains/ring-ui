@@ -1,4 +1,4 @@
-/* global inject */
+/* global inject, angular */
 /* eslint-disable func-names */
 
 import 'angular';
@@ -243,7 +243,7 @@ describe('Dialog Ng', () => {
 
     describe('dialogForm', () => {
       function getDialogFormObject(element) {
-        return global.angular.element(element).isolateScope().dialogForm;
+        return angular.element(element).isolateScope().dialogForm;
       }
 
 
