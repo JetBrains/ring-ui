@@ -37,9 +37,21 @@
   & :global(.ring-panel .ring-button) {
       margin-right: unit;
   }
+
+  & .islandScrollableWrapperInsideDialog {
+    padding-bottom: calc(unit * 2.5);
+  }
 }
 
 .bodyWithoutScroll {
   height: 100%;
   overflow: hidden;
 }
+
+/*.islandContentHack {*/
+
+/*}*/
+
+/*.content .islandContentHack {*/
+  /*padding-bottom: 0;*/
+/*}*/
