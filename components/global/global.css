@@ -20,6 +20,7 @@
 @value outline-color: rgba(37, 183, 255, 0.5);
 
 @value border-radius: 3px;
+@value border-radius-small: 2px;
 
 @value font-size: 13px;
 @value font-size-smaller: 11px;
