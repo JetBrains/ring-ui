@@ -14,7 +14,7 @@ import RingComponent from '../ring-component/ring-component';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Popup from '../popup/popup';
-import urlUtils from '../global/url';
+import {getAbsoluteBaseURL, getBaseURI, ENDING_SLASH_PATTERN} from '../global/url';
 
 import HeaderItem from './header-legacy__item';
 import HeaderHelper from './header-legacy__helper';
@@ -173,9 +173,9 @@ export default class Header extends RingComponent {
    * @returns {boolean}
    */
   static isActiveService(rootUrl, clientId, serviceId, serviceHomeUrl) {
-    const baseUrl = (rootUrl || urlUtils.getAbsoluteBaseURL()).replace(urlUtils.ENDING_SLASH_PATTERN, '');
+    const baseUrl = (rootUrl || getAbsoluteBaseURL()).replace(ENDING_SLASH_PATTERN, '');
 
-    return serviceId === clientId || serviceHomeUrl.replace(urlUtils.ENDING_SLASH_PATTERN, '') === baseUrl;
+    return serviceId === clientId || serviceHomeUrl.replace(ENDING_SLASH_PATTERN, '') === baseUrl;
   }
 
   /**
@@ -490,7 +490,7 @@ export default class Header extends RingComponent {
 
     return (
       <a
-        href={this.props.rootUrl || urlUtils.getBaseURI() || '/'}
+        href={this.props.rootUrl || getBaseURI() || '/'}
       >{getLogoContent()}</a>
     );
   }

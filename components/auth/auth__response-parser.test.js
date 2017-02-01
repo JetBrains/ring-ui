@@ -3,26 +3,6 @@ import AuthResponseParser from './auth__response-parser';
 
 describe('Auth', () => {
   describe('AuthResponseParser', () => {
-    describe('parseQueryString', () => {
-      it('should parse urls correctly', () => {
-        const queryString = 'access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600';
-        AuthResponseParser.parseQueryString(queryString).should.be.deep.equal({
-          access_token: '2YotnFZFEjr1zCsicMWpAA',
-          state: 'xyz',
-          token_type: 'example',
-          expires_in: '3600'
-        });
-      });
-
-      it('should accept empty string', () => {
-        AuthResponseParser.parseQueryString('').should.be.deep.equal({});
-      });
-
-      it('should accept undefined', () => {
-        AuthResponseParser.parseQueryString(undefined).should.be.deep.equal({});
-      });
-    });
-
     describe('getAuthResponseFromURL', () => {
       let location;
       beforeEach(function () {

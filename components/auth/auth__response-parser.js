@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+import {parseQueryString} from '../global/url';
+
 /**
  * @typedef {Object} AuthResponse
  * @property {string?} access_token
@@ -62,7 +64,7 @@ AuthResponseParser.prototype.validateAuthResponse = function (authResponse) {
  * @return {AuthResponse}
  */
 AuthResponseParser.prototype.readAuthResponseFromURL = function () {
-  return AuthResponseParser.parseQueryString(this.getHash());
+  return parseQueryString(this.getHash());
 };
 
 /**
@@ -81,35 +83,6 @@ AuthResponseParser.prototype.getHash = function () {
  */
 AuthResponseParser.prototype.getLocation = function () {
   return window.location.toString();
-};
-
-/**
- * Parses a queryString into an object.
- * <code>
- *   Auth.parseQueryString("access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600");
- *   // is {access_token: "2YotnFZFEjr1zCsicMWpAA", state: "xyz", token_type: "example", expires_in: "3600"}
- * </code>
- * @param queryString query parameter string to parse
- * @return {AuthResponse} object with query parameters map
- */
-AuthResponseParser.parseQueryString = function (queryString) {
-  if (queryString == null) {
-    return {};
-  }
-
-  const queryParameterPairRE = /([^&;=]+)=?([^&;]*)/g;
-  const urlParams = {};
-
-  function decode(s) {
-    return decodeURIComponent(s.replace(/\+/g, ' '));
-  }
-
-  let matchedQueryPair;
-  while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
-    urlParams[decode(matchedQueryPair[1])] = decode(matchedQueryPair[2]);
-  }
-
-  return urlParams;
 };
 
 AuthResponseParser.AuthError = function AuthError(authResponse) {

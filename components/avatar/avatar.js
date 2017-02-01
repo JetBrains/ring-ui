@@ -1,19 +1,18 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
-// TODO Exract to global
-import {parseQueryString} from '../auth/auth__response-parser';
-import {encodeURL} from '../auth/auth__request-builder';
+import {parseQueryString, encodeURL, isDataURI} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';
+import global from '../global/global.css';
 
 /**
  * @name Avatar
  * @category Components
  * @framework React
  * @constructor
- * @description TODO add Avatar description
+ * @description Displays an avatar or a box with border in case of failure.
  * @example
    <example name="avatar">
      <file name="index.html">
@@ -24,10 +23,9 @@ import styles from './avatar.css';
        :global(.avatar-demo) {
          display: flex;
          justify-content: space-between;
-         width: 100px;
+         width: 150px;
          margin-bottom: 16px;
        }
-
      </file>
 
      <file name="index.js">
@@ -42,6 +40,9 @@ import styles from './avatar.css';
        class AvatarDemo extends Component {
          render() {
            const url = `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`
+           const dataUri = `data:image/svg+xml,${encodeURIComponent('<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">' +
+            '<circle cx="60" cy="60" r="50" fill="#00cc00"/>' +
+           '</svg>')}`;
 
            return (
              <div>
@@ -51,6 +52,7 @@ import styles from './avatar.css';
                     key={size}
                   >
                     <Avatar size={Size[size]} url={url} />
+                    <Avatar size={Size[size]} url={dataUri} />
                     <Avatar size={Size[size]} />
                   </div>
                 ))}
@@ -72,11 +74,12 @@ const Size = {
   Size40: 40
 };
 
-export default class Avatar extends Component {
+export default class Avatar extends PureComponent {
   static propTypes = {
     dpr: PropTypes.number,
     className: PropTypes.string,
     size: PropTypes.number,
+    style: PropTypes.object,
     url: PropTypes.string
   };
 
@@ -84,38 +87,58 @@ export default class Avatar extends Component {
     dpr: getPixelRatio()
   };
 
+  state = {
+    errorUrl: ''
+  };
+
+  handleError = () => {
+    this.setState({errorUrl: this.props.url});
+  };
+
+  handleSuccess = () => {
+    this.setState({errorUrl: ''});
+  };
+
   render() {
-    const {className, size = Size.Size18, url, dpr, ...restProps} = this.props;
-    const classes = classNames(!url && styles.empty, className);
+    const {size = Size.Size20, url, dpr, style = {}, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const style = {
-      borderRadius: size <= Size.Size18 ? '2px' : '3px',
+    const borderRaduis = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
+    const styleObj = {
+      borderRadius: global[borderRaduis],
       height: sizeString,
-      width: sizeString
+      width: sizeString,
+      ...style
     };
 
-    if (!url) {
+    if (!url || this.state.errorUrl === url) {
       return (
         <span
-          className={classes}
-          style={style}
+          {...restProps}
+          className={classNames(styles.empty, this.props.className)}
+          style={styleObj}
         />
       );
     }
 
-    const [urlStart, query] = url.split('?');
-    const queryParams = {
-      dpr,
-      size,
-      ...parseQueryString(query)
-    };
+    let src = url;
+    if (!isDataURI(url)) {
+      const [urlStart, query] = url.split('?');
+      const queryParams = {
+        ...parseQueryString(query),
+        dpr,
+        size
+      };
+
+      src = encodeURL(urlStart, queryParams);
+    }
 
     return (
       <img
         {...restProps}
-        style={style}
-        src={encodeURL(urlStart, queryParams)}
-        className={classes}
+        onError={this.handleError}
+        onLoad={this.handleSuccess}
+        style={styleObj}
+        src={src}
       />
     );
   }
