@@ -3,10 +3,27 @@
 
 const path = require('path');
 const wallabyWebpack = require('wallaby-webpack');
-const webpackConfig = require('./webpack-test.config');
+const webpackConfig = require('./webpack.config');
+const webpackTestConfig = require('./webpack-test.config');
+
+const postcssLoaderPath = require.resolve('postcss-loader');
+const addConfig = rule => {
+  rule.loaders.forEach((loader, index) => {
+    if (loader === postcssLoaderPath) {
+      rule.loaders[index] = {
+        loader,
+        options: {
+          config: __dirname
+        }
+      };
+    }
+  });
+};
 
 module.exports = wallaby => {
   webpackConfig.componentsPath.push(path.join(wallaby.projectCacheDir, 'components'));
+  addConfig(webpackConfig.loaders.scssLoader);
+  addConfig(webpackConfig.loaders.cssLoader);
 
   return {
     files: [
@@ -54,7 +71,7 @@ module.exports = wallaby => {
       '**/*.js': wallaby.compilers.babel()
     },
 
-    postprocessor: wallabyWebpack(webpackConfig),
+    postprocessor: wallabyWebpack(webpackTestConfig),
 
     bootstrap: function bootstrap() { // eslint-disable-line object-shorthand
       // required to trigger tests loading
