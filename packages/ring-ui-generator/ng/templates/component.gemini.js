@@ -2,7 +2,7 @@
 
 gemini.suite('<%= titleCaseName %>', suite => {
   suite.
-    setUrl('/example-<%= paramCaseNameSuffix %>/').
+    setUrl('/<%= paramCaseNameSuffix %>/<%= paramCaseNameSuffix %>.html').
     setCaptureElements('#<%= paramCaseName %>').
     capture('<%= paramCaseName %>');
 });
