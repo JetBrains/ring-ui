@@ -49,6 +49,7 @@ export default class Content extends Component {
     const classes = classNames(styles.content, className, {
       [styles.contentWithTopFade]: fade && !scrolledToTop,
       [styles.contentWithBottomFade]: fade && !scrolledToBottom,
+      [styles.withTransparentBottomBorder]: bottomBorder,
       [styles.withBottomBorder]: bottomBorder && !scrolledToBottom
     });
 
