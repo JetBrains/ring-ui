@@ -56,7 +56,7 @@ module.exports = wallaby => {
 
     postprocessor: wallabyWebpack(webpackConfig),
 
-    bootstrap: function () { // eslint-disable-line object-shorthand
+    bootstrap: function bootstrap() { // eslint-disable-line object-shorthand
       // required to trigger tests loading
       window.__moduleBundler.loadTests();
     },
