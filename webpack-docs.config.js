@@ -90,7 +90,7 @@ module.exports = (env = {}) => {
       port,
       contentBase,
       stats: {
-        assets: true,
+        assets: false,
         chunks: false,
         hash: false,
         children: false,

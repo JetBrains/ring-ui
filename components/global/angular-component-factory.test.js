@@ -85,6 +85,7 @@ describe('angularComponentFactory', () => {
 
     $rootScope.testObj.foo = 'test-value';
 
+    // eslint-disable-next-line no-console
     console.warn.should.have.been.called;
   });
 

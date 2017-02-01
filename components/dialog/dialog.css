@@ -40,6 +40,10 @@
   & :global(.ring-panel) button {
       margin-right: unit;
   }
+
+  & .islandScrollableWrapperInsideDialog {
+    padding-bottom: calc(unit * 2.5 - 1);
+  }
 }
 
 .bodyWithoutScroll {
