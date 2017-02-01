@@ -269,7 +269,12 @@ export default class Select extends RingComponentWithShortcuts {
         maxHeight={this.props.maxHeight}
         minWidth={this.props.minWidth}
         directions={this.props.directions}
-        className={classNames(this.props.popupClassName, styles[`size${this.props.size}`])}
+        className={classNames(
+          this.props.popupClassName,
+          this.props.size === Input.Size.S
+            ? styles.sizeM
+            : styles[`size${this.props.size}`]
+        )}
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
@@ -299,8 +304,10 @@ export default class Select extends RingComponentWithShortcuts {
     if (this.node && this.state.showPopup) {
       this.setState({showPopup: false});
 
-      const restoreFocusNode = tryFocusAnchor && this.props.targetElement || this.node.query('[data-test=ring-select__focus]');
-      restoreFocusNode.focus();
+      if (tryFocusAnchor) {
+        const restoreFocusNode = this.props.targetElement || this.node.query('[data-test=ring-select__focus]');
+        restoreFocusNode.focus();
+      }
     }
   }
 
@@ -563,6 +570,10 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   clear(event) {
+    if (event) {
+      event.stopPropagation();
+    }
+
     const empty = Select._getEmptyValue(this.props.multiple);
 
     this.setState({
@@ -571,8 +582,6 @@ export default class Select extends RingComponentWithShortcuts {
     }, () => {
       this.props.onChange(empty, event);
     });
-
-    setTimeout(::this._showPopup, 0);
 
     return false;
   }
