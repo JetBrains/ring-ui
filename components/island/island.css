@@ -17,10 +17,12 @@
 .header {
   line-height: calc(unit*4);
   padding: 0 calc(unit*4);
+  transition: border-bottom-color 0.1s;
+  border-bottom: 1px solid transparent;
 }
 
-.withBottomBorder {
-  border-bottom: 1px solid rgba(0, 42, 76, 0.1);
+.withBottomBorder.withBottomBorder {
+  border-bottom-color: rgba(0, 42, 76, 0.1);
   border-top-left-radius: border-radius;
   border-top-right-radius: border-radius;
 }
@@ -40,6 +42,8 @@
   display: flex;
   position: relative;
   overflow: auto;
+  transition: border-bottom-color 0.1s;
+  border-bottom: 1px solid transparent;
 }
 
 .scrollableWrapper {
