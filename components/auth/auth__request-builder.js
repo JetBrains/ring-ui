@@ -1,5 +1,7 @@
 import uuid from 'simply-uuid';
 
+import {encodeURL} from '../global/url';
+
 /**
  * @param {{
  *   authorization: string,
@@ -38,7 +40,7 @@ AuthRequestBuilder.prototype.prepareAuthRequest = function (extraParams, extraSt
   }, extraParams || {});
   /* eslint-enable camelcase */
 
-  const authURL = AuthRequestBuilder.encodeURL(this.config.authorization, request);
+  const authURL = encodeURL(this.config.authorization, request);
 
   const state = Object.assign({
     restoreLocation: window.location.href,
@@ -65,24 +67,3 @@ AuthRequestBuilder.prototype._saveState = function (id, storedState) {
  * @return {string} random string used for state
  */
 AuthRequestBuilder._uuid = uuid.generate;
-
-/*
- * Takes a URL as input and a params object.
- * Each property in the params is added to the URL as query string parameters
- */
-AuthRequestBuilder.encodeURL = function (url, params) {
-  const equalsSign = '=';
-  const firstSeparator = (url.indexOf('?') === -1) ? '?' : '&';
-
-  let res = url;
-  let k;
-  let i = 0;
-
-  for (k in params) {
-    if (params.hasOwnProperty(k) && params[k] != null) {
-      res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + equalsSign + encodeURIComponent(params[k]);
-    }
-  }
-
-  return res;
-};

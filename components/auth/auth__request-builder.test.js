@@ -5,37 +5,6 @@ import AuthRequestBuilder from './auth__request-builder';
 
 describe('Auth', () => {
   describe('AuthRequestBuilder', () => {
-
-    describe('encodeURL', () => {
-      it('should build URL correctly', () => {
-        AuthRequestBuilder.encodeURL('http://localhost:8080/hub', {
-          a: 'a',
-          b: 'b'
-        }).
-          should.be.equal('http://localhost:8080/hub?a=a&b=b');
-      });
-
-      it('should accept relative URI', () => {
-        AuthRequestBuilder.encodeURL('hub', {a: 'a', b: 'b'}).
-          should.be.equal('hub?a=a&b=b');
-      });
-
-      it('should not encode nulls and undefineds', () => {
-        AuthRequestBuilder.encodeURL('hub', {a: 'a', b: null, c: undefined, d: '', e: false}).
-          should.be.equal('hub?a=a&d=&e=false');
-      });
-
-      it('should handle already existing query parameters', () => {
-        AuthRequestBuilder.encodeURL('hub?c=c', {a: 'a', b: 'b'}).
-          should.be.equal('hub?c=c&a=a&b=b');
-      });
-
-      it('should encode query parameters', () => {
-        AuthRequestBuilder.encodeURL('hub', {'i am naughty': 'with%23some+problems'}).
-          should.be.equal('hub?i%20am%20naughty=with%2523some%2Bproblems');
-      });
-    });
-
     describe('prepareAuthRequest', () => {
       const config = {
         authorization: 'https://sso.jetbrains.com/auth',
