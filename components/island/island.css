@@ -14,11 +14,15 @@
   box-shadow: 0 2px 16px rgba(0, 42, 76, 0.15);
 }
 
-.header {
-  line-height: calc(unit*4);
-  padding: 0 calc(unit*4);
+.withTransparentBottomBorder {
   transition: border-bottom-color 0.1s;
   border-bottom: 1px solid transparent;
+}
+
+.header {
+  composes: withTransparentBottomBorder;
+  line-height: calc(unit*4);
+  padding: 0 calc(unit*4);
 }
 
 .withBottomBorder.withBottomBorder {
@@ -42,8 +46,6 @@
   display: flex;
   position: relative;
   overflow: auto;
-  transition: border-bottom-color 0.1s;
-  border-bottom: 1px solid transparent;
 }
 
 .scrollableWrapper {

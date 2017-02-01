@@ -39,7 +39,7 @@
   }
 
   & .islandScrollableWrapperInsideDialog {
-    padding-bottom: calc(unit * 2.5);
+    padding-bottom: calc(unit * 2.5 - 1);
   }
 }
 
