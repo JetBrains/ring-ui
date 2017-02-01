@@ -164,3 +164,7 @@ export function encodeURL(url, params) {
 
   return res;
 }
+
+export function isDataURI(uri) {
+  return uri.indexOf('data:') === 0;
+}

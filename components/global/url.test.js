@@ -9,7 +9,8 @@ import {
   encodeURL,
   fixUrl,
   parseQueryString,
-  resolveRelativeURL
+  resolveRelativeURL,
+  isDataURI
 } from './url';
 
 describe('Url', () => {
@@ -136,6 +137,16 @@ describe('Url', () => {
     it('should encode query parameters', () => {
       encodeURL('hub', {'i am naughty': 'with%23some+problems'}).
         should.be.equal('hub?i%20am%20naughty=with%2523some%2Bproblems');
+    });
+  });
+
+  describe('isDataURI', () => {
+    it('should detect data uri', () => {
+      isDataURI('data:image/svg+xml;utf8,<svg></svg>').should.be.true;
+    });
+
+    it('should not detect other uris', () => {
+      isDataURI('https://ring-ui').should.be.false;
     });
   });
 });
