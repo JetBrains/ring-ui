@@ -619,7 +619,7 @@ describe('Select', () => {
       }));
 
       this.select._showPopup();
-      this.select._hidePopup();
+      this.select._hidePopup(true);
       document.activeElement.should.equal(this.select.button);
     });
 
