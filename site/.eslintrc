@@ -1,8 +1,9 @@
 {
+  "root": true,
   "parser": "babel-eslint",
   "extends": [
     "jetbrains",
     "jetbrains/es6",
-    "jetbrains/node"
+    "jetbrains/react"
   ]
 }

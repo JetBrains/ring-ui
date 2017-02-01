@@ -129,6 +129,7 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   static hideAllPopups() {
+    // eslint-disable-next-line no-console
     console.warn(`Popup.hideAllPopups is deprecated. ${Messages.SHOW}`);
     legacyPopups.forEach(instance => instance.hide());
   }
@@ -142,6 +143,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * @return {HTMLElement}
    */
   static renderPopup(element, {onRender} = {}) {
+    // eslint-disable-next-line no-console
     console.warn(`Popup.renderPopup is deprecated. ${Messages.RENDER_DIRECTLY}`);
     const wrapperElement = document.createElement('span');
     const container = element.props && element.props.anchorElement || document.body;

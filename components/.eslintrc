@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": [
+    "jetbrains",
+    "jetbrains/es6",
+    "jetbrains/react",
+    "jetbrains/angular",
+    "jetbrains/test"
+  ],
+  "rules": {
+    // Possible Errors
+    "valid-jsdoc": "warn",
+
+    // Best Practices
+    "complexity": ["off", 5],
+    "no-magic-numbers": ["warn", { "ignore": [-1, 0, 1] }],
+
+    // Stylistic Issues
+    "func-names": "warn",
+
+    // Angular
+    "angular/directive-name": ["error", "rg"]
+  }
+}
