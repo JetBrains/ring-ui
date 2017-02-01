@@ -1,9 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
-// TODO Exract to global
-import {parseQueryString} from '../auth/auth__response-parser';
-import {encodeURL} from '../auth/auth__request-builder';
+import {parseQueryString, encodeURL} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';
