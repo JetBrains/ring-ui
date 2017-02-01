@@ -30,6 +30,7 @@
   & :global(.ring-panel) {
     margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4);
+    padding-top: calc(unit * 1.5);
     background-color: transparent;
   }
 
