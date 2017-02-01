@@ -24,7 +24,7 @@ export default function adaptiveIslandHOC(ComposedComponent) {
         const {phase} = this.state;
 
         if (child.type === Content) {
-          props = {onScroll: this.onContentScroll};
+          props = {onScroll: this.onContentScroll, bottomBorder: true};
         }
 
         if (child.type === Header) {
