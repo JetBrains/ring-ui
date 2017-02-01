@@ -75,7 +75,6 @@ module.exports = params => generators.Base.extend({
       };
 
       params.fileTemplates.forEach(template => {
-        console.log(template);
         if (typeof template === 'string' || template.ringUI === isRingUI) {
           const templateString = template.template || template;
 
