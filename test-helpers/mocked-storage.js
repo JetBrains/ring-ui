@@ -61,8 +61,8 @@ function MockedStorage() {
       const stringKey = String(key);
       const stringValue = String(value);
 
-      if (arguments.length < 2) {
-        throw new TypeError(`Failed to execute 'setItem' on 'Storage': 1 argument required, but only ${arguments.length} present.`);
+      if (arguments.length <= 1) {
+        throw new TypeError(`Failed to execute 'setItem' on 'Storage': 2 arguments required, but only ${arguments.length} present.`);
       }
 
       dispatchEvent(stringKey, stringValue);
