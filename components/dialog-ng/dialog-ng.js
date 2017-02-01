@@ -142,6 +142,7 @@ class DialogController extends RingAngularComponent {
       this.data = config.data || {};
       this.wideDialog = config.wideDialog;
       this.autoWidth = config.autoWidth;
+      this.scrollableWrapperClassName = config.scrollableWrapperClassName;
       this.cssClass = config.cssClass || '';
 
       this.shortcuts = config.shortcuts;
