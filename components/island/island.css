@@ -14,13 +14,19 @@
   box-shadow: 0 1px 4px color(popup-border-color a(0.15));
 }
 
+.withTransparentBottomBorder {
+  transition: border-bottom-color 0.1s;
+  border-bottom: 1px solid transparent;
+}
+
 .header {
+  composes: withTransparentBottomBorder;
   line-height: calc(unit*4);
   padding: 0 calc(unit*4);
 }
 
-.withBottomBorder {
-  border-bottom: 1px solid popup-border-color;
+.withBottomBorder.withBottomBorder {
+  border-bottom-color: popup-border-color;
   border-top-left-radius: border-radius;
   border-top-right-radius: border-radius;
 }
@@ -43,6 +49,7 @@
 }
 
 .scrollableWrapper {
+  composes: islandScrollableWrapperInsideDialog from '../dialog/dialog.css';
   width: 100%;
   overflow: auto;
   padding: calc(unit*2) calc(unit*4);

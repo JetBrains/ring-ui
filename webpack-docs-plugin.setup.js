@@ -77,6 +77,7 @@ module.exports = () => {
       });
 
       Object.keys(categories).forEach(category => {
+        // eslint-disable-next-line complexity
         categories[category].sort((a, b) => {
           const aAttrs = a.attrs;
           const bAttrs = b.attrs;
@@ -91,8 +92,9 @@ module.exports = () => {
         });
       });
 
+      const DATE_STRING_LENGTH = 16;
       return {
-        buildDate: new Date().toISOString().replace('T', ' ').substr(0, 16),
+        buildDate: new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH),
         sourcesByCategory: categories
       };
     }

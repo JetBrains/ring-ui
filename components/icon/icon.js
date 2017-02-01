@@ -11,7 +11,7 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import urlUtils from '../global/url';
+import {resolveRelativeURL} from '../global/url';
 
 import {Color, Size} from './icon__constants';
 import './icon.scss';
@@ -53,7 +53,7 @@ export default class Icon extends RingComponent {
       height: size
     };
 
-    const xlinkHref = urlUtils.resolveRelativeURL(glyph);
+    const xlinkHref = resolveRelativeURL(glyph);
     const activeEventHandler = restProps[activeEvent];
 
     if (activeColor && typeof activeEventHandler === 'function') {

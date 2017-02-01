@@ -1,5 +1,5 @@
 import 'dom4';
-import urlUtils from '../global/url';
+import {resolveRelativeURL} from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
 import '../icon/icon.scss';
 
@@ -50,7 +50,7 @@ angularModule.directive('rgIcon', () => ({
   link(scope, iElement, iAttrs) {
     iAttrs.$addClass('ring-icon');
 
-    scope.resolveGlyph = ::urlUtils.resolveRelativeURL;
+    scope.resolveGlyph = resolveRelativeURL;
 
     scope.$watch('loading', value => {
       if (value) {
