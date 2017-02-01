@@ -11,11 +11,13 @@ export default class Content extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     fade: PropTypes.bool,
+    bottomBorder: PropTypes.bool,
     onScroll: PropTypes.func
   };
 
   static defaultProps = {
     fade: true,
+    bottomBorder: false,
     onScroll: noop
   };
 
@@ -41,12 +43,13 @@ export default class Content extends Component {
   }
 
   render() {
-    const {children, className, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, className, bottomBorder, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     const {scrolledToTop, scrolledToBottom} = this.state;
 
     const classes = classNames(styles.content, className, {
       [styles.contentWithTopFade]: fade && !scrolledToTop,
-      [styles.contentWithBottomFade]: fade && !scrolledToBottom
+      [styles.contentWithBottomFade]: fade && !scrolledToBottom,
+      [styles.withBottomBorder]: bottomBorder && !scrolledToBottom
     });
 
     return (
