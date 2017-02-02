@@ -39,8 +39,7 @@ export default class Island extends Component {
   }
 }
 
-const AdaptiveIsland = adaptiveIslandHOC(Island);
+export const AdaptiveIsland = adaptiveIslandHOC(Island);
 
-export {AdaptiveIsland};
 export {default as Header} from './header';
 export {default as Content} from './content';
