@@ -66,7 +66,7 @@ import global from '../global/global.css';
    </example>
  */
 
-const Size = {
+export const Size = {
   Size18: 18,
   Size20: 20,
   Size24: 24,
@@ -143,5 +143,3 @@ export default class Avatar extends PureComponent {
     );
   }
 }
-
-export {Size};
