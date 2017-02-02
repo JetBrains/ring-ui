@@ -321,6 +321,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
+  handleStyleRangesResponse({suggestions, ...restProps}) {
+    this.handleResponse(restProps);
+  }
+
   handleResponse({query = '', caret = 0, styleRanges, suggestions = []}) {
     return new Promise((resolve, reject) => {
       if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
@@ -418,7 +423,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       caret: this.immediateState.caret,
       omitSuggestions: true
     }).
-      then(::this.handleResponse).
+      then(::this.handleStyleRangesResponse).
       catch(noop);
   }
 
