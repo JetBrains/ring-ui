@@ -75,7 +75,7 @@ function angularComponentFactory(Component, name) {
 
       const props = {};
       propKeys.forEach(key => {
-        if (this[key]) {
+        if (this.hasOwnProperty(key)) {
           if (funcTypes.includes(propTypes[key])) {
             props[key] = (...rest) => {
               const ret = this[key](...rest);
