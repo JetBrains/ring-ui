@@ -323,7 +323,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   // eslint-disable-next-line no-unused-vars
   handleStyleRangesResponse({suggestions, ...restProps}) {
-    this.handleResponse(restProps);
+    return this.handleResponse(restProps);
   }
 
   handleResponse({query = '', caret = 0, styleRanges, suggestions = []}) {
