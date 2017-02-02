@@ -13,7 +13,7 @@ import styles from './grid.css';
  * @example-file ./grid.examples.html
  */
 
-class Grid extends Component {
+export class Grid extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node
@@ -34,7 +34,5 @@ class Grid extends Component {
   }
 }
 
-
-export {Grid};
 export {default as Row} from './row';
 export {default as Col} from './col';
