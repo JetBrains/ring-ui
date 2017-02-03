@@ -46,6 +46,7 @@
           ng-class="[dialog.styles.footerItem ,{'ring-button_blue': button['default']}, button['cssClasses']]"
           ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
           ng-if="!button.hidden"
+          data-test="dialog-footer-button"
 
           rg-promised-click="dialog.action(button)"
           promised-mode="loader"
