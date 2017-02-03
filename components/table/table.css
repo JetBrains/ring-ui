@@ -13,17 +13,6 @@
   position: relative;
 }
 
-.loader.loader {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: none;
-}
-
-.loading .loader {
-  display: inline-block;
-}
-
 .table {
   border-spacing: 0;
   width: 100%;
@@ -120,6 +109,7 @@
 }
 
 
+
 .row {
   & {
     outline: none;
@@ -158,6 +148,18 @@
   }
 }
 
+.loadingOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 
 .cell {
   & {
