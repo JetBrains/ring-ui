@@ -4,7 +4,7 @@
   ng-click="dialog.handleClick($event)"
 >
   <div data-anchor="dialog-container"
-    data-test="ring-dialog"
+    ng-attr-data-test="{{dialog.active ? 'ring-dialog' : null}}"
     ng-class="[
       dialog.styles.dialogContainer,
       dialog.cssClass,
