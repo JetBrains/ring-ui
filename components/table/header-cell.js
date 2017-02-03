@@ -4,6 +4,9 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Icon from '../icon/icon';
+import sorteableIcon from 'jetbrains-icons/caret-down.svg';
+import sortedUpIcon from 'jetbrains-icons/caret-up.svg';
+import sortedDownIcon from 'jetbrains-icons/caret-down.svg';
 
 import style from './table.css';
 
@@ -29,14 +32,12 @@ export default class HeaderCell extends Component {
     this.sorted = sortKey === column.id;
 
     const iconSize = tiny ? Icon.Size.Size14 : Icon.Size.Size16;
+    let iconGlyph = sorteableIcon;
 
-    const iconGlyph = do {
-      if (this.sorted && sortOrder) {
-        require('jetbrains-icons/caret-up.svg');
-      } else {
-        require('jetbrains-icons/caret-down.svg');
-      }
-    };
+    if (this.sorted) {
+      iconGlyph = sortOrder ? sortedUpIcon : sortedDownIcon;
+    }
+
 
     const classes = classNames(className, {
       [style.headerCell]: true,
@@ -48,9 +49,9 @@ export default class HeaderCell extends Component {
       <th {...restProps} className={classes} onClick={::this.onClick}>
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
-        <span className={style.sorter}>
+        {this.sortable && <span className={style.sorter}>
           <Icon className={style.icon} glyph={iconGlyph} size={iconSize}/>
-        </span>
+        </span>}
       </th>
     );
   }
