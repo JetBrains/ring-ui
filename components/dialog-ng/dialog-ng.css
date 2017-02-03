@@ -3,6 +3,10 @@
 .dialogContainer {
   display: flex;
   flex-direction: column;
+
+  & :global(.ring-form__group:last-of-type) {
+    margin-bottom: 0;
+  }
 }
 
 .inSidebar {
@@ -64,6 +68,7 @@
 .footer {
   height: auto;
   padding: calc(unit * 2) calc(unit * 4);
+  padding-top: calc(unit * 2 - 2px);
 
   font-size: 0;
   text-align: left;
