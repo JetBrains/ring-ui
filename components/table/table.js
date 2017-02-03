@@ -274,7 +274,7 @@ class Table extends Component {
   }
 
   render() {
-    const {selection, caption, selectable, draggable, loading, onSort, sortKey, sortOrder} = this.props;
+    const {selection, caption, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
     const {shortcuts} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -355,7 +355,7 @@ class Table extends Component {
         </table>
 
         {loading && <div className={style.loadingOverlay}>
-          <Loader className={style.loaderClassName}/>
+          <Loader className={loaderClassName}/>
         </div>}
       </div>
     );
