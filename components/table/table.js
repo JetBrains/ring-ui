@@ -23,7 +23,7 @@ import style from './table.css';
 import {sortableContainer, sortableElement, arrayMove} from 'react-sortable-hoc';
 
 import Shortcuts from '../shortcuts/shortcuts';
-import LoaderInline from '../loader-inline/loader-inline';
+import Loader from '../loader/loader';
 
 const DraggableRow = sortableElement(({item, columns, draggable, selectable, selection, onRowFocus, onRowSelect}) => {
   const props = {
@@ -53,6 +53,7 @@ const DraggableRows = sortableContainer(props => {
 class Table extends Component {
   static propTypes = {
     className: PropTypes.string,
+    loaderClassName: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     selection: PropTypes.instanceOf(Selection).isRequired,
@@ -333,8 +334,6 @@ class Table extends Component {
       <div className={wrapperClasses}>
         {shortcuts ? <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} /> : ''}
 
-        <LoaderInline className={style.loader}/>
-
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
           <DraggableRows
@@ -354,6 +353,10 @@ class Table extends Component {
             onRowSelect={this.onRowSelect.bind(this)}
           />
         </table>
+
+        {loading && <div className={style.loadingOverlay}>
+          <Loader className={style.loaderClassName}/>
+        </div>}
       </div>
     );
   }

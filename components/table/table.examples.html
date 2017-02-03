@@ -27,7 +27,8 @@
         pageSize,
         pageTotal: Math.ceil(total / pageSize),
         sortKey: 'country',
-        sortOrder: true
+        sortOrder: true,
+        loading: false
       }
 
       columns = [
@@ -80,7 +81,7 @@
       }
 
       render() {
-        const {data, caption, selectable, draggable, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable, loading, page, pageTotal, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
@@ -90,6 +91,7 @@
               selection={selection}
               onSelect={selection => this.setState({selection})}
               onReorder={data => this.setState({data})}
+              loading={loading}
               onSort={this.onSort}
               sortKey={sortKey}
               sortOrder={sortOrder}
@@ -118,6 +120,11 @@
                 caption
                 ? <Button onClick={() => this.setState({caption: undefined})}>Without a caption</Button>
                 : <Button onClick={() => this.setState({caption: 'Countries'})}>With a caption</Button>
+              }
+              {
+                loading
+                ? <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
+                : <Button onClick={() => this.setState({loading: true})}>Loading</Button>
               }
             </p>
 
