@@ -48,10 +48,16 @@
 
 .ring-query-assist__placeholder {
   display: block;
-  position: absolute;
-  top: 3px;
+  position: relative;
+  top: -19px;
   left: 5px;
+  width: calc(100% - #{$ring-unit*3});
 
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  user-select: none;
   color: #9C9C9C;
   font-size: $ring-font-size;
 }
