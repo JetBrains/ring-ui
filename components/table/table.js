@@ -129,8 +129,8 @@ class Table extends Component {
   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
-    const reorderedData = arrayMove(this.props.data, oldIndex, newIndex);
-    this.props.onReorder(reorderedData);
+    const data = arrayMove(this.props.data, oldIndex, newIndex);
+    this.props.onReorder({data, oldIndex, newIndex});
   }
 
   onUpPress = () => {
