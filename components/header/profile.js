@@ -39,10 +39,8 @@ export default class Profile extends Component {
 
     if (!user) {
       return (
-        <div className={classnames(styles.profile, className)}>
-          <Avatar
-            size={Size.Size24}
-          />
+        <div className={classnames(styles.profileEmpty, className)}>
+          <Avatar size={Size.Size24} />
         </div>
       );
     }
