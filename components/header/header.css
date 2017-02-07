@@ -45,3 +45,16 @@
   }
 }
 
+.profile {
+  composes: icon;
+  text-align: right;
+  position: relative;
+  top: unit;
+  /* Fix popup vertical positioning */
+  height: calc(unit * 4);
+}
+
+.loginButton.loginButton {
+  margin-left: unit;
+}
+
