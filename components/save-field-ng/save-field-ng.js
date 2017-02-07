@@ -74,6 +74,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
     scope: {
       api: '=?',
       value: '=',
+      workingValue: '=',
       onSave: '&',
       afterSave: '&?',
       validate: '&?',
@@ -94,16 +95,23 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       let blurTimeout = null;
       let isTextarea = false;
 
+      const draftMode = iAttrs.workingValue;
+      const valueField = draftMode ? 'workingValue' : 'value';
+
       function submitChanges() {
-        if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope.value)) {
+        if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope[valueField])) {
           return false;
         }
 
         function success() {
-          scope.initial = angular.copy(scope.value);
+          scope.initial = angular.copy(scope[valueField]);
           scope.saveFieldForm.$setPristine();
 
           scope.done = true;
+
+          if (draftMode) {
+            scope.value = scope.workingValue;
+          }
 
           $timeout(() => {
             scope.done = false;
@@ -111,7 +119,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
           if (scope.afterSave) {
             return $q.when(scope.afterSave({
-              value: scope.value
+              value: scope[valueField]
             }));
           }
 
@@ -137,10 +145,10 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
         let onsave = ctrl.getSave();
         if (onsave) {
-          onsave = $q.when(onsave(scope.value));
+          onsave = $q.when(onsave(scope[valueField]));
         } else {
           onsave = $q.when(scope.onSave({
-            value: scope.value
+            value: scope[valueField]
           }));
         }
 
@@ -157,7 +165,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         }
 
         scope.$evalAsync(() => {
-          scope.value = scope.initial ? scope.initial : '';
+          scope[valueField] = scope.initial ? scope.initial : '';
           scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
           scope.saveFieldForm.$setPristine();
         });
@@ -213,7 +221,14 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         }, 10);
       };
 
-      scope.$watch('value', value => {
+      if (draftMode) {
+        scope.$watch('value', value => {
+          scope.workingValue = angular.copy(value);
+          scope.initial = value;
+        });
+      }
+
+      scope.$watch(valueField, value => {
         let promise = null;
         if (scope.saveFieldForm.$pristine) {
           scope.initial = value;
@@ -221,7 +236,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           resetValue();
         } else if (scope.validate) {
           promise = scope.validate({
-            value: scope.value
+            value
           });
         }
 
@@ -302,17 +317,6 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       scope.cancelChanges = ctrl.cancelChanges = resetValue;
 
       scope.focus = false;
-
-      scope.$on('$destroy', () => {
-        // 1) Bindings are already disabled by this time, so replacing scope.value = ... has no effect
-        // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from the outside
-        // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
-        // but errorBubble works with scope only, so a large refactoring of rgSaveField and other components is needed.
-        // This is the simplest solution:
-        if (iAttrs.value) {
-          $parse(iAttrs.value).assign(scope.$parent, scope.initial);
-        }
-      });
     },
     controller() {
       let onSave = null;
