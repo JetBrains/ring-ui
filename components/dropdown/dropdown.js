@@ -40,7 +40,7 @@ export default class Dropdown extends Component {
     const {children, anchor, initShown, className, activeClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const classes = classNames(styles.dropdown, className, {
-      [activeClassName]: this.state.show
+      [activeClassName]: activeClassName != null && this.state.show
     });
 
     const anchorElement = typeof anchor === 'string'
