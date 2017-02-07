@@ -25,10 +25,18 @@
   height: calc(unit * 5);
 }
 
-.icon {
+.iconPosition {
   vertical-align: baseline;
   height: calc(unit * 5);
   width: calc(unit * 5);
+
+  &&:global(.ring-icon) {
+    /* Redefine positioning inside ring-link */
+    top: 0;
+  }
+}
+
+.iconBehavior {
   cursor: pointer;
 
   transition: all 0.3s ease-out;
@@ -38,20 +46,26 @@
      transition: transform 0.3s ease-out;
      color: link-hover-color;
   }
-
-  &&:global(.ring-icon) {
-    /* Redefine positioning inside ring-link */
-    top: 0;
-  }
 }
 
-.profile {
-  composes: icon;
+.icon {
+  composes: iconPosition;
+  composes: iconBehavior;
+}
+
+.profileEmpty {
+  composes: iconPosition;
+
   text-align: right;
   position: relative;
   top: unit;
   /* Fix popup vertical positioning */
   height: calc(unit * 4);
+}
+
+.profile {
+  composes: profileEmpty;
+  composes: iconBehavior;
 }
 
 .loginButton.loginButton {
