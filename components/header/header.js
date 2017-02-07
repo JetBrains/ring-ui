@@ -45,3 +45,4 @@ export default class Header extends Component {
 
 export {Tray};
 export {default as TrayIcon} from './tray-icon';
+export {default as Profile} from './profile';
