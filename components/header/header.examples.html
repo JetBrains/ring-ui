@@ -1,0 +1,81 @@
+<example name="header">
+  <file type="html">
+    <div id="header"></div>
+    <div class="page-content"></div>
+  </file>
+
+  <file type="css">
+    body {
+      margin: 0;
+      background: #e8e8e9;
+    }
+
+    :global(.page-content) {
+      background: #FFF;
+      padding: 32px;
+      height: 370px;
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
+    import cog from 'jetbrains-icons/cog.svg';
+    import help from 'jetbrains-icons/help.svg';
+    import services from 'jetbrains-icons/services.svg';
+
+    import Auth from 'ring-ui/components/auth/auth';
+    import Header, {Tray, TrayIcon} from 'ring-ui/components/header/header';
+    import Link from 'ring-ui/components/link/link';
+    import Icon, {Size} from 'ring-ui/components/icon/icon';
+    import Input from 'ring-ui/components/input/input';
+    import Button from 'ring-ui/components/button/button';
+    import Dropdown from 'ring-ui/components/dropdown/dropdown';
+    import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+
+    import hubConfig from 'ring-ui/site/hub-config';
+
+    const container = document.getElementById('header');
+    const auth = new Auth(hubConfig);
+    auth.init();
+
+    const renderHeaderDemo = () => (
+      <Header>
+        <Link href="/">
+          <Icon glyph={jetbrainsLogo} size={Size.Size48} />
+        </Link>
+        <Link href="#">Users</Link>
+        <Link href="#">Groups</Link>
+        <Link href="#">Spaces</Link>
+        <Link href="#">Services</Link>
+        <Button>Create issue</Button>
+        <Tray>
+          <Input placeholder="search" />
+          <TrayIcon glyph={cog} />
+          <Dropdown
+            activeClassName="rotated"
+            anchor={
+              <TrayIcon glyph={help} />
+            }
+          >
+            <PopupMenu
+              closeOnSelect={true}
+              data={[
+                {label: 'Test'},
+                {label: 'Test2'}
+              ]}
+            />
+          </Dropdown>
+          <Link target="_blank" href="https://www.jetbrains.com/help/hub/">
+            <TrayIcon glyph={help} />
+          </Link>
+          <TrayIcon glyph={services} />
+        </Tray>
+      </Header>
+    );
+
+    render(renderHeaderDemo(), container);
+  </file>
+</example>
