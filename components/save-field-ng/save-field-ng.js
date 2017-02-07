@@ -317,6 +317,17 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       scope.cancelChanges = ctrl.cancelChanges = resetValue;
 
       scope.focus = false;
+
+      scope.$on('$destroy', () => {
+        // 1) Bindings are already disabled by this time, so replacing scope.value = ... has no effect
+        // 2) We can't use scope.value.someField because we don't know anything about scope.value, it's passed from the outside
+        // 3) Probably we can use controllerAs to add one more object layer (ctrl.value) so the JS linking would work
+        // but errorBubble works with scope only, so a large refactoring of rgSaveField and other components is needed.
+        // This is the simplest solution:
+        if (iAttrs.value) {
+          $parse(iAttrs.value).assign(scope.$parent, scope.initial);
+        }
+      });
     },
     controller() {
       let onSave = null;
