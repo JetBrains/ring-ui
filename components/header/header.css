@@ -4,7 +4,7 @@
   display: flex;
   height: calc(unit * 7);
   align-items: baseline;
-  line-height: calc(unit * 7 - 2);
+  line-height: calc(unit * 7 - 5);
   margin: 0 calc(unit * 4);
 }
 
@@ -12,18 +12,36 @@
   margin-right: calc(unit * 4);
 }
 
-.rightPart {
+.tray {
   composes: header;
-  justify-content: flex-end;
   margin: 0 0 0 auto;
+}
+
+.trayItem {
+  text-align: center;
+}
+
+.trayItemContent {
+  height: calc(unit * 5);
 }
 
 .icon {
   vertical-align: baseline;
-  height: calc(unit * 3);
-  width: calc(unit * 3);
+  height: calc(unit * 5);
+  width: calc(unit * 5);
+  cursor: pointer;
 
-  &.icon.icon {
-    top: -1px;
+  transition: all 0.3s ease-out;
+  transform: rotate(0deg);
+
+  &:hover {
+     transition: transform 0.3s ease-out;
+     color: link-hover-color;
+  }
+
+  &&:global(.ring-icon) {
+    /* Redefine positioning inside ring-link */
+    top: 0;
   }
 }
+
