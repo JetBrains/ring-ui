@@ -41,3 +41,5 @@ export default class ContentLayout extends RingComponent {
     );
   }
 }
+
+export {default as Sidebar} from './sidebar';
