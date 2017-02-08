@@ -26,7 +26,7 @@
 
 .headerCell {
   & {
-    color: #bbbbbb;
+    color: dark-gray-color;
     font-weight: 200;
     text-align: left;
     white-space: nowrap;
@@ -46,7 +46,6 @@
   }
 
   &.headerCellSorted {
-    color: #999999;
     font-weight: 500;
   }
 
@@ -55,6 +54,7 @@
   }
 
   & .sorter {
+    margin-left: 6px;
     display: none;
     position: absolute;
   }
