@@ -32,7 +32,7 @@ class Row extends Component {
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
-    focused: PropTypes.bool,
+    showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
@@ -42,7 +42,7 @@ class Row extends Component {
 
   static defaultProps = {
     selectable: true,
-    focused: false,
+    showFocus: false,
     draggable: false,
     selected: false,
     onHover: () => {},
@@ -77,10 +77,11 @@ class Row extends Component {
   }
 
   render() {
-    const {item, columns, selectable, selected, focused, draggable} = this.props;
+    const {item, columns, selectable, selected, showFocus, draggable} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
+      [style.rowFocused]: showFocus,
       [style.rowSelected]: selected
     });
 
@@ -89,7 +90,7 @@ class Row extends Component {
         {draggable && <DragHandle/>}
         {selectable &&
         <Checkbox
-          className={focused ? 'ring-checkbox_focus' : ''}
+          className={showFocus ? 'ring-checkbox_focus' : ''}
           checked={selected}
           onFocus={this.onCheckboxFocus}
           onChange={this.onCheckboxChange}
