@@ -1,10 +1,10 @@
-export default function selectionAdapter(selection) {
+export default function selectionAdapter(getSelection) {
   return {
     get size() {
-      return selection.getActive().size;
+      return getSelection().getActive().size;
     },
     get items() {
-      return [...selection.getActive()];
+      return [...getSelection().getActive()];
     }
   };
 }
