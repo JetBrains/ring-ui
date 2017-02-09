@@ -41,11 +41,11 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
 });
 
 const DraggableRows = sortableContainer(props => {
-  const {data, ...restProps} = props;
+  const {data, getRowKey, ...restProps} = props;
   return (
     <tbody>
       {data.map((item, index) =>
-        <DraggableRow key={`item-${index}`} index={index} item={item} {...restProps}/>
+        <DraggableRow key={getRowKey(item)} index={index} item={item} {...restProps}/>
       )}
     </tbody>
   );
@@ -64,6 +64,7 @@ class Table extends Component {
     loading: PropTypes.bool,
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
+    getRowKey: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
@@ -79,6 +80,7 @@ class Table extends Component {
     onSelect: () => {},
     onSort: () => {},
     onReorder: () => {},
+    getRowKey: item => item.id,
     sortKey: 'id',
     sortOrder: true,
     draggable: false
@@ -245,7 +247,7 @@ class Table extends Component {
     const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data) {
-      onSelect(new Selection({data: nextProps.data}));
+      onSelect(selection.cloneWith({data: nextProps.data}));
     }
 
     if (!nextProps.selectable && nextProps.selectable !== selectable) {
@@ -271,7 +273,7 @@ class Table extends Component {
   }
 
   render() {
-    const {selection, caption, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
+    const {selection, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
     const {shortcuts} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -339,6 +341,7 @@ class Table extends Component {
             disabled={!draggable}
             helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd.bind(this)}
+            getRowKey={getRowKey}
 
             /* Row props */
             draggable={draggable}
