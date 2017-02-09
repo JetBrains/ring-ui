@@ -103,6 +103,12 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           return false;
         }
 
+        function afterSaveCall() {
+          return $q.when(scope.afterSave({
+            value: scope[valueField]
+          }));
+        }
+
         function success() {
           scope.initial = angular.copy(scope[valueField]);
           scope.saveFieldForm.$setPristine();
@@ -115,12 +121,14 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
           $timeout(() => {
             scope.done = false;
-          }, 1000);
+          }, 1000); //eslint-disable-line no-magic-numbers
 
           if (scope.afterSave) {
-            return $q.when(scope.afterSave({
-              value: scope[valueField]
-            }));
+            if (draftMode) {
+              return $timeout(afterSaveCall); // we need digest to sync value before calling after save
+            } else {
+              return afterSaveCall();
+            }
           }
 
           return undefined;
