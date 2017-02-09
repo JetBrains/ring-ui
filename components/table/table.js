@@ -31,6 +31,7 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
     columns,
     draggable,
     selectable,
+    showFocus: selection.isFocused(item),
     focused: selection.isFocused(item),
     selected: selectable && selection.isSelected(item),
     onFocus: selected => onRowFocus(item, selected),
@@ -241,7 +242,7 @@ class Table extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {data, selection, onSelect, selectable, focused} = this.props;
+    const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data) {
       onSelect(new Selection({data: nextProps.data}));
@@ -249,10 +250,6 @@ class Table extends Component {
 
     if (!nextProps.selectable && nextProps.selectable !== selectable) {
       onSelect(selection.resetSelection());
-    }
-
-    if (!nextProps.focused && nextProps.focused !== focused) {
-      onSelect(selection.resetFocus());
     }
 
     const shortcuts = nextProps.selectable && nextProps.focused;
