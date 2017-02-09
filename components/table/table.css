@@ -120,7 +120,7 @@
     background-color: #FFF;
   }
 
-  @nest .table:not(.multiSelection) &:focus,
+  @nest .table:not(.multiSelection) &.rowFocused,
   &.rowSelected {
     background-color: light-blue-color;
   }
@@ -134,16 +134,16 @@
     border-bottom-style: solid;
   }
 
-  &:focus .cell {
+  &.rowFocused .cell {
     border-color: blue-color;
     border-bottom-style: solid;
   }
 
-  &:focus + .row .cell {
+  &.rowFocused + .row .cell {
     border-top-style: none;
   }
 
-  &.rowSelected:not(:focus) + .rowSelected:not(:focus) .cell {
+  &.rowSelected:not(.rowFocused) + .rowSelected:not(.rowFocused) .cell {
     border-top-color: dirty-blue-color;
   }
 }
