@@ -46,7 +46,6 @@ export default class Header extends Component {
     columns.map((column, key) => {
       const props = {key, column, onSort, sortKey, sortOrder};
       if (caption) {
-        props.tiny = true;
         if (selectable && key === 0) {
           props.colSpan = 2;
         }
