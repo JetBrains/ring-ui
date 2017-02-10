@@ -57,9 +57,7 @@ $over-input-z-index: 2;
   left: 5px;
   width: calc(100% - #{$ring-unit*3});
 
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @include ring-ellipsis;
 
   pointer-events: none;
 
