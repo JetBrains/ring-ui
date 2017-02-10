@@ -9,17 +9,6 @@
   }
 }
 
-.inSidebar {
-  && {
-    position: static;
-    display: block;
-    z-index: 0;
-
-    width: auto;
-    margin-bottom: 20px;
-  }
-}
-
 .wide {
   && {
     width: calc(unit * 75);
