@@ -61,6 +61,8 @@ $over-input-z-index: 2;
   white-space: nowrap;
   text-overflow: ellipsis;
 
+  pointer-events: none;
+
   color: #9C9C9C;
   font-size: $ring-font-size;
 }
