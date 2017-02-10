@@ -24,7 +24,7 @@ export default class Selection {
     return new this.constructor({
       data: data || this._data,
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
-      focused: (data && focused == null) ? cloneFocus() : focused || this._focused
+      focused: (data && !focused) ? cloneFocus() : focused || this._focused
     });
   }
 
