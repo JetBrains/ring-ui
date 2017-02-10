@@ -1,6 +1,7 @@
 @value unit, error-color, font-size-smaller from '../global/global.css';
 
 .dialogContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
 
