@@ -41,30 +41,6 @@ module.exports = (env = {}) => {
   console.log(`Hub server used is ${colorInfo(serverUri)}`);
   const hubConfig = JSON.stringify({serverUri, clientId});
 
-  const loaders = [
-    // HTML examples
-    {
-      test: /example\.html$/,
-      loaders: [
-        `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
-        require.resolve('extract-loader'),
-        webpackConfig.loaders.htmlLoader.loader
-      ]
-    },
-    // For github-markdown-css
-    {
-      test: /\.css$/,
-      include: [
-        path.resolve('./node_modules/github-markdown-css'),
-        path.resolve('./node_modules/highlight.js')
-      ],
-      loaders: [
-        'style-loader',
-        'css-loader'
-      ]
-    }
-  ];
-
   const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
     entry: {
       components: createEntriesList('./components/*'),
@@ -78,11 +54,29 @@ module.exports = (env = {}) => {
     },
     context: '.',
     module: {
-      // webpack 1
-      loaders,
-
-      // webpack 2
-      rules: loaders
+      rules: [
+        // HTML examples
+        {
+          test: /example\.html$/,
+          loaders: [
+            `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
+            require.resolve('extract-loader'),
+            webpackConfig.loaders.htmlLoader.loader
+          ]
+        },
+        // For github-markdown-css
+        {
+          test: /\.css$/,
+          include: [
+            path.resolve('./node_modules/github-markdown-css'),
+            path.resolve('./node_modules/highlight.js')
+          ],
+          loaders: [
+            'style-loader',
+            'css-loader'
+          ]
+        }
+      ]
     },
     devtool,
     devServer: {
