@@ -59,8 +59,6 @@ $over-input-z-index: 2;
 
   @include ring-ellipsis;
 
-  pointer-events: none;
-
   color: #9C9C9C;
   font-size: $ring-font-size;
 }
