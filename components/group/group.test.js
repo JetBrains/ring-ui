@@ -13,12 +13,10 @@ describe('Group', () => {
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    findDOMNode(renderComponent()).should.match('span');
   });
 
   it('should use passed className', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
-
-  // TODO Add more tests
 });
