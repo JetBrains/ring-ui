@@ -163,7 +163,6 @@
     "style-loader": "0.13.1",
     "svg-sprite-loader": "0.0.27",
     "url-loader": "0.5.7",
-    "webpack-toolkit": "^0.7.8",
     "whatwg-fetch": "1.0.0"
   }
 }
