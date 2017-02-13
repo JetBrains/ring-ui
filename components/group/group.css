@@ -1,0 +1,7 @@
+@value unit from  "../global/global.css";
+
+.group {
+  & > *:not(:last-child) {
+    margin-right: unit;
+  }
+}
