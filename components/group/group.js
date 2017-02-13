@@ -52,12 +52,12 @@ export default class Group extends Component {
     const classes = classNames(styles.group, className);
 
     return (
-      <div
+      <span
         {...restProps}
         className={classes}
       >
         {children}
-      </div>
+      </span>
     );
   }
 }
