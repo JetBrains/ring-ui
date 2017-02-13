@@ -69,7 +69,8 @@ class Table extends Component {
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool,
-    draggable: PropTypes.bool
+    draggable: PropTypes.bool,
+    shortcuts: PropTypes.object
   }
 
   static defaultProps = {
@@ -83,7 +84,8 @@ class Table extends Component {
     getRowKey: item => item.id,
     sortKey: 'id',
     sortOrder: true,
-    draggable: false
+    draggable: false,
+    shortcuts: {}
   }
 
   state = {
@@ -331,7 +333,7 @@ class Table extends Component {
 
     return (
       <div className={wrapperClasses}>
-        {shortcuts ? <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} /> : ''}
+        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope} /> : ''}
 
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
