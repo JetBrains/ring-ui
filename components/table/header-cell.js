@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Icon from '../icon/icon';
@@ -12,7 +12,7 @@ import style from './table.css';
 
 const ICON_SIZE = 10;
 
-export default class HeaderCell extends Component {
+export default class HeaderCell extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     column: PropTypes.object.isRequired,

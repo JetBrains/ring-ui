@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
 import 'core-js/modules/es6.number.is-finite';
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 
@@ -26,7 +26,7 @@ const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-styl
   );
 });
 
-class Row extends Component {
+class Row extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
