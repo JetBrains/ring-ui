@@ -270,10 +270,11 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {selection, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
+    const {selection, columns, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
     const {shortcuts} = this.state;
 
-    const columns = this.props.columns.filter(column => !column.subtree);
+    // NOTE: not construct new object per render because it causes all rows rerendering
+    // const columns = this.props.columns.filter(column => !column.subtree);
 
     /*const subtreeKey = do {
       const subtreeColumn = this.props.columns.find(column => column.subtree);
