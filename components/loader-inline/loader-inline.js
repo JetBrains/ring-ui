@@ -50,9 +50,9 @@ export default class LoaderInline extends RingComponent {
         {...this.props}
         className={classes}
       >
-        <div className="ring-loader-inline__ball"></div>
-        <div className="ring-loader-inline__ball ring-loader-inline__ball_second"></div>
-        <div className="ring-loader-inline__ball ring-loader-inline__ball_third"></div>
+        <div className="ring-loader-inline__ball" />
+        <div className="ring-loader-inline__ball ring-loader-inline__ball_second" />
+        <div className="ring-loader-inline__ball ring-loader-inline__ball_third" />
       </div>
     );
   }
