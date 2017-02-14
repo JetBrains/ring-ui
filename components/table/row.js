@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
 import 'core-js/modules/es6.number.is-finite';
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 
@@ -25,13 +25,13 @@ const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-styl
   );
 });
 
-class Row extends Component {
+class Row extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
-    focused: PropTypes.bool,
+    showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
@@ -41,7 +41,7 @@ class Row extends Component {
 
   static defaultProps = {
     selectable: true,
-    focused: false,
+    showFocus: false,
     draggable: false,
     selected: false,
     onHover: () => {},
@@ -76,10 +76,11 @@ class Row extends Component {
   }
 
   render() {
-    const {item, columns, selectable, selected, focused, draggable} = this.props;
+    const {item, columns, selectable, selected, showFocus, draggable} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
+      [style.rowFocused]: showFocus,
       [style.rowSelected]: selected
     });
 
@@ -88,7 +89,7 @@ class Row extends Component {
         {draggable && <DragHandle/>}
         {selectable &&
         <Checkbox
-          className={focused ? 'ring-checkbox_focus' : ''}
+          className={showFocus ? 'ring-checkbox_focus' : ''}
           checked={selected}
           onFocus={this.onCheckboxFocus}
           onChange={this.onCheckboxChange}

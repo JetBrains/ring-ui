@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 13-02-2017: Checkbox + ReactNg connection does not support ngModel anymore. Use checkbox-ng instead.
+
+### 13-02-2017: Badge component has no margins anymore and is aligned by baseline
+
 ### 20-01-2016: Webpack config structure change
 
 In order to migrate to webpack 2, we have to keep webpack.config clean of properties that don't match [the schema](https://github.com/webpack/webpack/blob/028c51301733836abbedc88be7483af2623f5943/schemas/webpackOptionsSchema.json).

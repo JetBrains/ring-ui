@@ -34,7 +34,7 @@ export default class Tag extends RingComponent {
     focused: false
   }
 
-  onDocumentClick(event) {
+  onDocumentClick = event => {
     if (this.refs.tag) {
       this.setState({focused: this.node === event.target});
     }
@@ -42,9 +42,9 @@ export default class Tag extends RingComponent {
 
   setDocumentClickListener(setListener) {
     if (setListener) {
-      document.addEventListener('click', ::this.onDocumentClick);
+      document.addEventListener('click', this.onDocumentClick);
     } else {
-      document.removeEventListener('click', ::this.onDocumentClick);
+      document.removeEventListener('click', this.onDocumentClick);
     }
   }
 

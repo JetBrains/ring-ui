@@ -9,16 +9,16 @@
      import React from 'react';
 
      import Badge from 'ring-ui/components/badge/badge';
+     import Group from 'ring-ui/components/group/group';
 
      const renderBadgeDemo = () => (
-       <span>
+       <Group>
          <Badge>Simple</Badge>
-         <Badge active>Active</Badge>
          <Badge gray>Gray</Badge>
          <Badge valid>Valid</Badge>
          <Badge invalid>Invalid</Badge>
          <Badge disabled>Disabled</Badge>
-       </span>
+       </Group>
      );
 
      render(renderBadgeDemo(), document.getElementById('badges'));
