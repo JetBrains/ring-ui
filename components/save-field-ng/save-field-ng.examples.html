@@ -23,6 +23,24 @@
 
         <div class="ring-form__group">
           <label class="ring-form__label">
+            Input
+          </label>
+
+          <div class="ring-form__control">
+            <rg-save-field value="data.email" working-value="data.emailWorkingValue"
+              on-save="save()">
+              <input type="text"
+                class="ring-input ring-input-size_md"
+                ng-required="true"
+                ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]*[@][a-zA-Z0-9-_\.]+$/"
+                ng-model="data.emailWorkingValue">
+            </rg-save-field>
+            <div class="ring-form__control__description">value: {{data.email}}  working-value: {{data.emailWorkingValue}}</div>
+          </div>
+        </div>
+
+        <div class="ring-form__group">
+          <label class="ring-form__label">
             Textarea
           </label>
 

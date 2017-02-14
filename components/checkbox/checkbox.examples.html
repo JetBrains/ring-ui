@@ -36,42 +36,42 @@
     render(<Checkbox />, document.getElementById('checkbox'));
 
     render(
-      <Checkbox defaultChecked={true} />,
+      <Checkbox defaultChecked/>,
       document.getElementById('checkbox-selected')
     );
 
     render(
       <Checkbox
-        defaultChecked={true}
-        disabled={true}
+        defaultChecked
+        disabled
       >This checkbox is disabled</Checkbox>,
       document.getElementById('checkbox-disabled')
     );
 
     render(
       <Checkbox
-        defaultChecked={true}
+        defaultChecked
       >This checkbox is inside div with large line-heigth.</Checkbox>,
       document.getElementById('checkbox-in-large-line-height-div')
     );
 
     render(
       <Checkbox
-        defaultChecked={true}
+        defaultChecked
       >This checkbox is inside div with small line-heigth.</Checkbox>,
       document.getElementById('checkbox-in-small-line-height-div')
     );
 
     render(
       <Checkbox
-        defaultChecked={true}
+        defaultChecked
       >This checkbox is inside div with large font-size.</Checkbox>,
       document.getElementById('checkbox-in-large-font-div')
     );
 
     render(
       <Checkbox
-        defaultChecked={true}
+        defaultChecked
       >This checkbox is inside div with small font-size.</Checkbox>,
       document.getElementById('checkbox-in-small-font-div')
     );

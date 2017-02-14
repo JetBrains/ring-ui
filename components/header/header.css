@@ -4,7 +4,7 @@
   display: flex;
   height: calc(unit * 7);
   align-items: baseline;
-  line-height: calc(unit * 7 - 2);
+  line-height: calc(unit * 7 - 5);
   margin: 0 calc(unit * 4);
 }
 
@@ -12,18 +12,63 @@
   margin-right: calc(unit * 4);
 }
 
-.rightPart {
+.tray {
   composes: header;
-  justify-content: flex-end;
   margin: 0 0 0 auto;
 }
 
-.icon {
-  vertical-align: baseline;
-  height: calc(unit * 3);
-  width: calc(unit * 3);
+.trayItem {
+  text-align: center;
+}
 
-  &.icon.icon {
-    top: -1px;
+.trayItemContent {
+  height: calc(unit * 5);
+}
+
+.iconPosition {
+  vertical-align: baseline;
+  height: calc(unit * 5);
+  width: calc(unit * 5);
+
+  &&:global(.ring-icon) {
+    /* Redefine positioning inside ring-link */
+    top: 0;
   }
 }
+
+.iconBehavior {
+  cursor: pointer;
+
+  transition: all 0.3s ease-out;
+  transform: rotate(0deg);
+
+  &:hover {
+     transition: transform 0.3s ease-out;
+     color: link-hover-color;
+  }
+}
+
+.icon {
+  composes: iconPosition;
+  composes: iconBehavior;
+}
+
+.profileEmpty {
+  composes: iconPosition;
+
+  text-align: right;
+  position: relative;
+  top: unit;
+  /* Fix popup vertical positioning */
+  height: calc(unit * 4);
+}
+
+.profile {
+  composes: profileEmpty;
+  composes: iconBehavior;
+}
+
+.loginButton.loginButton {
+  margin-left: unit;
+}
+

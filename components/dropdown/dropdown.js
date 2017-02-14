@@ -16,7 +16,7 @@ import styles from './dropdown.css';
 
 export default class Dropdown extends Component {
   static propTypes = {
-    anchor: PropTypes.node.isRequired,
+    anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
     className: PropTypes.string,
@@ -37,15 +37,26 @@ export default class Dropdown extends Component {
   hide = () => this.toggle(false);
 
   render() {
+    const {show} = this.state;
     const {children, anchor, initShown, className, activeClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const classes = classNames(styles.dropdown, className, {
-      [activeClassName]: this.state.show
+      [activeClassName]: activeClassName != null && show
     });
 
-    const anchorElement = typeof anchor === 'string'
-      ? <Anchor>{anchor}</Anchor>
-      : anchor;
+    let anchorElement;
+
+    switch (typeof anchor) {
+      case 'string':
+        anchorElement = (<Anchor>{anchor}</Anchor>);
+        break;
+      case 'function':
+        anchorElement = anchor({active: show});
+        break;
+
+      default:
+        anchorElement = anchor;
+    }
 
     return (
       <div
@@ -56,7 +67,7 @@ export default class Dropdown extends Component {
       >
         {anchorElement}
         {cloneElement(children, {
-          hidden: !this.state.show,
+          hidden: !show,
           onCloseAttempt: this.hide,
           dontCloseOnAnchorClick: true
         })}

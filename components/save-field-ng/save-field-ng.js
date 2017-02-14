@@ -74,6 +74,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
     scope: {
       api: '=?',
       value: '=',
+      workingValue: '=',
       onSave: '&',
       afterSave: '&?',
       validate: '&?',
@@ -94,25 +95,40 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       let blurTimeout = null;
       let isTextarea = false;
 
+      const draftMode = iAttrs.workingValue;
+      const valueField = draftMode ? 'workingValue' : 'value';
+
       function submitChanges() {
-        if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope.value)) {
+        if (!scope.saveFieldForm.$valid || scope.loading || angular.equals(scope.initial, scope[valueField])) {
           return false;
         }
 
+        function afterSaveCall() {
+          return $q.when(scope.afterSave({
+            value: scope[valueField]
+          }));
+        }
+
         function success() {
-          scope.initial = angular.copy(scope.value);
+          scope.initial = angular.copy(scope[valueField]);
           scope.saveFieldForm.$setPristine();
 
           scope.done = true;
 
+          if (draftMode) {
+            scope.value = scope.workingValue;
+          }
+
           $timeout(() => {
             scope.done = false;
-          }, 1000);
+          }, 1000); //eslint-disable-line no-magic-numbers
 
           if (scope.afterSave) {
-            return $q.when(scope.afterSave({
-              value: scope.value
-            }));
+            if (draftMode) {
+              return $timeout(afterSaveCall); // we need digest to sync value before calling after save
+            } else {
+              return afterSaveCall();
+            }
           }
 
           return undefined;
@@ -137,10 +153,10 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
 
         let onsave = ctrl.getSave();
         if (onsave) {
-          onsave = $q.when(onsave(scope.value));
+          onsave = $q.when(onsave(scope[valueField]));
         } else {
           onsave = $q.when(scope.onSave({
-            value: scope.value
+            value: scope[valueField]
           }));
         }
 
@@ -157,7 +173,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         }
 
         scope.$evalAsync(() => {
-          scope.value = scope.initial ? scope.initial : '';
+          scope[valueField] = scope.initial ? scope.initial : '';
           scope.saveFieldForm.$setValidity(CUSTOM_ERROR_ID, true, customError);
           scope.saveFieldForm.$setPristine();
         });
@@ -213,7 +229,14 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
         }, 10);
       };
 
-      scope.$watch('value', value => {
+      if (draftMode) {
+        scope.$watch('value', value => {
+          scope.workingValue = angular.copy(value);
+          scope.initial = value;
+        });
+      }
+
+      scope.$watch(valueField, value => {
         let promise = null;
         if (scope.saveFieldForm.$pristine) {
           scope.initial = value;
@@ -221,7 +244,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
           resetValue();
         } else if (scope.validate) {
           promise = scope.validate({
-            value: scope.value
+            value
           });
         }
 

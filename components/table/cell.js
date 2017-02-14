@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import style from './table.css';
 
-export default class Cell extends Component {
+export default class Cell extends PureComponent {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string
