@@ -11,7 +11,7 @@
 
 import 'core-js/modules/es6.array.find';
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
@@ -51,7 +51,7 @@ const DraggableRows = sortableContainer(props => {
   );
 });
 
-class Table extends Component {
+class Table extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     loaderClassName: PropTypes.string,

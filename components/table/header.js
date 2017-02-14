@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import style from './table.css';
@@ -8,7 +8,7 @@ import style from './table.css';
 import HeaderCell from './header-cell';
 import Checkbox from '../checkbox/checkbox';
 
-export default class Header extends Component {
+export default class Header extends PureComponent {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
