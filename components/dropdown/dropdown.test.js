@@ -11,14 +11,15 @@ describe('Dropdown', () => {
   let popup;
   let renderComponent;
 
+  const anchorElement = (
+    <span
+      ref={el => {
+        anchor = el;
+      }}
+    />
+  );
+
   beforeEach(() => {
-    const anchorElement = (
-      <span
-        ref={el => {
-          anchor = el;
-        }}
-      />
-    );
     const popupElement = (
       <Popup
         ref={el => {
@@ -80,5 +81,21 @@ describe('Dropdown', () => {
   it('should show popup when inited with initShown=true', () => {
     renderComponent({initShown: true});
     popup.isVisible().should.be.true;
+  });
+
+  it('should accept function as anchor', () => {
+    const anchorFunc = sinon.stub().returns(anchorElement);
+    renderComponent({anchor: anchorFunc});
+
+    anchorFunc.should.have.been.calledWithMatch({active: false});
+  });
+
+  it('should pass active property to anchor function', () => {
+    const anchorFunc = sinon.stub().returns(anchorElement);
+    renderComponent({anchor: anchorFunc});
+    Simulate.click(anchor);
+
+    anchorFunc.should.have.been.calledTwice;
+    anchorFunc.getCall(1).calledWithMatch({active: true}).should.be.true;
   });
 });
