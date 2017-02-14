@@ -27,7 +27,7 @@
     import services from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
-    import Header, {Tray, TrayIcon, Profile} from 'ring-ui/components/header/header';
+    import Header, {Tray, TrayIcon, Profile, Services} from 'ring-ui/components/header/header';
     import Link from 'ring-ui/components/link/link';
     import Icon, {Size} from 'ring-ui/components/icon/icon';
     import Input from 'ring-ui/components/input/input';
@@ -53,11 +53,10 @@
         <Button>Create issue</Button>
         <Tray>
           <Input placeholder="search" />
-          <TrayIcon glyph={cog} />
           <Dropdown
             activeClassName="rotated"
             anchor={
-              <TrayIcon glyph={help} />
+              <TrayIcon glyph={cog} />
             }
           >
             <PopupMenu
@@ -71,7 +70,7 @@
           <Link target="_blank" href="https://www.jetbrains.com/help/hub/">
             <TrayIcon glyph={help} />
           </Link>
-          <TrayIcon glyph={services} />
+          <Services auth={auth} />
           <Profile auth={auth} />
         </Tray>
       </Header>
