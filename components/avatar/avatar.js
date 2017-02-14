@@ -41,7 +41,7 @@ import global from '../global/global.css';
          render() {
            const url = `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`
            const dataUri = `data:image/svg+xml,${encodeURIComponent('<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">' +
-            '<circle cx="60" cy="60" r="50" fill="#00cc00"/>' +
+            '<rect x="0" y="0" height="120" width="120" fill="#00cc00"/>' +
            '</svg>')}`;
 
            return (
@@ -66,7 +66,7 @@ import global from '../global/global.css';
    </example>
  */
 
-const Size = {
+export const Size = {
   Size18: 18,
   Size20: 20,
   Size24: 24,
@@ -143,5 +143,3 @@ export default class Avatar extends PureComponent {
     );
   }
 }
-
-export {Size};

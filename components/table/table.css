@@ -5,17 +5,6 @@
   position: relative;
 }
 
-.loader.loader {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: none;
-}
-
-.loading .loader {
-  display: inline-block;
-}
-
 .table {
   border-spacing: 0;
   width: 100%;
@@ -31,7 +20,7 @@
   & {
     composes: font-smaller-lower;
     color: dark-gray-color;
-    font-weight: normal;
+    font-weight: 200;
     text-align: left;
     white-space: nowrap;
     height: calc(unit * 3);
@@ -50,7 +39,7 @@
   }
 
   &.headerCellSorted {
-    font-weight: bold;
+    font-weight: 500;
   }
 
   &.headerCellSortable {
@@ -58,6 +47,7 @@
   }
 
   & .sorter {
+    margin-left: 6px;
     display: none;
     position: absolute;
   }
@@ -83,6 +73,7 @@
   color: darker-gray-color;
 }
 
+
 .row {
   & {
     outline: none;
@@ -94,16 +85,28 @@
     transition: none;
   }
 
-  @nest .table:not(.multiSelection) &:focus,
+  @nest .table:not(.multiSelection) &.rowFocused,
   .rowSelected {
     background-color: sidebar-background-color;
   }
 
-  &:focus {
+  &.rowFocused {
     box-shadow: inset 0 0 0 2px border-hover-color;
   }
 }
 
+.loadingOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
 
 .cell {
   & {

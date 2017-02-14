@@ -1,18 +1,12 @@
 @value unit, error-color, font-size-smaller from '../global/global.css';
 
 .dialogContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
-}
 
-.inSidebar {
-  && {
-    position: static;
-    display: block;
-    z-index: 0;
-
-    width: auto;
-    margin-bottom: 20px;
+  & :global(.ring-form__group:last-child) {
+    margin-bottom: 0;
   }
 }
 
@@ -64,6 +58,7 @@
 .footer {
   height: auto;
   padding: calc(unit * 2) calc(unit * 4);
+  padding-top: calc(unit * 2 - 2px);
 
   font-size: 0;
   text-align: left;

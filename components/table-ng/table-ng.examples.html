@@ -7,6 +7,10 @@
         selection="ctrl.selection"
         on-select="ctrl.onSelect"
         autofocus="true"
+
+        sort-key="{{ctrl.sortKey}}"
+        sort-order="ctrl.sortOrder"
+        on-sort="ctrl.onSort"
       ></rg-table>
     </div>
   </file>
@@ -23,7 +27,8 @@
       },
       {
         id: 'city',
-        title: 'City'
+        title: 'City',
+        sortable: true
       },
       {
         id: 'url',
@@ -37,10 +42,19 @@
       this.data = data;
       this.columns = columns;
       this.selection = new Selection({data});
+      this.sortKey = 'city';
+      this.sortOrder = false;
 
       this.onSelect = selection => {
         this.selection = selection;
       }
+
+      this.onSort = ({column: {id: key}, order}) => {
+        this.sortOrder = order;
+        this.data = this.data.slice().sort((itemA, itemB) => {
+          return order ? itemA[key].localeCompare(itemB[key]) : itemB[key].localeCompare(itemA[key]);
+        });
+      };
     });
   </file>
 </example>
