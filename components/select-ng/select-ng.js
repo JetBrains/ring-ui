@@ -52,6 +52,12 @@ angularModule.directive('rgSelect', () => {
     suggest: Select.Type.INPUT
   };
 
+  const sizes = {
+    s: Select.Size.S,
+    m: Select.Size.M,
+    l: Select.Size.L
+  };
+
   return {
     /**
      * @property {Object} scope
@@ -78,6 +84,7 @@ angularModule.directive('rgSelect', () => {
      * @property {String} scope.loadingMessage - message to display while loading
      * @property {Object} scope.config - hash to pass to react select component.
      * @property {Boolean} scope.configAutoUpdate - should or not config watch for it updates and update select.
+     * @property {String} scope.size - select size. Can be "S", "M" (default), or "L".
      */
     scope: {
       ngModel: '=',
@@ -104,7 +111,8 @@ angularModule.directive('rgSelect', () => {
       loadingMessage: '@',
       config: '=?',
       configAutoUpdate: '=',
-      selectInstance: '=?'
+      selectInstance: '=?',
+      size: '@'
     },
     bindToController: true,
     controllerAs: 'selectCtrl',
@@ -347,6 +355,10 @@ angularModule.directive('rgSelect', () => {
         return types[getType()] || types.button;
       }
 
+      function getSelectSize() {
+        return sizes[ctrl.size] || sizes.m;
+      }
+
       /**
        * @param {newValue} newValue New value of options
        * @param {value} value Previous value of options
@@ -386,6 +398,7 @@ angularModule.directive('rgSelect', () => {
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
           notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
           targetElement: getType() === 'dropdown' ? element : null,
+          size: getSelectSize(),
           onBeforeOpen: () => {
             $scope.$evalAsync(() => {
               resetMemorizedOptions();

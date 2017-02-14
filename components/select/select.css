@@ -78,7 +78,6 @@
 }
 
 .buttonMode {
-  margin: calc(unit * 2) 0;
   position: relative;
   cursor: pointer;
 }
@@ -90,6 +89,7 @@
   text-align: left;
   display: inline-block;
   line-height: calc(unit * 4);
+  height: calc(unit * 4 + 1px);
   width: 100%;
   vertical-align: top;
   border: none;
