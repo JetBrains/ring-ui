@@ -5,11 +5,11 @@ import Icon, {Color, Size} from '../icon/icon';
 
 import styles from './header.css';
 
-export default class HeaderIcon extends Component {
+export default class TrayIcon extends Component {
   static propTypes = Icon.propTypes;
 
   static defaultProps = {
-    activeEvent: 'onClick',
+    ...Icon.defaultProps,
     color: Color.GRAY,
     size: Size.Size18
   };
