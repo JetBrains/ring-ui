@@ -1,4 +1,4 @@
-@value unit from  "../global/global.css";
+@value unit, link-hover-color from  "../global/global.css";
 
 .header {
   display: flex;
