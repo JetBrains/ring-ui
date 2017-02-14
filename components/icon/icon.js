@@ -17,9 +17,12 @@ import './icon.scss';
 
 export default class Icon extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     color: PropTypes.string,
     glyph: PropTypes.string,
-    size: PropTypes.number
+    height: PropTypes.number,
+    size: PropTypes.number,
+    width: PropTypes.number
   };
 
   static defaultProps = ({
