@@ -597,7 +597,7 @@ describe('Query Assist', () => {
         onApply
       });
 
-      Simulate.click(this.queryAssist.refs.glass.node);
+      Simulate.click(findDOMNode(this.queryAssist.refs.glass));
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -611,7 +611,7 @@ describe('Query Assist', () => {
         onClear
       });
 
-      Simulate.click(this.queryAssist.refs.clear.node);
+      Simulate.click(findDOMNode(this.queryAssist.refs.clear));
       onClear.should.have.been.calledWithExactly();
     });
   });
