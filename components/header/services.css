@@ -1,0 +1,113 @@
+@value unit, blue-color, link-hover-color, dark-gray-color from  "../global/global.css";
+
+.activeIconWrapper{}
+
+.activeIcon {
+  @nest &, &:hover {
+     color: blue-color
+  }
+}
+
+.services {
+  background-color: #000;
+
+  line-height: 10px; /* Eliminate gap between clickable blocks rows */
+  max-width: calc(unit * 50 + 2);
+  padding: calc(unit * 4) calc(unit * 4) calc(unit * 3);
+}
+
+.active {
+  font-weight: bold;
+}
+
+.item {
+  box-sizing: border-box;
+  display: inline-block;
+  height: calc(unit * 14);
+  width: calc(unit * 14);
+
+  color: #FFF;
+  overflow-x: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  line-height: initial;
+
+  @nest &:after {
+   vertical-align: middle;
+   height: calc(unit * 14);
+ }
+
+  /* Disable animation .ring-icon_loading in Header in Edge, see https://youtrack.jetbrains.com/issue/RG-928 */
+  /* Supports MS Edge */
+  @supports (-ms-accelerator: true) {
+    animation-name: none;
+  }
+}
+
+/* New line inside inline content */
+.itemText:before {
+  content: '\A';
+  white-space: pre;
+}
+
+.itemLogo {
+  width: calc(unit * 6);
+  height: calc(unit * 6);
+
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  margin: calc(unit * 2) 0 calc(unit + 1);
+}
+
+.activeItem {
+  composes: item;
+  composes: active;
+}
+
+.linkItem {
+  composes: item;
+
+  text-decoration: none;
+
+  &:hover {
+     color: link-hover-color;
+     text-decoration: underline;
+  }
+}
+
+.line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+  margin: calc(unit * 4) 0 calc(unit * 2);
+}
+
+.stacked {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: calc(unit * 2);
+  line-height: calc(unit * 2);
+
+  color: dark-gray-color;
+  text-decoration: none;
+
+  &:last-child {
+    margin-bottom: -calc(unit * 3);
+  }
+}
+
+.linkStacked {
+  composes: stacked;
+
+
+  &:hover {
+     color: link-hover-color;
+     text-decoration: underline;
+  }
+}
+
+.activeStacked {
+  composes: stacked;
+  composes: active;
+}
