@@ -9,6 +9,10 @@ function resolveLoader(loader) {
   return require.resolve(`${loader}-loader`);
 }
 
+function loadersObjectToArray(loaders) {
+  return Object.keys(loaders).map(name => loaders[name]);
+}
+
 const htmlLoaderOptions = `?${JSON.stringify({
   interpolate: true,
   collapseBooleanAttributes: false,
@@ -83,35 +87,31 @@ const gifLoader = {
   loader: resolveLoader('url')
 };
 
+const loaders = {
+  svgSpriteLoader,
+  svgLoader,
+  cssLoader,
+  scssLoader,
+  ngAnnotateLoader,
+  babelLoader,
+  whatwgLoader,
+  htmlLoader,
+  gifLoader
+};
+
 // Minimal config for building components
 module.exports = {
   config: {
     module: {
-      loaders: [
-        svgSpriteLoader,
-        svgLoader,
-        cssLoader,
-        scssLoader,
-        ngAnnotateLoader,
-        babelLoader,
-        whatwgLoader,
-        htmlLoader,
-        gifLoader
-      ]
+      // webpack 1
+      loaders: loadersObjectToArray(loaders),
+
+      // webpack 2
+      rules: loadersObjectToArray(loaders)
     }
   },
 
   componentsPath,
 
-  loaders: {
-    svgSpriteLoader,
-    svgLoader,
-    cssLoader,
-    scssLoader,
-    ngAnnotateLoader,
-    babelLoader,
-    whatwgLoader,
-    htmlLoader,
-    gifLoader
-  }
+  loaders
 };
