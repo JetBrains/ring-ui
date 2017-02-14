@@ -18,35 +18,30 @@ import focusSensorHOC from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
 import Selection from './selection';
 import Header from './header';
-import Row from './row';
 import style from './table.css';
-import {sortableContainer, sortableElement, arrayMove} from 'react-sortable-hoc';
+import {sortableContainer, arrayMove} from 'react-sortable-hoc';
+import DraggableRow from './draggable-row';
 
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
-const DraggableRow = sortableElement(({item, columns, draggable, selectable, selection, onRowFocus, onRowSelect}) => {
-  const props = {
-    item,
-    columns,
-    draggable,
-    selectable,
-    showFocus: selection.isFocused(item),
-    focused: selection.isFocused(item),
-    selected: selectable && selection.isSelected(item),
-    onFocus: selected => onRowFocus(item, selected),
-    onSelect: selected => onRowSelect(item, selected)
-  };
-  return <Row {...props} />;
-});
-
 const DraggableRows = sortableContainer(props => {
-  const {data, getRowKey, ...restProps} = props;
+  const {data, getRowKey, selection, selectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
     <tbody>
-      {data.map((item, index) =>
-        <DraggableRow key={getRowKey(item)} index={index} item={item} {...restProps}/>
-      )}
+    {data.map((item, index) => (
+      <DraggableRow
+        key={getRowKey(item)}
+        index={index}
+        item={item}
+        showFocus={selection.isFocused(item)}
+        focused={selection.isFocused(item)}
+        selected={selectable && selection.isSelected(item)}
+        onFocus={onRowFocus}
+        onSelect={onRowSelect}
+        {...restProps}
+      />
+    ))}
     </tbody>
   );
 });
@@ -342,7 +337,7 @@ class Table extends PureComponent {
             useDragHandle={true}
             disabled={!draggable}
             helperClass={style.draggingRow}
-            onSortEnd={this.onSortEnd.bind(this)}
+            onSortEnd={this.onSortEnd}
             getRowKey={getRowKey}
 
             /* Row props */
@@ -351,8 +346,8 @@ class Table extends PureComponent {
             columns={columns}
             selectable={selectable}
             selection={selection}
-            onRowFocus={this.onRowFocus.bind(this)}
-            onRowSelect={this.onRowSelect.bind(this)}
+            onRowFocus={this.onRowFocus}
+            onRowSelect={this.onRowSelect}
           />
         </table>
 
