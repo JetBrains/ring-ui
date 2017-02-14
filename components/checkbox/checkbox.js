@@ -1,11 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 
 import './checkbox.scss';
-
-const ngModelStateField = 'checked';
 
 /**
  * @name Checkbox
@@ -14,39 +11,29 @@ const ngModelStateField = 'checked';
  * @extends {ReactComponent}
  * @example-file ./checkbox.examples.html
  */
-export default class Checkbox extends RingComponent {
-  static ngModelStateField = ngModelStateField;
+export default class Checkbox extends PureComponent {
 
   static propTypes = {
     name: PropTypes.string,
-
-    /**
-     * Add custom class for checkbox
-     */
+    label: PropTypes.string,
     className: PropTypes.string,
-
-    /**
-     * Set component ID. If user does not pass an ID
-     * we generate a unique ID for checkbox to work correctly.
-     */
-    id: PropTypes.string
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func
   };
 
-  ngModelStateField = ngModelStateField;
-
   state = {
-    id: this.constructor.getUID('ring-checkbox-'),
     checked: this.props.checked,
     disabled: this.props.disabled
   };
 
-  willReceiveProps(props) {
-    if (props.checked !== undefined) {
-      this.state.checked = !!props.checked;
+  componentWillReceiveProps({checked, disabled}) {
+    if (checked !== undefined) {
+      this.setState({checked});
     }
 
-    if (props.disabled !== undefined) {
-      this.state.disabled = !!props.disabled;
+    if (disabled !== undefined) {
+      this.setState({disabled});
     }
   }
 
@@ -63,9 +50,8 @@ export default class Checkbox extends RingComponent {
   }
 
   render() {
-    const id = this.props.id || this.state.id;
-    const {_onModelChange, inputChange, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-    const {checked} = this.state;
+    const {label: labelProp, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {checked, disabled} = this.state;
 
     const classes = classNames(
       'ring-checkbox__input',
@@ -73,20 +59,16 @@ export default class Checkbox extends RingComponent {
     );
 
     return (
-      <label
-        className="ring-checkbox"
-        htmlFor={id}
-      >
+      <label className="ring-checkbox">
         <span className="ring-checkbox__input-wrapper">
           <input
             {...restProps}
             ref="input"
-            disabled={this.state.disabled}
+            disabled={disabled}
             onChange={::this.inputChange}
             type="checkbox"
             className={classes}
-            id={id}
-            checked={Boolean(this.state.checked)}
+            checked={Boolean(checked)}
           />
           <span className="ring-checkbox__icon">
             {checked &&
@@ -98,7 +80,7 @@ export default class Checkbox extends RingComponent {
             />}
           </span>
         </span>
-        <span className="ring-checkbox__label">{this.props.label}</span>
+        <span className="ring-checkbox__label">{labelProp}</span>
       </label>
     );
   }
