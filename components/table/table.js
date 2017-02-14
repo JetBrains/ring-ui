@@ -11,7 +11,7 @@
 
 import 'core-js/modules/es6.array.find';
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
@@ -23,7 +23,7 @@ import style from './table.css';
 import {sortableContainer, sortableElement, arrayMove} from 'react-sortable-hoc';
 
 import Shortcuts from '../shortcuts/shortcuts';
-import LoaderInline from '../loader-inline/loader-inline';
+import Loader from '../loader/loader';
 
 const DraggableRow = sortableElement(({item, columns, draggable, selectable, selection, onRowFocus, onRowSelect}) => {
   const props = {
@@ -31,6 +31,7 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
     columns,
     draggable,
     selectable,
+    showFocus: selection.isFocused(item),
     focused: selection.isFocused(item),
     selected: selectable && selection.isSelected(item),
     onFocus: selected => onRowFocus(item, selected),
@@ -40,19 +41,20 @@ const DraggableRow = sortableElement(({item, columns, draggable, selectable, sel
 });
 
 const DraggableRows = sortableContainer(props => {
-  const {data, ...restProps} = props;
+  const {data, getRowKey, ...restProps} = props;
   return (
     <tbody>
       {data.map((item, index) =>
-        <DraggableRow key={`item-${index}`} index={index} item={item} {...restProps}/>
+        <DraggableRow key={getRowKey(item)} index={index} item={item} {...restProps}/>
       )}
     </tbody>
   );
 });
 
-class Table extends Component {
+class Table extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    loaderClassName: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     selection: PropTypes.instanceOf(Selection).isRequired,
@@ -62,11 +64,13 @@ class Table extends Component {
     loading: PropTypes.bool,
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
+    getRowKey: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool,
-    draggable: PropTypes.bool
+    draggable: PropTypes.bool,
+    shortcuts: PropTypes.object
   }
 
   static defaultProps = {
@@ -77,9 +81,11 @@ class Table extends Component {
     onSelect: () => {},
     onSort: () => {},
     onReorder: () => {},
+    getRowKey: item => item.id,
     sortKey: 'id',
     sortOrder: true,
-    draggable: false
+    draggable: false,
+    shortcuts: {}
   }
 
   state = {
@@ -128,8 +134,8 @@ class Table extends Component {
   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
-    const reorderedData = arrayMove(this.props.data, oldIndex, newIndex);
-    this.props.onReorder(reorderedData);
+    const data = arrayMove(this.props.data, oldIndex, newIndex);
+    this.props.onReorder({data, oldIndex, newIndex});
   }
 
   onUpPress = () => {
@@ -241,18 +247,14 @@ class Table extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {data, selection, onSelect, selectable, focused} = this.props;
+    const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data) {
-      onSelect(new Selection({data: nextProps.data}));
+      onSelect(selection.cloneWith({data: nextProps.data}));
     }
 
     if (!nextProps.selectable && nextProps.selectable !== selectable) {
       onSelect(selection.resetSelection());
-    }
-
-    if (!nextProps.focused && nextProps.focused !== focused) {
-      onSelect(selection.resetFocus());
     }
 
     const shortcuts = nextProps.selectable && nextProps.focused;
@@ -274,7 +276,7 @@ class Table extends Component {
   }
 
   render() {
-    const {selection, caption, selectable, draggable, loading, onSort, sortKey, sortOrder} = this.props;
+    const {selection, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
     const {shortcuts} = this.state;
 
     const columns = this.props.columns.filter(column => !column.subtree);
@@ -332,9 +334,7 @@ class Table extends Component {
 
     return (
       <div className={wrapperClasses}>
-        {shortcuts ? <Shortcuts map={this.shortcutsMap} scope={this.shortcutsScope} /> : ''}
-
-        <LoaderInline className={style.loader}/>
+        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope} /> : ''}
 
         <table className={classes} onMouseDown={this.onMouseDown}>
           <Header {...headerProps} />
@@ -344,6 +344,7 @@ class Table extends Component {
             disabled={!draggable}
             helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd.bind(this)}
+            getRowKey={getRowKey}
 
             /* Row props */
             draggable={draggable}
@@ -355,6 +356,10 @@ class Table extends Component {
             onRowSelect={this.onRowSelect.bind(this)}
           />
         </table>
+
+        {loading && <div className={style.loadingOverlay}>
+          <Loader className={loaderClassName}/>
+        </div>}
       </div>
     );
   }

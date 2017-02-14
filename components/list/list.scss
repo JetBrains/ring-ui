@@ -107,12 +107,10 @@ $list-spacing: $ring-unit / 2;
 
   &__description {
     flex-shrink: 100;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     text-align: right;
 
     @include ring-font;
+    @include ring-ellipsis;
 
     color: $ring-dark-gray-color;
     font-size: $ring-font-size-smaller;

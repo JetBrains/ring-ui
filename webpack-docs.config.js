@@ -25,7 +25,7 @@ webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
 module.exports = (env = {}) => {
   const {server, production} = env;
   const envString = production ? 'production' : 'development';
-  const devtool = production ? false : 'source-map';
+  const devtool = production ? 'source-map' : 'eval';
 
   const getParam = name => (
     env[name] ||
@@ -54,7 +54,7 @@ module.exports = (env = {}) => {
     },
     context: '.',
     module: {
-      loaders: [
+      rules: [
         // HTML examples
         {
           test: /example\.html$/,
@@ -75,12 +75,6 @@ module.exports = (env = {}) => {
             'style-loader',
             'css-loader'
           ]
-        },
-        {
-          test: /\.twig$/,
-          loaders: [
-            'twig-loader'
-          ]
         }
       ]
     },
@@ -93,7 +87,7 @@ module.exports = (env = {}) => {
         assets: false,
         chunks: false,
         hash: false,
-        children: false,
+        children: 'error',
         version: false
       }
     },

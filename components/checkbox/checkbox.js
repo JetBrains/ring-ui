@@ -1,11 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 
 import styles from './checkbox.css';
-
-const ngModelStateField = 'checked';
 
 /**
  * @name Checkbox
@@ -14,22 +11,20 @@ const ngModelStateField = 'checked';
  * @extends {ReactComponent}
  * @example-file ./checkbox.examples.html
  */
-export default class Checkbox extends RingComponent {
-  static ngModelStateField = ngModelStateField;
+export default class Checkbox extends PureComponent {
 
   static propTypes = {
     name: PropTypes.string,
-
-    /**
-     * Add custom class for checkbox
-     */
-    className: PropTypes.string
+    label: PropTypes.string,
+    className: PropTypes.string,
+    defaultChecked: PropTypes.bool,
+    checked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func
   };
 
-  ngModelStateField = ngModelStateField;
-
   render() {
-    const {_onModelChange, children, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, label, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const classes = classNames(
       styles.input,
@@ -53,7 +48,7 @@ export default class Checkbox extends RingComponent {
             size={Icon.Size.Size14}
           />
         </span>
-        <span className={styles.label}>{children}</span>
+        <span className={styles.label}>{label || children}</span>
       </label>
     );
   }

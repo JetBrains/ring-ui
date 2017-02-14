@@ -4,86 +4,79 @@ import React from 'react';
 
 import renderIntoDocument from 'render-into-document';
 import {Simulate} from 'react-addons-test-utils';
+import {findDOMNode} from 'react-dom';
 
 import Checkbox from './checkbox';
 
 describe('Checkbox', () => {
-  beforeEach(function () {
-    this.checkbox = renderIntoDocument(React.createElement(Checkbox, {
-      onChange: () => {
-        this.onChange && this.onChange();
-      }
-    }));
+  const renderComponent = props => renderIntoDocument(<Checkbox {...props} />);
+
+  it('should create component', () => {
+    const checkbox = renderComponent();
+    checkbox.should.exist;
   });
 
-  it('should create component', function () {
-    this.checkbox.should.exist;
+  it('should render checkbox', () => {
+    const checkbox = renderComponent();
+    checkbox.refs.input.should.have.property('type', 'checkbox');
   });
 
-  it('should render checkbox', function () {
-    this.checkbox.refs.input.should.have.property('type', 'checkbox');
+  it('should set name', () => {
+    const checkbox = renderComponent({name: 'test'});
+
+    checkbox.refs.input.should.have.property('name', 'test');
   });
 
-  it('should set name', function () {
-    this.checkbox.rerender({
-      name: 'test'
-    });
-
-    this.checkbox.refs.input.should.have.property('name', 'test');
-  });
-
-  it('should call handler for click event', function () {
+  it('should call handler for click event', () => {
     const clickHandler = sinon.stub();
 
-    this.checkbox.rerender({
-      onClick: clickHandler
-    });
+    const checkbox = renderComponent({onClick: clickHandler});
+    Simulate.click(checkbox.refs.input);
 
-    Simulate.click(this.checkbox.refs.input);
     clickHandler.should.have.been.called;
   });
 
-  it('should not call handler on change event if disabled', function () {
+  it('should not call handler on change event if disabled', () => {
     const onChange = sinon.stub();
 
-    this.checkbox.rerender({
+    const checkbox = renderComponent({
       disabled: true,
       onChange
     });
 
-    Simulate.click(this.checkbox.node);
+    Simulate.click(findDOMNode(checkbox));
     onChange.should.have.not.been.called;
   });
 
-  it('should be unchecked by default', function () {
-    this.checkbox.node.should.not.be.checked;
+  it('should be unchecked by default', () => {
+    const checkbox = renderComponent();
+
+    findDOMNode(checkbox).should.not.be.checked;
   });
 
-  it('should check control', function () {
-    this.checkbox = renderIntoDocument(React.createElement(Checkbox, {
-      checked: true,
-      onChange() {}
-    }));
+  it('should check control', () => {
+    const checkbox = renderComponent({defaultChecked: true});
 
-    this.checkbox.refs.input.should.be.checked;
+    checkbox.refs.input.should.be.checked;
   });
 
-  it('should be disabled', function () {
-    this.checkbox.rerender({
+  it('should be disabled', () => {
+    const checkbox = renderComponent({
       disabled: true
     });
 
-    this.checkbox.refs.input.should.be.disabled;
+    checkbox.refs.input.should.be.disabled;
   });
 
-  it('should check control on change event', function () {
+  it('should check control on change event', () => {
     const eventMock = {
       target: {
         checked: true
       }
     };
+    const checkbox = renderComponent();
 
-    Simulate.change(this.checkbox.refs.input, eventMock);
-    this.checkbox.refs.input.should.be.checked;
+    Simulate.change(checkbox.refs.input, eventMock);
+    checkbox.refs.input.should.be.checked;
   });
 });

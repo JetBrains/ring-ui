@@ -1,16 +1,20 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import Icon from '../icon/icon';
+import sorteableIcon from 'jetbrains-icons/unsorted.svg';
+import sortedUpIcon from 'jetbrains-icons/chevron-up.svg';
+import sortedDownIcon from 'jetbrains-icons/chevron-down.svg';
 
 import style from './table.css';
 
-export default class HeaderCell extends Component {
+const ICON_SIZE = 10;
+
+export default class HeaderCell extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    tiny: PropTypes.bool,
     column: PropTypes.object.isRequired,
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
@@ -18,25 +22,21 @@ export default class HeaderCell extends Component {
   }
 
   static defaultProps = {
-    tiny: false,
     onSort: () => {}
   }
 
   render() {
-    const {className, tiny, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
 
-    const iconSize = tiny ? Icon.Size.Size14 : Icon.Size.Size16;
+    let iconGlyph = sorteableIcon;
 
-    const iconGlyph = do {
-      if (this.sorted && sortOrder) {
-        require('jetbrains-icons/caret-up.svg');
-      } else {
-        require('jetbrains-icons/caret-down.svg');
-      }
-    };
+    if (this.sorted) {
+      iconGlyph = sortOrder ? sortedUpIcon : sortedDownIcon;
+    }
+
 
     const classes = classNames(className, {
       [style.headerCell]: true,
@@ -48,9 +48,9 @@ export default class HeaderCell extends Component {
       <th {...restProps} className={classes} onClick={::this.onClick}>
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
-        <span className={style.sorter}>
-          <Icon className={style.icon} glyph={iconGlyph} size={iconSize}/>
-        </span>
+        {this.sortable && <span className={style.sorter}>
+          <Icon className={style.icon} glyph={iconGlyph} size={ICON_SIZE}/>
+        </span>}
       </th>
     );
   }
