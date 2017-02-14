@@ -29,6 +29,10 @@ export default class Header extends PureComponent {
     sortOrder: true
   }
 
+  onCheckboxFocus = event => {
+    event.target.blur();
+  }
+
   render() {
     const {caption, selectable, checked, onCheckboxChange, columns, onSort, sortKey, sortOrder} = this.props;
 
@@ -38,7 +42,7 @@ export default class Header extends PureComponent {
         <Checkbox
           checked={checked}
           onChange={onCheckboxChange}
-          onFocus={e => e.target.blur()}
+          onFocus={this.onCheckboxFocus}
         />}
       </th>
     ];
