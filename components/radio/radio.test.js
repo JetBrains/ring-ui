@@ -51,7 +51,7 @@ describe('Radio', () => {
   it('should pass only child as is', () => {
     const radio = renderIntoDocument(
       <Radio>
-        <test></test>
+        <test />
       </Radio>
     );
 
