@@ -18,46 +18,42 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var Icon = require('ring-ui/components/icon/icon');
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Icon from 'ring-ui/components/icon/icon';
 
-    render(Icon.factory({
-      glyph: require('jetbrains-icons/distribution.svg'),
-      size: Icon.Size.Size32,
-      activeColor: Icon.Color.BLUE,
-      hoverColor: Icon.Color.ORANGE,
-      onClick: function () {
-        return new Promise(resolve => setTimeout(resolve, 3000));
-      }
-    }), document.getElementById('icon-active'));
+    render(<Icon
+      glyph={require('jetbrains-icons/distribution.svg')}
+      size={Icon.Size.Size32}
+    />, document.getElementById('icon-active'));
 
-    render(Icon.factory({
-      className: 'additional-class',
-      color: 'orange',
-      glyph: require('jetbrains-icons/ok.svg'),
-      size: Icon.Size.Size32
-    }), document.getElementById('icon-container'));
+    render(<Icon
+      className="additional-class"
+      color="orange"
+      glyph={require('jetbrains-icons/ok.svg')}
+      size={Icon.Size.Size32}
+    />, document.getElementById('icon-container'));
 
-    render(Icon.factory({
-      glyph: require('jetbrains-icons/distribution.svg'),
-      size: Icon.Size.Size32
-    }), document.getElementById('icon-distribution'));
+    render(<Icon
+      glyph={require('jetbrains-icons/distribution.svg')}
+      size={Icon.Size.Size32}
+    />, document.getElementById('icon-distribution'));
 
-    render(Icon.factory({
-      glyph: require('jetbrains-icons/pencil.svg'),
-      size: Icon.Size.Size16
-    }), document.getElementById('icon-16-pencil'));
+    render(<Icon
+      glyph={require('jetbrains-icons/pencil.svg')}
+      size={Icon.Size.Size16}
+    />, document.getElementById('icon-16-pencil'));
 
-    render(Icon.factory({
-      glyph: require('jetbrains-icons/pencil.svg'),
-      size: Icon.Size.Size14
-    }), document.getElementById('icon-14-pencil'));
+    render(<Icon
+      glyph={require('jetbrains-icons/pencil.svg')}
+      size={Icon.Size.Size14}
+    />, document.getElementById('icon-14-pencil'));
 
-    render(Icon.factory({
-      glyph: require('jetbrains-icons/search-error.svg'),
-      height: 80,
-      width: 100
-    }), document.getElementById('icon-custom-search-error'));
+    render(<Icon
+      glyph={require('jetbrains-icons/search-error.svg')}
+      height={80}
+      width={100}
+    />, document.getElementById('icon-custom-search-error'));
   </file>
 </example>
 
@@ -83,19 +79,20 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import {createElement} from 'react';
     import Icon from 'ring-ui/components/icon/icon';
 
-    var icons = require.context('jetbrains-icons', false, /\.svg$/);
+    const icons = require.context('jetbrains-icons', false, /\.svg$/);
 
     render(createElement('div', {
       className: 'icon-example__container',
       children: icons.keys().map(icons).map(function (icon) {
-        return Icon.factory({
-          glyph: icon,
-          title: icon
-        });
+        return <Icon
+          glyph={icon}
+          title={icon}
+        />;
       })
     }), document.getElementById('all-icons'));
   </file>
@@ -115,6 +112,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import {createElement} from 'react';
     import Icon from 'ring-ui/components/icon/icon';
@@ -123,11 +121,11 @@
 
     render(createElement('div', {
       children: logos.keys().map(logos).map(function (icon) {
-        return Icon.factory({
-          glyph: icon,
-          title: icon,
-          size: Icon.Size.Size128
-        });
+        return <Icon
+          glyph={icon}
+          title={icon}
+          size={Icon.Size.Size128}
+        />;
       })
     }), document.getElementById('logos'));
   </file>

@@ -65,10 +65,7 @@ export default class Checkbox extends RingComponent {
   render() {
     const id = this.props.id || this.state.id;
     const {_onModelChange, inputChange, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-
-    const checkStyle = {
-      display: this.state.checked ? 'block' : 'none'
-    };
+    const {checked} = this.state;
 
     const classes = classNames(
       'ring-checkbox__input',
@@ -92,13 +89,13 @@ export default class Checkbox extends RingComponent {
             checked={Boolean(this.state.checked)}
           />
           <span className="ring-checkbox__icon">
+            {checked &&
             <Icon
               className="ring-checkbox__icon__image"
               color="black"
               glyph={require('jetbrains-icons/check.svg')}
               size={Icon.Size.Size18}
-              style={checkStyle}
-            />
+            />}
           </span>
         </span>
         <span className="ring-checkbox__label">{this.props.label}</span>
