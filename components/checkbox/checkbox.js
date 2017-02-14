@@ -23,6 +23,10 @@ export default class Checkbox extends PureComponent {
     onChange: PropTypes.func
   };
 
+  ref = el => {
+    this.input = el;
+  }
+
   render() {
     const {children, label, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
@@ -37,7 +41,7 @@ export default class Checkbox extends PureComponent {
       >
         <input
           {...restProps}
-          ref="input"
+          ref={this.ref}
           type="checkbox"
           className={classes}
         />

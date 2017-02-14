@@ -1,13 +1,17 @@
 <example name="Select with a filter">
   <file type="html">
     <p>test</p>
-    <div id="demo"></div>
+    <div id="demo" class="demo"></div>
     <button id="clear">Clear selected</button>
   </file>
   <file type="css">
     body {
       padding: 8px;
       width: 50%;
+    }
+
+    :global(.demo) {
+      margin: 16px 0;
     }
   </file>
   <file type="js">

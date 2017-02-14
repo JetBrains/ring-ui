@@ -48,7 +48,7 @@ function RingMessageBundle(ringI18n) {
   this.errorpage_500msg = () => i18n('Despite our best efforts, the server is not working properly.');
   this.select_options_not_found = () => i18n('No options found');
   this.select_loading = () => i18n('Loading...');
-  this.select_label = () => i18n('Please select option');
+  this.select_label = () => i18n('Select an option');
   this.previous_page = () => i18n('previous');
   this.next_page = () => i18n('next page');
   this.first_page = () => i18n('First page');

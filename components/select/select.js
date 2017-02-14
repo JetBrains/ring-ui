@@ -617,7 +617,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _getLabel() {
-    return this.props.label || this.props.selectedLabel || 'Please select option';
+    return this.props.label || this.props.selectedLabel || 'Select an option';
   }
 
   _getInputPlaceholder() {
