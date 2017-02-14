@@ -4,7 +4,7 @@ import 'angular';
 import 'angular-mocks';
 import React from 'react';
 import RingComponent from '../ring-component/ring-component';
-import Checkbox from '../checkbox/checkbox';
+import Select from '../select/select';
 
 describe('React Ng', () => {
   const registerComponents = require('./react-ng');
@@ -12,7 +12,7 @@ describe('React Ng', () => {
   let $scope;
   let $compile;
 
-  registerComponents({Checkbox});
+  registerComponents({Select});
 
   beforeEach(window.module('Ring.react-ng'));
 
@@ -51,7 +51,7 @@ describe('React Ng', () => {
     it('should write component instance in provided scope field', () => {
       $scope.instanceFieldName = 'componentInstance';
 
-      $compile('<div react="Checkbox" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
       $scope.componentInstance.should.be.defined;
@@ -61,7 +61,7 @@ describe('React Ng', () => {
       $scope.instanceField = {};
       $scope.instanceFieldName = 'instanceField.componentInstance';
 
-      $compile('<div react="Checkbox" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
       $scope.instanceField.componentInstance.should.be.defined;
@@ -71,13 +71,13 @@ describe('React Ng', () => {
   describe('react directive with ngmodel', () => {
     it('should pass ng-model to ng-model state property', () => {
 
-      $scope.defaultCheckboxState = true;
+      $scope.defaultSelectState = {id: 123};
       $scope.instanceFieldName = 'componentInstance';
 
-      $compile('<div react="Checkbox" ng-model="defaultCheckboxState" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="Select" ng-model="defaultSelectState" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.componentInstance.state.checked.should.to.be.true;
+      $scope.componentInstance.state.selected.id.should.equal(123);
     });
   });
 
