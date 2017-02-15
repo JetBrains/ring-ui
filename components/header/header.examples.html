@@ -27,7 +27,7 @@
     import services from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
-    import Header, {Tray, TrayIcon, Profile, SmartServices} from 'ring-ui/components/header/header';
+    import Header, {Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
     import Link from 'ring-ui/components/link/link';
     import Icon, {Size} from 'ring-ui/components/icon/icon';
     import Input from 'ring-ui/components/input/input';
@@ -71,7 +71,7 @@
             <TrayIcon glyph={help} />
           </Link>
           <SmartServices auth={auth} />
-          <Profile auth={auth} />
+          <SmartProfile auth={auth} />
         </Tray>
       </Header>
     );
