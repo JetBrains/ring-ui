@@ -3,24 +3,26 @@ import classnames from 'classnames';
 
 import servicesGlyph from 'jetbrains-icons/services.svg';
 
-import Auth from '../auth/auth';
 import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 
 import TrayIcon from './tray-icon';
 import styles from './services.css';
 
-function noop() {}
-
 export default class Services extends Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
-    translations: PropTypes.string
+    clientId: PropTypes.string,
+    loading: PropTypes.bool,
+    onClick: PropTypes.func,
+    services: PropTypes.arrayOf(React.PropTypes.shape({
+      applicationName: React.PropTypes.string,
+      iconUrl: React.PropTypes.string,
+      homeUrl: React.PropTypes.string,
+      name: React.PropTypes.string
+    }))
   };
 
-  static allFields = 'id,name,applicationName,homeUrl,iconUrl';
-  static countFields = 'key';
   static Link = props => {
     // eslint-disable-next-line react/prop-types
     const {service, isActive, ...restProps} = props;
@@ -56,108 +58,30 @@ export default class Services extends Component {
       a.name.localeCompare(b.name);
   }
 
-  state = {
-    visible: true,
-    loading: false,
-    services: null
-  }
-
-  stopLoading = () => {
-    this.setState({loading: false});
-  }
-
-  getServicesContent = () => {
-    this.setState({loading: true});
-
-    this.getServices(Services.allFields).then(services => {
-      this.setState({services});
-      this.stopLoading();
-    }).catch(this.stopLoading);
-  }
-
-  serviceIsActive = service => service.id === this.props.auth.config.client_id
-
-  getServices(fields) {
-    const {auth} = this.props;
-
-    return auth.requestToken().
-      then(token => auth.getApi(`services/header?fields=${fields}`, token));
-  }
-
-  componentDidMount() {
-    this.getServices(Services.countFields).then(services => {
-      if (!services.length) {
-        this.setState({visible: false});
-      }
-    }).catch(noop);
-  }
-
-  renderServices() {
-    const {services} = this.state;
-
-    const servicesWithIcons = services.filter(service => service.iconUrl);
-    const separatorIsRequired = servicesWithIcons.length !== services.length &&
-      servicesWithIcons.length !== 0;
-
-    return (
-      <Popup className={styles.services}>
-        {servicesWithIcons.sort(Services.sort).map(service => {
-          const isActive = this.serviceIsActive(service);
-
-          return (
-            <Services.Link
-              className={isActive ? styles.activeItem : styles.linkItem}
-              isActive={isActive}
-              key={service.id}
-              service={service}
-            />
-          );
-        })}
-        {separatorIsRequired && (
-          <div
-            className={styles.line}
-            key="separator"
-          />
-        )}
-        {services.filter(service => !service.iconUrl).sort(Services.sort).map(service => {
-          const isActive = this.serviceIsActive(service);
-
-          return (
-            <Services.Link
-              className={isActive ? styles.activeStacked : styles.linkStacked}
-              isActive={isActive}
-              key={service.id}
-              service={service}
-            />
-          );
-        })}
-      </Popup>
-    );
-  }
+  serviceIsActive = service => service.id === this.props.clientId
 
   render() {
-    const {services, visible, loading} = this.state;
-    const {className} = this.props;
+    const {className, loading, onClick, services} = this.props;
 
     const classes = classnames(className, {
       [styles.activeIcon]: loading,
       ['ring-icon_loading']: loading
     });
 
-    if (!visible) {
-      return null;
-    }
-
-    if (visible && !services) {
+    if (!services) {
       return (
         <TrayIcon
           className={classes}
           glyph={servicesGlyph}
-          onClick={this.getServicesContent}
+          onClick={onClick}
         />
       );
     }
 
+    const sortedServices = services.sort(Services.sort);
+    const servicesWithIcons = sortedServices.filter(service => service.iconUrl);
+    const servicesWithOutIcons = sortedServices.filter(service => !service.iconUrl);
+    const separatorIsRequired = servicesWithIcons.length !== 0 && servicesWithOutIcons.length !== 0;
     const anchor = ({active}) => (
       <TrayIcon
         className={classnames({[styles.activeIcon]: active})}
@@ -167,12 +91,42 @@ export default class Services extends Component {
 
     return (
       <Dropdown
-        initShown={true}
         anchor={anchor}
-        activeClassName={styles.activeIcon}
         className={className}
+        initShown={true}
       >
-        {this.renderServices()}
+        <Popup className={styles.services}>
+          {servicesWithIcons.map(service => {
+            const isActive = this.serviceIsActive(service);
+
+            return (
+              <Services.Link
+                className={isActive ? styles.activeItem : styles.linkItem}
+                isActive={isActive}
+                key={service.id}
+                service={service}
+              />
+            );
+          })}
+          {separatorIsRequired && (
+            <div
+              className={styles.line}
+              key="separator"
+            />
+          )}
+          {servicesWithOutIcons.map(service => {
+            const isActive = this.serviceIsActive(service);
+
+            return (
+              <Services.Link
+                className={isActive ? styles.activeStacked : styles.linkStacked}
+                isActive={isActive}
+                key={service.id}
+                service={service}
+              />
+            );
+          })}
+        </Popup>
       </Dropdown>
     );
   }
