@@ -50,11 +50,9 @@ export default class Text extends Component {
 
   render() {
     const {children, className, comment, info} = this.props;
-    const classes = classNames({
-      [styles.text]: true,
+    const classes = classNames(styles.text, className, {
       [styles.comment]: comment,
-      [styles.info]: info,
-      [className]: true
+      [styles.info]: info
     });
 
     return (
