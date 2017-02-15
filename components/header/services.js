@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import classnames from 'classnames';
 
 import servicesGlyph from 'jetbrains-icons/services.svg';
@@ -7,49 +7,19 @@ import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';
 
 import TrayIcon from './tray-icon';
+import ServicesLink from './services-link';
 import styles from './services.css';
 
-export default class Services extends Component {
+export default class Services extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     clientId: PropTypes.string,
     loading: PropTypes.bool,
     onClick: PropTypes.func,
-    services: PropTypes.arrayOf(PropTypes.shape({
-      applicationName: PropTypes.string,
-      iconUrl: PropTypes.string,
-      homeUrl: PropTypes.string,
-      name: PropTypes.string
-    }))
+    services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
-  static Link = props => {
-    // eslint-disable-next-line react/prop-types
-    const {service, isActive, ...restProps} = props;
-
-    const linkProps = {
-      target: '_self',
-      href: service.homeUrl
-    };
-
-    const tagProps = isActive ? restProps : {...linkProps, ...restProps};
-
-    return (
-      <a {...tagProps}>
-        {service.iconUrl && (
-          <span
-            className={styles.itemLogo}
-            style={{backgroundImage: `url(${service.iconUrl})`}}
-          />
-        )}
-        {service.iconUrl && (
-          <span className={styles.itemText}>{service.name}</span>
-        )}
-        {!service.iconUrl && service.name}
-      </a>
-    );
-  }
-
+  static Link = ServicesLink
   static sort = (a, b) => {
     const aApplicationName = a.applicationName || '';
     const bApplicationName = b.applicationName || '';
