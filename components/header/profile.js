@@ -1,8 +1,6 @@
-import React, {PropTypes, Component} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import classnames from 'classnames';
-import getObjectPath from 'get-object-path';
 
-import Auth from '../auth/auth';
 import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
 import Dropdown from '../dropdown/dropdown';
@@ -12,30 +10,29 @@ import styles from './header.css';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
-export default class Profile extends Component {
+export default class Profile extends PureComponent {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
-    translations: PropTypes.string
+    onLogin: PropTypes.func,
+    onLogout: PropTypes.func,
+    profileUrl: PropTypes.string,
+    translations: PropTypes.shape({
+      profile: PropTypes.string,
+      login: PropTypes.string,
+      logout: PropTypes.string
+    }),
+    user: PropTypes.shape({
+      guest: PropTypes.bool,
+      profile: PropTypes.object
+    })
   };
 
-  state = {
-    user: null
-  }
-
-  componentDidMount() {
-    const {auth} = this.props;
-
-    if (auth) {
-      auth.requestUser().then(user => {
-        this.setState({user});
-      });
-    }
+  static defaultProps = {
+    translations: {}
   }
 
   render() {
-    const {user} = this.state;
-    const {className, auth, translations = {}} = this.props;
+    const {className, user, profileUrl, onLogin, onLogout, translations} = this.props;
 
     if (!user) {
       return (
@@ -50,16 +47,16 @@ export default class Profile extends Component {
         <Button
           blue={true}
           className={classnames(styles.loginButton, className)}
-          onClick={() => auth.logout()}
+          onClick={onLogin}
         >
-          {'Log in...'}
+          {translations.login || 'Log in...'}
         </Button>
       );
     }
 
     const anchor = (
       <Avatar
-        url={getObjectPath(user, 'profile.avatar.url')}
+        url={user.profile && user.profile.avatar && user.profile.avatar.url}
         size={Size.Size24}
       />
     );
@@ -74,12 +71,12 @@ export default class Profile extends Component {
             rgItemType,
             label: translations.profile || 'Profile',
             target: '_self', // Full page reload in Angular
-            href: `${auth.config.serverUri}users/${user.id}`
+            href: profileUrl
           },
           {
             rgItemType,
             label: translations.logout || 'Log out',
-            onClick: () => auth.logout()
+            onClick: onLogout
           }
         ]}
         />
