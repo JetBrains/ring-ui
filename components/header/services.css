@@ -1,13 +1,5 @@
 @value unit, blue-color, link-hover-color, dark-gray-color from  "../global/global.css";
 
-.activeIconWrapper{}
-
-.activeIcon {
-  @nest &, &:hover {
-     color: blue-color
-  }
-}
-
 .services {
   background-color: #000;
 
