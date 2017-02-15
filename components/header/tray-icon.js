@@ -1,22 +1,25 @@
-import React, {Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 import classnames from 'classnames';
 
-import Icon, {Color, Size} from '../icon/icon';
+import Icon, {Size} from '../icon/icon';
 
 import styles from './header.css';
 
 export default class TrayIcon extends Component {
-  static propTypes = Icon.propTypes;
+  static propTypes = {
+    ...Icon.propTypes,
+    active: PropTypes.bool
+  };
 
   static defaultProps = {
     ...Icon.defaultProps,
-    color: Color.GRAY,
+    active: false,
     size: Size.Size18
   };
 
   render() {
-    const {className, ...restProps} = this.props;
-    const classes = classnames(styles.icon, className);
+    const {className, active, ...restProps} = this.props;
+    const classes = classnames(active ? styles.activeIcon : styles.icon, className);
     return (
       <Icon
         {...restProps}
