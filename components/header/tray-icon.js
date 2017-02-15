@@ -19,7 +19,6 @@ export default class TrayIcon extends Component {
     const classes = classnames(styles.icon, className);
     return (
       <Icon
-        hoverColor={Icon.Color.ORANGE}
         {...restProps}
         className={classes}
       />
