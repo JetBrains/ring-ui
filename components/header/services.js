@@ -15,11 +15,11 @@ export default class Services extends Component {
     clientId: PropTypes.string,
     loading: PropTypes.bool,
     onClick: PropTypes.func,
-    services: PropTypes.arrayOf(React.PropTypes.shape({
-      applicationName: React.PropTypes.string,
-      iconUrl: React.PropTypes.string,
-      homeUrl: React.PropTypes.string,
-      name: React.PropTypes.string
+    services: PropTypes.arrayOf(PropTypes.shape({
+      applicationName: PropTypes.string,
+      iconUrl: PropTypes.string,
+      homeUrl: PropTypes.string,
+      name: PropTypes.string
     }))
   };
 
