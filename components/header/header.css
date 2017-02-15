@@ -1,4 +1,4 @@
-@value unit, link-hover-color from  "../global/global.css";
+@value unit, blue-color, gray-color, link-hover-color from  "../global/global.css";
 
 .header {
   display: flex;
@@ -49,8 +49,17 @@
 }
 
 .icon {
+  color: gray-color;
   composes: iconPosition;
   composes: iconBehavior;
+}
+
+.activeIcon {
+  composes: icon;
+
+  @nest &, &:hover {
+    color: blue-color
+  }
 }
 
 .profileEmpty {
