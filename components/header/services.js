@@ -34,13 +34,13 @@ export default class Services extends PureComponent {
     const {className, loading, onClick, services} = this.props;
 
     const classes = classnames(className, {
-      [styles.activeIcon]: loading,
       ['ring-icon_loading']: loading
     });
 
     if (!services) {
       return (
         <TrayIcon
+          active={loading}
           className={classes}
           glyph={servicesGlyph}
           onClick={onClick}
@@ -54,7 +54,7 @@ export default class Services extends PureComponent {
     const separatorIsRequired = servicesWithIcons.length !== 0 && servicesWithOutIcons.length !== 0;
     const anchor = ({active}) => (
       <TrayIcon
-        className={classnames({[styles.activeIcon]: active})}
+        active={active}
         glyph={servicesGlyph}
       />
     );
