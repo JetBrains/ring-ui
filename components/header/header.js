@@ -47,3 +47,4 @@ export {Tray};
 export {default as TrayIcon} from './tray-icon';
 export {default as Profile} from './profile';
 export {default as Services} from './services';
+export {default as SmartServices} from './smart-services';
