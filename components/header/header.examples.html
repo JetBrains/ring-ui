@@ -55,9 +55,12 @@
           <Input placeholder="search" />
           <Dropdown
             activeClassName="rotated"
-            anchor={
-              <TrayIcon glyph={cog} />
-            }
+            anchor={({active}) => (
+              <TrayIcon
+                active={active}
+                glyph={cog}
+              />
+            )}
           >
             <PopupMenu
               closeOnSelect={true}
