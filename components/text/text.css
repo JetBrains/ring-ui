@@ -1,0 +1,13 @@
+@value text-color, gray-color, dark-gray-color from  "../global/global.css";
+
+.text {
+  color: text-color;
+}
+
+.comment {
+  color: dark-gray-color;
+}
+
+.info {
+  color: gray-color;
+}

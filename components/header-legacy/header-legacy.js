@@ -420,7 +420,7 @@ export default class Header extends RingComponent {
         <div
           className="ring-header__services-line"
           key="separator"
-        ></div>
+        />
       ), linksList);
     }
 
@@ -508,7 +508,7 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__right">
         <div className="ring-header__user-menu">
-          <div className={extraElementClassName}></div>
+          <div className={extraElementClassName} />
           {
             this.props.rightMenu.map(({component, props, children}) => (
               <div

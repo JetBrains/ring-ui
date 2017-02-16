@@ -8,7 +8,7 @@ import MonthNames from './month-names';
 
 import styles from './date-picker.css';
 
-import units, {weekdays, WEEK, DOUBLE, HALF} from './consts';
+import units, {dateType, weekdays, WEEK, DOUBLE, HALF} from './consts';
 const {unit, cellSize, calHeight} = units;
 
 const FridayToSunday = WEEK + weekdays.SU - weekdays.FR;
@@ -98,5 +98,6 @@ export default function Months(props) {
 }
 
 Months.propTypes = {
-  onScroll: PropTypes.func
+  onScroll: PropTypes.func,
+  scrollDate: dateType
 };

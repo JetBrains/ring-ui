@@ -11,6 +11,7 @@ const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
+const pkgConfig = require('./package.json').config;
 
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
@@ -30,7 +31,9 @@ module.exports = (env = {}) => {
   const getParam = name => (
     env[name] ||
     process.env[`npm_package_config_${name}`] ||
-    process.env[`npm_package_config_${envString}_${name}`]
+    process.env[`npm_package_config_${envString}_${name}`] ||
+    pkgConfig[name] ||
+    pkgConfig[envString][name]
   );
 
   const port = Number(getParam('port'));

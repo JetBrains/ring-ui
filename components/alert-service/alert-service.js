@@ -21,7 +21,7 @@ class AlertService {
 
   renderAlertContainer(alerts) {
     if (alerts.length === 0) {
-      return <span></span>;
+      return <span />;
     }
 
     return (
