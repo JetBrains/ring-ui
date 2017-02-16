@@ -79,11 +79,6 @@ export default class Header extends PureComponent {
     columns.map((column, index) => {
       const columnStyle = widths[index + 1] ? {width: widths[index + 1]} : null;
       const props = {key: index, column, onSort, sortKey, sortOrder, style: columnStyle};
-      if (caption) {
-        if (selectable && index === 0) {
-          props.colSpan = 2;
-        }
-      }
       headerCells.push(<HeaderCell {...props}/>);
     });
 
