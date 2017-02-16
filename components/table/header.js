@@ -2,6 +2,7 @@
 
 import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
+import Waypoint from 'react-waypoint';
 
 import style from './table.css';
 
@@ -13,6 +14,7 @@ export default class Header extends PureComponent {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
     checked: PropTypes.bool,
+    sticky: PropTypes.bool,
     onCheckboxChange: PropTypes.func,
     columns: PropTypes.array.isRequired,
     onSort: PropTypes.func,
@@ -23,18 +25,45 @@ export default class Header extends PureComponent {
   static defaultProps = {
     selectable: true,
     checked: true,
+    sticky: true,
     onSort: () => {},
     onCheckboxChange: () => {},
     sortKey: 'id',
     sortOrder: true
   }
 
+  state = {
+    fixed: false,
+    headerWidth: null,
+    widths: []
+  };
+
   onCheckboxFocus = event => {
     event.target.blur();
   }
 
-  render() {
-    const {caption, selectable, checked, onCheckboxChange, columns, onSort, sortKey, sortOrder} = this.props;
+  storeColumnsRowNode = node => {
+    this._columnsRowNode = node;
+    this.calculateColumnsWidths(node);
+  }
+
+  onScrollIn = () => {
+    this.setState({fixed: false});
+  }
+
+  onScrollOut = () => {
+    this.setState({fixed: true});
+  }
+
+  calculateColumnsWidths(columnsRowNode) {
+    this.setState({
+      headerWidth: columnsRowNode.clientWidth,
+      widths: Array.from(columnsRowNode.childNodes).map(column => column.clientWidth)
+    });
+  }
+
+  createCells(widths = []) {
+    const {selectable, caption, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
     const headerCells = [
       <th key="meta" className={classNames(style.headerCell, style.metaColumn)}>
@@ -47,25 +76,53 @@ export default class Header extends PureComponent {
       </th>
     ];
 
-    columns.map((column, key) => {
-      const props = {key, column, onSort, sortKey, sortOrder};
+    columns.map((column, index) => {
+      const columnStyle = widths[index + 1] ? {width: widths[index + 1]} : null;
+      const props = {index, column, onSort, sortKey, sortOrder, style: columnStyle};
       if (caption) {
-        if (selectable && key === 0) {
+        if (selectable && index === 0) {
           props.colSpan = 2;
         }
       }
       headerCells.push(<HeaderCell {...props}/>);
     });
 
+    return headerCells;
+  }
+
+  render() {
+    const {caption, sticky} = this.props;
+    const {fixed, widths, headerWidth} = this.state;
+
+    const fixedHeaderClassName = classNames(style.subHeader, style.subHeaderFixed);
+
+    const regularCells = this.createCells();
+
     return (
       <thead>
-        <tr className={style.header}>{
-          caption
-          ? <th className={classNames(style.headerCell, style.caption)} colSpan={headerCells.length + 1}>{caption}</th>
-          : headerCells
-        }</tr>
+        {sticky &&
+          <Waypoint
+            onEnter={this.onScrollIn}
+            onLeave={this.onScrollOut}
+          >
+            <tr/>
+          </Waypoint>
+        }
 
-        <tr className={style.subHeader}>{caption ? headerCells : ''}</tr>
+        {caption && <tr className={style.header}>
+          <th className={classNames(style.headerCell, style.caption)} colSpan={regularCells.length + 1}>{caption}</th>
+        </tr>}
+
+        <tr className={style.subHeader} ref={this.storeColumnsRowNode}>{regularCells}</tr>
+
+        {fixed && sticky &&
+          <tr
+            className={fixedHeaderClassName}
+            style={{width: headerWidth}}
+          >
+            {this.createCells(widths)}
+          </tr>
+        }
       </thead>
     );
   }
