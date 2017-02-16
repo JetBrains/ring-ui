@@ -40,6 +40,10 @@
     }
   }
 
+  &:nth-child(2) {
+   padding-left: 0;
+  }
+
   &:last-child {
     padding-right: calc(unit * 4);
     width: 100%;
@@ -183,9 +187,6 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
-    &:empty {
-      padding-left: 0;
-    }
   }
 
   &:last-child {
@@ -194,6 +195,7 @@
   }
 
   &:nth-child(2) {
+    padding-left: 0;
     min-width: 320px;
     max-width: 640px;
   }
@@ -211,6 +213,10 @@
   position: relative;
   padding-right: 0;
   min-width: initial;
+
+  &.metaColumnSpaced {
+    padding-right: unit;
+  }
 }
 
 .dragHandle {

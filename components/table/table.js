@@ -37,6 +37,7 @@ const DraggableRows = sortableContainer(props => {
         showFocus={selection.isFocused(item)}
         focused={selection.isFocused(item)}
         selected={selectable && selection.isSelected(item)}
+        selectable={selectable}
         onFocus={onRowFocus}
         onSelect={onRowSelect}
         {...restProps}

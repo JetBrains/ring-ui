@@ -85,8 +85,12 @@ class Row extends PureComponent {
       [style.rowSelected]: selected
     });
 
+    const metaColumnClasses = classNames(style.metaColumn, {
+      [style.metaColumnSpaced]: selectable
+    });
+
     const cells = [
-      <Cell key="meta" className={style.metaColumn}>
+      <Cell key="meta" className={metaColumnClasses}>
         {draggable && <DragHandle/>}
         {selectable &&
         <Checkbox
