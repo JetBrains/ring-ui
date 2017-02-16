@@ -16,7 +16,7 @@ function loadersObjectToArray(loaders) {
 const htmlLoaderOptions = `?${JSON.stringify({
   interpolate: true,
   collapseBooleanAttributes: false,
-  attrs: 'span:react-value-glyph rg-icon:glyph',
+  attrs: 'rg-icon:glyph',
   root: require('jetbrains-icons')
 })}`;
 
@@ -43,7 +43,7 @@ const scssLoader = {
     resolveLoader('style'),
     resolveLoader('css'),
     resolveLoader('postcss'),
-    `${resolveLoader('sass')}?outputStyle=expanded&includePaths[]=${componentsPath[0]}`
+    `${resolveLoader('sass')}?outputStyle=expanded`
   ]
 };
 
