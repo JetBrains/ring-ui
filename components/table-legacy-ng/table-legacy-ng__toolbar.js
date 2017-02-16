@@ -8,7 +8,7 @@ import 'dom4';
 
 import {getDocumentScrollTop} from '../global/dom';
 
-import debounce from 'mout/function/debounce';
+import throttle from 'mout/function/throttle';
 
 /**
  * @example
@@ -36,7 +36,7 @@ angularModule.directive('rgLegacyTableToolbar', () => {
       const controlsContainer = element.query('.ring-table__toolbar-controls');
       let savedToolbarTop;
 
-      const toolbarScrollListener = debounce(() => {
+      const toolbarScrollListener = throttle(() => {
         const scrolledTop = getDocumentScrollTop();
         const elementTop = element.getBoundingClientRect().top + scrolledTop;
         const toolbarTop = savedToolbarTop || elementTop;
