@@ -1,6 +1,12 @@
 <example name="rgTable">
   <file type="html">
     <div ng-app="Example.table" ng-controller="ExampleCtrl as ctrl">
+      <h3>Title of the page</h3>
+
+      <rg-legacy-table-toolbar stick>
+        <div>Some toolbar content. Focused: {{ctrl.selection.getFocused().country}}</div>
+      </rg-legacy-table-toolbar>
+
       <rg-table
         data="ctrl.data"
         columns="ctrl.columns"
@@ -14,9 +20,16 @@
       ></rg-table>
     </div>
   </file>
+  <file type="css">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </file>
   <file type="js">
     import 'angular/angular';
     import RingTable from 'ring-ui/components/table-ng/table-ng';
+    import TableLegacyToolbar from 'ring-ui/components/table-legacy-ng/table-legacy-ng__toolbar'
     import Selection from 'ring-ui/components/table/selection';
     import data from '../table/table.examples.json';
 
@@ -36,7 +49,7 @@
       }
     ];
 
-    const exampleModule =  angular.module('Example.table', [RingTable]);
+    const exampleModule =  angular.module('Example.table', [RingTable, TableLegacyToolbar]);
 
     exampleModule.controller('ExampleCtrl', function () {
       this.data = data;
