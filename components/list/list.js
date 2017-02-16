@@ -499,7 +499,7 @@ export default class List extends RingComponentWithShortcuts {
           }}
           style={innerStyles}
         >
-          <div style={topPaddingStyles}></div>
+          <div style={topPaddingStyles} />
           <div className={styles.items}
             ref={el => {
               this.items = el;
@@ -554,7 +554,7 @@ export default class List extends RingComponentWithShortcuts {
             return createElement(element, props, null);
           })}
           </div>
-          <div style={bottomPaddingStyles}></div>
+          <div style={bottomPaddingStyles} />
         </div>
         {this.state.hasOverflow && (
           <div
