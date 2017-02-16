@@ -7,9 +7,15 @@ import styles from './tabs.css';
 
 export default class Tab extends RingComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     id: PropTypes.string,
     className: PropTypes.string
+  }
+
+  static renderTitle(title, isSelected) {
+    return typeof title === 'function'
+      ? title(isSelected)
+      : title;
   }
 
   render() {

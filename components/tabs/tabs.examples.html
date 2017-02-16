@@ -90,3 +90,111 @@
     render(tabs, container);
   </file>
 </example>
+
+<example name="Custom titles">
+  <file name="index.html">
+    <div id="tabs"></div>
+  </file>
+
+  <file name="index.css">
+    :global(.icon.icon) {
+      vertical-align: 1px;
+      line-height: normal;
+      margin-right: 4px;
+    }
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
+    import Icon from 'ring-ui/components/icon/icon';
+
+    const container = document.getElementById('tabs');
+
+    function Title({icon, children}) {
+      const glyph = require(`jetbrains-icons/${icon}.svg`)
+
+      return (
+        <span>
+          <Icon
+            glyph={glyph}
+            className="icon"
+            size={Icon.Size.Size16}
+          />
+          {children}
+        </span>
+      );
+    }
+
+    const tabs = (
+      <SmartTabs>
+        <Tab title={<Title icon="cog">First tab</Title>}>
+          First tab content
+        </Tab>
+        <Tab title={<Title icon="auto-report">Second tab</Title>}>
+          Second tab content
+        </Tab>
+      </SmartTabs>
+    );
+
+    render(tabs, container);
+  </file>
+</example>
+
+<example name="Custom titles (function)">
+  <file name="index.html">
+    <div id="tabs"></div>
+  </file>
+
+  <file name="index.css">
+    :global(.icon.icon) {
+      vertical-align: 1px;
+      line-height: normal;
+      &:not(:last-child) {
+        margin-right: 4px;
+      }
+    }
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
+    import Icon from 'ring-ui/components/icon/icon';
+
+    const container = document.getElementById('tabs');
+
+    function Title({icon, children}) {
+      const glyph = require(`jetbrains-icons/${icon}.svg`)
+
+      return (
+        <span>
+          <Icon
+            glyph={glyph}
+            className="icon"
+            size={Icon.Size.Size16}
+          />
+          {children && <span>{children}</span>}
+        </span>
+      );
+    }
+
+    const tabs = (
+      <SmartTabs>
+        <Tab title={isSelected => <Title icon="cog">{isSelected && "First tab"}</Title>}>
+          First tab content
+        </Tab>
+        <Tab title={isSelected => <Title icon="auto-report">{isSelected && "Second tab"}</Title>}>
+          Second tab content
+        </Tab>
+      </SmartTabs>
+    );
+
+    render(tabs, container);
+  </file>
+</example>
+
+

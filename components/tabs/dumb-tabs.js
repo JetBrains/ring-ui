@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
 
 import styles from './tabs.css';
+import Tab from './tab';
 
 /**
  * @name Tabs
@@ -36,9 +37,13 @@ export default class Tabs extends RingComponent {
           {children.map(({props}, i) => {
             const {title, id, disabled} = props;
             const key = id || String(i);
+            const isSelected = key === selected;
             const titleClasses = classNames(styles.title, {
-              [styles.selected]: key === selected
+              [styles.selected]: isSelected
             });
+
+            const renderTitle = () => Tab.renderTitle(title, isSelected);
+
             return (
               <div
                 key={key}
@@ -46,9 +51,9 @@ export default class Tabs extends RingComponent {
                 disabled={disabled}
                 onClick={() => onSelect(key)}
               >
-                <span className={styles.visible}>{title}</span>
+                <span className={styles.visible}>{renderTitle()}</span>
                 {/* hack for preserving constant tab width*/}
-                <span className={styles.hidden}>{title}</span>
+                <span className={styles.hidden}>{renderTitle()}</span>
               </div>
             );
           })}
