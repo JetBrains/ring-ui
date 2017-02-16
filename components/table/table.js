@@ -37,6 +37,7 @@ const DraggableRows = sortableContainer(props => {
         showFocus={selection.isFocused(item)}
         focused={selection.isFocused(item)}
         selected={selectable && selection.isSelected(item)}
+        selectable={selectable}
         onFocus={onRowFocus}
         onSelect={onRowSelect}
         {...restProps}
@@ -56,6 +57,7 @@ class Table extends PureComponent {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
+    stickyHeader: PropTypes.bool,
     loading: PropTypes.bool,
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
@@ -80,6 +82,7 @@ class Table extends PureComponent {
     sortKey: 'id',
     sortOrder: true,
     draggable: false,
+    stickyHeader: true,
     shortcuts: {}
   }
 
@@ -271,7 +274,7 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {selection, columns, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName} = this.props;
+    const {selection, columns, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: not construct new object per render because it causes all rows rerendering
@@ -311,7 +314,7 @@ class Table extends PureComponent {
       }*/
     });
 
-    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder};
+    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader};
     headerProps.checked = selection.getSelected().size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
