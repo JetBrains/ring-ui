@@ -63,11 +63,11 @@ export default class Header extends PureComponent {
   }
 
   createCells(widths = []) {
-    const {selectable, caption, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
+    const {selectable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
     const headerCells = [
       <th key="meta" className={classNames(style.headerCell, style.metaColumn)}>
-        {selectable && !caption &&
+        {selectable &&
         <Checkbox
           checked={checked}
           onChange={onCheckboxChange}
