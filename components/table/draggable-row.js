@@ -3,6 +3,8 @@ import {sortableElement} from 'react-sortable-hoc';
 import Row from './row';
 
 class DraggableRow extends PureComponent {
+  static propTypes = Row.propTypes;
+
   onFocus = () => {
     this.props.onFocus(this.props.item);
   }

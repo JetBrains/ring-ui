@@ -58,8 +58,7 @@ export default class Loader extends RingComponent {
       <div
         {...restProps}
         ref="loaderContainer"
-      >
-      </div>
+      />
     );
   }
 }

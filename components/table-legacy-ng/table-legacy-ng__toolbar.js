@@ -1,23 +1,7 @@
-/**
- * @name Table Legacy Ng Toolbar
- * @category Angular Components
- * @description Displays a sticky toolbar (mostly for tables, but can be used elsewhere too).
- */
 /*global angular*/
 import 'dom4';
-
 import {getDocumentScrollTop} from '../global/dom';
-
-import debounce from 'mout/function/debounce';
-
-/**
- * @example
-   <example>
-     <rg-legacy-table-toolbar stick>
-        <ng-include src="'ring-ui/components/project-list/project-list__toolbar.tpl.html'"></ng-include>
-     </rg-legacy-table-toolbar>
-   </example>
- */
+import throttle from 'mout/function/throttle';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);
 angularModule.directive('rgLegacyTableToolbar', () => {
@@ -36,7 +20,7 @@ angularModule.directive('rgLegacyTableToolbar', () => {
       const controlsContainer = element.query('.ring-table__toolbar-controls');
       let savedToolbarTop;
 
-      const toolbarScrollListener = debounce(() => {
+      const toolbarScrollListener = throttle(() => {
         const scrolledTop = getDocumentScrollTop();
         const elementTop = element.getBoundingClientRect().top + scrolledTop;
         const toolbarTop = savedToolbarTop || elementTop;
