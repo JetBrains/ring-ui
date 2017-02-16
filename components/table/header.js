@@ -48,10 +48,12 @@ export default class Header extends PureComponent {
   }
 
   onScrollIn = () => {
+    this.calculateColumnsWidths(this._columnsRowNode);
     this.setState({fixed: false});
   }
 
   onScrollOut = () => {
+    this.calculateColumnsWidths(this._columnsRowNode);
     this.setState({fixed: true});
   }
 
@@ -66,7 +68,7 @@ export default class Header extends PureComponent {
     const {selectable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
     const headerCells = [
-      <th key="meta" className={classNames(style.headerCell, style.metaColumn)}>
+      <th key="meta" className={classNames(style.headerCell, style.metaColumn)} style={{width: widths[0]}}>
         {selectable &&
         <Checkbox
           checked={checked}
