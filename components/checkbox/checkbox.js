@@ -20,7 +20,8 @@ export default class Checkbox extends PureComponent {
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    children: PropTypes.node
   };
 
   ref = el => {
