@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color from global;
+@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color, fixed-z-index from global;
 
 @value dirty-blue-color: #D4EDFA;
 
@@ -108,6 +108,11 @@
   }
 }
 
+.subHeaderFixed {
+  position: fixed;
+  top: 0;
+  z-index: fixed-z-index;
+}
 
 
 .row {
