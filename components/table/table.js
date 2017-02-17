@@ -58,6 +58,7 @@ class Table extends PureComponent {
     selectable: PropTypes.bool,
     focused: PropTypes.bool,
     stickyHeader: PropTypes.bool,
+    stickyHeaderOffset: PropTypes.string,
     loading: PropTypes.bool,
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
@@ -273,7 +274,7 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {selection, columns, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader} = this.props;
+    const {selection, columns, caption, getRowKey, selectable, draggable, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: not construct new object per render because it causes all rows rerendering
@@ -313,10 +314,10 @@ class Table extends PureComponent {
       }*/
     });
 
-    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader};
+    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
     headerProps.checked = selection.getSelected().size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
-
+console.log('stickyHeaderOffset', stickyHeaderOffset)
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
       [style.loading]: loading
