@@ -328,8 +328,7 @@ class Table extends PureComponent {
       [style.table]: true,
       [style.multiSelection]: selection.getSelected().size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
-      [style.disabledHover]: this.state.disabledHover,
-      [style.selectable]: selectable
+      [style.disabledHover]: this.state.disabledHover
     });
 
     return (
