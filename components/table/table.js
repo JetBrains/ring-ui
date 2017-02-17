@@ -317,7 +317,7 @@ class Table extends PureComponent {
     const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
     headerProps.checked = selection.getSelected().size === data.length;
     headerProps.onCheckboxChange = this.onCheckboxChange;
-console.log('stickyHeaderOffset', stickyHeaderOffset)
+
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
       [style.loading]: loading
