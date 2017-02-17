@@ -162,7 +162,7 @@
   position: relative;
 
   &.metaColumnSpaced {
-    padding-right: unit;
+    padding-right: 2px;
   }
 }
 
