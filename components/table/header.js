@@ -15,6 +15,7 @@ export default class Header extends PureComponent {
     selectable: PropTypes.bool,
     checked: PropTypes.bool,
     sticky: PropTypes.bool,
+    topStickOffset: PropTypes.string,
     onCheckboxChange: PropTypes.func,
     columns: PropTypes.array.isRequired,
     onSort: PropTypes.func,
@@ -26,6 +27,7 @@ export default class Header extends PureComponent {
     selectable: true,
     checked: true,
     sticky: true,
+    topStickOffset: '0px',
     onSort: () => {},
     onCheckboxChange: () => {},
     sortKey: 'id',
@@ -88,7 +90,7 @@ export default class Header extends PureComponent {
   }
 
   render() {
-    const {caption, sticky} = this.props;
+    const {caption, sticky, topStickOffset} = this.props;
     const {fixed, widths, headerWidth} = this.state;
 
     const fixedHeaderClassName = classNames(style.subHeader, style.subHeaderFixed);
@@ -99,6 +101,7 @@ export default class Header extends PureComponent {
       <thead>
         {sticky &&
           <Waypoint
+            topOffset={topStickOffset}
             onEnter={this.onScrollIn}
             onLeave={this.onScrollOut}
           >
@@ -115,7 +118,7 @@ export default class Header extends PureComponent {
         {fixed && sticky &&
           <tr
             className={fixedHeaderClassName}
-            style={{width: headerWidth}}
+            style={{width: headerWidth, top: topStickOffset}}
           >
             {this.createCells(widths)}
           </tr>
