@@ -11,7 +11,7 @@ import sniffer from '../global/sniffer';
  * @example
     <example name="Old Browsers Message">
       <file type="html">
-        <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden">
+        <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden" hidden>
           <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
           <br/><br/>
           <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
@@ -131,6 +131,7 @@ startOldBrowsersDetector(() => {
   }
 
   if (oldBrowsersMessageContainer) {
+    oldBrowsersMessageContainer.hidden = false;
     oldBrowsersMessageContainer.style.display = 'block';
   }
 
