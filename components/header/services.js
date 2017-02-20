@@ -42,7 +42,7 @@ export default class Services extends PureComponent {
         <TrayIcon
           active={loading}
           className={classes}
-          glyph={servicesGlyph}
+          icon={servicesGlyph}
           onClick={onClick}
         />
       );
@@ -55,7 +55,7 @@ export default class Services extends PureComponent {
     const anchor = ({active}) => (
       <TrayIcon
         active={active}
-        glyph={servicesGlyph}
+        icon={servicesGlyph}
       />
     );
 
@@ -65,7 +65,10 @@ export default class Services extends PureComponent {
         className={className}
         initShown={true}
       >
-        <Popup className={styles.services}>
+        <Popup
+          className={styles.services}
+          top={-3}
+        >
           {servicesWithIcons.map(service => {
             const isActive = this.serviceIsActive(service);
 

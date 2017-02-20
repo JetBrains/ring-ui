@@ -1,7 +1,5 @@
-import React, {PropTypes, Children, Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 import classnames from 'classnames';
-
-import Tray from './tray';
 
 import styles from './header.css';
 
@@ -13,12 +11,6 @@ import styles from './header.css';
  * @description Displays a configurable page header.
  * @example-file ./header.examples.html
  */
-
-const wrapChild = child => (
-  <div className={styles.item}>
-    {child}
-  </div>
-);
 
 export default class Header extends Component {
   static propTypes = {
@@ -35,15 +27,14 @@ export default class Header extends Component {
         {...restProps}
         className={classes}
       >
-        {Children.map(children, child => (
-          child.type === Tray ? child : wrapChild(child)
-        ))}
+        {children}
       </div>
     );
   }
 }
 
-export {Tray};
+export {default as Logo} from './logo';
+export {default as Tray} from './tray';
 export {default as TrayIcon} from './tray-icon';
 export {default as Profile} from './profile';
 export {default as SmartProfile} from './smart-profile';
