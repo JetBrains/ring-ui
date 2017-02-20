@@ -20,11 +20,12 @@ export default class Selection {
   cloneWith({data, selected, focused}) {
     const cloneSelected = () => new Set(data.filter(item => this._selected.has(item)));
     const cloneFocus = () => data.filter(item => item === this._focused)[0];
+    const newFocused = focused === undefined ? this._focused : focused;
 
     return new this.constructor({
       data: data || this._data,
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
-      focused: (data && !focused) ? cloneFocus() : focused || this._focused
+      focused: (data && !focused) ? cloneFocus() : newFocused
     });
   }
 
