@@ -1,7 +1,7 @@
-import React from 'react';
-import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
-import './link.scss';
+import React, {PropTypes, Component} from 'react';
+import classnames from 'classnames';
+
+import styles from './link.css';
 
 /**
  * @name Link
@@ -9,31 +9,38 @@ import './link.scss';
  * @constructor
  * @description Displays a link.
  * @extends {ReactComponent}
- * @example
-   <example name="Link">
-     <file name="index.html">
-       <div id="link"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Link = require('ring-ui/components/link/link');
-
-       render(
-         Link.factory({href: "#hash"}, 'Link text'),
-         document.getElementById('link')
-       );
-     </file>
-   </example>
+ * @example-file ./link.examples.html
  */
-export default class Link extends RingComponent {
-  render() {
-    const classes = classNames('ring-link', this.props.className);
-    return (
-      <a
-        {...this.props}
-        className={classes}
-      >{this.props.children}</a>
-    );
-  }
+
+export function linkHOC(ComposedComponent) {
+  const isTag = typeof ComposedComponent === 'string';
+
+  return class Link extends Component {
+    static propTypes = {
+      active: PropTypes.bool,
+      className: PropTypes.string,
+      pseudo: PropTypes.bool
+    }
+
+    render() {
+      const {active, pseudo, className, ...props} = this.props;
+      const classes = classnames(styles.link, className, {
+        [styles.active]: active,
+        [styles.pseudo]: pseudo
+      });
+
+      if (!isTag && !props.activeClassName) {
+        props.activeClassName = styles.active;
+      }
+
+      return (
+        <ComposedComponent
+          {...props}
+          className={classes}
+        />
+      );
+    }
+  };
 }
+
+export default linkHOC('a');
