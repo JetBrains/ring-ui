@@ -120,6 +120,7 @@
 
               <Row>
                 <Col>
+                  <Button onClick={() => this.setState({data: [...this.state.data]}) }>Recreate data array</Button>
                   {
                     selectable
                     ? <Button onClick={() => this.setState({selectable: false})}>Non-selectable</Button>
