@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color, fixed-z-index from global;
+@value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color, fixed-z-index, ellipsis from global;
 
 @value dirty-blue-color: #D4EDFA;
 
@@ -172,12 +172,8 @@
 
 .cell {
   & {
+    composes: ellipsis;
     color: text-color;
-    white-space: nowrap;
-
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 
     height: calc(unit * 5);
     min-width: 80px;
@@ -192,6 +188,8 @@
   &:last-child {
     padding-right: calc(unit * 4);
     width: 100%;
+    /* Markup hack, allows cell to have content which is wider than cell and collapses it */
+    max-width: 0;
   }
 
   &:nth-child(2) {
