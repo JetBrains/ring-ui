@@ -1,0 +1,27 @@
+@value link-color, link-hover-color from "../global/global.css";
+
+
+.link,
+.link:visited {
+  color: link-color;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link:hover,
+.link:focus {
+  color: link-hover-color;
+  text-decoration: underline;
+}
+
+.pseudo,
+.pseudo:hover {
+  text-decoration: none;
+}
+
+.active,
+.active:focus,
+.active:hover,
+.active:visited {
+  color: inherit;
+}
