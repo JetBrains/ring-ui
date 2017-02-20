@@ -107,9 +107,11 @@ export default class Header extends PureComponent {
           </Waypoint>
         }
 
-        {caption && <tr className={style.header}>
-          <th className={classNames(style.headerCell, style.caption)} colSpan={regularCells.length + 1}>{caption}</th>
-        </tr>}
+        {caption &&
+          <tr>
+            <th className={classNames(style.headerCell, style.caption)} colSpan={regularCells.length + 1}>{caption}</th>
+          </tr>
+        }
 
         <tr ref={this.storeColumnsRowNode}>{regularCells}</tr>
 

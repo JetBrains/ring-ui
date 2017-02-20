@@ -44,20 +44,23 @@ export default class Profile extends PureComponent {
 
     if (user.guest) {
       return (
-        <Button
-          blue={true}
-          className={classnames(styles.loginButton, className)}
-          onClick={onLogin}
-        >
-          {translations.login || 'Log in...'}
-        </Button>
+        <div className={classnames(styles.profileEmpty, className)}>
+          <Button
+            theme={Button.Theme.DARK}
+            primary={true}
+            onClick={onLogin}
+          >
+            {translations.login || 'Log in...'}
+          </Button>
+        </div>
       );
     }
 
     const anchor = (
       <Avatar
         url={user.profile && user.profile.avatar && user.profile.avatar.url}
-        size={Size.Size24}
+        size={Size.Size32}
+        round={true}
       />
     );
 
@@ -66,19 +69,22 @@ export default class Profile extends PureComponent {
         anchor={anchor}
         className={classnames(styles.profile, className)}
       >
-        <PopupMenu data={[
-          {
-            rgItemType,
-            label: translations.profile || 'Profile',
-            target: '_self', // Full page reload in Angular
-            href: profileUrl
-          },
-          {
-            rgItemType,
-            label: translations.logout || 'Log out',
-            onClick: onLogout
-          }
-        ]}
+        <PopupMenu
+          data={[
+            {
+              rgItemType,
+              label: translations.profile || 'Profile',
+              target: '_self', // Full page reload in Angular
+              href: profileUrl
+            },
+            {
+              rgItemType,
+              label: translations.logout || 'Log out',
+              onClick: onLogout
+            }
+          ]}
+          top={-8}
+          left={-32}
         />
       </Dropdown>
     );
