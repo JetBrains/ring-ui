@@ -206,7 +206,7 @@
     }
 
     &:not([disabled]):not(.loader) {
-      &:hover {
+      &:hover, &.active:hover:not(:active) {
         color: main-color;
 
         & .icon {

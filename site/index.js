@@ -12,8 +12,10 @@ import ReactDOM from 'react-dom';
 
 import hubConfig from 'ring-ui/site/hub-config';
 
-import Header from 'ring-ui/components/header-legacy/header-legacy';
+import Header, {Logo, Tray, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
 import Auth from 'ring-ui/components/auth/auth';
+
+import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 const beautifyOptions = {
   e4x: true, // support JSX
@@ -28,37 +30,20 @@ const beautifyLangMap = {
 };
 
 const auth = new Auth(hubConfig);
-const header = ReactDOM.render(
-  <Header
-    enabledMenuItems={{
-      [Header.MenuItemType.SETTINGS]: false,
-      [Header.MenuItemType.HELP]: false,
-      [Header.MenuItemType.SERVICES]: true,
-      [Header.MenuItemType.USER_MENU]: true,
-      [Header.MenuItemType.LOGIN]: false
-    }}
-    logo="hub"
-    logoTitle="Ring UI Library"
-    menu={[{
-      component: 'b',
-      props: {
-        key: 'Styleguide'
-      },
-      children: 'Styleguide'
-    }]}
-  />,
+auth.init();
+ReactDOM.render(
+  <Header>
+    <Logo
+      glyph={hubLogo}
+      href="/"
+    />
+    <Tray>
+      <SmartServices auth={auth}/>
+      <SmartProfile auth={auth}/>
+    </Tray>
+  </Header>,
   document.query('.app__header')
 );
-
-auth.init().then(restoreLocation => {
-  if (restoreLocation && restoreLocation !== window.location) {
-    window.location = restoreLocation;
-    return;
-  }
-
-  Header.HeaderHelper.setUserMenu(header, auth);
-  Header.HeaderHelper.setServicesList(header, auth);
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   // Code highlight & beautify

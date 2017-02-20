@@ -22,14 +22,14 @@
     import React from 'react';
 
     import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
+    import add from 'jetbrains-icons/add.svg';
     import cog from 'jetbrains-icons/cog.svg';
     import help from 'jetbrains-icons/help.svg';
     import services from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
-    import Header, {Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
+    import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
     import Link from 'ring-ui/components/link/link';
-    import Icon, {Size} from 'ring-ui/components/icon/icon';
     import Input from 'ring-ui/components/input/input';
     import Button from 'ring-ui/components/button/button';
     import Dropdown from 'ring-ui/components/dropdown/dropdown';
@@ -43,26 +43,29 @@
 
     const renderHeaderDemo = () => (
       <Header>
-        <Link href="/">
-          <Icon glyph={jetbrainsLogo} size={Size.Size48} />
-        </Link>
+        <Logo href="/" glyph={jetbrainsLogo} size={Logo.Size.Size96}/>
         <Link href="#">Users</Link>
         <Link href="#">Groups</Link>
         <Link href="#">Spaces</Link>
         <Link href="#">Services</Link>
-        <Button>Create issue</Button>
         <Tray>
-          <Input placeholder="search" />
+          <TrayIcon
+            active
+            title="Create issue"
+            icon={add}
+          />
           <Dropdown
             activeClassName="rotated"
             anchor={({active}) => (
               <TrayIcon
+                rotateable
                 active={active}
-                glyph={cog}
+                icon={cog}
               />
             )}
           >
             <PopupMenu
+              top={-12}
               closeOnSelect={true}
               data={[
                 {label: 'Test'},
@@ -70,9 +73,9 @@
               ]}
             />
           </Dropdown>
-          <Link target="_blank" href="https://www.jetbrains.com/help/hub/">
-            <TrayIcon glyph={help} />
-          </Link>
+          <a target="_blank" href="https://www.jetbrains.com/help/hub/">
+            <TrayIcon icon={help} />
+          </a>
           <SmartServices auth={auth} />
           <SmartProfile auth={auth} />
         </Tray>

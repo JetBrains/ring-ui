@@ -1,19 +1,46 @@
-@value unit, blue-color, gray-color, link-hover-color from  "../global/global.css";
+@value unit, light-gray-color, black-color, white-color, main-color from  "../global/global.css";
+
+@value compensated: calc(unit * 8 + 3);
 
 .header {
   display: flex;
-  height: calc(unit * 7);
-  align-items: baseline;
-  line-height: calc(unit * 7 - 5);
-  margin: 0 calc(unit * 4);
+  height: calc(unit * 8);
+  align-items: flex-end;
+  line-height: compensated;
+  background-color: black-color;
+
+  & > * {
+    display: inline-flex;
+    padding: 0 calc(unit * 2);
+
+    :first-child {
+      padding-left: calc(unit * 4);
+    }
+  }
+
+  /* override link */
+  & > a:not(:hover) {
+    color: light-gray-color;
+  }
 }
 
-.item {
-  margin-right: calc(unit * 4);
+.logo {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  overflow: hidden;
+  line-height: normal;
+
+  & svg {
+    color: black-color;
+    vertical-align: bottom;
+  }
 }
 
 .tray {
-  composes: header;
+  display: flex;
+  align-items: baseline;
+  padding: 0;
   margin: 0 0 0 auto;
 }
 
@@ -22,62 +49,48 @@
 }
 
 .trayItemContent {
-  height: calc(unit * 5);
-}
-
-.iconPosition {
-  vertical-align: baseline;
-  height: calc(unit * 5);
-  width: calc(unit * 5);
-
-  &&:global(.ring-icon) {
-    /* Redefine positioning inside ring-link */
-    top: 0;
-  }
-}
-
-.iconBehavior {
-  cursor: pointer;
-
-  transition: all 0.3s ease-out;
-  transform: rotate(0deg);
-
-  &:hover {
-     transition: transform 0.3s ease-out;
-     color: link-hover-color;
-  }
+  height: compensated;
 }
 
 .icon {
-  color: gray-color;
-  composes: iconPosition;
-  composes: iconBehavior;
+  vertical-align: baseline;
+  /* override button */
+  && {
+    height: compensated;
+  }
+  width: calc(unit * 5);
 }
 
-.activeIcon {
-  composes: icon;
+.main svg {
+  color: main-color;
+}
 
-  @nest &, &:hover {
-    color: blue-color
-  }
+.rotateable svg {
+  transition: transform 0.3s ease-out;
+  transform: rotate(0deg);
+}
+
+.rotated svg {
+  transform: rotate(90deg);
 }
 
 .profileEmpty {
-  composes: iconPosition;
+  vertical-align: bottom;
+  width: auto;
+  height: compensated;
+  padding: 0 calc(unit * 4) 0 unit;
 
-  text-align: right;
-  position: relative;
-  top: unit;
-  /* Fix popup vertical positioning */
-  height: calc(unit * 4);
+/* override dropdown */
+  && {
+    display: inline-flex;
+  }
+
+  align-items: center;
 }
 
 .profile {
   composes: profileEmpty;
-  composes: iconBehavior;
-}
-
-.loginButton.loginButton {
-  margin-left: unit;
+  height: calc(unit*8);
+  cursor: pointer;
 }
 

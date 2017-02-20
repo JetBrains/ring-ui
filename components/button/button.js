@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import Icon from '../icon/icon';
+import Icon, {Size} from '../icon/icon';
+import Theme from '../global/theme';
 
 import styles from './button.css';
 
@@ -14,8 +15,11 @@ import styles from './button.css';
  * @example-file ./button.examples.html
  */
 export default class Button extends RingComponent {
+  static IconSize = Size;
+  static Theme = Theme;
+
   static propTypes = {
-    theme: PropTypes.oneOf(['light', 'dark']),
+    theme: PropTypes.string,
     active: PropTypes.bool,
     danger: PropTypes.bool,
     delayed: PropTypes.bool,
@@ -36,7 +40,8 @@ export default class Button extends RingComponent {
   }
 
   static defaultProps = {
-    theme: 'light',
+    theme: Theme.LIGHT,
+    iconSize: Size.Size16,
     onMouseDown() {}
   }
 
@@ -96,7 +101,7 @@ export default class Button extends RingComponent {
             <span className={styles.icon}>
               <Icon
                 glyph={icon}
-                size={iconSize || 16}
+                size={iconSize}
               />
             </span>
           )}
