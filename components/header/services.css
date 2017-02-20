@@ -24,10 +24,14 @@
   text-overflow: ellipsis;
   line-height: initial;
 
-  @nest &:after {
+  &:after {
    vertical-align: middle;
    height: calc(unit * 14);
  }
+
+  &:not(:hover), &:visited:not(:hover) {
+    color: #FFF;
+  }
 
   /* Disable animation .ring-icon_loading in Header in Edge, see https://youtrack.jetbrains.com/issue/RG-928 */
   /* Supports MS Edge */
@@ -56,16 +60,9 @@
 .activeItem {
   composes: item;
   composes: active;
-}
-
-.linkItem {
-  composes: item;
-
-  text-decoration: none;
 
   &:hover {
-     color: link-hover-color;
-     text-decoration: underline;
+   color: #FFF;
   }
 }
 
@@ -75,31 +72,28 @@
   margin: calc(unit * 4) 0 calc(unit * 2);
 }
 
-.stacked {
+.itemStacked {
   display: inline-block;
   width: 100%;
   margin-bottom: calc(unit * 2);
   line-height: calc(unit * 2);
 
-  color: dark-gray-color;
   text-decoration: none;
+
+  &, &:visited {
+    color: dark-gray-color;
+  }
 
   &:last-child {
     margin-bottom: -calc(unit * 3);
   }
 }
 
-.linkStacked {
-  composes: stacked;
-
+.activeItemStacked {
+  composes: itemStacked;
+  composes: active;
 
   &:hover {
-     color: link-hover-color;
-     text-decoration: underline;
+    color: dark-gray-color;
   }
-}
-
-.activeStacked {
-  composes: stacked;
-  composes: active;
 }
