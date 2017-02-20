@@ -52,7 +52,7 @@ import global from '../global/global.css';
                     key={size}
                   >
                     <Avatar size={Size[size]} url={url} />
-                    <Avatar size={Size[size]} url={dataUri} />
+                    <Avatar size={Size[size]} url={dataUri} round />
                     <Avatar size={Size[size]} />
                   </div>
                 ))}
@@ -80,7 +80,8 @@ export default class Avatar extends PureComponent {
     className: PropTypes.string,
     size: PropTypes.number,
     style: PropTypes.object,
-    url: PropTypes.string
+    url: PropTypes.string,
+    round: PropTypes.bool
   };
 
   static defaultProps = {
@@ -100,11 +101,11 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size = Size.Size20, url, dpr, style = {}, ...restProps} = this.props;
+    const {size = Size.Size20, url, dpr, style = {}, round, ...restProps} = this.props;
     const sizeString = `${size}px`;
     const borderRaduis = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
     const styleObj = {
-      borderRadius: global[borderRaduis],
+      borderRadius: round ? '50%' : global[borderRaduis],
       height: sizeString,
       width: sizeString,
       ...style

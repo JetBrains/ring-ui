@@ -1,11 +1,11 @@
-@value link-color, link-hover-color, ease from "../global/global.css";
+@value link-color, link-hover-color, fast-ease from "../global/global.css";
 
 .link {
   &, &:visited {
     color: link-color;
     text-decoration: none;
     cursor: pointer;
-    transition: color ease;
+    transition: color fast-ease;
   }
 
   &.hover,

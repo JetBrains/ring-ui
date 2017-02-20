@@ -8,8 +8,11 @@ import styles from './list.css';
  * @extends {ReactComponent}
  */
 export default function ListLink(props) {
-  const {className, label, active, description, rgItemType, url, ...restProps} = props; // eslint-disable-line no-unused-vars
-  const classes = classnames(styles.item, className);
+  const {className, label, active, description, rgItemType, url, disabled, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const classes = classnames(styles.item, className, {
+    [styles.actionLink]: !disabled,
+    [styles.active]: active && !disabled
+  });
 
   return (
     <Link
@@ -26,6 +29,7 @@ export default function ListLink(props) {
 ListLink.propTypes = {
   className: PropTypes.string,
   active: PropTypes.bool,
+  disabled: PropTypes.bool,
   description: PropTypes.string,
   href: PropTypes.string,
   label: PropTypes.oneOfType([

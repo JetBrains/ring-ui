@@ -46,7 +46,7 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-
+  white-space: nowrap;
   padding: list-spacing calc(unit * 2);
 
   composes: font;
@@ -139,6 +139,13 @@
   cursor: pointer;
   color: text-color;
   transition: background-color fast-ease;
+}
+
+.actionLink {
+  /* override link */
+  && {
+    transition: all fast-ease;
+  }
 }
 
 .active:not(.error) {
