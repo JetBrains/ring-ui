@@ -73,12 +73,6 @@
   color: darker-gray-color;
 }
 
-.tallSubHeader {
-  & .headerCell {
-    height: 39px;
-  }
-}
-
 .subHeaderFixed {
   position: fixed;
   top: 0;
