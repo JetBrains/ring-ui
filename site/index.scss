@@ -28,39 +28,17 @@ html, body {
 }
 
 .header {
-  margin: 0 $ring-unit * 4 $ring-unit * 2;
+  margin: $ring-unit * 2 $ring-unit * 4 0;
 }
 
 .nav {
   padding: 0;
   list-style: none;
-  margin-left: 40px;
+  margin: $ring-unit $ring-unit * 5 $ring-unit * 2;
 }
 
 .nav__item {
   margin: $ring-unit 0;
-}
-
-/* Replace with ring-link */
-.nav__link {
-  $color: #1866C5;
-  color: $color;
-  text-decoration: none;
-
-  &:visited {
-    color: $color;
-    text-decoration: none;
-  }
-
-  &:hover {
-    color: #FF5A00;
-  }
-}
-
-.nav__link._active {
-  color: #000;
-  font-weight: bold;
-  cursor: default;
 }
 
 .nav__header {
@@ -95,7 +73,6 @@ html, body {
 }
 
 .markdown-example__link.markdown-example__link {
-  color: #1866C5;
   display: block;
   position: absolute;
   right: 0;
@@ -104,8 +81,4 @@ html, body {
   font-size: $ring-font-size;
   padding: $ring-unit;
   background: #fff;
-}
-
-.markdown-example__link:hover {
-  color: #FF5A00;
 }
