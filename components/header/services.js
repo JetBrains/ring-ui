@@ -74,8 +74,8 @@ export default class Services extends PureComponent {
 
             return (
               <Services.Link
-                className={isActive ? styles.activeItem : styles.linkItem}
-                isActive={isActive}
+                active={isActive}
+                className={isActive ? styles.activeItem : styles.item}
                 key={service.id}
                 service={service}
               />
@@ -88,12 +88,12 @@ export default class Services extends PureComponent {
             />
           )}
           {servicesWithOutIcons.map(service => {
-            const isActive = this.serviceIsActive(service);
+            const isActive = service.name === 'Bonus' || this.serviceIsActive(service);
 
             return (
               <Services.Link
-                className={isActive ? styles.activeStacked : styles.linkStacked}
-                isActive={isActive}
+                active={isActive}
+                className={isActive ? styles.activeItemStacked : styles.itemStacked}
                 key={service.id}
                 service={service}
               />

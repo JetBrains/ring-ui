@@ -1,5 +1,7 @@
 import React, {PropTypes, PureComponent} from 'react';
 
+import Link from '../link/link';
+
 import styles from './services.css';
 
 export default class ServicesLink extends PureComponent {
@@ -14,17 +16,14 @@ export default class ServicesLink extends PureComponent {
   };
 
   render() {
-    const {service, isActive, ...restProps} = this.props;
-
-    const linkProps = {
-      target: '_self',
-      href: service.homeUrl
-    };
-
-    const tagProps = isActive ? restProps : {...linkProps, ...restProps};
+    const {service, ...props} = this.props;
 
     return (
-      <a {...tagProps}>
+      <Link
+        target="_self"
+        href={service.homeUrl}
+        {...props}
+      >
         {service.iconUrl && (
           <span
             className={styles.itemLogo}
@@ -35,7 +34,7 @@ export default class ServicesLink extends PureComponent {
           <span className={styles.itemText}>{service.name}</span>
         )}
         {!service.iconUrl && service.name}
-      </a>
+      </Link>
     );
   }
 
