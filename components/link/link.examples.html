@@ -1,0 +1,43 @@
+<example name="Link">
+  <file type="html">
+    <div id="link"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import classnames from 'classnames';
+    import Link, {linkHOC} from 'ring-ui/components/link/link';
+
+    class CustomComponent extends Component {
+      render() {
+        const {active, activeClassName, className,...props} = this.props;
+        const classes = classnames(className, {
+          [activeClassName]: active
+        });
+        return (
+          <a
+            {...props}
+            className={className}
+          />
+        );
+      }
+    }
+
+    const CustomLink = linkHOC(CustomComponent);
+    class LinkDemo extends Component {
+      render() {
+        return (
+         <div style={{display: 'flex', flexDirection: 'column'}}>
+           <Link href="#hash">Ordinary link</Link>
+           <Link href="#hash" active>Active link (inherits color)</Link>
+           <Link href="#hash" pseudo>Pseudo link (no underline on hover)</Link>
+           <CustomLink href="#hash">Custom link component</CustomLink>
+           <CustomLink href="#hash" active>Active custom link component</CustomLink>
+         </div>
+        );
+      }
+    }
+    render(<LinkDemo />, document.getElementById('link'));
+  </file>
+</example>
