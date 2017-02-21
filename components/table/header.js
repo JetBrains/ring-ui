@@ -96,7 +96,7 @@ export default class Header extends PureComponent {
     const headerClassName = classNames(style.subHeader, {
       [style.tallSubHeader]: !caption
     });
-    const fixedHeaderClassName = classNames(style.subHeader, style.subHeaderFixed);
+    const fixedHeaderClassName = classNames(headerClassName, style.subHeaderFixed);
 
     const regularCells = this.createCells();
 
