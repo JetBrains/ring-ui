@@ -3,83 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
+<script>
+  window.source = JSON.parse("{{ source | json_encode | escape('js') }}");
+  window.categories = [
+    {% for categoryName, items in sourcesByCategory %}
+      {
+        name: "{{ categoryName }}",
+        items: [
+          {% for item in items %}
+            {
+              title: "{{ item.attrs.name or item.attrs.title or item.path }}",
+              href: "{{ item.page.url }}",
+              active: {{ item.path == source.path }}
+            },
+          {% endfor %}
+        ]
+      },
+    {% endfor %}
+  ];
+</script>
 </head>
 <body>
 <div class="app">
-  <div class="app__header"></div>
   <script src="vendor.dll.js"></script>
   <script src="docs-app.js"></script>
-
-  <div class="app__main">
-    <div class="app__sidebar">
-      <h3 class="header nav__header">Ring UI library <div class="ring-ui-version">{{ source.package.version }}</div></h3>
-
-      {% for categoryName, items in sourcesByCategory %}
-        {% if category != 'Docs' %}
-          <h4 class="header">{{ categoryName }}</h4>
-        {% endif %}
-
-        <ul class="nav">
-          {% for item in items %}
-            {% set title = item.attrs.name or item.attrs.title or item.path %}
-
-            <li class="nav__item">
-              {% if item.path == source.path %}
-                <span class="nav__link _active">{{ title }}</span>
-              {% else %}
-                <a class="nav__link" href="{{ item.page.url }}">{{ title }}</a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endfor %}
-
-    </div>
-
-    <div class="app__content markdown-body">
-      <h1>{{ source.attrs.name or source.attrs.title }}</h1>
-
-      {% if source.rendered %}
-        {{ source.rendered }}
-      {% endif %}
-
-      {% for block in source.blocks if source.blocks %}
-
-        {{ block.attrs.description | raw }}
-
-        {% for example in block.examples %}
-          {% set id = example.attrs.name | replace({' ': '_', ':': ''}) | url_encode %}
-
-          <h3 id="{{ id }}">{{ example.attrs.name }} <a href="#{{ id }}">#</a></h3>
-
-          <!-- Iframes -->
-          {% for file in example.files if file.type == 'html' %}
-            <div class="markdown-example">
-              <iframe width="100%"
-                      height="auto"
-                      src="{{ example.page.url }}"
-                      class="markdown-example__frame"></iframe>
-
-              <a href="{{ example.page.url }}"
-                 class="markdown-example__link"
-                 target="_blank"
-                 title="Open in new tab">Example</a>
-            </div>
-          {% endfor %}
-
-          <!-- Code examples -->
-          {% for file in example.files if file.attrs['show-code'] != 'false' %}
-            <div class="markdown-example-code">
-              <pre><code class="language-{{ file.type }}">{{ file.content | escape }}</code></pre>
-            </div>
-          {% endfor %}
-
-        {% endfor %}
-      {% endfor %}
-
-    </div>
-  </div>
-
 </div>
 </body>
 </html>
