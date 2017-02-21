@@ -223,7 +223,7 @@ class Table extends PureComponent {
   onEscPress = () => {
     const {selection, onSelect} = this.props;
     onSelect(selection.reset());
-    this.restoreFocusWithotScroll();
+    this.restoreFocusWithoutScroll();
   }
 
   onCmdAPress = () => {
@@ -244,7 +244,7 @@ class Table extends PureComponent {
     onFocusRestore();
   }
 
-  restoreFocusWithotScroll = () => {
+  restoreFocusWithoutScroll = () => {
     const {scrollX, scrollY} = window;
     this.props.onFocusRestore();
     window.scrollTo(scrollX, scrollY);
