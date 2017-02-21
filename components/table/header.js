@@ -93,6 +93,9 @@ export default class Header extends PureComponent {
     const {caption, sticky, topStickOffset} = this.props;
     const {fixed, widths, headerWidth} = this.state;
 
+    const headerClassName = classNames(style.subHeader, {
+      [style.tallSubHeader]: !caption
+    });
     const fixedHeaderClassName = classNames(style.subHeader, style.subHeaderFixed);
 
     const regularCells = this.createCells();
@@ -113,7 +116,7 @@ export default class Header extends PureComponent {
           <th className={classNames(style.headerCell, style.caption)} colSpan={regularCells.length + 1}>{caption}</th>
         </tr>}
 
-        <tr className={style.subHeader} ref={this.storeColumnsRowNode}>{regularCells}</tr>
+        <tr className={headerClassName} ref={this.storeColumnsRowNode}>{regularCells}</tr>
 
         {fixed && sticky &&
           <tr
