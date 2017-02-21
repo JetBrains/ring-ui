@@ -1,4 +1,4 @@
-@value unit, light-gray-color, black-color, white-color, main-color from  "../global/global.css";
+@value unit, darker-gray-color, black-color, white-color, main-color from  "../global/global.css";
 
 @value compensated: calc(unit * 8 + 3);
 
@@ -8,19 +8,20 @@
   align-items: flex-end;
   line-height: compensated;
   background-color: black-color;
+  color: white-color;
 
   & > * {
     display: inline-flex;
     padding: 0 calc(unit * 2);
 
-    :first-child {
+    &:first-child {
       padding-left: calc(unit * 4);
     }
   }
 
   /* override link */
-  & > a:not(:hover) {
-    color: light-gray-color;
+  & > a {
+    color: darker-gray-color;
   }
 }
 
@@ -67,6 +68,7 @@
 
 .rotateable svg {
   transition: transform 0.3s ease-out;
+  transform-origin: 50% 50%;
   transform: rotate(0deg);
 }
 
