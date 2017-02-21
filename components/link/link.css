@@ -1,18 +1,26 @@
 @value link-color, link-hover-color, fast-ease from "../global/global.css";
 
 .link {
-  &, &:visited {
+  & {
     color: link-color;
     text-decoration: none;
     cursor: pointer;
     transition: color fast-ease;
   }
 
-  &.hover,
-  &.hover:visited,
-  &:hover {
+  &:hover, &:focus {
     color: link-hover-color;
     text-decoration: underline;
     transition: none;
+  }
+
+  &.pseudo {
+    text-decoration: none;
+  }
+
+  &.active {
+    color: inherit;
+    text-decoration: none;
+    cursor: default;
   }
 }
