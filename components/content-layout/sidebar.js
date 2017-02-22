@@ -9,6 +9,7 @@ const INSIDE = 'inside';
 export default class Sidebar extends Component {
   static propTypes = {
     right: PropTypes.bool,
+    children: PropTypes.node,
     className: PropTypes.string,
     contentNode: PropTypes.object
   };
@@ -43,7 +44,8 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const {right, children, className, contentNode, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    const {right, children, className, contentNode, ...restProps} = this.props;
     const {topIsOutside, bottomIsOutside} = this.state;
     const sidebarHeight = this.sidebarNode ? this.sidebarNode.offsetHeight : null;
 
@@ -68,7 +70,7 @@ export default class Sidebar extends Component {
       <div
         className={containerClasses}
         ref={node => {
-          this.sidebarNode = node
+          this.sidebarNode = node;
         }}
       >
         <Waypoint
