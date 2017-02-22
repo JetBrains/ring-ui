@@ -6,6 +6,7 @@ import styles from './link.css';
 /**
  * @name Link
  * @category Components
+ * @tags 3.0
  * @constructor
  * @description Displays a link.
  * @extends {ReactComponent}

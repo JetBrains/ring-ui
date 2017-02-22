@@ -1,6 +1,7 @@
 /**
  * @name Title Ng
  * @category Angular Components
+ * @tags 3.0
  * @description TODO
  * @example
    <example name="Title Ng">

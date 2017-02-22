@@ -9,6 +9,7 @@ import Tab from './tab';
 /**
  * @name Tabs
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Displays a tab set

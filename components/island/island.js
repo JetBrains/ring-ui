@@ -7,6 +7,7 @@ import styles from './island.css';
  * @name Island
  * @name Island
  * @category Components
+ * @tags 3.0
  * @description Displays an island.
  * @example-file ./island.examples.html
  */

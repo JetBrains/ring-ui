@@ -4,6 +4,7 @@ import LoaderCore from '../loader/loader__core';
 /**
  * @name Loader Ng
  * @category Angular Components
+ * @tags 3.0
  * @framework Angular
  * @constructor
  * @description Displays loader

@@ -8,6 +8,7 @@ import styles from './dropdown.css';
 /**
  * @name Dropdown
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description A stateful popup with clickable anchor

@@ -15,6 +15,7 @@ import styles from './select.css';
 /**
  * @name Select
  * @category Components
+ * @tags 3.0
  * @description Displays a select.
  * @example-file ./select.examples.html
  */

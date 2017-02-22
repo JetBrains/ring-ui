@@ -9,6 +9,7 @@ import styles from './confirm.css';
 /**
  * @name Confirm
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description A component to show confirmation dialog
