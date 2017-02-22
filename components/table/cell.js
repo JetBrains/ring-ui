@@ -13,6 +13,12 @@ export default class Cell extends PureComponent {
 
   render() {
     const classes = classNames(style.cell, this.props.className);
-    return <td {...this.props} className={classes}>{this.props.children}</td>;
+    return (
+      <td
+        {...this.props}
+        className={classes}
+        data-test="ring-table-cell"
+      >{this.props.children}</td>
+    );
   }
 }

@@ -10,7 +10,7 @@ export default class MultiTable extends Component {
 
   render() {
     return (
-      <div>{
+      <div data-test="ring-multitable">{
         Children.map(this.props.children, child => {
           const props = {multi: true};
           return cloneElement(child, props);
