@@ -19,7 +19,7 @@ module.exports = () => {
 
   docpack.use(require('docpack-jsdoc-extractor')({
     match: /\.(js|scss)$/,
-    parseMarkdown: true
+    parseMarkdown: false
   }));
 
   docpack.use(Docpack.HOOKS.AFTER_EXTRACT, (sources, done) => {

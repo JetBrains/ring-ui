@@ -6,7 +6,7 @@ import 'dom4';
 import React from 'react';
 import {render} from 'react-dom';
 
-// import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
+import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
 
 import Header from './components/header';
 import Nav from './components/nav';
@@ -17,14 +17,16 @@ const {source, categories} = window;
 const App = () => (
   <div>
     <Header />
-    <div className="app__main">
-      <Nav
-        version={source.package.version}
-        url={source.page.url}
-        categories={categories}
-      />
+    <ContentLayout className="app__main">
+      <Sidebar>
+        <Nav
+          version={source.package.version}
+          url={source.page.url}
+          categories={categories}
+        />
+      </Sidebar>
       <Content {...source}/>
-    </div>
+    </ContentLayout>
   </div>
 );
 
