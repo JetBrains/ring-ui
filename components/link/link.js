@@ -19,14 +19,16 @@ export function linkHOC(ComposedComponent) {
     static propTypes = {
       active: PropTypes.bool,
       className: PropTypes.string,
-      pseudo: PropTypes.bool
+      pseudo: PropTypes.bool,
+      hover: PropTypes.bool
     }
 
     render() {
-      const {active, pseudo, className, ...props} = this.props;
+      const {active, pseudo, hover, className, ...props} = this.props;
       const classes = classnames(styles.link, className, {
         [styles.active]: active,
-        [styles.pseudo]: pseudo
+        [styles.pseudo]: pseudo,
+        [styles.hover]: hover
       });
 
       if (!isTag && !props.activeClassName) {
@@ -37,6 +39,7 @@ export function linkHOC(ComposedComponent) {
         <ComposedComponent
           {...props}
           className={classes}
+          data-test="ring-link"
         />
       );
     }

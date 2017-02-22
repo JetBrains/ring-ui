@@ -122,7 +122,7 @@ export default class Header extends PureComponent {
           </tr>
         }
 
-        <tr  ref={this.storeColumnsRowNode}data-test="ring-table-header-row">{regularCells}</tr>
+        <tr ref={this.storeColumnsRowNode} data-test="ring-table-header-row">{regularCells}</tr>
 
         {fixed && sticky &&
           <tr

@@ -4,6 +4,7 @@ import TestUtils from 'react-addons-test-utils';
 import List from './list';
 
 import styles from './list.css';
+import linkStyles from '../link/link.css';
 
 import okIcon from 'jetbrains-icons/ok.svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
@@ -120,14 +121,14 @@ describe('List', () => {
       getFirstListItem().should.have.text('FooBar');
     });
 
-    it('should render span if link without href', () => {
+    it('should render pseudo link if link without href', () => {
       list.rerender({data: [
         {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
 
-      getFirstListItem().should.match('[data-test=ring-link]');
+      getFirstListItem().should.match(`[data-test=ring-link].${linkStyles.pseudo}`);
       getFirstListItem().innerHTML.should.equal('Hello!');
-      getFirstListItem().tagName.toLowerCase().should.equal('span');
+      getFirstListItem().tagName.toLowerCase().should.equal('a');
     });
 
     it('should not render icon if not provided', () => {

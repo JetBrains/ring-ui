@@ -3,10 +3,10 @@ import classnames from 'classnames';
 import styles from './list.css';
 
 export default function ListCustom(props) {
-  const {active, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const {hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames(styles.item, className, {
     [styles.action]: !disabled,
-    [styles.active]: active && !disabled
+    [styles.hover]: hover && !disabled
   });
 
   const content = (typeof template === 'function') ? template(props) : template;
@@ -24,7 +24,7 @@ export default function ListCustom(props) {
 }
 
 ListCustom.propTypes = {
-  active: PropTypes.bool,
+  hover: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   rgItemType: PropTypes.number,
@@ -40,5 +40,5 @@ ListCustom.propTypes = {
 };
 
 ListCustom.defaultProps = {
-  active: false
+  hover: false
 };
