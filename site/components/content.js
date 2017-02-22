@@ -5,7 +5,7 @@ import Block from './block';
 import Markdown from './markdown';
 
 const Content = ({attrs, type, content, blocks}) => (
-  <div className="app__content markdown-body">
+  <div className="markdown-body">
     <h1>{attrs.name || attrs.title}</h1>
 
     {type === 'md' &&
