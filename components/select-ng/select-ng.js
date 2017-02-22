@@ -14,6 +14,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 /**
  * @name Select Ng
  * @category Angular Components
+ * @tags 3.0
  * @description Provides an Angular wrapper for Select.
  * Options argument has one of the following forms:
  * * `label` **`in`** `items`

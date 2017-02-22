@@ -1,6 +1,7 @@
 /**
  * @name React Ng
  * @category Angular Components
+ * @tags 3.0
  * @description An Angular directive for proxying React components.
  */
 

@@ -46,6 +46,14 @@ html, body {
   font: inherit;
 }
 
+.nav__link_active {
+  font-weight: 500;
+}
+
+a.nav__link_legacy {
+  color: $ring-dark-gray-color;
+}
+
 .ring-ui-version {
   display: inline-block;
   border-radius: 5px;

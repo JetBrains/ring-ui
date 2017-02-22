@@ -10,6 +10,7 @@ import global from '../global/global.css';
 /**
  * @name Avatar
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Displays an avatar or a box with border in case of failure.

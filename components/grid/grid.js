@@ -5,6 +5,7 @@ import styles from './grid.css';
 /**
  * @name Grid
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Implements a flexbox-like grid system for components placement.

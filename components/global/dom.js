@@ -1,15 +1,3 @@
-/**
- * @name DOM
- * @category Utilities
- * @description A collection of DOM utilities.
- * @example
-   <example name="DOM">
-    <file name="index.html">
-      TODO example
-    </file>
-   </example>
- */
-
 export const getStyles = ::window.getComputedStyle;
 
 export function isMounted(node) {

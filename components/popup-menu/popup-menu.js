@@ -5,6 +5,7 @@ import List from '../list/list';
 /**
  * @name Popup Menu
  * @category Components
+ * @tags 3.0
  * @constructor
  * @description Displays a popup menu.
  * @extends {ReactComponent}
