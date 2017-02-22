@@ -11,6 +11,7 @@
 
 .contentLayoutContent {
   margin: 0 calc(unit * 4);
+  align-self: flex-start;
 }
 
 .sidebarContainer {

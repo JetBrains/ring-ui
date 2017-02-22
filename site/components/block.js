@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
 
 import Example from './example';
+import Markdown from './markdown';
 
 const Block = ({attrs, examples}) => (
   <div>
     {attrs.description &&
-      <div dangerouslySetInnerHTML={{__html: attrs.description}} />
+      <Markdown source={attrs.description} />
     }
     {examples.map(example =>
       <Example

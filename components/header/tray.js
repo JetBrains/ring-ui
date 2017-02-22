@@ -1,14 +1,10 @@
-import React, {PropTypes, Children, Component, cloneElement} from 'react';
+import React, {PropTypes, Children, Component} from 'react';
 import classnames from 'classnames';
 
 import styles from './header.css';
 
-const wrapChild = child => (
-  <div className={styles.trayItem}>
-    {cloneElement(child, {
-      className: classnames(child.props.className, styles.trayItemContent)
-    })}
-  </div>
+const wrapChild = child => child && (
+  <div className={styles.trayItem}>{child}</div>
 );
 
 export default class Tray extends Component {

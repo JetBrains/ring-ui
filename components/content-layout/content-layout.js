@@ -1,7 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes, cloneElement} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import Sidebar from './sidebar';
 import styles from './content-layout.css';
@@ -15,18 +13,29 @@ import styles from './content-layout.css';
  * @example-file ./content-layout.examples.html
  */
 
-export default class ContentLayout extends RingComponent {
+export default class ContentLayout extends Component {
+  state = {};
+
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string
   };
+
+  saveContentNode = contentNode => {
+    this.setState({contentNode});
+  }
 
   render() {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles.contentLayout, className);
 
     const childrenArray = React.Children.toArray(children);
-    const sidebar = childrenArray.filter(child => child && child.type === Sidebar)[0];
-    const contentChildren = childrenArray.filter(child => child !== sidebar);
+    const sidebarChild = childrenArray.filter(child => child && child.type === Sidebar)[0];
+
+    const sidebar = sidebarChild && cloneElement(sidebarChild, {
+      contentNode: this.state.contentNode
+    });
+    const contentChildren = childrenArray.filter(child => child !== sidebarChild);
 
     return (
       <div
@@ -34,7 +43,10 @@ export default class ContentLayout extends RingComponent {
         className={classes}
       >
         {sidebar}
-        <div className={styles.contentLayoutContent}>
+        <div
+          className={styles.contentLayoutContent}
+          ref={this.saveContentNode}
+        >
           {contentChildren}
         </div>
       </div>
