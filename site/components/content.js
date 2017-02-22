@@ -1,16 +1,18 @@
 import React, {PropTypes} from 'react';
+import parseFrontMatter from 'front-matter';
 
 import Block from './block';
+import Markdown from './markdown';
 
-const Content = ({attrs, rendered, blocks}) => (
-  <div className="app__content markdown-body">
+const Content = ({attrs, type, content, blocks}) => (
+  <div className="markdown-body">
     <h1>{attrs.name || attrs.title}</h1>
 
-    {rendered &&
-      <div dangerouslySetInnerHTML={{__html: rendered}} />
+    {type === 'md' &&
+      <Markdown source={parseFrontMatter(content).body} />
     }
 
-    {blocks && blocks.map(block =>
+    {blocks && blocks.filter(block => block.attrs.description || block.examples.length).map(block =>
       <Block
         {...block}
         key={JSON.stringify(block.attrs)}
@@ -24,7 +26,8 @@ Content.propTypes = {
     name: PropTypes.string,
     title: PropTypes.string
   }),
-  rendered: PropTypes.string,
+  type: PropTypes.string,
+  content: PropTypes.string,
   blocks: PropTypes.arrayOf(PropTypes.shape(Block.propTypes))
 };
 
