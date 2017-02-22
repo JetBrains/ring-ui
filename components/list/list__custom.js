@@ -2,11 +2,11 @@ import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
 export default function ListCustom(props) {
-  const {active, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
+  const {hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !disabled,
-    'ring-list__item_active': active && !disabled
+    'ring-list__item_hover': hover && !disabled
   }, className);
 
   const content = (typeof template === 'function') ? template(props) : template;
@@ -24,7 +24,7 @@ export default function ListCustom(props) {
 }
 
 ListCustom.propTypes = {
-  active: PropTypes.bool,
+  hover: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   rgItemType: PropTypes.number,
@@ -40,5 +40,5 @@ ListCustom.propTypes = {
 };
 
 ListCustom.defaultProps = {
-  active: false
+  hover: false
 };

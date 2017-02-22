@@ -82,10 +82,6 @@ $list-spacing: $ring-unit / 2;
     }
   }
 
-  .ring-list &:hover {
-    text-decoration: none;
-  }
-
   &__top {
     display: flex;
     flex-direction: row;
@@ -115,7 +111,7 @@ $list-spacing: $ring-unit / 2;
     color: $ring-dark-gray-color;
     font-size: $ring-font-size-smaller;
 
-    .ring-list__item_active & {
+    .ring-list__item_hover & {
       color: #FFF;
     }
   }
@@ -135,7 +131,7 @@ $list-spacing: $ring-unit / 2;
       margin-left: 20px;
     }
 
-    .ring-list__item_active & {
+    .ring-list__item_hover & {
       color: #FFF;
     }
   }
@@ -153,7 +149,7 @@ $list-spacing: $ring-unit / 2;
   cursor: pointer;
   color: $ring-text-color;
 
-  &.ring-list__item_active:not(.ring-list__item_error) {
+  &.ring-list__item_hover:not(.ring-list__item_error) {
     color: #FFF;
     background-color: $ring-blue-color;
 
@@ -205,7 +201,7 @@ $list-spacing: $ring-unit / 2;
     margin-right: 0;
   }
 
-  .ring-list__item_active & {
+  .ring-list__item_hover & {
     color: #FFF;
   }
 }

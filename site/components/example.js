@@ -6,7 +6,7 @@ import Iframe from './iframe';
 import Code from './code';
 
 function Example({attrs, page, files}) {
-  const id = encodeURIComponent(attrs.name.replace(' ', '_').replace(':', ''));
+  const id = encodeURIComponent(attrs.name.replace(/s/g, '_').replace(/:/g, ''));
   return (
     <div>
       <h3 id={id}>{attrs.name} <Link href={`#${id}`}>{'#'}</Link></h3>

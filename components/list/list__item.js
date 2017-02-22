@@ -12,11 +12,11 @@ const DEFAULT_PADDING = 16;
 
 export default function ListItem(props) {
   const {checkbox, glyph, icon, rightGlyph, description, label,
-    details, active, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars
+    details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars
   const classes = classnames({
     'ring-list__item': true,
     'ring-list__item_action': !props.disabled,
-    'ring-list__item_active': props.active && !props.disabled
+    'ring-list__item_hover': props.hover && !props.disabled
   }, props.className);
   const detailsClasses = classnames({
     'ring-list__item__details': props.details,
@@ -85,11 +85,11 @@ export default function ListItem(props) {
 }
 
 ListItem.defaultProps = {
-  active: false
+  hover: false
 };
 
 ListItem.propTypes = {
-  active: PropTypes.bool,
+  hover: PropTypes.bool,
   details: PropTypes.string,
   disabled: PropTypes.bool,
   className: PropTypes.string,
