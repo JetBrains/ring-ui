@@ -16,25 +16,21 @@ html, body {
 
 .app__sidebar {
   margin-top: $ring-unit * 4;
-  width: 200px;
 }
 
-.app__main {
-  display: flex;
-}
-
-.app__content {
-  flex: 1;
+.app__main > div:last-child {
+  flex-grow: 1;
+  min-width: 0;
 }
 
 .header {
-  margin: $ring-unit * 2 $ring-unit * 4 0;
+  margin: $ring-unit * 2 0 0;
 }
 
 .nav {
   padding: 0;
   list-style: none;
-  margin: $ring-unit $ring-unit * 5 $ring-unit * 2;
+  margin: $ring-unit $ring-unit $ring-unit * 2;
 }
 
 .nav__item {
@@ -62,9 +58,7 @@ html, body {
 
 .markdown-body {
   min-width: 200px;
-  max-width: 80%;
-  margin: 0 auto;
-  padding: 30px;
+  padding: $ring-unit * 3 0;
 }
 
 .markdown-example {
