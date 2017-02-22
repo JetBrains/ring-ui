@@ -36,7 +36,7 @@ export default class Header extends Component {
         className={classes}
       >
         {Children.map(children, child => (
-          child.type === Tray ? child : wrapChild(child)
+          child && child.type === Tray ? child : wrapChild(child)
         ))}
       </div>
     );
