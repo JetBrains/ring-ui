@@ -26,7 +26,7 @@ export default class ListItem extends PureComponent {
       description,
       label,
       details,
-      active,
+      hover,
       rgItemType,
       level,
       tabIndex,
@@ -40,7 +40,7 @@ export default class ListItem extends PureComponent {
     /* eslint-enable */
     const classes = classnames(styles.item, className, {
       [styles.action]: !disabled,
-      [styles.active]: active && !disabled
+      [styles.hover]: hover && !disabled
     });
     const detailsClasses = classnames({
       [styles.details]: details,
@@ -116,11 +116,11 @@ export default class ListItem extends PureComponent {
 }
 
 ListItem.defaultProps = {
-  active: false
+  hover: false
 };
 
 ListItem.propTypes = {
-  active: PropTypes.bool,
+  hover: PropTypes.bool,
   details: PropTypes.string,
   disabled: PropTypes.bool,
   className: PropTypes.string,

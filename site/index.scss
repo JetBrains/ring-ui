@@ -43,6 +43,11 @@ html, body {
 
 .nav__header {
   white-space: nowrap;
+  line-height: $ring-unit * 3;
+}
+
+.nav__version > button {
+  font: inherit;
 }
 
 .ring-ui-version {

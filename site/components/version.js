@@ -17,7 +17,10 @@ const branchesArr = Object.keys(branches).map(version => ({
 }));
 
 const Version = ({version, url}) => (
-  <Dropdown anchor={version}>
+  <Dropdown
+    anchor={version}
+    className="nav__version"
+  >
     <PopupMenu
       data={branchesArr.map(branch => {
         const active = branch.versionRE.test(version);
@@ -28,7 +31,6 @@ const Version = ({version, url}) => (
           label: active ? version : branch.version
         };
       })}
-      top={4}
     />
   </Dropdown>
 );
