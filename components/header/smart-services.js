@@ -8,8 +8,7 @@ function noop() {}
 
 export default class SmartServices extends Component {
   static propTypes = {
-    auth: PropTypes.instanceOf(Auth).isRequired,
-    className: PropTypes.string
+    auth: PropTypes.instanceOf(Auth).isRequired
   };
 
   static allFields = 'id,name,applicationName,homeUrl,iconUrl';
@@ -51,7 +50,7 @@ export default class SmartServices extends Component {
 
   render() {
     const {services, visible, loading} = this.state;
-    const {className, auth} = this.props;
+    const {auth, ...props} = this.props;
 
     if (!visible) {
       return null;
@@ -59,8 +58,8 @@ export default class SmartServices extends Component {
 
     return (
       <Services
+        {...props}
         clientId={auth.config.client_id}
-        className={className}
         services={services}
         loading={loading}
         onClick={this.getServicesContent}
