@@ -148,7 +148,7 @@
   }
 }
 
-.active:not(.error) {
+.hover:not(.error) {
   background-color: selected-background-color;
   transition: none;
 }

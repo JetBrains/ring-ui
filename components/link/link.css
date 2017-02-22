@@ -8,7 +8,7 @@
     transition: color fast-ease;
   }
 
-  &:hover, &:focus {
+  &:hover, &:focus, &.hover {
     color: link-hover-color;
     text-decoration: underline;
     transition: none;
@@ -20,7 +20,5 @@
 
   &.active {
     color: inherit;
-    text-decoration: none;
-    cursor: default;
   }
 }
