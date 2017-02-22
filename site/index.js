@@ -20,6 +20,7 @@ const App = () => (
     <div className="app__main">
       <Nav
         version={source.package.version}
+        url={source.page.url}
         categories={categories}
       />
       <Content {...source}/>

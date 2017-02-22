@@ -6,6 +6,8 @@ import List from './list';
 import okIcon from 'jetbrains-icons/ok.svg';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
+import linkStyles from '../link/link.css';
+
 describe('List', () => {
   const Type = List.ListProps.Type;
   let list;
@@ -85,7 +87,7 @@ describe('List', () => {
         {label: 'Hello!', href: 'http://www.jetbrains.com'}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.have.class(linkStyles.link);
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -96,7 +98,7 @@ describe('List', () => {
         {label: 'Hello!', url: 'http://www.jetbrains.com'}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.have.class(linkStyles.link);
       getFirstListItem().innerHTML.should.equal('Hello!');
       getFirstListItem().tagName.toLowerCase().should.equal('a');
       getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
@@ -118,14 +120,15 @@ describe('List', () => {
       getFirstListItem().should.have.text('FooBar');
     });
 
-    it('should render span if link without href', () => {
+    it('should render pseudo link if link without href', () => {
       list.rerender({data: [
         {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
       ]});
 
-      getFirstListItem().should.have.class('ring-link');
+      getFirstListItem().should.have.class(linkStyles.link);
+      getFirstListItem().should.have.class(linkStyles.pseudo);
       getFirstListItem().innerHTML.should.equal('Hello!');
-      getFirstListItem().tagName.toLowerCase().should.equal('span');
+      getFirstListItem().tagName.toLowerCase().should.equal('a');
     });
 
     it('should not render icon if not provided', () => {

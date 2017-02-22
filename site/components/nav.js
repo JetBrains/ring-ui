@@ -2,10 +2,12 @@ import React, {PropTypes} from 'react';
 
 import Category from './category';
 
-const Nav = ({version, categories}) => (
+import Version from './version';
+
+const Nav = ({version, url, categories}) => (
   <div className="app__sidebar">
     <h3 className="header nav__header">
-      {'Ring UI library '}<div className="ring-ui-version">{version}</div>
+      {'Ring UI library '}<Version {...{version, url}} />
     </h3>
     {categories.map(category =>
       <Category
@@ -18,6 +20,7 @@ const Nav = ({version, categories}) => (
 
 Nav.propTypes = {
   version: PropTypes.string,
+  url: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.shape(Category.propTypes))
 };
 
