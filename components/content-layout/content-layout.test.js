@@ -1,5 +1,6 @@
 import 'dom4';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import ContentLayout from './content-layout';
@@ -7,18 +8,18 @@ import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {
-  const renderComponent = params => renderIntoDocument(ContentLayout.factory(params));
+  const renderComponent = params => renderIntoDocument(<ContentLayout {...params}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), ContentLayout).should.be.true;
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    findDOMNode(renderComponent()).should.match('div');
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
   it('should render sidebar', () => {
@@ -27,7 +28,7 @@ describe('Content Layout', () => {
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    component.node.should.contain(`div.${styles.sidebar}`);
+    findDOMNode(component).should.contain(`div.${styles.sidebar}`);
   });
 
   it('should render sidebar on the right', () => {
@@ -36,6 +37,6 @@ describe('Content Layout', () => {
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    component.node.should.contain(`div.${styles.sidebarRight}`);
+    findDOMNode(component).should.contain(`div.${styles.sidebarRight}`);
   });
 });

@@ -1,40 +1,54 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import styles from './content-layout.css';
 import Waypoint from 'react-waypoint';
 
-import RingComponent from '../ring-component/ring-component';
-
 const ABOVE = 'above';
 const INSIDE = 'inside';
 
-export default class Sidebar extends RingComponent {
+export default class Sidebar extends Component {
   static propTypes = {
     right: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    contentNode: PropTypes.object
   };
 
   state = {
     topIsOutside: true,
-    bottomIsOutside: true,
-    sidebarHeight: null
+    bottomIsOutside: true
   };
 
   handleTopWaypoint({currentPosition}) {
     this.setState({topIsOutside: currentPosition === ABOVE});
   }
 
-  handleBottomWaypoint({currentPosition, waypointTop}) {
+  handleBottomWaypoint({currentPosition}) {
     this.setState({
-      sidebarHeight: waypointTop,
       bottomIsOutside: currentPosition !== INSIDE
     });
   }
 
-  render() {
-    const {right, children, className, ...restProps} = this.props;
+  shouldUseFixation() {
+    const {contentNode} = this.props;
+    const {sidebarNode} = this;
+    if (!contentNode || !sidebarNode) {
+      return false;
+    }
+    return contentNode.offsetHeight >= sidebarNode.offsetHeight;
+  }
 
-    const shouldFixateBottom = !this.state.bottomIsOutside && this.state.topIsOutside;
+  shouldFixateBottom() {
+    const {topIsOutside, bottomIsOutside} = this.state;
+    return !bottomIsOutside && topIsOutside && this.shouldUseFixation();
+  }
+
+  render() {
+    const {right, children, className, contentNode, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {topIsOutside, bottomIsOutside} = this.state;
+    const sidebarHeight = this.sidebarNode ? this.sidebarNode.offsetHeight : null;
+
+    const shouldFixateTop = bottomIsOutside && topIsOutside && this.shouldUseFixation();
+    const shouldFixateBottom = this.shouldFixateBottom();
 
     const containerClasses = classNames(styles.sidebarContainer, {
       [styles.sidebarContainerRight]: right
@@ -42,16 +56,21 @@ export default class Sidebar extends RingComponent {
 
     const classes = classNames(styles.sidebar, className, {
       [styles.sidebarRight]: right,
-      [styles.sidebarFixedTop]: this.state.bottomIsOutside && this.state.topIsOutside,
+      [styles.sidebarFixedTop]: shouldFixateTop,
       [styles.sidebarFixedBottom]: shouldFixateBottom
     });
 
     const style = {
-      maxHeight: shouldFixateBottom && this.state.sidebarHeight ? `${this.state.sidebarHeight}px` : null
+      maxHeight: shouldFixateBottom && sidebarHeight ? `${sidebarHeight}px` : null
     };
 
     return (
-      <div className={containerClasses}>
+      <div
+        className={containerClasses}
+        ref={node => {
+          this.sidebarNode = node
+        }}
+      >
         <Waypoint
           onEnter={data => this.handleTopWaypoint(data)}
           onLeave={data => this.handleTopWaypoint(data)}
