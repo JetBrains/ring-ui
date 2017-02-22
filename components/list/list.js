@@ -519,7 +519,7 @@ export default class List extends RingComponentWithShortcuts {
             // Probably unique enough key
             props.key = props.key || props.rgItemType + (props.label || props.description);
 
-            props.active = (realIndex === this.state.activeIndex);
+            props.hover = (realIndex === this.state.activeIndex);
             props.onMouseOver = this.hoverHandler(realIndex);
             props.tabIndex = -1;
 

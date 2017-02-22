@@ -28,7 +28,7 @@ import Loader from '../loader/loader';
 const DraggableRows = sortableContainer(props => {
   const {data, getRowKey, selection, selectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
-    <tbody>
+    <tbody data-test="ring-table-body">
     {data.map((item, index) => (
       <DraggableRow
         key={getRowKey(item)}
@@ -338,10 +338,10 @@ class Table extends PureComponent {
     });
 
     return (
-      <div className={wrapperClasses}>
+      <div className={wrapperClasses} data-test="ring-table-wrapper">
         {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope} /> : ''}
 
-        <table className={classes} onMouseDown={this.onMouseDown}>
+        <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
           <Header {...headerProps} />
           <DraggableRows
             /* Sortable props */

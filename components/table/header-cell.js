@@ -45,7 +45,12 @@ export default class HeaderCell extends PureComponent {
     });
 
     return (
-      <th {...restProps} className={classes} onClick={::this.onClick}>
+      <th
+        {...restProps}
+        className={classes}
+        onClick={::this.onClick}
+        data-test="ring-table-header-cell"
+      >
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
         {this.sortable && <span className={style.sorter}>

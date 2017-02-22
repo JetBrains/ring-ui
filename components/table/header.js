@@ -70,7 +70,12 @@ export default class Header extends PureComponent {
     const {selectable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
     const headerCells = [
-      <th key="meta" className={classNames(style.headerCell, style.metaColumn)} style={{width: widths[0]}}>
+      <th
+        key="meta"
+        className={classNames(style.headerCell, style.metaColumn)}
+        style={{width: widths[0]}}
+        data-test="ring-table-header-cell"
+      >
         {selectable &&
         <Checkbox
           checked={checked}
@@ -96,29 +101,34 @@ export default class Header extends PureComponent {
     const regularCells = this.createCells();
 
     return (
-      <thead>
+      <thead data-test="ring-table-header">
         {sticky &&
           <Waypoint
             topOffset={topStickOffset}
             onEnter={this.onScrollIn}
             onLeave={this.onScrollOut}
           >
-            <tr/>
+            <tr data-test="ring-table-header-row"/>
           </Waypoint>
         }
 
         {caption &&
-          <tr>
-            <th className={classNames(style.headerCell, style.caption)} colSpan={regularCells.length + 1}>{caption}</th>
+          <tr data-test="ring-table-header-row">
+            <th
+              className={classNames(style.headerCell, style.caption)}
+              colSpan={regularCells.length + 1}
+              data-test="ring-table-header-cell"
+            >{caption}</th>
           </tr>
         }
 
-        <tr ref={this.storeColumnsRowNode}>{regularCells}</tr>
+        <tr  ref={this.storeColumnsRowNode}data-test="ring-table-header-row">{regularCells}</tr>
 
         {fixed && sticky &&
           <tr
             className={style.subHeaderFixed}
             style={{width: headerWidth, top: topStickOffset}}
+            data-test="ring-table-header-row"
           >
             {this.createCells(widths)}
           </tr>
