@@ -8,18 +8,25 @@ import styles from './header.css';
 export default class TrayIcon extends Component {
   static propTypes = {
     ...Icon.propTypes,
-    active: PropTypes.bool
+    active: PropTypes.bool,
+    rotated: PropTypes.bool
   };
 
   static defaultProps = {
     ...Icon.defaultProps,
     active: false,
+    rotated: false,
     size: Size.Size18
   };
 
   render() {
-    const {className, active, ...restProps} = this.props;
-    const classes = classnames(active ? styles.activeIcon : styles.icon, className);
+    const {className, active, rotated, ...restProps} = this.props;
+    const classes = classnames(
+      {[styles.rotatedIcon]: rotated},
+      active ? styles.activeIcon : styles.icon,
+      className
+    );
+
     return (
       <Icon
         {...restProps}
