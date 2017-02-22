@@ -1,6 +1,7 @@
 /**
  * @name List
  * @category Components
+ * @tags 3.0
  * @description Displays a list of items.
  */
 

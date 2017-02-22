@@ -1,6 +1,7 @@
 /**
  * @name Table
  * @category Components
+ * @tags 3.0
  * @framework React
  * @extends {ReactComponent}
  * @description The table.

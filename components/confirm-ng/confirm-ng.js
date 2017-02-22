@@ -3,6 +3,7 @@ import confirm from '../confirm-service/confirm-service';
 /**
  * @name Confirm Ng
  * @category Angular Components
+ * @tags 3.0
  * @description Displays a confirmation prompt.
  * @example
   <example name="confirm-ng">

@@ -5,6 +5,7 @@ import React from 'react';
 /**
  * @name Confirm Service
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description A wrapper for Confirm component. Allows showing confirmation dialog

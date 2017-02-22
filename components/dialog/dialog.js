@@ -10,6 +10,7 @@ import getEventKey from 'react-dom/lib/getEventKey';
 /**
  * @name Dialog
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description The Dialog component is a simple way to present content above an enclosing view.
