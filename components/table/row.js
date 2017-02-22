@@ -127,6 +127,7 @@ class Row extends PureComponent {
         tabIndex="0"
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
+        data-test="ring-table-row"
       >{cells}</tr>
     );
   }
