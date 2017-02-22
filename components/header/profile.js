@@ -32,11 +32,14 @@ export default class Profile extends PureComponent {
   }
 
   render() {
-    const {className, user, profileUrl, onLogin, onLogout, translations} = this.props;
+    const {className, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
 
     if (!user) {
       return (
-        <div className={classnames(styles.profileEmpty, className)}>
+        <div
+          {...props}
+          className={classnames(styles.profileEmpty, className)}
+        >
           <Avatar size={Size.Size24} />
         </div>
       );
@@ -63,6 +66,8 @@ export default class Profile extends PureComponent {
 
     return (
       <Dropdown
+        {...props}
+        title={user.name}
         anchor={anchor}
         className={classnames(styles.profile, className)}
       >
