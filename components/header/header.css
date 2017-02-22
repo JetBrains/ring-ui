@@ -41,6 +41,7 @@
 
   transition: all 0.3s ease-out;
   transform: rotate(0deg);
+  transform-origin: center 27px;
 
   &:hover {
      transition: transform 0.3s ease-out;
@@ -60,6 +61,10 @@
   @nest &, &:hover {
     color: blue-color
   }
+}
+
+.rotatedIcon {
+  transform: rotate(90deg);
 }
 
 .profileEmpty {
