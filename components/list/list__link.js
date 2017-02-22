@@ -1,45 +1,32 @@
 import React, {PropTypes} from 'react';
 import classnames from 'classnames';
 
-import '../link/link.scss';
+import Link from '../link/link';
 
 /**
  * @constructor
  * @extends {ReactComponent}
  */
 export default function ListLink(props) {
-  const {label, active, description, rgItemType, scrolling, url, ...restProps} = props; // eslint-disable-line no-unused-vars
-  const classes = classnames({
-    'ring-list__item': true,
-    'ring-link': true,
-    'ring-link_focus': active && scrolling
-  });
+  const {className, label, hover, description, rgItemType, scrolling, url, ...restProps} = props; // eslint-disable-line no-unused-vars
 
-  if (props.href) {
-    return (
-      <a
-        {...restProps}
-        className={classes}
-      >
-        {label}
-      </a>
-    );
-  }
+  const classes = classnames('ring-list__item', className);
 
   return (
-    <span
+    <Link
+      pseudo={!restProps.href}
       {...restProps}
       className={classes}
     >
       {label}
-    </span>
+    </Link>
   );
 }
 
 ListLink.propTypes = {
-  active: PropTypes.bool,
+  ...Link.propTypes,
+  hover: PropTypes.bool,
   description: PropTypes.string,
-  href: PropTypes.string,
   label: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.string
