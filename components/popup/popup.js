@@ -1,6 +1,7 @@
 /**
  * @name Popup
  * @category Components
+ * @tags 3.0
  * @description Displays a popup.
  */
 

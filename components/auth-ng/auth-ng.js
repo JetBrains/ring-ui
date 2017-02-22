@@ -3,6 +3,7 @@ import Auth from '../auth/auth';
 /**
  * @name Auth Ng
  * @category Angular Components
+ * @tags 3.0
  * @description Provides an Angular wrapper for Auth.
  */
 /* global angular: false */

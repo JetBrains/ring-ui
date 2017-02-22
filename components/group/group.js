@@ -6,6 +6,7 @@ import styles from './group.css';
 /**
  * @name Group
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Places inner components with fixed spacing between

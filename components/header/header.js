@@ -6,6 +6,7 @@ import styles from './header.css';
 /**
  * @name Header
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Displays a configurable page header.

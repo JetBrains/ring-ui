@@ -6,6 +6,7 @@ import styles from './text.css';
 /**
  * @name Text
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description TODO add Text description

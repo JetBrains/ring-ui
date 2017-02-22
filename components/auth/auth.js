@@ -11,6 +11,7 @@ function noop() {}
 /**
  * @name Auth
  * @category Components
+ * @tags 3.0
  * @constructor
  * @description Authenticates a user in [Hub](https://www.jetbrains.com/hub/).
  *

@@ -8,6 +8,7 @@ import styles from './input.css';
 /**
  * @name Input
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Text input fields of varying size.

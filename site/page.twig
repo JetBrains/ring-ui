@@ -14,7 +14,8 @@
             {
               title: "{{ item.attrs.name or item.attrs.title or item.path }}",
               href: "{{ item.page.url }}",
-              active: {{ item.path == source.path }}
+              active: {{ item.path == source.path }},
+              legacy: {{ item.type != 'md' and item.attrs.tags != '3.0'}}
             },
           {% endfor %}
         ]
