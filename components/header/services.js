@@ -31,7 +31,8 @@ export default class Services extends PureComponent {
   serviceIsActive = service => service.id === this.props.clientId
 
   render() {
-    const {className, loading, onClick, services} = this.props;
+    // eslint-disable-next-line no-unused-vars
+    const {className, clientId, loading, services, ...props} = this.props;
 
     const classes = classnames(className, {
       ['ring-icon_loading']: loading
@@ -40,10 +41,10 @@ export default class Services extends PureComponent {
     if (!services) {
       return (
         <TrayIcon
+          {...props}
           active={loading}
           className={classes}
           glyph={servicesGlyph}
-          onClick={onClick}
         />
       );
     }
@@ -61,6 +62,7 @@ export default class Services extends PureComponent {
 
     return (
       <Dropdown
+        {...props}
         anchor={anchor}
         className={className}
         initShown={true}
