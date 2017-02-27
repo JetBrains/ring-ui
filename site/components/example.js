@@ -5,15 +5,15 @@ import Link from 'ring-ui/components/link/link';
 import Iframe from './iframe';
 import Code from './code';
 
-function Example({attrs, page, files}) {
-  const id = encodeURIComponent(attrs.name.replace(/s/g, '_').replace(/:/g, ''));
+function Example({name, url, files}) {
+  const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
   return (
     <div>
-      <h3 id={id}>{attrs.name} <Link href={`#${id}`}>{'#'}</Link></h3>
+      <h3 id={id}>{name} <Link href={`#${id}`}>{'#'}</Link></h3>
       {files.some(({type}) => type === 'html') &&
-        <Iframe src={page.url}/>
+        <Iframe src={url}/>
       }
-      {files.filter(file => file.attrs['show-code'] !== false).map(file =>
+      {files.map(file =>
         <Code
           {...file}
           key={file.type}
@@ -24,12 +24,8 @@ function Example({attrs, page, files}) {
 }
 
 Example.propTypes = {
-  attrs: PropTypes.shape({
-    name: PropTypes.string
-  }),
-  page: PropTypes.shape({
-    url: PropTypes.string
-  }),
+  name: PropTypes.string,
+  url: PropTypes.string,
   files: PropTypes.arrayOf(PropTypes.shape(Code.propTypes))
 };
 

@@ -12,20 +12,16 @@ import Header from './components/header';
 import Nav from './components/nav';
 import Content from './components/content';
 
-const {source, categories} = window;
+const {nav, content} = window;
 
 const App = () => (
   <div>
     <Header />
     <ContentLayout className="app__main">
       <Sidebar>
-        <Nav
-          version={source.package.version}
-          url={source.page.url}
-          categories={categories}
-        />
+        <Nav {...nav} />
       </Sidebar>
-      <Content {...source}/>
+      <Content {...content} />
     </ContentLayout>
   </div>
 );
