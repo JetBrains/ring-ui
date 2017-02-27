@@ -50,6 +50,7 @@ export default class Profile extends PureComponent {
         <Button
           blue={true}
           className={classnames(styles.loginButton, className)}
+          data-test="header-login-button"
           onClick={onLogin}
         >
           {translations.login || 'Log in...'}
