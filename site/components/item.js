@@ -6,10 +6,10 @@ import Link from 'ring-ui/components/link/link';
 import styles from '../index.css';
 
 const Item = ({title, legacy, ...linkProps}) => (
-  <li className={styles.item}>
+  <li>
     <Link
       {...linkProps}
-      className={classNames({
+      className={classNames(styles.item, {
         [styles.legacy]: legacy,
         [styles.active]: linkProps.active
       })}

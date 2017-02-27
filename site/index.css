@@ -8,11 +8,11 @@ html, body {
 
 .app {
   composes: font;
-  font-size: font-size;
 }
 
 .sidebar {
   margin-top: calc(unit * 4);
+  line-height: calc(unit * 3);
 }
 
 .main > div:last-child {
@@ -21,23 +21,25 @@ html, body {
 }
 
 .header {
-  margin: calc(unit * 2) 0 0;
+  margin: 0;
 }
 
 .nav {
   padding: 0;
   list-style: none;
-  margin: unit unit calc(unit * 2);
+  margin: 0 calc(unit * -2) unit calc(unit * -4);
 }
 
 .item {
-  margin: unit 0;
+  display: block;
+  padding: 0 calc(unit * 2) 0 calc(unit * 5);
 }
 
 .navHeader {
   composes: header;
   white-space: nowrap;
   line-height: calc(unit * 3);
+  margin-bottom: unit;
 }
 
 .version > button {
