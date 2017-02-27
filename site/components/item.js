@@ -3,15 +3,15 @@ import classNames from 'classnames';
 
 import Link from 'ring-ui/components/link/link';
 
+import styles from '../index.css';
+
 const Item = ({title, legacy, ...linkProps}) => (
-  <li className="nav__item">
+  <li className={styles.item}>
     <Link
       {...linkProps}
       className={classNames({
-        /* eslint-disable camelcase */
-        nav__link_legacy: legacy,
-        nav__link_active: linkProps.active
-        /* eslint-enable */
+        legacy: legacy,
+        active: linkProps.active
       })}
     >{title}</Link>
   </li>

@@ -1,11 +1,14 @@
 import React, {PropTypes} from 'react';
+import classNames from 'classnames';
 import parseFrontMatter from 'front-matter';
 
 import Block from './block';
 import Markdown from './markdown';
 
+import styles from '../index.css';
+
 const Content = ({title, type, content, blocks}) => (
-  <div className="markdown-body">
+  <div className={classNames(styles.content, 'markdown-body')}>
     <h1>{title}</h1>
 
     {type === 'md' && (
