@@ -51,7 +51,7 @@ export default class ErrorMessage extends Component {
   static propTypes = {
     icon: PropTypes.string,
     code: PropTypes.string,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.string,
     description: PropTypes.string,
     links: PropTypes.arrayOf(React.PropTypes.object),
     className: PropTypes.string
