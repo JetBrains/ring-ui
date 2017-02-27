@@ -10,8 +10,8 @@ const Item = ({title, legacy, ...linkProps}) => (
     <Link
       {...linkProps}
       className={classNames({
-        legacy: legacy,
-        active: linkProps.active
+        [styles.legacy]: legacy,
+        [styles.active]: linkProps.active
       })}
     >{title}</Link>
   </li>

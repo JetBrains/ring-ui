@@ -5,6 +5,8 @@ import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
 
 import branches from '../branches.json';
 
+import styles from '../index.css';
+
 const HOST = 'http://ring-ui.github.io';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
@@ -19,7 +21,7 @@ const branchesArr = Object.keys(branches).map(version => ({
 const Version = ({version, url}) => (
   <Dropdown
     anchor={version}
-    className="nav__version"
+    className={styles.version}
   >
     <PopupMenu
       data={branchesArr.map(branch => {

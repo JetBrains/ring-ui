@@ -1,4 +1,4 @@
-@value unit, font, font-size, link-color, white-color from '../components/global/global.css';
+@value unit, font, font-size, link-color, white-color, line-color, dark-gray-color from '../components/global/global.css';
 
 html, body {
   padding: 0;
@@ -37,6 +37,19 @@ html, body {
 .navHeader {
   composes: header;
   white-space: nowrap;
+  line-height: calc(unit * 3);
+}
+
+.version > button {
+  font: inherit;
+}
+
+.active {
+  font-weight: 500;
+}
+
+a.legacy {
+  color: dark-gray-color;
 }
 
 .content {
@@ -45,8 +58,15 @@ html, body {
 }
 
 /* override github-markdown */
-:global(.markdown-body) a:not(:hover) {
-  color: link-color;
+:global(.markdown-body) {
+  && h1,
+  && h2 {
+    border-color: line-color;
+  }
+
+  & a:not(:hover) {
+    color: link-color;
+  }
 }
 
 .example {
@@ -56,7 +76,7 @@ html, body {
 .frame {
   min-height: 500px;
   width: 100%;
-  border: 1px solid #CCC;
+  border: 1px solid line-color;
 }
 
 .exampleLink {
@@ -66,7 +86,7 @@ html, body {
     position: absolute;
     right: 0;
     bottom: 6px;
-    border: 1px solid #CCC;
+    border: 1px solid line-color;
     font-size: font-size;
     padding: unit;
     background: white-color;
