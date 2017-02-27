@@ -2,8 +2,10 @@ import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
 
+import styles from '../index.css';
+
 const Item = ({title, ...linkProps}) => (
-  <li className="nav__item">
+  <li className={styles.item}>
     <Link {...linkProps}>{title}</Link>
   </li>
 );
