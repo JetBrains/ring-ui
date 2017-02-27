@@ -98,8 +98,9 @@ export default class Header extends PureComponent {
     const {caption, sticky, topStickOffset} = this.props;
     const {fixed, widths, headerWidth} = this.state;
 
-    const headerClassName = classNames(style.subHeader, {
-      [style.tallSubHeader]: !caption
+    const headerClassName = classNames({
+      [style.header]: !caption,
+      [style.subHeader]: caption
     });
     const fixedHeaderClassName = classNames(headerClassName, style.subHeaderFixed);
 

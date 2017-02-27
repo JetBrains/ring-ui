@@ -112,12 +112,6 @@
   }
 }
 
-.tallSubHeader {
-  & .headerCell {
-    height: 39px;
-  }
-}
-
 .subHeaderFixed {
   position: fixed;
   top: 0;
