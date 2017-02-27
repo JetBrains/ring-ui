@@ -2,13 +2,15 @@ import React, {PropTypes} from 'react';
 
 import Item from './item';
 
+import styles from '../index.css';
+
 const Category = ({name, items}) => (
   <div>
     {name !== 'Docs' &&
-      <h4 className="header">{name}</h4>
+      <h4 className={styles.header}>{name}</h4>
     }
 
-    <ul className="nav">
+    <ul className={styles.nav}>
       {items.map(item =>
         <Item
           {...item}

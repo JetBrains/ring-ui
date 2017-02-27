@@ -1,4 +1,4 @@
-import './index.scss';
+import styles from './index.css';
 import 'github-markdown-css/github-markdown.css';
 import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 
@@ -15,9 +15,9 @@ import Content from './components/content';
 const {nav, content} = window;
 
 const App = () => (
-  <div>
+  <div className={styles.app}>
     <Header />
-    <ContentLayout className="app__main">
+    <ContentLayout className={styles.main}>
       <Sidebar>
         <Nav {...nav} />
       </Sidebar>
@@ -28,5 +28,5 @@ const App = () => (
 
 render(
   <App />,
-  document.query('.app')
+  document.query('#app')
 );
