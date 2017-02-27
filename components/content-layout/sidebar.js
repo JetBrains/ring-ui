@@ -23,8 +23,9 @@ export default class Sidebar extends Component {
     this.setState({topIsOutside: currentPosition === ABOVE});
   }
 
-  handleBottomWaypoint({currentPosition}) {
+  handleBottomWaypoint({currentPosition, waypointTop}) {
     this.setState({
+      sidebarVisibleHeight: waypointTop,
       bottomIsOutside: currentPosition !== INSIDE
     });
   }
@@ -46,8 +47,7 @@ export default class Sidebar extends Component {
   render() {
     // eslint-disable-next-line no-unused-vars
     const {right, children, className, contentNode, ...restProps} = this.props;
-    const {topIsOutside, bottomIsOutside} = this.state;
-    const sidebarHeight = this.sidebarNode ? this.sidebarNode.offsetHeight : null;
+    const {topIsOutside, bottomIsOutside, sidebarVisibleHeight} = this.state;
 
     const shouldFixateTop = bottomIsOutside && topIsOutside && this.shouldUseFixation();
     const shouldFixateBottom = this.shouldFixateBottom();
@@ -63,7 +63,7 @@ export default class Sidebar extends Component {
     });
 
     const style = {
-      maxHeight: shouldFixateBottom && sidebarHeight ? `${sidebarHeight}px` : null
+      maxHeight: shouldFixateBottom && sidebarVisibleHeight ? `${sidebarVisibleHeight}px` : null
     };
 
     return (
