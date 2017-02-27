@@ -87,7 +87,7 @@ export default class Services extends PureComponent {
             />
           )}
           {servicesWithOutIcons.map(service => {
-            const isActive = service.name === 'Bonus' || this.serviceIsActive(service);
+            const isActive = this.serviceIsActive(service);
 
             return (
               <Services.Link
