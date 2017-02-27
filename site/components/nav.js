@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 
 import Category from './category';
-
 import Version from './version';
 
+import styles from '../index.css';
+
 const Nav = ({version, url, categories}) => (
-  <div className="app__sidebar">
-    <h3 className="header nav__header">
+  <div className={styles.sidebar}>
+    <h3 className={styles.navHeader}>
       {'Ring UI library '}<Version {...{version, url}} />
     </h3>
     {categories.map(category =>

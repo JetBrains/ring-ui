@@ -37,9 +37,9 @@ export default class Code extends PureComponent {
   render() {
     const {showCode, content} = this.props;
     return showCode && (
-      <div className="markdown-example-code">
-        <pre><code ref={this.codeRef}>{content}</code></pre>
-      </div>
+      <pre>
+        <code ref={this.codeRef}>{content}</code>
+      </pre>
     );
   }
 }
