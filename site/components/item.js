@@ -8,8 +8,10 @@ const Item = ({title, legacy, ...linkProps}) => (
     <Link
       {...linkProps}
       className={classNames({
-        'nav__link_legacy': legacy,
-        'nav__link_active': linkProps.active,
+        /* eslint-disable camelcase */
+        nav__link_legacy: legacy,
+        nav__link_active: linkProps.active
+        /* eslint-enable */
       })}
     >{title}</Link>
   </li>
