@@ -8,31 +8,23 @@
   height: 100%;
 }
 
-.errorMessage__Icon {
-  margin-right: 16px;
-}
-
-.errorMessage__Title {
+.title {
   font-size: 21px;
 }
 
-.errorMessage__Description {
+.description {
   font-size: 15px;
 }
 
-.errorMessage__Content {
+.content {
   flex-flow: column wrap;
   color: #444; /* should we use scss vars here? */
 }
 
-.errorMessage__Content > .errorMessage__Title, .errorMessage__Description {
+.content > .title, .description {
   margin-bottom: 16px;
 }
 
-.errorMessage__Link {
-  margin-right: 8px;
-}
-
-.errorMessage__Icon {
-  margin-bottom: 24px;
+.icon {
+  margin: 0 16px 24px 0;
 }
