@@ -30,6 +30,7 @@ function serializeSource(source) {
     title: attrs.name || attrs.title,
     url: source.page.url,
     type: source.type,
+    content: source.content,
     examples: source.getExamples().map(serializeExample),
     description: attrs.description,
     attrs
