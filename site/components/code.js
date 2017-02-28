@@ -19,9 +19,7 @@ const beautifyLangMap = {
 export default class Code extends PureComponent {
   static propTypes = {
     type: PropTypes.string,
-    attrs: PropTypes.shape({
-      'show-code': PropTypes.boolean
-    }),
+    showCode: PropTypes.bool,
     content: PropTypes.string
   };
 
@@ -37,10 +35,11 @@ export default class Code extends PureComponent {
   };
 
   render() {
-    return (
-      <div className="markdown-example-code">
-        <pre><code ref={this.codeRef}>{this.props.content}</code></pre>
-      </div>
+    const {showCode, content} = this.props;
+    return showCode && (
+      <pre>
+        <code ref={this.codeRef}>{content}</code>
+      </pre>
     );
   }
 }
