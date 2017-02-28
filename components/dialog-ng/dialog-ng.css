@@ -4,6 +4,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  max-height: inherit;
 
   & :global(.ring-form__group:last-child) {
     margin-bottom: 0;
