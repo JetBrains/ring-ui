@@ -7,6 +7,73 @@ const path = require('path');
 const Docpack = require('docpack');
 const slug = require('url-slug');
 const pkg = require('./package.json');
+const emitAsset = require('webpack-toolkit').emitAsset;
+
+const HOOKS = Docpack.HOOKS;
+
+function serializeExample(example) {
+  return {
+    name: example.attrs.name,
+    url: example.page.url,
+    files: example.files.map(file => ({
+      type: file.type,
+      content: file.content,
+      showCode: file.attrs['show-code'] !== 'false'
+    }))
+  };
+}
+
+function serializeSource(source) {
+  const attrs = source.attrs;
+
+  return {
+    title: attrs.name || attrs.title,
+    url: source.page.url,
+    type: source.type,
+    examples: source.getExamples().map(serializeExample),
+    attrs
+  };
+}
+
+function sortCategoryItems(items) {
+  // eslint-disable-next-line complexity
+  return items.sort((a, b) => {
+    const aAttrs = a.attrs;
+    const bAttrs = b.attrs;
+    const aOrder = typeof aAttrs.order !== 'undefined' ? aAttrs.order : (aAttrs.name || aAttrs.title || '');
+    const bOrder = typeof bAttrs.order !== 'undefined' ? bAttrs.order : (bAttrs.name || bAttrs.title || '');
+
+    if (aOrder === bOrder) {
+      return 0;
+    }
+
+    return aOrder < bOrder ? -1 : 1;
+  });
+}
+
+function groupSourcesByCategory(sources) {
+  const defaultCategory = 'Uncategorized';
+
+  const sourcesByCategories = sources.
+    // get category names
+    reduce((categories, source) => categories.concat(source.attrs.category || defaultCategory), []).
+
+    // remove duplicates
+    filter((value, i, self) => self.indexOf(value) === i).
+
+    // create category object and fill it with related sources
+    reduce((categories, categoryName) => {
+      categories.push({
+        name: categoryName,
+        items: sources.filter(source => source.attrs.category && source.attrs.category === categoryName)
+      });
+      return categories;
+    }, []);
+
+  sourcesByCategories.forEach(category => sortCategoryItems(category.items));
+
+  return sourcesByCategories;
+}
 
 module.exports = () => {
   const docpack = new Docpack({
@@ -22,7 +89,7 @@ module.exports = () => {
     parseMarkdown: false
   }));
 
-  docpack.use(Docpack.HOOKS.AFTER_EXTRACT, (sources, done) => {
+  docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
     sources.
       reduce((examples, source) => examples.concat(source.getExamples()), []).
       forEach(example => {
@@ -62,51 +129,25 @@ module.exports = () => {
   docpack.use(require('docpack-page-generator')({
     template: path.resolve(__dirname, 'site/page.twig'),
     url: '[name].html',
-    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md'),
-    context: sources => {
-      const categories = {Docs: []};
-      const defaultCategory = 'Uncategorized';
-
-      sources.forEach(source => {
-        const category = (source.attrs.category || defaultCategory);
-        if (!Array.isArray(categories[category])) {
-          categories[category] = [];
-        }
-
-        categories[category].push(source);
-      });
-
-      Object.keys(categories).forEach(category => {
-        // eslint-disable-next-line complexity
-        categories[category].sort((a, b) => {
-          const aAttrs = a.attrs;
-          const bAttrs = b.attrs;
-          const aOrder = typeof aAttrs.order !== 'undefined' ? aAttrs.order : (aAttrs.name || aAttrs.title || '');
-          const bOrder = typeof bAttrs.order !== 'undefined' ? bAttrs.order : (bAttrs.name || bAttrs.title || '');
-
-          if (aOrder === bOrder) {
-            return 0;
-          }
-
-          return aOrder < bOrder ? -1 : 1;
-        });
-      });
-
-      const DATE_STRING_LENGTH = 16;
-      return {
-        buildDate: new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH),
-        sourcesByCategory: categories
-      };
-    }
+    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md')
   }));
 
-  docpack.use(Docpack.HOOKS.BEFORE_GENERATE, (sources, done) => {
-    sources.forEach(source => {
-      source.package = {
-        name: pkg.name,
-        version: pkg.version
-      };
-    });
+
+  docpack.use(HOOKS.AFTER_GENERATE, function generateNavData(sources, done) {
+    const DATE_STRING_LENGTH = 16;
+    const JSON_FORMATTER_WHITESPACES = 2;
+
+    const buildDate = new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH);
+    const serialized = docpack.sources.filter(s => s.hasOwnProperty('page')).map(serializeSource);
+    const sourcesByCategory = groupSourcesByCategory(serialized);
+    const data = {
+      sources: serialized,
+      sourcesByCategory,
+      buildDate,
+      version: pkg.version
+    };
+
+    emitAsset(this, 'data.json', JSON.stringify(data, null, JSON_FORMATTER_WHITESPACES));
     done(null, sources);
   });
 
