@@ -8,13 +8,13 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
+import currentPath from './currentPath';
 
 import Header from './components/header';
 import Nav from './components/nav';
 import Content from './components/content';
 
-const currentURL = window.location.href;
-const currentPath = currentURL.substr(currentURL.lastIndexOf('/') + 1);
+const url = currentPath();
 
 fetch('data.json').
   then(response => response.json()).
@@ -22,9 +22,9 @@ fetch('data.json').
     const nav = {
       categories: data.sourcesByCategory,
       version: data.version,
-      url: currentPath
+      url
     };
-    const source = data.sources.find(s => s.url === currentPath);
+    const source = data.sources.find(s => s.url === url);
 
     const App = () => (
       <div className={styles.app}>

@@ -31,6 +31,7 @@ function serializeSource(source) {
     url: source.page.url,
     type: source.type,
     examples: source.getExamples().map(serializeExample),
+    description: attrs.description,
     attrs
   };
 }

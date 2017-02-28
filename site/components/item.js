@@ -2,16 +2,21 @@ import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
 
+import currentPath from '../currentPath';
+
 import styles from '../index.css';
 
-const Item = ({title, ...linkProps}) => (
+const Item = ({url, title}) => (
   <li className={styles.item}>
-    <Link {...linkProps}>{title}</Link>
+    <Link
+      href={url}
+      active={url === currentPath()}
+    >{title}</Link>
   </li>
 );
 
 Item.propTypes = {
-  ...Link.propTypes,
+  url: PropTypes.string,
   title: PropTypes.string
 };
 
