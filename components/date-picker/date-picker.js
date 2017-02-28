@@ -1,10 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
 import calendarIcon from 'jetbrains-icons/calendar.svg';
 import closeIcon from 'jetbrains-icons/close.svg';
 
-import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button-legacy/button-legacy';
 import DatePopup from './date-popup';
@@ -22,7 +21,7 @@ import styles from './date-picker.css';
  * @example-file ./date-picker.examples.html
  */
 
-export default class DatePicker extends RingComponent {
+export default class DatePicker extends PureComponent {
   static defaultProps = {
     className: '',
     date: null,

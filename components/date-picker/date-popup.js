@@ -1,7 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import moment from 'moment';
 
-import RingComponent from '../ring-component/ring-component';
 import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
@@ -14,7 +13,7 @@ import popupStyles from '../popup/popup.css';
 
 const scrollExpDelay = 10;
 
-export default class DatePopup extends RingComponent {
+export default class DatePopup extends PureComponent {
   static defaultProps = {
     onChange() {}
   };
@@ -27,7 +26,8 @@ export default class DatePopup extends RingComponent {
     to: dateType,
     displayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onComplete: PropTypes.func
   };
 
   state = {
@@ -136,7 +136,7 @@ export default class DatePopup extends RingComponent {
     }
   }
 
-  didMount() {
+  componentWillMount() {
     const {range, from, to} = this.props;
 
     if (!range) {
@@ -148,17 +148,20 @@ export default class DatePopup extends RingComponent {
     }
   }
 
-  didUpdate(prevProps, prevState) {
+  componentWillReceiveProps(nextProps) {
+    const name = this.state.active;
+    if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
+      this.setState({text: null});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.active !== prevState.active) {
       if (this.state.text && prevState.active) {
         this.confirm(prevState.active);
       }
 
-      this.setState({text: null});
-    }
-
-    const name = this.state.active;
-    if (this.props[name] && !this.sameDay(this.props[name], prevProps[name])) {
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({text: null});
     }
   }

@@ -3,9 +3,9 @@ import 'dom4';
 import Select from './select';
 import List from '../list/list';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
-import RingComponent from '../ring-component/ring-component';
 import simulateKeypress from 'simulate-keypress';
 
 import styles from './select.css';
@@ -627,18 +627,12 @@ describe('Select', () => {
       let targetInput = null;
 
       beforeEach(function () {
-        targetInput = renderIntoDocument(React.createElement(
-          class extends RingComponent {
-            render() {
-              return <input/>;
-            }
-          }
-        ));
+        targetInput = findDOMNode(document.createElement('input'));
 
         this.select = renderIntoDocument(React.createElement(Select, {
           data: testData,
           filter: true,
-          targetElement: targetInput.node
+          targetElement: targetInput
         }));
         this.select._showPopup();
       });
@@ -646,24 +640,24 @@ describe('Select', () => {
       it('Should restore focus on provided target element after closing popup', function () {
         this.select._hidePopup(true);
 
-        targetInput.node.should.equal(document.activeElement);
+        targetInput.should.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         const ESC_KEY = 27;
         simulateKeypress(null, ESC_KEY);
-        targetInput.node.should.equal(document.activeElement);
+        targetInput.should.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         TestUtils.Simulate.click(document.body);
 
-        targetInput.node.should.not.equal(document.activeElement);
+        targetInput.should.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', function () {
         this.select._hidePopup();
-        targetInput.node.should.not.equal(document.activeElement);
+        targetInput.should.not.equal(document.activeElement);
       });
     });
   });

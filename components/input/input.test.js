@@ -1,17 +1,19 @@
-import 'dom4';
+import 'dom4';import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import Input from './input';
 
 describe('Input', () => {
-  const renderComponent = params => renderIntoDocument(Input.factory(params));
+  const renderComponent = props => renderIntoDocument(<Input {...props} />);
+  const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Input).should.be.true;
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    renderNode().should.match('div');
   });
 
   it('should create input by default', () => {
@@ -23,7 +25,7 @@ describe('Input', () => {
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    renderNode({className: 'test-class'}).should.match('.test-class');
   });
 
   // TODO Add more tests

@@ -1,7 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
+import Theme from '../global/theme';
 
 import styles from './input.css';
 
@@ -21,20 +20,25 @@ const Size = {
   L: 'L'
 };
 
-export default class Input extends RingComponent {
+export default class Input extends PureComponent {
   static Size = Size;
+  static Theme = Theme;
 
   static propTypes = {
+    value: PropTypes.string,
+    theme: PropTypes.string,
     className: PropTypes.string,
     size: PropTypes.string,
     label: PropTypes.string,
     active: PropTypes.bool,
     error: PropTypes.string,
     multiline: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    children: PropTypes.string
   };
 
   static defaultProps = {
+    theme: Theme.LIGHT,
     size: Size.M,
     onChange() {}
   };
@@ -57,18 +61,17 @@ export default class Input extends RingComponent {
     el.style.height = `${el.scrollHeight}px`;
   }
 
-  didMount() {
+  adapt() {
     this.checkValue();
     this.stretch(this.error);
   }
 
-  shouldUpdate(nextProps, nextState) {
-    return nextProps !== this.props || nextState.empty !== this.state.empty;
+  componentDidMount() {
+    this.adapt();
   }
 
-  didUpdate() {
-    this.checkValue();
-    this.stretch(this.error);
+  componentDidUpdate() {
+    this.adapt();
   }
 
   errorRef = el => {
@@ -82,6 +85,7 @@ export default class Input extends RingComponent {
   render() {
     const {
       // Modifiers
+      theme,
       size,
       active,
       multiline,
@@ -98,6 +102,7 @@ export default class Input extends RingComponent {
     const classes = classNames(
       styles.container,
       className,
+      styles[theme],
       [styles[`size${size}`]],
       {
         [styles.active]: active,
