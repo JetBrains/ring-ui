@@ -1,9 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import linearFunction from '../global/linear-function';
-
-import RingComponent from '../ring-component/ring-component';
 
 import units, {dateType, yearScrollSpeed} from './consts';
 
@@ -11,7 +9,7 @@ import styles from './date-picker.css';
 
 const COVERYEARS = 3;
 
-export default class MonthSlider extends RingComponent {
+export default class MonthSlider extends PureComponent {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
@@ -47,7 +45,7 @@ export default class MonthSlider extends RingComponent {
     );
   }
 
-  didUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.dragging && !prevState.dragging) {
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('mouseup', this.onMouseUp);

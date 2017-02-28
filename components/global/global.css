@@ -3,6 +3,7 @@
 /* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
 
 @value line-color: #DFE5EB;
+@value dark-line-color: #263B4C;
 @value icon-color: #CFDBE5;
 @value icon-hover-color: #A1C7E5;
 @value border-hover-color: #80C6FF;

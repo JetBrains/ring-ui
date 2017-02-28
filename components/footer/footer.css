@@ -1,11 +1,11 @@
-@value unit, fixed-z-index, footer-height, font, font-size-smaller from  "../global/global.css";
+@value unit, fixed-z-index, footer-height, font, font-size-smaller, line-color from  "../global/global.css";
 
 .footer {
   position: relative;
   height: footer-height;
   margin: calc(unit * 5) calc(unit * 4) 0 calc(unit * 4);
   padding-top: calc(unit * 2);
-  border-top: 1px solid #E5E5E5;
+  border-top: 1px solid line-color;
   box-sizing: border-box;
 
   text-align: center;

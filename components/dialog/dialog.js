@@ -1,8 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';
-import RingComponent from '../ring-component/ring-component';
 import {AdaptiveIsland} from '../island/island';
 import styles from './dialog.css';
 import getEventKey from 'react-dom/lib/getEventKey';
@@ -17,7 +16,7 @@ import getEventKey from 'react-dom/lib/getEventKey';
  * @example-file ./dialog.examples.html
  */
 
-export default class Dialog extends RingComponent {
+export default class Dialog extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -38,11 +37,11 @@ export default class Dialog extends RingComponent {
     onCloseAttempt: () => {}
   }
 
-  didMount() {
+  componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
-  willUnmount() {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 

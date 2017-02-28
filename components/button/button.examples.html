@@ -45,10 +45,12 @@
         {
           [
             'active', 'primary', 'danger', 'delayed', 'disabled'
-          ].map(modifier => Button.factory({
-            key: modifier,
-            [modifier]: true
-          }, 'Button ' + modifier))
+          ].map(modifier => (
+            <Button
+              key={modifier}
+              {...{[modifier]: true}}
+            >Button {modifier}</Button>
+          ))
         }
       </div>
     );
@@ -58,32 +60,34 @@
     const dark = (
       <div className="buttons dark">
         <Button
-          theme="dark"
+          theme={Button.Theme.DARK}
         >Button default</Button>
 
         <Button
-          theme="dark"
+          theme={Button.Theme.DARK}
           icon={require('jetbrains-icons/flag.svg')}
         >Icon action</Button>
 
         <Button
-          theme="dark"
+          theme={Button.Theme.DARK}
           text={true}
         >Text action</Button>
 
         <Button
-          theme="dark"
+          theme={Button.Theme.DARK}
           short={true}
         >...</Button>
 
         {
           [
             'active', 'primary', 'danger', 'delayed', 'disabled'
-          ].map(modifier => Button.factory({
-            theme: 'dark',
-            key: modifier,
-            [modifier]: true
-          }, 'Button ' + modifier))
+          ].map(modifier => (
+            <Button
+              theme={Button.Theme.DARK}
+              key={modifier}
+              {...{[modifier]: true}}
+            >Button {modifier}</Button>
+          ))
         }
       </div>
     );
@@ -91,22 +95,22 @@
     render(dark, document.getElementById('dark'));
 
     const dynamic = (
-    <div className="buttons">
-      <Button
-        loader={true}
-      >Button loader</Button>
-      <Button
-        primary={true}
-        loader={true}
-      >Primary loader</Button>
-      <div className="dark inline">
+      <div className="buttons">
         <Button
-          theme="dark"
           loader={true}
-        >Dark loader</Button>
+        >Button loader</Button>
+        <Button
+          primary={true}
+          loader={true}
+        >Primary loader</Button>
+        <div className="dark inline">
+          <Button
+            theme={Button.Theme.DARK}
+            loader={true}
+          >Dark loader</Button>
+        </div>
       </div>
-    </div>
-    )
+    );
 
     render(dynamic, document.getElementById('dynamic'));
 
