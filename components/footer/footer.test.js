@@ -1,46 +1,46 @@
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import {findDOMNode} from 'react-dom';
+import {renderIntoDocument} from 'react-addons-test-utils';
 import Footer from './footer';
 
 describe('Footer', () => {
-  let footer;
-
-  beforeEach(() => {
-    footer = TestUtils.renderIntoDocument(React.createElement(Footer));
-  });
+  const renderComponent = props => renderIntoDocument(<Footer {...props} />);
+  const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
-    footer.should.exist;
+    renderComponent().should.exist;
   });
 
   it('should be empty by default', () => {
-    footer.node.tagName.toLowerCase().should.equal('div');
-    footer.node.innerHTML.should.be.empty;
+    const node = renderNode();
+
+    node.tagName.toLowerCase().should.equal('div');
+    node.innerHTML.should.be.empty;
   });
 
   describe('should render items', () => {
     it('should add given class', () => {
-      footer.rerender({className: 'myClass'});
+      const node = renderNode({className: 'myClass'});
 
-      footer.node.should.have.class('myClass');
+      node.should.have.class('myClass');
     });
 
     it('add left column one line', () => {
-      footer.rerender({left: ['One Line']});
-      footer.node.should.have.text('One Line');
-      footer.node.query('li').textContent.should.equal('One Line');
+      const node = renderNode({left: ['One Line']});
+      node.should.have.text('One Line');
+      node.query('li').textContent.should.equal('One Line');
     });
 
     it('add left column two lines', () => {
-      footer.rerender({left: ['One Line', 'Second Line']});
-      const li = footer.node.queryAll('li');
+      const node = renderNode({left: ['One Line', 'Second Line']});
+      const li = node.queryAll('li');
 
       li.should.not.be.empty;
       li.should.have.length(2);
     });
 
     it('add three columns two lines', () => {
-      footer.rerender({
+      const node = renderNode({
         left: ['One Line', 'Second Line'],
         center: ['One Line', 'Second Line'],
         right: ['One Line', 'Second Line']
@@ -51,8 +51,7 @@ describe('Footer', () => {
         lines.should.have.length(count);
       }
 
-      const root = footer.node;
-      const ul = root.queryAll('ul');
+      const ul = node.queryAll('ul');
 
       ul.should.have.length(3);
       assertLines(ul[0].queryAll('li'), 2);
@@ -63,23 +62,23 @@ describe('Footer', () => {
   });
 
   it('should render copyright', () => {
-    footer.rerender({
+    const node = renderNode({
       left: [
         {copyright: 2010, label: ' JetBrains'}
       ]
     });
 
-    footer.node.query('li').should.contain.text(`© 2010—${(new Date()).getFullYear()} JetBrains`);
+    node.query('li').should.contain.text(`© 2010—${(new Date()).getFullYear()} JetBrains`);
   });
 
   it('should render link', () => {
-    footer.rerender({
+    const node = renderNode({
       left: [
         {url: 'http://jetbrains.com', label: 'JetBrains', title: 'JetBrains Official Site'}
       ]
     });
 
-    const link = footer.node.query('a');
+    const link = node.query('a');
 
     link.should.have.text('JetBrains');
     link.should.have.attr('href', 'http://jetbrains.com');

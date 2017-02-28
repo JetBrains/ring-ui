@@ -1,9 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 
-import RingComponent from '../ring-component/ring-component';
 import Tabs from './dumb-tabs';
 
-export default class SmartTabs extends RingComponent {
+export default class SmartTabs extends PureComponent {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     initSelected: PropTypes.string

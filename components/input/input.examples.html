@@ -14,6 +14,12 @@
         margin: 0 16px;
       }
     }
+
+    div:global(.dark) {
+      background: #000;
+      margin-left: 0;
+      padding-left: 16px;
+    }
   </file>
 
   <file type="html">
@@ -69,6 +75,13 @@
           label="Autogrowing textarea"
           multiline={true}
         />
+        <!--<div className="dark">-->
+          <!--<Input-->
+            <!--label="Input on dark background"-->
+            <!--placeholder="Hint on dark background"-->
+            <!--theme={Input.Theme.DARK}-->
+          <!--/>-->
+        <!--</div>-->
       </form>
     )
 

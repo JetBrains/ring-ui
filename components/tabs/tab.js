@@ -1,15 +1,14 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import styles from './tabs.css';
 
-export default class Tab extends RingComponent {
+export default class Tab extends PureComponent {
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     id: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    children: PropTypes.node
   }
 
   static renderTitle(title, isSelected) {

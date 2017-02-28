@@ -1,6 +1,7 @@
 /**
  * @name Footer
  * @category Components
+ * @tags 3.0
  * @description Displays a configurable page footer.
  *
  * A footer consists of three sections, each optional:
@@ -12,9 +13,8 @@
 /* eslint-disable react/no-multi-comp */
 
 import 'dom4';
-import React, {PropTypes, isValidElement} from 'react';
+import React, {PureComponent, PropTypes, isValidElement} from 'react';
 import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
 import Link from '../link/link';
 import styles from './footer.css';
 
@@ -22,9 +22,10 @@ import styles from './footer.css';
  * @constructor
  * @extends {ReactComponent}
  */
-class FooterColumn extends RingComponent {
+class FooterColumn extends PureComponent {
   static propTypes = {
-    position: PropTypes.string
+    position: PropTypes.string,
+    children: PropTypes.node
   };
 
   render() {
@@ -67,7 +68,7 @@ export function copyright(year) {
  * @constructor
  * @extends {ReactComponent}
  */
-class FooterLine extends RingComponent {
+class FooterLine extends PureComponent {
   static propTypes = {
     item: PropTypes.oneOfType([
       PropTypes.object,
@@ -120,39 +121,41 @@ class FooterLine extends RingComponent {
  * @example
    <example name="Footer">
      <file name="index.html">
-      <div>
-       <div id="footer"></div>
-      </div>
+       <div>
+         <div id="footer"></div>
+       </div>
      </file>
      <file name="index.css">
-      body {
-        margin: 0;
-      }
+       body {
+         margin: 0;
+       }
      </file>
      <file name="index.js" webpack="true">
-      import {render} from 'react-dom';
-      import Footer from 'ring-ui/components/footer/footer';
+       import React from 'react';
+       import {render} from 'react-dom';
+       import Footer from 'ring-ui/components/footer/footer';
 
-      render(
-      Footer.factory({
-           className: 'stuff',
-           left: [
+       const footer = (
+         <Footer
+           className="stuff"
+           left={[
              [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
              'Enterprise 8.0.2 EAP (build 27448)'
-           ],
-           center: [
+           ]}
+           center={[
              [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
              {url: 'http://teamcity.jetbrains.com/showagreement.html', label: 'License agreement', title: 'read me!'}
-           ],
-           right: [
+           ]}
+           right={[
              {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-           ]
-         }
-      ), document.getElementById('footer'));
+           ]}
+         />
+       );
+       render(footer, document.getElementById('footer'));
      </file>
    </example>
  */
-export default class Footer extends RingComponent {
+export default class Footer extends PureComponent {
   /** @override */
   static propTypes = {
     className: PropTypes.string,
