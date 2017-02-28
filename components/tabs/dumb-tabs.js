@@ -6,16 +6,6 @@ import RingComponent from '../ring-component/ring-component';
 import styles from './tabs.css';
 import Tab from './tab';
 
-/**
- * @name Tabs
- * @category Components
- * @tags 3.0
- * @framework React
- * @constructor
- * @description Displays a tab set
- * @example-file ./tabs.examples.html
- */
-
 export default class Tabs extends RingComponent {
   static propTypes = {
     selected: PropTypes.string,
