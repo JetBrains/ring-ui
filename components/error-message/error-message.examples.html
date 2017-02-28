@@ -1,0 +1,37 @@
+<example name="ErrorMessage">
+
+
+  <file type="html">
+    <div id="error-message"></div>
+  </file>
+
+  <file type="css">
+    :global(.parent) {
+    height: 450px;
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import ErrorMessage from 'ring-ui/components/error-message/error-message';
+    import Link from 'ring-ui/components/link/link';
+    import frown from 'jetbrains-icons/frown.svg'
+
+
+    const renderErrorMessageDemo = () => (
+    <div className='parent'>
+      <ErrorMessage message="No, no one's there."
+        icon={frown}
+        code="Disconnected"
+        description="Service backend isn't available"
+      >
+        <Link href="/">Home</Link>
+      </ErrorMessage>
+    </div>
+    );
+
+    render(renderErrorMessageDemo(), document.getElementById('error-message'));
+  </file>
+</example>
