@@ -1,4 +1,4 @@
-import './index.scss';
+import styles from './index.css';
 import 'github-markdown-css/github-markdown.css';
 import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 
@@ -12,25 +12,21 @@ import Header from './components/header';
 import Nav from './components/nav';
 import Content from './components/content';
 
-const {source, categories} = window;
+const {nav, content} = window;
 
 const App = () => (
-  <div>
+  <div className={styles.app}>
     <Header />
-    <ContentLayout className="app__main">
+    <ContentLayout className={styles.main}>
       <Sidebar>
-        <Nav
-          version={source.package.version}
-          url={source.page.url}
-          categories={categories}
-        />
+        <Nav {...nav} />
       </Sidebar>
-      <Content {...source}/>
+      <Content {...content} />
     </ContentLayout>
   </div>
 );
 
 render(
   <App />,
-  document.query('.app')
+  document.query('#app')
 );
