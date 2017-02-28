@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, white-color, dark-gray-color, gray-color, main-color, error-color, ease, fast-ease, blue-caret from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease, blue-caret from  "../global/global.css";
 
 .container {
   composes: font-lower;
@@ -12,6 +12,14 @@
   }
 }
 
+.light {
+  color: text-color;
+}
+
+.dark {
+  color: white-color;
+}
+
 .input {
   min-height: calc(unit * 4);
   width: 100%;
@@ -22,9 +30,22 @@
   background: transparent;
   composes: blue-caret;
 
+  @nest .dark & {
+    @supports not (caret-color: white) {
+      text-shadow: 0px 0px 0px white-color;
+    }
+  }
+
   &::placeholder {
     text-shadow: none;
-    color: transparent;
+
+    @nest .light & {
+      color: gray-color;
+    }
+
+    @nest .dark & {
+      color: text-color;
+    }
   }
 
   &[disabled] {
@@ -55,12 +76,19 @@ textarea.input {
 }
 
 .label {
-  color: dark-gray-color;
   pointer-events: none;
   position: absolute;
   top:calc(unit * 3);
   left: 0;
   transition: all fast-ease;
+
+  @nest .light & {
+    color: dark-gray-color;
+  }
+
+  @nest .dark & {
+    color: darker-gray-color;
+  }
 }
 
 .input:focus ~ .label,
@@ -72,9 +100,8 @@ textarea.input {
 
 .noLabel .input::placeholder,
 .input:focus::placeholder {
-  color: gray-color;
-  text-shadow: 0px 0px 0px gray-color;
-  transition: color ease, text-shadow ease;
+  transition: text-shadow ease;
+  text-shadow: 0 0 0 currentColor;
 }
 
 .input:focus ~ .label {
@@ -87,7 +114,17 @@ textarea.input {
 
 .underline {
   height: 1px;
-  border-bottom: 1px solid line-color;
+
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+
+  @nest .light & {
+    border-color: line-color;
+  }
+
+  @nest .dark & {
+    border-color: dark-line-color;
+  }
 }
 
 .input[disabled] ~ .underline {

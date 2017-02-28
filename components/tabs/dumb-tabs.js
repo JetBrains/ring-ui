@@ -1,12 +1,10 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import styles from './tabs.css';
 import Tab from './tab';
 
-export default class Tabs extends RingComponent {
+export default class Tabs extends PureComponent {
   static propTypes = {
     selected: PropTypes.string,
     className: PropTypes.string,

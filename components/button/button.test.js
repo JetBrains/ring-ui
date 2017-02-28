@@ -2,22 +2,22 @@
 
 import 'dom4';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import {findDOMNode} from 'react-dom';
+import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import Button from './button';
 
 import styles from './button.css';
 
 describe('Button', () => {
-  beforeEach(function () {
-    this.button = TestUtils.renderIntoDocument(React.createElement(Button));
+  const renderComponent = props => renderIntoDocument(<Button {...props} />);
+  const renderNode = props => findDOMNode(renderComponent(props));
+
+  it('should create component', () => {
+    isCompositeComponentWithType(renderComponent(), Button).should.equal(true);
   });
 
-  it('should create component', function () {
-    TestUtils.isCompositeComponentWithType(this.button, Button).should.equal(true);
-  });
-
-  it('should set modifiers', function () {
-    this.button.rerender({
+  it('should set modifiers', () => {
+    const node = renderNode({
       active: true,
       danger: true,
       delayed: true,
@@ -27,32 +27,32 @@ describe('Button', () => {
       text: true
     });
 
-    this.button.node.should.have.class(styles.active);
-    this.button.node.should.have.class(styles.danger);
-    this.button.node.should.have.class(styles.delayed);
-    this.button.node.should.have.class(styles.loader);
-    this.button.node.should.have.class(styles.primary);
-    this.button.node.should.have.class(styles.short);
-    this.button.node.should.have.class(styles.text);
+    node.should.have.class(styles.active);
+    node.should.have.class(styles.danger);
+    node.should.have.class(styles.delayed);
+    node.should.have.class(styles.loader);
+    node.should.have.class(styles.primary);
+    node.should.have.class(styles.short);
+    node.should.have.class(styles.text);
   });
 
-  it('should add icon', function () {
-    this.button.rerender({
+  it('should add icon', () => {
+    const node = renderNode({
       icon: '#caret-down'
     });
 
-    this.button.node.should.have.class(styles.withIcon);
-    this.button.node.should.contain('svg[style*="16"]');
-    this.button.node.query('use').should.have.attribute('xlink:href', '#caret-down');
+    node.should.have.class(styles.withIcon);
+    node.should.contain('svg[style*="16"]');
+    node.query('use').should.have.attribute('xlink:href', '#caret-down');
   });
 
-  it('should set custom class', function () {
+  it('should set custom class', () => {
     const CUSTOM_CLASS = 'test';
 
-    this.button.rerender({
+    const node = renderNode({
       className: CUSTOM_CLASS
     });
 
-    this.button.node.should.have.class(CUSTOM_CLASS);
+    node.should.have.class(CUSTOM_CLASS);
   });
 });

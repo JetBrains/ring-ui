@@ -1,6 +1,5 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
-import RingComponent from '../ring-component/ring-component';
 import Icon, {Size} from '../icon/icon';
 import Theme from '../global/theme';
 
@@ -12,10 +11,9 @@ import styles from './button.css';
  * @tags 3.0
  * @constructor
  * @description Provides styled buttons.
- * @extends {RingComponent}
  * @example-file ./button.examples.html
  */
-export default class Button extends RingComponent {
+export default class Button extends PureComponent {
   static IconSize = Size;
   static Theme = Theme;
 
@@ -33,11 +31,14 @@ export default class Button extends RingComponent {
       return undefined;
     },
     short: PropTypes.bool,
+    text: PropTypes.bool,
 
     icon: PropTypes.string,
     iconSize: PropTypes.number,
     className: PropTypes.string,
-    onMouseDown: PropTypes.func
+    onMouseDown: PropTypes.func,
+
+    children: PropTypes.node
   }
 
   static defaultProps = {
