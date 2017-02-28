@@ -8,10 +8,10 @@
     title: "{{source .attrs.name or source.attrs.title }}",
     type: "{{ source.type }}",
     content: JSON.parse("{{ source.content | json_encode | escape('js') }}"),
-  blocks: [
-      {% for block in source.blocks if block.attrs.description is not empty %}
+    blocks: [
+      {% for block in source.blocks if block.attrs.description is not empty or block.examples is not empty %}
         {
-          description: "{{ block.attrs.description }}",
+          description: JSON.parse("{{ block.attrs.description | json_encode | escape('js') }}"),
           examples: [
             {% for example in block.examples %}
               {
@@ -32,7 +32,8 @@
         },
       {% endfor %}
     ]
-  };window.nav = {categories : [
+  };
+  window.nav = {categories : [
     {% for categoryName, items in sourcesByCategory %}
       {
         name: "{{ categoryName }}",
