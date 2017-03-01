@@ -1,6 +1,7 @@
 import 'dom4';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 
 import {Tabs, Tab} from './tabs';
 
@@ -11,17 +12,18 @@ describe('Tabs', () => {
       <Tab title="2"/>
     </Tabs>
   );
+  const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Tabs).should.be.true;
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    renderNode().should.match('div');
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    renderNode({className: 'test-class'}).should.match('.test-class');
   });
 
   // TODO Add more tests

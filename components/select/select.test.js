@@ -627,7 +627,7 @@ describe('Select', () => {
       let targetInput = null;
 
       beforeEach(function () {
-        targetInput = findDOMNode(document.createElement('input'));
+        targetInput = findDOMNode(renderIntoDocument(<input />));
 
         this.select = renderIntoDocument(React.createElement(Select, {
           data: testData,
