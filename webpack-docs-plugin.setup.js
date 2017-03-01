@@ -2,11 +2,145 @@
 /* eslint-disable no-var */
 /* eslint-disable modules/no-cjs */
 /* eslint-disable camelcase */
+/* eslint-disable valid-jsdoc */
 
 const path = require('path');
 const Docpack = require('docpack');
 const slug = require('url-slug');
 const pkg = require('./package.json');
+const emitAsset = require('webpack-toolkit').emitAsset;
+
+const HOOKS = Docpack.HOOKS;
+
+/**
+ * @param {Object} data.
+ * @returns {string}
+ */
+function toJSONString(data) {
+  const JSON_FORMATTER_WHITESPACES = 2;
+  return JSON.stringify(data, null, JSON_FORMATTER_WHITESPACES);
+}
+
+/**
+ * @param {Example} example
+ * @see {docpack/lib/data/Example.js}
+ * @returns {Object}
+ */
+function serializeExample(example) {
+  return {
+    name: example.attrs.name,
+    url: example.page.url,
+    files: example.files.map(file => ({
+      type: file.type,
+      content: file.content,
+      showCode: file.attrs['show-code'] !== 'false'
+    }))
+  };
+}
+
+/**
+ * @param {Source} source
+ * @see {docpack/lib/data/Source.js}
+ * @returns {Object}
+ */
+function serializeSource(source) {
+  const attrs = source.attrs;
+
+  return {
+    title: attrs.name || attrs.title,
+    url: source.page.url,
+    type: source.type,
+    content: source.content,
+    examples: source.getExamples().map(serializeExample),
+    description: attrs.description,
+    attrs
+  };
+}
+
+/**
+ * @param {Array<Source>} sources
+ * @param {string} category
+ * @returns {Array<Object>}
+ */
+function createCategoryItemsFromSources(sources, category) {
+  return sources.
+    filter(({attrs}) => attrs.category && attrs.category === category).
+    map(source => {
+      const {title, url, attrs} = serializeSource(source);
+      return {
+        url,
+        title,
+        order: attrs.order || 0
+      };
+    });
+}
+
+/**
+ * @param {Object} a Category object.
+ * @param {Object} b Category object.
+ * @returns {number}
+ */
+function categoriesSorter(a, b) {
+  const aName = a.name;
+  const bName = b.name;
+  let order = 0;
+
+  if (aName === 'Docs' || aName < bName) {
+    order = -1;
+  }
+
+  if (bName === 'Docs' || aName > bName) {
+    order = 1;
+  }
+
+  return order;
+}
+
+/**
+ * @param {Object} a Category object.
+ * @param {Object} b Category object.
+ * @returns {number}
+ */
+function categoryItemsSorter(a, b) {
+  const aOrder = typeof a.order !== 'undefined' ? a.order : (a.title || '');
+  const bOrder = typeof b.order !== 'undefined' ? b.order : (b.title || '');
+
+  if (aOrder === bOrder) {
+    return 0;
+  }
+
+  return aOrder < bOrder ? -1 : 1;
+}
+
+/**
+ * Creates navigation object.
+ * @param {Array<Source>} sources
+ * @returns {Array<Object>}
+ */
+function createNav(sources) {
+  const defaultCategory = 'Uncategorized';
+
+  const sourcesByCategories = sources.
+    // get category names
+    reduce((categories, source) => categories.concat(source.attrs.category || defaultCategory), []).
+
+    // remove duplicates
+    filter((value, i, self) => self.indexOf(value) === i).
+
+    // create category object and fill it with related sources
+    reduce((categories, categoryName) => {
+      categories.push({
+        name: categoryName,
+        items: createCategoryItemsFromSources(sources, categoryName)
+      });
+      return categories;
+    }, []);
+
+  sourcesByCategories.sort(categoriesSorter);
+  sourcesByCategories.forEach(category => category.items.sort(categoryItemsSorter));
+
+  return sourcesByCategories;
+}
 
 module.exports = () => {
   const docpack = new Docpack({
@@ -22,7 +156,7 @@ module.exports = () => {
     parseMarkdown: false
   }));
 
-  docpack.use(Docpack.HOOKS.AFTER_EXTRACT, (sources, done) => {
+  docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
     sources.
       reduce((examples, source) => examples.concat(source.getExamples()), []).
       forEach(example => {
@@ -62,51 +196,32 @@ module.exports = () => {
   docpack.use(require('docpack-page-generator')({
     template: path.resolve(__dirname, 'site/page.twig'),
     url: '[name].html',
-    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md'),
-    context: sources => {
-      const categories = {Docs: []};
-      const defaultCategory = 'Uncategorized';
-
-      sources.forEach(source => {
-        const category = (source.attrs.category || defaultCategory);
-        if (!Array.isArray(categories[category])) {
-          categories[category] = [];
-        }
-
-        categories[category].push(source);
-      });
-
-      Object.keys(categories).forEach(category => {
-        // eslint-disable-next-line complexity
-        categories[category].sort((a, b) => {
-          const aAttrs = a.attrs;
-          const bAttrs = b.attrs;
-          const aOrder = typeof aAttrs.order !== 'undefined' ? aAttrs.order : (aAttrs.name || aAttrs.title || '');
-          const bOrder = typeof bAttrs.order !== 'undefined' ? bAttrs.order : (bAttrs.name || bAttrs.title || '');
-
-          if (aOrder === bOrder) {
-            return 0;
-          }
-
-          return aOrder < bOrder ? -1 : 1;
-        });
-      });
-
-      const DATE_STRING_LENGTH = 16;
-      return {
-        buildDate: new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH),
-        sourcesByCategory: categories
-      };
-    }
+    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md')
   }));
 
-  docpack.use(Docpack.HOOKS.BEFORE_GENERATE, (sources, done) => {
-    sources.forEach(source => {
-      source.package = {
-        name: pkg.name,
-        version: pkg.version
-      };
+  docpack.use(HOOKS.BEFORE_GENERATE, function generateJSON(sources, done) {
+    const DATE_STRING_LENGTH = 16;
+    const hasPage = source => source.hasOwnProperty('page');
+
+    const buildDate = new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH);
+    const navCategories = createNav(docpack.sources.filter(hasPage));
+
+    const nav = {
+      buildDate,
+      version: pkg.version,
+      categories: navCategories
+    };
+
+    emitAsset(this, 'nav.json', toJSONString(nav));
+
+    sources.filter(hasPage).forEach(source => {
+      const data = serializeSource(source);
+      const filename = data.url.replace('.html', '.json');
+      emitAsset(this, filename, toJSONString(data));
+
+      source.jsonURL = filename;
     });
+
     done(null, sources);
   });
 
