@@ -11,7 +11,7 @@ html, body {
 }
 
 .sidebar {
-  margin-top: calc(unit * 4);
+  margin: calc(unit * 4) 0;
   line-height: calc(unit * 3);
 }
 
