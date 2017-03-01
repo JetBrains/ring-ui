@@ -739,6 +739,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           className={this.props.popupClassName}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           data={this.renderSuggestions()}
+          data-test="ring-query-assist-popup"
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
           left={this.getPopupOffset(this.state.suggestions)}

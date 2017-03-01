@@ -61,8 +61,8 @@ export default class Dropdown extends Component {
 
     return (
       <div
-        {...restProps}
         data-test="ring-dropdown"
+        {...restProps}
         onClick={this.toggle}
         className={classes}
       >
