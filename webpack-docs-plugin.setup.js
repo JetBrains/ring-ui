@@ -70,6 +70,7 @@ function createCategoryItemsFromSources(sources, category) {
       return {
         url,
         title,
+        legacy: attrs.tags !== '3.0',
         order: attrs.order || 0
       };
     });
