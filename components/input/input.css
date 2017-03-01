@@ -1,5 +1,7 @@
 @value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease, blue-caret from  "../global/global.css";
 
+@value text-shadow: 0 0 0;
+
 .container {
   composes: font-lower;
   padding-top: calc(unit * 2);
@@ -32,24 +34,21 @@
 
   @nest .dark & {
     @supports not (caret-color: white) {
-      text-shadow: 0px 0px 0px white-color;
+      text-shadow: text-shadow white-color;
     }
   }
 
   &::placeholder {
     text-shadow: none;
-
-    @nest .light & {
-      color: gray-color;
-    }
-
-    @nest .dark & {
-      color: text-color;
-    }
+    color: transparent;
   }
 
   &[disabled] {
     color: gray-color;
+
+    @supports not (caret-color: white) {
+      text-shadow: text-shadow gray-color;
+    }
   }
 
   /*
@@ -101,7 +100,16 @@ textarea.input {
 .noLabel .input::placeholder,
 .input:focus::placeholder {
   transition: text-shadow ease;
-  text-shadow: 0 0 0 currentColor;
+}
+
+.light.noLabel .input::placeholder,
+.light .input:focus::placeholder {
+  text-shadow: text-shadow gray-color;
+}
+
+.dark.noLabel .input::placeholder,
+.dark .input:focus::placeholder {
+  text-shadow: text-shadow text-color;
 }
 
 .input:focus ~ .label {

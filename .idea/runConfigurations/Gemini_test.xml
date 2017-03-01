@@ -5,6 +5,7 @@
     <scripts>
       <script value="gemini-test" />
     </scripts>
+    <arguments value="-- --root-url http://hub-dev.labs.intellij.net:9999/examples/" />
     <node-interpreter value="project" />
     <envs />
     <method />
