@@ -70,7 +70,7 @@ function createCategoryItemsFromSources(sources, category) {
       return {
         url,
         title,
-        order: attrs.order || 0
+        order: attrs.order
       };
     });
 }
@@ -97,10 +97,11 @@ function categoriesSorter(a, b) {
 }
 
 /**
- * @param {Object} a Category object.
- * @param {Object} b Category object.
+ * @param {Object} a Category item object.
+ * @param {Object} b Category item object.
  * @returns {number}
  */
+// eslint-disable-next-line complexity
 function categoryItemsSorter(a, b) {
   const aOrder = typeof a.order !== 'undefined' ? a.order : (a.title || '');
   const bOrder = typeof b.order !== 'undefined' ? b.order : (b.title || '');
