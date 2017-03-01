@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
 
-import currentPath from '../currentPath';
+import {currentPath} from '../utils';
 
 import styles from '../index.css';
 
