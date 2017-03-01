@@ -51,7 +51,7 @@ export default class Profile extends PureComponent {
           <Button
             theme={Button.Theme.DARK}
             primary={true}
-            data-test="header-login-button"
+            data-test="ring-header-login-button"
             onClick={onLogin}
           >
             {translations.login || 'Log in...'}
