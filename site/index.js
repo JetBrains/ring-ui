@@ -8,38 +8,36 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
-import currentPath from './currentPath';
+import {currentPath, fetchData, fetchNavData} from './utils';
 
 import Header from './components/header';
 import Nav from './components/nav';
 import Content from './components/content';
 
 const url = currentPath();
+const jsonURL = document.querySelector('body').getAttribute('data-json-url');
+const promises = [fetchData(jsonURL), fetchNavData()];
 
-fetch('data.json').
-  then(response => response.json()).
-  then(data => {
-    const nav = {
-      categories: data.sourcesByCategory,
-      version: data.version,
-      url
-    };
-    const source = data.sources.find(s => s.url === url);
+Promise.all(promises).then(([source, navData]) => {
+  const nav = {
+    ...navData,
+    url
+  };
 
-    const App = () => (
-      <div className={styles.app}>
-        <Header />
-        <ContentLayout className={styles.main}>
-          <Sidebar>
-            <Nav {...nav} />
-          </Sidebar>
-          <Content {...source} />
-        </ContentLayout>
-      </div>
-    );
+  const App = () => (
+    <div className={styles.app}>
+      <Header />
+      <ContentLayout className={styles.main}>
+        <Sidebar>
+          <Nav {...nav} />
+        </Sidebar>
+        <Content {...source} />
+      </ContentLayout>
+    </div>
+  );
 
-    render(
-      <App />,
-      document.query('#app')
-    );
-  });
+  render(
+    <App />,
+    document.query('#app')
+  );
+});
