@@ -1,32 +1,43 @@
 import styles from './index.css';
 import 'github-markdown-css/github-markdown.css';
 import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
+import 'whatwg-fetch';
 
 import 'dom4';
 import React from 'react';
 import {render} from 'react-dom';
 
 import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
+import {currentPath, fetchData, fetchNavData} from './utils';
 
 import Header from './components/header';
 import Nav from './components/nav';
 import Content from './components/content';
 
-const {nav, content} = window;
+const url = currentPath();
+const jsonURL = document.querySelector('body').getAttribute('data-json-url');
+const promises = [fetchData(jsonURL), fetchNavData()];
 
-const App = () => (
-  <div className={styles.app}>
-    <Header />
-    <ContentLayout className={styles.main}>
-      <Sidebar>
-        <Nav {...nav} />
-      </Sidebar>
-      <Content {...content} />
-    </ContentLayout>
-  </div>
-);
+Promise.all(promises).then(([source, navData]) => {
+  const nav = {
+    ...navData,
+    url
+  };
 
-render(
-  <App />,
-  document.query('#app')
-);
+  const App = () => (
+    <div className={styles.app}>
+      <Header />
+      <ContentLayout className={styles.main}>
+        <Sidebar>
+          <Nav {...nav} />
+        </Sidebar>
+        <Content {...source} />
+      </ContentLayout>
+    </div>
+  );
+
+  render(
+    <App />,
+    document.query('#app')
+  );
+});

@@ -3,58 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
-<script>
-  window.content = {
-    title: "{{source .attrs.name or source.attrs.title }}",
-    type: "{{ source.type }}",
-    content: JSON.parse("{{ source.content | json_encode | escape('js') }}"),
-    blocks: [
-      {% for block in source.blocks if block.attrs.description is not empty or block.examples is not empty %}
-        {
-          description: JSON.parse("{{ block.attrs.description | json_encode | escape('js') }}"),
-          examples: [
-            {% for example in block.examples %}
-              {
-                name: "{{ example.attrs.name }}",
-                url: "{{ example.page.url }}",
-                files: [
-                  {% for file in example.files %}
-                    {
-                      showCode: {{ file.attrs['show-code'] != false }},
-                      type: "{{ file.type }}",
-                      content: JSON.parse("{{ file.content | json_encode | escape('js') }}")
-                    },
-                  {% endfor %}
-                ]
-              },
-            {% endfor %}
-          ]
-        },
-      {% endfor %}
-    ]
-  };
-  window.nav = {categories : [
-    {% for categoryName, items in sourcesByCategory %}
-      {
-        name: "{{ categoryName }}",
-        items: [
-          {% for item in items %}
-            {
-              title: "{{ item.attrs.name or item.attrs.title or item.path }}",
-              href: "{{ item.page.url }}",
-              active: {{ item.path == source.path }}
-            },
-          {% endfor %}
-        ]
-      },
-    {% endfor %}
-  ],
-    url: "{{ source.page.url }}",
-    version: "{{ source.package.version }}"
-  };
-</script>
 </head>
-<body>
+<body data-json-url="{{ source.jsonURL }}">
 <div id="app">
   <script src="vendor.dll.js"></script>
   <script src="docs-app.js"></script>
