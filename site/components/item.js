@@ -10,7 +10,7 @@ import styles from '../index.css';
 const Item = ({url, title, legacy}) => {
   const active = url === currentPath();
   return (
-    <li className={styles.item}>
+    <li>
       <Link
         href={url}
         active={active}
