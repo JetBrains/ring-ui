@@ -129,6 +129,7 @@ angularModule.directive('rgSelect', () => {
       ctrl.selectInstance = null;
       ctrl.ngModelCtrl = null;
       ctrl.query = null;
+      ctrl.dataReceived = false;
 
       const scope = ctrl.optionsScope ? ctrl.optionsScope : $scope.$parent;
       ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
@@ -229,6 +230,12 @@ angularModule.directive('rgSelect', () => {
       ctrl.getOptions = (query, skip) => $q.when(ctrl.optionsParser.getOptions(query, skip));
 
       let loaderDelayTimeout = null;
+      ctrl.showLoader = () => {
+        if (getType() !== 'suggest') {
+          ctrl.selectInstance.rerender({loading: true});
+        }
+      };
+
       ctrl.loadOptionsToSelect = query => {
         if (ctrl.stopLoadingNewOptions && query === lastQuery) {
           return;
@@ -239,9 +246,14 @@ angularModule.directive('rgSelect', () => {
         lastQuery = query;
 
         $timeout.cancel(loaderDelayTimeout);
-        loaderDelayTimeout = $timeout(() => {
-          ctrl.selectInstance.rerender({loading: getType() !== 'suggest'});
-        }, LOADER_DELAY);
+
+        // Delay loader only when there is some data
+        // Otherwise user can spot the "not found" message
+        if (ctrl.dataReceived) {
+          loaderDelayTimeout = $timeout(ctrl.showLoader, LOADER_DELAY);
+        } else {
+          ctrl.showLoader();
+        }
 
         inProcessQueries++;
         ctrl.getOptions(query, skip).then(results => {
@@ -252,6 +264,7 @@ angularModule.directive('rgSelect', () => {
 
           const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
           $timeout.cancel(loaderDelayTimeout);
+          ctrl.dataReceived = true;
           ctrl.selectInstance.rerender({
             data: items,
             loading: false
