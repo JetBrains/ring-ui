@@ -5,7 +5,7 @@
   box-sizing: border-box;
   display: none;
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 25*$ring-unit + 2; // fallback if calc is not supported
   left: calc(100% + 2px);
   height: 3*$ring-unit;
@@ -57,6 +57,10 @@
     border: 0;
     background-color: transparent;
     background: none;
+  }
+
+  .ring-form__control & {
+    top: 1px;
   }
 }
 
