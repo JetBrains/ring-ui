@@ -1,5 +1,7 @@
 @import "../global/global";
 
+$border-color: #e5e5e5;
+
 .ring-error-bubble {
   z-index: 2;
   box-sizing: border-box;
@@ -14,7 +16,7 @@
   line-height: 3*$ring-unit;
 
   border-radius: $ring-border-radius;
-  border: 1px solid #e5e5e5;
+  border: 1px solid $border-color;
 
   @include ring-font(12px);
   white-space: nowrap;
@@ -40,7 +42,7 @@
     width: $ring-unit;
     height: $ring-unit;
 
-    border: 1px solid $ring-gray-color;
+    border: 1px solid $border-color;
     border-right: none;
     border-top: none;
 
