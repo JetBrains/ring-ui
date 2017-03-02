@@ -5,7 +5,7 @@
   box-sizing: border-box;
   display: none;
   position: absolute;
-  top: 0;
+  top: 1px;
   left: 25*$ring-unit + 2; // fallback if calc is not supported
   left: calc(100% + 2px);
   height: 3*$ring-unit;
@@ -16,7 +16,7 @@
   border-radius: $ring-border-radius;
   border: 1px solid #e5e5e5;
 
-  @include ring-font;
+  @include ring-font(12px);
   white-space: nowrap;
 
   color: $ring-error-color;
