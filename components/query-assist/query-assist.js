@@ -4,7 +4,7 @@
  * @description Displays a Query Assist field.
  */
 
-import React, {PropTypes, DOM} from 'react';
+import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
@@ -25,6 +25,7 @@ const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
 const ngModelStateField = 'query';
+const ICON_ID_LENGTH = 44;
 
 function noop() {}
 
@@ -541,47 +542,60 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const {suggestions} = this.state;
 
     suggestions.forEach((suggestion, index, arr) => {
+      const {ITEM, SEPARATOR} = PopupMenu.ListProps.Type;
+      const {
+        className,
+        description,
+        group,
+        icon,
+        matchingStart,
+        matchingEnd,
+        option,
+        prefix = '',
+        suffix = ''
+      } = suggestion;
       const prevSuggestion = arr[index - 1] && arr[index - 1].group;
+      const key = prefix + option + suffix + group + (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
 
-      if (prevSuggestion !== suggestion.group) {
-
+      if (prevSuggestion !== group) {
         renderedSuggestions.push({
-          key: suggestion.option + suggestion.group + PopupMenu.ListProps.Type.SEPARATOR,
-          description: suggestion.group,
-          rgItemType: PopupMenu.ListProps.Type.SEPARATOR
+          key: option + group + SEPARATOR,
+          description: group,
+          rgItemType: SEPARATOR
         });
       }
 
-      let option;
-      let before = false;
-      let after = false;
+      let wrappedOption;
+      let before = '';
+      let after = '';
 
-      if (suggestion.matchingStart !== suggestion.matchingEnd) {
-        before = suggestion.option.substring(0, suggestion.matchingStart);
-        option = <span className="ring-list__highlight">{suggestion.option.substring(suggestion.matchingStart, suggestion.matchingEnd)}</span>;
-        after = suggestion.option.substring(suggestion.matchingEnd);
+      if (matchingStart !== matchingEnd) {
+        before = option.substring(0, matchingStart);
+        wrappedOption = <span className="ring-list__highlight">{option.substring(matchingStart, matchingEnd)}</span>;
+        after = option.substring(matchingEnd);
       } else {
-        option = suggestion.option;
+        wrappedOption = option;
       }
 
-      const prefix = !!suggestion.prefix && <span className="ring-list__service">{suggestion.prefix}</span>;
-      const suffix = !!suggestion.suffix && <span className="ring-list__service">{suggestion.suffix}</span>;
+      const wrappedPrefix = prefix && <span className="ring-list__service">{prefix}</span>;
+      const wrappedSuffix = suffix && <span className="ring-list__service">{suffix}</span>;
 
-      const label = DOM.span({className: suggestion.className}, prefix, before, option, after, suffix);
+      const label = (
+        <span className={className}>
+          {wrappedPrefix}{before}{wrappedOption}{after}{wrappedSuffix}
+        </span>
+      );
 
       const item = {
-        key: suggestion.prefix + suggestion.option + suggestion.suffix + suggestion.group + suggestion.description,
+        key,
+        icon,
         label,
-        rgItemType: PopupMenu.ListProps.Type.ITEM,
+        rgItemType: ITEM,
         data: suggestion
       };
 
-      if (!suggestion.group) {
-        item.description = suggestion.description;
-      }
-
-      if (suggestion.icon) {
-        item.icon = suggestion.icon;
+      if (!group) {
+        item.description = description;
       }
 
       renderedSuggestions.push(item);
