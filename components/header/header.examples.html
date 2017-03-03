@@ -1,4 +1,4 @@
-<example name="header">
+<example name="Header">
   <file type="html">
     <div id="header"></div>
     <div class="page-content"></div>
@@ -44,6 +44,100 @@
     const renderHeaderDemo = () => (
       <Header>
         <Logo href="/" glyph={jetbrainsLogo} size={Logo.Size.Size96}/>
+        <Link active href="#">Users</Link>
+        <Link href="#">Groups</Link>
+        <Link href="#">Spaces</Link>
+        <Link href="#">Services</Link>
+        <Tray>
+          <TrayIcon
+            active
+            title="Create issue"
+            icon={add}
+          />
+          <Dropdown
+            anchor={({active}) => (
+              <TrayIcon
+                rotateable
+                active={active}
+                icon={cog}
+              />
+            )}
+          >
+            <PopupMenu
+              top={-12}
+              closeOnSelect={true}
+              data={[
+                {label: 'Test'},
+                {label: 'Test2'}
+              ]}
+            />
+          </Dropdown>
+          <a target="_blank" href="https://www.jetbrains.com/help/hub/">
+            <TrayIcon icon={help} />
+          </a>
+          <SmartServices auth={auth} />
+          <SmartProfile auth={auth} />
+        </Tray>
+      </Header>
+    );
+
+    render(renderHeaderDemo(), container);
+  </file>
+</example>
+
+<example name="Low header">
+  <file type="html">
+    <div id="header"></div>
+    <div class="page-content"></div>
+  </file>
+
+  <file type="css">
+    body {
+      margin: 0;
+      background: #e8e8e9;
+    }
+
+    :global(.page-content) {
+      background: #FFF;
+      padding: 32px;
+      height: 370px;
+    }
+
+    :global(.header) {
+      /* override Header */
+      && {
+        height: 40px;
+      }
+    }
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains-simple.svg';
+    import add from 'jetbrains-icons/add.svg';
+    import cog from 'jetbrains-icons/cog.svg';
+    import help from 'jetbrains-icons/help.svg';
+    import services from 'jetbrains-icons/services.svg';
+
+    import Auth from 'ring-ui/components/auth/auth';
+    import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
+    import Link from 'ring-ui/components/link/link';
+    import Input from 'ring-ui/components/input/input';
+    import Button from 'ring-ui/components/button/button';
+    import Dropdown from 'ring-ui/components/dropdown/dropdown';
+    import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+
+    import hubConfig from 'ring-ui/site/hub-config';
+
+    const container = document.getElementById('header');
+    const auth = new Auth(hubConfig);
+    auth.init();
+
+    const renderHeaderDemo = () => (
+      <Header className="header">
+        <Logo href="/" glyph={jetbrainsLogo} size={Logo.Size.Size32}/>
         <Link active href="#">Users</Link>
         <Link href="#">Groups</Link>
         <Link href="#">Spaces</Link>

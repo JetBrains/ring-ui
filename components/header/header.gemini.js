@@ -6,3 +6,10 @@ gemini.suite('Header', suite => {
     setCaptureElements('#header').
     capture('header');
 });
+
+gemini.suite('Low header', suite => {
+  suite.
+    setUrl('/header/low-header.html').
+    setCaptureElements('#header').
+    capture('header');
+});
