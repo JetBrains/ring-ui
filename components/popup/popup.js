@@ -103,6 +103,7 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   static defaultProps = {
+    ['data-test']: 'ring-popup',
     shortcuts: true,
     hidden: false,
     onOutsideClick() {},
@@ -249,7 +250,7 @@ export default class Popup extends RingComponentWithShortcuts {
             }}
           >
             <div
-              data-test={this.props['data-test'] || 'ring-popup'}
+              data-test={this.props['data-test']}
               style={this.position()}
               ref={el => {
                 this.popup = el;

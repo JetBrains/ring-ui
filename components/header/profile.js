@@ -11,6 +11,8 @@ import styles from './header.css';
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
 export default class Profile extends PureComponent {
+  static Size = Size;
+
   static propTypes = {
     className: PropTypes.string,
     onLogin: PropTypes.func,
@@ -24,15 +26,17 @@ export default class Profile extends PureComponent {
     user: PropTypes.shape({
       guest: PropTypes.bool,
       profile: PropTypes.object
-    })
+    }),
+    size: PropTypes.number
   };
 
   static defaultProps = {
-    translations: {}
+    translations: {},
+    size: Size.Size32
   }
 
   render() {
-    const {className, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
+    const {className, user, profileUrl, onLogin, onLogout, translations, size, ...props} = this.props;
 
     if (!user) {
       return (
@@ -40,7 +44,7 @@ export default class Profile extends PureComponent {
           {...props}
           className={classnames(styles.profileEmpty, className)}
         >
-          <Avatar size={Size.Size24} />
+          <Avatar size={size} />
         </div>
       );
     }
@@ -63,7 +67,7 @@ export default class Profile extends PureComponent {
     const anchor = (
       <Avatar
         url={user.profile && user.profile.avatar && user.profile.avatar.url}
-        size={Size.Size32}
+        size={size}
         round={true}
       />
     );
