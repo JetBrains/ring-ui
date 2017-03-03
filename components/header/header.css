@@ -1,22 +1,22 @@
 @value unit, darker-gray-color, black-color, white-color, main-color from  "../global/global.css";
 
-@value compensated: calc(unit * 8 + 3);
+@value height: calc(unit * 8);
+@value compensate: 3px;
+@value compensated: calc(height - compensate);
 
 .header {
+  box-sizing: border-box;
   display: flex;
-  height: calc(unit * 8);
-  align-items: flex-end;
+  height: height;
+  align-items: center;
+  overflow: hidden;
   line-height: compensated;
   background-color: black-color;
   color: white-color;
 
   & > * {
     display: inline-flex;
-    padding: 0 calc(unit * 2);
-
-    &:first-child {
-      padding-left: calc(unit * 4);
-    }
+    padding: 0 calc(unit * 2) compensate;
   }
 
   /* override link */
@@ -29,24 +29,24 @@
   display: inline-flex;
   align-items: center;
   align-self: stretch;
-  overflow: hidden;
   line-height: normal;
 
+  /* override .header > a */
+  && {
+    padding: 0 calc(unit * 2) 0 calc(unit * 4);
+    color: black-color
+  }
+
   & svg {
-    color: black-color;
     vertical-align: bottom;
   }
 }
 
 .tray {
   display: flex;
-  align-items: baseline;
-  padding: 0;
+  align-items: flex-end;
+  padding: 0 0 compensate;
   margin: 0 0 0 auto;
-}
-
-.trayItem {
-  text-align: center;
 }
 
 .trayItemContent {
@@ -92,7 +92,7 @@
 
 .profile {
   composes: profileEmpty;
-  height: calc(unit*8);
+  height: compensated;
   cursor: pointer;
 }
 
