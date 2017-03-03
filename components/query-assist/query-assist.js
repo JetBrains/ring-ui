@@ -467,17 +467,15 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     // First suggestion should be enough?
     const suggestion = suggestions && suggestions[0];
 
-    // Check of suggestion begins not from the end
-    // TODO Revise next two constants
+    // Check if suggestion begins not from the end
     const completionStart = suggestion &&
       suggestion.completionStart !== suggestion.completionEnd &&
       suggestion.completionStart;
 
-    const completionStartNode = this.input.firstChild &&
-      suggestion &&
-      suggestion.completionStart !== false &&
-      suggestion.completionStart != null &&
-      this.input.firstChild.childNodes[completionStart];
+    const inputChildren = this.input.firstChild && this.input.firstChild.children;
+    const completionStartNode = inputChildren &&
+      Number.isInteger(completionStart) &&
+      inputChildren[Math.min(completionStart, inputChildren.length - 1)];
 
     let offset = completionStartNode &&
       (getRect(completionStartNode).right - getRect(this.input).left);
