@@ -77,3 +77,4 @@ export default class Dropdown extends Component {
   }
 }
 
+export {Anchor};
