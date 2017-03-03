@@ -5,14 +5,18 @@ import Auth from '../auth/auth';
 import Profile from './profile';
 
 export default class SmartProfile extends PureComponent {
+  static Size = Profile.Size;
+
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
-    translations: Profile.propTypes.translations
+    translations: Profile.propTypes.translations,
+    size: Profile.propTypes.size
   };
 
   state = {
-    user: null
+    user: null,
+    size: Profile.defaultProps.size
   }
 
   componentDidMount() {
