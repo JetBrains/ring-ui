@@ -14,4 +14,4 @@ gemini.suite('Header', () => {
       setCaptureElements('#header').
       capture('header');
   });
-})
+});
