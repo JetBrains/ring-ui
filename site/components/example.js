@@ -29,4 +29,8 @@ Example.propTypes = {
   files: PropTypes.arrayOf(PropTypes.shape(Code.propTypes))
 };
 
+Example.defaultProps = {
+  name: ""
+}
+
 export default Example;
