@@ -59,6 +59,7 @@ $ring-font-size-smaller: 11px;
 @mixin ring-input-disabled() {
   border-color: #DEDEDE;
   background-color: #F8F8F8;
+  color: rgba($ring-text-color, 0.5);
 }
 
 @mixin ring-ellipsis() {
