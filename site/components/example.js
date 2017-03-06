@@ -30,7 +30,7 @@ Example.propTypes = {
 };
 
 Example.defaultProps = {
-  name: ""
-}
+  name: ''
+};
 
 export default Example;
