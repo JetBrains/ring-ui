@@ -37,11 +37,11 @@ export default class HeaderCell extends PureComponent {
       iconGlyph = sortOrder ? sortedUpIcon : sortedDownIcon;
     }
 
-
     const classes = classNames(className, {
       [style.headerCell]: true,
       [style.headerCellSortable]: this.sortable,
-      [style.headerCellSorted]: this.sorted
+      [style.headerCellSorted]: this.sorted,
+      [style.cellRight]: column.rightAlign
     });
 
     return (
