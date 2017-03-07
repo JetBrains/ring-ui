@@ -106,6 +106,7 @@ class Row extends PureComponent {
     columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
+      const rightAlign = column.align === 'right' || (!column.align && Number.isFinite(value));
 
       /*let gap = 0;
       if (column.groupable) {
@@ -116,7 +117,7 @@ class Row extends PureComponent {
         paddingLeft: `${gap + 10}px`
       };*/
 
-      const cellClasses = classNames({[style.cellRight]: Number.isFinite(value)});
+      const cellClasses = classNames({[style.cellRight]: rightAlign});
       cells.push(<Cell key={key} className={cellClasses}>{value}</Cell>);
     });
 
