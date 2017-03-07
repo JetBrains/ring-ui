@@ -176,7 +176,6 @@
     color: text-color;
 
     height: calc(unit * 5);
-    min-width: 80px;
     box-sizing: content-box;
     padding: 0 calc(unit * 2.5);
   }
