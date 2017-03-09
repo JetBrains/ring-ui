@@ -1,6 +1,10 @@
 @import "../global/global";
 
 .ring-badge {
+  display: inline-block;
+  height: 20px;
+  box-sizing: border-box;
+
   padding: 2px $ring-unit;
   border: 1px #F0F0F0 solid;
   border-radius: $ring-border-radius;
@@ -27,8 +31,8 @@
   }
 
   &_disabled {
-    border: none;
     color: #C3120F;
     background-color: #EBD9DA;
+    border-color: #EBD9DA;
   }
 }
