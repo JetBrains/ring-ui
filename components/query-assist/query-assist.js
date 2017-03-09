@@ -10,6 +10,7 @@ import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
+import getUID from '../global/get-uid';
 import {getRect} from '../global/dom';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Caret from '../caret/caret';
@@ -79,30 +80,24 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     showPopup: false
   };
 
-  constructor(...props) {
-    super(...props);
-
-    this.boundRequestHandler = ::this.requestHandler;
-  }
-
   ngModelStateField = ngModelStateField;
 
   getShortcutsProps() {
     return {
       map: {
         del: noop,
-        enter: ::this.handleComplete,
-        'command+enter': ::this.handleComplete,
-        'ctrl+enter': ::this.handleComplete,
-        'ctrl+space': ::this.handleCtrlSpace,
-        tab: ::this.handleTab,
+        enter: this.handleComplete,
+        'command+enter': this.handleComplete,
+        'ctrl+enter': this.handleComplete,
+        'ctrl+space': this.handleCtrlSpace,
+        tab: this.handleTab,
         right: noop,
         left: noop,
         space: noop,
         home: noop,
         end: noop
       },
-      scope: ::this.constructor.getUID('ring-query-assist-')
+      scope: getUID('ring-query-assist-')
     };
   }
 
@@ -124,9 +119,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setShortcutsEnabled(this.props.focus);
 
     if (this.props.autoOpen) {
-      this.boundRequestHandler().
+      this.requestHandler().
         catch(noop).
-        then(::this.setCaretPosition);
+        then(this.setCaretPosition);
     } else {
       this.requestStyleRanges().catch(noop);
     }
@@ -141,13 +136,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
    */
   setupRequestHandler(delay) {
     const needDelay = typeof delay === 'number';
-    const hasDelay = this.requestData !== this.boundRequestHandler;
+    const hasDelay = this.requestData !== this.requestHandler;
 
     if (!this.requestData || hasDelay !== needDelay) {
       if (needDelay) {
-        this.requestData = debounce(this.boundRequestHandler, delay);
+        this.requestData = debounce(this.requestHandler, delay);
       } else {
-        this.requestData = this.boundRequestHandler;
+        this.requestData = this.requestHandler;
       }
     }
   }
@@ -173,7 +168,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       if (query && this.props.autoOpen) {
         callback = this.requestData;
       } else if (query) {
-        callback = ::this.requestStyleRanges;
+        callback = this.requestStyleRanges;
       }
 
       this.setState({query, placeholderEnabled: !query}, callback);
@@ -196,7 +191,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  setCaretPosition() {
+  setCaretPosition = () => {
     const queryLength = this.immediateState.query != null && this.immediateState.query.length;
     const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
     const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
@@ -216,7 +211,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  handleFocusChange(e) {
+  handleFocusChange = e => {
     // otherwise it's blur and false
     const focus = e.type === 'focus';
     this.immediateState.focus = focus;
@@ -249,7 +244,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.input.textContent.replace(/\s/g, ' ');
   }
 
-  handleInput() {
+  handleInput = () => {
     const props = {
       dirty: true,
       query: this.getQuery(),
@@ -274,13 +269,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   // It's necessary to prevent new element creation before any other hooks
-  handleEnter(e) {
+  handleEnter = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
     }
   }
 
-  handleTab(e) {
+  handleTab = e => {
     const list = this._popup && this._popup.refs.List;
     const suggestion = list && (list.getSelected() || list.getFirst());
 
@@ -311,7 +306,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  handleCaretMove(e) {
+  handleCaretMove = e => {
     const caret = this.caret.getPosition();
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
@@ -323,42 +318,38 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   // eslint-disable-next-line no-unused-vars
-  handleStyleRangesResponse({suggestions, ...restProps}) {
-    return this.handleResponse(restProps);
-  }
+  handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
 
-  handleResponse({query = '', caret = 0, styleRanges, suggestions = []}) {
-    return new Promise((resolve, reject) => {
-      if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
-        // Do not setState on unmounted component
-        if (!this.node) {
-          return;
-        }
-
-        const state = {
-          dirty: this.immediateState.dirty,
-          loading: false,
-          placeholderEnabled: !query,
-          query,
-          suggestions,
-          showPopup: !!suggestions.length
-        };
-
-        this.immediateState.suggestionsQuery = query;
-
-        // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-        if (!deepEquals(this.state.styleRanges, styleRanges)) {
-          state.styleRanges = styleRanges;
-        }
-
-        this.setState(state, resolve);
-      } else {
-        reject(new Error('Current and response queries mismatch'));
+  handleResponse = ({query = '', caret = 0, styleRanges, suggestions = []}) => new Promise((resolve, reject) => {
+    if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
+      // Do not setState on unmounted component
+      if (!this.node) {
+        return;
       }
-    });
-  }
 
-  handleApply() {
+      const state = {
+        dirty: this.immediateState.dirty,
+        loading: false,
+        placeholderEnabled: !query,
+        query,
+        suggestions,
+        showPopup: !!suggestions.length
+      };
+
+      this.immediateState.suggestionsQuery = query;
+
+      // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
+      if (!deepEquals(this.state.styleRanges, styleRanges)) {
+        state.styleRanges = styleRanges;
+      }
+
+      this.setState(state, resolve);
+    } else {
+      reject(new Error('Current and response queries mismatch'));
+    }
+  });
+
+  handleApply = () => {
     this.closePopup();
     this.immediateState.dirty = false;
     // Only set dirty to false when query is saved already
@@ -368,7 +359,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.props.onApply(this.immediateState);
   }
 
-  handleComplete(data, replace) {
+  handleComplete = (data, replace) => {
     if (!data || !data.data) {
       this.handleApply();
 
@@ -386,7 +377,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
-    if (replace) {
+    if (typeof replace === 'boolean' && replace) {
       state.query += this.immediateState.query.substr(suggestion.completionEnd);
     } else {
       state.query += this.immediateState.query.substr(this.immediateState.caret);
@@ -414,7 +405,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.requestData();
   }
 
-  requestStyleRanges() {
+  requestStyleRanges = () => {
     if (!this.immediateState.query) {
       return Promise.reject(new Error('Query is empty'));
     }
@@ -424,17 +415,17 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       caret: this.immediateState.caret,
       omitSuggestions: true
     }).
-      then(::this.handleStyleRangesResponse).
+      then(this.handleStyleRangesResponse).
       catch(noop);
   }
 
-  requestHandler() {
+  requestHandler = () => {
     if (this.props.disabled) {
       return Promise.reject();
     }
 
     return this.sendRequest(this.immediateState).
-      then(::this.handleResponse).
+      then(this.handleResponse).
       catch(noop);
   }
 
@@ -495,7 +486,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return offset - POPUP_COMPENSATION;
   }
 
-  handleCtrlSpace(e) {
+  handleCtrlSpace = e => {
     e.preventDefault();
 
     if (!this.state.showPopup) {
@@ -503,21 +494,21 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  trackPopupMouseState(e) {
+  trackPopupMouseState = e => {
     this.mouseIsDownOnPopup = e.type === 'mousedown';
   }
 
-  trackInputMouseState(e) {
+  trackInputMouseState = e => {
     this.mouseIsDownOnInput = e.type === 'mousedown';
   }
 
-  closePopup() {
+  closePopup = () => {
     if (this.node) {
       this.setState({showPopup: false});
     }
   }
 
-  clearQuery() {
+  clearQuery = () => {
     const state = {
       dirty: false,
       caret: 0,
@@ -686,64 +677,69 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return (
       <div
         className="ring-query-assist"
-        onMouseDown={::this.trackInputMouseState}
-        onMouseUp={::this.trackInputMouseState}
+        onMouseDown={this.trackInputMouseState}
+        onMouseUp={this.trackInputMouseState}
       >
         <ContentEditable
           className={inputClasses}
           data-test="ring-query-assist-input"
           ref={this.refInput}
           disabled={this.props.disabled}
-          onComponentUpdate={::this.setCaretPosition}
+          onComponentUpdate={this.setCaretPosition}
 
-          onBlur={::this.handleFocusChange}
-          onClick={::this.handleCaretMove}
-          onFocus={::this.handleFocusChange}
-          onInput={::this.handleInput}
-          onKeyDown={::this.handleEnter}
-          onKeyPress={::this.handleEnter}
-          onKeyUp={::this.handleCaretMove}
+          onBlur={this.handleFocusChange}
+          onClick={this.handleCaretMove}
+          onFocus={this.handleFocusChange}
+          onInput={this.handleInput}
+          onKeyDown={this.handleEnter}
+          onKeyPress={this.handleEnter}
+          onKeyUp={this.handleCaretMove}
           onPaste={this.handlePaste}
 
           spellCheck="false"
-        >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
+        >{this.state.query &&
+        <span>{this.renderQuery()}</span>}</ContentEditable>
 
-        {renderPlaceholder &&
-        <span
-          className="ring-query-assist__placeholder"
-          ref="placeholder"
-          onClick={::this.handleCaretMove}
-        >
-          {this.props.placeholder}
-        </span>}
-        {renderGlass &&
-        <Icon
-          className="ring-query-assist__icon ring-query-assist__icon_glass"
-          ref="glass"
-          color="gray"
-          glyph={require('jetbrains-icons/search.svg')}
-          onClick={::this.handleApply}
-          size={Icon.Size.Size16}
-        />}
-        {renderLoader &&
-        <div
-          className="ring-query-assist__icon ring-query-assist__icon_loader"
-          ref="loader"
-        >
-          <LoaderInline/>
-        </div>}
-        {renderClear &&
-        <Icon
-          className="ring-query-assist__icon ring-query-assist__icon_clear"
-          ref="clear"
-          color="gray"
-          glyph={require('jetbrains-icons/close.svg')}
-          onClick={::this.clearQuery}
-          size={Icon.Size.Size16}
-        />}
+        {renderPlaceholder && (
+          <span
+            className="ring-query-assist__placeholder"
+            ref="placeholder"
+            onClick={this.handleCaretMove}
+          >
+            {this.props.placeholder}
+          </span>
+        )}
+        {renderGlass && (
+          <Icon
+            className="ring-query-assist__icon ring-query-assist__icon_glass"
+            ref="glass"
+            color="gray"
+            glyph={require('jetbrains-icons/search.svg')}
+            onClick={this.handleApply}
+            size={Icon.Size.Size16}
+          />
+        )}
+        {renderLoader && (
+          <div
+            className="ring-query-assist__icon ring-query-assist__icon_loader"
+            ref="loader"
+          >
+            <LoaderInline/>
+          </div>
+        )}
+        {renderClear && (
+          <Icon
+            className="ring-query-assist__icon ring-query-assist__icon_clear"
+            ref="clear"
+            color="gray"
+            glyph={require('jetbrains-icons/close.svg')}
+            onClick={this.clearQuery}
+            size={Icon.Size.Size16}
+          />
+        )}
         <PopupMenu
           hidden={!this.state.showPopup}
-          onCloseAttempt={::this.closePopup}
+          onCloseAttempt={this.closePopup}
           ref={this.refPopup}
           anchorElement={this.node}
           keepMounted={true}
@@ -755,9 +751,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           hintOnSelection={this.props.hintOnSelection}
           left={this.getPopupOffset(this.state.suggestions)}
           maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
-          onMouseDown={::this.trackPopupMouseState}
-          onMouseUp={::this.trackPopupMouseState}
-          onSelect={item => this.handleComplete(item, false)}
+          onMouseDown={this.trackPopupMouseState}
+          onMouseUp={this.trackPopupMouseState}
+          onSelect={this.handleComplete}
         />
       </div>
     );
