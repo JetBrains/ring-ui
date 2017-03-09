@@ -26,7 +26,9 @@ plugins developed for JetBrains' products.
 
 [Max Maximov](https://github.com/maxmaximov) 
 
-[Maxim Mazin](https://github.com/mazine) 
+[Maxim Mazin](https://github.com/mazine)
+ 
+[Filipp Riabchun](https://github.com/Hypnosphi)
 
 [Maxim Ryzhikov](https://github.com/maksimr) 
 
