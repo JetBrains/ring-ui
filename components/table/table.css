@@ -58,7 +58,6 @@
   }
 
   & .sorter {
-    top: 12px;
     margin-left: 6px;
     display: none;
     position: absolute;
@@ -89,6 +88,10 @@
   & .caption {
     text-transform: uppercase;
     letter-spacing: .2em;
+  }
+
+  & .headerCell .sorter {
+    margin-top: -1px;
   }
 }
 
