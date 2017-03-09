@@ -1,27 +1,59 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
+
+import Input from 'ring-ui/components/input/input';
 
 import Category from './category';
-import Version from './version';
 
 import styles from '../index.css';
 
-const Nav = ({version, url, categories}) => (
-  <div className={styles.sidebar}>
-    <h3 className={styles.navHeader}>
-      {'Ring UI library '}<Version {...{version, url}} />
-    </h3>
-    {categories.map(category =>
-      <Category
-        {...category}
-        key={category.name}
-      />
-    )}
-  </div>
-);
+function makeFilter(filter) {
+  const trimmed = filter.trim();
+  if (trimmed === '') {
+    return null;
+  }
+
+  const RE = new RegExp(trimmed.replace(/\s/g, '\\s'), 'ig');
+
+  return item => ({
+    match: RE.test(item),
+    highlight: item.replace(RE, '**$&**')
+  });
+}
+
+class Nav extends PureComponent {
+  state = {
+    filter: ''
+  }
+
+  render() {
+    const {categories} = this.props;
+    const {filter} = this.state;
+    const filterFn = makeFilter(filter);
+    return (
+      <div className={styles.sidebar}>
+        <Input
+          autoFocus={true}
+          placeholder="Search components"
+          value={filter}
+          onChange={e => this.setState({
+            filter: e.target.value
+          })}
+        />
+        <div className={styles.categories}>
+          {categories.map(category =>
+            <Category
+              {...{filterFn}}
+              {...category}
+              key={category.name}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+}
 
 Nav.propTypes = {
-  version: PropTypes.string,
-  url: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.shape(Category.propTypes))
 };
 
