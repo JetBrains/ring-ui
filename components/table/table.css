@@ -217,7 +217,7 @@
 }
 
 .dragHandle {
-  display: block;
+  display: none;
   position: absolute;
   left: unit;
   top: 0;
@@ -229,6 +229,14 @@
   &:hover {
     color: link-hover-color;
   }
+}
+
+.dragHandlePersistent {
+  display: block;
+}
+
+.row:hover .dragHandle {
+  display: block;
 }
 
 .draggingRow {
