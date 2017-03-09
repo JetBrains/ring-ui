@@ -2,20 +2,22 @@ import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
 
+import Markdown from './markdown';
+
 import {currentPath} from '../utils';
 
-import styles from '../index.css';
-
-const Item = ({url, title}) => (
-  <li className={styles.item}>
+const Item = ({filterFn, url, title}) => {
+  const filtered = filterFn && filterFn(title);
+  return (!filtered || filtered.match) && (
     <Link
       href={url}
       active={url === currentPath()}
-    >{title}</Link>
-  </li>
-);
+    >{filtered ? <Markdown source={filtered.highlight}/> : title}</Link>
+  );
+};
 
 Item.propTypes = {
+  filterFn: PropTypes.func,
   url: PropTypes.string,
   title: PropTypes.string
 };
