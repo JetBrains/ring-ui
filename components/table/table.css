@@ -135,7 +135,7 @@
   }
 
   @nest .table:not(.disabledHover) &:hover {
-    background-color: #FFF;
+    background-color: #FFF!important;
   }
 
   @nest .table:not(.multiSelection) &.rowFocused,
