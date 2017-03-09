@@ -15,6 +15,14 @@ html, body {
   margin-top: calc(unit * 4);
 }
 
+.categories {
+  margin-top: 16px;
+}
+
+.categories:empty::before {
+  content: 'Nothing found'
+}
+
 .main > div:last-child {
   flex-grow: 1;
   min-width: 0;
@@ -32,6 +40,10 @@ html, body {
 
 .item {
   margin: unit 0;
+}
+
+.item p {
+  margin: 0;
 }
 
 .navHeader {
