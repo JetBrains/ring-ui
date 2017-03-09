@@ -13,17 +13,23 @@ import Icon from '../icon/icon';
 
 import style from './table.css';
 
-const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
-  return (
-    <div className={style.dragHandle}>
-      <Icon
-        className={style.clear}
-        glyph={dragIcon}
-        size={Icon.Size.Size14}
-      />
-    </div>
-  );
-});
+let DragHandle;
+
+function prepareDrugHandleComponent(persistent) {
+  const classes = classNames(style.dragHandle, persistent && style.dragHandlePersistent);
+
+  DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
+    return (
+      <div className={classes}>
+        <Icon
+          className={style.clear}
+          glyph={dragIcon}
+          size={Icon.Size.Size14}
+        />
+      </div>
+    );
+  });
+}
 
 class Row extends PureComponent {
   static propTypes = {
@@ -33,6 +39,7 @@ class Row extends PureComponent {
     selectable: PropTypes.bool,
     showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
+    dragHandlePersistent: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
@@ -43,6 +50,7 @@ class Row extends PureComponent {
     selectable: true,
     showFocus: false,
     draggable: false,
+    dragHandlePersistent: false,
     selected: false,
     onHover: () => {},
     onSelect: () => {},
@@ -73,6 +81,14 @@ class Row extends PureComponent {
     if (selectable) {
       onSelect(!selected);
     }
+  }
+
+  componentWillMount() {
+    this.props.draggable && prepareDrugHandleComponent(this.props.dragHandlePersistent);
+  }
+
+  componentWillUpdate(nextProps) {
+    nextProps.draggable && prepareDrugHandleComponent(nextProps.dragHandlePersistent);
   }
 
   render() {
