@@ -235,7 +235,7 @@ class Table extends PureComponent {
   }
 
   onCheckboxChange = checked => {
-    const {selection, onSelect, onFocusRestore} = this.props;
+    const {selection, onSelect} = this.props;
 
     if (checked) {
       onSelect(selection.selectAll());
@@ -243,7 +243,7 @@ class Table extends PureComponent {
       onSelect(selection.reset());
     }
 
-    onFocusRestore();
+    this.restoreFocusWithoutScroll();
   }
 
   restoreFocusWithoutScroll = () => {
