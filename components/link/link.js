@@ -17,15 +17,17 @@ export function linkHOC(ComposedComponent) {
 
   return class Link extends Component {
     static propTypes = {
-      active: PropTypes.bool,
       className: PropTypes.string,
+      active: PropTypes.bool,
+      inherit: PropTypes.bool,
       pseudo: PropTypes.bool
     }
 
     render() {
-      const {active, pseudo, className, ...props} = this.props;
+      const {active, inherit, pseudo, className, ...props} = this.props;
       const classes = classnames(styles.link, className, {
         [styles.active]: active,
+        [styles.inherit]: inherit,
         [styles.pseudo]: pseudo
       });
 
