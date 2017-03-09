@@ -120,6 +120,11 @@
   position: fixed;
   top: 0;
   z-index: fixed-z-index;
+
+  & .headerCell {
+    border-bottom: 1px solid table-caption-border-color;
+  }
+
 }
 
 
@@ -141,6 +146,10 @@
   & .cell {
     border: 1px none table-border-color;
     border-top-style: solid;
+  }
+
+  &:first-child .cell {
+    border-top-color: table-caption-border-color;
   }
 
   &:last-child .cell {
@@ -197,8 +206,8 @@
 
   &:nth-child(2) {
     padding-left: 0;
-    min-width: 320px;
-    max-width: 640px;
+    min-width: 268px;
+    max-width: 588px;
   }
 }
 
