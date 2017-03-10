@@ -4,7 +4,7 @@ import Item from './item';
 
 import styles from '../index.css';
 
-const Category = ({filterFn, name, items}) => (!filterFn || items.some(({title}) => filterFn(title).match)) && (
+const Category = ({filterFn, name, items}) => (!filterFn || items.some(({title}) => filterFn(title).matched)) && (
   <div>
     <h4 className={styles.header}>{name}</h4>
 
