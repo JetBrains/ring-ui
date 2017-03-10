@@ -68,7 +68,7 @@ class Table extends PureComponent {
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool,
-    dragHandlePersistent: PropTypes.bool,
+    alwaysShowDragHandle: PropTypes.bool,
     shortcuts: PropTypes.object
   }
 
@@ -84,7 +84,7 @@ class Table extends PureComponent {
     sortKey: 'id',
     sortOrder: true,
     draggable: false,
-    dragHandlePersistent: false,
+    alwaysShowDragHandle: false,
     stickyHeader: true,
     shortcuts: {}
   }
@@ -282,7 +282,7 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {selection, columns, caption, getRowKey, selectable, draggable, dragHandlePersistent, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
+    const {selection, columns, caption, getRowKey, selectable, draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: not construct new object per render because it causes all rows rerendering
@@ -355,7 +355,7 @@ class Table extends PureComponent {
 
             /* Row props */
             draggable={draggable}
-            dragHandlePersistent={dragHandlePersistent}
+            alwaysShowDragHandle={alwaysShowDragHandle}
             data={data}
             columns={columns}
             selectable={selectable}
