@@ -66,18 +66,6 @@ module.exports = (env = {}) => {
             require.resolve('extract-loader'),
             webpackConfig.loaders.htmlLoader.loader
           ]
-        },
-        // For github-markdown-css
-        {
-          test: /\.css$/,
-          include: [
-            path.resolve('./node_modules/github-markdown-css'),
-            path.resolve('./node_modules/highlight.js')
-          ],
-          loaders: [
-            'style-loader',
-            'css-loader'
-          ]
         }
       ]
     },

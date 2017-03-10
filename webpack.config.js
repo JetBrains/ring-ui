@@ -57,6 +57,18 @@ const cssLoader = {
   ]
 };
 
+const externalCssLoader = {
+  test: /\.css$/,
+  include: [
+    path.resolve('./node_modules/github-markdown-css'),
+    path.resolve('./node_modules/highlight.js')
+  ],
+  loaders: [
+    resolveLoader('style'),
+    resolveLoader('css')
+  ]
+};
+
 // ng-annotate loader for angular components
 const ngAnnotateLoader = {
   test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
@@ -91,6 +103,7 @@ const loaders = {
   svgSpriteLoader,
   svgLoader,
   cssLoader,
+  externalCssLoader,
   scssLoader,
   ngAnnotateLoader,
   babelLoader,
