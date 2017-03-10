@@ -52,9 +52,11 @@ _Various_ types of **highlighting**
    </example>
  */
 
-const Markdown = ({className, renderers, ...restProps}) => (
+const Markdown = ({className, renderers, githubStyled, ...restProps}) => (
   <ReactMarkdown
-    className={classNames(styles.markdown, 'markdown-body', className)}
+    className={classNames(styles.markdown, className, {
+      'markdown-body': githubStyled
+    })}
     renderers={{
       Link,
       CodeBlock,
@@ -65,9 +67,14 @@ const Markdown = ({className, renderers, ...restProps}) => (
 );
 
 Markdown.propTypes = {
+  githubStyled: PropTypes.bool,
   source: PropTypes.string,
   className: PropTypes.string,
   renderers: PropTypes.object
+};
+
+Markdown.defaultProps = {
+  githubStyled: true
 };
 
 export default Markdown;

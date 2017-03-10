@@ -11,7 +11,12 @@ const Item = ({filterFn, url, title}) => {
     <Link
       href={url}
       active={url === currentPath()}
-    >{filtered ? <Markdown source={filtered.highlight}/> : title}</Link>
+    >{filtered ? (
+      <Markdown
+        githubStyled={false}
+        source={filtered.highlight}
+      />
+    ) : title}</Link>
   );
 };
 
