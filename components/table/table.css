@@ -244,7 +244,7 @@
   }
 }
 
-.dragHandlePersistent {
+.visibleDragHandle {
   display: block;
 }
 
