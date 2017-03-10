@@ -97,7 +97,7 @@ export default class Input extends PureComponent {
       children,
       value,
       onChange,
-      ...props
+      ...restProps
     } = this.props;
     const classes = classNames(
       styles.container,
@@ -112,30 +112,24 @@ export default class Input extends PureComponent {
       }
     );
 
-    const inputProps = {
-      ref: this.inputRef,
-      onChange: e => {
-        onChange(e);
-        this.checkValue(e.target);
-      },
-      className: styles.input,
-      value: value != null ? value : children,
-      ...props
-    };
+    const TagName = multiline ? 'textarea' : 'input';
 
     return (
       <div
         className={classes}
         data-test="ring-input"
       >
-        {multiline ? (
-          <textarea
-            rows="1"
-            {...inputProps}
-          />
-        ) : (
-          <input {...inputProps} />
-        )}
+        <TagName
+          ref={this.inputRef}
+          onChange={e => {
+            onChange(e);
+            this.checkValue(e.target);
+          }}
+          className={styles.input}
+          value={value != null ? value : children}
+          rows={multiline ? 1 : null}
+          {...restProps}
+        />
         <label className={styles.label}>{label}</label>
         <div className={styles.underline} />
         <div className={styles.focusUnderline} />
