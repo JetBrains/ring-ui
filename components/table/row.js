@@ -13,23 +13,19 @@ import Icon from '../icon/icon';
 
 import style from './table.css';
 
-let DragHandle;
+const DragHandle = sortableHandle(({alwaysShowDragHandle}) => { // eslint-disable-line arrow-body-style
+  const classes = classNames(style.dragHandle, alwaysShowDragHandle && style.dragHandlePersistent);
 
-function prepareDrugHandleComponent(persistent) {
-  const classes = classNames(style.dragHandle, persistent && style.dragHandlePersistent);
-
-  DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
-    return (
-      <div className={classes}>
-        <Icon
-          className={style.clear}
-          glyph={dragIcon}
-          size={Icon.Size.Size14}
-        />
-      </div>
-    );
-  });
-}
+  return (
+    <div className={classes}>
+      <Icon
+        className={style.clear}
+        glyph={dragIcon}
+        size={Icon.Size.Size14}
+      />
+    </div>
+  );
+});
 
 class Row extends PureComponent {
   static propTypes = {
@@ -83,16 +79,8 @@ class Row extends PureComponent {
     }
   }
 
-  componentWillMount() {
-    this.props.draggable && prepareDrugHandleComponent(this.props.dragHandlePersistent);
-  }
-
-  componentWillUpdate(nextProps) {
-    nextProps.draggable && prepareDrugHandleComponent(nextProps.dragHandlePersistent);
-  }
-
   render() {
-    const {item, columns, selectable, selected, showFocus, draggable} = this.props;
+    const {item, columns, selectable, selected, showFocus, draggable, dragHandlePersistent} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -106,7 +94,7 @@ class Row extends PureComponent {
 
     const cells = [
       <Cell key="meta" className={metaColumnClasses}>
-        {draggable && <DragHandle/>}
+        {draggable && <DragHandle alwaysShowDragHandle={dragHandlePersistent}/>}
         {selectable &&
         <Checkbox
           className={showFocus ? 'ring-checkbox_focus' : ''}
