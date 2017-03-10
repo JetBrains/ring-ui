@@ -35,7 +35,11 @@ function Example({name, url, files}) {
 Example.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
-  files: PropTypes.arrayOf(PropTypes.shape(Code.propTypes))
+  files: PropTypes.arrayOf(PropTypes.shape({
+    showCode: PropTypes.bool,
+    content: PropTypes.string.isRequired,
+    type: PropTypes.string
+  }))
 };
 
 Example.defaultProps = {
