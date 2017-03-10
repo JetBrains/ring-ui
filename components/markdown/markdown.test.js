@@ -8,7 +8,12 @@ import Markdown from './markdown';
 describe('Markdown', () => {
   class Wrapper extends PureComponent {
     render() {
-      return <Markdown {...this.props}/>;
+      return (
+        <Markdown
+          source=""
+          {...this.props}
+        />
+      );
     }
   }
 
