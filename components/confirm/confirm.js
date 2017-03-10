@@ -22,6 +22,7 @@ export default class Confirm extends RingComponent {
     description: PropTypes.string,
 
     show: PropTypes.bool,
+    rejectOnEsc: PropTypes.bool,
     inProgress: PropTypes.bool,
     cancelIsDefault: PropTypes.bool,
     confirmLabel: PropTypes.string,
@@ -35,6 +36,7 @@ export default class Confirm extends RingComponent {
     text: null,
     description: null,
     show: false,
+    rejectOnEsc: true,
     inProgress: false,
     cancelIsDefault: false,
     confirmLabel: 'OK',
@@ -43,12 +45,19 @@ export default class Confirm extends RingComponent {
     onReject: () => {}
   }
 
+  onEscPress = () => {
+    if (this.props.rejectOnEsc) {
+      this.props.onReject();
+    }
+  }
+
   render() {
-    const {show, inProgress, cancelIsDefault, text, description, confirmLabel, rejectLabel, onConfirm, onReject} = this.props;
+    const {show, className, inProgress, cancelIsDefault, text, description, confirmLabel, rejectLabel, onConfirm, onReject} = this.props;
 
     return (
       <Dialog
-        className={this.props.className}
+        className={className}
+        onEscPress={this.onEscPress}
         show={show}
       >
         <Content>
