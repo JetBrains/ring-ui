@@ -10,7 +10,7 @@ describe('Code', () => {
     render() {
       return (
         <Code
-          source=""
+          code=""
           {...this.props}
         />
       );
