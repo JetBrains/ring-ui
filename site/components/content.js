@@ -2,8 +2,9 @@ import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import parseFrontMatter from 'front-matter';
 
+import Markdown from 'ring-ui/components/markdown/markdown';
+
 import Example from './example';
-import Markdown from './markdown';
 
 import styles from '../index.css';
 
