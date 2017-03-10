@@ -1,23 +1,19 @@
 import React, {PropTypes, PureComponent} from 'react';
 
 import Input from 'ring-ui/components/input/input';
+import fuzzyHighlight from 'ring-ui/components/global/fuzzy-highlight';
 
 import Category from './category';
 
 import styles from '../index.css';
 
 function makeFilter(filter) {
-  const trimmed = filter.trim();
-  if (trimmed === '') {
+  const needle = filter.trim();
+  if (needle === '') {
     return null;
   }
 
-  const RE = new RegExp(trimmed.replace(/\s/g, '\\s'), 'ig');
-
-  return item => ({
-    match: RE.test(item),
-    highlight: item.replace(RE, '**$&**')
-  });
+  return haystack => fuzzyHighlight(needle, haystack);
 }
 
 class Nav extends PureComponent {

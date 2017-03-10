@@ -1,4 +1,4 @@
-@value unit, font, font-size, link-color, white-color from '../components/global/global.css';
+@value unit, font, font-size, link-color from '../components/global/global.css';
 
 html, body {
   padding: 0;
@@ -56,11 +56,6 @@ html, body {
   padding: calc(unit * 3) 0;
 }
 
-/* override github-markdown */
-:global(.markdown-body) a:not(:hover) {
-  color: link-color;
-}
-
 .example {
   position: relative;
 }
@@ -74,6 +69,7 @@ html, body {
 .exampleLink {
   /* override Link */
   && {
+    background-color: #fff;
     display: block;
     position: absolute;
     right: 0;
@@ -81,6 +77,5 @@ html, body {
     border: 1px solid #CCC;
     font-size: font-size;
     padding: unit;
-    background: white-color;
   }
 }
