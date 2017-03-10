@@ -117,7 +117,6 @@
     "update-version": "1.0.1",
     "wallaby-webpack": "0.0.30",
     "webpack": "2.2.0",
-    "webpack-config-merger": "0.1.0",
     "webpack-dev-server": "2.2.0",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
     "yo": "1.8.5"
