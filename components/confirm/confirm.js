@@ -32,7 +32,7 @@ export default class Confirm extends RingComponent {
     onReject: PropTypes.func
   };
 
-  defaultProps = {
+  static defaultProps = {
     text: null,
     description: null,
     show: false,
