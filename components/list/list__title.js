@@ -1,21 +1,26 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 
-export default function ListTitle({description, label}) {
-  return (
-    <span className="ring-list__title ring-list__text">
-      <span className="ring-list__item__label ring-list__title-text">{label}</span>
-      <div className="ring-list__item__description">{description}</div>
-    </span>
-  );
+export default class ListTitle extends PureComponent {
+  static propTypes = {
+    description: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ]),
+    label: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ])
+  };
+
+  render() {
+    const {description, label} = this.props;
+    return (
+      <span className="ring-list__title ring-list__text">
+        <span
+          className="ring-list__item__label ring-list__title-text"
+        >{label}</span>
+        <div className="ring-list__item__description">{description}</div>
+      </span>
+    );
+  }
 }
-
-ListTitle.propTypes = {
-  description: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ]),
-  label: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ])
-};
