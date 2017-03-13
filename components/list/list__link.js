@@ -10,7 +10,6 @@ import Link from '../link/link';
 export default class ListLink extends PureComponent {
   static propTypes = {
     ...Link.propTypes,
-    hover: PropTypes.bool,
     description: PropTypes.string,
     label: PropTypes.oneOfType([
       PropTypes.element,
@@ -22,7 +21,7 @@ export default class ListLink extends PureComponent {
   };
 
   render() {
-    const {className, label, hover, description, rgItemType, scrolling, url, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, label, description, rgItemType, scrolling, url, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     const classes = classnames('ring-list__item', className);
 
