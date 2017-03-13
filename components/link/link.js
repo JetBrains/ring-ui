@@ -20,15 +20,17 @@ export function linkHOC(ComposedComponent) {
       className: PropTypes.string,
       active: PropTypes.bool,
       inherit: PropTypes.bool,
-      pseudo: PropTypes.bool
+      pseudo: PropTypes.bool,
+      hover: PropTypes.bool
     }
 
     render() {
-      const {active, inherit, pseudo, className, ...props} = this.props;
+      const {active, inherit, pseudo, hover, className, ...props} = this.props;
       const classes = classnames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
-        [styles.pseudo]: pseudo
+        [styles.pseudo]: pseudo,
+        [styles.hover]: hover
       });
 
       if (!isTag && !props.activeClassName) {
