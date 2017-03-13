@@ -86,3 +86,7 @@
   margin-left: unit;
 }
 
+.profileMenuItem {
+  white-space: nowrap;
+}
+
