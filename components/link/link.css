@@ -8,6 +8,7 @@
   cursor: pointer;
 }
 
+.link.hover,
 .link:hover,
 .link:focus {
   color: link-hover-color;
@@ -20,6 +21,7 @@
 }
 
 .active,
+.active.hover,
 .active:focus,
 .active:hover,
 .active:visited {
