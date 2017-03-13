@@ -471,8 +471,7 @@ export default class List extends RingComponentWithShortcuts {
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
-    const classes = classnames({
-      'ring-list': true,
+    const classes = classnames('ring-list', this.props.className, {
       'ring-list_scrolling': this.state.scrolling
     });
 

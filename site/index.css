@@ -15,14 +15,6 @@ html, body {
   margin-top: calc(unit * 4);
 }
 
-.categories {
-  margin-top: 16px;
-}
-
-.categories:empty::before {
-  content: 'Nothing found'
-}
-
 .main > div:last-child {
   flex-grow: 1;
   min-width: 0;
@@ -32,23 +24,12 @@ html, body {
   margin: calc(unit * 2) 0 0;
 }
 
-.nav {
-  padding: 0;
-  list-style: none;
-  margin: unit unit calc(unit * 2);
+.list {
+  margin: unit 0 0 calc(- unit * 2);
 }
 
-.item {
-  margin: unit 0;
-}
-
-.item p {
+.list p {
   margin: 0;
-}
-
-.navHeader {
-  composes: header;
-  white-space: nowrap;
 }
 
 .content {
