@@ -39,10 +39,11 @@ function addWarningOnPropertiesChange(object, name) {
   });
 }
 
-function angularComponentFactory(Component, name) {
-  const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
-  const angularComponentName = `rg${name}`;
+function getAngularComponentName(name) {
+  return `rg${name}`;
+}
 
+function createAngularComponent(Component, name) {
   const propTypes = Component.propTypes;
   const propKeys = Object.keys(propTypes);
 
@@ -57,7 +58,7 @@ function angularComponentFactory(Component, name) {
     }
   });
 
-  class AngularComponent extends RingAngularComponent {
+  return class AngularComponent extends RingAngularComponent {
     static $inject = ['$scope', '$element'];
 
     static bindings = bindings;
@@ -87,18 +88,23 @@ function angularComponentFactory(Component, name) {
           }
 
           if (process.env.NODE_ENV === 'development' && typeof this[key] === 'object') {
-            addWarningOnPropertiesChange(this[key], angularComponentName);
+            addWarningOnPropertiesChange(this[key], getAngularComponentName(name));
           }
         }
       });
 
       render(<Component {...props}/>, container);
     }
-  }
+  };
+}
+
+function angularComponentFactory(Component, name) {
+  const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
 
   return angular.
     module(angularModuleName, []).
-    component(angularComponentName, AngularComponent);
+    component(getAngularComponentName(name), createAngularComponent(Component, name));
 }
 
 export default angularComponentFactory;
+export {createAngularComponent};
