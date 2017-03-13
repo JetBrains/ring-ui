@@ -2,15 +2,17 @@
 
 const marker = '**';
 
-export default function fuzzyHighlight(needle, haystack) {
+export default function fuzzyHighlight(needle, haystack, caseSensitive = false) {
+  const ndl = caseSensitive ? needle : needle.toLowerCase();
+  const hstck = caseSensitive ? haystack : haystack.toLowerCase();
   const result = (matched, highlight = haystack) => ({matched, highlight});
-  const hlen = haystack.length;
-  const nlen = needle.length;
+  const hlen = hstck.length;
+  const nlen = ndl.length;
   if (nlen > hlen) {
     return result(false);
   }
   if (nlen === hlen) {
-    const matched = needle === haystack;
+    const matched = ndl === hstck;
     return result(matched, matched ? `${marker}${haystack}${marker}` : haystack);
   }
   let highlight = '';
@@ -18,16 +20,16 @@ export default function fuzzyHighlight(needle, haystack) {
   let j = 0;
   /* eslint-disable no-labels */
   outer: for (let i = 0; i < nlen; i++) {
-    const nch = needle[i].toLowerCase();
+    const nch = ndl[i];
     while (j < hlen) {
-      const hch = haystack[j++];
-      const match = hch.toLowerCase() === nch;
+      const hch = hstck[j];
+      const match = hch === nch;
       // Don't turn highlight on for space characters
       const nextOn = match && /\S/.test(hch);
       if (nextOn !== on) {
         highlight += marker;
       }
-      highlight += hch;
+      highlight += haystack[j++];
       on = nextOn;
       if (match) {
         continue outer;
