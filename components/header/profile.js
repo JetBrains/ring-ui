@@ -76,12 +76,14 @@ export default class Profile extends PureComponent {
           {
             rgItemType,
             label: translations.profile || 'Profile',
+            className: styles.profileMenuItem,
             target: '_self', // Full page reload in Angular
             href: profileUrl
           },
           {
             rgItemType,
             label: translations.logout || 'Log out',
+            className: styles.profileMenuItem,
             onClick: onLogout
           }
         ]}
