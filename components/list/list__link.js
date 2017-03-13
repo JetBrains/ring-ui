@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classnames from 'classnames';
 
 import Link from '../link/link';
@@ -7,31 +7,33 @@ import Link from '../link/link';
  * @constructor
  * @extends {ReactComponent}
  */
-export default function ListLink(props) {
-  const {className, label, hover, description, rgItemType, scrolling, url, ...restProps} = props; // eslint-disable-line no-unused-vars
+export default class ListLink extends PureComponent {
+  static propTypes = {
+    ...Link.propTypes,
+    hover: PropTypes.bool,
+    description: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ]),
+    rgItemType: PropTypes.number,
+    scrolling: PropTypes.bool,
+    url: PropTypes.string
+  };
 
-  const classes = classnames('ring-list__item', className);
+  render() {
+    const {className, label, hover, description, rgItemType, scrolling, url, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
-  return (
-    <Link
-      pseudo={!restProps.href}
-      {...restProps}
-      className={classes}
-    >
-      {label}
-    </Link>
-  );
+    const classes = classnames('ring-list__item', className);
+
+    return (
+      <Link
+        pseudo={!restProps.href}
+        {...restProps}
+        className={classes}
+      >
+        {label}
+      </Link>
+    );
+  }
 }
-
-ListLink.propTypes = {
-  ...Link.propTypes,
-  hover: PropTypes.bool,
-  description: PropTypes.string,
-  label: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ]),
-  rgItemType: PropTypes.number,
-  scrolling: PropTypes.bool,
-  url: PropTypes.string
-};

@@ -8,6 +8,7 @@ import 'core-js/modules/es6.array.find';
 import React, {PropTypes, createElement} from 'react';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
+import memoize from '../global/memoize';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
@@ -139,12 +140,25 @@ export default class List extends RingComponentWithShortcuts {
     item.disabled);
   }
 
-  hoverHandler(index) {
+  hoverHandler = memoize(index => () =>
     this.setState({
       activeIndex: index,
       activeItem: this.props.data[index]
-    });
-  }
+    })
+  );
+
+  selectHandler = memoize(index => event => {
+    const item = this.props.data[index];
+    if (!this.props.useMouseUp && item.onClick) {
+      item.onClick(item, event);
+    } else if (this.props.useMouseUp && item.onMouseUp) {
+      item.onMouseUp(item, event);
+    }
+
+    if (this.props.onSelect) {
+      this.props.onSelect(item, event);
+    }
+  });
 
   upHandler(e) {
     const index = this.state.activeIndex;
@@ -210,7 +224,7 @@ export default class List extends RingComponentWithShortcuts {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
-        this.selectHandler({item, event});
+        this.selectHandler(this.state.activeIndex)(event);
 
         if (item.href) {
           window.location.href = item.href;
@@ -219,20 +233,6 @@ export default class List extends RingComponentWithShortcuts {
       return false; // do not propagate event
     } else {
       return true;  // propagate event to the parent component (e.g., QueryAssist)
-    }
-  }
-
-  selectHandler({item, event}) {
-    if (!this.props.useMouseUp && item.onClick) {
-      item.onClick(item, event);
-    }
-
-    if (this.props.useMouseUp && item.onMouseUp) {
-      item.onMouseUp(item, event);
-    }
-
-    if (this.props.onSelect) {
-      this.props.onSelect(item, event);
     }
   }
 
@@ -305,6 +305,10 @@ export default class List extends RingComponentWithShortcuts {
 
       this.setState({activeIndex, activeItem}, this.recalculateVisibleOptions);
     }
+  }
+
+  shouldUpdate(nextProps, nextState) {
+    return nextProps !== this.props || Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
   didMount() {
@@ -512,11 +516,11 @@ export default class List extends RingComponentWithShortcuts {
             props.key = props.key || props.rgItemType + (props.label || props.description);
 
             props.hover = (realIndex === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler.bind(this, realIndex);
+            props.onMouseOver = this.hoverHandler(realIndex);
             props.tabIndex = -1;
             props.scrolling = this.state.scrolling;
 
-            const selectHandler = event => this.selectHandler({item, event});
+            const selectHandler = this.selectHandler(realIndex);
 
             if (this.props.useMouseUp) {
               props.onMouseUp = selectHandler;
