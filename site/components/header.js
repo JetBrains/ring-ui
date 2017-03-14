@@ -3,9 +3,7 @@ import React, {PropTypes} from 'react';
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 import Auth from 'ring-ui/components/auth/auth';
-import Header, {Tray, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
-import Link from 'ring-ui/components/link/link';
-import Icon, {Size} from 'ring-ui/components/icon/icon';
+import Header, {Logo, Tray, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
 
 import hubConfig from 'ring-ui/site/hub-config';
 
@@ -17,12 +15,11 @@ auth.init();
 
 const SiteHeader = ({docsItems, ...restProps}) => (
   <Header>
-    <Link href="/">
-      <Icon
-        glyph={hubLogo}
-        size={Size.Size48}
-      />
-    </Link>
+    <Logo
+      href="/"
+      glyph={hubLogo}
+      size={Logo.Size.Size48}
+    />
     <span>{'Ring UI library '}<Version {...restProps} /></span>
     {docsItems.map(item => (
       <Item

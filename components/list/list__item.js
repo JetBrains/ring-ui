@@ -89,32 +89,33 @@ export default class ListItem extends PureComponent {
       paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING}px`
     };
 
-  return (
-    <div
-      tabIndex={tabIndex}
-      onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseUp={onMouseUp}
-      className={classes}
-      data-test="ring-list-item"style={style}
-    >
-      <div className={styles.top}>
-        <div className={styles.left}>
-          {glyph && (
-            <Icon
-              className={styles.glyph}
-              glyph={glyph}
-              size={Icon.Size.Size18}
-            />
-          )}
-          {avatar && (
-            <Avatar
-              className={styles.avatar}
-              url={avatar}
-              size={AvatarSize.Size20}
-            />
-          )}
-        </div>
+    return (
+      <div
+        tabIndex={tabIndex}
+        onClick={onClick}
+        onMouseOver={onMouseOver}
+        onMouseUp={onMouseUp}
+        className={classes}
+        data-test="ring-list-item"
+        style={style}
+      >
+        <div className={styles.top}>
+          <div className={styles.left}>
+            {glyph && (
+              <Icon
+                className={styles.glyph}
+                glyph={glyph}
+                size={Icon.Size.Size18}
+              />
+            )}
+            {avatar && (
+              <Avatar
+                className={styles.avatar}
+                url={avatar}
+                size={AvatarSize.Size20}
+              />
+            )}
+          </div>
 
           <span className={styles.label}>{label}</span>
           <span className={styles.description}>{description}</span>
