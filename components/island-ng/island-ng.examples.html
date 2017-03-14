@@ -1,0 +1,25 @@
+<example name="rgIsland">
+  <file type="html">
+    <div ng-app="Example.island" ng-controller="ExampleCtrl as ctrl">
+      <rg-island>
+        <rg-island-header border="true">
+          This is header
+        </rg-island-header>
+        <rg-island-content>
+          This is content
+        </rg-island-content>
+      </rg-island>
+    </div>
+  </file>
+
+  <file type="js">
+    import 'angular/angular';
+    import IslandNg from 'ring-ui/components/island-ng/island-ng';
+
+    const exampleModule = angular.module('Example.island', [IslandNg]);
+
+    exampleModule.controller('ExampleCtrl', function () {
+
+    });
+  </file>
+</example>

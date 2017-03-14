@@ -4,6 +4,7 @@ import React, {PropTypes} from 'react';
 import {render} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
+import DomRenderer from './react-dom-renderer';
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
@@ -59,15 +60,24 @@ function createAngularComponent(Component, name) {
   });
 
   return class AngularComponent extends RingAngularComponent {
-    static $inject = ['$scope', '$element'];
+    static $inject = ['$scope', '$element', '$transclude'];
 
     static bindings = bindings;
+    static transclude = true;
 
     $postLink() {
-      this.render();
+      const {$transclude} = this.$inject;
+
+      $transclude(clone => {
+        this.innerNodes = Array.from(clone);
+        this.render();
+      });
     }
 
     $onChanges() {
+      if (!this.innerNodes) {
+        return;
+      }
       this.render();
     }
 
@@ -93,7 +103,12 @@ function createAngularComponent(Component, name) {
         }
       });
 
-      render(<Component {...props}/>, container);
+      render(
+        <Component {...props}>
+          <DomRenderer nodes={this.innerNodes}/>
+        </Component>,
+        container
+      );
     }
   };
 }
