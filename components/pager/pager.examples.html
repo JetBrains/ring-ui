@@ -15,7 +15,13 @@
 
       render() {
         const {total, current} = this.state;
-        return <Pager total={total} current={current} onPageChange={page => this.setState({current: page})} />;
+        return (
+          <Pager
+            total={total}
+            current={current}
+            onPageChange={page => this.setState({current: page})}
+          />
+        );
       }
     }
 
@@ -40,7 +46,14 @@
 
       render() {
         const {total, current} = this.state;
-        return <Pager total={total} current={current} size={3} onPageChange={page => this.setState({current: page})} />;
+        return (
+          <Pager
+            total={total}
+            current={current}
+            size={3}
+            onPageChange={page => this.setState({current: page})}
+          />
+        );
       }
     }
 
@@ -65,7 +78,14 @@
 
       render() {
         const {total, current} = this.state;
-        return <Pager total={total} current={current} size={5} onPageChange={page => this.setState({current: page})} />;
+        return (
+          <Pager
+            total={total}
+            current={current}
+            size={5}
+            onPageChange={page => this.setState({current: page})}
+          />
+        );
       }
     }
 
@@ -90,7 +110,14 @@
 
       render() {
         const {total, current} = this.state;
-        return <Pager total={total} current={current} size={5} onPageChange={page => this.setState({current: page})} />;
+        return (
+          <Pager
+            total={total}
+            current={current}
+            size={5}
+            onPageChange={page => this.setState({current: page})}
+          />
+        );
       }
     }
 
