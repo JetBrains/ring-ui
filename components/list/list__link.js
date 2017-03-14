@@ -21,7 +21,7 @@ export default class ListLink extends PureComponent {
   };
 
   render() {
-    const {className, label, hover, description, rgItemType, url, disabled, ...restProps} = props; // eslint-disable-line no-unused-vars
+    const {className, label, hover, description, rgItemType, url, disabled, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     const classes = classnames(styles.item, className, {
       [styles.actionLink]: !disabled,
       [styles.hover]: hover && !disabled
@@ -29,7 +29,7 @@ export default class ListLink extends PureComponent {
 
     return (
       <Link
-        pseudo={!props.href}
+        pseudo={!this.props.href}
         {...restProps}
         hover={hover && !disabled}
         className={classes}

@@ -12,7 +12,7 @@ html, body {
 }
 
 .sidebar {
-  margin: calc(unit * 4) 0;
+  margin: 26px 0;
   line-height: calc(unit * 3);
 }
 
@@ -26,11 +26,12 @@ html, body {
 }
 
 .list {
-  margin: unit 0 0 calc(- unit * 2);
+  margin: -2px 0 0 calc(- unit * 2);
 }
 
 .list p {
   margin: 0;
+}
 
 .version > button {
   font: inherit;
