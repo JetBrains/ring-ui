@@ -23,6 +23,8 @@
   composes: withTransparentBottomBorder;
   line-height: calc(unit*4);
   padding: 0 calc(unit*4);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .withBottomBorder.withBottomBorder {

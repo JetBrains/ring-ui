@@ -1,11 +1,16 @@
 <example name="rgIsland">
+  <file type="css">
+    :global(.flex) {
+      display: flex;
+    }
+  </file>
   <file type="html">
     <div ng-app="Example.island" ng-controller="ExampleCtrl as ctrl">
       <rg-island>
-        <rg-island-header border="true">
+        <rg-island-header class="flex" border="true">
           This is header
         </rg-island-header>
-        <rg-island-content>
+        <rg-island-content class="flex">
           This is content
         </rg-island-content>
       </rg-island>
@@ -30,15 +35,18 @@
       height: 200px;
       width: 200px;
     }
+    :global(.flex) {
+      display: flex;
+    }
   </file>
 
   <file type="html">
     <div ng-app="Example.island" ng-controller="ExampleCtrl as ctrl">
       <rg-adaptive-island narrow="true" class-name="limited-island">
-        <rg-island-header border="true">
+        <rg-island-header class="flex" border="true">
           Title
         </rg-island-header>
-        <rg-island-content>
+        <rg-island-content class="flex">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
