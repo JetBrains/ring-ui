@@ -10,8 +10,7 @@
 /* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {PureComponent, PropTypes} from 'react';
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
@@ -20,7 +19,7 @@ import classNames from 'classnames';
 import '../link/link.scss';
 import style from './pager.css';
 
-export default class Pager extends RingComponent {
+export default class Pager extends PureComponent {
   static propTypes = {
     total: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
