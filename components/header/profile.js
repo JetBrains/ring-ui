@@ -8,8 +8,6 @@ import PopupMenu from '../popup-menu/popup-menu';
 
 import styles from './header.css';
 
-const rgItemType = PopupMenu.ListProps.Type.LINK;
-
 export default class Profile extends PureComponent {
   static Size = Size;
 
@@ -82,19 +80,20 @@ export default class Profile extends PureComponent {
         <PopupMenu
           data={[
             {
-              rgItemType,
+              rgItemType: PopupMenu.ListProps.Type.LINK,
               label: translations.profile || 'Profile',
               target: '_self', // Full page reload in Angular
               href: profileUrl
             },
             {
-              rgItemType,
+              rgItemType: PopupMenu.ListProps.Type.ITEM,
               label: translations.logout || 'Log out',
               onClick: onLogout
             }
           ]}
           top={-8}
           left={-32}
+          sidePadding={32}
         />
       </Dropdown>
     );

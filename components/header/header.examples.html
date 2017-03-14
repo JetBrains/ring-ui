@@ -43,7 +43,9 @@
 
     const renderHeaderDemo = () => (
       <Header>
-        <Logo href="/" glyph={jetbrainsLogo} size={Logo.Size.Size96}/>
+        <Link href="/">
+          <Logo glyph={jetbrainsLogo} size={Logo.Size.Size96} />
+        </Link>
         <Link active href="#">Users</Link>
         <Link href="#">Groups</Link>
         <Link href="#">Spaces</Link>
@@ -137,7 +139,9 @@
 
     const renderHeaderDemo = () => (
       <Header className="header">
-        <Logo href="/" glyph={jetbrainsLogo} size={Logo.Size.Size32}/>
+        <Link href="/" >
+          <Logo glyph={jetbrainsLogo} size={Logo.Size.Size32} />
+        </Link>
         <Link active href="#">Users</Link>
         <Link href="#">Groups</Link>
         <Link href="#">Spaces</Link>
