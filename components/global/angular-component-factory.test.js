@@ -55,7 +55,8 @@ describe('angularComponentFactory', () => {
 
   it('should register an Angular component with the proper name', () => {
     const $element = angular.element('<div></div>');
-    const ctrl = $componentController('rgTestComponent', {$scope: $rootScope, $element});
+    const $transclude = callback => callback();
+    const ctrl = $componentController('rgTestComponent', {$scope: $rootScope, $element, $transclude});
     ctrl.should.not.be.undefined;
   });
 
