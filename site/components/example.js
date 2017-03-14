@@ -1,9 +1,16 @@
 import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
+import Code from 'ring-ui/components/code/code';
 
 import Iframe from './iframe';
-import Code from './code';
+
+const LangMap = {
+  js: Code.Languages.JS,
+  html: Code.Languages.HTML,
+  css: Code.Languages.CSS,
+  scss: Code.Languages.CSS
+};
 
 function Example({name, url, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
@@ -13,12 +20,14 @@ function Example({name, url, files}) {
       {files.some(({type}) => type === 'html') &&
         <Iframe src={url}/>
       }
-      {files.map(file =>
+      {files.map(({showCode, content, type}) => showCode && (
         <Code
-          {...file}
-          key={file.type}
+          language={LangMap[type]}
+          code={content}
+          key={type}
+          beautify={true}
         />
-      )}
+      ))}
     </div>
   );
 }
@@ -26,7 +35,15 @@ function Example({name, url, files}) {
 Example.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
-  files: PropTypes.arrayOf(PropTypes.shape(Code.propTypes))
+  files: PropTypes.arrayOf(PropTypes.shape({
+    showCode: PropTypes.bool,
+    content: PropTypes.string.isRequired,
+    type: PropTypes.string
+  }))
+};
+
+Example.defaultProps = {
+  name: ''
 };
 
 export default Example;

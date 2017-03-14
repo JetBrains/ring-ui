@@ -5,7 +5,6 @@ require('babel-polyfill');
 const path = require('path');
 const webpack = require('webpack');
 
-const webpackConfigMerger = require('webpack-config-merger');
 const webpackConfig = require('./webpack.config');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 
@@ -21,7 +20,7 @@ const distDir = 'dist';
 const contentBase = path.resolve(__dirname, distDir);
 
 // For docs-app entry point
-webpackConfig.loaders.babelLoader.include.push(path.resolve(__dirname, 'site'));
+webpackConfig.componentsPath.push(path.resolve(__dirname, 'site'));
 
 module.exports = (env = {}) => {
   const {server, production} = env;
@@ -44,7 +43,7 @@ module.exports = (env = {}) => {
   console.log(`Hub server used is ${colorInfo(serverUri)}`);
   const hubConfig = JSON.stringify({serverUri, clientId});
 
-  const docsWebpackConfig = webpackConfigMerger(webpackConfig.config, {
+  const docsWebpackConfig = {
     entry: {
       components: createEntriesList('./components/*'),
       'docs-app': './site/index.js',
@@ -55,9 +54,10 @@ module.exports = (env = {}) => {
         'ring-ui': __dirname
       }
     },
-    context: '.',
+    context: __dirname,
     module: {
       rules: [
+        ...webpackConfig.config.module.rules,
         // HTML examples
         {
           test: /example\.html$/,
@@ -65,18 +65,6 @@ module.exports = (env = {}) => {
             `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
             require.resolve('extract-loader'),
             webpackConfig.loaders.htmlLoader.loader
-          ]
-        },
-        // For github-markdown-css
-        {
-          test: /\.css$/,
-          include: [
-            path.resolve('./node_modules/github-markdown-css'),
-            path.resolve('./node_modules/highlight.js')
-          ],
-          loaders: [
-            'style-loader',
-            'css-loader'
           ]
         }
       ]
@@ -124,11 +112,16 @@ module.exports = (env = {}) => {
         dllDir: distDir,
         webpackConfig: {
           devtool,
+          module: {
+            rules: [
+              webpackConfig.loaders.whatwgLoader
+            ]
+          },
           plugins: [] // DllBundlesPlugin will set the DllPlugin here
         }
       })
     ]
-  });
+  };
 
   // if (server) {
   //   docsWebpackConfig.plugins.push(

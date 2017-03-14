@@ -44,11 +44,19 @@
           title: 'Country',
           sortable: true
         },
+
+        {
+          id: 'id',
+          title: 'ID',
+          rightAlign: true
+        },
+
         {
           id: 'city',
           title: 'City',
           sortable: true
         },
+
         {
           id: 'url',
           title: 'URL',
@@ -60,7 +68,7 @@
         this.setState({sortKey, sortOrder});
       }
 
-      onPageChange = ({page}) => {
+      onPageChange = page => {
         this.setState({page});
       }
 

@@ -157,6 +157,19 @@ export default class List extends RingComponentWithShortcuts {
     })
   );
 
+  selectHandler = memoize(index => event => {
+    const item = this.props.data[index];
+    if (!this.props.useMouseUp && item.onClick) {
+      item.onClick(item, event);
+    } else if (this.props.useMouseUp && item.onMouseUp) {
+      item.onMouseUp(item, event);
+    }
+
+    if (this.props.onSelect) {
+      this.props.onSelect(item, event);
+    }
+  });
+
   upHandler(e) {
     const index = this.state.activeIndex;
     let newIndex;
@@ -221,7 +234,7 @@ export default class List extends RingComponentWithShortcuts {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
-        this.selectHandler(item)(event);
+        this.selectHandler(this.state.activeIndex)(event);
 
         if (item.href && !event.defaultPrevented) {
           window.location.href = item.href;
@@ -232,20 +245,6 @@ export default class List extends RingComponentWithShortcuts {
       return true;  // propagate event to the parent component (e.g., QueryAssist)
     }
   }
-
-  selectHandler = memoize(item => event => {
-    if (!this.props.useMouseUp && item.onClick) {
-      item.onClick(item, event);
-    }
-
-    if (this.props.useMouseUp && item.onMouseUp) {
-      item.onMouseUp(item, event);
-    }
-
-    if (this.props.onSelect) {
-      this.props.onSelect(item, event);
-    }
-  });
 
   getFirst() {
     return this.props.data.find(item => item.rgItemType === Type.ITEM);
@@ -480,7 +479,7 @@ export default class List extends RingComponentWithShortcuts {
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
-    const classes = classnames(styles.list, {
+    const classes = classnames(styles.list, this.props.className, {
       [styles.scrolling]: this.state.scrolling
     });
 
@@ -524,7 +523,7 @@ export default class List extends RingComponentWithShortcuts {
             props.onMouseOver = this.hoverHandler(realIndex);
             props.tabIndex = -1;
 
-            const selectHandler = this.selectHandler(item);
+            const selectHandler = this.selectHandler(realIndex);
 
             if (this.props.useMouseUp) {
               props.onMouseUp = selectHandler;

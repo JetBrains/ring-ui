@@ -1,6 +1,8 @@
 export default function memoize(fn) {
-  const cache = new Map();
+  const primitiveCache = new Map();
+  const objectCache = new WeakMap();
   return function memoized(arg) {
+    const cache = arg instanceof Object ? objectCache : primitiveCache;
     if (cache.has(arg)) {
       return cache.get(arg);
     }

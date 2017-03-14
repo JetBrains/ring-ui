@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import 'core-js/modules/es6.number.is-finite';
 import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
@@ -15,10 +14,12 @@ import Icon from '../icon/icon';
 
 import style from './table.css';
 
-const DragHandle = sortableHandle(() => { // eslint-disable-line arrow-body-style
+const DragHandle = sortableHandle(({alwaysShowDragHandle}) => { // eslint-disable-line arrow-body-style
+  const classes = classNames(style.dragHandle, alwaysShowDragHandle && style.visibleDragHandle);
+
   return (
     <Button
-      className={style.dragHandle}
+      className={classes}
       icon={dragIcon}
       iconSize={Icon.Size.Size14}
     />
@@ -33,6 +34,7 @@ class Row extends PureComponent {
     selectable: PropTypes.bool,
     showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
+    alwaysShowDragHandle: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
@@ -43,6 +45,7 @@ class Row extends PureComponent {
     selectable: true,
     showFocus: false,
     draggable: false,
+    alwaysShowDragHandle: false,
     selected: false,
     onHover: () => {},
     onSelect: () => {},
@@ -76,7 +79,7 @@ class Row extends PureComponent {
   }
 
   render() {
-    const {item, columns, selectable, selected, showFocus, draggable} = this.props;
+    const {item, columns, selectable, selected, showFocus, draggable, alwaysShowDragHandle} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -90,7 +93,7 @@ class Row extends PureComponent {
 
     const cells = [
       <Cell key="meta" className={metaColumnClasses}>
-        {draggable && <DragHandle/>}
+        {draggable && <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>}
         {selectable &&
         <Checkbox
           className={showFocus ? 'ring-checkbox_focus' : ''}
@@ -115,7 +118,7 @@ class Row extends PureComponent {
         paddingLeft: `${gap + 10}px`
       };*/
 
-      const cellClasses = classNames({[style.cellRight]: Number.isFinite(value)});
+      const cellClasses = classNames({[style.cellRight]: column.rightAlign});
       cells.push(<Cell key={key} className={cellClasses}>{value}</Cell>);
     });
 

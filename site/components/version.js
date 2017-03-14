@@ -5,6 +5,8 @@ import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
 
 import branches from '../branches.json';
 
+import {currentPath} from '../utils';
+
 import styles from '../index.css';
 
 const HOST = 'http://ring-ui.github.io';
@@ -18,7 +20,7 @@ const branchesArr = Object.keys(branches).map(version => ({
   versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/\*/g, '\\d+')}$`)
 }));
 
-const Version = ({version, url}) => (
+const Version = ({version}) => (
   <Dropdown
     anchor={version}
     className={styles.version}
@@ -29,17 +31,17 @@ const Version = ({version, url}) => (
         return {
           rgItemType,
           active,
-          href: `${HOST}${branch.path}${url}`,
+          href: `${HOST}${branch.path}${currentPath()}`,
           label: active ? version : branch.version
         };
       })}
+      top={-16}
     />
   </Dropdown>
 );
 
 Version.propTypes = {
-  version: PropTypes.string,
-  url: PropTypes.string
+  version: PropTypes.string
 };
 
 export default Version;

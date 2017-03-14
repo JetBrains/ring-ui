@@ -207,7 +207,7 @@ describe('Query Assist', () => {
     it('requestData should exist', function () {
       this.renderQueryAssist();
       this.queryAssist.requestData.should.be.a('function');
-      this.queryAssist.requestData.should.equal(this.queryAssist.boundRequestHandler);
+      this.queryAssist.requestData.should.equal(this.queryAssist.requestHandler);
     });
 
     it('requestData should be debounced when delay set', function () {
@@ -215,7 +215,7 @@ describe('Query Assist', () => {
         delay: 0
       });
       this.queryAssist.requestData.should.be.a('function');
-      this.queryAssist.requestData.should.not.equal(this.queryAssist.boundRequestHandler);
+      this.queryAssist.requestData.should.not.equal(this.queryAssist.requestHandler);
     });
 
 

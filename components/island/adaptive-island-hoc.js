@@ -9,6 +9,8 @@ const TITLE_RESIZE_END = 20;
 export default function adaptiveIslandHOC(ComposedComponent) {
 
   return class AdaptiveIsland extends Component {
+    static propTypes = {...ComposedComponent.propTypes};
+
     state = {
       phase: 0
     };
