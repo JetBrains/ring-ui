@@ -41,6 +41,8 @@
     const auth = new Auth(hubConfig);
     auth.init();
 
+    const Comp = props => <a {...props}>This is component</a>;
+
     const renderHeaderDemo = () => (
       <Header>
         <Link href="/">
@@ -78,7 +80,7 @@
             <TrayIcon icon={help} />
           </a>
           <SmartServices auth={auth} />
-          <SmartProfile auth={auth} />
+          <SmartProfile auth={auth} LinkComponent={Comp} />
         </Tray>
       </Header>
     );
