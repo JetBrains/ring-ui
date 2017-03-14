@@ -31,6 +31,7 @@ const Version = ({version}) => (
         };
       })}
       top={-16}
+      left={-16}
     />
   </Dropdown>
 );
