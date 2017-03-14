@@ -8,6 +8,7 @@ html, body {
 
 .app {
   composes: font;
+  font-size: font-size;
 }
 
 .sidebar {
@@ -24,23 +25,12 @@ html, body {
   margin: 0;
 }
 
-.nav {
-  padding: 0;
-  list-style: none;
-  margin: 0 calc(unit * -2) unit calc(unit * -4);
+.list {
+  margin: unit 0 0 calc(- unit * 2);
 }
 
-.item {
-  display: block;
-  padding: 0 calc(unit * 2) 0 calc(unit * 5);
-}
-
-.navHeader {
-  composes: header;
-  white-space: nowrap;
-  line-height: calc(unit * 3);
-  margin-bottom: unit;
-}
+.list p {
+  margin: 0;
 
 .version > button {
   font: inherit;
@@ -57,18 +47,6 @@ a.legacy {
 .content {
   min-width: 200px;
   padding: calc(unit * 3) 0;
-}
-
-/* override github-markdown */
-:global(.markdown-body) {
-  && h1,
-  && h2 {
-    border-color: line-color;
-  }
-
-  & a:not(:hover) {
-    color: link-color;
-  }
 }
 
 .example {

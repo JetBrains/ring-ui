@@ -96,3 +96,7 @@
   cursor: pointer;
 }
 
+.profileMenuItem {
+  white-space: nowrap;
+}
+

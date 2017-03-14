@@ -79,21 +79,19 @@ export default class Profile extends PureComponent {
         anchor={anchor}
         className={classnames(styles.profile, className)}
       >
-        <PopupMenu
-          data={[
-            {
-              rgItemType,
-              label: translations.profile || 'Profile',
-              target: '_self', // Full page reload in Angular
-              href: profileUrl
-            },
-            {
-              rgItemType,
-              label: translations.logout || 'Log out',
-              onClick: onLogout
-            }
-          ]}
-          top={-8}
+        <PopupMenu data={[
+          {
+            rgItemType,
+            label: translations.profile || 'Profile',
+            className: styles.profileMenuItem,target: '_self', // Full page reload in Angular
+            href: profileUrl
+          },
+          {
+            rgItemType,
+            label: translations.logout || 'Log out',className: styles.profileMenuItem,
+            onClick: onLogout
+          }
+        ]}top={-8}
           left={-32}
         />
       </Dropdown>

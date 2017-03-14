@@ -1,0 +1,9 @@
+@value link-color from  "../global/global.css";
+
+/* override github-markdown */
+.markdown {
+
+  & a:not(:hover) {
+    color: link-color;
+  }
+}

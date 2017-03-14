@@ -1,15 +1,18 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import styles from './list.css';
 
-export default function ListSeparator({description}) {
-  return (
-    <span className={styles.separator}>{description}</span>
-  );
-}
+export default class ListSeparatorextends PureComponent {
+  static propTypes = {description: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.string
+    ])
+  };
 
-ListSeparator.propTypes = {
-  description: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ])
-};
+  render() {
+    return (
+      <span
+        className={styles.separator}
+      >{this.props.description}</span>
+    );
+  }
+}
