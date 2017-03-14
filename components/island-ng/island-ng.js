@@ -8,12 +8,13 @@
  */
 
 import {createAngularComponent} from '../global/angular-component-factory';
-import Island, {Header, Content} from '../island/island';
+import Island, {AdaptiveIsland, Header, Content} from '../island/island';
 
 const angularModule = angular.module('Ring.island-ng', []);
 
 angularModule.
   component('rgIsland', createAngularComponent(Island, 'Island')).
+  component('rgAdaptiveIsland', createAngularComponent(AdaptiveIsland, 'AdaptiveIsland')).
   component('rgIslandHeader', createAngularComponent(Header, 'IslandHeader')).
   component('rgIslandContent', createAngularComponent(Content, 'IslandContent'));
 
