@@ -1,4 +1,4 @@
-@value link-color from  "../global/global.css";
+@value link-color, line-color from  "../global/global.css";
 
 /* override github-markdown */
 .markdown {
@@ -6,5 +6,10 @@
 
   & a:not(:hover) {
     color: link-color;
+  }
+
+  && h1,
+  && h2 {
+    border-color: line-color;
   }
 }
