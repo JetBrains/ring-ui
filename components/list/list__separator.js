@@ -1,8 +1,9 @@
 import React, {PureComponent, PropTypes} from 'react';
 import styles from './list.css';
 
-export default class ListSeparatorextends PureComponent {
-  static propTypes = {description: PropTypes.oneOfType([
+export default class ListSeparator extends PureComponent {
+  static propTypes = {
+    description: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
     ])
