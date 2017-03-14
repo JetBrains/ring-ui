@@ -8,9 +8,6 @@ export default class Logo extends PureComponent {
   static Size = Size
 
   static propTypes = {
-    href: PropTypes.string,
-    glyph: PropTypes.string.isRequired,
-    size: PropTypes.number,
     className: PropTypes.string
   }
 
@@ -19,16 +16,13 @@ export default class Logo extends PureComponent {
   }
 
   render() {
-    const {glyph, size, className, ...restProps} = this.props;
+    const {className, ...restProps} = this.props;
     const classes = classNames(styles.logo, className);
 
     return (
-      <a
-        {...restProps}
-        className={classes}
-      >
-        <Icon {...{glyph, size}} />
-      </a>
+      <div className={classes}>
+        <Icon {...restProps} />
+      </div>
     );
   }
 }
