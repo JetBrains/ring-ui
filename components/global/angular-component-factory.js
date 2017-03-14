@@ -1,9 +1,10 @@
 /* global angular: false */
 
 import React, {PropTypes} from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
+import DomRenderer from './react-dom-renderer';
 
 const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
@@ -39,10 +40,11 @@ function addWarningOnPropertiesChange(object, name) {
   });
 }
 
-function angularComponentFactory(Component, name) {
-  const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
-  const angularComponentName = `rg${name}`;
+function getAngularComponentName(name) {
+  return `rg${name}`;
+}
 
+function createAngularComponent(Component, name) {
   const propTypes = Component.propTypes;
   const propKeys = Object.keys(propTypes);
 
@@ -57,17 +59,30 @@ function angularComponentFactory(Component, name) {
     }
   });
 
-  class AngularComponent extends RingAngularComponent {
-    static $inject = ['$scope', '$element'];
+  return class AngularComponent extends RingAngularComponent {
+    static $inject = ['$scope', '$element', '$transclude'];
 
     static bindings = bindings;
+    static transclude = true;
 
     $postLink() {
-      this.render();
+      const {$transclude} = this.$inject;
+
+      $transclude(clone => {
+        this.innerNodes = Array.from(clone);
+        this.render();
+      });
     }
 
     $onChanges() {
+      if (!this.innerNodes) {
+        return;
+      }
       this.render();
+    }
+
+    $onDestroy() {
+      unmountComponentAtNode(this.$inject.$element[0]);
     }
 
     render() {
@@ -87,18 +102,28 @@ function angularComponentFactory(Component, name) {
           }
 
           if (process.env.NODE_ENV === 'development' && typeof this[key] === 'object') {
-            addWarningOnPropertiesChange(this[key], angularComponentName);
+            addWarningOnPropertiesChange(this[key], getAngularComponentName(name));
           }
         }
       });
 
-      render(<Component {...props}/>, container);
+      render(
+        <Component {...props}>
+          <DomRenderer nodes={this.innerNodes}/>
+        </Component>,
+        container
+      );
     }
-  }
+  };
+}
+
+function angularComponentFactory(Component, name) {
+  const angularModuleName = `Ring.${name[0].toLowerCase() + name.slice(1)}`;
 
   return angular.
     module(angularModuleName, []).
-    component(angularComponentName, AngularComponent);
+    component(getAngularComponentName(name), createAngularComponent(Component, name));
 }
 
 export default angularComponentFactory;
+export {createAngularComponent};

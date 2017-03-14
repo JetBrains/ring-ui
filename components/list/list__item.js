@@ -1,4 +1,4 @@
-import React, {PropTypes, PureComponent} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import classnames from 'classnames';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon from '../icon/icon';
@@ -13,6 +13,44 @@ const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
 
 export default class ListItem extends PureComponent {
+  static defaultProps = {
+    hover: false
+  };
+
+  static propTypes = {
+    hover: PropTypes.bool,
+    details: PropTypes.string,
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    tabIndex: PropTypes.number,
+    checkbox: PropTypes.bool,
+    description: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.array
+    ]),
+    avatar: PropTypes.string,
+    glyph: PropTypes.string,
+    icon: PropTypes.string,
+    rightNodes: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.array
+    ]),
+    leftNodes: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.array
+    ]),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    level: PropTypes.number,
+    rgItemType: PropTypes.number,
+    rightGlyph: PropTypes.string,
+    onClick: PropTypes.func,
+    onMouseOver: PropTypes.func,
+    onMouseUp: PropTypes.func
+  };
+
   render() {
     /* eslint-disable no-unused-vars */
     const {
@@ -51,33 +89,32 @@ export default class ListItem extends PureComponent {
       paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING}px`
     };
 
-    return (
-      <div
-        tabIndex={tabIndex}
-        onClick={onClick}
-        onMouseOver={onMouseOver}
-        onMouseUp={onMouseUp}
-        className={classes}
-        data-test="ring-list-item"
-        style={style}
-      >
-        <div className={styles.top}>
-          <div className={styles.left}>
-            {glyph && (
-              <Icon
-                className={styles.glyph}
-                glyph={glyph}
-                size={Icon.Size.Size18}
-              />
-            )}
-            {avatar && (
-              <Avatar
-                className={styles.avatar}
-                url={avatar}
-                size={AvatarSize.Size20}
-              />
-            )}
-          </div>
+  return (
+    <div
+      tabIndex={tabIndex}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseUp={onMouseUp}
+      className={classes}
+      data-test="ring-list-item"style={style}
+    >
+      <div className={styles.top}>
+        <div className={styles.left}>
+          {glyph && (
+            <Icon
+              className={styles.glyph}
+              glyph={glyph}
+              size={Icon.Size.Size18}
+            />
+          )}
+          {avatar && (
+            <Avatar
+              className={styles.avatar}
+              url={avatar}
+              size={AvatarSize.Size20}
+            />
+          )}
+        </div>
 
           <span className={styles.label}>{label}</span>
           <span className={styles.description}>{description}</span>
@@ -114,41 +151,3 @@ export default class ListItem extends PureComponent {
     );
   }
 }
-
-ListItem.defaultProps = {
-  hover: false
-};
-
-ListItem.propTypes = {
-  hover: PropTypes.bool,
-  details: PropTypes.string,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  tabIndex: PropTypes.number,
-  checkbox: PropTypes.bool,
-  description: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  avatar: PropTypes.string,
-  glyph: PropTypes.string,
-  icon: PropTypes.string,
-  rightNodes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  leftNodes: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.array
-  ]),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  level: PropTypes.number,
-  rgItemType: PropTypes.number,
-  rightGlyph: PropTypes.string,
-  onClick: PropTypes.func,
-  onMouseOver: PropTypes.func,
-  onMouseUp: PropTypes.func
-};

@@ -62,6 +62,8 @@ $list-spacing: $ring-unit / 2;
   vertical-align: bottom;
   text-decoration: none;
 
+  white-space: nowrap;
+
   &_error {
     color: #F00;
     cursor: default;

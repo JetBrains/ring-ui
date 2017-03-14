@@ -22,3 +22,7 @@
     color: inherit;
   }
 }
+
+.inherit:not(:hover) {
+  color: inherit;
+}
