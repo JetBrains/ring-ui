@@ -143,8 +143,8 @@ export default function position(attrs) {
 
   const anchorRect = getRect(isMounted(anchor) ? anchor : document.body);
   const scroll = getScrollingCoordinates();
-  const anchorLeft = anchorRect.left + scroll.left;
-  const anchorTop = anchorRect.top + scroll.top;
+  const anchorLeft = anchorRect.left + scroll.left + left;
+  const anchorTop = anchorRect.top + scroll.top + top;
 
   if (popup) {
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop);
@@ -162,14 +162,6 @@ export default function position(attrs) {
       });
 
     styles = directionStylesSortedByIncreasingOverflow[0];
-  }
-
-  if (top) {
-    styles.top += top;
-  }
-
-  if (left) {
-    styles.left += left;
   }
 
   if (maxHeight === MaxHeight.SCREEN || maxHeight === 'screen') {
