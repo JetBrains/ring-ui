@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
@@ -9,26 +9,37 @@ import Icon, {Size} from 'ring-ui/components/icon/icon';
 
 import hubConfig from 'ring-ui/site/hub-config';
 
+import Item from './item';
+import Version from './version';
+
 const auth = new Auth(hubConfig);
 auth.init();
 
-export default function SiteHeader() {
-  return (
-    <Header>
-      <Link href="/">
-        <Icon
-          glyph={hubLogo}
-          size={Size.Size48}
-        />
-      </Link>
-      <Link
-        active={true}
-        href="#"
-      >{'Styleguide'}</Link>
-      <Tray>
-        <SmartServices auth={auth}/>
-        <SmartProfile auth={auth}/>
-      </Tray>
-    </Header>
-  );
-}
+const SiteHeader = ({docsItems, ...restProps}) => (
+  <Header>
+    <Link href="/">
+      <Icon
+        glyph={hubLogo}
+        size={Size.Size48}
+      />
+    </Link>
+    <span>{'Ring UI library '}<Version {...restProps} /></span>
+    {docsItems.map(item => (
+      <Item
+        key={item.title}
+        {...item}
+      />
+    ))}
+    <Tray>
+      <SmartServices auth={auth}/>
+      <SmartProfile auth={auth}/>
+    </Tray>
+  </Header>
+);
+
+SiteHeader.propTypes = {
+  ...Version.propTypes,
+  docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
+};
+
+export default SiteHeader;
