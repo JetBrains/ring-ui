@@ -93,10 +93,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-align: left;
-  padding-right: calc(unit * 2);
 }
 
 .description {
+  padding-left: calc(unit * 2);
   composes: font-smaller-lower;
   flex-shrink: 100;
   white-space: nowrap;
