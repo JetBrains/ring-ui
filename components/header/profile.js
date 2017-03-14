@@ -1,4 +1,4 @@
-import React, {PropTypes, PureComponent} from 'react';
+import React, {PropTypes, Component, PureComponent} from 'react';
 import classnames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
@@ -16,6 +16,11 @@ export default class Profile extends PureComponent {
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
     profileUrl: PropTypes.string,
+    LinkComponent: PropTypes.oneOfType([
+      PropTypes.instanceOf(Component),
+      PropTypes.func,
+      PropTypes.string
+    ]),
     translations: PropTypes.shape({
       profile: PropTypes.string,
       login: PropTypes.string,
@@ -34,7 +39,7 @@ export default class Profile extends PureComponent {
   }
 
   render() {
-    const {className, user, profileUrl, onLogin, onLogout, translations, size, ...props} = this.props;
+    const {className, user, profileUrl, LinkComponent, onLogin, onLogout, translations, size, ...props} = this.props;
 
     if (!user) {
       return (
@@ -83,7 +88,8 @@ export default class Profile extends PureComponent {
               rgItemType: PopupMenu.ListProps.Type.LINK,
               label: translations.profile || 'Profile',
               target: '_self', // Full page reload in Angular
-              href: profileUrl
+              href: profileUrl,
+              LinkComponent
             },
             {
               rgItemType: PopupMenu.ListProps.Type.ITEM,
