@@ -3,7 +3,6 @@ import React, {PropTypes, PureComponent} from 'react';
 import Input from 'ring-ui/components/input/input';
 import List from 'ring-ui/components/list/list';
 import Markdown from 'ring-ui/components/markdown/markdown';
-import getUID from 'ring-ui/components/global/get-uid';
 import fuzzyHighlight from 'ring-ui/components/global/fuzzy-highlight';
 
 import Item from './item';
@@ -56,15 +55,6 @@ class Nav extends PureComponent {
     filter: ''
   }
 
-  shortcuts = {
-    map: {
-      up() {},
-      down() {},
-      enter() {}
-    },
-    scope: getUID('nav-')
-  }
-
   render() {
     const {categories} = this.props;
     const {filter} = this.state;
@@ -88,10 +78,8 @@ class Nav extends PureComponent {
 
     return (
       <div className={styles.sidebar}>
-        {/*<Shortcuts {...this.shortcuts} />*/}
         <Input
           className="ring-js-shortcuts"
-          shortcuts={true}
           autoFocus={true}
           placeholder="Search components"
           value={filter}

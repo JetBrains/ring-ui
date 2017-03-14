@@ -26,7 +26,12 @@ export default class Header extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     border: PropTypes.bool,
+    wrapWithTitle: PropTypes.bool,
     phase: PropTypes.number
+  };
+
+  static defaultProps = {
+    wrapWithTitle: true
   };
 
   style(name) {
@@ -34,7 +39,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const {children, className, border, phase, ...restProps} = this.props;
+    const {children, className, wrapWithTitle, border, phase, ...restProps} = this.props;
     const classes = classNames(styles.header, className, {
       [styles.withBottomBorder]: border || phase >= BORDER_APPEAR_PHASE
     });
@@ -60,12 +65,15 @@ export default class Header extends Component {
         className={classes}
         style={headerStyle}
       >
+        {wrapWithTitle &&
         <div
           className={styles.title}
           style={titleStyle}
         >
           {children}
-        </div>
+        </div>}
+
+        {!wrapWithTitle && children}
 
       </div>
     );

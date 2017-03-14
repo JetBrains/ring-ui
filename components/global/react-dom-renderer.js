@@ -8,13 +8,13 @@ export default class Renderer extends Component {
 
   componentDidMount() {
     const {nodes} = this.props;
-    if (!nodes) {
+    if (!nodes || !nodes.length) {
       return;
     }
     const componentNode = findDOMNode(this);
 
     const fragment = document.createDocumentFragment();
-    [].concat(nodes).forEach(nodeToRender => fragment.appendChild(nodeToRender));
+    nodes.forEach(nodeToRender => fragment.appendChild(nodeToRender));
 
     componentNode.parentNode.replaceChild(fragment, componentNode);
   }
