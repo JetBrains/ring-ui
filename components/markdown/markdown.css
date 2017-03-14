@@ -2,6 +2,7 @@
 
 /* override github-markdown */
 .markdown {
+  composes: global(markdown-body);
 
   & a:not(:hover) {
     color: link-color;

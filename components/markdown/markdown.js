@@ -54,8 +54,8 @@ _Various_ types of **highlighting**
 
 const Markdown = ({className, renderers, githubStyled, ...restProps}) => (
   <ReactMarkdown
-    className={classNames(styles.markdown, className, {
-      'markdown-body': githubStyled
+    className={classNames(className, {
+      [styles.markdown]: githubStyled
     })}
     renderers={{
       Link,
@@ -78,3 +78,5 @@ Markdown.defaultProps = {
 };
 
 export default Markdown;
+
+export {styles};
