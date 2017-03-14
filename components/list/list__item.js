@@ -118,7 +118,12 @@ export default class ListItem extends PureComponent {
           </div>
 
           <span className={styles.label}>{label}</span>
-          <span className={styles.description}>{description}</span>
+
+          {description && (
+            <span
+              className={styles.description}
+            >{description}</span>
+          )}
 
           <div className={styles.right}>
             {rightGlyph && (
