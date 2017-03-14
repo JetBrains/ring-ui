@@ -1,7 +1,7 @@
 /* global angular: false */
 
 import React, {PropTypes} from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
 import DomRenderer from './react-dom-renderer';
@@ -79,6 +79,10 @@ function createAngularComponent(Component, name) {
         return;
       }
       this.render();
+    }
+
+    $onDestroy() {
+      unmountComponentAtNode(this.$inject.$element[0]);
     }
 
     render() {
