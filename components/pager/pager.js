@@ -22,11 +22,11 @@ import style from './pager.css';
 
 export default class Pager extends PureComponent {
   static propTypes = {
-    totalItems: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
     currentPage: PropTypes.number,
     pageSize: PropTypes.number,
     pageSizes: PropTypes.arrayOf(PropTypes.number),
-    frameSize: PropTypes.number,
+    visiblePagesLimit: PropTypes.number,
     disablePageSizeSelector: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
     onPageSizeChange: PropTypes.func,
@@ -37,7 +37,7 @@ export default class Pager extends PureComponent {
     currentPage: 1,
     pageSize: 50,
     pageSizes: [20, 50, 100],
-    frameSize: 7,
+    visiblePagesLimit: 7,
     disablePageSizeSelector: false,
     onPageSizeChange: () => {}
   }
@@ -50,18 +50,18 @@ export default class Pager extends PureComponent {
   }
 
   render() {
-    const {totalItems, currentPage, frameSize, pageSize, onPageChange, onPageSizeChange, className} = this.props;
-    const totalPages = Math.ceil(totalItems / pageSize);
+    const {total, currentPage, pageSize, visiblePagesLimit, onPageChange, onPageSizeChange, className} = this.props;
+    const totalPages = Math.ceil(total / pageSize);
 
     let start;
     let end;
 
-    if (totalPages < frameSize + 6) {
+    if (totalPages < visiblePagesLimit + 6) {
       start = 1;
       end = totalPages;
     } else {
-      const leftHalfframeSize = Math.ceil(frameSize / 2) - 1;
-      const rightHalfframeSize = frameSize - leftHalfframeSize - 1;
+      const leftHalfframeSize = Math.ceil(visiblePagesLimit / 2) - 1;
+      const rightHalfframeSize = visiblePagesLimit - leftHalfframeSize - 1;
 
       start = currentPage - leftHalfframeSize;
       end = currentPage + rightHalfframeSize;
