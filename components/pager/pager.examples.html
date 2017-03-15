@@ -9,17 +9,18 @@
 
     class Example extends Component {
       state = {
-        total: 15,
-        current: 1
+        totalItems: 750,
+        currentPage: 1
       }
 
       render() {
-        const {total, current} = this.state;
+        const {totalItems, currentPage} = this.state;
         return (
           <Pager
-            total={total}
-            current={current}
-            onPageChange={page => this.setState({current: page})}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            disablePageSizeSelector={true}
+            onPageChange={currentPage => this.setState({currentPage})}
           />
         );
       }
@@ -40,18 +41,19 @@
 
     class Example extends Component {
       state = {
-        total: 15,
-        current: 1
+        totalItems: 750,
+        currentPage: 1
       }
 
       render() {
-        const {total, current} = this.state;
+        const {totalItems, currentPage} = this.state;
         return (
           <Pager
-            total={total}
-            current={current}
-            size={3}
-            onPageChange={page => this.setState({current: page})}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            frameSize={3}
+            disablePageSizeSelector={true}
+            onPageChange={currentPage => this.setState({currentPage})}
           />
         );
       }
@@ -72,18 +74,19 @@
 
     class Example extends Component {
       state = {
-        total: 5,
-        current: 1
+        totalItems: 250,
+        currentPage: 1
       }
 
       render() {
-        const {total, current} = this.state;
+        const {totalItems, currentPage} = this.state;
         return (
           <Pager
-            total={total}
-            current={current}
-            size={5}
-            onPageChange={page => this.setState({current: page})}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            frameSize={5}
+            disablePageSizeSelector={true}
+            onPageChange={currentPage => this.setState({currentPage})}
           />
         );
       }
@@ -104,18 +107,53 @@
 
     class Example extends Component {
       state = {
-        total: 8,
-        current: 1
+        totalItems: 400,
+        currentPage: 1
       }
 
       render() {
-        const {total, current} = this.state;
+        const {totalItems, currentPage} = this.state;
         return (
           <Pager
-            total={total}
-            current={current}
-            size={5}
-            onPageChange={page => this.setState({current: page})}
+            totalItems={totalItems}
+            currentPage={currentPage}
+            frameSize={5}
+            disablePageSizeSelector={true}
+            onPageChange={currentPage => this.setState({currentPage})}
+          />
+        );
+      }
+    }
+
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
+
+<example name="Pager with the page-size selector">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from './pager';
+
+    class Example extends Component {
+      state = {
+        totalItems: 300,
+        currentPage: 1,
+        pageSize: 50
+      }
+
+      render() {
+        const {totalItems, currentPage, pageSize} = this.state;
+        return (
+          <Pager
+            totalItems={totalItems}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            onPageChange={currentPage => this.setState({currentPage})}
+            onPageSizeChange={pageSize => this.setState({pageSize})}
           />
         );
       }
