@@ -29,7 +29,7 @@
   </file>
 </example>
 
-<example name="rgAdaptiveIsland">
+<example name="rgScrollableIsland">
   <file type="css">
     :global(.limited-island) {
       height: 200px;
@@ -38,15 +38,18 @@
     :global(.flex) {
       display: flex;
     }
+    :global(.content) {
+      overflow: auto;
+    }
   </file>
 
   <file type="html">
     <div ng-app="Example.island" ng-controller="ExampleCtrl as ctrl">
-      <rg-adaptive-island narrow="true" class-name="limited-island">
+      <rg-island narrow="true" class-name="limited-island">
         <rg-island-header class="flex" border="true">
           Title
         </rg-island-header>
-        <rg-island-content class="flex">
+        <rg-island-content class="flex content">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
@@ -54,7 +57,7 @@
           centuries, but also the leap into electronic typesetting, remaining
           essentially unchanged.
         </rg-island-content>
-      </rg-adaptive-island>
+      </rg-island>
     </div>
   </file>
 
