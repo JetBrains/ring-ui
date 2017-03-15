@@ -88,6 +88,11 @@ class Row extends PureComponent {
       [style.rowSelected]: selected
     });
 
+    const testAttrs = {
+      'data-test-focused': showFocus || undefined,
+      'data-test-selected': selected || undefined
+    };
+
     const metaColumnClasses = classNames(style.metaColumn, {
       [style.metaColumnSpaced]: selectable
     });
@@ -131,6 +136,7 @@ class Row extends PureComponent {
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
         data-test="ring-table-row"
+        {...testAttrs}
       >{cells}</tr>
     );
   }
