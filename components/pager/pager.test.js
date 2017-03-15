@@ -1,11 +1,13 @@
 import 'dom4';
+import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import Pager from './pager';
 
 describe('Pager', () => {
-  const props = {total: 2, current: 1, onPageChange: () => {}};
-  const renderComponent = params => renderIntoDocument(Pager.factory(Object.assign({}, props, params)));
+  const props = {totalItems: 100, currentPage: 1, onPageChange: () => {}};
+  const renderComponent = params => renderIntoDocument(<Pager {...{...props, ...params}}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Pager).should.be.true;
@@ -16,10 +18,10 @@ describe('Pager', () => {
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    findDOMNode(renderComponent()).should.match('div');
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 });
