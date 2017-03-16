@@ -1,4 +1,3 @@
-/* global angular: false */
 /**
  * @name Island Ng
  * @category Angular Components
@@ -6,7 +5,7 @@
  * @description Provides an Angular wrapper for Island.
  * @example-file ./island-ng.examples.html
  */
-
+/* global angular: false */
 import {createAngularComponent} from '../global/angular-component-factory';
 import Island, {AdaptiveIsland, Header, Content} from '../island/island';
 
