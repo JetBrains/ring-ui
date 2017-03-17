@@ -11,7 +11,7 @@ const Start = {
 
 const End = {
   FONT_SIZE: 13,
-  LINE_HEIGHT: 32,
+  LINE_HEIGHT: 28,
 
   // Compensation
   X: 0.4,

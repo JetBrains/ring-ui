@@ -3,7 +3,7 @@
     <div ng-app="Example.pager" ng-controller="ExampleCtrl as ctrl">
       <rg-pager
         total="ctrl.total"
-        current="ctrl.current"
+        current-page="ctrl.currentPage"
         on-page-change="ctrl.onPageChange"
       ></rg-pager>
     </div>
@@ -15,11 +15,11 @@
     const pagerModule = angular.module('Example.pager', [RingPager]);
 
     pagerModule.controller('ExampleCtrl', function () {
-      this.total = 15;
-      this.current = 1;
+      this.total = 750;
+      this.currentPage = 1;
 
       this.onPageChange = page => {
-        this.current = page;
+        this.currentPage = page;
       }
     });
   </file>

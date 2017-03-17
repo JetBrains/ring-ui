@@ -9,6 +9,10 @@
   & :global(.ring-form__group:last-child) {
     margin-bottom: 0;
   }
+
+  & :global(.ring-form) {
+    width: 100%;
+  }
 }
 
 .wide {
@@ -36,6 +40,10 @@
 .inSidebar .header {
   cursor: text;
   user-select: text;
+}
+
+.inSidebar :global(.ring-form) {
+  width: initial;
 }
 
 .scrollableWrapper {

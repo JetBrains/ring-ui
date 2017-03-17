@@ -1,23 +1,19 @@
 import 'dom4';
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument} from 'react-addons-test-utils';
+import {renderIntoDocument, findRenderedComponentWithType} from 'react-addons-test-utils';
 
 import Markdown from './markdown';
+import Code from '../code/code';
+import Link from '../link/link';
 
 describe('Markdown', () => {
-  class Wrapper extends PureComponent {
-    render() {
-      return (
-        <Markdown
-          source=""
-          {...this.props}
-        />
-      );
-    }
-  }
-
-  const renderComponent = props => renderIntoDocument(<Wrapper {...props} />);
+  const renderComponent = props => renderIntoDocument(
+    <Markdown
+      source=""
+      {...props}
+    />
+  );
 
   it('should wrap children with div', () => {
     findDOMNode(renderComponent()).should.match('div');
@@ -27,5 +23,24 @@ describe('Markdown', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
-  // TODO Add more tests
+  it('should convert links to ring Links', () => {
+    const component = renderComponent({source: '[link](/)'});
+    findRenderedComponentWithType(component, Link).should.exist;
+  });
+
+  it('should convert inline code to ring Code', () => {
+    const component = renderComponent({source: '`some(code)`'});
+    findRenderedComponentWithType(component, Code).should.exist;
+  });
+
+  it('should convert block code to ring Code', () => {
+    const component = renderComponent({
+      source: `
+        \`\`\`
+        some(code)
+        \`\`\`
+      `
+    });
+    findRenderedComponentWithType(component, Code).should.exist;
+  });
 });
