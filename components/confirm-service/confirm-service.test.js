@@ -1,6 +1,6 @@
 import TestUtils from 'react-addons-test-utils';
 import confirm, {hideConfirm} from './confirm-service';
-import styles from '../confirm/confirm.css';
+import islandStyles from '../island/island.css';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');
@@ -9,7 +9,7 @@ describe('Confirm Service', () => {
 
   it('should show confirm', () => {
     confirm({text: 'foo'});
-    getContainer().should.contain(`.${styles.text}`);
+    getContainer().should.contain(`.${islandStyles.title}`);
   });
 
   it('should show confirm text', () => {
@@ -34,7 +34,7 @@ describe('Confirm Service', () => {
 
   it('should resolve on confirm', async () => {
     const spy = sinon.spy();
-    const promise = confirm('foo').then(spy);
+    const promise = confirm({text: 'foo'}).then(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-ok-button"]');
     TestUtils.Simulate.click(okButton);
 
@@ -44,7 +44,7 @@ describe('Confirm Service', () => {
 
   it('should reject on reject', async () => {
     const spy = sinon.spy();
-    const promise = confirm('foo').catch(spy);
+    const promise = confirm({text: 'foo'}).catch(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-reject-button"]');
     TestUtils.Simulate.click(okButton);
 

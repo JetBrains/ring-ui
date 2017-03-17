@@ -29,10 +29,9 @@
         caption: undefined,
         selectable: true,
         draggable: true,
-        total,
         page: 1,
         pageSize,
-        pageTotal: Math.ceil(total / pageSize),
+        total,
         sortKey: 'country',
         sortOrder: true,
         loading: false
@@ -96,7 +95,7 @@
       }
 
       render() {
-        const {data, caption, selectable, draggable, loading, page, pageTotal, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
@@ -118,7 +117,13 @@
             <Grid>
               <Row>
                 <Col>
-                  <Pager total={pageTotal} current={page} onPageChange={this.onPageChange} />
+                  <Pager
+                    total={total}
+                    pageSize={pageSize}
+                    currentPage={page}
+                    disablePageSizeSelector={true}
+                    onPageChange={this.onPageChange}
+                  />
                 </Col>
               </Row>
 
