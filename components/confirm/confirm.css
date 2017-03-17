@@ -1,11 +1,5 @@
 @value unit, font-size from '../global/global.css';
 
-.text {
-  font-size: 19px;
-  line-height: 28px;
-  padding-top: unit;
-}
-
 .description {
   margin-top: unit;
   font-size: font-size;

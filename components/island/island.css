@@ -21,7 +21,7 @@
 
 .header {
   composes: withTransparentBottomBorder;
-  line-height: calc(unit*4);
+  line-height: 28px;
   padding: 0 calc(unit*4);
   box-sizing: border-box;
   width: 100%;
@@ -46,6 +46,7 @@
 
 .content {
   display: flex;
+  width: 100%;
   position: relative;
   overflow: auto;
 }

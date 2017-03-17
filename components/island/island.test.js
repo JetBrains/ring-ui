@@ -4,6 +4,8 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-tes
 import React from 'react';
 import Island, {AdaptiveIsland, Content, Header} from './island';
 
+const LINE_HEIGHT = '28px';
+
 describe('Island', () => {
   const renderComponent = params => renderIntoDocument(<Island {...params}/>);
 
@@ -33,7 +35,7 @@ describe('Island', () => {
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
 
       instance.onContentScroll({scrollTop: 10});
-      headerNode.style.lineHeight.should.equal('30px');
+      headerNode.style.lineHeight.should.equal(LINE_HEIGHT);
     });
   });
 
@@ -45,7 +47,7 @@ describe('Island', () => {
     it('should change header size', () => {
       const phase = 0.75;
       const node = findDOMNode(renderIntoDocument(<Header phase={phase}/>));
-      node.style.lineHeight.should.equal('31px');
+      node.style.lineHeight.should.equal(LINE_HEIGHT);
     });
   });
 });
