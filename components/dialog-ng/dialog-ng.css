@@ -42,6 +42,10 @@
   user-select: text;
 }
 
+.inSidebar :global(.ring-form) {
+  width: initial;
+}
+
 .scrollableWrapper {
   && {
     overflow: visible;
