@@ -22,6 +22,9 @@ export default function adaptiveIslandHOC(ComposedComponent) {
 
     addResizingProps(children) {
       return Children.map(children, child => {
+        if (!child) {
+          return child;
+        }
         let props;
         const {phase} = this.state;
 
