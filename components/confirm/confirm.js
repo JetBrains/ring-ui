@@ -60,7 +60,7 @@ export default class Confirm extends RingComponent {
         onEscPress={this.onEscPress}
         show={show}
       >
-        <Header>{text}</Header>
+        {text && <Header>{text}</Header>}
         <Content>
           {description && <div className={styles.description}>{description}</div>}
         </Content>
