@@ -285,45 +285,46 @@ class Table extends PureComponent {
     const {selection, columns, caption, getRowKey, selectable, draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
 
-    // NOTE: not construct new object per render because it causes all rows rerendering
+    // NOTE: Do not construct new object per render because it causes all rows rerendering
     // const columns = this.props.columns.filter(column => !column.subtree);
 
-    /*const subtreeKey = do {
+    const subtreeColumnKey = do {
       const subtreeColumn = this.props.columns.find(column => column.subtree);
       if (subtreeColumn) {
         subtreeColumn.id;
       }
     };
 
-    function flattenSubtree(item, subtreeKey, level) { // eslint-disable-line no-shadow
+    function flattenSubtree(item, subtreeColumnKey, level) {  // eslint-disable-line no-shadow
       const result = [];
-      if (item[subtreeKey]) {
-        item[subtreeKey].forEach(subItem => {
+      if (item[subtreeColumnKey]) {
+        item[subtreeColumnKey].forEach(subItem => {
           subItem.__level = level;
           result.push(subItem);
-          const subtree = flattenSubtree(subItem, subtreeKey, level + 1);
+          const subtree = flattenSubtree(subItem, subtreeColumnKey, level + 1);
           subtree.forEach(subitem => {
             result.push(subitem);
           });
         });
+        //Reflect.deleteProperty(item, subtreeColumnKey);
       }
       return result;
-    }*/
+    }
 
     const data = [];
     this.props.data.forEach(item => {
-      //item.__level = 0;
+      item.__level = 0;
       data.push(item);
-      /*if (subtreeKey) {
-        const subtree = flattenSubtree(item, subtreeKey, 1);
+      if (subtreeColumnKey) {
+        const subtree = flattenSubtree(item, subtreeColumnKey, 1);
         subtree.forEach(subitem => {
           data.push(subitem);
         });
-      }*/
+      }
     });
 
     const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
-    headerProps.checked = selection.getSelected().size === data.length;
+    headerProps.checked = data.length > 0 && data.length === selection.getSelected().size;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
