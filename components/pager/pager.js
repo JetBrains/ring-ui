@@ -10,44 +10,61 @@
 /* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
 
-import React, {PropTypes} from 'react';
-import RingComponent from '../ring-component/ring-component';
+import React, {PureComponent, PropTypes} from 'react';
 import Button from '../button-legacy/button-legacy';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
+import Select from '../select/select';
 import classNames from 'classnames';
 
 import '../link/link.scss';
 import style from './pager.css';
 
-export default class Pager extends RingComponent {
+export default class Pager extends PureComponent {
   static propTypes = {
     total: PropTypes.number.isRequired,
-    current: PropTypes.number.isRequired,
-    size: PropTypes.number,
+    currentPage: PropTypes.number,
+    pageSize: PropTypes.number,
+    pageSizes: PropTypes.arrayOf(PropTypes.number),
+    visiblePagesLimit: PropTypes.number,
+    disablePageSizeSelector: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
+    onPageSizeChange: PropTypes.func,
     className: PropTypes.string
   }
 
   static defaultProps = {
-    size: 7
+    currentPage: 1,
+    pageSize: 50,
+    pageSizes: [20, 50, 100],
+    visiblePagesLimit: 7,
+    disablePageSizeSelector: false,
+    onPageSizeChange: () => {}
+  }
+
+  getSelectOptions() {
+    const {pageSize, pageSizes} = this.props;
+    const data = pageSizes.map(size => ({key: size, label: `${size} per page`}));
+    const selected = data.find(it => it.key === pageSize);
+    return {selected, data};
   }
 
   render() {
-    const {total, current, size, onPageChange, className} = this.props;
+    const {total, currentPage, pageSize, visiblePagesLimit, onPageChange, onPageSizeChange, className} = this.props;
+    const totalPages = Math.ceil(total / pageSize);
 
     let start;
     let end;
 
-    if (total < size + 6) {
+    if (totalPages < visiblePagesLimit + 6) {
       start = 1;
-      end = total;
+      end = totalPages;
     } else {
-      const leftHalfframeSize = Math.ceil(size / 2) - 1;
-      const rightHalfframeSize = size - leftHalfframeSize - 1;
+      const leftHalfframeSize = Math.ceil(visiblePagesLimit / 2) - 1;
+      const rightHalfframeSize = visiblePagesLimit - leftHalfframeSize - 1;
 
-      start = current - leftHalfframeSize;
-      end = current + rightHalfframeSize;
+      start = currentPage - leftHalfframeSize;
+      end = currentPage + rightHalfframeSize;
 
       if (start < 1) {
         const tail = 1 - start;
@@ -55,8 +72,8 @@ export default class Pager extends RingComponent {
         end += tail;
       }
 
-      if (end > total) {
-        const tail = end - total;
+      if (end > totalPages) {
+        const tail = end - totalPages;
         start -= tail;
         end -= tail;
       }
@@ -67,33 +84,35 @@ export default class Pager extends RingComponent {
       }
     }
 
+    const selectOptions = this.getSelectOptions();
+
     const classes = classNames(style.pager, className);
 
     const prevLinkClasses = classNames({
-      'ring-link': current !== 1,
+      'ring-link': currentPage !== 1,
       [style.link]: true,
-      [style.linkDisabled]: current === 1
+      [style.linkDisabled]: currentPage === 1
     });
 
     const nextLinkClasses = classNames({
-      'ring-link': current !== total,
+      'ring-link': currentPage !== totalPages,
       [style.link]: true,
-      [style.linkDisabled]: current === total
+      [style.linkDisabled]: currentPage === totalPages
     });
 
     return (
       do {
-        if (total > 1) {
+        if (totalPages > 1) {
           <div className={classes}>
             <div className={style.links}>
               <span
                 className={prevLinkClasses}
-                onClick={() => current !== 1 && onPageChange(current - 1)}
+                onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
               >← previous</span>
 
               <span
                 className={nextLinkClasses}
-                onClick={() => current !== total && onPageChange(current + 1)}
+                onClick={() => currentPage !== totalPages && onPageChange(currentPage + 1)}
               >next page →</span>
             </div>
 
@@ -118,7 +137,7 @@ export default class Pager extends RingComponent {
                       const button = (
                         <Button
                           key={i}
-                          active={i === current}
+                          active={i === currentPage}
                           onClick={() => onPageChange(i)}
                         >{i}</Button>
                       );
@@ -129,19 +148,31 @@ export default class Pager extends RingComponent {
                   }
                 }
 
-                {end < total ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
+                {end < totalPages ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
               </ButtonGroup>
 
               {
                 do {
-                  if (end < total) {
+                  if (end < totalPages) {
                     <ButtonGroup>
-                      <Button onClick={() => onPageChange(total)}>Last page</Button>
+                      <Button onClick={() => onPageChange(totalPages)}>Last page</Button>
                     </ButtonGroup>;
                   }
                 }
               }
             </ButtonToolbar>
+
+            {
+              !this.props.disablePageSizeSelector
+              ? <div style={{float: 'right'}}>
+                  <Select
+                    data={selectOptions.data}
+                    selected={selectOptions.selected}
+                    onSelect={item => onPageSizeChange(item.key)}
+                  />
+                </div>
+              : ''
+            }
           </div>;
         } else {
           null;

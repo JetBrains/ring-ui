@@ -1,8 +1,10 @@
-import React, {PropTypes} from 'react';
+import React, {PureComponent, PropTypes} from 'react';
 import highlight from 'highlight.js';
-import jsBeautify from 'js-beautify';
 
 import 'highlight.js/styles/github.css';
+
+import normalizeIndent from '../global/normalize-indent';
+import trivialTemplateTag from '../global/trivial-template-tag';
 
 /**
  * @name Code
@@ -10,77 +12,37 @@ import 'highlight.js/styles/github.css';
  * @framework React
  * @constructor
  * @description Shows code block. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.
- * @example
-   <example name="code">
-     <file name="index.html">
-       <div id="code"></div>
-     </file>
-
-     <file name="index.js">
-       import React from 'react';
-       import {render} from 'react-dom';
-
-       import Code from 'ring-ui/components/code/code';
-
-       const container = document.getElementById('code');
-       const demo = (
-         <Code
-           code={`import React from 'react';
-
-import Code from 'ring-ui/components/code/code';
-
-const code = <Code code="some('js');" />;`}
-         />
-       );
-
-       render(demo, container);
-     </file>
-   </example>
+ * @example-file ./code.examples.html
  */
 
-const Languages = {
-  JS: 'js',
-  HTML: 'html',
-  CSS: 'css',
-  SCSS: 'scss'
-};
+export default class Code extends PureComponent {
+  static propTypes = {
+    code: PropTypes.string.isRequired,
+    inline: PropTypes.bool,
+    className: PropTypes.string
+  };
 
-function highlightEl(el) {
-  highlight.highlightBlock(el);
+  static defaultProps = {
+    inline: false
+  };
+
+  highlightEl = el => {
+    highlight.highlightBlock(el);
+  }
+
+  render() {
+    const {code, className, inline} = this.props;
+
+    const Tag = inline ? 'span' : 'pre';
+
+    return (
+      <Tag className={className}>
+        <code ref={this.highlightEl}>{normalizeIndent(code)}</code>
+      </Tag>
+    );
+  }
 }
 
-const Code = ({code, className, language, beautify, beautifyOptions}) => {
-  const options = {
-    ...Code.defaultProps.beautifyOptions,
-    ...beautifyOptions
-  };
-  const beautifier = beautify && jsBeautify[language];
-  const beautified = beautifier ? beautifier(code, options) : code;
+const code = trivialTemplateTag(source => <Code code={source}/>);
 
-  return (
-    <pre className={className}>
-      <code ref={highlightEl}>{beautified}</code>
-    </pre>
-  );
-};
-
-Code.Languages = Languages;
-
-Code.propTypes = {
-  language: PropTypes.string,
-  code: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  beautify: PropTypes.bool,
-  beautifyOptions: PropTypes.object
-};
-
-Code.defaultProps = {
-  language: Languages.js,
-  beautify: false,
-  beautifyOptions: {
-    e4x: true, // support JSX
-    indent_size: 2 // eslint-disable-line camelcase
-  }
-};
-
-export default Code;
+export {code};

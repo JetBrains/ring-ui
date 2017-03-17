@@ -1,23 +1,17 @@
 import 'dom4';
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument} from 'react-addons-test-utils';
 
 import Code from './code';
 
 describe('Code', () => {
-  class Wrapper extends PureComponent {
-    render() {
-      return (
-        <Code
-          code=""
-          {...this.props}
-        />
-      );
-    }
-  }
-
-  const renderComponent = props => renderIntoDocument(<Wrapper {...props} />);
+  const renderComponent = props => renderIntoDocument(
+    <Code
+      code=""
+      {...props}
+    />
+  );
 
   it('should wrap children with pre', () => {
     findDOMNode(renderComponent()).should.match('pre');
@@ -27,5 +21,43 @@ describe('Code', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
-  // TODO Add more tests
+  it('should highlight javascript/JSX', () => {
+    const node = findDOMNode(renderComponent({
+      code: `
+        import React, {Component} from 'react';
+        import ChildComponent from './child-component';
+        
+        const MyComponent = () => (
+          <div className="class">
+            <ChildComponent prop="value" />
+          </div>
+        );
+      `
+    }));
+    node.should.contain('.javascript');
+    node.should.contain('.xml');
+  });
+
+  it('should highlight CSS', () => {
+    const node = findDOMNode(renderComponent({
+      code: `
+        .className {
+          display: inline-block;
+          font-size: 18px;
+        }
+      `
+    }));
+    node.should.contain('.css');
+  });
+
+  it('should highlight HTML', () => {
+    const node = findDOMNode(renderComponent({
+      code: `
+        <body>
+          <div id="app"></div>
+        </body>
+      `
+    }));
+    node.should.contain('.xml');
+  });
 });

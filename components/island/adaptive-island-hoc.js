@@ -9,7 +9,7 @@ const TITLE_RESIZE_END = 20;
 export default function adaptiveIslandHOC(ComposedComponent) {
 
   return class AdaptiveIsland extends Component {
-    static propTypes = {...ComposedComponent.propTypes};
+    static propTypes = ComposedComponent.propTypes;
 
     state = {
       phase: 0
@@ -22,6 +22,9 @@ export default function adaptiveIslandHOC(ComposedComponent) {
 
     addResizingProps(children) {
       return Children.map(children, child => {
+        if (!child) {
+          return child;
+        }
         let props;
         const {phase} = this.state;
 

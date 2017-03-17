@@ -1,7 +1,7 @@
 import React, {PureComponent, PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
-import {Content} from '../island/island';
+import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 import styles from './confirm.css';
 
@@ -60,8 +60,8 @@ export default class Confirm extends PureComponent {
         onEscPress={this.onEscPress}
         show={show}
       >
+        {text && <Header>{text}</Header>}
         <Content>
-          <div className={styles.text}>{text}</div>
           {description && <div className={styles.description}>{description}</div>}
         </Content>
         <Panel>
