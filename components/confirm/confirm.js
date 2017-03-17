@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 import RingComponent from '../ring-component/ring-component';
-import {Content} from '../island/island';
+import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
 import styles from './confirm.css';
 
@@ -60,8 +60,8 @@ export default class Confirm extends RingComponent {
         onEscPress={this.onEscPress}
         show={show}
       >
+        <Header>{text}</Header>
         <Content>
-          <div className={styles.text}>{text}</div>
           {description && <div className={styles.description}>{description}</div>}
         </Content>
         <Panel>
