@@ -1,0 +1,50 @@
+<example name="Code">
+  <file name="index.html">
+    <div id="code"></div>
+  </file>
+
+  <file name="index.js">
+    import React from 'react';
+    import {render} from 'react-dom';
+
+    import Code from 'ring-ui/components/code/code';
+
+    const container = document.getElementById('code');
+    const demo = (
+      <Code
+        code={`
+          import React from 'react';
+          import Code from 'ring-ui/components/code/code';
+
+          const code = <Code code="some('js');" />;
+        `}
+      />
+    );
+
+    render(demo, container);
+  </file>
+</example>
+
+<example name="Code tagged template">
+  <file name="index.html">
+    <div id="code"></div>
+  </file>
+
+  <file name="index.js">
+    import React from 'react';
+    import {render} from 'react-dom';
+
+    import {code} from 'ring-ui/components/code/code';
+
+    const container = document.getElementById('code');
+    const demo = code`
+      import React from 'react';
+      import {code} from 'ring-ui/components/code/code';
+
+      const el = code\`some('js')\`;
+    `;
+
+    render(demo, container);
+  </file>
+</example>
+

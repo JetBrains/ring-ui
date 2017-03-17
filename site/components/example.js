@@ -5,13 +5,6 @@ import Code from 'ring-ui/components/code/code';
 
 import Iframe from './iframe';
 
-const LangMap = {
-  js: Code.Languages.JS,
-  html: Code.Languages.HTML,
-  css: Code.Languages.CSS,
-  scss: Code.Languages.CSS
-};
-
 function Example({name, url, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
   return (
@@ -22,10 +15,8 @@ function Example({name, url, files}) {
       }
       {files.map(({showCode, content, type}) => showCode && (
         <Code
-          language={LangMap[type]}
           code={content}
           key={type}
-          beautify={true}
         />
       ))}
     </div>
