@@ -406,15 +406,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   requestStyleRanges = () => {
-    if (!this.immediateState.query) {
+    const {query, caret} = this.immediateState;
+
+    if (!query) {
       return Promise.reject(new Error('Query is empty'));
     }
 
-    return this.sendRequest({
-      query: this.immediateState.query,
-      caret: this.immediateState.caret,
-      omitSuggestions: true
-    }).
+    return this.sendRequest({query, caret, omitSuggestions: true}).
       then(this.handleStyleRangesResponse).
       catch(noop);
   }
@@ -424,7 +422,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return Promise.reject();
     }
 
-    return this.sendRequest(this.immediateState).
+    const {query, caret} = this.immediateState;
+
+    return this.sendRequest({query, caret}).
       then(this.handleResponse).
       catch(noop);
   }
