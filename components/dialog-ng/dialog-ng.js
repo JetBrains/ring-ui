@@ -512,11 +512,21 @@ function rgDialogContentDirective($compile, $q) {
       }
 
       function destroy() {
+        function cleanupElement(_element) {
+          while (_element.childNodes.length) {
+
+            // XXX(maksimrv): We should use jQuery.remove method because
+            // AngularJS intercepts all jqLite/jQuery's DOM destruction apis and fires $destroy event
+            // on all DOM nodes being removed.
+            // This can be used to clean up bindings to the DOM
+            // element before it is removed.
+            angular.element(_element.childNodes[0]).remove();
+          }
+        }
+
         if (contentScope) {
           contentScope.$destroy();
-          while (element.childNodes.length) {
-            element.removeChild(element.childNodes[0]);
-          }
+          cleanupElement(element);
         }
       }
 
