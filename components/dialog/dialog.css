@@ -18,7 +18,7 @@
   background-color: rgba(255, 255, 255, 0.4);
 }
 
-.content.content {
+.content {
   width: calc(unit * 58);
   min-height: calc(unit * 15);
   overflow-wrap: break-word;
@@ -26,7 +26,9 @@
   max-height: calc(100% - calc(unit * 8 + 2px));
   margin: calc(unit * 4) 0;
 
-  box-shadow: 0 2px 16px rgba(0, 42, 76, 0.15);
+  &.content {
+    box-shadow: 0 2px 16px rgba(0, 42, 76, 0.15);
+  }
 
   & :global(.ring-panel) {
     margin-top: 0;
