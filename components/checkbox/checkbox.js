@@ -59,7 +59,10 @@ export default class Checkbox extends PureComponent {
     );
 
     return (
-      <label className="ring-checkbox">
+      <label
+        className="ring-checkbox"
+        data-test="ring-checkbox"
+      >
         <span className="ring-checkbox__input-wrapper">
           <input
             {...restProps}
