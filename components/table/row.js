@@ -118,7 +118,7 @@ class Row extends PureComponent {
       </Cell>
     ];
 
-    columns.filter(column => !column.subtree).map((column, key) => {
+    columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
 
