@@ -103,6 +103,10 @@ class DialogController extends RingAngularComponent {
     this.title = title;
   }
 
+  setCustomFooter(iElem) {
+    this.customFooter = iElem;
+  }
+
   compileTemplate() {
     if (this.config.data) {
       const element = angular.element(this.template);
@@ -429,7 +433,14 @@ function rgDialogDirective($timeout) {
 
     dialogHeader.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
-    scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
+    scope.$on('rgDialogContentLoaded', () => $timeout(function() {
+      focusFirst();
+      if (dialogCtrl.customFooter) {
+        const dialogCustomFooter = node.querySelector('*[data-anchor=dialog-custom-footer-container]');
+        dialogCustomFooter.innerHTML = '';
+        angular.element(dialogCustomFooter).append(dialogCtrl.customFooter);
+      }
+    }));
 
     // Backward compatibility for youtrack (if they are using "content" property)
     // which is actually ng-inlude with $includeContentLoaded event in the end
@@ -468,6 +479,20 @@ function rgDialogTitleDirective() {
       title: '@rgDialogTitle'
     },
     require: '^rgDialog',
+    link
+  };
+}
+
+function rgDialogFooterDirective() {
+  function link(scope, iElement, iAttrs, dialogCtrl, transclude) {
+    transclude(scope, clone => {
+      dialogCtrl.setCustomFooter(clone);
+    });
+  }
+
+  return {
+    require: '^rgDialog',
+    transclude: true,
     link
   };
 }
@@ -542,6 +567,7 @@ function rgDialogContentDirective($compile, $q) {
 
 angularModule.directive('rgDialog', rgDialogDirective);
 angularModule.directive('rgDialogTitle', rgDialogTitleDirective);
+angularModule.directive('rgDialogFooter', rgDialogFooterDirective);
 angularModule.directive('rgDialogContent', rgDialogContentDirective);
 angularModule.service('dialog', DialogService);
 angularModule.service('dialogInSidebar', DialogInSidebarService);
