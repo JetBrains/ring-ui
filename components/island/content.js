@@ -33,6 +33,9 @@ export default class Content extends Component {
   }
 
   setWrapper = node => {
+    if (!node) {
+      return;
+    }
     this.wrapperNode = node;
     resizeDetector.listenTo(node, this.calculateScrollPosition);
   }
@@ -55,6 +58,9 @@ export default class Content extends Component {
   }
 
   setScrollableNodeAndCalculatePosition = node => {
+    if (!node) {
+      return;
+    }
     this.scrollableNode = node;
     this.calculateScrollPosition();
   }
