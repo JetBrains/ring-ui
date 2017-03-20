@@ -26,7 +26,7 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 const DraggableRows = sortableContainer(props => {
-  const {data, getRowKey, selection, selectable, onRowFocus, onRowSelect, ...restProps} = props;
+  const {data, getRowKey, selection, selectable, isItemSelectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
     <tbody data-test="ring-table-body">
     {data.map((item, index) => (
@@ -37,7 +37,7 @@ const DraggableRows = sortableContainer(props => {
         showFocus={selection.isFocused(item)}
         focused={selection.isFocused(item)}
         selected={selectable && selection.isSelected(item)}
-        selectable={selectable}
+        selectable={selectable && isItemSelectable(item)}
         onFocus={onRowFocus}
         onSelect={onRowSelect}
         {...restProps}
@@ -56,6 +56,7 @@ class Table extends PureComponent {
     selection: PropTypes.instanceOf(Selection).isRequired,
     caption: PropTypes.string,
     selectable: PropTypes.bool,
+    isItemSelectable: PropTypes.func,
     focused: PropTypes.bool,
     stickyHeader: PropTypes.bool,
     stickyHeaderOffset: PropTypes.string,
@@ -74,6 +75,7 @@ class Table extends PureComponent {
 
   static defaultProps = {
     selectable: true,
+    isItemSelectable: () => true,
     focused: false,
     loading: false,
     onFocusRestore: () => {},
@@ -282,7 +284,9 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {selection, columns, caption, getRowKey, selectable, draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
+    const {selection, columns, caption, getRowKey, selectable, isItemSelectable} = this.props;
+    const {draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder} = this.props;
+    const {loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -360,6 +364,7 @@ class Table extends PureComponent {
             data={data}
             columns={columns}
             selectable={selectable}
+            isItemSelectable={isItemSelectable}
             selection={selection}
             onRowFocus={this.onRowFocus}
             onRowSelect={this.onRowSelect}
