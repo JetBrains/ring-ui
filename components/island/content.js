@@ -87,9 +87,11 @@ export default class Content extends Component {
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.onScroll : noop}
         >
-          <div ref={this.setWrapper}>
+          {fade && <div ref={this.setWrapper}>
             {children}
-          </div>
+          </div>}
+
+          {!fade && children}
         </div>
       </div>
     );
