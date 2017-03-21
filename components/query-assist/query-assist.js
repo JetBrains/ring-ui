@@ -38,40 +38,40 @@ function cleanText(text) {
  *
  ## Component params
 
- __autoOpen__ `bool=false` Open suggestions popup on the initial render\
+ __autoOpen__ `bool=false` Open suggestions popup during the initial render\
  __caret__ `number=query.length` Initial caret position\
- __clear__ `bool=false` Show clickable looking cross on the right which clears query\
- __className__ `string=''` Additional class for component\
- __popupClassName__ `string=''` Pass additional class for popup\
+ __clear__ `bool=false` Show clickable "cross" icon on the right which clears the query\
+ __className__ `string=''` Additional class for the component\
+ __popupClassName__ `string=''` Additional class for the popup\
  __dataSource__ `func` Data source function\
  __delay__ `number=0` Input debounce delay\
- __disabled__ `bool=false` Disable component\
+ __disabled__ `bool=false` Disable the component\
  __focus__ `bool=false` Initial focus\
  __hint__ `string=''` Hint under the suggestions list\
- __hintOnSelection__ `string=''` Hint under the suggestions list visible when suggestion is selected\
- __glass__ `bool=false` Show clickable looking glass on the right which applies query\
- __loader__ `bool=false` Show loader when data source request is in process\
+ __hintOnSelection__ `string=''` Hint under the suggestions list visible when a suggestion is selected\
+ __glass__ `bool=false` Show clickable "glass" icon on the right which applies the query\
+ __loader__ `bool=false` Show loader when a data request is in process\
  __placeholder__ `string=''` Field placeholder value\
- __onApply__ `func=` Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as argument\
- __onChange__ `func=`  Called when the query is changed. An object with fields `caret` and `query` is passed to it as argument\
+ __onApply__ `func=` Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument\
+ __onChange__ `func=`  Called when the query is changed. An object with fields `caret` and `query` is passed as an argument\
  __onClear__ `func=` Called when the query is cleared. Called without arguments\
- __onFocusChange__ `func` Called when the focus status is changed. An object with fields `focus` is passed as argument\
+ __onFocusChange__ `func` Called when the focus status is changed. An object with fields `focus` is passed as an argument\
  __shortcuts__ `bool=true` Enable shortcut\
  __query__ `string=''` Initial query
 
  ## Data source function
 
- Component class calls a data source function when user input happens and passes object with fields `caret`, `focus` and `query` as the only argument.
- The function must return object with fields described below. The object can be optionally wrapped in Promise.
+ Component class calls a data source function when user input happens and passes an object with fields `caret`, `focus` and `query` as the only argument.
+ The function must return an object with the fields described below. The object can be optionally wrapped in a Promise.
 
  ### return object fields
 
  `caret` and `query` should just return server values provided to data source function.
- These fields allow the Query Assist component to recognise and drop earlier responds from server, if responds took longer than the most recent ones.
+ These fields allow the Query Assist component to recognise and drop earlier responses from the server.
 
  __caret__ (`string=0`) Caret from request\
  __query__ (`string=''`) Query from request\
- __styleRanges__ (`Array<suggestion>=`) Array of `styleRange` objects, used to highlight request in input field\
+ __styleRanges__ (`Array<suggestion>=`) Array of `styleRange` objects, used to highlight the request in the input field\
  __suggestions__ (`Array<styleRange>`) Array of `suggestion` objects to show.
 
  ### `styleRange` object fields
@@ -86,11 +86,11 @@ function cleanText(text) {
  __option__ `string` Suggestion option\
  __suffix__ `string=` Suggestion option suffix\
  __description__ `string=` Suggestion option description. Is not visible when a group is set\
- __matchingStart__ `number` (required when matchingEnd is set) Start of highlighted part of option in suggestions list (in characters)\
- __matchingEnd__ `number` (required when matchingEnd is set) End of highlighted part of option in suggestions list (in characters)\
- __caret__ `number` Position of caret after option completion (in characters)\
- __completionStart__ `number` Index where to start insertion (or replacement, when completing with the `Tab` key) of completion option (in characters)\
- __completionEnd__ `number` Index where to end replacement of completion option (in characters)\
+ __matchingStart__ `number` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)\
+ __matchingEnd__ `number` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)\
+ __caret__ `number` Caret position after option completion (in characters)\
+ __completionStart__ `number` Where to start insertion (or replacement, when completing with the `Tab` key) of the completion option (in characters)\
+ __completionEnd__ `number` Where to end insertion of the completion option (in characters)\
  __group__ `string=` Group title. Options with the same title are grouped under it\
  __icon__ `string=` Icon URI, Data URI is possible
 
