@@ -29,6 +29,9 @@ export default class Content extends Component {
   }
 
   componentWillUnmount() {
+    if (!this.wrapperNode) {
+      return;
+    }
     resizeDetector.removeAllListeners(this.wrapperNode);
   }
 
