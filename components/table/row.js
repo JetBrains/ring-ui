@@ -96,8 +96,15 @@ class Row extends PureComponent {
       [style.metaColumnSpaced]: selectable
     });
 
+    const SUBITEM_OFFSET = 10;
+    const gap = item.__level * SUBITEM_OFFSET;
+
+    const inlineStyle = {
+      paddingLeft: `${gap + 32}px` // eslint-disable-line no-magic-numbers
+    };
+
     const cells = [
-      <Cell key="meta" className={metaColumnClasses}>
+      <Cell key="meta" className={metaColumnClasses} style={inlineStyle}>
         {draggable && <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>}
         {selectable &&
         <Checkbox
@@ -113,15 +120,6 @@ class Row extends PureComponent {
     columns.map((column, key) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
-
-      /*let gap = 0;
-      if (column.groupable) {
-        gap = item.__level * 10;
-      }
-
-      const style = {
-        paddingLeft: `${gap + 10}px`
-      };*/
 
       const cellClasses = classNames({[style.cellRight]: column.rightAlign});
       cells.push(<Cell key={key} className={cellClasses}>{value}</Cell>);

@@ -2,9 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import classNames from 'classnames';
 import throttle from 'mout/function/throttle';
 import styles from './island.css';
+import createResizeDetector from 'element-resize-detector';
 
 const noop = () => {};
 const FADE_SHOW_TROTTLING = 50;
+const resizeDetector = createResizeDetector();
 
 export default class Content extends Component {
   static propTypes = {
@@ -26,7 +28,23 @@ export default class Content extends Component {
     scrolledToBottom: false
   }
 
-  calculateScrollPosition = throttle(scrollableNode => {
+  componentWillUnmount() {
+    if (!this.wrapperNode) {
+      return;
+    }
+    resizeDetector.removeAllListeners(this.wrapperNode);
+  }
+
+  setWrapper = node => {
+    if (!node) {
+      return;
+    }
+    this.wrapperNode = node;
+    resizeDetector.listenTo(node, this.calculateScrollPosition);
+  }
+
+  calculateScrollPosition = throttle(() => {
+    const {scrollableNode} = this;
     if (!scrollableNode) {
       return;
     }
@@ -36,10 +54,18 @@ export default class Content extends Component {
     this.setState({scrolledToTop, scrolledToBottom});
   }, FADE_SHOW_TROTTLING)
 
-  onScroll = event => {
-    const {scrollTop, scrollHeight} = event.nativeEvent.target;
+  onScroll = () => {
+    const {scrollTop, scrollHeight} = this.scrollableNode;
     this.props.onScroll({scrollTop, scrollHeight});
-    this.calculateScrollPosition(event.nativeEvent.target);
+    this.calculateScrollPosition();
+  }
+
+  setScrollableNodeAndCalculatePosition = node => {
+    if (!node) {
+      return;
+    }
+    this.scrollableNode = node;
+    this.calculateScrollPosition();
   }
 
   render() {
@@ -61,10 +87,14 @@ export default class Content extends Component {
       >
         <div
           className={styles.scrollableWrapper}
-          ref={this.calculateScrollPosition}
+          ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.onScroll : noop}
         >
-          {children}
+          {fade && <div ref={this.setWrapper}>
+            {children}
+          </div>}
+
+          {!fade && children}
         </div>
       </div>
     );
