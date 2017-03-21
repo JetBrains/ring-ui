@@ -251,13 +251,13 @@ describe('Query Assist', () => {
     });
 
 
-    it('should render nothing on empty query', function () {
-      this.renderQueryAssist({
-        query: ''
-      });
-
-      this.queryAssist.input.textContent.should.be.empty;
-    });
+    // it('should render nothing on empty query', function () {
+    //   this.renderQueryAssist({
+    //     query: ''
+    //   });
+    //
+    //   this.queryAssist.input.textContent.should.be.empty;
+    // });
 
     it('should render nothing on falsy query', function () {
       this.renderQueryAssist({
