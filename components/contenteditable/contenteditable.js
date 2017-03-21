@@ -45,10 +45,6 @@ export default class ContentEditable extends RingComponent {
     componentDidUpdate: React.PropTypes.func
   };
 
-  // Use for IE11 and down to 9
-  static impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
-  static mutationEvent = 'DOMSubtreeModified';
-
   static defaultProps = {
     disabled: false,
     tabIndex: 0,
@@ -57,14 +53,6 @@ export default class ContentEditable extends RingComponent {
   };
 
   state = {};
-
-  didMount() {
-    if (ContentEditable.impotentIE) {
-      this.triggerInput = (...args) => this.props.onInput(...args);
-
-      this.node.addEventListener(ContentEditable.mutationEvent, this.triggerInput);
-    }
-  }
 
   didUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
@@ -76,12 +64,6 @@ export default class ContentEditable extends RingComponent {
 
   willReceiveProps(nextProps) {
     this.renderStatic(nextProps);
-  }
-
-  willUnmount() {
-    if (ContentEditable.impotentIE) {
-      this.node.removeEventListener(ContentEditable.mutationEvent, this.triggerInput);
-    }
   }
 
   renderStatic(nextProps) {
