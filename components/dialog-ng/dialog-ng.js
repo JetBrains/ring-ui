@@ -433,7 +433,7 @@ function rgDialogDirective($timeout) {
 
     dialogHeader.addEventListener('mousedown', onMousedown);
     document.addEventListener('focusin', onFocusin);
-    scope.$on('rgDialogContentLoaded', () => $timeout(function() {
+    scope.$on('rgDialogContentLoaded', () => $timeout(() => {
       focusFirst();
       if (dialogCtrl.customFooter) {
         const dialogCustomFooter = node.querySelector('*[data-anchor=dialog-custom-footer-container]');
