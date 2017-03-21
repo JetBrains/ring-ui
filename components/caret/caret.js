@@ -103,7 +103,7 @@ export default class Caret {
       this.focus();
 
       try {
-        window.getSelection().collapse(this.target, correctedPosition);
+        window.getSelection().collapse(this.target.firstChild || this.target, correctedPosition);
       } catch (e) {
         // Do nothing
       }
