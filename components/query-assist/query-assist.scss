@@ -24,6 +24,12 @@ $over-input-z-index: 2;
 
   &.ring-query-assist__input {
     line-height: 16px;
+
+    // Supports IE
+    _:-ms-input-placeholder, :root & {
+      line-height: 17px;
+    }
+
     box-shadow: 0 0 0 1px $ring-gray-color;
     background: transparent;
     border-color: transparent;
@@ -54,6 +60,12 @@ $over-input-z-index: 2;
   display: block;
   position: relative;
   top: -19px;
+
+  // Supports IE
+  _:-ms-input-placeholder, :root & {
+    top: -18px;
+  }
+
   left: 5px;
   width: calc(100% - #{$ring-unit*3});
 
