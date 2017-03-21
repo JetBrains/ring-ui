@@ -9,10 +9,14 @@
 }
 
 .link.hover,
+.link:hover {
+  text-decoration: underline;
+}
+
+.link.hover,
 .link:hover,
 .link:focus {
   color: link-hover-color;
-  text-decoration: underline;
 }
 
 .pseudo,
