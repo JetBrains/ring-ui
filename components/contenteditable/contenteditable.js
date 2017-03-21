@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import {render} from 'react-dom';
 import RingComponent from '../ring-component/ring-component';
 
 function noop() {}
@@ -67,8 +67,15 @@ export default class ContentEditable extends RingComponent {
   }
 
   renderStatic(nextProps) {
-    const __html = nextProps.children ? renderToStaticMarkup(nextProps.children) : '';
-    this.setState({__html});
+    if (!nextProps.children) {
+      this.setState({__html: ''});
+    }
+
+    const onRender = node => {
+      this.setState({__html: node ? node.innerHTML : ''});
+    };
+
+    render(<i ref={onRender}>{nextProps.children}</i>, document.createElement('i'));
   }
 
   shouldUpdate(nextProps, nextState) {
