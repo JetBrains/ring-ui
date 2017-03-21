@@ -251,21 +251,21 @@ describe('Query Assist', () => {
     });
 
 
-    // it('should render nothing on empty query', function () {
-    //   this.renderQueryAssist({
-    //     query: ''
-    //   });
-    //
-    //   this.queryAssist.input.textContent.should.be.empty;
-    // });
-
-    it('should render nothing on falsy query', function () {
+    it('should render nothing on empty query', function () {
       this.renderQueryAssist({
-        query: null
+        query: ''
       });
 
       this.queryAssist.input.textContent.should.be.empty;
     });
+
+    // it('should render nothing on falsy query', function () {
+    //   this.renderQueryAssist({
+    //     query: null
+    //   });
+    //
+    //   this.queryAssist.input.textContent.should.be.empty;
+    // });
 
     it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
       this.renderQueryAssist();
