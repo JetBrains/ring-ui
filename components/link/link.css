@@ -10,8 +10,11 @@
 
   &:hover, &:focus, &.hover {
     color: link-hover-color;
-    text-decoration: underline;
     transition: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
   }
 
   &.pseudo {

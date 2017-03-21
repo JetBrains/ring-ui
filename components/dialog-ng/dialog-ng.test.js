@@ -29,6 +29,11 @@ describe('Dialog Ng', () => {
     }
   ));
 
+  let $compileProvider;
+  beforeEach(window.module(_$compileProvider_ => {
+    $compileProvider = _$compileProvider_;
+  }));
+
   beforeEach(inject((_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialog_) => {
     $q = _$q_;
     $rootScope = _$rootScope_;
@@ -105,6 +110,60 @@ describe('Dialog Ng', () => {
       });
 
       element.query('form .content').should.have.html(text);
+    });
+
+    it('should trigger $destroy event on the scope when user close dialog', function () {
+      const onDestroy = this.sinon.stub();
+
+      renderDialog({
+        template: '<div/>',
+        controller: ['$scope', $scope => {
+          $scope.$on('$destroy', onDestroy);
+        }]
+      });
+
+      dialog.hide();
+
+      onDestroy.should.have.been.called;
+    });
+
+    describe('element $destroy', () => {
+
+      let testDirectiveOnDestroyElement;
+      beforeEach(function () {
+        testDirectiveOnDestroyElement = this.sinon.stub();
+        $compileProvider.directive('foo', () => (
+          {
+            template: '<div/>',
+            controller: $element => {
+              $element.on('$destroy', testDirectiveOnDestroyElement);
+            }
+          }
+        ));
+      });
+
+      it('should trigger $destroy on directive', () => {
+        renderDialog({
+          template: '<foo></foo>',
+          controller: angular.noop
+        });
+
+        dialog.hide();
+
+        testDirectiveOnDestroyElement.should.have.been.called;
+      });
+
+
+      it('should trigger $destroy event on nested directives', () => {
+        renderDialog({
+          template: '<div><div ng-if="true"><foo></foo></div></div>',
+          controller: angular.noop
+        });
+
+        dialog.hide();
+
+        testDirectiveOnDestroyElement.should.have.been.called;
+      });
     });
 
     it('should allow use controllerAs notation', () => {

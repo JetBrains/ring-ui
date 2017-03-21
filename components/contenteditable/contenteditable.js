@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
+import {render} from 'react-dom';
 import RingComponent from '../ring-component/ring-component';
 
 function noop() {}
@@ -45,10 +45,6 @@ export default class ContentEditable extends RingComponent {
     componentDidUpdate: React.PropTypes.func
   };
 
-  // Use for IE11 and down to 9
-  static impotentIE = document.documentMode <= 11;  // TODO Proper browser detection?
-  static mutationEvent = 'DOMSubtreeModified';
-
   static defaultProps = {
     disabled: false,
     tabIndex: 0,
@@ -57,14 +53,6 @@ export default class ContentEditable extends RingComponent {
   };
 
   state = {};
-
-  didMount() {
-    if (ContentEditable.impotentIE) {
-      this.triggerInput = (...args) => this.props.onInput(...args);
-
-      this.node.addEventListener(ContentEditable.mutationEvent, this.triggerInput);
-    }
-  }
 
   didUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
@@ -78,15 +66,16 @@ export default class ContentEditable extends RingComponent {
     this.renderStatic(nextProps);
   }
 
-  willUnmount() {
-    if (ContentEditable.impotentIE) {
-      this.node.removeEventListener(ContentEditable.mutationEvent, this.triggerInput);
-    }
-  }
-
   renderStatic(nextProps) {
-    const __html = nextProps.children ? renderToStaticMarkup(nextProps.children) : '';
-    this.setState({__html});
+    if (!nextProps.children) {
+      this.setState({__html: ''});
+    }
+
+    const onRender = node => {
+      this.setState({__html: node ? node.innerHTML : ''});
+    };
+
+    render(<i ref={onRender}>{nextProps.children}</i>, document.createElement('i'));
   }
 
   shouldUpdate(nextProps, nextState) {

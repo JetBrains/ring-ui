@@ -9,10 +9,11 @@
 
 import 'dom4';
 import debounce from 'mout/function/debounce';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import createResizeDetector from 'element-resize-detector';
 
 import {getDocumentScrollTop} from '../global/dom';
 
+const resizeDetector = createResizeDetector();
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);
 angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) => ({
@@ -159,8 +160,8 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
 
 
         const elementToHeightListening = iAttrs.listenToHeightChange ? $window.document.querySelector(iAttrs.listenToHeightChange) : $window.document.body;
-        const documentResizeSensor = new ResizeSensor(elementToHeightListening, sidebarScrollListener);
-        removeScrollListener.push(documentResizeSensor.detach.bind(documentResizeSensor));
+        resizeDetector.listenTo(elementToHeightListening, sidebarScrollListener);
+        removeScrollListener.push(() => resizeDetector.removeAllListeners(elementToHeightListening));
       }
 
       scope.$on('$destroy', removeScrollListeners);

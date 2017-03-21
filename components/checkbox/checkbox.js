@@ -40,6 +40,7 @@ export default class Checkbox extends PureComponent {
     return (
       <label
         className={styles.checkbox}
+        data-test="ring-checkbox"
       >
         <input
           {...restProps}
