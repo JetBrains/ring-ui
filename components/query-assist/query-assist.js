@@ -244,7 +244,22 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.input.textContent.replace(/\s/g, ' ');
   }
 
+  togglePlaceholder = () => {
+    const query = this.getQuery();
+    const currentQueryIsEmpty = this.immediateState.query === '';
+    const newQueryIsEmpty = query === '';
+
+    if (newQueryIsEmpty !== currentQueryIsEmpty) {
+      this.setState({placeholderEnabled: newQueryIsEmpty});
+    }
+  }
+
+  // To hide placeholder as quickly as possible, does not work in IE/Edge
   handleInput = () => {
+    this.togglePlaceholder();
+  }
+
+  handleKeyUp = e => {
     const props = {
       dirty: true,
       query: this.getQuery(),
@@ -252,15 +267,15 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       focus: true
     };
 
-    if (this.immediateState.query === props.query) {
+    if (this.immediateState.query === props.query && !this.isComposing) {
+      this.handleCaretMove(e);
       return;
     }
 
-    const currentQueryIsEmpty = this.immediateState.query === '';
-    const newQueryIsEmpty = props.query === '';
+    this.togglePlaceholder();
 
-    if (newQueryIsEmpty !== currentQueryIsEmpty) {
-      this.setState({placeholderEnabled: newQueryIsEmpty});
+    if (this.isComposing) {
+      return;
     }
 
     this.immediateState = props;
@@ -307,6 +322,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleCaretMove = e => {
+    if (this.isComposing) {
+      return;
+    }
+
     const caret = this.caret.getPosition();
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
@@ -502,6 +521,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.mouseIsDownOnInput = e.type === 'mousedown';
   }
 
+  trackCompostionState = e => {
+    this.isComposing = e.type !== 'compositionend';
+  }
+
   closePopup = () => {
     if (this.node) {
       this.setState({showPopup: false});
@@ -614,8 +637,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       });
     }
 
-    // \u00a0 === &nbsp;
-    return query.split('').map((letter, index, letters) => {
+    return [...query].map((letter, index, letters) => {
       const props = {
         className: classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS]),
         key: index + letter
@@ -625,6 +647,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         props['data-test'] = 'ring-query-assist-last-letter';
       }
 
+      // \u00a0 === &nbsp;
       return (
         <span {...props}>{letter === ' ' ? '\u00a0' : letter}</span>
       );
@@ -689,11 +712,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
           onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
+          onCompositionStart={this.trackCompostionState}
+          onCompositionEnd={this.trackCompostionState}
           onFocus={this.handleFocusChange}
           onInput={this.handleInput}
           onKeyDown={this.handleEnter}
-          onKeyPress={this.handleEnter}
-          onKeyUp={this.handleCaretMove}
+          onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
 
           spellCheck="false"
