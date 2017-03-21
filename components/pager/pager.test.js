@@ -17,6 +17,10 @@ describe('Pager', () => {
     should.not.exist(renderComponent({total: 1}).node);
   });
 
+  it('should render page size selector even when total is less than 2', () => {
+    findDOMNode(renderComponent({total: 1, alwaysShowPageSizeSelector: true})).should.match('[data-test="ring-pager-page-size-selector"]');
+  });
+
   it('should wrap children with div', () => {
     findDOMNode(renderComponent()).should.match('div');
   });
