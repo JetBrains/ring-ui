@@ -27,7 +27,9 @@ export default class Code extends PureComponent {
   };
 
   highlightEl = el => {
-    highlight.highlightBlock(el);
+    if (el && !this.props.inline) {
+      highlight.highlightBlock(el);
+    }
   }
 
   render() {
