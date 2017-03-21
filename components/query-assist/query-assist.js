@@ -1,9 +1,3 @@
-/**
- * @name Query Assist
- * @category Components
- * @description Displays a Query Assist field.
- */
-
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
@@ -35,10 +29,71 @@ function cleanText(text) {
 }
 
 /**
- * @name QueryAssist
+ * @name Query Assist
  * @constructor
+ * @category Components
  * @extends {ReactComponent}
  * @example-file ./query-assist.examples.html
+ * @description
+ *
+ ## Component params
+
+ __autoOpen__ `bool=false` Open suggestions popup during the initial render\
+ __caret__ `number=query.length` Initial caret position\
+ __clear__ `bool=false` Show clickable "cross" icon on the right which clears the query\
+ __className__ `string=''` Additional class for the component\
+ __popupClassName__ `string=''` Additional class for the popup\
+ __dataSource__ `func` Data source function\
+ __delay__ `number=0` Input debounce delay\
+ __disabled__ `bool=false` Disable the component\
+ __focus__ `bool=false` Initial focus\
+ __hint__ `string=''` Hint under the suggestions list\
+ __hintOnSelection__ `string=''` Hint under the suggestions list visible when a suggestion is selected\
+ __glass__ `bool=false` Show clickable "glass" icon on the right which applies the query\
+ __loader__ `bool=false` Show loader when a data request is in process\
+ __placeholder__ `string=''` Field placeholder value\
+ __onApply__ `func=` Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument\
+ __onChange__ `func=`  Called when the query is changed. An object with fields `caret` and `query` is passed as an argument\
+ __onClear__ `func=` Called when the query is cleared. Called without arguments\
+ __onFocusChange__ `func` Called when the focus status is changed. An object with fields `focus` is passed as an argument\
+ __shortcuts__ `bool=true` Enable shortcut\
+ __query__ `string=''` Initial query
+
+ ## Data source function
+
+ Component class calls a data source function when user input happens and passes an object with fields `caret`, `focus` and `query` as the only argument.
+ The function must return an object with the fields described below. The object can be optionally wrapped in a Promise.
+
+ ### return object fields
+
+ `caret` and `query` should just return server values provided to data source function.
+ These fields allow the Query Assist component to recognise and drop earlier responses from the server.
+
+ __caret__ (`string=0`) Caret from request\
+ __query__ (`string=''`) Query from request\
+ __styleRanges__ (`Array<suggestion>=`) Array of `styleRange` objects, used to highlight the request in the input field\
+ __suggestions__ (`Array<styleRange>`) Array of `suggestion` objects to show.
+
+ ### `styleRange` object fields
+
+ start `number` Range start (in characters)\
+ length `number` Range length (in characters)\
+ style `string` Style of the range. Possible values: `text`, `field_value`, `field_name`, `operator`
+
+ ### `suggestion` object fields
+
+ __prefix__ `string=` Suggestion option prefix\
+ __option__ `string` Suggestion option\
+ __suffix__ `string=` Suggestion option suffix\
+ __description__ `string=` Suggestion option description. Is not visible when a group is set\
+ __matchingStart__ `number` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)\
+ __matchingEnd__ `number` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)\
+ __caret__ `number` Caret position after option completion (in characters)\
+ __completionStart__ `number` Where to start insertion (or replacement, when completing with the `Tab` key) of the completion option (in characters)\
+ __completionEnd__ `number` Where to end insertion of the completion option (in characters)\
+ __group__ `string=` Group title. Options with the same title are grouped under it\
+ __icon__ `string=` Icon URI, Data URI is possible
+
  */
 export default class QueryAssist extends RingComponentWithShortcuts {
   static ngModelStateField = ngModelStateField;
@@ -244,7 +299,22 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.input.textContent.replace(/\s/g, ' ');
   }
 
+  togglePlaceholder = () => {
+    const query = this.getQuery();
+    const currentQueryIsEmpty = this.immediateState.query === '';
+    const newQueryIsEmpty = query === '';
+
+    if (newQueryIsEmpty !== currentQueryIsEmpty) {
+      this.setState({placeholderEnabled: newQueryIsEmpty});
+    }
+  }
+
+  // To hide placeholder as quickly as possible, does not work in IE/Edge
   handleInput = () => {
+    this.togglePlaceholder();
+  }
+
+  handleKeyUp = e => {
     const props = {
       dirty: true,
       query: this.getQuery(),
@@ -252,15 +322,15 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       focus: true
     };
 
-    if (this.immediateState.query === props.query) {
+    if (this.immediateState.query === props.query && !this.isComposing) {
+      this.handleCaretMove(e);
       return;
     }
 
-    const currentQueryIsEmpty = this.immediateState.query === '';
-    const newQueryIsEmpty = props.query === '';
+    this.togglePlaceholder();
 
-    if (newQueryIsEmpty !== currentQueryIsEmpty) {
-      this.setState({placeholderEnabled: newQueryIsEmpty});
+    if (this.isComposing) {
+      return;
     }
 
     this.immediateState = props;
@@ -307,6 +377,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleCaretMove = e => {
+    if (this.isComposing) {
+      return;
+    }
+
     const caret = this.caret.getPosition();
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
@@ -406,15 +480,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   requestStyleRanges = () => {
-    if (!this.immediateState.query) {
+    const {query, caret} = this.immediateState;
+
+    if (!query) {
       return Promise.reject(new Error('Query is empty'));
     }
 
-    return this.sendRequest({
-      query: this.immediateState.query,
-      caret: this.immediateState.caret,
-      omitSuggestions: true
-    }).
+    return this.sendRequest({query, caret, omitSuggestions: true}).
       then(this.handleStyleRangesResponse).
       catch(noop);
   }
@@ -424,7 +496,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return Promise.reject();
     }
 
-    return this.sendRequest(this.immediateState).
+    const {query, caret} = this.immediateState;
+
+    return this.sendRequest({query, caret}).
       then(this.handleResponse).
       catch(noop);
   }
@@ -500,6 +574,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   trackInputMouseState = e => {
     this.mouseIsDownOnInput = e.type === 'mousedown';
+  }
+
+  trackCompostionState = e => {
+    this.isComposing = e.type !== 'compositionend';
   }
 
   closePopup = () => {
@@ -614,8 +692,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       });
     }
 
-    // \u00a0 === &nbsp;
-    return query.split('').map((letter, index, letters) => {
+    return [...query].map((letter, index, letters) => {
       const props = {
         className: classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS]),
         key: index + letter
@@ -625,6 +702,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         props['data-test'] = 'ring-query-assist-last-letter';
       }
 
+      // \u00a0 === &nbsp;
       return (
         <span {...props}>{letter === ' ' ? '\u00a0' : letter}</span>
       );
@@ -689,16 +767,16 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
           onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
+          onCompositionStart={this.trackCompostionState}
+          onCompositionEnd={this.trackCompostionState}
           onFocus={this.handleFocusChange}
           onInput={this.handleInput}
           onKeyDown={this.handleEnter}
-          onKeyPress={this.handleEnter}
-          onKeyUp={this.handleCaretMove}
+          onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
 
           spellCheck="false"
-        >{this.state.query &&
-        <span>{this.renderQuery()}</span>}</ContentEditable>
+        >{this.renderQuery()}</ContentEditable>
 
         {renderPlaceholder && (
           <span
