@@ -15,7 +15,8 @@
   color: white-color;
 
   & > * {
-    height: compensated;
+    height: height;
+    box-sizing: border-box;
     display: inline-block;
     padding: 0 calc(unit * 2) compensate;
   }
