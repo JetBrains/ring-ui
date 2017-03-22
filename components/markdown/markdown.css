@@ -17,8 +17,8 @@
   }
 
   & hr {
-    @value baseline-correction: 4px;
-    margin: calc(line-height - baseline-correction) 0 calc(baseline-correction - 1px);
+    @value baseline-correction: 6px;
+    margin: calc(- baseline-correction) 0 calc(baseline-correction - 1px);
     border: none;
     border-bottom: 1px solid line-color;
   }
