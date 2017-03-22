@@ -45,27 +45,29 @@ angularModule.directive('rgLegacyTable', () => ({
   bindToController: true,
 
   controller($scope) {
-    if (this.disableSelection) {
-      return;
-    }
-
-    /**
-     * Create Selection instance first to make sure it is always available
-     * @type {Selection}
-     */
-    this.selection = new Selection(this.items, (name, item, index) => {
-      $scope.$emit(name, item, index);
-      $scope.$broadcast(name, item, index);
-    });
-
-    /**
-     * Updating items when data is initiated or updated
-     */
-    $scope.$watch(() => this.items, newItems => {
-      if (newItems) {
-        this.selection.setItems(newItems);
+    this.$onInit = () => {
+      if (this.disableSelection) {
+        return;
       }
-    });
+
+      /**
+       * Create Selection instance first to make sure it is always available
+       * @type {Selection}
+       */
+      this.selection = new Selection(this.items, (name, item, index) => {
+        $scope.$emit(name, item, index);
+        $scope.$broadcast(name, item, index);
+      });
+
+      /**
+       * Updating items when data is initiated or updated
+       */
+      $scope.$watch(() => this.items, newItems => {
+        if (newItems) {
+          this.selection.setItems(newItems);
+        }
+      });
+    };
   }
 }));
 
