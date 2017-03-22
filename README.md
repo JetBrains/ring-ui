@@ -11,11 +11,8 @@ order: 1
 ## Development environment setup
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
-
 2. Install Node.js
-
 3. Install dependencies: `npm install`
-
 4. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ## Available commands
@@ -43,10 +40,8 @@ You can change them by the following means (in order of precedence):
 
 1. Command line switch: `npm <start|run build> -- --env.<param> <value>`
 Example: `npm start -- --env.port 8765`
-
 2. Persistently using NPM: `npm config set ring-ui:<param> <value>`
 Example: `npm config set ring-ui:port 8765`
-
 3. Persistently for a given environment: `npm config set ring-ui:<environment>:<param> <value>`  
 Example: `npm config set ring-ui:development:port 8765`
 
@@ -106,13 +101,10 @@ This reads Ring UI configuration and overrides some config params.
 ## Starting a new project with Ring UI
 
 1. Install Yeoman: `npm install yo -g`
-
 2. Install Ring UI yeoman generator: `npm i -g generator-ring-ui`
-
 3. Go to project root folder and type: `yo ring-ui`. It will ask you to enter the name of the project
 and desired frameworks (plain JS, ReactJS or AngularJS). It will then create a project skeleton
 with testing infrastructure, webpack build configuration, ES6 support, ESLint and the required package.json dependencies.
-
 4. Go to the generated project folder and run `npm install` followed by `npm start`. You project is ready to be developed.
 
 ## Is Lodash or Underscore available?
