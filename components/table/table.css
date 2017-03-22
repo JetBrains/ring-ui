@@ -54,6 +54,7 @@
     margin-left: 6px;
     display: none;
     position: absolute;
+    user-select: none;
   }
 
   &.headerCellSortable .sorter {
