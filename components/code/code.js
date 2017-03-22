@@ -7,6 +7,8 @@ import 'highlight.js/styles/github.css';
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
 
+import styles from './code.css';
+
 /**
  * @name Code
  * @category Components
@@ -38,9 +40,12 @@ export default class Code extends PureComponent {
     const {code, className, inline, language} = this.props;
 
     const Tag = inline ? 'span' : 'pre';
+    const classes = classnames(styles.code, className, language, {
+      [styles.inline]: inline
+    });
 
     return (
-      <Tag className={classnames(className, language)}>
+      <Tag className={classes}>
         <code ref={this.highlightEl}>{normalizeIndent(code)}</code>
       </Tag>
     );
