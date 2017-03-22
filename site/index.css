@@ -1,4 +1,4 @@
-@value unit, font, font-size, link-color from '../components/global/global.css';
+@value unit, font, font-size, line-height, link-color from '../components/global/global.css';
 
 html, body {
   padding: 0;
@@ -9,6 +9,7 @@ html, body {
 .app {
   composes: font;
   font-size: font-size;
+  line-height: line-height;
 }
 
 .sidebar {
@@ -38,6 +39,10 @@ html, body {
 }
 
 .example {
+  margin-top: line-height;
+}
+
+.iframe {
   position: relative;
 }
 

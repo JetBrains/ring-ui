@@ -1,16 +1,16 @@
 import React, {PropTypes} from 'react';
-import classNames from 'classnames';
 import parseFrontMatter from 'front-matter';
 
-import Markdown, {styles as mdStyles} from 'ring-ui/components/markdown/markdown';
+import Markdown from 'ring-ui/components/markdown/markdown';
+import {H1} from 'ring-ui/components/heading/heading';
 
 import Example from './example';
 
 import styles from '../index.css';
 
 const Content = ({title, type, content, examples, description}) => (
-  <div className={classNames(styles.content, mdStyles.markdown)}>
-    <h1>{title}</h1>
+  <div className={styles.content}>
+    <H1>{title}</H1>
 
     {type === 'md' && (
       <Markdown source={parseFrontMatter(content).body} />
