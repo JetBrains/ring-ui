@@ -139,6 +139,7 @@ describe('Error Page Ng', () => {
       };
 
       const df = $q.defer();
+      df.promise.catch(() => {});
       $rootScope.errorSource = {$promise: df.promise};
 
       let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
