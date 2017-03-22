@@ -97,7 +97,8 @@
                 }
               }
             ]
-          });
+          })
+            .catch(() => console.log('dialog rejected'));
         };
 
         $timeout(() => this.showDialog());
