@@ -133,7 +133,6 @@
     "dom4": "1.8.3",
     "element-resize-detector": "1.1.11",
     "file-loader": "0.9.0",
-    "github-markdown-css": "2.4.0",
     "highlight.js": "9.6.0",
     "html-loader": "0.4.4",
     "imports-loader": "0.6.5",

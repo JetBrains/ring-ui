@@ -2,6 +2,8 @@
 
 @value text-color: #444;
 
+@value line-color: #DFE5EB;
+
 @value link-color: #1866C5;
 @value link-hover-color: #FF5A00;
 
@@ -19,11 +21,15 @@
 @value border-color: rgba(0, 0, 0, 0.2);
 @value outline-color: rgba(37, 183, 255, 0.5);
 
+@value sidebar-background-color: #F7F9FA;
+
 @value border-radius: 3px;
 @value border-radius-small: 2px;
 
 @value font-size: 13px;
 @value font-size-smaller: 11px;
+
+@value line-height: 18px;
 
 @value ease: 0.15s ease-out;
 

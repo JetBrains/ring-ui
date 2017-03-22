@@ -1,10 +1,48 @@
-@value link-color from  "../global/global.css";
+@value unit, font, font-size, line-height, line-color from  "../global/global.css";
 
-/* override github-markdown */
 .markdown {
-  composes: global(markdown-body);
+  composes: font;
+  font-size: font-size;
+  line-height: line-height;
 
-  & a:not(:hover) {
-    color: link-color;
+  & p,
+  & blockquote,
+  & ul,
+  & ol,
+  & pre {
+    margin: 0;
+    &:not(:last-child) {
+      margin-bottom: line-height;
+    }
+  }
+
+  & hr {
+    @value baseline-correction: 4px;
+    margin: calc(line-height - baseline-correction) 0 calc(baseline-correction - 1px);
+    border: none;
+    border-bottom: 1px solid line-color;
+  }
+
+  & blockquote {
+    padding: 0 0 0 calc(2 * unit);
+    box-shadow: inset 1px 0 0 line-color;
+  }
+
+  & ul,
+  & ol {
+    padding: 0 0 0 calc(4 * unit);
+  }
+
+  & ul {
+    list-style-type: none;
+
+    & > li {
+      position: relative;
+      &::before {
+        content: '—';
+        position: absolute;
+        left: calc(- 2 * unit)
+      }
+    }
   }
 }
