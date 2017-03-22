@@ -13,7 +13,7 @@
 
         <div class="shortcuts-hint__table-title" ng-if="mode.title">
           <div></div>
-          <div class="shortcuts-hint__shortcuts-title">{{mode.title}}</div>
+          <div class="shortcuts-hint__shortcuts-title">{{hintPopupCtrl.getTitle(mode.title)}}</div>
         </div>
 
         <div ng-repeat="shortcut in mode.shortcuts | shortcutSearch:hintPopupCtrl.searchText"
