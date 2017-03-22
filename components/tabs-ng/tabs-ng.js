@@ -43,10 +43,6 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
     $scope.panes = [];
     $scope.current = null;
 
-    if (!$scope.tabParameter) {
-      $scope.tabParameter = 'tab';
-    }
-
     function getTabIdFromUrl() {
       return $location.search()[$scope.tabParameter];
     }
@@ -191,6 +187,11 @@ angularModule.directive('rgTabs', ($location, $rootScope) => ({
       return classes;
     };
 
+    this.$onInit = () => {
+      if (!$scope.tabParameter) {
+        $scope.tabParameter = 'tab';
+      }
+    };
   }
 }));
 

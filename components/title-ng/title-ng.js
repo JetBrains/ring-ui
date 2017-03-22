@@ -24,17 +24,9 @@ angularModule.directive('rgPageTitle', () => ({
   controller($rootScope, $scope, $element, $attrs, pageTitle, $injector) {
     const element = $element[0];
 
-    pageTitle.setDelimiter($scope.delimiter);
-
     // Get title prefix from title element
     const elementText = element.textContent;
     let offScopeWatch = angular.noop;
-
-    if ($attrs.rgPageTitle) {
-      offScopeWatch = $scope.$watch('rgPageTitle', newBaseTitle => {
-        pageTitle.setRootElement(newBaseTitle);
-      });
-    }
 
     // Set page title on route change
     const offRouteWatch = $rootScope.$on('$routeChangeSuccess', (event, current) => {
@@ -56,6 +48,16 @@ angularModule.directive('rgPageTitle', () => ({
       offRouteWatch();
       offScopeWatch();
     });
+
+    this.$onInit = () => {
+      pageTitle.setDelimiter($scope.delimiter);
+
+      if ($attrs.rgPageTitle) {
+        offScopeWatch = $scope.$watch('rgPageTitle', newBaseTitle => {
+          pageTitle.setRootElement(newBaseTitle);
+        });
+      }
+    };
   }
 }));
 
