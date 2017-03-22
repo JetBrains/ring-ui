@@ -17,7 +17,7 @@ import styles from './heading.css';
     <file name="index.scss">
       :global(.demo) {
         font-size: 13px;
-        line-height: 18px;
+        line-height: 20px;
       }
 
       h1, h2, h3 {
@@ -46,7 +46,7 @@ import styles from './heading.css';
       import {render} from 'react-dom';
       import Heading, {H1, H2, H3, H4, H5, H6} from 'ring-ui/components/heading/heading';
       const container = document.getElementById('heading');
-      const lorem = <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>;
+      const lorem = <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>;
       const demo = (
         <div className="demo">
           <Heading level={Heading.Levels.H1}>Heading</Heading>

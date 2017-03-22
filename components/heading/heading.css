@@ -1,4 +1,4 @@
-@value font, line-height, unit from  "../global/global.css";
+@value font, font-size, line-height, unit from  "../global/global.css";
 
 .heading {
   composes: font;
@@ -11,7 +11,7 @@
     color: #222;
     font-size: 24px;
     line-height: 28px;
-    margin-bottom: 9px;
+    margin-bottom: 8px;
   }
 
   @nest h1& {
@@ -20,9 +20,9 @@
   }
 
   @nest h3& {
-    font-size: 13px;
-    line-height: 20px;
-    margin-bottom: 1px;
+    font-size: font-size;
+    line-height: line-height;
+    margin-bottom: 0;
   }
 
   @nest h4&, h5&, h6& {
@@ -31,6 +31,6 @@
     font-weight: normal;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 0;
+    margin-bottom: 1px;
   }
 }
