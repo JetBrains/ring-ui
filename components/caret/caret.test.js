@@ -62,11 +62,11 @@ describe('Caret', () => {
       this.caret.getPosition().should.equal(0);
     });
 
-    // it('Should change caret position if we position', function () {
-    //   this.caret.setPosition(15);
-    //
-    //   this.caret.getPosition().should.equal(15);
-    // });
+    it('Should change caret position if we position', function () {
+      this.caret.setPosition(15);
+
+      this.caret.getPosition().should.equal(15);
+    });
   });
 
   describe('getOffset', () => {
