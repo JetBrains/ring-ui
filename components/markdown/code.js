@@ -4,7 +4,7 @@ import Code from '../code/code';
 
 const MarkdownCode = ({literal, language, inline}) => (
   <Code
-    className={language}
+    language={language}
     code={literal}
     inline={inline}
   />
