@@ -18,23 +18,25 @@ const angularModule = angular.module('Ring.sidebar', [PlaceUnder, iconNg]);
 
 class SidebarController {
   constructor($scope) {
-    this.dialogIsActive = false;
-    this.showed = this.show;
+    this.$onInit = () => {
+      this.dialogIsActive = false;
+      this.showed = this.show;
 
-    // dialog has been opened — open sidebar
-    $scope.$watch(() => this.dialogIsActive, () => {
-      if (this.dialogIsActive) {
-        this.show = true;
-      } else if (!this.showed) {
-        this.show = false;
-      }
-    });
+      // dialog has been opened — open sidebar
+      $scope.$watch(() => this.dialogIsActive, () => {
+        if (this.dialogIsActive) {
+          this.show = true;
+        } else if (!this.showed) {
+          this.show = false;
+        }
+      });
 
-    $scope.$watch(() => this.show, () => {
-      if (!this.dialogIsActive) {
-        this.showed = this.show;
-      }
-    });
+      $scope.$watch(() => this.show, () => {
+        if (!this.dialogIsActive) {
+          this.showed = this.show;
+        }
+      });
+    };
   }
 }
 
