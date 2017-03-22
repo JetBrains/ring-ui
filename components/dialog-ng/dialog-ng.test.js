@@ -12,7 +12,7 @@ import styles from './dialog-ng.css';
 import dialogStyles from '../dialog/dialog.css';
 
 describe('Dialog Ng', () => {
-  let dialog;
+  let dialogInSidebar;
   let $compile;
   let $q;
   let $templateCache;
@@ -34,12 +34,12 @@ describe('Dialog Ng', () => {
     $compileProvider = _$compileProvider_;
   }));
 
-  beforeEach(inject((_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialog_) => {
+  beforeEach(inject((_$q_, _$rootScope_, _$compile_, _$templateCache_, _dialogInSidebar_) => {
     $q = _$q_;
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $templateCache = _$templateCache_;
-    dialog = _dialog_;
+    dialogInSidebar = _dialogInSidebar_;
   }));
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('Dialog Ng', () => {
     sandbox.remove();
   });
 
-  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
+  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}, onError = angular.noop) {
     const scope = $rootScope.$new();
     const $element = $compile(placeholderTemplate)(scope);
     const element = $element[0];
@@ -62,11 +62,13 @@ describe('Dialog Ng', () => {
     sandbox.append(element);
 
     $templateCache.put('/test.html', contentTemplate);
-    const promise = dialog.show(Object.assign({
+    const promise = dialogInSidebar.show(Object.assign({
       content: '/test.html',
       buttons,
       data
     }, options));
+
+    promise.catch(onError);
     scope.$digest();
 
     return {scope, element, ctrl, promise};
@@ -122,7 +124,7 @@ describe('Dialog Ng', () => {
         }]
       });
 
-      dialog.hide();
+      dialogInSidebar.hide();
 
       onDestroy.should.have.been.called;
     });
@@ -148,7 +150,7 @@ describe('Dialog Ng', () => {
           controller: angular.noop
         });
 
-        dialog.hide();
+        dialogInSidebar.hide();
 
         testDirectiveOnDestroyElement.should.have.been.called;
       });
@@ -160,7 +162,7 @@ describe('Dialog Ng', () => {
           controller: angular.noop
         });
 
-        dialog.hide();
+        dialogInSidebar.hide();
 
         testDirectiveOnDestroyElement.should.have.been.called;
       });
@@ -317,10 +319,10 @@ describe('Dialog Ng', () => {
         dialogForm.$valid.should.be.equal(false);
 
 
-        dialog.hide();
+        dialogInSidebar.hide();
 
 
-        dialog.show({
+        dialogInSidebar.show({
           scope: $rootScope.$new(),
           template: '<div/>'
         });
@@ -393,7 +395,7 @@ describe('Dialog Ng', () => {
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    dialog.hide();
+    dialogInSidebar.hide();
     scope.$digest();
 
     element.should.not.have.class('active');
@@ -419,7 +421,7 @@ describe('Dialog Ng', () => {
       [],
       {prop: 'asd'}
     );
-    dialog.update({data: {prop: 'qwe'}});
+    dialogInSidebar.update({data: {prop: 'qwe'}});
     scope.$digest();
 
     element.query('.content').should.have.text('qwe');
@@ -432,7 +434,7 @@ describe('Dialog Ng', () => {
     );
     const callback = this.sinon.stub();
     scope.$$childHead.$on('dialog.show', callback); // eslint-disable-line angular/no-private-call
-    dialog.show();
+    dialogInSidebar.show();
 
     callback.should.have.been.called;
   });
@@ -455,21 +457,25 @@ describe('Dialog Ng', () => {
     const callback = this.sinon.stub();
 
     promise.then(callback);
-    dialog.done();
+    dialogInSidebar.done();
     scope.$digest();
 
     callback.should.have.been.called;
   });
 
   it('should reject Promise on "reset"', function () {
-    const {promise, scope} = showDialog(
-      '<rg-dialog></rg-dialog>',
-      '<div></div>'
-    );
     const callback = this.sinon.stub();
 
-    promise.catch(callback);
-    dialog.reset();
+    const {promise, scope} = showDialog(
+      '<rg-dialog></rg-dialog>',
+      '<div></div>',
+      undefined,
+      undefined,
+      undefined,
+      callback
+    );
+
+    dialogInSidebar.reset();
     scope.$digest();
 
     callback.should.have.been.called;

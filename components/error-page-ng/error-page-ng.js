@@ -188,27 +188,22 @@ angularModule.directive('rgErrorPage', [
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 
       if (promise) {
-        let resolve;
-        let reject;
+        return $q((resolve, reject) => {
+          promise.
+            then(data => {
+              resolve();
+              return data;
+            }).
+            catch(errorResponse => {
+              $log.debug(`Navigation: errorSource ${errorPageParameterPresentation} not permitted, status: ${status}`);
 
-        promise.catch(errorResponse => {
-          $log.debug(`Navigation: errorSource ${errorPageParameterPresentation} not permitted, status: ${status}`);
+              reject({
+                status: errorResponse && errorResponse.status,
+                message: errorPageConfiguration.responseToMessageConverter(errorResponse)
+              });
 
-          reject({
-            status: errorResponse && errorResponse.status,
-            message: errorPageConfiguration.responseToMessageConverter(errorResponse)
-          });
-
-          return errorResponse;
-        });
-
-        promise.then(data => {
-          resolve();
-          return data;
-        });
-
-        return $q((...args) => {
-          [resolve, reject] = args;
+              return errorResponse;
+            });
         });
       } else {
         return $q.resolve();
@@ -286,7 +281,8 @@ angularModule.directive('rgErrorPage', [
             $log.debug(`Navigation: errorSource ${iAttrs.rgErrorPage} not permitted, status: ${status}`);
           } else {
             getArgumentPromise(errorSource, iAttrs.rgErrorPage).
-              then(handleSuccess, handleError);
+              then(handleSuccess).
+              catch(handleError);
           }
         }, handleError);
       }
