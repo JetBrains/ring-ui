@@ -1,4 +1,4 @@
-@value unit, font, font-size, link-color, white-color, line-color, dark-gray-color from '../components/global/global.css';
+@value unit, font, font-size, line-height, link-color, white-color, line-color, dark-gray-color from '../components/global/global.css';
 
 html, body {
   padding: 0;
@@ -8,7 +8,6 @@ html, body {
 
 .app {
   composes: font;
-  font-size: font-size;
 }
 
 .sidebar {
@@ -51,6 +50,10 @@ a.legacy {
 }
 
 .example {
+  margin-top: line-height;
+}
+
+.iframe {
   position: relative;
 }
 

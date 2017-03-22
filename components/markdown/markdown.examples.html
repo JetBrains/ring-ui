@@ -9,6 +9,8 @@
 
     import Markdown from 'ring-ui/components/markdown/markdown';
 
+    import hubLogo from 'jetbrains-logos/hub/hub.svg';
+
     const demo = (
       <Markdown
         source={`
@@ -21,7 +23,20 @@
 
           [Link](/)
 
-          \`inline(code)\`
+          ![32](${hubLogo} "Image")
+
+          > Blockquote
+
+          * List
+          * List
+
+          1. One
+          2. Two
+
+          Horizontal line
+
+          ---
+          Some \`inline(code)\` inside text
 
           ## Block code
           \`\`\`js
@@ -52,6 +67,8 @@
 
     import {md} from 'ring-ui/components/markdown/markdown';
 
+    import hubLogo from 'jetbrains-logos/hub/hub.svg';
+
     const demo = md`
       # Header
       ## Header
@@ -62,7 +79,20 @@
 
       [Link](/)
 
-      \`inline(code)\`
+      ![32](${hubLogo} "Image")
+
+      > Blockquote
+
+      * List
+      * List
+
+      1. One
+      2. Two
+
+      Horizontal line
+
+      ---
+      Some \`inline(code)\` inside text
 
       ## Block code
       \`\`\`js

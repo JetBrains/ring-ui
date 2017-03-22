@@ -141,9 +141,6 @@ angularModule.directive('rgSelect', () => {
       ctrl.dataReceived = false;
 
       const scope = ctrl.optionsScope ? ctrl.optionsScope : $scope.$parent;
-      ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
-
-      ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
 
       ctrl.setNgModelCtrl = ngModelCtrl => {
         ctrl.ngModelCtrl = ngModelCtrl;
@@ -389,7 +386,11 @@ angularModule.directive('rgSelect', () => {
         }
       }
 
-      function activate() {
+      ctrl.$onInit = () => {
+        ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
+
+        ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
+
         /**
          * Provide specific filter function if externalFilter is enabled
          */
@@ -497,9 +498,7 @@ angularModule.directive('rgSelect', () => {
         attachDropdownIfNeeded();
         listenToRouteChanges();
         listenToDestroy();
-      }
-
-      activate();
+      };
     }
   };
 });
