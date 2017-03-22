@@ -2,7 +2,7 @@
 
 gemini.suite('Tabs Ng', suite => {
   suite.
-    setUrl('/tabs-ng/tabs-ng.html#?tab=access').
+    setUrl('/tabs-ng/tabs-ng.html#!?tab=access').
     setCaptureElements('body > div').
 
     capture('tab-from-route').

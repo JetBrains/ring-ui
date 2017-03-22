@@ -19,7 +19,7 @@
 }
 
 .content {
-  width: calc(unit * 58);
+  min-width: calc(unit * 58);
   min-height: calc(unit * 15);
   overflow-wrap: break-word;
 
