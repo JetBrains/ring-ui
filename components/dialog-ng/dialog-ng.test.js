@@ -466,7 +466,7 @@ describe('Dialog Ng', () => {
   it('should reject Promise on "reset"', function () {
     const callback = this.sinon.stub();
 
-    const {promise, scope} = showDialog(
+    const {scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
       undefined,
