@@ -776,7 +776,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onPaste={this.handlePaste}
 
           spellCheck="false"
-        >{this.renderQuery()}</ContentEditable>
+        >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
 
         {renderPlaceholder && (
           <span
