@@ -1,5 +1,4 @@
 import styles from './index.css';
-import 'github-markdown-css/github-markdown.css';
 import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 import 'whatwg-fetch';
 
