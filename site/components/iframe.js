@@ -5,7 +5,7 @@ import Link from 'ring-ui/components/link/link';
 import styles from '../index.css';
 
 const Iframe = ({src}) => (
-  <div className={styles.example}>
+  <div className={styles.iframe}>
     <iframe
       width="100%"
       height="auto"

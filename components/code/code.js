@@ -1,10 +1,13 @@
 import React, {PureComponent, PropTypes} from 'react';
 import highlight from 'highlight.js';
+import classnames from 'classnames';
 
 import 'highlight.js/styles/github.css';
 
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
+
+import styles from './code.css';
 
 /**
  * @name Code
@@ -17,9 +20,10 @@ import trivialTemplateTag from '../global/trivial-template-tag';
 
 export default class Code extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     code: PropTypes.string.isRequired,
     inline: PropTypes.bool,
-    className: PropTypes.string
+    language: PropTypes.string
   };
 
   static defaultProps = {
@@ -33,12 +37,15 @@ export default class Code extends PureComponent {
   }
 
   render() {
-    const {code, className, inline} = this.props;
+    const {code, className, inline, language} = this.props;
 
     const Tag = inline ? 'span' : 'pre';
+    const classes = classnames(styles.code, className, language, {
+      [styles.inline]: inline
+    });
 
     return (
-      <Tag className={className}>
+      <Tag className={classes}>
         <code ref={this.highlightEl}>{normalizeIndent(code)}</code>
       </Tag>
     );

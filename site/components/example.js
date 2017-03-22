@@ -2,14 +2,17 @@ import React, {PropTypes} from 'react';
 
 import Link from 'ring-ui/components/link/link';
 import Code from 'ring-ui/components/code/code';
+import {H2} from 'ring-ui/components/heading/heading';
 
 import Iframe from './iframe';
+
+import styles from '../index.css';
 
 function Example({name, url, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
   return (
-    <div>
-      <h3 id={id}>{name} <Link href={`#${id}`}>{'#'}</Link></h3>
+    <div className={styles.example}>
+      <H2 id={id}>{name} <Link href={`#${id}`}>{'#'}</Link></H2>
       {files.some(({type}) => type === 'html') &&
         <Iframe src={url}/>
       }

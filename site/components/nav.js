@@ -29,7 +29,7 @@ const filterItems = (items, filterFn) =>
     map(({filtered, ...rest}) => ({
       title: (
         <Markdown
-          githubStyled={false}
+          inline={true}
           source={filtered.highlight}
         />
       ),
