@@ -21,6 +21,10 @@ describe('Code', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
+  it('should add passed language to class attribute', () => {
+    findDOMNode(renderComponent({language: 'js'})).should.match('.js');
+  });
+
   it('should highlight javascript/JSX', () => {
     const node = findDOMNode(renderComponent({
       code: `
