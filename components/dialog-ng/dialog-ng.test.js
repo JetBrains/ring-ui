@@ -53,7 +53,7 @@ describe('Dialog Ng', () => {
     sandbox.remove();
   });
 
-  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
+  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}, onError = angular.noop) {
     const scope = $rootScope.$new();
     const $element = $compile(placeholderTemplate)(scope);
     const element = $element[0];
@@ -67,6 +67,8 @@ describe('Dialog Ng', () => {
       buttons,
       data
     }, options));
+
+    promise.catch(onError);
     scope.$digest();
 
     return {scope, element, ctrl, promise};
@@ -462,13 +464,17 @@ describe('Dialog Ng', () => {
   });
 
   it('should reject Promise on "reset"', function () {
-    const {promise, scope} = showDialog(
-      '<rg-dialog></rg-dialog>',
-      '<div></div>'
-    );
     const callback = this.sinon.stub();
 
-    promise.catch(callback);
+    const {promise, scope} = showDialog(
+      '<rg-dialog></rg-dialog>',
+      '<div></div>',
+      undefined,
+      undefined,
+      undefined,
+      callback
+    );
+
     dialog.reset();
     scope.$digest();
 
