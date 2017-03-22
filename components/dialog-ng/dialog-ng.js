@@ -535,7 +535,8 @@ function rgDialogContentDirective($compile, $q) {
             angular.element(element).append(compiledData.element);
             compiledData.link(templateScope);
             scope.$emit('rgDialogContentLoaded');
-          });
+          }).
+          catch(angular.noop);
       }
 
       function destroy() {
