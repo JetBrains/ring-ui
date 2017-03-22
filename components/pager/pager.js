@@ -22,6 +22,7 @@ import style from './pager.css';
 
 export default class Pager extends PureComponent {
   static propTypes = {
+    alwaysShowPageSizeSelector: PropTypes.bool,
     total: PropTypes.number.isRequired,
     currentPage: PropTypes.number,
     pageSize: PropTypes.number,
@@ -100,10 +101,32 @@ export default class Pager extends PureComponent {
       [style.linkDisabled]: currentPage === totalPages
     });
 
+    const getShowPageSizeSelector = () => {
+      if (this.props.disablePageSizeSelector) {
+        return null;
+      } else {
+        return (
+          <div
+            data-test="ring-pager-page-size-selector"
+            style={{float: 'right'}}
+          >
+            <Select
+              data={selectOptions.data}
+              selected={selectOptions.selected}
+              onSelect={item => onPageSizeChange(item.key)}
+            />
+          </div>
+        );
+      }
+    };
+
     return (
       do {
         if (totalPages > 1) {
-          <div className={classes}>
+          <div
+            data-test="ring-pager"
+            className={classes}
+          >
             <div className={style.links}>
               <span
                 className={prevLinkClasses}
@@ -162,20 +185,12 @@ export default class Pager extends PureComponent {
               }
             </ButtonToolbar>
 
-            {
-              !this.props.disablePageSizeSelector
-              ? <div style={{float: 'right'}}>
-                  <Select
-                    data={selectOptions.data}
-                    selected={selectOptions.selected}
-                    onSelect={item => onPageSizeChange(item.key)}
-                  />
-                </div>
-              : ''
-            }
+            {getShowPageSizeSelector()}
           </div>;
         } else {
-          null;
+          this.props.alwaysShowPageSizeSelector
+            ? getShowPageSizeSelector()
+            : null;
         }
       }
     );
