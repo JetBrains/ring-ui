@@ -29,20 +29,22 @@ class DialogController extends RingAngularComponent {
   constructor(...args) {
     super(...args);
 
-    const {dialog, dialogInSidebar, $q, $scope} = this.$inject;
-    const dialogService = this.inSidebar ? dialogInSidebar : dialog;
-
-    this.dialogService = dialogService;
-    this.previousBodyWidth = null;
-
     this.styles = styles;
     this.dialogStyles = dialogStyles;
     this.islandStyles = islandStyles;
 
-    $q((resolve, reject) => {
+    this.$inject.$q((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
     });
+  }
+
+  $onInit() {
+    const {dialog, dialogInSidebar, $scope} = this.$inject;
+    const dialogService = this.inSidebar ? dialogInSidebar : dialog;
+
+    this.dialogService = dialogService;
+    this.previousBodyWidth = null;
 
     $scope.$on('$routeChangeSuccess', ::this.hide);
     $scope.$on('$routeUpdate', ::this.hide);
