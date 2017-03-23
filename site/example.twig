@@ -4,25 +4,25 @@
   <meta charset="utf-8">
   <title>{{ example.attrs.name }}</title>
   <script src="../../vendor.dll.js"></script>
-  <script src="../../example-common.js"></script>
 </head>
 <body>
 
-<!-- example content -->
-{% for file in example.files if file.type == 'html' %}
-  {% for asset in file.assets if asset.type == 'html' %}
-    {{ asset.content | raw }}
+  <!-- example content -->
+  {% for file in example.files if file.type == 'html' %}
+    {% for asset in file.assets if asset.type == 'html' %}
+      {{ asset.content | raw }}
+    {% endfor %}
   {% endfor %}
-{% endfor %}
 
-<!-- example assets -->
-{% for file in example.files %}
-  {% for asset in file.assets %}
-    {% if asset.type == 'js' %}
-      <script src="../../{{ asset.path }}"></script>
-    {% endif %}
+  <!-- example assets -->
+  {% for file in example.files %}
+    {% for asset in file.assets %}
+      {% if asset.type == 'js' %}
+        <script src="../../{{ asset.path }}"></script>
+      {% endif %}
+    {% endfor %}
   {% endfor %}
-{% endfor %}
 
+  <script src="../../example-common.js"></script>
 </body>
 </html>
