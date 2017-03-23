@@ -40,10 +40,6 @@
     }
   }
 
-  &:nth-child(2) {
-   padding-left: 0;
-  }
-
   &:last-child {
     padding-right: calc(unit * 4);
     width: 100%;
@@ -196,6 +192,9 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
+
+    display: flex;
+    align-items: center;
   }
 
   &:last-child {
@@ -205,10 +204,9 @@
     max-width: 0;
   }
 
-  &:nth-child(2) {
-    padding-left: 0;
-    min-width: 268px;
-    max-width: 588px;
+  &:nth-child(1) {
+    min-width: 297px;
+    max-width: 617px;
   }
 }
 
@@ -223,18 +221,20 @@
 .metaColumn {
   position: relative;
   padding-right: 0;
-  min-width: initial;
+  float: left;
+  width: 21px;
+  height: 16px;
+  padding-right: unit;
 
   &.metaColumnSpaced {
-    padding-right: unit;
   }
 }
 
 .dragHandle {
   display: none;
   position: absolute;
-  left: unit;
-  top: 0;
+  left: -24px;
+  top: -12px;
 
   cursor: grab;
   padding: unit;
@@ -261,5 +261,4 @@
   }
 
   background-color: #FFF;
-  vertical-align: middle;
 }
