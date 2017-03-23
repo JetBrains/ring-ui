@@ -57,6 +57,7 @@
 
 .weekdays {
   margin-top: calc(unit * 2);
+  line-height: normal;
   color: dark-gray-color;
 }
 
