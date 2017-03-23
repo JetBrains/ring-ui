@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, line-color from  "../global/global.css";
+@value unit, font, font-size, line-height, line-color, dark-gray-color from  "../global/global.css";
 
 .markdown {
   composes: font;
@@ -24,8 +24,11 @@
   }
 
   & blockquote {
+    color: dark-gray-color;
+    font-size: 12px;
+    line-height: 18px;
     padding: 0 0 0 calc(2 * unit);
-    box-shadow: inset 1px 0 0 line-color;
+    box-shadow: inset 2px 0 0 line-color;
   }
 
   & ul,
