@@ -5,7 +5,7 @@ import Heading from '../heading/heading';
 const MarkdownHeading = ({level, children}) => <Heading level={level}>{children}</Heading>;
 
 MarkdownHeading.propTypes = {
-  level: PropTypes.string,
+  level: PropTypes.number,
   children: PropTypes.node
 };
 
