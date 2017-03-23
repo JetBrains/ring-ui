@@ -97,15 +97,14 @@ class Row extends PureComponent {
       [style.metaColumnSpaced]: selectable
     });
 
-    const SUBITEM_OFFSET = 10;
-    const gap = item.__level * SUBITEM_OFFSET;
-
-    const inlineStyle = {
-      paddingLeft: `${gap + 32}px` // eslint-disable-line no-magic-numbers
+    const SUBITEM_OFFSET = 30;
+    const gap = item.__level ? item.__level * SUBITEM_OFFSET : 0;
+    const metaColumnStyle = {
+      paddingLeft: `${gap}px`
     };
 
-    const cells = [
-      <Cell key="meta" className={metaColumnClasses} style={inlineStyle}>
+    const metaColumn = (
+      <div className={metaColumnClasses} style={metaColumnStyle}>
         {draggable && <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>}
         {selectable &&
         <Checkbox
@@ -115,15 +114,20 @@ class Row extends PureComponent {
           onChange={this.onCheckboxChange}
           tabIndex="-1"
         />}
-      </Cell>
-    ];
+      </div>
+    );
 
-    columns.map((column, key) => {
+    const cells = columns.map((column, index) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
-
       const cellClasses = classNames({[style.cellRight]: column.rightAlign});
-      cells.push(<Cell key={key} className={cellClasses}>{value}</Cell>);
+
+      return (
+        <Cell key={index} className={cellClasses}>
+          {index === 0 && metaColumn}
+          {value}
+        </Cell>
+      );
     });
 
     return (

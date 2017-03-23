@@ -62,33 +62,36 @@ export default class Header extends PureComponent {
   calculateColumnsWidths(columnsRowNode) {
     this.setState({
       headerWidth: columnsRowNode.clientWidth,
-      widths: Array.from(columnsRowNode.childNodes).map(column => column.clientWidth)
+      widths: [...columnsRowNode.childNodes].map(column => column.clientWidth)
     });
   }
 
   createCells(widths = []) {
     const {selectable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
-    const headerCells = [
-      <th
-        key="meta"
-        className={classNames(style.headerCell, style.metaColumn)}
-        style={{width: widths[0]}}
-        data-test="ring-table-header-cell"
-      >
+    const metaColumnClasses = classNames(style.metaColumn, {
+      [style.metaColumnSpaced]: selectable
+    });
+
+    const metaColumn = (
+      <div className={metaColumnClasses} style={{width: widths[0]}}>
         {selectable &&
         <Checkbox
           checked={checked}
           onChange={onCheckboxChange}
           onFocus={this.onCheckboxFocus}
         />}
-      </th>
-    ];
+      </div>
+    );
 
-    columns.map((column, index) => {
+    const headerCells = columns.map((column, index) => {
       const columnStyle = widths[index + 1] ? {width: widths[index + 1]} : null;
       const props = {key: index, column, onSort, sortKey, sortOrder, style: columnStyle};
-      headerCells.push(<HeaderCell {...props}/>);
+      return (
+        <HeaderCell {...props}>
+          {index === 0 && metaColumn}
+        </HeaderCell>
+      );
     });
 
     return headerCells;
