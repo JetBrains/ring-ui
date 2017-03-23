@@ -45,8 +45,10 @@ export default class Header extends PureComponent {
   }
 
   storeColumnsRowNode = node => {
-    this._columnsRowNode = node;
-    this.calculateColumnsWidths(node);
+    if (node) {
+      this._columnsRowNode = node;
+      this.calculateColumnsWidths(node);
+    }
   }
 
   onScrollIn = () => {
@@ -74,7 +76,7 @@ export default class Header extends PureComponent {
     });
 
     const metaColumn = (
-      <div className={metaColumnClasses} style={{width: widths[0]}}>
+      <div className={metaColumnClasses}>
         {selectable &&
         <Checkbox
           checked={checked}
@@ -85,7 +87,7 @@ export default class Header extends PureComponent {
     );
 
     const headerCells = columns.map((column, index) => {
-      const columnStyle = widths[index + 1] ? {width: widths[index + 1]} : null;
+      const columnStyle = widths[index] ? {width: widths[index]} : null;
       const props = {key: index, column, onSort, sortKey, sortOrder, style: columnStyle};
       return (
         <HeaderCell {...props}>

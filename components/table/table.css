@@ -45,6 +45,11 @@
     width: 100%;
   }
 
+  &:nth-child(1) {
+    min-width: 297px;
+    max-width: 617px;
+  }
+
   &.headerCellSorted {
     font-weight: 500;
   }
