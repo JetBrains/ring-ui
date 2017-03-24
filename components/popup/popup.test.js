@@ -4,7 +4,7 @@ import {createElement, Component} from 'react';
 import 'dom4';
 
 import renderIntoDocument from 'render-into-document';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 import {getStyles, getRect} from '../global/dom';
 
 import Popup from './popup';
@@ -24,7 +24,7 @@ describe('Popup', () => {
     const onCloseAttempt = this.sinon.stub();
     renderPopup({onCloseAttempt});
 
-    simulateKeypress(null, 27); // Esc
+    simulateCombo('esc');
 
     onCloseAttempt.should.have.been.called;
   });

@@ -12,6 +12,7 @@ import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
+import {preventDefault} from '../global/dom';
 
 import './query-assist.scss';
 import '../input/input.scss';
@@ -341,7 +342,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   // It's necessary to prevent new element creation before any other hooks
   handleEnter = e => {
     if (e.key === 'Enter') {
-      e.preventDefault();
+      preventDefault(e);
     }
   }
 
@@ -350,7 +351,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const suggestion = list && (list.getSelected() || list.getFirst());
 
     if (suggestion && this.state.showPopup) {
-      e.preventDefault();
+      preventDefault(e);
 
       if (this.getQuery() !== this.immediateState.suggestionsQuery) {
         return false;
@@ -360,7 +361,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     if (this.state.loading) {
-      e.preventDefault();
+      preventDefault(e);
       return false;
     }
 
@@ -370,7 +371,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   handlePaste(e) {
     const INSERT_COMMAND = 'insertText';
     if (e.clipboardData && document.queryCommandSupported(INSERT_COMMAND)) {
-      e.preventDefault();
+      preventDefault(e);
       const text = cleanText(e.clipboardData.getData('text/plain'));
       document.execCommand(INSERT_COMMAND, false, text);
     }
@@ -561,7 +562,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleCtrlSpace = e => {
-    e.preventDefault();
+    preventDefault(e);
 
     if (!this.state.showPopup) {
       this.requestData();

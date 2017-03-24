@@ -8,7 +8,7 @@ import last from 'mout/array/last';
 import guid from 'mout/random/guid';
 import randString from 'mout/random/randString';
 
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 
 
 describe('SelectPopup', () => {
@@ -48,15 +48,10 @@ describe('SelectPopup', () => {
 
 
   describe('navigation', () => {
-    const ArrowDown = 40;
-    const ArrowUp = 38;
-    const Enter = 13;
-
-
     it('should highlight first item', function () {
       const firstItem = testData[0];
 
-      simulateKeypress(null, ArrowDown);
+      simulateCombo('down');
 
       expect(this.selectPopup.list.getSelected()).to.be.equal(firstItem);
     });
@@ -65,7 +60,7 @@ describe('SelectPopup', () => {
     it('should highlight last item', function () {
       const lastItem = last(testData);
 
-      simulateKeypress(null, ArrowUp);
+      simulateCombo('up');
 
       expect(this.selectPopup.list.getSelected()).to.be.equal(lastItem);
     });
@@ -74,8 +69,7 @@ describe('SelectPopup', () => {
     it('should select item', function () {
       const firstItem = testData[0];
 
-      simulateKeypress(null, ArrowDown);
-      simulateKeypress(null, Enter);
+      simulateCombo('down enter');
 
       expect(this.selectPopup.props.onSelect).to.be.calledWith(firstItem);
     });
