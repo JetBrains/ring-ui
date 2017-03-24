@@ -6,15 +6,32 @@
  * @example-file ./island-ng.examples.html
  */
 /* global angular: false */
-import {createAngularComponent} from '../global/angular-component-factory';
-import Island, {AdaptiveIsland, Header, Content} from '../island/island';
+import styles from '../island/island.css';
+import IslandHeader from './island-header-ng';
+import IslandContent from './island-content-ng';
+import compile from './island-ng-class-fixer';
 
-const angularModule = angular.module('Ring.island-ng', []);
+const angularModule = angular.module('Ring.island-ng', [IslandHeader, IslandContent]);
+
+const islandDirective = {
+  transclude: true,
+  replace: true,
+  bindToController: {
+    narrow: '='
+  },
+  compile,
+  template: `
+<div 
+  class="${styles.island}" 
+  ng-class="{'${styles.narrowIsland}': islandCtrl.narrow}" 
+  ng-transclude
+></div>
+`,
+  controllerAs: 'islandCtrl',
+  controller: angular.noop
+};
 
 angularModule.
-  component('rgIsland', createAngularComponent(Island, 'Island')).
-  component('rgAdaptiveIsland', createAngularComponent(AdaptiveIsland, 'AdaptiveIsland')).
-  component('rgIslandHeader', createAngularComponent(Header, 'IslandHeader')).
-  component('rgIslandContent', createAngularComponent(Content, 'IslandContent'));
+  directive('rgIsland', () => islandDirective);
 
 export default angularModule.name;
