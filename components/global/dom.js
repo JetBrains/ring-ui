@@ -66,3 +66,10 @@ export class Listeners {
     this._all.forEach(fn => this.remove(fn));
   }
 }
+
+// Synthetic events from Combokeys#trigger are plain objects
+export function preventDefault(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+}
