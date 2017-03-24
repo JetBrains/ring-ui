@@ -29,6 +29,10 @@ angularModule.directive('rgPageTitle', () => ({
 
     // Set page title on route change
     const offRouteWatch = $rootScope.$on('$routeChangeSuccess', (event, current) => {
+      //Do nothing if we're being redirected
+      if (current.$$route && current.$$route.redirectTo) { // eslint-disable-line angular/no-private-call
+        return;
+      }
       let routeTitle = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
       pageTitle.setCurrent($scope.rgPageTitle || elementText);
