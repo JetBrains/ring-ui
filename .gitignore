@@ -1,5 +1,6 @@
 # Editors
 *.iws
+.idea/shelf/
 .idea/workspace.xml
 .idea/dictionaries/*.xml
 .idea/copyright/
