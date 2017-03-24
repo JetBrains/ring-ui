@@ -9,6 +9,7 @@ import React, {PropTypes, createElement} from 'react';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
 import memoize from '../global/memoize';
+import {preventDefault} from '../global/dom';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
@@ -208,7 +209,7 @@ export default class List extends RingComponentWithShortcuts {
       }
 
       this.recalculateVisibleOptions(true);
-      e.preventDefault();
+      preventDefault(e);
     });
   }
 

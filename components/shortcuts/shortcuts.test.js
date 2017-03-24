@@ -4,13 +4,10 @@ import Shortcuts from './shortcuts';
 import React from 'react';
 import renderIntoDocument from 'render-into-document';
 import guid from 'mout/random/guid';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 
 
 describe('ShortcutsComponent', () => {
-  const Enter = 13;
-
-
   beforeEach(function () {
     this.component = renderIntoDocument(
       <Shortcuts
@@ -27,7 +24,7 @@ describe('ShortcutsComponent', () => {
 
 
   it('should call shortcut handler', function () {
-    simulateKeypress(null, Enter);
+    simulateCombo('enter');
 
     expect(this.component.props.map.enter).to.be.called;
   });
