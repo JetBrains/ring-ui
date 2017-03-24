@@ -6,7 +6,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 
 
 describe('Select', () => {
@@ -640,8 +640,7 @@ describe('Select', () => {
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
-        const ESC_KEY = 27;
-        simulateKeypress(null, ESC_KEY);
+        simulateCombo('esc');
         document.activeElement.should.equal(targetInput.node);
       });
 
