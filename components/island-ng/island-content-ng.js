@@ -21,7 +21,6 @@ const islandContentDirective = {
   }"
 >
   <div
-    
     class="${styles.scrollableWrapper}"
     ng-transclude
   ></div>
