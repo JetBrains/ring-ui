@@ -3,7 +3,6 @@
 import shortcutsHOC from './shortcuts-hoc';
 import React from 'react';
 import renderIntoDocument from 'render-into-document';
-import guid from 'mout/random/guid';
 
 import simulateCombo from 'simulate-combo';
 
@@ -13,7 +12,6 @@ describe('ShortcutsHOC', () => {
 
     function createShortcutsMap() {
       return {
-        scope: guid(),
         options: {},
         map: {enter: sinon.spy()}
       };
@@ -27,7 +25,8 @@ describe('ShortcutsHOC', () => {
 
       this.component = renderIntoDocument(
         <InputWithShortcuts
-          shortcuts={shortcuts}
+          rgShortcutsOptions={shortcuts.options}
+          rgShortcutsMap={shortcuts.map}
         />
       );
     });
@@ -51,7 +50,8 @@ describe('ShortcutsHOC', () => {
 
       this.component = renderIntoDocument(
         <InputWithShortcuts
-          shortcuts={shortcuts}
+          rgShortcutsOptions={shortcuts.options}
+          rgShortcutsMap={shortcuts.map}
         />
       );
 

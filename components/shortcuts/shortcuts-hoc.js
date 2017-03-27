@@ -1,6 +1,7 @@
 import React from 'react';
 import {PropTypes} from 'react';
 import Shortcuts from './shortcuts';
+import getUID from './../global/get-uid';
 
 
 export default function shortcutsHOC(ComposedComponent) {
@@ -8,31 +9,30 @@ export default function shortcutsHOC(ComposedComponent) {
   /* eslint-disable react/display-name */
   return class extends React.Component {
     static propTypes = {
-      shortcuts: PropTypes.object
+      rgShortcutsOptions: PropTypes.object,
+      rgShortcutsMap: PropTypes.object
     }
 
+    _shortcutsScopeUid = getUID('rg-shortcuts-')
+
     render() {
-      const {shortcuts, ...props} = this.props;
+      const {rgShortcutsOptions, rgShortcutsMap, ...props} = this.props;
 
 
       if (
-        !shortcuts ||
-        (
-          shortcuts.options &&
-          shortcuts.options.disabled
-        )
+        rgShortcutsOptions &&
+        rgShortcutsOptions.disabled
       ) {
         return (
           <ComposedComponent {...props} />
         );
       }
 
-
       return (
         <Shortcuts
-          map={shortcuts.map}
-          scope={shortcuts.scope}
-          options={shortcuts.options}
+          scope={this._shortcutsScopeUid}
+          map={rgShortcutsMap}
+          options={rgShortcutsOptions}
         >
           <ComposedComponent {...props} />
         </Shortcuts>

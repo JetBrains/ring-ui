@@ -77,12 +77,29 @@ describe('SelectPopup', () => {
   });
 
   describe('filter', () => {
+    function expectPopupFilterShortuctsDisabled(selectPopup, value) {
+      expect(selectPopup.setState).
+        to.
+        be.
+        calledWith({
+          popupFilterShortcutsOptions: {
+            modal: true,
+            disabled: value
+          }
+        });
+    }
+
+    beforeEach(function () {
+      this.sinon.spy(this.selectPopup, 'setState');
+    });
+
+
     it('should enable shortcuts on focus', function () {
       this.selectPopup.willReceiveProps({filter: true});
 
       TestUtils.Simulate.focus(this.selectPopup.filter);
 
-      this.selectPopup.popupFilterShortcuts.options.disabled.should.be.false;
+      expectPopupFilterShortuctsDisabled(this.selectPopup, false);
     });
 
 
@@ -91,7 +108,7 @@ describe('SelectPopup', () => {
 
       TestUtils.Simulate.blur(this.selectPopup.filter);
 
-      this.selectPopup.popupFilterShortcuts.options.disabled.should.be.true;
+      expectPopupFilterShortuctsDisabled(this.selectPopup, true);
     });
   });
 });

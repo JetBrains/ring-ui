@@ -38,7 +38,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   };
 
   state = {
-    popupShortcuts: false
+    popupShortcuts: false,
+    popupFilterShortcutsOptions: {
+      modal: true,
+      disabled: false
+    }
   };
 
   constructor() {
@@ -46,15 +50,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.mouseUpHandler = ::this.mouseUpHandler;
 
     this.popupFilterShortcuts = {
-      options: {modal: true, disabled: false},
       map: {
         up: e => (this.list && this.list.upHandler(e)),
         down: e => (this.list && this.list.downHandler(e)),
         enter: e => (this.list && this.list.enterHandler(e)),
         esc: e => this.props.onCloseAttempt(e),
         tab: e => this.tabPress(e)
-      },
-      scope: ::this.constructor.getUID('ring-select-popup__filter-input-')
+      }
     };
   }
 
@@ -62,7 +64,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
 
   _togglePopupFilterShortcuts(value) {
-    this.popupFilterShortcuts.options.disabled = value;
+    this.setState({
+      popupFilterShortcutsOptions: {
+        modal: true,
+        disabled: value
+      }
+    });
   }
 
   didMount() {
@@ -138,7 +145,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       return (
         <div className={filterWrapper}>
           <InputWithShortcuts
-            shortcuts={this.popupFilterShortcuts}
+            rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
+            rgShortcutsMap={this.popupFilterShortcuts.map}
+
             defaultValue={this.props.filter.value || ''}
             inputRef={el => {
               this.filter = el;
