@@ -6,14 +6,7 @@ export default class Shortcuts extends Component {
     map: PropTypes.object.isRequired,
     scope: PropTypes.string.isRequired,
     options: PropTypes.object,
-    children: PropTypes.oneOfType(
-      [
-        PropTypes.array,
-        PropTypes.string,
-        PropTypes.node,
-        PropTypes.object
-      ]
-    )
+    children: PropTypes.node
   }
 
   static defaultProps = {
