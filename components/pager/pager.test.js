@@ -18,7 +18,9 @@ describe('Pager', () => {
   });
 
   it('should render page size selector even when total is less than 2', () => {
-    findDOMNode(renderComponent({total: 1, alwaysShowPageSizeSelector: true})).should.match('[data-test="ring-pager-page-size-selector"]');
+    const node = findDOMNode(renderComponent({total: 1, alwaysShowPageSizeSelector: true}));
+    node.should.match('[data-test="ring-pager"]');
+    node.childNodes[0].should.match('[data-test="ring-pager-page-size-selector"]');
   });
 
   it('should wrap children with div', () => {
