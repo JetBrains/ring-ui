@@ -10,10 +10,13 @@ import List from '../list/list';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import classNames from 'classnames';
+import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 
 import {filterWrapper} from '../popup/popup.css';
 
 function noop() {}
+
+const InputWithShortcuts = shortcutsHOC(Input);
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
@@ -41,6 +44,25 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   constructor() {
     super();
     this.mouseUpHandler = ::this.mouseUpHandler;
+
+    this.popupFilterShortcuts = {
+      options: {modal: true, disabled: false},
+      map: {
+        up: e => (this.list && this.list.upHandler(e)),
+        down: e => (this.list && this.list.downHandler(e)),
+        enter: e => (this.list && this.list.enterHandler(e)),
+        esc: e => this.props.onCloseAttempt(e),
+        tab: e => this.tabPress(e)
+      },
+      scope: ::this.constructor.getUID('ring-select-popup__filter-input-')
+    };
+  }
+
+  popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+  popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
+
+  _togglePopupFilterShortcuts(value) {
+    this.popupFilterShortcuts.options.disabled = value;
   }
 
   didMount() {
@@ -115,14 +137,17 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     if (this.props.filter) {
       return (
         <div className={filterWrapper}>
-          <Input
+          <InputWithShortcuts
+            shortcuts={this.popupFilterShortcuts}
             defaultValue={this.props.filter.value || ''}
-            ref={el => {
+            inputRef={el => {
               this.filter = el;
               if (el) {
                 findDOMNode(el).focus();
               }
             }}
+            onBlur={this.popupFilterOnBlur}
+            onFocus={this.popupFilterOnFocus}
             className="ring-js-shortcuts ring-input_filter-popup"
             placeholder={this.props.filter.placeholder || ''}
             onInput={this.props.onFilter}

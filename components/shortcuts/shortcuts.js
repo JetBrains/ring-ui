@@ -5,7 +5,14 @@ export default class Shortcuts extends Component {
   static propTypes = {
     map: PropTypes.object.isRequired,
     scope: PropTypes.string.isRequired,
-    options: PropTypes.object
+    options: PropTypes.object,
+    children: PropTypes.oneOfType(
+      [
+        PropTypes.array,
+        PropTypes.string,
+        PropTypes.object
+      ]
+    )
   }
 
   static defaultProps = {
@@ -13,7 +20,7 @@ export default class Shortcuts extends Component {
   }
 
   render() {
-    return null;
+    return this.props.children || null;
   }
 
   componentWillMount() {
@@ -21,10 +28,6 @@ export default class Shortcuts extends Component {
     shortcuts.bindMap(map, this.props);
     shortcuts.pushScope(scope, options);
   }
-
-  /*componentWillReceiveProps(nextProps) {
-    this.toggleShortcuts(nextProps);
-  }*/
 
   componentWillUnmount() {
     const {scope} = this.props;
