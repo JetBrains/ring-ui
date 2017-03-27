@@ -10,6 +10,7 @@ export default class Shortcuts extends Component {
       [
         PropTypes.array,
         PropTypes.string,
+        PropTypes.node,
         PropTypes.object
       ]
     )
