@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Badge.
  * @example
-  <example name="rgIsland">
+  <example name="rgBadge">
     <file type="html">
       <div ng-app="Example.badge" ng-controller="ExampleCtrl as ctrl">
         <rg-badge>simple</rg-badge>
