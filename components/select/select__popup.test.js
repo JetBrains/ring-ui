@@ -82,10 +82,7 @@ describe('SelectPopup', () => {
 
       TestUtils.Simulate.focus(this.selectPopup.filter);
 
-      expect(this.selectPopup.popupFilterShortcuts.options.disabled).
-        to.
-        be.
-        equal(false);
+      this.selectPopup.popupFilterShortcuts.options.disabled.should.be.false;
     });
 
 
@@ -94,10 +91,7 @@ describe('SelectPopup', () => {
 
       TestUtils.Simulate.blur(this.selectPopup.filter);
 
-      expect(this.selectPopup.popupFilterShortcuts.options.disabled).
-        to.
-        be.
-        equal(true);
+      this.selectPopup.popupFilterShortcuts.options.disabled.should.be.true;
     });
   });
 });
