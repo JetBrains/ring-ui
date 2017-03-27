@@ -18,7 +18,7 @@ export default class Input extends RingComponent {
   }
 
   render() {
-    const {className, active, error, material, valid, multiline, shortcuts, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {className, inputRef, active, error, material, valid, multiline, shortcuts, ...props} = this.props; // eslint-disable-line no-unused-vars
     const classes = classNames('ring-input', className, {
       'ring-input_active': active,
       'ring-input_correct': valid,
@@ -28,11 +28,13 @@ export default class Input extends RingComponent {
 
     return multiline ? (
       <textarea
+        ref={inputRef}
         {...props}
         className={classes}
       />
     ) : (
       <input
+        ref={inputRef}
         {...props}
         className={classes}
       />

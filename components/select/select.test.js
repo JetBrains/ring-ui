@@ -351,11 +351,12 @@ describe('Select', () => {
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
       this.select.filterValue = this.sinon.stub().returns('a');
+
       this.select.setState({
         focused: true,
         showPopup: true
       });
-      TestUtils.Simulate.input(this.select._popup.filter.node);
+      TestUtils.Simulate.input(this.select._popup.filter);
       this.select.props.onFilter.should.been.called;
     });
 
@@ -405,7 +406,7 @@ describe('Select', () => {
     it('Should set value to popup input if passed', function () {
       this.select._showPopup();
       this.select.filterValue('test');
-      this.select._popup.filter.node.value.should.equal('test');
+      this.select._popup.filter.value.should.equal('test');
     });
 
     it('Should set target input value in input mode', function () {
