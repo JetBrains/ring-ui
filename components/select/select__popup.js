@@ -3,18 +3,22 @@
  */
 
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
 import classNames from 'classnames';
+import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 
 import styles from './select.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 
 function noop() {}
+
+const InputWithShortcuts = shortcutsHOC(Input);
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
@@ -36,12 +40,38 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   };
 
   state = {
-    popupShortcuts: false
+    popupShortcuts: false,
+    popupFilterShortcutsOptions: {
+      modal: true,
+      disabled: false
+    }
   };
 
   constructor() {
     super();
     this.mouseUpHandler = ::this.mouseUpHandler;
+
+    this.popupFilterShortcuts = {
+      map: {
+        up: e => (this.list && this.list.upHandler(e)),
+        down: e => (this.list && this.list.downHandler(e)),
+        enter: e => (this.list && this.list.enterHandler(e)),
+        esc: e => this.props.onCloseAttempt(e),
+        tab: e => this.tabPress(e)
+      }
+    };
+  }
+
+  popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+  popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
+
+  _togglePopupFilterShortcuts(value) {
+    this.setState({
+      popupFilterShortcutsOptions: {
+        modal: true,
+        disabled: value
+      }
+    });
   }
 
   didMount() {
@@ -134,10 +164,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             glyph={require('jetbrains-icons/search.svg')}
             size={Icon.Size.Size18}
           />
-          <input
+          <InputWithShortcuts
+            rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
+            rgShortcutsMap={this.popupFilterShortcuts.map}
             className={classNames(styles.filter, 'ring-js-shortcuts')}
             defaultValue={this.props.filter.value || ''}
             ref={this.filterRef}
+            onBlur={this.popupFilterOnBlur}
+            onFocus={this.popupFilterOnFocus}
             placeholder={this.props.filter.placeholder || ''}
             onInput={this.props.onFilter}
           />
@@ -188,7 +222,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   filterRef = el => {
-    this.filter = el;
+    this.filter = el && findDOMNode(el);
   }
 
   render() {

@@ -3,7 +3,7 @@
 import React from 'react';
 
 import renderIntoDocument from 'render-into-document';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 import guid from 'mout/random/guid';
 
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
@@ -19,7 +19,7 @@ describe('Ring Component With Shortcuts', () => {
   keyMap[key] = noop;
 
   function trigger() {
-    simulateKeypress(key, 65);
+    simulateCombo(key);
   }
 
   beforeEach(function () {

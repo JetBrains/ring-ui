@@ -4,7 +4,7 @@
 import 'angular';
 import 'angular-mocks';
 import 'dom4';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 import {getRect} from '../global/dom';
 
 import Dialog from './dialog-ng';
@@ -339,7 +339,7 @@ describe('Dialog Ng', () => {
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    simulateKeypress(null, 27); // Esc
+    simulateCombo('esc');
 
     element.should.not.have.class('active');
   });
@@ -356,7 +356,7 @@ describe('Dialog Ng', () => {
         }
       }
     );
-    simulateKeypress(null, 27); // Esc
+    simulateCombo('esc');
 
     element.should.not.have.class('active');
   });
@@ -374,7 +374,7 @@ describe('Dialog Ng', () => {
         }
       }
     );
-    simulateKeypress(null, 27); // Esc
+    simulateCombo('esc');
 
     callback.should.have.been.called;
   });

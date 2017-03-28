@@ -58,6 +58,7 @@
 .weekdays {
   composes: font-lower;
   margin-top: calc(unit * 2);
+  line-height: normal;
   color: dark-gray-color;
 }
 
