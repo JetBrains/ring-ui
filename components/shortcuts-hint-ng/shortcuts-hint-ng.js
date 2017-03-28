@@ -88,6 +88,7 @@ class HintPopupService {
       template: HintPopupTpl,
       closeOnClick: true,
       autoWidth: true,
+      cssClass: 'shortcuts-hint__dialog',
       controllerAs: 'hintPopupCtrl',
       buttons: [{
         label: okButtonLabel,
