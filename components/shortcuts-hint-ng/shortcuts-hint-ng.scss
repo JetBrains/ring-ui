@@ -6,6 +6,10 @@
   width: 900px;
 }
 
+.shortcuts-hint__dialog {
+  width: auto;
+}
+
 .shortcuts-hint__popup-header {
   padding-left: $ring-unit;
 }
@@ -13,6 +17,7 @@
 .shortcuts-hint__columns {
   margin-top: $ring-unit * 3;
   columns: 2 auto;
+  line-height: 20px;
 }
 
 .shortcuts-hint__table {

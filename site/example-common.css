@@ -1,8 +1,11 @@
 @value unit, font, font-size, line-height from '../components/global/global.css';
 
-.body {
+body {
   margin: calc(unit * 2);
   padding: 0;
+}
+
+.body {
   composes: font;
   font-size: font-size;
   line-height: line-height;

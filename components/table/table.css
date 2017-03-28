@@ -43,6 +43,11 @@
     max-width: 617px;
   }
 
+  &:nth-child(1):only-child {
+    max-width: none;
+    width: initial;
+  }
+
   &.headerCellSorted {
     font-weight: 500;
   }
@@ -145,6 +150,11 @@
     padding-left: 0;
     min-width: calc(unit * 37);
     max-width: calc(unit * 77);
+  }
+
+  &:nth-child(1):only-child {
+    max-width: none;
+    width: initial;
   }
 }
 
