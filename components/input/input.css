@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease, blue-caret from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease, blue-caret from  "../global/global.css";
 
 @value text-shadow: 0 0 0;
 
@@ -164,7 +164,8 @@ textarea.input {
 
 .errorText {
   color: error-color;
-  composes: font-smaller-lower;
+  font-size: font-size-smaller;
+  line-height: line-height-lowest;
   box-sizing: border-box;
   height: 0;
   overflow: hidden;

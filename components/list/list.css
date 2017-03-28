@@ -1,4 +1,4 @@
-@value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font, font-smaller-lower, font-size-smaller, line-height, fast-ease from '../global/global.css';
+@value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height, line-height-lowest, fast-ease from '../global/global.css';
 
 @value list-spacing: calc(unit / 2);
 
@@ -49,7 +49,7 @@
   white-space: nowrap;
   padding: list-spacing calc(unit * 2);
 
-  composes: font;
+  font-size: font-size;
   line-height: calc(unit * 3);
   text-align: left;
 
@@ -97,7 +97,8 @@
 
 .description {
   padding-left: calc(unit * 2);
-  composes: font-smaller-lower;
+  font-size: font-size-smaller;
+  line-height: line-height-lowest;
   flex-shrink: 100;
   white-space: nowrap;
   overflow: hidden;
@@ -117,7 +118,8 @@
 .details {
   color: dark-gray-color;
   white-space: normal;
-  composes: font-smaller-lower;
+  font-size: font-size-smaller;
+  line-height: line-height-lowest;
   margin-bottom: 6px;
 }
 
