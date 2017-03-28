@@ -363,7 +363,8 @@ export default class Auth {
    * @private
    */
   static _epoch() {
-    return Math.round(new Date().getTime() / 1000.0);
+    const milliseconds = 1000.0;
+    return Math.round(Date.now() / milliseconds);
   }
 
   /**
