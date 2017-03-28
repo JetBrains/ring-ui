@@ -139,72 +139,88 @@ export default class Auth {
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
    */
-  init() {
+  async init() {
     this._storage.onTokenChange(token => {
       if (token === null) {
         this.logout();
       }
     });
 
-    function sendRedirect(error) {
-      return this._requestBuilder.prepareAuthRequest().
-        then(authRequest => {
-          this._redirectCurrentPage(authRequest.url);
-          return Promise.reject(error);
-        });
+    let state;
+
+    try {
+      // Look for token or error in hash
+      state = await this._checkForAuthResponse();
+    } catch (error) {
+      return this.handleInitError(error);
     }
 
-    return this._checkForAuthResponse().
-      catch(error => {
-        if (error.stateId) {
-          return this._storage.getState(error.stateId).
-            catch(() => Promise.reject(error)).
-            then(state => {
-              if (state && state.nonRedirect) {
-                state.error = error;
-                this._storage.saveState(error.stateId, state);
-                return new Promise(noop);
-              }
+    // Return endless promise in the background to avoid service start
+    if (state && state.nonRedirect) {
+      return new Promise(noop);
+    }
 
-              return Promise.reject(error);
-            });
-        }
+    try {
+      // Check if there is a valid token
+      await this.validateToken();
 
-        return Promise.reject(error);
-      }).
-      then(state => {
-        // Return endless promise in the background to avoid service start
+      // Access token appears to be valid.
+      // We may resolve restoreLocation URL now
+      this._initDeferred.resolve(state && state.restoreLocation);
+      return state && state.restoreLocation;
+    } catch (error) {
+      return this.handleInitValidationError(error);
+    }
+  }
+
+  async sendRedirect(error) {
+    const authRequest = await this._requestBuilder.prepareAuthRequest();
+    this._redirectCurrentPage(authRequest.url);
+
+    throw error;
+  }
+
+  async handleInitError(error) {
+    if (error.stateId) {
+      try {
+        const state = await this._storage.getState(error.stateId);
+
         if (state && state.nonRedirect) {
+          state.error = error;
+          this._storage.saveState(error.stateId, state);
+
+          // Return endless promise in the background to avoid service start
           return new Promise(noop);
         }
+      } catch (e) {
+        // Throw the orginal error instead below
+      }
+    }
 
-        // Check if there is a valid token
-        return this.validateToken().
-          then((/*accessToken*/) => {
-            // Access token appears to be valid.
-            // We may resolve restoreLocation URL now
-            this._initDeferred.resolve(state && state.restoreLocation);
-            return state && state.restoreLocation;
-          }, error => {
-            // Redirect flow
-            if (error.authRedirect && this.config.redirect) {
-              return this::sendRedirect(error);
-            }
+    throw error;
+  }
 
-            // Background flow
-            if (error.authRedirect && !this.config.redirect) {
-              return this._loadTokenInBackground().
-                then(this.validateToken.bind(this)).
-                then(() => {
-                  this._initDeferred.resolve();
-                }).
-                catch(this::sendRedirect); // Fallback to redirect flow
-            }
+  async handleInitValidationError(error) {
+    // Redirect flow
+    if (error.authRedirect && this.config.redirect) {
+      return this.sendRedirect(error);
+    }
 
-            this._initDeferred.reject(error);
-            return Promise.reject(error);
-          });
-      });
+    // Background flow
+    if (error.authRedirect && !this.config.redirect) {
+      try {
+        await this._loadTokenInBackground();
+        await this.validateToken();
+        this._initDeferred.resolve();
+        return undefined;
+      } catch (validationError) {
+        // Fallback to redirect flow
+        return this.sendRedirect(validationError);
+      }
+    }
+
+    this._initDeferred.reject(error);
+    throw error;
   }
 
   /**
@@ -440,12 +456,9 @@ export default class Auth {
    */
   static TokenValidationError = class TokenValidationError extends ExtendableError {
     constructor(message, cause) {
-      super();
-      this.stack = Error.prototype.stack;
-      this.message = message;
+      super(message);
       this.cause = cause;
       this.authRedirect = true;
-      this.name = 'TokenValidationError';
     }
   };
 
