@@ -398,16 +398,16 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  _onCloseAttempt(evt) {
+  _onCloseAttempt(evt, isEsc) {
     if (this.props.legacy) {
       this.close(evt);
     }
-    this.props.onCloseAttempt(evt);
+    this.props.onCloseAttempt(evt, isEsc);
   }
 
   _onEscPress(evt) {
     this.props.onEscPress(evt);
-    this._onCloseAttempt(evt);
+    this._onCloseAttempt(evt, true);
   }
 
   /**
@@ -424,7 +424,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
 
     this.props.onOutsideClick(evt);
-    this._onCloseAttempt(evt);
+    this._onCloseAttempt(evt, false);
   }
 
   getElementOffset(element) {

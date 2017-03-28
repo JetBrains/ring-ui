@@ -34,6 +34,7 @@ export default class Input extends PureComponent {
     error: PropTypes.string,
     multiline: PropTypes.bool,
     onChange: PropTypes.func,
+    inputRef: PropTypes.func,
     children: PropTypes.string
   };
 
@@ -80,6 +81,7 @@ export default class Input extends PureComponent {
 
   inputRef = el => {
     this.input = el;
+    this.props.inputRef(el);
   };
 
   render() {
@@ -97,6 +99,7 @@ export default class Input extends PureComponent {
       children,
       value,
       onChange,
+      inputRef, // eslint-disable-line no-unused-vars
       ...restProps
     } = this.props;
     const classes = classNames(

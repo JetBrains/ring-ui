@@ -14,6 +14,7 @@ export default class Services extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     clientId: PropTypes.string,
+    initShown: PropTypes.bool,
     loading: PropTypes.bool,
     onClick: PropTypes.func,
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
@@ -32,7 +33,7 @@ export default class Services extends PureComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const {className, clientId, loading, services, ...props} = this.props;
+    const {className, clientId, loading, services, initShown, ...props} = this.props;
 
     const classes = classnames(className, {
       ['ring-icon_loading']: loading
@@ -65,7 +66,7 @@ export default class Services extends PureComponent {
         {...props}
         anchor={anchor}
         className={className}
-        initShown={true}
+        initShown={initShown}
       >
         <Popup
           className={styles.services}

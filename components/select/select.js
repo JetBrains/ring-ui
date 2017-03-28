@@ -551,7 +551,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onCloseAttempt(event) {
+  _onCloseAttempt(event, isEsc) {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -562,8 +562,7 @@ export default class Select extends RingComponentWithShortcuts {
       }
     }
     // it's necessary to focus anchor on pressing ESC
-    const isKeyboardEvent = event && event.type === 'keydown';
-    this._hidePopup(isKeyboardEvent);
+    this._hidePopup(isEsc);
   }
 
   clearFilter() {

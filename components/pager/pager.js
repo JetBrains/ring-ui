@@ -9,6 +9,7 @@
 
 /* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
+/* eslint-disable react/jsx-max-props-per-line */
 
 import React, {PureComponent, PropTypes} from 'react';
 import Button from '../button-legacy/button-legacy';
@@ -101,7 +102,7 @@ export default class Pager extends PureComponent {
       [style.linkDisabled]: currentPage === totalPages
     });
 
-    const getShowPageSizeSelector = () => {
+    const getPageSizeSelector = () => {
       if (this.props.disablePageSizeSelector) {
         return null;
       } else {
@@ -120,79 +121,75 @@ export default class Pager extends PureComponent {
       }
     };
 
-    return (
-      do {
-        if (totalPages > 1) {
-          <div
-            data-test="ring-pager"
-            className={classes}
-          >
-            <div className={style.links}>
-              <span
-                className={prevLinkClasses}
-                onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
-              >← previous</span>
-
-              <span
-                className={nextLinkClasses}
-                onClick={() => currentPage !== totalPages && onPageChange(currentPage + 1)}
-              >next page →</span>
-            </div>
-
-            <ButtonToolbar>
-              {
-                do {
-                  if (start > 1) {
-                    <ButtonGroup>
-                      <Button onClick={() => onPageChange(1)}>First page</Button>
-                    </ButtonGroup>;
-                  }
-                }
-              }
-
-              <ButtonGroup>
-                {start > 1 ? <Button onClick={() => onPageChange(start - 1)}>...</Button> : ''}
-
-                {
-                  do {
-                    const buttons = [];
-                    for (let i = start; i <= end; i++) {
-                      const button = (
-                        <Button
-                          key={i}
-                          active={i === currentPage}
-                          onClick={() => onPageChange(i)}
-                        >{i}</Button>
-                      );
-
-                      buttons.push(button);
-                    }
-                    buttons;
-                  }
-                }
-
-                {end < totalPages ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
-              </ButtonGroup>
-
-              {
-                do {
-                  if (end < totalPages) {
-                    <ButtonGroup>
-                      <Button onClick={() => onPageChange(totalPages)}>Last page</Button>
-                    </ButtonGroup>;
-                  }
-                }
-              }
-            </ButtonToolbar>
-
-            {getShowPageSizeSelector()}
-          </div>;
-        } else {
-          this.props.alwaysShowPageSizeSelector
-            ? getShowPageSizeSelector()
-            : null;
-        }
+    const getPager = () => { // eslint-disable-line react/no-multi-comp
+      if (totalPages < 2) {
+        return null;
       }
+
+      return (
+        <div>
+          <div className={style.links}>
+            <span
+              className={prevLinkClasses}
+              onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+            >← previous</span>
+
+            <span
+              className={nextLinkClasses}
+              onClick={() => currentPage !== totalPages && onPageChange(currentPage + 1)}
+            >next page →</span>
+          </div>
+
+          <ButtonToolbar>
+            {start > 1 &&
+              <ButtonGroup>
+                <Button onClick={() => onPageChange(1)}>First page</Button>
+              </ButtonGroup>
+            }
+
+            <ButtonGroup>
+              {start > 1 ? <Button onClick={() => onPageChange(start - 1)}>...</Button> : ''}
+
+              {
+                do {
+                  const buttons = [];
+                  for (let i = start; i <= end; i++) {
+                    const button = (
+                      <Button
+                        key={i}
+                        active={i === currentPage}
+                        onClick={() => onPageChange(i)}
+                      >{i}</Button>
+                    );
+
+                    buttons.push(button);
+                  }
+                  buttons;
+                }
+              }
+
+              {end < totalPages ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
+            </ButtonGroup>
+
+            {end < totalPages &&
+              <ButtonGroup>
+                <Button onClick={() => onPageChange(totalPages)}>Last page</Button>
+              </ButtonGroup>
+            }
+          </ButtonToolbar>
+
+          {getPageSizeSelector()}
+        </div>
+      );
+    };
+
+    return (
+      <div data-test="ring-pager" className={classes}>
+        {totalPages > 1
+          ? getPager()
+          : getPageSizeSelector()
+        }
+      </div>
     );
   }
 }
