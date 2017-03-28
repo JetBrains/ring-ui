@@ -14,6 +14,7 @@ const ICON_SIZE = 10;
 
 export default class HeaderCell extends PureComponent {
   static propTypes = {
+    children: PropTypes.any,
     className: PropTypes.string,
     column: PropTypes.object.isRequired,
     onSort: PropTypes.func,
@@ -51,6 +52,8 @@ export default class HeaderCell extends PureComponent {
         onClick={::this.onClick}
         data-test="ring-table-header-cell"
       >
+        {this.props.children}
+
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
         {this.sortable && <span className={style.sorter}>

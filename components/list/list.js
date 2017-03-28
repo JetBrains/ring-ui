@@ -12,6 +12,7 @@ import throttle from 'mout/function/throttle';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import memoize from '../global/memoize';
+import {preventDefault} from '../global/dom';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
@@ -218,7 +219,7 @@ export default class List extends RingComponentWithShortcuts {
       }
 
       this.recalculateVisibleOptions(true);
-      e.preventDefault();
+      preventDefault(e);
     });
   }
 

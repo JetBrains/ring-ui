@@ -7,6 +7,7 @@ $over-input-z-index: 2;
   position: relative;
   box-sizing: border-box;
   height: $ring-unit*3;
+  line-height: normal;
   background: #FFF;
   @include ring-font;
 }

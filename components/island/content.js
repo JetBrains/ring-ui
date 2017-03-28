@@ -29,6 +29,7 @@ export default class Content extends Component {
   }
 
   componentWillUnmount() {
+    this.scrollableNode = null;
     if (!this.wrapperNode) {
       return;
     }

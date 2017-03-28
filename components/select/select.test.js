@@ -6,7 +6,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 
 import styles from './select.css';
 
@@ -357,6 +357,7 @@ describe('Select', () => {
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
       this.select.filterValue = this.sinon.stub().returns('a');
+
       this.select.setState({
         focused: true,
         showPopup: true
@@ -644,8 +645,7 @@ describe('Select', () => {
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
-        const ESC_KEY = 27;
-        simulateKeypress(null, ESC_KEY);
+        simulateCombo('esc');
         targetInput.should.equal(document.activeElement);
       });
 
