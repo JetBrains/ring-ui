@@ -5,7 +5,7 @@ import ExtendableError from 'es6-error';
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
-import {getAbsoluteBaseURL, getOrigin, fixUrl, encodeURL} from '../global/url';
+import {getAbsoluteBaseURL, fixUrl, encodeURL} from '../global/url';
 
 function noop() {}
 
@@ -134,11 +134,6 @@ export default class Auth {
    * @const {number} non-interactive auth timeout
    */
   static BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
-
-  /**
-   * @const {boolean} is CORS supported by the browser
-   */
-  static HAS_CORS = ('withCredentials' in new XMLHttpRequest());
 
   /**
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
@@ -512,18 +507,6 @@ export default class Auth {
   }
 
   /**
-   * Check if scope check is possible
-   * @return {boolean}
-   * @private
-   */
-  _canValidateAgainstUser() {
-    const clientOrigin = getOrigin(this.config.redirect_uri);
-    const serverOrigin = getOrigin(this.config.serverUri);
-
-    return clientOrigin === serverOrigin || Auth.HAS_CORS;
-  }
-
-  /**
    * Check by error code if token should be refreshed
    * @param {string} error
    * @return {boolean}
@@ -541,10 +524,6 @@ export default class Auth {
    * @private
    */
   _validateAgainstUser(storedToken) {
-    if (!this._canValidateAgainstUser()) {
-      return Promise.resolve(storedToken);
-    }
-
     return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams).
       then(user => {
         this.user = user;
