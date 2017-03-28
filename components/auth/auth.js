@@ -386,66 +386,36 @@ export default class Auth {
    * @return {Promise} promise that is resolved to restoreLocation URL, or rejected
    * @private
    */
-  _checkForAuthResponse() {
-    return new Promise(resolve => {
-      // getAuthResponseURL may throw an exception. Wrap it with promise to handle it gently.
-      const response = this._responseParser.getAuthResponseFromURL();
+  async _checkForAuthResponse() {
+    // getAuthResponseURL may throw an exception
+    const authResponse = this._responseParser.getAuthResponseFromURL();
+    const {scope: defaultScope, default_expires_in, cleanHash} = this.config;
 
-      if (response && this.config.cleanHash) {
-        this.setHash('');
-      }
-      resolve(response);
-    }).then(
-      /**
-       * @param {AuthResponse} authResponse
-       */
-      authResponse => {
-        if (!authResponse) {
-          return undefined;
-        }
+    if (authResponse && cleanHash) {
+      this.setHash('');
+    }
 
-        const statePromise = authResponse.state ? this._storage.getState(authResponse.state) : Promise.resolve({});
-        return statePromise.then(
-          /**
-           * @param {StoredState=} state
-           * @return {Promise.<string>}
-           */
-          storedState => {
-            const state = storedState || {};
-            const config = this.config;
+    if (!authResponse) {
+      return undefined;
+    }
 
-            /**
-             * @type {string[]}
-             */
-            let scopes;
-            if (authResponse.scope) {
-              scopes = authResponse.scope.split(' ');
-            } else if (state.scopes) {
-              scopes = state.scopes;
-            } else if (config.scope) {
-              scopes = config.scope;
-            } else {
-              scopes = [];
-            }
+    const {state: stateId, scope, expires_in, access_token} = authResponse;
+    const newState = await (stateId && this._storage.getState(stateId)) || {};
 
-            /**
-             * @type {number}
-             */
-            let expiresIn;
-            if (authResponse.expires_in) {
-              expiresIn = parseInt(authResponse.expires_in, 10);
-            } else {
-              expiresIn = config.default_expires_in;
-            }
+    /**
+     * @type {string[]}
+     */
+    const scopes = scope ? scope.split(' ') : newState.scopes || defaultScope || [];
 
-            const expires = Auth._epoch() + expiresIn;
-            const access_token = authResponse.access_token;
+    /**
+     * @type {number}
+     */
+    const expiresIn = expires_in ? parseInt(expires_in, 10) : default_expires_in;
+    const expires = Auth._epoch() + expiresIn;
 
-            return this._storage.
-              saveToken({access_token, scopes, expires}).
-              then(() => state);
-          });
-      });
+    await this._storage.saveToken({access_token, scopes, expires});
+
+    return newState;
   }
 
   /**
