@@ -8,7 +8,7 @@ import QueryAssist from './query-assist';
 import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-addons-test-utils';
 import renderIntoDocument from 'render-into-document';
-import simulateKeypress from 'simulate-keypress';
+import simulateCombo from 'simulate-combo';
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';
@@ -496,7 +496,7 @@ describe('Query Assist', () => {
       });
 
       return this.queryAssist.requestData().then(() => {
-        simulateKeypress(null, 9); // press tab
+        simulateCombo('tab');
 
         this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
       });
@@ -508,8 +508,7 @@ describe('Query Assist', () => {
       });
 
       return this.queryAssist.requestData().then(() => {
-        simulateKeypress(null, 40); // press down
-        simulateKeypress(null, 13); // press enter
+        simulateCombo('down enter');
 
         this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
       });
@@ -522,7 +521,7 @@ describe('Query Assist', () => {
       });
 
       return this.queryAssist.requestData().then(() => {
-        simulateKeypress(null, 9); // press tab
+        simulateCombo('tab');
 
         this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
       });
@@ -535,8 +534,7 @@ describe('Query Assist', () => {
       });
 
       return this.queryAssist.requestData().then(() => {
-        simulateKeypress(null, 40); // press down
-        simulateKeypress(null, 13); // press enter
+        simulateCombo('down enter');
 
         this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
       });
@@ -549,10 +547,7 @@ describe('Query Assist', () => {
       });
 
       return this.queryAssist.requestData().then(() => {
-        simulateKeypress(null, 40); // press down
-        simulateKeypress(null, 40); // press down
-        simulateKeypress(null, 40); // press down
-        simulateKeypress(null, 9); // press tab
+        simulateCombo('down down down tab');
 
         this.queryAssist.input.should.have.text(getSuggestionText(suggestions[2]));
       });
@@ -560,8 +555,6 @@ describe('Query Assist', () => {
   });
 
   describe('callbacks', () => {
-    const ENTER_KEY = 13;
-
     let onApply;
     beforeEach(function () {
       onApply = this.sinon.stub();
@@ -572,7 +565,7 @@ describe('Query Assist', () => {
         onApply
       });
 
-      simulateKeypress(null, ENTER_KEY);
+      simulateCombo('enter');
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -584,7 +577,7 @@ describe('Query Assist', () => {
         onApply
       });
 
-      simulateKeypress(null, ENTER_KEY, ['ctrl']);
+      simulateCombo('ctrl+enter');
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength

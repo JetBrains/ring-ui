@@ -10,7 +10,7 @@ import styles from '../index.css';
 
 const Content = ({title, type, content, examples, description}) => (
   <div className={styles.content}>
-    <H1>{title}</H1>
+    <H1 caps={true}>{title}</H1>
 
     {type === 'md' && (
       <Markdown source={parseFrontMatter(content).body} />

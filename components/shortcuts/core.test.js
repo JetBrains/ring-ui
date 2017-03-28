@@ -1,16 +1,17 @@
-import simulateKeypress from 'simulate-keypress';
+import {simulate} from 'combokeys/test/lib/key-event';
 import shortcuts from './core';
 import sniffr from '../global/sniffer';
 
 describe('Shortcuts', () => {
   const key = 'a';
+  const keyCode = '65';
   const key2 = 'b';
   const scope = 'scope scope scope';
   let noop;
   let noop2;
 
   function trigger() {
-    simulateKeypress(key, 65);
+    simulate(key.charCodeAt(0), keyCode);
   }
 
   const wrapScope = shortcuts.wrapScope.bind(shortcuts);
