@@ -197,7 +197,6 @@
 
     & .icon {
       vertical-align: 1px;
-      line-height: normal;
       transition: color ease;
 
       &:not(:last-child) {

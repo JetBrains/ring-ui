@@ -92,9 +92,7 @@ class Row extends PureComponent {
       'data-test-selected': selected || undefined
     };
 
-    const metaColumnClasses = classNames(style.metaColumn, {
-      [style.metaColumnSpaced]: selectable
-    });
+    const metaColumnClasses = style.metaColumn;
 
     const SUBITEM_OFFSET = 30;
     const gap = item.__level ? item.__level * SUBITEM_OFFSET : 0;
