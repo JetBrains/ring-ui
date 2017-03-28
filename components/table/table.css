@@ -168,12 +168,10 @@
 
 .metaColumn {
   padding-right: 0;
-  min-width: initial;
+  display: inline-block;
+  width: calc(unit * 3);
+  height: calc(unit * 2.5);
   position: relative;
-
-  &.metaColumnSpaced {
-    padding-right: 2px;
-  }
 }
 
 .dragHandle {
@@ -181,10 +179,10 @@
     display: none;
     cursor: grab;
     position: absolute;
-    left: 0;
+    left: calc(- 2 * unit);
     top: 0;
     height: 100%;
-    padding: 0px 1px 4px;
+    padding: 0px 2px 4px;
   }
 }
 

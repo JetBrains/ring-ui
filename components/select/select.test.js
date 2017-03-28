@@ -362,7 +362,7 @@ describe('Select', () => {
         focused: true,
         showPopup: true
       });
-      TestUtils.Simulate.input(this.select._popup.filter);
+      TestUtils.Simulate.input(findDOMNode(this.select._popup.filter));
       this.select.props.onFilter.should.been.called;
     });
 
@@ -412,7 +412,7 @@ describe('Select', () => {
     it('Should set value to popup input if passed', function () {
       this.select._showPopup();
       this.select.filterValue('test');
-      this.select._popup.filter.value.should.equal('test');
+      findDOMNode(this.select._popup.filter).value.should.equal('test');
     });
 
     it('Should set target input value in input mode', function () {

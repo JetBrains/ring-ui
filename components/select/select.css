@@ -1,4 +1,4 @@
-@value unit, font, font-smaller-lower, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
+@value unit, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
 
 .select {
   display: inline-block;
@@ -84,7 +84,8 @@
 
 .value {
   composes: ellipsis;
-  composes: font;
+  font: inherit;
+  color: text-color;
   cursor: pointer;
   text-align: left;
   display: inline-block;
@@ -141,7 +142,8 @@
 
 .selectedLabel {
   position: absolute;
-  composes: font-smaller-lower;
+  font-size: font-size-smaller;
+  line-height: line-height-lowest;
   color: dark-gray-color;
   top: calc(- unit * 1.5);
 }

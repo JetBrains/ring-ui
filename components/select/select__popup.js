@@ -18,7 +18,7 @@ const INPUT_MARGIN_COMPENSATION = -14;
 
 function noop() {}
 
-const InputWithShortcuts = shortcutsHOC(Input);
+const InputWithShortcuts = shortcutsHOC('input');
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
@@ -99,7 +99,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   focus() {
     setTimeout(() => {
       if (this.filter) {
-        this.filter.focus();
+        findDOMNode(this.filter).focus();
       }
     }, 0);
   }
@@ -222,7 +222,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   filterRef = el => {
-    this.filter = el && findDOMNode(el);
+    this.filter = el;
   }
 
   render() {

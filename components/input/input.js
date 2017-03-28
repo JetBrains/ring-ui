@@ -41,7 +41,8 @@ export default class Input extends PureComponent {
   static defaultProps = {
     theme: Theme.LIGHT,
     size: Size.M,
-    onChange() {}
+    onChange() {},
+    inputRef() {}
   };
 
   state = {
