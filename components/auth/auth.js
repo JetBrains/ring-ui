@@ -140,6 +140,7 @@ export default class Auth {
    * that should be restored after returning back from auth server.
    */
   async init() {
+    // TODO Show overlay instead of logout here
     this._storage.onTokenChange(token => {
       if (token === null) {
         this.logout();
@@ -232,7 +233,8 @@ export default class Auth {
       Auth._validateExistence,
       Auth._validateExpiration,
       this._validateScopes.bind(this),
-      this._validateAgainstUser.bind(this)]);
+      this._validateAgainstUser.bind(this)
+    ]);
   }
 
   /**
@@ -240,34 +242,41 @@ export default class Auth {
    * Can redirect to login page.
    * @return {Promise.<string>}
    */
-  requestToken() {
-    return this._initDeferred.promise.then(() =>
-      this._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, ::this._validateScopes]).
-        catch(() => this.forceTokenUpdate())
-    );
+  async requestToken() {
+    try {
+      await this._initDeferred.promise;
+
+      return await this._getValidatedToken([
+        Auth._validateExistence,
+        Auth._validateExpiration,
+        this._validateScopes.bind(this)
+      ]);
+    } catch (e) {
+      return this.forceTokenUpdate();
+    }
   }
 
   /**
    * Get new token in the background or redirect to the login page.
    * @return {Promise.<string>}
    */
-  forceTokenUpdate() {
-    return this._loadTokenInBackground().
-      then(accessToken => this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams).
-        then(user => {
-          if (user && this.user && this.user.id !== user.id) {
-            // Reload page if user has been changed after background refresh
-            this._redirectCurrentPage(window.location.href);
-          }
-          return accessToken;
-        })
-      ).
-      catch(e => this._requestBuilder.prepareAuthRequest().
-        then(authRequest => {
-          this._redirectCurrentPage(authRequest.url);
-          return Auth._authRequiredReject(e.message);
-        })
-      );
+  async forceTokenUpdate() {
+    try {
+      const accessToken = await this._loadTokenInBackground();
+      const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+
+      if (user && this.user && this.user.id !== user.id) {
+        // Reload page if user has been changed after background refresh
+        this._redirectCurrentPage(window.location.href);
+      }
+
+      return accessToken;
+    } catch (e) {
+      const authRequest = await this._requestBuilder.prepareAuthRequest();
+
+      this._redirectCurrentPage(authRequest.url);
+      return Auth._authRequiredReject(e.message);
+    }
   }
 
   /**
