@@ -132,7 +132,7 @@ export default class DatePicker extends RingComponent {
     }
 
     return (
-      <div>
+      <div className={styles.container}>
         <Button
           onClick={() => this.togglePopup()}
           icon={calendarIcon}
