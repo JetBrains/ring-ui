@@ -1,0 +1,39 @@
+@import "../global/global";
+
+.ring-badge {
+  display: inline-block;
+  height: 20px;
+  box-sizing: border-box;
+
+  padding: 2px $ring-unit;
+  border: 1px #F0F0F0 solid;
+  border-radius: $ring-border-radius;
+
+  color: #8C8C8C;
+  background-color: #FFF;
+
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: $ring-font-size-smaller;
+
+  vertical-align: baseline;
+
+  &_gray {
+    background-color: #F8F8F8;
+  }
+
+  &_valid {
+    color: #89AF31;
+  }
+
+  &_invalid {
+    color: #C3120F;
+  }
+
+  &_disabled {
+    color: #C3120F;
+    background-color: #EBD9DA;
+    border-color: #EBD9DA;
+  }
+}
