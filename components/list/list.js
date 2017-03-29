@@ -38,7 +38,8 @@ const Dimension = {
   ITEM_HEIGHT: 24,
   SEPARATOR_HEIGHT: 27,
   TITLE_HEIGHT: 42,
-  INNER_PADDING: 8
+  INNER_PADDING: 8,
+  MARGIN: 4
 };
 
 const DEFAULT_ITEM_TYPE = Type.ITEM;
@@ -251,12 +252,11 @@ export default class List extends RingComponentWithShortcuts {
 
   willMount() {
     this.checkActivatableItems(this.props.data);
-
     if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
       this.setState({
         activeIndex: this.props.activeIndex,
         activeItem: this.props.data[this.props.activeIndex]
-      });
+      }, this.recalculateVisibleOptions);
     }
   }
 
@@ -299,7 +299,7 @@ export default class List extends RingComponentWithShortcuts {
       if (activeIndex === null && this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
         activeIndex = 0;
         activeItem = props.data[0];
-      } else if (props.activeIndex !== null && props.activeIndex !== undefined && props.data[props.activeIndex]) {
+      } else if (props.activeIndex != null && props.activeIndex !== this.props.activeIndex && props.data[props.activeIndex]) {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
@@ -351,7 +351,7 @@ export default class List extends RingComponentWithShortcuts {
     const innerContainer = this.inner;
 
     if (this.props.renderOptimization && this.props.maxHeight) {
-      const height = this.props.maxHeight;
+      const height = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
 
       // Firstly we need to calculate the size and position of every item
       if (!fast) {
@@ -372,10 +372,11 @@ export default class List extends RingComponentWithShortcuts {
               break;
           }
 
-          const begin = this.cachedSizes.length === 0 ? 0 : this.cachedSizes[this.cachedSizes.length - 1].end;
+          const begin = this.cachedSizes.length === 0 ? Dimension.MARGIN : this.cachedSizes[this.cachedSizes.length - 1].end;
 
           const dimensions = {
             begin,
+            size,
             end: begin + size
           };
 
@@ -391,7 +392,17 @@ export default class List extends RingComponentWithShortcuts {
 
       // Then we move scrollTop to the active item if necessary
       if (innerContainer && !ignoreFocus && this.state.activeIndex !== null) {
-        innerContainer.scrollTop = this.cachedSizes[this.state.activeIndex].begin - parseInt(height / 2, 10);
+        const top = innerContainer.scrollTop;
+        const bottom = top + height;
+        const itemDimensions = this.cachedSizes[this.state.activeIndex];
+        const HALF = 0.5;
+        if (itemDimensions.end < top || itemDimensions.begin > bottom) {
+          innerContainer.scrollTop = itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
+        } else if (itemDimensions.begin < top) {
+          innerContainer.scrollTop = itemDimensions.begin;
+        } else if (itemDimensions.end > bottom) {
+          innerContainer.scrollTop = itemDimensions.end - height;
+        }
       }
 
       const scrollTop = innerContainer ? innerContainer.scrollTop : 0;
@@ -404,7 +415,7 @@ export default class List extends RingComponentWithShortcuts {
           if (startIndex < 0) {
             startIndex = 0;
           }
-          paddingTop = this.cachedSizes[startIndex].begin;
+          paddingTop = this.cachedSizes[startIndex].begin - Dimension.MARGIN;
         } else if (stopIndex === null && cachedSizeItem.end > (scrollTop + height)) {
           const fullHeight = this.cachedSizes[this.cachedSizes.length - 1].end;
           stopIndex = i + buffer;
