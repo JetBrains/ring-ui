@@ -301,6 +301,27 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(dialogConfig.data.text);
     });
 
+    it('should transclude custom footer', () => {
+      const element = renderDialog({
+        template: '<div><rg-dialog-footer><span data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        controllerAs: 'testCtrl',
+        controller() {}
+      });
+
+      element.should.contain(`.${styles.footer}`);
+      element.should.contain('*[data-test="customElementFooter"]');
+    });
+
+    it('should transclude custom footer with ng-if', () => {
+      const element = renderDialog({
+        template: '<div><rg-dialog-footer><span ng-if="true" data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        controllerAs: 'testCtrl',
+        controller() {}
+      });
+
+      element.should.contain(`.${styles.footer}`);
+      element.should.contain('*[data-test="customElementFooter"]');
+    });
 
     describe('dialogForm', () => {
       function getDialogFormObject(element) {
