@@ -429,9 +429,10 @@ function rgDialogDirective($timeout) {
     }
 
     function setCustomFooter(customFooterElem) {
-      dialogCustomFooter.innerHTML = '';
+      const placeholder = angular.element(dialogCustomFooter);
       const footer = angular.element(`<div class="${this.styles.footer}"></div>`).append(customFooterElem);
-      angular.element(dialogCustomFooter).append(footer);
+      placeholder.empty();
+      placeholder.append(footer);
     }
 
     dialogCtrl.resetPosition = () => dialogContainer.removeAttribute('style');
@@ -446,7 +447,7 @@ function rgDialogDirective($timeout) {
     scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
 
     scope.$on('dialog.hide', () => {
-      dialogCustomFooter.innerHTML = '';
+      angular.element(dialogCustomFooter).empty();
     });
 
     scope.$on('$destroy', () => {
