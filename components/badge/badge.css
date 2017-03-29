@@ -18,7 +18,7 @@
   height: 20px;
   box-sizing: border-box;
 
-  padding: 2px unit;
+  padding: 0 unit;
   border: 1px normal-border-color solid;
   border-radius: border-radius;
 
@@ -27,7 +27,7 @@
 
   font-style: normal;
   font-weight: normal;
-  line-height: normal;
+  line-height: 17px;
   font-size: font-size-smaller;
 
   vertical-align: baseline;
