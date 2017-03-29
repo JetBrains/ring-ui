@@ -115,6 +115,8 @@
 <example name="QueryAssist in AngularJS">
   <file type="html">
     <div ng-app="test" ng-controller="testCtrl as ctrl">
+      <button ng-click="ctrl.disabled = !ctrl.disabled">Disable/Enable</button>
+
       <div ng-form="testForm">
         <p>{{ ctrl.query || 'no value' }}</p>
         <p>form is dirty = <strong>{{ testForm.$dirty }}</strong></p>
@@ -122,6 +124,7 @@
         <div react="QueryAssist"
           clear="true"
           x-data-source="ctrl.source(query, caret, omitSuggestions)"
+          x-disabled="ctrl.disabled"
           glass="true"
           focus="ctrl.focus"
           ng-model="ctrl.query"
@@ -156,6 +159,7 @@
       ctrl.queries = [];
       ctrl.query = 'query';
       ctrl.focus = true;
+      ctrl.disabled = true;
 
       ctrl.save = function (query) {
         ctrl.queries.unshift(query);
