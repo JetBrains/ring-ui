@@ -2,6 +2,7 @@ import 'dom4';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
 
 import Badge from './badge';
+import style from './badge.css';
 
 describe('Badge', () => {
   const renderComponent = (params, content) => renderIntoDocument(Badge.factory(params, content));
@@ -13,7 +14,7 @@ describe('Badge', () => {
   it('should render span with badge class', () => {
     const node = renderComponent().node;
     node.should.match('span');
-    node.should.have.class('ring-badge');
+    node.should.have.class(style.badge);
   });
 
   it('should use passed className', () => {
@@ -25,6 +26,6 @@ describe('Badge', () => {
   });
 
   it('should render valid badge', () => {
-    renderComponent({valid: true}, 'foo').node.should.match('.ring-badge_valid');
+    renderComponent({valid: true}, 'foo').node.should.have.class(style.valid);
   });
 });

@@ -64,6 +64,45 @@ describe('List', () => {
     expect(list.getSelected()).to.be.undefined;
   });
 
+  describe('should track activeIndex', () => {
+    beforeEach(() => {
+      list = TestUtils.renderIntoDocument(React.createElement(List, {
+        data: [{key: 0}, {key: 1}, {key: 2}],
+        activeIndex: 0,
+        restoreActiveIndex: true
+      }));
+    });
+
+    it('should set activeIndex from props', () => {
+      list.state.activeIndex.should.equal(0);
+      list.state.activeItem.key.should.equal(0);
+    });
+
+    it('should activate item', () => {
+      list.hoverHandler(1)();
+      list.state.activeIndex.should.equal(1);
+      list.state.activeItem.key.should.equal(1);
+    });
+
+    it('should reset activeIndex when it\'s changed in props', () => {
+      list.hoverHandler(1)();
+      const activeIndex = 2;
+      list.rerender({
+        activeIndex
+      });
+      list.state.activeIndex.should.equal(activeIndex);
+      list.state.activeItem.key.should.equal(activeIndex);
+    });
+
+    it('shouldn\'t reset activeIndex when it isn\'t changed in props', () => {
+      list.hoverHandler(1)();
+      list.rerender({
+        activeIndex: 0
+      });
+      list.state.activeIndex.should.equal(1);
+      list.state.activeItem.key.should.equal(1);
+    });
+  });
 
   describe('should render items', () => {
     it('should render for empty element', () => {
