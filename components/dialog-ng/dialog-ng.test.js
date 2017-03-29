@@ -301,7 +301,7 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(dialogConfig.data.text);
     });
 
-    it('should transclude custom footer', function() {
+    it('should transclude custom footer', () => {
       const element = renderDialog({
         template: '<div><rg-dialog-footer><span data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
         controllerAs: 'testCtrl',
@@ -312,7 +312,7 @@ describe('Dialog Ng', () => {
       element.should.contain('*[data-test="customElementFooter"]');
     });
 
-    it('should transclude custom footer with ng-if', function() {
+    it('should transclude custom footer with ng-if', () => {
       const element = renderDialog({
         template: '<div><rg-dialog-footer><span ng-if="true" data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
         controllerAs: 'testCtrl',
