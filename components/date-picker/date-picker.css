@@ -7,6 +7,10 @@
 @value yearHeight: calc(unit * 4);
 @value yearWidth: calc(unit * 7);
 
+.container {
+  display: inline-block;
+}
+
 .hoverable {
   cursor: pointer;
   transition: color .2s ease-out 0s;

@@ -92,6 +92,11 @@
     left: auto;
     right: 0;
   }
+
+  .sidebarContainer {
+    min-width: 0;
+    max-width: 0;
+  }
 }
 
 @media extra-small-screen-media {
