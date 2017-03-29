@@ -1,0 +1,52 @@
+@value global: '../global/global.css';
+@value unit, border-radius, font-size-smaller from global;
+
+@value normal-color: #8C8C8C;
+@value valid-color: #89AF31;
+@value invalid-color: #C3120F;
+@value disabled-color: #C3120F;
+
+@value normal-background-color: #FFF;
+@value gray-background-color: #F8F8F8;
+@value disabled-background-color: #EBD9DA;
+
+@value normal-border-color: #F0F0F0;
+@value disabled-border-color: #EBD9DA;
+
+.badge {
+  display: inline-block;
+  height: 20px;
+  box-sizing: border-box;
+
+  padding: 2px unit;
+  border: 1px normal-border-color solid;
+  border-radius: border-radius;
+
+  color: normal-color;
+  background-color: normal-background-color;
+
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: font-size-smaller;
+
+  vertical-align: baseline;
+
+  &.gray {
+    background-color: gray-background-color;
+  }
+
+  &.valid {
+    color: valid-color;
+  }
+
+  &.invalid {
+    color: invalid-color;
+  }
+
+  &.disabled {
+    color: disabled-color;
+    background-color: disabled-background-color;
+    border-color: disabled-border-color;
+  }
+}

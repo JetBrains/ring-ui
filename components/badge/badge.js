@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 import RingComponent from '../ring-component/ring-component';
-import './badge.scss';
+import style from './badge.css';
 
 /**
  * @name Badge
@@ -35,12 +35,13 @@ export default class Badge extends RingComponent {
     } = this.props;
 
     const classes = classNames(
-      'ring-badge',
-      className, {
-        'ring-badge_gray': gray,
-        'ring-badge_valid': valid,
-        'ring-badge_invalid': invalid,
-        'ring-badge_disabled': disabled
+      style.badge,
+      className,
+      {
+        [style.gray]: gray,
+        [style.valid]: valid,
+        [style.invalid]: invalid,
+        [style.disabled]: disabled
       }
     );
 
