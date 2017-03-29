@@ -486,10 +486,10 @@ function rgDialogTitleDirective() {
   };
 }
 
-function rgDialogFooterDirective($compile) {
+function rgDialogFooterDirective() {
   function link(scope, iElement, iAttrs, dialogCtrl, transclude) {
     scope.$on('rgDialogContentLoaded', () => {
-      transclude(scope, (clone) => {
+      transclude(scope, clone => {
         dialogCtrl.setCustomFooter(clone);
       });
     });
