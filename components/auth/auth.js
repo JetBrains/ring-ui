@@ -281,7 +281,7 @@ export default class Auth {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
-      return Auth._authRequiredReject(e.message);
+      throw new Auth.TokenValidationError(e.message);
     }
   }
 
@@ -456,27 +456,14 @@ export default class Auth {
   };
 
   /**
-   * @param {string} message
-   * @param {cause=} cause
-   * @return {Promise} rejected promise with {authRedirect: true}
-   * @private
-   */
-  static _authRequiredReject(message, cause) {
-    const error = new Auth.TokenValidationError(message, cause);
-    return Promise.reject(error);
-  }
-
-  /**
    * Check if there is a token
    * @param {StoredToken} storedToken
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static _validateExistence(storedToken) {
+  static async _validateExistence(storedToken) {
     if (!storedToken || !storedToken.access_token) {
-      return Auth._authRequiredReject('Token not found');
-    } else {
-      return Promise.resolve(storedToken);
+      throw new Auth.TokenValidationError('Token not found');
     }
   }
 
@@ -486,12 +473,9 @@ export default class Auth {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static _validateExpiration(storedToken) {
-    const now = Auth._epoch();
-    if (storedToken.expires && storedToken.expires < (now + Auth.REFRESH_BEFORE)) {
-      return Auth._authRequiredReject('Token expired');
-    } else {
-      return Promise.resolve(storedToken);
+  static async _validateExpiration(storedToken) {
+    if (storedToken.expires && storedToken.expires < (Auth._epoch() + Auth.REFRESH_BEFORE)) {
+      throw new Auth.TokenValidationError('Token expired');
     }
   }
 
@@ -501,15 +485,14 @@ export default class Auth {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  _validateScopes(storedToken) {
-    for (let i = 0; i < this.config.scope.length; i++) {
-      const scope = this.config.scope[i];
-      const isRequired = !this.config.optionalScopes || !this.config.optionalScopes.includes(scope);
-      if (isRequired && !storedToken.scopes.includes(scope)) {
-        return Auth._authRequiredReject('Token doesn\'t match required scopes');
-      }
+  async _validateScopes(storedToken) {
+    const {scope, optionalScopes} = this.config;
+    const requiredScopes = optionalScopes ? scope.filter(scopeId => !optionalScopes.includes(scopeId)) : scope;
+
+    const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes.includes(scopeId));
+    if (!hasAllScopes) {
+      throw new Auth.TokenValidationError('Token doesn\'t match required scopes');
     }
-    return Promise.resolve(storedToken);
   }
 
   /**
@@ -529,25 +512,27 @@ export default class Auth {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  _validateAgainstUser(storedToken) {
-    return this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams).
-      then(user => {
-        this.user = user;
-        return storedToken;
-      }).
-      catch(errorResponse => errorResponse.response.json().
-        // Skip JSON parsing errors
-        catch(() => ({})).
-        then(response => {
-          if (errorResponse.status === Auth.HTTP_CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
-            // Token expired
-            return Auth._authRequiredReject(response.error || errorResponse.message);
-          }
+  async _validateAgainstUser(storedToken) {
+    try {
+      const user = await this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams);
+      this.user = user;
+    } catch (errorResponse) {
 
-          // Request unexpectedly failed
-          return Promise.reject(errorResponse);
-        })
-      );
+      let response = {};
+      try {
+        response = await errorResponse.response.json();
+      } catch (e) {
+        // Skip JSON parsing errors
+      }
+
+      if (errorResponse.status === Auth.HTTP_CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
+        // Token expired
+        throw new Auth.TokenValidationError(response.error || errorResponse.message);
+      }
+
+      // Request unexpectedly failed
+      throw errorResponse;
+    }
   }
 
   /**
@@ -564,14 +549,14 @@ export default class Auth {
    * have {authRedirect: true}.
    * @private
    */
-  _getValidatedToken(validators) {
-    let tokenPromise = this._storage.getToken();
+  async _getValidatedToken(validators) {
+    const storedToken = await this._storage.getToken();
 
     for (let i = 0; i < validators.length; i++) {
-      tokenPromise = tokenPromise.then(validators[i]);
+      await validators[i](storedToken);
     }
 
-    return tokenPromise.then(storedToken => storedToken.access_token);
+    return storedToken.access_token;
   }
 
   /**
