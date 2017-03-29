@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -65,12 +66,17 @@ describe('List', () => {
   });
 
   describe('should track activeIndex', () => {
-    beforeEach(() => {
+    beforeEach(function () {
+      this.sinon.stub(window, 'requestAnimationFrame', cb => cb());
       list = TestUtils.renderIntoDocument(React.createElement(List, {
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
         restoreActiveIndex: true
       }));
+    });
+
+    afterEach(() => {
+      window.requestAnimationFrame.restore();
     });
 
     it('should set activeIndex from props', () => {
