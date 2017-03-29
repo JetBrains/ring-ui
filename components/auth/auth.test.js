@@ -153,11 +153,10 @@ describe('Auth', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
-        then(validToken => {
+        then(() => {
           Auth.prototype.getApi.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
-          return validToken;
         }).
-        should.eventually.be.deep.equal(token);
+        should.be.fulfilled;
     });
 
     it('should reject with redirect if 401 response received', () => {
