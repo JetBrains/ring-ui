@@ -60,7 +60,6 @@ const cssLoader = {
 const externalCssLoader = {
   test: /\.css$/,
   include: [
-    path.resolve('./node_modules/github-markdown-css'),
     path.resolve('./node_modules/highlight.js')
   ],
   loaders: [
