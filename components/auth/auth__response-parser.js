@@ -19,7 +19,8 @@ export default class AuthResponseParser {
   }
 
   static AuthError = class AuthError extends ExtendableError {
-    constructor(authResponse) {
+    // Supports weird IE 11 failing test issue
+    constructor(authResponse = {}) {
       super(authResponse.error_description);
       this.code = authResponse.error;
       this.uri = authResponse.error_uri;
