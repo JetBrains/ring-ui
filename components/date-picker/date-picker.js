@@ -131,7 +131,7 @@ export default class DatePicker extends PureComponent {
     }
 
     return (
-      <div>
+      <div className={styles.container}>
         <Button
           onClick={() => this.togglePopup()}
           icon={calendarIcon}
