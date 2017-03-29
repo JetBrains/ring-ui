@@ -135,6 +135,12 @@ export default class Auth {
    */
   static BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
 
+  static HTTP_CODE = {
+    OK: 200,
+    REDIRECTION: 300,
+    UNAUTHORIZED: 401
+  }
+
   /**
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
@@ -279,6 +285,14 @@ export default class Auth {
     }
   }
 
+  static HTTPError = class HTTPError extends ExtendableError {
+    constructor(response) {
+      super(`${response.status} ${response.statusText}`);
+      this.response = response;
+      this.status = response.status;
+    }
+  }
+
   /**
    * Makes a GET request to the given URL with the given access token.
    *
@@ -287,7 +301,7 @@ export default class Auth {
    * @param {object?} params query parameters
    * @return {Promise} promise from fetch request
    */
-  getSecure(absoluteUrl, accessToken, params) {
+  async getSecure(absoluteUrl, accessToken, params) {
     const url = encodeURL(absoluteUrl, params);
     const failedResponse = {
       status: 0,
@@ -308,21 +322,18 @@ export default class Auth {
       init.credentials = this.config.fetchCredentials;
     }
 
-    return this._fetch(url, init).
-      // Empty response — strange case found in the wild
-      // @see https://youtrack.jetbrains.com/issue/JT-31942
-      then((response = failedResponse) => {
-        // Simulate $.ajax behavior
-        // @see https://github.com/github/fetch#success-and-error-handlers
-        if (response && response.status >= 200 && response.status < 300) {
-          return response.json();
-        } else {
-          const error = new Error(`${response.status} ${response.statusText}`);
-          error.response = response;
-          error.status = response.status;
-          return Promise.reject(error);
-        }
-      });
+    // Empty response — strange case found in the wild
+    // @see https://youtrack.jetbrains.com/issue/JT-31942
+    const response = await this._fetch(url, init) || failedResponse;
+
+    // Simulate $.ajax behavior
+    // @see https://github.com/github/fetch#success-and-error-handlers
+    if (response && response.status >= Auth.HTTP_CODE.OK && response.status < Auth.HTTP_CODE.REDIRECTION) {
+      return response.json();
+    } else {
+      throw new Auth.HTTPError(response);
+    }
+
   }
 
   _fetch(url, params) {
@@ -345,35 +356,38 @@ export default class Auth {
   /**
    * @return {Promise.<object>}
    */
-  requestUser() {
+  async requestUser() {
     if (this.user) {
-      return Promise.resolve(this.user);
+      return this.user;
     }
 
-    return this.requestToken().
-      then(accessToken => {
-        if (this.user) {
-          return this.user;
-        }
+    const accessToken = await this.requestToken();
 
-        return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams).
-          then(user => {
-            this.user = user;
-            return user;
-          });
-      });
+    // If when was fetched during tojen request
+    if (this.user) {
+      return this.user;
+    }
+
+    const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    this.user = user;
+
+    return user;
   }
 
   /**
    * Wipe accessToken and redirect to auth page with required authorization
    */
-  logout(extraParams) {
-    const requestParams = Object.assign({request_credentials: 'required'}, extraParams);
+  async logout(extraParams) {
+    const requestParams = {
+      request_credentials: 'required',
+      ...extraParams
+    };
 
-    return Promise.resolve(this.config.onLogout()).
-      then(() => this._storage.wipeToken()).
-      then(() => this._requestBuilder.prepareAuthRequest(requestParams)).
-      then(authRequest => this._redirectCurrentPage(authRequest.url));
+    await this.config.onLogout();
+    await this._storage.wipeToken();
+
+    const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
+    this._redirectCurrentPage(authRequest.url);
   }
 
   /**
@@ -525,7 +539,7 @@ export default class Auth {
         // Skip JSON parsing errors
         catch(() => ({})).
         then(response => {
-          if (errorResponse.status === 401 || Auth.shouldRefreshToken(response.error)) {
+          if (errorResponse.status === Auth.HTTP_CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
             // Token expired
             return Auth._authRequiredReject(response.error || errorResponse.message);
           }
