@@ -1,6 +1,6 @@
 /* global gemini: false */
 
-gemini.suite('Dialog Ng', suite => {
+gemini.suite('Dialog Ng', () => {
   gemini.suite('dialog', child => {
     child.
       setUrl('/dialog-ng/dialog-ng.html').
