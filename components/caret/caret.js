@@ -34,7 +34,10 @@ export default class Caret {
 
   constructor(target) {
     this.target = target;
-    this.isContentEditable = target.contentEditable === 'true';
+  }
+
+  isContentEditable() {
+    return this.target.contentEditable === 'true';
   }
 
   /**
@@ -53,7 +56,7 @@ export default class Caret {
    * @return {number}
    */
   getPosition(params = {}) {
-    if (this.isContentEditable) {
+    if (this.isContentEditable()) {
       if (!params.avoidFocus) {
         this.focus();
       }
@@ -91,16 +94,17 @@ export default class Caret {
    * @return {number}
    */
   setPosition(position) {
+    const isContentEditable = this.isContentEditable();
     let correctedPosition;
 
     if (position === -1) {
-      const value = this.isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
+      const value = isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
       correctedPosition = value.length;
     } else {
       correctedPosition = position;
     }
 
-    if (this.isContentEditable) {
+    if (isContentEditable) {
       this.focus();
 
       try {
