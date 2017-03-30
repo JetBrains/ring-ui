@@ -15,6 +15,7 @@ import Heading from './heading';
 /**
   * @name Markdown
   * @category Components
+  * @tags 3.0
   * @framework React
   * @constructor
   * @description Renders Markdown
