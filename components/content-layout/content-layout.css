@@ -1,4 +1,4 @@
-@value unit, middle-screen-media, large-screen-media, extra-small-screen-media, small-screen-media from '../global/global.css';
+@value unit, extra-small-screen-media, small-screen-media from '../global/global.css';
 
 @value sidebarWidth: calc(unit * 43);
 
@@ -20,49 +20,45 @@
   max-width: sidebarWidth;
 }
 
+.sidebarContainerRight {
+  order: 1;
+}
+
 .sidebar {
   min-width: sidebarWidth;
   max-width: sidebarWidth;
+  box-sizing: border-box;
   height: 100%;
   overflow: auto;
   padding-left: calc(unit * 4);
   padding-right: calc(unit * 2);
 }
 
+
+.sidebarRight {
+  padding-left: calc(unit * 2);
+  padding-right: calc(unit * 4);
+}
+
 .sidebarFixedTop {
-  position: fixed;
+  top: 0;
+  bottom: 0;
+  && {
+    position: fixed  ;
+  }
+}
+
+.sidebarFixedBottom {
+  && {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+  }
 }
 
 .bottomMarker {
   position: absolute;
   bottom: 0;
-}
-
-@media middle-screen-media, large-screen-media {
-  .sidebar {
-    box-sizing: border-box;
-  }
-
-  .sidebarFixedTop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  .sidebarFixedBottom {
-    position: absolute;
-    top: auto;
-    left: 0;
-    bottom: 0;
-  }
-  .sidebarRight {
-    padding-left: calc(unit * 2);
-    padding-right: calc(unit * 4);
-  }
-  .sidebarContainerRight {
-    order: 1;
-  }
 }
 
 @media extra-small-screen-media, small-screen-media {
@@ -75,17 +71,8 @@
     top: 0;
     bottom: 0;
     left: 0;
+    box-sizing: content-box;
     padding: 0 16px;
-  }
-
-  .sidebarFixedTop {
-    position: fixed;
-  }
-
-  .sidebarFixedBottom {
-    position: absolute;
-    top: auto;
-    bottom: 0;
   }
 
   .sidebarRight {
