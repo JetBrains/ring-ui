@@ -20,7 +20,7 @@ describe('Date Picker', () => {
   });
 
   it('should use passed className', () => {
-    renderNode({className: 'test-class'}).firstChild.should.match('.test-class');
+    renderNode({className: 'test-class'}).should.match('.test-class');
   });
 
   it('should parse and display passed date', () => {

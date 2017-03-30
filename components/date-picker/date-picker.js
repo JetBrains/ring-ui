@@ -92,7 +92,7 @@ export default class DatePicker extends PureComponent {
     } = datePopupProps;
 
     const classes = classNames(
-      styles.datePicker,
+      styles.container,
       className
     );
 
@@ -131,12 +131,12 @@ export default class DatePicker extends PureComponent {
     }
 
     return (
-      <div className={styles.container}>
+      <div className={classes}>
         <Button
           onClick={() => this.togglePopup()}
           icon={calendarIcon}
           iconSize={17}
-          className={classes}
+          className={styles.datePicker}
           data-test="ring-date-picker"
         >
           <span
