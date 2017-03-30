@@ -132,10 +132,7 @@ export default class HeaderHelper {
     header.setMenuItemEnabled(header.constructor.MenuItemType.LOGIN, true);
 
     header.rerender({
-      // NB! Doesn't look obvious, but guest is also a user, so to show him
-      // the login form we need to log out him first. I believe this is
-      // a temporary measure.
-      onLoginClick: () => auth.logout()
+      onLoginClick: () => auth.login()
     });
   }
 
