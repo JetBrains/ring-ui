@@ -1,4 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react';
+import classNames from 'classnames';
 
 import Input from 'ring-ui/components/input/input';
 import List from 'ring-ui/components/list/list';
@@ -42,12 +43,15 @@ const groupListItem = name => ({
   key: name
 });
 
-const linkListItem = ({url, title}) => ({
+const linkListItem = ({url, title, legacy}) => ({
   rgItemType: List.ListProps.Type.LINK,
   href: url,
   active: url === currentPath(),
   label: title,
-  key: url
+  key: url,
+  className: classNames({
+    [styles.legacy]: legacy
+  })
 });
 
 class Nav extends PureComponent {
