@@ -18,7 +18,12 @@ export default class ContentLayout extends Component {
 
   static propTypes = {
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    responsive: PropTypes.bool
+  };
+
+  defaultProps = {
+    responsive: true
   };
 
   saveContentNode = contentNode => {
@@ -26,8 +31,10 @@ export default class ContentLayout extends Component {
   }
 
   render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.contentLayout, className);
+    const {children, className, responsive, ...restProps} = this.props;
+    const classes = classNames(styles.contentLayout, className, {
+      [styles.contentLayoutResponsive]: responsive
+    });
 
     const childrenArray = React.Children.toArray(children);
     const sidebarChild = childrenArray.filter(child => child && child.type === Sidebar)[0];
