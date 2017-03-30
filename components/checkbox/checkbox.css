@@ -1,4 +1,4 @@
-@value unit, font-size, text-color, icon-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
+@value unit, font-size, text-color, border-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
 
 @value checkbox-size: 14px;
 
@@ -30,7 +30,7 @@
     box-sizing: border-box;
     width: checkbox-size;
     height: checkbox-size;
-    border: 1px solid icon-color;
+    border: 1px solid border-color;
     border-radius: 3px;
     background: white-color;
     user-select: none;
