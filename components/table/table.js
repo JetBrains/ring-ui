@@ -180,7 +180,8 @@ class Table extends PureComponent {
     }
   }
 
-  onShiftUpPress = () => {
+  onShiftUpPress = e => {
+    e.preventDefault();
     const {selection, onSelect} = this.props;
 
     const newSelection = this.shiftSelect(selection);
@@ -193,7 +194,8 @@ class Table extends PureComponent {
     }
   }
 
-  onShiftDownPress = () => {
+  onShiftDownPress = e => {
+    e.preventDefault();
     const {selection, onSelect} = this.props;
 
     const newSelection = this.shiftSelect(selection);
