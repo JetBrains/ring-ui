@@ -625,7 +625,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         suffix = ''
       } = suggestion;
       const prevSuggestion = arr[index - 1] && arr[index - 1].group;
-      const key = prefix + option + suffix + group + (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
+      const key = prefix + option + suffix + group + description + (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
 
       if (prevSuggestion !== group) {
         renderedSuggestions.push({
@@ -656,19 +656,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         </span>
       );
 
-      const item = {
+      renderedSuggestions.push({
         key,
         icon,
         label,
+        description,
         rgItemType: ITEM,
         data: suggestion
-      };
-
-      if (!group) {
-        item.description = description;
-      }
-
-      renderedSuggestions.push(item);
+      });
     });
 
     return renderedSuggestions;
