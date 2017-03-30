@@ -17,7 +17,7 @@ describe('Date Picker', () => {
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.firstChild.should.match('.test-class');
+    renderComponent({className: 'test-class'}).node.should.match('.test-class');
   });
 
   it('should parse and display passed date', () => {
