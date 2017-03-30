@@ -6,6 +6,7 @@ import styles from './heading.css';
 /**
  * @name Heading
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Replacement for h1-h5 tags
