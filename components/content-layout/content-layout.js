@@ -22,7 +22,7 @@ export default class ContentLayout extends Component {
     responsive: PropTypes.bool
   };
 
-  defaultProps = {
+  static defaultProps = {
     responsive: true
   };
 
