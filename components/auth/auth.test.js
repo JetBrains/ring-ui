@@ -153,25 +153,11 @@ describe('Auth', () => {
       const token = {access_token: 'token'};
       Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
       return auth._validateAgainstUser(token).
-        then(validToken => {
+        then(() => {
           Auth.prototype.getApi.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
-          return validToken;
         }).
-        should.eventually.be.deep.equal(token);
+        should.be.fulfilled;
     });
-
-    it('should not validate user when CORS is disabled', () => {
-      const token = {access_token: 'token'};
-      Auth.HAS_CORS = false;
-
-      return auth._validateAgainstUser(token).
-        then(validToken => {
-          Auth.prototype.getApi.should.not.have.been.called;
-          return validToken;
-        }).
-        should.eventually.be.deep.equal(token);
-    });
-
 
     it('should reject with redirect if 401 response received', () => {
       const token = {access_token: 'token'};

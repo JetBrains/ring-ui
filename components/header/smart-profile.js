@@ -21,6 +21,8 @@ export default class SmartProfile extends PureComponent {
 
   componentDidMount() {
     const {auth} = this.props;
+    this.login = () => auth.login();
+    this.logout = () => auth.logout();
 
     if (auth) {
       auth.requestUser().then(user => {
@@ -35,8 +37,8 @@ export default class SmartProfile extends PureComponent {
 
     return (
       <Profile
-        onLogin={() => auth.logout()}
-        onLogout={() => auth.logout()}
+        onLogin={this.login}
+        onLogout={this.logout}
         user={user}
         profileUrl={user ? `${auth.config.serverUri}users/${user.id}` : ''}
         {...props}
