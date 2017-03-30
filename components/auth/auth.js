@@ -390,6 +390,19 @@ export default class Auth {
     this._redirectCurrentPage(authRequest.url);
   }
 
+
+  /**
+   * Wipe accessToken and redirect to auth page to obtain autorization data
+   * if available or login user otherwise
+   */
+  async login(extraParams) {
+    await this.config.onLogout();
+    await this._storage.wipeToken();
+
+    const authRequest = await this._requestBuilder.prepareAuthRequest(extraParams);
+    this._redirectCurrentPage(authRequest.url);
+  }
+
   /**
    * Returns epoch - seconds since 1970.
    * Used for calculation of expire times.
