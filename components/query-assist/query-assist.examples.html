@@ -31,6 +31,7 @@
           focus: true,
           hint: 'lol',
           hintOnSelection: 'lol selected',
+          poupupClassName: 'test',
           dataSource: function (props) {
             props.fields = 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
 
@@ -75,7 +76,7 @@
         prefix: 'login: ',
         option: 'test',
         suffix: ' ',
-        description: 'logins',
+        description: '1',
         matchingStart: 0,
         matchingEnd: query.length,
         caret: 2,
@@ -86,7 +87,7 @@
         prefix: 'login: ',
         option: 'test.1',
         suffix: ' ',
-        description: 'logins',
+        description: '2',
         matchingStart: 0,
         matchingEnd: query.length,
         caret: 2,
