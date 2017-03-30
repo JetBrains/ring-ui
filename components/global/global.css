@@ -4,8 +4,8 @@
 
 @value line-color: #DFE5EB;
 @value dark-line-color: #263B4C;
-@value icon-color: #CFDBE5;
-@value icon-hover-color: #A1C7E5;
+@value border-color: #CFDBE5;
+@value icon-color: #B8D1E5;
 @value border-hover-color: #80C6FF;
 @value main-color: #008EFF;
 
@@ -34,7 +34,6 @@
 @value pale-blue-color #A6D5ED;
 @value pink-color: #BC00DE;
 
-@value border-color: rgba(0, 0, 0, 0.2);
 @value outline-color: rgba(37, 183, 255, 0.5);
 
 @value border-radius: 3px;
