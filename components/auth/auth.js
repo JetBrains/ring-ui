@@ -392,8 +392,8 @@ export default class Auth {
 
 
   /**
-   * Wipe accessToken and redirect to auth page to obtain autorization data
-   * if available or login user otherwise
+   * Wipe accessToken and redirect to auth page to obtain authorization data
+   * if user is logged in or log her in otherwise
    */
   async login(extraParams) {
     await this.config.onLogout();
