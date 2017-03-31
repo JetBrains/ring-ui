@@ -132,7 +132,8 @@ export default class HeaderHelper {
     header.setMenuItemEnabled(header.constructor.MenuItemType.LOGIN, true);
 
     header.rerender({
-      onLoginClick: () => auth.login()
+      // Temporary revert to previous behavior: use logout for login
+      onLoginClick: () => auth.logout()
     });
   }
 
