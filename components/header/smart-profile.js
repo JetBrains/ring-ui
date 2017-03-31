@@ -21,7 +21,8 @@ export default class SmartProfile extends PureComponent {
 
   componentDidMount() {
     const {auth} = this.props;
-    this.login = () => auth.login();
+    // Temporary revert to previous behavior: use logout for login
+    this.login = () => auth.logout();
     this.logout = () => auth.logout();
 
     if (auth) {
