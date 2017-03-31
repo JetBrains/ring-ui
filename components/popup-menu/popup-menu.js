@@ -62,11 +62,14 @@ export default class PopupMenu extends Popup {
 
   /** @override */
   getInternalContent() {
+    // eslint-disable-next-line no-unused-vars
+    const {className, ...props} = this.props;
+
     return (
       <div>
         <List
           ref="List"
-          {...this.props}
+          {...props}
           maxHeight={this.position().maxHeight}
           shortcuts={this.shortcutsEnabled()}
           onSelect={this.onSelect}
