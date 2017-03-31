@@ -35,9 +35,6 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
-    &:empty {
-      padding-left: 0;
-    }
   }
 
   &:last-child {
@@ -117,9 +114,6 @@
 
   & .headerCell:first-child {
     padding-left: calc(unit * 4);
-    &:empty {
-      padding-left: 0;
-    }
   }
 }
 
