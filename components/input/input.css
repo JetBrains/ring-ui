@@ -32,6 +32,10 @@
   background: transparent;
   composes: blue-caret;
 
+  @nest .clearable & {
+    padding-right: calc(unit * 4);
+  }
+
   @nest .dark & {
     @supports not (caret-color: white) {
       text-shadow: text-shadow white-color;
@@ -65,6 +69,16 @@
       top: calc(unit / 2);
     }
   }
+}
+
+.clear {
+  position: absolute;
+  top: 15px;
+  /* override Button */
+  && {
+    line-height: calc(unit * 4);
+  }
+  right: 0;
 }
 
 textarea.input {
