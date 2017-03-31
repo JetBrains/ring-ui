@@ -32,10 +32,6 @@ html, body {
   margin: 0;
 }
 
-.version > button {
-  font: inherit;
-}
-
 .active {
   font-weight: 500;
 }
