@@ -4,6 +4,7 @@
 
 .anchor {
   && {
+    font: inherit;
     padding: 0;
   }
 }
