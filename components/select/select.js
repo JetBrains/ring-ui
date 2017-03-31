@@ -191,7 +191,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({shownData});
     }
 
-    if ('selected' in newProps && newProps.selected !== this.props.selected) {
+    if ('selected' in newProps && (newProps.selected !== this.props.selected || newProps.data !== this.props.data)) {
       const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
