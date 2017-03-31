@@ -28,11 +28,41 @@
 
   <file type="js">
     import {render} from 'react-dom';
-    import React from 'react';
+    import React, {PureComponent} from 'react';
 
     import Input from 'ring-ui/components/input/input';
 
     const container = document.getElementById('inputs');
+
+    class ClearableInput extends PureComponent {
+      state = {
+        text: "Default value"
+      };
+
+      setText = e => {
+        this.setState({
+          text: e.target.value
+        });
+      };
+
+      clear = () => {
+        this.setState({
+          text: ""
+        });
+      };
+
+      render() {
+        return (
+          <Input
+            value={this.state.text}
+            onChange={this.setText}
+            onClear={this.clear}
+            {...this.props}
+          />
+        );
+      }
+    }
+
     const inputs = (
       <form className="inputs">
         <Input label="Labeled input" />
@@ -44,6 +74,9 @@
         <Input
           label="Label and value"
           defaultValue="Default value"
+        />
+        <ClearableInput
+          label="Clearable input"
         />
         <Input
           label="Active input"
