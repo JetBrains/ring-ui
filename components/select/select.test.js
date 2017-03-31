@@ -8,6 +8,10 @@ import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 import simulateCombo from 'simulate-combo';
 
+function simulateInput(target, value) {
+  target.value = value;
+  TestUtils.Simulate.change(target, {target});
+}
 
 describe('Select', () => {
   const testData = [
@@ -350,37 +354,32 @@ describe('Select', () => {
 
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
-      this.select.filterValue = this.sinon.stub().returns('a');
-
       this.select.setState({
         focused: true,
         showPopup: true
       });
-      TestUtils.Simulate.input(this.select._popup.filter);
+      simulateInput(this.select._popup.filter, 'a');
       this.select.props.onFilter.should.been.called;
     });
 
     it('Should save input changes', function () {
-      this.select.filterValue = this.sinon.stub().returns('a');
-      this.select._filterChangeHandler();
-      this.select.state.prevFilterValue.should.equals('a');
+      simulateInput(this.select._popup.filter, 'a');
+      this.select.state.filterValue.should.equals('a');
     });
 
     it('Should open popup on input changes if in focus', function () {
       this.select.rerender({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
-      this.select.filterValue = this.sinon.stub().returns('a');
       this.select.setState({focused: true});
-      this.select._filterChangeHandler();
+      simulateInput(this.select.filter.node, 'a');
       this.select._showPopup.should.have.been.called;
     });
 
     it('should filter if not focused but not in input mode', function () {
       this.select.rerender({type: Select.Type.BUTTON});
-      this.sinon.spy(this.select, 'filterValue');
-      this.select._filterChangeHandler();
+      simulateInput(this.select._popup.filter, 'a');
 
-      this.select.filterValue.should.have.been.called;
+      this.select.props.onFilter.should.have.been.called;
     });
 
     it('Should not open popup on input changes if not in focus', function () {
@@ -399,7 +398,8 @@ describe('Select', () => {
 
     it('Should return input value if input mode enabled', function () {
       this.select.rerender({filter: false, type: Select.Type.INPUT});
-      this.select.filter.node.value = 'test input';
+      this.select.setState({focused: true});
+      simulateInput(this.select.filter.node, 'test input');
       this.select.filterValue().should.equal('test input');
     });
 
