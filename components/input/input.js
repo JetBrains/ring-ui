@@ -2,7 +2,13 @@ import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 import Theme from '../global/theme';
 
+import Button from '../button/button';
+
+import clearIcon from 'jetbrains-icons/close.svg';
+
 import styles from './input.css';
+
+function noop() {}
 
 /**
  * @name Input
@@ -34,6 +40,7 @@ export default class Input extends PureComponent {
     error: PropTypes.string,
     multiline: PropTypes.bool,
     onChange: PropTypes.func,
+    onClear: PropTypes.func,
     inputRef: PropTypes.func,
     children: PropTypes.string
   };
@@ -41,8 +48,9 @@ export default class Input extends PureComponent {
   static defaultProps = {
     theme: Theme.LIGHT,
     size: Size.M,
-    onChange() {},
-    inputRef() {}
+    onChange: noop,
+    onClear: noop,
+    inputRef: noop
   };
 
   state = {
@@ -85,6 +93,10 @@ export default class Input extends PureComponent {
     this.props.inputRef(el);
   };
 
+  clear = e => {
+    this.props.onClear(e);
+  }
+
   render() {
     const {
       // Modifiers
@@ -100,9 +112,12 @@ export default class Input extends PureComponent {
       children,
       value,
       onChange,
+      onClear,
       inputRef, // eslint-disable-line no-unused-vars
       ...restProps
     } = this.props;
+    const {empty} = this.state;
+    const clearable = onClear !== noop && !empty;
     const classes = classNames(
       styles.container,
       className,
@@ -111,12 +126,15 @@ export default class Input extends PureComponent {
       {
         [styles.active]: active,
         [styles.error]: error != null,
-        [styles.empty]: this.state.empty,
-        [styles.noLabel]: !this.props.label
+        [styles.empty]: empty,
+        [styles.noLabel]: !this.props.label,
+        [styles.clearable]: clearable
       }
     );
 
     const TagName = multiline ? 'textarea' : 'input';
+
+    const text = value != null ? value : children;
 
     return (
       <div
@@ -130,10 +148,18 @@ export default class Input extends PureComponent {
             this.checkValue(e.target);
           }}
           className={styles.input}
-          value={value != null ? value : children}
+          value={text}
           rows={multiline ? 1 : null}
           {...restProps}
         />
+        {clearable && (
+          <Button
+            className={styles.clear}
+            icon={clearIcon}
+            iconSize={Button.IconSize.Size14}
+            onClick={this.clear}
+          />
+        )}
         <label className={styles.label}>{label}</label>
         <div className={styles.underline} />
         <div className={styles.focusUnderline} />
