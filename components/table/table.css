@@ -44,7 +44,6 @@
 
   &:nth-child(1) {
     min-width: 297px;
-    max-width: 617px;
   }
 
   &:nth-child(1):only-child {
