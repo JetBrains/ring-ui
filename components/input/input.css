@@ -14,6 +14,11 @@
   }
 }
 
+.borderless {
+  padding: 0;
+  min-height: calc(unit * 4);
+}
+
 .light {
   color: text-color;
 }
@@ -25,7 +30,7 @@
 .input {
   min-height: calc(unit * 4);
   width: 100%;
-  padding: 0;
+  padding: 0 0 3px 0;
   font: inherit;
   border: none;
   outline: none;
@@ -72,8 +77,14 @@
 }
 
 .clear {
+  @nest .empty & {
+    display: none;
+  }
   position: absolute;
-  top: 15px;
+  top: 14px;
+  @nest .borderless & {
+    top: -2px;
+  }
   /* override Button */
   && {
     line-height: calc(unit * 4);
@@ -91,7 +102,7 @@ textarea.input {
 .label {
   pointer-events: none;
   position: absolute;
-  top:calc(unit * 3);
+  top: calc(unit * 3 - 2px);
   left: 0;
   transition: all fast-ease;
 
