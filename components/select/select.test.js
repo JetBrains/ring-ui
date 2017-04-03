@@ -418,7 +418,8 @@ describe('Select', () => {
 
     it('Should clear fiter value when closing', function () {
       this.select.filterValue('test');
-      this.select._onCloseAttempt();
+      this.select._showPopup();
+      this.select._hidePopup();
       this.select._showPopup();
       this.select._popup.filter.value.should.equal('');
     });
