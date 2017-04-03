@@ -18,11 +18,6 @@
   composes: font;
 }
 
-.filterWrapper {
-   padding: 0 calc(unit * 2);
-   margin: calc(unit * 2) 0 unit;
-}
-
 .attached {
   border-top: 0;
   border-top-left-radius: 0;
