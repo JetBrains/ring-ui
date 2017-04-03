@@ -13,12 +13,12 @@ export default class Renderer extends Component {
     const fragment = document.createDocumentFragment();
     nodes.forEach(nodeToRender => fragment.appendChild(nodeToRender));
 
-    this.node.parentNode.replaceChild(fragment, this.node);
+    this.node.appendChild(fragment);
   }
 
   render() {
     return (
-      <span ref={node => {
+      <div ref={node => {
         this.node = node;
       }}
       />
