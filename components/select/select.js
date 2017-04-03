@@ -543,6 +543,8 @@ export default class Select extends RingComponentWithShortcuts {
           this.filterValue(this._getItemLabel(this.state.selected));
         }
       }
+    } else {
+      this.clearFilter();
     }
     // it's necessary to focus anchor on pressing ESC
     this._hidePopup(isEsc);
