@@ -40,6 +40,7 @@ export default class ListLink extends PureComponent {
         {...restProps}
         hover={hover && !disabled}
         className={classes}
+        data-test="ring-list-link"
       >
         {label}
       </Comp>

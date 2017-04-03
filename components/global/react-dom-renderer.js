@@ -2,6 +2,7 @@ import React, {PropTypes, Component} from 'react';
 
 export default class Renderer extends Component {
   static propTypes = {
+    className: PropTypes.string,
     nodes: PropTypes.array
   };
 
@@ -13,14 +14,17 @@ export default class Renderer extends Component {
     const fragment = document.createDocumentFragment();
     nodes.forEach(nodeToRender => fragment.appendChild(nodeToRender));
 
-    this.node.parentNode.replaceChild(fragment, this.node);
+    this.node.appendChild(fragment);
   }
 
   render() {
+    const {className} = this.props;
     return (
-      <span ref={node => {
-        this.node = node;
-      }}
+      <div
+        className={className}
+        ref={node => {
+          this.node = node;
+        }}
       />
     );
   }
