@@ -234,12 +234,14 @@ export default class Popup extends RingComponentWithShortcuts {
       [styles.attached]: attached || legacy && cutEdge !== false
     });
 
+    const isShown = keepMounted || !hidden;
+
     return (
       <span
         ref={this.popupRef}
       >
         <Portal
-          isOpen={keepMounted || !hidden}
+          isOpen={isShown}
           target={this.context.parentPopupUid}
         >
           <div
@@ -250,6 +252,7 @@ export default class Popup extends RingComponentWithShortcuts {
           >
             <div
               data-test={this.props['data-test']}
+              data-test-shown={isShown}
               style={this.position()}
               ref={el => {
                 this.popup = el;
