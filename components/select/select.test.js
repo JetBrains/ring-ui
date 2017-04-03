@@ -10,7 +10,8 @@ import simulateCombo from 'simulate-combo';
 
 import styles from './select.css';
 
-function simulateInput(target, value) {
+function simulateInput(node, value) {
+  const target = findDOMNode(node);
   target.value = value;
   TestUtils.Simulate.change(target, {target});
 }
@@ -365,7 +366,7 @@ describe('Select', () => {
         focused: true,
         showPopup: true
       });
-      simulateInput(findDOMNode(this.select._popup.filter, 'a'));
+      simulateInput(this.select._popup.filter, 'a');
       this.select.props.onFilter.should.been.called;
     });
 
@@ -378,7 +379,7 @@ describe('Select', () => {
       this.renderSelect({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
       this.select.setState({focused: true});
-      simulateInput(this.select.filter.node, 'a');
+      simulateInput(this.select.filter, 'a');
       this.select._showPopup.should.have.been.called;
     });
 
@@ -406,7 +407,7 @@ describe('Select', () => {
     it('Should return input value if input mode enabled', function () {
       this.renderSelect({filter: false, type: Select.Type.INPUT});
       this.select.setState({focused: true});
-      simulateInput(this.select.filter.node, 'test input');
+      simulateInput(this.select.filter, 'test input');
       this.select.filterValue().should.equal('test input');
     });
 
@@ -428,7 +429,7 @@ describe('Select', () => {
       this.select._showPopup();
       this.select._hidePopup();
       this.select._showPopup();
-      this.select._popup.filter.value.should.equal('');
+      findDOMNode(this.select._popup.filter).value.should.equal('');
     });
   });
 
