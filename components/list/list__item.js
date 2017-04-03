@@ -98,6 +98,7 @@ export default class ListItem extends PureComponent {
         className={classes}
         data-test="ring-list-item"
         style={style}
+        data-test="ring-list-item"
       >
         <div className={styles.top}>
           <div className={styles.left}>

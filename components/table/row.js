@@ -121,7 +121,7 @@ class Row extends PureComponent {
 
       return (
         <Cell key={index} className={cellClasses}>
-          {index === 0 && metaColumn}
+          {index === 0 && (draggable || selectable) && metaColumn}
           {value}
         </Cell>
       );
