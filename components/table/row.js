@@ -117,7 +117,7 @@ class Row extends PureComponent {
     const cells = columns.map((column, index) => {
       const getValue = column.getValue || (() => item[column.id]);
       const value = getValue(item, column);
-      const cellClasses = classNames({[style.cellRight]: column.rightAlign});
+      const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
 
       return (
         <Cell key={index} className={cellClasses}>
