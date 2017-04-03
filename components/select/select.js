@@ -95,9 +95,9 @@ export default class Select extends RingComponentWithShortcuts {
     shownData: [],
     selected: (this.props.multiple ? [] : null),
     selectedIndex: null,
+    filterValue: this.props.filter && this.props.filter.value || '',
     shortcuts: false,
     popupShortcuts: false,
-    filterValue: this.props.filter && this.props.filter.value || '',
     showPopup: false
   };
 
@@ -285,7 +285,8 @@ export default class Select extends RingComponentWithShortcuts {
         anchorElement={anchorElement}
         onCloseAttempt={::this._onCloseAttempt}
         onSelect={::this._listSelectHandler}
-        onFilter={::this._filterChangeHandler}
+        onFilter={this._filterChangeHandler}
+        onClear={this.clearFilter}
         onLoadMore={::this.props.onLoadMore}
         isInputMode={this.isInputMode()}
       />
@@ -418,11 +419,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   filterValue(setValue) {
     if (typeof setValue === 'string' || typeof setValue === 'number') {
-      this.setState({filterValue: setValue});
+      this._setFilter(setValue);
     } else {
       return this.state.filterValue;
     }
-
     return undefined;
   }
 
@@ -445,18 +445,20 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _filterChangeHandler(event) {
+  _filterChangeHandler = e => {
+    this._setFilter(e.target.value, e);
+  }
+
+  _setFilter = (value, event = {}) => {
     if (this.isInputMode() && !this.state.focused) {
       return;
     }
 
-    let filterValue = event.target.value;
-
-    if (filterValue === this.state.filterValue) {
+    if (value === this.state.filterValue) {
       return;
     }
 
-    filterValue = filterValue.replace(/^\s+/g, '');
+    const filterValue = value.replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
     if (this.props.allowAny) {
       const fakeSelected = {
@@ -564,7 +566,7 @@ export default class Select extends RingComponentWithShortcuts {
     this._hidePopup(isEsc);
   }
 
-  clearFilter() {
+  clearFilter = () => {
     this.filterValue('');
   }
 
@@ -731,7 +733,7 @@ export default class Select extends RingComponentWithShortcuts {
             value={this.state.filterValue}
             className={classNames(styles.input, 'ring-js-shortcuts')}
             style={style}
-            onChange={::this._filterChangeHandler}
+            onChange={this._filterChangeHandler}
             onFocus={::this._focusHandler}
             onBlur={::this._blurHandler}
             placeholder={this._getInputPlaceholder()}
