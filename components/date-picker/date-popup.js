@@ -1,5 +1,9 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import moment from 'moment';
+
+import Icon from '../icon/icon';
+
+import calendarIcon from 'jetbrains-icons/calendar.svg';
 
 import DateInput from './date-input';
 import Months from './months';
@@ -9,11 +13,10 @@ import Weekdays from './weekdays';
 import {dateType, parseDate} from './consts';
 
 import styles from './date-picker.css';
-import popupStyles from '../popup/popup.css';
 
 const scrollExpDelay = 10;
 
-export default class DatePopup extends PureComponent {
+export default class DatePopup extends Component {
   static defaultProps = {
     onChange() {}
   };
@@ -27,7 +30,8 @@ export default class DatePopup extends PureComponent {
     displayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
     onChange: PropTypes.func,
-    onComplete: PropTypes.func
+    onComplete: PropTypes.func,
+    onClear: PropTypes.func
   };
 
   state = {
@@ -223,11 +227,17 @@ export default class DatePopup extends PureComponent {
         className={styles.datePopup}
         data-test="ring-date-popup"
       >
-        <div className={popupStyles.filterWrapper}>
+        <div className={styles.filterWrapper}>
+          <Icon
+            className={styles.filterIcon}
+            glyph={calendarIcon}
+            size={Icon.Size.Size18}
+          />
           {names.map(name => (
             <DateInput
               {...this.props}
               {...this.state}
+              name={name}
               key={name}
               date={dates[name]}
               active={this.state.active === name}
@@ -243,10 +253,11 @@ export default class DatePopup extends PureComponent {
                 });
               }}
               onConfirm={() => this.confirm(name)}
+              onClear={name === 'from' ? null : this.props.onClear}
             />
           ))}
-          <Weekdays />
         </div>
+        <Weekdays />
         <div
           className={styles.calendar}
         >

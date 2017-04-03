@@ -33,10 +33,18 @@ export default function Day(props) {
 
   const reverse = activeRange && activeRange[1] === from;
 
+  function makeSpreadRange(range) {
+    return range && [range[0], range[1].clone().add(1, 'days')];
+  }
+
+  const spreadRange = makeSpreadRange(currentRange);
+  const activeSpreadRange = makeSpreadRange(activeRange);
+
   return (
     <div
       className={classNames(
         styles.day,
+        styles[day.format('dddd')],
         {
           [styles.current]: ['date', 'from', 'to'].some(is),
           [styles.today]: day.isSame(moment(), 'day'),
@@ -48,7 +56,10 @@ export default function Day(props) {
           [styles.to]: (currentRange && isDay(currentRange[1])) ||
             activeRange && isDay(activeRange[1]),
           [styles.between]: inRange(currentRange),
-          [styles.activeBetween]: inRange(activeRange)
+          [styles.activeBetween]: inRange(activeRange),
+          [styles.first]: day.date() === 1,
+          [styles.spread]: inRange(spreadRange),
+          [styles.activeSpread]: inRange(activeSpreadRange)
         },
       )}
       onClick={() => onSelect(day)}

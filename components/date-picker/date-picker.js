@@ -1,20 +1,17 @@
 import React, {PureComponent, PropTypes} from 'react';
 import classNames from 'classnames';
 
-import calendarIcon from 'jetbrains-icons/calendar.svg';
-import closeIcon from 'jetbrains-icons/close.svg';
-
 import Popup from '../popup/popup';
-import Button from '../button-legacy/button-legacy';
+import Dropdown from '../dropdown/dropdown';
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
-import Icon from '../icon/icon';
 
 import styles from './date-picker.css';
 
 /**
  * @name Date Picker
  * @category Components
+ * @tags 3.0
  * @framework React
  * @constructor
  * @description Allows picking a date or a date range
@@ -32,9 +29,9 @@ export default class DatePicker extends PureComponent {
     displayFormat: 'D MMM YYYY',
     displayMonthFormat: 'D MMM',
     displayDayFormat: 'D',
-    inputFormat: 'D MMMM YYYY',
-    datePlaceholder: 'Select a date',
-    rangePlaceholder: 'Select a date range',
+    inputFormat: 'D MMM YYYY',
+    datePlaceholder: 'Set a date',
+    rangePlaceholder: 'Set a period',
     onChange() {}
   };
   static propTypes = {
@@ -64,13 +61,20 @@ export default class DatePicker extends PureComponent {
     });
   }
 
-  clear(e) {
-    e.stopPropagation();
+  clear = () => {
     this.props.onChange(
       this.props.range
         ? {from: null, to: null}
         : null
     );
+  }
+
+  popupRef = el => {
+    this.popup = el;
+  }
+
+  closePopup = () => {
+    this.popup._onCloseAttempt();
   }
 
   render() {
@@ -92,13 +96,8 @@ export default class DatePicker extends PureComponent {
     } = datePopupProps;
 
     const classes = classNames(
-      styles.container,
+      styles.datePicker,
       className
-    );
-
-    const displayClasses = classNames(
-      styles.displayDate,
-      {[styles.displayRange]: range}
     );
 
     const parse = text => parseDate(
@@ -131,38 +130,22 @@ export default class DatePicker extends PureComponent {
     }
 
     return (
-      <div className={classes}>
-        <Button
-          onClick={() => this.togglePopup()}
-          icon={calendarIcon}
-          iconSize={17}
-          className={styles.datePicker}
-          data-test="ring-date-picker"
-        >
-          <span
-            className={displayClasses}
-          >{text}{clear && (date || from || to) && (
-            <Icon
-              className={styles.clear}
-              glyph={closeIcon}
-              size={Icon.Size.Size14}
-              onClick={::this.clear}
-            />
-          )}</span>
-        </Button>
+      <Dropdown
+        className={classes}
+        anchor={text}
+      >
         <Popup
-          hidden={!this.state.showPopup}
-          onCloseAttempt={() => this.togglePopup(false)}
-          dontCloseOnAnchorClick={true}
           keepMounted={true}
           className={popupClassName}
+          ref={this.popupRef}
         >
           <DatePopup
+            onClear={clear ? this.clear : null}
             {...datePopupProps}
-            onComplete={() => this.togglePopup(false)}
+            onComplete={this.closePopup}
           />
         </Popup>
-      </div>
+      </Dropdown>
     );
   }
 }
