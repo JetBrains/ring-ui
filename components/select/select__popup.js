@@ -8,6 +8,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Icon from '../icon/icon';
+import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import classNames from 'classnames';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
@@ -18,7 +19,7 @@ const INPUT_MARGIN_COMPENSATION = -14;
 
 function noop() {}
 
-const InputWithShortcuts = shortcutsHOC('input');
+const InputWithShortcuts = shortcutsHOC(Input);
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
@@ -36,6 +37,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     onSelect: noop,
     onCloseAttempt: noop,
     onFilter: noop,
+    onClear: noop,
     onLoadMore: noop
   };
 
@@ -47,8 +49,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   };
 
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
     this.mouseUpHandler = ::this.mouseUpHandler;
 
     this.popupFilterShortcuts = {
@@ -168,12 +170,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
             rgShortcutsMap={this.popupFilterShortcuts.map}
             className={classNames(styles.filter, 'ring-js-shortcuts')}
+            borderless={true}
             value={this.props.filterValue}
-            ref={this.filterRef}
+            inputRef={this.filterRef}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.popupFilterOnFocus}
             placeholder={this.props.filter.placeholder || ''}
             onChange={this.props.onFilter}
+            onClear={this.props.onClear}
           />
         </div>
       );

@@ -394,7 +394,7 @@ describe('Select', () => {
       this.renderSelect({type: Select.Type.INPUT});
 
       this.select._showPopup = this.sinon.spy();
-      this.select._filterChangeHandler();
+      simulateInput(this.select.filter, 'a');
       this.select._showPopup.should.not.have.been.called;
     });
 
@@ -419,7 +419,7 @@ describe('Select', () => {
 
     it('Should set target input value in input mode', function () {
       this.renderSelect({filter: false, type: Select.Type.INPUT});
-
+      this.select.setState({focused: true});
       this.select.filterValue('test');
       this.select.filter.value.should.equal('test');
     });
