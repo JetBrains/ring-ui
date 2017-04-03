@@ -50,7 +50,6 @@ export default class Input extends PureComponent {
     theme: Theme.LIGHT,
     size: Size.M,
     onChange: noop,
-    onClear: noop,
     inputRef: noop
   };
 
@@ -98,7 +97,7 @@ export default class Input extends PureComponent {
   };
 
   clear = e => {
-    this.props.onClear(e);
+    this.props.onClear && this.props.onClear(e);
   }
 
   render() {
@@ -122,7 +121,7 @@ export default class Input extends PureComponent {
       ...restProps
     } = this.props;
     const {empty} = this.state;
-    const clearable = onClear !== noop;
+    const clearable = !!onClear;
     const classes = classNames(
       styles.container,
       className,
