@@ -36,7 +36,9 @@ const Type = {
 const Dimension = {
   ITEM_PADDING: 16,
   ITEM_HEIGHT: 24,
-  SEPARATOR_HEIGHT: 27,
+  SEPARATOR_HEIGHT: 28,
+  SEPARATOR_FIRST_HEIGHT: 18,
+  SEPARATOR_TEXT_HEIGHT: 17,
   TITLE_HEIGHT: 42,
   INNER_PADDING: 8,
   MARGIN: 4
@@ -360,7 +362,10 @@ export default class List extends RingComponentWithShortcuts {
           let size;
           switch (this.props.data[i].rgItemType) {
             case Type.SEPARATOR:
-              size = Dimension.SEPARATOR_HEIGHT;
+              size = i === 0 ? Dimension.SEPARATOR_FIRST_HEIGHT : Dimension.SEPARATOR_HEIGHT;
+              if (!this.props.data[i].desctiption) {
+                size -= Dimension.SEPARATOR_TEXT_HEIGHT;
+              }
               break;
             case Type.TITLE:
               size = Dimension.TITLE_HEIGHT;
