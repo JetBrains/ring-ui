@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease, blue-caret from  "../global/global.css";
+@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease from  "../global/global.css";
 
 @value text-shadow: 0 0 0;
 
@@ -19,14 +19,6 @@
   min-height: calc(unit * 4);
 }
 
-.light {
-  color: text-color;
-}
-
-.dark {
-  color: white-color;
-}
-
 .input {
   min-height: calc(unit * 4);
   width: 100%;
@@ -35,16 +27,18 @@
   border: none;
   outline: none;
   background: transparent;
-  composes: blue-caret;
+  caret-color: main-color;
 
   @nest .clearable & {
-    padding-right: calc(unit * 4);
+    padding-right: calc(unit * 3);
+  }
+
+  @nest .light & {
+    color: text-color;
   }
 
   @nest .dark & {
-    @supports not (caret-color: white) {
-      text-shadow: text-shadow white-color;
-    }
+    color: white-color;
   }
 
   &::placeholder {
@@ -54,10 +48,6 @@
 
   &[disabled] {
     color: gray-color;
-
-    @supports not (caret-color: white) {
-      text-shadow: text-shadow gray-color;
-    }
   }
 
   /*
