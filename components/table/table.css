@@ -132,6 +132,7 @@
   & {
     outline: none;
     background-color: table-background-color;
+    line-height: 39px;
   }
 
   @nest .table:not(.disabledHover) &:hover {
@@ -195,9 +196,6 @@
 
   &:first-child {
     padding-left: calc(unit * 4);
-
-    display: flex;
-    align-items: center;
   }
 
   &:last-child {
@@ -228,12 +226,17 @@
 
 .metaColumn {
   position: relative;
-  padding-right: 0;
   float: left;
-  height: 16px;
+  height: 37px;
   padding-right: unit;
+  padding-top: 1px;
 
   &.metaColumnSpaced {
+  }
+
+  @nest .header &,
+  .subHeader & {
+    height: 16px;
   }
 }
 
@@ -241,7 +244,7 @@
   display: none;
   position: absolute;
   left: -24px;
-  top: -12px;
+  top: -11px;
 
   cursor: grab;
   padding: unit;
@@ -268,4 +271,5 @@
   }
 
   background-color: #FFF;
+  vertical-align: middle;
 }
