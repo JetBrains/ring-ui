@@ -293,7 +293,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   _hidePopup(tryFocusAnchor) {
     if (this.node && this.state.showPopup) {
-      this.setState({showPopup: false});
+      this.setState({
+        showPopup: false,
+        filterValue: ''
+      });
 
       let restoreFocusNode = tryFocusAnchor ? (this.props.targetElement || this.node) : this.node;
       if (this.props.type === Type.INPUT) {
@@ -543,8 +546,6 @@ export default class Select extends RingComponentWithShortcuts {
           this.filterValue(this._getItemLabel(this.state.selected));
         }
       }
-    } else {
-      this.clearFilter();
     }
     // it's necessary to focus anchor on pressing ESC
     this._hidePopup(isEsc);
