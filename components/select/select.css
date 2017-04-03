@@ -150,18 +150,9 @@
 
 .filter {
   width: 100%;
-  height: calc(unit * 4);
-  padding: 0 0 0 calc(unit * 5.5);
+  padding-left: calc(unit * 5.5);
   font: inherit;
-  border: none;
-  outline: none;
   border-bottom: 1px solid line-color;
-  composes: blue-caret;
-
-  &::placeholder {
-    color: gray-color;
-    text-shadow: 0px 0px 0px gray-color;
-  }
 }
 
 .filterWrapper {
