@@ -40,7 +40,7 @@ export default class DatePopup extends RingComponent {
   sameDay(next, prev) {
     const nextMoment = this.parseDate(next);
     const prevMoment = this.parseDate(prev);
-    if (nextMoment.isValid() && prevMoment.isValid()) {
+    if (nextMoment && prevMoment) {
       return nextMoment.isSame(prevMoment, 'day');
     }
 
