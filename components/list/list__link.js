@@ -30,6 +30,7 @@ export default class ListLink extends PureComponent {
         pseudo={!restProps.href}
         {...restProps}
         className={classes}
+        data-test="ring-list-link"
       >
         {label}
       </Link>
