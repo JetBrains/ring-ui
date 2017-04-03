@@ -39,6 +39,7 @@ export default class Input extends PureComponent {
     active: PropTypes.bool,
     error: PropTypes.string,
     multiline: PropTypes.bool,
+    borderless: PropTypes.bool,
     onChange: PropTypes.func,
     onClear: PropTypes.func,
     inputRef: PropTypes.func,
@@ -68,6 +69,9 @@ export default class Input extends PureComponent {
   }
 
   stretch(el) {
+    if (!el) {
+      return;
+    }
     el.style.height = `${el.scrollHeight}px`;
   }
 
@@ -104,6 +108,7 @@ export default class Input extends PureComponent {
       size,
       active,
       multiline,
+      borderless,
 
       // Props
       label,
@@ -117,7 +122,7 @@ export default class Input extends PureComponent {
       ...restProps
     } = this.props;
     const {empty} = this.state;
-    const clearable = onClear !== noop && !empty;
+    const clearable = onClear !== noop;
     const classes = classNames(
       styles.container,
       className,
@@ -128,7 +133,8 @@ export default class Input extends PureComponent {
         [styles.error]: error != null,
         [styles.empty]: empty,
         [styles.noLabel]: !this.props.label,
-        [styles.clearable]: clearable
+        [styles.clearable]: clearable,
+        [styles.borderless]: borderless
       }
     );
 
@@ -160,14 +166,17 @@ export default class Input extends PureComponent {
             onClick={this.clear}
           />
         )}
-        <label className={styles.label}>{label}</label>
-        <div className={styles.underline} />
-        <div className={styles.focusUnderline} />
-        <div className={styles.errorUnderline} />
-        <div
-          className={styles.errorText}
-          ref={this.errorRef}
-        >{error}</div>
+
+        {!borderless && <label className={styles.label}>{label}</label>}
+        {!borderless && <div className={styles.underline} />}
+        {!borderless && <div className={styles.focusUnderline} />}
+        {!borderless && <div className={styles.errorUnderline} />}
+        {!borderless && (
+          <div
+            className={styles.errorText}
+            ref={this.errorRef}
+          >{error}</div>
+        )}
       </div>
     );
   }
