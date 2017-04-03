@@ -17,6 +17,10 @@ export default class ListTitle extends PureComponent {
   render() {
     const {description, label} = this.props;
     return (
+      <span
+        className={styles.title}
+        data-test="ring-list-title"
+      >
       <span className={styles.title}>
         <span
           className={classnames(styles.label, styles.text)}

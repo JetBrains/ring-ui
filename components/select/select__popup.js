@@ -168,12 +168,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
             rgShortcutsMap={this.popupFilterShortcuts.map}
             className={classNames(styles.filter, 'ring-js-shortcuts')}
-            defaultValue={this.props.filter.value || ''}
+            value={this.props.filterValue}
             ref={this.filterRef}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.popupFilterOnFocus}
             placeholder={this.props.filter.placeholder || ''}
-            onInput={this.props.onFilter}
+            onChange={this.props.onFilter}
           />
         </div>
       );

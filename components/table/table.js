@@ -295,7 +295,7 @@ class Table extends PureComponent {
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
-    const headerProps = {caption, selectable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
+    const headerProps = {caption, selectable, draggable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
     headerProps.checked = data.length > 0 && data.length === selection.getSelected().size;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 

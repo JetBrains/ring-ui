@@ -10,6 +10,11 @@ import simulateCombo from 'simulate-combo';
 
 import styles from './select.css';
 
+function simulateInput(target, value) {
+  target.value = value;
+  TestUtils.Simulate.change(target, {target});
+}
+
 describe('Select', () => {
   const testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
@@ -356,37 +361,32 @@ describe('Select', () => {
 
   describe('Filtering', () => {
     it('Should call onFilter on input changes', function () {
-      this.select.filterValue = this.sinon.stub().returns('a');
-
       this.select.setState({
         focused: true,
         showPopup: true
       });
-      TestUtils.Simulate.input(findDOMNode(this.select._popup.filter));
+      simulateInput(findDOMNode(this.select._popup.filter, 'a'));
       this.select.props.onFilter.should.been.called;
     });
 
     it('Should save input changes', function () {
-      this.select.filterValue = this.sinon.stub().returns('a');
-      this.select._filterChangeHandler();
-      this.select.state.prevFilterValue.should.equals('a');
+      simulateInput(this.select._popup.filter, 'a');
+      this.select.state.filterValue.should.equals('a');
     });
 
     it('Should open popup on input changes if in focus', function () {
       this.renderSelect({type: Select.Type.INPUT});
       this.select._showPopup = this.sinon.spy();
-      this.select.filterValue = this.sinon.stub().returns('a');
       this.select.setState({focused: true});
-      this.select._filterChangeHandler();
+      simulateInput(this.select.filter.node, 'a');
       this.select._showPopup.should.have.been.called;
     });
 
     it('should filter if not focused but not in input mode', function () {
       this.renderSelect({type: Select.Type.BUTTON});
-      this.sinon.spy(this.select, 'filterValue');
-      this.select._filterChangeHandler();
+      simulateInput(this.select._popup.filter, 'a');
 
-      this.select.filterValue.should.have.been.called;
+      this.select.props.onFilter.should.have.been.called;
     });
 
     it('Should not open popup on input changes if not in focus', function () {
@@ -405,7 +405,8 @@ describe('Select', () => {
 
     it('Should return input value if input mode enabled', function () {
       this.renderSelect({filter: false, type: Select.Type.INPUT});
-      this.select.filter.value = 'test input';
+      this.select.setState({focused: true});
+      simulateInput(this.select.filter.node, 'test input');
       this.select.filterValue().should.equal('test input');
     });
 
@@ -420,6 +421,14 @@ describe('Select', () => {
 
       this.select.filterValue('test');
       this.select.filter.value.should.equal('test');
+    });
+
+    it('Should clear fiter value when closing', function () {
+      this.select.filterValue('test');
+      this.select._showPopup();
+      this.select._hidePopup();
+      this.select._showPopup();
+      this.select._popup.filter.value.should.equal('');
     });
   });
 
