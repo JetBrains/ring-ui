@@ -415,6 +415,13 @@ describe('Select', () => {
       this.select.filterValue('test');
       this.select.filter.node.value.should.equal('test');
     });
+
+    it('Should clear fiter value when closing', function () {
+      this.select.filterValue('test');
+      this.select._onCloseAttempt();
+      this.select._showPopup();
+      this.select._popup.filter.value.should.equal('');
+    });
   });
 
   describe('Multiple', () => {
