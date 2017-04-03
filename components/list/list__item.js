@@ -75,6 +75,7 @@ export default class ListItem extends PureComponent {
         onMouseUp={onMouseUp}
         className={classes}
         style={style}
+        data-test="ring-list-item"
       >
         <div className="ring-list__item__top">
           <div className="ring-list__item__left">
