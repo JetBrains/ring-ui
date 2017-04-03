@@ -150,13 +150,12 @@
 
 .filter {
   width: 100%;
-  padding-left: calc(unit * 5.5);
-  font: inherit;
-  border-bottom: 1px solid line-color;
 }
 
 .filterWrapper {
   position: relative;
+  padding-left: calc(unit * 5.5);
+  border-bottom: 1px solid line-color;
 }
 
 .filterIcon {
