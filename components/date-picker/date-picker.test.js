@@ -15,8 +15,8 @@ describe('Date Picker', () => {
     isCompositeComponentWithType(renderComponent(), DatePicker).should.be.true;
   });
 
-  it('should render a button', () => {
-    renderNode().firstChild.should.match(`button.${styles.datePicker}`);
+  it('should render a div', () => {
+    renderNode().should.match('div');
   });
 
   it('should use passed className', () => {

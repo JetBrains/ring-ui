@@ -1,11 +1,11 @@
-@value unit, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, line-height-lower from  "../global/global.css";
-@value soft-blue-color: #cef;
-@value border-color: #dfe5eb;
+@value unit, main-color, line-color, white-color, selected-background-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
+@value hover-color: #cef;
+@value filter, filterWrapper, filterIcon from "../select/select.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
-@value calWidth: calc(unit * 38);
+@value calWidth: calc(unit * 37);
 @value yearHeight: calc(unit * 4);
-@value yearWidth: calc(unit * 7);
+@value yearWidth: calc(unit * 6);
 
 .container {
   display: inline-block;
@@ -21,10 +21,6 @@
   transition: none;
 }
 
-.datePicker.datePicker {
-  padding-right: unit;
-}
-
 .displayDate {
   display: inline-block;
   text-align: left;
@@ -35,33 +31,48 @@
   min-width: calc(unit * 22);
 }
 
-.clear {
-  cursor: pointer;
-  opacity: .3;
-  transition: opacity ease;
-}
-
-.datePicker:hover .clear {
-  opacity: .5;
-
-  &:hover {
-    opacity: 1;
-    transition: none;
-  }
-}
-
 .datePopup {
   text-align: left;
   user-select: none;
 }
 
-.input.input {
-  width: calc(unit * 17);
+.datePopup * {
+  box-sizing: border-box;
+}
+
+.filterWrapper {
+  composes: filterWrapper;
+  display: flex;
+}
+
+.filter {
+  composes: filter;
+}
+
+.filterIcon {
+  composes: filterIcon;
+}
+
+.fromInput {
+  flex: 0 0 calc(unit * 13);
+  position: relative;
+
+  &::after {
+    content: '—';
+    position: absolute;
+    line-height: calc(4 * unit - 3px);
+    right: unit;
+  }
+}
+
+.toInput {
+  flex: 1 0 calc(unit * 13);
+  width: calc(unit * 13);
 }
 
 .weekdays {
-  margin-top: calc(unit * 2);
-  line-height: line-height-lower;
+  height: calc(unit * 4);
+  padding: 5px calc(unit * 2) 0;
   color: dark-gray-color;
 }
 
@@ -77,7 +88,7 @@
 }
 
 .calendar {
-  box-shadow: 0 -1px border-color;
+  box-shadow: 0 -1px line-color;
   position: relative;
   height: calHeight;
   width: calWidth;
@@ -108,7 +119,6 @@
   line-height: cellSize;
   height: cellSize;
   flex-shrink: 0;
-  box-sizing: border-box;
 }
 
 .monthTitle {
@@ -132,24 +142,24 @@
 }
 
 .day.between {
-  background-color: light-blue-color;
+  background-color: selected-background-color;
   transition: none;
 }
 
 .day.activeBetween {
-  background-color: soft-blue-color;
+  background-color: hover-color;
   transition: none;
 }
 
 .day.current {
   border-radius: border-radius;
-  color: #fff;
-  background-color: blue-color;
+  color: white-color;
+  background-color: main-color;
 }
 
 .day.active {
   border-radius: border-radius;
-  background-color: soft-blue-color;
+  background-color: hover-color;
   color: link-hover-color;
   transition: none;
 }
@@ -164,6 +174,113 @@
 
 .day.from.to {
   border-radius: border-radius;
+}
+
+.Monday {
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: calc(unit * 2);
+    transition: background-color ease;
+  }
+
+  &::before {
+    right: 100%;
+  }
+
+  &::after {
+    bottom: 100%;
+    left: 700%;
+  }
+
+  &.spread {
+    &::before,
+    &::after {
+      background-color: selected-background-color;
+      transition: none;
+    }
+  }
+
+  &.activeSpread {
+    &::before,
+    &::after {
+      background-color: hover-color;
+      transition: none;
+    }
+  }
+}
+
+.first {
+  position: relative;
+  &::before,
+  &::after{
+    content: '';
+    position: absolute;
+    height: calc(unit * 8);
+    width: calc(unit * 23);
+    transition: background-color ease;
+    z-index: invisible-element-z-index;
+  }
+  &::before {
+    right: 100%;
+    bottom: 0;
+  }
+  &::after {
+    left: 0;
+    bottom: 100%;
+  }
+
+  &.Monday {
+    &::after {
+      height: calc(unit * 5);
+    }
+
+    & + .Tuesday {
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: calc(unit * 2);
+        transition: background-color ease;
+        z-index: invisible-element-z-index;
+        left: 600%;
+        top: calc(- unit * 8);
+      }
+    }
+  }
+
+
+  &.Friday,
+  &.Saturday,
+  &.Sunday {
+    &::before,
+    &::after {
+      height: calc(unit * 5);
+    }
+  }
+
+  &.spread {
+    &::before,
+    &::after,
+    & + .Tuesday::before {
+      background-color: selected-background-color;
+      transition: none;
+    }
+  }
+
+  &.activeSpread {
+    &::before,
+    &::after,
+    & + .Tuesday::before {
+      background-color: hover-color;
+      transition: none;
+    }
+  }
 }
 
 .day.empty {
@@ -187,12 +304,13 @@
 }
 
 .monthNames {
+  background-color: white-color;
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   width: calc(unit * 6);
-  box-shadow: -1px 0 border-color;
+  box-shadow: -1px 0 line-color;
 }
 
 .monthName {
@@ -210,7 +328,7 @@
   z-index: fixed-z-index;
   height: calc(unit * 6);
   cursor: grab;
-  background-color: blue-color;
+  background-color: main-color;
   opacity: .1;
 }
 
@@ -227,15 +345,17 @@
   position: absolute;
   left: 0;
   width: 2px;
-  background-color: blue-color;
+  background-color: main-color;
 }
 
 .years {
+  background-color: white-color;
   position: absolute;
   top: 0;
   right: 0;
   width: yearWidth;
-  box-shadow: -1px 0 border-color;
+  box-shadow: -1px 0 line-color;
+  font-size: font-size-smaller;
 }
 
 .year {
@@ -245,6 +365,10 @@
   line-height: yearHeight;
   color: dark-gray-color;
   composes: hoverable;
+
+  &.today::after {
+    top: -1px;
+  }
 }
 
 .currentYear {

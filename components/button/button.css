@@ -21,7 +21,7 @@
 
   border: 0;
   border-radius: border-radius;
-  transition: all ease;
+  transition: color ease, background-color ease, box-shadow ease;
 
   cursor: pointer;
 

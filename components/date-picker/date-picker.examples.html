@@ -14,12 +14,16 @@
     class DatePickerExample extends Component {
       state = {date: '20.09.14'}
 
+      setDate = date => {
+        this.setState({date})
+      }
+
       render() {
         return (
           <div>
             <DatePicker
               date={this.state.date}
-              onChange={date => this.setState({date})}
+              onChange={this.setDate}
             />
           </div>
         );
@@ -49,12 +53,17 @@
         to: '7 February 2015'
       };
 
+      setRange = ({from, to}) => {
+        this.setState({from, to});
+      }
+
       render() {
         return (
           <div>
             <DatePicker
-              {...this.state}
-              onChange={::this.setState}
+              from={this.state.from}
+              to={this.state.to}
+              onChange={this.setRange}
               range={true}
             />
           </div>
@@ -81,13 +90,16 @@
 
     class DatePickerExample extends Component {
       state = {date: '20.09.14'}
+      setDate = date => {
+        this.setState({date})
+      }
 
       render() {
         return (
           <div>
             <DatePicker
               date={this.state.date}
-              onChange={date => this.setState({date})}
+              onChange={this.setDate}
               clear={true}
             />
           </div>
