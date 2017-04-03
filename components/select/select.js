@@ -1,5 +1,4 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
