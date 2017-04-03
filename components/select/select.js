@@ -96,10 +96,9 @@ export default class Select extends RingComponentWithShortcuts {
     shownData: [],
     selected: (this.props.multiple ? [] : null),
     selectedIndex: null,
-    filterString: null,
     shortcuts: false,
     popupShortcuts: false,
-    prevFilterValue: null,
+    filterValue: this.props.filter && this.props.filter.value || '',
     showPopup: false
   };
 
@@ -149,7 +148,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     this.setState({
       selected,
-      prevFilterValue: this.getValueForFilter(selected)
+      filterValue: this.getValueForFilter(selected)
     }, function () {
       this.props.onChange(selected, event);
       this.props.onReset();
@@ -173,11 +172,11 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   getValueForFilter(selected) {
-    return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.prevFilterValue;
+    return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.filterValue;
   }
 
   willMount() {
-    this.updateState(this.props);
+    this.updateState(this.props, true);
   }
 
   didMount() {
@@ -202,13 +201,17 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  updateState(props) {
+  updateState(props, initial) {
     if ('data' in props) {
       const shownData = this.getListItems(this.filterValue(), props.data);
       this.setState({shownData});
     }
 
-    if (props.selected !== null) {
+    if (props.selected !== null && (
+      initial ||
+      props.selected !== this.props.selected ||
+      props.data !== this.props.data
+    )) {
       const selected = props.selected ? props.selected : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
@@ -279,6 +282,7 @@ export default class Select extends RingComponentWithShortcuts {
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+        filterValue={this.state.filterValue}
         anchorElement={anchorElement}
         onCloseAttempt={::this._onCloseAttempt}
         onSelect={::this._listSelectHandler}
@@ -303,7 +307,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   _hidePopup(tryFocusAnchor) {
     if (this.node && this.state.showPopup) {
-      this.setState({showPopup: false});
+      this.setState({
+        showPopup: false,
+        filterValue: ''
+      });
 
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement || this.node.query('[data-test=ring-select__focus]');
@@ -411,18 +418,10 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   filterValue(setValue) {
-    if (this.isInputMode() || this.props.filter) {
-      const filter = findDOMNode(this.isInputMode() ? this.filter : this._popup && this._popup.filter);
-
-      if (!filter) {
-        return '';
-      } else if (typeof setValue === 'string' || typeof setValue === 'number') {
-        filter.value = setValue;
-      } else {
-        return filter.value || '';
-      }
+    if (typeof setValue === 'string' || typeof setValue === 'number') {
+      this.setState({filterValue: setValue});
     } else {
-      return '';
+      return this.state.filterValue;
     }
 
     return undefined;
@@ -452,13 +451,11 @@ export default class Select extends RingComponentWithShortcuts {
       return;
     }
 
-    let filterValue = this.filterValue();
+    let filterValue = event.target.value;
 
-    if (filterValue === this.state.prevFilterValue) {
+    if (filterValue === this.state.filterValue) {
       return;
     }
-
-    this.setState({prevFilterValue: filterValue});
 
     filterValue = filterValue.replace(/^\s+/g, '');
     this.props.onFilter(filterValue);
@@ -476,7 +473,10 @@ export default class Select extends RingComponentWithShortcuts {
       });
     }
     !this._popup.isVisible() && this.props.onBeforeOpen();
-    this._showPopup();
+
+    this.setState({filterValue}, () => {
+      this._showPopup();
+    });
   }
 
   _rebuildMultipleMap(selected, multiple) {
@@ -720,11 +720,6 @@ export default class Select extends RingComponentWithShortcuts {
     const iconsNode = <span className={styles.icons}>{icons}</span>;
 
     if (this.isInputMode()) {
-      let filterValue;
-      if (this.state.selected) {
-        filterValue = this._getItemLabel(this.state.selected);
-      }
-
       return (
         <div
           className={classNames(classes, styles.inputMode)}
@@ -734,7 +729,7 @@ export default class Select extends RingComponentWithShortcuts {
           <Input
             ref={this.filterRef}
             disabled={this.props.disabled}
-            value={filterValue}
+            value={this.state.filterValue}
             className={classNames(styles.input, 'ring-js-shortcuts')}
             style={style}
             onChange={::this._filterChangeHandler}
