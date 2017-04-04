@@ -138,6 +138,12 @@ export default class DatePicker extends PureComponent {
           keepMounted={true}
           className={popupClassName}
           ref={this.popupRef}
+          directions={[
+            Popup.PopupProps.Directions.BOTTOM_RIGHT,
+            Popup.PopupProps.Directions.BOTTOM_LEFT,
+            Popup.PopupProps.Directions.TOP_LEFT,
+            Popup.PopupProps.Directions.TOP_RIGHT
+          ]}
         >
           <DatePopup
             onClear={clear ? this.clear : null}
