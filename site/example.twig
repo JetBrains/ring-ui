@@ -6,7 +6,7 @@
   <script src="../../vendor.dll.js"></script>
 </head>
 <body>
-
+  <script src="../../example-common.js"></script>
   <!-- example content -->
   {% for file in example.files if file.type == 'html' %}
     {% for asset in file.assets if asset.type == 'html' %}
@@ -22,7 +22,5 @@
       {% endif %}
     {% endfor %}
   {% endfor %}
-
-  <script src="../../example-common.js"></script>
 </body>
 </html>
