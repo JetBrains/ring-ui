@@ -22,9 +22,7 @@ export const Directions = {
  */
 export const DEFAULT_DIRECTIONS = [
   Directions.BOTTOM_RIGHT, Directions.BOTTOM_LEFT, Directions.TOP_LEFT, Directions.TOP_RIGHT,
-  Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM,
-  // Fall back to the first option
-  Directions.BOTTOM_RIGHT
+  Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.LEFT_TOP, Directions.LEFT_BOTTOM
 ];
 
 /**
@@ -149,6 +147,8 @@ export default function position(attrs) {
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop);
 
     const directionStylesSortedByIncreasingOverflow = directions.
+      // Fall back to the first option
+      concat(directions[0]).
       filter(direction => directionsMatrix[direction]).
       map(direction => directionsMatrix[direction]).
       sort((firstDirectionStyles, secondDirectionStyles) => {
