@@ -110,7 +110,11 @@ describe('Popup', () => {
   });
 
   describe('positioning', () => {
-    it('top-left direction', done => {
+    beforeEach(function () {
+      this.sinon.stub(window, 'requestAnimationFrame', cb => cb());
+    });
+
+    it('top-left direction', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -121,18 +125,15 @@ describe('Popup', () => {
       });
 
       const popupElement = popup.popup;
-      window.requestAnimationFrame(() => {
-        const elementOffset = getRect(element);
+      const elementOffset = getRect(element);
 
-        parseInt(getStyles(popupElement).left, 10).
-          should.equal(elementOffset.left + elementOffset.width - popupElement.clientWidth);
-        parseInt(getStyles(popupElement).top, 10).
-          should.equal(elementOffset.top - popupElement.clientHeight);
-        done();
-      });
+      parseInt(getStyles(popupElement).left, 10).
+        should.equal(elementOffset.left + elementOffset.width - popupElement.clientWidth);
+      parseInt(getStyles(popupElement).top, 10).
+        should.equal(elementOffset.top - popupElement.clientHeight);
     });
 
-    it('bottom-right corner', done => {
+    it('bottom-right corner', () => {
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
       document.body.append(element);
@@ -143,18 +144,15 @@ describe('Popup', () => {
       });
 
       const popupElement = popup.popup;
-      window.requestAnimationFrame(() => {
-        const elementOffset = getRect(element);
+      const elementOffset = getRect(element);
 
-        parseInt(getStyles(popupElement).left, 10).
-          should.equal(elementOffset.left);
-        parseInt(getStyles(popupElement).top, 10).
-          should.equal(elementOffset.top + elementOffset.height);
-        done();
-      });
+      parseInt(getStyles(popupElement).left, 10).
+        should.equal(elementOffset.left);
+      parseInt(getStyles(popupElement).top, 10).
+        should.equal(elementOffset.top + elementOffset.height);
     });
 
-    it('should add specified offset', done => {
+    it('should add specified offset', () => {
       const OFFSET = 10;
       const element = document.createElement('div');
       element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
@@ -168,15 +166,12 @@ describe('Popup', () => {
       });
 
       const popupElement = popup.popup;
-      window.requestAnimationFrame(() => {
-        const elementOffset = getRect(element);
+      const elementOffset = getRect(element);
 
-        parseInt(getStyles(popupElement).left, 10).
-          should.equal(elementOffset.left + OFFSET);
-        parseInt(getStyles(popupElement).top, 10).
-          should.equal(elementOffset.top + elementOffset.height + OFFSET);
-        done();
-      });
+      parseInt(getStyles(popupElement).left, 10).
+        should.equal(elementOffset.left + OFFSET);
+      parseInt(getStyles(popupElement).top, 10).
+        should.equal(elementOffset.top + elementOffset.height + OFFSET);
     });
 
     it('Should support minWidth = MinWidth.TARGET', () => {
@@ -186,7 +181,8 @@ describe('Popup', () => {
 
       const popup = renderPopup({
         minWidth: MinWidth.TARGET,
-        anchorElement: element
+        anchorElement: element,
+        hidden: false
       });
 
       parseInt(getStyles(popup.popup).minWidth, 10).should.equal(70);
@@ -194,7 +190,7 @@ describe('Popup', () => {
     });
 
     it('Should support minWidth = some number in pixels', () => {
-      const popup = renderPopup({minWidth: 345});
+      const popup = renderPopup({minWidth: 345, hidden: false});
 
       parseInt(popup.popup.style.minWidth, 10).should.equal(345);
     });

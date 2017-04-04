@@ -18,6 +18,14 @@
   composes: font;
 }
 
+.hidden {
+  display: none;
+}
+
+.showing {
+  visibility: hidden;
+}
+
 .attached {
   border-top: 0;
   border-top-left-radius: 0;
