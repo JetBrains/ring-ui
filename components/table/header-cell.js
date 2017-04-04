@@ -52,7 +52,7 @@ export default class HeaderCell extends PureComponent {
         onClick={::this.onClick}
         data-test="ring-table-header-cell"
       >
-        {this.props.children}
+        <span onClick={this.onChildrenClick}>{this.props.children}</span>
 
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
@@ -68,5 +68,9 @@ export default class HeaderCell extends PureComponent {
       const {column, onSort, sortOrder} = this.props;
       onSort({column, order: !(this.sorted && sortOrder)});
     }
+  }
+
+  onChildrenClick(e) {
+    e.stopPropagation();
   }
 }
