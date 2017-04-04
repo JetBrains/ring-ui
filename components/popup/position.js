@@ -132,8 +132,7 @@ export default function position(attrs) {
     top,
     left,
     maxHeight,
-    minWidth,
-    display
+    minWidth
   } = attrs;
 
   let styles = {
@@ -174,26 +173,6 @@ export default function position(attrs) {
     styles.minWidth = anchorRect.width;
   } else if (minWidth) {
     styles.minWidth = minWidth;
-  }
-
-  switch (display) {
-    case Display.HIDDEN:
-      styles.left = 0;
-      styles.top = 0;
-      styles.display = 'none';
-      styles.visibility = 'hidden';
-      break;
-    case Display.SHOWING:
-      styles.left = 0;
-      styles.top = 0;
-      styles.display = 'block';
-      styles.visibility = 'hidden';
-      break;
-    default:
-    case Display.SHOWN:
-      styles.display = 'block';
-      styles.visibility = 'visible';
-      break;
   }
 
   return styles;
