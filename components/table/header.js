@@ -13,6 +13,7 @@ export default class Header extends PureComponent {
   static propTypes = {
     caption: PropTypes.string,
     selectable: PropTypes.bool,
+    multiSelectable: PropTypes.bool,
     draggable: PropTypes.bool,
     checked: PropTypes.bool,
     sticky: PropTypes.bool,
@@ -26,6 +27,7 @@ export default class Header extends PureComponent {
 
   static defaultProps = {
     selectable: true,
+    multiSelectable: true,
     draggable: false,
     checked: true,
     sticky: true,
@@ -71,7 +73,7 @@ export default class Header extends PureComponent {
   }
 
   createCells(widths = []) {
-    const {selectable, draggable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
+    const {selectable, multiSelectable, draggable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
 
     const metaColumnClasses = classNames(style.metaColumn, {
       [style.metaColumnSpaced]: selectable
@@ -79,7 +81,7 @@ export default class Header extends PureComponent {
 
     const metaColumn = (
       <div className={metaColumnClasses}>
-        {selectable &&
+        {selectable && multiSelectable &&
         <Checkbox
           checked={checked}
           onChange={onCheckboxChange}
