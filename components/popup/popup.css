@@ -19,6 +19,14 @@
   composes: font;
 }
 
+.hidden {
+  display: none;
+}
+
+.showing {
+  visibility: hidden;
+}
+
 .filterWrapper {
    padding: 0 calc(unit * 2);
    margin: calc(unit * 2) 0 unit;
