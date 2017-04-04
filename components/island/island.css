@@ -38,6 +38,7 @@
   float: left;
   transform-origin: 0 50%;
   font-weight: bold;
+  word-break: break-word;
 }
 
 .narrowIsland .header {
