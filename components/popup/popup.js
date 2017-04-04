@@ -16,7 +16,7 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import position, {DEFAULT_DIRECTIONS, Directions, Dimension, Display, positionPropKeys, MaxHeight, MinWidth} from './position.js';
-import {getRect, Listeners} from '../global/dom';
+import {Listeners} from '../global/dom';
 
 import styles from './popup.css';
 
@@ -158,15 +158,25 @@ export default class Popup extends RingComponentWithShortcuts {
     return popupInstance;
   }
 
-  display = Display.SHOWING;
   listeners = new Listeners();
   redrawScheduler = scheduleRAF();
   uid = getUID('popup-');
 
+  calculateDisplay = prevState => ({
+    ...prevState,
+    display: this.props.hidden
+        ? Display.SHOWING
+        : Display.SHOWN
+  });
+
+  state = {
+    display: Display.SHOWING
+  }
+
   getShortcutsProps() {
     return {
       map: {
-        esc: ::this._onEscPress
+        esc: this._onEscPress
       },
       scope: this.uid
     };
@@ -184,11 +194,8 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   didMount() {
-    this.mounted = true;
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
-      this.display = Display.SHOWN;
-      this.forceUpdate();
     }
     if (this.props.legacy) {
       legacyPopups.add(this);
@@ -201,15 +208,13 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   didUpdate(prevProps) {
-    const {hidden, children} = this.props;
+    if (this.props !== prevProps) {
+      const {hidden} = this.props;
 
-    if (prevProps.hidden !== hidden) {
-      this._setListenersEnabled(!hidden);
-      this.display = this.props.hidden ? Display.SHOWING : Display.SHOWN;
-      this._redraw();
-    }
+      if (prevProps.hidden !== hidden) {
+        this._setListenersEnabled(!hidden);
+      }
 
-    if (children !== prevProps.children) {
       this._redraw();
     }
   }
@@ -219,27 +224,34 @@ export default class Popup extends RingComponentWithShortcuts {
       legacyPopups.delete(this);
     }
     this._setListenersEnabled(false);
-    this.mounted = false;
+    this.popup = null;
   }
 
-  popupRef = el => {
+  portalRef = el => {
     this.parent = el && el.parentElement;
     if (el && this.context.parentPopupUid) {
       this._redraw();
     }
   }
 
+  popupRef = el => {
+    this.popup = el;
+    this._redraw();
+  }
+
   render() {
     const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
     const classes = classNames(className, styles.popup, {
-      [styles.attached]: attached || legacy && cutEdge !== false
+      [styles.attached]: attached || legacy && cutEdge !== false,
+      [styles.hidden]: hidden,
+      [styles.showing]: this.state.display === Display.SHOWING
     });
 
     const isShown = keepMounted || !hidden;
 
     return (
       <span
-        ref={this.popupRef}
+        ref={this.portalRef}
       >
         <Portal
           isOpen={isShown}
@@ -254,10 +266,7 @@ export default class Popup extends RingComponentWithShortcuts {
             <div
               data-test={this.props['data-test']}
               data-test-shown={isShown}
-              style={this.position()}
-              ref={el => {
-                this.popup = el;
-              }}
+              ref={this.popupRef}
               className={classes}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
@@ -279,23 +288,28 @@ export default class Popup extends RingComponentWithShortcuts {
     return position({
       popup: this.popup,
       anchor: this._getAnchor(),
-      ...positionProps,
-      display: this.props.hidden ? Display.HIDDEN : this.display
+      ...positionProps
     });
   }
 
-  _updateIfMounted() {
-    if (this.mounted) {
-      this.forceUpdate();
+  _updatePosition = () => {
+    if (this.popup) {
+      if (this.isVisible()) {
+        const style = this.position();
+        Object.keys(style).forEach(key => {
+          const value = style[key];
+          if (typeof value === 'number') {
+            this.popup.style[key] = `${value}px`;
+          } else {
+            this.popup.style[key] = value.toString();
+          }
+        });
+      }
+      this.setState(this.calculateDisplay);
     }
   }
 
-  // we need forceUpdate for correct repositioning of popup
-  _redraw() {
-    if (!this.props.hidden) {
-      this.redrawScheduler(::this._updateIfMounted);
-    }
-  }
+  _redraw = () => this.redrawScheduler(this._updatePosition);
 
   _legacyOnly(method, message = Messages.SHOW) {
     if (!this.props.legacy) {
@@ -356,11 +370,12 @@ export default class Popup extends RingComponentWithShortcuts {
     if (enable && !this._listenersEnabled) {
       setTimeout(() => {
         this._listenersEnabled = true;
-        this.listeners.add(window, 'resize', ::this._redraw);
-        this.listeners.add(document, 'click', ::this._onDocumentClick);
+        this.listeners.add(window, 'resize', this._redraw);
+        this.listeners.add(window, 'scroll', this._redraw);
+        this.listeners.add(document, 'click', this._onDocumentClick);
         let el = this._getAnchor();
         while (el) {
-          this.listeners.add(el, 'scroll', ::this._redraw);
+          this.listeners.add(el, 'scroll', this._redraw);
           el = el.parentElement;
         }
       }, 0);
@@ -408,7 +423,7 @@ export default class Popup extends RingComponentWithShortcuts {
     this.props.onCloseAttempt(evt, isEsc);
   }
 
-  _onEscPress(evt) {
+  _onEscPress = evt => {
     this.props.onEscPress(evt);
     this._onCloseAttempt(evt, true);
   }
@@ -417,7 +432,7 @@ export default class Popup extends RingComponentWithShortcuts {
    * @param {jQuery.Event} evt
    * @private
    */
-  _onDocumentClick(evt) {
+  _onDocumentClick = evt => {
     if (
       this.container && this.container.contains(evt.target) ||
       !this._listenersEnabled ||
@@ -428,10 +443,6 @@ export default class Popup extends RingComponentWithShortcuts {
 
     this.props.onOutsideClick(evt);
     this._onCloseAttempt(evt, false);
-  }
-
-  getElementOffset(element) {
-    return getRect(element);
   }
 
   getInternalContent() {
