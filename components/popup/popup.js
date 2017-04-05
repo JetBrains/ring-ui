@@ -240,20 +240,20 @@ export default class Popup extends RingComponentWithShortcuts {
 
   render() {
     const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
+    const showing = this.state.display === Display.SHOWING;
+
     const classes = classNames(className, styles.popup, {
       [styles.attached]: attached || legacy && cutEdge !== false,
       [styles.hidden]: hidden,
-      [styles.showing]: this.state.display === Display.SHOWING
+      [styles.showing]: showing
     });
-
-    const isShown = keepMounted || !hidden;
 
     return (
       <span
         ref={this.portalRef}
       >
         <Portal
-          isOpen={isShown}
+          isOpen={keepMounted || !hidden}
           target={this.context.parentPopupUid}
         >
           <div
@@ -264,7 +264,7 @@ export default class Popup extends RingComponentWithShortcuts {
           >
             <div
               data-test={this.props['data-test']}
-              data-test-shown={isShown}
+              data-test-shown={!hidden && !showing}
               ref={this.popupRef}
               className={classes}
               onMouseDown={onMouseDown}
