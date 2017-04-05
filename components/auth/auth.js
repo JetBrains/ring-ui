@@ -601,7 +601,7 @@ export default class Auth {
 
     iframe.style.border = iframe.style.width = iframe.style.height = '0px';
     iframe.style.visibility = 'hidden';
-    iframe.style.position = 'absolute';
+    iframe.style.position = 'fixed';
     iframe.style.left = '-10000px';
     window.document.body.appendChild(iframe);
 
