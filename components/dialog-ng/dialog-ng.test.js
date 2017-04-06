@@ -68,7 +68,6 @@ describe('Dialog Ng', () => {
       data
     }, options));
 
-    promise.catch(onError);
     scope.$digest();
 
     return {scope, element, ctrl, promise};
@@ -484,18 +483,15 @@ describe('Dialog Ng', () => {
     callback.should.have.been.called;
   });
 
-  it('should reject Promise on "reset"', function () {
+  it('should resolve Promise on "reset" because reset/close is not exception', function () {
     const callback = this.sinon.stub();
 
-    const {scope} = showDialog(
+    const {scope, promise} = showDialog(
       '<rg-dialog></rg-dialog>',
-      '<div></div>',
-      undefined,
-      undefined,
-      undefined,
-      callback
+      '<div></div>'
     );
 
+    promise.then(callback);
     dialogInSidebar.reset();
     scope.$digest();
 
