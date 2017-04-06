@@ -111,7 +111,7 @@
     "karma-webpack": "2.0.1",
     "mocha": "3.0.2",
     "update-version": "1.0.1",
-    "wallaby-webpack": "0.0.37",
+    "wallaby-webpack": "0.0.38",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
