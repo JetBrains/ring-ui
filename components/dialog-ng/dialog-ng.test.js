@@ -53,7 +53,7 @@ describe('Dialog Ng', () => {
     sandbox.remove();
   });
 
-  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}, onError = angular.noop) {
+  function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
     const scope = $rootScope.$new();
     const $element = $compile(placeholderTemplate)(scope);
     const element = $element[0];
