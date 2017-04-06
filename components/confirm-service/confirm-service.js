@@ -105,7 +105,7 @@ export default function confirm({
 
       onReject: () => {
         renderConfirm({show: false});
-        reject();
+        reject(new Error('Confirm(ring-ui): null exception'));
       }
     };
 
