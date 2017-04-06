@@ -41,7 +41,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     popupShortcuts: false,
     popupFilterShortcutsOptions: {
       modal: true,
-      disabled: false
+      disabled: true
     }
   };
 
@@ -146,7 +146,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   getFilter() {
-    if (this.props.filter) {
+    if (this.props.filter && !this.props.hidden) {
       return (
         <div className={filterWrapper}>
           <InputWithShortcuts
