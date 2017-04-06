@@ -220,7 +220,7 @@ class DialogController extends RingAngularComponent {
 
   reset() {
     this.resetPosition();
-    this.reject();
+    this.reject(new Error('DialogNg(ring-ui): null exception'));
     this.hide();
   }
 
