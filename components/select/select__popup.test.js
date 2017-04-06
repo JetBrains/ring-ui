@@ -48,6 +48,33 @@ describe('SelectPopup', () => {
   });
 
 
+  it('should call select handler when user press tab and we have an active item in the list', function () {
+    this.selectPopup.list.state.activeItem = {};
+
+    simulateCombo('tab');
+
+    expect(this.selectPopup.props.onSelect).to.be.called;
+  });
+
+
+  describe('popup without data', () => {
+    beforeEach(function () {
+      this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
+        data: [],
+        filter: true
+      }));
+      this.selectPopup.willReceiveProps({hidden: false});
+    });
+
+
+    it('should not throw error when user press tab but we do not have the list', () => {
+      expect(() => {
+        simulateCombo('tab');
+      }).to.not.throw();
+    });
+  });
+
+
   describe('navigation', () => {
     it('should highlight first item', function () {
       const firstItem = testData[0];
