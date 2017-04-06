@@ -132,8 +132,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   tabPress(event) {
-    event.preventDefault();
-    const listActiveItem = this.list.state.activeItem;
+    function preventDefault(eve) {
+      return eve && eve.preventDefault && eve.preventDefault();
+    }
+
+    preventDefault(event);
+
+    const listActiveItem = this.list && this.list.state.activeItem;
     if (listActiveItem) {
       this.onListSelect(listActiveItem);
     }
