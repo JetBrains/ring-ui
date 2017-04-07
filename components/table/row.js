@@ -40,7 +40,8 @@ class Row extends PureComponent {
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
-    onFocusRestore: PropTypes.func
+    onFocusRestore: PropTypes.func,
+    level: PropTypes.number
   }
 
   static defaultProps = {
@@ -52,7 +53,8 @@ class Row extends PureComponent {
     selected: false,
     onHover: () => {},
     onSelect: () => {},
-    onFocusRestore: () => {}
+    onFocusRestore: () => {},
+    level: 0
   }
 
   onMouseEnter = () => {
@@ -82,7 +84,7 @@ class Row extends PureComponent {
   }
 
   render() {
-    const {item, columns, selectable, checkable, selected, showFocus, draggable, alwaysShowDragHandle} = this.props;
+    const {item, columns, selectable, checkable, selected, showFocus, draggable, alwaysShowDragHandle, level} = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -100,7 +102,7 @@ class Row extends PureComponent {
     });
 
     const SUBITEM_OFFSET = 30;
-    const gap = item.__level ? item.__level * SUBITEM_OFFSET : 0;
+    const gap = level * SUBITEM_OFFSET;
     const metaColumnStyle = {
       paddingLeft: `${gap}px`
     };
