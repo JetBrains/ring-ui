@@ -30,7 +30,7 @@ export default class AuthRequestBuilder {
    * @param {object=} extraState additional state parameters to save
    * @return {Promise.<string>} promise that is resolved to authURL
    */
-  prepareAuthRequest(extraParams, extraState) {
+  async prepareAuthRequest(extraParams, extraState) {
     const stateId = AuthRequestBuilder._uuid();
     const scopes = this.config.scopes.map(scope => encodeURIComponent(scope));
 
@@ -52,10 +52,11 @@ export default class AuthRequestBuilder {
       scopes: this.config.scopes
     }, extraState || {});
 
-    return this._saveState(stateId, state).then(() => ({
+    await this._saveState(stateId, state);
+    return ({
       url: authURL,
       stateId
-    }));
+    });
   }
 
   /**

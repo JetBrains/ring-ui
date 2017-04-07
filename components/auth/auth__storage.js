@@ -63,17 +63,20 @@ export default class AuthStorage {
    * @param {StoredState} state State to store
    * @param {boolean=} dontCleanAndRetryOnFail If falsy then remove all stored states and try again to save state
    */
-  saveState(id, state, dontCleanAndRetryOnFail) {
+  async saveState(id, state, dontCleanAndRetryOnFail) {
     state.created = Date.now();
 
-    return this._stateStorage.set(this.stateKeyPrefix + id, state).
-      catch(e => {
-        if (!dontCleanAndRetryOnFail) {
-          return this.cleanStates().then(() => this.saveState(id, state, true));
-        } else {
-          return Promise.reject(e);
-        }
-      });
+    try {
+      await this._stateStorage.set(this.stateKeyPrefix + id, state);
+    } catch (e) {
+      if (!dontCleanAndRetryOnFail) {
+        await this.cleanStates();
+        return this.saveState(id, state, true);
+      } else {
+        throw e;
+      }
+    }
+    return undefined;
   }
 
   /**
@@ -81,10 +84,10 @@ export default class AuthStorage {
    *
    * @return {Promise} promise that is resolved when OLD states [and some selected] are removed
    */
-  cleanStates(removeStateId) {
+  async cleanStates(removeStateId) {
     const now = Date.now();
 
-    return this._stateStorage.each((key, state) => {
+    const removalResult = await this._stateStorage.each((key, state) => {
       // Remove requested state
       if (key === this.stateKeyPrefix + removeStateId) {
         return this._stateStorage.remove(key);
@@ -105,30 +108,29 @@ export default class AuthStorage {
       }
 
       return undefined;
-    }).then(removalResult => {
-      const currentStates = removalResult.filter(state => state);
-
-      let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
-
-      if (stateStorageSize > this.stateQuota) {
-        currentStates.sort((a, b) => a.created > b.created);
-
-        const removalPromises = currentStates.filter(state => {
-          if (stateStorageSize > this.stateQuota) {
-            stateStorageSize -= state.size;
-            return true;
-          }
-
-          return false;
-        }).map(state => {
-          this._stateStorage.remove(state.key);
-        });
-
-        return removalPromises.length && Promise.all(removalPromises);
-      }
-
-      return undefined;
     });
+    const currentStates = removalResult.filter(state => state);
+
+    let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
+
+    if (stateStorageSize > this.stateQuota) {
+      currentStates.sort((a, b) => a.created > b.created);
+
+      const removalPromises = currentStates.filter(state => {
+        if (stateStorageSize > this.stateQuota) {
+          stateStorageSize -= state.size;
+          return true;
+        }
+
+        return false;
+      }).map(state => {
+        this._stateStorage.remove(state.key);
+      });
+
+      return removalPromises.length && Promise.all(removalPromises);
+    }
+
+    return undefined;
   }
 
   /**
@@ -137,12 +139,15 @@ export default class AuthStorage {
    * @param {string} id unique state identifier
    * @return {Promise.<StoredState>}
    */
-  getState(id) {
-    return this._stateStorage.get(this.stateKeyPrefix + id).
-      then(
-        result => this.cleanStates(id).then(() => result),
-        e => this.cleanStates(id).then(() => Promise.reject(e))
-      );
+  async getState(id) {
+    try {
+      const result = await this._stateStorage.get(this.stateKeyPrefix + id);
+      await this.cleanStates(id);
+      return result;
+    } catch (e) {
+      await this.cleanStates(id);
+      throw e;
+    }
   }
 
   /**
