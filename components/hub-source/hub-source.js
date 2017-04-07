@@ -24,20 +24,18 @@ export default class HubSource {
     this.filterFn = null;
   }
 
-  makeRequest(params) {
-    return this.auth.requestToken().
-      then(token => this.auth.getApi(this.relativeUrl, token, params));
+  async makeRequest(params) {
+    const token = await this.auth.requestToken();
+    return this.auth.getApi(this.relativeUrl, token, params);
   }
 
-  makeCachedRequest(params) {
+  async makeCachedRequest(params) {
     if (this.storedData) {
-      return Promise.resolve(this.storedData);
+      return this.storedData;
     }
-    return this.makeRequest(params).
-      then(res => {
-        this.storedData = res;
-        return res;
-      });
+    const res = await this.makeRequest(params);
+    this.storedData = res;
+    return res;
   }
 
   static mergeParams(params, toMerge) {
@@ -79,19 +77,17 @@ export default class HubSource {
     return items;
   }
 
-  sideDetectionRequest(params, query) {
-    return this.makeCachedRequest(HubSource.mergeParams(params, {
+  async sideDetectionRequest(params, query) {
+    const res = await this.makeCachedRequest(HubSource.mergeParams(params, {
       $top: this.options.searchSideThreshold
-    })).
-      then(res => {
-        this.isClientSideSearch = this.checkIsClientSideSearch(res);
+    }));
+    this.isClientSideSearch = this.checkIsClientSideSearch(res);
 
-        if (!this.isClientSideSearch) {
-          return this.doServerSideSearch(params, query);
-        }
+    if (!this.isClientSideSearch) {
+      return this.doServerSideSearch(params, query);
+    }
 
-        return res;
-      });
+    return res;
   }
 
   doClientSideSearch(params) {
@@ -117,12 +113,12 @@ export default class HubSource {
     return this.doServerSideSearch(params, query);
   }
 
-  get(query, params, filterFn) {
+  async get(query, params, filterFn) {
     HubSource.validateInputParams(params);
 
     this.filterFn = filterFn || this.getDefaultFilterFn(query);
 
-    return this.getValueFromSuitableSource(query, params).
-      then(res => this.processResults(res));
+    const res = this.getValueFromSuitableSource(query, params);
+    return this.processResults(res);
   }
 }

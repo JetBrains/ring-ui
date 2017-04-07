@@ -5,8 +5,8 @@
   </file>
 
   <file type="js">
-    var Auth = require('ring-ui/components/auth/auth');
-    var hubConfig = require('ring-ui/site/hub-config');
+    import Auth from 'ring-ui/components/auth/auth';
+    import hubConfig from 'ring-ui/site/hub-config';
     // Example config:
     // var hubConfig = {
     //   serverUri: 'https://hub.jetbrains.com/',
@@ -15,31 +15,28 @@
     //   redirect_uri: window.location.href.split('#')[0]
     // };
 
-    var log = function (title) {
-      return function (obj) {
-        var titleElem = document.createElement('h3');
-        var jsonElem = document.createElement('div');
+    const log = function (title, obj) {
+      const titleElem = document.createElement('h3');
+      const jsonElem = document.createElement('div');
 
-        titleElem.innerHTML = title;
-        jsonElem.innerHTML = JSON.stringify(obj);
+      titleElem.innerHTML = title;
+      jsonElem.innerHTML = JSON.stringify(obj);
 
-        document.getElementById('example').appendChild(titleElem);
-        document.getElementById('example').appendChild(jsonElem);
-      };
+      document.getElementById('example').appendChild(titleElem);
+      document.getElementById('example').appendChild(jsonElem);
     };
 
-    var auth = new Auth(hubConfig);
-
-    auth.init().
-      then(log('location to restore')).
-      then(function () {
-        return auth.requestToken();
-      }).
-      then(log('token')).
-      then(function (token) {
-        return auth.requestUser();
-      }).
-      then(log('user profile data')).
-      catch(log('error'));
+    (async auth => {
+      try {
+        const location = await auth.init();
+        log('location to restore', location)
+        const token = await auth.requestToken();
+        log('token', token);
+        const data = await auth.requestUser();
+        log('user profile data', data);
+      } catch (e) {
+        log('error', e);
+      }
+    })(new Auth(hubConfig));
   </file>
 </example>
