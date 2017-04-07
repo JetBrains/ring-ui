@@ -26,12 +26,13 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 const DraggableRows = sortableContainer(props => {
-  const {data, getRowKey, selection, selectable, isItemSelectable, multiSelectable, onRowFocus, onRowSelect, ...restProps} = props;
+  const {data, getItemKey, getItemLevel, selection, selectable, isItemSelectable, multiSelectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
     <tbody data-test="ring-table-body">
     {data.map((item, index) => (
       <DraggableRow
-        key={getRowKey(item)}
+        key={getItemKey(item)}
+        level={getItemLevel(item)}
         index={index}
         item={item}
         showFocus={selection.isFocused(item)}
@@ -65,7 +66,8 @@ class Table extends PureComponent {
     loading: PropTypes.bool,
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
-    getRowKey: PropTypes.func,
+    getItemKey: PropTypes.func,
+    getItemLevel: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
@@ -85,7 +87,8 @@ class Table extends PureComponent {
     onSelect: () => {},
     onSort: () => {},
     onReorder: () => {},
-    getRowKey: item => item.id,
+    getItemKey: item => item.id,
+    getItemLevel: () => 0,
     sortKey: 'id',
     sortOrder: true,
     draggable: false,
@@ -298,7 +301,7 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {data, selection, columns, caption, getRowKey, selectable, multiSelectable, isItemSelectable} = this.props;
+    const {data, selection, columns, caption, getItemKey, getItemLevel, selectable, multiSelectable, isItemSelectable} = this.props;
     const {draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder} = this.props;
     const {loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
@@ -334,7 +337,8 @@ class Table extends PureComponent {
             disabled={!draggable}
             helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd}
-            getRowKey={getRowKey}
+            getItemKey={getItemKey}
+            getItemLevel={getItemLevel}
 
             /* Row props */
             multiSelectable={multiSelectable}
