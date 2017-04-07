@@ -218,10 +218,8 @@ class DialogController extends RingAngularComponent {
     this.hide();
   }
 
-  reset() {
-    this.resetPosition();
-    this.reject();
-    this.hide();
+  reset(result) {
+    this.done(result);
   }
 
   getErrorMessage(errorResponse) {

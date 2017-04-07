@@ -371,6 +371,7 @@ describe('Select', () => {
     });
 
     it('Should save input changes', function () {
+      this.select.setState({showPopup: true});
       simulateInput(this.select._popup.filter, 'a');
       this.select.state.filterValue.should.equals('a');
     });
@@ -385,6 +386,7 @@ describe('Select', () => {
 
     it('should filter if not focused but not in input mode', function () {
       this.renderSelect({type: Select.Type.BUTTON});
+      this.select.setState({showPopup: true});
       simulateInput(this.select._popup.filter, 'a');
 
       this.select.props.onFilter.should.have.been.called;

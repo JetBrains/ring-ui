@@ -624,53 +624,57 @@ export default class Auth {
       this._backgroundPromise = null;
     };
 
-    this._backgroundPromise = new Promise((resolve, reject) => {
+    this._backgroundPromise = new Promise(async (resolve, reject) => {
       const iframe = this._createHiddenFrame();
 
-      this._requestBuilder.
-        prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true}).
-        then(authRequest => {
-          let cleanRun;
+      const authRequest = await this._requestBuilder.
+        prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
+      let cleanRun;
 
-          function cleanUp() {
-            if (cleanRun) {
-              return;
-            }
-            cleanRun = true;
-            /* eslint-disable no-use-before-define */
-            clearTimeout(timeout);
-            removeStateListener();
-            removeTokenListener();
-            /* eslint-enable no-use-before-define */
-            window.document.body.removeChild(iframe);
-          }
+      function cleanUp() {
+        if (cleanRun) {
+          return;
+        }
+        cleanRun = true;
+        /* eslint-disable no-use-before-define */
+        clearTimeout(timeout);
+        removeStateListener();
+        removeTokenListener();
+        /* eslint-enable no-use-before-define */
+        window.document.body.removeChild(iframe);
+      }
 
-          const timeout = setTimeout(() => {
-            reject(new Error('Auth Timeout'));
-            cleanUp();
-          }, Auth.BACKGROUND_TIMEOUT);
+      const timeout = setTimeout(() => {
+        reject(new Error('Auth Timeout'));
+        cleanUp();
+      }, Auth.BACKGROUND_TIMEOUT);
 
-          const removeTokenListener = this._storage.onTokenChange(token => {
-            if (token !== null) {
-              cleanUp();
-              resolve(token.access_token);
-            }
-          });
+      const removeTokenListener = this._storage.onTokenChange(token => {
+        if (token !== null) {
+          cleanUp();
+          resolve(token.access_token);
+        }
+      });
 
-          const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
-            if (state && state.error) {
-              cleanUp();
-              reject(new AuthResponseParser.AuthError(state));
-            }
-          });
+      const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
+        if (state && state.error) {
+          cleanUp();
+          reject(new AuthResponseParser.AuthError(state));
+        }
+      });
 
-          this._redirectFrame(iframe, authRequest.url);
-        });
+      this._redirectFrame(iframe, authRequest.url);
     });
 
-    this._backgroundPromise.
-      then(resetPromise).
-      catch(resetPromise);
+    (async () => {
+      try {
+        await this._backgroundPromise;
+      } catch (e) {
+        return;
+      } finally {
+        resetPromise();
+      }
+    })();
 
     return this._backgroundPromise;
   }
