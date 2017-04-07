@@ -20,22 +20,18 @@ describe('Hub Source', () => {
       should.be.deep.equal({foo: 'bar', test: 'foo'});
   });
 
-  it('Should make request', function () {
+  it('Should make request', async function () {
     const source = new HubSource(this.fakeAuth, 'test');
-    return source.makeRequest({test: 'foo'}).
-      then(() => {
-        this.fakeAuth.getApi.should.have.been.calledWith('test', 'testToken', {test: 'foo'});
-      });
+    await source.makeRequest({test: 'foo'});
+    this.fakeAuth.getApi.should.have.been.calledWith('test', 'testToken', {test: 'foo'});
   });
 
-  it('Should not make cached request if data is already requested', function () {
+  it('Should not make cached request if data is already requested', async function () {
     const source = new HubSource(this.fakeAuth, 'test');
     source.storedData = {};
 
-    return source.makeCachedRequest({test: 'foo'}).
-      then(() => {
-        this.fakeAuth.getApi.should.not.have.been.called;
-      });
+    await source.makeCachedRequest({test: 'foo'});
+    this.fakeAuth.getApi.should.not.have.been.called;
   });
 
   it('Should detect client-side threshold', function () {
@@ -85,31 +81,27 @@ describe('Hub Source', () => {
     res.should.deep.equal([]);
   });
 
-  it('Should detect client-side filtering if total is smaller than threshold', function () {
+  it('Should detect client-side filtering if total is smaller than threshold', async function () {
     this.fakeAuth.getApi = this.sinon.stub().
       returns(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
 
-    return source.sideDetectionRequest({}).
-      then(() => {
-        source.isClientSideSearch.should.be.true;
-      });
+    await source.sideDetectionRequest({});
+    source.isClientSideSearch.should.be.true;
   });
 
-  it('Should detect server-side filtering if total is smaller than threshold', function () {
+  it('Should detect server-side filtering if total is smaller than threshold', async function () {
     this.fakeAuth.getApi = this.sinon.stub().
       returns(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
 
-    return source.sideDetectionRequest({}).
-      then(() => {
-        source.isClientSideSearch.should.be.false;
-      });
+    await source.sideDetectionRequest({});
+    source.isClientSideSearch.should.be.false;
   });
 
-  it('Should do cached request and filter on client-side', function () {
+  it('Should do cached request and filter on client-side', async function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
     source.makeCachedRequest = this.sinon.stub().returns(Promise.resolve({
       total: 20,
@@ -117,13 +109,11 @@ describe('Hub Source', () => {
     }));
 
 
-    return source.doClientSideSearch().
-      then(() => {
-        source.makeCachedRequest.should.have.been.calledWith({$top: -1});
-      });
+    await source.doClientSideSearch();
+    source.makeCachedRequest.should.have.been.calledWith({$top: -1});
   });
 
-  it('Should do not cached request to server-side', function () {
+  it('Should do not cached request to server-side', async function () {
     const source = new HubSource(this.fakeAuth, 'testItems', {searchMax: 142});
     source.makeRequest = this.sinon.stub().returns(Promise.resolve({
       total: 20,
@@ -131,13 +121,11 @@ describe('Hub Source', () => {
     }));
 
 
-    return source.doServerSideSearch({}, 'test-query').
-      then(() => {
-        source.makeRequest.should.have.been.calledWith({
-          $top: 142,
-          query: sinon.match.string
-        });
-      });
+    await source.doServerSideSearch({}, 'test-query');
+    source.makeRequest.should.have.been.calledWith({
+      $top: 142,
+      query: sinon.match.string
+    });
   });
 
   it('Should produce empty query if no filter string provided', function () {

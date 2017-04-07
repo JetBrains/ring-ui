@@ -16,30 +16,26 @@ describe('Hub Users Groups Source', () => {
     source.groupsSource.options.searchSideThreshold.should.equal(123);
   });
 
-  it('Should make request for users', function () {
+  it('Should make request for users', async function () {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
-    return source.getUsers().
-      then(() => {
-        source.usersSource.get.should.have.been.calledWith('', {
-          fields: 'id,name,login,total,profile/avatar/url',
-          orderBy: 'name'
-        });
-      });
+    await source.getUsers();
+    source.usersSource.get.should.have.been.calledWith('', {
+      fields: 'id,name,login,total,profile/avatar/url',
+      orderBy: 'name'
+    });
   });
 
-  it('Should pass query for users', function () {
+  it('Should pass query for users', async function () {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
-    return source.getUsers('nam').
-      then(() => {
-        source.usersSource.get.should.have.been.calledWith('nam', {
-          fields: sinon.match.string,
-          orderBy: sinon.match.string
-        });
-      });
+    await source.getUsers('nam');
+    source.usersSource.get.should.have.been.calledWith('nam', {
+      fields: sinon.match.string,
+      orderBy: sinon.match.string
+    });
   });
 
   it('Should construct multi-word query for users', function () {
@@ -49,29 +45,25 @@ describe('Hub Users Groups Source', () => {
     formatted.should.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
   });
 
-  it('Should make request for groups', function () {
+  it('Should make request for groups', async function () {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
 
-    return source.getGroups().
-      then(() => {
-        source.groupsSource.get.should.have.been.calledWith('', {
-          fields: 'id,name,total,userCount',
-          orderBy: 'name'
-        });
-      });
+    await source.getGroups();
+    source.groupsSource.get.should.have.been.calledWith('', {
+      fields: 'id,name,total,userCount',
+      orderBy: 'name'
+    });
   });
 
-  it('Should cache request for groups', function () {
+  it('Should cache request for groups', async function () {
     this.fakeAuth.getApi = this.sinon.stub().
       returns(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(this.fakeAuth);
     source.getGroups();
     source.getGroups();
-    return source.getGroups().
-      then(() => {
-        this.fakeAuth.getApi.should.have.been.called.once;
-      });
+    await source.getGroups();
+    this.fakeAuth.getApi.should.have.been.called.once;
   });
 });

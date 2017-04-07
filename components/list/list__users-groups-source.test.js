@@ -10,7 +10,7 @@ describe('List Users Groups Source', () => {
     };
   });
 
-  it('Should convert users to list model', function () {
+  it('Should convert users to list model', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth);
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
@@ -28,23 +28,21 @@ describe('List Users Groups Source', () => {
       userCount: 123
     }]));
 
-    return source.getForList().
-      then(dataForList => {
-        dataForList.should.contain({
-          id: 1,
-          login: 'testUser',
-          profile: {avatar: {url: 'http://test.com.url'}},
-          name: 'test user',
-          key: 1,
-          type: 'user',
-          label: 'test user',
-          description: 'testUser',
-          icon: 'http://test.com.url'
-        });
-      });
+    const dataForList = await source.getForList();
+    dataForList.should.contain({
+      id: 1,
+      login: 'testUser',
+      profile: {avatar: {url: 'http://test.com.url'}},
+      name: 'test user',
+      key: 1,
+      type: 'user',
+      label: 'test user',
+      description: 'testUser',
+      icon: 'http://test.com.url'
+    });
   });
 
-  it('Should convert usergroups to list model', function () {
+  it('Should convert usergroups to list model', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth);
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
@@ -60,21 +58,19 @@ describe('List Users Groups Source', () => {
       userCount: 123
     }]));
 
-    return source.getForList().
-      then(dataForList => {
-        dataForList.should.contain({
-          id: 1,
-          key: 1,
-          name: 'test group',
-          label: 'test group',
-          type: 'userGroup',
-          description: '',
-          userCount: 123
-        });
-      });
+    const dataForList = await source.getForList();
+    dataForList.should.contain({
+      id: 1,
+      key: 1,
+      name: 'test group',
+      label: 'test group',
+      type: 'userGroup',
+      description: '',
+      userCount: 123
+    });
   });
 
-  it('Should support userCount plural formatter', function () {
+  it('Should support userCount plural formatter', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth, {
       getPluralForUserCount: count => `${count} text`
     });
@@ -91,13 +87,11 @@ describe('List Users Groups Source', () => {
       userCount: 123
     }]));
 
-    return source.getForList().
-      then(dataForList => {
-        dataForList[1].description.should.equal('123 text');
-      });
+    const dataForList = await source.getForList();
+    dataForList[1].description.should.equal('123 text');
   });
 
-  it('Should display "No users" title if no users found', function () {
+  it('Should display "No users" title if no users found', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([]));
@@ -105,13 +99,11 @@ describe('List Users Groups Source', () => {
     this.sinon.stub(source, 'getGroups').
       returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
-    return source.getForList().
-      then(dataForList => {
-        dataForList[2].description.should.equal('No users');
-      });
+    const dataForList = await source.getForList();
+    dataForList[2].description.should.equal('No users');
   });
 
-  it('Should display "No groups" title if no groups found', function () {
+  it('Should display "No groups" title if no groups found', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
     this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
@@ -122,9 +114,7 @@ describe('List Users Groups Source', () => {
 
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
 
-    return source.getForList().
-      then(dataForList => {
-        dataForList[0].description.should.equal('No groups');
-      });
+    const dataForList = await source.getForList();
+    dataForList[0].description.should.equal('No groups');
   });
 });
