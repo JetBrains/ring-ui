@@ -4,10 +4,10 @@
  * @constructor
  */
 export default class LocalStorage {
-  static safePromise(resolver) {
-    const promise = new Promise(resolver);
-
-    return promise.catch(e => {
+  static async safePromise(resolver) {
+    try {
+      return await new Promise(resolver);
+    } catch (e) {
       if (e && e.name === 'NS_ERROR_FILE_CORRUPTED') {
         /* eslint-disable no-alert */
         window.alert('Sorry, it looks like your browser storage is corrupted. ' +
@@ -15,8 +15,8 @@ export default class LocalStorage {
         ' and setting time range to "Everything". This will remove the corrupted browser storage across all sites.');
         /* eslint-enable no-alert */
       }
-      return Promise.reject(e);
-    });
+      throw e;
+    }
   }
 
   constructor(config = {}) {

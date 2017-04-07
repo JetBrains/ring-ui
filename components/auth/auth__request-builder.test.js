@@ -29,27 +29,23 @@ describe('Auth', () => {
 
       });
 
-      it('should save state', () => {
+      it('should save state', async () => {
         const builder = new AuthRequestBuilder(config);
-        return builder.prepareAuthRequest().
-          then(() => {
-            AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
-              restoreLocation: window.location.href,
-              scopes: ['youtrack', 'teamcity', 'vcs settings']
-            });
-          });
+        await builder.prepareAuthRequest();
+        AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
+          restoreLocation: window.location.href,
+          scopes: ['youtrack', 'teamcity', 'vcs settings']
+        });
       });
 
-      it('should save extra state', () => {
+      it('should save extra state', async () => {
         const builder = new AuthRequestBuilder(config);
-        return builder.prepareAuthRequest(null, {nonRedirect: true}).
-          then(() => {
-            AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
-              restoreLocation: window.location.href,
-              nonRedirect: true,
-              scopes: ['youtrack', 'teamcity', 'vcs settings']
-            });
-          });
+        await builder.prepareAuthRequest(null, {nonRedirect: true});
+        AuthRequestBuilder.prototype._saveState.should.have.been.calledWith('unique', {
+          restoreLocation: window.location.href,
+          nonRedirect: true,
+          scopes: ['youtrack', 'teamcity', 'vcs settings']
+        });
       });
 
 

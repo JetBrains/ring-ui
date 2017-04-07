@@ -6,9 +6,11 @@ function testStorage(storage) {
   describe('set', () => {
     it('should be fulfilled', () => storage.set('empty', {}).should.be.fulfilled);
 
-    it('should correctly set url incompatible characters', () => storage.set('test;', 'value;').
-      then(() => storage.get('test;')).
-      should.eventually.equal('value;'));
+    it('should correctly set url incompatible characters', async () => {
+      await storage.set('test;', 'value;');
+      const value = await storage.get('test;');
+      value.should.equal('value;');
+    });
 
     it('should fail on wrong input (e.g. on circular objects)', () => {
       const circular = {};
@@ -21,66 +23,70 @@ function testStorage(storage) {
   describe('get', () => {
     const test = {a: 666};
 
-    it('should get items', () => storage.set('test2', {a: 666}).
-      then(() => storage.get('test2')).
-      should.become({a: 666}));
+    it('should get items', async () => {
+      await storage.set('test2', test);
+      const value = await storage.get('test2');
+      value.should.deep.equal(test);
+    });
 
-    it('should not return same objects', () => storage.set('test', test).
-      then(() => storage.get('test')).
-      should.not.eventually.equal(test));
+    it('should not return same objects', async () => {
+      await storage.set('test', test);
+      const value = await storage.get('test');
+      value.should.not.equal(test);
+    });
 
     it('should return null when there is no item', () => storage.get('test').should.become(null));
   });
 
   describe('remove', () => {
-    it('should remove present items', () => storage.set('empty', {}).
-      then(() => storage.remove('empty')).
-      then(() => storage.get('empty')).
-      should.become(null));
+    it('should remove present items', async () => {
+      await storage.set('empty', {});
+      await storage.remove('empty');
+      storage.get('empty').should.become(null);
+    });
 
-    it('should be fulfilled when is correct', () => storage.set('empty', {}).
-      then(() => storage.remove('empty')).
-      should.be.fulfilled);
+    it('should be fulfilled when is correct', async () => {
+      await storage.set('empty', {});
+      storage.remove('empty').
+        should.be.fulfilled;
+    });
 
     it('should be fulfilled for missing element', () => storage.remove('missing').should.be.fulfilled);
   });
 
   describe('each', () => {
-    it('should be fulfilled', () => storage.set('test1', '').
-      then(() => storage.each(noop)).
-      should.be.fulfilled);
-
-    it('should iterate over items', () => {
-      const iterator = sinon.stub();
-      return storage.set('test', 'value').
-        then(() => storage.each(iterator)).
-        then(() => {
-          iterator.should.have.been.calledWith('test', 'value');
-        });
+    it('should be fulfilled', async () => {
+      await storage.set('test1', '');
+      storage.each(noop).
+        should.be.fulfilled;
     });
 
-    it('should not iterate without items', () => {
+    it('should iterate over items', async () => {
       const iterator = sinon.stub();
-      return storage.each(iterator).
-        then(() => {
-          iterator.should.not.been.called;
-        });
+      await storage.set('test', 'value');
+      await storage.each(iterator);
+      iterator.should.have.been.calledWith('test', 'value');
     });
 
-    it('should iterate over all items', () => {
+    it('should not iterate without items', async () => {
       const iterator = sinon.stub();
-      return storage.set('test1', '').
-        then(() => storage.set('test2', '')).
-        then(() => storage.set('test3', '')).
-        then(() => storage.each(iterator)).
-        then(() => {
-          iterator.should.have.been.calledThrice;
-        });
+      await storage.each(iterator);
+      iterator.should.not.been.called;
     });
 
-    it('should fail on wrong callback', () => storage.set('test', '').
-      then(() => storage.each()).
-      should.be.rejected);
+    it('should iterate over all items', async () => {
+      const iterator = sinon.stub();
+      await storage.set('test1', '');
+      await storage.set('test2', '');
+      await storage.set('test3', '');
+      await storage.each(iterator);
+      iterator.should.have.been.calledThrice;
+    });
+
+    it('should fail on wrong callback', async () => {
+      await storage.set('test', '');
+      storage.each().should.be.rejected;
+    });
   });
 }
 
@@ -117,30 +123,29 @@ function testStorageEvents(storage) {
       return change.should.become(testValue);
     });
 
-    it('on after remove should be fired with null', () => {
+    it('on after remove should be fired with null', async () => {
       const testEvent = 'testKey3';
       const testValue = 'test2Value';
 
       // Set test value and wait for it
       storage.set(testEvent, testValue);
 
-      return new Promise(resolve => {
+      const disposer = await new Promise(resolve => {
         const stopSetListening = storage.on(testEvent, () => {
           resolve(stopSetListening);
         });
-      }).then(stopSetListening => {
-        stopSetListening();
+      });
+      disposer();
 
-        // Set up listening for test target change
-        const change = new Promise(resolve => {
-          stop = storage.on(testEvent, resolve);
-        });
+      // Set up listening for test target change
+      const change = new Promise(resolve => {
+        stop = storage.on(testEvent, resolve);
+      });
 
-        // Trigger target remove action
-        storage.remove(testEvent);
+      // Trigger target remove action
+      storage.remove(testEvent);
 
-        return change;
-      }).should.become(null);
+      change.should.become(null);
     });
 
     it('on after set with other key shouldn\'t be fired', function (done) {
@@ -202,13 +207,11 @@ describe('Storage', () => {
 
       it('shouldn\'t break iteration on non-parseable values', () => storage.each(noop).should.be.fulfilled);
 
-      it('should iterate over items with non-parseable values', () => {
+      it('should iterate over items with non-parseable values', async () => {
         const iterator = sinon.stub();
-        return storage.set('test', 'value').
-          then(() => storage.each(iterator)).
-          then(() => {
-            iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
-          });
+        await storage.set('test', 'value');
+        await storage.each(iterator);
+        iterator.should.have.been.calledWith('invalid-json', 'invalid-json');
       });
     });
   });
