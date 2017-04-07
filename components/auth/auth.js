@@ -668,6 +668,8 @@ export default class Auth {
     (async () => {
       try {
         await this._backgroundPromise;
+      } catch (e) {
+        return;
       } finally {
         resetPromise();
       }
