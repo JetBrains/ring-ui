@@ -29,14 +29,19 @@ describe('Auth', () => {
         restoreLocation: 'http://localhost:8080/hub#hash',
         scopes: ['0-0-0-0-0']
       };
-      it('should be get as it was saved', () => authStorage.saveState(stateId, state).
-        then(() => authStorage.getState(stateId)).should.become(state));
+      it('should be get as it was saved', async () => {
+        await authStorage.saveState(stateId, state);
+        const newState = await authStorage.getState(stateId);
+        newState.should.deep.equal(state);
+      });
 
       it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.become.null);
 
-      it('should be null after first get', () => authStorage.saveState(stateId, state).
-        then(() => authStorage.getState(stateId)).
-        then(() => authStorage.getState(stateId)).should.eventually.be.null);
+      it('should be null after first get', async () => {
+        await authStorage.saveState(stateId, state);
+        await authStorage.getState(stateId);
+        authStorage.getState(stateId).should.eventually.be.null;
+      });
     });
 
     describe('cleanStates', () => {
@@ -45,18 +50,23 @@ describe('Auth', () => {
         scopes: ['0-0-0-0-0']
       };
 
-      it('should clean state by id', () => authStorage.saveState(stateId, {
-        restoreLocation: 'http://localhost:8080/hub#hash',
-        scopes: ['0-0-0-0-0']
-      }).then(() => authStorage.saveState('unique2', {
-        restoreLocation: 'http://localhost:8080/hub#hash',
-        scopes: ['0-0-0-0-0', 'youtrack']
-      }).then(() => authStorage.cleanStates(stateId).then(() => localStorage))).should.eventually.have.keys(['stateunique2']));
+      it('should clean state by id', async () => {
+        await authStorage.saveState(stateId, {
+          restoreLocation: 'http://localhost:8080/hub#hash',
+          scopes: ['0-0-0-0-0']
+        });
+        await authStorage.saveState('unique2', {
+          restoreLocation: 'http://localhost:8080/hub#hash',
+          scopes: ['0-0-0-0-0', 'youtrack']
+        });
+        await authStorage.cleanStates(stateId);
+        localStorage.should.have.keys(['stateunique2']);
+      });
 
-      it('should clean state by quota', () => {
+      it('should clean state by quota', async () => {
         // Looks like weird race condition in Fx
         if (sniffer.browser.name === 'firefox') {
-          return undefined;
+          return;
         }
 
         const limitedAuthStorage = new AuthStorage({
@@ -65,13 +75,16 @@ describe('Auth', () => {
           stateQuota: 200
         });
 
-        return limitedAuthStorage.saveState(stateId, state).then(() => limitedAuthStorage.saveState('unique2', {
+        await limitedAuthStorage.saveState(stateId, state);
+        await limitedAuthStorage.saveState('unique2', {
           restoreLocation: 'http://localhost:8080/hub#hash',
           scopes: ['0-0-0-0-0', 'youtrack']
-        }).then(() => limitedAuthStorage.cleanStates().then(() => localStorage))).should.eventually.have.keys(['stateunique2']);
+        });
+        await limitedAuthStorage.cleanStates();
+        localStorage.should.have.keys(['stateunique2']);
       });
 
-      it('should clean state by TTL', function () {
+      it('should clean state by TTL', async function () {
         this.sinon.useFakeTimers();
 
         const limitedAuthStorage = new AuthStorage({
@@ -80,19 +93,16 @@ describe('Auth', () => {
           stateTTL: 10
         });
 
-        return limitedAuthStorage.
-          saveState(stateId, state).
-          then(() => new Promise(resolve => {
-            setTimeout(() => {
-              limitedAuthStorage.cleanStates().then(() => {
-                resolve(localStorage);
-              });
-            }, 100);
+        await limitedAuthStorage.saveState(stateId, state);
+        const res = await new Promise(resolve => {
+          setTimeout(async () => {
+            await limitedAuthStorage.cleanStates();
+            resolve(localStorage);
+          }, 100);
 
-            this.sinon.clock.tick(200);
-          })
-        ).
-        should.eventually.be.empty;
+          this.sinon.clock.tick(200);
+        });
+        res.should.be.empty;
       });
     });
 
@@ -107,18 +117,24 @@ describe('Auth', () => {
     });
 
     describe('getToken', () => {
-      it('should be get as it was saved', () => authStorage.saveToken(token).
-        then(() => authStorage.getToken()).should.become(token));
+      it('should be get as it was saved', async () => {
+        await authStorage.saveToken(token);
+        authStorage.getToken().should.become(token);
+      });
 
       it('should be null if wasn\'t saved', () => authStorage.getToken().should.become.null);
 
-      it('should be the same after several get', () => authStorage.saveToken(token).
-        then(() => authStorage.getToken()).
-        then(() => authStorage.getToken()).should.become(token));
+      it('should be the same after several get', async () => {
+        await authStorage.saveToken(token);
+        await authStorage.getToken();
+        authStorage.getToken().should.become(token);
+      });
 
-      it('should be null after wipe', () => authStorage.saveToken(token).
-        then(() => authStorage.wipeToken()).
-        then(() => authStorage.getToken()).should.become.null);
+      it('should be null after wipe', async () => {
+        await authStorage.saveToken(token);
+        await authStorage.wipeToken();
+        authStorage.getToken().should.become.null;
+      });
     });
 
     describe('events', () => {

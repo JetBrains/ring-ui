@@ -25,10 +25,13 @@ export default class SmartProfile extends PureComponent {
     this.login = () => auth.logout();
     this.logout = () => auth.logout();
 
+    this.requestUser(auth);
+  }
+
+  async requestUser(auth) {
     if (auth) {
-      auth.requestUser().then(user => {
-        this.setState({user});
-      });
+      const user = await auth.requestUser();
+      this.setState({user});
     }
   }
 

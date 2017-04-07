@@ -45,7 +45,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     popupShortcuts: false,
     popupFilterShortcutsOptions: {
       modal: true,
-      disabled: false
+      disabled: true
     }
   };
 
@@ -149,8 +149,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   tabPress(event) {
-    event.preventDefault();
-    const listActiveItem = this.list.state.activeItem;
+    function preventDefault(eve) {
+      return eve && eve.preventDefault && eve.preventDefault();
+    }
+
+    preventDefault(event);
+
+    const listActiveItem = this.list && this.list.state.activeItem;
     if (listActiveItem) {
       this.onListSelect(listActiveItem);
     }
@@ -158,7 +163,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   getFilter() {
-    if (this.props.filter) {
+    if (this.props.filter && !this.props.hidden) {
       return (
         <div className={styles.filterWrapper}>
           <Icon
