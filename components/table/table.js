@@ -26,7 +26,15 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 const DraggableRows = sortableContainer(props => {
-  const {data, getItemKey, getItemLevel, selection, selectable, isItemSelectable, multiSelectable, onRowFocus, onRowSelect, ...restProps} = props;
+  const {
+    data, getItemKey, selection, selectable,
+    isItemSelectable, multiSelectable, onRowFocus,
+    onRowSelect, getItemLevel,
+    isItemCollapsible, isItemCollapsed,
+    onItemCollapse, onItemExpand,
+    ...restProps
+  } = props;
+
   return (
     <tbody data-test="ring-table-body">
     {data.map((item, index) => (
@@ -37,11 +45,15 @@ const DraggableRows = sortableContainer(props => {
         item={item}
         showFocus={selection.isFocused(item)}
         focused={selection.isFocused(item)}
-        selected={selectable && selection.isSelected(item)}
         selectable={selectable && isItemSelectable(item)}
+        selected={selectable && selection.isSelected(item)}
         checkable={multiSelectable}
         onFocus={onRowFocus}
         onSelect={onRowSelect}
+        collapsible={isItemCollapsible(item)}
+        collapsed={isItemCollapsed(item)}
+        onCollapse={onItemCollapse}
+        onExpand={onItemExpand}
         {...restProps}
       />
     ))}
@@ -67,14 +79,18 @@ class Table extends PureComponent {
     onFocusRestore: PropTypes.func,
     onSelect: PropTypes.func,
     getItemKey: PropTypes.func,
-    getItemLevel: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
-    shortcuts: PropTypes.object
+    shortcuts: PropTypes.object,
+    getItemLevel: PropTypes.func,
+    isItemCollapsible: PropTypes.func,
+    isItemCollapsed: PropTypes.func,
+    onItemCollapse: PropTypes.func,
+    onItemExpand: PropTypes.func
   }
 
   static defaultProps = {
@@ -88,13 +104,17 @@ class Table extends PureComponent {
     onSort: () => {},
     onReorder: () => {},
     getItemKey: item => item.id,
-    getItemLevel: () => 0,
     sortKey: 'id',
     sortOrder: true,
     draggable: false,
     alwaysShowDragHandle: false,
     stickyHeader: true,
-    shortcuts: {}
+    shortcuts: {},
+    getItemLevel: () => 0,
+    isItemCollapsible: () => false,
+    isItemCollapsed: () => false,
+    onItemCollapse: () => {},
+    onItemExpand: () => {}
   }
 
   state = {
@@ -301,9 +321,10 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {data, selection, columns, caption, getItemKey, getItemLevel, selectable, multiSelectable, isItemSelectable} = this.props;
+    const {data, selection, columns, caption, getItemKey, selectable, multiSelectable, isItemSelectable, getItemLevel} = this.props;
     const {draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder} = this.props;
     const {loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
+    const {isItemCollapsible, isItemCollapsed, onItemCollapse, onItemExpand} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -338,7 +359,6 @@ class Table extends PureComponent {
             helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd}
             getItemKey={getItemKey}
-            getItemLevel={getItemLevel}
 
             /* Row props */
             multiSelectable={multiSelectable}
@@ -351,6 +371,11 @@ class Table extends PureComponent {
             selection={selection}
             onRowFocus={this.onRowFocus}
             onRowSelect={this.onRowSelect}
+            getItemLevel={getItemLevel}
+            isItemCollapsible={isItemCollapsible}
+            isItemCollapsed={isItemCollapsed}
+            onItemCollapse={onItemCollapse}
+            onItemExpand={onItemExpand}
           />
         </table>
 
