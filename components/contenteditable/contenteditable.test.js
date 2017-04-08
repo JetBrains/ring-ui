@@ -5,7 +5,7 @@ import ContentEditable from './contenteditable';
 import {
   renderIntoDocument,
   isCompositeComponentWithType
-} from 'react-addons-test-utils';
+} from 'react-dom/test-utils';
 
 describe('ContentEditable', () => {
   beforeEach(function () {

@@ -4,7 +4,8 @@
  * @description Displays a popup.
  */
 
-import React, {PropTypes, cloneElement} from 'react';
+import React, {cloneElement} from 'react';
+import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
 import Portal from '@hypnosphi/react-portal';
 import classNames from 'classnames';

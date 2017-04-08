@@ -6,8 +6,9 @@
 
 /* global angular: false */
 
-import {createElement, PropTypes} from 'react';
+import {createElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
+import PropTypes from 'prop-types';
 
 const reactModule = angular.module('Ring.react-ng', []);
 

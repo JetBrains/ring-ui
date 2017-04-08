@@ -1,5 +1,5 @@
 import 'dom4';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
 
 import Input from '../input/input';
 import ErrorBubble from './error-bubble';
