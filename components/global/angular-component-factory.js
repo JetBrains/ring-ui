@@ -1,6 +1,7 @@
 /* global angular: false */
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
