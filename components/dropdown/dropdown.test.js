@@ -1,7 +1,7 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType, Simulate} from 'react-addons-test-utils';
+import {renderIntoDocument, isCompositeComponentWithType, Simulate} from 'react-dom/test-utils';
 
 import Dropdown from './dropdown';
 import Popup from '../popup/popup';

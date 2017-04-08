@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import linearFunction from '../global/linear-function';
@@ -15,7 +16,7 @@ export default class MonthSlider extends RingComponent {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
-    pxToDate: React.PropTypes.shape({
+    pxToDate: PropTypes.shape({
       x: PropTypes.func,
       y: PropTypes.func
     })

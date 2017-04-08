@@ -6,7 +6,7 @@ import 'dom4';
 import QueryAssist from './query-assist';
 
 import {findDOMNode} from 'react-dom';
-import {Simulate} from 'react-addons-test-utils';
+import {Simulate} from 'react-dom/test-utils';
 import renderIntoDocument from 'render-into-document';
 import simulateCombo from 'simulate-combo';
 

@@ -1,4 +1,5 @@
-import React, {PropTypes, Component, cloneElement} from 'react';
+import React, {Component, cloneElement} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Anchor from './anchor';

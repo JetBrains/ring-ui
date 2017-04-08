@@ -4,10 +4,11 @@
 import 'angular';
 import 'angular-mocks';
 
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import RingComponent from '../ring-component/ring-component';
 import angularComponentFactory from './angular-component-factory';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 
 class TestComponent extends RingComponent {
   static propTypes = {
