@@ -1,5 +1,8 @@
 import 'dom4';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument
+} from 'react-dom/test-utils';
 
 import Badge from './badge';
 import style from './badge.css';

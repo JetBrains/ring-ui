@@ -1,10 +1,9 @@
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
-import Alert from './alert';
-import {
-  renderIntoDocument,
-  isCompositeComponentWithType
+import TestUtils, {
+  isCompositeComponentWithType,
+  renderIntoDocument
 } from 'react-dom/test-utils';
+import Alert from './alert';
 import styles from './alert.css';
 
 describe('Alert', () => {

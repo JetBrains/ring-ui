@@ -6,7 +6,7 @@ import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
 
-import {dateType, YEAR, yearScrollSpeed, HALF} from './consts';
+import {dateType, HALF, YEAR, yearScrollSpeed} from './consts';
 
 import styles from './date-picker.css';
 

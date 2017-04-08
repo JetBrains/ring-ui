@@ -1,7 +1,10 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, findRenderedComponentWithType} from 'react-dom/test-utils';
+import {
+  findRenderedComponentWithType,
+  renderIntoDocument
+} from 'react-dom/test-utils';
 
 import Markdown from './markdown';
 import Code from '../code/code';
