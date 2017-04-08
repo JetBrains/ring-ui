@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-addons-test-utils';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import Icon from './icon';

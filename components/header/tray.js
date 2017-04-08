@@ -1,4 +1,5 @@
-import React, {PropTypes, Children, Component} from 'react';
+import React, {Children, Component} from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './header.css';

@@ -11,7 +11,8 @@
 
 import 'core-js/modules/es6.array.find';
 
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';

@@ -4,7 +4,7 @@ import {findDOMNode} from 'react-dom';
 import {
   renderIntoDocument,
   isCompositeComponentWithType
-} from 'react-addons-test-utils';
+} from 'react-dom/test-utils';
 
 import Link, {linkHOC} from './link';
 import styles from './link.css';
