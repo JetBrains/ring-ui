@@ -14,7 +14,11 @@ import RingComponent from '../ring-component/ring-component';
 import Button from '../button/button';
 import Icon from '../icon/icon';
 import Popup from '../popup/popup';
-import {getAbsoluteBaseURL, getBaseURI, ENDING_SLASH_PATTERN} from '../global/url';
+import {
+  ENDING_SLASH_PATTERN,
+  getAbsoluteBaseURL,
+  getBaseURI
+} from '../global/url';
 
 import HeaderItem from './header-legacy__item';
 import HeaderHelper from './header-legacy__helper';

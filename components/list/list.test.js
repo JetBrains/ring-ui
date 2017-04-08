@@ -4,9 +4,8 @@ import TestUtils from 'react-dom/test-utils';
 import List from './list';
 
 import okIcon from 'jetbrains-icons/ok.svg';
-const XLINK_NS = 'http://www.w3.org/1999/xlink';
-
 import linkStyles from '../link/link.css';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
 describe('List', () => {
   const Type = List.ListProps.Type;

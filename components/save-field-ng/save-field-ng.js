@@ -4,7 +4,6 @@
  * @description Allows to create forms where some fields have their own Save buttons.
  * @example-file ./save-field-ng.examples.html
  */
-
 /* global angular: false */
 import 'dom4';
 import '../form/form.scss';
@@ -18,8 +17,6 @@ import Form from '../form-ng/form-ng';
 import Shortcuts from '../shortcuts-ng/shortcuts-ng';
 import Button from '../button-ng/button-ng';
 import PromisedClick from '../promised-click-ng/promised-click-ng';
-
-import 'dom4';
 
 const angularModule = angular.module('Ring.save-field', [
   MessageBundle,

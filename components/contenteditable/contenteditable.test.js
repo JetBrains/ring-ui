@@ -3,8 +3,8 @@
 import React from 'react';
 import ContentEditable from './contenteditable';
 import {
-  renderIntoDocument,
-  isCompositeComponentWithType
+  isCompositeComponentWithType,
+  renderIntoDocument
 } from 'react-dom/test-utils';
 
 describe('ContentEditable', () => {
