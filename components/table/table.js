@@ -20,7 +20,7 @@ import getUID from '../global/get-uid';
 import Selection from './selection';
 import Header from './header';
 import style from './table.css';
-import {sortableContainer, arrayMove} from 'react-sortable-hoc';
+import {arrayMove, sortableContainer} from 'react-sortable-hoc';
 import DraggableRow from './draggable-row';
 
 import Shortcuts from '../shortcuts/shortcuts';

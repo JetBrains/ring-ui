@@ -2,8 +2,8 @@ import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {
-  renderIntoDocument,
-  isCompositeComponentWithType
+  isCompositeComponentWithType,
+  renderIntoDocument
 } from 'react-dom/test-utils';
 
 import Link, {linkHOC} from './link';

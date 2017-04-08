@@ -15,7 +15,15 @@ import 'core-js/modules/es7.array.includes';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
-import position, {DEFAULT_DIRECTIONS, Directions, Dimension, Display, positionPropKeys, MaxHeight, MinWidth} from './position.js';
+import position, {
+  DEFAULT_DIRECTIONS,
+  Dimension,
+  Directions,
+  Display,
+  MaxHeight,
+  MinWidth,
+  positionPropKeys
+} from './position.js';
 import {Listeners} from '../global/dom';
 
 import styles from './popup.css';

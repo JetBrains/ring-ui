@@ -1,10 +1,13 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument
+} from 'react-dom/test-utils';
 import styles from './grid.css';
 
-import {Grid, Row, Col} from './grid';
+import {Col, Grid, Row} from './grid';
 
 describe('Grid', () => {
   const renderComponent = props => renderIntoDocument(<Grid {...props}/>);

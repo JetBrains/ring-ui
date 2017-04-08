@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Icon from '../icon/icon';
-import {Size, Color} from '../icon/icon__constants';
+import {Color, Size} from '../icon/icon__constants';
 
 import styles from './error-message.css';
 
