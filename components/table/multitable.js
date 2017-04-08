@@ -1,4 +1,4 @@
-import React, {Component, Children, cloneElement} from 'react';
+import React, {Children, cloneElement, Component} from 'react';
 import PropTypes from 'prop-types';
 
 export default class MultiTable extends Component {

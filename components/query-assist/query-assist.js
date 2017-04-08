@@ -6,14 +6,13 @@ import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
-import {getRect} from '../global/dom';
+import {getRect, preventDefault} from '../global/dom';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
-import {preventDefault} from '../global/dom';
 
 import './query-assist.scss';
 import '../input/input.scss';

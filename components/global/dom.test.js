@@ -1,4 +1,4 @@
-import {isMounted, getStyles, getRect} from './dom';
+import {getRect, getStyles, isMounted} from './dom';
 
 const nodes = [];
 

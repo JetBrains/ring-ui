@@ -1,5 +1,9 @@
 import 'dom4';
-import {renderIntoDocument, isCompositeComponentWithType, Simulate} from 'react-dom/test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument,
+  Simulate
+} from 'react-dom/test-utils';
 
 import DatePicker from './date-picker';
 
