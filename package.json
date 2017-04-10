@@ -118,7 +118,7 @@
     "yo": "1.8.5"
   },
   "dependencies": {
-    "@hypnosphi/react-portal": "3.0.0",
+    "@hypnosphi/react-portal": "3.1.0",
     "angular-elastic": "2.5.1-jb",
     "autoprefixer": "6.4.1",
     "babel-core": "6.14.0",
@@ -151,7 +151,7 @@
     "prop-types": "15.5.4",
     "react": "15.5.3",
     "react-dom": "15.5.3",
-    "react-markdown": "2.4.4",
+    "react-markdown": "2.5.0",
     "react-sortable-hoc": "0.4.10",
     "react-waypoint": "5.1.0",
     "sass-loader": "6.0.0",
