@@ -94,15 +94,10 @@ describe('Auth', () => {
         });
 
         await limitedAuthStorage.saveState(stateId, state);
-        const res = await new Promise(resolve => {
-          setTimeout(async () => {
-            await limitedAuthStorage.cleanStates();
-            resolve(localStorage);
-          }, 100);
-
-          this.sinon.clock.tick(200);
-        });
-        res.should.be.empty;
+        this.sinon.clock.tick(100);
+        await limitedAuthStorage.cleanStates();
+        this.sinon.clock.tick(100);
+        localStorage.should.be.empty;
       });
     });
 
