@@ -4,13 +4,13 @@ import 'dom4';
 
 import sniffer from '../global/sniffer';
 import {
-  getBaseURI,
-  getOrigin,
   encodeURL,
   fixUrl,
+  getBaseURI,
+  getOrigin,
+  isDataURI,
   parseQueryString,
-  resolveRelativeURL,
-  isDataURI
+  resolveRelativeURL
 } from './url';
 
 describe('Url', () => {

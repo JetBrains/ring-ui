@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 import RingComponent from '../ring-component/ring-component';

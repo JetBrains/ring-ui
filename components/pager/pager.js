@@ -11,7 +11,8 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
