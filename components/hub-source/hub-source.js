@@ -118,7 +118,7 @@ export default class HubSource {
 
     this.filterFn = filterFn || this.getDefaultFilterFn(query);
 
-    const res = this.getValueFromSuitableSource(query, params);
+    const res = await this.getValueFromSuitableSource(query, params);
     return this.processResults(res);
   }
 }
