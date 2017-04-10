@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {render} from 'react-dom';
 import RingComponent from '../ring-component/ring-component';
 
@@ -41,8 +42,8 @@ function noop() {}
 export default class ContentEditable extends RingComponent {
   /** @override */
   static propTypes = {
-    disabled: React.PropTypes.bool,
-    componentDidUpdate: React.PropTypes.func
+    disabled: PropTypes.bool,
+    componentDidUpdate: PropTypes.func
   };
 
   static defaultProps = {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Day from './day';
 
-import {weekdays, dateType, WEEK} from './consts';
+import {dateType, WEEK, weekdays} from './consts';
 
 import styles from './date-picker.css';
 
