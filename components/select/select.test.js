@@ -3,7 +3,7 @@ import 'dom4';
 import Select from './select';
 import List from '../list/list';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 import simulateCombo from 'simulate-combo';
