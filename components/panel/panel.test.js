@@ -2,7 +2,7 @@ import React from 'react';
 import {
   isCompositeComponentWithType,
   renderIntoDocument
-} from 'react-addons-test-utils';
+} from 'react-dom/test-utils';
 
 import Panel from './panel';
 

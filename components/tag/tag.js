@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import RingComponent from '../ring-component/ring-component';
 import classNames from 'classnames';
 import Icon from '../icon/icon';
@@ -14,13 +15,13 @@ import CloseIcon from 'jetbrains-icons/close.svg';
 
 export default class Tag extends RingComponent {
   static propTypes = {
-    onRemove: React.PropTypes.func,
-    onClick: React.PropTypes.func,
-    rgTagIcon: React.PropTypes.string,
-    icon: React.PropTypes.string,
-    rgTagTitle: React.PropTypes.string,
-    readOnly: React.PropTypes.bool,
-    focused: React.PropTypes.bool
+    onRemove: PropTypes.func,
+    onClick: PropTypes.func,
+    rgTagIcon: PropTypes.string,
+    icon: PropTypes.string,
+    rgTagTitle: PropTypes.string,
+    readOnly: PropTypes.bool,
+    focused: PropTypes.bool
   };
 
   static defaultProps = {

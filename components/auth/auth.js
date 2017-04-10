@@ -5,7 +5,7 @@ import ExtendableError from 'es6-error';
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
-import {getAbsoluteBaseURL, fixUrl, encodeURL} from '../global/url';
+import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
 
 function noop() {}
 
