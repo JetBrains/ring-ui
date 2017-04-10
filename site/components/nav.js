@@ -1,4 +1,5 @@
-import React, {PropTypes, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 
 import Input from 'ring-ui/components/input/input';
 import List from 'ring-ui/components/list/list';
