@@ -1,11 +1,9 @@
-import {unmountComponentAtNode} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 
 import Select from '../select/select';
 import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import SelectLazy from './select-ng__lazy';
-
-import {render} from 'react-dom';
 import {createElement} from 'react';
 import getEventKey from 'react-dom/lib/getEventKey';
 

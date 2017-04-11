@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Icon from '../icon/icon';
@@ -125,7 +126,7 @@ export default class DatePopup extends Component {
     if (this._scrollTS) {
       const diff = goal - current;
       const dt = moment() - this._scrollTS;
-      const next = goal - diff * Math.E ** (-dt / scrollExpDelay);
+      const next = goal - diff * (Math.E ** (-dt / scrollExpDelay));
       this.setState({scrollDate: next});
     }
 

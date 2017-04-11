@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
@@ -23,28 +24,28 @@ function noop() {}
 
 export default class TagsInput extends RingComponentWithShortcuts {
   static propTypes = {
-    tags: React.PropTypes.array,
+    tags: PropTypes.array,
     /**
      * Datasource should return array(or promise) of suggestions.
      * Each suggestion should contain key and label fields.
      * DataSource should handle caching and response racing (when later request
      * responded earlier) by himself.
      */
-    dataSource: React.PropTypes.func,
-    onAddTag: React.PropTypes.func,
-    onRemoveTag: React.PropTypes.func,
+    dataSource: PropTypes.func,
+    onAddTag: PropTypes.func,
+    onRemoveTag: PropTypes.func,
     customTagComponent: (props, propName, componentName) => {
       if (props[propName] && !props[propName].prototype instanceof Component) {
         return new Error(`Invalid prop ${propName} supplied to ${componentName}. Validation failed.`);
       }
       return null;
     },
-    maxPopupHeight: React.PropTypes.number,
-    placeholder: React.PropTypes.string,
-    canNotBeEmpty: React.PropTypes.bool,
-    modalShortcuts: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    autoOpen: React.PropTypes.bool
+    maxPopupHeight: PropTypes.number,
+    placeholder: PropTypes.string,
+    canNotBeEmpty: PropTypes.bool,
+    modalShortcuts: PropTypes.bool,
+    disabled: PropTypes.bool,
+    autoOpen: PropTypes.bool
   };
 
   static defaultProps = {

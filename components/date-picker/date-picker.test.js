@@ -1,7 +1,11 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType, Simulate} from 'react-addons-test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument,
+  Simulate
+} from 'react-dom/test-utils';
 
 import DatePicker from './date-picker';
 

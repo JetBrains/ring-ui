@@ -1,6 +1,6 @@
 import 'dom4';
 
-import {getStyles, getRect} from '../global/dom';
+import {getRect, getStyles} from '../global/dom';
 import RingAngularComponent from '../global/ring-angular-component';
 import shortcuts from '../shortcuts/core';
 import RingButton from '../button-ng/button-ng';

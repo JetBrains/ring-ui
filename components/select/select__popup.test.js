@@ -9,7 +9,7 @@ import last from 'mout/array/last';
 import guid from 'mout/random/guid';
 import randString from 'mout/random/randString';
 
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import simulateCombo from 'simulate-combo';
 
 describe('SelectPopup', () => {

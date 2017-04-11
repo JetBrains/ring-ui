@@ -1,11 +1,11 @@
 /* eslint-disable func-names */
 
-import {createElement, Component} from 'react';
+import {Component, createElement} from 'react';
 import 'dom4';
 
 import renderIntoDocument from 'render-into-document';
 import simulateCombo from 'simulate-combo';
-import {getStyles, getRect} from '../global/dom';
+import {getRect, getStyles} from '../global/dom';
 
 import Popup from './popup';
 import {MinWidth} from './position';

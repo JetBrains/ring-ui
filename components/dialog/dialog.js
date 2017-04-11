@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 import ScrollPreventer from './dialog__body-scroll-preventer';

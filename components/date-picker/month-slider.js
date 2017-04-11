@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import linearFunction from '../global/linear-function';
@@ -13,7 +14,7 @@ export default class MonthSlider extends PureComponent {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
-    pxToDate: React.PropTypes.shape({
+    pxToDate: PropTypes.shape({
       x: PropTypes.func,
       y: PropTypes.func
     })

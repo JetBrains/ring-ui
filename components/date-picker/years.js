@@ -1,11 +1,12 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import linearFunction from '../global/linear-function';
 
 import styles from './date-picker.css';
 
-import units, {yearDuration, dateType, DOUBLE, HALF} from './consts';
+import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
 const {yearHeight, calHeight} = units;
 
 let scrollTO;

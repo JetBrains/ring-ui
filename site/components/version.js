@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import Dropdown from 'ring-ui/components/dropdown/dropdown';
 import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
