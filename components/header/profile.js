@@ -57,13 +57,16 @@ export default class Profile extends PureComponent {
     if (user.guest) {
       return (
         <div
-          className={classnames(styles.profileEmpty, className)}>
+          className={classnames(styles.profileEmpty, className)}
+        >
           <Button
             theme={Button.Theme.DARK}
-            primary={true}data-test="ring-header-login-button"
-          disabled={loading}
-          loader={loading}onClick={onLogin}
-        >
+            primary={true}
+            data-test="ring-header-login-button"
+            disabled={loading}
+            loader={loading}
+            onClick={onLogin}
+          >
           {translations.login || 'Log in...'}
         </Button></div>
       );
