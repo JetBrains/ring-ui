@@ -3,7 +3,7 @@
 import React from 'react';
 
 import renderIntoDocument from 'render-into-document';
-import {Simulate} from 'react-addons-test-utils';
+import {Simulate} from 'react-dom/test-utils';
 import {findDOMNode} from 'react-dom';
 
 import Checkbox from './checkbox';

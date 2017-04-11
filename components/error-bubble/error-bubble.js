@@ -1,4 +1,5 @@
-import React, {Children, cloneElement, PropTypes} from 'react';
+import React, {Children, cloneElement} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';

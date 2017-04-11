@@ -1,4 +1,5 @@
-import React, {Component, PropTypes, cloneElement} from 'react';
+import React, {cloneElement, Component} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Sidebar from './sidebar';

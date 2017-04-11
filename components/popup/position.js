@@ -1,5 +1,11 @@
 import 'dom4';
-import {isMounted, getRect, getDocumentScrollLeft, getDocumentScrollTop, getWindowHeight} from '../global/dom';
+import {
+  getDocumentScrollLeft,
+  getDocumentScrollTop,
+  getRect,
+  getWindowHeight,
+  isMounted
+} from '../global/dom';
 
 export const Directions = {
   BOTTOM_RIGHT: 'BOTTOM_RIGHT',

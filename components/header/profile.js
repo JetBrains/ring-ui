@@ -1,4 +1,5 @@
-import React, {PropTypes, Component, PureComponent} from 'react';
+import React, {Component, PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
@@ -13,6 +14,7 @@ export default class Profile extends PureComponent {
 
   static propTypes = {
     className: PropTypes.string,
+    loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
     profileUrl: PropTypes.string,
@@ -39,7 +41,7 @@ export default class Profile extends PureComponent {
   }
 
   render() {
-    const {className, user, profileUrl, LinkComponent, onLogin, onLogout, translations, size, ...props} = this.props;
+    const {className, loading, user, profileUrl, LinkComponent, onLogin, onLogout, translations, size, ...props} = this.props;
 
     if (!user) {
       return (
@@ -54,16 +56,16 @@ export default class Profile extends PureComponent {
 
     if (user.guest) {
       return (
-        <div className={classnames(styles.profileEmpty, className)}>
+        <div
+          className={classnames(styles.profileEmpty, className)}>
           <Button
             theme={Button.Theme.DARK}
-            primary={true}
-            data-test="ring-header-login-button"
-            onClick={onLogin}
-          >
-            {translations.login || 'Log in...'}
-          </Button>
-        </div>
+            primary={true}data-test="ring-header-login-button"
+          disabled={loading}
+          loader={loading}onClick={onLogin}
+        >
+          {translations.login || 'Log in...'}
+        </Button></div>
       );
     }
 

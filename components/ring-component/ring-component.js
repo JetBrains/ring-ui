@@ -1,5 +1,6 @@
-import {Component, createElement, PropTypes} from 'react';
+import {Component, createElement} from 'react';
 import {findDOMNode, render} from 'react-dom';
+import PropTypes from 'prop-types';
 
 export default class RingComponent extends Component {
   static letOverrideLifecycleMethods = false;
