@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-max-props-per-line */
 
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 

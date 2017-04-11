@@ -40,6 +40,7 @@ export default class Permissions {
 
     this._auth = auth;
     this._promise = null;
+    this._subscribed = false;
   }
 
   /**
@@ -70,6 +71,13 @@ export default class Permissions {
    * @return {Promise.<Permissions>} promise that is resolved when the permissions are loaded
    */
   load() {
+    if (this._subscribed === false) {
+      this._auth.addListener('userChange', () => {
+        this.reload();
+      });
+      this._subscribed = true;
+    }
+
     if (this._promise) {
       return this._promise;
     }

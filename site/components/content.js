@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import parseFrontMatter from 'front-matter';
 
 import Markdown from 'ring-ui/components/markdown/markdown';

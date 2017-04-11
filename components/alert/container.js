@@ -1,4 +1,4 @@
-import React, {cloneElement, Children} from 'react';
+import React, {Children, cloneElement} from 'react';
 import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 

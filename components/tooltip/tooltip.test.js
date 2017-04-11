@@ -4,7 +4,11 @@ import React from 'react';
 import {unmountComponentAtNode} from 'react-dom';
 import 'dom4';
 
-import {isCompositeComponentWithType, renderIntoDocument, Simulate} from 'react-addons-test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument,
+  Simulate
+} from 'react-dom/test-utils';
 
 import Tooltip from './tooltip';
 import Popup from '../popup/popup';

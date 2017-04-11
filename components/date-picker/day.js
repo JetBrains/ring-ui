@@ -1,9 +1,10 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import 'core-js/modules/es7.array.includes';
 
-import {weekdays, dateType} from './consts';
+import {dateType, weekdays} from './consts';
 
 import styles from './date-picker.css';
 

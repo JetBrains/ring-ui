@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import TagsInput from './tags-input';
 import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
