@@ -2,10 +2,12 @@ import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
 
+import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
+import Listeners from '../global/listeners';
+
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
-import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
 
 function noop() {}
 
@@ -87,6 +89,17 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
+    this.listeners = new Listeners();
+
+    if (this.config.onLogout) {
+      this.addListener('logout', this.config.onLogout);
+    }
+
+    if (this.config.avoidPageReload === false) {
+      this.addListener('userChange', this._reloadCurrentPage.bind(this));
+    }
+
+
     this._initDeferred = {};
     this._initDeferred.promise = new Promise((resolve, reject) => {
       this._initDeferred.resolve = resolve;
@@ -98,6 +111,7 @@ export default class Auth {
    * @const {{client_id: string, redirect_uri: string, scope: string[], default_expires_in: number}}
    */
   static DEFAULT_CONFIG = {
+    avoidPageReload: false,
     client_id: '0-0-0-0-0',
     redirect_uri: getAbsoluteBaseURL(),
     redirect: false,
@@ -139,6 +153,14 @@ export default class Auth {
     OK: 200,
     REDIRECTION: 300,
     UNAUTHORIZED: 401
+  }
+
+  addListener(event, handler) {
+    this.listeners.add(event, handler);
+  }
+
+  removeListener(event, handler) {
+    this.listeners.remove(event, handler);
   }
 
   /**
@@ -273,7 +295,7 @@ export default class Auth {
 
       if (user && this.user && this.user.id !== user.id) {
         // Reload page if user has been changed after background refresh
-        this._redirectCurrentPage(window.location.href);
+        this.listeners.trigger('userChange', user);
       }
 
       return accessToken;
@@ -356,6 +378,13 @@ export default class Auth {
   /**
    * @return {Promise.<object>}
    */
+  getUser(accessToken) {
+    return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+  }
+
+  /**
+   * @return {Promise.<object>}
+   */
   async requestUser() {
     if (this.user) {
       return this.user;
@@ -363,12 +392,12 @@ export default class Auth {
 
     const accessToken = await this.requestToken();
 
-    // If when was fetched during tojen request
+    // If when was fetched during token request
     if (this.user) {
       return this.user;
     }
 
-    const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    const user = await this.getUser(accessToken);
     this.user = user;
 
     return user;
@@ -383,7 +412,7 @@ export default class Auth {
       ...extraParams
     };
 
-    await this.config.onLogout();
+    await this.listeners.trigger('logout');
     await this._storage.wipeToken();
 
     const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
@@ -395,12 +424,19 @@ export default class Auth {
    * Wipe accessToken and redirect to auth page to obtain authorization data
    * if user is logged in or log her in otherwise
    */
-  async login(extraParams) {
-    await this.config.onLogout();
-    await this._storage.wipeToken();
+  async login() {
+    try {
+      const accessToken = await this._loadTokenInBackground();
+      const user = await this.getUser(accessToken);
 
-    const authRequest = await this._requestBuilder.prepareAuthRequest(extraParams);
-    this._redirectCurrentPage(authRequest.url);
+      if (user.guest) {
+        return this.logout();
+      } else {
+        return this.listeners.trigger('userChange', user);
+      }
+    } catch (e) {
+      return this.logout();
+    }
   }
 
   /**
@@ -579,6 +615,13 @@ export default class Auth {
    */
   _redirectCurrentPage(url) {
     window.location = fixUrl(url);
+  }
+
+  /**
+   * Reloads current page
+   */
+  _reloadCurrentPage() {
+    this._redirectCurrentPage(window.location.href);
   }
 
   /**
