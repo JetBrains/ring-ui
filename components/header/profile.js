@@ -14,6 +14,7 @@ const rgItemType = PopupMenu.ListProps.Type.LINK;
 export default class Profile extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
     profileUrl: PropTypes.string,
@@ -33,7 +34,7 @@ export default class Profile extends PureComponent {
   }
 
   render() {
-    const {className, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
+    const {className, loading, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
 
     if (!user) {
       return (
@@ -52,6 +53,8 @@ export default class Profile extends PureComponent {
           blue={true}
           className={classnames(styles.loginButton, className)}
           data-test="ring-header-login-button"
+          disabled={loading}
+          loader={loading}
           onClick={onLogin}
         >
           {translations.login || 'Log in...'}
