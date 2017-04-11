@@ -6,7 +6,8 @@
  */
 
 import 'core-js/modules/es6.array.find';
-import React, {PropTypes, createElement} from 'react';
+import React, {createElement} from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
 import getUID from '../global/get-uid';
@@ -93,7 +94,7 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.number
     ]),
     shortcuts: PropTypes.bool,
-    onMouseOut: React.PropTypes.func,
+    onMouseOut: PropTypes.func,
     onSelect: PropTypes.func,
     onScrollToBottom: PropTypes.func,
     useMouseUp: PropTypes.bool,

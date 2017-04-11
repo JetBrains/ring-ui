@@ -1,5 +1,5 @@
 import React from 'react';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 import Shortcuts from './shortcuts';
 import getUID from './../global/get-uid';
 

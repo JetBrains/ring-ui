@@ -1,4 +1,5 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon from '../icon/icon';

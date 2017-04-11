@@ -1,7 +1,10 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-addons-test-utils';
+import {
+  isCompositeComponentWithType,
+  renderIntoDocument
+} from 'react-dom/test-utils';
 
 import Text from './text';
 

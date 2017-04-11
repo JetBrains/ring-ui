@@ -1,7 +1,8 @@
-import React, {PureComponent, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {parseQueryString, encodeURL, isDataURI} from '../global/url';
+import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
 
 import styles from './avatar.css';

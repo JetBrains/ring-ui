@@ -1,15 +1,15 @@
 /* eslint-disable func-names */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
+import TestUtils from 'react-dom/test-utils';
 import List from './list';
 
 import styles from './list.css';
 import linkStyles from '../link/link.css';
 
 import okIcon from 'jetbrains-icons/ok.svg';
+import linkStyles from '../link/link.css';
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
-
 describe('List', () => {
   const Type = List.ListProps.Type;
   let list;
