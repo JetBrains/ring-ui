@@ -1,0 +1,26 @@
+<example name="http service">
+  <file type="html">
+    <div id="output"></div>
+  </file>
+
+  <file type="js">
+    import Auth from 'ring-ui/components/auth/auth';
+    import hubConfig from 'ring-ui/site/hub-config';
+    import http from 'ring-ui/components/http/http';
+
+    const auth = new Auth(hubConfig);
+
+    async function initializeExample() {
+      await auth.init();
+
+      http.setAuth(auth);
+
+      const user = await http.get(`${hubConfig.serverUri}/api/rest/users/me?fields=name,login`);
+
+      document.querySelector('#output').innerText = JSON.stringify(user);
+    }
+
+    initializeExample();
+
+  </file>
+</example>
