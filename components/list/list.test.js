@@ -8,7 +8,7 @@ import styles from './list.css';
 import linkStyles from '../link/link.css';
 
 import okIcon from 'jetbrains-icons/ok.svg';
-import linkStyles from '../link/link.css';
+
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 describe('List', () => {
   const Type = List.ListProps.Type;
