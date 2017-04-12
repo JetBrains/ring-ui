@@ -334,7 +334,8 @@ export default class Auth {
     const init = {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
     };
 
