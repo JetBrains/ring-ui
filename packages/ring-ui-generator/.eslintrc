@@ -2,7 +2,6 @@
   "parser": "babel-eslint",
   "extends": [
     "jetbrains",
-    "jetbrains/bem",
     "jetbrains/es6",
     "jetbrains/node",
     "jetbrains/react",
