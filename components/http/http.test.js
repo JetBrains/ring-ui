@@ -68,6 +68,13 @@ describe('http', () => {
     http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
   });
 
+  it('should support base url setting', async () => {
+    mockFetch();
+    http.setBaseUrl('http://test');
+    await http.performRequest('/foo');
+    http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
+  });
+
   it('should perform request convert "body" as object inro string', async () => {
     mockFetch();
     await http.performRequest('testurl', {

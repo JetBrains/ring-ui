@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
-import {encodeURL} from '../global/url';
+import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
  * @name Http
@@ -32,7 +32,8 @@ export class HTTPError extends ExtendableError {
 class Http {
   baseUrl = null;
 
-  constructor(auth) {
+  constructor(auth, baseUrl) {
+    this.baseUrl = baseUrl;
     if (auth) {
       this.setAuth(auth);
     }
@@ -55,7 +56,7 @@ class Http {
 
   _makeRequestUrl(url, queryObject) {
     const urlWithQuery = encodeURL(url, queryObject);
-    return urlWithQuery;
+    return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
   async _authorizedFetch(url, params = {}) {
