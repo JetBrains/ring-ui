@@ -17,7 +17,13 @@ export default class HttpMock extends Http {
   }
 
   async _fetch(url, params) {
-    this.requests = [...this.requests, {url, params}];
+    this.requests = [...this.requests, {
+      url,
+      params: {
+        ...params,
+        body: params.body ? JSON.parse(params.body) : params.body
+      }
+    }];
 
     return {
       status: 200,
