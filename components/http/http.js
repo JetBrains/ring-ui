@@ -115,7 +115,7 @@ class Http {
       }
     }
 
-    return await response.json();
+    return response.json();
   }
 
   get(url, params) {
