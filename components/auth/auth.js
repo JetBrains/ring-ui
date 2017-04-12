@@ -8,6 +8,7 @@ import Listeners from '../global/listeners';
 import AuthStorage from './auth__storage';
 import AuthResponseParser from './auth__response-parser';
 import AuthRequestBuilder from './auth__request-builder';
+import BackgroundTokenGetter from './background-token-getter';
 
 function noop() {}
 
@@ -89,6 +90,8 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
+    this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
+
     this.listeners = new Listeners();
 
     if (this.config.onLogout) {
@@ -143,11 +146,6 @@ export default class Auth {
    * @const {number}
    */
   static REFRESH_BEFORE = 20 * 60; // 20 min in s
-
-  /**
-   * @const {number} non-interactive auth timeout
-   */
-  static BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
 
   static HTTP_CODE = {
     OK: 200,
@@ -238,7 +236,7 @@ export default class Auth {
     // Background flow
     if (error.authRedirect && !this.config.redirect) {
       try {
-        await this._loadTokenInBackground();
+        await this._backgroundTokenGetter.get();
         await this.validateToken();
         this._initDeferred.resolve();
         return undefined;
@@ -290,7 +288,7 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      const accessToken = await this._loadTokenInBackground();
+      const accessToken = await this._backgroundTokenGetter.get();
       const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
 
       if (user && this.user && this.user.id !== user.id) {
@@ -427,7 +425,7 @@ export default class Auth {
    */
   async login() {
     try {
-      const accessToken = await this._loadTokenInBackground();
+      const accessToken = await this._backgroundTokenGetter.get();
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
@@ -623,103 +621,6 @@ export default class Auth {
    */
   _reloadCurrentPage() {
     this._redirectCurrentPage(window.location.href);
-  }
-
-  /**
-   * Redirects the given iframe to the given URL
-   * @param {HTMLIFrameElement} iframe
-   * @param {string} url
-   * @private
-   */
-  _redirectFrame(iframe, url) {
-    iframe.src = `${url}&rnd=${Math.random()}`;
-  }
-
-  /**
-   * Creates a hidden iframe
-   * @return {HTMLIFrameElement}
-   * @private
-   */
-  _createHiddenFrame() {
-    const iframe = document.createElement('iframe');
-
-    iframe.style.border = iframe.style.width = iframe.style.height = '0px';
-    iframe.style.visibility = 'hidden';
-    iframe.style.position = 'fixed';
-    iframe.style.left = '-10000px';
-    window.document.body.appendChild(iframe);
-
-    return iframe;
-  }
-
-  /**
-   * Refreshes the access token in an iframe.
-   *
-   * @return {Promise.<string>} promise that is resolved to access the token when it is loaded in a background iframe. The
-   * promise is rejected if no token was received after {@link Auth.BACKGROUND_TIMEOUT} ms.
-   */
-  _loadTokenInBackground() {
-    if (this._backgroundPromise) {
-      return this._backgroundPromise;
-    }
-
-    const resetPromise = () => {
-      this._backgroundPromise = null;
-    };
-
-    this._backgroundPromise = new Promise(async (resolve, reject) => {
-      const iframe = this._createHiddenFrame();
-
-      const authRequest = await this._requestBuilder.
-        prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
-      let cleanRun;
-
-      function cleanUp() {
-        if (cleanRun) {
-          return;
-        }
-        cleanRun = true;
-        /* eslint-disable no-use-before-define */
-        clearTimeout(timeout);
-        removeStateListener();
-        removeTokenListener();
-        /* eslint-enable no-use-before-define */
-        window.document.body.removeChild(iframe);
-      }
-
-      const timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
-        cleanUp();
-      }, Auth.BACKGROUND_TIMEOUT);
-
-      const removeTokenListener = this._storage.onTokenChange(token => {
-        if (token !== null) {
-          cleanUp();
-          resolve(token.access_token);
-        }
-      });
-
-      const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
-        if (state && state.error) {
-          cleanUp();
-          reject(new AuthResponseParser.AuthError(state));
-        }
-      });
-
-      this._redirectFrame(iframe, authRequest.url);
-    });
-
-    (async () => {
-      try {
-        await this._backgroundPromise;
-      } catch (e) {
-        return;
-      } finally {
-        resetPromise();
-      }
-    })();
-
-    return this._backgroundPromise;
   }
 
   /**
