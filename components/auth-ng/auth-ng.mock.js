@@ -9,6 +9,7 @@ export default function AuthProviderMock() {
 
     return {
       auth: {
+        addListener() {},
         requestToken() {
           return promise;
         },
