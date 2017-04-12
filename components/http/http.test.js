@@ -1,9 +1,10 @@
-import http, {DEFAULT_HEADERS} from './http';
+import Http, {DEFAULT_HEADERS} from './http';
 
 describe('http', () => {
   const FAKE_TOKEN = 'fake-token';
   let fakeAuth;
   let sandbox;
+  let http;
   let fetchResult;
 
   beforeEach(function () {
@@ -12,6 +13,7 @@ describe('http', () => {
       constructor: {
         shouldRefreshToken: sandbox.stub().returns(false)
       },
+      promise: async () => {},
       requestToken: sandbox.stub().returns(FAKE_TOKEN),
       forceTokenUpdate: sandbox.stub()
     };
@@ -22,7 +24,7 @@ describe('http', () => {
       }
     };
 
-    http.setAuth(fakeAuth);
+    http = new Http(fakeAuth);
   });
 
   function mockFetch() {

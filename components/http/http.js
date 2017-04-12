@@ -27,7 +27,14 @@ export class HTTPError extends ExtendableError {
 }
 
 class Http {
+  constructor(auth) {
+    if (auth) {
+      this.setAuth(auth);
+    }
+  }
+
   setAuth(auth) {
+    this.authPromise = auth.promise;
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = errorType => auth.constructor.shouldRefreshToken(errorType);
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
@@ -41,6 +48,7 @@ class Http {
     if (!this.requestToken) {
       throw new Error('RingUI Http: setAuth should have been called before performing authorized requests');
     }
+    await this.authPromise;
     const token = await this.requestToken();
 
     const body = params.body ? JSON.stringify(params.body) : params.body;
@@ -106,4 +114,4 @@ class Http {
   }
 }
 
-export default new Http();
+export default Http;
