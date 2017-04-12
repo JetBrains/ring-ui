@@ -36,7 +36,6 @@ class Row extends PureComponent {
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
-    checkable: PropTypes.bool,
     showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
@@ -53,7 +52,6 @@ class Row extends PureComponent {
 
   static defaultProps = {
     selectable: true,
-    checkable: true,
     showFocus: false,
     draggable: false,
     alwaysShowDragHandle: false,
@@ -96,7 +94,7 @@ class Row extends PureComponent {
 
   render() {
     const {
-      item, columns, selectable, checkable, selected,
+      item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,
       collapsible, collapsed, onCollapse, onExpand
     } = this.props;
@@ -128,7 +126,7 @@ class Row extends PureComponent {
           <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
         }
 
-        {checkable &&
+        {selectable &&
           <Checkbox
             className={showFocus ? 'ring-checkbox_focus' : ''}
             checked={selected}

@@ -29,7 +29,7 @@ import Loader from '../loader/loader';
 const DraggableRows = sortableContainer(props => {
   const {
     data, getItemKey, selection, selectable,
-    isItemSelectable, multiSelectable, onRowFocus, onRowSelect,
+    isItemSelectable, onRowFocus, onRowSelect,
     getItemLevel, isItemCollapsible, isItemCollapsed,
     onItemCollapse, onItemExpand,
     ...restProps
@@ -47,7 +47,6 @@ const DraggableRows = sortableContainer(props => {
         focused={selection.isFocused(item)}
         selectable={selectable && isItemSelectable(item)}
         selected={selectable && selection.isSelected(item)}
-        checkable={multiSelectable}
         onFocus={onRowFocus}
         onSelect={onRowSelect}
         collapsible={isItemCollapsible(item)}
@@ -70,7 +69,6 @@ class Table extends PureComponent {
     selection: PropTypes.instanceOf(Selection).isRequired,
     caption: PropTypes.string,
     selectable: PropTypes.bool,
-    multiSelectable: PropTypes.bool,
     isItemSelectable: PropTypes.func,
     focused: PropTypes.bool,
     stickyHeader: PropTypes.bool,
@@ -95,7 +93,6 @@ class Table extends PureComponent {
 
   static defaultProps = {
     selectable: true,
-    multiSelectable: true,
     isItemSelectable: () => true,
     focused: false,
     loading: false,
@@ -209,9 +206,9 @@ class Table extends PureComponent {
 
   onShiftUpPress = e => {
     e.preventDefault();
-    const {multiSelectable, selection, onSelect} = this.props;
+    const {selectable, selection, onSelect} = this.props;
 
-    if (!multiSelectable) {
+    if (!selectable) {
       return;
     }
 
@@ -227,9 +224,9 @@ class Table extends PureComponent {
 
   onShiftDownPress = e => {
     e.preventDefault();
-    const {multiSelectable, selection, onSelect} = this.props;
+    const {selectable, selection, onSelect} = this.props;
 
-    if (!multiSelectable) {
+    if (!selectable) {
       return;
     }
 
@@ -256,19 +253,30 @@ class Table extends PureComponent {
   }
 
   onSpacePress = () => {
-    const {selection, onSelect} = this.props;
+    const {selectable, selection, onSelect} = this.props;
+
+    if (!selectable) {
+      return true;
+    }
+
     onSelect(selection.toggleSelection());
     return false;
   }
 
   onEscPress = () => {
     const {selection, onSelect} = this.props;
+
     onSelect(selection.reset());
     this.restoreFocusWithoutScroll();
   }
 
   onCmdAPress = () => {
-    const {selection, onSelect} = this.props;
+    const {selectable, selection, onSelect} = this.props;
+
+    if (!selectable) {
+      return true;
+    }
+
     onSelect(selection.selectAll());
     return false;
   }
@@ -302,7 +310,7 @@ class Table extends PureComponent {
       onSelect(selection.resetSelection());
     }
 
-    const shortcuts = nextProps.selectable && nextProps.focused;
+    const shortcuts = nextProps.focused;
     if (shortcuts !== this.state.shortcuts) {
       this.setState({shortcuts});
     }
@@ -322,7 +330,7 @@ class Table extends PureComponent {
 
   render() {
     const {
-      data, selection, columns, caption, getItemKey, selectable, multiSelectable,
+      data, selection, columns, caption, getItemKey, selectable,
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
@@ -334,7 +342,7 @@ class Table extends PureComponent {
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
     const headerProps = {
-      caption, selectable, multiSelectable, draggable,
+      caption, selectable, draggable,
       columns, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
       topStickOffset: stickyHeaderOffset
@@ -371,7 +379,6 @@ class Table extends PureComponent {
             getItemKey={getItemKey}
 
             /* Row props */
-            multiSelectable={multiSelectable}
             draggable={draggable}
             alwaysShowDragHandle={alwaysShowDragHandle}
             data={data}
