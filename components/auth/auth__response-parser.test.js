@@ -6,7 +6,7 @@ describe('Auth', () => {
     describe('getAuthResponseFromURL', () => {
       let location;
       beforeEach(function () {
-        this.sinon.stub(AuthResponseParser.prototype, 'getLocation', () => location);
+        this.sinon.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
       });
 
       it('should return correct response', () => {
