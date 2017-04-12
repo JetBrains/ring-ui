@@ -439,7 +439,7 @@ describe('Auth', () => {
       Auth.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -458,7 +458,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -484,7 +484,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when guest is banned', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
@@ -540,7 +540,7 @@ describe('Auth', () => {
     });
 
     it('should get token in iframe if there is no valid token', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -561,7 +561,7 @@ describe('Auth', () => {
 
     it('should reload page', async function () {
       this.auth.user = {id: 'initUser'};
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -733,7 +733,8 @@ describe('Auth', () => {
       await response;
       server.requests[0].requestHeaders.should.deep.equal({
         authorization: 'Bearer token',
-        accept: 'application/json'
+        accept: 'application/json',
+        'content-type': 'application/json;charset=utf-8' //NOTE: charset is added by sinon server automatically
       });
     });
 
