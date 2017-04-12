@@ -29,9 +29,8 @@ import Loader from '../loader/loader';
 const DraggableRows = sortableContainer(props => {
   const {
     data, getItemKey, selection, selectable,
-    isItemSelectable, multiSelectable, onRowFocus,
-    onRowSelect, getItemLevel,
-    isItemCollapsible, isItemCollapsed,
+    isItemSelectable, multiSelectable, onRowFocus, onRowSelect,
+    getItemLevel, isItemCollapsible, isItemCollapsed,
     onItemCollapse, onItemExpand,
     ...restProps
   } = props;
@@ -322,15 +321,25 @@ class Table extends PureComponent {
   }
 
   render() {
-    const {data, selection, columns, caption, getItemKey, selectable, multiSelectable, isItemSelectable, getItemLevel} = this.props;
-    const {draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder} = this.props;
-    const {loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
-    const {isItemCollapsible, isItemCollapsed, onItemCollapse, onItemExpand} = this.props;
+    const {
+      data, selection, columns, caption, getItemKey, selectable, multiSelectable,
+      isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
+      loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
+      stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
+      onItemCollapse, onItemExpand
+    } = this.props;
+
     const {shortcuts} = this.state;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
-    const headerProps = {caption, selectable, multiSelectable, draggable, columns, onSort, sortKey, sortOrder, sticky: stickyHeader, topStickOffset: stickyHeaderOffset};
+    const headerProps = {
+      caption, selectable, multiSelectable, draggable,
+      columns, onSort, sortKey, sortOrder,
+      sticky: stickyHeader,
+      topStickOffset: stickyHeaderOffset
+    };
+
     headerProps.checked = data.length > 0 && data.length === selection.getSelected().size;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 

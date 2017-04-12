@@ -74,7 +74,10 @@ export default class Header extends PureComponent {
   }
 
   createCells(widths = []) {
-    const {selectable, multiSelectable, draggable, columns, checked, onCheckboxChange, onSort, sortKey, sortOrder} = this.props;
+    const {
+      selectable, multiSelectable, draggable, columns, checked,
+      onCheckboxChange, onSort, sortKey, sortOrder
+    } = this.props;
 
     const metaColumnClasses = classNames(style.metaColumn, {
       [style.metaColumnSpaced]: selectable
