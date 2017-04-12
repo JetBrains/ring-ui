@@ -255,7 +255,7 @@ describe('Shortcuts', () => {
 
     it('should workaround system windows shortcuts', () => {
       let eventType;
-      sinon.stub(shortcuts.combokeys, 'bind', (param1, param2, param3) => {
+      sinon.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
         eventType = param3;
       });
       const sandbox = sinon.sandbox.create();
@@ -271,7 +271,7 @@ describe('Shortcuts', () => {
 
     it('should not apply workaround for system windows shortcuts on other operating systems', () => {
       let eventType;
-      sinon.stub(shortcuts.combokeys, 'bind', (param1, param2, param3) => {
+      sinon.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
         eventType = param3;
       });
       const sandbox = sinon.sandbox.create();
