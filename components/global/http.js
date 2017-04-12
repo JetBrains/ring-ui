@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import ExtendableError from 'es6-error';
 
 /**
  * @name Http
@@ -15,6 +16,15 @@ export const DEFAULT_HEADERS = {
   'Content-Type': 'application/json',
   Accept: 'application/json'
 };
+
+export class HTTPError extends ExtendableError {
+  constructor(response, data) {
+    super(`${response.status} ${response.statusText}`);
+    this.response = response;
+    this.data = data;
+    this.status = response.status;
+  }
+}
 
 class Http {
   setAuth(auth) {
@@ -72,9 +82,9 @@ class Http {
     if (this._isErrorStatus(response.status)) {
       try {
         const resJson = await response.json();
-        throw resJson;
+        throw new HTTPError(response, resJson);
       } catch (err) {
-        throw response;
+        throw new HTTPError(response);
       }
     }
 
