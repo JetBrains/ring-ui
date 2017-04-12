@@ -149,7 +149,7 @@
     "postcss-cssnext": "2.8.0",
     "postcss-loader": "1.2.2",
     "postcss-modules-values-replace": "1.0.0",
-    "prop-types": "15.5.4",
+    "prop-types": "15.5.8",
     "react": "15.5.3",
     "react-dom": "15.5.3",
     "react-markdown": "2.5.0",
