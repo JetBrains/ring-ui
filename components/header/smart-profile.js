@@ -17,29 +17,42 @@ export default class SmartProfile extends PureComponent {
   }
 
   componentDidMount() {
-    const {auth} = this.props;
-    // Temporary revert to previous behavior: use logout for login
-    this.login = () => auth.logout();
-    this.logout = () => auth.logout();
-
-    this.requestUser(auth);
+    this.requestUser();
   }
 
-  async requestUser(auth) {
-    if (auth) {
+  login = async () => {
+    this.setState({loading: true});
+
+    await this.props.auth.login();
+
+    this.setState({loading: false});
+  };
+
+  logout = () => this.props.auth.logout();
+
+  async requestUser() {
+    try {
+      const {auth} = this.props;
       const user = await auth.requestUser();
       this.setState({user});
+
+      auth.addListener('userChange', newUser => {
+        this.setState({user: newUser});
+      });
+    } catch (e) {
+      // noop
     }
   }
 
   render() {
-    const {user} = this.state;
+    const {user, loading} = this.state;
     const {auth, ...props} = this.props;
 
     return (
       <Profile
         onLogin={this.login}
         onLogout={this.logout}
+        loading={loading}
         user={user}
         profileUrl={user ? `${auth.config.serverUri}users/${user.id}` : ''}
         {...props}

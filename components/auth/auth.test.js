@@ -60,6 +60,40 @@ describe('Auth', () => {
       /* eslint-enable no-new */
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
     });
+
+    it('should subscribe on logout if passed', function () {
+      const onLogout = this.sinon.stub();
+
+      const auth = new Auth({
+        serverUri: '',
+        onLogout
+      });
+
+      auth.listeners.trigger('logout');
+
+      onLogout.should.have.been.called;
+    });
+
+    it('should perform redirect on userChange by default', function () {
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+
+      const auth = new Auth({serverUri: ''});
+      auth.listeners.trigger('userChange');
+
+      Auth.prototype._redirectCurrentPage.should.have.been.called;
+    });
+
+    it('should not perform redirect on userChange when avoidPageReload is set', function () {
+      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+
+      const auth = new Auth({
+        avoidPageReload: true,
+        serverUri: ''
+      });
+      auth.listeners.trigger('userChange');
+
+      Auth.prototype._redirectCurrentPage.should.not.been.called;
+    });
   });
 
   describe('getValidatedToken', () => {
@@ -405,7 +439,7 @@ describe('Auth', () => {
       Auth.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -424,7 +458,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -450,7 +484,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when guest is banned', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
@@ -506,7 +540,7 @@ describe('Auth', () => {
     });
 
     it('should get token in iframe if there is no valid token', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -527,7 +561,7 @@ describe('Auth', () => {
 
     it('should reload page', async function () {
       this.auth.user = {id: 'initUser'};
-      this.sinon.stub(Auth.prototype, '_redirectFrame', () => {
+      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -611,6 +645,44 @@ describe('Auth', () => {
     });
   });
 
+  describe('getUser', () => {
+    let auth;
+
+    beforeEach(function () {
+      auth = new Auth({
+        serverUri: '',
+        redirect_uri: 'http://localhost:8080/hub',
+        client_id: '1-1-1-1-1',
+        scope: ['0-0-0-0-0', 'youtrack'],
+        optionalScopes: ['youtrack']
+      });
+
+      this.sinon.stub(Auth.prototype, 'getApi').
+        returns(Promise.resolve({name: 'APIuser'}));
+    });
+
+    it('should not return existing user', async () => {
+      auth._initDeferred = {};
+      auth._initDeferred.promise = Promise.resolve();
+
+      auth.user = {name: 'existingUser'};
+
+      const user = await auth.getUser();
+
+      user.should.deep.equal({name: 'APIuser'});
+    });
+
+    it('should get user from API', async () => {
+      auth._initDeferred = {};
+      auth._initDeferred.promise = Promise.resolve();
+
+      const user = await auth.getUser('token');
+      Auth.prototype.getApi.should.have.been.calledOnce;
+      Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
+      user.should.deep.equal({name: 'APIuser'});
+    });
+  });
+
   describe('getSecure and getApi', () => {
     const auth = new Auth({
       serverUri: 'http://localhost:8080'
@@ -661,7 +733,8 @@ describe('Auth', () => {
       await response;
       server.requests[0].requestHeaders.should.deep.equal({
         authorization: 'Bearer token',
-        accept: 'application/json'
+        accept: 'application/json',
+        'content-type': 'application/json;charset=utf-8' //NOTE: charset is added by sinon server automatically
       });
     });
 
@@ -710,6 +783,63 @@ describe('Auth', () => {
           credentials: auth.config.fetchCredentials
         }
       );
+    });
+  });
+
+  describe('login', () => {
+    const auth = new Auth({
+      serverUri: ''
+    });
+
+    beforeEach(function () {
+      this.sinon.stub(Auth.prototype, '_loadTokenInBackground').
+        returns(Promise.resolve('token'));
+      this.sinon.stub(Auth.prototype, 'logout');
+      this.sinon.stub(auth.listeners, 'trigger');
+    });
+
+    it('should call getUser', async function () {
+      this.sinon.stub(Auth.prototype, 'getUser');
+
+      await auth.login();
+
+      auth.getUser.should.have.been.calledWith('token');
+    });
+
+    it('should trigger userChange', async function () {
+      this.sinon.stub(Auth.prototype, 'getUser').returns({name: 'APIuser'});
+
+      await auth.login();
+
+      auth.listeners.trigger.should.have.been.calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
+    });
+
+    it('should not change user in instance', async function () {
+      this.sinon.stub(Auth.prototype, 'getUser').
+        returns(Promise.resolve({name: 'APIuser'}));
+
+      const user = {name: 'existingUser'};
+      auth.user = user;
+
+      await auth.login();
+
+      auth.user.should.equal(user);
+    });
+
+    it('should call logout for guest', async function () {
+      this.sinon.stub(Auth.prototype, 'getUser').
+        returns(Promise.resolve({guest: true}));
+      await auth.login();
+
+      auth.logout.should.have.been.calledOnce;
+    });
+
+    it('should call logout on reject', async function () {
+      this.sinon.stub(Auth.prototype, 'getUser').
+        returns(Promise.reject());
+      await auth.login();
+
+      auth.logout.should.have.been.calledOnce;
     });
   });
 
