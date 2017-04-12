@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
+import {encodeURL} from '../global/url';
 
 /**
  * @name Http
@@ -12,9 +13,11 @@ const TOKEN_TYPE = 'Bearer';
 const STATUS_OK_IF_MORE_THAN = 200;
 const STATUS_BAD_IF_MORE_THAN = 300;
 
-export const DEFAULT_HEADERS = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json'
+const defaultFetchConfig = {
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }
 };
 
 export class HTTPError extends ExtendableError {
@@ -27,6 +30,8 @@ export class HTTPError extends ExtendableError {
 }
 
 class Http {
+  baseUrl = null;
+
   constructor(auth) {
     if (auth) {
       this.setAuth(auth);
@@ -40,27 +45,42 @@ class Http {
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   }
 
+  setBaseUrl(baseUrl) {
+    this.baseUrl = baseUrl;
+  }
+
   _fetch(...args) {
     return fetch(...args);
   }
 
+  _makeRequestUrl(url, queryObject) {
+    const urlWithQuery = encodeURL(url, queryObject);
+    return urlWithQuery;
+  }
+
   async _authorizedFetch(url, params = {}) {
-    if (!this.requestToken) {
+    if (!this.authPromise) {
       throw new Error('RingUI Http: setAuth should have been called before performing authorized requests');
     }
+
+    const {headers, body, query = {}, ...fetchConfig} = params;
+
     await this.authPromise;
     const token = await this.requestToken();
 
-    const body = params.body ? JSON.stringify(params.body) : params.body;
-
-    return this._fetch(url, {
-      headers: {
-        ...DEFAULT_HEADERS,
-        Authorization: `${TOKEN_TYPE} ${token}`
-      },
-      ...params,
-      body
-    });
+    return this._fetch(
+      this._makeRequestUrl(url, query),
+      {
+        ...defaultFetchConfig,
+        headers: {
+          ...defaultFetchConfig.headers,
+          Authorization: `${TOKEN_TYPE} ${token}`,
+          ...headers
+        },
+        ...fetchConfig,
+        body: body ? JSON.stringify(body) : body
+      }
+    );
   }
 
   async _checkIfShouldRefreshToken(response) {
