@@ -67,7 +67,7 @@ describe('List', () => {
 
   describe('should track activeIndex', () => {
     beforeEach(function () {
-      this.sinon.stub(window, 'requestAnimationFrame', cb => cb());
+      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
       list = TestUtils.renderIntoDocument(React.createElement(List, {
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
