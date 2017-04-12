@@ -1,9 +1,10 @@
-import http, {DEFAULT_HEADERS} from './http';
+import Http, {DEFAULT_HEADERS} from './http';
 
 describe('http', () => {
   const FAKE_TOKEN = 'fake-token';
   let fakeAuth;
   let sandbox;
+  let http;
   let fetchResult;
 
   beforeEach(function () {
@@ -22,7 +23,7 @@ describe('http', () => {
       }
     };
 
-    http.setAuth(fakeAuth);
+    http = new Http(fakeAuth);
   });
 
   function mockFetch() {
@@ -30,7 +31,7 @@ describe('http', () => {
       status: 200,
       json: async () => fetchResult
     });
-    sandbox.stub(http, '_fetch', getFetchResponse);
+    sandbox.stub(http, '_fetch').callsFake(getFetchResponse);
   }
 
   it('should export http service', () => http.should.be.defined);
@@ -56,6 +57,23 @@ describe('http', () => {
     res.should.equal(fetchResult);
   });
 
+
+  it('should encode query params in url', async () => {
+    mockFetch();
+    await http.performRequest('http://testurl', {query: {
+      foo: 'bar',
+      test: ['a', 'b']
+    }});
+    http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
+  });
+
+  it('should support base url setting', async () => {
+    mockFetch();
+    http.setBaseUrl('http://test');
+    await http.performRequest('/foo');
+    http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
+  });
+
   it('should perform request convert "body" as object inro string', async () => {
     mockFetch();
     await http.performRequest('testurl', {
@@ -76,7 +94,7 @@ describe('http', () => {
   });
 
   it('should throw if response status is not OK', async () => {
-    sandbox.stub(http, '_fetch', async () => ({
+    sandbox.stub(http, '_fetch').callsFake(async () => ({
       status: 405,
       json: async () => fetchResult
     }));
@@ -92,7 +110,7 @@ describe('http', () => {
 
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
-    sandbox.stub(http, '_fetch', async () => {
+    sandbox.stub(http, '_fetch').callsFake(async () => {
       if (isFirstCall) {
         isFirstCall = false;
         return {status: 405, json: async () => ({data: {error: 'invalid_token'}})};
