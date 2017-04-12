@@ -105,6 +105,13 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
       return null;
     }
 
+    if (auth.config.avoidPageReload) {
+      auth.addListener('userChange', () => {
+        const $route = $injector.get('$route');
+        $route.reload();
+      });
+    }
+
     /**
      * @type {Promise.<string>}
      */
