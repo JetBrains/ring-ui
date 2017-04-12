@@ -13,7 +13,6 @@ describe('http', () => {
       constructor: {
         shouldRefreshToken: sandbox.stub().returns(false)
       },
-      promise: async () => {},
       requestToken: sandbox.stub().returns(FAKE_TOKEN),
       forceTokenUpdate: sandbox.stub()
     };
