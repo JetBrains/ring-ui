@@ -4,6 +4,7 @@
 import Auth from './auth';
 import AuthRequestBuilder from './auth__request-builder';
 import AuthResponseParser from './auth__response-parser';
+import BackgroundTokenGetter from './background-token-getter';
 import AuthStorage from './auth__storage';
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 import sniffer from '../global/sniffer';
@@ -439,7 +440,7 @@ describe('Auth', () => {
       Auth.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
-      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -449,7 +450,7 @@ describe('Auth', () => {
 
       await auth.init();
 
-      Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
@@ -458,7 +459,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -470,7 +471,7 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         // Fallback redirect after second check fail
@@ -484,7 +485,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when guest is banned', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
@@ -492,7 +493,7 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         // Fallback redirect after background fail
@@ -540,7 +541,7 @@ describe('Auth', () => {
     });
 
     it('should get token in iframe if there is no valid token', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -548,7 +549,7 @@ describe('Auth', () => {
         });
       });
       const accessToken = await this.auth.requestToken();
-      Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
       // Assert fails in IE for some reason
@@ -561,7 +562,7 @@ describe('Auth', () => {
 
     it('should reload page', async function () {
       this.auth.user = {id: 'initUser'};
-      this.sinon.stub(Auth.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
           expires: Auth._epoch() + 60 * 60,
@@ -569,19 +570,19 @@ describe('Auth', () => {
         });
       });
       const accessToken = await this.auth.requestToken();
-      Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
       Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
       accessToken.should.be.equal('token');
     });
 
     it('should redirect current page if get token in iframe fails', async function () {
-      Auth.BACKGROUND_TIMEOUT = 100;
-      this.sinon.stub(Auth.prototype, '_redirectFrame');
+      this.auth._backgroundTokenGetter._timeout = 100;
+      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame');
       try {
         await this.auth.requestToken();
       } catch (reject) {
-        Auth.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
         Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -792,7 +793,7 @@ describe('Auth', () => {
     });
 
     beforeEach(function () {
-      this.sinon.stub(Auth.prototype, '_loadTokenInBackground').
+      this.sinon.stub(BackgroundTokenGetter.prototype, 'get').
         returns(Promise.resolve('token'));
       this.sinon.stub(Auth.prototype, 'logout');
       this.sinon.stub(auth.listeners, 'trigger');
