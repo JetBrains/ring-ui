@@ -111,7 +111,7 @@ describe('Popup', () => {
 
   describe('positioning', () => {
     beforeEach(function () {
-      this.sinon.stub(window, 'requestAnimationFrame', cb => cb());
+      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
     });
 
     it('top-left direction', () => {

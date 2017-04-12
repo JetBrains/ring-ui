@@ -31,7 +31,7 @@ describe('http', () => {
       status: 200,
       json: async () => fetchResult
     });
-    sandbox.stub(http, '_fetch', getFetchResponse);
+    sandbox.stub(http, '_fetch').callsFake(getFetchResponse);
   }
 
   it('should export http service', () => http.should.be.defined);
@@ -94,7 +94,7 @@ describe('http', () => {
   });
 
   it('should throw if response status is not OK', async () => {
-    sandbox.stub(http, '_fetch', async () => ({
+    sandbox.stub(http, '_fetch').callsFake(async () => ({
       status: 405,
       json: async () => fetchResult
     }));
@@ -110,7 +110,7 @@ describe('http', () => {
 
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
-    sandbox.stub(http, '_fetch', async () => {
+    sandbox.stub(http, '_fetch').callsFake(async () => {
       if (isFirstCall) {
         isFirstCall = false;
         return {status: 405, json: async () => ({data: {error: 'invalid_token'}})};
