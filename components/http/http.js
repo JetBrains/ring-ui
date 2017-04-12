@@ -115,7 +115,11 @@ class Http {
       }
     }
 
-    return response.json();
+    try {
+      return await response.json();
+    } catch (err) {
+      return response;
+    }
   }
 
   get(url, params) {
