@@ -110,7 +110,7 @@
     "karma-webdriver-launcher": "1.0.4",
     "karma-webpack": "2.0.1",
     "mocha": "3.0.2",
-    "storage-mock": "1.0.1",
+    "storage-mock": "1.0.3",
     "update-version": "1.0.1",
     "wallaby-webpack": "0.0.38",
     "webpack": "2.2.0",
