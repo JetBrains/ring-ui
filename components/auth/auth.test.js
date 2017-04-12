@@ -5,7 +5,7 @@ import Auth from './auth';
 import AuthRequestBuilder from './auth__request-builder';
 import AuthResponseParser from './auth__response-parser';
 import AuthStorage from './auth__storage';
-import MockedStorage from 'imports-loader?window=mocked-storage!../storage/storage__local';
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 import sniffer from '../global/sniffer';
 
 describe('Auth', () => {
