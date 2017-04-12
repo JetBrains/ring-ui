@@ -6,6 +6,7 @@ import sniffer from '../global/sniffer';
 import {
   encodeURL,
   fixUrl,
+  joinBaseURLAndPath,
   getBaseURI,
   getOrigin,
   isDataURI,
@@ -39,6 +40,18 @@ describe('Url', () => {
 
     it('should not fix absolute url with https', () => {
       expect(fixUrl('https://secure/path')).to.be.equal('https://secure/path');
+    });
+
+    it('should concat base url and path', () => {
+      joinBaseURLAndPath('http://base.com', '/test').should.be.equal('http://base.com/test');
+    });
+
+    it('should not concat base url and path if base is empty', () => {
+      joinBaseURLAndPath(null, 'test').should.be.equal('test');
+    });
+
+    it('should ignore base url if path is absolute url', () => {
+      joinBaseURLAndPath('http://base.com', 'http://absolute.com').should.be.equal('http://absolute.com');
     });
 
     afterEach(() => {
