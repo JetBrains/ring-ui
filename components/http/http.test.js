@@ -58,6 +58,16 @@ describe('http', () => {
     res.should.equal(fetchResult);
   });
 
+
+  it('should encode query params in url', async () => {
+    mockFetch();
+    await http.performRequest('http://testurl', {query: {
+      foo: 'bar',
+      test: ['a', 'b']
+    }});
+    http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
+  });
+
   it('should perform request convert "body" as object inro string', async () => {
     mockFetch();
     await http.performRequest('testurl', {
