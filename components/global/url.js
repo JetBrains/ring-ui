@@ -89,6 +89,14 @@ export function fixUrl(url, baseURIGetter = getBaseURI) {
   return url;
 }
 
+export function joinBaseURLAndPath(baseUrl, path) {
+  if (!baseUrl || path.indexOf('http://') !== -1 || path.indexOf('https://') !== -1) {
+    return path;
+  }
+
+  return baseUrl + path;
+}
+
 /**
  * Resolve URL for SVG icons
  * @param {string} relUrl The value of xlink:href
