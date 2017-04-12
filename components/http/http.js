@@ -40,7 +40,6 @@ class Http {
   }
 
   setAuth(auth) {
-    this.authPromise = auth.promise;
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = errorType => auth.constructor.shouldRefreshToken(errorType);
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
@@ -60,13 +59,12 @@ class Http {
   }
 
   async _authorizedFetch(url, params = {}) {
-    if (!this.authPromise) {
+    if (!this.requestToken) {
       throw new Error('RingUI Http: setAuth should have been called before performing authorized requests');
     }
 
     const {headers, body, query = {}, ...fetchConfig} = params;
 
-    await this.authPromise;
     const token = await this.requestToken();
 
     return this._fetch(
