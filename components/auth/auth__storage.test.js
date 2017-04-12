@@ -133,7 +133,7 @@ describe('Auth', () => {
     });
 
     describe('events', () => {
-      const MockedStorage = require('imports-loader?window=mocked-storage!../storage/storage__local');
+      const MockedStorage = require('imports-loader?window=storage-mock!../storage/storage__local');
       let mockedAuthStorage;
 
       beforeEach(() => {
