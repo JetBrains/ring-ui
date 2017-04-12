@@ -33,9 +33,9 @@ module.exports = config => {
       './src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
-    webpack: Object.assign({}, require('./webpack.config.js'), {
+    webpack: Object.assign({}, require('./webpack.config.js')(), {
       devtool: 'inline-source-map',
-      entry: {}
+      entry: null
     }),
 
     webpackServer: {

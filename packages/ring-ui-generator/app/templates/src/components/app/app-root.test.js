@@ -1,5 +1,5 @@
 import React from 'react';
-import {isCompositeComponent, renderIntoDocument} from 'react-addons-test-utils';
+import {isCompositeComponent, renderIntoDocument} from 'react-dom/test-utils';
 
 import AppRoot from './app-root';
 

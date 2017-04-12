@@ -1,49 +1,54 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import styles from './<%= paramCaseName %>.css';
 
 /**
- * @name <%= titleCaseName %>
- * @category Components
- * @framework React
- * @constructor
- * @description TODO add <%= titleCaseName %> description
- * @example
-   <example name="<%= paramCaseName %>">
-     <file name="index.html">
-       <div id="<%= paramCaseName %>"></div>
-     </file>
+  * @name <%= titleCaseName %>
+  * @category Components
+  * @framework React
+  * @constructor
+  * @description TODO add <%= titleCaseName %> description
+  * @example
+    <example name="<%= paramCaseName %>">
+      <file name="index.html">
+        <div id="<%= paramCaseName %>"></div>
+      </file>
 
-     <file name="index.js">
-       import React, {Component} from 'react';
-       import {render} from 'react-dom';
+      <file name="index.js">
+        import React, {PureComponent} from 'react';
+        import {render} from 'react-dom';
 
-       import <%= pascalCaseName %> from 'ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
+        import <%= pascalCaseName %> from 'ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
 
-       const container = document.getElementById('<%= paramCaseName %>');
-       class <%= pascalCaseName %>Demo extends Component {
-         state = {
-           clicks: 0
-         };
+        const container = document.getElementById('<%= paramCaseName %>');
+        class <%= pascalCaseName %>Demo extends PureComponent {
+          state = {
+            clicks: 0
+          };
 
-         render() {
-           const {clicks} = this.state;
+          onClick = () => this.setState(({clicks}) => ({
+            clicks: clicks + 1
+          }));
 
-           return (
-             <<%= pascalCaseName %> onClick={() => this.setState({clicks: clicks + 1})}>
-               {`<%= pascalCaseName %> (${clicks} clicks)`}
-             </<%= pascalCaseName %>>
-           );
-         }
-       }
+          render() {
+            const {clicks} = this.state;
 
-       render(<<%= pascalCaseName %>Demo />, container);
-     </file>
-   </example>
- */
+            return (
+              <<%= pascalCaseName %> onClick={this.onClick}>
+                {`<%= pascalCaseName %> (${clicks} clicks)`}
+              </<%= pascalCaseName %>>
+            );
+          }
+        }
 
-export default class <%= pascalCaseName %> extends Component {
+        render(<<%= pascalCaseName %>Demo />, container);
+      </file>
+    </example>
+  */
+
+export default class <%= pascalCaseName %> extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string
