@@ -5,7 +5,7 @@ import ExtendableError from 'es6-error';
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 
-import HTTP from '../http/http';
+import HTTP, {CODE} from '../http/http';
 
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
@@ -69,7 +69,9 @@ export default class Auth {
     }
 
     this.config.userParams = {
-      fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
+      query: {
+        fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
+      }
     };
 
     if (!scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
@@ -94,7 +96,11 @@ export default class Auth {
 
     this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
 
-    this.http = new HTTP(null, this.config.serverUri + Auth.API_PATH);
+    const API_BASE = this.config.serverUri + Auth.API_PATH;
+    const fetchConfig = config.fetchCredentials
+      ? {credentials: config.fetchCredentials}
+      : undefined;
+    this.http = new HTTP(this, API_BASE, fetchConfig);
 
     this.listeners = new Listeners();
 
@@ -286,7 +292,7 @@ export default class Auth {
   async forceTokenUpdate() {
     try {
       const accessToken = await this._backgroundTokenGetter.get();
-      const user = await this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+      const user = await this.getUser(accessToken);
 
       if (user && this.user && this.user.id !== user.id) {
         // Reload page if user has been changed after background refresh
@@ -308,6 +314,10 @@ export default class Auth {
       this.response = response;
       this.status = response.status;
     }
+  }
+
+  getAPIPath() {
+    return this.config.serverUri + Auth.API_PATH;
   }
 
   /**
@@ -498,7 +508,7 @@ export default class Auth {
    */
   async _validateAgainstUser(storedToken) {
     try {
-      const user = await this.http.authorizedFetch(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams);
+      const user = await this.getUser(storedToken.access_token);
       this.user = user;
     } catch (errorResponse) {
 
@@ -509,7 +519,7 @@ export default class Auth {
         // Skip JSON parsing errors
       }
 
-      if (errorResponse.status === HTTP.CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
+      if (errorResponse.status === CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
         // Token expired
         throw new Auth.TokenValidationError(response.error || errorResponse.message);
       }
