@@ -5,8 +5,7 @@ import ListUsersGroupsSource from './list__users-groups-source';
 describe('List Users Groups Source', () => {
   beforeEach(function () {
     this.fakeAuth = {
-      requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
-      getApi: this.sinon.stub().returns(Promise.resolve({}))
+      requestToken: this.sinon.stub().returns(Promise.resolve('testToken'))
     };
   });
 

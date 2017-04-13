@@ -6,10 +6,10 @@
   <file type="js">
     import Auth from 'ring-ui/components/auth/auth';
     import hubConfig from 'ring-ui/site/hub-config';
-    import Http from 'ring-ui/components/http/http';
+    import HTTP from 'ring-ui/components/http/http';
 
     const auth = new Auth(hubConfig);
-    const http = new Http(auth);
+    const http = new HTTP(auth);
 
     async function initializeExample() {
       await auth.init();

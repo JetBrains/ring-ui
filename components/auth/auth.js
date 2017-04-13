@@ -1,13 +1,16 @@
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
-import ExtendableError from 'es6-error';
 
-import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
+import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 
-import AuthStorage from './auth__storage';
-import AuthResponseParser from './auth__response-parser';
-import AuthRequestBuilder from './auth__request-builder';
+import HTTP from '../http/http';
+
+import AuthStorage from './storage';
+import AuthResponseParser from './response-parser';
+import AuthRequestBuilder from './request-builder';
+import BackgroundTokenGetter from './background-token-getter';
+import TokenValidator from './token-validator';
 
 function noop() {}
 
@@ -67,7 +70,9 @@ export default class Auth {
     }
 
     this.config.userParams = {
-      fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
+      query: {
+        fields: [...new Set(Auth.DEFAULT_CONFIG.userFields.concat(config.userFields))].join()
+      }
     };
 
     if (!scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
@@ -90,6 +95,22 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
+    this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
+
+    const API_BASE = this.config.serverUri + Auth.API_PATH;
+    const fetchConfig = config.fetchCredentials
+      ? {credentials: config.fetchCredentials}
+      : undefined;
+    this.http = new HTTP(this, API_BASE, fetchConfig);
+
+    const getUser = async token => {
+      const user = this.getUser(token);
+      this.user = user;
+      return user;
+    };
+
+    this._tokenValidator = new TokenValidator(this.config, getUser, this._storage);
+
     this.listeners = new Listeners();
 
     if (this.config.onLogout) {
@@ -99,7 +120,6 @@ export default class Auth {
     if (this.config.avoidPageReload === false) {
       this.addListener('userChange', this._reloadCurrentPage.bind(this));
     }
-
 
     this._initDeferred = {};
     this._initDeferred.promise = new Promise((resolve, reject) => {
@@ -118,7 +138,6 @@ export default class Auth {
     redirect: false,
     request_credentials: 'default',
     scope: [],
-    fetchCredentials: null,
     userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
     cleanHash: true,
     onLogout: noop,
@@ -139,22 +158,6 @@ export default class Auth {
    * @const {string}
    */
   static API_PROFILE_PATH = 'users/me';
-
-  /**
-   * @const {number}
-   */
-  static REFRESH_BEFORE = 20 * 60; // 20 min in s
-
-  /**
-   * @const {number} non-interactive auth timeout
-   */
-  static BACKGROUND_TIMEOUT = 20 * 1000; // 20 sec in ms
-
-  static HTTP_CODE = {
-    OK: 200,
-    REDIRECTION: 300,
-    UNAUTHORIZED: 401
-  }
 
   addListener(event, handler) {
     this.listeners.add(event, handler);
@@ -192,7 +195,7 @@ export default class Auth {
 
     try {
       // Check if there is a valid token
-      await this.validateToken();
+      await this._tokenValidator.validateToken();
 
       // Access token appears to be valid.
       // We may resolve restoreLocation URL now
@@ -239,8 +242,8 @@ export default class Auth {
     // Background flow
     if (error.authRedirect && !this.config.redirect) {
       try {
-        await this._loadTokenInBackground();
-        await this.validateToken();
+        await this._backgroundTokenGetter.get();
+        await this._tokenValidator.validateToken();
         this._initDeferred.resolve();
         return undefined;
       } catch (validationError) {
@@ -252,20 +255,6 @@ export default class Auth {
     this._initDeferred.reject(error);
     throw error;
   }
-
-  /**
-   * Check token validity against all conditions.
-   * @returns {Promise.<string>}
-   */
-  validateToken() {
-    return this._getValidatedToken([
-      Auth._validateExistence,
-      Auth._validateExpiration,
-      this._validateScopes.bind(this),
-      this._validateAgainstUser.bind(this)
-    ]);
-  }
-
   /**
    * Get token from local storage or request it if necessary.
    * Can redirect to login page.
@@ -275,11 +264,7 @@ export default class Auth {
     try {
       await this._initDeferred.promise;
 
-      return await this._getValidatedToken([
-        Auth._validateExistence,
-        Auth._validateExpiration,
-        this._validateScopes.bind(this)
-      ]);
+      return await this._tokenValidator.validateTokenLocally();
     } catch (e) {
       return this.forceTokenUpdate();
     }
@@ -291,8 +276,8 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      const accessToken = await this._loadTokenInBackground();
-      const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+      const accessToken = await this._backgroundTokenGetter.get();
+      const user = await this.getUser(accessToken);
 
       if (user && this.user && this.user.id !== user.id) {
         // Reload page if user has been changed after background refresh
@@ -304,84 +289,19 @@ export default class Auth {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
-      throw new Auth.TokenValidationError(e.message);
+      throw new TokenValidator.TokenValidationError(e.message);
     }
   }
 
-  static HTTPError = class HTTPError extends ExtendableError {
-    constructor(response) {
-      super(`${response.status} ${response.statusText}`);
-      this.response = response;
-      this.status = response.status;
-    }
-  }
-
-  /**
-   * Makes a GET request to the given URL with the given access token.
-   *
-   * @param {string} absoluteUrl an absolute URI to request with the given token
-   * @param {string} accessToken access token to use in the request
-   * @param {object?} params query parameters
-   * @return {Promise} promise from fetch request
-   */
-  async getSecure(absoluteUrl, accessToken, params) {
-    const url = encodeURL(absoluteUrl, params);
-    const failedResponse = {
-      status: 0,
-      statusText: 'Network request failed'
-    };
-
-    const init = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    };
-
-    // Supports Edge
-    // Native fetch in Edge doesn't accept anything but non-empty strings,
-    // otherwise it fails with TypeMismatchError
-    if (this.config.fetchCredentials != null) {
-      init.credentials = this.config.fetchCredentials;
-    }
-
-    // Empty response — strange case found in the wild
-    // @see https://youtrack.jetbrains.com/issue/JT-31942
-    const response = await this._fetch(url, init) || failedResponse;
-
-    // Simulate $.ajax behavior
-    // @see https://github.com/github/fetch#success-and-error-handlers
-    if (response && response.status >= Auth.HTTP_CODE.OK && response.status < Auth.HTTP_CODE.REDIRECTION) {
-      return response.json();
-    } else {
-      throw new Auth.HTTPError(response);
-    }
-
-  }
-
-  _fetch(url, params) {
-    return fetch(url, params);
-  }
-
-  /**
-   * Makes a GET request to the relative API URL. For example, to fetch all services call:
-   *  getApi('services', token, params)
-   *
-   * @param {string} relativeURI a URI relative to config.serverUri REST endpoint to make the GET request to
-   * @param {string} accessToken access token to use in the request
-   * @param {object?} params query parameters
-   * @return {Promise} promise from fetch request
-   */
-  getApi(relativeURI, accessToken, params) {
-    return this.getSecure(this.config.serverUri + Auth.API_PATH + relativeURI, accessToken, params);
+  getAPIPath() {
+    return this.config.serverUri + Auth.API_PATH;
   }
 
   /**
    * @return {Promise.<object>}
    */
   getUser(accessToken) {
-    return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
   }
 
   /**
@@ -428,7 +348,7 @@ export default class Auth {
    */
   async login() {
     try {
-      const accessToken = await this._loadTokenInBackground();
+      const accessToken = await this._backgroundTokenGetter.get();
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
@@ -439,17 +359,6 @@ export default class Auth {
     } catch (e) {
       return this.logout();
     }
-  }
-
-  /**
-   * Returns epoch - seconds since 1970.
-   * Used for calculation of expire times.
-   * @return {number} epoch, seconds since 1970
-   * @private
-   */
-  static _epoch() {
-    const milliseconds = 1000.0;
-    return Math.round(Date.now() / milliseconds);
   }
 
   /**
@@ -485,129 +394,11 @@ export default class Auth {
      * @type {number}
      */
     const expiresIn = expires_in ? parseInt(expires_in, 10) : default_expires_in;
-    const expires = Auth._epoch() + expiresIn;
+    const expires = TokenValidator._epoch() + expiresIn;
 
     await this._storage.saveToken({access_token, scopes, expires});
 
     return newState;
-  }
-
-  /**
-   * Error class for auth token validation
-   *
-   * @param {string} message Error message
-   * @param {Error=} cause Error that caused this error
-   */
-  static TokenValidationError = class TokenValidationError extends ExtendableError {
-    constructor(message, cause) {
-      super(message);
-      this.cause = cause;
-      this.authRedirect = true;
-    }
-  };
-
-  /**
-   * Check if there is a token
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  static async _validateExistence(storedToken) {
-    if (!storedToken || !storedToken.access_token) {
-      throw new Auth.TokenValidationError('Token not found');
-    }
-  }
-
-  /**
-   * Check expiration
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  static async _validateExpiration(storedToken) {
-    if (storedToken.expires && storedToken.expires < (Auth._epoch() + Auth.REFRESH_BEFORE)) {
-      throw new Auth.TokenValidationError('Token expired');
-    }
-  }
-
-  /**
-   * Check scopes
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  async _validateScopes(storedToken) {
-    const {scope, optionalScopes} = this.config;
-    const requiredScopes = optionalScopes ? scope.filter(scopeId => !optionalScopes.includes(scopeId)) : scope;
-
-    const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes.includes(scopeId));
-    if (!hasAllScopes) {
-      throw new Auth.TokenValidationError('Token doesn\'t match required scopes');
-    }
-  }
-
-  /**
-   * Check by error code if token should be refreshed
-   * @param {string} error
-   * @return {boolean}
-   */
-  static shouldRefreshToken(error) {
-    return error === 'invalid_grant' ||
-      error === 'invalid_request' ||
-      error === 'invalid_token';
-  }
-
-  /**
-   * Check scopes
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  async _validateAgainstUser(storedToken) {
-    try {
-      const user = await this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams);
-      this.user = user;
-    } catch (errorResponse) {
-
-      let response = {};
-      try {
-        response = await errorResponse.response.json();
-      } catch (e) {
-        // Skip JSON parsing errors
-      }
-
-      if (errorResponse.status === Auth.HTTP_CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
-        // Token expired
-        throw new Auth.TokenValidationError(response.error || errorResponse.message);
-      }
-
-      // Request unexpectedly failed
-      throw errorResponse;
-    }
-  }
-
-  /**
-   * Token Validator function
-   * @typedef {(function(StoredToken): Promise<StoredToken>)} TokenValidator
-   */
-
-  /**
-   * Gets stored token and applies provided validators
-   * @param {TokenValidator[]} validators An array of validation
-   * functions to check the stored token against.
-   * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
-   * invalid then the promise is rejected. If invalid token should be re-requested then rejection object will
-   * have {authRedirect: true}.
-   * @private
-   */
-  async _getValidatedToken(validators) {
-    const storedToken = await this._storage.getToken();
-
-    for (let i = 0; i < validators.length; i++) {
-      await validators[i](storedToken);
-    }
-
-    return storedToken.access_token;
   }
 
   /**
@@ -624,103 +415,6 @@ export default class Auth {
    */
   _reloadCurrentPage() {
     this._redirectCurrentPage(window.location.href);
-  }
-
-  /**
-   * Redirects the given iframe to the given URL
-   * @param {HTMLIFrameElement} iframe
-   * @param {string} url
-   * @private
-   */
-  _redirectFrame(iframe, url) {
-    iframe.src = `${url}&rnd=${Math.random()}`;
-  }
-
-  /**
-   * Creates a hidden iframe
-   * @return {HTMLIFrameElement}
-   * @private
-   */
-  _createHiddenFrame() {
-    const iframe = document.createElement('iframe');
-
-    iframe.style.border = iframe.style.width = iframe.style.height = '0px';
-    iframe.style.visibility = 'hidden';
-    iframe.style.position = 'fixed';
-    iframe.style.left = '-10000px';
-    window.document.body.appendChild(iframe);
-
-    return iframe;
-  }
-
-  /**
-   * Refreshes the access token in an iframe.
-   *
-   * @return {Promise.<string>} promise that is resolved to access the token when it is loaded in a background iframe. The
-   * promise is rejected if no token was received after {@link Auth.BACKGROUND_TIMEOUT} ms.
-   */
-  _loadTokenInBackground() {
-    if (this._backgroundPromise) {
-      return this._backgroundPromise;
-    }
-
-    const resetPromise = () => {
-      this._backgroundPromise = null;
-    };
-
-    this._backgroundPromise = new Promise(async (resolve, reject) => {
-      const iframe = this._createHiddenFrame();
-
-      const authRequest = await this._requestBuilder.
-        prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
-      let cleanRun;
-
-      function cleanUp() {
-        if (cleanRun) {
-          return;
-        }
-        cleanRun = true;
-        /* eslint-disable no-use-before-define */
-        clearTimeout(timeout);
-        removeStateListener();
-        removeTokenListener();
-        /* eslint-enable no-use-before-define */
-        window.document.body.removeChild(iframe);
-      }
-
-      const timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
-        cleanUp();
-      }, Auth.BACKGROUND_TIMEOUT);
-
-      const removeTokenListener = this._storage.onTokenChange(token => {
-        if (token !== null) {
-          cleanUp();
-          resolve(token.access_token);
-        }
-      });
-
-      const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
-        if (state && state.error) {
-          cleanUp();
-          reject(new AuthResponseParser.AuthError(state));
-        }
-      });
-
-      this._redirectFrame(iframe, authRequest.url);
-    });
-
-    (async () => {
-      try {
-        await this._backgroundPromise;
-      } catch (e) {
-        return;
-      } finally {
-        resetPromise();
-      }
-    })();
-
-    return this._backgroundPromise;
   }
 
   /**
