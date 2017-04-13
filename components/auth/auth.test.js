@@ -1,14 +1,15 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
+import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
+
 import Auth from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser from './response-parser';
 import BackgroundTokenGetter from './background-token-getter';
-import AuthStorage from './storage';
-import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
-import sniffer from '../global/sniffer';
+import TokenValidator from './token-validator';
 
 describe('Auth', () => {
   describe('construction', () => {
@@ -100,158 +101,6 @@ describe('Auth', () => {
     });
   });
 
-  describe('getValidatedToken', () => {
-    const auth = new Auth({
-      serverUri: '',
-      scopes: ['0-0-0-0-0', 'youtrack'],
-      optionalScopes: ['youtrack']
-    });
-
-    beforeEach(function () {
-      this.sinon.stub(AuthStorage.prototype, 'getToken');
-    });
-
-    it('should resolve access token when it is valid', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve({
-        access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
-        scopes: ['0-0-0-0-0', 'youtrack']
-      }));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.eventually.be.equal('token');
-    });
-
-    it('should resolve access token when token is given for all required scopes', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve({
-        access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
-        scopes: ['0-0-0-0-0']
-      }));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.eventually.be.equal('token');
-    });
-
-    it('should reject if access_token is empty', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve({
-        access_token: null,
-        expires: Auth._epoch() + 60 * 60,
-        scopes: ['0-0-0-0-0']
-      }));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
-    });
-
-    it('should reject if there is no token stored', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve(null));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.be.rejectedWith(Auth.TokenValidationError, 'Token not found');
-    });
-
-    it('should reject if token is expired', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve({
-        access_token: 'token',
-        expires: Auth._epoch() + 15 * 60,
-        scopes: ['0-0-0-0-0']
-      }));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.be.rejectedWith(Auth.TokenValidationError, 'Token expired');
-    });
-
-    it('should reject if token scopes don\'t match required scopes', () => {
-      AuthStorage.prototype.getToken.returns(Promise.resolve({
-        access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
-        scopes: ['youtrack']
-      }));
-      return auth._getValidatedToken([Auth._validateExistence, Auth._validateExpiration, auth._validateScopes.bind(auth)]).
-        should.be.rejectedWith(Auth.TokenValidationError, 'Token doesn\'t match required scopes');
-    });
-  });
-
-  describe('validateAgainstUser', () => {
-    const auth = new Auth({
-      serverUri: 'http://server',
-      redirect_uri: 'http://client',
-      scopes: ['0-0-0-0-0', 'youtrack'],
-      optionalScopes: ['youtrack']
-    });
-
-    const hasCors = Auth.HAS_CORS;
-
-    beforeEach(function () {
-      Auth.HAS_CORS = true;
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch');
-    });
-
-    afterEach(() => {
-      Auth.HAS_CORS = hasCors;
-    });
-
-    it('should resolve to access token when user is returned', async () => {
-      const token = {access_token: 'token'};
-      HTTP.prototype.authorizedFetch.returns(Promise.resolve({login: 'user'}));
-      const promise = auth._validateAgainstUser(token);
-      promise.should.be.fulfilled;
-      await promise;
-      HTTP.prototype.authorizedFetch.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
-    });
-
-    it('should reject with redirect if 401 response received', () => {
-      const token = {access_token: 'token'};
-      HTTP.prototype.authorizedFetch.returns(Promise.reject({
-        status: 401,
-        response: {
-          json() {
-            return Promise.resolve({error: 'Problem'});
-          }
-        }
-      }));
-      return auth._validateAgainstUser(token).
-        should.be.rejectedWith(Auth.TokenValidationError, 'Problem');
-    });
-
-    it('should reject with redirect if invalid_grant response received', () => {
-      const token = {access_token: 'token'};
-      HTTP.prototype.authorizedFetch.returns(Promise.reject({
-        response: {
-          json() {
-            return Promise.resolve({error: 'invalid_grant'});
-          }
-        }
-      }));
-      return auth._validateAgainstUser(token).
-        should.be.rejectedWith(Auth.TokenValidationError, 'invalid_grant');
-    });
-
-    it('should reject with redirect if invalid_request response received', () => {
-      const token = {access_token: 'token'};
-      HTTP.prototype.authorizedFetch.returns(Promise.reject({
-        response: {
-          json() {
-            return Promise.resolve({error: 'invalid_request'});
-          }
-        }
-      }));
-      return auth._validateAgainstUser(token).
-        should.be.rejectedWith(Auth.TokenValidationError, 'invalid_request');
-    });
-
-    it('should reject with redirect if 401 response without json received', () => {
-      const token = {access_token: 'token'};
-      HTTP.prototype.authorizedFetch.returns(Promise.reject({
-        status: 401,
-        message: '403 Forbidden',
-        response: {
-          json() {
-            return Promise.reject();
-          }
-        }
-      }));
-      return auth._validateAgainstUser(token).
-        should.be.rejectedWith(Auth.TokenValidationError, '403 Forbidden');
-    });
-  });
-
   describe('init', () => {
     let auth = new Auth({
       serverUri: '',
@@ -273,18 +122,18 @@ describe('Auth', () => {
     it('should resolve to undefined if there is a valid token', async() => {
       await auth._storage.saveToken({
         access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
       auth.init().should.eventually.be.undefined;
     });
 
     it('should fetch auth response from query parameters', async function () {
-      const frozenTime = Auth._epoch();
+      const frozenTime = TokenValidator._epoch();
 
       this.sinon.stub(AuthResponseParser.prototype, 'getLocation').
         returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
-      this.sinon.stub(Auth, '_epoch').returns(frozenTime);
+      this.sinon.stub(TokenValidator, '_epoch').returns(frozenTime);
 
       auth = new Auth({
         serverUri: '',
@@ -422,7 +271,7 @@ describe('Auth', () => {
     let auth;
 
     beforeEach(function () {
-      this.sinon.stub(Auth.prototype, '_getValidatedToken').
+      this.sinon.stub(TokenValidator.prototype, '_getValidatedToken').
         returns(Promise.reject({authRedirect: true}));
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
@@ -440,13 +289,13 @@ describe('Auth', () => {
     });
 
     it('should initiate when there is no valid token', async function () {
-      Auth.prototype._getValidatedToken.onCall(1).
+      TokenValidator.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
       this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
-          expires: Auth._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -458,14 +307,14 @@ describe('Auth', () => {
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
 
-      Auth.prototype._getValidatedToken.should.have.been.calledTwice;
+      TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
       this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           access_token: 'token',
-          expires: Auth._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -481,7 +330,7 @@ describe('Auth', () => {
         Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
-        Auth.prototype._getValidatedToken.should.have.been.calledTwice;
+        TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
 
         reject.authRedirect.should.be.true;
       }
@@ -503,7 +352,7 @@ describe('Auth', () => {
         Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
           'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
-        Auth.prototype._getValidatedToken.should.have.been.calledOnce;
+        TokenValidator.prototype._getValidatedToken.should.have.been.calledOnce;
 
         reject.code.should.deep.equal({code: 'access_denied'});
       }
@@ -536,7 +385,7 @@ describe('Auth', () => {
     it('should resolve to access token if there is a valid one', async function () {
       await this.auth._storage.saveToken({
         access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
       const token = await this.auth.requestToken();
@@ -547,7 +396,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
-          expires: Auth._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -568,7 +417,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           access_token: 'token',
-          expires: Auth._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -644,7 +493,7 @@ describe('Auth', () => {
       auth.init();
       auth._storage.saveToken({
         access_token: 'token',
-        expires: Auth._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
 
@@ -836,14 +685,6 @@ describe('Auth', () => {
       });
 
       return logoutAuth.logout().should.be.rejected;
-    });
-  });
-
-  describe('TokenValidationError', () => {
-    it('should be cool', () => {
-      expect(() => {
-        throw new Auth.TokenValidationError('message');
-      }).to.throw(Auth.TokenValidationError, 'message');
     });
   });
 });
