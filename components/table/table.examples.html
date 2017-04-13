@@ -34,8 +34,7 @@
         total,
         sortKey: 'country',
         sortOrder: true,
-        loading: false,
-        cleanUI: false
+        loading: false
       }
 
       columns = [
@@ -96,14 +95,13 @@
       }
 
       render() {
-        const {data, caption, selectable, draggable, cleanUI, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
             <Table
               data={data}
               columns={this.columns}
-              theme={cleanUI ? THEMES.cleanUI : null}
               selection={selection}
               onSelect={selection => this.setState({selection})}
               onReorder={({data}) => this.setState({data})}
@@ -158,11 +156,6 @@
                     loading
                     ? <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
                     : <Button onClick={() => this.setState({loading: true})}>Loading</Button>
-                  }
-                  {
-                    cleanUI
-                    ? <Button onClick={() => this.setState({cleanUI: false})}>Normal UI</Button>
-                    : <Button onClick={() => this.setState({cleanUI: true})}>Clean UI</Button>
                   }
                 </Col>
               </Row>
