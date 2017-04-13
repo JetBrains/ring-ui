@@ -76,7 +76,7 @@ describe('angularComponentFactory', () => {
     component.should.have.attribute('data-some-obj', 'test value');
   });
 
-  it('should warn if one modify inner properties of passed object', function () {
+  it('should warn if one modify inner properties of passed object', function () { // eslint-disable-line func-names
     this.sinon.stub(console, 'warn');
 
     $rootScope.testObj = {
@@ -93,7 +93,7 @@ describe('angularComponentFactory', () => {
 
   it('should use string binding for string props', () => {
     $rootScope.id = '1';
-    const $element = $compile('<rg-test-component id="{{id}}"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component id="id"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
     component.should.have.attribute('id', '1');
 
@@ -103,13 +103,13 @@ describe('angularComponentFactory', () => {
   });
 
   it('should pass given css classes', () => {
-    const $element = $compile('<rg-test-component class-name="test-class1 test-class2"></rg-test-component>')($rootScope);
+    const $element = $compile('<rg-test-component class-name="\'test-class1 test-class2\'"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
     component.should.have.class('test-class1');
     component.should.have.class('test-class2');
   });
 
-  it('should use one-way binding for function props', function () {
+  it('should use one-way binding for function props', function () { // eslint-disable-line func-names
     $rootScope.callback = this.sinon.spy();
     const $element = $compile('<rg-test-component on-click="callback"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;

@@ -3,7 +3,7 @@ import ExtendableError from 'es6-error';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
- * @name Http
+ * @name HTTP
  * @category Utilities
  * @description Provides a way to perform authorized network requests
  * @example-file ./http.examples.html
@@ -29,19 +29,30 @@ export class HTTPError extends ExtendableError {
   }
 }
 
-class Http {
+export const CODE = {
+  UNAUTHORIZED: 401
+};
+
+export default class HTTP {
   baseUrl = null;
 
-  constructor(auth, baseUrl) {
-    this.baseUrl = baseUrl;
+  constructor(auth, baseUrl, fetchConfig = {}) {
     if (auth) {
       this.setAuth(auth);
     }
+    this.setBaseUrl(baseUrl);
+    this.fetchConfig = {
+      ...fetchConfig,
+      headers: {
+        ...defaultFetchConfig.headers,
+        ...fetchConfig.headers
+      }
+    };
   }
 
   setAuth(auth) {
     this.requestToken = () => auth.requestToken();
-    this.shouldRefreshToken = errorType => auth.constructor.shouldRefreshToken(errorType);
+    this.shouldRefreshToken = auth.constructor.shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   }
 
@@ -58,21 +69,15 @@ class Http {
     return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
-  async _authorizedFetch(url, params = {}) {
-    if (!this.requestToken) {
-      throw new Error('RingUI Http: setAuth should have been called before performing authorized requests');
-    }
-
+  _performRequest(url, token, params = {}) {
     const {headers, body, query = {}, ...fetchConfig} = params;
-
-    const token = await this.requestToken();
 
     return this._fetch(
       this._makeRequestUrl(url, query),
       {
-        ...defaultFetchConfig,
+        ...this.fetchConfig,
         headers: {
-          ...defaultFetchConfig.headers,
+          ...this.fetchConfig.headers,
           Authorization: `${TOKEN_TYPE} ${token}`,
           ...headers
         },
@@ -82,31 +87,8 @@ class Http {
     );
   }
 
-  async _checkIfShouldRefreshToken(response) {
-    try {
-      const res = await response.json();
-      return this.shouldRefreshToken(res.data.error);
-    } catch (err) {
-      return false;
-    }
-  }
-
-  _isErrorStatus(status) {
-    return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
-  }
-
-  async performRequest(url, params) {
-    let response = await this._authorizedFetch(url, params);
-
-    if (this._isErrorStatus(response.status)) {
-      const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
-      if (shouldRefreshToken) {
-        await this.forceTokenUpdate();
-        response = await this._authorizedFetch(url, params);
-      }
-    }
-
-    if (this._isErrorStatus(response.status)) {
+  async _processResponse(response) {
+    if (HTTP._isErrorStatus(response.status)) {
       try {
         const resJson = await response.json();
         throw new HTTPError(response, resJson);
@@ -122,19 +104,51 @@ class Http {
     }
   }
 
+  async _checkIfShouldRefreshToken(response) {
+    try {
+      const res = await response.json();
+      return this.shouldRefreshToken(res.data.error);
+    } catch (err) {
+      return false;
+    }
+  }
+
+  static _isErrorStatus(status) {
+    return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
+  }
+
+  async authorizedFetch(...args) {
+    const response = await this._performRequest(...args);
+
+    return this._processResponse(response);
+  }
+
+  async request(url, params) {
+    let token = await this.requestToken();
+    let response = await this._performRequest(url, token, params);
+
+    if (HTTP._isErrorStatus(response.status)) {
+      const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
+      if (shouldRefreshToken) {
+        token = await this.forceTokenUpdate();
+        response = await this._performRequest(url, token, params);
+      }
+    }
+
+    return this._processResponse(response);
+  }
+
   get(url, params) {
-    return this.performRequest(url, {
+    return this.request(url, {
       method: 'GET',
       ...params
     });
   }
 
   post(url, params) {
-    return this.performRequest(url, {
+    return this.request(url, {
       method: 'POST',
       ...params
     });
   }
 }
-
-export default Http;

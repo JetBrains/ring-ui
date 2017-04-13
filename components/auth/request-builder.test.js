@@ -1,7 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
-import AuthRequestBuilder from './auth__request-builder';
+import AuthRequestBuilder from './request-builder';
 
 describe('Auth', () => {
   describe('AuthRequestBuilder', () => {
