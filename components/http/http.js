@@ -29,18 +29,25 @@ export class HTTPError extends ExtendableError {
   }
 }
 
+export const CODE = {
+  UNAUTHORIZED: 401
+};
+
 export default class HTTP {
   baseUrl = null;
 
-  static CODE = {
-    UNAUTHORIZED: 401
-  }
-
-  constructor(auth, baseUrl) {
-    this.setBaseUrl(baseUrl);
+  constructor(auth, baseUrl, fetchConfig = {}) {
     if (auth) {
       this.setAuth(auth);
     }
+    this.setBaseUrl(baseUrl);
+    this.fetchConfig = {
+      ...fetchConfig,
+      headers: {
+        ...defaultFetchConfig.headers,
+        ...fetchConfig.headers
+      }
+    };
   }
 
   setAuth(auth) {
@@ -62,15 +69,15 @@ export default class HTTP {
     return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
-  authorizedFetch(url, token, params = {}) {
+  _performRequest(url, token, params = {}) {
     const {headers, body, query = {}, ...fetchConfig} = params;
 
     return this._fetch(
       this._makeRequestUrl(url, query),
       {
-        ...defaultFetchConfig,
+        ...this.fetchConfig,
         headers: {
-          ...defaultFetchConfig.headers,
+          ...this.fetchConfig.headers,
           Authorization: `${TOKEN_TYPE} ${token}`,
           ...headers
         },
@@ -80,34 +87,7 @@ export default class HTTP {
     );
   }
 
-  async _getTokenAndFetch(url, params = {}) {
-    return this.authorizedFetch(url, await this.requestToken(), params);
-  }
-
-  async _checkIfShouldRefreshToken(response) {
-    try {
-      const res = await response.json();
-      return this.shouldRefreshToken(res.data.error);
-    } catch (err) {
-      return false;
-    }
-  }
-
-  static _isErrorStatus(status) {
-    return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
-  }
-
-  async performRequest(url, params) {
-    let response = await this._getTokenAndFetch(url, params);
-
-    if (HTTP._isErrorStatus(response.status)) {
-      const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
-      if (shouldRefreshToken) {
-        await this.forceTokenUpdate();
-        response = await this._getTokenAndFetch(url, params);
-      }
-    }
-
+  async _processResponse(response) {
     if (HTTP._isErrorStatus(response.status)) {
       try {
         const resJson = await response.json();
@@ -124,15 +104,49 @@ export default class HTTP {
     }
   }
 
+  async _checkIfShouldRefreshToken(response) {
+    try {
+      const res = await response.json();
+      return this.shouldRefreshToken(res.data.error);
+    } catch (err) {
+      return false;
+    }
+  }
+
+  static _isErrorStatus(status) {
+    return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
+  }
+
+  async authorizedFetch(...args) {
+    const response = await this._performRequest(...args);
+
+    return this._processResponse(response);
+  }
+
+  async request(url, params) {
+    let token = await this.requestToken();
+    let response = await this._performRequest(url, token, params);
+
+    if (HTTP._isErrorStatus(response.status)) {
+      const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
+      if (shouldRefreshToken) {
+        token = await this.forceTokenUpdate();
+        response = await this._performRequest(url, token, params);
+      }
+    }
+
+    return this._processResponse(response);
+  }
+
   get(url, params) {
-    return this.performRequest(url, {
+    return this.request(url, {
       method: 'GET',
       ...params
     });
   }
 
   post(url, params) {
-    return this.performRequest(url, {
+    return this.request(url, {
       method: 'POST',
       ...params
     });
