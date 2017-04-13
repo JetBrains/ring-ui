@@ -39,7 +39,7 @@ describe('HTTP', () => {
   it('should export http service', () => http.should.be.defined);
 
   it('should read token and perform authorized fetch', async () => {
-    await http._getTokenAndFetch('testurl', {foo: 'bar'});
+    await http.request('testurl', {foo: 'bar'});
 
     fakeAuth.requestToken.should.have.been.called;
 
@@ -53,13 +53,13 @@ describe('HTTP', () => {
   });
 
   it('should perform request and return result', async () => {
-    const res = await http.performRequest('testurl');
+    const res = await http.request('testurl');
     res.should.equal(fetchResult);
   });
 
 
   it('should encode query params in url', async () => {
-    await http.performRequest('http://testurl', {query: {
+    await http.request('http://testurl', {query: {
       foo: 'bar',
       test: ['a', 'b']
     }});
@@ -68,12 +68,12 @@ describe('HTTP', () => {
 
   it('should support base url setting', async () => {
     http.setBaseUrl('http://test');
-    await http.performRequest('/foo');
+    await http.request('/foo');
     http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
   });
 
   it('should perform request convert "body" as object inro string', async () => {
-    await http.performRequest('testurl', {
+    await http.request('testurl', {
       method: 'POST',
       body: {foo: 'bar'}
     });
@@ -85,7 +85,7 @@ describe('HTTP', () => {
   });
 
   it('should not refresh token if server reponds OK', async () => {
-    await http.performRequest('testurl');
+    await http.request('testurl');
     fakeAuth.forceTokenUpdate.should.not.have.been.called;
   });
 
@@ -96,7 +96,7 @@ describe('HTTP', () => {
     }));
 
     const onError = sinon.spy();
-    await http.performRequest('testurl').catch(onError);
+    await http.request('testurl').catch(onError);
 
     onError.should.have.been.called;
   });
@@ -114,24 +114,24 @@ describe('HTTP', () => {
       return {status: 200, json: async () => fetchResult};
     });
 
-    const res = await http.performRequest('testurl');
+    const res = await http.request('testurl');
 
     fakeAuth.forceTokenUpdate.should.have.been.called;
 
     res.should.equal(fetchResult);
   });
 
-  it('"get" method should call performRequest with GET type', async () => {
-    sandbox.stub(http, 'performRequest');
+  it('"get" method should call request with GET type', async () => {
+    sandbox.stub(http, 'request');
     await http.get('testurl');
 
-    http.performRequest.should.have.been.calledWith('testurl', {method: 'GET'});
+    http.request.should.have.been.calledWith('testurl', {method: 'GET'});
   });
 
-  it('"post" method should call performRequest with POST type', async () => {
-    sandbox.stub(http, 'performRequest');
+  it('"post" method should call request with POST type', async () => {
+    sandbox.stub(http, 'request');
     await http.post('testurl', {body: {foo: 'bar'}});
 
-    http.performRequest.should.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
+    http.request.should.have.been.calledWith('testurl', {method: 'POST', body: {foo: 'bar'}});
   });
 });
