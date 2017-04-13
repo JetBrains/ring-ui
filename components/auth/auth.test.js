@@ -2,10 +2,10 @@
 /* eslint-disable camelcase */
 
 import Auth from './auth';
-import AuthRequestBuilder from './auth__request-builder';
-import AuthResponseParser from './auth__response-parser';
+import AuthRequestBuilder from './request-builder';
+import AuthResponseParser from './response-parser';
 import BackgroundTokenGetter from './background-token-getter';
-import AuthStorage from './auth__storage';
+import AuthStorage from './storage';
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 import sniffer from '../global/sniffer';
 
