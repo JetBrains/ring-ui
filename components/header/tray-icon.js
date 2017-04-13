@@ -20,9 +20,8 @@ export default class TrayIcon extends Component {
   };
 
   render() {
-    const {className, main, rotateable, ...restProps} = this.props;
+    const {className, rotateable, ...restProps} = this.props;
     const classes = classnames(styles.icon, className, {
-      [styles.main]: main,
       [styles.rotateable]: rotateable,
       [styles.rotated]: rotateable && restProps.active
     });
