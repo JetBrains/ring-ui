@@ -1,5 +1,5 @@
 
-import Http from './http';
+import HTTP from './http';
 
 const authMock = {
   requestToken: async () => 'mock token',
@@ -7,7 +7,7 @@ const authMock = {
   forceTokenUpdate: async () => {}
 };
 
-export default class HttpMock extends Http {
+export default class HTTPMock extends HTTP {
   constructor() {
     super(authMock);
 
