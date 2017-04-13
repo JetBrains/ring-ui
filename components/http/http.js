@@ -32,6 +32,10 @@ export class HTTPError extends ExtendableError {
 export default class HTTP {
   baseUrl = null;
 
+  static CODE = {
+    UNAUTHORIZED: 401
+  }
+
   constructor(auth, baseUrl) {
     this.setBaseUrl(baseUrl);
     if (auth) {
