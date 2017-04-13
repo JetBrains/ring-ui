@@ -26,6 +26,10 @@ import DraggableRow from './draggable-row';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
+export const THEMES = {
+  cleanUI: 'cleanUI'
+};
+
 const DraggableRows = sortableContainer(props => {
   const {data, getRowKey, selection, selectable, isItemSelectable, multiSelectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
