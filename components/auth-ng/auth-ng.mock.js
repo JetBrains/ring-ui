@@ -1,3 +1,5 @@
+import httpMock from '../http/http.mock';
+
 /**
  * TODO(maksimrv): Remove this code
  * It is currently required because permissions do not work without auth,
@@ -13,13 +15,7 @@ export default function AuthProviderMock() {
         requestToken() {
           return promise;
         },
-        /** @deprecated */
-        getSecure() {
-          return promise;
-        },
-        getApi() {
-          return promise;
-        }
+        http: httpMock
       },
       promise
     };
