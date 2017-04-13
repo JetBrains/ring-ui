@@ -3,7 +3,7 @@ import ExtendableError from 'es6-error';
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
- * @name Http
+ * @name HTTP
  * @category Utilities
  * @description Provides a way to perform authorized network requests
  * @example-file ./http.examples.html
@@ -29,11 +29,11 @@ export class HTTPError extends ExtendableError {
   }
 }
 
-class Http {
+export default class HTTP {
   baseUrl = null;
 
   constructor(auth, baseUrl) {
-    this.baseUrl = baseUrl;
+    this.setBaseUrl(baseUrl);
     if (auth) {
       this.setAuth(auth);
     }
@@ -41,7 +41,7 @@ class Http {
 
   setAuth(auth) {
     this.requestToken = () => auth.requestToken();
-    this.shouldRefreshToken = errorType => auth.constructor.shouldRefreshToken(errorType);
+    this.shouldRefreshToken = auth.constructor.shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   }
 
@@ -91,14 +91,14 @@ class Http {
     }
   }
 
-  _isErrorStatus(status) {
+  static _isErrorStatus(status) {
     return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
   async performRequest(url, params) {
     let response = await this._authorizedFetch(url, params);
 
-    if (this._isErrorStatus(response.status)) {
+    if (HTTP._isErrorStatus(response.status)) {
       const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
       if (shouldRefreshToken) {
         await this.forceTokenUpdate();
@@ -106,7 +106,7 @@ class Http {
       }
     }
 
-    if (this._isErrorStatus(response.status)) {
+    if (HTTP._isErrorStatus(response.status)) {
       try {
         const resJson = await response.json();
         throw new HTTPError(response, resJson);
@@ -136,5 +136,3 @@ class Http {
     });
   }
 }
-
-export default Http;

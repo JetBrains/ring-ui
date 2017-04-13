@@ -1,11 +1,19 @@
-import Http, {DEFAULT_HEADERS} from './http';
+import HTTP, {DEFAULT_HEADERS} from './http';
 
-describe('http', () => {
+describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
   let fakeAuth;
   let sandbox;
   let http;
   let fetchResult;
+
+  function mockFetch(httpInstance) {
+    const getFetchResponse = async () => ({
+      status: 200,
+      json: async () => fetchResult
+    });
+    sandbox.stub(httpInstance, '_fetch').callsFake(getFetchResponse);
+  }
 
   beforeEach(function () {
     sandbox = this.sinon;
@@ -23,21 +31,14 @@ describe('http', () => {
       }
     };
 
-    http = new Http(fakeAuth);
-  });
+    http = new HTTP(fakeAuth);
 
-  function mockFetch() {
-    const getFetchResponse = async () => ({
-      status: 200,
-      json: async () => fetchResult
-    });
-    sandbox.stub(http, '_fetch').callsFake(getFetchResponse);
-  }
+    mockFetch(http);
+  });
 
   it('should export http service', () => http.should.be.defined);
 
   it('should read token and perform authorized fetch', async () => {
-    mockFetch();
     await http._authorizedFetch('testurl', {foo: 'bar'});
 
     fakeAuth.requestToken.should.have.been.called;
@@ -52,14 +53,12 @@ describe('http', () => {
   });
 
   it('should perform request and return result', async () => {
-    mockFetch();
     const res = await http.performRequest('testurl');
     res.should.equal(fetchResult);
   });
 
 
   it('should encode query params in url', async () => {
-    mockFetch();
     await http.performRequest('http://testurl', {query: {
       foo: 'bar',
       test: ['a', 'b']
@@ -68,14 +67,12 @@ describe('http', () => {
   });
 
   it('should support base url setting', async () => {
-    mockFetch();
     http.setBaseUrl('http://test');
     await http.performRequest('/foo');
     http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
   });
 
   it('should perform request convert "body" as object inro string', async () => {
-    mockFetch();
     await http.performRequest('testurl', {
       method: 'POST',
       body: {foo: 'bar'}
@@ -88,13 +85,12 @@ describe('http', () => {
   });
 
   it('should not refresh token if server reponds OK', async () => {
-    mockFetch();
     await http.performRequest('testurl');
     fakeAuth.forceTokenUpdate.should.not.have.been.called;
   });
 
   it('should throw if response status is not OK', async () => {
-    sandbox.stub(http, '_fetch').callsFake(async () => ({
+    http._fetch.callsFake(async () => ({
       status: 405,
       json: async () => fetchResult
     }));
@@ -110,7 +106,7 @@ describe('http', () => {
 
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
-    sandbox.stub(http, '_fetch').callsFake(async () => {
+    http._fetch.callsFake(async () => {
       if (isFirstCall) {
         isFirstCall = false;
         return {status: 405, json: async () => ({data: {error: 'invalid_token'}})};
