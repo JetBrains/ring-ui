@@ -10,15 +10,16 @@ export default function AuthProviderMock() {
     return {
       auth: {
         addListener() {},
+        getAPIPath() {
+          return '/';
+        },
         requestToken() {
           return promise;
         },
-        /** @deprecated */
-        getSecure() {
-          return promise;
-        },
-        getApi() {
-          return promise;
+        http: {
+          get() {
+            return promise;
+          }
         }
       },
       promise

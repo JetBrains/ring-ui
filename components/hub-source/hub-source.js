@@ -14,7 +14,7 @@ export default class HubSource {
   static TOP_ALL = -1;
 
   constructor(auth, relativeUrl, options) {
-    this.auth = auth;
+    this.http = auth.http;
     this.relativeUrl = relativeUrl;
     this.options = Object.assign({}, defaultOptions, options);
 
@@ -24,9 +24,8 @@ export default class HubSource {
     this.filterFn = null;
   }
 
-  async makeRequest(params) {
-    const token = await this.auth.requestToken();
-    return this.auth.getApi(this.relativeUrl, token, params);
+  async makeRequest(queryParams) {
+    return this.http.get(this.relativeUrl, {query: queryParams});
   }
 
   async makeCachedRequest(params) {
