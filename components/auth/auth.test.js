@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
+import HTTP from '../http/http';
 import Auth from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser from './response-parser';
@@ -177,7 +178,7 @@ describe('Auth', () => {
 
     beforeEach(function () {
       Auth.HAS_CORS = true;
-      this.sinon.stub(Auth.prototype, 'getApi');
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch');
     });
 
     afterEach(() => {
@@ -186,16 +187,16 @@ describe('Auth', () => {
 
     it('should resolve to access token when user is returned', async () => {
       const token = {access_token: 'token'};
-      Auth.prototype.getApi.returns(Promise.resolve({login: 'user'}));
+      HTTP.prototype.authorizedFetch.returns(Promise.resolve({login: 'user'}));
       const promise = auth._validateAgainstUser(token);
       promise.should.be.fulfilled;
       await promise;
-      Auth.prototype.getApi.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
+      HTTP.prototype.authorizedFetch.should.have.been.calledWith(Auth.API_PROFILE_PATH, 'token');
     });
 
     it('should reject with redirect if 401 response received', () => {
       const token = {access_token: 'token'};
-      Auth.prototype.getApi.returns(Promise.reject({
+      HTTP.prototype.authorizedFetch.returns(Promise.reject({
         status: 401,
         response: {
           json() {
@@ -209,7 +210,7 @@ describe('Auth', () => {
 
     it('should reject with redirect if invalid_grant response received', () => {
       const token = {access_token: 'token'};
-      Auth.prototype.getApi.returns(Promise.reject({
+      HTTP.prototype.authorizedFetch.returns(Promise.reject({
         response: {
           json() {
             return Promise.resolve({error: 'invalid_grant'});
@@ -222,7 +223,7 @@ describe('Auth', () => {
 
     it('should reject with redirect if invalid_request response received', () => {
       const token = {access_token: 'token'};
-      Auth.prototype.getApi.returns(Promise.reject({
+      HTTP.prototype.authorizedFetch.returns(Promise.reject({
         response: {
           json() {
             return Promise.resolve({error: 'invalid_request'});
@@ -235,7 +236,7 @@ describe('Auth', () => {
 
     it('should reject with redirect if 401 response without json received', () => {
       const token = {access_token: 'token'};
-      Auth.prototype.getApi.returns(Promise.reject({
+      HTTP.prototype.authorizedFetch.returns(Promise.reject({
         status: 401,
         message: '403 Forbidden',
         response: {
@@ -260,7 +261,7 @@ describe('Auth', () => {
     });
 
     beforeEach(function () {
-      this.sinon.stub(Auth.prototype, 'getApi').
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
         returns(Promise.resolve({login: 'user'}));
       this.sinon.stub(Auth.prototype, 'setHash');
     });
@@ -510,7 +511,7 @@ describe('Auth', () => {
   describe('requestToken', () => {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(Auth.prototype, 'getApi').
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
         returns(Promise.resolve({id: 'APIuser'}));
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
@@ -604,7 +605,7 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.sinon.stub(Auth.prototype, 'getApi').
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
         returns(Promise.resolve({name: 'APIuser'}));
     });
 
@@ -615,7 +616,7 @@ describe('Auth', () => {
       auth.user = {name: 'existingUser'};
 
       const user = await auth.requestUser();
-      Auth.prototype.getApi.should.not.have.been.called;
+      HTTP.prototype.authorizedFetch.should.not.have.been.called;
       user.should.equal(auth.user);
     });
 
@@ -627,8 +628,8 @@ describe('Auth', () => {
         returns(Promise.resolve('token'));
 
       const user = await auth.requestUser();
-      Auth.prototype.getApi.should.have.been.calledOnce;
-      Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
+      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
+      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
       user.should.deep.equal({name: 'APIuser'});
     });
 
@@ -641,7 +642,7 @@ describe('Auth', () => {
       });
 
       const user = await auth.requestUser();
-      Auth.prototype.getApi.should.have.been.calledOnce;
+      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
       user.should.deep.equal({name: 'APIuser'});
     });
   });
@@ -658,7 +659,7 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.sinon.stub(Auth.prototype, 'getApi').
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
         returns(Promise.resolve({name: 'APIuser'}));
     });
 
@@ -678,112 +679,9 @@ describe('Auth', () => {
       auth._initDeferred.promise = Promise.resolve();
 
       const user = await auth.getUser('token');
-      Auth.prototype.getApi.should.have.been.calledOnce;
-      Auth.prototype.getApi.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
+      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
+      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
       user.should.deep.equal({name: 'APIuser'});
-    });
-  });
-
-  describe('getSecure and getApi', () => {
-    const auth = new Auth({
-      serverUri: 'http://localhost:8080'
-    });
-
-    beforeEach(function () {
-      this.sinon.useFakeServer();
-      this.sinon.server.respondWith('http://localhost:500', [500, {}, '{"error": "lol"}']);
-      this.sinon.server.respondWith('http://localhost:6666/users/me', '{"name": "user"}');
-      this.sinon.server.respondWith('http://localhost:8080/api/rest/users/me', '{"name": "user"}');
-    });
-
-    it('getSecure should return promise with response object', function () {
-      const response = auth.getSecure('http://localhost:6666/users/me', 'token');
-      this.sinon.server.respond();
-
-      return response.should.become({name: 'user'});
-    });
-
-    it('getSecure should reject promise for non-200 response codes', function () {
-      const response = auth.getSecure('http://localhost:404', 'token');
-      const server = this.sinon.server;
-      server.respond();
-
-      return response.should.have.been.rejected;
-    });
-
-    it('getSecure should reject promise with error and response for non-200 response codes', async function () {
-      const response = auth.getSecure('http://localhost:500', 'token');
-      const server = this.sinon.server;
-      server.respond();
-
-      try {
-        await response;
-      } catch (error) {
-        error.message.should.equal('500 Internal Server Error');
-
-        const res = await error.response.json();
-        res.should.deep.equal({error: 'lol'});
-      }
-    });
-
-    it('getSecure should set headers', async function () {
-      const response = auth.getSecure('http://localhost:6666/users/me', 'token');
-      const server = this.sinon.server;
-      server.respond();
-
-      await response;
-      server.requests[0].requestHeaders.should.deep.equal({
-        authorization: 'Bearer token',
-        accept: 'application/json',
-        'content-type': 'application/json;charset=utf-8' //NOTE: charset is added by sinon server automatically
-      });
-    });
-
-    it('getSecure should pass params', async function () {
-      const response = auth.getSecure('http://localhost:6666/users/me', 'token', {
-        fields: 'one,two',
-        $top: '2'
-      });
-      const server = this.sinon.server;
-      server.respond();
-
-      try {
-        await response;
-      } catch (e) {
-        server.requests[0].url.should.equal('http://localhost:6666/users/me?fields=one%2Ctwo&%24top=2');
-      }
-    });
-
-    it('getApi should return promise with response object', function () {
-      const response = auth.getApi('users/me', 'token');
-      this.sinon.server.respond();
-
-      return response.should.become({name: 'user'});
-    });
-
-    it('should not set credentials by default', function () {
-      this.sinon.spy(auth, '_fetch');
-
-      auth.getSecure('http://localhost:6666/users/me', 'token');
-
-      auth._fetch.should.have.been.calledWithMatch(
-        'http://localhost:6666/users/me',
-        {}
-      );
-    });
-
-    it('should allow pass cookie policy for fetch', function () {
-      this.sinon.spy(auth, '_fetch');
-
-      auth.config.fetchCredentials = 'include';
-      auth.getSecure('http://localhost:6666/users/me', 'token');
-
-      auth._fetch.should.have.been.calledWithMatch(
-        'http://localhost:6666/users/me',
-        {
-          credentials: auth.config.fetchCredentials
-        }
-      );
     });
   });
 
