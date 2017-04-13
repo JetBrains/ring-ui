@@ -58,14 +58,8 @@ export default class HTTP {
     return joinBaseURLAndPath(this.baseUrl, urlWithQuery);
   }
 
-  async _authorizedFetch(url, params = {}) {
-    if (!this.requestToken) {
-      throw new Error('RingUI Http: setAuth should have been called before performing authorized requests');
-    }
-
+  authorizedFetch(url, token, params = {}) {
     const {headers, body, query = {}, ...fetchConfig} = params;
-
-    const token = await this.requestToken();
 
     return this._fetch(
       this._makeRequestUrl(url, query),
@@ -82,6 +76,10 @@ export default class HTTP {
     );
   }
 
+  async _getTokenAndFetch(url, params = {}) {
+    return this.authorizedFetch(url, await this.requestToken(), params);
+  }
+
   async _checkIfShouldRefreshToken(response) {
     try {
       const res = await response.json();
@@ -96,13 +94,13 @@ export default class HTTP {
   }
 
   async performRequest(url, params) {
-    let response = await this._authorizedFetch(url, params);
+    let response = await this._getTokenAndFetch(url, params);
 
     if (HTTP._isErrorStatus(response.status)) {
       const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
       if (shouldRefreshToken) {
         await this.forceTokenUpdate();
-        response = await this._authorizedFetch(url, params);
+        response = await this._getTokenAndFetch(url, params);
       }
     }
 
