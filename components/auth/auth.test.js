@@ -51,7 +51,9 @@ describe('Auth', () => {
       const auth = new Auth(config);
 
       auth.config.userParams.should.deep.equal({
-        fields: 'guest,id,name,profile/avatar/url,profile/email'
+        query: {
+          fields: 'guest,id,name,profile/avatar/url,profile/email'
+        }
       });
     });
 
@@ -629,7 +631,12 @@ describe('Auth', () => {
 
       const user = await auth.requestUser();
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
-      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
+      const matchParams = sinon.match({
+        query: {
+          fields: 'guest,id,name,profile/avatar/url'
+        }
+      });
+      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
 
@@ -680,7 +687,12 @@ describe('Auth', () => {
 
       const user = await auth.getUser('token');
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
-      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', sinon.match({fields: 'guest,id,name,profile/avatar/url'}));
+      const matchParams = sinon.match({
+        query: {
+          fields: 'guest,id,name,profile/avatar/url'
+        }
+      });
+      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
   });
