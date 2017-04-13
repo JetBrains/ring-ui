@@ -273,3 +273,34 @@
   background-color: #FFF;
   vertical-align: middle;
 }
+
+
+.cleanUI {
+  & .header {
+    background-color: transparent;
+
+    & .headerCell {
+      border-top: none;
+      box-shadow: none;
+      color: text-color;
+    }
+  }
+
+  & .subHeader {
+    background-color: transparent;
+
+    & .headerCell {
+      border-top: none;
+      border-bottom: 1px solid table-border-color;
+    }
+  }
+
+  & .row {
+    background-color: transparent;
+
+    & .cell {
+      border-top: none;
+      border-bottom: none;
+    }
+  }
+}
