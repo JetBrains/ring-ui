@@ -2,8 +2,10 @@ import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
 
-import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
+import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
+
+import HTTP from '../http/http';
 
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
@@ -92,6 +94,8 @@ export default class Auth {
 
     this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
 
+    this.http = new HTTP(null, this.config.serverUri + Auth.API_PATH);
+
     this.listeners = new Listeners();
 
     if (this.config.onLogout) {
@@ -101,7 +105,6 @@ export default class Auth {
     if (this.config.avoidPageReload === false) {
       this.addListener('userChange', this._reloadCurrentPage.bind(this));
     }
-
 
     this._initDeferred = {};
     this._initDeferred.promise = new Promise((resolve, reject) => {
@@ -146,12 +149,6 @@ export default class Auth {
    * @const {number}
    */
   static REFRESH_BEFORE = 20 * 60; // 20 min in s
-
-  static HTTP_CODE = {
-    OK: 200,
-    REDIRECTION: 300,
-    UNAUTHORIZED: 401
-  }
 
   addListener(event, handler) {
     this.listeners.add(event, handler);
@@ -289,7 +286,7 @@ export default class Auth {
   async forceTokenUpdate() {
     try {
       const accessToken = await this._backgroundTokenGetter.get();
-      const user = await this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+      const user = await this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
 
       if (user && this.user && this.user.id !== user.id) {
         // Reload page if user has been changed after background refresh
@@ -314,71 +311,10 @@ export default class Auth {
   }
 
   /**
-   * Makes a GET request to the given URL with the given access token.
-   *
-   * @param {string} absoluteUrl an absolute URI to request with the given token
-   * @param {string} accessToken access token to use in the request
-   * @param {object?} params query parameters
-   * @return {Promise} promise from fetch request
-   */
-  async getSecure(absoluteUrl, accessToken, params) {
-    const url = encodeURL(absoluteUrl, params);
-    const failedResponse = {
-      status: 0,
-      statusText: 'Network request failed'
-    };
-
-    const init = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    };
-
-    // Supports Edge
-    // Native fetch in Edge doesn't accept anything but non-empty strings,
-    // otherwise it fails with TypeMismatchError
-    if (this.config.fetchCredentials != null) {
-      init.credentials = this.config.fetchCredentials;
-    }
-
-    // Empty response — strange case found in the wild
-    // @see https://youtrack.jetbrains.com/issue/JT-31942
-    const response = await this._fetch(url, init) || failedResponse;
-
-    // Simulate $.ajax behavior
-    // @see https://github.com/github/fetch#success-and-error-handlers
-    if (response && response.status >= Auth.HTTP_CODE.OK && response.status < Auth.HTTP_CODE.REDIRECTION) {
-      return response.json();
-    } else {
-      throw new Auth.HTTPError(response);
-    }
-
-  }
-
-  _fetch(url, params) {
-    return fetch(url, params);
-  }
-
-  /**
-   * Makes a GET request to the relative API URL. For example, to fetch all services call:
-   *  getApi('services', token, params)
-   *
-   * @param {string} relativeURI a URI relative to config.serverUri REST endpoint to make the GET request to
-   * @param {string} accessToken access token to use in the request
-   * @param {object?} params query parameters
-   * @return {Promise} promise from fetch request
-   */
-  getApi(relativeURI, accessToken, params) {
-    return this.getSecure(this.config.serverUri + Auth.API_PATH + relativeURI, accessToken, params);
-  }
-
-  /**
    * @return {Promise.<object>}
    */
   getUser(accessToken) {
-    return this.getApi(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
   }
 
   /**
@@ -562,7 +498,7 @@ export default class Auth {
    */
   async _validateAgainstUser(storedToken) {
     try {
-      const user = await this.getApi(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams);
+      const user = await this.http.authorizedFetch(Auth.API_PROFILE_PATH, storedToken.access_token, this.config.userParams);
       this.user = user;
     } catch (errorResponse) {
 
@@ -573,7 +509,7 @@ export default class Auth {
         // Skip JSON parsing errors
       }
 
-      if (errorResponse.status === Auth.HTTP_CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
+      if (errorResponse.status === HTTP.CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
         // Token expired
         throw new Auth.TokenValidationError(response.error || errorResponse.message);
       }
