@@ -5,9 +5,9 @@ import ExtendableError from 'es6-error';
 import {encodeURL, fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 
-import AuthStorage from './auth__storage';
-import AuthResponseParser from './auth__response-parser';
-import AuthRequestBuilder from './auth__request-builder';
+import AuthStorage from './storage';
+import AuthResponseParser from './response-parser';
+import AuthRequestBuilder from './request-builder';
 import BackgroundTokenGetter from './background-token-getter';
 
 function noop() {}

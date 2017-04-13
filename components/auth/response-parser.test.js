@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import AuthResponseParser from './auth__response-parser';
+import AuthResponseParser from './response-parser';
 
 describe('Auth', () => {
   describe('AuthResponseParser', () => {
