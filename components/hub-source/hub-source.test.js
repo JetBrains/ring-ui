@@ -3,10 +3,14 @@
 import HubSource from './hub-source';
 
 describe('Hub Source', () => {
+  let httpMock;
   beforeEach(function () {
+    httpMock = {
+      get: this.sinon.stub().returns(Promise.resolve({}))
+    };
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
-      getApi: this.sinon.stub().returns(Promise.resolve({}))
+      http: httpMock
     };
   });
 
@@ -23,7 +27,7 @@ describe('Hub Source', () => {
   it('Should make request', async function () {
     const source = new HubSource(this.fakeAuth, 'test');
     await source.makeRequest({test: 'foo'});
-    this.fakeAuth.getApi.should.have.been.calledWith('test', 'testToken', {test: 'foo'});
+    httpMock.get.should.have.been.calledWith('test', {query: {test: 'foo'}});
   });
 
   it('Should not make cached request if data is already requested', async function () {
@@ -31,7 +35,7 @@ describe('Hub Source', () => {
     source.storedData = {};
 
     await source.makeCachedRequest({test: 'foo'});
-    this.fakeAuth.getApi.should.not.have.been.called;
+    httpMock.get.should.not.have.been.called;
   });
 
   it('Should detect client-side threshold', function () {
@@ -82,7 +86,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect client-side filtering if total is smaller than threshold', async function () {
-    this.fakeAuth.getApi = this.sinon.stub().
+    httpMock.get = this.sinon.stub().
       returns(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
@@ -92,7 +96,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect server-side filtering if total is smaller than threshold', async function () {
-    this.fakeAuth.getApi = this.sinon.stub().
+    httpMock.get = this.sinon.stub().
       returns(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});

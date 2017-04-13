@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Auth from '../auth/auth';
+import HTTP from '../http/http';
 
 import Services from './services';
 
@@ -35,13 +36,14 @@ export default class SmartServices extends Component {
   }
 
   getServices(fields) {
-    const {auth} = this.props;
-
-    return auth.requestToken().
-      then(token => auth.getApi(`services/header?fields=${fields}`, token));
+    return this.http.get(`services/header?fields=${fields}`);
   }
 
   componentDidMount() {
+    const {auth} = this.props;
+
+    this.http = new HTTP(auth, auth.getAPIPath());
+
     this.getServices(SmartServices.countFields).then(services => {
       if (!services.length) {
         this.setState({visible: false});

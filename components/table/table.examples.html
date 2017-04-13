@@ -11,7 +11,7 @@
   <file type="js">
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
-    import Table from 'ring-ui/components/table/table';
+    import Table, {THEMES} from 'ring-ui/components/table/table';
     import Selection from 'ring-ui/components/table/selection';
     import {Grid, Row, Col} from 'ring-ui/components/grid/grid';
     import Link from 'ring-ui/components/link/link';
@@ -34,7 +34,8 @@
         total,
         sortKey: 'country',
         sortOrder: true,
-        loading: false
+        loading: false,
+        cleanUI: false
       }
 
       columns = [
@@ -95,13 +96,14 @@
       }
 
       render() {
-        const {data, caption, selectable, draggable, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable, cleanUI, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
             <Table
               data={data}
               columns={this.columns}
+              theme={cleanUI ? THEMES.cleanUI : null}
               selection={selection}
               onSelect={selection => this.setState({selection})}
               onReorder={({data}) => this.setState({data})}
@@ -156,6 +158,11 @@
                     loading
                     ? <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
                     : <Button onClick={() => this.setState({loading: true})}>Loading</Button>
+                  }
+                  {
+                    cleanUI
+                    ? <Button onClick={() => this.setState({cleanUI: false})}>Normal UI</Button>
+                    : <Button onClick={() => this.setState({cleanUI: true})}>Clean UI</Button>
                   }
                 </Col>
               </Row>

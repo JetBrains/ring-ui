@@ -27,6 +27,10 @@ import DraggableRow from './draggable-row';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
+export const THEMES = {
+  cleanUI: 'cleanUI'
+};
+
 const DraggableRows = sortableContainer(props => {
   const {data, getRowKey, selection, selectable, isItemSelectable, multiSelectable, onRowFocus, onRowSelect, ...restProps} = props;
   return (
@@ -74,7 +78,8 @@ class Table extends PureComponent {
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
-    shortcuts: PropTypes.object
+    shortcuts: PropTypes.object,
+    theme: PropTypes.string
   }
 
   static defaultProps = {
@@ -93,7 +98,8 @@ class Table extends PureComponent {
     draggable: false,
     alwaysShowDragHandle: false,
     stickyHeader: true,
-    shortcuts: {}
+    shortcuts: {},
+    theme: null
   }
 
   state = {
@@ -303,7 +309,7 @@ class Table extends PureComponent {
   render() {
     const {data, selection, columns, caption, getRowKey, selectable, multiSelectable, isItemSelectable} = this.props;
     const {draggable, alwaysShowDragHandle, loading, onSort, sortKey, sortOrder} = this.props;
-    const {loaderClassName, stickyHeader, stickyHeaderOffset} = this.props;
+    const {loaderClassName, theme, stickyHeader, stickyHeaderOffset} = this.props;
     const {shortcuts} = this.state;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -314,7 +320,8 @@ class Table extends PureComponent {
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
-      [style.loading]: loading
+      [style.loading]: loading,
+      [style[theme]]: theme !== null
     });
 
     const classes = classNames(this.props.className, {

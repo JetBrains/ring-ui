@@ -3,10 +3,15 @@
 import HubSourceUsersGroups from './hub-source__users-groups';
 
 describe('Hub Users Groups Source', () => {
+  let httpMock;
+
   beforeEach(function () {
+    httpMock = {
+      get: this.sinon.stub().returns(Promise.resolve({}))
+    };
     this.fakeAuth = {
       requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
-      getApi: this.sinon.stub().returns(Promise.resolve({}))
+      http: httpMock
     };
   });
 
@@ -57,13 +62,13 @@ describe('Hub Users Groups Source', () => {
   });
 
   it('Should cache request for groups', async function () {
-    this.fakeAuth.getApi = this.sinon.stub().
+    httpMock.get = this.sinon.stub().
       returns(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(this.fakeAuth);
     source.getGroups();
     source.getGroups();
     await source.getGroups();
-    this.fakeAuth.getApi.should.have.been.called.once;
+    httpMock.get.should.have.been.called.once;
   });
 });
