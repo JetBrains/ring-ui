@@ -1,5 +1,3 @@
-import httpMock from '../http/http.mock';
-
 /**
  * TODO(maksimrv): Remove this code
  * It is currently required because permissions do not work without auth,
@@ -12,10 +10,17 @@ export default function AuthProviderMock() {
     return {
       auth: {
         addListener() {},
+        getAPIPath() {
+          return '/';
+        },
         requestToken() {
           return promise;
         },
-        http: httpMock
+        http: {
+          get() {
+            return promise;
+          }
+        }
       },
       promise
     };

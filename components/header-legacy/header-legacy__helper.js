@@ -1,5 +1,6 @@
 import {findDOMNode} from 'react-dom';
 import PopupMenu from '../popup-menu/popup-menu';
+import HTTP from '../http/http';
 
 const LAYOUT = {
   DEFAULT: 'default',
@@ -24,8 +25,9 @@ export default class HeaderHelper {
     const allFields = 'id,name,applicationName,homeUrl,iconUrl';
     const countFields = 'key';
 
+    const http = new HTTP(auth, auth.getAPIPath());
     function getServices(fields) {
-      return auth.requestToken().then(token => auth.getApi(`services/header?fields=${fields}`, token, params));
+      return http.get(`services/header?fields=${fields}`, params);
     }
 
     function setServicesList(services) {
