@@ -1,16 +1,16 @@
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
-import ExtendableError from 'es6-error';
 
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 
-import HTTP, {CODE} from '../http/http';
+import HTTP from '../http/http';
 
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
 import AuthRequestBuilder from './request-builder';
 import BackgroundTokenGetter from './background-token-getter';
+import TokenValidator from './token-validator';
 
 function noop() {}
 
@@ -102,6 +102,14 @@ export default class Auth {
       : undefined;
     this.http = new HTTP(this, API_BASE, fetchConfig);
 
+    const getUser = async token => {
+      const user = this.getUser(token);
+      this.user = user;
+      return user;
+    };
+
+    this._tokenValidator = new TokenValidator(this.config, getUser, this._storage);
+
     this.listeners = new Listeners();
 
     if (this.config.onLogout) {
@@ -129,7 +137,6 @@ export default class Auth {
     redirect: false,
     request_credentials: 'default',
     scope: [],
-    fetchCredentials: null,
     userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
     cleanHash: true,
     onLogout: noop,
@@ -150,11 +157,6 @@ export default class Auth {
    * @const {string}
    */
   static API_PROFILE_PATH = 'users/me';
-
-  /**
-   * @const {number}
-   */
-  static REFRESH_BEFORE = 20 * 60; // 20 min in s
 
   addListener(event, handler) {
     this.listeners.add(event, handler);
@@ -192,7 +194,7 @@ export default class Auth {
 
     try {
       // Check if there is a valid token
-      await this.validateToken();
+      await this._tokenValidator.validateToken();
 
       // Access token appears to be valid.
       // We may resolve restoreLocation URL now
@@ -240,7 +242,7 @@ export default class Auth {
     if (error.authRedirect && !this.config.redirect) {
       try {
         await this._backgroundTokenGetter.get();
-        await this.validateToken();
+        await this._tokenValidator.validateToken();
         this._initDeferred.resolve();
         return undefined;
       } catch (validationError) {
@@ -252,20 +254,6 @@ export default class Auth {
     this._initDeferred.reject(error);
     throw error;
   }
-
-  /**
-   * Check token validity against all conditions.
-   * @returns {Promise.<string>}
-   */
-  validateToken() {
-    return this._getValidatedToken([
-      Auth._validateExistence,
-      Auth._validateExpiration,
-      this._validateScopes.bind(this),
-      this._validateAgainstUser.bind(this)
-    ]);
-  }
-
   /**
    * Get token from local storage or request it if necessary.
    * Can redirect to login page.
@@ -275,11 +263,7 @@ export default class Auth {
     try {
       await this._initDeferred.promise;
 
-      return await this._getValidatedToken([
-        Auth._validateExistence,
-        Auth._validateExpiration,
-        this._validateScopes.bind(this)
-      ]);
+      return await this._tokenValidator.validateTokenLocally();
     } catch (e) {
       return this.forceTokenUpdate();
     }
@@ -304,15 +288,7 @@ export default class Auth {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
-      throw new Auth.TokenValidationError(e.message);
-    }
-  }
-
-  static HTTPError = class HTTPError extends ExtendableError {
-    constructor(response) {
-      super(`${response.status} ${response.statusText}`);
-      this.response = response;
-      this.status = response.status;
+      throw new TokenValidator.TokenValidationError(e.message);
     }
   }
 
@@ -385,17 +361,6 @@ export default class Auth {
   }
 
   /**
-   * Returns epoch - seconds since 1970.
-   * Used for calculation of expire times.
-   * @return {number} epoch, seconds since 1970
-   * @private
-   */
-  static _epoch() {
-    const milliseconds = 1000.0;
-    return Math.round(Date.now() / milliseconds);
-  }
-
-  /**
    * Check if the hash contains an access token.
    * If it does, extract the state, compare with
    * config, and store the auth response for later use.
@@ -428,129 +393,11 @@ export default class Auth {
      * @type {number}
      */
     const expiresIn = expires_in ? parseInt(expires_in, 10) : default_expires_in;
-    const expires = Auth._epoch() + expiresIn;
+    const expires = TokenValidator._epoch() + expiresIn;
 
     await this._storage.saveToken({access_token, scopes, expires});
 
     return newState;
-  }
-
-  /**
-   * Error class for auth token validation
-   *
-   * @param {string} message Error message
-   * @param {Error=} cause Error that caused this error
-   */
-  static TokenValidationError = class TokenValidationError extends ExtendableError {
-    constructor(message, cause) {
-      super(message);
-      this.cause = cause;
-      this.authRedirect = true;
-    }
-  };
-
-  /**
-   * Check if there is a token
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  static async _validateExistence(storedToken) {
-    if (!storedToken || !storedToken.access_token) {
-      throw new Auth.TokenValidationError('Token not found');
-    }
-  }
-
-  /**
-   * Check expiration
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  static async _validateExpiration(storedToken) {
-    if (storedToken.expires && storedToken.expires < (Auth._epoch() + Auth.REFRESH_BEFORE)) {
-      throw new Auth.TokenValidationError('Token expired');
-    }
-  }
-
-  /**
-   * Check scopes
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  async _validateScopes(storedToken) {
-    const {scope, optionalScopes} = this.config;
-    const requiredScopes = optionalScopes ? scope.filter(scopeId => !optionalScopes.includes(scopeId)) : scope;
-
-    const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes.includes(scopeId));
-    if (!hasAllScopes) {
-      throw new Auth.TokenValidationError('Token doesn\'t match required scopes');
-    }
-  }
-
-  /**
-   * Check by error code if token should be refreshed
-   * @param {string} error
-   * @return {boolean}
-   */
-  static shouldRefreshToken(error) {
-    return error === 'invalid_grant' ||
-      error === 'invalid_request' ||
-      error === 'invalid_token';
-  }
-
-  /**
-   * Check scopes
-   * @param {StoredToken} storedToken
-   * @return {Promise.<StoredToken>}
-   * @private
-   */
-  async _validateAgainstUser(storedToken) {
-    try {
-      const user = await this.getUser(storedToken.access_token);
-      this.user = user;
-    } catch (errorResponse) {
-
-      let response = {};
-      try {
-        response = await errorResponse.response.json();
-      } catch (e) {
-        // Skip JSON parsing errors
-      }
-
-      if (errorResponse.status === CODE.UNAUTHORIZED || Auth.shouldRefreshToken(response.error)) {
-        // Token expired
-        throw new Auth.TokenValidationError(response.error || errorResponse.message);
-      }
-
-      // Request unexpectedly failed
-      throw errorResponse;
-    }
-  }
-
-  /**
-   * Token Validator function
-   * @typedef {(function(StoredToken): Promise<StoredToken>)} TokenValidator
-   */
-
-  /**
-   * Gets stored token and applies provided validators
-   * @param {TokenValidator[]} validators An array of validation
-   * functions to check the stored token against.
-   * @return {Promise.<string>} promise that is resolved to access token if the stored token is valid. If it is
-   * invalid then the promise is rejected. If invalid token should be re-requested then rejection object will
-   * have {authRedirect: true}.
-   * @private
-   */
-  async _getValidatedToken(validators) {
-    const storedToken = await this._storage.getToken();
-
-    for (let i = 0; i < validators.length; i++) {
-      await validators[i](storedToken);
-    }
-
-    return storedToken.access_token;
   }
 
   /**
