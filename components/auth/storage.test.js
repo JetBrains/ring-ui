@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 
 import Auth from './auth';
-import AuthStorage from './auth__storage';
+import AuthStorage from './storage';
 import sniffer from '../global/sniffer';
 
 describe('Auth', () => {
