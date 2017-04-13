@@ -39,7 +39,7 @@ describe('HTTP', () => {
   it('should export http service', () => http.should.be.defined);
 
   it('should read token and perform authorized fetch', async () => {
-    await http._authorizedFetch('testurl', {foo: 'bar'});
+    await http._getTokenAndFetch('testurl', {foo: 'bar'});
 
     fakeAuth.requestToken.should.have.been.called;
 
