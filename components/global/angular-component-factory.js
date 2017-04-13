@@ -7,7 +7,6 @@ import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
 import DomRenderer from './react-dom-renderer';
 
-const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
 const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
 
 function iterateRecursive(obj, iterator) {
@@ -92,7 +91,7 @@ function createAngularComponent(Component, name) {
       const props = {};
       propKeys.forEach(key => {
         if (this[key] !== undefined) {
-          if (funcTypes.includes(propTypes[key])) {
+          if (typeof this[key] === 'function') {
             props[key] = (...rest) => {
               const ret = this[key](...rest);
               $scope.$applyAsync();
