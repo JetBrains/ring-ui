@@ -11,8 +11,7 @@
   <file type="js">
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
-    import Table from 'ring-ui/components/table/table';
-    import styles from 'ring-ui/components/table/table.css';
+    import Table, {THEMES} from 'ring-ui/components/table/table';
     import Selection from 'ring-ui/components/table/selection';
     import {Grid, Row, Col} from 'ring-ui/components/grid/grid';
     import Link from 'ring-ui/components/link/link';
@@ -104,7 +103,7 @@
             <Table
               data={data}
               columns={this.columns}
-              theme={cleanUI ? 'cleanUI' : null}
+              theme={cleanUI ? THEMES.cleanUI : null}
               selection={selection}
               onSelect={selection => this.setState({selection})}
               onReorder={({data}) => this.setState({data})}
