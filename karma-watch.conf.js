@@ -1,5 +1,4 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
 
 const deepAssign = require('deep-assign');
 const baseConfig = require('./karma-base.conf.js');

@@ -1,5 +1,5 @@
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
-import {showError} from '../alert-service/alert-service';
+import alertService from '../alert-service/alert-service';
 import iconNg from '../icon-ng/icon-ng';
 import editIcon from 'jetbrains-icons/pencil.svg';
 
@@ -98,7 +98,7 @@ function rgAvatarEditor() {
             }
           }
           if (e.target.files.length && !imageFileSelected) {
-            showError(RingMessageBundle.avatareditor_noselected());
+            alertService.error(RingMessageBundle.avatareditor_noselected());
           }
         });
       };
@@ -111,7 +111,7 @@ function rgAvatarEditor() {
 
       $scope.controls.select = () => {
         if (!FileReader) {
-          showError(RingMessageBundle.avatareditor_nosupport());
+          alertService.error(RingMessageBundle.avatareditor_nosupport());
         } else {
           fileInput.addEventListener('click', onClick);
           fileInput.dispatchEvent(new MouseEvent('click'));
