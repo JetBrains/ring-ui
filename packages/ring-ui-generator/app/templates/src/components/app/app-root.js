@@ -13,7 +13,7 @@ export default class AppRoot extends Component {
     serverUri: '***REMOVED***/'
   });
 
-  didMount() {
+  componentDidMount() {
     this.auth.init();
   }
 
