@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RingComponent from '../ring-component/ring-component';
 import angularComponentFactory from './angular-component-factory';
-import TestUtils from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
 
 class TestComponent extends RingComponent {
   static propTypes = {
@@ -114,7 +114,7 @@ describe('angularComponentFactory', () => {
     const $element = $compile('<rg-test-component on-click="callback"></rg-test-component>')($rootScope);
     const component = $element[0].firstChild;
 
-    TestUtils.Simulate.click(component);
+    Simulate.click(component);
 
     $rootScope.callback.should.have.been.called;
     $rootScope.callback.should.have.been.calledWith('payload');
