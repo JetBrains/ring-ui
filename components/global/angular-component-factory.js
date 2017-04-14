@@ -117,4 +117,4 @@ function angularComponentFactory(Component, name) {
 }
 
 export default angularComponentFactory;
-export {createAngularComponent}; // eslint-disable-line modules/no-mix-default-named
+export {createAngularComponent};

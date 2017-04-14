@@ -23,7 +23,7 @@ import position, {
   MaxHeight,
   MinWidth,
   positionPropKeys
-} from './position.js';
+} from './position';
 import {Listeners} from '../global/dom';
 
 import styles from './popup.css';

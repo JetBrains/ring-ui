@@ -4,5 +4,8 @@
     "jetbrains",
     "jetbrains/es6",
     "jetbrains/node"
-  ]
+  ],
+  "rules": {
+    "import/no-commonjs": 0
+  }
 }

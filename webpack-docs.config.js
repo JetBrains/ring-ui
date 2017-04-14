@@ -1,5 +1,4 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
 const path = require('path');
