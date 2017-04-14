@@ -2,8 +2,7 @@
 
 import React from 'react';
 
-import renderIntoDocument from 'render-into-document';
-import {Simulate} from 'react-dom/test-utils';
+import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 
 import Radio from './radio';
 
