@@ -1,8 +1,8 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
 
 const deepAssign = require('deep-assign');
 const generateConfig = require('./karma-base.conf.js');
+
 process.env.BABEL_ENV = 'test';
 
 module.exports = config => {

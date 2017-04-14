@@ -1,4 +1,4 @@
-import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input/input.scss';
 import AngularElastic from 'angular-elastic';
 

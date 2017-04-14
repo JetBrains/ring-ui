@@ -27,4 +27,5 @@
 
 import angularComponentFactory from '../global/angular-component-factory';
 import GroupNg from '../group/group';
+
 export default angularComponentFactory(GroupNg, 'Group').name;

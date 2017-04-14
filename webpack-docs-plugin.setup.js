@@ -1,6 +1,5 @@
 /* eslint-env node */
 /* eslint-disable no-var */
-/* eslint-disable modules/no-cjs */
 /* eslint-disable camelcase */
 /* eslint-disable valid-jsdoc */
 

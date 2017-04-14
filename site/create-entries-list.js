@@ -1,5 +1,5 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
+/* eslint-disable import/no-commonjs */
 require('babel-polyfill');
 
 const fs = require('fs');
