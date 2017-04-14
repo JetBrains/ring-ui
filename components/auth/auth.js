@@ -158,6 +158,8 @@ export default class Auth {
    */
   static API_PROFILE_PATH = 'users/me';
 
+  static shouldRefreshToken = TokenValidator.shouldRefreshToken;
+
   addListener(event, handler) {
     this.listeners.add(event, handler);
   }
