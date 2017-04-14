@@ -1,5 +1,4 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
 const url = require('url');
 
 module.exports = config => {

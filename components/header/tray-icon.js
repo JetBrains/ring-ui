@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Icon, {Size} from '../icon/icon';
+import Icon from '../icon/icon';
 
 import styles from './header.css';
 
@@ -17,7 +17,7 @@ export default class TrayIcon extends Component {
     ...Icon.defaultProps,
     active: false,
     rotated: false,
-    size: Size.Size18
+    size: Icon.Size.Size18
   };
 
   render() {

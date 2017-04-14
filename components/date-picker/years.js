@@ -9,6 +9,7 @@ import RingComponent from '../ring-component/ring-component';
 import styles from './date-picker.css';
 
 import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
+
 const {yearHeight, calHeight} = units;
 
 let scrollTO;

@@ -35,6 +35,7 @@ function noop() {}
  */
 const TOP_LINE_SERVICES_REGEXP = /^dashboard|project\swizard$/i;
 
+/* eslint-disable import/no-commonjs */
 const PRODUCTS_LOGOS = {
   hub: require('jetbrains-logos/hub/hub.svg'),
   teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
@@ -43,6 +44,7 @@ const PRODUCTS_LOGOS = {
   dashboard: require('jetbrains-icons/gauge.svg'),
   'project wizard': require('jetbrains-icons/puzzle.svg')
 };
+/* eslint-enable */
 
 /**
  * Takes an item, decides whether it is a known JetBrains service

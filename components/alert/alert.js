@@ -9,6 +9,10 @@ import {getRect} from '../global/dom';
 
 import styles from './alert.css';
 
+import exceptionIcon from 'jetbrains-icons/exception.svg';
+import okIcon from 'jetbrains-icons/ok.svg';
+import warningIcon from 'jetbrains-icons/warning.svg';
+
 const ANIMATION_TIME = 500;
 
 /**
@@ -34,9 +38,9 @@ const Type = {
  * @type {Object.<Type, string>}
  */
 const TypeToIconModifier = {
-  [Type.ERROR]: require('jetbrains-icons/exception.svg'),
-  [Type.SUCCESS]: require('jetbrains-icons/ok.svg'),
-  [Type.WARNING]: require('jetbrains-icons/warning.svg')
+  [Type.ERROR]: exceptionIcon,
+  [Type.SUCCESS]: okIcon,
+  [Type.WARNING]: warningIcon
 };
 
 /**

@@ -21,5 +21,12 @@
 
     // Angular
     "angular/directive-name": ["error", "rg"]
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack-test.config.js"
+      }
+    }
   }
 }
