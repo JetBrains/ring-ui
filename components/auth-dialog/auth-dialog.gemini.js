@@ -1,8 +1,8 @@
 /* global gemini: false */
 
-gemini.suite('Confirm', suite => {
+gemini.suite('AuthDialog', suite => {
   suite.
-    setUrl('/confirm/confirm.html').
+    setUrl('/auth-dialog/auth-dialog.html').
     setCaptureElements('*[data-test=ring-dialog]').
-    capture('confirm');
+    capture('auth-dialog');
 });

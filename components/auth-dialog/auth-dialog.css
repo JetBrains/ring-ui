@@ -8,7 +8,7 @@
   margin: calc(unit * 4);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 }
 
 .button {
@@ -32,7 +32,7 @@
 
 .logo {
   object-fit: scale-down;
-  margin: 0 auto 12px auto;
+  margin-bottom:12px;
 }
 
 .error {
