@@ -1,5 +1,5 @@
 import RingComponent from './ring-component';
-import renderIntoDocument from 'render-into-document';
+import {renderIntoDocument} from 'react-dom/test-utils';
 import React from 'react';
 
 describe('Ring Component', () => {
