@@ -5,6 +5,9 @@
     "jetbrains/es6",
     "jetbrains/node"
   ],
+  "env": {
+    "node": true
+  },
   "rules": {
     "import/no-commonjs": 0
   }
