@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import renderIntoDocument from 'render-into-document';
+import {renderIntoDocument} from 'react-dom/test-utils';
 import simulateCombo from 'simulate-combo';
 import guid from 'mout/random/guid';
 

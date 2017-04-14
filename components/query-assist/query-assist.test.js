@@ -6,8 +6,7 @@ import 'dom4';
 import QueryAssist from './query-assist';
 
 import {findDOMNode} from 'react-dom';
-import {Simulate} from 'react-dom/test-utils';
-import renderIntoDocument from 'render-into-document';
+import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 import simulateCombo from 'simulate-combo';
 
 describe('Query Assist', () => {

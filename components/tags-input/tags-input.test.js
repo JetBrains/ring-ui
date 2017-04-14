@@ -2,9 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 import TagsInput from './tags-input';
-import renderIntoDocument from 'render-into-document';
 import RingComponent from '../ring-component/ring-component';
 
 describe('Tags Input', () => {
@@ -155,14 +154,14 @@ describe('Tags Input', () => {
   });
 
   it('should enable shortcuts on input focus', function () {
-    TestUtils.Simulate.focus(this.tagsInput.getInputNode());
+    Simulate.focus(this.tagsInput.getInputNode());
 
     this.tagsInput.state.shortcuts.should.be.true;
   });
 
   it('should disable shortcuts when input lose focus', function () {
-    TestUtils.Simulate.focus(this.tagsInput.getInputNode());
-    TestUtils.Simulate.blur(this.tagsInput.getInputNode());
+    Simulate.focus(this.tagsInput.getInputNode());
+    Simulate.blur(this.tagsInput.getInputNode());
 
     this.tagsInput.state.shortcuts.should.be.false;
   });

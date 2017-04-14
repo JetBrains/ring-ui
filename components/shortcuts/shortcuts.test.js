@@ -2,7 +2,7 @@
 
 import Shortcuts from './shortcuts';
 import React from 'react';
-import renderIntoDocument from 'render-into-document';
+import {renderIntoDocument} from 'react-dom/test-utils';
 import guid from 'mout/random/guid';
 import simulateCombo from 'simulate-combo';
 
