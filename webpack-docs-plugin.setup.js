@@ -1,13 +1,12 @@
-/* eslint-env node */
-/* eslint-disable no-var */
-/* eslint-disable camelcase */
 /* eslint-disable valid-jsdoc */
 
 const path = require('path');
+
 const Docpack = require('docpack');
 const slug = require('url-slug');
+const {emitAsset} = require('webpack-toolkit');
+
 const pkg = require('./package.json');
-const emitAsset = require('webpack-toolkit').emitAsset;
 
 const HOOKS = Docpack.HOOKS;
 

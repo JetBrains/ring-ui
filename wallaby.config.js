@@ -1,7 +1,7 @@
-/* eslint-env node */
-
 const path = require('path');
+
 const wallabyWebpack = require('wallaby-webpack');
+
 const webpackConfig = require('./webpack.config');
 const webpackTestConfig = require('./webpack-test.config');
 

@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Link from 'ring-ui/components/link/link';
-import Code from 'ring-ui/components/code/code';
-import {H3} from 'ring-ui/components/heading/heading';
+import Link from '../../components/link/link';
+import Code from '../../components/code/code';
+import {H3} from '../../components/heading/heading';
+import styles from '../index.css';
 
 import Iframe from './iframe';
-
-import styles from '../index.css';
 
 function Example({name, url, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
