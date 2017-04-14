@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
-import Auth from 'ring-ui/components/auth/auth';
-import Header, {Tray, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
-import Link from 'ring-ui/components/link/link';
-import Icon from 'ring-ui/components/icon/icon';
-
-import hubConfig from 'ring-ui/site/hub-config';
+import Auth from '../../components/auth/auth';
+import Header, {Tray, SmartProfile, SmartServices} from '../../components/header/header';
+import Link from '../../components/link/link';
+import Icon from '../../components/icon/icon';
+import hubConfig from '../hub-config';
 
 import Item from './item';
 import Version from './version';

@@ -20,12 +20,22 @@
     "func-names": "warn",
 
     // Angular
-    "angular/directive-name": ["error", "rg"]
+    "angular/directive-name": ["error", "rg"],
+
+    // Imports
+    "import/order": [1, { "newlines-between": "always" }]
   },
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "webpack-test.config.js"
+        "config": {
+          "resolve": {
+            "modules": [
+              "test-helpers",
+              "node_modules"
+            ]
+          }
+        }
       }
     }
   }
