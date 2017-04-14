@@ -7,10 +7,6 @@
     "jetbrains/react"
   ],
   "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack-docs.config.js"
-      }
-    }
+    "import/resolver": "webpack"
   }
 }

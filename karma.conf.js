@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 const baseConfig = require('./karma-base.conf.js');
 
 module.exports = config => {
