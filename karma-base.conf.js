@@ -2,9 +2,10 @@ const url = require('url');
 
 module.exports = config => {
   const gridURL = process.env.SELENIUM_GRID || '***REMOVED***';
-  const {hostname, port} = url.parse(gridURL);
+  const {hostname, port, auth = ':'} = url.parse(gridURL);
+  const [user, pwd] = auth.split(':');
 
-  const webdriverConfig = {hostname, port};
+  const webdriverConfig = {hostname, port, user, pwd};
 
   const buildVersion = process.env.npm_package_config_version || 'dev';
   const testName = `Ring UI library Karma unit tests, build #${buildVersion}`;
@@ -95,6 +96,7 @@ module.exports = config => {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'MicrosoftEdge'
       },
       wdIE11: {
@@ -102,18 +104,21 @@ module.exports = config => {
         config: webdriverConfig,
         'x-ua-compatible': 'IE=edge',
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'internet explorer'
       },
       wdFirefox: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'firefox'
       },
       wdChrome: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'chrome'
       }
     },
