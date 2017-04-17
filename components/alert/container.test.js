@@ -1,9 +1,9 @@
 /* eslint-disable func-names */
+import React from 'react';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 
 import Alert from './alert';
 import AlertContainer from './container';
-import React from 'react';
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 
 describe('Alert Container', () => {
   const children = <Alert>{'Test'}</Alert>;

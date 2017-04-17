@@ -2,6 +2,7 @@ import React, {Children} from 'react';
 import PropTypes from 'prop-types';
 
 import RingComponent from '../ring-component/ring-component';
+
 import RadioItem from './radio__item';
 
 /**

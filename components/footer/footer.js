@@ -15,8 +15,10 @@ import 'dom4';
 import React, {isValidElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
 import RingComponent from '../ring-component/ring-component';
 import Link from '../link/link';
+
 import styles from './footer.css';
 
 /**

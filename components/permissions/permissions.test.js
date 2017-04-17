@@ -1,4 +1,5 @@
 import Auth from '../auth/auth';
+
 import Permissions from './permissions';
 import PermissionCache from './permissions__cache';
 

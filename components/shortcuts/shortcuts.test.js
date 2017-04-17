@@ -1,9 +1,11 @@
 /* eslint-disable func-names */
 
-import Shortcuts from './shortcuts';
 import React from 'react';
 import {renderIntoDocument} from 'react-dom/test-utils';
 import guid from 'mout/random/guid';
+
+import Shortcuts from './shortcuts';
+
 import simulateCombo from 'simulate-combo';
 
 

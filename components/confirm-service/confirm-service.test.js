@@ -1,6 +1,8 @@
 import {Simulate} from 'react-dom/test-utils';
-import confirm, {hideConfirm} from './confirm-service';
+
 import islandStyles from '../island/island.css';
+
+import confirm, {hideConfirm} from './confirm-service';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');

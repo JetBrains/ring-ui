@@ -1,5 +1,6 @@
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import ButtonSet from './button-set';
 
 describe('Button Set', () => {

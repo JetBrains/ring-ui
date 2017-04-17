@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
+import popupStyles from '../popup/popup.css';
+
 import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
-
 import {dateType, parseDate} from './consts';
-
 import styles from './date-picker.css';
-import popupStyles from '../popup/popup.css';
 
 const scrollExpDelay = 10;
 

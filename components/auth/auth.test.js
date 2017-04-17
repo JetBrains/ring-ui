@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
-import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
 
@@ -10,6 +9,8 @@ import AuthRequestBuilder from './request-builder';
 import AuthResponseParser from './response-parser';
 import BackgroundTokenGetter from './background-token-getter';
 import TokenValidator from './token-validator';
+
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 
 describe('Auth', () => {
   describe('construction', () => {

@@ -1,6 +1,10 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
+import exceptionIcon from 'jetbrains-icons/exception.svg';
+import okIcon from 'jetbrains-icons/ok.svg';
+import warningIcon from 'jetbrains-icons/warning.svg';
+
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
@@ -8,10 +12,6 @@ import Badge from '../badge/badge';
 import {getRect} from '../global/dom';
 
 import styles from './alert.css';
-
-import exceptionIcon from 'jetbrains-icons/exception.svg';
-import okIcon from 'jetbrains-icons/ok.svg';
-import warningIcon from 'jetbrains-icons/warning.svg';
 
 const ANIMATION_TIME = 500;
 

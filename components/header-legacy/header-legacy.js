@@ -9,6 +9,7 @@ import 'dom4';
 import React, {createElement, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
+import debounce from 'mout/function/debounce';
 
 import RingComponent from '../ring-component/ring-component';
 import Button from '../button/button';
@@ -19,11 +20,10 @@ import {
   getAbsoluteBaseURL,
   getBaseURI
 } from '../global/url';
+import PopupMenu from '../popup-menu/popup-menu';
 
 import HeaderItem from './header-legacy__item';
 import HeaderHelper from './header-legacy__helper';
-import PopupMenu from '../popup-menu/popup-menu';
-import debounce from 'mout/function/debounce';
 
 import './header-legacy.scss';
 

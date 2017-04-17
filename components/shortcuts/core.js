@@ -1,6 +1,7 @@
+import 'core-js/modules/es6.array.find-index';
 import 'dom4';
 import Combokeys from 'combokeys';
-import 'core-js/modules/es6.array.find-index';
+
 import sniffr from '../global/sniffer';
 
 class Shortcuts {

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {renderIntoDocument} from 'react-dom/test-utils';
+
 import PopupMenu from './popup-menu';
 
 describe('Popup Menu', () => {

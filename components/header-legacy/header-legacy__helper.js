@@ -1,4 +1,5 @@
 import {findDOMNode} from 'react-dom';
+
 import PopupMenu from '../popup-menu/popup-menu';
 import HTTP from '../http/http';
 

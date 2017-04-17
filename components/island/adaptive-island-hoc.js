@@ -1,4 +1,5 @@
 import React, {Children, cloneElement, Component} from 'react';
+
 import Header from './header';
 import Content from './content';
 

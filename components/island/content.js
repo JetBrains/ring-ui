@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import throttle from 'mout/function/throttle';
-import styles from './island.css';
 import createResizeDetector from 'element-resize-detector';
+
+import styles from './island.css';
 
 const noop = () => {};
 const FADE_SHOW_TROTTLING = 50;

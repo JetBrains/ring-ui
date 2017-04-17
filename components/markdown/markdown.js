@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 
-import styles from './markdown.css';
-
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
 
@@ -12,6 +10,7 @@ import Code from './code';
 import Link from './link';
 import Image from './image';
 import Heading from './heading';
+import styles from './markdown.css';
 
 /**
   * @name Markdown

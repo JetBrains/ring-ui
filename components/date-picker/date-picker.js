@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
 import calendarIcon from 'jetbrains-icons/calendar.svg';
 import closeIcon from 'jetbrains-icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button/button';
-import DatePopup from './date-popup';
-import {dateType, parseDate} from './consts';
 import Icon from '../icon/icon';
 
+import DatePopup from './date-popup';
+import {dateType, parseDate} from './consts';
 import styles from './date-picker.css';
 
 /**
