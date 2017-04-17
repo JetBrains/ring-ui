@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import exceptionIcon from 'jetbrains-icons/exception.svg';
 import okIcon from 'jetbrains-icons/ok.svg';
 import warningIcon from 'jetbrains-icons/warning.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
+
 
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
@@ -201,7 +203,7 @@ export default class Alert extends RingComponent {
               onClick={this.closeRequest}
             >
               <Icon
-                glyph={require('jetbrains-icons/close.svg')}
+                glyph={closeIcon}
                 size={Icon.Size.Size16}
               />
             </button>

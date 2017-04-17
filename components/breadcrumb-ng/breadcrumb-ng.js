@@ -20,8 +20,8 @@ import '../link/link.scss';
      </div>
      </file>
      <file name="index.js">
-       require('angular');
-       require('ring-ui/components/breadcrumb-ng/breadcrumb-ng');
+       import 'angular';
+       import 'ring-ui/components/breadcrumb-ng/breadcrumb-ng';
 
        angular.module('Example.breadcrumb', ['Ring.breadcrumb'])
          .controller('DemoCtrl', function ($scope) {

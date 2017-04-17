@@ -10,6 +10,17 @@ import React, {createElement, DOM} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 import debounce from 'mout/function/debounce';
+import hub from 'jetbrains-logos/hub/hub.svg';
+import teamcity from 'jetbrains-logos/teamcity/teamcity.svg';
+import upsource from 'jetbrains-logos/upsource/upsource.svg';
+import youtrack from 'jetbrains-logos/youtrack/youtrack.svg';
+import dashboard from 'jetbrains-icons/gauge.svg';
+import projectWizard from 'jetbrains-icons/puzzle.svg';
+import caretDownIcon from 'jetbrains-icons/caret-down.svg';
+import cogIcon from 'jetbrains-icons/cog.svg';
+import helpIcon from 'jetbrains-icons/help.svg';
+import servicesIcon from 'jetbrains-icons/services.svg';
+import userIcon from 'jetbrains-icons/user1.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Button from '../button/button';
@@ -35,16 +46,14 @@ function noop() {}
  */
 const TOP_LINE_SERVICES_REGEXP = /^dashboard|project\swizard$/i;
 
-/* eslint-disable import/no-commonjs */
 const PRODUCTS_LOGOS = {
-  hub: require('jetbrains-logos/hub/hub.svg'),
-  teamcity: require('jetbrains-logos/teamcity/teamcity.svg'),
-  upsource: require('jetbrains-logos/upsource/upsource.svg'),
-  youtrack: require('jetbrains-logos/youtrack/youtrack.svg'),
-  dashboard: require('jetbrains-icons/gauge.svg'),
-  'project wizard': require('jetbrains-icons/puzzle.svg')
+  hub,
+  teamcity,
+  upsource,
+  youtrack,
+  dashboard,
+  'project wizard': projectWizard
 };
-/* eslint-enable */
 
 /**
  * Takes an item, decides whether it is a known JetBrains service
@@ -283,7 +292,7 @@ export default class Header extends RingComponent {
           <Icon
             ref={MenuItemType.NAVIGATION_MENU}
             className="ring-header__menu__dropdown"
-            glyph={require('jetbrains-icons/caret-down.svg')}
+            glyph={caretDownIcon}
             size={Icon.Size.Size16}
             onClick={::this._setNavigationPopupMenu}
           />
@@ -564,7 +573,7 @@ export default class Header extends RingComponent {
           key="settings"
           ref="settings"
           testKey="settings"
-          glyph={require('jetbrains-icons/cog.svg')}
+          glyph={cogIcon}
           href={this.props.settingsLink}
           onOpen={this.props.onSettingsOpen}
           onClose={this.props.onSettingsClose}
@@ -579,7 +588,7 @@ export default class Header extends RingComponent {
           key="help"
           ref="help"
           testKey="help"
-          glyph={require('jetbrains-icons/help.svg')}
+          glyph={helpIcon}
           href={this.props.helpLink}
           onOpen={this.props.onHelpOpen}
           onClose={this.props.onHelpClose}
@@ -592,7 +601,7 @@ export default class Header extends RingComponent {
           key="services"
           ref="services"
           testKey="services"
-          glyph={require('jetbrains-icons/services.svg')}
+          glyph={servicesIcon}
           onOpen={::this._onServicesOpen}
           onClose={::this._onServicesClose}
           title={this.props.translationsDict.services}
@@ -604,7 +613,7 @@ export default class Header extends RingComponent {
           key="userMenu"
           ref="userMenu"
           testKey="user-menu"
-          glyph={require('jetbrains-icons/user1.svg')}
+          glyph={userIcon}
           onOpen={this.props.onUserMenuOpen}
           onClose={this.props.onUserMenuClose}
         />

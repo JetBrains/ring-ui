@@ -14,14 +14,15 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var Button = require('ring-ui/components/button/button');
+    import {render} from 'react-dom';
+    import Button from 'ring-ui/components/button/button';
+    import caretDownIcon from 'jetbrains-icons/caret-down.svg';
 
     render(Button.factory({}, 'Button default'),
       document.getElementById('button'));
 
     render(Button.factory({
-      icon: require('jetbrains-icons/caret-down.svg')
+      icon: caretDownIcon
     }, 'Button icon'), document.getElementById('button-icon'));
 
     render(Button.factory({

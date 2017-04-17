@@ -26,10 +26,10 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
        }
      </file>
      <file name="index.js" webpack="true">
-        require('angular');
-        require('angular-route');
-        require('ring-ui/components/error-page-ng/error-page-ng');
-        const authMock = require('ring-ui/components/auth-ng/auth-ng.mock');
+        import 'angular';
+        import 'angular-route';
+        import 'ring-ui/components/error-page-ng/error-page-ng';
+        import authMock from 'ring-ui/components/auth-ng/auth-ng.mock';
 
         angular.module('Ring.auth', []).provider('auth', authMock);
      </file>

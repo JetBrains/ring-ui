@@ -18,18 +18,20 @@
   </file>
 
   <file type="js">
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var hubConfig = require('ring-ui/site/hub-config');
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import hubConfig from 'ring-ui/site/hub-config';
 
-    var Header = require('ring-ui/components/header-legacy/header-legacy');
-    var Popup = require('ring-ui/components/popup/popup');
-    var Auth = require('ring-ui/components/auth/auth');
-    var Link = require('ring-ui/components/link/link').default;
-    var Input = require('ring-ui/components/input/input');
-    var Button = require('ring-ui/components/button/button');
-    var ButtonGroup = require('ring-ui/components/button-group/button-group');
-    var List = require('ring-ui/components/list/list');
+    import Header from 'ring-ui/components/header-legacy/header-legacy';
+    import Popup from 'ring-ui/components/popup/popup';
+    import Auth from 'ring-ui/components/auth/auth';
+    import Link from 'ring-ui/components/link/link';
+    import Input from 'ring-ui/components/input/input';
+    import Button from 'ring-ui/components/button/button';
+    import ButtonGroup from 'ring-ui/components/button-group/button-group';
+    import List from 'ring-ui/components/list/list';
+
+    import caretDownIcon from 'jetbrains-icons/caret-down.svg';
 
     var popup, popupContainer;
 
@@ -58,7 +60,7 @@
             key: 'create_issue_1'
           }, 'Create Issue'),
           Button.factory({
-            icon: require('jetbrains-icons/caret-down.svg'),
+            icon: caretDownIcon,
             primary: true,
             key: 'create_issue_2',
             short: true
@@ -143,11 +145,11 @@
   </file>
 
   <file type="js">
-    var React = require('react');
-    var ReactDOM = require('react-dom');
+    import React from 'react';
+    import ReactDOM from 'react-dom';
 
-    var Header = require('ring-ui/components/header-legacy/header-legacy');
-    var Link = require('ring-ui/components/link/link').default;
+    import Header from 'ring-ui/components/header-legacy/header-legacy';
+    import Link from 'ring-ui/components/link/link';
 
     // Renders a YouTrack header to the DOM
     var header = ReactDOM.render(Header.factory({

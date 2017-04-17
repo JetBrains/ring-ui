@@ -176,13 +176,14 @@ function reactNgDirective($parse) {
      </file>
 
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/react-ng/react-ng')({
-           Icon: require('ring-ui/components/icon/icon')
-       });
+       import 'angular';
+       import registerComponents from 'ring-ui/components/react-ng/react-ng';
+       import Icon from 'ring-ui/components/icon/icon';
+
+       registerComponents({Icon});
 
        angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', () => {});
-       require('jetbrains-icons/pencil.svg');
+       import 'jetbrains-icons/pencil.svg';
      </file>
    </example>
 
@@ -195,12 +196,13 @@ function reactNgDirective($parse) {
      </file>
 
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/react-ng/react-ng')({
-         Icon: require('ring-ui/components/icon/icon'),
-         Button: require('ring-ui/components/button/button')
-       });
-       require('jetbrains-icons/check.svg');
+       import 'angular';
+       import registerComponents from 'ring-ui/components/react-ng/react-ng';
+       import Icon from 'ring-ui/components/icon/icon';
+       import Button from 'ring-ui/components/button/button';
+       import 'jetbrains-icons/check.svg';
+
+       registerComponents({Icon, Button});
 
        angular.module('react-ng-performance', ['Ring.react-ng']).controller('testController', ($scope) => {
          $scope.data = Array.from(Array(500).keys())

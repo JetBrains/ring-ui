@@ -1,6 +1,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
+import caretDownIcon from 'jetbrains-icons/caret-down.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
@@ -655,7 +657,7 @@ export default class Select extends RingComponentWithShortcuts {
           onClick={::this.clear}
         >
         <Icon
-          glyph={require('jetbrains-icons/close.svg')}
+          glyph={closeIcon}
           size={Icon.Size.Size14}
         />
       </span>);
@@ -674,7 +676,7 @@ export default class Select extends RingComponentWithShortcuts {
     if (!this.props.hideArrow) {
       icons.push(
         <Icon
-          glyph={require('jetbrains-icons/caret-down.svg')}
+          glyph={caretDownIcon}
           key="hide"
           size={Icon.Size.Size16}
         />

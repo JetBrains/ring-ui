@@ -2,6 +2,7 @@ import 'angular';
 import 'angular-mocks';
 import './table-legacy-ng';
 import TableSelection from './table-legacy-ng__selection';
+import SelectionNavigateActions from './table-legacy-ng__selection-navigate-actions';
 
 describe('Table Legacy Ng', () => {
   let scope;
@@ -188,7 +189,6 @@ describe('Table Legacy Ng', () => {
     });
 
     describe('Default table navigation actions', () => {
-      const SelectionNavigateActions = require('./table-legacy-ng__selection-navigate-actions');
       let navigateActions;
       beforeEach(() => {
         navigateActions = new SelectionNavigateActions();
