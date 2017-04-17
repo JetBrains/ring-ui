@@ -39,6 +39,7 @@ export default class Permissions {
     }
 
     this._auth = auth;
+    this._http = auth.http;
     this._promise = null;
     this._subscribed = false;
   }
@@ -82,15 +83,15 @@ export default class Permissions {
       return this._promise;
     }
 
-    this._promise = this._auth.requestToken().then(accessToken => {
-      const params = {
+    const params = {
+      query: {
         fields: 'permission/key,global,projects(id)',
         query: this.query
-      };
+      }
+    };
 
-      return this._auth.getApi(this.constructor.API_PERMISSION_CACHE_PATH, accessToken, params).
-        then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
-    });
+    this._promise = this._http.get(Permissions.API_PERMISSION_CACHE_PATH, params).
+      then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
 
     return this._promise;
   }

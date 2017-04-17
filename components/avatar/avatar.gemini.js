@@ -4,6 +4,6 @@ gemini.suite('Avatar', suite => {
   suite.
     setUrl('/avatar/avatar.html').
     setCaptureElements('#avatar').
-    ignoreElements({every: 'img:first-of-type'}).
+    ignoreElements({every: '.avatar-demo > :first-child'}).
     capture('avatar');
 });

@@ -3,6 +3,7 @@
 import 'dom4';
 
 import sniffer from '../global/sniffer';
+
 import {
   encodeURL,
   fixUrl,

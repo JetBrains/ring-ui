@@ -1,8 +1,10 @@
 import React from 'react';
-import TestUtils, {
+import {
   isCompositeComponentWithType,
-  renderIntoDocument
+  renderIntoDocument,
+  Simulate
 } from 'react-dom/test-utils';
+
 import Alert from './alert';
 import styles from './alert.css';
 
@@ -73,7 +75,7 @@ describe('Alert', () => {
     });
     const closeElement = alertComponent.node.querySelector('*[data-test="alert-close"]');
 
-    TestUtils.Simulate.click(closeElement);
+    Simulate.click(closeElement);
     closeSpy.should.have.been.called;
   });
 

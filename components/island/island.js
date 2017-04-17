@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import adaptiveIslandHOC from '../island/adaptive-island-hoc';
 import classNames from 'classnames';
+
+import adaptiveIslandHOC from '../island/adaptive-island-hoc';
+
 import styles from './island.css';
 
 /**

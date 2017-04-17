@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {sortableElement} from 'react-sortable-hoc';
+
 import Row from './row';
 
 class DraggableRow extends PureComponent {

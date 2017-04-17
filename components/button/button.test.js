@@ -2,16 +2,17 @@
 
 import 'dom4';
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import Button from './button';
 
 describe('Button', () => {
   beforeEach(function () {
-    this.button = TestUtils.renderIntoDocument(React.createElement(Button));
+    this.button = renderIntoDocument(React.createElement(Button));
   });
 
   it('should create component', function () {
-    TestUtils.isCompositeComponentWithType(this.button, Button).should.equal(true);
+    isCompositeComponentWithType(this.button, Button).should.equal(true);
   });
 
   it('should set _default modifier', function () {

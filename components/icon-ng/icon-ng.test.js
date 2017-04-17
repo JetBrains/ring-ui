@@ -2,10 +2,10 @@ import 'dom4';
 
 import 'angular';
 import 'angular-mocks';
-import Icon from './icon-ng';
-
 import okIcon from 'jetbrains-icons/ok.svg';
 import warningIcon from 'jetbrains-icons/warning.svg';
+
+import Icon from './icon-ng';
 
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 

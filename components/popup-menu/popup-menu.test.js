@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
+import {renderIntoDocument} from 'react-dom/test-utils';
+
 import PopupMenu from './popup-menu';
 
 describe('Popup Menu', () => {
   let popup;
 
   beforeEach(() => {
-    popup = TestUtils.renderIntoDocument(React.createElement(PopupMenu));
+    popup = renderIntoDocument(React.createElement(PopupMenu));
   });
 
   it('should create component', () => {

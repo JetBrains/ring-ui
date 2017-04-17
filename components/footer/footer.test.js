@@ -1,12 +1,13 @@
 import React from 'react';
-import TestUtils from 'react-dom/test-utils';
+import {renderIntoDocument} from 'react-dom/test-utils';
+
 import Footer from './footer';
 
 describe('Footer', () => {
   let footer;
 
   beforeEach(() => {
-    footer = TestUtils.renderIntoDocument(React.createElement(Footer));
+    footer = renderIntoDocument(React.createElement(Footer));
   });
 
   it('should create component', () => {
