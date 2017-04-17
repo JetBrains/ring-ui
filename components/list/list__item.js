@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import checkIcon from 'jetbrains-icons/check.svg';
 
 import Icon from '../icon/icon';
 
@@ -88,7 +89,7 @@ export default class ListItem extends PureComponent {
                   'ring-list__glyph_checkbox': true,
                   'ring-list__glyph_hidden': !checkbox
                 })}
-                glyph={require('jetbrains-icons/check.svg')}
+                glyph={checkIcon}
                 size={Icon.Size.Size18}
               />
             )}
