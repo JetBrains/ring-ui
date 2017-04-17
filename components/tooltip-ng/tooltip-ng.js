@@ -18,9 +18,11 @@ import './tooltip-ng.scss';
           <div ng-controller="testController">
             Some text that needs an explanation
             <span rg-tooltip="'Test message'"
-                  react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
             <span rg-tooltip="{{testMessageWithQuote}}"
-                  react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+            <span rg-tooltip="{{someUndefinedValue}}"
+                  react-static="Icon" react-glyph="iconInfo" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
           </div>
         </div>
       </file>
@@ -33,7 +35,8 @@ import './tooltip-ng.scss';
         require('ring-ui/components/tooltip-ng/tooltip-ng');
 
         angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
-          $scope.icon = require('jetbrains-icons/help.svg');
+          $scope.iconHelp = require('jetbrains-icons/help.svg');
+          $scope.iconInfo = require('jetbrains-icons/info.svg');
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>
@@ -98,7 +101,12 @@ name.factory('RgTooltipPopup', () => function (anchorElement, textGetter) {
   };
 
   this.displayTooltip = customClass => {
-    this.text = textGetter();
+    const text = textGetter();
+    if (!text) {
+      return;
+    }
+
+    this.text = text;
 
     const className = classNames({
       'ring-tooltip-ng': true
