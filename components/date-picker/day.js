@@ -5,7 +5,6 @@ import moment from 'moment';
 import 'core-js/modules/es7.array.includes';
 
 import {dateType, weekdays} from './consts';
-
 import styles from './date-picker.css';
 
 let hoverTO;

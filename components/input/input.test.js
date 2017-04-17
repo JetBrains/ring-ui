@@ -1,5 +1,6 @@
 import 'dom4';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import Input from './input';
 
 describe('Input', () => {

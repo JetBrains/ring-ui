@@ -9,9 +9,9 @@ import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
+
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
-
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import './list.scss';

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 import RingComponent from '../ring-component/ring-component';
 import {Content, Header} from '../island/island';
 import Panel from '../panel/panel';
+
 import styles from './confirm.css';
 
 /**

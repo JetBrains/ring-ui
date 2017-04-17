@@ -6,7 +6,6 @@ import {
 } from 'react-dom/test-utils';
 
 import DatePicker from './date-picker';
-
 import styles from './date-picker.css';
 
 describe('Date Picker', () => {

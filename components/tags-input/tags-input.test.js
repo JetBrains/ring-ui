@@ -3,8 +3,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
-import TagsInput from './tags-input';
+
 import RingComponent from '../ring-component/ring-component';
+
+import TagsInput from './tags-input';
 
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
