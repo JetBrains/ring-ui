@@ -406,7 +406,7 @@ describe('Auth', () => {
         'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
       // Assert fails in IE for some reason
-      if (sniffer.browser.name !== 'ie') {
+      if (sniffer.browser.name !== 'ie' && sniffer.browser.name !== 'edge') {
         Auth.prototype._redirectCurrentPage.should.not.have.been.called;
       }
 
