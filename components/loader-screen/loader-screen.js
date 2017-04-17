@@ -19,8 +19,8 @@ import './loader-screen.scss';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var LoaderScreen = require('ring-ui/components/loader-screen/loader-screen');
+       import {render} from 'react-dom';
+       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory(),
@@ -34,8 +34,8 @@ import './loader-screen.scss';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var LoaderScreen = require('ring-ui/components/loader-screen/loader-screen');
+       import {render} from 'react-dom';
+       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory({message: 'Loading...'}),

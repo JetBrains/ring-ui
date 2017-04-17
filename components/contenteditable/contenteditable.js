@@ -24,11 +24,11 @@ function noop() {}
      </file>
 
      <file name="index.js" webpack="true">
-       require('ring-ui/components/input/input.scss');
-       var render = require('react-dom').render;
-       var React = require('react');
+       import 'ring-ui/components/input/input.scss';
+       import {render} from 'react-dom';
+       import React from 'react';
 
-       var ContentEditable = require('ring-ui/components/contenteditable/contenteditable');
+       import ContentEditable from 'ring-ui/components/contenteditable/contenteditable';
 
        render(ContentEditable.factory({className: 'ring-input'},
          <span>text <b>bold text</b> text</span>

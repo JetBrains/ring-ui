@@ -140,17 +140,18 @@
   </file>
 
   <file type="js">
-    require('ring-ui/components/input/input.scss');
-    require('ring-ui/components/form/form.scss');
-    require('ring-ui/components/panel/panel.scss');
-    require('ring-ui/components/button/button.scss');
-    require('ring-ui/components/input-size/input-size.scss');
+    import 'ring-ui/components/input/input.scss';
+    import 'ring-ui/components/form/form.scss';
+    import 'ring-ui/components/panel/panel.scss';
+    import 'ring-ui/components/button/button.scss';
+    import 'ring-ui/components/input-size/input-size.scss';
 
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/react-ng/react-ng')({
-      Checkbox: require('ring-ui/components/checkbox/checkbox')
-    });
+    import 'angular';
+    import 'ring-ui/components/select-ng/select-ng';
+    import registerComponents from 'ring-ui/components/react-ng/react-ng';
+    import Checkbox from 'ring-ui/components/checkbox/checkbox';
+
+    registerComponents({Checkbox});
 
     angular.module('Example.form', ['Ring.react-ng', 'Ring.select']).
       controller('FormExampleCtrl', function () {

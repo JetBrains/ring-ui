@@ -4,8 +4,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
 
     var listData = [];
     for (var i = 0; i < 1000; i++) {
@@ -29,8 +29,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'rgItemType': List.ListProps.Type.ITEM},
@@ -60,8 +60,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'rgItemType': List.ListProps.Type.ITEM},
@@ -86,8 +86,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
 
     var listData = [
       {
@@ -143,8 +143,9 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
+    import distributionIcon from 'jetbrains-icons/distribution.svg';
 
     var listData = [
       {
@@ -152,8 +153,8 @@
         description: 'Long long long long long long long long long long long long long long long description',
         key: '1',
         'rgItemType': List.ListProps.Type.ITEM,
-        glyph: require('jetbrains-icons/distribution.svg'),
-        rightGlyph: require('jetbrains-icons/distribution.svg')
+        glyph: distributionIcon,
+        rightGlyph: distributionIcon
       },
       {
         label: 'Some item with a long long label, much longer than description',
@@ -200,8 +201,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'type': List.ListProps.Type.ITEM},
@@ -224,9 +225,9 @@
     <div id='list'></div>
   </file>
   <file type="js">
-    var render = require('react-dom').render;
-    var List = require('ring-ui/components/list/list');
-    var React = require('react');
+    import {render} from 'react-dom';
+    import List from 'ring-ui/components/list/list';
+    import React from 'react';
 
     var listData = [
       {

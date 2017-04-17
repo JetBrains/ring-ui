@@ -28,15 +28,18 @@ import './tooltip-ng.scss';
       </file>
 
       <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/react-ng/react-ng')({
-          Icon: require('ring-ui/components/icon/icon')
-        });
-        require('ring-ui/components/tooltip-ng/tooltip-ng');
+        import 'angular';
+        import registerComponents from 'ring-ui/components/react-ng/react-ng';
+        import Icon from 'ring-ui/components/icon/icon';
+        import 'ring-ui/components/tooltip-ng/tooltip-ng';
+        import iconHelp from 'jetbrains-icons/help.svg';
+        import iconInfo from 'jetbrains-icons/info.svg';
+
+        registerComponents({Icon});
 
         angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
-          $scope.iconHelp = require('jetbrains-icons/help.svg');
-          $scope.iconInfo = require('jetbrains-icons/info.svg');
+          $scope.iconHelp = iconHelp;
+          $scope.iconInfo = iconInfo;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>
