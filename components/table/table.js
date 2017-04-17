@@ -14,17 +14,21 @@ import 'core-js/modules/es6.array.find';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {arrayMove, sortableContainer} from 'react-sortable-hoc';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
+import Shortcuts from '../shortcuts/shortcuts';
+import Loader from '../loader/loader';
+
 import Selection from './selection';
 import Header from './header';
 import style from './table.css';
-import {arrayMove, sortableContainer} from 'react-sortable-hoc';
 import DraggableRow from './draggable-row';
 
-import Shortcuts from '../shortcuts/shortcuts';
-import Loader from '../loader/loader';
+export const THEMES = {
+  cleanUI: 'cleanUI'
+};
 
 const DraggableRows = sortableContainer(props => {
   const {
@@ -88,7 +92,8 @@ class Table extends PureComponent {
     isItemCollapsible: PropTypes.func,
     isItemCollapsed: PropTypes.func,
     onItemCollapse: PropTypes.func,
-    onItemExpand: PropTypes.func
+    onItemExpand: PropTypes.func,
+    theme: PropTypes.string
   }
 
   static defaultProps = {
@@ -111,7 +116,8 @@ class Table extends PureComponent {
     isItemCollapsible: () => false,
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
-    onItemExpand: () => {}
+    onItemExpand: () => {},
+    theme: null
   }
 
   state = {
@@ -334,7 +340,7 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand
+      onItemCollapse, onItemExpand, theme
     } = this.props;
 
     const {shortcuts} = this.state;
@@ -353,7 +359,8 @@ class Table extends PureComponent {
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,
-      [style.loading]: loading
+      [style.loading]: loading,
+      [style[theme]]: theme !== null
     });
 
     const classes = classNames(this.props.className, {

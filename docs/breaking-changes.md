@@ -6,6 +6,31 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 13-04-2017: Auth component no longer provides getSecure and getApi methods
+
+Use the brand new HTTP component instead. 
+
+Before: 
+```js
+import Auth from 'ring-ui/components/auth/auth';
+
+const auth = new Auth(authConfig);
+
+const services = auth.requestToken().
+      then(token => auth.getApi('services/header', token));
+```
+
+After: 
+```js
+import Auth from 'ring-ui/components/auth/auth';
+import HTTP from 'ring-ui/components/http/http';
+
+const auth = new Auth(authConfig);
+const http = new HTTP(auth, auth.getAPIPath());
+
+const services = http.get('services/header');
+```
+
 ### 13-02-2017: Checkbox + ReactNg connection does not support ngModel anymore. Use checkbox-ng instead.
 
 ### 13-02-2017: Badge component has no margins anymore and is aligned by baseline

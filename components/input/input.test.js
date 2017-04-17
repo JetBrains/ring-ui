@@ -1,12 +1,13 @@
 import 'dom4';
-import TestUtils from 'react-dom/test-utils';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import Input from './input';
 
 describe('Input', () => {
-  const renderComponent = params => TestUtils.renderIntoDocument(Input.factory(params));
+  const renderComponent = params => renderIntoDocument(Input.factory(params));
 
   it('should create component', () => {
-    TestUtils.isCompositeComponentWithType(renderComponent(), Input).should.be.true;
+    isCompositeComponentWithType(renderComponent(), Input).should.be.true;
   });
 
   it('should create input by default', () => {

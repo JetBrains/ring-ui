@@ -1,14 +1,13 @@
 /* global angular: false */
+/* global process: false */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import {render, unmountComponentAtNode} from 'react-dom';
 import 'core-js/modules/es7.array.includes';
-import RingAngularComponent from '../global/ring-angular-component';
-import DomRenderer from './react-dom-renderer';
+import React from 'react';
+import {render, unmountComponentAtNode} from 'react-dom';
 
-const funcTypes = [PropTypes.func, PropTypes.func.isRequired];
-const stringTypes = [PropTypes.string, PropTypes.string.isRequired];
+import RingAngularComponent from '../global/ring-angular-component';
+
+import DomRenderer from './react-dom-renderer';
 
 function iterateRecursive(obj, iterator) {
   if (!obj) {
@@ -32,7 +31,7 @@ function addWarningOnPropertiesChange(object, name) {
       set: val => {
         // eslint-disable-next-line no-console
         console.warn(`Warning! You have modified a "${key}" property of object, which is passed to Ring UI
-          angular-component-factory. This change is not handled by "${name}" component. 
+          angular-component-factory. This change is not handled by "${name}" component.
           You should reassign object itself if you need this component to handle change.`, obj);
         value = val;
         return value;
@@ -46,18 +45,11 @@ function getAngularComponentName(name) {
 }
 
 function createAngularComponent(Component, name) {
-  const propTypes = Component.propTypes;
-  const propKeys = Object.keys(propTypes);
+  const propKeys = Object.keys(Component.propTypes);
 
   const bindings = {};
   propKeys.forEach(key => {
-    if (key === 'className') {
-      bindings.className = '@className';
-    } else if (stringTypes.includes(propTypes[key])) {
-      bindings[key] = '@';
-    } else {
-      bindings[key] = '<';
-    }
+    bindings[key] = '<';
   });
 
   return class AngularComponent extends RingAngularComponent {
@@ -92,7 +84,7 @@ function createAngularComponent(Component, name) {
       const props = {};
       propKeys.forEach(key => {
         if (this[key] !== undefined) {
-          if (funcTypes.includes(propTypes[key])) {
+          if (typeof this[key] === 'function') {
             props[key] = (...rest) => {
               const ret = this[key](...rest);
               $scope.$applyAsync();

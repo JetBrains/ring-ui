@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
-
 const path = require('path');
 
 const componentsPath = [path.join(__dirname, 'components')];

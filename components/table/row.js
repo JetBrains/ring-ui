@@ -4,16 +4,15 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
-
-import focusSensorHOC from '../global/focus-sensor-hoc';
 import dragIcon from 'jetbrains-icons/drag.svg';
 import collapseIcon from 'jetbrains-icons/collapse.svg';
 import expandIcon from 'jetbrains-icons/expand.svg';
 
-import Cell from './cell';
+import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 
+import Cell from './cell';
 import style from './table.css';
 
 const DragHandle = sortableHandle(({alwaysShowDragHandle}) => { // eslint-disable-line arrow-body-style

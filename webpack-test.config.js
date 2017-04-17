@@ -1,10 +1,9 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
-
 const path = require('path');
+
+const webpack = require('webpack');
+
 const config = require('./webpack.config').config;
 const loaders = require('./webpack.config').loaders;
-const webpack = require('webpack');
 
 const helpersPath = path.join(__dirname, 'test-helpers');
 

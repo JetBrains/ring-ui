@@ -1,11 +1,11 @@
 import 'dom4';
+import FrownIcon from 'jetbrains-icons/frown.svg';
+import PermissionIcon from 'jetbrains-icons/permission.svg';
+
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-//Icons
-import FrownIcon from 'jetbrains-icons/frown.svg';
-import PermissionIcon from 'jetbrains-icons/permission.svg';
 
 /**
  * @name Error Page Ng
@@ -29,26 +29,9 @@ import PermissionIcon from 'jetbrains-icons/permission.svg';
         require('angular');
         require('angular-route');
         require('ring-ui/components/error-page-ng/error-page-ng');
+        const authMock = require('ring-ui/components/auth-ng/auth-ng.mock');
 
-        angular.module('Ring.auth', [])
-          .provider('auth', function() {
-            this.$get = function($q) {
-              var defer = $q.defer();
-              defer.resolve([]);
-
-              return {
-                auth: {
-                  requestToken: function() {
-                    return defer.promise;
-                  },
-                  getSecure: function() {
-                    return defer.promise;
-                  }
-                },
-                promise: defer.promise
-              };
-            };
-          });
+        angular.module('Ring.auth', []).provider('auth', authMock);
      </file>
    </example>
  */

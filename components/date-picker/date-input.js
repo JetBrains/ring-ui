@@ -5,7 +5,6 @@ import {findDOMNode} from 'react-dom';
 import Input from '../input/input';
 
 import {dateType} from './consts';
-
 import styles from './date-picker.css';
 
 export default function DateInput({

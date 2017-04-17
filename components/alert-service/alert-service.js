@@ -1,7 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Alert, {Container as AlertContainer} from '../alert/alert';
 import guid from 'mout/random/guid';
+
+import Alert, {Container as AlertContainer} from '../alert/alert';
 
 /**
  * @name Alert Service

@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
+
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-
 import {dateType, HALF, YEAR, yearScrollSpeed} from './consts';
-
 import styles from './date-picker.css';
 
 export default function MonthNames(props) {
