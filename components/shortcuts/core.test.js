@@ -1,6 +1,8 @@
 import {simulate} from 'combokeys/test/lib/key-event';
-import shortcuts from './core';
+
 import sniffr from '../global/sniffer';
+
+import shortcuts from './core';
 
 describe('Shortcuts', () => {
   const key = 'a';

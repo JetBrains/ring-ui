@@ -1,9 +1,10 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
-import Auth from './auth';
-import AuthStorage from './auth__storage';
 import sniffer from '../global/sniffer';
+
+import AuthStorage from './storage';
+import TokenValidator from './token-validator';
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
@@ -104,7 +105,7 @@ describe('Auth', () => {
     const token = {
       access_token: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
-      expires: Auth._epoch() + 40 * 60
+      expires: TokenValidator._epoch() + 40 * 60
     };
 
     describe('saveToken', () => {

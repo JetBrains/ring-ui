@@ -1,8 +1,10 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import Loader from '../loader/loader';
 import RingComponent from '../ring-component/ring-component';
+
 import './loader-screen.scss';
-import classNames from 'classnames';
 
 /**
  * @name Loader Screen

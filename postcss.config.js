@@ -1,5 +1,3 @@
-/* eslint-disable modules/no-cjs */
-
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {

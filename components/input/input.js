@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
 import RingComponent from '../ring-component/ring-component';
 import './input.scss';
 

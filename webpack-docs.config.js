@@ -1,13 +1,11 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
 const path = require('path');
-const webpack = require('webpack');
 
-const webpackConfig = require('./webpack.config');
+const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 
+const webpackConfig = require('./webpack.config');
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
 const pkgConfig = require('./package.json').config;

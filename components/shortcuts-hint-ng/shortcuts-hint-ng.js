@@ -1,15 +1,15 @@
 import 'core-js/modules/es7.array.includes';
-import sniffer from '../global/sniffer';
+import searchIcon from 'jetbrains-icons/search.svg';
 
+import sniffer from '../global/sniffer';
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
-import HintPopupTpl from './shortcuts-hint-ng.html';
 import iconNg from '../icon-ng/icon-ng';
-
-import './shortcuts-hint-ng.scss';
 import '../input/input.scss';
-import searchIcon from 'jetbrains-icons/search.svg';
+
+import HintPopupTpl from './shortcuts-hint-ng.html';
+import './shortcuts-hint-ng.scss';
 
 /**
  * @name Shortcuts Ng Hint Popup

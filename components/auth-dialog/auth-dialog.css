@@ -1,0 +1,41 @@
+@value unit, font-size, error-color from '../global/global.css';
+
+.dialog.dialog {
+  width: auto;
+}
+
+.content {
+  margin: calc(unit * 4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  margin-top: unit;
+  width: calc(unit * 25);
+}
+
+.firstButton {
+  composes: button;
+  margin-top: calc(unit * 4);
+}
+
+.title {
+  font-weight: 100;
+  font-size: 24px;
+  text-align: center;
+  line-height: 28px;
+
+  margin-bottom: unit;
+}
+
+.logo {
+  object-fit: scale-down;
+  margin-bottom:12px;
+}
+
+.error {
+  text-align: center ;
+  color: error-color;
+}

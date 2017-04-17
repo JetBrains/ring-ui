@@ -1,13 +1,15 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
+
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
-import SelectPopup from './select__popup';
-import List, {ListHint} from '../list/list';
+import List from '../list/list';
 import Input from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+
+import SelectPopup from './select__popup';
 import './select.scss';
 
 /**
@@ -323,7 +325,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (this.props.hint) {
       hint = (
-        <ListHint
+        <List.ListHint
           key={this.props.hint + Type.ITEM}
           label={this.props.hint}
         />

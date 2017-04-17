@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 
 import Auth from '../auth/auth';
+import HTTP from '../http/http';
 import Header from '../header-legacy/header-legacy';
 import PopupMenu from '../popup-menu/popup-menu';
 import RingComponent from '../ring-component/ring-component';
@@ -82,8 +83,8 @@ export default class extends RingComponent {
     const allFields = 'id,name,applicationName,homeUrl,iconUrl';
     const countFields = 'key';
 
-    const getServices = fields => auth.requestToken().
-      then(token => auth.getApi(`services/header?fields=${fields}`, token, getServicesParams));
+    const http = new HTTP(auth, auth.getAPIPath());
+    const getServices = fields => http.get(`services/header?fields=${fields}`, getServicesParams);
 
     const setServicesList = services => {
       // Just in case

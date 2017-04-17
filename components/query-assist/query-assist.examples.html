@@ -5,41 +5,49 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var hubConfig = require('ring-ui/site/hub-config');
+    import React from 'react';
+    import {render} from 'react-dom';
+    import hubConfig from 'ring-ui/site/hub-config';
 
-    var QueryAssist = require('ring-ui/components/query-assist/query-assist');
-    var Auth = require('ring-ui/components/auth/auth');
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+    import Auth from 'ring-ui/components/auth/auth';
+    import HTTP from 'ring-ui/components/http/http';
 
-    var log = function (obj) {
-      var div = document.createElement('div');
+    const log = obj => {
+      const div = document.createElement('div');
       div.innerHTML = JSON.stringify(obj);
       document.getElementById('example').appendChild(div);
     };
 
-    var auth = new Auth(hubConfig);
+    const auth = new Auth(hubConfig);
+    const http = new HTTP(auth, auth.getAPIPath());
 
-    auth.init().then(function () {
+    const dataSource = props => {
+      const params = {
+        query: {
+          ...props,
+          fields: 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
+        }
+      }
+
+      return http.get('users/queryAssist', params);
+    }
+
+    auth.init().then(() => {
       render(
-        QueryAssist.factory({
-          query: 'test',
-          placeholder: 'placeholder',
-          popupClassName: 'popupClassNameTest',
-          glass: true,
-          clear: true,
-          onApply: log,
-          focus: true,
-          hint: 'lol',
-          hintOnSelection: 'lol selected',
-          popupClassName: 'test',
-          dataSource: function (props) {
-            props.fields = 'query,caret,styleRanges' + (props.omitSuggestions ? '' : ',suggestions')
-
-            return auth.requestToken().then(function (token) {
-              return auth.getApi('users/queryAssist', token, props);
-            });
-          }
-        }),
+        <QueryAssist
+          query="test"
+          placeholder="placeholder"
+          popupClassName="popupClassNameTest"
+          glass={true}
+          clear={true}
+          onApply={log}
+          focus={true}
+          hint="lol"
+          hintOnSelection="lol selected"
+          popupClassName="test"
+          dataSource={dataSource}
+        />,
         document.getElementById('example')
       );
     });
