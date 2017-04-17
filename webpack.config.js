@@ -75,7 +75,7 @@ const ngAnnotateLoader = {
 const babelLoader = {
   test: /\.js$/,
   include: componentsPath,
-  loader: `${resolveLoader('babel')}?cacheDirectory=true`
+  loader: `${resolveLoader('babel')}`
 };
 
 const whatwgLoader = {

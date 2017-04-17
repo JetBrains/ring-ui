@@ -11,9 +11,9 @@
     }
   </file>
   <file type="js">
-    require('ring-ui/components/input/input.scss');
-    require('angular');
-    require('ring-ui/components/autofocus-ng/autofocus-ng');
+    import 'ring-ui/components/input/input.scss';
+    import 'angular';
+    import 'ring-ui/components/autofocus-ng/autofocus-ng';
   </file>
 </example>
 
@@ -29,9 +29,9 @@
     }
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/autofocus-ng/autofocus-ng');
+    import 'angular';
+    import 'ring-ui/components/select-ng/select-ng';
+    import 'ring-ui/components/autofocus-ng/autofocus-ng';
 
     angular.module('testApp', ['Ring.select', 'Ring.autofocus']).
       controller('testCtrl', function ($scope) {});

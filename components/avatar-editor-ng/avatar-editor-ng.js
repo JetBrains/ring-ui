@@ -27,8 +27,8 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, ico
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/avatar-editor-ng/avatar-editor-ng');
+       import 'angular';
+       import 'ring-ui/components/avatar-editor-ng/avatar-editor-ng';
 
        angular.module('test', ['Ring.avatar-editor']).controller('testCtrl', function() {
           var ctrl = this;

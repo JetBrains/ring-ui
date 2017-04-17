@@ -6,6 +6,8 @@ import sniffer from '../global/sniffer';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
+
 describe('Auth', () => {
   describe('AuthStorage', () => {
     const authStorage = new AuthStorage({
@@ -134,7 +136,6 @@ describe('Auth', () => {
     });
 
     describe('events', () => {
-      const MockedStorage = require('imports-loader?window=storage-mock!../storage/storage__local');
       let mockedAuthStorage;
 
       beforeEach(() => {

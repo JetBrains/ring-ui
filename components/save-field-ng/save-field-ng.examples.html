@@ -132,13 +132,15 @@
     </div>
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/save-field-ng/save-field-ng');
-    require('ring-ui/components/input-size/input-size.scss');
-    require('ring-ui/components/react-ng/react-ng')({
-      QueryAssist: require('ring-ui/components/query-assist/query-assist'),
-      LoaderInline: require('ring-ui/components/loader-inline/loader-inline')
-    });
+    import 'angular';
+    import 'ring-ui/components/save-field-ng/save-field-ng';
+    import 'ring-ui/components/input-size/input-size.scss';
+    import registerComponents from 'ring-ui/components/react-ng/react-ng';
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+    import LoaderInline from 'ring-ui/components/loader-inline/loader-inline';
+    import hubConfig from 'ring-ui/site/hub-config';
+
+    registerComponents({QueryAssist, LoaderInline});
 
     angular.module('Example.saveField', ['Ring.save-field', 'Ring.react-ng']).
       config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function (shortcutsProvider, rgSaveFieldShortcutsMode) {
@@ -173,7 +175,6 @@
           }
         };
 
-        var hubConfig = require('ring-ui/site/hub-config');
         $scope.queryAssistSource = function (query, caret, omitSuggestions) {
           var config = {
             params: {

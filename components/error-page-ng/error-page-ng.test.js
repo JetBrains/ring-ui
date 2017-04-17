@@ -5,13 +5,15 @@ import 'angular';
 import 'angular-mocks';
 import 'angular-route';
 
+import AuthProviderMock from '../auth-ng/auth-ng.mock';
+
 import ErrorPage from './error-page-ng';
 
 describe('Error Page Ng', () => {
   beforeEach(
     window.module('Ring.error-page',
     $provide => {
-      $provide.provider('auth', require('../auth-ng/auth-ng.mock'));
+      $provide.provider('auth', AuthProviderMock);
     })
   );
 

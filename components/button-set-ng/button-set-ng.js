@@ -14,9 +14,9 @@
       </div>
     </file>
     <file name="index.js" webpack="true">
-     require('angular');
-     require('ring-ui/components/button-set-ng/button-set-ng');
-     require('ring-ui/components/button-ng/button-ng');
+     import 'angular';
+     import 'ring-ui/components/button-set-ng/button-set-ng';
+     import 'ring-ui/components/button-ng/button-ng';
      angular.module('TestApp', ['Ring.button', 'Ring.button-set']);
     </file>
    </example>

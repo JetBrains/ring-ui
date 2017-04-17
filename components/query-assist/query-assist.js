@@ -4,6 +4,8 @@ import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
+import searchIcon from 'jetbrains-icons/search.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';
@@ -789,7 +791,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
             className="ring-query-assist__icon ring-query-assist__icon_glass"
             ref="glass"
             color="gray"
-            glyph={require('jetbrains-icons/search.svg')}
+            glyph={searchIcon}
             onClick={this.handleApply}
             size={Icon.Size.Size16}
           />
@@ -807,7 +809,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
             className="ring-query-assist__icon ring-query-assist__icon_clear"
             ref="clear"
             color="gray"
-            glyph={require('jetbrains-icons/close.svg')}
+            glyph={closeIcon}
             onClick={this.clearQuery}
             size={Icon.Size.Size16}
           />
