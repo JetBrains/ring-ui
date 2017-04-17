@@ -10,7 +10,7 @@
   ],
   "rules": {
     // Possible Errors
-    "valid-jsdoc": "warn",
+    "valid-jsdoc": "off",
 
     // Best Practices
     "complexity": ["off", 5],
