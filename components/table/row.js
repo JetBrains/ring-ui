@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 import dragIcon from 'jetbrains-icons/drag.svg';
+import collapseIcon from 'jetbrains-icons/collapse.svg';
+import expandIcon from 'jetbrains-icons/expand.svg';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
@@ -33,26 +35,34 @@ class Row extends PureComponent {
     item: PropTypes.object.isRequired,
     columns: PropTypes.array.isRequired,
     selectable: PropTypes.bool,
-    checkable: PropTypes.bool,
     showFocus: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
-    onFocusRestore: PropTypes.func
+    onFocusRestore: PropTypes.func,
+    level: PropTypes.number,
+    collapsible: PropTypes.bool,
+    collapsed: PropTypes.bool,
+    onCollapse: PropTypes.func,
+    onExpand: PropTypes.func
   }
 
   static defaultProps = {
     selectable: true,
-    checkable: true,
     showFocus: false,
     draggable: false,
     alwaysShowDragHandle: false,
     selected: false,
     onHover: () => {},
     onSelect: () => {},
-    onFocusRestore: () => {}
+    onFocusRestore: () => {},
+    level: 0,
+    collapsible: false,
+    collapsed: false,
+    onCollapse: () => {},
+    onExpand: () => {}
   }
 
   onMouseEnter = () => {
@@ -82,7 +92,11 @@ class Row extends PureComponent {
   }
 
   render() {
-    const {item, columns, selectable, checkable, selected, showFocus, draggable, alwaysShowDragHandle} = this.props;
+    const {
+      item, columns, selectable, selected,
+      showFocus, draggable, alwaysShowDragHandle, level,
+      collapsible, collapsed, onCollapse, onExpand
+    } = this.props;
 
     const classes = classNames(this.props.className, {
       [style.row]: true,
@@ -100,22 +114,44 @@ class Row extends PureComponent {
     });
 
     const SUBITEM_OFFSET = 30;
-    const gap = item.__level ? item.__level * SUBITEM_OFFSET : 0;
+    const gap = level * SUBITEM_OFFSET;
     const metaColumnStyle = {
       paddingLeft: `${gap}px`
     };
 
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
-        {draggable && <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>}
-        {checkable &&
-        <Checkbox
-          className={showFocus ? 'ring-checkbox_focus' : ''}
-          checked={selected}
-          onFocus={this.onCheckboxFocus}
-          onChange={this.onCheckboxChange}
-          tabIndex="-1"
-        />}
+        {draggable &&
+          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
+        }
+
+        {selectable &&
+          <Checkbox
+            className={showFocus ? 'ring-checkbox_focus' : ''}
+            checked={selected}
+            onFocus={this.onCheckboxFocus}
+            onChange={this.onCheckboxChange}
+            tabIndex="-1"
+          />
+        }
+
+        {collapsible && collapsed &&
+          <Icon
+            glyph={expandIcon}
+            size={Icon.Size.Size14}
+            onClick={onExpand}
+            style={{top: '-3px'}}
+          />
+        }
+
+        {collapsible && !collapsed &&
+          <Icon
+            glyph={collapseIcon}
+            size={Icon.Size.Size14}
+            onClick={onCollapse}
+            style={{top: '-3px'}}
+          />
+        }
       </div>
     );
 
