@@ -2,8 +2,9 @@ import 'dom4';
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 
-import AuthDialog from './auth-dialog';
 import styles from '../auth-dialog/auth-dialog.css';
+
+import AuthDialog from './auth-dialog';
 
 describe('AuthDialog', () => {
   const defaultProps = {show: true, text: 'Foo'};

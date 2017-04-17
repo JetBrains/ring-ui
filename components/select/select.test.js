@@ -1,10 +1,13 @@
 /* eslint-disable func-names */
 import 'dom4';
-import Select from './select';
-import List from '../list/list';
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+
+import List from '../list/list';
+
+import Select from './select';
+
 import simulateCombo from 'simulate-combo';
 
 function simulateInput(target, value) {

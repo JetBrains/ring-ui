@@ -2,8 +2,9 @@ import 'dom4';
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 
-import Confirm from './confirm';
 import islandStyles from '../island/island.css';
+
+import Confirm from './confirm';
 
 describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};

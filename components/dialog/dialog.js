@@ -1,12 +1,14 @@
 import React from 'react';
+import getEventKey from 'react-dom/lib/getEventKey';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
-import ScrollPreventer from './dialog__body-scroll-preventer';
+
 import RingComponent from '../ring-component/ring-component';
 import {AdaptiveIsland} from '../island/island';
+
+import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
-import getEventKey from 'react-dom/lib/getEventKey';
 
 /**
  * @name Dialog

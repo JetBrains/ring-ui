@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {render} from 'react-dom';
+
 import RingComponent from '../ring-component/ring-component';
 
 function noop() {}

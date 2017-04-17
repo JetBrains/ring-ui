@@ -1,11 +1,11 @@
 import 'dom4';
+import FrownIcon from 'jetbrains-icons/frown.svg';
+import PermissionIcon from 'jetbrains-icons/permission.svg';
+
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-//Icons
-import FrownIcon from 'jetbrains-icons/frown.svg';
-import PermissionIcon from 'jetbrains-icons/permission.svg';
 
 /**
  * @name Error Page Ng

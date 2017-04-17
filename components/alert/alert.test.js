@@ -4,6 +4,7 @@ import {
   renderIntoDocument,
   Simulate
 } from 'react-dom/test-utils';
+
 import Alert from './alert';
 import styles from './alert.css';
 

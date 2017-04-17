@@ -15,6 +15,8 @@ import 'core-js/modules/es7.array.includes';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
+import {Listeners} from '../global/dom';
+
 import position, {
   DEFAULT_DIRECTIONS,
   Dimension,
@@ -24,8 +26,6 @@ import position, {
   MinWidth,
   positionPropKeys
 } from './position';
-import {Listeners} from '../global/dom';
-
 import styles from './popup.css';
 
 const legacyPopups = new Set();

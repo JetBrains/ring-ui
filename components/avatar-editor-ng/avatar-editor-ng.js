@@ -1,7 +1,8 @@
+import editIcon from 'jetbrains-icons/pencil.svg';
+
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
 import iconNg from '../icon-ng/icon-ng';
-import editIcon from 'jetbrains-icons/pencil.svg';
 
 import '../avatar-editor/avatar-editor.scss';
 import '../button/button.scss';

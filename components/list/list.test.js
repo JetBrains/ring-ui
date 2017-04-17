@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
-import List from './list';
-
 import okIcon from 'jetbrains-icons/ok.svg';
+
 import linkStyles from '../link/link.css';
+
+import List from './list';
 
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 

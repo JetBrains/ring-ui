@@ -3,11 +3,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import Icon from '../icon/icon';
 import sorteableIcon from 'jetbrains-icons/unsorted.svg';
 import sortedUpIcon from 'jetbrains-icons/chevron-up.svg';
 import sortedDownIcon from 'jetbrains-icons/chevron-down.svg';
+
+import Icon from '../icon/icon';
 
 import style from './table.css';
 

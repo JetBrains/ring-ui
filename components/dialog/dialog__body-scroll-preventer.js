@@ -1,4 +1,5 @@
 import scrollbarWidth from 'scrollbar-width';
+
 import {bodyWithoutScroll} from './dialog.css';
 
 let isPrevented = false;

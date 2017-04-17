@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import formats from './formats';
-
 import styles from './date-picker.css';
 
 const units = ['unit', 'cellSize', 'calHeight', 'yearHeight'].

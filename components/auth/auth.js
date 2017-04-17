@@ -3,7 +3,6 @@ import 'whatwg-fetch';
 
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
-
 import HTTP from '../http/http';
 
 import AuthStorage from './storage';

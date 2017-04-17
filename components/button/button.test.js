@@ -3,6 +3,7 @@
 import 'dom4';
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import Button from './button';
 
 describe('Button', () => {
