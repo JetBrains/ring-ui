@@ -1,8 +1,7 @@
 import '../icon-ng/icon-ng';
+import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 import '../checkbox/checkbox.scss';
-
-import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 /**
  * @name Checkbox Ng

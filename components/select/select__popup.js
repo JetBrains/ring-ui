@@ -4,14 +4,14 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import classNames from 'classnames';
+
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
-import classNames from 'classnames';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
-
 import {filterWrapper} from '../popup/popup.css';
 
 function noop() {}

@@ -102,6 +102,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   static propTypes = {
     autoOpen: PropTypes.bool,
     caret: PropTypes.number,
+    clear: PropTypes.bool,
     className: PropTypes.string,
     popupClassName: PropTypes.string,
     dataSource: PropTypes.func.isRequired,

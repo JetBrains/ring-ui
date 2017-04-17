@@ -1,4 +1,5 @@
 import React from 'react';
+
 import RingComponent from '../ring-component/ring-component';
 
 import LoaderCore from './loader__core';

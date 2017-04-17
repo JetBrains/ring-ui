@@ -4,6 +4,7 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 import 'angular-route';
+
 import ErrorPage from './error-page-ng';
 
 describe('Error Page Ng', () => {

@@ -1,12 +1,14 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
 const url = require('url');
+const osHostname = require('os').hostname();
+
+const fullHostname = osHostname.indexOf('.') !== -1 ? osHostname : `${osHostname}.labs.intellij.net`;
 
 module.exports = config => {
   const gridURL = process.env.SELENIUM_GRID || '***REMOVED***';
-  const {hostname, port} = url.parse(gridURL);
+  const {hostname, port, auth = ':'} = url.parse(gridURL);
+  const [user, pwd] = auth.split(':');
 
-  const webdriverConfig = {hostname, port};
+  const webdriverConfig = {hostname, port, user, pwd};
 
   const buildVersion = process.env.npm_package_config_version || 'dev';
   const testName = `Ring UI library Karma unit tests, build #${buildVersion}`;
@@ -21,7 +23,6 @@ module.exports = config => {
     frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-dom', 'sinon-chai'],
 
     files: [
-      'test-helpers/mocha-globals.js',
       'test-helpers/test-suite.js'
     ],
 
@@ -98,6 +99,7 @@ module.exports = config => {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'MicrosoftEdge'
       },
       wdIE11: {
@@ -105,23 +107,26 @@ module.exports = config => {
         config: webdriverConfig,
         'x-ua-compatible': 'IE=edge',
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'internet explorer'
       },
       wdFirefox: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'firefox'
       },
       wdChrome: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
+        pseudoActivityInterval: 30000,
         browserName: 'chrome'
       }
     },
 
-    hostname: require('os').hostname(),
+    hostname: fullHostname,
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,

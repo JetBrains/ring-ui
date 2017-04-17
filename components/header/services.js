@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
 import servicesGlyph from 'jetbrains-icons/services.svg';
 
 import Dropdown from '../dropdown/dropdown';

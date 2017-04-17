@@ -3,8 +3,10 @@
 
 import 'angular';
 import 'angular-mocks';
-import SelectNg from './select-ng';
+
 import Select from '../select/select';
+
+import SelectNg from './select-ng';
 
 describe('Select Ng', () => {
   let scope;

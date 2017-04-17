@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+
 import scheduleRAF from '../global/schedule-raf';
 import linearFunction from '../global/linear-function';
 
 import Month from './month';
 import MonthNames from './month-names';
-
 import styles from './date-picker.css';
-
 import units, {dateType, DOUBLE, HALF, WEEK, weekdays} from './consts';
+
 const {unit, cellSize, calHeight} = units;
 
 const FridayToSunday = WEEK + weekdays.SU - weekdays.FR;

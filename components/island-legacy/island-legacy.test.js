@@ -1,9 +1,10 @@
 import 'dom4';
+import React from 'react';
 import {
   isCompositeComponentWithType,
   renderIntoDocument
 } from 'react-dom/test-utils';
-import React from 'react';
+
 import Island from './island-legacy';
 
 describe('Island Legacy', () => {

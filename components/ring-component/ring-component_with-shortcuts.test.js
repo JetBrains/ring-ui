@@ -1,13 +1,14 @@
 /* eslint-disable func-names */
 
 import React from 'react';
-
-import renderIntoDocument from 'render-into-document';
-import simulateCombo from 'simulate-combo';
+import {renderIntoDocument} from 'react-dom/test-utils';
 import guid from 'mout/random/guid';
 
-import RingComponentWithShortcuts from './ring-component_with-shortcuts';
 import shortcuts from '../shortcuts/core';
+
+import RingComponentWithShortcuts from './ring-component_with-shortcuts';
+
+import simulateCombo from 'simulate-combo';
 
 describe('Ring Component With Shortcuts', () => {
   //const component;

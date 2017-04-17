@@ -1,14 +1,15 @@
 /* eslint-disable func-names */
 import 'dom4';
-import SelectPopup from './select__popup';
-import List from '../list/list';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 import React from 'react';
-import renderIntoDocument from 'render-into-document';
 import last from 'mout/array/last';
 import guid from 'mout/random/guid';
 import randString from 'mout/random/randString';
 
-import TestUtils from 'react-dom/test-utils';
+import List from '../list/list';
+
+import SelectPopup from './select__popup';
+
 import simulateCombo from 'simulate-combo';
 
 
@@ -148,7 +149,7 @@ describe('SelectPopup', () => {
       it('should enable shortcuts on focus', function () {
         this.selectPopup.willReceiveProps({filter: true});
 
-        TestUtils.Simulate.focus(this.selectPopup.filter);
+        Simulate.focus(this.selectPopup.filter);
 
         expectPopupFilterShortuctsDisabled(this.selectPopup, false);
       });
@@ -157,7 +158,7 @@ describe('SelectPopup', () => {
       it('should disable shortcuts on blur', function () {
         this.selectPopup.willReceiveProps({filter: true});
 
-        TestUtils.Simulate.blur(this.selectPopup.filter);
+        Simulate.blur(this.selectPopup.filter);
 
         expectPopupFilterShortuctsDisabled(this.selectPopup, true);
       });

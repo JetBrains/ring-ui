@@ -1,4 +1,5 @@
 import Alert from '../alert/alert';
+
 import alert from './alert-service';
 
 describe('Alert Service', () => {

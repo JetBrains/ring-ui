@@ -29,4 +29,5 @@ try {
   Storage = FallbackStorage;
 }
 
-export default Storage;
+const ActualStorage = Storage;
+export default ActualStorage;
