@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
-import linearFunction from '../global/linear-function';
 
+import linearFunction from '../global/linear-function';
 import RingComponent from '../ring-component/ring-component';
 
 import styles from './date-picker.css';
-
 import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
 
 const {yearHeight, calHeight} = units;

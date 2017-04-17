@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+
 import RingComponent from '../ring-component/ring-component';
+
 import './button-toolbar.scss';
 
 /**

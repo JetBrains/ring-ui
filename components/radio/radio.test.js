@@ -1,7 +1,6 @@
 /* eslint-disable func-names */
 
 import React from 'react';
-
 import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 
 import Radio from './radio';

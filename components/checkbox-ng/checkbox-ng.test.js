@@ -3,9 +3,9 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 
-import Checkbox from './checkbox-ng';
-
 import sniffer from '../global/sniffer';
+
+import Checkbox from './checkbox-ng';
 
 describe('Checkbox Ng', () => {
   let scope;

@@ -1,5 +1,6 @@
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
 import ButtonGroup from './button-group';
 
 describe('Button Group', () => {

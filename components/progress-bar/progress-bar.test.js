@@ -3,6 +3,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument} from 'react-dom/test-utils';
+
 import ProgressBar from './progress-bar';
 
 describe('Progress Bar', () => {

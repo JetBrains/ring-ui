@@ -6,8 +6,9 @@ import {
   renderIntoDocument
 } from 'react-dom/test-utils';
 
-import Avatar from './avatar';
 import {getPixelRatio} from '../global/dom';
+
+import Avatar from './avatar';
 
 const dataURI = `data:image/svg+xml,${encodeURIComponent(`
   <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">

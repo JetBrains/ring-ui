@@ -3,6 +3,7 @@
 import 'angular';
 import 'angular-mocks';
 import React from 'react';
+
 import RingComponent from '../ring-component/ring-component';
 import Select from '../select/select';
 

@@ -1,13 +1,15 @@
 /* eslint-disable func-names */
 import 'dom4';
-import SelectPopup from './select__popup';
-import List from '../list/list';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 import React from 'react';
 import last from 'mout/array/last';
 import guid from 'mout/random/guid';
 import randString from 'mout/random/randString';
 
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import List from '../list/list';
+
+import SelectPopup from './select__popup';
+
 import simulateCombo from 'simulate-combo';
 
 

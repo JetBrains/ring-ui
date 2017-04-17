@@ -2,15 +2,13 @@ import 'dom4';
 import debounce from 'mout/function/debounce';
 
 import {getRect, getStyles, getWindowHeight} from '../global/dom';
+import PlaceUnder from '../place-under-ng/place-under-ng';
+import Checkbox from '../checkbox-ng/checkbox-ng';
 
 import Selection from './table-legacy-ng__selection';
 import SelectionNavigateActions from './table-legacy-ng__selection-navigate-actions';
 import TableToolbar from './table-legacy-ng__toolbar';
-import PlaceUnder from '../place-under-ng/place-under-ng';
-
 import TablePager from './table-legacy-ng__pager';
-
-import Checkbox from '../checkbox-ng/checkbox-ng';
 
 import '../table-legacy/table-legacy.scss';
 

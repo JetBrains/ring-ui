@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import Icon from '../icon/icon';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
+
 import styles from './auth-dialog.css';
 
 /**

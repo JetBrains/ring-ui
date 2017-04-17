@@ -6,9 +6,10 @@ import {
   renderIntoDocument
 } from 'react-dom/test-utils';
 
-import Markdown from './markdown';
 import Code from '../code/code';
 import Link from '../link/link';
+
+import Markdown from './markdown';
 
 describe('Markdown', () => {
   const renderComponent = props => renderIntoDocument(

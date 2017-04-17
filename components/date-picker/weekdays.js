@@ -4,7 +4,6 @@ import moment from 'moment';
 import 'core-js/modules/es7.array.includes';
 
 import {weekdays} from './consts';
-
 import styles from './date-picker.css';
 
 export default function Weekdays() {

@@ -1,14 +1,15 @@
 /* eslint-disable func-names */
 
-import {Component, createElement} from 'react';
 import 'dom4';
-
+import {Component, createElement} from 'react';
 import {renderIntoDocument} from 'react-dom/test-utils';
-import simulateCombo from 'simulate-combo';
+
 import {getRect, getStyles} from '../global/dom';
 
 import Popup from './popup';
 import {MinWidth} from './position';
+
+import simulateCombo from 'simulate-combo';
 
 function renderPopup(props) {
   return renderIntoDocument(createElement(Popup, props));

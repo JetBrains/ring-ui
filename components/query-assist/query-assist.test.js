@@ -1,12 +1,12 @@
 /* eslint-disable func-names */
 
-import React from 'react';
 import 'dom4';
+import React from 'react';
+import {findDOMNode} from 'react-dom';
+import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 
 import QueryAssist from './query-assist';
 
-import {findDOMNode} from 'react-dom';
-import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 import simulateCombo from 'simulate-combo';
 
 describe('Query Assist', () => {

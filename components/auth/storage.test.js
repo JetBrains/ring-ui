@@ -1,9 +1,10 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
+import sniffer from '../global/sniffer';
+
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
-import sniffer from '../global/sniffer';
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
