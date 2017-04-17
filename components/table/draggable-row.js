@@ -14,14 +14,22 @@ class DraggableRow extends PureComponent {
     this.props.onSelect(this.props.item, selected);
   }
 
-  render() {
-    const {onSelect, onFocus, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+  onCollapse = () => {
+    this.props.onCollapse(this.props.item);
+  }
 
+  onExpand = () => {
+    this.props.onExpand(this.props.item);
+  }
+
+  render() {
     return (
       <Row
+        {...this.props}
         onFocus={this.onFocus}
         onSelect={this.onSelect}
-        {...restProps}
+        onCollapse={this.onCollapse}
+        onExpand={this.onExpand}
       />
     );
   }
