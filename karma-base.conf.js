@@ -1,4 +1,7 @@
 const url = require('url');
+const osHostname = require('os').hostname();
+
+const fullHostname = osHostname.indexOf('.') !== -1 ? osHostname : `${osHostname}.labs.intellij.net`;
 
 module.exports = config => {
   const gridURL = process.env.SELENIUM_GRID || '***REMOVED***';
@@ -123,7 +126,7 @@ module.exports = config => {
       }
     },
 
-    hostname: require('os').hostname(),
+    hostname: fullHostname,
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
