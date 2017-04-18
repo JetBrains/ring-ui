@@ -254,10 +254,9 @@ reactModule.directive(staticDirectiveName, reactStaticNgDirective);
  * React component register
  * @param componentsMap
  */
-function registerComponents(componentsMap) {
+export function registerComponents(componentsMap) {
   Object.assign(ringComponents, componentsMap);
 }
-registerComponents.registerComponents = registerComponents;
-registerComponents.reactNg = reactModule.name;
+export const reactNg = reactModule.name;
 
 export default registerComponents;
