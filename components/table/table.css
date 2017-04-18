@@ -299,6 +299,10 @@
     }
   }
 
+  & .metaColumn {
+    height: 32px;
+  }
+
   & .row {
     background-color: inherit;
     line-height: 31px;
