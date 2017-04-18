@@ -301,10 +301,12 @@
 
   & .row {
     background-color: inherit;
+    line-height: 31px;
 
     & .cell {
       border-top: none;
       border-bottom: none;
+      height: 32px;
     }
   }
 }
