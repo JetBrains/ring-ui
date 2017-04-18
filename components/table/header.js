@@ -59,7 +59,10 @@ export default class Header extends PureComponent {
     this.setState({fixed: false});
   }
 
-  onScrollOut = () => {
+  onScrollOut = ({currentPosition}) => {
+    if (currentPosition !== 'above') {
+      return;
+    }
     this.calculateColumnsWidths(this._columnsRowNode);
     this.setState({fixed: true});
   }
