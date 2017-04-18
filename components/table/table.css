@@ -276,10 +276,6 @@
 
 
 .cleanUI {
-  & .table {
-    background-color: inherit;
-  }
-
   & .tableHead {
     background-color: inherit;
   }
