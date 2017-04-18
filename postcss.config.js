@@ -9,7 +9,8 @@ module.exports = ctx => {
       features: {
         calc: {
           mediaQueries: true
-        }
+        },
+        customProperties: false
       }
     }
   };

@@ -276,8 +276,11 @@
 
 
 .cleanUI {
+  --ring-table-background-color: #FFF;
+
   & .header {
     background-color: transparent;
+    background-color: var(--ring-table-background-color);
 
     & .headerCell {
       border-top: none;
@@ -288,6 +291,7 @@
 
   & .subHeader {
     background-color: transparent;
+    background-color: var(--ring-table-background-color);
 
     & .headerCell {
       border-top: none;
@@ -297,6 +301,7 @@
 
   & .row {
     background-color: transparent;
+    background-color: var(--ring-table-background-color);
 
     & .cell {
       border-top: none;
