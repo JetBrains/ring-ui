@@ -121,7 +121,7 @@ export default class Header extends PureComponent {
     const regularCells = this.createCells();
 
     return (
-      <thead data-test="ring-table-header">
+      <thead data-test="ring-table-header" className={style.tableHead}>
         {caption && <tr className={style.header} data-test="ring-table-header-row">
           <th
             className={classNames(style.headerCell, style.caption)}
