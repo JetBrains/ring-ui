@@ -119,16 +119,6 @@ export default class Header extends PureComponent {
 
     return (
       <thead data-test="ring-table-header">
-        {sticky &&
-          <Waypoint
-            topOffset={topStickOffset}
-            onEnter={this.onScrollIn}
-            onLeave={this.onScrollOut}
-          >
-            <tr data-test="ring-table-header-row"/>
-          </Waypoint>
-        }
-
         {caption && <tr className={style.header} data-test="ring-table-header-row">
           <th
             className={classNames(style.headerCell, style.caption)}
@@ -136,6 +126,16 @@ export default class Header extends PureComponent {
             data-test="ring-table-header-cell"
           >{caption}</th>
         </tr>}
+
+        {sticky &&
+        <Waypoint
+          topOffset={topStickOffset}
+          onEnter={this.onScrollIn}
+          onLeave={this.onScrollOut}
+        >
+          <tr data-test="ring-table-header-row"/>
+        </Waypoint>
+        }
 
         <tr
           className={headerClassName}
