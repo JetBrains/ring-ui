@@ -1,5 +1,3 @@
-/* eslint-disable valid-jsdoc */
-
 const path = require('path');
 
 const Docpack = require('docpack');
