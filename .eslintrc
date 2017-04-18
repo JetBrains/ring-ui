@@ -9,6 +9,7 @@
     "node": true
   },
   "rules": {
-    "import/no-commonjs": 0
+    "valid-jsdoc": "off",
+    "import/no-commonjs": "off"
   }
 }
