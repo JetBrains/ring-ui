@@ -276,11 +276,16 @@
 
 
 .cleanUI {
-  --ring-table-background-color: #FFF;
+  & .table {
+    background-color: inherit;
+  }
+
+  & .tableHead {
+    background-color: inherit;
+  }
 
   & .header {
-    background-color: transparent;
-    background-color: var(--ring-table-background-color);
+    background-color: inherit;
 
     & .headerCell {
       border-top: none;
@@ -290,8 +295,7 @@
   }
 
   & .subHeader {
-    background-color: transparent;
-    background-color: var(--ring-table-background-color);
+    background-color: inherit;
 
     & .headerCell {
       border-top: none;
@@ -300,8 +304,7 @@
   }
 
   & .row {
-    background-color: transparent;
-    background-color: var(--ring-table-background-color);
+    background-color: inherit;
 
     & .cell {
       border-top: none;
