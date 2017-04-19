@@ -285,7 +285,7 @@ class DialogController extends RingAngularComponent {
           button.inProgress = false;
         });
     } else if (button.close !== false) {
-      this.reset();
+      this.reset(false);
     }
 
     return undefined;
