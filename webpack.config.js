@@ -112,10 +112,6 @@ const loaders = {
 module.exports = {
   config: {
     module: {
-      // webpack 1
-      loaders: loadersObjectToArray(loaders),
-
-      // webpack 2
       rules: loadersObjectToArray(loaders)
     }
   },
