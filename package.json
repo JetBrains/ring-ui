@@ -1,6 +1,6 @@
 {
   "name": "ring-ui",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "JetBrains UI library",
   "config": {
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
@@ -29,7 +29,7 @@
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
-    "build": "webpack --config webpack-docs.config.js",
+    "build": "webpack --config webpack-docs.config.js -p --env.production",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
     "lint": "eslint --quiet .",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
@@ -38,7 +38,7 @@
     "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
-    "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
+    "build-ci": "npm run build && npm run gemini-test-ci",
     "prerelease-ci": "npm run build-ci && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
     "version": "update-version --patch"
@@ -121,10 +121,10 @@
     "@hypnosphi/react-portal": "3.1.0",
     "angular-elastic": "2.5.1-jb",
     "autoprefixer": "6.4.1",
-    "babel-core": "6.14.0",
+    "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-jetbrains": "1.0.11",
+    "babel-preset-jetbrains": "1.0.12",
     "babel-runtime": "6.6.1-jb",
     "classnames": "2.2.5",
     "combokeys": "2.4.6",
