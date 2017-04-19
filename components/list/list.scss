@@ -96,9 +96,7 @@ $list-spacing: $ring-unit / 2;
   &__label {
     flex-grow: 1;
     flex-shrink: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include ring-ellipsis;
     text-align: left;
 
     padding-right: $ring-unit * 2;
