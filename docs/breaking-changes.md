@@ -6,6 +6,9 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 20-04-2017: Usage with webpack 1.* is deprecated
+This was needed to enable tree-shaking
+
 ### 18-04-2017: Default export hack is dropped
 
 This affects only commonjs usages.

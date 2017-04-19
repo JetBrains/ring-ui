@@ -48,6 +48,7 @@ module.exports = (env = {}) => {
       'example-common': './site/example-common.js'
     },
     resolve: {
+      mainFields: ['jsnext:main', 'browser', 'main'],
       alias: {
         'ring-ui': __dirname
       }
