@@ -12,7 +12,11 @@ import Item from './item';
 import Version from './version';
 
 const auth = new Auth(hubConfig);
-auth.init();
+auth.init().then(restoreLocation => {
+  if (restoreLocation) {
+    window.location = restoreLocation;
+  }
+});
 
 const SiteHeader = ({docsItems, ...restProps}) => (
   <Header>
