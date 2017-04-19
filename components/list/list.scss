@@ -98,6 +98,7 @@ $list-spacing: $ring-unit / 2;
     flex-shrink: 1;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     text-align: left;
 
     padding-right: $ring-unit * 2;
