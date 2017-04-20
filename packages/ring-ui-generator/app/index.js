@@ -61,6 +61,7 @@ module.exports = generators.Base.extend({
     this.template('gitignore', '.gitignore');
     this.template('eslintignore', '.eslintignore');
     this.template('eslintrc', '.eslintrc');
+    this.template('src/eslintrc', 'src/.eslintrc');
   },
 
   files() {

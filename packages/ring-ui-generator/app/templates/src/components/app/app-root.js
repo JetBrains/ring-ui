@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import Link from 'ring-ui/components/link/link';
 import Header, {Logo, Tray, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
 import Auth from 'ring-ui/components/auth/auth';

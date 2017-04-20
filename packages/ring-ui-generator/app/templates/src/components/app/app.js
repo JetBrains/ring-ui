@@ -1,7 +1,9 @@
 import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
+import RedBox from 'redbox-react';
 
+import AppRoot from './app-root';
 import styles from './app.css';
 
 const appEl = document.querySelector('.<%= camelCaseName %>');
@@ -9,7 +11,6 @@ appEl.classList.add(...styles.<%= camelCaseName %>.split(' '));
 const rootEl = document.createElement('div');
 
 let renderApp = () => {
-  const AppRoot = require('./app-root');
   render(
     <AppRoot />,
     rootEl
@@ -21,8 +22,6 @@ let renderApp = () => {
 if (module.hot) {
   const renderAppHot = renderApp;
   const renderError = error => {
-    const RedBox = require('redbox-react').default;
-
     render(
       <RedBox error={error}/>,
       rootEl
