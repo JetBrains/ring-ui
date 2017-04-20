@@ -29,7 +29,7 @@
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
-    "build": "webpack --config webpack-docs.config.js -p",
+    "build": "webpack --config webpack-docs.config.js",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
     "lint": "eslint --quiet .",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
