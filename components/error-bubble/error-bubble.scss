@@ -10,7 +10,7 @@ $border-color: #e5e5e5;
   top: 0;
   left: 25*$ring-unit + 2; // fallback if calc is not supported
   left: calc(100% + 2px);
-  height: 3*$ring-unit;
+  min-height: 3*$ring-unit;
   padding-right: 2*$ring-unit;
   padding-left: 2*$ring-unit;
   line-height: 22px;
