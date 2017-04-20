@@ -29,6 +29,6 @@
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.12.2",
-    "eslint-config-jetbrains": "^2.0.19"
+    "eslint-config-jetbrains": "^2.0.28"
   }
 }

@@ -3,8 +3,12 @@
   "extends": [
     "jetbrains",
     "jetbrains/es6",
-    "jetbrains/node",
-    "jetbrains/react",
-    "jetbrains/test"
-  ]
+    "jetbrains/node"
+  ],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "import/no-commonjs": "off"
+  }
 }
