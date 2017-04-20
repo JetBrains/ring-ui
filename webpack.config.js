@@ -19,24 +19,20 @@ const htmlLoaderOptions = `?${JSON.stringify({
 
 const svgSpriteLoader = {
   test: /\.svg$/,
-  loaders: [
-    `${resolveLoader('svg-sprite')}?angularBaseWorkaround`
-  ],
+  loader: `${resolveLoader('svg-sprite')}?angularBaseWorkaround`,
   include: [require('jetbrains-logos'), require('jetbrains-icons')]
 };
 
 const svgLoader = {
   test: /\.svg$/,
-  loaders: [
-    `${resolveLoader('url')}?limit=10000`
-  ],
+  loader: `${resolveLoader('url')}?limit=10000`,
   include: componentsPath
 };
 
 const scssLoader = {
   test: /\.scss$/,
   include: componentsPath,
-  loaders: [
+  use: [
     resolveLoader('style'),
     resolveLoader('css'),
     resolveLoader('postcss'),
@@ -47,7 +43,7 @@ const scssLoader = {
 const cssLoader = {
   test: /\.css$/,
   include: componentsPath,
-  loaders: [
+  use: [
     resolveLoader('style'),
     `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[local]_[hash:3]')`,
     resolveLoader('postcss')
@@ -59,7 +55,7 @@ const externalCssLoader = {
   include: [
     path.resolve('./node_modules/highlight.js')
   ],
-  loaders: [
+  use: [
     resolveLoader('style'),
     resolveLoader('css')
   ]
