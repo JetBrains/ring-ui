@@ -27,12 +27,12 @@
   <file type="js">
     import 'angular';
     import 'ring-ui/components/place-under-ng/place-under-ng';
-    import dom from 'ring-ui/components/global/dom';
+    import {getDocumentScrollTop} from 'ring-ui/components/global/dom';
 
     window.addEventListener('scroll', function () {
       var target = document.querySelector('.target-element');
 
-      var scrolledTop = dom.getDocumentScrollTop();
+      var scrolledTop = getDocumentScrollTop();
       if (scrolledTop > 30) {
         target.style.position = 'fixed';
       } else {
