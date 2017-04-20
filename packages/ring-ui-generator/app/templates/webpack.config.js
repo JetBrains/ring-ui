@@ -2,11 +2,13 @@
 /* eslint-disable modules/no-cjs */
 
 const {join, resolve} = require('path');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ringUiWebpackConfig = require('ring-ui');
 
 const pkgConfig = require('./package.json').config;
+
 const componentsPath = join(__dirname, pkgConfig.components);
-const ringUiWebpackConfig = require('ring-ui');
 
 // Patch ring-ui svg-sprite-loader config
 ringUiWebpackConfig.loaders.svgSpriteLoader.include.push(require('jetbrains-logos'), require('jetbrains-icons'));
@@ -14,6 +16,7 @@ ringUiWebpackConfig.loaders.svgSpriteLoader.include.push(require('jetbrains-logo
 const webpackConfig = () => ({
   entry: `${componentsPath}/app/app.js`,
   resolve: {
+    mainFields: ['module', 'browser', 'main'],
     alias: {
       react: resolve('./node_modules/react'),
       'react-dom': resolve('./node_modules/react-dom')
@@ -31,7 +34,7 @@ const webpackConfig = () => ({
       {
         test: /\.css$/,
         include: componentsPath,
-        loaders: [
+        use: [
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]',
           'postcss-loader'
@@ -40,7 +43,7 @@ const webpackConfig = () => ({
       {
         test: /\.js$/,
         include: componentsPath,
-        loader: 'babel-loader'
+        loader: 'babel-loader?cacheDirectory'
       }
     ]
   },
