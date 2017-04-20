@@ -5,14 +5,22 @@ import {render, unmountComponentAtNode} from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 
 import List from '../list/list';
+import sniffr from '../global/sniffer';
 
 import Select from './select';
 
 import simulateCombo from 'simulate-combo';
 
+const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
+
 function simulateInput(target, value) {
   target.value = value;
+
   Simulate.change(target, {target});
+
+  if (isIE11) {
+    Simulate.input(target, {target: {value}});
+  }
 }
 
 describe('Select', () => {
