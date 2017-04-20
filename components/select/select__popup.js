@@ -149,13 +149,16 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   getFilter() {
     if (this.props.filter && !this.props.hidden) {
 
+      /**
+       Workaround: IE11 loses symbols in onChange event
+       See RG-1361 and https://github.com/facebook/react/issues/7027
+       */
       const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-      const changeListenProps = {
-        /**
-          IE11 loses symbols in onChange event
-          See RG-1361 and https://github.com/facebook/react/issues/7027
-        */
-        [isIE11 ? 'onInput' : 'onChange']: this.props.onFilter
+      const changeListenProps = isIE11 ? {
+        onInput: this.props.onFilter,
+        onChange: noop
+      } : {
+        onChange: this.props.onFilter
       };
 
       return (
