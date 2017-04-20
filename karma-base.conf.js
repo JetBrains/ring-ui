@@ -95,13 +95,13 @@ module.exports = config => {
         base: 'Chrome',
         flags: ['--no-sandbox', '--test-type']
       },
-      wdEdge: {
+      /*wdEdge: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
         pseudoActivityInterval: 30000,
         browserName: 'MicrosoftEdge'
-      },
+      },*/
       wdIE11: {
         base: 'WebDriver',
         config: webdriverConfig,
