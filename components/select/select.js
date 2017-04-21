@@ -7,10 +7,12 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List from '../list/list';
-import Input from '../input/input';
+import Input, {Size} from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
-import SelectPopup from './select__popup';import styles from'./select.css';
+
+import SelectPopup from './select__popup';
+import styles from './select.css';
 
 /**
  * @name Select
@@ -40,7 +42,7 @@ const Type = {
  */
 export default class Select extends RingComponentWithShortcuts {
   static Type = Type;
-  static Size = Input.Size;
+  static Size = Size;
   static ngModelStateField = ngModelStateField;
 
   static defaultProps = {
@@ -55,7 +57,7 @@ export default class Select extends RingComponentWithShortcuts {
     notFoundMessage: 'No options found',
 
     type: Type.BUTTON,
-    size: Input.Size.M,
+    size: Size.M,
     targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
     hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
     allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
@@ -275,7 +277,7 @@ export default class Select extends RingComponentWithShortcuts {
         directions={this.props.directions}
         className={classNames(
           this.props.popupClassName,
-          this.props.size === Input.Size.S
+          this.props.size === Size.S
             ? styles.sizeM
             : styles[`size${this.props.size}`]
         )}
@@ -703,9 +705,7 @@ export default class Select extends RingComponentWithShortcuts {
   };
 
   filterRef = el => {
-    if (el) {
-      this.filter = el.input;
-    }
+    this.filter = el;
   }
 
   render() {
@@ -729,7 +729,7 @@ export default class Select extends RingComponentWithShortcuts {
           data-test="ring-select"
         >
           <Input
-            ref={this.filterRef}
+            inputRef={this.filterRef}
             disabled={this.props.disabled}
             value={this.state.filterValue}
             className={classNames(styles.input, 'ring-js-shortcuts')}

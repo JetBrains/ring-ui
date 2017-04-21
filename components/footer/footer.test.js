@@ -1,6 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument} from 'react-dom/test-utils';
+
 import Footer from './footer';
 
 describe('Footer', () => {

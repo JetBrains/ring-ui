@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 
-import RingComponent from '../ring-component/ring-component';
 import sniffr from '../global/sniffer';
 
 function noop() {}
@@ -12,7 +11,7 @@ function noop() {}
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default function ieCompatibleInputHOC(ComposedComponent) {
-  return class extends RingComponent {
+  return class extends PureComponent {
     static propTypes = ComposedComponent.propTypes;
 
     render() {

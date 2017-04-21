@@ -1,7 +1,9 @@
 import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
 import Link, {linkHOC} from '../link/link';
+
 import styles from './list.css';
 
 /**
