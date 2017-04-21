@@ -70,3 +70,5 @@ export default class Icon extends PureComponent {
     );
   }
 }
+
+export {Size};

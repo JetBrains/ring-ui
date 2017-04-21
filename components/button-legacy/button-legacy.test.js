@@ -3,6 +3,7 @@
 import 'dom4';
 import React from 'react';
 import TestUtils from 'react-dom/test-utils';
+
 import Button from './button-legacy';
 
 describe('Button', () => {

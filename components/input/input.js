@@ -27,10 +27,7 @@ const Size = {
   L: 'L'
 };
 
-export default class Input extends PureComponent {
-  static Size = Size;
-  static Theme = Theme;
-
+export class Input extends PureComponent {
   static propTypes = {
     value: PropTypes.string,
     theme: PropTypes.string,
@@ -183,3 +180,5 @@ export default class Input extends PureComponent {
 }
 
 export default ieCompatibleInputHOC(Input);
+
+export {Size, Theme};

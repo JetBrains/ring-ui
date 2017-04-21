@@ -13,6 +13,7 @@ import Icon from '../icon/icon';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
+
 import styles from './select.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;

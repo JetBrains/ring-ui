@@ -1,5 +1,6 @@
 import 'dom4';
 import TestUtils from 'react-dom/test-utils';
+
 import Input from './input-legacy';
 
 describe('Input Legacy', () => {

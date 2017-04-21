@@ -5,6 +5,7 @@ import {
 } from 'react-dom/test-utils';
 
 import Input from '../input-legacy/input-legacy';
+
 import ErrorBubble from './error-bubble';
 
 describe('Error Bubble', () => {

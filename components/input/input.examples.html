@@ -30,7 +30,7 @@
     import {render} from 'react-dom';
     import React, {PureComponent} from 'react';
 
-    import Input from 'ring-ui/components/input/input';
+    import Input, {Size, Theme} from 'ring-ui/components/input/input';
 
     const container = document.getElementById('inputs');
 
@@ -105,11 +105,11 @@
         />
         <Input
           label="Short input"
-          size={Input.Size.S}
+          size={Size.S}
         />
         <Input
           label="Long input"
-          size={Input.Size.L}
+          size={Size.L}
         />
         <Input
           label="Autogrowing textarea"
@@ -119,7 +119,7 @@
           <Input
             label="Input on dark background"
             placeholder="Hint on dark background"
-            theme={Input.Theme.DARK}
+            theme={Theme.DARK}
           />
         </div>
       </form>

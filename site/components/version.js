@@ -5,7 +5,6 @@ import Dropdown from '../../components/dropdown/dropdown';
 import PopupMenu from '../../components/popup-menu/popup-menu';
 import branches from '../branches.json';
 import {currentPath} from '../utils';
-
 import styles from '../index.css';
 
 const HOST = 'http://ring-ui.github.io';

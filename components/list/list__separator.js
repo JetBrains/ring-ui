@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+
 import styles from './list.css';
 
 export default class ListSeparator extends PureComponent {
