@@ -1,4 +1,4 @@
-@value unit, border-color, border-radius, error-color, gray-color, link-hover-color, font-size from '../global/global.css';
+@value unit, borders-color, border-radius, error-color, gray-color, link-hover-color, font-size from '../global/global.css';
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -9,7 +9,7 @@
 
   margin: unit auto;
   padding: 0 calc(unit*2);
-  border: solid 1px border-color;
+  border: solid 1px borders-color;
   border-radius: border-radius;
 
   background: #FFF;

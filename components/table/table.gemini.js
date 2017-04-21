@@ -1,5 +1,7 @@
 /* global gemini: false */
 
+const ANIMATION_DELAY = 400;
+
 gemini.suite('Table', suite => {
   suite.setUrl('/table/table.html');
 
@@ -19,5 +21,6 @@ gemini.suite('Table', suite => {
   suite.capture('bulgaria', (actions, find) => {
     actions.click(find('#button-non-selectable button'));
     actions.click(find('#button-select-bulgaria button'));
+    actions.wait(ANIMATION_DELAY);
   });
 });
