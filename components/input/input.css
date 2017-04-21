@@ -94,7 +94,7 @@ textarea.input {
   position: absolute;
   top: calc(unit * 3 - 2px);
   left: 0;
-  transition: all fast-ease;
+  transition: font-size fast-ease, top fast-ease, color fast-ease;
 
   @nest .light & {
     color: dark-gray-color;
