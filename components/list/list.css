@@ -140,19 +140,17 @@
 .action {
   cursor: pointer;
   color: text-color;
-  transition: background-color fast-ease;
 }
 
 .actionLink {
   /* override link */
   && {
-    transition: all fast-ease;
+    transition: none;
   }
 }
 
 .hover:not(.error) {
   background-color: selected-background-color;
-  transition: none;
 }
 
 .icon {
