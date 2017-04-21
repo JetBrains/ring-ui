@@ -1,10 +1,12 @@
-export default class Selection {
-  _data = []
-  _selected = new Set()
-  _focused = null
-  _key = 'id'
+/* @flow */
+/* global $Keys: false */
+export default class Selection<T: {}> {
+  _data: T[] = [];
+  _selected: Set<T> = new Set();
+  _focused: T;
+  _key: string = 'id';
 
-  constructor({data, selected, focused, key} = {}) {
+  constructor({data, selected, focused, key}: {data?: T[], selected?: Set<T>, focused?: T | null, key?: $Keys<T>} = {}) {
     if (data) {
       this._data = data;
     }
@@ -22,23 +24,25 @@ export default class Selection {
     }
   }
 
-  cloneWith({data, selected, focused}) {
-    const cloneSelected = () => new Set(data.filter(item => [...this._selected].some(it => item[this._key] === it[this._key])));
-    const cloneFocus = () => data.filter(item => this._focused && item[this._key] === this._focused[this._key])[0];
+  cloneWith({data, selected, focused}: {data?: T[], selected?: Set<T>, focused?: T | null}): Selection<T> {
+    /* eslint-disable no-shadow */
+    const cloneSelected = data => new Set(data.filter(item => [...this._selected].some(it => item[this._key] === it[this._key])));
+    const cloneFocus = data => data.filter(item => this._focused && item[this._key] === this._focused[this._key])[0];
     const newFocused = focused === undefined ? this._focused : focused;
+    /* eslint-enable no-shadow */
 
     return new this.constructor({
       data: data || this._data,
-      selected: (data && !selected) ? cloneSelected() : selected || this._selected,
-      focused: (data && !focused) ? cloneFocus() : newFocused
+      selected: (data && !selected) ? cloneSelected(data) : selected || this._selected,
+      focused: (data && !focused) ? cloneFocus(data) : newFocused
     });
   }
 
-  focus(value) {
+  focus(value: any): Selection<T> {
     return this.cloneWith({focused: value});
   }
 
-  moveUp() {
+  moveUp(): Selection<T> | void {
     const {_focused: focused, _data: data} = this;
 
     if (!focused) {
@@ -53,7 +57,7 @@ export default class Selection {
     return undefined;
   }
 
-  moveDown() {
+  moveDown(): Selection<T> | void {
     const {_focused: focused, _data: data} = this;
 
     if (!focused) {
@@ -68,7 +72,7 @@ export default class Selection {
     return undefined;
   }
 
-  select(value = this._focused) {
+  select(value: any = this._focused): Selection<T> {
     if (value) {
       const selected = new Set(this._selected);
       selected.add(value);
@@ -78,7 +82,7 @@ export default class Selection {
     }
   }
 
-  deselect(value = this._focused) {
+  deselect(value: any = this._focused): Selection<T> {
     if (value) {
       const selected = new Set(this._selected);
       selected.delete(value);
@@ -88,7 +92,7 @@ export default class Selection {
     }
   }
 
-  toggleSelection(value = this._focused) {
+  toggleSelection(value: any = this._focused): Selection<T> {
     if (value) {
       const selected = new Set(this._selected);
 
@@ -104,39 +108,39 @@ export default class Selection {
     }
   }
 
-  selectAll() {
+  selectAll(): Selection<T> {
     return this.cloneWith({selected: new Set(this._data)});
   }
 
-  resetFocus() {
+  resetFocus(): Selection<T> {
     return this.cloneWith({focused: null});
   }
 
-  resetSelection() {
+  resetSelection(): Selection<T> {
     return this.cloneWith({selected: new Set()});
   }
 
-  reset() {
+  reset(): Selection<T> {
     return this.resetFocus().resetSelection();
   }
 
-  isFocused(value) {
+  isFocused(value: any): boolean {
     return this._focused === value;
   }
 
-  isSelected(value) {
+  isSelected(value: any): boolean {
     return this._selected.has(value);
   }
 
-  getFocused() {
+  getFocused(): any {
     return this._focused;
   }
 
-  getSelected() {
+  getSelected(): Set<any> {
     return new Set(this._selected);
   }
 
-  getActive() {
+  getActive(): Set<any> {
     if (this._selected.size) {
       return new Set(this._selected);
     } else if (this._focused) {
