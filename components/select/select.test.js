@@ -1,10 +1,8 @@
 /* eslint-disable func-names */
 import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {render, unmountComponentAtNode} from 'react-dom';
+import {render, unmountComponentAtNode, findDOMNode} from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
-import simulateCombo from 'simulate-combo';
 
 import List from '../list/list';
 import sniffr from '../global/sniffer';
@@ -12,6 +10,7 @@ import sniffr from '../global/sniffer';
 import Select from './select';
 import styles from './select.css';
 
+import simulateCombo from 'simulate-combo';
 
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 

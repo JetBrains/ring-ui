@@ -95,7 +95,7 @@ export default class AuthDialog extends Component {
             <div className={styles.error}>{error}</div>
           )}
           <Button
-            blue={true}
+            primary={true}
             className={styles.firstButton}
             data-test="auth-dialog-login-button"
             onClick={onConfirm}
