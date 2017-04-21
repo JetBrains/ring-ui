@@ -1,7 +1,8 @@
+/* @flow */
 /* eslint-disable react/jsx-max-props-per-line */
+/* eslint-disable modules/no-mix-default-named */
 
-import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
+import React, {PureComponent, Element} from 'react';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 import dragIcon from 'jetbrains-icons/drag.svg';
@@ -12,6 +13,7 @@ import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 
+import type {Columns} from './columns-type';
 import Cell from './cell';
 import style from './table.css';
 
@@ -29,25 +31,28 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => { // eslint-disabl
   );
 });
 
+export type RowProps = {
+  className: string,
+  item: any,
+  columns: Columns[],
+  selectable: boolean,
+  showFocus: boolean,
+  draggable: boolean,
+  alwaysShowDragHandle: boolean,
+  selected: boolean,
+  onHover: () => {},
+  onSelect: () => {},
+  onFocus: () => {},
+  onFocusRestore: () => {},
+  level: number,
+  collapsible: boolean,
+  collapsed: boolean,
+  onCollapse: () => {},
+  onExpand: () => {}
+};
+
 class Row extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    item: PropTypes.object.isRequired,
-    columns: PropTypes.array.isRequired,
-    selectable: PropTypes.bool,
-    showFocus: PropTypes.bool,
-    draggable: PropTypes.bool,
-    alwaysShowDragHandle: PropTypes.bool,
-    selected: PropTypes.bool,
-    onHover: PropTypes.func,
-    onSelect: PropTypes.func,
-    onFocusRestore: PropTypes.func,
-    level: PropTypes.number,
-    collapsible: PropTypes.bool,
-    collapsed: PropTypes.bool,
-    onCollapse: PropTypes.func,
-    onExpand: PropTypes.func
-  }
+  props: RowProps;
 
   static defaultProps = {
     selectable: true,
@@ -91,7 +96,7 @@ class Row extends PureComponent {
     }
   }
 
-  render() {
+  render(): Element<any> {
     const {
       item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,

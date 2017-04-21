@@ -1,3 +1,5 @@
+/* @flow */
+
 /**
  * @name Table
  * @category Components
@@ -8,11 +10,12 @@
  */
 
 /* eslint-disable react/jsx-max-props-per-line */
+/* eslint-disable modules/no-mix-default-named */
+/* eslint-disable arrow-parens */
 
 import 'core-js/modules/es6.array.find';
 
-import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
+import React, {PureComponent, Element} from 'react';
 import classNames from 'classnames';
 import {arrayMove, sortableContainer} from 'react-sortable-hoc';
 
@@ -21,10 +24,12 @@ import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
+import type {Columns} from './columns-type';
 import Selection from './selection';
 import Header from './header';
 import style from './table.css';
 import DraggableRow from './draggable-row';
+import Row from './row';
 
 export const THEMES = {
   cleanUI: 'cleanUI'
@@ -65,35 +70,35 @@ const DraggableRows = sortableContainer(props => {
 });
 
 class Table extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    loaderClassName: PropTypes.string,
-    data: PropTypes.array.isRequired,
-    columns: PropTypes.array.isRequired,
-    selection: PropTypes.instanceOf(Selection).isRequired,
-    caption: PropTypes.string,
-    selectable: PropTypes.bool,
-    isItemSelectable: PropTypes.func,
-    focused: PropTypes.bool,
-    stickyHeader: PropTypes.bool,
-    stickyHeaderOffset: PropTypes.string,
-    loading: PropTypes.bool,
-    onFocusRestore: PropTypes.func,
-    onSelect: PropTypes.func,
-    getItemKey: PropTypes.func,
-    onSort: PropTypes.func,
-    onReorder: PropTypes.func,
-    sortKey: PropTypes.string,
-    sortOrder: PropTypes.bool,
-    draggable: PropTypes.bool,
-    alwaysShowDragHandle: PropTypes.bool,
-    shortcuts: PropTypes.object,
-    getItemLevel: PropTypes.func,
-    isItemCollapsible: PropTypes.func,
-    isItemCollapsed: PropTypes.func,
-    onItemCollapse: PropTypes.func,
-    onItemExpand: PropTypes.func,
-    theme: PropTypes.string
+  props : {
+    className: string,
+    loaderClassName: string,
+    data: any[],
+    columns: Columns[],
+    selection: Selection<*>,
+    caption: string,
+    selectable: boolean,
+    isItemSelectable: () => void,
+    focused: boolean,
+    stickyHeader: boolean,
+    stickyHeaderOffset: string,
+    loading: boolean,
+    onFocusRestore: () => void,
+    onSelect: () => void,
+    getItemKey: () => void,
+    onSort: () => void,
+    onReorder: () => void,
+    sortKey: string,
+    sortOrder: boolean,
+    draggable: boolean,
+    alwaysShowDragHandle: boolean,
+    shortcuts: {[key: string] : () => {}},
+    getItemLevel: () => void,
+    isItemCollapsible: () => void,
+    isItemCollapsed: () => void,
+    onItemCollapse: () => void,
+    onItemExpand: () => void,
+    theme: string
   }
 
   static defaultProps = {
@@ -126,37 +131,39 @@ class Table extends PureComponent {
     disabledHover: false
   }
 
-  onMouseDown = e => {
+  shiftSelectionMode: 'deletion' | 'addition';
+
+  onMouseDown = (e: MouseEvent): void => {
     if (e.shiftKey) {
       this.setState({userSelectNone: true});
     }
   }
 
-  onMouseUp = () => {
+  onMouseUp = (): void => {
     if (this.state.userSelectNone) {
       this.setState({userSelectNone: false});
     }
   }
 
-  onMouseMove = () => {
+  onMouseMove = (): void => {
     if (this.state.disabledHover) {
       this.setState({disabledHover: false});
     }
   }
 
-  onKeyDown = e => {
+  onKeyDown = (e: KeyboardEvent): void => {
     const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
     if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
       this.setState({disabledHover: true});
     }
   }
 
-  onRowFocus = row => {
+  onRowFocus = (row: Row): void => {
     const {selection, onSelect} = this.props;
     onSelect(selection.focus(row));
   }
 
-  onRowSelect = (row, selected) => {
+  onRowSelect = (row: Row, selected: boolean): void => {
     const {selection, onSelect} = this.props;
     if (selected) {
       onSelect(selection.select(row));
@@ -165,12 +172,12 @@ class Table extends PureComponent {
     }
   }
 
-  onSortEnd = ({oldIndex, newIndex}) => {
+  onSortEnd = ({oldIndex, newIndex}): void => {
     const data = arrayMove(this.props.data, oldIndex, newIndex);
     this.props.onReorder({data, oldIndex, newIndex});
   }
 
-  onUpPress = () => {
+  onUpPress = (): boolean => {
     const {selection, onSelect} = this.props;
     const newSelection = selection.moveUp();
 
@@ -181,7 +188,7 @@ class Table extends PureComponent {
     return false;
   }
 
-  onDownPress = () => {
+  onDownPress = (): boolean => {
     const {selection, onSelect} = this.props;
     const newSelection = selection.moveDown();
 
@@ -192,7 +199,7 @@ class Table extends PureComponent {
     return false;
   }
 
-  onShiftKeyDown = () => {
+  onShiftKeyDown = (): void => {
     const {selection} = this.props;
 
     if (selection.isSelected(selection.getFocused())) {
@@ -202,7 +209,7 @@ class Table extends PureComponent {
     }
   }
 
-  shiftSelect = selection => {
+  shiftSelect = (selection: Selection<*>): Selection<*> => {
     if (this.shiftSelectionMode === 'addition') {
       return selection.select();
     } else {
@@ -210,7 +217,7 @@ class Table extends PureComponent {
     }
   }
 
-  onShiftUpPress = e => {
+  onShiftUpPress = (e: KeyboardEvent): void => {
     e.preventDefault();
     const {selectable, selection, onSelect} = this.props;
 
@@ -228,7 +235,7 @@ class Table extends PureComponent {
     }
   }
 
-  onShiftDownPress = e => {
+  onShiftDownPress = (e: KeyboardEvent): void => {
     e.preventDefault();
     const {selectable, selection, onSelect} = this.props;
 
@@ -246,19 +253,19 @@ class Table extends PureComponent {
     }
   }
 
-  onHomePress = () => {
+  onHomePress = (): boolean => {
     const {data, selection, onSelect} = this.props;
     onSelect(selection.focus(data[0]));
     return false;
   }
 
-  onEndPress = () => {
+  onEndPress = (): boolean => {
     const {data, selection, onSelect} = this.props;
     onSelect(selection.focus(data[data.length - 1]));
     return false;
   }
 
-  onSpacePress = () => {
+  onSpacePress = (): boolean => {
     const {selectable, selection, onSelect} = this.props;
 
     if (!selectable) {
@@ -269,14 +276,14 @@ class Table extends PureComponent {
     return false;
   }
 
-  onEscPress = () => {
+  onEscPress = (): void => {
     const {selection, onSelect} = this.props;
 
     onSelect(selection.reset());
     this.restoreFocusWithoutScroll();
   }
 
-  onCmdAPress = () => {
+  onCmdAPress = (): boolean => {
     const {selectable, selection, onSelect} = this.props;
 
     if (!selectable) {
@@ -287,7 +294,7 @@ class Table extends PureComponent {
     return false;
   }
 
-  onCheckboxChange = checked => {
+  onCheckboxChange = (checked: boolean): void => {
     const {selection, onSelect} = this.props;
 
     if (checked) {
@@ -299,13 +306,13 @@ class Table extends PureComponent {
     this.restoreFocusWithoutScroll();
   }
 
-  restoreFocusWithoutScroll = () => {
+  restoreFocusWithoutScroll = (): void => {
     const {scrollX, scrollY} = window;
     this.props.onFocusRestore();
     window.scrollTo(scrollX, scrollY);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps): void {
     const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data) {
@@ -322,19 +329,19 @@ class Table extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     document.addEventListener('keydown', this.onKeyDown, true);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
-  render() {
+  render(): Element<any> {
     const {
       data, selection, columns, caption, getItemKey, selectable,
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
@@ -351,11 +358,10 @@ class Table extends PureComponent {
       caption, selectable, draggable,
       columns, onSort, sortKey, sortOrder,
       sticky: stickyHeader,
-      topStickOffset: stickyHeaderOffset
+      topStickOffset: stickyHeaderOffset,
+      checked: data.length > 0 && data.length === selection.getSelected().size,
+      onCheckboxChange: this.onCheckboxChange
     };
-
-    headerProps.checked = data.length > 0 && data.length === selection.getSelected().size;
-    headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,

@@ -1,28 +1,32 @@
-import React, {PureComponent} from 'react';
+/* @flow */
+/* eslint-disable arrow-parens */
+
+import React, {PureComponent, Element} from 'react';
 import {sortableElement} from 'react-sortable-hoc';
 
 import Row from './row';
+import type {RowProps} from './row';
 
 class DraggableRow extends PureComponent {
-  static propTypes = Row.propTypes;
+  props: RowProps;
 
-  onFocus = () => {
+  onFocus = (): void => {
     this.props.onFocus(this.props.item);
   }
 
-  onSelect = selected => {
+  onSelect = (selected: boolean): void => {
     this.props.onSelect(this.props.item, selected);
   }
 
-  onCollapse = () => {
+  onCollapse = (): void => {
     this.props.onCollapse(this.props.item);
   }
 
-  onExpand = () => {
+  onExpand = (): void => {
     this.props.onExpand(this.props.item);
   }
 
-  render() {
+  render(): Element<any> {
     return (
       <Row
         {...this.props}
@@ -34,6 +38,5 @@ class DraggableRow extends PureComponent {
     );
   }
 }
-
 
 export default sortableElement(DraggableRow);
