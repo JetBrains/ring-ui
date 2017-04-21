@@ -87,7 +87,6 @@
 .row {
   & {
     outline: none;
-    transition: background-color fast-ease;
     line-height: compensated;
   }
 
@@ -98,7 +97,6 @@
 
   @nest .table:not(.disabledHover) &:hover {
     background-color: selected-background-color;
-    transition: none;
   }
 
   &.rowFocused {
@@ -188,7 +186,6 @@
   && {
     position: absolute;
     height: calc(height - top);
-    transition: opacity fast-ease;
   }
 
   &&& {
@@ -204,16 +201,13 @@
 .dragHandle.visibleDragHandle,
 .row:hover .dragHandle {
   opacity: 1;
-  transition: none;
 }
 
 .draggingRow {
   background-color: selected-background-color;
-  transition: none;
 
   &&& .dragHandle {
     opacity: 1;
-    transition: none;
     cursor: grabbing;
     & svg {
       color: main-color;

@@ -1,4 +1,4 @@
-@value unit, font-size, text-color, border-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
+@value unit, font-size, text-color, borders-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
 
 @value checkbox-size: 14px;
 
@@ -30,17 +30,17 @@
     box-sizing: border-box;
     width: checkbox-size;
     height: checkbox-size;
-    border: 1px solid border-color;
+    border: 1px solid borders-color;
     border-radius: 3px;
-    background: white-color;
+    background-color: white-color;
     user-select: none;
-    transition: all ease;
+    transition: border-color ease, background-color ease, box-shadow ease;
 
     & .icon {
       position: absolute;
       top: calc(- unit * 1.5);
       opacity: 0;
-      transition: all fast-ease;
+      transition: opacity fast-ease, top fast-ease;
       left: 1px;
       width: checkbox-size;
       height: checkbox-size;
@@ -72,13 +72,13 @@
 
   &:focus + .cell,
   &.focus + .cell {
-    transition: none;
+    transition: background-color ease;
     border-color: border-hover-color;
     box-shadow: 0 0 0 1px border-hover-color;
   }
 
   &:hover + .cell {
-    transition: none;
+    transition: background-color ease;
     border-color: border-hover-color;
   }
 }

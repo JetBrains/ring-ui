@@ -1,7 +1,7 @@
-@value border-color from  "../global/global.css";
+@value borders-color from  "../global/global.css";
 
 .empty {
-  border: 1px solid border-color;
+  border: 1px solid borders-color;
   box-sizing: border-box;
   display: inline-block;
 }
