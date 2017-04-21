@@ -31,7 +31,7 @@ describe('Input', () => {
   });
 
   it('should create textarea with multiline option', () => {
-    renderComponent({multiline: true})
+    renderComponent({multiline: true});
     this.input.should.match('textarea');
   });
 
