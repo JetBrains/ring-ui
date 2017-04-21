@@ -2,6 +2,7 @@ import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+
 import Input from './input';
 
 describe('Input', () => {
@@ -27,6 +28,4 @@ describe('Input', () => {
   it('should use passed className', () => {
     renderNode({className: 'test-class'}).should.match('.test-class');
   });
-
-  // TODO Add more tests
 });

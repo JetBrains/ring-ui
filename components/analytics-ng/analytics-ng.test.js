@@ -4,6 +4,8 @@ import 'angular';
 import 'angular-mocks';
 import 'dom4';
 
+import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
+
 import Analytics from './analytics-ng';
 
 describe('Analytics Ng', () => {
@@ -11,7 +13,6 @@ describe('Analytics Ng', () => {
     window.module('Ring.analytics',
       analyticsProvider => {
         const send = sinon.stub();
-        const AnalyticsCustomPlugin = require('../analytics/analytics__custom-plugin');
         analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
       })
   );

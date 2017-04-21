@@ -1,13 +1,11 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
 require('babel-polyfill');
 
 const path = require('path');
-const webpack = require('webpack');
 
-const webpackConfig = require('./webpack.config');
+const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 
+const webpackConfig = require('./webpack.config');
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
 const pkgConfig = require('./package.json').config;
@@ -50,6 +48,7 @@ module.exports = (env = {}) => {
       'example-common': './site/example-common.js'
     },
     resolve: {
+      mainFields: ['module', 'browser', 'main'],
       alias: {
         'ring-ui': __dirname
       }
@@ -61,9 +60,9 @@ module.exports = (env = {}) => {
         // HTML examples
         {
           test: /example\.html$/,
-          loaders: [
-            `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
-            require.resolve('extract-loader'),
+          use: [
+            'file-loader?name=examples/[name]/[hash].html',
+            'extract-loader',
             webpackConfig.loaders.htmlLoader.loader
           ]
         }
@@ -122,6 +121,15 @@ module.exports = (env = {}) => {
       })
     ]
   };
+
+  if (production) {
+    docsWebpackConfig.plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        mangle: false,
+        sourceMap: true
+      })
+    );
+  }
 
   // if (server) {
   //   docsWebpackConfig.plugins.push(

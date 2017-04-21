@@ -1,5 +1,3 @@
-/* eslint-disable modules/no-cjs */
-
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {
@@ -11,7 +9,8 @@ module.exports = ctx => {
       features: {
         calc: {
           mediaQueries: true
-        }
+        },
+        customProperties: false
       }
     }
   };

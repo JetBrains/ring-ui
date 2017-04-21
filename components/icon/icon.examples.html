@@ -21,36 +21,40 @@
     import React from 'react';
     import {render} from 'react-dom';
     import Icon from 'ring-ui/components/icon/icon';
+    import distributionIcon from 'jetbrains-icons/distribution.svg';
+    import okIcon from 'jetbrains-icons/ok.svg';
+    import pencilIcon from 'jetbrains-icons/pencil.svg';
+    import searchErrorIcon from 'jetbrains-icons/search-error.svg';
 
     render(<Icon
-      glyph={require('jetbrains-icons/distribution.svg')}
+      glyph={distributionIcon}
       size={Icon.Size.Size32}
     />, document.getElementById('icon-active'));
 
     render(<Icon
       className="additional-class"
       color="orange"
-      glyph={require('jetbrains-icons/ok.svg')}
+      glyph={okIcon}
       size={Icon.Size.Size32}
     />, document.getElementById('icon-container'));
 
     render(<Icon
-      glyph={require('jetbrains-icons/distribution.svg')}
+      glyph={distributionIcon}
       size={Icon.Size.Size32}
     />, document.getElementById('icon-distribution'));
 
     render(<Icon
-      glyph={require('jetbrains-icons/pencil.svg')}
+      glyph={pencilIcon}
       size={Icon.Size.Size16}
     />, document.getElementById('icon-16-pencil'));
 
     render(<Icon
-      glyph={require('jetbrains-icons/pencil.svg')}
+      glyph={pencilIcon}
       size={Icon.Size.Size14}
     />, document.getElementById('icon-14-pencil'));
 
     render(<Icon
-      glyph={require('jetbrains-icons/search-error.svg')}
+      glyph={searchErrorIcon}
       height={80}
       width={100}
     />, document.getElementById('icon-custom-search-error'));

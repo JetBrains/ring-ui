@@ -22,16 +22,17 @@
   </file>
 
   <file type="js">
-    import {render} from 'react-dom';
     import React from 'react';
+    import {render} from 'react-dom';
     import Button from 'ring-ui/components/button/button';
+    import flagIcon from 'jetbrains-icons/flag.svg';
 
     const buttons = (
       <div className="buttons">
         <Button>Button default</Button>
 
         <Button
-          icon={require('jetbrains-icons/flag.svg')}
+          icon={flagIcon}
         >Icon action</Button>
 
         <Button

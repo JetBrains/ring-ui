@@ -16,7 +16,7 @@ describe('Caret', () => {
 
   afterEach(function () {
     window.getSelection().removeAllRanges();
-    document.body.removeChild(this.target);
+    // document.body.removeChild(this.target);
     this.target = null;
   });
 

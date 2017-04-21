@@ -63,16 +63,16 @@ It will ask for component name and then create the skeleton for you.
    ```
 2. Install Ring UI with `npm install ring-ui --save-exact` 
 3. Install `webpack-config-merger` to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
-4. If you are building your app with webpack, make sure to `require` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
-`require` the components there. 
+4. If you are building your app with webpack, make sure to `import` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
+`import` the components there. 
    ``` javascript
-   require('ring-ui/components/react-ng/react-ng')({
-     QueryAssist: require('ring-ui/components/query-assist/query-assist'),
-     Footer: require('ring-ui/components/footer/footer')
-   });
-
-   require('ring-ui/components/auth-ng/auth-ng');
-   require('ring-ui/components/shortcuts-ng/shortcuts-ng');
+   import 'ring-ui/components/auth-ng/auth-ng';
+   import 'ring-ui/components/shortcuts-ng/shortcuts-ng';
+   import registerComponents from 'ring-ui/components/react-ng/react-ng';
+   import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+   import LoaderInline from 'ring-ui/components/loader-inline/loader-inline';
+   
+   registerComponents({QueryAssist, LoaderInline});
    ```
 5. Create `webpack.config.js` with the following contents (example):
    ``` javascript

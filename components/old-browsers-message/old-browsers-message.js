@@ -24,8 +24,8 @@ import sniffer from '../global/sniffer';
         </div>
       </file>
       <file type="js">
-        require('ring-ui/components/old-browsers-message/old-browsers-message.scss');
-        require('ring-ui/components/old-browsers-message/old-browsers-message');
+        import 'ring-ui/components/old-browsers-message/old-browsers-message.scss';
+        import 'ring-ui/components/old-browsers-message/old-browsers-message';
 
         //Trigger an error to imitate an unsupported browser
         Object.unknownMethodCall();

@@ -1,10 +1,11 @@
 import 'dom4';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {
   isCompositeComponentWithType,
   renderIntoDocument
 } from 'react-dom/test-utils';
-import React from 'react';
+
 import Island, {AdaptiveIsland, Content, Header} from './island';
 
 const LINE_HEIGHT = '28px';

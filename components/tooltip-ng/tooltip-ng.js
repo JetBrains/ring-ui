@@ -2,7 +2,9 @@ import 'dom4';
 import {createElement} from 'react';
 import {render} from 'react-dom';
 import classNames from 'classnames';
+
 import Popup from '../popup/popup';
+
 import './tooltip-ng.scss';
 
 /**
@@ -16,22 +18,28 @@ import './tooltip-ng.scss';
           <div ng-controller="testController">
             Some text that needs an explanation
             <span rg-tooltip="'Test message'"
-                  react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
             <span rg-tooltip="{{testMessageWithQuote}}"
-                  react-static="Icon" react-glyph="icon" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+            <span rg-tooltip="{{someUndefinedValue}}"
+                  react-static="Icon" react-glyph="iconInfo" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
           </div>
         </div>
       </file>
 
       <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/react-ng/react-ng')({
-          Icon: require('ring-ui/components/icon/icon')
-        });
-        require('ring-ui/components/tooltip-ng/tooltip-ng');
+        import 'angular';
+        import registerComponents from 'ring-ui/components/react-ng/react-ng';
+        import Icon from 'ring-ui/components/icon/icon';
+        import 'ring-ui/components/tooltip-ng/tooltip-ng';
+        import iconHelp from 'jetbrains-icons/help.svg';
+        import iconInfo from 'jetbrains-icons/info.svg';
+
+        registerComponents({Icon});
 
         angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
-          $scope.icon = require('jetbrains-icons/help.svg');
+          $scope.iconHelp = iconHelp;
+          $scope.iconInfo = iconInfo;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>
@@ -96,7 +104,12 @@ name.factory('RgTooltipPopup', () => function (anchorElement, textGetter) {
   };
 
   this.displayTooltip = customClass => {
-    this.text = textGetter();
+    const text = textGetter();
+    if (!text) {
+      return;
+    }
+
+    this.text = text;
 
     const className = classNames({
       'ring-tooltip-ng': true

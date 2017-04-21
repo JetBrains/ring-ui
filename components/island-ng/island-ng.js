@@ -7,6 +7,7 @@
  */
 /* global angular: false */
 import styles from '../island/island.css';
+
 import IslandHeader from './island-header-ng';
 import IslandContent from './island-content-ng';
 import compile from './island-ng-class-fixer';

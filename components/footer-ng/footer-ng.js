@@ -1,5 +1,4 @@
 import RingAngularComponent from '../global/ring-angular-component';
-
 import styles from '../footer/footer.css';
 import {copyright} from '../footer/footer';
 

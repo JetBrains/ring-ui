@@ -16,7 +16,9 @@ import 'dom4';
 import React, {PureComponent, isValidElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
 import Link from '../link/link';
+
 import styles from './footer.css';
 
 /**

@@ -31,8 +31,8 @@
     </div>
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/table-legacy-ng/table-legacy-ng');
+    import 'angular';
+    import 'ring-ui/components/table-legacy-ng/table-legacy-ng';
 
     angular.module('test', ['Ring.table-legacy']).
       controller('tableExample', function ($scope) {
@@ -76,8 +76,8 @@
     </div>
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/table-legacy-ng/table-legacy-ng');
+    import 'angular';
+    import 'ring-ui/components/table-legacy-ng/table-legacy-ng';
   </file>
   <file type="css">
     body {
@@ -138,13 +138,13 @@
     </div>
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/table-legacy-ng/table-legacy-ng');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/sidebar-ng/sidebar-ng');
-    var reactNg = require('ring-ui/components/react-ng/react-ng');
+    import 'angular';
+    import 'ring-ui/components/table-legacy-ng/table-legacy-ng';
+    import 'ring-ui/components/select-ng/select-ng';
+    import 'ring-ui/components/sidebar-ng/sidebar-ng';
+    import reactNg from 'ring-ui/components/react-ng/react-ng';
     var registerComponents = reactNg.registerComponents;
-    var QueryAssist = require('ring-ui/components/query-assist/query-assist');
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
     registerComponents({QueryAssist});
 
     angular.module('test', ['Ring.table-legacy', 'Ring.sidebar', 'Ring.select', reactNg.reactNg]).

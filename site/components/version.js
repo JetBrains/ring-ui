@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Dropdown from 'ring-ui/components/dropdown/dropdown';
-import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
-
+import Dropdown from '../../components/dropdown/dropdown';
+import PopupMenu from '../../components/popup-menu/popup-menu';
 import branches from '../branches.json';
-
 import {currentPath} from '../utils';
 
 import styles from '../index.css';

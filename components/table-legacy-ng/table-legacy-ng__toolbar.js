@@ -1,7 +1,8 @@
 /*global angular*/
 import 'dom4';
-import {getDocumentScrollTop} from '../global/dom';
 import throttle from 'mout/function/throttle';
+
+import {getDocumentScrollTop} from '../global/dom';
 import '../table-legacy/table-legacy__toolbar.scss';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);

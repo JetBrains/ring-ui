@@ -5,5 +5,8 @@
     "jetbrains",
     "jetbrains/es6",
     "jetbrains/react"
-  ]
+  ],
+  "settings": {
+    "import/resolver": "webpack"
+  }
 }

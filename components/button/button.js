@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
 import Icon, {Size} from '../icon/icon';
 import Theme from '../global/theme';
 

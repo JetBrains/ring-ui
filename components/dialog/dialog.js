@@ -1,11 +1,13 @@
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Portal from '@hypnosphi/react-portal';
-import ScrollPreventer from './dialog__body-scroll-preventer';
-import {AdaptiveIsland} from '../island/island';
-import styles from './dialog.css';
 import getEventKey from 'react-dom/lib/getEventKey';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import Portal from '@hypnosphi/react-portal';
+
+import {AdaptiveIsland} from '../island/island';
+
+import ScrollPreventer from './dialog__body-scroll-preventer';
+import styles from './dialog.css';
 
 /**
  * @name Dialog
@@ -20,6 +22,7 @@ import getEventKey from 'react-dom/lib/getEventKey';
 export default class Dialog extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    contentClassName: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
@@ -63,8 +66,9 @@ export default class Dialog extends PureComponent {
   }
 
   render() {
-    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-    const classes = classNames(styles.container, className);
+    // eslint-disable-next-line no-unused-vars
+    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
+    const classes = classnames(styles.container, className);
 
     return (
       <Portal
@@ -79,7 +83,7 @@ export default class Dialog extends PureComponent {
           {...restProps}
         >
           <AdaptiveIsland
-            className={styles.content}
+            className={classnames(styles.content, contentClassName)}
             data-test="ring-dialog"
           >
             {children}
