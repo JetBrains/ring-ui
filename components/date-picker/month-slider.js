@@ -2,10 +2,11 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
+
 import linearFunction from '../global/linear-function';
 
-import units, {dateType, yearScrollSpeed} from './consts';
 
+import units, {dateType, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 const COVERYEARS = 3;

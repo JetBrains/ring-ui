@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Anchor from './anchor';
-
 import styles from './dropdown.css';
 
 /**

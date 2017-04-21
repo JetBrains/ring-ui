@@ -2,7 +2,6 @@ import 'angular';
 import 'angular-mocks';
 import compilerModuleName from './compiler-ng';
 
-
 describe('Compiler Ng', () => {
 
 

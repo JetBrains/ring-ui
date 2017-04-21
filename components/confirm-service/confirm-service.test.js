@@ -1,6 +1,8 @@
-import TestUtils from 'react-dom/test-utils';
-import confirm, {hideConfirm} from './confirm-service';
+import {Simulate} from 'react-dom/test-utils';
+
 import islandStyles from '../island/island.css';
+
+import confirm, {hideConfirm} from './confirm-service';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');
@@ -36,7 +38,7 @@ describe('Confirm Service', () => {
     const spy = sinon.spy();
     const promise = confirm({text: 'foo'}).then(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-ok-button"]');
-    TestUtils.Simulate.click(okButton);
+    Simulate.click(okButton);
 
     await promise;
     spy.should.have.been.called;
@@ -46,7 +48,7 @@ describe('Confirm Service', () => {
     const spy = sinon.spy();
     const promise = confirm({text: 'foo'}).catch(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-reject-button"]');
-    TestUtils.Simulate.click(okButton);
+    Simulate.click(okButton);
 
     await promise;
     spy.should.have.been.called;

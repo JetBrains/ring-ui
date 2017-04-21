@@ -1,8 +1,7 @@
 import '../icon-ng/icon-ng';
+import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 import '../checkbox/checkbox.scss';
-
-import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 /**
  * @name Checkbox Ng
@@ -28,9 +27,9 @@ import proxyAttrs from '../proxy-attrs/proxy-attrs';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/checkbox-ng/checkbox-ng');
-       require('ring-ui/components/button-ng/button-ng');
+       import 'angular';
+       import 'ring-ui/components/checkbox-ng/checkbox-ng';
+       import 'ring-ui/components/button-ng/button-ng';
        angular.module('TestApp', ['Ring.button', 'Ring.checkbox'])
         .controller('MainCtrl', function($scope) {
           $scope.checked = false;
@@ -55,8 +54,8 @@ import proxyAttrs from '../proxy-attrs/proxy-attrs';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/checkbox-ng/checkbox-ng');
+       import 'angular';
+       import 'ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', ['Ring.checkbox']);
  </file>
    </example>
@@ -70,8 +69,8 @@ import proxyAttrs from '../proxy-attrs/proxy-attrs';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/checkbox-ng/checkbox-ng');
+       import 'angular';
+       import 'ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', ['Ring.checkbox']);
  </file>
    </example>

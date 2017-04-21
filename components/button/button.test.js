@@ -4,8 +4,8 @@ import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
-import Button from './button';
 
+import Button from './button';
 import styles from './button.css';
 
 describe('Button', () => {

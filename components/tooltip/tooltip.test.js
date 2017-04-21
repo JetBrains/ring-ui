@@ -1,17 +1,17 @@
 /* eslint-disable func-names */
 
+import 'dom4';
 import React from 'react';
 import {unmountComponentAtNode} from 'react-dom';
-import 'dom4';
-
 import {
   isCompositeComponentWithType,
   renderIntoDocument,
   Simulate
 } from 'react-dom/test-utils';
 
-import Tooltip from './tooltip';
 import Popup from '../popup/popup';
+
+import Tooltip from './tooltip';
 
 describe('Tooltip', () => {
   beforeEach(function () {

@@ -1,6 +1,7 @@
-import styles from '../island/island.css';
-import compile from './island-ng-class-fixer';
 /* global angular: false */
+import styles from '../island/island.css';
+
+import compile from './island-ng-class-fixer';
 
 const angularModule = angular.module('Ring.island-ng.content', []);
 

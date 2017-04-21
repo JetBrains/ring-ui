@@ -10,7 +10,7 @@
   ],
   "rules": {
     // Possible Errors
-    "valid-jsdoc": "warn",
+    "valid-jsdoc": "off",
 
     // Best Practices
     "complexity": ["off", 5],
@@ -20,6 +20,20 @@
     "func-names": "warn",
 
     // Angular
-    "angular/directive-name": ["error", "rg"]
+    "angular/directive-name": ["error", "rg"],
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": {
+          "resolve": {
+            "modules": [
+              "test-helpers",
+              "node_modules"
+            ]
+          }
+        }
+      }
+    }
   }
 }

@@ -1,6 +1,12 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
+import exceptionIcon from 'jetbrains-icons/exception.svg';
+import okIcon from 'jetbrains-icons/ok.svg';
+import warningIcon from 'jetbrains-icons/warning.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
+
+
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
@@ -34,9 +40,9 @@ const Type = {
  * @type {Object.<Type, string>}
  */
 const TypeToIconModifier = {
-  [Type.ERROR]: require('jetbrains-icons/exception.svg'),
-  [Type.SUCCESS]: require('jetbrains-icons/ok.svg'),
-  [Type.WARNING]: require('jetbrains-icons/warning.svg')
+  [Type.ERROR]: exceptionIcon,
+  [Type.SUCCESS]: okIcon,
+  [Type.WARNING]: warningIcon
 };
 
 /**
@@ -197,7 +203,7 @@ export default class Alert extends RingComponent {
               onClick={this.closeRequest}
             >
               <Icon
-                glyph={require('jetbrains-icons/close.svg')}
+                glyph={closeIcon}
                 size={Icon.Size.Size16}
               />
             </button>

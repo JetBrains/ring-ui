@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
+
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
@@ -13,7 +14,7 @@ const TOKEN_TYPE = 'Bearer';
 const STATUS_OK_IF_MORE_THAN = 200;
 const STATUS_BAD_IF_MORE_THAN = 300;
 
-const defaultFetchConfig = {
+export const defaultFetchConfig = {
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'

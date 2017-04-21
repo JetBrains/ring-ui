@@ -187,12 +187,13 @@
     }
   </file>
   <file type="js">
-    var angular = require('angular');
-    require('ring-ui/components/select-ng/select-ng');
-    require('ring-ui/components/react-ng/react-ng')({
-      QueryAssist: require('ring-ui/components/query-assist/query-assist')
-    });
-    require('ring-ui/components/input-size/input-size.scss');
+    import angular from 'angular';
+    import 'ring-ui/components/select-ng/select-ng';
+    import registerComponents from 'ring-ui/components/react-ng/react-ng';
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    registerComponents({QueryAssist});
 
     angular.module('Example.input-size', [
       'Ring.react-ng',

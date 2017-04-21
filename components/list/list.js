@@ -10,11 +10,11 @@ import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import throttle from 'mout/function/throttle';
+
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
-
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import styles from './list.css';

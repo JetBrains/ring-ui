@@ -1,6 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import checkIcon from 'jetbrains-icons/check.svg';
+
 import Icon from '../icon/icon';
 
 import styles from './checkbox.css';
@@ -52,7 +54,7 @@ export default class Checkbox extends PureComponent {
         <span className={styles.cell}>
           <Icon
             className={styles.icon}
-            glyph={require('jetbrains-icons/checkmark.svg')}
+            glyph={checkIcon}
             size={Icon.Size.Size14}
           />
         </span>

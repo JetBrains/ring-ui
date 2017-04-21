@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
+import global from '../global/global.css';
 
 import styles from './avatar.css';
-import global from '../global/global.css';
 
 /**
  * @name Avatar

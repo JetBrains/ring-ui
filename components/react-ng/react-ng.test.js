@@ -1,14 +1,13 @@
-/* eslint-disable react/no-multi-comp */
-
 import 'angular';
 import 'angular-mocks';
 import React from 'react';
+
 import RingComponent from '../ring-component/ring-component';
 import Select from '../select/select';
 
-describe('React Ng', () => {
-  const registerComponents = require('./react-ng');
+import registerComponents from './react-ng';
 
+describe('React Ng', () => {
   let $scope;
   let $compile;
 

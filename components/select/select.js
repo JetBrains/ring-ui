@@ -1,15 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
+import chevronDownIcon from 'jetbrains-icons/chevron-down.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
+
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
-import SelectPopup from './select__popup';
-import List, {ListHint} from '../list/list';
+import List from '../list/list';
 import Input from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
-
-import styles from './select.css';
+import SelectPopup from './select__popup';import styles from'./select.css';
 
 /**
  * @name Select
@@ -335,7 +336,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (this.props.hint) {
       hint = (
-        <ListHint
+        <List.ListHint
           key={this.props.hint + Type.ITEM}
           label={this.props.hint}
         />
@@ -654,7 +655,7 @@ export default class Select extends RingComponentWithShortcuts {
           className={styles.clearIcon}
           key="close"
           onClick={::this.clear}
-          icon={require('jetbrains-icons/close.svg')}
+          icon={closeIcon}
           iconSize={Icon.Size.Size14}
         />
       );
@@ -673,7 +674,7 @@ export default class Select extends RingComponentWithShortcuts {
     if (!this.props.hideArrow) {
       icons.push(
         <Icon
-          glyph={require('jetbrains-icons/chevron-down.svg')}
+          glyph={chevronDownIcon}
           key="hide"
           size={Icon.Size.Size14}
         />
