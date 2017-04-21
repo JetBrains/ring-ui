@@ -1,18 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import calendarIcon from 'jetbrains-icons/calendar.svg';
 
 import Icon from '../icon/icon';
-
-import calendarIcon from 'jetbrains-icons/calendar.svg';
 
 import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
-
 import {dateType, parseDate} from './consts';
-
 import styles from './date-picker.css';
 
 const scrollExpDelay = 10;

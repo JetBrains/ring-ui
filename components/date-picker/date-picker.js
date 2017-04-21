@@ -4,9 +4,10 @@ import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 import Dropdown from '../dropdown/dropdown';
+import Icon from '../icon/icon';
+
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
-
 import styles from './date-picker.css';
 
 /**

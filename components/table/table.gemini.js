@@ -1,14 +1,23 @@
 /* global gemini: false */
 
-const UNHOVER_DELAY = 500;
-
 gemini.suite('Table', suite => {
-  suite.
-    setUrl('/table/table.html').
-    setCaptureElements('#demo').
-    capture('table', (actions, find) => {
-      actions.click(find('[data-test=ring-table-cell]:first-child'));
-      actions.wait(UNHOVER_DELAY);
-    });
-});
+  suite.setUrl('/table/table.html');
 
+  suite.setCaptureElements('table');
+
+  suite.capture('table');
+
+  suite.capture('with a caption', (actions, find) => {
+    actions.click(find('#button-with-a-caption button'));
+  });
+
+  suite.capture('non-selectable', (actions, find) => {
+    actions.click(find('#button-with-a-caption button'));
+    actions.click(find('#button-non-selectable button'));
+  });
+
+  suite.capture('bulgaria', (actions, find) => {
+    actions.click(find('#button-non-selectable button'));
+    actions.click(find('#button-select-bulgaria button'));
+  });
+});

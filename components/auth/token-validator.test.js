@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
-import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 import HTTP from '../http/http';
 
 import Auth from './auth';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
+
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 
 describe('Auth', () => {
   describe('TokenValidator', () => {

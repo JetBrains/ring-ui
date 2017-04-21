@@ -1,11 +1,12 @@
+import {createElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
+import getEventKey from 'react-dom/lib/getEventKey';
 
 import Select from '../select/select';
-import SelectNgOptions from './select-ng__options';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+
+import SelectNgOptions from './select-ng__options';
 import SelectLazy from './select-ng__lazy';
-import {createElement} from 'react';
-import getEventKey from 'react-dom/lib/getEventKey';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 

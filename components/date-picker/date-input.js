@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Input from '../input/input';
 
 import {dateType} from './consts';
-
 import styles from './date-picker.css';
 
 export default class DateInput extends PureComponent {

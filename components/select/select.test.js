@@ -1,19 +1,29 @@
 /* eslint-disable func-names */
 import 'dom4';
-import Select from './select';
-import List from '../list/list';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
-import renderIntoDocument from 'render-into-document';
+import {render, unmountComponentAtNode} from 'react-dom';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
 import simulateCombo from 'simulate-combo';
 
+import List from '../list/list';
+import sniffr from '../global/sniffer';
+
+import Select from './select';
 import styles from './select.css';
+
+
+const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 function simulateInput(node, value) {
   const target = findDOMNode(node);
   target.value = value;
-  TestUtils.Simulate.change(target, {target});
+
+  Simulate.change(target, {target});
+
+  if (isIE11) {
+    Simulate.input(target, {target: {value}});
+  }
 }
 
 describe('Select', () => {
@@ -150,14 +160,14 @@ describe('Select', () => {
   it('Should call onFocus on input focus', function () {
     this.renderSelect({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.focus(this.select.filter);
+    Simulate.focus(this.select.filter);
     this.select.props.onFocus.should.been.called;
   });
 
   it('Should call onBlur on input blur', function () {
     this.renderSelect({type: Select.Type.INPUT});
 
-    TestUtils.Simulate.blur(this.select.filter);
+    Simulate.blur(this.select.filter);
     this.select.props.onBlur.should.been.called;
   });
 
@@ -166,7 +176,7 @@ describe('Select', () => {
     this.renderSelect({type: Select.Type.INPUT});
     this.select._showPopup();
 
-    TestUtils.Simulate.blur(this.select.filter);
+    Simulate.blur(this.select.filter);
     this.sinon.clock.tick();
     this.select._popup.props.hidden.should.be.true;
   });
@@ -176,8 +186,8 @@ describe('Select', () => {
     this.renderSelect({type: Select.Type.INPUT});
     this.select._showPopup();
 
-    TestUtils.Simulate.mouseDown(this.select._popup.list.node);
-    TestUtils.Simulate.blur(this.select.filter);
+    Simulate.mouseDown(this.select._popup.list.node);
+    Simulate.blur(this.select.filter);
     this.sinon.clock.tick();
     this.select._popup.props.hidden.should.be.false;
   });
@@ -246,7 +256,7 @@ describe('Select', () => {
 
     it('Should open select dropdown on click', function () {
       this.sinon.spy(this.select, '_showPopup');
-      TestUtils.Simulate.click(this.select.node);
+      Simulate.click(this.select.node);
 
       this.select._showPopup.should.have.been.called;
     });
@@ -610,6 +620,17 @@ describe('Select', () => {
   });
 
   describe('Popup', () => {
+    beforeEach(function () {
+      this.container = document.createElement('div');
+      document.body.appendChild(this.container);
+    });
+
+    afterEach(function () {
+      unmountComponentAtNode(this.container);
+      document.body.removeChild(this.container);
+      this.container = null;
+    });
+
     it('Should pass loading message and indicator to popup if loading', function () {
       this.renderSelect({loading: true, loadingMessage: 'test message'});
       this.select._popup.rerender = this.sinon.stub();
@@ -626,10 +647,10 @@ describe('Select', () => {
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
-      this.select = renderIntoDocument(React.createElement(Select, {
+      this.select = render(React.createElement(Select, {
         data: testData,
         filter: true
-      }));
+      }), this.container);
 
       this.select._showPopup();
       this.select._hidePopup(true);
@@ -637,39 +658,46 @@ describe('Select', () => {
     });
 
     describe('Focus after close', () => {
-      let targetInput = null;
 
       beforeEach(function () {
-        targetInput = findDOMNode(renderIntoDocument(<input />));
+        this.targetInput = document.createElement('input');
+        document.body.appendChild(this.targetInput);
 
-        this.select = renderIntoDocument(React.createElement(Select, {
+        this.select = render(React.createElement(Select, {
           data: testData,
           filter: true,
-          targetElement: targetInput
-        }));
+          targetElement: this.targetInput
+        }), this.container);
+
         this.select._showPopup();
+      });
+
+      afterEach(function () {
+        document.body.removeChild(this.targetInput);
+        this.targetInput = null;
       });
 
       it('Should restore focus on provided target element after closing popup', function () {
         this.select._hidePopup(true);
 
-        targetInput.should.equal(document.activeElement);
+        document.activeElement.should.equal(this.targetInput);
       });
 
-      it('Should restore focus on provided target element after closing popup with keyboard', () => {
+      it('Should restore focus on provided target element after closing popup with keyboard', function () {
         simulateCombo('esc');
-        targetInput.should.equal(document.activeElement);
+        document.activeElement.should.equal(this.targetInput);
       });
 
-      it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
-        TestUtils.Simulate.click(document.body);
+      it('Should not restore focus on provided target element after closing popup with not keyboard event', function () {
+        Simulate.click(document.body);
 
-        targetInput.should.not.equal(document.activeElement);
+        this.targetInput.should.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', function () {
         this.select._hidePopup();
-        targetInput.should.not.equal(document.activeElement);
+
+        document.activeElement.should.not.equal(this.targetInput);
       });
     });
   });

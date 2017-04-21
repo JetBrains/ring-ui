@@ -1,4 +1,8 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names, import/no-duplicates */
+import Storage from './storage__local';
+import FallbackStorage from './storage__fallback';
+
+import MockedStorage from 'imports-loader?window=storage-mock!./storage__local';
 
 function noop() {}
 
@@ -183,8 +187,6 @@ describe('Storage', () => {
       sessionStorage.clear();
     });
 
-    const Storage = require('./storage__local');
-    const MockedStorage = require('imports-loader?window=storage-mock!./storage__local');
     const storage = new Storage();
     const storageSession = new Storage({
       type: 'session'
@@ -222,8 +224,6 @@ describe('Storage', () => {
     beforeEach(() => {
       document.cookie = `${cookieName}=;`;
     });
-
-    const FallbackStorage = require('./storage__fallback');
 
     const storage = new FallbackStorage({
       cookieName,

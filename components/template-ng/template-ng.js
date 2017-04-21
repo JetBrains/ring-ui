@@ -12,8 +12,8 @@ import RingAngularComponent from '../global/ring-angular-component';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/template-ng/template-ng');
+        import 'angular';
+        import 'ring-ui/components/template-ng/template-ng';
 
         angular
         .module('Example.template-ng', ['Ring.template']);
@@ -27,8 +27,8 @@ import RingAngularComponent from '../global/ring-angular-component';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        require('angular');
-        require('ring-ui/components/template-ng/template-ng');
+        import 'angular';
+        import 'ring-ui/components/template-ng/template-ng';
 
         angular
         .module('Example.template-ng', ['Ring.template'])

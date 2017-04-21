@@ -3,7 +3,6 @@ import 'whatwg-fetch';
 
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
-
 import HTTP from '../http/http';
 
 import AuthStorage from './storage';
@@ -158,6 +157,8 @@ export default class Auth {
    * @const {string}
    */
   static API_PROFILE_PATH = 'users/me';
+
+  static shouldRefreshToken = TokenValidator.shouldRefreshToken;
 
   addListener(event, handler) {
     this.listeners.add(event, handler);

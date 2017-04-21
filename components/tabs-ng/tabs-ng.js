@@ -18,8 +18,8 @@ import '../tabs/tabs.scss';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       require('angular');
-       require('ring-ui/components/tabs-ng/tabs-ng');
+       import 'angular';
+       import 'ring-ui/components/tabs-ng/tabs-ng';
      </file>
    </example>
  */

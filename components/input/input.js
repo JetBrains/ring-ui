@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Theme from '../global/theme';
-
-import Button from '../button/button';
-
 import clearIcon from 'jetbrains-icons/close.svg';
 
+import Theme from '../global/theme';
+import Button from '../button/button';
+
+import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
 
 function noop() {}
@@ -182,3 +182,4 @@ export default class Input extends PureComponent {
   }
 }
 
+export default ieCompatibleInputHOC(Input);

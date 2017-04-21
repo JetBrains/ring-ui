@@ -21,12 +21,15 @@ import '../icon/icon.scss';
         </div>
       </file>
     <file name="index.js" webpack="true">
-      require('angular');
-      require('ring-ui/components/icon-ng/icon-ng');
-      require('ring-ui/components/button-ng/button-ng');
+      import 'angular';
+      import 'ring-ui/components/icon-ng/icon-ng';
+      import 'ring-ui/components/button-ng/button-ng';
+      import distributionIcon from 'jetbrains-icons/distribution.svg';
+      import searchErrorIcon from 'jetbrains-icons/search-error.svg';
+
       angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
-        $scope.icon = require('jetbrains-icons/distribution.svg');
-        $scope.error = require('jetbrains-icons/search-error.svg');
+        $scope.icon = distributionIcon;
+        $scope.error = searchErrorIcon;
       });
     </file>
   </example>

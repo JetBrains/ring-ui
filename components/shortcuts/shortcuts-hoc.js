@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Shortcuts from './shortcuts';
-import getUID from './../global/get-uid';
 
+import getUID from '../global/get-uid';
+
+import Shortcuts from './shortcuts';
 
 export default function shortcutsHOC(ComposedComponent) {
 

@@ -1,7 +1,6 @@
 import 'dom4';
 import React from 'react';
-import {isCompositeComponentWithType} from 'react-dom/test-utils';
-import renderIntoDocument from 'render-into-document';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 
 import Dialog from './dialog';
 import styles from './dialog.css';

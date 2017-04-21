@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import getEventKey from 'react-dom/lib/getEventKey';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Select from '../select/select';
 import Tag from '../tag/tag';
 import Caret from '../caret/caret';
-import getEventKey from 'react-dom/lib/getEventKey';
+import '../input-size/input-size.scss';
 
 import './tags-input.scss';
-import '../input-size/input-size.scss';
 
 function noop() {}
 

@@ -1,9 +1,10 @@
 /* eslint-env node */
-/* eslint-disable modules/no-cjs */
+/* eslint-disable import/no-commonjs */
 require('babel-polyfill');
 
 const fs = require('fs');
 const path = require('path');
+
 const glob = require('glob');
 
 function readMainFileWithExtension(extension, dirpath) {

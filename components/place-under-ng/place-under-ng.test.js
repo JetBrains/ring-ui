@@ -4,6 +4,7 @@
 import 'angular';
 import 'angular-mocks';
 import EventEmitter from 'events';
+
 import rgPlaceUnder from './place-under-ng';
 
 

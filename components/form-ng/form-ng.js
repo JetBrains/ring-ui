@@ -1,6 +1,7 @@
-import MessageBundle from '../message-bundle-ng/message-bundle-ng.js';
-import '../input-legacy/input-legacy.scss';
 import AngularElastic from 'angular-elastic';
+
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+import '../input-legacy/input-legacy.scss';
 
 /**
  * @name Form Ng

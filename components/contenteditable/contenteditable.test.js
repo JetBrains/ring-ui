@@ -1,11 +1,12 @@
 /* eslint-disable func-names */
 
 import React from 'react';
-import ContentEditable from './contenteditable';
 import {
   isCompositeComponentWithType,
   renderIntoDocument
 } from 'react-dom/test-utils';
+
+import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
   beforeEach(function () {

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import RingComponent from '../ring-component/ring-component';
 
 import LoaderCore from './loader__core';
@@ -17,8 +18,8 @@ import LoaderCore from './loader__core';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var Loader = require('ring-ui/components/loader/loader');
+       import {render} from 'react-dom';
+       import Loader from 'ring-ui/components/loader/loader';
 
        render(Loader.factory({message: 'Loading...'}), document.getElementById('loader1'));
 

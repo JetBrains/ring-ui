@@ -82,16 +82,20 @@
   </file>
 
   <file type="js">
-    require('angular');
-    require('ring-ui/components/button-ng/button-ng');
-    require('ring-ui/components/icon-ng/icon-ng');
+    import 'angular';
+    import 'ring-ui/components/button-ng/button-ng';
+    import 'ring-ui/components/icon-ng/icon-ng';
+    import pencilIcon from 'jetbrains-icons/pencil.svg';
+    import caretDownIcon from 'jetbrains-icons/caret-down.svg';
+    import trashIcon from 'jetbrains-icons/trash.svg';
+    import mergeIcon from 'jetbrains-icons/merge.svg';
 
     angular.module('test', ['Ring.button', 'Ring.icon']).
       controller('testCtrl', function ($scope) {
-        $scope.pencil = require('jetbrains-icons/pencil.svg');
-        $scope.caretDown = require('jetbrains-icons/caret-down.svg');
-        $scope.trash = require('jetbrains-icons/trash.svg');
-        $scope.merge = require('jetbrains-icons/merge.svg');
+        $scope.pencil = pencilIcon;
+        $scope.caretDown = caretDownIcon;
+        $scope.trash = trashIcon;
+        $scope.merge = mergeIcon;
       });
   </file>
 </example>

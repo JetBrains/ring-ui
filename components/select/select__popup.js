@@ -4,15 +4,15 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import classNames from 'classnames';
+
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Icon from '../icon/icon';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
-import classNames from 'classnames';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
-
 import styles from './select.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;

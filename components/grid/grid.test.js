@@ -5,8 +5,8 @@ import {
   isCompositeComponentWithType,
   renderIntoDocument
 } from 'react-dom/test-utils';
-import styles from './grid.css';
 
+import styles from './grid.css';
 import {Col, Grid, Row} from './grid';
 
 describe('Grid', () => {
