@@ -7,9 +7,9 @@ const webpackTestConfig = require('./webpack-test.config');
 
 const postcssLoaderPath = require.resolve('postcss-loader');
 const addConfig = rule => {
-  rule.loaders.forEach((loader, index) => {
+  rule.use.forEach((loader, index) => {
     if (loader === postcssLoaderPath) {
-      rule.loaders[index] = {
+      rule.use[index] = {
         loader,
         options: {
           config: __dirname
