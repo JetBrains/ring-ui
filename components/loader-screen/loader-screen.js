@@ -1,8 +1,10 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import Loader from '../loader/loader';
 import RingComponent from '../ring-component/ring-component';
+
 import './loader-screen.scss';
-import classNames from 'classnames';
 
 /**
  * @name Loader Screen
@@ -17,8 +19,8 @@ import classNames from 'classnames';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var LoaderScreen = require('ring-ui/components/loader-screen/loader-screen');
+       import {render} from 'react-dom';
+       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory(),
@@ -32,8 +34,8 @@ import classNames from 'classnames';
      </file>
 
      <file name="index.js" webpack="true">
-       var render = require('react-dom').render;
-       var LoaderScreen = require('ring-ui/components/loader-screen/loader-screen');
+       import {render} from 'react-dom';
+       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory({message: 'Loading...'}),

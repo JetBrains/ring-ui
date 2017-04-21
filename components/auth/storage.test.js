@@ -1,9 +1,12 @@
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
 
+import sniffer from '../global/sniffer';
+
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
-import sniffer from '../global/sniffer';
+
+import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
@@ -133,7 +136,6 @@ describe('Auth', () => {
     });
 
     describe('events', () => {
-      const MockedStorage = require('imports-loader?window=storage-mock!../storage/storage__local');
       let mockedAuthStorage;
 
       beforeEach(() => {

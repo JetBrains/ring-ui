@@ -7,8 +7,9 @@ import {
   Simulate
 } from 'react-dom/test-utils';
 
-import Dropdown from './dropdown';
 import Popup from '../popup/popup';
+
+import Dropdown from './dropdown';
 
 describe('Dropdown', () => {
   let anchor;

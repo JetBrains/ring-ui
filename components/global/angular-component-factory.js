@@ -1,10 +1,12 @@
 /* global angular: false */
 /* global process: false */
 
+import 'core-js/modules/es7.array.includes';
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import 'core-js/modules/es7.array.includes';
+
 import RingAngularComponent from '../global/ring-angular-component';
+
 import DomRenderer from './react-dom-renderer';
 
 function iterateRecursive(obj, iterator) {
@@ -98,9 +100,11 @@ function createAngularComponent(Component, name) {
         }
       });
 
+      const hasInnerContent = this.innerNodes && this.innerNodes.length;
+
       render(
         <Component {...props}>
-          <DomRenderer nodes={this.innerNodes}/>
+          {hasInnerContent ? <DomRenderer nodes={this.innerNodes}/> : null}
         </Component>,
         container
       );
@@ -117,4 +121,4 @@ function angularComponentFactory(Component, name) {
 }
 
 export default angularComponentFactory;
-export {createAngularComponent}; // eslint-disable-line modules/no-mix-default-named
+export {createAngularComponent};

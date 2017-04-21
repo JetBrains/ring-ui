@@ -1,6 +1,7 @@
-import Confirm from '../confirm/confirm';
-import {render} from 'react-dom';
 import React from 'react';
+import {render} from 'react-dom';
+
+import Confirm from '../confirm/confirm';
 
 /**
  * @name Confirm Service

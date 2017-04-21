@@ -4,12 +4,14 @@
 import 'angular';
 import 'angular-mocks';
 import 'dom4';
-import simulateCombo from 'simulate-combo';
+
 import {getRect} from '../global/dom';
+import dialogStyles from '../dialog/dialog.css';
 
 import Dialog from './dialog-ng';
 import styles from './dialog-ng.css';
-import dialogStyles from '../dialog/dialog.css';
+
+import simulateCombo from 'simulate-combo';
 
 describe('Dialog Ng', () => {
   let dialogInSidebar;

@@ -27,6 +27,7 @@ const angularModule = angular.module('Ring.loader-inline', []);
 
 angularModule.
   component('rgLoaderInline', {
+    // eslint-disable-next-line import/no-commonjs
     template: require('./loader-inline-ng.html')
   });
 

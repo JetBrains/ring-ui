@@ -1,4 +1,4 @@
-import HTTP, {DEFAULT_HEADERS} from './http';
+import HTTP, {defaultFetchConfig} from './http';
 
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
@@ -46,7 +46,7 @@ describe('HTTP', () => {
     http._fetch.should.have.been.calledWithMatch('testurl', {
       foo: 'bar',
       headers: {
-        ...DEFAULT_HEADERS,
+        ...defaultFetchConfig.headers,
         Authorization: `Bearer ${FAKE_TOKEN}`
       }
     });

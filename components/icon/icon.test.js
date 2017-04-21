@@ -6,9 +6,11 @@ import {
 } from 'react-dom/test-utils';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import Icon from './icon';
 import expandIcon from 'jetbrains-icons/expand.svg';
+
 import {resolveRelativeURL} from '../global/url';
+
+import Icon from './icon';
 
 describe('Icon', () => {
   const renderComponent = props => renderIntoDocument(<Icon {...props} />);

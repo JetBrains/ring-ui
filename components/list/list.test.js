@@ -1,13 +1,13 @@
 /* eslint-disable func-names */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils from 'react-dom/test-utils';
-import List from './list';
+import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import okIcon from 'jetbrains-icons/ok.svg';
 
-import styles from './list.css';
 import linkStyles from '../link/link.css';
 
-import okIcon from 'jetbrains-icons/ok.svg';
+import List from './list';
+import styles from './list.css';
 
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 describe('List', () => {
@@ -23,7 +23,7 @@ describe('List', () => {
   }
 
   beforeEach(() => {
-    list = TestUtils.renderIntoDocument(React.createElement(List));
+    list = renderIntoDocument(React.createElement(List));
   });
 
   it('should be empty by default', () => {
@@ -68,7 +68,7 @@ describe('List', () => {
   describe('should track activeIndex', () => {
     beforeEach(function () {
       this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
-      list = TestUtils.renderIntoDocument(React.createElement(List, {
+      list = renderIntoDocument(React.createElement(List, {
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
         restoreActiveIndex: true
@@ -228,7 +228,7 @@ describe('List', () => {
         {label: 'Hello!', onClick: clicked}
       ]});
 
-      TestUtils.Simulate.click(getFirstListItem());
+      Simulate.click(getFirstListItem());
       clicked.should.have.been.called;
     });
 
@@ -240,7 +240,7 @@ describe('List', () => {
         data: [{label: 'Hello!'}]
       });
 
-      TestUtils.Simulate.click(getFirstListItem());
+      Simulate.click(getFirstListItem());
       onSelect.should.have.been.called;
     });
 
@@ -263,7 +263,7 @@ describe('List', () => {
           onClick
         }
       ]});
-      TestUtils.Simulate.click(getFirstListItem());
+      Simulate.click(getFirstListItem());
       onClick.should.have.been.clicked;
     });
 

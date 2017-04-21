@@ -13,11 +13,12 @@
 
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
 import Button from '../button-legacy/button-legacy';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select from '../select/select';
-import classNames from 'classnames';
 
 import '../link/link.scss';
 import style from './pager.css';

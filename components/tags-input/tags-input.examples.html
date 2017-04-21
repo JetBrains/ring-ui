@@ -3,8 +3,8 @@
     <div id="demo"></div>
   </file>
   <file type="js">
-    var render = require('react-dom').render;
-    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+    import {render} from 'react-dom';
+    import TagsInput from 'ring-ui/components/tags-input/tags-input';
 
     var props = {
       className: 'test-additional-class',
@@ -37,10 +37,11 @@
     </div>
   </file>
   <file type="js">
-    require('angular');
-    require('ring-ui/components/react-ng/react-ng')({
-      TagsInput: require('ring-ui/components/tags-input/tags-input')
-    });
+    import 'angular';
+    import registerComponents from 'ring-ui/components/react-ng/react-ng';
+    import TagsInput from 'ring-ui/components/tags-input/tags-input';
+
+    registerComponents({TagsInput});
 
     angular.module('test-tags-app', ['Ring.react-ng']).
       controller('testCtrl', function ($scope, $timeout) {
@@ -73,11 +74,11 @@
     <div id="demo"></div>
   </file>
   <file type="js">
-    var render = require('react-dom').render;
-    var TagsInput = require('ring-ui/components/tags-input/tags-input');
-    var GroupIcon = require('jetbrains-icons/group.svg');
-    var BugIcon = require('jetbrains-icons/bug.svg');
-    var FrownIcon = require('jetbrains-icons/frown.svg');
+    import {render} from 'react-dom';
+    import TagsInput from 'ring-ui/components/tags-input/tags-input';
+    import GroupIcon from 'jetbrains-icons/group.svg';
+    import BugIcon from 'jetbrains-icons/bug.svg';
+    import FrownIcon from 'jetbrains-icons/frown.svg';
 
     var props = {
       tags: [
@@ -100,8 +101,8 @@
     <div id="demo"></div>
   </file>
   <file type="js">
-    var render = require('react-dom').render;
-    var TagsInput = require('ring-ui/components/tags-input/tags-input');
+    import {render} from 'react-dom';
+    import TagsInput from 'ring-ui/components/tags-input/tags-input';
 
     var props = {
       disabled: true,

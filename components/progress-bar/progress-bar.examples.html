@@ -10,8 +10,8 @@
   </file>
 
   <file type="js">
-    var render = require('react-dom').render;
-    var ProgressBar = require('ring-ui/components/progress-bar/progress-bar');
+    import {render} from 'react-dom';
+    import ProgressBar from 'ring-ui/components/progress-bar/progress-bar';
 
     var progressBar = render(
       ProgressBar.factory({value: 0}),

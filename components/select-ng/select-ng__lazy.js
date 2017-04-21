@@ -1,6 +1,7 @@
 /*global angular*/
 import {render} from 'react-dom';
 import {createElement} from 'react';
+
 import Select from '../select/select';
 
 class SelectLazy {

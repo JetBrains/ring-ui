@@ -15,10 +15,10 @@ import 'dom4';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        require('ring-ui/components/button-legacy/button-legacy.scss');
-        require('angular');
-        require('ring-ui/components/promised-click-ng/promised-click-ng');
-        require('ring-ui/components/button-ng/button-ng');
+        import 'ring-ui/components/button-legacy/button-legacy.scss';
+        import 'angular';
+        import 'ring-ui/components/promised-click-ng/promised-click-ng';
+        import 'ring-ui/components/button-ng/button-ng';
 
         var buttonTestModule = angular.module('button-test', ['Ring.promised-click', 'Ring.button']);
 

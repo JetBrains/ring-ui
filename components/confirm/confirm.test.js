@@ -1,10 +1,10 @@
 import 'dom4';
 import React from 'react';
-import {isCompositeComponentWithType} from 'react-dom/test-utils';
-import renderIntoDocument from 'render-into-document';
+import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+
+import islandStyles from '../island/island.css';
 
 import Confirm from './confirm';
-import islandStyles from '../island/island.css';
 
 describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};
