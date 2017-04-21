@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import  from 'jetbrains-icons/check.svg';
+import checkmarkIcon from 'jetbrains-icons/checkmark.svg';
 
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon from '../icon/icon';
@@ -149,7 +149,7 @@ export default class ListItem extends PureComponent {
                 className={classnames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
-                glyph={checkIcon}
+                glyph={checkmarkIcon}
                 size={Icon.Size.Size14}
               />
             )}

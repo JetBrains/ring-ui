@@ -81,3 +81,5 @@ export default class PopupMenu extends Popup {
     );
   }
 }
+
+export const {ListProps} = List;

@@ -6,7 +6,15 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-u
 import Input from './input';
 
 describe('Input', () => {
-  const renderComponent = props => renderIntoDocument(<Input {...props} />);
+  const inputRef = el => {
+    this.input = el;
+  };
+  const renderComponent = props => renderIntoDocument(
+    <Input
+      inputRef={inputRef}
+      {...props}
+    />
+  );
   const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
@@ -18,11 +26,13 @@ describe('Input', () => {
   });
 
   it('should create input by default', () => {
-    renderComponent().input.should.match('input');
+    renderComponent();
+    this.input.should.match('input');
   });
 
   it('should create textarea with multiline option', () => {
-    renderComponent({multiline: true}).input.should.match('textarea');
+    renderComponent({multiline: true})
+    this.input.should.match('textarea');
   });
 
   it('should use passed className', () => {

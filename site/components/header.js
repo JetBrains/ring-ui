@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 import Auth from '../../components/auth/auth';
-import Header, {Logo, Tray, SmartProfile, SmartServices from '../../components/header/header';
+import Header, {Logo, Tray, SmartProfile, SmartServices} from '../../components/header/header';
 import Link from '../../components/link/link';
 import hubConfig from '../hub-config';
 

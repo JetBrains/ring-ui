@@ -117,3 +117,5 @@ export default class Button extends PureComponent {
     );
   }
 }
+
+export {Size as IconSize};
