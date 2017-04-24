@@ -412,11 +412,13 @@ function rgDialogDirective($timeout) {
     }
 
     function onMousedown() {
-      // Duct tape for all Ring 1.0 dropdown components inside
-      node.dispatchEvent(new CustomEvent('ring.popup-close'));
+      if (!dialogCtrl.inSidebar) {
+        // Duct tape for all Ring 1.0 dropdown components inside
+        node.dispatchEvent(new CustomEvent('ring.popup-close'));
 
-      document.addEventListener('mousemove', onMousemove);
-      document.addEventListener('mouseup', onMouseup);
+        document.addEventListener('mousemove', onMousemove);
+        document.addEventListener('mouseup', onMouseup);
+      }
     }
 
     function onFocusin(e) {
