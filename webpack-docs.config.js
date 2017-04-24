@@ -122,38 +122,6 @@ module.exports = (env = {}) => {
     ]
   };
 
-  if (production) {
-    docsWebpackConfig.plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        /* eslint-disable camelcase */
-        compress: {
-          sequences: false,
-          properties: false,
-          // Only remove dead code
-          dead_code: true,
-          drop_debugger: false,
-          unsafe: false,
-          conditionals: false,
-          comparisons: false,
-          evaluate: false,
-          booleans: false,
-          loops: false,
-          unused: false,
-          hoist_funs: false,
-          hoist_vars: false,
-          if_return: false,
-          join_vars: false,
-          cascade: false,
-          side_effects: false,
-          warnings: false
-        },
-        /* eslint-enable camelcase */
-        mangle: false,
-        sourceMap: true
-      })
-    );
-  }
-
   // if (server) {
   //   docsWebpackConfig.plugins.push(
   //     new webpack.HotModuleReplacementPlugin(),
