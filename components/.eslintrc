@@ -20,10 +20,7 @@
     "func-names": "warn",
 
     // Angular
-    "angular/directive-name": ["error", "rg"],
-
-    // React
-    "react/jsx-no-bind": "warn"
+    "angular/directive-name": ["error", "rg"]
   },
   "settings": {
     "import/resolver": {

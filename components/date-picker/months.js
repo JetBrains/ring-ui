@@ -59,7 +59,7 @@ export default function Months(props) {
   return (
     <div
       className={styles.months}
-      onWheel={e => {
+      onWheel={function handleWheel(e) {
         e.preventDefault();
         dy += e.deltaY;
         scrollSchedule(() => {
@@ -93,7 +93,7 @@ export default function Months(props) {
           />
         ))}
       </div>
-      <MonthNames {...props} />
+      <MonthNames {...props}/>
     </div>
   );
 }

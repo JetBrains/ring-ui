@@ -9,7 +9,7 @@ import Alert from './alert';
 import styles from './alert.css';
 
 describe('Alert', () => {
-  const renderComponent = props => renderIntoDocument(<Alert {...props} />);
+  const renderComponent = props => renderIntoDocument(<Alert {...props}/>);
 
   let clock;
   beforeEach(() => {

@@ -27,7 +27,7 @@ export default class HeaderCell extends PureComponent {
     onSort: () => {}
   }
 
-  onClick() {
+  onClick = () => {
     if (this.sortable) {
       const {column, onSort, sortOrder} = this.props;
       onSort({column, order: !(this.sorted && sortOrder)});
@@ -61,7 +61,7 @@ export default class HeaderCell extends PureComponent {
       <th
         {...restProps}
         className={classes}
-        onClick={::this.onClick}
+        onClick={this.onClick}
         data-test="ring-table-header-cell"
       >
         <span onClick={this.onChildrenClick}>{this.props.children}</span>
@@ -69,7 +69,7 @@ export default class HeaderCell extends PureComponent {
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
         {this.sortable && <span className={style.sorter}>
-          <Icon className={style.icon} glyph={iconGlyph} size={ICON_SIZE} />
+          <Icon className={style.icon} glyph={iconGlyph} size={ICON_SIZE}/>
         </span>}
       </th>
     );

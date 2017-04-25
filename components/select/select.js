@@ -11,6 +11,7 @@ import Input from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
+import getUID from '../global/get-uid';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -110,21 +111,21 @@ export default class Select extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        enter: ::this._onEnter,
-        esc: ::this._onEsc,
-        up: ::this._inputShortcutHandler,
-        down: ::this._inputShortcutHandler,
+        enter: this._onEnter,
+        esc: this._onEsc,
+        up: this._inputShortcutHandler,
+        down: this._inputShortcutHandler,
         right: noop,
         left: noop,
         'shift+up': noop,
         'shift+down': noop,
         space: noop
       },
-      scope: ::this.constructor.getUID('ring-select-')
+      scope: getUID('select-')
     };
   }
 
-  _onEnter() {
+  _onEnter = () => {
     this.props.onDone();
 
     if (!this._popup.isVisible() && this.props.allowAny) {
@@ -134,7 +135,7 @@ export default class Select extends RingComponentWithShortcuts {
     return undefined;
   }
 
-  _onEsc(event) {
+  _onEsc = event => {
     if (!this._popup.isVisible()) {
       return true;
     } else if (this.props.multiple || !this.props.getInitial) {
@@ -157,7 +158,7 @@ export default class Select extends RingComponentWithShortcuts {
     return undefined;
   }
 
-  _inputShortcutHandler() {
+  _inputShortcutHandler = () => {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
     }
@@ -249,6 +250,10 @@ export default class Select extends RingComponentWithShortcuts {
     return null;
   }
 
+  popupRef = el => {
+    this._popup = el;
+  };
+
   _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
@@ -268,9 +273,7 @@ export default class Select extends RingComponentWithShortcuts {
         loading={this.props.loading}
         activeIndex={this.state.selectedIndex}
         hidden={!showPopup}
-        ref={el => {
-          this._popup = el;
-        }}
+        ref={this.popupRef}
         maxHeight={this.props.maxHeight}
         minWidth={this.props.minWidth}
         directions={this.props.directions}
@@ -280,10 +283,10 @@ export default class Select extends RingComponentWithShortcuts {
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
         filterValue={this.state.filterValue}
         anchorElement={anchorElement}
-        onCloseAttempt={::this._onCloseAttempt}
-        onSelect={::this._listSelectHandler}
-        onFilter={::this._filterChangeHandler}
-        onLoadMore={::this.props.onLoadMore}
+        onCloseAttempt={this._onCloseAttempt}
+        onSelect={this._listSelectHandler}
+        onFilter={this._filterChangeHandler}
+        onLoadMore={this.props.onLoadMore}
       />
     );
   }
@@ -312,7 +315,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  addHandler() {
+  addHandler = () => {
     this._hidePopup();
     this.props.onAdd(this.filterValue());
   }
@@ -340,7 +343,7 @@ export default class Select extends RingComponentWithShortcuts {
       addButton = (
         <div
           className="ring-select__button"
-          onClick={::this.addHandler}
+          onClick={this.addHandler}
         >
           <span className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
         </div>
@@ -438,7 +441,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _filterChangeHandler(event) {
+  _filterChangeHandler = event => {
     if (this.isInputMode() && !this.state.focused) {
       return;
     }
@@ -480,7 +483,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _listSelectHandler(selected, event) {
+  _listSelectHandler = (selected, event) => {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
@@ -543,7 +546,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onCloseAttempt(event, isEsc) {
+  _onCloseAttempt = (event, isEsc) => {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -561,7 +564,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.filterValue('');
   }
 
-  clear(event) {
+  clear = event => {
     const empty = Select._getEmptyValue(this.props.multiple);
 
     this.setState({
@@ -574,7 +577,7 @@ export default class Select extends RingComponentWithShortcuts {
     return false;
   }
 
-  _focusHandler() {
+  _focusHandler = () => {
     this.props.onFocus();
 
     this.setState({
@@ -583,7 +586,7 @@ export default class Select extends RingComponentWithShortcuts {
     });
   }
 
-  _blurHandler() {
+  _blurHandler = () => {
     this.props.onBlur();
 
     if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
@@ -656,7 +659,7 @@ export default class Select extends RingComponentWithShortcuts {
         <span
           className="ring-select__clear-icon"
           key="close"
-          onClick={::this.clear}
+          onClick={this.clear}
         >
           <Icon
             glyph={closeIcon}
@@ -689,6 +692,10 @@ export default class Select extends RingComponentWithShortcuts {
     return icons;
   }
 
+  filterRef = el => {
+    this.filter = el;
+  };
+
   render() {
     const buttonCS = classNames({
       'ring-select': true,
@@ -715,22 +722,20 @@ export default class Select extends RingComponentWithShortcuts {
       return (
         <div
           className={buttonCS}
-          onClick={::this._clickHandler}
+          onClick={this._clickHandler}
         >
           <Input
-            ref={el => {
-              this.filter = el;
-            }}
+            ref={this.filterRef}
             disabled={this.props.disabled}
             value={this.state.filterValue}
             className={inputCS}
             style={style}
-            onChange={::this._filterChangeHandler}
-            onFocus={::this._focusHandler}
-            onBlur={::this._blurHandler}
+            onChange={this._filterChangeHandler}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
             shortcuts={this._inputShortcutsEnabled()}
             placeholder={this._getInputPlaceholder()}
-            onKeyDown={::this.props.onKeyDown}
+            onKeyDown={this.props.onKeyDown}
           />
           {iconsNode}
           {this._renderPopup()}

@@ -6,8 +6,8 @@ import Dialog from './dialog';
 import styles from './dialog.css';
 
 describe('Dialog', () => {
-  const children = <div />;
-  const renderComponent = props => renderIntoDocument(<Dialog {...props} />);
+  const children = <div/>;
+  const renderComponent = props => renderIntoDocument(<Dialog {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent({show: true, children}), Dialog).should.be.true;

@@ -139,7 +139,7 @@ export default class Header extends PureComponent {
           onEnter={this.onScrollIn}
           onLeave={this.onScrollOut}
         >
-          <tr data-test="ring-table-header-row" />
+          <tr data-test="ring-table-header-row"/>
         </Waypoint>
         }
 

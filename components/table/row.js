@@ -126,7 +126,7 @@ class Row extends PureComponent {
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
         {draggable &&
-          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle} />
+          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
         }
 
         {selectable &&

@@ -26,7 +26,7 @@ const SiteHeader = ({docsItems, ...restProps}) => (
         size={Icon.Size.Size48}
       />
     </Link>
-    <span>{'Ring UI library '}<Version {...restProps} /></span>
+    <span>{'Ring UI library '}<Version {...restProps}/></span>
     {docsItems.map(item => (
       <Item
         key={item.title}
@@ -34,8 +34,8 @@ const SiteHeader = ({docsItems, ...restProps}) => (
       />
     ))}
     <Tray>
-      <SmartServices auth={auth} />
-      <SmartProfile auth={auth} />
+      <SmartServices auth={auth}/>
+      <SmartProfile auth={auth}/>
     </Tray>
   </Header>
 );

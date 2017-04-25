@@ -59,13 +59,19 @@ export default class DatePicker extends RingComponent {
     showPopup: false
   };
 
-  togglePopup(show) {
-    this.setState({
-      showPopup: show != null ? show : !this.state.showPopup
-    });
-  }
+  togglePopup = () => {
+    this.setState(({showPopup}) => ({
+      showPopup: !showPopup
+    }));
+  };
 
-  clear(e) {
+  hidePopup = () => {
+    this.setState({
+      showPopup: false
+    });
+  };
+
+  clear = e => {
     e.stopPropagation();
     this.props.onChange(
       this.props.range
@@ -134,7 +140,7 @@ export default class DatePicker extends RingComponent {
     return (
       <div className={classes}>
         <Button
-          onClick={() => this.togglePopup()}
+          onClick={this.togglePopup}
           icon={calendarIcon}
           iconSize={17}
           className={styles.datePicker}
@@ -147,20 +153,20 @@ export default class DatePicker extends RingComponent {
               className={styles.clear}
               glyph={closeIcon}
               size={Icon.Size.Size14}
-              onClick={::this.clear}
+              onClick={this.clear}
             />
           )}</span>
         </Button>
         <Popup
           hidden={!this.state.showPopup}
-          onCloseAttempt={() => this.togglePopup(false)}
+          onCloseAttempt={this.hidePopup}
           dontCloseOnAnchorClick={true}
           keepMounted={true}
           className={popupClassName}
         >
           <DatePopup
             {...datePopupProps}
-            onComplete={() => this.togglePopup(false)}
+            onComplete={this.hidePopup}
           />
         </Popup>
       </div>

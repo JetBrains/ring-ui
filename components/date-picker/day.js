@@ -51,8 +51,10 @@ export default function Day(props) {
           [styles.activeBetween]: inRange(activeRange)
         },
       )}
-      onClick={() => onSelect(day)}
-      onMouseOver={() => {
+      onClick={function handleClick() {
+        onSelect(day);
+      }}
+      onMouseOver={function handleMouseOver() {
         if (hoverTO) {
           window.clearTimeout(hoverTO);
           hoverTO = null;
@@ -60,8 +62,7 @@ export default function Day(props) {
 
         onHover(day);
       }}
-
-      onMouseOut={() => {
+      onMouseOut={function handleMouseOut() {
         hoverTO = window.setTimeout(onHover, 0);
       }}
     >

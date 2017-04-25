@@ -45,7 +45,7 @@ export default function MonthNames(props) {
             }
           )}
           key={+month}
-          onClick={() => {
+          onClick={function handleClick() {
             const end = month.
               clone().
               endOf('month');

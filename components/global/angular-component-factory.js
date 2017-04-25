@@ -104,7 +104,7 @@ function createAngularComponent(Component, name) {
 
       render(
         <Component {...props}>
-          {hasInnerContent ? <DomRenderer nodes={this.innerNodes} /> : null}
+          {hasInnerContent ? <DomRenderer nodes={this.innerNodes}/> : null}
         </Component>,
         container
       );

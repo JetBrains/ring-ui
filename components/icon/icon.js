@@ -64,7 +64,7 @@ export default class Icon extends PureComponent {
           className={'ring-icon__i'}
           style={style}
         >
-          <use xlinkHref={xlinkHref} />
+          <use xlinkHref={xlinkHref}/>
         </svg>
       </span>
     );
