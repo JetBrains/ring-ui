@@ -37,17 +37,20 @@ import '../link/link.scss';
 
 const angularModule = angular.module('Ring.breadcrumb', []);
 
-angularModule.directive('rgBreadcrumb', () => ({
-  template: require('./breadcrumb-ng.html'),
-  replace: true,
-  transclude: true,
-  restrict: 'E',
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgBreadcrumb', function rgBreadcrumbDirective() {
+  return {
+    template: require('./breadcrumb-ng.html'),
+    replace: true,
+    transclude: true,
+    restrict: 'E',
 
-  scope: {
-    label: '@',
-    link: '@',
-    onClick: '&'
-  }
-}));
+    scope: {
+      label: '@',
+      link: '@',
+      onClick: '&'
+    }
+  };
+});
 
 export default angularModule.name;

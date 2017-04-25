@@ -129,7 +129,8 @@ class Options {
 /* global angular: false */
 const angularModule = angular.module('Ring.select.options', []);
 
-angularModule.factory('SelectOptions', $parse => {
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.factory('SelectOptions', function SelectOptionsFactory($parse) {
   Options.$parse = $parse;
   return Options;
 });

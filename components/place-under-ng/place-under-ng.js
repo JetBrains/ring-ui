@@ -16,38 +16,44 @@ import {getDocumentScrollTop} from '../global/dom';
 const resizeDetector = createResizeDetector();
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);
-angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) => ({
-  restrict: 'A',
-  link(scope, iElement, iAttrs) {
-    const element = iElement[0];
-    const synchronizer = rgPlaceUnderHelper.createPositionSynchronizer(element, iAttrs, scope);
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgPlaceUnder', function rgPlaceUnderDirective($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) {
+  return {
+    restrict: 'A',
+    link: function link(scope, iElement, iAttrs) {
+      const element = iElement[0];
+      const synchronizer = rgPlaceUnderHelper.createPositionSynchronizer(element, iAttrs, scope);
 
-    function startSyncing(placeUnderSelector) {
-      if (placeUnderSelector) {
-        scope.$evalAsync(() => {
-          const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
+      function startSyncing(placeUnderSelector) {
+        if (placeUnderSelector) {
+          scope.$evalAsync(() => {
+            const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
 
-          if (syncWith) {
-            synchronizer.syncPositionWith(syncWith);
-          } else {
-            throw new Error('rgPlaceUnder cannot find element to sync with.');
-          }
-        });
+            if (syncWith) {
+              synchronizer.syncPositionWith(syncWith);
+            } else {
+              throw new Error('rgPlaceUnder cannot find element to sync with.');
+            }
+          });
+        }
       }
+
+      iAttrs.$observe('rgPlaceUnder', startSyncing);
     }
-
-    iAttrs.$observe('rgPlaceUnder', startSyncing);
-  }
-}));
+  };
+});
 
 
-angularModule.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
-  const parent = currentElement.parentNode;
-  if (parent) {
-    return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
-  } else {
-    return null;
-  }
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.factory('getClosestElementWithCommonParent', function getClosestElementWithCommonParentFactory() {
+  return function getClosestElementWithCommonParent(currentElement, selector) {
+    const parent = currentElement.parentNode;
+    if (parent) {
+      return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+    } else {
+      return null;
+    }
+  };
 });
 
 

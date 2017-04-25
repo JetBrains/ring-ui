@@ -61,13 +61,6 @@ const externalCssLoader = {
   ]
 };
 
-// ng-annotate loader for angular components
-const ngAnnotateLoader = {
-  test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.js$/,
-  include: componentsPath,
-  loader: resolveLoader('ng-annotate')
-};
-
 const babelLoader = {
   test: /\.js$/,
   include: componentsPath,
@@ -97,7 +90,6 @@ const loaders = {
   cssLoader,
   externalCssLoader,
   scssLoader,
-  ngAnnotateLoader,
   babelLoader,
   whatwgLoader,
   htmlLoader,

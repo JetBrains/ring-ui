@@ -1,4 +1,5 @@
 import 'dom4';
+import RingAngularComponent from '../global/ring-angular-component';
 
 /**
  * @name Promised Click Ng
@@ -45,9 +46,12 @@ import 'dom4';
 /* global angular: false */
 const angularModule = angular.module('Ring.promised-click', []);
 
-class PromisedClickController {
-  constructor($scope, $element, $attrs, $parse) {
-    this.$scope = $scope;
+class PromisedClickController extends RingAngularComponent {
+  static $inject = ['$scope', '$element', '$attrs', '$parse'];
+  constructor(...args) {
+    super(...args);
+
+    const {$scope, $element, $attrs, $parse} = this.$inject;
     this.element = $element[0];
     this.active = false;
 
@@ -94,6 +98,8 @@ class PromisedClickController {
   }
 
   process(callback, e) {
+    const {$scope} = this.$inject;
+
     this.promise = callback(e);
 
     if (this.promise) {
@@ -102,8 +108,8 @@ class PromisedClickController {
 
     // Do not use $evalAsync here. This code should be invoked in the same animation frame
     // otherwise a button may be "pressed" twice – by click and with class change.
-    if (!this.$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
-      this.$scope.$apply();
+    if (!$scope.$root.$$phase) { // eslint-disable-line angular/no-private-call
+      $scope.$apply();
     }
   }
 
