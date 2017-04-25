@@ -12,6 +12,7 @@ import throttle from 'mout/function/throttle';
 
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
+import getUID from '../global/get-uid';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import './list.scss';
@@ -165,7 +166,7 @@ export default class List extends RingComponentWithShortcuts {
     }
   });
 
-  upHandler(e) {
+  upHandler = e => {
     const index = this.state.activeIndex;
     let newIndex;
 
@@ -175,10 +176,10 @@ export default class List extends RingComponentWithShortcuts {
       newIndex = index - 1;
     }
 
-    this.moveHandler(newIndex, ::this.upHandler, e);
+    this.moveHandler(newIndex, this.upHandler, e);
   }
 
-  downHandler(e) {
+  downHandler = e => {
     const index = this.state.activeIndex;
     let newIndex;
 
@@ -192,7 +193,7 @@ export default class List extends RingComponentWithShortcuts {
       newIndex = index + 1;
     }
 
-    this.moveHandler(newIndex, ::this.downHandler, e);
+    this.moveHandler(newIndex, this.downHandler, e);
   }
 
   moveHandler(index, retryCallback, e) {
@@ -217,15 +218,15 @@ export default class List extends RingComponentWithShortcuts {
     });
   }
 
-  mouseHandler() {
+  mouseHandler = () => {
     this.setState({scrolling: false});
   }
 
-  scrollHandler() {
+  scrollHandler = () => {
     this.setState({scrolling: true}, this.scrollEndHandler);
   }
 
-  enterHandler(event) {
+  enterHandler = event => {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
@@ -468,13 +469,27 @@ export default class List extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        up: ::this.upHandler,
-        down: ::this.downHandler,
-        enter: ::this.enterHandler
+        up: this.upHandler,
+        down: this.downHandler,
+        enter: this.enterHandler
       },
-      scope: ::this.constructor.getUID('ring-list-')
+      scope: getUID('list-')
     };
   }
+
+  innerRef = el => {
+    if (el) {
+      const wasPresent = !!this.inner;
+      this.inner = el;
+      if (!wasPresent) {
+        this.forceUpdate();
+      }
+    }
+  };
+
+  itemsRef = el => {
+    this.items = el;
+  };
 
   /** @override */
   render() {
@@ -495,28 +510,18 @@ export default class List extends RingComponentWithShortcuts {
 
     return (
       <div className={classes}
-        onMouseMove={::this.mouseHandler}
+        onMouseMove={this.mouseHandler}
         onMouseOut={this.props.onMouseOut}
       >
         <div
           className="ring-list__i"
-          onScroll={::this.scrollHandler}
-          ref={el => {
-            if (el) {
-              const wasPresent = !!this.inner;
-              this.inner = el;
-              if (!wasPresent) {
-                this.forceUpdate();
-              }
-            }
-          }}
+          onScroll={this.scrollHandler}
+          ref={this.innerRef}
           style={innerStyles}
         >
-          <div style={topPaddingStyles} />
+          <div style={topPaddingStyles}/>
           <div className="ring-list__items"
-            ref={el => {
-              this.items = el;
-            }}
+            ref={this.itemsRef}
           >
             {this.state.data.map((item, index) => {
               const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
@@ -568,7 +573,7 @@ export default class List extends RingComponentWithShortcuts {
               return createElement(element, props, null);
             })}
           </div>
-          <div style={bottomPaddingStyles} />
+          <div style={bottomPaddingStyles}/>
         </div>
         {this.hasOverflow() &&
           <div

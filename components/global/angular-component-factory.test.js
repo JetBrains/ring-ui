@@ -29,7 +29,9 @@ class TestComponent extends RingComponent {
       <div
         id={id}
         data-some-obj={someObj.foo}
-        onClick={() => onClick('payload')}
+        onClick={function handleClick() {
+          onClick('payload');
+        }}
         className={className}
       />
     );

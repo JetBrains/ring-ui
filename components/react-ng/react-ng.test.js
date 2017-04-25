@@ -26,7 +26,7 @@ describe('React Ng', () => {
     class TestPropsComponent extends RingComponent {
       render() {
         expect(this.props[propname]).to.equal(propvalue);
-        return <div />;
+        return <div/>;
       }
     }
 

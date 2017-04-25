@@ -260,7 +260,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _setNavigationPopupMenu() {
+  _setNavigationPopupMenu = () => {
     if (!this.navigationPopup) {
       const menuPopupData = this._getMenuPopupData();
 
@@ -294,7 +294,7 @@ export default class Header extends RingComponent {
             className="ring-header__menu__dropdown"
             glyph={caretDownIcon}
             size={Icon.Size.Size16}
-            onClick={::this._setNavigationPopupMenu}
+            onClick={this._setNavigationPopupMenu}
           />
         </span>
       </div>
@@ -329,7 +329,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _onServicesOpen() {
+  _onServicesOpen = () => {
     if (this.props.onServicesOpen) {
       this.props.onServicesOpen();
       return;
@@ -341,7 +341,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _onServicesClose() {
+  _onServicesClose = () => {
     if (this.props.onServicesClose) {
       this.props.onServicesClose();
       return;
@@ -523,7 +523,7 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__right">
         <div className="ring-header__user-menu">
-          <div className={extraElementClassName} />
+          <div className={extraElementClassName}/>
           {
             this.props.rightMenu.map(({component, props, children}) => (
               <div
@@ -622,8 +622,8 @@ export default class Header extends RingComponent {
           ref={this.servicesRef}
           testKey="services"
           glyph={servicesIcon}
-          onOpen={::this._onServicesOpen}
-          onClose={::this._onServicesClose}
+          onOpen={this._onServicesOpen}
+          onClose={this._onServicesClose}
           title={this.props.translationsDict.services}
         />
       ),

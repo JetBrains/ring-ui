@@ -14,7 +14,7 @@ function Example({name, url, files}) {
     <div className={styles.example}>
       <H3 id={id}>{name} <Link href={`#${id}`}>{'#'}</Link></H3>
       {files.some(({type}) => type === 'html') &&
-        <Iframe src={url} />
+        <Iframe src={url}/>
       }
       {files.map(({showCode, content, type}) => showCode && (
         <Code

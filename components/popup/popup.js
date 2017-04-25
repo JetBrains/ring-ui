@@ -247,6 +247,10 @@ export default class Popup extends RingComponentWithShortcuts {
     this._redraw();
   }
 
+  containerRef = el => {
+    this.container = el;
+  };
+
   render() {
     const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -267,9 +271,7 @@ export default class Popup extends RingComponentWithShortcuts {
         >
           <div
             data-portaltarget={this.uid}
-            ref={el => {
-              this.container = el;
-            }}
+            ref={this.containerRef}
           >
             <div
               data-test={this.props['data-test']}

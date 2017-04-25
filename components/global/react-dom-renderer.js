@@ -18,14 +18,16 @@ export default class Renderer extends Component {
     this.node.appendChild(fragment);
   }
 
+  nodeRef = node => {
+    this.node = node;
+  };
+
   render() {
     const {className} = this.props;
     return (
       <div
         className={className}
-        ref={node => {
-          this.node = node;
-        }}
+        ref={this.nodeRef}
       />
     );
   }

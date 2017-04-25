@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
 import popupStyles from '../popup/popup.css';
+import memoize from '../global/memoize';
 
 import DateInput from './date-input';
 import Months from './months';
@@ -163,6 +164,25 @@ export default class DatePopup extends RingComponent {
     }
   }
 
+  hoverHandler = hoverDate => this.setState({hoverDate});
+
+  handleActivate = memoize(name => () => this.setState({active: name}));
+
+  handleInput = text => {
+    const scrollDate = this.parseDate(text);
+    if (scrollDate) {
+      this.scrollTo(scrollDate);
+    }
+    this.setState({
+      text,
+      hoverDate: null
+    });
+  };
+
+  handleConfirm = memoize(name => () => this.confirm(name));
+
+  selectHandler = date => this.select({[this.state.active]: date});
+
   render() {
     const {range} = this.props;
 
@@ -228,31 +248,22 @@ export default class DatePopup extends RingComponent {
               key={name}
               date={dates[name]}
               active={this.state.active === name}
-              onActivate={() => this.setState({active: name})}
-              onInput={text => {
-                const scrollDate = this.parseDate(text);
-                if (scrollDate) {
-                  this.scrollTo(scrollDate);
-                }
-                this.setState({
-                  text,
-                  hoverDate: null
-                });
-              }}
-              onConfirm={() => this.confirm(name)}
+              onActivate={this.handleActivate(name)}
+              onInput={this.handleInput}
+              onConfirm={this.handleConfirm}
             />
           ))}
-          <Weekdays />
+          <Weekdays/>
         </div>
         <div
           className={styles.calendar}
         >
           <Months
             {...calendarProps}
-            onHover={hoverDate => this.setState({hoverDate})}
-            onSelect={date => this.select({[this.state.active]: date})}
+            onHover={this.hoverHandler}
+            onSelect={this.selectHandler}
           />
-          <Years {...calendarProps} />
+          <Years {...calendarProps}/>
         </div>
       </div>
     );

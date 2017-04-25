@@ -17,7 +17,7 @@ const dataURI = `data:image/svg+xml,${encodeURIComponent(`
 )}`;
 
 describe('Avatar', () => {
-  const renderComponent = props => renderIntoDocument(<Avatar {...props} />);
+  const renderComponent = props => renderIntoDocument(<Avatar {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Avatar).should.be.true;

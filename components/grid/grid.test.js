@@ -10,7 +10,7 @@ import styles from './grid.css';
 import {Col, Grid, Row} from './grid';
 
 describe('Grid', () => {
-  const renderComponent = props => renderIntoDocument(<Grid {...props} />);
+  const renderComponent = props => renderIntoDocument(<Grid {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Grid).should.be.true;
@@ -26,7 +26,7 @@ describe('Grid', () => {
 });
 
 describe('Row', () => {
-  const renderComponent = props => renderIntoDocument(<Row {...props} />);
+  const renderComponent = props => renderIntoDocument(<Row {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Row).should.be.true;
@@ -50,7 +50,7 @@ describe('Row', () => {
 });
 
 describe('Col', () => {
-  const renderComponent = props => renderIntoDocument(<Col {...props} />);
+  const renderComponent = props => renderIntoDocument(<Col {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Col).should.be.true;
