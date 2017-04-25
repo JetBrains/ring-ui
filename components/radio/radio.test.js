@@ -41,9 +41,9 @@ describe('Radio', () => {
   });
 
   it('should generate same name for items', function () {
-    const name = this.radioItemOne.refs.input.getAttribute('name');
+    const name = this.radioItemOne.input.getAttribute('name');
 
-    this.radioItemTwo.refs.input.should.have.attribute('name', name);
+    this.radioItemTwo.input.should.have.attribute('name', name);
   });
 
   it('should pass only child as is', () => {
@@ -69,13 +69,13 @@ describe('Radio', () => {
       value: 'one'
     });
 
-    this.radioItemOne.refs.input.should.have.property('checked', true);
+    this.radioItemOne.input.should.have.property('checked', true);
   });
 
   it('should call handler for onChange event', function () {
     this.sinon.stub(this, 'onChange');
 
-    Simulate.change(this.radioItemOne.refs.input);
+    Simulate.change(this.radioItemOne.input);
 
     this.onChange.should.have.been.called;
   });

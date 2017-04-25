@@ -40,7 +40,7 @@ export default class Checkbox extends PureComponent {
     }
   }
 
-  inputChange(e) {
+  inputChange = e => {
     const newValue = e.target.checked;
 
     this.setState({
@@ -51,6 +51,10 @@ export default class Checkbox extends PureComponent {
       }
     });
   }
+
+  inputRef = el => {
+    this.input = el;
+  };
 
   render() {
     const {label: labelProp, ...restProps} = this.props; // eslint-disable-line no-unused-vars
@@ -69,9 +73,9 @@ export default class Checkbox extends PureComponent {
         <span className="ring-checkbox__input-wrapper">
           <input
             {...restProps}
-            ref="input"
+            ref={this.inputRef}
             disabled={disabled}
-            onChange={::this.inputChange}
+            onChange={this.inputChange}
             type="checkbox"
             className={classes}
             checked={Boolean(checked)}
