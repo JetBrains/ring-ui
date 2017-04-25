@@ -50,7 +50,7 @@ export default class Dialog extends RingComponent {
   }
 
   handleClick = event => {
-    if (event.target !== this.refs.dialog) {
+    if (event.target !== this.dialog) {
       return;
     }
     this.props.onOverlayClick(event);
@@ -65,6 +65,10 @@ export default class Dialog extends RingComponent {
     this.props.onCloseAttempt(event);
   }
 
+  dialogRef = el => {
+    this.dialog = el;
+  }
+
   render() {
     // eslint-disable-next-line no-unused-vars
     const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
@@ -77,7 +81,7 @@ export default class Dialog extends RingComponent {
         onClose={() => ScrollPreventer.reset()}
       >
         <div
-          ref="dialog"
+          ref={this.dialogRef}
           className={classes}
           onClick={this.handleClick}
           {...restProps}

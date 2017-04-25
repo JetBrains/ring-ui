@@ -91,6 +91,10 @@ class Row extends PureComponent {
     }
   }
 
+  rowRef = el => {
+    this.row = el;
+  };
+
   render() {
     const {
       item, columns, selectable, selected,
@@ -170,7 +174,7 @@ class Row extends PureComponent {
 
     return (
       <tr
-        ref="row"
+        ref={this.rowRef}
         className={classes}
         tabIndex="0"
         onMouseMove={this.onMouseEnter}

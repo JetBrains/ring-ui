@@ -38,7 +38,7 @@ export default class Tag extends RingComponent {
   }
 
   onDocumentClick = event => {
-    if (this.refs.tag) {
+    if (this.tag) {
       this.setState({focused: this.node === event.target});
     }
   }
@@ -71,6 +71,10 @@ export default class Tag extends RingComponent {
     this.setState({focused: false});
   }
 
+  tagRef = el => {
+    this.tag = el;
+  };
+
   render() {
     const classes = classNames(
       'ring-tag',
@@ -84,7 +88,7 @@ export default class Tag extends RingComponent {
       <span
         tabIndex="0"
         className={classes}
-        ref="tag"
+        ref={this.tagRef}
         onClick={::this.props.onClick}
       >
         {this.props.rgTagIcon ? (
