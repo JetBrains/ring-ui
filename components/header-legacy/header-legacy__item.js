@@ -75,7 +75,7 @@ export default class HeaderItem extends RingComponent {
         {...restProps}
         data-test={dataTest}
         className={classes}
-        onClick={::this._handleClick}
+        onClick={this._handleClick}
         title={this.state.title}
       >
         {href
@@ -90,7 +90,7 @@ export default class HeaderItem extends RingComponent {
    * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleClick(evt) {
+  _handleClick = evt => {
     if (!this.props.href) {
       evt.preventDefault();
 

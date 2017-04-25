@@ -389,10 +389,10 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper">
-        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope} /> : ''}
+        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope}/> : ''}
 
         <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
-          <Header {...headerProps} />
+          <Header {...headerProps}/>
           <DraggableRows
             /* Sortable props */
             useDragHandle={true}
@@ -420,7 +420,7 @@ class Table extends PureComponent {
         </table>
 
         {loading && <div className={style.loadingOverlay}>
-          <Loader className={loaderClassName} />
+          <Loader className={loaderClassName}/>
         </div>}
       </div>
     );

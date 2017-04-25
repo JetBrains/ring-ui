@@ -9,24 +9,29 @@ describe('Radio', () => {
   beforeEach(function () {
     this.onChange = () => {};
 
+    this.radioItemOneRef = item => {
+      this.radioItemOne = item;
+    };
+
+    this.radioItemTwoRef = item => {
+      this.radioItemTwo = item;
+    };
+
     this.radio = renderIntoDocument(
       <Radio
         value={null}
         className="test-class"
+        // eslint-disable-next-line react/jsx-no-bind
         onChange={() => this.onChange()}
       >
         <Radio.Item
-          ref={item => {
-            this.radioItemOne = item;
-          }}
+          ref={this.radioItemOneRef}
           value="one"
         >
           {'One'}
         </Radio.Item>
         <Radio.Item
-          ref={item => {
-            this.radioItemTwo = item;
-          }}
+          ref={this.radioItemTwoRef}
           value="two"
         >
           {'Two'}
@@ -49,7 +54,7 @@ describe('Radio', () => {
   it('should pass only child as is', () => {
     const radio = renderIntoDocument(
       <Radio>
-        <test />
+        <test/>
       </Radio>
     );
 

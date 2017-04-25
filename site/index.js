@@ -26,18 +26,18 @@ Promise.all(promises).then(([source, navData]) => {
 
   const App = () => (
     <div className={styles.app}>
-      <Header {...{version, docsItems}} />
+      <Header {...{version, docsItems}}/>
       <ContentLayout className={styles.main}>
         <Sidebar>
-          <Nav {...{categories}} />
+          <Nav {...{categories}}/>
         </Sidebar>
-        <Content {...source} />
+        <Content {...source}/>
       </ContentLayout>
     </div>
   );
 
   render(
-    <App />,
+    <App/>,
     document.query('#app')
   );
 });

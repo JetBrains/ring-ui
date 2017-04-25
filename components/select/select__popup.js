@@ -13,6 +13,8 @@ import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {filterWrapper} from '../popup/popup.css';
+import {preventDefault} from '../global/dom';
+import getUID from '../global/get-uid';
 
 function noop() {}
 
@@ -45,20 +47,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   };
 
-  constructor() {
-    super();
-    this.mouseUpHandler = ::this.mouseUpHandler;
-
-    this.popupFilterShortcuts = {
-      map: {
-        up: e => (this.list && this.list.upHandler(e)),
-        down: e => (this.list && this.list.downHandler(e)),
-        enter: e => (this.list && this.list.enterHandler(e)),
-        esc: e => this.props.onCloseAttempt(e),
-        tab: e => this.tabPress(e)
-      }
-    };
-  }
+  popupFilterShortcuts = {
+    map: {
+      up: e => (this.list && this.list.upHandler(e)),
+      down: e => (this.list && this.list.downHandler(e)),
+      enter: e => (this.list && this.list.enterHandler(e)),
+      esc: e => this.props.onCloseAttempt(e),
+      tab: e => this.tabPress(e)
+    }
+  };
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
   popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
@@ -99,21 +96,21 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        tab: ::this.tabPress
+        tab: this.tabPress
       },
-      scope: ::this.constructor.getUID('ring-select-popup-')
+      scope: getUID('select-popup-')
     };
   }
 
-  listOnMouseOut() {
+  listOnMouseOut = () => {
     this.list.clearSelected();
   }
 
-  mouseDownHandler() {
+  mouseDownHandler = () => {
     this.isClickingPopup = true;
   }
 
-  mouseUpHandler() {
+  mouseUpHandler = () => {
     this.isClickingPopup = false;
   }
 
@@ -125,7 +122,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect(selected) {
+  onListSelect = selected => {
     const getSelectItemEvent = () => {
       let event;
       if (document.createEvent) {
@@ -138,11 +135,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.props.onSelect(selected, getSelectItemEvent());
   }
 
-  tabPress(event) {
-    function preventDefault(eve) {
-      return eve && eve.preventDefault && eve.preventDefault();
-    }
-
+  tabPress = event => {
     preventDefault(event);
 
     const listActiveItem = this.list && this.list.state.activeItem;
@@ -177,12 +170,16 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   getBottomLine() {
     return (<div>
-      {this.props.loading && <LoaderInline />}
+      {this.props.loading && <LoaderInline/>}
 
       {this.props.message &&
       <div className="ring-select__message">{this.props.message}</div>}
     </div>);
   }
+
+  listRef = el => {
+    this.list = el;
+  };
 
   getList() {
     if (this.props.data.length) {
@@ -191,14 +188,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           maxHeight={this.props.maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
-          ref={el => {
-            this.list = el;
-          }}
+          ref={this.listRef}
           restoreActiveIndex={true}
           activateSingleItem={true}
-          onSelect={::this.onListSelect}
-          onMouseOut={::this.listOnMouseOut}
-          onScrollToBottom={::this.props.onLoadMore}
+          onSelect={this.onListSelect}
+          onMouseOut={this.listOnMouseOut}
+          onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
           disableMoveDownOverflow={this.props.loading}
         />
@@ -208,6 +203,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return null;
   }
 
+  popupRef = el => {
+    this.popup = el;
+  };
+
   render() {
     const classes = classNames(
       'ring-select-popup',
@@ -216,9 +215,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
     return (
       <Popup
-        ref={el => {
-          this.popup = el;
-        }}
+        ref={this.popupRef}
         hidden={this.props.hidden}
         attached={false}
         className={classes}
@@ -230,7 +227,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         directions={this.props.directions}
         top={this.props.top}
         left={this.props.left}
-        onMouseDown={::this.mouseDownHandler}
+        onMouseDown={this.mouseDownHandler}
       >
         {this.getFilter()}
         {this.getList()}

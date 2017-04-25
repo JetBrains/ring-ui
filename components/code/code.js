@@ -53,6 +53,6 @@ export default class Code extends PureComponent {
   }
 }
 
-const code = trivialTemplateTag(source => <Code code={source} />);
+const code = trivialTemplateTag(source => <Code code={source}/>);
 
 export {code};
