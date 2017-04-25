@@ -40,7 +40,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
           ]);
      </file>
      <file name="index.html">
-       <div ng-app="Example.analyticsDemo">
+       <div ng-app="Example.analyticsDemo" ng-strict-di>
         <a href="" rg-analytics="overview:view-doc">Link with onclick analytics trigger</a>
         <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link with onmouseover analytics trigger</a>
         <div ng-controller="TrackEventDemoCtrl"></div>

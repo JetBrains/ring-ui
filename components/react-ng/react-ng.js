@@ -170,7 +170,7 @@ function reactNgDirective($parse) {
  * @example
    <example name="React-ng">
      <file name="index.html">
-       <div ng-app="react-ng-test">
+       <div ng-app="react-ng-test" ng-strict-di>
           <span ng-controller="testController" react-static="Icon" react-glyph="'#pencil'" size="64"></span>
       </div>
      </file>
@@ -189,7 +189,7 @@ function reactNgDirective($parse) {
 
    <example name="React-ng performance">
      <file name="index.html">
-       <div ng-app="react-ng-performance" ng-controller="testController" >
+       <div ng-app="react-ng-performance" ng-strict-di ng-controller="testController" >
           <div react-static="Button" ng-click="run = true" react-children="'Run!'"></div>
           <span ng-if="run" ng-repeat="n in data" react-static="Icon" react-key="n" react-title="n" react-glyph="'#check'" size="16"></span>
        </div>

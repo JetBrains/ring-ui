@@ -6,7 +6,7 @@
  * @example
   <example name="rgBadge">
     <file type="html">
-      <div ng-app="Example.badge" ng-controller="ExampleCtrl as ctrl">
+      <div ng-app="Example.badge" ng-strict-di ng-controller="ExampleCtrl as ctrl">
         <rg-group>
           <rg-badge>simple</rg-badge>
           <rg-badge gray="true">gray</rg-badge>

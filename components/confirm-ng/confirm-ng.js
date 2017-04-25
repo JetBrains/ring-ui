@@ -7,7 +7,7 @@ import confirm from '../confirm-service/confirm-service';
  * @example
   <example name="confirm-ng">
     <file name="index.html">
-      <div id="loader" ng-app="TestApp">
+      <div id="loader" ng-app="TestApp" ng-strict-di>
         <div rg-dialog></div>
         <div ng-controller="TestCtrl"></div>
       </div>
