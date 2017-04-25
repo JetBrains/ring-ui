@@ -76,7 +76,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return {
       map: {
         backspace: (...args) => this.handleKeyDown(...args),
-        left: ::this.selectTag,
+        left: this.selectTag,
         right: () => this.selectTag(true)
       },
       scope: () => this.constructor.getUID('ring-tags-input-'),
@@ -105,7 +105,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
-  focusInput() {
+  focusInput = () => {
     this.getInputNode().focus();
   }
 
@@ -127,7 +127,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           this.focusInput();
         }
         return tags;
-      }, ::this.focusInput);
+      }, this.focusInput);
   }
 
   clickHandler = event => {
@@ -139,7 +139,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.focusInput();
   }
 
-  filterExistingTags(suggestions) {
+  filterExistingTags = suggestions => {
     const tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
@@ -147,7 +147,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   loadSuggestions = query => {
     this.setState({loading: true});
     return Promise.resolve(this.props.dataSource({query})).
-      then(::this.filterExistingTags).
+      then(this.filterExistingTags).
       then(suggestions => {
         if (this.node) {
           this.setState({suggestions, loading: false});
@@ -185,7 +185,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     });
   }
 
-  selectTag(moveForward) {
+  selectTag = moveForward => {
     const activeIndex = typeof this.state.activeIndex === 'number' ? this.state.activeIndex : this.state.tags.length + 1;
     let newActiveIndex = activeIndex + (moveForward ? 1 : -1);
 

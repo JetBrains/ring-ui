@@ -73,12 +73,12 @@ export default class Tooltip extends RingComponent {
   }
 
   addListeners() {
-    this.listeners.add(this.node, 'mouseover', ::this.showPopup);
-    this.listeners.add(this.node, 'mouseout', ::this.hidePopup);
-    this.listeners.add(document, 'scroll', ::this.hidePopup);
+    this.listeners.add(this.node, 'mouseover', this.showPopup);
+    this.listeners.add(this.node, 'mouseout', this.hidePopup);
+    this.listeners.add(document, 'scroll', this.hidePopup);
   }
 
-  showPopup() {
+  showPopup = () => {
     const {delay, title} = this.props;
 
     if (!title) {
