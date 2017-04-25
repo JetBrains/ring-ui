@@ -10,6 +10,7 @@ import List from '../list/list';
 import Input from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+import sniffr from '../global/sniffer';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -425,7 +426,7 @@ export default class Select extends RingComponentWithShortcuts {
     return (this.props.type === Type.BUTTON);
   }
 
-  _clickHandler() {
+  _clickHandler = () => {
     if (!this.props.disabled) {
       if (this.state.showPopup) {
         this._hidePopup();
@@ -734,13 +735,20 @@ export default class Select extends RingComponentWithShortcuts {
         </div>
       );
     } else if (this.isButtonMode()) {
+      const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
+      const clickListenProps = isIE11 ? {
+        onMouseDown: this._clickHandler
+      } : {
+        onClick: this._clickHandler
+      };
+
       return (
         <Button
           className={buttonCS}
           disabled={this.props.disabled}
-          onClick={::this._clickHandler}
           style={style}
           type="button"
+          {...clickListenProps}
         >
           <span className="ring-select__label">{this._getButtonLabel()}</span>
           {iconsNode}
