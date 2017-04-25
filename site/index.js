@@ -26,7 +26,7 @@ Promise.all(promises).then(([source, navData]) => {
 
   const App = () => (
     <div className={styles.app}>
-      <Header {...{version, docsItems}}/>
+      <Header {...{version, docsItems}} />
       <ContentLayout className={styles.main}>
         <Sidebar>
           <Nav {...{categories}} />

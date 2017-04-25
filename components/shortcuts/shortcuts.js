@@ -15,10 +15,6 @@ export default class Shortcuts extends Component {
     options: {}
   }
 
-  render() {
-    return this.props.children || null;
-  }
-
   componentWillMount() {
     const {map, scope, options} = this.props;
     shortcuts.bindMap(map, this.props);
@@ -29,5 +25,9 @@ export default class Shortcuts extends Component {
     const {scope} = this.props;
     shortcuts.unbindScope(scope);
     shortcuts.spliceScope(scope);
+  }
+
+  render() {
+    return this.props.children || null;
   }
 }

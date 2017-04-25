@@ -518,55 +518,55 @@ export default class List extends RingComponentWithShortcuts {
               this.items = el;
             }}
           >
-          {this.state.data.map((item, index) => {
-            const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
-            const realIndex = this.state.renderOptimizationSkip + index;
+            {this.state.data.map((item, index) => {
+              const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+              const realIndex = this.state.renderOptimizationSkip + index;
 
-            if (props.url) {
-              props.href = props.url;
-            }
-            if (props.href) {
-              props.rgItemType = Type.LINK;
-            }
+              if (props.url) {
+                props.href = props.url;
+              }
+              if (props.href) {
+                props.rgItemType = Type.LINK;
+              }
 
             // Probably unique enough key
-            props.key = props.key || props.rgItemType + (props.label || props.description);
+              props.key = props.key || props.rgItemType + (props.label || props.description);
 
-            props.hover = (realIndex === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler(realIndex);
-            props.tabIndex = -1;
-            props.scrolling = this.state.scrolling;
+              props.hover = (realIndex === this.state.activeIndex);
+              props.onMouseOver = this.hoverHandler(realIndex);
+              props.tabIndex = -1;
+              props.scrolling = this.state.scrolling;
 
-            const selectHandler = this.selectHandler(realIndex);
+              const selectHandler = this.selectHandler(realIndex);
 
-            if (this.props.useMouseUp) {
-              props.onMouseUp = selectHandler;
-            } else {
-              props.onClick = selectHandler;
-            }
+              if (this.props.useMouseUp) {
+                props.onMouseUp = selectHandler;
+              } else {
+                props.onClick = selectHandler;
+              }
 
-            let element;
-            switch (props.rgItemType) {
-              case Type.SEPARATOR:
-                element = ListSeparator;
-                break;
-              case Type.LINK:
-                element = ListLink;
-                break;
-              case Type.ITEM:
-                element = ListItem;
-                break;
-              case Type.CUSTOM:
-                element = ListCustom;
-                break;
-              case Type.TITLE:
-                element = ListTitle;
-                break;
-              default:
-                throw new Error(`Unknown menu element type: ${props.rgItemType}`);
-            }
-            return createElement(element, props, null);
-          })}
+              let element;
+              switch (props.rgItemType) {
+                case Type.SEPARATOR:
+                  element = ListSeparator;
+                  break;
+                case Type.LINK:
+                  element = ListLink;
+                  break;
+                case Type.ITEM:
+                  element = ListItem;
+                  break;
+                case Type.CUSTOM:
+                  element = ListCustom;
+                  break;
+                case Type.TITLE:
+                  element = ListTitle;
+                  break;
+                default:
+                  throw new Error(`Unknown menu element type: ${props.rgItemType}`);
+              }
+              return createElement(element, props, null);
+            })}
           </div>
           <div style={bottomPaddingStyles} />
         </div>

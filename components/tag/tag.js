@@ -87,20 +87,20 @@ export default class Tag extends RingComponent {
         ref="tag"
         onClick={::this.props.onClick}
       >
-      {this.props.rgTagIcon ? (
-        <Icon
-          className="ring-tag__ring-icon"
-          title={this.props.rgTagTitle}
-          glyph={this.props.rgTagIcon}
-          size={Icon.Size.Size12}
-        />
-      ) : null}
-      {this.props.icon ? (
-        <img
-          className="ring-tag__custom-icon"
-          src={this.props.icon}
-        />
-      ) : null}
+        {this.props.rgTagIcon ? (
+          <Icon
+            className="ring-tag__ring-icon"
+            title={this.props.rgTagTitle}
+            glyph={this.props.rgTagIcon}
+            size={Icon.Size.Size12}
+          />
+        ) : null}
+        {this.props.icon ? (
+          <img
+            className="ring-tag__custom-icon"
+            src={this.props.icon}
+          />
+        ) : null}
         <span>{this.props.children}</span>
 
         {!this.props.readOnly ? (
@@ -111,6 +111,6 @@ export default class Tag extends RingComponent {
             size={Icon.Size.Size12}
           />
         ) : null}
-    </span>);
+      </span>);
   }
 }

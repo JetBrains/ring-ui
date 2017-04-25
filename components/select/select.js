@@ -342,16 +342,17 @@ export default class Select extends RingComponentWithShortcuts {
           className="ring-select__button"
           onClick={::this.addHandler}
         >
-            <span className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
+          <span className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
         </div>
       );
     }
 
     return (
       <div className="ring-select__toolbar">
-      {addButton}
-      {hint}
-    </div>);
+        {addButton}
+        {hint}
+      </div>
+    );
   }
 
   getListItems(rawFilterString, data = this.props.data) {
@@ -657,11 +658,12 @@ export default class Select extends RingComponentWithShortcuts {
           key="close"
           onClick={::this.clear}
         >
-        <Icon
-          glyph={closeIcon}
-          size={Icon.Size.Size14}
-        />
-      </span>);
+          <Icon
+            glyph={closeIcon}
+            size={Icon.Size.Size14}
+          />
+        </span>
+      );
     }
 
     if (this.state.selected && this.state.selected.icon) {
