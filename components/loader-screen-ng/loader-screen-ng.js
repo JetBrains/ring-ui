@@ -8,7 +8,7 @@ import '../loader-screen/loader-screen.scss';
  * @example
  * <example name="Loader Screen Ng">
     <file name="index.html">
-      <div ng-app="ExampleApp">
+      <div ng-app="ExampleApp" ng-strict-di>
         <div rg-loader-screen="Loading..."></div>
       </div>
     </file>

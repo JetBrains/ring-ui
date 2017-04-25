@@ -10,7 +10,7 @@ import '../icon/icon.scss';
  * @example
     <example name="Icon Ng">
       <file name="index.html">
-        <div ng-app="TestApp" ng-controller="testCtrl">
+        <div ng-app="TestApp" ng-strict-di ng-controller="testCtrl">
           <rg-icon glyph="{{icon}}" size="14"></rg-icon>
           <rg-icon glyph="{{icon}}"></rg-icon>
           <rg-icon glyph="{{icon}}" color="ORANGE"></rg-icon>

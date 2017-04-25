@@ -17,7 +17,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, ico
  * @example
    <example name="Avatar Editor Ng">
      <file name="index.html">
-       <div ng-app="test" ng-controller="testCtrl as ctrl">
+       <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
          <rg-avatar-editor
          on-select="ctrl.name = name"
          ng-model="ctrl.data"></rg-avatar-editor>
