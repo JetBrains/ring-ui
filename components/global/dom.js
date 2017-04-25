@@ -10,7 +10,7 @@
    </example>
  */
 
-export const getStyles = ::window.getComputedStyle;
+export const getStyles = window.getComputedStyle.bind(window);
 
 export function isMounted(node) {
   if (node === document) {

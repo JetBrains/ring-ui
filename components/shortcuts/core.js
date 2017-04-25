@@ -13,14 +13,15 @@ class Shortcuts {
 
   _scopes = {};
 
+  combokeys = new Combokeys(document.documentElement);
+  trigger = combo => this.combokeys.trigger(combo);
+
   constructor() {
-    this.combokeys = new Combokeys(document.documentElement);
-    this.trigger = ::this.combokeys.trigger;
     this.setFilter();
     this.setScope();
   }
 
-  _dispatcher(e, key) {
+  _dispatcher = (e, key) => {
     let currentScope;
 
     for (let i = this._scopeChain.length - 1; i >= 0; i--) {
@@ -78,7 +79,7 @@ class Shortcuts {
     }
     this._scopes[params.scope][params.key] = params.handler;
 
-    this.combokeys.bind(params.key, ::this._dispatcher, this._getKeyboardEventType(params));
+    this.combokeys.bind(params.key, this._dispatcher, this._getKeyboardEventType(params));
   }
 
   /**
@@ -186,7 +187,7 @@ class Shortcuts {
     return !!(this._scopes[scope] && this._scopes[scope][key]);
   }
 
-  _defaultFilter(e, element/*, key*/) {
+  _defaultFilter = (e, element/*, key*/) => {
     // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
     if (
       element === document ||
@@ -214,7 +215,7 @@ class Shortcuts {
   }
 
   setFilter(fn) {
-    this.combokeys.stopCallback = typeof fn === 'function' ? fn : ::this._defaultFilter;
+    this.combokeys.stopCallback = typeof fn === 'function' ? fn : this._defaultFilter;
   }
 
   indexOfScope(scopeId) {

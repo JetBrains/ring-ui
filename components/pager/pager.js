@@ -154,6 +154,19 @@ export default class Pager extends PureComponent {
         return null;
       }
 
+      const buttons = [];
+      for (let i = start; i <= end; i++) {
+        const button = (
+          <Button
+            key={i}
+            active={i === currentPage}
+            onClick={this.handlePageChange(i)}
+          >{i}</Button>
+        );
+
+        buttons.push(button);
+      }
+
       return (
         <div>
           <div className={style.links}>
@@ -178,23 +191,7 @@ export default class Pager extends PureComponent {
             <ButtonGroup>
               {start > 1 ? <Button onClick={this.handlePageChange(start - 1)}>...</Button> : ''}
 
-              {
-                do {
-                  const buttons = [];
-                  for (let i = start; i <= end; i++) {
-                    const button = (
-                      <Button
-                        key={i}
-                        active={i === currentPage}
-                        onClick={this.handlePageChange(i)}
-                      >{i}</Button>
-                    );
-
-                    buttons.push(button);
-                  }
-                  buttons;
-                }
-              }
+              {buttons}
 
               {end < totalPages ? <Button onClick={this.handlePageChange(end + 1)}>...</Button> : ''}
             </ButtonGroup>

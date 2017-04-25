@@ -46,9 +46,9 @@ class DialogController extends RingAngularComponent {
     this.dialogService = dialogService;
     this.previousBodyWidth = null;
 
-    $scope.$on('$routeChangeSuccess', ::this.hide);
-    $scope.$on('$routeUpdate', ::this.hide);
-    $scope.$on('$destroy', ::dialogService.unregister);
+    $scope.$on('$routeChangeSuccess', this.hide);
+    $scope.$on('$routeUpdate', this.hide);
+    $scope.$on('$destroy', dialogService.unregister);
 
     $scope.$watch(() => this.active, () => {
       if (this.active) {
@@ -71,8 +71,8 @@ class DialogController extends RingAngularComponent {
 
     const dialogShortcuts = {
       esc: defaultEscHandler,
-      enter: ::this.applyDefaultHandler(false),
-      'mod+enter': ::this.applyDefaultHandler(true)
+      enter: this.applyDefaultHandler(false),
+      'mod+enter': this.applyDefaultHandler(true)
     };
 
     angular.extend(dialogShortcuts, this.shortcuts);
@@ -181,7 +181,7 @@ class DialogController extends RingAngularComponent {
 
   }
 
-  hide() {
+  hide = () => {
     if (!this.inSidebar) {
       ScrollPreventer.reset();
     }
@@ -343,7 +343,7 @@ class DialogService extends RingAngularComponent {
     this.ctrl = ctrl;
   }
 
-  unregister() {
+  unregister = () => {
     Reflect.deleteProperty(this, 'ctrl');
   }
 }
