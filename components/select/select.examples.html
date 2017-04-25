@@ -17,7 +17,6 @@
   <file type="js">
     import {render} from 'react-dom';
     import Select from 'ring-ui/components/select/select';
-    import 'ring-ui/components/input-size/input-size.scss';
 
     var props = {
       selectedLabel: 'Option',
@@ -53,7 +52,7 @@
 
 <example name="Select with server filtering">
   <file type="html">
-    <div id='list'></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     import {render} from 'react-dom';
@@ -71,15 +70,17 @@
         request: null
       };
       auth = new Auth(hubConfig);
-      source = new Source(this.auth);
+      source = new Source(this.auth, {
+        searchMax: 8
+      });
 
       componentDidMount() {
         this.auth.init();
-        this.loadUsers();
+        this.loadData();
       }
 
-      loadUsers = async query => {
-        const request = this.source.getForList(query, Source.Filter.USERS);
+      loadData = async query => {
+        const request = this.source.getForList(query);
         this.setState({request});
 
         const users = await request;
@@ -97,20 +98,20 @@
         return (
           <Select
             data={this.state.users}
-            label="Add assignee"
-            selectedLabel="Assignee"
+            label="Set owner"
+            selectedLabel="Owner"
             filter={{
-              placeholder: 'Search user',
+              placeholder: 'Search user or group',
               fn: alwaysTrue // disable client filtering
             }}
-            onFilter={this.loadUsers}
+            onFilter={this.loadData}
             loading={!!this.state.request}
           />
         );
       }
     }
 
-    render(<UserList />, document.getElementById('list'));
+    render(<UserList />, document.getElementById('demo'));
   </file>
 </example>
 
@@ -127,7 +128,6 @@
   <file type="js">
     import {render} from 'react-dom';
     import Select from 'ring-ui/components/select/select';
-    import 'ring-ui/components/input-size/input-size.scss';
 
     var elementsNum = 100000;
     var selectedIndex = parseInt(elementsNum / 2);
@@ -161,7 +161,6 @@
   <file type="js">
     import {render} from 'react-dom';
     import Select from 'ring-ui/components/select/select';
-    import 'ring-ui/components/input-size/input-size.scss';
 
     var deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
     var ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
@@ -324,12 +323,11 @@
 
 <example name="Select with a customized filter and an 'Add item' button">
   <file type="html">
-    <div id="demo" class="ring-input-size_md"></div>
+    <div id="demo"></div>
   </file>
   <file type="js">
     import {render} from 'react-dom';
     import Select from 'ring-ui/components/select/select';
-    import 'ring-ui/components/input-size/input-size.scss';
 
     var data = [];
     for (let i = 0; i < 100; i++) {

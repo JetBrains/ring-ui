@@ -63,8 +63,13 @@ export default class Select extends RingComponentWithShortcuts {
     allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
     hideArrow: false,     // hide dropdown arrow icon
 
-    maxHeight: 250,       // height of the options list, without the filter and the 'Add' button
-    minWidth: Popup.PopupProps.MinWidth.TARGET,   // Popup width
+    maxHeight: 600,       // height of the options list, including the filter and the 'Add' button
+    directions: [
+      Popup.PopupProps.Directions.BOTTOM_RIGHT,
+      Popup.PopupProps.Directions.BOTTOM_LEFT,
+      Popup.PopupProps.Directions.TOP_LEFT,
+      Popup.PopupProps.Directions.TOP_RIGHT
+    ],
 
     selected: null,       // current selection (item / array of items)
 
@@ -275,12 +280,7 @@ export default class Select extends RingComponentWithShortcuts {
         maxHeight={this.props.maxHeight}
         minWidth={this.props.minWidth}
         directions={this.props.directions}
-        className={classNames(
-          this.props.popupClassName,
-          this.props.size === Size.S
-            ? styles.sizeM
-            : styles[`size${this.props.size}`]
-        )}
+        className={this.props.popupClassName}
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
@@ -651,6 +651,16 @@ export default class Select extends RingComponentWithShortcuts {
   _getIcons() {
     const icons = [];
 
+    if (this.state.selected && this.state.selected.icon) {
+      icons.push(
+        <span
+          className={styles.selectedIcon}
+          key="selected"
+          style={{backgroundImage: `url(${this.state.selected.icon})`}}
+        />
+      );
+    }
+
     if (this.props.clear && this.state.selected) {
       icons.push(
         <Button
@@ -659,16 +669,6 @@ export default class Select extends RingComponentWithShortcuts {
           onClick={::this.clear}
           icon={closeIcon}
           iconSize={Icon.Size.Size14}
-        />
-      );
-    }
-
-    if (this.state.selected && this.state.selected.icon) {
-      icons.push(
-        <span
-          className={styles.selectedIcon}
-          key="selected"
-          style={{backgroundImage: `url(${this.state.selected.icon})`}}
         />
       );
     }
@@ -716,7 +716,7 @@ export default class Select extends RingComponentWithShortcuts {
     const icons = this._getIcons();
 
     const style = {
-      paddingRight: icons.length * 16
+      paddingRight: icons.length * 20
     };
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;

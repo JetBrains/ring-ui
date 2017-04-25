@@ -17,6 +17,7 @@ import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import styles from './select.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;
+const FILTER_HEIGHT = 35;
 
 function noop() {}
 
@@ -32,9 +33,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     filter: false, // can be either boolean or an object with "value" and "placeholder" properties
     message: null,
     anchorElement: null,
-    maxHeight: 250,
+    maxHeight: 600,
     loading: false,
-    minWidth: Popup.PopupProps.MinWidth.TARGET,
     onSelect: noop,
     onCloseAttempt: noop,
     onFilter: noop,
@@ -181,7 +181,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             inputRef={this.filterRef}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.popupFilterOnFocus}
-            placeholder={this.props.filter.placeholder || ''}
+            placeholder={this.props.filter.placeholder || 'Filter items'}
             onChange={this.props.onFilter}
             onClear={this.props.onClear}
           />
@@ -203,9 +203,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   getList() {
     if (this.props.data.length) {
+      let {maxHeight} = this.props;
+      if (this.props.filter) {
+        maxHeight -= FILTER_HEIGHT;
+      }
+
       return (
         <List
-          maxHeight={this.props.maxHeight}
+          maxHeight={maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
           ref={this.listRef}
@@ -236,12 +241,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   render() {
+    const classes = classNames(styles.popup, this.props.className);
+
     return (
       <Popup
         ref={this.popupRef}
         hidden={this.props.hidden}
         attached={this.props.isInputMode}
-        className={this.props.className}
+        className={classes}
         dontCloseOnAnchorClick={true}
         keepMounted={true}
         anchorElement={this.props.anchorElement}

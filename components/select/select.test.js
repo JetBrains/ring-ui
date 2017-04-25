@@ -679,12 +679,12 @@ describe('Select', () => {
       it('Should restore focus on provided target element after closing popup', function () {
         this.select._hidePopup(true);
 
-        document.activeElement.should.equal(this.targetInput);
+        this.targetInput.should.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', function () {
         simulateCombo('esc');
-        document.activeElement.should.equal(this.targetInput);
+        this.targetInput.should.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', function () {
@@ -696,7 +696,7 @@ describe('Select', () => {
       it('Should not restore focus on provided target element after closing popup', function () {
         this.select._hidePopup();
 
-        document.activeElement.should.not.equal(this.targetInput);
+        this.targetInput.should.not.equal(document.activeElement);
       });
     });
   });
