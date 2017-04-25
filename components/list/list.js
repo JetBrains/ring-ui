@@ -364,7 +364,7 @@ export default class List extends RingComponentWithShortcuts {
     const innerContainer = this.inner;
 
     if (this.props.renderOptimization && this.props.maxHeight) {
-      const height = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      const height = this.props.maxHeight;
 
       // Firstly we need to calculate the size and position of every item
       if (!fast) {
@@ -493,7 +493,7 @@ export default class List extends RingComponentWithShortcuts {
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
 
     if (this.props.maxHeight) {
-      innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      innerStyles.maxHeight = this.props.maxHeight;
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
