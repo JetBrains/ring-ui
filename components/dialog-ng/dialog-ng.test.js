@@ -135,14 +135,15 @@ describe('Dialog Ng', () => {
       let testDirectiveOnDestroyElement;
       beforeEach(function () {
         testDirectiveOnDestroyElement = this.sinon.stub();
-        $compileProvider.directive('foo', () => (
-          {
+        // eslint-disable-next-line prefer-arrow-callback, angular/directive-name
+        $compileProvider.directive('foo', function foo() {
+          return {
             template: '<div/>',
             controller: $element => {
               $element.on('$destroy', testDirectiveOnDestroyElement);
             }
-          }
-        ));
+          };
+        });
       });
 
       it('should trigger $destroy on directive', () => {

@@ -23,18 +23,18 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
          import hubConfig from 'ring-ui/site/hub-config';
 
          import 'angular';
-         import 'ring-ui/components/auth-ng/auth-ng';
+         import rgAuth from 'ring-ui/components/auth-ng/auth-ng';
 
-         angular.module('test', ['Ring.auth'])
-           .config(function (authProvider) {
+         angular.module('test', [rgAuth])
+           .config(['authProvider', function (authProvider) {
              authProvider.config(hubConfig);
-           })
-           .controller('testCtrl', function(auth, $q) {
-             var ctrl = this;
+           }])
+           .controller('testCtrl', ['auth', '$q', function(auth, $q) {
+             const ctrl = this;
              $q.resolve(auth.requestUser()).then(function(user) {
               ctrl.user = user;
              });
-           });
+           }]);
        </file>
      </example>
    */
@@ -97,8 +97,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  /*@ngInject*/
-  this.$get = ($injector, $log, $sniffer) => {
+  this.$get = function get($injector, $log, $sniffer) {
     // Do not try to init anything without config
     if (!auth) {
       $log.warn('Auth wasn\'t initialized');

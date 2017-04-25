@@ -57,7 +57,8 @@ angularModule.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compile, $parse) => {
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgSaveField', function rgSaveFieldDirective(RingMessageBundle, $timeout, $q, $compile, $parse) {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';
   const CUSTOM_ERROR_ID = 'customError';
@@ -79,7 +80,7 @@ angularModule.directive('rgSaveField', (RingMessageBundle, $timeout, $q, $compil
       formatElement: '&?',
       multiline: '@'
     },
-    link(scope, iElem, iAttrs, ctrl) {
+    link: function link(scope, iElem, iAttrs, ctrl) {
       const placeholder = angular.element(iElem[0].querySelector('.ring-save-field__transclude-placeholder'));
       $compile(angular.element('<div rg-error-bubble="saveFieldForm"></div>'))(scope, errorBubble => {
         placeholder.append(errorBubble);

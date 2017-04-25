@@ -94,14 +94,17 @@ angularModule.service('loaderScreen', function ($timeout, $rootScope) {
   /* eslint-enable angular/on-watch */
 });
 
-angularModule.directive('rgLoaderScreen', () => ({
-  restrict: 'A',
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgLoaderScreen', function rgLoaderScreenDirective() {
+  return {
+    restrict: 'A',
 
-  scope: {
-    message: '@rgLoaderScreen'
-  },
+    scope: {
+      message: '@rgLoaderScreen'
+    },
 
-  template: require('./loader-screen-ng.html')
-}));
+    template: require('./loader-screen-ng.html')
+  };
+});
 
 export default angularModule.name;

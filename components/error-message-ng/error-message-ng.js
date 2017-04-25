@@ -31,18 +31,21 @@ import '../error-message-ng/error-message-ng.scss';
 
 const angularModule = angular.module('Ring.error-message', [iconNg]);
 
-angularModule.directive('rgErrorMessage', () => ({
-  replace: true,
-  transclude: true,
-  template: require('./error-message-ng.html'),
-  restrict: 'E',
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
+  return {
+    replace: true,
+    transclude: true,
+    template: require('./error-message-ng.html'),
+    restrict: 'E',
 
-  scope: {
-    code: '@',
-    message: '@',
-    links: '=',
-    icon: '@'
-  }
-}));
+    scope: {
+      code: '@',
+      message: '@',
+      links: '=',
+      icon: '@'
+    }
+  };
+});
 
 export default angularModule.name;
