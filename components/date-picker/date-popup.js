@@ -110,7 +110,7 @@ export default class DatePopup extends RingComponent {
     });
   }
 
-  scheduleScroll() {
+  scheduleScroll = () => {
     const current = this.state.scrollDate || this.parseDate(this.props[this.state.active]) || moment();
     const goal = this._scrollDate;
     if (!current || !goal || this.sameDay(goal, current)) {
@@ -127,10 +127,10 @@ export default class DatePopup extends RingComponent {
     }
 
     this._scrollTS = moment();
-    window.requestAnimationFrame(::this.scheduleScroll);
+    window.requestAnimationFrame(this.scheduleScroll);
   }
 
-  scrollTo(scrollDate) {
+  scrollTo = scrollDate => {
     this._scrollDate = scrollDate;
     if (!this._scrollTS) {
       this.scheduleScroll();
@@ -183,6 +183,8 @@ export default class DatePopup extends RingComponent {
 
   selectHandler = date => this.select({[this.state.active]: date});
 
+  handleScroll = scrollDate => this.setState({scrollDate});
+
   render() {
     const {range} = this.props;
 
@@ -231,8 +233,8 @@ export default class DatePopup extends RingComponent {
       activeDate,
       currentRange,
       activeRange,
-      onScroll: scrollDate => this.setState({scrollDate}),
-      onScrollChange: ::this.scrollTo
+      onScroll: this.handleScroll,
+      onScrollChange: this.scrollTo
     };
 
     return (

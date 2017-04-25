@@ -68,29 +68,29 @@
     class PopupExample extends Component {
       state = initialState;
 
-      renderPopup(key) {
-        return (
-          <div className={classNames("anchor", key)} key={key}>
-            <Popup
-              hidden={!this.state[key]}
-              onCloseAttempt={() => this.setState({[key]: false})}
-              directions={[directionMap[key]]}
-            >
-              <span>Helloworld!</span>
-            </Popup>
-          </div>
-        );
-      }
+      renderPopup = key => (
+        <div className={classNames("anchor", key)} key={key}>
+          <Popup
+            hidden={!this.state[key]}
+            onCloseAttempt={() => this.setState({[key]: false})}
+            directions={[directionMap[key]]}
+          >
+            <span>Helloworld!</span>
+          </Popup>
+        </div>
+      );
+
+      showAgain = () => setTimeout(() => {
+        this.setState({bottomLeft: true});
+      });
 
       render() {
         return (
           <div>
-            {directionKeys.map(::this.renderPopup)}
+            {directionKeys.map(this.renderPopup)}
             <button
               className="button"
-              onClick={() => setTimeout(() => {
-                this.setState({bottomLeft: true});
-              })}
+              onClick={this.showAgain}
             >Show again</button>
           </div>
         );

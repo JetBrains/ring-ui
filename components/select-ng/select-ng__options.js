@@ -49,7 +49,7 @@ class Options {
     if (getter) {
       const locals = {};
       locals[this.optionVariableName] = option;
-      return this::getter(this.scope, locals);
+      return getter.call(this, this.scope, locals);
     }
 
     return undefined;

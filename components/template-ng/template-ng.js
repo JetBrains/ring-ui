@@ -49,10 +49,10 @@ class RgTemplateController extends RingAngularComponent {
     super(...args);
 
     const {$scope, $attrs} = this.$inject;
-    $scope.$watch($attrs.rgTemplate || $attrs.template, ::this.render);
+    $scope.$watch($attrs.rgTemplate || $attrs.template, this.render);
   }
 
-  render(template) {
+  render = template => {
     const {$scope, $element, $compile} = this.$inject;
 
     this.cleanup();

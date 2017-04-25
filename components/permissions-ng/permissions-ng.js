@@ -61,7 +61,7 @@ angularModule.provider('userPermissions', function () {
 
     // Override load to execute in $digest
     permissions.load = function () {
-      return $q.when(this::Permissions.prototype.load());
+      return $q.when(Permissions.prototype.load.call(this));
     };
 
     return permissions;
