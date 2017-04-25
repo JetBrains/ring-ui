@@ -1,4 +1,4 @@
-@value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height, line-height-lowest, fast-ease from '../global/global.css';
+@value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
 
 @value list-spacing: calc(unit / 2);
 
@@ -24,15 +24,15 @@
   display: block;
   border-top: 1px solid line-color;
   margin-top: list-spacing;
-  padding: 0 calc(unit * 2);
+  padding: 0 calc(unit * 2) 2px;
 
   color: dark-gray-color;
   font-size: font-size-smaller;
-  line-height: line-height;
+  line-height: line-height-lower;
   text-align: right;
 
   &:first-child {
-    margin-top: 0;
+    margin-top: calc(- list-spacing);
     padding-top: 0;
     border: none;
   }
@@ -47,7 +47,7 @@
   flex-direction: column;
   flex-wrap: nowrap;
   white-space: nowrap;
-  padding: list-spacing calc(unit * 2);
+  padding: 3px calc(unit * 2) 5px;
 
   font-size: font-size;
   line-height: calc(unit * 3);
@@ -88,7 +88,6 @@
 }
 
 .label {
-  flex-grow: 1;
   flex-shrink: 1;
   white-space: nowrap;
   overflow: hidden;
