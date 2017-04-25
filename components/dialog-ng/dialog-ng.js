@@ -315,12 +315,14 @@ class DialogController extends RingAngularComponent {
   }
 }
 
-class DialogService {
+class DialogService extends RingAngularComponent {
+  static $inject = ['$log'];
+
   DIALOG_NAMESPACE = 'ring-dialog';
   fallbackDialog = null;
 
-  constructor($log) {
-    this.$log = $log;
+  constructor(...constrArgs) {
+    super(...constrArgs);
 
     // Binding proxy methods to a service instance
     ['show', 'hide', 'update', 'done', 'reset'].forEach(key => {
@@ -330,7 +332,7 @@ class DialogService {
         } else if (this.fallbackDialog) {
           return this.fallbackDialog[key](...args);
         } else {
-          this.$log.error('No dialog directive is found');
+          this.$inject.$log.error('No dialog directive is found');
           return undefined;
         }
       }.bind(this);
@@ -347,11 +349,13 @@ class DialogService {
 }
 
 class DialogInSidebarService extends DialogService {
+  static $inject = [...DialogService.$inject, 'dialog'];
+
   DIALOG_NAMESPACE = 'ring-dialog-in-sidebar';
 
-  constructor($log, dialog) {
-    super($log);
-    this.fallbackDialog = dialog;
+  constructor(...args) {
+    super(...args);
+    this.fallbackDialog = this.$inject.dialog;
   }
 }
 
@@ -505,7 +509,7 @@ function rgDialogFooterDirective() {
 
 function rgDialogContentDirective($compile, $q) {
   return {
-    link(scope, iElement) {
+    link: function link(scope, iElement) {
       const element = iElement[0];
       let contentScope;
 

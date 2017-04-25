@@ -39,60 +39,63 @@ const CLASS_PREFIX = 'ring-icon_';
 const LOADING_CLASS = `${CLASS_PREFIX}loading`;
 const DEFAULT_SIZE = Size.Size32;
 
-angularModule.directive('rgIcon', () => ({
-  restrict: 'E',
-  scope: {
-    glyph: '@',
-    loading: '=?',
-    color: '@?',
-    size: '@?',
-    height: '@?',
-    width: '@?'
-  },
-  template: require('./icon-ng.html'),
-  link(scope, iElement, iAttrs) {
-    iAttrs.$addClass('ring-icon');
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgIcon', function rgIconDirective() {
+  return {
+    restrict: 'E',
+    scope: {
+      glyph: '@',
+      loading: '=?',
+      color: '@?',
+      size: '@?',
+      height: '@?',
+      width: '@?'
+    },
+    template: require('./icon-ng.html'),
+    link: function link(scope, iElement, iAttrs) {
+      iAttrs.$addClass('ring-icon');
 
-    scope.resolveGlyph = resolveRelativeURL;
+      scope.resolveGlyph = resolveRelativeURL;
 
-    scope.$watch('loading', value => {
-      if (value) {
-        iAttrs.$addClass(LOADING_CLASS);
-      } else {
-        iAttrs.$removeClass(LOADING_CLASS);
-      }
-    });
-
-    scope.$watch(() => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color], (colorClass, prevColorClass) => {
-      if (colorClass) {
-        iAttrs.$addClass(colorClass);
-
-        // Remove previous class, but don't remove initial one
-        if (prevColorClass && prevColorClass !== colorClass) {
-          iAttrs.$removeClass(prevColorClass);
+      scope.$watch('loading', value => {
+        if (value) {
+          iAttrs.$addClass(LOADING_CLASS);
+        } else {
+          iAttrs.$removeClass(LOADING_CLASS);
         }
-      }
-    });
+      });
 
-    scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
-      if (!width && !height) {
-        const sizeString = `${size || DEFAULT_SIZE}px`;
-        scope.style = {
-          width: sizeString,
-          height: sizeString
-        };
-        return;
-      }
+      scope.$watch(() => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color], (colorClass, prevColorClass) => {
+        if (colorClass) {
+          iAttrs.$addClass(colorClass);
 
-      scope.style = {};
-      if (width) {
-        scope.style.width = `${width}px`;
-      }
-      if (height) {
-        scope.style.height = `${height}px`;
-      }
-    });
-  }
-}));
+          // Remove previous class, but don't remove initial one
+          if (prevColorClass && prevColorClass !== colorClass) {
+            iAttrs.$removeClass(prevColorClass);
+          }
+        }
+      });
+
+      scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
+        if (!width && !height) {
+          const sizeString = `${size || DEFAULT_SIZE}px`;
+          scope.style = {
+            width: sizeString,
+            height: sizeString
+          };
+          return;
+        }
+
+        scope.style = {};
+        if (width) {
+          scope.style.width = `${width}px`;
+        }
+        if (height) {
+          scope.style.height = `${height}px`;
+        }
+      });
+    }
+  };
+});
 
 export default angularModule.name;

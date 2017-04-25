@@ -53,7 +53,16 @@
   "readmeFilename": "README.md",
   "babel": {
     "presets": "jetbrains",
-    "plugins": "transform-runtime",
+    "plugins": [
+      "transform-runtime",
+      [
+        "@maxmaximov/babel-plugin-angular-annotate",
+        [
+          "angular",
+          "ngRoute"
+        ]
+      ]
+    ],
     "env": {
       "test": {
         "plugins": [
@@ -119,6 +128,7 @@
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
+    "@maxmaximov/babel-plugin-angular-annotate": "2.0.2",
     "angular-elastic": "2.5.1-jb",
     "autoprefixer": "6.4.1",
     "babel-core": "6.24.1",
@@ -141,7 +151,6 @@
     "jetbrains-logos": "1.1.51",
     "moment": "2.15.2",
     "mout": "1.0.0",
-    "ng-annotate-loader": "0.2.0",
     "node-sass": "4.5.0",
     "null-loader": "0.1.1",
     "postcss": "5.2.0",

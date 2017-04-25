@@ -14,25 +14,25 @@ import compile from './island-ng-class-fixer';
 
 const angularModule = angular.module('Ring.island-ng', [IslandHeader, IslandContent]);
 
-const islandDirective = {
-  transclude: true,
-  replace: true,
-  bindToController: {
-    narrow: '='
-  },
-  compile,
-  template: `
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgIsland', function islandDirective() {
+  return {
+    transclude: true,
+    replace: true,
+    bindToController: {
+      narrow: '='
+    },
+    compile,
+    template: `
 <div 
   class="${styles.island}" 
   ng-class="{'${styles.narrowIsland}': islandCtrl.narrow}" 
   ng-transclude
 ></div>
 `,
-  controllerAs: 'islandCtrl',
-  controller: angular.noop
-};
-
-angularModule.
-  directive('rgIsland', () => islandDirective);
+    controllerAs: 'islandCtrl',
+    controller: angular.noop
+  };
+});
 
 export default angularModule.name;

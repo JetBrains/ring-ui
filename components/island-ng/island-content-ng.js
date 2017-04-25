@@ -5,14 +5,16 @@ import compile from './island-ng-class-fixer';
 
 const angularModule = angular.module('Ring.island-ng.header', []);
 
-const islandContentDirective = {
-  transclude: true,
-  replace: true,
-  bindToController: {
-    fade: '=?'
-  },
-  compile,
-  template: `
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgIslandContent', function islandContentDirective() {
+  return {
+    transclude: true,
+    replace: true,
+    bindToController: {
+      fade: '=?'
+    },
+    compile,
+    template: `
 <div
   data-test="ring-island-content"
   class=${styles.content}
@@ -27,10 +29,9 @@ const islandContentDirective = {
   ></div>
 </div>
 `,
-  controllerAs: 'contentCtrl',
-  controller: angular.noop
-};
-
-angularModule.directive('rgIslandContent', () => islandContentDirective);
+    controllerAs: 'contentCtrl',
+    controller: angular.noop
+  };
+});
 
 export default angularModule.name;

@@ -56,11 +56,10 @@ const specialDOMAttrs = {
   class: 'className'
 };
 
-/*@ngInject*/
 function reactNgDirective($parse) {
   return {
     restrict: 'A',
-    link(scope, iElement, iAttrs) {
+    link: function link(scope, iElement, iAttrs) {
       let component = null;
       const directiveName = iAttrs[reactDirectiveName];
       const instanceAttr = 'reactInstance';
@@ -211,7 +210,6 @@ function reactNgDirective($parse) {
    </example>
  */
 
-/*@ngInject*/
 function reactStaticNgDirective($parse) {
   function getPropertyName(name, prefix) {
     //remove "react-" prefix and lowercase first letter
@@ -225,7 +223,7 @@ function reactStaticNgDirective($parse) {
 
   return {
     restrict: 'A',
-    link(scope, iElement, iAttrs) {
+    link: function link(scope, iElement, iAttrs) {
       const name = iAttrs[staticDirectiveName];
       const ComponentClass = getComponentIfExist(name);
       const props = {};
