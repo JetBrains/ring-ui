@@ -25,23 +25,15 @@ export default class MonthSlider extends RingComponent {
     dragging: false
   };
 
-  constructor(...attrs) {
-    super(...attrs);
-
-    // we bind here so that the reference is always the same
-    this.onMouseUp = ::this.onMouseUp;
-    this.onMouseMove = ::this.onMouseMove;
-  }
-
-  onMouseDown() {
+  onMouseDown = () => {
     this.setState({dragging: true});
   }
 
-  onMouseUp() {
+  onMouseUp = () => {
     this.setState({dragging: false});
   }
 
-  onMouseMove(e) {
+  onMouseMove = e => {
     this.props.onScroll(
       linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
     );
@@ -83,7 +75,7 @@ export default class MonthSlider extends RingComponent {
             style={{
               top: Math.floor(this.props.pxToDate.x(date) - units.cellSize)
             }}
-            onMouseDown={::this.onMouseDown}
+            onMouseDown={this.onMouseDown}
           />
         ))}
       </div>

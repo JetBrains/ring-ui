@@ -82,7 +82,7 @@ export default class Button extends RingComponent {
           )}
         </span>
 
-        <span className="ring-button__loader" />
+        <span className="ring-button__loader"/>
       </button>
     );
   }

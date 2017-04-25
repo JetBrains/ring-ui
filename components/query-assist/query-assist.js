@@ -819,7 +819,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
             className="ring-query-assist__icon ring-query-assist__icon_loader"
             ref={this.loaderRef}
           >
-            <LoaderInline />
+            <LoaderInline/>
           </div>
         )}
         {renderClear && (

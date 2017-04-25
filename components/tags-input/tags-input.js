@@ -8,6 +8,7 @@ import Select from '../select/select';
 import Tag from '../tag/tag';
 import Caret from '../caret/caret';
 import '../input-size/input-size.scss';
+import memoize from '../global/memoize';
 
 import './tags-input.scss';
 
@@ -108,7 +109,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.getInputNode().focus();
   }
 
-  addTag(tag) {
+  addTag = tag => {
     const tags = this.state.tags.concat([tag]);
     this.setState({tags});
     this.select.clear();
@@ -129,7 +130,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       }, ::this.focusInput);
   }
 
-  clickHandler(event) {
+  clickHandler = event => {
     if (!event.target.matches(this.getInputNode().tagName)) {
       return;
     }
@@ -143,7 +144,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
 
-  loadSuggestions(query) {
+  loadSuggestions = query => {
     this.setState({loading: true});
     return Promise.resolve(this.props.dataSource({query})).
       then(::this.filterExistingTags).
@@ -171,14 +172,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.updateStateFromProps(props);
   }
 
-  _focusHandler() {
+  _focusHandler = () => {
     this.setState({
       shortcuts: true
     });
     this.setActiveIndex(null);
   }
 
-  _blurHandler() {
+  _blurHandler = () => {
     this.setState({
       shortcuts: false
     });
@@ -199,7 +200,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
-  handleKeyDown(event) {
+  handleKeyDown = event => {
     if (this.select._popup.isVisible()) {
       return true;
     }
@@ -247,9 +248,11 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return true;
   }
 
-  onTagClick(tag) {
+  handleClick = memoize(tag => () => {
     this.setActiveIndex(this.state.tags.indexOf(tag));
-  }
+  });
+
+  handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
   renderTag(tag, focusTag, readOnly) {
     const TagComponent = this.props.customTagComponent || Tag;
@@ -258,8 +261,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
         {...tag}
         readOnly={readOnly}
         focused={focusTag}
-        onClick={() => this.onTagClick(tag)}
-        onRemove={() => this.onRemoveTag(tag)}
+        onClick={this.handleClick(tag)}
+        onRemove={this.handleRemove(tag)}
       >{tag.label}</TagComponent>);
   }
 
@@ -281,8 +284,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return (
       <div
         className={classes}
-        onKeyDown={::this.handleKeyDown}
-        onClick={event => this.clickHandler(event)}
+        onKeyDown={this.handleKeyDown}
+        onClick={this.clickHandler}
       >
         {renderTags()}
         <Select
@@ -291,17 +294,17 @@ export default class TagsInput extends RingComponentWithShortcuts {
           label={this.props.placeholder}
           data={this.state.suggestions}
           className="ring-input-size_md"
-          onSelect={::this.addTag}
-          onFocus={::this._focusHandler}
-          onBlur={::this._blurHandler}
+          onSelect={this.addTag}
+          onFocus={this._focusHandler}
+          onBlur={this._blurHandler}
           filter={{
             fn: () => true
           }}
           maxHeight={this.props.maxPopupHeight}
           loading={this.state.loading}
-          onFilter={::this.loadSuggestions}
-          onBeforeOpen={::this.loadSuggestions}
-          onKeyDown={::this.handleKeyDown}
+          onFilter={this.loadSuggestions}
+          onBeforeOpen={this.loadSuggestions}
+          onKeyDown={this.handleKeyDown}
           disabled={this.props.disabled}
         />
       </div>);

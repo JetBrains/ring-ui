@@ -9,7 +9,7 @@ import {
 import ErrorMessage from './error-message';
 
 describe('Error Message', () => {
-  const renderComponent = props => renderIntoDocument(<ErrorMessage {...props} />);
+  const renderComponent = props => renderIntoDocument(<ErrorMessage {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), ErrorMessage).should.be.true;

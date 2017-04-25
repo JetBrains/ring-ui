@@ -166,7 +166,7 @@ export default class Alert extends RingComponent {
       );
     } else if (this.props.type === Type.LOADING) {
       return (
-        <Loader className={styles.loader} />
+        <Loader className={styles.loader}/>
       );
     }
 

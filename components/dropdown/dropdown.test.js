@@ -18,7 +18,7 @@ describe('Dropdown', () => {
 
   const anchorElement = (
     <span
-      ref={el => {
+      ref={function anchorRef(el) {
         anchor = el;
       }}
     />
@@ -27,7 +27,7 @@ describe('Dropdown', () => {
   beforeEach(() => {
     const popupElement = (
       <Popup
-        ref={el => {
+        ref={function popupRef(el) {
           popup = el;
         }}
       />

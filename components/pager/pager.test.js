@@ -10,7 +10,7 @@ import Pager from './pager';
 
 describe('Pager', () => {
   const props = {total: 100, currentPage: 1, onPageChange: () => {}};
-  const renderComponent = params => renderIntoDocument(<Pager {...{...props, ...params}} />);
+  const renderComponent = params => renderIntoDocument(<Pager {...{...props, ...params}}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Pager).should.be.true;

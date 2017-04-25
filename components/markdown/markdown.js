@@ -54,6 +54,6 @@ export default class Markdown extends PureComponent {
   }
 }
 
-const md = trivialTemplateTag(source => <Markdown {...{source}} />);
+const md = trivialTemplateTag(source => <Markdown {...{source}}/>);
 
 export {md};

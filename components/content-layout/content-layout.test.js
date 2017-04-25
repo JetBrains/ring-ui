@@ -11,7 +11,7 @@ import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {
-  const renderComponent = params => renderIntoDocument(<ContentLayout {...params} />);
+  const renderComponent = params => renderIntoDocument(<ContentLayout {...params}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), ContentLayout).should.be.true;

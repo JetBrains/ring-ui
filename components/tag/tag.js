@@ -89,7 +89,7 @@ export default class Tag extends RingComponent {
         tabIndex="0"
         className={classes}
         ref={this.tagRef}
-        onClick={::this.props.onClick}
+        onClick={this.props.onClick}
       >
         {this.props.rgTagIcon ? (
           <Icon

@@ -25,7 +25,7 @@ export default function shortcutsHOC(ComposedComponent) {
         rgShortcutsOptions.disabled
       ) {
         return (
-          <ComposedComponent {...props} />
+          <ComposedComponent {...props}/>
         );
       }
 
@@ -35,7 +35,7 @@ export default function shortcutsHOC(ComposedComponent) {
           map={rgShortcutsMap}
           options={rgShortcutsOptions}
         >
-          <ComposedComponent {...props} />
+          <ComposedComponent {...props}/>
         </Shortcuts>
       );
     }
