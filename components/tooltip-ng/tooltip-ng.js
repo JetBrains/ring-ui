@@ -14,7 +14,7 @@ import './tooltip-ng.scss';
  * @example
     <example name="Tooltip Ng">
       <file name="index.html">
-        <div class="tooltip-example" ng-app="tooltip-test">
+        <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
           <div ng-controller="testController">
             Some text that needs an explanation
             <span rg-tooltip="'Test message'"

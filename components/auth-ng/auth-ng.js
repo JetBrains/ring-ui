@@ -13,7 +13,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    * @example
      <example name="Auth Ng">
        <file name="index.html">
-         <div ng-app="test" ng-controller="testCtrl as ctrl">
+         <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
             <h3>User info</h3>
             <pre>{{ ctrl.user | json }}</pre>
          </div>

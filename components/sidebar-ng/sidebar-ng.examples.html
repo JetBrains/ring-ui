@@ -1,6 +1,6 @@
 <example name="Sidebar Ng">
   <file type="html">
-    <div ng-app="Ring.sidebar" ng-init="isShowSideBar = true"
+    <div ng-app="Ring.sidebar" ng-strict-di ng-init="isShowSideBar = true"
       style="position: relative;">
       <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar"
         top-offset="1">
@@ -28,7 +28,7 @@
       <div>Lorem</div>
       <div>Lorem</div>
     </div>
-    <div ng-app="foo" ng-init="isShowSideBar = true"
+    <div ng-app="foo" ng-strict-di ng-init="isShowSideBar = true"
       style="position: relative;">
       <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar"
         top-offset="1">

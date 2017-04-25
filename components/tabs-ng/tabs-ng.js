@@ -7,7 +7,7 @@ import '../tabs/tabs.scss';
  * @example
    <example name="Tabs Ng">
      <file name="index.html">
-       <div ng-app="Ring.tabs">
+       <div ng-app="Ring.tabs" ng-strict-di>
          <rg-tabs class="container container_tabs">
            <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
            <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>

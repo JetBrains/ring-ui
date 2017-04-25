@@ -9,7 +9,7 @@ import '../loader-inline/loader-inline.scss';
  * @example
     <example name="loader-inline-ng">
       <file name="index.html">
-        <div ng-app="TestApp">
+        <div ng-app="TestApp" ng-strict-di>
           <rg-loader-inline></rg-loader-inline>
         </div>
       </file>
