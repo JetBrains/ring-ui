@@ -350,7 +350,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   }
 
   handleTab = e => {
-    const list = this._popup && this._popup.refs.List;
+    const list = this._popup && this._popup.list;
     const suggestion = list && (list.getSelected() || list.getFirst());
 
     if (suggestion && this.state.showPopup) {
@@ -725,7 +725,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       props.glass !== this.props.glass;
   }
 
-  refInput = node => {
+  inputRef = node => {
     if (!node) {
       return;
     }
@@ -734,8 +734,24 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.caret = new Caret(this.input);
   }
 
-  refPopup = node => {
+  popupRef = node => {
     this._popup = node;
+  }
+
+  placeholderRef = node => {
+    this.placeholder = node;
+  }
+
+  glassRef = node => {
+    this.glass = node;
+  }
+
+  loaderRef = node => {
+    this.loader = node;
+  }
+
+  clearRef = node => {
+    this.clear = node;
   }
 
   render() {
@@ -762,7 +778,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         <ContentEditable
           className={inputClasses}
           data-test="ring-query-assist-input"
-          ref={this.refInput}
+          ref={this.inputRef}
           disabled={this.props.disabled}
           onComponentUpdate={this.setCaretPosition}
 
@@ -782,7 +798,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {renderPlaceholder && (
           <span
             className="ring-query-assist__placeholder"
-            ref="placeholder"
+            ref={this.placeholderRef}
             onClick={this.handleCaretMove}
           >
             {this.props.placeholder}
@@ -791,7 +807,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {renderGlass && (
           <Icon
             className="ring-query-assist__icon ring-query-assist__icon_glass"
-            ref="glass"
+            ref={this.glassRef}
             color="gray"
             glyph={searchIcon}
             onClick={this.handleApply}
@@ -801,7 +817,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {renderLoader && (
           <div
             className="ring-query-assist__icon ring-query-assist__icon_loader"
-            ref="loader"
+            ref={this.loaderRef}
           >
             <LoaderInline />
           </div>
@@ -809,7 +825,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         {renderClear && (
           <Icon
             className="ring-query-assist__icon ring-query-assist__icon_clear"
-            ref="clear"
+            ref={this.clearRef}
             color="gray"
             glyph={closeIcon}
             onClick={this.clearQuery}
@@ -819,7 +835,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         <PopupMenu
           hidden={!this.state.showPopup}
           onCloseAttempt={this.closePopup}
-          ref={this.refPopup}
+          ref={this.popupRef}
           anchorElement={this.node}
           keepMounted={true}
           className={this.props.popupClassName}

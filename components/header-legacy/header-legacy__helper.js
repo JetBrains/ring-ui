@@ -41,19 +41,19 @@ export default class HeaderHelper {
         onServicesClose: null
       });
 
-      if (header.refs.services.state.loading) {
-        header.refs.services.setOpened(true);
-        header.refs.services.setLoading(false);
+      if (header.services.state.loading) {
+        header.services.setOpened(true);
+        header.services.setLoading(false);
       }
     }
 
     header.rerender({
       clientId: header.props.clientId || auth.config.client_id,
       onServicesOpen: () => {
-        header.refs.services.setLoading(true);
+        header.services.setLoading(true);
         getServices(allFields).then(setServicesList);
       },
-      onServicesClose: () => header.refs.services.setLoading(false)
+      onServicesClose: () => header.services.setLoading(false)
     });
 
     getServices(countFields).then(services => header.setMenuItemEnabled(SERVICES, services.length > 0));
@@ -83,7 +83,7 @@ export default class HeaderHelper {
         header.setProfilePicture(response.profile.avatar.url);
       }
 
-      header.refs.userMenu.setTitle(response.name);
+      header.userMenu.setTitle(response.name);
 
       const popupData = [
         {
@@ -104,10 +104,10 @@ export default class HeaderHelper {
 
         onUserMenuOpen: () => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
-            anchorElement: findDOMNode(header.refs.userMenu),
+            anchorElement: findDOMNode(header.userMenu),
             data: header.props.profilePopupData,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-            onClose: () => header.refs.userMenu.setOpened(false)
+            onClose: () => header.userMenu.setOpened(false)
           }));
         },
 

@@ -23,8 +23,7 @@
     "angular/directive-name": ["error", "rg"],
 
     // React
-    "react/jsx-no-bind": "warn",
-    "react/no-string-refs": "warn"
+    "react/jsx-no-bind": "warn"
   },
   "settings": {
     "import/resolver": {
