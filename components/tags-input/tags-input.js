@@ -87,7 +87,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   getInputNode() {
     if (!this.input) {
-      this.input = this.refs.select.filter.node;
+      this.input = this.select.filter.node;
       this.caret = new Caret(this.input);
     }
     return this.input;
@@ -111,8 +111,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
   addTag(tag) {
     const tags = this.state.tags.concat([tag]);
     this.setState({tags});
-    this.refs.select.clear();
-    this.refs.select.filterValue('');
+    this.select.clear();
+    this.select.filterValue('');
     this.props.onAddTag({tag});
     this.setActiveIndex();
   }
@@ -163,7 +163,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     if (this.props.autoOpen && !this.props.disabled) {
       this.focusInput();
       this.loadSuggestions();
-      this.refs.select._showPopup();
+      this.select._showPopup();
     }
   }
 
@@ -200,7 +200,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   handleKeyDown(event) {
-    if (this.refs.select._popup.isVisible()) {
+    if (this.select._popup.isVisible()) {
       return true;
     }
 
@@ -232,7 +232,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       if (key === 'Backspace' && !this.getInputNode().value) {
         event.preventDefault();
         const tagsLength = this.state.tags.length;
-        this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
+        this.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
         this.onRemoveTag(this.state.tags[tagsLength - 1]);
         return false;
       }
@@ -263,6 +263,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
       >{tag.label}</TagComponent>);
   }
 
+  selectRef = el => {
+    this.select = el;
+  };
+
   render() {
     const classes = classNames(
       'ring-js-shortcuts',
@@ -282,7 +286,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       >
         {renderTags()}
         <Select
-          ref="select"
+          ref={this.selectRef}
           type={Select.Type.INPUT}
           label={this.props.placeholder}
           data={this.state.suggestions}

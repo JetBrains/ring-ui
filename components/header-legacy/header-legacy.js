@@ -266,7 +266,7 @@ export default class Header extends RingComponent {
 
       this.navigationPopup = PopupMenu.renderPopup(
         <PopupMenu
-          anchorElement={this.refs.navigationMenu.node}
+          anchorElement={this.navigationMenu.node}
           autoRemove={true}
           className={this.props.popupClassName}
           data={menuPopupData}
@@ -450,12 +450,12 @@ export default class Header extends RingComponent {
   _setServicesPopupShown(show) {
     if (show) {
       this._servicesPopup = Popup.renderPopup(createElement(Popup, {
-        anchorElement: findDOMNode(this.refs.services),
+        anchorElement: findDOMNode(this.services),
         autoRemove: true,
         className: 'ring-header__services',
         cutEdge: false,
         directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-        onClose: () => this.refs.services.setOpened(false),
+        onClose: () => this.services.setOpened(false),
         sidePadding: 32
       }, <div>
         <div>{this._getPopupTopLine()}</div>
@@ -558,6 +558,26 @@ export default class Header extends RingComponent {
     return this.node.query('.ring-header__menu');
   }
 
+  settingsRef = el => {
+    this.settings = el;
+  }
+
+  helpRef = el => {
+    this.help = el;
+  }
+
+  servicesRef = el => {
+    this.services = el;
+  }
+
+  userMenuRef = el => {
+    this.userMenu = el;
+  }
+
+  loginButtonRef = el => {
+    this.loginButton = el;
+  }
+
   /**
    * @return {Array.<ReactComponent>}
    */
@@ -571,7 +591,7 @@ export default class Header extends RingComponent {
       [MenuItemType.SETTINGS]: (
         <HeaderItem
           key="settings"
-          ref="settings"
+          ref={this.settingsRef}
           testKey="settings"
           glyph={cogIcon}
           href={this.props.settingsLink}
@@ -586,7 +606,7 @@ export default class Header extends RingComponent {
       [MenuItemType.HELP]: (
         <HeaderItem
           key="help"
-          ref="help"
+          ref={this.helpRef}
           testKey="help"
           glyph={helpIcon}
           href={this.props.helpLink}
@@ -599,7 +619,7 @@ export default class Header extends RingComponent {
       [MenuItemType.SERVICES]: (
         <HeaderItem
           key="services"
-          ref="services"
+          ref={this.servicesRef}
           testKey="services"
           glyph={servicesIcon}
           onOpen={::this._onServicesOpen}
@@ -611,7 +631,7 @@ export default class Header extends RingComponent {
       [MenuItemType.USER_MENU]: (
         <HeaderItem
           key="userMenu"
-          ref="userMenu"
+          ref={this.userMenu}
           testKey="user-menu"
           glyph={userIcon}
           onOpen={this.props.onUserMenuOpen}
@@ -623,7 +643,7 @@ export default class Header extends RingComponent {
         <div
           className={loginClassName}
           key="loginButton"
-          ref="loginButton"
+          ref={this.loginButton}
           data-test="header-login-button"
         >
           <Button
@@ -653,14 +673,14 @@ export default class Header extends RingComponent {
    * @return {ReactComponent}
    */
   getUserMenu() {
-    return this.refs.userMenu;
+    return this.userMenu;
   }
 
   /**
    * @return {ReactComponent}
    */
   getSettings() {
-    return this.refs.settings;
+    return this.settings;
   }
 
   /**
@@ -668,8 +688,8 @@ export default class Header extends RingComponent {
    * @param {string} src
    */
   setProfilePicture(src) {
-    if (this.refs.userMenu) {
-      this.refs.userMenu.setState({picture: src});
+    if (this.userMenu) {
+      this.userMenu.setState({picture: src});
     }
   }
 
@@ -691,10 +711,10 @@ export default class Header extends RingComponent {
       onSettingsOpen: () => {
         Promise.resolve(settingsListData).then(data => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
-            anchorElement: findDOMNode(this.refs.settings),
+            anchorElement: findDOMNode(this.settings),
             data,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-            onClose: () => this.refs.settings.setOpened(false),
+            onClose: () => this.settings.setOpened(false),
             onSelect: () => popup.close()
           }));
         });

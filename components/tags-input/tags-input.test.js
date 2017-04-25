@@ -66,7 +66,7 @@ describe('Tags Input', () => {
   it('should auto open popup', () => {
     const tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
 
-    tagsInput.refs.select._popup.isVisible().should.be.true;
+    tagsInput.select._popup.isVisible().should.be.true;
   });
 
   it('Should add tag', function () {
@@ -82,17 +82,17 @@ describe('Tags Input', () => {
 
 
   it('Should clear selected value after adding tag', function () {
-    this.sinon.spy(this.tagsInput.refs.select, 'clear');
+    this.sinon.spy(this.tagsInput.select, 'clear');
     this.tagsInput.addTag({key: 2, label: 'test2'});
 
-    this.tagsInput.refs.select.clear.should.have.been.called;
+    this.tagsInput.select.clear.should.have.been.called;
   });
 
   it('Should clear select input after adding tag', function () {
-    this.sinon.spy(this.tagsInput.refs.select, 'filterValue');
+    this.sinon.spy(this.tagsInput.select, 'filterValue');
     this.tagsInput.addTag({key: 2, label: 'test2'});
 
-    this.tagsInput.refs.select.filterValue.should.have.been.calledWith('');
+    this.tagsInput.select.filterValue.should.have.been.calledWith('');
   });
 
   it('Should copy tags to state on receiving props', function () {
@@ -126,7 +126,7 @@ describe('Tags Input', () => {
   it('Should call datasource when arrow down pressed', function () {
     const dataSource = this.sinon.spy(() => Promise.resolve([]));
     this.tagsInput.rerender({dataSource});
-    this.tagsInput.refs.select.props.onBeforeOpen();
+    this.tagsInput.select.props.onBeforeOpen();
 
     dataSource.should.have.been.calledWith({query: undefined});
   });
