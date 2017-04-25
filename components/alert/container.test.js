@@ -8,7 +8,7 @@ import AlertContainer from './container';
 describe('Alert Container', () => {
   const children = <Alert>{'Test'}</Alert>;
 
-  const renderComponent = props => renderIntoDocument(<AlertContainer {...props}/>);
+  const renderComponent = props => renderIntoDocument(<AlertContainer {...props} />);
 
   it('should render alert container component', () => {
     isCompositeComponentWithType(renderComponent({children}), AlertContainer).should.be.true;

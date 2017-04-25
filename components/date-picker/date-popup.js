@@ -252,7 +252,7 @@ export default class DatePopup extends RingComponent {
             onHover={hoverDate => this.setState({hoverDate})}
             onSelect={date => this.select({[this.state.active]: date})}
           />
-          <Years {...calendarProps}/>
+          <Years {...calendarProps} />
         </div>
       </div>
     );

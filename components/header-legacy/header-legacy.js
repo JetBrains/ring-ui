@@ -641,8 +641,10 @@ export default class Header extends RingComponent {
     const customItems = this.props.customItems.
       map(item => (
         <HeaderItem
+          key={item.glyph}
           {...item}
-        />));
+        />
+      ));
 
     return customItems.concat(predefinedItems);
   }

@@ -30,7 +30,7 @@ describe('Radio', () => {
           value="two"
         >
           {'Two'}
-          </Radio.Item>
+        </Radio.Item>
         <Radio.Item value="three">{'Three'}</Radio.Item>
       </Radio>
     );

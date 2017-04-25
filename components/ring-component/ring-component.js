@@ -36,10 +36,6 @@ export default class RingComponent extends Component {
     return `legacy-${name}${id}`;
   }
 
-  node = null;
-
-  _propsCache = {};
-
   constructor(...props) {
     super(...props);
 
@@ -50,22 +46,6 @@ export default class RingComponent extends Component {
         }
       });
     }
-  }
-
-  rerender(props = {}, callback) {
-    let container;
-
-    try {
-      container = this.node.parentNode;
-    } finally {
-      if (!container) {
-        throw new Error(`${this.constructor.name} component isn't mounted`);
-      }
-    }
-
-    this._propsCache = Object.assign({}, this.props, this._propsCache, props);
-
-    return render(createElement(this.constructor, this._propsCache), container, callback);
   }
 
   // React Lifecycle Methods
@@ -133,7 +113,27 @@ export default class RingComponent extends Component {
     if (this.willUnmount) {
       this.willUnmount();
     }
-
     this.node = null;
   }
+
+  node = null;
+
+  _propsCache = {};
+
+  rerender(props = {}, callback) {
+    let container;
+
+    try {
+      container = this.node.parentNode;
+    } finally {
+      if (!container) {
+        throw new Error(`${this.constructor.name} component isn't mounted`);
+      }
+    }
+
+    this._propsCache = Object.assign({}, this.props, this._propsCache, props);
+
+    return render(createElement(this.constructor, this._propsCache), container, callback);
+  }
+
 }

@@ -11,7 +11,7 @@ import Island, {AdaptiveIsland, Content, Header} from './island';
 const LINE_HEIGHT = '28px';
 
 describe('Island', () => {
-  const renderComponent = params => renderIntoDocument(<Island {...params}/>);
+  const renderComponent = params => renderIntoDocument(<Island {...params} />);
 
   it('should create Island component', () => {
     isCompositeComponentWithType(renderComponent(), Island).should.be.true;
@@ -27,13 +27,13 @@ describe('Island', () => {
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
-      isCompositeComponentWithType(renderIntoDocument(<AdaptiveIsland/>), AdaptiveIsland).should.be.true;
+      isCompositeComponentWithType(renderIntoDocument(<AdaptiveIsland />), AdaptiveIsland).should.be.true;
     });
 
     it('should change header size if content is scrolled', () => {
       const instance = renderIntoDocument(<AdaptiveIsland>
-        <Header/>
-        <Content/>
+        <Header />
+        <Content />
       </AdaptiveIsland>);
 
       const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
@@ -45,12 +45,12 @@ describe('Island', () => {
 
   describe('Header', () => {
     it('should render header', () => {
-      isCompositeComponentWithType(renderIntoDocument(<Header/>), Header).should.be.true;
+      isCompositeComponentWithType(renderIntoDocument(<Header />), Header).should.be.true;
     });
 
     it('should change header size', () => {
       const phase = 0.75;
-      const node = findDOMNode(renderIntoDocument(<Header phase={phase}/>));
+      const node = findDOMNode(renderIntoDocument(<Header phase={phase} />));
       node.style.lineHeight.should.equal(LINE_HEIGHT);
     });
   });

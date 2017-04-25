@@ -48,7 +48,7 @@ describe('Ring Component With Shortcuts', () => {
       }
 
       render() {
-        return <div/>;
+        return <div />;
       }
     }
 
@@ -71,7 +71,7 @@ describe('Ring Component With Shortcuts', () => {
           }
 
           render() {
-            return <div/>;
+            return <div />;
           }
         }
 

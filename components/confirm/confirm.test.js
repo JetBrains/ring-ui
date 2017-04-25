@@ -8,7 +8,7 @@ import Confirm from './confirm';
 
 describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};
-  const renderComponent = props => renderIntoDocument(<Confirm {...props}/>);
+  const renderComponent = props => renderIntoDocument(<Confirm {...props} />);
 
   const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');
 

@@ -8,7 +8,7 @@ import {
 import Island from './island-legacy';
 
 describe('Island Legacy', () => {
-  const renderComponent = params => renderIntoDocument(<Island {...params}/>);
+  const renderComponent = params => renderIntoDocument(<Island {...params} />);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Island).should.be.true;

@@ -28,8 +28,13 @@ class AlertService {
     return (
       <AlertContainer>
         {alerts.map(alert => {
-          const {message, ...rest} = alert;
-          return <Alert {...rest}>{message}</Alert>;
+          const {message, key, ...rest} = alert;
+          return (
+            <Alert
+              key={key}
+              {...rest}
+            >{message}</Alert>
+          );
         })}
       </AlertContainer>
     );

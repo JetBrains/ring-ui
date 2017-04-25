@@ -177,7 +177,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   getBottomLine() {
     return (<div>
-      {this.props.loading && <LoaderInline/>}
+      {this.props.loading && <LoaderInline />}
 
       {this.props.message &&
       <div className="ring-select__message">{this.props.message}</div>}

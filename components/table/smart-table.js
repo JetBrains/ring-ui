@@ -26,17 +26,17 @@ class SmartTable extends PureComponent {
     selection: new Selection({data: this.props.data})
   }
 
-  onSelect = selection => {
-    this.setState({selection});
-    this.props.onSelectionChange(selection);
-  }
-
   componentWillReceiveProps(nextProps) {
     const data = nextProps.data;
     if (this.props.data !== data) {
       const selection = new Selection({data});
       this.setState({selection});
     }
+  }
+
+  onSelect = selection => {
+    this.setState({selection});
+    this.props.onSelectionChange(selection);
   }
 
   render() {

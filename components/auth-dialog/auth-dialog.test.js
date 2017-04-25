@@ -8,7 +8,7 @@ import AuthDialog from './auth-dialog';
 
 describe('AuthDialog', () => {
   const defaultProps = {show: true, text: 'Foo'};
-  const renderComponent = props => renderIntoDocument(<AuthDialog {...props}/>);
+  const renderComponent = props => renderIntoDocument(<AuthDialog {...props} />);
 
   const getContainer = () => document.querySelector('*[data-test="ring-auth-dialog"]');
 

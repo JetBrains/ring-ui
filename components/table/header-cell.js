@@ -27,6 +27,17 @@ export default class HeaderCell extends PureComponent {
     onSort: () => {}
   }
 
+  onClick() {
+    if (this.sortable) {
+      const {column, onSort, sortOrder} = this.props;
+      onSort({column, order: !(this.sorted && sortOrder)});
+    }
+  }
+
+  onChildrenClick(e) {
+    e.stopPropagation();
+  }
+
   render() {
     const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
@@ -58,20 +69,9 @@ export default class HeaderCell extends PureComponent {
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
         {this.sortable && <span className={style.sorter}>
-          <Icon className={style.icon} glyph={iconGlyph} size={ICON_SIZE}/>
+          <Icon className={style.icon} glyph={iconGlyph} size={ICON_SIZE} />
         </span>}
       </th>
     );
-  }
-
-  onClick() {
-    if (this.sortable) {
-      const {column, onSort, sortOrder} = this.props;
-      onSort({column, order: !(this.sorted && sortOrder)});
-    }
-  }
-
-  onChildrenClick(e) {
-    e.stopPropagation();
   }
 }

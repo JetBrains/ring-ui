@@ -42,7 +42,7 @@ describe('Link', () => {
     it('should pass activeClassName to wrapped component', () => {
       const CustomComponent = sinon.stub().returns(null);
       const CustomLink = linkHOC(CustomComponent);
-      renderIntoDocument(<CustomLink/>);
+      renderIntoDocument(<CustomLink />);
       CustomComponent.should.have.been.calledWithMatch({activeClassName: styles.active});
     });
 
@@ -50,7 +50,7 @@ describe('Link', () => {
       const CustomComponent = sinon.stub().returns(null);
       const CustomLink = linkHOC(CustomComponent);
 
-      renderIntoDocument(<CustomLink custom="test"/>);
+      renderIntoDocument(<CustomLink custom="test" />);
       CustomComponent.should.have.been.calledWithMatch({custom: 'test'});
     });
 
@@ -58,7 +58,7 @@ describe('Link', () => {
       const CustomComponent = 'a';
       const CustomLink = linkHOC(CustomComponent);
 
-      renderIntoDocument(<CustomLink/>).props.should.not.have.property('activeClassName');
+      renderIntoDocument(<CustomLink />).props.should.not.have.property('activeClassName');
     });
   });
 });

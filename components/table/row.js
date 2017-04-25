@@ -122,7 +122,7 @@ class Row extends PureComponent {
     const metaColumn = (
       <div className={metaColumnClasses} style={metaColumnStyle}>
         {draggable &&
-          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle}/>
+          <DragHandle alwaysShowDragHandle={alwaysShowDragHandle} />
         }
 
         {selectable &&
@@ -161,7 +161,7 @@ class Row extends PureComponent {
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
 
       return (
-        <Cell key={index} className={cellClasses}>
+        <Cell key={column.id} className={cellClasses}>
           {index === 0 && (draggable || selectable) && metaColumn}
           {value}
         </Cell>
