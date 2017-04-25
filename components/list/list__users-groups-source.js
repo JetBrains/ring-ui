@@ -8,7 +8,10 @@ const defaultOptions = {
   UsersTitle: 'Users',
   NoUsersTitle: 'No users',
 
-  getPluralForUserCount: () => ''
+  getPluralForUserCount: count => {
+    const plural = count % 10 !== 1 || count % 100 === 11;
+    return `${count} member${plural ? 's' : ''}`;
+  }
 };
 
 const Filter = {
@@ -41,23 +44,6 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
     if (filter === Filter.ALL) {
       items.push({
         rgItemType: List.ListProps.Type.SEPARATOR,
-        key: 1,
-        description: this.getGroupsSectionTitle(groups)
-      });
-    }
-
-    if (filter !== Filter.USERS) {
-      groups.forEach(group => items.push({
-        ...group,
-        key: group.id,
-        label: group.name,
-        description: this.listSourceOptions.getPluralForUserCount(group.userCount)
-      }));
-    }
-
-    if (filter === Filter.ALL) {
-      items.push({
-        rgItemType: List.ListProps.Type.SEPARATOR,
         key: 2,
         description: this.getUsersSectionTitle(users)
       });
@@ -70,6 +56,23 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
         label: user.name,
         avatar: user.profile ? user.profile.avatar.url : null,
         description: user.login
+      }));
+    }
+
+    if (filter === Filter.ALL) {
+      items.push({
+        rgItemType: List.ListProps.Type.SEPARATOR,
+        key: 1,
+        description: this.getGroupsSectionTitle(groups)
+      });
+    }
+
+    if (filter !== Filter.USERS) {
+      groups.forEach(group => items.push({
+        ...group,
+        key: group.id,
+        label: group.name,
+        description: this.listSourceOptions.getPluralForUserCount(group.userCount)
       }));
     }
 

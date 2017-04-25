@@ -28,7 +28,6 @@ describe('List Users Groups Source', () => {
     }]));
 
     const dataForList = await source.getForList();
-
     dataForList.should.contain({
       id: 1,
       login: 'testUser',
@@ -66,7 +65,7 @@ describe('List Users Groups Source', () => {
       name: 'test group',
       label: 'test group',
       type: 'userGroup',
-      description: '',
+      description: '123 members',
       userCount: 123
     });
   });
@@ -89,7 +88,7 @@ describe('List Users Groups Source', () => {
     }]));
 
     const dataForList = await source.getForList();
-    dataForList[1].description.should.equal('123 text');
+    dataForList[3].description.should.equal('123 text');
   });
 
   it('Should display "No users" title if no users found', async function () {
@@ -101,7 +100,7 @@ describe('List Users Groups Source', () => {
       returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
     const dataForList = await source.getForList();
-    dataForList[2].description.should.equal('No users');
+    dataForList[0].description.should.equal('No users');
   });
 
   it('Should display "No groups" title if no groups found', async function () {
@@ -116,6 +115,6 @@ describe('List Users Groups Source', () => {
     this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
 
     const dataForList = await source.getForList();
-    dataForList[0].description.should.equal('No groups');
+    dataForList[2].description.should.equal('No groups');
   });
 });

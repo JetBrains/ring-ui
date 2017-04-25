@@ -32,8 +32,9 @@
   line-height: calc(unit * 4px);
   position: absolute;
   transition: color ease;
-  top: -3px;
+  top: -4px;
   right: 0;
+  color: dark-gray-color;
 
   :global(.ring-loader.ring-loader_inline) {
     top: 2px;
@@ -41,7 +42,7 @@
   }
 
   @nest .inputMode & {
-    top: 13px;
+    top: 12px;
   }
 }
 
@@ -49,7 +50,7 @@
   display: inline-block;
   width: calc(2 * unit);
   height: calc(2 * unit);
-  margin: 0 unit;
+  margin: 0 4px;
 
   vertical-align: middle;
 
@@ -60,8 +61,12 @@
 
 .clearIcon {
   &&& {
-    padding: 0;
+    padding: 0 3px;
     vertical-align: -2px;
+  }
+
+  &&&& > span > span {
+    color: dark-gray-color;
   }
 }
 
@@ -89,7 +94,6 @@
   cursor: pointer;
   text-align: left;
   display: inline-block;
-  line-height: calc(unit * 4);
   height: calc(unit * 4 + 1px);
   width: 100%;
   vertical-align: top;
@@ -98,7 +102,7 @@
   outline: none;
   background: transparent;
   box-sizing: border-box;
-  padding: 0;
+  padding: 0 0 3px;
   transition: color ease, border-color ease;
 
   @nest .select:hover &,
@@ -168,4 +172,9 @@
 .avatar {
   margin-right: 4px;
   vertical-align: -5px;
+}
+
+.popup {
+  min-width: calc(unit * 30);
+  max-width: calc(unit * 40);
 }
