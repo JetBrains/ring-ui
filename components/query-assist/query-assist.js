@@ -692,18 +692,20 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     return [...query].map((letter, index, letters) => {
-      const props = {
-        className: classNames([LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS]),
-        key: index + letter
-      };
+      const className = classNames(LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS);
 
-      if (letters.length - 1 === index) {
-        props['data-test'] = 'ring-query-assist-last-letter';
-      }
+      const dataTest = (letters.length - 1 === index)
+        ? 'ring-query-assist-last-letter'
+        : null;
 
       // \u00a0 === &nbsp;
       return (
-        <span {...props}>{letter === ' ' ? '\u00a0' : letter}</span>
+        <span
+          // eslint-disable-next-line react/no-array-index-key
+          key={index + letter}
+          className={className}
+          data-test={dataTest}
+        >{letter === ' ' ? '\u00a0' : letter}</span>
       );
     });
   }
@@ -801,7 +803,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
             className="ring-query-assist__icon ring-query-assist__icon_loader"
             ref="loader"
           >
-            <LoaderInline/>
+            <LoaderInline />
           </div>
         )}
         {renderClear && (
