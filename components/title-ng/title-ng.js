@@ -13,56 +13,59 @@
 
 const angularModule = angular.module('Ring.title', []);
 
-angularModule.directive('rgPageTitle', () => ({
-  scope: {
-    rgPageTitle: '@?',
-    noTitle: '@?',
-    delimiter: '@'
-  },
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgPageTitle', function rgPageTitleDirective() {
+  return ({
+    scope: {
+      rgPageTitle: '@?',
+      noTitle: '@?',
+      delimiter: '@'
+    },
 
-  controller($rootScope, $scope, $element, $attrs, pageTitle, $injector) {
-    const element = $element[0];
+    controller: function controller($rootScope, $scope, $element, $attrs, pageTitle, $injector) {
+      const element = $element[0];
 
-    // Get title prefix from title element
-    const elementText = element.textContent;
-    let offScopeWatch = angular.noop;
+      // Get title prefix from title element
+      const elementText = element.textContent;
+      let offScopeWatch = angular.noop;
 
-    // Set page title on route change
-    const offRouteWatch = $rootScope.$on('$routeChangeSuccess', (event, current) => {
-      //Do nothing if we're being redirected
-      if (current.$$route && current.$$route.redirectTo) { // eslint-disable-line angular/no-private-call
-        return;
-      }
-      let routeTitle = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
-
-      pageTitle.setCurrent($scope.rgPageTitle || elementText);
-
-      // Use title: false to prevent title change on route
-      if (routeTitle !== false) {
-        if (angular.isArray(routeTitle) || angular.isFunction(routeTitle)) {
-          //Invoke injector
-          routeTitle = $injector.invoke(routeTitle);
+      // Set page title on route change
+      const offRouteWatch = $rootScope.$on('$routeChangeSuccess', (event, current) => {
+        //Do nothing if we're being redirected
+        if (current.$$route && current.$$route.redirectTo) { // eslint-disable-line angular/no-private-call
+          return;
         }
-        pageTitle.addElement(routeTitle || $scope.noTitle);
-      }
-    });
+        let routeTitle = current.$$route && current.$$route.title; // eslint-disable-line angular/no-private-call
 
-    $scope.$on('$destroy', () => {
-      offRouteWatch();
-      offScopeWatch();
-    });
+        pageTitle.setCurrent($scope.rgPageTitle || elementText);
 
-    this.$onInit = () => {
-      pageTitle.setDelimiter($scope.delimiter);
+        // Use title: false to prevent title change on route
+        if (routeTitle !== false) {
+          if (angular.isArray(routeTitle) || angular.isFunction(routeTitle)) {
+            //Invoke injector
+            routeTitle = $injector.invoke(routeTitle);
+          }
+          pageTitle.addElement(routeTitle || $scope.noTitle);
+        }
+      });
 
-      if ($attrs.rgPageTitle) {
-        offScopeWatch = $scope.$watch('rgPageTitle', newBaseTitle => {
-          pageTitle.setRootElement(newBaseTitle);
-        });
-      }
-    };
-  }
-}));
+      $scope.$on('$destroy', () => {
+        offRouteWatch();
+        offScopeWatch();
+      });
+
+      this.$onInit = () => {
+        pageTitle.setDelimiter($scope.delimiter);
+
+        if ($attrs.rgPageTitle) {
+          offScopeWatch = $scope.$watch('rgPageTitle', newBaseTitle => {
+            pageTitle.setRootElement(newBaseTitle);
+          });
+        }
+      };
+    }
+  });
+});
 
 angularModule.service('pageTitle', function ($interpolate) {
   let delimiter = ' | ';

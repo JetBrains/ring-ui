@@ -52,7 +52,7 @@ function rgAvatarEditor() {
     },
     template: require('./avatar-editor-ng.html'),
     transclude: true,
-    controller($scope, $attrs, RingMessageBundle) {
+    controller: ['$scope', '$attrs', 'RingMessageBundle', function controller($scope, $attrs, RingMessageBundle) {
       let fileInput;
       $scope.editIcon = editIcon;
 
@@ -131,7 +131,7 @@ function rgAvatarEditor() {
           $scope.model = data;
         }
       };
-    }
+    }]
   };
 }
 
@@ -139,7 +139,7 @@ function rgAvatarEditorFileInput() {
   return {
     restrict: 'A',
     require: '^rgAvatarEditor',
-    link(scope, iElement, iAttrs, avatarEditorCtrl) {
+    link: function link(scope, iElement, iAttrs, avatarEditorCtrl) {
       avatarEditorCtrl.registerFileInput(iElement[0]);
     }
   };

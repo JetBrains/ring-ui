@@ -1,6 +1,7 @@
 import 'core-js/modules/es7.array.includes';
 import searchIcon from 'jetbrains-icons/search.svg';
 
+import RingAngularComponent from '../global/ring-angular-component';
 import sniffer from '../global/sniffer';
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
@@ -65,14 +66,13 @@ const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, Sho
 const getTitle = title => (typeof title === 'function' ? title() : title);
 
 
-class HintPopupService {
-  constructor(dialog, shortcuts) {
-    this.dialog = dialog;
-    this.shortcuts = shortcuts;
-  }
+class HintPopupService extends RingAngularComponent {
+  static $inject = ['dialog', 'shortcuts'];
 
   show(popupConfig = {}, shortcutModes, okButtonLabel = 'Got it', searchPlaceholder = 'Search') {
-    const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
+    const {dialog, shortcuts} = this.$inject;
+
+    const modes = shortcutModes || shortcuts.getRegisteredShortcuts();
 
     modes.forEach(mode => {
       mode.shortcuts.forEach(shortcut => {
@@ -84,7 +84,7 @@ class HintPopupService {
       });
     });
 
-    return this.dialog.show(Object.assign({
+    return dialog.show(Object.assign({
       template: HintPopupTpl,
       closeOnClick: true,
       autoWidth: true,

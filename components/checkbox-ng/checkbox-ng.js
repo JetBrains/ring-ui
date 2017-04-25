@@ -81,18 +81,21 @@ const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-angularModule.directive('rgCheckbox', () => ({
-  restrict: 'E',
-  transclude: true,
-  replace: true,
-  template: proxyAttrs(require('./checkbox-ng.html')),
-  link(scope, iElement) {
-    const input = iElement[0].query('.ring-checkbox__input');
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    template: proxyAttrs(require('./checkbox-ng.html')),
+    link: function link(scope, iElement) {
+      const input = iElement[0].query('.ring-checkbox__input');
 
-    const id = CHECKBOX_ID_PREFIX + idCounter++;
-    iElement[0].setAttribute('for', id);
-    input.setAttribute('id', id);
-  }
-}));
+      const id = CHECKBOX_ID_PREFIX + idCounter++;
+      iElement[0].setAttribute('for', id);
+      input.setAttribute('id', id);
+    }
+  };
+});
 
 export default angularModule.name;

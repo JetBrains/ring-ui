@@ -43,7 +43,8 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 /* global angular: false */
 const angularModule = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
-angularModule.directive('rgSelect', () => {
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgSelect', function rgSelectDirective() {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
@@ -108,13 +109,13 @@ angularModule.directive('rgSelect', () => {
     bindToController: true,
     controllerAs: 'selectCtrl',
     require: ['?ngModel', 'rgSelect'],
-    link(scope, iElement, iAttrs, ctrls) {
+    link: function link(scope, iElement, iAttrs, ctrls) {
       const ngModelCtrl = ctrls[0];
       const rgSelectCtrl = ctrls[1];
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
-    controller($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
+    controller: function controller($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
       /*eslint-disable consistent-this*/
       const ctrl = this;
       /*eslint-enable consistent-this*/

@@ -39,81 +39,84 @@ import './docked-panel-ng.scss';
 /* global angular:false */
 const angularModule = angular.module('Ring.docked-panel', []);
 
-angularModule.directive('rgDockedPanel', () => ({
-  link(scope, element, attrs) {
-    const CSS_CLASS_NAME = 'ring-docked-panel';
-    const dockedPanelClass = attrs.rgDockedPanelClass || '';
-    let initialPos;
-    let isDocked;
-
-    /**
-     * Container
-     * @type {Element} panel
-     */
-    const panel = element[0];
-
-    /**
-     * Save panel initial rects and left margin for further use
-     */
-    function saveInitialPos() {
-      const panelClientRect = panel.getBoundingClientRect();
-      initialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
-    }
-
-    /**
-     * Docks the panel to the bottom of the page
-     */
-    function dock() {
-      panel.classList.add(CSS_CLASS_NAME);
-      if (dockedPanelClass) {
-        panel.classList.add(dockedPanelClass);
-      }
-      isDocked = true;
-    }
-
-    function undock() {
-      panel.classList.remove(CSS_CLASS_NAME);
-      if (dockedPanelClass) {
-        panel.classList.remove(dockedPanelClass);
-      }
-      isDocked = false;
-    }
-
-    /**
-     * Check panel position
-     */
-    function checkPanelPosition() {
-      const currentPanelRect = panel.getBoundingClientRect();
-
-      if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isDocked) {
-        dock();
-      } else if (isDocked && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= initialPos) {
-        undock();
-      }
-    }
-
-    function init() {
-      const scrollListener = debounce(checkPanelPosition, 10);
+// eslint-disable-next-line prefer-arrow-callback
+angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
+  return {
+    link: function link(scope, element, attrs) {
+      const CSS_CLASS_NAME = 'ring-docked-panel';
+      const dockedPanelClass = attrs.rgDockedPanelClass || '';
+      let initialPos;
+      let isDocked;
 
       /**
-       * Wait until all content on the page is loaded
+       * Container
+       * @type {Element} panel
        */
-      scope.$applyAsync(() => {
-        window.addEventListener('scroll', scrollListener);
-        window.addEventListener('resize', checkPanelPosition);
+      const panel = element[0];
 
-        scope.$on('$destroy', () => {
-          window.removeEventListener('scroll', scrollListener);
-          window.removeEventListener('resize', checkPanelPosition);
+      /**
+       * Save panel initial rects and left margin for further use
+       */
+      function saveInitialPos() {
+        const panelClientRect = panel.getBoundingClientRect();
+        initialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
+      }
+
+      /**
+       * Docks the panel to the bottom of the page
+       */
+      function dock() {
+        panel.classList.add(CSS_CLASS_NAME);
+        if (dockedPanelClass) {
+          panel.classList.add(dockedPanelClass);
+        }
+        isDocked = true;
+      }
+
+      function undock() {
+        panel.classList.remove(CSS_CLASS_NAME);
+        if (dockedPanelClass) {
+          panel.classList.remove(dockedPanelClass);
+        }
+        isDocked = false;
+      }
+
+      /**
+       * Check panel position
+       */
+      function checkPanelPosition() {
+        const currentPanelRect = panel.getBoundingClientRect();
+
+        if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isDocked) {
+          dock();
+        } else if (isDocked && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= initialPos) {
+          undock();
+        }
+      }
+
+      function init() {
+        const scrollListener = debounce(checkPanelPosition, 10);
+
+        /**
+         * Wait until all content on the page is loaded
+         */
+        scope.$applyAsync(() => {
+          window.addEventListener('scroll', scrollListener);
+          window.addEventListener('resize', checkPanelPosition);
+
+          scope.$on('$destroy', () => {
+            window.removeEventListener('scroll', scrollListener);
+            window.removeEventListener('resize', checkPanelPosition);
+          });
+
+          saveInitialPos();
+          checkPanelPosition();
         });
+      }
 
-        saveInitialPos();
-        checkPanelPosition();
-      });
+      init();
     }
-
-    init();
-  }
-}));
+  };
+});
 
 export default angularModule.name;
