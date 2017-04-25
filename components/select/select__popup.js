@@ -72,6 +72,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     });
   }
 
+  _focusAndStoreInput = el => {
+    this.filter = el;
+    if (el) {
+      findDOMNode(el).focus();
+    }
+  };
+
   didMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
   }
@@ -154,12 +161,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             rgShortcutsMap={this.popupFilterShortcuts.map}
 
             value={this.props.filterValue}
-            inputRef={el => {
-              this.filter = el;
-              if (el) {
-                findDOMNode(el).focus();
-              }
-            }}
+            inputRef={this._focusAndStoreInput}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.popupFilterOnFocus}
             className="ring-js-shortcuts ring-input_filter-popup"
