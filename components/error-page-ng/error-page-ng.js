@@ -14,7 +14,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @example
    <example name="Error Page Ng">
      <file name="index.html">
-      <div ng-app="Ring.error-page">
+      <div ng-app="Ring.error-page" ng-strict-di>
           <div class="app" rg-error-page-background>
               <div rg-error-page="{error: {status: 403}}"></div>
           </div>

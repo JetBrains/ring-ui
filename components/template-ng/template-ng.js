@@ -6,7 +6,7 @@ import RingAngularComponent from '../global/ring-angular-component';
  * @example
     <example name="Template Ng">
       <file name="index.html">
-        <div ng-app="Example.template-ng">
+        <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="'<input/>'"></rg-template>
         </div>
       </file>
@@ -21,7 +21,7 @@ import RingAngularComponent from '../global/ring-angular-component';
 
     <example name="Template Ng 2">
       <file name="index.html">
-        <div ng-app="Example.template-ng">
+        <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>
         </div>
       </file>

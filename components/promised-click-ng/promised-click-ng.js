@@ -7,7 +7,7 @@ import 'dom4';
  * @example
     <example name="Promised Click Ng">
       <file name="index.html">
-        <div class="button-example" ng-app="button-test" ng-controller="testController as ctrl">
+        <div class="button-example" ng-app="button-test" ng-strict-di ng-controller="testController as ctrl">
           <rg-button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</rg-button>
           <rg-button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
           <rg-button class="ring-button" rg-promised-click test-directive>Via the controller</rg-button>

@@ -9,7 +9,7 @@ import '../link/link.scss';
  * @example
     <example name="link-ng">
       <file name="index.html">
-        <div id="link" ng-app="TestApp">
+        <div id="link" ng-app="TestApp" ng-strict-di>
           <rg-link href="http://example.com" class="test-class">Open example</rg-link>
         </div>
       </file>

@@ -9,7 +9,7 @@ import '../link/link.scss';
  * @example
    <example name="Breadcrumb Ng">
      <file name="index.html">
-     <div ng-app="Example.breadcrumb">
+     <div ng-app="Example.breadcrumb" ng-strict-di>
        <div ng-controller="DemoCtrl">
          <rg-breadcrumb label="First level" link="test/href1">
            <rg-breadcrumb label="Second level" on-click="clickSecondLevel()">
