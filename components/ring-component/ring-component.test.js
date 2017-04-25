@@ -7,7 +7,7 @@ describe('Ring Component', () => {
 
   class CustomComponent extends RingComponent {
     render() {
-      return <div/>;
+      return <div />;
     }
   }
 

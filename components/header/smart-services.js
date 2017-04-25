@@ -22,6 +22,18 @@ export default class SmartServices extends Component {
     services: null
   }
 
+  componentDidMount() {
+    const {auth} = this.props;
+
+    this.http = new HTTP(auth, auth.getAPIPath());
+
+    this.getServices(SmartServices.countFields).then(services => {
+      if (!services.length) {
+        this.setState({visible: false});
+      }
+    }).catch(noop);
+  }
+
   stopLoading = () => {
     this.setState({loading: false});
   }
@@ -37,18 +49,6 @@ export default class SmartServices extends Component {
 
   getServices(fields) {
     return this.http.get(`services/header?fields=${fields}`);
-  }
-
-  componentDidMount() {
-    const {auth} = this.props;
-
-    this.http = new HTTP(auth, auth.getAPIPath());
-
-    this.getServices(SmartServices.countFields).then(services => {
-      if (!services.length) {
-        this.setState({visible: false});
-      }
-    }).catch(noop);
   }
 
   render() {

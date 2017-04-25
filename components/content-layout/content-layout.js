@@ -15,7 +15,9 @@ import styles from './content-layout.css';
  */
 
 export default class ContentLayout extends Component {
-  state = {};
+  static defaultProps = {
+    responsive: true
+  };
 
   static propTypes = {
     children: PropTypes.node,
@@ -23,9 +25,7 @@ export default class ContentLayout extends Component {
     responsive: PropTypes.bool
   };
 
-  static defaultProps = {
-    responsive: true
-  };
+  state = {};
 
   saveContentNode = contentNode => {
     this.setState({contentNode});

@@ -67,7 +67,7 @@ const containerElement = document.createElement('div');
  * Renders Confirm into virtual node to skip mantaining container
  */
 function renderConfirm(props) {
-  render(<Confirm {...props}/>, containerElement);
+  render(<Confirm {...props} />, containerElement);
 }
 
 export default function confirm({

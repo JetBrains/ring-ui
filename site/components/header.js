@@ -34,8 +34,8 @@ const SiteHeader = ({docsItems, ...restProps}) => (
       />
     ))}
     <Tray>
-      <SmartServices auth={auth}/>
-      <SmartProfile auth={auth}/>
+      <SmartServices auth={auth} />
+      <SmartProfile auth={auth} />
     </Tray>
   </Header>
 );
