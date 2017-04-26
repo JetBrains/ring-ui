@@ -5,6 +5,6 @@ import AppRoot from './app-root';
 
 describe('AppRoot', () => {
   it('Should be component', () => {
-    isCompositeComponent(renderIntoDocument(<AppRoot />)).should.be.true;
+    isCompositeComponent(renderIntoDocument(<AppRoot/>)).should.be.true;
   });
 });

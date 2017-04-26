@@ -12,7 +12,7 @@ const rootEl = document.createElement('div');
 
 let renderApp = () => {
   render(
-    <AppRoot />,
+    <AppRoot/>,
     rootEl
   );
 };
