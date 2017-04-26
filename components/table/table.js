@@ -7,8 +7,6 @@
  * @example-file ./table.examples.html
  */
 
-/* eslint-disable react/jsx-max-props-per-line */
-
 import 'core-js/modules/es6.array.find';
 
 import React, {PureComponent} from 'react';

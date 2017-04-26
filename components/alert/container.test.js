@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 import React from 'react';
 import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
 

@@ -57,7 +57,7 @@ export default class Checkbox extends PureComponent {
   };
 
   render() {
-    const {label: labelProp, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {label, ...restProps} = this.props;
     const {checked, disabled} = this.state;
 
     const classes = classNames(
@@ -90,7 +90,7 @@ export default class Checkbox extends PureComponent {
             />}
           </span>
         </span>
-        <span className="ring-checkbox__label">{labelProp}</span>
+        <span className="ring-checkbox__label">{label}</span>
       </label>
     );
   }
