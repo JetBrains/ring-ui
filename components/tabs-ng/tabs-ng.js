@@ -26,7 +26,6 @@ import '../tabs/tabs.scss';
 /* global angular: false */
 const angularModule = angular.module('Ring.tabs', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope) {
   return {
     restrict: 'E',
@@ -198,7 +197,6 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgTabsPane', function rgTabsPaneDirective() {
   return {
     require: '^rgTabs',

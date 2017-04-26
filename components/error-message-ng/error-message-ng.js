@@ -31,7 +31,6 @@ import '../error-message-ng/error-message-ng.scss';
 
 const angularModule = angular.module('Ring.error-message', [iconNg]);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
   return {
     replace: true,

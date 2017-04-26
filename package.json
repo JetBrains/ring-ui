@@ -94,7 +94,7 @@
     "docpack-page-generator": "0.0.6",
     "electron": "1.6.2",
     "eslint": "3.11.1",
-    "eslint-config-jetbrains": "2.0.31",
+    "eslint-config-jetbrains": "2.0.33",
     "eslint-nibble": "3.0.0",
     "exports-loader": "0.6.3",
     "extract-loader": "0.0.2",
