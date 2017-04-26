@@ -74,7 +74,9 @@ describe('Analytics Ng', () => {
     });
 
     it('should track event for non-default user action)', () => {
-      const elem = compileTemplate('<a href="#" rg-analytics="category:expand" rg-analytics-on="blur">Link</a>');
+      const elem = compileTemplate(
+        '<a href="#" rg-analytics="category:expand" rg-analytics-on="blur">Link</a>'
+      );
       elem[0].dispatchEvent(new CustomEvent('blur'));
 
       analytics.trackEvent.should.calledWith('category', 'expand');

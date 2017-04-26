@@ -8,8 +8,6 @@
  * @example-file ./table.examples.html
  */
 
-/* eslint-disable react/jsx-max-props-per-line */
-
 import 'core-js/modules/es6.array.find';
 
 import React, {PureComponent} from 'react';
@@ -40,24 +38,24 @@ const DraggableRows = sortableContainer(props => {
 
   return (
     <tbody data-test="ring-table-body">
-    {data.map((item, index) => (
-      <DraggableRow
-        key={getItemKey(item)}
-        level={getItemLevel(item)}
-        index={index}
-        item={item}
-        showFocus={selection.isFocused(item)}
-        focused={selection.isFocused(item)}
-        selectable={selectable && isItemSelectable(item)}
-        selected={selectable && selection.isSelected(item)}
-        onFocus={onRowFocus}
-        onSelect={onRowSelect}
-        collapsible={isItemCollapsible(item)}
-        collapsed={isItemCollapsed(item)}
-        onCollapse={onItemCollapse}
-        onExpand={onItemExpand}
-        {...restProps}
-      />
+      {data.map((item, index) => (
+        <DraggableRow
+          key={getItemKey(item)}
+          level={getItemLevel(item)}
+          index={index}
+          item={item}
+          showFocus={selection.isFocused(item)}
+          focused={selection.isFocused(item)}
+          selectable={selectable && isItemSelectable(item)}
+          selected={selectable && selection.isSelected(item)}
+          onFocus={onRowFocus}
+          onSelect={onRowSelect}
+          collapsible={isItemCollapsible(item)}
+          collapsed={isItemCollapsed(item)}
+          onCollapse={onItemCollapse}
+          onExpand={onItemExpand}
+          {...restProps}
+        />
     ))}
     </tbody>
   );
@@ -121,6 +119,35 @@ class Table extends PureComponent {
     shortcuts: this.props.selectable && this.props.focused,
     userSelectNone: false,
     disabledHover: false
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+    document.addEventListener('keydown', this.onKeyDown, true);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {data, selection, onSelect, selectable} = this.props;
+
+    if (data !== nextProps.data) {
+      onSelect(selection.cloneWith({data: nextProps.data}));
+    }
+
+    if (!nextProps.selectable && nextProps.selectable !== selectable) {
+      onSelect(selection.resetSelection());
+    }
+
+    const shortcuts = nextProps.focused;
+    if (shortcuts !== this.state.shortcuts) {
+      this.setState({shortcuts});
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
   onMouseDown = e => {
@@ -303,34 +330,21 @@ class Table extends PureComponent {
     window.scrollTo(scrollX, scrollY);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {data, selection, onSelect, selectable} = this.props;
-
-    if (data !== nextProps.data) {
-      onSelect(selection.cloneWith({data: nextProps.data}));
-    }
-
-    if (!nextProps.selectable && nextProps.selectable !== selectable) {
-      onSelect(selection.resetSelection());
-    }
-
-    const shortcuts = nextProps.focused;
-    if (shortcuts !== this.state.shortcuts) {
-      this.setState({shortcuts});
-    }
+  shortcutsMap = {
+    up: this.onUpPress,
+    down: this.onDownPress,
+    shift: this.onShiftKeyDown,
+    'shift+up': this.onShiftUpPress,
+    'shift+down': this.onShiftDownPress,
+    home: this.onHomePress,
+    end: this.onEndPress,
+    space: this.onSpacePress,
+    esc: this.onEscPress,
+    'command+a': this.onCmdAPress,
+    'ctrl+a': this.onCmdAPress
   }
 
-  componentDidMount() {
-    document.addEventListener('mousemove', this.onMouseMove);
-    document.addEventListener('mouseup', this.onMouseUp);
-    document.addEventListener('keydown', this.onKeyDown, true);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
-    document.removeEventListener('keydown', this.onKeyDown, true);
-  }
+  shortcutsScope = getUID('ring-table-')
 
   render() {
     const {
@@ -368,10 +382,17 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper">
-        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope} /> : ''}
+        {shortcuts
+          ? (
+            <Shortcuts
+              map={{...this.shortcutsMap, ...this.props.shortcuts}}
+              scope={this.shortcutsScope}
+            />
+          )
+          : ''}
 
         <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
-          <Header {...headerProps} />
+          <Header {...headerProps}/>
           <DraggableRows
             /* Sortable props */
             useDragHandle={true}
@@ -405,22 +426,6 @@ class Table extends PureComponent {
       </div>
     );
   }
-
-  shortcutsMap = {
-    up: this.onUpPress,
-    down: this.onDownPress,
-    shift: this.onShiftKeyDown,
-    'shift+up': this.onShiftUpPress,
-    'shift+down': this.onShiftDownPress,
-    home: this.onHomePress,
-    end: this.onEndPress,
-    space: this.onSpacePress,
-    esc: this.onEscPress,
-    'command+a': this.onCmdAPress,
-    'ctrl+a': this.onCmdAPress
-  }
-
-  shortcutsScope = getUID('ring-table-')
 }
 
 export default focusSensorHOC(Table);

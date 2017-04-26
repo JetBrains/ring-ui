@@ -10,7 +10,7 @@ import Link, {linkHOC} from './link';
 import styles from './link.css';
 
 describe('Link', () => {
-  const renderComponent = props => renderIntoDocument(<Link {...props} />);
+  const renderComponent = props => renderIntoDocument(<Link {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Link).should.be.true;

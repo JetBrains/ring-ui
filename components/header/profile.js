@@ -41,6 +41,7 @@ export default class Profile extends PureComponent {
   }
 
   render() {
+    // eslint-disable-next-line max-len
     const {className, loading, user, profileUrl, LinkComponent, onLogin, onLogout, translations, size, ...props} = this.props;
 
     if (!user) {
@@ -49,7 +50,7 @@ export default class Profile extends PureComponent {
           {...props}
           className={classnames(styles.profileEmpty, className)}
         >
-          <Avatar size={size} />
+          <Avatar size={size}/>
         </div>
       );
     }

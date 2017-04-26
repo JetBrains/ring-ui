@@ -117,7 +117,10 @@ describe('Popup', () => {
 
     it('top-left direction', () => {
       const element = document.createElement('div');
-      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      element.setAttribute(
+        'style',
+        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
+      );
       document.body.append(element);
 
       const popup = renderPopup({
@@ -136,7 +139,10 @@ describe('Popup', () => {
 
     it('bottom-right corner', () => {
       const element = document.createElement('div');
-      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      element.setAttribute(
+        'style',
+        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
+      );
       document.body.append(element);
 
       const popup = renderPopup({
@@ -156,7 +162,10 @@ describe('Popup', () => {
     it('should add specified offset', () => {
       const OFFSET = 10;
       const element = document.createElement('div');
-      element.setAttribute('style', 'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;');
+      element.setAttribute(
+        'style',
+        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
+      );
       document.body.append(element);
 
       const popup = renderPopup({

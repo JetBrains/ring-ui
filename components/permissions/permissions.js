@@ -32,7 +32,9 @@ export default class Permissions {
 
   constructor(auth, config = {}) {
     this.query = Permissions.getPermissionQuery(config.services);
-    this.namesConverter = config.prefix ? Permissions.getDefaultNamesConverter(config.prefix) : config.namesConverter;
+    this.namesConverter = config.prefix
+      ? Permissions.getDefaultNamesConverter(config.prefix)
+      : config.namesConverter;
 
     if (!auth) {
       throw new Error('Parameter auth is required');

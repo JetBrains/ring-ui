@@ -25,7 +25,10 @@ gemini.suite('Grid', () => {
     child.
       setUrl('/grid/responsive-grid.html').
       setCaptureElements('#grid').
-      capture('grid-extra-small', actions => actions.setWindowSize(extraSmall.width, extraSmall.height)).
+      capture(
+        'grid-extra-small',
+        actions => actions.setWindowSize(extraSmall.width, extraSmall.height)
+      ).
       capture('grid-small', actions => actions.setWindowSize(small.width, small.height)).
       capture('grid-middle', actions => actions.setWindowSize(middle.width, small.height)).
       capture('grid-large', actions => actions.setWindowSize(large.width, small.height));
@@ -42,7 +45,10 @@ gemini.suite('Grid', () => {
     child.
       setUrl('/grid/grid-auto-size.html').
       setCaptureElements('*[data-test="auto-size"]').
-      capture('auto-size-xs', actions => actions.setWindowSize(extraSmall.width, extraSmall.height)).
+      capture(
+        'auto-size-xs',
+        actions => actions.setWindowSize(extraSmall.width, extraSmall.height)
+      ).
       capture('auto-size-s', actions => actions.setWindowSize(small.width, small.height)).
       capture('auto-size-md', actions => actions.setWindowSize(middle.width, small.height));
   });

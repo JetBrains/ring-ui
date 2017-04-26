@@ -37,18 +37,24 @@ describe('Error Page Ng', () => {
 
   it('should compile directive to default error if has empty error',
     inject(($rootScope, $compile, RingMessageBundle) => {
-      let elem = window.angular.element('<div rg-error-page="{error: {}}"><div class="content">Hello!</div></div>');
+      let elem = window.angular.
+        element(`
+<div rg-error-page="{error: {}}"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].query('.error-message__title').should.
+        have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
   it('should show error message for 404',
     inject(($rootScope, $compile, RingMessageBundle) => {
-      let elem = window.angular.element('<div rg-error-page="{error: {status: 404}}"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="{error: {status: 404}}"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
@@ -61,7 +67,9 @@ describe('Error Page Ng', () => {
     inject(($rootScope, $compile, $q) => {
       $rootScope.errorSource = $q.defer();
 
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
@@ -74,26 +82,32 @@ describe('Error Page Ng', () => {
   it('should show error message for empty rejected promise',
     inject(($rootScope, $compile, RingMessageBundle, $q) => {
       $rootScope.errorSource = $q.defer();
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.reject();
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].query('.error-message__title').should.
+        have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
   it('should show error message for rejected promise with code 403',
     inject(($rootScope, $compile, RingMessageBundle, $q) => {
       $rootScope.errorSource = $q.defer();
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].query('.error-message__title').should.
+        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -102,13 +116,16 @@ describe('Error Page Ng', () => {
       const df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
 
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       df.reject({status: 403});
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].query('.error-message__title').should.
+        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -123,13 +140,16 @@ describe('Error Page Ng', () => {
       const df = $q.defer();
       $rootScope.errorSource = {$promise: df.promise};
 
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       df.resolve();
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].query('.error-message__title').should.
+        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -145,13 +165,16 @@ describe('Error Page Ng', () => {
       df.promise.catch(() => {});
       $rootScope.errorSource = {$promise: df.promise};
 
-      let elem = window.angular.element('<div rg-error-page="errorSource"><div class="content">Hello!</div></div>');
+      let elem = window.angular.element(`
+<div rg-error-page="errorSource"><div class="content">Hello!</div></div>
+      `);
       elem = $compile(elem)($rootScope);
       df.reject({status: 500});
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].query('.error-message__title').should.
+        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 });

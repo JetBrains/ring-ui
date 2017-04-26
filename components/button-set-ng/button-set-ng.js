@@ -5,7 +5,7 @@
  * @example
    <example name="Button Set Ng">
     <file name="index.html">
-      <div ng-app="TestApp">
+      <div ng-app="TestApp" ng-strict-di>
         <rg-button-set>
           <rg-button>Button 1</rg-button>
           <rg-button>Button 2</rg-button>

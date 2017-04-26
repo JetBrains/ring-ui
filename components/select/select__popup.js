@@ -13,6 +13,8 @@ import Icon from '../icon/icon';
 import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
+import {preventDefault} from '../global/dom';
+import getUID from '../global/get-uid';
 
 import styles from './select.css';
 
@@ -50,20 +52,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   };
 
-  constructor(...args) {
-    super(...args);
-    this.mouseUpHandler = ::this.mouseUpHandler;
-
-    this.popupFilterShortcuts = {
-      map: {
-        up: e => (this.list && this.list.upHandler(e)),
-        down: e => (this.list && this.list.downHandler(e)),
-        enter: e => (this.list && this.list.enterHandler(e)),
-        esc: e => this.props.onCloseAttempt(e),
-        tab: e => this.tabPress(e)
-      }
-    };
-  }
+  popupFilterShortcuts = {
+    map: {
+      up: e => (this.list && this.list.upHandler(e)),
+      down: e => (this.list && this.list.downHandler(e)),
+      enter: e => (this.list && this.list.enterHandler(e)),
+      esc: e => this.props.onCloseAttempt(e),
+      tab: e => this.tabPress(e)
+    }
+  };
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
   popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
@@ -110,21 +107,21 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        tab: ::this.tabPress
+        tab: this.tabPress
       },
-      scope: ::this.constructor.getUID('ring-select-popup-')
+      scope: getUID('select-popup-')
     };
   }
 
-  listOnMouseOut() {
+  listOnMouseOut = () => {
     this.list.clearSelected();
   }
 
-  mouseDownHandler() {
+  mouseDownHandler = () => {
     this.isClickingPopup = true;
   }
 
-  mouseUpHandler() {
+  mouseUpHandler = () => {
     this.isClickingPopup = false;
   }
 
@@ -136,7 +133,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect(selected) {
+  onListSelect = selected => {
     const getSelectItemEvent = () => {
       let event;
       if (document.createEvent) {
@@ -149,11 +146,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.props.onSelect(selected, getSelectItemEvent());
   }
 
-  tabPress(event) {
-    function preventDefault(eve) {
-      return eve && eve.preventDefault && eve.preventDefault();
-    }
-
+  tabPress = event => {
     preventDefault(event);
 
     const listActiveItem = this.list && this.list.state.activeItem;
@@ -201,6 +194,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     </div>);
   }
 
+  listRef = el => {
+    this.list = el;
+  };
+
   getList() {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
@@ -216,9 +213,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           ref={this.listRef}
           restoreActiveIndex={true}
           activateSingleItem={true}
-          onSelect={::this.onListSelect}
-          onMouseOut={::this.listOnMouseOut}
-          onScrollToBottom={::this.props.onLoadMore}
+          onSelect={this.onListSelect}
+          onMouseOut={this.listOnMouseOut}
+          onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
           disableMoveDownOverflow={this.props.loading}
         />
@@ -230,15 +227,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   popupRef = el => {
     this.popup = el;
-  }
+  };
 
   listRef = el => {
     this.list = el;
-  }
+  };
 
   filterRef = el => {
     this.filter = el;
-  }
+  };
 
   render() {
     const classes = classNames(styles.popup, this.props.className);
@@ -257,7 +254,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         directions={this.props.directions}
         top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
         left={this.props.left}
-        onMouseDown={::this.mouseDownHandler}
+        onMouseDown={this.mouseDownHandler}
       >
         {this.getFilter()}
         {this.getList()}

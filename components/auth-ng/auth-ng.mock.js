@@ -4,7 +4,7 @@
  * but we can't stub the correct auth component and should mock all providers.
  */
 export default function AuthProviderMock() {
-  this.$get = $q => {
+  this.$get = ['$q', function get($q) {
     const promise = $q.resolve([]);
 
     return {
@@ -24,5 +24,5 @@ export default function AuthProviderMock() {
       },
       promise
     };
-  };
+  }];
 }

@@ -122,15 +122,6 @@ module.exports = (env = {}) => {
     ]
   };
 
-  if (production) {
-    docsWebpackConfig.plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        mangle: false,
-        sourceMap: true
-      })
-    );
-  }
-
   // if (server) {
   //   docsWebpackConfig.plugins.push(
   //     new webpack.HotModuleReplacementPlugin(),
