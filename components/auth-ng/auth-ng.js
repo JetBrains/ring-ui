@@ -65,7 +65,9 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
   $httpProvider.interceptors.push(['$q', '$injector', 'auth', ($q, $injector, authInstance) => {
     function urlEndsWith(config, suffix) {
-      return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
+      return config &&
+        config.url &&
+        config.url.indexOf(suffix) === config.url.length - suffix.length;
     }
 
     return {
@@ -89,7 +91,9 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
           const $http = $injector.get('$http');
           const {data, method, params, url} = rejection.config;
 
-          return authInstance.auth.forceTokenUpdate().then(() => $http({data, method, params, url}));
+          return authInstance.auth.
+            forceTokenUpdate().
+            then(() => $http({data, method, params, url}));
         }
 
         return $q.reject(rejection);

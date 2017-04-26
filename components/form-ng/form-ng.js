@@ -18,33 +18,34 @@ import '../input/input.scss';
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
-angularModule.factory('getFormErrorMessages', function getFormErrorMessagesDirective(RingMessageBundle) {
-  function msg(id, formError) {
-    const messageBundleId = `form_${id}`;
-    if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
-      return RingMessageBundle[messageBundleId]();
-    }
-
-    const formErrors = (formError && formError[id]) || [];
-    for (let j = 0; j < formErrors.length; ++j) {
-      if (formErrors[j] && formErrors[j].message) {
-        return formErrors[j].message;
+angularModule.factory('getFormErrorMessages',
+  function getFormErrorMessagesDirective(RingMessageBundle) {
+    function msg(id, formError) {
+      const messageBundleId = `form_${id}`;
+      if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
+        return RingMessageBundle[messageBundleId]();
       }
-    }
 
-    return undefined;
-  }
-
-  return formErrors => {
-    const errorMessages = [];
-    for (const key in formErrors) {
-      if (formErrors.hasOwnProperty(key) && formErrors[key]) {
-        errorMessages.push(msg(key, formErrors));
+      const formErrors = (formError && formError[id]) || [];
+      for (let j = 0; j < formErrors.length; ++j) {
+        if (formErrors[j] && formErrors[j].message) {
+          return formErrors[j].message;
+        }
       }
+
+      return undefined;
     }
-    return errorMessages;
-  };
-});
+
+    return formErrors => {
+      const errorMessages = [];
+      for (const key in formErrors) {
+        if (formErrors.hasOwnProperty(key) && formErrors[key]) {
+          errorMessages.push(msg(key, formErrors));
+        }
+      }
+      return errorMessages;
+    };
+  });
 
 /**
  * <div rg-error-bubble="form.name"></div>

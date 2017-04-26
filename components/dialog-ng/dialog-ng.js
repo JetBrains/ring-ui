@@ -21,10 +21,14 @@ import styles from './dialog-ng.css';
  * @example-file ./dialog-ng.examples.html
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg, rgCompilerModuleName]);
+const angularModule = angular.module(
+  'Ring.dialog',
+  [RingButton, PromisedClickNg, rgCompilerModuleName]
+);
 
 class DialogController extends RingAngularComponent {
-  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
+  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile',
+    '$injector', '$controller', 'rgCompiler'];
 
   constructor(...args) {
     super(...args);
@@ -268,7 +272,8 @@ class DialogController extends RingAngularComponent {
         this.serverErrorFields = [];
       }
 
-      const actionResult = button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
+      const actionResult =
+        button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
 
       button.inProgress = true;
 
@@ -293,7 +298,10 @@ class DialogController extends RingAngularComponent {
 
   applyDefaultHandler(isTextAreaShortcut) {
     return event => {
-      if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
+      if (
+        event.target.matches('textarea') !== isTextAreaShortcut ||
+        event.target.matches('button')
+      ) {
         return;
       }
 
@@ -535,7 +543,9 @@ function rgDialogContentDirective($compile, $q) {
 
         return $q.when(scope.dialog.compileTemplate()).
           then(compiledData => {
-            const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
+            const templateScope = isOldDataAPI()
+              ? contentScope
+              : (scope.dialog.config.scope || contentScope);
 
             // XXX(maksimrv): We should put element to directive
             // before link because some directives (shortcuts)

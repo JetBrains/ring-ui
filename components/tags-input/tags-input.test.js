@@ -64,7 +64,9 @@ describe('Tags Input', () => {
   });
 
   it('should auto open popup', () => {
-    const tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags, autoOpen: true}));
+    const tagsInput = renderIntoDocument(
+      React.createElement(TagsInput, {tags: fakeTags, autoOpen: true})
+    );
 
     tagsInput.select._popup.isVisible().should.be.true;
   });

@@ -104,7 +104,11 @@ export function joinBaseURLAndPath(baseUrl, path) {
  * @param {Function} absoluteURLGetter a function that returns absolute URI of current page
  * @return {string} The URL relative to base URL for current page
  */
-export function resolveRelativeURL(relUrl, baseURIGetter = getBaseURI, absoluteURLGetter = getAbsoluteURL) {
+export function resolveRelativeURL(
+  relUrl,
+  baseURIGetter = getBaseURI,
+  absoluteURLGetter = getAbsoluteURL
+) {
   if (baseURIGetter() &&
     (
       sniffer.browser.name === 'firefox' ||
@@ -143,7 +147,8 @@ export function parseQueryString(queryString) {
 
   let matchedQueryPair;
   while ((matchedQueryPair = queryParameterPairRE.exec(queryString)) != null) {
-    urlParams[decode(matchedQueryPair[FIRST_PAIR_ELEMENT])] = decode(matchedQueryPair[SECOND_PAIR_ELEMENT]);
+    urlParams[decode(matchedQueryPair[FIRST_PAIR_ELEMENT])] =
+      decode(matchedQueryPair[SECOND_PAIR_ELEMENT]);
   }
 
   return urlParams;
@@ -166,7 +171,8 @@ export function encodeURL(url, params) {
 
   for (k in params) {
     if (params.hasOwnProperty(k) && params[k] != null) {
-      res += (i++ === 0 ? firstSeparator : '&') + encodeURIComponent(k) + equalsSign + encodeURIComponent(params[k]);
+      res += (i++ === 0 ? firstSeparator : '&') +
+        encodeURIComponent(k) + equalsSign + encodeURIComponent(params[k]);
     }
   }
 

@@ -56,7 +56,8 @@ export default class HeaderHelper {
       onServicesClose: () => header.services.setLoading(false)
     });
 
-    getServices(countFields).then(services => header.setMenuItemEnabled(SERVICES, services.length > 0));
+    getServices(countFields).
+      then(services => header.setMenuItemEnabled(SERVICES, services.length > 0));
   }
 
   /**
@@ -146,7 +147,10 @@ export default class HeaderHelper {
    */
   static getLayoutType() {
     let layout = HeaderHelper.layout.DEFAULT;
-    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const windowWidth =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
     if (windowWidth <= 800) {
       layout = HeaderHelper.layout.COMPACT;
     }

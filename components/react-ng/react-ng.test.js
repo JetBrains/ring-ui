@@ -38,13 +38,21 @@ describe('React Ng', () => {
 
   describe('react directive', () => {
     it('should transfer inlined props to react component', () => {
-      checkPropertyPassingForTemplate('<div react="TestPropsComponent" testprop="\'test\'"></div>', 'testprop', 'test');
+      checkPropertyPassingForTemplate(
+        '<div react="TestPropsComponent" testprop="\'test\'"></div>',
+        'testprop',
+        'test'
+      );
     });
 
     it('should pass props from scope to react component', () => {
       $scope.fromScope = 'fromScopeProperty';
 
-      checkPropertyPassingForTemplate('<div react="TestPropsComponent" from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
+      checkPropertyPassingForTemplate(
+        '<div react="TestPropsComponent" from-scope="fromScope"></div>',
+        'fromScope',
+        'fromScopeProperty'
+      );
     });
 
     it('should write component instance in provided scope field', () => {
@@ -82,15 +90,27 @@ describe('React Ng', () => {
 
   describe('react-static directive', () => {
     it('react-static should transfer props to react component instance', () => {
-      checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" react-testprop="\'test\'"></div>', 'testprop', 'test');
+      checkPropertyPassingForTemplate(
+        '<div react-static="TestPropsComponent" react-testprop="\'test\'"></div>',
+        'testprop',
+        'test'
+      );
     });
 
     it('react-static shouldn\'t transfer props without "react-" prefix', () => {
-      checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" withoutprefix="\'test\'"></div>', 'withoutprefix', undefined);
+      checkPropertyPassingForTemplate(
+        '<div react-static="TestPropsComponent" withoutprefix="\'test\'"></div>',
+        'withoutprefix',
+        undefined
+      );
     });
     it('react-static should pass props from scope to react component', () => {
       $scope.fromScope = 'fromScopeProperty';
-      checkPropertyPassingForTemplate('<div react-static="TestPropsComponent" react-from-scope="fromScope"></div>', 'fromScope', 'fromScopeProperty');
+      checkPropertyPassingForTemplate(
+        '<div react-static="TestPropsComponent" react-from-scope="fromScope"></div>',
+        'fromScope',
+        'fromScopeProperty'
+      );
     });
   });
 });

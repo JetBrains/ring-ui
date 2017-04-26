@@ -20,7 +20,10 @@ import '../table-legacy/table-legacy.scss';
  */
 /*global angular*/
 
-const angularModule = angular.module('Ring.table-legacy', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
+const angularModule = angular.module(
+  'Ring.table-legacy',
+  [TableToolbar, TablePager, Checkbox, PlaceUnder]
+);
 
 angularModule.directive('rgLegacyTable', function rgLegacyTableDirective() {
   return {
@@ -71,76 +74,78 @@ angularModule.directive('rgLegacyTable', function rgLegacyTableDirective() {
   };
 });
 
-angularModule.directive('rgLegacyTableHeader', function rgLegacyTableHeaderDirective(getClosestElementWithCommonParent) {
-  const HEADER_RESIZE_DEBOUNCE = 50;
-  const HEADER_SCROLL_DEBOUNCE = 10;
-  const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
+angularModule.directive('rgLegacyTableHeader',
+  function rgLegacyTableHeaderDirective(getClosestElementWithCommonParent) {
+    const HEADER_RESIZE_DEBOUNCE = 50;
+    const HEADER_SCROLL_DEBOUNCE = 10;
+    const TOOLBAR_FIXED_CLASSNAME = 'ring-table__toolbar-controls_fixed';
 
-  return {
-    restrict: 'E',
-    template: require('./table-legacy-ng__header.html'),
-    transclude: true,
-    replace: true,
-    link: function link(scope, iElement, iAttrs) {
-      const element = iElement[0];
-      let stickToElement = null;
+    return {
+      restrict: 'E',
+      template: require('./table-legacy-ng__header.html'),
+      transclude: true,
+      replace: true,
+      link: function link(scope, iElement, iAttrs) {
+        const element = iElement[0];
+        let stickToElement = null;
 
-      scope.stickToSelector = iAttrs.stickTo;
+        scope.stickToSelector = iAttrs.stickTo;
 
-      //Shortcut for placing under table toolbar
-      if (iAttrs.stickToToolbar !== undefined) {
-        scope.stickToSelector = '.ring-table__toolbar';
-      }
-
-      const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
-      const fixedHeader = element.query('.ring-table__header_sticky');
-
-      const toolbarFixed = () => stickToElement.query(`.${TOOLBAR_FIXED_CLASSNAME}`) !== null;
-
-      /**
-       * Sync header columns width with real table
-       */
-      const resizeFixedHeader = debounce(() => {
-        fixedHeader.style.width = `${scrollableHeader.offsetWidth}px`;
-        const titles = fixedHeader.queryAll('.ring-table__title');
-
-        titles.forEach((titleElement, index) => {
-          const targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
-          titleElement.style.width = getStyles(targetHeaderTitle).width;
-        });
-
-      }, HEADER_RESIZE_DEBOUNCE, true);
-
-      /**
-       * Toggle headers on scroll. Also resize header columns with some big interval
-       */
-      const scrollListener = debounce(() => {
-        if (toolbarFixed()) {
-          fixedHeader.style.display = 'block';
-          scrollableHeader.style.visibility = 'hidden';
-        } else {
-          fixedHeader.style.display = 'none';
-          scrollableHeader.style.visibility = 'visible';
+        //Shortcut for placing under table toolbar
+        if (iAttrs.stickToToolbar !== undefined) {
+          scope.stickToSelector = '.ring-table__toolbar';
         }
 
-        resizeFixedHeader();
-      }, HEADER_SCROLL_DEBOUNCE);
+        const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
+        const fixedHeader = element.query('.ring-table__header_sticky');
 
-      function startSticking() {
-        scope.$evalAsync(() => {
-          window.addEventListener('resize', resizeFixedHeader);
-          window.addEventListener('scroll', scrollListener);
-          scope.$on('rgLegacyTable:itemsChanged', scrollListener);
-        });
-      }
+        const toolbarFixed = () => stickToElement.query(`.${TOOLBAR_FIXED_CLASSNAME}`) !== null;
 
-      if (scope.stickToSelector) {
-        stickToElement = getClosestElementWithCommonParent(element, scope.stickToSelector);
-        startSticking();
+        /**
+         * Sync header columns width with real table
+         */
+        const resizeFixedHeader = debounce(() => {
+          fixedHeader.style.width = `${scrollableHeader.offsetWidth}px`;
+          const titles = fixedHeader.queryAll('.ring-table__title');
+
+          titles.forEach((titleElement, index) => {
+            const targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
+            titleElement.style.width = getStyles(targetHeaderTitle).width;
+          });
+
+        }, HEADER_RESIZE_DEBOUNCE, true);
+
+        /**
+         * Toggle headers on scroll. Also resize header columns with some big interval
+         */
+        const scrollListener = debounce(() => {
+          if (toolbarFixed()) {
+            fixedHeader.style.display = 'block';
+            scrollableHeader.style.visibility = 'hidden';
+          } else {
+            fixedHeader.style.display = 'none';
+            scrollableHeader.style.visibility = 'visible';
+          }
+
+          resizeFixedHeader();
+        }, HEADER_SCROLL_DEBOUNCE);
+
+        function startSticking() {
+          scope.$evalAsync(() => {
+            window.addEventListener('resize', resizeFixedHeader);
+            window.addEventListener('scroll', scrollListener);
+            scope.$on('rgLegacyTable:itemsChanged', scrollListener);
+          });
+        }
+
+        if (scope.stickToSelector) {
+          stickToElement = getClosestElementWithCommonParent(element, scope.stickToSelector);
+          startSticking();
+        }
       }
-    }
-  };
-});
+    };
+  }
+);
 
 angularModule.directive('rgLegacyTableBody', function rgLegacyTableBodyDirective() {
   return {
@@ -201,7 +206,9 @@ angularModule.directive('rgLegacyTableRow', function rgLegacyTableRowDirective()
       };
 
       this.onMouseOut = item => {
-        item && this.selection && item === this.selection.suggestedItem && this.selection.setSuggestedItem(null);
+        item &&
+        this.selection &&
+        item === this.selection.suggestedItem && this.selection.setSuggestedItem(null);
       };
 
       this.hasCheckedItems = () => {
@@ -247,45 +254,46 @@ angularModule.directive('rgLegacyTableRow', function rgLegacyTableRowDirective()
   };
 });
 
-angularModule.directive('rgLegacyTableHeaderCheckbox', function rgLegacyTableHeaderCheckboxDirective() {
-  return {
-    restrict: 'E',
-    require: '^rgLegacyTable',
-    replace: true,
-    template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
+angularModule.
+  directive('rgLegacyTableHeaderCheckbox', function rgLegacyTableHeaderCheckboxDirective() {
+    return {
+      restrict: 'E',
+      require: '^rgLegacyTable',
+      replace: true,
+      template: '<span class="ring-table__header-checkbox"><rg-checkbox ng-click="onClickChange()" ng-model="allChecked"/></span>',
 
-    link: function link(scope, iElement, iAttrs, tableCtrl) {
-      // TODO: reduce number of recheckSelection() calls
-      scope.allChecked = false;
+      link: function link(scope, iElement, iAttrs, tableCtrl) {
+        // TODO: reduce number of recheckSelection() calls
+        scope.allChecked = false;
 
-      function recheckSelection() {
-        if (tableCtrl.items && tableCtrl.items.length) {
-          scope.allChecked = tableCtrl.items.every(item => item.checked);
-        } else {
-          scope.allChecked = false;
+        function recheckSelection() {
+          if (tableCtrl.items && tableCtrl.items.length) {
+            scope.allChecked = tableCtrl.items.every(item => item.checked);
+          } else {
+            scope.allChecked = false;
+          }
         }
-      }
 
-      function markAllItemsAs(state) {
-        tableCtrl.items.forEach(item => {
-          item.checked = state;
+        function markAllItemsAs(state) {
+          tableCtrl.items.forEach(item => {
+            item.checked = state;
+          });
+        }
+
+        scope.$on('rgLegacyTable:itemsChanged', () => {
+          if (scope.allChecked) {
+            markAllItemsAs(true);
+          }
+          recheckSelection();
         });
+        scope.$on('rgLegacyTable:selectionChanged', recheckSelection);
+
+        scope.onClickChange = () => {
+          markAllItemsAs(scope.allChecked);
+        };
       }
-
-      scope.$on('rgLegacyTable:itemsChanged', () => {
-        if (scope.allChecked) {
-          markAllItemsAs(true);
-        }
-        recheckSelection();
-      });
-      scope.$on('rgLegacyTable:selectionChanged', recheckSelection);
-
-      scope.onClickChange = () => {
-        markAllItemsAs(scope.allChecked);
-      };
-    }
-  };
-});
+    };
+  });
 
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model host
@@ -365,7 +373,8 @@ angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirec
       scope.isPullLeft = angular.isDefined(iAttrs.pullLeft);
 
       function adjustUnlimitedColumnWidths() {
-        const unlimitedColumnsCount = element.parentNode.queryAll('.ring-table__column[unlimited]').length;
+        const unlimitedColumnsCount = element.parentNode.
+          queryAll('.ring-table__column[unlimited]').length;
         if (unlimitedColumnsCount > 1) {
           element.style.width = `${(100 / unlimitedColumnsCount).toFixed()}%`;
         }

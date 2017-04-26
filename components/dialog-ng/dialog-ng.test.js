@@ -305,7 +305,13 @@ describe('Dialog Ng', () => {
 
     it('should transclude custom footer', () => {
       const element = renderDialog({
-        template: '<div><rg-dialog-footer><span data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        template: `
+<div>
+  <rg-dialog-footer>
+    <span data-test="customElementFooter">Hello</span>
+  </rg-dialog-footer>
+</div>
+`,
         controllerAs: 'testCtrl',
         controller() {}
       });
@@ -316,7 +322,13 @@ describe('Dialog Ng', () => {
 
     it('should transclude custom footer with ng-if', () => {
       const element = renderDialog({
-        template: '<div><rg-dialog-footer><span ng-if="true" data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        template: `
+<div>
+  <rg-dialog-footer>
+    <span ng-if="true" data-test="customElementFooter">Hello</span>
+  </rg-dialog-footer>
+</div>
+`,
         controllerAs: 'testCtrl',
         controller() {}
       });

@@ -52,7 +52,8 @@ describe('Url', () => {
     });
 
     it('should ignore base url if path is absolute url', () => {
-      joinBaseURLAndPath('http://base.com', 'http://absolute.com').should.be.equal('http://absolute.com');
+      joinBaseURLAndPath('http://base.com', 'http://absolute.com').
+        should.be.equal('http://absolute.com');
     });
 
     afterEach(() => {
@@ -80,15 +81,21 @@ describe('Url', () => {
       sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49 ||
       sniffer.browser.name === 'edge';
 
-    it('should resolve url fragment relative to the base url when <base> tag (standards-compliant)', () => {
-      if (!standardsCompliantRelativeSVG) {
-        return;
+    it(
+      'should resolve url fragment relative to the base url when <base> tag (standards-compliant)',
+      () => {
+        if (!standardsCompliantRelativeSVG) {
+          return;
+        }
+
+        resolveRelativeURL('#test', () => 'uri', () => baseUrl).
+          should.
+          be.
+          equal('http://example.com/#test');
       }
+    );
 
-      resolveRelativeURL('#test', () => 'uri', () => baseUrl).should.be.equal('http://example.com/#test');
-    });
-
-
+    // eslint-disable-next-line max-len
     it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', () => {
       if (standardsCompliantRelativeSVG) {
         return;
@@ -97,14 +104,18 @@ describe('Url', () => {
       resolveRelativeURL('#test', () => 'uri', () => baseUrl).should.be.equal('#test');
     });
 
-    it('should not resolve url fragment relative to the base url when there is no <base> tag', () => {
-      resolveRelativeURL('#test', () => undefined, () => baseUrl).should.be.equal('#test');
-    });
+    it(
+      'should not resolve url fragment relative to the base url when there is no <base> tag',
+      () => {
+        resolveRelativeURL('#test', () => undefined, () => baseUrl).should.be.equal('#test');
+      }
+    );
   });
 
   describe('parseQueryString', () => {
     it('should parse urls correctly', () => {
-      const queryString = 'access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600';
+      const queryString = 'access_token=2YotnFZFEjr1zCsicMWpAA' +
+        '&state=xyz&token_type=example&expires_in=3600';
       /* eslint-disable camelcase */
       parseQueryString(queryString).should.be.deep.equal({
         access_token: '2YotnFZFEjr1zCsicMWpAA',
