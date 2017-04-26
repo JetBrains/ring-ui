@@ -57,7 +57,6 @@ const OPEN_CLASS = 'ring-tooltip-ng_open';
 /*global angular*/
 const name = angular.module('Ring.tooltip', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 name.directive('rgTooltip', function rgTooltipDirective(RgTooltipPopup) {
   return {
     restrict: 'A',
@@ -86,7 +85,6 @@ name.directive('rgTooltip', function rgTooltipDirective(RgTooltipPopup) {
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 name.factory('RgTooltipPopup', function RgTooltipPopupDirective() {
   // eslint-disable-next-line func-names
   return function (anchorElement, textGetter) {

@@ -12,7 +12,6 @@
 /* global angular: false */
 
 const angularModule = angular.module('Ring.compiler', []).
-  // eslint-disable-next-line prefer-arrow-callback
   factory('rgCompiler', function rgCompilerFactory($q, $controller, $injector, $compile) {
     return options => {
       const template = options.template;

@@ -81,7 +81,6 @@ const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
   return {
     restrict: 'E',

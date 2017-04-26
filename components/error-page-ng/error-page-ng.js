@@ -125,7 +125,6 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgErrorPageBackground', function rgErrorPageBackgroundDirective() {
   return {
     restrict: 'A',

@@ -26,7 +26,7 @@ function iterateRecursive(obj, iterator) {
 function addWarningOnPropertiesChange(object, name) {
   iterateRecursive(object, (obj, key) => {
     let value = obj[key];
-    Object.defineProperty(obj, key, { // eslint-disable-line prefer-reflect
+    Object.defineProperty(obj, key, {
       get: () => value,
       set: val => {
         // eslint-disable-next-line no-console
