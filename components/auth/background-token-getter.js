@@ -56,19 +56,6 @@ export default class BackgroundTokenGetter {
 
       let cleanRun;
 
-      function cleanUp() {
-        if (cleanRun) {
-          return;
-        }
-        cleanRun = true;
-        /* eslint-disable no-use-before-define */
-        clearTimeout(timeout);
-        removeStateListener();
-        removeTokenListener();
-        /* eslint-enable no-use-before-define */
-        window.document.body.removeChild(iframe);
-      }
-
       const timeout = setTimeout(() => {
         reject(new Error('Auth Timeout'));
         cleanUp();
@@ -87,6 +74,17 @@ export default class BackgroundTokenGetter {
           reject(new AuthResponseParser.AuthError(state));
         }
       });
+
+      function cleanUp() {
+        if (cleanRun) {
+          return;
+        }
+        cleanRun = true;
+        clearTimeout(timeout);
+        removeStateListener();
+        removeTokenListener();
+        window.document.body.removeChild(iframe);
+      }
 
       this._redirectFrame(iframe, authRequest.url);
     });

@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-max-props-per-line */
-
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -15,8 +13,10 @@ import Icon from '../icon/icon';
 import Cell from './cell';
 import style from './table.css';
 
-const DragHandle = sortableHandle(({alwaysShowDragHandle}) => { // eslint-disable-line arrow-body-style
-  const classes = classNames(style.dragHandle, alwaysShowDragHandle && style.visibleDragHandle);
+const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
+  const classes = classNames(style.dragHandle, {
+    [style.visibleDragHandle]: alwaysShowDragHandle
+  });
 
   return (
     <div className={classes}>

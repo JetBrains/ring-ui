@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import ExtendableError from 'es6-error';
 
 import {parseQueryString} from '../global/url';

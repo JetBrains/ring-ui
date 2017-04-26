@@ -9,7 +9,6 @@
 
 /* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
-/* eslint-disable react/jsx-max-props-per-line */
 
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
@@ -149,7 +148,7 @@ export default class Pager extends PureComponent {
       }
     };
 
-    const getPager = () => { // eslint-disable-line react/no-multi-comp
+    const getPager = () => {
       if (totalPages < 2) {
         return null;
       }

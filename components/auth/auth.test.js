@@ -61,9 +61,8 @@ describe('Auth', () => {
 
     it('should not redirect on object construction', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      /* eslint-disable no-new */
+      // eslint-disable-next-line no-new
       new Auth({serverUri: ''});
-      /* eslint-enable no-new */
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
     });
 

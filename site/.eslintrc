@@ -6,6 +6,9 @@
     "jetbrains/es6",
     "jetbrains/react"
   ],
+  "rules": {
+    "max-len": "warn"
+  },
   "settings": {
     "import/resolver": "webpack"
   }

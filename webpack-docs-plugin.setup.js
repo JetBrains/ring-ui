@@ -97,7 +97,6 @@ function categoriesSorter(a, b) {
  * @param {Object} b Category item object.
  * @returns {number}
  */
-// eslint-disable-next-line complexity
 function categoryItemsSorter(a, b) {
   const aOrder = typeof a.order !== 'undefined' ? a.order : (a.title || '');
   const bOrder = typeof b.order !== 'undefined' ? b.order : (b.title || '');
