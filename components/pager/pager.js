@@ -192,7 +192,9 @@ export default class Pager extends PureComponent {
 
               {buttons}
 
-              {end < totalPages ? <Button onClick={this.handlePageChange(end + 1)}>...</Button> : ''}
+              {end < totalPages
+                ? <Button onClick={this.handlePageChange(end + 1)}>...</Button>
+                : ''}
             </ButtonGroup>
 
             {end < totalPages &&

@@ -252,6 +252,7 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   render() {
+    // eslint-disable-next-line max-len
     const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
     const showing = this.state.display === Display.SHOWING;
 
@@ -446,7 +447,11 @@ export default class Popup extends RingComponentWithShortcuts {
     if (
       this.container && this.container.contains(evt.target) ||
       !this._listenersEnabled ||
-      this.props.dontCloseOnAnchorClick && this._getAnchor() && this._getAnchor().contains(evt.target)
+      (
+        this.props.dontCloseOnAnchorClick &&
+        this._getAnchor() &&
+        this._getAnchor().contains(evt.target)
+      )
     ) {
       return;
     }

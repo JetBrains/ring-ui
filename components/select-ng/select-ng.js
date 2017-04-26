@@ -114,13 +114,16 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       rgSelectCtrl.setNgModelCtrl(ngModelCtrl);
     },
+    // eslint-disable-next-line max-len
     controller: function controller($q, $scope, $element, $attrs, $timeout, SelectOptions, RingMessageBundle) {
       /*eslint-disable consistent-this*/
       const ctrl = this;
       /*eslint-enable consistent-this*/
       const element = $element[0];
       const container = document.createElement('span');
-      const infiniteScrollPackSize = Number(ctrl.infiniteScrollPackSize) || (ctrl.withInfiniteScroll ? 50 : 0);
+      const infiniteScrollPackSize =
+        Number(ctrl.infiniteScrollPackSize) ||
+        (ctrl.withInfiniteScroll ? 50 : 0);
 
       /**
        * Properties
@@ -258,7 +261,8 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             return; // do not process result if its result for other query! ONLY IF QUERY NOT MATCH
           }
 
-          const items = memorizeOptions(results.data || results, skip).map(ctrl.convertNgModelToSelect);
+          const items = memorizeOptions(results.data || results, skip).
+            map(ctrl.convertNgModelToSelect);
           $timeout.cancel(loaderDelayTimeout);
           ctrl.dataReceived = true;
           ctrl.selectInstance.rerender({
@@ -329,7 +333,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
-            if ((!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) || key === 'ArrowDown') {
+            if (
+              (!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) ||
+              key === 'ArrowDown'
+            ) {
               if (!isSelectPopupOpen()) {
                 handler();
               }

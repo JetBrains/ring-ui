@@ -104,7 +104,13 @@ angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
         }
 
         // Skip invisible zones
-        if (next && (!document.documentElement.contains(next.element) || getStyles(next.element).display === 'none')) {
+        if (
+          next &&
+          (
+            !document.documentElement.contains(next.element) ||
+            getStyles(next.element).display === 'none'
+          )
+        ) {
           next = getNext(next, back);
         }
 

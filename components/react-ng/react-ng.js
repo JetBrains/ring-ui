@@ -105,7 +105,11 @@ function reactNgDirective($parse) {
           return;
         }
 
-        if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value !== 'object') {
+        if (
+          iAttrs.hasOwnProperty(name) &&
+          name !== reactDirectiveName &&
+          name !== instanceAttr && typeof value !== 'object'
+        ) {
           // Use React DOM attributes names
           const specialDOMAttrName = specialDOMAttrs[name];
           const propName = specialDOMAttrName || name;
@@ -119,7 +123,10 @@ function reactNgDirective($parse) {
             ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
 
           // Parse as expression
-          const parsedExpression = !specialDOMAttrName && !interpolated && (typeof value === 'string') && $parse(value);
+          const parsedExpression =
+            !specialDOMAttrName &&
+            !interpolated && (typeof value === 'string') &&
+            $parse(value);
 
           if (interpolated) {
             iAttrs.$observe(name, getUpdater(propName));

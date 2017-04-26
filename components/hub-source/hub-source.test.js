@@ -60,7 +60,8 @@ describe('Hub Source', () => {
     source.isClientSideSearch = true;
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
-    const res = source.processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
+    const res = source.
+      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
 
     res.should.deep.equal([{name: 'contain testQuery'}]);
   });
@@ -70,7 +71,8 @@ describe('Hub Source', () => {
     source.isClientSideSearch = false;
     source.filterFn = source.getDefaultFilterFn('testQuery');
 
-    const res = source.processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
+    const res = source.
+      processResults({testItems: [{name: 'not test query'}, {name: 'contain testQuery'}]});
 
     res.should.deep.equal([{name: 'not test query'}, {name: 'contain testQuery'}]);
   });

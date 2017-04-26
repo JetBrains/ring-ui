@@ -34,6 +34,7 @@ export default class Profile extends PureComponent {
   }
 
   render() {
+    // eslint-disable-next-line max-len
     const {className, loading, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
 
     if (!user) {

@@ -387,7 +387,14 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper">
-        {shortcuts ? <Shortcuts map={{...this.shortcutsMap, ...this.props.shortcuts}} scope={this.shortcutsScope}/> : ''}
+        {shortcuts
+          ? (
+            <Shortcuts
+              map={{...this.shortcutsMap, ...this.props.shortcuts}}
+              scope={this.shortcutsScope}
+            />
+          )
+          : ''}
 
         <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
           <Header {...headerProps}/>

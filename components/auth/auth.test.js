@@ -132,7 +132,8 @@ describe('Auth', () => {
       const frozenTime = TokenValidator._epoch();
 
       this.sinon.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
+        returns('http://localhost:8080/hub' +
+          '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
       this.sinon.stub(TokenValidator, '_epoch').returns(frozenTime);
 
       auth = new Auth({
@@ -158,7 +159,8 @@ describe('Auth', () => {
 
     it('should not throw error if user does not have state in local storage', function () {
       this.sinon.stub(AuthResponseParser.prototype, 'getLocation').
-        returns('http://localhost:8080/hub#access_token=000&state=state&token_type=token&expires_in=3600');
+        returns('http://localhost:8080/hub' +
+          '#access_token=000&state=state&token_type=token&expires_in=3600');
 
       auth = new Auth({
         serverUri: '',
@@ -186,8 +188,11 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (reject) {
-        Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        Auth.prototype._redirectCurrentPage.
+          should.be.calledWith('api/rest/oauth2/auth?response_type=token' +
+          '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+          '&request_credentials=default&client_id=1-1-1-1-1' +
+          '&scope=0-0-0-0-0%20youtrack');
         reject.authRedirect.should.be.true;
       }
     });
@@ -211,22 +216,25 @@ describe('Auth', () => {
       }
     });
 
-    it('should not clear location hash if cleanHash = true and there is nothing to clear', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    it(
+      'should not clear location hash if cleanHash = true and there is nothing to clear',
+      async function () {
+        this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+        this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
-      auth = new Auth({
-        serverUri: '',
-        redirect: true,
-        cleanHash: true
-      });
+        auth = new Auth({
+          serverUri: '',
+          redirect: true,
+          cleanHash: true
+        });
 
-      try {
-        await auth.init();
-      } catch (e) {
-        auth.setHash.should.not.have.been.called;
+        try {
+          await auth.init();
+        } catch (e) {
+          auth.setHash.should.not.have.been.called;
+        }
       }
-    });
+    );
 
     it('should not clear location hash if cleanHash = false', async function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
@@ -261,8 +269,10 @@ describe('Auth', () => {
       try {
         await auth.init();
       } catch (e) {
-        Auth.prototype._redirectCurrentPage.should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
+        Auth.prototype._redirectCurrentPage.
+          should.be.calledWith('api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+          '&request_credentials=skip&client_id=0-0-0-0-0&scope=0-0-0-0-0');
       }
     });
   });
@@ -302,8 +312,13 @@ describe('Auth', () => {
 
       await auth.init();
 
-      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+      BackgroundTokenGetter.prototype._redirectFrame.
+        should.have.been.calledWithMatch(
+        sinon.match.any,
+        'api/rest/oauth2/auth?response_type=token&state=unique' +
+        '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
+        '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
+      );
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
 
@@ -323,12 +338,19 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+          calledWithMatch(
+            sinon.match.any,
+            'api/rest/oauth2/auth?response_type=token' +
+            '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+            '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
+          );
 
         // Fallback redirect after second check fail
-        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        Auth.prototype._redirectCurrentPage.should.have.been.
+          calledWith('api/rest/oauth2/auth?response_type=token&state=unique' +
+            '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
 
@@ -345,12 +367,16 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+          calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+            '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         // Fallback redirect after background fail
-        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        Auth.prototype._redirectCurrentPage.should.have.been.
+          calledWith('api/rest/oauth2/auth?response_type=token&state=unique' +
+            '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default' +
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         TokenValidator.prototype._getValidatedToken.should.have.been.calledOnce;
 
@@ -401,8 +427,10 @@ describe('Auth', () => {
         });
       });
       const accessToken = await this.auth.requestToken();
-      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+        calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+          '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
+          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
       // Assert fails in IE for some reason
       if (sniffer.browser.name !== 'ie' && sniffer.browser.name !== 'edge') {
@@ -422,8 +450,10 @@ describe('Auth', () => {
         });
       });
       const accessToken = await this.auth.requestToken();
-      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+        calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
+          '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+          '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
       Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
       accessToken.should.be.equal('token');
     });
@@ -434,10 +464,13 @@ describe('Auth', () => {
       try {
         await this.auth.requestToken();
       } catch (reject) {
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+          calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
+            '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
+            '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+        Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth' +
+          '?response_type=token&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
+          '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         reject.authRedirect.should.be.true;
       }
@@ -485,7 +518,8 @@ describe('Auth', () => {
           fields: 'guest,id,name,profile/avatar/url'
         }
       });
-      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', matchParams);
+      HTTP.prototype.authorizedFetch.should.have.been.
+        calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
 
@@ -541,7 +575,8 @@ describe('Auth', () => {
           fields: 'guest,id,name,profile/avatar/url'
         }
       });
-      HTTP.prototype.authorizedFetch.should.have.been.calledWithMatch('users/me', 'token', matchParams);
+      HTTP.prototype.authorizedFetch.should.have.been.
+        calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
   });
@@ -571,7 +606,8 @@ describe('Auth', () => {
 
       await auth.login();
 
-      auth.listeners.trigger.should.have.been.calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
+      auth.listeners.trigger.should.have.been.
+        calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
     });
 
     it('should not change user in instance', async function () {
@@ -619,9 +655,12 @@ describe('Auth', () => {
 
     it('should clear access token and redirect to logout', async () => {
       await auth.logout();
-      Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-        'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
+      Auth.prototype._redirectCurrentPage.should.have.been.
+        calledWith(
+          'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
+        );
 
       const storedToken = await auth._storage.getToken();
       expect(storedToken).to.be.null;
@@ -637,10 +676,13 @@ describe('Auth', () => {
       await auth.logout({
         message: 'access denied'
       });
-      Auth.prototype._redirectCurrentPage.should.have.been.calledWith('api/rest/oauth2/auth?response_type=token&' +
-        'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
-        'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
-        'message=access%20denied');
+      Auth.prototype._redirectCurrentPage.should.have.been.
+        calledWith(
+          'api/rest/oauth2/auth?response_type=token&' +
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&' +
+          'request_credentials=required&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack&' +
+          'message=access%20denied'
+        );
     });
 
     it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);

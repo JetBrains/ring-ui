@@ -40,11 +40,13 @@ export function getWindowHeight() {
 }
 
 export function getDocumentScrollTop() {
-  return (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  return (document.documentElement && document.documentElement.scrollTop) ||
+    document.body.scrollTop;
 }
 
 export function getDocumentScrollLeft() {
-  return (document.documentElement && document.documentElement.scrollLeft) || document.body.scrollLeft;
+  return (document.documentElement && document.documentElement.scrollLeft) ||
+    document.body.scrollLeft;
 }
 
 export class Listeners {
