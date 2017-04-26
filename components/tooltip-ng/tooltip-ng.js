@@ -14,7 +14,7 @@ import './tooltip-ng.scss';
  * @example
     <example name="Tooltip Ng">
       <file name="index.html">
-        <div class="tooltip-example" ng-app="tooltip-test">
+        <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
           <div ng-controller="testController">
             Some text that needs an explanation
             <span rg-tooltip="'Test message'"
@@ -57,74 +57,79 @@ const OPEN_CLASS = 'ring-tooltip-ng_open';
 /*global angular*/
 const name = angular.module('Ring.tooltip', []);
 
-name.directive('rgTooltip', RgTooltipPopup => ({
-  restrict: 'A',
+name.directive('rgTooltip', function rgTooltipDirective(RgTooltipPopup) {
+  return {
+    restrict: 'A',
 
-  link(scope, iElement, iAttrs) {
-    const element = iElement[0];
-    const getTooltipText = () => {
-      try {
-        return scope.$eval(iAttrs.rgTooltip);
-      } catch (err) {
-        return iAttrs.rgTooltip;
-      }
-    };
-    const popupWrapper = new RgTooltipPopup(element, getTooltipText);
+    link: function link(scope, iElement, iAttrs) {
+      const element = iElement[0];
+      const getTooltipText = () => {
+        try {
+          return scope.$eval(iAttrs.rgTooltip);
+        } catch (err) {
+          return iAttrs.rgTooltip;
+        }
+      };
+      const popupWrapper = new RgTooltipPopup(element, getTooltipText);
 
-    element.addEventListener('mouseover', () => {
-      popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
-      element.classList.add(OPEN_CLASS);
-    });
+      element.addEventListener('mouseover', () => {
+        popupWrapper.displayTooltip(iAttrs.rgTooltipClass);
+        element.classList.add(OPEN_CLASS);
+      });
 
-    element.addEventListener('mouseout', () => {
-      popupWrapper.hideTooltip();
-      element.classList.remove(OPEN_CLASS);
-    });
-  }
-}));
-
-name.factory('RgTooltipPopup', () => function (anchorElement, textGetter) {
-  this.wrapperElement = document.createElement('span');
-
-  this.defaultProps = {
-    anchorElement,
-    maxHeight: 400,
-    attached: false,
-    dontCloseOnAnchorClick: true
-  };
-
-  this.renderPopup = props => {
-    this.popup = render(
-      createElement(Popup, {
-        ...this.defaultProps,
-        ...props
-      }, this.text),
-      this.wrapperElement
-    );
-  };
-
-  this.displayTooltip = customClass => {
-    const text = textGetter();
-    if (!text) {
-      return;
+      element.addEventListener('mouseout', () => {
+        popupWrapper.hideTooltip();
+        element.classList.remove(OPEN_CLASS);
+      });
     }
-
-    this.text = text;
-
-    const className = classNames({
-      'ring-tooltip-ng': true
-    }, customClass);
-
-    this.renderPopup({
-      hidden: false,
-      className
-    });
   };
+});
 
-  this.hideTooltip = () => {
-    this.renderPopup({
-      hidden: true
-    });
+name.factory('RgTooltipPopup', function RgTooltipPopupDirective() {
+  // eslint-disable-next-line func-names
+  return function (anchorElement, textGetter) {
+    this.wrapperElement = document.createElement('span');
+
+    this.defaultProps = {
+      anchorElement,
+      maxHeight: 400,
+      attached: false,
+      dontCloseOnAnchorClick: true
+    };
+
+    this.renderPopup = props => {
+      this.popup = render(
+        createElement(Popup, {
+          ...this.defaultProps,
+          ...props
+        }, this.text),
+        this.wrapperElement
+      );
+    };
+
+    this.displayTooltip = customClass => {
+      const text = textGetter();
+      if (!text) {
+        return;
+      }
+
+      this.text = text;
+
+      const className = classNames({
+        'ring-tooltip-ng': true
+      }, customClass);
+
+      this.renderPopup({
+        hidden: false,
+        className
+      });
+    };
+
+    this.hideTooltip = () => {
+      this.renderPopup({
+        hidden: true
+      });
+    };
   };
 });
 

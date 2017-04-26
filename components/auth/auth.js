@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 
@@ -47,7 +48,6 @@ function noop() {}
  * @example-file ./auth.examples.html
  */
 export default class Auth {
-  /* eslint-disable camelcase */
   constructor(config) {
     if (!config) {
       throw new Error('Config is required');
@@ -103,7 +103,7 @@ export default class Auth {
     this.http = new HTTP(this, API_BASE, fetchConfig);
 
     const getUser = async token => {
-      const user = this.getUser(token);
+      const user = await this.getUser(token);
       this.user = user;
       return user;
     };

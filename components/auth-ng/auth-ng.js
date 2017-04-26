@@ -14,7 +14,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
    * @example
      <example name="Auth Ng">
        <file name="index.html">
-         <div ng-app="test" ng-controller="testCtrl as ctrl">
+         <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
             <h3>User info</h3>
             <pre>{{ ctrl.user | json }}</pre>
          </div>
@@ -24,18 +24,18 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
          import hubConfig from 'ring-ui/site/hub-config';
 
          import 'angular';
-         import 'ring-ui/components/auth-ng/auth-ng';
+         import rgAuth from 'ring-ui/components/auth-ng/auth-ng';
 
-         angular.module('test', ['Ring.auth'])
-           .config(function (authProvider) {
+         angular.module('test', [rgAuth])
+           .config(['authProvider', function (authProvider) {
              authProvider.config(hubConfig);
-           })
-           .controller('testCtrl', function(auth, $q) {
-             var ctrl = this;
+           }])
+           .controller('testCtrl', ['auth', '$q', function(auth, $q) {
+             const ctrl = this;
              $q.resolve(auth.requestUser()).then(function(user) {
               ctrl.user = user;
              });
-           });
+           }]);
        </file>
      </example>
    */
@@ -66,7 +66,9 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
   $httpProvider.interceptors.push(['$q', '$injector', 'auth', ($q, $injector, authInstance) => {
     function urlEndsWith(config, suffix) {
-      return config && config.url && config.url.indexOf(suffix) === config.url.length - suffix.length;
+      return config &&
+        config.url &&
+        config.url.indexOf(suffix) === config.url.length - suffix.length;
     }
 
     return {
@@ -90,7 +92,9 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
           const $http = $injector.get('$http');
           const {data, method, params, url} = rejection.config;
 
-          return authInstance.auth.forceTokenUpdate().then(() => $http({data, method, params, url}));
+          return authInstance.auth.
+            forceTokenUpdate().
+            then(() => $http({data, method, params, url}));
         }
 
         return $q.reject(rejection);
@@ -98,8 +102,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     };
   }]);
 
-  /*@ngInject*/
-  this.$get = ($injector, $log, $sniffer) => {
+  this.$get = function get($injector, $log, $sniffer) {
     // Do not try to init anything without config
     if (!auth) {
       $log.warn('Auth wasn\'t initialized');

@@ -8,7 +8,7 @@ import '../loader-screen/loader-screen.scss';
  * @example
  * <example name="Loader Screen Ng">
     <file name="index.html">
-      <div ng-app="ExampleApp">
+      <div ng-app="ExampleApp" ng-strict-di>
         <div rg-loader-screen="Loading..."></div>
       </div>
     </file>
@@ -94,14 +94,16 @@ angularModule.service('loaderScreen', function ($timeout, $rootScope) {
   /* eslint-enable angular/on-watch */
 });
 
-angularModule.directive('rgLoaderScreen', () => ({
-  restrict: 'A',
+angularModule.directive('rgLoaderScreen', function rgLoaderScreenDirective() {
+  return {
+    restrict: 'A',
 
-  scope: {
-    message: '@rgLoaderScreen'
-  },
+    scope: {
+      message: '@rgLoaderScreen'
+    },
 
-  template: require('./loader-screen-ng.html')
-}));
+    template: require('./loader-screen-ng.html')
+  };
+});
 
 export default angularModule.name;

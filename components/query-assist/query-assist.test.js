@@ -282,8 +282,8 @@ describe('Query Assist', () => {
         placeholder: 'plz'
       });
 
-      this.queryAssist.refs.placeholder.should.exist;
-      this.queryAssist.refs.placeholder.should.have.text('plz');
+      this.queryAssist.placeholder.should.exist;
+      this.queryAssist.placeholder.should.have.text('plz');
     });
 
     it('should not render placeholder when disabled on empty query', function () {
@@ -291,7 +291,7 @@ describe('Query Assist', () => {
         query: ''
       });
 
-      should.not.exist(this.queryAssist.refs.placeholder);
+      should.not.exist(this.queryAssist.placeholder);
     });
 
     it('should render with colors', function () {
@@ -367,7 +367,7 @@ describe('Query Assist', () => {
         glass: true
       });
 
-      this.queryAssist.refs.glass.should.exist;
+      this.queryAssist.glass.should.exist;
     });
 
     it('should not render glass when disabled', function () {
@@ -375,7 +375,7 @@ describe('Query Assist', () => {
         glass: false
       });
 
-      should.not.exist(this.queryAssist.refs.glass);
+      should.not.exist(this.queryAssist.glass);
     });
 
     it('should render clear when enabled', function () {
@@ -383,7 +383,7 @@ describe('Query Assist', () => {
         clear: true
       });
 
-      this.queryAssist.refs.clear.should.exist;
+      this.queryAssist.clear.should.exist;
     });
 
     it('should not render clear when disabled', function () {
@@ -391,7 +391,7 @@ describe('Query Assist', () => {
         clear: false
       });
 
-      should.not.exist(this.queryAssist.refs.clear);
+      should.not.exist(this.queryAssist.clear);
     });
 
     it('should not render clear when query is empty', function () {
@@ -400,7 +400,7 @@ describe('Query Assist', () => {
         query: ''
       });
 
-      should.not.exist(this.queryAssist.refs.clear);
+      should.not.exist(this.queryAssist.clear);
     });
 
     it('should show loader on long request', function () {
@@ -409,7 +409,7 @@ describe('Query Assist', () => {
         loading: true
       });
 
-      this.queryAssist.refs.loader.should.exist;
+      this.queryAssist.loader.should.exist;
     });
   });
 
@@ -436,7 +436,7 @@ describe('Query Assist', () => {
       this.queryAssist.requestData().
         then(() => {
           this.queryAssist._popup.isVisible().should.be.true;
-          this.queryAssist._popup.refs.List.should.exist;
+          this.queryAssist._popup.list.should.exist;
           done();
         });
     });
@@ -469,7 +469,7 @@ describe('Query Assist', () => {
 
       this.queryAssist.requestData().
         then(() => {
-          const list = findDOMNode(this.queryAssist._popup.refs.List);
+          const list = findDOMNode(this.queryAssist._popup.list);
           const {length} = suggestions;
 
           list.queryAll('[data-test=ring-list-item]').should.have.length(length);
@@ -535,7 +535,8 @@ describe('Query Assist', () => {
       return this.queryAssist.requestData().then(() => {
         simulateCombo('down enter');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+        this.queryAssist.input.should.
+          have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
       });
     });
 
@@ -589,7 +590,7 @@ describe('Query Assist', () => {
         onApply
       });
 
-      Simulate.click(findDOMNode(this.queryAssist.refs.glass));
+      Simulate.click(findDOMNode(this.queryAssist.glass));
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
@@ -603,7 +604,7 @@ describe('Query Assist', () => {
         onClear
       });
 
-      Simulate.click(findDOMNode(this.queryAssist.refs.clear));
+      Simulate.click(findDOMNode(this.queryAssist.clear));
       onClear.should.have.been.calledWithExactly();
     });
   });

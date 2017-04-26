@@ -24,7 +24,7 @@ const angularModule = angular.module('Ring.button-group', []);
 function rgButtonGroup() {
   return {
     restrict: 'A',
-    link($scope, iElement) {
+    link: function link($scope, iElement) {
       const element = iElement[0];
       const children = Array.from(element.children);
 

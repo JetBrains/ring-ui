@@ -45,7 +45,7 @@ import RingComponent from '../ring-component/ring-component';
    </file>
  </example>
  */
-export default class extends RingComponent {
+export default class HeaderAuth extends RingComponent {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth),
     getServicesParams: PropTypes.object,
@@ -88,7 +88,7 @@ export default class extends RingComponent {
 
     const setServicesList = services => {
       // Just in case
-      this.refs.header.setMenuItemEnabled(SERVICES, services.length > 0);
+      this.header.setMenuItemEnabled(SERVICES, services.length > 0);
 
       this.setState({
         servicesList: services,
@@ -96,21 +96,21 @@ export default class extends RingComponent {
         onServicesClose: null
       });
 
-      this.refs.header.refs.services.setOpened(true);
-      this.refs.header.refs.services.setLoading(false);
+      this.header.services.setOpened(true);
+      this.header.services.setLoading(false);
     };
 
     this.setState({
       clientId: this.props.clientId || auth.config.client_id,
       onServicesOpen: () => {
-        this.refs.header.refs.services.setLoading(true);
+        this.header.services.setLoading(true);
         getServices(allFields).then(setServicesList);
       },
-      onServicesClose: () => this.refs.header.refs.services.setLoading(false)
+      onServicesClose: () => this.header.services.setLoading(false)
     });
 
     getServices(countFields).
-      then(services => this.refs.header.setMenuItemEnabled(SERVICES, services.length > 0));
+      then(services => this.header.setMenuItemEnabled(SERVICES, services.length > 0));
   }
 
   setUserMenu() {
@@ -128,11 +128,14 @@ export default class extends RingComponent {
         return;
       }
 
-      if (response.profile && response.profile.avatar && response.profile.avatar.type !== 'defaultavatar') {
-        this.refs.header.setProfilePicture(response.profile.avatar.url);
+      if (
+        response.profile &&
+        response.profile.avatar && response.profile.avatar.type !== 'defaultavatar'
+      ) {
+        this.header.setProfilePicture(response.profile.avatar.url);
       }
 
-      this.refs.header.refs.userMenu.setTitle(response.name);
+      this.header.userMenu.setTitle(response.name);
 
       const popupData = [
         {
@@ -153,10 +156,10 @@ export default class extends RingComponent {
 
         onUserMenuOpen: () => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
-            anchorElement: findDOMNode(this.refs.header.refs.userMenu),
-            data: this.refs.header.props.profilePopupData,
+            anchorElement: findDOMNode(this.header.userMenu),
+            data: this.header.props.profilePopupData,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-            onClose: () => this.refs.header.refs.userMenu.setOpened(false)
+            onClose: () => this.header.userMenu.setOpened(false)
           }));
         },
 
@@ -175,21 +178,25 @@ export default class extends RingComponent {
   }
 
   renderLoginButton() {
-    this.refs.header.setMenuItemEnabled(Header.MenuItemType.USER_MENU, false);
-    this.refs.header.setMenuItemEnabled(Header.MenuItemType.LOGIN, true);
+    this.header.setMenuItemEnabled(Header.MenuItemType.USER_MENU, false);
+    this.header.setMenuItemEnabled(Header.MenuItemType.LOGIN, true);
 
     this.setState({
       onLoginClick: () => this.props.auth.logout()
     });
   }
 
+  headerRef = el => {
+    this.header = el;
+  };
+
   render() {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, max-len
     const {auth, getServicesParams, translations, skipServices, skipUserMenu, ...headerProps} = this.props;
 
     return (
       <Header
-        ref="header"
+        ref={this.headerRef}
         {...headerProps}
         {...this.state}
       />

@@ -117,11 +117,6 @@ $ring-input-width: $ring-unit*25;
     top: -2px;
   }
 }
-
-/* Special fix for dialogs */
-.ring-dialog__content .ring-form__label {
-  max-width: 14 * $ring-unit;
-}
 /* End of special fix */
 
 .ring-form__label_title {

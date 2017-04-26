@@ -8,12 +8,12 @@ import Panel from './panel';
 
 describe('Panel', () => {
   it('should create component', () => {
-    const component = renderIntoDocument(<Panel />);
+    const component = renderIntoDocument(<Panel/>);
     isCompositeComponentWithType(component, Panel).should.be.true;
   });
 
   it('should use provided className', () => {
-    const component = renderIntoDocument(<Panel className="custom-class" />);
+    const component = renderIntoDocument(<Panel className="custom-class"/>);
     component.node.should.have.class('custom-class');
   });
 

@@ -15,7 +15,7 @@
             <option name="USE_RELATIVE_INDENTS" value="false" />
           </value>
         </option>
-        <option name="RIGHT_MARGIN" value="80" />
+        <option name="RIGHT_MARGIN" value="100" />
         <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
         <JSCodeStyleSettings>
           <option name="USE_DOUBLE_QUOTES" value="false" />

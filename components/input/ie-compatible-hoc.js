@@ -11,7 +11,7 @@ function noop() {}
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default function ieCompatibleInputHOC(ComposedComponent) {
-  return class extends PureComponent {
+  return class IeCompatibleInput extends PureComponent {
     static propTypes = ComposedComponent.propTypes;
 
     render() {

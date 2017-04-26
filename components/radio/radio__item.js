@@ -21,6 +21,18 @@ export default class Radio extends RingComponent {
     this.uid = this.constructor.getUID('ring-radio-item-');
   }
 
+  inputRef = el => {
+    this.input = el;
+  };
+
+  labelRef = el => {
+    this.label = el;
+  };
+
+  textLabelRef = el => {
+    this.textLabel = el;
+  };
+
   render() {
     const {name, value, onChange} = this.context.ringRadioGroup || {};
     const {className, children, ...restProps} = this.props;
@@ -39,7 +51,7 @@ export default class Radio extends RingComponent {
           name={name}
           id={this.uid}
           {...restProps}
-          ref="input"
+          ref={this.inputRef}
           className="ring-radio"
           type="radio"
           {...optional}
@@ -47,12 +59,12 @@ export default class Radio extends RingComponent {
         <label
           className="ring-radio__label"
           htmlFor={this.uid}
-          ref="label"
+          ref={this.labelRef}
         />
         <label
           className="ring-radio__text-label"
           htmlFor={this.uid}
-          ref="textLabel"
+          ref={this.textLabelRef}
         >
           {children}
         </label>

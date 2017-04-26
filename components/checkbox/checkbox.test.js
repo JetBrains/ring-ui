@@ -7,7 +7,7 @@ import {findDOMNode} from 'react-dom';
 import Checkbox from './checkbox';
 
 describe('Checkbox', () => {
-  const renderComponent = props => renderIntoDocument(<Checkbox {...props} />);
+  const renderComponent = props => renderIntoDocument(<Checkbox {...props}/>);
 
   it('should create component', () => {
     const checkbox = renderComponent();

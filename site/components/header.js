@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 import Auth from '../../components/auth/auth';
-import Header, {Logo, Tray, SmartProfile, SmartServices} from '../../components/header/header';
+import Header, {
+  Logo,
+  Tray,
+  SmartProfile,
+  SmartServices
+} from '../../components/header/header';
 import Link from '../../components/link/link';
 import hubConfig from '../hub-config';
 
@@ -11,7 +16,11 @@ import Item from './item';
 import Version from './version';
 
 const auth = new Auth(hubConfig);
-auth.init();
+auth.init().then(restoreLocation => {
+  if (restoreLocation) {
+    window.location = restoreLocation;
+  }
+});
 
 const SiteHeader = ({docsItems, ...restProps}) => (
   <Header>
@@ -21,7 +30,7 @@ const SiteHeader = ({docsItems, ...restProps}) => (
         size={Logo.Size.Size48}
       />
     </Link>
-    <span>{'Ring UI library '}<Version {...restProps} /></span>
+    <span>{'Ring UI library '}<Version {...restProps}/></span>
     {docsItems.map(item => (
       <Item
         key={item.title}

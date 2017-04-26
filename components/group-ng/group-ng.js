@@ -6,7 +6,7 @@
  * @example
   <example name="rgGroup">
     <file type="html">
-      <div ng-app="Example.group" ng-controller="ExampleCtrl as ctrl">
+      <div ng-app="Example.group" ng-strict-di ng-controller="ExampleCtrl as ctrl">
         <rg-group>
           <rg-button>First item</rg-button>
           <rg-button>Second item</rg-button>

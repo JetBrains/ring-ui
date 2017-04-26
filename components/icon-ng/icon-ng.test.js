@@ -22,7 +22,16 @@ describe('Icon Ng', () => {
     scope.icon = okIcon;
     $compile = _$compile_;
 
-    element = $compile('<rg-icon color="{{color}}" glyph="{{icon}}" loading="loading" size="{{size}}" height="{{height}}" width="{{width}}"></rg-icon>')(scope)[0];
+    element = $compile(`
+      <rg-icon 
+      color="{{color}}" 
+      glyph="{{icon}}" 
+      loading="loading" 
+      size="{{size}}" 
+      height="{{height}}" 
+      width="{{width}}"
+      ></rg-icon>
+    `)(scope)[0];
     scope.$digest();
   }));
 
