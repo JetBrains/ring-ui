@@ -102,7 +102,7 @@ export default class Auth {
     this.http = new HTTP(this, API_BASE, fetchConfig);
 
     const getUser = async token => {
-      const user = this.getUser(token);
+      const user = await this.getUser(token);
       this.user = user;
       return user;
     };
