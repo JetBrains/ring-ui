@@ -79,7 +79,6 @@ angularModule.provider('shortcuts', function () {
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
   return {
     restrict: 'A',
@@ -217,7 +216,6 @@ angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgShortcuts', function rgShortcutsDirective($parse) {
   return {
     restrict: 'A',
@@ -256,7 +254,6 @@ angularModule.directive('rgShortcuts', function rgShortcutsDirective($parse) {
 });
 
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgShortcutsGlobal', function rgShortcutsGlobalDirective(shortcuts) {
   return {
     restrict: 'A',

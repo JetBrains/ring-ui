@@ -5,7 +5,6 @@ import compile from './island-ng-class-fixer';
 
 const angularModule = angular.module('Ring.island-ng.header', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgIslandContent', function islandContentDirective() {
   return {
     transclude: true,

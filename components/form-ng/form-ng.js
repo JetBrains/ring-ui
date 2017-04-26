@@ -18,7 +18,6 @@ import '../input/input.scss';
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.factory('getFormErrorMessages', function getFormErrorMessagesDirective(RingMessageBundle) {
   function msg(id, formError) {
     const messageBundleId = `form_${id}`;
@@ -53,7 +52,6 @@ angularModule.factory('getFormErrorMessages', function getFormErrorMessagesDirec
  *
  * Where form.name is a reference to angularJS form input
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getFormErrorMessages) {
   return {
     scope: {
@@ -101,7 +99,6 @@ angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getForm
  * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgEqualValue', function rgEqualValueDirective() {
   return {
     require: 'ngModel',

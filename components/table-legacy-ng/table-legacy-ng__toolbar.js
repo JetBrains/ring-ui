@@ -6,7 +6,6 @@ import {getDocumentScrollTop} from '../global/dom';
 import '../table-legacy/table-legacy__toolbar.scss';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableToolbar', function rgLegacyTableToolbarDirective() {
   const DEBOUNCE_INTERVAL = 10;
 

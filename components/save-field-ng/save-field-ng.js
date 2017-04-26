@@ -57,7 +57,6 @@ angularModule.constant('rgSaveFieldShortcutsMode', {
   ]
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgSaveField', function rgSaveFieldDirective(RingMessageBundle, $timeout, $q, $compile, $parse) {
   const MULTI_LINE_SPLIT_PATTERN = /(\r\n|\n|\r)/gm;
   const MULTI_LINE_LIST_MODE = 'list';

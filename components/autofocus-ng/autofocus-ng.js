@@ -10,7 +10,6 @@ const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';
 const RING_SELECT = 'rg-select';
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
 
   /**

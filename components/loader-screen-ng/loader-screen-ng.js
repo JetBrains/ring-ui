@@ -94,7 +94,6 @@ angularModule.service('loaderScreen', function ($timeout, $rootScope) {
   /* eslint-enable angular/on-watch */
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLoaderScreen', function rgLoaderScreenDirective() {
   return {
     restrict: 'A',

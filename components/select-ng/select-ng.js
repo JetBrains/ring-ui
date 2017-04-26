@@ -43,7 +43,6 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 /* global angular: false */
 const angularModule = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgSelect', function rgSelectDirective() {
   const types = {
     input: Select.Type.INPUT,
