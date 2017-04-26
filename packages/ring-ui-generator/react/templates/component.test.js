@@ -1,12 +1,15 @@
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+import {
+  renderIntoDocument,
+  isCompositeComponentWithType
+} from 'react-dom/test-utils';
 
 import <%= pascalCaseName %> from './<%= paramCaseName %>';
 
 describe('<%= titleCaseName %>', () => {
-  const renderComponent = props => renderIntoDocument(<<%= pascalCaseName %> {...props} />);
+  const renderComponent = props => renderIntoDocument(<<%= pascalCaseName %> {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), <%= pascalCaseName %>).should.be.true;
@@ -17,7 +20,9 @@ describe('<%= titleCaseName %>', () => {
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    findDOMNode(renderComponent({
+      className: 'test-class'
+    })).should.match('.test-class');
   });
 
   // TODO Add more tests
