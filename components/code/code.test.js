@@ -1,9 +1,9 @@
 import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {render, findDOMNode} from 'react-dom';
 import {renderIntoDocument} from 'react-dom/test-utils';
 
-import Code from './code';
+import Code, {code} from './code';
 
 describe('Code', () => {
   const renderComponent = props => renderIntoDocument(
@@ -25,7 +25,7 @@ describe('Code', () => {
     findDOMNode(renderComponent({language: 'js'})).should.match('.js');
   });
 
-  it('should highlight javascript/JSX', () => {
+  it('should detect javascript/JSX', () => {
     const node = findDOMNode(renderComponent({
       code: `
         import React, {Component} from 'react';
@@ -42,7 +42,7 @@ describe('Code', () => {
     node.should.contain('.xml');
   });
 
-  it('should highlight CSS', () => {
+  it('should detect CSS', () => {
     const node = findDOMNode(renderComponent({
       code: `
         .className {
@@ -54,7 +54,7 @@ describe('Code', () => {
     node.should.contain('.css');
   });
 
-  it('should highlight HTML', () => {
+  it('should detect HTML', () => {
     const node = findDOMNode(renderComponent({
       code: `
         <body>
@@ -63,5 +63,23 @@ describe('Code', () => {
       `
     }));
     node.should.contain('.xml');
+  });
+
+  it('should parse and highlight the code', () => {
+    const node = findDOMNode(renderComponent({
+      code: '"foo"'
+    }));
+    const token = node.query('.hljs-string');
+    token.should.have.text('"foo"');
+  });
+
+  it('should parse and highlight the code after props update', () => {
+    const container = document.createElement('div');
+    render(code`"foo"`, container);
+    const node = findDOMNode(
+      render(code`"bar"`, container)
+    );
+    const token = node.query('.hljs-string');
+    token.should.have.text('"bar"');
   });
 });
