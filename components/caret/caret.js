@@ -97,7 +97,9 @@ export default class Caret {
     let correctedPosition;
 
     if (position === -1) {
-      const value = isContentEditable ? this.target.textContent : this.constructor.normalizeNewlines(this.target.value);
+      const value = isContentEditable
+        ? this.target.textContent
+        : this.constructor.normalizeNewlines(this.target.value);
       correctedPosition = value.length;
     } else {
       correctedPosition = position;
@@ -136,7 +138,10 @@ export default class Caret {
     }
 
     if (range && range.endOffset !== 0 && range.toString() !== '') {
-      offset = getRect(range).right - getRect(this.target).left - (range.startContainer.offsetLeft || 0);
+      offset =
+        getRect(range).right -
+        getRect(this.target).left -
+        (range.startContainer.offsetLeft || 0);
     }
 
     return offset;

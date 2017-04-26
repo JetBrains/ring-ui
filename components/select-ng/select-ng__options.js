@@ -37,7 +37,9 @@ class Options {
 
     this.itemGetter = $parse(match[MATCHES.ITEM]);
     this.labelGetter = (match[MATCHES.LABEL] && $parse(match[MATCHES.LABEL])) || this.itemGetter;
-    this.selectedLabelGetter = match[MATCHES.SELECTED_LABEL] && $parse(match[MATCHES.SELECTED_LABEL]);
+    this.selectedLabelGetter =
+      match[MATCHES.SELECTED_LABEL] &&
+      $parse(match[MATCHES.SELECTED_LABEL]);
     this.descriptionGetter = match[MATCHES.DESCRIPTION] && $parse(match[MATCHES.DESCRIPTION]);
     this.optionVariableName = match[MATCHES.OPTION];
     this.datasourceGetter = $parse(match[MATCHES.ITEMS]);
@@ -105,20 +107,26 @@ class Options {
   }
 
   getKey(option) {
-    return this.getProperty(option, this.trackByGetter) || option[this.constructor.defaultKeyField] || option;
+    return this.getProperty(option, this.trackByGetter) ||
+      option[this.constructor.defaultKeyField] ||
+      option;
   }
 
   getLabel(option) {
     const optionStringValue = typeof option === 'string' ? option : null;
-    return this.getProperty(option, this.labelGetter) || option[this.constructor.defaultLabelField] || optionStringValue;
+    return this.getProperty(option, this.labelGetter) ||
+      option[this.constructor.defaultLabelField] ||
+      optionStringValue;
   }
 
   getSelectedLabel(option) {
-    return this.getProperty(option, this.selectedLabelGetter) || option[this.constructor.defaultSelectedLabelField];
+    return this.getProperty(option, this.selectedLabelGetter) ||
+      option[this.constructor.defaultSelectedLabelField];
   }
 
   getDescription(option) {
-    return this.getProperty(option, this.descriptionGetter) || option[this.constructor.defaultDescriptionField];
+    return this.getProperty(option, this.descriptionGetter) ||
+      option[this.constructor.defaultDescriptionField];
   }
 
   getOptions(query, skip) {

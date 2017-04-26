@@ -128,7 +128,10 @@ export default class HeaderAuth extends RingComponent {
         return;
       }
 
-      if (response.profile && response.profile.avatar && response.profile.avatar.type !== 'defaultavatar') {
+      if (
+        response.profile &&
+        response.profile.avatar && response.profile.avatar.type !== 'defaultavatar'
+      ) {
         this.header.setProfilePicture(response.profile.avatar.url);
       }
 
@@ -188,7 +191,7 @@ export default class HeaderAuth extends RingComponent {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, max-len
     const {auth, getServicesParams, translations, skipServices, skipUserMenu, ...headerProps} = this.props;
 
     return (

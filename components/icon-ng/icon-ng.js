@@ -64,16 +64,19 @@ angularModule.directive('rgIcon', function rgIconDirective() {
         }
       });
 
-      scope.$watch(() => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color], (colorClass, prevColorClass) => {
-        if (colorClass) {
-          iAttrs.$addClass(colorClass);
+      scope.$watch(
+        () => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color],
+        (colorClass, prevColorClass) => {
+          if (colorClass) {
+            iAttrs.$addClass(colorClass);
 
-          // Remove previous class, but don't remove initial one
-          if (prevColorClass && prevColorClass !== colorClass) {
-            iAttrs.$removeClass(prevColorClass);
+            // Remove previous class, but don't remove initial one
+            if (prevColorClass && prevColorClass !== colorClass) {
+              iAttrs.$removeClass(prevColorClass);
+            }
           }
         }
-      });
+      );
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
         if (!width && !height) {

@@ -9,7 +9,9 @@ import Input from '../input/input';
 import ErrorBubble from './error-bubble';
 
 describe('Error Bubble', () => {
-  const renderComponent = params => renderIntoDocument(ErrorBubble.factory(params, Input.factory()));
+  const renderComponent = params => renderIntoDocument(
+    ErrorBubble.factory(params, Input.factory())
+  );
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), ErrorBubble).should.be.true;

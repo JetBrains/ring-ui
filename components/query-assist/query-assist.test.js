@@ -535,7 +535,8 @@ describe('Query Assist', () => {
       return this.queryAssist.requestData().then(() => {
         simulateCombo('down enter');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
+        this.queryAssist.input.should.
+          have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
       });
     });
 
