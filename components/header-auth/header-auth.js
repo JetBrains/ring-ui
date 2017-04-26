@@ -45,7 +45,7 @@ import RingComponent from '../ring-component/ring-component';
    </file>
  </example>
  */
-export default class extends RingComponent {
+export default class HeaderAuth extends RingComponent {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth),
     getServicesParams: PropTypes.object,
