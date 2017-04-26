@@ -73,7 +73,6 @@ class RgTemplateController extends RingAngularComponent {
   }
 }
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgTemplate', function rgTemplateDirective() {
   return {
     controller: RgTemplateController

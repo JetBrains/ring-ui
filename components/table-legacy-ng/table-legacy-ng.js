@@ -22,7 +22,6 @@ import '../table-legacy/table-legacy.scss';
 
 const angularModule = angular.module('Ring.table-legacy', [TableToolbar, TablePager, Checkbox, PlaceUnder]);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTable', function rgLegacyTableDirective() {
   return {
     restrict: 'E',
@@ -72,7 +71,6 @@ angularModule.directive('rgLegacyTable', function rgLegacyTableDirective() {
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableHeader', function rgLegacyTableHeaderDirective(getClosestElementWithCommonParent) {
   const HEADER_RESIZE_DEBOUNCE = 50;
   const HEADER_SCROLL_DEBOUNCE = 10;
@@ -144,7 +142,6 @@ angularModule.directive('rgLegacyTableHeader', function rgLegacyTableHeaderDirec
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableBody', function rgLegacyTableBodyDirective() {
   return {
     restrict: 'E',
@@ -154,7 +151,6 @@ angularModule.directive('rgLegacyTableBody', function rgLegacyTableBodyDirective
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableRow', function rgLegacyTableRowDirective() {
   return {
     template: require('./table-legacy-ng__row.html'),
@@ -251,7 +247,6 @@ angularModule.directive('rgLegacyTableRow', function rgLegacyTableRowDirective()
   };
 });
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableHeaderCheckbox', function rgLegacyTableHeaderCheckboxDirective() {
   return {
     restrict: 'E',
@@ -295,7 +290,6 @@ angularModule.directive('rgLegacyTableHeaderCheckbox', function rgLegacyTableHea
 /**
  * A checkbox cell for table. Uses rg-table-row parent directive as model host
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableCheckboxCell', function rgLegacyTableCheckboxCellDirective() {
   return {
     restrict: 'E',
@@ -321,7 +315,6 @@ angularModule.directive('rgLegacyTableCheckboxCell', function rgLegacyTableCheck
     active: makes title more bolder
   }}
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableTitle', function rgLegacyTableTitleDirective() {
   return {
     restrict: 'E',
@@ -351,7 +344,6 @@ angularModule.directive('rgLegacyTableTitle', function rgLegacyTableTitleDirecti
     avatar: for columns contains avatar
   }}
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirective() {
   return {
     restrict: 'E',

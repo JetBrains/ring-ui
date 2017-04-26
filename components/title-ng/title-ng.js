@@ -13,7 +13,6 @@
 
 const angularModule = angular.module('Ring.title', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgPageTitle', function rgPageTitleDirective() {
   return ({
     scope: {

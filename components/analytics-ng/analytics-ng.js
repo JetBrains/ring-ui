@@ -90,7 +90,6 @@ angularModule.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 /**
  * Enable page tracking
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.run(function analyticsRun($rootScope, analytics) {
   $rootScope.$on('$routeChangeSuccess', (evt, current) => { // eslint-disable-line angular/on-watch
     /* eslint-disable angular/no-private-call */
@@ -110,7 +109,6 @@ angularModule.run(function analyticsRun($rootScope, analytics) {
  *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be sent on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgAnalytics', function rgAnalyticsDirective(analytics) {
   return {
     restrict: 'A',

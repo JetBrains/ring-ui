@@ -16,7 +16,6 @@ import {getDocumentScrollTop} from '../global/dom';
 const resizeDetector = createResizeDetector();
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgPlaceUnder', function rgPlaceUnderDirective($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) {
   return {
     restrict: 'A',
@@ -44,7 +43,6 @@ angularModule.directive('rgPlaceUnder', function rgPlaceUnderDirective($window, 
 });
 
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.factory('getClosestElementWithCommonParent', function getClosestElementWithCommonParentFactory() {
   return function getClosestElementWithCommonParent(currentElement, selector) {
     const parent = currentElement.parentNode;

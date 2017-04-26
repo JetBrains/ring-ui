@@ -98,7 +98,6 @@ angularModule.provider('userPermissions', function () {
  * @element ANY
  * @requires userPermissions
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgPermission', function rgPermissionDirective(userPermissions, $interpolate) {
   return {
     controller: function controller($scope, $element, $attrs) {
@@ -154,7 +153,6 @@ angularModule.directive('rgPermission', function rgPermissionDirective(userPermi
  * @requires $animate
  * @requires userPermissions
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgPermissionIf', function rgPermissionIfDirective($animate, userPermissions, $interpolate) {
   return {
     transclude: 'element',
@@ -229,7 +227,6 @@ angularModule.directive('rgPermissionIf', function rgPermissionIfDirective($anim
  * @restrict A
  * @element ANY
  */
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgSomePermissions', function rgSomePermissionsDirective() {
   return ({
     scope: {

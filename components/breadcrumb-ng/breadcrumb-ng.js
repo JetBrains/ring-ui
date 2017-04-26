@@ -37,7 +37,6 @@ import '../link/link.scss';
 
 const angularModule = angular.module('Ring.breadcrumb', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgBreadcrumb', function rgBreadcrumbDirective() {
   return {
     template: require('./breadcrumb-ng.html'),

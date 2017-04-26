@@ -39,7 +39,6 @@ const CLASS_PREFIX = 'ring-icon_';
 const LOADING_CLASS = `${CLASS_PREFIX}loading`;
 const DEFAULT_SIZE = Size.Size32;
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgIcon', function rgIconDirective() {
   return {
     restrict: 'E',

@@ -39,7 +39,6 @@ import './docked-panel-ng.scss';
 /* global angular:false */
 const angularModule = angular.module('Ring.docked-panel', []);
 
-// eslint-disable-next-line prefer-arrow-callback
 angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
   return {
     link: function link(scope, element, attrs) {
