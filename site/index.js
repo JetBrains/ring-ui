@@ -5,7 +5,9 @@ import 'dom4';
 import React from 'react';
 import {render} from 'react-dom';
 
-import ContentLayout, {Sidebar} from '../components/content-layout/content-layout';
+import ContentLayout, {
+  Sidebar
+} from '../components/content-layout/content-layout';
 
 import {fetchData, fetchNavData} from './utils';
 import Header from './components/header';

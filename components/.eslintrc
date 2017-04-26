@@ -18,8 +18,11 @@
 
     // Stylistic Issues
     "func-names": "warn",
-    "max-len": "warn",
-
+    "max-len": ["warn", 100, {
+      "ignoreComments": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true
+    }],
     // Angular
     "angular/directive-name": ["error", "rg"]
   },
