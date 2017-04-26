@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import memoize from '../global/memoize';
+
 import styles from './tabs.css';
 import Tab from './tab';
 
@@ -17,8 +19,10 @@ export default class Tabs extends PureComponent {
     onSelect() {}
   }
 
+  handleSelect = memoize(key => () => this.props.onSelect(key));
+
   render() {
-    const {className, children, selected, onSelect} = this.props;
+    const {className, children, selected} = this.props;
     const classes = classNames(styles.tabs, className);
 
     return (
@@ -39,7 +43,7 @@ export default class Tabs extends PureComponent {
                 key={key}
                 className={titleClasses}
                 disabled={disabled}
-                onClick={() => onSelect(key)}
+                onClick={this.handleSelect(key)}
               >
                 <span className={styles.visible}>{renderTitle()}</span>
                 {/* hack for preserving constant tab width*/}

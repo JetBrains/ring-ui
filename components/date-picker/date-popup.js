@@ -40,6 +40,36 @@ export default class DatePopup extends Component {
     active: null
   };
 
+  componentWillMount() {
+    const {range, from, to} = this.props;
+
+    if (!range) {
+      this.setState({active: 'date'});
+    } else if (from && !to) {
+      this.setState({active: 'to'});
+    } else {
+      this.setState({active: 'from'});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const name = this.state.active;
+    if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
+      this.setState({text: null});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.active !== prevState.active) {
+      if (this.state.text && prevState.active) {
+        this.confirm(prevState.active);
+      }
+
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({text: null});
+    }
+  }
+
   sameDay(next, prev) {
     const nextMoment = this.parseDate(next);
     const prevMoment = this.parseDate(prev);
@@ -139,36 +169,6 @@ export default class DatePopup extends Component {
     this._scrollDate = scrollDate;
     if (!this._scrollTS) {
       this.scheduleScroll();
-    }
-  }
-
-  componentWillMount() {
-    const {range, from, to} = this.props;
-
-    if (!range) {
-      this.setState({active: 'date'});
-    } else if (from && !to) {
-      this.setState({active: 'to'});
-    } else {
-      this.setState({active: 'from'});
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const name = this.state.active;
-    if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
-      this.setState({text: null});
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.active !== prevState.active) {
-      if (this.state.text && prevState.active) {
-        this.confirm(prevState.active);
-      }
-
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({text: null});
     }
   }
 

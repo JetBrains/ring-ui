@@ -193,7 +193,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(newProps) {
-     this.updateState( newProps);
+    this.updateState(newProps);
   }
 
   didUpdate(prevProps, prevState) {
@@ -221,10 +221,13 @@ export default class Select extends RingComponentWithShortcuts {
       props.selected !== this.props.selected ||
       props.data !== this.props.data
     )) {
-      const selected = props.selected ? props.selected : Select._getEmptyValue(this.props.multiple);
+      const selected = props.selected || Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
-        selectedIndex: this._getSelectedIndex(selected, (props.data ? props.data : this.props.data)),
+        selectedIndex: this._getSelectedIndex(
+          selected,
+          props.data || this.props.data
+        ),
         prevFilterValue: this.getValueForFilter(selected)
       });
       this._rebuildMultipleMap(selected, this.props.multiple);
@@ -325,7 +328,8 @@ export default class Select extends RingComponentWithShortcuts {
       });
 
       if (tryFocusAnchor) {
-        const restoreFocusNode = this.props.targetElement || this.node.query('[data-test=ring-select__focus]');
+        const restoreFocusNode = this.props.targetElement ||
+          this.node.query('[data-test=ring-select__focus]');
         restoreFocusNode.focus();
       }
     }
@@ -363,7 +367,7 @@ export default class Select extends RingComponentWithShortcuts {
           className={styles.button}
           onClick={this.addHandler}
         >
-            {prefix ? `${prefix} ${label}` : label}
+          {prefix ? `${prefix} ${label}` : label}
         </Button>
       );
     }
@@ -759,7 +763,7 @@ export default class Select extends RingComponentWithShortcuts {
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
             placeholder={this._getInputPlaceholder()}
-            onKeyDown={this.props.onKeyDown}
+            onKeyDown={this.props.handleKeyDown}
             data-test="ring-select__focus"
           />
           {iconsNode}
