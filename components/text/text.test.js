@@ -9,7 +9,7 @@ import {
 import Text from './text';
 
 describe('Text', () => {
-  const renderComponent = props => renderIntoDocument(<Text {...props} />);
+  const renderComponent = props => renderIntoDocument(<Text {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Text).should.be.true;

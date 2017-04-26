@@ -5,14 +5,15 @@ import compile from './island-ng-class-fixer';
 
 const angularModule = angular.module('Ring.island-ng.content', []);
 
-const islandHeaderDirective = {
-  transclude: true,
-  replace: true,
-  bindToController: {
-    border: '=?'
-  },
-  compile,
-  template: `
+angularModule.directive('rgIslandHeader', function islandHeaderDirective() {
+  return {
+    transclude: true,
+    replace: true,
+    bindToController: {
+      border: '=?'
+    },
+    compile,
+    template: `
 <div
   data-test="ring-island-header"
   class="${styles.header}"
@@ -20,15 +21,13 @@ const islandHeaderDirective = {
   ng-transclude
 ></div>
 `,
-  controllerAs: 'headerCtrl',
-  controller: function controller() {
-    this.$onInit = () => {
-      this.wrapWithTitle = this.wrapWithTitle !== undefined ? this.wrapWithTitle : true;
-    };
-  }
-};
-
-
-angularModule.directive('rgIslandHeader', () => islandHeaderDirective);
+    controllerAs: 'headerCtrl',
+    controller: function controller() {
+      this.$onInit = () => {
+        this.wrapWithTitle = this.wrapWithTitle !== undefined ? this.wrapWithTitle : true;
+      };
+    }
+  };
+});
 
 export default angularModule.name;

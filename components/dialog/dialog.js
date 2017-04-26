@@ -50,7 +50,7 @@ export default class Dialog extends PureComponent {
   }
 
   handleClick = event => {
-    if (event.target !== this.refs.dialog) {
+    if (event.target !== this.dialog) {
       return;
     }
     this.props.onOverlayClick(event);
@@ -65,19 +65,23 @@ export default class Dialog extends PureComponent {
     this.props.onCloseAttempt(event);
   }
 
+  dialogRef = el => {
+    this.dialog = el;
+  }
+
   render() {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, max-len
     const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
     const classes = classnames(styles.container, className);
 
     return (
       <Portal
         isOpen={show}
-        onOpen={() => ScrollPreventer.prevent()}
-        onClose={() => ScrollPreventer.reset()}
+        onOpen={ScrollPreventer.prevent}
+        onClose={ScrollPreventer.reset}
       >
         <div
-          ref="dialog"
+          ref={this.dialogRef}
           className={classes}
           onClick={this.handleClick}
           {...restProps}

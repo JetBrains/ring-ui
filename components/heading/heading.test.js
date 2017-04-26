@@ -9,7 +9,7 @@ import {
 import Heading, {H2} from './heading';
 
 describe('Heading', () => {
-  const renderComponent = props => renderIntoDocument(<Heading {...props} />);
+  const renderComponent = props => renderIntoDocument(<Heading {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Heading).should.be.true;
@@ -24,7 +24,7 @@ describe('Heading', () => {
   });
 
   it('should export helpers', () => {
-    findDOMNode(renderIntoDocument(<H2 />)).should.match('h2');
+    findDOMNode(renderIntoDocument(<H2/>)).should.match('h2');
   });
 
   it('should use passed className', () => {

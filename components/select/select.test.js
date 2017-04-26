@@ -255,6 +255,7 @@ describe('Select', () => {
 
     it('Should open select dropdown on click', function () {
       this.sinon.spy(this.select, '_showPopup');
+      Simulate.mouseDown(this.select.node);
       Simulate.click(this.select.node);
 
       this.select._showPopup.should.have.been.called;

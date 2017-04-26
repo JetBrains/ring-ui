@@ -34,11 +34,13 @@ describe('Permissions', () => {
     });
 
     it('should build query if one service provided', () => {
-      expect(new Permissions(auth, {services: ['0-0-0-0-2']}).query).to.equal('service:{0-0-0-0-2}');
+      expect(new Permissions(auth, {services: ['0-0-0-0-2']}).query).
+        to.equal('service:{0-0-0-0-2}');
     });
 
     it('should build query if several services provided', () => {
-      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query).to.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
+      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query).
+        to.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
     });
 
     it('should check no namesConverter if no config params', () => {
@@ -48,7 +50,8 @@ describe('Permissions', () => {
     it('should create namesConverter for prefix', () => {
       const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
       expect(permissions.namesConverter).not.to.equal(undefined);
-      expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
+      expect(permissions.namesConverter('jetbrains.jetpass.project-read')).
+        to.equal('project-read');
     });
 
     it('should require auth', () => {
@@ -61,7 +64,8 @@ describe('Permissions', () => {
       }
 
       it('should pass permission names converter', () => {
-        expect(new Permissions(auth, {namesConverter: converter}).namesConverter).to.equal(converter);
+        expect(new Permissions(auth, {namesConverter: converter}).namesConverter).
+          to.equal(converter);
       });
 
       it('should use default permission names converter if prefix defined', () => {
@@ -71,7 +75,8 @@ describe('Permissions', () => {
         };
         const permissions = new Permissions(auth, args);
         expect(permissions.namesConverter).not.to.equal(undefined);
-        expect(permissions.namesConverter('jetbrains.jetpass.project-read')).to.equal('project-read');
+        expect(permissions.namesConverter('jetbrains.jetpass.project-read')).
+          to.equal('project-read');
       });
     });
   });
@@ -231,14 +236,16 @@ describe('Permissions', () => {
 
       it('should allow use original key for test permission', () => {
         permissionCacheWithConverter.has('jetbrains.jetpass.project-read').should.be.true;
-        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').should.be.true;
+        permissionCacheWithConverter.has('JetBrains.YouTrack.UPDATE_NOT_OWN_WORK_ITEM').
+          should.be.true;
       });
     });
   });
 
   describe('check and bind variable', () => {
     const permissions = new Permissions(new Auth({serverUri: ''}));
-    const permissionKeysDefaultConverter = Permissions.getDefaultNamesConverter('jetbrains.jetpass.');
+    const permissionKeysDefaultConverter = Permissions.
+      getDefaultNamesConverter('jetbrains.jetpass.');
 
     function permissionKeysTestConverter(key) {
       if (key === 'not-defined-key') {
@@ -257,9 +264,15 @@ describe('Permissions', () => {
     ], permissionKeysTestConverter);
     permissions._promise = Promise.resolve(permissionCache);
 
-    it('should resolve to true for given permission', () => permissions.check('project-read').should.eventually.be.true);
+    it(
+      'should resolve to true for given permission',
+      () => permissions.check('project-read').should.eventually.be.true
+    );
 
-    it('should resolve to false for absent permission', () => permissions.check('role-read').should.eventually.be.false);
+    it(
+      'should resolve to false for absent permission',
+      () => permissions.check('role-read').should.eventually.be.false
+    );
 
     it('should bind variable to true for given permission', () => {
       const scope = {};

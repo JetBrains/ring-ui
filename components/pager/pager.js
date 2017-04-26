@@ -9,7 +9,6 @@
 
 /* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
-/* eslint-disable react/jsx-max-props-per-line */
 
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
@@ -19,6 +18,7 @@ import Button from '../button-legacy/button-legacy';
 import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select from '../select/select';
+import memoize from '../global/memoize';
 
 import '../link/link.scss';
 import style from './pager.css';
@@ -53,9 +53,34 @@ export default class Pager extends PureComponent {
     return {selected, data};
   }
 
+  getTotal() {
+    const {total, pageSize} = this.props;
+    return Math.ceil(total / pageSize);
+  }
+
+  handlePageSizeChange = item => {
+    this.props.onPageSizeChange(item.key);
+  };
+
+  handlePrevClick = () => {
+    const {currentPage, onPageChange} = this.props;
+    if (currentPage !== 1) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
+  handleNextClick = () => {
+    const {currentPage, onPageChange} = this.props;
+    if (currentPage !== this.getTotal()) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  handlePageChange = memoize(i => () => this.props.onPageChange(i));
+
   render() {
-    const {total, currentPage, pageSize, visiblePagesLimit, onPageChange, onPageSizeChange, className} = this.props;
-    const totalPages = Math.ceil(total / pageSize);
+    const {currentPage, visiblePagesLimit, className} = this.props;
+    const totalPages = this.getTotal();
 
     let start;
     let end;
@@ -116,16 +141,29 @@ export default class Pager extends PureComponent {
             <Select
               data={selectOptions.data}
               selected={selectOptions.selected}
-              onSelect={item => onPageSizeChange(item.key)}
+              onSelect={this.handlePageSizeChange}
             />
           </div>
         );
       }
     };
 
-    const getPager = () => { // eslint-disable-line react/no-multi-comp
+    const getPager = () => {
       if (totalPages < 2) {
         return null;
+      }
+
+      const buttons = [];
+      for (let i = start; i <= end; i++) {
+        const button = (
+          <Button
+            key={i}
+            active={i === currentPage}
+            onClick={this.handlePageChange(i)}
+          >{i}</Button>
+        );
+
+        buttons.push(button);
       }
 
       return (
@@ -133,49 +171,35 @@ export default class Pager extends PureComponent {
           <div className={style.links}>
             <span
               className={prevLinkClasses}
-              onClick={() => currentPage !== 1 && onPageChange(currentPage - 1)}
+              onClick={this.handlePrevClick}
             >← previous</span>
 
             <span
               className={nextLinkClasses}
-              onClick={() => currentPage !== totalPages && onPageChange(currentPage + 1)}
+              onClick={this.handleNextClick}
             >next page →</span>
           </div>
 
           <ButtonToolbar>
             {start > 1 &&
               <ButtonGroup>
-                <Button onClick={() => onPageChange(1)}>First page</Button>
+                <Button onClick={this.handlePageChange(1)}>First page</Button>
               </ButtonGroup>
             }
 
             <ButtonGroup>
-              {start > 1 ? <Button onClick={() => onPageChange(start - 1)}>...</Button> : ''}
+              {start > 1 ? <Button onClick={this.handlePageChange(start - 1)}>...</Button> : ''}
 
-              {
-                do {
-                  const buttons = [];
-                  for (let i = start; i <= end; i++) {
-                    const button = (
-                      <Button
-                        key={i}
-                        active={i === currentPage}
-                        onClick={() => onPageChange(i)}
-                      >{i}</Button>
-                    );
+              {buttons}
 
-                    buttons.push(button);
-                  }
-                  buttons;
-                }
-              }
-
-              {end < totalPages ? <Button onClick={() => onPageChange(end + 1)}>...</Button> : ''}
+              {end < totalPages
+                ? <Button onClick={this.handlePageChange(end + 1)}>...</Button>
+                : ''}
             </ButtonGroup>
 
             {end < totalPages &&
               <ButtonGroup>
-                <Button onClick={() => onPageChange(totalPages)}>Last page</Button>
+                <Button onClick={this.handlePageChange(totalPages)}>Last page</Button>
               </ButtonGroup>
             }
           </ButtonToolbar>

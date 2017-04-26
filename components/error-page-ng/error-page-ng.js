@@ -14,7 +14,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @example
    <example name="Error Page Ng">
      <file name="index.html">
-      <div ng-app="Ring.error-page">
+      <div ng-app="Ring.error-page" ng-strict-di>
           <div class="app" rg-error-page-background>
               <div rg-error-page="{error: {status: 403}}"></div>
           </div>
@@ -43,7 +43,7 @@ const angularModule = angular.module('Ring.error-page', [
   MessageBundle
 ]);
 
-angularModule.provider('errorPageConfiguration', function () {
+angularModule.provider('errorPageConfiguration', function errorPageConfigurationProvider() {
   let pageConfiguration = {};
 
   /**
@@ -55,8 +55,7 @@ angularModule.provider('errorPageConfiguration', function () {
     pageConfiguration = config;
   };
 
-  /*@ngInject*/
-  this.$get = ($injector, $log) => {
+  this.$get = function get($injector, $log) {
     function loadFactory(factoryName) {
       try {
         return $injector.get(factoryName);
@@ -126,17 +125,17 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
   };
 });
 
-angularModule.directive('rgErrorPageBackground', [
-  () => ({
+angularModule.directive('rgErrorPageBackground', function rgErrorPageBackgroundDirective() {
+  return {
     restrict: 'A',
 
-    controller($scope) {
+    controller: function controller($scope) {
       this.setApplicationError = applicationError => {
         $scope.applicationError = applicationError;
       };
     },
 
-    link(scope, iElement) {
+    link: function link(scope, iElement) {
       const element = iElement[0];
       element.classList.add('error-page');
 
@@ -148,8 +147,8 @@ angularModule.directive('rgErrorPageBackground', [
         }
       });
     }
-  })
-]);
+  };
+});
 
 angularModule.directive('rgErrorPage', [
   'errorPageConfiguration',
@@ -223,7 +222,7 @@ angularModule.directive('rgErrorPage', [
       transclude: true,
       template: '<div></div>',
       require: '?^rgErrorPageBackground',
-      link(scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
+      link: function link(scope, iElement, iAttrs, errorPageBackgroundCtrl, transclude) {
         function handleError(error) {
           transclude(scope, clone => {
             const cloneWrapper = document.createElement('div');

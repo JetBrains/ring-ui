@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-max-props-per-line */
-
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -97,9 +95,12 @@ export default class Header extends PureComponent {
 
     const headerCells = columns.map((column, index) => {
       const columnStyle = widths[index] ? {width: widths[index]} : null;
-      const props = {key: index, column, onSort, sortKey, sortOrder, style: columnStyle};
+      const props = {column, onSort, sortKey, sortOrder, style: columnStyle};
       return (
-        <HeaderCell {...props}>
+        <HeaderCell
+          key={column.id}
+          {...props}
+        >
           {index === 0 && (draggable || selectable) && metaColumn}
         </HeaderCell>
       );

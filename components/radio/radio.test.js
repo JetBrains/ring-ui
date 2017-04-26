@@ -9,28 +9,33 @@ describe('Radio', () => {
   beforeEach(function () {
     this.onChange = () => {};
 
+    this.radioItemOneRef = item => {
+      this.radioItemOne = item;
+    };
+
+    this.radioItemTwoRef = item => {
+      this.radioItemTwo = item;
+    };
+
     this.radio = renderIntoDocument(
       <Radio
         value={null}
         className="test-class"
+        // eslint-disable-next-line react/jsx-no-bind
         onChange={() => this.onChange()}
       >
         <Radio.Item
-          ref={item => {
-            this.radioItemOne = item;
-          }}
+          ref={this.radioItemOneRef}
           value="one"
         >
           {'One'}
         </Radio.Item>
         <Radio.Item
-          ref={item => {
-            this.radioItemTwo = item;
-          }}
+          ref={this.radioItemTwoRef}
           value="two"
         >
           {'Two'}
-          </Radio.Item>
+        </Radio.Item>
         <Radio.Item value="three">{'Three'}</Radio.Item>
       </Radio>
     );
@@ -41,15 +46,15 @@ describe('Radio', () => {
   });
 
   it('should generate same name for items', function () {
-    const name = this.radioItemOne.refs.input.getAttribute('name');
+    const name = this.radioItemOne.input.getAttribute('name');
 
-    this.radioItemTwo.refs.input.should.have.attribute('name', name);
+    this.radioItemTwo.input.should.have.attribute('name', name);
   });
 
   it('should pass only child as is', () => {
     const radio = renderIntoDocument(
       <Radio>
-        <test />
+        <test/>
       </Radio>
     );
 
@@ -69,13 +74,13 @@ describe('Radio', () => {
       value: 'one'
     });
 
-    this.radioItemOne.refs.input.should.have.property('checked', true);
+    this.radioItemOne.input.should.have.property('checked', true);
   });
 
   it('should call handler for onChange event', function () {
     this.sinon.stub(this, 'onChange');
 
-    Simulate.change(this.radioItemOne.refs.input);
+    Simulate.change(this.radioItemOne.input);
 
     this.onChange.should.have.been.called;
   });

@@ -161,8 +161,12 @@ export default function position(attrs) {
         if (!autoPositioning) {
           return 0;
         }
-        const firstDirectionOverflow = verticalOverflow(firstDirectionStyles, scroll, attrs) + horizontalOverflow(firstDirectionStyles, scroll, attrs);
-        const secondDirectionOverflow = verticalOverflow(secondDirectionStyles, scroll, attrs) + horizontalOverflow(secondDirectionStyles, scroll, attrs);
+        const firstDirectionOverflow =
+          verticalOverflow(firstDirectionStyles, scroll, attrs) +
+          horizontalOverflow(firstDirectionStyles, scroll, attrs);
+        const secondDirectionOverflow =
+          verticalOverflow(secondDirectionStyles, scroll, attrs) +
+          horizontalOverflow(secondDirectionStyles, scroll, attrs);
         return firstDirectionOverflow - secondDirectionOverflow;
       });
 

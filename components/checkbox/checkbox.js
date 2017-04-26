@@ -28,12 +28,12 @@ export default class Checkbox extends PureComponent {
     children: PropTypes.node
   };
 
-  ref = el => {
+  inputRef = el => {
     this.input = el;
   }
 
   render() {
-    const {children, label, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, label, ...restProps} = this.props;
 
     const classes = classNames(
       styles.input,
@@ -47,7 +47,7 @@ export default class Checkbox extends PureComponent {
       >
         <input
           {...restProps}
-          ref={this.ref}
+          ref={this.inputRef}
           type="checkbox"
           className={classes}
         />

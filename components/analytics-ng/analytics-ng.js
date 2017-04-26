@@ -41,7 +41,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
           ]);
      </file>
      <file name="index.html">
-       <div ng-app="Example.analyticsDemo">
+       <div ng-app="Example.analyticsDemo" ng-strict-di>
         <a href="" rg-analytics="overview:view-doc">Link with onclick analytics trigger</a>
         <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link with onmouseover analytics trigger</a>
         <div ng-controller="TrackEventDemoCtrl"></div>
@@ -65,8 +65,7 @@ angularModule.provider('analytics', function () {
     configPlugins = plugins;
   };
 
-  /*@ngInject*/
-  this.$get = ($log, $injector) => {
+  this.$get = function get($log, $injector) {
     const loadedPlugins = [];
     for (let i = 0; i < configPlugins.length; ++i) {
       if (typeof configPlugins[i] === 'string') {
@@ -92,7 +91,7 @@ angularModule.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
 /**
  * Enable page tracking
  */
-angularModule.run(($rootScope, analytics) => {
+angularModule.run(function analyticsRun($rootScope, analytics) {
   $rootScope.$on('$routeChangeSuccess', (evt, current) => { // eslint-disable-line angular/on-watch
     /* eslint-disable angular/no-private-call */
     if (current && current.$$route && current.$$route.originalPath) {
@@ -111,19 +110,18 @@ angularModule.run(($rootScope, analytics) => {
  *  user action, specified via attribute `rg-analytics-on` (e.g. rg-analytics-on='mouseover' means that analytics will be sent on mouseover,
  *  rg-analytics-on='click' - on click). If there is no attribute rg-analytics-on, the default value 'click' is used.
  */
-angularModule.directive('rgAnalytics', [
-  'analytics',
-  analytics => ({
+angularModule.directive('rgAnalytics', function rgAnalyticsDirective(analytics) {
+  return {
     restrict: 'A',
     replace: false,
 
-    link($scope, elem) {
+    link: function link($scope, elem) {
       const eventType = elem.attr('rg-analytics-on') || 'click';
       angular.element(elem).bind(eventType, () => {
         analytics.track(elem.attr('rg-analytics'));
       });
     }
-  })
-]);
+  };
+});
 
 export default angularModule.name;

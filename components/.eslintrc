@@ -18,9 +18,14 @@
 
     // Stylistic Issues
     "func-names": "warn",
-
+    "max-len": ["error", 100, {
+      "ignoreComments": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true,
+      "ignorePattern": "\"[^\"]{40,}\"|'[^']{40,}'"
+    }],
     // Angular
-    "angular/directive-name": ["error", "rg"],
+    "angular/directive-name": ["error", "rg"]
   },
   "settings": {
     "import/resolver": {

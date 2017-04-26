@@ -44,7 +44,8 @@ export default class Years extends PureComponent {
   }
 
   render() {
-    const date = moment(this.state.scrollDate || this.props.scrollDate);
+    const {onScrollChange, scrollDate} = this.props;
+    const date = moment(this.state.scrollDate || scrollDate);
     const yearStart = date.clone().startOf('year');
     let year = yearStart.
       clone().
@@ -62,15 +63,17 @@ export default class Years extends PureComponent {
     return (
       <div
         className={styles.years}
-        onWheel={e => {
+        onWheel={function handleWheel(e) {
           e.preventDefault();
-          const scrollDate = linearFunction(0, date, yearDuration / yearHeight).
+          const newScrollDate = linearFunction(0, date, yearDuration / yearHeight).
             y(e.deltaY);
-          this.setState({scrollDate});
+          this.setState({
+            scrollDate: newScrollDate
+          });
           if (scrollTO) {
             window.clearTimeout(scrollTO);
           }
-          scrollTO = window.setTimeout(() => this.setYear(scrollDate), scrollDelay);
+          scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
         }}
 
         style={{
@@ -88,10 +91,12 @@ export default class Years extends PureComponent {
                 [styles.today]: item.isSame(moment(), 'year')
               }
             )}
-            onClick={() => this.props.onScrollChange(
-              moment(this.props.scrollDate).
-                year(moment(item).year())
-            )}
+            onClick={function handleClick() {
+              onScrollChange(
+                moment(scrollDate).
+                  year(moment(item).year())
+              );
+            }}
           >
             {item.format('YYYY')}
           </div>

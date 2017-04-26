@@ -58,6 +58,6 @@ function RingMessageBundle(ringI18n) {
 }
 
 angularModule.factory('ringI18n', emptyI18n);
-angularModule.service('RingMessageBundle', RingMessageBundle);
+angularModule.service('RingMessageBundle', ['ringI18n', RingMessageBundle]);
 
 export default angularModule.name;

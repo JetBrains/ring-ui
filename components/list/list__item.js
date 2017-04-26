@@ -86,7 +86,9 @@ export default class ListItem extends PureComponent {
     });
     const detailsClasses = classnames({
       [styles.details]: details,
-      [styles.padded]: icon !== undefined || checkbox !== undefined || glyph !== undefined
+      [styles.padded]: icon !== undefined ||
+        checkbox !== undefined ||
+        glyph !== undefined
     });
 
     const style = {

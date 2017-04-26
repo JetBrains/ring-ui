@@ -37,7 +37,11 @@
   }
 
   & :global(.ring-panel) button {
-      margin-right: unit;
+    margin-right: unit;
+  }
+
+  & :global(.ring-form__label) {
+    max-width: calc(unit * 14);
   }
 
   & .islandScrollableWrapperInsideDialog {

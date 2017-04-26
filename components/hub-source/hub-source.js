@@ -58,9 +58,11 @@ export default class HubSource {
 
   static validateInputParams(params) {
     if (params.top) {
+      // eslint-disable-next-line max-len
       throw new Error('HubSource: params.top should not be filled, configure "options.searchMax" instead');
     }
     if (params.query) {
+      // eslint-disable-next-line max-len
       throw new Error('HubSource: params.query should not be filled, configure "options.queryFormatter" instead');
     }
   }

@@ -27,7 +27,10 @@ describe('Island', () => {
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
-      isCompositeComponentWithType(renderIntoDocument(<AdaptiveIsland/>), AdaptiveIsland).should.be.true;
+      isCompositeComponentWithType(
+        renderIntoDocument(<AdaptiveIsland/>),
+        AdaptiveIsland
+      ).should.be.true;
     });
 
     it('should change header size if content is scrolled', () => {

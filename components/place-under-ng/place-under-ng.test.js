@@ -35,7 +35,8 @@ describe('Place Under Ng', () => {
 
     $windowMock = {
       addEventListener: (eventName, callback) => windowEventEmitter.on(eventName, callback),
-      removeEventListener: (eventName, callback) => windowEventEmitter.removeListener(eventName, callback),
+      removeEventListener:
+        (eventName, callback) => windowEventEmitter.removeListener(eventName, callback),
       setTimeout: window.setTimeout.bind(window),
       document: documentMock
     };

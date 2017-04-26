@@ -1,6 +1,7 @@
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
+import RingAngularComponent from '../global/ring-angular-component';
 import Icon from '../icon-ng/icon-ng';
 
 import '../button-legacy/button-legacy.scss';
@@ -17,12 +18,14 @@ import '../button-legacy/button-legacy.scss';
 const angularModule = angular.module('Ring.button', [Icon]);
 const ORDER_NOT_DEFINED = '-1';
 
-class ButtonController {
-  constructor($element, $attrs, $scope, $compile) {
+class ButtonController extends RingAngularComponent {
+  static $inject = ['$element', '$attrs', '$scope', '$compile'];
+
+  constructor(...args) {
+    super(...args);
+
+    const {$element, $attrs, $scope} = this.$inject;
     this.element = $element[0];
-    this.$attrs = $attrs;
-    this.$scope = $scope;
-    this.$compile = $compile;
 
     const modifiers = ['delayed', 'loader', 'danger', 'short', 'active'];
     const cl = this.element.classList;
@@ -32,7 +35,7 @@ class ButtonController {
       });
     });
 
-    const tabIndex = this.$attrs.tabindex || ORDER_NOT_DEFINED;
+    const tabIndex = $attrs.tabindex || ORDER_NOT_DEFINED;
     if (tabIndex !== ORDER_NOT_DEFINED) {
       this.element.setAttribute('tabindex', tabIndex);
     }
@@ -65,9 +68,10 @@ class ButtonController {
   }
 
   updateIcon() {
+    const {$attrs, $compile, $scope} = this.$inject;
     const icon = this.element.query('.ring-button__icon');
-    const glyph = this.$attrs.icon;
-    const size = this.$attrs.iconSize || 16;
+    const glyph = $attrs.icon;
+    const size = $attrs.iconSize || 16;
     const cl = this.element.classList;
 
     if (glyph) {
@@ -80,7 +84,7 @@ class ButtonController {
       icon.removeAttribute('size');
     }
 
-    this.$compile(icon)(this.$scope);
+    $compile(icon)($scope);
   }
 }
 

@@ -73,12 +73,12 @@ export default class Tooltip extends RingComponent {
   }
 
   addListeners() {
-    this.listeners.add(this.node, 'mouseover', ::this.showPopup);
-    this.listeners.add(this.node, 'mouseout', ::this.hidePopup);
-    this.listeners.add(document, 'scroll', ::this.hidePopup);
+    this.listeners.add(this.node, 'mouseover', this.showPopup);
+    this.listeners.add(this.node, 'mouseout', this.hidePopup);
+    this.listeners.add(document, 'scroll', this.hidePopup);
   }
 
-  showPopup() {
+  showPopup = () => {
     const {delay, title} = this.props;
 
     if (!title) {
@@ -96,10 +96,14 @@ export default class Tooltip extends RingComponent {
     }
   }
 
-  hidePopup() {
+  hidePopup = () => {
     clearTimeout(this.timeout);
     this.setState({showPopup: false});
   }
+
+  popupRef = el => {
+    this.popup = el;
+  };
 
   render() {
     const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
@@ -109,15 +113,13 @@ export default class Tooltip extends RingComponent {
         {children}
         <Popup
           hidden={!this.state.showPopup}
-          onCloseAttempt={::this.hidePopup}
+          onCloseAttempt={this.hidePopup}
           maxHeight={400}
           className="ring-tooltip"
           attached={false}
           top={4}
           dontCloseOnAnchorClick={true}
-          ref={el => {
-            this.popup = el;
-          }}
+          ref={this.popupRef}
           {...popupProps}
         >{title}</Popup>
       </span>

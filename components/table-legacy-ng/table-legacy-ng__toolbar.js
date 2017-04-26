@@ -6,7 +6,7 @@ import {getDocumentScrollTop} from '../global/dom';
 import '../table-legacy/table-legacy__toolbar.scss';
 
 const angularModule = angular.module('Ring.table-legacy.toolbar', []);
-angularModule.directive('rgLegacyTableToolbar', () => {
+angularModule.directive('rgLegacyTableToolbar', function rgLegacyTableToolbarDirective() {
   const DEBOUNCE_INTERVAL = 10;
 
   return {
@@ -14,7 +14,7 @@ angularModule.directive('rgLegacyTableToolbar', () => {
     replace: true,
     transclude: true,
     template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls ring-popup-container-mark" ng-transclude></div></div>',
-    link(scope, iElement, attrs) {
+    link: function link(scope, iElement, attrs) {
       /**
        * Use plain DOM functions without any jquery. Should work with IE8+
        */
