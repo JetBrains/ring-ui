@@ -118,7 +118,8 @@ function createNav(sources) {
 
   const sourcesByCategories = sources.
     // get category names
-    reduce((categories, source) => categories.concat(source.attrs.category || defaultCategory), []).
+    reduce((categories, source) => categories.
+      concat(source.attrs.category || defaultCategory), []).
 
     // remove duplicates
     filter((value, i, self) => self.indexOf(value) === i).
@@ -133,7 +134,8 @@ function createNav(sources) {
     }, []);
 
   sourcesByCategories.sort(categoriesSorter);
-  sourcesByCategories.forEach(category => category.items.sort(categoryItemsSorter));
+  sourcesByCategories.
+    forEach(category => category.items.sort(categoryItemsSorter));
 
   return sourcesByCategories;
 }
@@ -164,13 +166,16 @@ module.exports = () => {
     done(null, sources);
   });
 
-  docpack.use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
+  docpack.
+    use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
 
   docpack.use(require('docpack-examples-compiler')({
     applyParentCompilerPlugins: true,
     filename: path.resolve(__dirname, 'components/example.[type]'),
     outputFilename: 'examples/[name]/[hash]',
-    filter: example => (!example.attrs.hasOwnProperty('compile') || example.attrs.compile !== 'false')
+    filter: example =>
+      !example.attrs.hasOwnProperty('compile') ||
+      example.attrs.compile !== 'false'
   }));
 
   // Generate example pages
@@ -179,27 +184,39 @@ module.exports = () => {
 
     url: example => (`examples/[name]/${example.attrs.name ? slug(example.attrs.name) : '[hash]'}.html`),
 
-    select: sources => sources.reduce((examples, source) => {
-      const sourceExamples = source.getExamples();
-      sourceExamples.forEach(example => (example.absolutePath = source.absolutePath));
-      return examples.concat(sourceExamples);
-    }, []),
+    select: sources =>
+      sources.reduce((examples, source) => {
+        const sourceExamples = source.getExamples();
+        sourceExamples.forEach(
+          example => (example.absolutePath = source.absolutePath)
+        );
+        return examples.concat(sourceExamples);
+      }, []),
 
     context: (examples, currentExample) => ({example: currentExample})
   }));
 
   // Generate pages
-  docpack.use(require('docpack-page-generator')({
-    template: path.resolve(__dirname, 'site/page.twig'),
-    url: '[name].html',
-    select: sources => sources.filter(source => source.getExamples().length > 0 || source.type === 'md')
-  }));
+  docpack.use(
+    require('docpack-page-generator')({
+      template: path.resolve(__dirname, 'site/page.twig'),
+      url: '[name].html',
+      select: sources =>
+        sources.filter(
+          source => source.getExamples().length > 0 || source.type === 'md'
+        )
+    })
+  );
+
 
   docpack.use(HOOKS.BEFORE_GENERATE, function generateJSON(sources, done) {
     const DATE_STRING_LENGTH = 16;
     const hasPage = source => source.hasOwnProperty('page');
 
-    const buildDate = new Date().toISOString().replace('T', ' ').substr(0, DATE_STRING_LENGTH);
+    const buildDate = new Date().
+      toISOString().
+      replace('T', ' ').
+      substr(0, DATE_STRING_LENGTH);
     const navCategories = createNav(docpack.sources.filter(hasPage));
 
     const nav = {

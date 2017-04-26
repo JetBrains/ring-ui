@@ -24,7 +24,8 @@ config.devtool = false;
 
 config.plugins = [
   new webpack.ProvidePlugin({
-    fetch: '!exports-loader?self.fetch!imports-loader?self=>{},Promise=core-js/es6/promise!whatwg-fetch'
+    fetch: '!exports-loader?self.fetch!imports-loader' +
+    '?self=>{},Promise=core-js/es6/promise!whatwg-fetch'
   }),
   new webpack.DefinePlugin({
     'process.env': {

@@ -20,8 +20,12 @@ const addConfig = rule => {
 };
 
 module.exports = wallaby => {
-  webpackConfig.componentsPath.push(path.join(wallaby.projectCacheDir, 'components'));
-  webpackTestConfig.entryPatterns = ['test-helpers/mocha-globals.js', 'components/**/*.test.js'];
+  webpackConfig.componentsPath.
+    push(path.join(wallaby.projectCacheDir, 'components'));
+  webpackTestConfig.entryPatterns = [
+    'test-helpers/mocha-globals.js',
+    'components/**/*.test.js'
+  ];
 
   addConfig(webpackConfig.loaders.scssLoader);
   addConfig(webpackConfig.loaders.cssLoader);
