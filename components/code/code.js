@@ -32,11 +32,23 @@ export default class Code extends PureComponent {
     inline: false
   };
 
-  highlightEl = el => {
-    if (el && !this.props.inline) {
-      highlight.highlightBlock(el);
+  componentDidMount() {
+    this.highlight();
+  }
+
+  componentDidUpdate() {
+    this.highlight();
+  }
+
+  highlight() {
+    if (!this.props.inline) {
+      highlight.highlightBlock(this.code);
     }
   }
+
+  codeRef = el => {
+    this.code = el;
+  };
 
   render() {
     const {code, className, inline, language} = this.props;
@@ -48,7 +60,7 @@ export default class Code extends PureComponent {
 
     return (
       <Tag className={classes}>
-        <code ref={this.highlightEl}>{normalizeIndent(code)}</code>
+        <code ref={this.codeRef}>{normalizeIndent(code)}</code>
       </Tag>
     );
   }
