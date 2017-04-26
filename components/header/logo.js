@@ -23,7 +23,7 @@ export default class Logo extends PureComponent {
 
     return (
       <div className={classes}>
-        <Icon {...restProps} />
+        <Icon {...restProps}/>
       </div>
     );
   }

@@ -263,6 +263,8 @@
   <file type="js">
     import {render} from 'react-dom';
     import List from 'ring-ui/components/list/list';
+    import Code from 'ring-ui/components/code/code';
+    import ContentLayout, {Sidebar} from 'ring-ui/components/content-layout/content-layout';
     import Loader from 'ring-ui/components/loader-inline/loader-inline'
     import React, {Component} from 'react';
     import Source from 'ring-ui/components/list/list__users-groups-source';
@@ -270,7 +272,10 @@
     import Auth from 'ring-ui/components/auth/auth';
 
     class UserList extends Component {
-      state = {listData: null};
+      state = {
+        listData: null,
+        selected: null
+      };
       auth = new Auth(hubConfig);
       source = new Source(this.auth);
 
@@ -284,18 +289,33 @@
         this.setState({listData});
       }
 
+      handleSelect = selected => this.setState({selected});
+
       render() {
-        return this.state.listData ? (
-          <List
-            data={this.state.listData}
-            shortcuts={true}
-            onSelect={::console.log}
-          />
+        const {listData, selected} = this.state;
+        return listData ? (
+          <ContentLayout>
+            <Sidebar>
+              <List
+                className="list"
+                data={this.state.listData}
+                shortcuts={true}
+                onSelect={this.handleSelect}
+              />
+            </Sidebar>
+            {selected && (
+              <Code
+                className="selected"
+                language="json"
+                code={JSON.stringify(selected, null, 2)}
+              />
+            )}
+          </ContentLayout>
         ) : <Loader />;
       }
     }
 
-    render(<UserList />, document.getElementById('list'));
+    render(<UserList/>, document.getElementById('list'));
   </file>
 </example>
 

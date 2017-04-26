@@ -505,7 +505,6 @@ export default class List extends RingComponentWithShortcuts {
 
   innerRef = el => {
     if (el) {
-      const wasPresent = !!this.inner;
       this.inner = el;
       this.checkOverflow();
     }
@@ -562,9 +561,9 @@ export default class List extends RingComponentWithShortcuts {
             // Probably unique enough key
               props.key = props.key || props.rgItemType + (props.label || props.description);
 
-            props.hover = (realIndex === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler(realIndex);
-            props.tabIndex = -1;
+              props.hover = (realIndex === this.state.activeIndex);
+              props.onMouseOver = this.hoverHandler(realIndex);
+              props.tabIndex = -1;
 
 
               const selectHandler = this.selectHandler(realIndex);

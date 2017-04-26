@@ -9,7 +9,7 @@ import Button from './button';
 import styles from './button.css';
 
 describe('Button', () => {
-  const renderComponent = props => renderIntoDocument(<Button {...props} />);
+  const renderComponent = props => renderIntoDocument(<Button {...props}/>);
   const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
