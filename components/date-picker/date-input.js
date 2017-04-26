@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import Input from '../input/input';
 import {dateType} from './consts';
 import styles from './date-picker.css';
 
-export default class DateInput extends PureComponent {
+export default class DateInput extends Component {
   static propTypes = {
     active: PropTypes.bool,
     name: PropTypes.string,
