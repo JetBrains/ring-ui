@@ -233,7 +233,11 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__menu">{
         this.props.menu.map(({component, props, children}) => {
-          const newProps = Object.assign({}, props, {className: classNames(props.className, 'ring-header__menu-item')});
+          const newProps = Object.assign(
+            {},
+            props,
+            {className: classNames(props.className, 'ring-header__menu-item')}
+          );
           return createElement(component, newProps, children);
         })
       }</div>
@@ -382,7 +386,8 @@ export default class Header extends RingComponent {
   }
 
   _renderServiceLinkWithLogo(item, serviceLogo) {
-    const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+    const isActive = Header.
+      isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
     return this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-item', [
       serviceLogo,
@@ -397,7 +402,10 @@ export default class Header extends RingComponent {
   _getPopupTopLine() {
     return this.props.servicesList.sort(sortServices).
       filter(Header.isTopLineService).
-      map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, 'ring-header__services-logo_top-line', Icon.Size.Size32)));
+      map(item => this._renderServiceLinkWithLogo(
+        item,
+        getServiceLogo(item, 'ring-header__services-logo_top-line', Icon.Size.Size32))
+      );
   }
 
   /**
@@ -422,7 +430,12 @@ export default class Header extends RingComponent {
           return;
         }
 
-        const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+        const isActive = Header.isActiveService(
+          this.props.rootUrl,
+          this.props.clientId,
+          item.id,
+          item.homeUrl
+        );
 
         linksList.push(
           this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-stacked', item.name)

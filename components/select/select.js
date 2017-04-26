@@ -197,11 +197,19 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({shownData});
     }
 
-    if ('selected' in newProps && (newProps.selected !== this.props.selected || newProps.data !== this.props.data)) {
-      const selected = newProps.selected ? newProps.selected : Select._getEmptyValue(this.props.multiple);
+    if (
+      'selected' in newProps &&
+      (newProps.selected !== this.props.selected || newProps.data !== this.props.data)
+    ) {
+      const selected = newProps.selected
+          ? newProps.selected
+          : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
-        selectedIndex: this._getSelectedIndex(selected, (newProps.data ? newProps.data : this.props.data)),
+        selectedIndex: this._getSelectedIndex(
+          selected,
+          (newProps.data ? newProps.data : this.props.data)
+        ),
         filterValue: this.getValueForFilter(selected)
       });
       this._rebuildMultipleMap(selected, this.props.multiple);
@@ -242,7 +250,10 @@ export default class Select extends RingComponentWithShortcuts {
         continue;
       }
 
-      if ((this.props.multiple && item.key === selected[0].key) || (!this.props.multiple && item.key === selected.key)) {
+      if (
+        (this.props.multiple && item.key === selected[0].key) ||
+        (!this.props.multiple && item.key === selected.key)
+      ) {
         return i;
       }
     }
@@ -373,7 +384,10 @@ export default class Select extends RingComponentWithShortcuts {
         return true;
       }
       // by default, skip separators and hints
-      if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
+      if (
+        List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) ||
+        List.isItemType(List.ListProps.Type.HINT, itemToCheck)
+      ) {
         return true;
       }
 
@@ -390,14 +404,21 @@ export default class Select extends RingComponentWithShortcuts {
         }
 
         // Ignore item if it's multiple and is already selected
-        if (!(this.props.multiple && this.props.multiple.removeSelectedItems && this._multipleMap[item.key])) {
+        if (
+          !(this.props.multiple &&
+          this.props.multiple.removeSelectedItems &&
+          this._multipleMap[item.key])
+        ) {
           filteredData.push(item);
         }
       }
     }
 
     this._addButton = null;
-    if ((this.props.add && filterString && !exactMatch) || (this.props.add && this.props.add.alwaysVisible)) {
+    if (
+      (this.props.add && filterString && !exactMatch) ||
+      (this.props.add && this.props.add.alwaysVisible)
+    ) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
       this.props.add.alwaysVisible) {
@@ -501,7 +522,9 @@ export default class Select extends RingComponentWithShortcuts {
         selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
-        const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
+        const newFilterValue = this.isInputMode() && !this.props.hideSelected
+          ? this._getItemLabel(selected)
+          : '';
         this.filterValue(newFilterValue);
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected, event);

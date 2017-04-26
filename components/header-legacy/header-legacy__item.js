@@ -54,7 +54,7 @@ export default class HeaderItem extends RingComponent {
   };
 
   render() {
-    const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(
       {
         'ring-header__user-menu-item': true,

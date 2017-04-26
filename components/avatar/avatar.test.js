@@ -28,7 +28,8 @@ describe('Avatar', () => {
   });
 
   it('should use passed className when url is passed', () => {
-    findDOMNode(renderComponent({className: 'test-class', url: dataURI})).should.match('.test-class');
+    findDOMNode(renderComponent({className: 'test-class', url: dataURI})).should.
+      match('.test-class');
   });
 
   it('should render span when no url is passed', () => {
@@ -40,7 +41,8 @@ describe('Avatar', () => {
   });
 
   it('should not append params when data:uri is passed', () => {
-    findDOMNode(renderComponent({url: dataURI})).should.have.attribute('src').not.match(/dpr=|size=/);
+    findDOMNode(renderComponent({url: dataURI})).should.have.attribute('src').
+      not.match(/dpr=|size=/);
   });
 
   it('should append params when data:uri is passed', () => {
@@ -52,6 +54,7 @@ describe('Avatar', () => {
   });
 
   it('should set proper dpr', () => {
-    findDOMNode(renderComponent({url: 'http://'})).should.have.attribute('src').match(new RegExp(`dpr=${getPixelRatio()}`));
+    findDOMNode(renderComponent({url: 'http://'})).should.have.attribute('src').
+      match(new RegExp(`dpr=${getPixelRatio()}`));
   });
 });

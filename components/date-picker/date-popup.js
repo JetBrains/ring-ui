@@ -111,7 +111,10 @@ export default class DatePopup extends RingComponent {
   }
 
   scheduleScroll = () => {
-    const current = this.state.scrollDate || this.parseDate(this.props[this.state.active]) || moment();
+    const current =
+      this.state.scrollDate ||
+      this.parseDate(this.props[this.state.active]) ||
+      moment();
     const goal = this._scrollDate;
     if (!current || !goal || this.sameDay(goal, current)) {
       this._scrollDate = null;

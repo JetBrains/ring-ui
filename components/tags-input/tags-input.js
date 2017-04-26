@@ -186,7 +186,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
   }
 
   selectTag = moveForward => {
-    const activeIndex = typeof this.state.activeIndex === 'number' ? this.state.activeIndex : this.state.tags.length + 1;
+    const activeIndex = typeof this.state.activeIndex === 'number'
+      ? this.state.activeIndex
+      : this.state.tags.length + 1;
     let newActiveIndex = activeIndex + (moveForward ? 1 : -1);
 
     if (newActiveIndex >= this.state.tags.length) {
@@ -278,8 +280,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
         'ring-tags-input_disabled': this.props.disabled
       },
       this.props.className);
-    const readOnly = this.props.disabled || (this.props.canNotBeEmpty && this.state.tags.length === 1);
-    const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
+    const readOnly = this.props.disabled ||
+      (this.props.canNotBeEmpty && this.state.tags.length === 1);
+
+    // eslint-disable-next-line arrow-body-style
+    const renderTags = () => {
+      return this.state.tags.
+        map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
+    };
 
     return (
       <div

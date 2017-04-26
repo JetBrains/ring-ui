@@ -55,7 +55,7 @@ export default class ListItem extends PureComponent {
     const {props} = this;
     const {
       checkbox, glyph, icon, rightGlyph, description, label,
-      details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars
+      details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames({
       'ring-list__item': true,
       'ring-list__item_action': !props.disabled,
@@ -63,7 +63,9 @@ export default class ListItem extends PureComponent {
     }, props.className);
     const detailsClasses = classnames({
       'ring-list__item__details': props.details,
-      'ring-list__item__details_padded': props.icon !== undefined || props.checkbox !== undefined || props.glyph !== undefined
+      'ring-list__item__details_padded': props.icon !== undefined ||
+        props.checkbox !== undefined ||
+        props.glyph !== undefined
     });
 
     const style = {

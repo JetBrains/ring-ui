@@ -88,7 +88,10 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
 
         if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isDocked) {
           dock();
-        } else if (isDocked && currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= initialPos) {
+        } else if (
+          isDocked &&
+          currentPanelRect.top + currentPanelRect.height + getDocumentScrollTop() >= initialPos
+        ) {
           undock();
         }
       }

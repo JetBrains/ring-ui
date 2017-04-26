@@ -182,27 +182,30 @@ describe('Analytics', () => {
       });
 
       describe('trackEntityProperties', () => {
-        it('should send all enumerated properties to statistics server on tracking entity', function () {
-          const entity = {
-            param1: 'first',
-            param2: 'second',
-            param3: 'third',
-            param4: 'fourth',
-            param5: 'should-be-ignored'
-          };
-          const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
-          this.analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
-          this.clock.tick(10500);
+        it(
+          'should send all enumerated properties to statistics server on tracking entity',
+          function () {
+            const entity = {
+              param1: 'first',
+              param2: 'second',
+              param3: 'third',
+              param4: 'fourth',
+              param5: 'should-be-ignored'
+            };
+            const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
+            this.analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
+            this.clock.tick(10500);
 
-          const trackedData = [];
-          trackedProperties.forEach(it => {
-            trackedData.push({
-              category: 'sample-entity',
-              action: `${it}__${entity[it]}`
+            const trackedData = [];
+            trackedProperties.forEach(it => {
+              trackedData.push({
+                category: 'sample-entity',
+                action: `${it}__${entity[it]}`
+              });
             });
-          });
-          this.send.should.have.been.calledWith(trackedData);
-        });
+            this.send.should.have.been.calledWith(trackedData);
+          }
+        );
 
         it('should not send any data if no properties requested', function () {
           const entity = {
@@ -220,7 +223,8 @@ describe('Analytics', () => {
             param1: 'first',
             param2: 'second'
           };
-          this.analytics.trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
+          this.analytics.
+            trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
           this.clock.tick(10500);
 
           this.send.should.have.been.calledWith([{
@@ -294,7 +298,12 @@ describe('Analytics', () => {
             return counter === 2;
           }
 
-          customPlugin = new AnalyticsCustomPlugin(this.send, false, 10000, flushingIsAllowedOnSecondCheck);
+          customPlugin = new AnalyticsCustomPlugin(
+            this.send,
+            false,
+            10000,
+            flushingIsAllowedOnSecondCheck
+          );
           this.analytics.config([customPlugin]);
 
           this.analytics.trackEvent('test-category', 'test-action');

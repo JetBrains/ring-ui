@@ -140,7 +140,8 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       // Exposed methods
       $scope.control = {};
 
-      $scope.control.isLast = () => $scope.panes.indexOf($scope.current) === $scope.panes.length - 1;
+      $scope.control.isLast =
+        () => $scope.panes.indexOf($scope.current) === $scope.panes.length - 1;
 
       $scope.control.isFirst = () => $scope.panes.indexOf($scope.current) === 0;
 

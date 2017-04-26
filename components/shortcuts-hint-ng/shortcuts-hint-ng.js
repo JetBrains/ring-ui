@@ -62,7 +62,10 @@ const winSymbolsMap = {
 };
 
 /* global angular:false */
-const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]);
+const angularModule = angular.module(
+  'Ring.shortcuts.hint-popup',
+  [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]
+);
 const getTitle = title => (typeof title === 'function' ? title() : title);
 
 
@@ -130,8 +133,14 @@ function shortcutSearchFilter(shortcuts, query = '') {
       return false;
     } else {
       const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const titleMatches = shortcut.titles.map(getTitle).join(' ').toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const titleMatches = shortcut.titles.
+          map(getTitle).
+          join(' ').
+          toLowerCase().
+          indexOf(query.toLowerCase()) !== -1;
+      const presentationMatches = keysPresentation.
+          toLowerCase().
+          indexOf(query.toLowerCase()) !== -1;
 
       return keyMatches || titleMatches || presentationMatches;
     }

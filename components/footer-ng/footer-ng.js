@@ -61,6 +61,7 @@ class rgFooterLineComponent extends RingAngularComponent {
 }
 
 class rgFooterCopyrightComponent extends RingAngularComponent {
+  //eslint-disable-next-line max-len
   static template = '<span>{{:: $ctrl.copyrightYears}} {{:: $ctrl.companyName}} · All rights reserved</span>';
 
   static bindings = {

@@ -289,7 +289,12 @@ export default class List extends RingComponentWithShortcuts {
       let activeIndex = null;
       let activeItem = null;
 
-      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key !== undefined && this.state.activeItem.key !== null) {
+      if (
+        this.props.restoreActiveIndex &&
+        this.state.activeItem &&
+        this.state.activeItem.key !== undefined &&
+        this.state.activeItem.key !== null
+      ) {
         for (let i = 0; i < props.data.length; i++) {
           // Restore active index if there is an item with the same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
@@ -300,10 +305,19 @@ export default class List extends RingComponentWithShortcuts {
         }
       }
 
-      if (activeIndex === null && this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
+      if (
+        activeIndex === null &&
+        this.props.activateSingleItem &&
+        props.data.length === 1 &&
+        this.isActivatable(props.data[0])
+      ) {
         activeIndex = 0;
         activeItem = props.data[0];
-      } else if (props.activeIndex != null && props.activeIndex !== this.props.activeIndex && props.data[props.activeIndex]) {
+      } else if (
+        props.activeIndex != null &&
+        props.activeIndex !== this.props.activeIndex &&
+        props.data[props.activeIndex]
+      ) {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
@@ -313,7 +327,8 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   shouldUpdate(nextProps, nextState) {
-    return nextProps !== this.props || Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
+    return nextProps !== this.props ||
+      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
   didMount() {
@@ -323,7 +338,8 @@ export default class List extends RingComponentWithShortcuts {
       if (innerContainer) {
         const maxScrollingPosition = innerContainer.scrollHeight;
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
-        const currentScrollingPosition = innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
+        const currentScrollingPosition =
+          innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
         if (currentScrollingPosition >= maxScrollingPosition) {
           this.props.onScrollToBottom();
         }
@@ -379,7 +395,9 @@ export default class List extends RingComponentWithShortcuts {
               break;
           }
 
-          const begin = this.cachedSizes.length === 0 ? Dimension.MARGIN : this.cachedSizes[this.cachedSizes.length - 1].end;
+          const begin = this.cachedSizes.length === 0
+              ? Dimension.MARGIN
+              : this.cachedSizes[this.cachedSizes.length - 1].end;
 
           const dimensions = {
             begin,
@@ -404,7 +422,8 @@ export default class List extends RingComponentWithShortcuts {
         const itemDimensions = this.cachedSizes[this.state.activeIndex];
         const HALF = 0.5;
         if (itemDimensions.end < top || itemDimensions.begin > bottom) {
-          innerContainer.scrollTop = itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
+          innerContainer.scrollTop =
+            itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
         } else if (itemDimensions.begin < top) {
           innerContainer.scrollTop = itemDimensions.begin;
         } else if (itemDimensions.end > bottom) {
@@ -500,7 +519,8 @@ export default class List extends RingComponentWithShortcuts {
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
 
     if (this.props.maxHeight) {
-      innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      innerStyles.maxHeight =
+        this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }

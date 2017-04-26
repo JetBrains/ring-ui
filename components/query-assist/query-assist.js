@@ -252,7 +252,10 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   setCaretPosition = () => {
     const queryLength = this.immediateState.query != null && this.immediateState.query.length;
-    const newCaretPosition = this.immediateState.caret < queryLength ? this.immediateState.caret : queryLength;
+    const newCaretPosition =
+      this.immediateState.caret < queryLength
+        ? this.immediateState.caret
+        : queryLength;
     const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
 
     if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
@@ -398,8 +401,13 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   // eslint-disable-next-line no-unused-vars
   handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
 
+  // eslint-disable-next-line max-len
   handleResponse = ({query = '', caret = 0, styleRanges, suggestions = []}) => new Promise((resolve, reject) => {
-    if (query === this.getQuery() && (caret === this.immediateState.caret || this.immediateState.caret === undefined)) {
+    if (
+      query === this.getQuery() &&
+      (caret === this.immediateState.caret ||
+      this.immediateState.caret === undefined)
+    ) {
       // Do not setState on unmounted component
       if (!this.node) {
         return;
@@ -628,7 +636,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         suffix = ''
       } = suggestion;
       const prevSuggestion = arr[index - 1] && arr[index - 1].group;
-      const key = prefix + option + suffix + group + description + (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
+      const key = prefix + option + suffix + group + description +
+        (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
 
       if (prevSuggestion !== group) {
         renderedSuggestions.push({
@@ -644,7 +653,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
       if (matchingStart !== matchingEnd) {
         before = option.substring(0, matchingStart);
-        wrappedOption = <span className="ring-list__highlight">{option.substring(matchingStart, matchingEnd)}</span>;
+        wrappedOption = (
+          <span className="ring-list__highlight">
+            {option.substring(matchingStart, matchingEnd)}
+          </span>
+        );
         after = option.substring(matchingEnd);
       } else {
         wrappedOption = option;
