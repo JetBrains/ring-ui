@@ -21,6 +21,10 @@ export default class DateInput extends PureComponent {
     onClear: PropTypes.func
   };
 
+  componentDidUpdate() {
+    this.updateInput(this.props);
+  }
+
   inputRef = el => {
     this.input = el;
     this.updateInput(this.props);
@@ -42,18 +46,9 @@ export default class DateInput extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    this.updateInput(this.props);
-  }
+  handleChange = e => this.props.onInput(e.target.value);
 
-  onChange = e => this.props.onInput(e.target.value);
-
-  onKeyDown = e => e.key === 'Enter' && this.props.onConfirm();
-
-  onClear = () => {
-    this.props.onInput('');
-    this.props.onConfirm();
-  }
+  handleKeyDown = e => e.key === 'Enter' && this.props.onConfirm();
 
   render() {
     const {
@@ -83,9 +78,9 @@ export default class DateInput extends PureComponent {
         inputRef={this.inputRef}
         className={classes}
         value={displayText}
-        onChange={this.onChange}
+        onChange={this.handleChange}
         onFocus={onActivate}
-        onKeyDown={this.onKeyDown}
+        onKeyDown={this.handleKeyDown}
         onClear={onClear}
       />
     );

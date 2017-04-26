@@ -55,6 +55,14 @@ export class Input extends PureComponent {
     empty: true
   };
 
+  componentDidMount() {
+    this.adapt();
+  }
+
+  componentDidUpdate() {
+    this.adapt();
+  }
+
   checkValue() {
     this.setState({
       empty: !this.input.value
@@ -77,14 +85,6 @@ export class Input extends PureComponent {
     this.stretch(this.error);
   }
 
-  componentDidMount() {
-    this.adapt();
-  }
-
-  componentDidUpdate() {
-    this.adapt();
-  }
-
   errorRef = el => {
     this.error = el;
   };
@@ -97,6 +97,11 @@ export class Input extends PureComponent {
   clear = e => {
     this.props.onClear && this.props.onClear(e);
   }
+
+  handleChange = e => {
+    this.props.onChange(e);
+    this.checkValue(e.target);
+  };
 
   render() {
     const {
@@ -113,9 +118,8 @@ export class Input extends PureComponent {
       className,
       children,
       value,
-      onChange,
       onClear,
-      inputRef, // eslint-disable-line no-unused-vars
+      inputRef, onChange, // eslint-disable-line no-unused-vars
       ...restProps
     } = this.props;
     const {empty} = this.state;
@@ -146,10 +150,7 @@ export class Input extends PureComponent {
       >
         <TagName
           ref={this.inputRef}
-          onChange={e => {
-            onChange(e);
-            this.checkValue(e.target);
-          }}
+          onChange={this.handleChange}
           className={styles.input}
           value={text}
           rows={multiline ? 1 : null}
@@ -165,9 +166,9 @@ export class Input extends PureComponent {
         )}
 
         {!borderless && <label className={styles.label}>{label}</label>}
-        {!borderless && <div className={styles.underline} />}
-        {!borderless && <div className={styles.focusUnderline} />}
-        {!borderless && <div className={styles.errorUnderline} />}
+        {!borderless && <div className={styles.underline}/>}
+        {!borderless && <div className={styles.focusUnderline}/>}
+        {!borderless && <div className={styles.errorUnderline}/>}
         {!borderless && (
           <div
             className={styles.errorText}

@@ -9,20 +9,18 @@ export default class SmartTabs extends PureComponent {
     initSelected: PropTypes.string
   }
 
-  constructor(props) {
-    super(props);
-    const {children, initSelected} = props;
-    this.state = {
-      selected: initSelected || children[0].props.id || '0'
-    };
-  }
+  state = {
+    selected: this.props.initSelected || this.props.children[0].props.id || '0'
+  };
+
+  handleSelect = selected => this.setState({selected});
 
   render() {
     const {children, initSelected, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     return (
       <Tabs
         selected={this.state.selected}
-        onSelect={selected => this.setState({selected})}
+        onSelect={this.handleSelect}
         {...restProps}
       >{children}</Tabs>
     );

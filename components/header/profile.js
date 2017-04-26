@@ -68,8 +68,9 @@ export default class Profile extends PureComponent {
             loader={loading}
             onClick={onLogin}
           >
-          {translations.login || 'Log in...'}
-        </Button></div>
+            {translations.login || 'Log in...'}
+          </Button>
+        </div>
       );
     }
 
