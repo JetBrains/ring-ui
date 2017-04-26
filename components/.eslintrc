@@ -18,6 +18,7 @@
 
     // Stylistic Issues
     "func-names": "warn",
+    "max-len": "warn",
 
     // Angular
     "angular/directive-name": ["error", "rg"]

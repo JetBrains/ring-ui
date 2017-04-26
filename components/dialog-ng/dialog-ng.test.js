@@ -231,7 +231,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should reject dialog promise on unsatisfied resolve', function () {
-      const errorDefer = $q.defer(); //eslint-disable-line
+      const errorDefer = $q.defer(); //eslint-disable-line angular/deferred
       const serviceWhichThrowError = this.sinon.stub().
         returns(errorDefer.promise);
       const onError = this.sinon.stub();
@@ -258,7 +258,7 @@ describe('Dialog Ng', () => {
 
     it('should allow pass promise to the resolve', function () {
       text = 'Hello';
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
       const greetingResolver = this.sinon.stub().returns(defer.promise);
 
       defer.resolve(text);
@@ -716,7 +716,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should be closed if action returns promise and when it resolves', () => {
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
 
       const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
@@ -737,7 +737,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should not be closed if action returns promise and when it resolves with "false"', () => {
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
 
       const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
