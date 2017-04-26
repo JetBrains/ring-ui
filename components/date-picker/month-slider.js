@@ -25,6 +25,16 @@ export default class MonthSlider extends PureComponent {
     dragging: false
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.dragging && !prevState.dragging) {
+      window.addEventListener('mousemove', this.onMouseMove);
+      window.addEventListener('mouseup', this.onMouseUp);
+    } else if (!this.state.dragging && prevState.dragging) {
+      window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('mouseup', this.onMouseUp);
+    }
+  }
+
   onMouseDown = () => {
     this.setState({dragging: true});
   }
@@ -37,16 +47,6 @@ export default class MonthSlider extends PureComponent {
     this.props.onScroll(
       linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
     );
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.dragging && !prevState.dragging) {
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseup', this.onMouseUp);
-    } else if (!this.state.dragging && prevState.dragging) {
-      window.removeEventListener('mousemove', this.onMouseMove);
-      window.removeEventListener('mouseup', this.onMouseUp);
-    }
   }
 
   render() {

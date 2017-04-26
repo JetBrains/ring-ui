@@ -52,16 +52,6 @@ export default class DatePicker extends PureComponent {
     onChange: PropTypes.func
   };
 
-  state = {
-    showPopup: false
-  };
-
-  togglePopup(show) {
-    this.setState({
-      showPopup: show != null ? show : !this.state.showPopup
-    });
-  }
-
   clear = () => {
     this.props.onChange(
       this.props.range
