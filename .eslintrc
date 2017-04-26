@@ -10,6 +10,7 @@
   },
   "rules": {
     "valid-jsdoc": "off",
+    "max-len": "warn",
     "import/no-commonjs": "off"
   }
 }

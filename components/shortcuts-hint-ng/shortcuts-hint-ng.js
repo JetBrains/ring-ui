@@ -95,9 +95,8 @@ class HintPopupService extends RingAngularComponent {
         default: true
       }],
       controller() {
-        /*eslint-disable consistent-this*/
+        // eslint-disable-next-line consistent-this
         const ctrl = this;
-        /*eslint-enable consistent-this*/
 
         ctrl.searchIcon = searchIcon;
         ctrl.modes = modes;

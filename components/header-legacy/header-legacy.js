@@ -3,7 +3,6 @@
  * @category Components
  * @description Displays a configurable page header.
  */
-/* eslint-disable react/no-multi-comp */
 
 import 'dom4';
 import React, {createElement, DOM} from 'react';
