@@ -22,11 +22,11 @@ describe('Radio Item', () => {
   });
 
   it('should render radio item', function () {
-    this.radioItem.refs.input.should.have.property('type', 'radio');
+    this.radioItem.input.should.have.property('type', 'radio');
   });
 
   it('should generate id if not passed', function () {
-    this.radioItem.refs.input.should.have.property('id');
+    this.radioItem.input.should.have.property('id');
   });
 
   it('should generate unique id', function () {
@@ -35,8 +35,8 @@ describe('Radio Item', () => {
         {'test'}
       </RadioItem>
     );
-    const secondRadioId = secondRadioItem.refs.input.getAttribute('id');
-    this.radioItem.refs.input.should.not.have.id(secondRadioId);
+    const secondRadioId = secondRadioItem.input.getAttribute('id');
+    this.radioItem.input.should.not.have.id(secondRadioId);
   });
 
   it('should set custom id', function () {
@@ -44,7 +44,7 @@ describe('Radio Item', () => {
       id: 'test'
     });
 
-    this.radioItem.refs.input.should.have.id('test');
+    this.radioItem.input.should.have.id('test');
   });
 
   it('should set name', function () {
@@ -52,7 +52,7 @@ describe('Radio Item', () => {
       name: 'test'
     });
 
-    this.radioItem.refs.input.should.have.property('name', 'test');
+    this.radioItem.input.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', function () {
@@ -62,12 +62,12 @@ describe('Radio Item', () => {
       onClick: clickHandler
     });
 
-    Simulate.click(this.radioItem.refs.input);
+    Simulate.click(this.radioItem.input);
     clickHandler.should.have.been.called;
   });
 
   it('should be unchecked by default', function () {
-    this.radioItem.refs.input.should.not.have.property('checked', true);
+    this.radioItem.input.should.not.have.property('checked', true);
   });
 
   it('should check control', function () {
@@ -75,7 +75,7 @@ describe('Radio Item', () => {
       checked: true
     });
 
-    this.radioItem.refs.input.should.have.property('checked', true);
+    this.radioItem.input.should.have.property('checked', true);
   });
 
   it('should be disabled', function () {
@@ -83,14 +83,14 @@ describe('Radio Item', () => {
       disabled: true
     });
 
-    this.radioItem.refs.input.should.be.disabled;
+    this.radioItem.input.should.be.disabled;
   });
 
 
   it('should connect labels with input by id', function () {
-    const id = this.radioItem.refs.input.getAttribute('id');
+    const id = this.radioItem.input.getAttribute('id');
 
-    this.radioItem.refs.label.should.have.attribute('for', id);
-    this.radioItem.refs.textLabel.should.have.attribute('for', id);
+    this.radioItem.label.should.have.attribute('for', id);
+    this.radioItem.textLabel.should.have.attribute('for', id);
   });
 });

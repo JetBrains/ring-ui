@@ -1,6 +1,6 @@
 <example name="Autofocus Ng">
   <file type="html">
-    <div ng-app="Ring.autofocus" class="test-container">
+    <div ng-app="Ring.autofocus" ng-strict-di class="test-container">
       <input class="ring-input" rg-autofocus="true"
         placeholder="Should be in focus"/>
     </div>
@@ -19,7 +19,7 @@
 
 <example name="Autofocus on select">
   <file type="html">
-    <div ng-app="testApp" ng-controller="testCtrl" class="test-container">
+    <div ng-app="testApp" ng-strict-di ng-controller="testCtrl" class="test-container">
       <rg-select options="item in []" rg-autofocus="true"></rg-select>
     </div>
   </file>

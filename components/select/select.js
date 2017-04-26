@@ -10,6 +10,8 @@ import List from '../list/list';
 import Input, {Size} from '../input/input';
 import Icon from '../icon/icon';
 import Button from '../button/button';
+import sniffr from '../global/sniffer';
+import getUID from '../global/get-uid';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -117,21 +119,21 @@ export default class Select extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        enter: ::this._onEnter,
-        esc: ::this._onEsc,
-        up: ::this._inputShortcutHandler,
-        down: ::this._inputShortcutHandler,
+        enter: this._onEnter,
+        esc: this._onEsc,
+        up: this._inputShortcutHandler,
+        down: this._inputShortcutHandler,
         right: noop,
         left: noop,
         'shift+up': noop,
         'shift+down': noop,
         space: noop
       },
-      scope: ::this.constructor.getUID('ring-select-')
+      scope: getUID('select-')
     };
   }
 
-  _onEnter() {
+  _onEnter = () => {
     this.props.onDone();
 
     if (!this._popup.isVisible() && this.props.allowAny) {
@@ -141,7 +143,7 @@ export default class Select extends RingComponentWithShortcuts {
     return undefined;
   }
 
-  _onEsc(event) {
+  _onEsc = event => {
     if (!this._popup.isVisible()) {
       return true;
     } else if (this.props.multiple || !this.props.getInitial) {
@@ -164,7 +166,7 @@ export default class Select extends RingComponentWithShortcuts {
     return undefined;
   }
 
-  _inputShortcutHandler() {
+  _inputShortcutHandler = () => {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
     }
@@ -191,7 +193,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(newProps) {
-    this.updateState(newProps);
+     this.updateState( newProps);
   }
 
   didUpdate(prevProps, prevState) {
@@ -249,13 +251,20 @@ export default class Select extends RingComponentWithShortcuts {
         continue;
       }
 
-      if ((this.props.multiple && item.key === selected[0].key) || (!this.props.multiple && item.key === selected.key)) {
+      if (
+        (this.props.multiple && item.key === selected[0].key) ||
+        (!this.props.multiple && item.key === selected.key)
+      ) {
         return i;
       }
     }
 
     return null;
   }
+
+  popupRef = el => {
+    this._popup = el;
+  };
 
   _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
@@ -286,11 +295,11 @@ export default class Select extends RingComponentWithShortcuts {
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
         filterValue={this.state.filterValue}
         anchorElement={anchorElement}
-        onCloseAttempt={::this._onCloseAttempt}
-        onSelect={::this._listSelectHandler}
+        onCloseAttempt={this._onCloseAttempt}
+        onSelect={this._listSelectHandler}
         onFilter={this._filterChangeHandler}
         onClear={this.clearFilter}
-        onLoadMore={::this.props.onLoadMore}
+        onLoadMore={this.props.onLoadMore}
         isInputMode={this.isInputMode()}
       />
     );
@@ -322,7 +331,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  addHandler() {
+  addHandler = () => {
     this._hidePopup();
     this.props.onAdd(this.filterValue());
   }
@@ -352,7 +361,7 @@ export default class Select extends RingComponentWithShortcuts {
           text={true}
           delayed={true}
           className={styles.button}
-          onClick={::this.addHandler}
+          onClick={this.addHandler}
         >
             {prefix ? `${prefix} ${label}` : label}
         </Button>
@@ -361,9 +370,10 @@ export default class Select extends RingComponentWithShortcuts {
 
     return (
       <div className={styles.toolbar}>
-      {addButton}
-      {hint}
-    </div>);
+        {addButton}
+        {hint}
+      </div>
+    );
   }
 
   getListItems(rawFilterString, data = this.props.data) {
@@ -381,7 +391,10 @@ export default class Select extends RingComponentWithShortcuts {
         return true;
       }
       // by default, skip separators and hints
-      if (List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) || List.isItemType(List.ListProps.Type.HINT, itemToCheck)) {
+      if (
+        List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) ||
+        List.isItemType(List.ListProps.Type.HINT, itemToCheck)
+      ) {
         return true;
       }
 
@@ -398,14 +411,21 @@ export default class Select extends RingComponentWithShortcuts {
         }
 
         // Ignore item if it's multiple and is already selected
-        if (!(this.props.multiple && this.props.multiple.removeSelectedItems && this._multipleMap[item.key])) {
+        if (
+          !(this.props.multiple &&
+          this.props.multiple.removeSelectedItems &&
+          this._multipleMap[item.key])
+        ) {
           filteredData.push(item);
         }
       }
     }
 
     this._addButton = null;
-    if ((this.props.add && filterString && !exactMatch) || (this.props.add && this.props.add.alwaysVisible)) {
+    if (
+      (this.props.add && filterString && !exactMatch) ||
+      (this.props.add && this.props.add.alwaysVisible)
+    ) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
       !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
       this.props.add.alwaysVisible) {
@@ -437,7 +457,7 @@ export default class Select extends RingComponentWithShortcuts {
     return (this.props.type === Type.BUTTON);
   }
 
-  _clickHandler() {
+  _clickHandler = () => {
     if (!this.props.disabled) {
       if (this.state.showPopup) {
         this._hidePopup();
@@ -492,7 +512,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _listSelectHandler(selected, event) {
+  _listSelectHandler = (selected, event) => {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
@@ -510,7 +530,9 @@ export default class Select extends RingComponentWithShortcuts {
         selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
-        const newFilterValue = this.isInputMode() && !this.props.hideSelected ? this._getItemLabel(selected) : '';
+        const newFilterValue = this.isInputMode() && !this.props.hideSelected
+          ? this._getItemLabel(selected)
+          : '';
         this.filterValue(newFilterValue);
         this.props.onFilter(newFilterValue);
         this.props.onSelect(selected, event);
@@ -555,7 +577,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
   }
 
-  _onCloseAttempt(event, isEsc) {
+  _onCloseAttempt = (event, isEsc) => {
     if (this.isInputMode()) {
       if (!this.props.allowAny) {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
@@ -573,11 +595,10 @@ export default class Select extends RingComponentWithShortcuts {
     this.filterValue('');
   }
 
-  clear(event) {
+  clear = event => {
     if (event) {
       event.stopPropagation();
     }
-
     const empty = Select._getEmptyValue(this.props.multiple);
 
     this.setState({
@@ -590,7 +611,7 @@ export default class Select extends RingComponentWithShortcuts {
     return false;
   }
 
-  _focusHandler() {
+  _focusHandler = () => {
     this.props.onFocus();
 
     this.setState({
@@ -599,7 +620,7 @@ export default class Select extends RingComponentWithShortcuts {
     });
   }
 
-  _blurHandler() {
+  _blurHandler = () => {
     this.props.onBlur();
 
     if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
@@ -666,7 +687,7 @@ export default class Select extends RingComponentWithShortcuts {
         <Button
           className={styles.clearIcon}
           key="close"
-          onClick={::this.clear}
+          onClick={this.clear}
           icon={closeIcon}
           iconSize={Icon.Size.Size14}
         />
@@ -706,7 +727,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   filterRef = el => {
     this.filter = el;
-  }
+  };
 
   render() {
     const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`size${this.props.size}`], {
@@ -725,7 +746,7 @@ export default class Select extends RingComponentWithShortcuts {
       return (
         <div
           className={classNames(classes, styles.inputMode)}
-          onClick={::this._clickHandler}
+          onClick={this._clickHandler}
           data-test="ring-select"
         >
           <Input
@@ -735,10 +756,10 @@ export default class Select extends RingComponentWithShortcuts {
             className={classNames(styles.input, 'ring-js-shortcuts')}
             style={style}
             onChange={this._filterChangeHandler}
-            onFocus={::this._focusHandler}
-            onBlur={::this._blurHandler}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
             placeholder={this._getInputPlaceholder()}
-            onKeyDown={::this.props.onKeyDown}
+            onKeyDown={this.props.onKeyDown}
             data-test="ring-select__focus"
           />
           {iconsNode}
@@ -746,11 +767,18 @@ export default class Select extends RingComponentWithShortcuts {
         </div>
       );
     } else if (this.isButtonMode()) {
+      const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
+      const clickListenProps = isIE11 ? {
+        onMouseDown: this._clickHandler
+      } : {
+        onClick: this._clickHandler
+      };
+
       return (
         <div
           className={classNames(classes, styles.buttonMode)}
           data-test="ring-select"
-          onClick={::this._clickHandler}
+          {...clickListenProps}
         >
           {!this._selectionIsEmpty() && this.props.selectedLabel && (
             <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>

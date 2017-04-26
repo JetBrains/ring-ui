@@ -9,7 +9,7 @@ import '../error-message-ng/error-message-ng.scss';
  * @example
   <example name="Error Message Ng">
     <file name="index.html">
-      <div ng-app="ExampleApp" ng-controller="DemoCtrl">
+      <div ng-app="ExampleApp" ng-strict-di ng-controller="DemoCtrl">
         <rg-error-message code="Disconnected" message="No, no one\'s there." icon="{{errorIcon}}" links="[{href:'.',text:'home'}]">
           Service backend isn't available
         </rg-error-message>
@@ -31,18 +31,20 @@ import '../error-message-ng/error-message-ng.scss';
 
 const angularModule = angular.module('Ring.error-message', [iconNg]);
 
-angularModule.directive('rgErrorMessage', () => ({
-  replace: true,
-  transclude: true,
-  template: require('./error-message-ng.html'),
-  restrict: 'E',
+angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
+  return {
+    replace: true,
+    transclude: true,
+    template: require('./error-message-ng.html'),
+    restrict: 'E',
 
-  scope: {
-    code: '@',
-    message: '@',
-    links: '=',
-    icon: '@'
-  }
-}));
+    scope: {
+      code: '@',
+      message: '@',
+      links: '=',
+      icon: '@'
+    }
+  };
+});
 
 export default angularModule.name;

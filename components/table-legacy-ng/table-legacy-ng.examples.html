@@ -1,6 +1,6 @@
 <example name="Table Legacy Ng">
   <file type="html">
-    <div ng-app="test" ng-controller="tableExample as ctrl">
+    <div ng-app="test" ng-strict-di ng-controller="tableExample as ctrl">
       <rg-legacy-table-toolbar stick>
         <div>Some toolbar content. Selected item:
           {{ctrl.selection.getActiveItem().name}}
@@ -66,7 +66,7 @@
 
 <example name="Table Legacy Ng without selection">
   <file type="html">
-    <div ng-app="Ring.table-legacy"
+    <div ng-app="Ring.table-legacy" ng-strict-di
       ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
       <rg-legacy-table items="itemsArray" disable-selection="true">
         <rg-legacy-table-row row-item="item" ng-repeat="item in itemsArray">
@@ -89,7 +89,7 @@
 <example name="Table Legacy Ng with sidebar">
   <file type="html">
     <h3>Scroll down to see the effect</h3>
-    <div ng-app="test" ng-controller="tableExample as ctrl">
+    <div ng-app="test" ng-strict-di ng-controller="tableExample as ctrl">
       <rg-sidebar show="ctrl.isShowSideBar"
         place-under-sibling=".some-toolbar"
         top-offset="1">

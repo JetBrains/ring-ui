@@ -197,17 +197,17 @@ export default class Alert extends RingComponent {
         {
           this.props.closeable
             ? (
-            <button
-              className={styles.close}
-              data-test="alert-close"
-              onClick={this.closeRequest}
-            >
-              <Icon
-                glyph={closeIcon}
-                size={Icon.Size.Size16}
-              />
-            </button>
-          )
+              <button
+                className={styles.close}
+                data-test="alert-close"
+                onClick={this.closeRequest}
+              >
+                <Icon
+                  glyph={closeIcon}
+                  size={Icon.Size.Size16}
+                />
+              </button>
+            )
             : ''
         }
       </div>

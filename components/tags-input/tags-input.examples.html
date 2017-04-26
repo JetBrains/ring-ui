@@ -26,7 +26,7 @@
 
 <example name="Async datasource via react-ng">
   <file type="html">
-    <div ng-app="test-tags-app" ng-controller="testCtrl">
+    <div ng-app="test-tags-app" ng-strict-di ng-controller="testCtrl">
       <div ng-form="form">
         <a href class="ring-link" ng-click="addTag()">Add a tag</a>
         <span react="TagsInput" ng-model="tagsArray"

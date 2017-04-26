@@ -71,7 +71,12 @@ export default class FallbackStorage {
   constructor(config = {}) {
     const session = config.type === 'session';
 
-    this.cookieName = config.cookieName || (session ? this.constructor.DEFAULT_SESSION_COOKIE_NAME : this.constructor.DEFAULT_COOKIE_NAME);
+    this.cookieName = config.cookieName ||
+      (
+        session
+        ? this.constructor.DEFAULT_SESSION_COOKIE_NAME
+        : this.constructor.DEFAULT_COOKIE_NAME
+      );
     this.checkDelay = config.checkDelay || this.constructor.DEFAULT_CHECK_DELAY;
     this.expires = session ? this.constructor.COOKIE_EXPIRES : null;
   }
@@ -95,7 +100,8 @@ export default class FallbackStorage {
   _write(data) {
     return new Promise(resolve => {
       const stringData = encodeURIComponent(JSON.stringify(data));
-      FallbackStorage._createCookie(this.cookieName, stringData === '{}' ? '' : stringData, this.expires);
+      FallbackStorage.
+        _createCookie(this.cookieName, stringData === '{}' ? '' : stringData, this.expires);
       return resolve(data);
     });
   }

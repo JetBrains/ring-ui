@@ -29,7 +29,9 @@ class TestComponent extends RingComponent {
       <div
         id={id}
         data-some-obj={someObj.foo}
-        onClick={() => onClick('payload')}
+        onClick={function handleClick() {
+          onClick('payload');
+        }}
         className={className}
       />
     );
@@ -58,7 +60,11 @@ describe('angularComponentFactory', () => {
   it('should register an Angular component with the proper name', () => {
     const $element = angular.element('<div></div>');
     const $transclude = callback => callback();
-    const ctrl = $componentController('rgTestComponent', {$scope: $rootScope, $element, $transclude});
+    const ctrl = $componentController('rgTestComponent', {
+      $scope: $rootScope,
+      $element,
+      $transclude
+    });
     ctrl.should.not.be.undefined;
   });
 
@@ -66,7 +72,9 @@ describe('angularComponentFactory', () => {
     $rootScope.testObj = {
       foo: 'bar'
     };
-    const $element = $compile('<rg-test-component some-obj="testObj"></rg-test-component>')($rootScope);
+    const $element = $compile(
+      '<rg-test-component some-obj="testObj"></rg-test-component>'
+    )($rootScope);
     const component = $element[0].firstChild;
     component.should.have.attribute('data-some-obj', 'bar');
 
@@ -104,7 +112,9 @@ describe('angularComponentFactory', () => {
   });
 
   it('should pass given css classes', () => {
-    const $element = $compile('<rg-test-component class-name="\'test-class1 test-class2\'"></rg-test-component>')($rootScope);
+    const $element = $compile(
+      '<rg-test-component class-name="\'test-class1 test-class2\'"></rg-test-component>'
+    )($rootScope);
     const component = $element[0].firstChild;
     component.should.have.class('test-class1');
     component.should.have.class('test-class2');
@@ -112,7 +122,9 @@ describe('angularComponentFactory', () => {
 
   it('should use one-way binding for function props', function () { // eslint-disable-line func-names
     $rootScope.callback = this.sinon.spy();
-    const $element = $compile('<rg-test-component on-click="callback"></rg-test-component>')($rootScope);
+    const $element = $compile(
+      '<rg-test-component on-click="callback"></rg-test-component>'
+    )($rootScope);
     const component = $element[0].firstChild;
 
     Simulate.click(component);
