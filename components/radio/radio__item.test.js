@@ -7,10 +7,11 @@ import RadioItem from './radio__item';
 
 describe('Radio Item', () => {
   beforeEach(function () {
-    this.radioItem = renderIntoDocument(
+    this.renderRadioItem = props => renderIntoDocument(
       <RadioItem
         checked={false}
         value="test"
+        {...props}
       >
         {'test'}
       </RadioItem>
@@ -18,79 +19,79 @@ describe('Radio Item', () => {
   });
 
   it('should create component', function () {
-    this.radioItem.should.exist;
+    this.renderRadioItem().should.exist;
   });
 
   it('should render radio item', function () {
-    this.radioItem.input.should.have.property('type', 'radio');
+    this.renderRadioItem().input.should.have.property('type', 'radio');
   });
 
   it('should generate id if not passed', function () {
-    this.radioItem.input.should.have.property('id');
+    this.renderRadioItem().input.should.have.property('id');
   });
 
   it('should generate unique id', function () {
-    const secondRadioItem = renderIntoDocument(
-      <RadioItem>
-        {'test'}
-      </RadioItem>
-    );
+    const firstRadioItem = this.renderRadioItem();
+    const secondRadioItem = this.renderRadioItem();
     const secondRadioId = secondRadioItem.input.getAttribute('id');
-    this.radioItem.input.should.not.have.id(secondRadioId);
+    firstRadioItem.input.should.not.have.id(secondRadioId);
   });
 
   it('should set custom id', function () {
-    this.radioItem.rerender({
+    const radioItem = this.renderRadioItem({
       id: 'test'
     });
 
-    this.radioItem.input.should.have.id('test');
+    radioItem.input.should.have.id('test');
   });
 
   it('should set name', function () {
-    this.radioItem.rerender({
+    const radioItem = this.renderRadioItem({
       name: 'test'
     });
 
-    this.radioItem.input.should.have.property('name', 'test');
+    radioItem.input.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', function () {
     const clickHandler = sinon.stub();
-
-    this.radioItem.rerender({
+    const radioItem = this.renderRadioItem({
       onClick: clickHandler
     });
 
-    Simulate.click(this.radioItem.input);
+    Simulate.click(radioItem.input);
     clickHandler.should.have.been.called;
   });
 
   it('should be unchecked by default', function () {
-    this.radioItem.input.should.not.have.property('checked', true);
+    const radioItem = this.renderRadioItem();
+
+    radioItem.input.should.not.have.property('checked', true);
   });
 
   it('should check control', function () {
-    this.radioItem.rerender({
-      checked: true
+    const radioItem = this.renderRadioItem({
+      checked: true,
+      onChange: () => {} // avoid "checked without onChange" warning
     });
 
-    this.radioItem.input.should.have.property('checked', true);
+    radioItem.input.should.have.property('checked', true);
   });
 
   it('should be disabled', function () {
-    this.radioItem.rerender({
+    const radioItem = this.renderRadioItem({
       disabled: true
     });
 
-    this.radioItem.input.should.be.disabled;
+    radioItem.input.should.be.disabled;
   });
 
 
   it('should connect labels with input by id', function () {
-    const id = this.radioItem.input.getAttribute('id');
+    const radioItem = this.renderRadioItem();
+    const id = radioItem.input.getAttribute('id');
 
-    this.radioItem.label.should.have.attribute('for', id);
-    this.radioItem.textLabel.should.have.attribute('for', id);
+    radioItem.label.should.have.attribute('for', id);
+    radioItem.textLabel.should.have.attribute('for', id);
   });
 });
