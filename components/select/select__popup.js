@@ -3,22 +3,22 @@
  */
 
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
-import Input from '../input/input';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {filterWrapper} from '../popup/popup.css';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 
+import SelectFilter from './select__filter';
+
 function noop() {}
 
-const InputWithShortcuts = shortcutsHOC(Input);
+const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
 export default class SelectPopup extends RingComponentWithShortcuts {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
@@ -69,13 +69,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     });
   }
 
-  _focusAndStoreInput = el => {
-    this.filter = el;
-    if (el) {
-      findDOMNode(el).focus();
-    }
-  };
-
   didMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
   }
@@ -104,15 +97,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   listOnMouseOut = () => {
     this.list.clearSelected();
-  }
+  };
 
   mouseDownHandler = () => {
     this.isClickingPopup = true;
-  }
+  };
 
   mouseUpHandler = () => {
     this.isClickingPopup = false;
-  }
+  };
 
   listScrollToIndex(index) {
     this.list && this.list.setActiveItem(index);
@@ -133,7 +126,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     };
 
     this.props.onSelect(selected, getSelectItemEvent());
-  }
+  };
 
   tabPress = event => {
     preventDefault(event);
@@ -143,22 +136,26 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       this.onListSelect(listActiveItem);
     }
     this.props.onCloseAttempt();
-  }
+  };
+
+  filterRef = el => {
+    this.filter = el;
+  };
 
   getFilter() {
     if (this.props.filter && !this.props.hidden) {
       return (
         <div className={filterWrapper}>
-          <InputWithShortcuts
+          <FilterWithShortcuts
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
             rgShortcutsMap={this.popupFilterShortcuts.map}
 
             value={this.props.filterValue}
-            inputRef={this._focusAndStoreInput}
+            inputRef={this.filterRef}
             onBlur={this.popupFilterOnBlur}
             onFocus={this.popupFilterOnFocus}
-            className="ring-js-shortcuts ring-input_filter-popup"
-            placeholder={this.props.filter.placeholder || ''}
+            className="ring-js-shortcuts"
+            placeholder={this.props.filter.placeholder}
             onChange={this.props.onFilter}
           />
         </div>
