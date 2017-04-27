@@ -27,7 +27,7 @@ export default class SelectFilter extends Component {
   }
 
   focus() {
-    if (this.input) {
+    if (this.input && this.input !== document.activeElement) {
       this.input.focus();
     }
   }
