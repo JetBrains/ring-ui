@@ -26,7 +26,6 @@ gemini.suite('Select', () => {
       setCaptureElements('.ring-select', '[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-select'));
-        actions.click(find('[data-test=ring-popup] .ring-input'));
         actions.mouseMove(find('body'), {x: 800, y: 1024});
       });
   });
