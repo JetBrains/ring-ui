@@ -31,8 +31,10 @@
 }
 
 .logo {
-  object-fit: scale-down;
-  margin-bottom:12px;
+  height: calc(unit * 12);
+  width: calc(unit * 12);
+  object-fit: contain;
+  margin-bottom: 12px;
 }
 
 .error {
