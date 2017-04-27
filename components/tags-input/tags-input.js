@@ -283,11 +283,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
     const readOnly = this.props.disabled ||
       (this.props.canNotBeEmpty && this.state.tags.length === 1);
 
-    // eslint-disable-next-line arrow-body-style
-    const renderTags = () => {
-      return this.state.tags.
-        map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
-    };
+    const renderTags = () => (
+      this.state.tags.
+        map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly))
+    );
 
     return (
       <div
