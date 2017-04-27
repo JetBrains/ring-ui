@@ -4,6 +4,8 @@ import classNames from 'classnames';
 
 import Input from '../input/input';
 
+import styles from './select.css';
+
 function noop() {}
 
 export default class SelectFilter extends Component {
@@ -14,7 +16,7 @@ export default class SelectFilter extends Component {
   };
 
   static defaultProps = {
-    placeholder: '',
+    placeholder: 'Filter items',
     inputRef: noop
   }
 
@@ -39,11 +41,12 @@ export default class SelectFilter extends Component {
 
   render() {
     const {className, ...restProps} = this.props;
-    const classes = classNames('ring-input_filter-popup', className);
+    const classes = classNames(styles.filter, className);
 
     return (
       <Input
         {...restProps}
+        borderless={true}
         inputRef={this.inputRef}
         className={classes}
       />

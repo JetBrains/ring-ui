@@ -1,6 +1,6 @@
 /* global gemini: false */
 
-const FOCUS_DELAY = 500;
+const UNHOVER_DELAY = 500;
 
 gemini.suite('Select', () => {
   gemini.suite('Input based select', child => {
@@ -10,7 +10,7 @@ gemini.suite('Select', () => {
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-input]'));
         actions.mouseMove(find('body'), {x: 800, y: 1024});
-        actions.wait(FOCUS_DELAY);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
@@ -20,7 +20,7 @@ gemini.suite('Select', () => {
       setCaptureElements('[data-test=ring-select]').
       capture('button', (actions, find) => {
         actions.mouseMove(find('body'), {x: 800, y: 1024});
-        actions.wait(FOCUS_DELAY);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
@@ -31,7 +31,7 @@ gemini.suite('Select', () => {
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));
         actions.mouseMove(find('body'), {x: 800, y: 1024});
-        actions.wait(FOCUS_DELAY);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
@@ -42,7 +42,7 @@ gemini.suite('Select', () => {
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));
         actions.mouseMove(find('body'), {x: 800, y: 1024});
-        actions.wait(FOCUS_DELAY);
+        actions.wait(UNHOVER_DELAY);
       });
   });
 
