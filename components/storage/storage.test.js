@@ -55,10 +55,9 @@ function testStorage(storage) {
         should.be.fulfilled;
     });
 
-    // eslint-disable-next-line arrow-body-style
-    it('should be fulfilled for missing element', () => {
-      return storage.remove('missing').should.be.fulfilled;
-    });
+    it('should be fulfilled for missing element', () => (
+      storage.remove('missing').should.be.fulfilled
+    ));
   });
 
   describe('each', () => {
@@ -208,10 +207,9 @@ describe('Storage', () => {
         localStorage.setItem('invalid-json', 'invalid-json');
       });
 
-      // eslint-disable-next-line arrow-body-style
-      it('should get non-parseable values', () => {
-        return storage.get('invalid-json').should.be.become('invalid-json');
-      });
+      it('should get non-parseable values', () => (
+        storage.get('invalid-json').should.be.become('invalid-json')
+      ));
 
       it('shouldn\'t break iteration on non-parseable values', () => storage.each(noop).should.be.fulfilled);
 
