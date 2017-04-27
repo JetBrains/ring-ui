@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Icon from '../icon/icon';
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
 
@@ -21,33 +20,31 @@ export default class AuthDialog extends Component {
   static propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
-    error: PropTypes.string,
-    serviceIcon: PropTypes.string,
+    errorMessage: PropTypes.string,
     serviceImage: PropTypes.string,
     serviceName: PropTypes.string,
 
     show: PropTypes.bool,
-    rejectOnEsc: PropTypes.bool,
-    confirmLabel: PropTypes.string,
-    rejectLabel: PropTypes.string,
+    cancelOnEsc: PropTypes.bool,
+    loginLabel: PropTypes.string,
+    cancelLabel: PropTypes.string,
 
-    onConfirm: PropTypes.func,
-    onReject: PropTypes.func
+    onLogin: PropTypes.func,
+    onCancel: PropTypes.func
   };
 
   static defaultProps = {
     show: false,
-    rejectOnEsc: true,
-    cancelIsDefault: false,
-    confirmLabel: 'Log in',
-    rejectLabel: 'Remain a guest',
-    onConfirm: () => {},
-    onReject: () => {}
+    cancelOnEsc: true,
+    loginLabel: 'Log in',
+    cancelLabel: 'Remain a guest',
+    onLogin: () => {},
+    onCancel: () => {}
   }
 
   onEscPress = () => {
-    if (this.props.rejectOnEsc) {
-      this.props.onReject();
+    if (this.props.cancelOnEsc) {
+      this.props.onCancel();
     }
   }
 
@@ -56,14 +53,13 @@ export default class AuthDialog extends Component {
       show,
       className,
       title,
-      error,
-      serviceIcon,
+      errorMessage,
       serviceImage,
       serviceName,
-      confirmLabel,
-      rejectLabel,
-      onConfirm,
-      onReject
+      loginLabel,
+      cancelLabel,
+      onLogin,
+      onCancel
     } = this.props;
 
     const defaultTitle = serviceName ? 'Log in to %s' : 'Log in';
@@ -77,13 +73,6 @@ export default class AuthDialog extends Component {
         show={show}
       >
         <div className={styles.content}>
-          {serviceIcon && (
-            <Icon
-              className={styles.logo}
-              glyph={serviceIcon}
-              size={Icon.Size.Size96}
-            />
-          )}
           {serviceImage && (
             <img
               className={styles.logo}
@@ -91,23 +80,23 @@ export default class AuthDialog extends Component {
             />
           )}
           <div className={styles.title}>{(title || defaultTitle).replace('%s', serviceName)}</div>
-          {error && (
-            <div className={styles.error}>{error}</div>
+          {errorMessage && (
+            <div className={styles.error}>{errorMessage}</div>
           )}
           <Button
             primary={true}
             className={styles.firstButton}
             data-test="auth-dialog-login-button"
-            onClick={onConfirm}
+            onClick={onLogin}
           >
-            {confirmLabel}
+            {loginLabel}
           </Button>
           <Button
             className={styles.button}
             data-test="auth-dialog-cancel-button"
-            onClick={onReject}
+            onClick={onCancel}
           >
-            {rejectLabel}
+            {cancelLabel}
           </Button>
         </div>
       </Dialog>
