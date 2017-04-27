@@ -75,7 +75,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   didMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
-    this.focus();
   }
 
   willReceiveProps(nextProps) {
@@ -87,20 +86,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   }
 
-  didUpdate() {
-    this.focus();
-  }
-
   willUnmount() {
     window.document.removeEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  focus() {
-    setTimeout(() => {
-      if (this.filter) {
-        findDOMNode(this.filter).focus();
-      }
-    }, 0);
   }
 
   getShortcutsProps() {
