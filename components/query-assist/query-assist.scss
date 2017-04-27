@@ -31,6 +31,13 @@ $over-input-z-index: 2;
       line-height: 17px;
     }
 
+    // Supports Edge
+    @supports (-ms-ime-align:auto) {
+      & {
+        line-height: 17px;
+      }
+    }
+
     box-shadow: 0 0 0 1px $ring-gray-color;
     background: transparent;
     border-color: transparent;
@@ -65,6 +72,13 @@ $over-input-z-index: 2;
   // Supports IE
   _:-ms-input-placeholder, :root & {
     top: -18px;
+  }
+
+  // Supports Edge
+  @supports (-ms-ime-align:auto) {
+    & {
+      top: -18px;
+    }
   }
 
   left: 5px;

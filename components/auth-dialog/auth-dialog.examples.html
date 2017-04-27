@@ -8,7 +8,7 @@
     import React from 'react';
     import AuthDialog from 'ring-ui/components/auth-dialog/auth-dialog';
     import Button from 'ring-ui/components/button/button';
-    import youtrackLogo from 'jetbrains-logos/youtrack/youtrack.svg';
+    import youtrackLogo from '!file-loader!jetbrains-logos/youtrack/youtrack.svg';
 
     class AuthDialogDemo extends React.Component {
       state = {
@@ -32,10 +32,10 @@
           this.setState({
             confirm: {
               show: true,
-              error: 'Authorization lost',
+              errorMessage: 'Authorization lost',
               serviceName: 'YouTrack',
-              onConfirm: () => this.hideAuthDialog() || resolve(),
-              onReject: () => this.hideAuthDialog() || reject()
+              onLogin: () => this.hideAuthDialog() || resolve(),
+              onCancel: () => this.hideAuthDialog() || reject()
             }
           });
         }).
@@ -51,9 +51,9 @@
           </div>
           <AuthDialog
             {...this.state.confirm}
-            serviceIcon={youtrackLogo}
-            confirmLabel="Log me in"
-            rejectLabel="Leave me as is"
+            serviceImage={youtrackLogo}
+            loginLabel="Log me in"
+            cancelLabel="Leave me as is"
           />
         </div>
         );

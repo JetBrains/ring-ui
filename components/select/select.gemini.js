@@ -9,6 +9,7 @@ gemini.suite('Select', () => {
       setCaptureElements('[data-test=ring-select]', '[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-input]'));
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(FOCUS_DELAY);
       });
   });
@@ -17,7 +18,10 @@ gemini.suite('Select', () => {
     child.
       setUrl('/select/select-with-a-customized-filter-and-an-add-item-button.html').
       setCaptureElements('[data-test=ring-select]').
-      capture('button');
+      capture('button', (actions, find) => {
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
+        actions.wait(FOCUS_DELAY);
+      });
   });
 
   gemini.suite('Select with filter', child => {
@@ -26,7 +30,7 @@ gemini.suite('Select', () => {
       setCaptureElements('[data-test=ring-select]', '[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));
-        actions.click(find('[data-test=ring-popup] input'));
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(FOCUS_DELAY);
       });
   });
@@ -37,6 +41,8 @@ gemini.suite('Select', () => {
       setCaptureElements('[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
+        actions.wait(FOCUS_DELAY);
       });
   });
 
