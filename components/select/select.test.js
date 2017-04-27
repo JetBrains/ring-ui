@@ -635,6 +635,24 @@ describe('Select', () => {
       this.select._popup.props.message.should.equal('test not found');
     });
 
+    it('Should focus the filter on opening', function () {
+      // make Popup redraw instantly
+      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+      this.select = render(<Select filter={true}/>, this.container);
+      this.select._showPopup();
+      this.select._popup.filter.should.equal(document.activeElement);
+    });
+
+    it('Should focus the filter on second opening', function () {
+      // make Popup redraw instantly
+      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+      this.select = render(<Select filter={true}/>, this.container);
+      this.select._showPopup();
+      this.select._hidePopup();
+      this.select._showPopup();
+      this.select._popup.filter.should.equal(document.activeElement);
+    });
+
     it('Should restore focus on select in button mode after closing popup', function () {
       this.select = render(React.createElement(Select, {
         data: testData,
