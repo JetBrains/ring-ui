@@ -1,4 +1,4 @@
-{
+module.exports = {
   "root": true,
   "parser": "babel-eslint",
   "extends": [
@@ -22,7 +22,8 @@
       "ignoreComments": true,
       "ignoreTemplateLiterals": true,
       "ignoreRegExpLiterals": true,
-      "ignorePattern": "\"[^\"]{40,}\"|'[^']{40,}'"
+      // Strings longer than 40 symbols (half of standard max-len)
+      "ignorePattern": "\"(?=([^\"]|\\\"){40,}\")|'(?=([^']|\\'){40,}')"
     }],
     // Angular
     "angular/directive-name": ["error", "rg"]

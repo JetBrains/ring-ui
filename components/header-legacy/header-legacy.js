@@ -643,7 +643,7 @@ export default class Header extends RingComponent {
       [MenuItemType.USER_MENU]: (
         <HeaderItem
           key="userMenu"
-          ref={this.userMenu}
+          ref={this.userMenuRef}
           testKey="user-menu"
           glyph={userIcon}
           onOpen={this.props.onUserMenuOpen}
@@ -655,7 +655,7 @@ export default class Header extends RingComponent {
         <div
           className={loginClassName}
           key="loginButton"
-          ref={this.loginButton}
+          ref={this.loginButtonRef}
           data-test="header-login-button"
         >
           <Button
