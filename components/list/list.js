@@ -359,6 +359,10 @@ export default class List extends RingComponentWithShortcuts {
     }, 100);
   }
 
+  didUpdate() {
+    this.checkOverflow();
+  }
+
   componentWillMount() {
     this.recalculateVisibleOptions();
     super.componentWillMount();
@@ -487,9 +491,11 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   checkOverflow() {
-    this.setState({
-      hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
-    });
+    if (this.inner) {
+      this.setState({
+        hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
+      });
+    }
   }
 
   getShortcutsProps() {
