@@ -174,7 +174,8 @@ export default function position(attrs) {
   }
 
   if (maxHeight === MaxHeight.SCREEN || maxHeight === 'screen') {
-    styles.maxHeight = window.innerHeight - styles.top - Dimension.MARGIN;
+    // this feature works properly only when direction is BOTTOM_* or *_BOTTOM
+    styles.maxHeight = window.innerHeight + scroll.top - styles.top - Dimension.MARGIN;
   } else if (maxHeight) {
     styles.maxHeight = maxHeight;
   }
