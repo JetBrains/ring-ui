@@ -33,47 +33,48 @@ describe('Popup', () => {
   describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
     click.initEvent('click', true, false);
+    let clock;
 
-    it('should attempt to close by click outside the element', function (done) {
+    beforeEach(function () {
+      clock = this.sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should attempt to close by click outside the element', function () {
       const onCloseAttempt = this.sinon.stub();
       renderPopup({onCloseAttempt});
 
-      setTimeout(() => {
-        document.body.dispatchEvent(click);
-
-        onCloseAttempt.should.have.been.called;
-
-        done();
-      });
+      clock.tick();
+      document.body.dispatchEvent(click);
+      onCloseAttempt.should.have.been.called;
     });
 
-    it('should pass event to onCloseAttempt callback when closing by clicking by document', function (done) {
+    it('should pass event to onCloseAttempt callback when closing by clicking by document', function () {
       const sinon = this.sinon;
       const onCloseAttempt = sinon.stub();
       renderPopup({onCloseAttempt});
 
-      setTimeout(() => {
-        document.body.dispatchEvent(click);
-        onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
-        done();
-      });
+      clock.tick();
+      document.body.dispatchEvent(click);
+      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
     });
 
-    it('should not close popup if popup hidden', function (done) {
+    it('should not close popup if popup hidden', function () {
       const onCloseAttempt = this.sinon.stub();
       renderPopup({
         hidden: true,
         onCloseAttempt
       });
 
-      setTimeout(() => {
-        document.body.dispatchEvent(click);
-        onCloseAttempt.should.not.have.been.called;
-        done();
-      });
+      clock.tick();
+      document.body.dispatchEvent(click);
+      onCloseAttempt.should.not.have.been.called;
     });
 
-    it('should be closed by click outside the element after show', function (done) {
+    it('should be closed by click outside the element after show', function () {
       const onCloseAttempt = this.sinon.stub();
       class Box extends Component {
         state = {hidden: true};
@@ -88,25 +89,19 @@ describe('Popup', () => {
       const box = renderIntoDocument(createElement(Box));
 
       box.setState({hidden: false}, () => {
-        setTimeout(() => {
-          document.body.dispatchEvent(click);
-
-          onCloseAttempt.should.have.been.called;
-          done();
-        });
+        clock.tick();
+        document.body.dispatchEvent(click);
+        onCloseAttempt.should.have.been.called;
       });
     });
 
-    it('shouldn\'n t be closed by click inside the element', function (done) {
+    it('shouldn\'n t be closed by click inside the element', function () {
       const onCloseAttempt = this.sinon.stub();
       const popup = renderPopup({onCloseAttempt});
 
-      setTimeout(() => {
-        popup.popup.dispatchEvent(click);
-
-        onCloseAttempt.should.not.have.been.called;
-        done();
-      });
+      clock.tick();
+      popup.popup.dispatchEvent(click);
+      onCloseAttempt.should.not.have.been.called;
     });
   });
 
