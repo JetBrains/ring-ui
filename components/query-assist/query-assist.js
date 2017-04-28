@@ -206,18 +206,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps({caret, delay, focus, query}) {
+  willReceiveProps({caret, delay, query}) {
     this.setupRequestHandler(delay);
     const shouldSetCaret = typeof caret === 'number';
-    const shouldSetFocus = typeof focus === 'boolean';
 
     if (shouldSetCaret) {
       this.immediateState.caret = caret;
-    }
-
-    if (shouldSetFocus || shouldSetCaret) {
-      const newFocus = shouldSetFocus ? focus : true;
-      this.setFocus(newFocus);
     }
 
     if (typeof query === 'string' && query !== this.immediateState.query) {
@@ -234,7 +228,21 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
+  didUpdate(prevProps) {
+    this.updateFocus(prevProps);
+  }
+
   componentWillUpdate() {}
+
+  updateFocus({focus, caret}) {
+    const isCaretChanged = caret !== this.props.caret;
+    const isFocusChanged = focus !== this.props.focus;
+
+    if (isFocusChanged || isCaretChanged) {
+      const focusValue = isFocusChanged ? this.props.focus : true;
+      this.setFocus(focusValue);
+    }
+  }
 
   setFocus(focus) {
     this.setShortcutsEnabled(focus);
@@ -734,6 +742,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       props.placeholder !== this.props.placeholder ||
       props.disabled !== this.props.disabled ||
       props.clear !== this.props.clear ||
+      props.focus !== this.props.focus ||
       props.loader !== this.props.loader ||
       props.glass !== this.props.glass;
   }
@@ -777,7 +786,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     const inputClasses = classNames({
       'ring-query-assist__input ring-input ring-js-shortcuts': true,
       'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
-        (renderGlassOrLoader || renderClear),
+      (renderGlassOrLoader || renderClear),
       'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
       'ring-input_disabled': this.props.disabled
     });

@@ -646,22 +646,38 @@ describe('Select', () => {
       this.select._popup.props.message.should.equal('test not found');
     });
 
-    it('Should focus the filter on opening', function () {
-      // make Popup redraw instantly
-      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
-      this.select = render(<Select filter={true}/>, this.container);
-      this.select._showPopup();
-      this.select._popup.filter.should.equal(document.activeElement);
-    });
+    describe('filter focusing', () => {
+      const SHOW_TIMEOUT = 300;
 
-    it('Should focus the filter on second opening', function () {
-      // make Popup redraw instantly
-      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
-      this.select = render(<Select filter={true}/>, this.container);
-      this.select._showPopup();
-      this.select._hidePopup();
-      this.select._showPopup();
-      this.select._popup.filter.should.equal(document.activeElement);
+      beforeEach(function () {
+        // make Popup redraw instantly
+        // this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+        this.select = render(<Select filter={true}/>, this.container);
+      });
+
+      afterEach(() => {
+        // window.requestAnimationFrame.restore();
+      });
+
+      it('Should focus the filter on opening', function (done) {
+        this.select._showPopup();
+        // Can't use fake timers here, as Popup redraws by requestAnimationFrame.
+        // Stabbing it isn't possible either, as it hangs IE11
+        setTimeout(() => {
+          this.select._popup.filter.should.equal(document.activeElement);
+          done();
+        }, SHOW_TIMEOUT);
+      });
+
+      it('Should focus the filter on second opening', function (done) {
+        this.select._showPopup();
+        this.select._hidePopup();
+        this.select._showPopup();
+        setTimeout(() => {
+          this.select._popup.filter.should.equal(document.activeElement);
+          done();
+        }, SHOW_TIMEOUT);
+      });
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {
