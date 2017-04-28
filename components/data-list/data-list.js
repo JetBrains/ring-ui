@@ -18,20 +18,20 @@ import styles from './data-list.css';
 
 type ItemType = {
   id: number,
-  title: string,
-  selectable: boolean
+  title: any,
+  selectable?: boolean
 };
 
 type GroupType = {
   id: number,
-  title: string,
+  title: any,
   size: number,
   items: ItemType[]
 };
 
 type Props = {
   data: GroupType[],
-  className: string
+  className?: string
 };
 
 export default class DataList extends PureComponent {
