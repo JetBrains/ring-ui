@@ -418,6 +418,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             });
           },
           onClose: () => {
+            ctrl.query = null;
             $scope.$evalAsync(() => {
               ctrl.onClose();
             });
