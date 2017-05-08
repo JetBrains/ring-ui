@@ -503,7 +503,6 @@ describe('Select Ng', () => {
     it('should clear last query on close', () => {
       ctrl.query = 'query';
       ctrl.config.onClose();
-      scope.$digest();
 
       expect(ctrl.query).to.be.null;
     });
