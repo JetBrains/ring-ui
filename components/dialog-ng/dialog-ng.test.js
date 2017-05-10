@@ -135,14 +135,15 @@ describe('Dialog Ng', () => {
       let testDirectiveOnDestroyElement;
       beforeEach(function () {
         testDirectiveOnDestroyElement = this.sinon.stub();
-        $compileProvider.directive('foo', () => (
-          {
+        // eslint-disable-next-line angular/directive-name
+        $compileProvider.directive('foo', function foo() {
+          return {
             template: '<div/>',
             controller: $element => {
               $element.on('$destroy', testDirectiveOnDestroyElement);
             }
-          }
-        ));
+          };
+        });
       });
 
       it('should trigger $destroy on directive', () => {
@@ -230,7 +231,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should reject dialog promise on unsatisfied resolve', function () {
-      const errorDefer = $q.defer(); //eslint-disable-line
+      const errorDefer = $q.defer(); //eslint-disable-line angular/deferred
       const serviceWhichThrowError = this.sinon.stub().
         returns(errorDefer.promise);
       const onError = this.sinon.stub();
@@ -257,7 +258,7 @@ describe('Dialog Ng', () => {
 
     it('should allow pass promise to the resolve', function () {
       text = 'Hello';
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
       const greetingResolver = this.sinon.stub().returns(defer.promise);
 
       defer.resolve(text);
@@ -304,7 +305,13 @@ describe('Dialog Ng', () => {
 
     it('should transclude custom footer', () => {
       const element = renderDialog({
-        template: '<div><rg-dialog-footer><span data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        template: `
+<div>
+  <rg-dialog-footer>
+    <span data-test="customElementFooter">Hello</span>
+  </rg-dialog-footer>
+</div>
+`,
         controllerAs: 'testCtrl',
         controller() {}
       });
@@ -315,7 +322,13 @@ describe('Dialog Ng', () => {
 
     it('should transclude custom footer with ng-if', () => {
       const element = renderDialog({
-        template: '<div><rg-dialog-footer><span ng-if="true" data-test="customElementFooter">Hello</span></rg-dialog-footer></div>',
+        template: `
+<div>
+  <rg-dialog-footer>
+    <span ng-if="true" data-test="customElementFooter">Hello</span>
+  </rg-dialog-footer>
+</div>
+`,
         controllerAs: 'testCtrl',
         controller() {}
       });
@@ -715,7 +728,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should be closed if action returns promise and when it resolves', () => {
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
 
       const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',
@@ -736,7 +749,7 @@ describe('Dialog Ng', () => {
     });
 
     it('should not be closed if action returns promise and when it resolves with "false"', () => {
-      const defer = $q.defer(); //eslint-disable-line
+      const defer = $q.defer(); //eslint-disable-line angular/deferred
 
       const {element, ctrl} = showDialog(
         '<rg-dialog></rg-dialog>',

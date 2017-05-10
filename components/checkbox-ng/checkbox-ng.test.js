@@ -22,7 +22,8 @@ describe('Checkbox Ng', () => {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
 
-    iElement = $compile('<rg-checkbox ng-disabled="disabled" ng-model="checked">Checkbox</rg-checkbox>')(scope);
+    const tpl = '<rg-checkbox ng-disabled="disabled" ng-model="checked">Checkbox</rg-checkbox>';
+    iElement = $compile(tpl)(scope);
     element = iElement[0];
     scope.$digest();
   }));

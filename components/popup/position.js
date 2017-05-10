@@ -153,24 +153,29 @@ export default function position(attrs) {
 
   if (popup) {
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop);
+    if (!autoPositioning || directions.length === 1) {
+      styles = directionsMatrix[directions[0]];
+    } else {
+      const directionStylesSortedByIncreasingOverflow = directions.
+        filter(direction => directionsMatrix[direction]).
+        map(direction => directionsMatrix[direction]).
+        sort((firstDirectionStyles, secondDirectionStyles) => {
+          const firstDirectionOverflow =
+            verticalOverflow(firstDirectionStyles, scroll, attrs) +
+            horizontalOverflow(firstDirectionStyles, scroll, attrs);
+          const secondDirectionOverflow =
+            verticalOverflow(secondDirectionStyles, scroll, attrs) +
+            horizontalOverflow(secondDirectionStyles, scroll, attrs);
+          return firstDirectionOverflow - secondDirectionOverflow;
+        });
 
-    const directionStylesSortedByIncreasingOverflow = directions.
-      filter(direction => directionsMatrix[direction]).
-      map(direction => directionsMatrix[direction]).
-      sort((firstDirectionStyles, secondDirectionStyles) => {
-        if (!autoPositioning) {
-          return 0;
-        }
-        const firstDirectionOverflow = verticalOverflow(firstDirectionStyles, scroll, attrs) + horizontalOverflow(firstDirectionStyles, scroll, attrs);
-        const secondDirectionOverflow = verticalOverflow(secondDirectionStyles, scroll, attrs) + horizontalOverflow(secondDirectionStyles, scroll, attrs);
-        return firstDirectionOverflow - secondDirectionOverflow;
-      });
-
-    styles = directionStylesSortedByIncreasingOverflow[0];
+      styles = directionStylesSortedByIncreasingOverflow[0];
+    }
   }
 
   if (maxHeight === MaxHeight.SCREEN || maxHeight === 'screen') {
-    styles.maxHeight = window.innerHeight - styles.top - Dimension.MARGIN;
+    // this feature works properly only when direction is BOTTOM_* or *_BOTTOM
+    styles.maxHeight = window.innerHeight + scroll.top - styles.top - Dimension.MARGIN;
   } else if (maxHeight) {
     styles.maxHeight = maxHeight;
   }

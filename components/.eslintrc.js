@@ -1,4 +1,4 @@
-{
+module.exports = {
   "root": true,
   "parser": "babel-eslint",
   "extends": [
@@ -18,9 +18,15 @@
 
     // Stylistic Issues
     "func-names": "warn",
-
+    "max-len": ["error", 100, {
+      "ignoreComments": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true,
+      // Strings longer than 40 symbols (half of standard max-len)
+      "ignorePattern": "\"(?=([^\"]|\\\"){40,}\")|'(?=([^']|\\'){40,}')"
+    }],
     // Angular
-    "angular/directive-name": ["error", "rg"],
+    "angular/directive-name": ["error", "rg"]
   },
   "settings": {
     "import/resolver": {

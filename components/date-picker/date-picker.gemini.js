@@ -9,7 +9,7 @@ gemini.suite('Date Picker', () => {
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
-        actions.mouseMove(find('body'), [0, 0]);
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(UNHOVER_DELAY);
       });
   });
@@ -20,7 +20,7 @@ gemini.suite('Date Picker', () => {
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
-        actions.mouseMove(find('body'), [0, 0]);
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(UNHOVER_DELAY);
       });
   });
@@ -31,7 +31,7 @@ gemini.suite('Date Picker', () => {
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
-        actions.mouseMove(find('body'), [0, 0]);
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(UNHOVER_DELAY);
       });
   });

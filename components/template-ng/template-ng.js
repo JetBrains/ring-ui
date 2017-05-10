@@ -6,7 +6,7 @@ import RingAngularComponent from '../global/ring-angular-component';
  * @example
     <example name="Template Ng">
       <file name="index.html">
-        <div ng-app="Example.template-ng">
+        <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="'<input/>'"></rg-template>
         </div>
       </file>
@@ -21,7 +21,7 @@ import RingAngularComponent from '../global/ring-angular-component';
 
     <example name="Template Ng 2">
       <file name="index.html">
-        <div ng-app="Example.template-ng">
+        <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>
         </div>
       </file>
@@ -49,10 +49,10 @@ class RgTemplateController extends RingAngularComponent {
     super(...args);
 
     const {$scope, $attrs} = this.$inject;
-    $scope.$watch($attrs.rgTemplate || $attrs.template, ::this.render);
+    $scope.$watch($attrs.rgTemplate || $attrs.template, this.render);
   }
 
-  render(template) {
+  render = template => {
     const {$scope, $element, $compile} = this.$inject;
 
     this.cleanup();
@@ -73,8 +73,10 @@ class RgTemplateController extends RingAngularComponent {
   }
 }
 
-angularModule.directive('rgTemplate', () => ({
-  controller: RgTemplateController
-}));
+angularModule.directive('rgTemplate', function rgTemplateDirective() {
+  return {
+    controller: RgTemplateController
+  };
+});
 
 export default angularModule.name;

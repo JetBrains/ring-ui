@@ -9,7 +9,7 @@ import {
 import Header from './header';
 
 describe('Header', () => {
-  const renderComponent = props => renderIntoDocument(<Header {...props} />);
+  const renderComponent = props => renderIntoDocument(<Header {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Header).should.be.true;

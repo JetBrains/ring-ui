@@ -6,8 +6,7 @@ gemini.suite('Shortcuts hint popup', suite => {
     setCaptureElements('[data-test=ring-dialog]').
     capture('dialog', actions => {
       // Supports Edge
-      // eslint-disable-next-line prefer-arrow-callback
-      actions.waitForJSCondition(function () {
+      actions.waitForJSCondition(function isDialogMounted() {
         return document.querySelector('[data-test=ring-dialog]') !== null;
       });
     });

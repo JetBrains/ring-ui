@@ -48,6 +48,7 @@ module.exports = (env = {}) => {
       'example-common': './site/example-common.js'
     },
     resolve: {
+      mainFields: ['module', 'browser', 'main'],
       alias: {
         'ring-ui': __dirname
       }
@@ -59,9 +60,9 @@ module.exports = (env = {}) => {
         // HTML examples
         {
           test: /example\.html$/,
-          loaders: [
-            `${require.resolve('file-loader')}?name=examples/[name]/[hash].html`,
-            require.resolve('extract-loader'),
+          use: [
+            'file-loader?name=examples/[name]/[hash].html',
+            'extract-loader',
             webpackConfig.loaders.htmlLoader.loader
           ]
         }

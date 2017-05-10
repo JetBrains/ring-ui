@@ -1,7 +1,7 @@
-import React, {Children} from 'react';
+import React, {Children, Component} from 'react';
 import PropTypes from 'prop-types';
 
-import RingComponent from '../ring-component/ring-component';
+import getUID from '../global/get-uid';
 
 import RadioItem from './radio__item';
 
@@ -40,7 +40,7 @@ import RadioItem from './radio__item';
    </example>
  */
 
-export default class Radio extends RingComponent {
+export default class Radio extends Component {
   static propTypes = {
     name: PropTypes.string,
     value: PropTypes.oneOfType([
@@ -61,7 +61,7 @@ export default class Radio extends RingComponent {
   constructor(...args) {
     super(...args);
 
-    this.uid = this.constructor.getUID('ring-radio-');
+    this.uid = getUID('ring-radio-');
   }
 
   getChildContext() {

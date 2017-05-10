@@ -67,6 +67,14 @@ export default class ProgressBar extends RingComponent {
     return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
   }
 
+  progressbarWrapperRef = el => {
+    this.progressbarWrapper = el;
+  };
+
+  progressbarRef = el => {
+    this.progressbar = el;
+  };
+
   render() {
     const {light, className, global, max, value, ...otherProps} = this.props;
 
@@ -82,11 +90,11 @@ export default class ProgressBar extends RingComponent {
       <div
         {...otherProps}
         className={classes}
-        ref="progressbarWrapper"
+        ref={this.progressbarWrapperRef}
       >
         <div
           className="ring-progress-bar__i"
-          ref="progressbar"
+          ref={this.progressbarRef}
           role="progressbar"
           aria-valuenow={value}
           aria-valuemin={0}

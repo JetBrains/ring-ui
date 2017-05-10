@@ -1,10 +1,15 @@
 const url = require('url');
 const osHostname = require('os').hostname();
 
-const fullHostname = osHostname.indexOf('.') !== -1 ? osHostname : `${osHostname}.labs.intellij.net`;
+const fullHostname = osHostname.indexOf('.') !== -1
+  ? osHostname
+  : `${osHostname}.labs.intellij.net`;
 
 module.exports = config => {
-  const gridURL = process.env.SELENIUM_GRID || '***REMOVED***';
+  const gridURL =
+    process.env.SELENIUM_GRID ||
+    '***REMOVED***';
+
   const {hostname, port, auth = ':'} = url.parse(gridURL);
   const [user, pwd] = auth.split(':');
 
@@ -95,13 +100,13 @@ module.exports = config => {
         base: 'Chrome',
         flags: ['--no-sandbox', '--test-type']
       },
-      wdEdge: {
+      /*wdEdge: {
         base: 'WebDriver',
         config: webdriverConfig,
         testName,
         pseudoActivityInterval: 30000,
         browserName: 'MicrosoftEdge'
-      },
+      },*/
       wdIE11: {
         base: 'WebDriver',
         config: webdriverConfig,

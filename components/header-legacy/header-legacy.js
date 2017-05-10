@@ -3,7 +3,6 @@
  * @category Components
  * @description Displays a configurable page header.
  */
-/* eslint-disable react/no-multi-comp */
 
 import 'dom4';
 import React, {createElement, DOM} from 'react';
@@ -234,7 +233,11 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__menu">{
         this.props.menu.map(({component, props, children}) => {
-          const newProps = Object.assign({}, props, {className: classNames(props.className, 'ring-header__menu-item')});
+          const newProps = Object.assign(
+            {},
+            props,
+            {className: classNames(props.className, 'ring-header__menu-item')}
+          );
           return createElement(component, newProps, children);
         })
       }</div>
@@ -260,13 +263,13 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _setNavigationPopupMenu() {
+  _setNavigationPopupMenu = () => {
     if (!this.navigationPopup) {
       const menuPopupData = this._getMenuPopupData();
 
       this.navigationPopup = PopupMenu.renderPopup(
         <PopupMenu
-          anchorElement={this.refs.navigationMenu.node}
+          anchorElement={this.navigationMenu.node}
           autoRemove={true}
           className={this.props.popupClassName}
           data={menuPopupData}
@@ -294,7 +297,7 @@ export default class Header extends RingComponent {
             className="ring-header__menu__dropdown"
             glyph={caretDownIcon}
             size={Icon.Size.Size16}
-            onClick={::this._setNavigationPopupMenu}
+            onClick={this._setNavigationPopupMenu}
           />
         </span>
       </div>
@@ -329,7 +332,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _onServicesOpen() {
+  _onServicesOpen = () => {
     if (this.props.onServicesOpen) {
       this.props.onServicesOpen();
       return;
@@ -341,7 +344,7 @@ export default class Header extends RingComponent {
   /**
    * @private
    */
-  _onServicesClose() {
+  _onServicesClose = () => {
     if (this.props.onServicesClose) {
       this.props.onServicesClose();
       return;
@@ -383,7 +386,8 @@ export default class Header extends RingComponent {
   }
 
   _renderServiceLinkWithLogo(item, serviceLogo) {
-    const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+    const isActive = Header.
+      isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
 
     return this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-item', [
       serviceLogo,
@@ -398,7 +402,10 @@ export default class Header extends RingComponent {
   _getPopupTopLine() {
     return this.props.servicesList.sort(sortServices).
       filter(Header.isTopLineService).
-      map(item => this._renderServiceLinkWithLogo(item, getServiceLogo(item, 'ring-header__services-logo_top-line', Icon.Size.Size32)));
+      map(item => this._renderServiceLinkWithLogo(
+        item,
+        getServiceLogo(item, 'ring-header__services-logo_top-line', Icon.Size.Size32))
+      );
   }
 
   /**
@@ -423,7 +430,12 @@ export default class Header extends RingComponent {
           return;
         }
 
-        const isActive = Header.isActiveService(this.props.rootUrl, this.props.clientId, item.id, item.homeUrl);
+        const isActive = Header.isActiveService(
+          this.props.rootUrl,
+          this.props.clientId,
+          item.id,
+          item.homeUrl
+        );
 
         linksList.push(
           this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-stacked', item.name)
@@ -450,12 +462,12 @@ export default class Header extends RingComponent {
   _setServicesPopupShown(show) {
     if (show) {
       this._servicesPopup = Popup.renderPopup(createElement(Popup, {
-        anchorElement: findDOMNode(this.refs.services),
+        anchorElement: findDOMNode(this.services),
         autoRemove: true,
         className: 'ring-header__services',
         cutEdge: false,
         directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-        onClose: () => this.refs.services.setOpened(false),
+        onClose: () => this.services.setOpened(false),
         sidePadding: 32
       }, <div>
         <div>{this._getPopupTopLine()}</div>
@@ -523,7 +535,7 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__right">
         <div className="ring-header__user-menu">
-          <div className={extraElementClassName} />
+          <div className={extraElementClassName}/>
           {
             this.props.rightMenu.map(({component, props, children}) => (
               <div
@@ -558,6 +570,26 @@ export default class Header extends RingComponent {
     return this.node.query('.ring-header__menu');
   }
 
+  settingsRef = el => {
+    this.settings = el;
+  }
+
+  helpRef = el => {
+    this.help = el;
+  }
+
+  servicesRef = el => {
+    this.services = el;
+  }
+
+  userMenuRef = el => {
+    this.userMenu = el;
+  }
+
+  loginButtonRef = el => {
+    this.loginButton = el;
+  }
+
   /**
    * @return {Array.<ReactComponent>}
    */
@@ -571,7 +603,7 @@ export default class Header extends RingComponent {
       [MenuItemType.SETTINGS]: (
         <HeaderItem
           key="settings"
-          ref="settings"
+          ref={this.settingsRef}
           testKey="settings"
           glyph={cogIcon}
           href={this.props.settingsLink}
@@ -586,7 +618,7 @@ export default class Header extends RingComponent {
       [MenuItemType.HELP]: (
         <HeaderItem
           key="help"
-          ref="help"
+          ref={this.helpRef}
           testKey="help"
           glyph={helpIcon}
           href={this.props.helpLink}
@@ -599,11 +631,11 @@ export default class Header extends RingComponent {
       [MenuItemType.SERVICES]: (
         <HeaderItem
           key="services"
-          ref="services"
+          ref={this.servicesRef}
           testKey="services"
           glyph={servicesIcon}
-          onOpen={::this._onServicesOpen}
-          onClose={::this._onServicesClose}
+          onOpen={this._onServicesOpen}
+          onClose={this._onServicesClose}
           title={this.props.translationsDict.services}
         />
       ),
@@ -611,7 +643,7 @@ export default class Header extends RingComponent {
       [MenuItemType.USER_MENU]: (
         <HeaderItem
           key="userMenu"
-          ref="userMenu"
+          ref={this.userMenuRef}
           testKey="user-menu"
           glyph={userIcon}
           onOpen={this.props.onUserMenuOpen}
@@ -623,7 +655,7 @@ export default class Header extends RingComponent {
         <div
           className={loginClassName}
           key="loginButton"
-          ref="loginButton"
+          ref={this.loginButtonRef}
           data-test="header-login-button"
         >
           <Button
@@ -641,8 +673,10 @@ export default class Header extends RingComponent {
     const customItems = this.props.customItems.
       map(item => (
         <HeaderItem
+          key={item.glyph}
           {...item}
-        />));
+        />
+      ));
 
     return customItems.concat(predefinedItems);
   }
@@ -651,14 +685,14 @@ export default class Header extends RingComponent {
    * @return {ReactComponent}
    */
   getUserMenu() {
-    return this.refs.userMenu;
+    return this.userMenu;
   }
 
   /**
    * @return {ReactComponent}
    */
   getSettings() {
-    return this.refs.settings;
+    return this.settings;
   }
 
   /**
@@ -666,8 +700,8 @@ export default class Header extends RingComponent {
    * @param {string} src
    */
   setProfilePicture(src) {
-    if (this.refs.userMenu) {
-      this.refs.userMenu.setState({picture: src});
+    if (this.userMenu) {
+      this.userMenu.setState({picture: src});
     }
   }
 
@@ -689,10 +723,10 @@ export default class Header extends RingComponent {
       onSettingsOpen: () => {
         Promise.resolve(settingsListData).then(data => {
           popup = PopupMenu.renderPopup(PopupMenu.factory({
-            anchorElement: findDOMNode(this.refs.settings),
+            anchorElement: findDOMNode(this.settings),
             data,
             directions: [PopupMenu.PopupProps.Directions.BOTTOM_LEFT],
-            onClose: () => this.refs.settings.setOpened(false),
+            onClose: () => this.settings.setOpened(false),
             onSelect: () => popup.close()
           }));
         });

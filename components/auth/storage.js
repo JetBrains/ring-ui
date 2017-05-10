@@ -27,7 +27,11 @@ export default class AuthStorage {
     this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
 
     const StorageConstructor = config.storage || Storage;
-    this.stateQuota = Math.min(config.stateQuota || DEFAULT_STATE_QUOTA, StorageConstructor.QUOTA || Infinity);
+    this.stateQuota = Math.min(
+      config.stateQuota ||
+      DEFAULT_STATE_QUOTA,
+      StorageConstructor.QUOTA || Infinity
+    );
 
     this._stateStorage = new StorageConstructor({
       cookieName: 'ring-state'
@@ -111,7 +115,8 @@ export default class AuthStorage {
     });
     const currentStates = removalResult.filter(state => state);
 
-    let stateStorageSize = currentStates.reduce((overallSize, state) => state.size + overallSize, 0);
+    let stateStorageSize = currentStates.
+      reduce((overallSize, state) => state.size + overallSize, 0);
 
     if (stateStorageSize > this.stateQuota) {
       currentStates.sort((a, b) => a.created > b.created);

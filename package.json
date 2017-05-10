@@ -1,6 +1,6 @@
 {
   "name": "ring-ui",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "JetBrains UI library",
   "config": {
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
@@ -53,7 +53,16 @@
   "readmeFilename": "README.md",
   "babel": {
     "presets": "jetbrains",
-    "plugins": "transform-runtime",
+    "plugins": [
+      "transform-runtime",
+      [
+        "@maxmaximov/babel-plugin-angular-annotate",
+        [
+          "angular",
+          "ngRoute"
+        ]
+      ]
+    ],
     "env": {
       "test": {
         "plugins": [
@@ -85,7 +94,7 @@
     "docpack-page-generator": "0.0.6",
     "electron": "1.6.2",
     "eslint": "3.11.1",
-    "eslint-config-jetbrains": "2.0.28",
+    "eslint-config-jetbrains": "2.0.39",
     "eslint-nibble": "3.0.0",
     "exports-loader": "0.6.3",
     "extract-loader": "0.0.2",
@@ -93,7 +102,7 @@
     "front-matter": "2.1.2",
     "gemini": "4.18.1",
     "gemini-teamcity": "2.1.3",
-    "generator-ring-ui": "1.0.35",
+    "generator-ring-ui": "1.0.38",
     "glob": "7.0.6",
     "http-server": "0.9.0",
     "json-loader": "0.5.4",
@@ -119,12 +128,13 @@
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
+    "@maxmaximov/babel-plugin-angular-annotate": "2.0.2",
     "angular-elastic": "2.5.1-jb",
     "autoprefixer": "6.4.1",
-    "babel-core": "6.14.0",
+    "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-jetbrains": "1.0.11",
+    "babel-preset-jetbrains": "1.0.13",
     "babel-runtime": "6.6.1-jb",
     "classnames": "2.2.5",
     "combokeys": "2.4.6",
@@ -142,7 +152,6 @@
     "jetbrains-logos": "1.1.51",
     "moment": "2.15.2",
     "mout": "1.0.0",
-    "ng-annotate-loader": "0.2.0",
     "node-sass": "4.5.0",
     "null-loader": "0.1.1",
     "postcss": "5.2.0",
@@ -160,7 +169,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.13.1",
-    "svg-sprite-loader": "0.0.27",
+    "svg-sprite-loader": "0.3.1",
     "url-loader": "0.5.7",
     "whatwg-fetch": "1.0.0"
   }

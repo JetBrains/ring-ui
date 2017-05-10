@@ -13,7 +13,7 @@ import {resolveRelativeURL} from '../global/url';
 import Icon from './icon';
 
 describe('Icon', () => {
-  const renderComponent = props => renderIntoDocument(<Icon {...props} />);
+  const renderComponent = props => renderIntoDocument(<Icon {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent({glyph: expandIcon}), Icon).should.equal(true);

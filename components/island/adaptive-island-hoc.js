@@ -5,8 +5,6 @@ import Content from './content';
 
 const TITLE_RESIZE_END = 20;
 
-/* eslint-disable react/prop-types */
-
 export default function adaptiveIslandHOC(ComposedComponent) {
 
   return class AdaptiveIsland extends Component {

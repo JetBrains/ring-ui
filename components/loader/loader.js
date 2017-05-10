@@ -45,20 +45,22 @@ import LoaderCore from './loader__core';
  */
 
 export default class Loader extends RingComponent {
-  didMount() {
-    this.loader = new LoaderCore(this.refs.loaderContainer, this.props);
-  }
-
   willUnmount() {
     this.loader.destroy();
   }
+
+  initLoader = el => {
+    if (el) {
+      this.loader = new LoaderCore(el, this.props);
+    }
+  };
 
   render() {
     const {message, size, colors, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     return (
       <div
         {...restProps}
-        ref="loaderContainer"
+        ref={this.initLoader}
       />
     );
   }

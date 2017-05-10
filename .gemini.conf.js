@@ -40,12 +40,12 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'internet explorer'
       }
-    },
-    // edge: {
-    //   windowSize,
-    //   desiredCapabilities: {
-    //     browserName: 'MicrosoftEdge'
-    //   }
-    // }
+    }/*,
+    edge: {
+      windowSize,
+      desiredCapabilities: {
+        browserName: 'MicrosoftEdge'
+      }
+    }*/
   }
 };

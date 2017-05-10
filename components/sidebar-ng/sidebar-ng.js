@@ -1,5 +1,6 @@
 import PlaceUnder from '../place-under-ng/place-under-ng';
 import iconNg from '../icon-ng/icon-ng';
+import RingAngularComponent from '../global/ring-angular-component';
 
 import '../sidebar/sidebar.scss';
 import '../button/button.scss';
@@ -16,9 +17,15 @@ import '../button/button.scss';
 
 const angularModule = angular.module('Ring.sidebar', [PlaceUnder, iconNg]);
 
-class SidebarController {
-  constructor($scope) {
+class SidebarController extends RingAngularComponent {
+  static $inject = ['$scope'];
+
+  constructor(...args) {
+    super(...args);
+
     this.$onInit = () => {
+      const {$scope} = this.$inject;
+
       this.dialogIsActive = false;
       this.showed = this.show;
 

@@ -17,7 +17,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, ico
  * @example
    <example name="Avatar Editor Ng">
      <file name="index.html">
-       <div ng-app="test" ng-controller="testCtrl as ctrl">
+       <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
          <rg-avatar-editor
          on-select="ctrl.name = name"
          ng-model="ctrl.data"></rg-avatar-editor>
@@ -52,86 +52,89 @@ function rgAvatarEditor() {
     },
     template: require('./avatar-editor-ng.html'),
     transclude: true,
-    controller($scope, $attrs, RingMessageBundle) {
-      let fileInput;
-      $scope.editIcon = editIcon;
+    controller: [
+      '$scope', '$attrs', 'RingMessageBundle',
+      function controller($scope, $attrs, RingMessageBundle) {
+        let fileInput;
+        $scope.editIcon = editIcon;
 
-      function setLang() {
-        $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
-        $scope.addMessage = RingMessageBundle.avatareditor_add();
-      }
+        function setLang() {
+          $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
+          $scope.addMessage = RingMessageBundle.avatareditor_add();
+        }
 
-      $scope.$on('gettextLanguageChanged', setLang);
-      setLang();
+        $scope.$on('gettextLanguageChanged', setLang);
+        setLang();
 
-      if ('controls' in $attrs) {
-        $scope.controlled = true;
-      }
+        if ('controls' in $attrs) {
+          $scope.controlled = true;
+        }
 
-      function createFileLoadListener(file) {
-        return readEvent => {
-          const data = readEvent.target.result;
-          const result = $scope.onSelect({name: file.name, data});
+        function createFileLoadListener(file) {
+          return readEvent => {
+            const data = readEvent.target.result;
+            const result = $scope.onSelect({name: file.name, data});
+            if (result && result.then) {
+              result.then(() => {
+                $scope.model = data;
+              });
+            } else if (result !== false) {
+              $scope.$apply(() => {
+                $scope.model = data;
+              });
+            }
+          };
+        }
+
+        this.registerFileInput = input => {
+          fileInput = input;
+          fileInput.addEventListener('change', e => {
+            let imageFileSelected = false;
+            for (let i = 0; i < e.target.files.length; i++) {
+              const file = e.target.files[i];
+              if (file.type.indexOf('image/') === 0) {
+                imageFileSelected = true;
+                const reader = new FileReader();
+                reader.onload = createFileLoadListener(file);
+                reader.readAsDataURL(file);
+                break;
+              }
+            }
+            if (e.target.files.length && !imageFileSelected) {
+              alertService.error(RingMessageBundle.avatareditor_noselected());
+            }
+          });
+        };
+
+        $scope.controls = {};
+
+        function onClick(e) {
+          e.stopPropagation();
+        }
+
+        $scope.controls.select = () => {
+          if (!FileReader) {
+            alertService.error(RingMessageBundle.avatareditor_nosupport());
+          } else {
+            fileInput.addEventListener('click', onClick);
+            fileInput.dispatchEvent(new MouseEvent('click'));
+            fileInput.removeEventListener('click', onClick);
+          }
+        };
+
+        $scope.controls.remove = () => {
+          const data = '';
+          const result = $scope.onSelect({name: data, data});
           if (result && result.then) {
             result.then(() => {
               $scope.model = data;
             });
           } else if (result !== false) {
-            $scope.$apply(() => {
-              $scope.model = data;
-            });
+            $scope.model = data;
           }
         };
       }
-
-      this.registerFileInput = input => {
-        fileInput = input;
-        fileInput.addEventListener('change', e => {
-          let imageFileSelected = false;
-          for (let i = 0; i < e.target.files.length; i++) {
-            const file = e.target.files[i];
-            if (file.type.indexOf('image/') === 0) {
-              imageFileSelected = true;
-              const reader = new FileReader();
-              reader.onload = createFileLoadListener(file);
-              reader.readAsDataURL(file);
-              break;
-            }
-          }
-          if (e.target.files.length && !imageFileSelected) {
-            alertService.error(RingMessageBundle.avatareditor_noselected());
-          }
-        });
-      };
-
-      $scope.controls = {};
-
-      function onClick(e) {
-        e.stopPropagation();
-      }
-
-      $scope.controls.select = () => {
-        if (!FileReader) {
-          alertService.error(RingMessageBundle.avatareditor_nosupport());
-        } else {
-          fileInput.addEventListener('click', onClick);
-          fileInput.dispatchEvent(new MouseEvent('click'));
-          fileInput.removeEventListener('click', onClick);
-        }
-      };
-
-      $scope.controls.remove = () => {
-        const data = '';
-        const result = $scope.onSelect({name: data, data});
-        if (result && result.then) {
-          result.then(() => {
-            $scope.model = data;
-          });
-        } else if (result !== false) {
-          $scope.model = data;
-        }
-      };
-    }
+    ]
   };
 }
 
@@ -139,7 +142,7 @@ function rgAvatarEditorFileInput() {
   return {
     restrict: 'A',
     require: '^rgAvatarEditor',
-    link(scope, iElement, iAttrs, avatarEditorCtrl) {
+    link: function link(scope, iElement, iAttrs, avatarEditorCtrl) {
       avatarEditorCtrl.registerFileInput(iElement[0]);
     }
   };

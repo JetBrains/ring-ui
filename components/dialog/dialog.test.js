@@ -14,18 +14,24 @@ describe('Dialog', () => {
   });
 
   it('should wrap children with dialog wrapper', () => {
-    renderComponent({show: true, children}).refs.dialog.should.match(`.${styles.container}`);
+    renderComponent({show: true, children}).dialog.should.match(`.${styles.container}`);
   });
 
   it('should use passed className', () => {
-    renderComponent({show: true, children, className: 'test-class'}).refs.dialog.should.match('.test-class');
+    renderComponent({show: true, children, className: 'test-class'}).dialog.should.
+      match('.test-class');
   });
 
   it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', () => {
     const closeSpy = sinon.spy();
     const clickSpy = sinon.spy();
-    const instance = renderComponent({show: true, children, onOverlayClick: clickSpy, onCloseAttempt: closeSpy});
-    instance.handleClick({target: instance.refs.dialog});
+    const instance = renderComponent({
+      show: true,
+      children,
+      onOverlayClick: clickSpy,
+      onCloseAttempt: closeSpy
+    });
+    instance.handleClick({target: instance.dialog});
 
     closeSpy.should.have.been.called;
     clickSpy.should.have.been.called;
@@ -34,7 +40,12 @@ describe('Dialog', () => {
   it('should call onEscPress and onCloseAttempt callbacks on click by overlay', () => {
     const closeSpy = sinon.spy();
     const escSpy = sinon.spy();
-    const instance = renderComponent({show: true, children, onEscPress: escSpy, onCloseAttempt: closeSpy});
+    const instance = renderComponent({
+      show: true,
+      children,
+      onEscPress: escSpy,
+      onCloseAttempt: closeSpy
+    });
 
     instance.handleKeyDown({key: 'Escape'});
 

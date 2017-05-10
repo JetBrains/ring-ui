@@ -5,7 +5,9 @@ import 'dom4';
 import React from 'react';
 import {render} from 'react-dom';
 
-import ContentLayout, {Sidebar} from '../components/content-layout/content-layout';
+import ContentLayout, {
+  Sidebar
+} from '../components/content-layout/content-layout';
 
 import {fetchData, fetchNavData} from './utils';
 import Header from './components/header';
@@ -29,15 +31,15 @@ Promise.all(promises).then(([source, navData]) => {
       <Header {...{version, docsItems}}/>
       <ContentLayout className={styles.main}>
         <Sidebar>
-          <Nav {...{categories}} />
+          <Nav {...{categories}}/>
         </Sidebar>
-        <Content {...source} />
+        <Content {...source}/>
       </ContentLayout>
     </div>
   );
 
   render(
-    <App />,
+    <App/>,
     document.query('#app')
   );
 });

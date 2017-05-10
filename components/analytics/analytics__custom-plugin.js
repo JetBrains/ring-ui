@@ -51,11 +51,26 @@ export default class AnalyticsCustomPlugin {
 
     this._trackPageViewAdditionalInfo(path);
     this._processEvent('ring-page', path);
-    this._processEvent('ring-navigator_user-agent', AnalyticsCustomPluginUtils.getUserAgentPresentation());
-    this._processEvent('ring-navigator_platform', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.platform));
-    this._processEvent('ring-navigator_lang', AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.language));
-    this._processEvent('ring-device-pixel-ratio', AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation());
-    this._processEvent('ring-screen-width', AnalyticsCustomPluginUtils.getScreenWidthPresentation());
+    this._processEvent(
+      'ring-navigator_user-agent',
+      AnalyticsCustomPluginUtils.getUserAgentPresentation()
+    );
+    this._processEvent(
+      'ring-navigator_platform',
+      AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.platform)
+    );
+    this._processEvent(
+      'ring-navigator_lang',
+      AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.language)
+    );
+    this._processEvent(
+      'ring-device-pixel-ratio',
+      AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation()
+    );
+    this._processEvent(
+      'ring-screen-width',
+      AnalyticsCustomPluginUtils.getScreenWidthPresentation()
+    );
   }
 
   _initSendSchedule() {
@@ -84,7 +99,8 @@ export default class AnalyticsCustomPlugin {
     const currentTime = (new Date()).getTime();
     if (this._lastPagePath) {
       if (this._lastPageViewTime) {
-        const duration = AnalyticsCustomPluginUtils.getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
+        const duration = AnalyticsCustomPluginUtils.
+          getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
         this._processEvent(`ring-pageview-duration_${this._lastPagePath}`, duration);
       }
     }

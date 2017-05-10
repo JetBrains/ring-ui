@@ -11,7 +11,7 @@ import {copyright} from '../footer/footer';
  * @example
     <example name="footer-ng">
       <file name="index.html">
-        <div id="footer" ng-app="TestApp">
+        <div id="footer" ng-app="TestApp" ng-strict-di>
           <rg-footer>
             <rg-footer-left>
               <rg-footer-line>Left</rg-footer-line>
@@ -61,6 +61,7 @@ class rgFooterLineComponent extends RingAngularComponent {
 }
 
 class rgFooterCopyrightComponent extends RingAngularComponent {
+  //eslint-disable-next-line max-len
   static template = '<span>{{:: $ctrl.copyrightYears}} {{:: $ctrl.companyName}} · All rights reserved</span>';
 
   static bindings = {

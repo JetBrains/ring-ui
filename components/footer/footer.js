@@ -179,6 +179,7 @@ export default class Footer extends RingComponent {
           position={position}
         >{elements.map((item, idx) => (
           <FooterLine
+            // eslint-disable-next-line react/no-array-index-key
             key={idx}
             item={item}
           />

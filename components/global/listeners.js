@@ -10,7 +10,7 @@ export default class Listeners {
       return Promise.all([...handlers].map(fn => fn(data)));
     }
 
-    return Promise.resolve();
+    return Promise.resolve([]);
   }
 
   add(event, handler) {
