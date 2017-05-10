@@ -6,7 +6,7 @@ process.env.BABEL_ENV = 'test';
 
 module.exports = config => {
   const configCI = deepAssign(generateConfig(config), {
-    browsers: ['wdIE11', 'wdFirefox', 'wdChrome'],
+    browsers: ['wdFirefox', 'wdChrome'/*, 'wdEdge'*/, 'wdIE11'],
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},

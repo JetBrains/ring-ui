@@ -12,6 +12,7 @@ import throttle from 'mout/function/throttle';
 
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
+import getUID from '../global/get-uid';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import './list.scss';
@@ -165,7 +166,7 @@ export default class List extends RingComponentWithShortcuts {
     }
   });
 
-  upHandler(e) {
+  upHandler = e => {
     const index = this.state.activeIndex;
     let newIndex;
 
@@ -175,10 +176,10 @@ export default class List extends RingComponentWithShortcuts {
       newIndex = index - 1;
     }
 
-    this.moveHandler(newIndex, ::this.upHandler, e);
+    this.moveHandler(newIndex, this.upHandler, e);
   }
 
-  downHandler(e) {
+  downHandler = e => {
     const index = this.state.activeIndex;
     let newIndex;
 
@@ -192,7 +193,7 @@ export default class List extends RingComponentWithShortcuts {
       newIndex = index + 1;
     }
 
-    this.moveHandler(newIndex, ::this.downHandler, e);
+    this.moveHandler(newIndex, this.downHandler, e);
   }
 
   moveHandler(index, retryCallback, e) {
@@ -217,15 +218,15 @@ export default class List extends RingComponentWithShortcuts {
     });
   }
 
-  mouseHandler() {
+  mouseHandler = () => {
     this.setState({scrolling: false});
   }
 
-  scrollHandler() {
+  scrollHandler = () => {
     this.setState({scrolling: true}, this.scrollEndHandler);
   }
 
-  enterHandler(event) {
+  enterHandler = event => {
     if (this.state.activeIndex !== null) {
       this.setState({scrolling: false}, function () {
         const item = this.props.data[this.state.activeIndex];
@@ -288,7 +289,12 @@ export default class List extends RingComponentWithShortcuts {
       let activeIndex = null;
       let activeItem = null;
 
-      if (this.props.restoreActiveIndex && this.state.activeItem && this.state.activeItem.key !== undefined && this.state.activeItem.key !== null) {
+      if (
+        this.props.restoreActiveIndex &&
+        this.state.activeItem &&
+        this.state.activeItem.key !== undefined &&
+        this.state.activeItem.key !== null
+      ) {
         for (let i = 0; i < props.data.length; i++) {
           // Restore active index if there is an item with the same "key" property
           if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
@@ -299,10 +305,19 @@ export default class List extends RingComponentWithShortcuts {
         }
       }
 
-      if (activeIndex === null && this.props.activateSingleItem && props.data.length === 1 && this.isActivatable(props.data[0])) {
+      if (
+        activeIndex === null &&
+        this.props.activateSingleItem &&
+        props.data.length === 1 &&
+        this.isActivatable(props.data[0])
+      ) {
         activeIndex = 0;
         activeItem = props.data[0];
-      } else if (props.activeIndex != null && props.activeIndex !== this.props.activeIndex && props.data[props.activeIndex]) {
+      } else if (
+        props.activeIndex != null &&
+        props.activeIndex !== this.props.activeIndex &&
+        props.data[props.activeIndex]
+      ) {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
@@ -312,7 +327,8 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   shouldUpdate(nextProps, nextState) {
-    return nextProps !== this.props || Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
+    return nextProps !== this.props ||
+      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
   didMount() {
@@ -322,7 +338,8 @@ export default class List extends RingComponentWithShortcuts {
       if (innerContainer) {
         const maxScrollingPosition = innerContainer.scrollHeight;
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
-        const currentScrollingPosition = innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
+        const currentScrollingPosition =
+          innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
         if (currentScrollingPosition >= maxScrollingPosition) {
           this.props.onScrollToBottom();
         }
@@ -378,7 +395,9 @@ export default class List extends RingComponentWithShortcuts {
               break;
           }
 
-          const begin = this.cachedSizes.length === 0 ? Dimension.MARGIN : this.cachedSizes[this.cachedSizes.length - 1].end;
+          const begin = this.cachedSizes.length === 0
+              ? Dimension.MARGIN
+              : this.cachedSizes[this.cachedSizes.length - 1].end;
 
           const dimensions = {
             begin,
@@ -403,7 +422,8 @@ export default class List extends RingComponentWithShortcuts {
         const itemDimensions = this.cachedSizes[this.state.activeIndex];
         const HALF = 0.5;
         if (itemDimensions.end < top || itemDimensions.begin > bottom) {
-          innerContainer.scrollTop = itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
+          innerContainer.scrollTop =
+            itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
         } else if (itemDimensions.begin < top) {
           innerContainer.scrollTop = itemDimensions.begin;
         } else if (itemDimensions.end > bottom) {
@@ -468,13 +488,27 @@ export default class List extends RingComponentWithShortcuts {
   getShortcutsProps() {
     return {
       map: {
-        up: ::this.upHandler,
-        down: ::this.downHandler,
-        enter: ::this.enterHandler
+        up: this.upHandler,
+        down: this.downHandler,
+        enter: this.enterHandler
       },
-      scope: ::this.constructor.getUID('ring-list-')
+      scope: getUID('list-')
     };
   }
+
+  innerRef = el => {
+    if (el) {
+      const wasPresent = !!this.inner;
+      this.inner = el;
+      if (!wasPresent) {
+        this.forceUpdate();
+      }
+    }
+  };
+
+  itemsRef = el => {
+    this.items = el;
+  };
 
   /** @override */
   render() {
@@ -485,7 +519,8 @@ export default class List extends RingComponentWithShortcuts {
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
 
     if (this.props.maxHeight) {
-      innerStyles.maxHeight = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      innerStyles.maxHeight =
+        this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
@@ -495,80 +530,70 @@ export default class List extends RingComponentWithShortcuts {
 
     return (
       <div className={classes}
-        onMouseMove={::this.mouseHandler}
+        onMouseMove={this.mouseHandler}
         onMouseOut={this.props.onMouseOut}
       >
         <div
           className="ring-list__i"
-          onScroll={::this.scrollHandler}
-          ref={el => {
-            if (el) {
-              const wasPresent = !!this.inner;
-              this.inner = el;
-              if (!wasPresent) {
-                this.forceUpdate();
-              }
-            }
-          }}
+          onScroll={this.scrollHandler}
+          ref={this.innerRef}
           style={innerStyles}
         >
-          <div style={topPaddingStyles} />
+          <div style={topPaddingStyles}/>
           <div className="ring-list__items"
-            ref={el => {
-              this.items = el;
-            }}
+            ref={this.itemsRef}
           >
-          {this.state.data.map((item, index) => {
-            const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
-            const realIndex = this.state.renderOptimizationSkip + index;
+            {this.state.data.map((item, index) => {
+              const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+              const realIndex = this.state.renderOptimizationSkip + index;
 
-            if (props.url) {
-              props.href = props.url;
-            }
-            if (props.href) {
-              props.rgItemType = Type.LINK;
-            }
+              if (props.url) {
+                props.href = props.url;
+              }
+              if (props.href) {
+                props.rgItemType = Type.LINK;
+              }
 
             // Probably unique enough key
-            props.key = props.key || props.rgItemType + (props.label || props.description);
+              props.key = props.key || props.rgItemType + (props.label || props.description);
 
-            props.hover = (realIndex === this.state.activeIndex);
-            props.onMouseOver = this.hoverHandler(realIndex);
-            props.tabIndex = -1;
-            props.scrolling = this.state.scrolling;
+              props.hover = (realIndex === this.state.activeIndex);
+              props.onMouseOver = this.hoverHandler(realIndex);
+              props.tabIndex = -1;
+              props.scrolling = this.state.scrolling;
 
-            const selectHandler = this.selectHandler(realIndex);
+              const selectHandler = this.selectHandler(realIndex);
 
-            if (this.props.useMouseUp) {
-              props.onMouseUp = selectHandler;
-            } else {
-              props.onClick = selectHandler;
-            }
+              if (this.props.useMouseUp) {
+                props.onMouseUp = selectHandler;
+              } else {
+                props.onClick = selectHandler;
+              }
 
-            let element;
-            switch (props.rgItemType) {
-              case Type.SEPARATOR:
-                element = ListSeparator;
-                break;
-              case Type.LINK:
-                element = ListLink;
-                break;
-              case Type.ITEM:
-                element = ListItem;
-                break;
-              case Type.CUSTOM:
-                element = ListCustom;
-                break;
-              case Type.TITLE:
-                element = ListTitle;
-                break;
-              default:
-                throw new Error(`Unknown menu element type: ${props.rgItemType}`);
-            }
-            return createElement(element, props, null);
-          })}
+              let element;
+              switch (props.rgItemType) {
+                case Type.SEPARATOR:
+                  element = ListSeparator;
+                  break;
+                case Type.LINK:
+                  element = ListLink;
+                  break;
+                case Type.ITEM:
+                  element = ListItem;
+                  break;
+                case Type.CUSTOM:
+                  element = ListCustom;
+                  break;
+                case Type.TITLE:
+                  element = ListTitle;
+                  break;
+                default:
+                  throw new Error(`Unknown menu element type: ${props.rgItemType}`);
+              }
+              return createElement(element, props, null);
+            })}
           </div>
-          <div style={bottomPaddingStyles} />
+          <div style={bottomPaddingStyles}/>
         </div>
         {this.hasOverflow() &&
           <div

@@ -24,7 +24,7 @@ export default class ListCustom extends PureComponent {
   };
 
   render() {
-    const {hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames({
       'ring-list__item': true,
       'ring-list__item_action': !disabled,

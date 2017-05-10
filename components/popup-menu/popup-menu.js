@@ -62,6 +62,10 @@ export default class PopupMenu extends Popup {
     this.props.onSelect(item, event);
   };
 
+  listRef = el => {
+    this.list = el;
+  };
+
   /** @override */
   getInternalContent() {
     // eslint-disable-next-line no-unused-vars
@@ -70,7 +74,7 @@ export default class PopupMenu extends Popup {
     return (
       <div>
         <List
-          ref="List"
+          ref={this.listRef}
           {...props}
           maxHeight={this.el && this.el.style.maxHeight}
           shortcuts={this.shortcutsEnabled()}

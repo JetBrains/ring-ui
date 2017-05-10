@@ -10,7 +10,7 @@ import '../checkbox/checkbox.scss';
  * @example
    <example name="Checkbox Ng">
      <file name="index.html">
-       <div ng-app="TestApp" ng-controller="MainCtrl">
+       <div ng-app="TestApp" ng-strict-di ng-controller="MainCtrl">
          <div>Checked: {{checked}}</div>
          <div>Disabled: {{disabled}}</div>
          <div>
@@ -46,7 +46,7 @@ import '../checkbox/checkbox.scss';
 
    <example name="Checkbox Ng with custom true and false value">
      <file name="index.html">
-       <div ng-app="TestApp">
+       <div ng-app="TestApp" ng-strict-di>
          <div>Checked: {{checked}}</div>
          <p style="width: 300px;">
            <rg-checkbox ng-model="checked" ng-true-value="'The TRUE value'" ng-false-value="'The FALSE value'">Checkbox</rg-checkbox>
@@ -62,7 +62,7 @@ import '../checkbox/checkbox.scss';
 
     <example name="Checkbox Ng disabled">
      <file name="index.html">
-       <div ng-app="TestApp">
+       <div ng-app="TestApp" ng-strict-di>
          <p style="width: 300px;">
            <rg-checkbox ng-disabled="true">Checkbox</rg-checkbox>
          </p>
@@ -81,18 +81,20 @@ const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
 
-angularModule.directive('rgCheckbox', () => ({
-  restrict: 'E',
-  transclude: true,
-  replace: true,
-  template: proxyAttrs(require('./checkbox-ng.html')),
-  link(scope, iElement) {
-    const input = iElement[0].query('.ring-checkbox__input');
+angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    template: proxyAttrs(require('./checkbox-ng.html')),
+    link: function link(scope, iElement) {
+      const input = iElement[0].query('.ring-checkbox__input');
 
-    const id = CHECKBOX_ID_PREFIX + idCounter++;
-    iElement[0].setAttribute('for', id);
-    input.setAttribute('id', id);
-  }
-}));
+      const id = CHECKBOX_ID_PREFIX + idCounter++;
+      iElement[0].setAttribute('for', id);
+      input.setAttribute('id', id);
+    }
+  };
+});
 
 export default angularModule.name;

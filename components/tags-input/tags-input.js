@@ -8,6 +8,7 @@ import Select from '../select/select';
 import Tag from '../tag/tag';
 import Caret from '../caret/caret';
 import '../input-size/input-size.scss';
+import memoize from '../global/memoize';
 
 import './tags-input.scss';
 
@@ -75,7 +76,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return {
       map: {
         backspace: (...args) => this.handleKeyDown(...args),
-        left: ::this.selectTag,
+        left: this.selectTag,
         right: () => this.selectTag(true)
       },
       scope: () => this.constructor.getUID('ring-tags-input-'),
@@ -87,7 +88,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   getInputNode() {
     if (!this.input) {
-      this.input = this.refs.select.filter.node;
+      this.input = this.select.filter.node;
       this.caret = new Caret(this.input);
     }
     return this.input;
@@ -104,15 +105,15 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
-  focusInput() {
+  focusInput = () => {
     this.getInputNode().focus();
   }
 
-  addTag(tag) {
+  addTag = tag => {
     const tags = this.state.tags.concat([tag]);
     this.setState({tags});
-    this.refs.select.clear();
-    this.refs.select.filterValue('');
+    this.select.clear();
+    this.select.filterValue('');
     this.props.onAddTag({tag});
     this.setActiveIndex();
   }
@@ -126,10 +127,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
           this.focusInput();
         }
         return tags;
-      }, ::this.focusInput);
+      }, this.focusInput);
   }
 
-  clickHandler(event) {
+  clickHandler = event => {
     if (!event.target.matches(this.getInputNode().tagName)) {
       return;
     }
@@ -138,15 +139,15 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.focusInput();
   }
 
-  filterExistingTags(suggestions) {
+  filterExistingTags = suggestions => {
     const tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   }
 
-  loadSuggestions(query) {
+  loadSuggestions = query => {
     this.setState({loading: true});
     return Promise.resolve(this.props.dataSource({query})).
-      then(::this.filterExistingTags).
+      then(this.filterExistingTags).
       then(suggestions => {
         if (this.node) {
           this.setState({suggestions, loading: false});
@@ -163,7 +164,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     if (this.props.autoOpen && !this.props.disabled) {
       this.focusInput();
       this.loadSuggestions();
-      this.refs.select._showPopup();
+      this.select._showPopup();
     }
   }
 
@@ -171,21 +172,23 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.updateStateFromProps(props);
   }
 
-  _focusHandler() {
+  _focusHandler = () => {
     this.setState({
       shortcuts: true
     });
     this.setActiveIndex(null);
   }
 
-  _blurHandler() {
+  _blurHandler = () => {
     this.setState({
       shortcuts: false
     });
   }
 
-  selectTag(moveForward) {
-    const activeIndex = typeof this.state.activeIndex === 'number' ? this.state.activeIndex : this.state.tags.length + 1;
+  selectTag = moveForward => {
+    const activeIndex = typeof this.state.activeIndex === 'number'
+      ? this.state.activeIndex
+      : this.state.tags.length + 1;
     let newActiveIndex = activeIndex + (moveForward ? 1 : -1);
 
     if (newActiveIndex >= this.state.tags.length) {
@@ -199,8 +202,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
-  handleKeyDown(event) {
-    if (this.refs.select._popup.isVisible()) {
+  handleKeyDown = event => {
+    if (this.select._popup.isVisible()) {
       return true;
     }
 
@@ -232,7 +235,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       if (key === 'Backspace' && !this.getInputNode().value) {
         event.preventDefault();
         const tagsLength = this.state.tags.length;
-        this.refs.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
+        this.select._hidePopup(true); // otherwise confirmation may be overlapped by popup
         this.onRemoveTag(this.state.tags[tagsLength - 1]);
         return false;
       }
@@ -247,9 +250,11 @@ export default class TagsInput extends RingComponentWithShortcuts {
     return true;
   }
 
-  onTagClick(tag) {
+  handleClick = memoize(tag => () => {
     this.setActiveIndex(this.state.tags.indexOf(tag));
-  }
+  });
+
+  handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
   renderTag(tag, focusTag, readOnly) {
     const TagComponent = this.props.customTagComponent || Tag;
@@ -258,10 +263,14 @@ export default class TagsInput extends RingComponentWithShortcuts {
         {...tag}
         readOnly={readOnly}
         focused={focusTag}
-        onClick={() => this.onTagClick(tag)}
-        onRemove={() => this.onRemoveTag(tag)}
+        onClick={this.handleClick(tag)}
+        onRemove={this.handleRemove(tag)}
       >{tag.label}</TagComponent>);
   }
+
+  selectRef = el => {
+    this.select = el;
+  };
 
   render() {
     const classes = classNames(
@@ -271,33 +280,38 @@ export default class TagsInput extends RingComponentWithShortcuts {
         'ring-tags-input_disabled': this.props.disabled
       },
       this.props.className);
-    const readOnly = this.props.disabled || (this.props.canNotBeEmpty && this.state.tags.length === 1);
-    const renderTags = () => this.state.tags.map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly));
+    const readOnly = this.props.disabled ||
+      (this.props.canNotBeEmpty && this.state.tags.length === 1);
+
+    const renderTags = () => (
+      this.state.tags.
+        map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly))
+    );
 
     return (
       <div
         className={classes}
-        onKeyDown={::this.handleKeyDown}
-        onClick={event => this.clickHandler(event)}
+        onKeyDown={this.handleKeyDown}
+        onClick={this.clickHandler}
       >
         {renderTags()}
         <Select
-          ref="select"
+          ref={this.selectRef}
           type={Select.Type.INPUT}
           label={this.props.placeholder}
           data={this.state.suggestions}
           className="ring-input-size_md"
-          onSelect={::this.addTag}
-          onFocus={::this._focusHandler}
-          onBlur={::this._blurHandler}
+          onSelect={this.addTag}
+          onFocus={this._focusHandler}
+          onBlur={this._blurHandler}
           filter={{
             fn: () => true
           }}
           maxHeight={this.props.maxPopupHeight}
           loading={this.state.loading}
-          onFilter={::this.loadSuggestions}
-          onBeforeOpen={::this.loadSuggestions}
-          onKeyDown={::this.handleKeyDown}
+          onFilter={this.loadSuggestions}
+          onBeforeOpen={this.loadSuggestions}
+          onKeyDown={this.handleKeyDown}
           disabled={this.props.disabled}
         />
       </div>);

@@ -9,7 +9,7 @@ import '../link/link.scss';
  * @example
    <example name="Breadcrumb Ng">
      <file name="index.html">
-     <div ng-app="Example.breadcrumb">
+     <div ng-app="Example.breadcrumb" ng-strict-di>
        <div ng-controller="DemoCtrl">
          <rg-breadcrumb label="First level" link="test/href1">
            <rg-breadcrumb label="Second level" on-click="clickSecondLevel()">
@@ -37,17 +37,19 @@ import '../link/link.scss';
 
 const angularModule = angular.module('Ring.breadcrumb', []);
 
-angularModule.directive('rgBreadcrumb', () => ({
-  template: require('./breadcrumb-ng.html'),
-  replace: true,
-  transclude: true,
-  restrict: 'E',
+angularModule.directive('rgBreadcrumb', function rgBreadcrumbDirective() {
+  return {
+    template: require('./breadcrumb-ng.html'),
+    replace: true,
+    transclude: true,
+    restrict: 'E',
 
-  scope: {
-    label: '@',
-    link: '@',
-    onClick: '&'
-  }
-}));
+    scope: {
+      label: '@',
+      link: '@',
+      onClick: '&'
+    }
+  };
+});
 
 export default angularModule.name;

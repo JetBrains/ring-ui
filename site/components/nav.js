@@ -55,6 +55,10 @@ class Nav extends PureComponent {
     filter: ''
   }
 
+  setFilter = e => this.setState({
+    filter: e.target.value
+  });
+
   render() {
     const {categories} = this.props;
     const {filter} = this.state;
@@ -83,9 +87,7 @@ class Nav extends PureComponent {
           autoFocus={true}
           placeholder="Search components"
           value={filter}
-          onChange={e => this.setState({
-            filter: e.target.value
-          })}
+          onChange={this.setFilter}
         />
         <List
           className={styles.list}

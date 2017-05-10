@@ -7,7 +7,7 @@ import {findDOMNode} from 'react-dom';
 import Checkbox from './checkbox';
 
 describe('Checkbox', () => {
-  const renderComponent = props => renderIntoDocument(<Checkbox {...props} />);
+  const renderComponent = props => renderIntoDocument(<Checkbox {...props}/>);
 
   it('should create component', () => {
     const checkbox = renderComponent();
@@ -16,20 +16,20 @@ describe('Checkbox', () => {
 
   it('should render checkbox', () => {
     const checkbox = renderComponent();
-    checkbox.refs.input.should.have.property('type', 'checkbox');
+    checkbox.input.should.have.property('type', 'checkbox');
   });
 
   it('should set name', () => {
     const checkbox = renderComponent({name: 'test'});
 
-    checkbox.refs.input.should.have.property('name', 'test');
+    checkbox.input.should.have.property('name', 'test');
   });
 
   it('should call handler for click event', () => {
     const clickHandler = sinon.stub();
 
     const checkbox = renderComponent({onClick: clickHandler});
-    Simulate.click(checkbox.refs.input);
+    Simulate.click(checkbox.input);
 
     clickHandler.should.have.been.called;
   });
@@ -55,7 +55,7 @@ describe('Checkbox', () => {
   it('should check control', () => {
     const checkbox = renderComponent({checked: true});
 
-    checkbox.refs.input.should.be.checked;
+    checkbox.input.should.be.checked;
   });
 
   it('should be disabled', () => {
@@ -63,7 +63,7 @@ describe('Checkbox', () => {
       disabled: true
     });
 
-    checkbox.refs.input.should.be.disabled;
+    checkbox.input.should.be.disabled;
   });
 
   it('should check control on change event', () => {
@@ -74,7 +74,7 @@ describe('Checkbox', () => {
     };
     const checkbox = renderComponent();
 
-    Simulate.change(checkbox.refs.input, eventMock);
-    checkbox.refs.input.should.be.checked;
+    Simulate.change(checkbox.input, eventMock);
+    checkbox.input.should.be.checked;
   });
 });

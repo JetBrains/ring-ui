@@ -15,13 +15,15 @@ describe('Auth', () => {
       };
       beforeEach(function () {
         this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-        this.sinon.stub(AuthRequestBuilder.prototype, '_saveState').callsFake(() => Promise.resolve());
+        this.sinon.stub(AuthRequestBuilder.prototype, '_saveState').
+          callsFake(() => Promise.resolve());
       });
 
       it('should return correct URL', () => {
         const builder = new AuthRequestBuilder(config);
         const expected = 'https://sso.jetbrains.com/auth?response_type=token&' +
-          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=default&client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
+          'state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080&request_credentials=default' +
+          '&client_id=0-0-0-0-0&scope=youtrack%20teamcity%20vcs%2520settings';
         return builder.prepareAuthRequest().should.become({
           url: expected,
           stateId: 'unique'

@@ -23,7 +23,8 @@ const MONTHSBACK = 2;
 function monthHeight(date) {
   const monthStart = moment(date).startOf('month');
   const daysSinceLastFriday = (monthStart.day() + FridayToSunday) % WEEK;
-  const monthLines = daysSinceLastFriday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
+  const monthLines =
+    daysSinceLastFriday + monthStart.daysInMonth() > FIVELINES ? TALLMONTH : SHORTMONTH;
   return monthLines * cellSize + unit * PADDING;
 }
 
@@ -59,7 +60,7 @@ export default function Months(props) {
   return (
     <div
       className={styles.months}
-      onWheel={e => {
+      onWheel={function handleWheel(e) {
         e.preventDefault();
         dy += e.deltaY;
         scrollSchedule(() => {
@@ -69,7 +70,10 @@ export default function Months(props) {
           if (dy < offset) {
             date = pxToDate.y(offset) + (dy - offset) * scrollSpeed(months[1]);
           } else if (dy > bottomOffset) {
-            date = pxToDate.y(bottomOffset) + (dy - bottomOffset) * scrollSpeed(months[MONTHSBACK + 1]);
+            date =
+              pxToDate.y(bottomOffset) +
+              (dy - bottomOffset) *
+              scrollSpeed(months[MONTHSBACK + 1]);
           } else {
             date = pxToDate.y(dy);
           }
@@ -81,7 +85,8 @@ export default function Months(props) {
     >
       <div
         style={{
-          top: Math.floor(calHeight * HALF - monthHeight(months[0]) - monthHeight(months[1]) + offset)
+          top: Math.
+            floor(calHeight * HALF - monthHeight(months[0]) - monthHeight(months[1]) + offset)
         }}
         className={styles.days}
       >
@@ -93,7 +98,7 @@ export default function Months(props) {
           />
         ))}
       </div>
-      <MonthNames {...props} />
+      <MonthNames {...props}/>
     </div>
   );
 }

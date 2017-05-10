@@ -28,6 +28,7 @@ export default function DateInput({
 
   return (
     <Input
+      // eslint-disable-next-line react/jsx-no-bind
       ref={rgEl => {
         const el = findDOMNode(rgEl);
         if (!el) {
@@ -43,9 +44,15 @@ export default function DateInput({
       }}
       className={styles.input}
       value={displayText}
-      onChange={e => onInput(e.target.value)}
+      onChange={function handleChange(e) {
+        onInput(e.target.value);
+      }}
       onFocus={onActivate}
-      onKeyDown={e => e.key === 'Enter' && onConfirm()}
+      onKeyDown={function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+          onConfirm();
+        }
+      }}
     />
   );
 }

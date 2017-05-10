@@ -6,7 +6,7 @@ import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-u
 import Input from './input';
 
 describe('Input', () => {
-  const renderComponent = params => renderIntoDocument(<Input {...params} />);
+  const renderComponent = params => renderIntoDocument(<Input {...params}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Input).should.be.true;

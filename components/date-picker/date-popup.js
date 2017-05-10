@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import RingComponent from '../ring-component/ring-component';
 import popupStyles from '../popup/popup.css';
+import memoize from '../global/memoize';
 
 import DateInput from './date-input';
 import Months from './months';
@@ -109,8 +110,11 @@ export default class DatePopup extends RingComponent {
     });
   }
 
-  scheduleScroll() {
-    const current = this.state.scrollDate || this.parseDate(this.props[this.state.active]) || moment();
+  scheduleScroll = () => {
+    const current =
+      this.state.scrollDate ||
+      this.parseDate(this.props[this.state.active]) ||
+      moment();
     const goal = this._scrollDate;
     if (!current || !goal || this.sameDay(goal, current)) {
       this._scrollDate = null;
@@ -126,10 +130,10 @@ export default class DatePopup extends RingComponent {
     }
 
     this._scrollTS = moment();
-    window.requestAnimationFrame(::this.scheduleScroll);
+    window.requestAnimationFrame(this.scheduleScroll);
   }
 
-  scrollTo(scrollDate) {
+  scrollTo = scrollDate => {
     this._scrollDate = scrollDate;
     if (!this._scrollTS) {
       this.scheduleScroll();
@@ -162,6 +166,27 @@ export default class DatePopup extends RingComponent {
       this.setState({text: null});
     }
   }
+
+  hoverHandler = hoverDate => this.setState({hoverDate});
+
+  handleActivate = memoize(name => () => this.setState({active: name}));
+
+  handleInput = text => {
+    const scrollDate = this.parseDate(text);
+    if (scrollDate) {
+      this.scrollTo(scrollDate);
+    }
+    this.setState({
+      text,
+      hoverDate: null
+    });
+  };
+
+  handleConfirm = memoize(name => () => this.confirm(name));
+
+  selectHandler = date => this.select({[this.state.active]: date});
+
+  handleScroll = scrollDate => this.setState({scrollDate});
 
   render() {
     const {range} = this.props;
@@ -211,8 +236,8 @@ export default class DatePopup extends RingComponent {
       activeDate,
       currentRange,
       activeRange,
-      onScroll: scrollDate => this.setState({scrollDate}),
-      onScrollChange: ::this.scrollTo
+      onScroll: this.handleScroll,
+      onScrollChange: this.scrollTo
     };
 
     return (
@@ -228,29 +253,20 @@ export default class DatePopup extends RingComponent {
               key={name}
               date={dates[name]}
               active={this.state.active === name}
-              onActivate={() => this.setState({active: name})}
-              onInput={text => {
-                const scrollDate = this.parseDate(text);
-                if (scrollDate) {
-                  this.scrollTo(scrollDate);
-                }
-                this.setState({
-                  text,
-                  hoverDate: null
-                });
-              }}
-              onConfirm={() => this.confirm(name)}
+              onActivate={this.handleActivate(name)}
+              onInput={this.handleInput}
+              onConfirm={this.handleConfirm}
             />
           ))}
-          <Weekdays />
+          <Weekdays/>
         </div>
         <div
           className={styles.calendar}
         >
           <Months
             {...calendarProps}
-            onHover={hoverDate => this.setState({hoverDate})}
-            onSelect={date => this.select({[this.state.active]: date})}
+            onHover={this.hoverHandler}
+            onSelect={this.selectHandler}
           />
           <Years {...calendarProps}/>
         </div>

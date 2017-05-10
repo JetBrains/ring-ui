@@ -47,14 +47,14 @@ describe('Progress Bar', () => {
         className: 'ring-button__loader'
       });
 
-      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-button__loader');
+      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-button__loader');
     });
 
     it('should set light modifier', function () {
       this.progress.rerender({
         light: true
       });
-      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_light');
+      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-progress-bar_light');
     });
 
     it('should set global modifier', function () {
@@ -62,7 +62,7 @@ describe('Progress Bar', () => {
         global: true
       });
 
-      findDOMNode(this.progress.refs.progressbarWrapper).should.have.class('ring-progress-bar_global');
+      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-progress-bar_global');
     });
   });
 
@@ -72,7 +72,7 @@ describe('Progress Bar', () => {
    */
   describe('#render', () => {
     it('should set min value to equal zero', function () {
-      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemin', '0');
+      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuemin', '0');
     });
 
     it('should update max value in DOM', function () {
@@ -80,7 +80,7 @@ describe('Progress Bar', () => {
         max: 100
       });
 
-      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuemax', '100');
+      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuemax', '100');
     });
 
     it('should update progress value in DOM', function () {
@@ -88,8 +88,8 @@ describe('Progress Bar', () => {
         value: 0.5
       });
 
-      findDOMNode(this.progress.refs.progressbar).should.have.attr('aria-valuenow', '0.5');
-      findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 50%;/);
+      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuenow', '0.5');
+      findDOMNode(this.progress.progressbar).should.have.attr('style').match(/width: 50%;/);
     });
 
     it('should set width equal 100% if progress value more than max value', function () {
@@ -98,14 +98,14 @@ describe('Progress Bar', () => {
         value: 10
       });
 
-      findDOMNode(this.progress.refs.progressbar).should.have.attr('style').match(/width: 100%;/);
+      findDOMNode(this.progress.progressbar).should.have.attr('style').match(/width: 100%;/);
     });
 
     it('should not set style if value is not a number', function () {
       this.progress.rerender({
         value: null
       });
-      findDOMNode(this.progress.refs.progressbar).should.not.have.attr('style');
+      findDOMNode(this.progress.progressbar).should.not.have.attr('style');
     });
   });
 });

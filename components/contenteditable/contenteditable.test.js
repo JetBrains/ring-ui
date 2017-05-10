@@ -43,7 +43,7 @@ describe('ContentEditable', () => {
     });
 
     this.component.rerender({
-      children: <span />
+      children: <span/>
     });
 
     this.stub.should.have.been.called.twice;

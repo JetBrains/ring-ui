@@ -9,7 +9,7 @@ import {
 import Group from './group';
 
 describe('Group', () => {
-  const renderComponent = props => renderIntoDocument(<Group {...props} />);
+  const renderComponent = props => renderIntoDocument(<Group {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), Group).should.be.true;
