@@ -18,9 +18,8 @@ import '../input/input.scss';
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 
-angularModule.factory('getFormErrorMessages', [
-  'RingMessageBundle',
-  RingMessageBundle => {
+angularModule.factory('getFormErrorMessages',
+  function getFormErrorMessagesDirective(RingMessageBundle) {
     function msg(id, formError) {
       const messageBundleId = `form_${id}`;
       if (RingMessageBundle.hasOwnProperty(messageBundleId)) {
@@ -46,8 +45,7 @@ angularModule.factory('getFormErrorMessages', [
       }
       return errorMessages;
     };
-  }
-]);
+  });
 
 /**
  * <div rg-error-bubble="form.name"></div>
@@ -55,73 +53,77 @@ angularModule.factory('getFormErrorMessages', [
  *
  * Where form.name is a reference to angularJS form input
  */
-angularModule.directive('rgErrorBubble', getFormErrorMessages => ({
-  scope: {
-    errorBubble: '&rgErrorBubble'
-  },
+angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getFormErrorMessages) {
+  return {
+    scope: {
+      errorBubble: '&rgErrorBubble'
+    },
 
-  replace: true,
-  template: require('./form-ng__error-bubble.html'),
+    replace: true,
+    template: require('./form-ng__error-bubble.html'),
 
-  link(scope, iElement, iAttrs) {
-    scope.style = {};
+    link: function link(scope, iElement, iAttrs) {
+      scope.style = {};
 
-    const siblings = Array.from(iElement[0].parentNode.children);
-    let element;
-    let tagName;
+      const siblings = Array.from(iElement[0].parentNode.children);
+      let element;
+      let tagName;
 
-    for (let i = 0; i < siblings.length; i++) {
-      tagName = siblings[i].tagName.toLowerCase();
+      for (let i = 0; i < siblings.length; i++) {
+        tagName = siblings[i].tagName.toLowerCase();
 
-      if (tagName === 'input' || tagName === 'textarea') {
-        element = siblings[i];
-        break;
+        if (tagName === 'input' || tagName === 'textarea') {
+          element = siblings[i];
+          break;
+        }
       }
+
+      scope.material = iAttrs.material !== undefined;
+
+      scope.$watch(() => {
+        const result = scope.errorBubble();
+
+        return result.$invalid && result.$dirty;
+      }, active => {
+        scope.active = active;
+
+        if (active && element) {
+          scope.style.left = element.offsetWidth + 2;
+        }
+      });
+
+      scope.getFormErrorMessages = getFormErrorMessages;
     }
-
-    scope.material = iAttrs.material !== undefined;
-
-    scope.$watch(() => {
-      const result = scope.errorBubble();
-
-      return result.$invalid && result.$dirty;
-    }, active => {
-      scope.active = active;
-
-      if (active && element) {
-        scope.style.left = element.offsetWidth + 2;
-      }
-    });
-
-    scope.getFormErrorMessages = getFormErrorMessages;
-  }
-}));
+  };
+});
 /**
  * <input name="confirm" type="password" rg-equal-value="data.password" ng-model="data.confirm">
  * Constraint to be user for confirm password fields.
  */
-angularModule.directive('rgEqualValue', () => ({
-  require: 'ngModel',
+angularModule.directive('rgEqualValue', function rgEqualValueDirective() {
+  return {
+    require: 'ngModel',
 
-  link(scope, iElement, iAttrs, ngModelCtrl) {
-    const element = iElement[0];
+    link: function link(scope, iElement, iAttrs, ngModelCtrl) {
+      const element = iElement[0];
 
-    function assertEqual(thisValue, thatValue) {
-      ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
-    }
+      function assertEqual(thisValue, thatValue) {
+        ngModelCtrl.$setValidity('equalvalue', thisValue === thatValue);
+      }
 
-    scope.$watch(iAttrs.rgEqualValue, value => {
-      assertEqual(element.value, value);
-    });
-
-    element.addEventListener('keyup', () => {
-      const thatValue = scope.$eval(iAttrs.rgEqualValue);
-      scope.$apply(() => {
-        assertEqual(element.value, thatValue);
+      scope.$watch(iAttrs.rgEqualValue, value => {
+        assertEqual(element.value, value);
       });
-    });
-  }
-}));
+
+      element.addEventListener('keyup', () => {
+        const thatValue = scope.$eval(iAttrs.rgEqualValue);
+        scope.$apply(() => {
+          assertEqual(element.value, thatValue);
+        });
+      });
+    }
+  };
+});
 /**
  * <input name="name" required type="text" ng-class="form.name | rgInputClass:submitted" ng-model="name">
  *
@@ -141,7 +143,7 @@ angularModule.directive('rgFormAutofillFix', $timeout => ({
   require: '?form',
   priority: 10,
 
-  link($scope, element, attrs, form) {
+  link: function link($scope, element, attrs, form) {
     if (form) {
       let promise;
       let count = 0;

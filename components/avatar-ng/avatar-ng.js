@@ -6,7 +6,7 @@
  * @example
  <example name="AvatarNg">
    <file name="index.html">
-      <div ng-app="test" ng-controller="testCtrl as $ctrl">
+      <div ng-app="test" ng-strict-di ng-controller="testCtrl as $ctrl">
         <rg-avatar size="$ctrl.AvatarSize.Size32" url="$ctrl.avatarUrl"></rg-avatar>
       </div>
    </file>

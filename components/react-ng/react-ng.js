@@ -56,11 +56,10 @@ const specialDOMAttrs = {
   class: 'className'
 };
 
-/*@ngInject*/
 function reactNgDirective($parse) {
   return {
     restrict: 'A',
-    link(scope, iElement, iAttrs) {
+    link: function link(scope, iElement, iAttrs) {
       let component = null;
       const directiveName = iAttrs[reactDirectiveName];
       const instanceAttr = 'reactInstance';
@@ -106,7 +105,11 @@ function reactNgDirective($parse) {
           return;
         }
 
-        if (iAttrs.hasOwnProperty(name) && name !== reactDirectiveName && name !== instanceAttr && typeof value !== 'object') {
+        if (
+          iAttrs.hasOwnProperty(name) &&
+          name !== reactDirectiveName &&
+          name !== instanceAttr && typeof value !== 'object'
+        ) {
           // Use React DOM attributes names
           const specialDOMAttrName = specialDOMAttrs[name];
           const propName = specialDOMAttrName || name;
@@ -120,7 +123,10 @@ function reactNgDirective($parse) {
             ComponentClass.propTypes[propName] === PropTypes.func.isRequired);
 
           // Parse as expression
-          const parsedExpression = !specialDOMAttrName && !interpolated && (typeof value === 'string') && $parse(value);
+          const parsedExpression =
+            !specialDOMAttrName &&
+            !interpolated && (typeof value === 'string') &&
+            $parse(value);
 
           if (interpolated) {
             iAttrs.$observe(name, getUpdater(propName));
@@ -170,7 +176,7 @@ function reactNgDirective($parse) {
  * @example
    <example name="React-ng">
      <file name="index.html">
-       <div ng-app="react-ng-test">
+       <div ng-app="react-ng-test" ng-strict-di>
           <span ng-controller="testController" react-static="Icon" react-glyph="'#pencil'" size="64"></span>
       </div>
      </file>
@@ -189,7 +195,7 @@ function reactNgDirective($parse) {
 
    <example name="React-ng performance">
      <file name="index.html">
-       <div ng-app="react-ng-performance" ng-controller="testController" >
+       <div ng-app="react-ng-performance" ng-strict-di ng-controller="testController" >
           <div react-static="Button" ng-click="run = true" react-children="'Run!'"></div>
           <span ng-if="run" ng-repeat="n in data" react-static="Icon" react-key="n" react-title="n" react-glyph="'#check'" size="16"></span>
        </div>
@@ -211,7 +217,6 @@ function reactNgDirective($parse) {
    </example>
  */
 
-/*@ngInject*/
 function reactStaticNgDirective($parse) {
   function getPropertyName(name, prefix) {
     //remove "react-" prefix and lowercase first letter
@@ -225,7 +230,7 @@ function reactStaticNgDirective($parse) {
 
   return {
     restrict: 'A',
-    link(scope, iElement, iAttrs) {
+    link: function link(scope, iElement, iAttrs) {
       const name = iAttrs[staticDirectiveName];
       const ComponentClass = getComponentIfExist(name);
       const props = {};

@@ -229,7 +229,8 @@ export default class PermissionCache {
    */
   testPermission(permissionName, projectId) {
     const permissionCache = this.permissionCache;
-    const cachedPermission = permissionCache[permissionName] || permissionCache[this.namesConverter(permissionName)];
+    const cachedPermission = permissionCache[permissionName] ||
+      permissionCache[this.namesConverter(permissionName)];
 
     // Hasn't the permission in any project
     if (!cachedPermission) {

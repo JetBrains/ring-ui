@@ -13,11 +13,11 @@ const Content = ({title, type, content, examples, description}) => (
     <H1 caps={true}>{title}</H1>
 
     {type === 'md' && (
-      <Markdown source={parseFrontMatter(content).body} />
+      <Markdown source={parseFrontMatter(content).body}/>
     )}
 
     {description && (
-      <Markdown source={description} />
+      <Markdown source={description}/>
     )}
 
     {examples && examples.map(example =>

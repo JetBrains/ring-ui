@@ -1,6 +1,7 @@
 import 'core-js/modules/es7.array.includes';
 import searchIcon from 'jetbrains-icons/search.svg';
 
+import RingAngularComponent from '../global/ring-angular-component';
 import sniffer from '../global/sniffer';
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
@@ -61,18 +62,20 @@ const winSymbolsMap = {
 };
 
 /* global angular:false */
-const angularModule = angular.module('Ring.shortcuts.hint-popup', [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]);
+const angularModule = angular.module(
+  'Ring.shortcuts.hint-popup',
+  [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]
+);
 const getTitle = title => (typeof title === 'function' ? title() : title);
 
 
-class HintPopupService {
-  constructor(dialog, shortcuts) {
-    this.dialog = dialog;
-    this.shortcuts = shortcuts;
-  }
+class HintPopupService extends RingAngularComponent {
+  static $inject = ['dialog', 'shortcuts'];
 
   show(popupConfig = {}, shortcutModes, okButtonLabel = 'Got it', searchPlaceholder = 'Search') {
-    const modes = shortcutModes || this.shortcuts.getRegisteredShortcuts();
+    const {dialog, shortcuts} = this.$inject;
+
+    const modes = shortcutModes || shortcuts.getRegisteredShortcuts();
 
     modes.forEach(mode => {
       mode.shortcuts.forEach(shortcut => {
@@ -84,7 +87,7 @@ class HintPopupService {
       });
     });
 
-    return this.dialog.show(Object.assign({
+    return dialog.show(Object.assign({
       template: HintPopupTpl,
       closeOnClick: true,
       autoWidth: true,
@@ -95,9 +98,8 @@ class HintPopupService {
         default: true
       }],
       controller() {
-        /*eslint-disable consistent-this*/
+        // eslint-disable-next-line consistent-this
         const ctrl = this;
-        /*eslint-enable consistent-this*/
 
         ctrl.searchIcon = searchIcon;
         ctrl.modes = modes;
@@ -131,8 +133,14 @@ function shortcutSearchFilter(shortcuts, query = '') {
       return false;
     } else {
       const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const titleMatches = shortcut.titles.map(getTitle).join(' ').toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      const presentationMatches = keysPresentation.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      const titleMatches = shortcut.titles.
+          map(getTitle).
+          join(' ').
+          toLowerCase().
+          indexOf(query.toLowerCase()) !== -1;
+      const presentationMatches = keysPresentation.
+          toLowerCase().
+          indexOf(query.toLowerCase()) !== -1;
 
       return keyMatches || titleMatches || presentationMatches;
     }

@@ -7,9 +7,9 @@ const webpackTestConfig = require('./webpack-test.config');
 
 const postcssLoaderPath = require.resolve('postcss-loader');
 const addConfig = rule => {
-  rule.loaders.forEach((loader, index) => {
+  rule.use.forEach((loader, index) => {
     if (loader === postcssLoaderPath) {
-      rule.loaders[index] = {
+      rule.use[index] = {
         loader,
         options: {
           config: __dirname
@@ -20,8 +20,12 @@ const addConfig = rule => {
 };
 
 module.exports = wallaby => {
-  webpackConfig.componentsPath.push(path.join(wallaby.projectCacheDir, 'components'));
-  webpackTestConfig.entryPatterns = ['test-helpers/mocha-globals.js', 'components/**/*.test.js'];
+  webpackConfig.componentsPath.
+    push(path.join(wallaby.projectCacheDir, 'components'));
+  webpackTestConfig.entryPatterns = [
+    'test-helpers/mocha-globals.js',
+    'components/**/*.test.js'
+  ];
 
   addConfig(webpackConfig.loaders.scssLoader);
   addConfig(webpackConfig.loaders.cssLoader);

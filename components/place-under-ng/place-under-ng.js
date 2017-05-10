@@ -16,39 +16,47 @@ import {getDocumentScrollTop} from '../global/dom';
 const resizeDetector = createResizeDetector();
 /* global angular: false */
 const angularModule = angular.module('Ring.place-under', []);
-angularModule.directive('rgPlaceUnder', ($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) => ({
-  restrict: 'A',
-  link(scope, iElement, iAttrs) {
-    const element = iElement[0];
-    const synchronizer = rgPlaceUnderHelper.createPositionSynchronizer(element, iAttrs, scope);
+angularModule.directive('rgPlaceUnder',
+  function rgPlaceUnderDirective($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) {
+    return {
+      restrict: 'A',
+      link: function link(scope, iElement, iAttrs) {
+        const element = iElement[0];
+        const synchronizer = rgPlaceUnderHelper.createPositionSynchronizer(element, iAttrs, scope);
 
-    function startSyncing(placeUnderSelector) {
-      if (placeUnderSelector) {
-        scope.$evalAsync(() => {
-          const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
+        function startSyncing(placeUnderSelector) {
+          if (placeUnderSelector) {
+            scope.$evalAsync(() => {
+              const syncWith = getClosestElementWithCommonParent(element, placeUnderSelector);
 
-          if (syncWith) {
-            synchronizer.syncPositionWith(syncWith);
-          } else {
-            throw new Error('rgPlaceUnder cannot find element to sync with.');
+              if (syncWith) {
+                synchronizer.syncPositionWith(syncWith);
+              } else {
+                throw new Error('rgPlaceUnder cannot find element to sync with.');
+              }
+            });
           }
-        });
+        }
+
+        iAttrs.$observe('rgPlaceUnder', startSyncing);
       }
-    }
-
-    iAttrs.$observe('rgPlaceUnder', startSyncing);
+    };
   }
-}));
+);
 
 
-angularModule.factory('getClosestElementWithCommonParent', () => function getClosestElementWithCommonParent(currentElement, selector) {
-  const parent = currentElement.parentNode;
-  if (parent) {
-    return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
-  } else {
-    return null;
+angularModule.factory('getClosestElementWithCommonParent',
+  function getClosestElementWithCommonParentFactory() {
+    return function getClosestElementWithCommonParent(currentElement, selector) {
+      const parent = currentElement.parentNode;
+      if (parent) {
+        return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
+      } else {
+        return null;
+      }
+    };
   }
-});
+);
 
 
 angularModule.factory('rgPlaceUnderHelper', $window => {
@@ -87,7 +95,9 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
 
       function onScroll(syncElement) {
         const documentScrollTop = getDocumentScrollTop();
-        const documentOffsetHeight = ($window.document.documentElement && $window.document.documentElement.offsetHeight) || $window.document.body.offsetHeight;
+        const documentOffsetHeight =
+          ($window.document.documentElement && $window.document.documentElement.offsetHeight) ||
+          $window.document.body.offsetHeight;
 
         const syncedElementHeight = syncElement.offsetHeight;
         const syncedElementOffsetTop = syncElement.getBoundingClientRect().top + documentScrollTop;
@@ -140,7 +150,8 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
       function syncPositionWith(syncElement) {
         removeScrollListeners();
 
-        const afterScrollFinishRecheck = debounce(() => this.onScroll(syncElement), AFTER_SCROLL_RECHECK_INTERVAL);
+        const afterScrollFinishRecheck =
+          debounce(() => this.onScroll(syncElement), AFTER_SCROLL_RECHECK_INTERVAL);
 
         const sidebarScrollListener = debounce(() => {
           this.onScroll(syncElement);
@@ -159,9 +170,12 @@ angularModule.factory('rgPlaceUnderHelper', $window => {
         removeScrollListener.push(scope.$on('rgPlaceUnder:sync', sidebarScrollListener));
 
 
-        const elementToHeightListening = iAttrs.listenToHeightChange ? $window.document.querySelector(iAttrs.listenToHeightChange) : $window.document.body;
+        const elementToHeightListening = iAttrs.listenToHeightChange
+          ? $window.document.querySelector(iAttrs.listenToHeightChange)
+          : $window.document.body;
         resizeDetector.listenTo(elementToHeightListening, sidebarScrollListener);
-        removeScrollListener.push(() => resizeDetector.removeAllListeners(elementToHeightListening));
+        removeScrollListener.
+          push(() => resizeDetector.removeAllListeners(elementToHeightListening));
       }
 
       scope.$on('$destroy', removeScrollListeners);

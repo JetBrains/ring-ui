@@ -10,7 +10,7 @@ const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';
 const RING_SELECT = 'rg-select';
 
-angularModule.directive('rgAutofocus', () => {
+angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
 
   /**
    * Focuses on element itself if it has "focus" method.
@@ -31,7 +31,8 @@ angularModule.directive('rgAutofocus', () => {
     }
   }
 
-  return (scope, iElement, iAttrs) => {
+  // eslint-disable-next-line func-names
+  return function (scope, iElement, iAttrs) {
     const element = iElement[0];
     scope.$watch(iAttrs.rgAutofocus, newValue => {
       if (newValue) {

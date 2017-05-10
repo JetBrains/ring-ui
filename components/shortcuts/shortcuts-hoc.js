@@ -7,8 +7,7 @@ import Shortcuts from './shortcuts';
 
 export default function shortcutsHOC(ComposedComponent) {
 
-  /* eslint-disable react/display-name */
-  return class extends React.Component {
+  return class WithShortcuts extends React.Component {
     static propTypes = {
       rgShortcutsOptions: PropTypes.object,
       rgShortcutsMap: PropTypes.object
@@ -25,7 +24,7 @@ export default function shortcutsHOC(ComposedComponent) {
         rgShortcutsOptions.disabled
       ) {
         return (
-          <ComposedComponent {...props} />
+          <ComposedComponent {...props}/>
         );
       }
 
@@ -35,7 +34,7 @@ export default function shortcutsHOC(ComposedComponent) {
           map={rgShortcutsMap}
           options={rgShortcutsOptions}
         >
-          <ComposedComponent {...props} />
+          <ComposedComponent {...props}/>
         </Shortcuts>
       );
     }

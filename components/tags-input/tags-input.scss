@@ -5,6 +5,7 @@ $tags-input-padding: $ring-unit / 4;
 .ring-tags-input {
   overflow: hidden;
   white-space: normal;
+  font-size: 0;
 
   padding: $tags-input-padding $tags-input-padding 0 $tags-input-padding;
   border: 1px solid $ring-gray-color;

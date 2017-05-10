@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-max-props-per-line */
-
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -27,6 +25,17 @@ export default class HeaderCell extends PureComponent {
     onSort: () => {}
   }
 
+  onClick = () => {
+    if (this.sortable) {
+      const {column, onSort, sortOrder} = this.props;
+      onSort({column, order: !(this.sorted && sortOrder)});
+    }
+  }
+
+  onChildrenClick(e) {
+    e.stopPropagation();
+  }
+
   render() {
     const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
@@ -50,7 +59,7 @@ export default class HeaderCell extends PureComponent {
       <th
         {...restProps}
         className={classes}
-        onClick={::this.onClick}
+        onClick={this.onClick}
         data-test="ring-table-header-cell"
       >
         <span onClick={this.onChildrenClick}>{this.props.children}</span>
@@ -62,16 +71,5 @@ export default class HeaderCell extends PureComponent {
         </span>}
       </th>
     );
-  }
-
-  onClick() {
-    if (this.sortable) {
-      const {column, onSort, sortOrder} = this.props;
-      onSort({column, order: !(this.sorted && sortOrder)});
-    }
-  }
-
-  onChildrenClick(e) {
-    e.stopPropagation();
   }
 }

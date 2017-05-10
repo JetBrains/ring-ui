@@ -84,7 +84,9 @@ export default class TokenValidator {
    * @private
    */
   static async _validateExpiration(storedToken) {
-    if (storedToken.expires && storedToken.expires < (TokenValidator._epoch() + TokenValidator.REFRESH_BEFORE)) {
+    if (
+      storedToken.expires &&
+      storedToken.expires < (TokenValidator._epoch() + TokenValidator.REFRESH_BEFORE)) {
       throw new TokenValidator.TokenValidationError('Token expired');
     }
   }
@@ -97,7 +99,9 @@ export default class TokenValidator {
    */
   async _validateScopes(storedToken) {
     const {scope, optionalScopes} = this._config;
-    const requiredScopes = optionalScopes ? scope.filter(scopeId => !optionalScopes.includes(scopeId)) : scope;
+    const requiredScopes = optionalScopes
+      ? scope.filter(scopeId => !optionalScopes.includes(scopeId))
+      : scope;
 
     const hasAllScopes = requiredScopes.every(scopeId => storedToken.scopes.includes(scopeId));
     if (!hasAllScopes) {
@@ -134,7 +138,10 @@ export default class TokenValidator {
         // Skip JSON parsing errors
       }
 
-      if (errorResponse.status === CODE.UNAUTHORIZED || TokenValidator.shouldRefreshToken(response.error)) {
+      if (
+        errorResponse.status === CODE.UNAUTHORIZED ||
+        TokenValidator.shouldRefreshToken(response.error)
+      ) {
         // Token expired
         throw new TokenValidator.TokenValidationError(response.error || errorResponse.message);
       }

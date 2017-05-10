@@ -1,82 +1,98 @@
 /* eslint-disable func-names */
 
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
 
 import Radio from './radio';
 
 describe('Radio', () => {
   beforeEach(function () {
-    this.onChange = () => {};
-
-    this.radio = renderIntoDocument(
+    this.renderRadio = (props, refOne, refTwo) => renderIntoDocument(
       <Radio
         value={null}
         className="test-class"
-        onChange={() => this.onChange()}
+        {...props}
       >
         <Radio.Item
-          ref={item => {
-            this.radioItemOne = item;
-          }}
+          ref={refOne}
           value="one"
         >
           {'One'}
         </Radio.Item>
         <Radio.Item
-          ref={item => {
-            this.radioItemTwo = item;
-          }}
+          ref={refTwo}
           value="two"
         >
           {'Two'}
-          </Radio.Item>
+        </Radio.Item>
         <Radio.Item value="three">{'Three'}</Radio.Item>
       </Radio>
     );
   });
 
   it('should create component', function () {
-    this.radio.should.exist;
+    this.renderRadio().should.exist;
   });
 
   it('should generate same name for items', function () {
-    const name = this.radioItemOne.refs.input.getAttribute('name');
+    let item1;
+    let item2;
+    this.renderRadio(
+      {},
+      itemRef => {
+        item1 = itemRef;
+      },
+      itemRef2 => {
+        item2 = itemRef2;
+      }
+    );
+    const name = item1.input.getAttribute('name');
 
-    this.radioItemTwo.refs.input.should.have.attribute('name', name);
+    item2.input.should.have.attribute('name', name);
   });
 
   it('should pass only child as is', () => {
     const radio = renderIntoDocument(
       <Radio>
-        <test />
+        <test/>
       </Radio>
     );
 
-    radio.node.should.match('test');
+    findDOMNode(radio).should.match('test');
   });
 
   it('should pass rest props to children', function () {
-    this.radio.node.should.have.class('test-class');
+    findDOMNode(this.renderRadio()).should.have.class('test-class');
   });
 
   it('should not pass value to children', function () {
-    this.radio.node.should.not.have.attribute('value');
+    findDOMNode(this.renderRadio()).should.not.have.attribute('value');
   });
 
   it('should select item with value equal to one provided to group', function () {
-    this.radio.rerender({
-      value: 'one'
-    });
+    let item;
+    this.renderRadio(
+      {
+        onChange: () => {}, // avoid "checked without onChange" warning
+        value: 'one'
+      },
+      itemRef => {
+        item = itemRef;
+      }
+    );
 
-    this.radioItemOne.refs.input.should.have.property('checked', true);
+    item.input.should.have.property('checked', true);
   });
 
   it('should call handler for onChange event', function () {
-    this.sinon.stub(this, 'onChange');
+    const onChange = this.sinon.spy();
+    let item;
+    this.renderRadio({onChange}, itemRef => {
+      item = itemRef;
+    });
+    Simulate.change(item.input);
 
-    Simulate.change(this.radioItemOne.refs.input);
-
-    this.onChange.should.have.been.called;
+    onChange.should.have.been.called;
   });
 });

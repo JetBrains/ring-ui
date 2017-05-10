@@ -63,7 +63,8 @@ describe('HTTP', () => {
       foo: 'bar',
       test: ['a', 'b']
     }});
-    http._fetch.should.have.been.calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
+    http._fetch.should.have.been.
+      calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
   });
 
   it('should support base url setting', async () => {
