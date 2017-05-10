@@ -22,9 +22,8 @@ export const defaultFetchConfig = {
 };
 
 export class HTTPError extends ExtendableError {
-  constructor(response, data) {
-    super(`${response.status} ${response.statusText}`);
-    this.response = response;
+  constructor(response, data = {}) {
+    super(`${response.status} ${response.statusText || ''}`);
     this.data = data;
     this.status = response.status;
   }
@@ -90,27 +89,20 @@ export default class HTTP {
 
   async _processResponse(response) {
     if (HTTP._isErrorStatus(response.status)) {
+      let resJson;
       try {
-        const resJson = await response.json();
-        throw new HTTPError(response, resJson);
+        resJson = await response.json();
       } catch (err) {
-        throw new HTTPError(response);
+        // noop
       }
+
+      throw new HTTPError(response, resJson);
     }
 
     try {
       return await response.json();
     } catch (err) {
       return response;
-    }
-  }
-
-  async _checkIfShouldRefreshToken(response) {
-    try {
-      const res = await response.json();
-      return this.shouldRefreshToken(res.data.error);
-    } catch (err) {
-      return false;
     }
   }
 
@@ -128,15 +120,27 @@ export default class HTTP {
     let token = await this.requestToken();
     let response = await this._performRequest(url, token, params);
 
-    if (HTTP._isErrorStatus(response.status)) {
-      const shouldRefreshToken = await this._checkIfShouldRefreshToken(response);
+    try {
+      // Wait for result to catch an HTTP error
+      return await this._processResponse(response);
+    } catch (error) {
+      if (!(error instanceof HTTPError)) {
+        throw error;
+      }
+
+      const shouldRefreshToken = error.data.error !== undefined
+        ? this.shouldRefreshToken(error.data.error)
+        : false;
+
       if (shouldRefreshToken) {
         token = await this.forceTokenUpdate();
         response = await this._performRequest(url, token, params);
-      }
-    }
 
-    return this._processResponse(response);
+        return this._processResponse(response);
+      }
+
+      throw error;
+    }
   }
 
   get(url, params) {

@@ -8,11 +8,10 @@ describe('HTTP', () => {
   let fetchResult;
 
   function mockFetch(httpInstance) {
-    const getFetchResponse = async () => ({
+    sandbox.stub(httpInstance, '_fetch').resolves({
       status: 200,
       json: async () => fetchResult
     });
-    sandbox.stub(httpInstance, '_fetch').callsFake(getFetchResponse);
   }
 
   beforeEach(function () {
@@ -26,9 +25,7 @@ describe('HTTP', () => {
     };
 
     fetchResult = {
-      data: {
-        isResponseOk: true
-      }
+      isResponseOk: true
     };
 
     http = new HTTP(fakeAuth);
@@ -63,6 +60,7 @@ describe('HTTP', () => {
       foo: 'bar',
       test: ['a', 'b']
     }});
+
     http._fetch.should.have.been.
       calledWith('http://testurl?foo=bar&test=a%2Cb', sinon.match(Object));
   });
@@ -91,10 +89,10 @@ describe('HTTP', () => {
   });
 
   it('should throw if response status is not OK', async () => {
-    http._fetch.callsFake(async () => ({
+    http._fetch.resolves({
       status: 405,
       json: async () => fetchResult
-    }));
+    });
 
     const onError = sinon.spy();
     await http.request('testurl').catch(onError);
@@ -103,17 +101,11 @@ describe('HTTP', () => {
   });
 
   it('should refresh token and request again if invalide token error returned', async () => {
-    let isFirstCall = true;
-
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
-    http._fetch.callsFake(async () => {
-      if (isFirstCall) {
-        isFirstCall = false;
-        return {status: 405, json: async () => ({data: {error: 'invalid_token'}})};
-      }
-      return {status: 200, json: async () => fetchResult};
-    });
+    http._fetch.
+      onFirstCall().resolves({status: 405, json: async () => ({error: 'invalid_token'})}).
+      onSecondCall().resolves({status: 200, json: async () => fetchResult});
 
     const res = await http.request('testurl');
 
