@@ -248,6 +248,7 @@ describe('Select', () => {
 
     it('Should open select dropdown on click', function () {
       this.sinon.spy(this.select, '_showPopup');
+      Simulate.mouseDown(this.select.node);
       Simulate.click(this.select.node);
 
       this.select._showPopup.should.have.been.called;
@@ -632,6 +633,34 @@ describe('Select', () => {
       this.select._popup.rerender = this.sinon.stub();
       this.select._showPopup();
       this.select._popup.props.message.should.equal('test not found');
+    });
+
+    describe('filter focusing', () => {
+      const SHOW_TIMEOUT = 300;
+
+      beforeEach(function () {
+        this.select = render(<Select filter={true}/>, this.container);
+      });
+
+      it('Should focus the filter on opening', function (done) {
+        this.select._showPopup();
+        // Can't use fake timers here, as Popup redraws by requestAnimationFrame.
+        // Stabbing it isn't possible either, as it hangs IE11
+        setTimeout(() => {
+          this.select._popup.filter.should.equal(document.activeElement);
+          done();
+        }, SHOW_TIMEOUT);
+      });
+
+      it('Should focus the filter on second opening', function (done) {
+        this.select._showPopup();
+        this.select._hidePopup();
+        this.select._showPopup();
+        setTimeout(() => {
+          this.select._popup.filter.should.equal(document.activeElement);
+          done();
+        }, SHOW_TIMEOUT);
+      });
     });
 
     it('Should restore focus on select in button mode after closing popup', function () {

@@ -21,10 +21,14 @@ import styles from './dialog-ng.css';
  * @example-file ./dialog-ng.examples.html
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.dialog', [RingButton, PromisedClickNg, rgCompilerModuleName]);
+const angularModule = angular.module(
+  'Ring.dialog',
+  [RingButton, PromisedClickNg, rgCompilerModuleName]
+);
 
 class DialogController extends RingAngularComponent {
-  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$injector', '$controller', 'rgCompiler'];
+  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile',
+    '$injector', '$controller', 'rgCompiler'];
 
   constructor(...args) {
     super(...args);
@@ -46,9 +50,9 @@ class DialogController extends RingAngularComponent {
     this.dialogService = dialogService;
     this.previousBodyWidth = null;
 
-    $scope.$on('$routeChangeSuccess', ::this.hide);
-    $scope.$on('$routeUpdate', ::this.hide);
-    $scope.$on('$destroy', ::dialogService.unregister);
+    $scope.$on('$routeChangeSuccess', this.hide);
+    $scope.$on('$routeUpdate', this.hide);
+    $scope.$on('$destroy', dialogService.unregister);
 
     $scope.$watch(() => this.active, () => {
       if (this.active) {
@@ -71,8 +75,8 @@ class DialogController extends RingAngularComponent {
 
     const dialogShortcuts = {
       esc: defaultEscHandler,
-      enter: ::this.applyDefaultHandler(false),
-      'mod+enter': ::this.applyDefaultHandler(true)
+      enter: this.applyDefaultHandler(false),
+      'mod+enter': this.applyDefaultHandler(true)
     };
 
     angular.extend(dialogShortcuts, this.shortcuts);
@@ -181,7 +185,7 @@ class DialogController extends RingAngularComponent {
 
   }
 
-  hide() {
+  hide = () => {
     if (!this.inSidebar) {
       ScrollPreventer.reset();
     }
@@ -268,7 +272,8 @@ class DialogController extends RingAngularComponent {
         this.serverErrorFields = [];
       }
 
-      const actionResult = button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
+      const actionResult =
+        button.action(this.data, button, errorReporter, this.dialogForm, this.buttons);
 
       button.inProgress = true;
 
@@ -293,7 +298,10 @@ class DialogController extends RingAngularComponent {
 
   applyDefaultHandler(isTextAreaShortcut) {
     return event => {
-      if (event.target.matches('textarea') !== isTextAreaShortcut || event.target.matches('button')) {
+      if (
+        event.target.matches('textarea') !== isTextAreaShortcut ||
+        event.target.matches('button')
+      ) {
         return;
       }
 
@@ -315,12 +323,14 @@ class DialogController extends RingAngularComponent {
   }
 }
 
-class DialogService {
+class DialogService extends RingAngularComponent {
+  static $inject = ['$log'];
+
   DIALOG_NAMESPACE = 'ring-dialog';
   fallbackDialog = null;
 
-  constructor($log) {
-    this.$log = $log;
+  constructor(...constrArgs) {
+    super(...constrArgs);
 
     // Binding proxy methods to a service instance
     ['show', 'hide', 'update', 'done', 'reset'].forEach(key => {
@@ -330,7 +340,7 @@ class DialogService {
         } else if (this.fallbackDialog) {
           return this.fallbackDialog[key](...args);
         } else {
-          this.$log.error('No dialog directive is found');
+          this.$inject.$log.error('No dialog directive is found');
           return undefined;
         }
       }.bind(this);
@@ -341,17 +351,19 @@ class DialogService {
     this.ctrl = ctrl;
   }
 
-  unregister() {
+  unregister = () => {
     Reflect.deleteProperty(this, 'ctrl');
   }
 }
 
 class DialogInSidebarService extends DialogService {
+  static $inject = [...DialogService.$inject, 'dialog'];
+
   DIALOG_NAMESPACE = 'ring-dialog-in-sidebar';
 
-  constructor($log, dialog) {
-    super($log);
-    this.fallbackDialog = dialog;
+  constructor(...args) {
+    super(...args);
+    this.fallbackDialog = this.$inject.dialog;
   }
 }
 
@@ -412,11 +424,13 @@ function rgDialogDirective($timeout) {
     }
 
     function onMousedown() {
-      // Duct tape for all Ring 1.0 dropdown components inside
-      node.dispatchEvent(new CustomEvent('ring.popup-close'));
+      if (!dialogCtrl.inSidebar) {
+        // Duct tape for all Ring 1.0 dropdown components inside
+        node.dispatchEvent(new CustomEvent('ring.popup-close'));
 
-      document.addEventListener('mousemove', onMousemove);
-      document.addEventListener('mouseup', onMouseup);
+        document.addEventListener('mousemove', onMousemove);
+        document.addEventListener('mouseup', onMouseup);
+      }
     }
 
     function onFocusin(e) {
@@ -503,7 +517,7 @@ function rgDialogFooterDirective() {
 
 function rgDialogContentDirective($compile, $q) {
   return {
-    link(scope, iElement) {
+    link: function link(scope, iElement) {
       const element = iElement[0];
       let contentScope;
 
@@ -529,7 +543,9 @@ function rgDialogContentDirective($compile, $q) {
 
         return $q.when(scope.dialog.compileTemplate()).
           then(compiledData => {
-            const templateScope = isOldDataAPI() ? contentScope : (scope.dialog.config.scope || contentScope);
+            const templateScope = isOldDataAPI()
+              ? contentScope
+              : (scope.dialog.config.scope || contentScope);
 
             // XXX(maksimrv): We should put element to directive
             // before link because some directives (shortcuts)

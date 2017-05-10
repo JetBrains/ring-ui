@@ -7,7 +7,7 @@ import confirm from '../confirm-service/confirm-service';
  * @example
   <example name="confirm-ng">
     <file name="index.html">
-      <div id="loader" ng-app="TestApp">
+      <div id="loader" ng-app="TestApp" ng-strict-di>
         <div rg-dialog></div>
         <div ng-controller="TestCtrl"></div>
       </div>
@@ -29,9 +29,8 @@ import confirm from '../confirm-service/confirm-service';
 
 const angularModule = angular.module('Ring.confirm', []);
 
-/* eslint-disable arrow-body-style */
-angularModule.service('confirm', $q => {
-  return function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
+angularModule.service('confirm', $q =>
+  function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
     return $q.when(confirm({
       text: message,
       description,
@@ -40,7 +39,7 @@ angularModule.service('confirm', $q => {
       cancelIsDefault,
       onBeforeConfirm: actionFn
     }));
-  };
-});
+  }
+);
 
 export default angularModule.name;

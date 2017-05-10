@@ -123,7 +123,7 @@
 
 <example name="QueryAssist in AngularJS">
   <file type="html">
-    <div ng-app="test" ng-controller="testCtrl as ctrl">
+    <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <button ng-click="ctrl.disabled = !ctrl.disabled">Disable/Enable</button>
 
       <div ng-form="testForm">
@@ -215,7 +215,7 @@
 
 <example name="QueryAssist in AngularJS query init">
   <file type="html">
-    <div ng-app="test" rg-shortcuts-app rg-shortcuts="test"
+    <div ng-app="test" ng-strict-di rg-shortcuts-app rg-shortcuts="test"
       shortcuts-focus="true" shortcuts-map="ctrl.keys"
       ng-controller="testCtrl as ctrl">
       <div ng-show="!ctrl.query">Input something to init Query Assist</div>
@@ -334,5 +334,84 @@
             });
         }
       });
+  </file>
+</example>
+
+<example name="QueryAssist programmatically set focus">
+  <file type="html">
+    <button id="focusToggler">Toggle focus</button>
+    <div id="query-assist">
+    </div>
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
+
+    const log = obj => {
+      const div = document.createElement('div');
+      div.innerHTML = JSON.stringify(obj);
+      document.getElementById('query-assist').appendChild(div);
+    };
+
+    let focus = true;
+    document.getElementById('focusToggler').addEventListener('click', function() {
+        focus = !focus;
+        renderComponent();
+    });
+
+    const dataSource = ({query, caret}) => ({
+      query,
+      caret,
+      styleRanges: [
+        {start: 0, length: 1, style: 'text'},
+        {start: 1, length: 1, style: 'field_value'},
+        {start: 2, length: 1, style: 'field_name'},
+        {start: 3, length: 1, style: 'operator'}
+      ],
+      suggestions: [{
+        prefix: 'login: ',
+        option: 'test',
+        suffix: ' ',
+        description: '1',
+        matchingStart: 0,
+        matchingEnd: query.length,
+        caret: 2,
+        completionStart: 0,
+        completionEnd: query.length,
+        group: 'logins'
+      }, {
+        prefix: 'login: ',
+        option: 'test.1',
+        suffix: ' ',
+        description: '2',
+        matchingStart: 0,
+        matchingEnd: query.length,
+        caret: 2,
+        completionStart: 0,
+        completionEnd: query.length,
+        group: 'logins'
+      }]
+    });
+
+    function renderComponent() {
+      console.log(focus);
+      render(
+        <QueryAssist
+          placeholder="placeholder"
+          glass={true}
+          clear={true}
+          focus={focus}
+          onApply={log}
+          hint="hint"
+          hintOnSelection="hint on selection"
+          dataSource={dataSource}
+        />,
+        document.getElementById('query-assist')
+      );
+    }
+
+    renderComponent();
   </file>
 </example>

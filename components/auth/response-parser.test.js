@@ -10,7 +10,8 @@ describe('Auth', () => {
       });
 
       it('should return correct response', () => {
-        location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600';
+        location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
+          '&state=xyz&token_type=example&expires_in=3600';
 
         const parser = new AuthResponseParser();
         parser.getAuthResponseFromURL().should.be.deep.equal({
@@ -48,7 +49,8 @@ describe('Auth', () => {
       it('should return correct for value with hashes', () => {
         location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
         const parser = new AuthResponseParser();
-        parser.getAuthResponseFromURL().should.be.deep.equal({access_token: '#2YotnFZFEjr1zCsicMWpAA#'});
+        parser.getAuthResponseFromURL().should.be.deep.
+          equal({access_token: '#2YotnFZFEjr1zCsicMWpAA#'});
       });
 
       it('should throw error on error in auth response', () => {

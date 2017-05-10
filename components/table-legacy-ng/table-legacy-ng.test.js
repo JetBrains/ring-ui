@@ -131,7 +131,8 @@ describe('Table Legacy Ng', () => {
 
       it('Should trigger rgLegacyTable:activateItem event on activation', () => {
         selection.activateItem(fakeData.items[0]);
-        expect(fakeEvent.emitEvent).to.have.been.calledWith('rgLegacyTable:activateItem', fakeData.items[0]);
+        expect(fakeEvent.emitEvent).to.
+          have.been.calledWith('rgLegacyTable:activateItem', fakeData.items[0]);
       });
 
       it('Should trigger rgLegacyTable:activateItem with empty item on clearActivity', () => {

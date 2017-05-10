@@ -55,7 +55,18 @@ export default class Confirm extends RingComponent {
   }
 
   render() {
-    const {show, className, inProgress, cancelIsDefault, text, description, confirmLabel, rejectLabel, onConfirm, onReject} = this.props;
+    const {
+      show,
+      className,
+      inProgress,
+      cancelIsDefault,
+      text,
+      description,
+      confirmLabel,
+      rejectLabel,
+      onConfirm,
+      onReject
+    } = this.props;
 
     return (
       <Dialog

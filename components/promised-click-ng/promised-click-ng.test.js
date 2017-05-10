@@ -27,7 +27,9 @@ describe('Promised Click Ng', () => {
   });
 
   function buildPromisedClick(auto) {
-    const template = auto ? '<button rg-promised-click="onClick()"/>' : '<button rg-promised-click/>';
+    const template = auto
+      ? '<button rg-promised-click="onClick()"/>'
+      : '<button rg-promised-click/>';
     const scope = $rootScope.$new();
     const $element = $compile(template)(scope);
     const element = $element[0];

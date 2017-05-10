@@ -21,11 +21,11 @@ export default class Sidebar extends Component {
     bottomIsOutside: true
   };
 
-  handleTopWaypoint({currentPosition}) {
+  handleTopWaypoint = ({currentPosition}) => {
     this.setState({topIsOutside: currentPosition === ABOVE});
   }
 
-  handleBottomWaypoint({currentPosition, waypointTop}) {
+  handleBottomWaypoint = ({currentPosition, waypointTop}) => {
     this.setState({
       sidebarVisibleHeight: waypointTop,
       bottomIsOutside: currentPosition !== INSIDE
@@ -44,6 +44,10 @@ export default class Sidebar extends Component {
   shouldFixateBottom() {
     const {topIsOutside, bottomIsOutside} = this.state;
     return !bottomIsOutside && topIsOutside && this.shouldUseFixation();
+  }
+
+  sidebarRef = node => {
+    this.sidebarNode = node;
   }
 
   render() {
@@ -71,13 +75,11 @@ export default class Sidebar extends Component {
     return (
       <div
         className={containerClasses}
-        ref={node => {
-          this.sidebarNode = node;
-        }}
+        ref={this.sidebarRef}
       >
         <Waypoint
-          onEnter={data => this.handleTopWaypoint(data)}
-          onLeave={data => this.handleTopWaypoint(data)}
+          onEnter={this.handleTopWaypoint}
+          onLeave={this.handleTopWaypoint}
         />
 
         <div
@@ -90,8 +92,8 @@ export default class Sidebar extends Component {
 
         <div className={styles.bottomMarker}>
           <Waypoint
-            onEnter={data => this.handleBottomWaypoint(data)}
-            onLeave={data => this.handleBottomWaypoint(data)}
+            onEnter={this.handleBottomWaypoint}
+            onLeave={this.handleBottomWaypoint}
           />
         </div>
       </div>

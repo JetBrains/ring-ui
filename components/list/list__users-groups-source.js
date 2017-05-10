@@ -19,7 +19,9 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
   }
 
   getGroupsSectionTitle(groups) {
-    return groups.length ? this.listSourceOptions.GroupsTitle : this.listSourceOptions.NoGroupsTitle;
+    return groups.length
+      ? this.listSourceOptions.GroupsTitle
+      : this.listSourceOptions.NoGroupsTitle;
   }
 
   getUsersSectionTitle(users) {

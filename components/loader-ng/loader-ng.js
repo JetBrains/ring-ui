@@ -10,7 +10,7 @@ import LoaderCore from '../loader/loader__core';
  * @example
     <example name="loader-ng">
       <file name="index.html">
-        <div id="loader" ng-app="TestApp" ng-controller="TestCtrl as testCtrl">
+        <div id="loader" ng-app="TestApp" ng-strict-di ng-controller="TestCtrl as testCtrl">
           <rg-loader message="{{testCtrl.message}}"></rg-loader>
         </div>
       </file>

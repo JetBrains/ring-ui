@@ -54,7 +54,7 @@ export default class HeaderItem extends RingComponent {
   };
 
   render() {
-    const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, href, testKey, glyph, onOpen, onClose, activeClassName, inactiveClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(
       {
         'ring-header__user-menu-item': true,
@@ -75,7 +75,7 @@ export default class HeaderItem extends RingComponent {
         {...restProps}
         data-test={dataTest}
         className={classes}
-        onClick={::this._handleClick}
+        onClick={this._handleClick}
         title={this.state.title}
       >
         {href
@@ -90,7 +90,7 @@ export default class HeaderItem extends RingComponent {
    * @param {SyntheticMouseEvent} evt
    * @private
    */
-  _handleClick(evt) {
+  _handleClick = evt => {
     if (!this.props.href) {
       evt.preventDefault();
 
