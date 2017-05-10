@@ -639,13 +639,7 @@ describe('Select', () => {
       const SHOW_TIMEOUT = 300;
 
       beforeEach(function () {
-        // make Popup redraw instantly
-        // this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
         this.select = render(<Select filter={true}/>, this.container);
-      });
-
-      afterEach(() => {
-        // window.requestAnimationFrame.restore();
       });
 
       it('Should focus the filter on opening', function (done) {
