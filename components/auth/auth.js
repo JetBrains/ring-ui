@@ -119,11 +119,12 @@ export default class Auth {
       this.addListener('userChange', this._reloadCurrentPage.bind(this));
     }
 
-    this._initDeferred = {};
-    this._initDeferred.promise = new Promise((resolve, reject) => {
-      this._initDeferred.resolve = resolve;
-      this._initDeferred.reject = reject;
-    });
+    this._createInitDeferred();
+
+    // Save service details for later use
+    this._service = {};
+    this._initDeferred.promise.then(() => this._updateCurrentService());
+    this.addListener('userChange', () => this._updateCurrentService());
   }
 
   /**
@@ -167,15 +168,28 @@ export default class Auth {
     this.listeners.remove(event, handler);
   }
 
+  setAuthDialogService(showAuthDialog) {
+    this._showAuthDialog = showAuthDialog;
+  }
+
+  _createInitDeferred() {
+    this._initDeferred = {};
+    this._initDeferred.promise = new Promise((resolve, reject) => {
+      this._initDeferred.resolve = resolve;
+      this._initDeferred.reject = reject;
+    });
+  }
+
   /**
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
    */
   async init() {
-    // TODO Show overlay instead of logout here
     this._storage.onTokenChange(token => {
       if (token === null) {
-        this.logout();
+        this._beforeLogout();
+      } else {
+        this._detectUserChange(token.access_token);
       }
     });
 
@@ -277,12 +291,7 @@ export default class Auth {
   async forceTokenUpdate() {
     try {
       const accessToken = await this._backgroundTokenGetter.get();
-      const user = await this.getUser(accessToken);
-
-      if (user && this.user && this.user.id !== user.id) {
-        // Reload page if user has been changed after background refresh
-        this.listeners.trigger('userChange', user);
-      }
+      await this._detectUserChange(accessToken);
 
       return accessToken;
     } catch (e) {
@@ -290,6 +299,20 @@ export default class Auth {
 
       this._redirectCurrentPage(authRequest.url);
       throw new TokenValidator.TokenValidationError(e.message);
+    }
+  }
+
+  async _updateCurrentService() {
+    try {
+      const {name, iconUrl} = await this.http.get(`services/${this.config.client_id}?fields=name,iconUrl`) || {};
+      if (name) {
+        this._service.serviceName = name;
+      }
+      if (iconUrl) {
+        this._service.serviceImage = iconUrl;
+      }
+    } catch (e) {
+      // noop
     }
   }
 
@@ -314,7 +337,7 @@ export default class Auth {
 
     const accessToken = await this.requestToken();
 
-    // If when was fetched during token request
+    // If user was fetched during token request
     if (this.user) {
       return this.user;
     }
@@ -323,6 +346,60 @@ export default class Auth {
     this.user = user;
 
     return user;
+  }
+
+  async _detectUserChange(accessToken) {
+    try {
+      const user = await this.getUser(accessToken);
+      if (user && this.user && this.user.id !== user.id) {
+        // Reload page if user has been changed after background refresh
+        this.user = user;
+        this.listeners.trigger('userChange', user);
+      }
+    } catch (e) {
+      // noop
+    }
+  }
+
+  async _beforeLogout({userInitiated} = {}) {
+    if (this._showAuthDialog === undefined) {
+      this.logout();
+      return;
+    }
+
+    this._createInitDeferred();
+
+    const closeDialog = () => {
+      /* eslint-disable no-use-before-define */
+      unsubscribe();
+      hide();
+      /* eslint-enable no-use-before-define */
+    };
+
+    const onLogin = () => {
+      closeDialog();
+      this.logout();
+    };
+
+    const onCancel = () => {
+      closeDialog();
+      if (userInitiated === true) {
+        this.forceTokenUpdate();
+      }
+    };
+
+    const hide = this._showAuthDialog({
+      ...this._service,
+      onLogin,
+      onCancel
+    });
+
+    const unsubscribe = this._storage.onTokenChange(token => {
+      if (token !== null) {
+        closeDialog();
+        this._initDeferred.resolve();
+      }
+    });
   }
 
   /**
@@ -352,12 +429,17 @@ export default class Auth {
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
-        return this.logout();
+        this._beforeLogout({
+          userInitiated: true
+        });
       } else {
-        return this.listeners.trigger('userChange', user);
+        this.user = user;
+        this.listeners.trigger('userChange', user);
       }
     } catch (e) {
-      return this.logout();
+      this._beforeLogout({
+        userInitiated: true
+      });
     }
   }
 
