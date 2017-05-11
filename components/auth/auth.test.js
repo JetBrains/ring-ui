@@ -322,7 +322,7 @@ describe('Auth', () => {
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
 
-      TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
+      TokenValidator.prototype._getValidatedToken.should.have.been.calledThrice;
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
@@ -610,32 +610,32 @@ describe('Auth', () => {
         calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
     });
 
-    it('should not change user in instance', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({name: 'APIuser'}));
+    it('should update user in instance', async function () {
+      const APIuser = {name: 'APIuser'};
+      this.sinon.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
       const user = {name: 'existingUser'};
       auth.user = user;
 
       await auth.login();
 
-      auth.user.should.equal(user);
+      auth.user.should.equal(APIuser);
     });
 
-    it('should call logout for guest', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({guest: true}));
+    it('should call _beforeLogout for guest', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({guest: true});
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
 
-    it('should call logout on reject', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.reject());
+    it('should call _beforeLogout on reject', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').rejects();
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
   });
 
