@@ -28,6 +28,7 @@
     import services from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
+    import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
     import Header, {Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
     import Link from 'ring-ui/components/link/link';
     import Icon from 'ring-ui/components/icon/icon';
@@ -40,6 +41,7 @@
 
     const container = document.getElementById('header');
     const auth = new Auth(hubConfig);
+    auth.setAuthDialogService(showAuthDialog);
     auth.init();
 
     const renderHeaderDemo = () => (
