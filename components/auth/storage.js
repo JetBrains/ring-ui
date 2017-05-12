@@ -22,6 +22,7 @@ export default class AuthStorage {
    * @param {{stateKeyPrefix: string, tokenKey: string, onTokenRemove: Function}} config
    */
   constructor(config) {
+    this.messagePrefix = config.messagePrefix || '';
     this.stateKeyPrefix = config.stateKeyPrefix;
     this.tokenKey = config.tokenKey;
     this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
@@ -38,6 +39,9 @@ export default class AuthStorage {
     });
     this._tokenStorage = new StorageConstructor({
       cookieName: 'ring-token'
+    });
+    this._messagesStorage = new StorageConstructor({
+      cookieName: 'ring-message'
     });
   }
 
@@ -58,6 +62,20 @@ export default class AuthStorage {
    */
   onStateChange(stateKey, fn) {
     return this._stateStorage.on(this.stateKeyPrefix + stateKey, fn);
+  }
+
+  /**
+   * Add state change listener
+   * @param {string} stateKey State key
+   * @param {function(string)} fn State change listener
+   * @return {function()} remove listener function
+   */
+  onMessage(key, fn) {
+    return this._messagesStorage.on(this.messagePrefix + key, fn);
+  }
+
+  sendMessage(key, message = null) {
+    this._messagesStorage.set(this.messagePrefix + key, message);
   }
 
   /**
