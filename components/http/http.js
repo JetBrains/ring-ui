@@ -110,6 +110,25 @@ export default class HTTP {
     return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
+  async fetch(url, params = {}) {
+    const {headers, body, query = {}, ...fetchConfig} = params;
+
+    const response = await this._fetch(
+      this._makeRequestUrl(url, query),
+      {
+        ...this.fetchConfig,
+        headers: {
+          ...this.fetchConfig.headers,
+          ...headers
+        },
+        ...fetchConfig,
+        body: body ? JSON.stringify(body) : body
+      }
+    );
+
+    return this._processResponse(response);
+  }
+
   async authorizedFetch(...args) {
     const response = await this._performRequest(...args);
 
