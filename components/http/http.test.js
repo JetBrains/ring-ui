@@ -40,12 +40,27 @@ describe('HTTP', () => {
 
     fakeAuth.requestToken.should.have.been.called;
 
-    http._fetch.should.have.been.calledWithMatch('testurl', {
+    http._fetch.should.have.been.calledWith('testurl', {
       foo: 'bar',
       headers: {
         ...defaultFetchConfig.headers,
         Authorization: `Bearer ${FAKE_TOKEN}`
-      }
+      },
+      body: undefined
+    });
+  });
+
+  it('should perform unauthorized fetch', async () => {
+    await http.fetch('testurl', {foo: 'bar'});
+
+    fakeAuth.requestToken.should.not.have.been.called;
+
+    http._fetch.should.have.been.calledWith('testurl', {
+      foo: 'bar',
+      headers: {
+        ...defaultFetchConfig.headers
+      },
+      body: undefined
     });
   });
 
