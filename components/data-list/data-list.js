@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint-disable react/jsx-max-props-per-line */
+/* eslint-disable modules/no-mix-default-named */
 
 /**
   * @name Data List
@@ -14,20 +15,8 @@ import React, {PureComponent, Element} from 'react';
 import classNames from 'classnames';
 
 import Item from './item';
+import type {GroupType} from './types';
 import styles from './data-list.css';
-
-type ItemType = {
-  id: number,
-  title: any,
-  selectable?: boolean
-};
-
-type GroupType = {
-  id: number,
-  title: any,
-  size: number,
-  items: ItemType[]
-};
 
 type Props = {
   data: GroupType[],
@@ -51,8 +40,8 @@ export default class DataList extends PureComponent {
 
             {group.items.length ? (
               <ul className={styles.group}>
-                {group.items.map(({id, title, selectable}) => (
-                  <Item key={id} title={title} selectable={selectable}/>
+                {group.items.map(({id, title, selectable, subitems}) => (
+                  <Item key={id} title={title} selectable={selectable} subitems={subitems}/>
                 ))}
               </ul>
             ) : null}
