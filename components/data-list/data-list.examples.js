@@ -8,11 +8,31 @@ import mock from './data-list.mock';
 
 class DataListDemo extends PureComponent {
   state = {
+    data: mock
   };
+
+  expandedItems = new Set();
+
+  onItemExpand = item => {
+    this.expandedItems.add(item);
+    this.setState({data: [...this.state.data]});
+  };
+
+  onItemCollapse = item => {
+    this.expandedItems.delete(item);
+    this.setState({data: [...this.state.data]});
+  };
+
+  isItemCollapsed = item => !this.expandedItems.has(item);
 
   render() {
     return (
-      <DataList data={mock}/>
+      <DataList
+        data={this.state.data}
+        onItemCollapse={this.onItemCollapse}
+        onItemExpand={this.onItemExpand}
+        isItemCollapsed={this.isItemCollapsed}
+      />
     );
   }
 }
