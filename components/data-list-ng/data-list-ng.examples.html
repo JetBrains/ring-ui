@@ -1,0 +1,21 @@
+<example name="rgDataList">
+  <file type="html">
+    <div ng-app="Example.data-list" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+      <rg-data-list
+        data="ctrl.data"
+      ></rg-data-list>
+    </div>
+  </file>
+
+  <file type="js">
+    import 'angular/angular';
+    import RingDataList from 'ring-ui/components/data-list-ng/data-list-ng';
+    import data from '../data-list/data-list.mock.js';
+
+    const exampleModule =  angular.module('Example.data-list', [RingDataList]);
+
+    exampleModule.controller('ExampleCtrl', function () {
+      this.data = data;
+    });
+  </file>
+</example>
