@@ -146,26 +146,36 @@ describe('Auth', () => {
         });
       });
 
-      it('onTokenChange should have been triggered', function (done) {
+      it('onTokenChange should have been triggered', function () {
+        const clock = this.sinon.useFakeTimers();
         const spy = this.sinon.spy();
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
-        setTimeout(() => {
-          spy.should.have.been.calledOnce;
-          done();
-        }, 0);
+        clock.tick(1);
+        spy.should.have.been.calledOnce;
       });
 
-      it('onStateChange should have been triggered', function (done) {
+      it('onStateChange should have been triggered', function () {
+        const clock = this.sinon.useFakeTimers();
         const spy = this.sinon.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 
-        setTimeout(() => {
-          spy.should.have.been.calledOnce;
-          done();
-        }, 0);
+        clock.tick(1);
+        spy.should.have.been.calledOnce;
+      });
+
+      it('onMessage should have been triggered', function () {
+        const clock = this.sinon.useFakeTimers();
+        const spy = this.sinon.spy();
+        mockedAuthStorage.onMessage(stateId, spy);
+        mockedAuthStorage.sendMessage(stateId, 'message');
+
+
+        clock.tick(1);
+        spy.should.have.been.calledOnce;
+        spy.should.have.been.calledWith('message');
       });
     });
   });
