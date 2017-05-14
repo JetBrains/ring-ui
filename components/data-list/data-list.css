@@ -34,5 +34,19 @@
 
 .metaColumn {
   display: inline-block;
-  width: 27px;
+  min-width: 27px;
+  color: #bbb;
+}
+
+.subgroup {
+  list-style: none;
+  padding: 0;
+  padding-left: 15px;
+  margin-left: 27px;
+  border: 1px none #D8D8D8;
+  border-left-style: dotted;
+}
+
+.subitem {
+  padding: 5px 0;
 }
