@@ -63,6 +63,38 @@ export default [
       },
 
       {
+        id: 2,
+        collapsed: true,
+        title: '6 projects: as a member of jetbrains-team',
+        subitems: [
+          {
+            id: 1,
+            title: <Link href="#">TeamCity</Link>
+          },
+
+          {
+            id: 2,
+            title: <Link href="#">YouTrack</Link>
+          },
+
+          {
+            id: 3,
+            title: <Link href="#">Sandbox</Link>
+          },
+
+          {
+            id: 4,
+            title: <Link href="#">Exception Analyzer</Link>
+          },
+
+          {
+            id: 5,
+            title: <Link href="#">MPS</Link>
+          }
+        ]
+      },
+
+      {
         id: 3,
         title: (
           <span>
