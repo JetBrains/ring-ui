@@ -12,6 +12,7 @@
   */
 
 import React, {PureComponent, Element} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Item from './item';
@@ -28,6 +29,10 @@ type Props = {
 
 export default class DataList extends PureComponent {
   props: Props;
+
+  static propTypes = {
+    data: PropTypes.array.isRequired
+  };
 
   defaultProps = {
     onItemCollapse: () => {},
