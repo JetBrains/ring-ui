@@ -15,21 +15,28 @@ import React, {PureComponent, Element} from 'react';
 import classNames from 'classnames';
 
 import Item from './item';
-import type {GroupType} from './types';
+import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
 
 type Props = {
   data: GroupType[],
-  className?: string
+  className?: string,
+  onItemCollapse?: ItemType => void,
+  onItemExpand?: ItemType => void,
+  isItemCollapsed?: ItemType => boolean
 };
 
 export default class DataList extends PureComponent {
   props: Props;
 
-  render(): Element<any> {
-    const {data, className} = this.props;
+  defaultProps = {
+    onItemCollapse: () => {},
+    onItemExpand: () => {},
+    isItemCollapsed: () => {}
+  };
 
-    console.log(this.props); // eslint-disable-line no-console
+  render(): Element<any> {
+    const {data, className, onItemCollapse, onItemExpand, isItemCollapsed} = this.props;
 
     return (
       <ul className={classNames(styles.dataList, className)}>
@@ -40,8 +47,17 @@ export default class DataList extends PureComponent {
 
             {group.items.length ? (
               <ul className={styles.group}>
-                {group.items.map(({id, title, selectable, subitems}) => (
-                  <Item key={id} title={title} selectable={selectable} subitems={subitems}/>
+                {group.items.map(item => (
+                  <Item
+                    key={item.id}
+                    item={item}
+                    title={item.title}
+                    selectable={item.selectable}
+                    subitems={item.subitems}
+                    onExpand={onItemExpand}
+                    onCollapse={onItemCollapse}
+                    collapsed={isItemCollapsed && isItemCollapsed(item)}
+                  />
                 ))}
               </ul>
             ) : null}

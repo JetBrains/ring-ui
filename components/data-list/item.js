@@ -12,6 +12,7 @@ import collapseIcon from 'jetbrains-icons/collapse.svg';
 import expandIcon from 'jetbrains-icons/expand.svg';
 
 type Props = {
+  item: ItemType,
   title: string,
   selectable?: boolean,
   selected?: boolean,
@@ -42,10 +43,24 @@ export default class DataList extends PureComponent {
     //this.toggleSelection();
   }
 
+  onCollapse = (e: MouseEvent) => {
+    const {item, onCollapse} = this.props;
+    if (onCollapse) {
+      onCollapse(item);
+    }
+  }
+
+  onExpand = (e: MouseEvent) => {
+    const {item, onExpand} = this.props;
+    if (onExpand) {
+      onExpand(item);
+    }
+  }
+
   render(): Element<any> {
     const {
       title, selectable, selected, showFocus, subitems,
-      collapsed, onCollapse, onExpand
+      collapsed
     } = this.props;
 
     return (
@@ -66,15 +81,15 @@ export default class DataList extends PureComponent {
               ? (collapsed
                 ? (
                   <Icon
-                    glyph={collapseIcon}
+                    glyph={expandIcon}
                     size={Icon.Size.Size14}
-                    onClick={onCollapse}
+                    onClick={this.onExpand}
                   />
                 ) : (
                   <Icon
-                    glyph={expandIcon}
+                    glyph={collapseIcon}
                     size={Icon.Size.Size14}
-                    onClick={onExpand}
+                    onClick={this.onCollapse}
                   />
                 )
               ) : null
@@ -83,7 +98,7 @@ export default class DataList extends PureComponent {
 
           {title}
 
-          {subitems
+          {subitems && !collapsed
             ? (
               <ul className={styles.subgroup}>
                 {subitems.map(subitem => (
