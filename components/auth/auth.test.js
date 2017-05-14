@@ -112,8 +112,8 @@ describe('Auth', () => {
     });
 
     beforeEach(function () {
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({login: 'user'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
+      this.sinon.stub(Auth.prototype, '_updateCurrentService');
       this.sinon.stub(Auth.prototype, 'setHash');
     });
 
@@ -284,6 +284,8 @@ describe('Auth', () => {
       this.sinon.stub(TokenValidator.prototype, '_getValidatedToken').
         returns(Promise.reject({authRedirect: true}));
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(Auth.prototype, 'getUser');
+      this.sinon.stub(Auth.prototype, '_updateCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
@@ -388,8 +390,8 @@ describe('Auth', () => {
   describe('requestToken', () => {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({id: 'APIuser'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
+      this.sinon.stub(Auth.prototype, '_updateCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       this.auth = new Auth({
@@ -489,8 +491,8 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({name: 'APIuser'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
+      this.sinon.stub(Auth.prototype, '_updateCurrentService');
     });
 
     it('should return existing user', async () => {
@@ -500,7 +502,7 @@ describe('Auth', () => {
       auth.user = {name: 'existingUser'};
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.not.have.been.called;
+      Auth.prototype.getUser.should.not.have.been.called;
       user.should.equal(auth.user);
     });
 
@@ -508,18 +510,10 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      this.sinon.stub(Auth.prototype, 'requestToken').
-        returns(Promise.resolve('token'));
+      this.sinon.stub(Auth.prototype, 'requestToken').resolves('token');
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
-      const matchParams = sinon.match({
-        query: {
-          fields: 'guest,id,name,profile/avatar/url'
-        }
-      });
-      HTTP.prototype.authorizedFetch.should.have.been.
-        calledWithMatch('users/me', 'token', matchParams);
+      Auth.prototype.getUser.should.have.been.calledOnce;
       user.should.deep.equal({name: 'APIuser'});
     });
 
@@ -532,7 +526,7 @@ describe('Auth', () => {
       });
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
+      Auth.prototype.getUser.should.have.been.calledOnce;
       user.should.deep.equal({name: 'APIuser'});
     });
   });
@@ -548,15 +542,13 @@ describe('Auth', () => {
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
-
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({name: 'APIuser'}));
-    });
-
-    it('should not return existing user', async () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').resolves({name: 'APIuser'});
+    });
+
+    it('should not return existing user', async () => {
       auth.user = {name: 'existingUser'};
 
       const user = await auth.getUser();
@@ -565,9 +557,6 @@ describe('Auth', () => {
     });
 
     it('should get user from API', async () => {
-      auth._initDeferred = {};
-      auth._initDeferred.promise = Promise.resolve();
-
       const user = await auth.getUser('token');
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
       const matchParams = sinon.match({
@@ -589,6 +578,7 @@ describe('Auth', () => {
     beforeEach(function () {
       this.sinon.stub(BackgroundTokenGetter.prototype, 'get').
         returns(Promise.resolve('token'));
+      this.sinon.stub(Auth.prototype, '_updateCurrentService');
       this.sinon.stub(Auth.prototype, 'logout');
       this.sinon.stub(auth.listeners, 'trigger');
     });
@@ -610,32 +600,32 @@ describe('Auth', () => {
         calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
     });
 
-    it('should not change user in instance', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({name: 'APIuser'}));
+    it('should update user in instance', async function () {
+      const APIuser = {name: 'APIuser'};
+      this.sinon.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
       const user = {name: 'existingUser'};
       auth.user = user;
 
       await auth.login();
 
-      auth.user.should.equal(user);
+      auth.user.should.equal(APIuser);
     });
 
-    it('should call logout for guest', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({guest: true}));
+    it('should call _beforeLogout for guest', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({guest: true});
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
 
-    it('should call logout on reject', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.reject());
+    it('should call _beforeLogout on reject', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').rejects();
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
   });
 
