@@ -38,7 +38,7 @@
 }
 
 .inSidebar .header {
-  cursor: text;
+  cursor: default;
   user-select: text;
 }
 
