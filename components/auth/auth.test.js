@@ -517,13 +517,13 @@ describe('Auth', () => {
       user.should.deep.equal({name: 'APIuser'});
     });
 
-    it('should wait user saved during validation', async () => {
-      auth.init();
-      auth._storage.saveToken({
+    it('should wait for user saved during validation', async () => {
+      await auth._storage.saveToken({
         access_token: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
+      await auth._tokenValidator.validateToken();
 
       const user = await auth.requestUser();
       Auth.prototype.getUser.should.have.been.calledOnce;
