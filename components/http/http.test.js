@@ -10,6 +10,7 @@ describe('HTTP', () => {
   function mockFetch(httpInstance) {
     sandbox.stub(httpInstance, '_fetch').resolves({
       status: 200,
+      headers: new Headers({'content-type': 'application/json'}),
       json: async () => fetchResult
     });
   }
@@ -66,6 +67,18 @@ describe('HTTP', () => {
     res.should.equal(fetchResult);
   });
 
+  it('should perform request and return text result if no "application/json" header', async () => {
+    http._fetch.resolves({
+      status: 200,
+      headers: new Headers({'content-type': 'text/html'}),
+      json: async () => sinon.spy(),
+      text: async () => 'some text'
+    });
+
+    const res = await http.request('testurl');
+    res.should.equal('some text');
+  });
+
 
   it('should encode query params in url', async () => {
     await http.request('http://testurl', {query: {
@@ -116,8 +129,16 @@ describe('HTTP', () => {
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
     http._fetch.
-      onFirstCall().resolves({status: 405, json: async () => ({error: 'invalid_token'})}).
-      onSecondCall().resolves({status: 200, json: async () => fetchResult});
+      onFirstCall().resolves({
+        status: 405,
+        json: async () => ({error: 'invalid_token'}),
+        headers: new Headers({'content-type': 'application/json'})
+      }).
+      onSecondCall().resolves({
+        status: 200,
+        json: async () => fetchResult,
+        headers: new Headers({'content-type': 'application/json'})
+      });
 
     const res = await http.request('testurl');
 
