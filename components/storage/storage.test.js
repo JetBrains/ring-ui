@@ -154,19 +154,19 @@ function testStorageEvents(storage) {
       change.should.become(null);
     });
 
-    it('on after set with other key shouldn\'t be fired', function (done) {
+    it('on after set with other key shouldn\'t be fired', function () {
+      const clock = this.sinon.useFakeTimers();
       const spy = this.sinon.stub();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
 
-      setTimeout(() => {
-        spy.should.not.have.been.called;
-        done();
-      }, 0);
+      clock.tick(1);
+      spy.should.not.have.been.called;
     });
 
-    it('stop should stop', function (done) {
+    it('stop should stop', function () {
+      const clock = this.sinon.useFakeTimers();
       const spy = this.sinon.spy();
 
       const testEvent = 'testKey5';
@@ -174,10 +174,8 @@ function testStorageEvents(storage) {
       stop();
       storage.set(testEvent, 'testValue');
 
-      setTimeout(() => {
-        spy.should.not.have.been.called;
-        done();
-      }, 0);
+      clock.tick(1);
+      spy.should.not.have.been.called;
     });
   });
 }
