@@ -12,8 +12,7 @@ export default class WindowFlow {
   }
 
   /**
-   * Redirects the given iframe to the given URL
-   * @param {HTMLIFrameElement} iframe
+   * Opens window with the given URL
    * @param {string} url
    * @private
    */
@@ -32,10 +31,7 @@ export default class WindowFlow {
   }
 
   /**
-   * Refreshes the access token in an iframe.
-   *
-   * @return {Promise.<string>} promise that is resolved to access the token when it is loaded in a background iframe. The
-   * promise is rejected if no token was received after {@link BackgroundToken.BACKGROUND_TIMEOUT} ms.
+   * Initates authorization in window
    */
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest({nonRedirect: true});
