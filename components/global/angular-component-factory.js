@@ -26,17 +26,19 @@ function iterateRecursive(obj, iterator) {
 function addWarningOnPropertiesChange(object, name) {
   iterateRecursive(object, (obj, key) => {
     let value = obj[key];
-    Object.defineProperty(obj, key, {
-      get: () => value,
-      set: val => {
-        // eslint-disable-next-line no-console
-        console.warn(`Warning! You have modified a "${key}" property of object, which is passed to Ring UI
-          angular-component-factory. This change is not handled by "${name}" component.
-          You should reassign object itself if you need this component to handle change.`, obj);
-        value = val;
-        return value;
-      }
-    });
+    if (!Object.isFrozen(obj)) {
+      Object.defineProperty(obj, key, {
+        get: () => value,
+        set: val => {
+          // eslint-disable-next-line no-console
+          console.warn(`Warning! You have modified a "${key}" property of object, which is passed to Ring UI
+            angular-component-factory. This change is not handled by "${name}" component.
+            You should reassign object itself if you need this component to handle change.`, obj);
+          value = val;
+          return value;
+        }
+      });
+    }
   });
 }
 
