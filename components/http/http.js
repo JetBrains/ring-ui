@@ -88,10 +88,13 @@ export default class HTTP {
   }
 
   async _processResponse(response) {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType && contentType.indexOf('application/json') !== -1;
+
     if (HTTP._isErrorStatus(response.status)) {
       let resJson;
       try {
-        resJson = await response.json();
+        resJson = await (isJson ? response.json() : response.text());
       } catch (err) {
         // noop
       }
@@ -100,7 +103,7 @@ export default class HTTP {
     }
 
     try {
-      return await response.json();
+      return await (isJson ? response.json() : response.text());
     } catch (err) {
       return response;
     }
@@ -111,16 +114,11 @@ export default class HTTP {
   }
 
   async fetch(url, params = {}) {
-    const {headers, body, query = {}, ...fetchConfig} = params;
+    const {body, query = {}, ...fetchConfig} = params;
 
     const response = await this._fetch(
       this._makeRequestUrl(url, query),
       {
-        ...this.fetchConfig,
-        headers: {
-          ...this.fetchConfig.headers,
-          ...headers
-        },
         ...fetchConfig,
         body: body ? JSON.stringify(body) : body
       }
