@@ -9,6 +9,7 @@ import HTTP from '../http/http';
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
 import AuthRequestBuilder from './request-builder';
+import WindowFlow from './window-flow';
 import BackgroundTokenGetter from './background-token-getter';
 import TokenValidator from './token-validator';
 
@@ -78,6 +79,7 @@ export default class Auth {
     }
 
     this._storage = new AuthStorage({
+      messagePrefix: `${client_id}-message-`,
       stateKeyPrefix: `${client_id}-states-`,
       tokenKey: `${client_id}-token`
     });
@@ -94,6 +96,7 @@ export default class Auth {
     }, this._storage);
 
     this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
+    this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
@@ -129,6 +132,7 @@ export default class Auth {
    */
   static DEFAULT_CONFIG = {
     avoidPageReload: false,
+    windowLogin: false,
     client_id: '0-0-0-0-0',
     redirect_uri: getAbsoluteBaseURL(),
     redirect: false,
@@ -155,6 +159,9 @@ export default class Auth {
    */
   static API_PROFILE_PATH = 'users/me';
 
+  static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
+  static CLOSE_WINDOW_MESSAGE = 'close-login-window';
+
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
 
   addListener(event, handler) {
@@ -165,8 +172,8 @@ export default class Auth {
     this.listeners.remove(event, handler);
   }
 
-  setAuthDialogService(showAuthDialog) {
-    this._showAuthDialog = showAuthDialog;
+  setAuthDialogService(authDialogService) {
+    this._authDialogService = authDialogService;
   }
 
   _createInitDeferred() {
@@ -184,9 +191,21 @@ export default class Auth {
   async init() {
     this._saveCurrentService();
 
+    if (this.config.windowLogin === true) {
+      this._storage.onMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, () => {
+        if (this._authDialogService !== undefined) {
+          this._showAuthDialog({
+            nonInteractive: true
+          });
+        }
+      });
+    }
+
     this._storage.onTokenChange(token => {
       if (token === null) {
-        this._beforeLogout();
+        this._beforeLogout({
+          nonInteractive: true
+        });
       } else {
         this._detectUserChange(token.access_token);
       }
@@ -268,6 +287,7 @@ export default class Auth {
     this._initDeferred.reject(error);
     throw error;
   }
+
   /**
    * Get token from local storage or request it if necessary.
    * Can redirect to login page.
@@ -355,45 +375,68 @@ export default class Auth {
     }
   }
 
-  async _beforeLogout({userInitiated} = {}) {
-    if (this._showAuthDialog === undefined) {
+  _beforeLogout(params) {
+    if (this._authDialogService === undefined) {
       this.logout();
       return;
     }
+
+    this._showAuthDialog(params);
+  }
+
+  _showAuthDialog({nonInteractive} = {}) {
+    const {windowLogin} = this.config;
 
     this._createInitDeferred();
 
     const closeDialog = () => {
       /* eslint-disable no-use-before-define */
-      unsubscribe();
+      stopTokenListening();
+      stopMessageListening();
       hide();
       /* eslint-enable no-use-before-define */
     };
 
     const onLogin = () => {
-      closeDialog();
-      this.logout();
+      if (windowLogin !== true) {
+        closeDialog();
+        this.logout();
+        return;
+      }
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+      this._windowFlow.authorize();
     };
 
     const onCancel = () => {
       closeDialog();
-      if (userInitiated === true) {
+      if (nonInteractive !== true) {
         this.forceTokenUpdate();
       }
     };
 
-    const hide = this._showAuthDialog({
+    const hide = this._authDialogService({
       ...this._service,
       onLogin,
       onCancel
     });
 
-    const unsubscribe = this._storage.onTokenChange(token => {
+    const stopTokenListening = this._storage.onTokenChange(token => {
       if (token !== null) {
         closeDialog();
         this._initDeferred.resolve();
       }
     });
+
+    const stopMessageListening = this._storage.onMessage(
+      Auth.CLOSE_WINDOW_MESSAGE,
+      () => this._windowFlow.stop()
+    );
+
+    if (windowLogin === true && nonInteractive !== true) {
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+      this._storage.sendMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, Date.now());
+      this._windowFlow.authorize();
+    }
   }
 
   /**
@@ -418,22 +461,23 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
+    if (this.config.windowLogin) {
+      this._showAuthDialog();
+      return;
+    }
+
     try {
       const accessToken = await this._backgroundTokenGetter.get();
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
-        this._beforeLogout({
-          userInitiated: true
-        });
+        this._beforeLogout();
       } else {
         this.user = user;
         this.listeners.trigger('userChange', user);
       }
     } catch (e) {
-      this._beforeLogout({
-        userInitiated: true
-      });
+      this._beforeLogout();
     }
   }
 
