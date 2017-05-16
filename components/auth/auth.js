@@ -121,10 +121,7 @@ export default class Auth {
 
     this._createInitDeferred();
 
-    // Save service details for later use
     this._service = {};
-    this._initDeferred.promise.then(() => this._updateCurrentService());
-    this.addListener('userChange', () => this._updateCurrentService());
   }
 
   /**
@@ -185,6 +182,8 @@ export default class Auth {
    * that should be restored after returning back from auth server.
    */
   async init() {
+    this._saveCurrentService();
+
     this._storage.onTokenChange(token => {
       if (token === null) {
         this._beforeLogout();
@@ -302,15 +301,10 @@ export default class Auth {
     }
   }
 
-  async _updateCurrentService() {
+  async _saveCurrentService() {
     try {
-      const {name, iconUrl} = await this.http.get(`services/${this.config.client_id}?fields=name,iconUrl`) || {};
-      if (name) {
-        this._service.serviceName = name;
-      }
-      if (iconUrl) {
-        this._service.serviceImage = iconUrl;
-      }
+      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.client_id}`) || {};
+      this._service = {serviceImage, serviceName};
     } catch (e) {
       // noop
     }
