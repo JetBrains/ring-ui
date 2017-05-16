@@ -88,10 +88,13 @@ export default class HTTP {
   }
 
   async _processResponse(response) {
+    const contentType = response.headers.get('content-type');
+    const isJson = contentType && contentType.indexOf('application/json') !== -1;
+
     if (HTTP._isErrorStatus(response.status)) {
       let resJson;
       try {
-        resJson = await response.json();
+        resJson = await (isJson ? response.json() : response.text());
       } catch (err) {
         // noop
       }
@@ -100,7 +103,7 @@ export default class HTTP {
     }
 
     try {
-      return await response.json();
+      return await (isJson ? response.json() : response.text());
     } catch (err) {
       return response;
     }
