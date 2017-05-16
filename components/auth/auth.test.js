@@ -113,7 +113,7 @@ describe('Auth', () => {
 
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
-      this.sinon.stub(Auth.prototype, '_updateCurrentService');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(Auth.prototype, 'setHash');
     });
 
@@ -285,7 +285,7 @@ describe('Auth', () => {
         returns(Promise.reject({authRedirect: true}));
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(Auth.prototype, 'getUser');
-      this.sinon.stub(Auth.prototype, '_updateCurrentService');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
@@ -391,7 +391,7 @@ describe('Auth', () => {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
       this.sinon.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
-      this.sinon.stub(Auth.prototype, '_updateCurrentService');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       this.auth = new Auth({
@@ -492,7 +492,7 @@ describe('Auth', () => {
       });
 
       this.sinon.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
-      this.sinon.stub(Auth.prototype, '_updateCurrentService');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
     });
 
     it('should return existing user', async () => {
@@ -578,7 +578,7 @@ describe('Auth', () => {
     beforeEach(function () {
       this.sinon.stub(BackgroundTokenGetter.prototype, 'get').
         returns(Promise.resolve('token'));
-      this.sinon.stub(Auth.prototype, '_updateCurrentService');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(Auth.prototype, 'logout');
       this.sinon.stub(auth.listeners, 'trigger');
     });
