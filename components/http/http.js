@@ -111,16 +111,11 @@ export default class HTTP {
   }
 
   async fetch(url, params = {}) {
-    const {headers, body, query = {}, ...fetchConfig} = params;
+    const {body, query = {}, ...fetchConfig} = params;
 
     const response = await this._fetch(
       this._makeRequestUrl(url, query),
       {
-        ...this.fetchConfig,
-        headers: {
-          ...this.fetchConfig.headers,
-          ...headers
-        },
         ...fetchConfig,
         body: body ? JSON.stringify(body) : body
       }
