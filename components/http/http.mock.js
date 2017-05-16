@@ -27,6 +27,7 @@ export default class HTTPMock extends HTTP {
 
     return {
       status: 200,
+      headers: new Headers({'content-type': 'application/json'}),
       json: async () => (this._getResponseForUrl(url) || this.defaultResponse)
     };
   }
