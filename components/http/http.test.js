@@ -57,9 +57,6 @@ describe('HTTP', () => {
 
     http._fetch.should.have.been.calledWith('testurl', {
       foo: 'bar',
-      headers: {
-        ...defaultFetchConfig.headers
-      },
       body: undefined
     });
   });
