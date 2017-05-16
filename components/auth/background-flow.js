@@ -7,7 +7,7 @@ import AuthResponseParser from './response-parser';
  */
 const DEFAULT_TIMEOUT = 20 * 1000; // 20 sec in ms
 
-export default class BackgroundTokenGetter {
+export default class BackgroundFlow {
   constructor(requestBuilder, storage, timeout = DEFAULT_TIMEOUT) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
@@ -90,7 +90,7 @@ export default class BackgroundTokenGetter {
     });
   }
 
-  get() {
+  authorize() {
     if (this._promise) {
       return this._promise;
     }

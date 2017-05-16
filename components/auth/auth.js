@@ -10,7 +10,7 @@ import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
 import AuthRequestBuilder from './request-builder';
 import WindowFlow from './window-flow';
-import BackgroundTokenGetter from './background-token-getter';
+import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
 function noop() {}
@@ -95,7 +95,7 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
-    this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
+    this._backgroundFlow = new BackgroundFlow(this._requestBuilder, this._storage);
     this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
@@ -274,7 +274,7 @@ export default class Auth {
     // Background flow
     if (error.authRedirect && !this.config.redirect) {
       try {
-        await this._backgroundTokenGetter.get();
+        await this._backgroundFlow.authorize();
         await this._tokenValidator.validateToken();
         this._initDeferred.resolve();
         return undefined;
@@ -309,7 +309,7 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      const accessToken = await this._backgroundTokenGetter.get();
+      const accessToken = await this._backgroundFlow.authorize();
       await this._detectUserChange(accessToken);
 
       return accessToken;
@@ -467,7 +467,7 @@ export default class Auth {
     }
 
     try {
-      const accessToken = await this._backgroundTokenGetter.get();
+      const accessToken = await this._backgroundFlow.authorize();
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
