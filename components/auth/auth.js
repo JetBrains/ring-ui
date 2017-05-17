@@ -124,6 +124,8 @@ export default class Auth {
 
     this._createInitDeferred();
 
+    this.setUpPreconnect(config.serverUri);
+
     this._service = {};
   }
 
@@ -519,6 +521,19 @@ export default class Auth {
     await this._storage.saveToken({access_token, scopes, expires});
 
     return newState;
+  }
+
+  /**
+   * Adds preconnect tag to help browser to establish connection to URL.
+   * See https://w3c.github.io/resource-hints/
+   * @param url Url to preconnect to.
+   */
+  async setUpPreconnect(url) {
+    const linkNode = document.createElement('link');
+    linkNode.rel = 'preconnect';
+    linkNode.href = url;
+    linkNode.pr = '1.0';
+    document.head.appendChild(linkNode);
   }
 
   /**
