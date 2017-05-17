@@ -99,6 +99,15 @@ describe('Auth', () => {
 
       Auth.prototype._redirectCurrentPage.should.not.been.called;
     });
+
+    it('should add preconnect link tag', () => {
+      const config = {serverUri: 'http://url-to-preconnect.ru/'};
+      // eslint-disable-next-line no-unused-vars
+      const auth = new Auth(config);
+
+      document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`).
+        should.be.defined;
+    });
   });
 
   describe('init', () => {
