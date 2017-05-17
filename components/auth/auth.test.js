@@ -88,11 +88,11 @@ describe('Auth', () => {
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
 
-    it('should not perform redirect on userChange when avoidPageReload is set', function () {
+    it('should not perform redirect on userChange when reloadOnUserChange is false', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
-        avoidPageReload: true,
+        reloadOnUserChange: false,
         serverUri: ''
       });
       auth.listeners.trigger('userChange');

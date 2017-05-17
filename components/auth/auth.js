@@ -118,8 +118,8 @@ export default class Auth {
       this.addListener('logout', this.config.onLogout);
     }
 
-    if (this.config.avoidPageReload === false) {
-      this.addListener('userChange', this._reloadCurrentPage.bind(this));
+    if (this.config.reloadOnUserChange === true) {
+      this.addListener('userChange', () => this._reloadCurrentPage());
     }
 
     this._createInitDeferred();
@@ -133,7 +133,7 @@ export default class Auth {
    * @const {{client_id: string, redirect_uri: string, scope: string[], default_expires_in: number}}
    */
   static DEFAULT_CONFIG = {
-    avoidPageReload: false,
+    reloadOnUserChange: true,
     windowLogin: false,
     client_id: '0-0-0-0-0',
     redirect_uri: getAbsoluteBaseURL(),
