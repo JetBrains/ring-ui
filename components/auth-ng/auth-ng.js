@@ -108,7 +108,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
       return null;
     }
 
-    if (auth.config.avoidPageReload) {
+    if (auth.config.reloadOnUserChange === false) {
       auth.addListener('userChange', () => {
         const $route = $injector.get('$route');
         $route.reload();
