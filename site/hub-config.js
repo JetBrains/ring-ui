@@ -5,7 +5,7 @@ const {protocol, host} = window.location;
 
 /* eslint-disable camelcase */
 export default {
-  avoidPageReload: true,
+  reloadOnUserChange: false,
   serverUri,
   client_id: clientId,
   request_credentials: 'skip',
