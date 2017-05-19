@@ -40,3 +40,19 @@
     })(new Auth(hubConfig));
   </file>
 </example>
+
+
+<example name="Auth slim landing page">
+  <file type="html">
+    <div id="example">
+      <a id="open-link">Open landing page</a>
+    </div>
+  </file>
+
+  <file type="js">
+    import Auth from 'ring-ui/components/auth/auth';
+    import LandintEntryFileName from 'ring-ui/components/auth/landing-entry';
+
+    document.querySelector('#open-link').href = LandintEntryFileName;
+  </file>
+</example>
