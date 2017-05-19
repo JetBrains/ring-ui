@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 
@@ -47,6 +46,7 @@ function noop() {}
  *
  * @example-file ./auth.examples.html
  */
+/* eslint-disable camelcase */
 export default class Auth {
   constructor(config) {
     if (!config) {
