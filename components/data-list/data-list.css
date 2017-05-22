@@ -38,6 +38,10 @@
   color: #bbb;
 }
 
+.collapseIcon {
+  top: -3px;
+}
+
 .subgroup {
   list-style: none;
   padding: 0;

@@ -81,12 +81,14 @@ export default class DataList extends PureComponent {
               ? (collapsed
                 ? (
                   <Icon
+                    className={styles.collapseIcon}
                     glyph={expandIcon}
                     size={Icon.Size.Size14}
                     onClick={this.onExpand}
                   />
                 ) : (
                   <Icon
+                    className={styles.collapseIcon}
                     glyph={collapseIcon}
                     size={Icon.Size.Size14}
                     onClick={this.onCollapse}
