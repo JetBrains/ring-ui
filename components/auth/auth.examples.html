@@ -45,14 +45,41 @@
 <example name="Auth slim landing page">
   <file type="html">
     <div id="example">
+      <div id="example"></div>
       <a id="open-link">Open landing page</a>
+      <a href id="log-out">Log Out</a>
+      <a href id="force-update">Force token update</a>
     </div>
   </file>
 
   <file type="js">
     import Auth from 'ring-ui/components/auth/auth';
+    import authService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+    import hubConfig from 'ring-ui/site/hub-config';
     import LandintEntryFileName from 'ring-ui/components/auth/landing-entry';
 
-    document.querySelector('#open-link').href = LandintEntryFileName;
+    async function run() {
+      const auth = new Auth({
+        ...hubConfig,
+        windowLogin: true,
+        redirect_uri: hubConfig.redirect_uri + LandintEntryFileName
+      });
+
+      auth.setAuthDialogService(authService);
+      await auth.init();
+
+      document.querySelector('#open-link').href = LandintEntryFileName;
+
+      document.querySelector('#force-update').addEventListener('click', () => {
+        auth.forceTokenUpdate();
+      });
+
+      document.querySelector('#log-out').addEventListener('click', () => {
+        auth.login();
+      });
+    }
+
+    run();
+
   </file>
 </example>
