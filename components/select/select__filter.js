@@ -19,11 +19,7 @@ export default class SelectFilter extends Component {
   }
 
   componentDidMount() {
-    this.focus();
-  }
-
-  componentDidUpdate() {
-    this.focus();
+    setTimeout(() => this.focus());
   }
 
   focus() {
