@@ -6,14 +6,17 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-u
 import DataList from './data-list';
 
 describe('Data List', () => {
-  const renderComponent = props => renderIntoDocument(<DataList {...props}/>);
+  const renderComponent = props => {
+    const data = [];
+    return renderIntoDocument(<DataList {...{...{data}, ...props}}/>);
+  };
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), DataList).should.be.true;
   });
 
-  it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+  it('should wrap children with ul', () => {
+    findDOMNode(renderComponent()).should.match('ul');
   });
 
   it('should use passed className', () => {
