@@ -1,30 +1,77 @@
 /* @flow */
-
+/* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
-import classNames from 'classnames';
+
+import Link from '../link/link';
+import Text from '../text/text';
 
 import Item from './item';
-import type {ItemType} from './types';
+import type {GroupType, ItemType} from './types';
 import styles from './data-list.css';
 
 type Props = {
+  group: GroupType,
   title: string,
   items: ItemType[],
   className?: string,
   onItemCollapse?: ItemType => void,
   onItemExpand?: ItemType => void,
   isItemCollapsed?: ItemType => boolean,
-  showMoreLessButton: any
+  showMoreLessButton?: boolean,
+  fullyShown?: boolean,
+  onGroupShowMore?: GroupType => void,
+  onGroupShowLess?: GroupType => void
 };
 
 export default class Group extends PureComponent {
   props: Props;
 
-  render() {
+  onShowMore = () => {
+    const {onGroupShowMore, group} = this.props;
+    if (onGroupShowMore) {
+      onGroupShowMore(group);
+    }
+  }
+
+  onShowLess = () => {
+    const {onGroupShowLess, group} = this.props;
+    if (onGroupShowLess) {
+      onGroupShowLess(group);
+    }
+  }
+
+  render(): Element<any> {
     const {
       title, items, onItemCollapse, onItemExpand,
-      isItemCollapsed, showMoreLessButton
+      isItemCollapsed, showMoreLessButton, fullyShown
     } = this.props;
+
+    let moreLessButton;
+    if (showMoreLessButton) {
+      if (fullyShown) {
+        moreLessButton = (
+          <Text comment={true}>
+            <Link
+              inherit={true}
+              pseudo={true}
+              onClick={this.onShowLess}
+            >Show less</Link>
+          </Text>
+        );
+      } else {
+        moreLessButton = (
+          <Text comment={true}>
+            <Link
+              inherit={true}
+              pseudo={true}
+              onClick={this.onShowMore}
+            >Show more</Link>
+          </Text>
+        );
+      }
+    } else {
+      moreLessButton = null;
+    }
 
     return (
       <li>
@@ -46,8 +93,8 @@ export default class Group extends PureComponent {
             ))}
 
             {
-              showMoreLessButton ? (
-                <li className={styles.item} style={{marginLeft: '27px'}}>{showMoreLessButton}</li>
+              moreLessButton ? (
+                <li className={styles.item} style={{marginLeft: '27px'}}>{moreLessButton}</li>
               ) : null
             }
           </ul>
@@ -55,6 +102,4 @@ export default class Group extends PureComponent {
       </li>
     );
   }
-};
-
-
+}

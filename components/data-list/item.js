@@ -1,14 +1,13 @@
 /* @flow */
-
 import React, {PureComponent, Element} from 'react';
+import collapseIcon from 'jetbrains-icons/collapse.svg';
+import expandIcon from 'jetbrains-icons/expand.svg';
 
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 
 import type {SubitemType, ItemType} from './types';
 import styles from './data-list.css';
-import collapseIcon from 'jetbrains-icons/collapse.svg';
-import expandIcon from 'jetbrains-icons/expand.svg';
 
 type Props = {
   item: ItemType,
@@ -23,8 +22,6 @@ type Props = {
 };
 
 export default class DataList extends PureComponent {
-  props: Props;
-
   defaultProps = {
     selectable: false,
     selected: false,
@@ -34,6 +31,8 @@ export default class DataList extends PureComponent {
     onExpand: () => {}
   };
 
+  props: Props;
+
   onCheckboxFocus = () => {
     //this.props.onFocusRestore();
   }
@@ -42,14 +41,14 @@ export default class DataList extends PureComponent {
     //this.toggleSelection();
   }
 
-  onCollapse = (e: MouseEvent) => {
+  onCollapse = () => {
     const {item, onCollapse} = this.props;
     if (onCollapse) {
       onCollapse(item);
     }
   }
 
-  onExpand = (e: MouseEvent) => {
+  onExpand = () => {
     const {item, onExpand} = this.props;
     if (onExpand) {
       onExpand(item);
@@ -61,6 +60,29 @@ export default class DataList extends PureComponent {
       title, selectable, selected, showFocus, subitems,
       collapsed
     } = this.props;
+
+    let collapserExpander = null;
+    if (subitems && subitems.length) {
+      if (collapsed) {
+        collapserExpander = (
+          <Icon
+            className={styles.collapseIcon}
+            glyph={expandIcon}
+            size={Icon.Size.Size14}
+            onClick={this.onExpand}
+          />
+        );
+      } else {
+        collapserExpander = (
+          <Icon
+            className={styles.collapseIcon}
+            glyph={collapseIcon}
+            size={Icon.Size.Size14}
+            onClick={this.onCollapse}
+          />
+        );
+      }
+    }
 
     return (
       <li className={styles.item}>
@@ -76,25 +98,7 @@ export default class DataList extends PureComponent {
               />
             }
 
-            {subitems && subitems.length
-              ? (collapsed
-                ? (
-                  <Icon
-                    className={styles.collapseIcon}
-                    glyph={expandIcon}
-                    size={Icon.Size.Size14}
-                    onClick={this.onExpand}
-                  />
-                ) : (
-                  <Icon
-                    className={styles.collapseIcon}
-                    glyph={collapseIcon}
-                    size={Icon.Size.Size14}
-                    onClick={this.onCollapse}
-                  />
-                )
-              ) : null
-            }
+            {collapserExpander}
           </div>
 
           {title}
