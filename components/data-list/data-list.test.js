@@ -6,7 +6,7 @@ import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-u
 import DataList from './data-list';
 
 describe('Data List', () => {
-  const renderComponent = props => renderIntoDocument(<DataList {...props} />);
+  const renderComponent = props => renderIntoDocument(<DataList {...props}/>);
 
   it('should create component', () => {
     isCompositeComponentWithType(renderComponent(), DataList).should.be.true;
