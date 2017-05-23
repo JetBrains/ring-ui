@@ -1,9 +1,7 @@
 /* @flow */
-export type GroupType = {
+export type SubitemType = {
   id: number,
-  title: any,
-  size: number,
-  items: ItemType[]
+  title: any
 };
 
 export type ItemType = {
@@ -13,7 +11,9 @@ export type ItemType = {
   subitems?: SubitemType[]
 };
 
-export type SubitemType = {
+export type GroupType = {
   id: number,
-  title: any
+  title: any,
+  size: number,
+  items: ItemType[]
 };

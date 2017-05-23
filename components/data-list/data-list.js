@@ -13,9 +13,6 @@ import React, {PureComponent, Element} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Link from '../link/link';
-import Text from '../text/text';
-
 import Group from './group';
 import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
@@ -33,8 +30,6 @@ type Props = {
 };
 
 export default class DataList extends PureComponent {
-  props: Props;
-
   static propTypes = {
     data: PropTypes.array.isRequired,
     onItemCollapse: PropTypes.func,
@@ -55,6 +50,8 @@ export default class DataList extends PureComponent {
     onGroupShowLess: () => {},
     isGroupFullyShown: () => false
   };
+
+  props: Props;
 
   render(): Element<any> {
     const {
@@ -80,44 +77,23 @@ export default class DataList extends PureComponent {
             itemsToShow = [...items];
           }
 
-          let showMoreLessButton;
-          if (items.length > groupItemsLimit + 1) {
-            if (fullyShown) {
-              showMoreLessButton = (
-                <Text comment={true}>
-                  <Link
-                    inherit={true}
-                    pseudo={true}
-                    onClick={() => onGroupShowLess && onGroupShowLess(group)}
-                  >Show less</Link>
-                </Text>
-              );
-            } else {
-              showMoreLessButton = (
-                <Text comment={true}>
-                  <Link
-                    inherit={true}
-                    pseudo={true}
-                    onClick={() => onGroupShowMore && onGroupShowMore(group)}
-                  >Show more</Link>
-                </Text>
-              );
-            }
-          } else {
-            showMoreLessButton = null;
-          }
+          const showMoreLessButton = items.length > groupItemsLimit + 1;
 
           return (
             <Group
               key={id}
+              group={group}
               title={title}
               items={itemsToShow}
               onItemExpand={onItemExpand}
               onItemCollapse={onItemCollapse}
               isItemCollapsed={isItemCollapsed}
               showMoreLessButton={showMoreLessButton}
+              fullyShown={fullyShown}
+              onGroupShowLess={onGroupShowLess}
+              onGroupShowMore={onGroupShowMore}
             />
-          )
+          );
         })}
       </ul>
     );

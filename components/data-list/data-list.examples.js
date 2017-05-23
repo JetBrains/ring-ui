@@ -1,9 +1,8 @@
 /* @flow */
-
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
-import DataList from './data-list';
 
+import DataList from './data-list';
 import mock from './data-list.mock';
 
 class DataListDemo extends PureComponent {
@@ -38,4 +37,4 @@ class DataListDemo extends PureComponent {
 }
 
 const container = document.getElementById('data-list');
-render(<DataListDemo />, container);
+render(<DataListDemo/>, container);
