@@ -1,5 +1,4 @@
 /* @flow */
-/* eslint-disable react/jsx-max-props-per-line */
 
 import React, {PureComponent, Element} from 'react';
 

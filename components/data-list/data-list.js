@@ -1,6 +1,4 @@
 /* @flow */
-/* eslint-disable react/jsx-max-props-per-line */
-/* eslint-disable modules/no-mix-default-named */
 
 /**
   * @name Data List
@@ -18,7 +16,7 @@ import classNames from 'classnames';
 import Link from '../link/link';
 import Text from '../text/text';
 
-import Item from './item';
+import Group from './group';
 import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
 
@@ -110,32 +108,15 @@ export default class DataList extends PureComponent {
           }
 
           return (
-            <li key={id}>
-              <div className={styles.groupTitle}>{title}</div>
-
-              {itemsToShow.length ? (
-                <ul className={styles.group}>
-                  {itemsToShow.map(item => (
-                    <Item
-                      key={item.id}
-                      item={item}
-                      title={item.title}
-                      selectable={item.selectable}
-                      subitems={item.subitems}
-                      onExpand={onItemExpand}
-                      onCollapse={onItemCollapse}
-                      collapsed={isItemCollapsed && isItemCollapsed(item)}
-                    />
-                  ))}
-
-                  {
-                    showMoreLessButton ? (
-                      <li className={styles.item} style={{marginLeft: '27px'}}>{showMoreLessButton}</li>
-                    ) : null
-                  }
-                </ul>
-              ) : null}
-            </li>
+            <Group
+              key={id}
+              title={title}
+              items={itemsToShow}
+              onItemExpand={onItemExpand}
+              onItemCollapse={onItemCollapse}
+              isItemCollapsed={isItemCollapsed}
+              showMoreLessButton={showMoreLessButton}
+            />
           )
         })}
       </ul>
