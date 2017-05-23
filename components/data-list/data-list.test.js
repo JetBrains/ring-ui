@@ -15,12 +15,12 @@ describe('Data List', () => {
     isCompositeComponentWithType(renderComponent(), DataList).should.be.true;
   });
 
-  it('should wrap children with ul', () => {
-    findDOMNode(renderComponent()).should.match('ul');
+  it('should wrap children with div', () => {
+    findDOMNode(renderComponent()).should.match('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    findDOMNode(renderComponent({className: 'test-class'})).firstChild.should.match('.test-class');
   });
 
   // TODO Add more tests
