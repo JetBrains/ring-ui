@@ -13,6 +13,8 @@ import React, {PureComponent, Element} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Loader from '../loader/loader';
+
 import Group from './group';
 import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
@@ -26,7 +28,8 @@ type Props = {
   groupItemsLimit?: number,
   onGroupShowMore?: GroupType => void,
   onGroupShowLess?: GroupType => void,
-  isGroupFullyShown?: GroupType => boolean
+  isGroupFullyShown?: GroupType => boolean,
+  loading?: boolean
 };
 
 export default class DataList extends PureComponent {
@@ -38,7 +41,8 @@ export default class DataList extends PureComponent {
     groupItemsLimit: PropTypes.number,
     onGroupShowMore: PropTypes.func,
     onGroupShowLess: PropTypes.func,
-    isGroupFullyShown: PropTypes.func
+    isGroupFullyShown: PropTypes.func,
+    loading: PropTypes.bool
   };
 
   defaultProps = {
@@ -48,7 +52,8 @@ export default class DataList extends PureComponent {
     groupItemsLimit: Infinity,
     onGroupShowMore: () => {},
     onGroupShowLess: () => {},
-    isGroupFullyShown: () => false
+    isGroupFullyShown: () => false,
+    loading: false
   };
 
   props: Props;
@@ -58,44 +63,53 @@ export default class DataList extends PureComponent {
       data, className,
       onItemCollapse, onItemExpand, isItemCollapsed,
       //groupItemsLimit,
-      onGroupShowMore, onGroupShowLess, isGroupFullyShown
+      onGroupShowMore, onGroupShowLess, isGroupFullyShown,
+      loading
     } = this.props;
 
     const groupItemsLimit = this.props.groupItemsLimit || Infinity;
 
     return (
-      <ul className={classNames(styles.dataList, className)}>
-        {data.map(group => {
-          const {id, title, items} = group;
+      <div className={styles.dataListWrapper}>
+        <ul className={classNames(styles.dataList, className)}>
+          {data.map(group => {
+            const {id, title, items} = group;
 
-          const fullyShown = isGroupFullyShown && isGroupFullyShown(group);
+            const fullyShown = isGroupFullyShown && isGroupFullyShown(group);
 
-          let itemsToShow;
-          if (!fullyShown && items.length > groupItemsLimit + 1) {
-            itemsToShow = [...items].splice(0, groupItemsLimit);
-          } else {
-            itemsToShow = [...items];
-          }
+            let itemsToShow;
+            if (!fullyShown && items.length > groupItemsLimit + 1) {
+              itemsToShow = [...items].splice(0, groupItemsLimit);
+            } else {
+              itemsToShow = [...items];
+            }
 
-          const showMoreLessButton = items.length > groupItemsLimit + 1;
+            const showMoreLessButton = items.length > groupItemsLimit + 1;
 
-          return (
-            <Group
-              key={id}
-              group={group}
-              title={title}
-              items={itemsToShow}
-              onItemExpand={onItemExpand}
-              onItemCollapse={onItemCollapse}
-              isItemCollapsed={isItemCollapsed}
-              showMoreLessButton={showMoreLessButton}
-              fullyShown={fullyShown}
-              onGroupShowLess={onGroupShowLess}
-              onGroupShowMore={onGroupShowMore}
-            />
-          );
-        })}
-      </ul>
+            return (
+              <Group
+                key={id}
+                group={group}
+                title={title}
+                items={itemsToShow}
+                onItemExpand={onItemExpand}
+                onItemCollapse={onItemCollapse}
+                isItemCollapsed={isItemCollapsed}
+                showMoreLessButton={showMoreLessButton}
+                fullyShown={fullyShown}
+                onGroupShowLess={onGroupShowLess}
+                onGroupShowMore={onGroupShowMore}
+              />
+            );
+          })}
+        </ul>
+
+        {loading && (
+          <div className={styles.loadingOverlay}>
+            <Loader/>
+          </div>
+        )}
+      </div>
     );
   }
 }

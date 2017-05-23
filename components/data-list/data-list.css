@@ -1,5 +1,9 @@
 @value unit from  "../global/global.css";
 
+.dataListWrapper {
+  position: relative;
+}
+
 .dataList {
   list-style: none;
   background-color: #F0F0F0;
@@ -53,4 +57,17 @@
 
 .subitem {
   padding: 5px 0;
+}
+
+.loadingOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
 }
