@@ -12,23 +12,24 @@ import styles from './data-list.css';
 type Props = {
   item: ItemType,
   title: string,
-  selectable?: boolean,
-  selected?: boolean,
-  showFocus?: boolean,
-  subitems?: SubitemType[],
-  collapsed?: boolean,
-  onCollapse?: ItemType => void,
-  onExpand?: ItemType => void
+  selectable: boolean,
+  selected: boolean,
+  showFocus: boolean,
+  subitems: SubitemType[],
+  collapsed: boolean,
+  onCollapse: ItemType => void,
+  onExpand: ItemType => void
 };
 
 export default class DataList extends PureComponent {
-  defaultProps = {
+  static defaultProps = {
     selectable: false,
     selected: false,
     showFocus: false,
+    subitems: [],
     collapsed: true,
-    onCollapse: () => {},
-    onExpand: () => {}
+    onCollapse: item => {},
+    onExpand: item => {}
   };
 
   props: Props;
@@ -43,16 +44,12 @@ export default class DataList extends PureComponent {
 
   onCollapse = () => {
     const {item, onCollapse} = this.props;
-    if (onCollapse) {
-      onCollapse(item);
-    }
+    onCollapse(item);
   }
 
   onExpand = () => {
     const {item, onExpand} = this.props;
-    if (onExpand) {
-      onExpand(item);
-    }
+    onExpand(item);
   }
 
   render(): Element<any> {
@@ -62,7 +59,7 @@ export default class DataList extends PureComponent {
     } = this.props;
 
     let collapserExpander = null;
-    if (subitems && subitems.length) {
+    if (subitems.length) {
       if (collapsed) {
         collapserExpander = (
           <Icon
@@ -103,7 +100,7 @@ export default class DataList extends PureComponent {
 
           {title}
 
-          {subitems && !collapsed
+          {subitems.length && !collapsed
             ? (
               <ul className={styles.subgroup}>
                 {subitems.map(subitem => (
