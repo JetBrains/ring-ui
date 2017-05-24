@@ -17,8 +17,8 @@ type Props = {
   showFocus: boolean,
   subitems: SubitemType[],
   collapsed: boolean,
-  onCollapse: ItemType => void,
-  onExpand: ItemType => void
+  onCollapse: (item?: ItemType) => void,
+  onExpand: (item?: ItemType) => void
 };
 
 export default class DataList extends PureComponent {
@@ -28,8 +28,8 @@ export default class DataList extends PureComponent {
     showFocus: false,
     subitems: [],
     collapsed: true,
-    onCollapse: item => {},
-    onExpand: item => {}
+    onCollapse: () => {},
+    onExpand: () => {}
   };
 
   props: Props;
