@@ -23,5 +23,7 @@ describe('Text', () => {
     findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
   });
 
-  // TODO Add more tests
+  it('should use pass rest props to dom node', () => {
+    findDOMNode(renderComponent({'data-test': 'foo'})).should.match('[data-test=foo]');
+  });
 });
