@@ -14,30 +14,36 @@ type Props = {
   title: string,
   items: ItemType[],
   className?: string,
-  onItemCollapse?: ItemType => void,
-  onItemExpand?: ItemType => void,
-  isItemCollapsed?: ItemType => boolean,
-  showMoreLessButton?: boolean,
-  fullyShown?: boolean,
-  onGroupShowMore?: GroupType => void,
-  onGroupShowLess?: GroupType => void
+  onItemCollapse: ItemType => void,
+  onItemExpand: ItemType => void,
+  isItemCollapsed: ItemType => boolean,
+  showMoreLessButton: boolean,
+  fullyShown: boolean,
+  onGroupShowMore: GroupType => void,
+  onGroupShowLess: GroupType => void
 };
 
 export default class Group extends PureComponent {
+  static defaultProps = {
+    onItemCollapse: item => {},
+    onItemExpand: item => {},
+    isItemCollapsed: item => true,
+    showMoreLessButton: false,
+    fullyShown: true,
+    onGroupShowMore: group => {},
+    onGroupShowLess: group => {}
+  };
+
   props: Props;
 
   onShowMore = () => {
     const {onGroupShowMore, group} = this.props;
-    if (onGroupShowMore) {
-      onGroupShowMore(group);
-    }
+    onGroupShowMore(group);
   }
 
   onShowLess = () => {
     const {onGroupShowLess, group} = this.props;
-    if (onGroupShowLess) {
-      onGroupShowLess(group);
-    }
+    onGroupShowLess(group);
   }
 
   render(): Element<any> {
@@ -88,7 +94,7 @@ export default class Group extends PureComponent {
                 subitems={item.subitems}
                 onExpand={onItemExpand}
                 onCollapse={onItemCollapse}
-                collapsed={isItemCollapsed && isItemCollapsed(item)}
+                collapsed={isItemCollapsed(item)}
               />
             ))}
 
