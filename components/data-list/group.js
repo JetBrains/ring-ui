@@ -14,24 +14,24 @@ type Props = {
   title: string,
   items: ItemType[],
   className?: string,
-  onItemCollapse: ItemType => void,
-  onItemExpand: ItemType => void,
-  isItemCollapsed: ItemType => boolean,
+  onItemCollapse: (item?: ItemType) => void,
+  onItemExpand: (item?: ItemType) => void,
+  isItemCollapsed: (item?: ItemType) => boolean,
   showMoreLessButton: boolean,
   fullyShown: boolean,
-  onGroupShowMore: GroupType => void,
-  onGroupShowLess: GroupType => void
+  onGroupShowMore: (group?: GroupType) => void,
+  onGroupShowLess: (group?: GroupType) => void
 };
 
 export default class Group extends PureComponent {
   static defaultProps = {
-    onItemCollapse: item => {},
-    onItemExpand: item => {},
-    isItemCollapsed: item => true,
+    onItemCollapse: () => {},
+    onItemExpand: () => {},
+    isItemCollapsed: () => true,
     showMoreLessButton: false,
     fullyShown: true,
-    onGroupShowMore: group => {},
-    onGroupShowLess: group => {}
+    onGroupShowMore: () => {},
+    onGroupShowLess: () => {}
   };
 
   props: Props;
