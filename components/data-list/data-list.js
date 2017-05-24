@@ -22,14 +22,14 @@ import styles from './data-list.css';
 type Props = {
   data: GroupType[],
   className?: string,
-  onItemCollapse?: ItemType => void,
-  onItemExpand?: ItemType => void,
-  isItemCollapsed?: ItemType => boolean,
-  groupItemsLimit?: number,
-  onGroupShowMore?: GroupType => void,
-  onGroupShowLess?: GroupType => void,
-  isGroupFullyShown?: GroupType => boolean,
-  loading?: boolean
+  onItemCollapse: ItemType => void,
+  onItemExpand: ItemType => void,
+  isItemCollapsed: ItemType => boolean,
+  groupItemsLimit: number,
+  onGroupShowMore: GroupType => void,
+  onGroupShowLess: GroupType => void,
+  isGroupFullyShown: GroupType => boolean,
+  loading: boolean
 };
 
 export default class DataList extends PureComponent {
@@ -45,7 +45,7 @@ export default class DataList extends PureComponent {
     loading: PropTypes.bool
   };
 
-  defaultProps = {
+  static defaultProps = {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true,
@@ -62,12 +62,10 @@ export default class DataList extends PureComponent {
     const {
       data, className,
       onItemCollapse, onItemExpand, isItemCollapsed,
-      //groupItemsLimit,
-      onGroupShowMore, onGroupShowLess, isGroupFullyShown,
+      groupItemsLimit, onGroupShowMore, onGroupShowLess,
+      isGroupFullyShown,
       loading
     } = this.props;
-
-    const groupItemsLimit = this.props.groupItemsLimit || Infinity;
 
     return (
       <div className={styles.dataListWrapper}>
@@ -75,7 +73,7 @@ export default class DataList extends PureComponent {
           {data.map(group => {
             const {id, title, items} = group;
 
-            const fullyShown = isGroupFullyShown && isGroupFullyShown(group);
+            const fullyShown = isGroupFullyShown(group);
 
             let itemsToShow;
             if (!fullyShown && items.length > groupItemsLimit + 1) {
