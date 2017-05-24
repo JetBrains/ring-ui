@@ -22,13 +22,13 @@ import styles from './data-list.css';
 type Props = {
   data: GroupType[],
   className?: string,
-  onItemCollapse: ItemType => void,
-  onItemExpand: ItemType => void,
-  isItemCollapsed: ItemType => boolean,
+  onItemCollapse: (item?: ItemType) => void,
+  onItemExpand: (item?: ItemType) => void,
+  isItemCollapsed: (item?: ItemType) => boolean,
   groupItemsLimit: number,
-  onGroupShowMore: GroupType => void,
-  onGroupShowLess: GroupType => void,
-  isGroupFullyShown: GroupType => boolean,
+  onGroupShowMore: (item?: GroupType) => void,
+  onGroupShowLess: (item?: GroupType) => void,
+  isGroupFullyShown: (item?: GroupType) => boolean,
   loading: boolean
 };
 
