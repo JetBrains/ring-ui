@@ -33,7 +33,8 @@ export default class WindowFlow {
    */
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
-      {requestCredentials: 'required'},
+      // eslint-disable-next-line camelcase
+      {request_credentials: 'required'},
       {nonRedirect: true}
     );
 

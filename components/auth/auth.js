@@ -450,7 +450,8 @@ export default class Auth {
    */
   async logout(extraParams) {
     const requestParams = {
-      requestCredentials: 'required',
+      // eslint-disable-next-line camelcase
+      request_credentials: 'required',
       ...extraParams
     };
 
