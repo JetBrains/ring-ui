@@ -261,7 +261,7 @@ describe('Shortcuts', () => {
         eventType = param3;
       });
       const sandbox = sinon.sandbox.create();
-      sandbox.stub(sniffr, 'os', {name: 'windows'});
+      sandbox.stub(sniffr, 'os').value({name: 'windows'});
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
@@ -277,7 +277,7 @@ describe('Shortcuts', () => {
         eventType = param3;
       });
       const sandbox = sinon.sandbox.create();
-      sandbox.stub(sniffr, 'os', {name: 'macos'});
+      sandbox.stub(sniffr, 'os').value({name: 'macos'});
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
