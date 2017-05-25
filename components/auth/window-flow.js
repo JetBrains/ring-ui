@@ -34,7 +34,10 @@ export default class WindowFlow {
    * Initates authorization in window
    */
   async _load() {
-    const authRequest = await this._requestBuilder.prepareAuthRequest({nonRedirect: true});
+    const authRequest = await this._requestBuilder.prepareAuthRequest(
+      {request_credentials: 'required'},
+      {nonRedirect: true}
+    );
 
     return new Promise((resolve, reject) => {
       let cleanRun;
