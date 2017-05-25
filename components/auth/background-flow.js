@@ -47,7 +47,8 @@ export default class BackgroundFlow {
    */
   async _load() {
     const authRequest = await this._requestBuilder.
-      prepareAuthRequest({requestCredentials: 'silent'}, {nonRedirect: true});
+      // eslint-disable-next-line camelcase
+      prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
 
     return new Promise((resolve, reject) => {
       const iframe = this._createHiddenFrame();
