@@ -12,6 +12,7 @@ export default class SmartProfile extends PureComponent {
     auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
     translations: Profile.propTypes.translations,
+    profileUrl: PropTypes.string,
     size: Profile.propTypes.size
   };
 
@@ -50,15 +51,15 @@ export default class SmartProfile extends PureComponent {
 
   render() {
     const {user, loading} = this.state;
-    const {auth, ...props} = this.props;
-
+    const {auth, profileUrl, ...props} = this.props;
+    const url = profileUrl || (user ? `${auth.config.serverUri}users/${user.id}` : '');
     return (
       <Profile
         onLogin={this.login}
         onLogout={this.logout}
         loading={loading}
         user={user}
-        profileUrl={user ? `${auth.config.serverUri}users/${user.id}` : ''}
+        profileUrl={url}
         {...props}
       />
     );

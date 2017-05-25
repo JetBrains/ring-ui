@@ -87,7 +87,9 @@ export default class Avatar extends PureComponent {
   };
 
   static defaultProps = {
-    dpr: getPixelRatio()
+    dpr: getPixelRatio(),
+    size: Size.Size20,
+    style: {}
   };
 
   state = {
@@ -103,7 +105,7 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size = Size.Size20, url, dpr, style = {}, round, ...restProps} = this.props;
+    const {size, url, dpr, style, round, ...restProps} = this.props;
     const sizeString = `${size}px`;
     const borderRaduis = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
     const styleObj = {

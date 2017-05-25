@@ -1,5 +1,4 @@
 /* eslint-disable func-names */
-/* eslint-disable camelcase */
 
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
@@ -7,7 +6,7 @@ import HTTP from '../http/http';
 import Auth from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser from './response-parser';
-import BackgroundTokenGetter from './background-token-getter';
+import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
@@ -16,6 +15,17 @@ describe('Auth', () => {
   describe('construction', () => {
     it('should require provide config', () => {
       expect(() => new Auth()).to.throw(Error, 'Config is required');
+    });
+
+    it('should throw on unsupported params usage', () => {
+      expect(() => new Auth({
+        serverUri: 'value',
+        /* eslint-disable camelcase */
+        redirect_uri: 'value',
+        request_credentials: 'value',
+        client_id: 'value'
+        /* eslint-enable camelcase */
+      })).to.throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
     });
 
     it('should require provide server uri', () => {
@@ -88,16 +98,25 @@ describe('Auth', () => {
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
 
-    it('should not perform redirect on userChange when avoidPageReload is set', function () {
+    it('should not perform redirect on userChange when reloadOnUserChange is false', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
-        avoidPageReload: true,
+        reloadOnUserChange: false,
         serverUri: ''
       });
       auth.listeners.trigger('userChange');
 
       Auth.prototype._redirectCurrentPage.should.not.been.called;
+    });
+
+    it('should add preconnect link tag', () => {
+      const config = {serverUri: 'http://url-to-preconnect.ru/'};
+      // eslint-disable-next-line no-unused-vars
+      const auth = new Auth(config);
+
+      document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`).
+        should.be.defined;
     });
   });
 
@@ -105,15 +124,15 @@ describe('Auth', () => {
     let auth = new Auth({
       serverUri: '',
       redirect: true,
-      redirect_uri: 'http://localhost:8080/hub',
-      client_id: '1-1-1-1-1',
+      redirectUri: 'http://localhost:8080/hub',
+      clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
 
     beforeEach(function () {
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({login: 'user'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(Auth.prototype, 'setHash');
     });
 
@@ -121,7 +140,7 @@ describe('Auth', () => {
 
     it('should resolve to undefined if there is a valid token', async() => {
       await auth._storage.saveToken({
-        access_token: 'token',
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
@@ -138,8 +157,8 @@ describe('Auth', () => {
 
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -151,7 +170,7 @@ describe('Auth', () => {
       restoreLocation.should.be.equal('http://localhost:8080/hub/users');
       const token = await auth._storage.getToken();
       token.should.be.deep.equal({
-        access_token: '2YotnFZFEjr1zCsicMWpAA',
+        accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
         expires: frozenTime + 3600
       });
@@ -164,8 +183,8 @@ describe('Auth', () => {
 
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -180,8 +199,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -263,8 +282,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        redirect_uri: 'http://localhost:8080/hub',
-        request_credentials: 'skip'
+        redirectUri: 'http://localhost:8080/hub',
+        requestCredentials: 'skip'
       });
       try {
         await auth.init();
@@ -284,13 +303,15 @@ describe('Auth', () => {
       this.sinon.stub(TokenValidator.prototype, '_getValidatedToken').
         returns(Promise.reject({authRedirect: true}));
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+      this.sinon.stub(Auth.prototype, 'getUser');
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
         redirect: false,
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -302,9 +323,9 @@ describe('Auth', () => {
       TokenValidator.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -312,7 +333,7 @@ describe('Auth', () => {
 
       await auth.init();
 
-      BackgroundTokenGetter.prototype._redirectFrame.
+      BackgroundFlow.prototype._redirectFrame.
         should.have.been.calledWithMatch(
         sinon.match.any,
         'api/rest/oauth2/auth?response_type=token&state=unique' +
@@ -326,9 +347,9 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when token check fails', async function () {
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -338,7 +359,7 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+        BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(
             sinon.match.any,
             'api/rest/oauth2/auth?response_type=token' +
@@ -359,7 +380,7 @@ describe('Auth', () => {
     });
 
     it('should initiate and fall back to redirect when guest is banned', async function () {
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
@@ -367,7 +388,7 @@ describe('Auth', () => {
         await auth.init();
       } catch (reject) {
         // Background loading
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+        BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -388,14 +409,14 @@ describe('Auth', () => {
   describe('requestToken', () => {
     beforeEach(function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({id: 'APIuser'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       this.auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -410,7 +431,7 @@ describe('Auth', () => {
 
     it('should resolve to access token if there is a valid one', async function () {
       await this.auth._storage.saveToken({
-        access_token: 'token',
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
@@ -419,15 +440,15 @@ describe('Auth', () => {
     });
 
     it('should get token in iframe if there is no valid token', async function () {
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
       const accessToken = await this.auth.requestToken();
-      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+      BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
           '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -442,15 +463,15 @@ describe('Auth', () => {
 
     it('should reload page', async function () {
       this.auth.user = {id: 'initUser'};
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame').callsFake(() => {
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
       });
       const accessToken = await this.auth.requestToken();
-      BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+      BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
           '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -459,12 +480,12 @@ describe('Auth', () => {
     });
 
     it('should redirect current page if get token in iframe fails', async function () {
-      this.auth._backgroundTokenGetter._timeout = 100;
-      this.sinon.stub(BackgroundTokenGetter.prototype, '_redirectFrame');
+      this.auth._backgroundFlow._timeout = 100;
+      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame');
       try {
         await this.auth.requestToken();
       } catch (reject) {
-        BackgroundTokenGetter.prototype._redirectFrame.should.have.been.
+        BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
             '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
             '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
@@ -483,14 +504,14 @@ describe('Auth', () => {
     beforeEach(function () {
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
 
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({name: 'APIuser'}));
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
     });
 
     it('should return existing user', async () => {
@@ -500,7 +521,7 @@ describe('Auth', () => {
       auth.user = {name: 'existingUser'};
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.not.have.been.called;
+      Auth.prototype.getUser.should.not.have.been.called;
       user.should.equal(auth.user);
     });
 
@@ -508,31 +529,23 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      this.sinon.stub(Auth.prototype, 'requestToken').
-        returns(Promise.resolve('token'));
+      this.sinon.stub(Auth.prototype, 'requestToken').resolves('token');
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
-      const matchParams = sinon.match({
-        query: {
-          fields: 'guest,id,name,profile/avatar/url'
-        }
-      });
-      HTTP.prototype.authorizedFetch.should.have.been.
-        calledWithMatch('users/me', 'token', matchParams);
+      Auth.prototype.getUser.should.have.been.calledOnce;
       user.should.deep.equal({name: 'APIuser'});
     });
 
-    it('should wait user saved during validation', async () => {
-      auth.init();
-      auth._storage.saveToken({
-        access_token: 'token',
+    it('should wait for user saved during validation', async () => {
+      await auth._storage.saveToken({
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
+      await auth._tokenValidator.validateToken();
 
       const user = await auth.requestUser();
-      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
+      Auth.prototype.getUser.should.have.been.calledOnce;
       user.should.deep.equal({name: 'APIuser'});
     });
   });
@@ -543,20 +556,18 @@ describe('Auth', () => {
     beforeEach(function () {
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
-
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').
-        returns(Promise.resolve({name: 'APIuser'}));
-    });
-
-    it('should not return existing user', async () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
+      this.sinon.stub(HTTP.prototype, 'authorizedFetch').resolves({name: 'APIuser'});
+    });
+
+    it('should not return existing user', async () => {
       auth.user = {name: 'existingUser'};
 
       const user = await auth.getUser();
@@ -565,9 +576,6 @@ describe('Auth', () => {
     });
 
     it('should get user from API', async () => {
-      auth._initDeferred = {};
-      auth._initDeferred.promise = Promise.resolve();
-
       const user = await auth.getUser('token');
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
       const matchParams = sinon.match({
@@ -587,8 +595,9 @@ describe('Auth', () => {
     });
 
     beforeEach(function () {
-      this.sinon.stub(BackgroundTokenGetter.prototype, 'get').
+      this.sinon.stub(BackgroundFlow.prototype, 'authorize').
         returns(Promise.resolve('token'));
+      this.sinon.stub(Auth.prototype, '_saveCurrentService');
       this.sinon.stub(Auth.prototype, 'logout');
       this.sinon.stub(auth.listeners, 'trigger');
     });
@@ -610,40 +619,40 @@ describe('Auth', () => {
         calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
     });
 
-    it('should not change user in instance', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({name: 'APIuser'}));
+    it('should update user in instance', async function () {
+      const APIuser = {name: 'APIuser'};
+      this.sinon.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
       const user = {name: 'existingUser'};
       auth.user = user;
 
       await auth.login();
 
-      auth.user.should.equal(user);
+      auth.user.should.equal(APIuser);
     });
 
-    it('should call logout for guest', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.resolve({guest: true}));
+    it('should call _beforeLogout for guest', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').resolves({guest: true});
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
 
-    it('should call logout on reject', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').
-        returns(Promise.reject());
+    it('should call _beforeLogout on reject', async function () {
+      this.sinon.stub(Auth.prototype, '_beforeLogout');
+      this.sinon.stub(Auth.prototype, 'getUser').rejects();
       await auth.login();
 
-      auth.logout.should.have.been.calledOnce;
+      auth._beforeLogout.should.have.been.calledOnce;
     });
   });
 
   describe('logout', () => {
     const auth = new Auth({
       serverUri: '',
-      redirect_uri: 'http://localhost:8080/hub',
-      client_id: '1-1-1-1-1',
+      redirectUri: 'http://localhost:8080/hub',
+      clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
