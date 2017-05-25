@@ -48,7 +48,7 @@ export default class HeaderHelper {
     }
 
     header.rerender({
-      clientId: header.props.clientId || auth.config.client_id,
+      clientId: header.props.clientId || auth.config.clientId,
       onServicesOpen: () => {
         header.services.setLoading(true);
         getServices(allFields).then(setServicesList);
