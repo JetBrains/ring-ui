@@ -6,6 +6,7 @@ const {protocol, host} = window.location;
 /* eslint-disable camelcase */
 export default {
   reloadOnUserChange: false,
+  windowLogin: true,
   serverUri,
   client_id: clientId,
   request_credentials: 'skip',
