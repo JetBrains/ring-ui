@@ -21,8 +21,8 @@ function noop() {}
  *
  * @prop {object} config
  * @prop {string} config.serverUri
- * @prop {string} config.redirect_uri
- * @prop {string} config.client_id
+ * @prop {string} config.redirectUri
+ * @prop {string} config.clientId
  * @prop {boolean=false} config.redirect — use redirects instead of loading the token in the background.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
@@ -34,9 +34,9 @@ function noop() {}
  *
  * @param {{
  *   serverUri: string,
- *   redirect_uri: string?,
- *   request_credentials: string?,
- *   client_id: string?,
+ *   redirectUri: string?,
+ *   requestCredentials: string?,
+ *   clientId: string?,
  *   scope: string[]?,
  *   optionalScopes: string[]?,
  *   cleanHash: boolean?,
@@ -46,7 +46,6 @@ function noop() {}
  *
  * @example-file ./auth.examples.html
  */
-/* eslint-disable camelcase */
 export default class Auth {
   constructor(config) {
     if (!config) {
@@ -57,11 +56,16 @@ export default class Auth {
       throw new Error('\"serverUri\" property is required');
     }
 
+    const unsupportedParams = ['redirect_uri', 'request_credentials', 'client_id'].filter(param => config.hasOwnProperty(param));
+    if (unsupportedParams.length !== 0) {
+      throw new Error(`The following parameters are no longer supported: ${unsupportedParams.join(', ')}. Please change them from snake_case to camelCase.`);
+    }
+
     config.userFields = config.userFields || [];
 
     this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
-    const {client_id, redirect, redirect_uri, request_credentials, scope} = this.config;
+    const {clientId, redirect, redirectUri, requestCredentials, scope} = this.config;
     const serverUriLength = this.config.serverUri.length;
 
     if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
@@ -74,24 +78,24 @@ export default class Auth {
       }
     };
 
-    if (!scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
-      scope.push(Auth.DEFAULT_CONFIG.client_id);
+    if (!scope.includes(Auth.DEFAULT_CONFIG.clientId)) {
+      scope.push(Auth.DEFAULT_CONFIG.clientId);
     }
 
     this._storage = new AuthStorage({
-      messagePrefix: `${client_id}-message-`,
-      stateKeyPrefix: `${client_id}-states-`,
-      tokenKey: `${client_id}-token`
+      messagePrefix: `${clientId}-message-`,
+      stateKeyPrefix: `${clientId}-states-`,
+      tokenKey: `${clientId}-token`
     });
 
     this._responseParser = new AuthResponseParser();
 
     this._requestBuilder = new AuthRequestBuilder({
       authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
-      client_id,
+      clientId,
       redirect,
-      redirect_uri,
-      request_credentials,
+      redirectUri,
+      requestCredentials,
       scopes: scope
     }, this._storage);
 
@@ -130,20 +134,20 @@ export default class Auth {
   }
 
   /**
-   * @const {{client_id: string, redirect_uri: string, scope: string[], default_expires_in: number}}
+   * @const {{clientId: string, redirectUri: string, scope: string[], defaultExpiresIn: number}}
    */
   static DEFAULT_CONFIG = {
     reloadOnUserChange: true,
     windowLogin: false,
-    client_id: '0-0-0-0-0',
-    redirect_uri: getAbsoluteBaseURL(),
+    clientId: '0-0-0-0-0',
+    redirectUri: getAbsoluteBaseURL(),
     redirect: false,
-    request_credentials: 'default',
+    requestCredentials: 'default',
     scope: [],
     userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
     cleanHash: true,
     onLogout: noop,
-    default_expires_in: 40 * 60 // 40 mins
+    defaultExpiresIn: 40 * 60 // 40 mins
   };
 
   /**
@@ -209,7 +213,7 @@ export default class Auth {
           nonInteractive: true
         });
       } else {
-        this._detectUserChange(token.access_token);
+        this._detectUserChange(token.accessToken);
       }
     });
 
@@ -325,7 +329,7 @@ export default class Auth {
 
   async _saveCurrentService() {
     try {
-      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.client_id}`) || {};
+      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
       this._service = {serviceImage, serviceName};
     } catch (e) {
       // noop
@@ -446,7 +450,7 @@ export default class Auth {
    */
   async logout(extraParams) {
     const requestParams = {
-      request_credentials: 'required',
+      requestCredentials: 'required',
       ...extraParams
     };
 
@@ -494,7 +498,7 @@ export default class Auth {
   async _checkForAuthResponse() {
     // getAuthResponseURL may throw an exception
     const authResponse = this._responseParser.getAuthResponseFromURL();
-    const {scope: defaultScope, default_expires_in, cleanHash} = this.config;
+    const {scope: defaultScope, defaultExpiresIn, cleanHash} = this.config;
 
     if (authResponse && cleanHash) {
       this.setHash('');
@@ -504,7 +508,7 @@ export default class Auth {
       return undefined;
     }
 
-    const {state: stateId, scope, expires_in, access_token} = authResponse;
+    const {state: stateId, scope, expiresIn, accessToken} = authResponse;
     const newState = await (stateId && this._storage.getState(stateId)) || {};
 
     /**
@@ -515,10 +519,10 @@ export default class Auth {
     /**
      * @type {number}
      */
-    const expiresIn = expires_in ? parseInt(expires_in, 10) : default_expires_in;
-    const expires = TokenValidator._epoch() + expiresIn;
+    const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
+    const expires = TokenValidator._epoch() + effectiveExpiresIn;
 
-    await this._storage.saveToken({access_token, scopes, expires});
+    await this._storage.saveToken({accessToken, scopes, expires});
 
     return newState;
   }

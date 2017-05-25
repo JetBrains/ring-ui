@@ -2,7 +2,7 @@ import Storage from '../storage/storage';
 
 /**
  * @typedef {Object} StoredToken
- * @property {string} access_token
+ * @property {string} accessToken
  * @property {string[]} scopes
  * @property {number} expires
  */

@@ -62,7 +62,7 @@ export default class SmartServices extends Component {
     return (
       <Services
         {...props}
-        clientId={auth.config.client_id}
+        clientId={auth.config.clientId}
         initShown={true}
         loading={loading}
         onClick={this.getServicesContent}
