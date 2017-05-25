@@ -463,7 +463,7 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
-    if (this.config.windowLogin) {
+    if (this.config.windowLogin && this._authDialogService !== undefined) {
       this._showAuthDialog();
       return;
     }
