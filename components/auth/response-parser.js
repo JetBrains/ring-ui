@@ -4,10 +4,10 @@ import {parseQueryString} from '../global/url';
 
 /**
  * @typedef {Object} AuthResponse
- * @property {string?} access_token
+ * @property {string?} accessToken
  * @property {string?} state
  * @property {string?} token_type
- * @property {string?} expires_in
+ * @property {string?} expiresIn
  * @property {string?} scope
  * @property {string?} error
  */
@@ -20,11 +20,15 @@ export default class AuthResponseParser {
   static AuthError = class AuthError extends ExtendableError {
     // Supports weird IE 11 failing test issue
     constructor(authResponse = {}) {
-      super(authResponse.error_description);
+      super(authResponse.errorDescription);
       this.code = authResponse.error;
-      this.uri = authResponse.error_uri;
+      this.uri = authResponse.errorUri;
       this.stateId = authResponse.state;
     }
+  }
+
+  static convertKey(key) {
+    return key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
   }
 
   /**
@@ -57,7 +61,7 @@ export default class AuthResponseParser {
     }
 
     // If there is no token in the hash
-    if (!authResponse.access_token) {
+    if (!authResponse.accessToken) {
       return null;
     }
 
@@ -71,7 +75,18 @@ export default class AuthResponseParser {
    * @return {AuthResponse}
    */
   readAuthResponseFromURL() {
-    return parseQueryString(this.getHash());
+    const authResponse = {};
+    const rawAuthResponse = parseQueryString(this.getHash());
+    Object.keys(rawAuthResponse).forEach(key => {
+      if (key.indexOf('_') !== -1) {
+        authResponse[AuthResponseParser.convertKey(key)] = rawAuthResponse[key];
+        return;
+      }
+
+      authResponse[key] = rawAuthResponse[key];
+    });
+
+    return authResponse;
   }
 
   /**

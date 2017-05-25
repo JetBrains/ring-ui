@@ -6,9 +6,9 @@ export default class AuthRequestBuilder {
   /**
    * @param {{
    *   authorization: string,
-   *   redirect_uri: string?,
-   *   request_credentials: string?,
-   *   client_id: string?,
+   *   redirectUri: string?,
+   *   requestCredentials: string?,
+   *   clientId: string?,
    *   scopes: string[]
    * }} config
    * @param {AuthStorage} storage
@@ -38,9 +38,9 @@ export default class AuthRequestBuilder {
     const request = Object.assign({
       response_type: 'token',
       state: stateId,
-      redirect_uri: this.config.redirect_uri,
-      request_credentials: this.config.request_credentials,
-      client_id: this.config.client_id,
+      redirect_uri: this.config.redirectUri,
+      request_credentials: this.config.requestCredentials,
+      client_id: this.config.clientId,
       scope: scopes.join(' ')
     }, extraParams || {});
     /* eslint-enable camelcase */
