@@ -71,6 +71,7 @@ describe('Select Ng', () => {
       function initDirective() {
         compileTemplate('<rg-select options="item.name for item in items track by item.id"></rg-select>');
       }
+
       initDirective.should.not.throw;
     });
 
@@ -498,6 +499,14 @@ describe('Select Ng', () => {
       compileTemplate('<rg-select options="itemvar in items track by itemvar.id"></rg-select>');
 
       ctrl.optionsParser.optionVariableName.should.be.equal('itemvar');
+    });
+
+    it('should clear last query on close', () => {
+      ctrl.query = 'query';
+      ctrl.config.onClose();
+      scope.$digest();
+
+      expect(ctrl.query).to.be.null;
     });
   });
 });

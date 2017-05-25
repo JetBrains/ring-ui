@@ -53,8 +53,8 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
   /**
    * @param {{
    *   serverUri: string,
-   *   redirect_uri: string?,
-   *   client_id: string?,
+   *   redirectUri: string?,
+   *   clientId: string?,
    *   scope: string[]?,
    *   cleanHash: boolean?
    * }} config
@@ -109,7 +109,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
       return null;
     }
 
-    if (auth.config.avoidPageReload) {
+    if (auth.config.reloadOnUserChange === false) {
       auth.addListener('userChange', () => {
         const $route = $injector.get('$route');
         $route.reload();
@@ -127,7 +127,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     function restoreLocation(restoreLocationURL) {
       if (restoreLocationURL) {
         const bases = document.getElementsByTagName('base');
-        let baseURI = auth.config.redirect_uri;
+        let baseURI = auth.config.redirectUri;
 
         if (bases.length > 0) {
           baseURI = bases[0].href;
@@ -158,7 +158,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
     return {
       auth,
       requestUser: auth.requestUser.bind(auth),
-      clientId: auth.config.client_id,
+      clientId: auth.config.clientId,
       logout: auth.logout.bind(auth),
       promise: authInitPromise
     };

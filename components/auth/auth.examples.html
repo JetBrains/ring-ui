@@ -10,9 +10,9 @@
     // Example config:
     // var hubConfig = {
     //   serverUri: 'https://hub.jetbrains.com/',
-    //   client_id: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
-    //   request_credentials: 'skip',
-    //   redirect_uri: window.location.href.split('#')[0]
+    //   clientId: '81a0bffb-6d0f-4a38-b93a-0a4d1e567698',
+    //   requestCredentials: 'skip',
+    //   redirectUri: window.location.href.split('#')[0]
     // };
 
     const log = function (title, obj) {
@@ -38,5 +38,48 @@
         log('error', e);
       }
     })(new Auth(hubConfig));
+  </file>
+</example>
+
+
+<example name="Auth slim landing page">
+  <file type="html">
+    <div id="example">
+      <div id="example"></div>
+      <a id="open-link">Open landing page</a>
+      <a href id="log-out">Log Out</a>
+      <a href id="force-update">Force token update</a>
+    </div>
+  </file>
+
+  <file type="js">
+    import Auth from 'ring-ui/components/auth/auth';
+    import authService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+    import hubConfig from 'ring-ui/site/hub-config';
+    import LandintEntryFileName from 'ring-ui/components/auth/landing-entry';
+
+    async function run() {
+      const auth = new Auth({
+        ...hubConfig,
+        windowLogin: true,
+        redirect_uri: hubConfig.redirect_uri + LandintEntryFileName
+      });
+
+      auth.setAuthDialogService(authService);
+      await auth.init();
+
+      document.querySelector('#open-link').href = LandintEntryFileName;
+
+      document.querySelector('#force-update').addEventListener('click', () => {
+        auth.forceTokenUpdate();
+      });
+
+      document.querySelector('#log-out').addEventListener('click', () => {
+        auth.login();
+      });
+    }
+
+    run();
+
   </file>
 </example>

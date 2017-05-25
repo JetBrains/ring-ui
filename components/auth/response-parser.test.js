@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import AuthResponseParser from './response-parser';
 
 describe('Auth', () => {
@@ -9,16 +8,28 @@ describe('Auth', () => {
         this.sinon.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
       });
 
+      it('should convert keys to camelCase', () => {
+        location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
+          '&state=xyz&token_type=example&expires_in=3600';
+        const parser = new AuthResponseParser();
+        parser.readAuthResponseFromURL().should.be.deep.equal({
+          accessToken: '2YotnFZFEjr1zCsicMWpAA',
+          state: 'xyz',
+          tokenType: 'example',
+          expiresIn: '3600'
+        });
+      });
+
       it('should return correct response', () => {
         location = 'http://localhost:8080/hub#access_token=2YotnFZFEjr1zCsicMWpAA' +
           '&state=xyz&token_type=example&expires_in=3600';
 
         const parser = new AuthResponseParser();
         parser.getAuthResponseFromURL().should.be.deep.equal({
-          access_token: '2YotnFZFEjr1zCsicMWpAA',
+          accessToken: '2YotnFZFEjr1zCsicMWpAA',
           state: 'xyz',
-          token_type: 'example',
-          expires_in: '3600'
+          tokenType: 'example',
+          expiresIn: '3600'
         });
       });
 
@@ -50,7 +61,7 @@ describe('Auth', () => {
         location = 'http://localhost:8080/hub#access_token=#2YotnFZFEjr1zCsicMWpAA#';
         const parser = new AuthResponseParser();
         parser.getAuthResponseFromURL().should.be.deep.
-          equal({access_token: '#2YotnFZFEjr1zCsicMWpAA#'});
+          equal({accessToken: '#2YotnFZFEjr1zCsicMWpAA#'});
       });
 
       it('should throw error on error in auth response', () => {

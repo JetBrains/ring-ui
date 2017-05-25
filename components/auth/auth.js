@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 
@@ -9,7 +8,8 @@ import HTTP from '../http/http';
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
 import AuthRequestBuilder from './request-builder';
-import BackgroundTokenGetter from './background-token-getter';
+import WindowFlow from './window-flow';
+import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
 function noop() {}
@@ -22,8 +22,8 @@ function noop() {}
  *
  * @prop {object} config
  * @prop {string} config.serverUri
- * @prop {string} config.redirect_uri
- * @prop {string} config.client_id
+ * @prop {string} config.redirectUri
+ * @prop {string} config.clientId
  * @prop {boolean=false} config.redirect — use redirects instead of loading the token in the background.
  * @prop {string[]} config.scope
  * @prop {string[]} config.optionalScopes
@@ -35,9 +35,9 @@ function noop() {}
  *
  * @param {{
  *   serverUri: string,
- *   redirect_uri: string?,
- *   request_credentials: string?,
- *   client_id: string?,
+ *   redirectUri: string?,
+ *   requestCredentials: string?,
+ *   clientId: string?,
  *   scope: string[]?,
  *   optionalScopes: string[]?,
  *   cleanHash: boolean?,
@@ -57,11 +57,16 @@ export default class Auth {
       throw new Error('\"serverUri\" property is required');
     }
 
+    const unsupportedParams = ['redirect_uri', 'request_credentials', 'client_id'].filter(param => config.hasOwnProperty(param));
+    if (unsupportedParams.length !== 0) {
+      throw new Error(`The following parameters are no longer supported: ${unsupportedParams.join(', ')}. Please change them from snake_case to camelCase.`);
+    }
+
     config.userFields = config.userFields || [];
 
     this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
 
-    const {client_id, redirect, redirect_uri, request_credentials, scope} = this.config;
+    const {clientId, redirect, redirectUri, requestCredentials, scope} = this.config;
     const serverUriLength = this.config.serverUri.length;
 
     if (serverUriLength > 0 && this.config.serverUri.charAt(serverUriLength - 1) !== '/') {
@@ -74,27 +79,29 @@ export default class Auth {
       }
     };
 
-    if (!scope.includes(Auth.DEFAULT_CONFIG.client_id)) {
-      scope.push(Auth.DEFAULT_CONFIG.client_id);
+    if (!scope.includes(Auth.DEFAULT_CONFIG.clientId)) {
+      scope.push(Auth.DEFAULT_CONFIG.clientId);
     }
 
     this._storage = new AuthStorage({
-      stateKeyPrefix: `${client_id}-states-`,
-      tokenKey: `${client_id}-token`
+      messagePrefix: `${clientId}-message-`,
+      stateKeyPrefix: `${clientId}-states-`,
+      tokenKey: `${clientId}-token`
     });
 
     this._responseParser = new AuthResponseParser();
 
     this._requestBuilder = new AuthRequestBuilder({
       authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
-      client_id,
+      clientId,
       redirect,
-      redirect_uri,
-      request_credentials,
+      redirectUri,
+      requestCredentials,
       scopes: scope
     }, this._storage);
 
-    this._backgroundTokenGetter = new BackgroundTokenGetter(this._requestBuilder, this._storage);
+    this._backgroundFlow = new BackgroundFlow(this._requestBuilder, this._storage);
+    this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
@@ -116,31 +123,32 @@ export default class Auth {
       this.addListener('logout', this.config.onLogout);
     }
 
-    if (this.config.avoidPageReload === false) {
-      this.addListener('userChange', this._reloadCurrentPage.bind(this));
+    if (this.config.reloadOnUserChange === true) {
+      this.addListener('userChange', () => this._reloadCurrentPage());
     }
 
-    this._initDeferred = {};
-    this._initDeferred.promise = new Promise((resolve, reject) => {
-      this._initDeferred.resolve = resolve;
-      this._initDeferred.reject = reject;
-    });
+    this._createInitDeferred();
+
+    this.setUpPreconnect(config.serverUri);
+
+    this._service = {};
   }
 
   /**
-   * @const {{client_id: string, redirect_uri: string, scope: string[], default_expires_in: number}}
+   * @const {{clientId: string, redirectUri: string, scope: string[], defaultExpiresIn: number}}
    */
   static DEFAULT_CONFIG = {
-    avoidPageReload: false,
-    client_id: '0-0-0-0-0',
-    redirect_uri: getAbsoluteBaseURL(),
+    reloadOnUserChange: true,
+    windowLogin: false,
+    clientId: '0-0-0-0-0',
+    redirectUri: getAbsoluteBaseURL(),
     redirect: false,
-    request_credentials: 'default',
+    requestCredentials: 'default',
     scope: [],
     userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
     cleanHash: true,
     onLogout: noop,
-    default_expires_in: 40 * 60 // 40 mins
+    defaultExpiresIn: 40 * 60 // 40 mins
   };
 
   /**
@@ -158,6 +166,9 @@ export default class Auth {
    */
   static API_PROFILE_PATH = 'users/me';
 
+  static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
+  static CLOSE_WINDOW_MESSAGE = 'close-login-window';
+
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
 
   addListener(event, handler) {
@@ -168,15 +179,42 @@ export default class Auth {
     this.listeners.remove(event, handler);
   }
 
+  setAuthDialogService(authDialogService) {
+    this._authDialogService = authDialogService;
+  }
+
+  _createInitDeferred() {
+    this._initDeferred = {};
+    this._initDeferred.promise = new Promise((resolve, reject) => {
+      this._initDeferred.resolve = resolve;
+      this._initDeferred.reject = reject;
+    });
+  }
+
   /**
    * @return {Promise.<string>} absolute URL promise that is resolved to a URL
    * that should be restored after returning back from auth server.
    */
   async init() {
-    // TODO Show overlay instead of logout here
+    this._saveCurrentService();
+
+    if (this.config.windowLogin === true) {
+      this._storage.onMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, () => {
+        if (this._authDialogService !== undefined) {
+          this._showAuthDialog({
+            nonInteractive: true
+          });
+        }
+      });
+    }
+
     this._storage.onTokenChange(token => {
       if (token === null) {
-        this.logout();
+        this._beforeLogout({
+          nonInteractive: true
+        });
+      } else {
+        this._detectUserChange(token.accessToken);
       }
     });
 
@@ -243,7 +281,7 @@ export default class Auth {
     // Background flow
     if (error.authRedirect && !this.config.redirect) {
       try {
-        await this._backgroundTokenGetter.get();
+        await this._backgroundFlow.authorize();
         await this._tokenValidator.validateToken();
         this._initDeferred.resolve();
         return undefined;
@@ -256,6 +294,7 @@ export default class Auth {
     this._initDeferred.reject(error);
     throw error;
   }
+
   /**
    * Get token from local storage or request it if necessary.
    * Can redirect to login page.
@@ -277,13 +316,8 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      const accessToken = await this._backgroundTokenGetter.get();
-      const user = await this.getUser(accessToken);
-
-      if (user && this.user && this.user.id !== user.id) {
-        // Reload page if user has been changed after background refresh
-        this.listeners.trigger('userChange', user);
-      }
+      const accessToken = await this._backgroundFlow.authorize();
+      await this._detectUserChange(accessToken);
 
       return accessToken;
     } catch (e) {
@@ -291,6 +325,15 @@ export default class Auth {
 
       this._redirectCurrentPage(authRequest.url);
       throw new TokenValidator.TokenValidationError(e.message);
+    }
+  }
+
+  async _saveCurrentService() {
+    try {
+      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      this._service = {serviceImage, serviceName};
+    } catch (e) {
+      // noop
     }
   }
 
@@ -315,7 +358,7 @@ export default class Auth {
 
     const accessToken = await this.requestToken();
 
-    // If when was fetched during token request
+    // If user was fetched during token request
     if (this.user) {
       return this.user;
     }
@@ -326,11 +369,89 @@ export default class Auth {
     return user;
   }
 
+  async _detectUserChange(accessToken) {
+    try {
+      const user = await this.getUser(accessToken);
+      if (user && this.user && this.user.id !== user.id) {
+        // Reload page if user has been changed after background refresh
+        this.user = user;
+        this.listeners.trigger('userChange', user);
+      }
+    } catch (e) {
+      // noop
+    }
+  }
+
+  _beforeLogout(params) {
+    if (this._authDialogService === undefined) {
+      this.logout();
+      return;
+    }
+
+    this._showAuthDialog(params);
+  }
+
+  _showAuthDialog({nonInteractive} = {}) {
+    const {windowLogin} = this.config;
+
+    this._createInitDeferred();
+
+    const closeDialog = () => {
+      /* eslint-disable no-use-before-define */
+      stopTokenListening();
+      stopMessageListening();
+      hide();
+      /* eslint-enable no-use-before-define */
+    };
+
+    const onLogin = () => {
+      if (windowLogin !== true) {
+        closeDialog();
+        this.logout();
+        return;
+      }
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+      this._windowFlow.authorize();
+    };
+
+    const onCancel = () => {
+      closeDialog();
+      if (nonInteractive !== true) {
+        this.forceTokenUpdate();
+      }
+    };
+
+    const hide = this._authDialogService({
+      ...this._service,
+      onLogin,
+      onCancel
+    });
+
+    const stopTokenListening = this._storage.onTokenChange(token => {
+      if (token !== null) {
+        closeDialog();
+        this._initDeferred.resolve();
+      }
+    });
+
+    const stopMessageListening = this._storage.onMessage(
+      Auth.CLOSE_WINDOW_MESSAGE,
+      () => this._windowFlow.stop()
+    );
+
+    if (windowLogin === true && nonInteractive !== true) {
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+      this._storage.sendMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, Date.now());
+      this._windowFlow.authorize();
+    }
+  }
+
   /**
    * Wipe accessToken and redirect to auth page with required authorization
    */
   async logout(extraParams) {
     const requestParams = {
+      // eslint-disable-next-line camelcase
       request_credentials: 'required',
       ...extraParams
     };
@@ -348,17 +469,23 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
+    if (this.config.windowLogin && this._authDialogService !== undefined) {
+      this._showAuthDialog();
+      return;
+    }
+
     try {
-      const accessToken = await this._backgroundTokenGetter.get();
+      const accessToken = await this._backgroundFlow.authorize();
       const user = await this.getUser(accessToken);
 
       if (user.guest) {
-        return this.logout();
+        this._beforeLogout();
       } else {
-        return this.listeners.trigger('userChange', user);
+        this.user = user;
+        this.listeners.trigger('userChange', user);
       }
     } catch (e) {
-      return this.logout();
+      this._beforeLogout();
     }
   }
 
@@ -373,7 +500,7 @@ export default class Auth {
   async _checkForAuthResponse() {
     // getAuthResponseURL may throw an exception
     const authResponse = this._responseParser.getAuthResponseFromURL();
-    const {scope: defaultScope, default_expires_in, cleanHash} = this.config;
+    const {scope: defaultScope, defaultExpiresIn, cleanHash} = this.config;
 
     if (authResponse && cleanHash) {
       this.setHash('');
@@ -383,7 +510,7 @@ export default class Auth {
       return undefined;
     }
 
-    const {state: stateId, scope, expires_in, access_token} = authResponse;
+    const {state: stateId, scope, expiresIn, accessToken} = authResponse;
     const newState = await (stateId && this._storage.getState(stateId)) || {};
 
     /**
@@ -394,12 +521,25 @@ export default class Auth {
     /**
      * @type {number}
      */
-    const expiresIn = expires_in ? parseInt(expires_in, 10) : default_expires_in;
-    const expires = TokenValidator._epoch() + expiresIn;
+    const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
+    const expires = TokenValidator._epoch() + effectiveExpiresIn;
 
-    await this._storage.saveToken({access_token, scopes, expires});
+    await this._storage.saveToken({accessToken, scopes, expires});
 
     return newState;
+  }
+
+  /**
+   * Adds preconnect tag to help browser to establish connection to URL.
+   * See https://w3c.github.io/resource-hints/
+   * @param url Url to preconnect to.
+   */
+  async setUpPreconnect(url) {
+    const linkNode = document.createElement('link');
+    linkNode.rel = 'preconnect';
+    linkNode.href = url;
+    linkNode.pr = '1.0';
+    document.head.appendChild(linkNode);
   }
 
   /**

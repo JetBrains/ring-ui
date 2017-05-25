@@ -6,11 +6,15 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 25-05-2017: auth parameters have been uniformly named in camelCase. Support for snake_case parameters has been dropped.
+
+Attempting to pass `client_id`, `redirect_uri`, `request_credentials` will throw an exception. Use `clientId`, `redirectUri`, `requestCredentials` instead.
+
 ### 27-04-2017: Unused HeaderAuth component has been removed
 Use brand new Header component instead
 
 ### 26-04-2017: `stage-0/1` transforms are dropped
-The most used of those was [`transform-function-bind`](http://babeljs.io/docs/plugins/transform-function-bind/).
+The most widely used of them was [`transform-function-bind`](http://babeljs.io/docs/plugins/transform-function-bind/).
 
 * Before: `::this.handleClick`
 * After: `this.handleClick.bind(this)`
@@ -43,18 +47,18 @@ Often it's better to declare an arrow property function instead of binding a met
     ```
 
 ### 20-04-2017: Usage with webpack 1.* is deprecated
-This was needed to enable tree-shaking
+This was necessary in order to enable tree-shaking.
 
 ### 18-04-2017: Default export hack is dropped
-This affects only commonjs usages.
+This affects only CommonJS usages.
 
 * Before: `const Button = require('ring-ui/components/button/button');`
 * After: `const Button = require('ring-ui/components/button/button').default;`
-* Or even better: `import Button from 'ring-ui/components/button/button';`
+* Even better: `import Button from 'ring-ui/components/button/button';`
 
 ### 13-04-2017: Auth component no longer provides getSecure and getApi methods
 
-Use the brand new HTTP component instead. 
+Use the brand new `HTTP` component instead. 
 
 Before: 
 ```js
@@ -81,7 +85,7 @@ const services = http.get('services/header');
 
 ### 13-02-2017: Badge component has no margins anymore and is aligned by baseline
 
-### 20-01-2016: Webpack config structure change
+### 20-01-2016: Webpack configuration structure change
 
 In order to migrate to webpack 2, we have to keep webpack.config clean of properties that don't match [the schema](https://github.com/webpack/webpack/blob/028c51301733836abbedc88be7483af2623f5943/schemas/webpackOptionsSchema.json).
 Since this change config moved to internal property `config`, and loaders moved to `loaders` properties:
