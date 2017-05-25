@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import AuthResponseParser from './response-parser';
 
 /**
@@ -7,7 +5,7 @@ import AuthResponseParser from './response-parser';
  */
 const DEFAULT_TIMEOUT = 20 * 1000; // 20 sec in ms
 
-export default class BackgroundTokenGetter {
+export default class BackgroundFlow {
   constructor(requestBuilder, storage, timeout = DEFAULT_TIMEOUT) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
@@ -49,6 +47,7 @@ export default class BackgroundTokenGetter {
    */
   async _load() {
     const authRequest = await this._requestBuilder.
+      // eslint-disable-next-line camelcase
       prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
 
     return new Promise((resolve, reject) => {
@@ -64,7 +63,7 @@ export default class BackgroundTokenGetter {
       const removeTokenListener = this._storage.onTokenChange(token => {
         if (token !== null) {
           cleanUp();
-          resolve(token.access_token);
+          resolve(token.accessToken);
         }
       });
 
@@ -90,7 +89,7 @@ export default class BackgroundTokenGetter {
     });
   }
 
-  get() {
+  authorize() {
     if (this._promise) {
       return this._promise;
     }

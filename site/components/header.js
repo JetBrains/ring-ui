@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 import Auth from '../../components/auth/auth';
+import authDialogService from '../../components/auth-dialog-service/auth-dialog-service';
 import Header, {
   Logo,
   Tray,
@@ -16,6 +17,7 @@ import Item from './item';
 import Version from './version';
 
 const auth = new Auth(hubConfig);
+auth.setAuthDialogService(authDialogService);
 auth.init().then(restoreLocation => {
   if (restoreLocation) {
     window.location = restoreLocation;
