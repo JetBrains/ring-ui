@@ -529,7 +529,8 @@ export default class List extends RingComponentWithShortcuts {
     });
 
     return (
-      <div className={classes}
+      <div
+        className={classes}
         onMouseMove={this.mouseHandler}
         onMouseOut={this.props.onMouseOut}
       >
@@ -540,7 +541,8 @@ export default class List extends RingComponentWithShortcuts {
           style={innerStyles}
         >
           <div style={topPaddingStyles}/>
-          <div className="ring-list__items"
+          <div
+            className="ring-list__items"
             ref={this.itemsRef}
           >
             {this.state.data.map((item, index) => {
