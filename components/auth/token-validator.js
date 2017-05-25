@@ -72,7 +72,7 @@ export default class TokenValidator {
    * @private
    */
   static async _validateExistence(storedToken) {
-    if (!storedToken || !storedToken.access_token) {
+    if (!storedToken || !storedToken.accessToken) {
       throw new TokenValidator.TokenValidationError('Token not found');
     }
   }
@@ -128,7 +128,7 @@ export default class TokenValidator {
    */
   async _validateAgainstUser(storedToken) {
     try {
-      return await this._getUser(storedToken.access_token);
+      return await this._getUser(storedToken.accessToken);
     } catch (errorResponse) {
 
       let response = {};
@@ -172,6 +172,6 @@ export default class TokenValidator {
       await validators[i](storedToken);
     }
 
-    return storedToken.access_token;
+    return storedToken.accessToken;
   }
 }

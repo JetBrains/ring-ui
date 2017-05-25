@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 import AuthResponseParser from './response-parser';
 
 const NAVBAR_HEIGHT = 50;
@@ -35,7 +33,7 @@ export default class WindowFlow {
    */
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
-      {request_credentials: 'required'},
+      {requestCredentials: 'required'},
       {nonRedirect: true}
     );
 
@@ -58,7 +56,7 @@ export default class WindowFlow {
       const removeTokenListener = this._storage.onTokenChange(token => {
         if (token !== null) {
           cleanUp();
-          resolve(token.access_token);
+          resolve(token.accessToken);
         }
       });
 
