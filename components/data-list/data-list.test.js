@@ -20,7 +20,7 @@ describe('Data List', () => {
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).firstChild.should.match('.test-class');
+    findDOMNode(renderComponent({className: 'test-class'})).querySelector('ul').should.match('.test-class');
   });
 
   // TODO Add more tests
