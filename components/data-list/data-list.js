@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
+import selectionShortcutsHOC from '../table/selection-shortcuts-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
@@ -35,7 +36,7 @@ type Props = {
   isGroupFullyShown: (item?: GroupType) => boolean,
   loading: boolean,
   focused: boolean,
-  shortcuts: {},
+  shortcutsMap: {},
   selection: Selection,
   onSelect: (selection?: Selection) => void
 };
@@ -51,7 +52,7 @@ class DataList extends PureComponent {
     onGroupShowLess: PropTypes.func,
     isGroupFullyShown: PropTypes.func,
     loading: PropTypes.bool,
-    shortcuts: PropTypes.object,
+    shortcutsMap: PropTypes.object,
     selection: PropTypes.object,
     onSelect: PropTypes.func
   };
@@ -66,59 +67,24 @@ class DataList extends PureComponent {
     isGroupFullyShown: () => false,
     loading: false,
     focused: false,
-    shortcuts: {},
+    shortcutsMap: {},
     onSelect: () => {}
   };
 
   state = {
-    shortcuts: this.props.focused
+    shortcutsEnabled: this.props.focused,
+    shortcutsScope: getUID('ring-data-list-')
+
   }
 
   componentWillReceiveProps(nextProps) {
-    const shortcuts = nextProps.focused;
-    if (shortcuts !== this.state.shortcuts) {
-      this.setState({shortcuts});
+    const shortcutsEnabled = nextProps.focused;
+    if (shortcutsEnabled !== this.state.shortcutsEnabled) {
+      this.setState({shortcutsEnabled});
     }
   }
 
   props: Props;
-
-  onUpPress = (): boolean => {
-    const {selection, onSelect} = this.props;
-    const newSelection = selection.moveUp();
-
-    if (newSelection) {
-      onSelect(newSelection);
-    }
-
-    return false;
-  }
-
-  onDownPress = (): boolean => {
-    const {selection, onSelect} = this.props;
-    const newSelection = selection.moveDown();
-
-    if (newSelection) {
-      onSelect(newSelection);
-    }
-
-    return false;
-  }
-
-  onSpacePress = () => {
-    const {selection, onSelect} = this.props;
-
-    onSelect(selection.toggleSelection());
-    return false;
-  }
-
-  shortcutsMap = {
-    up: this.onUpPress,
-    down: this.onDownPress,
-    space: this.onSpacePress
-  }
-
-  shortcutsScope = getUID('ring-data-list-')
 
   render(): Element<any> {
     const {
@@ -128,16 +94,14 @@ class DataList extends PureComponent {
       isGroupFullyShown, loading, selection
     } = this.props;
 
-    const {shortcuts} = this.state;
-
     return (
       <div className={styles.dataListWrapper}>
-        {shortcuts ? (
+        {this.state.shortcutsEnabled &&
           <Shortcuts
-            map={{...this.shortcutsMap, ...this.props.shortcuts}}
-            scope={this.shortcutsScope}
+            map={this.props.shortcutsMap}
+            scope={this.state.shortcutsScope}
           />
-        ) : ''}
+        }
 
         <ul className={classNames(styles.dataList, className)}>
           {data.map(group => {
@@ -186,4 +150,4 @@ class DataList extends PureComponent {
   }
 }
 
-export default focusSensorHOC(DataList);
+export default selectionShortcutsHOC(focusSensorHOC(DataList));
