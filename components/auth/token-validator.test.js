@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import HTTP from '../http/http';
 
 import Auth from './auth';
@@ -28,7 +27,7 @@ describe('Auth', () => {
       it('should resolve access token when it is valid', () => {
 
         AuthStorage.prototype.getToken.returns(Promise.resolve({
-          access_token: 'token',
+          accessToken: 'token',
           expires,
           scopes: ['0-0-0-0-0', 'youtrack']
         }));
@@ -39,7 +38,7 @@ describe('Auth', () => {
 
       it('should resolve access token when token is given for all required scopes', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
-          access_token: 'token',
+          accessToken: 'token',
           expires,
           scopes: ['0-0-0-0-0']
         }));
@@ -48,9 +47,9 @@ describe('Auth', () => {
           should.eventually.be.equal('token');
       });
 
-      it('should reject if access_token is empty', () => {
+      it('should reject if accessToken is empty', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
-          access_token: null,
+          accessToken: null,
           expires,
           scopes: ['0-0-0-0-0']
         }));
@@ -67,7 +66,7 @@ describe('Auth', () => {
 
       it('should reject if token is expired', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 15 * 60,
           scopes: ['0-0-0-0-0']
         }));
@@ -77,7 +76,7 @@ describe('Auth', () => {
 
       it('should reject if token scopes don\'t match required scopes', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
-          access_token: 'token',
+          accessToken: 'token',
           expires,
           scopes: ['youtrack']
         }));
@@ -95,7 +94,7 @@ describe('Auth', () => {
       });
 
       it('should resolve to access token when user is returned', async () => {
-        const token = {access_token: 'token'};
+        const token = {accessToken: 'token'};
         HTTP.prototype.authorizedFetch.returns(Promise.resolve({login: 'user'}));
         const promise = tokenValidator._validateAgainstUser(token);
         promise.should.be.fulfilled;
@@ -104,7 +103,7 @@ describe('Auth', () => {
       });
 
       it('should reject with redirect if 401 response received', () => {
-        const token = {access_token: 'token'};
+        const token = {accessToken: 'token'};
         HTTP.prototype.authorizedFetch.returns(Promise.reject({
           status: 401,
           response: {
@@ -118,7 +117,7 @@ describe('Auth', () => {
       });
 
       it('should reject with redirect if invalid_grant response received', () => {
-        const token = {access_token: 'token'};
+        const token = {accessToken: 'token'};
         HTTP.prototype.authorizedFetch.returns(Promise.reject({
           response: {
             json() {
@@ -131,7 +130,7 @@ describe('Auth', () => {
       });
 
       it('should reject with redirect if invalid_request response received', () => {
-        const token = {access_token: 'token'};
+        const token = {accessToken: 'token'};
         HTTP.prototype.authorizedFetch.returns(Promise.reject({
           response: {
             json() {
@@ -144,7 +143,7 @@ describe('Auth', () => {
       });
 
       it('should reject with redirect if 401 response without json received', () => {
-        const token = {access_token: 'token'};
+        const token = {accessToken: 'token'};
         HTTP.prototype.authorizedFetch.returns(Promise.reject({
           status: 401,
           message: '403 Forbidden',

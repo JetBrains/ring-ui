@@ -289,7 +289,8 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__menu">
         <span>
-          <a className="ring-link"
+          <a
+            className="ring-link"
             href={firstMenuElement.props.url}
           >{firstMenuElement.children}</a>
           <Icon
@@ -391,7 +392,8 @@ export default class Header extends RingComponent {
 
     return this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-item', [
       serviceLogo,
-      <span key={`ItemName-${item.id}`}
+      <span
+        key={`ItemName-${item.id}`}
         className="ring-header__services-item-text"
       >
         {item.name}
