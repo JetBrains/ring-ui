@@ -2,6 +2,7 @@
 import React, {PureComponent, Element} from 'react';
 import collapseIcon from 'jetbrains-icons/collapse.svg';
 import expandIcon from 'jetbrains-icons/expand.svg';
+import classNames from 'classnames';
 
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
@@ -10,6 +11,7 @@ import type {SubitemType, ItemType} from './types';
 import styles from './data-list.css';
 
 type Props = {
+  className?: string,
   item: ItemType,
   title: string,
   selectable: boolean,
@@ -18,7 +20,8 @@ type Props = {
   subitems: SubitemType[],
   collapsed: boolean,
   onCollapse: (item?: ItemType) => void,
-  onExpand: (item?: ItemType) => void
+  onExpand: (item?: ItemType) => void,
+  focused: boolean
 };
 
 export default class DataList extends PureComponent {
@@ -29,7 +32,8 @@ export default class DataList extends PureComponent {
     subitems: [],
     collapsed: true,
     onCollapse: () => {},
-    onExpand: () => {}
+    onExpand: () => {},
+    focused: false
   };
 
   props: Props;
@@ -55,7 +59,7 @@ export default class DataList extends PureComponent {
   render(): Element<any> {
     const {
       title, selectable, selected, showFocus, subitems,
-      collapsed
+      collapsed, focused
     } = this.props;
 
     let collapserExpander = null;
@@ -81,8 +85,16 @@ export default class DataList extends PureComponent {
       }
     }
 
+    const classes = classNames(this.props.className, {
+      [styles.item]: true,
+      [styles.itemFocused]: focused
+    });
+
     return (
-      <li className={styles.item}>
+      <li
+        className={classes}
+        tabIndex="0"
+      >
         <span className={styles.itemTitle}>
           <div className={styles.metaColumn}>
             {selectable &&
