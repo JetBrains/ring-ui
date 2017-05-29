@@ -129,6 +129,7 @@ export default class Group extends PureComponent {
                 item={item}
                 title={item.title}
                 selectable={item.selectable}
+                selected={selection.isSelected(item)}
                 subitems={item.subitems}
                 onExpand={onItemExpand}
                 onCollapse={onItemCollapse}
