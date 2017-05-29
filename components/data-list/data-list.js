@@ -163,6 +163,7 @@ class DataList extends PureComponent {
                 onGroupShowLess={onGroupShowLess}
                 onGroupShowMore={onGroupShowMore}
                 focused={selection.isFocused(group)}
+                selection={selection}
               />
             );
           })}

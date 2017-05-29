@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Link from '../link/link';
 import Text from '../text/text';
 
+import Selection from './selection';
 import Item from './item';
 import type {GroupType, ItemType} from './types';
 import styles from './data-list.css';
@@ -22,7 +23,8 @@ type Props = {
   fullyShown: boolean,
   onGroupShowMore: (group?: GroupType) => void,
   onGroupShowLess: (group?: GroupType) => void,
-  focused: boolean
+  focused: boolean,
+  selection: Selection
 };
 
 export default class Group extends PureComponent {
@@ -53,7 +55,7 @@ export default class Group extends PureComponent {
     const {
       title, items, onItemCollapse, onItemExpand,
       isItemCollapsed, showMoreLessButton, fullyShown,
-      focused
+      focused, selection
     } = this.props;
 
     let moreLessButton;
@@ -107,6 +109,7 @@ export default class Group extends PureComponent {
                 onExpand={onItemExpand}
                 onCollapse={onItemCollapse}
                 collapsed={isItemCollapsed(item)}
+                focused={selection.isFocused(item)}
               />
             ))}
 
