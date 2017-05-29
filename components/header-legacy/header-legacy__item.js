@@ -136,7 +136,8 @@ export default class HeaderItem extends RingComponent {
    */
   _getIcon(restProps) {
     return (
-      <Icon {...restProps}
+      <Icon
+        {...restProps}
         className={this.state.opened ? this.props.activeClassName : this.props.inactiveClassName}
         glyph={this.props.glyph}
         size={Icon.Size.Size18}
