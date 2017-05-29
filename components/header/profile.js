@@ -18,6 +18,7 @@ export default class Profile extends PureComponent {
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
     profileUrl: PropTypes.string,
+    renderPopupItems: PropTypes.func,
     translations: PropTypes.shape({
       profile: PropTypes.string,
       login: PropTypes.string,
@@ -30,12 +31,22 @@ export default class Profile extends PureComponent {
   };
 
   static defaultProps = {
+    renderPopupItems: items => items,
     translations: {}
   }
 
   render() {
-    // eslint-disable-next-line max-len
-    const {className, loading, user, profileUrl, onLogin, onLogout, translations, ...props} = this.props;
+    const {
+      className,
+      loading,
+      user,
+      profileUrl,
+      onLogin,
+      onLogout,
+      renderPopupItems,
+      translations,
+      ...props
+    } = this.props;
 
     if (!user) {
       return (
@@ -77,7 +88,7 @@ export default class Profile extends PureComponent {
         anchor={anchor}
         className={classnames(styles.profile, className)}
       >
-        <PopupMenu data={[
+        <PopupMenu data={renderPopupItems([
           {
             rgItemType,
             label: translations.profile || 'Profile',
@@ -91,7 +102,7 @@ export default class Profile extends PureComponent {
             className: styles.profileMenuItem,
             onClick: onLogout
           }
-        ]}
+        ])}
         />
       </Dropdown>
     );
