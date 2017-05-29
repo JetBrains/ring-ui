@@ -27,6 +27,16 @@
 
   border: solid 0 #E8E8E8;
   border-bottom-width: 1px;
+
+  outline: none;
+  box-sizing: border-box;
+}
+
+.groupTitleFocused {
+  border: 1px none #E6E6E6;
+  border-top-style: solid;
+  border-color: #25B7FF;
+  border-bottom-style: solid;
 }
 
 .item {
