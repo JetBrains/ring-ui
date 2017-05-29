@@ -15,5 +15,6 @@ export type GroupType = {
   id: number,
   title: any,
   size: number,
+  selectable?: boolean,
   items: ItemType[]
 };

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
+import Checkbox from '../checkbox/checkbox';
 
 import Selection from './selection';
 import Item from './item';
@@ -24,7 +25,9 @@ type Props = {
   onGroupShowMore: (group?: GroupType) => void,
   onGroupShowLess: (group?: GroupType) => void,
   focused: boolean,
-  selection: Selection
+  selection: Selection,
+  selectable: boolean,
+  selected: boolean
 };
 
 export default class Group extends PureComponent {
@@ -36,7 +39,9 @@ export default class Group extends PureComponent {
     fullyShown: true,
     onGroupShowMore: () => {},
     onGroupShowLess: () => {},
-    focused: false
+    focused: false,
+    selectable: false,
+    selected: false
   };
 
   props: Props;
@@ -51,11 +56,19 @@ export default class Group extends PureComponent {
     onGroupShowLess(group);
   }
 
+  onCheckboxFocus = () => {
+    //this.props.onFocusRestore();
+  }
+
+  onCheckboxChange = () => {
+    //this.toggleSelection();
+  }
+
   render(): Element<any> {
     const {
       title, items, onItemCollapse, onItemExpand,
       isItemCollapsed, showMoreLessButton, fullyShown,
-      focused, selection
+      focused, selection, selectable, selected
     } = this.props;
 
     let moreLessButton;
@@ -95,7 +108,18 @@ export default class Group extends PureComponent {
         <div
           className={classes}
           tabIndex="0"
-        >{title}</div>
+        >
+          {selectable &&
+            <Checkbox
+              checked={selected}
+              onFocus={this.onCheckboxFocus}
+              onChange={this.onCheckboxChange}
+              tabIndex="-1"
+            />
+          }
+
+          {title}
+        </div>
 
         {items.length ? (
           <ul className={styles.group}>
