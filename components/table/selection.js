@@ -1,12 +1,14 @@
 export default class Selection {
-  _data = []
+  _rawData = []
+  _data = new Set()
   _selected = new Set()
   _focused = null
   _key = 'id'
 
   constructor({data, selected, focused, key} = {}) {
     if (data) {
-      this._data = data;
+      this._rawData = data;
+      this._data = this._buildData(data);
     }
 
     if (selected) {
@@ -22,6 +24,10 @@ export default class Selection {
     }
   }
 
+  _buildData(data) {
+    return new Set(data);
+  }
+
   cloneWith({data, selected, focused}) {
     const cloneSelected = () => new Set(data.filter(
       item => [...this._selected].some(it => item[this._key] === it[this._key])
@@ -32,7 +38,7 @@ export default class Selection {
     const newFocused = focused === undefined ? this._focused : focused;
 
     return new this.constructor({
-      data: data || this._data,
+      data: data || this._rawData,
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
       focused: (data && !focused) ? cloneFocus() : newFocused
     });
@@ -43,7 +49,8 @@ export default class Selection {
   }
 
   moveUp() {
-    const {_focused: focused, _data: data} = this;
+    const {_focused: focused, _data} = this;
+    const data = [..._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[data.length - 1]});
@@ -58,7 +65,8 @@ export default class Selection {
   }
 
   moveDown() {
-    const {_focused: focused, _data: data} = this;
+    const {_focused: focused, _data} = this;
+    const data = [..._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[0]});
@@ -109,7 +117,7 @@ export default class Selection {
   }
 
   selectAll() {
-    return this.cloneWith({selected: new Set(this._data)});
+    return this.cloneWith({selected: [...this._data]});
   }
 
   resetFocus() {
