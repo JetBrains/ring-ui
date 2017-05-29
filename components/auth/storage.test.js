@@ -1,5 +1,4 @@
 /* eslint-disable func-names */
-/* eslint-disable camelcase */
 
 import sniffer from '../global/sniffer';
 
@@ -105,7 +104,7 @@ describe('Auth', () => {
     });
 
     const token = {
-      access_token: 'silver-bullet',
+      accessToken: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
       expires: TokenValidator._epoch() + 40 * 60
     };

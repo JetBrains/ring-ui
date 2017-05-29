@@ -50,14 +50,14 @@ export default class Text extends Component {
   };
 
   render() {
-    const {children, className, comment, info} = this.props;
+    const {children, className, comment, info, ...restProps} = this.props;
     const classes = classNames(styles.text, className, {
       [styles.comment]: comment,
       [styles.info]: info
     });
 
     return (
-      <span className={classes}>{children}</span>
+      <span className={classes} {...restProps}>{children}</span>
     );
   }
 }
