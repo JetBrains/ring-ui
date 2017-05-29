@@ -15,7 +15,7 @@
 
 .group {
   list-style: none;
-  padding: 10px 50px;
+  padding: 10px 0;
   background-color: #EBEBEB;
 
   border: solid 0 #E8E8E8;
@@ -33,14 +33,20 @@
 }
 
 .groupTitleFocused {
-  border: 1px none #E6E6E6;
+  border: 1px none #25B7FF;
   border-top-style: solid;
-  border-color: #25B7FF;
   border-bottom-style: solid;
 }
 
 .item {
-  padding: 5px 0;
+  padding: 5px 50px;
+  outline: none;
+}
+
+.itemFocused {
+  border: 1px none #25B7FF;
+  border-top-style: solid;
+  border-bottom-style: solid;
 }
 
 .itemTitle {
