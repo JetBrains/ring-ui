@@ -18,6 +18,7 @@ import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
+import Selection from './selection';
 import Group from './group';
 import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
@@ -34,7 +35,9 @@ type Props = {
   isGroupFullyShown: (item?: GroupType) => boolean,
   loading: boolean,
   focused: boolean,
-  shortcuts: {}
+  shortcuts: {},
+  selection: Selection,
+  onSelect: (selection?: Selection) => void
 };
 
 class DataList extends PureComponent {
@@ -48,7 +51,9 @@ class DataList extends PureComponent {
     onGroupShowLess: PropTypes.func,
     isGroupFullyShown: PropTypes.func,
     loading: PropTypes.bool,
-    shortcuts: PropTypes.object
+    shortcuts: PropTypes.object,
+    selection: PropTypes.object,
+    onSelect: PropTypes.func
   };
 
   static defaultProps = {
@@ -61,7 +66,8 @@ class DataList extends PureComponent {
     isGroupFullyShown: () => false,
     loading: false,
     focused: false,
-    shortcuts: {}
+    shortcuts: {},
+    onSelect: () => {}
   };
 
   state = {
@@ -77,13 +83,27 @@ class DataList extends PureComponent {
 
   props: Props;
 
-  // eslint-disable-next-line arrow-body-style
   onUpPress = (): boolean => {
+    console.log('onUpPress');
+    const {selection, onSelect} = this.props;
+    const newSelection = selection.moveUp();
+
+    if (newSelection) {
+      onSelect(newSelection);
+    }
+
     return false;
   }
 
-  // eslint-disable-next-line arrow-body-style
   onDownPress = (): boolean => {
+    console.log('onDownPress');
+    const {selection, onSelect} = this.props;
+    const newSelection = selection.moveDown();
+
+    if (newSelection) {
+      onSelect(newSelection);
+    }
+
     return false;
   }
 
@@ -95,12 +115,12 @@ class DataList extends PureComponent {
   shortcutsScope = getUID('ring-data-list-')
 
   render(): Element<any> {
+    console.log('focused', this.props.focused, 'shortcuts', this.state.shortcuts);
     const {
       data, className,
       onItemCollapse, onItemExpand, isItemCollapsed,
       groupItemsLimit, onGroupShowMore, onGroupShowLess,
-      isGroupFullyShown,
-      loading
+      isGroupFullyShown, loading, selection
     } = this.props;
 
     const {shortcuts} = this.state;
@@ -142,6 +162,7 @@ class DataList extends PureComponent {
                 fullyShown={fullyShown}
                 onGroupShowLess={onGroupShowLess}
                 onGroupShowMore={onGroupShowMore}
+                focused={selection.isFocused(group)}
               />
             );
           })}
