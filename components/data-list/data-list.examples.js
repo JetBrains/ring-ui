@@ -27,7 +27,6 @@ class DataListDemo extends PureComponent {
   isItemCollapsed = item => !this.expandedItems.has(item);
 
   onSelect = selection => {
-    console.log('onSelect', selection, [...selection.getActive()][0]);
     this.setState({selection});
   };
 
