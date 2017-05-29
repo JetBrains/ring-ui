@@ -80,6 +80,26 @@ export default class Selection {
     return undefined;
   }
 
+  moveStart() {
+    const data = [...this._data];
+
+    if (data.length) {
+      return this.cloneWith({focused: data[0]});
+    }
+
+    return undefined;
+  }
+
+  moveEnd() {
+    const data = [...this._data];
+
+    if (data.length) {
+      return this.cloneWith({focused: data.pop()});
+    }
+
+    return undefined;
+  }
+
   select(value = this._focused) {
     if (value) {
       const selected = new Set(this._selected);
