@@ -84,7 +84,6 @@ class DataList extends PureComponent {
   props: Props;
 
   onUpPress = (): boolean => {
-    console.log('onUpPress');
     const {selection, onSelect} = this.props;
     const newSelection = selection.moveUp();
 
@@ -96,7 +95,6 @@ class DataList extends PureComponent {
   }
 
   onDownPress = (): boolean => {
-    console.log('onDownPress');
     const {selection, onSelect} = this.props;
     const newSelection = selection.moveDown();
 
@@ -107,15 +105,22 @@ class DataList extends PureComponent {
     return false;
   }
 
+  onSpacePress = () => {
+    const {selection, onSelect} = this.props;
+
+    onSelect(selection.toggleSelection());
+    return false;
+  }
+
   shortcutsMap = {
     up: this.onUpPress,
-    down: this.onDownPress
+    down: this.onDownPress,
+    space: this.onSpacePress
   }
 
   shortcutsScope = getUID('ring-data-list-')
 
   render(): Element<any> {
-    console.log('focused', this.props.focused, 'shortcuts', this.state.shortcuts);
     const {
       data, className,
       onItemCollapse, onItemExpand, isItemCollapsed,
@@ -165,6 +170,7 @@ class DataList extends PureComponent {
                 focused={selection.isFocused(group)}
                 selection={selection}
                 selectable={group.selectable}
+                selected={selection.isSelected(group)}
               />
             );
           })}
