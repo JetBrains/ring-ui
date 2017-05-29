@@ -1,5 +1,4 @@
 /* eslint-disable func-names */
-/* eslint-disable camelcase */
 
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
@@ -16,6 +15,17 @@ describe('Auth', () => {
   describe('construction', () => {
     it('should require provide config', () => {
       expect(() => new Auth()).to.throw(Error, 'Config is required');
+    });
+
+    it('should throw on unsupported params usage', () => {
+      expect(() => new Auth({
+        serverUri: 'value',
+        /* eslint-disable camelcase */
+        redirect_uri: 'value',
+        request_credentials: 'value',
+        client_id: 'value'
+        /* eslint-enable camelcase */
+      })).to.throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
     });
 
     it('should require provide server uri', () => {
@@ -88,11 +98,11 @@ describe('Auth', () => {
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
 
-    it('should not perform redirect on userChange when avoidPageReload is set', function () {
+    it('should not perform redirect on userChange when reloadOnUserChange is false', function () {
       this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
-        avoidPageReload: true,
+        reloadOnUserChange: false,
         serverUri: ''
       });
       auth.listeners.trigger('userChange');
@@ -114,8 +124,8 @@ describe('Auth', () => {
     let auth = new Auth({
       serverUri: '',
       redirect: true,
-      redirect_uri: 'http://localhost:8080/hub',
-      client_id: '1-1-1-1-1',
+      redirectUri: 'http://localhost:8080/hub',
+      clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
@@ -130,7 +140,7 @@ describe('Auth', () => {
 
     it('should resolve to undefined if there is a valid token', async() => {
       await auth._storage.saveToken({
-        access_token: 'token',
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
@@ -147,8 +157,8 @@ describe('Auth', () => {
 
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -160,7 +170,7 @@ describe('Auth', () => {
       restoreLocation.should.be.equal('http://localhost:8080/hub/users');
       const token = await auth._storage.getToken();
       token.should.be.deep.equal({
-        access_token: '2YotnFZFEjr1zCsicMWpAA',
+        accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
         expires: frozenTime + 3600
       });
@@ -173,8 +183,8 @@ describe('Auth', () => {
 
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -189,8 +199,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -272,8 +282,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: true,
-        redirect_uri: 'http://localhost:8080/hub',
-        request_credentials: 'skip'
+        redirectUri: 'http://localhost:8080/hub',
+        requestCredentials: 'skip'
       });
       try {
         await auth.init();
@@ -300,8 +310,8 @@ describe('Auth', () => {
       auth = new Auth({
         serverUri: '',
         redirect: false,
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -315,7 +325,7 @@ describe('Auth', () => {
 
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -339,7 +349,7 @@ describe('Auth', () => {
     it('should initiate and fall back to redirect when token check fails', async function () {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -405,8 +415,8 @@ describe('Auth', () => {
 
       this.auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -421,7 +431,7 @@ describe('Auth', () => {
 
     it('should resolve to access token if there is a valid one', async function () {
       await this.auth._storage.saveToken({
-        access_token: 'token',
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
@@ -432,7 +442,7 @@ describe('Auth', () => {
     it('should get token in iframe if there is no valid token', async function () {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -455,7 +465,7 @@ describe('Auth', () => {
       this.auth.user = {id: 'initUser'};
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
-          access_token: 'token',
+          accessToken: 'token',
           expires: TokenValidator._epoch() + 60 * 60,
           scopes: ['0-0-0-0-0']
         });
@@ -494,8 +504,8 @@ describe('Auth', () => {
     beforeEach(function () {
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -528,7 +538,7 @@ describe('Auth', () => {
 
     it('should wait for user saved during validation', async () => {
       await auth._storage.saveToken({
-        access_token: 'token',
+        accessToken: 'token',
         expires: TokenValidator._epoch() + 60 * 60,
         scopes: ['0-0-0-0-0']
       });
@@ -546,8 +556,8 @@ describe('Auth', () => {
     beforeEach(function () {
       auth = new Auth({
         serverUri: '',
-        redirect_uri: 'http://localhost:8080/hub',
-        client_id: '1-1-1-1-1',
+        redirectUri: 'http://localhost:8080/hub',
+        clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack']
       });
@@ -641,8 +651,8 @@ describe('Auth', () => {
   describe('logout', () => {
     const auth = new Auth({
       serverUri: '',
-      redirect_uri: 'http://localhost:8080/hub',
-      client_id: '1-1-1-1-1',
+      redirectUri: 'http://localhost:8080/hub',
+      clientId: '1-1-1-1-1',
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     });
