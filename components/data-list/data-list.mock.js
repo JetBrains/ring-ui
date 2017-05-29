@@ -11,6 +11,7 @@ export default [
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
     size: 62,
+    selectable: true,
     items: [
       {
         id: 1,
@@ -50,6 +51,7 @@ export default [
     id: 2,
     title: <span><strong>Code Reviewer</strong> in 5 projects</span>,
     size: 5,
+    selectable: true,
     items: [
       {
         id: 1,
@@ -111,6 +113,7 @@ export default [
     id: 3,
     title: <span><strong>Code Viewer</strong> in 5 projects</span>,
     size: 5,
+    selectable: true,
     items: [
       {
         id: 1,
@@ -198,6 +201,7 @@ export default [
     id: 7,
     title: <span><strong>Git Hosting Checkout</strong> in 7 projects</span>,
     size: 12,
+    selectable: true,
     items: []
   }
 ];

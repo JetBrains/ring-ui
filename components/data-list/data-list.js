@@ -164,6 +164,7 @@ class DataList extends PureComponent {
                 onGroupShowMore={onGroupShowMore}
                 focused={selection.isFocused(group)}
                 selection={selection}
+                selectable={group.selectable}
               />
             );
           })}
