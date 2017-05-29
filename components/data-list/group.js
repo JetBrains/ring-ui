@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
+import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
@@ -20,7 +21,8 @@ type Props = {
   showMoreLessButton: boolean,
   fullyShown: boolean,
   onGroupShowMore: (group?: GroupType) => void,
-  onGroupShowLess: (group?: GroupType) => void
+  onGroupShowLess: (group?: GroupType) => void,
+  focused: boolean
 };
 
 export default class Group extends PureComponent {
@@ -31,7 +33,8 @@ export default class Group extends PureComponent {
     showMoreLessButton: false,
     fullyShown: true,
     onGroupShowMore: () => {},
-    onGroupShowLess: () => {}
+    onGroupShowLess: () => {},
+    focused: false
   };
 
   props: Props;
@@ -49,7 +52,8 @@ export default class Group extends PureComponent {
   render(): Element<any> {
     const {
       title, items, onItemCollapse, onItemExpand,
-      isItemCollapsed, showMoreLessButton, fullyShown
+      isItemCollapsed, showMoreLessButton, fullyShown,
+      focused
     } = this.props;
 
     let moreLessButton;
@@ -79,9 +83,17 @@ export default class Group extends PureComponent {
       moreLessButton = null;
     }
 
+    const classes = classNames(this.props.className, {
+      [styles.groupTitle]: true,
+      [styles.groupTitleFocused]: focused
+    });
+
     return (
       <li>
-        <div className={styles.groupTitle}>{title}</div>
+        <div
+          className={classes}
+          tabIndex="0"
+        >{title}</div>
 
         {items.length ? (
           <ul className={styles.group}>
