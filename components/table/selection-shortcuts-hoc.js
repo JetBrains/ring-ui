@@ -173,5 +173,5 @@ export default function selectionShortcutsHOC(ComposedComponent) {
         />
       );
     }
-  }
+  };
 }
