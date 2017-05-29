@@ -23,6 +23,7 @@ import Selection from './selection';
 import Header from './header';
 import style from './table.css';
 import DraggableRow from './draggable-row';
+import selectionShortcutsHOC from './selection-shortcuts-hoc';
 
 export const THEMES = {
   cleanUI: 'cleanUI'
@@ -85,13 +86,13 @@ class Table extends PureComponent {
     sortOrder: PropTypes.bool,
     draggable: PropTypes.bool,
     alwaysShowDragHandle: PropTypes.bool,
-    shortcuts: PropTypes.object,
     getItemLevel: PropTypes.func,
     isItemCollapsible: PropTypes.func,
     isItemCollapsed: PropTypes.func,
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
-    theme: PropTypes.string
+    theme: PropTypes.string,
+    shortcutsMap: PropTypes.object
   }
 
   static defaultProps = {
@@ -109,17 +110,18 @@ class Table extends PureComponent {
     draggable: false,
     alwaysShowDragHandle: false,
     stickyHeader: true,
-    shortcuts: {},
     getItemLevel: () => 0,
     isItemCollapsible: () => false,
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
-    theme: null
+    theme: null,
+    shortcutsMap: {}
   }
 
   state = {
-    shortcuts: this.props.selectable && this.props.focused,
+    shortcutsEnabled: this.props.selectable && this.props.focused,
+    shortcutsScope: getUID('ring-table-'),
     userSelectNone: false,
     disabledHover: false
   }
@@ -141,9 +143,9 @@ class Table extends PureComponent {
       onSelect(selection.resetSelection());
     }
 
-    const shortcuts = nextProps.focused;
-    if (shortcuts !== this.state.shortcuts) {
-      this.setState({shortcuts});
+    const shortcutsEnabled = nextProps.focused;
+    if (shortcutsEnabled !== this.state.shortcutsEnabled) {
+      this.setState({shortcutsEnabled});
     }
   }
 
@@ -197,123 +199,6 @@ class Table extends PureComponent {
     this.props.onReorder({data, oldIndex, newIndex});
   }
 
-  onUpPress = () => {
-    const {selection, onSelect} = this.props;
-    const newSelection = selection.moveUp();
-
-    if (newSelection) {
-      onSelect(newSelection);
-    }
-
-    return false;
-  }
-
-  onDownPress = () => {
-    const {selection, onSelect} = this.props;
-    const newSelection = selection.moveDown();
-
-    if (newSelection) {
-      onSelect(newSelection);
-    }
-
-    return false;
-  }
-
-  onShiftKeyDown = () => {
-    const {selection} = this.props;
-
-    if (selection.isSelected(selection.getFocused())) {
-      this.shiftSelectionMode = 'deletion';
-    } else {
-      this.shiftSelectionMode = 'addition';
-    }
-  }
-
-  shiftSelect = selection => {
-    if (this.shiftSelectionMode === 'addition') {
-      return selection.select();
-    } else {
-      return selection.deselect();
-    }
-  }
-
-  onShiftUpPress = e => {
-    e.preventDefault();
-    const {selectable, selection, onSelect} = this.props;
-
-    if (!selectable) {
-      return;
-    }
-
-    const newSelection = this.shiftSelect(selection);
-    const newMovedSelection = newSelection.moveUp();
-
-    if (newMovedSelection) {
-      onSelect(newMovedSelection);
-    } else {
-      onSelect(newSelection);
-    }
-  }
-
-  onShiftDownPress = e => {
-    e.preventDefault();
-    const {selectable, selection, onSelect} = this.props;
-
-    if (!selectable) {
-      return;
-    }
-
-    const newSelection = this.shiftSelect(selection);
-    const newMovedSelection = newSelection.moveDown();
-
-    if (newMovedSelection) {
-      onSelect(newMovedSelection);
-    } else {
-      onSelect(newSelection);
-    }
-  }
-
-  onHomePress = () => {
-    const {data, selection, onSelect} = this.props;
-    onSelect(selection.focus(data[0]));
-    return false;
-  }
-
-  onEndPress = () => {
-    const {data, selection, onSelect} = this.props;
-    onSelect(selection.focus(data[data.length - 1]));
-    return false;
-  }
-
-  onSpacePress = () => {
-    const {selectable, selection, onSelect} = this.props;
-
-    if (!selectable) {
-      return true;
-    }
-
-    onSelect(selection.toggleSelection());
-    return false;
-  }
-
-  onEscPress = () => {
-    const {selection, onSelect} = this.props;
-
-    onSelect(selection.reset());
-    this.restoreFocusWithoutScroll();
-  }
-
-  onCmdAPress = () => {
-    const {selectable, selection, onSelect} = this.props;
-
-    if (!selectable) {
-      return true;
-    }
-
-    onSelect(selection.selectAll());
-    return false;
-  }
-
   onCheckboxChange = checked => {
     const {selection, onSelect} = this.props;
 
@@ -332,22 +217,6 @@ class Table extends PureComponent {
     window.scrollTo(scrollX, scrollY);
   }
 
-  shortcutsMap = {
-    up: this.onUpPress,
-    down: this.onDownPress,
-    shift: this.onShiftKeyDown,
-    'shift+up': this.onShiftUpPress,
-    'shift+down': this.onShiftDownPress,
-    home: this.onHomePress,
-    end: this.onEndPress,
-    space: this.onSpacePress,
-    esc: this.onEscPress,
-    'command+a': this.onCmdAPress,
-    'ctrl+a': this.onCmdAPress
-  }
-
-  shortcutsScope = getUID('ring-table-')
-
   render() {
     const {
       data, selection, columns, caption, getItemKey, selectable,
@@ -356,8 +225,6 @@ class Table extends PureComponent {
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, theme
     } = this.props;
-
-    const {shortcuts} = this.state;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
 
@@ -387,14 +254,12 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper">
-        {shortcuts
-          ? (
-            <Shortcuts
-              map={{...this.shortcutsMap, ...this.props.shortcuts}}
-              scope={this.shortcutsScope}
-            />
-          )
-          : ''}
+        {this.state.shortcutsEnabled &&
+          <Shortcuts
+            map={this.props.shortcutsMap}
+            scope={this.state.shortcutsScope}
+          />
+        }
 
         <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
           <Header {...headerProps}/>
@@ -432,4 +297,4 @@ class Table extends PureComponent {
   }
 }
 
-export default focusSensorHOC(Table);
+export default selectionShortcutsHOC(focusSensorHOC(Table));
