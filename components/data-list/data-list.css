@@ -52,6 +52,11 @@
 .itemTitle {
 }
 
+.dataList:not(.disabledHover) .groupTitle:hover,
+.dataList:not(.disabledHover) .item:hover {
+  background-color: #FFF!important;
+}
+
 .metaColumn {
   display: inline-block;
   min-width: 27px;
