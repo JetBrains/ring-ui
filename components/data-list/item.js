@@ -17,24 +17,22 @@ type Props = {
   title: string,
   selectable: boolean,
   selected: boolean,
-  showFocus: boolean,
+  focused: boolean,
   subitems: SubitemType[],
   collapsed: boolean,
   onCollapse: (item?: ItemType) => void,
-  onExpand: (item?: ItemType) => void,
-  focused: boolean
+  onExpand: (item?: ItemType) => void
 };
 
 class Item extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
-    showFocus: false,
+    focused: false,
     subitems: [],
     collapsed: true,
     onCollapse: () => {},
-    onExpand: () => {},
-    focused: false
+    onExpand: () => {}
   };
 
   props: Props;
@@ -59,7 +57,7 @@ class Item extends PureComponent {
 
   render(): Element<any> {
     const {
-      title, selectable, selected, showFocus, subitems,
+      title, selectable, selected, subitems,
       collapsed, focused
     } = this.props;
 

@@ -1,7 +1,6 @@
 /* @flow */
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
-import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
@@ -63,7 +62,7 @@ export default class Group extends PureComponent {
   }
 
   onItemFocus = (item: ItemType) => {
-    const {onFocus, group} = this.props;
+    const {onFocus} = this.props;
     onFocus(item);
   }
 
@@ -101,11 +100,6 @@ export default class Group extends PureComponent {
       moreLessButton = null;
     }
 
-    const classes = classNames(this.props.className, {
-      [styles.groupTitle]: true,
-      [styles.groupTitleFocused]: focused
-    });
-
     return (
       <li>
         <GroupTitle
@@ -118,21 +112,27 @@ export default class Group extends PureComponent {
 
         {items.length ? (
           <ul className={styles.group}>
-            {items.map(item => (
-              <Item
-                key={item.id}
-                item={item}
-                title={item.title}
-                selectable={item.selectable}
-                selected={selection.isSelected(item)}
-                subitems={item.subitems}
-                onExpand={onItemExpand}
-                onCollapse={onItemCollapse}
-                collapsed={isItemCollapsed(item)}
-                focused={selection.isFocused(item)}
-                onFocus={() => this.onItemFocus(item)}
-              />
-            ))}
+            {items.map(item => {
+              function onFocus() {
+                this.onItemFocus(item);
+              }
+
+              return (
+                <Item
+                  key={item.id}
+                  item={item}
+                  title={item.title}
+                  selectable={item.selectable}
+                  selected={selection.isSelected(item)}
+                  subitems={item.subitems}
+                  onExpand={onItemExpand}
+                  onCollapse={onItemCollapse}
+                  collapsed={isItemCollapsed(item)}
+                  focused={selection.isFocused(item)}
+                  onFocus={onFocus}
+                />
+              );
+            })}
 
             {
               moreLessButton ? (
