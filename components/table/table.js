@@ -24,6 +24,7 @@ import Header from './header';
 import style from './table.css';
 import DraggableRow from './draggable-row';
 import selectionShortcutsHOC from './selection-shortcuts-hoc';
+import disableHoverHOC from './disable-hover-hoc';
 
 export const THEMES = {
   cleanUI: 'cleanUI'
@@ -92,7 +93,8 @@ class Table extends PureComponent {
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     theme: PropTypes.string,
-    shortcutsMap: PropTypes.object
+    shortcutsMap: PropTypes.object,
+    disabledHover: PropTypes.bool
   }
 
   static defaultProps = {
@@ -116,20 +118,18 @@ class Table extends PureComponent {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     theme: null,
-    shortcutsMap: {}
+    shortcutsMap: {},
+    disabledHover: false
   }
 
   state = {
     shortcutsEnabled: this.props.selectable && this.props.focused,
     shortcutsScope: getUID('ring-table-'),
-    userSelectNone: false,
-    disabledHover: false
+    userSelectNone: false
   }
 
   componentDidMount() {
-    document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
-    document.addEventListener('keydown', this.onKeyDown, true);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -150,9 +150,7 @@ class Table extends PureComponent {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
-    document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
   onMouseDown = e => {
@@ -164,19 +162,6 @@ class Table extends PureComponent {
   onMouseUp = () => {
     if (this.state.userSelectNone) {
       this.setState({userSelectNone: false});
-    }
-  }
-
-  onMouseMove = () => {
-    if (this.state.disabledHover) {
-      this.setState({disabledHover: false});
-    }
-  }
-
-  onKeyDown = e => {
-    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
-    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
-      this.setState({disabledHover: true});
     }
   }
 
@@ -248,7 +233,7 @@ class Table extends PureComponent {
       [style.table]: true,
       [style.multiSelection]: selection.getSelected().size > 0,
       [style.userSelectNone]: this.state.userSelectNone,
-      [style.disabledHover]: this.state.disabledHover,
+      [style.disabledHover]: this.props.disabledHover,
       [style.selectable]: selectable
     });
 
@@ -297,4 +282,4 @@ class Table extends PureComponent {
   }
 }
 
-export default selectionShortcutsHOC(focusSensorHOC(Table));
+export default disableHoverHOC(selectionShortcutsHOC(focusSensorHOC(Table)));

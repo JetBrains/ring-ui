@@ -15,6 +15,7 @@ import classNames from 'classnames';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import selectionShortcutsHOC from '../table/selection-shortcuts-hoc';
+import disableHoverHOC from '../table/disable-hover-hoc';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
@@ -39,7 +40,8 @@ type Props = {
   shortcutsMap: {},
   selectable: boolean,
   selection: Selection,
-  onSelect: (selection?: Selection) => void
+  onSelect: (selection?: Selection) => void,
+  disabledHover: boolean
 };
 
 class DataList extends PureComponent {
@@ -56,7 +58,8 @@ class DataList extends PureComponent {
     shortcutsMap: PropTypes.object,
     selectable: PropTypes.bool,
     selection: PropTypes.object,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    disabledHover: PropTypes.bool
   };
 
   static defaultProps = {
@@ -71,18 +74,13 @@ class DataList extends PureComponent {
     focused: false,
     shortcutsMap: {},
     selectable: true,
-    onSelect: () => {}
+    onSelect: () => {},
+    disabledHover: false
   };
 
   state = {
     shortcutsEnabled: this.props.focused,
-    shortcutsScope: getUID('ring-data-list-'),
-    disabledHover: false
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousemove', this.onMouseMove);
-    document.addEventListener('keydown', this.onKeyDown, true);
+    shortcutsScope: getUID('ring-data-list-')
   }
 
   componentWillReceiveProps(nextProps) {
@@ -102,11 +100,6 @@ class DataList extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('keydown', this.onKeyDown, true);
-  }
-
   props: Props;
 
   onGroupOrItemFocus = (groupOrItem: GroupType|ItemType) => {
@@ -114,30 +107,17 @@ class DataList extends PureComponent {
     onSelect(selection.focus(groupOrItem));
   }
 
-  onMouseMove = () => {
-    if (this.state.disabledHover) {
-      this.setState({disabledHover: false});
-    }
-  }
-
-  onKeyDown = (e: KeyboardEvent) => {
-    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
-    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
-      this.setState({disabledHover: true});
-    }
-  }
-
   render(): Element<any> {
     const {
       data, className,
       onItemCollapse, onItemExpand, isItemCollapsed,
       groupItemsLimit, onGroupShowMore, onGroupShowLess,
-      isGroupFullyShown, loading, selection
+      isGroupFullyShown, loading, selection, disabledHover
     } = this.props;
 
     const classes = classNames(className, {
       [styles.dataList]: true,
-      [styles.disabledHover]: this.state.disabledHover
+      [styles.disabledHover]: disabledHover
     });
 
     return (
@@ -197,4 +177,4 @@ class DataList extends PureComponent {
   }
 }
 
-export default selectionShortcutsHOC(focusSensorHOC(DataList));
+export default disableHoverHOC(selectionShortcutsHOC(focusSensorHOC(DataList)));
