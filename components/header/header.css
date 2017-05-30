@@ -25,12 +25,12 @@
   height: calc(unit * 5);
 }
 
-.iconPosition {
+.iconPosition.iconPosition {
   vertical-align: baseline;
   height: calc(unit * 5);
   width: calc(unit * 5);
 
-  &&:global(.ring-icon) {
+  &:global(.ring-icon) {
     /* Redefine positioning inside ring-link */
     top: 0;
   }
