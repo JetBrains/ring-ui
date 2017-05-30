@@ -4,6 +4,7 @@ import collapseIcon from 'jetbrains-icons/collapse.svg';
 import expandIcon from 'jetbrains-icons/expand.svg';
 import classNames from 'classnames';
 
+import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon/icon';
 
@@ -24,7 +25,7 @@ type Props = {
   focused: boolean
 };
 
-export default class DataList extends PureComponent {
+class Item extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
@@ -91,15 +92,12 @@ export default class DataList extends PureComponent {
     });
 
     return (
-      <li
-        className={classes}
-        tabIndex="0"
-      >
+      <li className={classes}>
         <span className={styles.itemTitle}>
           <div className={styles.metaColumn}>
             {selectable &&
               <Checkbox
-                className={showFocus ? 'ring-checkbox_focus' : ''}
+                className={focused ? 'ring-checkbox_focus' : ''}
                 checked={selected}
                 onFocus={this.onCheckboxFocus}
                 onChange={this.onCheckboxChange}
@@ -126,3 +124,5 @@ export default class DataList extends PureComponent {
     );
   }
 }
+
+export default focusSensorHOC(Item);

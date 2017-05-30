@@ -5,9 +5,9 @@ import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
-import Checkbox from '../checkbox/checkbox';
 
 import Selection from './selection';
+import GroupTitle from './group-title';
 import Item from './item';
 import type {GroupType, ItemType} from './types';
 import styles from './data-list.css';
@@ -25,6 +25,7 @@ type Props = {
   onGroupShowMore: (group?: GroupType) => void,
   onGroupShowLess: (group?: GroupType) => void,
   focused: boolean,
+  onFocus: (groupOrItem: GroupType|ItemType) => void,
   selection: Selection,
   selectable: boolean,
   selected: boolean
@@ -56,12 +57,14 @@ export default class Group extends PureComponent {
     onGroupShowLess(group);
   }
 
-  onCheckboxFocus = () => {
-    //this.props.onFocusRestore();
+  onFocus = () => {
+    const {onFocus, group} = this.props;
+    onFocus(group);
   }
 
-  onCheckboxChange = () => {
-    //this.toggleSelection();
+  onItemFocus = (item: ItemType) => {
+    const {onFocus, group} = this.props;
+    onFocus(item);
   }
 
   render(): Element<any> {
@@ -105,21 +108,13 @@ export default class Group extends PureComponent {
 
     return (
       <li>
-        <div
-          className={classes}
-          tabIndex="0"
-        >
-          {selectable &&
-            <Checkbox
-              checked={selected}
-              onFocus={this.onCheckboxFocus}
-              onChange={this.onCheckboxChange}
-              tabIndex="-1"
-            />
-          }
-
-          {title}
-        </div>
+        <GroupTitle
+          title={title}
+          focused={focused}
+          selectable={selectable}
+          selected={selected}
+          onFocus={this.onFocus}
+        />
 
         {items.length ? (
           <ul className={styles.group}>
@@ -135,6 +130,7 @@ export default class Group extends PureComponent {
                 onCollapse={onItemCollapse}
                 collapsed={isItemCollapsed(item)}
                 focused={selection.isFocused(item)}
+                onFocus={() => this.onItemFocus(item)}
               />
             ))}
 
