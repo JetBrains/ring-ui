@@ -85,11 +85,6 @@ class DataList extends PureComponent {
     document.addEventListener('keydown', this.onKeyDown, true);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('keydown', this.onKeyDown, true);
-  }
-
   componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
@@ -105,6 +100,11 @@ class DataList extends PureComponent {
     if (shortcutsEnabled !== this.state.shortcutsEnabled) {
       this.setState({shortcutsEnabled});
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
   props: Props;
@@ -135,7 +135,7 @@ class DataList extends PureComponent {
       isGroupFullyShown, loading, selection
     } = this.props;
 
-    const classes = classNames(this.props.className, {
+    const classes = classNames(className, {
       [styles.dataList]: true,
       [styles.disabledHover]: this.state.disabledHover
     });
