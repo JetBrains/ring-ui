@@ -37,6 +37,7 @@ type Props = {
   loading: boolean,
   focused: boolean,
   shortcutsMap: {},
+  selectable: boolean,
   selection: Selection,
   onSelect: (selection?: Selection) => void
 };
@@ -53,6 +54,7 @@ class DataList extends PureComponent {
     isGroupFullyShown: PropTypes.func,
     loading: PropTypes.bool,
     shortcutsMap: PropTypes.object,
+    selectable: PropTypes.bool,
     selection: PropTypes.object,
     onSelect: PropTypes.func
   };
@@ -68,16 +70,37 @@ class DataList extends PureComponent {
     loading: false,
     focused: false,
     shortcutsMap: {},
+    selectable: true,
     onSelect: () => {}
   };
 
   state = {
     shortcutsEnabled: this.props.focused,
-    shortcutsScope: getUID('ring-data-list-')
+    shortcutsScope: getUID('ring-data-list-'),
+    disabledHover: false
+  }
 
+  componentDidMount() {
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('keydown', this.onKeyDown, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('keydown', this.onKeyDown, true);
   }
 
   componentWillReceiveProps(nextProps) {
+    const {data, selection, onSelect, selectable} = this.props;
+
+    if (data !== nextProps.data) {
+      onSelect(selection.cloneWith({data: nextProps.data}));
+    }
+
+    if (!nextProps.selectable && nextProps.selectable !== selectable) {
+      onSelect(selection.resetSelection());
+    }
+
     const shortcutsEnabled = nextProps.focused;
     if (shortcutsEnabled !== this.state.shortcutsEnabled) {
       this.setState({shortcutsEnabled});
@@ -86,6 +109,24 @@ class DataList extends PureComponent {
 
   props: Props;
 
+  onGroupOrItemFocus = (groupOrItem: GroupType|ItemType) => {
+    const {selection, onSelect} = this.props;
+    onSelect(selection.focus(groupOrItem));
+  }
+
+  onMouseMove = () => {
+    if (this.state.disabledHover) {
+      this.setState({disabledHover: false});
+    }
+  }
+
+  onKeyDown = (e: KeyboardEvent) => {
+    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
+    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
+      this.setState({disabledHover: true});
+    }
+  }
+
   render(): Element<any> {
     const {
       data, className,
@@ -93,6 +134,11 @@ class DataList extends PureComponent {
       groupItemsLimit, onGroupShowMore, onGroupShowLess,
       isGroupFullyShown, loading, selection
     } = this.props;
+
+    const classes = classNames(this.props.className, {
+      [styles.dataList]: true,
+      [styles.disabledHover]: this.state.disabledHover
+    });
 
     return (
       <div className={styles.dataListWrapper}>
@@ -103,7 +149,7 @@ class DataList extends PureComponent {
           />
         }
 
-        <ul className={classNames(styles.dataList, className)}>
+        <ul className={classes}>
           {data.map(group => {
             const {id, title, items} = group;
 
@@ -131,6 +177,7 @@ class DataList extends PureComponent {
                 fullyShown={fullyShown}
                 onGroupShowLess={onGroupShowLess}
                 onGroupShowMore={onGroupShowMore}
+                onFocus={this.onGroupOrItemFocus}
                 focused={selection.isFocused(group)}
                 selection={selection}
                 selectable={group.selectable}
