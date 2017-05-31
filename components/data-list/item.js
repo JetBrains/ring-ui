@@ -17,18 +17,21 @@ type Props = {
   title: string,
   selectable: boolean,
   selected: boolean,
-  focused: boolean,
   subitems: SubitemType[],
   collapsed: boolean,
   onCollapse: (item?: ItemType) => void,
-  onExpand: (item?: ItemType) => void
+  onExpand: (item?: ItemType) => void,
+  onSelect: (selected: boolean) => void,
+
+  // focusSensorHOC
+  focused: boolean,
+  onFocusRestore: () => void
 };
 
 class Item extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
-    focused: false,
     subitems: [],
     collapsed: true,
     onCollapse: () => {},
@@ -37,12 +40,19 @@ class Item extends PureComponent {
 
   props: Props;
 
-  onCheckboxFocus = () => {
-    //this.props.onFocusRestore();
+  onCheckboxFocus = (): void => {
+    this.props.onFocusRestore();
   }
 
-  onCheckboxChange = () => {
-    //this.toggleSelection();
+  onCheckboxChange = (): void => {
+    this.toggleSelection();
+  }
+
+  toggleSelection() {
+    const {selectable, selected, onSelect} = this.props;
+    if (selectable) {
+      onSelect(!selected);
+    }
   }
 
   onCollapse = () => {

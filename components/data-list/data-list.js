@@ -103,6 +103,15 @@ class DataList extends PureComponent {
     onSelect(selection.focus(groupOrItem));
   }
 
+  onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean) => {
+    const {selection, onSelect} = this.props;
+    if (selected) {
+      onSelect(selection.select(groupOrItem));
+    } else {
+      onSelect(selection.deselect(groupOrItem));
+    }
+  }
+
   render(): Element<any> {
     const {
       data, className,
@@ -155,6 +164,7 @@ class DataList extends PureComponent {
                 onGroupShowMore={onGroupShowMore}
                 onFocus={this.onGroupOrItemFocus}
                 focused={selection.isFocused(group)}
+                onSelect={this.onGroupOrItemSelect}
                 selection={selection}
                 selectable={group.selectable}
                 selected={selection.isSelected(group)}
