@@ -220,7 +220,7 @@ class Table extends PureComponent {
       topStickOffset: stickyHeaderOffset
     };
 
-    headerProps.checked = data.length > 0 && data.length === selection.getSelected().size;
+    headerProps.checked = data.length > 0 && selection.selectAll().getSelected().size === selection.getSelected().size;
     headerProps.onCheckboxChange = this.onCheckboxChange;
 
     const wrapperClasses = classNames({

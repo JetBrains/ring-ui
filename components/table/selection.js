@@ -5,14 +5,14 @@ export default class Selection {
   _focused = null
   _key = 'id'
 
-  constructor({data, selected, focused, key} = {}) {
+  _isItemSelectable() {
+    return true;
+  }
+
+  constructor({data, selected, focused, key, isItemSelectable} = {}) {
     if (data) {
       this._rawData = data;
       this._data = this._buildData(data);
-    }
-
-    if (selected) {
-      this._selected = new Set(selected);
     }
 
     if (focused) {
@@ -22,6 +22,13 @@ export default class Selection {
     if (key) {
       this._key = key;
     }
+
+    if (isItemSelectable) {
+      this._isItemSelectable = isItemSelectable;
+    }
+
+    const _selected = selected ? new Set(selected) : this._selected;
+    this._selected = new Set([..._selected].filter(item => this._isItemSelectable(item)));
   }
 
   _buildData(data) {
@@ -40,7 +47,9 @@ export default class Selection {
     return new this.constructor({
       data: data || this._rawData,
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
-      focused: (data && !focused) ? cloneFocus() : newFocused
+      focused: (data && !focused) ? cloneFocus() : newFocused,
+      key: this._key,
+      isItemSelectable: this._isItemSelectable
     });
   }
 
