@@ -11,9 +11,13 @@ import styles from './data-list.css';
 type Props = {
   className?: string,
   title: string,
-  focused: boolean,
   selectable: boolean,
-  selected: boolean
+  selected: boolean,
+  onSelect: (selected: boolean) => void,
+
+  // focusSensorHOC
+  focused: boolean,
+  onFocusRestore: () => void
 };
 
 class GroupTitle extends PureComponent {
@@ -25,11 +29,18 @@ class GroupTitle extends PureComponent {
   props: Props;
 
   onCheckboxFocus = (): void => {
-    //this.props.onFocusRestore();
+    this.props.onFocusRestore();
   }
 
   onCheckboxChange = (): void => {
-    //this.toggleSelection();
+    this.toggleSelection();
+  }
+
+  toggleSelection() {
+    const {selectable, selected, onSelect} = this.props;
+    if (selectable) {
+      onSelect(!selected);
+    }
   }
 
   render(): Element<any> {
