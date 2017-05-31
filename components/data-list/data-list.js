@@ -98,12 +98,12 @@ class DataList extends PureComponent {
 
   props: Props;
 
-  onGroupOrItemFocus = (groupOrItem: GroupType|ItemType) => {
+  onGroupOrItemFocus = (groupOrItem: GroupType|ItemType): void => {
     const {selection, onSelect} = this.props;
     onSelect(selection.focus(groupOrItem));
   }
 
-  onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean) => {
+  onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean): void => {
     const {selection, onSelect} = this.props;
     if (selected) {
       onSelect(selection.select(groupOrItem));
