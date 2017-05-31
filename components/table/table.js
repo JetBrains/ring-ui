@@ -70,16 +70,11 @@ class Table extends PureComponent {
     loaderClassName: PropTypes.string,
     data: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
-    selection: PropTypes.instanceOf(Selection).isRequired,
     caption: PropTypes.string,
-    selectable: PropTypes.bool,
     isItemSelectable: PropTypes.func,
-    focused: PropTypes.bool,
     stickyHeader: PropTypes.bool,
     stickyHeaderOffset: PropTypes.string,
     loading: PropTypes.bool,
-    onFocusRestore: PropTypes.func,
-    onSelect: PropTypes.func,
     getItemKey: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
@@ -93,17 +88,24 @@ class Table extends PureComponent {
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     theme: PropTypes.string,
+
+    // focusSensorHOC
+    focused: PropTypes.bool,
+    onFocusRestore: PropTypes.func,
+
+    // selectionShortcutsHOC
+    selection: PropTypes.instanceOf(Selection).isRequired,
+    selectable: PropTypes.bool,
+    onSelect: PropTypes.func,
     shortcutsMap: PropTypes.object,
+
+    // disableHoverHOC
     disabledHover: PropTypes.bool
   }
 
   static defaultProps = {
-    selectable: true,
     isItemSelectable: () => true,
-    focused: false,
     loading: false,
-    onFocusRestore: () => {},
-    onSelect: () => {},
     onSort: () => {},
     onReorder: () => {},
     getItemKey: item => item.id,
@@ -117,9 +119,7 @@ class Table extends PureComponent {
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
-    theme: null,
-    shortcutsMap: {},
-    disabledHover: false
+    theme: null
   }
 
   state = {
