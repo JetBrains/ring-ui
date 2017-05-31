@@ -1,34 +1,13 @@
 export default class Selection {
-  _rawData = []
-  _data = new Set()
-  _selected = new Set()
-  _focused = null
-  _key = 'id'
+  constructor({data = [], selected = new Set(), focused = null, key = 'id', isItemSelectable = () => true} = {}) {
+    this._rawData = data;
+    this._data = this._buildData(data);
 
-  _isItemSelectable() {
-    return true;
-  }
+    this._focused = focused;
+    this._key = key;
+    this._isItemSelectable = isItemSelectable;
 
-  constructor({data, selected, focused, key, isItemSelectable} = {}) {
-    if (data) {
-      this._rawData = data;
-      this._data = this._buildData(data);
-    }
-
-    if (focused) {
-      this._focused = focused;
-    }
-
-    if (key) {
-      this._key = key;
-    }
-
-    if (isItemSelectable) {
-      this._isItemSelectable = isItemSelectable;
-    }
-
-    const _selected = selected ? new Set(selected) : this._selected;
-    this._selected = new Set([..._selected].filter(item => this._isItemSelectable(item)));
+    this._selected = new Set([...selected].filter(item => this._isItemSelectable(item)));
   }
 
   _buildData(data) {
