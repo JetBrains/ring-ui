@@ -25,6 +25,7 @@ type Props = {
   onGroupShowLess: (group?: GroupType) => void,
   focused: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
+  onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
   selection: Selection,
   selectable: boolean,
   selected: boolean
@@ -64,6 +65,16 @@ export default class Group extends PureComponent {
   onItemFocus = (item: ItemType) => {
     const {onFocus} = this.props;
     onFocus(item);
+  }
+
+  onSelect = (selected: boolean) => {
+    const {onSelect, group} = this.props;
+    onSelect(group, selected);
+  }
+
+  onItemSelect = (item: ItemType, selected: boolean) => {
+    const {onSelect} = this.props;
+    onSelect(item, selected);
   }
 
   render(): Element<any> {
@@ -108,14 +119,19 @@ export default class Group extends PureComponent {
           selectable={selectable}
           selected={selected}
           onFocus={this.onFocus}
+          onSelect={this.onSelect}
         />
 
         {items.length ? (
           <ul className={styles.group}>
             {items.map(item => {
-              function onFocus() {
+              const onFocus = () => {
                 this.onItemFocus(item);
-              }
+              };
+
+              const onSelect = (selected) => {
+                this.onItemSelect(item, selected);
+              };
 
               return (
                 <Item
@@ -130,6 +146,7 @@ export default class Group extends PureComponent {
                   collapsed={isItemCollapsed(item)}
                   focused={selection.isFocused(item)}
                   onFocus={onFocus}
+                  onSelect={onSelect}
                 />
               );
             })}
