@@ -36,7 +36,7 @@ class GroupTitle extends PureComponent {
     this.toggleSelection();
   }
 
-  toggleSelection() {
+  toggleSelection(): void {
     const {selectable, selected, onSelect} = this.props;
     if (selectable) {
       onSelect(!selected);
