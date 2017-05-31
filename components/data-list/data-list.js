@@ -26,56 +26,52 @@ import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
 
 type Props = {
-  data: GroupType[],
   className?: string,
-  onItemCollapse: (item?: ItemType) => void,
-  onItemExpand: (item?: ItemType) => void,
-  isItemCollapsed: (item?: ItemType) => boolean,
+  data: GroupType[],
+  loading: boolean,
   groupItemsLimit: number,
   onGroupShowMore: (item?: GroupType) => void,
   onGroupShowLess: (item?: GroupType) => void,
   isGroupFullyShown: (item?: GroupType) => boolean,
-  loading: boolean,
-  focused: boolean,
-  shortcutsMap: {},
-  selectable: boolean,
+  onItemCollapse: (item?: ItemType) => void,
+  onItemExpand: (item?: ItemType) => void,
+  isItemCollapsed: (item?: ItemType) => boolean,
+
+  // selectionShortcutsHOC
   selection: Selection,
+  selectable: boolean,
   onSelect: (selection?: Selection) => void,
+  shortcutsMap: {},
+
+  // focusSensorHOC
+  focused: boolean,
+
+  // disableHoverHOC
   disabledHover: boolean
 };
 
 class DataList extends PureComponent {
   static propTypes = {
     data: PropTypes.array.isRequired,
-    onItemCollapse: PropTypes.func,
-    onItemExpand: PropTypes.func,
-    isItemCollapsed: PropTypes.func,
+    loading: PropTypes.bool,
     groupItemsLimit: PropTypes.number,
     onGroupShowMore: PropTypes.func,
     onGroupShowLess: PropTypes.func,
     isGroupFullyShown: PropTypes.func,
-    loading: PropTypes.bool,
-    shortcutsMap: PropTypes.object,
-    selectable: PropTypes.bool,
-    selection: PropTypes.object,
-    onSelect: PropTypes.func,
-    disabledHover: PropTypes.bool
+    onItemCollapse: PropTypes.func,
+    onItemExpand: PropTypes.func,
+    isItemCollapsed: PropTypes.func
   };
 
   static defaultProps = {
-    onItemCollapse: () => {},
-    onItemExpand: () => {},
-    isItemCollapsed: () => true,
+    loading: false,
     groupItemsLimit: Infinity,
     onGroupShowMore: () => {},
     onGroupShowLess: () => {},
     isGroupFullyShown: () => false,
-    loading: false,
-    focused: false,
-    shortcutsMap: {},
-    selectable: true,
-    onSelect: () => {},
-    disabledHover: false
+    onItemCollapse: () => {},
+    onItemExpand: () => {},
+    isItemCollapsed: () => true
   };
 
   state = {
