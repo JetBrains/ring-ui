@@ -96,7 +96,8 @@ class Item extends PureComponent {
 
     const classes = classNames(this.props.className, {
       [styles.item]: true,
-      [styles.itemFocused]: focused
+      [styles.itemFocused]: focused,
+      [styles.itemSelected]: selected
     });
 
     return (

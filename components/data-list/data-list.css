@@ -32,24 +32,24 @@
   box-sizing: border-box;
 }
 
-.groupTitleFocused {
-  border: 1px none #25B7FF;
-  border-top-style: solid;
-  border-bottom-style: solid;
-}
-
 .item {
   padding: 5px 50px;
   outline: none;
 }
 
+.itemTitle {
+}
+
+.groupTitleFocused,
 .itemFocused {
   border: 1px none #25B7FF;
   border-top-style: solid;
   border-bottom-style: solid;
 }
 
-.itemTitle {
+.groupTitleSelected,
+.itemSelected {
+  background-color: #E9F8FF;
 }
 
 .dataList:not(.disabledHover) .groupTitle:hover,

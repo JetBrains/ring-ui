@@ -51,7 +51,8 @@ class GroupTitle extends PureComponent {
 
     const classes = classNames(className, {
       [styles.groupTitle]: true,
-      [styles.groupTitleFocused]: focused
+      [styles.groupTitleFocused]: focused,
+      [styles.groupTitleSelected]: selected
     });
 
     return (
