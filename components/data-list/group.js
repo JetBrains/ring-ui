@@ -129,8 +129,8 @@ export default class Group extends PureComponent {
                 this.onItemFocus(item);
               };
 
-              const onSelect = selected => {
-                this.onItemSelect(item, selected);
+              const onSelect = _selected => {
+                this.onItemSelect(item, _selected);
               };
 
               return (
