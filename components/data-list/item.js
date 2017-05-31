@@ -48,19 +48,19 @@ class Item extends PureComponent {
     this.toggleSelection();
   }
 
-  toggleSelection() {
+  toggleSelection(): void {
     const {selectable, selected, onSelect} = this.props;
     if (selectable) {
       onSelect(!selected);
     }
   }
 
-  onCollapse = () => {
+  onCollapse = (): void => {
     const {item, onCollapse} = this.props;
     onCollapse(item);
   }
 
-  onExpand = () => {
+  onExpand = (): void => {
     const {item, onExpand} = this.props;
     onExpand(item);
   }

@@ -47,32 +47,32 @@ export default class Group extends PureComponent {
 
   props: Props;
 
-  onShowMore = () => {
+  onShowMore = (): void => {
     const {onGroupShowMore, group} = this.props;
     onGroupShowMore(group);
   }
 
-  onShowLess = () => {
+  onShowLess = (): void => {
     const {onGroupShowLess, group} = this.props;
     onGroupShowLess(group);
   }
 
-  onFocus = () => {
+  onFocus = (): void => {
     const {onFocus, group} = this.props;
     onFocus(group);
   }
 
-  onItemFocus = (item: ItemType) => {
+  onItemFocus = (item: ItemType): void => {
     const {onFocus} = this.props;
     onFocus(item);
   }
 
-  onSelect = (selected: boolean) => {
+  onSelect = (selected: boolean): void => {
     const {onSelect, group} = this.props;
     onSelect(group, selected);
   }
 
-  onItemSelect = (item: ItemType, selected: boolean) => {
+  onItemSelect = (item: ItemType, selected: boolean): void => {
     const {onSelect} = this.props;
     onSelect(item, selected);
   }
@@ -129,7 +129,7 @@ export default class Group extends PureComponent {
                 this.onItemFocus(item);
               };
 
-              const onSelect = (selected) => {
+              const onSelect = selected => {
                 this.onItemSelect(item, selected);
               };
 
