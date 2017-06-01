@@ -4,11 +4,13 @@ import {findDOMNode} from 'react-dom';
 import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
 
 import DataList from './data-list';
+import Selection from './selection';
 
 describe('Data List', () => {
-  const renderComponent = props => {
-    const data = [];
-    return renderIntoDocument(<DataList {...{...{data}, ...props}}/>);
+  const renderComponent = (props = {}) => {
+    const data = props.data || [];
+    const selection = new Selection({data, isItemSelectable: item => item.selectable});
+    return renderIntoDocument(<DataList {...{...{data, selection}, ...props}}/>);
   };
 
   it('should create component', () => {
