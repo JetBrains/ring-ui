@@ -122,7 +122,8 @@ class DataList extends PureComponent {
 
     const classes = classNames(className, {
       [styles.dataList]: true,
-      [styles.disabledHover]: disabledHover
+      [styles.disabledHover]: disabledHover,
+      [styles.multiSelection]: selection.getSelected().size > 0
     });
 
     return (

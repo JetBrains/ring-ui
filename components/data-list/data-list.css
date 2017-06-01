@@ -1,4 +1,5 @@
-@value unit from  "../global/global.css";
+@value global: '../global/global.css';
+@value unit, light-blue-color from global;
 
 .dataListWrapper {
   position: relative;
@@ -8,25 +9,19 @@
   list-style: none;
   background-color: #F0F0F0;
   padding: 0;
-
-  border: solid 0 #E8E8E8;
-  border-top-width: 1px;
 }
 
 .group {
   list-style: none;
   padding: 10px 0;
   background-color: #EBEBEB;
-
-  border: solid 0 #E8E8E8;
-  border-bottom-width: 1px;
 }
 
 .groupTitle {
   padding: 10px 30px;
 
   border: solid 0 #E8E8E8;
-  border-bottom-width: 1px;
+  border-width: 1px 0;
 
   outline: none;
   box-sizing: border-box;
@@ -35,9 +30,16 @@
 .item {
   padding: 5px 50px;
   outline: none;
+  border: 0 solid #EBEBEB;
+  border-width: 1px 0;
 }
 
 .itemTitle {
+}
+
+.dataList:not(.disabledHover) .groupTitle:hover,
+.dataList:not(.disabledHover) .item:hover {
+  background-color: #FFF!important;
 }
 
 .groupTitleFocused,
@@ -47,14 +49,11 @@
   border-bottom-style: solid;
 }
 
+.dataList:not(.multiSelection) .groupTitleFocused,
+.dataList:not(.multiSelection) .itemFocused,
 .groupTitleSelected,
 .itemSelected {
-  background-color: #E9F8FF;
-}
-
-.dataList:not(.disabledHover) .groupTitle:hover,
-.dataList:not(.disabledHover) .item:hover {
-  background-color: #FFF!important;
+  background-color: light-blue-color;
 }
 
 .metaColumn {
