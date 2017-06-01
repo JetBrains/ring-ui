@@ -7,6 +7,11 @@ import Selection from './selection';
 import mock from './data-list.mock';
 
 class DataListDemo extends PureComponent {
+  state = {
+    data: mock,
+    selection: new Selection({data: mock, isItemSelectable: this.isItemSelectable})
+  };
+
   expandedItems = new Set();
 
   onItemExpand = item => {
@@ -25,11 +30,6 @@ class DataListDemo extends PureComponent {
 
   onSelect = selection => {
     this.setState({selection});
-  };
-
-  state = {
-    data: mock,
-    selection: new Selection({data: mock, isItemSelectable: this.isItemSelectable})
   };
 
   render() {
