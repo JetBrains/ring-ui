@@ -457,8 +457,9 @@ export default class List extends RingComponentWithShortcuts {
       }
 
       if (stopIndex === null) {
-        stopIndex = this.cachedSizes.length;
-        paddingBottom = 0;
+        stopIndex = this.cachedSizes.length - 1;
+        const fullHeight = this.cachedSizes[stopIndex].end;
+        paddingBottom = fullHeight - this.cachedSizes[stopIndex].begin;
       }
 
       // And splice these elements to state data
