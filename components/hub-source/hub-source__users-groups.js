@@ -35,8 +35,8 @@ export default class HubSourceUsersGroups {
     const normalizedQuery = query.toLowerCase();
 
     return it => (
-      it.name.toLowerCase().includes(normalizedQuery) ||
-      it.login.toLowerCase().includes(normalizedQuery)
+      it.name.toLowerCase().indexOf(normalizedQuery) !== -1 ||
+      it.login.toLowerCase().indexOf(normalizedQuery) !== -1
     );
   }
 
