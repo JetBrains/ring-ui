@@ -90,38 +90,30 @@ export default class Selection {
   }
 
   select(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-      selected.add(value);
-      return this.cloneWith({selected});
-    } else {
+    if (!value) {
       return this;
     }
+
+    const selected = new Set(this._selected);
+    selected.add(value);
+    return this.cloneWith({selected});
   }
 
   deselect(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-      selected.delete(value);
-      return this.cloneWith({selected});
-    } else {
+    if (!value) {
       return this;
     }
+
+    const selected = new Set(this._selected);
+    selected.delete(value);
+    return this.cloneWith({selected});
   }
 
   toggleSelection(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-
-      if (selected.has(value)) {
-        selected.delete(value);
-      } else {
-        selected.add(value);
-      }
-
-      return this.cloneWith({selected});
+    if (this.isSelected(value)) {
+      return this.deselect(value);
     } else {
-      return this;
+      return this.select(value);
     }
   }
 
