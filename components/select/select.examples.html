@@ -6,8 +6,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
   <file type="js">
@@ -49,8 +49,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
   <file type="js">
@@ -83,8 +83,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
   <file type="js">
@@ -141,8 +141,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -167,8 +167,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -196,8 +196,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -223,8 +223,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -289,8 +289,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -328,8 +328,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -376,8 +376,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -417,8 +417,43 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
+  </file>
+</example>
+
+<example name="Select with render optimization">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="css">
+    body {
+    padding: 8px;
+    width: 50%;
+    }
+  </file>
+  <file type="js">
+    import {render} from 'react-dom';
+    import Select from 'ring-ui/components/select/select';
+    import List from 'ring-ui/components/list/list';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    var props = {
+      filter: true
+    };
+
+    var data = {
+      data: (new Array(1000)).join(',').split(',').map(function (_, index) {
+        return {
+          label: 'Label ' + index,
+          key: index,
+          rgItemType: index % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
+        }
+      })
+    };
+
+    var select = render(Select.factory(props), document.getElementById('demo'))
+    select.rerender(data);
   </file>
 </example>
