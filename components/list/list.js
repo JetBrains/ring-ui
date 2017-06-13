@@ -47,6 +47,7 @@ const Dimension = {
 };
 
 const DEFAULT_ITEM_TYPE = Type.ITEM;
+
 function noop() {}
 
 /**
@@ -73,7 +74,7 @@ function isItemType(listItemType, item) {
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./list.examples.html
-*/
+ */
 export default class List extends RingComponentWithShortcuts {
   static isItemType = isItemType;
 
@@ -124,6 +125,7 @@ export default class List extends RingComponentWithShortcuts {
   };
 
   _activatableItems = false;
+  _bufferSize = 10; // keep X items above and below of the visible area
 
   hasActivatableItems() {
     return this._activatableItems;
@@ -141,9 +143,9 @@ export default class List extends RingComponentWithShortcuts {
 
   isActivatable(item) {
     return !(item.rgItemType === Type.HINT ||
-    item.rgItemType === Type.SEPARATOR ||
-    item.rgItemType === Type.TITLE ||
-    item.disabled);
+      item.rgItemType === Type.SEPARATOR ||
+      item.rgItemType === Type.TITLE ||
+      item.disabled);
   }
 
   hoverHandler = memoize(index => () =>
@@ -366,114 +368,156 @@ export default class List extends RingComponentWithShortcuts {
 
   cachedSizes = [];
 
-  recalculateVisibleOptions(fast, ignoreFocus) {
-    const buffer = 10; // keep X items above and below of the visible area
-    const innerContainer = this.inner;
-
+  recalculateVisibleOptions(fast, preventScrollToActiveItem) {
     if (this.props.renderOptimization && this.props.maxHeight) {
-      const height = this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      this.recalculateVisibleOptionsWithOptimization(fast, preventScrollToActiveItem, this.props);
+      return;
+    }
 
-      // Firstly we need to calculate the size and position of every item
-      if (!fast) {
-        this.cachedSizes = [];
-        for (let i = 0; i < this.props.data.length; i++) {
-          let size;
-          switch (this.props.data[i].rgItemType) {
-            case Type.SEPARATOR:
-              size = i === 0 ? Dimension.SEPARATOR_FIRST_HEIGHT : Dimension.SEPARATOR_HEIGHT;
-              if (!this.props.data[i].desctiption) {
-                size -= Dimension.SEPARATOR_TEXT_HEIGHT;
-              }
-              break;
-            case Type.TITLE:
-              size = Dimension.TITLE_HEIGHT;
-              break;
-            case Type.ITEM:
-            case Type.LINK:
-            default:
-              size = Dimension.ITEM_HEIGHT;
-              break;
-          }
+    this.setState({
+      data: this.props.data
+    });
+  }
 
-          const begin = this.cachedSizes.length === 0
-              ? Dimension.MARGIN
-              : this.cachedSizes[this.cachedSizes.length - 1].end;
+  recalculateVisibleOptionsWithOptimization(fast, preventScrollToActiveItem, props) {
+    const shouldRecalculateItemsSize = !fast;
+    if (shouldRecalculateItemsSize) {
+      this.cachedSizes = this.calculateItemsSize(props.data);
+    }
 
-          const dimensions = {
-            begin,
-            size,
-            end: begin + size
-          };
+    if (this.inner && !preventScrollToActiveItem && this.state.activeIndex !== null) {
+      this.scrollToActiveItem(props);
+    }
 
-          this.cachedSizes.push(dimensions);
+    const {
+      paddingTop, paddingBottom,
+      startIndex, stopIndex
+    } = this.calculateVisibleOptions(props, this.cachedSizes);
+
+    // And splice these elements to state data
+    const optimizedData = props.data.slice(startIndex, stopIndex + 1);
+
+    this.setState({
+      renderOptimizationSkip: startIndex,
+      renderOptimizationPaddingTop: paddingTop,
+      renderOptimizationPaddingBottom: paddingBottom,
+      data: optimizedData
+    });
+  }
+
+  calculateVisibleOptions(props, cachedSizes) {
+    const bufferSize = this._bufferSize;
+    const visibleListHeight = this.getVisibleListHeight(props);
+    const listHeight = this.getListHeight(cachedSizes);
+
+    let firstRenderedItemIndex = null;
+    let lastRenderedItemIndex = null;
+    let heightUnrenderedAboveItems = 0;
+    let heightUnrenderedBelowItems = 0;
+
+    const scrollTop = this.inner ? this.inner.scrollTop : 0;
+
+    for (let itemIndex = 0; itemIndex < cachedSizes.length; itemIndex++) {
+      const cachedSizeItem = cachedSizes[itemIndex];
+
+      if (firstRenderedItemIndex === null && cachedSizeItem.begin >= scrollTop) {
+        firstRenderedItemIndex = itemIndex - bufferSize;
+        if (firstRenderedItemIndex < 0) {
+          firstRenderedItemIndex = 0;
         }
+        heightUnrenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
       }
 
-      let startIndex = null;
-      let stopIndex = null;
-
-      let paddingTop = 0;
-      let paddingBottom = 0;
-
-      // Then we move scrollTop to the active item if necessary
-      if (innerContainer && !ignoreFocus && this.state.activeIndex !== null) {
-        const top = innerContainer.scrollTop;
-        const bottom = top + height;
-        const itemDimensions = this.cachedSizes[this.state.activeIndex];
-        const HALF = 0.5;
-        if (itemDimensions.end < top || itemDimensions.begin > bottom) {
-          innerContainer.scrollTop =
-            itemDimensions.begin - Math.floor((height - itemDimensions.size) * HALF);
-        } else if (itemDimensions.begin < top) {
-          innerContainer.scrollTop = itemDimensions.begin;
-        } else if (itemDimensions.end > bottom) {
-          innerContainer.scrollTop = itemDimensions.end - height;
+      if (lastRenderedItemIndex === null && cachedSizeItem.end > (scrollTop + visibleListHeight)) {
+        lastRenderedItemIndex = itemIndex + bufferSize;
+        if (lastRenderedItemIndex >= cachedSizes.length) {
+          lastRenderedItemIndex = cachedSizes.length - 1;
         }
+        heightUnrenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
       }
 
-      const scrollTop = innerContainer ? innerContainer.scrollTop : 0;
+      if (firstRenderedItemIndex !== null && lastRenderedItemIndex !== null) {
+        break;
+      }
+    }
 
-      // Then we calculate visible options
-      for (let i = 0; i < this.cachedSizes.length; i++) {
-        const cachedSizeItem = this.cachedSizes[i];
-        if (startIndex === null && cachedSizeItem.begin >= scrollTop) {
-          startIndex = i - buffer;
-          if (startIndex < 0) {
-            startIndex = 0;
-          }
-          paddingTop = this.cachedSizes[startIndex].begin - Dimension.MARGIN;
-        } else if (stopIndex === null && cachedSizeItem.end > (scrollTop + height)) {
-          const fullHeight = this.cachedSizes[this.cachedSizes.length - 1].end;
-          stopIndex = i + buffer;
-          if (stopIndex >= this.cachedSizes.length) {
-            stopIndex = this.cachedSizes.length - 1;
-          }
-          paddingBottom = fullHeight - this.cachedSizes[stopIndex].begin;
-        }
+    if (lastRenderedItemIndex === null) {
+      lastRenderedItemIndex = cachedSizes.length;
+      heightUnrenderedBelowItems = 0;
+    }
 
-        if (startIndex !== null && stopIndex !== null) {
+    return {
+      startIndex: firstRenderedItemIndex,
+      stopIndex: lastRenderedItemIndex,
+      paddingTop: heightUnrenderedAboveItems,
+      paddingBottom: heightUnrenderedBelowItems
+    };
+  }
+
+  getListHeight(cachedSizes) {
+    if (!cachedSizes || !cachedSizes.length) {
+      return 0;
+    }
+
+    return cachedSizes[cachedSizes.length - 1].end;
+  }
+
+  calculateItemsSize(data) {
+    const cachedSizes = [];
+    for (let i = 0; i < data.length; i++) {
+      let size;
+      switch (data[i].rgItemType) {
+        case Type.SEPARATOR:
+          size = i === 0 ? Dimension.SEPARATOR_FIRST_HEIGHT : Dimension.SEPARATOR_HEIGHT;
+          if (!data[i].desctiption) {
+            size -= Dimension.SEPARATOR_TEXT_HEIGHT;
+          }
           break;
-        }
+        case Type.TITLE:
+          size = Dimension.TITLE_HEIGHT;
+          break;
+        case Type.ITEM:
+        case Type.LINK:
+        default:
+          size = Dimension.ITEM_HEIGHT;
+          break;
       }
 
-      if (stopIndex === null) {
-        stopIndex = this.cachedSizes.length;
-        paddingBottom = 0;
-      }
+      const begin = cachedSizes.length === 0
+        ? Dimension.MARGIN
+        : cachedSizes[cachedSizes.length - 1].end;
 
-      // And splice these elements to state data
-      const optimizedData = this.props.data.slice(startIndex, stopIndex + 1);
+      const dimensions = {
+        begin,
+        size,
+        end: begin + size
+      };
 
-      this.setState({
-        renderOptimizationSkip: startIndex,
-        renderOptimizationPaddingTop: paddingTop,
-        renderOptimizationPaddingBottom: paddingBottom,
-        data: optimizedData
-      });
-    } else {
-      this.setState({
-        data: this.props.data
-      });
+      cachedSizes.push(dimensions);
+    }
+    return cachedSizes;
+  }
+
+  scrollToActiveItem(props) {
+    const innerContainer = this.inner;
+    const top = innerContainer.scrollTop;
+    const visibleListHeight = this.getVisibleListHeight(props);
+    const bottom = top + visibleListHeight;
+
+    const itemDimensions = this.cachedSizes[this.state.activeIndex];
+    const HALF = 0.5;
+
+    if (
+      itemDimensions.end < top ||
+      itemDimensions.begin > bottom
+    ) {
+      const scrollTop = itemDimensions.begin -
+        Math.floor((visibleListHeight - itemDimensions.size) * HALF);
+      innerContainer.scrollTop = scrollTop > 0 ? scrollTop : 0;
+    } else if (itemDimensions.begin < top) {
+      innerContainer.scrollTop = itemDimensions.begin;
+    } else if (itemDimensions.end > bottom) {
+      innerContainer.scrollTop = itemDimensions.end - visibleListHeight;
     }
   }
 
@@ -494,6 +538,10 @@ export default class List extends RingComponentWithShortcuts {
       },
       scope: getUID('list-')
     };
+  }
+
+  getVisibleListHeight(props) {
+    return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
   }
 
   innerRef = el => {
@@ -519,8 +567,7 @@ export default class List extends RingComponentWithShortcuts {
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
 
     if (this.props.maxHeight) {
-      innerStyles.maxHeight =
-        this.props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+      innerStyles.maxHeight = this.getVisibleListHeight(this.props);
       topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
       bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
     }
@@ -556,7 +603,7 @@ export default class List extends RingComponentWithShortcuts {
                 props.rgItemType = Type.LINK;
               }
 
-            // Probably unique enough key
+              // Probably unique enough key
               props.key = props.key || props.rgItemType + (props.label || props.description);
 
               props.hover = (realIndex === this.state.activeIndex);
@@ -598,15 +645,15 @@ export default class List extends RingComponentWithShortcuts {
           <div style={bottomPaddingStyles}/>
         </div>
         {this.hasOverflow() &&
-          <div
-            className="ring-list__fade"
-            style={fadeStyles}
-          />}
+        <div
+          className="ring-list__fade"
+          style={fadeStyles}
+        />}
         {hint &&
-          <ListHint
-            key={this.props.hint + Type.ITEM}
-            label={hint}
-          />}
+        <ListHint
+          key={this.props.hint + Type.ITEM}
+          label={hint}
+        />}
       </div>
     );
   }
