@@ -28,11 +28,23 @@ export default class HubSourceUsersGroups {
     return query;
   }
 
+  createUsersFilterFn(query) {
+    if (!query) {
+      return () => true;
+    }
+    const normalizedQuery = query.toLowerCase();
+
+    return it => (
+      it.name.toLowerCase().indexOf(normalizedQuery) !== -1 ||
+      it.login.toLowerCase().indexOf(normalizedQuery) !== -1
+    );
+  }
+
   getUsers(query = '') {
     return this.usersSource.get(query, {
       fields: 'id,name,login,total,profile/avatar/url',
       orderBy: 'name'
-    });
+    }, this.createUsersFilterFn(query));
   }
 
   getGroups(query = '') {

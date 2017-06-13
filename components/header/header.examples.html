@@ -57,9 +57,9 @@
         <Tray>
           <Input placeholder="search" />
           <Dropdown
-            activeClassName="rotated"
             anchor={({active}) => (
               <TrayIcon
+                rotated={active}
                 active={active}
                 glyph={cog}
               />

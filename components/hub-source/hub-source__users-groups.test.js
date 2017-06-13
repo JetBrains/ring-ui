@@ -50,6 +50,22 @@ describe('Hub Users Groups Source', () => {
     formatted.should.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
   });
 
+  it('Should filter user by login on clientside', async function () {
+    const source = new HubSourceUsersGroups(this.fakeAuth);
+    const user1 = {name: 'some-name1', login: 'login1'};
+    this.sinon.stub(source.usersSource, 'makeRequest').returns(Promise.resolve({
+      total: 2,
+      users: [
+        user1,
+        {name: 'some-name2', login: 'login2'}
+      ]
+    }));
+
+    const res = await source.getUsers('login1');
+    res.length.should.equal(1);
+    res[0].should.equal(user1);
+  });
+
   it('Should make request for groups', async function () {
     const source = new HubSourceUsersGroups(this.fakeAuth);
     this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
