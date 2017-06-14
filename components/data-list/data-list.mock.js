@@ -8,12 +8,14 @@ import Badge from '../badge/badge';
 
 export default [
   {
+    type: 'group',
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
     size: 62,
     selectable: true,
     items: [
       {
+        type: 'item',
         id: 1,
         collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
@@ -48,12 +50,14 @@ export default [
   },
 
   {
+    type: 'group',
     id: 2,
     title: <span><strong>Code Reviewer</strong> in 5 projects</span>,
     size: 5,
     selectable: true,
     items: [
       {
+        type: 'item',
         id: 1,
         selectable: true,
         title: (
@@ -66,6 +70,7 @@ export default [
       },
 
       {
+        type: 'item',
         id: 2,
         collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
@@ -98,6 +103,7 @@ export default [
       },
 
       {
+        type: 'item',
         id: 3,
         title: (
           <span>
@@ -110,12 +116,14 @@ export default [
   },
 
   {
+    type: 'group',
     id: 3,
     title: <span><strong>Code Viewer</strong> in 5 projects</span>,
     size: 5,
     selectable: true,
     items: [
       {
+        type: 'item',
         id: 1,
         title: (
           <span>
@@ -126,6 +134,7 @@ export default [
       },
 
       {
+        type: 'item',
         id: 2,
         title: (
           <span>
@@ -138,11 +147,13 @@ export default [
   },
 
   {
+    type: 'group',
     id: 4,
     title: <span><strong>Commenter</strong> in 12 projects</span>,
     size: 12,
     items: [
       {
+        type: 'item',
         id: 1,
         title: (
           <span>
@@ -153,6 +164,7 @@ export default [
       },
 
       {
+        type: 'item',
         id: 2,
         title: (
           <span>
@@ -165,6 +177,7 @@ export default [
   },
 
   {
+    type: 'group',
     id: 5,
     title: (
       <span>
@@ -176,6 +189,7 @@ export default [
     size: 12,
     items: [
       {
+        type: 'item',
         id: 1,
         selectable: true,
         title: <Link href="#">Wasabi</Link>
@@ -184,6 +198,7 @@ export default [
   },
 
   {
+    type: 'group',
     id: 6,
     title: (
       <span>
@@ -198,6 +213,7 @@ export default [
   },
 
   {
+    type: 'group',
     id: 7,
     title: <span><strong>Git Hosting Checkout</strong> in 7 projects</span>,
     size: 12,
