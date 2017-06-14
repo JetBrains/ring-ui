@@ -14,16 +14,17 @@ type Props = {
   selectable: boolean,
   selected: boolean,
   onSelect: (selected: boolean) => void,
+  showFocus: boolean,
 
   // focusSensorHOC
-  focused: boolean,
   onFocusRestore: () => void
 };
 
 class GroupTitle extends PureComponent {
   static defaultProps = {
     selectable: false,
-    selected: false
+    selected: false,
+    showFocus: false
   };
 
   props: Props;
@@ -45,13 +46,13 @@ class GroupTitle extends PureComponent {
 
   render(): Element<any> {
     const {
-      className, title, focused,
+      className, title, showFocus,
       selectable, selected
     } = this.props;
 
     const classes = classNames(className, {
       [styles.groupTitle]: true,
-      [styles.groupTitleFocused]: focused,
+      [styles.groupTitleFocused]: showFocus,
       [styles.groupTitleSelected]: selected
     });
 
@@ -59,7 +60,7 @@ class GroupTitle extends PureComponent {
       <div className={classes}>
         {selectable &&
           <Checkbox
-            className={focused ? 'ring-checkbox_focus' : ''}
+            className={showFocus ? 'ring-checkbox_focus' : ''}
             checked={selected}
             onFocus={this.onCheckboxFocus}
             onChange={this.onCheckboxChange}

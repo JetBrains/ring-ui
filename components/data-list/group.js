@@ -23,7 +23,7 @@ type Props = {
   fullyShown: boolean,
   onGroupShowMore: (group?: GroupType) => void,
   onGroupShowLess: (group?: GroupType) => void,
-  focused: boolean,
+  showFocus: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
   onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
   selection: Selection,
@@ -40,9 +40,9 @@ export default class Group extends PureComponent {
     fullyShown: true,
     onGroupShowMore: () => {},
     onGroupShowLess: () => {},
-    focused: false,
     selectable: false,
-    selected: false
+    selected: false,
+    showFocus: false
   };
 
   props: Props;
@@ -81,7 +81,7 @@ export default class Group extends PureComponent {
     const {
       title, items, onItemCollapse, onItemExpand,
       isItemCollapsed, showMoreLessButton, fullyShown,
-      focused, selection, selectable, selected
+      showFocus, selection, selectable, selected
     } = this.props;
 
     let moreLessButton;
@@ -115,7 +115,8 @@ export default class Group extends PureComponent {
       <li>
         <GroupTitle
           title={title}
-          focused={focused}
+          focused={showFocus}
+          showFocus={showFocus}
           selectable={selectable}
           selected={selected}
           onFocus={this.onFocus}
@@ -145,6 +146,7 @@ export default class Group extends PureComponent {
                   onCollapse={onItemCollapse}
                   collapsed={isItemCollapsed(item)}
                   focused={selection.isFocused(item)}
+                  showFocus={selection.isFocused(item)}
                   onFocus={onFocus}
                   onSelect={onSelect}
                 />
