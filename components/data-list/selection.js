@@ -1,6 +1,7 @@
 /* @flow */
-import type {ItemType, GroupType} from './types';
 import TableSelection from '../table/selection';
+
+import type {ItemType, GroupType} from './types';
 
 export default class Selection extends TableSelection {
   _buildData(data: GroupType[]): Set<GroupType|ItemType> {
@@ -30,7 +31,10 @@ export default class Selection extends TableSelection {
       });
     } else {
       const group = this._rawData.find(it => it.items.includes(value));
-      const groupIsSelected = group.items.every(it => selected.has(it));
+      const groupIsSelected = group.items.
+        filter(it => this._isItemSelectable(it)).
+        every(it => selected.has(it));
+
       if (groupIsSelected) {
         selected.add(group);
       }
