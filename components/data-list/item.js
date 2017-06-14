@@ -22,9 +22,9 @@ type Props = {
   onCollapse: (item?: ItemType) => void,
   onExpand: (item?: ItemType) => void,
   onSelect: (selected: boolean) => void,
+  showFocus: boolean,
 
   // focusSensorHOC
-  focused: boolean,
   onFocusRestore: () => void
 };
 
@@ -35,7 +35,8 @@ class Item extends PureComponent {
     subitems: [],
     collapsed: true,
     onCollapse: () => {},
-    onExpand: () => {}
+    onExpand: () => {},
+    showFocus: false
   };
 
   props: Props;
@@ -68,7 +69,7 @@ class Item extends PureComponent {
   render(): Element<any> {
     const {
       title, selectable, selected, subitems,
-      collapsed, focused
+      collapsed, showFocus
     } = this.props;
 
     let collapserExpander = null;
@@ -96,7 +97,7 @@ class Item extends PureComponent {
 
     const classes = classNames(this.props.className, {
       [styles.item]: true,
-      [styles.itemFocused]: focused,
+      [styles.itemFocused]: showFocus,
       [styles.itemSelected]: selected
     });
 
@@ -106,7 +107,7 @@ class Item extends PureComponent {
           <div className={styles.metaColumn}>
             {selectable &&
               <Checkbox
-                className={focused ? 'ring-checkbox_focus' : ''}
+                className={showFocus ? 'ring-checkbox_focus' : ''}
                 checked={selected}
                 onFocus={this.onCheckboxFocus}
                 onChange={this.onCheckboxChange}
