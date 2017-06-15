@@ -30,9 +30,6 @@ type Props = {
   data: GroupType[],
   loading: boolean,
   groupItemsLimit: number,
-  onGroupShowMore: (item?: GroupType) => void,
-  onGroupShowLess: (item?: GroupType) => void,
-  isGroupFullyShown: (item?: GroupType) => boolean,
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
@@ -55,9 +52,6 @@ class DataList extends PureComponent {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
     groupItemsLimit: PropTypes.number,
-    onGroupShowMore: PropTypes.func,
-    onGroupShowLess: PropTypes.func,
-    isGroupFullyShown: PropTypes.func,
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     isItemCollapsed: PropTypes.func
@@ -66,15 +60,13 @@ class DataList extends PureComponent {
   static defaultProps = {
     loading: false,
     groupItemsLimit: Infinity,
-    onGroupShowMore: () => {},
-    onGroupShowLess: () => {},
-    isGroupFullyShown: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true
   };
 
   state = {
+    fullyShownGroups: new Set(),
     shortcutsEnabled: this.props.focused,
     shortcutsScope: getUID('ring-data-list-')
   }
@@ -112,12 +104,23 @@ class DataList extends PureComponent {
     }
   }
 
+  onGroupShowLess = (group?: GroupType): void => {
+    const fullyShownGroups = new Set(this.state.fullyShownGroups);
+    fullyShownGroups.delete(group);
+    this.setState({fullyShownGroups});
+  }
+
+  onGroupShowMore = (group?: GroupType): void => {
+    const fullyShownGroups = new Set(this.state.fullyShownGroups);
+    fullyShownGroups.add(group);
+    this.setState({fullyShownGroups});
+  }
+
   render(): Element<any> {
     const {
-      data, className,
+      data, className, loading,
       onItemCollapse, onItemExpand, isItemCollapsed,
-      groupItemsLimit, onGroupShowMore, onGroupShowLess,
-      isGroupFullyShown, loading, selection, disabledHover
+      groupItemsLimit, selection, disabledHover
     } = this.props;
 
     const classes = classNames(className, {
@@ -139,7 +142,7 @@ class DataList extends PureComponent {
           {data.map(group => {
             const {id, title, items} = group;
 
-            const fullyShown = isGroupFullyShown(group);
+            const fullyShown = this.state.fullyShownGroups.has(group);
 
             let itemsToShow;
             if (!fullyShown && items.length > groupItemsLimit + 1) {
@@ -161,8 +164,8 @@ class DataList extends PureComponent {
                 isItemCollapsed={isItemCollapsed}
                 showMoreLessButton={showMoreLessButton}
                 fullyShown={fullyShown}
-                onGroupShowLess={onGroupShowLess}
-                onGroupShowMore={onGroupShowMore}
+                onGroupShowLess={this.onGroupShowLess}
+                onGroupShowMore={this.onGroupShowMore}
                 onFocus={this.onGroupOrItemFocus}
                 focused={selection.isFocused(group)}
                 showFocus={selection.isFocused(group)}
