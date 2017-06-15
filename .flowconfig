@@ -1,7 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/config-chain/test
 <PROJECT_ROOT>/node_modules/npmconf/test
-<PROJECT_ROOT>/flow-report.json
 
 [include]
 
