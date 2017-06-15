@@ -1,0 +1,93 @@
+@value global: '../global/global.css';
+@value unit, light-blue-color from global;
+
+.dataListWrapper {
+  position: relative;
+}
+
+.dataList {
+  list-style: none;
+  background-color: #F0F0F0;
+  padding: 0;
+}
+
+.group {
+  list-style: none;
+  padding: 10px 0;
+  background-color: #EBEBEB;
+}
+
+.groupTitle {
+  padding: 10px 30px;
+
+  border: solid 0 #E8E8E8;
+  border-width: 1px 0;
+
+  outline: none;
+  box-sizing: border-box;
+}
+
+.item {
+  padding: 5px 50px;
+  outline: none;
+  border: 0 solid #EBEBEB;
+  border-width: 1px 0;
+}
+
+.itemTitle {
+}
+
+.dataList:not(.disabledHover) .groupTitle:hover,
+.dataList:not(.disabledHover) .item:hover {
+  background-color: #FFF!important;
+}
+
+.groupTitleFocused,
+.itemFocused {
+  border: 1px none #25B7FF;
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+
+.dataList:not(.multiSelection) .groupTitleFocused,
+.dataList:not(.multiSelection) .itemFocused,
+.groupTitleSelected,
+.itemSelected {
+  background-color: light-blue-color;
+}
+
+.metaColumn {
+  display: inline-block;
+  min-width: 27px;
+  color: #bbb;
+}
+
+.collapseIcon {
+  top: -3px;
+}
+
+.subgroup {
+  list-style: none;
+  padding: 0;
+  padding-left: 15px;
+  margin-left: 27px;
+  border: 1px none #D8D8D8;
+  border-left-style: dotted;
+}
+
+.subitem {
+  padding: 5px 0;
+}
+
+.loadingOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
