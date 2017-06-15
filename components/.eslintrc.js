@@ -1,3 +1,5 @@
+const isCI = process.argv.indexOf('jslint-xml') !== -1;
+
 module.exports = {
   "root": true,
   "parser": "babel-eslint",
@@ -7,6 +9,9 @@ module.exports = {
     "jetbrains/react",
     "jetbrains/angular",
     "jetbrains/test"
+  ],
+  plugins: [
+    "flowtype-errors"
   ],
   "rules": {
     // Possible Errors
@@ -25,8 +30,13 @@ module.exports = {
       // Strings longer than 40 symbols (half of standard max-len)
       "ignorePattern": "\"(?=([^\"]|\\\"){40,}\")|'(?=([^']|\\'){40,}')"
     }],
+
     // Angular
-    "angular/directive-name": ["error", "rg"]
+    "angular/directive-name": ["error", "rg"],
+
+    // Flow
+    "flowtype-errors/show-errors": isCI ? "error" : "off",
+    "flowtype-errors/enforce-min-coverage": isCI ? ["error", 50] : "off"
   },
   "settings": {
     "import/resolver": {

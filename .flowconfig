@@ -8,3 +8,4 @@
 
 [options]
 emoji=true
+module.name_mapper.extension='css' -> 'css-module-flow'
