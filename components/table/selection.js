@@ -1,25 +1,18 @@
 export default class Selection {
-  _data = []
-  _selected = new Set()
-  _focused = null
-  _key = 'id'
+  // eslint-disable-next-line max-len
+  constructor({data = [], selected = new Set(), focused = null, key = 'id', isItemSelectable = () => true} = {}) {
+    this._rawData = data;
+    this._data = this._buildData(data);
 
-  constructor({data, selected, focused, key} = {}) {
-    if (data) {
-      this._data = data;
-    }
+    this._focused = focused;
+    this._key = key;
+    this._isItemSelectable = isItemSelectable;
 
-    if (selected) {
-      this._selected = new Set(selected);
-    }
+    this._selected = new Set([...selected].filter(item => this._isItemSelectable(item)));
+  }
 
-    if (focused) {
-      this._focused = focused;
-    }
-
-    if (key) {
-      this._key = key;
-    }
+  _buildData(data) {
+    return new Set(data);
   }
 
   cloneWith({data, selected, focused}) {
@@ -32,9 +25,11 @@ export default class Selection {
     const newFocused = focused === undefined ? this._focused : focused;
 
     return new this.constructor({
-      data: data || this._data,
+      data: data || this._rawData,
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
-      focused: (data && !focused) ? cloneFocus() : newFocused
+      focused: (data && !focused) ? cloneFocus() : newFocused,
+      key: this._key,
+      isItemSelectable: this._isItemSelectable
     });
   }
 
@@ -43,7 +38,8 @@ export default class Selection {
   }
 
   moveUp() {
-    const {_focused: focused, _data: data} = this;
+    const {_focused: focused, _data} = this;
+    const data = [..._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[data.length - 1]});
@@ -58,7 +54,8 @@ export default class Selection {
   }
 
   moveDown() {
-    const {_focused: focused, _data: data} = this;
+    const {_focused: focused, _data} = this;
+    const data = [..._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[0]});
@@ -72,44 +69,56 @@ export default class Selection {
     return undefined;
   }
 
+  moveStart() {
+    const data = [...this._data];
+
+    if (data.length) {
+      return this.cloneWith({focused: data[0]});
+    }
+
+    return undefined;
+  }
+
+  moveEnd() {
+    const data = [...this._data];
+
+    if (data.length) {
+      return this.cloneWith({focused: data.pop()});
+    }
+
+    return undefined;
+  }
+
   select(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-      selected.add(value);
-      return this.cloneWith({selected});
-    } else {
+    if (!value) {
       return this;
     }
+
+    const selected = new Set(this._selected);
+    selected.add(value);
+    return this.cloneWith({selected});
   }
 
   deselect(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-      selected.delete(value);
-      return this.cloneWith({selected});
-    } else {
+    if (!value) {
       return this;
     }
+
+    const selected = new Set(this._selected);
+    selected.delete(value);
+    return this.cloneWith({selected});
   }
 
   toggleSelection(value = this._focused) {
-    if (value) {
-      const selected = new Set(this._selected);
-
-      if (selected.has(value)) {
-        selected.delete(value);
-      } else {
-        selected.add(value);
-      }
-
-      return this.cloneWith({selected});
+    if (this.isSelected(value)) {
+      return this.deselect(value);
     } else {
-      return this;
+      return this.select(value);
     }
   }
 
   selectAll() {
-    return this.cloneWith({selected: new Set(this._data)});
+    return this.cloneWith({selected: [...this._data]});
   }
 
   resetFocus() {
