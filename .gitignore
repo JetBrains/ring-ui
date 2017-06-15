@@ -21,3 +21,4 @@ http-server.log
 ring-ui-*.tgz
 yarn.lock
 yarn-error.log
+package-lock.json
