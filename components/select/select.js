@@ -150,7 +150,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.setState({
       selected,
       filterValue: this.getValueForFilter(selected)
-    }, function () {
+    }, () => {
       this.props.onChange(selected, event);
       this.props.onReset();
     });
@@ -166,7 +166,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _handleMultipleToggling(multiple) {
     const empty = Select._getEmptyValue(multiple);
-    this.setState({selected: empty}, function () {
+    this.setState({selected: empty}, () => {
       this.props.onChange(empty);
     });
     this._rebuildMultipleMap(empty, multiple);
@@ -483,7 +483,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: filterValue === '' ? null : fakeSelected,
         selectedIndex: null
-      }, function () {
+      }, () => {
         this.props.onSelect(fakeSelected, event);
         this.props.onChange(fakeSelected, event);
       });
@@ -554,7 +554,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: currentSelection,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
-      }, function () {
+      }, () => {
         // redraw items
         if (this.props.multiple) {
           // setTimeout solves events order and bubbling issue
