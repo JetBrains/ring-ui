@@ -34,6 +34,14 @@
   border-width: 1px 0;
 }
 
+.showMore {
+  padding: 5px 50px;
+  outline: none;
+  border: 0 solid #EBEBEB;
+  border-width: 1px 0;
+  margin-left: 27px;
+}
+
 .itemTitle {
 }
 

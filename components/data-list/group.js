@@ -155,7 +155,7 @@ export default class Group extends PureComponent {
 
             {
               moreLessButton ? (
-                <li className={styles.item} style={{marginLeft: '27px'}}>{moreLessButton}</li>
+                <li className={styles.showMore}>{moreLessButton}</li>
               ) : null
             }
           </ul>
