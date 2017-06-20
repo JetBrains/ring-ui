@@ -1,4 +1,4 @@
 module.exports = {
-  extends: '@huston007/stylelint-config',
+  extends: '@jetbrains/stylelint-config',
   rules: {}
 };
