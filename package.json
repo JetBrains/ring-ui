@@ -31,9 +31,10 @@
     "gemini-gather": "gemini update",
     "build": "webpack --config webpack-docs.config.js",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
-    "lint": "eslint --quiet .",
+    "lint": "eslint --quiet . && npm run stylelint",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
-    "lint-ci": "eslint --format jslint-xml . > eslint-report.xml",
+    "lint-ci": "eslint --format jslint-xml . > eslint-report.xml && npm run stylelint",
+    "stylelint": "stylelint 'components/**/*.css'",
     "flow": "flow",
     "nibble": "eslint-nibble .",
     "test-ci": "karma start karma-ci.conf.js",
@@ -80,6 +81,7 @@
     }
   },
   "devDependencies": {
+    "@huston007/stylelint-config": "0.0.3",
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
     "angular-route": "1.6.3",
@@ -123,6 +125,7 @@
     "karma-webpack": "2.0.1",
     "mocha": "3.0.2",
     "storage-mock": "1.0.3",
+    "stylelint": "7.11.1",
     "update-version": "1.0.1",
     "wallaby-webpack": "0.0.38",
     "webpack": "2.2.0",

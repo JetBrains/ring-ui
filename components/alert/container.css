@@ -3,23 +3,24 @@
 
 .alertContainer {
   position: fixed;
-
-  display: flex;
+  z-index: alert-z-index;
   top: 0;
   right: 0;
   left: 0;
 
+  display: flex;
+  overflow: visible;
   align-items: center;
   flex-direction: column;
 
-  overflow: visible;
   pointer-events: none;
-  z-index: alert-z-index;
 }
 
 .alertInContainer {
   composes: alert;
+
   width: calc(unit * 55);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   margin-bottom: 0;
+
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 }

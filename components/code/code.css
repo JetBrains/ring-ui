@@ -2,14 +2,17 @@
 
 /* override hljs */
 .code code {
+  padding: line-height calc(unit * 2);
+
+  border-radius: border-radius;
+  background-color: sidebar-background-color;
+
   font-size: font-size;
   line-height: line-height;
-  padding: line-height calc(unit * 2);
-  background-color: sidebar-background-color;
-  border-radius: border-radius;
 }
 
 .inline code {
   display: inline-block;
+
   padding: 0 calc(unit / 2);
 }

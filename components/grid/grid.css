@@ -1,13 +1,10 @@
 @value unit, breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
-
-@value gutter-width: (unit*2);
-@value gutter-compensation: -calc(gutter-width / 2);
-@value outer-margin: calc(unit*2);
-
-@value container-sm: calc(breakpoint-small + gutter-width);
-@value container-md: calc(breakpoint-middle + gutter-width);
-@value container-lg: calc(breakpoint-large + gutter-width);
-
+@value gutterWidth: (unit*2);
+@value gutterCompensation: -calc(gutterWidth / 2);
+@value outerMargin: calc(unit*2);
+@value containerSmall: calc(breakpoint-small + gutterWidth);
+@value containerMedium: calc(breakpoint-middle + gutterWidth);
+@value containerLarge: calc(breakpoint-large + gutterWidth);
 @value width-1: 8.33333333%;
 @value width-2: 16.66666667%;
 @value width-3: 25%;
@@ -21,25 +18,27 @@
 @value width-11: 91.66666667%;
 @value width-12: 100%;
 
-.container-fluid, .container {
+.container-fluid,
+.container {
   margin-right: auto;
   margin-left: auto;
 }
 
 .container-fluid {
-  padding-right: outer-margin;
-  padding-left: outer-margin;
-  min-width: calc(unit * 40)
+  min-width: calc(unit * 40);
+  padding-right: outerMargin;
+  padding-left: outerMargin;
 }
 
 .row {
-  box-sizing: border-box;
   display: flex;
   flex: 0 1 auto;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-right: gutter-compensation;
-  margin-left: gutter-compensation;
+
+  box-sizing: border-box;
+  margin-right: gutterCompensation;
+  margin-left: gutterCompensation;
 }
 
 .row.reverse {
@@ -81,75 +80,89 @@
 .col-xs-offset-10,
 .col-xs-offset-11,
 .col-xs-offset-12 {
-  box-sizing: border-box;
   flex: 0 0 auto;
-  padding-right: calc(gutter-width / 2);
-  padding-left: calc(gutter-width / 2);
+
+  box-sizing: border-box;
+  padding-right: calc(gutterWidth / 2);
+  padding-left: calc(gutterWidth / 2);
 }
 
 .col-xs {
-  flex-grow: 1;
   flex-basis: 0;
+  flex-grow: 1;
+
   max-width: 100%;
 }
 
 .col-xs-1 {
   flex-basis: width-1;
+
   max-width: width-1;
 }
 
 .col-xs-2 {
   flex-basis: width-2;
+
   max-width: width-2;
 }
 
 .col-xs-3 {
   flex-basis: width-3;
+
   max-width: width-3;
 }
 
 .col-xs-4 {
   flex-basis: width-4;
+
   max-width: width-4;
 }
 
 .col-xs-5 {
   flex-basis: width-5;
+
   max-width: width-5;
 }
 
 .col-xs-6 {
   flex-basis: width-6;
+
   max-width: width-6;
 }
 
 .col-xs-7 {
   flex-basis: width-7;
+
   max-width: width-7;
 }
 
 .col-xs-8 {
   flex-basis: width-8;
+
   max-width: width-8;
 }
 
 .col-xs-9 {
   flex-basis: width-9;
+
   max-width: width-9;
 }
 
 .col-xs-10 {
   flex-basis: width-10;
+
   max-width: width-10;
 }
 
 .col-xs-11 {
   flex-basis: width-11;
+
   max-width: width-11;
 }
 
 .col-xs-12 {
   flex-basis: width-12;
+
   max-width: width-12;
 }
 
@@ -203,16 +216,19 @@
 
 .start-xs {
   justify-content: flex-start;
+
   text-align: start;
 }
 
 .center-xs {
   justify-content: center;
+
   text-align: center;
 }
 
 .end-xs {
   justify-content: flex-end;
+
   text-align: end;
 }
 
@@ -246,7 +262,7 @@
 
 @media small-screen-media {
   .container {
-    width: container-sm;
+    width: containerSmall;
   }
 
   .col-sm,
@@ -275,75 +291,89 @@
   .col-sm-offset-10,
   .col-sm-offset-11,
   .col-sm-offset-12 {
-    box-sizing: border-box;
     flex: 0 0 auto;
-    padding-right: calc(gutter-width / 2);
-    padding-left: calc(gutter-width / 2);
+
+    box-sizing: border-box;
+    padding-right: calc(gutterWidth / 2);
+    padding-left: calc(gutterWidth / 2);
   }
 
   .col-sm {
-    flex-grow: 1;
     flex-basis: 0;
+    flex-grow: 1;
+
     max-width: 100%;
   }
 
   .col-sm-1 {
     flex-basis: width-1;
+
     max-width: width-1;
   }
 
   .col-sm-2 {
     flex-basis: width-2;
+
     max-width: width-2;
   }
 
   .col-sm-3 {
     flex-basis: width-3;
+
     max-width: width-3;
   }
 
   .col-sm-4 {
     flex-basis: width-4;
+
     max-width: width-4;
   }
 
   .col-sm-5 {
     flex-basis: width-5;
+
     max-width: width-5;
   }
 
   .col-sm-6 {
     flex-basis: width-6;
+
     max-width: width-6;
   }
 
   .col-sm-7 {
     flex-basis: width-7;
+
     max-width: width-7;
   }
 
   .col-sm-8 {
     flex-basis: width-8;
+
     max-width: width-8;
   }
 
   .col-sm-9 {
     flex-basis: width-9;
+
     max-width: width-9;
   }
 
   .col-sm-10 {
     flex-basis: width-10;
+
     max-width: width-10;
   }
 
   .col-sm-11 {
     flex-basis: width-11;
+
     max-width: width-11;
   }
 
   .col-sm-12 {
     flex-basis: width-12;
+
     max-width: width-12;
   }
 
@@ -397,16 +427,19 @@
 
   .start-sm {
     justify-content: flex-start;
+
     text-align: start;
   }
 
   .center-sm {
     justify-content: center;
+
     text-align: center;
   }
 
   .end-sm {
     justify-content: flex-end;
+
     text-align: end;
   }
 
@@ -441,7 +474,7 @@
 
 @media middle-screen-media {
   .container {
-    width: container-md;
+    width: containerMedium;
   }
 
   .col-md,
@@ -470,75 +503,89 @@
   .col-md-offset-10,
   .col-md-offset-11,
   .col-md-offset-12 {
-    box-sizing: border-box;
     flex: 0 0 auto;
-    padding-right: calc(gutter-width / 2);
-    padding-left: calc(gutter-width / 2);
+
+    box-sizing: border-box;
+    padding-right: calc(gutterWidth / 2);
+    padding-left: calc(gutterWidth / 2);
   }
 
   .col-md {
-    flex-grow: 1;
     flex-basis: 0;
+    flex-grow: 1;
+
     max-width: 100%;
   }
 
   .col-md-1 {
     flex-basis: width-1;
+
     max-width: width-1;
   }
 
   .col-md-2 {
     flex-basis: width-2;
+
     max-width: width-2;
   }
 
   .col-md-3 {
     flex-basis: width-3;
+
     max-width: width-3;
   }
 
   .col-md-4 {
     flex-basis: width-4;
+
     max-width: width-4;
   }
 
   .col-md-5 {
     flex-basis: width-5;
+
     max-width: width-5;
   }
 
   .col-md-6 {
     flex-basis: width-6;
+
     max-width: width-6;
   }
 
   .col-md-7 {
     flex-basis: width-7;
+
     max-width: width-7;
   }
 
   .col-md-8 {
     flex-basis: width-8;
+
     max-width: width-8;
   }
 
   .col-md-9 {
     flex-basis: width-9;
+
     max-width: width-9;
   }
 
   .col-md-10 {
     flex-basis: width-10;
+
     max-width: width-10;
   }
 
   .col-md-11 {
     flex-basis: width-11;
+
     max-width: width-11;
   }
 
   .col-md-12 {
     flex-basis: width-12;
+
     max-width: width-12;
   }
 
@@ -592,16 +639,19 @@
 
   .start-md {
     justify-content: flex-start;
+
     text-align: start;
   }
 
   .center-md {
     justify-content: center;
+
     text-align: center;
   }
 
   .end-md {
     justify-content: flex-end;
+
     text-align: end;
   }
 
@@ -636,7 +686,7 @@
 
 @media large-screen-media {
   .container {
-    width: container-lg;
+    width: containerLarge;
   }
 
   .col-lg,
@@ -665,75 +715,89 @@
   .col-lg-offset-10,
   .col-lg-offset-11,
   .col-lg-offset-12 {
-    box-sizing: border-box;
     flex: 0 0 auto;
-    padding-right: calc(gutter-width / 2);
-    padding-left: calc(gutter-width / 2);
+
+    box-sizing: border-box;
+    padding-right: calc(gutterWidth / 2);
+    padding-left: calc(gutterWidth / 2);
   }
 
   .col-lg {
-    flex-grow: 1;
     flex-basis: 0;
+    flex-grow: 1;
+
     max-width: 100%;
   }
 
   .col-lg-1 {
     flex-basis: width-1;
+
     max-width: width-1;
   }
 
   .col-lg-2 {
     flex-basis: width-2;
+
     max-width: width-2;
   }
 
   .col-lg-3 {
     flex-basis: width-3;
+
     max-width: width-3;
   }
 
   .col-lg-4 {
     flex-basis: width-4;
+
     max-width: width-4;
   }
 
   .col-lg-5 {
     flex-basis: width-5;
+
     max-width: width-5;
   }
 
   .col-lg-6 {
     flex-basis: width-6;
+
     max-width: width-6;
   }
 
   .col-lg-7 {
     flex-basis: width-7;
+
     max-width: width-7;
   }
 
   .col-lg-8 {
     flex-basis: width-8;
+
     max-width: width-8;
   }
 
   .col-lg-9 {
     flex-basis: width-9;
+
     max-width: width-9;
   }
 
   .col-lg-10 {
     flex-basis: width-10;
+
     max-width: width-10;
   }
 
   .col-lg-11 {
     flex-basis: width-11;
+
     max-width: width-11;
   }
 
   .col-lg-12 {
     flex-basis: width-12;
+
     max-width: width-12;
   }
 
@@ -787,16 +851,19 @@
 
   .start-lg {
     justify-content: flex-start;
+
     text-align: start;
   }
 
   .center-lg {
     justify-content: center;
+
     text-align: center;
   }
 
   .end-lg {
     justify-content: flex-end;
+
     text-align: end;
   }
 
