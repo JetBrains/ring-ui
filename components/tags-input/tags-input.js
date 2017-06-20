@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Select from '../select/select';
-import Tag from '../tag/tag';
+import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import '../input-size/input-size.scss';
 import memoize from '../global/memoize';
@@ -256,18 +256,6 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
-  renderTag(tag, focusTag, readOnly) {
-    const TagComponent = this.props.customTagComponent || Tag;
-    return (
-      <TagComponent
-        {...tag}
-        readOnly={readOnly}
-        focused={focusTag}
-        onClick={this.handleClick(tag)}
-        onRemove={this.handleRemove(tag)}
-      >{tag.label}</TagComponent>);
-  }
-
   selectRef = el => {
     this.select = el;
   };
@@ -280,13 +268,6 @@ export default class TagsInput extends RingComponentWithShortcuts {
         'ring-tags-input_disabled': this.props.disabled
       },
       this.props.className);
-    const readOnly = this.props.disabled ||
-      (this.props.canNotBeEmpty && this.state.tags.length === 1);
-
-    const renderTags = () => (
-      this.state.tags.
-        map((tag, index) => this.renderTag(tag, this.state.activeIndex === index, readOnly))
-    );
 
     return (
       <div
@@ -294,7 +275,16 @@ export default class TagsInput extends RingComponentWithShortcuts {
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}
       >
-        {renderTags()}
+
+        <TagsList
+          tags={this.state.tags}
+          activeIndex={this.state.activeIndex}
+          disabled={this.props.disabled}
+          canNotBeEmpty={this.props.canNotBeEmpty}
+          handleRemove={this.handleRemove}
+          handleClick={this.handleClick}
+        />
+
         <Select
           ref={this.selectRef}
           type={Select.Type.INPUT}
