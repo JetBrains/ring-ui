@@ -2,10 +2,12 @@
 
 .header {
   display: flex;
-  height: calc(unit * 7);
   align-items: baseline;
-  line-height: calc(unit * 7 - 5);
+
+  height: calc(unit * 7);
   margin: 0 calc(unit * 4);
+
+  line-height: calc(unit * 7 - 5);
 }
 
 .item {
@@ -14,6 +16,7 @@
 
 .tray {
   composes: header;
+
   margin: 0 0 0 auto;
 }
 
@@ -26,40 +29,43 @@
 }
 
 .iconPosition.iconPosition {
-  vertical-align: baseline;
-  height: calc(unit * 5);
   width: calc(unit * 5);
+  height: calc(unit * 5);
+
+  vertical-align: baseline;
 
   &:global(.ring-icon) {
     /* Redefine positioning inside ring-link */
+
     top: 0;
   }
 }
 
 .iconBehavior {
   cursor: pointer;
-
   transition: all 0.3s ease-out;
   transform: rotate(0deg);
   transform-origin: center 27px;
 
   &:hover {
-     transition: transform 0.3s ease-out;
-     color: link-hover-color;
+    transition: transform 0.3s ease-out;
+
+    color: link-hover-color;
   }
 }
 
 .icon {
-  color: gray-color;
   composes: iconPosition;
   composes: iconBehavior;
+
+  color: gray-color;
 }
 
 .activeIcon {
   composes: icon;
 
   @nest &, &:hover {
-    color: blue-color
+    color: blue-color;
   }
 }
 
@@ -70,11 +76,14 @@
 .profileEmpty {
   composes: iconPosition;
 
-  text-align: right;
   position: relative;
   top: unit;
+
   /* Fix popup vertical positioning */
+
   height: calc(unit * 4);
+
+  text-align: right;
 }
 
 .profile {

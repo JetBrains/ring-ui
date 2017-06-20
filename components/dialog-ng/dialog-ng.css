@@ -2,8 +2,10 @@
 
 .dialogContainer {
   position: relative;
+
   display: flex;
   flex-direction: column;
+
   max-height: inherit;
 
   & :global(.ring-form__group:last-child) {
@@ -30,9 +32,11 @@
 
 .header {
   && {
+    padding-top: unit;
+
     cursor: move;
     user-select: none;
-    padding-top: unit;
+
     font-size: 24px;
   }
 }
@@ -49,6 +53,7 @@
 .scrollableWrapper {
   && {
     overflow: visible;
+
     width: auto;
   }
 }
@@ -60,8 +65,9 @@
 }
 
 .error {
-  color: error-color;
   word-wrap: break-word;
+
+  color: error-color;
 }
 
 .footer {
@@ -69,12 +75,14 @@
   padding: calc(unit * 2) calc(unit * 4);
   padding-top: calc(unit * 2 - 2px);
 
-  font-size: 0;
   text-align: left;
+
+  font-size: 0;
 }
 
 .footerDescription {
   margin-bottom: calc(unit * 2);
+
   font-size: font-size-smaller;
 }
 
@@ -84,6 +92,7 @@
 
 .footerItem {
   display: inline-block;
+
   /**
   * Do not make space using margin-right as it will break spaces between right-sided buttons in dialog's footer
   */
@@ -91,7 +100,7 @@
     margin-left: calc(unit * 2);
   }
 
-  //Increase selector specificity when ring buttons are used as footer items
+  /* Increase selector specificity when ring buttons are used as footer items */
   &.ring-button {
     margin-left: unit;
   }

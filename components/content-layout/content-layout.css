@@ -1,18 +1,19 @@
 @value unit, extra-small-screen-media, small-screen-media from '../global/global.css';
-
 @value sidebarWidth: calc(unit * 43);
 
 .contentLayout {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
   position: relative;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .contentLayoutContent {
-  margin: 0 calc(unit * 4);
-  flex-grow: 2;
   align-self: flex-start;
+  flex-grow: 2;
+
+  margin: 0 calc(unit * 4);
 }
 
 .sidebarContainer {
@@ -25,24 +26,25 @@
 }
 
 .sidebar {
+  overflow: auto;
+
+  box-sizing: border-box;
   min-width: sidebarWidth;
   max-width: sidebarWidth;
-  box-sizing: border-box;
   height: 100%;
-  overflow: auto;
-  padding-left: calc(unit * 4);
   padding-right: calc(unit * 2);
+  padding-left: calc(unit * 4);
 }
 
-
 .sidebarRight {
-  padding-left: calc(unit * 2);
   padding-right: calc(unit * 4);
+  padding-left: calc(unit * 2);
 }
 
 .sidebarFixedTop {
   top: 0;
   bottom: 0;
+
   && {
     position: fixed;
   }
@@ -62,7 +64,6 @@
 }
 
 .contentLayoutResponsive {
-
   @media extra-small-screen-media, small-screen-media {
     & .contentLayoutContent {
       margin: 0 16px;
@@ -73,6 +74,7 @@
       top: 0;
       bottom: 0;
       left: 0;
+
       box-sizing: content-box;
       padding: 0 16px;
     }
@@ -86,8 +88,8 @@
     }
 
     & .sidebarRight {
-      left: auto;
       right: 0;
+      left: auto;
     }
 
     & .sidebarContainer {
@@ -98,11 +100,10 @@
 
   @media extra-small-screen-media {
     & .sidebar {
+      width: 80%;
       min-width: 0;
       max-width: none;
-      width: 80%;
     }
   }
-
 }
 

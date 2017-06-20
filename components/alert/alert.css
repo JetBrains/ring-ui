@@ -3,49 +3,55 @@
 @value animation-easing: ease-out;
 
 .alert {
-  box-sizing: border-box;
   position: relative;
+
+  box-sizing: border-box;
   min-height: calc(unit * 5);
-
   margin: unit auto;
-  padding: 0 calc(unit*2);
-  border: solid 1px border-color;
-  border-radius: border-radius;
+  padding: 0 calc(unit * 2);
 
-  background: #FFF;
-  font-size: font-size;
-  line-height: calc(unit * 5);
+  transition:
+    transform animation-duration animation-easing,
+    margin-top animation-duration animation-easing,
+    opacity animation-duration animation-easing;
   white-space: nowrap;
-
   pointer-events: auto;
 
-  transition: transform animation-duration animation-easing,
-              margin-top animation-duration animation-easing,
-              opacity animation-duration animation-easing;
+  border: solid 1px border-color;
+  border-radius: border-radius;
+  background: #fff;
+
+  font-size: font-size;
+  line-height: calc(unit * 5);
 }
 
 .alertInline {
-   margin: unit;
- }
+  margin: unit;
+}
 
 .error {
-  color: error-color;
   word-wrap: break-word;
+
+  color: error-color;
 }
 
 .icon {
   display: inline-block;
+
   margin-right: unit;
+
   vertical-align: top;
 }
 
 .caption {
   display: inline-block;
+
   margin: 12px calc(unit * 4) 12px 0;
 
-  line-height: 20px;
   vertical-align: middle;
   white-space: normal;
+
+  line-height: 20px;
 }
 
 .badge {
@@ -54,39 +60,44 @@
 
 .loader {
   top: 3px;
+
   margin-right: unit;
 }
 
 .close {
   position: absolute;
-  right: 0;
   top: 2px;
+  right: 0;
 
-  margin: calc(unit/2);
+  margin: calc(unit / 2);
   padding: unit;
 
-  border: none;
-  font-size: 0;
-  line-height: 0;
-  background: transparent;
   cursor: pointer;
 
   color: gray-color;
+  border: none;
+  background: transparent;
 
-  &:hover, &:focus {
+  font-size: 0;
+  line-height: 0;
+
+  &:hover,
+  &:focus {
     color: link-hover-color;
   }
 }
 
 @keyframes show {
   from {
-    opacity: 0;
     transform: scale(0);
+
+    opacity: 0;
   }
 
   to {
-    opacity: 1;
     transform: scale(1);
+
+    opacity: 1;
   }
 }
 
@@ -96,7 +107,9 @@
 }
 
 .animationClosing {
-  opacity: 0;
-  transform: scale(0);
   z-index: -1;
+
+  transform: scale(0);
+
+  opacity: 0;
 }

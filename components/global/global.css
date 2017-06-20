@@ -1,14 +1,9 @@
 @value unit: 8px;
-
 @value text-color: #444;
-
 @value line-color: #DFE5EB;
-
 @value link-color: #1866C5;
 @value link-hover-color: #FF5A00;
-
 @value error-color: #C10000;
-
 @value gray-color: #BBB; /* disabled text & hints */
 @value dark-gray-color: #999; /* headers & actions */
 
@@ -17,41 +12,37 @@
 @value light-blue-color #E9F8FF;
 @value pale-blue-color #A6D5ED;
 @value pink-color: #BC00DE;
-
 @value border-color: rgba(0, 0, 0, 0.2);
 @value outline-color: rgba(37, 183, 255, 0.5);
-
 @value sidebar-background-color: #F7F9FA;
-
 @value border-radius: 3px;
 @value border-radius-small: 2px;
-
 @value font-size: 13px;
 @value font-size-smaller: 11px;
-
 @value line-height: 20px;
-
 @value ease: 0.15s ease-out;
 
 .clearfix {
-  &:after {
-    clear: both;
-    content: '';
+  &::after {
     display: block;
+    clear: both;
+
+    content: '';
   }
 }
 
 .font {
   color: text-color;
+
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* To be used at large sizes */
 /* As close as possible to Helvetica Neue Thin (to replace Gotham) */
 .thin-font {
-  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: font-size;
+  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
 }
 
 .monospace-font {
@@ -59,12 +50,13 @@
 }
 
 .input-disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+  border-color: #dedede;
+  background-color: #f8f8f8;
 }
 
 .ellipsis {
   overflow: hidden;
+
   white-space: nowrap;
   text-overflow: ellipsis;
 }

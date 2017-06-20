@@ -2,9 +2,10 @@
 
 .errorMessage {
   display: flex;
+  align-items: center;
   flex-flow: row wrap;
   justify-content: center;
-  align-items: center;
+
   height: 100%;
 }
 
@@ -18,10 +19,12 @@
 
 .content {
   flex-flow: column wrap;
+
   color: #444; /* should we use scss vars here? */
 }
 
-.content > .title, .description {
+.content > .title,
+.description {
   margin-bottom: 16px;
 }
 
