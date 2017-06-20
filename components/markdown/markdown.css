@@ -1,7 +1,9 @@
 @value unit, font, font-size, line-height, line-color, dark-gray-color from  "../global/global.css";
+@value baselineCorrection: 6px;
 
 .markdown {
   composes: font;
+
   font-size: font-size;
   line-height: line-height;
 
@@ -11,24 +13,27 @@
   & ol,
   & pre {
     margin: 0;
+
     &:not(:last-child) {
       margin-bottom: line-height;
     }
   }
 
   & hr {
-    @value baseline-correction: 6px;
-    margin: calc(- baseline-correction) 0 calc(baseline-correction - 1px);
+    margin: calc(0 - baselineCorrection) 0 calc(baselineCorrection - 1px);
+
     border: none;
     border-bottom: 1px solid line-color;
   }
 
   & blockquote {
+    padding: 0 0 0 calc(2 * unit);
+
     color: dark-gray-color;
+    box-shadow: inset 2px 0 0 line-color;
+
     font-size: 12px;
     line-height: 18px;
-    padding: 0 0 0 calc(2 * unit);
-    box-shadow: inset 2px 0 0 line-color;
   }
 
   & ul,
@@ -41,10 +46,12 @@
 
     & > li {
       position: relative;
+
       &::before {
-        content: '—';
         position: absolute;
-        left: calc(- 2 * unit)
+        left: calc(-2 * unit);
+
+        content: '—';
       }
     }
   }
