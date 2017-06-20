@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kotlinx-html-js">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/node_modules/@hypnosphi/kotlinx-html-js/target/classes" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

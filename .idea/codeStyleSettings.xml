@@ -15,12 +15,19 @@
             <option name="USE_RELATIVE_INDENTS" value="false" />
           </value>
         </option>
+        <option name="USE_SINGLE_CLASS_IMPORTS" value="false" />
+        <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="1" />
+        <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="1" />
         <option name="RIGHT_MARGIN" value="100" />
         <option name="HTML_ALIGN_ATTRIBUTES" value="false" />
         <JSCodeStyleSettings>
           <option name="USE_DOUBLE_QUOTES" value="false" />
           <option name="CHAINED_CALL_DOT_ON_NEW_LINE" value="false" />
         </JSCodeStyleSettings>
+        <JetCodeStyleSettings>
+          <option name="NAME_COUNT_TO_USE_STAR_IMPORT" value="1" />
+          <option name="NAME_COUNT_TO_USE_STAR_IMPORT_FOR_MEMBERS" value="1" />
+        </JetCodeStyleSettings>
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>

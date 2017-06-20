@@ -20,6 +20,7 @@ function simulateInput(target, value) {
 
   if (isIE11) {
     Simulate.input(target, {target: {value}});
+    Simulate.input(target, {target: {value}});
   }
 }
 

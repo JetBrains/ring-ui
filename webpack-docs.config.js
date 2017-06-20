@@ -4,6 +4,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
+const KotlinWebpackPlugin = require('kotlin-webpack-plugin');
 
 const webpackConfig = require('./webpack.config');
 const docpackSetup = require('./webpack-docs-plugin.setup');
@@ -41,16 +42,25 @@ module.exports = (env = {}) => {
   console.log(`Hub server used is ${colorInfo(serverUri)}`);
   const hubConfig = JSON.stringify({serverUri, clientId});
 
+  const kotlinModuleName = 'site';
+  const kotlinOutputPath = './node_modules/.cache/kotlin-webpack';
+
   const docsWebpackConfig = {
     entry: {
       components: createEntriesList('./components/*'),
-      'docs-app': './site/index.js',
+      'docs-app': kotlinModuleName,
       'example-common': './site/example-common.js'
     },
     resolve: {
+      modules: [kotlinOutputPath, 'node_modules'],
       mainFields: ['module', 'browser', 'main'],
       alias: {
-        'ring-ui': __dirname
+        'ring-ui': __dirname,
+        // site: './site',
+        'kotlinx-html-js': '@hypnosphi/kotlinx-html-js',
+        'kotlin-extensions': '@hypnosphi/kotlin-extensions',
+        'kotlin-react': '@hypnosphi/kotlin-react',
+        'kotlin-react-dom': '@hypnosphi/kotlin-react-dom'
       }
     },
     context: __dirname,
@@ -65,6 +75,13 @@ module.exports = (env = {}) => {
             'extract-loader',
             webpackConfig.loaders.htmlLoader.loader
           ]
+        },
+
+        {
+          test: /\.js$/,
+          include: kotlinOutputPath,
+          loader: require.resolve('@princed/source-map-loader'),
+          enforce: 'pre'
         }
       ]
     },
@@ -88,6 +105,18 @@ module.exports = (env = {}) => {
       publicPath // serve HMR update jsons properly
     },
     plugins: [
+      new KotlinWebpackPlugin({
+        src: './site',
+        moduleName: kotlinModuleName,
+        output: kotlinOutputPath,
+        verbose: true,
+        libraries: [
+          '@hypnosphi/kotlin-extensions',
+          '@hypnosphi/kotlin-react',
+          '@hypnosphi/kotlin-react-dom',
+          '@hypnosphi/kotlinx-html-js'
+        ].map(pkg => require.resolve(pkg))
+      }),
       new webpack.DefinePlugin({hubConfig}),
       docpackSetup(),
       new DllBundlesPlugin({

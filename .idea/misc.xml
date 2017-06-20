@@ -7,4 +7,7 @@
   <component name="TaskProjectConfiguration">
     <server type="YouTrack" url="https://youtrack.jetbrains.com" />
   </component>
+  <component name="WebPackConfiguration">
+    <option name="path" value="$PROJECT_DIR$/webpack.config.js" />
+  </component>
 </project>
