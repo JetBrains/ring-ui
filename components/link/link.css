@@ -1,11 +1,11 @@
 @value link-color, link-hover-color from "../global/global.css";
 
-
 .link,
 .link:visited {
-  color: link-color;
-  text-decoration: none;
   cursor: pointer;
+  text-decoration: none;
+
+  color: link-color;
 }
 
 .link.hover,

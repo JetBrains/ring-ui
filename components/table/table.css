@@ -1,8 +1,6 @@
 @value global: '../global/global.css';
 @value unit, text-color, gray-color, dark-gray-color, blue-color, light-blue-color, link-hover-color, fixed-z-index, ellipsis from global;
-
 @value dirty-blue-color: #D4EDFA;
-
 @value table-border-color: #E6E6E6;
 @value table-background-color: #F0F0F0;
 @value table-header-background-color: #EBEBEB;
@@ -14,23 +12,25 @@
 }
 
 .table {
-  border-spacing: 0;
   width: 100%;
-}
 
+  border-spacing: 0;
+}
 
 .userSelectNone {
   user-select: none;
 }
 
-
 .headerCell {
   & {
-    color: dark-gray-color;
-    font-weight: 200;
+    padding: 0 calc(unit * 2.5);
+
     text-align: left;
     white-space: nowrap;
-    padding: 0 calc(unit * 2.5);
+
+    color: dark-gray-color;
+
+    font-weight: 200;
   }
 
   &:first-child {
@@ -38,8 +38,8 @@
   }
 
   &:last-child {
-    padding-right: calc(unit * 4);
     width: 100%;
+    padding-right: calc(unit * 4);
   }
 
   &:nth-child(1) {
@@ -47,8 +47,8 @@
   }
 
   &:nth-child(1):only-child {
-    max-width: none;
     width: initial;
+    max-width: none;
   }
 
   &.headerCellSorted {
@@ -60,9 +60,12 @@
   }
 
   & .sorter {
-    margin-left: 6px;
-    display: none;
     position: absolute;
+
+    display: none;
+
+    margin-left: 6px;
+
     user-select: none;
   }
 
@@ -82,15 +85,16 @@
   }
 
   & .headerCell {
-    height: calc(unit * 5 + 1);
     box-sizing: border-box;
+    height: calc(unit * 5 + 1);
+
     border-top: 1px solid table-border-color;
-    box-shadow: inset 0px 1px 0px 0px box-shadow-color;
+    box-shadow: inset 0 1px 0 0 box-shadow-color;
   }
 
   & .caption {
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    letter-spacing: .2em;
   }
 
   & .headerCell .sorter {
@@ -100,14 +104,16 @@
 
 .subHeader {
   & {
-    font-size: 12px;
     color: gray-color;
     background-color: table-border-color;
+
+    font-size: 12px;
   }
 
   & .headerCell {
-    height: 25px;
     box-sizing: border-box;
+    height: 25px;
+
     border-top: 1px solid table-caption-border-color;
   }
 
@@ -118,25 +124,24 @@
 
 .subHeaderFixed {
   position: fixed;
-  top: 0;
   z-index: fixed-z-index;
+  top: 0;
 
   & .headerCell {
     border-bottom: 1px solid table-caption-border-color;
   }
-
 }
-
 
 .row {
   & {
     outline: none;
     background-color: table-background-color;
+
     line-height: 39px;
   }
 
   @nest .table:not(.disabledHover) &:hover {
-    background-color: #FFF!important;
+    background-color: #fff !important;
   }
 
   @nest .table:not(.multiSelection) &.rowFocused,
@@ -173,25 +178,27 @@
 
 .loadingOverlay {
   position: absolute;
-  left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  left: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
   background-color: rgba(255, 255, 255, 0.5);
 }
 
 .cell {
   & {
     composes: ellipsis;
-    color: text-color;
 
-    height: calc(unit * 5);
     box-sizing: content-box;
+    height: calc(unit * 5);
     padding: 0 calc(unit * 2.5);
+
+    color: text-color;
   }
 
   &:first-child {
@@ -199,10 +206,12 @@
   }
 
   &:last-child {
-    padding-right: calc(unit * 4);
     width: 100%;
+
     /* Markup hack, allows cell to have content which is wider than cell and collapses it */
+
     max-width: 0;
+    padding-right: calc(unit * 4);
   }
 
   &:nth-child(1) {
@@ -211,8 +220,8 @@
   }
 
   &:nth-child(1):only-child {
-    max-width: none;
     width: initial;
+    max-width: none;
   }
 }
 
@@ -226,13 +235,12 @@
 
 .metaColumn {
   position: relative;
-  float: left;
-  height: 37px;
-  padding-right: unit;
-  padding-top: 1px;
 
-  &.metaColumnSpaced {
-  }
+  float: left;
+
+  height: 37px;
+  padding-top: 1px;
+  padding-right: unit;
 
   @nest .header &,
   .subHeader & {
@@ -241,13 +249,16 @@
 }
 
 .dragHandle {
-  display: none;
   position: absolute;
-  left: -24px;
   top: -11px;
+  left: -24px;
+
+  display: none;
+
+  padding: unit;
 
   cursor: grab;
-  padding: unit;
+
   color: gray-color;
 
   &:hover {
@@ -264,16 +275,18 @@
 }
 
 .draggingRow {
+  vertical-align: middle;
+
+  background-color: #fff;
+
   & .dragHandle {
     display: block;
+
     cursor: grabbing;
+
     color: link-hover-color;
   }
-
-  background-color: #FFF;
-  vertical-align: middle;
 }
-
 
 .cleanUI {
   & .tableHead {
@@ -284,9 +297,9 @@
     background-color: inherit;
 
     & .headerCell {
+      color: text-color;
       border-top: none;
       box-shadow: none;
-      color: text-color;
     }
   }
 
@@ -305,12 +318,14 @@
 
   & .row {
     background-color: inherit;
+
     line-height: 31px;
 
     & .cell {
+      height: 32px;
+
       border-top: none;
       border-bottom: none;
-      height: 32px;
     }
   }
 }
