@@ -81,7 +81,7 @@
     }
   },
   "devDependencies": {
-    "@huston007/stylelint-config": "0.0.3",
+    "@jetbrains/stylelint-config": "1.0.11",
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
     "angular-route": "1.6.3",
