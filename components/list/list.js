@@ -344,7 +344,6 @@ export default class List extends RingComponentWithShortcuts {
       const innerContainer = this.inner;
       if (innerContainer) {
         const maxScrollingPosition = innerContainer.scrollHeight;
-        // eslint-disable-next-line no-magic-numbers
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
         const currentScrollingPosition =
           innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
