@@ -46,7 +46,7 @@ describe('ContentEditable', () => {
       children: <span/>
     });
 
-    this.stub.should.have.been.called.twice;
+    this.stub.should.have.been.calledTwice;
   });
 
   it('should not render on other props change', function () {

@@ -95,7 +95,7 @@ describe('Select', () => {
 
   it('Should call onChange on clearing', function () {
     this.select.clear();
-    this.select.props.onChange.should.been.called.once;
+    this.select.props.onChange.should.been.calledOnce;
     this.select.props.onChange.should.been.called.calledWith(null);
   });
 
@@ -492,7 +492,7 @@ describe('Select', () => {
 
     it('Should call onChange on clearing', function () {
       this.select.clear();
-      this.select.props.onChange.should.been.called.once;
+      this.select.props.onChange.should.been.calledOnce;
       this.select.props.onChange.should.been.called.calledWith([]);
     });
 

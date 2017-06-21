@@ -38,7 +38,7 @@ describe('Tags Input', () => {
 
     it('Should add tag', function () {
       this.tagsInput.addTag({key: 2, label: 'test2'});
-      this.tagsInput.state.tags.should.contain({key: 2, label: 'test2'});
+      this.tagsInput.state.tags.should.deep.contain({key: 2, label: 'test2'});
     });
 
     it('Should remove tag', function () {

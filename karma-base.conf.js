@@ -1,5 +1,6 @@
 const url = require('url');
 const osHostname = require('os').hostname();
+const chaiPlugins = require('karma-chai-plugins');
 
 const fullHostname = osHostname.indexOf('.') !== -1
   ? osHostname
@@ -25,7 +26,7 @@ module.exports = config => {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-dom', 'sinon-chai'],
+    frameworks: ['mocha'],
 
     files: [
       'test-helpers/test-suite.js'
@@ -37,10 +38,22 @@ module.exports = config => {
 
     // list of preprocessors
     preprocessors: {
-      'test-helpers/test-suite.js': ['webpack', 'sourcemap']
+      'test-helpers/*.js': ['webpack', 'sourcemap']
     },
 
-    webpack: require('./webpack-test.config'),
+    webpack: Object.assign(
+      {},
+      require('./webpack-test.config'),
+      {
+        devtool: 'inline-source-map',
+        externals: {
+          'react/addons': 'react',
+          'react/lib/ExecutionEnvironment': 'react',
+          'react/lib/ReactContext': 'react',
+          'react-addons-test-utils': 'window'
+        }
+      }
+    ),
 
     webpackServer: {
       stats: {
