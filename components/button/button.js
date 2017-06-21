@@ -6,6 +6,8 @@ import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
 import './button.scss';
 
+const DEFAULT_ICON_SIZE = 16;
+
 /**
  * @name Button
  * @category Forms
@@ -76,7 +78,7 @@ export default class Button extends RingComponent {
             <span className="ring-button__icon">
               <Icon
                 glyph={icon}
-                size={iconSize || 16}
+                size={iconSize || DEFAULT_ICON_SIZE}
               />
             </span>
           )}

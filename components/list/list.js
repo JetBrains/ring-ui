@@ -34,6 +34,7 @@ const Type = {
   CUSTOM: 4,
   TITLE: 5
 };
+const SCROLL_HANDLER_DEBOUNCE = 100;
 
 const Dimension = {
   ITEM_PADDING: 16,
@@ -125,6 +126,7 @@ export default class List extends RingComponentWithShortcuts {
   };
 
   _activatableItems = false;
+  // eslint-disable-next-line no-magic-numbers
   _bufferSize = 10; // keep X items above and below of the visible area
 
   hasActivatableItems() {
@@ -209,15 +211,18 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     const item = this.props.data[correctedIndex];
-    this.setState({activeIndex: correctedIndex, activeItem: item, scrolling: true}, function () {
-      if (!this.isActivatable(item)) {
-        retryCallback(e);
-        return;
-      }
+    this.setState(
+      {activeIndex: correctedIndex, activeItem: item, scrolling: true},
+      function onSet() {
+        if (!this.isActivatable(item)) {
+          retryCallback(e);
+          return;
+        }
 
-      this.recalculateVisibleOptions(true);
-      preventDefault(e);
-    });
+        this.recalculateVisfibleOptions(true);
+        preventDefault(e);
+      }
+    );
   }
 
   mouseHandler = () => {
@@ -230,7 +235,7 @@ export default class List extends RingComponentWithShortcuts {
 
   enterHandler = event => {
     if (this.state.activeIndex !== null) {
-      this.setState({scrolling: false}, function () {
+      this.setState({scrolling: false}, function onSet() {
         const item = this.props.data[this.state.activeIndex];
         this.selectHandler(this.state.activeIndex)(event);
 
@@ -339,6 +344,7 @@ export default class List extends RingComponentWithShortcuts {
       const innerContainer = this.inner;
       if (innerContainer) {
         const maxScrollingPosition = innerContainer.scrollHeight;
+        // eslint-disable-next-line no-magic-numbers
         const sensitivity = Dimension.ITEM_HEIGHT / 2;
         const currentScrollingPosition =
           innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
@@ -349,7 +355,7 @@ export default class List extends RingComponentWithShortcuts {
       this.setState({scrolling: false}, () => {
         this.recalculateVisibleOptions(true, true);
       });
-    }, 100);
+    }, SCROLL_HANDLER_DEBOUNCE);
   }
 
   componentWillMount() {

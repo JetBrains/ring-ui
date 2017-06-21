@@ -99,6 +99,7 @@ describe('List Users Groups Source', () => {
       returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
     const dataForList = await source.getForList();
+    // eslint-disable-next-line no-magic-numbers
     dataForList[2].description.should.equal('No users');
   });
 

@@ -2,6 +2,8 @@
 
 import HubSourceUsersGroups from './hub-source__users-groups';
 
+const SEARCH_THRESHOLD = 123;
+
 describe('Hub Users Groups Source', () => {
   let httpMock;
 
@@ -16,9 +18,9 @@ describe('Hub Users Groups Source', () => {
   });
 
   it('Should pass searchSideThreshold to HubSource', function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth, {searchSideThreshold: 123});
-    source.usersSource.options.searchSideThreshold.should.equal(123);
-    source.groupsSource.options.searchSideThreshold.should.equal(123);
+    const source = new HubSourceUsersGroups(this.fakeAuth, {searchSideThreshold: SEARCH_THRESHOLD});
+    source.usersSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
+    source.groupsSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
   });
 
   it('Should make request for users', async function () {

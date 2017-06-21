@@ -88,6 +88,7 @@ describe('Tooltip', () => {
 
       this.tooltip.popup.isVisible().should.be.false;
 
+      // eslint-disable-next-line no-magic-numbers
       clock.tick(200);
       this.tooltip.popup.isVisible().should.be.true;
 

@@ -7,6 +7,8 @@ import TokenValidator from './token-validator';
 
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 
+const TICK = 100;
+
 describe('Auth', () => {
   describe('AuthStorage', () => {
     const authStorage = new AuthStorage({
@@ -96,9 +98,9 @@ describe('Auth', () => {
         });
 
         await limitedAuthStorage.saveState(stateId, state);
-        this.sinon.clock.tick(100);
+        this.sinon.clock.tick(TICK);
         await limitedAuthStorage.cleanStates();
-        this.sinon.clock.tick(100);
+        this.sinon.clock.tick(TICK);
         localStorage.should.be.empty;
       });
     });
@@ -106,6 +108,7 @@ describe('Auth', () => {
     const token = {
       accessToken: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
+      // eslint-disable-next-line no-magic-numbers
       expires: TokenValidator._epoch() + 40 * 60
     };
 

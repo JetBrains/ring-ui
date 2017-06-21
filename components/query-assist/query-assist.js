@@ -526,6 +526,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
   sendRequest(params) {
     const value = this.props.dataSource(params);
     const dataPromise = Promise.resolve(value);
+    const CLOSE_POPUP_TIMEOUT = 500;
 
     // Close popup after timeout between long requests
     const timeout = window.setTimeout(() => {
@@ -538,7 +539,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       if (params.query === this.immediateState.query) {
         this.closePopup();
       }
-    }, 500);
+    }, CLOSE_POPUP_TIMEOUT);
 
     dataPromise.then(() => window.clearTimeout(timeout));
 

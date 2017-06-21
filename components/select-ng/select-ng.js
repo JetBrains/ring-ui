@@ -9,7 +9,7 @@ import SelectNgOptions from './select-ng__options';
 import SelectLazy from './select-ng__lazy';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
-
+const INFINITE_SCROLL_PACK_SIZE = 50;
 /**
  * @name Select Ng
  * @category Angular Components
@@ -123,7 +123,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       const container = document.createElement('span');
       const infiniteScrollPackSize =
         Number(ctrl.infiniteScrollPackSize) ||
-        (ctrl.withInfiniteScroll ? 50 : 0);
+        (ctrl.withInfiniteScroll ? INFINITE_SCROLL_PACK_SIZE : 0);
 
       /**
        * Properties

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 export default class RingComponent extends Component {
   static letOverrideLifecycleMethods = false;
+  // eslint-disable-next-line no-magic-numbers
   static RING_UNIT = 8;
   static idCounter = 0;
 
