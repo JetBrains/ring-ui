@@ -86,6 +86,7 @@ export default class Tag extends RingComponent {
 
     return (
       <span
+        data-test="ring-tag"
         tabIndex="0"
         className={classes}
         ref={this.tagRef}
