@@ -35,25 +35,32 @@ export default class PermissionCache {
   }
 
   constructor(permissions, namesConverter) {
-    const permissionCache = {};
+    this.namesConverter = namesConverter || (key => key);
+    this.set(permissions);
+  }
 
-    permissions.forEach(permission => {
-      let key = permission.permission.key;
-
-      if (namesConverter) {
-        key = namesConverter(key);
-      }
+  set(permissions) {
+    const permissionCache = (permissions || []).reduce((_permissionCache, permission) => {
+      const key = this.namesConverter(permission.permission.key);
 
       if (key) {
-        permissionCache[key] = {
+        _permissionCache[key] = {
           global: permission.global,
           projectIdSet: this.constructor._toProjectIdSet(permission.projects)
         };
       }
-    });
 
-    this.namesConverter = namesConverter || function noop() {};
+      return _permissionCache;
+    }, {});
+
+    this._permissions = permissions;
     this.permissionCache = permissionCache;
+
+    return this;
+  }
+
+  get() {
+    return this._permissions;
   }
 
   /**

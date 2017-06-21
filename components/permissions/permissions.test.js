@@ -26,8 +26,59 @@ describe('Permissions', () => {
     };
   }
 
+  function createAuthMock() {
+    return new Auth({serverUri: ''});
+  }
+
+
+  it('should create permissions', () => {
+    const permissions = new Permissions(createAuthMock());
+
+    expect(permissions).to.be.ok;
+  });
+
+
+  it('should load permissions', function shouldLoadPermissions(done) {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+    permissions.check('A').then(result => {
+      done();
+      expect(result).to.be.true;
+    });
+  });
+
+
+  it('should allow set permissions manually and do not load from the server', done => {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    permissions.set(permissionsData);
+
+    permissions.check('A').then(result => {
+      done();
+      expect(result).to.be.true;
+    });
+  });
+
+
+  it('should allow get permissions', () => {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    permissions.set(permissionsData);
+
+    expect(permissions.get()).to.equal(permissionsData);
+  });
+
+
   describe('construction', () => {
-    const auth = new Auth({serverUri: ''});
+    const auth = createAuthMock();
 
     it('shouldn\'t build query if no services ids provided', () => {
       expect(new Permissions(auth).query).to.equal(undefined);
@@ -83,7 +134,7 @@ describe('Permissions', () => {
 
   describe('loading', () => {
     it('should reload permissions', () => {
-      const auth = new Auth({serverUri: ''});
+      const auth = createAuthMock();
       const permissions = new Permissions(auth);
       sinon.stub(permissions, 'load').returns(Promise.resolve({}));
       permissions._promise = Promise.resolve(permissions);
@@ -243,7 +294,7 @@ describe('Permissions', () => {
   });
 
   describe('check and bind variable', () => {
-    const permissions = new Permissions(new Auth({serverUri: ''}));
+    const permissions = new Permissions(createAuthMock());
     const permissionKeysDefaultConverter = Permissions.
       getDefaultNamesConverter('jetbrains.jetpass.');
 
