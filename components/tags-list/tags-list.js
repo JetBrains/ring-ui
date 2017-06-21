@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import RingComponent from '../ring-component/ring-component';
 import Tag from '../tag/tag';
 
 import './tags-list.scss';
@@ -18,7 +17,7 @@ function noop() {}
  * @example-file ./tags-list.examples.html
  */
 
-export default class TagsList extends RingComponent {
+export default class TagsList extends Component {
   static propTypes = {
     tags: PropTypes.array,
     customTagComponent: (props, propName, componentName) => {
@@ -31,7 +30,8 @@ export default class TagsList extends RingComponent {
     canNotBeEmpty: PropTypes.bool,
     disabled: PropTypes.bool,
     handleClick: PropTypes.func,
-    handleRemove: PropTypes.func
+    handleRemove: PropTypes.func,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -58,18 +58,23 @@ export default class TagsList extends RingComponent {
   }
 
   render() {
+    const {
+      className, customTagComponent, canNotBeEmpty, handleClick, handleRemove, // eslint-disable-line no-unused-vars
+      ...props
+    } = this.props;
     const classes = classNames(
       'ring-js-shortcuts',
       'ring-tags-list',
       {
         'ring-tags-list_disabled': this.props.disabled
       },
-      this.props.className
+      className
     );
 
     return (
       <div
         className={classes}
+        {...props}
       >
         {
           this.props.tags.map(

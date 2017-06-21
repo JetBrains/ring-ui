@@ -3,6 +3,7 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React, {createElement} from 'react';
     import {render} from 'react-dom';
     import TagsList from 'ring-ui/components/tags-list/tags-list';
 
@@ -14,7 +15,13 @@
       ]
     };
 
-    render(TagsList.factory(props), document.getElementById('demo'));
+    render(
+    <TagsList
+      className={props.className}
+      tags={props.tags}
+    />,
+    document.getElementById('demo')
+    )
   </file>
 </example>
 
@@ -24,8 +31,9 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React, {createElement} from 'react';
     import {render} from 'react-dom';
-    import TagsLst from 'ring-ui/components/tags-list/tags-list';
+    import TagsList from 'ring-ui/components/tags-list/tags-list';
     import GroupIcon from 'jetbrains-icons/group.svg';
     import BugIcon from 'jetbrains-icons/bug.svg';
     import FrownIcon from 'jetbrains-icons/frown.svg';
@@ -36,7 +44,13 @@
         {key: 'test2', label: 'test2'}
       ]
     };
-    render(TagsLst.factory(props), document.getElementById('demo'));
+
+    render(
+    <TagsList
+      tags={props.tags}
+    />,
+    document.getElementById('demo')
+    )
   </file>
 </example>
 
@@ -45,6 +59,7 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React, {createElement} from 'react';
     import {render} from 'react-dom';
     import TagsList from 'ring-ui/components/tags-list/tags-list';
 
@@ -55,6 +70,14 @@
         {key: 'test2', label: 'test2'}
       ]
     };
-    render(TagsList.factory(props), document.getElementById('demo'));
+
+    render(
+    <TagsList
+      disabled={props.disabled}
+      tags={props.tags}
+    />
+    ,
+    document.getElementById('demo')
+    );
   </file>
 </example>
