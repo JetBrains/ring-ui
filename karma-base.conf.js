@@ -37,7 +37,7 @@ module.exports = config => {
 
     // list of preprocessors
     preprocessors: {
-      'test-helpers/*.js': ['webpack', 'sourcemap']
+      'test-helpers/test-suite.js': ['webpack', 'sourcemap']
     },
 
     webpack: require('./webpack-test.config'),
