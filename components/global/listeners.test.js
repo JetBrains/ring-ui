@@ -23,7 +23,7 @@ describe('Listeners', () => {
 
     this.listeners.trigger('test');
 
-    this.stub.should.have.been.called.once;
+    this.stub.should.have.been.calledOnce;
   });
 
   it('should trigger all handlers', function () {
@@ -32,8 +32,8 @@ describe('Listeners', () => {
 
     this.listeners.trigger('test');
 
-    this.stub.should.have.been.called.once;
-    this.secondStub.should.have.been.called.once;
+    this.stub.should.have.been.calledOnce;
+    this.secondStub.should.have.been.calledOnce;
   });
 
   it('should return array of return values of all handlers', async function () {
@@ -51,8 +51,8 @@ describe('Listeners', () => {
 
     this.listeners.trigger('test');
 
-    this.stub.should.have.been.called.once;
-    this.secondStub.should.not.have.been.called.once;
+    this.stub.should.have.been.calledOnce;
+    this.secondStub.should.not.have.been.calledOnce;
   });
 
   it('should remove handler', function () {

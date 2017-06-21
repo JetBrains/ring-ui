@@ -28,7 +28,7 @@ describe('List Users Groups Source', () => {
     }]));
 
     const dataForList = await source.getForList();
-    dataForList.should.contain({
+    dataForList.should.deep.contain({
       id: 1,
       login: 'testUser',
       profile: {avatar: {url: 'http://test.com.url'}},
@@ -58,7 +58,7 @@ describe('List Users Groups Source', () => {
     }]));
 
     const dataForList = await source.getForList();
-    dataForList.should.contain({
+    dataForList.should.deep.contain({
       id: 1,
       key: 1,
       name: 'test group',
