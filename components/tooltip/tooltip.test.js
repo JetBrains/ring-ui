@@ -60,7 +60,7 @@ describe('Tooltip', () => {
         title: ''
       });
 
-      bindEvents.should.have.been.called.twice;
+      bindEvents.should.have.been.calledTwice;
     });
 
     it('should render popup', function () {

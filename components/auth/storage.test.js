@@ -39,7 +39,7 @@ describe('Auth', () => {
         newState.should.deep.equal(state);
       });
 
-      it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.become.null);
+      it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.eventually.be.null);
 
       it('should be null after first get', async () => {
         await authStorage.saveState(stateId, state);
@@ -122,7 +122,7 @@ describe('Auth', () => {
         authStorage.getToken().should.become(token);
       });
 
-      it('should be null if wasn\'t saved', () => authStorage.getToken().should.become.null);
+      it('should be null if wasn\'t saved', () => authStorage.getToken().should.eventually.be.null);
 
       it('should be the same after several get', async () => {
         await authStorage.saveToken(token);
@@ -133,7 +133,7 @@ describe('Auth', () => {
       it('should be null after wipe', async () => {
         await authStorage.saveToken(token);
         await authStorage.wipeToken();
-        authStorage.getToken().should.become.null;
+        authStorage.getToken().should.eventually.be.null;
       });
     });
 

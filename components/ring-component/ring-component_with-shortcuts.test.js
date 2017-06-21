@@ -126,7 +126,7 @@ describe('Ring Component With Shortcuts', () => {
       }));
 
       trigger();
-      this.stub.should.have.been.called.once;
+      this.stub.should.have.been.calledOnce;
     });
 
     it('should disable shortcuts on component', function () {
