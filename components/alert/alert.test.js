@@ -1,10 +1,5 @@
 import React from 'react';
 import {shallow, mount, render} from 'enzyme';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument,
-  Simulate
-} from 'react-dom/test-utils';
 
 import Alert from './alert';
 import styles from './alert.css';

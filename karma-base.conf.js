@@ -1,6 +1,5 @@
 const url = require('url');
 const osHostname = require('os').hostname();
-const chaiPlugins = require('karma-chai-plugins');
 
 const fullHostname = osHostname.indexOf('.') !== -1
   ? osHostname
