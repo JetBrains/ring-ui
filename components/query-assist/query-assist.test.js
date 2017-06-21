@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names,no-magic-numbers */
 
 import 'dom4';
 import React from 'react';

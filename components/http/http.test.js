@@ -15,7 +15,7 @@ describe('HTTP', () => {
     });
   }
 
-  beforeEach(function () {
+  beforeEach(function beforeEach() {
     sandbox = this.sinon;
     fakeAuth = {
       constructor: {

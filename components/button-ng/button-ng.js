@@ -6,6 +6,8 @@ import Icon from '../icon-ng/icon-ng';
 
 import '../button/button.scss';
 
+const DEFAULT_ICON_SIZE = 16;
+
 /**
  * @name Button Ng
  * @category Angular Components
@@ -71,7 +73,7 @@ class ButtonController extends RingAngularComponent {
     const {$attrs, $compile, $scope} = this.$inject;
     const icon = this.element.query('.ring-button__icon');
     const glyph = $attrs.icon;
-    const size = $attrs.iconSize || 16;
+    const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;
 
     if (glyph) {

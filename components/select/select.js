@@ -379,7 +379,7 @@ export default class Select extends RingComponentWithShortcuts {
     const filteredData = [];
     let exactMatch = false;
 
-    const check = this.props.filter.fn || function (itemToCheck, checkString) {
+    const check = this.props.filter.fn || function check(itemToCheck, checkString) {
       if (checkString === '') {
         return true;
       }
@@ -731,6 +731,7 @@ export default class Select extends RingComponentWithShortcuts {
     const icons = this._getIcons();
 
     const style = {
+      // eslint-disable-next-line no-magic-numbers
       paddingRight: 8 + icons.length * 16
     };
 

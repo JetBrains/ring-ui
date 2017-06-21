@@ -8,7 +8,7 @@ import Auth from '../auth/auth';
 /* global angular: false */
 const angularModule = angular.module('Ring.auth', []);
 
-angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
+angularModule.provider('auth', ['$httpProvider', function provider($httpProvider) {
   /**
    * @example
      <example name="Auth Ng">
