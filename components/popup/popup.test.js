@@ -190,14 +190,16 @@ describe('Popup', () => {
         hidden: false
       });
 
+      // eslint-disable-next-line no-magic-numbers
       parseInt(getStyles(popup.popup).minWidth, 10).should.equal(70);
       element.remove();
     });
 
     it('Should support minWidth = some number in pixels', () => {
-      const popup = renderPopup({minWidth: 345, hidden: false});
+      const WIDTH = 345;
+      const popup = renderPopup({minWidth: WIDTH, hidden: false});
 
-      parseInt(popup.popup.style.minWidth, 10).should.equal(345);
+      parseInt(popup.popup.style.minWidth, 10).should.equal(WIDTH);
     });
   });
 });

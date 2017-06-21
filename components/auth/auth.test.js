@@ -11,6 +11,8 @@ import TokenValidator from './token-validator';
 
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
 
+const HOUR = 3600;
+
 describe('Auth', () => {
   describe('construction', () => {
     it('should require provide config', () => {
@@ -141,7 +143,7 @@ describe('Auth', () => {
     it('should resolve to undefined if there is a valid token', async() => {
       await auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
       auth.init().should.eventually.be.undefined;
@@ -172,7 +174,7 @@ describe('Auth', () => {
       token.should.be.deep.equal({
         accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
-        expires: frozenTime + 3600
+        expires: frozenTime + HOUR
       });
     });
 
@@ -326,7 +328,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -350,7 +352,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -432,7 +434,7 @@ describe('Auth', () => {
     it('should resolve to access token if there is a valid one', async function () {
       await this.auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
       const token = await this.auth.requestToken();
@@ -443,7 +445,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -466,7 +468,7 @@ describe('Auth', () => {
       this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         this.auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -539,7 +541,7 @@ describe('Auth', () => {
     it('should wait for user saved during validation', async () => {
       await auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
       await auth._tokenValidator.validateToken();

@@ -52,7 +52,7 @@ export default class PermissionCache {
       }
     });
 
-    this.namesConverter = namesConverter || function () {};
+    this.namesConverter = namesConverter || function noop() {};
     this.permissionCache = permissionCache;
   }
 

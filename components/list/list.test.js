@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
