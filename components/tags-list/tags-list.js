@@ -73,6 +73,7 @@ export default class TagsList extends Component {
 
     return (
       <div
+        data-test="ring-tags-list"
         className={classes}
         {...props}
       >
