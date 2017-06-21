@@ -84,9 +84,9 @@ describe('Hub Users Groups Source', () => {
       returns(Promise.resolve({total: 1, usergroups: []}));
 
     const source = new HubSourceUsersGroups(this.fakeAuth);
-    source.getGroups();
-    source.getGroups();
     await source.getGroups();
-    httpMock.get.should.have.been.called.once;
+    source.getGroups();
+    source.getGroups();
+    httpMock.get.should.have.been.calledOnce;
   });
 });
