@@ -19,10 +19,9 @@ module.exports = {
 
     // Best Practices
     "complexity": ["off", 5],
-    "no-magic-numbers": ["warn", { "ignore": [-1, 0, 1] }],
+    "no-magic-numbers": ["error", { "ignore": [-1, 0, 1, 2] }],
 
     // Stylistic Issues
-    "func-names": "warn",
     "max-len": ["error", 100, {
       "ignoreComments": true,
       "ignoreTemplateLiterals": true,

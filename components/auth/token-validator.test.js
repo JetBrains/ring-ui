@@ -17,10 +17,11 @@ describe('Auth', () => {
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     }, getUser, storage);
+    // eslint-disable-next-line no-magic-numbers
     const expires = TokenValidator._epoch() + 60 * 60;
 
     describe('getValidatedToken', () => {
-      beforeEach(function () {
+      beforeEach(function beforeEach() {
         this.sinon.stub(AuthStorage.prototype, 'getToken');
       });
 
@@ -67,6 +68,7 @@ describe('Auth', () => {
       it('should reject if token is expired', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: 'token',
+          // eslint-disable-next-line no-magic-numbers
           expires: TokenValidator._epoch() + 15 * 60,
           scopes: ['0-0-0-0-0']
         }));
@@ -89,7 +91,7 @@ describe('Auth', () => {
     });
 
     describe('validateAgainstUser', () => {
-      beforeEach(function () {
+      beforeEach(function beforeEach() {
         this.sinon.stub(HTTP.prototype, 'authorizedFetch');
       });
 

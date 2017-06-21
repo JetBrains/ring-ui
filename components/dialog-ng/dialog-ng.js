@@ -68,7 +68,7 @@ class DialogController extends RingAngularComponent {
   }
 
   getShortcuts() {
-    const defaultEscHandler = function () {
+    const defaultEscHandler = function escHandler() {
       this.active = false;
       this.$inject.$scope.$apply();
     }.bind(this);
@@ -87,7 +87,7 @@ class DialogController extends RingAngularComponent {
        * @type {Function} {dialogShortcuts.esc}
        */
       const customHandler = dialogShortcuts.esc;
-      dialogShortcuts.esc = function () {
+      dialogShortcuts.esc = () => {
         const result = customHandler();
         defaultEscHandler();
         return result;
@@ -334,7 +334,7 @@ class DialogService extends RingAngularComponent {
 
     // Binding proxy methods to a service instance
     ['show', 'hide', 'update', 'done', 'reset'].forEach(key => {
-      this[key] = function (...args) {
+      this[key] = function methodWrapper(...args) {
         if (this.ctrl) {
           return this.ctrl[key](...args);
         } else if (this.fallbackDialog) {

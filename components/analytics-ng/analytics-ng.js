@@ -55,7 +55,7 @@ const angularModule = angular.module('Ring.analytics', []);
  * @name analyticsProvider
  * @description Configures analytics with plugins.
  */
-angularModule.provider('analytics', function () {
+angularModule.provider('analytics', function provider() {
   let configPlugins = [];
   /**
    * @param plugins

@@ -1,4 +1,4 @@
-/* eslint-disable func-names */
+/* eslint-disable func-names,no-magic-numbers */
 
 import LoaderCore from './loader__core';
 

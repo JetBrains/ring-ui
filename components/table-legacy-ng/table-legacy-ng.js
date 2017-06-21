@@ -362,6 +362,7 @@ angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirec
 
     link: function link(scope, iElement, iAttrs) {
       const element = iElement[0];
+      const FULL_WIDTH = 100;
 
       scope.isLimited = angular.isDefined(iAttrs.limited);
       scope.isUnlimited = angular.isDefined(iAttrs.unlimited);
@@ -376,7 +377,7 @@ angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirec
         const unlimitedColumnsCount = element.parentNode.
           queryAll('.ring-table__column[unlimited]').length;
         if (unlimitedColumnsCount > 1) {
-          element.style.width = `${(100 / unlimitedColumnsCount).toFixed()}%`;
+          element.style.width = `${(FULL_WIDTH / unlimitedColumnsCount).toFixed()}%`;
         }
       }
 

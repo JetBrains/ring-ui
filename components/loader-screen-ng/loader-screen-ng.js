@@ -28,7 +28,7 @@ import '../loader-screen/loader-screen.scss';
 
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 
-angularModule.service('loaderScreen', function ($timeout, $rootScope) {
+angularModule.service('loaderScreen', function service($timeout, $rootScope) {
   // TODO in CSS Modules version put constant to global.css
   const ordinaryLoadingTTL = 100;
 

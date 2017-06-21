@@ -81,6 +81,7 @@ angularModule.directive('rgLegacyTablePager', ['$location', 'RingMessageBundle',
           const skip = scope.skip;
 
           scope.top = top;
+          // eslint-disable-next-line no-magic-numbers
           scope.topOptions = [20, 50, 100];
 
           if (total !== undefined && skip !== undefined && top !== undefined) {

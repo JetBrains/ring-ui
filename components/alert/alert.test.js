@@ -8,6 +8,8 @@ import {
 import Alert from './alert';
 import styles from './alert.css';
 
+const TICK = 500;
+
 describe('Alert', () => {
   const renderComponent = props => renderIntoDocument(<Alert {...props}/>);
 
@@ -86,7 +88,7 @@ describe('Alert', () => {
       timeout: 100,
       onCloseRequest: closeSpy
     });
-    clock.tick(500);
+    clock.tick(TICK);
 
     closeSpy.should.have.been.called;
   });

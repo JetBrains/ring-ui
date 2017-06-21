@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import 'angular';
 import 'angular-mocks';
 import './table-legacy-ng';

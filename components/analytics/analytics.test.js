@@ -5,6 +5,9 @@ import AnalyticsGAPlugin from './analytics__ga-plugin';
 import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 const Analytics = analytics.constructor;
+const TICK_INTERVAL = 10500;
+const MAX_PACK_SIZE = 100;
+const FLUSH_INTERVAL = 10000;
 
 describe('Analytics', () => {
   it('should be created', () => {
@@ -92,7 +95,7 @@ describe('Analytics', () => {
 
       it('should send request to statistics server on tracking event', function () {
         this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.have.been.calledWith([{
           category: 'test-category',
@@ -107,7 +110,7 @@ describe('Analytics', () => {
         });
 
         this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.not.have.been.called;
         flushingFunction.should.have.been.calledWith([{
@@ -117,10 +120,10 @@ describe('Analytics', () => {
       });
 
       it('should send request on achieving max pack size', function () {
-        for (let i = 0; i < 99; ++i) {
+        for (let i = 0; i < MAX_PACK_SIZE - 1; ++i) {
           this.analytics.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(99);
+        expect(customPlugin._data.length).equal(MAX_PACK_SIZE - 1);
 
         this.analytics.trackEvent('test-category-100', 'test-action');
 
@@ -131,13 +134,14 @@ describe('Analytics', () => {
       it('should configure max pack size via config', function () {
         customPlugin.config({
           send: this.send,
-          flushMaxPackSize: 102
+          // eslint-disable-next-line no-magic-numbers
+          flushMaxPackSize: MAX_PACK_SIZE + 2
         });
 
-        for (let i = 0; i < 101; ++i) {
+        for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
           this.analytics.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(101);
+        expect(customPlugin._data.length).equal(MAX_PACK_SIZE + 1);
 
         this.analytics.trackEvent('test-category-102', 'test-action');
 
@@ -147,7 +151,7 @@ describe('Analytics', () => {
 
       it('should remove prohibited symbols', function () {
         this.analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.have.been.calledWith([{
           category: 't_est-c_ate_gory_',
@@ -157,7 +161,7 @@ describe('Analytics', () => {
 
       it('should track event with additional information', function () {
         this.analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.have.been.calledWith([{
           category: 'test-category',
@@ -170,7 +174,7 @@ describe('Analytics', () => {
 
       it('should send two events to statistics server on tracking shortcut event', function () {
         this.analytics.trackShortcutEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.have.been.calledWith([{
           category: 'test-category',
@@ -194,7 +198,7 @@ describe('Analytics', () => {
             };
             const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
             this.analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
-            this.clock.tick(10500);
+            this.clock.tick(TICK_INTERVAL);
 
             const trackedData = [];
             trackedProperties.forEach(it => {
@@ -213,7 +217,7 @@ describe('Analytics', () => {
             param2: 'second'
           };
           this.analytics.trackEntityProperties('sample-entity', entity, []);
-          this.clock.tick(10500);
+          this.clock.tick(TICK_INTERVAL);
 
           this.send.should.not.have.been.called;
         });
@@ -225,7 +229,7 @@ describe('Analytics', () => {
           };
           this.analytics.
             trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
-          this.clock.tick(10500);
+          this.clock.tick(TICK_INTERVAL);
 
           this.send.should.have.been.calledWith([{
             category: 'entity',
@@ -251,7 +255,7 @@ describe('Analytics', () => {
             'property.subproperty3.nonexistent'
           ];
           this.analytics.trackEntityProperties('entity', entity, trackedProperties);
-          this.clock.tick(10500);
+          this.clock.tick(TICK_INTERVAL);
 
           this.send.should.have.been.calledWith([{
             category: 'entity',
@@ -265,7 +269,7 @@ describe('Analytics', () => {
 
       it('should send request to statistics server on page view', function () {
         this.analytics.trackPageView('test-page');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.have.been.called;
       });
@@ -273,13 +277,13 @@ describe('Analytics', () => {
       it('should send request to statistics server multiple times', function () {
         //first loop
         this.analytics.trackPageView('test-page');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
         this.send.should.have.been.called;
 
         //second loop
         this.analytics.trackEvent('test-category', 'test-event');
         this.analytics.trackEvent('test-category-2', 'test-event-2');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
         this.send.should.calledWith([{
           category: 'test-category',
           action: 'test-event'
@@ -295,22 +299,23 @@ describe('Analytics', () => {
           let counter = 0;
           function flushingIsAllowedOnSecondCheck() {
             ++counter;
+            // eslint-disable-next-line no-magic-numbers
             return counter === 2;
           }
 
           customPlugin = new AnalyticsCustomPlugin(
             this.send,
             false,
-            10000,
+            FLUSH_INTERVAL,
             flushingIsAllowedOnSecondCheck
           );
           this.analytics.config([customPlugin]);
 
           this.analytics.trackEvent('test-category', 'test-action');
-          this.clock.tick(10500);
+          this.clock.tick(TICK_INTERVAL);
 
           this.send.should.not.have.been.called;
-          this.clock.tick(10500);
+          this.clock.tick(TICK_INTERVAL);
 
           this.send.should.have.been.calledWith([{
             category: 'test-category',
@@ -326,7 +331,7 @@ describe('Analytics', () => {
 
       it('should not send request to statistics server', function () {
         this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+        this.clock.tick(TICK_INTERVAL);
 
         this.send.should.not.have.been.called;
       });

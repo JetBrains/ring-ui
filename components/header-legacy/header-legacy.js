@@ -54,6 +54,8 @@ const PRODUCTS_LOGOS = {
   'project wizard': projectWizard
 };
 
+const DEBOUNCE_INTERVAL = 50;
+
 /**
  * Takes an item, decides whether it is a known JetBrains service
  * and places a link to it in the services menu. Otherwise, returns
@@ -216,7 +218,7 @@ export default class Header extends RingComponent {
       }
     };
 
-    this.debouncedUpdate = debounce(updateLayout, 50);
+    this.debouncedUpdate = debounce(updateLayout, DEBOUNCE_INTERVAL);
     window.addEventListener('resize', this.debouncedUpdate);
   }
 
@@ -420,7 +422,7 @@ export default class Header extends RingComponent {
 
     this.props.servicesList.sort(sortServices).
       filter(service => !Header.isTopLineService(service)).
-      forEach(function (item) {
+      forEach(function iterator(item) {
         if (!item.homeUrl) {
           return;
         }
