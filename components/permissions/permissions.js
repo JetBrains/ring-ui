@@ -44,6 +44,7 @@ export default class Permissions {
     this._http = auth.http;
     this._promise = null;
     this._subscribed = false;
+    this._permissionCache = new PermissionCache(null, this.namesConverter);
   }
 
   /**
@@ -69,6 +70,29 @@ export default class Permissions {
     return services.map(service => `service:{${service}}`).join(' or ');
   }
 
+  set(cachedPermissions) {
+    this._permissionCache.set(cachedPermissions);
+    this.cache(Promise.resolve(this._permissionCache));
+    return this._permissionCache;
+  }
+
+  get() {
+    return this._permissionCache.get();
+  }
+
+  cache(promise) {
+    if (arguments.length === 0) {
+      return this._promise;
+    }
+
+    this._promise = promise;
+    return promise;
+  }
+
+  resetCache() {
+    this.cache(null);
+  }
+
   /**
    * Loads logged-in user permissions.
    * @return {Promise.<Permissions>} promise that is resolved when the permissions are loaded
@@ -81,21 +105,15 @@ export default class Permissions {
       this._subscribed = true;
     }
 
-    if (this._promise) {
-      return this._promise;
-    }
-
-    const params = {
-      query: {
-        fields: 'permission/key,global,projects(id)',
-        query: this.query
-      }
-    };
-
-    this._promise = this._http.get(Permissions.API_PERMISSION_CACHE_PATH, params).
-      then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
-
-    return this._promise;
+    return (
+      this.cache() ||
+      this.cache(this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
+        query: {
+          fields: 'permission/key,global,projects(id)',
+          query: this.query
+        }
+      }).then(cachedPermissions => this.set(cachedPermissions)))
+    );
   }
 
   /**
@@ -103,7 +121,7 @@ export default class Permissions {
    * @returns {Promise.<Permissions>} promise that is resolved when the permissions are reloaded
    */
   reload() {
-    this._promise = null;
+    this.resetCache();
     return this.load();
   }
 
