@@ -219,7 +219,7 @@ export default class List extends RingComponentWithShortcuts {
           return;
         }
 
-        this.recalculateVisfibleOptions(true);
+        this.recalculateVisibleOptions(true);
         preventDefault(e);
       }
     );
