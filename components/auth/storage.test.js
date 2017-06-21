@@ -39,7 +39,9 @@ describe('Auth', () => {
         newState.should.deep.equal(state);
       });
 
-      it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.eventually.be.null);
+      it('should be null if wasn\'t set', () => {
+        authStorage.getState(stateId).should.eventually.be.null;
+      });
 
       it('should be null after first get', async () => {
         await authStorage.saveState(stateId, state);
