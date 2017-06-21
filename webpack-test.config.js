@@ -16,6 +16,18 @@ config.resolve = {
 
 loaders.babelLoader.include.push(helpersPath);
 
+config.module.rules.push({
+  test: /\.js$/,
+  include: path.join(__dirname, 'node_modules/chai-as-promised'),
+  use: {
+    loader: 'babel-loader',
+    options: {
+      presets: ['jetbrains'],
+      babelrc: false
+    }
+  }
+});
+
 config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
 };
