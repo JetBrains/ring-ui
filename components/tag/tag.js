@@ -108,7 +108,7 @@ export default class Tag extends RingComponent {
   }
 
   getImageIcon() {
-    if (this.props.icon) {
+    if (this.props.icon && !this.props.avatar) {
       return this.getImageIconElement();
     }
     return null;
