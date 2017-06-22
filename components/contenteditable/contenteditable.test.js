@@ -1,71 +1,73 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
-  beforeEach(function () {
-    this.stub = this.sinon.stub();
+  const stub = sinon.stub();
 
-    this.renderContentEditable = function (props) {
-      this.component = renderIntoDocument(
-        React.createElement(ContentEditable, props, <b>{'bold'}</b>)
-      );
-    };
+  afterEach(() => stub.reset());
 
-    this.renderContentEditable({
-      className: 'test',
-      onComponentUpdate: this.stub
-    });
+  const defaultProps = {
+    className: 'test',
+    onComponentUpdate: stub
+  };
+
+  const mountContentEditable = (props = defaultProps) => mount(
+    <ContentEditable {...props}>
+      <b>{'bold'}</b>
+    </ContentEditable>
+  );
+  const shallowContentEditable = (props = defaultProps) => shallow(
+    <ContentEditable {...props}>
+      <b>{'bold'}</b>
+    </ContentEditable>
+  );
+
+  it('should create component', () => {
+    mountContentEditable().should.have.type(ContentEditable);
   });
 
-  it('should create component', function () {
-    isCompositeComponentWithType(this.component, ContentEditable).should.be.true;
-  });
-
-  it('should pass other properties', function () {
-    this.component.node.className.should.equal('test');
+  it('should pass other properties', () => {
+    shallowContentEditable().should.have.className('test');
   });
 
 
-  it('should dangerously set html', function () {
-    this.component.node.innerHTML.should.equal('<b>bold</b>');
+  it('should dangerously set html', () => {
+    mountContentEditable().getDOMNode().innerHTML.should.equal('<b>bold</b>');
   });
 
-  it('should render only on html / disabled change', function () {
-    this.component.rerender({
+  it('should render only on html / disabled change', () => {
+    const wrapper = mountContentEditable();
+    wrapper.setProps({
       disabled: true
     });
 
-    this.component.rerender({
+    wrapper.setProps({
       children: <span/>
     });
 
-    this.stub.should.have.been.calledTwice;
+    stub.should.have.been.calledTwice;
   });
 
-  it('should not render on other props change', function () {
-    this.component.rerender({
+  it('should not render on other props change', () => {
+    const wrapper = mountContentEditable();
+    wrapper.setProps({
       className: 'testtest'
     });
 
-    this.stub.should.not.have.been.called;
+    stub.should.not.have.been.called;
   });
 
-  it('should set tabindex equal zero by default', function () {
-    this.component.node.getAttribute('tabindex').should.equal('0');
+  it('should set tabindex equal zero by default', () => {
+    shallowContentEditable().should.have.attr('tabindex', '0');
   });
 
-  it('should allow pass custom tabindex', function () {
-    this.renderContentEditable({
+  it('should allow pass custom tabindex', () => {
+    const wrapper = shallowContentEditable({
       tabIndex: -1
     });
 
-    this.component.node.getAttribute('tabindex').should.equal('-1');
+    wrapper.should.have.attr('tabindex', '-1');
   });
 });
