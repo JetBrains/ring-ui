@@ -34,7 +34,6 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = durationMs => {
    * ....
    * n - less than 2^(n + 1) seconds
    */
-  // eslint-disable-next-line no-magic-numbers
   let roundedDuration = Math.floor(Math.pow(2, Math.floor(Math.log2(duration)) + 1));
   roundedDuration = (roundedDuration > 0) ? roundedDuration : 1;
 

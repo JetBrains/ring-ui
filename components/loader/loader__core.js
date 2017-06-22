@@ -28,7 +28,6 @@ class Particle {
     ctx.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${alpha})`;
 
     ctx.beginPath();
-    // eslint-disable-next-line no-magic-numbers
     ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2);
     ctx.fill();
   }
@@ -121,10 +120,8 @@ export default class LoaderCore {
   }
 
   handleLimits(coord, radius, speed, limit) {
-    // eslint-disable-next-line no-magic-numbers
     const randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed / 2;
 
-    // eslint-disable-next-line no-magic-numbers
     if (coord + (radius * 2) + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);
     } else if (coord <= this.baseSpeed) {

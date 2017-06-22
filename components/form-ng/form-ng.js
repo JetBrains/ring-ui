@@ -88,7 +88,6 @@ angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getForm
         scope.active = active;
 
         if (active && element) {
-          // eslint-disable-next-line no-magic-numbers
           scope.style.left = element.offsetWidth + 2;
         }
       });
