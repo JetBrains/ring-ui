@@ -1,34 +1,33 @@
-import 'dom4';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import React from 'react';
+import {shallow, mount, render} from 'enzyme';
 
 import Badge from './badge';
 import style from './badge.css';
 
 describe('Badge', () => {
-  const renderComponent = (params, content) => renderIntoDocument(Badge.factory(params, content));
+  const shallowBadge = (params, content) => shallow(<Badge {...params}>{content}</Badge>);
+  const mountBadge = (params, content) => mount(<Badge {...params}>{content}</Badge>);
+  const renderBadge = (params, content) => render(<Badge {...params}>{content}</Badge>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Badge).should.be.true;
+    mountBadge().should.have.type(Badge);
   });
 
   it('should render span with badge class', () => {
-    const node = renderComponent().node;
-    node.should.match('span');
-    node.should.have.class(style.badge);
+    const wrapper = shallowBadge();
+    wrapper.should.have.type('span');
+    wrapper.should.have.className(style.badge);
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    shallowBadge({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should render children', () => {
-    renderComponent({}, 'foo').node.textContent.should.equal('foo');
+    renderBadge({}, 'foo').should.have.text('foo');
   });
 
   it('should render valid badge', () => {
-    renderComponent({valid: true}, 'foo').node.should.have.class(style.valid);
+    shallowBadge({valid: true}, 'foo').should.have.className(style.valid);
   });
 });

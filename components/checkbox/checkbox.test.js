@@ -1,26 +1,26 @@
 /* eslint-disable func-names */
 
 import React from 'react';
-import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
-import {findDOMNode} from 'react-dom';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Checkbox from './checkbox';
 
 describe('Checkbox', () => {
-  const renderComponent = props => renderIntoDocument(<Checkbox {...props}/>);
+  const shallowCheckbox = props => shallow(<Checkbox {...props}/>);
+  const mountCheckbox = props => mount(<Checkbox {...props}/>);
 
   it('should create component', () => {
-    const checkbox = renderComponent();
-    checkbox.should.exist;
+    shallowCheckbox().should.exist;
   });
 
   it('should render checkbox', () => {
-    const checkbox = renderComponent();
+    const checkbox = mountCheckbox().instance();
     checkbox.input.should.have.property('type', 'checkbox');
   });
 
   it('should set name', () => {
-    const checkbox = renderComponent({name: 'test'});
+    const checkbox = mountCheckbox({name: 'test'}).instance();
 
     checkbox.input.should.have.property('name', 'test');
   });
@@ -28,7 +28,7 @@ describe('Checkbox', () => {
   it('should call handler for click event', () => {
     const clickHandler = sinon.stub();
 
-    const checkbox = renderComponent({onClick: clickHandler});
+    const checkbox = mountCheckbox({onClick: clickHandler}).instance();
     Simulate.click(checkbox.input);
 
     clickHandler.should.have.been.called;
@@ -37,31 +37,31 @@ describe('Checkbox', () => {
   it('should not call handler on change event if disabled', () => {
     const onChange = sinon.stub();
 
-    const checkbox = renderComponent({
+    const checkbox = shallowCheckbox({
       disabled: true,
       onChange
     });
 
-    Simulate.click(findDOMNode(checkbox));
+    checkbox.simulate('click');
     onChange.should.have.not.been.called;
   });
 
   it('should be unchecked by default', () => {
-    const checkbox = renderComponent();
+    const checkbox = shallowCheckbox();
 
-    findDOMNode(checkbox).should.not.be.checked;
+    checkbox.should.not.be.checked();
   });
 
   it('should check control', () => {
-    const checkbox = renderComponent({checked: true});
+    const checkbox = mountCheckbox({checked: true}).instance();
 
     checkbox.input.should.be.checked;
   });
 
   it('should be disabled', () => {
-    const checkbox = renderComponent({
+    const checkbox = mountCheckbox({
       disabled: true
-    });
+    }).instance();
 
     checkbox.input.should.be.disabled;
   });
@@ -72,7 +72,7 @@ describe('Checkbox', () => {
         checked: true
       }
     };
-    const checkbox = renderComponent();
+    const checkbox = mountCheckbox().instance();
 
     Simulate.change(checkbox.input, eventMock);
     checkbox.input.should.be.checked;
