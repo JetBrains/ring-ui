@@ -1,45 +1,41 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
 import styles from './content-layout.css';
 
 describe('Content Layout', () => {
-  const renderComponent = params => renderIntoDocument(<ContentLayout {...params}/>);
+  const shallowContentLayout = params => shallow(<ContentLayout {...params}/>);
+  const mountContentLayout = params => mount(<ContentLayout {...params}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), ContentLayout).should.be.true;
+    mountContentLayout().should.have.type(ContentLayout);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowContentLayout().should.have.type('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowContentLayout({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should render sidebar', () => {
-    const component = renderIntoDocument(<ContentLayout>
+    const component = mount(<ContentLayout>
       <Sidebar>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    findDOMNode(component).should.contain(`div.${styles.sidebar}`);
+    component.should.have.descendants(`div.${styles.sidebar}`);
   });
 
   it('should render sidebar on the right', () => {
-    const component = renderIntoDocument(<ContentLayout>
+    const component = mount(<ContentLayout>
       <Sidebar right={true}>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 
-    findDOMNode(component).should.contain(`div.${styles.sidebarRight}`);
+    component.should.have.descendants(`div.${styles.sidebarRight}`);
   });
 });
