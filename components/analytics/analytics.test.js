@@ -134,7 +134,6 @@ describe('Analytics', () => {
       it('should configure max pack size via config', function () {
         customPlugin.config({
           send: this.send,
-          // eslint-disable-next-line no-magic-numbers
           flushMaxPackSize: MAX_PACK_SIZE + 2
         });
 
