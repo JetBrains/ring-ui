@@ -14,7 +14,7 @@ describe('Content Layout', () => {
   });
 
   it('should wrap children with div', () => {
-    shallowContentLayout().should.have.type('div');
+    shallowContentLayout().should.have.tagName('div');
   });
 
   it('should use passed className', () => {

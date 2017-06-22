@@ -1,26 +1,25 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Input from './input';
 
 describe('Input', () => {
-  const renderComponent = params => renderIntoDocument(<Input {...params}/>);
+  const shallowInput = params => shallow(<Input {...params}/>);
+  const mountInput = params => mount(<Input {...params}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Input).should.be.true;
+    mountInput().should.have.type(Input);
   });
 
   it('should create input by default', () => {
-    findDOMNode(renderComponent()).should.match('input');
+    shallowInput().should.have.tagName('input');
   });
 
   it('should create textarea with multiline option', () => {
-    findDOMNode(renderComponent({multiline: true})).should.match('textarea');
+    shallowInput({multiline: true}).should.have.tagName('textarea');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.have.class('test-class');
+    shallowInput({className: 'test-class'}).should.have.className('test-class');
   });
 });
