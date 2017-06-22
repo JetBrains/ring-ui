@@ -1,9 +1,5 @@
-import 'dom4';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument,
-  Simulate
-} from 'react-dom/test-utils';
+import React from 'react';
+import {mount, shallow, render} from 'enzyme';
 
 import sniffer from '../global/sniffer';
 
@@ -11,18 +7,20 @@ import DatePicker from './date-picker';
 import styles from './date-picker.css';
 
 describe('Date Picker', () => {
-  const renderComponent = params => renderIntoDocument(DatePicker.factory(params));
+  const shallowDatePicker = params => shallow(<DatePicker {...params}/>);
+  const mountDatePicker = params => mount(<DatePicker {...params}/>);
+  const renderDatePicker = params => render(<DatePicker {...params}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), DatePicker).should.be.true;
+    mountDatePicker().should.have.type(DatePicker);
   });
 
   it('should render a button', () => {
-    renderComponent().node.firstChild.should.match(`button.${styles.datePicker}`);
+    renderDatePicker().should.have.descendants(`button.${styles.datePicker}`);
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    shallowDatePicker({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should parse and display passed date', () => {
@@ -30,7 +28,7 @@ describe('Date Picker', () => {
       return;
     }
 
-    renderComponent({date: '01.11.16'}).node.should.have.text('1 Nov 2016');
+    renderDatePicker({date: '01.11.16'}).should.have.text('1 Nov 2016');
   });
 
   it('should accept a Date instance', () => {
@@ -38,12 +36,12 @@ describe('Date Picker', () => {
       return;
     }
 
-    renderComponent({date: new Date(0)}).node.should.have.text('1 Jan 1970');
+    renderDatePicker({date: new Date(0)}).should.have.text('1 Jan 1970');
   });
 
   it('should render a popup on button click', () => {
-    const picker = renderComponent();
-    Simulate.click(picker.node);
+    const picker = mountDatePicker();
+    picker.simulate('click');
     document.body.should.contain(`.${styles.datePopup}`);
   });
 
