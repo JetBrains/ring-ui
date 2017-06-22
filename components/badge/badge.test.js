@@ -15,7 +15,7 @@ describe('Badge', () => {
 
   it('should render span with badge class', () => {
     const wrapper = shallowBadge();
-    wrapper.should.have.type('span');
+    wrapper.should.have.tagName('span');
     wrapper.should.have.className(style.badge);
   });
 

@@ -12,7 +12,7 @@ describe('Button Toolbar', () => {
   });
 
   it('should wrap children with div', () => {
-    shallowButtonToolbar().should.have.type('div');
+    shallowButtonToolbar().should.have.tagName('div');
   });
 
   it('should use passed className', () => {

@@ -1,11 +1,5 @@
-/* eslint-disable func-names */
-
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import {shallow, mount} from 'enzyme';
 import expandIcon from 'jetbrains-icons/expand.svg';
 
 import {resolveRelativeURL} from '../global/url';
@@ -13,42 +7,43 @@ import {resolveRelativeURL} from '../global/url';
 import Icon from './icon';
 
 describe('Icon', () => {
-  const renderComponent = props => renderIntoDocument(<Icon {...props}/>);
+  const shallowIcon = props => shallow(<Icon {...props}/>);
+  const mountIcon = props => mount(<Icon {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent({glyph: expandIcon}), Icon).should.equal(true);
+    mountIcon().should.have.type(Icon);
   });
 
   it('should render passed glyph', () => {
-    const icon = renderComponent({glyph: expandIcon});
-    findDOMNode(icon).query('use').should.have.attr('xlink:href', resolveRelativeURL(expandIcon));
+    const icon = shallowIcon({glyph: expandIcon});
+    icon.find('use').should.have.attr('xlink:href', resolveRelativeURL(expandIcon));
   });
 
   it('should set size 16', () => {
-    const icon = renderComponent({glyph: expandIcon, size: Icon.Size.Size16});
+    const icon = shallowIcon({glyph: expandIcon, size: Icon.Size.Size16});
 
-    findDOMNode(icon).query('svg').should.have.attr('style').contain('width: 16px');
-    findDOMNode(icon).query('svg').should.have.attr('style').contain('height: 16px');
+    icon.find('svg').should.have.style('width', '16px');
+    icon.find('svg').should.have.style('height', '16px');
   });
 
   it('should set one custom dimension', () => {
-    const icon = renderComponent({glyph: expandIcon, width: 100});
+    const icon = shallowIcon({glyph: expandIcon, width: 100});
 
-    findDOMNode(icon).query('svg').should.have.attr('style').contain('width: 100px');
-    findDOMNode(icon).query('svg').should.have.attr('style').not.contain('height:');
+    icon.find('svg').should.have.style('width', '100px');
+    icon.find('svg').should.not.have.style('height');
   });
 
   it('should set two custom dimensions', () => {
-    const icon = renderComponent({glyph: expandIcon, width: 99, height: 66});
+    const icon = shallowIcon({glyph: expandIcon, width: 99, height: 66});
 
-    findDOMNode(icon).query('svg').should.have.attr('style').contain('width: 99px');
-    findDOMNode(icon).query('svg').should.have.attr('style').contain('height: 66px');
+    icon.find('svg').should.have.style('width', '99px');
+    icon.find('svg').should.have.style('height', '66px');
   });
 
   it('should set custom class', () => {
     const CUSTOM_CSS_CLASS = 'my-icon';
-    const icon = renderComponent({glyph: expandIcon, className: CUSTOM_CSS_CLASS});
+    const icon = shallowIcon({glyph: expandIcon, className: CUSTOM_CSS_CLASS});
 
-    findDOMNode(icon).should.have.class(CUSTOM_CSS_CLASS);
+    icon.should.have.className(CUSTOM_CSS_CLASS);
   });
 });

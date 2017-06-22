@@ -1,24 +1,21 @@
-import 'dom4';
 import React from 'react';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Island from './island-legacy';
 
 describe('Island Legacy', () => {
-  const renderComponent = params => renderIntoDocument(<Island {...params}/>);
+  const shallowIsland = params => shallow(<Island {...params}/>);
+  const mountIsland = params => mount(<Island {...params}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Island).should.be.true;
+    mountIsland().should.have.type(Island);
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    shallowIsland().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    shallowIsland({className: 'test-class'}).should.have.className('test-class');
   });
 });
