@@ -1,26 +1,23 @@
-/* eslint-disable func-names */
-
-import 'dom4';
 import React from 'react';
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount, render} from 'enzyme';
 
 import Button from './button';
 
 describe('Button', () => {
-  beforeEach(function () {
-    this.button = renderIntoDocument(React.createElement(Button));
+  const shallowButton = props => shallow(<Button {...props}/>);
+  const mountButton = props => mount(<Button {...props}/>);
+  const renderButton = props => render(<Button {...props}/>);
+
+  it('should create component', () => {
+    mountButton().should.have.type(Button);
   });
 
-  it('should create component', function () {
-    isCompositeComponentWithType(this.button, Button).should.equal(true);
+  it('should set _default modifier', () => {
+    shallowButton().should.have.className('ring-button_default');
   });
 
-  it('should set _default modifier', function () {
-    this.button.node.should.have.class('ring-button_default');
-  });
-
-  it('should set modifiers', function () {
-    this.button.rerender({
+  it('should set modifiers', () => {
+    const wrapper = shallowButton({
       active: true,
       blue: true,
       danger: true,
@@ -30,32 +27,32 @@ describe('Button', () => {
       short: true
     });
 
-    this.button.node.should.have.class('ring-button_active');
-    this.button.node.should.have.class('ring-button_blue');
-    this.button.node.should.have.class('ring-button_danger');
-    this.button.node.should.have.class('ring-button_delayed');
-    this.button.node.should.have.class('ring-button_loader');
-    this.button.node.should.have.class('ring-button_primary');
-    this.button.node.should.have.class('ring-button_short');
+    wrapper.should.have.className('ring-button_active');
+    wrapper.should.have.className('ring-button_blue');
+    wrapper.should.have.className('ring-button_danger');
+    wrapper.should.have.className('ring-button_delayed');
+    wrapper.should.have.className('ring-button_loader');
+    wrapper.should.have.className('ring-button_primary');
+    wrapper.should.have.className('ring-button_short');
   });
 
-  it('should add icon', function () {
-    this.button.rerender({
+  it('should add icon', () => {
+    const wrapper = renderButton({
       icon: '#caret-down'
     });
 
-    this.button.node.should.have.class('ring-button_icon');
-    this.button.node.should.contain('svg[style*="16"]');
-    this.button.node.query('use').should.have.attribute('xlink:href', '#caret-down');
+    wrapper.should.have.className('ring-button_icon');
+    wrapper.should.have.descendants('svg[style*="16"]');
+    wrapper.find('use').should.have.attr('xlink:href', '#caret-down');
   });
 
-  it('should set custom class', function () {
+  it('should set custom class', () => {
     const CUSTOM_CLASS = 'test';
 
-    this.button.rerender({
+    const wrapper = shallowButton({
       className: CUSTOM_CLASS
     });
 
-    this.button.node.should.have.class(CUSTOM_CLASS);
+    wrapper.should.have.className(CUSTOM_CLASS);
   });
 });
