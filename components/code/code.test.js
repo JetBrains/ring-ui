@@ -19,7 +19,7 @@ describe('Code', () => {
   );
 
   it('should wrap children with pre', () => {
-    shallowCode().should.have.type('pre');
+    shallowCode().should.have.tagName('pre');
   });
 
   it('should use passed className', () => {

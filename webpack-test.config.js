@@ -46,6 +46,7 @@ config.plugins = [
   })
 ];
 
+// this addresses internal `require`s in enzyme used for environment detection
 config.externals = {
   'react/addons': 'react',
   'react/lib/ExecutionEnvironment': 'react',

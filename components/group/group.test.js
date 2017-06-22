@@ -1,25 +1,21 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Group from './group';
 
 describe('Group', () => {
-  const renderComponent = props => renderIntoDocument(<Group {...props}/>);
+  const shallowGroup = props => shallow(<Group {...props}/>);
+  const mountGroup = props => mount(<Group {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Group).should.be.true;
+    mountGroup().should.have.type(Group);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('span');
+    shallowGroup().should.have.tagName('span');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowGroup({className: 'test-class'}).should.have.className('test-class');
   });
 });

@@ -1,26 +1,22 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import ErrorMessage from './error-message';
 
 describe('Error Message', () => {
-  const renderComponent = props => renderIntoDocument(<ErrorMessage {...props}/>);
+  const shallowErrorMessage = props => shallow(<ErrorMessage {...props}/>);
+  const mountErrorMessage = props => mount(<ErrorMessage {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), ErrorMessage).should.be.true;
+    mountErrorMessage().should.have.type(ErrorMessage);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowErrorMessage().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowErrorMessage({className: 'test-class'}).should.have.className('test-class');
   });
 
   // TODO Add more tests

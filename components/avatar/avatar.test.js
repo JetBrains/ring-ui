@@ -30,7 +30,7 @@ describe('Avatar', () => {
   });
 
   it('should render span when no url is passed', () => {
-    shallowAvatar().should.have.type('span');
+    shallowAvatar().should.have.tagName('span');
   });
 
   it('should render image when url is passed', () => {
