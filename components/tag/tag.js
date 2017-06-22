@@ -76,7 +76,7 @@ export default class Tag extends RingComponent {
     this.tag = el;
   };
 
-  getCustomIcon() {
+  renderCustomIcon() {
     if (this.props.rgTagIcon) {
       return (
         <Icon
@@ -90,7 +90,7 @@ export default class Tag extends RingComponent {
     return null;
   }
 
-  getImageIconElement(avatarSrc) {
+  _renderImageElement(avatarSrc) {
     const classes = classNames([
       {
         'ring-tag__custom-icon': this.props.icon
@@ -107,27 +107,27 @@ export default class Tag extends RingComponent {
     );
   }
 
-  getImageIcon() {
+  renderImage() {
     if (this.props.icon && !this.props.avatar) {
-      return this.getImageIconElement();
+      return this._renderImageElement();
     }
     return null;
   }
 
-  getAvatar() {
+  renderAvatar() {
     if (this.props.avatar) {
       return (
         <span
           className="ring-tag__avatar-container"
         >
-          {this.getImageIconElement(this.props.avatar)}
+          {this._renderImageElement(this.props.avatar)}
         </span>
       );
     }
     return null;
   }
 
-  getRemoveIcon() {
+  renderRemoveIcon() {
     if (this.props.readOnly) {
       return (
         <Icon
@@ -158,11 +158,11 @@ export default class Tag extends RingComponent {
         ref={this.tagRef}
         onClick={this.props.onClick}
       >
-        {this.getAvatar()}
-        {this.getCustomIcon()}
-        {this.getImageIcon()}
+        {this.renderAvatar()}
+        {this.renderCustomIcon()}
+        {this.renderImage()}
         <span>{this.props.children}</span>
-        {this.getRemoveIcon()}
+        {this.renderRemoveIcon()}
       </span>);
   }
 }
