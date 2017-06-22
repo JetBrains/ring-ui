@@ -63,4 +63,6 @@ $tag-max-heigth: 20px;
 
 .ring-tag__avatar-icon {
   max-height: $tag-max-heigth;
+  max-width: $tag-max-heigth;
+  border-radius: $ring-border-radius;
 }
