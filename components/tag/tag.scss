@@ -1,15 +1,20 @@
 @import "../global/global";
 
-$tag-background-color: #E6E6E6;
+$tag-background-color: #e9f1f5;
+$tag-max-heigth: 20px;
 
 .ring-tag {
+  height: $tag-max-heigth;
+  box-sizing: border-box;
   display: inline-block;
   margin-right: $ring-unit / 2;
   padding: 1px $ring-unit / 2;
+  color: $ring-text-color;
   font-size: 12px;
+  line-height: 15px;
 
   background-color: $tag-background-color;
-  border-radius: 2px;
+  border-radius: $ring-border-radius;
   border: 1px solid $tag-background-color;
 
   &_focused, &:focus {
@@ -19,10 +24,11 @@ $tag-background-color: #E6E6E6;
 }
 
 .ring-tag__remove.ring-tag__remove {
-  padding-left: $ring-unit / 2;
-  color: $ring-dark-gray-color;
-
   @include ring-vertical-compensation();
+  margin-right: -$ring-unit / 2;
+  padding: 0 $ring-unit / 2;
+
+  color: $ring-dark-gray-color;
 
   &:hover {
     color: $ring-link-hover-color;
@@ -30,9 +36,21 @@ $tag-background-color: #E6E6E6;
 }
 
 .ring-tag__ring-icon {
-  padding-right: $ring-unit / 2;
+  margin-right: $ring-unit / 2;
   color: $ring-dark-gray-color;
   @include ring-vertical-compensation(-1px);
+}
+
+.ring-tag__avatar-container {
+  position: relative;
+  top: -2px;
+  left: -5px;
+  box-sizing: border-box;
+  display: inline-block;
+  height: $tag-max-heigth;
+  vertical-align: top;
+  overflow: hidden;
+  border-radius: $ring-border-radius;
 }
 
 .ring-tag__custom-icon {
@@ -40,4 +58,9 @@ $tag-background-color: #E6E6E6;
   margin-right: $ring-unit / 2;
   max-width: $ring-unit * 2;
   max-height: $ring-unit * 2;
+}
+
+
+.ring-tag__avatar-icon {
+  max-height: $tag-max-heigth;
 }
