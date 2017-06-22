@@ -25,6 +25,7 @@ describe('SelectPopup', () => {
     });
 
 
+/*
     describe('filter', () => {
       it('should disable shortcuts', function () {
         this.sinon.spy(this.selectPopup, 'tabPress');
@@ -34,6 +35,7 @@ describe('SelectPopup', () => {
         expect(this.selectPopup.tabPress).to.not.be.called;
       });
     });
+*/
   });
 
 

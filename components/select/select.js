@@ -89,7 +89,10 @@ export default class Select extends RingComponentWithShortcuts {
     onAdd: noop,          // search string as first argument
 
     onDone: noop,
-    onReset: noop
+    onReset: noop,
+
+    tags: false,
+    onRemoveTag: noop
   };
 
   state = {
@@ -298,6 +301,8 @@ export default class Select extends RingComponentWithShortcuts {
         onSelect={this._listSelectHandler}
         onFilter={this._filterChangeHandler}
         onLoadMore={this.props.onLoadMore}
+        tags={this.props.tags}
+        selected={this.state.selected}
       />
     );
   }
