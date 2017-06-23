@@ -43,7 +43,7 @@ describe('ShortcutsHOC', () => {
       const shortcuts = createShortcutsMap();
       shortcuts.options.disabled = true;
 
-      const wrapper = mountInputWithShortcuts(shortcuts);
+      mountInputWithShortcuts(shortcuts);
 
       simulateCombo('enter');
 

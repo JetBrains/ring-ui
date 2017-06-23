@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import React from 'react';
 import {renderIntoDocument} from 'react-dom/test-utils';
 import guid from 'mout/random/guid';
@@ -23,42 +21,43 @@ describe('Ring Component With Shortcuts', () => {
     simulateCombo(key);
   }
 
-  beforeEach(function () {
-    const stub = this.stub = sandbox.stub();
+  let stub;
+
+  beforeEach(() => {
+    stub = sandbox.stub();
     shortcuts.reset();
+  });
 
-    class TestComponent extends RingComponentWithShortcuts {
-      constructor(params = {}) {
-        const defaultShortcutsProps = {
-          map: {
-            [key]: stub
-          },
-          options: {}
-        };
+  class TestComponent extends RingComponentWithShortcuts {
+    constructor(params = {}) {
+      const defaultShortcutsProps = {
+        map: {
+          [key]: stub
+        },
+        options: {}
+      };
 
-        super();
-        this.scope = guid();
-        this.shortcutsProps = params.shortcutsProps || defaultShortcutsProps;
+      super();
+      this.scope = guid();
+      this.shortcutsProps = params.shortcutsProps || defaultShortcutsProps;
 
-        this.shortcutsProps.scope = this.scope;
-      }
-
-      getShortcutsProps() {
-        return this.shortcutsProps;
-      }
-
-      render() {
-        return <div/>;
-      }
+      this.shortcutsProps.scope = this.scope;
     }
 
-    this.TestComponent = TestComponent;
-  });
+    getShortcutsProps() {
+      return this.shortcutsProps;
+    }
+
+    render() {
+      return <div/>;
+    }
+  }
 
 
   describe('test as react component', () => {
-    beforeEach(function () {
-      this.component = renderIntoDocument(React.createElement(this.TestComponent, {
+    let component;
+    beforeEach(() => {
+      component = renderIntoDocument(React.createElement(TestComponent, {
         shortcuts: true
       }));
     });
@@ -83,67 +82,67 @@ describe('Ring Component With Shortcuts', () => {
       createWrongComponent.should.throw(Error);
     });
 
-    it('should not activate shortcuts without param', function () {
+    it('should not activate shortcuts without param', () => {
       shortcuts.reset();
-      renderIntoDocument(React.createElement(this.TestComponent));
+      renderIntoDocument(React.createElement(TestComponent));
 
       shortcuts.getScope().should.be.empty;
     });
 
-    it('shortcutsEnabled should reflect shortcuts disabled state', function () {
-      const component = renderIntoDocument(React.createElement(this.TestComponent));
+    it('shortcutsEnabled should reflect shortcuts disabled state', () => {
+      const newComponent = renderIntoDocument(React.createElement(TestComponent));
 
-      component.shortcutsEnabled().should.be.false;
+      newComponent.shortcutsEnabled().should.be.false;
     });
 
-    it('shortcutsEnabled should reflect shortcuts enabled state', function () {
-      this.component.shortcutsEnabled().should.be.true;
+    it('shortcutsEnabled should reflect shortcuts enabled state', () => {
+      component.shortcutsEnabled().should.be.true;
     });
 
-    it('should activate shortcuts on component', function () {
+    it('should activate shortcuts on component', () => {
       shortcuts.getScope().
         should.
         deep.
-        equal([shortcuts.wrapScope(this.component.scope)]);
-      this.component.shortcutsScope.should.equal(this.component.scope);
+        equal([shortcuts.wrapScope(component.scope)]);
+      component.shortcutsScope.should.equal(component.scope);
     });
 
-    it('should lazy activate shortcuts', function () {
-      this.component.rerender({
+    it('should lazy activate shortcuts', () => {
+      component.rerender({
         shortcuts: true
       });
 
       shortcuts.getScope().
         should.
         deep.
-        equal([shortcuts.wrapScope(this.component.scope)]);
-      this.component.shortcutsScope.should.equal(this.component.scope);
+        equal([shortcuts.wrapScope(component.scope)]);
+      component.shortcutsScope.should.equal(component.scope);
     });
 
-    it('should trigger handlers bound on component', function () {
-      renderIntoDocument(React.createElement(this.TestComponent, {
+    it('should trigger handlers bound on component', () => {
+      renderIntoDocument(React.createElement(TestComponent, {
         shortcuts: true
       }));
 
       trigger();
-      this.stub.should.have.been.calledOnce;
+      stub.should.have.been.calledOnce;
     });
 
-    it('should disable shortcuts on component', function () {
-      this.component.rerender({
+    it('should disable shortcuts on component', () => {
+      component.rerender({
         shortcuts: false
       });
 
       shortcuts.getScope().should.be.empty;
     });
 
-    it('should not trigger on component with disabled shortcuts', function () {
-      this.component.rerender({
+    it('should not trigger on component with disabled shortcuts', () => {
+      component.rerender({
         shortcuts: false
       });
 
       trigger();
-      this.stub.should.not.have.been.called;
+      stub.should.not.have.been.called;
     });
   });
 
@@ -155,71 +154,71 @@ describe('Ring Component With Shortcuts', () => {
         filter(s => s.scopeId === scope) [0];
     }
 
-
-    beforeEach(function () {
-      this.component = new this.TestComponent();
+    let component;
+    beforeEach(() => {
+      component = new TestComponent();
       this.propsMock = {
         shortcuts: true
       };
     });
 
-    it('should initialize shortcuts when we toggle shortcuts first time', function () {
-      this.component.toggleShortcuts(this.propsMock);
+    it('should initialize shortcuts when we toggle shortcuts first time', () => {
+      component.toggleShortcuts(this.propsMock);
 
-      this.component.shortcutsScope.should.equal(this.component.scope);
+      component.shortcutsScope.should.equal(component.scope);
     });
 
-    it('should not initialize shortcuts if we do not have getShortctusProps', function () {
+    it('should not initialize shortcuts if we do not have getShortctusProps', () => {
       sandbox.spy(shortcuts, 'pushScope');
-      this.component.getShortcutsProps = null;
+      component.getShortcutsProps = null;
 
-      this.component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(true);
 
       shortcuts.pushScope.should.not.have.been.called;
     });
 
-    it('should bind map only once', function () {
+    it('should bind map only once', () => {
       sandbox.spy(shortcuts, 'bindMap');
 
-      this.component.setShortcutsEnabled(true);
-      this.component.setShortcutsEnabled(false);
-      this.component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(false);
+      component.setShortcutsEnabled(true);
 
       shortcuts.bindMap.should.have.been.calledOnce;
     });
 
-    it('should enable shortcuts', function () {
-      this.component.setShortcutsEnabled(true);
+    it('should enable shortcuts', () => {
+      component.setShortcutsEnabled(true);
 
-      this.component.shortcutsEnabled().should.equal(true);
+      component.shortcutsEnabled().should.equal(true);
     });
 
-    it('should disable shortcuts', function () {
-      this.component.setShortcutsEnabled(true);
-      this.component.setShortcutsEnabled(false);
+    it('should disable shortcuts', () => {
+      component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(false);
 
-      this.component.shortcutsEnabled().should.equal(false);
+      component.shortcutsEnabled().should.equal(false);
     });
 
-    it('should pass shortcuts options when we toggle shortcuts first time', function () {
-      this.component.toggleShortcuts(this.propsMock);
+    it('should pass shortcuts options when we toggle shortcuts first time', () => {
+      component.toggleShortcuts(this.propsMock);
 
-      getShortctusScopeFor(this.component.scope).
+      getShortctusScopeFor(component.scope).
         options.
         should.
-        equal(this.component.getShortcutsProps().options);
+        equal(component.getShortcutsProps().options);
     });
 
 
-    it('should pass shortcuts options when we toggle shortcuts after disabling', function () {
-      const shortcutsOptions = this.component.getShortcutsProps().options;
+    it('should pass shortcuts options when we toggle shortcuts after disabling', () => {
+      const shortcutsOptions = component.getShortcutsProps().options;
       shortcutsOptions.modal = true;
 
-      this.component.setShortcutsEnabled(true);
-      this.component.setShortcutsEnabled(false);
-      this.component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(true);
+      component.setShortcutsEnabled(false);
+      component.setShortcutsEnabled(true);
 
-      getShortctusScopeFor(this.component.scope).
+      getShortctusScopeFor(component.scope).
         options.
         should.
         equal(shortcutsOptions);
