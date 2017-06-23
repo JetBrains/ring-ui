@@ -1,4 +1,4 @@
-/* eslint-disable func-names, import/no-duplicates */
+/* eslint-disable import/no-duplicates */
 import Storage from './storage__local';
 import FallbackStorage from './storage__fallback';
 
