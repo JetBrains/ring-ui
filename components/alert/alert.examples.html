@@ -75,18 +75,6 @@
         });
       }
 
-      duplicateMessage = () => {
-        this.setState({
-          alerts: [{
-              type: Alert.Type.MESSAGE,
-              key: 123,
-              message: 'Duplicate message'
-            },
-            ...this.state.alerts
-          ]
-        });
-      }
-
       onCloseAlert = (closedAlert) => {
         this.setState({
           alerts: this.state.alerts.filter(alert => alert !== closedAlert)
@@ -103,7 +91,6 @@
         return (
           <div>
             <Button onClick={this.yetAnotherMessage}>Create another message</Button>
-            <Button onClick={this.duplicateMessage}>Create duplicated message</Button>
 
             <Container>
               {this.state.alerts.map(alert => {

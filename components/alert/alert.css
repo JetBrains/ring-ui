@@ -55,6 +55,7 @@
 }
 
 .badge {
+  margin-left: unit;
   vertical-align: baseline;
 }
 
