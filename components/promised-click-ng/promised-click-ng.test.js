@@ -86,7 +86,7 @@ describe('Promised Click Ng', () => {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should call the given callback by clicking', function () {
+    it('should call the given callback by clicking', () => {
       const {element, ctrl} = buildPromisedClick();
       const callback = sandbox.stub();
       ctrl.onClick(callback);
@@ -131,7 +131,7 @@ describe('Promised Click Ng', () => {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should call the given callback', function () {
+    it('should call the given callback', () => {
       const {ctrl} = buildPromisedClick();
       const callback = sandbox.stub();
       ctrl.process(callback);

@@ -12,7 +12,7 @@ describe('Auth', () => {
         clientId: '0-0-0-0-0',
         scopes: ['youtrack', 'teamcity', 'vcs settings']
       };
-      beforeEach(function () {
+      beforeEach(() => {
         sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
         sandbox.stub(AuthRequestBuilder.prototype, '_saveState').
           callsFake(() => Promise.resolve());

@@ -90,7 +90,7 @@ describe('Auth', () => {
         localStorage.should.have.keys(['stateunique2']);
       });
 
-      it('should clean state by TTL', async function () {
+      it('should clean state by TTL', async () => {
         sandbox.useFakeTimers();
 
         const limitedAuthStorage = new AuthStorage({
@@ -150,7 +150,7 @@ describe('Auth', () => {
         });
       });
 
-      it('onTokenChange should have been triggered', function () {
+      it('onTokenChange should have been triggered', () => {
         const clock = sandbox.useFakeTimers();
         const spy = sandbox.spy();
         mockedAuthStorage.onTokenChange(spy);
@@ -160,7 +160,7 @@ describe('Auth', () => {
         spy.should.have.been.calledOnce;
       });
 
-      it('onStateChange should have been triggered', function () {
+      it('onStateChange should have been triggered', () => {
         const clock = sandbox.useFakeTimers();
         const spy = sandbox.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
@@ -170,7 +170,7 @@ describe('Auth', () => {
         spy.should.have.been.calledOnce;
       });
 
-      it('onMessage should have been triggered', function () {
+      it('onMessage should have been triggered', () => {
         const clock = sandbox.useFakeTimers();
         const spy = sandbox.spy();
         mockedAuthStorage.onMessage(stateId, spy);
