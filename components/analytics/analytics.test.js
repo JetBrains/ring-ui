@@ -41,7 +41,7 @@ describe('Analytics', () => {
 
     it('should send pageview event', function () {
       const rememberGA = window.ga;
-      window.ga = this.sinon.spy();
+      window.ga = sandbox.spy();
       gaPlugin.trackPageView('some-path');
 
       window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
@@ -51,7 +51,7 @@ describe('Analytics', () => {
 
     it('should send action event', function () {
       const rememberGA = window.ga;
-      window.ga = this.sinon.spy();
+      window.ga = sandbox.spy();
       gaPlugin.trackEvent('some-category', 'some-action');
 
       window.ga.should.calledWith('send', 'event', {
@@ -80,8 +80,8 @@ describe('Analytics', () => {
 
   describe('tracking events', () => {
     beforeEach(function () {
-      this.send = this.sinon.spy();
-      this.clock = this.sinon.useFakeTimers();
+      this.send = sandbox.spy();
+      this.clock = sandbox.useFakeTimers();
       this.analytics = new Analytics();
     });
 
@@ -104,7 +104,7 @@ describe('Analytics', () => {
       });
 
       it('should support configuration via method config', function () {
-        const flushingFunction = this.sinon.spy();
+        const flushingFunction = sandbox.spy();
         customPlugin.config({
           send: flushingFunction
         });

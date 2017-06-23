@@ -19,8 +19,8 @@ describe('SelectPopup', () => {
       this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
         data: [],
         filter: true,
-        onSelect: this.sinon.spy(),
-        onFilter: this.sinon.spy()
+        onSelect: sandbox.spy(),
+        onFilter: sandbox.spy()
       }));
     });
 
@@ -28,7 +28,7 @@ describe('SelectPopup', () => {
 /*
     describe('filter', () => {
       it('should disable shortcuts', function () {
-        this.sinon.spy(this.selectPopup, 'tabPress');
+        sandbox.spy(this.selectPopup, 'tabPress');
 
         simulateCombo('tab');
 
@@ -63,8 +63,8 @@ describe('SelectPopup', () => {
       this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
         data: testData,
         filter: true,
-        onSelect: this.sinon.spy(),
-        onFilter: this.sinon.spy()
+        onSelect: sandbox.spy(),
+        onFilter: sandbox.spy()
       }));
       this.selectPopup.willReceiveProps({hidden: false});
     });
@@ -144,7 +144,7 @@ describe('SelectPopup', () => {
       }
 
       beforeEach(function () {
-        this.sinon.spy(this.selectPopup, 'setState');
+        sandbox.spy(this.selectPopup, 'setState');
       });
 
 

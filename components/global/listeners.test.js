@@ -4,8 +4,8 @@ import Listeners from './listeners';
 describe('Listeners', () => {
   beforeEach(function () {
     this.listeners = new Listeners();
-    this.stub = this.sinon.stub().returns(Promise.resolve('result 1'));
-    this.secondStub = this.sinon.stub().returns('result 2');
+    this.stub = sandbox.stub().returns(Promise.resolve('result 1'));
+    this.secondStub = sandbox.stub().returns('result 2');
   });
 
   it('should construct empty mao', function () {

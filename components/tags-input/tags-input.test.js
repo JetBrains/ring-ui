@@ -48,14 +48,14 @@ describe('Tags Input', () => {
     });
 
     it('Should clear selected value after adding tag', function () {
-      this.sinon.spy(this.tagsInput.select, 'clear');
+      sandbox.spy(this.tagsInput.select, 'clear');
       this.tagsInput.addTag({key: 2, label: 'test2'});
 
       this.tagsInput.select.clear.should.have.been.called;
     });
 
     it('Should clear select input after adding tag', function () {
-      this.sinon.spy(this.tagsInput.select, 'filterValue');
+      sandbox.spy(this.tagsInput.select, 'filterValue');
       this.tagsInput.addTag({key: 2, label: 'test2'});
 
       this.tagsInput.select.filterValue.should.have.been.calledWith('');
@@ -73,18 +73,18 @@ describe('Tags Input', () => {
     it('Should call datasource and set suggestions returned', function () {
       const suggestions = [{key: 14, label: 'suggestion 14'}];
 
-      const dataSource = this.sinon.spy(() => Promise.resolve(suggestions));
+      const dataSource = sandbox.spy(() => Promise.resolve(suggestions));
 
       this.tagsInput.rerender({dataSource});
 
-      this.sinon.spy(this.tagsInput, 'setState');
+      sandbox.spy(this.tagsInput, 'setState');
       return this.tagsInput.loadSuggestions().then(() => {
         this.tagsInput.state.suggestions.should.deep.equal(suggestions);
       });
     });
 
     it('Should call datasource with query entered', function () {
-      const dataSource = this.sinon.spy(() => Promise.resolve([]));
+      const dataSource = sandbox.spy(() => Promise.resolve([]));
       this.tagsInput.rerender({dataSource});
       this.tagsInput.loadSuggestions('testquery');
 
@@ -92,7 +92,7 @@ describe('Tags Input', () => {
     });
 
     it('Should call datasource when arrow down pressed', function () {
-      const dataSource = this.sinon.spy(() => Promise.resolve([]));
+      const dataSource = sandbox.spy(() => Promise.resolve([]));
       this.tagsInput.rerender({dataSource});
       this.tagsInput.select.props.onBeforeOpen();
 
@@ -107,7 +107,7 @@ describe('Tags Input', () => {
     });
 
     it('Should turn on loading message while loading suggestions', function () {
-      const dataSource = this.sinon.spy(() => Promise.resolve([]));
+      const dataSource = sandbox.spy(() => Promise.resolve([]));
       this.tagsInput.rerender({dataSource});
 
       this.tagsInput.state.should.have.property('loading', true);
@@ -149,13 +149,13 @@ describe('Tags Input', () => {
       beforeEach(function () {
         getEventMock = keyboardKey => Object.assign({
           key: keyboardKey,
-          preventDefault: this.sinon.spy(),
+          preventDefault: sandbox.spy(),
           target: {
             matches: () => true
           }
         });
 
-        this.sinon.spy(this.tagsInput, 'onRemoveTag');
+        sandbox.spy(this.tagsInput, 'onRemoveTag');
       });
 
       it('Should remove last tag on pressing backspace if input is empty', function () {
@@ -195,7 +195,7 @@ describe('Tags Input', () => {
       });
 
       it('should not navigate to the first tag from select input', function () {
-        this.sinon.spy(this.tagsInput, 'selectTag');
+        sandbox.spy(this.tagsInput, 'selectTag');
         this.tagsInput.getInputNode();
         this.tagsInput.caret = {
           getPosition: () => 1
@@ -207,7 +207,7 @@ describe('Tags Input', () => {
 
       it('should navigate to the first tag from select input', function () {
         this.tagsInput.caret = {
-          getPosition: this.sinon.spy()
+          getPosition: sandbox.spy()
         };
         this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
 
@@ -215,7 +215,7 @@ describe('Tags Input', () => {
       });
 
       it('should navigate to the select input', function () {
-        this.sinon.spy(this.tagsInput, 'setActiveIndex');
+        sandbox.spy(this.tagsInput, 'setActiveIndex');
         this.tagsInput.rerender({
           activeIndex: 0
         });

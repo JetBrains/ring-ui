@@ -17,7 +17,7 @@ describe('Tooltip Ng', () => {
 
   beforeEach(inject(function (_RgTooltipPopup_) {
     RgTooltipPopup = _RgTooltipPopup_;
-    innerTextGetter = this.sinon.spy(() => INNER_TEXT);
+    innerTextGetter = sandbox.spy(() => INNER_TEXT);
   }));
 
   beforeEach(() => {

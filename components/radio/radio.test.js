@@ -1,44 +1,42 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Radio from './radio';
 
 describe('Radio', () => {
-  beforeEach(function () {
-    this.renderRadio = (props, refOne, refTwo) => renderIntoDocument(
-      <Radio
-        value={null}
-        className="test-class"
-        {...props}
+  const factory = (props, refOne, refTwo) => (
+    <Radio
+      value={null}
+      className="test-class"
+      {...props}
+    >
+      <Radio.Item
+        ref={refOne}
+        value="one"
       >
-        <Radio.Item
-          ref={refOne}
-          value="one"
-        >
-          {'One'}
-        </Radio.Item>
-        <Radio.Item
-          ref={refTwo}
-          value="two"
-        >
-          {'Two'}
-        </Radio.Item>
-        <Radio.Item value="three">{'Three'}</Radio.Item>
-      </Radio>
-    );
+        {'One'}
+      </Radio.Item>
+      <Radio.Item
+        ref={refTwo}
+        value="two"
+      >
+        {'Two'}
+      </Radio.Item>
+      <Radio.Item value="three">{'Three'}</Radio.Item>
+    </Radio>
+  );
+  const shallowRadio = (props, refOne, refTwo) => shallow(factory(props, refOne, refTwo));
+  const mountRadio = (props, refOne, refTwo) => mount(factory(props, refOne, refTwo));
+
+  it('should create component', () => {
+    shallowRadio().should.exist;
   });
 
-  it('should create component', function () {
-    this.renderRadio().should.exist;
-  });
-
-  it('should generate same name for items', function () {
+  it('should generate same name for items', () => {
     let item1;
     let item2;
-    this.renderRadio(
+    mountRadio(
       {},
       itemRef => {
         item1 = itemRef;
@@ -53,26 +51,26 @@ describe('Radio', () => {
   });
 
   it('should pass only child as is', () => {
-    const radio = renderIntoDocument(
+    const radio = shallow(
       <Radio>
         <test/>
       </Radio>
     );
 
-    findDOMNode(radio).should.match('test');
+    radio.should.have.tagName('test');
   });
 
-  it('should pass rest props to children', function () {
-    findDOMNode(this.renderRadio()).should.have.class('test-class');
+  it('should pass rest props to children', () => {
+    shallowRadio().should.have.className('test-class');
   });
 
-  it('should not pass value to children', function () {
-    findDOMNode(this.renderRadio()).should.not.have.attribute('value');
+  it('should not pass value to children', () => {
+    shallowRadio().should.not.have.prop('value');
   });
 
-  it('should select item with value equal to one provided to group', function () {
+  it('should select item with value equal to one provided to group', () => {
     let item;
-    this.renderRadio(
+    mountRadio(
       {
         onChange: () => {}, // avoid "checked without onChange" warning
         value: 'one'
@@ -85,10 +83,10 @@ describe('Radio', () => {
     item.input.should.have.property('checked', true);
   });
 
-  it('should call handler for onChange event', function () {
-    const onChange = this.sinon.spy();
+  it('should call handler for onChange event', () => {
+    const onChange = sandbox.spy();
     let item;
-    this.renderRadio({onChange}, itemRef => {
+    mountRadio({onChange}, itemRef => {
       item = itemRef;
     });
     Simulate.change(item.input);

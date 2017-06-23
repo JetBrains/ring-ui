@@ -43,7 +43,7 @@ describe('Permissions', () => {
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
 
-    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+    sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
     permissions.load().then(permissionsCache => {
       done();
@@ -85,7 +85,7 @@ describe('Permissions', () => {
 
 
     it('should cache loaded permissions', function _() {
-      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load();
       permissions.load();
@@ -96,7 +96,7 @@ describe('Permissions', () => {
 
 
     it('should reload permissions', function _() {
-      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load();
       permissions.reload();
@@ -106,7 +106,7 @@ describe('Permissions', () => {
 
 
     it('should not cache response', function _() {
-      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load({
         cacheControl: {NO_STORE: true}
@@ -118,7 +118,7 @@ describe('Permissions', () => {
 
 
     it('should ignore cache', function _() {
-      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load();
 
@@ -133,7 +133,7 @@ describe('Permissions', () => {
 
 
     it('should ignore cache and do not update cache', function _() {
-      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load();
 

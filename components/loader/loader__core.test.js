@@ -29,7 +29,7 @@ describe('Loader', () => {
   });
 
   it('Should set canvas size from passed size', function () {
-    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(1);
+    sandbox.stub(LoaderCore, 'getPixelRatio').returns(1);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.height.should.equal(42);
@@ -37,7 +37,7 @@ describe('Loader', () => {
   });
 
   it('Should double canvas size on HDPI devices', function () {
-    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
+    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.height.should.equal(84);
@@ -45,7 +45,7 @@ describe('Loader', () => {
   });
 
   it('Should fixate canvas CSS size with style to avoid scaling on HDPI devices', function () {
-    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
+    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
 
     loader.canvas.style.height.should.equal('42px');
@@ -53,9 +53,9 @@ describe('Loader', () => {
   });
 
   it('Should scale canvas on HDPI devices to make visible image size the same as on normal screens', function () {
-    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(2);
+    sandbox.stub(LoaderCore, 'getPixelRatio').returns(2);
     const loader = this.createLoader({size: 42});
-    this.sinon.spy(loader.ctx, 'scale');
+    sandbox.spy(loader.ctx, 'scale');
 
     loader.setCanvasSize();
 
@@ -63,9 +63,9 @@ describe('Loader', () => {
   });
 
   it('Should scale canvas on zoomed out devices to avoid image cropping', function () {
-    this.sinon.stub(LoaderCore, 'getPixelRatio').returns(0.5);
+    sandbox.stub(LoaderCore, 'getPixelRatio').returns(0.5);
     const loader = this.createLoader({size: 42});
-    this.sinon.spy(loader.ctx, 'scale');
+    sandbox.spy(loader.ctx, 'scale');
 
     loader.setCanvasSize();
 
@@ -82,7 +82,7 @@ describe('Loader', () => {
   });
 
   it('Should revert direction on reaching top limit', function () {
-    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
+    sandbox.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
     const oldSpeed = this.loader.baseSpeed;
     const newSpeed = this.loader.handleLimits(95, 8, oldSpeed, 100);
@@ -90,7 +90,7 @@ describe('Loader', () => {
   });
 
   it('Should revert direction on reaching zero limit', function () {
-    this.sinon.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
+    sandbox.stub(Math, 'random').returns(this.loader.baseSpeed / 2);
 
     const oldSpeed = -this.loader.baseSpeed;
     const newSpeed = this.loader.handleLimits(0, 8, oldSpeed, 100);
@@ -127,14 +127,14 @@ describe('Loader', () => {
   });
 
   it('Should call next color calculation', function () {
-    this.sinon.spy(LoaderCore, 'calculateGradient');
+    sandbox.spy(LoaderCore, 'calculateGradient');
     this.loader.colorIndex = 1;
 
     this.loader.getNextColor();
     LoaderCore.calculateGradient.should.have.been.calledWith(
       this.loader.props.colors[1],
       this.loader.props.colors[2],
-      this.sinon.match(Number)
+      sandbox.match(Number)
     );
   });
 
@@ -163,25 +163,25 @@ describe('Loader', () => {
   });
 
   it('Should update tick on step', function () {
-    this.sinon.spy(this.loader, 'nextTick');
+    sandbox.spy(this.loader, 'nextTick');
     this.loader.step();
     this.loader.nextTick.should.have.been.called;
   });
 
   it('Should calculate new coordinates on step', function () {
-    this.sinon.spy(this.loader, 'calculateNextCoordinates');
+    sandbox.spy(this.loader, 'calculateNextCoordinates');
     this.loader.step();
     this.loader.calculateNextCoordinates.should.have.been.called;
   });
 
   it('Should calculate new radius on step', function () {
-    this.sinon.spy(this.loader, 'calculateNextRadius');
+    sandbox.spy(this.loader, 'calculateNextRadius');
     this.loader.step();
     this.loader.calculateNextRadius.should.have.been.called;
   });
 
   it('Should call step for each particle to allow it to update its live points', function () {
-    const stepSpy = this.sinon.spy();
+    const stepSpy = sandbox.spy();
     this.loader.particles = [{step: stepSpy, draw: noop, isAlive: () => true}];
 
     this.loader.step();
@@ -208,7 +208,7 @@ describe('Loader', () => {
   });
 
   it('Should clear canvas before rendering new frame', function () {
-    this.sinon.spy(this.loader.ctx, 'clearRect');
+    sandbox.spy(this.loader.ctx, 'clearRect');
 
     this.loader.draw();
 
@@ -216,7 +216,7 @@ describe('Loader', () => {
   });
 
   it('Should call draw for each particle', function () {
-    const drawSpy = this.sinon.spy();
+    const drawSpy = sandbox.spy();
     this.loader.particles = [{draw: drawSpy, isAlive: () => true, step: noop}];
 
     this.loader.draw();

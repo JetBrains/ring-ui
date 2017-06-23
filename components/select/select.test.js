@@ -35,10 +35,10 @@ describe('Select', () => {
     this.select = renderIntoDocument(React.createElement(Select, {
       data: testData,
       selected: testData[0],
-      onChange: this.sinon.spy(),
-      onFilter: this.sinon.spy(),
-      onFocus: this.sinon.spy(),
-      onBlur: this.sinon.spy(),
+      onChange: sandbox.spy(),
+      onFilter: sandbox.spy(),
+      onFocus: sandbox.spy(),
+      onBlur: sandbox.spy(),
       filter: true
     }));
   });
@@ -123,7 +123,7 @@ describe('Select', () => {
   });
 
   it('Should open popup on key handling if not opened', function () {
-    this.select._showPopup = this.sinon.spy();
+    this.select._showPopup = sandbox.spy();
     this.select.rerender({type: Select.Type.INPUT});
     this.select.setState({focused: true});
     this.select._inputShortcutHandler();
@@ -131,21 +131,21 @@ describe('Select', () => {
   });
 
   it('Should not open popup if disabled', function () {
-    this.select._showPopup = this.sinon.spy();
+    this.select._showPopup = sandbox.spy();
     this.select.rerender({disabled: true});
     this.select._clickHandler();
     this.select._showPopup.should.not.been.called;
   });
 
   it('Should close popup on click if it is already open', function () {
-    this.select._hidePopup = this.sinon.spy();
+    this.select._hidePopup = sandbox.spy();
     this.select._showPopup();
     this.select._clickHandler();
     this.select._hidePopup.should.been.called;
   });
 
   it('Should call onAdd on adding', function () {
-    this.select.rerender({onAdd: this.sinon.spy()});
+    this.select.rerender({onAdd: sandbox.spy()});
     this.select.addHandler();
     this.select.props.onAdd.should.been.calledOnce;
   });
@@ -165,23 +165,23 @@ describe('Select', () => {
   });
 
   it('Should close popup if input lost focus in INPUT mode', function () {
-    this.sinon.useFakeTimers();
+    sandbox.useFakeTimers();
     this.select.rerender({type: Select.Type.INPUT});
     this.select._showPopup();
 
     Simulate.blur(this.select.filter.node);
-    this.sinon.clock.tick();
+    sandbox.clock.tick();
     this.select._popup.props.hidden.should.be.true;
   });
 
   it('Should not close popup while clicking on popup in INPUT mode', function () {
-    this.sinon.useFakeTimers();
+    sandbox.useFakeTimers();
     this.select.rerender({type: Select.Type.INPUT});
     this.select._showPopup();
 
     Simulate.mouseDown(this.select._popup.list.node);
     Simulate.blur(this.select.filter.node);
-    this.sinon.clock.tick();
+    sandbox.clock.tick();
     this.select._popup.props.hidden.should.be.false;
   });
 
@@ -247,7 +247,7 @@ describe('Select', () => {
     });
 
     it('Should open select dropdown on click', function () {
-      this.sinon.spy(this.select, '_showPopup');
+      sandbox.spy(this.select, '_showPopup');
       Simulate.mouseDown(this.select.node);
       Simulate.click(this.select.node);
 
@@ -257,14 +257,14 @@ describe('Select', () => {
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', function () {
         this.select.rerender({add: true});
-        this.select.filterValue = this.sinon.stub().returns('');
+        this.select.filterValue = sandbox.stub().returns('');
         this.select._showPopup();
         this.select._popup.popup.popup.should.not.contain('.ring-select__button');
       });
 
       it('Should add "Add" button if enabled and filter query not empty', function () {
         this.select.rerender({add: true});
-        this.select.filterValue = this.sinon.stub().returns('test');
+        this.select.filterValue = sandbox.stub().returns('test');
         this.select._showPopup();
         this.select._popup.popup.popup.should.contain('.ring-select__button');
       });
@@ -338,7 +338,7 @@ describe('Select', () => {
     });
 
     it('Should use custom filter.fn if provided', function () {
-      const filterStub = this.sinon.stub().returns(true);
+      const filterStub = sandbox.stub().returns(true);
 
       this.select.rerender({
         filter: {fn: filterStub}
@@ -381,7 +381,7 @@ describe('Select', () => {
 
     it('Should open popup on input changes if in focus', function () {
       this.select.rerender({type: Select.Type.INPUT});
-      this.select._showPopup = this.sinon.spy();
+      this.select._showPopup = sandbox.spy();
       this.select.setState({focused: true});
       simulateInput(this.select.filter.node, 'a');
       this.select._showPopup.should.have.been.called;
@@ -398,7 +398,7 @@ describe('Select', () => {
     it('Should not open popup on input changes if not in focus', function () {
       this.select.rerender({type: Select.Type.INPUT});
 
-      this.select._showPopup = this.sinon.spy();
+      this.select._showPopup = sandbox.spy();
       this.select._filterChangeHandler();
       this.select._showPopup.should.not.have.been.called;
     });
@@ -449,13 +449,13 @@ describe('Select', () => {
         selected: selectedArray,
         filter: true,
         multiple: true,
-        onChange: this.sinon.spy()
+        onChange: sandbox.spy()
       }));
 
       /**
        * Disable code running in setTimeout to avoid side effects
        */
-      this.clock = this.sinon.useFakeTimers();
+      this.clock = sandbox.useFakeTimers();
     });
 
     it('Should fill _multipleMap on initialization', function () {
@@ -515,7 +515,7 @@ describe('Select', () => {
       });
 
       it('Should not close popup on selecting', function () {
-        this.select._hidePopup = this.sinon.spy();
+        this.select._hidePopup = sandbox.spy();
         this.select._listSelectHandler(testData[3]);
         this.select._hidePopup.should.not.been.called;
       });
@@ -530,7 +530,7 @@ describe('Select', () => {
 
       it('Should call onDeselect on deselecting item', function () {
         this.select.rerender({
-          onDeselect: this.sinon.spy()
+          onDeselect: sandbox.spy()
         });
         this.select._listSelectHandler(testData[0]);
         this.select.props.onDeselect.should.been.calledWith(testData[0]);
@@ -541,7 +541,7 @@ describe('Select', () => {
 
   describe('On selecting', () => {
     it('Should not react on selecting disabled element', function () {
-      this.select.setState = this.sinon.spy();
+      this.select.setState = sandbox.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -553,7 +553,7 @@ describe('Select', () => {
     });
 
     it('Should not react on selecting separator', function () {
-      this.select.setState = this.sinon.spy();
+      this.select.setState = sandbox.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -565,7 +565,7 @@ describe('Select', () => {
     });
 
     it('Should react on selecting custom item', function () {
-      this.select.setState = this.sinon.spy();
+      this.select.setState = sandbox.spy();
 
       this.select._listSelectHandler({
         key: 1,
@@ -583,7 +583,7 @@ describe('Select', () => {
 
     it('Should set call onSelect on selecting', function () {
       this.select.rerender({
-        onSelect: this.sinon.spy()
+        onSelect: sandbox.spy()
       });
       this.select._listSelectHandler(testData[1]);
       this.select.props.onSelect.should.been.calledOnce;
@@ -591,14 +591,14 @@ describe('Select', () => {
 
     it('Should set call onChange on selecting', function () {
       this.select.rerender({
-        onChange: this.sinon.spy()
+        onChange: sandbox.spy()
       });
       this.select._listSelectHandler(testData[1]);
       this.select.props.onChange.should.been.calledOnce;
     });
 
     it('Should hide popup on selecting', function () {
-      this.select._hidePopup = this.sinon.spy();
+      this.select._hidePopup = sandbox.spy();
       this.select._listSelectHandler(testData[1]);
       this.select._hidePopup.should.been.calledOnce;
     });
@@ -618,7 +618,7 @@ describe('Select', () => {
 
     it('Should pass loading message and indicator to popup if loading', function () {
       this.select.rerender({loading: true, loadingMessage: 'test message'});
-      this.select._popup.rerender = this.sinon.stub();
+      this.select._popup.rerender = sandbox.stub();
       this.select._showPopup();
       this.select._popup.props.message.should.equal('test message');
       this.select._popup.props.loading.should.be.true;
@@ -626,7 +626,7 @@ describe('Select', () => {
 
     it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
       this.select.rerender({data: [], notFoundMessage: 'test not found'});
-      this.select._popup.rerender = this.sinon.stub();
+      this.select._popup.rerender = sandbox.stub();
       this.select._showPopup();
       this.select._popup.props.message.should.equal('test not found');
     });

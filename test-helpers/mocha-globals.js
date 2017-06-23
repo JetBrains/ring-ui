@@ -22,10 +22,6 @@ Object.assign(window, {
   should: chai.should()
 });
 
-beforeEach(function createSandbox() {
-  this.sinon = window.sandbox;
-});
-
 afterEach(function restoreSandbox() {
   window.sandbox.restore();
 
