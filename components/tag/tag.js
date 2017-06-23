@@ -128,7 +128,7 @@ export default class Tag extends RingComponent {
   }
 
   renderRemoveIcon() {
-    if (this.props.readOnly) {
+    if (!this.props.readOnly) {
       return (
         <Icon
           className="ring-tag__remove ring-link"
