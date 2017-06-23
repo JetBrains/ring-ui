@@ -23,8 +23,8 @@ describe('Shortcuts', () => {
     shortcuts.setScope();
     shortcuts.setFilter();
 
-    noop = sinon.stub();
-    noop2 = sinon.stub();
+    noop = sandbox.stub();
+    noop2 = sandbox.stub();
   });
 
   describe('bind', () => {
@@ -36,7 +36,7 @@ describe('Shortcuts', () => {
 
     it('should throw without a key', () => {
       expect(() => {
-        shortcuts.bind({handler: sinon.stub()});
+        shortcuts.bind({handler: sandbox.stub()});
       }).to.throw(Error, 'Shortcut key should exist');
     });
 
@@ -125,7 +125,7 @@ describe('Shortcuts', () => {
     });
 
     it('should prevent handler run', () => {
-      const stop = sinon.stub().returns(true);
+      const stop = sandbox.stub().returns(true);
 
       shortcuts.setFilter(stop);
       shortcuts.bind({key, handler: noop});
@@ -168,7 +168,7 @@ describe('Shortcuts', () => {
     });
 
     it('should fall trough scopes when returning true', () => {
-      const fallthrough = sinon.stub().returns(true);
+      const fallthrough = sandbox.stub().returns(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key, scope, handler: fallthrough});
@@ -181,7 +181,7 @@ describe('Shortcuts', () => {
     });
 
     it('should not fall trough modal scope', () => {
-      const fallthrough = sinon.stub().returns(true);
+      const fallthrough = sandbox.stub().returns(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key, scope, handler: fallthrough});
@@ -194,7 +194,7 @@ describe('Shortcuts', () => {
     });
 
     it('should not fall trough modal scope even if it has no handler for key', () => {
-      const fallthrough = sinon.stub().returns(true);
+      const fallthrough = sandbox.stub().returns(true);
 
       shortcuts.bind({key, handler: noop});
       shortcuts.bind({key: key2, scope, handler: fallthrough});
@@ -257,34 +257,26 @@ describe('Shortcuts', () => {
 
     it('should workaround system windows shortcuts', () => {
       let eventType;
-      sinon.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
+      sandbox.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
         eventType = param3;
       });
-      const sandbox = sinon.sandbox.create();
       sandbox.stub(sniffr, 'os').value({name: 'windows'});
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
       eventType.should.equal('keyup');
-
-      shortcuts.combokeys.bind.restore();
-      sandbox.restore();
     });
 
     it('should not apply workaround for system windows shortcuts on other operating systems', () => {
       let eventType;
-      sinon.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
+      sandbox.stub(shortcuts.combokeys, 'bind').callsFake((param1, param2, param3) => {
         eventType = param3;
       });
-      const sandbox = sinon.sandbox.create();
       sandbox.stub(sniffr, 'os').value({name: 'macos'});
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
       expect(eventType).should.not.equal('keyup');
-
-      shortcuts.combokeys.bind.restore();
-      sandbox.restore();
     });
   });
 });

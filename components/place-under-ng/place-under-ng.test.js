@@ -16,12 +16,6 @@ describe('Place Under Ng', () => {
   ));
 
 
-  let sinon;
-  beforeEach(function () {
-    sinon = this.sinon;
-  });
-
-
   let $windowMock;
   let documentMock;
   let bodyMock;
@@ -81,7 +75,7 @@ describe('Place Under Ng', () => {
 
     let clock;
     beforeEach(() => {
-      clock = sinon.useFakeTimers();
+      clock = sandbox.useFakeTimers();
     });
 
 
@@ -105,7 +99,7 @@ describe('Place Under Ng', () => {
         attrsMock,
         $scope
       );
-      sinon.stub(synchronizer, 'onScroll');
+      sandbox.stub(synchronizer, 'onScroll');
 
       flushDebounce = () => {
         clock.tick(rgPlaceUnderHelper.DEBOUNCE_INTERVAL);

@@ -22,8 +22,8 @@ describe('Dialog', () => {
   });
 
   it('should call onOverlayClick and onCloseAttempt callbacks on click by overlay', () => {
-    const closeSpy = sinon.spy();
-    const clickSpy = sinon.spy();
+    const closeSpy = sandbox.spy();
+    const clickSpy = sandbox.spy();
     const instance = mountDialog({
       show: true,
       children,
@@ -37,8 +37,8 @@ describe('Dialog', () => {
   });
 
   it('should call onEscPress and onCloseAttempt callbacks on click by overlay', () => {
-    const closeSpy = sinon.spy();
-    const escSpy = sinon.spy();
+    const closeSpy = sandbox.spy();
+    const escSpy = sandbox.spy();
     const instance = mountDialog({
       show: true,
       children,
@@ -53,7 +53,7 @@ describe('Dialog', () => {
   });
 
   it('should not call onEscPress if is hidden', () => {
-    const escSpy = sinon.spy();
+    const escSpy = sandbox.spy();
     const instance = mountDialog({show: false, children, onEscPress: escSpy}).instance();
     instance.handleKeyDown({key: 'Escape'});
 

@@ -12,7 +12,7 @@ describe('Analytics Ng', () => {
   beforeEach(
     window.module('Ring.analytics',
       analyticsProvider => {
-        const send = sinon.stub();
+        const send = sandbox.stub();
         analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
       })
   );

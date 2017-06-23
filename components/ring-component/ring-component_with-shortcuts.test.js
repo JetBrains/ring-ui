@@ -12,7 +12,7 @@ import simulateCombo from 'simulate-combo';
 
 describe('Ring Component With Shortcuts', () => {
   //const component;
-  const noop = sinon.spy();
+  const noop = sandbox.spy();
   //const noop2;
   const key = 'a';
   //const scope2 = 'scope2 scope2 scope2';

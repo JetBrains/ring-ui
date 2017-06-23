@@ -147,7 +147,7 @@ describe('Compiler Ng', () => {
 
 
   it('should fail if resolve was not satisfied', () => {
-    const onCompleError = sinon.stub();
+    const onCompleError = sandbox.stub();
 
     compiler({
       template: '<div/>',

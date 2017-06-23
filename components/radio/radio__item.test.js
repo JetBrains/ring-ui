@@ -54,7 +54,7 @@ describe('Radio Item', () => {
   });
 
   it('should call handler for click event', function () {
-    const clickHandler = sinon.stub();
+    const clickHandler = sandbox.stub();
     const radioItem = this.renderRadioItem({
       onClick: clickHandler
     });

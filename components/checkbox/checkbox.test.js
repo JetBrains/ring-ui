@@ -26,7 +26,7 @@ describe('Checkbox', () => {
   });
 
   it('should call handler for click event', () => {
-    const clickHandler = sinon.stub();
+    const clickHandler = sandbox.stub();
 
     const checkbox = mountCheckbox({onClick: clickHandler}).instance();
     Simulate.click(checkbox.input);
@@ -35,7 +35,7 @@ describe('Checkbox', () => {
   });
 
   it('should not call handler on change event if disabled', () => {
-    const onChange = sinon.stub();
+    const onChange = sandbox.stub();
 
     const checkbox = shallowCheckbox({
       disabled: true,

@@ -91,8 +91,6 @@ describe('Tooltip', () => {
       // eslint-disable-next-line no-magic-numbers
       clock.tick(200);
       this.tooltip.popup.isVisible().should.be.true;
-
-      clock.restore();
     });
 
     it('should pass custom props to popup', function () {
