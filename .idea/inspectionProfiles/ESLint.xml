@@ -264,6 +264,7 @@
       <option name="processLiterals" value="true" />
       <option name="processComments" value="true" />
     </inspection_tool>
+    <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="SyntaxError" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="TaskInspection" enabled="false" level="INFO" enabled_by_default="false" />
     <inspection_tool class="TaskProblemsInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
