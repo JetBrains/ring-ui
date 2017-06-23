@@ -160,7 +160,7 @@ describe('Permissions', () => {
     it('should reload permissions', () => {
       const auth = createAuthMock();
       const permissions = new Permissions(auth);
-      sinon.stub(permissions, 'load').returns(Promise.resolve({}));
+      sandbox.stub(permissions, 'load').returns(Promise.resolve({}));
       permissions._promise = Promise.resolve(permissions);
 
       permissions.reload();

@@ -37,6 +37,9 @@ module.exports = {
     "flowtype-errors/show-errors": isCI ? "error" : "off",
     "flowtype-errors/enforce-min-coverage": isCI ? ["error", 50] : "off"
   },
+  "globals": {
+    "sandbox": false
+  },
   "settings": {
     "import/resolver": {
       "webpack": {

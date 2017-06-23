@@ -19,7 +19,7 @@ describe('Dialog Ng', () => {
   let $q;
   let $templateCache;
   let $rootScope;
-  let sandbox;
+  let sandboxEl;
   let text;
 
   beforeEach(window.module(
@@ -45,14 +45,14 @@ describe('Dialog Ng', () => {
   }));
 
   beforeEach(() => {
-    sandbox = document.createElement('div');
-    document.body.append(sandbox);
+    sandboxEl = document.createElement('div');
+    document.body.append(sandboxEl);
   });
 
   afterEach(() => {
     $rootScope.$destroy();
     $templateCache.removeAll();
-    sandbox.remove();
+    sandboxEl.remove();
   });
 
   function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
@@ -61,7 +61,7 @@ describe('Dialog Ng', () => {
     const element = $element[0];
     const ctrl = $element.controller('rgDialog');
 
-    sandbox.append(element);
+    sandboxEl.append(element);
 
     $templateCache.put('/test.html', contentTemplate);
     const promise = dialogInSidebar.show(Object.assign({

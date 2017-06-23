@@ -16,17 +16,18 @@ chai.use(chaiEnzyme());
 
 Object.assign(window, {
   sinon,
+  sandbox: sinon.sandbox.create(),
   chai,
   expect: chai.expect,
   should: chai.should()
 });
 
 beforeEach(function createSandbox() {
-  this.sinon = sinon.sandbox.create();
+  this.sinon = window.sandbox;
 });
 
 afterEach(function restoreSandbox() {
-  this.sinon.restore();
+  window.sandbox.restore();
 
   Array.from(document.body.children).forEach(child => {
     if (child.tagName.toLowerCase() === 'div') {

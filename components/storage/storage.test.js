@@ -68,20 +68,20 @@ function testStorage(storage) {
     });
 
     it('should iterate over items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.set('test', 'value');
       await storage.each(iterator);
       iterator.should.have.been.calledWith('test', 'value');
     });
 
     it('should not iterate without items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.each(iterator);
       iterator.should.not.been.called;
     });
 
     it('should iterate over all items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.set('test1', '');
       await storage.set('test2', '');
       await storage.set('test3', '');
@@ -212,7 +212,7 @@ describe('Storage', () => {
       it('shouldn\'t break iteration on non-parseable values', () => storage.each(noop).should.be.fulfilled);
 
       it('should iterate over items with non-parseable values', async () => {
-        const iterator = sinon.stub();
+        const iterator = sandbox.stub();
         await storage.set('test', 'value');
         await storage.each(iterator);
         iterator.should.have.been.calledWith('invalid-json', 'invalid-json');

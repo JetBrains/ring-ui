@@ -13,11 +13,7 @@ describe('Alert', () => {
 
   let clock;
   beforeEach(() => {
-    clock = sinon.useFakeTimers();
-  });
-
-  afterEach(() => {
-    clock.restore();
+    clock = sandbox.useFakeTimers();
   });
 
   it('should render', () => {
@@ -68,7 +64,7 @@ describe('Alert', () => {
   });
 
   it('should call onCloseRequest on click by close button', () => {
-    const closeSpy = sinon.spy();
+    const closeSpy = sandbox.spy();
     const alertComponent = shallowAlert({
       children: 'Test element',
       onCloseRequest: closeSpy
@@ -79,7 +75,7 @@ describe('Alert', () => {
   });
 
   it('should call onCloseRequest on timeout', () => {
-    const closeSpy = sinon.spy();
+    const closeSpy = sandbox.spy();
     mountAlert({
       children: 'Test element',
       timeout: 100,

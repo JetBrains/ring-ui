@@ -53,7 +53,7 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should call onLogin on login click', async () => {
-    const onLogin = sinon.spy();
+    const onLogin = sandbox.spy();
     hideAuthDialog = authDialog({onLogin});
     const okButton = getContainer().querySelector('*[data-test="auth-dialog-login-button"]');
     Simulate.click(okButton);
@@ -63,7 +63,7 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should call onCancel on cancel click', async () => {
-    const onCancel = sinon.spy();
+    const onCancel = sandbox.spy();
     hideAuthDialog = authDialog({onCancel});
     const cancelButton = getContainer().querySelector('*[data-test="auth-dialog-cancel-button"]');
     Simulate.click(cancelButton);

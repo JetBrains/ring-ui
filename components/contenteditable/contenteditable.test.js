@@ -4,7 +4,7 @@ import {shallow, mount} from 'enzyme';
 import ContentEditable from './contenteditable';
 
 describe('ContentEditable', () => {
-  const stub = sinon.stub();
+  const stub = sandbox.stub();
 
   afterEach(() => stub.reset());
 
