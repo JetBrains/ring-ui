@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import 'angular';
 import 'angular-mocks';
 import 'dom4';
