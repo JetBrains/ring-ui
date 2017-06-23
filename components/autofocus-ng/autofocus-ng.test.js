@@ -26,7 +26,7 @@ describe('Autofocus Ng', () => {
 
   }));
 
-  it('Should focus when flag changed', function () {
+  it('Should focus when flag changed', () => {
 
     sandbox.spy(element[0], 'focus');
 
@@ -36,7 +36,7 @@ describe('Autofocus Ng', () => {
     element[0].focus.should.have.been.called;
   });
 
-  it('Should focus on select button', function () {
+  it('Should focus on select button', () => {
     element = $compile('<rg-select rg-autofocus="vm.focus" options="item in []"/>')($scope);
     const selectButton = element[0].querySelector('.ring-select');
 

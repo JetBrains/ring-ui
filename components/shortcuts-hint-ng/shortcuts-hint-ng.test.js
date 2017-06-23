@@ -20,28 +20,28 @@ describe('Shortcuts Hint Ng', () => {
       shortcutKeySymbolFilter = _shortcutKeySymbolFilter_;
     }));
 
-    it('Should replace + with spaces on mac os', function () {
+    it('Should replace + with spaces on mac os', () => {
       sandbox.stub(sniffer, 'os').value({name: 'macos'});
       shortcutKeySymbolFilter('S1+S2').should.be.equal('S1S2');
     });
 
-    it('Should replace + with spaces on windows', function () {
+    it('Should replace + with spaces on windows', () => {
       sandbox.stub(sniffer, 'os').value({name: 'windows'});
       shortcutKeySymbolFilter('S1+S2').should.be.equal('S1+S2');
     });
 
-    it('Should capitalize key if is not in key mapping', function () {
+    it('Should capitalize key if is not in key mapping', () => {
       sandbox.stub(sniffer, 'os').value({name: 'macos'});
       shortcutKeySymbolFilter('f2+e').should.be.equal('F2E');
     });
 
-    it('Should replace action keys with symbols on mac', function () {
+    it('Should replace action keys with symbols on mac', () => {
       sandbox.stub(sniffer, 'os').value({name: 'macos'});
       shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace').
         should.be.equal('⌃⌥⇧⏎↑↓←→⌫');
     });
 
-    it('Should replace action keys with key names on windows', function () {
+    it('Should replace action keys with key names on windows', () => {
       sandbox.stub(sniffer, 'os').value({name: 'windows'});
       shortcutKeySymbolFilter('ctrl+alt+shift+enter+up+down+left+right+backspace+f4').
         should.be.equal('Ctrl+Alt+Shift+Enter+↑+↓+←+→+Backspace+F4');
@@ -82,7 +82,7 @@ describe('Shortcuts Hint Ng', () => {
       filtered[0].should.be.equal(fakeShortcuts[2]);
     });
 
-    it('Should search by shortcut symbol on mac', function () {
+    it('Should search by shortcut symbol on mac', () => {
       sandbox.stub(sniffer, 'os').value({name: 'macos'});
       const filtered = shortcutSearchFilter(fakeShortcuts, '⌥');
 

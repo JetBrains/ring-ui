@@ -130,7 +130,7 @@ describe('Select Ng', () => {
       ctrl.config.selected.selectedLabel.should.equal('test');
     });
 
-    it('Should support selected formatter function', function () {
+    it('Should support selected formatter function', () => {
       scope.formatter = sandbox.stub().returns('Formatted label');
 
       compileTemplate('<rg-select options="item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
@@ -154,7 +154,7 @@ describe('Select Ng', () => {
       ctrl.config.selected.description.should.equal(scope.selectedItem.descriptionText);
     });
 
-    it('Should not call get option by value for description customization', function () {
+    it('Should not call get option by value for description customization', () => {
       scope.selectedItem.descriptionText = 'description';
 
       element = $compile('<rg-select options="item.name describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
@@ -165,7 +165,7 @@ describe('Select Ng', () => {
       ctrl.optionsParser.getOptions.should.not.called;
     });
 
-    it('Should not call get option by value for select label customization', function () {
+    it('Should not call get option by value for select label customization', () => {
       scope.selectedItem.selectText = 'Test';
 
       element = $compile('<rg-select options="item.name select as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
@@ -176,7 +176,7 @@ describe('Select Ng', () => {
       ctrl.optionsParser.getOptions.should.not.called;
     });
 
-    it('Should not call get option by value for description and selected label customization together', function () {
+    it('Should not call get option by value for description and selected label customization together', () => {
       scope.selectedItem.selectText = 'test';
       scope.selectedItem.descriptionText = 'description';
 
@@ -206,7 +206,7 @@ describe('Select Ng', () => {
       should.not.exist(scope.selectedItem);
     });
 
-    it('Should call datasource on opening', function () {
+    it('Should call datasource on opening', () => {
       scope.dataSource = sandbox.stub().returns(fakeItems);
 
       compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
@@ -216,7 +216,7 @@ describe('Select Ng', () => {
       scope.dataSource.should.have.been.called;
     });
 
-    it('Should call datasource on filtering if external filter enabled', function () {
+    it('Should call datasource on filtering if external filter enabled', () => {
       scope.dataSource = sandbox.stub().returns(fakeItems);
 
       compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
@@ -238,7 +238,7 @@ describe('Select Ng', () => {
       element[0].should.contain('.ring-select_disabled');
     });
 
-    it('Should hide on route changes ($locationChangeSuccess)', function () {
+    it('Should hide on route changes ($locationChangeSuccess)', () => {
       sandbox.stub(ctrl.selectInstance._popup, 'isVisible').returns(true);
       ctrl.selectInstance._hidePopup = sandbox.stub();
 
@@ -246,7 +246,7 @@ describe('Select Ng', () => {
       ctrl.selectInstance._hidePopup.should.have.been.called;
     });
 
-    it('Should not try to hide on route changes if not showed ($locationChangeSuccess)', function () {
+    it('Should not try to hide on route changes if not showed ($locationChangeSuccess)', () => {
       sandbox.stub(ctrl.selectInstance._popup, 'isVisible').returns(false);
       ctrl.selectInstance._hidePopup = sandbox.stub();
 
@@ -259,7 +259,7 @@ describe('Select Ng', () => {
       selectModel.ext.should.equal('test');
     });
 
-    it('Should not try to extend select model with string', function () {
+    it('Should not try to extend select model with string', () => {
       sandbox.spy(angular, 'extend');
       const stringValue = 'str-value';
       ctrl.convertNgModelToSelect(stringValue);
@@ -295,7 +295,7 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
 
-    it('Should rerender with new config if config changed and autosync enabled', function () {
+    it('Should rerender with new config if config changed and autosync enabled', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config-auto-update="true"></rg-select>');
 
       sandbox.spy(ctrl.selectInstance, 'rerender');
@@ -338,7 +338,7 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal('test1');
     });
 
-    it('Should support function as label', function () {
+    it('Should support function as label', () => {
       scope.getLabel = sandbox.stub().returns('test label');
 
       compileTemplate('<rg-select options="getLabel(item) for item in items track by item.id" ng-model="selectedItem"></rg-select>');
@@ -379,7 +379,7 @@ describe('Select Ng', () => {
       ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
     });
 
-    it('Should pass selected to callback', function () {
+    it('Should pass selected to callback', () => {
       scope.options = [{key: 1, label: 'test'}];
       const selectedModel = {originalModel: scope.options[0]};
       scope.callback = sandbox.spy();
@@ -420,7 +420,7 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal(optionMock.label);
     });
 
-    it('Should call only once data source function for primitive ng-model', function () {
+    it('Should call only once data source function for primitive ng-model', () => {
       function createOptionMock(value) {
         return {
           value,

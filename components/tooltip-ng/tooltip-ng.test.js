@@ -15,7 +15,7 @@ describe('Tooltip Ng', () => {
 
   beforeEach(angular.mock.module(Tooltip));
 
-  beforeEach(inject(function (_RgTooltipPopup_) {
+  beforeEach(inject(_RgTooltipPopup_ => {
     RgTooltipPopup = _RgTooltipPopup_;
     innerTextGetter = sandbox.spy(() => INNER_TEXT);
   }));
