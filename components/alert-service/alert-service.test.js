@@ -11,11 +11,10 @@ describe('Alert Service', () => {
   let clock;
 
   beforeEach(() => {
-    clock = sinon.useFakeTimers();
+    clock = sandbox.useFakeTimers();
   });
 
   afterEach(() => {
-    clock.restore();
     alert.setDefaultTimeout(0);
     alert.removeWithoutAnimation(alertKey);
   });

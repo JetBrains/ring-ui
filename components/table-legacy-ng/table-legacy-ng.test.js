@@ -81,7 +81,7 @@ describe('Table Legacy Ng', () => {
     const fakeEvent = {};
 
     beforeEach(() => {
-      fakeEvent.emitEvent = sinon.stub();
+      fakeEvent.emitEvent = sandbox.stub();
       selection = new TableSelection(fakeData.items, fakeEvent.emitEvent.bind(fakeEvent));
     });
 

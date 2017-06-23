@@ -458,10 +458,6 @@ describe('Select', () => {
       this.clock = this.sinon.useFakeTimers();
     });
 
-    afterEach(function () {
-      this.clock.restore();
-    });
-
     it('Should fill _multipleMap on initialization', function () {
       this.select._multipleMap['1'].should.be.true;
     });
