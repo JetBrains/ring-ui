@@ -1,6 +1,5 @@
-/* eslint-disable func-names */
-import 'dom4';
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 import React from 'react';
 import last from 'mout/array/last';
 import guid from 'mout/random/guid';
@@ -14,28 +13,30 @@ import simulateCombo from 'simulate-combo';
 
 
 describe('SelectPopup', () => {
+  const factory = props => (
+    <SelectPopup
+      filter={true}
+      onSelect={sandbox.spy()}
+      onFilter={sandbox.spy()}
+      data={[]}
+      {...props}
+    />
+  );
+  const shallowSelectPopup = props => shallow(factory(props));
+  const mountSelectPopup = props => mount(factory(props));
+
   describe('hidden', () => {
-    beforeEach(function () {
-      this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
-        data: [],
-        filter: true,
-        onSelect: sandbox.spy(),
-        onFilter: sandbox.spy()
-      }));
-    });
-
-
-/*
     describe('filter', () => {
-      it('should disable shortcuts', function () {
-        sandbox.spy(this.selectPopup, 'tabPress');
+      it('should disable shortcuts', () => {
+        const wrapper = shallowSelectPopup();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'tabPress');
 
         simulateCombo('tab');
 
-        expect(this.selectPopup.tabPress).to.not.be.called;
+        expect(instance.tabPress).to.not.be.called;
       });
     });
-*/
   });
 
 
@@ -53,48 +54,34 @@ describe('SelectPopup', () => {
 
 
     let testData;
-    beforeEach(function () {
+    beforeEach(() => {
       testData = [
         createListItemMock(),
         createListItemMock()
       ];
-
-
-      this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
-        data: testData,
-        filter: true,
-        onSelect: sandbox.spy(),
-        onFilter: sandbox.spy()
-      }));
-      this.selectPopup.willReceiveProps({hidden: false});
     });
 
 
-    it('should initialize', function () {
-      expect(this.selectPopup).to.be.defined;
+    it('should initialize', () => {
+      shallowSelectPopup().should.exist;
     });
 
 
-    it('should call select handler when user press tab and we have an active item in the list', function () {
-      this.selectPopup.list.state.activeItem = {};
+    it('should call select handler when user press tab and we have an active item in the list', () => {
+      const wrapper = mountSelectPopup({data: testData});
+      wrapper.setProps({hidden: false});
+      wrapper.instance().list.state.activeItem = {};
 
       simulateCombo('tab');
 
-      expect(this.selectPopup.props.onSelect).to.be.called;
+      wrapper.prop('onSelect').should.be.called;
     });
 
 
     describe('popup without data', () => {
-      beforeEach(function () {
-        this.selectPopup = renderIntoDocument(React.createElement(SelectPopup, {
-          data: [],
-          filter: true
-        }));
-        this.selectPopup.willReceiveProps({hidden: false});
-      });
-
-
       it('should not throw error when user press tab but we do not have the list', () => {
+        const wrapper = mountSelectPopup();
+        wrapper.setProps({hidden: false});
         expect(() => {
           simulateCombo('tab');
         }).to.not.throw();
@@ -103,66 +90,70 @@ describe('SelectPopup', () => {
 
 
     describe('navigation', () => {
-      it('should highlight first item', function () {
+      it('should highlight first item', () => {
+        const wrapper = mountSelectPopup({data: testData});
+        wrapper.setProps({hidden: false});
         const firstItem = testData[0];
 
         simulateCombo('down');
 
-        expect(this.selectPopup.list.getSelected()).to.be.equal(firstItem);
+        expect(wrapper.instance().list.getSelected()).to.be.equal(firstItem);
       });
 
 
-      it('should highlight last item', function () {
+      it('should highlight last item', () => {
+        const wrapper = mountSelectPopup({data: testData});
+        wrapper.setProps({hidden: false});
         const lastItem = last(testData);
 
         simulateCombo('up');
 
-        expect(this.selectPopup.list.getSelected()).to.be.equal(lastItem);
+        expect(wrapper.instance().list.getSelected()).to.be.equal(lastItem);
       });
 
 
-      it('should select item', function () {
+      it('should select item', () => {
+        const wrapper = mountSelectPopup({data: testData});
+        wrapper.setProps({hidden: false});
         const firstItem = testData[0];
 
         simulateCombo('down enter');
 
-        expect(this.selectPopup.props.onSelect).to.be.calledWith(firstItem);
+        wrapper.prop('onSelect').should.be.calledWith(firstItem);
       });
     });
 
     describe('filter', () => {
-      function expectPopupFilterShortuctsDisabled(selectPopup, value) {
-        expect(selectPopup.setState).
-          to.
-          be.
-          calledWith({
-            popupFilterShortcutsOptions: {
-              modal: true,
-              disabled: value
-            }
-          });
+      function expectPopupFilterShortuctsDisabled(fn, value) {
+        fn.should.be.calledWith({
+          popupFilterShortcutsOptions: {
+            modal: true,
+            disabled: value
+          }
+        });
       }
 
-      beforeEach(function () {
-        sandbox.spy(this.selectPopup, 'setState');
+      it('should enable shortcuts on focus', () => {
+        const wrapper = mountSelectPopup({data: testData});
+        wrapper.setProps({hidden: false});
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'setState');
+
+        Simulate.focus(instance.filter);
+
+        expectPopupFilterShortuctsDisabled(instance.setState, false);
       });
 
 
-      it('should enable shortcuts on focus', function () {
-        this.selectPopup.willReceiveProps({filter: true});
+      it('should disable shortcuts on blur', () => {
+        const wrapper = mountSelectPopup({data: testData});
+        wrapper.setProps({hidden: false});
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'setState');
 
-        Simulate.focus(this.selectPopup.filter);
+        Simulate.blur(instance.filter);
 
-        expectPopupFilterShortuctsDisabled(this.selectPopup, false);
-      });
-
-
-      it('should disable shortcuts on blur', function () {
-        this.selectPopup.willReceiveProps({filter: true});
-
-        Simulate.blur(this.selectPopup.filter);
-
-        expectPopupFilterShortuctsDisabled(this.selectPopup, true);
+        expectPopupFilterShortuctsDisabled(instance.setState, true);
       });
     });
   });
