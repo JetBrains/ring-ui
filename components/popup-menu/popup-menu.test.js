@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {shallow, mount} from 'enzyme';
 
 import PopupMenu from './popup-menu';
@@ -17,7 +16,7 @@ describe('Popup Menu', () => {
     list.should.exist;
 
     // We need it to maintain compatibility between Popup Menu and List
-    ReactDOM.findDOMNode(list.items).childNodes.length.should.equal(0);
+    list.items.childNodes.length.should.equal(0);
   });
 
   it('should pass params to List', () => {
@@ -25,6 +24,6 @@ describe('Popup Menu', () => {
       {}
     ]});
 
-    ReactDOM.findDOMNode(wrapper.instance().list.inner).hasChildNodes().should.be.true;
+    wrapper.instance().list.inner.hasChildNodes().should.be.true;
   });
 });

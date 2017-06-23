@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import okIcon from 'jetbrains-icons/ok.svg';
 import guid from 'mout/random/guid';
@@ -17,7 +16,7 @@ describe('List', () => {
   const Type = List.ListProps.Type;
 
   function getItemsContainer(instance) {
-    return ReactDOM.findDOMNode(instance.items);
+    return instance.items;
   }
 
   function getFirstListItem(instance) {
