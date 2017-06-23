@@ -45,6 +45,7 @@ export default class TagsList extends Component {
   renderTag(tag, focusTag) {
     const TagComponent = this.props.customTagComponent || Tag;
     const readOnly = this.props.disabled ||
+      tag.readOnly ||
       (this.props.canNotBeEmpty && this.props.tags.length === 1);
 
     return (
@@ -71,19 +72,17 @@ export default class TagsList extends Component {
       className
     );
 
+    const tagsList = (this.props.tags || []).map(
+      (tag, index) => this.renderTag(tag, this.props.activeIndex === index)
+    );
+
     return (
       <div
         data-test="ring-tags-list"
         className={classes}
         {...props}
       >
-        {
-          this.props.tags.map(
-            (tag, index) => this.renderTag(
-              tag, this.props.activeIndex === index
-            )
-          )
-        }
+        {tagsList}
       </div>);
   }
 }

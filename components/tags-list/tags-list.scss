@@ -6,6 +6,10 @@ $tags-input-padding: $ring-unit / 4;
   display: inline-block;
   font-size: 0;
   text-align: left;
+
+  .ring-tag {
+    margin-bottom: 3px;
+  }
 }
 
 .ring-tags-list.ring-tags-list_disabled .ring-tag{
