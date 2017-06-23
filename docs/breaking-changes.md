@@ -6,6 +6,68 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 24-06-2017: major tests refactoring
+
+#### Enzyme
+Airbnb's [enzyme](http://airbnb.io/enzyme) was introduced as a tool for testing React output. Please refer to it's [API docs](http://airbnb.io/enzyme/docs/api/) and to the list of `chai-enzyme` [assertions](https://github.com/producthunt/chai-enzyme#table-of-contents).
+
+##### Which helper should I use?
+When using enzyme, a tough question is which of the `shallow/mount/render` helpers to use. Here's a simple checklist for that.
+
+* Use `shallow` by default. Basically, it just tests the output of your `render` function and often this can be enough
+* Use `mount` when
+  1. some DOM APIs are involved
+  2. testcase relies on `componentDidMount` or refs being called
+  3. testcase uses type and/or props of the component being tested ([example](https://upsource.jetbrains.com/ring-ui/file/87e1889c8d1e1300cf2695c3958e4c5bdb27d1a9/components/progress-bar/progress-bar.test.js?nav=531:579:focused&line=0))
+* Use `render` when
+  1. you need the full html output tree
+  2. you test the text content of a node
+  3. you use some complex CSS selector, beyond the [subset](http://airbnb.io/enzyme/docs/api/selector.html) supported by other wrappers
+  
+One possible workflow is to start with `shallow`, and if something doesn't work as expected, replace with `mount` or `render` based on the checklist.
+
+#### Local variables instead of context
+Using context(`this`) in testcases is discouraged in favour of local variables. This allows using arrow functions for all the testcases which helps to maintain uniformity.
+
+* before:
+    ```js
+    /* eslint-disable func-names */
+    
+    describe('Something', () => {
+      beforeEach(function() {
+        this.foo = makeFoo();
+      });
+    
+      it('testcase using foo', function() {
+        this.foo.should.equal(this.foo);
+      });
+    
+      it('testcase not using foo', () => {
+        true.should.equal(true);
+      });
+    })
+    ```
+* after:
+    ```js
+    describe('Something', () => {
+      let foo;
+      beforeEach(() => {
+        foo = makeFoo();
+      });
+    
+      it('testcase using foo', () => {
+        foo.should.equal(foo);
+      });
+    
+      it('testcase not using foo', () => {
+        true.should.equal(true);
+      });
+    })
+    ```
+    
+Sinon sandbox previously available as `this.sinon` became a global variable `sandbox`.
+
+
 ### 25-05-2017: auth parameters have been uniformly named in camelCase. Support for snake_case parameters has been dropped.
 
 Attempting to pass `client_id`, `redirect_uri`, `request_credentials` will throw an exception. Use `clientId`, `redirectUri`, `requestCredentials` instead.
