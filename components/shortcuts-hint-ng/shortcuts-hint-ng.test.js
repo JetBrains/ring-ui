@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /* eslint-disable angular/no-angular-mock */
 
 import 'angular';

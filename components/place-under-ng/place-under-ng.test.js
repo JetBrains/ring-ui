@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /* globals angular */
 
 import 'angular';

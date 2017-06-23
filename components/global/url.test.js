@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import 'dom4';
 
 import sniffer from '../global/sniffer';
