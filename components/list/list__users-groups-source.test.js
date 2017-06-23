@@ -1,16 +1,15 @@
-/* eslint-disable func-names */
-
 import ListUsersGroupsSource from './list__users-groups-source';
 
 describe('List Users Groups Source', () => {
-  beforeEach(function () {
-    this.fakeAuth = {
+  let fakeAuth;
+  beforeEach(() => {
+    fakeAuth = {
       requestToken: sandbox.stub().returns(Promise.resolve('testToken'))
     };
   });
 
-  it('Should convert users to list model', async function () {
-    const source = new ListUsersGroupsSource(this.fakeAuth);
+  it('Should convert users to list model', async () => {
+    const source = new ListUsersGroupsSource(fakeAuth);
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
@@ -41,8 +40,8 @@ describe('List Users Groups Source', () => {
     });
   });
 
-  it('Should convert usergroups to list model', async function () {
-    const source = new ListUsersGroupsSource(this.fakeAuth);
+  it('Should convert usergroups to list model', async () => {
+    const source = new ListUsersGroupsSource(fakeAuth);
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
@@ -69,8 +68,8 @@ describe('List Users Groups Source', () => {
     });
   });
 
-  it('Should support userCount plural formatter', async function () {
-    const source = new ListUsersGroupsSource(this.fakeAuth, {
+  it('Should support userCount plural formatter', async () => {
+    const source = new ListUsersGroupsSource(fakeAuth, {
       getPluralForUserCount: count => `${count} text`
     });
 
@@ -90,8 +89,8 @@ describe('List Users Groups Source', () => {
     dataForList[1].description.should.equal('123 text');
   });
 
-  it('Should display "No users" title if no users found', async function () {
-    const source = new ListUsersGroupsSource(this.fakeAuth, {});
+  it('Should display "No users" title if no users found', async () => {
+    const source = new ListUsersGroupsSource(fakeAuth, {});
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
 
@@ -102,8 +101,8 @@ describe('List Users Groups Source', () => {
     dataForList[2].description.should.equal('No users');
   });
 
-  it('Should display "No groups" title if no groups found', async function () {
-    const source = new ListUsersGroupsSource(this.fakeAuth, {});
+  it('Should display "No groups" title if no groups found', async () => {
+    const source = new ListUsersGroupsSource(fakeAuth, {});
 
     sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
