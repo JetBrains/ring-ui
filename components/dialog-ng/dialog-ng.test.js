@@ -115,7 +115,7 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should trigger $destroy event on the scope when user close dialog', function () {
+    it('should trigger $destroy event on the scope when user close dialog', () => {
       const onDestroy = sandbox.stub();
 
       renderDialog({
@@ -133,7 +133,7 @@ describe('Dialog Ng', () => {
     describe('element $destroy', () => {
 
       let testDirectiveOnDestroyElement;
-      beforeEach(function () {
+      beforeEach(() => {
         testDirectiveOnDestroyElement = sandbox.stub();
         // eslint-disable-next-line angular/directive-name
         $compileProvider.directive('foo', function foo() {
@@ -196,7 +196,7 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow custom locals dependencies to the controller', function () {
+    it('should allow custom locals dependencies to the controller', () => {
       text = 'Hello';
       const greetingService = sandbox.stub().returns(text);
 
@@ -213,7 +213,7 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow pass resolve object', function () {
+    it('should allow pass resolve object', () => {
       text = 'Hello';
       const greetingResolver = sandbox.stub().returns(text);
 
@@ -230,7 +230,7 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should reject dialog promise on unsatisfied resolve', function () {
+    it('should reject dialog promise on unsatisfied resolve', () => {
       const errorDefer = $q.defer(); //eslint-disable-line angular/deferred
       const serviceWhichThrowError = sandbox.stub().
         returns(errorDefer.promise);
@@ -256,7 +256,7 @@ describe('Dialog Ng', () => {
     });
 
 
-    it('should allow pass promise to the resolve', function () {
+    it('should allow pass promise to the resolve', () => {
       text = 'Hello';
       const defer = $q.defer(); //eslint-disable-line angular/deferred
       const greetingResolver = sandbox.stub().returns(defer.promise);
@@ -379,7 +379,7 @@ describe('Dialog Ng', () => {
     element.should.not.have.class('active');
   });
 
-  it('should merge ESC handler and still been closed by pressing Esc', function () {
+  it('should merge ESC handler and still been closed by pressing Esc', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
@@ -396,7 +396,7 @@ describe('Dialog Ng', () => {
     element.should.not.have.class('active');
   });
 
-  it('should call custom handler after pressing ESC', function () {
+  it('should call custom handler after pressing ESC', () => {
     const callback = sandbox.spy();
     showDialog(
       '<rg-dialog></rg-dialog>',
@@ -462,7 +462,7 @@ describe('Dialog Ng', () => {
     element.query('.content').should.have.text('qwe');
   });
 
-  it('should broadcast the event after opening', function () {
+  it('should broadcast the event after opening', () => {
     const {scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -484,7 +484,7 @@ describe('Dialog Ng', () => {
     promise.should.have.property('catch');
   });
 
-  it('should resolve Promise on "done"', function () {
+  it('should resolve Promise on "done"', () => {
     const {promise, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -498,7 +498,7 @@ describe('Dialog Ng', () => {
     callback.should.have.been.called;
   });
 
-  it('should resolve Promise on "reset" because reset/close is not exception', function () {
+  it('should resolve Promise on "reset" because reset/close is not exception', () => {
     const callback = sandbox.stub();
 
     const {scope, promise} = showDialog(
@@ -785,7 +785,7 @@ describe('Dialog Ng', () => {
       ctrl.active.should.be.true;
     });
 
-    it('should invoke an "action" callback attached to a button', function () {
+    it('should invoke an "action" callback attached to a button', () => {
       const action = sandbox.stub();
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',

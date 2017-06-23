@@ -37,7 +37,7 @@ describe('Analytics Ng', () => {
     let $compile;
     let analytics;
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _analytics_) {
+    beforeEach(inject((_$rootScope_, _$compile_, _analytics_) => {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       analytics = _analytics_;

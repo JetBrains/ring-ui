@@ -39,7 +39,7 @@ describe('Analytics', () => {
       expect(gaPlugin.trackEvent).should.exist;
     });
 
-    it('should send pageview event', function () {
+    it('should send pageview event', () => {
       const rememberGA = window.ga;
       window.ga = sandbox.spy();
       gaPlugin.trackPageView('some-path');
@@ -49,7 +49,7 @@ describe('Analytics', () => {
       window.ga = rememberGA;
     });
 
-    it('should send action event', function () {
+    it('should send action event', () => {
       const rememberGA = window.ga;
       window.ga = sandbox.spy();
       gaPlugin.trackEvent('some-category', 'some-action');
