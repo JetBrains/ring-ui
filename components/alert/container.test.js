@@ -7,7 +7,9 @@ import AlertContainer from './container';
 describe('Alert Container', () => {
   const children = <Alert>{'Test'}</Alert>;
 
-  const mountAlertContainer = props => mount(<AlertContainer {...props}>{children}</AlertContainer>);
+  const mountAlertContainer = props => mount(
+    <AlertContainer {...props}>{children}</AlertContainer>
+  );
 
   it('should render alert container component', () => {
     mountAlertContainer().should.have.type(AlertContainer);

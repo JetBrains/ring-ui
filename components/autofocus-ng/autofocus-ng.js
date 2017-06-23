@@ -31,8 +31,7 @@ angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
     }
   }
 
-  // eslint-disable-next-line func-names
-  return function (scope, iElement, iAttrs) {
+  return (scope, iElement, iAttrs) => {
     const element = iElement[0];
     scope.$watch(iAttrs.rgAutofocus, newValue => {
       if (newValue) {
