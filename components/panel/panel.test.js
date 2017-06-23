@@ -1,24 +1,20 @@
 import React from 'react';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount, render} from 'enzyme';
 
 import Panel from './panel';
 
 describe('Panel', () => {
   it('should create component', () => {
-    const component = renderIntoDocument(<Panel/>);
-    isCompositeComponentWithType(component, Panel).should.be.true;
+    mount(<Panel/>).should.have.type(Panel);
   });
 
   it('should use provided className', () => {
-    const component = renderIntoDocument(<Panel className="custom-class"/>);
-    component.node.should.have.class('custom-class');
+    const wrapper = shallow(<Panel className="custom-class"/>);
+    wrapper.should.have.className('custom-class');
   });
 
   it('should render children', () => {
-    const component = renderIntoDocument(<Panel>{'text'}</Panel>);
-    component.node.should.have.text('text');
+    const wrapper = render(<Panel>{'text'}</Panel>);
+    wrapper.should.have.text('text');
   });
 });
