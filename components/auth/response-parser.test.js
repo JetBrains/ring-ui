@@ -5,7 +5,7 @@ describe('Auth', () => {
     describe('getAuthResponseFromURL', () => {
       let location;
       beforeEach(function beforeEach() {
-        this.sinon.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
+        sandbox.stub(AuthResponseParser.prototype, 'getLocation').callsFake(() => location);
       });
 
       it('should convert keys to camelCase', () => {
