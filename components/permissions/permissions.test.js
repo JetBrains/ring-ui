@@ -52,35 +52,6 @@ describe('Permissions', () => {
   });
 
 
-  it('should cache loaded permissions', function _() {
-    const auth = createAuthMock();
-    const permissionsData = [createPermission('A')];
-    const permissions = new Permissions(auth);
-
-    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
-    permissions.load();
-    permissions.load();
-    permissions.load();
-
-    auth.http.get.should.have.been.calledOnce;
-  });
-
-
-  it('should reload permissions', function _() {
-    const auth = createAuthMock();
-    const permissionsData = [createPermission('A')];
-    const permissions = new Permissions(auth);
-
-    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
-    permissions.load();
-    permissions.reload();
-
-    auth.http.get.should.have.been.calledTwice;
-  });
-
-
   it('should allow set permissions manually and do not load from the server', () => {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
@@ -98,6 +69,84 @@ describe('Permissions', () => {
     permissions.set(permissionsData);
 
     expect(permissions.get()).to.equal(permissionsData);
+  });
+
+
+  describe('cacheControl', () => {
+
+    let auth;
+    let permissionsData;
+    let permissions;
+    beforeEach(() => {
+      auth = createAuthMock();
+      permissionsData = [createPermission('A')];
+      permissions = new Permissions(auth);
+    });
+
+
+    it('should cache loaded permissions', function _() {
+      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+      permissions.load();
+      permissions.load();
+
+      auth.http.get.should.have.been.calledOnce;
+    });
+
+
+    it('should reload permissions', function _() {
+      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+      permissions.reload();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should not cache response', function _() {
+      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load({
+        cacheControl: {NO_STORE: true}
+      });
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should ignore cache', function _() {
+      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+
+      permissions.load({
+        cacheControl: {NO_CACHE: true}
+      });
+      permissions.load();
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should ignore cache and do not update cache', function _() {
+      this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+
+      permissions.load({
+        cacheControl: {
+          NO_CACHE: true,
+          NO_STORE: true
+        }
+      });
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
   });
 
 

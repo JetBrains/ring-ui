@@ -95,9 +95,10 @@ export default class Permissions {
 
   /**
    * Loads logged-in user permissions.
+   * @param {object?} options
    * @return {Promise.<Permissions>} promise that is resolved when the permissions are loaded
    */
-  load() {
+  load(options) {
     if (this._subscribed === false) {
       this._auth.addListener('userChange', () => {
         this.reload();
@@ -106,14 +107,33 @@ export default class Permissions {
     }
 
     return (
-      this._getCache() ||
-      this._setCache(this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
-        query: {
-          fields: 'permission/key,global,projects(id)',
-          query: this.query
-        }
-      }).then(cachedPermissions => this.set(cachedPermissions)))
+      (!hasCacheControll('NO_CACHE', options) && this._getCache()) ||
+      (hasCacheControll('NO_STORE', options)
+        ? this._loadPermissions()
+        : this._setCache(this._loadPermissions())).then(
+        cachedPermissions => (
+          hasCacheControll('NO_STORE', options)
+            ? new PermissionCache(cachedPermissions, this.namesConverter)
+            : this.set(cachedPermissions)
+        )
+      )
     );
+
+    function hasCacheControll(value, _options) {
+      if (_options && _options.cacheControl) {
+        return _options.cacheControl[value];
+      }
+      return false;
+    }
+  }
+
+  _loadPermissions() {
+    return this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
+      query: {
+        fields: 'permission/key,global,projects(id)',
+        query: this.query
+      }
+    });
   }
 
   /**
