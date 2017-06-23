@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import sniffer from '../global/sniffer';
 
 import AuthStorage from './storage';
