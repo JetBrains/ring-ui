@@ -16,6 +16,7 @@ import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
+import Caret from '../caret/caret';
 
 import SelectFilter from './select__filter';
 import './select-popup.scss';
@@ -56,14 +57,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   popupFilterShortcuts = {
     map: {
-      up: e => (this.list && this.list.upHandler(e)),
-      down: e => (this.list && this.list.downHandler(e)),
-      enter: e => (this.list && this.list.enterHandler(e)),
-      esc: e => this.props.onCloseAttempt(e),
-      tab: e => this.tabPress(e),
-      backspace: () => this.removeTag(this.props.selected[this.state.tagsActiveIndex]),
-      left: () => this.navigateLeft(),
-      right: () => this.navigateRight()
+      up: event => (this.list && this.list.upHandler(event)),
+      down: event => (this.list && this.list.downHandler(event)),
+      enter: event => (this.list && this.list.enterHandler(event)),
+      esc: event => this.props.onCloseAttempt(event),
+      tab: event => this.tabPress(event),
+      backspace: event => this.handleBackspace(event),
+      del: () => this.removeSelectedTag(),
+      left: () => this.handleNavigation(true),
+      right: () => this.handleNavigation()
     }
   };
 
@@ -71,29 +73,32 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     setTimeout(() => this.filter.focus());
   }
 
-  updateTagActiveIndex(newIndex) {
-    let newActiveIndex = newIndex;
-    if (newActiveIndex >= this.props.selected.length || newActiveIndex < 0) {
-      newActiveIndex = null;
+  isEventTargetFilter(event) {
+    return event.target && event.target.matches('input,textarea');
+  }
+
+  handleNavigation(navigateLeft) {
+    if (this.isEventTargetFilter(event) && this.caret.getPosition() > 0) {
+      return;
+    }
+
+    let newIndex = null;
+    if (navigateLeft) {
+      newIndex = this.state.tagsActiveIndex === null
+        ? this.props.selected.length - 1
+        : this.state.tagsActiveIndex - 1;
+    } else if (this.state.tagsActiveIndex !== null) {
+      newIndex = this.state.tagsActiveIndex + 1;
+    }
+
+    if (newIndex !== null && (newIndex >= this.props.selected.length || newIndex < 0)) {
+      newIndex = null;
       this.focusFilter();
     }
+
     this.setState({
-      tagsActiveIndex: newActiveIndex
+      tagsActiveIndex: newIndex
     });
-  }
-
-  navigateLeft() {
-    this.updateTagActiveIndex(
-      this.state.tagsActiveIndex === null
-        ? this.props.selected.length - 1
-        : this.state.tagsActiveIndex - 1
-    );
-  }
-
-  navigateRight() {
-    if (this.state.tagsActiveIndex !== null) {
-      this.updateTagActiveIndex(this.state.tagsActiveIndex + 1);
-    }
   }
 
   removeTag(tag) {
@@ -103,6 +108,22 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       tagsActiveIndex: null
     });
     this.focusFilter();
+  }
+
+  removeSelectedTag() {
+    if (this.state.tagsActiveIndex != null) {
+      this.removeTag(this.props.selected[this.state.tagsActiveIndex]);
+    }
+  }
+
+  handleBackspace(event) {
+    if (!this.isEventTargetFilter(event)) {
+      this.removeSelectedTag();
+      return;
+    }
+    if (!event.target.value) {
+      this.removeTag();
+    }
   }
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
@@ -192,6 +213,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   filterRef = el => {
     this.filter = el;
+    this.caret = new Caret(this.filter);
   };
 
   getFilter() {
