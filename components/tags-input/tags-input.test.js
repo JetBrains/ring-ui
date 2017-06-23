@@ -41,12 +41,11 @@ describe('Tags Input', () => {
       wrapper.state('tags').should.deep.contain({key: 2, label: 'test2'});
     });
 
-    it('Should remove tag', () => {
-      const wrapper = shallowTagsInput();
+    it('Should remove tag', async () => {
+      const wrapper = mountTagsInput();
       const instance = wrapper.instance();
-      instance.onRemoveTag(fakeTags[0]).then(() => {
-        wrapper.state('tags').should.be.empty;
-      });
+      await instance.onRemoveTag(fakeTags[0]);
+      wrapper.state('tags').should.be.empty;
     });
 
     it('Should clear selected value after adding tag', () => {
@@ -77,15 +76,14 @@ describe('Tags Input', () => {
 
 
   describe('DataSource', () => {
-    it('Should call datasource and set suggestions returned', () => {
+    it('Should call datasource and set suggestions returned', async () => {
       const suggestions = [{key: 14, label: 'suggestion 14'}];
       const dataSource = sandbox.spy(() => Promise.resolve(suggestions));
       const wrapper = mountTagsInput({dataSource});
       const instance = wrapper.instance();
 
-      return instance.loadSuggestions().then(() => {
-        wrapper.state('suggestions').should.deep.equal(suggestions);
-      });
+      await instance.loadSuggestions();
+      wrapper.state('suggestions').should.deep.equal(suggestions);
     });
 
     it('Should call datasource with query entered', () => {
@@ -114,16 +112,15 @@ describe('Tags Input', () => {
       wrapper.should.have.state('loading', true);
     });
 
-    it('Should turn on loading message while loading suggestions', () => {
+    it('Should turn on loading message while loading suggestions', async () => {
       const dataSource = sandbox.spy(() => Promise.resolve([]));
       const wrapper = mountTagsInput({dataSource});
       const instance = wrapper.instance();
 
       wrapper.should.have.state('loading', true);
 
-      return instance.loadSuggestions().then(() => {
-        wrapper.should.have.state('loading', false);
-      });
+      await instance.loadSuggestions();
+      wrapper.should.have.state('loading', false);
     });
   });
 

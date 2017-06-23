@@ -30,6 +30,9 @@ module.exports = {
       "ignorePattern": "\"(?=([^\"]|\\\"){40,}\")|'(?=([^']|\\'){40,}')"
     }],
 
+    // React
+    "react/no-find-dom-node": "error",
+
     // Angular
     "angular/directive-name": ["error", "rg"],
 
