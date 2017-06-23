@@ -17,28 +17,32 @@
     var props = {
       tags: true,
       multiple: true,
-      placeholder: 'Search user or group'
+      filter: {
+        placeholder: 'Search'
+      }
     };
     const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
+
+    const tags = [
+      {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
+      {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      },
+      {
+        'label': 'With avatar',
+        key: 5,
+        icon: avatarUrl,
+        avatar: avatarUrl
+      }
+    ];
     var data = {
-      data: [
-        {'label': 'One', 'key': '1', 'type': 'user'},
-        {'label': 'Group', 'key': '2', 'type': 'user'},
-        {'label': 'Three', 'key': '3', 'type': 'user'},
-        {
-          'label': 'With icon',
-          key: 4,
-          icon: 'http://flagpedia.net/data/flags/mini/de.png'
-        },
-        {
-          'label': 'With avatar',
-          key: 5,
-          icon: avatarUrl,
-          avatar: avatarUrl
-        }
-      ],
-      selected: [{'label': 'Group', 'key': '2', 'type': 'user'}]
+      data: tags,
+      selected: [tags[0]]
     };
 
     var select = render(Select.factory(props), document.getElementById('demo'))
