@@ -1,9 +1,10 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
 import okIcon from 'jetbrains-icons/ok.svg';
 import guid from 'mout/random/guid';
+import {shallow, mount} from 'enzyme';
 
 import linkStyles from '../link/link.css';
 
@@ -14,28 +15,24 @@ const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
 describe('List', () => {
   const Type = List.ListProps.Type;
-  let list;
 
-  function getItemsContainer() {
-    return ReactDOM.findDOMNode(list.items);
+  function getItemsContainer(instance) {
+    return ReactDOM.findDOMNode(instance.items);
   }
 
-  function getFirstListItem() {
-    return getItemsContainer().childNodes[0];
+  function getFirstListItem(instance) {
+    return getItemsContainer(instance).childNodes[0];
   }
 
-  beforeEach(() => {
-    list = renderIntoDocument(React.createElement(List));
-  });
+  const shallowList = props => shallow(<List {...props}/>);
+  const mountList = props => mount(<List {...props}/>);
 
   describe('recalculateVisibleOptions', () => {
-    function enableOptimization(_, props) {
-      list = renderIntoDocument(React.createElement(List, Object.assign({
-        renderOptimization: true,
-        maxHeight: 100
-      }, props)));
-      return list;
-    }
+    const shallowOptimizedList = props => shallowList({
+      renderOptimization: true,
+      maxHeight: 100,
+      ...props
+    });
 
     function createItemMock(itemType) {
       return {
@@ -49,7 +46,7 @@ describe('List', () => {
         (amountVisibleItems * (Dimension.ITEM_HEIGHT)) + Dimension.MARGIN;
     }
 
-    function getItemDimension(itemIndex, items) {
+    function getItemDimension(list, itemIndex, items) {
       const itemsSize = list.calculateItemsSize(items);
       return itemsSize[itemIndex];
     }
@@ -67,30 +64,31 @@ describe('List', () => {
     }
 
     it('should do nothing if optimization disabled', () => {
-      sinon.spy(list, 'setState');
+      const instance = shallowList().instance();
+      sinon.spy(instance, 'setState');
 
-      list.recalculateVisibleOptions();
+      instance.recalculateVisibleOptions();
 
-      list.setState.should.have.been.calledWith({data: list.state.data});
+      instance.setState.should.have.been.calledWith({data: instance.state.data});
     });
 
     it('should not throw error if we render list with optimization and without data', () => {
-      list = enableOptimization(list);
+      const wrapper = shallowOptimizedList();
 
-      expect(list.state.data).to.deep.equal([]);
-      expect(list.state.renderOptimizationSkip).to.equal(null);
-      expect(list.state.renderOptimizationPaddingTop).to.equal(0);
-      expect(list.state.renderOptimizationPaddingBottom).to.equal(0);
+      wrapper.should.have.state('data').deep.equal([]);
+      wrapper.should.have.state('renderOptimizationSkip', null);
+      wrapper.should.have.state('renderOptimizationPaddingTop', 0);
+      wrapper.should.have.state('renderOptimizationPaddingBottom', 0);
     });
 
     it('should not throw error if we render list with optimization and pass data', () => {
       const data = [createItemMock(List.ListProps.Type.ITEM)];
-      list = enableOptimization(list, {data});
+      const wrapper = shallowOptimizedList({data});
 
-      expect(list.state.data.length).to.equal(data.length);
-      expect(list.state.renderOptimizationSkip).to.equal(0);
-      expect(list.state.renderOptimizationPaddingTop).to.equal(0);
-      expect(list.state.renderOptimizationPaddingBottom).to.equal(0);
+      wrapper.state('data').length.should.equal(data.length);
+      wrapper.should.have.state('renderOptimizationSkip', 0);
+      wrapper.should.have.state('renderOptimizationPaddingTop', 0);
+      wrapper.should.have.state('renderOptimizationPaddingBottom', 0);
     });
 
     it('should calculate the size and position of the item', () => {
@@ -99,16 +97,17 @@ describe('List', () => {
         createItemMock(List.ListProps.Type.ITEM)
       ];
 
-      list.recalculateVisibleOptionsWithOptimization(false, null, {data});
+      const instance = shallowList().instance();
+      instance.recalculateVisibleOptionsWithOptimization(false, null, {data});
 
-      expect(list.cachedSizes.length).to.equal(data.length);
-      expect(list.cachedSizes[0]).to.deep.equal({
+      expect(instance.cachedSizes.length).to.equal(data.length);
+      expect(instance.cachedSizes[0]).to.deep.equal({
         begin: Dimension.MARGIN,
         size: Dimension.ITEM_HEIGHT,
         end: 28
       });
-      expect(list.cachedSizes[1]).to.deep.equal({
-        begin: list.cachedSizes[0].end,
+      expect(instance.cachedSizes[1]).to.deep.equal({
+        begin: instance.cachedSizes[0].end,
         size: Dimension.ITEM_HEIGHT,
         end: 52
       });
@@ -140,17 +139,18 @@ describe('List', () => {
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-      list.setState({activeIndex});
+      const instance = shallowList().instance();
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, getItemDimension(activeIndex, data).end + 1);
+      stubInnerContainer(instance);
+      scrollPosition(instance, getItemDimension(instance, activeIndex, data).end + 1);
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).to.equal(14);
+      expect(scrollPosition(instance)).to.equal(14);
     });
 
     it('should scroll to the active item if the item`s bottom edge out of visible frame and item is first item in the list', () => {
@@ -176,17 +176,18 @@ describe('List', () => {
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-      list.setState({activeIndex});
+      const instance = shallowList().instance();
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, getItemDimension(activeIndex, data).end + 1);
+      stubInnerContainer(instance);
+      scrollPosition(instance, getItemDimension(instance, activeIndex, data).end + 1);
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).to.equal(0);
+      expect(scrollPosition(instance)).to.equal(0);
     });
 
     it('should scroll to the active item if the item`s top edge out of visible frame', () => {
@@ -215,17 +216,18 @@ describe('List', () => {
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-      list.setState({activeIndex});
+      const instance = shallowList().instance();
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, 0);
+      stubInnerContainer(instance);
+      scrollPosition(instance, 0);
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).to.equal(62);
+      expect(scrollPosition(instance)).to.equal(62);
     });
 
     it('should scroll to the last item', () => {
@@ -254,17 +256,18 @@ describe('List', () => {
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-      list.setState({activeIndex});
+      const instance = shallowList().instance();
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, 0);
+      stubInnerContainer(instance);
+      scrollPosition(instance, 0);
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).to.equal(86);
+      expect(scrollPosition(instance)).to.equal(86);
     });
 
     it('should scroll to the top edge of the item if the top edge out of visible frame', () => {
@@ -290,19 +293,20 @@ describe('List', () => {
 
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-      const activeItemDimension = getItemDimension(activeIndex, data);
+      const instance = shallowList().instance();
+      const activeItemDimension = getItemDimension(instance, activeIndex, data);
 
-      list.setState({activeIndex});
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, activeItemDimension.end - (Dimension.ITEM_HEIGHT / 2));
+      stubInnerContainer(instance);
+      scrollPosition(instance, activeItemDimension.end - (Dimension.ITEM_HEIGHT / 2));
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).to.equal(activeItemDimension.begin);
+      expect(scrollPosition(instance)).to.equal(activeItemDimension.begin);
     });
 
     it('should scroll to the bottom edge of the item if the bottom edge out of visible frame', () => {
@@ -327,22 +331,29 @@ describe('List', () => {
 
       const COUNT_VISIBLE_ITEMS = 2;
       const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-      const activeItemDimension = getItemDimension(activeIndex, data);
+      const instance = shallowList().instance();
+      const activeItemDimension = getItemDimension(instance, activeIndex, data);
 
-      list.setState({activeIndex});
+      instance.setState({activeIndex});
 
-      stubInnerContainer(list);
-      scrollPosition(list, getItemDimension(activeIndex - COUNT_VISIBLE_ITEMS, data).begin +
-        (Dimension.ITEM_HEIGHT / 2));
+      stubInnerContainer(instance);
+      scrollPosition(
+        instance,
+        getItemDimension(
+          instance,
+          activeIndex - COUNT_VISIBLE_ITEMS,
+          data
+        ).begin + (Dimension.ITEM_HEIGHT / 2)
+      );
 
-      list.recalculateVisibleOptionsWithOptimization(false, false, {
+      instance.recalculateVisibleOptionsWithOptimization(false, false, {
         data,
         maxHeight
       });
 
-      expect(scrollPosition(list)).
+      expect(scrollPosition(instance)).
         to.
-        equal(activeItemDimension.end - list.getVisibleListHeight({maxHeight}));
+        equal(activeItemDimension.end - instance.getVisibleListHeight({maxHeight}));
     });
 
     describe('calculateVisibleOptions', () => {
@@ -350,7 +361,8 @@ describe('List', () => {
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-        list.calculateVisibleOptions({maxHeight}, []);
+        const instance = shallowList().instance();
+        instance.calculateVisibleOptions({maxHeight}, []);
       });
 
       it('should calculate visible options if items less then visible height', () => {
@@ -361,11 +373,12 @@ describe('List', () => {
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        const instance = shallowList().instance();
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(0);
@@ -382,11 +395,12 @@ describe('List', () => {
         const COUNT_VISIBLE_ITEMS = data.length;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        const instance = shallowList().instance();
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(0);
@@ -406,11 +420,12 @@ describe('List', () => {
         const COUNT_VISIBLE_ITEMS = data.length - COUNT_HIDDEN_ITEMS;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        const instance = shallowList().instance();
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(0);
@@ -429,72 +444,79 @@ describe('List', () => {
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        const instance = shallowList().instance();
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.stopIndex).to.equal(data.length - 1);
       });
 
       it('should set stopIndex equal item`s index which depends from buffer`s size', () => {
-        const data = (new Array(list._bufferSize * 3)).join(',').
+        const instance = shallowList().instance();
+        const data = (new Array(instance._bufferSize * 3)).join(',').
           split(',').
           map(createItemMock.bind(null, List.ListProps.Type.ITEM));
 
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + list._bufferSize;
+        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize;
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.stopIndex).to.equal(expectedStopIndex);
       });
 
       it('should calculate height of unrendered below items', () => {
-        const data = (new Array(list._bufferSize * 3)).join(',').
+        const instance = shallowList().instance();
+        const data = (new Array(instance._bufferSize * 3)).join(',').
           split(',').
           map(createItemMock.bind(null, List.ListProps.Type.ITEM));
 
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + list._bufferSize;
+        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize;
 
-        stubInnerContainer(list);
-        scrollPosition(list, 0);
+        stubInnerContainer(instance);
+        scrollPosition(instance, 0);
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(
-          getItemDimension(data.length - 1, data).end -
-          getItemDimension(expectedStopIndex, data).end
+          getItemDimension(instance, data.length - 1, data).end -
+          getItemDimension(instance, expectedStopIndex, data).end
         );
       });
 
       it('should calculate height of unrendered above items', () => {
-        const data = (new Array(list._bufferSize * 3)).join(',').
+        const instance = shallowList().instance();
+        const data = (new Array(instance._bufferSize * 3)).join(',').
           split(',').
           map(createItemMock.bind(null, List.ListProps.Type.ITEM));
 
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStartIndex = (data.length - (COUNT_VISIBLE_ITEMS)) - list._bufferSize;
+        const expectedStartIndex = (data.length - (COUNT_VISIBLE_ITEMS)) - instance._bufferSize;
 
-        stubInnerContainer(list);
-        scrollPosition(list, getItemDimension(data.length - (COUNT_VISIBLE_ITEMS + 1), data).end);
+        stubInnerContainer(instance);
+        scrollPosition(
+          instance,
+          getItemDimension(instance, data.length - (COUNT_VISIBLE_ITEMS + 1), data).end
+        );
 
-        const visibleOptions = list.calculateVisibleOptions({maxHeight},
-          list.calculateItemsSize(data));
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
 
         expect(visibleOptions.paddingTop).to.equal(
-          getItemDimension(expectedStartIndex, data).begin - Dimension.MARGIN
+          getItemDimension(instance, expectedStartIndex, data).begin - Dimension.MARGIN
         );
         expect(visibleOptions.paddingBottom).to.equal(0);
       });
@@ -502,8 +524,9 @@ describe('List', () => {
   });
 
   it('should be empty by default', () => {
-    list.inner.tagName.toLowerCase().should.equal('div');
-    getItemsContainer().childNodes.length.should.equal(0);
+    const instance = mountList().instance();
+    instance.inner.tagName.toLowerCase().should.equal('div');
+    getItemsContainer(instance).childNodes.length.should.equal(0);
   });
 
   it('should check type of item', () => {
@@ -530,234 +553,236 @@ describe('List', () => {
   });
 
   it('should deselect item', () => {
-    list.rerender({
+    const instance = shallowList({
       data: [
         {}
       ],
       activeIndex: 0
-    });
+    }).instance();
 
-    list.clearSelected();
+    instance.clearSelected();
 
-    expect(list.getSelected()).to.be.undefined;
+    expect(instance.getSelected()).to.be.undefined;
   });
 
   describe('should track activeIndex', () => {
+    let wrapper;
+    let instance;
     beforeEach(() => {
-      list = renderIntoDocument(React.createElement(List, {
+      wrapper = shallowList({
         data: [{key: 0}, {key: 1}, {key: 2}],
         activeIndex: 0,
         restoreActiveIndex: true
-      }));
+      });
+      instance = wrapper.instance();
     });
 
     it('should set activeIndex from props', () => {
-      list.state.activeIndex.should.equal(0);
-      list.state.activeItem.key.should.equal(0);
+      wrapper.should.have.state('activeIndex', 0);
+      wrapper.state('activeItem').key.should.equal(0);
     });
 
     it('should activate item', () => {
-      list.hoverHandler(1)();
-      list.state.activeIndex.should.equal(1);
-      list.state.activeItem.key.should.equal(1);
+      instance.hoverHandler(1)();
+      wrapper.should.have.state('activeIndex', 1);
+      wrapper.state('activeItem').key.should.equal(1);
     });
 
     it('should reset activeIndex when it\'s changed in props', () => {
-      list.hoverHandler(1)();
+      instance.hoverHandler(1)();
       const activeIndex = 2;
-      list.rerender({
+      wrapper.setProps({
         activeIndex
       });
-      list.state.activeIndex.should.equal(activeIndex);
-      list.state.activeItem.key.should.equal(activeIndex);
+      wrapper.should.have.state('activeIndex', activeIndex);
+      wrapper.state('activeItem').key.should.equal(activeIndex);
     });
 
     it('shouldn\'t reset activeIndex when it isn\'t changed in props', () => {
-      list.hoverHandler(1)();
-      list.rerender({
+      instance.hoverHandler(1)();
+      wrapper.setProps({
         activeIndex: 0
       });
-      list.state.activeIndex.should.equal(1);
-      list.state.activeItem.key.should.equal(1);
+      wrapper.should.have.state('activeIndex', 1);
+      wrapper.state('activeItem').key.should.equal(1);
     });
   });
 
   describe('should render items', () => {
     it('should render for empty element', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {}
         ]
-      });
-
-      getFirstListItem().should.have.class('ring-list__item_action');
-      getFirstListItem().innerText.should.equal('');
+      }).instance();
+      getFirstListItem(instance).should.have.class('ring-list__item_action');
+      getFirstListItem(instance).innerText.should.equal('');
     });
 
-    it('should render list item if type is not defined', () => {
-      list.rerender({
+    it('should render instance item if type is not defined', () => {
+      const instance = mountList({
         data: [
           {label: 'Hello!'}
         ]
-      });
+      }).instance();
 
-      list.inner.querySelector('.ring-list__item').should.be.defined;
+      instance.inner.querySelector('.ring-list__item').should.be.defined;
     });
 
     it('should render a if href defined', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', href: 'http://www.jetbrains.com'}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.have.class(linkStyles.link);
-      getFirstListItem().innerHTML.should.equal('Hello!');
-      getFirstListItem().tagName.toLowerCase().should.equal('a');
-      getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
+      getFirstListItem(instance).should.have.class(linkStyles.link);
+      getFirstListItem(instance).innerHTML.should.equal('Hello!');
+      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
+      getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render a if url defined', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', url: 'http://www.jetbrains.com'}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.have.class(linkStyles.link);
-      getFirstListItem().innerHTML.should.equal('Hello!');
-      getFirstListItem().tagName.toLowerCase().should.equal('a');
-      getFirstListItem().getAttribute('href').should.equal('http://www.jetbrains.com');
+      getFirstListItem(instance).should.have.class(linkStyles.link);
+      getFirstListItem(instance).innerHTML.should.equal('Hello!');
+      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
+      getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
     });
 
     it('should render separator', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {rgItemType: List.ListProps.Type.SEPARATOR}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.have.class('ring-list__separator');
+      getFirstListItem(instance).should.have.class('ring-list__separator');
     });
 
     it('should render title', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.have.text('FooBar');
+      getFirstListItem(instance).should.have.text('FooBar');
     });
 
     it('should render pseudo link if link without href', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.have.class(linkStyles.link);
-      getFirstListItem().should.have.class(linkStyles.pseudo);
-      getFirstListItem().innerHTML.should.equal('Hello!');
-      getFirstListItem().tagName.toLowerCase().should.equal('a');
+      getFirstListItem(instance).should.have.class(linkStyles.link);
+      getFirstListItem(instance).should.have.class(linkStyles.pseudo);
+      getFirstListItem(instance).innerHTML.should.equal('Hello!');
+      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
     });
 
     it('should not render icon if not provided', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', type: List.ListProps.Type.ITEM}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().should.not.contain('.ring-list__icon');
+      getFirstListItem(instance).should.not.contain('.ring-list__icon');
     });
 
     it('should render icon if provided', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
         ]
-      });
+      }).instance();
 
-      const icon = getFirstListItem().querySelector('.ring-list__icon');
+      const icon = getFirstListItem(instance).querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
     });
 
     it('should not render glyph if not provided', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', type: List.ListProps.Type.ITEM}
         ]
-      });
+      }).instance();
 
-      should.not.exist(getFirstListItem().query('use'));
+      should.not.exist(getFirstListItem(instance).query('use'));
     });
 
     it('should render glyph if provided', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', glyph: okIcon, type: List.ListProps.Type.ITEM}
         ]
-      });
+      }).instance();
 
-      getFirstListItem().query('use').getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
+      getFirstListItem(instance).query('use').getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
     });
 
     it('should throw error on unknown type', () => {
       expect(() => {
-        list.rerender({
+        const instance = mountList({
           data: [
             {label: 'Hello!', rgItemType: 'none'}
           ]
-        });
+        }).instance();
 
-        getFirstListItem().should.have.class('ring-link');
-        getFirstListItem().innerHTML.should.equal('Hello!');
-        getFirstListItem().tagName.toLowerCase().should.equal('span');
+        getFirstListItem(instance).should.have.class('ring-link');
+        getFirstListItem(instance).innerHTML.should.equal('Hello!');
+        getFirstListItem(instance).tagName.toLowerCase().should.equal('span');
       }).to.throw(Error, 'Unknown menu element type: none');
     });
 
     it('should handle click', () => {
       const clicked = sinon.stub();
 
-      list.rerender({
+      const instance = mountList({
         data: [
           {label: 'Hello!', onClick: clicked}
         ]
-      });
+      }).instance();
 
-      Simulate.click(getFirstListItem());
+      Simulate.click(getFirstListItem(instance));
       clicked.should.have.been.called;
     });
 
     it('should handle select', () => {
       const onSelect = sinon.stub();
 
-      list.rerender({
+      const instance = mountList({
         onSelect,
         data: [{label: 'Hello!'}]
-      });
+      }).instance();
 
-      Simulate.click(getFirstListItem());
+      Simulate.click(getFirstListItem(instance));
       onSelect.should.have.been.called;
     });
 
     it('Should support custom elements', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
             rgItemType: List.ListProps.Type.CUSTOM
           }
         ]
-      });
-      getFirstListItem().should.contain.text('custom item');
+      }).instance();
+      getFirstListItem(instance).should.contain.text('custom item');
     });
 
     it('Should support click on custom elements', () => {
       const onClick = sinon.stub();
-      list.rerender({
+      const instance = mountList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -765,13 +790,13 @@ describe('List', () => {
             onClick
           }
         ]
-      });
-      Simulate.click(getFirstListItem());
+      }).instance();
+      Simulate.click(getFirstListItem(instance));
       onClick.should.have.been.clicked;
     });
 
     it('Should support disable property for custom elements', () => {
-      list.rerender({
+      const instance = mountList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -779,8 +804,8 @@ describe('List', () => {
             disabled: true
           }
         ]
-      });
-      getFirstListItem().should.not.have.class('ring-list__item_action');
+      }).instance();
+      getFirstListItem(instance).should.not.have.class('ring-list__item_action');
     });
   });
 });
