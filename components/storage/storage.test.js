@@ -154,7 +154,7 @@ function testStorageEvents(storage) {
       change.should.become(null);
     });
 
-    it('on after set with other key shouldn\'t be fired', function () {
+    it('on after set with other key shouldn\'t be fired', () => {
       const clock = sandbox.useFakeTimers();
       const spy = sandbox.stub();
 
@@ -165,7 +165,7 @@ function testStorageEvents(storage) {
       spy.should.not.have.been.called;
     });
 
-    it('stop should stop', function () {
+    it('stop should stop', () => {
       const clock = sandbox.useFakeTimers();
       const spy = sandbox.spy();
 
