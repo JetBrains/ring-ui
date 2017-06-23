@@ -1,24 +1,20 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import {shallow} from 'enzyme';
 import GroupIcon from 'jetbrains-icons/group.svg';
 
 import Tag from './tag';
 
 
 describe('Tag', () => {
-  let tag;
   const tagMock = {key: 1, label: 'test1', rgTagIcon: GroupIcon};
 
-  beforeEach(() => {
-    tag = renderIntoDocument(React.createElement(Tag, tagMock));
-  });
+  const shallowTag = props => shallow(<Tag {...tagMock} {...props}/>);
 
   it('should render tags', () => {
-    findDOMNode(tag).should.match('[data-test="ring-tag"]');
+    shallowTag().should.have.data('test', 'ring-tag');
   });
 
   it('should contains icon', () => {
-    findDOMNode(tag).querySelector('.ring-tag__ring-icon').should.match('.ring-tag__ring-icon');
+    shallowTag().should.have.descendants('.ring-tag__ring-icon');
   });
 });

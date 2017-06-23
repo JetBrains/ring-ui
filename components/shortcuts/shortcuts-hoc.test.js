@@ -1,7 +1,5 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import shortcutsHOC from './shortcuts-hoc';
 
@@ -11,50 +9,41 @@ describe('ShortcutsHOC', () => {
   describe('default', () => {
     const InputWithShortcuts = shortcutsHOC('input');
 
-    function createShortcutsMap() {
-      return {
-        options: {},
-        map: {enter: sandbox.spy()}
-      };
-    }
-
-
-    let shortcuts;
-    beforeEach(function () {
-      shortcuts = createShortcutsMap();
-
-
-      this.component = renderIntoDocument(
-        <InputWithShortcuts
-          rgShortcutsOptions={shortcuts.options}
-          rgShortcutsMap={shortcuts.map}
-        />
-      );
+    const createShortcutsMap = () => ({
+      options: {},
+      map: {enter: sandbox.spy()}
     });
 
+    const factory = shortcuts => (
+      <InputWithShortcuts
+        rgShortcutsOptions={shortcuts.options}
+        rgShortcutsMap={shortcuts.map}
+      />
+    );
 
-    it('should initialize', function () {
-      expect(this.component).to.be.defined;
+    const shallowInputWithShortcuts = shortcuts => shallow(factory(shortcuts));
+    const mountInputWithShortcuts = shortcuts => mount(factory(shortcuts));
+
+    it('should initialize', () => {
+      const shortcuts = createShortcutsMap();
+      shallowInputWithShortcuts(shortcuts).should.exist;
     });
 
 
     it('should call shortcut handler', () => {
+      const shortcuts = createShortcutsMap();
+      mountInputWithShortcuts(shortcuts);
       simulateCombo('enter');
 
       expect(shortcuts.map.enter).to.be.called;
     });
 
 
-    it('should disable shortcuts', function () {
-      shortcuts = createShortcutsMap();
+    it('should disable shortcuts', () => {
+      const shortcuts = createShortcutsMap();
       shortcuts.options.disabled = true;
 
-      this.component = renderIntoDocument(
-        <InputWithShortcuts
-          rgShortcutsOptions={shortcuts.options}
-          rgShortcutsMap={shortcuts.map}
-        />
-      );
+      const wrapper = mountInputWithShortcuts(shortcuts);
 
       simulateCombo('enter');
 

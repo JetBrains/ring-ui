@@ -1,100 +1,107 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
+
+import Select from '../select/select';
 
 import TagsInput from './tags-input';
 
 describe('Tags Input', () => {
   const fakeTags = [{key: 1, label: 'test1'}];
 
-  beforeEach(function () {
-    this.tagsInput = renderIntoDocument(React.createElement(TagsInput, {tags: fakeTags}));
-  });
-
+  const shallowTagsInput = props => shallow(<TagsInput tags={fakeTags} {...props}/>);
+  const mountTagsInput = props => mount(<TagsInput tags={fakeTags} {...props}/>);
 
   describe('DOM', () => {
-    it('should render select in input mode', function () {
-      this.tagsInput.node.should.contain('.ring-select_input-mode');
+    it('should render select in input mode', () => {
+      shallowTagsInput().find(Select).should.have.prop('type', Select.Type.INPUT);
     });
 
-    it('Should use passed className', function () {
-      this.tagsInput.rerender({
+    it('Should use passed className', () => {
+      const wrapper = shallowTagsInput({
         className: 'test-class'
       });
-      this.tagsInput.node.should.have.class('test-class');
+      wrapper.should.have.className('test-class');
     });
   });
 
 
   describe('Select', () => {
     it('should auto open popup', () => {
-      const tagsInput = renderIntoDocument(
-        React.createElement(TagsInput, {tags: fakeTags, autoOpen: true})
-      );
+      const wrapper = mountTagsInput({autoOpen: true});
+      const instance = wrapper.instance();
 
-      tagsInput.select._popup.isVisible().should.be.true;
+      instance.select._popup.isVisible().should.be.true;
     });
 
-    it('Should add tag', function () {
-      this.tagsInput.addTag({key: 2, label: 'test2'});
-      this.tagsInput.state.tags.should.deep.contain({key: 2, label: 'test2'});
+    it('Should add tag', () => {
+      const wrapper = mountTagsInput();
+      const instance = wrapper.instance();
+      instance.addTag({key: 2, label: 'test2'});
+      wrapper.state('tags').should.deep.contain({key: 2, label: 'test2'});
     });
 
-    it('Should remove tag', function () {
-      return this.tagsInput.onRemoveTag(fakeTags[0]).then(() => {
-        this.tagsInput.state.tags.should.be.empty;
+    it('Should remove tag', () => {
+      const wrapper = shallowTagsInput();
+      const instance = wrapper.instance();
+      instance.onRemoveTag(fakeTags[0]).then(() => {
+        wrapper.state('tags').should.be.empty;
       });
     });
 
-    it('Should clear selected value after adding tag', function () {
-      sandbox.spy(this.tagsInput.select, 'clear');
-      this.tagsInput.addTag({key: 2, label: 'test2'});
+    it('Should clear selected value after adding tag', () => {
+      const wrapper = mountTagsInput();
+      const instance = wrapper.instance();
+      sandbox.spy(instance.select, 'clear');
+      instance.addTag({key: 2, label: 'test2'});
 
-      this.tagsInput.select.clear.should.have.been.called;
+      instance.select.clear.should.have.been.called;
     });
 
-    it('Should clear select input after adding tag', function () {
-      sandbox.spy(this.tagsInput.select, 'filterValue');
-      this.tagsInput.addTag({key: 2, label: 'test2'});
+    it('Should clear select input after adding tag', () => {
+      const wrapper = mountTagsInput();
+      const instance = wrapper.instance();
+      sandbox.spy(instance.select, 'filterValue');
+      instance.addTag({key: 2, label: 'test2'});
 
-      this.tagsInput.select.filterValue.should.have.been.calledWith('');
+      instance.select.filterValue.should.have.been.calledWith('');
     });
 
-    it('Should copy tags to state on receiving props', function () {
+    it('Should copy tags to state on receiving props', () => {
+      const wrapper = shallowTagsInput();
       const newTags = [{key: 4, label: 'test5'}];
-
-      this.tagsInput.updateStateFromProps({tags: newTags});
+      wrapper.setProps({tags: newTags});
+      wrapper.state('tags').should.be.deep.equal(newTags);
     });
   });
 
 
   describe('DataSource', () => {
-    it('Should call datasource and set suggestions returned', function () {
+    it('Should call datasource and set suggestions returned', () => {
       const suggestions = [{key: 14, label: 'suggestion 14'}];
-
       const dataSource = sandbox.spy(() => Promise.resolve(suggestions));
+      const wrapper = mountTagsInput({dataSource});
+      const instance = wrapper.instance();
 
-      this.tagsInput.rerender({dataSource});
-
-      sandbox.spy(this.tagsInput, 'setState');
-      return this.tagsInput.loadSuggestions().then(() => {
-        this.tagsInput.state.suggestions.should.deep.equal(suggestions);
+      return instance.loadSuggestions().then(() => {
+        wrapper.state('suggestions').should.deep.equal(suggestions);
       });
     });
 
-    it('Should call datasource with query entered', function () {
+    it('Should call datasource with query entered', () => {
       const dataSource = sandbox.spy(() => Promise.resolve([]));
-      this.tagsInput.rerender({dataSource});
-      this.tagsInput.loadSuggestions('testquery');
+      const wrapper = shallowTagsInput({dataSource});
+      const instance = wrapper.instance();
+      instance.loadSuggestions('testquery');
 
       dataSource.should.have.been.calledWith({query: 'testquery'});
     });
 
-    it('Should call datasource when arrow down pressed', function () {
+    it('Should call datasource when arrow down pressed', () => {
       const dataSource = sandbox.spy(() => Promise.resolve([]));
-      this.tagsInput.rerender({dataSource});
-      this.tagsInput.select.props.onBeforeOpen();
+      const wrapper = mountTagsInput({dataSource});
+      const instance = wrapper.instance();
+      instance.select.props.onBeforeOpen();
 
       dataSource.should.have.been.calledWith({query: undefined});
     });
@@ -102,24 +109,28 @@ describe('Tags Input', () => {
 
 
   describe('Loading', () => {
-    it('Should turn on loading message immediately after initialization', function () {
-      this.tagsInput.state.should.have.property('loading', true);
+    it('Should turn on loading message immediately after initialization', () => {
+      const wrapper = mountTagsInput();
+      wrapper.should.have.state('loading', true);
     });
 
-    it('Should turn on loading message while loading suggestions', function () {
+    it('Should turn on loading message while loading suggestions', () => {
       const dataSource = sandbox.spy(() => Promise.resolve([]));
-      this.tagsInput.rerender({dataSource});
+      const wrapper = mountTagsInput({dataSource});
+      const instance = wrapper.instance();
 
-      this.tagsInput.state.should.have.property('loading', true);
+      wrapper.should.have.state('loading', true);
 
-      return this.tagsInput.loadSuggestions().then(() => {
-        this.tagsInput.state.should.have.property('loading', false);
+      return instance.loadSuggestions().then(() => {
+        wrapper.should.have.state('loading', false);
       });
     });
   });
 
-  it('Should drop existing tags from suggestions by key', function () {
-    const notAddedSuggestions = this.tagsInput.filterExistingTags([
+  it('Should drop existing tags from suggestions by key', () => {
+    const wrapper = shallowTagsInput();
+    const instance = wrapper.instance();
+    const notAddedSuggestions = instance.filterExistingTags([
       {key: 1, label: 'test1'},
       {key: 2, label: 'test2'}
     ]);
@@ -129,99 +140,116 @@ describe('Tags Input', () => {
 
 
   describe('Shortcuts', () => {
-    it('should enable shortcuts on input focus', function () {
-      Simulate.focus(this.tagsInput.getInputNode());
+    it('should enable shortcuts on input focus', () => {
+      const wrapper = mountTagsInput();
+      const instance = wrapper.instance();
+      Simulate.focus(instance.getInputNode());
 
-      this.tagsInput.state.shortcuts.should.be.true;
+      wrapper.should.have.state('shortcuts', true);
     });
 
-    it('should disable shortcuts when input lose focus', function () {
-      Simulate.focus(this.tagsInput.getInputNode());
-      Simulate.blur(this.tagsInput.getInputNode());
+    it('should disable shortcuts when input lose focus', () => {
+      const wrapper = mountTagsInput();
+      const instance = wrapper.instance();
+      Simulate.focus(instance.getInputNode());
+      Simulate.blur(instance.getInputNode());
 
-      this.tagsInput.state.shortcuts.should.be.false;
+      wrapper.should.have.state('shortcuts', false);
     });
 
 
     describe('Keyboard handling', () => {
-      let getEventMock;
-
-      beforeEach(function () {
-        getEventMock = keyboardKey => Object.assign({
-          key: keyboardKey,
-          preventDefault: sandbox.spy(),
-          target: {
-            matches: () => true
-          }
-        });
-
-        sandbox.spy(this.tagsInput, 'onRemoveTag');
+      const getEventMock = keyboardKey => Object.assign({
+        key: keyboardKey,
+        preventDefault: sandbox.spy(),
+        target: {
+          matches: () => true
+        }
       });
 
-      it('Should remove last tag on pressing backspace if input is empty', function () {
-        this.tagsInput.getInputNode().value = '';
-        this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+      it('Should remove last tag on pressing backspace if input is empty', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'onRemoveTag');
+        instance.getInputNode().value = '';
+        instance.handleKeyDown(getEventMock('Backspace'));
 
-        this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+        instance.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
       });
 
-      it('Should not tag on pressing backspace if input is not empty', function () {
-        this.tagsInput.getInputNode().value = 'entered value';
-        this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+      it('Should not tag on pressing backspace if input is not empty', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'onRemoveTag');
+        instance.getInputNode().value = 'entered value';
+        instance.handleKeyDown(getEventMock('Backspace'));
 
-        this.tagsInput.onRemoveTag.should.not.have.been.called;
+        instance.onRemoveTag.should.not.have.been.called;
       });
 
-      it('should remove tag with DELETE key if tag is focused', function () {
-        this.tagsInput.setState({
+      it('should remove tag with DELETE key if tag is focused', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'onRemoveTag');
+        wrapper.setState({
           activeIndex: 0
         });
-        this.tagsInput.handleKeyDown(getEventMock('Delete'));
-        this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+        instance.handleKeyDown(getEventMock('Delete'));
+        instance.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
       });
 
-      it('should remove tag with BACKSPACE key if tag is focused', function () {
-        this.tagsInput.rerender({
+      it('should remove tag with BACKSPACE key if tag is focused', () => {
+        const wrapper = mountTagsInput({
           activeIndex: 0
         });
-        this.tagsInput.handleKeyDown(getEventMock('Backspace'));
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'onRemoveTag');
+        instance.handleKeyDown(getEventMock('Backspace'));
 
-        this.tagsInput.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
+        instance.onRemoveTag.should.have.been.calledWith(fakeTags[0]);
       });
 
-      it('should not remove tag with DELETE key if tag is not focused', function () {
-        this.tagsInput.handleKeyDown(getEventMock('Delete'));
-        this.tagsInput.onRemoveTag.should.not.have.been.called;
+      it('should not remove tag with DELETE key if tag is not focused', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'onRemoveTag');
+        instance.handleKeyDown(getEventMock('Delete'));
+        instance.onRemoveTag.should.not.have.been.called;
       });
 
-      it('should not navigate to the first tag from select input', function () {
-        sandbox.spy(this.tagsInput, 'selectTag');
-        this.tagsInput.getInputNode();
-        this.tagsInput.caret = {
+      it('should not navigate to the first tag from select input', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'selectTag');
+        instance.getInputNode();
+        instance.caret = {
           getPosition: () => 1
         };
-        this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
+        instance.handleKeyDown(getEventMock('ArrowLeft'));
 
-        this.tagsInput.selectTag.should.not.have.been.called;
+        instance.selectTag.should.not.have.been.called;
       });
 
-      it('should navigate to the first tag from select input', function () {
-        this.tagsInput.caret = {
+      it('should navigate to the first tag from select input', () => {
+        const wrapper = mountTagsInput();
+        const instance = wrapper.instance();
+        instance.caret = {
           getPosition: sandbox.spy()
         };
-        this.tagsInput.handleKeyDown(getEventMock('ArrowLeft'));
+        instance.handleKeyDown(getEventMock('ArrowLeft'));
 
-        this.tagsInput.state.activeIndex.should.be.equals(0);
+        wrapper.should.have.state('activeIndex', 0);
       });
 
-      it('should navigate to the select input', function () {
-        sandbox.spy(this.tagsInput, 'setActiveIndex');
-        this.tagsInput.rerender({
+      it('should navigate to the select input', () => {
+        const wrapper = mountTagsInput({
           activeIndex: 0
         });
-        this.tagsInput.handleKeyDown(getEventMock('ArrowRight'));
+        const instance = wrapper.instance();
+        sandbox.spy(instance, 'setActiveIndex');
+        instance.handleKeyDown(getEventMock('ArrowRight'));
 
-        this.tagsInput.setActiveIndex.should.not.have.been.calledWith(undefined);
+        instance.setActiveIndex.should.not.have.been.calledWith(undefined);
       });
     });
   });
