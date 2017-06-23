@@ -70,6 +70,10 @@
   padding: calc(unit * 2) calc(unit * 2);
 }
 
+.withoutPaddings .scrollableWrapper {
+  padding: 0;
+}
+
 .contentWithTopFade::before {
   position: absolute;
   z-index: fixed-z-index;
