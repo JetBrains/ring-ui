@@ -1,7 +1,5 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 import guid from 'mout/random/guid';
 
 import Shortcuts from './shortcuts';
@@ -10,24 +8,27 @@ import simulateCombo from 'simulate-combo';
 
 
 describe('ShortcutsComponent', () => {
-  beforeEach(function () {
-    this.component = renderIntoDocument(
-      <Shortcuts
-        map={{enter: sandbox.spy()}}
-        scope={guid()}
-      />
-    );
+  const factory = props => (
+    <Shortcuts
+      map={{enter: sandbox.spy()}}
+      scope={guid()}
+      {...props}
+    />
+  );
+
+  const shallowShortcuts = props => shallow(factory(props));
+  const mountShortcuts = props => mount(factory(props));
+
+
+  it('should initialize', () => {
+    shallowShortcuts().should.exist;
   });
 
 
-  it('should initialize', function () {
-    expect(this.component).to.be.defined;
-  });
-
-
-  it('should call shortcut handler', function () {
+  it('should call shortcut handler', () => {
+    const wrapper = mountShortcuts();
     simulateCombo('enter');
 
-    expect(this.component.props.map.enter).to.be.called;
+    wrapper.prop('map').enter.should.be.called;
   });
 });
