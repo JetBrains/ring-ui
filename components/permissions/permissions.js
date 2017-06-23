@@ -72,7 +72,7 @@ export default class Permissions {
 
   set(cachedPermissions) {
     this._permissionCache.set(cachedPermissions);
-    this.cache(Promise.resolve(this._permissionCache));
+    this._setCache(Promise.resolve(this._permissionCache));
     return this._permissionCache;
   }
 
@@ -80,17 +80,17 @@ export default class Permissions {
     return this._permissionCache.get();
   }
 
-  cache(promise) {
-    if (arguments.length === 0) {
-      return this._promise;
-    }
-
-    this._promise = promise;
-    return promise;
+  _setCache(value) {
+    this._promise = value;
+    return value;
   }
 
-  resetCache() {
-    this.cache(null);
+  _getCache() {
+    return this._promise;
+  }
+
+  _resetCache() {
+    this._setCache(null);
   }
 
   /**
@@ -106,8 +106,8 @@ export default class Permissions {
     }
 
     return (
-      this.cache() ||
-      this.cache(this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
+      this._getCache() ||
+      this._setCache(this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
         query: {
           fields: 'permission/key,global,projects(id)',
           query: this.query
@@ -121,7 +121,7 @@ export default class Permissions {
    * @returns {Promise.<Permissions>} promise that is resolved when the permissions are reloaded
    */
   reload() {
-    this.resetCache();
+    this._resetCache();
     return this.load();
   }
 

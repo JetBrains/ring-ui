@@ -38,35 +38,59 @@ describe('Permissions', () => {
   });
 
 
-  it('should load permissions', function shouldLoadPermissions(done) {
+  it('should load permissions', function _(done) {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
 
     this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
-    permissions.check('A').then(result => {
+    permissions.load().then(permissionsCache => {
       done();
-      expect(result).to.be.true;
+      expect(permissionsCache.has('A')).to.be.true;
     });
   });
 
 
-  it('should allow set permissions manually and do not load from the server', done => {
+  it('should cache loaded permissions', function _() {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
 
-    permissions.set(permissionsData);
+    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
-    permissions.check('A').then(result => {
-      done();
-      expect(result).to.be.true;
-    });
+    permissions.load();
+    permissions.load();
+    permissions.load();
+
+    auth.http.get.should.have.been.calledOnce;
   });
 
 
-  it('should allow get permissions', () => {
+  it('should reload permissions', function _() {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    this.sinon.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+    permissions.load();
+    permissions.reload();
+
+    auth.http.get.should.have.been.calledTwice;
+  });
+
+
+  it('should allow set permissions manually and do not load from the server', () => {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    expect(permissions.set(permissionsData).has('A')).to.be.true;
+  });
+
+
+  it('should allow get permissions data', () => {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
