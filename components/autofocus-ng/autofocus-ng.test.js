@@ -28,7 +28,7 @@ describe('Autofocus Ng', () => {
 
   it('Should focus when flag changed', function () {
 
-    this.sinon.spy(element[0], 'focus');
+    sandbox.spy(element[0], 'focus');
 
     $scope.vm.focus = true;
     $scope.$digest();
@@ -40,7 +40,7 @@ describe('Autofocus Ng', () => {
     element = $compile('<rg-select rg-autofocus="vm.focus" options="item in []"/>')($scope);
     const selectButton = element[0].querySelector('.ring-select');
 
-    this.sinon.spy(selectButton, 'focus');
+    sandbox.spy(selectButton, 'focus');
 
     $scope.vm.focus = true;
     $scope.$digest();

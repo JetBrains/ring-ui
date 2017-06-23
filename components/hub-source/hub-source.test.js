@@ -6,10 +6,10 @@ describe('Hub Source', () => {
   let httpMock;
   beforeEach(function () {
     httpMock = {
-      get: this.sinon.stub().returns(Promise.resolve({}))
+      get: sandbox.stub().returns(Promise.resolve({}))
     };
     this.fakeAuth = {
-      requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
+      requestToken: sandbox.stub().returns(Promise.resolve('testToken')),
       http: httpMock
     };
   });
@@ -88,7 +88,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect client-side filtering if total is smaller than threshold', async function () {
-    httpMock.get = this.sinon.stub().
+    httpMock.get = sandbox.stub().
       returns(Promise.resolve({total: 10, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
@@ -98,7 +98,7 @@ describe('Hub Source', () => {
   });
 
   it('Should detect server-side filtering if total is smaller than threshold', async function () {
-    httpMock.get = this.sinon.stub().
+    httpMock.get = sandbox.stub().
       returns(Promise.resolve({total: 20, testItems: []}));
 
     const source = new HubSource(this.fakeAuth, 'testItems', {searchSideThreshold: 15});
@@ -109,7 +109,7 @@ describe('Hub Source', () => {
 
   it('Should do cached request and filter on client-side', async function () {
     const source = new HubSource(this.fakeAuth, 'testItems');
-    source.makeCachedRequest = this.sinon.stub().returns(Promise.resolve({
+    source.makeCachedRequest = sandbox.stub().returns(Promise.resolve({
       total: 20,
       testItems: []
     }));
@@ -121,7 +121,7 @@ describe('Hub Source', () => {
 
   it('Should do not cached request to server-side', async function () {
     const source = new HubSource(this.fakeAuth, 'testItems', {searchMax: 142});
-    source.makeRequest = this.sinon.stub().returns(Promise.resolve({
+    source.makeRequest = sandbox.stub().returns(Promise.resolve({
       total: 20,
       testItems: []
     }));
@@ -158,7 +158,7 @@ describe('Hub Source', () => {
 
   describe('Public interface', () => {
     it('Should store filterFn', function () {
-      const filterFn = this.sinon.spy();
+      const filterFn = sandbox.spy();
       const source = new HubSource(this.fakeAuth, 'testItems');
 
       source.get('testQuery', {}, filterFn);
@@ -168,7 +168,7 @@ describe('Hub Source', () => {
 
     it('Should do side detection request first', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.sideDetectionRequest = this.sinon.stub().
+      source.sideDetectionRequest = sandbox.stub().
         returns(Promise.resolve({total: 20, testItems: []}));
 
       source.get('testQuery', {testParams: 'test'});
@@ -178,7 +178,7 @@ describe('Hub Source', () => {
 
     it('Should do client-side filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.doClientSideSearch = this.sinon.stub().
+      source.doClientSideSearch = sandbox.stub().
         returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = true;
 
@@ -189,7 +189,7 @@ describe('Hub Source', () => {
 
     it('Should do server-side filtering if previously detected', function () {
       const source = new HubSource(this.fakeAuth, 'testItems');
-      source.doServerSideSearch = this.sinon.stub().
+      source.doServerSideSearch = sandbox.stub().
         returns(Promise.resolve({total: 20, testItems: []}));
       source.isClientSideSearch = false;
 

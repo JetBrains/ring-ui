@@ -155,8 +155,8 @@ function testStorageEvents(storage) {
     });
 
     it('on after set with other key shouldn\'t be fired', function () {
-      const clock = this.sinon.useFakeTimers();
-      const spy = this.sinon.stub();
+      const clock = sandbox.useFakeTimers();
+      const spy = sandbox.stub();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
@@ -166,8 +166,8 @@ function testStorageEvents(storage) {
     });
 
     it('stop should stop', function () {
-      const clock = this.sinon.useFakeTimers();
-      const spy = this.sinon.spy();
+      const clock = sandbox.useFakeTimers();
+      const spy = sandbox.spy();
 
       const testEvent = 'testKey5';
       stop = storage.on(testEvent, spy);

@@ -88,7 +88,7 @@ describe('Promised Click Ng', () => {
 
     it('should call the given callback by clicking', function () {
       const {element, ctrl} = buildPromisedClick();
-      const callback = this.sinon.stub();
+      const callback = sandbox.stub();
       ctrl.onClick(callback);
       element.dispatchEvent(click);
 
@@ -133,7 +133,7 @@ describe('Promised Click Ng', () => {
 
     it('should call the given callback', function () {
       const {ctrl} = buildPromisedClick();
-      const callback = this.sinon.stub();
+      const callback = sandbox.stub();
       ctrl.process(callback);
 
       callback.should.have.been.called;

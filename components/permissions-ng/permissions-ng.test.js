@@ -21,7 +21,7 @@ describe('Permissions Ng', () => {
       this.$q = $q;
       this.scope = $rootScope.$new();
       this.$compile = _$compile_;
-      this.sinon.stub(fakeUserPermissions, 'check').returns($q.resolve(true));
+      sandbox.stub(fakeUserPermissions, 'check').returns($q.resolve(true));
 
       this.renderDirective = (permissionsString = 'hub-test-perm', inProject) => {
         this.element = this.$compile(`<div rg-permission="${permissionsString}" in-project="${inProject}"></div>`)(this.scope);

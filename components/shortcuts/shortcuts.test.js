@@ -13,7 +13,7 @@ describe('ShortcutsComponent', () => {
   beforeEach(function () {
     this.component = renderIntoDocument(
       <Shortcuts
-        map={{enter: this.sinon.spy()}}
+        map={{enter: sandbox.spy()}}
         scope={guid()}
       />
     );
