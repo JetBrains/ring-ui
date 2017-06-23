@@ -65,7 +65,7 @@ describe('List', () => {
 
     it('should do nothing if optimization disabled', () => {
       const instance = shallowList().instance();
-      sinon.spy(instance, 'setState');
+      sandbox.spy(instance, 'setState');
 
       instance.recalculateVisibleOptions();
 
@@ -744,7 +744,7 @@ describe('List', () => {
     });
 
     it('should handle click', () => {
-      const clicked = sinon.stub();
+      const clicked = sandbox.stub();
 
       const instance = mountList({
         data: [
@@ -757,7 +757,7 @@ describe('List', () => {
     });
 
     it('should handle select', () => {
-      const onSelect = sinon.stub();
+      const onSelect = sandbox.stub();
 
       const instance = mountList({
         onSelect,
@@ -781,7 +781,7 @@ describe('List', () => {
     });
 
     it('Should support click on custom elements', () => {
-      const onClick = sinon.stub();
+      const onClick = sandbox.stub();
       const instance = mountList({
         data: [
           {

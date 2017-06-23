@@ -91,14 +91,14 @@ describe('Dropdown', () => {
   });
 
   it('should accept function as anchor', () => {
-    const anchorFunc = sinon.stub().returns(anchorElement);
+    const anchorFunc = sandbox.stub().returns(anchorElement);
     mountDropdown({anchor: anchorFunc});
 
     anchorFunc.should.have.been.calledWithMatch({active: false});
   });
 
   it('should pass active property to anchor function', () => {
-    const anchorFunc = sinon.stub().returns(anchorElement);
+    const anchorFunc = sandbox.stub().returns(anchorElement);
     mountDropdown({anchor: anchorFunc});
     Simulate.click(anchor);
 

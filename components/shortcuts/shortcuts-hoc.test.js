@@ -14,7 +14,7 @@ describe('ShortcutsHOC', () => {
     function createShortcutsMap() {
       return {
         options: {},
-        map: {enter: sinon.spy()}
+        map: {enter: sandbox.spy()}
       };
     }
 
