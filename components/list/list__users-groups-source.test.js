@@ -5,14 +5,14 @@ import ListUsersGroupsSource from './list__users-groups-source';
 describe('List Users Groups Source', () => {
   beforeEach(function () {
     this.fakeAuth = {
-      requestToken: this.sinon.stub().returns(Promise.resolve('testToken'))
+      requestToken: sandbox.stub().returns(Promise.resolve('testToken'))
     };
   });
 
   it('Should convert users to list model', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth);
 
-    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
       login: 'testUser',
@@ -20,7 +20,7 @@ describe('List Users Groups Source', () => {
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
-    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
+    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
       type: 'userGroup',
@@ -44,13 +44,13 @@ describe('List Users Groups Source', () => {
   it('Should convert usergroups to list model', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth);
 
-    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
-    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
+    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
       type: 'userGroup',
@@ -74,13 +74,13 @@ describe('List Users Groups Source', () => {
       getPluralForUserCount: count => `${count} text`
     });
 
-    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
-    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([{
+    sandbox.stub(source, 'getGroups').returns(Promise.resolve([{
       id: 1,
       name: 'test group',
       userCount: 123
@@ -93,9 +93,9 @@ describe('List Users Groups Source', () => {
   it('Should display "No users" title if no users found', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
-    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([]));
+    sandbox.stub(source, 'getUsers').returns(Promise.resolve([]));
 
-    this.sinon.stub(source, 'getGroups').
+    sandbox.stub(source, 'getGroups').
       returns(Promise.resolve([{id: 1, name: 'test group'}]));
 
     const dataForList = await source.getForList();
@@ -105,13 +105,13 @@ describe('List Users Groups Source', () => {
   it('Should display "No groups" title if no groups found', async function () {
     const source = new ListUsersGroupsSource(this.fakeAuth, {});
 
-    this.sinon.stub(source, 'getUsers').returns(Promise.resolve([{
+    sandbox.stub(source, 'getUsers').returns(Promise.resolve([{
       id: 1,
       name: 'test user',
       profile: {avatar: {url: 'http://test.com.url'}}
     }]));
 
-    this.sinon.stub(source, 'getGroups').returns(Promise.resolve([]));
+    sandbox.stub(source, 'getGroups').returns(Promise.resolve([]));
 
     const dataForList = await source.getForList();
     dataForList[0].description.should.equal('No groups');

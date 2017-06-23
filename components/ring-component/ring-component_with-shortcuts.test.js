@@ -24,7 +24,7 @@ describe('Ring Component With Shortcuts', () => {
   }
 
   beforeEach(function () {
-    const stub = this.stub = this.sinon.stub();
+    const stub = this.stub = sandbox.stub();
     shortcuts.reset();
 
     class TestComponent extends RingComponentWithShortcuts {
@@ -170,7 +170,7 @@ describe('Ring Component With Shortcuts', () => {
     });
 
     it('should not initialize shortcuts if we do not have getShortctusProps', function () {
-      this.sinon.spy(shortcuts, 'pushScope');
+      sandbox.spy(shortcuts, 'pushScope');
       this.component.getShortcutsProps = null;
 
       this.component.setShortcutsEnabled(true);
@@ -179,7 +179,7 @@ describe('Ring Component With Shortcuts', () => {
     });
 
     it('should bind map only once', function () {
-      this.sinon.spy(shortcuts, 'bindMap');
+      sandbox.spy(shortcuts, 'bindMap');
 
       this.component.setShortcutsEnabled(true);
       this.component.setShortcutsEnabled(false);

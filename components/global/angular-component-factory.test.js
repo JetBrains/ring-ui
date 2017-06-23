@@ -86,7 +86,7 @@ describe('angularComponentFactory', () => {
   });
 
   it('should warn if one modify inner properties of passed object', function () { // eslint-disable-line func-names
-    this.sinon.stub(console, 'warn');
+    sandbox.stub(console, 'warn');
 
     $rootScope.testObj = {
       foo: 'bar'
@@ -121,7 +121,7 @@ describe('angularComponentFactory', () => {
   });
 
   it('should use one-way binding for function props', function () { // eslint-disable-line func-names
-    $rootScope.callback = this.sinon.spy();
+    $rootScope.callback = sandbox.spy();
     const $element = $compile(
       '<rg-test-component on-click="callback"></rg-test-component>'
     )($rootScope);

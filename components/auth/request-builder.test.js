@@ -13,8 +13,8 @@ describe('Auth', () => {
         scopes: ['youtrack', 'teamcity', 'vcs settings']
       };
       beforeEach(function () {
-        this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-        this.sinon.stub(AuthRequestBuilder.prototype, '_saveState').
+        sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+        sandbox.stub(AuthRequestBuilder.prototype, '_saveState').
           callsFake(() => Promise.resolve());
       });
 

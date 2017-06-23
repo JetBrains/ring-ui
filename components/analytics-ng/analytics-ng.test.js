@@ -41,7 +41,7 @@ describe('Analytics Ng', () => {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       analytics = _analytics_;
-      this.sinon.spy(analytics, 'trackEvent');
+      sandbox.spy(analytics, 'trackEvent');
     }));
 
     function compileTemplate(template) {

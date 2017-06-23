@@ -54,7 +54,7 @@ describe('Tooltip', () => {
 
   describe('Popup', () => {
     it('should unbind listeners when empty title is provided', function () {
-      const bindEvents = this.sinon.spy(this.tooltip.node, 'removeEventListener');
+      const bindEvents = sandbox.spy(this.tooltip.node, 'removeEventListener');
 
       this.tooltip.rerender({
         title: ''
@@ -79,7 +79,7 @@ describe('Tooltip', () => {
     });
 
     it('should render with delay when provided', function () {
-      const clock = this.sinon.useFakeTimers();
+      const clock = sandbox.useFakeTimers();
       this.tooltip.rerender({
         delay: 100
       });

@@ -22,7 +22,7 @@ describe('Auth', () => {
 
     describe('getValidatedToken', () => {
       beforeEach(function beforeEach() {
-        this.sinon.stub(AuthStorage.prototype, 'getToken');
+        sandbox.stub(AuthStorage.prototype, 'getToken');
       });
 
       it('should resolve access token when it is valid', () => {
@@ -92,7 +92,7 @@ describe('Auth', () => {
 
     describe('validateAgainstUser', () => {
       beforeEach(function beforeEach() {
-        this.sinon.stub(HTTP.prototype, 'authorizedFetch');
+        sandbox.stub(HTTP.prototype, 'authorizedFetch');
       });
 
       it('should resolve to access token when user is returned', async () => {
