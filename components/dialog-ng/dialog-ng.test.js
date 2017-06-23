@@ -1,5 +1,5 @@
 /* global inject, angular */
-/* eslint-disable func-names,no-magic-numbers */
+/* eslint-disable no-magic-numbers */
 
 import 'angular';
 import 'angular-mocks';
@@ -25,6 +25,7 @@ describe('Dialog Ng', () => {
   beforeEach(window.module(
     Dialog,
     $controllerProvider => {
+      // eslint-disable-next-line func-names
       $controllerProvider.register('testCtrl', function () {
         this.text = text;
       });

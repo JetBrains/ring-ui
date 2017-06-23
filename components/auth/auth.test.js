@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
 
@@ -411,13 +409,14 @@ describe('Auth', () => {
   });
 
   describe('requestToken', () => {
-    beforeEach(function () {
+    let auth;
+    beforeEach(() => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
       sandbox.stub(Auth.prototype, '_saveCurrentService');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
-      this.auth = new Auth({
+      auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
@@ -425,33 +424,31 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.auth._storage._tokenStorage = new MockedStorage();
-      this.auth._initDeferred.resolve();
+      auth._storage._tokenStorage = new MockedStorage();
+      auth._initDeferred.resolve();
     });
 
-    afterEach(function () {
-      return Promise.all([this.auth._storage.cleanStates(), this.auth._storage.wipeToken()]);
-    });
+    afterEach(() => Promise.all([auth._storage.cleanStates(), auth._storage.wipeToken()]));
 
-    it('should resolve to access token if there is a valid one', async function () {
-      await this.auth._storage.saveToken({
+    it('should resolve to access token if there is a valid one', async () => {
+      await auth._storage.saveToken({
         accessToken: 'token',
         expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
-      const token = await this.auth.requestToken();
+      const token = await auth.requestToken();
       token.should.be.equal('token');
     });
 
-    it('should get token in iframe if there is no valid token', async function () {
+    it('should get token in iframe if there is no valid token', async () => {
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
-        this.auth._storage.saveToken({
+        auth._storage.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
-      const accessToken = await this.auth.requestToken();
+      const accessToken = await auth.requestToken();
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
@@ -465,16 +462,16 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should reload page', async function () {
-      this.auth.user = {id: 'initUser'};
+    it('should reload page', async () => {
+      auth.user = {id: 'initUser'};
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
-        this.auth._storage.saveToken({
+        auth._storage.saveToken({
           accessToken: 'token',
           expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
-      const accessToken = await this.auth.requestToken();
+      const accessToken = await auth.requestToken();
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
@@ -483,11 +480,11 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should redirect current page if get token in iframe fails', async function () {
-      this.auth._backgroundFlow._timeout = 100;
+    it('should redirect current page if get token in iframe fails', async () => {
+      auth._backgroundFlow._timeout = 100;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
       try {
-        await this.auth.requestToken();
+        await auth.requestToken();
       } catch (reject) {
         BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
