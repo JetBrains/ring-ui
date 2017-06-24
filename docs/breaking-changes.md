@@ -9,7 +9,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 ### 24-06-2017: major tests refactoring
 
 #### Enzyme
-Airbnb's [enzyme](http://airbnb.io/enzyme) was introduced as a tool for testing React output. Please refer to it's [API docs](http://airbnb.io/enzyme/docs/api/) and to the list of `chai-enzyme` [assertions](https://github.com/producthunt/chai-enzyme#table-of-contents).
+Airbnb's [enzyme](http://airbnb.io/enzyme) was introduced as a tool for testing React output. Please refer to its [API docs](http://airbnb.io/enzyme/docs/api/) and to the list of `chai-enzyme` [assertions](https://github.com/producthunt/chai-enzyme#table-of-contents).
 
 ##### Which helper should I use?
 When using enzyme, a tough question is which of the `shallow/mount/render` helpers to use. Here's a simple checklist for that.
@@ -20,14 +20,14 @@ When using enzyme, a tough question is which of the `shallow/mount/render` helpe
   2. testcase relies on `componentDidMount` or refs being called
   3. testcase uses type and/or props of the component being tested ([example](https://upsource.jetbrains.com/ring-ui/file/87e1889c8d1e1300cf2695c3958e4c5bdb27d1a9/components/progress-bar/progress-bar.test.js?nav=531:579:focused&line=0))
 * Use `render` when
-  1. you need the full html output tree
-  2. you test the text content of a node
-  3. you use some complex CSS selector, beyond the [subset](http://airbnb.io/enzyme/docs/api/selector.html) supported by other wrappers
+  1. the full html output tree is needed
+  2. testing the text content of a node
+  3. using some complex CSS selector, beyond the [subset](http://airbnb.io/enzyme/docs/api/selector.html) supported by other wrappers
   
 One possible workflow is to start with `shallow`, and if something doesn't work as expected, replace with `mount` or `render` based on the checklist.
 
 #### Local variables instead of context
-Using context(`this`) in testcases is discouraged in favour of local variables. This allows using arrow functions for all the testcases which helps to maintain uniformity.
+Using context(`this`) in testcases is discouraged in favour of local variables. This allows using arrow functions for all the testcases, which in turn helps to maintain uniformity.
 
 * before:
     ```js
