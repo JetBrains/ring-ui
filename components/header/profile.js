@@ -14,6 +14,7 @@ const rgItemType = PopupMenu.ListProps.Type.LINK;
 export default class Profile extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    closeOnSelect: PropTypes.bool,
     loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
@@ -31,6 +32,7 @@ export default class Profile extends PureComponent {
   };
 
   static defaultProps = {
+    closeOnSelect: true,
     renderPopupItems: items => items,
     translations: {}
   }
@@ -38,6 +40,7 @@ export default class Profile extends PureComponent {
   render() {
     const {
       className,
+      closeOnSelect,
       loading,
       user,
       profileUrl,
@@ -88,21 +91,23 @@ export default class Profile extends PureComponent {
         anchor={anchor}
         className={classnames(styles.profile, className)}
       >
-        <PopupMenu data={renderPopupItems([
-          {
-            rgItemType,
-            label: translations.profile || 'Profile',
-            className: styles.profileMenuItem,
-            target: '_self', // Full page reload in Angular
-            href: profileUrl
-          },
-          {
-            rgItemType,
-            label: translations.logout || 'Log out',
-            className: styles.profileMenuItem,
-            onClick: onLogout
-          }
-        ])}
+        <PopupMenu
+          closeOnSelect={closeOnSelect}
+          data={renderPopupItems([
+            {
+              rgItemType,
+              label: translations.profile || 'Profile',
+              className: styles.profileMenuItem,
+              target: '_self', // Full page reload in Angular
+              href: profileUrl
+            },
+            {
+              rgItemType,
+              label: translations.logout || 'Log out',
+              className: styles.profileMenuItem,
+              onClick: onLogout
+            }
+          ])}
         />
       </Dropdown>
     );
