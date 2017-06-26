@@ -106,11 +106,11 @@ export default class Permissions {
       this._subscribed = true;
     }
 
-    if (!hasCacheControll('NO_CACHE', options) && this._getCache()) {
+    if (!hasCacheControl('NO_CACHE', options) && this._getCache()) {
       return this._getCache();
     }
 
-    if (hasCacheControll('NO_STORE', options)) {
+    if (hasCacheControl('NO_STORE', options)) {
       return this._loadPermissions().
         then(cachedPermissions => new PermissionCache(cachedPermissions, this.namesConverter));
     }
@@ -120,7 +120,7 @@ export default class Permissions {
         then(cachedPermissions => this.set(cachedPermissions))
     );
 
-    function hasCacheControll(value, _options) {
+    function hasCacheControl(value, _options) {
       if (_options && _options.cacheControl) {
         return _options.cacheControl[value];
       }
