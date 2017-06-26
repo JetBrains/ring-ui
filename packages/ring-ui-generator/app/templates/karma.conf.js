@@ -14,12 +14,12 @@ module.exports = config => {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-dom', 'sinon-chai'],
+    frameworks: ['mocha'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      './src/**/*.test.js'
+      './test-bundler.js'
     ],
 
 
@@ -30,12 +30,18 @@ module.exports = config => {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './src/**/*.test.js': ['webpack', 'sourcemap']
+      './test-bundler.js': ['webpack', 'sourcemap']
     },
 
     webpack: Object.assign({}, require('./webpack.config.js')(), {
       devtool: 'inline-source-map',
-      entry: null
+      entry: null,
+      externals: {
+        'react/addons': 'react',
+        'react/lib/ExecutionEnvironment': 'react',
+        'react/lib/ReactContext': 'react',
+        'react-addons-test-utils': 'window'
+      }
     }),
 
     webpackServer: {
