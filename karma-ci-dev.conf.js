@@ -6,6 +6,7 @@ process.env.BABEL_ENV = 'test';
 
 module.exports = config => {
   const configCIDev = deepAssign(generateConfig(config), {
+    browsers: ['wdChrome'],
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
