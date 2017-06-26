@@ -1,13 +1,15 @@
 @value unit, font, font-size, line-height, link-color from '../components/global/global.css';
 
-html, body {
-  padding: 0;
-  margin: 0;
+html,
+body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .app {
   composes: font;
+
   font-size: font-size;
   line-height: line-height;
 }
@@ -18,6 +20,7 @@ html, body {
 
 .main > div:last-child {
   flex-grow: 1;
+
   min-width: 0;
 }
 
@@ -26,7 +29,7 @@ html, body {
 }
 
 .list {
-  margin: unit 0 0 calc(- unit * 2);
+  margin: unit 0 0 calc(unit * -2);
 }
 
 .list p {
@@ -47,21 +50,26 @@ html, body {
 }
 
 .frame {
-  min-height: 500px;
   width: 100%;
-  border: 1px solid #CCC;
+  min-height: 500px;
+
+  border: 1px solid #ccc;
 }
 
 .exampleLink {
   /* override Link */
   && {
-    background-color: #fff;
-    display: block;
     position: absolute;
     right: 0;
     bottom: 6px;
-    border: 1px solid #CCC;
-    font-size: font-size;
+
+    display: block;
+
     padding: unit;
+
+    border: 1px solid #ccc;
+    background-color: #fff;
+
+    font-size: font-size;
   }
 }
