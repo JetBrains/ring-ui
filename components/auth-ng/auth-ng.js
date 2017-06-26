@@ -72,7 +72,7 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
 
     return {
       request(config) {
-        if (!authInstance || urlEndsWith(config, '.html')) {
+        if (!authInstance || urlEndsWith(config, '.html') || (config && config.noAuthorization)) {
           // Don't intercept angular template requests
           return config;
         }
