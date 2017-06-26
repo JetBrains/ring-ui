@@ -46,8 +46,8 @@ describe('Permissions', () => {
     sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
     permissions.load().then(permissionsCache => {
-      done();
       expect(permissionsCache.has('A')).to.be.true;
+      done();
     });
   });
 
@@ -84,12 +84,16 @@ describe('Permissions', () => {
     });
 
 
-    it('should cache loaded permissions', function _() {
+    it('should cache loaded permissions', function _(done) {
       sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
       permissions.load();
       permissions.load();
       permissions.load();
+      permissions.load().then(permissionsCache => {
+        expect(permissionsCache.has('A')).to.be.true;
+        done();
+      });
 
       auth.http.get.should.have.been.calledOnce;
     });
