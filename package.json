@@ -48,11 +48,16 @@
     "stylelint": "stylelint --ignore-path .gitignore '**/*.css'",
     "flow": "flow",
     "test-ci": "karma start karma-ci.conf.js",
+    "test-ci-dev": "karma start karma-ci-dev.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
+    "prebuild-ci-dev": "npm run lint-ci && npm run test-ci-dev",
     "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
+    "build-ci-dev": "npm run build -- --env.production",
     "prerelease-ci": "npm run build-ci && npm pack",
+    "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
+    "release-ci-dev": "npm publish --tag dev ring-ui-*.tgz",
     "version": "update-version --patch"
   },
   "repository": {
