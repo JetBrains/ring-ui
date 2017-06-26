@@ -21,8 +21,12 @@
     "webpack.config.js"
   ],
   "main": "webpack.config.js",
+  "lint-staged": {
+    "*.js": ["eslint --fix", "git add"],
+    "*.css": ["stylelint --fix", "git add"]
+  },
   "scripts": {
-    "prepush": "npm run lint",
+    "precommit": "lint-staged",
     "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo ring-ui:react --path $npm_package_config_components",
     "component:es6": "yo ring-ui:es6 --path $npm_package_config_components",
@@ -127,6 +131,7 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.4",
     "karma-webpack": "2.0.1",
+    "lint-staged": "4.0.0",
     "mocha": "3.0.2",
     "react-test-renderer": "15.6.1",
     "sinon": "2.3.5",
