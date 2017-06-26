@@ -1,28 +1,24 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  renderIntoDocument,
-  isCompositeComponentWithType
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import <%= pascalCaseName %> from './<%= paramCaseName %>';
 
 describe('<%= titleCaseName %>', () => {
-  const renderComponent = props => renderIntoDocument(<<%= pascalCaseName %> {...props}/>);
+  const shallow<%= pascalCaseName %> = props => shallow(<<%= pascalCaseName %> {...props}/>);
+  const mount<%= pascalCaseName %> = props => mount(<<%= pascalCaseName %> {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), <%= pascalCaseName %>).should.be.true;
+    mount<%= pascalCaseName %>().should.have.type(<%= pascalCaseName %>);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallow<%= pascalCaseName %>().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({
+    shallow<%= pascalCaseName %>({
       className: 'test-class'
-    })).should.match('.test-class');
+    }).should.have.className('test-class');
   });
 
   // TODO Add more tests
