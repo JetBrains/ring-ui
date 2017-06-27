@@ -128,7 +128,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
   popupFilterOnBlur = () => {
-    if (!this.state.tagsActiveIndex) {
+    if (this.state.tagsActiveIndex === null) {
       this._togglePopupFilterShortcuts(true);
     }
   };
