@@ -102,12 +102,14 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   removeTag(tag) {
-    const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
-    this.onListSelect(_tag);
-    this.setState({
-      tagsActiveIndex: null
-    });
-    this.focusFilter();
+    if (!tag.readOnly) {
+      const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
+      this.onListSelect(_tag);
+      this.setState({
+        tagsActiveIndex: null
+      });
+      this.focusFilter();
+    }
   }
 
   removeSelectedTag() {
