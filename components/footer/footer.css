@@ -1,23 +1,28 @@
 @value unit, fixed-z-index, footer-height, font, font-size-smaller, line-color from  "../global/global.css";
 
 .footer {
+  composes: font;
+
   position: relative;
+
+  box-sizing: border-box;
   height: footer-height;
   margin: calc(unit * 5) calc(unit * 4) 0 calc(unit * 4);
   padding-top: calc(unit * 2);
-  border-top: 1px solid line-color;
-  box-sizing: border-box;
 
   text-align: center;
+
+  border-top: 1px solid line-color;
+
   font-size: font-size-smaller;
-  composes: font;
 }
 
 .footerFloating {
   composes: footer;
+
   position: absolute;
-  bottom: 0;
   z-index: fixed-z-index;
+  bottom: 0;
 
   width: 100%;
   margin-right: 0;
@@ -27,11 +32,13 @@
 
 .column {
   position: absolute;
+
   width: 33%;
 }
 
 .columnItem {
   display: inline-block;
+
   margin: 0;
   padding: 0;
 
@@ -40,11 +47,13 @@
 
 .columnLeft {
   composes: column;
+
   text-align: left;
 }
 
 .columnCenter {
   composes: column;
+
   left: 33.6%;
 }
 
@@ -54,6 +63,7 @@
 
 .columnRight {
   composes: column;
+
   top: calc(unit * 2);
   right: 0;
 
@@ -61,8 +71,10 @@
 }
 
 .line {
-  list-style: none;
   padding: 0;
+
+  list-style: none;
+
   line-height: calc(unit * 2);
 }
 

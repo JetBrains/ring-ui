@@ -1,7 +1,9 @@
 import AnalyticsCustomPluginUtils from './analytics__custom-plugin-utils';
 
-export default class AnalyticsCustomPlugin {
+const DEFAULT_FLUSH_INTERVAL = 10000;
+const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
 
+export default class AnalyticsCustomPlugin {
   constructor(send, isDevelopment, flushInterval, flushingAllowedChecker) {
     this._data = [];
     this.config({
@@ -23,9 +25,7 @@ export default class AnalyticsCustomPlugin {
   config(config) {
     let checkFlushingAllowed = config.flushingAllowedChecker;
     if (typeof checkFlushingAllowed !== 'function') {
-      checkFlushingAllowed = function () {
-        return true;
-      };
+      checkFlushingAllowed = () => true;
     }
 
     this._flush = () => {
@@ -36,8 +36,8 @@ export default class AnalyticsCustomPlugin {
     };
 
     this._isDevelopment = config.isDevelopment;
-    this._flushInterval = config.flushInterval || 10000;
-    this._flushMaxPackSize = config.flushMaxPackSize || 100;
+    this._flushInterval = config.flushInterval || DEFAULT_FLUSH_INTERVAL;
+    this._flushMaxPackSize = config.flushMaxPackSize || DEFAULT_FLUSH_MAX_PACK_SIZE;
   }
 
   trackEvent(category, action) {

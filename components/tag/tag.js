@@ -21,6 +21,7 @@ export default class Tag extends RingComponent {
     onClick: PropTypes.func,
     rgTagIcon: PropTypes.string,
     icon: PropTypes.string,
+    avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,
     readOnly: PropTypes.bool,
     focused: PropTypes.bool
@@ -75,6 +76,71 @@ export default class Tag extends RingComponent {
     this.tag = el;
   };
 
+  renderCustomIcon() {
+    if (this.props.rgTagIcon) {
+      return (
+        <Icon
+          className="ring-tag__ring-icon"
+          title={this.props.rgTagTitle}
+          glyph={this.props.rgTagIcon}
+          size={Icon.Size.Size12}
+        />
+      );
+    }
+    return null;
+  }
+
+  _renderImageElement(avatarSrc) {
+    const classes = classNames([
+      {
+        'ring-tag__custom-icon': this.props.icon
+      },
+      {
+        'ring-tag__avatar-icon': avatarSrc
+      }
+    ]);
+    return (
+      <img
+        className={classes}
+        src={avatarSrc || this.props.icon}
+      />
+    );
+  }
+
+  renderImage() {
+    if (this.props.icon && !this.props.avatar) {
+      return this._renderImageElement();
+    }
+    return null;
+  }
+
+  renderAvatar() {
+    if (this.props.avatar) {
+      return (
+        <span
+          className="ring-tag__avatar-container"
+        >
+          {this._renderImageElement(this.props.avatar)}
+        </span>
+      );
+    }
+    return null;
+  }
+
+  renderRemoveIcon() {
+    if (!this.props.readOnly) {
+      return (
+        <Icon
+          className="ring-tag__remove ring-link"
+          glyph={CloseIcon}
+          onClick={this.props.onRemove}
+          size={Icon.Size.Size14}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     const classes = classNames(
       'ring-tag',
@@ -86,35 +152,17 @@ export default class Tag extends RingComponent {
 
     return (
       <span
+        data-test="ring-tag"
         tabIndex="0"
         className={classes}
         ref={this.tagRef}
         onClick={this.props.onClick}
       >
-        {this.props.rgTagIcon ? (
-          <Icon
-            className="ring-tag__ring-icon"
-            title={this.props.rgTagTitle}
-            glyph={this.props.rgTagIcon}
-            size={Icon.Size.Size12}
-          />
-        ) : null}
-        {this.props.icon ? (
-          <img
-            className="ring-tag__custom-icon"
-            src={this.props.icon}
-          />
-        ) : null}
+        {this.renderAvatar()}
+        {this.renderCustomIcon()}
+        {this.renderImage()}
         <span>{this.props.children}</span>
-
-        {!this.props.readOnly ? (
-          <Icon
-            className="ring-tag__remove ring-link"
-            glyph={CloseIcon}
-            onClick={this.props.onRemove}
-            size={Icon.Size.Size12}
-          />
-        ) : null}
+        {this.renderRemoveIcon()}
       </span>);
   }
 }

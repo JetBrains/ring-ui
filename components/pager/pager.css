@@ -10,6 +10,7 @@
 
 .link {
   display: inline-block;
+
   margin-right: calc(unit * 4);
 }
 

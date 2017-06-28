@@ -1,4 +1,4 @@
-/* eslint-disable func-names, import/no-duplicates */
+/* eslint-disable import/no-duplicates */
 import Storage from './storage__local';
 import FallbackStorage from './storage__fallback';
 
@@ -68,20 +68,20 @@ function testStorage(storage) {
     });
 
     it('should iterate over items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.set('test', 'value');
       await storage.each(iterator);
       iterator.should.have.been.calledWith('test', 'value');
     });
 
     it('should not iterate without items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.each(iterator);
       iterator.should.not.been.called;
     });
 
     it('should iterate over all items', async () => {
-      const iterator = sinon.stub();
+      const iterator = sandbox.stub();
       await storage.set('test1', '');
       await storage.set('test2', '');
       await storage.set('test3', '');
@@ -154,9 +154,9 @@ function testStorageEvents(storage) {
       change.should.become(null);
     });
 
-    it('on after set with other key shouldn\'t be fired', function () {
-      const clock = this.sinon.useFakeTimers();
-      const spy = this.sinon.stub();
+    it('on after set with other key shouldn\'t be fired', () => {
+      const clock = sandbox.useFakeTimers();
+      const spy = sandbox.stub();
 
       stop = storage.on('testKey4', spy);
       storage.set('testWrong', 'testValue');
@@ -165,9 +165,9 @@ function testStorageEvents(storage) {
       spy.should.not.have.been.called;
     });
 
-    it('stop should stop', function () {
-      const clock = this.sinon.useFakeTimers();
-      const spy = this.sinon.spy();
+    it('stop should stop', () => {
+      const clock = sandbox.useFakeTimers();
+      const spy = sandbox.spy();
 
       const testEvent = 'testKey5';
       stop = storage.on(testEvent, spy);
@@ -212,7 +212,7 @@ describe('Storage', () => {
       it('shouldn\'t break iteration on non-parseable values', () => storage.each(noop).should.be.fulfilled);
 
       it('should iterate over items with non-parseable values', async () => {
-        const iterator = sinon.stub();
+        const iterator = sandbox.stub();
         await storage.set('test', 'value');
         await storage.each(iterator);
         iterator.should.have.been.calledWith('invalid-json', 'invalid-json');

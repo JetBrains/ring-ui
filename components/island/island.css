@@ -1,5 +1,4 @@
 @value unit, fixed-z-index, border-radius, popup-border-color from '../global/global.css';
-
 @value gradientStart: rgba(255, 255, 255, 0);
 @value gradientStop: rgba(255, 255, 255, 0.8);
 
@@ -10,21 +9,24 @@
   border: 1px solid popup-border-color;
   border-radius: border-radius;
 
-  background-color: #FFF;
+  background-color: #fff;
   box-shadow: 0 1px 4px color(popup-border-color a(0.15));
 }
 
 .withTransparentBottomBorder {
   transition: border-bottom-color 0.1s;
+
   border-bottom: 1px solid transparent;
 }
 
 .header {
   composes: withTransparentBottomBorder;
-  line-height: 28px;
-  padding: 0 calc(unit*4);
+
   box-sizing: border-box;
   width: 100%;
+  padding: 0 calc(unit * 4);
+
+  line-height: 28px;
 }
 
 .withBottomBorder.withBottomBorder {
@@ -36,62 +38,75 @@
 .title {
   display: block;
   float: left;
+
   transform-origin: 0 50%;
-  font-weight: bold;
   word-break: break-word;
+
+  font-weight: bold;
 }
 
 .narrowIsland .header {
-  padding: 0 calc(unit*2);
+  padding: 0 calc(unit * 2);
 }
 
 .content {
-  display: flex;
-  width: 100%;
   position: relative;
+
+  display: flex;
   overflow: auto;
+
+  width: 100%;
 }
 
 .scrollableWrapper {
   composes: islandScrollableWrapperInsideDialog from '../dialog/dialog.css';
-  width: 100%;
+
   overflow: auto;
-  padding: calc(unit*2) calc(unit*4);
+
+  width: 100%;
+  padding: calc(unit * 2) calc(unit * 4);
 }
 
 .narrowIsland .scrollableWrapper {
-  padding: calc(unit*2) calc(unit*2);
+  padding: calc(unit * 2) calc(unit * 2);
 }
 
-.contentWithTopFade:before {
-  content: '';
-  z-index: fixed-z-index;
-  display: block;
+.contentWithTopFade::before {
   position: absolute;
+  z-index: fixed-z-index;
   left: 0;
+
+  display: block;
+
   width: 100%;
   height: calc(unit * 3);
+
+  content: '';
 
   pointer-events: none;
-  background: linear-gradient(gradientStop, gradientStart);
+
+  background: linear-gradient(gradientStop, gradientStart); /* stylelint-disable-line function-linear-gradient-no-nonstandard-direction */
 }
 
-.contentWithTopFade:first-child:before {
-  border-top-right-radius: border-radius;
+.contentWithTopFade:first-child::before {
   border-top-left-radius: border-radius;
+  border-top-right-radius: border-radius;
 }
 
-.contentWithBottomFade:after {
-  content: '';
-  display: block;
+.contentWithBottomFade::after {
   position: absolute;
-  left: 0;
   bottom: 0;
+  left: 0;
+
+  display: block;
+
   width: 100%;
   height: calc(unit * 3);
+
+  content: '';
+  pointer-events: none;
 
   border-bottom-right-radius: border-radius;
   border-bottom-left-radius: border-radius;
-  pointer-events: none;
   background: linear-gradient(gradientStart, gradientStop);
 }

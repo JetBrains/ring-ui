@@ -1,11 +1,8 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import {
-  isCompositeComponentWithType,
-  renderIntoDocument,
   Simulate
 } from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Popup from '../popup/popup';
 
@@ -14,7 +11,6 @@ import Dropdown from './dropdown';
 describe('Dropdown', () => {
   let anchor;
   let popup;
-  let renderComponent;
 
   const anchorElement = (
     <span
@@ -24,57 +20,63 @@ describe('Dropdown', () => {
     />
   );
 
-  beforeEach(() => {
-    const popupElement = (
-      <Popup
-        ref={function popupRef(el) {
-          popup = el;
-        }}
-      />
-    );
+  const popupElement = (
+    <Popup
+      ref={function popupRef(el) {
+        popup = el;
+      }}
+    />
+  );
 
-    renderComponent = (props, children = popupElement) => renderIntoDocument(
-      <Dropdown
-        anchor={anchorElement}
-        {...props}
-      >
-        {children}
-      </Dropdown>
-    );
-  });
+  const shallowDropdown = (props, children = popupElement) => shallow(
+    <Dropdown
+      anchor={anchorElement}
+      {...props}
+    >
+      {children}
+    </Dropdown>
+  );
+  const mountDropdown = (props, children = popupElement) => mount(
+    <Dropdown
+      anchor={anchorElement}
+      {...props}
+    >
+      {children}
+    </Dropdown>
+  );
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Dropdown).should.be.true;
+    mountDropdown().should.have.type(Dropdown);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowDropdown().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowDropdown({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should not show popup by default', () => {
-    renderComponent();
+    mountDropdown();
     popup.isVisible().should.be.false;
   });
 
   it('should show popup on anchor click', () => {
-    renderComponent();
+    mountDropdown();
     Simulate.click(anchor);
     popup.isVisible().should.be.true;
   });
 
   it('should hide popup on second anchor click', () => {
-    renderComponent();
+    mountDropdown();
     Simulate.click(anchor);
     Simulate.click(anchor);
     popup.isVisible().should.be.false;
   });
 
   it('should hide popup on outside click', done => {
-    renderComponent();
+    mountDropdown();
     Simulate.click(anchor);
     setTimeout(() => {
       document.dispatchEvent(new Event('click'));
@@ -84,20 +86,20 @@ describe('Dropdown', () => {
   });
 
   it('should show popup when inited with initShown=true', () => {
-    renderComponent({initShown: true});
+    mountDropdown({initShown: true});
     popup.isVisible().should.be.true;
   });
 
   it('should accept function as anchor', () => {
-    const anchorFunc = sinon.stub().returns(anchorElement);
-    renderComponent({anchor: anchorFunc});
+    const anchorFunc = sandbox.stub().returns(anchorElement);
+    mountDropdown({anchor: anchorFunc});
 
     anchorFunc.should.have.been.calledWithMatch({active: false});
   });
 
   it('should pass active property to anchor function', () => {
-    const anchorFunc = sinon.stub().returns(anchorElement);
-    renderComponent({anchor: anchorFunc});
+    const anchorFunc = sandbox.stub().returns(anchorElement);
+    mountDropdown({anchor: anchorFunc});
     Simulate.click(anchor);
 
     anchorFunc.should.have.been.calledTwice;

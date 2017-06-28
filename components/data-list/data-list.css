@@ -1,0 +1,108 @@
+@value global: '../global/global.css';
+@value unit, light-blue-color from global;
+
+.dataListWrapper {
+  position: relative;
+}
+
+.dataList {
+  padding: 0;
+
+  list-style: none;
+
+  background-color: #f0f0f0;
+}
+
+.group {
+  padding: 10px 0;
+
+  list-style: none;
+
+  background-color: #ebebeb;
+}
+
+.groupTitle {
+  box-sizing: border-box;
+  padding: 10px 30px;
+
+  border: solid 0 #e8e8e8;
+  border-width: 1px 0;
+  outline: none;
+}
+
+.item {
+  padding: 5px 50px;
+
+  border: 0 solid #ebebeb;
+  border-width: 1px 0;
+  outline: none;
+}
+
+.showMore {
+  margin-left: 27px;
+  padding: 5px 50px;
+
+  border: 0 solid #ebebeb;
+  border-width: 1px 0;
+  outline: none;
+}
+
+.dataList:not(.disabledHover) .groupTitle:hover,
+.dataList:not(.disabledHover) .item:hover {
+  background-color: #fff !important;
+}
+
+.groupTitleFocused,
+.itemFocused {
+  border: 1px none #25b7ff;
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+
+.dataList:not(.multiSelection) .groupTitleFocused,
+.dataList:not(.multiSelection) .itemFocused,
+.groupTitleSelected,
+.itemSelected {
+  background-color: light-blue-color;
+}
+
+.metaColumn {
+  display: inline-block;
+
+  min-width: 27px;
+
+  color: #bbb;
+}
+
+.collapseIcon {
+  top: -3px;
+}
+
+.subgroup {
+  margin-left: 27px;
+  padding: 0;
+  padding-left: 15px;
+
+  list-style: none;
+
+  border: 1px none #d8d8d8;
+  border-left-style: dotted;
+}
+
+.subitem {
+  padding: 5px 0;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(255, 255, 255, 0.5);
+}

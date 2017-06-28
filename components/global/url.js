@@ -113,6 +113,7 @@ export function resolveRelativeURL(
     (
       sniffer.browser.name === 'firefox' ||
       sniffer.browser.name === 'edge' ||
+      // eslint-disable-next-line no-magic-numbers
       sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49
     )
   ) {

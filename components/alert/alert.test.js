@@ -1,92 +1,87 @@
 import React from 'react';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument,
-  Simulate
-} from 'react-dom/test-utils';
+import {shallow, mount, render} from 'enzyme';
 
 import Alert from './alert';
 import styles from './alert.css';
 
+const TICK = 500;
+
 describe('Alert', () => {
-  const renderComponent = props => renderIntoDocument(<Alert {...props}/>);
+  const mountAlert = props => mount(<Alert {...props}/>);
+  const shallowAlert = props => shallow(<Alert {...props}/>);
+  const renderAlert = props => render(<Alert {...props}/>);
 
   let clock;
   beforeEach(() => {
-    clock = sinon.useFakeTimers();
-  });
-
-  afterEach(() => {
-    clock.restore();
+    clock = sandbox.useFakeTimers();
   });
 
   it('should render', () => {
-    isCompositeComponentWithType(renderComponent({}), Alert).should.be.true;
+    mountAlert({}).should.have.type(Alert);
   });
 
   it('should render text', () => {
-    const alertComponent = renderComponent({
+    const alertComponent = renderAlert({
       children: 'Test message',
       type: Alert.Type.MESSAGE
     });
-    alertComponent.node.should.contain.text('Test message');
+    alertComponent.should.have.text('Test message');
   });
 
   it('should transfer className', () => {
-    renderComponent({className: 'foo'}).node.should.have.class('foo');
+    shallowAlert({className: 'foo'}).should.have.className('foo');
   });
 
   it('should render component', () => {
-    const alertComponent = renderComponent({
+    const alertComponent = renderAlert({
       children: <div>{'foo'}</div>,
       type: Alert.Type.MESSAGE
     });
-    alertComponent.node.should.contain.text('foo');
+    alertComponent.should.have.text('foo');
   });
 
   it('should render an error', () => {
-    const alertComponent = renderComponent({
+    const alertComponent = shallowAlert({
       children: 'Test',
       type: Alert.Type.ERROR
     });
-    alertComponent.node.should.have.class(styles.error);
+    alertComponent.should.have.className(styles.error);
   });
 
   it('should be closeable if by default', () => {
-    const alertComponent = renderComponent({children: 'Test element'});
+    const alertComponent = shallowAlert({children: 'Test element'});
 
-    alertComponent.node.should.contain('*[data-test="alert-close"]');
+    alertComponent.should.have.descendants('button[data-test="alert-close"]');
   });
 
   it('should be not closeable if defined', () => {
-    const alertComponent = renderComponent({
+    const alertComponent = shallowAlert({
       children: 'Test element',
       closeable: false
     });
 
-    alertComponent.node.should.not.contain('*[data-test="alert-close"]');
+    alertComponent.should.not.have.descendants('button[data-test="alert-close"]');
   });
 
   it('should call onCloseRequest on click by close button', () => {
-    const closeSpy = sinon.spy();
-    const alertComponent = renderComponent({
+    const closeSpy = sandbox.spy();
+    const alertComponent = shallowAlert({
       children: 'Test element',
       onCloseRequest: closeSpy
     });
-    const closeElement = alertComponent.node.querySelector('*[data-test="alert-close"]');
-
-    Simulate.click(closeElement);
+    const closeElement = alertComponent.find('button[data-test="alert-close"]');
+    closeElement.simulate('click');
     closeSpy.should.have.been.called;
   });
 
   it('should call onCloseRequest on timeout', () => {
-    const closeSpy = sinon.spy();
-    renderComponent({
+    const closeSpy = sandbox.spy();
+    mountAlert({
       children: 'Test element',
       timeout: 100,
       onCloseRequest: closeSpy
     });
-    clock.tick(500);
+    clock.tick(TICK);
 
     closeSpy.should.have.been.called;
   });

@@ -5,15 +5,19 @@
 }
 
 .titles {
-  box-shadow: inset 0 -1px 0 0 line-color;
   margin-bottom: calc(unit * 2);
+
+  box-shadow: inset 0 -1px 0 0 line-color;
 }
 
 .title {
-  display: inline-block;
   position: relative;
-  line-height: calc(unit * 4);
+
+  display: inline-block;
+
   cursor: pointer;
+
+  line-height: calc(unit * 4);
 
   & + & {
     margin-left: calc(unit * 3);
@@ -25,15 +29,18 @@
   }
 
   &[disabled] {
-    color: gray-color;
     pointer-events: none;
+
+    color: gray-color;
   }
 }
 
 .selected {
   cursor: default;
-  font-weight: bold;
+
   box-shadow: inset 0 -3px 0 0 text-color;
+
+  font-weight: bold;
 }
 
 .visible {
@@ -42,10 +49,12 @@
   right: 0;
   bottom: 0;
   left: 0;
+
   text-align: center;
 }
 
 .hidden {
-  font-weight: bold;
   visibility: hidden;
+
+  font-weight: bold;
 }

@@ -1,0 +1,11 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/config-chain/test
+<PROJECT_ROOT>/node_modules/npmconf/test
+
+[include]
+
+[libs]
+
+[options]
+emoji=true
+module.name_mapper.extension='css' -> 'css-module-flow'

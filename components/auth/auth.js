@@ -12,6 +12,9 @@ import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
+// eslint-disable-next-line no-magic-numbers
+const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
+
 function noop() {}
 
 /**
@@ -148,7 +151,7 @@ export default class Auth {
     userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
     cleanHash: true,
     onLogout: noop,
-    defaultExpiresIn: 40 * 60 // 40 mins
+    defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
   };
 
   /**

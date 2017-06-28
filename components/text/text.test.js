@@ -1,29 +1,25 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Text from './text';
 
 describe('Text', () => {
-  const renderComponent = props => renderIntoDocument(<Text {...props}/>);
+  const shallowText = props => shallow(<Text {...props}/>);
+  const mountText = props => mount(<Text {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Text).should.be.true;
+    mountText().should.have.type(Text);
   });
 
   it('should wrap children with span', () => {
-    findDOMNode(renderComponent()).should.match('span');
+    shallowText().should.have.tagName('span');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowText({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should use pass rest props to dom node', () => {
-    findDOMNode(renderComponent({'data-test': 'foo'})).should.match('[data-test=foo]');
+    shallowText({'data-test': 'foo'}).should.have.data('test', 'foo');
   });
 });

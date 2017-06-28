@@ -1,41 +1,40 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Input from './input';
 
 describe('Input', () => {
+  let input;
   const inputRef = el => {
-    this.input = el;
+    input = el;
   };
-  const renderComponent = props => renderIntoDocument(
+  const shallowInput = props => shallow(<Input {...props}/>);
+  const mountInput = props => mount(
     <Input
       inputRef={inputRef}
       {...props}
     />
   );
-  const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Input).should.be.true;
+    mountInput().should.have.type(Input);
   });
 
   it('should wrap children with div', () => {
-    renderNode().should.match('div');
+    shallowInput().should.have.tagName('div');
   });
 
   it('should create input by default', () => {
-    renderComponent();
-    this.input.should.match('input');
+    mountInput();
+    input.should.match('input');
   });
 
   it('should create textarea with multiline option', () => {
-    renderComponent({multiline: true});
-    this.input.should.match('textarea');
+    mountInput({multiline: true});
+    input.should.match('textarea');
   });
 
   it('should use passed className', () => {
-    renderNode({className: 'test-class'}).should.match('.test-class');
+    shallowInput({className: 'test-class'}).should.have.className('test-class');
   });
 });

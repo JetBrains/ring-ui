@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /* globals angular */
 
 import 'angular';
@@ -14,12 +13,6 @@ describe('Place Under Ng', () => {
   beforeEach(window.module(
     rgPlaceUnder
   ));
-
-
-  let sinon;
-  beforeEach(function () {
-    sinon = this.sinon;
-  });
 
 
   let $windowMock;
@@ -81,7 +74,7 @@ describe('Place Under Ng', () => {
 
     let clock;
     beforeEach(() => {
-      clock = sinon.useFakeTimers();
+      clock = sandbox.useFakeTimers();
     });
 
 
@@ -105,7 +98,7 @@ describe('Place Under Ng', () => {
         attrsMock,
         $scope
       );
-      sinon.stub(synchronizer, 'onScroll');
+      sandbox.stub(synchronizer, 'onScroll');
 
       flushDebounce = () => {
         clock.tick(rgPlaceUnderHelper.DEBOUNCE_INTERVAL);

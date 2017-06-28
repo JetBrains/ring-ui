@@ -1,86 +1,88 @@
-/* eslint-disable func-names */
+/* eslint-disable no-magic-numbers */
 
 import Caret from './caret';
 
 describe('Caret', () => {
-  beforeEach(function () {
-    this.target = document.createElement('div');
-    this.target.innerHTML = 'this.target = document.createElement(textarea)';
-    this.target.style.font = '12px/14px Arial';
-    this.target.contentEditable = true;
+  let target;
+  let caret;
+  beforeEach(() => {
+    target = document.createElement('div');
+    target.innerHTML = 'target = document.createElement(textarea)';
+    target.style.font = '12px/14px Arial';
+    target.contentEditable = true;
 
-    document.body.appendChild(this.target);
+    document.body.appendChild(target);
 
-    this.caret = new Caret(this.target);
+    caret = new Caret(target);
   });
 
-  afterEach(function () {
+  afterEach(() => {
     window.getSelection().removeAllRanges();
-    // document.body.removeChild(this.target);
-    this.target = null;
+    // document.body.removeChild(target);
+    target = null;
   });
 
   describe('getPosition', () => {
-    it('Default position should be 0', function () {
+    it('Default position should be 0', () => {
       window.getSelection().removeAllRanges();
 
-      this.caret.getPosition().should.equal(0);
+      caret.getPosition().should.equal(0);
     });
 
-    it('Get of selection should return -1', function () {
+    it('Get of selection should return -1', () => {
       const range = document.createRange();
-      range.setStart(this.target, 0);
-      range.setEnd(this.target, 1);
+      range.setStart(target, 0);
+      range.setEnd(target, 1);
       window.getSelection().addRange(range);
 
-      this.caret.getPosition().should.equal(-1);
+      caret.getPosition().should.equal(-1);
     });
 
-    it('Should get correct positions', function () {
-      window.getSelection().collapse(this.target.firstChild, 10);
+    it('Should get correct positions', () => {
+      window.getSelection().collapse(target.firstChild, 10);
 
-      this.caret.getPosition().should.equal(10);
+      caret.getPosition().should.equal(10);
     });
 
-    it('Should focus on get by default', function () {
-      this.caret.getPosition();
+    it('Should focus on get by default', () => {
+      caret.getPosition();
 
-      this.target.should.equal(document.activeElement);
+      target.should.equal(document.activeElement);
     });
 
-    it('Shouldn\'t focus on get when prohibited', function () {
-      this.caret.getPosition({avoidFocus: true});
+    it('Shouldn\'t focus on get when prohibited', () => {
+      caret.getPosition({avoidFocus: true});
 
-      this.target.should.not.equal(document.activeElement);
+      target.should.not.equal(document.activeElement);
     });
   });
 
   describe('setPosition', () => {
-    it('Shouldn\'t change caret position if we don\'t position', function () {
-      should.not.exist(this.caret.setPosition());
+    it('Shouldn\'t change caret position if we don\'t position', () => {
+      should.not.exist(caret.setPosition());
 
-      this.caret.getPosition().should.equal(0);
+      caret.getPosition().should.equal(0);
     });
 
-    it('Should change caret position if we position', function () {
-      this.caret.setPosition(15);
+    it('Should change caret position if we position', () => {
+      caret.setPosition(15);
 
-      this.caret.getPosition().should.equal(15);
+      caret.getPosition().should.equal(15);
     });
   });
 
   describe('getOffset', () => {
-    it('Should get correct zero offset', function () {
-      window.getSelection().collapse(this.target.firstChild, 0);
+    it('Should get correct zero offset', () => {
+      window.getSelection().collapse(target.firstChild, 0);
 
-      this.caret.getOffset().should.equal(0);
+      caret.getOffset().should.equal(0);
     });
 
-    it('Should get correct offset', function () {
-      window.getSelection().collapse(this.target.firstChild, 10);
+    it('Should get correct offset', () => {
+      window.getSelection().collapse(target.firstChild, 10);
 
       // Test caret offset should be about 50px (browsers have some small differences)
-      this.caret.getOffset().should.be.closeTo(50, 10);
+      caret.getOffset().should.be.closeTo(50, 10);
     });
   });
 });

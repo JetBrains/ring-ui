@@ -26,8 +26,136 @@ describe('Permissions', () => {
     };
   }
 
+  function createAuthMock() {
+    return new Auth({serverUri: ''});
+  }
+
+
+  it('should create permissions', () => {
+    const permissions = new Permissions(createAuthMock());
+
+    expect(permissions).to.be.ok;
+  });
+
+
+  it('should load permissions', function _(done) {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+    permissions.load().then(permissionsCache => {
+      expect(permissionsCache.has('A')).to.be.true;
+      done();
+    });
+  });
+
+
+  it('should allow set permissions manually and do not load from the server', () => {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    expect(permissions.set(permissionsData).has('A')).to.be.true;
+  });
+
+
+  it('should allow get permissions data', () => {
+    const auth = createAuthMock();
+    const permissionsData = [createPermission('A')];
+    const permissions = new Permissions(auth);
+
+    permissions.set(permissionsData);
+
+    expect(permissions.get()).to.equal(permissionsData);
+  });
+
+
+  describe('cacheControl', () => {
+
+    let auth;
+    let permissionsData;
+    let permissions;
+    beforeEach(() => {
+      auth = createAuthMock();
+      permissionsData = [createPermission('A')];
+      permissions = new Permissions(auth);
+    });
+
+
+    it('should cache loaded permissions', function _(done) {
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+      permissions.load();
+      permissions.load();
+      permissions.load().then(permissionsCache => {
+        expect(permissionsCache.has('A')).to.be.true;
+        done();
+      });
+
+      auth.http.get.should.have.been.calledOnce;
+    });
+
+
+    it('should reload permissions', function _() {
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+      permissions.reload();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should not cache response', function _() {
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load({
+        cacheControl: {NO_STORE: true}
+      });
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should ignore cache', function _() {
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+
+      permissions.load({
+        cacheControl: {NO_CACHE: true}
+      });
+      permissions.load();
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+
+
+    it('should ignore cache and do not update cache', function _() {
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+
+      permissions.load();
+
+      permissions.load({
+        cacheControl: {
+          NO_CACHE: true,
+          NO_STORE: true
+        }
+      });
+      permissions.load();
+
+      auth.http.get.should.have.been.calledTwice;
+    });
+  });
+
+
   describe('construction', () => {
-    const auth = new Auth({serverUri: ''});
+    const auth = createAuthMock();
 
     it('shouldn\'t build query if no services ids provided', () => {
       expect(new Permissions(auth).query).to.equal(undefined);
@@ -83,9 +211,9 @@ describe('Permissions', () => {
 
   describe('loading', () => {
     it('should reload permissions', () => {
-      const auth = new Auth({serverUri: ''});
+      const auth = createAuthMock();
       const permissions = new Permissions(auth);
-      sinon.stub(permissions, 'load').returns(Promise.resolve({}));
+      sandbox.stub(permissions, 'load').returns(Promise.resolve({}));
       permissions._promise = Promise.resolve(permissions);
 
       permissions.reload();
@@ -243,7 +371,7 @@ describe('Permissions', () => {
   });
 
   describe('check and bind variable', () => {
-    const permissions = new Permissions(new Auth({serverUri: ''}));
+    const permissions = new Permissions(createAuthMock());
     const permissionKeysDefaultConverter = Permissions.
       getDefaultNamesConverter('jetbrains.jetpass.');
 

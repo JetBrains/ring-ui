@@ -8,7 +8,6 @@
 @value icon-color: #B8D1E5;
 @value border-hover-color: #80C6FF;
 @value main-color: #008EFF;
-
 @value search-color: #669ECC;
 @value hint-color: #406380;
 @value link-color: #0F5B99;
@@ -16,7 +15,6 @@
 @value error-color: #E50000;
 @value success-color: #4DA400;
 @value text-color: #444;
-
 @value darker-gray-color: #888; /* headers & actions on black background */
 @value dark-gray-color: #999; /* headers & actions */
 @value gray-color: #BBB; /* disabled text & hints */
@@ -27,70 +25,72 @@
 @value selected-background-color: #E5F4FF;
 @value dark-selected-background-color: #001526;
 @value black-color: #000;
-
 @value border-radius: 3px;
 @value border-radius-small: 2px;
-
 @value popup-border-color: rgba(0, 42, 76, 0.1);
-
 @value font-size-larger: 14px;
 @value font-size: 13px;
 @value font-size-smaller: 12px;
-
 @value line-height-taller: 21px;
 @value line-height: 20px;
 @value line-height-lower: 18px;
 @value line-height-lowest: 16px;
-
 @value ease: 0.3s ease-out;
 @value fast-ease: 0.15s ease-out;
 
 .clearfix {
-  &:after {
-    clear: both;
-    content: '';
+  &::after {
     display: block;
+    clear: both;
+
+    content: '';
   }
 }
 
 .font {
+  color: text-color;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: font-size;
   line-height: line-height;
-  color: text-color;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 .font-lower {
   composes: font;
+
   line-height: line-height-lower;
 }
 
 .font-smaller {
   composes: font-lower;
+
   font-size: font-size-smaller;
 }
 
 .font-smaller-lower {
   composes: font-smaller;
+
   line-height: line-height-lowest;
 }
 
 .font-larger-lower {
   composes: font-lower;
+
   font-size: font-size-larger;
 }
 
 .font-larger {
   composes: font-larger-lower;
+
   line-height: line-height-taller;
 }
 
 /* To be used at large sizes */
 /* As close as possible to Helvetica Neue Thin (to replace Gotham) */
 .thin-font {
-  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: font-size;
+  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
 }
 
 .monospace-font {
@@ -98,12 +98,13 @@
 }
 
 .input-disabled {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+  border-color: #dedede;
+  background-color: #f8f8f8;
 }
 
 .ellipsis {
   overflow: hidden;
+
   white-space: nowrap;
   text-overflow: ellipsis;
 }

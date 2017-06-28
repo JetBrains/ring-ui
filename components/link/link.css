@@ -2,15 +2,19 @@
 
 .link {
   & {
-    color: link-color;
-    text-decoration: none;
     cursor: pointer;
     transition: color fast-ease;
+    text-decoration: none;
+
+    color: link-color;
   }
 
-  &:hover, &:focus, &.hover {
-    color: link-hover-color;
+  &:hover,
+  &:focus,
+  &.hover {
     transition: none;
+
+    color: link-hover-color;
   }
 
   &:hover {

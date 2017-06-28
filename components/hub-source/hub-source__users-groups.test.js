@@ -1,29 +1,30 @@
-/* eslint-disable func-names */
-
 import HubSourceUsersGroups from './hub-source__users-groups';
+
+const SEARCH_THRESHOLD = 123;
 
 describe('Hub Users Groups Source', () => {
   let httpMock;
+  let fakeAuth;
 
-  beforeEach(function () {
+  beforeEach(() => {
     httpMock = {
-      get: this.sinon.stub().returns(Promise.resolve({}))
+      get: sandbox.stub().returns(Promise.resolve({}))
     };
-    this.fakeAuth = {
-      requestToken: this.sinon.stub().returns(Promise.resolve('testToken')),
+    fakeAuth = {
+      requestToken: sandbox.stub().returns(Promise.resolve('testToken')),
       http: httpMock
     };
   });
 
-  it('Should pass searchSideThreshold to HubSource', function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth, {searchSideThreshold: 123});
-    source.usersSource.options.searchSideThreshold.should.equal(123);
-    source.groupsSource.options.searchSideThreshold.should.equal(123);
+  it('Should pass searchSideThreshold to HubSource', () => {
+    const source = new HubSourceUsersGroups(fakeAuth, {searchSideThreshold: SEARCH_THRESHOLD});
+    source.usersSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
+    source.groupsSource.options.searchSideThreshold.should.equal(SEARCH_THRESHOLD);
   });
 
-  it('Should make request for users', async function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth);
-    this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+  it('Should make request for users', async () => {
+    const source = new HubSourceUsersGroups(fakeAuth);
+    sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     await source.getUsers();
     source.usersSource.get.should.have.been.calledWith('', {
@@ -32,9 +33,9 @@ describe('Hub Users Groups Source', () => {
     });
   });
 
-  it('Should pass query for users', async function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth);
-    this.sinon.stub(source.usersSource, 'get').returns(Promise.resolve([]));
+  it('Should pass query for users', async () => {
+    const source = new HubSourceUsersGroups(fakeAuth);
+    sandbox.stub(source.usersSource, 'get').returns(Promise.resolve([]));
 
     await source.getUsers('nam');
     source.usersSource.get.should.have.been.calledWith('nam', {
@@ -43,16 +44,32 @@ describe('Hub Users Groups Source', () => {
     });
   });
 
-  it('Should construct multi-word query for users', function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth);
+  it('Should construct multi-word query for users', () => {
+    const source = new HubSourceUsersGroups(fakeAuth);
 
     const formatted = source.usersSource.options.queryFormatter('two words');
     formatted.should.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
   });
 
-  it('Should make request for groups', async function () {
-    const source = new HubSourceUsersGroups(this.fakeAuth);
-    this.sinon.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
+  it('Should filter user by login on clientside', async () => {
+    const source = new HubSourceUsersGroups(fakeAuth);
+    const user1 = {name: 'some-name1', login: 'login1'};
+    sandbox.stub(source.usersSource, 'makeRequest').returns(Promise.resolve({
+      total: 2,
+      users: [
+        user1,
+        {name: 'some-name2', login: 'login2'}
+      ]
+    }));
+
+    const res = await source.getUsers('login1');
+    res.length.should.equal(1);
+    res[0].should.equal(user1);
+  });
+
+  it('Should make request for groups', async () => {
+    const source = new HubSourceUsersGroups(fakeAuth);
+    sandbox.stub(source.groupsSource, 'get').returns(Promise.resolve([]));
 
     await source.getGroups();
     source.groupsSource.get.should.have.been.calledWith('', {
@@ -61,14 +78,14 @@ describe('Hub Users Groups Source', () => {
     });
   });
 
-  it('Should cache request for groups', async function () {
-    httpMock.get = this.sinon.stub().
+  it('Should cache request for groups', async () => {
+    httpMock.get = sandbox.stub().
       returns(Promise.resolve({total: 1, usergroups: []}));
 
-    const source = new HubSourceUsersGroups(this.fakeAuth);
-    source.getGroups();
-    source.getGroups();
+    const source = new HubSourceUsersGroups(fakeAuth);
     await source.getGroups();
-    httpMock.get.should.have.been.called.once;
+    source.getGroups();
+    source.getGroups();
+    httpMock.get.should.have.been.calledOnce;
   });
 });

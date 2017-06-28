@@ -27,6 +27,6 @@ describe('RingAngularComponent', () => {
 
   it('should copy dependencies to class instances', () => {
     const ctrl = $componentController('testComponent');
-    ctrl.should.have.deep.property('$inject.$scope');
+    ctrl.should.have.nested.property('$inject.$scope');
   });
 });

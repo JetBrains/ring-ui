@@ -1,13 +1,14 @@
 @value unit, font-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease from  "../global/global.css";
-
 @value text-shadow: 0 0 0;
 
 .container {
   composes: font-lower;
-  padding-top: calc(unit * 2);
+
   position: relative;
+
   box-sizing: border-box;
   min-height: calc(unit * 8);
+  padding-top: calc(unit * 2);
 
   & * {
     box-sizing: border-box;
@@ -15,18 +16,20 @@
 }
 
 .borderless {
-  padding: 0;
   min-height: calc(unit * 4);
+  padding: 0;
 }
 
 .input {
-  min-height: calc(unit * 4);
   width: 100%;
-  padding: 0 0 3px 0;
-  font: inherit;
+  min-height: calc(unit * 4);
+  padding: 0 0 3px;
+
   border: none;
   outline: none;
   background: transparent;
+
+  font: inherit;
   caret-color: main-color;
 
   @nest .clearable & {
@@ -42,8 +45,8 @@
   }
 
   &::placeholder {
-    text-shadow: none;
     color: transparent;
+    text-shadow: none;
   }
 
   &[disabled] {
@@ -55,46 +58,56 @@
     https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
   */
   &:-webkit-autofill {
-    &, &:hover, &:focus {
+    &,
+    &:hover,
+    &:focus {
       transition: background-color 50000s ease-in-out 0s;
     }
 
     & ~ .label {
-      font-size: font-size-smaller;
       top: calc(unit / 2);
+
+      font-size: font-size-smaller;
     }
   }
 }
 
 .clear {
+  position: absolute;
+  top: 14px;
+
+  right: 0;
+
   @nest .empty & {
     display: none;
   }
-  position: absolute;
-  top: 14px;
+
   @nest .borderless & {
     top: -2px;
   }
+
   /* override Button */
   && {
     line-height: calc(unit * 4);
   }
-  right: 0;
 }
 
 textarea.input {
+  overflow: hidden;
+
   box-sizing: border-box;
   padding-top: unit;
-  overflow: hidden;
+
   resize: none;
 }
 
 .label {
-  pointer-events: none;
   position: absolute;
   top: calc(unit * 3 - 2px);
   left: 0;
+
   transition: font-size fast-ease, top fast-ease, color fast-ease;
+  pointer-events: none;
 
   @nest .light & {
     color: dark-gray-color;
@@ -108,8 +121,9 @@ textarea.input {
 .input:focus ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
-  font-size: font-size-smaller;
   top: calc(unit / 2);
+
+  font-size: font-size-smaller;
 }
 
 .noLabel .input::placeholder,
@@ -156,17 +170,19 @@ textarea.input {
 
 .focusUnderline,
 .errorUnderline {
-  height: 2px;
   width: 0;
+  height: 2px;
 }
 
 .focusUnderline {
   margin-top: -1px;
+
   background: main-color;
 }
 
 .errorUnderline {
   margin-top: -2px;
+
   background: error-color;
 }
 
@@ -174,18 +190,23 @@ textarea.input {
 .container.active > .focusUnderline,
 .error > .errorUnderline {
   width: 100%;
-  transition: width .15s ease-out;
+
+  transition: width 0.15s ease-out;
 }
 
 .errorText {
-  color: error-color;
-  font-size: font-size-smaller;
-  line-height: line-height-lowest;
+  overflow: hidden;
+
   box-sizing: border-box;
   height: 0;
-  overflow: hidden;
   padding: calc(unit / 2) 0 unit;
-  transition: height .3s ease-out;
+
+  transition: height 0.3s ease-out;
+
+  color: error-color;
+
+  font-size: font-size-smaller;
+  line-height: line-height-lowest;
 }
 
 .sizeS {
