@@ -101,15 +101,16 @@
 
 .hasUpdates::after {
   position: absolute;
-  top: calc(unit * 4 - 1);
-  left: calc(unit * 2);
+  top: 4px;
+  left: 12px;
 
   display: block;
 
-  width: calc(unit * 3);
-  height: 2px;
+  width: unit;
+  height: unit;
 
   content: '';
 
+  border-radius: 50%;
   background-color: link-hover-color;
 }
