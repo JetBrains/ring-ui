@@ -43,7 +43,7 @@ const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
  * @property {string?} serviceId
  * @property {string?} prefix
  */
-angularModule.provider('userPermissions', function () {
+angularModule.provider('userPermissions', function provider() {
   /**
    * @type {permissionsNgConfig}
    */
@@ -56,11 +56,11 @@ angularModule.provider('userPermissions', function () {
     _config = config;
   };
 
-  this.$get = function (auth, $q) {
+  this.$get = (auth, $q) => {
     const permissions = new Permissions(auth.auth, _config);
 
     // Override load to execute in $digest
-    permissions.load = function () {
+    permissions.load = function load() {
       return $q.when(Permissions.prototype.load.call(this));
     };
 

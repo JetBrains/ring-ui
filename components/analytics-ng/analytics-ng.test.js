@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import 'angular';
 import 'angular-mocks';
 import 'dom4';
@@ -12,7 +10,7 @@ describe('Analytics Ng', () => {
   beforeEach(
     window.module('Ring.analytics',
       analyticsProvider => {
-        const send = sinon.stub();
+        const send = sandbox.stub();
         analyticsProvider.plugins([new AnalyticsCustomPlugin(send)]);
       })
   );
@@ -37,11 +35,11 @@ describe('Analytics Ng', () => {
     let $compile;
     let analytics;
 
-    beforeEach(inject(function (_$rootScope_, _$compile_, _analytics_) {
+    beforeEach(inject((_$rootScope_, _$compile_, _analytics_) => {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       analytics = _analytics_;
-      this.sinon.spy(analytics, 'trackEvent');
+      sandbox.spy(analytics, 'trackEvent');
     }));
 
     function compileTemplate(template) {

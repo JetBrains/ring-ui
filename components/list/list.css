@@ -1,15 +1,14 @@
 @value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
-
-@value list-spacing: calc(unit / 2);
+@value listSpacing: calc(unit / 2);
 
 .list {
   position: relative;
 
   z-index: 1;
 
-  line-height: normal;
-
   border-radius: border-radius;
+
+  line-height: normal;
 }
 
 .inner {
@@ -22,40 +21,46 @@
 
 .separator {
   display: block;
-  border-top: 1px solid line-color;
-  margin-top: list-spacing;
+
+  margin-top: listSpacing;
   padding: 0 calc(unit * 2) 2px;
 
-  color: dark-gray-color;
-  font-size: font-size-smaller;
-  line-height: line-height-lower;
   text-align: right;
 
+  color: dark-gray-color;
+  border-top: 1px solid line-color;
+
+  font-size: font-size-smaller;
+  line-height: line-height-lower;
+
   &:first-child {
-    margin-top: calc(- list-spacing);
+    margin-top: calc(0 - listSpacing);
     padding-top: 0;
+
     border: none;
   }
 }
 
 .items {
-  margin: list-spacing 0;
+  margin: listSpacing 0;
 }
 
 .item {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  white-space: nowrap;
+
   padding: 3px calc(unit * 2) 5px;
+
+  text-align: left;
+  vertical-align: bottom;
+  white-space: nowrap;
+  text-decoration: none;
+
+  outline: none;
 
   font-size: font-size;
   line-height: calc(unit * 3);
-  text-align: left;
-
-  outline: none;
-  vertical-align: bottom;
-  text-decoration: none;
 
   @nest .ring-list &:hover {
     text-decoration: none;
@@ -66,60 +71,72 @@
   cursor: default;
 
   /* Override ring-link */
-  &, &:hover, &:focus, &:visited {
+  &,
+  &:hover,
+  &:focus,
+  &:visited {
     color: error-color;
   }
 }
 
 .add {
-  line-height: calc(4 * unit);
   padding: unit calc(2 * unit);
+
+  line-height: calc(4 * unit);
 }
 
 .top {
   display: flex;
-  flex-direction: row;
   align-items: baseline;
+  flex-direction: row;
 }
 
 .left {
-  flex-shrink: 0;
   align-self: center;
+  flex-shrink: 0;
 }
 
 .label {
-  flex-shrink: 1;
-  white-space: nowrap;
   overflow: hidden;
+  flex-shrink: 1;
+
   text-align: left;
+  white-space: nowrap;
 }
 
 .description {
+  overflow: hidden;
+  flex-shrink: 100;
+
   padding-left: calc(unit * 2);
+
+  text-align: right;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  color: dark-gray-color;
+
   font-size: font-size-smaller;
   line-height: line-height-lowest;
-  flex-shrink: 100;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: right;
-  color: dark-gray-color;
 }
 
 .right {
-  flex-shrink: 0;
-  align-self: center;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  align-self: center;
+  flex-direction: row;
+  flex-shrink: 0;
 }
 
 .details {
-  color: dark-gray-color;
+  margin-bottom: 6px;
+
   white-space: normal;
+
+  color: dark-gray-color;
+
   font-size: font-size-smaller;
   line-height: line-height-lowest;
-  margin-bottom: 6px;
 }
 
 .padded {
@@ -129,15 +146,18 @@
 .hint {
   /* Override :last-child */
   && {
-    font-size: font-size-smaller;
-    background-color: #FFF5CD;
-    border-top: 1px solid #E5DCB8;
     margin-bottom: 0;
+
+    border-top: 1px solid #e5dcb8;
+    background-color: #fff5cd;
+
+    font-size: font-size-smaller;
   }
 }
 
 .action {
   cursor: pointer;
+
   color: text-color;
 }
 
@@ -154,35 +174,40 @@
 
 .icon {
   display: inline-block;
-  margin-left: calc(unit * 2);
+
   width: calc(unit * 2);
   height: calc(unit * 2);
+  margin-left: calc(unit * 2);
 
-  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+
+  background-size: contain;
 }
 
 .highlight {
-  color: #D800FF;
+  color: #d800ff;
 }
 
 .service {
-  color: #B4B4B4;
+  color: #b4b4b4;
 }
 
 .glyph {
   position: relative;
-  margin-right: unit;
   top: -2px;
-  width: 20px;
+
   float: left;
+
+  width: 20px;
+  margin-right: unit;
 
   color: dark-gray-color;
 }
 
 .avatar {
   composes: glyph;
+
   top: 0;
 }
 
@@ -192,14 +217,18 @@
 
 .rightGlyph {
   composes: glyph;
+
   float: right;
+
   margin-right: 0;
   margin-left: calc(unit * 2);
 }
 
 .checkbox {
   composes: rightGlyph;
+
   width: auto;
+
   color: text-color;
 }
 
@@ -208,7 +237,8 @@
 
   margin-top: 10px;
   margin-bottom: 6px;
-  padding: list-spacing calc(unit * 2) 0;
+  padding: listSpacing calc(unit * 2) 0;
+
   text-align: left;
 
   &:first-child {
@@ -217,18 +247,22 @@
 }
 
 .text {
-  font-size: font-size-smaller;
-  color: dark-gray-color;
-  text-transform: uppercase;
   letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  color: dark-gray-color;
+
+  font-size: font-size-smaller;
 }
 
 .fade {
   position: absolute;
   bottom: 0;
+
   width: 100%;
   height: calc(unit * 3);
 
   pointer-events: none;
-  background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0.8), white-color);
+
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), white-color);
 }

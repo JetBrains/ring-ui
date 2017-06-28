@@ -233,6 +233,7 @@ angularModule.directive(
               $timeout.cancel(blurTimeout);
               blurTimeout = null;
             }
+          // eslint-disable-next-line no-magic-numbers
           }, 10);
         };
 

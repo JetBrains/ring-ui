@@ -17,6 +17,7 @@ import Icon from '../icon/icon';
  * @param {number} height
  */
 function fitImageIntoSquare(image, width, height) {
+  // eslint-disable-next-line no-magic-numbers
   const SIZE = RingComponent.RING_UNIT * 3;
   const isPortrait = height > width;
   const dimension = isPortrait ? 'width' : 'height';
@@ -25,6 +26,7 @@ function fitImageIntoSquare(image, width, height) {
   const oppositeSideOriginal = isPortrait ? height : width;
 
   const oppositeSide = oppositeSideOriginal * SIZE / adjustedSideOriginal;
+  // eslint-disable-next-line no-magic-numbers
   const compensation = -(oppositeSide - SIZE) / 2;
 
   image.setAttribute(dimension, SIZE.toString());
@@ -119,7 +121,7 @@ export default class HeaderItem extends RingComponent {
       >
         <img
           className={'ring-icon__pic'}
-          onLoad={function (evt) {
+          onLoad={function onLoad(evt) {
             const pic = evt.target;
             fitImageIntoSquare(pic, pic.width, pic.height);
           }}
@@ -136,7 +138,8 @@ export default class HeaderItem extends RingComponent {
    */
   _getIcon(restProps) {
     return (
-      <Icon {...restProps}
+      <Icon
+        {...restProps}
         className={this.state.opened ? this.props.activeClassName : this.props.inactiveClassName}
         glyph={this.props.glyph}
         size={Icon.Size.Size18}
@@ -153,7 +156,7 @@ export default class HeaderItem extends RingComponent {
       return;
     }
 
-    this.setState({opened}, function () {
+    this.setState({opened}, function onSet() {
       if (opened && typeof this.props.onOpen === 'function') {
         this.props.onOpen();
       } else if (!opened && typeof this.props.onClose === 'function') {

@@ -1,51 +1,55 @@
 @value unit, font-smaller-lower, border-radius, icon-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease from "../global/global.css";
-
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loader-width: calc(unit * 8);
 
 .button {
   composes: font-smaller-lower;
-  text-decoration: none;
 
-  display: inline-block;
   position: relative;
   z-index: 0;
 
+  display: inline-block;
+
   box-sizing: border-box;
   height: height;
-  line-height: height;
-  padding: 0 calc(unit * 2);
   margin: 0;
-  outline: 0;
+  padding: 0 calc(unit * 2);
+
+  cursor: pointer;
+  transition: color ease, background-color ease, box-shadow ease;
+  text-decoration: none;
 
   border: 0;
   border-radius: border-radius;
-  transition: color ease, background-color ease, box-shadow ease;
+  outline: 0;
 
-  cursor: pointer;
+  line-height: height;
 
   &.light {
+    color: text-color;
     background-color: white-color;
     box-shadow: button-shadow borders-color;
-    color: text-color;
   }
+
   &.dark {
+    color: darker-gray-color;
     background-color: black-color;
     box-shadow: button-shadow dark-line-color;
-    color: darker-gray-color;
   }
 
   &:not([disabled]):not(.loader) {
     &:hover {
       z-index: 3;
+
       transition: none;
 
       &.light {
-         box-shadow: button-shadow border-hover-color;
+        box-shadow: button-shadow border-hover-color;
       }
+
       &.dark {
-         box-shadow: button-shadow main-color;
+        box-shadow: button-shadow main-color;
       }
     }
 
@@ -54,23 +58,24 @@
       z-index: 2;
 
       &.light {
-        box-shadow: button-shadow border-hover-color;
         background-color: selected-background-color;
+        box-shadow: button-shadow border-hover-color;
       }
+
       &.dark {
         color: white-color;
-        box-shadow: button-shadow main-color;
         background-color: dark-selected-background-color;
+        box-shadow: button-shadow main-color;
       }
     }
 
-
-
     &:focus {
       z-index: 4;
+
       transition: none;
 
-      &.light, &.dark {
+      &.light,
+      &.dark {
         box-shadow: inset 0 0 0 1px border-hover-color, 0 0 0 1px border-hover-color;
       }
     }
@@ -82,6 +87,7 @@
     &.light {
       color: gray-color;
     }
+
     &.dark {
       color: text-color;
     }
@@ -95,19 +101,21 @@
     &:not([disabled]):not(.loader) {
       &:hover,
       &:focus {
-        box-shadow: none;
         transition: none;
-        background-color: #007EE5;
+
+        background-color: #007ee5;
+        box-shadow: none;
       }
 
       &:active,
       &.active {
         &.light {
-          background-color: #1A98FF;
-          box-shadow: button-shadow #0062B2;
+          background-color: #1a98ff;
+          box-shadow: button-shadow #0062b2;
         }
+
         &.dark {
-          background-color: #007EE5;
+          background-color: #007ee5;
           box-shadow: button-shadow border-hover-color;
         }
       }
@@ -125,21 +133,23 @@
     &:not([disabled]):not(.loader) {
       &:hover,
       &:focus {
-        box-shadow: none;
         transition: none;
-        background-color: error-color;
+
         color: white-color;
+        background-color: error-color;
+        box-shadow: none;
       }
 
       &:active,
       &.active {
         &.light {
-          background-color: #F50000;
-          box-shadow: button-shadow #7F0000;
+          background-color: #f50000;
+          box-shadow: button-shadow #7f0000;
         }
+
         &.dark {
           background-color: error-color;
-          box-shadow: button-shadow #FFB2B2;
+          box-shadow: button-shadow #ffb2b2;
         }
       }
     }
@@ -147,8 +157,9 @@
 
   &.text,
   &.withIcon {
-    background-color: transparent;
     padding: 0 unit;
+
+    background-color: transparent;
     box-shadow: none;
 
     &:not([disabled]):not(.loader) {
@@ -162,8 +173,10 @@
         background-color: transparent;
         box-shadow: none;
       }
+
       &:focus {
-        &.light, &.dark {
+        &.light,
+        &.dark {
           box-shadow: inset 0 0 0 2px border-hover-color;
         }
       }
@@ -181,23 +194,25 @@
   }
 
   &.withIcon {
-
     &.light {
       color: dark-gray-color;
+
       & .icon {
         color: icon-color;
       }
     }
+
     &.dark {
       color: darker-gray-color;
+
       & .icon {
         color: darker-gray-color;
       }
     }
 
     & .icon {
-      vertical-align: 1px;
       transition: color ease;
+      vertical-align: 1px;
 
       &:not(:last-child) {
         margin-right: calc(unit * 0.5);
@@ -205,12 +220,14 @@
     }
 
     &:not([disabled]):not(.loader) {
-      &:hover, &.active:hover:not(:active) {
+      &:hover,
+      &.active:hover:not(:active) {
         color: main-color;
 
         & .icon {
-          color: border-hover-color;
           transition: none;
+
+          color: border-hover-color;
         }
       }
 
@@ -224,8 +241,9 @@
 
     &[disabled] {
       &.light .icon {
-        color: #DBDBDB;
+        color: #dbdbdb;
       }
+
       &.dark .icon {
         color: #333;
       }
@@ -233,45 +251,51 @@
   }
 
   &::-moz-focus-inner {
-    outline: 0;
     padding: 0;
+
     border: 0;
+    outline: 0;
   }
 
   &.loader {
+    animation: progress 1s linear infinite;
     pointer-events: none;
 
-    animation: progress 1s linear infinite;
     background-repeat: repeat;
     background-size: loader-width;
 
     &.light {
-      background-image: linear-gradient(
-        to right,
-        white-color,
-        selected-background-color 40%,
-        white-color 80%
-      );
+      background-image:
+        linear-gradient(
+          to right,
+          white-color,
+          selected-background-color 40%,
+          white-color 80%
+        );
     }
+
     &.dark {
-      background-image: linear-gradient(
-        to right,
-        black-color,
-        #002039 40%,
-        black-color 80%
-      );
+      background-image:
+        linear-gradient(
+          to right,
+          black-color,
+          #002039 40%,
+          black-color 80%
+        );
     }
+
     &.primary {
-      background-image: linear-gradient(
-        to right,
-        main-color,
-        #33A3FF 40%,
-        main-color 80%
-      );
+      background-image:
+        linear-gradient(
+          to right,
+          main-color,
+          #33a3ff 40%,
+          main-color 80%
+        );
     }
   }
 
-  &.delayed .content:after {
+  &.delayed .content::after {
     content: '…';
   }
 
@@ -285,6 +309,7 @@
   from {
     background-position-x: 0;
   }
+
   to {
     background-position-x: loader-width;
   }

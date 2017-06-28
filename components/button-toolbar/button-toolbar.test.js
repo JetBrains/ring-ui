@@ -1,23 +1,21 @@
-import 'dom4';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import React from 'react';
+import {shallow, mount} from 'enzyme';
 
 import ButtonToolbar from './button-toolbar';
 
 describe('Button Toolbar', () => {
-  const renderComponent = params => renderIntoDocument(ButtonToolbar.factory(params));
+  const shallowButtonToolbar = params => shallow(<ButtonToolbar {...params}/>);
+  const mountButtonToolbar = params => mount(<ButtonToolbar {...params}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), ButtonToolbar).should.be.true;
+    mountButtonToolbar().should.have.type(ButtonToolbar);
   });
 
   it('should wrap children with div', () => {
-    renderComponent().node.should.match('div');
+    shallowButtonToolbar().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderComponent({className: 'test-class'}).node.should.match('.test-class');
+    shallowButtonToolbar({className: 'test-class'}).should.have.className('test-class');
   });
 });

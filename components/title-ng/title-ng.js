@@ -67,7 +67,7 @@ angularModule.directive('rgPageTitle', function rgPageTitleDirective() {
   });
 });
 
-angularModule.service('pageTitle', function ($interpolate) {
+angularModule.service('pageTitle', function service($interpolate) {
   let delimiter = ' | ';
   let current = document.title;
 

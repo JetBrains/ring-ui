@@ -1,24 +1,21 @@
 import React from 'react';
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import LoaderInline from './loader-inline';
 
 describe('Loader Inline', () => {
-  let loader;
-
-  beforeEach(() => {
-    loader = renderIntoDocument(React.createElement(LoaderInline));
-  });
+  const shallowLoaderInline = props => shallow(<LoaderInline {...props}/>);
+  const mountLoaderInline = props => mount(<LoaderInline {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(loader, LoaderInline).should.be.true;
+    mountLoaderInline().should.have.type(LoaderInline);
   });
 
   it('should add custom class', () => {
-    loader.rerender({
+    const wrapper = shallowLoaderInline({
       className: 'test'
     });
 
-    loader.node.should.have.class('test');
+    wrapper.should.have.className('test');
   });
 });

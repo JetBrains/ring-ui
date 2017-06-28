@@ -1,17 +1,13 @@
 @value unit, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
 
 .select {
-  display: inline-block;
   position: relative;
-  white-space: nowrap;
-  color: text-color;
-}
 
-.message {
   display: inline-block;
-  margin: unit 0;
-  padding: 0 calc(2 * unit);
-  text-align: center;
+
+  white-space: nowrap;
+
+  color: text-color;
 }
 
 .toolbar {
@@ -20,24 +16,29 @@
 
 .button {
   &&& {
-    margin: unit 0;
-    padding: 0 calc(2 * unit);
-    text-align: left;
     width: 100%;
     height: calc(4 * unit);
+    margin: unit 0;
+    padding: 0 calc(2 * unit);
+
+    text-align: left;
   }
 }
 
 .icons {
-  line-height: calc(unit * 4px);
   position: absolute;
-  transition: color ease;
   top: -4px;
   right: 0;
+
+  transition: color ease;
+
   color: dark-gray-color;
+
+  line-height: calc(unit * 4px);
 
   :global(.ring-loader.ring-loader_inline) {
     top: 2px;
+
     margin-right: 2px;
   }
 
@@ -48,20 +49,23 @@
 
 .selectedIcon {
   display: inline-block;
+
   width: calc(2 * unit);
   height: calc(2 * unit);
   margin: 0 4px;
 
   vertical-align: middle;
 
-  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+
+  background-size: contain;
 }
 
 .clearIcon {
   &&& {
     padding: 0 3px;
+
     vertical-align: -2px;
   }
 
@@ -84,33 +88,41 @@
 
 .buttonMode {
   position: relative;
+
   cursor: pointer;
 }
 
 .value {
   composes: ellipsis;
-  font: inherit;
-  color: text-color;
-  cursor: pointer;
-  text-align: left;
+
   display: inline-block;
-  height: calc(unit * 4 + 1px);
+
+  box-sizing: border-box;
   width: 100%;
+  height: calc(unit * 4 + 1px);
+  padding: 0 0 3px;
+
+  cursor: pointer;
+  transition: color ease, border-color ease;
+  text-align: left;
   vertical-align: top;
+
+  color: text-color;
   border: none;
   border-bottom: 1px solid line-color;
   outline: none;
   background: transparent;
-  box-sizing: border-box;
-  padding: 0 0 3px;
-  transition: color ease, border-color ease;
+
+  font: inherit;
 
   @nest .select:hover &,
   &:focus,
   &.open {
-    &, & + .icons {
-      color: main-color;
+    &,
+    & + .icons {
       transition: none;
+
+      color: main-color;
     }
   }
 
@@ -118,59 +130,49 @@
     border-color: main-color;
   }
 
-  &.open, &:active {
+  &.open,
+  &:active {
     border-color: transparent;
   }
 
   &::-moz-focus-inner {
-    outline: 0;
     padding: 0;
+
     border: 0;
+    outline: 0;
   }
 }
 
 .disabled {
   pointer-events: none;
+
   color: gray-color;
 
   & .value {
-    border-bottom-style: dashed;
     color: gray-color;
+    border-bottom-style: dashed;
   }
 }
 
 .label {
   position: relative;
+
   color: dark-gray-color;
 }
 
 .selectedLabel {
   position: absolute;
+  top: calc(unit * -1.5);
+
+  color: dark-gray-color;
+
   font-size: font-size-smaller;
   line-height: line-height-lowest;
-  color: dark-gray-color;
-  top: calc(- unit * 1.5);
-}
-
-.filter {
-  width: 100%;
-}
-
-.filterWrapper {
-  position: relative;
-  padding-left: calc(unit * 5.5);
-  border-bottom: 1px solid line-color;
-}
-
-.filterIcon {
-  position: absolute;
-  left: calc(unit * 2);
-  top: 3px;
-  color: dark-gray-color;
 }
 
 .avatar {
   margin-right: 4px;
+
   vertical-align: -5px;
 }
 

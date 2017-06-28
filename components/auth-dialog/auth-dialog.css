@@ -5,39 +5,43 @@
 }
 
 .content {
-  margin: calc(unit * 4);
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+
+  margin: calc(unit * 4);
 }
 
 .button {
-  margin-top: unit;
   width: calc(unit * 25);
+  margin-top: unit;
 }
 
 .firstButton {
   composes: button;
+
   margin-top: calc(unit * 4);
 }
 
 .title {
-  font-weight: 100;
-  font-size: 24px;
-  text-align: center;
-  line-height: 28px;
-
   margin-bottom: unit;
+
+  text-align: center;
+
+  font-size: 24px;
+  font-weight: 100;
+  line-height: 28px;
 }
 
 .logo {
-  height: calc(unit * 12);
   width: calc(unit * 12);
-  object-fit: contain;
+  height: calc(unit * 12);
   margin-bottom: 12px;
+  object-fit: contain;
 }
 
 .error {
-  text-align: center ;
+  text-align: center;
+
   color: error-color;
 }

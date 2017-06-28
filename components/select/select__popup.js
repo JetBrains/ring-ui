@@ -4,6 +4,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
@@ -13,9 +14,12 @@ import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
+import memoize from '../global/memoize';
+import TagsList from '../tags-list/tags-list';
+import Caret from '../caret/caret';
 
 import SelectFilter from './select__filter';
-import styles from './select.css';
+import styles from './select-popup.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;
@@ -35,12 +39,15 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     message: null,
     anchorElement: null,
     maxHeight: 600,
+    minWidth: 240,
     loading: false,
     onSelect: noop,
     onCloseAttempt: noop,
     onFilter: noop,
     onClear: noop,
-    onLoadMore: noop
+    onLoadMore: noop,
+    selected: [],
+    tags: PropTypes.bool
   };
 
   state = {
@@ -48,27 +55,93 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     popupFilterShortcutsOptions: {
       modal: true,
       disabled: true
-    }
+    },
+    tagsActiveIndex: null
   };
 
   popupFilterShortcuts = {
     map: {
-      up: e => (this.list && this.list.upHandler(e)),
-      down: e => (this.list && this.list.downHandler(e)),
-      enter: e => (this.list && this.list.enterHandler(e)),
-      esc: e => this.props.onCloseAttempt(e),
-      tab: e => this.tabPress(e)
+      up: event => (this.list && this.list.upHandler(event)),
+      down: event => (this.list && this.list.downHandler(event)),
+      enter: event => (this.list && this.list.enterHandler(event)),
+      esc: event => this.props.onCloseAttempt(event),
+      tab: event => this.tabPress(event),
+      backspace: event => this.handleBackspace(event),
+      del: () => this.removeSelectedTag(),
+      left: () => this.handleNavigation(true),
+      right: () => this.handleNavigation()
     }
   };
 
-  popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
-  popupFilterOnBlur = () => this._togglePopupFilterShortcuts(true);
+  focusFilter() {
+    setTimeout(() => this.filter.focus());
+  }
 
-  _togglePopupFilterShortcuts(value) {
+  isEventTargetFilter(event) {
+    return event.target && event.target.matches('input,textarea');
+  }
+
+  handleNavigation(navigateLeft) {
+    if (this.isEventTargetFilter(event) && this.caret.getPosition() > 0) {
+      return;
+    }
+
+    let newIndex = null;
+    if (navigateLeft) {
+      newIndex = this.state.tagsActiveIndex === null
+        ? this.props.selected.length - 1
+        : this.state.tagsActiveIndex - 1;
+    } else if (this.state.tagsActiveIndex !== null) {
+      newIndex = this.state.tagsActiveIndex + 1;
+    }
+
+    if (newIndex !== null && (newIndex >= this.props.selected.length || newIndex < 0)) {
+      newIndex = null;
+      this.focusFilter();
+    }
+
+    this.setState({
+      tagsActiveIndex: newIndex
+    });
+  }
+
+  removeTag(tag) {
+    const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
+    this.onListSelect(_tag);
+    this.setState({
+      tagsActiveIndex: null
+    });
+    this.focusFilter();
+  }
+
+  removeSelectedTag() {
+    if (this.state.tagsActiveIndex != null) {
+      this.removeTag(this.props.selected[this.state.tagsActiveIndex]);
+    }
+  }
+
+  handleBackspace(event) {
+    if (!this.isEventTargetFilter(event)) {
+      this.removeSelectedTag();
+      return;
+    }
+    if (!event.target.value) {
+      this.removeTag();
+    }
+  }
+
+  popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+  popupFilterOnBlur = () => {
+    if (!this.state.tagsActiveIndex) {
+      this._togglePopupFilterShortcuts(true);
+    }
+  };
+
+  _togglePopupFilterShortcuts(shortcutsDisabled) {
     this.setState({
       popupFilterShortcutsOptions: {
         modal: true,
-        disabled: value
+        disabled: shortcutsDisabled
       }
     });
   }
@@ -144,10 +217,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
   filterRef = el => {
     this.filter = el;
+    this.caret = new Caret(this.filter);
   };
 
   getFilter() {
-    if (this.props.filter && !this.props.hidden) {
+    if ((this.props.filter || this.props.tags) && !this.props.hidden) {
+      const onClickHandler = () => this.filter.focus();
+
       return (
         <div className={styles.filterWrapper}>
           <Icon
@@ -165,7 +241,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
             onFocus={this.popupFilterOnFocus}
             className="ring-js-shortcuts"
             placeholder={this.props.filter.placeholder}
+
             onChange={this.props.onFilter}
+            onClick={onClickHandler}
             onClear={this.props.onClear}
           />
         </div>
@@ -173,6 +251,51 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
 
     return null;
+  }
+
+  handleRemoveTag = memoize(tag => () => this.removeTag(tag));
+  handleTagClick = memoize(tag => () => {
+    this.setState({
+      focusFilter: false,
+      tagsActiveIndex: this.props.selected.indexOf(tag)
+    });
+  });
+
+  getTags() {
+    return (
+      <div className="ring-select-popup__tags">
+        <TagsList
+          tags={this.props.selected}
+          activeIndex={this.state.tagsActiveIndex}
+          handleRemove={this.handleRemoveTag}
+          handleClick={this.handleTagClick}
+          disabled={this.props.disabled}
+        />
+      </div>
+    );
+  }
+
+  getFilterWithTags() {
+    if (this.props.tags && !this.props.hidden) {
+      const classes = classNames([
+        'ring-select-popup__filter-with-tags',
+        {
+          'ring-select-popup__filter-with-tags_focused': !this.state.popupFilterShortcutsOptions.disabled
+        }
+      ]);
+
+      return (
+        <div
+          className={classes}
+          tabIndex="0"
+        >
+          {this.getTags()}
+          {this.getFilter()}
+        </div>
+      );
+    }
+
+    return this.getFilter();
   }
 
   getBottomLine() {
@@ -246,7 +369,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         left={this.props.left}
         onMouseDown={this.mouseDownHandler}
       >
-        {this.getFilter()}
+        {this.getFilterWithTags()}
         {this.getList()}
         {this.getBottomLine()}
         {this.props.toolbar}

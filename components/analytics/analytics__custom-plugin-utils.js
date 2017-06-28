@@ -1,6 +1,8 @@
 import sniffer from '../global/sniffer';
 
 const AnalyticsCustomPluginUtils = {};
+const SECOND = 1000;
+const HOUR = 3600;
 
 /**
  * Statistics server does not accept undefined values and strings containing certain symbols
@@ -18,8 +20,8 @@ AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
 };
 
 AnalyticsCustomPluginUtils.getPageViewDurationPresentation = durationMs => {
-  const duration = durationMs / 1000;
-  if (duration > 3600) {
+  const duration = durationMs / SECOND;
+  if (duration > HOUR) {
     return 'more-than-hour';
   }
 
@@ -42,6 +44,7 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = () => {
   /**
    * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
    */
+// eslint-disable-next-line no-magic-numbers
   const sizes = [0, 768, 992, 1200];
   for (let i = 1; i < sizes.length; ++i) {
     if (window.innerWidth < sizes[i]) {

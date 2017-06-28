@@ -1,5 +1,5 @@
 /* global inject, angular */
-/* eslint-disable func-names */
+/* eslint-disable no-magic-numbers */
 
 import 'angular';
 import 'angular-mocks';
@@ -19,12 +19,13 @@ describe('Dialog Ng', () => {
   let $q;
   let $templateCache;
   let $rootScope;
-  let sandbox;
+  let sandboxEl;
   let text;
 
   beforeEach(window.module(
     Dialog,
     $controllerProvider => {
+      // eslint-disable-next-line func-names
       $controllerProvider.register('testCtrl', function () {
         this.text = text;
       });
@@ -45,14 +46,14 @@ describe('Dialog Ng', () => {
   }));
 
   beforeEach(() => {
-    sandbox = document.createElement('div');
-    document.body.append(sandbox);
+    sandboxEl = document.createElement('div');
+    document.body.append(sandboxEl);
   });
 
   afterEach(() => {
     $rootScope.$destroy();
     $templateCache.removeAll();
-    sandbox.remove();
+    sandboxEl.remove();
   });
 
   function showDialog(placeholderTemplate, contentTemplate, buttons = [], data = {}, options = {}) {
@@ -61,7 +62,7 @@ describe('Dialog Ng', () => {
     const element = $element[0];
     const ctrl = $element.controller('rgDialog');
 
-    sandbox.append(element);
+    sandboxEl.append(element);
 
     $templateCache.put('/test.html', contentTemplate);
     const promise = dialogInSidebar.show(Object.assign({
@@ -115,8 +116,8 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should trigger $destroy event on the scope when user close dialog', function () {
-      const onDestroy = this.sinon.stub();
+    it('should trigger $destroy event on the scope when user close dialog', () => {
+      const onDestroy = sandbox.stub();
 
       renderDialog({
         template: '<div/>',
@@ -133,8 +134,8 @@ describe('Dialog Ng', () => {
     describe('element $destroy', () => {
 
       let testDirectiveOnDestroyElement;
-      beforeEach(function () {
-        testDirectiveOnDestroyElement = this.sinon.stub();
+      beforeEach(() => {
+        testDirectiveOnDestroyElement = sandbox.stub();
         // eslint-disable-next-line angular/directive-name
         $compileProvider.directive('foo', function foo() {
           return {
@@ -196,9 +197,9 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow custom locals dependencies to the controller', function () {
+    it('should allow custom locals dependencies to the controller', () => {
       text = 'Hello';
-      const greetingService = this.sinon.stub().returns(text);
+      const greetingService = sandbox.stub().returns(text);
 
       const element = renderDialog({
         template: '<div class="content">{{text}}</div>',
@@ -213,9 +214,9 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should allow pass resolve object', function () {
+    it('should allow pass resolve object', () => {
       text = 'Hello';
-      const greetingResolver = this.sinon.stub().returns(text);
+      const greetingResolver = sandbox.stub().returns(text);
 
       const element = renderDialog({
         template: '<div class="content">{{text}}</div>',
@@ -230,11 +231,11 @@ describe('Dialog Ng', () => {
       element.query('form .content').should.have.html(text);
     });
 
-    it('should reject dialog promise on unsatisfied resolve', function () {
+    it('should reject dialog promise on unsatisfied resolve', () => {
       const errorDefer = $q.defer(); //eslint-disable-line angular/deferred
-      const serviceWhichThrowError = this.sinon.stub().
+      const serviceWhichThrowError = sandbox.stub().
         returns(errorDefer.promise);
-      const onError = this.sinon.stub();
+      const onError = sandbox.stub();
 
       const config = {
         content: undefined,
@@ -256,10 +257,10 @@ describe('Dialog Ng', () => {
     });
 
 
-    it('should allow pass promise to the resolve', function () {
+    it('should allow pass promise to the resolve', () => {
       text = 'Hello';
       const defer = $q.defer(); //eslint-disable-line angular/deferred
-      const greetingResolver = this.sinon.stub().returns(defer.promise);
+      const greetingResolver = sandbox.stub().returns(defer.promise);
 
       defer.resolve(text);
 
@@ -379,7 +380,7 @@ describe('Dialog Ng', () => {
     element.should.not.have.class('active');
   });
 
-  it('should merge ESC handler and still been closed by pressing Esc', function () {
+  it('should merge ESC handler and still been closed by pressing Esc', () => {
     const {element} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
@@ -387,7 +388,7 @@ describe('Dialog Ng', () => {
       {},
       {
         shortcuts: {
-          esc: this.sinon.spy()
+          esc: sandbox.spy()
         }
       }
     );
@@ -396,8 +397,8 @@ describe('Dialog Ng', () => {
     element.should.not.have.class('active');
   });
 
-  it('should call custom handler after pressing ESC', function () {
-    const callback = this.sinon.spy();
+  it('should call custom handler after pressing ESC', () => {
+    const callback = sandbox.spy();
     showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>',
@@ -462,12 +463,12 @@ describe('Dialog Ng', () => {
     element.query('.content').should.have.text('qwe');
   });
 
-  it('should broadcast the event after opening', function () {
+  it('should broadcast the event after opening', () => {
     const {scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    const callback = this.sinon.stub();
+    const callback = sandbox.stub();
     scope.$$childHead.$on('dialog.show', callback); // eslint-disable-line angular/no-private-call
     dialogInSidebar.show();
 
@@ -484,12 +485,12 @@ describe('Dialog Ng', () => {
     promise.should.have.property('catch');
   });
 
-  it('should resolve Promise on "done"', function () {
+  it('should resolve Promise on "done"', () => {
     const {promise, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
     );
-    const callback = this.sinon.stub();
+    const callback = sandbox.stub();
 
     promise.then(callback);
     dialogInSidebar.done();
@@ -498,8 +499,8 @@ describe('Dialog Ng', () => {
     callback.should.have.been.called;
   });
 
-  it('should resolve Promise on "reset" because reset/close is not exception', function () {
-    const callback = this.sinon.stub();
+  it('should resolve Promise on "reset" because reset/close is not exception', () => {
+    const callback = sandbox.stub();
 
     const {scope, promise} = showDialog(
       '<rg-dialog></rg-dialog>',
@@ -785,8 +786,8 @@ describe('Dialog Ng', () => {
       ctrl.active.should.be.true;
     });
 
-    it('should invoke an "action" callback attached to a button', function () {
-      const action = this.sinon.stub();
+    it('should invoke an "action" callback attached to a button', () => {
+      const action = sandbox.stub();
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',

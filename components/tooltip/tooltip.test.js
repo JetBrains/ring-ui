@@ -1,122 +1,128 @@
-/* eslint-disable func-names */
-
-import 'dom4';
 import React from 'react';
-import {unmountComponentAtNode} from 'react-dom';
 import {
-  isCompositeComponentWithType,
-  renderIntoDocument,
-  Simulate
+  isCompositeComponentWithType
 } from 'react-dom/test-utils';
+import {shallow, mount, render} from 'enzyme';
 
 import Popup from '../popup/popup';
 
 import Tooltip from './tooltip';
 
 describe('Tooltip', () => {
-  beforeEach(function () {
-    this.tooltip = renderIntoDocument(Tooltip.factory({
-      title: 'test tooltip',
-      className: 'test-class',
-      children: 'test elem'
-    }));
-  });
+  const defaultProps = {
+    title: 'test tooltip',
+    className: 'test-class',
+    children: 'test elem'
+  };
+  const shallowTooltip = props => shallow(<Tooltip {...defaultProps} {...props}/>);
+  const mountTooltip = props => mount(<Tooltip {...defaultProps} {...props}/>);
+  const renderTooltip = props => render(<Tooltip {...defaultProps} {...props}/>);
 
-  it('should create component', function () {
-    isCompositeComponentWithType(this.tooltip, Tooltip).should.be.true;
+  it('should create component', () => {
+    mountTooltip().should.have.type(Tooltip);
   });
 
   describe('Children', () => {
-    it('should wrap text children', function () {
-      this.tooltip.node.should.have.text('test elem');
-      this.tooltip.node.should.match('span');
+    it('should wrap text children', () => {
+      const wrapper = renderTooltip();
+      wrapper.should.have.text('test elem');
+      wrapper.should.have.tagName('span');
     });
 
     it('should wrap children', () => {
-      const tooltip = renderIntoDocument(Tooltip.factory({
+      const wrapper = renderTooltip({
         title: 'test tooltip',
         children: <span>{'test span'}</span>
-      }));
+      });
 
-      tooltip.node.should.match('span');
-      tooltip.node.firstChild.should.have.text('test span');
-      tooltip.node.firstChild.should.match('span');
+      wrapper.should.have.tagName('span');
+      wrapper.children().first().should.have.text('test span');
+      wrapper.children().first().should.have.tagName('span');
     });
 
-    it('should pass props to children', function () {
-      this.tooltip.node.should.have.class('test-class');
+    it('should pass props to children', () => {
+      shallowTooltip().should.have.className('test-class');
     });
 
-    it('should not pass title to children', function () {
-      this.tooltip.node.should.not.have.attribute('title');
+    it('should not pass title to children', () => {
+      shallowTooltip().should.not.have.prop('title');
     });
   });
 
   describe('Popup', () => {
-    it('should unbind listeners when empty title is provided', function () {
-      const bindEvents = this.sinon.spy(this.tooltip.node, 'removeEventListener');
+    it('should unbind listeners when empty title is provided', () => {
+      const wrapper = mountTooltip();
+      const bindEvents = sandbox.spy(wrapper.getDOMNode(), 'removeEventListener');
 
-      this.tooltip.rerender({
+      wrapper.setProps({
         title: ''
       });
 
-      bindEvents.should.have.been.called.twice;
+      bindEvents.should.have.been.calledTwice;
     });
 
-    it('should render popup', function () {
-      this.tooltip.showPopup();
+    it('should render popup', () => {
+      const wrapper = mountTooltip();
+      const instance = wrapper.instance();
+      instance.showPopup();
 
-      isCompositeComponentWithType(this.tooltip.popup, Popup).should.be.true;
+      isCompositeComponentWithType(instance.popup, Popup).should.be.true;
     });
 
-    it('should not render popup when empty title is provided', function () {
-      this.tooltip.rerender({
+    it('should not render popup when empty title is provided', () => {
+      const wrapper = mountTooltip({
         title: ''
       });
+      const instance = wrapper.instance();
 
-      this.tooltip.showPopup();
-      this.tooltip.popup.isVisible().should.be.false;
+      instance.showPopup();
+      instance.popup.isVisible().should.be.false;
     });
 
-    it('should render with delay when provided', function () {
-      const clock = this.sinon.useFakeTimers();
-      this.tooltip.rerender({
+    it('should render with delay when provided', () => {
+      const clock = sandbox.useFakeTimers();
+      const wrapper = mountTooltip({
         delay: 100
       });
+      const instance = wrapper.instance();
 
-      this.tooltip.showPopup();
+      instance.showPopup();
 
-      this.tooltip.popup.isVisible().should.be.false;
+      instance.popup.isVisible().should.be.false;
 
+      // eslint-disable-next-line no-magic-numbers
       clock.tick(200);
-      this.tooltip.popup.isVisible().should.be.true;
-
-      clock.restore();
+      instance.popup.isVisible().should.be.true;
     });
 
-    it('should pass custom props to popup', function () {
-      this.tooltip.rerender({
+    it('should pass custom props to popup', () => {
+      const wrapper = mountTooltip({
         popupProps: {
           className: 'tooltip-test-popup'
         }
       });
+      const instance = wrapper.instance();
 
-      this.tooltip.showPopup();
-      this.tooltip.popup.popup.should.have.class('tooltip-test-popup');
+      instance.showPopup();
+      instance.popup.popup.should.have.class('tooltip-test-popup');
     });
 
-    it('should close popup on unmount', function () {
-      this.tooltip.showPopup();
-      unmountComponentAtNode(this.tooltip.node.parentNode);
+    it('should close popup on unmount', () => {
+      const wrapper = shallowTooltip();
+      const instance = wrapper.instance();
+      instance.showPopup();
+      wrapper.unmount();
 
-      should.not.exist(this.tooltip.popup);
+      should.not.exist(instance.popup);
     });
 
-    it('should not close popup on click on tooltip', function () {
-      this.tooltip.showPopup();
-      Simulate.click(this.tooltip.node);
+    it('should not close popup on click on tooltip', () => {
+      const wrapper = mountTooltip();
+      const instance = wrapper.instance();
+      instance.showPopup();
+      wrapper.simulate('click');
 
-      this.tooltip.popup.isVisible().should.be.true;
+      instance.popup.isVisible().should.be.true;
     });
   });
 });

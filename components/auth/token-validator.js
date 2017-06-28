@@ -23,6 +23,7 @@ export default class TokenValidator {
   /**
    * @const {number}
    */
+  // eslint-disable-next-line no-magic-numbers
   static REFRESH_BEFORE = 20 * 60; // 20 min in s
 
   /**

@@ -1,36 +1,33 @@
 @value global: '../global/global.css';
 @value unit, border-radius, font-size-smaller from global;
-
 @value normal-color: #8C8C8C;
 @value valid-color: #89AF31;
 @value invalid-color: #C3120F;
 @value disabled-color: #C3120F;
-
 @value normal-background-color: #FFF;
 @value gray-background-color: #F8F8F8;
 @value disabled-background-color: #EBD9DA;
-
 @value normal-border-color: #F0F0F0;
 @value disabled-border-color: #EBD9DA;
 
 .badge {
   display: inline-block;
-  height: 20px;
+
   box-sizing: border-box;
-
+  height: 20px;
   padding: 0 unit;
-  border: 1px normal-border-color solid;
-  border-radius: border-radius;
-
-  color: normal-color;
-  background-color: normal-background-color;
-
-  font-style: normal;
-  font-weight: normal;
-  line-height: 17px;
-  font-size: font-size-smaller;
 
   vertical-align: baseline;
+
+  color: normal-color;
+  border: 1px normal-border-color solid;
+  border-radius: border-radius;
+  background-color: normal-background-color;
+
+  font-size: font-size-smaller;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 17px;
 
   &.gray {
     background-color: gray-background-color;
@@ -46,7 +43,7 @@
 
   &.disabled {
     color: disabled-color;
-    background-color: disabled-background-color;
     border-color: disabled-border-color;
+    background-color: disabled-background-color;
   }
 }

@@ -25,7 +25,7 @@ module.exports = config => {
 
 
     // frameworks to use
-    frameworks: ['mocha', 'chai', 'chai-as-promised', 'chai-dom', 'sinon-chai'],
+    frameworks: ['mocha'],
 
     files: [
       'test-helpers/test-suite.js'

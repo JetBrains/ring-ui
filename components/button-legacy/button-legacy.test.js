@@ -6,7 +6,7 @@ import TestUtils from 'react-dom/test-utils';
 
 import Button from './button-legacy';
 
-describe('Button', () => {
+describe('Button legacy', () => {
   beforeEach(function () {
     this.button = TestUtils.renderIntoDocument(React.createElement(Button));
   });

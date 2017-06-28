@@ -1,6 +1,4 @@
 /* global inject */
-/* eslint-disable func-names */
-
 import 'dom4';
 import 'angular';
 import 'angular-mocks';
@@ -86,9 +84,9 @@ describe('Promised Click Ng', () => {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should call the given callback by clicking', function () {
+    it('should call the given callback by clicking', () => {
       const {element, ctrl} = buildPromisedClick();
-      const callback = this.sinon.stub();
+      const callback = sandbox.stub();
       ctrl.onClick(callback);
       element.dispatchEvent(click);
 
@@ -131,9 +129,9 @@ describe('Promised Click Ng', () => {
       element.should.not.have.class('ring-button_active');
     });
 
-    it('should call the given callback', function () {
+    it('should call the given callback', () => {
       const {ctrl} = buildPromisedClick();
-      const callback = this.sinon.stub();
+      const callback = sandbox.stub();
       ctrl.process(callback);
 
       callback.should.have.been.called;

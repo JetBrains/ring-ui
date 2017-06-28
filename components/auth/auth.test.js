@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
 
@@ -10,6 +8,8 @@ import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
+
+const HOUR = 3600;
 
 describe('Auth', () => {
   describe('construction', () => {
@@ -25,7 +25,9 @@ describe('Auth', () => {
         request_credentials: 'value',
         client_id: 'value'
         /* eslint-enable camelcase */
-      })).to.throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
+      })).
+        to.
+        throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
     });
 
     it('should require provide server uri', () => {
@@ -69,15 +71,15 @@ describe('Auth', () => {
       });
     });
 
-    it('should not redirect on object construction', function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+    it('should not redirect on object construction', () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       // eslint-disable-next-line no-new
       new Auth({serverUri: ''});
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
     });
 
-    it('should subscribe on logout if passed', function () {
-      const onLogout = this.sinon.stub();
+    it('should subscribe on logout if passed', () => {
+      const onLogout = sandbox.stub();
 
       const auth = new Auth({
         serverUri: '',
@@ -89,8 +91,8 @@ describe('Auth', () => {
       onLogout.should.have.been.called;
     });
 
-    it('should perform redirect on userChange by default', function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+    it('should perform redirect on userChange by default', () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({serverUri: ''});
       auth.listeners.trigger('userChange');
@@ -98,8 +100,8 @@ describe('Auth', () => {
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
 
-    it('should not perform redirect on userChange when reloadOnUserChange is false', function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
+    it('should not perform redirect on userChange when reloadOnUserChange is false', () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({
         reloadOnUserChange: false,
@@ -130,30 +132,30 @@ describe('Auth', () => {
       optionalScopes: ['youtrack']
     });
 
-    beforeEach(function () {
-      this.sinon.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
-      this.sinon.stub(Auth.prototype, '_saveCurrentService');
-      this.sinon.stub(Auth.prototype, 'setHash');
+    beforeEach(() => {
+      sandbox.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
+      sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(Auth.prototype, 'setHash');
     });
 
     afterEach(() => Promise.all([auth._storage.cleanStates(), auth._storage.wipeToken()]));
 
-    it('should resolve to undefined if there is a valid token', async() => {
+    it('should resolve to undefined if there is a valid token', async () => {
       await auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
       auth.init().should.eventually.be.undefined;
     });
 
-    it('should fetch auth response from query parameters', async function () {
+    it('should fetch auth response from query parameters', async () => {
       const frozenTime = TokenValidator._epoch();
 
-      this.sinon.stub(AuthResponseParser.prototype, 'getLocation').
+      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
         returns('http://localhost:8080/hub' +
           '#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600');
-      this.sinon.stub(TokenValidator, '_epoch').returns(frozenTime);
+      sandbox.stub(TokenValidator, '_epoch').returns(frozenTime);
 
       auth = new Auth({
         serverUri: '',
@@ -172,12 +174,12 @@ describe('Auth', () => {
       token.should.be.deep.equal({
         accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
-        expires: frozenTime + 3600
+        expires: frozenTime + HOUR
       });
     });
 
-    it('should not throw error if user does not have state in local storage', function () {
-      this.sinon.stub(AuthResponseParser.prototype, 'getLocation').
+    it('should not throw error if user does not have state in local storage', () => {
+      sandbox.stub(AuthResponseParser.prototype, 'getLocation').
         returns('http://localhost:8080/hub' +
           '#access_token=000&state=state&token_type=token&expires_in=3600');
 
@@ -192,9 +194,9 @@ describe('Auth', () => {
       return auth.init().should.be.fulfilled;
     });
 
-    it('should redirect to auth when there is no valid token', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    it('should redirect to auth when there is no valid token', async () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -216,10 +218,10 @@ describe('Auth', () => {
       }
     });
 
-    it('should clear location hash if cleanHash = true', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      this.sinon.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
+    it('should clear location hash if cleanHash = true', async () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
         returns({});
 
       auth = new Auth({
@@ -237,9 +239,9 @@ describe('Auth', () => {
 
     it(
       'should not clear location hash if cleanHash = true and there is nothing to clear',
-      async function () {
-        this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-        this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      async () => {
+        sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+        sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
         auth = new Auth({
           serverUri: '',
@@ -255,10 +257,10 @@ describe('Auth', () => {
       }
     );
 
-    it('should not clear location hash if cleanHash = false', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-      this.sinon.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
+    it('should not clear location hash if cleanHash = false', async () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      sandbox.stub(AuthResponseParser.prototype, 'getAuthResponseFromURL').
         returns({});
 
       auth = new Auth({
@@ -275,9 +277,9 @@ describe('Auth', () => {
 
     });
 
-    it('should pass through request_credentials value', async function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    it('should pass through request_credentials value', async () => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -299,13 +301,13 @@ describe('Auth', () => {
   describe('background init', () => {
     let auth;
 
-    beforeEach(function () {
-      this.sinon.stub(TokenValidator.prototype, '_getValidatedToken').
+    beforeEach(() => {
+      sandbox.stub(TokenValidator.prototype, '_getValidatedToken').
         returns(Promise.reject({authRedirect: true}));
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(Auth.prototype, 'getUser');
-      this.sinon.stub(Auth.prototype, '_saveCurrentService');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(Auth.prototype, 'getUser');
+      sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
         serverUri: '',
@@ -319,14 +321,14 @@ describe('Auth', () => {
       auth._storage._tokenStorage = auth._storage._stateStorage = new MockedStorage();
     });
 
-    it('should initiate when there is no valid token', async function () {
+    it('should initiate when there is no valid token', async () => {
       TokenValidator.prototype._getValidatedToken.onCall(1).
         returns(Promise.resolve('token'));
 
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -346,11 +348,11 @@ describe('Auth', () => {
       TokenValidator.prototype._getValidatedToken.should.have.been.calledTwice;
     });
 
-    it('should initiate and fall back to redirect when token check fails', async function () {
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+    it('should initiate and fall back to redirect when token check fails', async () => {
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
@@ -379,8 +381,8 @@ describe('Auth', () => {
       }
     });
 
-    it('should initiate and fall back to redirect when guest is banned', async function () {
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+    it('should initiate and fall back to redirect when guest is banned', async () => {
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveState('unique', {error: {code: 'access_denied'}});
       });
 
@@ -407,13 +409,14 @@ describe('Auth', () => {
   });
 
   describe('requestToken', () => {
-    beforeEach(function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
-      this.sinon.stub(Auth.prototype, '_saveCurrentService');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    let auth;
+    beforeEach(() => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
+      sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
-      this.auth = new Auth({
+      auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
@@ -421,33 +424,31 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.auth._storage._tokenStorage = new MockedStorage();
-      this.auth._initDeferred.resolve();
+      auth._storage._tokenStorage = new MockedStorage();
+      auth._initDeferred.resolve();
     });
 
-    afterEach(function () {
-      return Promise.all([this.auth._storage.cleanStates(), this.auth._storage.wipeToken()]);
-    });
+    afterEach(() => Promise.all([auth._storage.cleanStates(), auth._storage.wipeToken()]));
 
-    it('should resolve to access token if there is a valid one', async function () {
-      await this.auth._storage.saveToken({
+    it('should resolve to access token if there is a valid one', async () => {
+      await auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
-      const token = await this.auth.requestToken();
+      const token = await auth.requestToken();
       token.should.be.equal('token');
     });
 
-    it('should get token in iframe if there is no valid token', async function () {
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
-        this.auth._storage.saveToken({
+    it('should get token in iframe if there is no valid token', async () => {
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+        auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
-      const accessToken = await this.auth.requestToken();
+      const accessToken = await auth.requestToken();
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
           '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
@@ -461,16 +462,16 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should reload page', async function () {
-      this.auth.user = {id: 'initUser'};
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
-        this.auth._storage.saveToken({
+    it('should reload page', async () => {
+      auth.user = {id: 'initUser'};
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
+        auth._storage.saveToken({
           accessToken: 'token',
-          expires: TokenValidator._epoch() + 60 * 60,
+          expires: TokenValidator._epoch() + HOUR,
           scopes: ['0-0-0-0-0']
         });
       });
-      const accessToken = await this.auth.requestToken();
+      const accessToken = await auth.requestToken();
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
@@ -479,11 +480,11 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should redirect current page if get token in iframe fails', async function () {
-      this.auth._backgroundFlow._timeout = 100;
-      this.sinon.stub(BackgroundFlow.prototype, '_redirectFrame');
+    it('should redirect current page if get token in iframe fails', async () => {
+      auth._backgroundFlow._timeout = 100;
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
       try {
-        await this.auth.requestToken();
+        await auth.requestToken();
       } catch (reject) {
         BackgroundFlow.prototype._redirectFrame.should.have.been.
           calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token&state=unique' +
@@ -501,7 +502,7 @@ describe('Auth', () => {
   describe('requestUser', () => {
     let auth;
 
-    beforeEach(function () {
+    beforeEach(() => {
       auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
@@ -510,8 +511,8 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      this.sinon.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
-      this.sinon.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
+      sandbox.stub(Auth.prototype, '_saveCurrentService');
     });
 
     it('should return existing user', async () => {
@@ -525,11 +526,11 @@ describe('Auth', () => {
       user.should.equal(auth.user);
     });
 
-    it('should get user from API', async function () {
+    it('should get user from API', async () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      this.sinon.stub(Auth.prototype, 'requestToken').resolves('token');
+      sandbox.stub(Auth.prototype, 'requestToken').resolves('token');
 
       const user = await auth.requestUser();
       Auth.prototype.getUser.should.have.been.calledOnce;
@@ -539,7 +540,7 @@ describe('Auth', () => {
     it('should wait for user saved during validation', async () => {
       await auth._storage.saveToken({
         accessToken: 'token',
-        expires: TokenValidator._epoch() + 60 * 60,
+        expires: TokenValidator._epoch() + HOUR,
         scopes: ['0-0-0-0-0']
       });
       await auth._tokenValidator.validateToken();
@@ -553,7 +554,7 @@ describe('Auth', () => {
   describe('getUser', () => {
     let auth;
 
-    beforeEach(function () {
+    beforeEach(() => {
       auth = new Auth({
         serverUri: '',
         redirectUri: 'http://localhost:8080/hub',
@@ -564,7 +565,7 @@ describe('Auth', () => {
       auth._initDeferred = {};
       auth._initDeferred.promise = Promise.resolve();
 
-      this.sinon.stub(HTTP.prototype, 'authorizedFetch').resolves({name: 'APIuser'});
+      sandbox.stub(HTTP.prototype, 'authorizedFetch').resolves({name: 'APIuser'});
     });
 
     it('should not return existing user', async () => {
@@ -594,24 +595,24 @@ describe('Auth', () => {
       serverUri: ''
     });
 
-    beforeEach(function () {
-      this.sinon.stub(BackgroundFlow.prototype, 'authorize').
+    beforeEach(() => {
+      sandbox.stub(BackgroundFlow.prototype, 'authorize').
         returns(Promise.resolve('token'));
-      this.sinon.stub(Auth.prototype, '_saveCurrentService');
-      this.sinon.stub(Auth.prototype, 'logout');
-      this.sinon.stub(auth.listeners, 'trigger');
+      sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(Auth.prototype, 'logout');
+      sandbox.stub(auth.listeners, 'trigger');
     });
 
-    it('should call getUser', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser');
+    it('should call getUser', async () => {
+      sandbox.stub(Auth.prototype, 'getUser');
 
       await auth.login();
 
       auth.getUser.should.have.been.calledWith('token');
     });
 
-    it('should trigger userChange', async function () {
-      this.sinon.stub(Auth.prototype, 'getUser').returns({name: 'APIuser'});
+    it('should trigger userChange', async () => {
+      sandbox.stub(Auth.prototype, 'getUser').returns({name: 'APIuser'});
 
       await auth.login();
 
@@ -619,9 +620,9 @@ describe('Auth', () => {
         calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
     });
 
-    it('should update user in instance', async function () {
+    it('should update user in instance', async () => {
       const APIuser = {name: 'APIuser'};
-      this.sinon.stub(Auth.prototype, 'getUser').resolves(APIuser);
+      sandbox.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
       const user = {name: 'existingUser'};
       auth.user = user;
@@ -631,17 +632,17 @@ describe('Auth', () => {
       auth.user.should.equal(APIuser);
     });
 
-    it('should call _beforeLogout for guest', async function () {
-      this.sinon.stub(Auth.prototype, '_beforeLogout');
-      this.sinon.stub(Auth.prototype, 'getUser').resolves({guest: true});
+    it('should call _beforeLogout for guest', async () => {
+      sandbox.stub(Auth.prototype, '_beforeLogout');
+      sandbox.stub(Auth.prototype, 'getUser').resolves({guest: true});
       await auth.login();
 
       auth._beforeLogout.should.have.been.calledOnce;
     });
 
-    it('should call _beforeLogout on reject', async function () {
-      this.sinon.stub(Auth.prototype, '_beforeLogout');
-      this.sinon.stub(Auth.prototype, 'getUser').rejects();
+    it('should call _beforeLogout on reject', async () => {
+      sandbox.stub(Auth.prototype, '_beforeLogout');
+      sandbox.stub(Auth.prototype, 'getUser').rejects();
       await auth.login();
 
       auth._beforeLogout.should.have.been.calledOnce;
@@ -657,9 +658,9 @@ describe('Auth', () => {
       optionalScopes: ['youtrack']
     });
 
-    beforeEach(function () {
-      this.sinon.stub(Auth.prototype, '_redirectCurrentPage');
-      this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
+    beforeEach(() => {
+      sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
     });
 
     it('should clear access token and redirect to logout', async () => {
@@ -696,8 +697,8 @@ describe('Auth', () => {
 
     it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);
 
-    it('should fail pass when onLogout returns rejected promise', async function () {
-      const onLogout = this.sinon.spy();
+    it('should fail pass when onLogout returns rejected promise', async () => {
+      const onLogout = sandbox.spy();
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout
@@ -718,8 +719,8 @@ describe('Auth', () => {
 
     it('should logout when no onLogout passed', () => auth.logout().should.be.fulfilled);
 
-    it('should fail pass when onLogout returns rejected promise', async function () {
-      const onLogout = this.sinon.spy();
+    it('should fail pass when onLogout returns rejected promise', async () => {
+      const onLogout = sandbox.spy();
       const logoutAuth = new Auth({
         serverUri: '',
         onLogout

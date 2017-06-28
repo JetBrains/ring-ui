@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Input from '../input/input';
 
-import styles from './select.css';
+import styles from './select-popup.css';
 
 function noop() {}
 

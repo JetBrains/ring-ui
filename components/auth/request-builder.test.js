@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import AuthRequestBuilder from './request-builder';
 
 describe('Auth', () => {
@@ -12,9 +10,9 @@ describe('Auth', () => {
         clientId: '0-0-0-0-0',
         scopes: ['youtrack', 'teamcity', 'vcs settings']
       };
-      beforeEach(function () {
-        this.sinon.stub(AuthRequestBuilder, '_uuid').returns('unique');
-        this.sinon.stub(AuthRequestBuilder.prototype, '_saveState').
+      beforeEach(() => {
+        sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
+        sandbox.stub(AuthRequestBuilder.prototype, '_saveState').
           callsFake(() => Promise.resolve());
       });
 
