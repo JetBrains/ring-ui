@@ -117,22 +117,26 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   removeSelectedTag() {
     if (this.state.tagsActiveIndex != null) {
       this.removeTag(this.props.selected[this.state.tagsActiveIndex]);
+      return false;
     }
+    return true;
   }
 
   handleBackspace(event) {
     if (!this.isEventTargetFilter(event)) {
       this.removeSelectedTag();
-      return;
+      return false;
     }
     if (!event.target.value) {
       this.removeTag();
+      return false;
     }
+    return true;
   }
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
   popupFilterOnBlur = () => {
-    if (!this.state.tagsActiveIndex) {
+    if (this.state.tagsActiveIndex === null) {
       this._togglePopupFilterShortcuts(true);
     }
   };
