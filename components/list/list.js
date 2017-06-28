@@ -474,7 +474,7 @@ export default class List extends RingComponentWithShortcuts {
       switch (data[i].rgItemType) {
         case Type.SEPARATOR:
           size = i === 0 ? Dimension.SEPARATOR_FIRST_HEIGHT : Dimension.SEPARATOR_HEIGHT;
-          if (!data[i].desctiption) {
+          if (!data[i].description) {
             size -= Dimension.SEPARATOR_TEXT_HEIGHT;
           }
           break;
