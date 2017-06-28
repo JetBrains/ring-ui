@@ -50,6 +50,10 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
     cleanHash: false //prevents infinite redirect on angular>1.2.26
   };
 
+  this.init = authInstance => {
+    auth = authInstance;
+  };
+
   /**
    * @param {{
    *   serverUri: string,
