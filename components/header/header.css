@@ -99,3 +99,17 @@
   white-space: nowrap;
 }
 
+.hasUpdates::after {
+  position: absolute;
+  top: calc(unit * 4 - 1);
+  left: calc(unit * 2);
+
+  display: block;
+
+  width: calc(unit * 3);
+  height: 2px;
+
+  content: '';
+
+  background-color: link-hover-color;
+}
