@@ -1,97 +1,96 @@
-/* eslint-disable func-names */
-
 import React from 'react';
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import RadioItem from './radio__item';
 
 describe('Radio Item', () => {
-  beforeEach(function () {
-    this.renderRadioItem = props => renderIntoDocument(
-      <RadioItem
-        checked={false}
-        value="test"
-        {...props}
-      >
-        {'test'}
-      </RadioItem>
-    );
+  const factory = props => (
+    <RadioItem
+      checked={false}
+      value="test"
+      {...props}
+    >
+      {'test'}
+    </RadioItem>
+  );
+  const mountRadioItem = props => mount(factory(props));
+  const shallowRadioItem = props => shallow(factory(props));
+
+  it('should create component', () => {
+    shallowRadioItem().should.exist;
   });
 
-  it('should create component', function () {
-    this.renderRadioItem().should.exist;
+  it('should render radio item', () => {
+    mountRadioItem().instance().input.should.have.property('type', 'radio');
   });
 
-  it('should render radio item', function () {
-    this.renderRadioItem().input.should.have.property('type', 'radio');
+  it('should generate id if not passed', () => {
+    mountRadioItem().instance().input.should.have.property('id');
   });
 
-  it('should generate id if not passed', function () {
-    this.renderRadioItem().input.should.have.property('id');
+  it('should generate unique id', () => {
+    const firstRadioItem = mountRadioItem();
+    const secondRadioItem = mountRadioItem();
+    const secondRadioId = secondRadioItem.instance().input.getAttribute('id');
+    firstRadioItem.instance().input.should.not.have.id(secondRadioId);
   });
 
-  it('should generate unique id', function () {
-    const firstRadioItem = this.renderRadioItem();
-    const secondRadioItem = this.renderRadioItem();
-    const secondRadioId = secondRadioItem.input.getAttribute('id');
-    firstRadioItem.input.should.not.have.id(secondRadioId);
-  });
-
-  it('should set custom id', function () {
-    const radioItem = this.renderRadioItem({
+  it('should set custom id', () => {
+    const radioItem = mountRadioItem({
       id: 'test'
     });
 
-    radioItem.input.should.have.id('test');
+    radioItem.instance().input.should.have.id('test');
   });
 
-  it('should set name', function () {
-    const radioItem = this.renderRadioItem({
+  it('should set name', () => {
+    const radioItem = mountRadioItem({
       name: 'test'
     });
 
-    radioItem.input.should.have.property('name', 'test');
+    radioItem.instance().input.should.have.property('name', 'test');
   });
 
-  it('should call handler for click event', function () {
-    const clickHandler = sinon.stub();
-    const radioItem = this.renderRadioItem({
+  it('should call handler for click event', () => {
+    const clickHandler = sandbox.stub();
+    const radioItem = mountRadioItem({
       onClick: clickHandler
     });
 
-    Simulate.click(radioItem.input);
+    Simulate.click(radioItem.instance().input);
     clickHandler.should.have.been.called;
   });
 
-  it('should be unchecked by default', function () {
-    const radioItem = this.renderRadioItem();
+  it('should be unchecked by default', () => {
+    const radioItem = mountRadioItem();
 
-    radioItem.input.should.not.have.property('checked', true);
+    radioItem.instance().input.should.not.have.property('checked', true);
   });
 
-  it('should check control', function () {
-    const radioItem = this.renderRadioItem({
+  it('should check control', () => {
+    const radioItem = mountRadioItem({
       checked: true,
       onChange: () => {} // avoid "checked without onChange" warning
     });
 
-    radioItem.input.should.have.property('checked', true);
+    radioItem.instance().input.should.have.property('checked', true);
   });
 
-  it('should be disabled', function () {
-    const radioItem = this.renderRadioItem({
+  it('should be disabled', () => {
+    const radioItem = mountRadioItem({
       disabled: true
     });
 
-    radioItem.input.should.be.disabled;
+    radioItem.instance().input.should.be.disabled;
   });
 
 
-  it('should connect labels with input by id', function () {
-    const radioItem = this.renderRadioItem();
-    const id = radioItem.input.getAttribute('id');
+  it('should connect labels with input by id', () => {
+    const radioItem = mountRadioItem();
+    const id = radioItem.instance().input.getAttribute('id');
 
-    radioItem.label.should.have.attribute('for', id);
-    radioItem.textLabel.should.have.attribute('for', id);
+    radioItem.instance().label.should.have.attribute('for', id);
+    radioItem.instance().textLabel.should.have.attribute('for', id);
   });
 });

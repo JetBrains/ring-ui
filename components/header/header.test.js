@@ -1,26 +1,22 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Header from './header';
 
 describe('Header', () => {
-  const renderComponent = props => renderIntoDocument(<Header {...props}/>);
+  const shallowHeader = props => shallow(<Header {...props}/>);
+  const mountHeader = props => mount(<Header {...props}/>);
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Header).should.be.true;
+    mountHeader().should.have.type(Header);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowHeader().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowHeader({className: 'test-class'}).should.have.className('test-class');
   });
 
   // TODO Add more tests

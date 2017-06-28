@@ -1,68 +1,67 @@
-/* eslint-disable func-names */
-
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import ProgressBar from './progress-bar';
 
 describe('Progress Bar', () => {
-  beforeEach(function () {
-    this.progress = renderIntoDocument(React.createElement(ProgressBar));
-  });
+  const shallowProgressBar = props => shallow(<ProgressBar {...props}/>);
+  const mountProgressBar = props => mount(<ProgressBar {...props}/>);
 
-  it('should create component', function () {
-    this.progress.should.exist;
+  it('should create component', () => {
+    shallowProgressBar().should.exist;
   });
 
   describe('default value for attributes', () => {
-    it('should set default value for max attribute', function () {
-      this.progress.props.max.should.equal(1.0);
+    it('should set default value for max attribute', () => {
+      mountProgressBar().should.have.prop('max', 1.0);
     });
   });
 
   describe('client interaction with progress bar API', () => {
-    it('should set max value for progress bar', function () {
+    it('should set max value for progress bar', () => {
       const MAX = 100;
 
-      this.progress.rerender({
+      const wrapper = mountProgressBar({
         max: MAX
       });
 
-      this.progress.props.max.should.equal(MAX);
+      wrapper.should.have.prop('max', MAX);
     });
 
-    it('should set progress task value', function () {
+    it('should set progress task value', () => {
       const MIDDLE = 0.5;
 
-      this.progress.rerender({
+      const wrapper = mountProgressBar({
         value: MIDDLE
       });
 
-      this.progress.props.value.should.equal(MIDDLE);
+      wrapper.should.have.prop('value', MIDDLE);
     });
 
-    it('should set additional classes(modifiers) to the component', function () {
-      this.progress.rerender({
+    it('should set additional classes(modifiers) to the component', () => {
+      const wrapper = mountProgressBar({
         className: 'ring-button__loader'
       });
 
-      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-button__loader');
+      findDOMNode(wrapper.instance().progressbarWrapper).should.have.class('ring-button__loader');
     });
 
-    it('should set light modifier', function () {
-      this.progress.rerender({
+    it('should set light modifier', () => {
+      const wrapper = mountProgressBar({
         light: true
       });
-      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-progress-bar_light');
+      findDOMNode(wrapper.instance().progressbarWrapper).
+        should.have.class('ring-progress-bar_light');
     });
 
-    it('should set global modifier', function () {
-      this.progress.rerender({
+    it('should set global modifier', () => {
+      const wrapper = mountProgressBar({
         global: true
       });
 
-      findDOMNode(this.progress.progressbarWrapper).should.have.class('ring-progress-bar_global');
+      findDOMNode(wrapper.instance().progressbarWrapper).
+        should.have.class('ring-progress-bar_global');
     });
   });
 
@@ -71,41 +70,42 @@ describe('Progress Bar', () => {
    * component's state
    */
   describe('#render', () => {
-    it('should set min value to equal zero', function () {
-      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuemin', '0');
+    it('should set min value to equal zero', () => {
+      const wrapper = mountProgressBar();
+      findDOMNode(wrapper.instance().progressbar).should.have.attr('aria-valuemin', '0');
     });
 
-    it('should update max value in DOM', function () {
-      this.progress.rerender({
+    it('should update max value in DOM', () => {
+      const wrapper = mountProgressBar({
         max: 100
       });
 
-      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuemax', '100');
+      findDOMNode(wrapper.instance().progressbar).should.have.attr('aria-valuemax', '100');
     });
 
-    it('should update progress value in DOM', function () {
-      this.progress.rerender({
+    it('should update progress value in DOM', () => {
+      const wrapper = mountProgressBar({
         value: 0.5
       });
 
-      findDOMNode(this.progress.progressbar).should.have.attr('aria-valuenow', '0.5');
-      findDOMNode(this.progress.progressbar).should.have.attr('style').match(/width: 50%;/);
+      findDOMNode(wrapper.instance().progressbar).should.have.attr('aria-valuenow', '0.5');
+      findDOMNode(wrapper.instance().progressbar).should.have.attr('style').match(/width: 50%;/);
     });
 
-    it('should set width equal 100% if progress value more than max value', function () {
-      this.progress.rerender({
+    it('should set width equal 100% if progress value more than max value', () => {
+      const wrapper = mountProgressBar({
         max: 1.0,
         value: 10
       });
 
-      findDOMNode(this.progress.progressbar).should.have.attr('style').match(/width: 100%;/);
+      findDOMNode(wrapper.instance().progressbar).should.have.attr('style').match(/width: 100%;/);
     });
 
-    it('should not set style if value is not a number', function () {
-      this.progress.rerender({
+    it('should not set style if value is not a number', () => {
+      const wrapper = mountProgressBar({
         value: null
       });
-      findDOMNode(this.progress.progressbar).should.not.have.attr('style');
+      findDOMNode(wrapper.instance().progressbar).should.not.have.attr('style');
     });
   });
 });

@@ -35,7 +35,8 @@ export default class ErrorMessage extends Component {
     return (
       <div className={classes}>
         {icon && (
-          <Icon className={styles.icon}
+          <Icon
+            className={styles.icon}
             glyph={icon}
             size={Size.Size64}
             color={Color.GRAY}

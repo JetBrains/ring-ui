@@ -10,12 +10,15 @@
     import GroupIcon from 'jetbrains-icons/group.svg';
 
     import Tag from 'ring-ui/components/tag/tag';
+    import hubConfig from 'ring-ui/site/hub-config';
 
+    const url = `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`
     const renderBadgeDemo = () => (
       <span>
         <Tag>Simple</Tag>
         <Tag readOnly={true}>Read-only</Tag>
         <Tag rgTagIcon={GroupIcon} rgTagTitle="I am an icon title">With icon title</Tag>
+        <Tag avatar={url} rgTagTitle="Tags with image" readOnly={true}>With avatar</Tag>
       </span>
     );
 

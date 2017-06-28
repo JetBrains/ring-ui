@@ -1,9 +1,10 @@
 @value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color from '../components/global/global.css';
 
-html, body {
-  padding: 0;
-  margin: 0;
+html,
+body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .app {
@@ -12,11 +13,13 @@ html, body {
 
 .sidebar {
   margin: 26px 0;
+
   line-height: calc(unit * 3);
 }
 
 .main > div:last-child {
   flex-grow: 1;
+
   min-width: 0;
 }
 
@@ -25,7 +28,7 @@ html, body {
 }
 
 .list {
-  margin: -2px 0 0 calc(- unit * 2);
+  margin: -2px 0 0 calc(unit * -2);
 }
 
 .list p {
@@ -54,21 +57,26 @@ a.legacy {
 }
 
 .frame {
-  min-height: 500px;
   width: 100%;
+  min-height: 500px;
+
   border: 1px solid line-color;
 }
 
 .exampleLink {
   /* override Link */
   && {
-    display: block;
     position: absolute;
     right: 0;
     bottom: 6px;
-    border: 1px solid line-color;
-    font-size: font-size;
+
+    display: block;
+
     padding: unit;
+
+    border: 1px solid line-color;
     background: white-color;
+
+    font-size: font-size;
   }
 }

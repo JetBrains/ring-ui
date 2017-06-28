@@ -2,7 +2,9 @@
 
 .heading {
   composes: font;
+
   margin-top: line-height;
+
   &:first-child {
     margin-top: 0;
   }
@@ -12,40 +14,46 @@
   }
 
   @nest h1& {
+    margin-bottom: 8px;
+
     font-size: 24px;
     line-height: 28px;
-    margin-bottom: 8px;
   }
 
   @nest h2& {
+    margin-bottom: 4px;
+
     font-size: 20px;
     line-height: 24px;
-    margin-bottom: 4px;
   }
 
   @nest h3& {
+    margin-bottom: 1px;
+
     font-size: 16px;
     line-height: 20px;
-    margin-bottom: 1px;
   }
 
   @nest h4& {
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: normal;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     margin-bottom: 1px;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 16px;
   }
 
   @nest h5&, h6& {
+    margin-bottom: 1px;
+
     font-size: 13px;
     line-height: 18px;
-    margin-bottom: 1px;
   }
 }
 
 .caps {
-  text-transform: uppercase;
   letter-spacing: 2px;
+  text-transform: uppercase;
 }

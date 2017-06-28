@@ -3,7 +3,6 @@ import HTTP, {defaultFetchConfig} from './http';
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
   let fakeAuth;
-  let sandbox;
   let http;
   let fetchResult;
 
@@ -15,8 +14,7 @@ describe('HTTP', () => {
     });
   }
 
-  beforeEach(function () {
-    sandbox = this.sinon;
+  beforeEach(function beforeEach() {
     fakeAuth = {
       constructor: {
         shouldRefreshToken: sandbox.stub().returns(false)
@@ -71,7 +69,7 @@ describe('HTTP', () => {
     http._fetch.resolves({
       status: 200,
       headers: new Headers({'content-type': 'text/html'}),
-      json: async () => sinon.spy(),
+      json: async () => sandbox.spy(),
       text: async () => 'some text'
     });
 
@@ -119,7 +117,7 @@ describe('HTTP', () => {
       json: async () => fetchResult
     });
 
-    const onError = sinon.spy();
+    const onError = sandbox.spy();
     await http.request('testurl').catch(onError);
 
     onError.should.have.been.called;

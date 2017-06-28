@@ -1,3 +1,55 @@
+<example name="Select with a filter with tags">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="css">
+    body {
+    padding: 8px;
+    width: 50%;
+    }
+  </file>
+  <file type="js">
+    import {render} from 'react-dom';
+    import hubConfig from 'ring-ui/site/hub-config';
+    import Select from 'ring-ui/components/select/select';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    var props = {
+      tags: true,
+      multiple: true,
+      filter: {
+        placeholder: 'Search'
+      }
+    };
+    const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
+
+
+    const tags = [
+      {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
+      {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      },
+      {
+        'label': 'With avatar',
+        key: 5,
+        icon: avatarUrl,
+        avatar: avatarUrl
+      }
+    ];
+    var data = {
+      data: tags,
+      selected: [tags[0]]
+    };
+
+    var select = render(Select.factory(props), document.getElementById('demo'))
+    select.rerender(data);
+  </file>
+</example>
+
 <example name="Select with a filter">
   <file type="html">
     <p>test</p>
@@ -6,8 +58,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
 
     :global(.demo) {
@@ -121,8 +173,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
   <file type="js">
@@ -154,8 +206,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
   <file type="js">
@@ -211,8 +263,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -237,8 +289,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -266,8 +318,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -293,8 +345,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -358,8 +410,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -397,8 +449,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -445,8 +497,8 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
   </file>
 </example>
@@ -486,8 +538,43 @@
   </file>
   <file type="css">
     body {
-      padding: 8px;
-      width: 50%;
+    padding: 8px;
+    width: 50%;
     }
+  </file>
+</example>
+
+<example name="Select with render optimization">
+  <file type="html">
+    <div id="demo"></div>
+  </file>
+  <file type="css">
+    body {
+    padding: 8px;
+    width: 50%;
+    }
+  </file>
+  <file type="js">
+    import {render} from 'react-dom';
+    import Select from 'ring-ui/components/select/select';
+    import List from 'ring-ui/components/list/list';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    var props = {
+      filter: true
+    };
+
+    var data = {
+      data: (new Array(1000)).join(',').split(',').map(function (_, index) {
+        return {
+          label: 'Label ' + index,
+          key: index,
+          rgItemType: index % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
+        }
+      })
+    };
+
+    var select = render(Select.factory(props), document.getElementById('demo'))
+    select.rerender(data);
   </file>
 </example>

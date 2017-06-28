@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import 'angular';
 import 'angular-mocks';
 import './table-legacy-ng';
@@ -80,7 +81,7 @@ describe('Table Legacy Ng', () => {
     const fakeEvent = {};
 
     beforeEach(() => {
-      fakeEvent.emitEvent = sinon.stub();
+      fakeEvent.emitEvent = sandbox.stub();
       selection = new TableSelection(fakeData.items, fakeEvent.emitEvent.bind(fakeEvent));
     });
 

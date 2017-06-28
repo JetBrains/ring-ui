@@ -1,12 +1,17 @@
 import 'dom4';
 import React from 'react';
-import {render, findDOMNode} from 'react-dom';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
-import Code, {code} from './code';
+import Code from './code';
 
 describe('Code', () => {
-  const renderComponent = props => renderIntoDocument(
+  const shallowCode = props => shallow(
+    <Code
+      code=""
+      {...props}
+    />
+  );
+  const mountCode = props => mount(
     <Code
       code=""
       {...props}
@@ -14,19 +19,19 @@ describe('Code', () => {
   );
 
   it('should wrap children with pre', () => {
-    findDOMNode(renderComponent()).should.match('pre');
+    shallowCode().should.have.tagName('pre');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowCode({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should add passed language to class attribute', () => {
-    findDOMNode(renderComponent({language: 'js'})).should.match('.js');
+    shallowCode({language: 'js'}).should.have.className('js');
   });
 
   it('should detect javascript/JSX', () => {
-    const node = findDOMNode(renderComponent({
+    const wrapper = mountCode({
       code: `
         import React, {Component} from 'react';
         import ChildComponent from './child-component';
@@ -37,49 +42,51 @@ describe('Code', () => {
           </div>
         );
       `
-    }));
-    node.should.contain('.javascript');
-    node.should.contain('.xml');
+    });
+    wrapper.should.have.descendants('.javascript');
+    // child tree is rendered with highlight.js, so it's unaccessible by enzyme
+    wrapper.getDOMNode().should.contain('.xml');
   });
 
   it('should detect CSS', () => {
-    const node = findDOMNode(renderComponent({
+    const wrapper = mountCode({
       code: `
         .className {
           display: inline-block;
           font-size: 18px;
         }
       `
-    }));
-    node.should.contain('.css');
+    });
+    wrapper.should.have.descendants('.css');
   });
 
   it('should detect HTML', () => {
-    const node = findDOMNode(renderComponent({
+    const wrapper = mountCode({
       code: `
         <body>
           <div id="app"></div>
         </body>
       `
-    }));
-    node.should.contain('.xml');
+    });
+    wrapper.should.have.descendants('.xml');
   });
 
   it('should parse and highlight the code', () => {
-    const node = findDOMNode(renderComponent({
+    const wrapper = mountCode({
       code: '"foo"'
-    }));
-    const token = node.query('.hljs-string');
-    token.should.have.text('"foo"');
+    });
+    const token = wrapper.getDOMNode().query('.hljs-string');
+    token.textContent.should.equal('"foo"');
   });
 
   it('should parse and highlight the code after props update', () => {
-    const container = document.createElement('div');
-    render(code`"foo"`, container);
-    const node = findDOMNode(
-      render(code`"bar"`, container)
-    );
-    const token = node.query('.hljs-string');
-    token.should.have.text('"bar"');
+    const wrapper = mountCode({
+      code: '"foo"'
+    });
+    wrapper.setProps({
+      code: '"bar"'
+    });
+    const token = wrapper.getDOMNode().query('.hljs-string');
+    token.textContent.should.equal('"bar"');
   });
 });

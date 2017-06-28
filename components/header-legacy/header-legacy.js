@@ -54,6 +54,8 @@ const PRODUCTS_LOGOS = {
   'project wizard': projectWizard
 };
 
+const DEBOUNCE_INTERVAL = 50;
+
 /**
  * Takes an item, decides whether it is a known JetBrains service
  * and places a link to it in the services menu. Otherwise, returns
@@ -216,7 +218,7 @@ export default class Header extends RingComponent {
       }
     };
 
-    this.debouncedUpdate = debounce(updateLayout, 50);
+    this.debouncedUpdate = debounce(updateLayout, DEBOUNCE_INTERVAL);
     window.addEventListener('resize', this.debouncedUpdate);
   }
 
@@ -289,7 +291,8 @@ export default class Header extends RingComponent {
     return (
       <div className="ring-header__menu">
         <span>
-          <a className="ring-link"
+          <a
+            className="ring-link"
             href={firstMenuElement.props.url}
           >{firstMenuElement.children}</a>
           <Icon
@@ -391,7 +394,8 @@ export default class Header extends RingComponent {
 
     return this._getLinkElement(item.homeUrl, isActive, 'ring-header__services-item', [
       serviceLogo,
-      <span key={`ItemName-${item.id}`}
+      <span
+        key={`ItemName-${item.id}`}
         className="ring-header__services-item-text"
       >
         {item.name}
@@ -418,7 +422,7 @@ export default class Header extends RingComponent {
 
     this.props.servicesList.sort(sortServices).
       filter(service => !Header.isTopLineService(service)).
-      forEach(function (item) {
+      forEach(function iterator(item) {
         if (!item.homeUrl) {
           return;
         }

@@ -1,8 +1,5 @@
-/* eslint-disable func-names */
-
-import 'dom4';
-import {Component, createElement} from 'react';
-import {renderIntoDocument} from 'react-dom/test-utils';
+import React from 'react';
+import {shallow, mount} from 'enzyme';
 
 import {getRect, getStyles} from '../global/dom';
 
@@ -11,19 +8,18 @@ import {MinWidth} from './position';
 
 import simulateCombo from 'simulate-combo';
 
-function renderPopup(props) {
-  return renderIntoDocument(createElement(Popup, props));
-}
-
 describe('Popup', () => {
+  const shallowPopup = props => shallow(<Popup {...props}/>);
+  const mountPopup = props => mount(<Popup {...props}/>);
+
   it('should create component', () => {
-    const popup = renderPopup();
+    const popup = shallowPopup();
     popup.should.exist;
   });
 
-  it('should attempt to close by pressing esc', function () {
-    const onCloseAttempt = this.sinon.stub();
-    renderPopup({onCloseAttempt});
+  it('should attempt to close by pressing esc', () => {
+    const onCloseAttempt = sandbox.stub();
+    shallowPopup({onCloseAttempt});
 
     simulateCombo('esc');
 
@@ -35,36 +31,31 @@ describe('Popup', () => {
     click.initEvent('click', true, false);
     let clock;
 
-    beforeEach(function () {
-      clock = this.sinon.useFakeTimers();
+    beforeEach(() => {
+      clock = sandbox.useFakeTimers();
     });
 
-    afterEach(() => {
-      clock.restore();
-    });
-
-    it('should attempt to close by click outside the element', function () {
-      const onCloseAttempt = this.sinon.stub();
-      renderPopup({onCloseAttempt});
+    it('should attempt to close by click outside the element', () => {
+      const onCloseAttempt = sandbox.stub();
+      mountPopup({onCloseAttempt});
 
       clock.tick();
       document.body.dispatchEvent(click);
       onCloseAttempt.should.have.been.called;
     });
 
-    it('should pass event to onCloseAttempt callback when closing by clicking by document', function () {
-      const sinon = this.sinon;
-      const onCloseAttempt = sinon.stub();
-      renderPopup({onCloseAttempt});
+    it('should pass event to onCloseAttempt callback when closing by clicking by document', () => {
+      const onCloseAttempt = sandbox.stub();
+      mountPopup({onCloseAttempt});
 
       clock.tick();
       document.body.dispatchEvent(click);
       onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
     });
 
-    it('should not close popup if popup hidden', function () {
-      const onCloseAttempt = this.sinon.stub();
-      renderPopup({
+    it('should not close popup if popup hidden', () => {
+      const onCloseAttempt = sandbox.stub();
+      mountPopup({
         hidden: true,
         onCloseAttempt
       });
@@ -74,40 +65,33 @@ describe('Popup', () => {
       onCloseAttempt.should.not.have.been.called;
     });
 
-    it('should be closed by click outside the element after show', function () {
-      const onCloseAttempt = this.sinon.stub();
-      class Box extends Component {
-        state = {hidden: true};
+    it('should be closed by click outside the element after show', () => {
+      const onCloseAttempt = sandbox.stub();
+      const wrapper = mountPopup({
+        onCloseAttempt,
+        ...this.state
+      });
 
-        render() {
-          return createElement(Popup, {
-            onCloseAttempt,
-            ...this.state
-          });
-        }
-      }
-      const box = renderIntoDocument(createElement(Box));
-
-      box.setState({hidden: false}, () => {
+      wrapper.setProps({hidden: false}, () => {
         clock.tick();
         document.body.dispatchEvent(click);
         onCloseAttempt.should.have.been.called;
       });
     });
 
-    it('shouldn\'n t be closed by click inside the element', function () {
-      const onCloseAttempt = this.sinon.stub();
-      const popup = renderPopup({onCloseAttempt});
+    it('shouldn\'n t be closed by click inside the element', () => {
+      const onCloseAttempt = sandbox.stub();
+      const instance = mountPopup({onCloseAttempt}).instance();
 
       clock.tick();
-      popup.popup.dispatchEvent(click);
+      instance.popup.dispatchEvent(click);
       onCloseAttempt.should.not.have.been.called;
     });
   });
 
   describe('positioning', () => {
-    beforeEach(function () {
-      this.sinon.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
+    beforeEach(() => {
+      sandbox.stub(window, 'requestAnimationFrame').callsFake(cb => cb());
     });
 
     it('top-left direction', () => {
@@ -118,12 +102,12 @@ describe('Popup', () => {
       );
       document.body.append(element);
 
-      const popup = renderPopup({
+      const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element
-      });
+      }).instance();
 
-      const popupElement = popup.popup;
+      const popupElement = instance.popup;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -140,12 +124,12 @@ describe('Popup', () => {
       );
       document.body.append(element);
 
-      const popup = renderPopup({
+      const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element
-      });
+      }).instance();
 
-      const popupElement = popup.popup;
+      const popupElement = instance.popup;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -163,14 +147,14 @@ describe('Popup', () => {
       );
       document.body.append(element);
 
-      const popup = renderPopup({
+      const instance = mountPopup({
         directions: [Popup.PopupProps.Directions.BOTTOM_RIGHT],
         anchorElement: element,
         left: OFFSET,
         top: OFFSET
-      });
+      }).instance();
 
-      const popupElement = popup.popup;
+      const popupElement = instance.popup;
       const elementOffset = getRect(element);
 
       parseInt(getStyles(popupElement).left, 10).
@@ -184,20 +168,22 @@ describe('Popup', () => {
       element.setAttribute('style', 'width: 50px; padding-left: 20px;');
       document.body.append(element);
 
-      const popup = renderPopup({
+      const instance = mountPopup({
         minWidth: MinWidth.TARGET,
         anchorElement: element,
         hidden: false
-      });
+      }).instance();
 
-      parseInt(getStyles(popup.popup).minWidth, 10).should.equal(70);
+      // eslint-disable-next-line no-magic-numbers
+      parseInt(getStyles(instance.popup).minWidth, 10).should.equal(70);
       element.remove();
     });
 
     it('Should support minWidth = some number in pixels', () => {
-      const popup = renderPopup({minWidth: 345, hidden: false});
+      const WIDTH = 345;
+      const instance = mountPopup({minWidth: WIDTH, hidden: false}).instance();
 
-      parseInt(popup.popup.style.minWidth, 10).should.equal(345);
+      parseInt(instance.popup.style.minWidth, 10).should.equal(WIDTH);
     });
   });
 });

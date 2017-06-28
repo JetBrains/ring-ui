@@ -151,6 +151,7 @@ export default class HeaderHelper {
       window.innerWidth ||
       document.documentElement.clientWidth ||
       document.body.clientWidth;
+    // eslint-disable-next-line no-magic-numbers
     if (windowWidth <= 800) {
       layout = HeaderHelper.layout.COMPACT;
     }

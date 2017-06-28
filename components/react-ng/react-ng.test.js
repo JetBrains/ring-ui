@@ -77,14 +77,14 @@ describe('React Ng', () => {
 
   describe('react directive with ngmodel', () => {
     it('should pass ng-model to ng-model state property', () => {
-
-      $scope.defaultSelectState = {id: 123};
+      const TEST_ID = 123;
+      $scope.defaultSelectState = {id: TEST_ID};
       $scope.instanceFieldName = 'componentInstance';
 
       $compile('<div react="Select" ng-model="defaultSelectState" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.componentInstance.state.selected.id.should.equal(123);
+      $scope.componentInstance.state.selected.id.should.equal(TEST_ID);
     });
   });
 

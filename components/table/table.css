@@ -1,6 +1,5 @@
 @value global: '../global/global.css';
 @value unit, main-color, text-color, border-hover-color, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis from global;
-
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
@@ -10,27 +9,30 @@
 }
 
 .table {
-  border-spacing: 0;
   width: 100%;
-}
 
+  border-spacing: 0;
+}
 
 .userSelectNone {
   user-select: none;
 }
 
-
 .headerCell {
   & {
     composes: font-smaller-lower;
-    color: dark-gray-color;
-    font-weight: 200;
-    text-align: left;
-    white-space: nowrap;
+
+    box-sizing: border-box;
     height: calc(unit * 3);
     padding-right: calc(unit * 5);
-    box-sizing: border-box;
-    box-shadow: inset 0px -1px 0px 0px line-color;
+
+    text-align: left;
+    white-space: nowrap;
+
+    color: dark-gray-color;
+    box-shadow: inset 0 -1px 0 0 line-color;
+
+    font-weight: 200;
   }
 
   &:first-child {
@@ -38,13 +40,13 @@
   }
 
   &:last-child {
-    padding-right: calc(unit * 4);
     width: 100%;
+    padding-right: calc(unit * 4);
   }
 
   &:nth-child(1):only-child {
-    max-width: none;
     width: initial;
+    max-width: none;
   }
 
   &.headerCellSorted {
@@ -56,9 +58,12 @@
   }
 
   & .sorter {
-    margin-left: 6px;
-    display: none;
     position: absolute;
+
+    display: none;
+
+    margin-left: 6px;
+
     user-select: none;
   }
 
@@ -72,21 +77,22 @@
 }
 
 .caption {
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  letter-spacing: .2em;
 }
 
 .subHeaderFixed {
   position: fixed;
-  top: 0;
   z-index: fixed-z-index;
+  top: 0;
+
   background-color: rgba(256, 256, 256, 0.95);
 }
-
 
 .row {
   & {
     outline: none;
+
     line-height: compensated;
   }
 
@@ -100,40 +106,45 @@
   }
 
   &.rowFocused {
+    box-shadow: inset 0 2px border-hover-color, inset 0 -2px border-hover-color;
+
     /* we need vertical box-shadows on cells not rows because of IE =( */
     & > .cell:first-child {
       box-shadow: inset 2px 0 border-hover-color;
     }
+
     & > .cell:last-child {
       box-shadow: inset -2px 0 border-hover-color;
     }
-    box-shadow: inset 0 2px border-hover-color, inset 0 -2px border-hover-color;
   }
 }
 
 .loadingOverlay {
   position: absolute;
-  left: 0;
   top: 0;
   right: 0;
   bottom: 0;
+  left: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
   background-color: rgba(255, 255, 255, 0.5);
 }
 
 .cell {
   & {
     composes: ellipsis;
-    color: text-color;
+
+    box-sizing: content-box;
 
     min-width: 0;
 
     height: height;
-    box-sizing: content-box;
     padding: 0 calc(unit * 5) compensate 0;
+
+    color: text-color;
   }
 
   &:first-child {
@@ -141,10 +152,12 @@
   }
 
   &:last-child {
-    padding-right: calc(unit * 4);
     width: 100%;
+
     /* Markup hack, allows cell to have content which is wider than cell and collapses it */
+
     max-width: 0;
+    padding-right: calc(unit * 4);
   }
 
   &:nth-child(1) {
@@ -153,8 +166,8 @@
   }
 
   &:nth-child(1):only-child {
-    max-width: none;
     width: initial;
+    max-width: none;
   }
 }
 
@@ -168,16 +181,21 @@
 
 .metaColumn {
   position: relative;
-  padding-right: 0;
+
   float: left;
+
   width: 21px;
   height: 16px;
-
-  &.metaColumnSpaced {
-  }
+  padding-right: 0;
 }
 
 .dragHandle {
+  top: top;
+
+  left: calc(-2 * unit);
+
+  cursor: grab;
+
   opacity: 0;
 
   @value top: -5px;
@@ -185,17 +203,13 @@
   /* override button */
   && {
     position: absolute;
+
     height: calc(height - top);
   }
 
   &&& {
     padding: 0;
   }
-
-  left: calc(-2 * unit);
-  top: top;
-
-  cursor: grab;
 }
 
 .dragHandle.visibleDragHandle,
@@ -207,8 +221,10 @@
   background-color: selected-background-color;
 
   &&& .dragHandle {
-    opacity: 1;
     cursor: grabbing;
+
+    opacity: 1;
+
     & svg {
       color: main-color;
     }

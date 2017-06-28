@@ -1,6 +1,4 @@
 /* global inject */
-/* eslint-disable func-names */
-
 import 'angular';
 import 'angular-mocks';
 
@@ -17,60 +15,66 @@ describe('Permissions Ng', () => {
   }));
 
   describe('rg-permission', () => {
-    beforeEach(inject(function ($q, $rootScope, _$compile_) {
-      this.$q = $q;
-      this.scope = $rootScope.$new();
-      this.$compile = _$compile_;
-      this.sinon.stub(fakeUserPermissions, 'check').returns($q.resolve(true));
+    let q;
+    let scope;
+    let $compile;
+    let renderDirective;
+    let element;
+    let ctrl;
+    beforeEach(inject(($q, $rootScope, _$compile_) => {
+      q = $q;
+      scope = $rootScope.$new();
+      $compile = _$compile_;
+      sandbox.stub(fakeUserPermissions, 'check').returns($q.resolve(true));
 
-      this.renderDirective = (permissionsString = 'hub-test-perm', inProject) => {
-        this.element = this.$compile(`<div rg-permission="${permissionsString}" in-project="${inProject}"></div>`)(this.scope);
-        this.ctrl = this.element.controller('rgPermission');
-        this.scope.$digest();
+      renderDirective = (permissionsString = 'hub-test-perm', inProject) => {
+        element = $compile(`<div rg-permission="${permissionsString}" in-project="${inProject}"></div>`)(scope);
+        ctrl = element.controller('rgPermission');
+        scope.$digest();
       };
 
-      this.renderDirective();
+      renderDirective();
     }));
 
-    it('should init', function () {
-      this.ctrl.should.be.defined;
+    it('should init', () => {
+      ctrl.should.be.defined;
     });
 
-    it('Should not hide element if permission is granted', function () {
-      this.element[0].should.not.has.class('ring-permission-hide');
+    it('Should not hide element if permission is granted', () => {
+      element[0].should.not.has.class('ring-permission-hide');
     });
 
-    it('Should hide element if has no permission', function () {
-      fakeUserPermissions.check.returns(this.$q.resolve(false));
-      this.renderDirective();
+    it('Should hide element if has no permission', () => {
+      fakeUserPermissions.check.returns(q.resolve(false));
+      renderDirective();
 
-      this.element[0].should.has.class('ring-permission-hide');
+      element[0].should.has.class('ring-permission-hide');
     });
 
-    it('Should pass permission as string to userPermission', function () {
-      this.renderDirective('some-permission');
+    it('Should pass permission as string to userPermission', () => {
+      renderDirective('some-permission');
 
       fakeUserPermissions.check.should.have.been.calledWith('some-permission');
     });
 
-    it('Should pass complex permission as string to userPermission', function () {
+    it('Should pass complex permission as string to userPermission', () => {
       const complexPermission = 'foo | bar & test';
-      this.renderDirective(complexPermission);
+      renderDirective(complexPermission);
 
       fakeUserPermissions.check.should.have.been.calledWith(complexPermission);
     });
 
-    it('Should pass permission variable to userPermission', function () {
-      this.scope.permissionValue = 'some-permission';
+    it('Should pass permission variable to userPermission', () => {
+      scope.permissionValue = 'some-permission';
 
-      this.renderDirective('{{permissionValue}}');
+      renderDirective('{{permissionValue}}');
 
       fakeUserPermissions.check.should.have.been.calledWith('some-permission');
     });
 
-    it('Should pass project id as scope value to userPermission', function () {
-      this.scope.projectId = 'some-project';
-      this.renderDirective('some-permission', 'projectId');
+    it('Should pass project id as scope value to userPermission', () => {
+      scope.projectId = 'some-project';
+      renderDirective('some-permission', 'projectId');
 
       fakeUserPermissions.check.should.have.been.calledWith('some-permission', 'some-project');
     });

@@ -1,5 +1,11 @@
 import deepEquals from 'mout/lang/deepEquals';
 
+const DEFAULT_CHECK_DELAY = 3000;
+const COOKIE_EXPIRES = 365;
+const QUOTA = 4093;
+// eslint-disable-next-line no-magic-numbers
+const SECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+
 /**
  * @prop {string} cookieName
  *
@@ -12,15 +18,15 @@ import deepEquals from 'mout/lang/deepEquals';
 export default class FallbackStorage {
   static DEFAULT_COOKIE_NAME = 'localStorage';
   static DEFAULT_SESSION_COOKIE_NAME = 'sessionStorage';
-  static DEFAULT_CHECK_DELAY = 3000;
-  static COOKIE_EXPIRES = 365;
+  static DEFAULT_CHECK_DELAY = DEFAULT_CHECK_DELAY;
+  static COOKIE_EXPIRES = COOKIE_EXPIRES;
 
   /**
    * Maximum storage size
    * @see http://browsercookielimits.squawky.net/
    * @type {number}
    */
-  static QUOTA = 4093;
+  static QUOTA = QUOTA;
 
   /**
    * @param {string} name
@@ -34,7 +40,7 @@ export default class FallbackStorage {
 
     if (days) {
       date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + (days * SECONDS_IN_DAY));
       expires = `; expires=${date.toGMTString()}`;
     } else {
       expires = ';';

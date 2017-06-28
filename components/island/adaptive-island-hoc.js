@@ -43,10 +43,9 @@ export default function adaptiveIslandHOC(ComposedComponent) {
       const {children, ...restProps} = this.props;
 
       return (
-        <ComposedComponent
-          {...restProps}
-          children={this.addResizingProps(children)}
-        />
+        <ComposedComponent {...restProps}>
+          {this.addResizingProps(children)}
+        </ComposedComponent>
       );
     }
   };

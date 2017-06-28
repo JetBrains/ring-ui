@@ -25,7 +25,6 @@ import style from './pager.css';
 
 export default class Pager extends PureComponent {
   static propTypes = {
-    alwaysShowPageSizeSelector: PropTypes.bool,
     total: PropTypes.number.isRequired,
     currentPage: PropTypes.number,
     pageSize: PropTypes.number,

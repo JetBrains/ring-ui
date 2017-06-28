@@ -1,9 +1,10 @@
-/* eslint-disable func-names */
+/* eslint-disable no-magic-numbers */
 
 import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Simulate, renderIntoDocument} from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import QueryAssist from './query-assist';
 
@@ -63,163 +64,163 @@ describe('Query Assist', () => {
     icon: 'data:uri'
   }];
 
-  beforeEach(function () {
-    this.renderQueryAssist = (params = {}) => {
-      this.queryAssist = renderIntoDocument(React.createElement(QueryAssist, Object.assign({
-        query: testQuery,
-        focus: true,
-        dataSource: this.sinon.spy(({query, caret}) => ({
-          query,
-          caret,
-          suggestions
-        }))
-      }, params)));
-    };
+  const defaultProps = () => ({
+    query: testQuery,
+    focus: true,
+    dataSource: sandbox.spy(({query, caret}) => ({
+      query,
+      caret,
+      suggestions
+    }))
   });
+  const shallowQueryAssist = props => shallow(<QueryAssist {...defaultProps()} {...props}/>);
+  const mountQueryAssist = props => mount(<QueryAssist {...defaultProps()} {...props}/>);
 
   describe('props to state passing', () => {
-    it('should create component', function () {
-      this.renderQueryAssist();
+    it('should create component', () => {
+      const wrapper = mountQueryAssist();
 
-      this.queryAssist.should.exist;
-      this.queryAssist.input.should.exist;
+      wrapper.should.exist;
+      wrapper.instance().input.should.exist;
     });
 
-    it('should set state props to state on init', function () {
-      this.renderQueryAssist();
-      this.queryAssist.state.query.should.equal(testQuery);
-      this.queryAssist.state.placeholderEnabled.should.equal(!testQuery);
+    it('should set state props to state on init', () => {
+      const wrapper = shallowQueryAssist();
+      wrapper.should.have.state('query', testQuery);
+      wrapper.should.have.state('placeholderEnabled', false);
     });
 
-    it('should not set other props to state on init', function () {
-      this.renderQueryAssist();
+    it('should not set other props to state on init', () => {
+      const wrapper = shallowQueryAssist();
 
-      should.not.exist(this.queryAssist.state.popupClassName);
-      should.not.exist(this.queryAssist.state.dataSource);
-      should.not.exist(this.queryAssist.state.disabled);
-      should.not.exist(this.queryAssist.state.clear);
-      should.not.exist(this.queryAssist.state.hint);
-      should.not.exist(this.queryAssist.state.hintOnSelection);
-      should.not.exist(this.queryAssist.state.glass);
-      should.not.exist(this.queryAssist.state.placeholder);
-      should.not.exist(this.queryAssist.state.onApply);
-      should.not.exist(this.queryAssist.state.onChange);
-      should.not.exist(this.queryAssist.state.onClear);
-      should.not.exist(this.queryAssist.state.onFocusChange);
+      wrapper.should.not.have.state('popupClassName');
+      wrapper.should.not.have.state('dataSource');
+      wrapper.should.not.have.state('disabled');
+      wrapper.should.not.have.state('clear');
+      wrapper.should.not.have.state('hint');
+      wrapper.should.not.have.state('hintOnSelection');
+      wrapper.should.not.have.state('glass');
+      wrapper.should.not.have.state('placeholder');
+      wrapper.should.not.have.state('onApply');
+      wrapper.should.not.have.state('onChange');
+      wrapper.should.not.have.state('onClear');
+      wrapper.should.not.have.state('onFocusChange');
     });
 
-    it('should set state props to state on update', function () {
-      this.renderQueryAssist({
+    it('should set state props to state on update', () => {
+      const wrapper = shallowQueryAssist({
         query: 'update',
         caret: 2,
         focus: false
       });
 
-      this.queryAssist.state.query.should.equal('update');
+      wrapper.should.have.state('query', 'update');
     });
 
-    it('should set state props to immediateState on update', function () {
-      this.renderQueryAssist({
+    it('should set state props to immediateState on update', () => {
+      const instance = mountQueryAssist({
         query: 'update',
         caret: 2,
         focus: false
-      });
+      }).instance();
 
-      this.queryAssist.immediateState.query.should.equal('update');
-      this.queryAssist.immediateState.caret.should.equal(2);
-      this.queryAssist.immediateState.focus.should.equal(false);
+      instance.immediateState.query.should.equal('update');
+      instance.immediateState.caret.should.equal(2);
+      instance.immediateState.focus.should.equal(false);
     });
 
-    it('should not set undefined state props to state on update', function () {
-      this.renderQueryAssist();
+    it('should not set undefined state props to state on update', () => {
+      const wrapper = shallowQueryAssist();
 
-      this.queryAssist.rerender({
+      wrapper.setProps({
         query: undefined
       });
 
-      this.queryAssist.state.query.should.equal(testQuery);
+      wrapper.should.have.state('query', testQuery);
     });
 
-    it('should not set caret with query on update', function () {
-      this.renderQueryAssist();
+    it('should not set caret with query on update', () => {
+      const wrapper = mountQueryAssist();
+      const instance = wrapper.instance();
 
-      this.queryAssist.rerender({
+      wrapper.setProps({
         query: 'update'
       });
 
-      this.queryAssist.state.query.should.equal('update');
-      this.queryAssist.immediateState.query.should.equal('update');
-      this.queryAssist.immediateState.caret.should.equal(testQueryLength);
+      wrapper.should.have.state('query', 'update');
+      instance.immediateState.query.should.equal('update');
+      instance.immediateState.caret.should.equal(testQueryLength);
     });
   });
 
 
   describe('setFocus', () => {
-    it('should set focus in query assist', function () {
-      this.renderQueryAssist({focus: null});
+    it('should set focus in query assist', () => {
+      const instance = mountQueryAssist({focus: null}).instance();
 
-      this.queryAssist.setFocus(true);
+      instance.setFocus(true);
 
-      this.queryAssist.immediateState.focus.should.equal(true);
+      instance.immediateState.focus.should.equal(true);
     });
 
-    it('should remove focus from query assist', function () {
-      this.renderQueryAssist({focus: true});
+    it('should remove focus from query assist', () => {
+      const instance = mountQueryAssist({focus: true}).instance();
 
-      this.queryAssist.setFocus(false);
+      instance.setFocus(false);
 
-      this.queryAssist.immediateState.focus.should.equal(false);
+      instance.immediateState.focus.should.equal(false);
     });
   });
 
 
   describe('shortcuts', () => {
-    it('should enable shortcuts when we set focus', function () {
-      this.renderQueryAssist({focus: null});
-      this.queryAssist.shortcutsEnabled().should.equal(false);
+    it('should enable shortcuts when we set focus', () => {
+      const instance = mountQueryAssist({focus: null}).instance();
+      instance.shortcutsEnabled().should.equal(false);
 
-      this.queryAssist.setFocus(true);
-      this.queryAssist.shortcutsEnabled().should.equal(true);
+      instance.setFocus(true);
+      instance.shortcutsEnabled().should.equal(true);
     });
 
 
-    it('should disable shortcuts when we remove focus', function () {
-      this.renderQueryAssist({focus: true});
-      this.queryAssist.shortcutsEnabled().should.equal(true);
+    it('should disable shortcuts when we remove focus', () => {
+      const instance = mountQueryAssist({focus: true}).instance();
+      instance.shortcutsEnabled().should.equal(true);
 
-      this.queryAssist.setFocus(false);
-      this.queryAssist.shortcutsEnabled().should.equal(false);
+      instance.setFocus(false);
+      instance.shortcutsEnabled().should.equal(false);
     });
 
 
-    it('should not enable shortcuts after rerender', function () {
-      this.renderQueryAssist({focus: false, placeholder: 'bar'});
-      this.queryAssist.shortcutsEnabled().should.equal(false);
+    it('should not enable shortcuts after rerender', () => {
+      const wrapper = mountQueryAssist({focus: false, placeholder: 'bar'});
+      const instance = wrapper.instance();
+      instance.shortcutsEnabled().should.equal(false);
 
-      this.queryAssist.rerender({placeholder: 'foo'});
-      this.queryAssist.shortcutsEnabled().should.equal(false);
+      wrapper.setProps({placeholder: 'foo'});
+      instance.shortcutsEnabled().should.equal(false);
     });
   });
 
 
   describe('init', () => {
-    it('requestData should exist', function () {
-      this.renderQueryAssist();
-      this.queryAssist.requestData.should.be.a('function');
-      this.queryAssist.requestData.should.equal(this.queryAssist.requestHandler);
+    it('requestData should exist', () => {
+      const instance = mountQueryAssist().instance();
+      instance.requestData.should.be.a('function');
+      instance.requestData.should.equal(instance.requestHandler);
     });
 
-    it('requestData should be debounced when delay set', function () {
-      this.renderQueryAssist({
+    it('requestData should be debounced when delay set', () => {
+      const instance = mountQueryAssist({
         delay: 0
-      });
-      this.queryAssist.requestData.should.be.a('function');
-      this.queryAssist.requestData.should.not.equal(this.queryAssist.requestHandler);
+      }).instance();
+      instance.requestData.should.be.a('function');
+      instance.requestData.should.not.equal(instance.requestHandler);
     });
 
 
-    it('should create popup when autoOpen', function (done) {
-      this.renderQueryAssist({
+    it('should create popup when autoOpen', done => {
+      mountQueryAssist({
         autoOpen: true,
         dataSource: params => {
           params.should.not.have.property('omitSuggestions');
@@ -228,8 +229,8 @@ describe('Query Assist', () => {
       });
     });
 
-    it('should not create popup by default', function (done) {
-      this.renderQueryAssist({
+    it('should not create popup by default', done => {
+      mountQueryAssist({
         dataSource: params => {
           params.should.have.property('omitSuggestions', true);
           done();
@@ -241,63 +242,63 @@ describe('Query Assist', () => {
   describe('rendering', () => {
     const LETTER_CLASS = 'ring-query-assist__letter';
 
-    it('should render letters', function () {
-      this.renderQueryAssist();
+    it('should render letters', () => {
+      const instance = mountQueryAssist().instance();
 
-      this.queryAssist.input.should.contain(`.${LETTER_CLASS}`);
-      this.queryAssist.input.queryAll(`.${LETTER_CLASS}`).
+      instance.input.should.contain(`.${LETTER_CLASS}`);
+      instance.input.queryAll(`.${LETTER_CLASS}`).
         should.have.length(testQueryLength);
     });
 
 
-    it('should render nothing on empty query', function () {
-      this.renderQueryAssist({
+    it('should render nothing on empty query', () => {
+      const instance = mountQueryAssist({
         query: ''
-      });
+      }).instance();
 
-      this.queryAssist.input.textContent.should.be.empty;
+      instance.input.textContent.should.be.empty;
     });
 
-    it('should render nothing on falsy query', function () {
-      this.renderQueryAssist({
+    it('should render nothing on falsy query', () => {
+      const instance = mountQueryAssist({
         query: null
-      });
+      }).instance();
 
-      this.queryAssist.input.textContent.should.be.empty;
+      instance.input.textContent.should.be.empty;
     });
 
-    it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', function () {
-      this.renderQueryAssist();
+    it('Shouldnt make duplicate requests for styleRanges on initiating if query is provided', () => {
+      const wrapper = mountQueryAssist();
 
       //Emulate multiple rerender when rendering component with react-ng
-      this.queryAssist.rerender({});
-      this.queryAssist.rerender({});
+      wrapper.setProps({});
+      wrapper.setProps({});
 
-      this.queryAssist.props.dataSource.should.have.been.calledOnce;
+      wrapper.prop('dataSource').should.have.been.calledOnce;
     });
 
-    it('should render placeholder when enabled on empty query', function () {
-      this.renderQueryAssist({
+    it('should render placeholder when enabled on empty query', () => {
+      const instance = mountQueryAssist({
         query: '',
         placeholder: 'plz'
-      });
+      }).instance();
 
-      this.queryAssist.placeholder.should.exist;
-      this.queryAssist.placeholder.should.have.text('plz');
+      instance.placeholder.should.exist;
+      instance.placeholder.should.have.text('plz');
     });
 
-    it('should not render placeholder when disabled on empty query', function () {
-      this.renderQueryAssist({
+    it('should not render placeholder when disabled on empty query', () => {
+      const instance = mountQueryAssist({
         query: ''
-      });
+      }).instance();
 
-      should.not.exist(this.queryAssist.placeholder);
+      should.not.exist(instance.placeholder);
     });
 
-    it('should render with colors', function () {
-      this.renderQueryAssist();
+    it('should render with colors', () => {
+      const wrapper = mountQueryAssist();
 
-      this.queryAssist.setState({
+      wrapper.setState({
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
           {start: 1, length: 1, style: 'field_value'},
@@ -306,7 +307,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_field-value`);
@@ -314,12 +315,12 @@ describe('Query Assist', () => {
       letters[3].should.have.class(`${LETTER_CLASS}_operator`);
     });
 
-    it('should render last text range with default style when applied', function () {
-      this.renderQueryAssist({
+    it('should render last text range with default style when applied', () => {
+      const wrapper = mountQueryAssist({
         query: 'a a'
       });
 
-      this.queryAssist.setState({
+      wrapper.setState({
         dirty: true,
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
@@ -327,149 +328,149 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_default`);
       letters[2].should.have.class(`${LETTER_CLASS}_default`);
     });
 
-    it('should render last text range with text style when applied', function () {
-      this.renderQueryAssist({
+    it('should render last text range with text style when applied', () => {
+      const wrapper = mountQueryAssist({
         query: 'a a'
       });
 
-      this.queryAssist.setState({
+      wrapper.setState({
         styleRanges: [
           {start: 0, length: 1, style: 'text'},
           {start: 2, length: 1, style: 'text'}
         ]
       });
 
-      const letters = this.queryAssist.input.queryAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_default`);
       letters[2].should.have.class(`${LETTER_CLASS}_text`);
     });
 
-    it('should disable field when component disabled', function () {
-      this.renderQueryAssist({
+    it('should disable field when component disabled', () => {
+      const instance = mountQueryAssist({
         disabled: true
-      });
+      }).instance();
 
-      this.queryAssist.input.should.have.attr('contenteditable', 'false');
-      this.queryAssist.input.should.have.class('ring-input_disabled');
+      instance.input.should.have.attr('contenteditable', 'false');
+      instance.input.should.have.class('ring-input_disabled');
     });
 
-    it('should render glass when enabled', function () {
-      this.renderQueryAssist({
+    it('should render glass when enabled', () => {
+      const instance = mountQueryAssist({
         glass: true
-      });
+      }).instance();
 
-      this.queryAssist.glass.should.exist;
+      instance.glass.should.exist;
     });
 
-    it('should not render glass when disabled', function () {
-      this.renderQueryAssist({
+    it('should not render glass when disabled', () => {
+      const instance = mountQueryAssist({
         glass: false
-      });
+      }).instance();
 
-      should.not.exist(this.queryAssist.glass);
+      should.not.exist(instance.glass);
     });
 
-    it('should render clear when enabled', function () {
-      this.renderQueryAssist({
+    it('should render clear when enabled', () => {
+      const instance = mountQueryAssist({
         clear: true
-      });
+      }).instance();
 
-      this.queryAssist.clear.should.exist;
+      instance.clear.should.exist;
     });
 
-    it('should not render clear when disabled', function () {
-      this.renderQueryAssist({
+    it('should not render clear when disabled', () => {
+      const instance = mountQueryAssist({
         clear: false
-      });
+      }).instance();
 
-      should.not.exist(this.queryAssist.clear);
+      should.not.exist(instance.clear);
     });
 
-    it('should not render clear when query is empty', function () {
-      this.renderQueryAssist({
+    it('should not render clear when query is empty', () => {
+      const instance = mountQueryAssist({
         clear: true,
         query: ''
-      });
+      }).instance();
 
-      should.not.exist(this.queryAssist.clear);
+      should.not.exist(instance.clear);
     });
 
-    it('should show loader on long request', function () {
-      this.renderQueryAssist();
-      this.queryAssist.setState({
+    it('should show loader on long request', () => {
+      const wrapper = mountQueryAssist();
+      wrapper.setState({
         loading: true
       });
 
-      this.queryAssist.loader.should.exist;
+      wrapper.instance().loader.should.exist;
     });
   });
 
   describe('suggestions', () => {
-    it('should not show popup when no suggestions provided', function (done) {
-      this.renderQueryAssist({
+    it('should not show popup when no suggestions provided', done => {
+      const instance = mountQueryAssist({
         dataSource: ({query, caret}) => ({
           query,
           caret,
           suggestions: []
         })
-      });
+      }).instance();
 
-      this.queryAssist.requestData().
+      instance.requestData().
         then(() => {
-          this.queryAssist._popup.isVisible().should.be.false;
+          instance._popup.isVisible().should.be.false;
           done();
         });
     });
 
-    it('should show popup when suggestions provided', function (done) {
-      this.renderQueryAssist();
+    it('should show popup when suggestions provided', done => {
+      const instance = mountQueryAssist().instance();
 
-      this.queryAssist.requestData().
+      instance.requestData().
         then(() => {
-          this.queryAssist._popup.isVisible().should.be.true;
-          this.queryAssist._popup.list.should.exist;
+          instance._popup.isVisible().should.be.true;
+          instance._popup.list.should.exist;
           done();
         });
     });
 
-    it('should close popup with after zero suggestions provided', function (done) {
-      this.renderQueryAssist({
+    it('should close popup with after zero suggestions provided', done => {
+      const instance = mountQueryAssist({
         dataSource: ({query, caret}) => ({
           query,
           caret,
           suggestions: this.suggestions
         })
-      });
+      }).instance();
 
       this.suggestions = suggestions;
-      this.queryAssist.requestData().
+      instance.requestData().
         then(() => {
           this.suggestions = [];
-          this.queryAssist.requestData().
+          instance.requestData().
             then(() => {
-              this.queryAssist._popup.isVisible().should.be.false;
+              instance._popup.isVisible().should.be.false;
               done();
             });
         });
     });
 
-    it('should show popup with proper suggestions', function (done) {
-      this.renderQueryAssist();
+    it('should show popup with proper suggestions', done => {
+      const instance = mountQueryAssist().instance();
 
       const TWICE = 2;
 
-      this.queryAssist.requestData().
+      instance.requestData().
         then(() => {
-          const list = findDOMNode(this.queryAssist._popup.list);
+          const list = findDOMNode(instance._popup.list);
           const {length} = suggestions;
 
           list.queryAll('[data-test=ring-list-item]').should.have.length(length);
@@ -489,79 +490,79 @@ describe('Query Assist', () => {
       return (prefix + option + suffix).replace(/\s/g, '\u00a0');
     }
 
-    it('should complete by tab in the end of phrase', function () {
-      this.renderQueryAssist({
+    it('should complete by tab in the end of phrase', () => {
+      const instance = mountQueryAssist({
         query: completeQuery
-      });
+      }).instance();
 
-      return this.queryAssist.requestData().then(() => {
+      return instance.requestData().then(() => {
         simulateCombo('tab');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        instance.input.should.have.text(getSuggestionText(suggestions[0]));
       });
     });
 
-    it('should complete selected suggestion by enter in the end of phrase', function () {
-      this.renderQueryAssist({
+    it('should complete selected suggestion by enter in the end of phrase', () => {
+      const instance = mountQueryAssist({
         query: completeQuery
-      });
+      }).instance();
 
-      return this.queryAssist.requestData().then(() => {
+      return instance.requestData().then(() => {
         simulateCombo('down enter');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        instance.input.should.have.text(getSuggestionText(suggestions[0]));
       });
     });
 
-    it('should complete by tab in the middle of phrase', function () {
-      this.renderQueryAssist({
+    it('should complete by tab in the middle of phrase', () => {
+      const instance = mountQueryAssist({
         query: completeQuery,
         caret: middleCaret
-      });
+      }).instance();
 
-      return this.queryAssist.requestData().then(() => {
+      return instance.requestData().then(() => {
         simulateCombo('tab');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[0]));
+        instance.input.should.have.text(getSuggestionText(suggestions[0]));
       });
     });
 
-    it('should complete selected suggestion by enter in the middle of phrase', function () {
-      this.renderQueryAssist({
+    it('should complete selected suggestion by enter in the middle of phrase', () => {
+      const instance = mountQueryAssist({
         query: completeQuery,
         caret: middleCaret
-      });
+      }).instance();
 
-      return this.queryAssist.requestData().then(() => {
+      return instance.requestData().then(() => {
         simulateCombo('down enter');
 
-        this.queryAssist.input.should.
+        instance.input.should.
           have.text(getSuggestionText(suggestions[0]) + completeQuery.substring(middleCaret));
       });
     });
 
-    it('should complete selected suggestion by tab in the middle of phrase', function () {
-      this.renderQueryAssist({
+    it('should complete selected suggestion by tab in the middle of phrase', () => {
+      const instance = mountQueryAssist({
         query: completeQuery,
         caret: middleCaret
-      });
+      }).instance();
 
-      return this.queryAssist.requestData().then(() => {
+      return instance.requestData().then(() => {
         simulateCombo('down down down tab');
 
-        this.queryAssist.input.should.have.text(getSuggestionText(suggestions[2]));
+        instance.input.should.have.text(getSuggestionText(suggestions[2]));
       });
     });
   });
 
   describe('callbacks', () => {
     let onApply;
-    beforeEach(function () {
-      onApply = this.sinon.stub();
+    beforeEach(() => {
+      onApply = sandbox.stub();
     });
 
-    it('should call onApply', function () {
-      this.renderQueryAssist({
+    it('should call onApply', () => {
+      mountQueryAssist({
         onApply
       });
 
@@ -572,8 +573,8 @@ describe('Query Assist', () => {
       });
     });
 
-    it('should call onApply when press ctrl/cmd + enter', function () {
-      this.renderQueryAssist({
+    it('should call onApply when press ctrl/cmd + enter', () => {
+      mountQueryAssist({
         onApply
       });
 
@@ -584,47 +585,48 @@ describe('Query Assist', () => {
       });
     });
 
-    it('should call onApply from glass', function () {
-      this.renderQueryAssist({
+    it('should call onApply from glass', () => {
+      const instance = mountQueryAssist({
         glass: true,
         onApply
-      });
+      }).instance();
 
-      Simulate.click(findDOMNode(this.queryAssist.glass));
+      Simulate.click(findDOMNode(instance.glass));
       onApply.should.have.been.calledWithMatch({
         query: testQuery,
         caret: testQueryLength
       });
     });
 
-    it('should call onClear', function () {
-      const onClear = this.sinon.stub();
-      this.renderQueryAssist({
+    it('should call onClear', () => {
+      const onClear = sandbox.stub();
+      const instance = mountQueryAssist({
         clear: true,
         onClear
-      });
+      }).instance();
 
-      Simulate.click(findDOMNode(this.queryAssist.clear));
+      Simulate.click(findDOMNode(instance.clear));
       onClear.should.have.been.calledWithExactly();
     });
   });
 
   describe('request data', () => {
-    it('should batch requests', function () {
-      this.sinon.useFakeTimers();
+    it('should batch requests', () => {
+      sandbox.useFakeTimers();
 
-      this.renderQueryAssist();
-      this.queryAssist.rerender({
+      const wrapper = mountQueryAssist();
+      const instance = wrapper.instance();
+      wrapper.setProps({
         delay: 100
       }, () => {
-        this.queryAssist.props.dataSource.reset();
+        wrapper.prop('dataSource').reset();
 
-        this.queryAssist.requestData();
-        this.queryAssist.requestData();
-        this.queryAssist.requestData();
-        this.sinon.clock.tick(400);
+        instance.requestData();
+        instance.requestData();
+        instance.requestData();
+        sandbox.clock.tick(400);
 
-        this.queryAssist.props.dataSource.should.have.been.calledOnce;
+        wrapper.prop('dataSource').should.have.been.calledOnce;
       });
 
     });

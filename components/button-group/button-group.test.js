@@ -1,16 +1,10 @@
 import React from 'react';
-import {isCompositeComponentWithType, renderIntoDocument} from 'react-dom/test-utils';
+import {mount} from 'enzyme';
 
 import ButtonGroup from './button-group';
 
 describe('Button Group', () => {
-  let button;
-
-  beforeEach(() => {
-    button = renderIntoDocument(React.createElement(ButtonGroup));
-  });
-
   it('should create component', () => {
-    isCompositeComponentWithType(button, ButtonGroup).should.equal(true);
+    mount(<ButtonGroup/>).should.have.type(ButtonGroup);
   });
 });
