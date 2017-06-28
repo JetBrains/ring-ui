@@ -77,7 +77,10 @@
             <TrayIcon glyph={help} />
           </Link>
           <SmartServices auth={auth} />
-          <SmartProfile auth={auth} />
+          <SmartProfile
+            auth={auth}
+            hasUpdates={true}
+          />
         </Tray>
       </Header>
     );
