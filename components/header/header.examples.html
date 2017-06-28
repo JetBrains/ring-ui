@@ -177,7 +177,11 @@
             <TrayIcon icon={help} />
           </a>
           <SmartServices auth={auth} />
-          <SmartProfile auth={auth} size={SmartProfile.Size.Size24}/>
+          <SmartProfile
+            auth={auth}
+            hasUpdates={true}
+            size={SmartProfile.Size.Size24}
+          />
         </Tray>
       </Header>
     );
