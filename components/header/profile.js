@@ -15,6 +15,7 @@ export default class Profile extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     closeOnSelect: PropTypes.bool,
+    hasUpdates: PropTypes.bool,
     loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
@@ -48,6 +49,7 @@ export default class Profile extends PureComponent {
     const {
       className,
       closeOnSelect,
+      hasUpdates,
       loading,
       user,
       profileUrl,
@@ -91,11 +93,17 @@ export default class Profile extends PureComponent {
     }
 
     const anchor = (
-      <Avatar
-        url={user.profile && user.profile.avatar && user.profile.avatar.url}
-        size={size}
-        round={true}
-      />
+      <div
+        className={classnames(styles.avatarWrapper, {
+          [styles.hasUpdates]: hasUpdates
+        })}
+      >
+        <Avatar
+          url={user.profile && user.profile.avatar && user.profile.avatar.url}
+          size={size}
+          round={true}
+        />
+      </div>
     );
 
     return (
