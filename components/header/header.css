@@ -1,23 +1,26 @@
 @value unit, darker-gray-color, black-color, white-color, main-color from  "../global/global.css";
-
 @value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
 
 .header {
-  box-sizing: border-box;
   display: flex;
-  height: height;
-  align-items: center;
   overflow: hidden;
-  line-height: compensated;
-  background-color: black-color;
+  align-items: center;
+
+  box-sizing: border-box;
+  height: height;
+
   color: white-color;
+  background-color: black-color;
+
+  line-height: compensated;
 
   & > * {
-    height: height;
-    box-sizing: border-box;
     display: inline-block;
+
+    box-sizing: border-box;
+    height: height;
     padding: 0 calc(unit * 2) compensate;
   }
 
@@ -29,13 +32,17 @@
 
 .logo {
   align-items: center;
+
   height: height;
-  line-height: normal;
+
   color: black-color;
+
+  line-height: normal;
 
   /* override .header > * */
   && {
     display: inline-flex;
+
     padding: 0 0 0 calc(unit * 2);
   }
 
@@ -45,13 +52,15 @@
 }
 
 .tray {
+  align-items: flex-end;
+
+  margin: 0 0 0 auto;
+  padding: 0 0 compensate;
+
   /* override .header > * */
   && {
     display: flex;
   }
-  align-items: flex-end;
-  padding: 0 0 compensate;
-  margin: 0 0 0 auto;
 }
 
 .trayItemContent {
@@ -59,12 +68,14 @@
 }
 
 .icon {
+  width: calc(unit * 5);
+
   vertical-align: baseline;
+
   /* override button */
   && {
     height: compensated;
   }
-  width: calc(unit * 5);
 }
 
 .main svg {
@@ -73,8 +84,8 @@
 
 .rotateable svg {
   transition: transform 0.3s ease-out;
-  transform-origin: 50% 50%;
   transform: rotate(0deg);
+  transform-origin: 50% 50%;
 }
 
 .rotated svg {
@@ -82,22 +93,25 @@
 }
 
 .profileEmpty {
-  vertical-align: bottom;
+  align-items: center;
+
   width: auto;
   height: compensated;
   padding: 0 calc(unit * 4) 0 unit;
 
-/* override dropdown */
+  vertical-align: bottom;
+
+  /* override dropdown */
   && {
     display: inline-flex;
   }
-
-  align-items: center;
 }
 
 .profile {
   composes: profileEmpty;
+
   height: compensated;
+
   cursor: pointer;
 }
 

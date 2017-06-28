@@ -1,60 +1,55 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  isCompositeComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Island, {AdaptiveIsland, Content, Header} from './island';
 
 const LINE_HEIGHT = '28px';
 
 describe('Island', () => {
-  const renderComponent = params => renderIntoDocument(<Island {...params}/>);
+  const shallowIsland = params => shallow(<Island {...params}/>);
+  const mountIsland = params => mount(<Island {...params}/>);
 
   it('should create Island component', () => {
-    isCompositeComponentWithType(renderComponent(), Island).should.be.true;
+    mountIsland().should.have.type(Island);
   });
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowIsland().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowIsland({className: 'test-class'}).should.have.className('test-class');
   });
 
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
-      isCompositeComponentWithType(
-        renderIntoDocument(<AdaptiveIsland/>),
-        AdaptiveIsland
-      ).should.be.true;
+      mount(<AdaptiveIsland/>).should.have.type(AdaptiveIsland);
     });
 
     it('should change header size if content is scrolled', () => {
-      const instance = renderIntoDocument(<AdaptiveIsland>
-        <Header/>
-        <Content/>
-      </AdaptiveIsland>);
+      const wrapper = mount(
+        <AdaptiveIsland>
+          <Header/>
+          <Content/>
+        </AdaptiveIsland>
+      );
 
-      const headerNode = findDOMNode(instance).querySelector('[data-test="ring-island-header"]');
+      const headerNode = wrapper.find('[data-test="ring-island-header"]');
 
-      instance.onContentScroll({scrollTop: 10});
-      headerNode.style.lineHeight.should.equal(LINE_HEIGHT);
+      wrapper.instance().onContentScroll({scrollTop: 10});
+      headerNode.should.have.style('line-height', LINE_HEIGHT);
     });
   });
 
   describe('Header', () => {
     it('should render header', () => {
-      isCompositeComponentWithType(renderIntoDocument(<Header/>), Header).should.be.true;
+      mount(<Header/>).should.have.type(Header);
     });
 
     it('should change header size', () => {
       const phase = 0.75;
-      const node = findDOMNode(renderIntoDocument(<Header phase={phase}/>));
-      node.style.lineHeight.should.equal(LINE_HEIGHT);
+      const wrapper = shallow(<Header phase={phase}/>);
+      wrapper.should.have.style('line-height', LINE_HEIGHT);
     });
   });
 });

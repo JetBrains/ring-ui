@@ -20,12 +20,12 @@ const Content = ({title, type, content, examples, description}) => (
       <Markdown source={description}/>
     )}
 
-    {examples && examples.map(example =>
+    {examples && examples.map(example => (
       <Example
         {...example}
         key={example.name}
       />
-    )}
+    ))}
   </div>
 );
 

@@ -145,6 +145,8 @@ angularModule.directive('rgFormAutofillFix', $timeout => ({
 
   link: function link($scope, element, attrs, form) {
     if (form) {
+      const POLL_INTERVAL = 150;
+      const MAX_COUNT = 5;
       let promise;
       let count = 0;
 
@@ -163,8 +165,8 @@ angularModule.directive('rgFormAutofillFix', $timeout => ({
           }
         });
 
-        if (!filled || count < 5) {
-          promise = $timeout(poll, 150);
+        if (!filled || count < MAX_COUNT) {
+          promise = $timeout(poll, POLL_INTERVAL);
           count++;
         }
       }());

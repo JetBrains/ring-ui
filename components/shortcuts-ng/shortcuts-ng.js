@@ -5,7 +5,7 @@ import shortcutsInstance from '../shortcuts/core';
 /* global angular: false */
 const angularModule = angular.module('Ring.shortcuts', []);
 
-angularModule.provider('shortcuts', function () {
+angularModule.provider('shortcuts', function provider() {
   const modes = {};
   const mainModes = {};
   const reference = [];
@@ -23,7 +23,7 @@ angularModule.provider('shortcuts', function () {
 
   this.mode = addMode;
 
-  this.$get = function ($rootScope) {
+  this.$get = function get($rootScope) {
     return {
       addMode,
 

@@ -1,5 +1,5 @@
 /* global inject, angular */
-/* eslint-disable func-names */
+/* eslint-disable no-magic-numbers */
 
 import 'angular';
 import 'angular-mocks';
@@ -131,8 +131,8 @@ describe('Select Ng', () => {
       ctrl.config.selected.selectedLabel.should.equal('test');
     });
 
-    it('Should support selected formatter function', function () {
-      scope.formatter = this.sinon.stub().returns('Formatted label');
+    it('Should support selected formatter function', () => {
+      scope.formatter = sandbox.stub().returns('Formatted label');
 
       compileTemplate('<rg-select options="item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
@@ -155,35 +155,35 @@ describe('Select Ng', () => {
       ctrl.config.selected.description.should.equal(scope.selectedItem.descriptionText);
     });
 
-    it('Should not call get option by value for description customization', function () {
+    it('Should not call get option by value for description customization', () => {
       scope.selectedItem.descriptionText = 'description';
 
       element = $compile('<rg-select options="item.name describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
       ctrl = element.controller('rgSelect');
-      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      sandbox.spy(ctrl.optionsParser, 'getOptions');
       scope.$digest();
 
       ctrl.optionsParser.getOptions.should.not.called;
     });
 
-    it('Should not call get option by value for select label customization', function () {
+    it('Should not call get option by value for select label customization', () => {
       scope.selectedItem.selectText = 'Test';
 
       element = $compile('<rg-select options="item.name select as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
       ctrl = element.controller('rgSelect');
-      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      sandbox.spy(ctrl.optionsParser, 'getOptions');
       scope.$digest();
 
       ctrl.optionsParser.getOptions.should.not.called;
     });
 
-    it('Should not call get option by value for description and selected label customization together', function () {
+    it('Should not call get option by value for description and selected label customization together', () => {
       scope.selectedItem.selectText = 'test';
       scope.selectedItem.descriptionText = 'description';
 
       element = $compile('<rg-select options="item.name select as item.selectText describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>')(scope);
       ctrl = element.controller('rgSelect');
-      this.sinon.spy(ctrl.optionsParser, 'getOptions');
+      sandbox.spy(ctrl.optionsParser, 'getOptions');
       scope.$digest();
 
       ctrl.optionsParser.getOptions.should.not.called;
@@ -207,8 +207,8 @@ describe('Select Ng', () => {
       should.not.exist(scope.selectedItem);
     });
 
-    it('Should call datasource on opening', function () {
-      scope.dataSource = this.sinon.stub().returns(fakeItems);
+    it('Should call datasource on opening', () => {
+      scope.dataSource = sandbox.stub().returns(fakeItems);
 
       compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
@@ -217,8 +217,8 @@ describe('Select Ng', () => {
       scope.dataSource.should.have.been.called;
     });
 
-    it('Should call datasource on filtering if external filter enabled', function () {
-      scope.dataSource = this.sinon.stub().returns(fakeItems);
+    it('Should call datasource on filtering if external filter enabled', () => {
+      scope.dataSource = sandbox.stub().returns(fakeItems);
 
       compileTemplate('<rg-select options="item.name for item in dataSource(query) track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
@@ -239,17 +239,17 @@ describe('Select Ng', () => {
       element[0].should.contain(`.${styles.disabled}`);
     });
 
-    it('Should hide on route changes ($locationChangeSuccess)', function () {
-      this.sinon.stub(ctrl.selectInstance._popup, 'isVisible').returns(true);
-      ctrl.selectInstance._hidePopup = this.sinon.stub();
+    it('Should hide on route changes ($locationChangeSuccess)', () => {
+      sandbox.stub(ctrl.selectInstance._popup, 'isVisible').returns(true);
+      ctrl.selectInstance._hidePopup = sandbox.stub();
 
       scope.$broadcast('$locationChangeSuccess');
       ctrl.selectInstance._hidePopup.should.have.been.called;
     });
 
-    it('Should not try to hide on route changes if not showed ($locationChangeSuccess)', function () {
-      this.sinon.stub(ctrl.selectInstance._popup, 'isVisible').returns(false);
-      ctrl.selectInstance._hidePopup = this.sinon.stub();
+    it('Should not try to hide on route changes if not showed ($locationChangeSuccess)', () => {
+      sandbox.stub(ctrl.selectInstance._popup, 'isVisible').returns(false);
+      ctrl.selectInstance._hidePopup = sandbox.stub();
 
       scope.$broadcast('$locationChangeSuccess');
       ctrl.selectInstance._hidePopup.should.not.have.been.called;
@@ -260,11 +260,11 @@ describe('Select Ng', () => {
       selectModel.ext.should.equal('test');
     });
 
-    it('Should not try to extend select model with string', function () {
-      this.sinon.spy(angular, 'extend');
+    it('Should not try to extend select model with string', () => {
+      sandbox.spy(angular, 'extend');
       const stringValue = 'str-value';
       ctrl.convertNgModelToSelect(stringValue);
-      angular.extend.should.been.calledWith(this.sinon.match({}), null);
+      angular.extend.should.been.calledWith(sandbox.match({}), null);
     });
 
     it('Should use select-type if defined', () => {
@@ -296,10 +296,10 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal(fakeItems[1].name);
     });
 
-    it('Should rerender with new config if config changed and autosync enabled', function () {
+    it('Should rerender with new config if config changed and autosync enabled', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config-auto-update="true"></rg-select>');
 
-      this.sinon.spy(ctrl.selectInstance, 'rerender');
+      sandbox.spy(ctrl.selectInstance, 'rerender');
       ctrl.config.add = {label: 'fooo'};
       scope.$digest();
 
@@ -339,8 +339,8 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal('test1');
     });
 
-    it('Should support function as label', function () {
-      scope.getLabel = this.sinon.stub().returns('test label');
+    it('Should support function as label', () => {
+      scope.getLabel = sandbox.stub().returns('test label');
 
       compileTemplate('<rg-select options="getLabel(item) for item in items track by item.id" ng-model="selectedItem"></rg-select>');
 
@@ -380,10 +380,10 @@ describe('Select Ng', () => {
       ctrl.optionsParser.getSelectedLabel(scope.options[0]).should.equal(scope.options[0].fullText);
     });
 
-    it('Should pass selected to callback', function () {
+    it('Should pass selected to callback', () => {
       scope.options = [{key: 1, label: 'test'}];
       const selectedModel = {originalModel: scope.options[0]};
-      scope.callback = this.sinon.spy();
+      scope.callback = sandbox.spy();
 
       compileTemplate('<rg-select options="item in options" on-select="callback(selected)"></rg-select>');
       ctrl.config.onSelect(selectedModel);
@@ -421,7 +421,7 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.selected.label.should.equal(optionMock.label);
     });
 
-    it('Should call only once data source function for primitive ng-model', function () {
+    it('Should call only once data source function for primitive ng-model', () => {
       function createOptionMock(value) {
         return {
           value,
@@ -437,7 +437,7 @@ describe('Select Ng', () => {
       ];
 
       scope.selectedOption = scope.options[0];
-      scope.getOptions = this.sinon.stub().returns(scope.options);
+      scope.getOptions = sandbox.stub().returns(scope.options);
 
       compileTemplate('<rg-select ng-model="selectedOption" options="item.value as item.label for item in getOptions()"></rg-select>');
       ctrl.loadOptionsToSelect('');

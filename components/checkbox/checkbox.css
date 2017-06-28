@@ -1,49 +1,61 @@
 @value unit, font-size, text-color, borders-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
-
 @value checkbox-size: 14px;
 
 .checkbox {
-  color: text-color;
-  text-align: left;
-  outline: none;
-  display: inline-block;
   position: relative;
+
+  display: inline-block;
+
+  text-align: left;
+
+  color: text-color;
+  outline: none;
 }
 
 .input[type="checkbox"] {
-  opacity: 0;
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+
   width: 100%;
+  height: 100%;
   margin: 0;
+
   cursor: pointer;
 
+  opacity: 0;
+
   & + .cell {
-    content: "";
-    pointer-events: none;
-    vertical-align: middle;
     position: relative;
     top: -2px;
+
     display: inline-block;
+
     box-sizing: border-box;
     width: checkbox-size;
     height: checkbox-size;
+
+    content: "";
+    user-select: none;
+    transition: border-color ease, background-color ease, box-shadow ease;
+    vertical-align: middle;
+    pointer-events: none;
+
     border: 1px solid borders-color;
     border-radius: 3px;
     background-color: white-color;
-    user-select: none;
-    transition: border-color ease, background-color ease, box-shadow ease;
 
     & .icon {
       position: absolute;
-      top: calc(- unit * 1.5);
-      opacity: 0;
-      transition: opacity fast-ease, top fast-ease;
+      top: calc(unit * -1.5);
       left: 1px;
+
       width: checkbox-size;
       height: checkbox-size;
+
+      transition: opacity fast-ease, top fast-ease;
+
+      opacity: 0;
 
       & svg {
         position: absolute;
@@ -56,8 +68,8 @@
   }
 
   &[disabled] ~ span {
+    color: color(text-color alpha(-50%));
     filter: grayscale(1);
-    color: color(text-color alpha(-50%))
   }
 
   &:checked + .cell {
@@ -65,26 +77,29 @@
     background-color: selected-background-color;
 
     & .icon {
+      top: calc(unit * -0.5);
+
       opacity: 1;
-      top: calc(- unit * 0.5);
     }
   }
 
   &:focus + .cell,
   &.focus + .cell {
     transition: background-color ease;
+
     border-color: border-hover-color;
     box-shadow: 0 0 0 1px border-hover-color;
   }
 
   &:hover + .cell {
     transition: background-color ease;
+
     border-color: border-hover-color;
   }
 }
 
-
 .label {
   margin-left: unit;
+
   line-height: normal;
 }

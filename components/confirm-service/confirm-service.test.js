@@ -35,7 +35,7 @@ describe('Confirm Service', () => {
   });
 
   it('should resolve on confirm', async () => {
-    const spy = sinon.spy();
+    const spy = sandbox.spy();
     const promise = confirm({text: 'foo'}).then(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-ok-button"]');
     Simulate.click(okButton);
@@ -45,7 +45,7 @@ describe('Confirm Service', () => {
   });
 
   it('should reject on reject', async () => {
-    const spy = sinon.spy();
+    const spy = sandbox.spy();
     const promise = confirm({text: 'foo'}).catch(spy);
     const okButton = getContainer().querySelector('*[data-test="confirm-reject-button"]');
     Simulate.click(okButton);

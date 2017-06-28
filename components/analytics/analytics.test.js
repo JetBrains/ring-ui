@@ -1,10 +1,11 @@
-/* eslint-disable func-names */
-
 import analytics from './analytics';
 import AnalyticsGAPlugin from './analytics__ga-plugin';
 import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 const Analytics = analytics.constructor;
+const TICK_INTERVAL = 10500;
+const MAX_PACK_SIZE = 100;
+const FLUSH_INTERVAL = 10000;
 
 describe('Analytics', () => {
   it('should be created', () => {
@@ -36,9 +37,9 @@ describe('Analytics', () => {
       expect(gaPlugin.trackEvent).should.exist;
     });
 
-    it('should send pageview event', function () {
+    it('should send pageview event', () => {
       const rememberGA = window.ga;
-      window.ga = this.sinon.spy();
+      window.ga = sandbox.spy();
       gaPlugin.trackPageView('some-path');
 
       window.ga.should.have.been.calledWith('send', 'pageview', 'some-path');
@@ -46,9 +47,9 @@ describe('Analytics', () => {
       window.ga = rememberGA;
     });
 
-    it('should send action event', function () {
+    it('should send action event', () => {
       const rememberGA = window.ga;
-      window.ga = this.sinon.spy();
+      window.ga = sandbox.spy();
       gaPlugin.trackEvent('some-category', 'some-action');
 
       window.ga.should.calledWith('send', 'event', {
@@ -76,90 +77,93 @@ describe('Analytics', () => {
   });
 
   describe('tracking events', () => {
-    beforeEach(function () {
-      this.send = this.sinon.spy();
-      this.clock = this.sinon.useFakeTimers();
-      this.analytics = new Analytics();
+    let send;
+    let clock;
+    let analyticsInstance;
+    beforeEach(() => {
+      send = sandbox.spy();
+      clock = sandbox.useFakeTimers();
+      analyticsInstance = new Analytics();
     });
 
     describe('#enabled', () => {
 
       let customPlugin;
-      beforeEach(function () {
-        customPlugin = new AnalyticsCustomPlugin(this.send);
-        this.analytics.config([customPlugin]);
+      beforeEach(() => {
+        customPlugin = new AnalyticsCustomPlugin(send);
+        analyticsInstance.config([customPlugin]);
       });
 
-      it('should send request to statistics server on tracking event', function () {
-        this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+      it('should send request to statistics server on tracking event', () => {
+        analyticsInstance.trackEvent('test-category', 'test-action');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.have.been.calledWith([{
+        send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }]);
       });
 
-      it('should support configuration via method config', function () {
-        const flushingFunction = this.sinon.spy();
+      it('should support configuration via method config', () => {
+        const flushingFunction = sandbox.spy();
         customPlugin.config({
           send: flushingFunction
         });
 
-        this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+        analyticsInstance.trackEvent('test-category', 'test-action');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.not.have.been.called;
+        send.should.not.have.been.called;
         flushingFunction.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }]);
       });
 
-      it('should send request on achieving max pack size', function () {
-        for (let i = 0; i < 99; ++i) {
-          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+      it('should send request on achieving max pack size', () => {
+        for (let i = 0; i < MAX_PACK_SIZE - 1; ++i) {
+          analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(99);
+        expect(customPlugin._data.length).equal(MAX_PACK_SIZE - 1);
 
-        this.analytics.trackEvent('test-category-100', 'test-action');
+        analyticsInstance.trackEvent('test-category-100', 'test-action');
 
-        this.send.should.have.been.called;
+        send.should.have.been.called;
         expect(customPlugin._data.length).equal(0);
       });
 
-      it('should configure max pack size via config', function () {
+      it('should configure max pack size via config', () => {
         customPlugin.config({
-          send: this.send,
-          flushMaxPackSize: 102
+          send,
+          flushMaxPackSize: MAX_PACK_SIZE + 2
         });
 
-        for (let i = 0; i < 101; ++i) {
-          this.analytics.trackEvent(`test-category-${i}`, 'test-action');
+        for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
+          analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(101);
+        expect(customPlugin._data.length).equal(MAX_PACK_SIZE + 1);
 
-        this.analytics.trackEvent('test-category-102', 'test-action');
+        analyticsInstance.trackEvent('test-category-102', 'test-action');
 
-        this.send.should.have.been.called;
+        send.should.have.been.called;
         expect(customPlugin._data.length).equal(0);
       });
 
-      it('should remove prohibited symbols', function () {
-        this.analytics.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
-        this.clock.tick(10500);
+      it('should remove prohibited symbols', () => {
+        analyticsInstance.trackEvent('t/\\est-c,ate:gory*?', 't/\\est-a,ct:ion*?');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.have.been.calledWith([{
+        send.should.have.been.calledWith([{
           category: 't_est-c_ate_gory_',
           action: 't/_est-a_ct_ion_'
         }]);
       });
 
-      it('should track event with additional information', function () {
-        this.analytics.trackEvent('test-category', 'test-action', {type: 'test-type'});
-        this.clock.tick(10500);
+      it('should track event with additional information', () => {
+        analyticsInstance.trackEvent('test-category', 'test-action', {type: 'test-type'});
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.have.been.calledWith([{
+        send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }, {
@@ -168,11 +172,11 @@ describe('Analytics', () => {
         }]);
       });
 
-      it('should send two events to statistics server on tracking shortcut event', function () {
-        this.analytics.trackShortcutEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+      it('should send two events to statistics server on tracking shortcut event', () => {
+        analyticsInstance.trackShortcutEvent('test-category', 'test-action');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.have.been.calledWith([{
+        send.should.have.been.calledWith([{
           category: 'test-category',
           action: 'test-action'
         }, {
@@ -184,7 +188,7 @@ describe('Analytics', () => {
       describe('trackEntityProperties', () => {
         it(
           'should send all enumerated properties to statistics server on tracking entity',
-          function () {
+          () => {
             const entity = {
               param1: 'first',
               param2: 'second',
@@ -193,8 +197,8 @@ describe('Analytics', () => {
               param5: 'should-be-ignored'
             };
             const trackedProperties = ['param1', 'param2', 'param3', 'param4'];
-            this.analytics.trackEntityProperties('sample-entity', entity, trackedProperties);
-            this.clock.tick(10500);
+            analyticsInstance.trackEntityProperties('sample-entity', entity, trackedProperties);
+            clock.tick(TICK_INTERVAL);
 
             const trackedData = [];
             trackedProperties.forEach(it => {
@@ -203,31 +207,31 @@ describe('Analytics', () => {
                 action: `${it}__${entity[it]}`
               });
             });
-            this.send.should.have.been.calledWith(trackedData);
+            send.should.have.been.calledWith(trackedData);
           }
         );
 
-        it('should not send any data if no properties requested', function () {
+        it('should not send any data if no properties requested', () => {
           const entity = {
             param1: 'first',
             param2: 'second'
           };
-          this.analytics.trackEntityProperties('sample-entity', entity, []);
-          this.clock.tick(10500);
+          analyticsInstance.trackEntityProperties('sample-entity', entity, []);
+          clock.tick(TICK_INTERVAL);
 
-          this.send.should.not.have.been.called;
+          send.should.not.have.been.called;
         });
 
-        it('should not throw error if there are no some properties', function () {
+        it('should not throw error if there are no some properties', () => {
           const entity = {
             param1: 'first',
             param2: 'second'
           };
-          this.analytics.
+          analyticsInstance.
             trackEntityProperties('entity', entity, ['param1', 'nonexistent-property']);
-          this.clock.tick(10500);
+          clock.tick(TICK_INTERVAL);
 
-          this.send.should.have.been.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'entity',
             action: 'param1__first'
           }, {
@@ -236,7 +240,7 @@ describe('Analytics', () => {
           }]);
         });
 
-        it('should work with subproperties', function () {
+        it('should work with subproperties', () => {
           const entity = {
             property: {
               subproperty1: 'subproperty1-value',
@@ -250,10 +254,10 @@ describe('Analytics', () => {
             'property.subproperty2.subsubproperty',
             'property.subproperty3.nonexistent'
           ];
-          this.analytics.trackEntityProperties('entity', entity, trackedProperties);
-          this.clock.tick(10500);
+          analyticsInstance.trackEntityProperties('entity', entity, trackedProperties);
+          clock.tick(TICK_INTERVAL);
 
-          this.send.should.have.been.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'entity',
             action: 'property-subproperty2-subsubproperty__subsubproperty-value'
           }, {
@@ -263,24 +267,24 @@ describe('Analytics', () => {
         });
       });
 
-      it('should send request to statistics server on page view', function () {
-        this.analytics.trackPageView('test-page');
-        this.clock.tick(10500);
+      it('should send request to statistics server on page view', () => {
+        analyticsInstance.trackPageView('test-page');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.have.been.called;
+        send.should.have.been.called;
       });
 
-      it('should send request to statistics server multiple times', function () {
+      it('should send request to statistics server multiple times', () => {
         //first loop
-        this.analytics.trackPageView('test-page');
-        this.clock.tick(10500);
-        this.send.should.have.been.called;
+        analyticsInstance.trackPageView('test-page');
+        clock.tick(TICK_INTERVAL);
+        send.should.have.been.called;
 
         //second loop
-        this.analytics.trackEvent('test-category', 'test-event');
-        this.analytics.trackEvent('test-category-2', 'test-event-2');
-        this.clock.tick(10500);
-        this.send.should.calledWith([{
+        analyticsInstance.trackEvent('test-category', 'test-event');
+        analyticsInstance.trackEvent('test-category-2', 'test-event-2');
+        clock.tick(TICK_INTERVAL);
+        send.should.calledWith([{
           category: 'test-category',
           action: 'test-event'
         }, {
@@ -291,28 +295,29 @@ describe('Analytics', () => {
       });
 
       describe('flushing restriction', () => {
-        it('flushing should be allowed on second step', function () {
+        it('flushing should be allowed on second step', () => {
           let counter = 0;
           function flushingIsAllowedOnSecondCheck() {
             ++counter;
+            // eslint-disable-next-line no-magic-numbers
             return counter === 2;
           }
 
           customPlugin = new AnalyticsCustomPlugin(
-            this.send,
+            send,
             false,
-            10000,
+            FLUSH_INTERVAL,
             flushingIsAllowedOnSecondCheck
           );
-          this.analytics.config([customPlugin]);
+          analyticsInstance.config([customPlugin]);
 
-          this.analytics.trackEvent('test-category', 'test-action');
-          this.clock.tick(10500);
+          analyticsInstance.trackEvent('test-category', 'test-action');
+          clock.tick(TICK_INTERVAL);
 
-          this.send.should.not.have.been.called;
-          this.clock.tick(10500);
+          send.should.not.have.been.called;
+          clock.tick(TICK_INTERVAL);
 
-          this.send.should.have.been.calledWith([{
+          send.should.have.been.calledWith([{
             category: 'test-category',
             action: 'test-action'
           }]);
@@ -320,15 +325,15 @@ describe('Analytics', () => {
       });
     });
     describe('#disabled', () => {
-      beforeEach(function () {
-        this.analytics.config([]);
+      beforeEach(() => {
+        analyticsInstance.config([]);
       });
 
-      it('should not send request to statistics server', function () {
-        this.analytics.trackEvent('test-category', 'test-action');
-        this.clock.tick(10500);
+      it('should not send request to statistics server', () => {
+        analyticsInstance.trackEvent('test-category', 'test-action');
+        clock.tick(TICK_INTERVAL);
 
-        this.send.should.not.have.been.called;
+        send.should.not.have.been.called;
       });
     });
   });

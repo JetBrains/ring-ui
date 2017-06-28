@@ -1,10 +1,11 @@
-/* eslint-disable func-names */
-import 'dom4';
+/* eslint-disable no-magic-numbers */
 import React from 'react';
-import {render, unmountComponentAtNode, findDOMNode} from 'react-dom';
-import {renderIntoDocument, Simulate} from 'react-dom/test-utils';
+import {findDOMNode} from 'react-dom';
+import {Simulate} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import List from '../list/list';
+import Input from '../input/input';
 import sniffr from '../global/sniffer';
 
 import Select from './select';
@@ -33,28 +34,26 @@ describe('Select', () => {
     {key: 4, label: 'four4', type: List.ListProps.Type.ITEM}
   ];
 
-  beforeEach(function () {
-    this.renderSelect = props => {
-      this.select = renderIntoDocument(React.createElement(Select, {
-        data: testData,
-        selected: testData[0],
-        onChange: this.sinon.spy(),
-        onFilter: this.sinon.spy(),
-        onFocus: this.sinon.spy(),
-        onBlur: this.sinon.spy(),
-        filter: true,
-        ...props
-      }));
-    };
-    this.renderSelect({});
+  const defaultProps = () => ({
+    data: testData,
+    selected: testData[0],
+    onChange: sandbox.spy(),
+    onFilter: sandbox.spy(),
+    onFocus: sandbox.spy(),
+    onBlur: sandbox.spy(),
+    filter: true
   });
 
-  it('Should initialize', function () {
-    expect(this.select).to.be.defined;
+  const shallowSelect = props => shallow(<Select {...defaultProps()} {...props}/>);
+  const mountSelect = props => mount(<Select {...defaultProps()} {...props}/>);
+
+  it('Should initialize', () => {
+    shallowSelect().should.exist;
   });
 
-  it('Should save selected item in state', function () {
-    expect(this.select.state.selected).to.equal(this.select.props.selected);
+  it('Should save selected item in state', () => {
+    const wrapper = mountSelect();
+    wrapper.should.have.state('selected', wrapper.prop('selected'));
   });
 
   it('Should provide select types', () => {
@@ -64,256 +63,290 @@ describe('Select', () => {
     expect(Select.Type.CUSTOM).to.be.defined;
   });
 
-  it('Should take provided className', function () {
-    this.renderSelect({className: 'foo-bar'});
-    this.select.node.should.have.class('foo-bar');
+  it('Should take provided className', () => {
+    const wrapper = shallowSelect({className: 'foo-bar'});
+    wrapper.should.have.className('foo-bar');
   });
 
-  it('Should compute selected index', function () {
-    const selectedIndex = this.select._getSelectedIndex(testData[2], testData);
+  it('Should compute selected index', () => {
+    const instance = shallowSelect().instance();
+    const selectedIndex = instance._getSelectedIndex(testData[2], testData);
     selectedIndex.should.equal(2);
   });
 
-  it('should update rendered data if props change', function () {
-    this.renderSelect({data: [testData[0]]});
-    this.select.state.shownData.should.deep.equal([testData[0]]);
+  it('should update rendered data if props change', () => {
+    const wrapper = shallowSelect();
+    wrapper.setProps({data: [testData[0]]});
+    wrapper.state('shownData').should.deep.equal([testData[0]]);
   });
 
-  it('Should use selectedLabel for select button title if provided', function () {
-    this.renderSelect({
+  it('Should use selectedLabel for select button title if provided', () => {
+    const wrapper = shallowSelect({
       selected: {
         key: 1, label: 'test1', selectedLabel: 'testLabel'
       }
     });
-    const selectedLabel = this.select._getSelectedString();
+    const instance = wrapper.instance();
+    const selectedLabel = instance._getSelectedString();
     selectedLabel.should.equal('testLabel');
   });
 
-  it('Should use label for select button title', function () {
-    const selectedLabel = this.select._getSelectedString();
+  it('Should use label for select button title', () => {
+    const instance = shallowSelect().instance();
+    const selectedLabel = instance._getSelectedString();
     selectedLabel.should.equal('first1');
   });
 
-  it('Should clear selected on clearing', function () {
-    this.select.clear();
-    expect(this.select.state.selected).to.be.null;
+  it('Should clear selected on clearing', () => {
+    const wrapper = shallowSelect();
+    const instance = wrapper.instance();
+    instance.clear();
+    wrapper.should.have.state('selected', null);
   });
 
-  it('Should call onChange on clearing', function () {
-    this.select.clear();
-    this.select.props.onChange.should.been.called.once;
-    this.select.props.onChange.should.been.called.calledWith(null);
+  it('Should call onChange on clearing', () => {
+    const wrapper = mountSelect();
+    const instance = wrapper.instance();
+    instance.clear();
+    wrapper.prop('onChange').should.be.calledOnce;
+    wrapper.prop('onChange').should.be.called.calledWith(null);
   });
 
-  it('Should pass selected item and event to onChange', function () {
-    this.select._listSelectHandler({item: 'foo'}, {nativeEvent: 'foo'});
-    this.select.props.onChange.should.been.called.calledWith({item: 'foo'}, {nativeEvent: 'foo'});
+  it('Should pass selected item and event to onChange', () => {
+    const wrapper = mountSelect();
+    const instance = wrapper.instance();
+    instance._listSelectHandler({item: 'foo'}, {nativeEvent: 'foo'});
+    wrapper.prop('onChange').should.be.called.calledWith({item: 'foo'}, {nativeEvent: 'foo'});
   });
 
-  it('Should clear selected when rerendering with no selected item', function () {
-    this.renderSelect({selected: null});
-    expect(this.select.state.selected).to.be.null;
+  it('Should clear selected when rerendering with no selected item', () => {
+    const wrapper = shallowSelect();
+    wrapper.setProps({selected: null});
+    wrapper.should.have.state('selected', null);
   });
 
-  it('Should handle UP, DOWN and ENTER shortcuts', function () {
-    const shortcuts = this.select.getShortcutsProps();
+  it('Should handle UP, DOWN and ENTER shortcuts', () => {
+    const wrapper = shallowSelect();
+    const instance = wrapper.instance();
+    const shortcuts = instance.getShortcutsProps();
     shortcuts.map.enter.should.be.defined;
     shortcuts.map.up.should.be.defined;
     shortcuts.map.down.should.be.defined;
   });
 
-  it('Should generate unique scope for shortcuts', function () {
-    const firstTimeScope = this.select.getShortcutsProps().scope;
-    const secondTimeScope = this.select.getShortcutsProps().scope;
+  it('Should generate unique scope for shortcuts', () => {
+    const wrapper = shallowSelect();
+    const instance = wrapper.instance();
+    const firstTimeScope = instance.getShortcutsProps().scope;
+    const secondTimeScope = instance.getShortcutsProps().scope;
     secondTimeScope.should.not.be.equal(firstTimeScope);
   });
 
-  it('Should open popup on key handling if not opened', function () {
-    this.renderSelect({type: Select.Type.INPUT});
-    this.select._showPopup = this.sinon.spy();
-    this.select.setState({focused: true});
-    this.select._inputShortcutHandler();
-    this.select._showPopup.should.been.calledOnce;
+  it('Should open popup on key handling if not opened', () => {
+    const wrapper = mountSelect({type: Select.Type.INPUT});
+    const instance = wrapper.instance();
+    instance._showPopup = sandbox.spy();
+    wrapper.setState({focused: true});
+    instance._inputShortcutHandler();
+    instance._showPopup.should.be.calledOnce;
   });
 
-  it('Should not open popup if disabled', function () {
-    this.renderSelect({disabled: true});
-    this.select._showPopup = this.sinon.spy();
-    this.select._clickHandler();
-    this.select._showPopup.should.not.been.called;
+  it('Should not open popup if disabled', () => {
+    const wrapper = mountSelect({disabled: true});
+    const instance = wrapper.instance();
+    instance._showPopup = sandbox.spy();
+    instance._clickHandler();
+    instance._showPopup.should.not.be.called;
   });
 
-  it('Should close popup on click if it is already open', function () {
-    this.select._hidePopup = this.sinon.spy();
-    this.select._showPopup();
-    this.select._clickHandler();
-    this.select._hidePopup.should.been.called;
+  it('Should close popup on click if it is already open', () => {
+    const wrapper = mountSelect();
+    const instance = wrapper.instance();
+    instance._hidePopup = sandbox.spy();
+    instance._showPopup();
+    instance._clickHandler();
+    instance._hidePopup.should.be.called;
   });
 
-  it('Should call onAdd on adding', function () {
-    this.renderSelect({onAdd: this.sinon.spy()});
-    this.select.addHandler();
-    this.select.props.onAdd.should.been.calledOnce;
+  it('Should call onAdd on adding', () => {
+    const wrapper = mountSelect({onAdd: sandbox.spy()});
+    const instance = wrapper.instance();
+    instance.addHandler();
+    wrapper.prop('onAdd').should.be.calledOnce;
   });
 
-  it('Should call onFocus on input focus', function () {
-    this.renderSelect({type: Select.Type.INPUT});
+  it('Should call onFocus on input focus', () => {
+    const wrapper = mountSelect({type: Select.Type.INPUT});
+    const instance = wrapper.instance();
 
-    Simulate.focus(this.select.filter);
-    this.select.props.onFocus.should.been.called;
+    Simulate.focus(instance.filter);
+    wrapper.prop('onFocus').should.be.called;
   });
 
-  it('Should call onBlur on input blur', function () {
-    this.renderSelect({type: Select.Type.INPUT});
+  it('Should call onBlur on input blur', () => {
+    const wrapper = mountSelect({type: Select.Type.INPUT});
+    const instance = wrapper.instance();
 
-    Simulate.blur(this.select.filter);
-    this.select.props.onBlur.should.been.called;
+    Simulate.blur(instance.filter);
+    wrapper.prop('onBlur').should.be.called;
   });
 
-  it('Should close popup if input lost focus in INPUT mode', function () {
-    this.sinon.useFakeTimers();
-    this.renderSelect({type: Select.Type.INPUT});
-    this.select._showPopup();
+  it('Should close popup if input lost focus in INPUT mode', () => {
+    sandbox.useFakeTimers();
+    const wrapper = mountSelect({type: Select.Type.INPUT});
+    const instance = wrapper.instance();
+    instance._showPopup();
 
-    Simulate.blur(this.select.filter);
-    this.sinon.clock.tick();
-    this.select._popup.props.hidden.should.be.true;
+    Simulate.blur(instance.filter);
+    sandbox.clock.tick();
+    instance._popup.props.hidden.should.be.true;
   });
 
-  it('Should not close popup while clicking on popup in INPUT mode', function () {
-    this.sinon.useFakeTimers();
-    this.renderSelect({type: Select.Type.INPUT});
-    this.select._showPopup();
+  it('Should not close popup while clicking on popup in INPUT mode', () => {
+    sandbox.useFakeTimers();
+    const wrapper = mountSelect({type: Select.Type.INPUT});
+    const instance = wrapper.instance();
+    instance._showPopup();
 
-    Simulate.mouseDown(this.select._popup.list.node);
-    Simulate.blur(this.select.filter);
-    this.sinon.clock.tick();
-    this.select._popup.props.hidden.should.be.false;
+    Simulate.mouseDown(instance._popup.list.node);
+    Simulate.blur(instance.filter);
+    sandbox.clock.tick();
+    instance._popup.props.hidden.should.be.false;
   });
 
   describe('DOM', () => {
-    it('Should place select button inside container', function () {
-      this.select.node.should.have.class(styles.select);
+    it('Should place select button inside container', () => {
+      const wrapper = shallowSelect();
+      wrapper.should.have.className(styles.select);
     });
 
-    it('Should disable select button if needed', function () {
-      this.renderSelect({
+    it('Should disable select button if needed', () => {
+      const wrapper = mountSelect({
         disabled: true
       });
-      this.select.node.should.have.class(styles.disabled);
-      this.select.button.should.have.attr('disabled');
+      wrapper.should.have.className(styles.disabled);
+      wrapper.instance().button.should.have.attr('disabled');
     });
 
-    it('Should not disable select button if not needed', function () {
-      this.renderSelect({
+    it('Should not disable select button if not needed', () => {
+      const wrapper = mountSelect({
         disabled: false
       });
-      this.select.button.should.not.have.attr('disabled');
+      wrapper.instance().button.should.not.have.attr('disabled');
     });
 
-    it('Should place input inside in INPUT mode', function () {
-      this.renderSelect({type: Select.Type.INPUT});
-      this.select.node.should.contain('input');
+    it('Should place input inside in INPUT mode', () => {
+      const wrapper = shallowSelect({type: Select.Type.INPUT});
+      wrapper.should.have.descendants(Input);
     });
 
-    it('Should place icons inside', function () {
-      this.select.node.should.contain(`.${styles.icons}`);
+    it('Should place icons inside', () => {
+      const wrapper = shallowSelect();
+      wrapper.should.have.descendants(`.${styles.icons}`);
     });
 
-    it('Should add selected item icon to button', function () {
-      this.renderSelect({
+    it('Should add selected item icon to button', () => {
+      const wrapper = shallowSelect({
         selected: {
           key: 1,
           label: 'test',
           icon: 'fakeImageUrl'
         }
       });
-      this.select.node.should.contain(`.${styles.selectedIcon}`);
+      wrapper.should.have.descendants(`.${styles.selectedIcon}`);
     });
 
-    it('Should not display selected item icon if it is not provided', function () {
-      this.renderSelect({selected: {key: 1, label: 'test', icon: null}});
-      this.select.node.should.not.contain(`.${styles.selectedIcon}`);
+    it('Should not display selected item icon if it is not provided', () => {
+      const wrapper = shallowSelect({selected: {key: 1, label: 'test', icon: null}});
+      wrapper.should.not.have.descendants(`.${styles.selectedIcon}`);
     });
 
-    it('Should display selected item icon', function () {
-      this.renderSelect({
+    it('Should display selected item icon', () => {
+      const wrapper = mountSelect({
         selected: {
           key: 1,
           label: 'test',
           icon: 'http://fake.image/'
         }
       });
-      const icon = this.select.node.querySelector(`.${styles.selectedIcon}`);
-      expect(icon.style.backgroundImage).to.contain('http://fake.image/');
+      const icon = wrapper.find(`.${styles.selectedIcon}`).getDOMNode();
+      icon.style.backgroundImage.should.contain('http://fake.image/');
     });
 
-    it('Should place icons inside in INPUT mode', function () {
-      this.renderSelect({type: Select.Type.INPUT});
-      this.select.node.should.contain(`.${styles.icons}`);
+    it('Should place icons inside in INPUT mode', () => {
+      const wrapper = shallowSelect({type: Select.Type.INPUT});
+      wrapper.should.have.descendants(`.${styles.icons}`);
     });
 
-    it('Should open select dropdown on click', function () {
-      this.sinon.spy(this.select, '_showPopup');
-      Simulate.mouseDown(this.select.node);
-      Simulate.click(this.select.node);
+    it('Should open select dropdown on click', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      sandbox.spy(instance, '_showPopup');
+      wrapper.simulate('mousedown');
+      wrapper.simulate('click');
 
-      this.select._showPopup.should.have.been.called;
+      instance._showPopup.should.be.called;
     });
 
     describe('Bottom toolbar', () => {
-      it('Should not add "Add" button if enabled but filter query is empty', function () {
-        this.renderSelect({add: true});
-        this.select.filterValue = this.sinon.stub().returns('');
-        this.select._showPopup();
-        this.select._popup.popup.popup.should.not.contain(`.${styles.button}`);
+      it('Should not add "Add" button if enabled but filter query is empty', () => {
+        const wrapper = mountSelect({add: true});
+        const instance = wrapper.instance();
+        instance.filterValue = sandbox.stub().returns('');
+        instance._showPopup();
+        instance._popup.popup.popup.should.not.contain('.ring-select__button');
       });
 
-      it('Should add "Add" button if enabled and filter query not empty', function () {
-        this.renderSelect({add: true});
-        this.select.filterValue = this.sinon.stub().returns('test');
-        this.select._showPopup();
-        this.select._popup.popup.popup.should.contain(`.${styles.button}`);
+      it('Should add "Add" button if enabled and filter query not empty', () => {
+        const wrapper = mountSelect({add: true});
+        const instance = wrapper.instance();
+        instance.filterValue = sandbox.stub().returns('test');
+        instance._showPopup();
+        instance._popup.popup.popup.should.contain(`.${styles.button}`);
       });
 
-      it('Should add "Add" button if alwaysVisible is set', function () {
-        this.renderSelect({
+      it('Should add "Add" button if alwaysVisible is set', () => {
+        const wrapper = mountSelect({
           add: {
             alwaysVisible: true
           }
         });
-        this.select._showPopup();
-        this.select._popup.popup.popup.should.contain(`.${styles.button}`);
+        const instance = wrapper.instance();
+        instance._showPopup();
+        instance._popup.popup.popup.should.contain(`.${styles.button}`);
       });
 
-      it('Should place label instead filterValue to "Add" button if alwaysVisible is set', function () {
-        this.renderSelect({
+      it('Should place label instead filterValue to "Add" button if alwaysVisible is set', () => {
+        const wrapper = mountSelect({
           add: {
             alwaysVisible: true,
             label: 'Add Something'
           }
         });
-        this.select._showPopup();
-        const addButton = this.select._popup.popup.popup.query(`.${styles.button}`);
+        const instance = wrapper.instance();
+        instance._showPopup();
+        const addButton = instance._popup.popup.popup.query(`.${styles.button}`);
 
         addButton.should.contain.text('Add Something');
       });
 
-      it('Should add hint if specified', function () {
-        this.renderSelect({
+      it('Should add hint if specified', () => {
+        const wrapper = mountSelect({
           hint: 'blah blah'
         });
-        this.select._showPopup();
-        this.select._popup.popup.popup.should.contain('[data-test=ring-list-hint]');
+        const instance = wrapper.instance();
+        instance._showPopup();
+        instance._popup.popup.popup.should.contain('[data-test=ring-list-hint]');
       });
 
-      it('Hint should be placed under "add" button', function () {
-        this.renderSelect({
+      it('Hint should be placed under "add" button', () => {
+        const wrapper = mountSelect({
           add: true,
           hint: 'blah blah'
         });
-        this.select._showPopup();
-        const hint = this.select._popup.popup.popup.queryAll('[data-test=ring-list-hint]');
+        const instance = wrapper.instance();
+        instance._showPopup();
+        const hint = instance._popup.popup.popup.queryAll('[data-test=ring-list-hint]');
 
         hint.should.exist;
       });
@@ -321,409 +354,475 @@ describe('Select', () => {
   });
 
   describe('getListItems', () => {
-    it('Should filter items by label', function () {
-      const filtered = this.select.getListItems('test3');
+    it('Should filter items by label', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      const filtered = instance.getListItems('test3');
       filtered.length.should.equal(1);
       filtered[0].label.should.equal('test3');
     });
 
-    it('Should filter items by part of label', function () {
-      const filtered = this.select.getListItems('test');
+    it('Should filter items by part of label', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      const filtered = instance.getListItems('test');
       filtered.length.should.equal(2);
     });
 
-    it('Should not filter separators', function () {
+    it('Should not filter separators', () => {
       const separators = [{
         type: List.ListProps.Type.SEPARATOR,
         key: 1,
         description: 'test'
       }];
-      this.renderSelect({data: separators});
+      const wrapper = shallowSelect({data: separators});
+      const instance = wrapper.instance();
 
-      const filtered = this.select.getListItems('foo');
+      const filtered = instance.getListItems('foo');
       filtered.should.deep.equal(separators);
     });
 
-    it('Should use custom filter.fn if provided', function () {
-      const filterStub = this.sinon.stub().returns(true);
+    it('Should use custom filter.fn if provided', () => {
+      const filterStub = sandbox.stub().returns(true);
 
-      this.renderSelect({
+      const wrapper = shallowSelect({
         filter: {fn: filterStub}
       });
+      const instance = wrapper.instance();
 
-      const filtered = this.select.getListItems('test3');
+      const filtered = instance.getListItems('test3');
 
       filtered.length.should.equal(testData.length);
       filterStub.should.have.callCount(8);
     });
 
-    it('Should write filter query on add button if enabled', function () {
-      this.renderSelect({
+    it('Should write filter query on add button if enabled', () => {
+      const wrapper = shallowSelect({
         add: {
           prefix: 'Add some'
         }
       });
+      const instance = wrapper.instance();
 
-      this.select.getListItems('foo');
+      instance.getListItems('foo');
 
-      this.select._addButton.label.should.equal('foo');
+      instance._addButton.label.should.equal('foo');
     });
   });
 
   describe('Filtering', () => {
-    it('Should call onFilter on input changes', function () {
-      this.select.setState({
+    it('Should call onFilter on input changes', () => {
+      const wrapper = mountSelect();
+      const instance = wrapper.instance();
+      wrapper.setState({
         focused: true,
         showPopup: true
       });
-      simulateInput(this.select._popup.filter, 'a');
-      this.select.props.onFilter.should.been.called;
+      simulateInput(instance._popup.filter, 'a');
+      wrapper.prop('onFilter').should.be.called;
     });
 
-    it('Should save input changes', function () {
-      this.select.setState({showPopup: true});
-      simulateInput(this.select._popup.filter, 'a');
-      this.select.state.filterValue.should.equals('a');
+    it('Should save input changes', () => {
+      const wrapper = mountSelect();
+      const instance = wrapper.instance();
+      wrapper.setState({showPopup: true});
+      simulateInput(instance._popup.filter, 'a');
+      wrapper.should.have.state('filterValue', 'a');
     });
 
-    it('Should open popup on input changes if in focus', function () {
-      this.renderSelect({type: Select.Type.INPUT});
-      this.select._showPopup = this.sinon.spy();
-      this.select.setState({focused: true});
-      simulateInput(this.select.filter, 'a');
-      this.select._showPopup.should.have.been.called;
+    it('Should open popup on input changes if in focus', () => {
+      const wrapper = mountSelect({type: Select.Type.INPUT});
+      const instance = wrapper.instance();
+      instance._showPopup = sandbox.spy();
+      wrapper.setState({focused: true});
+      simulateInput(instance.filter, 'a');
+      instance._showPopup.should.be.called;
     });
 
-    it('should filter if not focused but not in input mode', function () {
-      this.renderSelect({type: Select.Type.BUTTON});
-      this.select.setState({showPopup: true});
-      simulateInput(this.select._popup.filter, 'a');
+    it('should filter if not focused but not in input mode', () => {
+      const wrapper = mountSelect({type: Select.Type.BUTTON});
+      const instance = wrapper.instance();
+      wrapper.setState({showPopup: true});
+      simulateInput(instance._popup.filter, 'a');
 
-      this.select.props.onFilter.should.have.been.called;
+      wrapper.prop('onFilter').should.be.called;
     });
 
-    it('Should not open popup on input changes if not in focus', function () {
-      this.renderSelect({type: Select.Type.INPUT});
+    it('Should not open popup on input changes if not in focus', () => {
+      const wrapper = mountSelect({type: Select.Type.INPUT});
+      const instance = wrapper.instance();
 
-      this.select._showPopup = this.sinon.spy();
-      simulateInput(this.select.filter, 'a');
-      this.select._showPopup.should.not.have.been.called;
+      instance._showPopup = sandbox.spy();
+      simulateInput(instance.filter, 'a');
+      instance._showPopup.should.not.be.called;
     });
 
-    it('Should return empty string if not input mode and filter is disabled', function () {
-      this.renderSelect({filter: false, type: Select.Type.BUTTON});
+    it('Should return empty string if not input mode and filter is disabled', () => {
+      const wrapper = shallowSelect({filter: false, type: Select.Type.BUTTON});
+      const instance = wrapper.instance();
 
-      this.select.filterValue().should.equal('');
+      instance.filterValue().should.equal('');
     });
 
-    it('Should return input value if input mode enabled', function () {
-      this.renderSelect({filter: false, type: Select.Type.INPUT});
-      this.select.setState({focused: true});
-      simulateInput(this.select.filter, 'test input');
-      this.select.filterValue().should.equal('test input');
+    it('Should return input value if input mode enabled', () => {
+      const wrapper = mountSelect({filter: false, type: Select.Type.INPUT});
+      const instance = wrapper.instance();
+      wrapper.setState({focused: true});
+      simulateInput(instance.filter, 'test input');
+      instance.filterValue().should.equal('test input');
     });
 
-    it('Should set value to popup input if passed', function () {
-      this.select._showPopup();
-      this.select.filterValue('test');
-      findDOMNode(this.select._popup.filter).value.should.equal('test');
+    it('Should set value to popup input if passed', () => {
+      const wrapper = mountSelect();
+      const instance = wrapper.instance();
+      instance._showPopup();
+      instance.filterValue('test');
+      findDOMNode(instance._popup.filter).value.should.equal('test');
     });
 
-    it('Should set target input value in input mode', function () {
-      this.renderSelect({filter: false, type: Select.Type.INPUT});
-      this.select.setState({focused: true});
-      this.select.filterValue('test');
-      this.select.filter.value.should.equal('test');
+    it('Should set target input value in input mode', () => {
+      const wrapper = mountSelect({filter: false, type: Select.Type.INPUT});
+      const instance = wrapper.instance();
+
+      wrapper.setState({focused: true});
+      instance.filterValue('test');
+      instance.filter.value.should.equal('test');
     });
 
-    it('Should clear fiter value when closing', function () {
-      this.select.filterValue('test');
-      this.select._showPopup();
-      this.select._hidePopup();
-      this.select._showPopup();
-      findDOMNode(this.select._popup.filter).value.should.equal('');
+    it('Should clear fiter value when closing', () => {
+      const wrapper = mountSelect();
+      const instance = wrapper.instance();
+      instance.filterValue('test');
+      instance._showPopup();
+      instance._hidePopup();
+      instance._showPopup();
+      findDOMNode(instance._popup.filter).value.should.equal('');
     });
   });
 
   describe('Multiple', () => {
-    let selectedArray;
-
-    beforeEach(function () {
-      selectedArray = testData.slice(0, 2);
-
-      this.renderSelect = props => {
-        this.select = renderIntoDocument(React.createElement(Select, {
-          data: testData,
-          selected: selectedArray,
-          filter: true,
-          multiple: true,
-          onChange: this.sinon.spy(),
-          ...props
-        }));
-      };
-      this.renderSelect();
-
-      /**
-       * Disable code running in setTimeout to avoid side effects
-       */
-      this.clock = this.sinon.useFakeTimers();
+    const defaultPropsMultiple = () => ({
+      data: testData,
+      selected: testData.slice(0, 2),
+      filter: true,
+      multiple: true,
+      onChange: sandbox.spy()
     });
 
-    afterEach(function () {
-      this.clock.restore();
+    const shallowSelectMultiple = props => shallow(
+      <Select {...defaultPropsMultiple()} {...props}/>
+    );
+    const mountSelectMultiple = props => mount(
+      <Select {...defaultPropsMultiple()} {...props}/>
+    );
+
+    it('Should fill _multipleMap on initialization', () => {
+      const wrapper = mountSelectMultiple();
+      const instance = wrapper.instance();
+      instance._multipleMap['1'].should.be.true;
     });
 
-    it('Should fill _multipleMap on initialization', function () {
-      this.select._multipleMap['1'].should.be.true;
+    it('Should fill _multipleMap on _rebuildMultipleMap', () => {
+      const wrapper = mountSelectMultiple();
+      const instance = wrapper.instance();
+      instance._rebuildMultipleMap(testData.slice(1, 2));
+      instance._multipleMap['2'].should.be.true;
     });
 
-    it('Should fill _multipleMap on _rebuildMultipleMap', function () {
-      this.select._rebuildMultipleMap(testData.slice(1, 2));
-      this.select._multipleMap['2'].should.be.true;
-    });
-
-    it('Should construct label from selected array', function () {
-      const selectedLabel = this.select._getSelectedString();
+    it('Should construct label from selected array', () => {
+      const wrapper = shallowSelectMultiple();
+      const instance = wrapper.instance();
+      const selectedLabel = instance._getSelectedString();
       selectedLabel.should.equal('first1, test2');
     });
 
-    it('Should detect selection is empty according on not empty array', function () {
-      this.select._selectionIsEmpty().should.be.false;
+    it('Should detect selection is empty according on not empty array', () => {
+      const wrapper = shallowSelectMultiple();
+      const instance = wrapper.instance();
+      instance._selectionIsEmpty().should.be.false;
     });
 
-    it('Should detect selection is empty according on empty array', function () {
-      this.renderSelect({selected: []});
-      this.select._selectionIsEmpty().should.be.true;
+    it('Should detect selection is empty according on empty array', () => {
+      const wrapper = shallowSelectMultiple({selected: []});
+      const instance = wrapper.instance();
+      instance._selectionIsEmpty().should.be.true;
     });
 
-    it('Should clear selected on clearing', function () {
-      this.select.clear();
-      this.select.state.selected.length.should.equal(0);
+    it('Should clear selected on clearing', () => {
+      const wrapper = shallowSelectMultiple();
+      const instance = wrapper.instance();
+      instance.clear();
+      wrapper.state('selected').length.should.equal(0);
     });
 
-    it('Should call onChange on clearing', function () {
-      this.select.clear();
-      this.select.props.onChange.should.been.called.once;
-      this.select.props.onChange.should.been.called.calledWith([]);
+    it('Should call onChange on clearing', () => {
+      const wrapper = mountSelectMultiple();
+      const instance = wrapper.instance();
+      instance.clear();
+      wrapper.prop('onChange').should.be.calledOnce;
+      wrapper.prop('onChange').should.be.called.calledWith([]);
     });
 
-    it('Should clear selected when rerendering with no selected item in multiple mode', function () {
-      this.renderSelect({selected: null});
-      this.select.state.selected.should.deep.equal([]);
+    it('Should clear selected when rerendering with no selected item in multiple mode', () => {
+      const wrapper = shallowSelectMultiple();
+      wrapper.setProps({selected: null});
+      wrapper.state('selected').should.deep.equal([]);
     });
 
-    it('Should update selected checkboxes on selected update', function () {
-      this.renderSelect({selected: []});
-      this.select.getListItems(this.select.filterValue())[0].checkbox.should.be.false;
+    it('Should update selected checkboxes on selected update', () => {
+      const wrapper = shallowSelectMultiple();
+      const instance = wrapper.instance();
+      wrapper.setProps({selected: []});
+      instance.getListItems(instance.filterValue())[0].checkbox.should.be.false;
     });
 
     describe('On selecting', () => {
-      it('Should add item to multiple map on selecting item', function () {
-        this.select._listSelectHandler(testData[3]);
-        this.select._multipleMap['4'].should.be.true;
+      it('Should add item to multiple map on selecting item', () => {
+        const wrapper = mountSelectMultiple();
+        const instance = wrapper.instance();
+        instance._listSelectHandler(testData[3]);
+        instance._multipleMap['4'].should.be.true;
       });
 
-      it('Should add item to selected on selecting item', function () {
-        const lengthBefore = selectedArray.length;
-        this.select._listSelectHandler(testData[3]);
-        this.select.state.selected.length.should.equal(lengthBefore + 1);
+      it('Should add item to selected on selecting item', () => {
+        const wrapper = mountSelectMultiple();
+        const instance = wrapper.instance();
+        const lengthBefore = testData.slice(0, 2).length;
+        instance._listSelectHandler(testData[3]);
+        wrapper.state('selected').length.should.equal(lengthBefore + 1);
       });
 
-      it('Should not close popup on selecting', function () {
-        this.select._hidePopup = this.sinon.spy();
-        this.select._listSelectHandler(testData[3]);
-        this.select._hidePopup.should.not.been.called;
+      it('Should not close popup on selecting', () => {
+        const wrapper = mountSelectMultiple();
+        const instance = wrapper.instance();
+        instance._hidePopup = sandbox.spy();
+        instance._listSelectHandler(testData[3]);
+        instance._hidePopup.should.not.be.called;
       });
     });
 
     describe('On deselecting', () => {
-      it('Should remove item from selected on deselecting', function () {
-        const lengthBefore = selectedArray.length;
-        this.select._listSelectHandler(testData[0]);
-        this.select.state.selected.length.should.equal(lengthBefore - 1);
+      it('Should remove item from selected on deselecting', () => {
+        const wrapper = mountSelectMultiple();
+        const instance = wrapper.instance();
+        const lengthBefore = testData.slice(0, 2).length;
+        instance._listSelectHandler(testData[0]);
+        wrapper.state('selected').length.should.equal(lengthBefore - 1);
       });
 
-      it('Should call onDeselect on deselecting item', function () {
-        this.renderSelect({
-          onDeselect: this.sinon.spy()
+      it('Should call onDeselect on deselecting item', () => {
+        const wrapper = mountSelectMultiple({
+          onDeselect: sandbox.spy()
         });
-        this.select._listSelectHandler(testData[0]);
-        this.select.props.onDeselect.should.been.calledWith(testData[0]);
+        const instance = wrapper.instance();
+        instance._listSelectHandler(testData[0]);
+        wrapper.prop('onDeselect').should.be.calledWith(testData[0]);
       });
     });
 
   });
 
   describe('On selecting', () => {
-    it('Should not react on selecting disabled element', function () {
-      this.select.setState = this.sinon.spy();
+    it('Should not react on selecting disabled element', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance.setState = sandbox.spy();
 
-      this.select._listSelectHandler({
+      instance._listSelectHandler({
         key: 1,
         label: 'test',
         disabled: true
       });
 
-      this.select.setState.should.not.been.called;
+      instance.setState.should.not.be.called;
     });
 
-    it('Should not react on selecting separator', function () {
-      this.select.setState = this.sinon.spy();
+    it('Should not react on selecting separator', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance.setState = sandbox.spy();
 
-      this.select._listSelectHandler({
+      instance._listSelectHandler({
         key: 1,
         label: 'test',
         type: List.ListProps.Type.SEPARATOR
       });
 
-      this.select.setState.should.not.been.called;
+      instance.setState.should.not.be.called;
     });
 
-    it('Should react on selecting custom item', function () {
-      this.select.setState = this.sinon.spy();
+    it('Should react on selecting custom item', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance.setState = sandbox.spy();
 
-      this.select._listSelectHandler({
+      instance._listSelectHandler({
         key: 1,
         label: 'test',
         type: List.ListProps.Type.CUSTOM
       });
 
-      this.select.setState.should.been.called;
+      instance.setState.should.be.called;
     });
 
-    it('Should set selected on selecting', function () {
-      this.select._listSelectHandler(testData[3]);
-      this.select.state.selected.should.equal(testData[3]);
+    it('Should set selected on selecting', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance._listSelectHandler(testData[3]);
+      wrapper.should.have.state('selected', testData[3]);
     });
 
-    it('Should set call onSelect on selecting', function () {
-      this.renderSelect({
-        onSelect: this.sinon.spy()
+    it('Should set call onSelect on selecting', () => {
+      const wrapper = mountSelect({
+        onSelect: sandbox.spy()
       });
-      this.select._listSelectHandler(testData[1]);
-      this.select.props.onSelect.should.been.calledOnce;
+      const instance = wrapper.instance();
+      instance._listSelectHandler(testData[1]);
+      wrapper.prop('onSelect').should.be.calledOnce;
     });
 
-    it('Should set call onChange on selecting', function () {
-      this.renderSelect({
-        onChange: this.sinon.spy()
+    it('Should set call onChange on selecting', () => {
+      const wrapper = mountSelect({
+        onChange: sandbox.spy()
       });
-      this.select._listSelectHandler(testData[1]);
-      this.select.props.onChange.should.been.calledOnce;
+      const instance = wrapper.instance();
+      instance._listSelectHandler(testData[1]);
+      wrapper.prop('onChange').should.be.calledOnce;
     });
 
-    it('Should hide popup on selecting', function () {
-      this.select._hidePopup = this.sinon.spy();
-      this.select._listSelectHandler(testData[1]);
-      this.select._hidePopup.should.been.calledOnce;
+    it('Should hide popup on selecting', () => {
+      const wrapper = mountSelect();
+      const instance = wrapper.instance();
+      instance._hidePopup = sandbox.spy();
+      instance._listSelectHandler(testData[1]);
+      instance._hidePopup.should.be.calledOnce;
     });
   });
 
   describe('Popup', () => {
-    beforeEach(function () {
-      this.container = document.createElement('div');
-      document.body.appendChild(this.container);
+    let container;
+    let mountWrapper;
+    const mountSelectToContainer = props => {
+      mountWrapper = mount(
+        <Select {...props}/>,
+        {
+          attachTo: container
+        }
+      );
+    };
+    beforeEach(() => {
+      container = document.createElement('div');
+      document.body.appendChild(container);
     });
 
-    afterEach(function () {
-      unmountComponentAtNode(this.container);
-      document.body.removeChild(this.container);
-      this.container = null;
+    afterEach(() => {
+      if (mountWrapper) {
+        mountWrapper.detach();
+        mountWrapper = null;
+      }
+      document.body.removeChild(container);
+      container = null;
     });
 
-    it('Should pass loading message and indicator to popup if loading', function () {
-      this.renderSelect({loading: true, loadingMessage: 'test message'});
-      this.select._popup.rerender = this.sinon.stub();
-      this.select._showPopup();
-      this.select._popup.props.message.should.equal('test message');
-      this.select._popup.props.loading.should.be.true;
+    it('Should pass loading message and indicator to popup if loading', () => {
+      const wrapper = mountSelect({loading: true, loadingMessage: 'test message'});
+      const instance = wrapper.instance();
+      instance._popup.rerender = sandbox.stub();
+      instance._showPopup();
+      instance._popup.props.message.should.equal('test message');
+      instance._popup.props.loading.should.be.true;
     });
 
-    it('Should pass notFoundMessage message to popup if not loading and data is empty', function () {
-      this.renderSelect({data: [], notFoundMessage: 'test not found'});
-      this.select._popup.rerender = this.sinon.stub();
-      this.select._showPopup();
-      this.select._popup.props.message.should.equal('test not found');
+    it('Should pass notFoundMessage message to popup if not loading and data is empty', () => {
+      const wrapper = mountSelect({data: [], notFoundMessage: 'test not found'});
+      const instance = wrapper.instance();
+      instance._popup.rerender = sandbox.stub();
+      instance._showPopup();
+      instance._popup.props.message.should.equal('test not found');
     });
 
     describe('filter focusing', () => {
       const SHOW_TIMEOUT = 300;
 
-      beforeEach(function () {
-        this.select = render(<Select filter={true}/>, this.container);
+      beforeEach(() => {
+        mountSelectToContainer({filter: true});
       });
 
-      it('Should focus the filter on opening', function (done) {
-        this.select._showPopup();
+      it('Should focus the filter on opening', done => {
+        const instance = mountWrapper.instance();
+        instance._showPopup();
         // Can't use fake timers here, as Popup redraws by requestAnimationFrame.
         // Stabbing it isn't possible either, as it hangs IE11
         setTimeout(() => {
-          this.select._popup.filter.should.equal(document.activeElement);
+          instance._popup.filter.should.equal(document.activeElement);
           done();
         }, SHOW_TIMEOUT);
       });
 
-      it('Should focus the filter on second opening', function (done) {
-        this.select._showPopup();
-        this.select._hidePopup();
-        this.select._showPopup();
+      it('Should focus the filter on second opening', done => {
+        const instance = mountWrapper.instance();
+        instance._showPopup();
+        instance._hidePopup();
+        instance._showPopup();
         setTimeout(() => {
-          this.select._popup.filter.should.equal(document.activeElement);
+          instance._popup.filter.should.equal(document.activeElement);
           done();
         }, SHOW_TIMEOUT);
       });
     });
 
-    it('Should restore focus on select in button mode after closing popup', function () {
-      this.select = render(React.createElement(Select, {
+    it('Should restore focus on select in button mode after closing popup', () => {
+      mountSelectToContainer({
         data: testData,
         filter: true
-      }), this.container);
+      });
+      const instance = mountWrapper.instance();
 
-      this.select._showPopup();
-      this.select._hidePopup(true);
-      document.activeElement.should.equal(this.select.button);
+      instance._showPopup();
+      instance._hidePopup(true);
+      document.activeElement.should.equal(instance.button);
     });
 
     describe('Focus after close', () => {
-
-      beforeEach(function () {
+      let instance;
+      beforeEach(() => {
         this.targetInput = document.createElement('input');
         document.body.appendChild(this.targetInput);
 
-        this.select = render(React.createElement(Select, {
+        mountSelectToContainer({
           data: testData,
           filter: true,
           targetElement: this.targetInput
-        }), this.container);
+        });
+        instance = mountWrapper.instance();
 
-        this.select._showPopup();
+        instance._showPopup();
       });
 
-      afterEach(function () {
+      afterEach(() => {
         document.body.removeChild(this.targetInput);
         this.targetInput = null;
       });
 
-      it('Should restore focus on provided target element after closing popup', function () {
-        this.select._hidePopup(true);
+      it('Should restore focus on provided target element after closing popup', () => {
+        instance._hidePopup(true);
 
         this.targetInput.should.equal(document.activeElement);
       });
 
-      it('Should restore focus on provided target element after closing popup with keyboard', function () {
+      it('Should restore focus on provided target element after closing popup with keyboard', () => {
         simulateCombo('esc');
         this.targetInput.should.equal(document.activeElement);
       });
 
-      it('Should not restore focus on provided target element after closing popup with not keyboard event', function () {
+      it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         Simulate.click(document.body);
 
         this.targetInput.should.not.equal(document.activeElement);
       });
 
-      it('Should not restore focus on provided target element after closing popup', function () {
-        this.select._hidePopup();
+      it('Should not restore focus on provided target element after closing popup', () => {
+        instance._hidePopup();
 
         this.targetInput.should.not.equal(document.activeElement);
       });

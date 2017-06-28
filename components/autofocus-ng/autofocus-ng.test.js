@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /* global inject */
 
 import 'angular';
@@ -26,9 +25,9 @@ describe('Autofocus Ng', () => {
 
   }));
 
-  it('Should focus when flag changed', function () {
+  it('Should focus when flag changed', () => {
 
-    this.sinon.spy(element[0], 'focus');
+    sandbox.spy(element[0], 'focus');
 
     $scope.vm.focus = true;
     $scope.$digest();
@@ -36,11 +35,11 @@ describe('Autofocus Ng', () => {
     element[0].focus.should.have.been.called;
   });
 
-  it('Should focus on select button', function () {
+  it('Should focus on select button', () => {
     element = $compile('<rg-select rg-autofocus="vm.focus" options="item in []"/>')($scope);
     const selectButton = element[0].querySelector('[data-test=ring-select__focus]');
 
-    this.sinon.spy(selectButton, 'focus');
+    sandbox.spy(selectButton, 'focus');
 
     $scope.vm.focus = true;
     $scope.$digest();

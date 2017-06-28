@@ -97,7 +97,10 @@ export default class Select extends RingComponentWithShortcuts {
     onAdd: noop,          // search string as first argument
 
     onDone: noop,
-    onReset: noop
+    onReset: noop,
+
+    tags: false,
+    onRemoveTag: noop
   };
 
   state = {
@@ -158,7 +161,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.setState({
       selected,
       filterValue: this.getValueForFilter(selected)
-    }, function () {
+    }, () => {
       this.props.onChange(selected, event);
       this.props.onReset();
     });
@@ -174,7 +177,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _handleMultipleToggling(multiple) {
     const empty = Select._getEmptyValue(multiple);
-    this.setState({selected: empty}, function () {
+    this.setState({selected: empty}, () => {
       this.props.onChange(empty);
     });
     this._rebuildMultipleMap(empty, multiple);
@@ -214,12 +217,24 @@ export default class Select extends RingComponentWithShortcuts {
     if ('data' in props) {
       const shownData = this.getListItems(this.filterValue(), props.data);
       this.setState({shownData});
+
+      if (this.state.selected && props.data !== this.props.data) {
+        const selected = this.state.selected;
+        this.setState({
+          selected,
+          selectedIndex: this._getSelectedIndex(
+            selected,
+            props.data
+          ),
+          prevFilterValue: this.getValueForFilter(selected)
+        });
+        this._rebuildMultipleMap(selected, this.props.multiple);
+      }
     }
 
-    if (props.selected !== null && (
+    if ('selected' in props && (
       initial ||
-      props.selected !== this.props.selected ||
-      props.data !== this.props.data
+      props.selected !== this.props.selected
     )) {
       const selected = props.selected || Select._getEmptyValue(this.props.multiple);
       this.setState({
@@ -304,6 +319,8 @@ export default class Select extends RingComponentWithShortcuts {
         onClear={this.clearFilter}
         onLoadMore={this.props.onLoadMore}
         isInputMode={this.isInputMode()}
+        tags={this.props.tags}
+        selected={this.state.selected}
       />
     );
   }
@@ -390,7 +407,7 @@ export default class Select extends RingComponentWithShortcuts {
     const filteredData = [];
     let exactMatch = false;
 
-    const check = this.props.filter.fn || function (itemToCheck, checkString) {
+    const check = this.props.filter.fn || function check(itemToCheck, checkString) {
       if (checkString === '') {
         return true;
       }
@@ -495,7 +512,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: filterValue === '' ? null : fakeSelected,
         selectedIndex: null
-      }, function () {
+      }, () => {
         this.props.onSelect(fakeSelected, event);
         this.props.onChange(fakeSelected, event);
       });
@@ -566,7 +583,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: currentSelection,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
-      }, function () {
+      }, () => {
         // redraw items
         if (this.props.multiple) {
           // setTimeout solves events order and bubbling issue
@@ -741,6 +758,7 @@ export default class Select extends RingComponentWithShortcuts {
     const icons = this._getIcons();
 
     const style = {
+      // eslint-disable-next-line no-magic-numbers
       paddingRight: icons.length * 20
     };
 

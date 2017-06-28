@@ -1,6 +1,5 @@
 /* global inject, angular */
 /* eslint-disable angular/no-angular-mock */
-/* eslint-disable func-names */
 
 import 'angular';
 import 'angular-mocks';
@@ -15,9 +14,9 @@ describe('Tooltip Ng', () => {
 
   beforeEach(angular.mock.module(Tooltip));
 
-  beforeEach(inject(function (_RgTooltipPopup_) {
+  beforeEach(inject(_RgTooltipPopup_ => {
     RgTooltipPopup = _RgTooltipPopup_;
-    innerTextGetter = this.sinon.spy(() => INNER_TEXT);
+    innerTextGetter = sandbox.spy(() => INNER_TEXT);
   }));
 
   beforeEach(() => {

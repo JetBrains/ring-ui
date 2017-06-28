@@ -9,7 +9,7 @@ import Auth from '../auth/auth';
 /* global angular: false */
 const angularModule = angular.module('Ring.auth', []);
 
-angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
+angularModule.provider('auth', ['$httpProvider', function provider($httpProvider) {
   /**
    * @example
      <example name="Auth Ng">
@@ -73,7 +73,7 @@ angularModule.provider('auth', ['$httpProvider', function ($httpProvider) {
 
     return {
       request(config) {
-        if (!authInstance || urlEndsWith(config, '.html')) {
+        if (!authInstance || urlEndsWith(config, '.html') || (config && config.noAuthorization)) {
           // Don't intercept angular template requests
           return config;
         }

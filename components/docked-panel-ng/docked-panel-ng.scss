@@ -4,7 +4,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 2; // should be on top of button groups which have z-index: 1 for active element
   width: 100%;
   margin-left: 0;
   background-color: #fff;

@@ -1,10 +1,5 @@
-import 'dom4';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-dom/test-utils';
+import {shallow, mount} from 'enzyme';
 
 import Code from '../code/code';
 import Link from '../link/link';
@@ -12,7 +7,13 @@ import Link from '../link/link';
 import Markdown from './markdown';
 
 describe('Markdown', () => {
-  const renderComponent = props => renderIntoDocument(
+  const shallowMarkdown = props => shallow(
+    <Markdown
+      source=""
+      {...props}
+    />
+  );
+  const mountMarkdown = props => mount(
     <Markdown
       source=""
       {...props}
@@ -20,31 +21,31 @@ describe('Markdown', () => {
   );
 
   it('should wrap children with div', () => {
-    findDOMNode(renderComponent()).should.match('div');
+    shallowMarkdown().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    findDOMNode(renderComponent({className: 'test-class'})).should.match('.test-class');
+    shallowMarkdown({className: 'test-class'}).should.have.className('test-class');
   });
 
   it('should convert links to ring Links', () => {
-    const component = renderComponent({source: '[link](/)'});
-    findRenderedComponentWithType(component, Link).should.exist;
+    const wrapper = mountMarkdown({source: '[link](/)'});
+    wrapper.should.have.descendants(Link);
   });
 
   it('should convert inline code to ring Code', () => {
-    const component = renderComponent({source: '`some(code)`'});
-    findRenderedComponentWithType(component, Code).should.exist;
+    const wrapper = mountMarkdown({source: '`some(code)`'});
+    wrapper.should.have.descendants(Code);
   });
 
   it('should convert block code to ring Code', () => {
-    const component = renderComponent({
+    const wrapper = mountMarkdown({
       source: `
         \`\`\`
         some(code)
         \`\`\`
       `
     });
-    findRenderedComponentWithType(component, Code).should.exist;
+    wrapper.should.have.descendants(Code);
   });
 });

@@ -1,6 +1,6 @@
 @value unit, main-color, line-color, white-color, selected-background-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
 @value hover-color: #cef;
-@value filter, filterWrapper, filterIcon from "../select/select.css";
+@value filter, filterWrapper, filterIcon from "../select/select-popup.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
@@ -13,18 +13,21 @@
 
 .hoverable {
   cursor: pointer;
-  transition: color .2s ease-out 0s;
+  transition: color 0.2s ease-out 0s;
 }
 
 .hoverable:hover {
-  color: link-hover-color;
   transition: none;
+
+  color: link-hover-color;
 }
 
 .displayDate {
   display: inline-block;
-  text-align: left;
+
   min-width: calc(unit * 11);
+
+  text-align: left;
 }
 
 .displayDate.displayRange {
@@ -32,8 +35,8 @@
 }
 
 .datePopup {
-  text-align: left;
   user-select: none;
+  text-align: left;
 }
 
 .datePopup * {
@@ -42,6 +45,7 @@
 
 .filterWrapper {
   composes: filterWrapper;
+
   display: flex;
 }
 
@@ -54,31 +58,38 @@
 }
 
 .fromInput {
-  flex: 0 0 calc(unit * 13);
   position: relative;
 
+  flex: 0 0 calc(unit * 13);
+
   &::after {
-    content: '—';
     position: absolute;
-    line-height: calc(4 * unit - 3px);
     right: unit;
+
+    content: '—';
+
+    line-height: calc(4 * unit - 3px);
   }
 }
 
 .toInput {
   flex: 1 0 calc(unit * 13);
+
   width: calc(unit * 13);
 }
 
 .weekdays {
   height: calc(unit * 4);
   padding: 5px calc(unit * 2) 0;
+
   color: dark-gray-color;
 }
 
 .weekday {
   display: inline-block;
+
   width: cellSize;
+
   text-align: center;
   text-transform: capitalize;
 }
@@ -88,11 +99,14 @@
 }
 
 .calendar {
-  box-shadow: 0 -1px line-color;
   position: relative;
-  height: calHeight;
-  width: calWidth;
+
   overflow: hidden;
+
+  width: calWidth;
+  height: calHeight;
+
+  box-shadow: 0 -1px line-color;
 }
 
 .months {
@@ -110,58 +124,72 @@
 
 .month {
   display: flex;
+  flex-wrap: wrap;
+
   width: calc(unit * 21);
   margin: calc(unit * 2);
-  flex-wrap: wrap;
 }
 
 .month > * {
-  line-height: cellSize;
-  height: cellSize;
   flex-shrink: 0;
+
+  height: cellSize;
+
+  line-height: cellSize;
 }
 
 .monthTitle {
-  text-align: left;
-  font-weight: bold;
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
+
   width: calc(unit * 12);
+
+  padding-left: calc(unit * 0.5);
+
+  text-align: left;
+
+  font-weight: bold;
+
   @supports (flex-basis: 1px) {
     flex-basis: calc(unit * 12);
+
     width: auto;
   }
-  padding-left: calc(unit * 0.5);
 }
 
 .day {
   position: relative;
-  text-align: center;
+
+  flex-basis: cellSize;
+
   cursor: pointer;
   transition: background-color ease, color ease;
-  flex-basis: cellSize;
+  text-align: center;
 }
 
 .day.between {
-  background-color: selected-background-color;
   transition: none;
+
+  background-color: selected-background-color;
 }
 
 .day.activeBetween {
-  background-color: hover-color;
   transition: none;
+
+  background-color: hover-color;
 }
 
 .day.current {
-  border-radius: border-radius;
   color: white-color;
+  border-radius: border-radius;
   background-color: main-color;
 }
 
 .day.active {
+  transition: none;
+
+  color: link-hover-color;
   border-radius: border-radius;
   background-color: hover-color;
-  color: link-hover-color;
-  transition: none;
 }
 
 .day.from {
@@ -178,12 +206,15 @@
 
 .Monday {
   position: relative;
+
   &::before,
   &::after {
-    content: '';
     position: absolute;
-    height: 100%;
+
     width: calc(unit * 2);
+    height: 100%;
+
+    content: '';
     transition: background-color ease;
   }
 
@@ -199,38 +230,45 @@
   &.spread {
     &::before,
     &::after {
-      background-color: selected-background-color;
       transition: none;
+
+      background-color: selected-background-color;
     }
   }
 
   &.activeSpread {
     &::before,
     &::after {
-      background-color: hover-color;
       transition: none;
+
+      background-color: hover-color;
     }
   }
 }
 
 .first {
   position: relative;
+
   &::before,
-  &::after{
-    content: '';
+  &::after {
     position: absolute;
-    height: calc(unit * 8);
-    width: calc(unit * 23);
-    transition: background-color ease;
     z-index: invisible-element-z-index;
+
+    width: calc(unit * 23);
+    height: calc(unit * 8);
+
+    content: '';
+    transition: background-color ease;
   }
+
   &::before {
     right: 100%;
     bottom: 0;
   }
+
   &::after {
-    left: 0;
     bottom: 100%;
+    left: 0;
   }
 
   &.Monday {
@@ -242,18 +280,19 @@
       position: relative;
 
       &::before {
-        content: '';
         position: absolute;
-        height: 100%;
-        width: calc(unit * 2);
-        transition: background-color ease;
         z-index: invisible-element-z-index;
+        top: calc(unit * -8);
         left: 600%;
-        top: calc(- unit * 8);
+
+        width: calc(unit * 2);
+        height: 100%;
+
+        content: '';
+        transition: background-color ease;
       }
     }
   }
-
 
   &.Friday,
   &.Saturday,
@@ -268,8 +307,9 @@
     &::before,
     &::after,
     & + .Tuesday::before {
-      background-color: selected-background-color;
       transition: none;
+
+      background-color: selected-background-color;
     }
   }
 
@@ -277,14 +317,16 @@
     &::before,
     &::after,
     & + .Tuesday::before {
-      background-color: hover-color;
       transition: none;
+
+      background-color: hover-color;
     }
   }
 }
 
 .day.empty {
   pointer-events: none;
+
   opacity: 0;
 }
 
@@ -292,79 +334,102 @@
   position: absolute;
   top: 0;
   right: calc(unit * 0.5);
-  font-size: unit;
+
   content: '•';
+
+  font-size: unit;
 }
 
 .day.today::after {
   top: 9px;
   right: 0;
+
   width: 100%;
+
   text-align: center;
 }
 
 .monthNames {
-  background-color: white-color;
   position: absolute;
   top: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
+
   width: calc(unit * 6);
+
+  background-color: white-color;
   box-shadow: -1px 0 line-color;
 }
 
 .monthName {
-  position: relative;
-  height: cellSize;
-  line-height: cellSize;
-  padding-left: calc(unit * 1.5);
   composes: hoverable;
+
+  position: relative;
+
+  height: cellSize;
+  padding-left: calc(unit * 1.5);
+
+  line-height: cellSize;
 }
 
 .monthSlider {
   position: absolute;
-  right: 0px;
-  left: -1px;
   z-index: fixed-z-index;
+  right: 0;
+  left: -1px;
+
   height: calc(unit * 6);
+
   cursor: grab;
+
+  opacity: 0.1;
   background-color: main-color;
-  opacity: .1;
 }
 
 .monthSlider:hover {
-  opacity: .15;
+  opacity: 0.15;
 }
 
 .monthSlider.dragging {
   cursor: grabbing;
-  opacity: .25;
+
+  opacity: 0.25;
 }
 
 .range {
   position: absolute;
   left: 0;
+
   width: 2px;
+
   background-color: main-color;
 }
 
 .years {
-  background-color: white-color;
   position: absolute;
   top: 0;
   right: 0;
+
   width: yearWidth;
+
+  background-color: white-color;
   box-shadow: -1px 0 line-color;
+
   font-size: font-size-smaller;
 }
 
 .year {
-  position: relative;
-  text-align: center;
-  height: yearHeight;
-  line-height: yearHeight;
-  color: dark-gray-color;
   composes: hoverable;
+
+  position: relative;
+
+  height: yearHeight;
+
+  text-align: center;
+
+  color: dark-gray-color;
+
+  line-height: yearHeight;
 
   &.today::after {
     top: -1px;
@@ -372,10 +437,12 @@
 }
 
 .currentYear {
-  color: text-color;
-  font-weight: bold;
   cursor: auto;
   transition: none;
+
+  color: text-color;
+
+  font-weight: bold;
 }
 
 .currentYear:hover {

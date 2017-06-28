@@ -2,11 +2,11 @@
 
 @keyframes show-sidebar {
   0% {
-    left: 100%;
+    right: 0;
   }
 
   100% {
-    left: 50%;
+    right: 50%;
   }
 }
 

@@ -82,6 +82,10 @@
         }
       }
 
+      isItemSelectable(item) {
+        return item.id !== 14;
+      }
+
       loadPage = () => {
         const {page, pageSize, sortKey, sortOrder} = this.state;
 
@@ -89,13 +93,13 @@
         data.sort((a, b) => a[sortKey].localeCompare(b[sortKey]) * (sortOrder ? 1 : -1));
         data = data.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
 
-        const selection = new Selection({data});
+        const selection = new Selection({data, isItemSelectable: this.isItemSelectable});
 
         this.setState({data, selection});
       }
 
       render() {
-        const {data, caption, selectable, draggable, loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
+        const {data, caption, selectable, draggable,  loading, page, pageSize, total, selection, sortKey, sortOrder} = this.state;
 
         return (
           <div>
@@ -111,7 +115,7 @@
               sortOrder={sortOrder}
               caption={caption}
               selectable={selectable}
-              isItemSelectable={item => item.id !== 14}
+              isItemSelectable={this.isItemSelectable}
               draggable={draggable}
               autofocus={true}
             />

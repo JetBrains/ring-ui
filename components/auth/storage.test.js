@@ -1,11 +1,11 @@
-/* eslint-disable func-names */
-
 import sniffer from '../global/sniffer';
 
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
 import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
+
+const TICK = 100;
 
 describe('Auth', () => {
   describe('AuthStorage', () => {
@@ -37,7 +37,9 @@ describe('Auth', () => {
         newState.should.deep.equal(state);
       });
 
-      it('should be null if wasn\'t set', () => authStorage.getState(stateId).should.become.null);
+      it('should be null if wasn\'t set', () => {
+        authStorage.getState(stateId).should.eventually.be.null;
+      });
 
       it('should be null after first get', async () => {
         await authStorage.saveState(stateId, state);
@@ -86,8 +88,8 @@ describe('Auth', () => {
         localStorage.should.have.keys(['stateunique2']);
       });
 
-      it('should clean state by TTL', async function () {
-        this.sinon.useFakeTimers();
+      it('should clean state by TTL', async () => {
+        sandbox.useFakeTimers();
 
         const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',
@@ -96,9 +98,9 @@ describe('Auth', () => {
         });
 
         await limitedAuthStorage.saveState(stateId, state);
-        this.sinon.clock.tick(100);
+        sandbox.clock.tick(TICK);
         await limitedAuthStorage.cleanStates();
-        this.sinon.clock.tick(100);
+        sandbox.clock.tick(TICK);
         localStorage.should.be.empty;
       });
     });
@@ -106,6 +108,7 @@ describe('Auth', () => {
     const token = {
       accessToken: 'silver-bullet',
       scopes: ['0-0-0-0-0'],
+      // eslint-disable-next-line no-magic-numbers
       expires: TokenValidator._epoch() + 40 * 60
     };
 
@@ -119,7 +122,7 @@ describe('Auth', () => {
         authStorage.getToken().should.become(token);
       });
 
-      it('should be null if wasn\'t saved', () => authStorage.getToken().should.become.null);
+      it('should be null if wasn\'t saved', () => authStorage.getToken().should.eventually.be.null);
 
       it('should be the same after several get', async () => {
         await authStorage.saveToken(token);
@@ -130,7 +133,7 @@ describe('Auth', () => {
       it('should be null after wipe', async () => {
         await authStorage.saveToken(token);
         await authStorage.wipeToken();
-        authStorage.getToken().should.become.null;
+        authStorage.getToken().should.eventually.be.null;
       });
     });
 
@@ -145,9 +148,9 @@ describe('Auth', () => {
         });
       });
 
-      it('onTokenChange should have been triggered', function () {
-        const clock = this.sinon.useFakeTimers();
-        const spy = this.sinon.spy();
+      it('onTokenChange should have been triggered', () => {
+        const clock = sandbox.useFakeTimers();
+        const spy = sandbox.spy();
         mockedAuthStorage.onTokenChange(spy);
         mockedAuthStorage.saveToken(token);
 
@@ -155,9 +158,9 @@ describe('Auth', () => {
         spy.should.have.been.calledOnce;
       });
 
-      it('onStateChange should have been triggered', function () {
-        const clock = this.sinon.useFakeTimers();
-        const spy = this.sinon.spy();
+      it('onStateChange should have been triggered', () => {
+        const clock = sandbox.useFakeTimers();
+        const spy = sandbox.spy();
         mockedAuthStorage.onStateChange(stateId, spy);
         mockedAuthStorage.saveState(stateId, {});
 
@@ -165,9 +168,9 @@ describe('Auth', () => {
         spy.should.have.been.calledOnce;
       });
 
-      it('onMessage should have been triggered', function () {
-        const clock = this.sinon.useFakeTimers();
-        const spy = this.sinon.spy();
+      it('onMessage should have been triggered', () => {
+        const clock = sandbox.useFakeTimers();
+        const spy = sandbox.spy();
         mockedAuthStorage.onMessage(stateId, spy);
         mockedAuthStorage.sendMessage(stateId, 'message');
 

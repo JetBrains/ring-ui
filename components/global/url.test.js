@@ -1,5 +1,3 @@
-/* eslint-disable func-names */
-
 import 'dom4';
 
 import sniffer from '../global/sniffer';
@@ -78,6 +76,7 @@ describe('Url', () => {
   describe('resolveRelative', () => {
     const baseUrl = 'http://example.com/';
     const standardsCompliantRelativeSVG = sniffer.browser.name === 'firefox' ||
+      // eslint-disable-next-line no-magic-numbers
       sniffer.browser.name === 'chrome' && sniffer.browser.version[0] >= 49 ||
       sniffer.browser.name === 'edge';
 
