@@ -82,7 +82,11 @@
             <TrayIcon icon={help} />
           </a>
           <SmartServices auth={auth} />
-          <SmartProfile auth={auth} LinkComponent={Comp} />
+          <SmartProfile
+            auth={auth}
+            hasUpdates={true}
+            LinkComponent={Comp}
+          />
         </Tray>
       </Header>
     );
