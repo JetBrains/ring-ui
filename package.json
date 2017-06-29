@@ -18,7 +18,8 @@
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
-    "webpack.config.js"
+    "webpack.config.js",
+    "kotlin_build"
   ],
   "main": "webpack.config.js",
   "lint-staged": {
@@ -33,6 +34,7 @@
   },
   "scripts": {
     "precommit": "lint-staged",
+    "compile-kotlin": "node compile-kotlin",
     "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo ring-ui:react --path $npm_package_config_components",
     "component:es6": "yo ring-ui:es6 --path $npm_package_config_components",
@@ -52,8 +54,8 @@
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "prebuild-ci-dev": "npm run lint-ci && npm run test-ci-dev",
-    "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
-    "build-ci-dev": "npm run build -- --env.production",
+    "build-ci": "npm run compile-kotlin && npm run build -- --env.production && npm run gemini-test-ci",
+    "build-ci-dev": "npm run compile-kotlin && npm run build -- --env.production",
     "prerelease-ci": "npm run build-ci && npm pack",
     "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
@@ -96,6 +98,10 @@
     }
   },
   "devDependencies": {
+    "@hypnosphi/kotlin-extensions": "0.0.4",
+    "@hypnosphi/kotlin-react": "0.0.2",
+    "@hypnosphi/kotlin-react-dom": "0.0.5",
+    "@hypnosphi/kotlinx-html-js": "0.0.1",
     "@jetbrains/stylelint-config": "1.0.11",
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
@@ -127,6 +133,7 @@
     "front-matter": "2.1.2",
     "gemini": "4.18.1",
     "gemini-teamcity": "2.1.3",
+    "gen-idea-libs": "1.0.2",
     "generator-ring-ui": "1.0.39",
     "glob": "7.0.6",
     "http-server": "0.9.0",
@@ -142,6 +149,9 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.4",
     "karma-webpack": "2.0.1",
+    "kotlin": "1.1.0",
+    "kotlin-webpack-plugin": "1.0.4",
+    "kotlinc-js": "1.0.4",
     "lint-staged": "4.0.0",
     "mocha": "3.0.2",
     "react-test-renderer": "15.6.1",
