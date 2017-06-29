@@ -44,6 +44,59 @@
   </file>
 </example>
 
+<!--<example name="Alert in Kotlin">
+  <file type="html">
+    <div id="alert"></div>
+  </file>
+
+  <file type="kt">
+    import react.*;
+    import react.dom.*';
+    import alert.*;
+
+    interface AlertDemoState: RState() {
+      var show: Boolean
+      var isClosing: Boolean
+    }
+
+    class AlertDemo: RComponent<RProps, AlertDemoState> {
+      override fun AlertDemoState.init() {
+        show = true
+        isClosing = false
+      }
+
+      val handleClose = {
+        setState { show = false }
+      }
+
+      val handleCloseRequest = {
+        setState { isClosing = true }
+      }
+
+      override fun RBuilder.render(): ReactElement? {
+        if (!state.show) {
+          return null;
+        }
+
+        return Alert {
+          attrs {
+            type = "success"
+            onClose = handleClose
+            showWithAnimation = false
+            onCloseRequest = handleCloseRequest
+            isClosing = state.isClosing
+          }
+          +"Sample alert"
+        }
+      }
+    }
+
+    render(document.querySelector('#alert')) {
+      AlertDemo {}
+    }
+  </file>
+</example>-->
+
 <example name="Alert Container">
   <file type="html">
     <div id="alert-container"></div>
