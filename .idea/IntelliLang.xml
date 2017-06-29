@@ -21,5 +21,10 @@
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
       <xpath-condition>@type='scss'</xpath-condition>
     </injection>
+    <injection language="kotlin" injector-id="xml">
+      <display-name>Kotlin example</display-name>
+      <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
+      <xpath-condition>@type='kt'</xpath-condition>
+    </injection>
   </component>
 </project>
