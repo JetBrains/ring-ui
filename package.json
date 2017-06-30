@@ -53,7 +53,7 @@
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "prebuild-ci-dev": "npm run lint-ci && npm run test-ci-dev",
     "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
-    "build-ci-dev": "&& npm run build -- --env.production",
+    "build-ci-dev": "npm run build -- --env.production",
     "prerelease-ci": "npm run build-ci && npm pack",
     "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
