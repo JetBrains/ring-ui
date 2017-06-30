@@ -8,7 +8,8 @@
   "main": "build/kotlin-ring-ui.js",
   "scripts": {
     "prerelease-ci": "node compile.js .. && npm pack",
-    "release-ci": "npm publish kotlin-ring-ui-*.tgz"
+    "release-ci": "npm publish kotlin-ring-ui-*.tgz",
+    "version": "update-version --patch"
   },
   "repository": {
     "type": "git",
