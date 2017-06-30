@@ -41,9 +41,9 @@ module.exports = function kotlinExampleLoader(source) {
       then(() => {
         fs.readFile(TMP_FILE_NAME, (e, buffer) => {
           handleError(e);
-          fs.readFile(TMP_SOURCE_MAP_FILE_NAME, (e, sourceMapBuffer) => {
+          fs.readFile(TMP_SOURCE_MAP_FILE_NAME, 'utf8', (e, sourceMap) => {
             handleError(e);
-            callback(null, buffer, sourceMapBuffer);
+            callback(null, buffer, sourceMap);
             cleanup();
           });
         });
