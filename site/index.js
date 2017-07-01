@@ -2,7 +2,7 @@ import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 import 'whatwg-fetch';
 import 'dom4';
 
-import React from 'react';
+import React, {Component} from 'react';
 import {render} from 'react-dom';
 
 import ContentLayout, {
@@ -26,17 +26,29 @@ Promise.all(promises).then(([source, navData]) => {
   const categories = navData.categories.filter(category => category !== docs);
 
 
-  const App = () => (
-    <div className={styles.app}>
-      <Header {...{version, docsItems}}/>
-      <ContentLayout className={styles.main}>
-        <Sidebar>
-          <Nav {...{categories}}/>
-        </Sidebar>
-        <Content {...source}/>
-      </ContentLayout>
-    </div>
-  );
+  class App extends Component {
+    componentDidMount() {
+      // retrigger hash navigation
+      const {hash} = window.location;
+      if (hash) {
+        window.location.replace(hash);
+      }
+    }
+
+    render() {
+      return (
+        <div className={styles.app}>
+          <Header {...{version, docsItems}}/>
+          <ContentLayout className={styles.main}>
+            <Sidebar>
+              <Nav {...{categories}}/>
+            </Sidebar>
+            <Content {...source}/>
+          </ContentLayout>
+        </div>
+      );
+    }
+  }
 
   render(
     <App/>,

@@ -1,0 +1,28 @@
+{
+  "name": "kotlin-ring-ui",
+  "version": "0.0.1",
+  "description": "Kotlin wrappers for Ring UI library",
+  "files": [
+    "build/kotlin-ring-ui**"
+  ],
+  "main": "build/kotlin-ring-ui.js",
+  "scripts": {
+    "prerelease-ci": "node compile.js .. && npm pack",
+    "release-ci": "npm publish kotlin-ring-ui-*.tgz",
+    "version": "update-version --patch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://github.com/JetBrains/ring-ui.git"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@hypnosphi/kotlin-react-dom": "^0.0.5",
+    "ring-ui": "^3.0.7179"
+  },
+  "devDependencies": {
+    "update-version": "1.0.2"
+  }
+}
