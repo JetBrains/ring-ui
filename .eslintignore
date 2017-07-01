@@ -3,3 +3,5 @@ dist
 docs
 templates
 gemini-report
+node_modules
+build
