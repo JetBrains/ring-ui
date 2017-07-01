@@ -10,7 +10,8 @@ external val Alert: RClass<AlertProps>
 external interface AlertProps: WithClassName {
   var closeable: Boolean
   var showWithAnimation: Boolean
-  var type: String
+  @JsName("type")
+  var stringType: String
   var inline: Boolean
   var isClosing: Boolean
   var timeout: Int

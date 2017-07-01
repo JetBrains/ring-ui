@@ -4,11 +4,13 @@ const path = require('path');
 
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
+const KotlinWebpackPlugin = require('kotlin-webpack-plugin');
 
 const webpackConfig = require('./webpack.config');
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./site/create-entries-list');
 const pkgConfig = require('./package.json').config;
+const kotlinConf = require('./kotlin.conf');
 
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
@@ -49,6 +51,7 @@ module.exports = (env = {}) => {
     },
     resolve: {
       mainFields: ['module', 'browser', 'main'],
+      modules: [kotlinConf.output, 'node_modules'],
       alias: {
         'ring-ui': __dirname
       }
@@ -65,6 +68,12 @@ module.exports = (env = {}) => {
             'extract-loader',
             webpackConfig.loaders.htmlLoader.loader
           ]
+        },
+
+        // Kotlin examples
+        {
+          test: /example\.kt/,
+          loader: './site/kotlin-example-loader'
         }
       ]
     },
@@ -88,6 +97,10 @@ module.exports = (env = {}) => {
       publicPath // serve HMR update jsons properly
     },
     plugins: [
+      new KotlinWebpackPlugin(Object.assign(kotlinConf, {
+        sourceMaps: true,
+        metaInfo: true
+      })),
       new webpack.DefinePlugin({hubConfig}),
       docpackSetup(),
       new DllBundlesPlugin({
