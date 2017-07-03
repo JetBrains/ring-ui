@@ -472,7 +472,7 @@ describe('List', () => {
         expect(visibleOptions.stopIndex).to.equal(expectedStopIndex);
       });
 
-      it('should calculate height of unrendered below items', () => {
+      it('should calculate height of non-rendered below items', () => {
         const instance = shallowList().instance();
         const data = (new Array(instance._bufferSize * 3)).join(',').
           split(',').
@@ -495,7 +495,7 @@ describe('List', () => {
         );
       });
 
-      it('should calculate height of unrendered above items', () => {
+      it('should calculate height of non-rendered above items', () => {
         const instance = shallowList().instance();
         const data = (new Array(instance._bufferSize * 3)).join(',').
           split(',').

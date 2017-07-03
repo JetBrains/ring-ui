@@ -81,7 +81,7 @@ describe('Alert Service', () => {
     alert._getShowingAlerts().length.should.equal(0);
   });
 
-  it('should allow configuting default timeout', () => {
+  it('should allow configuring default timeout', () => {
     alert.setDefaultTimeout(SMALL_TICK);
     alertKey = alert.message('foo');
     clock.tick(BIG_TICK);
