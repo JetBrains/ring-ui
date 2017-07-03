@@ -91,7 +91,7 @@ export default class Select extends RingComponentWithShortcuts {
     onDone: noop,
     onReset: noop,
 
-    tags: false,
+    tags: null,
     onRemoveTag: noop
   };
 
@@ -205,8 +205,8 @@ export default class Select extends RingComponentWithShortcuts {
       (newProps.selected !== this.props.selected || newProps.data !== this.props.data)
     ) {
       const selected = newProps.selected
-          ? newProps.selected
-          : Select._getEmptyValue(this.props.multiple);
+        ? newProps.selected
+        : Select._getEmptyValue(this.props.multiple);
       this.setState({
         selected,
         selectedIndex: this._getSelectedIndex(
@@ -268,6 +268,46 @@ export default class Select extends RingComponentWithShortcuts {
     this._popup = el;
   };
 
+  _getResetOption() {
+    const isOptionsSelected = this.state.selected && this.state.selected.length;
+    const hasTagsResetProp = this.props.tags && this.props.tags.reset;
+    if (!isOptionsSelected || !hasTagsResetProp) {
+      return null;
+    }
+
+    const {reset} = this.props.tags;
+    return {
+      key: reset.label,
+      type: List.ListProps.Type.LINK,
+      label: reset.label,
+      glyph: reset.glyph,
+      iconSize: Icon.Size.Size14,
+      className: 'ring-select__clear-tags',
+      onClick: event => {
+        this.clear(event);
+        if (this.props.onChange) {
+          this.props.onChange(this._resetMultipleSelectionMap(), event);
+        }
+
+        this.setState({
+          shownData: this.state.shownData.splice(0, 2)
+        });
+        this._redrawPopup();
+      }
+    };
+  }
+
+  _prependResetOption(shownData) {
+    const resetOption = this._getResetOption();
+    if (resetOption) {
+      const separator = {
+        rgItemType: List.ListProps.Type.SEPARATOR
+      };
+      return [resetOption, separator].concat(shownData);
+    }
+    return shownData;
+  }
+
   _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
@@ -301,14 +341,15 @@ export default class Select extends RingComponentWithShortcuts {
         onSelect={this._listSelectHandler}
         onFilter={this._filterChangeHandler}
         onLoadMore={this.props.onLoadMore}
-        tags={this.props.tags}
         selected={this.state.selected}
+        tags={this.props.tags}
       />
     );
   }
 
   _showPopup() {
-    const shownData = this.getListItems(this.filterValue());
+    let shownData = this.getListItems(this.filterValue());
+    shownData = this._prependResetOption(shownData);
     this.setState({
       showPopup: !!shownData.length || !this.props.allowAny,
       shownData
@@ -500,12 +541,26 @@ export default class Select extends RingComponentWithShortcuts {
     });
   }
 
+  _resetMultipleSelectionMap() {
+    this._multipleMap = {};
+    return this._multipleMap;
+  }
+
   _rebuildMultipleMap(selected, multiple) {
     if (selected && multiple) {
-      this._multipleMap = {};
+      this._resetMultipleSelectionMap();
       for (let i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
       }
+    }
+  }
+
+  _redrawPopup = () => {
+    if (this.props.multiple) {
+      setTimeout(() => { //setTimeout solves events order and bubbling issue
+        this.isInputMode() && this.clearFilter();
+        this._showPopup();
+      }, 0);
     }
   }
 
@@ -559,16 +614,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: currentSelection,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
-      }, () => {
-        // redraw items
-        if (this.props.multiple) {
-          // setTimeout solves events order and bubbling issue
-          setTimeout(() => {
-            this.isInputMode() && this.clearFilter();
-            this._showPopup();
-          }, 0);
-        }
-      });
+      }, this._redrawPopup);
 
       this.props.onChange(currentSelection, event);
     }
@@ -584,8 +630,14 @@ export default class Select extends RingComponentWithShortcuts {
         }
       }
     }
-    // it's necessary to focus anchor on pressing ESC
-    this._hidePopup(isEsc);
+
+    const isTagRemoved = event &&
+      event.target &&
+      event.target.matches('[data-test="ring-tag-remove"]');
+
+    if (!isTagRemoved) {
+      this._hidePopup(isEsc);
+    }
   }
 
   clearFilter() {

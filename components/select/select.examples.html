@@ -13,12 +13,18 @@
     import hubConfig from 'ring-ui/site/hub-config';
     import Select from 'ring-ui/components/select/select';
     import 'ring-ui/components/input-size/input-size.scss';
+    import eye from 'jetbrains-icons/eye.svg'
 
     var props = {
-      tags: true,
       multiple: true,
       filter: {
         placeholder: 'Search'
+      },
+      tags: {
+        reset: {
+          label: 'Reset the list',
+          glyph: eye
+        }
       }
     };
     const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
