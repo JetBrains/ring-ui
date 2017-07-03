@@ -18,11 +18,11 @@ import './tooltip-ng.scss';
           <div ng-controller="testController">
             Some text that needs an explanation
             <span rg-tooltip="'Test message'"
-                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
             <span rg-tooltip="{{testMessageWithQuote}}"
-                  react-static="Icon" react-glyph="iconHelp" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
             <span rg-tooltip="{{someUndefinedValue}}"
-                  react-static="Icon" react-glyph="iconInfo" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
           </div>
         </div>
       </file>
@@ -32,14 +32,12 @@ import './tooltip-ng.scss';
         import registerComponents from 'ring-ui/components/react-ng/react-ng';
         import Icon from 'ring-ui/components/icon/icon';
         import 'ring-ui/components/tooltip-ng/tooltip-ng';
-        import iconHelp from 'jetbrains-icons/help.svg';
-        import iconInfo from 'jetbrains-icons/info.svg';
+        import iconWarning from 'jetbrains-icons/warning.svg';
 
         registerComponents({Icon});
 
         angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
-          $scope.iconHelp = iconHelp;
-          $scope.iconInfo = iconInfo;
+          $scope.iconWarning = iconWarning;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>
