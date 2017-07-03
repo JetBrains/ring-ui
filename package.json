@@ -166,8 +166,8 @@
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
+    "@maxmaximov/angular-elastic": "2.5.1",
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.2",
-    "angular-elastic": "2.5.1-jb",
     "autoprefixer": "6.4.1",
     "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
