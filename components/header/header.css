@@ -5,7 +5,7 @@
   align-items: baseline;
 
   height: calc(unit * 7);
-  margin: 0 calc(unit * 4);
+  padding: 0 calc(unit * 4);
 
   line-height: calc(unit * 7 - 5);
 }
@@ -17,7 +17,8 @@
 .tray {
   composes: header;
 
-  margin: 0 0 0 auto;
+  margin-left: auto;
+  padding: 0;
 }
 
 .trayItem {
@@ -101,8 +102,8 @@
 
 .hasUpdates::after {
   position: absolute;
-  top: 4px;
-  left: 12px;
+  top: 1px;
+  left: 35px;
 
   display: block;
 
@@ -111,6 +112,8 @@
 
   content: '';
 
+  border: 1px solid #FFF;
   border-radius: 50%;
+
   background-color: link-hover-color;
 }
