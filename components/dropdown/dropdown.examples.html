@@ -61,20 +61,20 @@
   <file type="css">
     @value gray-color, link-hover-color from "../global/global.css";
 
-    :global(.cog) {
+    :global(.chevron) {
       display: inline-block;
       color: gray-color;
       transition: all 0.3s ease-out;
       transform: rotate(0deg);
 
       &:hover {
-        transition: transform 0.3s ease-out;
+        transition: transform 0.15s ease-out;
         color: link-hover-color;
       }
     }
 
     :global(.rotated) {
-      transform: rotate(90deg);
+      transform: rotate(180deg);
     }
   </file>
 
@@ -85,16 +85,16 @@
     import Dropdown from 'ring-ui/components/dropdown/dropdown';
     import Popup from 'ring-ui/components/popup/popup';
     import Icon from 'ring-ui/components/icon/icon';
-    import cog from 'jetbrains-icons/cog.svg';
+    import chevron from 'jetbrains-icons/chevron-down.svg';
 
     const container = document.getElementById('dropdown');
     const dropdown = (
       <Dropdown
-        className="cog"
+        className="chevron"
         activeClassName="rotated"
         anchor={
           <Icon
-            glyph={cog}
+            glyph={chevron}
             size={Icon.Size.Size18}
           />
         }
