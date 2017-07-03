@@ -6,6 +6,7 @@ import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 
 import linkStyles from '../link/link.css';
+import Icon from '../icon/icon';
 
 import List from './list';
 
@@ -706,6 +707,23 @@ describe('List', () => {
 
       const icon = getFirstListItem(instance).querySelector('.ring-list__icon');
       expect(icon.style.backgroundImage).to.contain('http://some.url');
+    });
+
+    it('should render icon of a custom size', () => {
+      const customIconSize = Icon.Size.Size12;
+      const instance = mountList({
+        data: [
+          {
+            iconSize: customIconSize,
+            label: 'Hello!',
+            glyph: '#eye',
+            type: List.ListProps.Type.ITEM
+          }
+        ]
+      }).instance();
+
+      const icon = getFirstListItem(instance).querySelector('.ring-icon__i');
+      expect(icon.style.width).to.be.equal(`${customIconSize}px`);
     });
 
     it('should not render glyph if not provided', () => {
