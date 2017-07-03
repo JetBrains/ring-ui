@@ -43,7 +43,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     onFilter: noop,
     onLoadMore: noop,
     selected: [],
-    tags: PropTypes.bool
+    tags: PropTypes.object
   };
 
   state = {
@@ -254,7 +254,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   handleRemoveTag = memoize(tag => () => this.removeTag(tag));
   handleTagClick = memoize(tag => () => {
     this.setState({
-      focusFilter: false,
       tagsActiveIndex: this.props.selected.indexOf(tag)
     });
   });

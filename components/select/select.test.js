@@ -6,6 +6,7 @@ import {shallow, mount} from 'enzyme';
 import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
+import Icon from '../icon/icon';
 
 import Select from './select';
 
@@ -822,6 +823,128 @@ describe('Select', () => {
 
         document.activeElement.should.not.equal(this.targetInput);
       });
+    });
+
+  });
+
+  describe('_resetMultipleSelectionMap', () => {
+    let instance;
+    beforeEach(() => {
+      instance = shallowSelect().instance();
+    });
+
+    it('should reset map', () => {
+      instance._multipleMap[0] = true;
+
+      instance._resetMultipleSelectionMap();
+
+      expect(
+        Object.keys(instance._multipleMap).length
+      ).to.be.equal(0);
+    });
+  });
+
+
+  describe('_getResetOption', () => {
+    let instance;
+
+    it('should create tags reset option', () => {
+      const labelMock = 'label';
+      const tagsMock = {
+        reset: {
+          key: labelMock,
+          label: labelMock,
+          glyph: 'glyph',
+          type: List.ListProps.Type.LINK,
+          iconSize: Icon.Size.Size14,
+          className: 'cssClass',
+          onClick: () => {}
+        }
+      };
+      instance = shallowSelect({
+        selected: [{}, {}],
+        tags: tagsMock
+      }).instance();
+
+      const resetOption = instance._getResetOption();
+
+      expect(resetOption.type).to.be.equal(List.ListProps.Type.LINK);
+      expect(resetOption.iconSize).to.be.equal(Icon.Size.Size14);
+      expect(resetOption.glyph).to.be.equal(tagsMock.reset.glyph);
+      expect(resetOption.onClick).to.be.function;
+    });
+
+    it('should not create tags reset option if it is not provided', () => {
+      instance = shallowSelect({
+        select: [{}, {}]
+      }).instance();
+
+      expect(instance._getResetOption()).to.be.null;
+    });
+
+    it('should not create tags reset option without selected elements', () => {
+      instance = shallowSelect({
+        tags: {reset: {}}
+      }).instance();
+
+      expect(instance._getResetOption()).to.be.null;
+    });
+  });
+
+
+  describe('_prependResetOption', () => {
+    let instance;
+    beforeEach(() => {
+      instance = shallowSelect({
+        selected: [{}, {}],
+        tags: {reset: {}}
+      }).instance();
+    });
+
+    it('should prepend reset option', () => {
+      const shownDataMock = [];
+      sandbox.stub(instance, '_getResetOption').returns({});
+
+      const newShownData = instance._prependResetOption(shownDataMock);
+
+      expect(newShownData.length).to.be.equal(2);
+      expect(newShownData[1].rgItemType).to.be.equal(List.ListProps.Type.SEPARATOR);
+    });
+
+    it('should not prepend reset option', () => {
+      const shownDataMock = [];
+      sandbox.stub(instance, '_getResetOption').returns(null);
+
+      const newShownData = instance._prependResetOption(shownDataMock);
+
+      expect(newShownData.length).to.be.equal(0);
+    });
+  });
+
+
+  describe('_redrawPopup', () => {
+    let instance;
+    beforeEach(() => {
+      instance = shallowSelect().instance();
+    });
+
+    it('should not redraw a popup', () => {
+      sandbox.stub(instance, '_showPopup');
+      instance._redrawPopup();
+
+      setTimeout(() => {
+        expect(instance._showPopup).should.not.have.been.called;
+      }, 0);
+
+    });
+
+    it('should redraw a popup', () => {
+      sandbox.stub(instance, '_showPopup');
+      instance._redrawPopup();
+
+      setTimeout(() => {
+        expect(instance._showPopup).should.have.been.called;
+      }, 0);
     });
   });
 });

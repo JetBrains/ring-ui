@@ -2,11 +2,14 @@
 @import "../input/input";
 
 .ring-select-popup__filter-with-tags {
-  margin: $ring-unit*2 $ring-unit 0;
-  padding: 2px 2px 0 2px;
-  border: 1px solid $ring-border-color;
-  text-align: left;
   overflow: hidden;
+
+  margin: $ring-unit*2 $ring-unit 0;
+  padding-left: 1px;
+
+  text-align: left;
+
+  border: 1px solid $ring-border-color;
 
   &_focused {
     @include focused_input;
@@ -18,6 +21,7 @@
 
   .ring-select-popup__filter {
     display: inline-block;
+
     margin: 0;
     padding-left: 0;
 
