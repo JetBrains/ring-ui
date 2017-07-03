@@ -13,7 +13,7 @@ import styles from './error-message.css';
  * @category Components
  * @framework React
  * @constructor
- * @description Displays an error message. Component centered both vertically and horisontally inside parent container.
+ * @description Displays an error message. Component centered both vertically and horizontally inside parent container.
  * @example-file ./error-message.examples.html
  */
 

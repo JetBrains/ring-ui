@@ -417,8 +417,8 @@ export default class List extends RingComponentWithShortcuts {
 
     let firstRenderedItemIndex = null;
     let lastRenderedItemIndex = null;
-    let heightUnrenderedAboveItems = 0;
-    let heightUnrenderedBelowItems = 0;
+    let heightNonRenderedAboveItems = 0;
+    let heightNonRenderedBelowItems = 0;
 
     const scrollTop = this.inner ? this.inner.scrollTop : 0;
 
@@ -430,7 +430,7 @@ export default class List extends RingComponentWithShortcuts {
         if (firstRenderedItemIndex < 0) {
           firstRenderedItemIndex = 0;
         }
-        heightUnrenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
+        heightNonRenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
       }
 
       if (lastRenderedItemIndex === null && cachedSizeItem.end > (scrollTop + visibleListHeight)) {
@@ -438,7 +438,7 @@ export default class List extends RingComponentWithShortcuts {
         if (lastRenderedItemIndex >= cachedSizes.length) {
           lastRenderedItemIndex = cachedSizes.length - 1;
         }
-        heightUnrenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
+        heightNonRenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
       }
 
       if (firstRenderedItemIndex !== null && lastRenderedItemIndex !== null) {
@@ -448,14 +448,14 @@ export default class List extends RingComponentWithShortcuts {
 
     if (lastRenderedItemIndex === null) {
       lastRenderedItemIndex = cachedSizes.length;
-      heightUnrenderedBelowItems = 0;
+      heightNonRenderedBelowItems = 0;
     }
 
     return {
       startIndex: firstRenderedItemIndex,
       stopIndex: lastRenderedItemIndex,
-      paddingTop: heightUnrenderedAboveItems,
-      paddingBottom: heightUnrenderedBelowItems
+      paddingTop: heightNonRenderedAboveItems,
+      paddingBottom: heightNonRenderedBelowItems
     };
   }
 

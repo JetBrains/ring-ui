@@ -88,11 +88,11 @@ export default class Pager extends PureComponent {
       start = 1;
       end = totalPages;
     } else {
-      const leftHalfframeSize = Math.ceil(visiblePagesLimit / 2) - 1;
-      const rightHalfframeSize = visiblePagesLimit - leftHalfframeSize - 1;
+      const leftHalfFrameSize = Math.ceil(visiblePagesLimit / 2) - 1;
+      const rightHalfFrameSize = visiblePagesLimit - leftHalfFrameSize - 1;
 
-      start = currentPage - leftHalfframeSize;
-      end = currentPage + rightHalfframeSize;
+      start = currentPage - leftHalfFrameSize;
+      end = currentPage + rightHalfFrameSize;
 
       if (start < 1) {
         const tail = 1 - start;

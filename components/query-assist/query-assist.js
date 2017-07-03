@@ -597,7 +597,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.mouseIsDownOnInput = e.type === 'mousedown';
   }
 
-  trackCompostionState = e => {
+  trackCompositionState = e => {
     this.isComposing = e.type !== 'compositionend';
   }
 
@@ -807,8 +807,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
           onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
-          onCompositionStart={this.trackCompostionState}
-          onCompositionEnd={this.trackCompostionState}
+          onCompositionStart={this.trackCompositionState}
+          onCompositionEnd={this.trackCompositionState}
           onFocus={this.handleFocusChange}
           onInput={this.handleInput}
           onKeyDown={this.handleEnter}
