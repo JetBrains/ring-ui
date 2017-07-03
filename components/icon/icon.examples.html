@@ -1,12 +1,11 @@
 <example name="Icon">
   <file type="html">
     <div id="some-icons">
-      <span id="icon-active"></span>
       <span id="icon-container"></span>
-      <span id="icon-distribution"></span>
+      <span id="icon-search"></span>
       <span id="icon-16-pencil"></span>
       <span id="icon-14-pencil"></span>
-      <span id="icon-custom-search-error"></span>
+      <span id="icon-custom-permission"></span>
     </div>
   </file>
 
@@ -21,15 +20,10 @@
     import React from 'react';
     import {render} from 'react-dom';
     import Icon from 'ring-ui/components/icon/icon';
-    import distributionIcon from 'jetbrains-icons/distribution.svg';
+    import searchIcon from 'jetbrains-icons/search.svg';
     import okIcon from 'jetbrains-icons/ok.svg';
     import pencilIcon from 'jetbrains-icons/pencil.svg';
-    import searchErrorIcon from 'jetbrains-icons/search-error.svg';
-
-    render(<Icon
-      glyph={distributionIcon}
-      size={Icon.Size.Size32}
-    />, document.getElementById('icon-active'));
+    import permissionIcon from 'jetbrains-icons/permission.svg';
 
     render(<Icon
       className="additional-class"
@@ -39,9 +33,9 @@
     />, document.getElementById('icon-container'));
 
     render(<Icon
-      glyph={distributionIcon}
+      glyph={searchIcon}
       size={Icon.Size.Size32}
-    />, document.getElementById('icon-distribution'));
+    />, document.getElementById('icon-search'));
 
     render(<Icon
       glyph={pencilIcon}
@@ -54,10 +48,10 @@
     />, document.getElementById('icon-14-pencil'));
 
     render(<Icon
-      glyph={searchErrorIcon}
+      glyph={permissionIcon}
       height={80}
       width={100}
-    />, document.getElementById('icon-custom-search-error'));
+    />, document.getElementById('icon-custom-permission'));
   </file>
 </example>
 
