@@ -32,6 +32,7 @@ export default class ListItem extends PureComponent {
     ]),
     glyph: PropTypes.string,
     icon: PropTypes.string,
+    iconSize: PropTypes.number,
     rightNodes: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
@@ -50,6 +51,10 @@ export default class ListItem extends PureComponent {
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func
   };
+
+  static defaultProps = {
+    iconSize: Icon.Size.Size18
+  }
 
   render() {
     const {props} = this;
@@ -99,7 +104,7 @@ export default class ListItem extends PureComponent {
               <Icon
                 className="ring-list__glyph"
                 glyph={glyph}
-                size={Icon.Size.Size18}
+                size={this.props.iconSize}
               />
             )}
           </div>
@@ -112,7 +117,7 @@ export default class ListItem extends PureComponent {
               <Icon
                 className="ring-list__glyph ring-list__glyph_right"
                 glyph={rightGlyph}
-                size={Icon.Size.Size18}
+                size={this.props.iconSize}
               />
             )}
             {icon && (
