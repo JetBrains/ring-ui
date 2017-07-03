@@ -147,17 +147,17 @@ describe('Compiler Ng', () => {
 
 
   it('should fail if resolve was not satisfied', () => {
-    const onCompleError = sandbox.stub();
+    const onCompileError = sandbox.stub();
 
     compiler({
       template: '<div/>',
       resolve: {
         rejectedResolve: $q => $q.reject()
       }
-    }).catch(onCompleError);
+    }).catch(onCompileError);
     runDigest();
 
-    onCompleError.should.have.been.called;
+    onCompileError.should.have.been.called;
   });
 
 

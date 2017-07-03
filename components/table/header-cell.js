@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import sorteableIcon from 'jetbrains-icons/unsorted.svg';
+import sortableIcon from 'jetbrains-icons/unsorted.svg';
 import sortedUpIcon from 'jetbrains-icons/chevron-up.svg';
 import sortedDownIcon from 'jetbrains-icons/chevron-down.svg';
 
@@ -42,7 +42,7 @@ export default class HeaderCell extends PureComponent {
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
 
-    let iconGlyph = sorteableIcon;
+    let iconGlyph = sortableIcon;
 
     if (this.sorted) {
       iconGlyph = sortOrder ? sortedUpIcon : sortedDownIcon;

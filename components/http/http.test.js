@@ -106,7 +106,7 @@ describe('HTTP', () => {
     });
   });
 
-  it('should not refresh token if server reponds OK', async () => {
+  it('should not refresh token if server responds OK', async () => {
     await http.request('testurl');
     fakeAuth.forceTokenUpdate.should.not.have.been.called;
   });
@@ -123,7 +123,7 @@ describe('HTTP', () => {
     onError.should.have.been.called;
   });
 
-  it('should refresh token and request again if invalide token error returned', async () => {
+  it('should refresh token and request again if invalid token error returned', async () => {
     fakeAuth.constructor.shouldRefreshToken.returns(true);
 
     http._fetch.

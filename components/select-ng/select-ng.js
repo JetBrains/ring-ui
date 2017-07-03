@@ -325,7 +325,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           const nodeName = element.nodeName.toLowerCase();
           /**
            * Pressing keys "Enter" or "Space" on button propagates MouseClickEvent.
-           * Due to this extra MouseClickEvent dropdown opens and immediatelly closes again.
+           * Due to this extra MouseClickEvent dropdown opens and immediately closes again.
            * It is needed to skip processing of MouseEvent for such nodes.
            */
           const skipMouseEnterProcessing = nodeName === 'button' || nodeName === 'input';
