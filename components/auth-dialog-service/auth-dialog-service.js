@@ -65,7 +65,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
 const containerElement = document.createElement('div');
 
 /**
- * Renders AuthDialog into virtual node to skip mantaining container
+ * Renders AuthDialog into virtual node to skip maintaining container
  */
 function renderAuthDialog(props) {
   render(<AuthDialog {...props}/>, containerElement);

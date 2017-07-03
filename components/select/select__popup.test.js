@@ -124,7 +124,7 @@ describe('SelectPopup', () => {
     });
 
     describe('filter', () => {
-      function expectPopupFilterShortuctsDisabled(fn, value) {
+      function expectPopupFilterShortcutsDisabled(fn, value) {
         fn.should.be.calledWith({
           popupFilterShortcutsOptions: {
             modal: true,
@@ -141,7 +141,7 @@ describe('SelectPopup', () => {
 
         Simulate.focus(instance.filter);
 
-        expectPopupFilterShortuctsDisabled(instance.setState, false);
+        expectPopupFilterShortcutsDisabled(instance.setState, false);
       });
 
 
@@ -153,7 +153,7 @@ describe('SelectPopup', () => {
 
         Simulate.blur(instance.filter);
 
-        expectPopupFilterShortuctsDisabled(instance.setState, true);
+        expectPopupFilterShortcutsDisabled(instance.setState, true);
       });
     });
   });

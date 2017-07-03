@@ -7,7 +7,7 @@ import Alert, {Container as AlertContainer} from '../alert/alert';
 /**
  * @name Alert Service
  * @category Components
- * @description Service which incapsulates alerts stack management
+ * @description Service which encapsulates alerts stack management
  * @example-file ./alert-service.examples.html
  */
 
@@ -41,7 +41,7 @@ class AlertService {
   }
 
   /**
-   * Renders alert container into virtual node to skip mantaining container
+   * Renders alert container into virtual node to skip maintaining container
    */
   renderAlerts() {
     render(this.renderAlertContainer(this.showingAlerts), this.containerElement);

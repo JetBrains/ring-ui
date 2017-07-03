@@ -455,7 +455,7 @@ function rgDialogDirective($timeout) {
     scope.$on('rgDialogContentLoaded', () => $timeout(focusFirst));
 
     // Backward compatibility for youtrack (if they are using "content" property)
-    // which is actually ng-inlude with $includeContentLoaded event in the end
+    // which is actually ng-include with $includeContentLoaded event in the end
     scope.$on('$includeContentLoaded', () => $timeout(focusFirst));
 
     scope.$on('dialog.hide', () => {

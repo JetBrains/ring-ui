@@ -80,8 +80,8 @@ export default function focusSensorHOC(ComposedComponent) {
       const {state: {focused}, node} = this;
       if (focused) {
         setTimeout(() => {
-          const blured = node.contains(target) && !node.contains(document.activeElement);
-          if (blured) {
+          const blurred = node.contains(target) && !node.contains(document.activeElement);
+          if (blurred) {
             this.setState({focused: false});
             this.props.onBlur();
           }

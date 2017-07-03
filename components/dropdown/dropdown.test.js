@@ -85,7 +85,7 @@ describe('Dropdown', () => {
     }, 0);
   });
 
-  it('should show popup when inited with initShown=true', () => {
+  it('should show popup when initialized with initShown=true', () => {
     mountDropdown({initShown: true});
     popup.isVisible().should.be.true;
   });

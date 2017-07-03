@@ -105,9 +105,9 @@ export default class Avatar extends PureComponent {
   render() {
     const {size, url, dpr, style, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const borderRaduis = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
+    const borderRadius = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
     const styleObj = {
-      borderRadius: global[borderRaduis],
+      borderRadius: global[borderRadius],
       height: sizeString,
       width: sizeString,
       ...style
