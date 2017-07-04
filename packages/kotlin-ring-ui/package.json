@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "description": "Kotlin wrappers for Ring UI library",
   "files": [
-    "build/kotlin-ring-ui**"
+    "build"
   ],
   "main": "build/kotlin-ring-ui.js",
   "scripts": {
-    "prerelease-ci": "node compile.js .. && npm pack",
+    "compile": "node compile.js",
+    "prerelease-ci": "npm run compile && npm pack",
     "release-ci": "npm publish kotlin-ring-ui-*.tgz",
     "version": "update-version --patch"
   },
@@ -20,9 +21,10 @@
   },
   "peerDependencies": {
     "@hypnosphi/kotlin-react-dom": "^0.0.5",
-    "ring-ui": "^3.0.7179"
+    "ring-ui": "^2.7.0"
   },
   "devDependencies": {
-    "update-version": "1.0.2"
+    "update-version": "1.0.2",
+    "ring-ui": "^2.7.0"
   }
 }

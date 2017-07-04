@@ -1,18 +1,16 @@
-import 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico';
 import 'whatwg-fetch';
 import 'dom4';
 
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-
 import ContentLayout, {
   Sidebar
-} from '../components/content-layout/content-layout';
+} from 'ring-ui/components/content-layout/content-layout';
 
 import {fetchData, fetchNavData} from './utils';
-import Header from './components/header';
-import Nav from './components/nav';
-import Content from './components/content';
+import Header from './header';
+import Nav from './nav';
+import Content from './content';
 import styles from './index.css';
 
 const jsonURL = document.querySelector('body').getAttribute('data-json-url');
