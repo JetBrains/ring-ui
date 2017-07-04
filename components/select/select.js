@@ -277,6 +277,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     const {reset} = this.props.tags;
     return {
+      separator: reset.separator,
       key: reset.label,
       type: List.ListProps.Type.LINK,
       label: reset.label,
@@ -300,10 +301,13 @@ export default class Select extends RingComponentWithShortcuts {
   _prependResetOption(shownData) {
     const resetOption = this._getResetOption();
     if (resetOption) {
-      const separator = {
-        rgItemType: List.ListProps.Type.SEPARATOR
-      };
-      return [resetOption, separator].concat(shownData);
+      const resetItems = [resetOption];
+      if (resetOption.separator) {
+        resetItems.push({
+          rgItemType: List.ListProps.Type.SEPARATOR
+        });
+      }
+      return resetItems.concat(shownData);
     }
     return shownData;
   }
