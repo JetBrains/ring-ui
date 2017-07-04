@@ -1,13 +1,11 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "jetbrains",
-    "jetbrains/es6",
-    "jetbrains/node"
+    "@jetbrains",
+    "@jetbrains/eslint-config/es6",
+    "@jetbrains/eslint-config/browser",
+    "@jetbrains/eslint-config/node"
   ],
-  "env": {
-    "node": true
-  },
   "rules": {
     "valid-jsdoc": "off",
     "import/no-commonjs": "off"
