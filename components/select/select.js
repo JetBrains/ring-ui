@@ -631,8 +631,7 @@ export default class Select extends RingComponentWithShortcuts {
       }
     }
 
-    const isTagRemoved = event &&
-      event.target &&
+    const isTagRemoved = this.props.tags && event && event.target &&
       event.target.matches('[data-test="ring-tag-remove"]');
 
     if (!isTagRemoved) {
