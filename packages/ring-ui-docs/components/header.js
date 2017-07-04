@@ -10,8 +10,8 @@ import Header, {
 } from 'ring-ui/components/header/header';
 import Link from 'ring-ui/components/link/link';
 import Icon from 'ring-ui/components/icon/icon';
-import hubConfig from 'ring-ui/hub-config';
 
+import hubConfig from './hub-config';
 import Item from './item';
 import Version from './version';
 
