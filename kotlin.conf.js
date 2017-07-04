@@ -4,7 +4,6 @@ const moduleName = 'kotlin-ring-ui';
 
 module.exports = {
   src: path.join(__dirname, 'components'),
-  output: path.join(__dirname, moduleName, 'build'),
   moduleName,
   libraries: [
     '@hypnosphi/kotlin-extensions',

@@ -18,7 +18,9 @@
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
-    "webpack.config.js"
+    "webpack.config.js",
+    "kotlin.conf.js",
+    "docs"
   ],
   "main": "webpack.config.js",
   "lint-staged": {
@@ -32,6 +34,7 @@
     ]
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo ring-ui:react --path $npm_package_config_components",
@@ -40,8 +43,9 @@
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
-    "build": "webpack --config webpack-docs.config.js",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
+    "build": "lerna run --scope ring-ui-docs --stream build",
+    "build-prod": "lerna run --scope ring-ui-docs --stream build-prod",
+    "start": "lerna run --scope ring-ui-docs --stream start",
     "lint": "eslint . && npm run stylelint",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml && npm run stylelint",
@@ -52,8 +56,8 @@
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "prebuild-ci-dev": "npm run lint-ci && npm run test-ci-dev",
-    "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
-    "build-ci-dev": "npm run build -- --env.production",
+    "build-ci": "npm run build-prod -- --env.production && npm run gemini-test-ci",
+    "build-ci-dev": "npm run build-prod -- --env.production",
     "prerelease-ci": "npm run build-ci && npm pack",
     "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
@@ -150,6 +154,7 @@
     "kotlin": "1.1.0",
     "kotlin-webpack-plugin": "1.0.5",
     "kotlinc-js": "1.0.4",
+    "lerna": "2.0.0-rc.5",
     "lint-staged": "4.0.0",
     "mocha": "3.0.2",
     "react-test-renderer": "15.6.1",

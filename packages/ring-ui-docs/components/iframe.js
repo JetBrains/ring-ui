@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'ring-ui/components/link/link';
 
-import Link from '../../components/link/link';
-import styles from '../index.css';
+import styles from './index.css';
 
 const Iframe = ({src}) => (
   <div className={styles.iframe}>

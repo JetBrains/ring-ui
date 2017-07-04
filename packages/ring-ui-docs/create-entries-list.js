@@ -1,5 +1,3 @@
-/* eslint-env node */
-/* eslint-disable import/no-commonjs */
 require('babel-polyfill');
 
 const fs = require('fs');
@@ -13,7 +11,7 @@ function readMainFileWithExtension(extension, dirpath) {
   const fileAbsPath = path.resolve(filePath);
 
   const stats = fs.lstatSync(fileAbsPath);
-  return stats && stats.isFile() ? `./${filePath}` : false;
+  return stats && stats.isFile() ? filePath : false;
 }
 
 function createEntriesList(dir) {
