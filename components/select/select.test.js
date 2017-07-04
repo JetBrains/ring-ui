@@ -894,31 +894,43 @@ describe('Select', () => {
 
   describe('_prependResetOption', () => {
     let instance;
-    beforeEach(() => {
-      instance = shallowSelect({
-        selected: [{}, {}],
-        tags: {reset: {}}
-      }).instance();
-    });
 
     it('should prepend reset option', () => {
-      const shownDataMock = [];
-      sandbox.stub(instance, '_getResetOption').returns({});
-
-      const newShownData = instance._prependResetOption(shownDataMock);
+      instance = getInstance();
+      const newShownData = instance._prependResetOption([{}]);
 
       expect(newShownData.length).to.be.equal(2);
-      expect(newShownData[1].rgItemType).to.be.equal(List.ListProps.Type.SEPARATOR);
+    });
+
+    it('should prepend reset option with separator', () => {
+      instance = getInstance(true);
+
+      const newShownData = instance._prependResetOption([{}]);
+
+      expect(newShownData.length).to.be.equal(3);
     });
 
     it('should not prepend reset option', () => {
-      const shownDataMock = [];
-      sandbox.stub(instance, '_getResetOption').returns(null);
+      instance = getInstance(true, []);
 
-      const newShownData = instance._prependResetOption(shownDataMock);
+      const newShownData = instance._prependResetOption([]);
 
       expect(newShownData.length).to.be.equal(0);
     });
+
+    function getInstance(resetWithSeparator, selected) {
+      const resetMock = {
+        reset: {}
+      };
+      if (resetWithSeparator) {
+        resetMock.reset.separator = true;
+      }
+
+      return shallowSelect({
+        selected: selected || [{}, {}],
+        tags: resetMock
+      }).instance();
+    }
   });
 
 
