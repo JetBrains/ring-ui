@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 04-07-2017: Ring UI is a monorepo
+
+Run `npm run bootstrap` to install all the packages' dependencies and link them between each other where needed.
+
 ### 03-07-2017: `header-legacy` component has been removed
 
 Use `header` component instead 
