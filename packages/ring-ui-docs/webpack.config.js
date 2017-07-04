@@ -58,6 +58,7 @@ module.exports = (env = {}) => {
       modules: [kotlinDist, path.resolve(ringUiPath, 'node_modules')],
       // needed in examples
       alias: {
+        'ring-ui-docs': __dirname,
         'ring-ui': ringUiPath
       }
     },
@@ -73,6 +74,12 @@ module.exports = (env = {}) => {
             'extract-loader',
             webpackConfig.loaders.htmlLoader.loader
           ]
+        },
+
+        // twig templates
+        {
+          test: /\.twig$/,
+          loader: 'twig-loader'
         },
 
         // Kotlin examples
