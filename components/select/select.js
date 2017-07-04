@@ -286,8 +286,9 @@ export default class Select extends RingComponentWithShortcuts {
       className: 'ring-select__clear-tags',
       onClick: event => {
         this.clear(event);
+        this._resetMultipleSelectionMap();
         if (this.props.onChange) {
-          this.props.onChange(this._resetMultipleSelectionMap(), event);
+          this.props.onChange([], event);
         }
 
         this.setState({
