@@ -291,7 +291,7 @@ export default class Select extends RingComponentWithShortcuts {
         }
 
         this.setState({
-          shownData: this.state.shownData.splice(0, 2)
+          shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
         });
         this._redrawPopup();
       }
