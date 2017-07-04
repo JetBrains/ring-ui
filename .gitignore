@@ -23,3 +23,5 @@ yarn.lock
 yarn-error.log
 package-lock.json
 build
+eslint-report.xml
+lerna-debug.log

@@ -5,9 +5,5 @@
     "jetbrains",
     "jetbrains/es6",
     "jetbrains/react"
-  ],
-  "rules": {
-    // Turn back on when https://github.com/benmosher/eslint-plugin-import/issues/882 resolves
-//    "import/order": "off"
-  }
+  ]
 }
