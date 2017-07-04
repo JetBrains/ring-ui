@@ -1,10 +1,9 @@
-/* eslint-env node */
-/* eslint-disable import/no-commonjs,no-shadow */
+/* eslint-disable no-shadow */
 const fs = require('fs');
+const path = require('path');
 
 const {compile} = require('kotlinc-js');
-
-const {output, moduleName, libraries} = require('../kotlin.conf');
+const {moduleName, libraries} = require('ring-ui/kotlin.conf');
 
 function noop() {}
 
@@ -36,7 +35,7 @@ module.exports = function kotlinExampleLoader(source) {
       moduleKind: 'commonjs',
       libraries: libraries.
         map(file => file.replace(/\.js$/, '.meta.js')).
-        concat(require.resolve(`${output}/${moduleName}.meta.js`))
+        concat(path.resolve(__dirname, `dist/kotlin/${moduleName}.meta.js`))
     }).
       then(() => {
         fs.readFile(TMP_FILE_NAME, (e, buffer) => {

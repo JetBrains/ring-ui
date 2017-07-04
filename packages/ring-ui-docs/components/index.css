@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color from '../components/global/global.css';
+@value unit, font, font-size, line-height, link-color from '../node_modules/ring-ui/components/global/global.css';
 
 html,
 body {

@@ -25,7 +25,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  import Button from 'ring-ui/components/button/button';
  import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
 
- import hubConfig from 'ring-ui/site/hub-config';
+ import hubConfig from 'ring-ui/hub-config';
 
  const auth = new Auth(hubConfig);
  const http = new HTTP(auth, auth.getAPIPath());

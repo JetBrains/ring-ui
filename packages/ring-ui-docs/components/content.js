@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import parseFrontMatter from 'front-matter';
+import Markdown from 'ring-ui/components/markdown/markdown';
+import {H1} from 'ring-ui/components/heading/heading';
 
-import Markdown from '../../components/markdown/markdown';
-import {H1} from '../../components/heading/heading';
-import styles from '../index.css';
-
+import styles from './index.css';
 import Example from './example';
 
 const Content = ({title, type, content, examples, description}) => (

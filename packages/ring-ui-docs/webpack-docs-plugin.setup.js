@@ -3,10 +3,10 @@ const path = require('path');
 const Docpack = require('docpack');
 const slug = require('url-slug');
 const {emitAsset} = require('webpack-toolkit');
-
-const pkg = require('./package.json');
+const pkg = require('ring-ui/package.json');
 
 const HOOKS = Docpack.HOOKS;
+const ringUiPath = path.dirname(require.resolve('ring-ui'));
 
 /**
  * @param {Object} data.
@@ -144,7 +144,7 @@ module.exports = () => {
   const docpack = new Docpack({
     test: /\.(js|scss|md)$/,
     include: [
-      path.resolve(__dirname, 'components'),
+      path.resolve(ringUiPath, 'components'),
       /\.md$/
     ]
   });
@@ -171,7 +171,7 @@ module.exports = () => {
 
   docpack.use(require('docpack-examples-compiler')({
     applyParentCompilerPlugins: true,
-    filename: path.resolve(__dirname, 'components/example.[type]'),
+    filename: path.resolve(ringUiPath, 'components/example.[type]'),
     outputFilename: 'examples/[name]/[hash]',
     filter: example =>
       !example.attrs.hasOwnProperty('compile') ||
@@ -180,7 +180,7 @@ module.exports = () => {
 
   // Generate example pages
   docpack.use(require('docpack-page-generator')({
-    template: path.resolve(__dirname, 'site/example.twig'),
+    template: path.resolve(__dirname, 'example.twig'),
 
     url: example => (`examples/[name]/${example.attrs.name ? slug(example.attrs.name) : '[hash]'}.html`),
 
@@ -199,7 +199,7 @@ module.exports = () => {
   // Generate pages
   docpack.use(
     require('docpack-page-generator')({
-      template: path.resolve(__dirname, 'site/page.twig'),
+      template: path.resolve(__dirname, 'page.twig'),
       url: '[name].html',
       select: sources =>
         sources.filter(
