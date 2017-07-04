@@ -5,22 +5,25 @@ const path = require('path');
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 const KotlinWebpackPlugin = require('kotlin-webpack-plugin');
+const webpackConfig = require('ring-ui/webpack.config');
+const pkgConfig = require('ring-ui/package.json').config;
+const kotlinConf = require('ring-ui/kotlin.conf');
 
-const webpackConfig = require('./webpack.config');
 const docpackSetup = require('./webpack-docs-plugin.setup');
-const createEntriesList = require('./site/create-entries-list');
-const pkgConfig = require('./package.json').config;
-const kotlinConf = require('./kotlin.conf');
+const createEntriesList = require('./create-entries-list');
 
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 
+const ringUiPath = path.dirname(require.resolve('ring-ui'));
 const publicPath = '/';
 const distDir = 'dist';
 const contentBase = path.resolve(__dirname, distDir);
+const kotlinDist = path.join(contentBase, 'kotlin');
+const siteComponents = path.resolve(__dirname, 'components');
 
 // For docs-app entry point
-webpackConfig.componentsPath.push(path.resolve(__dirname, 'site'));
+webpackConfig.componentsPath.push(siteComponents);
 
 module.exports = (env = {}) => {
   const {server, production} = env;
@@ -45,18 +48,20 @@ module.exports = (env = {}) => {
 
   const docsWebpackConfig = {
     entry: {
-      components: createEntriesList('./components/*'),
-      'docs-app': './site/index.js',
-      'example-common': './site/example-common.js'
+      components: createEntriesList(path.join(ringUiPath, 'components/*')),
+      'docs-app': siteComponents,
+      'example-common': path.join(siteComponents, 'example-common'),
+      favicon: 'file-loader?name=favicon.ico!jetbrains-logos/hub/favicon.ico'
     },
     resolve: {
       mainFields: ['module', 'browser', 'main'],
-      modules: [kotlinConf.output, 'node_modules'],
+      modules: [kotlinDist, path.resolve(ringUiPath, 'node_modules')],
+      // needed in examples
       alias: {
-        'ring-ui': __dirname
+        'ring-ui': ringUiPath
       }
     },
-    context: __dirname,
+    context: ringUiPath,
     module: {
       rules: [
         ...webpackConfig.config.module.rules,
@@ -73,7 +78,7 @@ module.exports = (env = {}) => {
         // Kotlin examples
         {
           test: /example\.kt/,
-          loader: './site/kotlin-example-loader'
+          loader: path.resolve(__dirname, 'kotlin-example-loader')
         }
       ]
     },
@@ -98,6 +103,7 @@ module.exports = (env = {}) => {
     },
     plugins: [
       new KotlinWebpackPlugin(Object.assign(kotlinConf, {
+        output: kotlinDist,
         sourceMaps: true,
         metaInfo: true
       })),
@@ -121,7 +127,7 @@ module.exports = (env = {}) => {
             'simply-uuid'
           ]
         },
-        dllDir: distDir,
+        dllDir: contentBase,
         webpackConfig: {
           devtool,
           module: {

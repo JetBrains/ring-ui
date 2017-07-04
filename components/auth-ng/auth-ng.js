@@ -20,7 +20,7 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
        </file>
 
        <file name="index.js" webpack="true">
-         import hubConfig from 'ring-ui/site/hub-config';
+         import hubConfig from 'ring-ui/hub-config';
 
          import 'angular';
          import rgAuth from 'ring-ui/components/auth-ng/auth-ng';

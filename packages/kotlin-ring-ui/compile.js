@@ -1,11 +1,8 @@
-const path = require('path');
-
 const {compile} = require('kotlinc-js');
-
-const {src, output, moduleName, libraries} = require('../kotlin.conf');
+const {src, moduleName, libraries} = require('ring-ui/kotlin.conf');
 
 compile({
-  output: path.join(output, `${moduleName}.js`),
+  output: `build/${moduleName}.js`,
   sources: src,
   sourceMaps: true,
   metaInfo: true,
