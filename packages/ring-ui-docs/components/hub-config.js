@@ -1,4 +1,4 @@
-/* global hubConfig, window */
+/* global hubConfig */
 
 const {serverUri, clientId} = hubConfig;
 const {protocol, host} = window.location;
