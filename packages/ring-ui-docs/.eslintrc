@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "jetbrains",
+    "jetbrains/es6",
+    "jetbrains/node"
+  ],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "valid-jsdoc": "off",
+    "import/no-commonjs": "off"
+  }
+}
