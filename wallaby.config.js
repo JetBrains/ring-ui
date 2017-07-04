@@ -82,7 +82,8 @@ module.exports = wallaby => {
 
     postprocessor: wallabyWebpack(webpackTestConfig),
 
-    bootstrap: function bootstrap() { // eslint-disable-line object-shorthand
+    /* global window */
+    bootstrap: function bootstrap() {
       // required to trigger tests loading
       window.__moduleBundler.loadTests();
     },
