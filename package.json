@@ -128,7 +128,7 @@
     "electron": "1.6.2",
     "enzyme": "2.8.2",
     "eslint": "3.11.1",
-    "eslint-config-jetbrains": "2.0.41",
+    "@jetbrains/eslint-config": "1.0.0",
     "eslint-plugin-flowtype-errors": "^3.3.0",
     "exports-loader": "0.6.3",
     "extract-loader": "0.1.0",
