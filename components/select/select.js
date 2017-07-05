@@ -316,6 +316,7 @@ export default class Select extends RingComponentWithShortcuts {
   _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
+    const _shownData = this._prependResetOption(shownData);
     let message = null;
 
     if (this.props.loading) {
@@ -326,7 +327,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     return (
       <SelectPopup
-        data={shownData}
+        data={_shownData}
         message={message}
         toolbar={showPopup && this.getToolbar()}
         loading={this.props.loading}
@@ -353,8 +354,7 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   _showPopup() {
-    let shownData = this.getListItems(this.filterValue());
-    shownData = this._prependResetOption(shownData);
+    const shownData = this.getListItems(this.filterValue());
     this.setState({
       showPopup: !!shownData.length || !this.props.allowAny,
       shownData
