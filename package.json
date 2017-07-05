@@ -73,11 +73,14 @@
   },
   "readmeFilename": "README.md",
   "babel": {
-    "presets": "jetbrains",
+    "presets": "@jetbrains/jetbrains",
     "plugins": [
-      ["transform-runtime", {
-        "moduleName": "@princed/babel-runtime"
-      }],
+      [
+        "transform-runtime",
+        {
+          "moduleName": "@princed/babel-runtime"
+        }
+      ],
       [
         "@maxmaximov/babel-plugin-angular-annotate",
         [
@@ -106,6 +109,7 @@
     "@hypnosphi/kotlin-react": "0.0.2",
     "@hypnosphi/kotlin-react-dom": "0.0.5",
     "@hypnosphi/kotlinx-html-js": "0.0.1",
+    "@jetbrains/eslint-config": "1.0.0",
     "@jetbrains/stylelint-config": "1.0.11",
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
@@ -128,7 +132,6 @@
     "electron": "1.6.2",
     "enzyme": "2.8.2",
     "eslint": "3.11.1",
-    "@jetbrains/eslint-config": "1.0.0",
     "eslint-plugin-flowtype-errors": "^3.3.0",
     "exports-loader": "0.6.3",
     "extract-loader": "0.1.0",
@@ -173,14 +176,14 @@
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
+    "@jetbrains/babel-preset-jetbrains": "1.0.1",
     "@maxmaximov/angular-elastic": "2.5.1",
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.2",
+    "@princed/babel-runtime": "6.23.0",
     "autoprefixer": "6.4.1",
     "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-jetbrains": "1.0.13",
-    "@princed/babel-runtime": "6.23.0",
     "classnames": "2.2.5",
     "combokeys": "2.4.6",
     "compile-code-loader": "0.2.0",
