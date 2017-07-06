@@ -5,15 +5,11 @@
   "scripts": {
     "build-prod": "webpack --env.production",
     "build": "webpack",
-    "lint": "eslint . && npm run stylelint",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server",
-    "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'"
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server"
   },
   "devDependencies": {
-    "eslint": "3.11.1",
     "http-server": "0.9.0",
     "ring-ui": "^2.7.0",
-    "stylelint": "7.11.1",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0"
   }
