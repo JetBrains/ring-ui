@@ -4,7 +4,7 @@
   "description": "Generator for Ring UI frontend apps",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ."
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"
@@ -14,7 +14,7 @@
     "ring-ui"
   ],
   "author": "Andrey Skladchikov",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "chalk": "^1.1.3",
     "change-case": "^3.0.0",
@@ -27,8 +27,8 @@
     "yeoman-generator": "^0.24.1"
   },
   "devDependencies": {
+    "@jetbrains/eslint-config": "1.0.0",
     "babel-eslint": "^7.1.1",
-    "eslint": "^3.12.2",
-    "eslint-config-jetbrains": "^2.0.28"
+    "eslint": "^3.12.2"
   }
 }

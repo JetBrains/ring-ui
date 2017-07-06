@@ -33,8 +33,14 @@ module.exports = generators.Base.extend({
       return answers;
     });
 
-    const portPromise = findAPortNotInUse(PORT_RANGE_START, PORT_RANGE_END, '127.0.0.1');
-    const packagesPromises = Promise.all(packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))).
+    const portPromise = findAPortNotInUse(
+      PORT_RANGE_START,
+      PORT_RANGE_END,
+      '127.0.0.1'
+    );
+    const packagesPromises = Promise.all(
+      packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))
+    ).
       then(latestVersions => {
         const versions = {};
         packages.forEach((packageName, i) => {
@@ -43,16 +49,22 @@ module.exports = generators.Base.extend({
         return versions;
       });
 
-    return Promise.all([prompt, portPromise, packagesPromises]).then(([answers, port, versions]) => {
-      const projectName = paramCase(answers.projectName);
-      const camelCaseName = camelCase(answers.projectName);
+    return Promise.all([prompt, portPromise, packagesPromises]).
+      then(([answers, port, versions]) => {
+        const projectName = paramCase(answers.projectName);
+        const camelCaseName = camelCase(answers.projectName);
 
-      this.props = Object.assign({projectName, camelCaseName, port}, versions);
-    }).then(() => {
-      if (spinner) {
-        spinner.succeed();
-      }
-    });
+        this.props = Object.assign({
+          projectName,
+          camelCaseName,
+          port
+        }, versions);
+      }).
+      then(() => {
+        if (spinner) {
+          spinner.succeed();
+        }
+      });
   },
 
   configuring() {
