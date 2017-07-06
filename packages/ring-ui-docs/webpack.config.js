@@ -28,6 +28,11 @@ webpackConfig.componentsPath.push(siteComponents);
 module.exports = (env = {}) => {
   const {server, production} = env;
   const envString = production ? 'production' : 'development';
+  const envDefinition = {
+    'process.env': {
+      NODE_ENV: JSON.stringify(envString)
+    }
+  };
   const devtool = production ? 'source-map' : 'eval';
 
   const getParam = name => (
@@ -114,12 +119,7 @@ module.exports = (env = {}) => {
         sourceMaps: true,
         metaInfo: true
       })),
-      new webpack.DefinePlugin({
-        hubConfig,
-        'process.env': {
-          NODE_ENV: JSON.stringify(envString)
-        }
-      }),
+      new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(),
       new DllBundlesPlugin({
         bundles: {
@@ -130,6 +130,7 @@ module.exports = (env = {}) => {
             'whatwg-fetch',
             'react',
             'react-dom',
+            'prop-types',
             '@hypnosphi/react-portal',
             'react-waypoint',
             'angular',
@@ -147,7 +148,9 @@ module.exports = (env = {}) => {
               webpackConfig.loaders.whatwgLoader
             ]
           },
-          plugins: [] // DllBundlesPlugin will set the DllPlugin here
+          plugins: [
+            new webpack.DefinePlugin(envDefinition)
+          ] // DllBundlesPlugin will set the DllPlugin here
         }
       })
     ]
