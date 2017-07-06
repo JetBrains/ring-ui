@@ -1,5 +1,3 @@
-/* eslint-disable modules/no-cjs */
-
 module.exports = ctx => ({
   plugins: [
     require('postcss-modules-values-replace')({
