@@ -1,4 +1,3 @@
-/* eslint-disable modules/no-cjs */
 const format = require('util').format;
 const path = require('path');
 

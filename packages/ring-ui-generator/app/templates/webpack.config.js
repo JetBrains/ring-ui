@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
-
 const {join, resolve} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');

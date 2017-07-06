@@ -1,6 +1,3 @@
-/* eslint-env node */
-/* eslint-disable modules/no-cjs */
-
 // Karma configuration
 
 const argv = require('minimist')(process.argv);
