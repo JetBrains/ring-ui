@@ -10,6 +10,10 @@
     "yeoman-generator",
     "ring-ui"
   ],
+  "scripts": {
+    "release-ci": "npm publish",
+    "version": "update-version --patch"
+  },
   "author": "Andrey Skladchikov",
   "license": "Apache-2.0",
   "dependencies": {
@@ -21,6 +25,7 @@
     "pify": "^2.3.0",
     "portscanner": "^1.0.0",
     "read-pkg-up": "^1.0.1",
+    "update-version": "^1.0.2",
     "yeoman-generator": "^0.24.1"
   }
 }
