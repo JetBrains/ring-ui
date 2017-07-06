@@ -114,7 +114,12 @@ module.exports = (env = {}) => {
         sourceMaps: true,
         metaInfo: true
       })),
-      new webpack.DefinePlugin({hubConfig}),
+      new webpack.DefinePlugin({
+        hubConfig,
+        'process.env': {
+          NODE_ENV: JSON.stringify(envString)
+        }
+      }),
       docpackSetup(),
       new DllBundlesPlugin({
         bundles: {
