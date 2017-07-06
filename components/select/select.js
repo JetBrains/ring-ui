@@ -406,7 +406,8 @@ export default class Select extends RingComponentWithShortcuts {
           onClick={this.addHandler}
         >
           <span
-            className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
+            className="ring-select__button__plus"
+          >{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
         </div>
       );
     }
@@ -470,8 +471,8 @@ export default class Select extends RingComponentWithShortcuts {
       (this.props.add && this.props.add.alwaysVisible)
     ) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
-      !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
-      this.props.add.alwaysVisible) {
+        !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
+        this.props.add.alwaysVisible) {
 
         this._addButton = {
           prefix: this.props.add.prefix,
