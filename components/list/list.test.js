@@ -383,7 +383,7 @@ describe('List', () => {
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(0);
         expect(visibleOptions.startIndex).to.equal(0);
-        expect(visibleOptions.stopIndex).to.equal(data.length);
+        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
       });
 
       it('should calculate visible options if items` height equal visible height', () => {
@@ -405,7 +405,7 @@ describe('List', () => {
         expect(visibleOptions.paddingTop).to.equal(0);
         expect(visibleOptions.paddingBottom).to.equal(0);
         expect(visibleOptions.startIndex).to.equal(0);
-        expect(visibleOptions.stopIndex).to.equal(data.length);
+        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
       });
 
       it('should calculate visible options if items` height more then visible height and no scroll', () => {
@@ -421,15 +421,43 @@ describe('List', () => {
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
 
         const instance = shallowList().instance();
+        instance._bufferSize = 0;
         stubInnerContainer(instance);
         scrollPosition(instance, 0);
 
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
-
         expect(visibleOptions.paddingTop).to.equal(0);
-        expect(visibleOptions.paddingBottom).to.equal(0);
+        expect(visibleOptions.paddingBottom).to.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
         expect(visibleOptions.startIndex).to.equal(0);
+        expect(visibleOptions.stopIndex).to.equal(COUNT_VISIBLE_ITEMS - 1);
+      });
+
+      it('should calculate visible options if scrollTop is more then list height', () => {
+        const data = [
+          createItemMock(List.ListProps.Type.ITEM),
+          createItemMock(List.ListProps.Type.ITEM),
+          createItemMock(List.ListProps.Type.ITEM),
+          createItemMock(List.ListProps.Type.ITEM)
+        ];
+
+        const COUNT_HIDDEN_ITEMS = 2;
+        const COUNT_VISIBLE_ITEMS = data.length - COUNT_HIDDEN_ITEMS;
+        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
+
+        const instance = shallowList().instance();
+        instance._bufferSize = 0;
+        stubInnerContainer(instance);
+        scrollPosition(
+          instance,
+          getItemDimension(instance, data.length - 1, data).end + Dimension.ITEM_HEIGHT
+        );
+
+        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
+          instance.calculateItemsSize(data));
+        expect(visibleOptions.paddingTop).to.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
+        expect(visibleOptions.paddingBottom).to.equal(0);
+        expect(visibleOptions.startIndex).to.equal(data.length - COUNT_VISIBLE_ITEMS);
         expect(visibleOptions.stopIndex).to.equal(data.length - 1);
       });
 
@@ -462,7 +490,7 @@ describe('List', () => {
 
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize;
+        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize - 1;
 
         stubInnerContainer(instance);
         scrollPosition(instance, 0);
@@ -481,7 +509,7 @@ describe('List', () => {
 
         const COUNT_VISIBLE_ITEMS = 2;
         const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize;
+        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize - 1;
 
         stubInnerContainer(instance);
         scrollPosition(instance, 0);
