@@ -34,7 +34,7 @@ describe('SelectPopup', () => {
 
         simulateCombo('tab');
 
-        expect(instance.tabPress).to.not.be.called;
+        instance.tabPress.should.not.be.called;
       });
     });
   });
@@ -82,9 +82,9 @@ describe('SelectPopup', () => {
       it('should not throw error when user press tab but we do not have the list', () => {
         const wrapper = mountSelectPopup();
         wrapper.setProps({hidden: false});
-        expect(() => {
+        (() => {
           simulateCombo('tab');
-        }).to.not.throw();
+        }).should.not.throw();
       });
     });
 
@@ -97,7 +97,7 @@ describe('SelectPopup', () => {
 
         simulateCombo('down');
 
-        expect(wrapper.instance().list.getSelected()).to.be.equal(firstItem);
+        wrapper.instance().list.getSelected().should.be.equal(firstItem);
       });
 
 
@@ -108,7 +108,7 @@ describe('SelectPopup', () => {
 
         simulateCombo('up');
 
-        expect(wrapper.instance().list.getSelected()).to.be.equal(lastItem);
+        wrapper.instance().list.getSelected().should.be.equal(lastItem);
       });
 
 

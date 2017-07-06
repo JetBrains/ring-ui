@@ -34,7 +34,7 @@ describe('Permissions', () => {
   it('should create permissions', () => {
     const permissions = new Permissions(createAuthMock());
 
-    expect(permissions).to.be.ok;
+    permissions.should.be.ok;
   });
 
 
@@ -46,7 +46,7 @@ describe('Permissions', () => {
     sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
 
     permissions.load().then(permissionsCache => {
-      expect(permissionsCache.has('A')).to.be.true;
+      permissionsCache.has('A').should.be.true;
       done();
     });
   });
@@ -57,7 +57,7 @@ describe('Permissions', () => {
     const permissionsData = [createPermission('A')];
     const permissions = new Permissions(auth);
 
-    expect(permissions.set(permissionsData).has('A')).to.be.true;
+    permissions.set(permissionsData).has('A').should.be.true;
   });
 
 
@@ -68,7 +68,7 @@ describe('Permissions', () => {
 
     permissions.set(permissionsData);
 
-    expect(permissions.get()).to.equal(permissionsData);
+    permissions.get().should.equal(permissionsData);
   });
 
 
@@ -91,7 +91,7 @@ describe('Permissions', () => {
       permissions.load();
       permissions.load();
       permissions.load().then(permissionsCache => {
-        expect(permissionsCache.has('A')).to.be.true;
+        permissionsCache.has('A').should.be.true;
         done();
       });
 
@@ -158,32 +158,32 @@ describe('Permissions', () => {
     const auth = createAuthMock();
 
     it('shouldn\'t build query if no services ids provided', () => {
-      expect(new Permissions(auth).query).to.equal(undefined);
+      should.not.exist(new Permissions(auth).query);
     });
 
     it('should build query if one service provided', () => {
-      expect(new Permissions(auth, {services: ['0-0-0-0-2']}).query).
-        to.equal('service:{0-0-0-0-2}');
+      new Permissions(auth, {services: ['0-0-0-0-2']}).query.
+        should.equal('service:{0-0-0-0-2}');
     });
 
     it('should build query if several services provided', () => {
-      expect(new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query).
-        to.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
+      new Permissions(auth, {services: ['0-0-0-0-0', '0-0-0-0-2']}).query.
+        should.equal('service:{0-0-0-0-0} or service:{0-0-0-0-2}');
     });
 
     it('should check no namesConverter if no config params', () => {
-      expect(new Permissions(auth).namesConverter).to.equal(undefined);
+      should.not.exist(new Permissions(auth).namesConverter);
     });
 
     it('should create namesConverter for prefix', () => {
       const permissions = new Permissions(auth, {prefix: 'jetbrains.jetpass.'});
-      expect(permissions.namesConverter).not.to.equal(undefined);
-      expect(permissions.namesConverter('jetbrains.jetpass.project-read')).
-        to.equal('project-read');
+      permissions.namesConverter.should.not.equal(undefined);
+      permissions.namesConverter('jetbrains.jetpass.project-read').
+        should.equal('project-read');
     });
 
     it('should require auth', () => {
-      expect(() => new Permissions()).to.throw(Error, 'Parameter auth is required');
+      () => new Permissions().should.throw(Error, 'Parameter auth is required');
     });
 
     describe('construction with defined namesConverter', () => {
@@ -192,8 +192,8 @@ describe('Permissions', () => {
       }
 
       it('should pass permission names converter', () => {
-        expect(new Permissions(auth, {namesConverter: converter}).namesConverter).
-          to.equal(converter);
+        new Permissions(auth, {namesConverter: converter}).namesConverter.
+          should.equal(converter);
       });
 
       it('should use default permission names converter if prefix defined', () => {
@@ -202,9 +202,9 @@ describe('Permissions', () => {
           prefix: 'jetbrains.jetpass.'
         };
         const permissions = new Permissions(auth, args);
-        expect(permissions.namesConverter).not.to.equal(undefined);
-        expect(permissions.namesConverter('jetbrains.jetpass.project-read')).
-          to.equal('project-read');
+        permissions.namesConverter.should.not.equal(undefined);
+        permissions.namesConverter('jetbrains.jetpass.project-read').
+          should.equal('project-read');
       });
     });
   });
@@ -218,7 +218,7 @@ describe('Permissions', () => {
 
       permissions.reload();
 
-      expect(permissions._promise).to.be.null;
+      should.not.exist(permissions._promise);
       permissions.load.should.have.been.called;
     });
   });

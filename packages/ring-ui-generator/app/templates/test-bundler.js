@@ -16,7 +16,6 @@ chai.use(chaiEnzyme());
 Object.assign(window, {
   sinon,
   chai,
-  expect: chai.expect,
   should: chai.should()
 });
 

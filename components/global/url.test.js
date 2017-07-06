@@ -26,19 +26,19 @@ describe('Url', () => {
     });
 
     it('should fix relative url', () => {
-      expect(fixUrl('relative/path')).to.be.equal(`${baseUrl}relative/path`);
+      fixUrl('relative/path').should.be.equal(`${baseUrl}relative/path`);
     });
 
     it('should not fix absolute url', () => {
-      expect(fixUrl('/absolute/path')).to.be.equal('/absolute/path');
+      fixUrl('/absolute/path').should.be.equal('/absolute/path');
     });
 
     it('should not fix absolute url with http', () => {
-      expect(fixUrl('http://simple/path')).to.be.equal('http://simple/path');
+      fixUrl('http://simple/path').should.be.equal('http://simple/path');
     });
 
     it('should not fix absolute url with https', () => {
-      expect(fixUrl('https://secure/path')).to.be.equal('https://secure/path');
+      fixUrl('https://secure/path').should.be.equal('https://secure/path');
     });
 
     it('should concat base url and path', () => {
