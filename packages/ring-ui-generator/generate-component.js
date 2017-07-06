@@ -1,8 +1,9 @@
 /* eslint-disable modules/no-cjs */
-const generators = require('yeoman-generator');
-const green = require('chalk').green;
 const format = require('util').format;
 const path = require('path');
+
+const generators = require('yeoman-generator');
+const green = require('chalk').green;
 const changeCase = require('change-case');
 const readPkgUp = require('read-pkg-up');
 
@@ -17,7 +18,11 @@ module.exports = params => generators.Base.extend({
     generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
 
     this.argument('componentName', {type: String, required: false});
-    this.option('path', {type: String, required: false, default: process.cwd()});
+    this.option('path', {
+      type: String,
+      required: false,
+      default: process.cwd()
+    });
   },
 
   writing: function writing() {
@@ -44,15 +49,22 @@ module.exports = params => generators.Base.extend({
       const componentName = answers.componentName;
       const camelCaseName = changeCase.camelCase(componentName);
       const paramCaseName = changeCase.paramCase(componentName);
-      const componentNameSuffix = isRingUINg ? componentName + RING_UI_NG_SUFFIX : componentName;
+      const componentNameSuffix = isRingUINg
+        ? componentName + RING_UI_NG_SUFFIX
+        : componentName;
       const paramCaseNameSuffix = changeCase.paramCase(componentNameSuffix);
 
       const componentPath = path.join(this.options.path, paramCaseNameSuffix);
 
-      const ringUIComponentsPath = path.relative(componentPath, path.join(path.dirname(ringUIPath), 'components'));
+      const ringUIComponentsPath = path.relative(
+        componentPath,
+        path.join(path.dirname(ringUIPath), 'components')
+      );
       const ringUIRoot = isRingUI ? ringUIComponentsPath : `${RING_UI_PACKAGE}/components`;
 
-      const className = isRingUI ? RING_UI_CLASS_PREFIX + paramCaseName : paramCaseName;
+      const className = isRingUI
+        ? RING_UI_CLASS_PREFIX + paramCaseName
+        : paramCaseName;
       const pascalCaseName = changeCase.pascalCase(componentName);
       const titleCaseName = changeCase.titleCase(componentNameSuffix);
       const ngComponentName = isRingUI
@@ -79,8 +91,14 @@ module.exports = params => generators.Base.extend({
           const templateString = template.template || template;
 
           this.fs.copyTpl(
-            this.templatePath(format(templateString, COMPONENT_DEFAULT_FILENAME)),
-            this.destinationPath(path.join(componentPath, format(templateString, paramCaseNameSuffix))),
+            this.templatePath(format(
+              templateString,
+              COMPONENT_DEFAULT_FILENAME
+            )),
+            this.destinationPath(path.join(componentPath, format(
+              templateString,
+              paramCaseNameSuffix
+            ))),
             templateContext
           );
         }
