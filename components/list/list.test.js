@@ -100,13 +100,13 @@ describe('List', () => {
       const instance = shallowList().instance();
       instance.recalculateVisibleOptionsWithOptimization(false, null, {data});
 
-      expect(instance.cachedSizes.length).to.equal(data.length);
-      expect(instance.cachedSizes[0]).to.deep.equal({
+      instance.cachedSizes.length.should.equal(data.length);
+      instance.cachedSizes[0].should.deep.equal({
         begin: Dimension.MARGIN,
         size: Dimension.ITEM_HEIGHT,
         end: 28
       });
-      expect(instance.cachedSizes[1]).to.deep.equal({
+      instance.cachedSizes[1].should.deep.equal({
         begin: instance.cachedSizes[0].end,
         size: Dimension.ITEM_HEIGHT,
         end: 52
@@ -150,7 +150,7 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).to.equal(14);
+      scrollPosition(instance).should.equal(14);
     });
 
     it('should scroll to the active item if the item`s bottom edge out of visible frame and item is first item in the list', () => {
@@ -187,7 +187,7 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).to.equal(0);
+      scrollPosition(instance).should.equal(0);
     });
 
     it('should scroll to the active item if the item`s top edge out of visible frame', () => {
@@ -227,7 +227,7 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).to.equal(62);
+      scrollPosition(instance).should.equal(62);
     });
 
     it('should scroll to the last item', () => {
@@ -267,7 +267,7 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).to.equal(86);
+      scrollPosition(instance).should.equal(86);
     });
 
     it('should scroll to the top edge of the item if the top edge out of visible frame', () => {
@@ -306,7 +306,7 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).to.equal(activeItemDimension.begin);
+      scrollPosition(instance).should.equal(activeItemDimension.begin);
     });
 
     it('should scroll to the bottom edge of the item if the bottom edge out of visible frame', () => {
@@ -351,8 +351,8 @@ describe('List', () => {
         maxHeight
       });
 
-      expect(scrollPosition(instance)).
-        to.
+      scrollPosition(instance).
+        should.
         equal(activeItemDimension.end - instance.getVisibleListHeight({maxHeight}));
     });
 
@@ -380,10 +380,10 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.paddingTop).to.equal(0);
-        expect(visibleOptions.paddingBottom).to.equal(0);
-        expect(visibleOptions.startIndex).to.equal(0);
-        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
+        visibleOptions.paddingTop.should.equal(0);
+        visibleOptions.paddingBottom.should.equal(0);
+        visibleOptions.startIndex.should.equal(0);
+        visibleOptions.stopIndex.should.equal(data.length - 1);
       });
 
       it('should calculate visible options if items` height equal visible height', () => {
@@ -402,10 +402,10 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.paddingTop).to.equal(0);
-        expect(visibleOptions.paddingBottom).to.equal(0);
-        expect(visibleOptions.startIndex).to.equal(0);
-        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
+        visibleOptions.paddingTop.should.equal(0);
+        visibleOptions.paddingBottom.should.equal(0);
+        visibleOptions.startIndex.should.equal(0);
+        visibleOptions.stopIndex.should.equal(data.length - 1);
       });
 
       it('should calculate visible options if items` height more then visible height and no scroll', () => {
@@ -427,10 +427,10 @@ describe('List', () => {
 
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
-        expect(visibleOptions.paddingTop).to.equal(0);
-        expect(visibleOptions.paddingBottom).to.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
-        expect(visibleOptions.startIndex).to.equal(0);
-        expect(visibleOptions.stopIndex).to.equal(COUNT_VISIBLE_ITEMS - 1);
+        visibleOptions.paddingTop.should.equal(0);
+        visibleOptions.paddingBottom.should.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
+        visibleOptions.startIndex.should.equal(0);
+        visibleOptions.stopIndex.should.equal(COUNT_VISIBLE_ITEMS - 1);
       });
 
       it('should calculate visible options if scrollTop is more then list height', () => {
@@ -455,10 +455,10 @@ describe('List', () => {
 
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
-        expect(visibleOptions.paddingTop).to.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
-        expect(visibleOptions.paddingBottom).to.equal(0);
-        expect(visibleOptions.startIndex).to.equal(data.length - COUNT_VISIBLE_ITEMS);
-        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
+        visibleOptions.paddingTop.should.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
+        visibleOptions.paddingBottom.should.equal(0);
+        visibleOptions.startIndex.should.equal(data.length - COUNT_VISIBLE_ITEMS);
+        visibleOptions.stopIndex.should.equal(data.length - 1);
       });
 
       it('should set last item as stopIndex if count hidden items less then buffer size', () => {
@@ -479,7 +479,7 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.stopIndex).to.equal(data.length - 1);
+        visibleOptions.stopIndex.should.equal(data.length - 1);
       });
 
       it('should set stopIndex equal item`s index which depends from buffer`s size', () => {
@@ -498,7 +498,7 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.stopIndex).to.equal(expectedStopIndex);
+        visibleOptions.stopIndex.should.equal(expectedStopIndex);
       });
 
       it('should calculate height of non-rendered below items', () => {
@@ -517,8 +517,8 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.paddingTop).to.equal(0);
-        expect(visibleOptions.paddingBottom).to.equal(
+        visibleOptions.paddingTop.should.equal(0);
+        visibleOptions.paddingBottom.should.equal(
           getItemDimension(instance, data.length - 1, data).end -
           getItemDimension(instance, expectedStopIndex, data).end
         );
@@ -543,10 +543,10 @@ describe('List', () => {
         const visibleOptions = instance.calculateVisibleOptions({maxHeight},
           instance.calculateItemsSize(data));
 
-        expect(visibleOptions.paddingTop).to.equal(
+        visibleOptions.paddingTop.should.equal(
           getItemDimension(instance, expectedStartIndex, data).begin - Dimension.MARGIN
         );
-        expect(visibleOptions.paddingBottom).to.equal(0);
+        visibleOptions.paddingBottom.should.equal(0);
       });
     });
   });
@@ -590,7 +590,7 @@ describe('List', () => {
 
     instance.clearSelected();
 
-    expect(instance.getSelected()).to.be.undefined;
+    should.not.exist(instance.getSelected());
   });
 
   describe('should track activeIndex', () => {
@@ -734,7 +734,7 @@ describe('List', () => {
       }).instance();
 
       const icon = getFirstListItem(instance).querySelector('.ring-list__icon');
-      expect(icon.style.backgroundImage).to.contain('http://some.url');
+      icon.style.backgroundImage.should.contain('http://some.url');
     });
 
     it('should render icon of a custom size', () => {
@@ -751,7 +751,7 @@ describe('List', () => {
       }).instance();
 
       const icon = getFirstListItem(instance).querySelector('.ring-icon__i');
-      expect(icon.style.width).to.be.equal(`${customIconSize}px`);
+      icon.style.width.should.be.equal(`${customIconSize}px`);
     });
 
     it('should not render glyph if not provided', () => {
@@ -775,7 +775,7 @@ describe('List', () => {
     });
 
     it('should throw error on unknown type', () => {
-      expect(() => {
+      (() => {
         const instance = mountList({
           data: [
             {label: 'Hello!', rgItemType: 'none'}
@@ -785,7 +785,7 @@ describe('List', () => {
         getFirstListItem(instance).should.have.class('ring-link');
         getFirstListItem(instance).innerHTML.should.equal('Hello!');
         getFirstListItem(instance).tagName.toLowerCase().should.equal('span');
-      }).to.throw(Error, 'Unknown menu element type: none');
+      }).should.throw(Error, 'Unknown menu element type: none');
     });
 
     it('should handle click', () => {

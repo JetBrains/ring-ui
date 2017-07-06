@@ -36,25 +36,25 @@ describe('Auth', () => {
       it('should return null for null location', () => {
         location = null;
         const parser = new AuthResponseParser();
-        expect(parser.getAuthResponseFromURL()).to.be.null;
+        should.not.exist(parser.getAuthResponseFromURL());
       });
 
       it('should return null for empty location', () => {
         location = '';
         const parser = new AuthResponseParser();
-        expect(parser.getAuthResponseFromURL()).to.be.null;
+        should.not.exist(parser.getAuthResponseFromURL());
       });
 
       it('should return null for empty hash', () => {
         location = 'http://localhost:8080/hub#';
         const parser = new AuthResponseParser();
-        expect(parser.getAuthResponseFromURL()).to.be.null;
+        should.not.exist(parser.getAuthResponseFromURL());
       });
 
       it('should return null for no hash', () => {
         location = 'http://localhost:8080/hub';
         const parser = new AuthResponseParser();
-        expect(parser.getAuthResponseFromURL()).to.be.null;
+        should.not.exist(parser.getAuthResponseFromURL());
       });
 
       it('should return correct for value with hashes', () => {
