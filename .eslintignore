@@ -1,8 +1,8 @@
 coverage
 dist
 docs
-templates
 gemini-report
 node_modules
 build
-packages
+packages/ring-ui-generator/*/templates
+
