@@ -29,15 +29,15 @@ describe('Shortcuts', () => {
 
   describe('bind', () => {
     it('should throw without a handler', () => {
-      expect(() => {
+      (() => {
         shortcuts.bind();
-      }).to.throw(Error, 'Shortcut handler should exist');
+      }).should.throw(Error, 'Shortcut handler should exist');
     });
 
     it('should throw without a key', () => {
-      expect(() => {
+      (() => {
         shortcuts.bind({handler: sandbox.stub()});
-      }).to.throw(Error, 'Shortcut key should exist');
+      }).should.throw(Error, 'Shortcut key should exist');
     });
 
     it('should bind to root scope', () => {
@@ -63,15 +63,15 @@ describe('Shortcuts', () => {
 
   describe('bindMap', () => {
     it('should throw without a map', () => {
-      expect(() => {
+      (() => {
         shortcuts.bindMap();
-      }).to.throw(Error, 'Shortcuts map shouldn\'t be empty');
+      }).should.throw(Error, 'Shortcuts map shouldn\'t be empty');
     });
 
     it('should throw with wrong handler', () => {
-      expect(() => {
+      (() => {
         shortcuts.bindMap({a: {}});
-      }).to.throw(Error, 'Shortcut handler should exist');
+      }).should.throw(Error, 'Shortcut handler should exist');
     });
 
     it('should bind map of keys to root scope', () => {
@@ -100,7 +100,7 @@ describe('Shortcuts', () => {
       shortcuts.bind({key, scope, handler: noop});
       shortcuts.unbindScope(scope);
 
-      expect(shortcuts._scopes[scope]).not.to.exist;
+      should.not.exist(shortcuts._scopes[scope]);
     });
   });
 
@@ -276,7 +276,7 @@ describe('Shortcuts', () => {
 
       shortcuts.bind({key: 'shift+ctrl+0', handler: noop});
 
-      expect(eventType).should.not.equal('keyup');
+      ('keyup').should.not.equal(eventType);
     });
   });
 });

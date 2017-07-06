@@ -17,12 +17,12 @@ describe('PermissionCache', () => {
     const permissions = [createPermission('A')];
     const permissionCache = new PermissionCache(permissions);
 
-    expect(permissionCache).to.be.ok;
+    permissionCache.should.be.ok;
   });
 
 
   it('should not throw exception if we do not pass permissions', () => {
-    expect(() => (new PermissionCache())).to.not.throw();
+    () => (new PermissionCache()).should.not.throw();
   });
 
 
@@ -32,7 +32,7 @@ describe('PermissionCache', () => {
 
     permissionCache.set(permissions);
 
-    expect(permissionCache.has('A')).to.be.true;
+    permissionCache.has('A').should.be.true;
   });
 
 
@@ -40,7 +40,7 @@ describe('PermissionCache', () => {
     const permissions = [createPermission('A')];
     const permissionCache = new PermissionCache(permissions);
 
-    expect(permissionCache.get()).to.be.equal(permissions);
+    permissionCache.get().should.be.equal(permissions);
   });
 
 
@@ -48,7 +48,7 @@ describe('PermissionCache', () => {
     const permissions = [createPermission('A')];
     const permissionCache = new PermissionCache(permissions);
 
-    expect(permissionCache.has('A')).to.be.true;
+    permissionCache.has('A').should.be.true;
   });
 
 
@@ -59,8 +59,8 @@ describe('PermissionCache', () => {
 
     const permissionCache = new PermissionCache(permissions);
 
-    expect(permissionCache.has('A', projectA.id)).to.be.true;
-    expect(permissionCache.has('A', projectB.id)).to.be.false;
+    permissionCache.has('A', projectA.id).should.be.true;
+    permissionCache.has('A', projectB.id).should.be.false;
   });
 
 
@@ -70,6 +70,6 @@ describe('PermissionCache', () => {
 
     const permissionCache = new PermissionCache(permissions, nameConverter);
 
-    expect(permissionCache.has('#A')).to.be.true;
+    permissionCache.has('#A').should.be.true;
   });
 });

@@ -9,15 +9,15 @@ const FLUSH_INTERVAL = 10000;
 
 describe('Analytics', () => {
   it('should be created', () => {
-    expect(analytics).should.exist;
+    analytics.should.exist;
   });
 
   it('should export correct interface', () => {
-    expect(analytics.trackPageView).should.exist;
-    expect(analytics.trackEvent).should.exist;
-    expect(analytics.trackShortcutEvent).should.exist;
-    expect(analytics.trackEntityProperties).should.exist;
-    expect(analytics.track).should.exist;
+    analytics.trackPageView.should.exist;
+    analytics.trackEvent.should.exist;
+    analytics.trackShortcutEvent.should.exist;
+    analytics.trackEntityProperties.should.exist;
+    analytics.track.should.exist;
   });
 
   describe('ga plugin', () => {
@@ -29,12 +29,12 @@ describe('Analytics', () => {
     });
 
     it('should init ga', () => {
-      expect(window.ga).to.be.defined;
+      window.ga.should.be.defined;
     });
 
     it('should export interface', () => {
-      expect(gaPlugin.trackPageView).should.exist;
-      expect(gaPlugin.trackEvent).should.exist;
+      gaPlugin.trackPageView.should.exist;
+      gaPlugin.trackEvent.should.exist;
     });
 
     it('should send pageview event', () => {
@@ -70,9 +70,9 @@ describe('Analytics', () => {
     });
 
     it('should not init ga', () => {
-      expect(window.ga).to.be.undefined;
-      expect(gaPlugin.trackEvent).to.be.function;
-      expect(gaPlugin.trackPageView).to.be.function;
+      should.not.exist(window.ga);
+      gaPlugin.trackEvent.should.be.function;
+      gaPlugin.trackPageView.should.be.function;
     });
   });
 
@@ -124,12 +124,12 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE - 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(MAX_PACK_SIZE - 1);
+        customPlugin._data.length.should.equal(MAX_PACK_SIZE - 1);
 
         analyticsInstance.trackEvent('test-category-100', 'test-action');
 
         send.should.have.been.called;
-        expect(customPlugin._data.length).equal(0);
+        customPlugin._data.length.should.equal(0);
       });
 
       it('should configure max pack size via config', () => {
@@ -141,12 +141,12 @@ describe('Analytics', () => {
         for (let i = 0; i < MAX_PACK_SIZE + 1; ++i) {
           analyticsInstance.trackEvent(`test-category-${i}`, 'test-action');
         }
-        expect(customPlugin._data.length).equal(MAX_PACK_SIZE + 1);
+        customPlugin._data.length.should.equal(MAX_PACK_SIZE + 1);
 
         analyticsInstance.trackEvent('test-category-102', 'test-action');
 
         send.should.have.been.called;
-        expect(customPlugin._data.length).equal(0);
+        customPlugin._data.length.should.equal(0);
       });
 
       it('should remove prohibited symbols', () => {

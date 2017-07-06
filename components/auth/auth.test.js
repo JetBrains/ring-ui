@@ -14,11 +14,11 @@ const HOUR = 3600;
 describe('Auth', () => {
   describe('construction', () => {
     it('should require provide config', () => {
-      expect(() => new Auth()).to.throw(Error, 'Config is required');
+      (() => new Auth()).should.throw(Error, 'Config is required');
     });
 
     it('should throw on unsupported params usage', () => {
-      expect(() => new Auth({
+      (() => new Auth({
         serverUri: 'value',
         /* eslint-disable camelcase */
         redirect_uri: 'value',
@@ -26,24 +26,24 @@ describe('Auth', () => {
         client_id: 'value'
         /* eslint-enable camelcase */
       })).
-        to.
+        should.
         throw(Error, 'The following parameters are no longer supported: redirect_uri, request_credentials, client_id. Please change them from snake_case to camelCase.');
     });
 
     it('should require provide server uri', () => {
-      expect(() => new Auth({
+      (() => new Auth({
         serverUri: null
-      })).to.throw(Error, '\"serverUri\" property is required');
+      })).should.throw(Error, '\"serverUri\" property is required');
 
-      expect(() => new Auth({})).
-        to.throw(Error, '\"serverUri\" property is required');
+      (() => new Auth({})).
+        should.throw(Error, '\"serverUri\" property is required');
     });
 
     it('should fix serverUri', () => {
-      expect(new Auth({serverUri: ''}).config.serverUri).to.equal('');
-      expect(new Auth({serverUri: 'http://localhost'}).config.serverUri).
-        to.equal('http://localhost/');
-      expect(new Auth({serverUri: '.'}).config.serverUri).to.equal('./');
+      new Auth({serverUri: ''}).config.serverUri.should.equal('');
+      new Auth({serverUri: 'http://localhost'}).config.serverUri.
+        should.equal('http://localhost/');
+      new Auth({serverUri: '.'}).config.serverUri.should.equal('./');
     });
 
     it('should merge passed config with default config', () => {
@@ -673,7 +673,7 @@ describe('Auth', () => {
         );
 
       const storedToken = await auth._storage.getToken();
-      expect(storedToken).to.be.null;
+      should.not.exist(storedToken);
 
       const state = await auth._storage.getState('unique');
       state.should.contain.all.keys({
