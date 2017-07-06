@@ -1,5 +1,6 @@
-const generateComponent = require('../generate-component');
 const green = require('chalk').green;
+
+const generateComponent = require('../generate-component');
 
 module.exports = generateComponent({
   fileTemplates: [
