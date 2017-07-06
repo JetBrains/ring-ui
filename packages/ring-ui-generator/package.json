@@ -25,7 +25,9 @@
     "pify": "^2.3.0",
     "portscanner": "^1.0.0",
     "read-pkg-up": "^1.0.1",
-    "update-version": "^1.0.2",
     "yeoman-generator": "^0.24.1"
+  },
+  "devDependencies": {
+    "update-version": "^1.0.2"
   }
 }
