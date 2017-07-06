@@ -287,11 +287,8 @@ export default class Select extends RingComponentWithShortcuts {
       onClick: event => {
         this.clear(event);
         this._resetMultipleSelectionMap();
-        if (this.props.onChange) {
-          this.props.onChange([], event);
-        }
-
         this.setState({
+          filterValue: '',
           shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
         });
         this._redrawPopup();
@@ -655,7 +652,9 @@ export default class Select extends RingComponentWithShortcuts {
       selected: empty,
       selectedIndex: null
     }, () => {
-      this.props.onChange(empty, event);
+      if (this.props.onChange) {
+        this.props.onChange(empty, event);
+      }
     });
 
     return false;
