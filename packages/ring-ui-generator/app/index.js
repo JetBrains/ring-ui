@@ -1,5 +1,3 @@
-/* eslint-disable modules/no-cjs */
-
 const generators = require('yeoman-generator');
 const {paramCase, camelCase} = require('change-case');
 const pify = require('pify');
