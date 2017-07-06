@@ -192,10 +192,12 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
+    this._getLabels(this.props.data);
   }
 
   willReceiveProps(newProps) {
-    if ('data' in newProps) {
+    if ('data' in newProps && newProps.data !== this.props.data) {
+      this._getLabels(newProps.data);
       const shownData = this.getListItems(this.filterValue(), newProps.data);
       this.setState({shownData});
     }
@@ -420,12 +422,29 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
+  _getLabels(data) {
+    data.forEach(item => {
+      if (!('_label' in item)) {
+        // by default, skip separators and hints
+        if (
+          List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+          List.isItemType(List.ListProps.Type.HINT, item)
+        ) {
+          return;
+        }
+
+        item._label = item.label.toLowerCase();
+      }
+    });
+  }
+
   getListItems(rawFilterString, data = this.props.data) {
     let filterString = rawFilterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
       filterString = ''; // ignore multiple if it is exactly the selected item
     }
+    const lowerCaseString = filterString.toLowerCase();
 
     const filteredData = [];
     let exactMatch = false;
@@ -434,20 +453,17 @@ export default class Select extends RingComponentWithShortcuts {
       if (checkString === '') {
         return true;
       }
-      // by default, skip separators and hints
-      if (
-        List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) ||
-        List.isItemType(List.ListProps.Type.HINT, itemToCheck)
-      ) {
+
+      if (!('_label' in itemToCheck)) {
         return true;
       }
 
-      return itemToCheck.label.match(new RegExp(checkString, 'ig'));
+      return itemToCheck._label.indexOf(checkString) >= 0;
     };
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-      if (check(item, filterString, data)) {
+      if (check(item, lowerCaseString, data)) {
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
