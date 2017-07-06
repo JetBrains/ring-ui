@@ -267,7 +267,7 @@ export default class List extends RingComponentWithShortcuts {
       this.setState({
         activeIndex: this.props.activeIndex,
         activeItem: this.props.data[this.props.activeIndex]
-      }, this.recalculateVisibleOptions);
+      }, () => this.recalculateVisibleOptions());
     }
   }
 
@@ -328,8 +328,7 @@ export default class List extends RingComponentWithShortcuts {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
-
-      this.setState({activeIndex, activeItem}, this.recalculateVisibleOptions);
+      this.setState({activeIndex, activeItem}, () => this.recalculateVisibleOptions());
     }
   }
 
@@ -367,7 +366,7 @@ export default class List extends RingComponentWithShortcuts {
       activeIndex: index,
       activeItem: this.props.data[index]
     }, () => {
-      this.recalculateVisibleOptions(true);
+      this.recalculateVisibleOptions();
     });
   }
 
@@ -420,11 +419,11 @@ export default class List extends RingComponentWithShortcuts {
     let heightNonRenderedAboveItems = 0;
     let heightNonRenderedBelowItems = 0;
 
-    const scrollTop = this.inner ? this.inner.scrollTop : 0;
+    let scrollTop = this.inner ? this.inner.scrollTop : 0;
+    scrollTop = Math.min(scrollTop, listHeight - visibleListHeight);
 
     for (let itemIndex = 0; itemIndex < cachedSizes.length; itemIndex++) {
       const cachedSizeItem = cachedSizes[itemIndex];
-
       if (firstRenderedItemIndex === null && cachedSizeItem.begin >= scrollTop) {
         firstRenderedItemIndex = itemIndex - bufferSize;
         if (firstRenderedItemIndex < 0) {
@@ -433,7 +432,7 @@ export default class List extends RingComponentWithShortcuts {
         heightNonRenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
       }
 
-      if (lastRenderedItemIndex === null && cachedSizeItem.end > (scrollTop + visibleListHeight)) {
+      if (lastRenderedItemIndex === null && cachedSizeItem.end >= (scrollTop + visibleListHeight)) {
         lastRenderedItemIndex = itemIndex + bufferSize;
         if (lastRenderedItemIndex >= cachedSizes.length) {
           lastRenderedItemIndex = cachedSizes.length - 1;
