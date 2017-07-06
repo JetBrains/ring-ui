@@ -56,7 +56,7 @@ function noop() {}
  * @param {Object} item list item
  */
 function isItemType(listItemType, item) {
-  if (Object.keys(Type).some(key => Type[key] === item.type)) {
+  if (item.hasOwnProperty('type') && Object.keys(Type).some(key => Type[key] === item.type)) {
     return item.type === listItemType;
   }
 
