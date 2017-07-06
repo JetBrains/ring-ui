@@ -287,8 +287,9 @@ export default class Select extends RingComponentWithShortcuts {
       onClick: event => {
         this.clear(event);
         this._resetMultipleSelectionMap();
+        this.clearFilter();
+        this.props.onFilter('');
         this.setState({
-          filterValue: '',
           shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
         });
         this._redrawPopup();
@@ -404,7 +405,8 @@ export default class Select extends RingComponentWithShortcuts {
           className="ring-select__button"
           onClick={this.addHandler}
         >
-          <span className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
+          <span
+            className="ring-select__button__plus">{'+'}</span>{prefix ? `${prefix} ` : ''}<span>{this._addButton.label}</span>
         </div>
       );
     }
@@ -454,8 +456,8 @@ export default class Select extends RingComponentWithShortcuts {
         // Ignore item if it's multiple and is already selected
         if (
           !(this.props.multiple &&
-          this.props.multiple.removeSelectedItems &&
-          this._multipleMap[item.key])
+            this.props.multiple.removeSelectedItems &&
+            this._multipleMap[item.key])
         ) {
           filteredData.push(item);
         }
