@@ -35,7 +35,7 @@ describe('ShortcutsHOC', () => {
       mountInputWithShortcuts(shortcuts);
       simulateCombo('enter');
 
-      expect(shortcuts.map.enter).to.be.called;
+      shortcuts.map.enter.should.be.called;
     });
 
 
@@ -47,7 +47,7 @@ describe('ShortcutsHOC', () => {
 
       simulateCombo('enter');
 
-      expect(shortcuts.map.enter).not.to.be.called;
+      shortcuts.map.enter.should.not.be.called;
     });
   });
 });

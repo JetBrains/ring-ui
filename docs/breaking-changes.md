@@ -6,6 +6,24 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 06-07-2017: `expect(smth).to` usage is discouraged in favour of `smth.should`
+
+It's not possible to define `should` property on `null` and `undefined` values, so here's a possible workaround:
+```js
+// Before
+expect(foo).to.not.exist;
+expect(foo).to.be.null;
+expect(foo).to.not.undefined;
+
+
+// After
+should.not.exist(foo);
+
+// Or, if you want to be more specific
+(foo === null).should.be.true;
+(foo === undefined).should.be.true;
+```
+
 ### 04-07-2017: Ring UI is a monorepo
 
 Run `npm run bootstrap` to install all the packages' dependencies and link them between each other where needed.

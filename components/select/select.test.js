@@ -55,10 +55,10 @@ describe('Select', () => {
   });
 
   it('Should provide select types', () => {
-    expect(Select.Type).to.be.defined;
-    expect(Select.Type.BUTTON).to.be.defined;
-    expect(Select.Type.INPUT).to.be.defined;
-    expect(Select.Type.CUSTOM).to.be.defined;
+    Select.Type.should.be.defined;
+    Select.Type.BUTTON.should.be.defined;
+    Select.Type.INPUT.should.be.defined;
+    Select.Type.CUSTOM.should.be.defined;
   });
 
   it('Should take provided className', () => {
@@ -838,9 +838,8 @@ describe('Select', () => {
 
       instance._resetMultipleSelectionMap();
 
-      expect(
-        Object.keys(instance._multipleMap).length
-      ).to.be.equal(0);
+      Object.keys(instance._multipleMap).length.
+        should.be.equal(0);
     });
   });
 
@@ -868,10 +867,10 @@ describe('Select', () => {
 
       const resetOption = instance._getResetOption();
 
-      expect(resetOption.type).to.be.equal(List.ListProps.Type.LINK);
-      expect(resetOption.iconSize).to.be.equal(Icon.Size.Size14);
-      expect(resetOption.glyph).to.be.equal(tagsMock.reset.glyph);
-      expect(resetOption.onClick).to.be.function;
+      resetOption.type.should.be.equal(List.ListProps.Type.LINK);
+      resetOption.iconSize.should.be.equal(Icon.Size.Size14);
+      resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
+      resetOption.onClick.should.be.function;
     });
 
     it('should not create tags reset option if it is not provided', () => {
@@ -879,7 +878,7 @@ describe('Select', () => {
         select: [{}, {}]
       }).instance();
 
-      expect(instance._getResetOption()).to.be.null;
+      should.not.exist(instance._getResetOption());
     });
 
     it('should not create tags reset option without selected elements', () => {
@@ -887,7 +886,7 @@ describe('Select', () => {
         tags: {reset: {}}
       }).instance();
 
-      expect(instance._getResetOption()).to.be.null;
+      should.not.exist(instance._getResetOption());
     });
   });
 
@@ -899,7 +898,7 @@ describe('Select', () => {
       instance = getInstance();
       const newShownData = instance._prependResetOption([{}]);
 
-      expect(newShownData.length).to.be.equal(2);
+      newShownData.length.should.be.equal(2);
     });
 
     it('should prepend reset option with separator', () => {
@@ -907,7 +906,7 @@ describe('Select', () => {
 
       const newShownData = instance._prependResetOption([{}]);
 
-      expect(newShownData.length).to.be.equal(3);
+      newShownData.length.should.be.equal(3);
     });
 
     it('should not prepend reset option', () => {
@@ -915,7 +914,7 @@ describe('Select', () => {
 
       const newShownData = instance._prependResetOption([]);
 
-      expect(newShownData.length).to.be.equal(0);
+      newShownData.length.should.be.equal(0);
     });
 
     function getInstance(resetWithSeparator, selected) {
@@ -945,7 +944,7 @@ describe('Select', () => {
       instance._redrawPopup();
 
       setTimeout(() => {
-        expect(instance._showPopup).should.not.have.been.called;
+        instance._showPopup.should.not.have.been.called;
       }, 0);
 
     });
@@ -955,7 +954,7 @@ describe('Select', () => {
       instance._redrawPopup();
 
       setTimeout(() => {
-        expect(instance._showPopup).should.have.been.called;
+        instance._showPopup.should.have.been.called;
       }, 0);
     });
   });
