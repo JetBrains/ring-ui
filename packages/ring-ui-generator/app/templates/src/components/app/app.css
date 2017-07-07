@@ -1,0 +1,21 @@
+@value unit, font, font-size from "ring-ui/components/global/global.css";
+
+html,
+.<%= camelCaseName %> {
+  height: 100%;
+}
+
+.<%= camelCaseName %> {
+  composes: font;
+
+  margin: 0;
+  padding: 0;
+
+  background: #f0f0f0;
+
+  font-size: font-size;
+}
+
+.content {
+  margin: calc(unit * 4);
+}
