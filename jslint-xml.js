@@ -24,9 +24,9 @@ module.exports = results => {
 
       return [
         `<issue line="${line}"`,
-        `char="${column}"`,
-        `evidence="${evidence ? xmlEscape(evidence) : ''}"`,
-        `reason="${xmlEscape(text)}" />`
+        ` char="${column}"`,
+        ` evidence="${evidence ? xmlEscape(evidence) : ''}"`,
+        ` reason="${xmlEscape(text)}" />`
       ].join('');
     });
 

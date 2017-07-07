@@ -24,5 +24,4 @@ yarn-error.log
 package-lock.json
 build
 eslint-report.xml
-stylint-report.xml
 lerna-debug.log
