@@ -29,7 +29,7 @@
       "git add"
     ],
     "*.css": [
-      "stylelint --fix",
+      "stylelint --fix --ignore-path .eslintignore",
       "git add"
     ]
   },
@@ -167,7 +167,7 @@
     "sinon": "2.3.5",
     "sinon-chai": "2.11.0",
     "storage-mock": "1.0.3",
-    "stylelint": "7.11.1",
+    "stylelint": "7.12.0",
     "update-version": "1.0.1",
     "wallaby-webpack": "0.0.38",
     "webpack": "2.2.0",
