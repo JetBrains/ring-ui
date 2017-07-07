@@ -141,7 +141,7 @@ function createNav(sources) {
   return sourcesByCategories;
 }
 
-module.exports = () => {
+module.exports = dllPath => {
   const docpack = new Docpack({
     test: /\.(js|scss|md)$/,
     include: [
@@ -194,7 +194,7 @@ module.exports = () => {
         return examples.concat(sourceExamples);
       }, []),
 
-    context: (examples, currentExample) => ({example: currentExample})
+    context: (examples, currentExample) => ({example: currentExample, dllPath})
   }));
 
   // Generate pages
@@ -205,7 +205,8 @@ module.exports = () => {
       select: sources =>
         sources.filter(
           source => source.getExamples().length > 0 || source.type === 'md'
-        )
+        ),
+      context: (sources, source) => ({source, dllPath})
     })
   );
 

@@ -34,6 +34,7 @@ module.exports = (env = {}) => {
     }
   };
   const devtool = production ? 'source-map' : 'eval';
+  const dllPath = `dll-${envString}`;
 
   const getParam = name => (
     env[name] ||
@@ -120,7 +121,7 @@ module.exports = (env = {}) => {
         metaInfo: true
       })),
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
-      docpackSetup(),
+      docpackSetup(dllPath),
       new DllBundlesPlugin({
         bundles: {
           vendor: [
@@ -140,7 +141,7 @@ module.exports = (env = {}) => {
             'simply-uuid'
           ]
         },
-        dllDir: contentBase,
+        dllDir: path.join(contentBase, dllPath),
         webpackConfig: {
           devtool,
           module: {
