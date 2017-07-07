@@ -934,28 +934,30 @@ describe('Select', () => {
 
 
   describe('_redrawPopup', () => {
-    let instance;
+    let clock;
+
     beforeEach(() => {
-      instance = shallowSelect().instance();
+      clock = sandbox.useFakeTimers();
     });
 
-    it('should not redraw a popup', () => {
+    it('should not redraw a popup in default mode', () => {
+      const instance = shallowSelect().instance();
       sandbox.stub(instance, '_showPopup');
       instance._redrawPopup();
 
-      setTimeout(() => {
-        instance._showPopup.should.not.have.been.called;
-      }, 0);
-
+      clock.tick();
+      instance._showPopup.should.not.have.been.called;
     });
 
-    it('should redraw a popup', () => {
+    it('should redraw a popup in multiselect mode', () => {
+      const instance = shallowSelect({
+        multiple: true
+      }).instance();
       sandbox.stub(instance, '_showPopup');
       instance._redrawPopup();
 
-      setTimeout(() => {
-        instance._showPopup.should.have.been.called;
-      }, 0);
+      clock.tick();
+      instance._showPopup.should.have.been.called;
     });
   });
 });
