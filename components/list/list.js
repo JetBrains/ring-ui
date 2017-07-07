@@ -41,6 +41,7 @@ const SCROLL_HANDLER_DEBOUNCE = 100;
 const Dimension = {
   ITEM_PADDING: 16,
   ITEM_HEIGHT: 32,
+  COMPACT_ITEM_HEIGHT: 24,
   SEPARATOR_HEIGHT: 25,
   SEPARATOR_FIRST_HEIGHT: 16,
   SEPARATOR_TEXT_HEIGHT: 18,
@@ -58,7 +59,7 @@ function noop() {}
  * @param {Object} item list item
  */
 function isItemType(listItemType, item) {
-  if (Object.keys(Type).some(key => Type[key] === item.type)) {
+  if (item.hasOwnProperty('type') && Object.keys(Type).some(key => Type[key] === item.type)) {
     return item.type === listItemType;
   }
 
@@ -276,7 +277,7 @@ export default class List extends RingComponentWithShortcuts {
       this.setState({
         activeIndex: this.props.activeIndex,
         activeItem: this.props.data[this.props.activeIndex]
-      }, this.recalculateVisibleOptions);
+      }, () => this.recalculateVisibleOptions());
     }
   }
 
@@ -337,8 +338,7 @@ export default class List extends RingComponentWithShortcuts {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
-
-      this.setState({activeIndex, activeItem}, this.recalculateVisibleOptions);
+      this.setState({activeIndex, activeItem}, () => this.recalculateVisibleOptions());
     }
   }
 
@@ -380,7 +380,7 @@ export default class List extends RingComponentWithShortcuts {
       activeIndex: index,
       activeItem: this.props.data[index]
     }, () => {
-      this.recalculateVisibleOptions(true);
+      this.recalculateVisibleOptions();
     });
   }
 
@@ -430,28 +430,28 @@ export default class List extends RingComponentWithShortcuts {
 
     let firstRenderedItemIndex = null;
     let lastRenderedItemIndex = null;
-    let heightUnrenderedAboveItems = 0;
-    let heightUnrenderedBelowItems = 0;
+    let heightNonRenderedAboveItems = 0;
+    let heightNonRenderedBelowItems = 0;
 
-    const scrollTop = this.inner ? this.inner.scrollTop : 0;
+    let scrollTop = this.inner ? this.inner.scrollTop : 0;
+    scrollTop = Math.min(scrollTop, listHeight - visibleListHeight);
 
     for (let itemIndex = 0; itemIndex < cachedSizes.length; itemIndex++) {
       const cachedSizeItem = cachedSizes[itemIndex];
-
       if (firstRenderedItemIndex === null && cachedSizeItem.begin >= scrollTop) {
         firstRenderedItemIndex = itemIndex - bufferSize;
         if (firstRenderedItemIndex < 0) {
           firstRenderedItemIndex = 0;
         }
-        heightUnrenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
+        heightNonRenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
       }
 
-      if (lastRenderedItemIndex === null && cachedSizeItem.end > (scrollTop + visibleListHeight)) {
+      if (lastRenderedItemIndex === null && cachedSizeItem.end >= (scrollTop + visibleListHeight)) {
         lastRenderedItemIndex = itemIndex + bufferSize;
         if (lastRenderedItemIndex >= cachedSizes.length) {
           lastRenderedItemIndex = cachedSizes.length - 1;
         }
-        heightUnrenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
+        heightNonRenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
       }
 
       if (firstRenderedItemIndex !== null && lastRenderedItemIndex !== null) {
@@ -461,14 +461,14 @@ export default class List extends RingComponentWithShortcuts {
 
     if (lastRenderedItemIndex === null) {
       lastRenderedItemIndex = cachedSizes.length;
-      heightUnrenderedBelowItems = 0;
+      heightNonRenderedBelowItems = 0;
     }
 
     return {
       startIndex: firstRenderedItemIndex,
       stopIndex: lastRenderedItemIndex,
-      paddingTop: heightUnrenderedAboveItems,
-      paddingBottom: heightUnrenderedBelowItems
+      paddingTop: heightNonRenderedAboveItems,
+      paddingBottom: heightNonRenderedBelowItems
     };
   }
 
@@ -497,7 +497,7 @@ export default class List extends RingComponentWithShortcuts {
         case Type.ITEM:
         case Type.LINK:
         default:
-          size = Dimension.ITEM_HEIGHT;
+          size = data[i].compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
           break;
       }
 

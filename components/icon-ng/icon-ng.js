@@ -24,12 +24,12 @@ import '../icon/icon.scss';
       import 'angular';
       import 'ring-ui/components/icon-ng/icon-ng';
       import 'ring-ui/components/button-ng/button-ng';
-      import distributionIcon from 'jetbrains-icons/distribution.svg';
-      import searchErrorIcon from 'jetbrains-icons/search-error.svg';
+      import okIcon from 'jetbrains-icons/ok.svg';
+      import warningIcon from 'jetbrains-icons/warning.svg';
 
       angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
-        $scope.icon = distributionIcon;
-        $scope.error = searchErrorIcon;
+        $scope.icon = okIcon;
+        $scope.error = warningIcon;
       });
     </file>
   </example>

@@ -25,14 +25,15 @@ export default class ListLink extends PureComponent {
       PropTypes.instanceOf(Component),
       PropTypes.func,
       PropTypes.string
-    ])
+    ]),
+    compact: PropTypes.bool
   };
 
   render() {
-    const {className, label, hover, description, rgItemType, url, disabled, LinkComponent, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames(styles.item, className, {
       [styles.actionLink]: !disabled,
-      [styles.hover]: hover && !disabled
+      [styles.compact]: compact
     });
 
     const Comp = LinkComponent ? linkHOC(LinkComponent) : Link;

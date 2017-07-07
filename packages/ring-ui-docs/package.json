@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "http-server": "0.9.0",
-    "ring-ui": "^2.7.0",
+    "ring-ui": "^3.0.0",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0"
   }

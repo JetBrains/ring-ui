@@ -22,4 +22,7 @@ ring-ui-*.tgz
 yarn.lock
 yarn-error.log
 package-lock.json
-kotlin-ring-ui/build
+build
+eslint-report.xml
+stylint-report.xml
+lerna-debug.log

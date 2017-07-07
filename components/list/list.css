@@ -61,10 +61,10 @@
 
   font-size: font-size;
   line-height: calc(unit * 3);
+}
 
-  @nest .ring-list &:hover {
-    text-decoration: none;
-  }
+.compact {
+  line-height: calc(unit * 2);
 }
 
 .error {

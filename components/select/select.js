@@ -99,7 +99,7 @@ export default class Select extends RingComponentWithShortcuts {
     onDone: noop,
     onReset: noop,
 
-    tags: false,
+    tags: null,
     onRemoveTag: noop
   };
 
@@ -193,6 +193,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
+    this._getLabels(this.props.data);
   }
 
   willReceiveProps(newProps) {
@@ -214,7 +215,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   updateState(props, initial) {
-    if ('data' in props) {
+    if ('data' in props && props.data !== this.props.data) {
+      this._getLabels(props.data);
       const shownData = this.getListItems(this.filterValue(), props.data);
       this.setState({shownData});
 
@@ -284,9 +286,53 @@ export default class Select extends RingComponentWithShortcuts {
     this._popup = el;
   };
 
+  _getResetOption() {
+    const isOptionsSelected = this.state.selected && this.state.selected.length;
+    const hasTagsResetProp = this.props.tags && this.props.tags.reset;
+    if (!isOptionsSelected || !hasTagsResetProp) {
+      return null;
+    }
+
+    const {reset} = this.props.tags;
+    return {
+      separator: reset.separator,
+      key: reset.label,
+      type: List.ListProps.Type.LINK,
+      label: reset.label,
+      glyph: reset.glyph,
+      iconSize: Icon.Size.Size14,
+      className: 'ring-select__clear-tags',
+      onClick: event => {
+        this.clear(event);
+        this._resetMultipleSelectionMap();
+        this.clearFilter();
+        this.props.onFilter('');
+        this.setState({
+          shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
+        });
+        this._redrawPopup();
+      }
+    };
+  }
+
+  _prependResetOption(shownData) {
+    const resetOption = this._getResetOption();
+    if (resetOption) {
+      const resetItems = [resetOption];
+      if (resetOption.separator) {
+        resetItems.push({
+          rgItemType: List.ListProps.Type.SEPARATOR
+        });
+      }
+      return resetItems.concat(shownData);
+    }
+    return shownData;
+  }
+
   _renderPopup() {
     const anchorElement = this.props.targetElement || this.node;
     const {showPopup, shownData} = this.state;
+    const _shownData = this._prependResetOption(shownData);
     let message = null;
 
     if (this.props.loading) {
@@ -297,7 +343,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     return (
       <SelectPopup
-        data={shownData}
+        data={_shownData}
         message={message}
         toolbar={showPopup && this.getToolbar()}
         loading={this.props.loading}
@@ -319,8 +365,8 @@ export default class Select extends RingComponentWithShortcuts {
         onClear={this.clearFilter}
         onLoadMore={this.props.onLoadMore}
         isInputMode={this.isInputMode()}
-        tags={this.props.tags}
         selected={this.state.selected}
+        tags={this.props.tags}
       />
     );
   }
@@ -397,12 +443,29 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
+  _getLabels(data) {
+    data.forEach(item => {
+      if (!('_label' in item)) {
+        // by default, skip separators and hints
+        if (
+          List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+          List.isItemType(List.ListProps.Type.HINT, item)
+        ) {
+          return;
+        }
+
+        item._label = item.label.toLowerCase();
+      }
+    });
+  }
+
   getListItems(rawFilterString, data = this.props.data) {
     let filterString = rawFilterString.trim();
 
     if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
       filterString = ''; // ignore multiple if it is exactly the selected item
     }
+    const lowerCaseString = filterString.toLowerCase();
 
     const filteredData = [];
     let exactMatch = false;
@@ -411,20 +474,17 @@ export default class Select extends RingComponentWithShortcuts {
       if (checkString === '') {
         return true;
       }
-      // by default, skip separators and hints
-      if (
-        List.isItemType(List.ListProps.Type.SEPARATOR, itemToCheck) ||
-        List.isItemType(List.ListProps.Type.HINT, itemToCheck)
-      ) {
+
+      if (!('_label' in itemToCheck)) {
         return true;
       }
 
-      return itemToCheck.label.match(new RegExp(checkString, 'ig'));
+      return itemToCheck._label.indexOf(checkString) >= 0;
     };
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-      if (check(item, filterString, data)) {
+      if (check(item, lowerCaseString, data)) {
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
@@ -434,8 +494,8 @@ export default class Select extends RingComponentWithShortcuts {
         // Ignore item if it's multiple and is already selected
         if (
           !(this.props.multiple &&
-          this.props.multiple.removeSelectedItems &&
-          this._multipleMap[item.key])
+            this.props.multiple.removeSelectedItems &&
+            this._multipleMap[item.key])
         ) {
           filteredData.push(item);
         }
@@ -448,8 +508,8 @@ export default class Select extends RingComponentWithShortcuts {
       (this.props.add && this.props.add.alwaysVisible)
     ) {
       if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
-      !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
-      this.props.add.alwaysVisible) {
+        !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
+        this.props.add.alwaysVisible) {
 
         this._addButton = {
           prefix: this.props.add.prefix,
@@ -524,12 +584,26 @@ export default class Select extends RingComponentWithShortcuts {
     });
   }
 
+  _resetMultipleSelectionMap() {
+    this._multipleMap = {};
+    return this._multipleMap;
+  }
+
   _rebuildMultipleMap(selected, multiple) {
     if (selected && multiple) {
-      this._multipleMap = {};
+      this._resetMultipleSelectionMap();
       for (let i = 0; i < selected.length; i++) {
         this._multipleMap[selected[i].key] = true;
       }
+    }
+  }
+
+  _redrawPopup = () => {
+    if (this.props.multiple) {
+      setTimeout(() => { //setTimeout solves events order and bubbling issue
+        this.isInputMode() && this.clearFilter();
+        this._showPopup();
+      }, 0);
     }
   }
 
@@ -583,16 +657,7 @@ export default class Select extends RingComponentWithShortcuts {
       this.setState({
         selected: currentSelection,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
-      }, () => {
-        // redraw items
-        if (this.props.multiple) {
-          // setTimeout solves events order and bubbling issue
-          setTimeout(() => {
-            this.isInputMode() && this.clearFilter();
-            this._showPopup();
-          }, 0);
-        }
-      });
+      }, this._redrawPopup);
 
       this.props.onChange(currentSelection, event);
     }
@@ -608,8 +673,13 @@ export default class Select extends RingComponentWithShortcuts {
         }
       }
     }
-    // it's necessary to focus anchor on pressing ESC
-    this._hidePopup(isEsc);
+
+    const isTagRemoved = this.props.tags && event && event.target &&
+      event.target.matches('[data-test="ring-tag-remove"]');
+
+    if (!isTagRemoved) {
+      this._hidePopup(isEsc);
+    }
   }
 
   clearFilter = () => {
@@ -626,7 +696,9 @@ export default class Select extends RingComponentWithShortcuts {
       selected: empty,
       selectedIndex: null
     }, () => {
-      this.props.onChange(empty, event);
+      if (this.props.onChange) {
+        this.props.onChange(empty, event);
+      }
     });
 
     return false;

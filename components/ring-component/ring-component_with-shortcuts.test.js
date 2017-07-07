@@ -149,7 +149,7 @@ describe('Ring Component With Shortcuts', () => {
 
   describe('toggleShortcuts', () => {
 
-    function getShortctusScopeFor(scope) {
+    function getShortcutsScopeFor(scope) {
       return shortcuts.getScope().
         filter(s => s.scopeId === scope) [0];
     }
@@ -203,7 +203,7 @@ describe('Ring Component With Shortcuts', () => {
     it('should pass shortcuts options when we toggle shortcuts first time', () => {
       component.toggleShortcuts(this.propsMock);
 
-      getShortctusScopeFor(component.scope).
+      getShortcutsScopeFor(component.scope).
         options.
         should.
         equal(component.getShortcutsProps().options);
@@ -218,7 +218,7 @@ describe('Ring Component With Shortcuts', () => {
       component.setShortcutsEnabled(false);
       component.setShortcutsEnabled(true);
 
-      getShortctusScopeFor(component.scope).
+      getShortcutsScopeFor(component.scope).
         options.
         should.
         equal(shortcutsOptions);

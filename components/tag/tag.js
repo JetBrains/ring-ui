@@ -131,6 +131,7 @@ export default class Tag extends RingComponent {
     if (!this.props.readOnly) {
       return (
         <Icon
+          data-test="ring-tag-remove"
           className="ring-tag__remove ring-link"
           glyph={CloseIcon}
           onClick={this.props.onRemove}

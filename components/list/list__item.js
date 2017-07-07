@@ -36,6 +36,7 @@ export default class ListItem extends PureComponent {
     avatar: PropTypes.string,
     glyph: PropTypes.string,
     icon: PropTypes.string,
+    iconSize: PropTypes.number,
     rightNodes: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element,
@@ -50,10 +51,15 @@ export default class ListItem extends PureComponent {
     level: PropTypes.number,
     rgItemType: PropTypes.number,
     rightGlyph: PropTypes.string,
+    compact: PropTypes.bool,
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func
   };
+
+  static defaultProps = {
+    iconSize: Icon.Size.Size18
+  }
 
   render() {
     /* eslint-disable no-unused-vars */
@@ -72,6 +78,7 @@ export default class ListItem extends PureComponent {
       rgItemType,
       level,
       tabIndex,
+      compact,
       onClick,
       onMouseOver,
       onMouseUp,
@@ -82,7 +89,8 @@ export default class ListItem extends PureComponent {
     /* eslint-enable */
     const classes = classnames(styles.item, className, {
       [styles.action]: !disabled,
-      [styles.hover]: hover && !disabled
+      [styles.hover]: hover && !disabled,
+      [styles.compact]: compact
     });
     const detailsClasses = classnames({
       [styles.details]: details,
@@ -111,7 +119,7 @@ export default class ListItem extends PureComponent {
               <Icon
                 className={styles.glyph}
                 glyph={glyph}
-                size={Icon.Size.Size18}
+                size={this.props.iconSize}
               />
             )}
             {avatar && (
@@ -136,7 +144,7 @@ export default class ListItem extends PureComponent {
               <Icon
                 className={styles.rightGlyph}
                 glyph={rightGlyph}
-                size={Icon.Size.Size18}
+                size={this.props.iconSize}
               />
             )}
             {icon && (

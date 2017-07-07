@@ -18,7 +18,9 @@
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
-    "webpack.config.js"
+    "webpack.config.js",
+    "kotlin.conf.js",
+    "docs"
   ],
   "main": "webpack.config.js",
   "lint-staged": {
@@ -27,11 +29,12 @@
       "git add"
     ],
     "*.css": [
-      "stylelint --fix",
+      "stylelint --ignore-path .eslintignore --fix",
       "git add"
     ]
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo ring-ui:react --path $npm_package_config_components",
@@ -40,20 +43,22 @@
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update",
-    "build": "webpack --config webpack-docs.config.js",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --config webpack-docs.config.js --env.server",
-    "lint": "eslint . && npm run stylelint",
-    "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
-    "lint-ci": "eslint --format jslint-xml . > eslint-report.xml && npm run stylelint",
-    "stylelint": "stylelint --ignore-path .gitignore '**/*.css'",
+    "build": "lerna run --scope ring-ui-docs --stream build",
+    "build-prod": "lerna run --scope ring-ui-docs --stream build-prod",
+    "start": "lerna run --scope ring-ui-docs --stream start",
+    "lint": "eslint . ; npm run stylelint",
+    "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"; echo \"##teamcity[importData type='jslint' path='stylint-report.xml']\"",
+    "lint-ci": "eslint --format jslint-xml . > eslint-report.xml; npm run stylelint-ci",
+    "stylelint-ci": "stylelint --ignore-path .eslintignore --custom-formatter './jslint-xml.js' '**/*.css' > stylint-report.xml",
+    "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'",
     "flow": "flow",
     "test-ci": "karma start karma-ci.conf.js",
     "test-ci-dev": "xvfb-run karma start karma-ci-dev.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "prebuild-ci-dev": "npm run lint-ci && npm run test-ci-dev",
-    "build-ci": "npm run build -- --env.production && npm run gemini-test-ci",
-    "build-ci-dev": "npm run build -- --env.production",
+    "build-ci": "npm run build-prod && npm run gemini-test-ci",
+    "build-ci-dev": "npm run build-prod",
     "prerelease-ci": "npm run build-ci && npm pack",
     "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
     "release-ci": "npm publish ring-ui-*.tgz",
@@ -69,9 +74,14 @@
   },
   "readmeFilename": "README.md",
   "babel": {
-    "presets": "jetbrains",
+    "presets": "@jetbrains/jetbrains",
     "plugins": [
-      "transform-runtime",
+      [
+        "transform-runtime",
+        {
+          "moduleName": "@princed/babel-runtime"
+        }
+      ],
       [
         "@maxmaximov/babel-plugin-angular-annotate",
         [
@@ -100,6 +110,7 @@
     "@hypnosphi/kotlin-react": "0.0.2",
     "@hypnosphi/kotlin-react-dom": "0.0.5",
     "@hypnosphi/kotlinx-html-js": "0.0.1",
+    "@jetbrains/eslint-config": "1.1.0",
     "@jetbrains/stylelint-config": "1.0.11",
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
@@ -122,7 +133,6 @@
     "electron": "1.6.2",
     "enzyme": "2.8.2",
     "eslint": "3.11.1",
-    "eslint-config-jetbrains": "2.0.41",
     "eslint-plugin-flowtype-errors": "^3.3.0",
     "exports-loader": "0.6.3",
     "extract-loader": "0.1.0",
@@ -132,7 +142,7 @@
     "gemini": "4.18.1",
     "gemini-teamcity": "2.1.3",
     "gen-idea-libs": "1.0.2",
-    "generator-ring-ui": "1.0.39",
+    "generator-ring-ui": "^1.0.0",
     "glob": "7.0.6",
     "http-server": "0.9.0",
     "husky": "0.13.4",
@@ -150,13 +160,14 @@
     "kotlin": "1.1.0",
     "kotlin-webpack-plugin": "1.0.5",
     "kotlinc-js": "1.0.4",
+    "lerna": "2.0.0-rc.5",
     "lint-staged": "4.0.0",
     "mocha": "3.0.2",
     "react-test-renderer": "15.6.1",
     "sinon": "2.3.5",
     "sinon-chai": "2.11.0",
     "storage-mock": "1.0.3",
-    "stylelint": "7.11.1",
+    "stylelint": "7.12.0",
     "update-version": "1.0.1",
     "wallaby-webpack": "0.0.38",
     "webpack": "2.2.0",
@@ -166,14 +177,14 @@
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
+    "@jetbrains/babel-preset-jetbrains": "1.0.1",
+    "@maxmaximov/angular-elastic": "2.5.1",
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.2",
-    "angular-elastic": "2.5.1-jb",
+    "@princed/babel-runtime": "6.23.0",
     "autoprefixer": "6.4.1",
     "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.15.0",
-    "babel-preset-jetbrains": "1.0.13",
-    "babel-runtime": "6.6.1-jb",
     "classnames": "2.2.5",
     "combokeys": "2.4.6",
     "compile-code-loader": "0.2.0",
@@ -190,10 +201,10 @@
     "interpolate-loader": "^1.0.0",
     "jetbrains-icons": "1.0.38",
     "jetbrains-logos": "1.1.51",
+    "js2xmlparser": "3.0.0",
     "moment": "2.15.2",
     "mout": "1.0.0",
     "node-sass": "4.5.3",
-    "null-loader": "0.1.1",
     "postcss": "5.2.0",
     "postcss-cssnext": "2.8.0",
     "postcss-loader": "1.2.2",

@@ -25,7 +25,8 @@ describe('React Ng', () => {
   function checkPropertyPassingForTemplate(template, propname, propvalue) {
     class TestPropsComponent extends RingComponent {
       render() {
-        expect(this.props[propname]).to.equal(propvalue);
+        // handle undefined values
+        (propvalue === this.props[propname]).should.be.true;
         return <div/>;
       }
     }
