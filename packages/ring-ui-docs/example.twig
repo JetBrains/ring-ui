@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ example.attrs.name }}</title>
+  <script src="../../vendor.dll.js"></script>
+</head>
+<body>
+  <script src="../../example-common.js"></script>
+  <!-- example content -->
+  {% for file in example.files if file.type == 'html' %}
+    {% for asset in file.assets if asset.type == 'html' %}
+      {{ asset.content | raw }}
+    {% endfor %}
+  {% endfor %}
+
+  <!-- example assets -->
+  {% for file in example.files %}
+    {% for asset in file.assets %}
+      {% if asset.type == 'js' %}
+        <script src="../../{{ asset.path }}"></script>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</body>
+</html>
