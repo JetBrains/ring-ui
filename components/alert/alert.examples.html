@@ -139,8 +139,8 @@
       }
 
       onCloseAlertClick = (alert) => {
-        const alertToclose = this.state.alerts.filter(it => alert.key === it.key)[0]
-        alertToclose.isClosing = true;
+        const alertToClose = this.state.alerts.filter(it => alert.key === it.key)[0]
+        alertToClose.isClosing = true;
         this.setState({alerts: [...this.state.alerts]});
       }
 

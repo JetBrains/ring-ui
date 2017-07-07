@@ -1,12 +1,11 @@
 <example name="Icon">
   <file type="html">
     <div id="some-icons">
-      <span id="icon-active"></span>
       <span id="icon-container"></span>
-      <span id="icon-distribution"></span>
+      <span id="icon-search"></span>
       <span id="icon-16-pencil"></span>
       <span id="icon-14-pencil"></span>
-      <span id="icon-custom-search-error"></span>
+      <span id="icon-custom-permission"></span>
     </div>
   </file>
 
@@ -21,15 +20,10 @@
     import React from 'react';
     import {render} from 'react-dom';
     import Icon from 'ring-ui/components/icon/icon';
-    import distributionIcon from 'jetbrains-icons/distribution.svg';
+    import searchIcon from 'jetbrains-icons/search.svg';
     import okIcon from 'jetbrains-icons/ok.svg';
     import pencilIcon from 'jetbrains-icons/pencil.svg';
-    import searchErrorIcon from 'jetbrains-icons/search-error.svg';
-
-    render(<Icon
-      glyph={distributionIcon}
-      size={Icon.Size.Size32}
-    />, document.getElementById('icon-active'));
+    import permissionIcon from 'jetbrains-icons/permission.svg';
 
     render(<Icon
       className="additional-class"
@@ -39,9 +33,9 @@
     />, document.getElementById('icon-container'));
 
     render(<Icon
-      glyph={distributionIcon}
+      glyph={searchIcon}
       size={Icon.Size.Size32}
-    />, document.getElementById('icon-distribution'));
+    />, document.getElementById('icon-search'));
 
     render(<Icon
       glyph={pencilIcon}
@@ -54,10 +48,10 @@
     />, document.getElementById('icon-14-pencil'));
 
     render(<Icon
-      glyph={searchErrorIcon}
+      glyph={permissionIcon}
       height={80}
       width={100}
-    />, document.getElementById('icon-custom-search-error'));
+    />, document.getElementById('icon-custom-permission'));
   </file>
 </example>
 
@@ -102,7 +96,6 @@
   </file>
 </example>
 
-* @example
 <example name="List of JetBrains product logos">
   <file type="html">
     <div id="logos"></div>
@@ -132,5 +125,75 @@
         />;
       })
     }), document.getElementById('logos'));
+  </file>
+</example>
+
+<example name="Required icons list">
+  <file type="html">
+    <div id="all-icons"></div>
+  </file>
+
+  <file type="css">
+    @value unit, link-color from '../global/global.css';
+
+    :global(.icon-example__container) {
+      margin-left: calc(0 - calc(unit * 2));
+    }
+
+    :global(.icon-example__container) {
+      margin-left: calc(0 - calc(unit * 2));
+    }
+
+    :global(.ring-icon) {
+      margin: 8px;
+      padding: 8px;
+      color: link-color;
+    }
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import {createElement} from 'react';
+    import Icon from 'ring-ui/components/icon/icon';
+
+    const icons = require.context('jetbrains-icons', false, /\.svg$/);
+
+    const requiredIcons = [
+      './close.svg',
+      './ok.svg',
+      './expand.svg',
+      './check.svg',
+      './warning.svg',
+      './search.svg',
+      './collapse.svg',
+      './chevron-down.svg',
+      './unsorted.svg',
+      './services.svg',
+      './exception.svg',
+      './drag.svg',
+      './chevron-up.svg',
+      './caret-down.svg',
+      './calendar.svg',
+      './pencil.svg',
+      './frown.svg',
+      './permission.svg',
+    ];
+
+    render(createElement('div', {
+      className: 'icon-example__container',
+      children: requiredIcons.map(icons).map(function (icon, index) {
+        return (
+          <span>
+            <Icon
+              glyph={icon}
+              title={icon}
+            />
+            {icon.replace('#', '')}
+            <br />
+          </span>
+        );
+      })
+    }), document.getElementById('all-icons'));
   </file>
 </example>

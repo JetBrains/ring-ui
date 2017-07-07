@@ -1,4 +1,4 @@
-import AngularElastic from 'angular-elastic';
+import AngularElastic from '@maxmaximov/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input-legacy/input-legacy.scss';

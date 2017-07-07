@@ -11,7 +11,8 @@
     for (var i = 0; i < 1000; i++) {
       listData.push({
         'label': 'Item ' + i,
-        'rgItemType': List.ListProps.Type.ITEM
+        'rgItemType': List.ListProps.Type.ITEM,
+        'compact': true
       });
     }
 
@@ -145,7 +146,7 @@
   <file type="js">
     import {render} from 'react-dom';
     import List from 'ring-ui/components/list/list';
-    import distributionIcon from 'jetbrains-icons/distribution.svg';
+    import warningIcon from 'jetbrains-icons/warning.svg';
 
     var listData = [
       {
@@ -153,8 +154,8 @@
         description: 'Long long long long long long long long long long long long long long long description',
         key: '1',
         'rgItemType': List.ListProps.Type.ITEM,
-        glyph: distributionIcon,
-        rightGlyph: distributionIcon
+        glyph: warningIcon,
+        rightGlyph: warningIcon
       },
       {
         label: 'Some item with a long long label, much longer than description',
@@ -268,7 +269,7 @@
     import Loader from 'ring-ui/components/loader-inline/loader-inline'
     import React, {Component} from 'react';
     import Source from 'ring-ui/components/list/list__users-groups-source';
-    import hubConfig from 'ring-ui/site/hub-config';
+    import hubConfig from 'ring-ui-docs/components/hub-config';
     import Auth from 'ring-ui/components/auth/auth';
 
     class UserList extends Component {

@@ -12,7 +12,7 @@ import styles from './auth-dialog.css';
  * @category Components
  * @framework React
  * @constructor
- * @description A component to show authentification dialog
+ * @description A component to show authentication dialog
  * @example-file ./auth-dialog.examples.html
  */
 
