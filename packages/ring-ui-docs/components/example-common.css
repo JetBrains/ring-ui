@@ -1,0 +1,13 @@
+@value unit, font, font-size, line-height from '../node_modules/ring-ui/components/global/global.css';
+
+body {
+  margin: calc(unit * 2);
+  padding: 0;
+}
+
+.body {
+  composes: font;
+
+  font-size: font-size;
+  line-height: line-height;
+}

@@ -1,0 +1,13 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": [
+    "@jetbrains",
+    "@jetbrains/eslint-config/es6",
+    "@jetbrains/eslint-config/node"
+  ],
+  "rules": {
+    "valid-jsdoc": "off",
+    "import/no-commonjs": "off"
+  }
+}
