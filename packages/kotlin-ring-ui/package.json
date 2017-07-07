@@ -21,10 +21,10 @@
   },
   "peerDependencies": {
     "@hypnosphi/kotlin-react-dom": "^0.0.5",
-    "ring-ui": "^2.7.0"
+    "ring-ui": "^3.0.0"
   },
   "devDependencies": {
     "update-version": "1.0.2",
-    "ring-ui": "^2.7.0"
+    "ring-ui": "^3.0.0"
   }
 }

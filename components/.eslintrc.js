@@ -4,11 +4,12 @@ module.exports = {
   "root": true,
   "parser": "babel-eslint",
   "extends": [
-    "jetbrains",
-    "jetbrains/es6",
-    "jetbrains/react",
-    "jetbrains/angular",
-    "jetbrains/test"
+    "@jetbrains",
+    "@jetbrains/eslint-config/es6",
+    "@jetbrains/eslint-config/browser",
+    "@jetbrains/eslint-config/react",
+    "@jetbrains/eslint-config/angular",
+    "@jetbrains/eslint-config/test"
   ],
   plugins: [
     "flowtype-errors"

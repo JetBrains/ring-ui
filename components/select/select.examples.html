@@ -1,4 +1,4 @@
-<example name="Select with a filter with tags">
+<!--<example name="Select with a filter with tags">
   <file type="html">
     <div id="demo"></div>
   </file>
@@ -10,45 +10,52 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import hubConfig from 'ring-ui/site/hub-config';
+    import hubConfig from 'ring-ui-docs/components/hub-config';
     import Select from 'ring-ui/components/select/select';
     import 'ring-ui/components/input-size/input-size.scss';
+    import eye from 'jetbrains-icons/eye.svg'
 
     var props = {
-      tags: true,
-      multiple: true,
-      filter: {
-        placeholder: 'Search'
-      }
+    multiple: true,
+    filter: {
+    placeholder: 'Search'
+    },
+    tags: {
+    reset: {
+    separator: true,
+    label: 'Reset the list',
+    glyph: eye
+    }
+    }
     };
     const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
 
     const tags = [
-      {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
-      {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
-      {'label': 'Three', 'key': '3', 'type': 'user'},
-      {
-        'label': 'With icon',
-        key: 4,
-        icon: 'http://flagpedia.net/data/flags/mini/de.png'
-      },
-      {
-        'label': 'With avatar',
-        key: 5,
-        icon: avatarUrl,
-        avatar: avatarUrl
-      }
+    {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
+    {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
+    {'label': 'Three', 'key': '3', 'type': 'user'},
+    {
+    'label': 'With icon',
+    key: 4,
+    icon: 'http://flagpedia.net/data/flags/mini/de.png'
+    },
+    {
+    'label': 'With avatar',
+    key: 5,
+    icon: avatarUrl,
+    avatar: avatarUrl
+    }
     ];
     var data = {
-      data: tags,
-      selected: [tags[0]]
+    data: tags,
+    selected: [tags[0]]
     };
 
     var select = render(Select.factory(props), document.getElementById('demo'))
     select.rerender(data);
   </file>
-</example>
+</example>-->
 
 <example name="Select with a filter">
   <file type="html">
@@ -111,7 +118,7 @@
     import Select from 'ring-ui/components/select/select';
     import React, {Component} from 'react';
     import Source from 'ring-ui/components/list/list__users-groups-source';
-    import hubConfig from 'ring-ui/site/hub-config';
+    import hubConfig from 'ring-ui-docs/components/hub-config';
     import Auth from 'ring-ui/components/auth/auth';
 
     const alwaysTrue = () => true;
@@ -185,7 +192,12 @@
     var selectedIndex = parseInt(elementsNum / 2);
     var dataset = [];
     for (var i = 0; i < elementsNum; i++) {
-      dataset.push({'label': 'element ' + i, 'key': i, 'type': 'user'});
+      dataset.push({
+        label: 'element ' + i,
+        key: i,
+        type: 'user',
+        compact: true
+      });
     }
 
     var props = {

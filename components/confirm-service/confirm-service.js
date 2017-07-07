@@ -65,7 +65,7 @@ import Confirm from '../confirm/confirm';
 const containerElement = document.createElement('div');
 
 /**
- * Renders Confirm into virtual node to skip mantaining container
+ * Renders Confirm into virtual node to skip maintaining container
  */
 function renderConfirm(props) {
   render(<Confirm {...props}/>, containerElement);

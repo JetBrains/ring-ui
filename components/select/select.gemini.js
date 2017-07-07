@@ -35,7 +35,7 @@ gemini.suite('Select', () => {
       });
   });
 
-  gemini.suite('Multivalue select with options descriptions', child => {
+  gemini.suite('Multi-value select with options descriptions', child => {
     child.
       setUrl('/select/multiple-select-with-a-description.html').
       setCaptureElements('[data-test=ring-popup]').

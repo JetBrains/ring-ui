@@ -13,7 +13,7 @@ describe('Proxy attrs Ng', () => {
     const sourceTemplate = '<span><button data-proxy-ng-model>Some text</button><span>';
     const replacedTemplate = proxyAttrs(sourceTemplate)({}, {$attr: {}});
 
-    expect(replacedTemplate).to.be.equal(sourceTemplate);
+    replacedTemplate.should.be.equal(sourceTemplate);
   });
 
   it('should return template with replacement; last attribute', () => {
@@ -23,7 +23,7 @@ describe('Proxy attrs Ng', () => {
       $attr: {ngModel: 'ng-model'}
     });
 
-    expect(replacedTemplate).to.
+    replacedTemplate.should.
       be.equal(sourceTemplate.replace('data-proxy-ng-model', `ng-model="${ngModelValue}"`));
   });
 
@@ -34,7 +34,7 @@ describe('Proxy attrs Ng', () => {
       $attr: {ngModel: 'ng-model'}
     });
 
-    expect(replacedTemplate).to.
+    replacedTemplate.should.
       be.equal(sourceTemplate.replace('data-proxy-ng-model', `ng-model="${ngModelValue}"`));
   });
 
@@ -45,7 +45,7 @@ describe('Proxy attrs Ng', () => {
       $attr: {ngModel: 'ng-model'}
     });
 
-    expect(replacedTemplate).to.
+    replacedTemplate.should.
       be.equal(sourceTemplate.replace('data-proxy-ng-model', `ng-model="${ngModelValue}"`));
   });
 
@@ -56,7 +56,7 @@ describe('Proxy attrs Ng', () => {
       $attr: {ngModel: 'ng-model'}
     });
 
-    expect(replacedTemplate).to.
+    replacedTemplate.should.
       be.equal(sourceTemplate.replace('data-proxy-ng-model=""', `ng-model="${ngModelValue}"`));
   });
 
@@ -68,7 +68,7 @@ describe('Proxy attrs Ng', () => {
       $attr: {ngModel: 'ng-model'}
     });
 
-    expect(replacedTemplate).to.be.equal(sourceTemplate);
+    replacedTemplate.should.be.equal(sourceTemplate);
   });
 
   it('should proxy multiple directives', () => {
@@ -84,7 +84,7 @@ describe('Proxy attrs Ng', () => {
       replace('data-proxy-ng-model', `ng-model="${ngModelValue}"`).
       replace('data-proxy-ng-disabled', `ng-disabled="${ngDisabledValue}"`);
 
-    expect(replacedTemplate).to.be.equal(expectedTemplate);
+    replacedTemplate.should.be.equal(expectedTemplate);
   });
 
   it('should proxy one directive to multiple placeholders', () => {
@@ -99,6 +99,6 @@ describe('Proxy attrs Ng', () => {
     const expectedTemplate = sourceTemplate.
       replace(/data-proxy-ng-model/g, `ng-model="${ngModelValue}"`);
 
-    expect(replacedTemplate).to.be.equal(expectedTemplate);
+    replacedTemplate.should.be.equal(expectedTemplate);
   });
 });

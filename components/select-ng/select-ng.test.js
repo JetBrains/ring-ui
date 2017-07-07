@@ -57,7 +57,7 @@ describe('Select Ng', () => {
 
   describe('Interface', () => {
     it('Should receive ngModel controller', () => {
-      ctrl.ngModelCtrl.should.to.be.defined;
+      ctrl.ngModelCtrl.should.be.defined;
     });
 
     it('Should extend passed config', () => {
@@ -85,7 +85,7 @@ describe('Select Ng', () => {
     it('Should clear selected item on ngModel clearing', () => {
       scope.selectedItem = null;
       scope.$digest();
-      expect(ctrl.selectInstance.props.selected).to.be.null;
+      should.not.exist(ctrl.selectInstance.props.selected);
     });
 
     it('Should not get options on on initialization', () => {
@@ -397,7 +397,7 @@ describe('Select Ng', () => {
     });
 
     it('Should return no label if option is object and no valid label mapping provided', () => {
-      expect(ctrl.optionsParser.getLabel({foo: 'bar'})).to.be.null;
+      should.not.exist(ctrl.optionsParser.getLabel({foo: 'bar'}));
     });
 
     it('Should support custom property for ng-model', () => {
@@ -506,7 +506,7 @@ describe('Select Ng', () => {
       ctrl.config.onClose();
       scope.$digest();
 
-      expect(ctrl.query).to.be.null;
+      should.not.exist(ctrl.query);
     });
   });
 });

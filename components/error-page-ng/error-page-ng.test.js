@@ -19,11 +19,11 @@ describe('Error Page Ng', () => {
 
   /* global inject */
   it('should define module', inject(() => {
-    expect(window.angular.module(ErrorPage)).should.exist;
+    window.angular.module(ErrorPage).should.exist;
   }));
 
   it('should define factory errorPageConfiguration', inject(errorPageConfiguration => {
-    expect(errorPageConfiguration).should.exist;
+    errorPageConfiguration.should.exist;
   }));
 
   it('should compile directive to content if no errors', inject(($rootScope, $compile) => {

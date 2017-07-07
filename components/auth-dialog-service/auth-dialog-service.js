@@ -25,7 +25,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  import Button from 'ring-ui/components/button/button';
  import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
 
- import hubConfig from 'ring-ui/site/hub-config';
+ import hubConfig from 'ring-ui-docs/components/hub-config';
 
  const auth = new Auth(hubConfig);
  const http = new HTTP(auth, auth.getAPIPath());
@@ -65,7 +65,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
 const containerElement = document.createElement('div');
 
 /**
- * Renders AuthDialog into virtual node to skip mantaining container
+ * Renders AuthDialog into virtual node to skip maintaining container
  */
 function renderAuthDialog(props) {
   render(<AuthDialog {...props}/>, containerElement);
