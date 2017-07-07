@@ -35,7 +35,7 @@ import styles from './avatar.css';
        import {render} from 'react-dom';
 
        import Avatar, {Size} from 'ring-ui/components/avatar/avatar';
-       import hubConfig from 'ring-ui/site/hub-config';
+       import hubConfig from 'ring-ui-docs/components/hub-config';
 
        const container = document.getElementById('avatar');
 
@@ -107,9 +107,9 @@ export default class Avatar extends PureComponent {
   render() {
     const {size, url, dpr, style, round, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const borderRaduis = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
+    const borderRadius = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
     const styleObj = {
-      borderRadius: round ? '50%' : global[borderRaduis],
+      borderRadius: round ? '50%' : global[borderRadius],
       height: sizeString,
       width: sizeString,
       ...style

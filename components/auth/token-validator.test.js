@@ -163,9 +163,9 @@ describe('Auth', () => {
 
     describe('TokenValidationError', () => {
       it('should be cool', () => {
-        expect(() => {
+        (() => {
           throw new TokenValidator.TokenValidationError('message');
-        }).to.throw(TokenValidator.TokenValidationError, 'message');
+        }).should.throw(TokenValidator.TokenValidationError, 'message');
       });
     });
   });

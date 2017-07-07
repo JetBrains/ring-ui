@@ -7,7 +7,7 @@ import createResizeDetector from 'element-resize-detector';
 import styles from './island.css';
 
 const noop = () => {};
-const FADE_SHOW_TROTTLING = 50;
+const FADE_SHOW_THROTTLING = 50;
 const resizeDetector = createResizeDetector();
 
 export default class Content extends Component {
@@ -55,7 +55,7 @@ export default class Content extends Component {
     const scrolledToTop = scrollTop === 0;
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
     this.setState({scrolledToTop, scrolledToBottom});
-  }, FADE_SHOW_TROTTLING)
+  }, FADE_SHOW_THROTTLING)
 
   onScroll = () => {
     const {scrollTop, scrollHeight} = this.scrollableNode;

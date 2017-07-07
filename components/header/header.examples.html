@@ -24,9 +24,7 @@
 
     import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
     import add from 'jetbrains-icons/add.svg';
-    import cog from 'jetbrains-icons/cog.svg';
-    import help from 'jetbrains-icons/help.svg';
-    import services from 'jetbrains-icons/services.svg';
+    import drag from 'jetbrains-icons/drag.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
     import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
@@ -36,7 +34,7 @@
     import Dropdown from 'ring-ui/components/dropdown/dropdown';
     import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
 
-    import hubConfig from 'ring-ui/site/hub-config';
+    import hubConfig from 'ring-ui-docs/components/hub-config';
 
     const container = document.getElementById('header');
     const auth = new Auth(hubConfig);
@@ -63,9 +61,8 @@
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
-                rotateable
                 active={active}
-                icon={cog}
+                icon={drag}
               />
             )}
           >
@@ -78,9 +75,6 @@
               ]}
             />
           </Dropdown>
-          <a target="_blank" href="https://www.jetbrains.com/help/hub/">
-            <TrayIcon icon={help} />
-          </a>
           <SmartServices auth={auth} />
           <SmartProfile
             auth={auth}
@@ -127,8 +121,7 @@
 
     import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains-simple.svg';
     import add from 'jetbrains-icons/add.svg';
-    import cog from 'jetbrains-icons/cog.svg';
-    import help from 'jetbrains-icons/help.svg';
+    import drag from 'jetbrains-icons/drag.svg';
     import services from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
@@ -138,7 +131,7 @@
     import Dropdown from 'ring-ui/components/dropdown/dropdown';
     import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
 
-    import hubConfig from 'ring-ui/site/hub-config';
+    import hubConfig from 'ring-ui-docs/components/hub-config';
 
     const container = document.getElementById('header');
     const auth = new Auth(hubConfig);
@@ -162,9 +155,8 @@
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
-                rotateable
                 active={active}
-                icon={cog}
+                icon={drag}
               />
             )}
           >
@@ -177,9 +169,6 @@
               ]}
             />
           </Dropdown>
-          <a target="_blank" href="https://www.jetbrains.com/help/hub/">
-            <TrayIcon icon={help} />
-          </a>
           <SmartServices auth={auth} />
           <SmartProfile
             auth={auth}

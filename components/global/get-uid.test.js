@@ -2,7 +2,7 @@ import getUID from './get-uid';
 
 describe('getUid', () => {
   it('should throw an exception if the "name" argument isn\'t passed', () => {
-    expect(() => getUID()).to.throw(Error);
+    () => getUID().should.throw(Error);
   });
 
   it('should return a unique id every time', () => {

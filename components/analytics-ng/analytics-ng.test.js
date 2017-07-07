@@ -17,17 +17,17 @@ describe('Analytics Ng', () => {
 
   /* global inject, angular */
   it('should define module', inject(() => {
-    expect(angular.module(Analytics)).should.exist;
+    angular.module(Analytics).should.exist;
   }));
 
   it('should export factory', inject(analytics => {
-    expect(analytics).should.exist;
+    analytics.should.exist;
   }));
 
   it('should export correct interface', inject(analytics => {
-    expect(analytics.trackPageView).should.exist;
-    expect(analytics.trackEvent).should.exist;
-    expect(analytics.track).should.exist;
+    analytics.trackPageView.should.exist;
+    analytics.trackEvent.should.exist;
+    analytics.track.should.exist;
   }));
 
   describe('rgAnalytics', () => {

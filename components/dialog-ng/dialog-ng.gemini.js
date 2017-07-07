@@ -10,7 +10,7 @@ gemini.suite('Dialog Ng', () => {
 
   gemini.suite('dialog with custom fooler', child => {
     child.
-      setUrl('/dialog-ng/dialog-ng-with-overriden-footer.html').
+      setUrl('/dialog-ng/dialog-ng-with-overridden-footer.html').
       setCaptureElements(['*[data-test=ring-dialog]']).
       capture('dialog with custom footer');
   });

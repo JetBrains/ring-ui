@@ -79,7 +79,7 @@ describe('Popup', () => {
       });
     });
 
-    it('shouldn\'n t be closed by click inside the element', () => {
+    it('shouldn\'t be closed by click inside the element', () => {
       const onCloseAttempt = sandbox.stub();
       const instance = mountPopup({onCloseAttempt}).instance();
 

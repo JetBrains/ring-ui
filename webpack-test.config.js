@@ -22,7 +22,7 @@ config.module.rules.push({
   use: {
     loader: 'babel-loader',
     options: {
-      presets: ['jetbrains'],
+      presets: ['@jetbrains/jetbrains'],
       babelrc: false
     }
   }

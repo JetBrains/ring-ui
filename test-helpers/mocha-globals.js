@@ -18,7 +18,6 @@ Object.assign(window, {
   sinon,
   sandbox: sinon.sandbox.create(),
   chai,
-  expect: chai.expect,
   should: chai.should()
 });
 

@@ -3,15 +3,11 @@
 $tags-input-padding: $ring-unit / 4;
 
 .ring-tags-list {
-  display: inline-block;
-  font-size: 0;
-  text-align: left;
-
   .ring-tag {
     margin-bottom: 3px;
   }
 }
 
-.ring-tags-list.ring-tags-list_disabled .ring-tag{
+.ring-tags-list.ring-tags-list_disabled .ring-tag {
   opacity: 0.5;
 }
