@@ -192,12 +192,12 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-    this._getLabels(this.props.data);
+    this._cacheLabels(this.props.data);
   }
 
   willReceiveProps(newProps) {
     if ('data' in newProps && newProps.data !== this.props.data) {
-      this._getLabels(newProps.data);
+      this._cacheLabels(newProps.data);
       const shownData = this.getListItems(this.filterValue(), newProps.data);
       this.setState({shownData});
     }
@@ -422,7 +422,12 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
-  _getLabels(data) {
+  _cacheLabels(data) {
+    // Skip label caching if a custom filtering function is supplied
+    if (this.props.filter.fn) {
+      return;
+    }
+
     data.forEach(item => {
       if (!('_label' in item)) {
         // by default, skip separators and hints
