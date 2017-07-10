@@ -79,7 +79,7 @@ class Item extends PureComponent {
           <Icon
             className={styles.collapseIcon}
             glyph={expandIcon}
-            size={Icon.Size.Size14}
+            size="13px"
             onClick={this.onExpand}
           />
         );
@@ -88,7 +88,7 @@ class Item extends PureComponent {
           <Icon
             className={styles.collapseIcon}
             glyph={collapseIcon}
-            size={Icon.Size.Size14}
+            size="13px"
             onClick={this.onCollapse}
           />
         );
