@@ -22,16 +22,29 @@
 }
 
 .groupTitle {
-  box-sizing: border-box;
-  padding: 10px 30px;
+  display: flex;
+  align-items: center;
 
-  border: solid 0 #e8e8e8;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 30px;
+
+  border: solid 0 #e6e6e6;
   border-width: 1px 0;
   outline: none;
 }
 
+.groupTitleCheckbox {
+  margin-right: 8px;
+}
+
 .item {
-  padding: 5px 50px;
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 50px;
 
   border: 0 solid #ebebeb;
   border-width: 1px 0;
@@ -40,11 +53,15 @@
 
 .showMore {
   margin-left: 27px;
-  padding: 5px 50px;
+  padding: 4px 50px;
+
+  color: #999;
 
   border: 0 solid #ebebeb;
   border-width: 1px 0;
   outline: none;
+
+  font-size: 12px;
 }
 
 .dataList:not(.disabledHover) .groupTitle:hover,
@@ -76,6 +93,10 @@
 
 .collapseIcon {
   top: -3px;
+
+  &:hover {
+    color: #ff5a00;
+  }
 }
 
 .subgroup {
