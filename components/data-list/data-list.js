@@ -1,5 +1,3 @@
-/* @flow */
-
 /**
   * @name Data List
   * @category Components
@@ -8,6 +6,7 @@
   * @description TODO add Data List description
   * @example-file ./data-list.examples.html
   */
+/* @flow */
 
 import React, {PureComponent, Element} from 'react';
 import PropTypes from 'prop-types';
