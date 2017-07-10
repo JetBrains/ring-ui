@@ -12,6 +12,7 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
+import memoize from '../global/memoize';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -192,12 +193,11 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-    this._cacheLabels(this.props.data);
+    this.preCacheLabels();
   }
 
   willReceiveProps(newProps) {
     if ('data' in newProps && newProps.data !== this.props.data) {
-      this._cacheLabels(newProps.data);
       const shownData = this.getListItems(this.filterValue(), newProps.data);
       this.setState({shownData});
     }
@@ -227,6 +227,8 @@ export default class Select extends RingComponentWithShortcuts {
 
   didUpdate(prevProps, prevState) {
     const {showPopup, shownData} = this.state;
+
+    this.preCacheLabels();
 
     if (prevState.showPopup && !showPopup) {
       this.props.onClose();
@@ -422,25 +424,21 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
-  _cacheLabels(data) {
-    // Skip label caching if a custom filtering function is supplied
-    if (this.props.filter.fn) {
-      return;
+  getLowerCaseLabel = memoize(item => {
+    if (
+      List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+      List.isItemType(List.ListProps.Type.HINT, item) ||
+      List.isItemType(List.ListProps.Type.CUSTOM, item) ||
+      item.label == null
+    ) {
+      return null;
     }
 
-    data.forEach(item => {
-      if (!('_label' in item)) {
-        // by default, skip separators and hints
-        if (
-          List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-          List.isItemType(List.ListProps.Type.HINT, item)
-        ) {
-          return;
-        }
+    return item.label.toLowerCase();
+  });
 
-        item._label = item.label.toLowerCase();
-      }
-    });
+  preCacheLabels() {
+    this.props.data.forEach(item => this.getLowerCaseLabel(item));
   }
 
   getListItems(rawFilterString, data = this.props.data) {
@@ -454,17 +452,19 @@ export default class Select extends RingComponentWithShortcuts {
     const filteredData = [];
     let exactMatch = false;
 
-    const check = this.props.filter.fn || function check(itemToCheck, checkString) {
+    const check = this.props.filter.fn || ((itemToCheck, checkString) => {
       if (checkString === '') {
         return true;
       }
 
-      if (!('_label' in itemToCheck)) {
+      const lowerCaseLabel = this.getLowerCaseLabel(itemToCheck);
+
+      if (lowerCaseLabel == null) {
         return true;
       }
 
-      return itemToCheck._label.indexOf(checkString) >= 0;
-    };
+      return lowerCaseLabel.indexOf(checkString) >= 0;
+    });
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
