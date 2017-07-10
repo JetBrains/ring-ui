@@ -60,21 +60,23 @@ export default class Years extends RingComponent {
 
     const pxToDate = linearFunction(0, years[0], yearDuration / yearHeight);
 
+    const handleWheel = e => {
+      e.preventDefault();
+      const newScrollDate = linearFunction(0, date, yearDuration / yearHeight).
+        y(e.deltaY);
+      this.setState({
+        scrollDate: newScrollDate
+      });
+      if (scrollTO) {
+        window.clearTimeout(scrollTO);
+      }
+      scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
+    };
+
     return (
       <div
         className={styles.years}
-        onWheel={function handleWheel(e) {
-          e.preventDefault();
-          const newScrollDate = linearFunction(0, date, yearDuration / yearHeight).
-            y(e.deltaY);
-          this.setState({
-            scrollDate: newScrollDate
-          });
-          if (scrollTO) {
-            window.clearTimeout(scrollTO);
-          }
-          scrollTO = window.setTimeout(() => this.setYear(newScrollDate), scrollDelay);
-        }}
+        onWheel={handleWheel}
 
         style={{
           transition: this.stoppedScrolling ? 'top .2s ease-out 0s' : 'none',
