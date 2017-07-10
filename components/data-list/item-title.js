@@ -14,12 +14,13 @@ type Props = {
   selected: boolean,
   onSelect: (selected: boolean) => void,
   showFocus: boolean,
+  collapserExpander: any,
 
   // focusSensorHOC
   onFocusRestore: () => void
 };
 
-class GroupTitle extends PureComponent {
+class ItemTitle extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
@@ -46,19 +47,19 @@ class GroupTitle extends PureComponent {
   render(): Element<any> {
     const {
       className, title, showFocus,
-      selectable, selected
+      selectable, selected, collapserExpander
     } = this.props;
 
     const classes = classNames(className, {
-      [styles.groupTitle]: true,
-      [styles.groupTitleFocused]: showFocus,
-      [styles.groupTitleSelected]: selected
+      [styles.itemTitle]: true,
+      [styles.itemTitleFocused]: showFocus,
+      [styles.itemTitleSelected]: selected
     });
 
     return (
       <div className={classes}>
-        {selectable &&
-          <span className={styles.groupTitleCheckbox}>
+        <div className={styles.metaColumn}>
+          {selectable &&
             <Checkbox
               className={showFocus ? 'ring-checkbox_focus' : ''}
               checked={selected}
@@ -66,8 +67,10 @@ class GroupTitle extends PureComponent {
               onChange={this.onCheckboxChange}
               tabIndex="-1"
             />
-          </span>
-        }
+          }
+
+          {collapserExpander}
+        </div>
 
         {title}
       </div>
@@ -75,4 +78,4 @@ class GroupTitle extends PureComponent {
   }
 }
 
-export default focusSensorHOC(GroupTitle);
+export default focusSensorHOC(ItemTitle);
