@@ -380,6 +380,44 @@ describe('Select', () => {
       filtered.should.deep.equal(separators);
     });
 
+    it('Should not filter hints', () => {
+      const hints = [{
+        type: List.ListProps.Type.HINT,
+        key: 1,
+        description: 'test'
+      }];
+      const wrapper = shallowSelect({data: hints});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal(hints);
+    });
+
+    it('Should not filter custom items', () => {
+      const customItems = [{
+        type: List.ListProps.Type.CUSTOM,
+        key: 1,
+        template: <div/>
+      }];
+      const wrapper = shallowSelect({data: customItems});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal(customItems);
+    });
+
+    it('Should not filter items without label', () => {
+      const items = [{
+        key: 1,
+        description: 'test'
+      }];
+      const wrapper = shallowSelect({data: items});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal(items);
+    });
+
     it('Should use custom filter.fn if provided', () => {
       const filterStub = sandbox.stub().returns(true);
 
