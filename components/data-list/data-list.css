@@ -38,7 +38,7 @@
   margin-right: 8px;
 }
 
-.item {
+.itemTitle {
   display: flex;
   align-items: center;
 
@@ -65,21 +65,21 @@
 }
 
 .dataList:not(.disabledHover) .groupTitle:hover,
-.dataList:not(.disabledHover) .item:hover {
+.dataList:not(.disabledHover) .itemTitle:hover {
   background-color: #fff !important;
 }
 
 .groupTitleFocused,
-.itemFocused {
+.itemTitleFocused {
   border: 1px none #25b7ff;
   border-top-style: solid;
   border-bottom-style: solid;
 }
 
 .dataList:not(.multiSelection) .groupTitleFocused,
-.dataList:not(.multiSelection) .itemFocused,
+.dataList:not(.multiSelection) .itemTitleFocused,
 .groupTitleSelected,
-.itemSelected {
+.itemTitleSelected {
   background-color: light-blue-color;
 }
 
@@ -100,9 +100,9 @@
 }
 
 .subgroup {
-  margin-left: 27px;
+  margin-left: 76px;
   padding: 0;
-  padding-left: 15px;
+  padding-left: 16px;
 
   list-style: none;
 
