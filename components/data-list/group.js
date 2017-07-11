@@ -15,12 +15,12 @@ type Props = {
   group: GroupType,
   title: string,
   items: ItemType[],
+  moreItems: ItemType[],
   className?: string,
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
   showMoreLessButton: boolean,
-  fullyShown: boolean,
   onGroupShowMore: (group?: GroupType) => void,
   onGroupShowLess: (group?: GroupType) => void,
   showFocus: boolean,
@@ -37,7 +37,6 @@ export default class Group extends PureComponent {
     onItemExpand: () => {},
     isItemCollapsed: () => true,
     showMoreLessButton: false,
-    fullyShown: true,
     onGroupShowMore: () => {},
     onGroupShowLess: () => {},
     selectable: false,
@@ -77,38 +76,66 @@ export default class Group extends PureComponent {
     onSelect(item, selected);
   }
 
+  renderItem = (item: ItemType): Element<any> => {
+    const {
+      onItemCollapse, onItemExpand, isItemCollapsed,
+      selection
+    } = this.props;
+
+    const onFocus = () => {
+      this.onItemFocus(item);
+    };
+
+    const onSelect = _selected => {
+      this.onItemSelect(item, _selected);
+    };
+
+    return (
+      <Item
+        key={item.id}
+        item={item}
+        title={item.title}
+        selectable={item.selectable}
+        selected={selection.isSelected(item)}
+        subitems={item.subitems}
+        onExpand={onItemExpand}
+        onCollapse={onItemCollapse}
+        collapsed={isItemCollapsed(item)}
+        focused={selection.isFocused(item)}
+        showFocus={selection.isFocused(item)}
+        onFocus={onFocus}
+        onSelect={onSelect}
+      />
+    );
+  }
+
   render(): Element<any> {
     const {
-      title, items, onItemCollapse, onItemExpand,
-      isItemCollapsed, showMoreLessButton, fullyShown,
-      showFocus, selection, selectable, selected
+      title, items, moreItems, showMoreLessButton,
+      showFocus, selectable, selected
     } = this.props;
 
     let moreLessButton;
-    if (showMoreLessButton) {
-      if (fullyShown) {
-        moreLessButton = (
-          <Text comment={true}>
-            <Link
-              inherit={true}
-              pseudo={true}
-              onClick={this.onShowLess}
-            >Show less</Link>
-          </Text>
-        );
-      } else {
-        moreLessButton = (
-          <Text comment={true}>
-            <Link
-              inherit={true}
-              pseudo={true}
-              onClick={this.onShowMore}
-            >Show more</Link>
-          </Text>
-        );
-      }
+    if (moreItems.length) {
+      moreLessButton = (
+        <Text comment={true}>
+          <Link
+            inherit={true}
+            pseudo={true}
+            onClick={this.onShowLess}
+          >Show less</Link>
+        </Text>
+      );
     } else {
-      moreLessButton = null;
+      moreLessButton = (
+        <Text comment={true}>
+          <Link
+            inherit={true}
+            pseudo={true}
+            onClick={this.onShowMore}
+          >Show more</Link>
+        </Text>
+      );
     }
 
     return (
@@ -125,38 +152,16 @@ export default class Group extends PureComponent {
 
         {items.length ? (
           <ul className={styles.group}>
-            {items.map(item => {
-              const onFocus = () => {
-                this.onItemFocus(item);
-              };
+            {items.map(item => this.renderItem(item))}
 
-              const onSelect = _selected => {
-                this.onItemSelect(item, _selected);
-              };
+            {showMoreLessButton
+              ? <li className={styles.showMore}>{moreLessButton}</li>
+              : null
+            }
 
-              return (
-                <Item
-                  key={item.id}
-                  item={item}
-                  title={item.title}
-                  selectable={item.selectable}
-                  selected={selection.isSelected(item)}
-                  subitems={item.subitems}
-                  onExpand={onItemExpand}
-                  onCollapse={onItemCollapse}
-                  collapsed={isItemCollapsed(item)}
-                  focused={selection.isFocused(item)}
-                  showFocus={selection.isFocused(item)}
-                  onFocus={onFocus}
-                  onSelect={onSelect}
-                />
-              );
-            })}
-
-            {
-              moreLessButton ? (
-                <li className={styles.showMore}>{moreLessButton}</li>
-              ) : null
+            {moreItems
+              ? moreItems.map(item => this.renderItem(item))
+              : null
             }
           </ul>
         ) : null}
