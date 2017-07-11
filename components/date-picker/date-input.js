@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
+import classNames from 'classnames';
 
 import Input from '../input/input';
 
@@ -26,6 +27,8 @@ export default function DateInput({
     displayText = date.format(inputFormat);
   }
 
+  const classes = classNames(styles.input, 'ring-js-shortcuts');
+
   return (
     <Input
       // eslint-disable-next-line react/jsx-no-bind
@@ -42,7 +45,7 @@ export default function DateInput({
           el.blur();
         }
       }}
-      className={styles.input}
+      className={classes}
       value={displayText}
       onChange={function handleChange(e) {
         onInput(e.target.value);
