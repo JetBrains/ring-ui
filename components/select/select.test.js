@@ -393,17 +393,18 @@ describe('Select', () => {
       filtered.should.deep.equal(hints);
     });
 
-    it('Should not filter custom items', () => {
+    it('Should filter custom items with label', () => {
       const customItems = [{
         type: List.ListProps.Type.CUSTOM,
         key: 1,
+        label: 'bar',
         template: <div/>
       }];
       const wrapper = shallowSelect({data: customItems});
       const instance = wrapper.instance();
 
       const filtered = instance.getListItems('foo');
-      filtered.should.deep.equal(customItems);
+      filtered.should.deep.equal([]);
     });
 
     it('Should not filter items without label', () => {
