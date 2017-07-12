@@ -428,7 +428,6 @@ export default class Select extends RingComponentWithShortcuts {
     if (
       List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
       List.isItemType(List.ListProps.Type.HINT, item) ||
-      List.isItemType(List.ListProps.Type.CUSTOM, item) ||
       item.label == null
     ) {
       return null;

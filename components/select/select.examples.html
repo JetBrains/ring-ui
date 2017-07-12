@@ -354,6 +354,60 @@
   </file>
 </example>
 
+<example name="Select with custom items and an 'Add item' button">
+  <file type="html">
+    <div id="demo" class="ring-input-size_md"></div>
+  </file>
+  <file type="css">
+    :global(.label) {
+      border-radius: 3px;
+      color: #669ECC;
+      background-color: #E5F4FF;
+      padding-left: 8px;
+      margin: 2px 0;
+    }
+
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Select from 'ring-ui/components/select/select';
+    import List from 'ring-ui/components/list/list';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    var data = [];
+    for (let i = 0; i < 100; i++) {
+      const label = `Label ${i}`;
+      data.push({
+        key: label,
+        label,
+        template: <span className="label">{label}</span>,
+        rgItemType: List.ListProps.Type.CUSTOM
+      });
+    }
+
+    render(Select.factory({
+
+      filter: true,
+      hint: 'Press down to do something',
+      add: {
+        prefix: 'Add label'
+      },
+      onAdd: function (value) {
+        console.log('Add', value);
+      },
+      data: data,
+      'onSelect': function (selected) {
+        console.log('onSelect, selected label:', selected.text);
+      }
+    }), document.getElementById('demo'));
+  </file>
+</example>
+
 <example name="Select with an always visible 'Add item' button">
   <file type="html">
     <div id="demo"></div>
