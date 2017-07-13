@@ -53,7 +53,7 @@ const cssLoader = {
 const externalCssLoader = {
   test: /\.css$/,
   include: [
-    path.resolve(__dirname, 'node_modules/highlight.js')
+    path.dirname(path.resolve(require.resolve('highlight.js'), '..'))
   ],
   use: [
     resolveLoader('style'),
