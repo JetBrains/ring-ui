@@ -6,11 +6,9 @@ import guid from 'mout/random/guid';
 import randString from 'mout/random/randString';
 
 import List from '../list/list';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import SelectPopup from './select__popup';
-
-import simulateCombo from 'simulate-combo';
-
 
 describe('SelectPopup', () => {
   const factory = props => (

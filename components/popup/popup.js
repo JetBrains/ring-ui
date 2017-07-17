@@ -173,8 +173,8 @@ export default class Popup extends RingComponentWithShortcuts {
   calculateDisplay = prevState => ({
     ...prevState,
     display: this.props.hidden
-        ? Display.SHOWING
-        : Display.SHOWN
+      ? Display.SHOWING
+      : Display.SHOWN
   });
 
   state = {

@@ -7,13 +7,6 @@ const loaders = require('./webpack.config').loaders;
 
 const helpersPath = path.join(__dirname, 'test-helpers');
 
-config.resolve = {
-  modules: [
-    helpersPath,
-    'node_modules'
-  ]
-};
-
 loaders.babelLoader.include.push(helpersPath);
 
 config.module.rules.push({

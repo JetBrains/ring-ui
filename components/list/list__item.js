@@ -58,8 +58,7 @@ export default class ListItem extends PureComponent {
 
   render() {
     const {props} = this;
-    const {
-      checkbox, glyph, icon, rightGlyph, description, label,
+    const {checkbox, glyph, icon, rightGlyph, description, label,
       details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames({
       'ring-list__item': true,

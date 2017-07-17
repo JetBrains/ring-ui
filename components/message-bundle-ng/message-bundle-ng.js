@@ -16,7 +16,7 @@ function emptyI18n() {
 function RingMessageBundle(ringI18n) {
   const i18n = ringI18n;
 
-/* eslint-disable camelcase */
+  /* eslint-disable camelcase */
   this.form_required = () => i18n('Value is required');
   this.form_invalid = () => i18n('Value is invalid');
   this.form_url = () => i18n('Should be a valid URL');
