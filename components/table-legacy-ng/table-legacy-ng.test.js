@@ -35,12 +35,12 @@ describe('Table Legacy Ng', () => {
     scope.data = fakeData;
 
     element = $compile(
-    '<rg-legacy-table items="data.items">' +
-      '<rg-legacy-table-header></rg-legacy-table-header>' +
-      '<rg-legacy-table-row row-item="item" ng-repeat="item in data.items">' +
-        '<div class="ring-table__column">{{item.id}}</div>' +
-      '</rg-legacy-table-row>' +
-    '</rg-legacy-table>'
+      '<rg-legacy-table items="data.items">' +
+        '<rg-legacy-table-header></rg-legacy-table-header>' +
+        '<rg-legacy-table-row row-item="item" ng-repeat="item in data.items">' +
+          '<div class="ring-table__column">{{item.id}}</div>' +
+        '</rg-legacy-table-row>' +
+      '</rg-legacy-table>'
     )(scope);
 
     scope.$digest();

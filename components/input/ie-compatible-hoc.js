@@ -18,12 +18,12 @@ export default function ieCompatibleInputHOC(ComposedComponent) {
     render() {
       const {onChange, multiple, ...restProps} = this.props;
 
-      const changeListenProps = (isIE11 && !multiple) ? {
-        onInput: onChange,
-        onChange: noop
-      } : {
-        onChange
-      };
+      const changeListenProps = (isIE11 && !multiple)
+        ? {
+          onInput: onChange,
+          onChange: noop
+        }
+        : {onChange};
 
       return (
         <ComposedComponent

@@ -6,9 +6,9 @@ import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
-import QueryAssist from './query-assist';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
-import simulateCombo from 'simulate-combo';
+import QueryAssist from './query-assist';
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';

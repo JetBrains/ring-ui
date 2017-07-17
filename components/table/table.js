@@ -59,7 +59,7 @@ const DraggableRows = sortableContainer(props => {
           onExpand={onItemExpand}
           {...restProps}
         />
-    ))}
+      ))}
     </tbody>
   );
 });

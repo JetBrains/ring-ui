@@ -3,10 +3,9 @@ import {renderIntoDocument} from 'react-dom/test-utils';
 import guid from 'mout/random/guid';
 
 import shortcuts from '../shortcuts/core';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
-
-import simulateCombo from 'simulate-combo';
 
 describe('Ring Component With Shortcuts', () => {
   //const component;

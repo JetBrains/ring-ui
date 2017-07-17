@@ -48,29 +48,29 @@ export default class Select extends RingComponentWithShortcuts {
 
   static defaultProps = {
     data: [],
-    filter: false,   // enable filter (BUTTON or CUSTOM mode)
+    filter: false, // enable filter (BUTTON or CUSTOM mode)
     multiple: false, // multiple can be an object - see demo for more information
-    clear: false,    // enable clear button that clears the "selected" state
-    loading: false,  // show a loading indicator while data is loading
+    clear: false, // enable clear button that clears the "selected" state
+    loading: false, // show a loading indicator while data is loading
     disabled: false, // disable select
 
     loadingMessage: 'Loading...',
     notFoundMessage: 'No options found',
 
     type: Type.BUTTON,
-    targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
-    hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
-    allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
-    hideArrow: false,     // hide dropdown arrow icon
+    targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
+    hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
+    allowAny: false, // INPUT mode: allows any value to be entered, hides the dropdown icon
+    hideArrow: false, // hide dropdown arrow icon
 
-    maxHeight: 250,       // height of the options list, without the filter and the 'Add' button
-    minWidth: Popup.PopupProps.MinWidth.TARGET,   // Popup width
+    maxHeight: 250, // height of the options list, without the filter and the 'Add' button
+    minWidth: Popup.PopupProps.MinWidth.TARGET, // Popup width
 
-    selected: null,       // current selection (item / array of items)
+    selected: null, // current selection (item / array of items)
 
-    label: 'Please select option',  // BUTTON label or INPUT placeholder (nothing selected)
-    selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
-    hint: null,           // hint text to display under the list
+    label: 'Please select option', // BUTTON label or INPUT placeholder (nothing selected)
+    selectedLabel: '', // BUTTON label or INPUT placeholder (something selected)
+    hint: null, // hint text to display under the list
 
     shortcuts: false,
 
@@ -78,16 +78,16 @@ export default class Select extends RingComponentWithShortcuts {
     onLoadMore: noop,
     onOpen: noop,
     onClose: noop,
-    onFilter: noop,       // search string as first argument
+    onFilter: noop, // search string as first argument
     onFocus: noop,
     onBlur: noop,
     onKeyDown: noop,
 
-    onSelect: noop,       // single + multi
-    onDeselect: noop,     // multi
-    onChange: noop,       // multi
+    onSelect: noop, // single + multi
+    onDeselect: noop, // multi
+    onChange: noop, // multi
 
-    onAdd: noop,          // search string as first argument
+    onAdd: noop, // search string as first argument
 
     onDone: noop,
     onReset: noop,
@@ -850,11 +850,9 @@ export default class Select extends RingComponentWithShortcuts {
       );
     } else if (this.isButtonMode()) {
       const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-      const clickListenProps = isIE11 ? {
-        onMouseDown: this._clickHandler
-      } : {
-        onClick: this._clickHandler
-      };
+      const clickListenProps = isIE11
+        ? {onMouseDown: this._clickHandler}
+        : {onClick: this._clickHandler};
 
       return (
         <Button

@@ -153,7 +153,7 @@ angularModule.directive('rgShortcutsApp', function rgShortcutsAppDirective() {
 
         // Reset current zone if it's not equal to the current scope
         if ($scope.current && $scope.current.scope !== shortcutsInstance.getScope().
-            pop().scopeId) {
+          pop().scopeId) {
           this.deselect();
         }
 
