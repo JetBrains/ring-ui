@@ -148,14 +148,17 @@ export default class DatePicker extends RingComponent {
         >
           <span
             className={displayClasses}
-          >{text}{clear && (date || from || to) && (
-            <Icon
-              className={styles.clear}
-              glyph={closeIcon}
-              size={Icon.Size.Size14}
-              onClick={this.clear}
-            />
-          )}</span>
+          >
+            {text}
+            {clear && (date || from || to) && (
+              <Icon
+                className={styles.clear}
+                glyph={closeIcon}
+                size={Icon.Size.Size14}
+                onClick={this.clear}
+              />
+            )}
+          </span>
         </Button>
         <Popup
           hidden={!this.state.showPopup}

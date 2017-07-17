@@ -7,11 +7,10 @@ import 'dom4';
 
 import {getRect} from '../global/dom';
 import dialogStyles from '../dialog/dialog.css';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Dialog from './dialog-ng';
 import styles from './dialog-ng.css';
-
-import simulateCombo from 'simulate-combo';
 
 describe('Dialog Ng', () => {
   let dialogInSidebar;
