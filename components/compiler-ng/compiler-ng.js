@@ -34,8 +34,8 @@ const angularModule = angular.module('Ring.compiler', []).
 
       return $q.all(resolve).then(locals => {
         const element = options.element || angular.element('<div>').
-            html(template.trim()).
-            contents();
+          html(template.trim()).
+          contents();
         const linkFn = $compile(element);
 
         return {

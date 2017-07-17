@@ -64,11 +64,11 @@ class Nav extends PureComponent {
     const filterFn = makeFilter(filter);
     const filteredCategories = filterFn
       ? categories.
-          map(({items, ...rest}) => ({
-            items: filterItems(items, filterFn),
-            ...rest
-          })).
-          filter(({items}) => items.length > 0)
+        map(({items, ...rest}) => ({
+          items: filterItems(items, filterFn),
+          ...rest
+        })).
+        filter(({items}) => items.length > 0)
       : categories;
 
     // [].concat(...arrs) === arrs.flatten()

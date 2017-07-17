@@ -158,13 +158,15 @@ angularModule.directive('rgErrorPage', [
   'getErrorPagePresentation',
   '$q',
   '$compile',
-  (errorPageConfiguration,
-   $route,
-   userPermissions,
-   $log,
-   getErrorPagePresentation,
-   $q,
-   $compile) => {
+  (
+    errorPageConfiguration,
+    $route,
+    userPermissions,
+    $log,
+    getErrorPagePresentation,
+    $q,
+    $compile
+  ) => {
     function getArgumentPromise(errorSource, errorPageParameterPresentation) {
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 

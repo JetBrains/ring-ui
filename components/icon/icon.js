@@ -48,10 +48,12 @@ export default class Icon extends PureComponent {
       className
     );
 
-    const style = width || height ? {width, height} : {
-      width: size,
-      height: size
-    };
+    const style = (width || height)
+      ? {width, height}
+      : {
+        width: size,
+        height: size
+      };
 
     const xlinkHref = resolveRelativeURL(glyph);
 

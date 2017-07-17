@@ -7,10 +7,9 @@ import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
 import Icon from '../icon/icon';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
-
-import simulateCombo from 'simulate-combo';
 
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
