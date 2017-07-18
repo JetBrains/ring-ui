@@ -8,4 +8,8 @@
     "@jetbrains/eslint-config/react",
     "@jetbrains/eslint-config/test"
   ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
 }
