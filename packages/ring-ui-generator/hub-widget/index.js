@@ -11,7 +11,8 @@ const packages = [
   'generator-ring-ui',
   'ring-ui',
   'jetbrains-logos',
-  'jetbrains-icons'
+  'jetbrains-icons',
+  'hub-dashboard-addons'
 ];
 const BASE_GENERATOR_PATH = path.resolve(require.resolve('../app/index'), '../templates');
 
@@ -45,8 +46,8 @@ module.exports = class extends Generator.Base {
 
     return Promise.all([prompt, getFreePort(), getLatestVersions(packages)]).
       then(([answers, port, versions]) => {
-        const projectName = paramCase(answers.projectName);
-        const camelCaseName = camelCase(answers.projectName);
+        const projectName = paramCase(answers.widgetName);
+        const camelCaseName = camelCase(answers.widgetName);
 
         this.props = Object.assign({
           projectName,
@@ -69,6 +70,13 @@ module.exports = class extends Generator.Base {
       this.props
     );
 
+    // Hub-widget sources
+    this.fs.copyTpl(
+      this.templatePath('src/**/*'),
+      this.destinationPath('src/'),
+      this.props
+    );
+
     // Base generator files
     this.fs.copyTpl(
       this.templatePath(path.join(BASE_GENERATOR_PATH, '*.{json,js}')),
@@ -76,11 +84,18 @@ module.exports = class extends Generator.Base {
       this.props
     );
 
-    this.fs.copyTpl(
-      this.templatePath(path.join(BASE_GENERATOR_PATH, 'src/**/*')),
-      this.destinationPath('src/'),
-      this.props
-    );
+    // Modify package.json – add hub-dashboard-addons
+    this.fs.copy(
+      this.destinationPath('package.json'),
+      this.destinationPath('package.json'),
+      {
+        process: content => {
+          const pkg = JSON.parse(content);
+          pkg.dependencies['hub-dashboard-addons'] = this.props.hubDashboardAddons;
+          return JSON.stringify(pkg, null, 2);
+        }
+      }
+    )
   }
 
   _copyTemplate(src, dst) {
@@ -92,9 +107,11 @@ module.exports = class extends Generator.Base {
 
   configuring() {
     this._copyTemplate('npmrc', '.npmrc');
-    this._copyTemplate('eslintrc', '.eslintrc');
     this._copyTemplate('editorconfig', '.editorconfig');
     this._copyTemplate('gitignore', '.gitignore');
+    this._copyTemplate('eslintignore', '.eslintignore');
+    this._copyTemplate('eslintrc', '.eslintrc');
+    this._copyTemplate('src/eslintrc', 'src/.eslintrc');
   }
 
   install() {
