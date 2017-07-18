@@ -20,7 +20,7 @@ describe('Loader', () => {
   }));
 
   it('should init', () => {
-    element.should.be.defined;
+    element.should.exist;
   });
 
   it('should render loader', () => {

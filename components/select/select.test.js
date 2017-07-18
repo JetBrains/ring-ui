@@ -54,10 +54,10 @@ describe('Select', () => {
   });
 
   it('Should provide select types', () => {
-    Select.Type.should.be.defined;
-    Select.Type.BUTTON.should.be.defined;
-    Select.Type.INPUT.should.be.defined;
-    Select.Type.CUSTOM.should.be.defined;
+    Select.Type.should.exist;
+    Select.Type.BUTTON.should.exist;
+    Select.Type.INPUT.should.exist;
+    Select.Type.CUSTOM.should.exist;
   });
 
   it('Should take provided className', () => {
@@ -126,9 +126,9 @@ describe('Select', () => {
     const wrapper = shallowSelect();
     const instance = wrapper.instance();
     const shortcuts = instance.getShortcutsProps();
-    shortcuts.map.enter.should.be.defined;
-    shortcuts.map.up.should.be.defined;
-    shortcuts.map.down.should.be.defined;
+    shortcuts.map.enter.should.exist;
+    shortcuts.map.up.should.exist;
+    shortcuts.map.down.should.exist;
   });
 
   it('Should generate unique scope for shortcuts', () => {
@@ -908,7 +908,7 @@ describe('Select', () => {
       resetOption.type.should.be.equal(List.ListProps.Type.LINK);
       resetOption.iconSize.should.be.equal(Icon.Size.Size14);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
-      resetOption.onClick.should.be.function;
+      resetOption.onClick.should.be.an.instanceof(Function);
     });
 
     it('should not create tags reset option if it is not provided', () => {

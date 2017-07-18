@@ -118,7 +118,7 @@ describe('Auth', () => {
       const auth = new Auth(config);
 
       document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`).
-        should.be.defined;
+        should.exist;
     });
   });
 
