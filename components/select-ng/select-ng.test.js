@@ -56,7 +56,7 @@ describe('Select Ng', () => {
 
   describe('Interface', () => {
     it('Should receive ngModel controller', () => {
-      ctrl.ngModelCtrl.should.be.defined;
+      ctrl.ngModelCtrl.should.exist;
     });
 
     it('Should extend passed config', () => {

@@ -15,7 +15,7 @@ describe('Hub Source', () => {
 
   it('Should initialize', () => {
     const source = new HubSource(fakeAuth);
-    source.should.be.defined;
+    source.should.exist;
   });
 
   it('Should merge objects', () => {
