@@ -197,14 +197,14 @@ describe('Table Legacy Ng', () => {
       });
 
       it('should export interface', () => {
-        navigateActions.setSelection.should.be.defined;
-        navigateActions.moveUp.should.be.defined;
-        navigateActions.moveDown.should.be.defined;
-        navigateActions.reset.should.be.defined;
-        navigateActions.selectUp.should.be.defined;
-        navigateActions.selectDown.should.be.defined;
-        navigateActions.selectCurrent.should.be.defined;
-        navigateActions.clearSelection.should.be.defined;
+        navigateActions.setSelection.should.exist;
+        navigateActions.moveUp.should.exist;
+        navigateActions.moveDown.should.exist;
+        navigateActions.reset.should.exist;
+        navigateActions.selectUp.should.exist;
+        navigateActions.selectDown.should.exist;
+        navigateActions.selectCurrent.should.exist;
+        navigateActions.clearSelection.should.exist;
       });
 
       it('should do nothing if selection is not put', () => {
