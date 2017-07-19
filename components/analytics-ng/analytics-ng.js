@@ -8,9 +8,10 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
  * @description Provides an Angular wrapper for Analytics.
  * @example
    <example name="Analytics Ng">
-     <file name="index.js" webpack="true">
+     <file name="index.js">
        import 'angular';
        import 'ring-ui/components/analytics-ng/analytics-ng';
+       import 'ring-ui/components/link/link.scss';
 
         angular.module('Example.analyticsDemo', ['Ring.analytics'])
           .config([
@@ -41,8 +42,17 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
      </file>
      <file name="index.html">
        <div ng-app="Example.analyticsDemo" ng-strict-di>
-        <a href="" rg-analytics="overview:view-doc">Link with onclick analytics trigger</a>
-        <a href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">Link with onmouseover analytics trigger</a>
+        <p>Hover or click the links below and check the console output:</p>
+        <div>
+          <a href="" rg-analytics="overview:view-doc" class="ring-link">
+            Link with onclick analytics trigger
+          </a>
+        </div>
+        <div>
+          <a href="" rg-analytics="overview:view-doc" class="ring-link" rg-analytics-on="mouseover">
+            Link with onmouseover analytics trigger
+          </a>
+        </div>
         <div ng-controller="TrackEventDemoCtrl"></div>
        </div>
      </file>
