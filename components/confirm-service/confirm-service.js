@@ -12,7 +12,7 @@ import Confirm from '../confirm/confirm';
  * without mounting Confirm component. Could be used outside React.
  * @example
  <example name="Confirm Service">
- <file name="index.html">
+ <file name="index.html" disable-auto-size>
  <div id="confirm"></div>
  </file>
 
