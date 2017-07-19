@@ -23,9 +23,13 @@ function toJSONString(data) {
  * @returns {Object}
  */
 function serializeExample(example) {
+  const disableAutoSize = example.files.
+    some(file => 'disable-auto-size' in file.attrs);
+
   return {
     name: example.attrs.name,
     url: example.page.url,
+    disableAutoSize,
     files: example.files.map(file => ({
       type: file.type,
       content: file.content,
