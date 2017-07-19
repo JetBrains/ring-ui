@@ -82,7 +82,7 @@ angularModule.provider('errorPageConfiguration', function errorPageConfiguration
   };
 });
 
-angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
+angularModule.factory('getErrorPagePresentation', RingMessageBundle => error => {
   const presentationModels = {
     404: {
       status: 404,
@@ -114,15 +114,13 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
     }
   };
 
-  return error => {
-    if (error.status in presentationModels) {
-      return presentationModels[error.status];
-    }
-    return angular.extend({
-      status: error.status,
-      description: error.message
-    }, presentationModels.default);
-  };
+  if (error.status in presentationModels) {
+    return presentationModels[error.status];
+  }
+  return angular.extend({
+    status: error.status,
+    description: error.message
+  }, presentationModels.default);
 });
 
 angularModule.directive('rgErrorPageBackground', function rgErrorPageBackgroundDirective() {
