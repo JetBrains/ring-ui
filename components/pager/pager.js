@@ -47,7 +47,7 @@ export default class Pager extends PureComponent {
       perPage: 'per page',
       firstPage: 'First page',
       lastPage: 'Last page',
-      nextPage: 'next',
+      nextPage: 'next page',
       previousPage: 'previous'
     },
     onPageSizeChange: () => {}
