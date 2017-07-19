@@ -13,7 +13,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @description Displays an error page, e.g. 404 Not Found.
  * @example
    <example name="Error Page Ng">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
       <div ng-app="Ring.error-page" ng-strict-di>
           <div class="app" rg-error-page-background>
               <div rg-error-page="{error: {status: 403}}"></div>
