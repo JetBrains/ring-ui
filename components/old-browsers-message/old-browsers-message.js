@@ -10,7 +10,7 @@ import sniffer from '../global/sniffer';
  *
  * @example
     <example name="Old Browsers Message">
-      <file type="html">
+      <file type="html" disable-auto-size>
         <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden" hidden>
           <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
           <br/><br/>

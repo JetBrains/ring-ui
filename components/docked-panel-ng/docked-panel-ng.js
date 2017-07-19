@@ -11,7 +11,7 @@ import './docked-panel-ng.scss';
  * @description Creates a panel docked at the bottom of the page.
  * @example
    <example name="Docked Panel Ng">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
       <div ng-app='DockedPanelExample'>
         <div>
           <textarea placeholder="Add description" rows="70" cols="100"></textarea>
