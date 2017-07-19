@@ -3,6 +3,7 @@ const {paramCase, camelCase} = require('change-case');
 // We have to use deprecated npm-latest-version package
 // because there's no .npmrc in target folder on generator start
 const ora = require('ora');
+
 const getFreePort = require('./get-free-port');
 const getLatestVersions = require('./get-latest-versions');
 
