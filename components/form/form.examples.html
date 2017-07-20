@@ -1,8 +1,7 @@
 <example name="Form">
-  <file type="html" disable-auto-size>
-    <div ng-app="Example.form" ng-strict-di style="width: 700px">
-      <form class="ring-form"
-        ng-controller="FormExampleCtrl as formExampleCtrl">
+  <file name="index.html">
+    <div style="width: 700px">
+      <form class="ring-form">
         <span class="ring-form__title">Form Title</span>
 
         <div class="ring-form__group">
@@ -54,19 +53,6 @@
         </div>
 
         <div class="ring-form__group">
-          <label for="ring-form-6" class="ring-form__label">Rg Select in
-            Form</label>
-          <div class="ring-form__control">
-            <rg-select id="ring-form-6"
-              class="ring-input-size_md"
-              options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
-            <div class="ring-form__control__description">I am a simple
-              description
-            </div>
-          </div>
-        </div>
-
-        <div class="ring-form__group">
           <label for="ring-form-7" class="ring-form__label">Textarea</label>
           <div class="ring-form__control">
             <textarea class="ring-input ring-input-size_md"
@@ -92,19 +78,6 @@
         </div>
 
         <div class="ring-form__group">
-          <label for="ring-form-10" class="ring-form__label">Rg Select in
-            Small</label>
-          <div class="ring-form__control ring-form__control_small">
-            <rg-select id="ring-form-10"
-              class="ring-input-size_md"
-              options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
-            <div class="ring-error-bubble active">Error bubble for
-              control_small
-            </div>
-          </div>
-        </div>
-
-        <div class="ring-form__group">
           <label for="ring-form-11" class="ring-form__label">Input in
             Small</label>
           <div class="ring-form__control ring-form__control_small">
@@ -122,15 +95,6 @@
           </div>
         </div>
 
-        <div class="ring-form__group">
-          <div class="ring-form__control ring-form__control_small">
-            <div react="Checkbox" label="'checkbox 1'" checked="true"></div>
-            <div react="Checkbox" label="'checkbox 2'" checked="true"></div>
-            <div react="Checkbox" label="'checkbox 3'"></div>
-            <div react="Checkbox" label="'checkbox 4'"></div>
-          </div>
-        </div>
-
         <div class="ring-form__footer">
           <button class="ring-button ring-button_blue">Save</button>
           <button class="ring-button">Cancel</button>
@@ -139,23 +103,11 @@
     </div>
   </file>
 
-  <file type="js">
+  <file name="index.js">
     import 'ring-ui/components/input/input.scss';
     import 'ring-ui/components/form/form.scss';
     import 'ring-ui/components/panel/panel.scss';
     import 'ring-ui/components/button/button.scss';
     import 'ring-ui/components/input-size/input-size.scss';
-
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import registerComponents from 'ring-ui/components/react-ng/react-ng';
-    import Checkbox from 'ring-ui/components/checkbox/checkbox';
-
-    registerComponents({Checkbox});
-
-    angular.module('Example.form', ['Ring.react-ng', 'Ring.select']).
-      controller('FormExampleCtrl', function () {
-        this.arr = [{name: 'Ada'}, {name: 'Nik'}];
-      });
   </file>
 </example>
