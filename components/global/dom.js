@@ -5,7 +5,26 @@
  * @example
    <example name="DOM">
     <file name="index.html">
-      TODO example
+      <div>
+        <div id="rect-target" style="min-width: 200px"></div>
+
+        <div id="report"></div>
+      </div>
+    </file>
+    <file name="index.js">
+      import {getStyles, getRect, getPixelRatio, getWindowHeight} from 'ring-ui/components/global/dom';
+
+      const rectTarget = document.getElementById('rect-target');
+      rectTarget.innerHTML = `
+        Element min width = ${getStyles(rectTarget).minWidth} <br/>
+        Element rect = ${JSON.stringify(getRect(rectTarget))} <br/>
+      `;
+
+      const report = document.getElementById('report');
+      report.innerHTML = `
+       Pixel ratio = ${getPixelRatio()} <br/>
+       Window height = ${getWindowHeight()} <br/>
+      `;
     </file>
    </example>
  */
