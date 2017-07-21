@@ -219,7 +219,6 @@ export default class Select extends RingComponentWithShortcuts {
 
   updateState(props, initial) {
     if ('data' in props && props.data !== this.props.data) {
-      this._getLabels(props.data);
       const shownData = this.getListItems(this.filterValue(), props.data);
       this.setState({shownData});
 
