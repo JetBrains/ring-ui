@@ -12,6 +12,7 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
+import memoize from '../global/memoize';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -49,10 +50,10 @@ export default class Select extends RingComponentWithShortcuts {
 
   static defaultProps = {
     data: [],
-    filter: false,   // enable filter (BUTTON or CUSTOM mode)
+    filter: false, // enable filter (BUTTON or CUSTOM mode)
     multiple: false, // multiple can be an object - see demo for more information
-    clear: false,    // enable clear button that clears the "selected" state
-    loading: false,  // show a loading indicator while data is loading
+    clear: false, // enable clear button that clears the "selected" state
+    loading: false, // show a loading indicator while data is loading
     disabled: false, // disable select
 
     loadingMessage: 'Loading...',
@@ -60,24 +61,24 @@ export default class Select extends RingComponentWithShortcuts {
 
     type: Type.BUTTON,
     size: Size.M,
-    targetElement: null,  // element to bind the popup to (select BUTTON or INPUT by default)
-    hideSelected: false,  // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
-    allowAny: false,      // INPUT mode: allows any value to be entered, hides the dropdown icon
-    hideArrow: false,     // hide dropdown arrow icon
+    targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
+    hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
+    allowAny: false, // INPUT mode: allows any value to be entered, hides the dropdown icon
+    hideArrow: false, // hide dropdown arrow icon
 
-    maxHeight: 600,       // height of the options list, including the filter and the 'Add' button
+    maxHeight: 600, // height of the options list, including the filter and the 'Add' button
     directions: [
       Popup.PopupProps.Directions.BOTTOM_RIGHT,
-      Popup.PopupProps.Directions.BOTTOM_LEFT,
+      Popup .PopupProps.Directions.BOTTOM_LEFT,
       Popup.PopupProps.Directions.TOP_LEFT,
       Popup.PopupProps.Directions.TOP_RIGHT
     ],
 
-    selected: null,       // current selection (item / array of items)
+    selected: null, // current selection (item / array of items)
 
-    label: '',  // BUTTON label or INPUT placeholder (nothing selected)
-    selectedLabel: '',              // BUTTON label or INPUT placeholder (something selected)
-    hint: null,           // hint text to display under the list
+    label: '', // BUTTON label or INPUT placeholder (nothing selected)
+    selectedLabel: '', // BUTTON label or INPUT placeholder (something selected)
+    hint: null, // hint text to display under the list
 
     shortcuts: false,
 
@@ -85,16 +86,16 @@ export default class Select extends RingComponentWithShortcuts {
     onLoadMore: noop,
     onOpen: noop,
     onClose: noop,
-    onFilter: noop,       // search string as first argument
+    onFilter: noop, // search string as first argument
     onFocus: noop,
     onBlur: noop,
     onKeyDown: noop,
 
-    onSelect: noop,       // single + multi
-    onDeselect: noop,     // multi
-    onChange: noop,       // multi
+    onSelect: noop, // single + multi
+    onDeselect: noop, // multi
+    onChange: noop, // multi
 
-    onAdd: noop,          // search string as first argument
+    onAdd: noop, // search string as first argument
 
     onDone: noop,
     onReset: noop,
@@ -193,7 +194,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-    this._getLabels(this.props.data);
+    this.preCacheLabels();
   }
 
   willReceiveProps(newProps) {
@@ -202,6 +203,8 @@ export default class Select extends RingComponentWithShortcuts {
 
   didUpdate(prevProps, prevState) {
     const {showPopup, shownData} = this.state;
+
+    this.preCacheLabels();
 
     if (prevState.showPopup && !showPopup) {
       this.props.onClose();
@@ -443,20 +446,20 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
-  _getLabels(data) {
-    data.forEach(item => {
-      if (!('_label' in item)) {
-        // by default, skip separators and hints
-        if (
-          List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-          List.isItemType(List.ListProps.Type.HINT, item)
-        ) {
-          return;
-        }
+  getLowerCaseLabel = memoize(item => {
+    if (
+      List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+      List.isItemType(List.ListProps.Type.HINT, item) ||
+      item.label == null
+    ) {
+      return null;
+    }
 
-        item._label = item.label.toLowerCase();
-      }
-    });
+    return item.label.toLowerCase();
+  });
+
+  preCacheLabels() {
+    this.props.data.forEach(item => this.getLowerCaseLabel(item));
   }
 
   getListItems(rawFilterString, data = this.props.data) {
@@ -470,17 +473,19 @@ export default class Select extends RingComponentWithShortcuts {
     const filteredData = [];
     let exactMatch = false;
 
-    const check = this.props.filter.fn || function check(itemToCheck, checkString) {
+    const check = this.props.filter.fn || ((itemToCheck, checkString) => {
       if (checkString === '') {
         return true;
       }
 
-      if (!('_label' in itemToCheck)) {
+      const lowerCaseLabel = this.getLowerCaseLabel(itemToCheck);
+
+      if (lowerCaseLabel == null) {
         return true;
       }
 
-      return itemToCheck._label.indexOf(checkString) >= 0;
-    };
+      return lowerCaseLabel.indexOf(checkString) >= 0;
+    });
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
@@ -862,11 +867,9 @@ export default class Select extends RingComponentWithShortcuts {
       );
     } else if (this.isButtonMode()) {
       const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-      const clickListenProps = isIE11 ? {
-        onMouseDown: this._clickHandler
-      } : {
-        onClick: this._clickHandler
-      };
+      const clickListenProps = isIE11
+        ? {onMouseDown: this._clickHandler}
+        : {onClick: this._clickHandler};
 
       return (
         <div

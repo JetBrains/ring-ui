@@ -1,5 +1,5 @@
 <example name="Table">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="css">
@@ -208,9 +208,9 @@
   <file type="js">
     import React, {Component, createElement} from 'react';
     import {render} from 'react-dom';
-    import MultiTable from './multitable';
-    import Table from './table';
-    import mock from './table.examples2.json';
+    import MultiTable from 'ring-ui/components/table/multitable';
+    import Table from 'ring-ui/components/table/table';
+    import mock from 'ring-ui/components/table/table.examples2.json';
 
     class Example extends Component {
       columns1 = [

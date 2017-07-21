@@ -7,7 +7,7 @@ import '../loader-screen/loader-screen.scss';
  * @description Provides an Angular wrapper for Loader Screen.
  * @example
  * <example name="Loader Screen Ng">
-    <file name="index.html">
+    <file name="index.html" disable-auto-size>
       <div ng-app="ExampleApp" ng-strict-di>
         <div rg-loader-screen="Loading..."></div>
       </div>

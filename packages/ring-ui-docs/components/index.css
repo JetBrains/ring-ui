@@ -58,9 +58,15 @@ a.legacy {
 
 .frame {
   width: 100%;
-  min-height: 500px;
+  height: calc(unit * 10);
+  min-height: calc(unit * 5);
+  max-height: 1000px;
 
   border: 1px solid line-color;
+}
+
+.frameFixedHeight {
+  height: 500px;
 }
 
 .exampleLink {

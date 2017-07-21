@@ -12,7 +12,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  * without mounting AuthDialog component. Could be used outside React.
  * @example
  <example name="AuthDialog Service">
- <file name="index.html">
+ <file name="index.html" disable-auto-size>
  <div id="auth-dialog"></div>
  </file>
 

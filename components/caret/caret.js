@@ -9,7 +9,27 @@ import {getRect} from '../global/dom';
  * @example
    <example name="Caret">
     <file name="index.html">
-      TODO example
+      <textarea id="test-input" class="ring-input">
+      Lorem ipsum
+      dolor sit amet
+      </textarea>
+      <div>
+        <a href="" id="cursor-action" class="ring-link">Set caret position</a>
+      </div>
+    </file>
+    <file name="index.js">
+      import 'ring-ui/components/input/input.scss';
+      import 'ring-ui/components/link/link.scss';
+      import Caret from 'ring-ui/components/caret/caret';
+
+      const targetEl = document.getElementById('test-input');
+      const caret = new Caret(targetEl);
+
+      document.getElementById('cursor-action').addEventListener('click', event => {
+        caret.focus();
+        caret.setPosition(4);
+        event.preventDefault();
+      })
     </file>
    </example>
  */

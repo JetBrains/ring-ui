@@ -7,7 +7,7 @@ import confirm from '../confirm-service/confirm-service';
  * @description Displays a confirmation prompt.
  * @example
   <example name="confirm-ng">
-    <file name="index.html">
+    <file name="index.html" disable-auto-size>
       <div id="loader" ng-app="TestApp" ng-strict-di>
         <div rg-dialog></div>
         <div ng-controller="TestCtrl"></div>

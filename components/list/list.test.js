@@ -655,7 +655,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      instance.inner.querySelector('[data-test=ring-list-item]').should.be.defined;
+      instance.inner.querySelector('[data-test=ring-list-item]').should.exist;
     });
 
     it('should render a if href defined', () => {
@@ -837,7 +837,7 @@ describe('List', () => {
         ]
       }).instance();
       Simulate.click(getFirstListItem(instance));
-      onClick.should.have.been.clicked;
+      onClick.should.have.been.called;
     });
 
     it('Should support disable property for custom elements', () => {

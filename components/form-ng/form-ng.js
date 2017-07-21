@@ -7,12 +7,7 @@ import '../input-legacy/input-legacy.scss';
  * @name Form Ng
  * @category Angular Components
  * @description Provides an Angular wrapper for Form.
- * @example
-   <example name="Form Ng">
-    <file name="index.html">
-      TODO example
-    </file>
-   </example>
+ * @example-file ./form-ng.examples.html
  */
 /* global angular: false */
 

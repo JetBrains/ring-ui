@@ -12,9 +12,9 @@ import ErrorPage from './error-page-ng';
 describe('Error Page Ng', () => {
   beforeEach(
     window.module('Ring.error-page',
-    $provide => {
-      $provide.provider('auth', AuthProviderMock);
-    })
+      $provide => {
+        $provide.provider('auth', AuthProviderMock);
+      })
   );
 
   /* global inject */

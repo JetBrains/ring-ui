@@ -6,7 +6,8 @@
     "@jetbrains/eslint-config/node",
   ],
   "env": {
-    "node": true
+    "node": true,
+    "browser": true
   },
   "rules": {
     "import/no-commonjs": "off"

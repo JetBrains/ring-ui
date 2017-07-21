@@ -80,8 +80,8 @@ export default class FallbackStorage {
     this.cookieName = config.cookieName ||
       (
         session
-        ? this.constructor.DEFAULT_SESSION_COOKIE_NAME
-        : this.constructor.DEFAULT_COOKIE_NAME
+          ? this.constructor.DEFAULT_SESSION_COOKIE_NAME
+          : this.constructor.DEFAULT_COOKIE_NAME
       );
     this.checkDelay = config.checkDelay || this.constructor.DEFAULT_CHECK_DELAY;
     this.expires = session ? this.constructor.COOKIE_EXPIRES : null;

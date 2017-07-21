@@ -8,11 +8,10 @@ import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
 import Icon from '../icon/icon';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
 import styles from './select.css';
-
-import simulateCombo from 'simulate-combo';
 
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
@@ -58,10 +57,10 @@ describe('Select', () => {
   });
 
   it('Should provide select types', () => {
-    Select.Type.should.be.defined;
-    Select.Type.BUTTON.should.be.defined;
-    Select.Type.INPUT.should.be.defined;
-    Select.Type.CUSTOM.should.be.defined;
+    Select.Type.should.exist;
+    Select.Type.BUTTON.should.exist;
+    Select.Type.INPUT.should.exist;
+    Select.Type.CUSTOM.should.exist;
   });
 
   it('Should take provided className', () => {
@@ -130,9 +129,9 @@ describe('Select', () => {
     const wrapper = shallowSelect();
     const instance = wrapper.instance();
     const shortcuts = instance.getShortcutsProps();
-    shortcuts.map.enter.should.be.defined;
-    shortcuts.map.up.should.be.defined;
-    shortcuts.map.down.should.be.defined;
+    shortcuts.map.enter.should.exist;
+    shortcuts.map.up.should.exist;
+    shortcuts.map.down.should.exist;
   });
 
   it('Should generate unique scope for shortcuts', () => {
@@ -381,6 +380,45 @@ describe('Select', () => {
 
       const filtered = instance.getListItems('foo');
       filtered.should.deep.equal(separators);
+    });
+
+    it('Should not filter hints', () => {
+      const hints = [{
+        type: List.ListProps.Type.HINT,
+        key: 1,
+        description: 'test'
+      }];
+      const wrapper = shallowSelect({data: hints});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal(hints);
+    });
+
+    it('Should filter custom items with label', () => {
+      const customItems = [{
+        type: List.ListProps.Type.CUSTOM,
+        key: 1,
+        label: 'bar',
+        template: <div/>
+      }];
+      const wrapper = shallowSelect({data: customItems});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal([]);
+    });
+
+    it('Should not filter items without label', () => {
+      const items = [{
+        key: 1,
+        description: 'test'
+      }];
+      const wrapper = shallowSelect({data: items});
+      const instance = wrapper.instance();
+
+      const filtered = instance.getListItems('foo');
+      filtered.should.deep.equal(items);
     });
 
     it('Should use custom filter.fn if provided', () => {
@@ -874,7 +912,7 @@ describe('Select', () => {
       resetOption.type.should.be.equal(List.ListProps.Type.LINK);
       resetOption.iconSize.should.be.equal(Icon.Size.Size14);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
-      resetOption.onClick.should.be.function;
+      resetOption.onClick.should.be.an.instanceof(Function);
     });
 
     it('should not create tags reset option if it is not provided', () => {

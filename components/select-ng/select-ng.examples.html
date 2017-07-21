@@ -1,5 +1,5 @@
 <example name="Select-ng">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItem"
         options="item.text for item in ctrl.options track by item.id"
@@ -30,7 +30,7 @@
 </example>
 
 <example name="Select-ng-in-rg-tabs">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <rg-tabs>
         <rg-tabs-pane x-title="With select">
@@ -67,7 +67,7 @@
 </example>
 
 <example name="Select-ng-as-input">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItem"
         options="item.text for item in ctrl.options track by item.id"
@@ -99,7 +99,7 @@
 </example>
 
 <example name="Select-ng-as-model">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItem"
         options="item.id as item.text for item in ctrl.options track by item.id"
@@ -126,7 +126,7 @@
 </example>
 
 <example name="Select-ng-as-model-lazy">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <p>Be carefully using <b>lazy=false</b> may significantly decrease your
         performance</p>
@@ -163,7 +163,7 @@
 </example>
 
 <example name="Select-ng-promise">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <h4>Getting items from promise on click with external filtering. (Filter
       value should be equal to label, not just part)</h4>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
@@ -205,7 +205,7 @@
 </example>
 
 <example name="Select-ng-dropdown">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <h4>Select-ng as dropdown</h4>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <button rg-select options="item in ctrl.options" select-type="dropdown"
@@ -241,7 +241,7 @@
 </example>
 
 <example name="Select-ng-inside-dialog">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <div>
         <h1>Text content to make scroll</h1>
@@ -295,7 +295,7 @@
 </example>
 
 <example name="Select-ng-multiple">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <h4>Multiple select</h4>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <rg-select ng-model="ctrl.selectedItems" options="item in ctrl.options"
@@ -328,7 +328,7 @@
   </file>
 </example>
 <example name="Select-ng-form">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <h4>Form with validation</h4>
 
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
@@ -369,7 +369,7 @@
   </file>
 </example>
 <example name="Select-ng-load-more-on-scroll">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <h4>Load more elements on scroll</h4>
 
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
@@ -419,7 +419,7 @@
 </example>
 
 <example name="Select-ng performance">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
       <div style="padding: 8px">
         <button type="button" ng-click="ctrl.renderSelects()">Render</button>

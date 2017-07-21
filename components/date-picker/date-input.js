@@ -70,7 +70,7 @@ export default class DateInput extends Component {
       displayText = date.format(inputFormat);
     }
 
-    const classes = classNames(styles.filter, styles[`${name}Input`]);
+    const classes = classNames(styles.filter, styles[`${name}Input`], 'ring-js-shortcuts');
 
     return (
       <Input
