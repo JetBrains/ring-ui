@@ -1,5 +1,4 @@
 /* @flow */
-/* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
 import classNames from 'classnames';
 
@@ -59,13 +58,15 @@ class GroupTitle extends PureComponent {
     return (
       <div className={classes}>
         {selectable &&
-          <Checkbox
-            className={showFocus ? 'ring-checkbox_focus' : ''}
-            checked={selected}
-            onFocus={this.onCheckboxFocus}
-            onChange={this.onCheckboxChange}
-            tabIndex="-1"
-          />
+          <span className={styles.groupTitleCheckbox}>
+            <Checkbox
+              className={showFocus ? 'ring-checkbox_focus' : ''}
+              checked={selected}
+              onFocus={this.onCheckboxFocus}
+              onChange={this.onCheckboxChange}
+              tabIndex="-1"
+            />
+          </span>
         }
 
         {title}

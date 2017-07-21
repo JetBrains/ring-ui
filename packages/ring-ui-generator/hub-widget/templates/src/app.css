@@ -1,0 +1,13 @@
+@value unit, font, font-size from "ring-ui/components/global/global.css";
+
+html,
+body {
+  composes: font;
+
+  margin: 0;
+  padding: calc(unit * 2);
+
+  background: #fff;
+
+  font-size: font-size;
+}

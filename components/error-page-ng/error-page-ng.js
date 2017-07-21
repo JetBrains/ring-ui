@@ -13,7 +13,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
  * @description Displays an error page, e.g. 404 Not Found.
  * @example
    <example name="Error Page Ng">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
       <div ng-app="Ring.error-page" ng-strict-di>
           <div class="app" rg-error-page-background>
               <div rg-error-page="{error: {status: 403}}"></div>
@@ -82,7 +82,7 @@ angularModule.provider('errorPageConfiguration', function errorPageConfiguration
   };
 });
 
-angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
+angularModule.factory('getErrorPagePresentation', RingMessageBundle => error => {
   const presentationModels = {
     404: {
       status: 404,
@@ -114,15 +114,13 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => {
     }
   };
 
-  return error => {
-    if (error.status in presentationModels) {
-      return presentationModels[error.status];
-    }
-    return angular.extend({
-      status: error.status,
-      description: error.message
-    }, presentationModels.default);
-  };
+  if (error.status in presentationModels) {
+    return presentationModels[error.status];
+  }
+  return angular.extend({
+    status: error.status,
+    description: error.message
+  }, presentationModels.default);
 });
 
 angularModule.directive('rgErrorPageBackground', function rgErrorPageBackgroundDirective() {
@@ -158,13 +156,15 @@ angularModule.directive('rgErrorPage', [
   'getErrorPagePresentation',
   '$q',
   '$compile',
-  (errorPageConfiguration,
-   $route,
-   userPermissions,
-   $log,
-   getErrorPagePresentation,
-   $q,
-   $compile) => {
+  (
+    errorPageConfiguration,
+    $route,
+    userPermissions,
+    $log,
+    getErrorPagePresentation,
+    $q,
+    $compile
+  ) => {
     function getArgumentPromise(errorSource, errorPageParameterPresentation) {
       const promise = errorSource && (errorSource.$promise || errorSource.promise);
 

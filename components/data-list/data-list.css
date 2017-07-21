@@ -22,16 +22,29 @@
 }
 
 .groupTitle {
-  box-sizing: border-box;
-  padding: 10px 30px;
+  display: flex;
+  align-items: center;
 
-  border: solid 0 #e8e8e8;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 30px;
+
+  border: solid 0 #e6e6e6;
   border-width: 1px 0;
   outline: none;
 }
 
-.item {
-  padding: 5px 50px;
+.groupTitleCheckbox {
+  margin-right: 8px;
+}
+
+.itemTitle {
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 50px;
 
   border: 0 solid #ebebeb;
   border-width: 1px 0;
@@ -40,29 +53,33 @@
 
 .showMore {
   margin-left: 27px;
-  padding: 5px 50px;
+  padding: 4px 50px;
+
+  color: #999;
 
   border: 0 solid #ebebeb;
   border-width: 1px 0;
   outline: none;
+
+  font-size: 12px;
 }
 
 .dataList:not(.disabledHover) .groupTitle:hover,
-.dataList:not(.disabledHover) .item:hover {
+.dataList:not(.disabledHover) .itemTitle:hover {
   background-color: #fff !important;
 }
 
 .groupTitleFocused,
-.itemFocused {
+.itemTitleFocused {
   border: 1px none #25b7ff;
   border-top-style: solid;
   border-bottom-style: solid;
 }
 
 .dataList:not(.multiSelection) .groupTitleFocused,
-.dataList:not(.multiSelection) .itemFocused,
+.dataList:not(.multiSelection) .itemTitleFocused,
 .groupTitleSelected,
-.itemSelected {
+.itemTitleSelected {
   background-color: light-blue-color;
 }
 
@@ -76,12 +93,16 @@
 
 .collapseIcon {
   top: -3px;
+
+  &:hover {
+    color: #ff5a00;
+  }
 }
 
 .subgroup {
-  margin-left: 27px;
+  margin-left: 76px;
   padding: 0;
-  padding-left: 15px;
+  padding-left: 16px;
 
   list-style: none;
 

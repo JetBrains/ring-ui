@@ -5,9 +5,6 @@
     "@jetbrains/eslint-config/es6",
     "@jetbrains/eslint-config/node"
   ],
-  "env": {
-    "node": true
-  },
   "rules": {
     "valid-jsdoc": "off",
     "import/no-commonjs": "off"

@@ -2,11 +2,25 @@
  * @name Title Ng
  * @category Angular Components
  * @tags 3.0
- * @description TODO
+ * @description A component that enables manipulation with page title
  * @example
    <example name="Title Ng">
     <file name="index.html">
-      TODO example
+      <div ng-app="test">
+        <h4>You may open example in a separate tab to see tab title changes.</h4>
+
+        <!--It is better to use this directive with <title> tag in your <head> section.-->
+        <div rg-page-title="App name"></rg-page-title>
+      </div>
+    </file>
+    <file name="index.js">
+      import 'angular';
+      import TitleNg from 'ring-ui/components/title-ng/title-ng';
+
+      angular.module('test', [TitleNg]).
+        run(function (pageTitle) {
+          pageTitle.addElement('Some page');
+        });
     </file>
    </example>
  */

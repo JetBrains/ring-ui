@@ -1,9 +1,9 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import shortcutsHOC from './shortcuts-hoc';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
-import simulateCombo from 'simulate-combo';
+import shortcutsHOC from './shortcuts-hoc';
 
 describe('ShortcutsHOC', () => {
   describe('default', () => {

@@ -7,13 +7,13 @@ import {H3} from 'ring-ui/components/heading/heading';
 import styles from './index.css';
 import Iframe from './iframe';
 
-function Example({name, url, files}) {
+function Example({name, url, disableAutoSize, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
   return (
     <div className={styles.example}>
       <H3 id={id}>{name} <Link href={`#${id}`}>{'#'}</Link></H3>
       {files.some(({type}) => type === 'html') &&
-        <Iframe src={url}/>
+        <Iframe src={url} disableAutoSize={disableAutoSize}/>
       }
       {files.map(({showCode, content, type}) => showCode && (
         <Code
@@ -28,6 +28,7 @@ function Example({name, url, files}) {
 Example.propTypes = {
   name: PropTypes.string,
   url: PropTypes.string,
+  disableAutoSize: PropTypes.bool,
   files: PropTypes.arrayOf(PropTypes.shape({
     showCode: PropTypes.bool,
     content: PropTypes.string.isRequired,

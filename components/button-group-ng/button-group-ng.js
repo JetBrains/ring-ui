@@ -10,7 +10,19 @@ import '../button-group/button-group.scss';
  * @example
    <example name="Button Group Ng">
     <file name="index.html">
-      TODO example
+      <div ng-app="test" ng-strict-di>
+        <div class="ring-button-group" rg-button-group>
+          <rg-button>Button 1</rg-button>
+          <rg-button>Button 1</rg-button>
+        </div>
+      </div>
+    </file>
+    <file name="index.js">
+      import 'angular';
+      import ButtonNg from 'ring-ui/components/button-ng/button-ng';
+      import ButtonGroupNg from 'ring-ui/components/button-group-ng/button-group-ng';
+
+      angular.module('test', [ButtonNg, ButtonGroupNg]);
     </file>
    </example>
  */

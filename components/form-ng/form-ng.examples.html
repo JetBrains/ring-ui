@@ -1,0 +1,76 @@
+<example name="Form">
+  <file type="html">
+
+    <div ng-app="Example.form" ng-strict-di style="width: 700px"
+      ng-controller="FormExampleCtrl as formExampleCtrl">
+
+      <form class="ring-form" name="ExampleForm" novalidate>
+        <span class="ring-form__title">Form Title</span>
+
+        <div class="ring-form__group">
+          <label class="ring-form__label">Medium Input</label>
+          <div class="ring-form__control">
+            <input class="ring-input ring-input-size_md" required ng-model="formExampleCtrl.inputValue" name="inputMD" type="text">
+
+            <div rg-error-bubble="ExampleForm.inputMD"></div>
+          </div>
+        </div>
+
+        <div class="ring-form__group">
+          <label class="ring-form__label">Rg Select in Form</label>
+          <div class="ring-form__control">
+            <rg-select class="ring-input-size_md"
+              options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+            <div class="ring-form__control__description">I am a simple description</div>
+          </div>
+        </div>
+
+        <div class="ring-form__group">
+          <div class="ring-form__control">
+            <div>
+              <rg-checkbox ng-model="formExampleCtrl.checkedModel">Checkbox 1</rg-checkbox>
+            </div>
+            <div>
+              <rg-checkbox ng-model="formExampleCtrl.checkedModel">Checkbox 2</rg-checkbox>
+            </div>
+            <div>
+              <rg-checkbox>Checkbox 3</rg-checkbox>
+            </div>
+            <div>
+              <rg-checkbox>Checkbox 4</rg-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <div class="ring-form__footer">
+          <rg-button mode="blue">Save</rg-button>
+          <rg-button>Cancel</rg-button>
+        </div>
+      </form>
+    </div>
+
+  </file>
+
+  <file type="js">
+    import 'angular';
+
+    import 'ring-ui/components/input/input.scss';
+    import 'ring-ui/components/form/form.scss';
+    import 'ring-ui/components/panel/panel.scss';
+    import 'ring-ui/components/button/button.scss';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    import ButtonNg from 'ring-ui/components/button-ng/button-ng';
+    import SelectNg from 'ring-ui/components/select-ng/select-ng';
+    import CheckboxNg from 'ring-ui/components/checkbox-ng/checkbox-ng';
+    import FormNg from 'ring-ui/components/form-ng/form-ng';
+
+    angular.module('Example.form', [FormNg, CheckboxNg, SelectNg, ButtonNg]).
+    controller('FormExampleCtrl', function ($scope) {
+      this.checkedModel = true;
+      this.sssssss = $scope
+
+      this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+    });
+  </file>
+</example>

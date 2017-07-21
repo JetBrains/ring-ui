@@ -11,7 +11,7 @@
       </div>
    </file>
 
-   <file name="index.js" webpack="true">
+   <file name="index.js">
     import angular from 'angular';
     import hubConfig from 'ring-ui-docs/components/hub-config';
     import {Size as AvatarSize} from 'ring-ui/components/avatar/avatar';

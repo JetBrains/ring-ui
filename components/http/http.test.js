@@ -32,7 +32,7 @@ describe('HTTP', () => {
     mockFetch(http);
   });
 
-  it('should export http service', () => http.should.be.defined);
+  it('should export http service', () => http.should.exist);
 
   it('should read token and perform authorized fetch', async () => {
     await http.request('testurl', {foo: 'bar'});

@@ -107,8 +107,8 @@ export default class List extends RingComponentWithShortcuts {
 
   static defaultProps = {
     data: [],
-    restoreActiveIndex: false,  // restore active item using its "key" property
-    activateSingleItem: false,  // if there is only one item, activate it
+    restoreActiveIndex: false, // restore active item using its "key" property
+    activateSingleItem: false, // if there is only one item, activate it
     onMouseOut: noop,
     onSelect: noop,
     onScrollToBottom: noop,
@@ -255,7 +255,7 @@ export default class List extends RingComponentWithShortcuts {
       });
       return false; // do not propagate event
     } else {
-      return true;  // propagate event to the parent component (e.g., QueryAssist)
+      return true; // propagate event to the parent component (e.g., QueryAssist)
     }
   }
 
