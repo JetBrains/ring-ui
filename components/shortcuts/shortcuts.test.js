@@ -2,10 +2,9 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 import guid from 'mout/random/guid';
 
+import simulateCombo from '../../test-helpers/simulate-combo';
+
 import Shortcuts from './shortcuts';
-
-import simulateCombo from 'simulate-combo';
-
 
 describe('ShortcutsComponent', () => {
   const factory = props => (

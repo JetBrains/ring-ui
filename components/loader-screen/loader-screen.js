@@ -14,7 +14,7 @@ import './loader-screen.scss';
  * @extends {ReactComponent}
  * @example
     <example name="Loader Screen">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div id="loader-screen"></div>
      </file>
 
@@ -29,7 +29,7 @@ import './loader-screen.scss';
      </file>
    </example>
    <example name="Loader Screen With Message">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div id="loader-screen"></div>
      </file>
 

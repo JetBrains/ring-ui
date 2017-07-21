@@ -33,7 +33,8 @@ export default class Pager extends PureComponent {
     disablePageSizeSelector: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
     onPageSizeChange: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    translations: PropTypes.object
   }
 
   static defaultProps = {
@@ -42,12 +43,19 @@ export default class Pager extends PureComponent {
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
+    translations: {
+      perPage: 'per page',
+      firstPage: 'First page',
+      lastPage: 'Last page',
+      nextPage: 'next page',
+      previousPage: 'previous'
+    },
     onPageSizeChange: () => {}
   }
 
   getSelectOptions() {
     const {pageSize, pageSizes} = this.props;
-    const data = pageSizes.map(size => ({key: size, label: `${size} per page`}));
+    const data = pageSizes.map(size => ({key: size, label: `${size} ${this.props.translations.perPage}`}));
     const selected = data.find(it => it.key === pageSize);
     return {selected, data};
   }
@@ -171,18 +179,20 @@ export default class Pager extends PureComponent {
             <span
               className={prevLinkClasses}
               onClick={this.handlePrevClick}
-            >← previous</span>
+            >← {this.props.translations.previousPage}</span>
 
             <span
               className={nextLinkClasses}
               onClick={this.handleNextClick}
-            >next page →</span>
+            >{this.props.translations.nextPage} →</span>
           </div>
 
           <ButtonToolbar>
             {start > 1 &&
               <ButtonGroup>
-                <Button onClick={this.handlePageChange(1)}>First page</Button>
+                <Button onClick={this.handlePageChange(1)}>
+                  {this.props.translations.firstPage}
+                </Button>
               </ButtonGroup>
             }
 
@@ -198,7 +208,9 @@ export default class Pager extends PureComponent {
 
             {end < totalPages &&
               <ButtonGroup>
-                <Button onClick={this.handlePageChange(totalPages)}>Last page</Button>
+                <Button onClick={this.handlePageChange(totalPages)}>
+                  {this.props.translations.lastPage}
+                </Button>
               </ButtonGroup>
             }
           </ButtonToolbar>

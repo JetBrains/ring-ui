@@ -11,7 +11,11 @@ module.exports = {
     "@jetbrains/eslint-config/angular",
     "@jetbrains/eslint-config/test"
   ],
-  plugins: [
+  "env": {
+    "browser": true,
+    "mocha": false
+  },
+  "plugins": [
     "flowtype-errors"
   ],
   "rules": {
@@ -31,9 +35,6 @@ module.exports = {
       "ignorePattern": "\"(?=([^\"]|\\\"){40,}\")|'(?=([^']|\\'){40,}')"
     }],
 
-    // React
-    "react/no-find-dom-node": "error",
-
     // Angular
     "angular/directive-name": ["error", "rg"],
 
@@ -41,21 +42,16 @@ module.exports = {
     "flowtype-errors/show-errors": isCI ? "error" : "off",
     "flowtype-errors/enforce-min-coverage": isCI ? ["error", 50] : "off"
   },
-  "globals": {
-    "sandbox": false
+  "overrides": {
+    "files": ["**/*.test.js"],
+    "env": {
+      "mocha": true
+    },
+    "globals": {
+      "sandbox": false
+    }
   },
   "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": {
-          "resolve": {
-            "modules": [
-              "test-helpers",
-              "node_modules"
-            ]
-          }
-        }
-      }
-    }
+    "import/resolver": "webpack"
   }
 }

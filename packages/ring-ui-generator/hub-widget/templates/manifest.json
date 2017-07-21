@@ -1,0 +1,7 @@
+{
+  "key": "<%= projectName %>",
+  "name": "<%= widgetName %>",
+  "version": "1.0.0",
+  "description": "<%= widgetDescription %>",
+  "author": "<%= widgetAuthor %>"
+}

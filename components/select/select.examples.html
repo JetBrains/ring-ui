@@ -1,5 +1,5 @@
 <!--<example name="Select with a filter with tags">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="css">
@@ -16,40 +16,40 @@
     import eye from 'jetbrains-icons/eye.svg'
 
     var props = {
-    multiple: true,
-    filter: {
-    placeholder: 'Search'
-    },
-    tags: {
-    reset: {
-    separator: true,
-    label: 'Reset the list',
-    glyph: eye
-    }
-    }
+      multiple: true,
+      filter: {
+        placeholder: 'Search'
+      },
+      tags: {
+        reset: {
+          separator: true,
+          label: 'Reset the list',
+          glyph: eye
+        }
+      }
     };
     const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
 
     const tags = [
-    {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
-    {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
-    {'label': 'Three', 'key': '3', 'type': 'user'},
-    {
-    'label': 'With icon',
-    key: 4,
-    icon: 'http://flagpedia.net/data/flags/mini/de.png'
-    },
-    {
-    'label': 'With avatar',
-    key: 5,
-    icon: avatarUrl,
-    avatar: avatarUrl
-    }
+      {'label': 'One', 'key': '1', 'type': 'user', readOnly: true},
+      {'label': 'Two', 'key': '2', 'type': 'user', readOnly: true},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      },
+      {
+        'label': 'With avatar',
+        key: 5,
+        icon: avatarUrl,
+        avatar: avatarUrl
+      }
     ];
     var data = {
-    data: tags,
-    selected: [tags[0]]
+      data: tags,
+      selected: [tags[0]]
     };
 
     var select = render(Select.factory(props), document.getElementById('demo'))
@@ -58,7 +58,7 @@
 </example>-->
 
 <example name="Select with a filter">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <p>test</p>
     <div id="demo" class="demo"></div>
     <button id="clear">Clear selected</button>
@@ -175,7 +175,7 @@
 </example>
 
 <example name="Select with a large dataset">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="css">
@@ -213,7 +213,7 @@
 </example>
 
 <example name="Multiple select with a description">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="css">
@@ -255,7 +255,7 @@
 </example>
 
 <example name="Disabled select">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo1"></div>
     <div id="demo2"></div>
   </file>
@@ -282,7 +282,7 @@
 </example>
 
 <example name="Simple input-based select">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -308,7 +308,7 @@
 </example>
 
 <example name="Simple input-based select in suggest-only mode">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -337,7 +337,7 @@
 </example>
 
 <example name="Simple select with the default filter mode">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -365,7 +365,7 @@
 
 <example
   name="Simple select with the default filter mode and a loading indicator">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -386,7 +386,7 @@
 </example>
 
 <example name="Select with a customized filter and an 'Add item' button">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -428,8 +428,62 @@
   </file>
 </example>
 
+<example name="Select with custom items and an 'Add item' button">
+  <file type="html" disable-auto-size>
+    <div id="demo" class="ring-input-size_md"></div>
+  </file>
+  <file type="css">
+    :global(.label) {
+      border-radius: 3px;
+      color: #669ECC;
+      background-color: #E5F4FF;
+      padding-left: 8px;
+      margin: 2px 0;
+    }
+
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Select from 'ring-ui/components/select/select';
+    import List from 'ring-ui/components/list/list';
+    import 'ring-ui/components/input-size/input-size.scss';
+
+    var data = [];
+    for (let i = 0; i < 100; i++) {
+      const label = `Label ${i}`;
+      data.push({
+        key: label,
+        label,
+        template: <span className="label">{label}</span>,
+        rgItemType: List.ListProps.Type.CUSTOM
+      });
+    }
+
+    render(Select.factory({
+
+      filter: true,
+      hint: 'Press down to do something',
+      add: {
+        prefix: 'Add label'
+      },
+      onAdd: function (value) {
+        console.log('Add', value);
+      },
+      data: data,
+      'onSelect': function (selected) {
+        console.log('onSelect, selected label:', selected.text);
+      }
+    }), document.getElementById('demo'));
+  </file>
+</example>
+
 <example name="Select with an always visible 'Add item' button">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -468,7 +522,7 @@
 </example>
 
 <example name="Multiple-choice select with custom view">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="multipleCustomView"></div>
     <div id="demo"></div>
   </file>
@@ -516,7 +570,7 @@
 </example>
 
 <example name="Select as a dropdown without filter">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <button id="demoButton">Click me</button>
     <div id="demo"></div>
     <div id="changeResult"></div>
@@ -557,7 +611,7 @@
 </example>
 
 <example name="Select with render optimization">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="css">

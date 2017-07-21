@@ -5,7 +5,26 @@
  * @example
    <example name="Compiler Ng">
     <file name="index.html">
-      TODO example
+      <div ng-app="test" ng-strict-di>
+        <div id="for-compiled"></div>
+      </div>
+    </file>
+    <file name="index.js">
+      import 'angular';
+      import CompilerNg from 'ring-ui/components/compiler-ng/compiler-ng';
+
+      angular.module('test', [CompilerNg]).
+        run(function controller($rootScope, rgCompiler) {
+          const $scope = $rootScope.$new();
+          $scope.testValue = 'Hello from compiled node';
+
+          rgCompiler({template: '<div>{{testValue}}</div>'}).
+            then(data => {
+              data.link($scope);
+
+              document.getElementById('for-compiled').appendChild(data.element[0]);
+            });
+        });
     </file>
    </example>
  */
@@ -34,8 +53,8 @@ const angularModule = angular.module('Ring.compiler', []).
 
       return $q.all(resolve).then(locals => {
         const element = options.element || angular.element('<div>').
-            html(template.trim()).
-            contents();
+          html(template.trim()).
+          contents();
         const linkFn = $compile(element);
 
         return {

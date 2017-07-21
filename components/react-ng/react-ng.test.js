@@ -62,7 +62,7 @@ describe('React Ng', () => {
       $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.componentInstance.should.be.defined;
+      $scope.componentInstance.should.exist;
     });
 
     it('should write component instance in provided nested scope field', () => {
@@ -72,7 +72,7 @@ describe('React Ng', () => {
       $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.instanceField.componentInstance.should.be.defined;
+      $scope.instanceField.componentInstance.should.exist;
     });
   });
 

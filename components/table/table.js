@@ -58,7 +58,7 @@ const DraggableRows = sortableContainer(props => {
           onExpand={onItemExpand}
           {...restProps}
         />
-    ))}
+      ))}
     </tbody>
   );
 });
@@ -223,6 +223,7 @@ class Table extends PureComponent {
     const allSelectedSize = selection.selectAll().getSelected().size;
     headerProps.checked = selectedSize > 0 && selectedSize === allSelectedSize;
     headerProps.onCheckboxChange = this.onCheckboxChange;
+    headerProps.checkboxDisabled = this.props.data.length === 0;
 
     const wrapperClasses = classNames({
       [style.tableWrapper]: true,

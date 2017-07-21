@@ -118,7 +118,7 @@ describe('Auth', () => {
       const auth = new Auth(config);
 
       document.querySelector(`[rel=preconnect][href="${config.serverUri}"]`).
-        should.be.defined;
+        should.exist;
     });
   });
 
@@ -337,11 +337,11 @@ describe('Auth', () => {
 
       BackgroundFlow.prototype._redirectFrame.
         should.have.been.calledWithMatch(
-        sinon.match.any,
-        'api/rest/oauth2/auth?response_type=token&state=unique' +
-        '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
-        '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
-      );
+          sinon.match.any,
+          'api/rest/oauth2/auth?response_type=token&state=unique' +
+          '&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub&request_credentials=silent' +
+          '&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack'
+        );
 
       Auth.prototype._redirectCurrentPage.should.not.have.been.called;
 

@@ -3,6 +3,7 @@ import 'dom4';
 
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import ContentLayout, {
   Sidebar
 } from 'ring-ui/components/content-layout/content-layout';
@@ -31,6 +32,8 @@ Promise.all(promises).then(([source, navData]) => {
       if (hash) {
         window.location.replace(hash);
       }
+
+      iFrameResize({}, 'iframe[data-resize="enabled"]');
     }
 
     render() {

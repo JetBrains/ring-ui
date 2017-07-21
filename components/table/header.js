@@ -14,6 +14,7 @@ export default class Header extends PureComponent {
     selectable: PropTypes.bool,
     draggable: PropTypes.bool,
     checked: PropTypes.bool,
+    checkboxDisabled: PropTypes.bool,
     sticky: PropTypes.bool,
     topStickOffset: PropTypes.string,
     onCheckboxChange: PropTypes.func,
@@ -74,7 +75,7 @@ export default class Header extends PureComponent {
 
   createCells(widths = []) {
     const {
-      selectable, draggable, columns, checked,
+      selectable, draggable, columns, checked, checkboxDisabled,
       onCheckboxChange, onSort, sortKey, sortOrder
     } = this.props;
 
@@ -86,6 +87,7 @@ export default class Header extends PureComponent {
       <div className={metaColumnClasses}>
         {selectable &&
         <Checkbox
+          disabled={checkboxDisabled}
           checked={checked}
           onChange={onCheckboxChange}
           onFocus={this.onCheckboxFocus}

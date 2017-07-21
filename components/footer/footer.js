@@ -123,7 +123,7 @@ class FooterLine extends PureComponent {
  *
  * @example
    <example name="Footer">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div>
          <div id="footer"></div>
        </div>
@@ -180,13 +180,15 @@ export default class Footer extends PureComponent {
         <FooterColumn
           key={position}
           position={position}
-        >{elements.map((item, idx) => (
-          <FooterLine
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
-            item={item}
-          />
-        ))}</FooterColumn>
+        >
+          {elements.map((item, idx) => (
+            <FooterLine
+              // eslint-disable-next-line react/no-array-index-key
+              key={idx}
+              item={item}
+            />
+          ))}
+        </FooterColumn>
       );
     }
 
@@ -199,12 +201,12 @@ export default class Footer extends PureComponent {
         className={classes}
         data-test="ring-footer"
       >{
-        [
-          content(this.props.left, 'left'),
-          content(this.props.center, 'center'),
-          content(this.props.right, 'right')
-        ]
-      }</div>
+          [
+            content(this.props.left, 'left'),
+            content(this.props.center, 'center'),
+            content(this.props.right, 'right')
+          ]
+        }</div>
     );
   }
 }
