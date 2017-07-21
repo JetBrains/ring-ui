@@ -1,5 +1,3 @@
-/* @flow */
-
 /**
   * @name Data List
   * @category Components
@@ -8,6 +6,7 @@
   * @description TODO add Data List description
   * @example-file ./data-list.examples.html
   */
+/* @flow */
 
 import React, {PureComponent, Element} from 'react';
 import PropTypes from 'prop-types';
@@ -142,16 +141,14 @@ class DataList extends PureComponent {
           {data.map(group => {
             const {id, title, items} = group;
 
-            const fullyShown = this.state.fullyShownGroups.has(group);
-
-            let itemsToShow;
-            if (!fullyShown && items.length > groupItemsLimit + 1) {
-              itemsToShow = [...items].splice(0, groupItemsLimit);
-            } else {
-              itemsToShow = [...items];
-            }
-
             const showMoreLessButton = items.length > groupItemsLimit + 1;
+            const fullyShown = this.state.fullyShownGroups.has(group);
+            const itemsToShow = items.slice(0, groupItemsLimit);
+
+            let moreItemsToShow = [];
+            if (fullyShown && items.length > groupItemsLimit) {
+              moreItemsToShow = items.slice(groupItemsLimit);
+            }
 
             return (
               <Group
@@ -159,11 +156,11 @@ class DataList extends PureComponent {
                 group={group}
                 title={title}
                 items={itemsToShow}
+                moreItems={moreItemsToShow}
                 onItemExpand={onItemExpand}
                 onItemCollapse={onItemCollapse}
                 isItemCollapsed={isItemCollapsed}
                 showMoreLessButton={showMoreLessButton}
-                fullyShown={fullyShown}
                 onGroupShowLess={this.onGroupShowLess}
                 onGroupShowMore={this.onGroupShowMore}
                 onFocus={this.onGroupOrItemFocus}

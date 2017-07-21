@@ -13,7 +13,7 @@ import List from '../list/list';
  * @extends {ReactComponent}
  * @example
    <example name="Popup Menu">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div>
          <div id="popup"></div>
        </div>

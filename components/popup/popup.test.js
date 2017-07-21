@@ -2,11 +2,10 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 
 import {getRect, getStyles} from '../global/dom';
+import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Popup from './popup';
 import {MinWidth} from './position';
-
-import simulateCombo from 'simulate-combo';
 
 describe('Popup', () => {
   const shallowPopup = props => shallow(<Popup {...props}/>);

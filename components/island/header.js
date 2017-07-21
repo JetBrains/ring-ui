@@ -48,18 +48,22 @@ export default class Header extends Component {
     });
 
 
-    const headerStyle = phase != null ? {
-      lineHeight: `${this.style('LINE_HEIGHT')}px`, // need to append px because number is a valid line-height value
-      paddingTop: this.style('PADDING')
-    } : null;
+    const headerStyle = phase != null
+      ? {
+        lineHeight: `${this.style('LINE_HEIGHT')}px`, // need to append px because number is a valid line-height value
+        paddingTop: this.style('PADDING')
+      }
+      : null;
 
     const scaleFont = phase != null && this.style('FONT_SIZE') / Start.FONT_SIZE;
 
-    const titleStyle = (phase != null && phase < 1) ? {
-      fontSize: Start.FONT_SIZE,
-      transform: `translate(${this.style('X')}px, ${this.style('Y')}px) scale(${scaleFont})`,
-      letterSpacing: this.style('SPACING')
-    } : null;
+    const titleStyle = (phase != null && phase < 1)
+      ? {
+        fontSize: Start.FONT_SIZE,
+        transform: `translate(${this.style('X')}px, ${this.style('Y')}px) scale(${scaleFont})`,
+        letterSpacing: this.style('SPACING')
+      }
+      : null;
 
     return (
       <div

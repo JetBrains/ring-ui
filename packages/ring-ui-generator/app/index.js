@@ -1,15 +1,12 @@
 const generators = require('yeoman-generator');
 const {paramCase, camelCase} = require('change-case');
-const pify = require('pify');
-const {findAPortNotInUse} = pify(require('portscanner'));
 // We have to use deprecated npm-latest-version package
 // because there's no .npmrc in target folder on generator start
-const latest = pify(require('npm-latest-version'));
 const ora = require('ora');
 
-const PORT_RANGE_START = 9010;
-const PORT_RANGE_END = 9100;
-const REGISTRY_URL = 'http://registry.npmjs.org';
+const getFreePort = require('./get-free-port');
+const getLatestVersions = require('./get-latest-versions');
+
 const packages = [
   'generator-ring-ui',
   'ring-ui',
@@ -31,23 +28,7 @@ module.exports = generators.Base.extend({
       return answers;
     });
 
-    const portPromise = findAPortNotInUse(
-      PORT_RANGE_START,
-      PORT_RANGE_END,
-      '127.0.0.1'
-    );
-    const packagesPromises = Promise.all(
-      packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))
-    ).
-      then(latestVersions => {
-        const versions = {};
-        packages.forEach((packageName, i) => {
-          versions[camelCase(packageName)] = latestVersions[i];
-        });
-        return versions;
-      });
-
-    return Promise.all([prompt, portPromise, packagesPromises]).
+    return Promise.all([prompt, getFreePort(), getLatestVersions(packages)]).
       then(([answers, port, versions]) => {
         const projectName = paramCase(answers.projectName);
         const camelCaseName = camelCase(answers.projectName);

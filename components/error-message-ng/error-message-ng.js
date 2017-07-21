@@ -8,7 +8,7 @@ import '../error-message-ng/error-message-ng.scss';
  * @description Displays an error message.
  * @example
   <example name="Error Message Ng">
-    <file name="index.html">
+    <file name="index.html" disable-auto-size>
       <div ng-app="ExampleApp" ng-strict-di ng-controller="DemoCtrl">
         <rg-error-message code="Disconnected" message="No, no one\'s there." icon="{{errorIcon}}" links="[{href:'.',text:'home'}]">
           Service backend isn't available

@@ -29,7 +29,7 @@ describe('Analytics', () => {
     });
 
     it('should init ga', () => {
-      window.ga.should.be.defined;
+      window.ga.should.exist;
     });
 
     it('should export interface', () => {
@@ -71,8 +71,8 @@ describe('Analytics', () => {
 
     it('should not init ga', () => {
       should.not.exist(window.ga);
-      gaPlugin.trackEvent.should.be.function;
-      gaPlugin.trackPageView.should.be.function;
+      gaPlugin.trackEvent.should.be.an.instanceof(Function);
+      gaPlugin.trackPageView.should.be.an.instanceof(Function);
     });
   });
 

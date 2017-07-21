@@ -134,13 +134,13 @@ function shortcutSearchFilter(shortcuts, query = '') {
     } else {
       const keyMatches = key.toLowerCase().indexOf(query.toLowerCase()) !== -1;
       const titleMatches = shortcut.titles.
-          map(getTitle).
-          join(' ').
-          toLowerCase().
-          indexOf(query.toLowerCase()) !== -1;
+        map(getTitle).
+        join(' ').
+        toLowerCase().
+        indexOf(query.toLowerCase()) !== -1;
       const presentationMatches = keysPresentation.
-          toLowerCase().
-          indexOf(query.toLowerCase()) !== -1;
+        toLowerCase().
+        indexOf(query.toLowerCase()) !== -1;
 
       return keyMatches || titleMatches || presentationMatches;
     }

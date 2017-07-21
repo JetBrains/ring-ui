@@ -37,7 +37,7 @@ describe('Permissions Ng', () => {
     }));
 
     it('should init', () => {
-      ctrl.should.be.defined;
+      ctrl.should.exist;
     });
 
     it('Should not hide element if permission is granted', () => {
