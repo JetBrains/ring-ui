@@ -156,17 +156,17 @@ export default function position(attrs) {
     } else {
       const directionStylesSortedByIncreasingOverflow = directions.
       // Fall back to the first option
-      concat(directions[0]).filter(direction => directionsMatrix[direction]).
-      map(direction => directionsMatrix[direction]).
-      sort((firstDirectionStyles, secondDirectionStyles) => {
-        const firstDirectionOverflow =
+        concat(directions[0]).filter(direction => directionsMatrix[direction]).
+        map(direction => directionsMatrix[direction]).
+        sort((firstDirectionStyles, secondDirectionStyles) => {
+          const firstDirectionOverflow =
           verticalOverflow(firstDirectionStyles, scroll, attrs) +
           horizontalOverflow(firstDirectionStyles, scroll, attrs);
-        const secondDirectionOverflow =
+          const secondDirectionOverflow =
           verticalOverflow(secondDirectionStyles, scroll, attrs) +
           horizontalOverflow(secondDirectionStyles, scroll, attrs);
-        return firstDirectionOverflow - secondDirectionOverflow;
-      });
+          return firstDirectionOverflow - secondDirectionOverflow;
+        });
 
       styles = directionStylesSortedByIncreasingOverflow[0];
     }
