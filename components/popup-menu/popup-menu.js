@@ -52,6 +52,7 @@ export default class PopupMenu extends Popup {
   static defaultProps = {
     ...List.defaultProps,
     ...Popup.defaultProps,
+    renderOptimization: false,
     closeOnSelect: false
   }
 
@@ -76,7 +77,7 @@ export default class PopupMenu extends Popup {
         <List
           ref={this.listRef}
           {...props}
-          maxHeight={this.el && this.el.style.maxHeight}
+          maxHeight={this.popup && this.popup.style.maxHeight}
           shortcuts={this.shortcutsEnabled()}
           onSelect={this.onSelect}
         />
