@@ -4,6 +4,8 @@ import {shallow, mount} from 'enzyme';
 import Link, {linkHOC} from './link';
 import styles from './link.css';
 
+function noop() {}
+
 describe('Link', () => {
   const shallowLink = props => shallow(<Link {...props}/>);
   const mountLink = props => mount(<Link {...props}/>);
@@ -38,7 +40,7 @@ describe('Link', () => {
     it('should pass activeClassName to wrapped component', () => {
       const CustomComponent = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
-      mount(<CustomLink/>).should.containMatchingElement(
+      mount(<CustomLink>{noop}</CustomLink>).should.containMatchingElement(
         <CustomComponent activeClassName={styles.active}/>
       );
     });
@@ -47,7 +49,7 @@ describe('Link', () => {
       const CustomComponent = () => <span/>;
       const CustomLink = linkHOC(CustomComponent);
 
-      mount(<CustomLink custom="test"/>).should.containMatchingElement(
+      mount(<CustomLink custom="test">{noop}</CustomLink>).should.containMatchingElement(
         <CustomComponent custom="test"/>
       );
     });

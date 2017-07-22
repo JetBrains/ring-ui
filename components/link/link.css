@@ -17,16 +17,33 @@
     color: link-hover-color;
   }
 
-  &:hover {
-    text-decoration: underline;
-  }
-
-  &.pseudo {
-    text-decoration: none;
+  &:hover .inner::after {
+    opacity: 0.5;
   }
 
   &.active {
     color: inherit;
+  }
+}
+
+.inner {
+  position: relative;
+
+  display: inline-block;
+
+  line-height: 1.2;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+
+    content: '';
+
+    opacity: 0;
+    border-bottom: 1px solid;
   }
 }
 

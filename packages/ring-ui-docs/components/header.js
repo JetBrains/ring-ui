@@ -9,7 +9,6 @@ import Header, {
   SmartProfile,
   SmartServices
 } from 'ring-ui/components/header/header';
-import Link from 'ring-ui/components/link/link';
 
 import hubConfig from './hub-config';
 import Item from './item';
@@ -25,12 +24,12 @@ auth.init().then(restoreLocation => {
 
 const SiteHeader = ({docsItems, ...restProps}) => (
   <Header>
-    <Link href="/" >
+    <a href="/" >
       <Logo
         glyph={hubLogo}
         size={Logo.Size.Size48}
       />
-    </Link>
+    </a>
     <span>{'Ring UI library '}<Version {...restProps}/></span>
     {docsItems.map(item => (
       <Item
