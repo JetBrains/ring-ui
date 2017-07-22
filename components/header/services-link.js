@@ -25,16 +25,19 @@ export default class ServicesLink extends PureComponent {
         href={service.homeUrl}
         {...props}
       >
-        {service.iconUrl && (
-          <span
-            className={styles.itemLogo}
-            style={{backgroundImage: `url(${service.iconUrl})`}}
-          />
-        )}
-        {service.iconUrl && (
-          <span className={styles.itemText}>{service.name}</span>
-        )}
-        {!service.iconUrl && service.name}
+        {WrapText => (service.iconUrl
+          ? [
+            <span
+              key="icon"
+              className={styles.itemLogo}
+              style={{backgroundImage: `url(${service.iconUrl})`}}
+            />,
+            <div key="text">
+              <WrapText>{service.name}</WrapText>
+            </div>
+          ]
+          : <WrapText>{service.name}</WrapText>)
+        }
       </Link>
     );
   }

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Link from 'ring-ui/components/link/link';
 import Header, {
   Logo,
   Tray,
@@ -25,12 +24,12 @@ export default class AppRoot extends Component {
     return (
       <div>
         <Header>
-          <Link href="/">
+          <a href="/">
             <Logo
               glyph={jetbrainsLogo}
               size={Logo.Size.Size96}
             />
-          </Link>
+          </a>
           <Tray>
             <SmartServices auth={this.auth}/>
             <SmartProfile auth={this.auth}/>
