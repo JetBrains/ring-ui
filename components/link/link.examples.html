@@ -10,6 +10,16 @@
       flex-direction: column;
       align-items: flex-start;
     }
+
+    :global(.hub-link) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    :global(.hub-icon) {
+      margin: 16px 0 8px;
+    }
   </file>
 
   <file type="js">
@@ -17,6 +27,8 @@
     import {render} from 'react-dom';
     import classnames from 'classnames';
     import Link, {linkHOC} from 'ring-ui/components/link/link';
+    import Icon from 'ring-ui/components/icon/icon';
+    import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
     class CustomComponent extends Component {
       render() {
@@ -43,6 +55,13 @@
            <Link href="#hash" pseudo>Pseudo link (no underline on hover)</Link>
            <CustomLink href="#hash">Custom link component</CustomLink>
            <CustomLink href="#hash" active>Active custom link component</CustomLink>
+
+           <Link href="#hash" className="hub-link">
+            {WrapText => [
+              <Icon key="icon" glyph={hubLogo} size={Icon.Size.Size128} className="hub-icon"/>,
+              <WrapText key="text">Link with non-text content</WrapText>
+            ]}
+           </Link>
          </div>
         );
       }
