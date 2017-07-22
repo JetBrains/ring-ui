@@ -14,20 +14,45 @@ import styles from './link.css';
  * @example-file ./link.examples.html
  */
 
+function makeWrapText(innerClassName) {
+  const WrapText = ({className, children}) => {
+    const classes = classnames(styles.inner, className, innerClassName);
+    return <span className={classes}>{children}</span>;
+  };
+
+  WrapText.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node
+  };
+
+  return WrapText;
+}
+
 export function linkHOC(ComposedComponent) {
   const isTag = typeof ComposedComponent === 'string';
 
   return class Link extends Component {
     static propTypes = {
       className: PropTypes.string,
+      innerClassName: PropTypes.string,
       active: PropTypes.bool,
       inherit: PropTypes.bool,
       pseudo: PropTypes.bool,
-      hover: PropTypes.bool
+      hover: PropTypes.bool,
+      children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
     }
 
     render() {
-      const {active, inherit, pseudo, hover, className, ...props} = this.props;
+      const {
+        active,
+        inherit,
+        pseudo,
+        hover,
+        className,
+        innerClassName,
+        children,
+        ...props
+      } = this.props;
       const classes = classnames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
@@ -39,12 +64,29 @@ export function linkHOC(ComposedComponent) {
         props.activeClassName = styles.active;
       }
 
+      if (pseudo) {
+        return (
+          <span
+            {...props}
+            className={classes}
+            data-test="ring-link"
+          >{children}</span>
+        );
+      }
+
+      const WrapText = makeWrapText(innerClassName);
+
       return (
         <ComposedComponent
           {...props}
           className={classes}
           data-test="ring-link"
-        />
+        >
+          {typeof children === 'function'
+            ? children(WrapText)
+            : <WrapText>{children}</WrapText>
+          }
+        </ComposedComponent>
       );
     }
   };

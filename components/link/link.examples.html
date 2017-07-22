@@ -3,6 +3,15 @@
     <div id="link"></div>
   </file>
 
+  <file type="css">
+    :global(.container) {
+      line-height: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  </file>
+
   <file type="js">
     import React, {Component} from 'react';
     import {render} from 'react-dom';
@@ -28,7 +37,7 @@
     class LinkDemo extends Component {
       render() {
         return (
-         <div style={{display: 'flex', flexDirection: 'column'}}>
+         <div className="container">
            <Link href="#hash">Ordinary link</Link>
            <Link href="#hash" active>Active link (inherits color)</Link>
            <Link href="#hash" pseudo>Pseudo link (no underline on hover)</Link>

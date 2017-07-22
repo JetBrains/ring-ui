@@ -46,9 +46,7 @@
 }
 
 .item {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  display: block;
 
   padding: 3px calc(unit * 2) 5px;
 
