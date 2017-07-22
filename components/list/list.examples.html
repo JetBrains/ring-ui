@@ -1,5 +1,5 @@
 <example name="List">
-  <file type="html" disable-auto-size>
+  <file type="html">
     <div id='list'></div>
   </file>
 
@@ -16,6 +16,7 @@
     }
 
     render(List.factory({
+      maxHeight: 400,
       data: listData,
       shortcuts: true,
       onSelect: console.log.bind(console)
