@@ -19,6 +19,7 @@ export default class ListItem extends PureComponent {
   };
 
   static propTypes = {
+    scrolling: PropTypes.bool,
     hover: PropTypes.bool,
     details: PropTypes.string,
     disabled: PropTypes.bool,
@@ -58,12 +59,13 @@ export default class ListItem extends PureComponent {
 
   render() {
     const {props} = this;
-    const {checkbox, glyph, icon, rightGlyph, description, label,
+    const {scrolling, checkbox, glyph, icon, rightGlyph, description, label,
       details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames({
       'ring-list__item': true,
       'ring-list__item_action': !props.disabled,
-      'ring-list__item_hover': props.hover && !props.disabled
+      'ring-list__item_hover': props.hover && !props.disabled,
+      'ring-list__item_scrolling': scrolling
     }, props.className);
     const detailsClasses = classnames({
       'ring-list__item__details': props.details,

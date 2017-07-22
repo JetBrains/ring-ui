@@ -74,7 +74,8 @@ describe('Query Assist', () => {
     }))
   });
   const shallowQueryAssist = props => shallow(<QueryAssist {...defaultProps()} {...props}/>);
-  const mountQueryAssist = props => mount(<QueryAssist {...defaultProps()} {...props}/>);
+  const mountQueryAssist = (props, options) =>
+    mount(<QueryAssist {...defaultProps()} {...props}/>, options);
 
   describe('props to state passing', () => {
     it('should create component', () => {
@@ -464,7 +465,10 @@ describe('Query Assist', () => {
     });
 
     it('should show popup with proper suggestions', done => {
-      const instance = mountQueryAssist().instance();
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      const wrapper = mountQueryAssist({}, {attachTo: container});
+      const instance = wrapper.instance();
 
       const TWICE = 2;
 
@@ -476,8 +480,11 @@ describe('Query Assist', () => {
           list.queryAll('.ring-list__item').should.have.length(length);
           list.queryAll('.ring-list__highlight').should.have.length(length);
           list.queryAll('.ring-list__service').should.have.length(length * TWICE);
+
+          wrapper.detach();
+          document.body.removeChild(container);
           done();
-        });
+        }).catch(done);
     });
 
   });

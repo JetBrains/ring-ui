@@ -4,11 +4,19 @@
  * @description Displays a list of items.
  */
 
+import 'dom4';
 import 'core-js/modules/es6.array.find';
-import React, {createElement} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import throttle from 'mout/function/throttle';
+import debounce from 'mout/function/debounce';
+import {
+  List as VirtualizedList,
+  AutoSizer,
+  WindowScroller,
+  CellMeasurer,
+  CellMeasurerCache
+} from 'react-virtualized';
 
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
@@ -32,7 +40,8 @@ const Type = {
   ITEM: 2,
   HINT: 3,
   CUSTOM: 4,
-  TITLE: 5
+  TITLE: 5,
+  MARGIN: 6
 };
 const SCROLL_HANDLER_DEBOUNCE = 100;
 
@@ -56,18 +65,11 @@ function noop() {}
  * @param {Object} item list item
  */
 function isItemType(listItemType, item) {
-  if (item.hasOwnProperty('type') && Object.keys(Type).some(key => Type[key] === item.type)) {
-    return item.type === listItemType;
+  let type = item.rgItemType;
+  if (type == null) {
+    type = DEFAULT_ITEM_TYPE;
   }
-
-  /**
-   * If rgItemType is not set, Type.ITEM is used by default.
-   */
-  if (!item.hasOwnProperty('rgItemType') && listItemType === DEFAULT_ITEM_TYPE) {
-    return true;
-  }
-
-  return item.rgItemType === listItemType;
+  return type === listItemType;
 }
 
 /**
@@ -88,7 +90,7 @@ export default class List extends RingComponentWithShortcuts {
     className: PropTypes.string,
     hint: PropTypes.string,
     hintOnSelection: PropTypes.string,
-    data: PropTypes.arrayOf(PropTypes.object),
+    data: PropTypes.array,
     maxHeight: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
@@ -99,6 +101,7 @@ export default class List extends RingComponentWithShortcuts {
     onScrollToBottom: PropTypes.func,
     useMouseUp: PropTypes.bool,
     visible: PropTypes.bool,
+    renderOptimization: PropTypes.bool,
     disableMoveDownOverflow: PropTypes.bool
   };
 
@@ -117,17 +120,48 @@ export default class List extends RingComponentWithShortcuts {
   static ListHint = ListHint;
 
   state = {
-    data: [],
     activeIndex: null,
     activeItem: null,
-    renderOptimizationSkip: 0,
-    renderOptimizationPaddingTop: 0,
-    renderOptimizationPaddingBottom: 0
+    needScrollToActive: false,
+    scrolling: false
   };
 
   _activatableItems = false;
   // eslint-disable-next-line no-magic-numbers
   _bufferSize = 10; // keep X items above and below of the visible area
+
+  // reuse size cache for similar items
+  sizeCacheKey = index => {
+    if (index === 0 || index === this.props.data.length + 1) {
+      return Type.MARGIN;
+    }
+
+    const item = this.props.data[index - 1];
+    switch (item.rgItemType) {
+      case Type.SEPARATOR:
+        const isFirst = index === 1;
+        return `${Type.SEPARATOR}${isFirst ? '_first' : ''}${item.description ? '_desc' : ''}`;
+      case Type.TITLE:
+        return Type.TITLE;
+      case Type.MARGIN:
+        return Type.MARGIN;
+      case Type.CUSTOM:
+        return `${Type.CUSTOM}_${item.key}`;
+      case Type.ITEM:
+      case Type.LINK:
+      default:
+        if (item.details) {
+          return `${Type.ITEM}_${item.details}`;
+        }
+        return Type.ITEM;
+    }
+  };
+
+  _cache = new CellMeasurerCache({
+    defaultHeight: Dimension.ITEM_HEIGHT,
+    fixedWidth: true,
+    keyMapper: this.sizeCacheKey
+  });
 
   hasActivatableItems() {
     return this._activatableItems;
@@ -153,7 +187,8 @@ export default class List extends RingComponentWithShortcuts {
   hoverHandler = memoize(index => () =>
     this.setState({
       activeIndex: index,
-      activeItem: this.props.data[index]
+      activeItem: this.props.data[index],
+      needScrollToActive: false
     })
   );
 
@@ -212,14 +247,17 @@ export default class List extends RingComponentWithShortcuts {
 
     const item = this.props.data[correctedIndex];
     this.setState(
-      {activeIndex: correctedIndex, activeItem: item, scrolling: true},
+      {
+        activeIndex: correctedIndex,
+        activeItem: item,
+        needScrollToActive: true
+      },
       function onSet() {
         if (!this.isActivatable(item)) {
           retryCallback(e);
           return;
         }
 
-        this.recalculateVisibleOptions(true);
         preventDefault(e);
       }
     );
@@ -235,14 +273,12 @@ export default class List extends RingComponentWithShortcuts {
 
   enterHandler = event => {
     if (this.state.activeIndex !== null) {
-      this.setState({scrolling: false}, function onSet() {
-        const item = this.props.data[this.state.activeIndex];
-        this.selectHandler(this.state.activeIndex)(event);
+      const item = this.props.data[this.state.activeIndex];
+      this.selectHandler(this.state.activeIndex)(event);
 
-        if (item.href) {
-          window.location.href = item.href;
-        }
-      });
+      if (item.href) {
+        window.location.href = item.href;
+      }
       return false; // do not propagate event
     } else {
       return true; // propagate event to the parent component (e.g., QueryAssist)
@@ -258,7 +294,10 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   clearSelected() {
-    this.setState({activeIndex: null});
+    this.setState({
+      activeIndex: null,
+      needScrollToActive: false
+    });
   }
 
   willMount() {
@@ -266,27 +305,13 @@ export default class List extends RingComponentWithShortcuts {
     if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
       this.setState({
         activeIndex: this.props.activeIndex,
-        activeItem: this.props.data[this.props.activeIndex]
-      }, () => this.recalculateVisibleOptions());
+        activeItem: this.props.data[this.props.activeIndex],
+        needScrollToActive: true
+      });
     }
   }
 
   willReceiveProps(props) {
-
-    /**
-     * TODO(maksimrv): Remove this code when migrate to rgItemType.
-     * Convert old item.type to item.rgItemType
-     * @param {Object} listItem
-     * @return {Object} listItem
-     */
-    // function normalizeListItemType(listItem) {
-    //   if (Object.keys(Type).some(key => Type[key] === listItem.type)) {
-    //     listItem.rgItemType = listItem.type;
-    //   }
-    //
-    //   return listItem;
-    // }
-
     if (props.data) {
       //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
@@ -328,7 +353,14 @@ export default class List extends RingComponentWithShortcuts {
         activeIndex = props.activeIndex;
         activeItem = props.data[props.activeIndex];
       }
-      this.setState({activeIndex, activeItem}, () => this.recalculateVisibleOptions());
+
+      if (activeIndex) {
+        this.setState({
+          activeIndex,
+          activeItem,
+          needScrollToActive: true
+        });
+      }
     }
   }
 
@@ -337,192 +369,32 @@ export default class List extends RingComponentWithShortcuts {
       Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
-  didMount() {
-    // we need to throttle rather than debounce to recalculate visible elements when holding UP/DOWN key
-    this.scrollEndHandler = throttle(() => {
-      const innerContainer = this.inner;
-      if (innerContainer) {
-        const maxScrollingPosition = innerContainer.scrollHeight;
-        const sensitivity = Dimension.ITEM_HEIGHT / 2;
-        const currentScrollingPosition =
-          innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-        if (currentScrollingPosition >= maxScrollingPosition) {
-          this.props.onScrollToBottom();
-        }
+  didUpdate(prevProps) {
+    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
+      this.virtualizedList.recomputeRowHeights();
+    }
+  }
+
+  scrollEndHandler = debounce(() => {
+    const innerContainer = this.inner;
+    if (innerContainer) {
+      const maxScrollingPosition = innerContainer.scrollHeight;
+      const sensitivity = Dimension.ITEM_HEIGHT / 2;
+      const currentScrollingPosition =
+        innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
+      if (currentScrollingPosition >= maxScrollingPosition) {
+        this.props.onScrollToBottom();
       }
-      this.setState({scrolling: false}, () => {
-        this.recalculateVisibleOptions(true, true);
-      });
-    }, SCROLL_HANDLER_DEBOUNCE);
-  }
+    }
+  }, SCROLL_HANDLER_DEBOUNCE);
 
-  componentWillMount() {
-    this.recalculateVisibleOptions();
-    super.componentWillMount();
-  }
-
-  setActiveItem(index) {
+  setActiveItem(index, needScroll = true) {
     this.setState({
       activeIndex: index,
-      activeItem: this.props.data[index]
-    }, () => {
-      this.recalculateVisibleOptions();
+      activeItem: this.props.data[index],
+      needScrollToActive: needScroll,
+      scrolling: false
     });
-  }
-
-  cachedSizes = [];
-
-  recalculateVisibleOptions(fast, preventScrollToActiveItem) {
-    if (this.props.renderOptimization && this.props.maxHeight) {
-      this.recalculateVisibleOptionsWithOptimization(fast, preventScrollToActiveItem, this.props);
-      return;
-    }
-
-    this.setState({
-      data: this.props.data
-    });
-  }
-
-  recalculateVisibleOptionsWithOptimization(fast, preventScrollToActiveItem, props) {
-    const shouldRecalculateItemsSize = !fast;
-    if (shouldRecalculateItemsSize) {
-      this.cachedSizes = this.calculateItemsSize(props.data);
-    }
-
-    if (this.inner && !preventScrollToActiveItem && this.state.activeIndex !== null) {
-      this.scrollToActiveItem(props);
-    }
-
-    const {
-      paddingTop, paddingBottom,
-      startIndex, stopIndex
-    } = this.calculateVisibleOptions(props, this.cachedSizes);
-
-    // And splice these elements to state data
-    const optimizedData = props.data.slice(startIndex, stopIndex + 1);
-
-    this.setState({
-      renderOptimizationSkip: startIndex,
-      renderOptimizationPaddingTop: paddingTop,
-      renderOptimizationPaddingBottom: paddingBottom,
-      data: optimizedData
-    });
-  }
-
-  calculateVisibleOptions(props, cachedSizes) {
-    const bufferSize = this._bufferSize;
-    const visibleListHeight = this.getVisibleListHeight(props);
-    const listHeight = this.getListHeight(cachedSizes);
-
-    let firstRenderedItemIndex = null;
-    let lastRenderedItemIndex = null;
-    let heightNonRenderedAboveItems = 0;
-    let heightNonRenderedBelowItems = 0;
-
-    let scrollTop = this.inner ? this.inner.scrollTop : 0;
-    scrollTop = Math.min(scrollTop, listHeight - visibleListHeight);
-
-    for (let itemIndex = 0; itemIndex < cachedSizes.length; itemIndex++) {
-      const cachedSizeItem = cachedSizes[itemIndex];
-      if (firstRenderedItemIndex === null && cachedSizeItem.begin >= scrollTop) {
-        firstRenderedItemIndex = itemIndex - bufferSize;
-        if (firstRenderedItemIndex < 0) {
-          firstRenderedItemIndex = 0;
-        }
-        heightNonRenderedAboveItems = cachedSizes[firstRenderedItemIndex].begin - Dimension.MARGIN;
-      }
-
-      if (lastRenderedItemIndex === null && cachedSizeItem.end >= (scrollTop + visibleListHeight)) {
-        lastRenderedItemIndex = itemIndex + bufferSize;
-        if (lastRenderedItemIndex >= cachedSizes.length) {
-          lastRenderedItemIndex = cachedSizes.length - 1;
-        }
-        heightNonRenderedBelowItems = listHeight - cachedSizes[lastRenderedItemIndex].end;
-      }
-
-      if (firstRenderedItemIndex !== null && lastRenderedItemIndex !== null) {
-        break;
-      }
-    }
-
-    if (lastRenderedItemIndex === null) {
-      lastRenderedItemIndex = cachedSizes.length;
-      heightNonRenderedBelowItems = 0;
-    }
-
-    return {
-      startIndex: firstRenderedItemIndex,
-      stopIndex: lastRenderedItemIndex,
-      paddingTop: heightNonRenderedAboveItems,
-      paddingBottom: heightNonRenderedBelowItems
-    };
-  }
-
-  getListHeight(cachedSizes) {
-    if (!cachedSizes || !cachedSizes.length) {
-      return 0;
-    }
-
-    return cachedSizes[cachedSizes.length - 1].end;
-  }
-
-  calculateItemsSize(data) {
-    const cachedSizes = [];
-    for (let i = 0; i < data.length; i++) {
-      let size;
-      switch (data[i].rgItemType) {
-        case Type.SEPARATOR:
-          size = i === 0 ? Dimension.SEPARATOR_FIRST_HEIGHT : Dimension.SEPARATOR_HEIGHT;
-          if (!data[i].description) {
-            size -= Dimension.SEPARATOR_TEXT_HEIGHT;
-          }
-          break;
-        case Type.TITLE:
-          size = Dimension.TITLE_HEIGHT;
-          break;
-        case Type.ITEM:
-        case Type.LINK:
-        default:
-          size = Dimension.ITEM_HEIGHT;
-          break;
-      }
-
-      const begin = cachedSizes.length === 0
-        ? Dimension.MARGIN
-        : cachedSizes[cachedSizes.length - 1].end;
-
-      const dimensions = {
-        begin,
-        size,
-        end: begin + size
-      };
-
-      cachedSizes.push(dimensions);
-    }
-    return cachedSizes;
-  }
-
-  scrollToActiveItem(props) {
-    const innerContainer = this.inner;
-    const top = innerContainer.scrollTop;
-    const visibleListHeight = this.getVisibleListHeight(props);
-    const bottom = top + visibleListHeight;
-
-    const itemDimensions = this.cachedSizes[this.state.activeIndex];
-    const HALF = 0.5;
-
-    if (
-      itemDimensions.end < top ||
-      itemDimensions.begin > bottom
-    ) {
-      const scrollTop = itemDimensions.begin -
-        Math.floor((visibleListHeight - itemDimensions.size) * HALF);
-      innerContainer.scrollTop = scrollTop > 0 ? scrollTop : 0;
-    } else if (itemDimensions.begin < top) {
-      innerContainer.scrollTop = itemDimensions.begin;
-    } else if (itemDimensions.end > bottom) {
-      innerContainer.scrollTop = itemDimensions.end - visibleListHeight;
-    }
   }
 
   hasOverflow() {
@@ -548,116 +420,222 @@ export default class List extends RingComponentWithShortcuts {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
   }
 
-  innerRef = el => {
-    if (el) {
-      const wasPresent = !!this.inner;
-      this.inner = el;
-      if (!wasPresent) {
-        this.forceUpdate();
+  // eslint-disable-next-line react/prop-types
+  renderItem = ({index, style, isScrolling, parent}) => {
+    let key;
+    let el;
+
+    const realIndex = index - 1;
+
+    const item = this.props.data[realIndex];
+
+    // top and bottom margins
+    if (index === 0 || index === this.props.data.length + 1 || item.rgItemType === Type.MARGIN) {
+      key = `${Type.MARGIN}_${index}`;
+      el = <div style={{height: Dimension.MARGIN}}/>;
+    } else {
+
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+
+      if (itemProps.url) {
+        itemProps.href = itemProps.url;
       }
+      if (itemProps.href) {
+        itemProps.rgItemType = Type.LINK;
+      }
+
+      // Probably unique enough key
+      key = itemProps.key ||
+        `${itemProps.rgItemType}_${itemProps.label || itemProps.description}`;
+
+      itemProps.hover = (realIndex === this.state.activeIndex);
+      itemProps.onMouseOver = this.hoverHandler(realIndex);
+      itemProps.tabIndex = -1;
+      itemProps.scrolling = isScrolling;
+
+      const selectHandler = this.selectHandler(realIndex);
+
+      if (this.props.useMouseUp) {
+        itemProps.onMouseUp = selectHandler;
+      } else {
+        itemProps.onClick = selectHandler;
+      }
+
+      let ItemComponent;
+      switch (itemProps.rgItemType) {
+        case Type.SEPARATOR:
+          ItemComponent = ListSeparator;
+          itemProps.isFirst = index === 1;
+          break;
+        case Type.LINK:
+          ItemComponent = ListLink;
+          break;
+        case Type.ITEM:
+          ItemComponent = ListItem;
+          break;
+        case Type.CUSTOM:
+          ItemComponent = ListCustom;
+          break;
+        case Type.TITLE:
+          ItemComponent = ListTitle;
+          break;
+        default:
+          throw new Error(`Unknown menu element type: ${itemProps.rgItemType}`);
+      }
+
+      el = <ItemComponent {...itemProps}/>;
     }
+
+    return (
+      <CellMeasurer
+        cache={this._cache}
+        key={key}
+        parent={parent}
+        rowIndex={index}
+        columnIndex={0}
+      >
+        <div style={style}>{el}</div>
+      </CellMeasurer>
+    );
+  }
+
+  virtualizedListRef = el => {
+    this.virtualizedList = el;
   };
 
-  itemsRef = el => {
-    this.items = el;
-  };
+  containerRef = el => {
+    this.container = el;
+  }
+
+  get inner() {
+    if (!this._inner) {
+      this._inner = this.container && this.container.query('.ring-list__i');
+    }
+    return this._inner;
+  }
+
+  renderVirtualizedInner({
+    height,
+    maxHeight,
+    autoHeight = false,
+    rowCount,
+    isScrolling,
+    onChildScroll = noop,
+    scrollTop
+  }) {
+    return (
+      <AutoSizer disableHeight={true}>
+        {({width}) => (
+          <VirtualizedList
+            ref={this.virtualizedListRef}
+            className="ring-list__i"
+            autoHeight={autoHeight}
+            style={maxHeight ? {maxHeight, height: 'auto'} : {}}
+            autoContainerWidth={true}
+            height={height}
+            width={width}
+            isScrolling={isScrolling}
+            // eslint-disable-next-line react/jsx-no-bind
+            onScroll={e => {
+              onChildScroll(e);
+              this.scrollEndHandler(e);
+            }}
+            scrollTop={scrollTop}
+            rowCount={rowCount}
+            estimatedRowSize={Dimension.ITEM_HEIGHT}
+            rowHeight={this._cache.rowHeight}
+            rowRenderer={this.renderItem}
+            overscanRowCount={this._bufferSize}
+
+            // ensure rerendering
+            // eslint-disable-next-line react/jsx-no-bind
+            noop={() => {}}
+
+            scrollToIndex={
+              this.state.needScrollToActive
+                ? this.state.activeIndex + 1
+                : undefined
+            }
+            deferredMeasurementCache={this._cache}
+          />
+        )}
+      </AutoSizer>
+    );
+  }
+
+  renderVirtualized(maxHeight, rowCount) {
+    if (maxHeight) {
+      return this.renderVirtualizedInner({height: maxHeight, maxHeight, rowCount});
+    }
+
+    return (
+      <WindowScroller>
+        {props => this.renderVirtualizedInner({...props, rowCount, autoHeight: true})}
+      </WindowScroller>
+    );
+  }
+
+  renderSimple(maxHeight, rowCount) {
+    const items = [];
+
+    for (let index = 0; index < rowCount; index++) {
+      items.push(this.renderItem({
+        index,
+        isScrolling: this.state.scrolling
+      }));
+    }
+
+    return (
+      <div
+        className="ring-list__i"
+        onScroll={this.scrollHandler}
+        onMouseMove={this.mouseHandler}
+      >
+        <div
+          style={maxHeight
+            ? {maxHeight: this.getVisibleListHeight()}
+            : null
+          }
+        >
+          {items}
+        </div>
+      </div>
+    );
+  }
 
   /** @override */
   render() {
     const hint = this.getSelected() && this.props.hintOnSelection || this.props.hint;
-    const innerStyles = {};
-    const topPaddingStyles = {};
-    const bottomPaddingStyles = {};
     const fadeStyles = hint ? {bottom: Dimension.ITEM_HEIGHT} : null;
 
-    if (this.props.maxHeight) {
-      innerStyles.maxHeight = this.getVisibleListHeight(this.props);
-      topPaddingStyles.height = this.state.renderOptimizationPaddingTop;
-      bottomPaddingStyles.height = this.state.renderOptimizationPaddingBottom;
-    }
-    const classes = classnames('ring-list', this.props.className, {
-      'ring-list_scrolling': this.state.scrolling
-    });
+    const rowCount = this.props.data.length + 2;
+
+    const maxHeight = this.props.maxHeight && this.getVisibleListHeight(this.props);
+
+    const classes = classnames('ring-list', this.props.className);
 
     return (
       <div
+        ref={this.containerRef}
         className={classes}
-        onMouseMove={this.mouseHandler}
         onMouseOut={this.props.onMouseOut}
       >
-        <div
-          className="ring-list__i"
-          onScroll={this.scrollHandler}
-          ref={this.innerRef}
-          style={innerStyles}
-        >
-          <div style={topPaddingStyles}/>
+        {this.props.renderOptimization
+          ? this.renderVirtualized(maxHeight, rowCount)
+          : this.renderSimple(maxHeight, rowCount)
+        }
+        {this.hasOverflow() && (
           <div
-            className="ring-list__items"
-            ref={this.itemsRef}
-          >
-            {this.state.data.map((item, index) => {
-              const props = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
-              const realIndex = this.state.renderOptimizationSkip + index;
-
-              if (props.url) {
-                props.href = props.url;
-              }
-              if (props.href) {
-                props.rgItemType = Type.LINK;
-              }
-
-              // Probably unique enough key
-              props.key = props.key || props.rgItemType + (props.label || props.description);
-
-              props.hover = (realIndex === this.state.activeIndex);
-              props.onMouseOver = this.hoverHandler(realIndex);
-              props.tabIndex = -1;
-              props.scrolling = this.state.scrolling;
-
-              const selectHandler = this.selectHandler(realIndex);
-
-              if (this.props.useMouseUp) {
-                props.onMouseUp = selectHandler;
-              } else {
-                props.onClick = selectHandler;
-              }
-
-              let element;
-              switch (props.rgItemType) {
-                case Type.SEPARATOR:
-                  element = ListSeparator;
-                  break;
-                case Type.LINK:
-                  element = ListLink;
-                  break;
-                case Type.ITEM:
-                  element = ListItem;
-                  break;
-                case Type.CUSTOM:
-                  element = ListCustom;
-                  break;
-                case Type.TITLE:
-                  element = ListTitle;
-                  break;
-                default:
-                  throw new Error(`Unknown menu element type: ${props.rgItemType}`);
-              }
-              return createElement(element, props, null);
-            })}
-          </div>
-          <div style={bottomPaddingStyles}/>
-        </div>
-        {this.hasOverflow() &&
-        <div
-          className="ring-list__fade"
-          style={fadeStyles}
-        />}
-        {hint &&
-        <ListHint
-          key={this.props.hint + Type.ITEM}
-          label={hint}
-        />}
+            className="ring-list__fade"
+            style={fadeStyles}
+          />
+        )}
+        {hint && (
+          <ListHint
+            key={this.props.hint + Type.ITEM}
+            label={hint}
+          />
+        )}
       </div>
     );
   }

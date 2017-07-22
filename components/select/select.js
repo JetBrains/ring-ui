@@ -12,7 +12,6 @@ import Icon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
-import memoize from '../global/memoize';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -193,7 +192,6 @@ export default class Select extends RingComponentWithShortcuts {
 
   didMount() {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-    this.preCacheLabels();
   }
 
   willReceiveProps(newProps) {
@@ -227,8 +225,6 @@ export default class Select extends RingComponentWithShortcuts {
 
   didUpdate(prevProps, prevState) {
     const {showPopup, shownData} = this.state;
-
-    this.preCacheLabels();
 
     if (prevState.showPopup && !showPopup) {
       this.props.onClose();
@@ -281,9 +277,10 @@ export default class Select extends RingComponentWithShortcuts {
 
     const {reset} = this.props.tags;
     return {
+      isResetItem: true,
       separator: reset.separator,
       key: reset.label,
-      type: List.ListProps.Type.LINK,
+      rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
       iconSize: Icon.Size.Size14,
@@ -303,8 +300,9 @@ export default class Select extends RingComponentWithShortcuts {
 
   _prependResetOption(shownData) {
     const resetOption = this._getResetOption();
+    const margin = {rgItemType: List.ListProps.Type.MARGIN};
     if (resetOption) {
-      const resetItems = [resetOption];
+      const resetItems = [margin, resetOption, margin];
       if (resetOption.separator) {
         resetItems.push({
           rgItemType: List.ListProps.Type.SEPARATOR
@@ -424,7 +422,7 @@ export default class Select extends RingComponentWithShortcuts {
     );
   }
 
-  getLowerCaseLabel = memoize(item => {
+  getLowerCaseLabel(item) {
     if (
       List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
       List.isItemType(List.ListProps.Type.HINT, item) ||
@@ -434,10 +432,6 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     return item.label.toLowerCase();
-  });
-
-  preCacheLabels() {
-    this.props.data.forEach(item => this.getLowerCaseLabel(item));
   }
 
   getListItems(rawFilterString, data = this.props.data) {
@@ -597,7 +591,9 @@ export default class Select extends RingComponentWithShortcuts {
       event.preventDefault();
     }
 
-    if ((!isItem(selected) && !isCustomItem(selected)) || selected.disabled) {
+    if ((!isItem(selected) && !isCustomItem(selected)) ||
+        selected.disabled ||
+        selected.isResetItem) {
       return;
     }
 
