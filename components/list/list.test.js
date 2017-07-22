@@ -666,7 +666,7 @@ describe('List', () => {
       }).instance();
 
       getFirstListItem(instance).should.match('[data-test=ring-link]');
-      getFirstListItem(instance).innerHTML.should.equal('Hello!');
+      getFirstListItem(instance).firstChild.innerHTML.should.equal('Hello!');
       getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
       getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
     });
@@ -679,7 +679,7 @@ describe('List', () => {
       }).instance();
 
       getFirstListItem(instance).should.match('[data-test=ring-link]');
-      getFirstListItem(instance).innerHTML.should.equal('Hello!');
+      getFirstListItem(instance).firstChild.innerHTML.should.equal('Hello!');
       getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
       getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
     });
@@ -713,7 +713,7 @@ describe('List', () => {
 
       getFirstListItem(instance).should.match(`[data-test=ring-link].${linkStyles.pseudo}`);
       getFirstListItem(instance).innerHTML.should.equal('Hello!');
-      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
+      getFirstListItem(instance).tagName.toLowerCase().should.equal('span');
     });
 
     it('should not render icon if not provided', () => {
