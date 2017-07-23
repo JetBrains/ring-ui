@@ -86,3 +86,7 @@ a.legacy {
     font-size: font-size;
   }
 }
+
+.version button {
+  height: auto;
+}
