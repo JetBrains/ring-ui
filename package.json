@@ -2,19 +2,6 @@
   "name": "ring-ui",
   "version": "3.0.0",
   "description": "JetBrains UI library",
-  "config": {
-    "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
-    "development": {
-      "port": 9999,
-      "host": "0.0.0.0",
-      "hub": "***REMOVED***"
-    },
-    "production": {
-      "host": "ring-ui.github.io",
-      "hub": "https://hub.jetbrains.com"
-    },
-    "components": "./components/"
-  },
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
@@ -215,6 +202,7 @@
     "react-dom": "15.6.1",
     "react-markdown": "2.5.0",
     "react-sortable-hoc": "0.6.2",
+    "react-virtualized": "9.9.0",
     "react-waypoint": "6.0.0",
     "sass-loader": "6.0.0",
     "scrollbar-width": "3.1.1",

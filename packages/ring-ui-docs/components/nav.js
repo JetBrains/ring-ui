@@ -94,6 +94,7 @@ class Nav extends PureComponent {
           onChange={this.setFilter}
         />
         <List
+          renderOptimization={false}
           className={styles.list}
           shortcuts={true}
           activeIndex={filterFn && 1}

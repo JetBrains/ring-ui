@@ -14,6 +14,10 @@ If you use some non-textual content along with text inside `Link` component, you
 
 Note that `WrapText` relies on the fact that it's an inline element, so if, for example, you use flexbox layout inside `Link`, you may need an additional div around `WrapText`.
 
+### 23-07-2017: react-virtualized
+
+The render optimisation logic in List component is delegated to [react-virtualized]() library. Now it works even if the List doesn't have a `maxHeight` prop. You may still opt out of the optimization by passing `renderOptimization={false}`.
+
 ### 06-07-2017: `expect(smth).to` usage is discouraged in favour of `smth.should`
 
 It's not possible to define `should` property on `null` and `undefined` values, so here's a possible workaround:

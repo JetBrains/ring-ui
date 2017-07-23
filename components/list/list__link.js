@@ -30,10 +30,11 @@ export default class ListLink extends PureComponent {
   };
 
   render() {
-    const {className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {scrolling, className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classnames(styles.item, className, {
       [styles.actionLink]: !disabled,
-      [styles.compact]: compact
+      [styles.compact]: compact,
+      [styles.scrolling]: scrolling
     });
 
     const Comp = LinkComponent ? linkHOC(LinkComponent) : Link;

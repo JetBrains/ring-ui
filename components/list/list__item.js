@@ -22,6 +22,7 @@ export default class ListItem extends PureComponent {
   };
 
   static propTypes = {
+    scrolling: PropTypes.bool,
     hover: PropTypes.bool,
     details: PropTypes.string,
     disabled: PropTypes.bool,
@@ -64,6 +65,7 @@ export default class ListItem extends PureComponent {
   render() {
     /* eslint-disable no-unused-vars */
     const {
+      scrolling,
       className,
       disabled,
       checkbox,
@@ -90,7 +92,8 @@ export default class ListItem extends PureComponent {
     const classes = classnames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
-      [styles.compact]: compact
+      [styles.compact]: compact,
+      [styles.scrolling]: scrolling
     });
     const detailsClasses = classnames({
       [styles.details]: details,
