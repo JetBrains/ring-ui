@@ -6,6 +6,14 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 23-07-2017: borders are used for link underline instead of text-decoration 
+
+This allows to put the underline right below the descenders, so that it doesn't cross them, and make it 1 physical pixel wide on retina displays.
+
+If you use some non-textual content along with text inside `Link` component, you may need to pass a function as a child to `Link`, which would take one argument, `WrapText`, and use it to wrap the text parts (see [example with logo](http://ring-ui.github.io/branch/ring-ui-language/link.html#Link)).
+
+Note that `WrapText` relies on the fact that it's an inline element, so if, for example, you use flexbox layout inside `Link`, you may need an additional div around `WrapText`.
+
 ### 06-07-2017: `expect(smth).to` usage is discouraged in favour of `smth.should`
 
 It's not possible to define `should` property on `null` and `undefined` values, so here's a possible workaround:
