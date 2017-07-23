@@ -56,7 +56,6 @@ export function linkHOC(ComposedComponent) {
       const classes = classnames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
-        [styles.pseudo]: pseudo,
         [styles.hover]: hover
       });
 

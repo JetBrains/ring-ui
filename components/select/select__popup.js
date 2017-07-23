@@ -340,6 +340,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
           disableMoveDownOverflow={this.props.loading}
+          compact={this.props.compact}
         />
       );
     }

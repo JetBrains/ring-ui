@@ -10,9 +10,8 @@
     var listData = [];
     for (var i = 0; i < 1000; i++) {
       listData.push({
-        'label': 'Item ' + i,
-        'rgItemType': List.ListProps.Type.ITEM,
-        'compact': true
+        label: 'Item ' + i,
+        rgItemType: List.ListProps.Type.ITEM
       });
     }
 
@@ -20,6 +19,7 @@
       maxHeight: 400,
       data: listData,
       shortcuts: true,
+      compact: true,
       onSelect: console.log.bind(console)
     }), document.getElementById('list'));
   </file>

@@ -11,11 +11,7 @@
   line-height: normal;
 }
 
-.inner {
-  overflow: auto;
-}
-
-.scrolling .item {
+.scrolling {
   pointer-events: none;
 }
 
@@ -33,16 +29,12 @@
   font-size: font-size-smaller;
   line-height: line-height-lower;
 
-  &:first-child {
+  &_first {
     margin-top: calc(0 - listSpacing);
     padding-top: 0;
 
     border: none;
   }
-}
-
-.items {
-  margin: listSpacing 0;
 }
 
 .item {
