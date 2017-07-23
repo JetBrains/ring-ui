@@ -16,7 +16,7 @@ $list-spacing: $ring-unit / 2;
   overflow: auto;
 }
 
-.ring-list_scrolling .ring-list__item {
+.ring-list__item_scrolling {
   pointer-events: none;
 }
 
@@ -32,7 +32,7 @@ $list-spacing: $ring-unit / 2;
   font-size: $ring-font-size-smaller;
   text-align: right;
 
-  &:first-child {
+  &_first {
     margin-top: 0;
     padding-top: 0;
     border: none;
@@ -41,10 +41,6 @@ $list-spacing: $ring-unit / 2;
   &_empty {
     padding-top: 0;
   }
-}
-
-.ring-list__items {
-  margin: $list-spacing 0;
 }
 
 .ring-list__item {

@@ -1,39 +1,30 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import {Simulate} from 'react-dom/test-utils';
 import okIcon from 'jetbrains-icons/ok.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
+import {List as VirtualizedList} from 'react-virtualized';
 
 import linkStyles from '../link/link.css';
 import Icon from '../icon/icon';
 
 import List from './list';
+import ListItem from './list__item';
+import ListCustom from './list__custom';
+import ListLink from './list__link';
+import ListTitle from './list__title';
+import ListSeparator from './list__separator';
 import styles from './list.css';
 
-const Dimension = List.ListProps.Dimension;
 const XLINK_NS = 'http://www.w3.org/1999/xlink';
 describe('List', () => {
   const Type = List.ListProps.Type;
 
-  function getItemsContainer(instance) {
-    return instance.items;
-  }
-
-  function getFirstListItem(instance) {
-    return getItemsContainer(instance).childNodes[0];
-  }
 
   const shallowList = props => shallow(<List {...props}/>);
   const mountList = props => mount(<List {...props}/>);
 
-  describe('recalculateVisibleOptions', () => {
-    const shallowOptimizedList = props => shallowList({
-      renderOptimization: true,
-      maxHeight: 100,
-      ...props
-    });
-
+  describe('virtualized', () => {
     function createItemMock(itemType) {
       return {
         rgItemType: itemType,
@@ -41,90 +32,36 @@ describe('List', () => {
       };
     }
 
-    function getVisibleFrameMaxHeight(amountVisibleItems) {
-      return (Dimension.ITEM_HEIGHT + Dimension.INNER_PADDING) +
-        (amountVisibleItems * (Dimension.ITEM_HEIGHT)) + Dimension.MARGIN;
-    }
-
-    function getItemDimension(list, itemIndex, items) {
-      const itemsSize = list.calculateItemsSize(items);
-      return itemsSize[itemIndex];
-    }
-
-    function scrollPosition(_list, scrollTop) {
-      if (arguments.length > 1) {
-        _list.inner.scrollTop = scrollTop;
-      }
-      return _list.inner.scrollTop;
-    }
-
-    function stubInnerContainer(_list) {
-      _list.inner = {scrollTop: 0};
-      return _list;
-    }
-
-    it('should do nothing if optimization disabled', () => {
-      const instance = shallowList().instance();
-      sandbox.spy(instance, 'setState');
-
-      instance.recalculateVisibleOptions();
-
-      instance.setState.should.have.been.calledWith({data: instance.state.data});
-    });
-
-    it('should not throw error if we render list with optimization and without data', () => {
-      const wrapper = shallowOptimizedList();
-
-      wrapper.should.have.state('data').deep.equal([]);
-      wrapper.should.have.state('renderOptimizationSkip', null);
-      wrapper.should.have.state('renderOptimizationPaddingTop', 0);
-      wrapper.should.have.state('renderOptimizationPaddingBottom', 0);
-    });
-
-    it('should not throw error if we render list with optimization and pass data', () => {
-      const data = [createItemMock(List.ListProps.Type.ITEM)];
-      const wrapper = shallowOptimizedList({data});
-
-      wrapper.state('data').length.should.equal(data.length);
-      wrapper.should.have.state('renderOptimizationSkip', 0);
-      wrapper.should.have.state('renderOptimizationPaddingTop', 0);
-      wrapper.should.have.state('renderOptimizationPaddingBottom', 0);
-    });
-
-    it('should calculate the size and position of the item', () => {
+    it('should pad the list with top/bottom margins', () => {
       const data = [
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM)
       ];
 
-      const instance = shallowList().instance();
-      instance.recalculateVisibleOptionsWithOptimization(false, null, {data});
+      const instance = shallowList({data}).instance();
 
-      instance.cachedSizes.length.should.equal(data.length);
-      instance.cachedSizes[0].should.deep.equal({
-        begin: Dimension.MARGIN,
-        size: Dimension.ITEM_HEIGHT,
-        end: 36
-      });
-      instance.cachedSizes[1].should.deep.equal({
-        begin: instance.cachedSizes[0].end,
-        size: Dimension.ITEM_HEIGHT,
-        end: 68
-      });
+      shallow(instance.renderItem({index: 0})).should.have.tagName('div');
+      shallow(instance.renderItem({index: 3})).should.have.tagName('div');
     });
 
-    it('should scroll to the active item if the item`s bottom edge out of visible frame', () => {
-      //
-      // [.....]
-      // [.....]<----- active item
-      // [.....]
-      //  _____|-----> frame's top edge
-      // |     |
-      // |     |<----- visible frame
-      // |_____|
-      //       |-----> frame's bottom edge
-      //
+    it('should apply styles from virtualized', () => {
+      const data = [
+        createItemMock(List.ListProps.Type.ITEM),
+        createItemMock(List.ListProps.Type.ITEM)
+      ];
 
+      const instance = shallowList({data}).instance();
+      const style = {
+        top: -1000
+      };
+
+      shallow(instance.renderItem({index: 0, style})).should.have.style('top', '-1000px');
+      shallow(instance.renderItem({index: 1, style})).should.have.style('top', '-1000px');
+      shallow(instance.renderItem({index: 2, style})).should.have.style('top', '-1000px');
+      shallow(instance.renderItem({index: 3, style})).should.have.style('top', '-1000px');
+    });
+
+    it('should scroll to the active item', () => {
       const data = [
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
@@ -136,74 +73,18 @@ describe('List', () => {
 
       const activeIndex = 1;
 
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-      const instance = shallowList().instance();
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(instance, getItemDimension(instance, activeIndex, data).end + 1);
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
+      const wrapper = mountList({data});
+      wrapper.setState({
+        activeIndex,
+        needScrollToActive: true
       });
 
-      scrollPosition(instance).should.equal(18);
+      wrapper.find(VirtualizedList).should.have.prop('scrollToIndex', 2);
     });
 
-    it('should scroll to the active item if the item`s bottom edge out of visible frame and item is first item in the list', () => {
-      //
-      //
-      // [.....]<----- active item
-      //  _____|-----> frame's top edge
-      // |     |
-      // |     |<----- visible frame
-      // |_____|
-      //       |-----> frame's bottom edge
-      //
-
+    it('should\'n scroll to the active item when needScrollToActive is false', () => {
       const data = [
         createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
-
-      const activeIndex = 0;
-
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-      const instance = shallowList().instance();
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(instance, getItemDimension(instance, activeIndex, data).end + 1);
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
-      });
-
-      scrollPosition(instance).should.equal(0);
-    });
-
-    it('should scroll to the active item if the item`s top edge out of visible frame', () => {
-      //
-      //
-      //  _____|-----> frame's top edge
-      // |     |
-      // |     |<----- visible frame
-      // |_____|
-      //       |-----> frame's bottom edge
-      // [.....]
-      // [.....]<----- active item
-      // [.....]
-      //
-
-      const data = [
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
         createItemMock(List.ListProps.Type.ITEM),
@@ -211,363 +92,21 @@ describe('List', () => {
         createItemMock(List.ListProps.Type.ITEM)
       ];
 
-      const activeIndex = 3;
+      const activeIndex = 1;
 
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-      const instance = shallowList().instance();
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(instance, 0);
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
+      const wrapper = mountList({data});
+      wrapper.setState({
+        activeIndex,
+        needScrollToActive: false
       });
 
-      scrollPosition(instance).should.equal(82);
+      wrapper.find(VirtualizedList).should.not.have.prop('scrollToIndex', 2);
     });
-
-    it('should scroll to the last item', () => {
-      //
-      //
-      //  _____|-----> frame's top edge
-      // |     |
-      // |     |<----- visible frame
-      // |_____|
-      //       |-----> frame's bottom edge
-      // [.....]
-      // [.....]
-      // [.....]<----- active item
-      //
-
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
-
-      const activeIndex = 4;
-
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-      const instance = shallowList().instance();
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(instance, 0);
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
-      });
-
-      scrollPosition(instance).should.equal(114);
-    });
-
-    it('should scroll to the top edge of the item if the top edge out of visible frame', () => {
-      //
-      //                  [.....]
-      //                  [.....]
-      // active item----->[-----]<----- frame's top edge
-      //                  |     |
-      //                  |     |<----- visible frame
-      //                  |_____|
-      //                        |-----> frame's bottom edge
-      //
-
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
-
-      const activeIndex = 2;
-
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-      const instance = shallowList().instance();
-      const activeItemDimension = getItemDimension(instance, activeIndex, data);
-
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(instance, activeItemDimension.end - (Dimension.ITEM_HEIGHT / 2));
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
-      });
-
-      scrollPosition(instance).should.equal(activeItemDimension.begin);
-    });
-
-    it('should scroll to the bottom edge of the item if the bottom edge out of visible frame', () => {
-      //
-      //                  [.....]
-      //                   _____|-----> frame's top edge
-      //                  |     |
-      //                  |     |<----- visible frame
-      // active item----->[-----]<----- frame's bottom edge
-      //                  [.....]
-      //
-
-      const data = [
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM),
-        createItemMock(List.ListProps.Type.ITEM)
-      ];
-
-      const activeIndex = 3;
-
-      const COUNT_VISIBLE_ITEMS = 2;
-      const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-      const instance = shallowList().instance();
-      const activeItemDimension = getItemDimension(instance, activeIndex, data);
-
-      instance.setState({activeIndex});
-
-      stubInnerContainer(instance);
-      scrollPosition(
-        instance,
-        getItemDimension(
-          instance,
-          activeIndex - COUNT_VISIBLE_ITEMS,
-          data
-        ).begin + (Dimension.ITEM_HEIGHT / 2)
-      );
-
-      instance.recalculateVisibleOptionsWithOptimization(false, false, {
-        data,
-        maxHeight
-      });
-
-      scrollPosition(instance).
-        should.
-        equal(activeItemDimension.end - instance.getVisibleListHeight({maxHeight}));
-    });
-
-    describe('calculateVisibleOptions', () => {
-      it('should not throw exception on empty cache', () => {
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        instance.calculateVisibleOptions({maxHeight}, []);
-      });
-
-      it('should calculate visible options if items less then visible height', () => {
-        const data = [
-          createItemMock(List.ListProps.Type.ITEM)
-        ];
-
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.paddingTop.should.equal(0);
-        visibleOptions.paddingBottom.should.equal(0);
-        visibleOptions.startIndex.should.equal(0);
-        visibleOptions.stopIndex.should.equal(data.length - 1);
-      });
-
-      it('should calculate visible options if items` height equal visible height', () => {
-        const data = [
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM)
-        ];
-
-        const COUNT_VISIBLE_ITEMS = data.length;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.paddingTop.should.equal(0);
-        visibleOptions.paddingBottom.should.equal(0);
-        visibleOptions.startIndex.should.equal(0);
-        visibleOptions.stopIndex.should.equal(data.length - 1);
-      });
-
-      it('should calculate visible options if items` height more then visible height and no scroll', () => {
-        const data = [
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM)
-        ];
-
-        const COUNT_HIDDEN_ITEMS = 2;
-        const COUNT_VISIBLE_ITEMS = data.length - COUNT_HIDDEN_ITEMS;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        instance._bufferSize = 0;
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-        visibleOptions.paddingTop.should.equal(0);
-        visibleOptions.paddingBottom.should.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
-        visibleOptions.startIndex.should.equal(0);
-        visibleOptions.stopIndex.should.equal(COUNT_VISIBLE_ITEMS - 1);
-      });
-
-      it('should calculate visible options if scrollTop is more then list height', () => {
-        const data = [
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM)
-        ];
-
-        const COUNT_HIDDEN_ITEMS = 2;
-        const COUNT_VISIBLE_ITEMS = data.length - COUNT_HIDDEN_ITEMS;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        instance._bufferSize = 0;
-        stubInnerContainer(instance);
-        scrollPosition(
-          instance,
-          getItemDimension(instance, data.length - 1, data).end + Dimension.ITEM_HEIGHT
-        );
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-        visibleOptions.paddingTop.should.equal(COUNT_HIDDEN_ITEMS * Dimension.ITEM_HEIGHT);
-        visibleOptions.paddingBottom.should.equal(0);
-        visibleOptions.startIndex.should.equal(data.length - COUNT_VISIBLE_ITEMS);
-        visibleOptions.stopIndex.should.equal(data.length - 1);
-      });
-
-      it('should set last item as stopIndex if count hidden items less then buffer size', () => {
-        const data = [
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM),
-          createItemMock(List.ListProps.Type.ITEM)
-        ];
-
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-
-        const instance = shallowList().instance();
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.stopIndex.should.equal(data.length - 1);
-      });
-
-      it('should set stopIndex equal item`s index which depends from buffer`s size', () => {
-        const instance = shallowList().instance();
-        const data = (new Array(instance._bufferSize * 3)).join(',').
-          split(',').
-          map(createItemMock.bind(null, List.ListProps.Type.ITEM));
-
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize - 1;
-
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.stopIndex.should.equal(expectedStopIndex);
-      });
-
-      it('should calculate height of non-rendered below items', () => {
-        const instance = shallowList().instance();
-        const data = (new Array(instance._bufferSize * 3)).join(',').
-          split(',').
-          map(createItemMock.bind(null, List.ListProps.Type.ITEM));
-
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStopIndex = COUNT_VISIBLE_ITEMS + instance._bufferSize - 1;
-
-        stubInnerContainer(instance);
-        scrollPosition(instance, 0);
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.paddingTop.should.equal(0);
-        visibleOptions.paddingBottom.should.equal(
-          getItemDimension(instance, data.length - 1, data).end -
-          getItemDimension(instance, expectedStopIndex, data).end
-        );
-      });
-
-      it('should calculate height of non-rendered above items', () => {
-        const instance = shallowList().instance();
-        const data = (new Array(instance._bufferSize * 3)).join(',').
-          split(',').
-          map(createItemMock.bind(null, List.ListProps.Type.ITEM));
-
-        const COUNT_VISIBLE_ITEMS = 2;
-        const maxHeight = getVisibleFrameMaxHeight(COUNT_VISIBLE_ITEMS);
-        const expectedStartIndex = (data.length - (COUNT_VISIBLE_ITEMS)) - instance._bufferSize;
-
-        stubInnerContainer(instance);
-        scrollPosition(
-          instance,
-          getItemDimension(instance, data.length - (COUNT_VISIBLE_ITEMS + 1), data).end
-        );
-
-        const visibleOptions = instance.calculateVisibleOptions({maxHeight},
-          instance.calculateItemsSize(data));
-
-        visibleOptions.paddingTop.should.equal(
-          getItemDimension(instance, expectedStartIndex, data).begin - Dimension.MARGIN
-        );
-        visibleOptions.paddingBottom.should.equal(0);
-      });
-    });
-  });
-
-  it('should be empty by default', () => {
-    const instance = mountList().instance();
-    instance.inner.tagName.toLowerCase().should.equal('div');
-    getItemsContainer(instance).childNodes.length.should.equal(0);
   });
 
   it('should check type of item', () => {
     const itemMock = {
       rgItemType: Type.SEPARATOR
-    };
-
-    List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
-  });
-
-  it('should support deprecated property `type`', () => {
-    const itemMock = {
-      type: Type.SEPARATOR
     };
 
     List.isItemType(Type.SEPARATOR, itemMock).should.been.equal(true);
@@ -638,108 +177,126 @@ describe('List', () => {
   });
 
   describe('should render items', () => {
+    const shallowFirstItem = instance =>
+      shallow(instance.renderItem({index: 1}));
+    const mountFirstItem = instance =>
+      mount(instance.renderItem({index: 1}));
+
     it('should render for empty element', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {}
         ]
       }).instance();
-      getFirstListItem(instance).should.have.class(styles.action);
-      getFirstListItem(instance).innerText.should.equal('');
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      firstItemWrapper.should.have.className(styles.action);
+      firstItemWrapper.should.have.text('');
     });
 
     it('should render instance item if type is not defined', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!'}
         ]
       }).instance();
 
-      instance.inner.querySelector('[data-test=ring-list-item]').should.exist;
+      mount(instance.renderItem({index: 1})).should.have.descendants('[data-test=ring-list-item]');
     });
 
     it('should render a if href defined', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', href: 'http://www.jetbrains.com'}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.match('[data-test=ring-link]');
-      getFirstListItem(instance).firstChild.innerHTML.should.equal('Hello!');
-      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
-      getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
+      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
+      firstItemWrapper.should.exist;
+      firstItemWrapper.should.have.data('test', 'ring-link');
+      firstItemWrapper.should.have.text('Hello!');
+      firstItemWrapper.should.have.tagName('a');
+      firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render a if url defined', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', url: 'http://www.jetbrains.com'}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.match('[data-test=ring-link]');
-      getFirstListItem(instance).firstChild.innerHTML.should.equal('Hello!');
-      getFirstListItem(instance).tagName.toLowerCase().should.equal('a');
-      getFirstListItem(instance).getAttribute('href').should.equal('http://www.jetbrains.com');
+      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
+      firstItemWrapper.should.exist;
+      firstItemWrapper.should.have.data('test', 'ring-link');
+      firstItemWrapper.should.have.text('Hello!');
+      firstItemWrapper.should.have.tagName('a');
+      firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');
     });
 
     it('should render separator', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {rgItemType: List.ListProps.Type.SEPARATOR}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.have.class(styles.separator);
+      const firstItemWrapper = mountFirstItem(instance).find(ListSeparator);
+      firstItemWrapper.should.exist;
+      firstItemWrapper.should.have.className(styles.separator);
     });
 
     it('should render title', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
-          {type: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
+          {rgItemType: List.ListProps.Type.TITLE, label: 'Foo', description: 'Bar'}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.have.text('FooBar');
+      const firstItemWrapper = mountFirstItem(instance).find(ListTitle);
+      firstItemWrapper.should.exist;
+      firstItemWrapper.should.have.text('FooBar');
     });
 
     it('should render pseudo link if link without href', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', rgItemType: List.ListProps.Type.LINK}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.match(`[data-test=ring-link].${linkStyles.pseudo}`);
-      getFirstListItem(instance).innerHTML.should.equal('Hello!');
-      getFirstListItem(instance).tagName.toLowerCase().should.equal('span');
+      const firstItemWrapper = mountFirstItem(instance).find(ListLink);
+      firstItemWrapper.should.exist;
+      firstItemWrapper.should.have.data('test', 'ring-link');
+      firstItemWrapper.should.have.className(linkStyles.pseudo);
+      firstItemWrapper.should.have.text('Hello!');
+      firstItemWrapper.should.have.tagName('span');
     });
 
     it('should not render icon if not provided', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      getFirstListItem(instance).should.not.contain(`.${styles.icon}`);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      firstItemWrapper.should.not.have.descendants(`.${styles.icon}`);
     });
 
     it('should render icon if provided', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', icon: 'http://some.url/', type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      const icon = getFirstListItem(instance).querySelector(`.${styles.icon}`);
-      icon.style.backgroundImage.should.contain('http://some.url');
+      const icon = mountFirstItem(instance).find(`.${styles.icon}`);
+      icon.prop('style').backgroundImage.should.contain('http://some.url');
     });
 
     it('should render icon of a custom size', () => {
       const customIconSize = Icon.Size.Size12;
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {
             iconSize: customIconSize,
@@ -750,71 +307,72 @@ describe('List', () => {
         ]
       }).instance();
 
-      const icon = getFirstListItem(instance).querySelector('.ring-icon__i');
-      icon.style.width.should.be.equal(`${customIconSize}px`);
+      const icon = mountFirstItem(instance).find('.ring-icon__i');
+      icon.prop('style').width.should.be.equal(customIconSize);
     });
 
     it('should not render glyph if not provided', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      should.not.exist(getFirstListItem(instance).query('use'));
+      mountFirstItem(instance).find('use').should.be.empty;
     });
 
     it('should render glyph if provided', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', glyph: okIcon, type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      getFirstListItem(instance).query('use').getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
+      mountFirstItem(instance).find('use').getDOMNode().
+        getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
     });
 
     it('should throw error on unknown type', () => {
       (() => {
-        const instance = mountList({
+        const instance = shallowList({
           data: [
             {label: 'Hello!', rgItemType: 'none'}
           ]
         }).instance();
 
-        getFirstListItem(instance).should.match('[data-test=ring-link]');
-        getFirstListItem(instance).innerHTML.should.equal('Hello!');
-        getFirstListItem(instance).tagName.toLowerCase().should.equal('span');
+        mountFirstItem(instance);
       }).should.throw(Error, 'Unknown menu element type: none');
     });
 
     it('should handle click', () => {
       const clicked = sandbox.stub();
 
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {label: 'Hello!', onClick: clicked}
         ]
       }).instance();
 
-      Simulate.click(getFirstListItem(instance));
+      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      firstItemWrapper.simulate('click');
       clicked.should.have.been.called;
     });
 
     it('should handle select', () => {
       const onSelect = sandbox.stub();
 
-      const instance = mountList({
+      const instance = shallowList({
         onSelect,
         data: [{label: 'Hello!'}]
       }).instance();
 
-      Simulate.click(getFirstListItem(instance));
+      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      firstItemWrapper.simulate('click');
       onSelect.should.have.been.called;
     });
 
     it('Should support custom elements', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -822,12 +380,14 @@ describe('List', () => {
           }
         ]
       }).instance();
-      getFirstListItem(instance).should.contain.text('custom item');
+
+      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
+      firstItemWrapper.should.have.text('custom item');
     });
 
     it('Should support click on custom elements', () => {
       const onClick = sandbox.stub();
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -836,12 +396,14 @@ describe('List', () => {
           }
         ]
       }).instance();
-      Simulate.click(getFirstListItem(instance));
+
+      const firstItemWrapper = shallowFirstItem(instance).find(ListCustom);
+      firstItemWrapper.simulate('click');
       onClick.should.have.been.called;
     });
 
     it('Should support disable property for custom elements', () => {
-      const instance = mountList({
+      const instance = shallowList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -850,7 +412,9 @@ describe('List', () => {
           }
         ]
       }).instance();
-      getFirstListItem(instance).should.not.have.class(styles.action);
+
+      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
+      firstItemWrapper.should.not.have.className(styles.action);
     });
   });
 });

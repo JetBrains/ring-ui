@@ -125,6 +125,10 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   handleBackspace(event) {
+    if (!this.props.tags) {
+      return true;
+    }
+
     if (!this.isEventTargetFilter(event)) {
       this.removeSelectedTag();
       return false;
