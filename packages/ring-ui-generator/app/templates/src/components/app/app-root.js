@@ -18,7 +18,7 @@ export default class AppRoot extends Component {
   }
 
   auth = new Auth({
-    serverUri: '***REMOVED***/'
+    serverUri: 'https://hub.jetbrains.com'
   });
 
   render() {
