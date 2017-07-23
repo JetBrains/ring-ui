@@ -26,8 +26,8 @@ describe('Link', () => {
     shallowLink({active: true}).should.have.className(styles.active);
   });
 
-  it('should add pseudo className', () => {
-    shallowLink({pseudo: true}).should.have.className(styles.pseudo);
+  it('should render span for pseudo links', () => {
+    shallowLink({pseudo: true}).should.have.tagName('span');
   });
 
   describe('linkHOC', () => {
