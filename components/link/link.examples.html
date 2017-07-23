@@ -5,16 +5,18 @@
 
   <file type="css">
     :global(.container) {
-      line-height: 24px;
+      width: 240px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
 
+    :global(.container > * ~ *) {
+      margin-top: 8px;
+    }
+
     :global(.hub-link) {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      text-align: center;
     }
 
     :global(.hub-icon) {
@@ -55,11 +57,12 @@
            <Link href="#hash" pseudo>Pseudo link (no underline on hover)</Link>
            <CustomLink href="#hash">Custom link component</CustomLink>
            <CustomLink href="#hash" active>Active custom link component</CustomLink>
+           <Link href="#hash">Link with a very long text, wrapping over lines</Link>
 
            <Link href="#hash" className="hub-link">
             {WrapText => [
               <Icon key="icon" glyph={hubLogo} size={Icon.Size.Size128} className="hub-icon"/>,
-              <WrapText key="text">Link with non-text content</WrapText>
+              <div key="text"><WrapText>Link with non-text content</WrapText></div>
             ]}
            </Link>
          </div>
