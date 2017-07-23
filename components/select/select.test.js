@@ -684,7 +684,7 @@ describe('Select', () => {
       instance._listSelectHandler({
         key: 1,
         label: 'test',
-        type: List.ListProps.Type.SEPARATOR
+        rgItemType: List.ListProps.Type.SEPARATOR
       });
 
       instance.setState.should.not.be.called;
@@ -896,7 +896,7 @@ describe('Select', () => {
           key: labelMock,
           label: labelMock,
           glyph: 'glyph',
-          type: List.ListProps.Type.LINK,
+          rgItemType: List.ListProps.Type.LINK,
           iconSize: Icon.Size.Size14,
           className: 'cssClass',
           onClick: () => {}
@@ -909,7 +909,7 @@ describe('Select', () => {
 
       const resetOption = instance._getResetOption();
 
-      resetOption.type.should.be.equal(List.ListProps.Type.LINK);
+      resetOption.rgItemType.should.be.equal(List.ListProps.Type.ITEM);
       resetOption.iconSize.should.be.equal(Icon.Size.Size14);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
       resetOption.onClick.should.be.an.instanceof(Function);
@@ -940,7 +940,7 @@ describe('Select', () => {
       instance = getInstance();
       const newShownData = instance._prependResetOption([{}]);
 
-      newShownData.length.should.be.equal(2);
+      newShownData.length.should.be.equal(4);
     });
 
     it('should prepend reset option with separator', () => {
@@ -948,7 +948,7 @@ describe('Select', () => {
 
       const newShownData = instance._prependResetOption([{}]);
 
-      newShownData.length.should.be.equal(3);
+      newShownData.length.should.be.equal(5);
     });
 
     it('should not prepend reset option', () => {

@@ -2,6 +2,18 @@
   "name": "ring-ui-docs",
   "version": "0.1.0",
   "description": "Docs site for Ring UI library",
+  "config": {
+    "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
+    "development": {
+      "port": 9999,
+      "host": "localhost"
+    },
+    "production": {
+      "host": "ring-ui.github.io"
+    },
+    "hub": "https://hub.jetbrains.com",
+    "components": "./components/"
+  },
   "scripts": {
     "build-prod": "webpack --env.production",
     "build": "webpack",

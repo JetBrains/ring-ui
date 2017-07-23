@@ -62,7 +62,7 @@
       const auth = new Auth({
         ...hubConfig,
         windowLogin: true,
-        redirect_uri: hubConfig.redirect_uri + LandintEntryFileName
+        redirectUri: hubConfig.redirect_uri + LandintEntryFileName
       });
 
       auth.setAuthDialogService(authService);

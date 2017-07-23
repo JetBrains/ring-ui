@@ -6,9 +6,9 @@ const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 const KotlinWebpackPlugin = require('kotlin-webpack-plugin');
 const webpackConfig = require('ring-ui/webpack.config');
-const pkgConfig = require('ring-ui/package.json').config;
 const kotlinConf = require('ring-ui/kotlin.conf');
 
+const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./create-entries-list');
 
