@@ -367,6 +367,7 @@ export default class Select extends RingComponentWithShortcuts {
         isInputMode={this.isInputMode()}
         selected={this.state.selected}
         tags={this.props.tags}
+        compact={this.props.compact}
       />
     );
   }

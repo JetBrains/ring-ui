@@ -105,7 +105,8 @@ export default class List extends RingComponentWithShortcuts {
     useMouseUp: PropTypes.bool,
     visible: PropTypes.bool,
     renderOptimization: PropTypes.bool,
-    disableMoveDownOverflow: PropTypes.bool
+    disableMoveDownOverflow: PropTypes.bool,
+    compact: PropTypes.bool
   };
 
   static defaultProps = {
@@ -162,7 +163,7 @@ export default class List extends RingComponentWithShortcuts {
   };
 
   _cache = new CellMeasurerCache({
-    defaultHeight: Dimension.ITEM_HEIGHT,
+    defaultHeight: this.defaultItemHeight(),
     fixedWidth: true,
     keyMapper: this.sizeCacheKey
   });
@@ -386,11 +387,15 @@ export default class List extends RingComponentWithShortcuts {
     this.checkOverflow();
   }
 
+  defaultItemHeight() {
+    return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
+  }
+
   scrollEndHandler = debounce(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
       const maxScrollingPosition = innerContainer.scrollHeight;
-      const sensitivity = Dimension.ITEM_HEIGHT / 2;
+      const sensitivity = this.defaultItemHeight() / 2;
       const currentScrollingPosition =
         innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
       if (currentScrollingPosition >= maxScrollingPosition) {
@@ -428,7 +433,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   getVisibleListHeight(props) {
-    return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
+    return props.maxHeight - this.defaultItemHeight() - Dimension.INNER_PADDING;
   }
 
   // eslint-disable-next-line react/prop-types
@@ -470,6 +475,10 @@ export default class List extends RingComponentWithShortcuts {
         itemProps.onMouseUp = selectHandler;
       } else {
         itemProps.onClick = selectHandler;
+      }
+
+      if (itemProps.compact == null) {
+        itemProps.compact = this.props.compact;
       }
 
       let ItemComponent;
@@ -553,7 +562,7 @@ export default class List extends RingComponentWithShortcuts {
             }}
             scrollTop={scrollTop}
             rowCount={rowCount}
-            estimatedRowSize={Dimension.ITEM_HEIGHT}
+            estimatedRowSize={this.defaultItemHeight()}
             rowHeight={this._cache.rowHeight}
             rowRenderer={this.renderItem}
             overscanRowCount={this._bufferSize}
@@ -623,7 +632,7 @@ export default class List extends RingComponentWithShortcuts {
 
     const maxHeight = this.props.maxHeight && this.getVisibleListHeight(this.props);
 
-    const classes = classnames('ring-list', this.props.className);
+    const classes = classnames(styles.list, this.props.className);
 
     return (
       <div

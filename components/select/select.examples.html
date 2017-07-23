@@ -110,7 +110,7 @@
 
 
 <example name="Select with server filtering">
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
@@ -195,8 +195,7 @@
       dataset.push({
         label: 'element ' + i,
         key: i,
-        type: 'user',
-        compact: true
+        type: 'user'
       });
     }
 
@@ -206,6 +205,7 @@
 
     var select = render(Select.factory({
       filter: true,
+      compact: true,
       selected: dataset[selectedIndex]
     }), document.getElementById('demo'))
     select.rerender(props);
