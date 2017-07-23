@@ -31,7 +31,7 @@ export default class ListCustom extends PureComponent {
     const classes = classnames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
-      'ring-list__item_scrolling': scrolling
+      [styles.scrolling]: scrolling
     });
 
     const content = (typeof template === 'function') ? template(this.props) : template;

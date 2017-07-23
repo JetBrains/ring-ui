@@ -48,7 +48,6 @@ const linkListItem = ({url, title, legacy}) => ({
   active: url === currentPath(),
   label: title,
   key: url,
-  compact: true,
   className: classNames({
     [styles.legacy]: legacy
   })
@@ -98,6 +97,7 @@ class Nav extends PureComponent {
           className={styles.list}
           shortcuts={true}
           activeIndex={filterFn && 1}
+          compact={true}
           {...{data}}
         />
       </div>

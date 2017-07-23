@@ -5,7 +5,6 @@ import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import {List as VirtualizedList} from 'react-virtualized';
 
-import linkStyles from '../link/link.css';
 import Icon from '../icon/icon';
 
 import List from './list';
@@ -200,7 +199,8 @@ describe('List', () => {
         ]
       }).instance();
 
-      mount(instance.renderItem({index: 1})).should.have.descendants('[data-test=ring-list-item]');
+      mount(instance.renderItem({index: 1})).
+        should.have.descendants('[data-test="ring-list-item"]');
     });
 
     it('should render a if href defined', () => {
@@ -267,7 +267,6 @@ describe('List', () => {
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
       firstItemWrapper.should.exist;
       firstItemWrapper.should.have.data('test', 'ring-link');
-      firstItemWrapper.should.have.className(linkStyles.pseudo);
       firstItemWrapper.should.have.text('Hello!');
       firstItemWrapper.should.have.tagName('span');
     });
