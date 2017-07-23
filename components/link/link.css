@@ -17,33 +17,15 @@
     color: link-hover-color;
   }
 
-  &:hover .inner::after {
-    opacity: 0.5;
+  &:hover .inner {
+    border-width: 0;
+    border-bottom: 1px solid;
+    border-image-source: linear-gradient(currentcolor 50%, transparent 50%);
+    border-image-slice: 0 0 100% 0;
   }
 
   &.active {
     color: inherit;
-  }
-}
-
-.inner {
-  position: relative;
-
-  display: inline-block;
-
-  line-height: 1.2;
-
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: -1px;
-    left: 0;
-
-    content: '';
-
-    opacity: 0;
-    border-bottom: 1px solid;
   }
 }
 
