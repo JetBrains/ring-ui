@@ -27,13 +27,27 @@ Promise.all(promises).then(([source, navData]) => {
 
   class App extends Component {
     componentDidMount() {
-      // retrigger hash navigation
+      const iFrameSelector = 'iframe[data-resize="enabled"]';
+      this.iframesToResize = document.queryAll(iFrameSelector).length;
+
+      this.retriggerHashNavigation();
+      iFrameResize({
+        resizedCallback: () => {
+          this.iframesToResize--;
+          this.retriggerHashNavigation();
+        }
+      }, iFrameSelector);
+    }
+
+    retriggerHashNavigation() {
+      if (this.iframesToResize > 0) {
+        return;
+      }
+
       const {hash} = window.location;
       if (hash) {
         window.location.replace(hash);
       }
-
-      iFrameResize({}, 'iframe[data-resize="enabled"]');
     }
 
     render() {

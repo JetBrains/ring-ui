@@ -16,7 +16,7 @@ describe('Popup Menu', () => {
     list.should.exist;
 
     // We need it to maintain compatibility between Popup Menu and List
-    list.items.childNodes.length.should.equal(0);
+    list.props.data.length.should.equal(0);
   });
 
   it('should pass params to List', () => {
@@ -24,6 +24,6 @@ describe('Popup Menu', () => {
       {}
     ]});
 
-    wrapper.instance().list.inner.hasChildNodes().should.be.true;
+    shallow(wrapper.instance().list.renderItem({index: 1})).should.exist;
   });
 });
