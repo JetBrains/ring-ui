@@ -27,11 +27,11 @@ import './docked-panel-ng.scss';
       </div>
      </file>
      <file name="index.js" webpack="true">
-      import 'angular';
+      import angular from 'angular';
       import 'ring-ui/components/button/button.scss';
       import 'ring-ui/components/panel/panel.scss';
-      import 'ring-ui/components/docked-panel-ng/docked-panel-ng';
-      angular.module('DockedPanelExample', ['Ring.docked-panel']);
+      import DockedPanelNG from 'ring-ui/components/docked-panel-ng/docked-panel-ng';
+      angular.module('DockedPanelExample', [DockedPanelNG]);
      </file>
    </example>
  */

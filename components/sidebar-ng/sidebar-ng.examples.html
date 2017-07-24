@@ -46,11 +46,11 @@
   </file>
 
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/sidebar-ng/sidebar-ng';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SidebarNG from 'ring-ui/components/sidebar-ng/sidebar-ng';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('foo', ['Ring.sidebar', 'Ring.select']);
+    angular.module('foo', [SidebarNG, SelectNG]);
 
     var bigContent = document.getElementById('big-content');
     var after = document.getElementById('content-after');

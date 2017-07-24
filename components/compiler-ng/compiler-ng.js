@@ -10,7 +10,7 @@
       </div>
     </file>
     <file name="index.js">
-      import 'angular';
+      import angular from 'angular';
       import CompilerNg from 'ring-ui/components/compiler-ng/compiler-ng';
 
       angular.module('test', [CompilerNg]).
