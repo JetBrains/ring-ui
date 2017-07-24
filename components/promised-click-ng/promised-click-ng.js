@@ -17,11 +17,11 @@ import RingAngularComponent from '../global/ring-angular-component';
       </file>
       <file name="index.js" webpack="true">
         import 'ring-ui/components/button-legacy/button-legacy.scss';
-        import 'angular';
-        import 'ring-ui/components/promised-click-ng/promised-click-ng';
-        import 'ring-ui/components/button-ng/button-ng';
+        import angular from 'angular';
+        import PromisedClickNG from 'ring-ui/components/promised-click-ng/promised-click-ng';
+        import ButtonNG from 'ring-ui/components/button-ng/button-ng';
 
-        var buttonTestModule = angular.module('button-test', ['Ring.promised-click', 'Ring.button']);
+        var buttonTestModule = angular.module('button-test', [PromisedClickNG, ButtonNG]);
 
         buttonTestModule.controller('testController', function($scope, $timeout) {
           this.onClick = function () {

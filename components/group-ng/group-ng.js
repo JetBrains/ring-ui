@@ -15,7 +15,7 @@
     </file>
 
     <file type="js">
-      import 'angular/angular';
+      import angular from 'angular';
       import ButtonNg from 'ring-ui/components/button-ng/button-ng';
       import GroupNg from 'ring-ui/components/group-ng/group-ng';
 
