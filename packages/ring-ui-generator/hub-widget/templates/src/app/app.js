@@ -6,8 +6,9 @@ import {render} from 'react-dom';
 import Select from 'ring-ui/components/select/select';
 import Panel from 'ring-ui/components/panel/panel';
 import Button from 'ring-ui/components/button/button';
-import 'file-loader?name=[name].[ext]!../manifest.json'; // eslint-disable-line import/no-unresolved
-import './app.css';
+
+import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
+import styles from './app.css';
 
 const COLOR_OPTIONS = [
   {key: 'black', label: 'Black'},
@@ -64,7 +65,7 @@ class Widget extends Component {
     const {selectedColor} = this.state;
 
     return (
-      <div>
+      <div className={styles.widget}>
         <Select
           data={COLOR_OPTIONS}
           selected={selectedColor}
@@ -87,7 +88,7 @@ class Widget extends Component {
     }
 
     return (
-      <div>
+      <div className={styles.widget}>
         <h1 style={{color: selectedColor.key}}>{'Hello world'}</h1>
         <p>{'Select "Edit..." option in widget dropdown to configure text color'}</p>
       </div>
