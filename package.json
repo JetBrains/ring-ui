@@ -203,6 +203,6 @@
     "style-loader": "0.18.2",
     "svg-sprite-loader": "0.3.1",
     "url-loader": "0.5.9",
-    "whatwg-fetch": "1.0.0"
+    "whatwg-fetch": "2.0.3"
   }
 }
