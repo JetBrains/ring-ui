@@ -1,26 +1,7 @@
 /**
  * @name Background
  * @category Components
- * @example
-   <example name="Background">
-    <file name="index.html" disable-auto-size>
-      <div class="full-screen background__gradient"></div>
-    </file>
-
-    <file name="index.css">
-      html,
-      body,
-      :global(.full-screen) {
-        margin: 0;
-        width: 100%;
-        height: 100%;
-      }
-    </file>
-
-    <file name="index.js">
-      import "ring-ui/components/background/background.scss";
-    </file>
-   </example>
+ * @deprecated Is not used anywhere
  */
 
 .background__gradient {
