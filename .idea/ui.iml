@@ -2,7 +2,6 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/components" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/gemini-report" />
@@ -12,10 +11,5 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="sass-stdlib" level="application" />
-    <orderEntry type="library" name="kotlin-extensions" level="project" />
-    <orderEntry type="library" name="kotlin-react" level="project" />
-    <orderEntry type="library" name="kotlin-react-dom" level="project" />
-    <orderEntry type="library" name="kotlinx-html-js" level="project" />
-    <orderEntry type="library" name="KotlinJavaScript" level="project" />
   </component>
 </module>

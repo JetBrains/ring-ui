@@ -6,7 +6,6 @@
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
     "webpack.config.js",
-    "kotlin.conf.js",
     "docs"
   ],
   "main": "webpack.config.js",
@@ -93,10 +92,6 @@
     }
   },
   "devDependencies": {
-    "@hypnosphi/kotlin-extensions": "0.0.4",
-    "@hypnosphi/kotlin-react": "0.0.2",
-    "@hypnosphi/kotlin-react-dom": "0.0.5",
-    "@hypnosphi/kotlinx-html-js": "0.0.1",
     "@jetbrains/eslint-config": "^2.0.0",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
@@ -145,9 +140,6 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
-    "kotlin": "1.1.0",
-    "kotlin-webpack-plugin": "1.0.5",
-    "kotlinc-js": "1.0.4",
     "lerna": "2.0.0",
     "lint-staged": "4.0.2",
     "mocha": "3.4.2",
