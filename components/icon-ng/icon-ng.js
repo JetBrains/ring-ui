@@ -20,13 +20,13 @@ import '../icon/icon.scss';
         </div>
       </file>
     <file name="index.js" webpack="true">
-      import 'angular';
-      import 'ring-ui/components/icon-ng/icon-ng';
-      import 'ring-ui/components/button-ng/button-ng';
+      import angular from 'angular';
+      import IconNG from 'ring-ui/components/icon-ng/icon-ng';
+      import ButtonNG from 'ring-ui/components/button-ng/button-ng';
       import okIcon from 'jetbrains-icons/ok.svg';
       import warningIcon from 'jetbrains-icons/warning.svg';
 
-      angular.module('TestApp', ['Ring.button', 'Ring.icon']).controller('testCtrl', function($scope) {
+      angular.module('TestApp', [ButtonNG, IconNG]).controller('testCtrl', function($scope) {
         $scope.icon = okIcon;
         $scope.error = warningIcon;
       });

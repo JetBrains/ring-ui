@@ -6,7 +6,7 @@
  * @example
   <example name="rgBadge">
     <file type="html">
-      <div ng-app="Example.badge" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+      <div ng-app="Example.badge" ng-strict-di>
         <rg-group>
           <rg-badge>simple</rg-badge>
           <rg-badge gray="true">gray</rg-badge>
@@ -18,12 +18,11 @@
     </file>
 
     <file type="js">
-      import 'angular/angular';
+      import angular from 'angular';
       import BadgeNg from 'ring-ui/components/badge-ng/badge-ng';
       import GroupNg from 'ring-ui/components/group-ng/group-ng';
 
-      angular.module('Example.badge', [BadgeNg, GroupNg]).
-        controller('ExampleCtrl', angular.noop);
+      angular.module('Example.badge', [BadgeNg, GroupNg]);
     </file>
   </example>
 */

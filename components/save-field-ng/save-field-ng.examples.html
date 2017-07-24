@@ -112,15 +112,18 @@
           </label>
 
           <div class="ring-form__control">
+            data.query={{data.query}}
             <rg-save-field value="data.query"
               on-save="save(value)">
-              <div react="QueryAssist"
+              <rg-query-assist
                 class="ring-input-size_l"
-                x-data-source="queryAssistSource(query, caret, omitSuggestions)"
-                ng-model="data.query"
-                placeholder="{{ placeholder }}"
-                hint="{{ 'Press ⇥ to complete first item' }}"
-                hint-on-selection="{{ 'Press ↩ to complete selected item' }}"></div>
+                x-data-source="queryAssistSource"
+                query="data.query"
+                on-apply="save"
+                on-change="updateQueryAssistValue"
+                placeholder="placeholder"
+                hint="'Press ⇥ to complete first item'"
+                hint-on-selection="'Press ↩ to complete selected item'"></rg-query-assist>
             </rg-save-field>
             <div class="ring-form__control__description">Currently there is a
               bug with "escape" shortcut
@@ -132,17 +135,13 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/save-field-ng/save-field-ng';
+    import angular from 'angular';
+    import SaveFieldNG from 'ring-ui/components/save-field-ng/save-field-ng';
+    import QueryAssistNG from 'ring-ui/components/query-assist-ng/query-assist-ng';
     import 'ring-ui/components/input-size/input-size.scss';
-    import registerComponents from 'ring-ui/components/react-ng/react-ng';
-    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
-    import LoaderInline from 'ring-ui/components/loader-inline/loader-inline';
     import hubConfig from 'ring-ui-docs/components/hub-config';
 
-    registerComponents({QueryAssist, LoaderInline});
-
-    angular.module('Example.saveField', ['Ring.save-field', 'Ring.react-ng']).
+    angular.module('Example.saveField', [SaveFieldNG, QueryAssistNG]).
       config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function (shortcutsProvider, rgSaveFieldShortcutsMode) {
         shortcutsProvider.mode({
           id: 'ring-shortcuts',
@@ -175,7 +174,7 @@
           }
         };
 
-        $scope.queryAssistSource = function (query, caret, omitSuggestions) {
+        $scope.queryAssistSource = function ({query, caret, omitSuggestions}) {
           var config = {
             params: {
               fields: 'query,caret,styleRanges' + (omitSuggestions ? '' : ',suggestions'),
@@ -188,6 +187,10 @@
             then(function (data) {
               return data.data;
             });
+        };
+
+        $scope.updateQueryAssistValue = function ({query}) {
+          $scope.data.query = query;
         };
       });
   </file>

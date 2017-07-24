@@ -1,7 +1,9 @@
 <example name="Autofocus Ng">
   <file type="html">
     <div ng-app="Ring.autofocus" ng-strict-di class="test-container">
-      <input class="ring-input" rg-autofocus="true"
+      <input
+        class="ring-input"
+        rg-autofocus="true"
         placeholder="Should be in focus"/>
     </div>
   </file>
@@ -30,10 +32,10 @@
   </file>
   <file type="js">
     import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import 'ring-ui/components/autofocus-ng/autofocus-ng';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
+    import AutofocusNG from 'ring-ui/components/autofocus-ng/autofocus-ng';
 
-    angular.module('testApp', ['Ring.select', 'Ring.autofocus']).
+    angular.module('testApp', [SelectNG, AutofocusNG]).
       controller('testCtrl', function ($scope) {});
   </file>
 </example>

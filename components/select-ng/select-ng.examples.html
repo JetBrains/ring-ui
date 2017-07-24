@@ -12,10 +12,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function () {
+    angular.module('test', [SelectNG]).controller('testCtrl', function () {
       var ctrl = this;
 
       ctrl.options = [
@@ -44,12 +44,12 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
     import 'angular-route';
-    import 'ring-ui/components/tabs-ng/tabs-ng';
+    import TabsNG from 'ring-ui/components/tabs-ng/tabs-ng';
 
-    angular.module('test', ['Ring.select', 'Ring.tabs']).
+    angular.module('test', [SelectNG, TabsNG]).
       controller('testCtrl', function () {
         var ctrl = this;
 
@@ -81,10 +81,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function () {
+    angular.module('test', [SelectNG]).controller('testCtrl', function () {
       var ctrl = this;
 
       ctrl.options = [
@@ -108,10 +108,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function () {
+    angular.module('test', [SelectNG]).controller('testCtrl', function () {
       var ctrl = this;
 
       ctrl.options = [
@@ -141,10 +141,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).
+    angular.module('test', [SelectNG]).
       controller('testCtrl', function ($timeout) {
         var ctrl = this;
 
@@ -174,10 +174,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).
+    angular.module('test', [SelectNG]).
       controller('testCtrl', function ($timeout, $q) {
         var ctrl = this;
 
@@ -218,10 +218,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function () {
+    angular.module('test', [SelectNG]).controller('testCtrl', function () {
       var ctrl = this;
 
       ctrl.clicks = [];
@@ -251,9 +251,9 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import 'ring-ui/components/dialog-ng/dialog-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
+    import DialogNG from 'ring-ui/components/dialog-ng/dialog-ng';
 
     function fillScrollableContent() {
       var html = '<h2>Text to scroll</h2>';
@@ -265,7 +265,7 @@
 
     fillScrollableContent();
 
-    angular.module('test', ['Ring.select', 'Ring.dialog'])
+    angular.module('test', [SelectNG, DialogNG])
     .run(function($templateCache) {
       var tpl = '<rg-select ng-model="data.selectedItem" options="item in data.getOptions()"></rg-select>';
       $templateCache.put('test-tpl.html', tpl);
@@ -308,10 +308,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).controller('testCtrl', function () {
+    angular.module('test', [SelectNG]).controller('testCtrl', function () {
       var ctrl = this;
       ctrl.multiple = true;
 
@@ -353,11 +353,11 @@
 
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import 'ring-ui/components/form-ng/form-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
+    import FormNG from 'ring-ui/components/form-ng/form-ng';
 
-    angular.module('test', ['Ring.select', 'Ring.form']).
+    angular.module('test', [SelectNG, FormNG]).
       controller('testCtrl', function () {
         var ctrl = this;
 
@@ -381,11 +381,11 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import 'ring-ui/components/form-ng/form-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
+    import FormNG from 'ring-ui/components/form-ng/form-ng';
 
-    angular.module('test', ['Ring.select', 'Ring.form']).
+    angular.module('test', [SelectNG, FormNG]).
       controller('testCtrl', function ($q, $timeout) {
         var ctrl = this;
         var PAGE_SIZE = 20;
@@ -439,10 +439,10 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
+    import angular from 'angular';
+    import SelectNG from 'ring-ui/components/select-ng/select-ng';
 
-    angular.module('test', ['Ring.select']).
+    angular.module('test', [SelectNG]).
       controller('testCtrl', function ($timeout) {
         var ctrl = this;
         ctrl.renderTime = null;

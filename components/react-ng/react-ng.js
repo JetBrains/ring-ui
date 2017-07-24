@@ -1,5 +1,6 @@
 /**
  * @name React Ng
+ * @deprecated Use components wrapped by angular-component-factory
  * @category Angular Components
  * @description An Angular directive for proxying React components.
  */
@@ -202,7 +203,7 @@ function reactNgDirective($parse) {
      </file>
 
      <file name="index.js" webpack="true">
-       import 'angular';
+       import angular from 'angular';
        import registerComponents from 'ring-ui/components/react-ng/react-ng';
        import Icon from 'ring-ui/components/icon/icon';
        import Button from 'ring-ui/components/button/button';
