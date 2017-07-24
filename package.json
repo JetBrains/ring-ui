@@ -2,6 +2,8 @@
   "name": "ring-ui",
   "version": "2.7.0",
   "description": "JetBrains UI library",
+  "author": "JetBrains",
+  "license": "Apache-2.0",
   "files": [
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
