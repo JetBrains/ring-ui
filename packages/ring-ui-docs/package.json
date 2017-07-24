@@ -20,7 +20,7 @@
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server"
   },
   "devDependencies": {
-    "http-server": "0.9.0",
+    "http-server": "0.10.0",
     "ring-ui": "^2.7.0",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0"
