@@ -19,6 +19,11 @@ const BASE_GENERATOR_PATH = path.resolve(
   '../templates'
 );
 
+const additionalDevServerOptions = `
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },`;
+
 module.exports = class extends Generator.Base {
   prompting() {
     let spinner;
@@ -27,7 +32,7 @@ module.exports = class extends Generator.Base {
       {
         type: 'input',
         name: 'widgetName',
-        message: 'What\'s your widget name, i.e. "My first cool widget"',
+        message: 'What\'s your widget2222 name, i.e. "My first cool widget"',
         default: this.appname
       },
       {
@@ -55,6 +60,7 @@ module.exports = class extends Generator.Base {
         this.props = Object.assign({
           projectName,
           camelCaseName,
+          additionalDevServerOptions,
           port
         }, answers, versions);
       }).
@@ -94,6 +100,8 @@ module.exports = class extends Generator.Base {
       {
         process: content => {
           const pkg = JSON.parse(content);
+
+          pkg.config.components = './src';
 
           pkg.dependencies['hub-dashboard-addons'] =
             this.props.hubDashboardAddons;
