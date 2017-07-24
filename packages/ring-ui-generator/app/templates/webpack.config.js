@@ -57,7 +57,7 @@ const webpackConfig = () => ({
       }
     ]
   },
-  devServer: {
+  devServer: {<%- additionalDevServerOptions %>
     stats: {
       assets: false,
       children: false,
