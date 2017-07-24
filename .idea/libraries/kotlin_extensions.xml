@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="kotlin-extensions">
-    <CLASSES>
-      <root url="file://$PROJECT_DIR$/node_modules/@hypnosphi/kotlin-extensions/build/classes/main" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

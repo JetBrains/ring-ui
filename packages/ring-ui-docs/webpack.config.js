@@ -4,9 +4,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
-const KotlinWebpackPlugin = require('kotlin-webpack-plugin');
 const webpackConfig = require('ring-ui/webpack.config');
-const kotlinConf = require('ring-ui/kotlin.conf');
 
 const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
@@ -19,7 +17,6 @@ const ringUiPath = path.dirname(require.resolve('ring-ui'));
 const publicPath = '/';
 const distDir = 'dist';
 const contentBase = path.resolve(__dirname, distDir);
-const kotlinDist = path.join(contentBase, 'kotlin');
 const siteComponents = path.resolve(__dirname, 'components');
 
 // For docs-app entry point
@@ -61,7 +58,7 @@ module.exports = (env = {}) => {
     },
     resolve: {
       mainFields: ['module', 'browser', 'main'],
-      modules: [kotlinDist, path.resolve(ringUiPath, 'node_modules')],
+      modules: [path.resolve(ringUiPath, 'node_modules')],
       // needed in examples
       alias: {
         'ring-ui-docs': __dirname,
@@ -86,12 +83,6 @@ module.exports = (env = {}) => {
         {
           test: /\.twig$/,
           loader: 'twig-loader'
-        },
-
-        // Kotlin examples
-        {
-          test: /example\.kt/,
-          loader: path.resolve(__dirname, 'kotlin-example-loader')
         }
       ]
     },
@@ -115,11 +106,6 @@ module.exports = (env = {}) => {
       publicPath // serve HMR update jsons properly
     },
     plugins: [
-      new KotlinWebpackPlugin(Object.assign(kotlinConf, {
-        output: kotlinDist,
-        sourceMaps: true,
-        metaInfo: true
-      })),
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
       new DllBundlesPlugin({

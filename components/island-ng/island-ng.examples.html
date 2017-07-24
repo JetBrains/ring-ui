@@ -1,6 +1,6 @@
 <example name="rgIsland">
   <file type="html">
-    <div ng-app="Example.island" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+    <div ng-app="Example.island" ng-strict-di>
       <rg-island>
         <rg-island-header border="true">
           This is header
@@ -13,14 +13,10 @@
   </file>
 
   <file type="js">
-    import 'angular/angular';
+    import angular from 'angular';
     import IslandNg from 'ring-ui/components/island-ng/island-ng';
 
     const exampleModule = angular.module('Example.island', [IslandNg]);
-
-    exampleModule.controller('ExampleCtrl', function () {
-
-    });
   </file>
 </example>
 
@@ -33,7 +29,7 @@
   </file>
 
   <file type="html">
-    <div ng-app="Example.island" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+    <div ng-app="Example.island" ng-strict-di>
       <rg-island narrow="true" class="limited-island">
         <rg-island-header border="true">
           Title
@@ -51,13 +47,9 @@
   </file>
 
   <file type="js">
-    import 'angular/angular';
+    import angular from 'angular';
     import IslandNg from 'ring-ui/components/island-ng/island-ng';
 
     const exampleModule = angular.module('Example.island', [IslandNg]);
-
-    exampleModule.controller('ExampleCtrl', function () {
-
-    });
   </file>
 </example>

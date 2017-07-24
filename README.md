@@ -17,7 +17,7 @@ order: 1
 
 ## Available commands
 
-To bootsptrap packages (run before everything else): `npm run bootstrap`
+Bootstrap the sub-packages: `npm run bootstrap` (should be done before anything else)
 
 To start the server: `npm start` (runs the webpack dev server on http://localhost:9999)
 
