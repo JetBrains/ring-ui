@@ -102,7 +102,7 @@
     "angular": "1.6.3",
     "angular-mocks": "1.6.3",
     "angular-route": "1.6.3",
-    "babel-cli": "6.14.0",
+    "babel-cli": "6.24.1",
     "babel-eslint": "7.2.3",
     "babel-plugin-istanbul": "3.1.2",
     "babel-polyfill": "6.13.0",
@@ -162,7 +162,7 @@
     "webpack-dev-server": "2.2.0",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
     "xmlappend": "1.0.4",
-    "yo": "1.8.5"
+    "yo": "2.0.0"
   },
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
@@ -171,7 +171,7 @@
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.3",
     "@princed/babel-runtime": "6.23.0",
     "autoprefixer": "6.4.1",
-    "babel-core": "6.24.1",
+    "babel-core": "6.25.0",
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.15.0",
     "classnames": "2.2.5",
