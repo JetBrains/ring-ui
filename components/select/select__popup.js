@@ -4,7 +4,6 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
@@ -43,7 +42,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     onFilter: noop,
     onLoadMore: noop,
     selected: [],
-    tags: PropTypes.object
+    tags: null
   };
 
   state = {
@@ -329,6 +328,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
           disableMoveDownOverflow={this.props.loading}
+          renderOptimization={this.props.renderOptimization}
         />
       );
     }
