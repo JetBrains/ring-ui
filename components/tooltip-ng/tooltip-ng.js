@@ -17,26 +17,20 @@ import './tooltip-ng.scss';
         <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
           <div ng-controller="testController">
             Some text that needs an explanation
-            <span rg-tooltip="'Test message'"
-                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
-            <span rg-tooltip="{{testMessageWithQuote}}"
-                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
-            <span rg-tooltip="{{someUndefinedValue}}"
-                  react-static="Icon" react-glyph="iconWarning" react-size="16" react-class="'ring-tooltip-ng__hint-icon'"></span>
+            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="'Test message'"></rg-icon>
+            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
+            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
           </div>
         </div>
       </file>
 
       <file name="index.js" webpack="true">
-        import 'angular';
-        import registerComponents from 'ring-ui/components/react-ng/react-ng';
-        import Icon from 'ring-ui/components/icon/icon';
-        import 'ring-ui/components/tooltip-ng/tooltip-ng';
+        import angular from 'angular';
+        import IconNG from 'ring-ui/components/icon-ng/icon-ng';
+        import TooltipNG from 'ring-ui/components/tooltip-ng/tooltip-ng';
         import iconWarning from 'jetbrains-icons/warning.svg';
 
-        registerComponents({Icon});
-
-        angular.module('tooltip-test', ['Ring.react-ng', 'Ring.tooltip']).controller('testController', ($scope) => {
+        angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
           $scope.iconWarning = iconWarning;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });

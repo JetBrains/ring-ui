@@ -14,10 +14,10 @@
       </div>
     </file>
     <file name="index.js" webpack="true">
-     import 'angular';
-     import 'ring-ui/components/button-set-ng/button-set-ng';
-     import 'ring-ui/components/button-ng/button-ng';
-     angular.module('TestApp', ['Ring.button', 'Ring.button-set']);
+     import angular from 'angular';
+     import ButtonSetNG from 'ring-ui/components/button-set-ng/button-set-ng';
+     import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+     angular.module('TestApp', [ButtonNG, ButtonSetNG]);
     </file>
    </example>
  */
