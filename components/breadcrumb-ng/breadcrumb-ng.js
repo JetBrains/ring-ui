@@ -10,9 +10,9 @@ import '../link/link.scss';
    <example name="Breadcrumb Ng">
      <file name="index.html">
      <div ng-app="Example.breadcrumb" ng-strict-di>
-       <div ng-controller="DemoCtrl">
+       <div ng-controller="DemoCtrl as ctrl">
          <rg-breadcrumb label="First level" link="test/href1">
-           <rg-breadcrumb label="Second level" on-click="clickSecondLevel()">
+           <rg-breadcrumb label="Second level" on-click="ctrl.clickSecondLevel()">
             <span>Active level</span>
            </rg-breadcrumb>
          </rg-breadcrumb>
@@ -20,14 +20,12 @@ import '../link/link.scss';
      </div>
      </file>
      <file name="index.js">
-       import 'angular';
-       import 'ring-ui/components/breadcrumb-ng/breadcrumb-ng';
+       import angular from 'angular';
+       import BreadcrumbNG from 'ring-ui/components/breadcrumb-ng/breadcrumb-ng';
 
-       angular.module('Example.breadcrumb', ['Ring.breadcrumb'])
-         .controller('DemoCtrl', function ($scope) {
-            $scope.clickSecondLevel = function() {
-              alert('Second level was clicked');
-            }
+       angular.module('Example.breadcrumb', [BreadcrumbNG])
+         .controller('DemoCtrl', function () {
+            this.clickSecondLevel =  () => alert('Second level was clicked');
          });
      </file>
    </example>

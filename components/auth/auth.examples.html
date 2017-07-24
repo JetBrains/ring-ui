@@ -46,14 +46,15 @@
   <file type="html">
     <div id="example">
       <div id="example"></div>
-      <a id="open-link">Open landing page</a>
-      <a href id="log-out">Log Out</a>
-      <a href id="force-update">Force token update</a>
+      <div><a id="open-link" class="ring-link">Open landing page</a></div>
+      <div><a href id="log-out" class="ring-link">Log Out</a></div>
+      <div><a href id="force-update" class="ring-link">Force token update</a></div>
     </div>
   </file>
 
   <file type="js">
     import Auth from 'ring-ui/components/auth/auth';
+    import 'ring-ui/components/link/link.scss';
     import authService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
     import hubConfig from 'ring-ui-docs/components/hub-config';
     import LandintEntryFileName from 'ring-ui/components/auth/landing-entry';

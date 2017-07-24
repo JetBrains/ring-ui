@@ -27,11 +27,11 @@ import RingAngularComponent from '../global/ring-angular-component';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        import 'angular';
-        import 'ring-ui/components/template-ng/template-ng';
+        import angular from 'angular';
+        import TemplateNG from 'ring-ui/components/template-ng/template-ng';
 
         angular
-        .module('Example.template-ng', ['Ring.template'])
+        .module('Example.template-ng', [TemplateNG])
         .controller('ExampleCtrl', function ($scope) {
           $scope.template = '<button>button</button>';
         });

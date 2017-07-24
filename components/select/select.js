@@ -368,6 +368,7 @@ export default class Select extends RingComponentWithShortcuts {
         selected={this.state.selected}
         tags={this.props.tags}
         compact={this.props.compact}
+        renderOptimization={this.props.renderOptimization}
       />
     );
   }
