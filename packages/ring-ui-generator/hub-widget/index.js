@@ -32,7 +32,7 @@ module.exports = class extends Generator.Base {
       {
         type: 'input',
         name: 'widgetName',
-        message: 'What\'s your widget2222 name, i.e. "My first cool widget"',
+        message: 'What\'s your widget name, i.e. "My first cool widget"',
         default: this.appname
       },
       {
