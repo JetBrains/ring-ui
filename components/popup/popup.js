@@ -4,8 +4,9 @@
  * @description Displays a popup.
  */
 
-import React from 'react';
+import React, {cloneElement} from 'react';
 import PropTypes from 'prop-types';
+import {render, unmountComponentAtNode} from 'react-dom';
 import Portal from '@hypnosphi/react-portal';
 import classNames from 'classnames';
 import 'dom4';
@@ -26,6 +27,35 @@ import position, {
   positionPropKeys
 } from './position';
 import styles from './popup.css';
+
+const legacyPopups = new Set();
+
+const Messages = {
+  STOP_RENDERING: 'Stop rendering the Popup element if you want it to disappear',
+  RENDER_DIRECTLY: 'Render Popup directly as a child',
+  SHOW: 'Pass "hidden" property to control popup visibility',
+  ON_CLOSE_ATTEMPT: 'Use "onCloseAttempt" callback to react to close attempts',
+  CUT_EDGE_RENAMED: '"cutEdge" property has been renamed to "attached"'
+};
+
+function legacyProp(propType, message) {
+  return function check(props, propName, ...restArgs) {
+    if (!props.legacy && propName in props) {
+      return new Error(`"${propName}" prop is deprecated. ${message}`);
+    }
+    return propType(props, propName, ...restArgs);
+  };
+}
+
+function deprecateString(old, replacement) {
+  return function check(props, propName, ...restArgs) {
+    const isNumber = PropTypes.number(props, propName, ...restArgs);
+    if (isNumber instanceof Error) {
+      return new Error(`${propName}="${old}" is deprecated. use Popup.PopupProps.${replacement} instead`);
+    }
+    return isNumber;
+  };
+}
 
 /**
  * @constructor
@@ -55,11 +85,21 @@ export default class Popup extends RingComponentWithShortcuts {
     autoPositioning: PropTypes.bool,
     left: PropTypes.number,
     top: PropTypes.number,
-    maxHeight: PropTypes.number,
-    minWidth: PropTypes.number,
+    maxHeight: deprecateString('screen', 'MaxHeight.SCREEN'),
+    minWidth: deprecateString('target', 'MinWidth.TARGET'),
     sidePadding: PropTypes.number,
 
-    attached: PropTypes.bool // Popup adjacent to an input, without upper border and shadow
+    attached: PropTypes.bool, // Popup adjacent to an input, without upper border and shadow
+
+    legacy: PropTypes.bool,
+    autoRemove: legacyProp(PropTypes.bool, Messages.STOP_RENDERING),
+    onClose: legacyProp(PropTypes.func, Messages.ON_CLOSE_ATTEMPT),
+    cutEdge(props) {
+      if ('cutEdge' in props) {
+        return new Error(Messages.CUT_EDGE_RENAMED);
+      }
+      return null;
+    }
   };
 
   static contextTypes = {
@@ -86,7 +126,9 @@ export default class Popup extends RingComponentWithShortcuts {
     top: 0,
     sidePadding: 8,
 
-    attached: true //TODO change to false in 3.0
+    attached: true, //TODO change to false in 3.0
+
+    legacy: false
   };
 
   static PopupProps = {
@@ -95,6 +137,34 @@ export default class Popup extends RingComponentWithShortcuts {
     MinWidth,
     MaxHeight
   };
+
+  static hideAllPopups() {
+    // eslint-disable-next-line no-console
+    console.warn(`Popup.hideAllPopups is deprecated. ${Messages.SHOW}`);
+    legacyPopups.forEach(instance => instance.hide());
+  }
+
+  /**
+   * @static
+   * @param {ReactComponent} component
+   * @param {Function} callback Callback to execute after rendering
+   * @param {Object=} params Optional params
+   * @param {Function} params.onRender Callback to run after rendering
+   * @return {HTMLElement}
+   */
+  static renderPopup(element, {onRender} = {}) {
+    // eslint-disable-next-line no-console
+    console.warn(`Popup.renderPopup is deprecated. ${Messages.RENDER_DIRECTLY}`);
+    const wrapperElement = document.createElement('span');
+    const container = element.props && element.props.anchorElement || document.body;
+    container.appendChild(wrapperElement);
+    const cloned = cloneElement(element, {
+      legacy: true
+    });
+
+    const popupInstance = render(cloned, wrapperElement, onRender);
+    return popupInstance;
+  }
 
   listeners = new Listeners();
   redrawScheduler = scheduleRAF();
@@ -135,6 +205,9 @@ export default class Popup extends RingComponentWithShortcuts {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
+    if (this.props.legacy) {
+      legacyPopups.add(this);
+    }
   }
 
   /** @override */
@@ -155,6 +228,9 @@ export default class Popup extends RingComponentWithShortcuts {
   }
 
   willUnmount() {
+    if (this.props.legacy) {
+      legacyPopups.delete(this);
+    }
     this._setListenersEnabled(false);
     this.popup = null;
   }
@@ -177,11 +253,11 @@ export default class Popup extends RingComponentWithShortcuts {
 
   render() {
     // eslint-disable-next-line max-len
-    const {className, hidden, attached, keepMounted, onMouseDown, onMouseUp} = this.props;
+    const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
-      [styles.attached]: attached,
+      [styles.attached]: attached || legacy && cutEdge !== false,
       [styles.hidden]: hidden,
       [styles.showing]: showing
     });
@@ -246,6 +322,53 @@ export default class Popup extends RingComponentWithShortcuts {
 
   _redraw = () => this.redrawScheduler(this._updatePosition);
 
+  _legacyOnly(method, message = Messages.SHOW) {
+    if (!this.props.legacy) {
+      throw new Error(`Popup#${method} is deprecated. ${message}`);
+    }
+  }
+
+  /**
+   * Closes the popup and (optionally) removes it from the document
+   */
+  close(evt) {
+    this._legacyOnly('close');
+
+    let onCloseResult;
+
+    if (typeof this.props.onClose === 'function') {
+      onCloseResult = this.props.onClose(evt);
+
+      if (onCloseResult === false) {
+        return onCloseResult;
+      }
+    }
+
+    if (this.props.autoRemove !== false) {
+      this.remove();
+    } else {
+      this.hide();
+    }
+
+    return onCloseResult;
+  }
+
+  hide(cb) {
+    this._legacyOnly('hide');
+
+    this.node && this.node.parentNode && this.rerender({
+      hidden: true
+    }, cb);
+  }
+
+  show(cb) {
+    this._legacyOnly('show');
+
+    this.node && this.node.parentNode && this.rerender({
+      hidden: false
+    }, cb);
+  }
+
   _getAnchor() {
     return this.props.anchorElement || this.parent;
   }
@@ -285,7 +408,29 @@ export default class Popup extends RingComponentWithShortcuts {
     return !this.props.hidden;
   }
 
+  /**
+   * Removes the popup from the document
+   */
+  remove() {
+    this._legacyOnly('remove', Messages.STOP_RENDERING);
+
+    const {parent} = this;
+
+    if (!parent) {
+      return;
+    }
+
+    unmountComponentAtNode(parent);
+
+    if (parent.parentNode) {
+      parent.parentNode.removeChild(parent);
+    }
+  }
+
   _onCloseAttempt(evt, isEsc) {
+    if (this.props.legacy) {
+      this.close(evt);
+    }
     this.props.onCloseAttempt(evt, isEsc);
   }
 
