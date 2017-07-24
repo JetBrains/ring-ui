@@ -13,7 +13,7 @@
       </div>
     </file>
     <file name="index.js">
-      import 'angular';
+      import angular from 'angular';
       import TitleNg from 'ring-ui/components/title-ng/title-ng';
 
       angular.module('test', [TitleNg]).
