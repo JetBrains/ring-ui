@@ -19,7 +19,6 @@
 @value dark-gray-color: #999; /* headers & actions */
 @value gray-color: #BBB; /* disabled text & hints */
 @value light-gray-color: #CCC; /* active items on black background */
-
 @value white-color: #FFF;
 @value sidebar-background-color: #F7F9FA;
 @value selected-background-color: #E5F4FF;
