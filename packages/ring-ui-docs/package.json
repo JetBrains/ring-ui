@@ -8,7 +8,7 @@
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
     "development": {
       "port": 9999,
-      "host": "localhost"
+      "host": "0.0.0.0"
     },
     "production": {
       "host": "ring-ui.github.io"
