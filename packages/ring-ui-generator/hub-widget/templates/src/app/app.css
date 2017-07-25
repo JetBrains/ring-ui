@@ -1,12 +1,17 @@
 @value unit, font, font-size from "ring-ui/components/global/global.css";
 
-.widget-body {
-  composes: font;
-
+:global(.widget-body) {
   margin: 0;
   padding: calc(unit * 2);
 
   background: #fff;
 
   font-size: font-size;
+}
+
+.widget {
+  composes: font;
+
+  margin: 0;
+  padding: 0;
 }

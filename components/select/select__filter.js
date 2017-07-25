@@ -24,9 +24,19 @@ export default class SelectFilter extends Component {
     setTimeout(() => this.focus());
   }
 
+  componentWillUnmount() {
+    this.blur();
+  }
+
   focus() {
     if (this.input && this.input !== document.activeElement) {
       this.input.focus();
+    }
+  }
+
+  blur() {
+    if (this.input && this.input === document.activeElement) {
+      this.input.blur();
     }
   }
 
