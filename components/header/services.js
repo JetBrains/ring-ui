@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import servicesGlyph from 'jetbrains-icons/services.svg';
+import servicesIcon from 'jetbrains-icons/services.svg';
 
 import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';
@@ -45,7 +45,7 @@ export default class Services extends PureComponent {
           {...props}
           active={loading}
           className={classes}
-          glyph={servicesGlyph}
+          glyph={servicesIcon}
         />
       );
     }
@@ -57,7 +57,7 @@ export default class Services extends PureComponent {
     const anchor = ({active}) => (
       <TrayIcon
         active={active}
-        glyph={servicesGlyph}
+        glyph={servicesIcon}
       />
     );
 
