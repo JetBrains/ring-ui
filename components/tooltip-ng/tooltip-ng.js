@@ -17,9 +17,9 @@ import './tooltip-ng.scss';
         <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
           <div ng-controller="testController">
             Some text that needs an explanation
-            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="'Test message'"></rg-icon>
-            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
-            <rg-icon glyph="{{iconWarning}}" size="16" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="'Test message'"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
           </div>
         </div>
       </file>
@@ -28,10 +28,10 @@ import './tooltip-ng.scss';
         import angular from 'angular';
         import IconNG from 'ring-ui/components/icon-ng/icon-ng';
         import TooltipNG from 'ring-ui/components/tooltip-ng/tooltip-ng';
-        import iconWarning from 'jetbrains-icons/warning.svg';
+        import warningIcon from 'jetbrains-icons/warning.svg';
 
         angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
-          $scope.iconWarning = iconWarning;
+          $scope.warningIcon = warningIcon;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>
