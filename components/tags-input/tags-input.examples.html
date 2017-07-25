@@ -76,19 +76,19 @@
   <file type="js">
     import {render} from 'react-dom';
     import TagsInput from 'ring-ui/components/tags-input/tags-input';
-    import OKIcon from 'jetbrains-icons/ok.svg';
-    import ExceptionIcon from 'jetbrains-icons/exception.svg';
-    import FrownIcon from 'jetbrains-icons/frown.svg';
+    import okIcon from 'jetbrains-icons/ok.svg';
+    import exceptionIcon from 'jetbrains-icons/exception.svg';
+    import frownIcon from 'jetbrains-icons/frown.svg';
 
     var props = {
       tags: [
-        {key: 'test1', label: 'test1', rgTagIcon: OKIcon},
+        {key: 'test1', label: 'test1', rgTagIcon: okIcon},
         {key: 'test2', label: 'test2'}
       ],
       dataSource: function (query) {
         return [
-          {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
-          {key: 'test4', label: 'test4', rgTagIcon: FrownIcon, icon: FrownIcon}
+          {key: 'test3', label: 'test3', rgTagIcon: exceptionIcon, rgTagTitle: 'I am the tag title'},
+          {key: 'test4', label: 'test4', rgTagIcon: frownIcon, icon: frownIcon}
         ];
       }
     };
