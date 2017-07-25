@@ -1,6 +1,13 @@
 @value unit, font, font-size, line-height, line-color, dark-gray-color from  "../global/global.css";
 @value baselineCorrection: 6px;
 
+.inline {
+  &,
+  & p {
+    display: inline;
+  }
+}
+
 .markdown {
   composes: font;
 

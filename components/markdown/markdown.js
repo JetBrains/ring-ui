@@ -34,7 +34,8 @@ export default class Markdown extends PureComponent {
     const {className, renderers, inline, source, ...restProps} = this.props;
 
     const classes = classNames(className, {
-      [styles.markdown]: !inline
+      [styles.markdown]: !inline,
+      [styles.inline]: inline
     });
 
     return (
