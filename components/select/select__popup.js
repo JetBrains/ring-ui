@@ -5,6 +5,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import searchIcon from 'jetbrains-icons/search.svg';
+
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
@@ -237,7 +239,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         <div className={styles.filterWrapper}>
           <Icon
             className={styles.filterIcon}
-            glyph={require('jetbrains-icons/search.svg')}
+            glyph={searchIcon}
             size={Icon.Size.Size18}
           />
           <FilterWithShortcuts
