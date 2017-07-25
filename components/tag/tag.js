@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CloseIcon from 'jetbrains-icons/close.svg';
+import closeIcon from 'jetbrains-icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
@@ -133,7 +133,7 @@ export default class Tag extends RingComponent {
         <Icon
           data-test="ring-tag-remove"
           className="ring-tag__remove ring-link"
-          glyph={CloseIcon}
+          glyph={closeIcon}
           onClick={this.props.onRemove}
           size={Icon.Size.Size14}
         />
