@@ -23,8 +23,8 @@
     import React from 'react';
 
     import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
-    import add from 'jetbrains-icons/add.svg';
-    import drag from 'jetbrains-icons/drag.svg';
+    import addIcon from 'jetbrains-icons/add.svg';
+    import dragIcon from 'jetbrains-icons/drag.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
     import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
@@ -56,13 +56,13 @@
           <TrayIcon
             active
             title="Create issue"
-            icon={add}
+            icon={addIcon}
           />
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
                 active={active}
-                icon={drag}
+                icon={dragIcon}
               />
             )}
           >
@@ -120,9 +120,9 @@
     import React from 'react';
 
     import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains-simple.svg';
-    import add from 'jetbrains-icons/add.svg';
-    import drag from 'jetbrains-icons/drag.svg';
-    import services from 'jetbrains-icons/services.svg';
+    import addIcon from 'jetbrains-icons/add.svg';
+    import dragIcon from 'jetbrains-icons/drag.svg';
+    import servicesIcon from 'jetbrains-icons/services.svg';
 
     import Auth from 'ring-ui/components/auth/auth';
     import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
@@ -150,13 +150,13 @@
           <TrayIcon
             active
             title="Create issue"
-            icon={add}
+            icon={addIcon}
           />
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
                 active={active}
-                icon={drag}
+                icon={dragIcon}
               />
             )}
           >
