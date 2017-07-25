@@ -19,8 +19,12 @@ const htmlLoaderOptions = `?${JSON.stringify({
 
 const svgSpriteLoader = {
   test: /\.svg$/,
-  loader: `${resolveLoader('svg-sprite')}?angularBaseWorkaround`,
-  include: [require('jetbrains-logos'), require('jetbrains-icons')]
+  loader: resolveLoader('svg-sprite'),
+  include: [require('jetbrains-logos'), require('jetbrains-icons')],
+  options: {
+    extract: false,
+    runtimeCompat: true
+  }
 };
 
 const svgLoader = {
