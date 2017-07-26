@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import okIcon from 'jetbrains-icons/ok.svg';
+import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import {List as VirtualizedList} from 'react-virtualized';
@@ -323,12 +323,12 @@ describe('List', () => {
     it('should render glyph if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', glyph: okIcon, type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', glyph: checkMarkIcon, type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
       mountFirstItem(instance).find('use').getDOMNode().
-        getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
+        getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon);
     });
 
     it('should throw error on unknown type', () => {
