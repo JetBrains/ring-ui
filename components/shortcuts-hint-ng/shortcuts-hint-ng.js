@@ -6,7 +6,7 @@ import sniffer from '../global/sniffer';
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
-import iconNg from '../icon-ng/icon-ng';
+import IconNg from '../icon-ng/icon-ng';
 import '../input-legacy/input-legacy.scss';
 
 import HintPopupTpl from './shortcuts-hint-ng.html';
@@ -64,7 +64,7 @@ const winSymbolsMap = {
 /* global angular:false */
 const angularModule = angular.module(
   'Ring.shortcuts.hint-popup',
-  [DialogNg, ShortcutsNg, iconNg, RingTemplateNg]
+  [DialogNg, ShortcutsNg, IconNg, RingTemplateNg]
 );
 const getTitle = title => (typeof title === 'function' ? title() : title);
 

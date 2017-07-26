@@ -73,8 +73,8 @@ a.legacy {
   /* override Link */
   && {
     position: absolute;
-    right: 0;
-    bottom: 6px;
+    right: -2px;
+    bottom: 5px;
 
     display: block;
 

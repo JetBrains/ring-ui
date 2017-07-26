@@ -2,7 +2,7 @@
  * @name Title Ng
  * @category Angular Components
  * @tags 3.0
- * @description A component that enables manipulation with page title
+ * @description A component for manipulating page title.
  * @example
    <example name="Title Ng">
     <file name="index.html">
