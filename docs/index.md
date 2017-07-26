@@ -28,4 +28,4 @@ plugins developed for JetBrains' products.
  
 - Git repository: ssh://github.com/JetBrains/ring-ui.git 
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
-- [Code browsing and review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
+- [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
