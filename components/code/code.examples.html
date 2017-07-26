@@ -13,10 +13,14 @@
     const demo = (
       <Code
         code={`
-          import React from 'react';
-          import Code from 'ring-ui/components/code/code';
+          import React, {Component} from 'react';
+          import ChildComponent from './child-component';
 
-          const code = <Code code="some('js');" />;
+          const MyComponent = () => (
+            <div className="class">
+              <ChildComponent prop="value" />
+            </div>
+          );
         `}
       />
     );
