@@ -1,4 +1,4 @@
-import '../icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
 import '../checkbox/checkbox.scss';
@@ -76,7 +76,7 @@ import '../checkbox/checkbox.scss';
    </example>
  */
 /* global angular: false */
-const angularModule = angular.module('Ring.checkbox', ['Ring.icon']);
+const angularModule = angular.module('Ring.checkbox', [IconNG]);
 
 let idCounter = 0;
 const CHECKBOX_ID_PREFIX = 'rg-checkbox-';
