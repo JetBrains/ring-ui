@@ -21,14 +21,14 @@
     import {render} from 'react-dom';
     import Icon from 'ring-ui/components/icon/icon';
     import searchIcon from 'jetbrains-icons/search.svg';
-    import okIcon from 'jetbrains-icons/ok.svg';
+    import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
     import pencilIcon from 'jetbrains-icons/pencil.svg';
     import permissionIcon from 'jetbrains-icons/permission.svg';
 
     render(<Icon
       className="additional-class"
       color="orange"
-      glyph={okIcon}
+      glyph={checkMarkIcon}
       size={Icon.Size.Size32}
     />, document.getElementById('icon-container'));
 
@@ -125,75 +125,5 @@
         />;
       })
     }), document.getElementById('logos'));
-  </file>
-</example>
-
-<example name="Required icons list">
-  <file type="html">
-    <div id="all-icons"></div>
-  </file>
-
-  <file type="css">
-    @value unit, link-color from '../global/global.css';
-
-    :global(.icon-example__container) {
-      margin-left: calc(0 - calc(unit * 2));
-    }
-
-    :global(.icon-example__container) {
-      margin-left: calc(0 - calc(unit * 2));
-    }
-
-    :global(.ring-icon) {
-      margin: 8px;
-      padding: 8px;
-      color: link-color;
-    }
-  </file>
-
-  <file type="js">
-    import React from 'react';
-    import {render} from 'react-dom';
-    import {createElement} from 'react';
-    import Icon from 'ring-ui/components/icon/icon';
-
-    const icons = require.context('jetbrains-icons', false, /\.svg$/);
-
-    const requiredIcons = [
-      './close.svg',
-      './ok.svg',
-      './expand.svg',
-      './check.svg',
-      './warning.svg',
-      './search.svg',
-      './collapse.svg',
-      './chevron-down.svg',
-      './unsorted.svg',
-      './services.svg',
-      './exception.svg',
-      './drag.svg',
-      './chevron-up.svg',
-      './caret-down.svg',
-      './calendar.svg',
-      './pencil.svg',
-      './frown.svg',
-      './permission.svg',
-    ];
-
-    render(createElement('div', {
-      className: 'icon-example__container',
-      children: requiredIcons.map(icons).map(function (icon, index) {
-        return (
-          <span>
-            <Icon
-              glyph={icon}
-              title={icon}
-            />
-            {icon.replace('#', '')}
-            <br />
-          </span>
-        );
-      })
-    }), document.getElementById('all-icons'));
   </file>
 </example>
