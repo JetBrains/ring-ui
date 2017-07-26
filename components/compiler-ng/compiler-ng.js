@@ -1,7 +1,6 @@
 /**
  * @name Compiler Ng
  * @category Angular Components
- * @description TODO
  * @example
    <example name="Compiler Ng">
     <file name="index.html">
