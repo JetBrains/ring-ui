@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Link from '../link/link';
 
@@ -24,7 +24,7 @@ export default class ListLink extends PureComponent {
   render() {
     const {className, label, description, rgItemType, scrolling, url, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
-    const classes = classnames('ring-list__item', className, {
+    const classes = classNames('ring-list__item', className, {
       'ring-list__item_scrolling': scrolling
     });
 

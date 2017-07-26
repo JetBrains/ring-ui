@@ -8,7 +8,7 @@ import 'dom4';
 import 'core-js/modules/es6.array.find';
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import debounce from 'mout/function/debounce';
 import {
   List as VirtualizedList,
@@ -612,7 +612,7 @@ export default class List extends RingComponentWithShortcuts {
 
     const maxHeight = this.props.maxHeight && this.getVisibleListHeight(this.props);
 
-    const classes = classnames('ring-list', this.props.className);
+    const classes = classNames('ring-list', this.props.className);
 
     return (
       <div

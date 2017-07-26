@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import styles from './link.css';
 
@@ -27,7 +27,7 @@ export function linkHOC(ComposedComponent) {
 
     render() {
       const {active, inherit, pseudo, hover, className, ...props} = this.props;
-      const classes = classnames(styles.link, className, {
+      const classes = classNames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
         [styles.pseudo]: pseudo,

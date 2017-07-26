@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Icon from '../icon/icon';
 
@@ -22,7 +22,7 @@ export default class TrayIcon extends Component {
 
   render() {
     const {className, active, rotated, ...restProps} = this.props;
-    const classes = classnames(
+    const classes = classNames(
       {[styles.rotatedIcon]: rotated},
       active ? styles.activeIcon : styles.icon,
       className
