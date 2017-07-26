@@ -17,7 +17,7 @@ import styles from './markdown.css';
   * @category Components
   * @framework React
   * @constructor
-  * @description Renders Markdown
+  * @description Renders Markdown.
   * @example-file ./markdown.examples.html
 */
 

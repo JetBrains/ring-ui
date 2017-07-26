@@ -14,7 +14,7 @@ import styles from './confirm.css';
  * @category Components
  * @framework React
  * @constructor
- * @description A component to show confirmation dialog
+ * @description A component that shows a confirmation dialog.
  * @example-file ./confirm.examples.html
  */
 

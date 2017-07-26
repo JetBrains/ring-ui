@@ -15,7 +15,7 @@ import styles from './code.css';
  * @category Components
  * @framework React
  * @constructor
- * @description Shows code block. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.
+ * @description Shows a block of code. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.
  * @example-file ./code.examples.html
  */
 

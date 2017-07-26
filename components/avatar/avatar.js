@@ -13,7 +13,7 @@ import styles from './avatar.css';
  * @category Components
  * @framework React
  * @constructor
- * @description Displays an avatar or a box with border in case of failure.
+ * @description Displays an avatar. In case of a loading error an empty square is displayed.
  * @example
    <example name="avatar">
      <file name="index.html">
