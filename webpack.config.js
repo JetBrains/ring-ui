@@ -23,7 +23,8 @@ const svgSpriteLoader = {
   include: [require('jetbrains-logos'), require('jetbrains-icons')],
   options: {
     extract: false,
-    runtimeCompat: true
+    runtimeCompat: true,
+    esModule: false
   }
 };
 
