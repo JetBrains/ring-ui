@@ -1,12 +1,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import okIcon from 'jetbrains-icons/ok.svg';
+import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
 
 import Tag from './tag';
 
 
 describe('Tag', () => {
-  const tagMock = {key: 1, label: 'test1', rgTagIcon: okIcon};
+  const tagMock = {key: 1, label: 'test1', rgTagIcon: checkMarkIcon};
 
   const shallowTag = props => shallow(<Tag {...tagMock} {...props}/>);
 
