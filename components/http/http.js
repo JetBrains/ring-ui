@@ -6,7 +6,7 @@ import {encodeURL, joinBaseURLAndPath} from '../global/url';
 /**
  * @name HTTP
  * @category Utilities
- * @description Provides a way to perform authorized network requests
+ * @description Provides a way to perform authorized network requests.
  * @example-file ./http.examples.html
  */
 

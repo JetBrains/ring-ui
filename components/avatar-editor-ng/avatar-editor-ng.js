@@ -2,12 +2,12 @@ import editIcon from 'jetbrains-icons/pencil.svg';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
-import iconNg from '../icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 
 import '../avatar-editor/avatar-editor.scss';
 import '../button-legacy/button-legacy.scss';
 
-const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, iconNg]);
+const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, IconNG]);
 
 /**
  * @name Avatar Editor Ng

@@ -2,7 +2,7 @@
  * @name Avatar Ng
  * @category Angular Components
  * @framework Angular
- * @description Provides an Angular wrapper for Avatar
+ * @description Provides an Angular wrapper for Avatar.
  * @example
  <example name="AvatarNg">
    <file name="index.html">

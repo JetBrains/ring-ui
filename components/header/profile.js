@@ -1,6 +1,6 @@
 import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
 import Button from '../button/button';
@@ -66,7 +66,7 @@ export default class Profile extends PureComponent {
       return (
         <div
           {...props}
-          className={classnames(styles.profileEmpty, className)}
+          className={classNames(styles.profileEmpty, className)}
         >
           <Avatar size={size}/>
         </div>
@@ -76,7 +76,7 @@ export default class Profile extends PureComponent {
     if (user.guest) {
       return (
         <div
-          className={classnames(styles.profileEmpty, className)}
+          className={classNames(styles.profileEmpty, className)}
         >
           <Button
             theme={Button.Theme.DARK}
@@ -94,7 +94,7 @@ export default class Profile extends PureComponent {
 
     const anchor = (
       <div
-        className={classnames(styles.avatarWrapper, {
+        className={classNames(styles.avatarWrapper, {
           [styles.hasUpdates]: hasUpdates
         })}
       >
@@ -111,7 +111,7 @@ export default class Profile extends PureComponent {
         {...props}
         title={user.name}
         anchor={anchor}
-        className={classnames(styles.profile, className)}
+        className={classNames(styles.profile, className)}
       >
         <PopupMenu
           closeOnSelect={closeOnSelect}

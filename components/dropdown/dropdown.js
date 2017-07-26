@@ -11,7 +11,7 @@ import styles from './dropdown.css';
  * @tags 3.0
  * @framework React
  * @constructor
- * @description A stateful popup with clickable anchor
+ * @description A stateful popup with a clickable anchor.
  * @example-file ./dropdown.examples.html
  */
 
