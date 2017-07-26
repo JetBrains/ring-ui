@@ -2,7 +2,7 @@ import 'dom4';
 
 import 'angular';
 import 'angular-mocks';
-import okIcon from 'jetbrains-icons/ok.svg';
+import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
 import warningIcon from 'jetbrains-icons/warning.svg';
 
 import Icon from './icon-ng';
@@ -19,7 +19,7 @@ describe('Icon Ng', () => {
   /* global inject */
   beforeEach(inject(($rootScope, _$compile_) => {
     scope = $rootScope.$new();
-    scope.icon = okIcon;
+    scope.icon = checkMarkIcon;
     $compile = _$compile_;
 
     element = $compile(`
@@ -41,7 +41,7 @@ describe('Icon Ng', () => {
 
   it('should contain non-empty use element', () => {
     // queries like 'use[*|href="#ok"]' do not work in IE
-    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(okIcon);
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon);
   });
 
   it('should change use element content', () => {

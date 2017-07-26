@@ -7,7 +7,7 @@
   <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
-    import okIcon from 'jetbrains-icons/ok.svg';
+    import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
 
     import Tag from 'ring-ui/components/tag/tag';
     import hubConfig from 'ring-ui-docs/components/hub-config';
@@ -17,7 +17,7 @@
       <span>
         <Tag>Simple</Tag>
         <Tag readOnly={true}>Read-only</Tag>
-        <Tag rgTagIcon={okIcon} rgTagTitle="I am an icon title">With icon title</Tag>
+        <Tag rgTagIcon={checkMarkIcon} rgTagTitle="I am an icon title">With icon title</Tag>
         <Tag avatar={url} rgTagTitle="Tags with image" readOnly={true}>With avatar</Tag>
       </span>
     );

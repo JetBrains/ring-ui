@@ -23,11 +23,11 @@ import '../icon/icon.scss';
       import angular from 'angular';
       import IconNG from 'ring-ui/components/icon-ng/icon-ng';
       import ButtonNG from 'ring-ui/components/button-ng/button-ng';
-      import okIcon from 'jetbrains-icons/ok.svg';
+      import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
       import warningIcon from 'jetbrains-icons/warning.svg';
 
       angular.module('TestApp', [ButtonNG, IconNG]).controller('testCtrl', function($scope) {
-        $scope.icon = okIcon;
+        $scope.icon = checkMarkIcon;
         $scope.error = warningIcon;
       });
     </file>
