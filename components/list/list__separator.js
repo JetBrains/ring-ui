@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 export default class ListSeparator extends PureComponent {
   static propTypes = {
@@ -14,7 +14,7 @@ export default class ListSeparator extends PureComponent {
   render() {
     const {description, isFirst} = this.props;
 
-    const classes = classnames({
+    const classes = classNames({
       'ring-list__separator': true,
       'ring-list__separator_empty': !description,
       'ring-list__separator_first': isFirst

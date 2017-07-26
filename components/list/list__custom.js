@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 export default class ListCustom extends PureComponent {
   static propTypes = {
@@ -26,7 +26,7 @@ export default class ListCustom extends PureComponent {
 
   render() {
     const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
-    const classes = classnames({
+    const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !disabled,
       'ring-list__item_hover': hover && !disabled,

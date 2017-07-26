@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
 import Button from '../button/button';
@@ -68,7 +68,7 @@ export default class AuthDialog extends Component {
       <Dialog
         data-test="ring-auth-dialog"
         className={className}
-        contentClassName={classnames(className, styles.dialog)}
+        contentClassName={classNames(className, styles.dialog)}
         onEscPress={this.onEscPress}
         show={show}
       >

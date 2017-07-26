@@ -2,7 +2,7 @@ import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
 import RingAngularComponent from '../global/ring-angular-component';
-import Icon from '../icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 
 import '../button/button.scss';
 
@@ -17,7 +17,7 @@ const DEFAULT_ICON_SIZE = 16;
 
 /* global angular */
 
-const angularModule = angular.module('Ring.button', [Icon]);
+const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';
 
 class ButtonController extends RingAngularComponent {

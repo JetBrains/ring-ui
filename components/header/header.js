@@ -1,6 +1,6 @@
 import React, {Children, Component} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Tray from './tray';
 import styles from './header.css';
@@ -28,7 +28,7 @@ export default class Header extends Component {
 
   render() {
     const {children, className, ...restProps} = this.props;
-    const classes = classnames(styles.header, className);
+    const classes = classNames(styles.header, className);
 
     return (
       <div

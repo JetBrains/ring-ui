@@ -57,19 +57,19 @@
     import 'ring-ui/components/link/link.scss';
     import authService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
     import hubConfig from 'ring-ui-docs/components/hub-config';
-    import LandintEntryFileName from 'ring-ui/components/auth/landing-entry';
+    import LandingEntryFileName from 'ring-ui/components/auth/landing-entry';
 
     async function run() {
       const auth = new Auth({
         ...hubConfig,
         windowLogin: true,
-        redirectUri: hubConfig.redirect_uri + LandintEntryFileName
+        redirectUri: hubConfig.redirect_uri + LandingEntryFileName
       });
 
       auth.setAuthDialogService(authService);
       await auth.init();
 
-      document.querySelector('#open-link').href = LandintEntryFileName;
+      document.querySelector('#open-link').href = LandingEntryFileName;
 
       document.querySelector('#force-update').addEventListener('click', () => {
         auth.forceTokenUpdate();
