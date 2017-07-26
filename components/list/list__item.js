@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import checkIcon from 'jetbrains-icons/check.svg';
 
 import Icon from '../icon/icon';
@@ -61,13 +61,13 @@ export default class ListItem extends PureComponent {
     const {props} = this;
     const {scrolling, checkbox, glyph, icon, rightGlyph, description, label,
       details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
-    const classes = classnames({
+    const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !props.disabled,
       'ring-list__item_hover': props.hover && !props.disabled,
       'ring-list__item_scrolling': scrolling
     }, props.className);
-    const detailsClasses = classnames({
+    const detailsClasses = classNames({
       'ring-list__item__details': props.details,
       'ring-list__item__details_padded': props.icon !== undefined ||
         props.checkbox !== undefined ||
@@ -92,7 +92,7 @@ export default class ListItem extends PureComponent {
           <div className="ring-list__item__left">
             {checkbox !== undefined && (
               <Icon
-                className={classnames({
+                className={classNames({
                   'ring-list__glyph': true,
                   'ring-list__glyph_checkbox': true,
                   'ring-list__glyph_hidden': !checkbox

@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import servicesIcon from 'jetbrains-icons/services.svg';
 
 import Dropdown from '../dropdown/dropdown';
@@ -35,7 +35,7 @@ export default class Services extends PureComponent {
     // eslint-disable-next-line no-unused-vars
     const {className, clientId, loading, services, initShown, ...props} = this.props;
 
-    const classes = classnames(className, {
+    const classes = classNames(className, {
       ['ring-icon_loading']: loading
     });
 

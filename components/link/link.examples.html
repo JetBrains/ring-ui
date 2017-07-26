@@ -6,13 +6,13 @@
   <file type="js">
     import React, {Component} from 'react';
     import {render} from 'react-dom';
-    import classnames from 'classnames';
+    import classNames from 'classnames';
     import Link, {linkHOC} from 'ring-ui/components/link/link';
 
     class CustomComponent extends Component {
       render() {
         const {active, activeClassName, className,...props} = this.props;
-        const classes = classnames(className, {
+        const classes = classNames(className, {
           [activeClassName]: active
         });
         return (

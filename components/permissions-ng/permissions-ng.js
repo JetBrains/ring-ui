@@ -5,7 +5,7 @@
 import 'dom4';
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
-import PermissionsCache from '../permissions/permissions__cache';
+import PermissionCache from '../permissions/permissions__cache';
 
 import './permissions-ng.scss';
 
@@ -113,7 +113,7 @@ angularModule.directive(
         const permission = $interpolate($attrs.rgPermission)($scope);
 
         const projectId = $attrs.hasOwnProperty('inGlobal')
-          ? PermissionsCache.GLOBAL_PROJECT_ID
+          ? PermissionCache.GLOBAL_PROJECT_ID
           : $scope.$eval($attrs.inProject);
 
         userPermissions.check(permission, projectId).
@@ -174,7 +174,7 @@ angularModule.directive(
         let childScope;
 
         const projectId = iAttrs.hasOwnProperty('inGlobal')
-          ? PermissionsCache.GLOBAL_PROJECT_ID
+          ? PermissionCache.GLOBAL_PROJECT_ID
           : scope.$eval(iAttrs.inProject);
 
         const permission = $interpolate(iAttrs.rgPermissionIf)(scope);

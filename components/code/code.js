@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import highlight from 'highlight.js';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import 'highlight.js/styles/github.css';
 
@@ -53,7 +53,7 @@ export default class Code extends PureComponent {
     const {code, className, inline, language} = this.props;
 
     const Tag = inline ? 'span' : 'pre';
-    const classes = classnames(styles.code, className, language, {
+    const classes = classNames(styles.code, className, language, {
       [styles.inline]: inline
     });
 
