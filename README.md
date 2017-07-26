@@ -4,18 +4,16 @@ category: Docs
 order: 1
 ---
 
-# Ring UI library
+[Living style guide](http://ring-ui.github.io) is available.
 
-**See the [living style guide](http://ring-ui.github.io)**.
-
-## Development environment setup
+### Development environment setup
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install Node.js
 3. Install dependencies: `npm install`
 4. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
-## Available commands
+### Available commands
 
 Bootstrap the sub-packages: `npm run bootstrap` (should be done before anything else)
 
@@ -27,7 +25,7 @@ To lint code: `npm run lint`
 
 To build production files: `npm run build`
 
-#### Settings
+### Settings
 
 By default, documentation is built using `development` environment.
 Use the `--env.production` flag to switch it to `production`.
@@ -47,8 +45,7 @@ Example: `npm config set ring-ui:port 8765`
 3. Persistently for a given environment: `npm config set ring-ui:<environment>:<param> <value>`  
 Example: `npm config set ring-ui:development:port 8765`
 
-
-## Contributing
+### Contributing
 
 To add a new component, issue one of the following commands after changing to the `components` folder:
   * For a plain ES6 component: `npm run component:es6`
@@ -57,7 +54,7 @@ To add a new component, issue one of the following commands after changing to th
   
 It will ask for component name and then create the skeleton for you.
   
-## Building on host project side
+### Building on host project side
 
 1. Add the JetBrains internal registry to `.npmrc` in your project folder:
    ``` shell
@@ -93,7 +90,7 @@ It will ask for component name and then create the skeleton for you.
 
 This reads Ring UI configuration and overrides some config params.
 
-## Starting a new project with Ring UI
+### Starting a new project with Ring UI
 
 1. Install Yeoman: `npm install yo -g`
 2. Install Ring UI yeoman generator: `npm i -g generator-ring-ui`
@@ -102,17 +99,17 @@ and desired frameworks (plain JS, ReactJS or AngularJS). It will then create a p
 with testing infrastructure, webpack build configuration, ES6 support, ESLint and the required package.json dependencies.
 4. Go to the generated project folder and run `npm install` followed by `npm start`. You project is ready to be developed.
 
-## Is Lodash or Underscore available?
+### Is Lodash or Underscore available?
 
 Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/).
 Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
 
-## Is jQuery available?
+### Is jQuery available?
 
 Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4';`) 
 and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
 
-## Wallaby support
+### Wallaby support
 
 To enable the `Wallaby.js` test runner follow these steps:
  
@@ -120,10 +117,9 @@ To enable the `Wallaby.js` test runner follow these steps:
 2. Make sure Node.js is available at `/usr/local/bin/node`, if not – create a symlink.  
 3. Run the `Wallaby` configuration in WebStorm.
 
+### Visual regression testing
 
-## Visual regression testing
-
-#### Note: you should have the development server running before executing the commands below (`npm start`)
+**Run the development server with `npm start` before executing the commands listed below**
 
 Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works
 by taking "screenshots" and comparing them to existing reference images. After you make some visual changes, 
