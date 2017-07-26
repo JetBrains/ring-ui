@@ -87,10 +87,9 @@
     render(createElement('div', {
       className: 'icon-example__container',
       children: icons.keys().map(icons).map(function (icon) {
-        const key = icon.default;
         return <Icon
-          glyph={key}
-          title={key}
+          glyph={icon}
+          title={icon}
         />;
       })
     }), document.getElementById('all-icons'));
@@ -119,10 +118,9 @@
 
     render(createElement('div', {
       children: logos.keys().map(logos).map(function (icon) {
-        const key = icon.default;
         return <Icon
-          glyph={key}
-          title={key}
+          glyph={icon}
+          title={icon}
           size={Icon.Size.Size128}
         />;
       })
@@ -185,14 +183,13 @@
     render(createElement('div', {
       className: 'icon-example__container',
       children: requiredIcons.map(icons).map(function (icon, index) {
-        const key = icon.default;
         return (
           <span>
             <Icon
-              glyph={key}
-              title={key}
+              glyph={icon}
+              title={icon}
             />
-            {key.replace('#', '')}
+            {icon.replace('#', '')}
             <br />
           </span>
         );
