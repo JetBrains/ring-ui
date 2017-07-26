@@ -1,4 +1,4 @@
-import iconNg from '../icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 
 import '../error-message-ng/error-message-ng.scss';
 
@@ -29,7 +29,7 @@ import '../error-message-ng/error-message-ng.scss';
  */
 /* global angular: false */
 
-const angularModule = angular.module('Ring.error-message', [iconNg]);
+const angularModule = angular.module('Ring.error-message', [IconNG]);
 
 angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
   return {

@@ -15,7 +15,7 @@ import styles from './date-picker.css';
  * @tags 3.0
  * @framework React
  * @constructor
- * @description Allows picking a date or a date range
+ * @description Allows picking a date or a date range.
  * @example-file ./date-picker.examples.html
  */
 

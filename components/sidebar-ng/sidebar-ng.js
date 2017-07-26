@@ -1,5 +1,5 @@
 import PlaceUnder from '../place-under-ng/place-under-ng';
-import iconNg from '../icon-ng/icon-ng';
+import IconNG from '../icon-ng/icon-ng';
 import RingAngularComponent from '../global/ring-angular-component';
 
 import '../sidebar/sidebar.scss';
@@ -15,7 +15,7 @@ import '../button-legacy/button-legacy.scss';
  */
 /* global angular */
 
-const angularModule = angular.module('Ring.sidebar', [PlaceUnder, iconNg]);
+const angularModule = angular.module('Ring.sidebar', [PlaceUnder, IconNG]);
 
 class SidebarController extends RingAngularComponent {
   static $inject = ['$scope'];

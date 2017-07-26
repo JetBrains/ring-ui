@@ -36,7 +36,8 @@ module.exports = generators.Base.extend({
         this.props = Object.assign({
           projectName,
           camelCaseName,
-          port
+          port,
+          additionalDevServerOptions: ''
         }, versions);
       }).
       then(() => {

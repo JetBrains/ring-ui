@@ -1,6 +1,6 @@
 import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Link, {linkHOC} from '../link/link';
 
@@ -31,7 +31,7 @@ export default class ListLink extends PureComponent {
 
   render() {
     const {scrolling, className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
-    const classes = classnames(styles.item, className, {
+    const classes = classNames(styles.item, className, {
       [styles.actionLink]: !disabled,
       [styles.compact]: compact,
       [styles.scrolling]: scrolling

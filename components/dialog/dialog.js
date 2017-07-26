@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import getEventKey from 'react-dom/lib/getEventKey';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 
 import {AdaptiveIsland} from '../island/island';
@@ -72,7 +72,7 @@ export default class Dialog extends PureComponent {
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
     const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
-    const classes = classnames(styles.container, className);
+    const classes = classNames(styles.container, className);
 
     return (
       <Portal
@@ -87,7 +87,7 @@ export default class Dialog extends PureComponent {
           {...restProps}
         >
           <AdaptiveIsland
-            className={classnames(styles.content, contentClassName)}
+            className={classNames(styles.content, contentClassName)}
             data-test="ring-dialog"
           >
             {children}
