@@ -9,7 +9,7 @@ import styles from './heading.css';
  * @category Components
  * @framework React
  * @constructor
- * @description Replacement for h1-h5 tags
+ * @description A component for rendering h1-h5 tags.
  * @example
   <example name="heading">
     <file name="index.html">
