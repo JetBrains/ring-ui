@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import checkmarkIcon from 'jetbrains-icons/checkmark.svg';
 
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
@@ -89,13 +89,13 @@ export default class ListItem extends PureComponent {
       ...restProps
     } = this.props;
     /* eslint-enable */
-    const classes = classnames(styles.item, className, {
+    const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
       [styles.compact]: compact,
       [styles.scrolling]: scrolling
     });
-    const detailsClasses = classnames({
+    const detailsClasses = classNames({
       [styles.details]: details,
       [styles.padded]: icon !== undefined ||
         checkbox !== undefined ||
@@ -159,7 +159,7 @@ export default class ListItem extends PureComponent {
             {rightNodes}
             {checkbox !== undefined && (
               <Icon
-                className={classnames(styles.checkbox, {
+                className={classNames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
                 glyph={checkmarkIcon}

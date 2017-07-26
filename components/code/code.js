@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import highlight from 'highlight.js';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import 'highlight.js/styles/github.css';
 
@@ -16,7 +16,7 @@ import styles from './code.css';
  * @tags 3.0
  * @framework React
  * @constructor
- * @description Shows code block. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.
+ * @description Shows a block of code. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.
  * @example-file ./code.examples.html
  */
 
@@ -54,7 +54,7 @@ export default class Code extends PureComponent {
     const {code, className, inline, language} = this.props;
 
     const Tag = inline ? 'span' : 'pre';
-    const classes = classnames(styles.code, className, language, {
+    const classes = classNames(styles.code, className, language, {
       [styles.inline]: inline
     });
 

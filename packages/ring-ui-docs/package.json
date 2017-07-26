@@ -19,7 +19,7 @@
   "scripts": {
     "build-prod": "webpack --env.production",
     "build": "webpack",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server"
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
     "http-server": "0.10.0",

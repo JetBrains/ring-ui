@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import styles from './list.css';
 
@@ -28,7 +28,7 @@ export default class ListCustom extends PureComponent {
 
   render() {
     const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
-    const classes = classnames(styles.item, className, {
+    const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
       [styles.scrolling]: scrolling

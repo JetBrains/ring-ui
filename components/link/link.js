@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import styles from './link.css';
 
@@ -16,7 +16,7 @@ import styles from './link.css';
 
 function makeWrapText(innerClassName) {
   const WrapText = ({className, children}) => {
-    const classes = classnames(styles.inner, className, innerClassName);
+    const classes = classNames(styles.inner, className, innerClassName);
     return <span className={classes}>{children}</span>;
   };
 
@@ -53,7 +53,7 @@ export function linkHOC(ComposedComponent) {
         children,
         ...props
       } = this.props;
-      const classes = classnames(styles.link, className, {
+      const classes = classNames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
         [styles.hover]: hover
