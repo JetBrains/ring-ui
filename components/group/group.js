@@ -9,7 +9,7 @@ import styles from './group.css';
  * @category Components
  * @framework React
  * @constructor
- * @description Places inner components with fixed spacing between
+ * @description Places inner components with fixed spacing between them.
  * @example
    <example name="group">
      <file name="index.html">

@@ -5,7 +5,7 @@ import '../loader-inline/loader-inline.scss';
  * @category Angular Components
  * @framework Angular
  * @constructor
- * @description Wraps markup for loader-inline component
+ * @description Wraps markup for loader-inline component.
  * @example
     <example name="loader-inline-ng">
       <file name="index.html">

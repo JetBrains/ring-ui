@@ -10,7 +10,7 @@ import styles from './dropdown.css';
  * @category Components
  * @framework React
  * @constructor
- * @description A stateful popup with clickable anchor
+ * @description A stateful popup with a clickable anchor.
  * @example-file ./dropdown.examples.html
  */
 
