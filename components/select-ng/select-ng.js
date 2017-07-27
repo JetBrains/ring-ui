@@ -417,6 +417,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           multiple: ctrl.multiple,
           popupClassName: $attrs.popupClass,
           clear: ctrl.clear,
+          renderOptimization: getType() !== 'dropdown',
           type: getSelectType(),
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
           notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
