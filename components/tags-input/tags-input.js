@@ -46,7 +46,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     canNotBeEmpty: PropTypes.bool,
     modalShortcuts: PropTypes.bool,
     disabled: PropTypes.bool,
-    autoOpen: PropTypes.bool
+    autoOpen: PropTypes.bool,
+    renderOptimization: PropTypes.bool
   };
 
   static defaultProps = {
@@ -58,7 +59,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
     canNotBeEmpty: false,
     modalShortcuts: false,
     disabled: false,
-    autoOpen: false
+    autoOpen: false,
+    renderOptimization: false
   };
 
   state = {
@@ -294,6 +296,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           onSelect={this.addTag}
           onFocus={this._focusHandler}
           onBlur={this._blurHandler}
+          renderOptimization={this.props.renderOptimization}
           filter={{
             fn: () => true
           }}
