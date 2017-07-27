@@ -11,7 +11,7 @@ const packages = [
   'generator-ring-ui',
   'ring-ui',
   'jetbrains-logos',
-  'jetbrains-icons'
+  '@jetbrains/icons'
 ];
 
 module.exports = generators.Base.extend({
