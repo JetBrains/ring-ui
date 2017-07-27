@@ -2,9 +2,9 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
-import dragIcon from 'jetbrains-icons/drag.svg';
-import collapseIcon from 'jetbrains-icons/collapse.svg';
-import expandIcon from 'jetbrains-icons/expand.svg';
+import dragIcon from '@jetbrains/icons/drag.svg';
+import collapseIcon from '@jetbrains/icons/collapse.svg';
+import expandIcon from '@jetbrains/icons/expand.svg';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';

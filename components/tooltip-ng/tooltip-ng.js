@@ -28,7 +28,7 @@ import './tooltip-ng.scss';
         import angular from 'angular';
         import IconNG from 'ring-ui/components/icon-ng/icon-ng';
         import TooltipNG from 'ring-ui/components/tooltip-ng/tooltip-ng';
-        import warningIcon from 'jetbrains-icons/warning.svg';
+        import warningIcon from '@jetbrains/icons/warning.svg';
 
         angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
           $scope.warningIcon = warningIcon;

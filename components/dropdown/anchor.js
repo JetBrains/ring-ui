@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chevronDownIcon from 'jetbrains-icons/chevron-down.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import Icon from '../icon/icon';
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import caretDownIcon from 'jetbrains-icons/caret-down.svg';
-import closeIcon from 'jetbrains-icons/close.svg';
+import caretDownIcon from '@jetbrains/icons/caret-down.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
