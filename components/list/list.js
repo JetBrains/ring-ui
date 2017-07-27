@@ -593,7 +593,7 @@ export default class List extends RingComponentWithShortcuts {
       >
         <div
           style={maxHeight
-            ? {maxHeight: this.getVisibleListHeight()}
+            ? {maxHeight: this.getVisibleListHeight(this.props)}
             : null
           }
         >
