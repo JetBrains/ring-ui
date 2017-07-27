@@ -10,7 +10,7 @@ const componentsPath = join(__dirname, pkgConfig.components);
 // Patch ring-ui svg-sprite-loader config
 ringUiWebpackConfig.loaders.svgSpriteLoader.include.push(
   require('jetbrains-logos'),
-  require('jetbrains-icons')
+  require('@jetbrains/icons')
 );
 
 const webpackConfig = () => ({
