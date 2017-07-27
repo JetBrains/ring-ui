@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
+import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import Tag from './tag';
 

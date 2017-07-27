@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import closeIcon from 'jetbrains-icons/close.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';

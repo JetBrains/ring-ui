@@ -2,8 +2,8 @@ import 'dom4';
 
 import 'angular';
 import 'angular-mocks';
-import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
-import warningIcon from 'jetbrains-icons/warning.svg';
+import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+import warningIcon from '@jetbrains/icons/warning.svg';
 
 import Icon from './icon-ng';
 
