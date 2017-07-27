@@ -190,7 +190,7 @@ function reactNgDirective($parse) {
        registerComponents({Icon});
 
        angular.module('react-ng-test', ['Ring.react-ng']).controller('testController', () => {});
-       import 'jetbrains-icons/pencil.svg';
+       import '@jetbrains/icons/pencil.svg';
      </file>
    </example>
 
@@ -207,7 +207,7 @@ function reactNgDirective($parse) {
        import registerComponents from 'ring-ui/components/react-ng/react-ng';
        import Icon from 'ring-ui/components/icon/icon';
        import Button from 'ring-ui/components/button/button';
-       import 'jetbrains-icons/check.svg';
+       import '@jetbrains/icons/check.svg';
 
        registerComponents({Icon, Button});
 

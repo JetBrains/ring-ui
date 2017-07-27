@@ -1,7 +1,7 @@
 /* @flow */
 import React, {PureComponent, Element} from 'react';
-import collapseIcon from 'jetbrains-icons/collapse.svg';
-import expandIcon from 'jetbrains-icons/expand.svg';
+import collapseIcon from '@jetbrains/icons/collapse.svg';
+import expandIcon from '@jetbrains/icons/expand.svg';
 
 import Icon from '../icon/icon';
 

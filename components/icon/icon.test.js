@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import expandIcon from 'jetbrains-icons/expand.svg';
+import expandIcon from '@jetbrains/icons/expand.svg';
 
 import {resolveRelativeURL} from '../global/url';
 

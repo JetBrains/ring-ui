@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
+import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import {List as VirtualizedList} from 'react-virtualized';

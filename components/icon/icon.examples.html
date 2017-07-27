@@ -20,10 +20,10 @@
     import React from 'react';
     import {render} from 'react-dom';
     import Icon from 'ring-ui/components/icon/icon';
-    import searchIcon from 'jetbrains-icons/search.svg';
-    import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
-    import pencilIcon from 'jetbrains-icons/pencil.svg';
-    import permissionIcon from 'jetbrains-icons/permission.svg';
+    import searchIcon from '@jetbrains/icons/search.svg';
+    import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+    import pencilIcon from '@jetbrains/icons/pencil.svg';
+    import permissionIcon from '@jetbrains/icons/permission.svg';
 
     render(<Icon
       className="additional-class"
@@ -82,7 +82,7 @@
     import {createElement} from 'react';
     import Icon from 'ring-ui/components/icon/icon';
 
-    const icons = require.context('jetbrains-icons', false, /\.svg$/);
+    const icons = require.context('@jetbrains/icons', false, /\.svg$/);
 
     render(createElement('div', {
       className: 'icon-example__container',

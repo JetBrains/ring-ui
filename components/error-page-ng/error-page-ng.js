@@ -1,6 +1,6 @@
 import 'dom4';
-import frownIcon from 'jetbrains-icons/frown.svg';
-import permissionIcon from 'jetbrains-icons/permission.svg';
+import frownIcon from '@jetbrains/icons/frown.svg';
+import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
