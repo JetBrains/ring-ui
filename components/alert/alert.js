@@ -2,7 +2,7 @@ import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
 import exceptionIcon from 'jetbrains-icons/exception.svg';
-import okIcon from 'jetbrains-icons/ok.svg';
+import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
 import warningIcon from 'jetbrains-icons/warning.svg';
 import closeIcon from 'jetbrains-icons/close.svg';
 
@@ -41,7 +41,7 @@ const Type = {
  */
 const TypeToIconModifier = {
   [Type.ERROR]: exceptionIcon,
-  [Type.SUCCESS]: okIcon,
+  [Type.SUCCESS]: checkMarkIcon,
   [Type.WARNING]: warningIcon
 };
 
