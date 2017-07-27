@@ -1,4 +1,4 @@
-import editIcon from 'jetbrains-icons/pencil.svg';
+import editIcon from '@jetbrains/icons/pencil.svg';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
