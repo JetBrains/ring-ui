@@ -8,7 +8,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 27-07-2017: @jetbrains/icons
 
-RingUI has been moved to opensourced icons package. Projects should also move to this package and update webpack configurations. 
+Private `jetbrains-icons` package was replaced with a public one that is hosted on GitHub and available as `@jetbrains/icons` in npm. Please update your projects accordingly.
 
 ### 23-07-2017: react-virtualized
 
