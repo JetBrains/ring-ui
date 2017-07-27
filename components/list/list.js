@@ -239,7 +239,7 @@ export default class List extends RingComponentWithShortcuts {
     let correctedIndex;
     if (this.props.data.length === 0 || !this.hasActivatableItems()) {
       return;
-    } else if (this.props.data.length === 1) {
+    } else if (this.props.data.length < index) {
       correctedIndex = 0;
     } else {
       correctedIndex = index;
