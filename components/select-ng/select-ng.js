@@ -4,14 +4,12 @@ import getEventKey from 'react-dom/lib/getEventKey';
 
 import Select from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
-import Popup from '../popup/popup';
 
 import SelectNgOptions from './select-ng__options';
 import SelectLazy from './select-ng__lazy';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 const INFINITE_SCROLL_PACK_SIZE = 50;
-const DROPDOWN_MIN_WIDTH = 200;
 /**
  * @name Select Ng
  * @category Angular Components
@@ -382,13 +380,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
       }
 
-      function getMinWidth(targetNode, selectType) {
-        if (selectType !== 'dropdown') {
-          return Popup.PopupProps.MinWidth.TARGET;
-        }
-        return DROPDOWN_MIN_WIDTH;
-      }
-
       ctrl.$onInit = () => {
         ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
 
@@ -413,7 +404,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           multiple: ctrl.multiple,
           popupClassName: $attrs.popupClass,
           clear: ctrl.clear,
-          minWidth: getMinWidth(element, getType()),
           type: getSelectType(),
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),
           notFoundMessage: ctrl.notFoundMessage || RingMessageBundle.select_options_not_found(),
