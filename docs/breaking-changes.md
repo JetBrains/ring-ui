@@ -6,6 +6,10 @@ order: 2
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 27-07-2017: @jetbrains/icons
+
+RingUI has been moved to opensourced icons package. Projects should also move to this package and update webpack configurations. 
+
 ### 23-07-2017: react-virtualized
 
 The render optimisation logic in List component is delegated to [react-virtualized]() library. Now it works even if the List doesn't have a `maxHeight` prop. You may still opt out of the optimization by passing `renderOptimization={false}`.
