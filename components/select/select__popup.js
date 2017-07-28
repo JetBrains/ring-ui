@@ -189,10 +189,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.isClickingPopup = false;
   };
 
-  listScrollToIndex(index) {
-    this.list && this.list.setActiveItem(index);
-  }
-
   isVisible() {
     return this.popup && this.popup.isVisible();
   }
@@ -322,7 +318,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           activeIndex={this.props.activeIndex}
           ref={this.listRef}
           restoreActiveIndex={true}
-          activateSingleItem={true}
+          activateFirstItem={true}
           onSelect={this.onListSelect}
           onMouseOut={this.listOnMouseOut}
           onScrollToBottom={this.props.onLoadMore}
