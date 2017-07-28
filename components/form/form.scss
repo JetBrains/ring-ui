@@ -227,3 +227,13 @@ $ring-input-width: $ring-unit*25;
   }
 }
 
+.ring-form_small {
+  & .ring-form__label {
+    max-width: 12*$ring-unit;
+  }
+
+  & .ring-form__control {
+    margin-left: 16*$ring-unit;
+  }
+}
+
