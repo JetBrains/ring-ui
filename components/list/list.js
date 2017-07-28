@@ -127,7 +127,8 @@ export default class List extends RingComponentWithShortcuts {
     activeIndex: null,
     activeItem: null,
     needScrollToActive: false,
-    scrolling: false
+    scrolling: false,
+    hasOverflow: false
   };
 
   _activatableItems = false;
@@ -394,13 +395,13 @@ export default class List extends RingComponentWithShortcuts {
     }
   }, SCROLL_HANDLER_DEBOUNCE);
 
-  hasOverflow() {
+  checkOverflow = () => {
     if (this.inner) {
-      return this.inner.scrollHeight - this.inner.clientHeight > 1;
+      this.setState({
+        hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
+      });
     }
-
-    return false;
-  }
+  };
 
   getShortcutsProps() {
     return {
@@ -554,6 +555,7 @@ export default class List extends RingComponentWithShortcuts {
                 : undefined
             }
             deferredMeasurementCache={this._cache}
+            onRowsRendered={this.checkOverflow}
           />
         )}
       </AutoSizer>
@@ -621,7 +623,7 @@ export default class List extends RingComponentWithShortcuts {
           ? this.renderVirtualized(maxHeight, rowCount)
           : this.renderSimple(maxHeight, rowCount)
         }
-        {this.hasOverflow() && (
+        {this.state.hasOverflow && (
           <div
             className="ring-list__fade"
             style={fadeStyles}
