@@ -95,6 +95,9 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.string,
       PropTypes.number
     ]),
+    restoreActiveIndex: PropTypes.bool,
+    activateSingleItem: PropTypes.bool,
+    activateFirstItem: PropTypes.bool,
     shortcuts: PropTypes.bool,
     onMouseOut: PropTypes.func,
     onSelect: PropTypes.func,
@@ -109,6 +112,7 @@ export default class List extends RingComponentWithShortcuts {
     data: [],
     restoreActiveIndex: false, // restore active item using its "key" property
     activateSingleItem: false, // if there is only one item, activate it
+    activateFirstItem: false, // if there no active items, activate the first one
     onMouseOut: noop,
     onSelect: noop,
     onScrollToBottom: noop,
@@ -322,7 +326,7 @@ export default class List extends RingComponentWithShortcuts {
       let activeItem = null;
 
       if (
-        this.props.restoreActiveIndex &&
+        props.restoreActiveIndex &&
         this.state.activeItem &&
         this.state.activeItem.key !== undefined &&
         this.state.activeItem.key !== null
@@ -339,8 +343,7 @@ export default class List extends RingComponentWithShortcuts {
 
       if (
         activeIndex === null &&
-        this.props.activateSingleItem &&
-        props.data.length === 1 &&
+        this.shouldActivateFirstItem(props) &&
         this.isActivatable(props.data[0])
       ) {
         activeIndex = 0;
@@ -354,13 +357,11 @@ export default class List extends RingComponentWithShortcuts {
         activeItem = props.data[props.activeIndex];
       }
 
-      if (activeIndex) {
-        this.setState({
-          activeIndex,
-          activeItem,
-          needScrollToActive: true
-        });
-      }
+      this.setState({
+        activeIndex,
+        activeItem,
+        needScrollToActive: true
+      });
     }
   }
 
@@ -375,6 +376,11 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
+  shouldActivateFirstItem(props) {
+    return props.activateFirstItem ||
+      props.activateSingleItem && props.length === 1;
+  }
+
   scrollEndHandler = debounce(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
@@ -387,15 +393,6 @@ export default class List extends RingComponentWithShortcuts {
       }
     }
   }, SCROLL_HANDLER_DEBOUNCE);
-
-  setActiveItem(index, needScroll = true) {
-    this.setState({
-      activeIndex: index,
-      activeItem: this.props.data[index],
-      needScrollToActive: needScroll,
-      scrolling: false
-    });
-  }
 
   hasOverflow() {
     if (this.inner) {
@@ -552,7 +549,7 @@ export default class List extends RingComponentWithShortcuts {
             noop={() => {}}
 
             scrollToIndex={
-              this.state.needScrollToActive
+              this.state.needScrollToActive && this.state.activeIndex != null
                 ? this.state.activeIndex + 1
                 : undefined
             }
