@@ -224,16 +224,12 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   didUpdate(prevProps, prevState) {
-    const {showPopup, shownData} = this.state;
+    const {showPopup} = this.state;
 
     if (prevState.showPopup && !showPopup) {
       this.props.onClose();
     } else if (!prevState.showPopup && showPopup) {
       this.props.onOpen();
-    }
-
-    if (showPopup && this._popup && prevState.shownData.length > shownData.length) {
-      this._popup.listScrollToIndex(0);
     }
   }
 
