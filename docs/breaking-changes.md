@@ -1,7 +1,7 @@
 ---
 title: Breaking Changes
 category: Docs
-order: 2
+order: 3
 ---
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
