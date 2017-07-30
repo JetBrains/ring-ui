@@ -53,10 +53,14 @@ Promise.all(promises).then(([source, navData]) => {
     render() {
       return (
         <div className={styles.app}>
-          <Header {...{version, docsItems}}/>
+          <Header
+            version={version}
+            docsItems={docsItems}
+            noAuth={window.frameElement != null}
+          />
           <ContentLayout className={styles.main}>
             <Sidebar>
-              <Nav {...{categories}}/>
+              <Nav categories={categories}/>
             </Sidebar>
             <Content {...source}/>
           </ContentLayout>
