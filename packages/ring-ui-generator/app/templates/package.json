@@ -36,7 +36,7 @@
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "redbox-react": "1.3.6",
-    "ring-ui": "<%= ringUi %>",
+    "ring-ui": "^2.7.7704",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0"
   },

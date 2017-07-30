@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Link from 'ring-ui/components/link/link';
+import Icon from 'ring-ui/components/icon/icon';
 import Header, {
-  Logo,
   Tray,
   SmartProfile,
   SmartServices
@@ -14,11 +14,14 @@ import styles from './app.css';
 
 export default class AppRoot extends Component {
   componentDidMount() {
-    this.auth.init();
+    // You can uncomment this after registering your client as a Hub service
+    // https://www.jetbrains.com/help/hub/2017.3/OAuth-2.0-Authorization.html#d79479e312
+    // this.auth.init();
   }
 
   auth = new Auth({
-    serverUri: 'https://hub.jetbrains.com'
+    // clientId: <your client id here>
+    serverUri: 'https://hub.jetbrains.com' // replace with your Hub server
   });
 
   render() {
@@ -26,9 +29,9 @@ export default class AppRoot extends Component {
       <div>
         <Header>
           <Link href="/">
-            <Logo
+            <Icon
               glyph={jetbrainsLogo}
-              size={Logo.Size.Size96}
+              size={Icon.Size.Size48}
             />
           </Link>
           <Tray>

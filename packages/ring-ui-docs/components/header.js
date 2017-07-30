@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import hubLogo from 'jetbrains-logos/hub/hub.svg';
 import Auth from 'ring-ui/components/auth/auth';
@@ -15,38 +15,49 @@ import hubConfig from './hub-config';
 import Item from './item';
 import Version from './version';
 
-const auth = new Auth(hubConfig);
-auth.setAuthDialogService(authDialogService);
-auth.init().then(restoreLocation => {
-  if (restoreLocation) {
-    window.location = restoreLocation;
+class SiteHeader extends PureComponent {
+  async componentDidMount() {
+    if (!this.props.noAuth) {
+      this.auth.setAuthDialogService(authDialogService);
+      const restoreLocation = await this.auth.init();
+      if (restoreLocation) {
+        window.location = restoreLocation;
+      }
+    }
   }
-});
 
-const SiteHeader = ({docsItems, ...restProps}) => (
-  <Header>
-    <Link href="/">
-      <Icon
-        glyph={hubLogo}
-        size={Icon.Size.Size48}
-      />
-    </Link>
-    <span>{'Ring UI library '}<Version {...restProps}/></span>
-    {docsItems.map(item => (
-      <Item
-        key={item.title}
-        {...item}
-      />
-    ))}
-    <Tray>
-      <SmartServices auth={auth}/>
-      <SmartProfile auth={auth}/>
-    </Tray>
-  </Header>
-);
+  auth = new Auth(hubConfig);
+
+  render() {
+    const {docsItems, ...restProps} = this.props;
+
+    return (
+      <Header>
+        <Link href="/">
+          <Icon
+            glyph={hubLogo}
+            size={Icon.Size.Size48}
+          />
+        </Link>
+        <span>{'Ring UI library '}<Version {...restProps}/></span>
+        {docsItems.map(item => (
+          <Item
+            key={item.title}
+            {...item}
+          />
+        ))}
+        <Tray>
+          <SmartServices auth={this.auth}/>
+          <SmartProfile auth={this.auth}/>
+        </Tray>
+      </Header>
+    );
+  }
+}
 
 SiteHeader.propTypes = {
   ...Version.propTypes,
+  noAuth: PropTypes.bool,
   docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
 };
 
