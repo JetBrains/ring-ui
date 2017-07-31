@@ -205,7 +205,6 @@
     "sniffr": "1.1.4",
     "style-loader": "0.18.2",
     "svg-sprite-loader": "3.0.8",
-    "url-loader": "0.5.9",
-    "whatwg-fetch": "2.0.3"
+    "url-loader": "0.5.9"
   }
 }
