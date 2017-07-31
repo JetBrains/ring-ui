@@ -9,7 +9,7 @@ order: 1
 ### Quick start
 
 1. Install Yeoman and Ring UI generator: `npm install -g yo generator-ring-ui`
-2. Go to project root folder (create it if necessary) and type: `yo ring-ui`. It will ask you to enter the name of the project and run `npm install` for you
+2. Go to the root directory of your project (create one if necessary) and run `yo ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
 3. You project is ready to be developed. The following commands are available:
    - `npm start` to run a local development server
    - `npm test` to launch karma tests
@@ -17,9 +17,11 @@ order: 1
    - `npm run build` to build a production bundle
    - `npm run create-component` to create a new component template with styles and tests
 
-### Slow start
+### Not-so-quick start
 
-1. Add the JetBrains internal registry to `.npmrc` in your project folder:
+In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
+
+1. Add the JetBrains internal registry to `.npmrc` in your project directory:
    ``` shell
    echo 'registry = http://registry.npmjs.org' >> .npmrc
    ```
