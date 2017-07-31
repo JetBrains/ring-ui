@@ -13,7 +13,7 @@ import './error-bubble.scss';
  * @description Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop.
  * Passes any prop except `className` down to input.
  * @example
-   <example name="error-bubble">
+   <example name="Error Bubble">
      <file name="index.html">
        <div id="container"></div>
      </file>

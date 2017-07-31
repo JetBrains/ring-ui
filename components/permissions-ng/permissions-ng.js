@@ -221,7 +221,7 @@ angularModule.directive(
  * nested {@link permission} or {@link rgPermissionIf} directive is obtained by the logged in user.
  *
  * @example
- <example name="somePermissions directive">
+ <example name="rgSomePermissions directive">
  <file name="index.html">
  <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
  <div rg-permission-if="project-read" in-project="0-0-0-0-0">

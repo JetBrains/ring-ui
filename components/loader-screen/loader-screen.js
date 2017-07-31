@@ -28,7 +28,7 @@ import './loader-screen.scss';
        );
      </file>
    </example>
-   <example name="Loader Screen With Message">
+   <example name="Loader Screen with a message">
      <file name="index.html" disable-auto-size>
        <div id="loader-screen"></div>
      </file>

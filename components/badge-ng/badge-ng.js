@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Badge.
  * @example
-  <example name="rgBadge">
+  <example name="Badge Ng">
     <file type="html">
       <div ng-app="Example.badge" ng-strict-di>
         <rg-group>

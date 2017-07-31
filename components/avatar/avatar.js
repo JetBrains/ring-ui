@@ -15,7 +15,7 @@ import styles from './avatar.css';
  * @constructor
  * @description Displays an avatar. In case of a loading error an empty square is displayed.
  * @example
-   <example name="avatar">
+   <example name="Avatar">
      <file name="index.html">
        <div id="avatar"></div>
      </file>

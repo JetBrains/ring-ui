@@ -11,7 +11,7 @@ import styles from './group.css';
  * @constructor
  * @description Places inner components with fixed spacing between them.
  * @example
-   <example name="group">
+   <example name="Group">
      <file name="index.html">
        <div id="group"></div>
      </file>

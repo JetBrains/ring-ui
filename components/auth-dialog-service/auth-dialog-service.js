@@ -11,7 +11,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  * @description A wrapper for AuthDialog component. Allows showing confirmation dialog
  * without mounting AuthDialog component. Could be used outside React.
  * @example
- <example name="AuthDialog Service">
+ <example name="Auth Dialog Service">
  <file name="index.html" disable-auto-size>
  <div id="auth-dialog"></div>
  </file>

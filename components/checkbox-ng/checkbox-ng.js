@@ -44,7 +44,7 @@ import '../checkbox/checkbox.scss';
  </file>
    </example>
 
-   <example name="Checkbox Ng with custom true and false value">
+   <example name="Checkbox Ng with custom true/false values">
      <file name="index.html">
        <div ng-app="TestApp" ng-strict-di>
          <div>Checked: {{checked}}</div>
@@ -60,7 +60,7 @@ import '../checkbox/checkbox.scss';
  </file>
    </example>
 
-    <example name="Checkbox Ng disabled">
+    <example name="Checkbox Ng (disabled)">
      <file name="index.html">
        <div ng-app="TestApp" ng-strict-di>
          <p style="width: 300px;">

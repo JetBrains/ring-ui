@@ -7,7 +7,7 @@ import '../link/link.scss';
  * @constructor
  * @description Displays a link.
  * @example
-    <example name="link-ng">
+    <example name="Link Ng">
       <file name="index.html">
         <div id="link" ng-app="TestApp" ng-strict-di>
           <rg-link href="http://example.com" class="test-class">Open example</rg-link>
