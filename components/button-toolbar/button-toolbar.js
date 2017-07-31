@@ -29,13 +29,13 @@ import './button-toolbar.scss';
 
       const buttonToolbarDemo = (
         <ButtonToolbar>
-          <Button primary={true} delayed={true}>Do it</Button>
+          <Button primary={true} delayed={true}>Run</Button>
           <ButtonGroup>
-            <Button>Just do it</Button>
-            <Button>Yes you can</Button>
-            <Button disabled="disabled">Do it</Button>
+            <Button>Button one</Button>
+            <Button>Button two</Button>
+            <Button disabled="disabled">Button three</Button>
           </ButtonGroup>
-          <Button>Just do it</Button>
+          <Button>Another action</Button>
         </ButtonToolbar>
       );
 

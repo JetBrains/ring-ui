@@ -9,7 +9,7 @@ import styles from './text.css';
  * @category Components
  * @framework React
  * @constructor
- * @description TODO add Text description
+ * @description A component for rendering text content.
  * @example
    <example name="text">
      <file name="index.html">
@@ -27,9 +27,9 @@ import styles from './text.css';
            return (
              <div>
                <Group>
-                 <Text>Bla bla bla</Text>
-                 <Text comment>Bla bla bla</Text>
-                 <Text info>Bla bla bla</Text>
+                 <Text>Text</Text>
+                 <Text comment>with a comment</Text>
+                 <Text info>and an info message</Text>
                </Group>
              </div>
            );
