@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
 </head>
-<body data-json-url="{{ source.jsonURL }}">
+<body>
 <div id="app">
+  <script src="{{ source.dataURL }}"></script>
+  <script src="nav.js"></script>
   <script src="{{ dllPath }}/vendor.dll.js"></script>
   <script src="docs-app.js"></script>
 </div>

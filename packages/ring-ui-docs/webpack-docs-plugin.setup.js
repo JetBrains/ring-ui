@@ -230,14 +230,14 @@ module.exports = dllPath => {
       categories: navCategories
     };
 
-    emitAsset(this, 'nav.json', toJSONString(nav));
+    emitAsset(this, 'nav.js', `window.navData = ${toJSONString(nav)};`);
 
     sources.filter(hasPage).forEach(source => {
       const data = serializeSource(source);
-      const filename = data.url.replace('.html', '.json');
-      emitAsset(this, filename, toJSONString(data));
+      const filename = data.url.replace('.html', '.data.js');
+      emitAsset(this, filename, `window.source = ${toJSONString(data)};`);
 
-      source.jsonURL = filename;
+      source.dataURL = filename;
     });
 
     done(null, sources);
