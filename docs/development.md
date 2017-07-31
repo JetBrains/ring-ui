@@ -25,9 +25,9 @@ To build production files: `npm run build`
 
 ### Settings
 
-By default, documentation is built using `development` environment.
+By default, documentation is built using the `development` environment.
 Use the `--env.production` flag to switch it to `production`.
-Environment has an effect on source map generation, it also affects the following parameters:
+Environment has an effect on source map generation. It also affects the following parameters:
 
  * **port**
  * **host**
@@ -45,7 +45,7 @@ Example: `npm config set ring-ui:development:port 8765`
 
 ### Contributing
 
-To add a new component, issue one of the following commands after changing to the `components` folder:
+To add a new component, issue one of the following commands after changing to the `components` directory:
   * For a plain ES6 component: `npm run component:es6`
   * For a ReactJS component: `npm run component:react`
   * For an AngularJS component: `npm run component:ng`
