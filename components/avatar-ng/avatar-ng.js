@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Avatar.
  * @example
- <example name="AvatarNg">
+ <example name="Avatar Ng">
    <file name="index.html">
       <div ng-app="test" ng-strict-di ng-controller="testCtrl as $ctrl">
         <rg-avatar size="$ctrl.AvatarSize.Size32" url="$ctrl.avatarUrl"></rg-avatar>

@@ -9,7 +9,7 @@ import {copyright} from '../footer/footer';
  * @constructor
  * @description Renders application's footer.
  * @example
-    <example name="footer-ng">
+    <example name="Footer Ng">
       <file name="index.html">
         <div id="footer" ng-app="TestApp" ng-strict-di>
           <rg-footer>
