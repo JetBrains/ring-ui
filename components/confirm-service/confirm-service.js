@@ -16,6 +16,12 @@ import Confirm from '../confirm/confirm';
  <div id="confirm"></div>
  </file>
 
+ <file name="index.css">
+   button {
+     margin-right: 8px !important;
+   }
+ </file>
+
  <file name="index.js">
  import {render} from 'react-dom';
  import React from 'react';
@@ -28,7 +34,7 @@ import Confirm from '../confirm/confirm';
         }
 
         showConfirm = () => {
-          return confirm({text: 'Do you really want to proceed?'}).
+          return confirm({text: 'Do you really wish to proceed?'}).
             then(() => console.info('Confirmed')).
             catch(() => console.warn('Rejected'));
         }
@@ -37,8 +43,8 @@ import Confirm from '../confirm/confirm';
           return confirm({
             text: 'There is another confirmation',
             description: 'Confirmation description',
-            confirmLabel: 'OK, confirm this',
-            rejectLabel: 'NO, cancel!',
+            confirmLabel: 'OK',
+            rejectLabel: 'Cancel',
             cancelIsDefault: true,
             onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000))
           }).

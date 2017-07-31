@@ -16,7 +16,7 @@
 
       const rectTarget = document.getElementById('rect-target');
       rectTarget.innerHTML = `
-        Element min width = ${getStyles(rectTarget).minWidth} <br/>
+        Element min-width = ${getStyles(rectTarget).minWidth} <br/>
         Element rect = ${JSON.stringify(getRect(rectTarget))} <br/>
       `;
 

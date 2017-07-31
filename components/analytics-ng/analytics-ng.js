@@ -45,12 +45,12 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
         <p>Hover or click the links below and check the console output:</p>
         <div>
           <a href="" rg-analytics="overview:view-doc" class="ring-link">
-            Link with onclick analytics trigger
+            Link with an onclick analytics trigger
           </a>
         </div>
         <div>
           <a href="" rg-analytics="overview:view-doc" class="ring-link" rg-analytics-on="mouseover">
-            Link with onmouseover analytics trigger
+            Link with an onmouseover analytics trigger
           </a>
         </div>
         <div ng-controller="TrackEventDemoCtrl"></div>
