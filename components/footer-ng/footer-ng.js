@@ -69,8 +69,7 @@ class rgFooterCopyrightComponent extends RingAngularComponent {
     companyName: '@'
   }
 
-  constructor(...args) {
-    super(...args);
+  $onInit() {
     this.copyrightYears = copyright(this.year);
   }
 }
