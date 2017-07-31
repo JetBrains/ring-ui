@@ -6,9 +6,7 @@ const fullHostname = osHostname.indexOf('.') !== -1
   : `${osHostname}.labs.intellij.net`;
 
 module.exports = config => {
-  const gridURL =
-    process.env.SELENIUM_GRID ||
-    '***REMOVED***';
+  const gridURL = process.env.SELENIUM_GRID;
 
   const {hostname, port, auth = ':'} = url.parse(gridURL);
   const [user, pwd] = auth.split(':');
