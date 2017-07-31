@@ -1,6 +1,6 @@
 <example name="Dialog Ng">
   <file type="html" disable-auto-size>
-    <div ng-app="Example.dialog" ng-strict-di class="very-long-page">
+    <div ng-app="Example.dialog" ng-strict-di class="long-page">
 
       <script type="template" id="dialog-template">
         <div>
@@ -21,16 +21,14 @@
           </div>
 
           <div class="ring-form__group">
-            <label for="textarea-demo" class="ring-form__label">Textarea in
-              Form</label>
+            <label for="textarea-demo" class="ring-form__label">Textarea</label>
             <div class="ring-form__control">
               <textarea id="textarea-demo" class="ring-input"></textarea>
             </div>
           </div>
 
           <div class="ring-form__group">
-            <label for="rg-select-demo" class="ring-form__label">Rg Select in
-              Form</label>
+            <label for="rg-select-demo" class="ring-form__label">Select</label>
             <div class="ring-form__control">
               <rg-select
                 options="item.name for item in dialogExampleCtrl.arr track by item.name"
@@ -52,7 +50,7 @@
       float: right;
     }
 
-    :global(.very-long-page) {
+    :global(.long-page) {
       height: 2000px;
     }
   </file>
@@ -179,7 +177,7 @@
 
 <example name="Dialog Ng with Overridden Footer">
   <file type="html">
-    <div ng-app="Example.dialog" ng-strict-di class="very-long-page">
+    <div ng-app="Example.dialog" ng-strict-di class="long-page">
 
       <script type="template" id="dialog-template">
         <div>
@@ -191,10 +189,7 @@
           </div>
 
           <rg-dialog-footer>
-            <rg-button>Should be displayed</rg-button>
-            <rg-button ng-if="dialogExampleCtrl.displaySecondButton">
-              Should be displayed too
-            </rg-button>
+            <rg-button>A button</rg-button>
           </rg-dialog-footer>
         </div>
       </script>
@@ -210,7 +205,7 @@
       float: right;
     }
 
-    :global(.very-long-page) {
+    :global(.long-page) {
       height: 2000px;
     }
   </file>
@@ -225,7 +220,6 @@
 
     angular.module('Example.dialog', [Dialog, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {
-
         this.showDialog = function () {
           dialog.show({
             cssClass: 'custom-css-class',
@@ -238,10 +232,6 @@
         };
 
         $timeout(() => this.showDialog());
-      }).controller('DialogExampleCtrl', function($timeout) {
-        var dialogExampleCtrl = this;
-
-        dialogExampleCtrl.displaySecondButton = true;
       });
   </file>
 </example>

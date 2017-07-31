@@ -6,7 +6,7 @@
    <example name="Title Ng">
     <file name="index.html">
       <div ng-app="test">
-        <h4>You may open example in a separate tab to see tab title changes.</h4>
+        <h4>Open the example in a separate tab to see how tab title changes.</h4>
 
         <!--It is better to use this directive with <title> tag in your <head> section.-->
         <div rg-page-title="App name"></rg-page-title>

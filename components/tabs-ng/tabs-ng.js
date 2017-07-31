@@ -3,7 +3,7 @@ import '../tabs/tabs.scss';
 /**
  * @name Tabs Ng
  * @category Angular Components
- * @description Displays a tab set.
+ * @description Displays a tabset.
  * @example
    <example name="Tabs Ng">
      <file name="index.html">

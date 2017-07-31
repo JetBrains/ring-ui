@@ -22,12 +22,13 @@
 
     const renderErrorMessageDemo = () => (
     <div className='parent'>
-      <ErrorMessage message="No, no one's there."
+      <ErrorMessage
         icon={frownIcon}
         code="Disconnected"
-        description="Service backend isn't available"
+        message="no answer from server."
+        description="Please try again soon."
       >
-        <Link href="/">Home</Link>
+        <Link href="/">Go to the home page</Link>
       </ErrorMessage>
     </div>
     );
