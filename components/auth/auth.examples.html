@@ -29,11 +29,11 @@
     (async auth => {
       try {
         const location = await auth.init();
-        log('location to restore', location)
+        log('Location to restore:', location)
         const token = await auth.requestToken();
-        log('token', token);
+        log('Token:', token);
         const data = await auth.requestUser();
-        log('user profile data', data);
+        log('User profile data:', data);
       } catch (e) {
         log('error', e);
       }
@@ -42,13 +42,13 @@
 </example>
 
 
-<example name="Auth slim landing page">
+<example name="Auth landing page">
   <file type="html">
     <div id="example">
       <div id="example"></div>
-      <div><a id="open-link" class="ring-link">Open landing page</a></div>
-      <div><a href id="log-out" class="ring-link">Log Out</a></div>
-      <div><a href id="force-update" class="ring-link">Force token update</a></div>
+      <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
+      <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
+      <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
     </div>
   </file>
 

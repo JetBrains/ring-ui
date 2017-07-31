@@ -18,7 +18,7 @@ import confirm from '../confirm-service/confirm-service';
 
       angular.module('TestApp', [ConfirmNg]).
         controller('TestCtrl', function (confirm) {
-          confirm('Do you really want to proceed?', 'Confirm description').
+          confirm('Do you really wish to proceed?', 'A description of an action that is about to take place.').
             then(() => console.log('Confirmed')).
             catch(() => console.log('Declined'));
         })

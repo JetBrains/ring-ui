@@ -15,28 +15,6 @@ import styles from './heading.css';
     <file name="index.html">
       <div id="heading"></div>
     </file>
-    <file name="index.scss">
-      h1, h2, h3 {
-        &::after {
-          content: 'Heading';
-          display: block;
-          position: absolute;
-          color: #CCC;
-          z-index: -1;
-        }
-      }
-
-      h4, h5 {
-        & + div::before {
-          content: 'Lorem ipsum';
-          display: block;
-          position: absolute;
-          color: #BBB;
-          z-index: -1;
-          transform: translateY(-100%);
-        }
-      }
-    </file>
     <file name="index.js">
       import React, {Component} from 'react';
       import {render} from 'react-dom';
@@ -45,17 +23,17 @@ import styles from './heading.css';
       const lorem = <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>;
       const demo = (
         <div>
-          <Heading level={Heading.Levels.H1}>Heading</Heading>
+          <Heading level={Heading.Levels.H1}>Heading 1</Heading>
           {lorem}
-          <H1 caps>Heading</H1>
+          <H1 caps>Heading 1 caps</H1>
           {lorem}
-          <H2>Heading</H2>
+          <H2>Heading 2</H2>
           {lorem}
-          <H3>Heading</H3>
+          <H3>Heading 3</H3>
           {lorem}
-          <H4>Heading</H4>
+          <H4>Heading 4</H4>
           {lorem}
-          <H5>Heading</H5>
+          <H5>Heading 5</H5>
           {lorem}
         </div>
       );

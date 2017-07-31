@@ -17,10 +17,10 @@
         </div>
 
         <div class="ring-form__group">
-          <label class="ring-form__label">Rg Select in Form</label>
+          <label class="ring-form__label">Select</label>
           <div class="ring-form__control">
             <rg-select class="ring-input-size_md"
-              options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+              options="item.name for item in formExampleCtrl.data track by item.name"></rg-select>
             <div class="ring-form__control__description">I am a simple description</div>
           </div>
         </div>
@@ -68,9 +68,7 @@
     angular.module('Example.form', [FormNg, CheckboxNg, SelectNg, ButtonNg]).
     controller('FormExampleCtrl', function ($scope) {
       this.checkedModel = true;
-      this.sssssss = $scope
-
-      this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+      this.data = [{name: 'Ada'}, {name: 'Nik'}];
     });
   </file>
 </example>

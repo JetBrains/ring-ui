@@ -213,12 +213,12 @@
   </file>
 </example>
 
-<example name="QueryAssist in AngularJS query init">
+<example name="QueryAssist in AngularJS #2">
   <file type="html" disable-auto-size>
     <div ng-app="test" ng-strict-di rg-shortcuts-app rg-shortcuts="test"
       shortcuts-focus="true" shortcuts-map="ctrl.keys"
       ng-controller="testCtrl as ctrl">
-      <div ng-show="!ctrl.query">Input something to init Query Assist</div>
+      <div ng-show="!ctrl.query">Type something to init QueryAssist</div>
 
       <div ng-if="ctrl.query" react="QueryAssist"
         auto-open="true"
@@ -337,7 +337,7 @@
   </file>
 </example>
 
-<example name="QueryAssist programmatically set focus">
+<example name="Programmatically set focus to QueryAssist field">
   <file type="html" disable-auto-size>
     <button id="focusToggler">Toggle focus</button>
     <div id="query-assist">

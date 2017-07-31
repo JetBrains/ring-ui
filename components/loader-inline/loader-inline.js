@@ -12,7 +12,7 @@ import './loader-inline.scss';
  * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
  * @extends {ReactComponent}
  * @example
-   <example name="Loader Inline">
+   <example name="Inline loader">
      <file name="index.html">
         <span>some text on top</span>
         <div>before <span id="loader-inline"></span> some text after</div>
@@ -26,7 +26,7 @@ import './loader-inline.scss';
        render(Loader.factory(), document.getElementById('loader-inline'));
      </file>
    </example>
-    <example name="Loader Inline using markup only">
+    <example name="Inline loader without React">
      <file name="index.html">
        <div class="ring-loader-inline">
          <div class="ring-loader-inline__ball"></div>
