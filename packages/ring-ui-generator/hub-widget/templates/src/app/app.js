@@ -9,6 +9,7 @@ import Button from 'ring-ui/components/button/button';
 
 import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
 import styles from './app.css';
+import sayHello from './sayHello';
 
 const COLOR_OPTIONS = [
   {key: 'black', label: 'Black'},
@@ -89,7 +90,7 @@ class Widget extends Component {
 
     return (
       <div className={styles.widget}>
-        <h1 style={{color: selectedColor.key}}>{'Hello world'}</h1>
+        <h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
         <p>{'Select "Edit..." option in widget dropdown to configure text color'}</p>
       </div>
     );
