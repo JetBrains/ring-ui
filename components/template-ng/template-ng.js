@@ -19,7 +19,7 @@ import RingAngularComponent from '../global/ring-angular-component';
       </file>
     </example>
 
-    <example name="Template Ng 2">
+    <example name="Template Ng #2">
       <file name="index.html">
         <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>

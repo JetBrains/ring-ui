@@ -11,7 +11,7 @@ import styles from './text.css';
  * @constructor
  * @description A component for rendering text content.
  * @example
-   <example name="text">
+   <example name="Text">
      <file name="index.html">
        <div id="text"></div>
      </file>

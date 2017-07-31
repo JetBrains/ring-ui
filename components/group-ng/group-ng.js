@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Group.
  * @example
-  <example name="rgGroup">
+  <example name="Group Ng">
     <file type="html">
       <div ng-app="Example.group" ng-strict-di ng-controller="ExampleCtrl as ctrl">
         <rg-group>
