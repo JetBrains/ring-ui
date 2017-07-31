@@ -175,7 +175,7 @@ function reactNgDirective($parse) {
  * <strong>This component is deprecated - most components like Icon, Loader are now implemented as pure angular components.</strong>
  * @extends {ReactComponent}
  * @example
-   <example name="React-ng">
+   <example name="React Ng">
      <file name="index.html">
        <div ng-app="react-ng-test" ng-strict-di>
           <span ng-controller="testController" react-static="Icon" react-glyph="'#pencil'" size="64"></span>
@@ -194,7 +194,7 @@ function reactNgDirective($parse) {
      </file>
    </example>
 
-   <example name="React-ng performance">
+   <example name="React Ng performance">
      <file name="index.html">
        <div ng-app="react-ng-performance" ng-strict-di ng-controller="testController" >
           <div react-static="Button" ng-click="run = true" react-children="'Run!'"></div>

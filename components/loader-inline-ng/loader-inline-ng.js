@@ -7,7 +7,7 @@ import '../loader-inline/loader-inline.scss';
  * @constructor
  * @description Wraps markup for loader-inline component.
  * @example
-    <example name="loader-inline-ng">
+    <example name="Loader Inline Ng">
       <file name="index.html">
         <div ng-app="TestApp" ng-strict-di>
           <rg-loader-inline></rg-loader-inline>

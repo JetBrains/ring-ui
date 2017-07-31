@@ -11,7 +11,7 @@ import styles from './heading.css';
  * @constructor
  * @description A component for rendering h1-h5 tags.
  * @example
-  <example name="heading">
+  <example name="Headings 1 to 5">
     <file name="index.html">
       <div id="heading"></div>
     </file>
