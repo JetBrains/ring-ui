@@ -35,7 +35,7 @@ class SiteHeader extends PureComponent {
 
     return (
       <Header>
-        <Link href={`/${indexDoc}`}>
+        <Link href={indexDoc}>
           <Icon
             glyph={hubLogo}
             size={Icon.Size.Size48}
