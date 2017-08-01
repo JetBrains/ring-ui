@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
+  <meta charset="UTF-8">
+  <link rel="icon" href="favicon.ico?v=1" />
+  <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
 </head>
 <body>
-<div id="app">
-  <script src="{{ source.dataURL }}"></script>
-  <script src="nav.js"></script>
-  <script src="{{ dllPath }}/vendor.dll.js"></script>
-  <script src="docs-app.js"></script>
-</div>
+  <div id="app">
+    <script src="{{ source.dataURL }}"></script>
+    <script src="nav.js"></script>
+    <script src="{{ dllPath }}/vendor.dll.js"></script>
+    <script src="docs-app.js"></script>
+  </div>
 </body>
 </html>
