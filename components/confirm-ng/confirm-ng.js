@@ -1,4 +1,5 @@
 import confirm from '../confirm-service/confirm-service';
+import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Confirm Ng
@@ -28,10 +29,10 @@ import confirm from '../confirm-service/confirm-service';
 /* global angular: false */
 
 const angularModule = angular.module('Ring.confirm', [
-  'Ring.message-bundle'
+  MessageBundle
 ]);
 
-angularModule.service('confirm', $q, RingMessageBundle =>
+angularModule.service('confirm', ($q, RingMessageBundle) =>
   function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
     return $q.when(confirm({
       text: message,
