@@ -24,7 +24,6 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 #### Changes for contributors
 - The commit history is rewritten. You need to clone from `ssh://github.com/JetBrains/ring-ui.git` to get the fresh version of the repo.
-- Prepend your commit message with `[Publish]` to publish the packages.
 
 ### 27-07-2017: @jetbrains/icons
 
