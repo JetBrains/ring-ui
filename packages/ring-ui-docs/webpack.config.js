@@ -56,7 +56,7 @@ module.exports = (env = {}) => {
       components: createEntriesList(path.join(ringUiPath, 'components/*')),
       'docs-app': siteComponents,
       'example-common': path.join(siteComponents, 'example-common'),
-      favicon: 'file-loader?name=favicon.ico!@jetbrains/logos/hub/favicon.ico'
+      favicon: 'file-loader?name=favicon.ico!@jetbrains/logos/jetbrains/favicon.ico'
     },
     resolve: {
       mainFields: ['module', 'browser', 'main'],
