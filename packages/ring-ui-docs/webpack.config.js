@@ -32,7 +32,7 @@ module.exports = (env = {}) => {
       NODE_ENV: JSON.stringify(envString)
     }
   };
-  const devtool = production ? 'source-map' : 'eval';
+  const devtool = production ? false : 'eval';
   const dllPath = `dll-${envString}`;
 
   const getParam = name => (
