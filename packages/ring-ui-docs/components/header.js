@@ -14,6 +14,7 @@ import Icon from 'ring-ui/components/icon/icon';
 import hubConfig from './hub-config';
 import Item from './item';
 import Version from './version';
+import {getIndexDoc} from './utils';
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {
@@ -30,10 +31,11 @@ class SiteHeader extends PureComponent {
 
   render() {
     const {docsItems, ...restProps} = this.props;
+    const indexDoc = getIndexDoc(docsItems);
 
     return (
       <Header>
-        <Link href="/">
+        <Link href={`/${indexDoc}`}>
           <Icon
             glyph={hubLogo}
             size={Icon.Size.Size48}
