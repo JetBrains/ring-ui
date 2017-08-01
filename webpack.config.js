@@ -20,7 +20,7 @@ const htmlLoaderOptions = `?${JSON.stringify({
 const svgSpriteLoader = {
   test: /\.svg$/,
   loader: resolveLoader('svg-sprite'),
-  include: [require('jetbrains-logos'), require('@jetbrains/icons')],
+  include: [require('@jetbrains/logos'), require('@jetbrains/icons')],
   options: {
     extract: false,
     runtimeCompat: true,

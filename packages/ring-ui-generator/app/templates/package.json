@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@jetbrains/icons": "<%= jetbrainsIcons %>",
+    "@jetbrains/logos": "<%= jetbrainsLogos %>",
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
     "babel-core": "6.24.1",
     "babel-loader": "6.4.1",
@@ -28,7 +29,6 @@
     "file-loader": "0.9.0",
     "html-loader": "0.4.4",
     "html-webpack-plugin": "2.22.0",
-    "jetbrains-logos": "<%= jetbrainsLogos %>",
     "postcss-cssnext": "2.8.0",
     "postcss-loader": "1.2.2",
     "postcss-modules-values-replace": "1.2.1",

@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import hubLogo from 'jetbrains-logos/hub/hub.svg';
+import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import Auth from 'ring-ui/components/auth/auth';
 import authDialogService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
