@@ -37,7 +37,7 @@ body {
   z-index: fixed-z-index;
 
   margin-top: calc(unit * -3);
-  margin-left: calc(unit * -4 + 1);
+  margin-left: calc(unit * -5 + 1);
 
   vertical-align: top;
 }
