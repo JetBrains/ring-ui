@@ -4,7 +4,7 @@ category: Docs
 order: 1
 ---
 
-[Living style guide](http://jetbrains.github.io/ring-ui) is available.
+[Living style guide](http://www.jetbrains.org/ring-ui/index.html) is available.
 
 ### Quick start
 
