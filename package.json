@@ -159,7 +159,7 @@
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
-    "@jetbrains/icons": "1.0.1",
+    "@jetbrains/icons": "1.0.4",
     "@maxmaximov/angular-elastic": "2.5.1",
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.3",
     "@princed/babel-runtime": "6.23.0",
