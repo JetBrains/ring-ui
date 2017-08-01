@@ -5,9 +5,6 @@
   "author": "JetBrains",
   "license": "Apache-2.0",
   "main": "index.js",
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "keywords": [
     "yeoman-generator",
     "ring-ui"
