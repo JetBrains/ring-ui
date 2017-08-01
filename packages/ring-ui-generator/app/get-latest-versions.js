@@ -1,11 +1,8 @@
-const pify = require('pify');
 const {camelCase} = require('change-case');
-const latest = pify(require('npm-latest-version'));
-
-const REGISTRY_URL = 'http://registry.npmjs.org';
+const latest = require('latest-version');
 
 module.exports = packages => Promise.all(
-  packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))
+  packages.map(packageName => latest(packageName))
 ).
   then(latestVersions => {
     const versions = {};
