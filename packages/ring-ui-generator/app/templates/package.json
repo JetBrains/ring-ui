@@ -7,7 +7,7 @@
     "dist": "./dist"
   },
   "scripts": {
-    "create-component": "yo ring-ui:react --path $npm_package_config_components",
+    "create-component": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
     "build": "webpack -p --devtool sourcemap",
     "test": "karma start",
     "lint": "eslint . && npm run stylelint",
@@ -36,12 +36,13 @@
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "redbox-react": "1.3.6",
-    "ring-ui": "^2.7.7704",
+    "@jetbrains/ring-ui": "<%= jetbrainsRingUi %>",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.0"
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "1.0.0",
+    "@jetbrains/generator-ring-ui": "<%= jetbrainsGeneratorRingUi %>",
     "@jetbrains/stylelint-config": "1.1.35",
     "babel-eslint": "7.2.3",
     "chai": "4.0.2",
@@ -51,7 +52,6 @@
     "electron": "1.6.2",
     "enzyme": "2.9.1",
     "eslint": "^4.2.0",
-    "generator-ring-ui": "<%= generatorRingUi %>",
     "karma": "1.3.0",
     "karma-chai-plugins": "0.9.0",
     "karma-electron-launcher": "0.2.0",

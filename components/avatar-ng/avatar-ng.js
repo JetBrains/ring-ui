@@ -14,8 +14,8 @@
    <file name="index.js">
     import angular from 'angular';
     import hubConfig from 'ring-ui-docs/components/hub-config';
-    import {Size as AvatarSize} from 'ring-ui/components/avatar/avatar';
-    import AvatarNg from 'ring-ui/components/avatar-ng/avatar-ng';
+    import {Size as AvatarSize} from '@jetbrains/ring-ui/components/avatar/avatar';
+    import AvatarNg from '@jetbrains/ring-ui/components/avatar-ng/avatar-ng';
 
     angular.module('test', [AvatarNg]).controller('testCtrl', function () {
       this.AvatarSize = AvatarSize;

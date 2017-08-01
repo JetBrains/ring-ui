@@ -10,8 +10,8 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
    <example name="Analytics Ng">
      <file name="index.js">
        import 'angular';
-       import 'ring-ui/components/analytics-ng/analytics-ng';
-       import 'ring-ui/components/link/link.scss';
+       import '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
+       import '@jetbrains/ring-ui/components/link/link.scss';
 
         angular.module('Example.analyticsDemo', ['Ring.analytics'])
           .config([

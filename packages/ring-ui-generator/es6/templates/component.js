@@ -10,7 +10,7 @@
       </file>
 
       <file name="index.js">
-        import <%= pascalCaseName %> from 'ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
+        import <%= pascalCaseName %> from '@jetbrains/ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
 
         const container = document.getElementById('<%= paramCaseName %>');
         const <%= pascalCaseName %> = new <%= pascalCaseName %>();

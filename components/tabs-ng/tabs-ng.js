@@ -19,7 +19,7 @@ import '../tabs/tabs.scss';
      </file>
      <file name="index.js" webpack="true">
        import 'angular';
-       import 'ring-ui/components/tabs-ng/tabs-ng';
+       import '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
      </file>
    </example>
  */

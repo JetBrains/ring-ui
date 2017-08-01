@@ -6,7 +6,7 @@ import {render} from 'react-dom';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import ContentLayout, {
   Sidebar
-} from 'ring-ui/components/content-layout/content-layout';
+} from '@jetbrains/ring-ui/components/content-layout/content-layout';
 
 import Header from './header';
 import Nav from './nav';

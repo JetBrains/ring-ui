@@ -134,7 +134,7 @@ class FooterLine extends RingComponent {
      </file>
      <file name="index.js" webpack="true">
       import {render} from 'react-dom';
-      import Footer from 'ring-ui/components/footer/footer';
+      import Footer from '@jetbrains/ring-ui/components/footer/footer';
 
       render(
       Footer.factory({

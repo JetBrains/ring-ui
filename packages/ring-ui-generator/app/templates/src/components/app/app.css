@@ -1,4 +1,4 @@
-@value unit, font, font-size from "ring-ui/components/global/global.css";
+@value unit, font, font-size from "@jetbrains/ring-ui/components/global/global.css";
 
 html,
 .<%= camelCaseName %> {

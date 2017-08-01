@@ -23,7 +23,7 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
          import hubConfig from 'ring-ui-docs/components/hub-config';
 
          import 'angular';
-         import AuthNG from 'ring-ui/components/auth-ng/auth-ng';
+         import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
 
          angular.module('test', [AuthNG])
            .config(['authProvider', function (authProvider) {

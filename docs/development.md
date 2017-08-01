@@ -8,12 +8,11 @@ order: 2
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install Node.js
-3. Install dependencies: `npm install`
-4. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
+3. Install Lerna: `npm install -g lerna`
+4. Bootstrap the packages: `lerna bootstrap`
+5. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ### Available commands
-
-Bootstrap the sub-packages: `npm run bootstrap` (should be done before anything else)
 
 To start the server: `npm start` (runs the webpack dev server on http://localhost:9999)
 
@@ -38,10 +37,10 @@ You can change them by the following means (in order of precedence):
 
 1. Command line switch: `npm <start|run build> -- --env.<param> <value>`
 Example: `npm start -- --env.port 8765`
-2. Persistently using NPM: `npm config set ring-ui:<param> <value>`
-Example: `npm config set ring-ui:port 8765`
-3. Persistently for a given environment: `npm config set ring-ui:<environment>:<param> <value>`  
-Example: `npm config set ring-ui:development:port 8765`
+2. Persistently using NPM: `npm config set ring-ui-docs:<param> <value>`
+Example: `npm config set ring-ui-docs:port 8765`
+3. Persistently for a given environment: `npm config set ring-ui-docs:<environment>:<param> <value>`  
+Example: `npm config set ring-ui-docs:development:port 8765`
 
 ### Contributing
 

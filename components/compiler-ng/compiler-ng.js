@@ -10,7 +10,7 @@
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import CompilerNg from 'ring-ui/components/compiler-ng/compiler-ng';
+      import CompilerNg from '@jetbrains/ring-ui/components/compiler-ng/compiler-ng';
 
       angular.module('test', [CompilerNg]).
         run(function controller($rootScope, rgCompiler) {

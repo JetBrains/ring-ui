@@ -14,7 +14,7 @@ import '../loader-screen/loader-screen.scss';
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import loaderScreenNg from 'ring-ui/components/loader-screen-ng/loader-screen-ng';
+      import loaderScreenNg from '@jetbrains/ring-ui/components/loader-screen-ng/loader-screen-ng';
 
       angular.module('ExampleApp', [loaderScreenNg]).
         run((loaderScreen) => {

@@ -19,8 +19,8 @@
 
     <file type="js">
       import angular from 'angular';
-      import BadgeNg from 'ring-ui/components/badge-ng/badge-ng';
-      import GroupNg from 'ring-ui/components/group-ng/group-ng';
+      import BadgeNg from '@jetbrains/ring-ui/components/badge-ng/badge-ng';
+      import GroupNg from '@jetbrains/ring-ui/components/group-ng/group-ng';
 
       angular.module('Example.badge', [BadgeNg, GroupNg]);
     </file>

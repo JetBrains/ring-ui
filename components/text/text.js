@@ -19,8 +19,8 @@ import styles from './text.css';
      <file name="index.js">
        import React, {Component} from 'react';
        import {render} from 'react-dom';
-       import Text from 'ring-ui/components/text/text';
-       import Group from 'ring-ui/components/group/group';
+       import Text from '@jetbrains/ring-ui/components/text/text';
+       import Group from '@jetbrains/ring-ui/components/group/group';
 
        class TextDemo extends Component {
          render() {

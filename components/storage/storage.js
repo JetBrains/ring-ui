@@ -13,7 +13,7 @@ import FallbackStorage from './storage__fallback';
       </div>
     </file>
     <file name="index.js">
-      import Storage from 'ring-ui/components/storage/storage';
+      import Storage from '@jetbrains/ring-ui/components/storage/storage';
 
       const STORAGE_KEY = 'storage-example-key';
       const storage = new Storage();
