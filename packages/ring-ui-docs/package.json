@@ -4,6 +4,7 @@
   "description": "Docs site for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
+  "private": true,
   "config": {
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
     "development": {
