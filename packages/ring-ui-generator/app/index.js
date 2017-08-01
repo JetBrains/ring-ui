@@ -8,8 +8,8 @@ const getFreePort = require('./get-free-port');
 const getLatestVersions = require('./get-latest-versions');
 
 const packages = [
-  'generator-ring-ui',
-  'ring-ui',
+  '@jetbrains/generator-ring-ui',
+  '@jetbrains/ring-ui',
   '@jetbrains/logos',
   '@jetbrains/icons'
 ];

@@ -184,8 +184,8 @@ function reactNgDirective($parse) {
 
      <file name="index.js" webpack="true">
        import 'angular';
-       import registerComponents from 'ring-ui/components/react-ng/react-ng';
-       import Icon from 'ring-ui/components/icon/icon';
+       import registerComponents from '@jetbrains/ring-ui/components/react-ng/react-ng';
+       import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
        registerComponents({Icon});
 
@@ -204,9 +204,9 @@ function reactNgDirective($parse) {
 
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import registerComponents from 'ring-ui/components/react-ng/react-ng';
-       import Icon from 'ring-ui/components/icon/icon';
-       import Button from 'ring-ui/components/button/button';
+       import registerComponents from '@jetbrains/ring-ui/components/react-ng/react-ng';
+       import Icon from '@jetbrains/ring-ui/components/icon/icon';
+       import Button from '@jetbrains/ring-ui/components/button/button';
        import '@jetbrains/icons/check.svg';
 
        registerComponents({Icon, Button});

@@ -55,13 +55,13 @@
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import 'angular/angular';
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Select from 'ring-ui/components/select-ng/select-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Select from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Select, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {
@@ -134,14 +134,14 @@
   </file>
 
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import angular from 'angular';
-    import Sidebar from 'ring-ui/components/sidebar-ng/sidebar-ng'
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Select from 'ring-ui/components/select-ng/select-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Sidebar from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng'
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Select from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Select, Button, Sidebar]).
       controller('ExampleCtrl', function ($q, $timeout, dialogInSidebar) {
@@ -210,13 +210,13 @@
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input/input.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input/input.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import angular from 'angular';
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {

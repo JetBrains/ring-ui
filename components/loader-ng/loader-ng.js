@@ -16,7 +16,7 @@ import LoaderCore from '../loader/loader__core';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import Loader from  'ring-ui/components/loader-ng/loader-ng';
+        import Loader from  '@jetbrains/ring-ui/components/loader-ng/loader-ng';
 
         angular.module('TestApp', [Loader]).
           controller('TestCtrl', function () {

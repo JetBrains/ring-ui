@@ -21,7 +21,7 @@ import '../link/link.scss';
      </file>
      <file name="index.js">
        import angular from 'angular';
-       import BreadcrumbNG from 'ring-ui/components/breadcrumb-ng/breadcrumb-ng';
+       import BreadcrumbNG from '@jetbrains/ring-ui/components/breadcrumb-ng/breadcrumb-ng';
 
        angular.module('Example.breadcrumb', [BreadcrumbNG])
          .controller('DemoCtrl', function () {

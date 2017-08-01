@@ -20,7 +20,7 @@ import styles from './<%= paramCaseName %>.css';
         import React, {PureComponent} from 'react';
         import {render} from 'react-dom';
 
-        import <%= pascalCaseName %> from 'ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
+        import <%= pascalCaseName %> from '@jetbrains/ring-ui/components/<%= paramCaseName %>/<%= paramCaseName %>';
 
         const container = document.getElementById('<%= paramCaseName %>');
         class <%= pascalCaseName %>Demo extends PureComponent {

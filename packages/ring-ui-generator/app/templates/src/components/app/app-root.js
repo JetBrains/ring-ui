@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import Link from 'ring-ui/components/link/link';
-import Icon from 'ring-ui/components/icon/icon';
+import Link from '@jetbrains/ring-ui/components/link/link';
+import Icon from '@jetbrains/ring-ui/components/icon/icon';
 import Header, {
   Tray,
   SmartProfile,
   SmartServices
-} from 'ring-ui/components/header/header';
-import Auth from 'ring-ui/components/auth/auth';
-import Footer from 'ring-ui/components/footer/footer';
+} from '@jetbrains/ring-ui/components/header/header';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import Footer from '@jetbrains/ring-ui/components/footer/footer';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 import styles from './app.css';

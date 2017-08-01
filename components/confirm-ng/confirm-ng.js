@@ -14,7 +14,7 @@ import confirm from '../confirm-service/confirm-service';
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import ConfirmNg from 'ring-ui/components/confirm-ng/confirm-ng';
+      import ConfirmNg from '@jetbrains/ring-ui/components/confirm-ng/confirm-ng';
 
       angular.module('TestApp', [ConfirmNg]).
         controller('TestCtrl', function (confirm) {

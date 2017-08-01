@@ -21,7 +21,7 @@ All the changes are going to happen in the `app.js` file.
 
 First of all, we import `Input` component from Ring UI
 
-    import Input from 'ring-ui/components/input/input';
+    import Input from '@jetbrains/ring-ui/components/input/input';
 just like  `Select` component is imported.
 
 Configuration mode is rendered by `renderConfiguration` function, so add an instance of the `Input` there, right after `Select` component

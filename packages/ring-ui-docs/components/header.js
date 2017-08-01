@@ -1,19 +1,19 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
-import Auth from 'ring-ui/components/auth/auth';
-import authDialogService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
   Tray,
   SmartProfile,
   SmartServices
-} from 'ring-ui/components/header/header';
-import Link from 'ring-ui/components/link/link';
-import Icon from 'ring-ui/components/icon/icon';
+} from '@jetbrains/ring-ui/components/header/header';
+import Link from '@jetbrains/ring-ui/components/link/link';
+import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
 import hubConfig from './hub-config';
 import Item from './item';
-import Version from './version';
+// import Version from './version';
 import {getIndexDoc} from './utils';
 
 class SiteHeader extends PureComponent {
@@ -30,7 +30,7 @@ class SiteHeader extends PureComponent {
   auth = new Auth(hubConfig);
 
   render() {
-    const {docsItems, ...restProps} = this.props;
+    const {docsItems, version} = this.props;
     const indexDoc = getIndexDoc(docsItems);
 
     return (
@@ -41,7 +41,7 @@ class SiteHeader extends PureComponent {
             size={Icon.Size.Size48}
           />
         </Link>
-        <span>{'Ring UI library '}<Version {...restProps}/></span>
+        <span>{`Ring UI library ${version}`}</span>
         {docsItems.map(item => (
           <Item
             key={item.title}
@@ -58,7 +58,7 @@ class SiteHeader extends PureComponent {
 }
 
 SiteHeader.propTypes = {
-  ...Version.propTypes,
+  version: PropTypes.string,
   noAuth: PropTypes.bool,
   docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
 };

@@ -19,7 +19,7 @@ import LoaderCore from './loader__core';
 
      <file name="index.js" webpack="true">
        import {render} from 'react-dom';
-       import Loader from 'ring-ui/components/loader/loader';
+       import Loader from '@jetbrains/ring-ui/components/loader/loader';
 
        render(Loader.factory({message: 'Loading...'}), document.getElementById('loader1'));
 

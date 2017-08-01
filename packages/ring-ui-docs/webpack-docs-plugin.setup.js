@@ -3,10 +3,12 @@ const path = require('path');
 const Docpack = require('docpack');
 const slug = require('url-slug');
 const {emitAsset} = require('webpack-toolkit');
-const pkg = require('ring-ui/package.json');
+const pkg = require('@jetbrains/ring-ui/package.json');
 
 const HOOKS = Docpack.HOOKS;
-const ringUiPath = path.dirname(require.resolve('ring-ui'));
+const ringUiPath = path.dirname(
+  require.resolve('@jetbrains/ring-ui/package.json')
+);
 
 /**
  * @param {Object} data.

@@ -28,8 +28,8 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
-       import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
+       import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
        angular.module('TestApp', [ButtonNG, CheckboxNG])
         .controller('MainCtrl', function($scope) {
           $scope.checked = false;
@@ -55,7 +55,7 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', [CheckboxNG]);
  </file>
    </example>
@@ -70,7 +70,7 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', [CheckboxNG]);
  </file>
    </example>

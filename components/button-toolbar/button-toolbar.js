@@ -21,9 +21,9 @@ import './button-toolbar.scss';
       import React from 'react';
       import {render} from 'react-dom';
 
-      import Button from 'ring-ui/components/button/button';
-      import ButtonGroup from 'ring-ui/components/button-group/button-group';
-      import ButtonToolbar from 'ring-ui/components/button-toolbar/button-toolbar';
+      import Button from '@jetbrains/ring-ui/components/button/button';
+      import ButtonGroup from '@jetbrains/ring-ui/components/button-group/button-group';
+      import ButtonToolbar from '@jetbrains/ring-ui/components/button-toolbar/button-toolbar';
 
       const container = document.getElementById('button-toolbar');
 

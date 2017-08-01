@@ -25,8 +25,8 @@ import Confirm from '../confirm/confirm';
  <file name="index.js">
  import {render} from 'react-dom';
  import React from 'react';
- import confirm from 'ring-ui/components/confirm-service/confirm-service';
- import Button from 'ring-ui/components/button/button';
+ import confirm from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
+ import Button from '@jetbrains/ring-ui/components/button/button';
 
  class ConfirmDemo extends React.Component {
         componentDidMount() {
@@ -112,7 +112,7 @@ export default function confirm({
 
       onReject: () => {
         renderConfirm({show: false});
-        reject(new Error('Confirm(ring-ui): null exception'));
+        reject(new Error('Confirm(@jetbrains/ring-ui): null exception'));
       }
     };
 

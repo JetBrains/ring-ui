@@ -1,10 +1,10 @@
 # Getting Started
 1. Install [`Yeoman`][1] and Ring UI generator: 
 
-    npm install -g yo generator-ring-ui
+    npm install -g yo @jetbrains/generator-ring-ui
 2. Go to the root directory of your widget (create one if necessary) and run
 
-    yo ring-ui:hub-widget
+    yo @jetbrains/ring-ui:hub-widget
 
     Enter widget name (defaults to current directory name), widget description, and author and let Yeoman create project files and install all the dependencies.
 

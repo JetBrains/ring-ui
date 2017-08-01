@@ -14,7 +14,7 @@
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import TitleNg from 'ring-ui/components/title-ng/title-ng';
+      import TitleNg from '@jetbrains/ring-ui/components/title-ng/title-ng';
 
       angular.module('test', [TitleNg]).
         run(function (pageTitle) {
