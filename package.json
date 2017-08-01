@@ -47,7 +47,7 @@
     "prebuild-ci": "npm run lint-ci",
     "build-ci": "npm run build-prod",
     "prerelease-ci": "npm run build-ci",
-    "release-ci": "lerna publish --yes"
+    "release-ci": "lerna publish --yes --cd-version patch"
   },
   "repository": {
     "type": "git",
