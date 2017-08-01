@@ -46,7 +46,7 @@
     "test-watch": "karma start karma-watch.conf.js",
     "prebuild-ci": "npm run lint-ci",
     "build-ci": "npm run build-prod",
-    "prerelease-ci": "npm run build-ci && git pull",
+    "prerelease-ci": "git pull",
     "release-ci": "lerna publish --yes --cd-version patch"
   },
   "repository": {
