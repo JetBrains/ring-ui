@@ -6,6 +6,26 @@ order: 3
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
+### 01-08-2018: Ring UI goes open-source!
+
+#### Changes for users
+- `@jetbrains/ring-ui` package should be used instead of `ring-ui`
+- Version is reset to `0.1.1`. To install the latest version, run `npm install --save-exact @jetbrains/ring-ui` 
+- You can remove the line with internal registry from your `.npmrc`
+- Named imports can be used for importing components:
+  ```js
+  import {Button, Input} from '@jetbrains/ring-ui';
+
+  // You may still import components one by one if you want
+  import Button from '@jetbrains/ring-ui/components/button/button';
+  import Input from '@jetbrains/ring-ui/components/input/input';
+  ```
+- If you import Ring UI's webpack config with `require('ring-ui')`, replace it with `require('@jetbrains/ring-ui')`
+
+#### Changes for contributors
+- The commit history is rewritten. You need to clone from `ssh://github.com/JetBrains/ring-ui.git` to get the fresh version of the repo.
+- Prepend your commit message with `[Publish]` to publish the packages.
+
 ### 27-07-2017: @jetbrains/icons
 
 Private `jetbrains-icons` package was replaced with a public one that is hosted on GitHub and available as `@jetbrains/icons` in npm. Please update your projects accordingly.
