@@ -4,6 +4,8 @@ category: Docs
 order: 1
 ---
 
+#### Ring UI - JetBrains Web UI components
+
 [Living style guide](http://www.jetbrains.org/ring-ui/index.html) is available.
 
 ### Quick start
