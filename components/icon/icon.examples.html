@@ -115,7 +115,7 @@
     import {createElement} from 'react';
     import Icon from 'ring-ui/components/icon/icon';
 
-    var logos = require.context('jetbrains-logos', true, /\.svg$/);
+    var logos = require.context('@jetbrains/logos', true, /\.svg$/);
 
     render(createElement('div', {
       children: logos.keys().map(logos).map(function (icon) {

@@ -10,7 +10,7 @@ const getLatestVersions = require('./get-latest-versions');
 const packages = [
   'generator-ring-ui',
   'ring-ui',
-  'jetbrains-logos',
+  '@jetbrains/logos',
   '@jetbrains/icons'
 ];
 
