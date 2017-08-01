@@ -11,13 +11,13 @@ import ContentLayout, {
 import Header from './header';
 import Nav from './nav';
 import Content from './content';
-import {getIndexDoc} from './utils';
+import {getDocs, getIndexDoc} from './utils';
 import styles from './index.css';
 
 const {source, navData} = window;
 const {version} = navData;
 
-const docs = navData.categories.find(({name}) => name === 'Docs');
+const docs = getDocs();
 const docsItems = docs.items;
 const categories = navData.categories.filter(category => category !== docs);
 
@@ -52,7 +52,6 @@ class App extends Component {
         <Header
           version={version}
           docsItems={docsItems}
-          noAuth={window.frameElement != null}
         />
         <ContentLayout className={styles.main}>
           <Sidebar>
@@ -66,7 +65,7 @@ class App extends Component {
 }
 
 const {pathname} = window.location;
-const indexDoc = getIndexDoc(docsItems);
+const indexDoc = getIndexDoc();
 
 if (pathname === '/' && indexDoc) {
   window.location.replace(indexDoc);

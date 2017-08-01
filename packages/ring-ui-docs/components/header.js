@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
@@ -16,50 +16,45 @@ import Item from './item';
 // import Version from './version';
 import {getIndexDoc} from './utils';
 
-class SiteHeader extends PureComponent {
-  async componentDidMount() {
-    if (!this.props.noAuth) {
-      this.auth.setAuthDialogService(authDialogService);
-      const restoreLocation = await this.auth.init();
-      if (restoreLocation) {
-        window.location = restoreLocation;
-      }
-    }
-  }
+const auth = new Auth(hubConfig);
+auth.setAuthDialogService(authDialogService);
 
-  auth = new Auth(hubConfig);
-
-  render() {
-    const {docsItems, version} = this.props;
-    const indexDoc = getIndexDoc(docsItems);
-
-    return (
-      <Header>
-        <Link href={indexDoc}>
-          <Icon
-            glyph={hubLogo}
-            size={Icon.Size.Size48}
-          />
-        </Link>
-        <span>{`Ring UI library ${version}`}</span>
-        {docsItems.map(item => (
-          <Item
-            key={item.title}
-            {...item}
-          />
-        ))}
-        <Tray>
-          <SmartServices auth={this.auth}/>
-          <SmartProfile auth={this.auth}/>
-        </Tray>
-      </Header>
-    );
+async function initAuth() {
+  const restoreLocation = await auth.init();
+  if (restoreLocation) {
+    window.location = restoreLocation;
   }
 }
 
+// TODO Remove 'true'
+if (true && window.frameElement == null) {
+  initAuth();
+}
+
+const SiteHeader = ({docsItems, version}) => (
+  <Header>
+    <Link href={getIndexDoc()}>
+      <Icon
+        glyph={hubLogo}
+        size={Icon.Size.Size48}
+      />
+    </Link>
+    <span>{`Ring UI library ${version}`}</span>
+    {docsItems.map(item => (
+      <Item
+        key={item.title}
+        {...item}
+      />
+    ))}
+    <Tray>
+      <SmartServices auth={auth}/>
+      <SmartProfile auth={auth}/>
+    </Tray>
+  </Header>
+);
+
 SiteHeader.propTypes = {
   version: PropTypes.string,
-  noAuth: PropTypes.bool,
   docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
 };
 
