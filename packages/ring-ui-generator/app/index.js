@@ -48,7 +48,6 @@ module.exports = generators.Base.extend({
   },
 
   configuring() {
-    this.template('npmrc', '.npmrc');
     this.template('editorconfig', '.editorconfig');
     this.template('gitignore', '.gitignore');
     this.template('eslintignore', '.eslintignore');
