@@ -571,7 +571,7 @@ Icon's `glyph` property now accepts URL from loader instead of ID, e.g. `<Icon g
 
 ### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)
 
-jQuery, when.js, and mout are not used anymore. See the detailed [migration guide](http://ring-ui.github.io/migration-to-2.3.0.html).
+jQuery, when.js, and mout are not used anymore.
 
 ### 30-10-2015: Components should be addressed by full path
 
