@@ -21,13 +21,9 @@ order: 1
 
 In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
 
-1. Add the JetBrains internal registry to `.npmrc` in your project directory:
-   ``` shell
-   echo 'registry = http://registry.npmjs.org' >> .npmrc
-   ```
-2. Install Ring UI with `npm install ring-ui --save-exact` 
-3. Install `webpack-config-merger` to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
-4. If you are building your app with webpack, make sure to `import` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
+1. Install Ring UI with `npm install ring-ui --save-exact` 
+2. Install `webpack-config-merger` to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
+3. If you are building your app with webpack, make sure to `import` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
 `import` the components there. 
    ``` javascript
    import React from 'react';
@@ -36,7 +32,7 @@ In case boilerplate generators are not your thing and you prefer to understand t
    
    ReactDOM.render(<LoaderInline/>, document.getElementById('container'));
    ```
-5. Create `webpack.config.js` with the following contents (example):
+4. Create `webpack.config.js` with the following contents (example):
    ``` javascript
    var webpackConfigMerger = require('webpack-config-merger');
    

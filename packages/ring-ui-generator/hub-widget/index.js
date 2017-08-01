@@ -121,7 +121,6 @@ module.exports = class extends Generator.Base {
   }
 
   configuring() {
-    this._copyTemplate('npmrc', '.npmrc');
     this._copyTemplate('editorconfig', '.editorconfig');
     this._copyTemplate('gitignore', '.gitignore');
     this._copyTemplate('eslintignore', '.eslintignore');

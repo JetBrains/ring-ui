@@ -58,9 +58,6 @@
     "type": "git",
     "url": "ssh://github.com/JetBrains/ring-ui.git"
   },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
   "readmeFilename": "README.md",
   "babel": {
     "presets": "@jetbrains/jetbrains",
