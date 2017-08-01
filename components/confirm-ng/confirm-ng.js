@@ -27,15 +27,17 @@ import confirm from '../confirm-service/confirm-service';
  */
 /* global angular: false */
 
-const angularModule = angular.module('Ring.confirm', []);
+const angularModule = angular.module('Ring.confirm', [
+  'Ring.message-bundle'
+]);
 
-angularModule.service('confirm', $q =>
+angularModule.service('confirm', $q, RingMessageBundle =>
   function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
     return $q.when(confirm({
       text: message,
       description,
-      confirmLabel: actionTitle,
-      rejectLabel: cancelTitle,
+      confirmLabel: actionTitle || RingMessageBundle.confirmation_ok(),
+      rejectLabel: cancelTitle || RingMessageBundle.confirmation_cancel(),
       cancelIsDefault,
       onBeforeConfirm: actionFn
     }));
