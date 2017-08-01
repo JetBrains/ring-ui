@@ -74,7 +74,7 @@ module.exports = class extends Generator.Base {
   files() {
     // Hub-widget template files
     this.fs.copyTpl(
-      this.templatePath('*.{json,js}'),
+      this.templatePath('*.{json,js,md}'),
       this.destinationPath(''),
       this.props
     );
