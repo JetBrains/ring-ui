@@ -1,4 +1,5 @@
 /* global hubConfig */
+import {getIndexDoc} from './utils';
 
 const {serverUri, clientId} = hubConfig;
 
@@ -8,5 +9,5 @@ export default {
   serverUri,
   clientId,
   requestCredentials: 'skip',
-  redirectUri: window.location.href.replace(/\/[^\/]+.html$/, '')
+  redirectUri: window.location.href.replace(/\/[^\/]+.html$/, `/${getIndexDoc()}`)
 };
