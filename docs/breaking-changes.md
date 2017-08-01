@@ -21,6 +21,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
   import Input from '@jetbrains/ring-ui/components/input/input';
   ```
 - If you import Ring UI's webpack config with `require('ring-ui')`, replace it with `require('@jetbrains/ring-ui')`
+- Prepend your commit message with `[Publish]` to publish the packages.
 
 ##### Changes for contributors
 - The commit history is rewritten. You need to clone from `ssh://github.com/JetBrains/ring-ui.git` to get the fresh version of the repo.
