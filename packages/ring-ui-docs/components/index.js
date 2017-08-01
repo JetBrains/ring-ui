@@ -11,6 +11,7 @@ import ContentLayout, {
 import Header from './header';
 import Nav from './nav';
 import Content from './content';
+import {getIndexDoc} from './utils';
 import styles from './index.css';
 
 const {source, navData} = window;
@@ -19,7 +20,6 @@ const {version} = navData;
 const docs = navData.categories.find(({name}) => name === 'Docs');
 const docsItems = docs.items;
 const categories = navData.categories.filter(category => category !== docs);
-
 
 class App extends Component {
   componentDidMount() {
@@ -65,7 +65,14 @@ class App extends Component {
   }
 }
 
-render(
-  <App/>,
-  document.query('#app')
-);
+const {pathname} = window.location;
+const indexDoc = getIndexDoc(docsItems);
+
+if (pathname === '/' && indexDoc) {
+  window.location.replace(indexDoc);
+} else {
+  render(
+    <App/>,
+    document.query('#app')
+  );
+}
