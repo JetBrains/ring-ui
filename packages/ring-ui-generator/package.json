@@ -9,10 +9,6 @@
     "yeoman-generator",
     "@jetbrains/ring-ui"
   ],
-  "scripts": {
-    "release-ci": "npm publish",
-    "version": "update-version --patch"
-  },
   "dependencies": {
     "chalk": "^1.1.3",
     "change-case": "^3.0.0",
@@ -23,8 +19,5 @@
     "portscanner": "^1.0.0",
     "read-pkg-up": "^1.0.1",
     "yeoman-generator": "^0.24.1"
-  },
-  "devDependencies": {
-    "update-version": "^1.0.2"
   }
 }
