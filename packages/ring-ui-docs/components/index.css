@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, link-color, fixed-z-index, overlay-z-index from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -18,6 +18,11 @@ body {
   margin-top: calc(unit * 4);
 }
 
+.input {
+  position: relative;
+  z-index: overlay-z-index;
+}
+
 .main > div:last-child {
   flex-grow: 1;
 
@@ -26,6 +31,15 @@ body {
 
 .header {
   margin: calc(unit * 2) 0 0;
+}
+
+.logo {
+  z-index: fixed-z-index;
+
+  margin-top: calc(unit * -3);
+  margin-left: calc(unit * -4 + 1);
+
+  vertical-align: top;
 }
 
 .list {
