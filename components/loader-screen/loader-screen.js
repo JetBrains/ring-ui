@@ -20,7 +20,7 @@ import './loader-screen.scss';
 
      <file name="index.js" webpack="true">
        import {render} from 'react-dom';
-       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
+       import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory(),
@@ -35,7 +35,7 @@ import './loader-screen.scss';
 
      <file name="index.js" webpack="true">
        import {render} from 'react-dom';
-       import LoaderScreen from 'ring-ui/components/loader-screen/loader-screen';
+       import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
 
        render(
          LoaderScreen.factory({message: 'Loading...'}),

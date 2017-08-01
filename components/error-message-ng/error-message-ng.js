@@ -17,7 +17,7 @@ import '../error-message-ng/error-message-ng.scss';
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import errorMessageNg from 'ring-ui/components/error-message-ng/error-message-ng';
+      import errorMessageNg from '@jetbrains/ring-ui/components/error-message-ng/error-message-ng';
       import frownIcon from '@jetbrains/icons/frown.svg';
 
       angular.module('ExampleApp', [errorMessageNg]).

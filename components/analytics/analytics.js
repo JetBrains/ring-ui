@@ -15,9 +15,9 @@
       </div>
     </file>
     <file name="index.js">
-      import analytics from 'ring-ui/components/analytics/analytics';
-      import 'ring-ui/components/link/link.scss';
-      import AnalyticsCustomPlugin from 'ring-ui/components/analytics/analytics__custom-plugin';
+      import analytics from '@jetbrains/ring-ui/components/analytics/analytics';
+      import '@jetbrains/ring-ui/components/link/link.scss';
+      import AnalyticsCustomPlugin from '@jetbrains/ring-ui/components/analytics/analytics__custom-plugin';
 
       const FLUSH_INTERVAL = 100;
 

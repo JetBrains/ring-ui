@@ -15,8 +15,8 @@
     </file>
     <file name="index.js" webpack="true">
      import angular from 'angular';
-     import ButtonSetNG from 'ring-ui/components/button-set-ng/button-set-ng';
-     import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+     import ButtonSetNG from '@jetbrains/ring-ui/components/button-set-ng/button-set-ng';
+     import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
      angular.module('TestApp', [ButtonNG, ButtonSetNG]);
     </file>
    </example>

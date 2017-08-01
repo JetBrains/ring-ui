@@ -513,7 +513,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   requestHandler = () => {
     if (this.props.disabled) {
-      return Promise.reject(new Error('QueryAssist(ring-ui): null exception'));
+      return Promise.reject(new Error('QueryAssist(@jetbrains/ring-ui): null exception'));
     }
 
     const {query, caret} = this.immediateState;

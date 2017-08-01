@@ -15,7 +15,7 @@ import '../loader-inline/loader-inline.scss';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import LoaderInline from  'ring-ui/components/loader-inline-ng/loader-inline-ng';
+        import LoaderInline from  '@jetbrains/ring-ui/components/loader-inline-ng/loader-inline-ng';
 
         angular.module('TestApp', [LoaderInline]);
       </file>

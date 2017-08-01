@@ -15,7 +15,7 @@ import '../link/link.scss';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import Link from  'ring-ui/components/link-ng/link-ng';
+        import Link from  '@jetbrains/ring-ui/components/link-ng/link-ng';
 
         angular.module('TestApp', [Link]);
       </file>

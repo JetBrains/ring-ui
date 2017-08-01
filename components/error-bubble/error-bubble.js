@@ -22,9 +22,9 @@ import './error-bubble.scss';
        import {render} from 'react-dom';
        import React from 'react';
 
-       import ErrorBubble from 'ring-ui/components/error-bubble/error-bubble';
-       import Input from 'ring-ui/components/input/input';
-       import 'ring-ui/components/input-size/input-size.scss';
+       import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
+       import Input from '@jetbrains/ring-ui/components/input/input';
+       import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
        const container = document.getElementById('container');
        const renderBubbleDemo = value => (

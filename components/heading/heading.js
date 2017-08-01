@@ -18,7 +18,7 @@ import styles from './heading.css';
     <file name="index.js">
       import React, {Component} from 'react';
       import {render} from 'react-dom';
-      import Heading, {H1, H2, H3, H4, H5} from 'ring-ui/components/heading/heading';
+      import Heading, {H1, H2, H3, H4, H5} from '@jetbrains/ring-ui/components/heading/heading';
       const container = document.getElementById('heading');
       const lorem = <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>;
       const demo = (

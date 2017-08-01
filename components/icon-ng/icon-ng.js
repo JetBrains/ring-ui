@@ -21,8 +21,8 @@ import '../icon/icon.scss';
       </file>
     <file name="index.js" webpack="true">
       import angular from 'angular';
-      import IconNG from 'ring-ui/components/icon-ng/icon-ng';
-      import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+      import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
+      import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
       import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
       import warningIcon from '@jetbrains/icons/warning.svg';
 

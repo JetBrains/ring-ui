@@ -29,8 +29,8 @@
     import hubConfig from 'ring-ui-docs/components/hub-config';
 
     import angular from 'angular';
-    import AuthNg from 'ring-ui/components/auth-ng/auth-ng';
-    import QueryAssistNg from 'ring-ui/components/query-assist-ng/query-assist-ng';
+    import AuthNg from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
+    import QueryAssistNg from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
     angular.module('test', [QueryAssistNg, AuthNg]).config(function (authProvider) {
       authProvider.config(hubConfig);

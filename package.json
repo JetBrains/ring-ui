@@ -1,5 +1,5 @@
 {
-  "name": "ring-ui",
+  "name": "@jetbrains/ring-ui",
   "version": "0.1.0",
   "description": "JetBrains UI library",
   "author": "JetBrains",
@@ -10,7 +10,7 @@
     "webpack.config.js",
     "docs"
   ],
-  "main": "webpack.config.js",
+  "main": "components/index.js",
   "lint-staged": {
     "*.js": [
       "eslint --fix",
@@ -25,9 +25,9 @@
     "postinstall": "npm rebuild node-sass",
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
-    "component:ng": "yo ring-ui:ng --path $npm_package_config_components",
-    "component:react": "yo ring-ui:react --path $npm_package_config_components",
-    "component:es6": "yo ring-ui:es6 --path $npm_package_config_components",
+    "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
+    "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
+    "component:es6": "yo @jetbrains/ring-ui:es6 --path $npm_package_config_components",
     "test": "karma start",
     "gemini-test": "gemini test components/**/*.gemini.js --reporter html --reporter flat",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
@@ -50,8 +50,8 @@
     "build-ci-dev": "npm run build-prod",
     "prerelease-ci": "npm run build-ci && npm pack",
     "prerelease-ci-dev": "npm run build-ci-dev && npm pack",
-    "release-ci": "npm publish ring-ui-*.tgz",
-    "release-ci-dev": "npm publish --tag dev ring-ui-*.tgz",
+    "release-ci": "npm publish @jetbrains/ring-ui-*.tgz",
+    "release-ci-dev": "npm publish --tag dev @jetbrains/ring-ui-*.tgz",
     "version": "update-version --patch"
   },
   "repository": {
@@ -93,6 +93,7 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^2.0.0",
+    "@jetbrains/generator-ring-ui": "^0.1.0",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
     "angular-mocks": "1.6.5",
@@ -124,7 +125,6 @@
     "gemini": "4.18.1",
     "gemini-teamcity": "2.1.3",
     "gen-idea-libs": "1.0.2",
-    "generator-ring-ui": "^1.0.0",
     "glob": "7.1.2",
     "http-server": "0.10.0",
     "husky": "0.14.3",

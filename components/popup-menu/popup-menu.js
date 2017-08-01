@@ -21,7 +21,7 @@ import List from '../list/list';
      <file name="index.js" webpack="true">
        import React from 'react';
        import {render} from 'react-dom';
-       import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+       import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
 
        const data = [
           {'label': 'Item'},

@@ -21,8 +21,8 @@ import './panel.scss';
      <file name="index.js" webpack="true">
        import React from 'react';
        import {render} from 'react-dom';
-       import Panel from 'ring-ui/components/panel/panel';
-       import Button from 'ring-ui/components/button/button';
+       import Panel from '@jetbrains/ring-ui/components/panel/panel';
+       import Button from '@jetbrains/ring-ui/components/button/button';
 
        render(
          (

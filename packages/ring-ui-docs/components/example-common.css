@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height from '../node_modules/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 body {
   margin: calc(unit * 2);

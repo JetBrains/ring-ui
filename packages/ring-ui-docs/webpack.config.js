@@ -4,7 +4,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
-const webpackConfig = require('ring-ui/webpack.config');
+const webpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
@@ -13,7 +13,9 @@ const createEntriesList = require('./create-entries-list');
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 
-const ringUiPath = path.dirname(require.resolve('ring-ui'));
+const ringUiPath = path.dirname(
+  require.resolve('@jetbrains/ring-ui/package.json')
+);
 const publicPath = '/';
 const distDir = 'dist';
 const contentBase = path.resolve(__dirname, distDir);
@@ -62,7 +64,7 @@ module.exports = (env = {}) => {
       // needed in examples
       alias: {
         'ring-ui-docs': __dirname,
-        'ring-ui': ringUiPath
+        '@jetbrains/ring-ui': ringUiPath
       }
     },
     context: ringUiPath,

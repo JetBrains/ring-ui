@@ -19,8 +19,8 @@ import '../button-group/button-group.scss';
     </file>
     <file name="index.js">
       import 'angular';
-      import ButtonNg from 'ring-ui/components/button-ng/button-ng';
-      import ButtonGroupNg from 'ring-ui/components/button-group-ng/button-group-ng';
+      import ButtonNg from '@jetbrains/ring-ui/components/button-ng/button-ng';
+      import ButtonGroupNg from '@jetbrains/ring-ui/components/button-group-ng/button-group-ng';
 
       angular.module('test', [ButtonNg, ButtonGroupNg]);
     </file>

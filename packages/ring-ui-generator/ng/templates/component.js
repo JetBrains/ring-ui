@@ -17,7 +17,7 @@ import styles from './<%= paramCaseNameSuffix %>.css';
        </file>
        <file name="index.js">
          import angular from 'angular';
-         import <%= pascalCaseName %> from  'ring-ui/components/<%= paramCaseNameSuffix %>/<%= paramCaseNameSuffix %>';
+         import <%= pascalCaseName %> from  '@jetbrains/ring-ui/components/<%= paramCaseNameSuffix %>/<%= paramCaseNameSuffix %>';
 
          angular.module('TestApp', [<%= pascalCaseName %>]).controller('testCtrl', $scope => {
            $scope.name = '<%= titleCaseName %>';

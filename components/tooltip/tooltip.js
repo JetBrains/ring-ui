@@ -23,8 +23,8 @@ import './tooltip.scss';
        import React from 'react';
        import {render} from 'react-dom';
 
-       import Tooltip from 'ring-ui/components/tooltip/tooltip';
-       import Button from 'ring-ui/components/button/button';
+       import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
+       import Button from '@jetbrains/ring-ui/components/button/button';
 
        const buttonWithTooltip = (
          <Tooltip title="Explanation">
