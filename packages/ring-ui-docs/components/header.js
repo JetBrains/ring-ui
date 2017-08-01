@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import hubLogo from '@jetbrains/logos/hub/hub.svg';
+import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
@@ -11,6 +11,7 @@ import Header, {
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
+import styles from './index.css';
 import hubConfig from './hub-config';
 import Item from './item';
 // import Version from './version';
@@ -26,8 +27,7 @@ async function initAuth() {
   }
 }
 
-// TODO Remove 'true'
-if (true && window.frameElement == null) {
+if (window.frameElement == null) {
   initAuth();
 }
 
@@ -35,8 +35,9 @@ const SiteHeader = ({docsItems, version}) => (
   <Header>
     <Link href={getIndexDoc()}>
       <Icon
-        glyph={hubLogo}
-        size={Icon.Size.Size48}
+        glyph={jetbrainsLogo}
+        className={styles.logo}
+        size={Icon.Size.Size128}
       />
     </Link>
     <span>{`Ring UI library ${version}`}</span>
