@@ -8,7 +8,7 @@ import Header, {
 } from 'ring-ui/components/header/header';
 import Auth from 'ring-ui/components/auth/auth';
 import Footer from 'ring-ui/components/footer/footer';
-import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
+import hubLogo from 'jetbrains-logos/hub/hub.svg';
 
 import styles from './app.css';
 
@@ -30,7 +30,7 @@ export default class AppRoot extends Component {
         <Header>
           <Link href="/">
             <Icon
-              glyph={jetbrainsLogo}
+              glyph={hubLogo}
               size={Icon.Size.Size48}
             />
           </Link>
