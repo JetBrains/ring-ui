@@ -52,7 +52,7 @@ class App extends Component {
         <Header
           version={version}
           docsItems={docsItems}
-          noAuth={window.hostname === 'teamcity.jetbrains.com'}
+          noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
         />
         <ContentLayout className={styles.main}>
           <Sidebar
