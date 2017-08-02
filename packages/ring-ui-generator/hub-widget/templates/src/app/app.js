@@ -57,7 +57,7 @@ class Widget extends Component {
   cancelConfig = async () => {
     this.setState({isConfiguring: false});
     await this.props.dashboardApi.exitConfigMode();
-    this.initialize();
+    this.initialize(this.props.dashboardApi);
   };
 
   changeColor = selectedColor => this.setState({selectedColor});
