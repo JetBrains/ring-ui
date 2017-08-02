@@ -16,7 +16,7 @@ coverage
 dist
 gemini-report
 node_modules
-npm-debug.log
+npm-debug.log*
 http-server.log
 jetbrains-ring-ui-*.tgz
 yarn.lock
