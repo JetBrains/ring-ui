@@ -6,15 +6,6 @@ process.env.BABEL_ENV = 'test';
 
 module.exports = config => {
   const configCIDev = deepAssign(generateConfig(config), {
-    browsers: ['ChromeHeadlessNoSandbox'],
-
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'Chrome',
-        flags: ['--no-sandbox', '--headless', '--disable-gpu', '--remote-debugging-port=9222']
-      }
-    },
-
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
