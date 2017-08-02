@@ -55,8 +55,6 @@ module.exports = config => {
     // web server port
     port: 9876,
 
-    hostname: require('os').hostname(),
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
