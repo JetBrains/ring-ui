@@ -1,6 +1,6 @@
 ## Ring UI generator
 
-Yeoman generator to create Ring UI React app, React component, or Hub widget
+Yeoman generator to create a Ring UI React app, a React component, or a Hub widget
 
 ### Commands
 

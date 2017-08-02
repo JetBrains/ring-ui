@@ -8,23 +8,23 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
 
 ### 01-08-2018: Ring UI goes open-source!
 
-##### Changes for users
-- `@jetbrains/ring-ui` package should be used instead of `ring-ui`
-- Version is reset to `0.1.1`. To install the latest version, run `npm install --save-exact @jetbrains/ring-ui` 
-- You can remove the line with internal registry from your `.npmrc`
+##### What changes for the end users
+- `@jetbrains/ring-ui` package should be used instead of `ring-ui`.
+- Version was reset to `0.1.1`. To install the latest version, run `npm install --save-exact @jetbrains/ring-ui`. 
+- You may remove the internal registry line from `.npmrc`.
 - Named imports can be used for importing components:
   ```js
   import {Button, Input} from '@jetbrains/ring-ui';
 
-  // You may still import components one by one if you want
+  // You can still import components one by one if you want
   import Button from '@jetbrains/ring-ui/components/button/button';
   import Input from '@jetbrains/ring-ui/components/input/input';
   ```
-- If you import Ring UI's webpack config with `require('ring-ui')`, replace it with `require('@jetbrains/ring-ui')`
-- Prepend your commit message with `[Publish]` to publish the packages.
+- Change the webpack configuration import (if using one) from `require('ring-ui')` to `require('@jetbrains/ring-ui')`.
 
-##### Changes for contributors
-- The commit history is rewritten. You need to clone from `ssh://github.com/JetBrains/ring-ui.git` to get the fresh version of the repo.
+##### What changes for the contributors
+- The commit history has been rewritten. Please clone the repository anew from `ssh://github.com/JetBrains/ring-ui.git`.
+- Prepend your commit messages with `[Publish]` to trigger publishing of npm packages.
 
 ### 27-07-2017: @jetbrains/icons
 

@@ -13,9 +13,8 @@ module.exports = config => {
 
   const conf = {
 
-    // base path, that will be used to resolve files and exclude
+    // base path that will be used to resolve files and excludes
     basePath: '',
-
 
     // frameworks to use
     frameworks: ['mocha'],
@@ -60,19 +59,15 @@ module.exports = config => {
     // cli runner port
     runnerPort: 9100,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
 
     // Start these browsers
     browsers: ['Electron'],
@@ -95,9 +90,8 @@ module.exports = config => {
     // See https://github.com/karma-runner/karma/issues/598
     browserNoActivityTimeout: 60000,
 
-
-    // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
+    // CI mode
+    // if true, it will capture the browser, run the tests, and exit
     singleRun: true
   };
 
