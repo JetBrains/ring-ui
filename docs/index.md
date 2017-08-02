@@ -29,4 +29,4 @@ plugins developed for JetBrains' products.
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
-- [Builds at TeamCity](https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview)
+- [Builds in TeamCity](https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview)
