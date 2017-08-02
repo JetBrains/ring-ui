@@ -1,23 +1,28 @@
 #!/bin/bash
 
-function test {
-  npm link ../packages/ring-ui-generator || exit 1
-  ../node_modules/.bin/yo @jetbrains/ring-ui:$1 my-app --widget-name=widget --widget-description=description --widget-author=author || exit 1
-  npm link ../packages/ring-ui-generator || exit 1
-  npm link ../. || exit 1
-  npm run create-component my-component || exit 1
-  npm run ci-test || exit 1
-  npm run build || exit 1
-}
-
-function setup {
-  mkdir test_gen
-  cd test_gen
-  test $1
-  code=$?
+function cleanup {
   cd ..
   rm -rf test_gen
-  exit $code
 }
 
-setup app && setup hub-widget
+function handle_error {
+  cleanup
+  exit 1
+}≠
+
+function test {
+  mkdir test_gen
+  cd test_gen
+  npm link ../packages/ring-ui-generator || handle_error
+  ../node_modules/.bin/yo @jetbrains/ring-ui:$1 my-app --widget-name=widget --widget-description=description --widget-author=author || handle_error
+  npm link ../packages/ring-ui-generator || handle_error
+  npm link ../. || handle_error
+  npm run create-component my-component || handle_error
+  npm run ci-test || handle_error
+  npm run build || handle_error
+  cleanup
+}
+
+rm -rf test_gen
+test app
+test hub-widget
