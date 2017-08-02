@@ -54,7 +54,10 @@ class App extends Component {
           docsItems={docsItems}
         />
         <ContentLayout className={styles.main}>
-          <Sidebar>
+          <Sidebar
+            className={styles.sidebar}
+            fixedClassName={styles.sidebarFixed}
+          >
             <Nav categories={categories}/>
           </Sidebar>
           <Content {...source}/>
