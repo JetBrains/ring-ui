@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
@@ -17,45 +17,51 @@ import Item from './item';
 // import Version from './version';
 import {getIndexDoc} from './utils';
 
-const auth = new Auth(hubConfig);
-auth.setAuthDialogService(authDialogService);
+class SiteHeader extends PureComponent {
+  async componentDidMount() {
+    if (!this.props.noAuth) {
+      this.auth.setAuthDialogService(authDialogService);
+      const restoreLocation = await this.auth.init();
+      if (restoreLocation) {
+        window.location = restoreLocation;
+      }
+    }
+  }
 
-async function initAuth() {
-  const restoreLocation = await auth.init();
-  if (restoreLocation) {
-    window.location = restoreLocation;
+  auth = new Auth(hubConfig);
+
+  render() {
+    const {docsItems, version} = this.props;
+    const indexDoc = getIndexDoc(docsItems);
+
+    return (
+      <Header>
+        <Link href={indexDoc}>
+          <Icon
+            className={styles.logo}
+            glyph={jetbrainsLogo}
+            size={Icon.Size.Size128}
+          />
+        </Link>
+        <span>{`Ring UI library ${version}`}</span>
+        {docsItems.map(item => (
+          <Item
+            key={item.title}
+            {...item}
+          />
+        ))}
+        <Tray>
+          <SmartServices auth={this.auth}/>
+          <SmartProfile auth={this.auth}/>
+        </Tray>
+      </Header>
+    );
   }
 }
 
-if (window.frameElement == null) {
-  initAuth();
-}
-
-const SiteHeader = ({docsItems, version}) => (
-  <Header>
-    <Link href={getIndexDoc()}>
-      <Icon
-        glyph={jetbrainsLogo}
-        className={styles.logo}
-        size={Icon.Size.Size128}
-      />
-    </Link>
-    <span>{`Ring UI library ${version}`}</span>
-    {docsItems.map(item => (
-      <Item
-        key={item.title}
-        {...item}
-      />
-    ))}
-    <Tray>
-      <SmartServices auth={auth}/>
-      <SmartProfile auth={auth}/>
-    </Tray>
-  </Header>
-);
-
 SiteHeader.propTypes = {
   version: PropTypes.string,
+  noAuth: PropTypes.bool,
   docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
 };
 

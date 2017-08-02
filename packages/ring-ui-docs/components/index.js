@@ -68,7 +68,8 @@ const {pathname} = window.location;
 const indexDoc = getIndexDoc();
 
 if (pathname === '/' && indexDoc) {
-  window.location.replace(indexDoc);
+  const {hash} = window.location;
+  window.location.replace(indexDoc + hash);
 } else {
   render(
     <App/>,
