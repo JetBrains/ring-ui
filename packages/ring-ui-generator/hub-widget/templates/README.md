@@ -55,7 +55,7 @@ and implement the `changeName` handler:
 
 ```
 changeName = e => this.setState({
-  sername: e.target.value
+  username: e.target.value
 });
 ```
 
@@ -95,7 +95,7 @@ const {username, selectedColor, isConfiguring} = this.state;
 
 ...
 
-<h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
+<h1 style={{color: selectedColor.key}}>{sayHello(username)}</h1>
 ```
 
 Now we can hit "Reload widget" and see if everything works!
