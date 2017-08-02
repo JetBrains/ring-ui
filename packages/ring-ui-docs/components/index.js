@@ -7,9 +7,9 @@ import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import ContentLayout, {
   Sidebar
 } from '@jetbrains/ring-ui/components/content-layout/content-layout';
-import Footer from '@jetbrains/ring-ui/components/footer/footer';
 
 import Header from './header';
+import Footer from './footer';
 import Nav from './nav';
 import Content from './content';
 import {getDocs, getIndexDoc} from './utils';
@@ -62,21 +62,8 @@ class App extends Component {
             <Nav categories={categories}/>
           </Sidebar>
           <Content {...source}/>
+          <Footer/>
         </ContentLayout>
-        <Footer right={
-          [
-            [
-              {copyright: 2000, label: ' JetBrains'},
-              ' · All rights reserved'
-            ],
-            {
-              url: 'https://raw.githubusercontent.com/JetBrains/ring-ui/master/LICENSE.txt',
-              label: 'License agreement',
-              title: 'read me!'
-            }
-          ]
-        }
-        />
       </div>
     );
   }
