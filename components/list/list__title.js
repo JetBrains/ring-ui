@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 export default class ListTitle extends PureComponent {
   static propTypes = {
@@ -10,14 +11,20 @@ export default class ListTitle extends PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
-    ])
+    ]),
+    isFirst: PropTypes.bool
   };
 
   render() {
-    const {description, label} = this.props;
+    const {description, label, isFirst} = this.props;
+
+    const classes = classNames('ring-list__title', 'ring-list__text', {
+      'ring-list__title_first': isFirst
+    });
+
     return (
       <span
-        className="ring-list__title ring-list__text"
+        className={classes}
         data-test="ring-list-title"
       >
         <span
