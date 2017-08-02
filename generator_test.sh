@@ -14,10 +14,10 @@ function setup {
   mkdir test_gen
   cd test_gen
   test $1
-  code = $?
+  code=$?
   cd ..
   rm -rf test_gen
-  exit code
+  exit $code
 }
 
 setup app && setup hub-widget
