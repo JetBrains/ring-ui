@@ -175,6 +175,16 @@ module.exports = dllPath => {
   docpack.
     use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
 
+  docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
+    const readMe = sources.find(source => source.path === 'README.md');
+    Object.assign(readMe.attrs, {
+      title: 'Getting Started',
+      category: 'Docs',
+      order: 1
+    });
+    done(null, sources);
+  });
+
   docpack.use(require('docpack-examples-compiler')({
     applyParentCompilerPlugins: true,
     filename: path.resolve(ringUiPath, 'components/example.[type]'),
