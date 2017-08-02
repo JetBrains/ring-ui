@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import IconNG from '../icon-ng/icon-ng';
 
 import '../error-message-ng/error-message-ng.scss';
@@ -27,7 +29,6 @@ import '../error-message-ng/error-message-ng.scss';
      </file>
   </example>
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.error-message', [IconNG]);
 

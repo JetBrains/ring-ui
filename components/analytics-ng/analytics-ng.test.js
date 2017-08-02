@@ -1,4 +1,4 @@
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 import 'dom4';
 
@@ -15,7 +15,7 @@ describe('Analytics Ng', () => {
       })
   );
 
-  /* global inject, angular */
+  /* global inject */
   it('should define module', inject(() => {
     angular.module(Analytics).should.exist;
   }));

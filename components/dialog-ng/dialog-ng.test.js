@@ -1,7 +1,7 @@
-/* global inject, angular */
+/* global inject */
 /* eslint-disable no-magic-numbers */
 
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 import 'dom4';
 

@@ -1,3 +1,4 @@
+import angular from 'angular';
 import editIcon from '@jetbrains/icons/pencil.svg';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
@@ -42,7 +43,6 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
      </file>
    </example>
  */
-/* global angular: false */
 function rgAvatarEditor() {
   return {
     restrict: 'E',

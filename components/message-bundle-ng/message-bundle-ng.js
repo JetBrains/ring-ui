@@ -1,4 +1,4 @@
-/* global angular: false */
+import angular from 'angular';
 /**
  * This service is used by directive to correctly show messages.
  * You can decorate this service to provide your own localized messages.

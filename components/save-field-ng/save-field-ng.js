@@ -4,7 +4,7 @@
  * @description Allows to create forms where some fields have their own Save buttons.
  * @example-file ./save-field-ng.examples.html
  */
-/* global angular: false */
+import angular from 'angular';
 import 'dom4';
 import '../form/form.scss';
 import '../button/button.scss';

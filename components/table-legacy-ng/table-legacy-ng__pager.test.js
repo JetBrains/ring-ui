@@ -1,9 +1,9 @@
 /*global inject*/
-/*global angular*/
 /* eslint-disable angular/no-angular-mock,no-magic-numbers */
 
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
+
 import TablePager from './table-legacy-ng__pager';
 
 describe('Table Ng Pager', () => {

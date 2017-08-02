@@ -23,7 +23,7 @@
     </file>
    </example>
  */
-/* global angular: false */
+import angular from 'angular';
 
 const angularModule = angular.module('Ring.title', []);
 

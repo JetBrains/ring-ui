@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import Auth from '../auth/auth';
 
 /**
@@ -5,7 +7,6 @@ import Auth from '../auth/auth';
  * @category Angular Components
  * @description Provides an Angular wrapper for Auth.
  */
-/* global angular: false */
 const angularModule = angular.module('Ring.auth', []);
 
 angularModule.provider('auth', ['$httpProvider', function provider($httpProvider) {
@@ -22,7 +23,7 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
        <file name="index.js" webpack="true">
          import hubConfig from 'ring-ui-docs/components/hub-config';
 
-         import 'angular';
+         import angular from 'angular';
          import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
 
          angular.module('test', [AuthNG])

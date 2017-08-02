@@ -27,7 +27,7 @@
     </file>
    </example>
  */
-/* global angular: false */
+import angular from 'angular';
 
 const angularModule = angular.module('Ring.compiler', []).
   factory('rgCompiler', function rgCompilerFactory($q, $controller, $injector, $compile) {

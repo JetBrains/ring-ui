@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 import frownIcon from '@jetbrains/icons/frown.svg';
 import permissionIcon from '@jetbrains/icons/permission.svg';
@@ -35,7 +36,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
      </file>
    </example>
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.error-page', [
   'ngRoute',
   ErrorMessage,

@@ -1,4 +1,6 @@
+import angular from 'angular';
 import 'dom4';
+
 import RingAngularComponent from '../global/ring-angular-component';
 
 /**
@@ -43,7 +45,7 @@ import RingAngularComponent from '../global/ring-angular-component';
     </example>
 */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.promised-click', []);
 
 class PromisedClickController extends RingAngularComponent {

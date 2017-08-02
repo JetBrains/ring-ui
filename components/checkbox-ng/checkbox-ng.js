@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
@@ -75,7 +77,7 @@ import '../checkbox/checkbox.scss';
  </file>
    </example>
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.checkbox', [IconNG]);
 
 let idCounter = 0;

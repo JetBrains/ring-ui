@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 
 import {getStyles} from '../global/dom';
@@ -18,7 +19,7 @@ import '../button-group/button-group.scss';
       </div>
     </file>
     <file name="index.js">
-      import 'angular';
+      import angular from 'angular';
       import ButtonNg from '@jetbrains/ring-ui/components/button-ng/button-ng';
       import ButtonGroupNg from '@jetbrains/ring-ui/components/button-group-ng/button-group-ng';
 
@@ -26,7 +27,6 @@ import '../button-group/button-group.scss';
     </file>
    </example>
  */
-/* global angular: false */
 
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';

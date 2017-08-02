@@ -2,7 +2,9 @@
  * @name Permissions Ng
  * @category Angular Components
  */
+import angular from 'angular';
 import 'dom4';
+
 import '../auth-ng/auth-ng';
 import Permissions from '../permissions/permissions';
 import PermissionCache from '../permissions/permissions__cache';
@@ -14,7 +16,7 @@ function registerPermission(element) {
   return somePermissionsCtrl && somePermissionsCtrl.registerPermission() || angular.noop;
 }
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**

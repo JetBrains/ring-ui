@@ -1,3 +1,4 @@
+import angular from 'angular';
 import AngularElastic from '@maxmaximov/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
@@ -9,7 +10,6 @@ import '../input/input.scss';
  * @description Provides an Angular wrapper for Form.
  * @example-file ./form-ng.examples.html
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.form', [MessageBundle, AngularElastic]);
 

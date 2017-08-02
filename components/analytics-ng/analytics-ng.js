@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import analyticsInstance from '../analytics/analytics';
 import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
@@ -9,7 +11,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
  * @example
    <example name="Analytics Ng">
      <file name="index.js">
-       import 'angular';
+       import angular from 'angular';
        import '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
        import '@jetbrains/ring-ui/components/link/link.scss';
 
@@ -58,7 +60,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
      </file>
    </example>
 */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.analytics', []);
 
 /**
