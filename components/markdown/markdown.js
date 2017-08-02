@@ -8,7 +8,6 @@ import trivialTemplateTag from '../global/trivial-template-tag';
 
 import Code from './code';
 import Link from './link';
-import Image from './image';
 import Heading from './heading';
 import styles from './markdown.css';
 
@@ -44,7 +43,6 @@ export default class Markdown extends PureComponent {
           Link,
           Code,
           CodeBlock: Code,
-          Image,
           Heading,
           ...renderers
         }}
