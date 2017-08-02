@@ -49,7 +49,7 @@
     "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-prod",
     "prerelease-ci": "git pull",
-    "release-ci": "lerna publish --yes --cd-version patch",
+    "release-ci": "lerna publish --yes",
     "postrelease-ci": "npm run inject-version"
   },
   "repository": {
