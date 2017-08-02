@@ -4,7 +4,7 @@ export function currentPath() {
 }
 
 export function getDocs() {
-  return window.navData.categories.find(({name}) => name === 'Docs');
+  return window.navData.find(({name}) => name === 'Docs');
 }
 
 export function getIndexDoc() {

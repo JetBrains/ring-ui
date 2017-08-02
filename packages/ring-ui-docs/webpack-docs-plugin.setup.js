@@ -177,11 +177,13 @@ module.exports = dllPath => {
 
   docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
     const readMe = sources.find(source => source.path === 'README.md');
-    Object.assign(readMe.attrs, {
-      title: 'Getting Started',
-      category: 'Docs',
-      order: 1
-    });
+    if (readMe) {
+      Object.assign(readMe.attrs, {
+        title: 'Getting Started',
+        category: 'Docs',
+        order: 1
+      });
+    }
     done(null, sources);
   });
 
@@ -227,22 +229,12 @@ module.exports = dllPath => {
 
 
   docpack.use(HOOKS.BEFORE_GENERATE, function generateJSON(sources, done) {
-    const DATE_STRING_LENGTH = 16;
     const hasPage = source => source.hasOwnProperty('page');
 
-    const buildDate = new Date().
-      toISOString().
-      replace('T', ' ').
-      substr(0, DATE_STRING_LENGTH);
     const navCategories = createNav(docpack.sources.filter(hasPage));
 
-    const nav = {
-      buildDate,
-      version: pkg.version,
-      categories: navCategories
-    };
-
-    emitAsset(this, 'nav.js', `window.navData = ${toJSONString(nav)};`);
+    emitAsset(this, 'nav.js', `window.navData = ${toJSONString(navCategories)};`);
+    emitAsset(this, 'version.js', `window.version = '${pkg.version}';`);
 
     sources.filter(hasPage).forEach(source => {
       const data = serializeSource(source);
