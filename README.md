@@ -1,9 +1,3 @@
----
-title: Getting Started
-category: Docs 
-order: 1
----
-
 ## Ring UI - JetBrains Web UI components
 [![Build Status](https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_Build/statusIcon.svg)](https://teamcity.jetbrains.com/viewType.html?buildTypeId=JetBrainsUi_RingUi_Build&guest=1)
 
