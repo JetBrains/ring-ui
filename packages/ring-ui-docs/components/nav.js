@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import Input from '@jetbrains/ring-ui/components/input/input';
 import List from '@jetbrains/ring-ui/components/list/list';
 import Markdown from '@jetbrains/ring-ui/components/markdown/markdown';
@@ -81,9 +80,9 @@ class Nav extends PureComponent {
     );
 
     return (
-      <div className={styles.sidebar}>
+      <div className={styles.nav}>
         <Input
-          className={classnames(styles.input, 'ring-js-shortcuts')}
+          className="ring-js-shortcuts"
           autoFocus={true}
           placeholder="Search components"
           value={filter}
