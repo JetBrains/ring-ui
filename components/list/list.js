@@ -142,12 +142,11 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     const item = this.props.data[index - 1];
+    const isFirst = index === 1;
     switch (item.rgItemType) {
       case Type.SEPARATOR:
-        const isFirst = index === 1;
-        return `${Type.SEPARATOR}${isFirst ? '_first' : ''}${item.description ? '_desc' : ''}`;
       case Type.TITLE:
-        return Type.TITLE;
+        return `${item.rgItemType}${isFirst ? '_first' : ''}${item.description ? '_desc' : ''}`;
       case Type.MARGIN:
         return Type.MARGIN;
       case Type.CUSTOM:
@@ -460,10 +459,11 @@ export default class List extends RingComponentWithShortcuts {
       }
 
       let ItemComponent;
+      const isFirst = index === 1;
       switch (itemProps.rgItemType) {
         case Type.SEPARATOR:
           ItemComponent = ListSeparator;
-          itemProps.isFirst = index === 1;
+          itemProps.isFirst = isFirst;
           break;
         case Type.LINK:
           ItemComponent = ListLink;
@@ -475,6 +475,7 @@ export default class List extends RingComponentWithShortcuts {
           ItemComponent = ListCustom;
           break;
         case Type.TITLE:
+          itemProps.isFirst = isFirst;
           ItemComponent = ListTitle;
           break;
         default:
