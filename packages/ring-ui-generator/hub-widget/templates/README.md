@@ -1,79 +1,103 @@
-## Hub-Widget
-The widget is ready to be developed. The following commands are available:
+## Developing a Hub widget
+The following commands are available:
 
-  - `npm test`  to launch karma tests
+  - `npm test` to launch karma tests
   - `npm start` to run a local development server
   - `npm run lint` to lint your code (JS and CSS)
   - `npm run stylelint` to lint CSS only
-  - `npm run build` to generate a production bundle (into `dist` folder)
-  - `npm run ci-test` to launch karma tests and use TeamCity reporter
+  - `npm run build` to generate a production bundle (will be available under `dist`)
+  - `npm run ci-test` to launch karma tests and report the results to TeamCity
 
-To check your widget go to the widget playground page located at `/dashboard/widgets-playground`, i.e. if your server is `https://hub.jetbrains.com`, you should open `https://hub.jetbrains.com/dashboard/widgets-playground`
+To check your widget, go to the widget playground page located at `<your_hub_server>/dashboard/widgets-playground`.
 
-There’s a problem with local dev-server and hub running over secure HTTPS: all major browsers block insecure scripts. However, Chrome allows to add exception, just click security notification in the address bar (the one saying "The page is trying to load scripts from unauthenticated sources") and click "Load unsafe scripts" button
+You may encounter the following problem when using a local development server together with Hub running over HTTPS: all major browsers block insecure scripts. 
+In Chrome you can add a security exception: click the security notification in the address bar (the one saying "The page is trying to load scripts from unauthenticated sources") and 
+press the "Load unsafe scripts" button. Similar workarounds are available in other browsers as well.
 
-## Development kick-start
-Demo widget is capable of showing a welcome message and switching to configuration mode to select font color.
+## Introduction into widget development
+The `app` folder contains a demo widget that shows a welcome message. Its configuration screen allows selecting the font color.
 
-This kick-start shows how to add text input to the widget's configuration and use its value in the welcome message.
+In this guide we'll show you how to add a new parameter to the configuration screen and use its value in the rendered widget.
 
-All the changes are going to happen in the `app.js` file.
+Open the `app.js` file, all the changes will be made there.
 
-First of all, we import `Input` component from Ring UI
+First of all, import the `Input` component from Ring UI:
 
-    import Input from '@jetbrains/ring-ui/components/input/input';
-just like  `Select` component is imported.
+```
+import Input from '@jetbrains/ring-ui/components/input/input';
+```
 
-Configuration mode is rendered by `renderConfiguration` function, so add an instance of the `Input` there, right after `Select` component
+Configuration screen is rendered by the `renderConfiguration` function. Let's put an input below the select:
 
-    <Input
-      label="What is your name?"
-    />
-To show a placeholder in an empty input `label` prop is used.
+```
+<Input
+  label="What is your name?"
+/>
+```
 
-In case dev server is not launched yet, run `yarn start`, open widget playground (`/dashboard/widgets-playground`), paste dev server URL there (e.g. `http://localhost:9010/`) and reload widget by clicking the corresponding button.
+To set input's placeholder use the `label` property.
 
-Now input with placeholder should appear in the configuration mode of the widget.
+If you haven't launched the dev server yet, run `yarn start`, open the widget playground (`<your_hub_server>/dashboard/widgets-playground`), 
+specify the URL of the dev server (e.g., `http://localhost:9010/`) and reload the widget by clicking the corresponding button.
 
-To store widget's value in its state, we add `onChange` prop
+An input we've just added should appear on the configuration screen of the widget.
 
-    <Input
-      label="What is your name?"
-      onChange={this.changeName}
-    />
+To store the value of the input in the state of the widget, we add the `onChange` prop:
 
-and implement `changeName` handler
+```
+<Input
+  label="What is your name?"
+  onChange={this.changeName}
+/>
+```
 
-    changeName = e => this.setState({
-      username: e.target.value
-    });
-To see saved value in the input we get it from state in the very beginning of the `renderConfiguration` function altogether with `selectedColor`
+and implement the `changeName` handler:
 
-    const {selectedColor, username} = this.state;
+```
+changeName = e => this.setState({
+  sername: e.target.value
+});
+```
 
-and pass this value into the `Input` as `value` prop:
+To display the value we retrieve it from state in the very beginning of the `renderConfiguration` function together with `selectedColor`:
 
-    `value={username}`
-Now our `Input` looks like
+```
+const {selectedColor, username} = this.state;
+```
 
-    <Input
-          label="What is your name?"
-          value={username}
-          onChange={this.changeName}
-        />
+and pass the value into the `Input` as `value` prop:
 
-The problem now is that the input's value is not saved and not used in widget itself, let's fix it by editing `saveConfig` method to extract username from the state and save it to the config:
+```
+value={username}
+```
 
-    const {selectedColor, username} = this.state;
-    await this.props.dashboardApi.storeConfig({selectedColor, username});
+Our `Input` now looks like this:
 
-Finally, we use value from config to display it in our widget in the `render` method 
+```
+<Input
+  label="What is your name?"
+  value={username}
+  onChange={this.changeName}
+/>
+```
 
-    const {username, selectedColor, isConfiguring} = this.state;
-and then use this value as argument to the `sayHello` call
+Now, we need to persist the value. To do so, Dashboard API comes in handy:
 
-    <h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
+```
+const {selectedColor, username} = this.state;
+await this.props.dashboardApi.storeConfig({selectedColor, username});
+```
 
-Now we can hit "Reload widget" and check if everything works!
+Finally, we use the stored value in the `render` method of our widget: 
+
+```
+const {username, selectedColor, isConfiguring} = this.state;
+
+...
+
+<h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
+```
+
+Now we can hit "Reload widget" and see if everything works!
 
 [1]: http://yeoman.io/
