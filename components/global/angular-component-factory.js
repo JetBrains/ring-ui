@@ -1,4 +1,4 @@
-/* global angular: false */
+import angular from 'angular';
 /* global process: false */
 
 import 'core-js/modules/es7.array.includes';

@@ -1,4 +1,5 @@
-/*global angular*/
+import angular from 'angular';
+
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 const angularModule = angular.module('Ring.table-legacy.pager', [MessageBundle]);

@@ -8,7 +8,7 @@ function cleanup {
 function handle_error {
   cleanup
   exit 1
-}≠
+}
 
 function test {
   mkdir test_gen
@@ -22,6 +22,7 @@ function test {
   npm run build || handle_error
   cleanup
 }
+
 
 rm -rf test_gen
 test app

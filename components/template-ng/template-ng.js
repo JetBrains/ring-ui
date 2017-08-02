@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 
 /**
@@ -11,7 +13,7 @@ import RingAngularComponent from '../global/ring-angular-component';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        import 'angular';
+        import angular from 'angular';
         import '@jetbrains/ring-ui/components/template-ng/template-ng';
 
         angular
@@ -37,7 +39,7 @@ import RingAngularComponent from '../global/ring-angular-component';
       </file>
     </example>
 */
-/* global angular */
+
 const angularModule = angular.module('Ring.template', []);
 
 class RgTemplateController extends RingAngularComponent {

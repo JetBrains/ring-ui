@@ -1,8 +1,9 @@
-/* global inject, angular */
+/* global inject */
 /* eslint-disable angular/no-angular-mock */
 
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
+
 import Tooltip from './tooltip-ng';
 
 describe('Tooltip Ng', () => {

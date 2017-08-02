@@ -1,3 +1,4 @@
+import angular from 'angular';
 import debounce from 'mout/function/debounce';
 import 'dom4';
 
@@ -36,7 +37,6 @@ import './docked-panel-ng.scss';
    </example>
  */
 
-/* global angular:false */
 const angularModule = angular.module('Ring.docked-panel', []);
 
 angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {

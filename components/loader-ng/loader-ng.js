@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 import LoaderCore from '../loader/loader__core';
 
@@ -26,7 +28,6 @@ import LoaderCore from '../loader/loader__core';
   </example>
  */
 
-/* global angular: false */
 
 const angularModule = angular.module('Ring.loader', []);
 

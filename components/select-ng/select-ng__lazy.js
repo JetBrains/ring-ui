@@ -1,4 +1,4 @@
-/*global angular*/
+import angular from 'angular';
 import {render} from 'react-dom';
 import {createElement} from 'react';
 

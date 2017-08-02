@@ -1,4 +1,4 @@
-/*global angular*/
+import angular from 'angular';
 import 'dom4';
 import throttle from 'mout/function/throttle';
 

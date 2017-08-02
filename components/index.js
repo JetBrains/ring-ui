@@ -7,7 +7,7 @@ export {default as AuthDialog} from './auth-dialog/auth-dialog';
 export {default as AuthDialogService} from './auth-dialog-service/auth-dialog-service';
 export {default as AuthNg} from './auth-ng/auth-ng';
 export {default as AutofocusNg} from './autofocus-ng/autofocus-ng';
-export {default as Avatar} from './avatar/avatar';
+export {default as Avatar, Size as AvatarSize} from './avatar/avatar';
 export {default as AvatarEditorNg} from './avatar-editor-ng/avatar-editor-ng';
 export {default as AvatarNg} from './avatar-ng/avatar-ng';
 export {default as Badge} from './badge/badge';
@@ -28,7 +28,7 @@ export {default as CompilerNg} from './compiler-ng/compiler-ng';
 export {default as Confirm} from './confirm/confirm';
 export {default as ConfirmNg} from './confirm-ng/confirm-ng';
 export {default as ConfirmService} from './confirm-service/confirm-service';
-export {default as ContentLayout} from './content-layout/content-layout';
+export {default as ContentLayout, Sidebar} from './content-layout/content-layout';
 export {default as Contenteditable} from './contenteditable/contenteditable';
 export {default as DataList} from './data-list/data-list';
 export {default as DataListNg} from './data-list-ng/data-list-ng';
@@ -44,16 +44,22 @@ export {default as ErrorPageNg} from './error-page-ng/error-page-ng';
 export {default as Footer} from './footer/footer';
 export {default as FooterNg} from './footer-ng/footer-ng';
 export {default as FormNg} from './form-ng/form-ng';
+export {default as fuzzyHighlight} from './global/fuzzy-highlight';
 export {Grid, Col, Row} from './grid/grid';
 export {default as Group} from './group/group';
 export {default as GroupNg} from './group-ng/group-ng';
-export {default as Header} from './header/header';
-export {default as Heading} from './heading/heading';
+export {
+  default as Header,
+  Tray, TrayIcon,
+  Profile, SmartProfile,
+  Services, SmartServices
+} from './header/header';
+export {default as Heading, H1, H2, H3, H4, H5} from './heading/heading';
 export {default as Http} from './http/http';
 export {default as HubSource} from './hub-source/hub-source';
 export {default as Icon} from './icon/icon';
 export {default as IconNg} from './icon-ng/icon-ng';
-export {default as input} from './input/input';
+export {default as Input} from './input/input';
 export {default as Island} from './island/island';
 export {default as IslandNg} from './island-ng/island-ng';
 export {default as Link} from './link/link';

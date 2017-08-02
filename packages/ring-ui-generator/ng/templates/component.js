@@ -27,7 +27,7 @@ import styles from './<%= paramCaseNameSuffix %>.css';
    </example>
   */
 
-/* global angular: false */
+import angular from 'angular';
 const angularModule = angular.module('Ring.<%= paramCaseName %>', []);
 
 class <%= ngComponentName %>Component extends RingAngularComponent {

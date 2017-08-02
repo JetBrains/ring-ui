@@ -1,3 +1,4 @@
+import angular from 'angular';
 import {createElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import getEventKey from 'react-dom/lib/getEventKey';
@@ -40,7 +41,7 @@ const INFINITE_SCROLL_PACK_SIZE = 50;
  *
  * @example-file ./select-ng.examples.html
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.select', [SelectNgOptions, MessageBundle]);
 
 angularModule.directive('rgSelect', function rgSelectDirective() {
