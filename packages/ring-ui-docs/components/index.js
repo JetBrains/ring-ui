@@ -14,12 +14,11 @@ import Content from './content';
 import {getDocs, getIndexDoc} from './utils';
 import styles from './index.css';
 
-const {source, navData} = window;
-const {version} = navData;
+const {source, navData, version} = window;
 
 const docs = getDocs();
 const docsItems = docs.items;
-const categories = navData.categories.filter(category => category !== docs);
+const categories = navData.filter(category => category !== docs);
 
 class App extends Component {
   componentDidMount() {
