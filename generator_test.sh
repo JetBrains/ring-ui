@@ -14,6 +14,5 @@ function test {
   rm -rf test_gen
 }
 
-
 test app
 test hub-widget
