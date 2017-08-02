@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <link rel="icon" href="favicon.ico?v=1" />
   <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
+  {% include './inc/google-tag-manager.twig' %}
 </head>
 <body>
+  {% include './inc/google-tag-manager-noscript.twig' %}
   <div id="app">
     <script src="{{ source.dataURL }}"></script>
     <script src="nav.js"></script>
