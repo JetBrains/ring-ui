@@ -24,8 +24,8 @@ order: 1
 In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
 
 1. Install Ring UI with `npm install @jetbrains/ring-ui --save-exact` 
-2. Install `webpack-config-merger` to make working with webpack configs easier: `npm install webpack-config-merger --save-dev`
-3. If you are building your app with webpack, make sure to `import` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
+
+2. If you are building your app with webpack, make sure to `import` ring-ui components where needed. Otherwise, create an entry point (for example, `/app/app__components.tpl.js`) and
 `import` the components there. 
    ``` javascript
    import React from 'react';
@@ -34,19 +34,24 @@ In case boilerplate generators are not your thing and you prefer to understand t
    
    ReactDOM.render(<LoaderInline/>, document.getElementById('container'));
    ```
-4. Create `webpack.config.js` with the following contents (example):
+
+3. Create `webpack.config.js` with the following contents (example):
    ``` javascript
-   var webpackConfigMerger = require('webpack-config-merger');
+   const ringConfig = require('@jetbrains/ring-ui/webpack.config').config;
    
-   var webpackOptions = webpackConfigMerger(require('@jetbrains/ring-ui/webpack.config').config, {
+   const webpackConfig = {
      entry: 'src/entry.js', // your entry point for webpack
      output: {
        path: 'path/to/dist',
        filename: '[name].js'
+     },
+     module: {
+       rules: [
+         ...ringConfig.module.rules,
+         <Your rules here>
+       ]
      }
-   });
+   };
    
-   module.exports = webpackOptions;
+   module.exports = webpackConfig;
    ```
-
-   This reads Ring UI configuration and overrides some config params.
