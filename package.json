@@ -46,7 +46,7 @@
     "test-crossbrowser": "karma start karma-crossbrowser.conf.js",
     "test-ci": "xvfb-run karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
-    "prebuild-ci": "npm run lint-ci",
+    "prebuild-ci": "npm run lint-ci && npm run test-ci",
     "build-ci": "npm run build-prod",
     "prerelease-ci": "git pull",
     "release-ci": "lerna publish --yes --cd-version patch",
