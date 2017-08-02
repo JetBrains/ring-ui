@@ -1,5 +1,5 @@
 const {camelCase} = require('change-case');
-const packageJson = require('latest-version');
+const packageJson = require('package-json');
 
 const pkg = require('../package.json');
 

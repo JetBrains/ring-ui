@@ -1,6 +1,7 @@
 const path = require('path');
 
 const Generator = require('yeoman-generator');
+const optionOrPrompt = require('yeoman-option-or-prompt');
 const {paramCase, camelCase} = require('change-case');
 const ora = require('ora');
 
@@ -28,7 +29,7 @@ module.exports = class extends Generator.Base {
   prompting() {
     let spinner;
 
-    const prompt = this.prompt([
+    const prompt = optionOrPrompt.call(this, [
       {
         type: 'input',
         name: 'widgetName',
@@ -103,6 +104,7 @@ module.exports = class extends Generator.Base {
 
           pkg.config.components = './src';
 
+          console.log('>>>', this.props);
           pkg.dependencies['hub-dashboard-addons'] =
             this.props.hubDashboardAddons;
 
