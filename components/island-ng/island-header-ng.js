@@ -1,4 +1,5 @@
-/* global angular: false */
+import angular from 'angular';
+
 import styles from '../island/island.css';
 
 import compile from './island-ng-class-fixer';

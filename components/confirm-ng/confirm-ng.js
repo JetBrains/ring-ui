@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import confirm from '../confirm-service/confirm-service';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
@@ -26,7 +28,6 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
     </file>
   </example>
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.confirm', [
   MessageBundle

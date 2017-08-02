@@ -1,8 +1,7 @@
-/* globals angular */
-
-import 'angular';
-import 'angular-mocks';
 import EventEmitter from 'events';
+
+import angular from 'angular';
+import 'angular-mocks';
 
 import rgPlaceUnder from './place-under-ng';
 

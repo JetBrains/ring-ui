@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'core-js/modules/es7.array.includes';
 import searchIcon from '@jetbrains/icons/search.svg';
 
@@ -61,7 +62,7 @@ const winSymbolsMap = {
   down: '↓'
 };
 
-/* global angular:false */
+
 const angularModule = angular.module(
   'Ring.shortcuts.hint-popup',
   [DialogNg, ShortcutsNg, IconNg, RingTemplateNg]

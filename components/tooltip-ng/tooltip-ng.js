@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 import {createElement} from 'react';
 import {render} from 'react-dom';
@@ -46,7 +47,7 @@ import './tooltip-ng.scss';
 
 const OPEN_CLASS = 'ring-tooltip-ng_open';
 
-/*global angular*/
+
 const name = angular.module('Ring.tooltip', []);
 
 name.directive('rgTooltip', function rgTooltipDirective(RgTooltipPopup) {

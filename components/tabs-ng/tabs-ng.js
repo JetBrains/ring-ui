@@ -18,12 +18,13 @@ import '../tabs/tabs.scss';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       import 'angular';
+       import angular from 'angular';
        import '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
      </file>
    </example>
  */
-/* global angular: false */
+import angular from 'angular';
+
 const angularModule = angular.module('Ring.tabs', []);
 
 angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope) {

@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../footer/footer.css';
 import {copyright} from '../footer/footer';
@@ -39,7 +41,7 @@ import {copyright} from '../footer/footer';
   </example>
  */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.footer', []);
 
 class rgFooterComponent extends RingAngularComponent {

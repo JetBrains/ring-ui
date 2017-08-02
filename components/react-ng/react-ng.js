@@ -5,7 +5,7 @@
  * @description An Angular directive for proxying React components.
  */
 
-/* global angular: false */
+import angular from 'angular';
 
 import {createElement} from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
@@ -183,7 +183,7 @@ function reactNgDirective($parse) {
      </file>
 
      <file name="index.js" webpack="true">
-       import 'angular';
+       import angular from 'angular';
        import registerComponents from '@jetbrains/ring-ui/components/react-ng/react-ng';
        import Icon from '@jetbrains/ring-ui/components/icon/icon';
 

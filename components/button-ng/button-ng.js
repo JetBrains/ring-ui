@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
@@ -15,7 +16,6 @@ const DEFAULT_ICON_SIZE = 16;
  * @example-file ./button-ng.examples.html
  */
 
-/* global angular */
 
 const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';

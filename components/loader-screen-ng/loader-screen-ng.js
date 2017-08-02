@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import loaderNg from '../loader-ng/loader-ng';
 import '../loader-screen/loader-screen.scss';
 
@@ -24,7 +26,6 @@ import '../loader-screen/loader-screen.scss';
      </file>
   </example>
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 

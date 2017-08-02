@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
 
@@ -31,7 +33,6 @@ import '../link/link.scss';
    </example>
  */
 
-/* global angular: false */
 
 const angularModule = angular.module('Ring.breadcrumb', []);
 

@@ -1,7 +1,5 @@
 /* global inject: false */
-/* global angular: false */
-
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 import React from 'react';
 import PropTypes from 'prop-types';

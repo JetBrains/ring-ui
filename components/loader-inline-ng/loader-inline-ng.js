@@ -1,3 +1,4 @@
+import angular from 'angular';
 import '../loader-inline/loader-inline.scss';
 
 /**
@@ -22,7 +23,7 @@ import '../loader-inline/loader-inline.scss';
   </example>
  */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.loader-inline', []);
 
 angularModule.
