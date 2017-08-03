@@ -1,51 +1,66 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import hubLogo from 'jetbrains-logos/hub/hub.svg';
-import Auth from 'ring-ui/components/auth/auth';
-import authDialogService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
   Logo,
   Tray,
   SmartProfile,
   SmartServices
-} from 'ring-ui/components/header/header';
+} from '@jetbrains/ring-ui/components/header/header';
 
+import styles from './index.css';
 import hubConfig from './hub-config';
 import Item from './item';
-import Version from './version';
+// import Version from './version';
+import {getIndexDoc} from './utils';
 
-const auth = new Auth(hubConfig);
-auth.setAuthDialogService(authDialogService);
-auth.init().then(restoreLocation => {
-  if (restoreLocation) {
-    window.location = restoreLocation;
+class SiteHeader extends PureComponent {
+  async componentDidMount() {
+    if (!this.props.noAuth) {
+      this.auth.setAuthDialogService(authDialogService);
+      const restoreLocation = await this.auth.init();
+      if (restoreLocation) {
+        window.location = restoreLocation;
+      }
+    }
   }
-});
 
-const SiteHeader = ({docsItems, ...restProps}) => (
-  <Header>
-    <a href="/" >
-      <Logo
-        glyph={hubLogo}
-        size={Logo.Size.Size48}
-      />
-    </a>
-    <span>{'Ring UI library '}<Version {...restProps}/></span>
-    {docsItems.map(item => (
-      <Item
-        key={item.title}
-        {...item}
-      />
-    ))}
-    <Tray>
-      <SmartServices auth={auth}/>
-      <SmartProfile auth={auth}/>
-    </Tray>
-  </Header>
-);
+  auth = new Auth(hubConfig);
+
+  render() {
+    const {docsItems, version} = this.props;
+    const indexDoc = getIndexDoc(docsItems);
+
+    return (
+      <Header className={styles.header}>
+        <a href={indexDoc}>
+          <Logo
+            className={styles.logo}
+            glyph={jetbrainsLogo}
+            size={Logo.Size.Size128}
+          />
+        </a>
+        <span>{`Ring UI library ${version}`}</span>
+        {docsItems.map(item => (
+          <Item
+            key={item.title}
+            {...item}
+          />
+        ))}
+        <Tray>
+          <SmartServices auth={this.auth}/>
+          <SmartProfile auth={this.auth}/>
+        </Tray>
+      </Header>
+    );
+  }
+}
 
 SiteHeader.propTypes = {
-  ...Version.propTypes,
+  version: PropTypes.string,
+  noAuth: PropTypes.bool,
   docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
 };
 

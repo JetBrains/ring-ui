@@ -3,10 +3,12 @@ const path = require('path');
 const Docpack = require('docpack');
 const slug = require('url-slug');
 const {emitAsset} = require('webpack-toolkit');
-const pkg = require('ring-ui/package.json');
+const pkg = require('@jetbrains/ring-ui/package.json');
 
 const HOOKS = Docpack.HOOKS;
-const ringUiPath = path.dirname(require.resolve('ring-ui'));
+const ringUiPath = path.dirname(
+  require.resolve('@jetbrains/ring-ui/package.json')
+);
 
 /**
  * @param {Object} data.
@@ -174,6 +176,18 @@ module.exports = dllPath => {
   docpack.
     use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
 
+  docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
+    const readMe = sources.find(source => source.path === 'README.md');
+    if (readMe) {
+      Object.assign(readMe.attrs, {
+        title: 'Getting Started',
+        category: 'Docs',
+        order: 1
+      });
+    }
+    done(null, sources);
+  });
+
   docpack.use(require('docpack-examples-compiler')({
     applyParentCompilerPlugins: true,
     filename: path.resolve(ringUiPath, 'components/example.[type]'),
@@ -216,29 +230,19 @@ module.exports = dllPath => {
 
 
   docpack.use(HOOKS.BEFORE_GENERATE, function generateJSON(sources, done) {
-    const DATE_STRING_LENGTH = 16;
     const hasPage = source => source.hasOwnProperty('page');
 
-    const buildDate = new Date().
-      toISOString().
-      replace('T', ' ').
-      substr(0, DATE_STRING_LENGTH);
     const navCategories = createNav(docpack.sources.filter(hasPage));
 
-    const nav = {
-      buildDate,
-      version: pkg.version,
-      categories: navCategories
-    };
-
-    emitAsset(this, 'nav.json', toJSONString(nav));
+    emitAsset(this, 'nav.js', `window.navData = ${toJSONString(navCategories)};`);
+    emitAsset(this, 'version.js', `window.version = '${pkg.version}';`);
 
     sources.filter(hasPage).forEach(source => {
       const data = serializeSource(source);
-      const filename = data.url.replace('.html', '.json');
-      emitAsset(this, filename, toJSONString(data));
+      const filename = data.url.replace('.html', '.data.js');
+      emitAsset(this, filename, `window.source = ${toJSONString(data)};`);
 
-      source.jsonURL = filename;
+      source.dataURL = filename;
     });
 
     done(null, sources);

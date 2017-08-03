@@ -1,16 +1,26 @@
-const pify = require('pify');
 const {camelCase} = require('change-case');
-const latest = pify(require('npm-latest-version'));
+const packageJson = require('package-json');
 
-const REGISTRY_URL = 'http://registry.npmjs.org';
+const pkg = require('../package.json');
 
 module.exports = packages => Promise.all(
-  packages.map(packageName => latest(packageName, {base: REGISTRY_URL}))
+  packages.map(packageName => {
+    if (packageName === pkg.name) {
+      return Promise.resolve(pkg);
+    }
+
+    const version = pkg.devDependencies[packageName];
+    if (version) {
+      return Promise.resolve({version});
+    }
+
+    return packageJson(packageName, version && {version});
+  })
 ).
-  then(latestVersions => {
+  then(configs => {
     const versions = {};
     packages.forEach((packageName, i) => {
-      versions[camelCase(packageName)] = latestVersions[i];
+      versions[camelCase(packageName)] = configs[i].version;
     });
     return versions;
   });

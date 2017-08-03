@@ -1,4 +1,4 @@
-/* global angular: false */
+import angular from 'angular';
 /**
  * This service is used by directive to correctly show messages.
  * You can decorate this service to provide your own localized messages.
@@ -54,6 +54,8 @@ function RingMessageBundle(ringI18n) {
   this.first_page = () => i18n('First page');
   this.last_page = () => i18n('Last page');
   this.items_per_page = () => i18n('per page');
+  this.confirmation_ok = () => i18n('Ok');
+  this.confirmation_cancel = () => i18n('Cancel');
 /* eslint-enable camelcase */
 }
 

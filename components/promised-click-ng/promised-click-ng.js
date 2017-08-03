@@ -1,4 +1,6 @@
+import angular from 'angular';
 import 'dom4';
+
 import RingAngularComponent from '../global/ring-angular-component';
 
 /**
@@ -11,15 +13,15 @@ import RingAngularComponent from '../global/ring-angular-component';
         <div class="button-example" ng-app="button-test" ng-strict-di ng-controller="testController as ctrl">
           <rg-button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</rg-button>
           <rg-button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
-          <rg-button class="ring-button" rg-promised-click test-directive>Via the controller</rg-button>
+          <rg-button class="ring-button" rg-promised-click test-directive>Via controller</rg-button>
           <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
         </div>
       </file>
       <file name="index.js" webpack="true">
-        import 'ring-ui/components/button-legacy/button-legacy.scss';
+        import '@jetbrains/ring-ui/components/button-legacy/button-legacy.scss';
         import angular from 'angular';
-        import PromisedClickNG from 'ring-ui/components/promised-click-ng/promised-click-ng';
-        import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+        import PromisedClickNG from '@jetbrains/ring-ui/components/promised-click-ng/promised-click-ng';
+        import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
         var buttonTestModule = angular.module('button-test', [PromisedClickNG, ButtonNG]);
 
@@ -43,7 +45,7 @@ import RingAngularComponent from '../global/ring-angular-component';
     </example>
 */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.promised-click', []);
 
 class PromisedClickController extends RingAngularComponent {

@@ -10,9 +10,9 @@ import styles from './text.css';
  * @tags 3.0
  * @framework React
  * @constructor
- * @description TODO add Text description
+ * @description A component for rendering text content.
  * @example
-   <example name="text">
+   <example name="Text">
      <file name="index.html">
        <div id="text"></div>
      </file>
@@ -20,17 +20,17 @@ import styles from './text.css';
      <file name="index.js">
        import React, {Component} from 'react';
        import {render} from 'react-dom';
-       import Text from 'ring-ui/components/text/text';
-       import Group from 'ring-ui/components/group/group';
+       import Text from '@jetbrains/ring-ui/components/text/text';
+       import Group from '@jetbrains/ring-ui/components/group/group';
 
        class TextDemo extends Component {
          render() {
            return (
              <div>
                <Group>
-                 <Text>Bla bla bla</Text>
-                 <Text comment>Bla bla bla</Text>
-                 <Text info>Bla bla bla</Text>
+                 <Text>Text</Text>
+                 <Text comment>with a comment</Text>
+                 <Text info>and an info message</Text>
                </Group>
              </div>
            );

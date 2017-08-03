@@ -7,6 +7,7 @@
  * @example-file ./place-under-ng.examples.html
  */
 
+import angular from 'angular';
 import 'dom4';
 import debounce from 'mout/function/debounce';
 import createResizeDetector from 'element-resize-detector';
@@ -14,7 +15,7 @@ import createResizeDetector from 'element-resize-detector';
 import {getDocumentScrollTop} from '../global/dom';
 
 const resizeDetector = createResizeDetector();
-/* global angular: false */
+
 const angularModule = angular.module('Ring.place-under', []);
 angularModule.directive('rgPlaceUnder',
   function rgPlaceUnderDirective($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) {

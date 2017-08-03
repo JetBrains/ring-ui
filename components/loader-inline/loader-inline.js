@@ -12,7 +12,7 @@ import './loader-inline.scss';
  * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
  * @extends {ReactComponent}
  * @example
-   <example name="Loader Inline">
+   <example name="Inline loader">
      <file name="index.html">
         <span>some text on top</span>
         <div>before <span id="loader-inline"></span> some text after</div>
@@ -21,12 +21,12 @@ import './loader-inline.scss';
 
      <file name="index.js" webpack="true">
        import {render} from 'react-dom';
-       import Loader from 'ring-ui/components/loader-inline/loader-inline';
+       import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
 
        render(Loader.factory(), document.getElementById('loader-inline'));
      </file>
    </example>
-    <example name="Loader Inline using markup only">
+    <example name="Inline loader without React">
      <file name="index.html">
        <div class="ring-loader-inline">
          <div class="ring-loader-inline__ball"></div>
@@ -35,7 +35,7 @@ import './loader-inline.scss';
        </div>
      </file>
       <file name="index.js" webpack="true">
-        import 'ring-ui/components/loader-inline/loader-inline';
+        import '@jetbrains/ring-ui/components/loader-inline/loader-inline';
       </file>
    </example>
  */

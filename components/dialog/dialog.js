@@ -1,10 +1,11 @@
 import React, {PureComponent} from 'react';
-import getEventKey from 'react-dom/lib/getEventKey';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@hypnosphi/react-portal';
 
 import {AdaptiveIsland} from '../island/island';
+import getUID from '../global/get-uid';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -41,12 +42,8 @@ export default class Dialog extends PureComponent {
     onCloseAttempt: () => {}
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
+  state = {
+    shortcutsScope: getUID('ring-dialog-')
   }
 
   handleClick = event => {
@@ -57,12 +54,17 @@ export default class Dialog extends PureComponent {
     this.props.onCloseAttempt(event);
   }
 
-  handleKeyDown = event => {
-    if (getEventKey(event) !== 'Escape' || !this.props.show) {
-      return;
-    }
-    this.props.onEscPress(event);
-    this.props.onCloseAttempt(event);
+  getShortcutsMap = () => {
+    const onEscape = event => {
+      if (this.props.show) {
+        this.props.onEscPress(event);
+        this.props.onCloseAttempt(event);
+      }
+    };
+
+    return {
+      esc: onEscape
+    };
   }
 
   dialogRef = el => {
@@ -73,6 +75,7 @@ export default class Dialog extends PureComponent {
     // eslint-disable-next-line no-unused-vars, max-len
     const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
+    const shortcutsMap = this.getShortcutsMap();
 
     return (
       <Portal
@@ -86,6 +89,10 @@ export default class Dialog extends PureComponent {
           onClick={this.handleClick}
           {...restProps}
         >
+          <Shortcuts
+            map={shortcutsMap}
+            scope={this.state.shortcutsScope}
+          />
           <AdaptiveIsland
             className={classNames(styles.content, contentClassName)}
             data-test="ring-dialog"

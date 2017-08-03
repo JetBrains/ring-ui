@@ -5,7 +5,7 @@
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     var listData = [];
     for (var i = 0; i < 1000; i++) {
@@ -25,14 +25,14 @@
   </file>
 </example>
 
-<example name="List2-with-hint">
+<example name="List with a hint below">
   <file type="html">
     <div id='list'></div>
   </file>
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'rgItemType': List.ListProps.Type.ITEM},
@@ -51,19 +51,19 @@
       shortcuts: true,
       onSelect: console.log.bind(console),
       activeIndex: 2,
-      hint: 'test hint message'
+      hint: 'Hint about the list'
     }), document.getElementById('list'));
   </file>
 </example>
 
-<example name="List3">
+<example name="List #2">
   <file type="html">
     <div id='list'></div>
   </file>
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'rgItemType': List.ListProps.Type.ITEM},
@@ -82,14 +82,14 @@
   </file>
 </example>
 
-<example name="ListX">
+<example name="List #3">
   <file type="html">
     <div id='list'></div>
   </file>
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     var listData = [
       {
@@ -139,15 +139,15 @@
   </file>
 </example>
 
-<example name="List Icons">
+<example name="List with item icons">
   <file type="html">
     <div id='list' style="width: 300px;"></div>
   </file>
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
-    import warningIcon from 'jetbrains-icons/warning.svg';
+    import List from '@jetbrains/ring-ui/components/list/list';
+    import warningIcon from '@jetbrains/icons/warning.svg';
 
     var listData = [
       {
@@ -197,14 +197,14 @@
   </file>
 </example>
 
-<example name="List should support deprecated item.type">
+<example name="List should support the deprecated item.type parameter">
   <file type="html">
     <div id='list'></div>
   </file>
 
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     var listData = [
       {'label': 'One', 'type': List.ListProps.Type.ITEM},
@@ -228,7 +228,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import List from 'ring-ui/components/list/list';
+    import List from '@jetbrains/ring-ui/components/list/list';
     import React from 'react';
 
     var listData = [

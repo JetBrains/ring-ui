@@ -6,9 +6,9 @@
   <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
-    import AuthDialog from 'ring-ui/components/auth-dialog/auth-dialog';
-    import Button from 'ring-ui/components/button/button';
-    import youtrackLogo from '!file-loader!jetbrains-logos/youtrack/youtrack.svg';
+    import AuthDialog from '@jetbrains/ring-ui/components/auth-dialog/auth-dialog';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
     class AuthDialogDemo extends React.Component {
       state = {
@@ -52,8 +52,8 @@
           <AuthDialog
             {...this.state.confirm}
             serviceImage={youtrackLogo}
-            loginLabel="Log me in"
-            cancelLabel="Leave me as is"
+            loginLabel="Log in"
+            cancelLabel="Stay as guest"
           />
         </div>
         );

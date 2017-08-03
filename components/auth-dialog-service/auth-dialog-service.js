@@ -11,7 +11,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  * @description A wrapper for AuthDialog component. Allows showing confirmation dialog
  * without mounting AuthDialog component. Could be used outside React.
  * @example
- <example name="AuthDialog Service">
+ <example name="Auth Dialog Service">
  <file name="index.html" disable-auto-size>
  <div id="auth-dialog"></div>
  </file>
@@ -20,10 +20,10 @@ import AuthDialog from '../auth-dialog/auth-dialog';
  import React from 'react';
  import {render} from 'react-dom';
 
- import Auth from 'ring-ui/components/auth/auth';
- import HTTP from 'ring-ui/components/http/http';
- import Button from 'ring-ui/components/button/button';
- import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+ import Auth from '@jetbrains/ring-ui/components/auth/auth';
+ import HTTP from '@jetbrains/ring-ui/components/http/http';
+ import Button from '@jetbrains/ring-ui/components/button/button';
+ import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 
  import hubConfig from 'ring-ui-docs/components/hub-config';
 

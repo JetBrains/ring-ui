@@ -8,24 +8,35 @@ const getFreePort = require('./get-free-port');
 const getLatestVersions = require('./get-latest-versions');
 
 const packages = [
-  'generator-ring-ui',
-  'ring-ui',
-  'jetbrains-logos',
-  'jetbrains-icons'
+  '@jetbrains/generator-ring-ui',
+  '@jetbrains/ring-ui',
+  '@jetbrains/logos',
+  '@jetbrains/icons'
 ];
 
 module.exports = generators.Base.extend({
+  constructor: function constructor() {
+    generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
+
+    this.argument('projectName', {type: String, required: false});
+  },
+
   prompting() {
     let spinner;
 
-    const prompt = this.prompt([{
-      type: 'input',
-      name: 'projectName',
-      message: 'What\'s your project name',
-      default: this.appname
-    }]).then(answers => {
+    const prompt = this.projectName
+      ? Promise.resolve({
+        projectName: this.projectName
+      })
+      : this.prompt([{
+        type: 'input',
+        name: 'projectName',
+        message: 'What\'s your project name',
+        default: this.appname
+      }]);
+
+    prompt.then(() => {
       spinner = ora('Getting info').start();
-      return answers;
     });
 
     return Promise.all([prompt, getFreePort(), getLatestVersions(packages)]).
@@ -48,7 +59,6 @@ module.exports = generators.Base.extend({
   },
 
   configuring() {
-    this.template('npmrc', '.npmrc');
     this.template('editorconfig', '.editorconfig');
     this.template('gitignore', '.gitignore');
     this.template('eslintignore', '.eslintignore');

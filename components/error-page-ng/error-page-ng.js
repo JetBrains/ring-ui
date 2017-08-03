@@ -1,6 +1,7 @@
+import angular from 'angular';
 import 'dom4';
-import frownIcon from 'jetbrains-icons/frown.svg';
-import permissionIcon from 'jetbrains-icons/permission.svg';
+import frownIcon from '@jetbrains/icons/frown.svg';
+import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
@@ -28,14 +29,14 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
      <file name="index.js" webpack="true">
         import angular from 'angular';
         import AngularRoute from 'angular-route';
-        import ErrorPageNG from 'ring-ui/components/error-page-ng/error-page-ng';
-        import authMock from 'ring-ui/components/auth-ng/auth-ng.mock';
+        import ErrorPageNG from '@jetbrains/ring-ui/components/error-page-ng/error-page-ng';
+        import authMock from '@jetbrains/ring-ui/components/auth-ng/auth-ng.mock';
 
         angular.module('Ring.auth', [AngularRoute, ErrorPageNG]).provider('auth', authMock);
      </file>
    </example>
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.error-page', [
   'ngRoute',
   ErrorMessage,

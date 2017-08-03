@@ -21,21 +21,21 @@ import './button-toolbar.scss';
       import React from 'react';
       import {render} from 'react-dom';
 
-      import Button from 'ring-ui/components/button-legacy/button-legacy';
-      import ButtonGroup from 'ring-ui/components/button-group/button-group';
-      import ButtonToolbar from 'ring-ui/components/button-toolbar/button-toolbar';
+      import Button from '@jetbrains/ring-ui/components/button-legacy/button-legacy';
+      import ButtonGroup from '@jetbrains/ring-ui/components/button-group/button-group';
+      import ButtonToolbar from '@jetbrains/ring-ui/components/button-toolbar/button-toolbar';
 
       const container = document.getElementById('button-toolbar');
 
       const buttonToolbarDemo = (
         <ButtonToolbar>
-          <Button primary={true} delayed={true}>Do it</Button>
+          <Button primary={true} delayed={true}>Run</Button>
           <ButtonGroup>
-            <Button>Just do it</Button>
-            <Button>Yes you can</Button>
-            <Button disabled="disabled">Do it</Button>
+            <Button>Button one</Button>
+            <Button>Button two</Button>
+            <Button disabled="disabled">Button three</Button>
           </ButtonGroup>
-          <Button>Just do it</Button>
+          <Button>Another action</Button>
         </ButtonToolbar>
       );
 

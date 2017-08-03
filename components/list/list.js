@@ -98,6 +98,9 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.string,
       PropTypes.number
     ]),
+    restoreActiveIndex: PropTypes.bool,
+    activateSingleItem: PropTypes.bool,
+    activateFirstItem: PropTypes.bool,
     shortcuts: PropTypes.bool,
     onMouseOut: PropTypes.func,
     onSelect: PropTypes.func,
@@ -113,6 +116,7 @@ export default class List extends RingComponentWithShortcuts {
     data: [],
     restoreActiveIndex: false, // restore active item using its "key" property
     activateSingleItem: false, // if there is only one item, activate it
+    activateFirstItem: false, // if there no active items, activate the first one
     onMouseOut: noop,
     onSelect: noop,
     onScrollToBottom: noop,
@@ -142,12 +146,11 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     const item = this.props.data[index - 1];
+    const isFirst = index === 1;
     switch (item.rgItemType) {
       case Type.SEPARATOR:
-        const isFirst = index === 1;
-        return `${Type.SEPARATOR}${isFirst ? '_first' : ''}${item.description ? '_desc' : ''}`;
       case Type.TITLE:
-        return Type.TITLE;
+        return `${item.rgItemType}${isFirst ? '_first' : ''}${item.description ? '_desc' : ''}`;
       case Type.MARGIN:
         return Type.MARGIN;
       case Type.CUSTOM:
@@ -250,7 +253,7 @@ export default class List extends RingComponentWithShortcuts {
     let correctedIndex;
     if (this.props.data.length === 0 || !this.hasActivatableItems()) {
       return;
-    } else if (this.props.data.length === 1) {
+    } else if (this.props.data.length < index) {
       correctedIndex = 0;
     } else {
       correctedIndex = index;
@@ -333,7 +336,7 @@ export default class List extends RingComponentWithShortcuts {
       let activeItem = null;
 
       if (
-        this.props.restoreActiveIndex &&
+        props.restoreActiveIndex &&
         this.state.activeItem &&
         this.state.activeItem.key !== undefined &&
         this.state.activeItem.key !== null
@@ -350,8 +353,7 @@ export default class List extends RingComponentWithShortcuts {
 
       if (
         activeIndex === null &&
-        this.props.activateSingleItem &&
-        props.data.length === 1 &&
+        this.shouldActivateFirstItem(props) &&
         this.isActivatable(props.data[0])
       ) {
         activeIndex = 0;
@@ -365,13 +367,11 @@ export default class List extends RingComponentWithShortcuts {
         activeItem = props.data[props.activeIndex];
       }
 
-      if (activeIndex) {
-        this.setState({
-          activeIndex,
-          activeItem,
-          needScrollToActive: true
-        });
-      }
+      this.setState({
+        activeIndex,
+        activeItem,
+        needScrollToActive: true
+      });
     }
   }
 
@@ -391,6 +391,11 @@ export default class List extends RingComponentWithShortcuts {
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
   }
 
+  shouldActivateFirstItem(props) {
+    return props.activateFirstItem ||
+      props.activateSingleItem && props.length === 1;
+  }
+
   scrollEndHandler = debounce(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
@@ -404,22 +409,13 @@ export default class List extends RingComponentWithShortcuts {
     }
   }, SCROLL_HANDLER_DEBOUNCE);
 
-  setActiveItem(index, needScroll = true) {
-    this.setState({
-      activeIndex: index,
-      activeItem: this.props.data[index],
-      needScrollToActive: needScroll,
-      scrolling: false
-    });
-  }
-
-  checkOverflow() {
+  checkOverflow = () => {
     if (this.inner) {
       this.setState({
         hasOverflow: this.inner.scrollHeight - this.inner.clientHeight > 1
       });
     }
-  }
+  };
 
   getShortcutsProps() {
     return {
@@ -482,10 +478,11 @@ export default class List extends RingComponentWithShortcuts {
       }
 
       let ItemComponent;
+      const isFirst = index === 1;
       switch (itemProps.rgItemType) {
         case Type.SEPARATOR:
           ItemComponent = ListSeparator;
-          itemProps.isFirst = index === 1;
+          itemProps.isFirst = isFirst;
           break;
         case Type.LINK:
           ItemComponent = ListLink;
@@ -497,6 +494,7 @@ export default class List extends RingComponentWithShortcuts {
           ItemComponent = ListCustom;
           break;
         case Type.TITLE:
+          itemProps.isFirst = isFirst;
           ItemComponent = ListTitle;
           break;
         default:
@@ -572,11 +570,12 @@ export default class List extends RingComponentWithShortcuts {
             noop={() => {}}
 
             scrollToIndex={
-              this.state.needScrollToActive
+              this.state.needScrollToActive && this.state.activeIndex != null
                 ? this.state.activeIndex + 1
                 : undefined
             }
             deferredMeasurementCache={this._cache}
+            onRowsRendered={this.checkOverflow}
           />
         )}
       </AutoSizer>

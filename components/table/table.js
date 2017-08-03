@@ -4,7 +4,7 @@
  * @tags 3.0
  * @framework React
  * @extends {ReactComponent}
- * @description The table.
+ * @description Interactive table with selection and keyboard navigation support.
  * @example-file ./table.examples.html
  */
 

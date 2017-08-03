@@ -1,4 +1,4 @@
-<example name="Angular Tags Input">
+<example name="Tags Input Ng">
   <file type="html" disable-auto-size>
     <div ng-app="Example.tagsInput" ng-strict-di ng-controller="ExampleCtrl as ctrl">
       <rg-tags-input
@@ -13,7 +13,7 @@
 
   <file type="js">
     import angular from 'angular';
-    import RingTagsInput from 'ring-ui/components/tags-input-ng/tags-input-ng';
+    import RingTagsInput from '@jetbrains/ring-ui/components/tags-input-ng/tags-input-ng';
 
     angular.module('Example.tagsInput', [RingTagsInput]).
       controller('ExampleCtrl', function ($q) {

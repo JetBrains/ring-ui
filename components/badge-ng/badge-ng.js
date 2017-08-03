@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Badge.
  * @example
-  <example name="rgBadge">
+  <example name="Badge Ng">
     <file type="html">
       <div ng-app="Example.badge" ng-strict-di>
         <rg-group>
@@ -19,8 +19,8 @@
 
     <file type="js">
       import angular from 'angular';
-      import BadgeNg from 'ring-ui/components/badge-ng/badge-ng';
-      import GroupNg from 'ring-ui/components/group-ng/group-ng';
+      import BadgeNg from '@jetbrains/ring-ui/components/badge-ng/badge-ng';
+      import GroupNg from '@jetbrains/ring-ui/components/group-ng/group-ng';
 
       angular.module('Example.badge', [BadgeNg, GroupNg]);
     </file>

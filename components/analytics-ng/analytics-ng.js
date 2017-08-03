@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import analyticsInstance from '../analytics/analytics';
 import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
@@ -10,9 +12,9 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
  * @example
    <example name="Analytics Ng">
      <file name="index.js">
-       import 'angular';
-       import 'ring-ui/components/analytics-ng/analytics-ng';
-       import 'ring-ui/components/link/link.scss';
+       import angular from 'angular';
+       import '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
+       import '@jetbrains/ring-ui/components/link/link.scss';
 
         angular.module('Example.analyticsDemo', ['Ring.analytics'])
           .config([
@@ -46,12 +48,12 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
         <p>Hover or click the links below and check the console output:</p>
         <div>
           <a href="" rg-analytics="overview:view-doc" class="ring-link">
-            Link with onclick analytics trigger
+            Link with an onclick analytics trigger
           </a>
         </div>
         <div>
           <a href="" rg-analytics="overview:view-doc" class="ring-link" rg-analytics-on="mouseover">
-            Link with onmouseover analytics trigger
+            Link with an onmouseover analytics trigger
           </a>
         </div>
         <div ng-controller="TrackEventDemoCtrl"></div>
@@ -59,7 +61,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
      </file>
    </example>
 */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.analytics', []);
 
 /**

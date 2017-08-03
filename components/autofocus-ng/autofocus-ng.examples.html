@@ -4,7 +4,7 @@
       <input
         class="ring-input"
         rg-autofocus="true"
-        placeholder="Should be in focus"/>
+        placeholder="Should be focused"/>
     </div>
   </file>
   <file type="css">
@@ -13,9 +13,9 @@
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/input-legacy/input-legacy.scss';
-    import 'angular';
-    import 'ring-ui/components/autofocus-ng/autofocus-ng';
+    import '@jetbrains/ring-ui/components/input-legacy/input-legacy.scss';
+    import angular from 'angular';
+    import '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
   </file>
 </example>
 
@@ -31,9 +31,9 @@
     }
   </file>
   <file type="js">
-    import 'angular';
-    import SelectNG from 'ring-ui/components/select-ng/select-ng';
-    import AutofocusNG from 'ring-ui/components/autofocus-ng/autofocus-ng';
+    import angular from 'angular';
+    import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import AutofocusNG from '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
 
     angular.module('testApp', [SelectNG, AutofocusNG]).
       controller('testCtrl', function ($scope) {});

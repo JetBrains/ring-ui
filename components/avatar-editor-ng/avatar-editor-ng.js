@@ -1,4 +1,5 @@
-import editIcon from 'jetbrains-icons/pencil.svg';
+import angular from 'angular';
+import editIcon from '@jetbrains/icons/pencil.svg';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
@@ -28,7 +29,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import AvatarEditorNG from 'ring-ui/components/avatar-editor-ng/avatar-editor-ng';
+       import AvatarEditorNG from '@jetbrains/ring-ui/components/avatar-editor-ng/avatar-editor-ng';
 
        angular.module('test', [AvatarEditorNG]).controller('testCtrl', function () {
           const ctrl = this;
@@ -42,7 +43,6 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
      </file>
    </example>
  */
-/* global angular: false */
 function rgAvatarEditor() {
   return {
     restrict: 'E',

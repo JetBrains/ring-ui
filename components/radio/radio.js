@@ -20,8 +20,8 @@ import RadioItem from './radio__item';
        import {render} from 'react-dom';
        import React from 'react';
 
-       import Radio from 'ring-ui/components/radio/radio';
-       import RadioItem from 'ring-ui/components/radio/radio__item';
+       import Radio from '@jetbrains/ring-ui/components/radio/radio';
+       import RadioItem from '@jetbrains/ring-ui/components/radio/radio__item';
 
        const container = document.getElementById('container');
        const radio = value => (

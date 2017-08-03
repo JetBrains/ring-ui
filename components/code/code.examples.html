@@ -7,7 +7,7 @@
     import React from 'react';
     import {render} from 'react-dom';
 
-    import Code from 'ring-ui/components/code/code';
+    import Code from '@jetbrains/ring-ui/components/code/code';
 
     const container = document.getElementById('code');
     const demo = (
@@ -29,7 +29,7 @@
   </file>
 </example>
 
-<example name="Code tagged template">
+<example name="Code-tagged template">
   <file name="index.html">
     <div id="code"></div>
   </file>
@@ -38,12 +38,12 @@
     import React from 'react';
     import {render} from 'react-dom';
 
-    import {code} from 'ring-ui/components/code/code';
+    import {code} from '@jetbrains/ring-ui/components/code/code';
 
     const container = document.getElementById('code');
     const demo = code`
       import React from 'react';
-      import {code} from 'ring-ui/components/code/code';
+      import {code} from '@jetbrains/ring-ui/components/code/code';
 
       const el = code\`some('js')\`;
     `;

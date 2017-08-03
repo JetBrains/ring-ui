@@ -1,6 +1,6 @@
 <example name="Dialog Ng">
   <file type="html" disable-auto-size>
-    <div ng-app="Example.dialog" ng-strict-di class="very-long-page">
+    <div ng-app="Example.dialog" ng-strict-di class="long-page">
 
       <script type="template" id="dialog-template">
         <div>
@@ -21,16 +21,14 @@
           </div>
 
           <div class="ring-form__group">
-            <label for="textarea-demo" class="ring-form__label">Textarea in
-              Form</label>
+            <label for="textarea-demo" class="ring-form__label">Textarea</label>
             <div class="ring-form__control">
               <textarea id="textarea-demo" class="ring-input"></textarea>
             </div>
           </div>
 
           <div class="ring-form__group">
-            <label for="rg-select-demo" class="ring-form__label high-field">Rg Select in
-              Form</label>
+            <label for="rg-select-demo" class="ring-form__label high-field">Select</label>
             <div class="ring-form__control">
               <rg-select
                 options="item.name for item in dialogExampleCtrl.arr track by item.name"
@@ -54,7 +52,7 @@
       float: right;
     }
 
-    :global(.very-long-page) {
+    :global(.long-page) {
       height: 2000px;
     }
 
@@ -64,14 +62,13 @@
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input-legacy/input-legacy.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import 'angular/angular';
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Select from 'ring-ui/components/select-ng/select-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Select from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Select, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {
@@ -97,7 +94,7 @@
                 close: true
               },
               {
-                label: 'Long Action',
+                label: 'Dangerous Action',
                 cssClasses: 'ring-button_danger custom-css-class-button-right',
                 action: function () {
                   return $timeout(angular.noop, 2000).
@@ -144,14 +141,14 @@
   </file>
 
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import angular from 'angular';
-    import Sidebar from 'ring-ui/components/sidebar-ng/sidebar-ng'
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Select from 'ring-ui/components/select-ng/select-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Sidebar from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng'
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Select from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Select, Button, Sidebar]).
       controller('ExampleCtrl', function ($q, $timeout, dialogInSidebar) {
@@ -187,7 +184,7 @@
 
 <example name="Dialog Ng with Overridden Footer">
   <file type="html">
-    <div ng-app="Example.dialog" ng-strict-di class="very-long-page">
+    <div ng-app="Example.dialog" ng-strict-di class="long-page">
 
       <script type="template" id="dialog-template">
         <div>
@@ -199,10 +196,7 @@
           </div>
 
           <rg-dialog-footer>
-            <rg-button>Should be displayed</rg-button>
-            <rg-button ng-if="dialogExampleCtrl.displaySecondButton">
-              Should be displayed too
-            </rg-button>
+            <rg-button>A button</rg-button>
           </rg-dialog-footer>
         </div>
       </script>
@@ -218,22 +212,21 @@
       float: right;
     }
 
-    :global(.very-long-page) {
+    :global(.long-page) {
       height: 2000px;
     }
   </file>
   <file type="js">
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/input-legacy/input-legacy.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/input-legacy/input-legacy.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     import angular from 'angular';
-    import Dialog from 'ring-ui/components/dialog-ng/dialog-ng';
-    import Button from 'ring-ui/components/button-ng/button-ng';
+    import Dialog from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
+    import Button from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
     angular.module('Example.dialog', [Dialog, Button]).
       controller('ExampleCtrl', function ($q, $timeout, dialog) {
-
         this.showDialog = function () {
           dialog.show({
             cssClass: 'custom-css-class',
@@ -246,10 +239,6 @@
         };
 
         $timeout(() => this.showDialog());
-      }).controller('DialogExampleCtrl', function($timeout) {
-        var dialogExampleCtrl = this;
-
-        dialogExampleCtrl.displaySecondButton = true;
       });
   </file>
 </example>

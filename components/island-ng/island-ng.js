@@ -5,7 +5,8 @@
  * @description Provides an Angular wrapper for Island.
  * @example-file ./island-ng.examples.html
  */
-/* global angular: false */
+import angular from 'angular';
+
 import styles from '../island/island.css';
 
 import IslandHeader from './island-header-ng';

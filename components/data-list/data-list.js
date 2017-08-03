@@ -3,7 +3,7 @@
   * @category Components
   * @framework React
   * @extends {PureComponent}
-  * @description TODO add Data List description
+  * @description A component for rendering interactive hierarchical tables.
   * @example-file ./data-list.examples.html
   */
 /* @flow */

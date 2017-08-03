@@ -16,7 +16,7 @@ import styles from './avatar.css';
  * @constructor
  * @description Displays an avatar. In case of a loading error an empty square is displayed.
  * @example
-   <example name="avatar">
+   <example name="Avatar">
      <file name="index.html">
        <div id="avatar"></div>
      </file>
@@ -34,7 +34,7 @@ import styles from './avatar.css';
        import React, {Component} from 'react';
        import {render} from 'react-dom';
 
-       import Avatar, {Size} from 'ring-ui/components/avatar/avatar';
+       import Avatar, {Size} from '@jetbrains/ring-ui/components/avatar/avatar';
        import hubConfig from 'ring-ui-docs/components/hub-config';
 
        const container = document.getElementById('avatar');

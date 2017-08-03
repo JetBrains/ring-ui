@@ -5,7 +5,7 @@
   </file>
 
   <file type="js">
-    import Auth from 'ring-ui/components/auth/auth';
+    import Auth from '@jetbrains/ring-ui/components/auth/auth';
     import hubConfig from 'ring-ui-docs/components/hub-config';
     // Example config:
     // var hubConfig = {
@@ -29,11 +29,11 @@
     (async auth => {
       try {
         const location = await auth.init();
-        log('location to restore', location)
+        log('Location to restore:', location)
         const token = await auth.requestToken();
-        log('token', token);
+        log('Token:', token);
         const data = await auth.requestUser();
-        log('user profile data', data);
+        log('User profile data:', data);
       } catch (e) {
         log('error', e);
       }
@@ -42,22 +42,22 @@
 </example>
 
 
-<example name="Auth slim landing page">
+<example name="Auth landing page">
   <file type="html">
     <div id="example">
       <div id="example"></div>
-      <div><a id="open-link" class="ring-link">Open landing page</a></div>
-      <div><a href id="log-out" class="ring-link">Log Out</a></div>
-      <div><a href id="force-update" class="ring-link">Force token update</a></div>
+      <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
+      <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
+      <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
     </div>
   </file>
 
   <file type="js">
-    import Auth from 'ring-ui/components/auth/auth';
-    import 'ring-ui/components/link/link.scss';
-    import authService from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
+    import Auth from '@jetbrains/ring-ui/components/auth/auth';
+    import '@jetbrains/ring-ui/components/link/link.scss';
+    import authService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
     import hubConfig from 'ring-ui-docs/components/hub-config';
-    import LandingEntryFileName from 'ring-ui/components/auth/landing-entry';
+    import LandingEntryFileName from '@jetbrains/ring-ui/components/auth/landing-entry';
 
     async function run() {
       const auth = new Auth({

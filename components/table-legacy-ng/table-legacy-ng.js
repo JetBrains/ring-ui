@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 import debounce from 'mout/function/debounce';
 
@@ -18,7 +19,6 @@ import '../table-legacy/table-legacy.scss';
  * @description Displays tabular data.
  * @example-file ./table-legacy-ng.examples.html
  */
-/*global angular*/
 
 const angularModule = angular.module(
   'Ring.table-legacy',

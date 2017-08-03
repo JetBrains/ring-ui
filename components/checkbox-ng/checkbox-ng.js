@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
@@ -28,8 +30,8 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
-       import ButtonNG from 'ring-ui/components/button-ng/button-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
+       import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
        angular.module('TestApp', [ButtonNG, CheckboxNG])
         .controller('MainCtrl', function($scope) {
           $scope.checked = false;
@@ -44,7 +46,7 @@ import '../checkbox/checkbox.scss';
  </file>
    </example>
 
-   <example name="Checkbox Ng with custom true and false value">
+   <example name="Checkbox Ng with custom true/false values">
      <file name="index.html">
        <div ng-app="TestApp" ng-strict-di>
          <div>Checked: {{checked}}</div>
@@ -55,12 +57,12 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', [CheckboxNG]);
  </file>
    </example>
 
-    <example name="Checkbox Ng disabled">
+    <example name="Checkbox Ng (disabled)">
      <file name="index.html">
        <div ng-app="TestApp" ng-strict-di>
          <p style="width: 300px;">
@@ -70,12 +72,12 @@ import '../checkbox/checkbox.scss';
      </file>
      <file name="index.js" webpack="true">
        import angular from 'angular';
-       import CheckboxNG from 'ring-ui/components/checkbox-ng/checkbox-ng';
+       import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
        angular.module('TestApp', [CheckboxNG]);
  </file>
    </example>
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.checkbox', [IconNG]);
 
 let idCounter = 0;

@@ -1,4 +1,4 @@
-<example name="rgDataList">
+<example name="Data List Ng">
   <file type="html">
     <div ng-app="Example.data-list" ng-strict-di ng-controller="ExampleCtrl as ctrl">
       <rg-data-list
@@ -11,9 +11,9 @@
 
   <file type="js">
     import angular from 'angular';
-    import RingDataList from 'ring-ui/components/data-list-ng/data-list-ng';
-    import Selection from 'ring-ui/components/data-list/selection';
-    import data from 'ring-ui/components/data-list/data-list.mock.js';
+    import RingDataList from '@jetbrains/ring-ui/components/data-list-ng/data-list-ng';
+    import Selection from '@jetbrains/ring-ui/components/data-list/selection';
+    import data from '@jetbrains/ring-ui/components/data-list/data-list.mock.js';
 
     const exampleModule =  angular.module('Example.data-list', [RingDataList]);
 

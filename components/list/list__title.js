@@ -13,14 +13,20 @@ export default class ListTitle extends PureComponent {
     label: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
-    ])
+    ]),
+    isFirst: PropTypes.bool
   };
 
   render() {
-    const {description, label} = this.props;
+    const {description, label, isFirst} = this.props;
+
+    const classes = classnames(styles.title, {
+      [styles.title_first]: isFirst
+    });
+
     return (
       <span
-        className={styles.title}
+        className={classes}
         data-test="ring-list-title"
       >
         <span

@@ -1,3 +1,4 @@
+import angular from 'angular';
 import debounce from 'mout/function/debounce';
 import 'dom4';
 
@@ -28,15 +29,14 @@ import './docked-panel-ng.scss';
      </file>
      <file name="index.js" webpack="true">
       import angular from 'angular';
-      import 'ring-ui/components/button-legacy/button-legacy.scss';
-      import 'ring-ui/components/panel/panel.scss';
-      import DockedPanelNG from 'ring-ui/components/docked-panel-ng/docked-panel-ng';
+      import '@jetbrains/ring-ui/components/button-legacy/button-legacy.scss';
+      import '@jetbrains/ring-ui/components/panel/panel.scss';
+      import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
       angular.module('DockedPanelExample', [DockedPanelNG]);
      </file>
    </example>
  */
 
-/* global angular:false */
 const angularModule = angular.module('Ring.docked-panel', []);
 
 angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {

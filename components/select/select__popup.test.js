@@ -93,8 +93,6 @@ describe('SelectPopup', () => {
         wrapper.setProps({hidden: false});
         const firstItem = testData[0];
 
-        simulateCombo('down');
-
         wrapper.instance().list.getSelected().should.be.equal(firstItem);
       });
 
@@ -115,7 +113,7 @@ describe('SelectPopup', () => {
         wrapper.setProps({hidden: false});
         const firstItem = testData[0];
 
-        simulateCombo('down enter');
+        simulateCombo('enter');
 
         wrapper.prop('onSelect').should.be.calledWith(firstItem);
       });

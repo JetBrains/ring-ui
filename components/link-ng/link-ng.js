@@ -1,3 +1,4 @@
+import angular from 'angular';
 import '../link/link.scss';
 
 /**
@@ -7,7 +8,7 @@ import '../link/link.scss';
  * @constructor
  * @description Displays a link.
  * @example
-    <example name="link-ng">
+    <example name="Link Ng">
       <file name="index.html">
         <div id="link" ng-app="TestApp" ng-strict-di>
           <rg-link href="http://example.com" class="test-class">Open example</rg-link>
@@ -15,14 +16,14 @@ import '../link/link.scss';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import Link from  'ring-ui/components/link-ng/link-ng';
+        import Link from  '@jetbrains/ring-ui/components/link-ng/link-ng';
 
         angular.module('TestApp', [Link]);
       </file>
   </example>
  */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.link', []);
 
 function rgLinkDirective() {
