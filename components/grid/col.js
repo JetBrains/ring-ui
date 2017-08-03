@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import styles from './grid.css';
 
-const ModificatorType = PropTypes.oneOfType([PropTypes.number, PropTypes.bool]);
+const ModifierType = PropTypes.oneOfType([PropTypes.number, PropTypes.bool]);
 
 const classMap = {
   xs: 'col-xs',
@@ -30,10 +30,10 @@ function getClassNames(props) {
 
 export default class Col extends Component {
   static propTypes = {
-    xs: ModificatorType,
-    sm: ModificatorType,
-    md: ModificatorType,
-    lg: ModificatorType,
+    xs: ModifierType,
+    sm: ModifierType,
+    md: ModifierType,
+    lg: ModifierType,
     xsOffset: PropTypes.number,
     smOffset: PropTypes.number,
     mdOffset: PropTypes.number,

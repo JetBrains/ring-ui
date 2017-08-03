@@ -67,7 +67,7 @@ export default class AuthStorage {
 
   /**
    * Add state change listener
-   * @param {string} stateKey State key
+   * @param {string} key State key
    * @param {function(string)} fn State change listener
    * @return {function()} remove listener function
    */

@@ -29,7 +29,7 @@ export default class WindowFlow {
   }
 
   /**
-   * Initates authorization in window
+   * Initiates authorization in window
    */
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
