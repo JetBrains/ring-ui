@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^2.0.0",
-    "@jetbrains/generator-ring-ui": "^0.1.17",
+    "@jetbrains/generator-ring-ui": "^0.1.18",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
     "angular-mocks": "1.6.5",
@@ -138,7 +138,7 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
-    "lerna": "2.0.0",
+    "lerna": "^2.0.0",
     "lint-staged": "4.0.2",
     "mocha": "3.4.2",
     "react-test-renderer": "15.6.1",
