@@ -225,8 +225,7 @@ function reactStaticNgDirective($parse) {
     const lowercaseAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
     // Use React DOM attributes names
     const specialDOMAttrName = specialDOMAttrs[lowercaseAttrName];
-    const propName = specialDOMAttrName || lowercaseAttrName;
-    return propName;
+    return specialDOMAttrName || lowercaseAttrName;
   }
 
   return {
