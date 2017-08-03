@@ -43,7 +43,7 @@ class SiteHeader extends PureComponent {
             size={Icon.Size.Size128}
           />
         </Link>
-        <span>{`Ring UI library ${version}`}</span>
+        <span className={styles.headerItem}>{`Ring UI library ${version}`}</span>
         {docsItems.map(item => (
           <Item
             key={item.title}
