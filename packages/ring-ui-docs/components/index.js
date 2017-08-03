@@ -54,7 +54,7 @@ class App extends Component {
           docsItems={docsItems}
           noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
         />
-        <ContentLayout className={styles.main}>
+        <ContentLayout className={styles.main} responsive={false}>
           <Sidebar
             className={styles.sidebar}
             fixedClassName={styles.sidebarFixed}
