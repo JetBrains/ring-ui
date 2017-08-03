@@ -1,10 +1,10 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
-import exceptionIcon from 'jetbrains-icons/exception.svg';
-import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
-import warningIcon from 'jetbrains-icons/warning.svg';
-import closeIcon from 'jetbrains-icons/close.svg';
+import exceptionIcon from '@jetbrains/icons/exception.svg';
+import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+import warningIcon from '@jetbrains/icons/warning.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 
 import RingComponent from '../ring-component/ring-component';

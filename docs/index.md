@@ -25,7 +25,8 @@ plugins developed for JetBrains' products.
 [Ekaterina Zaikina](https://github.com/katriyna) 
 
 ### Links
- 
-- Git repository: ssh://github.com/JetBrains/ring-ui.git 
+
+- [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
+- [Builds in TeamCity](https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview)

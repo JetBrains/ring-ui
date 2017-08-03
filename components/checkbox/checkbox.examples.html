@@ -31,7 +31,7 @@
   <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
-    import Checkbox from 'ring-ui/components/checkbox/checkbox';
+    import Checkbox from '@jetbrains/ring-ui/components/checkbox/checkbox';
 
     render(<Checkbox />, document.getElementById('checkbox'));
 
@@ -51,28 +51,28 @@
     render(
       <Checkbox
         defaultChecked
-      >This checkbox is inside div with large line-height.</Checkbox>,
+      >This checkbox is inside a div with large line-height.</Checkbox>,
       document.getElementById('checkbox-in-large-line-height-div')
     );
 
     render(
       <Checkbox
         defaultChecked
-      >This checkbox is inside div with small line-height.</Checkbox>,
+      >This checkbox is inside a div with small line-height.</Checkbox>,
       document.getElementById('checkbox-in-small-line-height-div')
     );
 
     render(
       <Checkbox
         defaultChecked
-      >This checkbox is inside div with large font-size.</Checkbox>,
+      >This checkbox is inside a div with large font-size.</Checkbox>,
       document.getElementById('checkbox-in-large-font-div')
     );
 
     render(
       <Checkbox
         defaultChecked
-      >This checkbox is inside div with small font-size.</Checkbox>,
+      >This checkbox is inside a div with small font-size.</Checkbox>,
       document.getElementById('checkbox-in-small-font-div')
     );
   </file>

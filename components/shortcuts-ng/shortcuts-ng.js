@@ -1,8 +1,10 @@
+import angular from 'angular';
 import 'dom4';
+
 import {getStyles} from '../global/dom';
 import shortcutsInstance from '../shortcuts/core';
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.shortcuts', []);
 
 angularModule.provider('shortcuts', function provider() {

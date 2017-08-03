@@ -1,6 +1,6 @@
 /* eslint-disable angular/no-angular-mock */
 
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 
 import sniffer from '../global/sniffer';
@@ -8,7 +8,6 @@ import sniffer from '../global/sniffer';
 import ShortcutsNgHint from './shortcuts-hint-ng';
 
 describe('Shortcuts Hint Ng', () => {
-  /* global angular:false */
   beforeEach(angular.mock.module(ShortcutsNgHint));
 
   describe('shortcut key symbol filter', () => {

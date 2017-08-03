@@ -1,7 +1,7 @@
-/* global inject, angular */
+/* global inject */
 /* eslint-disable no-magic-numbers */
 
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 import 'dom4';
 
@@ -414,7 +414,7 @@ describe('Dialog Ng', () => {
     callback.should.have.been.called;
   });
 
-  it('should be closed via the controller', () => {
+  it('should be closed via controller', () => {
     const {element, ctrl, scope} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div></div>'
@@ -436,7 +436,7 @@ describe('Dialog Ng', () => {
     element.should.not.have.class('active');
   });
 
-  it('should be updated via the controller', () => {
+  it('should be updated via controller', () => {
     const {element, scope, ctrl} = showDialog(
       '<rg-dialog></rg-dialog>',
       '<div class="content">{{dialog.data.prop}}</div>',
@@ -564,7 +564,7 @@ describe('Dialog Ng', () => {
       element.query('*[data-anchor=dialog-header]').should.contain.text('Dialog Title');
     });
 
-    it('should change title via the controller', () => {
+    it('should change title via controller', () => {
       const {element, ctrl, scope} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div rg-dialog-title="{{dialog.data.title}}"></div>',

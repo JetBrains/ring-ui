@@ -46,7 +46,7 @@ describe('Dialog', () => {
       onCloseAttempt: closeSpy
     }).instance();
 
-    instance.handleKeyDown({key: 'Escape'});
+    instance.getShortcutsMap().esc({});
 
     closeSpy.should.have.been.called;
     escSpy.should.have.been.called;
@@ -55,7 +55,7 @@ describe('Dialog', () => {
   it('should not call onEscPress if is hidden', () => {
     const escSpy = sandbox.spy();
     const instance = mountDialog({show: false, children, onEscPress: escSpy}).instance();
-    instance.handleKeyDown({key: 'Escape'});
+    instance.getShortcutsMap().esc({});
 
     escSpy.should.not.have.been.called;
   });

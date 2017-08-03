@@ -6,6 +6,7 @@ import styles from './list.css';
 
 export default class ListSeparator extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     description: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
@@ -14,9 +15,9 @@ export default class ListSeparator extends PureComponent {
   };
 
   render() {
-    const {description, isFirst} = this.props;
+    const {description, isFirst, className} = this.props;
 
-    const classes = classNames(styles.separator, {
+    const classes = classNames(styles.separator, className, {
       [styles.separator_first]: isFirst
     });
 

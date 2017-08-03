@@ -1,6 +1,7 @@
 const path = require('path');
 
 const Generator = require('yeoman-generator');
+const optionOrPrompt = require('yeoman-option-or-prompt');
 const {paramCase, camelCase} = require('change-case');
 const ora = require('ora');
 
@@ -8,10 +9,10 @@ const getFreePort = require('../app/get-free-port');
 const getLatestVersions = require('../app/get-latest-versions');
 
 const packages = [
-  'generator-ring-ui',
-  'ring-ui',
-  'jetbrains-logos',
-  'jetbrains-icons',
+  '@jetbrains/generator-ring-ui',
+  '@jetbrains/ring-ui',
+  '@jetbrains/logos',
+  '@jetbrains/icons',
   'hub-dashboard-addons'
 ];
 const BASE_GENERATOR_PATH = path.resolve(
@@ -28,7 +29,7 @@ module.exports = class extends Generator.Base {
   prompting() {
     let spinner;
 
-    const prompt = this.prompt([
+    const prompt = optionOrPrompt.call(this, [
       {
         type: 'input',
         name: 'widgetName',
@@ -74,7 +75,7 @@ module.exports = class extends Generator.Base {
   files() {
     // Hub-widget template files
     this.fs.copyTpl(
-      this.templatePath('*.{json,js}'),
+      this.templatePath('*.{json,js,md}'),
       this.destinationPath(''),
       this.props
     );
@@ -103,6 +104,7 @@ module.exports = class extends Generator.Base {
 
           pkg.config.components = './src';
 
+          console.log('>>>', this.props);
           pkg.dependencies['hub-dashboard-addons'] =
             this.props.hubDashboardAddons;
 
@@ -121,7 +123,6 @@ module.exports = class extends Generator.Base {
   }
 
   configuring() {
-    this._copyTemplate('npmrc', '.npmrc');
     this._copyTemplate('editorconfig', '.editorconfig');
     this._copyTemplate('gitignore', '.gitignore');
     this._copyTemplate('eslintignore', '.eslintignore');

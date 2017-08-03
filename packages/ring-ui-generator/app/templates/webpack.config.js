@@ -1,16 +1,16 @@
 const {join, resolve} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ringUiWebpackConfig = require('ring-ui');
+const ringUiWebpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkgConfig = require('./package.json').config;
 
 const componentsPath = join(__dirname, pkgConfig.components);
 
-// Patch ring-ui svg-sprite-loader config
+// Patch @jetbrains/ring-ui svg-sprite-loader config
 ringUiWebpackConfig.loaders.svgSpriteLoader.include.push(
-  require('jetbrains-logos'),
-  require('jetbrains-icons')
+  require('@jetbrains/logos'),
+  require('@jetbrains/icons')
 );
 
 const webpackConfig = () => ({

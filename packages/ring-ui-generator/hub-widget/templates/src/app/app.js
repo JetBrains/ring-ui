@@ -3,12 +3,13 @@ import DashboardAddons from 'hub-dashboard-addons';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {render} from 'react-dom';
-import Select from 'ring-ui/components/select/select';
-import Panel from 'ring-ui/components/panel/panel';
-import Button from 'ring-ui/components/button/button';
+import Select from '@jetbrains/ring-ui/components/select/select';
+import Panel from '@jetbrains/ring-ui/components/panel/panel';
+import Button from '@jetbrains/ring-ui/components/button/button';
 
 import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
 import styles from './app.css';
+import sayHello from './sayHello';
 
 const COLOR_OPTIONS = [
   {key: 'black', label: 'Black'},
@@ -56,7 +57,7 @@ class Widget extends Component {
   cancelConfig = async () => {
     this.setState({isConfiguring: false});
     await this.props.dashboardApi.exitConfigMode();
-    this.initialize();
+    this.initialize(this.props.dashboardApi);
   };
 
   changeColor = selectedColor => this.setState({selectedColor});
@@ -89,7 +90,7 @@ class Widget extends Component {
 
     return (
       <div className={styles.widget}>
-        <h1 style={{color: selectedColor.key}}>{'Hello world'}</h1>
+        <h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
         <p>{'Select "Edit..." option in widget dropdown to configure text color'}</p>
       </div>
     );

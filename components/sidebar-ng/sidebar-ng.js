@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import PlaceUnder from '../place-under-ng/place-under-ng';
 import IconNG from '../icon-ng/icon-ng';
 import RingAngularComponent from '../global/ring-angular-component';
@@ -13,7 +15,6 @@ import '../button-legacy/button-legacy.scss';
  * a selector for that element should be passed as placeUnderSibling parameter.
  * @example-file ./sidebar-ng.examples.html
  */
-/* global angular */
 
 const angularModule = angular.module('Ring.sidebar', [PlaceUnder, IconNG]);
 

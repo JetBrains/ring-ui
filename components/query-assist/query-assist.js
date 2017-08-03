@@ -4,8 +4,8 @@ import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
-import searchIcon from 'jetbrains-icons/search.svg';
-import closeIcon from 'jetbrains-icons/close.svg';
+import searchIcon from '@jetbrains/icons/search.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';
@@ -513,7 +513,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
   requestHandler = () => {
     if (this.props.disabled) {
-      return Promise.reject(new Error('QueryAssist(ring-ui): null exception'));
+      return Promise.reject(new Error('QueryAssist(@jetbrains/ring-ui): null exception'));
     }
 
     const {query, caret} = this.immediateState;

@@ -6,7 +6,7 @@ const green = require('chalk').green;
 const changeCase = require('change-case');
 const readPkgUp = require('read-pkg-up');
 
-const RING_UI_PACKAGE = 'ring-ui';
+const RING_UI_PACKAGE = '@jetbrains/ring-ui';
 const RING_UI_CLASS_PREFIX = 'ring-';
 const RING_UI_DIRECTIVE_PREFIX = 'rg';
 const RING_UI_NG_SUFFIX = ' Ng';

@@ -4,7 +4,7 @@
  * @framework Angular
  * @description Provides an Angular wrapper for Group.
  * @example
-  <example name="rgGroup">
+  <example name="Group Ng">
     <file type="html">
       <div ng-app="Example.group" ng-strict-di ng-controller="ExampleCtrl as ctrl">
         <rg-group>
@@ -16,8 +16,8 @@
 
     <file type="js">
       import angular from 'angular';
-      import ButtonNg from 'ring-ui/components/button-ng/button-ng';
-      import GroupNg from 'ring-ui/components/group-ng/group-ng';
+      import ButtonNg from '@jetbrains/ring-ui/components/button-ng/button-ng';
+      import GroupNg from '@jetbrains/ring-ui/components/group-ng/group-ng';
 
       angular.module('Example.group', [ButtonNg, GroupNg]).
         controller('ExampleCtrl', angular.noop);

@@ -8,9 +8,9 @@
             class="ring-input-size_xs"
             x-data-source="exampleCtrl.dataSource()"
             glass="true"
-            placeholder="'XShort'">
+            placeholder="'Extra-short'">
           </div>
-          <div class="ring-error-bubble active">XShort Query Assist</div>
+          <div class="ring-error-bubble active">Extra-short Query Assist</div>
         </div>
         <div class="ring-error-bubble-wrapper">
           <div react="QueryAssist"
@@ -56,7 +56,7 @@
             ng-model="exampleCtrl.selected"
             options="item in exampleCtrl.options"
             label="Select item"></rg-select>
-          <div class="ring-error-bubble active">XShort Select</div>
+          <div class="ring-error-bubble active">Extra-short Select</div>
         </div>
         <div class="ring-error-bubble-wrapper">
           <rg-select class="ring-input-size_s"
@@ -95,7 +95,7 @@
             ng-model="exampleCtrl.selected"
             options="item in exampleCtrl.options"
             label="Select item"></rg-select>
-          <div class="ring-error-bubble active">XShort Select</div>
+          <div class="ring-error-bubble active">Extra-short Select</div>
         </div>
         <div class="ring-error-bubble-wrapper">
           <rg-select class="ring-input-size_s"
@@ -134,7 +134,7 @@
       <div class="example-block">
         <div class="ring-error-bubble-wrapper">
           <input type="number" class="ring-input ring-input-size_xs">
-          <div class="ring-error-bubble active">XShort Input</div>
+          <div class="ring-error-bubble active">Extra-short Input</div>
         </div>
         <div class="ring-error-bubble-wrapper">
           <input type="number" class="ring-input ring-input-size_s">
@@ -158,7 +158,7 @@
       <div class="example-block">
         <div class="ring-error-bubble-wrapper">
           <textarea class="ring-input ring-input-size_xs"></textarea>
-          <div class="ring-error-bubble active">XShort Textarea</div>
+          <div class="ring-error-bubble active">Extra-short Textarea</div>
         </div>
         <div class="ring-error-bubble-wrapper">
           <textarea class="ring-input ring-input-size_s"></textarea>
@@ -188,10 +188,10 @@
   </file>
   <file type="js">
     import angular from 'angular';
-    import 'ring-ui/components/select-ng/select-ng';
-    import registerComponents from 'ring-ui/components/react-ng/react-ng';
-    import QueryAssist from 'ring-ui/components/query-assist/query-assist';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import registerComponents from '@jetbrains/ring-ui/components/react-ng/react-ng';
+    import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     registerComponents({QueryAssist});
 

@@ -1,6 +1,4 @@
-<example name="ErrorMessage">
-
-
+<example name="Error Message">
   <file type="html">
     <div id="error-message"></div>
   </file>
@@ -15,19 +13,20 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import ErrorMessage from 'ring-ui/components/error-message/error-message';
-    import Link from 'ring-ui/components/link/link';
-    import frownIcon from 'jetbrains-icons/frown.svg'
+    import ErrorMessage from '@jetbrains/ring-ui/components/error-message/error-message';
+    import Link from '@jetbrains/ring-ui/components/link/link';
+    import frownIcon from '@jetbrains/icons/frown.svg'
 
 
     const renderErrorMessageDemo = () => (
     <div className='parent'>
-      <ErrorMessage message="No, no one's there."
+      <ErrorMessage
         icon={frownIcon}
         code="Disconnected"
-        description="Service backend isn't available"
+        message="no answer from server."
+        description="Please try again soon."
       >
-        <Link href="/">Home</Link>
+        <Link href="/">Go to the home page</Link>
       </ErrorMessage>
     </div>
     );

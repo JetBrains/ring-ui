@@ -13,7 +13,7 @@ import './error-bubble.scss';
  * @description Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop.
  * Passes any prop except `className` down to input.
  * @example
-   <example name="error-bubble">
+   <example name="Error Bubble">
      <file name="index.html">
        <div id="container"></div>
      </file>
@@ -22,9 +22,9 @@ import './error-bubble.scss';
        import {render} from 'react-dom';
        import React from 'react';
 
-       import ErrorBubble from 'ring-ui/components/error-bubble/error-bubble';
-       import Input from 'ring-ui/components/input-legacy/input-legacy';
-       import 'ring-ui/components/input-size/input-size.scss';
+       import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
+       import Input from '@jetbrains/ring-ui/components/input-legacy/input-legacy';
+       import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
        const container = document.getElementById('container');
        const renderBubbleDemo = value => (

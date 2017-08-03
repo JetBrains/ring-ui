@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../footer/footer.css';
 import {copyright} from '../footer/footer';
@@ -9,7 +11,7 @@ import {copyright} from '../footer/footer';
  * @constructor
  * @description Renders application's footer.
  * @example
-    <example name="footer-ng">
+    <example name="Footer Ng">
       <file name="index.html">
         <div id="footer" ng-app="TestApp" ng-strict-di>
           <rg-footer>
@@ -31,15 +33,15 @@ import {copyright} from '../footer/footer';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import Footer from 'ring-ui/components/footer-ng/footer-ng';
-        import 'ring-ui/components/link/link.scss';
+        import Footer from '@jetbrains/ring-ui/components/footer-ng/footer-ng';
+        import '@jetbrains/ring-ui/components/link/link.scss';
 
         angular.module('TestApp', [Footer]);
       </file>
   </example>
  */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.footer', []);
 
 class rgFooterComponent extends RingAngularComponent {
@@ -69,8 +71,7 @@ class rgFooterCopyrightComponent extends RingAngularComponent {
     companyName: '@'
   }
 
-  constructor(...args) {
-    super(...args);
+  $onInit() {
     this.copyrightYears = copyright(this.year);
   }
 }

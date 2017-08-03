@@ -3,11 +3,17 @@
     <div id="alert-service"></div>
   </file>
 
+  <file type="css">
+    button {
+      margin-right: 8px !important;
+    }
+  </file>
+
   <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
-    import Button from 'ring-ui/components/button/button';
-    import alert from 'ring-ui/components/alert-service/alert-service';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import alert from '@jetbrains/ring-ui/components/alert-service/alert-service';
 
     class AlertServiceDemo extends React.Component {
       componentDidMount () {

@@ -32,7 +32,7 @@
   </file>
   <file type="js">
     import angular from 'angular';
-    import TableLegacyNG from 'ring-ui/components/table-legacy-ng/table-legacy-ng';
+    import TableLegacyNG from '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng';
 
     angular.module('test', [TableLegacyNG]).
       controller('tableExample', function ($scope) {
@@ -76,8 +76,8 @@
     </div>
   </file>
   <file type="js">
-    import 'angular';
-    import 'ring-ui/components/table-legacy-ng/table-legacy-ng';
+    import angular from 'angular';
+    import '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng';
   </file>
   <file type="css">
     body {
@@ -140,10 +140,10 @@
   </file>
   <file type="js">
     import angular from 'angular';
-    import TableNG from 'ring-ui/components/table-legacy-ng/table-legacy-ng';
-    import SelectNG from 'ring-ui/components/select-ng/select-ng';
-    import SidebarNG from 'ring-ui/components/sidebar-ng/sidebar-ng';
-    import QueryAssistNG from 'ring-ui/components/query-assist-ng/query-assist-ng';
+    import TableNG from '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng';
+    import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
+    import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
     angular.module('test', [TableNG, SidebarNG, SelectNG, QueryAssistNG]).
       controller('tableExample', function ($timeout, $scope) {

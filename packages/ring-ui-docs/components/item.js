@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'ring-ui/components/link/link';
+import Link from '@jetbrains/ring-ui/components/link/link';
 
 import {currentPath} from './utils';
 

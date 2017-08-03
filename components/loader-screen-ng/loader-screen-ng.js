@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import loaderNg from '../loader-ng/loader-ng';
 import '../loader-screen/loader-screen.scss';
 
@@ -14,7 +16,7 @@ import '../loader-screen/loader-screen.scss';
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import loaderScreenNg from 'ring-ui/components/loader-screen-ng/loader-screen-ng';
+      import loaderScreenNg from '@jetbrains/ring-ui/components/loader-screen-ng/loader-screen-ng';
 
       angular.module('ExampleApp', [loaderScreenNg]).
         run((loaderScreen) => {
@@ -24,7 +26,6 @@ import '../loader-screen/loader-screen.scss';
      </file>
   </example>
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);
 

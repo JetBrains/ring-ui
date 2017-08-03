@@ -3,7 +3,7 @@ import '../tabs/tabs.scss';
 /**
  * @name Tabs Ng
  * @category Angular Components
- * @description Displays a tab set.
+ * @description Displays a tabset.
  * @example
    <example name="Tabs Ng">
      <file name="index.html">
@@ -18,12 +18,13 @@ import '../tabs/tabs.scss';
        </div>
      </file>
      <file name="index.js" webpack="true">
-       import 'angular';
-       import 'ring-ui/components/tabs-ng/tabs-ng';
+       import angular from 'angular';
+       import '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
      </file>
    </example>
  */
-/* global angular: false */
+import angular from 'angular';
+
 const angularModule = angular.module('Ring.tabs', []);
 
 angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope) {

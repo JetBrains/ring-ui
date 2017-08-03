@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import '../breadcrumb/breadcrumb.scss';
 import '../link/link.scss';
 
@@ -21,7 +23,7 @@ import '../link/link.scss';
      </file>
      <file name="index.js">
        import angular from 'angular';
-       import BreadcrumbNG from 'ring-ui/components/breadcrumb-ng/breadcrumb-ng';
+       import BreadcrumbNG from '@jetbrains/ring-ui/components/breadcrumb-ng/breadcrumb-ng';
 
        angular.module('Example.breadcrumb', [BreadcrumbNG])
          .controller('DemoCtrl', function () {
@@ -31,7 +33,6 @@ import '../link/link.scss';
    </example>
  */
 
-/* global angular: false */
 
 const angularModule = angular.module('Ring.breadcrumb', []);
 

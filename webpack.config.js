@@ -14,13 +14,13 @@ const htmlLoaderOptions = `?${JSON.stringify({
   interpolate: true,
   collapseBooleanAttributes: false,
   attrs: 'rg-icon:glyph',
-  root: require('jetbrains-icons')
+  root: require('@jetbrains/icons')
 })}`;
 
 const svgSpriteLoader = {
   test: /\.svg$/,
   loader: resolveLoader('svg-sprite'),
-  include: [require('jetbrains-logos'), require('jetbrains-icons')],
+  include: [require('@jetbrains/logos'), require('@jetbrains/icons')],
   options: {
     extract: false,
     runtimeCompat: true,

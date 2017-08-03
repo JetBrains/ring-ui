@@ -19,11 +19,11 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import Icon from 'ring-ui/components/icon/icon';
-    import searchIcon from 'jetbrains-icons/search.svg';
-    import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
-    import pencilIcon from 'jetbrains-icons/pencil.svg';
-    import permissionIcon from 'jetbrains-icons/permission.svg';
+    import Icon from '@jetbrains/ring-ui/components/icon/icon';
+    import searchIcon from '@jetbrains/icons/search.svg';
+    import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+    import pencilIcon from '@jetbrains/icons/pencil.svg';
+    import permissionIcon from '@jetbrains/icons/permission.svg';
 
     render(<Icon
       className="additional-class"
@@ -80,9 +80,9 @@
     import React from 'react';
     import {render} from 'react-dom';
     import {createElement} from 'react';
-    import Icon from 'ring-ui/components/icon/icon';
+    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-    const icons = require.context('jetbrains-icons', false, /\.svg$/);
+    const icons = require.context('@jetbrains/icons', false, /\.svg$/);
 
     render(createElement('div', {
       className: 'icon-example__container',
@@ -113,9 +113,9 @@
     import React from 'react';
     import {render} from 'react-dom';
     import {createElement} from 'react';
-    import Icon from 'ring-ui/components/icon/icon';
+    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-    var logos = require.context('jetbrains-logos', true, /\.svg$/);
+    var logos = require.context('@jetbrains/logos', true, /\.svg$/);
 
     render(createElement('div', {
       children: logos.keys().map(logos).map(function (icon) {

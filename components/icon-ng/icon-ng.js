@@ -1,4 +1,6 @@
+import angular from 'angular';
 import 'dom4';
+
 import {resolveRelativeURL} from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
 import '../icon/icon.scss';
@@ -22,10 +24,10 @@ import '../icon/icon.scss';
       </file>
     <file name="index.js" webpack="true">
       import angular from 'angular';
-      import IconNG from 'ring-ui/components/icon-ng/icon-ng';
-      import ButtonNG from 'ring-ui/components/button-ng/button-ng';
-      import checkMarkIcon from 'jetbrains-icons/checkmark.svg';
-      import warningIcon from 'jetbrains-icons/warning.svg';
+      import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
+      import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+      import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+      import warningIcon from '@jetbrains/icons/warning.svg';
 
       angular.module('TestApp', [ButtonNG, IconNG]).controller('testCtrl', function($scope) {
         $scope.icon = checkMarkIcon;
@@ -34,7 +36,7 @@ import '../icon/icon.scss';
     </file>
   </example>
  */
-/* global angular: false */
+
 const angularModule = angular.module('Ring.icon', []);
 const CLASS_PREFIX = 'ring-icon_';
 const LOADING_CLASS = `${CLASS_PREFIX}loading`;

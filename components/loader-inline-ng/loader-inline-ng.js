@@ -1,3 +1,4 @@
+import angular from 'angular';
 import '../loader-inline/loader-inline.scss';
 
 /**
@@ -7,7 +8,7 @@ import '../loader-inline/loader-inline.scss';
  * @constructor
  * @description Wraps markup for loader-inline component.
  * @example
-    <example name="loader-inline-ng">
+    <example name="Loader Inline Ng">
       <file name="index.html">
         <div ng-app="TestApp" ng-strict-di>
           <rg-loader-inline></rg-loader-inline>
@@ -15,14 +16,14 @@ import '../loader-inline/loader-inline.scss';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import LoaderInline from  'ring-ui/components/loader-inline-ng/loader-inline-ng';
+        import LoaderInline from  '@jetbrains/ring-ui/components/loader-inline-ng/loader-inline-ng';
 
         angular.module('TestApp', [LoaderInline]);
       </file>
   </example>
  */
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.loader-inline', []);
 
 angularModule.

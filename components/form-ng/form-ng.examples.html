@@ -1,4 +1,4 @@
-<example name="Form">
+<example name="Form Ng">
   <file type="html">
 
     <div ng-app="Example.form" ng-strict-di style="width: 700px"
@@ -17,10 +17,10 @@
         </div>
 
         <div class="ring-form__group">
-          <label class="ring-form__label">Rg Select in Form</label>
+          <label class="ring-form__label">Select</label>
           <div class="ring-form__control">
             <rg-select class="ring-input-size_md"
-              options="item.name for item in formExampleCtrl.arr track by item.name"></rg-select>
+              options="item.name for item in formExampleCtrl.data track by item.name"></rg-select>
             <div class="ring-form__control__description">I am a simple description</div>
           </div>
         </div>
@@ -54,23 +54,21 @@
   <file type="js">
     import angular from 'angular';
 
-    import 'ring-ui/components/input-legacy/input-legacy.scss';
-    import 'ring-ui/components/form/form.scss';
-    import 'ring-ui/components/panel/panel.scss';
-    import 'ring-ui/components/button-legacy/button-legacy.scss';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import '@jetbrains/ring-ui/components/input-legacy/input-legacy.scss';
+    import '@jetbrains/ring-ui/components/form/form.scss';
+    import '@jetbrains/ring-ui/components/panel/panel.scss';
+    import '@jetbrains/ring-ui/components/button-legacy/button-legacy.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    import ButtonNg from 'ring-ui/components/button-ng/button-ng';
-    import SelectNg from 'ring-ui/components/select-ng/select-ng';
-    import CheckboxNg from 'ring-ui/components/checkbox-ng/checkbox-ng';
-    import FormNg from 'ring-ui/components/form-ng/form-ng';
+    import ButtonNg from '@jetbrains/ring-ui/components/button-ng/button-ng';
+    import SelectNg from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import CheckboxNg from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
+    import FormNg from '@jetbrains/ring-ui/components/form-ng/form-ng';
 
     angular.module('Example.form', [FormNg, CheckboxNg, SelectNg, ButtonNg]).
     controller('FormExampleCtrl', function ($scope) {
       this.checkedModel = true;
-      this.sssssss = $scope
-
-      this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+      this.data = [{name: 'Ada'}, {name: 'Nik'}];
     });
   </file>
 </example>

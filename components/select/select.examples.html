@@ -1,4 +1,4 @@
-<!--<example name="Select with a filter with tags">
+<!--<example name="Select with a filter and tags">
   <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
@@ -11,9 +11,9 @@
   <file type="js">
     import {render} from 'react-dom';
     import hubConfig from 'ring-ui-docs/components/hub-config';
-    import Select from 'ring-ui/components/select/select';
-    import 'ring-ui/components/input-size/input-size.scss';
-    import eyeIcon from 'jetbrains-icons/eye.svg'
+    import Select from '@jetbrains/ring-ui/components/select/select';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+    import warningIcon from '@jetbrains/icons/warning.svg'
 
     var props = {
       multiple: true,
@@ -24,7 +24,7 @@
         reset: {
           separator: true,
           label: 'Reset the list',
-          glyph: eyeIcon
+          glyph: warningIcon
         }
       }
     };
@@ -75,7 +75,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var props = {
       selectedLabel: 'Option',
@@ -186,9 +186,9 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
-    var elementsNum = 100000;
+    var elementsNum = 1000;
     var selectedIndex = parseInt(elementsNum / 2);
     var dataset = [];
     for (var i = 0; i < elementsNum; i++) {
@@ -224,7 +224,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
     var ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
@@ -261,7 +261,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(
       Select.factory({disabled: true, loading: true}),
@@ -287,7 +287,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var data = [];
     for (let i = 0; i < 20; i++) {
@@ -313,7 +313,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var data = [];
     for (let i = 0; i < 20; i++) {
@@ -336,13 +336,13 @@
   </file>
 </example>
 
-<example name="Simple select with the default filter mode">
+<example name="Simple select with default filter mode enabled">
   <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(Select.factory({
       filter: true,
@@ -364,13 +364,13 @@
 </example>
 
 <example
-  name="Simple select with the default filter mode and a loading indicator">
+  name="Simple select with default filter mode enabled and a loading indicator">
   <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(Select.factory({
       filter: true,
@@ -391,7 +391,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var data = [];
     for (let i = 0; i < 100; i++) {
@@ -449,9 +449,9 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
-    import List from 'ring-ui/components/list/list';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import Select from '@jetbrains/ring-ui/components/select/select';
+    import List from '@jetbrains/ring-ui/components/list/list';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     var data = [];
     for (let i = 0; i < 100; i++) {
@@ -488,7 +488,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var data = [];
     for (let i = 0; i < 10; i++) {
@@ -528,7 +528,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(Select.factory({
       filter: true,
@@ -577,7 +577,7 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
+    import Select from '@jetbrains/ring-ui/components/select/select';
 
     var data = [];
     for (let i = 0; i < 20; i++) {
@@ -622,9 +622,9 @@
   </file>
   <file type="js">
     import {render} from 'react-dom';
-    import Select from 'ring-ui/components/select/select';
-    import List from 'ring-ui/components/list/list';
-    import 'ring-ui/components/input-size/input-size.scss';
+    import Select from '@jetbrains/ring-ui/components/select/select';
+    import List from '@jetbrains/ring-ui/components/list/list';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     var props = {
       filter: true
