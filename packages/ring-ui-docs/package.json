@@ -1,6 +1,10 @@
 {
   "name": "ring-ui-docs",
+<<<<<<< HEAD
   "version": "0.1.14",
+=======
+  "version": "0.1.16",
+>>>>>>> aebe9183... Publish
   "description": "Docs site for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -24,7 +28,11 @@
     "inject-version": "node inject-version"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@jetbrains/ring-ui": "1.0.0-alpha",
+=======
+    "@jetbrains/ring-ui": "^0.1.17",
+>>>>>>> aebe9183... Publish
     "http-server": "0.10.0",
     "webpack": "2.7.0",
     "webpack-dev-server": "2.6.1"
