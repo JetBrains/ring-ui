@@ -7,7 +7,7 @@
     import {render} from 'react-dom';
     import React, {Component} from 'react';
 
-    import {Tabs, Tab} from 'ring-ui/components/tabs/tabs';
+    import {Tabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
 
     const container = document.getElementById('tabs');
 
@@ -63,7 +63,7 @@
     import {render} from 'react-dom';
     import React, {Component} from 'react';
 
-    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
+    import {SmartTabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
 
     const container = document.getElementById('tabs');
 
@@ -98,7 +98,7 @@
 
   <file name="index.css">
     :global(.icon.icon) {
-      vertical-align: 1px;
+      vertical-align: 3px;pm≠
       line-height: normal;
       margin-right: 4px;
     }
@@ -108,13 +108,13 @@
     import {render} from 'react-dom';
     import React, {Component} from 'react';
 
-    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
-    import Icon from 'ring-ui/components/icon/icon';
+    import {SmartTabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
+    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
     const container = document.getElementById('tabs');
 
     function Title({icon, children}) {
-      const glyph = require(`jetbrains-icons/${icon}.svg`)
+      const glyph = require(`@jetbrains/icons/${icon}.svg`)
 
       return (
         <span>
@@ -130,10 +130,10 @@
 
     const tabs = (
       <SmartTabs>
-        <Tab title={<Title icon="cog">First tab</Title>}>
+        <Tab title={<Title icon="search">First tab</Title>}>
           First tab content
         </Tab>
-        <Tab title={<Title icon="auto-report">Second tab</Title>}>
+        <Tab title={<Title icon="warning">Second tab</Title>}>
           Second tab content
         </Tab>
       </SmartTabs>
@@ -162,13 +162,13 @@
     import {render} from 'react-dom';
     import React, {Component} from 'react';
 
-    import {SmartTabs, Tab} from 'ring-ui/components/tabs/tabs';
-    import Icon from 'ring-ui/components/icon/icon';
+    import {SmartTabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
+    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
     const container = document.getElementById('tabs');
 
     function Title({icon, children}) {
-      const glyph = require(`jetbrains-icons/${icon}.svg`)
+      const glyph = require(`@jetbrains/icons/${icon}.svg`)
 
       return (
         <span>
