@@ -14,8 +14,14 @@ body {
   line-height: line-height;
 }
 
+.headerItem {
+  white-space: nowrap;
+}
+
 .sidebar {
   position: relative;
+
+  width: auto;
 
   transition: background-color ease;
 }
