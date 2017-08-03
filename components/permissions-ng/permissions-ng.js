@@ -42,8 +42,8 @@ const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
 
 /**
  * @typedef {Object} permissionsNgConfig
- * @property {string?} serviceId
- * @property {string?} prefix
+ * @property {?string} serviceId
+ * @property {?string} prefix
  */
 angularModule.provider('userPermissions', function provider() {
   /**
