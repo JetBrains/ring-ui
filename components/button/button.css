@@ -212,7 +212,7 @@
 
     & .icon {
       transition: color ease;
-      vertical-align: 1px;
+      vertical-align: 2px;
 
       &:not(:last-child) {
         margin-right: calc(unit * 0.5);

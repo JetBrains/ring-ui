@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^2.0.0",
-    "@jetbrains/generator-ring-ui": "^0.1.15",
+    "@jetbrains/generator-ring-ui": "1.0.0-alpha",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
     "angular-mocks": "1.6.5",

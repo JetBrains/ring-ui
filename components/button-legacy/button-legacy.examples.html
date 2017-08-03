@@ -15,13 +15,13 @@
 
   <file type="js">
     var render = require('react-dom').render;
-    var Button = require('ring-ui/components/button-legacy/button-legacy');
+    var Button = require('@jetbrains/ring-ui/components/button-legacy/button-legacy');
 
     render(Button.factory({}, 'Button default'),
       document.getElementById('button'));
 
     render(Button.factory({
-      icon: require('jetbrains-icons/caret-down.svg').default
+      icon: require('@jetbrains/icons/caret-down.svg').default
     }, 'Button icon'), document.getElementById('button-icon'));
 
     render(Button.factory({
