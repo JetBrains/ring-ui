@@ -12,7 +12,7 @@ import styles from './group.css';
  * @constructor
  * @description Places inner components with fixed spacing between them.
  * @example
-   <example name="group">
+   <example name="Group">
      <file name="index.html">
        <div id="group"></div>
      </file>
@@ -21,9 +21,9 @@ import styles from './group.css';
        import React, {Component} from 'react';
        import {render} from 'react-dom';
 
-       import Link from 'ring-ui/components/link/link';
-       import Badge from 'ring-ui/components/badge/badge';
-       import Group from 'ring-ui/components/group/group';
+       import Link from '@jetbrains/ring-ui/components/link/link';
+       import Badge from '@jetbrains/ring-ui/components/badge/badge';
+       import Group from '@jetbrains/ring-ui/components/group/group';
 
        const container = document.getElementById('group');
        class GroupDemo extends Component {

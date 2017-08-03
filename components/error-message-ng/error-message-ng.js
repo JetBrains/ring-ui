@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import IconNG from '../icon-ng/icon-ng';
 
 import '../error-message-ng/error-message-ng.scss';
@@ -17,8 +19,8 @@ import '../error-message-ng/error-message-ng.scss';
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import errorMessageNg from 'ring-ui/components/error-message-ng/error-message-ng';
-      import frownIcon from 'jetbrains-icons/frown.svg';
+      import errorMessageNg from '@jetbrains/ring-ui/components/error-message-ng/error-message-ng';
+      import frownIcon from '@jetbrains/icons/frown.svg';
 
       angular.module('ExampleApp', [errorMessageNg]).
         controller('DemoCtrl', function($scope) {
@@ -27,7 +29,6 @@ import '../error-message-ng/error-message-ng.scss';
      </file>
   </example>
  */
-/* global angular: false */
 
 const angularModule = angular.module('Ring.error-message', [IconNG]);
 

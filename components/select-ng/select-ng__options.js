@@ -1,3 +1,4 @@
+import angular from 'angular';
 import deepMatches from 'mout/object/deepMatches';
 
 class Options {
@@ -134,7 +135,7 @@ class Options {
   }
 }
 
-/* global angular: false */
+
 const angularModule = angular.module('Ring.select.options', []);
 
 angularModule.factory('SelectOptions', function SelectOptionsFactory($parse) {

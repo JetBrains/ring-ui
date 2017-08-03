@@ -2,7 +2,7 @@ const hostname = require('os').hostname();
 const fullHostname = hostname.indexOf('.') !== -1 ? hostname : `${hostname}.labs.intellij.net`;
 const rootUrl = `http://${fullHostname}:9999/examples/`;
 
-const gridUrl = process.env.SELENIUM_GRID || '***REMOVED***';
+const gridUrl = process.env.SELENIUM_GRID;
 // Supports Firefox
 const windowSize = '1024x1000';
 

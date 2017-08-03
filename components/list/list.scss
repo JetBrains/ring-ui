@@ -211,7 +211,7 @@ $list-spacing: $ring-unit / 2;
   padding: $ring-unit/2 $ring-unit*2 0 $ring-unit*2;
   text-align: left;
 
-  &:first-child {
+  &_first {
     margin-top: 0;
   }
 

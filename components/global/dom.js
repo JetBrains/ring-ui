@@ -13,11 +13,11 @@
       </div>
     </file>
     <file name="index.js">
-      import {getStyles, getRect, getPixelRatio, getWindowHeight} from 'ring-ui/components/global/dom';
+      import {getStyles, getRect, getPixelRatio, getWindowHeight} from '@jetbrains/ring-ui/components/global/dom';
 
       const rectTarget = document.getElementById('rect-target');
       rectTarget.innerHTML = `
-        Element min width = ${getStyles(rectTarget).minWidth} <br/>
+        Element min-width = ${getStyles(rectTarget).minWidth} <br/>
         Element rect = ${JSON.stringify(getRect(rectTarget))} <br/>
       `;
 

@@ -17,11 +17,17 @@ import Confirm from '../confirm/confirm';
  <div id="confirm"></div>
  </file>
 
+ <file name="index.css">
+   button {
+     margin-right: 8px !important;
+   }
+ </file>
+
  <file name="index.js">
  import {render} from 'react-dom';
  import React from 'react';
- import confirm from 'ring-ui/components/confirm-service/confirm-service';
- import Button from 'ring-ui/components/button/button';
+ import confirm from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
+ import Button from '@jetbrains/ring-ui/components/button/button';
 
  class ConfirmDemo extends React.Component {
         componentDidMount() {
@@ -29,7 +35,7 @@ import Confirm from '../confirm/confirm';
         }
 
         showConfirm = () => {
-          return confirm({text: 'Do you really want to proceed?'}).
+          return confirm({text: 'Do you really wish to proceed?'}).
             then(() => console.info('Confirmed')).
             catch(() => console.warn('Rejected'));
         }
@@ -38,8 +44,8 @@ import Confirm from '../confirm/confirm';
           return confirm({
             text: 'There is another confirmation',
             description: 'Confirmation description',
-            confirmLabel: 'OK, confirm this',
-            rejectLabel: 'NO, cancel!',
+            confirmLabel: 'OK',
+            rejectLabel: 'Cancel',
             cancelIsDefault: true,
             onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000))
           }).
@@ -107,7 +113,7 @@ export default function confirm({
 
       onReject: () => {
         renderConfirm({show: false});
-        reject(new Error('Confirm(ring-ui): null exception'));
+        reject(new Error('Confirm(@jetbrains/ring-ui): null exception'));
       }
     };
 

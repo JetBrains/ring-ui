@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 
 import {getRect, getStyles} from '../global/dom';
@@ -20,7 +21,7 @@ import styles from './dialog-ng.css';
  * @description Provides an Angular wrapper for Dialog.
  * @example-file ./dialog-ng.examples.html
  */
-/* global angular: false */
+
 const angularModule = angular.module(
   'Ring.dialog',
   [RingButton, PromisedClickNg, rgCompilerModuleName]

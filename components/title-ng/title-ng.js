@@ -7,7 +7,7 @@
    <example name="Title Ng">
     <file name="index.html">
       <div ng-app="test">
-        <h4>You may open example in a separate tab to see tab title changes.</h4>
+        <h4>Open the example in a separate tab to see how tab title changes.</h4>
 
         <!--It is better to use this directive with <title> tag in your <head> section.-->
         <div rg-page-title="App name"></rg-page-title>
@@ -15,7 +15,7 @@
     </file>
     <file name="index.js">
       import angular from 'angular';
-      import TitleNg from 'ring-ui/components/title-ng/title-ng';
+      import TitleNg from '@jetbrains/ring-ui/components/title-ng/title-ng';
 
       angular.module('test', [TitleNg]).
         run(function (pageTitle) {
@@ -24,7 +24,7 @@
     </file>
    </example>
  */
-/* global angular: false */
+import angular from 'angular';
 
 const angularModule = angular.module('Ring.title', []);
 

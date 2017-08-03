@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import checkmarkIcon from 'jetbrains-icons/checkmark.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import Icon from '../icon/icon';
 

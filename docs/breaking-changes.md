@@ -1,10 +1,34 @@
 ---
 title: Breaking Changes
 category: Docs
-order: 2
+order: 3
 ---
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
+
+### 01-08-2018: Ring UI goes Open Source!
+
+##### What changes for the end users
+- `@jetbrains/ring-ui` package should be used instead of `ring-ui`.
+- Version was reset to `0.1.1`. To install the latest version, run `npm install --save-exact @jetbrains/ring-ui`. 
+- You may remove the internal registry line from `.npmrc`.
+- Named imports can be used for importing components:
+  ```js
+  import {Button, Input} from '@jetbrains/ring-ui';
+
+  // You can still import components one by one if you want
+  import Button from '@jetbrains/ring-ui/components/button/button';
+  import Input from '@jetbrains/ring-ui/components/input/input';
+  ```
+- Change the webpack configuration import (if using one) from `require('ring-ui')` to `require('@jetbrains/ring-ui')`.
+
+##### What changes for the contributors
+- The commit history has been rewritten. Please clone the repository anew from `ssh://github.com/JetBrains/ring-ui.git`.
+- Prepend your commit messages with `[Publish]` to trigger publishing of npm packages.
+
+### 27-07-2017: @jetbrains/icons
+
+Private `jetbrains-icons` package was replaced with a public one that is hosted on GitHub and available as `@jetbrains/icons` in npm. Please update your projects accordingly.
 
 ### 23-07-2017: borders are used for link underline instead of text-decoration 
 
@@ -556,7 +580,7 @@ Icon's `glyph` property now accepts URL from loader instead of ID, e.g. `<Icon g
 
 ### 30-10-2015: Migration to ES6, React 0.14 and Babel (RG-361, RG-420)
 
-jQuery, when.js, and mout are not used anymore. See the detailed [migration guide](http://ring-ui.github.io/migration-to-2.3.0.html).
+jQuery, when.js, and mout are not used anymore.
 
 ### 30-10-2015: Components should be addressed by full path
 

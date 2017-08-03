@@ -22,17 +22,18 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import jetbrainsLogo from 'jetbrains-logos/jetbrains/jetbrains.svg';
+    import hubLogo from '@jetbrains/logos/hub/hub.svg';
     import addIcon from 'jetbrains-icons/add.svg';
-    import dragIcon from 'jetbrains-icons/drag.svg';
+    import dragIcon from '@jetbrains/icons/drag.svg';
 
-    import Auth from 'ring-ui/components/auth/auth';
-    import showAuthDialog from 'ring-ui/components/auth-dialog-service/auth-dialog-service';
-    import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from 'ring-ui/components/header/header';
-    import Link from 'ring-ui/components/link/link';
-    import Button from 'ring-ui/components/button/button';
-    import Dropdown from 'ring-ui/components/dropdown/dropdown';
-    import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+    import Auth from '@jetbrains/ring-ui/components/auth/auth';
+    import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
+    import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from '@jetbrains/ring-ui/components/header/header';
+    import Link from '@jetbrains/ring-ui/components/link/link';
+    import Input from '@jetbrains/ring-ui/components/input/input';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
+    import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
 
     import hubConfig from 'ring-ui-docs/components/hub-config';
 
@@ -46,7 +47,7 @@
     const renderHeaderDemo = () => (
       <Header>
         <a href="/">
-          <Logo glyph={jetbrainsLogo} size={Logo.Size.Size96} />
+          <Logo glyph={hubLogo} size={Logo.Size.Size96} />
         </a>
         <Link active href="#">Users</Link>
         <Link href="#">Groups</Link>

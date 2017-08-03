@@ -1,3 +1,4 @@
+import angular from 'angular';
 import 'dom4';
 import {createElement} from 'react';
 import {render} from 'react-dom';
@@ -26,9 +27,9 @@ import './tooltip-ng.scss';
 
       <file name="index.js" webpack="true">
         import angular from 'angular';
-        import IconNG from 'ring-ui/components/icon-ng/icon-ng';
-        import TooltipNG from 'ring-ui/components/tooltip-ng/tooltip-ng';
-        import warningIcon from 'jetbrains-icons/warning.svg';
+        import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
+        import TooltipNG from '@jetbrains/ring-ui/components/tooltip-ng/tooltip-ng';
+        import warningIcon from '@jetbrains/icons/warning.svg';
 
         angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
           $scope.warningIcon = warningIcon;
@@ -46,7 +47,7 @@ import './tooltip-ng.scss';
 
 const OPEN_CLASS = 'ring-tooltip-ng_open';
 
-/*global angular*/
+
 const name = angular.module('Ring.tooltip', []);
 
 name.directive('rgTooltip', function rgTooltipDirective(RgTooltipPopup) {

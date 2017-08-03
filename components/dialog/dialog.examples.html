@@ -1,13 +1,13 @@
-<example name="Dialog in react">
+<example name="Dialog">
   <file type="html" disable-auto-size>
-    <div class="very-long-page">
+    <div class="long-page">
 
       <div id="dialog"></div>
     </div>
   </file>
 
   <file type="css">
-    :global(.very-long-page) {
+    :global(.long-page) {
       height: 2000px;
     }
   </file>
@@ -16,11 +16,11 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import Dialog from 'ring-ui/components/dialog/dialog';
-    import {Header, Content} from 'ring-ui/components/island/island';
-    import Button from 'ring-ui/components/button/button';
+    import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+    import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
+    import Button from '@jetbrains/ring-ui/components/button/button';
     import Input from 'ring-ui/components/input/input';
-    import Panel from 'ring-ui/components/panel/panel';
+    import Panel from '@jetbrains/ring-ui/components/panel/panel';
 
     class DialogDemo extends React.Component {
       state = {
@@ -45,7 +45,7 @@
             </div>
 
             <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
-              <Header>Hello dialog</Header>
+              <Header>Dialog title</Header>
               <Content>
                 <Input
                   label="Enter action name"
@@ -54,8 +54,8 @@
                 />
               </Content>
               <Panel>
-                <Button primary={true} onClick={this.doAction}>OK, lets do the action</Button>
-                <Button onClick={this.cancelDialog}>No</Button>
+                <Button primary={true} onClick={this.doAction}>OK</Button>
+                <Button onClick={this.cancelDialog}>Cancel</Button>
               </Panel>
             </Dialog>
 
@@ -79,10 +79,10 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import Dialog from 'ring-ui/components/dialog/dialog';
-    import {Header, Content} from 'ring-ui/components/island/island';
-    import Button from 'ring-ui/components/button/button';
-    import Panel from 'ring-ui/components/panel/panel';
+    import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+    import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import Panel from '@jetbrains/ring-ui/components/panel/panel';
 
     class DialogDemo extends React.Component {
       state = {
@@ -106,57 +106,57 @@
             </div>
 
             <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
-              <Header>This is the dialog's header</Header>
+              <Header>Dialog title</Header>
               <Content>
                 <div>
-                  <div>This is scrollable content</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                  <p>Dialog content (scrollable)</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
-                  <div>Lorem Ipsum is simply dummy text of the printing and typesetting
+                    essentially unchanged.</p>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                     since the 1500s, when an unknown printer took a galley of type and
                     scrambled it to make a type specimen book. It has survived not only five
                     centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged.</div>
+                    essentially unchanged.</p>
                 </div>
               </Content>
               <Panel>
-                <Button blue={true} onClick={this.doAction}>OK, lets do the action</Button>
-                <Button onClick={this.cancelDialog}>No</Button>
+                <Button blue={true} onClick={this.doAction}>OK</Button>
+                <Button onClick={this.cancelDialog}>Cancel</Button>
               </Panel>
             </Dialog>
 

@@ -6,67 +6,78 @@ import {render} from 'react-dom';
 import iFrameResize from 'iframe-resizer/js/iframeResizer';
 import ContentLayout, {
   Sidebar
-} from 'ring-ui/components/content-layout/content-layout';
+} from '@jetbrains/ring-ui/components/content-layout/content-layout';
 
-import {fetchData, fetchNavData} from './utils';
 import Header from './header';
+import Footer from './footer';
 import Nav from './nav';
 import Content from './content';
+import {getDocs, getIndexDoc} from './utils';
 import styles from './index.css';
 
-const jsonURL = document.querySelector('body').getAttribute('data-json-url');
-const promises = [fetchData(jsonURL), fetchNavData()];
+const {source, navData, version} = window;
 
-Promise.all(promises).then(([source, navData]) => {
-  const {version} = navData;
+const docs = getDocs();
+const docsItems = docs.items;
+const categories = navData.filter(category => category !== docs);
 
-  const docs = navData.categories.find(({name}) => name === 'Docs');
-  const docsItems = docs.items;
-  const categories = navData.categories.filter(category => category !== docs);
+class App extends Component {
+  componentDidMount() {
+    const iFrameSelector = 'iframe[data-resize="enabled"]';
+    this.iframesToResize = document.queryAll(iFrameSelector).length;
 
+    this.retriggerHashNavigation();
+    iFrameResize({
+      resizedCallback: () => {
+        this.iframesToResize--;
+        this.retriggerHashNavigation();
+      }
+    }, iFrameSelector);
+  }
 
-  class App extends Component {
-    componentDidMount() {
-      const iFrameSelector = 'iframe[data-resize="enabled"]';
-      this.iframesToResize = document.queryAll(iFrameSelector).length;
-
-      this.retriggerHashNavigation();
-      iFrameResize({
-        resizedCallback: () => {
-          this.iframesToResize--;
-          this.retriggerHashNavigation();
-        }
-      }, iFrameSelector);
+  retriggerHashNavigation() {
+    if (this.iframesToResize > 0) {
+      return;
     }
 
-    retriggerHashNavigation() {
-      if (this.iframesToResize > 0) {
-        return;
-      }
-
-      const {hash} = window.location;
-      if (hash) {
-        window.location.replace(hash);
-      }
-    }
-
-    render() {
-      return (
-        <div className={styles.app}>
-          <Header {...{version, docsItems}}/>
-          <ContentLayout className={styles.main}>
-            <Sidebar>
-              <Nav {...{categories}}/>
-            </Sidebar>
-            <Content {...source}/>
-          </ContentLayout>
-        </div>
-      );
+    const {hash} = window.location;
+    if (hash) {
+      window.location.replace(hash);
     }
   }
 
+  render() {
+    return (
+      <div className={styles.app}>
+        <Header
+          version={version}
+          docsItems={docsItems}
+          noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
+        />
+        <ContentLayout className={styles.main}>
+          <Sidebar
+            className={styles.sidebar}
+            fixedClassName={styles.sidebarFixed}
+          >
+            <Nav categories={categories}/>
+          </Sidebar>
+          <Content {...source}/>
+          <Footer/>
+        </ContentLayout>
+      </div>
+    );
+  }
+}
+
+const {pathname} = window.location;
+const indexDoc = getIndexDoc();
+
+if (!/\.html$/.test(pathname) && indexDoc) {
+  const {hash} = window.location;
+  window.location.replace(indexDoc + hash);
+} else {
   render(
     <App/>,
     document.query('#app')
   );
-});
+}

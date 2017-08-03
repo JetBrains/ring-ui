@@ -26,6 +26,16 @@
     }
   }
 
+  & li:not(:last-child) {
+    & > p,
+    & > blockquote,
+    & > ul,
+    & > ol,
+    & > pre {
+      margin-bottom: line-height;
+    }
+  }
+
   & hr {
     margin: calc(0 - baselineCorrection) 0 calc(baselineCorrection - 1px);
 

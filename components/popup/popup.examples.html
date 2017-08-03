@@ -48,7 +48,7 @@
     import {render} from 'react-dom';
     import classNames from 'classnames';
 
-    import Popup from 'ring-ui/components/popup/popup';
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
     const {Directions} = Popup.PopupProps;
 
@@ -146,11 +146,11 @@
     import React from 'react';
     import {render} from 'react-dom';
 
-    import Popup from 'ring-ui/components/popup/popup';
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
     const Directions = Popup.PopupProps.Directions;
 
-    const content = <span className="popup">This is popup</span>;
+    const content = <span className="popup">This is a popup</span>;
     const example = (
       <div>
         <div className="message">Popup should
@@ -216,7 +216,7 @@
     import React, {Component} from 'react';
     import {render} from 'react-dom';
 
-    import Popup from 'ring-ui/components/popup/popup';
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
     class PopupBox extends Component {
       state = {hidden: false};
@@ -236,10 +236,10 @@
         Parent popup anchor
         <PopupBox>
           <div className="parent-popup">
-            This is parent popup
+            This is a parent popup
             <PopupBox>
               <div className="child-popup">
-                This is child popup
+                This is a child popup
               </div>
             </PopupBox>
           </div>
@@ -277,7 +277,7 @@
     import React from 'react';
     import {render} from 'react-dom';
 
-    import Popup from 'ring-ui/components/popup/popup';
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
     const example = (
       <div className="container">

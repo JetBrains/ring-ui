@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 
 /**
@@ -12,15 +14,15 @@ import RingAngularComponent from '../global/ring-angular-component';
         </div>
       </file>
       <file name="index.js" webpack="true">
-        import 'angular';
-        import 'ring-ui/components/template-ng/template-ng';
+        import angular from 'angular';
+        import '@jetbrains/ring-ui/components/template-ng/template-ng';
 
         angular
         .module('Example.template-ng', ['Ring.template']);
       </file>
     </example>
 
-    <example name="Template Ng 2">
+    <example name="Template Ng #2">
       <file name="index.html">
         <div ng-app="Example.template-ng" ng-strict-di>
           <rg-template template="template" ng-controller="ExampleCtrl"></rg-template>
@@ -28,7 +30,7 @@ import RingAngularComponent from '../global/ring-angular-component';
       </file>
       <file name="index.js" webpack="true">
         import angular from 'angular';
-        import TemplateNG from 'ring-ui/components/template-ng/template-ng';
+        import TemplateNG from '@jetbrains/ring-ui/components/template-ng/template-ng';
 
         angular
         .module('Example.template-ng', [TemplateNG])
@@ -38,7 +40,7 @@ import RingAngularComponent from '../global/ring-angular-component';
       </file>
     </example>
 */
-/* global angular */
+
 const angularModule = angular.module('Ring.template', []);
 
 class RgTemplateController extends RingAngularComponent {

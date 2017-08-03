@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 import RingAngularComponent from '../global/ring-angular-component';
 import LoaderCore from '../loader/loader__core';
 
@@ -9,7 +11,7 @@ import LoaderCore from '../loader/loader__core';
  * @constructor
  * @description Displays the loader.
  * @example
-    <example name="loader-ng">
+    <example name="Loader Ng">
       <file name="index.html">
         <div id="loader" ng-app="TestApp" ng-strict-di ng-controller="TestCtrl as testCtrl">
           <rg-loader message="{{testCtrl.message}}"></rg-loader>
@@ -17,7 +19,7 @@ import LoaderCore from '../loader/loader__core';
       </file>
       <file name="index.js">
         import angular from 'angular';
-        import Loader from  'ring-ui/components/loader-ng/loader-ng';
+        import Loader from  '@jetbrains/ring-ui/components/loader-ng/loader-ng';
 
         angular.module('TestApp', [Loader]).
           controller('TestCtrl', function () {
@@ -27,7 +29,6 @@ import LoaderCore from '../loader/loader__core';
   </example>
  */
 
-/* global angular: false */
 
 const angularModule = angular.module('Ring.loader', []);
 

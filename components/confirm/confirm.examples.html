@@ -3,18 +3,24 @@
     <div id="confirm"></div>
   </file>
 
+  <file type="css">
+    button {
+      margin-right: 8px !important;
+    }
+  </file>
+
   <file type="js">
     import {render} from 'react-dom';
     import React from 'react';
-    import Confirm from 'ring-ui/components/confirm/confirm';
-    import Button from 'ring-ui/components/button/button';
+    import Confirm from '@jetbrains/ring-ui/components/confirm/confirm';
+    import Button from '@jetbrains/ring-ui/components/button/button';
 
     class ConfirmDemo extends React.Component {
       state = {
         confirm: {
           show: true,
-          text: 'Do you really want to proceed?',
-          description: 'Confirm description',
+          text: 'Do you really wish to proceed?',
+          description: 'A description of an action that is about to take place.',
           inProgress: false,
           onConfirm: () => {},
           onReject: () => {}
@@ -34,8 +40,8 @@
           this.setState({
             confirm: {
               show: true,
-              text: 'Do you really want to proceed?',
-              description: 'Confirm description',
+              text: 'Do you really wish to proceed?',
+              description: 'A description of an action that is about to take place.',
               onConfirm: () => this.hideConfirm() || resolve(),
               onReject: () => this.hideConfirm() || reject()
             }
@@ -63,19 +69,15 @@
       render() {
         return (
         <div>
-          <div>
-            <Button onClick={this.showConfirm}>Show confirm</Button>
-          </div>
-          <div>
-            <Button onClick={this.showWithAnotherText}>Show another message</Button>
-          </div>
+          <Button onClick={this.showConfirm}>Show confirm</Button>
+          <Button onClick={this.showWithAnotherText}>Show another message</Button>
           <Confirm
             show={this.state.confirm.show}
             text={this.state.confirm.text}
             description={this.state.confirm.description}
             inProgress={this.state.inProgress}
-            confirmLabel="OK, continue"
-            rejectLabel="No, cancel"
+            confirmLabel="OK"
+            rejectLabel="Cancel"
             onConfirm={this.state.confirm.onConfirm}
             onReject={this.state.confirm.onReject}
           />

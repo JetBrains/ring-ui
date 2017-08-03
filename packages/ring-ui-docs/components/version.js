@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Dropdown from 'ring-ui/components/dropdown/dropdown';
-import PopupMenu from 'ring-ui/components/popup-menu/popup-menu';
+import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
+import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
 
 import branches from '../branches.json';
 
 import {currentPath} from './utils';
 import styles from './index.css';
 
-const HOST = 'http://ring-ui.github.io';
+const HOST = 'http://jetbrains.org/ring-ui';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
 const branchesArr = Object.keys(branches).map(version => ({
   version,
   path: branches[version],
-  // /^3\.0\.\d+$/
+  // /^0\.1\.\d+$/
   versionRE: new RegExp(`^${version.replace(/\./g, '\\.').replace(/\*/g, '\\d+')}$`)
 }));
 

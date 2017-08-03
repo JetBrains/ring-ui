@@ -1,9 +1,10 @@
 {
   "name": "ring-ui-docs",
-  "version": "0.1.0",
+  "version": "0.1.14",
   "description": "Docs site for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
+  "private": true,
   "config": {
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
     "development": {
@@ -11,7 +12,7 @@
       "host": "0.0.0.0"
     },
     "production": {
-      "host": "ring-ui.github.io"
+      "host": "jetbrains.org/ring-ui"
     },
     "hub": "https://hub.jetbrains.com",
     "components": "./components/"
@@ -19,11 +20,12 @@
   "scripts": {
     "build-prod": "webpack --env.production",
     "build": "webpack",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check",
+    "inject-version": "node inject-version"
   },
   "devDependencies": {
+    "@jetbrains/ring-ui": "1.0.0-alpha",
     "http-server": "0.10.0",
-    "ring-ui": "^3.0.0",
     "webpack": "2.7.0",
     "webpack-dev-server": "2.6.1"
   }

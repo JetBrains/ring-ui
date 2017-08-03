@@ -1,7 +1,6 @@
 /* global hubConfig */
 
 const {serverUri, clientId} = hubConfig;
-const {protocol, host} = window.location;
 
 export default {
   reloadOnUserChange: false,
@@ -9,5 +8,5 @@ export default {
   serverUri,
   clientId,
   requestCredentials: 'skip',
-  redirectUri: `${protocol}//${host}`
+  redirectUri: window.location.href.replace(/\/[^\/]+.html(#|$)/, '/')
 };

@@ -1,6 +1,5 @@
-/* global angular: false */
 /* global inject: false */
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
 
 import RingAngularComponent from './ring-angular-component';
