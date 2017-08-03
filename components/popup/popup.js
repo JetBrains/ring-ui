@@ -162,8 +162,7 @@ export default class Popup extends RingComponentWithShortcuts {
       legacy: true
     });
 
-    const popupInstance = render(cloned, wrapperElement, onRender);
-    return popupInstance;
+    return render(cloned, wrapperElement, onRender);
   }
 
   listeners = new Listeners();

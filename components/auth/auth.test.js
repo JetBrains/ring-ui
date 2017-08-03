@@ -624,8 +624,7 @@ describe('Auth', () => {
       const APIuser = {name: 'APIuser'};
       sandbox.stub(Auth.prototype, 'getUser').resolves(APIuser);
 
-      const user = {name: 'existingUser'};
-      auth.user = user;
+      auth.user = {name: 'existingUser'};
 
       await auth.login();
 
