@@ -60,15 +60,14 @@
 
   <file type="css">
     @value gray-color, link-hover-color from "../global/global.css";
-    :global {
-      .chevron svg {
-        transition: transform 0.15s ease-out;
-        transform: rotate(0deg);
-      }
+    :global(.chevron) svg {
+      transition: transform 0.3s ease-out;
+      transform-origin: 50% 40%;
+      transform: rotate(0deg);
+    }
 
-      .rotated svg {
-        transform: rotate(180deg);
-      }
+    :global(.rotated) svg {
+      transform: rotate(180deg);
     }
   </file>
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import calendarIcon from 'jetbrains-icons/calendar.svg';
+import calendarIcon from '@jetbrains/icons/calendar.svg';
 
 import Icon from '../icon/icon';
 import memoize from '../global/memoize';

@@ -231,7 +231,7 @@
 
   text-align: left;
 
-  &:first-child {
+  &_first {
     margin-top: 0;
   }
 }
