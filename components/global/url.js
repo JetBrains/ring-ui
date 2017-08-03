@@ -158,7 +158,7 @@ export function parseQueryString(queryString) {
 /**
  * Takes a URL as input and a params object.
  * Each property in the params is added to the URL as query string parameters
- * @param {string} URL URL to add parameters to
+ * @param {string} url URL to add parameters to
  * @param {Object} params parameters to add
  * @returns {string} encoded URL
  */

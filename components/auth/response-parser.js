@@ -4,12 +4,12 @@ import {parseQueryString} from '../global/url';
 
 /**
  * @typedef {Object} AuthResponse
- * @property {string?} accessToken
- * @property {string?} state
- * @property {string?} token_type
- * @property {string?} expiresIn
- * @property {string?} scope
- * @property {string?} error
+ * @property {?string} accessToken
+ * @property {?string} state
+ * @property {?string} token_type
+ * @property {?string} expiresIn
+ * @property {?string} scope
+ * @property {?string} error
  */
 
 export default class AuthResponseParser {

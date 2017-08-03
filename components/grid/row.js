@@ -2,21 +2,21 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import stules from './grid.css';
+import styles from './grid.css';
 
-const ModificatorType = PropTypes.oneOf(['xs', 'sm', 'md', 'lg']);
-const modificatorKeys =
+const ModifierType = PropTypes.oneOf(['xs', 'sm', 'md', 'lg']);
+const modifierKeys =
   ['start', 'center', 'end', 'top', 'middle', 'bottom', 'around', 'between', 'first', 'last'];
 
 /**
  * Converts xs="middle" to class "middle-xs"
  * @param {Object} props incoming props
- * @returns {Array} result modificator classes
+ * @returns {Array} result modifier classes
  */
-function getModificatorsClassNames(props) {
-  return modificatorKeys.reduce((result, key) => {
+function getModifierClassNames(props) {
+  return modifierKeys.reduce((result, key) => {
     if (props[key]) {
-      return result.concat(stules[`${key}-${props[key]}`]);
+      return result.concat(styles[`${key}-${props[key]}`]);
     }
     return result;
   }, []);
@@ -25,16 +25,16 @@ function getModificatorsClassNames(props) {
 export default class Row extends Component {
   static propTypes = {
     reverse: PropTypes.bool,
-    start: ModificatorType,
-    center: ModificatorType,
-    end: ModificatorType,
-    top: ModificatorType,
-    middle: ModificatorType,
-    bottom: ModificatorType,
-    around: ModificatorType,
-    between: ModificatorType,
-    first: ModificatorType,
-    last: ModificatorType,
+    start: ModifierType,
+    center: ModifierType,
+    end: ModifierType,
+    top: ModifierType,
+    middle: ModifierType,
+    bottom: ModifierType,
+    around: ModifierType,
+    between: ModifierType,
+    first: ModifierType,
+    last: ModifierType,
     className: PropTypes.string,
     children: PropTypes.node
   };
@@ -42,8 +42,8 @@ export default class Row extends Component {
   render() {
     const {children, className, reverse, ...restProps} = this.props;
 
-    const classes = classNames(className, stules.row, getModificatorsClassNames(restProps), {
-      [stules.reverse]: reverse
+    const classes = classNames(className, styles.row, getModifierClassNames(restProps), {
+      [styles.reverse]: reverse
     });
 
     return (
