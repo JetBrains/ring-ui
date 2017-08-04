@@ -9,7 +9,7 @@ import './input.scss';
 
 /**
  * @name Input
- * @category Forms
+ * @category Components
  * @constructor
  * @description Text input fields of varying size.
  * @extends {ReactComponent}

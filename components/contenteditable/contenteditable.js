@@ -1,6 +1,6 @@
 /**
  * @name ContentEditable
- * @category Forms
+ * @category Components
  * @description Provides a ContentEditable component.
  */
 

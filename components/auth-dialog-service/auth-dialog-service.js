@@ -5,7 +5,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
 
 /**
  * @name Auth Dialog Service
- * @category Components
+ * @category Services
  * @framework React
  * @constructor
  * @description A wrapper for AuthDialog component. Allows showing confirmation dialog

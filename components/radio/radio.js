@@ -7,7 +7,7 @@ import RadioItem from './radio__item';
 
 /**
  * @name Radio
- * @category Forms
+ * @category Components
  * @constructor
  * @description Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).
  * @example
