@@ -68,7 +68,7 @@ export default class Profile extends PureComponent {
           {...props}
           className={classNames(styles.profileEmpty, className)}
         >
-          <Avatar size={size}/>
+          <Avatar size={size} round={true}/>
         </div>
       );
     }
