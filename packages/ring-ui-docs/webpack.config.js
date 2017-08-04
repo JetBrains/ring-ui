@@ -10,6 +10,8 @@ const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./create-entries-list');
 
+const noopPlugin = {apply() {}};
+
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 
@@ -34,6 +36,9 @@ module.exports = (env = {}) => {
   };
   const devtool = production ? false : 'eval';
   const dllPath = `dll-${envString}`;
+  const uglifyPlugin = production
+    ? new webpack.optimize.UglifyJsPlugin()
+    : noopPlugin;
 
   const getParam = name => (
     env[name] ||
@@ -108,6 +113,7 @@ module.exports = (env = {}) => {
       publicPath // serve HMR update jsons properly
     },
     plugins: [
+      uglifyPlugin,
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
       new DllBundlesPlugin({
@@ -138,6 +144,7 @@ module.exports = (env = {}) => {
             ]
           },
           plugins: [
+            uglifyPlugin,
             new webpack.DefinePlugin(envDefinition)
           ] // DllBundlesPlugin will set the DllPlugin here
         }
