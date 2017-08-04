@@ -1,7 +1,7 @@
 /**
  * @name DOM
  * @category Utilities
- * @tags 3.0
+ * @tags Ring UI Language
  * @description A collection of DOM utilities.
  * @example
    <example name="DOM">

@@ -1,7 +1,7 @@
 /**
  * @name Title Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description A component for manipulating page title.
  * @example
    <example name="Title Ng">

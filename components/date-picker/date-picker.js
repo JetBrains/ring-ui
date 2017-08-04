@@ -12,7 +12,7 @@ import styles from './date-picker.css';
 /**
  * @name Date Picker
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Allows picking a date or a date range.

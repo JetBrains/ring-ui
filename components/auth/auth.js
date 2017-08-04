@@ -20,7 +20,7 @@ function noop() {}
 /**
  * @name Auth
  * @category Utilities
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Authenticates a user in [Hub](https://www.jetbrains.com/hub/).
  *
  * @prop {object} config

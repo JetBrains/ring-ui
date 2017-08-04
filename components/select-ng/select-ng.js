@@ -14,7 +14,7 @@ const INFINITE_SCROLL_PACK_SIZE = 50;
 /**
  * @name Select Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Select.
  * Options argument has one of the following forms:
  * * `label` **`in`** `items`

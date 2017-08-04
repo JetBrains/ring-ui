@@ -1,7 +1,7 @@
 /**
  * @name Table Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework Angular
  * @description Provides an Angular wrapper for Table.
  * @example-file ./table-ng.examples.html

@@ -11,7 +11,7 @@ import styles from './confirm.css';
 /**
  * @name Confirm
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description A component that shows a confirmation dialog.

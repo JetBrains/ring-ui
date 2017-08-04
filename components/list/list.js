@@ -1,7 +1,7 @@
 /**
  * @name List
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Displays a list of items.
  */
 

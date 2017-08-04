@@ -13,7 +13,7 @@ import styles from './code.css';
 /**
  * @name Code
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Shows a block of code. Highlights [172 languages](https://highlightjs.org/static/demo/). Optionally beautifies JS(X), CSS and HTML.

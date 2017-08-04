@@ -11,7 +11,7 @@ import styles from './avatar.css';
 /**
  * @name Avatar
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Displays an avatar. In case of a loading error an empty square is displayed.

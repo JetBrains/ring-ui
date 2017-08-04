@@ -5,7 +5,7 @@ import RingAngularComponent from '../global/ring-angular-component';
 /**
  * @name Template Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @example
     <example name="Template Ng">
       <file name="index.html">

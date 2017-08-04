@@ -7,7 +7,7 @@ import List from '../list/list';
 /**
  * @name Popup Menu
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a popup menu.
  * @extends {ReactComponent}

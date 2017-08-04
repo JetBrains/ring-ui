@@ -7,7 +7,7 @@ import styles from './heading.css';
 /**
  * @name Heading
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description A component for rendering h1-h5 tags.
