@@ -1,7 +1,8 @@
-## Ring UI - JetBrains Web UI components
-[![Build Status](https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_Build/statusIcon.svg)](https://teamcity.jetbrains.com/viewType.html?buildTypeId=JetBrainsUi_RingUi_Build&guest=1)
+# Ring UI — JetBrains Web UI components [![Build Status][ci-img]][ci] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
-[Living style guide](http://www.jetbrains.org/ring-ui/index.html) is available.
+This collection of UI components aims to provide all of the necessary building 
+blocks for web-based products built inside JetBrains, as well as third-party 
+plugins developed for JetBrains' products.
 
 ### Quick start
 
@@ -50,3 +51,22 @@ In case boilerplate generators are not your thing and you prefer to understand t
    
    module.exports = webpackConfig;
    ```
+
+### Links
+
+- [Living style guide](http://www.jetbrains.org/ring-ui/)
+- [GitHub repository](https://github.com/JetBrains/ring-ui)
+- [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
+- [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
+- [Builds in TeamCity][ci]
+- [npm package][npm-package]
+
+[ci]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
+[ci-img]:  https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_Build/statusIcon.svg
+[deps]: https://david-dm.org/jetbrains/ring-ui
+[deps-img]: https://img.shields.io/david/jetbrains/ring-ui.svg
+[dev-deps]: https://david-dm.org/jetbrains/ring-ui?type=dev
+[dev-deps-img]: https://img.shields.io/david/dev/jetbrains/ring-ui.svg
+[npm-package]: https://www.npmjs.com/package/@jetbrains/ring-ui
+[npm-version-img]: https://img.shields.io/npm/v/@jetbrains/ring-ui.svg
+[npm-count-img]: https://img.shields.io/npm/dt/@jetbrains/ring-ui.svg
