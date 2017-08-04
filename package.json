@@ -8,7 +8,8 @@
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
     "webpack.config.js",
-    "docs"
+    "docs",
+    "jslint-xml.js"
   ],
   "main": "components/index.js",
   "lint-staged": {
