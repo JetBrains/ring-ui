@@ -1,4 +1,5 @@
-# Ring UI — JetBrains Web UI components [![Build Status][ci-img]][ci] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
+# Ring UI — JetBrains Web UI components
+[![Build Status][ci-img]][ci] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
 This collection of UI components aims to provide all of the necessary building 
 blocks for web-based products built inside JetBrains, as well as third-party 
