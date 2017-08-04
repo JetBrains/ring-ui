@@ -2,7 +2,7 @@
  * @name React Ng
  * @deprecated Use components wrapped by angular-component-factory
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description An Angular directive for proxying React components.
  */
 

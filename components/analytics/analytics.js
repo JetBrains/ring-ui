@@ -1,7 +1,7 @@
 /**
  * @name Analytics
  * @category Utilities
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Provides a façade to Google Analytics and other web analytics services through a system of plugins.
  * @example
    <example name="Analytics">

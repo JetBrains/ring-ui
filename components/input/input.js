@@ -14,7 +14,7 @@ function noop() {}
 /**
  * @name Input
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Text input fields of varying size.

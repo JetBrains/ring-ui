@@ -19,7 +19,7 @@ import styles from './select.css';
 /**
  * @name Select
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Displays a select.
  * @example-file ./select.examples.html
  */

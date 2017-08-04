@@ -4,7 +4,7 @@ import FallbackStorage from './storage__fallback';
 /**
  * @name Storage
  * @category Utilities
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Provides a façade to localStorage/sessionStorage/cookies.
  * @example
    <example name="Storage">

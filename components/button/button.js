@@ -10,7 +10,7 @@ import styles from './button.css';
 /**
  * @name Button
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @constructor
  * @description Provides styled buttons.
  * @example-file ./button.examples.html
