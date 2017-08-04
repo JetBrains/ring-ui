@@ -4,7 +4,7 @@ import Auth from '../auth/auth';
 
 /**
  * @name Auth Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Auth.
  */
 const angularModule = angular.module('Ring.auth', []);

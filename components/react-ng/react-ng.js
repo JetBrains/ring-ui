@@ -1,7 +1,7 @@
 /**
  * @name React Ng
  * @deprecated Use components wrapped by angular-component-factory
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description An Angular directive for proxying React components.
  */
 

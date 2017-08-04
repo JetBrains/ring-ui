@@ -6,7 +6,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
  * @name Analytics Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Analytics.
  * @example
    <example name="Analytics Ng">

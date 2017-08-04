@@ -5,7 +5,7 @@ import '../loader-screen/loader-screen.scss';
 
 /**
  * @name Loader Screen Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Loader Screen.
  * @example
  * <example name="Loader Screen Ng">

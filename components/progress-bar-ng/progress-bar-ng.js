@@ -1,6 +1,6 @@
 /**
  * @name Progress Bar Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @framework Angular
  * @description Provides an Angular wrapper for Progress Bar.
  * @example-file ./progress-bar-ng.examples.html
