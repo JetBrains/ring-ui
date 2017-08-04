@@ -51,7 +51,7 @@ class SiteHeader extends PureComponent {
         ))}
         <Tray>
           <SmartServices auth={this.auth}/>
-          <SmartProfile auth={this.auth}/>
+          <SmartProfile auth={this.auth} size={SmartProfile.Size.Size40}/>
         </Tray>
       </Header>
     );
