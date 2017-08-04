@@ -185,7 +185,7 @@
                 </Col>
               </Row>
 
-              <Row>
+              {page === 1 && data.length >= 5 && <Row>
                 <Col>
                   <span id="button-select-bulgaria">
                   {
@@ -203,7 +203,7 @@
                   }
                   </span>
                 </Col>
-              </Row>
+              </Row>}
             </Grid>
           </div>
         );
