@@ -6,7 +6,7 @@ import Alert, {Container as AlertContainer} from '../alert/alert';
 
 /**
  * @name Alert Service
- * @category Components
+ * @category Services
  * @description Service for managing a stack of alerts.
  * @example-file ./alert-service.examples.html
  */

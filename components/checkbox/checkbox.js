@@ -9,7 +9,7 @@ import './checkbox.scss';
 
 /**
  * @name Checkbox
- * @category Forms
+ * @category Components
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./checkbox.examples.html

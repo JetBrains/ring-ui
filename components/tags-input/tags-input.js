@@ -16,7 +16,7 @@ function noop() {}
 
 /**
  * @name Tags Input
- * @category Forms
+ * @category Components
  * @constructor
  * @description Displays a tags input field.
  * @extends {ReactComponent}

@@ -10,7 +10,7 @@ const DEFAULT_ICON_SIZE = 16;
 
 /**
  * @name Button
- * @category Forms
+ * @category Components
  * @constructor
  * @description Provides styled buttons.
  * @extends {RingComponent}

@@ -7,7 +7,7 @@ import styles from './button-set.css';
 
 /**
  * @name Button Set
- * @category Forms
+ * @category Components
  * @constructor
  * @description Allows to group several buttons and ensures that margins between them are consistent.
  * @extends {ReactComponent}
