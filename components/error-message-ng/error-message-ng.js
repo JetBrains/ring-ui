@@ -6,7 +6,7 @@ import '../error-message-ng/error-message-ng.scss';
 
 /**
  * @name Error Message Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Displays an error message.
  * @example
   <example name="Error Message Ng">

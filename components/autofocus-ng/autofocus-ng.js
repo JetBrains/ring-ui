@@ -1,6 +1,6 @@
 /**
  * @name Autofocus Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Sets focus to the element if the condition is true. Supports standard input elements as well as Select.
  * @example-file ./autofocus-ng.examples.html
  */
