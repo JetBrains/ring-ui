@@ -15,7 +15,7 @@ import './shortcuts-hint-ng.scss';
 
 /**
  * @name Shortcuts Ng Hint Popup
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Displays a popup listing all registered shortcuts.
  * @example-file ./shortcuts-hint-ng.examples.html
  */

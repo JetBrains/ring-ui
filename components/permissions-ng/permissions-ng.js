@@ -1,6 +1,6 @@
 /**
  * @name Permissions Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  */
 import angular from 'angular';
 import 'dom4';

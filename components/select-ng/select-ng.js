@@ -13,7 +13,7 @@ const LOADER_DELAY = 150; // delay to show loader in ms
 const INFINITE_SCROLL_PACK_SIZE = 50;
 /**
  * @name Select Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Select.
  * Options argument has one of the following forms:
  * * `label` **`in`** `items`

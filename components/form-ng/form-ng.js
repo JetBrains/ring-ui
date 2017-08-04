@@ -6,7 +6,7 @@ import '../input/input.scss';
 
 /**
  * @name Form Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Form.
  * @example-file ./form-ng.examples.html
  */

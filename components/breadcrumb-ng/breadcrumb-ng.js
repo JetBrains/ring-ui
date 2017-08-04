@@ -6,7 +6,7 @@ import '../link/link.scss';
 
 /**
  * @name Breadcrumb Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Displays a breadcrumb.
  * @example
    <example name="Breadcrumb Ng">

@@ -1,6 +1,6 @@
 /**
  * @name Table Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @framework Angular
  * @description Provides an Angular wrapper for Table.
  * @example-file ./table-ng.examples.html
