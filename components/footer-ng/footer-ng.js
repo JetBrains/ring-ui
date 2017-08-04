@@ -6,7 +6,7 @@ import {copyright} from '../footer/footer';
 
 /**
  * @name Footer Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @framework Angular
  * @constructor
  * @description Renders application's footer.

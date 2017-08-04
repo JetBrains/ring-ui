@@ -51,7 +51,7 @@ describe('Hub Users Groups Source', () => {
     formatted.should.equal('nameStartsWith: {two words} or loginStartsWith: {two words}');
   });
 
-  it('Should filter user by login on clientside', async () => {
+  it('Should filter user by login on the client side', async () => {
     const source = new HubSourceUsersGroups(fakeAuth);
     const user1 = {name: 'some-name1', login: 'login1'};
     sandbox.stub(source.usersSource, 'makeRequest').returns(Promise.resolve({

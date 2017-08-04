@@ -8,7 +8,8 @@
     "components/**/*.{js,css,scss,gif,html,svg}",
     "postcss.config.js",
     "webpack.config.js",
-    "docs"
+    "docs",
+    "jslint-xml.js"
   ],
   "main": "components/index.js",
   "lint-staged": {
@@ -138,7 +139,7 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
-    "lerna": "2.0.0",
+    "lerna": "^2.0.0",
     "lint-staged": "4.0.2",
     "mocha": "3.4.2",
     "react-test-renderer": "15.6.1",
@@ -198,7 +199,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.18.2",
-    "svg-sprite-loader": "3.0.10",
+    "svg-sprite-loader": "3.0.11",
     "url-loader": "0.5.9"
   }
 }

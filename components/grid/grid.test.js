@@ -37,11 +37,11 @@ describe('Row', () => {
     shallowRow({className: 'test-class'}).should.have.className('test-class');
   });
 
-  it('should convert "center" modificator to appropriate className', () => {
+  it('should convert "center" modifier to appropriate className', () => {
     shallowRow({center: 'md'}).should.have.className(styles['center-md']);
   });
 
-  it('should convert "reverse" modificator to appropriate className', () => {
+  it('should convert "reverse" modifier to appropriate className', () => {
     shallowRow({reverse: true}).should.have.className(styles.reverse);
   });
 });

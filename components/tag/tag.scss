@@ -1,10 +1,10 @@
 @import "../global/global";
 
 $tag-background-color: #e9f1f5;
-$tag-max-heigth: 20px;
+$tag-max-height: 20px;
 
 .ring-tag {
-  height: $tag-max-heigth;
+  height: $tag-max-height;
   box-sizing: border-box;
   display: inline-block;
   margin-right: $ring-unit / 2;
@@ -47,7 +47,7 @@ $tag-max-heigth: 20px;
   left: -5px;
   box-sizing: border-box;
   display: inline-block;
-  height: $tag-max-heigth;
+  height: $tag-max-height;
   vertical-align: top;
   overflow: hidden;
   border-radius: $ring-border-radius;
@@ -62,7 +62,7 @@ $tag-max-heigth: 20px;
 
 
 .ring-tag__avatar-icon {
-  max-height: $tag-max-heigth;
-  max-width: $tag-max-heigth;
+  max-height: $tag-max-height;
+  max-width: $tag-max-height;
   border-radius: $ring-border-radius;
 }

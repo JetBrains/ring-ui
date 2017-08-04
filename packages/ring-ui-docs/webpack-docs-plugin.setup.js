@@ -182,7 +182,8 @@ module.exports = dllPath => {
       Object.assign(readMe.attrs, {
         title: 'Getting Started',
         category: 'Docs',
-        order: 1
+        url: 'index.html',
+        order: 0
       });
     }
     done(null, sources);

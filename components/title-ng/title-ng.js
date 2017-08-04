@@ -1,6 +1,6 @@
 /**
  * @name Title Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @description A component for manipulating page title.
  * @example

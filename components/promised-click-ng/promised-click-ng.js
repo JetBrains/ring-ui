@@ -5,7 +5,7 @@ import RingAngularComponent from '../global/ring-angular-component';
 
 /**
  * @name Promised Click Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Controls the active state of a button.
  * @example
     <example name="Promised Click Ng">

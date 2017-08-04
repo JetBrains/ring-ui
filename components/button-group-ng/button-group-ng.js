@@ -6,7 +6,7 @@ import '../button-group/button-group.scss';
 
 /**
  * @name Button Group Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Button Group.
  * @example
    <example name="Button Group Ng">

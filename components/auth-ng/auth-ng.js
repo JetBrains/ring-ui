@@ -4,7 +4,7 @@ import Auth from '../auth/auth';
 
 /**
  * @name Auth Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @description Provides an Angular wrapper for Auth.
  */
