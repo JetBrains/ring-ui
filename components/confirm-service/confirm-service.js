@@ -5,7 +5,7 @@ import Confirm from '../confirm/confirm';
 
 /**
  * @name Confirm Service
- * @category Components
+ * @category Services
  * @framework React
  * @constructor
  * @description A wrapper for Confirm component. Allows showing confirmation dialog
