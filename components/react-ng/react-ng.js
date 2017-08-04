@@ -1,7 +1,7 @@
 /**
  * @name React Ng
  * @deprecated Use components wrapped by angular-component-factory
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @description An Angular directive for proxying React components.
  */
@@ -226,8 +226,7 @@ function reactStaticNgDirective($parse) {
     const lowercaseAttrName = cleanAttrName.charAt(0).toLowerCase() + cleanAttrName.slice(1);
     // Use React DOM attributes names
     const specialDOMAttrName = specialDOMAttrs[lowercaseAttrName];
-    const propName = specialDOMAttrName || lowercaseAttrName;
-    return propName;
+    return specialDOMAttrName || lowercaseAttrName;
   }
 
   return {

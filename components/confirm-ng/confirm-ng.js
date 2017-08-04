@@ -5,7 +5,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Confirm Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @description Displays a confirmation prompt.
  * @example

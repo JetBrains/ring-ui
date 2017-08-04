@@ -115,8 +115,7 @@ export default class Pager extends PureComponent {
       }
 
       if (start < 1) {
-        const tail = 1 - start;
-        start += tail;
+        start += 1 - start;
       }
     }
 

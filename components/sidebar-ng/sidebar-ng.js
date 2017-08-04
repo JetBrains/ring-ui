@@ -9,7 +9,7 @@ import '../button-legacy/button-legacy.scss';
 
 /**
  * @name Sidebar Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Sidebar.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
  * a selector for that element should be passed as placeUnderSibling parameter.

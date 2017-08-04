@@ -10,7 +10,7 @@ function noop() {}
 
 /**
  * @name Tags List
- * @category Forms
+ * @category Components
  * @constructor
  * @description Displays a list of tags.
  * @extends {ReactComponent}
