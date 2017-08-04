@@ -7,7 +7,7 @@ import styles from './group.css';
 /**
  * @name Group
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Places inner components with fixed spacing between them.

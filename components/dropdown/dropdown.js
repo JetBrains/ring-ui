@@ -8,7 +8,7 @@ import styles from './dropdown.css';
 /**
  * @name Dropdown
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description A stateful popup with a clickable anchor.

@@ -10,7 +10,7 @@ import styles from './checkbox.css';
 /**
  * @name Checkbox
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @constructor
  * @extends {ReactComponent}
  * @example-file ./checkbox.examples.html

@@ -72,7 +72,7 @@ function createCategoryItemsFromSources(sources, category) {
       return {
         url,
         title,
-        legacy: attrs.tags !== '3.0',
+        legacy: attrs.tags !== 'Ring UI Language',
         order: attrs.order
       };
     });

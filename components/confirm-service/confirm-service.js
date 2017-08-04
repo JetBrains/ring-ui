@@ -6,7 +6,7 @@ import Confirm from '../confirm/confirm';
 /**
  * @name Confirm Service
  * @category Services
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description A wrapper for Confirm component. Allows showing confirmation dialog

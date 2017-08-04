@@ -8,7 +8,7 @@ import '../icon/icon.scss';
 /**
  * @name Icon Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Icon.
  * @example
     <example name="Icon Ng">

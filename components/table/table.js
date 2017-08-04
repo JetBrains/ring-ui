@@ -1,7 +1,7 @@
 /**
  * @name Table
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @extends {ReactComponent}
  * @description Interactive table with selection and keyboard navigation support.

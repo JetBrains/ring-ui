@@ -6,7 +6,7 @@ import LoaderCore from '../loader/loader__core';
 /**
  * @name Loader Ng
  * @category Legacy Angular Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework Angular
  * @constructor
  * @description Displays the loader.

@@ -1,7 +1,7 @@
 /**
  * @name Tabs
  * @category Components
- * @tags 3.0
+ * @tags Ring UI Language
  * @framework React
  * @constructor
  * @description Displays a tab set
