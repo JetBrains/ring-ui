@@ -5,7 +5,7 @@ import Confirm from '../confirm/confirm';
 
 /**
  * @name Confirm Service
- * @category Components
+ * @category Services
  * @tags 3.0
  * @framework React
  * @constructor

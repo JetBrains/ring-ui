@@ -1,6 +1,6 @@
 /**
  * @name Table Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @framework Angular
  * @description Provides an Angular wrapper for Table.

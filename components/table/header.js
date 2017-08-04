@@ -95,7 +95,7 @@ export default class Header extends PureComponent {
       </div>
     );
 
-    const headerCells = columns.map((column, index) => {
+    return columns.map((column, index) => {
       const columnStyle = widths[index] ? {width: widths[index]} : null;
       const props = {column, onSort, sortKey, sortOrder, style: columnStyle};
       return (
@@ -107,8 +107,6 @@ export default class Header extends PureComponent {
         </HeaderCell>
       );
     });
-
-    return headerCells;
   }
 
   render() {

@@ -175,7 +175,7 @@
                 </Col>
               </Row>
 
-              <Row>
+              {page === 1 && data.length > 5 && <Row>
                 <Col>
                 <span id="button-select-bulgaria">{
                   selection.isSelected(data[3])
@@ -190,7 +190,7 @@
                   : <Button onClick={() => this.setState({selection: selection.select(data[5])})}>Select {data[5].country}</Button>
                 }</span>
                 </Col>
-              </Row>
+              </Row>}
             </Grid>
           </div>
         );
@@ -211,6 +211,7 @@
     import MultiTable from '@jetbrains/ring-ui/components/table/multitable';
     import Table from '@jetbrains/ring-ui/components/table/table';
     import mock from '@jetbrains/ring-ui/components/table/table.examples2.json';
+    import Selection from '@jetbrains/ring-ui/components/table/selection';
 
     class Example extends Component {
       columns1 = [
@@ -223,6 +224,8 @@
           title: 'URL'
         }
       ]
+
+      selection1 = new Selection()
 
       columns2 = [
         {
@@ -239,6 +242,9 @@
         }
       ]
 
+      selection2 = new Selection()
+
+
       render() {
         return (
           <MultiTable>
@@ -246,6 +252,7 @@
               data={mock.continents}
               columns={this.columns1}
               caption="Continents"
+              selection={this.selection1}
             />
 
             <Table
@@ -253,6 +260,7 @@
               columns={this.columns2}
               caption="Countries"
               autofocus={true}
+              selection={this.selection2}
             />
           </MultiTable>
         );

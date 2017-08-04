@@ -17,7 +17,7 @@ import styles from './dialog-ng.css';
 
 /**
  * @name Dialog Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Dialog.
  * @example-file ./dialog-ng.examples.html
  */

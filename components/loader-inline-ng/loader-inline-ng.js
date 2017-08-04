@@ -3,7 +3,7 @@ import '../loader-inline/loader-inline.scss';
 
 /**
  * @name Loader Inline Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @framework Angular
  * @constructor
  * @description Wraps markup for loader-inline component.

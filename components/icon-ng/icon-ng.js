@@ -7,7 +7,7 @@ import '../icon/icon.scss';
 
 /**
  * @name Icon Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @tags 3.0
  * @description Provides an Angular wrapper for Icon.
  * @example

@@ -1,6 +1,6 @@
 /**
  * @name Query Assist Ng
- * @category Angular Components
+ * @category Legacy Angular Components
  * @framework Angular
  * @description Provides an Angular wrapper for Query Assist.
  * @example-file ./query-assist-ng.examples.html
