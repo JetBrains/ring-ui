@@ -27,7 +27,7 @@ export default class RingComponent extends Component {
   }
 
   /**
-   * @deprecated This method is deprecated, use the "global/get-uid.js" helper instead
+   * @deprecated This method is deprecated, use the "global/get-uid.js" helper instead.
    */
   static getUID(name) {
     if (!name) {
