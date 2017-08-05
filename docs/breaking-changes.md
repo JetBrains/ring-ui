@@ -16,7 +16,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
   ```js
   import {Button, Input} from '@jetbrains/ring-ui';
 
-  // You can still import components one by one if you want
+  // You can still import components one by one to reduce bundle size
   import Button from '@jetbrains/ring-ui/components/button/button';
   import Input from '@jetbrains/ring-ui/components/input/input';
   ```
