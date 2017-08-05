@@ -1,10 +1,7 @@
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {
-  const cssModules = {
-    'postcss-modules-values-replace': {
-      fs: ctx.webpack._compiler.inputFileSystem
-    },
+  const plugins = {
     'postcss-cssnext': {
       features: {
         calc: {
@@ -15,13 +12,11 @@ module.exports = ctx => {
     }
   };
 
-  const autoprefixer = {
-    autoprefixer: {}
-  };
-
-  const plugins = scssRE.test(ctx.webpack.resourcePath)
-    ? autoprefixer
-    : cssModules;
+  if (!scssRE.test(ctx.webpack.resourcePath)) {
+    plugins['postcss-modules-values-replace'] = {
+      fs: ctx.webpack._compiler.inputFileSystem
+    };
+  }
 
   return {plugins};
 };
