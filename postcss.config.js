@@ -7,8 +7,7 @@ module.exports = ctx => {
         calc: {
           mediaQueries: true
         },
-        customProperties: false,
-        fontFamilySystemUi: true
+        customProperties: false
       }
     }
   };
