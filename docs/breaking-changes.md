@@ -6,7 +6,7 @@ order: 3
 
 See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
 
-### 01-08-2018: Ring UI goes Open Source!
+### 01-08-2017: Ring UI goes Open Source!
 
 ##### What changes for the end users
 - `@jetbrains/ring-ui` package should be used instead of `ring-ui`.
@@ -16,7 +16,7 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
   ```js
   import {Button, Input} from '@jetbrains/ring-ui';
 
-  // You can still import components one by one if you want
+  // You can still import components one by one to reduce bundle size
   import Button from '@jetbrains/ring-ui/components/button/button';
   import Input from '@jetbrains/ring-ui/components/input/input';
   ```
