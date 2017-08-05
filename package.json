@@ -89,7 +89,8 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^2.0.0",
-    "@jetbrains/generator-ring-ui": "1.0.0-alpha",
+    "@jetbrains/generator-ring-ui": "^1.0.0-alpha",
+    "@jetbrains/lerna": "^2.0.1",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
     "angular-mocks": "1.6.5",
@@ -136,7 +137,6 @@
     "karma-teamcity-reporter": "1.0.0",
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
-    "lerna": "^2.0.0",
     "lint-staged": "4.0.2",
     "mocha": "3.4.2",
     "react-test-renderer": "15.6.1",
