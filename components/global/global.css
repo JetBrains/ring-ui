@@ -49,7 +49,7 @@
 .font {
   color: text-color;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-family: system-ui, Arial, sans-serif;
   font-size: font-size;
   line-height: line-height;
 }
