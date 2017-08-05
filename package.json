@@ -154,7 +154,7 @@
   "dependencies": {
     "@hypnosphi/react-portal": "3.1.0",
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
-    "@jetbrains/icons": "1.0.4",
+    "@jetbrains/icons": "1.0.6",
     "@jetbrains/logos": "0.1.0",
     "@maxmaximov/angular-elastic": "2.5.1",
     "@maxmaximov/babel-plugin-angular-annotate": "2.0.3",
@@ -181,7 +181,7 @@
     "mout": "1.0.0",
     "node-sass": "4.5.3",
     "postcss": "6.0.8",
-    "postcss-cssnext": "2.8.0",
+    "postcss-cssnext": "2.11.0",
     "postcss-loader": "1.3.3",
     "postcss-modules-values-replace": "1.0.0",
     "prop-types": "15.5.10",
