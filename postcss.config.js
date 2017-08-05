@@ -1,22 +1,26 @@
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {
-  const plugins = {
+  const cssNext = {
     'postcss-cssnext': {
       features: {
         calc: {
           mediaQueries: true
         },
-        customProperties: false
+        customProperties: false,
+        fontFamilySystemUi: true
       }
     }
   };
-
-  if (!scssRE.test(ctx.webpack.resourcePath)) {
-    plugins['postcss-modules-values-replace'] = {
+  const cssModules = Object.assign({}, {
+    'postcss-modules-values-replace': {
       fs: ctx.webpack._compiler.inputFileSystem
-    };
-  }
+    }
+  }, cssNext);
+
+  const plugins = scssRE.test(ctx.webpack.resourcePath)
+    ? cssNext
+    : cssModules;
 
   return {plugins};
 };
