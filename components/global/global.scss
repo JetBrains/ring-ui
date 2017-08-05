@@ -36,7 +36,7 @@ $ring-font-size-smaller: 11px;
 
 @mixin ring-font($font-size: $ring-font-size) {
   color: $ring-text-color;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-family: system-ui, Arial, sans-serif;
   font-size: $font-size;
 }
 
