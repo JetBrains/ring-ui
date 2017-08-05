@@ -1,4 +1,4 @@
 {
-  "1.0.0-alpha.*": "/branch/ring-ui-language/",
+  "1.0.0-beta.*": "/branch/ring-ui-language/",
   "0.1.*": "/"
 }
