@@ -20,8 +20,7 @@
   "scripts": {
     "build-prod": "webpack --env.production",
     "build": "webpack",
-    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check",
-    "inject-version": "node inject-version"
+    "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "1.0.0-alpha",

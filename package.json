@@ -37,7 +37,6 @@
     "build": "lerna run --scope ring-ui-docs --stream build",
     "build-prod": "lerna run --scope ring-ui-docs --stream build-prod",
     "start": "lerna run --scope ring-ui-docs --stream start",
-    "inject-version": "lerna run --scope ring-ui-docs --stream inject-version",
     "lint": "eslint . ; npm run stylelint",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
     "lint-ci": "eslint --format jslint-xml . > eslint-report.xml; npm run stylelint-ci",
@@ -48,10 +47,8 @@
     "pretest-ci": "npm run lint-ci",
     "test-ci": "xvfb-run karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
-    "build-ci": "npm run build-prod",
     "prerelease-ci": "git pull",
-    "release-ci": "lerna publish --yes",
-    "postrelease-ci": "npm run inject-version"
+    "release-ci": "lerna publish --yes"
   },
   "repository": {
     "type": "git",
