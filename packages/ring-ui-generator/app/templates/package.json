@@ -7,6 +7,7 @@
     "dist": "./dist"
   },
   "scripts": {
+    "postinstall": "npm rebuild node-sass",
     "create-component": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
     "build": "webpack -p --devtool sourcemap",
     "test": "karma start",
