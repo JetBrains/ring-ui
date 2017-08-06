@@ -74,7 +74,7 @@ module.exports = generators.Base.extend({
     );
 
     this.fs.copyTpl(
-      this.templatePath('src/**/*'),
+      this.templatePath('src/**/!(eslintrc)'),
       this.destinationPath('src/'),
       this.props
     );
