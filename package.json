@@ -61,11 +61,11 @@
       [
         "transform-runtime",
         {
-          "moduleName": "@princed/babel-runtime"
+          "moduleName": "@jetbrains/babel-runtime"
         }
       ],
       [
-        "@maxmaximov/babel-plugin-angular-annotate",
+        "@jetbrains/babel-plugin-angular-annotate",
         [
           "angular",
           "ngRoute"
@@ -153,13 +153,13 @@
     "yo": "2.0.0"
   },
   "dependencies": {
-    "@hypnosphi/react-portal": "3.1.0",
+    "@jetbrains/angular-elastic": "2.5.1",
+    "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
+    "@jetbrains/babel-runtime": "6.23.0",
     "@jetbrains/icons": "1.0.6",
     "@jetbrains/logos": "0.1.0",
-    "@maxmaximov/angular-elastic": "2.5.1",
-    "@maxmaximov/babel-plugin-angular-annotate": "2.0.3",
-    "@princed/babel-runtime": "6.23.0",
+    "@jetbrains/react-portal": "3.1.0",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-loader": "6.4.1",
