@@ -10,6 +10,8 @@ body {
 .app {
   composes: font;
 
+  min-width: 1000px;
+
   font-size: font-size;
   line-height: line-height;
 }
@@ -47,16 +49,19 @@ body {
 }
 
 .header {
-  margin: calc(unit * 2) 0 0;
+  position: relative;
+  z-index: fixed-z-index;
 }
 
 .logo {
-  z-index: fixed-z-index;
-
   margin-top: calc(unit * -3);
   margin-left: calc(unit * -5 + 1);
 
   vertical-align: top;
+}
+
+.githubCorner {
+  width: calc(unit * 7);
 }
 
 .list {
