@@ -126,7 +126,7 @@ module.exports = (env = {}) => {
             'react',
             'react-dom',
             'prop-types',
-            '@hypnosphi/react-portal',
+            '@jetbrains/react-portal',
             'react-waypoint',
             'angular',
             'classnames',
