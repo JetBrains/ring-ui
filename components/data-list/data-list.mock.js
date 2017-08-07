@@ -16,32 +16,32 @@ export default [
     items: [
       {
         type: 'item',
-        id: 1,
+        id: 11,
         collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
         subitems: [
           {
-            id: 1,
+            id: 111,
             title: <Link href="#">TeamCity</Link>
           },
 
           {
-            id: 2,
+            id: 112,
             title: <Link href="#">YouTrack</Link>
           },
 
           {
-            id: 3,
+            id: 113,
             title: <Link href="#">Sandbox</Link>
           },
 
           {
-            id: 4,
+            id: 114,
             title: <Link href="#">Exception Analyzer</Link>
           },
 
           {
-            id: 5,
+            id: 115,
             title: <Link href="#">MPS</Link>
           }
         ]
@@ -58,7 +58,7 @@ export default [
     items: [
       {
         type: 'item',
-        id: 1,
+        id: 21,
         selectable: true,
         title: (
           <span>
@@ -71,32 +71,32 @@ export default [
 
       {
         type: 'item',
-        id: 2,
+        id: 22,
         collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
         subitems: [
           {
-            id: 1,
+            id: 221,
             title: <Link href="#">TeamCity</Link>
           },
 
           {
-            id: 2,
+            id: 222,
             title: <Link href="#">YouTrack</Link>
           },
 
           {
-            id: 3,
+            id: 223,
             title: <Link href="#">Sandbox</Link>
           },
 
           {
-            id: 4,
+            id: 224,
             title: <Link href="#">Exception Analyzer</Link>
           },
 
           {
-            id: 5,
+            id: 225,
             title: <Link href="#">MPS</Link>
           }
         ]
@@ -104,7 +104,7 @@ export default [
 
       {
         type: 'item',
-        id: 3,
+        id: 23,
         title: (
           <span>
             <Link href="#">CustomJDK</Link>
@@ -124,7 +124,7 @@ export default [
     items: [
       {
         type: 'item',
-        id: 1,
+        id: 31,
         title: (
           <span>
             <Link href="#">ide-frontend</Link>
@@ -135,7 +135,7 @@ export default [
 
       {
         type: 'item',
-        id: 2,
+        id: 32,
         title: (
           <span>
             <Link href="#">ide-frontend</Link>
@@ -154,7 +154,7 @@ export default [
     items: [
       {
         type: 'item',
-        id: 1,
+        id: 41,
         title: (
           <span>
             <Link href="#">Intellij IDEA</Link>
@@ -165,7 +165,7 @@ export default [
 
       {
         type: 'item',
-        id: 2,
+        id: 42,
         title: (
           <span>
             <Link href="#">YouTrack Backlog</Link>
@@ -190,7 +190,7 @@ export default [
     items: [
       {
         type: 'item',
-        id: 1,
+        id: 51,
         selectable: true,
         title: <Link href="#">Wasabi</Link>
       }

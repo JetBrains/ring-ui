@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color, fixed-z-index, overlay-z-index, ease from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -9,6 +9,8 @@ body {
 
 .app {
   composes: font;
+
+  min-width: breakpoint-middle;
 }
 
 .headerItem {
@@ -46,16 +48,20 @@ body {
 }
 
 .header {
+  position: relative;
+  z-index: fixed-z-index;
+
   overflow: visible;
 
   height: calc(unit * 10);
 }
 
 .logo {
-  position: relative;
-  z-index: fixed-z-index;
-
   margin-left: calc(unit * -5 + 1);
+}
+
+.githubCorner {
+  width: calc(unit * 7);
 }
 
 .list {
