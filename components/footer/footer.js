@@ -123,7 +123,7 @@ class FooterLine extends PureComponent {
  *
  * @example
    <example name="Footer">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div>
          <div id="footer"></div>
        </div>

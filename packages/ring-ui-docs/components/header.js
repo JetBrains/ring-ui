@@ -9,6 +9,7 @@ import Header, {
   SmartProfile,
   SmartServices
 } from '@jetbrains/ring-ui/components/header/header';
+import GithubCorner from 'react-github-corner';
 
 import styles from './index.css';
 import hubConfig from './hub-config';
@@ -52,6 +53,13 @@ class SiteHeader extends PureComponent {
         <Tray>
           <SmartServices auth={this.auth}/>
           <SmartProfile auth={this.auth} size={SmartProfile.Size.Size40}/>
+          <div className={styles.githubCorner}>
+            <GithubCorner
+              href="https://github.com/JetBrains/ring-ui"
+              bannerColor="#fff"
+              octoColor="#000"
+            />
+          </div>
         </Tray>
       </Header>
     );
