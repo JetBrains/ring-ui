@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color, fixed-z-index, overlay-z-index, ease from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, link-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -10,7 +10,7 @@ body {
 .app {
   composes: font;
 
-  min-width: 1000px;
+  min-width: breakpoint-middle;
 
   font-size: font-size;
   line-height: line-height;
