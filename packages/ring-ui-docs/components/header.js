@@ -10,6 +10,7 @@ import Header, {
 } from '@jetbrains/ring-ui/components/header/header';
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import GithubCorner from 'react-github-corner';
 
 import styles from './index.css';
 import hubConfig from './hub-config';
@@ -35,7 +36,7 @@ class SiteHeader extends PureComponent {
     const indexDoc = getIndexDoc(docsItems);
 
     return (
-      <Header>
+      <Header className={styles.header}>
         <Link href={indexDoc}>
           <Icon
             className={styles.logo}
@@ -53,6 +54,12 @@ class SiteHeader extends PureComponent {
         <Tray>
           <SmartServices auth={this.auth}/>
           <SmartProfile auth={this.auth}/>
+          <div className={styles.githubCorner}>
+            <GithubCorner
+              href="https://github.com/JetBrains/ring-ui"
+              bannerColor="#000"
+            />
+          </div>
         </Tray>
       </Header>
     );
