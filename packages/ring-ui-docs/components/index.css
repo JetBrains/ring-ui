@@ -115,3 +115,11 @@ body {
     font-size: font-size;
   }
 }
+
+.footer {
+  /* override Footer */
+
+  && {
+    margin: calc(unit * 5) 0 0;
+  }
+}
