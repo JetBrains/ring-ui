@@ -36,14 +36,16 @@ $ring-font-size-smaller: 11px;
 
 @mixin ring-font($font-size: $ring-font-size) {
   color: $ring-text-color;
-  font-family: system-ui, Arial, sans-serif;
+
+  //  This is a carefully tested set of fonts, do not touch without consulting with UI designers
   font-size: $font-size;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 // To be used at large sizes
 // As close as possible to Helvetica Neue Thin (to replace Gotham)
 @mixin ring-thin-font() {
-  font-weight: 100;  // Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light
+  font-weight: 100; // Renders Helvetica Neue UltraLight on OS X
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
