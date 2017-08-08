@@ -121,18 +121,27 @@ module.exports = (env = {}) => {
           vendor: [
             'babel-polyfill',
             'core-js',
+            {
+              name: 'core-js',
+              path: 'core-js/library'
+            },
             'dom4',
             'whatwg-fetch',
             'react',
             'react-dom',
             'prop-types',
+            {
+              name: '@jetbrains/babel-runtime',
+              path: '@jetbrains/babel-runtime/core-js'
+            },
             '@jetbrains/react-portal',
             'react-waypoint',
             'angular',
             'classnames',
             'combokeys',
             'moment',
-            'simply-uuid'
+            'simply-uuid',
+            'sniffr'
           ]
         },
         dllDir: path.join(contentBase, dllPath),
