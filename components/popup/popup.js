@@ -8,7 +8,7 @@
 import React, {cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
-import Portal from '@hypnosphi/react-portal';
+import Portal from '@jetbrains/react-portal';
 import classNames from 'classnames';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Portal from '@hypnosphi/react-portal';
+import Portal from '@jetbrains/react-portal';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
