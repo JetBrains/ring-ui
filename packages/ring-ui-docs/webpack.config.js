@@ -4,6 +4,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const webpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkgConfig = require('./package.json').config;
@@ -38,6 +39,14 @@ module.exports = (env = {}) => {
   const dllPath = `dll-${envString}`;
   const uglifyPlugin = production
     ? new webpack.optimize.UglifyJsPlugin()
+    : noopPlugin;
+  const analyzerPlugin = production
+    ? new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      generateStatsFile: false,
+      openAnalyzer: false,
+      reportFilename: 'bundle-report/index.html'
+    })
     : noopPlugin;
 
   const getParam = name => (
@@ -114,6 +123,7 @@ module.exports = (env = {}) => {
     },
     plugins: [
       uglifyPlugin,
+      analyzerPlugin,
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
