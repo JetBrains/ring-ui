@@ -5,8 +5,12 @@ import classNames from 'classnames';
 import styles from './grid.css';
 
 const ModifierType = PropTypes.oneOf(['xs', 'sm', 'md', 'lg']);
-const modifierKeys =
-  ['start', 'center', 'end', 'top', 'middle', 'bottom', 'around', 'between', 'first', 'last'];
+const modifierKeys = [
+  'start', 'center', 'end', // text-align, justify-content
+  'around', 'between', // justify-content
+  'top', 'middle', 'baseline', 'bottom', // align-items
+  'first', 'last' // order
+];
 
 /**
  * Converts xs="middle" to class "middle-xs"
@@ -30,6 +34,7 @@ export default class Row extends Component {
     end: ModifierType,
     top: ModifierType,
     middle: ModifierType,
+    baseline: ModifierType,
     bottom: ModifierType,
     around: ModifierType,
     between: ModifierType,
