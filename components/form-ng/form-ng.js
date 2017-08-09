@@ -1,5 +1,5 @@
 import angular from 'angular';
-import AngularElastic from '@maxmaximov/angular-elastic';
+import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input-legacy/input-legacy.scss';

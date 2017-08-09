@@ -23,12 +23,6 @@ function test {
   cleanup
 }
 
-if [ -v IS_DEFAULT_BRANCH ]
-then
-  exit 0
-fi
-
 rm -rf test_gen
 test app
 test hub-widget
-

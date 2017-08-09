@@ -49,7 +49,9 @@
 .font {
   color: text-color;
 
-  font-family: system-ui, Arial, sans-serif;
+  /* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
+
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-size: font-size;
   line-height: line-height;
 }
@@ -89,7 +91,7 @@
 .thin-font {
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: font-size;
-  font-weight: 100;  /* Renders Helvetica Neue UltraLight on OS X, but otherwise it would be just Light */
+  font-weight: 100; /* Renders Helvetica Neue UltraLight on OS X  */
 }
 
 .monospace-font {
