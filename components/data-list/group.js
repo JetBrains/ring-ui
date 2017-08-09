@@ -4,6 +4,7 @@ import React, {PureComponent, Element} from 'react';
 
 import Link from '../link/link';
 import Text from '../text/text';
+import LoaderInline from '../loader-inline/loader-inline';
 
 import Selection from './selection';
 import GroupTitle from './group-title';
@@ -11,18 +12,27 @@ import Item from './item';
 import type {GroupType, ItemType} from './types';
 import styles from './data-list.css';
 
+export const moreLessButtonStates = {
+  UNUSED: 0,
+  MORE: 1,
+  MORE_LOADING: 2,
+  LESS: 3
+};
+
+export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
+  typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
+  typeof moreLessButtonStates.LESS;
+
 type Props = {
   group: GroupType,
   title: string,
   items: ItemType[],
-  moreItems: ItemType[],
   className?: string,
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
-  showMoreLessButton: boolean,
-  onGroupShowMore: (group?: GroupType) => void,
-  onGroupShowLess: (group?: GroupType) => void,
+  showMoreLessButton: MoreLessButtonState,
+  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
   showFocus: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
   onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
@@ -36,24 +46,24 @@ export default class Group extends PureComponent {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true,
-    showMoreLessButton: false,
-    onGroupShowMore: () => {},
-    onGroupShowLess: () => {},
+    showMoreLessButton: moreLessButtonStates.UNUSED,
+    onGroupMoreLess: () => {},
     selectable: false,
     selected: false,
-    showFocus: false
+    showFocus: false,
+    hasMoreItems: false
   };
 
   props: Props;
 
   onShowMore = (): void => {
-    const {onGroupShowMore, group} = this.props;
-    onGroupShowMore(group);
+    const {onGroupMoreLess, group} = this.props;
+    onGroupMoreLess(group, true);
   }
 
   onShowLess = (): void => {
-    const {onGroupShowLess, group} = this.props;
-    onGroupShowLess(group);
+    const {onGroupMoreLess, group} = this.props;
+    onGroupMoreLess(group, false);
   }
 
   onFocus = (): void => {
@@ -111,22 +121,13 @@ export default class Group extends PureComponent {
 
   render(): Element<any> {
     const {
-      title, items, moreItems, showMoreLessButton,
+      title, items, showMoreLessButton,
       showFocus, selectable, selected
     } = this.props;
 
     let moreLessButton;
-    if (moreItems.length) {
-      moreLessButton = (
-        <Text comment={true}>
-          <Link
-            inherit={true}
-            pseudo={true}
-            onClick={this.onShowLess}
-          >Show less</Link>
-        </Text>
-      );
-    } else {
+    if (showMoreLessButton === moreLessButtonStates.MORE ||
+      showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
       moreLessButton = (
         <Text comment={true}>
           <Link
@@ -134,6 +135,19 @@ export default class Group extends PureComponent {
             pseudo={true}
             onClick={this.onShowMore}
           >Show more</Link>
+          {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
+            <LoaderInline className={styles.showMoreLoader}/>
+          }
+        </Text>
+      );
+    } else if (showMoreLessButton === moreLessButtonStates.LESS) {
+      moreLessButton = (
+        <Text comment={true}>
+          <Link
+            inherit={true}
+            pseudo={true}
+            onClick={this.onShowLess}
+          >Show less</Link>
         </Text>
       );
     }
@@ -154,13 +168,8 @@ export default class Group extends PureComponent {
           <ul className={styles.group}>
             {items.map(item => this.renderItem(item))}
 
-            {showMoreLessButton
+            {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>
-              : null
-            }
-
-            {moreItems
-              ? moreItems.map(item => this.renderItem(item))
               : null
             }
           </ul>

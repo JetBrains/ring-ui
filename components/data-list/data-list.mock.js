@@ -17,7 +17,6 @@ export default [
       {
         type: 'item',
         id: 11,
-        collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
         subitems: [
           {
@@ -72,7 +71,6 @@ export default [
       {
         type: 'item',
         id: 22,
-        collapsed: true,
         title: '6 projects: as a member of jetbrains-team',
         subitems: [
           {
@@ -219,5 +217,32 @@ export default [
     size: 12,
     selectable: true,
     items: []
+  }
+];
+
+export const moreItems = [
+  {
+    type: 'item',
+    id: 91,
+    selectable: true,
+    title: (
+      <span>
+        <Link href="#">More item 1</Link>
+        <span> </span>
+        <Badge gray={true}>duplicate</Badge>
+      </span>
+    )
+  },
+  {
+    type: 'item',
+    id: 92,
+    selectable: true,
+    title: (
+      <span>
+        <Link href="#">More item 2</Link>
+        <span> </span>
+        <Badge gray={true}>duplicate</Badge>
+      </span>
+    )
   }
 ];

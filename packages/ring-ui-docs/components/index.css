@@ -127,3 +127,11 @@ a.legacy {
 .version button {
   height: auto;
 }
+
+.footer {
+  /* override Footer */
+
+  && {
+    margin: calc(unit * 5) 0 0;
+  }
+}

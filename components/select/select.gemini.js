@@ -26,7 +26,7 @@ gemini.suite('Select', () => {
 
   gemini.suite('Select with filter', child => {
     child.
-      setUrl('/select/simple-select-with-the-default-filter-mode.html').
+      setUrl('/select/simple-select-with-default-filter-mode-enabled.html').
       setCaptureElements('[data-test=ring-select]', '[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));

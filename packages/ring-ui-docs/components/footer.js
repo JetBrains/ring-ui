@@ -1,6 +1,8 @@
 import React from 'react';
 import Footer from '@jetbrains/ring-ui/components/footer/footer';
 
+import styles from './index.css';
+
 const data = [
   [
     {copyright: 2000, label: ' JetBrains'},
@@ -13,5 +15,5 @@ const data = [
   }
 ];
 
-const SiteFooter = () => <Footer right={data}/>;
+const SiteFooter = () => <Footer right={data} className={styles.footer}/>;
 export default SiteFooter;
