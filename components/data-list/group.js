@@ -19,7 +19,9 @@ export const moreLessButtonStates = {
   LESS: 3
 };
 
-export type MoreLessButtonState = $Keys<typeof moreLessButtonStates>; // eslint-disable-line no-undef
+export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
+  typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
+  typeof moreLessButtonStates.LESS;
 
 type Props = {
   group: GroupType,
@@ -30,7 +32,7 @@ type Props = {
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
   showMoreLessButton: MoreLessButtonState,
-  onGroupMoreLess: (group?: GroupType) => void,
+  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
   showFocus: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
   onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
