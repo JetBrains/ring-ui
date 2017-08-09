@@ -20,9 +20,11 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 import Selection from './selection';
-import Group, {MoreLessButtonState, moreLessButtonStates} from './group';
+import Group, {moreLessButtonStates} from './group';
 import type {ItemType, GroupType} from './types';
 import styles from './data-list.css';
+
+import type {MoreLessButtonState} from './group';
 
 type Props = {
   className?: string,
@@ -33,8 +35,8 @@ type Props = {
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
 
-  onGroupMoreLess: (group: GroupType, more: boolean) => void,
-  groupMoreLessState: (group: GroupType) => MoreLessButtonState,
+  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
+  groupMoreLessState: (group?: GroupType) => MoreLessButtonState,
 
   // selectionShortcutsHOC
   selection: Selection,
