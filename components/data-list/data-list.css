@@ -128,3 +128,8 @@
 
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+.showMoreLoader {
+  top: 3px;
+  left: 8px;
+}
