@@ -10,13 +10,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'mout/function/debounce';
-import {
-  List as VirtualizedList,
-  AutoSizer,
-  WindowScroller,
-  CellMeasurer,
-  CellMeasurerCache
-} from 'react-virtualized';
+import VirtualizedList from 'react-virtualized/dist/commonjs/List';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
+import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/CellMeasurer';
 
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
