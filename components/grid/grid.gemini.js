@@ -62,7 +62,7 @@ gemini.suite('Grid', () => {
 
   gemini.suite('Distribution', child => {
     child.
-      setUrl('/grid/grid-cols-distribution.html').
+      setUrl('/grid/grid-columns-distribution.html').
       setCaptureElements('*[data-test="distribution"]').
       capture('distribution');
   });
