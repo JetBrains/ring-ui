@@ -112,10 +112,15 @@ module.exports = (env = {}) => {
       filename: '[name].js',
       publicPath // serve HMR update jsons properly
     },
+    node: {
+      Buffer: false,
+      process: 'mock'
+    },
     plugins: [
       uglifyPlugin,
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/^esprima$/),
+      new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
       new DllBundlesPlugin({
