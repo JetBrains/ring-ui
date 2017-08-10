@@ -9,6 +9,9 @@
     "yeoman-generator",
     "@jetbrains/ring-ui"
   ],
+  "scripts": {
+    "test": "./test.sh; rm -rf test_gen"
+  },
   "dependencies": {
     "chalk": "^1.1.3",
     "change-case": "^3.0.0",
@@ -22,6 +25,7 @@
     "yeoman-option-or-prompt": "^2.0.0"
   },
   "devDependencies": {
-    "@jetbrains/ring-ui": "^0.1.25"
+    "@jetbrains/ring-ui": "^0.1.25",
+    "yo": "2.0.0"
   }
 }
