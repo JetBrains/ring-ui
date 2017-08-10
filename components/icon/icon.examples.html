@@ -19,39 +19,48 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import Icon from '@jetbrains/ring-ui/components/icon/icon';
-    import searchIcon from '@jetbrains/icons/search.svg';
-    import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
-    import pencilIcon from '@jetbrains/icons/pencil.svg';
-    import permissionIcon from '@jetbrains/icons/permission.svg';
+    import SearchIcon from '@jetbrains/icons/search.svg';
+    import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
+    import PencilIcon from '@jetbrains/icons/pencil.svg';
+    import PermissionIcon from '@jetbrains/icons/permission.svg';
 
-    render(<Icon
-      className="additional-class"
-      color="orange"
-      glyph={checkMarkIcon}
-      size={Icon.Size.Size32}
-    />, document.getElementById('icon-container'));
+    render(
+      <SearchIcon
+        className="additional-class"
+        color="orange"
+        size={SearchIcon.Size.Size32}
+      />,
+      document.getElementById('icon-container')
+    );
 
-    render(<Icon
-      glyph={searchIcon}
-      size={Icon.Size.Size32}
-    />, document.getElementById('icon-search'));
+    render(
+      <CheckMarkIcon
+        size={CheckMarkIcon.Size.Size32}
+      />,
+      document.getElementById('icon-search')
+    );
 
-    render(<Icon
-      glyph={pencilIcon}
-      size={Icon.Size.Size16}
-    />, document.getElementById('icon-16-pencil'));
+    render(
+      <PencilIcon
+        size={PencilIcon.Size.Size16}
+      />,
+      document.getElementById('icon-16-pencil')
+    );
 
-    render(<Icon
-      glyph={pencilIcon}
-      size={Icon.Size.Size14}
-    />, document.getElementById('icon-14-pencil'));
+    render(
+      <PermissionIcon
+        size={PermissionIcon.Size.Size14}
+      />,
+      document.getElementById('icon-14-pencil')
+    );
 
-    render(<Icon
-      glyph={permissionIcon}
-      height={80}
-      width={100}
-    />, document.getElementById('icon-custom-permission'));
+    render(
+      <PermissionIcon
+        height={80}
+        width={100}
+      />,
+      document.getElementById('icon-custom-permission')
+    );
   </file>
 </example>
 
@@ -79,20 +88,18 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import {createElement} from 'react';
-    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-    const icons = require.context('@jetbrains/icons', false, /\.svg$/);
+    const iconsContext = require.context('@jetbrains/icons', false, /\.svg$/);
 
-    render(createElement('div', {
-      className: 'icon-example__container',
-      children: icons.keys().map(icons).map(function (icon) {
-        return <Icon
-          glyph={icon}
-          title={icon}
-        />;
-      })
-    }), document.getElementById('all-icons'));
+    const icons = iconsContext.keys().map(iconsContext).
+    map(exportsObj => exportsObj.default);
+
+    render(
+      <div className="icon-example__container">
+        {icons.map(Icon => <Icon key={Icon} title={Icon}/>)}
+      </div>,
+      document.getElementById('all-icons')
+    );
   </file>
 </example>
 
@@ -112,19 +119,17 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import {createElement} from 'react';
-    import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
-    var logos = require.context('@jetbrains/logos', true, /\.svg$/);
+    const logosContext = require.context('@jetbrains/icons', false, /\.svg$/);
 
-    render(createElement('div', {
-      children: logos.keys().map(logos).map(function (icon) {
-        return <Icon
-          glyph={icon}
-          title={icon}
-          size={Icon.Size.Size128}
-        />;
-      })
-    }), document.getElementById('logos'));
+    const logos = logosContext.keys().map(logosContext).
+    map(exportsObj => exportsObj.default);
+
+    render(
+      <div>
+        {logos.map(Logo => <Logo key={Logo} title={Logo} size={Logo.Size.Size128}/>)}
+      </div>,
+      document.getElementById('logos')
+    );
   </file>
 </example>

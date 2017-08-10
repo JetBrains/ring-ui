@@ -328,7 +328,7 @@ describe('List', () => {
       }).instance();
 
       mountFirstItem(instance).find('use').getDOMNode().
-        getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon);
+        getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon.toString());
     });
 
     it('should throw error on unknown type', () => {
