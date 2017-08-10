@@ -16,7 +16,7 @@ describe('Icon', () => {
 
   it('should render passed glyph', () => {
     const icon = shallowIcon({glyph: expandIcon});
-    icon.find('use').should.have.attr('xlink:href', resolveRelativeURL(expandIcon));
+    icon.find('use').should.have.attr('xlink:href', resolveRelativeURL(expandIcon.toString()));
   });
 
   it('should set size 16', () => {
