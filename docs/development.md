@@ -86,4 +86,4 @@ export SAUCE_ACCESS_KEY=yourkey
 After you make some visual changes, run `npm run gemini-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`) run 
-`npm run gemini-gather components/alert/*.gemini.js`.
+`npm run gemini-gather ../../components/alert/*.gemini.js`.
