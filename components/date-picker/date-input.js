@@ -33,6 +33,7 @@ export default function DateInput({
     <Input
       // eslint-disable-next-line react/jsx-no-bind
       ref={rgEl => {
+        // eslint-disable-next-line react/no-find-dom-node
         const el = findDOMNode(rgEl);
         if (!el) {
           return;

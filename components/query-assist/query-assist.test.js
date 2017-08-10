@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable no-magic-numbers,react/no-find-dom-node */
 
 import 'dom4';
 import React from 'react';

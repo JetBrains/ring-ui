@@ -753,6 +753,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
+    // eslint-disable-next-line react/no-find-dom-node
     this.input = findDOMNode(node);
     this.caret = new Caret(this.input);
   }
