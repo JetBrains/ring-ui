@@ -63,7 +63,7 @@ In case boilerplate generators are not your thing and you prefer to understand t
 - [npm package][npm-package]
 
 [ci]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
-[ci-img]:  https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_Build/statusIcon.svg
+[ci-img]:  https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_GeminiTests/statusIcon.svg
 [deps]: https://david-dm.org/jetbrains/ring-ui
 [deps-img]: https://img.shields.io/david/jetbrains/ring-ui.svg
 [dev-deps]: https://david-dm.org/jetbrains/ring-ui?type=dev
