@@ -1,9 +1,7 @@
 /* @flow */
 import React, {PureComponent, Element} from 'react';
-import collapseIcon from '@jetbrains/icons/collapse.svg';
-import expandIcon from '@jetbrains/icons/expand.svg';
-
-import Icon from '../icon/icon';
+import CollapseIcon from '@jetbrains/icons/collapse.svg';
+import ExpandIcon from '@jetbrains/icons/expand.svg';
 
 import type {SubitemType, ItemType} from './types';
 import ItemTitle from './item-title';
@@ -58,18 +56,16 @@ export default class Item extends PureComponent {
     if (subitems.length) {
       if (collapsed) {
         collapserExpander = (
-          <Icon
+          <ExpandIcon
             className={styles.collapseIcon}
-            glyph={expandIcon}
             size={13}
             onClick={this.onExpand}
           />
         );
       } else {
         collapserExpander = (
-          <Icon
+          <CollapseIcon
             className={styles.collapseIcon}
-            glyph={collapseIcon}
             size={13}
             onClick={this.onCollapse}
           />

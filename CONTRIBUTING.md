@@ -1,7 +1,7 @@
 ---
-title: Development
+title: Contributing
 category: Docs
-order: 2
+order: 1
 ---
 
 ### Environment setup

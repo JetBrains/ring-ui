@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import calendarIcon from '@jetbrains/icons/calendar.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import CalendarIcon from '@jetbrains/icons/calendar.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';
 import Button from '../button/button';
-import Icon from '../icon/icon';
 
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
@@ -141,7 +140,7 @@ export default class DatePicker extends RingComponent {
       <div className={classes}>
         <Button
           onClick={this.togglePopup}
-          icon={calendarIcon}
+          icon={CalendarIcon}
           iconSize={17}
           className={styles.datePicker}
           data-test="ring-date-picker"
@@ -151,10 +150,9 @@ export default class DatePicker extends RingComponent {
           >
             {text}
             {clear && (date || from || to) && (
-              <Icon
+              <CloseIcon
                 className={styles.clear}
-                glyph={closeIcon}
-                size={Icon.Size.Size14}
+                size={CloseIcon.Size.Size14}
                 onClick={this.clear}
               />
             )}

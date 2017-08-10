@@ -1,14 +1,14 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import caretDownIcon from '@jetbrains/icons/caret-down.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import CaretDownIcon from '@jetbrains/icons/caret-down.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
-import Icon from '../icon/icon';
+import GenericIcon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
@@ -279,7 +279,7 @@ export default class Select extends RingComponentWithShortcuts {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: Icon.Size.Size14,
+      iconSize: GenericIcon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: event => {
         this.clear(event);
@@ -761,9 +761,8 @@ export default class Select extends RingComponentWithShortcuts {
           key="close"
           onClick={this.clear}
         >
-          <Icon
-            glyph={closeIcon}
-            size={Icon.Size.Size14}
+          <CloseIcon
+            size={CloseIcon.Size.Size14}
           />
         </span>
       );
@@ -781,10 +780,9 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (!this.props.hideArrow) {
       icons.push(
-        <Icon
-          glyph={caretDownIcon}
+        <CaretDownIcon
           key="hide"
-          size={Icon.Size.Size16}
+          size={CaretDownIcon.Size.Size16}
         />
       );
     }

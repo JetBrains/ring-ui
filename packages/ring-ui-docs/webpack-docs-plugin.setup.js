@@ -173,7 +173,7 @@ module.exports = dllPath => {
   });
 
   docpack.
-    use(require('docpack-markdown-extractor')({files: '{README,docs/*}.md'}));
+    use(require('docpack-markdown-extractor')({files: './*.md'}));
 
   docpack.use(HOOKS.AFTER_EXTRACT, (sources, done) => {
     const readMe = sources.find(source => source.path === 'README.md');

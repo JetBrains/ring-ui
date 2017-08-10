@@ -17,13 +17,13 @@
   <file type="js">
     import {render} from 'react-dom';
     import Button from '@jetbrains/ring-ui/components/button/button';
-    import caretDownIcon from '@jetbrains/icons/caret-down.svg';
+    import CaretDownIcon from '@jetbrains/icons/caret-down.svg';
 
     render(Button.factory({}, 'Button default'),
       document.getElementById('button'));
 
     render(Button.factory({
-      icon: caretDownIcon
+      icon: CaretDownIcon
     }, 'Button icon'), document.getElementById('button-icon'));
 
     render(Button.factory({

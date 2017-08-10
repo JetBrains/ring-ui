@@ -2,13 +2,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
-import dragIcon from '@jetbrains/icons/drag.svg';
-import collapseIcon from '@jetbrains/icons/collapse.svg';
-import expandIcon from '@jetbrains/icons/expand.svg';
+import DragIcon from '@jetbrains/icons/drag.svg';
+import CollapseIcon from '@jetbrains/icons/collapse.svg';
+import ExpandIcon from '@jetbrains/icons/expand.svg';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
-import Icon from '../icon/icon';
 
 import Cell from './cell';
 import style from './table.css';
@@ -20,10 +19,9 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
 
   return (
     <div className={classes}>
-      <Icon
+      <DragIcon
         className={style.clear}
-        glyph={dragIcon}
-        size={Icon.Size.Size14}
+        size={DragIcon.Size.Size14}
       />
     </div>
   );
@@ -140,18 +138,16 @@ class Row extends PureComponent {
         }
 
         {collapsible && collapsed &&
-          <Icon
-            glyph={expandIcon}
-            size={Icon.Size.Size14}
+          <ExpandIcon
+            size={ExpandIcon.Size.Size14}
             onClick={onExpand}
             style={{top: '-3px'}}
           />
         }
 
         {collapsible && !collapsed &&
-          <Icon
-            glyph={collapseIcon}
-            size={Icon.Size.Size14}
+          <CollapseIcon
+            size={CollapseIcon.Size.Size14}
             onClick={onCollapse}
             style={{top: '-3px'}}
           />

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
-import Icon from '../icon/icon';
+import GenericIcon from '../icon/icon';
 import './button.scss';
 
-const DEFAULT_ICON_SIZE = 16;
+const DEFAULT_ICON_SIZE = GenericIcon.Size.Size16;
 
 /**
  * @name Button
@@ -25,7 +25,7 @@ export default class Button extends RingComponent {
     loader: PropTypes.bool,
     primary: PropTypes.bool,
     short: PropTypes.bool,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    icon: PropTypes.func,
     iconSize: PropTypes.number,
     className: PropTypes.string
   }
@@ -48,6 +48,7 @@ export default class Button extends RingComponent {
       children,
       ...props
     } = this.props;
+    const Icon = icon;
 
     const classes = classNames(
       'ring-button',
@@ -73,10 +74,9 @@ export default class Button extends RingComponent {
       >
         <span className="ring-button__content">
           {children}
-          {icon && (
+          {Icon && (
             <span className="ring-button__icon">
               <Icon
-                glyph={icon}
                 size={iconSize || DEFAULT_ICON_SIZE}
               />
             </span>
