@@ -18,6 +18,7 @@ gemini-report
 node_modules
 npm-debug.log*
 http-server.log
+saucelabs-session.log
 jetbrains-ring-ui-*.tgz
 yarn.lock
 yarn-error.log
