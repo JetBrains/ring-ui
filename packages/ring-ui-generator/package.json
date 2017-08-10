@@ -10,7 +10,7 @@
     "@jetbrains/ring-ui"
   ],
   "scripts": {
-    "test": "./test.sh; rm -rf test_gen"
+    "test": "bash ./test.sh; rm -rf test_gen"
   },
   "dependencies": {
     "chalk": "^1.1.3",
