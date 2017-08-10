@@ -20,7 +20,9 @@ module.exports = ({symbol, config, context}) => {
     
     const glyph = '#${symbol.id}';
     export const toString = () => glyph;
-    const ${displayName} = props => <Icon {...props} glyph={glyph} />;
+    const ${displayName} = ({iconRef, ...props}) => (
+      <Icon ref={iconRef} {...props} glyph={glyph} />
+    );
     Object.assign(${displayName}, Icon, {toString});
     export default ${displayName};
   `;

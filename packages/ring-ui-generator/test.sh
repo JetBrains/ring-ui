@@ -16,4 +16,4 @@ function test {
 }
 
 test app
-test hub-widget
+#test hub-widget

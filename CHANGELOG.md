@@ -1,14 +1,57 @@
 ---
-title: Breaking Changes
+title: Changelog
 category: Docs
-order: 3
+order: 2
 ---
 
-See the “breaking change” commits [in Upsource](https://upsource.jetbrains.com/ring-ui/view?query=path:%20%7B%2A%2Fbreaking-changes.md%7D%20and%20not%20%22Wording%22).
+## 0.2.0 — 11-08-2017
+### Added
+- SVG Icons can be imported directly as React components. They pass props to the `Icon` component.
+        
+      // Before (and still fully supported)
+      import pencilIcon from '@jetbrains/icons/pencil'
+      import Icon from '@jetbrains/components/icon/icon'
+      
+      <Icon
+        glyph={pencilIcon}
+        size={Icon.Size.Size12}
+        title="edit"
+      />
+      
+      // After
+      import PencilIcon from '@jetbrains/icons/pencil'
+      
+      <PencilIcon
+        size={PencilIcon.Size.Size12}
+        title="edit"
+      />
+  [Review][RING-UI-CR-2921].
+- `baseline` option for `Grid` component. [Review][RING-UI-CR-2913].
 
-### 01-08-2017: Ring UI goes Open Source!
+### Changed
+- `Code` component now comes with a list of highlighed languages.
+Other languages supported by `highlight.js` can be enabled manually:
 
-##### What changes for the end users
+      import {highlight} from '@jetbrains/ring-ui/components/code/code'
+      import lang1c from 'highlight.js/lib/languages/1c';
+      highlight.registerLanguage('1c', lang1c);
+   [Review][RING-UI-CR-2914].
+- `DataList` component: show more / less fully rewritten. [Review][RING-UI-CR-2908].
+
+### Fixed
+- `DataList`: fixed the issue with selection and focus being cleared on expanding/collapsing tree element. [Review][RING-UI-CR-2903].
+- Various optimizations were applied to reduce app bundle size. [Review][RING-UI-CR-2923].
+
+[RING-UI-CR-2903]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2903
+[RING-UI-CR-2908]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2908
+[RING-UI-CR-2913]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2913
+[RING-UI-CR-2914]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2914
+[RING-UI-CR-2921]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2921
+[RING-UI-CR-2923]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2923
+
+## 0.1.0 — 01-08-2017: Ring UI goes Open Source!
+
+### What changes for the end users
 - `@jetbrains/ring-ui` package should be used instead of `ring-ui`.
 - Version was reset to `0.1.1`. To install the latest version, run `npm install --save-exact @jetbrains/ring-ui`. 
 - You may remove the internal registry line from `.npmrc`.
@@ -22,9 +65,11 @@ See the “breaking change” commits [in Upsource](https://upsource.jetbrains.c
   ```
 - Change the webpack configuration import (if using one) from `require('ring-ui')` to `require('@jetbrains/ring-ui')`.
 
-##### What changes for the contributors
+### What changes for the contributors
 - The commit history has been rewritten. Please clone the repository anew from `ssh://github.com/JetBrains/ring-ui.git`.
 - Prepend your commit messages with `[Publish]` to trigger publishing of npm packages.
+
+## Previous changes
 
 ### 27-07-2017: @jetbrains/icons
 

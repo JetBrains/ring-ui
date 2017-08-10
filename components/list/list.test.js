@@ -1,12 +1,11 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
+import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 
 import linkStyles from '../link/link.css';
-import Icon from '../icon/icon';
 
 import List from './list';
 import ListItem from './list__item';
@@ -14,8 +13,6 @@ import ListCustom from './list__custom';
 import ListLink from './list__link';
 import ListTitle from './list__title';
 import ListSeparator from './list__separator';
-
-const XLINK_NS = 'http://www.w3.org/1999/xlink';
 
 describe('List', () => {
   const Type = List.ListProps.Type;
@@ -294,20 +291,20 @@ describe('List', () => {
     });
 
     it('should render icon of a custom size', () => {
-      const customIconSize = Icon.Size.Size12;
+      const customIconSize = CheckMarkIcon.Size.Size12;
       const instance = shallowList({
         data: [
           {
             iconSize: customIconSize,
             label: 'Hello!',
-            glyph: '#eye',
+            glyph: CheckMarkIcon,
             type: List.ListProps.Type.ITEM
           }
         ]
       }).instance();
 
-      const icon = mountFirstItem(instance).find('.ring-icon__i');
-      icon.prop('style').width.should.be.equal(customIconSize);
+      const icon = mountFirstItem(instance).find(CheckMarkIcon);
+      icon.should.have.prop('size', customIconSize);
     });
 
     it('should not render glyph if not provided', () => {
@@ -323,12 +320,11 @@ describe('List', () => {
     it('should render glyph if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', glyph: checkMarkIcon, type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', glyph: CheckMarkIcon, type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      mountFirstItem(instance).find('use').getDOMNode().
-        getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon.toString());
+      mountFirstItem(instance).should.have.descendants(CheckMarkIcon);
     });
 
     it('should throw error on unknown type', () => {

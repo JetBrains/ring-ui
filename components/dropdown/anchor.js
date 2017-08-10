@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
-
-import Icon from '../icon/icon';
+import ChevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import styles from './dropdown.css';
 import '../link/link.scss';
@@ -11,10 +9,9 @@ export default function Anchor({children}) {
   return (
     <span className="ring-link ring-link_pseudo">
       {children}
-      <Icon
+      <ChevronDownIcon
         className={styles.chevron}
-        glyph={chevronDownIcon}
-        size={Icon.Size.Size12}
+        size={ChevronDownIcon.Size.Size12}
       />
     </span>
   );
