@@ -367,6 +367,7 @@ export default class Select extends RingComponentWithShortcuts {
 
       let restoreFocusNode = tryFocusAnchor ? (this.props.targetElement || this.node) : this.node;
       if (this.props.type === Type.INPUT) {
+        // eslint-disable-next-line react/no-find-dom-node
         restoreFocusNode = findDOMNode(this.filter);
       }
 

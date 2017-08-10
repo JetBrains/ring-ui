@@ -24,22 +24,6 @@ export default function focusSensorHOC(ComposedComponent) {
       focused: this.props.focused
     }
 
-    render() {
-      return (
-        <ComposedComponent
-          {...this.props}
-          ref={this.onRefUpdate}
-          focused={this.state.focused}
-          onFocusReset={this.onFocusReset}
-          onFocusRestore={this.onFocusRestore}
-        />
-      );
-    }
-
-    onRefUpdate = component => {
-      this.node = findDOMNode(component);
-    }
-
     componentDidMount() {
       const {props: {autofocus}, node} = this;
 
@@ -54,11 +38,6 @@ export default function focusSensorHOC(ComposedComponent) {
       }
     }
 
-    componentWillUnmount() {
-      document.removeEventListener('focus', this.onFocusCapture, true);
-      document.removeEventListener('blur', this.onBlurCapture, true);
-    }
-
     componentDidUpdate(prevProps) {
       const {focused} = this.props;
       if (focused && !prevProps.focused) {
@@ -66,6 +45,16 @@ export default function focusSensorHOC(ComposedComponent) {
       } else if (!focused && prevProps.focused) {
         this.onFocusReset();
       }
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('focus', this.onFocusCapture, true);
+      document.removeEventListener('blur', this.onBlurCapture, true);
+    }
+
+    onRefUpdate = component => {
+      // eslint-disable-next-line react/no-find-dom-node
+      this.node = findDOMNode(component);
     }
 
     onFocusCapture = ({target}) => {
@@ -95,6 +84,18 @@ export default function focusSensorHOC(ComposedComponent) {
 
     onFocusReset = () => {
       this.node.blur();
+    }
+
+    render() {
+      return (
+        <ComposedComponent
+          {...this.props}
+          ref={this.onRefUpdate}
+          focused={this.state.focused}
+          onFocusReset={this.onFocusReset}
+          onFocusRestore={this.onFocusRestore}
+        />
+      );
     }
   };
 }

@@ -9,6 +9,16 @@ export default function disableHoverHOC(ComposedComponent) {
       disabledHover: false
     }
 
+    componentDidMount() {
+      document.addEventListener('mousemove', this.onMouseMove);
+      document.addEventListener('keydown', this.onKeyDown, true);
+    }
+
+    componentWillUnmount() {
+      document.removeEventListener('mousemove', this.onMouseMove);
+      document.removeEventListener('keydown', this.onKeyDown, true);
+    }
+
     onMouseMove = () => {
       if (this.state.disabledHover) {
         this.setState({disabledHover: false});
@@ -20,16 +30,6 @@ export default function disableHoverHOC(ComposedComponent) {
       if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
         this.setState({disabledHover: true});
       }
-    }
-
-    componentDidMount() {
-      document.addEventListener('mousemove', this.onMouseMove);
-      document.addEventListener('keydown', this.onKeyDown, true);
-    }
-
-    componentWillUnmount() {
-      document.removeEventListener('mousemove', this.onMouseMove);
-      document.removeEventListener('keydown', this.onKeyDown, true);
     }
 
     render() {
