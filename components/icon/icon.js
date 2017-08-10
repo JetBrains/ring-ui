@@ -21,7 +21,7 @@ export default class Icon extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
-    glyph: PropTypes.string,
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number

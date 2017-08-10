@@ -19,7 +19,7 @@ export default class Tag extends RingComponent {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
-    rgTagIcon: PropTypes.string,
+    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     icon: PropTypes.string,
     avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,

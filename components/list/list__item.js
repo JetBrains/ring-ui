@@ -31,7 +31,7 @@ export default class ListItem extends PureComponent {
       PropTypes.element,
       PropTypes.array
     ]),
-    glyph: PropTypes.string,
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     icon: PropTypes.string,
     iconSize: PropTypes.number,
     rightNodes: PropTypes.oneOfType([
