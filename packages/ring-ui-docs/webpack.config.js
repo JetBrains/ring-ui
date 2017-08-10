@@ -115,6 +115,7 @@ module.exports = (env = {}) => {
     plugins: [
       uglifyPlugin,
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin(/^esprima$/),
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
       new DllBundlesPlugin({
