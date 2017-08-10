@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
+import JetBrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
@@ -9,7 +9,6 @@ import Header, {
   SmartServices
 } from '@jetbrains/ring-ui/components/header/header';
 import Link from '@jetbrains/ring-ui/components/link/link';
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
 import GithubCorner from 'react-github-corner';
 
 import styles from './index.css';
@@ -38,10 +37,9 @@ class SiteHeader extends PureComponent {
     return (
       <Header className={styles.header}>
         <Link href={indexDoc}>
-          <Icon
+          <JetBrainsLogo
             className={styles.logo}
-            glyph={jetbrainsLogo}
-            size={Icon.Size.Size128}
+            size={JetBrainsLogo.Size.Size128}
           />
         </Link>
         <span className={styles.headerItem}>{`Ring UI library ${version}`}</span>

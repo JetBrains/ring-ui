@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import checkIcon from '@jetbrains/icons/check.svg';
+import CheckIcon from '@jetbrains/icons/check.svg';
 
-import Icon from '../icon/icon';
+import GenericIcon from '../icon/icon';
 
 /**
  * @constructor
@@ -54,13 +54,15 @@ export default class ListItem extends PureComponent {
   };
 
   static defaultProps = {
-    iconSize: Icon.Size.Size18
+    iconSize: GenericIcon.Size.Size18
   }
 
   render() {
     const {props} = this;
     const {scrolling, checkbox, glyph, icon, rightGlyph, description, label,
       details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
+    const Icon = glyph;
+    const RightIcon = rightGlyph;
     const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !props.disabled,
@@ -91,20 +93,18 @@ export default class ListItem extends PureComponent {
         <div className="ring-list__item__top">
           <div className="ring-list__item__left">
             {checkbox !== undefined && (
-              <Icon
+              <CheckIcon
                 className={classNames({
                   'ring-list__glyph': true,
                   'ring-list__glyph_checkbox': true,
                   'ring-list__glyph_hidden': !checkbox
                 })}
-                glyph={checkIcon}
-                size={Icon.Size.Size18}
+                size={CheckIcon.Size.Size18}
               />
             )}
-            {glyph && (
+            {Icon && (
               <Icon
                 className="ring-list__glyph"
-                glyph={glyph}
                 size={this.props.iconSize}
               />
             )}
@@ -114,10 +114,9 @@ export default class ListItem extends PureComponent {
           <div className="ring-list__item__description">{description}</div>
 
           <div className="ring-list__item__right">
-            {rightGlyph && (
-              <Icon
+            {RightIcon && (
+              <RightIcon
                 className="ring-list__glyph ring-list__glyph_right"
-                glyph={rightGlyph}
                 size={this.props.iconSize}
               />
             )}

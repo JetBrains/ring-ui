@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Link from '@jetbrains/ring-ui/components/link/link';
-import Icon from '@jetbrains/ring-ui/components/icon/icon';
 import Header, {
   Tray,
   SmartProfile,
@@ -8,7 +7,7 @@ import Header, {
 } from '@jetbrains/ring-ui/components/header/header';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import Footer from '@jetbrains/ring-ui/components/footer/footer';
-import hubLogo from '@jetbrains/logos/hub/hub.svg';
+import HubLogo from '@jetbrains/logos/hub/hub.svg';
 
 import styles from './app.css';
 
@@ -29,9 +28,8 @@ export default class AppRoot extends Component {
       <div>
         <Header>
           <Link href="/">
-            <Icon
-              glyph={hubLogo}
-              size={Icon.Size.Size48}
+            <HubLogo
+              size={HubLogo.Size.Size48}
             />
           </Link>
           <Tray>
