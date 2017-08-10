@@ -30,7 +30,7 @@
     "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
     "component:es6": "yo @jetbrains/ring-ui:es6 --path $npm_package_config_components",
     "test": "karma start",
-    "test-generator-e2e": "bash ./generator_test.sh",
+    "test-generator-e2e": "lerna run --stream --scope @jetbrains/generator-ring-ui test",
     "gemini-test": "lerna run --scope ring-ui-gemini --stream gemini-test",
     "gemini-test-ci": "lerna run --scope ring-ui-gemini --stream gemini-test-ci",
     "gemini-gather": "lerna run --scope ring-ui-gemini --stream gemini-gather",
