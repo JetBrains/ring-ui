@@ -4,11 +4,13 @@ category: Docs
 order: 2
 ---
 
-## 0.2.1 — 11-08-2017
+## [0.2.1] — 11-08-2017
 ### Fixed
 - Include icon-runtime-generator.js into package
 
-## 0.2.0 — 11-08-2017
+
+
+## [0.2.0] — 11-08-2017
 ### Added
 - SVG icons can be imported directly as React components. They pass props to the `Icon` component.
         
@@ -32,6 +34,8 @@ order: 2
   [Review][RING-UI-CR-2921].
 - `baseline` option for `Grid` component. [Review][RING-UI-CR-2913].
 
+[0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.0...%40jetbrains/ring-ui%400.2.1
+
 ### Changed
 - `Code` component now comes with a list of highlighed languages.
 Other languages supported by `highlight.js` can be enabled manually:
@@ -46,6 +50,7 @@ Other languages supported by `highlight.js` can be enabled manually:
 - `DataList`: fixed the issue with selection and focus being cleared when toggling a tree element. [Review][RING-UI-CR-2903].
 - Various optimizations were applied to reduce app bundle size. [Review][RING-UI-CR-2923].
 
+[0.2.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.1.2...%40jetbrains/ring-ui%400.2.0
 [RING-UI-CR-2903]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2903
 [RING-UI-CR-2908]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2908
 [RING-UI-CR-2913]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2913
