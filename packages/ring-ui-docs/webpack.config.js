@@ -157,10 +157,6 @@ module.exports = (env = {}) => {
             'react',
             'react-dom',
             'prop-types',
-            {
-              name: '@jetbrains/babel-runtime',
-              path: '@jetbrains/babel-runtime/core-js'
-            },
             '@jetbrains/react-portal',
             'react-waypoint',
             'angular',
