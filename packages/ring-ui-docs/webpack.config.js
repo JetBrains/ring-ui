@@ -185,11 +185,5 @@ module.exports = (env = {}) => {
     ]
   };
 
-  // if (server) {
-  //   docsWebpackConfig.plugins.push(
-  //     new webpack.HotModuleReplacementPlugin(),
-  //   );
-  // }
-
   return docsWebpackConfig;
 };
