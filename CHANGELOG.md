@@ -6,7 +6,7 @@ order: 2
 
 ## 0.2.0 — 11-08-2017
 ### Added
-- SVG Icons can be imported directly as React components. They pass props to the `Icon` component.
+- SVG icons can be imported directly as React components. They pass props to the `Icon` component.
         
       // Before (and still fully supported)
       import pencilIcon from '@jetbrains/icons/pencil'
@@ -36,10 +36,10 @@ Other languages supported by `highlight.js` can be enabled manually:
       import lang1c from 'highlight.js/lib/languages/1c';
       highlight.registerLanguage('1c', lang1c);
    [Review][RING-UI-CR-2914].
-- `DataList` component: show more / less fully rewritten. [Review][RING-UI-CR-2908].
+- `DataList` component: "show more / less" functionality was fully rewritten. [Review][RING-UI-CR-2908].
 
 ### Fixed
-- `DataList`: fixed the issue with selection and focus being cleared on expanding/collapsing tree element. [Review][RING-UI-CR-2903].
+- `DataList`: fixed the issue with selection and focus being cleared when toggling a tree element. [Review][RING-UI-CR-2903].
 - Various optimizations were applied to reduce app bundle size. [Review][RING-UI-CR-2923].
 
 [RING-UI-CR-2903]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2903
@@ -69,7 +69,7 @@ Other languages supported by `highlight.js` can be enabled manually:
 - The commit history has been rewritten. Please clone the repository anew from `ssh://github.com/JetBrains/ring-ui.git`.
 - Prepend your commit messages with `[Publish]` to trigger publishing of npm packages.
 
-## Previous changes
+## Earlier changes
 
 ### 27-07-2017: @jetbrains/icons
 
