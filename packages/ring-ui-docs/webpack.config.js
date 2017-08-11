@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 const webpackConfig = require('@jetbrains/ring-ui/webpack.config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
@@ -39,6 +40,13 @@ module.exports = (env = {}) => {
   const uglifyPlugin = production
     ? new webpack.optimize.UglifyJsPlugin()
     : noopPlugin;
+
+  const exampleCssPattern = /example?\.css$/;
+  const [, ...cssLoader] = webpackConfig.loaders.cssLoader.use;
+  // Patch cssLoader to avoid using it on examples' styles
+  webpackConfig.loaders.cssLoader.exclude = exampleCssPattern;
+  const extractCSS = new ExtractTextPlugin('examples/[name]/[hash].css');
+  const extractHTML = new ExtractTextPlugin('examples/[name]/[hash].html');
 
   const getParam = name => (
     env[name] ||
@@ -79,13 +87,19 @@ module.exports = (env = {}) => {
         // HTML examples
         {
           test: /example\.html$/,
-          use: [
-            'file-loader?name=examples/[name]/[hash].html',
-            'extract-loader',
-            webpackConfig.loaders.htmlLoader.loader
-          ]
+          use: extractHTML.extract({
+            use: webpackConfig.loaders.htmlLoader.loader
+          })
         },
-
+        // CSS examples
+        {
+          test: exampleCssPattern,
+          use: extractCSS.extract({
+            // no need to emit results, we inline them manually in twig template
+            disable: true,
+            use: cssLoader
+          })
+        },
         // twig templates
         {
           test: /\.twig$/,
@@ -123,6 +137,8 @@ module.exports = (env = {}) => {
       new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
       new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
       docpackSetup(dllPath),
+      extractCSS,
+      extractHTML,
       new DllBundlesPlugin({
         bundles: {
           vendor: [
