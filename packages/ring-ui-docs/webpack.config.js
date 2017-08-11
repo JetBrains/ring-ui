@@ -11,8 +11,6 @@ const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./create-entries-list');
 
-const noopPlugin = {apply() {}};
-
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 
@@ -37,9 +35,15 @@ module.exports = (env = {}) => {
   };
   const devtool = production ? false : 'eval';
   const dllPath = `dll-${envString}`;
-  const uglifyPlugin = production
-    ? new webpack.optimize.UglifyJsPlugin()
-    : noopPlugin;
+  const optimizePlugins = production
+    ? [
+      new webpack.DefinePlugin(envDefinition),
+      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
+      })
+    ]
+    : [];
 
   const exampleCssPattern = /example?\.css$/;
   const [, ...cssLoader] = webpackConfig.loaders.cssLoader.use;
@@ -131,11 +135,11 @@ module.exports = (env = {}) => {
       process: 'mock'
     },
     plugins: [
-      uglifyPlugin,
+      ...optimizePlugins,
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/^esprima$/),
       new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
-      new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
+      new webpack.DefinePlugin({hubConfig}),
       docpackSetup(dllPath),
       extractCSS,
       extractHTML,
@@ -175,10 +179,7 @@ module.exports = (env = {}) => {
               webpackConfig.loaders.whatwgLoader
             ]
           },
-          plugins: [
-            uglifyPlugin,
-            new webpack.DefinePlugin(envDefinition)
-          ] // DllBundlesPlugin will set the DllPlugin here
+          plugins: optimizePlugins // DllBundlesPlugin will set the DllPlugin here
         }
       })
     ]
