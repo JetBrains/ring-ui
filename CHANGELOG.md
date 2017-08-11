@@ -4,6 +4,10 @@ category: Docs
 order: 2
 ---
 
+## 0.2.1 — 11-08-2017
+### Fixed
+- Include icon-runtime-generator.js into package
+
 ## 0.2.0 — 11-08-2017
 ### Added
 - SVG icons can be imported directly as React components. They pass props to the `Icon` component.
