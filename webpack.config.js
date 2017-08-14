@@ -21,9 +21,6 @@ const svgSpriteLoader = {
   test: /\.svg$/,
   use: [
     {
-      loader: `${resolveLoader('babel')}?cacheDirectory`
-    },
-    {
       loader: resolveLoader('svg-sprite'),
       options: {
         extract: false,
