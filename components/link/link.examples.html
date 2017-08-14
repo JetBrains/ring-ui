@@ -29,8 +29,7 @@
     import {render} from 'react-dom';
     import classNames from 'classnames';
     import Link, {linkHOC} from '@jetbrains/ring-ui/components/link/link';
-    import Icon from '@jetbrains/ring-ui/components/icon/icon';
-    import hubLogo from '@jetbrains/logos/hub/hub.svg';
+    import HubLogo from '@jetbrains/logos/hub/hub.svg';
 
     class CustomComponent extends Component {
       render() {
@@ -61,7 +60,7 @@
 
            <Link href="#hash" className="hub-link">
             {WrapText => [
-              <Icon key="icon" glyph={hubLogo} size={Icon.Size.Size128} className="hub-icon"/>,
+              <HubLogo key="icon" size={HubLogo.Size.Size128} className="hub-icon"/>,
               <div key="text"><WrapText>Link with non-text content</WrapText></div>
             ]}
            </Link>

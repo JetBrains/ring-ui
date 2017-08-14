@@ -5,12 +5,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import searchIcon from '@jetbrains/icons/search.svg';
+import SearchIcon from '@jetbrains/icons/search.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
-import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {preventDefault} from '../global/dom';
@@ -233,10 +232,9 @@ export default class SelectPopup extends RingComponentWithShortcuts {
 
       return (
         <div className={styles.filterWrapper}>
-          <Icon
+          <SearchIcon
             className={styles.filterIcon}
-            glyph={searchIcon}
-            size={Icon.Size.Size18}
+            size={SearchIcon.Size.Size18}
           />
           <FilterWithShortcuts
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}

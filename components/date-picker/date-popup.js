@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import calendarIcon from '@jetbrains/icons/calendar.svg';
+import CalendarIcon from '@jetbrains/icons/calendar.svg';
 
-import Icon from '../icon/icon';
 import memoize from '../global/memoize';
 
 import DateInput from './date-input';
@@ -251,10 +250,9 @@ export default class DatePopup extends Component {
         data-test="ring-date-popup"
       >
         <div className={styles.filterWrapper}>
-          <Icon
+          <CalendarIcon
             className={styles.filterIcon}
-            glyph={calendarIcon}
-            size={Icon.Size.Size18}
+            size={CalendarIcon.Size.Size18}
           />
           {names.map(name => (
             <DateInput
