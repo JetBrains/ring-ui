@@ -9,7 +9,7 @@ import styles from './header.css';
 export default class TrayIcon extends Component {
   static propTypes = {
     ...Button.propTypes,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
     rotateable: PropTypes.bool
   };
 
