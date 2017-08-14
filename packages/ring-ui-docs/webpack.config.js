@@ -24,6 +24,9 @@ const siteComponents = path.resolve(__dirname, 'components');
 
 // For docs-app entry point
 webpackConfig.componentsPath.push(siteComponents);
+webpackConfig.loaders.svgSpriteLoader.include.push(
+  require('@jetbrains/logos')
+);
 
 module.exports = (env = {}) => {
   const {server, production} = env;
