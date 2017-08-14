@@ -20,7 +20,6 @@ order: 2
       
       <Icon
         glyph={pencilIcon}
-        ref={this.iconRef}
         size={Icon.Size.Size12}
         title="edit"
       />
@@ -29,8 +28,6 @@ order: 2
       import PencilIcon from '@jetbrains/icons/pencil'
       
       <PencilIcon
-        // this gets passed as `ref` to `Icon` component
-        iconRef={this.iconRef}
         size={PencilIcon.Size.Size12}
         title="edit"
       />

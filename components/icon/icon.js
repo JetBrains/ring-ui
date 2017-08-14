@@ -72,3 +72,26 @@ export default class Icon extends PureComponent {
     );
   }
 }
+
+export function iconHOC(glyph, displayName) {
+  // eslint-disable-next-line react/no-multi-comp
+  return class BoundIcon extends PureComponent {
+    static displayName = displayName;
+
+    static propTypes = {
+      iconRef: PropTypes.func
+    };
+
+    static Color = Color;
+    static Size = Size;
+
+    static toString() {
+      return glyph;
+    }
+
+    render() {
+      const {iconRef, ...restProps} = this.props;
+      return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
+    }
+  };
+}
