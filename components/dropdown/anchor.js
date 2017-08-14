@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import ChevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import Button from '../button/button';
-import Icon from '../icon/icon';
 
 import styles from './dropdown.css';
 
@@ -14,10 +13,9 @@ export default function Anchor({children}) {
       className={styles.anchor}
     >
       {children}
-      <Icon
+      <ChevronDownIcon
         className={styles.chevron}
-        glyph={chevronDownIcon}
-        size={Icon.Size.Size12}
+        size={ChevronDownIcon.Size.Size12}
       />
     </Button>
   );

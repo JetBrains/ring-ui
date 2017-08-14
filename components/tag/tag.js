@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import closeIcon from '@jetbrains/icons/close.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon/icon';
@@ -19,7 +19,7 @@ export default class Tag extends RingComponent {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
-    rgTagIcon: PropTypes.string,
+    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     icon: PropTypes.string,
     avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,
@@ -130,12 +130,11 @@ export default class Tag extends RingComponent {
   renderRemoveIcon() {
     if (!this.props.readOnly) {
       return (
-        <Icon
+        <CloseIcon
           data-test="ring-tag-remove"
           className="ring-tag__remove ring-link"
-          glyph={closeIcon}
           onClick={this.props.onRemove}
-          size={Icon.Size.Size14}
+          size={CloseIcon.Size.Size14}
         />
       );
     }

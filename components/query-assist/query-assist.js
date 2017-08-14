@@ -4,8 +4,8 @@ import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
-import searchIcon from '@jetbrains/icons/search.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import SearchIcon from '@jetbrains/icons/search.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';
@@ -13,7 +13,6 @@ import RingComponentWithShortcuts from '../ring-component/ring-component_with-sh
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
-import Icon from '../icon/icon';
 import LoaderInline from '../loader-inline/loader-inline';
 
 import './query-assist.scss';
@@ -753,6 +752,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       return;
     }
 
+    // eslint-disable-next-line react/no-find-dom-node
     this.input = findDOMNode(node);
     this.caret = new Caret(this.input);
   }
@@ -828,13 +828,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           </span>
         )}
         {renderGlass && (
-          <Icon
+          <SearchIcon
             className="ring-query-assist__icon ring-query-assist__icon_glass"
-            ref={this.glassRef}
+            iconRef={this.glassRef}
             color="gray"
-            glyph={searchIcon}
             onClick={this.handleApply}
-            size={Icon.Size.Size16}
+            size={SearchIcon.Size.Size16}
           />
         )}
         {renderLoader && (
@@ -846,13 +845,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           </div>
         )}
         {renderClear && (
-          <Icon
+          <CloseIcon
             className="ring-query-assist__icon ring-query-assist__icon_clear"
-            ref={this.clearRef}
+            iconRef={this.clearRef}
             color="gray"
-            glyph={closeIcon}
             onClick={this.clearQuery}
-            size={Icon.Size.Size16}
+            size={CloseIcon.Size.Size16}
           />
         )}
         <PopupMenu

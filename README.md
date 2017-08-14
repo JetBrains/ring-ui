@@ -1,5 +1,5 @@
 # Ring UI — JetBrains Web UI components
-[![Build Status][ci-img]][ci] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
+[![Build Status][ci-img]][ci-bt] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
 This collection of UI components aims to provide all of the necessary building 
 blocks for web-based products built inside JetBrains, as well as third-party 
@@ -59,11 +59,12 @@ In case boilerplate generators are not your thing and you prefer to understand t
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
-- [Builds in TeamCity][ci]
+- [Builds in TeamCity][ci-project]
 - [npm package][npm-package]
 
-[ci]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
-[ci-img]:  https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_Build/statusIcon.svg
+[ci-project]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
+[ci-bt]: https://teamcity.jetbrains.com/viewType.html?buildTypeId=JetBrainsUi_RingUi_GeminiTests&tab=buildTypeStatusDiv
+[ci-img]:  https://teamcity.jetbrains.com/app/rest/builds/buildType:JetBrainsUi_RingUi_GeminiTests/statusIcon.svg
 [deps]: https://david-dm.org/jetbrains/ring-ui
 [deps-img]: https://img.shields.io/david/jetbrains/ring-ui.svg
 [dev-deps]: https://david-dm.org/jetbrains/ring-ui?type=dev

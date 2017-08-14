@@ -2,6 +2,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
 
+import Icon from '../icon/icon';
+
 import Tag from './tag';
 
 
@@ -15,6 +17,6 @@ describe('Tag', () => {
   });
 
   it('should contains icon', () => {
-    shallowTag().should.have.descendants('.ring-tag__ring-icon');
+    shallowTag().find(Icon).should.have.className('ring-tag__ring-icon');
   });
 });

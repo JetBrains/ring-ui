@@ -58,6 +58,7 @@ export default class RingComponent extends Component {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line react/no-find-dom-node
     this.node = findDOMNode(this);
     if (this.didMount) {
       this.didMount();

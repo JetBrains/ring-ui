@@ -19,13 +19,17 @@ const htmlLoaderOptions = `?${JSON.stringify({
 
 const svgSpriteLoader = {
   test: /\.svg$/,
-  loader: resolveLoader('svg-sprite'),
-  include: [require('@jetbrains/logos'), require('@jetbrains/icons')],
-  options: {
-    extract: false,
-    runtimeCompat: true,
-    esModule: false
-  }
+  use: [
+    {
+      loader: resolveLoader('svg-sprite'),
+      options: {
+        extract: false,
+        runtimeCompat: true,
+        runtimeGenerator: require.resolve('./icon-runtime-generator')
+      }
+    }
+  ],
+  include: [require('@jetbrains/logos'), require('@jetbrains/icons')]
 };
 
 const svgLoader = {

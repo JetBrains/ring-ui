@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import CheckmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon from '../icon/icon';
@@ -35,7 +35,7 @@ export default class ListItem extends PureComponent {
       PropTypes.array
     ]),
     avatar: PropTypes.string,
-    glyph: PropTypes.string,
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     icon: PropTypes.string,
     iconSize: PropTypes.number,
     rightNodes: PropTypes.oneOfType([
@@ -51,7 +51,7 @@ export default class ListItem extends PureComponent {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     level: PropTypes.number,
     rgItemType: PropTypes.number,
-    rightGlyph: PropTypes.string,
+    rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     compact: PropTypes.bool,
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
@@ -158,12 +158,11 @@ export default class ListItem extends PureComponent {
             )}
             {rightNodes}
             {checkbox !== undefined && (
-              <Icon
+              <CheckmarkIcon
                 className={classNames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
-                glyph={checkmarkIcon}
-                size={Icon.Size.Size14}
+                size={CheckmarkIcon.Size.Size14}
               />
             )}
           </div>
