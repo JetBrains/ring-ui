@@ -29,7 +29,7 @@ const svgSpriteLoader = {
       }
     }
   ],
-  include: [require('@jetbrains/logos'), require('@jetbrains/icons')]
+  include: [require('@jetbrains/icons')]
 };
 
 const svgLoader = {
