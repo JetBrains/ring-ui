@@ -12,13 +12,19 @@
   <script src="../../example-common.js"></script>
   <!-- example content -->
   {% for file in example.files if file.type == 'html' %}
-    {% for asset in file.assets if asset.type == 'html' %}
-      {{ asset.content | raw }}
+    {{ file.content | raw }}
+  {% endfor %}
+
+  {% for file in example.files if file.type == 'css'  %}
+  <style>
+    {% for asset in file.assets if asset.type == 'css' %}
+        {{ asset.content | raw }}
     {% endfor %}
+  </style>
   {% endfor %}
 
   <!-- example assets -->
-  {% for file in example.files %}
+  {% for file in example.files if file.type == 'js'  %}
     {% for asset in file.assets %}
       {% if asset.type == 'js' %}
         <script src="../../{{ asset.path }}"></script>

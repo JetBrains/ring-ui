@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {shallow, mount} from 'enzyme';

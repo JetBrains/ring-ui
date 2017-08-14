@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import ChevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input, {Size} from '../input/input';
-import Icon from '../icon/icon';
+import GenericIcon from '../icon/icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
@@ -295,7 +295,7 @@ export default class Select extends RingComponentWithShortcuts {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: Icon.Size.Size14,
+      iconSize: GenericIcon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: event => {
         this.clear(event);
@@ -779,18 +779,17 @@ export default class Select extends RingComponentWithShortcuts {
           className={styles.clearIcon}
           key="close"
           onClick={this.clear}
-          icon={closeIcon}
-          iconSize={Icon.Size.Size14}
+          icon={CloseIcon}
+          iconSize={CloseIcon.Size.Size14}
         />
       );
     }
 
     if (!this.props.hideArrow) {
       icons.push(
-        <Icon
-          glyph={chevronDownIcon}
+        <ChevronDownIcon
           key="hide"
-          size={Icon.Size.Size14}
+          size={ChevronDownIcon.Size.Size14}
         />
       );
     }

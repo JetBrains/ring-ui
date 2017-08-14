@@ -41,13 +41,13 @@ describe('Icon Ng', () => {
 
   it('should contain non-empty use element', () => {
     // queries like 'use[*|href="#ok"]' do not work in IE
-    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon);
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon.toString());
   });
 
   it('should change use element content', () => {
     scope.icon = warningIcon;
     scope.$digest();
-    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(warningIcon);
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(warningIcon.toString());
   });
 
   it('should remove use element content', () => {

@@ -1,14 +1,13 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
-import exceptionIcon from '@jetbrains/icons/exception.svg';
-import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
-import warningIcon from '@jetbrains/icons/warning.svg';
-import closeIcon from '@jetbrains/icons/close.svg';
+import ExceptionIcon from '@jetbrains/icons/exception.svg';
+import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
+import WarningIcon from '@jetbrains/icons/warning.svg';
+import CloseIcon from '@jetbrains/icons/close.svg';
 
 
 import RingComponent from '../ring-component/ring-component';
-import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import Badge from '../badge/badge';
 import {getRect} from '../global/dom';
@@ -39,10 +38,10 @@ const Type = {
  * Lookup table of alert type to icon modifier.
  * @type {Object.<Type, string>}
  */
-const TypeToIconModifier = {
-  [Type.ERROR]: exceptionIcon,
-  [Type.SUCCESS]: checkMarkIcon,
-  [Type.WARNING]: warningIcon
+const TypeToIcon = {
+  [Type.ERROR]: ExceptionIcon,
+  [Type.SUCCESS]: CheckMarkIcon,
+  [Type.WARNING]: WarningIcon
 };
 
 /**
@@ -50,9 +49,9 @@ const TypeToIconModifier = {
  * @type {Object.<Type, Icon.Color>}
  */
 const TypeToIconColor = {
-  [Type.ERROR]: Icon.Color.RED,
-  [Type.SUCCESS]: Icon.Color.GREEN,
-  [Type.WARNING]: Icon.Color.ORANGE
+  [Type.ERROR]: ExceptionIcon.Color.RED,
+  [Type.SUCCESS]: CheckMarkIcon.Color.GREEN,
+  [Type.WARNING]: WarningIcon.Color.ORANGE
 };
 
 /**
@@ -153,14 +152,13 @@ export default class Alert extends RingComponent {
    * @return {XML|string}
    */
   _getIcon() {
-    const iconModifier = TypeToIconModifier[this.props.type];
+    const Icon = TypeToIcon[this.props.type];
 
-    if (iconModifier) {
+    if (Icon) {
       return (
         <Icon
           className={styles.icon}
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
-          glyph={iconModifier}
           size={Icon.Size.Size16}
         />
       );
@@ -202,9 +200,8 @@ export default class Alert extends RingComponent {
                 data-test="alert-close"
                 onClick={this.closeRequest}
               >
-                <Icon
-                  glyph={closeIcon}
-                  size={Icon.Size.Size16}
+                <CloseIcon
+                  size={CloseIcon.Size.Size16}
                 />
               </button>
             )

@@ -7,9 +7,17 @@ import Header, {
   Logo,
   Tray,
   SmartProfile,
-  SmartServices
+  Services
 } from '@jetbrains/ring-ui/components/header/header';
 import GithubCorner from 'react-github-corner';
+
+/* eslint-disable import/no-unresolved */
+import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
+
+import upsourceLogo from '!file-loader!@jetbrains/logos/upsource/upsource.svg';
+
+import teamcityLogo from '!file-loader!@jetbrains/logos/teamcity/teamcity.svg';
+/* eslint-enable */
 
 import styles from './index.css';
 import hubConfig from './hub-config';
@@ -51,7 +59,28 @@ class SiteHeader extends PureComponent {
           />
         ))}
         <Tray>
-          <SmartServices auth={this.auth}/>
+          <Services
+            services={[
+              {
+                id: 'youtrack',
+                name: 'Issues',
+                iconUrl: youtrackLogo,
+                homeUrl: 'https://youtrack.jetbrains.com/issues/RG'
+              },
+              {
+                id: 'upsource',
+                name: 'Code review',
+                iconUrl: upsourceLogo,
+                homeUrl: 'https://upsource.jetbrains.com/ring-ui/view'
+              },
+              {
+                id: 'teamcity',
+                name: 'Builds',
+                iconUrl: teamcityLogo,
+                homeUrl: 'https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview'
+              }
+            ]}
+          />
           <SmartProfile auth={this.auth} size={SmartProfile.Size.Size40}/>
           <div className={styles.githubCorner}>
             <GithubCorner

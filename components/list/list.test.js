@@ -3,7 +3,7 @@ import React from 'react';
 import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
-import {List as VirtualizedList} from 'react-virtualized';
+import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 
 import Icon from '../icon/icon';
 
@@ -15,7 +15,6 @@ import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import styles from './list.css';
 
-const XLINK_NS = 'http://www.w3.org/1999/xlink';
 describe('List', () => {
   const Type = List.ListProps.Type;
 
@@ -300,14 +299,14 @@ describe('List', () => {
           {
             iconSize: customIconSize,
             label: 'Hello!',
-            glyph: '#eye',
+            glyph: checkMarkIcon,
             type: List.ListProps.Type.ITEM
           }
         ]
       }).instance();
 
-      const icon = mountFirstItem(instance).find('.ring-icon__i');
-      icon.prop('style').width.should.be.equal(customIconSize);
+      const icon = mountFirstItem(instance).find(Icon);
+      icon.should.have.prop('size', customIconSize);
     });
 
     it('should not render glyph if not provided', () => {
@@ -327,8 +326,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      mountFirstItem(instance).find('use').getDOMNode().
-        getAttributeNS(XLINK_NS, 'href').should.equal(checkMarkIcon);
+      mountFirstItem(instance).find(Icon).should.have.prop('glyph', checkMarkIcon);
     });
 
     it('should throw error on unknown type', () => {
