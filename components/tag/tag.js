@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponent from '../ring-component/ring-component';
+import Icon from '../icon/icon';
 
 import './tag.scss';
 
@@ -76,12 +77,12 @@ export default class Tag extends RingComponent {
   };
 
   renderCustomIcon() {
-    const Icon = this.props.rgTagIcon;
-    if (Icon) {
+    if (this.props.rgTagIcon) {
       return (
         <Icon
           className="ring-tag__ring-icon"
           title={this.props.rgTagTitle}
+          glyph={this.props.rgTagIcon}
           size={Icon.Size.Size12}
         />
       );

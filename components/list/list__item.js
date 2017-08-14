@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CheckIcon from '@jetbrains/icons/check.svg';
 
-import GenericIcon from '../icon/icon';
+import Icon from '../icon/icon';
 
 /**
  * @constructor
@@ -47,22 +47,20 @@ export default class ListItem extends PureComponent {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     level: PropTypes.number,
     rgItemType: PropTypes.number,
-    rightGlyph: PropTypes.string,
+    rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func
   };
 
   static defaultProps = {
-    iconSize: GenericIcon.Size.Size18
+    iconSize: Icon.Size.Size18
   }
 
   render() {
     const {props} = this;
     const {scrolling, checkbox, glyph, icon, rightGlyph, description, label,
       details, hover, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, rightNodes, leftNodes, ...restProps} = props; // eslint-disable-line no-unused-vars, max-len
-    const Icon = glyph;
-    const RightIcon = rightGlyph;
     const classes = classNames({
       'ring-list__item': true,
       'ring-list__item_action': !props.disabled,
@@ -102,9 +100,10 @@ export default class ListItem extends PureComponent {
                 size={CheckIcon.Size.Size18}
               />
             )}
-            {Icon && (
+            {glyph && (
               <Icon
                 className="ring-list__glyph"
+                glyph={glyph}
                 size={this.props.iconSize}
               />
             )}
@@ -114,9 +113,10 @@ export default class ListItem extends PureComponent {
           <div className="ring-list__item__description">{description}</div>
 
           <div className="ring-list__item__right">
-            {RightIcon && (
-              <RightIcon
+            {rightGlyph && (
+              <Icon
                 className="ring-list__glyph ring-list__glyph_right"
+                glyph={rightGlyph}
                 size={this.props.iconSize}
               />
             )}
