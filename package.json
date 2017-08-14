@@ -135,7 +135,7 @@
     "lerna": "^2.0.0",
     "lint-staged": "4.0.2",
     "mocha": "3.4.2",
-    "react-github-corner": "0.3.0",
+    "react-github-corner": "^1.0.0",
     "react-test-renderer": "15.6.1",
     "sinon": "2.3.8",
     "sinon-chai": "2.12.0",
