@@ -1,11 +1,12 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
+import checkMarkIcon from '@jetbrains/icons/checkmark.svg';
 import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 
 import linkStyles from '../link/link.css';
+import Icon from '../icon/icon';
 
 import List from './list';
 import ListItem from './list__item';
@@ -291,19 +292,19 @@ describe('List', () => {
     });
 
     it('should render icon of a custom size', () => {
-      const customIconSize = CheckMarkIcon.Size.Size12;
+      const customIconSize = Icon.Size.Size12;
       const instance = shallowList({
         data: [
           {
             iconSize: customIconSize,
             label: 'Hello!',
-            glyph: CheckMarkIcon,
+            glyph: checkMarkIcon,
             type: List.ListProps.Type.ITEM
           }
         ]
       }).instance();
 
-      const icon = mountFirstItem(instance).find(CheckMarkIcon);
+      const icon = mountFirstItem(instance).find(Icon);
       icon.should.have.prop('size', customIconSize);
     });
 
@@ -320,11 +321,11 @@ describe('List', () => {
     it('should render glyph if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', glyph: CheckMarkIcon, type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', glyph: checkMarkIcon, type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      mountFirstItem(instance).should.have.descendants(CheckMarkIcon);
+      mountFirstItem(instance).find(Icon).should.have.prop('glyph', checkMarkIcon);
     });
 
     it('should throw error on unknown type', () => {
