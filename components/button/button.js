@@ -35,7 +35,7 @@ export default class Button extends PureComponent {
     short: PropTypes.bool,
     text: PropTypes.bool,
 
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     iconSize: PropTypes.number,
     className: PropTypes.string,
     onMouseDown: PropTypes.func,

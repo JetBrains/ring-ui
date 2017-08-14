@@ -5,12 +5,11 @@ const path = require('path');
 const webpack = require('webpack');
 const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 const webpackConfig = require('@jetbrains/ring-ui/webpack.config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const pkgConfig = require('./package.json').config;
 const docpackSetup = require('./webpack-docs-plugin.setup');
 const createEntriesList = require('./create-entries-list');
-
-const noopPlugin = {apply() {}};
 
 // Borrowed from webpack-dev-server
 const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
@@ -36,9 +35,22 @@ module.exports = (env = {}) => {
   };
   const devtool = production ? false : 'eval';
   const dllPath = `dll-${envString}`;
-  const uglifyPlugin = production
-    ? new webpack.optimize.UglifyJsPlugin()
-    : noopPlugin;
+  const optimizePlugins = production
+    ? [
+      new webpack.DefinePlugin(envDefinition),
+      new webpack.optimize.UglifyJsPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        minimize: true
+      })
+    ]
+    : [];
+
+  const exampleCssPattern = /example?\.css$/;
+  const [, ...cssLoader] = webpackConfig.loaders.cssLoader.use;
+  // Patch cssLoader to avoid using it on examples' styles
+  webpackConfig.loaders.cssLoader.exclude = exampleCssPattern;
+  const extractCSS = new ExtractTextPlugin('examples/[name]/[hash].css');
+  const extractHTML = new ExtractTextPlugin('examples/[name]/[hash].html');
 
   const getParam = name => (
     env[name] ||
@@ -79,13 +91,19 @@ module.exports = (env = {}) => {
         // HTML examples
         {
           test: /example\.html$/,
-          use: [
-            'file-loader?name=examples/[name]/[hash].html',
-            'extract-loader',
-            webpackConfig.loaders.htmlLoader.loader
-          ]
+          use: extractHTML.extract({
+            use: webpackConfig.loaders.htmlLoader.loader
+          })
         },
-
+        // CSS examples
+        {
+          test: exampleCssPattern,
+          use: extractCSS.extract({
+            // no need to emit results, we inline them manually in twig template
+            disable: true,
+            use: cssLoader
+          })
+        },
         // twig templates
         {
           test: /\.twig$/,
@@ -112,10 +130,19 @@ module.exports = (env = {}) => {
       filename: '[name].js',
       publicPath // serve HMR update jsons properly
     },
+    node: {
+      Buffer: false,
+      process: 'mock'
+    },
     plugins: [
-      uglifyPlugin,
-      new webpack.DefinePlugin(Object.assign({hubConfig}, envDefinition)),
+      ...optimizePlugins,
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin(/^esprima$/),
+      new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
+      new webpack.DefinePlugin({hubConfig}),
       docpackSetup(dllPath),
+      extractCSS,
+      extractHTML,
       new DllBundlesPlugin({
         bundles: {
           vendor: [
@@ -130,10 +157,6 @@ module.exports = (env = {}) => {
             'react',
             'react-dom',
             'prop-types',
-            {
-              name: '@jetbrains/babel-runtime',
-              path: '@jetbrains/babel-runtime/core-js'
-            },
             '@jetbrains/react-portal',
             'react-waypoint',
             'angular',
@@ -152,20 +175,11 @@ module.exports = (env = {}) => {
               webpackConfig.loaders.whatwgLoader
             ]
           },
-          plugins: [
-            uglifyPlugin,
-            new webpack.DefinePlugin(envDefinition)
-          ] // DllBundlesPlugin will set the DllPlugin here
+          plugins: optimizePlugins // DllBundlesPlugin will set the DllPlugin here
         }
       })
     ]
   };
-
-  // if (server) {
-  //   docsWebpackConfig.plugins.push(
-  //     new webpack.HotModuleReplacementPlugin(),
-  //   );
-  // }
 
   return docsWebpackConfig;
 };

@@ -19,7 +19,7 @@ import styles from './error-message.css';
 
 export default class ErrorMessage extends Component {
   static propTypes = {
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     code: PropTypes.string,
     message: PropTypes.string,
     description: PropTypes.string,
