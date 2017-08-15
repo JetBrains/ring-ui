@@ -12,11 +12,11 @@ import Header, {
 import GithubCorner from 'react-github-corner';
 
 /* eslint-disable import/no-unresolved */
-import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
+import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
 
-import upsourceLogo from '!file-loader!@jetbrains/logos/upsource/upsource.svg';
+import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
 
-import teamcityLogo from '!file-loader!@jetbrains/logos/teamcity/teamcity.svg';
+import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
 /* eslint-enable */
 
 import styles from './index.css';
