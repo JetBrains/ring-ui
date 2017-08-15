@@ -39,7 +39,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'firefox',
-        version: '42.0',
+        version: '47.0',
         platform: WIN10
       }
     },
