@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@jetbrains/react-portal';
+import FocusTrap from 'focus-trap-react';
 
 import RingComponent from '../ring-component/ring-component';
 import {AdaptiveIsland} from '../island/island';
@@ -83,23 +84,25 @@ export default class Dialog extends RingComponent {
         onOpen={ScrollPreventer.prevent}
         onClose={ScrollPreventer.reset}
       >
-        <div
-          ref={this.dialogRef}
-          className={classes}
-          onClick={this.handleClick}
-          {...restProps}
-        >
-          <Shortcuts
-            map={shortcutsMap}
-            scope={this.state.shortcutsScope}
-          />
-          <AdaptiveIsland
-            className={classNames(styles.content, contentClassName)}
-            data-test="ring-dialog"
+        <FocusTrap>
+          <div
+            ref={this.dialogRef}
+            className={classes}
+            onClick={this.handleClick}
+            {...restProps}
           >
-            {children}
-          </AdaptiveIsland>
-        </div>
+            <Shortcuts
+              map={shortcutsMap}
+              scope={this.state.shortcutsScope}
+            />
+            <AdaptiveIsland
+              className={classNames(styles.content, contentClassName)}
+              data-test="ring-dialog"
+            >
+              {children}
+            </AdaptiveIsland>
+          </div>
+        </FocusTrap>
       </Portal>
     );
   }
