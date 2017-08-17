@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@jetbrains/react-portal';
+import FocusTrap from 'focus-trap-react';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
@@ -9,6 +10,10 @@ import Shortcuts from '../shortcuts/shortcuts';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
+
+function PortalPropsCleaner({children}) {
+  return children;
+}
 
 /**
  * @name Dialog
@@ -33,13 +38,15 @@ export default class Dialog extends PureComponent {
     onEscPress: PropTypes.func,
     // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
     // Use it if you don't need different behaviors for this cases.
-    onCloseAttempt: PropTypes.func
+    onCloseAttempt: PropTypes.func,
+    trapFocus: PropTypes.bool
   };
 
   static defaultProps = {
     onOverlayClick: () => {},
     onEscPress: () => {},
-    onCloseAttempt: () => {}
+    onCloseAttempt: () => {},
+    trapFocus: true
   }
 
   state = {
@@ -67,13 +74,13 @@ export default class Dialog extends PureComponent {
     };
   }
 
-  dialogRef = el => {
-    this.dialog = el;
+  dialogRef = focusTrap => {
+    this.dialog = focusTrap && focusTrap.node;
   }
 
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
-    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
+    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, trapFocus, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -83,23 +90,26 @@ export default class Dialog extends PureComponent {
         onOpen={ScrollPreventer.prevent}
         onClose={ScrollPreventer.reset}
       >
-        <div
-          ref={this.dialogRef}
-          className={classes}
-          onClick={this.handleClick}
-          {...restProps}
-        >
-          <Shortcuts
-            map={shortcutsMap}
-            scope={this.state.shortcutsScope}
-          />
-          <AdaptiveIsland
-            className={classNames(styles.content, contentClassName)}
-            data-test="ring-dialog"
+        <PortalPropsCleaner>
+          <FocusTrap
+            active={trapFocus}
+            ref={this.dialogRef}
+            className={classes}
+            onClick={this.handleClick}
+            {...restProps}
           >
-            {children}
-          </AdaptiveIsland>
-        </div>
+            <Shortcuts
+              map={shortcutsMap}
+              scope={this.state.shortcutsScope}
+            />
+            <AdaptiveIsland
+              className={classNames(styles.content, contentClassName)}
+              data-test="ring-dialog"
+            >
+              {children}
+            </AdaptiveIsland>
+          </FocusTrap>
+        </PortalPropsCleaner>
       </Portal>
     );
   }

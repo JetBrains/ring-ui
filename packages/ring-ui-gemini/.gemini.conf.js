@@ -1,5 +1,6 @@
-const hostname = require('os').hostname();
-const rootUrl = `http://${hostname}:9999/examples/`;
+const ip = require('ip');
+
+const rootUrl = `http://${ip.address()}:9999/examples/`;
 
 const gridUrl = process.env.SELENIUM_GRID || 'http://ondemand.saucelabs.com/wd/hub';
 // Supports Firefox
