@@ -12,6 +12,10 @@ import Shortcuts from '../shortcuts/shortcuts';
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
 
+function PortalPropsCleaner({children}) {
+  return children;
+}
+
 /**
  * @name Dialog
  * @category Components
@@ -70,8 +74,8 @@ export default class Dialog extends RingComponent {
     };
   }
 
-  dialogRef = el => {
-    this.dialog = el;
+  dialogRef = focusTrap => {
+    this.dialog = focusTrap && focusTrap.node;
   }
 
   render() {
@@ -86,13 +90,14 @@ export default class Dialog extends RingComponent {
         onOpen={ScrollPreventer.prevent}
         onClose={ScrollPreventer.reset}
       >
-        <div
-          ref={this.dialogRef}
-          className={classes}
-          onClick={this.handleClick}
-          {...restProps}
-        >
-          <FocusTrap active={trapFocus}>
+        <PortalPropsCleaner>
+          <FocusTrap
+            active={trapFocus}
+            ref={this.dialogRef}
+            className={classes}
+            onClick={this.handleClick}
+            {...restProps}
+          >
             <Shortcuts
               map={shortcutsMap}
               scope={this.state.shortcutsScope}
@@ -104,7 +109,7 @@ export default class Dialog extends RingComponent {
               {children}
             </AdaptiveIsland>
           </FocusTrap>
-        </div>
+        </PortalPropsCleaner>
       </Portal>
     );
   }
