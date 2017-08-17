@@ -1,4 +1,4 @@
-@value unit, overlay-z-index, white-color, border-radius, font from  "../global/global.css";
+@value unit, overlay-z-index, white-color, border-radius, font, font-size from  "../global/global.css";
 
 .popup {
   composes: font;
@@ -18,6 +18,8 @@
   border-radius: border-radius;
   background-color: #fff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+
+  font-size: font-size;
 }
 
 .hidden {
