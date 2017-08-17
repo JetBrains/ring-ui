@@ -15,6 +15,7 @@ module.exports = {
   gridUrl,
   retry: 2,
   suitesPerSession: 100, // workaround for Gemini bug
+  compositeImage: true,
   system: {
     plugins: {
       teamcity: process.argv.indexOf('--teamcity') !== -1,
