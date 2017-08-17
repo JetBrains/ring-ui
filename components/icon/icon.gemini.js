@@ -14,4 +14,11 @@ gemini.suite('Icon', () => {
       setCaptureElements('#all-icons').
       capture('all icons');
   });
+
+  gemini.suite('All logos', suite => {
+    suite.
+      setUrl('/icon/list-of-jet-brains-product-logos.html').
+      setCaptureElements('#logos').
+      capture('all logos');
+  });
 });
