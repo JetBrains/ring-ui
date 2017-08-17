@@ -1,6 +1,5 @@
 const ip = require('ip');
 
-const ipAddress = require('os').networkInterfaces()['en0'][0].address;
 const rootUrl = `http://${ip.address()}:9999/examples/`;
 
 const gridUrl = process.env.SELENIUM_GRID || 'http://ondemand.saucelabs.com/wd/hub';
