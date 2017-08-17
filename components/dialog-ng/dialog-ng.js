@@ -1,5 +1,6 @@
 import angular from 'angular';
 import 'dom4';
+import createFocusTrap from 'focus-trap';
 
 import {getRect, getStyles} from '../global/dom';
 import RingAngularComponent from '../global/ring-angular-component';
@@ -26,9 +27,10 @@ const angularModule = angular.module(
   'Ring.dialog',
   [RingButton, PromisedClickNg, rgCompilerModuleName]
 );
+const FOCUS_TRAP_INSTALL_DELAY = 100;
 
 class DialogController extends RingAngularComponent {
-  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile',
+  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$element',
     '$injector', '$controller', 'rgCompiler'];
 
   constructor(...args) {
@@ -66,6 +68,7 @@ class DialogController extends RingAngularComponent {
     });
 
     dialogService.register(this);
+    this.focusTrap = createFocusTrap(this.$inject.$element[0]);
   }
 
   getShortcuts() {
@@ -131,6 +134,7 @@ class DialogController extends RingAngularComponent {
 
     if (!this.inSidebar) {
       ScrollPreventer.prevent();
+      setTimeout(() => this.focusTrap.activate(), FOCUS_TRAP_INSTALL_DELAY);
     }
 
     if (this.active) {
@@ -192,6 +196,7 @@ class DialogController extends RingAngularComponent {
     }
 
     this.active = false;
+    this.focusTrap.deactivate();
     this.content = '';
 
     Reflect.deleteProperty(this, 'DIALOG_NAMESPACE');
