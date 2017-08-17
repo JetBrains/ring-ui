@@ -1,29 +1,26 @@
-import 'dom4';
-import {renderIntoDocument, isCompositeComponentWithType} from 'react-dom/test-utils';
+import {shallow} from 'enzyme';
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 
 import {Tabs, Tab} from './tabs';
 
 describe('Tabs', () => {
-  const renderComponent = props => renderIntoDocument(
+  const shallowTabs = props => shallow(
     <Tabs {...props}>
       <Tab title="1"/>
       <Tab title="2"/>
     </Tabs>
   );
-  const renderNode = props => findDOMNode(renderComponent(props));
 
   it('should create component', () => {
-    isCompositeComponentWithType(renderComponent(), Tabs).should.be.true;
+    shallowTabs().should.be.present();
   });
 
   it('should wrap children with div', () => {
-    renderNode().should.match('div');
+    shallowTabs().should.have.tagName('div');
   });
 
   it('should use passed className', () => {
-    renderNode({className: 'test-class'}).should.match('.test-class');
+    shallowTabs({className: 'test-class'}).should.have.className('test-class');
   });
 
   // TODO Add more tests
