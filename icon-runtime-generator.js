@@ -15,7 +15,7 @@ module.exports = ({symbol, config, context}) => {
     import sprite from ${spriteRequest};
     import {iconHOC} from '@jetbrains/ring-ui/components/icon/icon';
 
-    const symbol = new SpriteSymbol(${stringifySymbol(symbol)});
+    var symbol = new SpriteSymbol(${stringifySymbol(symbol)});
     sprite.add(symbol);
 
     export default iconHOC('${glyph}', '${displayName}');
