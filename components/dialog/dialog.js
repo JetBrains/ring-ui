@@ -34,13 +34,15 @@ export default class Dialog extends RingComponent {
     onEscPress: PropTypes.func,
     // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
     // Use it if you don't need different behaviors for this cases.
-    onCloseAttempt: PropTypes.func
+    onCloseAttempt: PropTypes.func,
+    trapFocus: PropTypes.bool
   };
 
   static defaultProps = {
     onOverlayClick: () => {},
     onEscPress: () => {},
-    onCloseAttempt: () => {}
+    onCloseAttempt: () => {},
+    trapFocus: true
   }
 
   state = {
@@ -74,7 +76,7 @@ export default class Dialog extends RingComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
-    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, ...restProps} = this.props;
+    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, trapFocus, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -84,13 +86,13 @@ export default class Dialog extends RingComponent {
         onOpen={ScrollPreventer.prevent}
         onClose={ScrollPreventer.reset}
       >
-        <FocusTrap>
-          <div
-            ref={this.dialogRef}
-            className={classes}
-            onClick={this.handleClick}
-            {...restProps}
-          >
+        <div
+          ref={this.dialogRef}
+          className={classes}
+          onClick={this.handleClick}
+          {...restProps}
+        >
+          <FocusTrap active={trapFocus}>
             <Shortcuts
               map={shortcutsMap}
               scope={this.state.shortcutsScope}
@@ -101,8 +103,8 @@ export default class Dialog extends RingComponent {
             >
               {children}
             </AdaptiveIsland>
-          </div>
-        </FocusTrap>
+          </FocusTrap>
+        </div>
       </Portal>
     );
   }

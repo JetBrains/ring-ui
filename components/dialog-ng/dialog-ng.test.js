@@ -67,7 +67,8 @@ describe('Dialog Ng', () => {
     const promise = dialogInSidebar.show(Object.assign({
       content: '/test.html',
       buttons,
-      data
+      data,
+      trapFocus: false
     }, options));
 
     scope.$digest();
@@ -359,7 +360,8 @@ describe('Dialog Ng', () => {
 
         dialogInSidebar.show({
           scope: $rootScope.$new(),
-          template: '<div/>'
+          template: '<div/>',
+          trapFocus: false
         });
 
         dialogForm = getDialogFormObject(element);
@@ -469,7 +471,7 @@ describe('Dialog Ng', () => {
     );
     const callback = sandbox.stub();
     scope.$$childHead.$on('dialog.show', callback); // eslint-disable-line angular/no-private-call
-    dialogInSidebar.show();
+    dialogInSidebar.show({trapFocus: false});
 
     callback.should.have.been.called;
   });
