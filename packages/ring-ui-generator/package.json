@@ -25,6 +25,7 @@
     "yeoman-option-or-prompt": "^2.0.0"
   },
   "devDependencies": {
-    "@jetbrains/ring-ui": "^1.0.0-beta.3"
+    "@jetbrains/ring-ui": "^1.0.0-beta.3",
+    "yo": "2.0.0"
   }
 }

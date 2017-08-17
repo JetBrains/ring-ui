@@ -22,7 +22,6 @@ saucelabs-session.log
 jetbrains-ring-ui-*.tgz
 yarn.lock
 yarn-error.log
-package-lock.json
 build
 eslint-report.xml
 lerna-debug.log
