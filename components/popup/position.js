@@ -53,7 +53,14 @@ export const Display = {
   SHOWN: 2
 };
 
-function getScrollingCoordinates() {
+function getScrollingCoordinates(container) {
+  if (container !== null) {
+    return {
+      top: container.scrollTop,
+      left: container.scrollLeft
+    };
+  }
+
   return {
     top: getDocumentScrollTop(),
     left: getDocumentScrollLeft()
@@ -91,8 +98,11 @@ function getPositionStyles(popup, anchorRect, anchorLeft, anchorTop) {
 }
 
 function verticalOverflow(styles, scrollingCoordinates, attrs) {
+  const containerHeight = attrs.container !== null
+    ? attrs.container.clientHeight
+    : getWindowHeight();
   const viewportMinX = scrollingCoordinates.top + attrs.sidePadding;
-  const viewportMaxX = scrollingCoordinates.top + getWindowHeight() - attrs.sidePadding;
+  const viewportMaxX = scrollingCoordinates.top + containerHeight - attrs.sidePadding;
 
   const topOverflow = Math.max(viewportMinX - styles.top, 0);
 
@@ -104,8 +114,9 @@ function verticalOverflow(styles, scrollingCoordinates, attrs) {
 }
 
 function horizontalOverflow(styles, scrollingCoordinates, attrs) {
+  const containerWidth = attrs.container !== null ? attrs.container.clientWidth : window.innerWidth;
   const viewportMinY = scrollingCoordinates.left + attrs.sidePadding;
-  const viewportMaxY = scrollingCoordinates.left + window.innerWidth - attrs.sidePadding;
+  const viewportMaxY = scrollingCoordinates.left + containerWidth - attrs.sidePadding;
 
   const leftOverflow = Math.max(viewportMinY - styles.left, 0);
 
@@ -126,10 +137,16 @@ export const positionPropKeys = [
   'minWidth'
 ];
 
+const defaultcontainerRect = {
+  top: 0,
+  left: 0
+};
+
 export default function position(attrs) {
   const {
     popup,
     anchor,
+    container,
     directions,
     autoPositioning,
     sidePadding, // eslint-disable-line no-unused-vars
@@ -144,10 +161,12 @@ export default function position(attrs) {
     left: 0
   };
 
-  const anchorRect = getRect(isMounted(anchor) ? anchor : document.body);
-  const scroll = getScrollingCoordinates();
-  const anchorLeft = anchorRect.left + scroll.left + left;
-  const anchorTop = anchorRect.top + scroll.top + top;
+  const containerRect = container !== null ? getRect(container) : defaultcontainerRect;
+  const defaultAnchor = container !== null ? container : document.body;
+  const anchorRect = getRect(isMounted(anchor) ? anchor : defaultAnchor);
+  const scroll = getScrollingCoordinates(container);
+  const anchorLeft = anchorRect.left + scroll.left + left - containerRect.left;
+  const anchorTop = anchorRect.top + scroll.top + top - containerRect.top;
 
   if (popup) {
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop);

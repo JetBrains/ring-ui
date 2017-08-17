@@ -67,6 +67,7 @@ function deprecateString(old, replacement) {
 export default class Popup extends RingComponentWithShortcuts {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
+    target: PropTypes.string,
     className: PropTypes.string,
     hidden: PropTypes.bool.isRequired,
     onOutsideClick: PropTypes.func,
@@ -104,7 +105,8 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   static contextTypes = {
-    parentPopupUid: PropTypes.string
+    parentPopupUid: PropTypes.string,
+    ringPopupTarget: PropTypes.string
   };
 
   static childContextTypes = {
@@ -253,7 +255,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
   render() {
     // eslint-disable-next-line max-len
-    const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp} = this.props;
+    const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp, target} = this.props;
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
@@ -268,7 +270,7 @@ export default class Popup extends RingComponentWithShortcuts {
       >
         <Portal
           isOpen={keepMounted || !hidden}
-          target={this.context.parentPopupUid}
+          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
         >
           <div
             data-portaltarget={this.uid}
@@ -295,9 +297,15 @@ export default class Popup extends RingComponentWithShortcuts {
       acc[key] = this.props[key];
       return acc;
     }, {});
+    const {ringPopupTarget} = this.context;
+    const {target} = this.props;
+    const container = ringPopupTarget || target
+      ? document.querySelector(`[data-portaltarget=${ringPopupTarget || target}]`)
+      : null;
 
     return position({
       popup: this.popup,
+      container,
       anchor: this._getAnchor(),
       ...positionProps
     });
