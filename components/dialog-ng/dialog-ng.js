@@ -27,10 +27,9 @@ const angularModule = angular.module(
   'Ring.dialog',
   [RingButton, PromisedClickNg, rgCompilerModuleName]
 );
-const FOCUS_TRAP_INSTALL_DELAY = 100;
 
 class DialogController extends RingAngularComponent {
-  static $inject = ['$scope', '$q', 'dialog', 'dialogInSidebar', '$compile', '$element',
+  static $inject = ['$scope', '$q', 'dialog', '$element', 'dialogInSidebar', '$compile',
     '$injector', '$controller', 'rgCompiler'];
 
   constructor(...args) {
@@ -49,6 +48,9 @@ class DialogController extends RingAngularComponent {
   $onInit() {
     const {dialog, dialogInSidebar, $scope} = this.$inject;
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
+    this.focusTrap = createFocusTrap(this.$inject.$element[0], {
+      fallbackFocus: '[data-anchor="focus-trap-fallback"]'
+    });
 
     this.dialogService = dialogService;
     this.previousBodyWidth = null;
@@ -68,12 +70,12 @@ class DialogController extends RingAngularComponent {
     });
 
     dialogService.register(this);
-    this.focusTrap = createFocusTrap(this.$inject.$element[0]);
   }
 
   getShortcuts() {
     const defaultEscHandler = function escHandler() {
       this.active = false;
+      this.focusTrap.deactivate();
       this.$inject.$scope.$apply();
     }.bind(this);
 
@@ -134,7 +136,10 @@ class DialogController extends RingAngularComponent {
 
     if (!this.inSidebar) {
       ScrollPreventer.prevent();
-      setTimeout(() => this.focusTrap.activate(), FOCUS_TRAP_INSTALL_DELAY);
+      const isTrapDisabled = config && config.trapFocus === false;
+      if (!isTrapDisabled) {
+        this.focusTrap.activate();
+      }
     }
 
     if (this.active) {
@@ -196,8 +201,8 @@ class DialogController extends RingAngularComponent {
     }
 
     this.active = false;
-    this.focusTrap.deactivate();
     this.content = '';
+    this.focusTrap.deactivate();
 
     Reflect.deleteProperty(this, 'DIALOG_NAMESPACE');
 
