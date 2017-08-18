@@ -1,7 +1,5 @@
 /* global gemini: false */
 
-const TOLERANCE_OVERRIDE_BECAUSE_OF_EDGE = 3.5;
-
 gemini.suite('Select', () => {
   gemini.suite('Input based select', child => {
     child.
@@ -35,8 +33,7 @@ gemini.suite('Select', () => {
   gemini.suite('Multi-value select with options descriptions', child => {
     child.
       setUrl('/select/multiple-select-with-a-description.html').
-      //We often have a waird render artefact here
-      setTolerance(TOLERANCE_OVERRIDE_BECAUSE_OF_EDGE).
+      skip('ie', 'Disabled in IE because of weird rendering artefact').
       setCaptureElements('[data-test=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('.ring-button'));
