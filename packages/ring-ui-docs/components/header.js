@@ -22,7 +22,7 @@ import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/t
 import styles from './index.css';
 import hubConfig from './hub-config';
 import Item from './item';
-// import Version from './version';
+import Version from './version';
 import {getIndexDoc} from './utils';
 
 class SiteHeader extends PureComponent {
@@ -51,7 +51,10 @@ class SiteHeader extends PureComponent {
             size={Logo.Size.Size128}
           />
         </a>
-        <span className={styles.headerItem}>{`Ring UI library ${version}`}</span>
+        <span className={styles.headerItem}>
+          {'Ring UI library '}
+          <Version version={version}/>
+        </span>
         {docsItems.map(item => (
           <Item
             key={item.title}
