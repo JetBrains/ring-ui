@@ -299,8 +299,8 @@ export default class Popup extends RingComponentWithShortcuts {
     }, {});
     const {ringPopupTarget} = this.context;
     const {target} = this.props;
-    const container = ringPopupTarget || target
-      ? document.querySelector(`[data-portaltarget=${ringPopupTarget || target}]`)
+    const container = target || ringPopupTarget
+      ? document.querySelector(`[data-portaltarget=${target || ringPopupTarget}]`)
       : null;
 
     return position({
