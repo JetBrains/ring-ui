@@ -612,27 +612,34 @@ describe('Select', () => {
     });
 
     describe('On selecting', () => {
+      let wrapper;
+      let instance;
+      beforeEach(() => {
+        wrapper = mountSelectMultiple();
+        instance = wrapper.instance();
+      });
+
       it('Should add item to multiple map on selecting item', () => {
-        const wrapper = mountSelectMultiple();
-        const instance = wrapper.instance();
         instance._listSelectHandler(testData[3]);
         instance._multipleMap['4'].should.be.true;
       });
 
       it('Should add item to selected on selecting item', () => {
-        const wrapper = mountSelectMultiple();
-        const instance = wrapper.instance();
         const lengthBefore = testData.slice(0, 2).length;
         instance._listSelectHandler(testData[3]);
         wrapper.state('selected').length.should.equal(lengthBefore + 1);
       });
 
       it('Should not close popup on selecting', () => {
-        const wrapper = mountSelectMultiple();
-        const instance = wrapper.instance();
         instance._hidePopup = sandbox.spy();
         instance._listSelectHandler(testData[3]);
         instance._hidePopup.should.not.be.called;
+      });
+
+      it('Should reset filter', () => {
+        wrapper.setState({filterValue: 'query'});
+        instance._listSelectHandler(testData[3]);
+        wrapper.state('filterValue').should.equal('');
       });
     });
 
