@@ -8,6 +8,7 @@ import angular from 'angular';
 
 const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '.ring-select';
+const RING_SELECT_BUTTON_SELECTOR = `${RING_SELECT_SELECTOR} .ring-button`;
 const RING_SELECT = 'rg-select';
 
 angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
@@ -23,7 +24,10 @@ angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
     }
 
     if (element.hasAttribute(RING_SELECT) || element.tagName.toLowerCase() === RING_SELECT) {
-      focusOnElement(element.querySelector(RING_SELECT_SELECTOR));
+      focusOnElement(
+        element.querySelector(RING_SELECT_BUTTON_SELECTOR) ||
+        element.querySelector(RING_SELECT_SELECTOR)
+      );
     }
 
     if (element.focus) {
