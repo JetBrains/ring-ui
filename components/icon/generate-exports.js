@@ -14,10 +14,11 @@ const generate = (packageName, output, suffix = 'Icon') => {
     map(filename => ({
       importPath: path.join(packageName, filename),
       // eslint-disable-next-line no-magic-numbers
-      name: changeCase.camelCase(path.basename(filename).slice(0, -4))
+      name: changeCase.camelCase(path.basename(filename).slice(0, -4), null, true)
     }));
 
-  let source = '';
+  let source =
+    '/* This is a generated file. If you want to change it, edit generate-exports instead. */\n\n';
   icons.forEach(({importPath, name}) => {
     source += `import ${name} from '${importPath}';\n`;
   });
