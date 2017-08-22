@@ -43,6 +43,8 @@ A previously introduced feature of importing them directly from packages is depr
       <Icon glyph={PencilIcon}/>
       <Icon glyph={SearchIcon}/>
       <Icon glyph={HubLogo}/>
+  [Review][RING-UI-CR-2945].
+- `Tag`: `disabled` prop was added. [Review][RING-UI-CR-2951].
 - `Popup`: a custom container can be passed as a prop. [Review][RING-UI-CR-2941].
 - `Dialog`: focus is trapped inside dialog. Tabbing outside of the dialog is blocked.
 You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-UI-CR-2935].
@@ -54,6 +56,8 @@ You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-U
 - `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942].
 
 [0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.7
+[RING-UI-CR-2951]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2951
+[RING-UI-CR-2945]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2945
 [RING-UI-CR-2944]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2944
 [RING-UI-CR-2941]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2941
 [RING-UI-CR-2942]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2942
