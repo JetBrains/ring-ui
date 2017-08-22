@@ -1,6 +1,8 @@
 @value unit, border-radius, font, font-size from "../global/global.css";
 
 .buttonGroup {
+  composes: buttonGroup from "../button-toolbar/button-toolbar.css";
+
   position: relative;
 
   display: inline-block;
@@ -31,6 +33,7 @@
 
 .buttonGroup > .first,
 .buttonGroup > .caption + .button,
+.buttonGroup > :global(.ring-button):first-child,
 .buttonGroup > .button:first-child,
 .buttonGroup > :first-child .button {
   margin: 0;
@@ -41,6 +44,7 @@
 
 .buttonGroup > .last,
 .buttonGroup > .button:last-child,
+.buttonGroup > :global(.ring-button):last-child,
 .buttonGroup > :last-child .button {
   border-top-right-radius: border-radius;
   border-bottom-right-radius: border-radius;
