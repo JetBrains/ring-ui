@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import RingComponent from '../ring-component/ring-component';
-
-import './button-toolbar.scss';
+import styles from './button-toolbar.css';
 
 /**
  * @name Button Toolbar
+ * @tags Ring UI Language
  * @category Components
  * @framework React
  * @constructor
@@ -21,7 +21,7 @@ import './button-toolbar.scss';
       import React from 'react';
       import {render} from 'react-dom';
 
-      import Button from '@jetbrains/ring-ui/components/button-legacy/button-legacy';
+      import Button from '@jetbrains/ring-ui/components/button/button';
       import ButtonGroup from '@jetbrains/ring-ui/components/button-group/button-group';
       import ButtonToolbar from '@jetbrains/ring-ui/components/button-toolbar/button-toolbar';
 
@@ -44,16 +44,20 @@ import './button-toolbar.scss';
   </example>
 */
 
-export default class ButtonToolbar extends RingComponent {
+export default class ButtonToolbar extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string
+  }
+
   render() {
-    const classes = classNames('ring-button-toolbar', this.props.className);
+    const {className} = this.props;
+    const classes = classNames(styles.buttonToolbar, className);
+
     return (
       <div
         {...this.props}
         className={classes}
-      >
-        {this.props.children}
-      </div>
+      />
     );
   }
 }
