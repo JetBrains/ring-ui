@@ -76,13 +76,15 @@
   <file type="js">
     import {render} from 'react-dom';
     import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
-    import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
-    import ExceptionIcon from '@jetbrains/icons/exception.svg';
-    import FrownIcon from '@jetbrains/icons/frown.svg';
+    import {
+      CheckmarkIcon,
+      ExceptionIcon,
+      FrownIcon
+    } from '@jetbrains/ring-ui/components/icon';
 
     var props = {
       tags: [
-        {key: 'test1', label: 'test1', rgTagIcon: CheckMarkIcon},
+        {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
         {key: 'test2', label: 'test2'}
       ],
       dataSource: function (query) {

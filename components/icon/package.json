@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "@ring-ui/icon",
+  "version": "0.3.0",
+  "main": "icon.js",
+  "scripts": {
+    "postinstall": "node ./generate-exports.js"
+  }
+}

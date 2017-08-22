@@ -3,14 +3,14 @@
 gemini.suite('Icon', () => {
   gemini.suite('Example icons', suite => {
     suite.
-      setUrl('/icon/icon.html').
+      setUrl('/icon.html').
       setCaptureElements('#some-icons').
       capture('some icons');
   });
 
   gemini.suite('All icons', suite => {
     suite.
-      setUrl('/icon/icons-list.html').
+      setUrl('/icons-list.html').
       setCaptureElements('#all-icons').
       capture('all icons');
   });

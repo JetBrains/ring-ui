@@ -1,7 +1,7 @@
 import angular from 'angular';
 import 'dom4';
-import frownIcon from '@jetbrains/icons/frown.svg';
-import permissionIcon from '@jetbrains/icons/permission.svg';
+
+import {FrownIcon, PermissionIcon} from '../icon';
 
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
@@ -89,29 +89,29 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => error => 
       status: 404,
       title: RingMessageBundle.errorpage_404(),
       description: RingMessageBundle.errorpage_404msg(),
-      icon: frownIcon
+      icon: FrownIcon
     },
     403: {
       status: 403,
       title: RingMessageBundle.errorpage_403(),
       description: RingMessageBundle.errorpage_403msg(),
-      icon: permissionIcon
+      icon: PermissionIcon
     },
     500: {
       status: 500,
       title: RingMessageBundle.errorpage_500(),
       description: RingMessageBundle.errorpage_500msg(),
-      icon: frownIcon
+      icon: FrownIcon
     },
     0: {
       status: RingMessageBundle.errorpage_disconnected(),
       title: RingMessageBundle.errorpage_disconnectedmsg(),
       description: RingMessageBundle.errorpage_offline(),
-      icon: frownIcon
+      icon: FrownIcon
     },
     default: {
       title: RingMessageBundle.errorpage_seriouslywrong(),
-      icon: frownIcon
+      icon: FrownIcon
     }
   };
 

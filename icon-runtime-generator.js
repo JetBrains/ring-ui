@@ -13,12 +13,12 @@ module.exports = ({symbol, config, context}) => {
   return `
     import SpriteSymbol from ${symbolRequest};
     import sprite from ${spriteRequest};
-    import {iconHOC} from '@jetbrains/ring-ui/components/icon/icon';
+    import {iconHOC} from '@jetbrains/ring-ui/components/icon';
 
     var symbol = new SpriteSymbol(${stringifySymbol(symbol)});
     sprite.add(symbol);
 
-    export default iconHOC('${glyph}', '${displayName}');
+    export default iconHOC('${glyph}', '${displayName}', true);
     export function toString() {
       return '${glyph}';
     };

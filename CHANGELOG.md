@@ -4,18 +4,73 @@ category: Docs
 order: 2
 ---
 
+## [0.2.7] - 22-08-2017
+### Added
+- `components/icon` now exports icons in logos from `@jetbrains` packages as React components.
+Previously introduced feature of importing it directly from packages is deprecated:
+
+      // deprecated, will be removed in 3.0
+      import PencilIcon from '@jetbrains/icons/pencil.svg'
+      import SearchIcon from '@jetbrains/icons/search.svg'
+      import HubLogo from '@jetbrains/logos/hub/hub.svg'
+      
+      <PencilIcon/>
+      <SearchIcon/>
+      <HubLogo/>
+      
+      // Worked before, works now, and will work later
+      import PencilIcon from '@jetbrains/icons/pencil.svg'
+      import SearchIcon from '@jetbrains/icons/search.svg'
+      import HubLogo from '@jetbrains/logos/hub/hub.svg'
+      import Icon from '@jetbrains/components/icon/icon'
+      
+      <Icon glyph={PencilIcon}/>
+      <Icon glyph={SearchIcon}/>
+      <Icon glyph={HubLogo}/>
+      
+      // Works since 0.2.7. This allows to stop patching ring-ui's `svg-sprite-loader` rule in your webpack config.
+      import {PencilIcon, SearchIcon} from '@jetbrains/components/icon'
+      import {HubLogo} from '@jetbrains/components/icon/logos'
+      
+      <PencilIcon/>
+      <SearchIcon/>
+      <HubLogo/>
+      
+      // Also works
+      import Icon, {PencilIcon, SearchIcon} from '@jetbrains/components/icon'
+      import {HubLogo} from '@jetbrains/components/icon/logos'
+      
+      <Icon glyph={PencilIcon}/>
+      <Icon glyph={SearchIcon}/>
+      <Icon glyph={HubLogo}/>
+- `Popup`: a custom container can be passed as a prop. [Review][RING-UI-CR-2941].
+- `Dialog`: focus is trapped inside dialog. Tabbing outside of the dilog is blocked.
+You can opt out of this by passing `trapFocus={false}`. [Review][RING-UI-CR-2935].
+
+### Changed
+- `Select`: after selecting a tag, the input is cleared. [Review][RING-UI-CR-2944].
+
+### Fixed
+- `svg-sprite-loader` was updated to fix logos rendering in firefox. [Review][RING-UI-CR-2942].
+
+[0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.7
+[RING-UI-CR-2944]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2944
+[RING-UI-CR-2941]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2941
+[RING-UI-CR-2942]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2942
+[RING-UI-CR-2935]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2935
+
 ## [0.2.1] — 11-08-2017
 ### Fixed
 - Include icon-runtime-generator.js into package
 
-
+[0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.0...%40jetbrains/ring-ui%400.2.1
 
 ## [0.2.0] — 11-08-2017
 ### Added
 - SVG icons can be imported directly as React components. They pass props to the `Icon` component.
         
       // Before (and still fully supported)
-      import pencilIcon from '@jetbrains/icons/pencil'
+      import pencilIcon from '@jetbrains/icons/pencil.svg'
       import Icon from '@jetbrains/components/icon/icon'
       
       <Icon
@@ -25,7 +80,7 @@ order: 2
       />
       
       // After
-      import PencilIcon from '@jetbrains/icons/pencil'
+      import PencilIcon from '@jetbrains/icons/pencil.svg'
       
       <PencilIcon
         size={PencilIcon.Size.Size12}
@@ -33,8 +88,6 @@ order: 2
       />
   [Review][RING-UI-CR-2921].
 - `baseline` option for `Grid` component. [Review][RING-UI-CR-2913].
-
-[0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.0...%40jetbrains/ring-ui%400.2.1
 
 ### Changed
 - `Code` component now comes with a list of highlighed languages.

@@ -1,6 +1,7 @@
 import React from 'react';
 import {shallow, mount, render} from 'enzyme';
-import CaretDownIcon from '@jetbrains/icons/caret-down.svg';
+
+import {CaretDownIcon} from '../icon';
 
 import Button from './button';
 

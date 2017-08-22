@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import RingComponent from '../ring-component/ring-component';
-import Icon from '../icon/icon';
+import Icon from '../icon';
 import './button.scss';
 
 const DEFAULT_ICON_SIZE = Icon.Size.Size16;

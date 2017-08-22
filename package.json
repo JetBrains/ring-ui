@@ -90,7 +90,6 @@
   "devDependencies": {
     "@jetbrains/eslint-config": "^2.0.0",
     "@jetbrains/generator-ring-ui": "^0.2.6",
-    "@jetbrains/logos": "0.1.0",
     "@jetbrains/stylelint-config": "^1.2.1",
     "angular": "1.6.5",
     "angular-mocks": "1.6.5",
@@ -103,6 +102,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-dom": "1.5.0",
     "chai-enzyme": "0.8.0",
+    "change-case": "^3.0.1",
     "css-module-flow": "^1.0.0",
     "deep-assign": "2.0.0",
     "docpack": "1.0.2",
@@ -154,6 +154,7 @@
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
     "@jetbrains/babel-runtime": "6.23.1",
     "@jetbrains/icons": "1.0.6",
+    "@jetbrains/logos": "0.1.0",
     "@jetbrains/react-portal": "3.1.0",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
