@@ -5,6 +5,7 @@ import {encodeURL, joinBaseURLAndPath} from '../global/url';
 
 /**
  * @name HTTP
+ * @tags Ring UI Language
  * @category Utilities
  * @description Provides a way to perform authorized network requests.
  * @example-file ./http.examples.html
