@@ -1,0 +1,47 @@
+@value unit, border-radius, font, font-size from "../global/global.css";
+
+.buttonGroup {
+  position: relative;
+
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 0;
+}
+
+.buttonGroup :global(.ring-button),
+.buttonGroup .button {
+  margin: 0 0 0 -1px;
+
+  border-radius: 0;
+}
+
+.caption {
+  composes: font;
+
+  margin-right: unit;
+
+  font-size: font-size;
+
+  &:empty {
+    margin-right: 0;
+  }
+}
+
+.buttonGroup > .first,
+.buttonGroup > .caption + .button,
+.buttonGroup > .button:first-child,
+.buttonGroup > :first-child .button {
+  margin: 0;
+
+  border-top-left-radius: border-radius;
+  border-bottom-left-radius: border-radius;
+}
+
+.buttonGroup > .last,
+.buttonGroup > .button:last-child,
+.buttonGroup > :last-child .button {
+  border-top-right-radius: border-radius;
+  border-bottom-right-radius: border-radius;
+}
