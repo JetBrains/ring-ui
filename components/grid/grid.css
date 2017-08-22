@@ -239,6 +239,10 @@
   align-items: center;
 }
 
+.baseline-xs {
+  align-items: baseline;
+}
+
 .bottom-xs {
   align-items: flex-end;
 }
@@ -448,6 +452,10 @@
 
   .middle-sm {
     align-items: center;
+  }
+
+  .baseline-sm {
+    align-items: baseline;
   }
 
   .bottom-sm {
@@ -662,6 +670,10 @@
     align-items: center;
   }
 
+  .baseline-md {
+    align-items: baseline;
+  }
+
   .bottom-md {
     align-items: flex-end;
   }
@@ -872,6 +884,10 @@
 
   .middle-lg {
     align-items: center;
+  }
+
+  .baseline-lg {
+    align-items: baseline;
   }
 
   .bottom-lg {
