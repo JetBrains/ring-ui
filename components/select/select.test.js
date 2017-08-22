@@ -5,6 +5,7 @@ import {shallow, mount} from 'enzyme';
 
 import List from '../list/list';
 import Input from '../input/input';
+import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import Icon from '../icon';
 import simulateCombo from '../../test-helpers/simulate-combo';
@@ -222,14 +223,14 @@ describe('Select', () => {
         disabled: true
       });
       wrapper.should.have.className('ring-select_disabled');
-      wrapper.should.have.attr('disabled', 'disabled');
+      wrapper.find(Button).should.have.attr('disabled', 'disabled');
     });
 
     it('Should not disable select button if not needed', () => {
       const wrapper = shallowSelect({
         disabled: false
       });
-      wrapper.should.not.have.attr('disabled', 'disabled');
+      wrapper.find(Button).should.not.have.attr('disabled', 'disabled');
     });
 
     it('Should place input inside in INPUT mode', () => {
@@ -279,8 +280,9 @@ describe('Select', () => {
       const wrapper = shallowSelect();
       const instance = wrapper.instance();
       sandbox.spy(instance, '_showPopup');
-      wrapper.simulate('mousedown');
-      wrapper.simulate('click');
+      const button = wrapper.find(Button);
+      button.simulate('mousedown');
+      button.simulate('click');
 
       instance._showPopup.should.be.called;
     });
@@ -822,7 +824,7 @@ describe('Select', () => {
 
       instance._showPopup();
       instance._hidePopup();
-      document.activeElement.should.equal(instance.node);
+      document.activeElement.should.equal(instance.node.querySelector('.ring-button'));
     });
 
     describe('Focus after close', () => {

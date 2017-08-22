@@ -364,9 +364,12 @@ export default class Select extends RingComponentWithShortcuts {
       });
 
       let restoreFocusNode = tryFocusAnchor ? (this.props.targetElement || this.node) : this.node;
-      if (this.props.type === Type.INPUT) {
+      if (this.isInputMode()) {
         // eslint-disable-next-line react/no-find-dom-node
         restoreFocusNode = findDOMNode(this.filter);
+      } else if (this.isButtonMode()) {
+        const button = restoreFocusNode.getElementsByClassName('ring-button')[0];
+        restoreFocusNode = button || restoreFocusNode;
       }
 
       restoreFocusNode.focus();
@@ -755,7 +758,7 @@ export default class Select extends RingComponentWithShortcuts {
   _getIcons() {
     const icons = [];
 
-    if (this.props.clear && this.state.selected) {
+    if (this.props.clear && !this.props.disabled && this.state.selected) {
       icons.push(
         <span
           className="ring-select__clear-icon"
@@ -774,6 +777,7 @@ export default class Select extends RingComponentWithShortcuts {
         <span
           className="ring-select__selected-icon"
           key="selected"
+          onClick={this._clickHandler}
           style={{backgroundImage: `url(${this.state.selected.icon})`}}
         />
       );
@@ -783,6 +787,7 @@ export default class Select extends RingComponentWithShortcuts {
       icons.push(
         <CaretDownIcon
           key="hide"
+          onClick={this._clickHandler}
           size={CaretDownIcon.Size.Size16}
         />
       );
@@ -796,11 +801,11 @@ export default class Select extends RingComponentWithShortcuts {
   };
 
   render() {
-    const buttonCS = classNames({
+    const selectCS = classNames({
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
       'ring-select_input-mode': this.isInputMode(),
-      'ring-button_disabled': this.props.disabled && !this.isInputMode(),
+      'ring-select_button-mode': this.isButtonMode(),
       'ring-js-shortcuts': true
     }, this.props.className);
 
@@ -821,7 +826,7 @@ export default class Select extends RingComponentWithShortcuts {
 
       return (
         <div
-          className={buttonCS}
+          className={selectCS}
           onClick={this._clickHandler}
         >
           <Input
@@ -846,19 +851,26 @@ export default class Select extends RingComponentWithShortcuts {
       const clickListenProps = isIE11
         ? {onMouseDown: this._clickHandler}
         : {onClick: this._clickHandler};
+      const buttonCS = classNames({
+        'ring-select': true,
+        'ring-button_disabled': this.props.disabled,
+        'ring-js-shortcuts': true
+      });
 
       return (
-        <Button
-          className={buttonCS}
-          disabled={this.props.disabled}
-          style={style}
-          type="button"
-          {...clickListenProps}
-        >
-          <span className="ring-select__label">{this._getButtonLabel()}</span>
+        <div className={selectCS}>
+          <Button
+            className={buttonCS}
+            disabled={this.props.disabled}
+            style={style}
+            type="button"
+            {...clickListenProps}
+          >
+            <span className="ring-select__label">{this._getButtonLabel()}</span>
+            {this._renderPopup()}
+          </Button>
           {iconsNode}
-          {this._renderPopup()}
-        </Button>
+        </div>
       );
     } else {
       return (

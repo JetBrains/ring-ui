@@ -70,8 +70,15 @@
     right: $ring-unit;
   }
 
-  &:not(.ring-button) &__icons {
+  &:not(.ring-select_button-mode) &__icons {
     top: 2px;
+  }
+
+  .ring-select_button-mode &__icons {
+    z-index: 3;
+    top: -2px;
+
+    color: $ring-dark-gray-color;
   }
 
   &__selected-icon {
