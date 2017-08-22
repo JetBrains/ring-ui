@@ -5,6 +5,7 @@
 
 .button {
   composes: font-smaller-lower;
+  composes: button from "../button-group/button-group.css";
 
   position: relative;
   z-index: 0;
