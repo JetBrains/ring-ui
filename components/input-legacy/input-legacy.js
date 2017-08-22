@@ -7,7 +7,7 @@ import './input-legacy.scss';
 
 /**
  * @name Input (legacy)
- * @category Forms
+ * @category Components
  * @constructor
  * @description Text input fields of varying size.
  * @extends {ReactComponent}

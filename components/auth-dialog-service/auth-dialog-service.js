@@ -5,6 +5,7 @@ import AuthDialog from '../auth-dialog/auth-dialog';
 
 /**
  * @name Auth Dialog Service
+ * @tags Ring UI Language
  * @category Services
  * @framework React
  * @constructor
