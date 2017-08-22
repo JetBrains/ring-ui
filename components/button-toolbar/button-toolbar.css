@@ -1,0 +1,21 @@
+@value unit from "../global/global.css";
+
+.buttonToolbar {
+  display: inline-block;
+
+  white-space: nowrap;
+
+  font-size: 0;
+}
+
+.buttonToolbar > :global(.ring-button),
+.buttonToolbar > :global(.ring-button-group),
+.buttonToolbar > .button,
+.buttonToolbar > .buttonGroup,
+.buttonToolbar > .buttonToolbar {
+  margin-right: calc(unit * 2);
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
