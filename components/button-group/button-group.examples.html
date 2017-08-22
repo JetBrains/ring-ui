@@ -1,14 +1,11 @@
 <example name="Button Group">
   <file type="html">
-    <div>
+    <div id="button-groups">
       <p>
         <span id="button-group"></span>
       </p>
       <p>
         <span id="button-group-primary"></span>
-      </p>
-      <p>
-        <span id="button-group-blue"></span>
       </p>
       <p>
         <span id="button-group-with-caption"></span>
@@ -22,8 +19,8 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import Button from '@jetbrains/ring-ui/components/button-legacy/button-legacy';
-    import ButtonGroup from '@jetbrains/ring-ui/components/button-group/button-group';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import ButtonGroup, {Caption} from '@jetbrains/ring-ui/components/button-group/button-group';
 
     render(
     <ButtonGroup>
@@ -45,15 +42,7 @@
 
     render(
     <ButtonGroup>
-      <Button blue={true}>1st button</Button>
-      <Button blue={true}>2nd button</Button>
-      <Button blue={true}>3rd button</Button>
-    </ButtonGroup>
-    , document.getElementById('button-group-blue'));
-
-    render(
-    <ButtonGroup>
-      <span className="ring-button-group__caption">Side:</span>
+      <Caption>Side:</Caption>
       <Button>Left</Button>
       <Button>Right</Button>
     </ButtonGroup>
