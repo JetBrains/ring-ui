@@ -6,8 +6,8 @@ order: 2
 
 ## [0.2.7] - 22-08-2017
 ### Added
-- `components/icon` now exports icons in logos from `@jetbrains` packages as React components.
-Previously introduced feature of importing it directly from packages is deprecated:
+- `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
+A previously introduced feature of importing them directly from packages is deprecated:
 
       // deprecated, will be removed in 3.0
       import PencilIcon from '@jetbrains/icons/pencil.svg'
@@ -44,14 +44,14 @@ Previously introduced feature of importing it directly from packages is deprecat
       <Icon glyph={SearchIcon}/>
       <Icon glyph={HubLogo}/>
 - `Popup`: a custom container can be passed as a prop. [Review][RING-UI-CR-2941].
-- `Dialog`: focus is trapped inside dialog. Tabbing outside of the dilog is blocked.
-You can opt out of this by passing `trapFocus={false}`. [Review][RING-UI-CR-2935].
+- `Dialog`: focus is trapped inside dialog. Tabbing outside of the dialog is blocked.
+You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-UI-CR-2935].
 
 ### Changed
 - `Select`: after selecting a tag, the input is cleared. [Review][RING-UI-CR-2944].
 
 ### Fixed
-- `svg-sprite-loader` was updated to fix logos rendering in firefox. [Review][RING-UI-CR-2942].
+- `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942].
 
 [0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.7
 [RING-UI-CR-2944]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2944

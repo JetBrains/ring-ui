@@ -96,7 +96,7 @@ export function iconHOC(glyph, displayName, warnDeprecation) {
         // eslint-disable-next-line no-console
         console.warn(`
 You're using a deprecated "import svg as component" feature from @jetbrains/ring-ui@0.2.x.
-This will not be available since 0.3.0. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#027--22-08-2017
+This will not be available starting from 0.3.0. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#027--22-08-2017
 `);
         hasWarned = true;
       }
