@@ -13,7 +13,7 @@ module.exports = ({symbol, config, context}) => {
   return `
     import SpriteSymbol from ${symbolRequest};
     import sprite from ${spriteRequest};
-    import {iconHOC} from '@jetbrains/ring-ui/components/icon';
+    import {iconHOC} from '@jetbrains/ring-ui/components/icon/icon';
 
     var symbol = new SpriteSymbol(${stringifySymbol(symbol)});
     sprite.add(symbol);
