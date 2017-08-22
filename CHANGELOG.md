@@ -53,9 +53,11 @@ You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-U
 - `Select`: after selecting a tag, the input is cleared. [Review][RING-UI-CR-2944].
 
 ### Fixed
+- "Clear" icon on `Select`'s button was not clickable in Firefox. [Review][RING-UI-CR-2952]
 - `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942].
 
 [0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.7
+[RING-UI-CR-2952]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2952
 [RING-UI-CR-2951]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2951
 [RING-UI-CR-2945]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2945
 [RING-UI-CR-2944]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2944
