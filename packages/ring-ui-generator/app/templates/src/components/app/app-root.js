@@ -7,7 +7,7 @@ import Header, {
 } from '@jetbrains/ring-ui/components/header/header';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import Footer from '@jetbrains/ring-ui/components/footer/footer';
-import HubLogo from '@jetbrains/logos/hub/hub.svg';
+import {HubLogo} from '@jetbrains/ring-ui/components/icon/logos';
 
 import styles from './app.css';
 

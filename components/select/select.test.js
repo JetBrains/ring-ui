@@ -6,7 +6,7 @@ import {shallow, mount} from 'enzyme';
 import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
-import Icon from '../icon/icon';
+import Icon from '../icon';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
