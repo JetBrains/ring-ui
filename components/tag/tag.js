@@ -23,13 +23,15 @@ export default class Tag extends RingComponent {
     avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,
     readOnly: PropTypes.bool,
+    disabled: PropTypes.bool,
     focused: PropTypes.bool
   };
 
   static defaultProps = {
-    onRemove: () => { /* do nothing */ },
-    onClick: () => { /* do nothing */ },
+    onRemove: () => {},
+    onClick: () => {},
     readOnly: false,
+    disabled: false,
     focused: false
   };
 
@@ -142,11 +144,13 @@ export default class Tag extends RingComponent {
 
   render() {
     const classes = classNames(
-      'ring-tag',
       'ring-js-shortcuts',
-      this.props.className, {
-        'ring-tag_focused': this.state.focused
-      }
+      'ring-tag',
+      {
+        'ring-tag_focused': this.state.focused,
+        'ring-tag_disabled': this.props.disabled
+      },
+      this.props.className
     );
 
     return (
