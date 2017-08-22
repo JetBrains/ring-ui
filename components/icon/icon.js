@@ -106,5 +106,3 @@ This will not be available starting from 0.3.0. See https://github.com/JetBrains
     }
   };
 }
-
-export * from './icons';
