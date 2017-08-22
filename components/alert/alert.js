@@ -1,12 +1,13 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
-import ExceptionIcon from '@jetbrains/icons/exception.svg';
-import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
-import WarningIcon from '@jetbrains/icons/warning.svg';
-import CloseIcon from '@jetbrains/icons/close.svg';
 
-
+import {
+  ExceptionIcon,
+  CheckmarkIcon,
+  WarningIcon,
+  CloseIcon
+} from '../icon';
 import RingComponent from '../ring-component/ring-component';
 import Loader from '../loader-inline/loader-inline';
 import Badge from '../badge/badge';
@@ -40,7 +41,7 @@ const Type = {
  */
 const TypeToIcon = {
   [Type.ERROR]: ExceptionIcon,
-  [Type.SUCCESS]: CheckMarkIcon,
+  [Type.SUCCESS]: CheckmarkIcon,
   [Type.WARNING]: WarningIcon
 };
 
@@ -50,7 +51,7 @@ const TypeToIcon = {
  */
 const TypeToIconColor = {
   [Type.ERROR]: ExceptionIcon.Color.RED,
-  [Type.SUCCESS]: CheckMarkIcon.Color.GREEN,
+  [Type.SUCCESS]: CheckmarkIcon.Color.GREEN,
   [Type.WARNING]: WarningIcon.Color.ORANGE
 };
 

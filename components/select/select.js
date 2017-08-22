@@ -1,14 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
-import CaretDownIcon from '@jetbrains/icons/caret-down.svg';
-import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
-import GenericIcon from '../icon/icon';
+import Icon, {CaretDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
@@ -279,7 +277,7 @@ export default class Select extends RingComponentWithShortcuts {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: GenericIcon.Size.Size14,
+      iconSize: Icon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: event => {
         this.clear(event);

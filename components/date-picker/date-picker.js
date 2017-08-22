@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CalendarIcon from '@jetbrains/icons/calendar.svg';
-import CloseIcon from '@jetbrains/icons/close.svg';
+
+import {
+  CalendarIcon,
+  CloseIcon
+} from '../icon';
 
 import RingComponent from '../ring-component/ring-component';
 import Popup from '../popup/popup';

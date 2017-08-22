@@ -19,16 +19,18 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import SearchIcon from '@jetbrains/icons/search.svg';
-    import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
-    import PencilIcon from '@jetbrains/icons/pencil.svg';
-    import PermissionIcon from '@jetbrains/icons/permission.svg';
+    import {
+      SearchIcon,
+      CheckmarkIcon,
+      PencilIcon,
+      PermissionIcon
+    } from '@jetbrains/ring-ui/components/icon';
 
     render(
-      <CheckMarkIcon
+      <CheckmarkIcon
         className="additional-class"
         color="orange"
-        size={CheckMarkIcon.Size.Size32}
+        size={CheckmarkIcon.Size.Size32}
       />,
       document.getElementById('icon-container')
     );

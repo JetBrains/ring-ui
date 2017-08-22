@@ -20,11 +20,11 @@ import '../error-message-ng/error-message-ng.scss';
     <file name="index.js">
       import angular from 'angular';
       import errorMessageNg from '@jetbrains/ring-ui/components/error-message-ng/error-message-ng';
-      import frownIcon from '@jetbrains/icons/frown.svg';
+      import {FrownIcon} from '@jetbrains/ring-ui/components/icon';
 
       angular.module('ExampleApp', [errorMessageNg]).
         controller('DemoCtrl', function($scope) {
-          $scope.errorIcon = frownIcon;
+          $scope.errorIcon = FrownIcon;
         });
      </file>
   </example>

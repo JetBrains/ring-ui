@@ -1,7 +1,10 @@
 /* @flow */
 import React, {PureComponent, Element} from 'react';
-import CollapseIcon from '@jetbrains/icons/collapse.svg';
-import ExpandIcon from '@jetbrains/icons/expand.svg';
+
+import {
+  CollapseIcon,
+  ExpandIcon
+} from '../icon';
 
 import type {SubitemType, ItemType} from './types';
 import ItemTitle from './item-title';
