@@ -21,16 +21,14 @@ export default class ButtonGroup extends PureComponent {
   }
 
   render() {
-    const {className, children} = this.props;
+    const {className} = this.props;
     const classes = classNames(styles.buttonGroup, className);
 
     return (
       <div
         {...this.props}
         className={classes}
-      >
-        {children}
-      </div>
+      />
     );
   }
 }

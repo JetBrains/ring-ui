@@ -6,21 +6,18 @@ import styles from './button-group.css';
 
 export default class Caption extends PureComponent {
   static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.node
   }
 
   render() {
-    const {className, children} = this.props;
+    const {className} = this.props;
     const classes = classNames(styles.caption, className);
 
     return (
       <span
         {...this.props}
         className={classes}
-      >
-        {children}
-      </span>
+      />
     );
   }
 }
