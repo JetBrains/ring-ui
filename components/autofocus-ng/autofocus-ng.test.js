@@ -37,7 +37,7 @@ describe('Autofocus Ng', () => {
 
   it('Should focus on select button', () => {
     element = $compile('<rg-select rg-autofocus="vm.focus" options="item in []"/>')($scope);
-    const selectButton = element[0].querySelector('.ring-select');
+    const selectButton = element[0].querySelector('.ring-select button');
 
     sandbox.spy(selectButton, 'focus');
 
