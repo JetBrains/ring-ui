@@ -22,8 +22,8 @@
     import {render} from 'react-dom';
     import React from 'react';
 
-    import {HubLogo} from '@jetbrains/ring-ui/components/icon/logos';
-    import {DragIcon} from '@jetbrains/ring-ui/components/icon';
+    import hubLogo from '@jetbrains/logos/hub/hub.svg';
+    import Icon, {DragIcon} from '@jetbrains/ring-ui/components/icon';
 
     import Auth from '@jetbrains/ring-ui/components/auth/auth';
     import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
@@ -44,7 +44,7 @@
     const renderHeaderDemo = () => (
       <Header>
         <Link href="/">
-          <HubLogo size={HubLogo.Size.Size48} />
+          <Icon glyph={hubLogo} size={Icon.Size.Size48} />
         </Link>
         <Link active href="#">Users</Link>
         <Link href="#">Groups</Link>

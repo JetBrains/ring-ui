@@ -19,18 +19,18 @@ A previously introduced feature of importing them directly from packages is depr
       <HubLogo/>
       
       // Worked before, works now, and will work later
-      import PencilIcon from '@jetbrains/icons/pencil.svg'
-      import SearchIcon from '@jetbrains/icons/search.svg'
-      import HubLogo from '@jetbrains/logos/hub/hub.svg'
+      import pencilIcon from '@jetbrains/icons/pencil.svg'
+      import searchIcon from '@jetbrains/icons/search.svg'
+      import hubLogo from '@jetbrains/logos/hub/hub.svg'
       import Icon from '@jetbrains/components/icon/icon'
       
-      <Icon glyph={PencilIcon}/>
-      <Icon glyph={SearchIcon}/>
-      <Icon glyph={HubLogo}/>
+      <Icon glyph={pencilIcon}/>
+      <Icon glyph={searchIcon}/>
+      <Icon glyph={hubLogo}/>
       
       // Works since 0.2.7. This allows to stop patching ring-ui's `svg-sprite-loader` rule in your webpack config.
       import {PencilIcon, SearchIcon} from '@jetbrains/components/icon'
-      import {HubLogo} from '@jetbrains/components/icon/logos'
+      import {HubLogo} from '@jetbrains/components/icon/logos' // This can dramatically increase your bundle size, so you may want to keep using the above traditional method for logos
       
       <PencilIcon/>
       <SearchIcon/>
