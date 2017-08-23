@@ -1,7 +1,6 @@
 /**
  * @name Icon
  * @category Components
- * @tags Ring UI Language
  * @constructor
  * @description Displays an icon.
  * @extends {ReactComponent}
