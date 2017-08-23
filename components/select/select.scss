@@ -76,9 +76,18 @@
 
   .ring-select_button-mode &__icons {
     z-index: 3;
-    top: -1px;
 
-    color: $ring-dark-gray-color;
+    line-height: 24px;
+
+    .ring-icon {
+      top: auto;
+
+      vertical-align: 1px;
+
+      color: $ring-dark-gray-color;
+
+      line-height: 0;
+    }
   }
 
   &__selected-icon {
