@@ -4,6 +4,8 @@
   "version": "0.3.1",
   "main": "index.js",
   "scripts": {
-    "prepare": "node ./generate-exports.js"
+    "generate": "node ./generate-exports.js",
+    "postinstall": "npm run generate",
+    "prepublish": "npm run generate"
   }
 }
