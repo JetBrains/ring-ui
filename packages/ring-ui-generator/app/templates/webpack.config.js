@@ -19,7 +19,8 @@ const webpackConfig = () => ({
     mainFields: ['module', 'browser', 'main'],
     alias: {
       react: resolve('./node_modules/react'),
-      'react-dom': resolve('./node_modules/react-dom')
+      'react-dom': resolve('./node_modules/react-dom'),
+      '@jetbrains/ring-ui': resolve('./node_modules/@jetbrains/ring-ui')
     }
   },
   output: {
