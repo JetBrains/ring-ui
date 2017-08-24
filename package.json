@@ -22,6 +22,9 @@
       "git add"
     ]
   },
+  "config": {
+    "components": "./components/"
+  },
   "scripts": {
     "postinstall": "npm rebuild node-sass",
     "bootstrap": "lerna bootstrap",
