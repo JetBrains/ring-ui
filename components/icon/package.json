@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@ring-ui/icon",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "index.js",
   "scripts": {
     "generate": "node ./generate-exports.js",
