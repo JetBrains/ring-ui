@@ -4,6 +4,6 @@
   "version": "0.3.1",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./generate-exports.js"
+    "prepare": "node ./generate-exports.js"
   }
 }
