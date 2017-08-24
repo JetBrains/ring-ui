@@ -4,7 +4,7 @@ category: Docs
 order: 2
 ---
 
-## [0.2.7] - 22-08-2017
+## [0.2.10] - 22-08-2017
 ### Added
 - `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
 A previously introduced feature of importing them directly from packages is deprecated:
@@ -56,7 +56,7 @@ You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-U
 - "Clear" icon on `Select`'s button was not clickable in Firefox. [Review][RING-UI-CR-2952]
 - `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942].
 
-[0.2.1]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.7
+[0.2.10]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.10
 [RING-UI-CR-2952]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2952
 [RING-UI-CR-2951]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2951
 [RING-UI-CR-2945]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2945
