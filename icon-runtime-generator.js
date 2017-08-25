@@ -18,7 +18,7 @@ module.exports = ({symbol, config, context}) => {
     var symbol = new SpriteSymbol(${stringifySymbol(symbol)});
     sprite.add(symbol);
 
-    export default iconHOC('${glyph}', '${displayName}');
+    export default iconHOC('${glyph}', '${displayName}', true);
     export function toString() {
       return '${glyph}';
     };

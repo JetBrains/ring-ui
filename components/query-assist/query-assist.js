@@ -4,8 +4,8 @@ import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
 import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
-import SearchIcon from '@jetbrains/icons/search.svg';
-import CloseIcon from '@jetbrains/icons/close.svg';
+
+import {SearchIcon, CloseIcon} from '../icon';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';

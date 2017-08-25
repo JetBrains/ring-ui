@@ -1,14 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
-import ChevronDownIcon from '@jetbrains/icons/chevron-down.svg';
-import CloseIcon from '@jetbrains/icons/close.svg';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input, {Size} from '../input/input';
-import GenericIcon from '../icon/icon';
+import Icon, {ChevronDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
@@ -295,7 +293,7 @@ export default class Select extends RingComponentWithShortcuts {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: GenericIcon.Size.Size14,
+      iconSize: Icon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: event => {
         this.clear(event);
@@ -771,12 +769,13 @@ export default class Select extends RingComponentWithShortcuts {
         <span
           className={styles.selectedIcon}
           key="selected"
+          onClick={this._clickHandler}
           style={{backgroundImage: `url(${this.state.selected.icon})`}}
         />
       );
     }
 
-    if (this.props.clear && this.state.selected) {
+    if (this.props.clear && !this.props.disabled && this.state.selected) {
       icons.push(
         <Button
           className={styles.clearIcon}
@@ -792,6 +791,7 @@ export default class Select extends RingComponentWithShortcuts {
       icons.push(
         <ChevronDownIcon
           key="hide"
+          onClick={this._clickHandler}
           size={ChevronDownIcon.Size.Size14}
         />
       );

@@ -18,9 +18,14 @@ $tag-max-height: 20px;
   border: 1px solid $tag-background-color;
 
   &_focused, &:focus {
+    position: relative;
     outline: none;
     box-shadow: 0 0 0 2px $ring-outline-color;
   }
+}
+
+.ring-tag_disabled {
+  opacity: 0.5;
 }
 
 .ring-tag__remove.ring-tag__remove {

@@ -1,6 +1,7 @@
 import angular from 'angular';
 import 'core-js/modules/es7.array.includes';
-import searchIcon from '@jetbrains/icons/search.svg';
+
+import {SearchIcon} from '../icon';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import sniffer from '../global/sniffer';
@@ -102,7 +103,7 @@ class HintPopupService extends RingAngularComponent {
         // eslint-disable-next-line consistent-this
         const ctrl = this;
 
-        ctrl.searchIcon = searchIcon;
+        ctrl.searchIcon = SearchIcon;
         ctrl.modes = modes;
         ctrl.tailTemplate = popupConfig.tailTemplate;
         ctrl.isArray = it => Array.isArray(it);

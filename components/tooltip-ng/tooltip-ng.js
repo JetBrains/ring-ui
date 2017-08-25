@@ -29,10 +29,10 @@ import './tooltip-ng.scss';
         import angular from 'angular';
         import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
         import TooltipNG from '@jetbrains/ring-ui/components/tooltip-ng/tooltip-ng';
-        import warningIcon from '@jetbrains/icons/warning.svg';
+        import {WarningIcon} from '@jetbrains/ring-ui/components/icon';
 
         angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
-          $scope.warningIcon = warningIcon;
+          $scope.warningIcon = WarningIcon;
           $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
         });
       </file>

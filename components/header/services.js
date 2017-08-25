@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import servicesIcon from '@jetbrains/icons/services.svg';
+
+import {ServicesIcon} from '../icon';
 
 import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';
@@ -45,7 +46,7 @@ export default class Services extends PureComponent {
           {...props}
           active={loading}
           className={classes}
-          icon={servicesIcon}
+          icon={ServicesIcon}
         />
       );
     }
@@ -57,7 +58,7 @@ export default class Services extends PureComponent {
     const anchor = ({active}) => (
       <TrayIcon
         active={active}
-        icon={servicesIcon}
+        icon={ServicesIcon}
       />
     );
 
