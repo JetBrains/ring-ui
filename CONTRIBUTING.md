@@ -74,10 +74,10 @@ To enable the `Wallaby.js` test runner follow these steps:
 **Run the development server with `npm start` before executing the commands listed below**
 
 Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works
-by taking "screenshots" and comparing them to existing reference images. 
+by taking screenshots and comparing them to existing reference images. 
 
-We use Saucelabs as a cloud selenium grid. In order to use it on local machine, you need to have 
-saucelabs account. Set your username and access token as environment variables:
+We use Saucelabs as a cloud Selenium grid. In order to use it on your local machine, you need to have 
+a Saucelabs account. Set your username and access token as environment variables:
 ```
 export SAUCE_USERNAME=yourlogin
 export SAUCE_ACCESS_KEY=yourkey
