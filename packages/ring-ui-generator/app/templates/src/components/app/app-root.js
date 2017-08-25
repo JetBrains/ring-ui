@@ -30,7 +30,7 @@ export default class AppRoot extends Component {
           <a href="/">
             <Logo
               glyph={hubLogo}
-              size={Icon.Size.Size48}
+              size={Logo.Size.Size48}
             />
           </a>
           <Tray>

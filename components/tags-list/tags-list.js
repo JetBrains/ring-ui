@@ -4,8 +4,6 @@ import classNames from 'classnames';
 
 import Tag from '../tag/tag';
 
-import './tags-list.scss';
-
 function noop() {}
 
 /**
@@ -44,14 +42,14 @@ export default class TagsList extends Component {
 
   renderTag(tag, focusTag) {
     const TagComponent = this.props.customTagComponent || Tag;
-    const readOnly = this.props.disabled ||
-      tag.readOnly ||
+    const readOnly = this.props.disabled || tag.readOnly ||
       (this.props.canNotBeEmpty && this.props.tags.length === 1);
 
     return (
       <TagComponent
         {...tag}
         readOnly={readOnly}
+        disabled={this.props.disabled || tag.disabled}
         focused={focusTag}
         onClick={this.props.handleClick(tag)}
         onRemove={this.props.handleRemove(tag)}
@@ -65,10 +63,6 @@ export default class TagsList extends Component {
     } = this.props;
     const classes = classNames(
       'ring-js-shortcuts',
-      'ring-tags-list',
-      {
-        'ring-tags-list_disabled': this.props.disabled
-      },
       className
     );
 

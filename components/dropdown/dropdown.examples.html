@@ -78,14 +78,14 @@
     import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
     import Popup from '@jetbrains/ring-ui/components/popup/popup';
     import Button from '@jetbrains/ring-ui/components/button/button';
-    import chevronIcon from '@jetbrains/icons/chevron-down.svg';
+    import {ChevronDownIcon} from '@jetbrains/ring-ui/components/icon';
 
     const container = document.getElementById('dropdown');
     const dropdown = (
       <Dropdown
         className="chevron"
         activeClassName="rotated"
-        anchor={<Button icon={chevronIcon}/>}
+        anchor={<Button icon={ChevronDownIcon}/>}
       >
         <Popup>Popup content</Popup>
       </Dropdown>

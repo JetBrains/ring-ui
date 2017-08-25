@@ -19,16 +19,18 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
-    import SearchIcon from '@jetbrains/icons/search.svg';
-    import CheckMarkIcon from '@jetbrains/icons/checkmark.svg';
-    import PencilIcon from '@jetbrains/icons/pencil.svg';
-    import PermissionIcon from '@jetbrains/icons/permission.svg';
+    import {
+      SearchIcon,
+      CheckmarkIcon,
+      PencilIcon,
+      PermissionIcon
+    } from '@jetbrains/ring-ui/components/icon';
 
     render(
-      <CheckMarkIcon
+      <CheckmarkIcon
         className="additional-class"
         color="orange"
-        size={CheckMarkIcon.Size.Size32}
+        size={CheckmarkIcon.Size.Size32}
       />,
       document.getElementById('icon-container')
     );
@@ -86,17 +88,15 @@
   </file>
 
   <file type="js">
+    import 'core-js/modules/es7.object.values';
     import React from 'react';
     import {render} from 'react-dom';
 
-    const iconsContext = require.context('@jetbrains/icons', false, /\.svg$/);
-
-    const icons = iconsContext.keys().map(iconsContext).
-    map(exportsObj => exportsObj.default);
+    import * as icons from '@jetbrains/ring-ui/components/icon/icons';
 
     render(
       <div className="icon-example__container">
-        {icons.map(Icon => <Icon key={Icon} title={Icon}/>)}
+        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon}/>)}
       </div>,
       document.getElementById('all-icons')
     );
@@ -117,17 +117,15 @@
   </file>
 
   <file type="js">
+    import 'core-js/modules/es7.object.values';
     import React from 'react';
     import {render} from 'react-dom';
 
-    const logosContext = require.context('@jetbrains/logos', true, /\.svg$/);
-
-    const logos = logosContext.keys().map(logosContext).
-    map(exportsObj => exportsObj.default);
+    import * as logos from '@jetbrains/ring-ui/components/icon/logos';
 
     render(
       <div>
-        {logos.map(Logo => <Logo key={Logo} title={Logo} size={Logo.Size.Size128}/>)}
+        {Object.values(logos).map(Logo => <Logo key={Logo} title={Logo} size={Logo.Size.Size128}/>)}
       </div>,
       document.getElementById('logos')
     );

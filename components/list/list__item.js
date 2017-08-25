@@ -1,10 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CheckmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
-import Icon from '../icon/icon';
+import Icon, {CheckmarkIcon} from '../icon';
 
 import styles from './list.css';
 
