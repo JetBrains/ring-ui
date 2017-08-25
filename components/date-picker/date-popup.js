@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import CalendarIcon from '@jetbrains/icons/calendar.svg';
 
+import {CalendarIcon} from '../icon';
 import memoize from '../global/memoize';
 
 import DateInput from './date-input';
