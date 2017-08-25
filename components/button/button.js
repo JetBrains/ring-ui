@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Icon, {Size} from '../icon/icon';
+import Icon, {Size} from '../icon';
 import Theme from '../global/theme';
 
 import styles from './button.css';

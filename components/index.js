@@ -57,7 +57,7 @@ export {
 export {default as Heading, H1, H2, H3, H4, H5} from './heading/heading';
 export {default as Http} from './http/http';
 export {default as HubSource} from './hub-source/hub-source';
-export {default as Icon} from './icon/icon';
+export {default as Icon} from './icon';
 export {default as IconNg} from './icon-ng/icon-ng';
 export {default as Input} from './input/input';
 export {default as Island} from './island/island';

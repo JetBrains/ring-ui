@@ -1,9 +1,12 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import SortableIcon from '@jetbrains/icons/unsorted.svg';
-import SortedUpIcon from '@jetbrains/icons/chevron-up.svg';
-import SortedDownIcon from '@jetbrains/icons/chevron-down.svg';
+
+import {
+  UnsortedIcon as SortableIcon,
+  ChevronUpIcon as SortedUpIcon,
+  ChevronDownIcon as SortedDownIcon
+} from '../icon';
 
 import style from './table.css';
 
