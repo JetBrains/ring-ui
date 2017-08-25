@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import clearIcon from '@jetbrains/icons/close.svg';
 
+import {CloseIcon} from '../icon';
 import Theme from '../global/theme';
 import Button from '../button/button';
 
@@ -159,7 +159,7 @@ export class Input extends PureComponent {
         {clearable && (
           <Button
             className={styles.clear}
-            icon={clearIcon}
+            icon={CloseIcon}
             iconSize={Button.IconSize.Size14}
             onClick={this.clear}
           />

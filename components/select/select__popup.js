@@ -5,7 +5,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import SearchIcon from '@jetbrains/icons/search.svg';
+import {SearchIcon} from '../icon';
 
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
