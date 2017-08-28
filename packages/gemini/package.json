@@ -1,5 +1,5 @@
 {
-  "name": "ring-ui-gemini",
+  "name": "@ring-ui/gemini",
   "version": "0.2.4",
   "description": "Gemini tests runner for Ring UI library",
   "author": "JetBrains",
