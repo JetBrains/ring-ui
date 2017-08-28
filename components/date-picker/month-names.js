@@ -6,7 +6,7 @@ import moment from 'moment';
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {dateType, HALF, YEAR, yearScrollSpeed} from './consts';
+import {dateType, HALF, YEAR, MIDDLE_DAY, yearScrollSpeed} from './consts';
 import styles from './date-picker.css';
 
 export default function MonthNames(props) {
@@ -17,7 +17,7 @@ export default function MonthNames(props) {
       scrollDate.
         clone().
         month(i).
-        startOf('month')
+        date(MIDDLE_DAY)
     );
   }
 
