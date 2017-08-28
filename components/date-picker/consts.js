@@ -23,6 +23,7 @@ export const weekdays = {
   SA: 6,
   SU: 0
 };
+export const MIDDLE_DAY = 15;
 
 export const yearDuration = +moment.duration(1, 'year');
 export const yearScrollSpeed = yearDuration / (YEAR * units.cellSize);
