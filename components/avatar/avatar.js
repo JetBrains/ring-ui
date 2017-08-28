@@ -34,7 +34,7 @@ import styles from './avatar.css';
        import {render} from 'react-dom';
 
        import Avatar, {Size} from '@jetbrains/ring-ui/components/avatar/avatar';
-       import hubConfig from 'ring-ui-docs/components/hub-config';
+       import hubConfig from '@ring-ui/docs/components/hub-config';
 
        const container = document.getElementById('avatar');
 

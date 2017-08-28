@@ -4,5 +4,5 @@ docs
 gemini-report
 node_modules
 build
-packages/ring-ui-generator/*/templates
+packages/generator/*/templates
 test_gen

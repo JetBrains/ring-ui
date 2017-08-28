@@ -21,7 +21,7 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
        </file>
 
        <file name="index.js" webpack="true">
-         import hubConfig from 'ring-ui-docs/components/hub-config';
+         import hubConfig from '@ring-ui/docs/components/hub-config';
 
          import angular from 'angular';
          import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';

@@ -37,10 +37,10 @@ You can change them by the following means (in order of precedence):
 
 1. Command line switch: `npm <start|run build> -- --env.<param> <value>`
 Example: `npm start -- --env.port 8765`
-2. Persistently using NPM: `npm config set ring-ui-docs:<param> <value>`
-Example: `npm config set ring-ui-docs:port 8765`
-3. Persistently for a given environment: `npm config set ring-ui-docs:<environment>:<param> <value>`  
-Example: `npm config set ring-ui-docs:development:port 8765`
+2. Persistently using NPM: `npm config set @ring-ui/docs:<param> <value>`
+Example: `npm config set @ring-ui/docs:port 8765`
+3. Persistently for a given environment: `npm config set @ring-ui/docs:<environment>:<param> <value>`  
+Example: `npm config set @ring-ui/docs:development:port 8765`
 
 ### Contributing
 

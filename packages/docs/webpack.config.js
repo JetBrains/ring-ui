@@ -83,7 +83,7 @@ module.exports = (env = {}) => {
       modules: [path.resolve(ringUiPath, 'node_modules')],
       // needed in examples
       alias: {
-        'ring-ui-docs': __dirname,
+        '@ring-ui/docs': __dirname,
         '@jetbrains/ring-ui': ringUiPath
       }
     },
@@ -137,13 +137,16 @@ module.exports = (env = {}) => {
       Buffer: false,
       process: 'mock'
     },
+    stats: {
+      reasons: true
+    },
     plugins: [
       ...optimizePlugins,
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/^esprima$/),
       new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
       new webpack.DefinePlugin({hubConfig}),
-      docpackSetup(dllPath),
+      // docpackSetup(dllPath),
       extractCSS,
       extractHTML,
       new DllBundlesPlugin({
