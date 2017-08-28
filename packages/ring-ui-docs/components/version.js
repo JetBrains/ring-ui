@@ -7,7 +7,7 @@ import branches from '../branches.json';
 
 import {currentPath} from './utils';
 
-const HOST = 'http://jetbrains.org/ring-ui';
+const HOST = '//jetbrains.org/ring-ui';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
