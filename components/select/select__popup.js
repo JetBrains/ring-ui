@@ -59,7 +59,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       up: event => (this.list && this.list.upHandler(event)),
       down: event => (this.list && this.list.downHandler(event)),
       enter: event => (this.list && this.list.enterHandler(event)),
-      esc: event => this.props.onCloseAttempt(event),
+      esc: event => this.props.onCloseAttempt(event, true),
       tab: event => this.tabPress(event),
       backspace: event => this.handleBackspace(event),
       del: () => this.removeSelectedTag(),
