@@ -11,7 +11,6 @@ import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
 import {filterWrapper} from '../popup/popup.css';
-import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
@@ -207,13 +206,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   };
 
   tabPress = event => {
-    preventDefault(event);
-
-    const listActiveItem = this.list && this.list.state.activeItem;
-    if (listActiveItem) {
-      this.onListSelect(listActiveItem);
-    }
-    this.props.onCloseAttempt();
+    this.props.onCloseAttempt(event, true);
   };
 
   filterRef = el => {
