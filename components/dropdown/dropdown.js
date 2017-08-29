@@ -21,8 +21,8 @@ export default class Dropdown extends Component {
     initShown: PropTypes.bool,
     className: PropTypes.string,
     activeClassName: PropTypes.string,
-    onShow: PropTypes.function,
-    onHide: PropTypes.function
+    onShow: PropTypes.func,
+    onHide: PropTypes.func
   };
 
   static defaultProps = {
