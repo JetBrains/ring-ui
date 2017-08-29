@@ -42,7 +42,8 @@ export default class Dropdown extends Component {
 
   render() {
     const {show} = this.state;
-    const {children, anchor, initShown, className, activeClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, anchor, initShown, className, activeClassName, onShow, onHide, // eslint-disable-line no-unused-vars
+      ...restProps} = this.props;
 
     const classes = classNames(styles.dropdown, className, {
       [activeClassName]: activeClassName != null && show
