@@ -20,18 +20,22 @@ export default class Dropdown extends Component {
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
     className: PropTypes.string,
-    activeClassName: PropTypes.string
+    activeClassName: PropTypes.string,
+    onShow: PropTypes.function,
+    onHide: PropTypes.function
   };
 
   static defaultProps = {
-    initShown: false
+    initShown: false,
+    onShow: () => {},
+    onHide: () => {}
   }
 
   state = {show: this.props.initShown};
 
   toggle = flag => {
     const show = typeof flag === 'boolean' ? flag : !this.state.show;
-    this.setState({show});
+    this.setState({show}, () => (show ? this.props.onShow() : this.props.onHide()));
   };
 
   hide = () => this.toggle(false);
