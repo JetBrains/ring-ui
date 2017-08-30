@@ -11,6 +11,7 @@ import SelectLazy from './select-ng__lazy';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 const INFINITE_SCROLL_PACK_SIZE = 50;
+const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container]';
 /**
  * @name Select Ng
  * @category Legacy Angular Components
@@ -172,6 +173,12 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
         return ctrl.lastSkip < 0 ? 0 : ctrl.lastSkip + infiniteScrollPackSize;
       }
+
+      function isInDialog() {
+        const dialogContainer = document.querySelector(DIALOG_NG_SELECTOR);
+        return dialogContainer && dialogContainer.contains(element);
+      }
+
 
       ctrl.syncSelectToNgModel = selectedValue => {
         function valueOf(option) {
@@ -409,6 +416,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           multiple: ctrl.multiple,
           popupClassName: $attrs.popupClass,
           clear: ctrl.clear,
+          ringPopupTarget: isInDialog() ? 'dialog-ng-popup-container' : null,
           renderOptimization: getType() !== 'dropdown',
           type: getSelectType(),
           loadingMessage: ctrl.loadingMessage || RingMessageBundle.select_loading(),

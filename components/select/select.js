@@ -90,7 +90,8 @@ export default class Select extends RingComponentWithShortcuts {
     onReset: noop,
 
     tags: null,
-    onRemoveTag: noop
+    onRemoveTag: noop,
+    ringPopupTarget: null
   };
 
   state = {
@@ -344,6 +345,7 @@ export default class Select extends RingComponentWithShortcuts {
         selected={this.state.selected}
         tags={this.props.tags}
         renderOptimization={this.props.renderOptimization}
+        ringPopupTarget={this.props.ringPopupTarget}
       />
     );
   }

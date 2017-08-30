@@ -49,7 +49,8 @@ class DialogController extends RingAngularComponent {
     const {dialog, dialogInSidebar, $scope} = this.$inject;
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
     this.focusTrap = createFocusTrap(this.$inject.$element[0], {
-      fallbackFocus: '[data-anchor="focus-trap-fallback"]'
+      fallbackFocus: '[data-anchor="focus-trap-fallback"]',
+      escapeDeactivates: false
     });
 
     this.dialogService = dialogService;
