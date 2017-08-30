@@ -12,7 +12,6 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
-import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
@@ -64,7 +63,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
       up: event => (this.list && this.list.upHandler(event)),
       down: event => (this.list && this.list.downHandler(event)),
       enter: event => (this.list && this.list.enterHandler(event)),
-      esc: event => this.props.onCloseAttempt(event),
+      esc: event => this.props.onCloseAttempt(event, true),
       tab: event => this.tabPress(event),
       backspace: event => this.handleBackspace(event),
       del: () => this.removeSelectedTag(),
@@ -212,13 +211,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   };
 
   tabPress = event => {
-    preventDefault(event);
-
-    const listActiveItem = this.list && this.list.state.activeItem;
-    if (listActiveItem) {
-      this.onListSelect(listActiveItem);
-    }
-    this.props.onCloseAttempt();
+    this.props.onCloseAttempt(event, true);
   };
 
   filterRef = el => {

@@ -345,8 +345,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
             if (
-              (!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' ')) ||
-              key === 'ArrowDown'
+              (!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' '))
             ) {
               if (!isSelectPopupOpen()) {
                 handler();
