@@ -9,7 +9,7 @@ plugins developed for JetBrains' products.
 
 1. Install Yeoman and Ring UI generator: `npm install -g yo @jetbrains/generator-ring-ui`
 2. Go to the root directory of your project (create one if necessary) and run `yo @jetbrains/ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
-3. You project is ready to be developed. The following commands are available:
+3. Your project is ready to be developed. The following commands are available:
    - `npm start` to run a local development server
    - `npm test` to launch karma tests
    - `npm run lint` to lint your code
@@ -55,7 +55,7 @@ In case boilerplate generators are not your thing and you prefer to understand t
 
 ### Links
 
-- [Living style guide](http://www.jetbrains.org/ring-ui/)
+- [Living style guide](https://www.jetbrains.org/ring-ui/)
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)

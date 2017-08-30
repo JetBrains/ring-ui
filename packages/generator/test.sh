@@ -3,21 +3,21 @@
 set -e -x
 
 cd ../..
-npm link
-cd packages/ring-ui-generator
-npm link
+yarn link
+cd packages/generator
+yarn link
 
 function test {
   rm -rf test_gen
   mkdir test_gen
   cd test_gen
-  npm link @jetbrains/generator-ring-ui
+  yarn link @jetbrains/generator-ring-ui
   ../../../node_modules/.bin/yo @jetbrains/ring-ui:$1 my-app --widget-name=widget --widget-description=description --widget-author=author
-  npm link @jetbrains/generator-ring-ui
-  npm link @jetbrains/ring-ui
-  npm run create-component my-component
-  npm run ci-test
-  npm run build
+  yarn link @jetbrains/generator-ring-ui
+  yarn link @jetbrains/ring-ui
+  yarn create-component my-component
+  yarn ci-test
+  yarn build
   cd ..
 }
 
