@@ -41,7 +41,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     onFilter: noop,
     onLoadMore: noop,
     selected: [],
-    tags: null
+    tags: null,
+    ringPopupTarget: null
   };
 
   state = {
@@ -350,6 +351,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         top={this.props.top}
         left={this.props.left}
         onMouseDown={this.mouseDownHandler}
+        target={this.props.ringPopupTarget}
       >
         {this.getFilterWithTags()}
         {this.getList()}
