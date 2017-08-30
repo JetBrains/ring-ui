@@ -146,7 +146,7 @@ module.exports = (env = {}) => {
       new webpack.IgnorePlugin(/^esprima$/),
       new webpack.IgnorePlugin(/^buffer$/), // for some reason node.Buffer = false doesn't work properly
       new webpack.DefinePlugin({hubConfig}),
-      // docpackSetup(dllPath),
+      docpackSetup(dllPath),
       extractCSS,
       extractHTML,
       new DllBundlesPlugin({
