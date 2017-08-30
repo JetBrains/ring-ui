@@ -24,11 +24,11 @@ const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container]';
  * * `select` **`as`** `label` **`select as`** `buttontext` **`for`** `item` **`in`** `items`
  *
  * Where:
- * * `items` is an expression that evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts query parameter and returns promise of array filtered by the query.
+ * * `items` is an expression that evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts the `query` parameter and returns a promise of an array filtered by the query.
  * * `item` is a local variable that will refer to each item in the items.
  * * `label` – the result of this expression will be the label for &lt;option&gt; element. The expression will most likely refer to the value variable (e.g. item.name).
  * * `select` – the result of this expression will be bound to the model of the parent &lt;select&gt; element. If not specified, select expression will default to item.
- * * `trackexpr` is used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). With this the selection is preserved even when the options are recreated (e.g. reloaded from the server).
+ * * `trackexpr` is used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). Used to preserve selection even when the options are recreated (e.g. reloaded from the server).
  * * `buttontext` – label for the selected item to be displayed on the button.
  * * `description` – description of an item to display in the option list.
  *
@@ -58,34 +58,33 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
      * @property {Object} scope
      * @property {Object} scope.ngModel
      * @property {String} scope.selectType - select type. Can be "button" (default), "input" or "dropdown"
-     * @property {String} scope.lazy - Load options lazy. Can be "true" (default) or "false"
-     * @property {Boolean} scope.withInfiniteScroll - If true rgSelect calls getOptions with skip parameter when user scrolled list to bottom in order to load next n elements
-     * @property {String} scope.options - query for options.
-     * @property {Boolean} scope.externalFilter - whether or not select use options function as filter.
-     * "filter" property scope.should not be passed in that case.
-     * @property {Boolean} scope.multiple - If true then you can select more then one value
-     * @property {Function} scope.onSelect - callback to call on items selecting.
+     * @property {String} scope.lazy - Load options lazily. "true" by default.
+     * @property {Boolean} scope.withInfiniteScroll - If true, rgSelect calls getOptions with skip parameter when the list is scrolled to the bottom
+     * @property {String} scope.options - query for options
+     * @property {Boolean} scope.externalFilter - whether or not to use the options function as a filter.
+     * "filter" property should not be passed in that case.
+     * @property {Boolean} scope.multiple - toggles multiple selection
+     * @property {Function} scope.onSelect - callback to call on item selection
      * Receives "selected" property (<rg-select on-select='doSomethingWith(selected)'>)
-     * @property {Function} scope.onDeselect - callback to call on item deselecting.
+     * @property {Function} scope.onDeselect - callback to call on item deselection
      * Receives "deselected" property (<rg-select on-deselect='doSomethingWith(deselected)'>)
      * @property {Function} scope.onOpen - callback to call on select popup opening
      * @property {Function} scope.onClose - callback to call on select popup closing
-     * @property {Function} scope.onChange - callback to call on selected items change.
+     * @property {Function} scope.onChange - callback to call on selection change
      * Receives "selected" property (<rg-select on-change='doSomethingWith(selected)'>)
      * @property {String} scope.label - Label to place on empty select button
-     * @property {String} scope.selectedLabel - Label to replace any selected item/items
-     * with constant text on select button
+     * @property {String} scope.selectedLabel - Label to replace any selected item/items with
      * @property {String} scope.notFoundMessage - message to display if no options found
      * @property {String} scope.loadingMessage - message to display while loading
-     * @property {Object} scope.config - hash to pass to react select component.
-     * @property {Boolean} scope.configAutoUpdate - should or not config watch for it updates and update select.
+     * @property {Object} scope.config - hash to pass to react select component
+     * @property {Boolean} scope.configAutoUpdate - whether or not to watch for configuration updates
      */
     scope: {
       ngModel: '=',
 
       selectType: '@',
       lazy: '=?',
-      withInfiniteScroll: '=?', //NB: Deprecated! Use infinite-scroll-pack-size="50" instead
+      withInfiniteScroll: '=?', // NB: Deprecated! Use infinite-scroll-pack-size="50" instead
       infiniteScrollPackSize: '@',
 
       options: '@',
@@ -163,7 +162,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       }
 
       function getType() {
-        //$attrs.type as fallback, not recommended to use because of native "type" attribute
+        // $attrs.type as fallback, not recommended to use because of native "type" attribute
         return ctrl.selectType || $attrs.type;
       }
 
@@ -204,11 +203,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         function convertItem(modelValue) {
           let item = ctrl.optionsParser.getOptionByValue(modelValue, ctrl.loadedOptions || []);
 
-          /**
-           * NOTE:
-           * If ng-model does not exist in list of options
-           * for example when lazy fetch data from the server
-           */
+          // could happen when lazily fetching the data
           if (item === undefined) {
             item = modelValue;
           }
@@ -256,7 +251,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         $timeout.cancel(loaderDelayTimeout);
 
         // Delay loader only when there is some data
-        // Otherwise user can spot the "not found" message
+        // Otherwise, user can notice the "not found" message
         if (ctrl.dataReceived) {
           loaderDelayTimeout = $timeout(ctrl.showLoader, LOADER_DELAY);
         } else {
@@ -267,7 +262,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         ctrl.getOptions(query, skip).then(results => {
           inProcessQueries--;
           if (query !== lastQuery) {
-            return; // do not process result if its result for other query! ONLY IF QUERY NOT MATCH
+            return; // do not process the result if queries don't match
           }
 
           const items = memorizeOptions(results.data || results, skip).
@@ -341,15 +336,15 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
               if (!isSelectPopupOpen()) {
                 handler();
 
-                // XXX: preventDefault is needed because some controlls (button, input, etc)
-                // have activation behaviour which fires `click` event on `keypress`
+                // XXX: preventDefault is needed because some controls (button, input, etc)
+                // have an activation behaviour which fires a `click` event on `keypress`
                 // @see https://www.w3.org/TR/2017/PR-html51-20170803/editing.html#activation
                 event.preventDefault();
 
-                // XXX: stopPropagation is needed because when we render react component with
-                // shortcuts it adds handlers to the document for example `enter` that leads
-                // to call this handler right after current function's call
-                // In current situation, it leads to the closing popup immediately after open
+                // XXX: stopPropagation is needed because when a React component is rendered with
+                // shortcuts, document-level handlers are added. For example, `enter` that leads
+                // to this handler being called right after current function's call, which
+                // leads to the popup being closed immediately after opening.
                 // @see https://www.w3.org/TR/uievents/#Event_dispatch_and_DOM_event_flow
                 event.stopPropagation();
               }
@@ -485,9 +480,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
         }
 
-        /**
-         * Render select in appended div to save any existing content of the directive
-         */
+        // Preserve existing contents of the directive
         element.appendChild(container);
 
         if (!ctrl.lazy) {
