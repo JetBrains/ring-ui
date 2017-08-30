@@ -1,4 +1,4 @@
-@value unit, font-smaller-lower, border-radius, icon-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease from "../global/global.css";
+@value unit, font-smaller-lower, border-radius, icon-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loader-width: calc(unit * 8);
@@ -105,7 +105,7 @@
       &:focus {
         transition: none;
 
-        background-color: #007ee5;
+        background-color: main-hover-color;
         box-shadow: none;
       }
 
@@ -117,7 +117,7 @@
         }
 
         &.dark {
-          background-color: #007ee5;
+          background-color: main-hover-color;
           box-shadow: button-shadow border-hover-color;
         }
       }
