@@ -21,25 +21,30 @@ export default class Dropdown extends Component {
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
     className: PropTypes.string,
-    activeClassName: PropTypes.string
+    activeClassName: PropTypes.string,
+    onShow: PropTypes.func,
+    onHide: PropTypes.func
   };
 
   static defaultProps = {
-    initShown: false
+    initShown: false,
+    onShow: () => {},
+    onHide: () => {}
   }
 
   state = {show: this.props.initShown};
 
   toggle = flag => {
     const show = typeof flag === 'boolean' ? flag : !this.state.show;
-    this.setState({show});
+    this.setState({show}, () => (show ? this.props.onShow() : this.props.onHide()));
   };
 
   hide = () => this.toggle(false);
 
   render() {
     const {show} = this.state;
-    const {children, anchor, initShown, className, activeClassName, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, anchor, initShown, className, activeClassName, onShow, onHide, // eslint-disable-line no-unused-vars
+      ...restProps} = this.props;
 
     const classes = classNames(styles.dropdown, className, {
       [activeClassName]: activeClassName != null && show

@@ -83,7 +83,7 @@ module.exports = (env = {}) => {
       modules: [path.resolve(ringUiPath, 'node_modules')],
       // needed in examples
       alias: {
-        'ring-ui-docs': __dirname,
+        '@ring-ui/docs': __dirname,
         '@jetbrains/ring-ui': ringUiPath
       }
     },
@@ -136,6 +136,9 @@ module.exports = (env = {}) => {
     node: {
       Buffer: false,
       process: 'mock'
+    },
+    stats: {
+      reasons: true
     },
     plugins: [
       ...optimizePlugins,

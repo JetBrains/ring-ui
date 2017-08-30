@@ -16,6 +16,7 @@ describe('SelectPopup', () => {
       filter={true}
       onSelect={sandbox.spy()}
       onFilter={sandbox.spy()}
+      onCloseAttempt={sandbox.spy()}
       data={[]}
       {...props}
     />
@@ -65,14 +66,14 @@ describe('SelectPopup', () => {
     });
 
 
-    it('should call select handler when user press tab and we have an active item in the list', () => {
+    it('should call close handler when user press tab', () => {
       const wrapper = mountSelectPopup({data: testData});
       wrapper.setProps({hidden: false});
       wrapper.instance().list.state.activeItem = {};
 
       simulateCombo('tab');
 
-      wrapper.prop('onSelect').should.be.called;
+      wrapper.prop('onCloseAttempt').should.be.called;
     });
 
 

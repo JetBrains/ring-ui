@@ -39,7 +39,11 @@ const scrollSchedule = scheduleRAF();
 let dy = 0;
 export default function Months(props) {
   const scrollDate = moment(props.scrollDate);
-  const monthStart = scrollDate.clone().startOf('month');
+  const monthStart = scrollDate.
+    clone().
+    date(1).
+    // prevent switching from april to march because of daylight saving time
+    hours(1);
 
   let month = monthStart.
     clone().
