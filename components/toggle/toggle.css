@@ -1,0 +1,110 @@
+@value unit, white-color, icon-color, main-color, main-hover-color, border-hover-color from  "../global/global.css";
+@value padding: 2px;
+@value disabled-line-color: rgba(255, 255, 255, 0.9);
+@value duration: 300ms;
+@value timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+
+.toggle {
+  position: relative;
+
+  display: inline-block;
+
+  width: calc(unit * 3);
+  height: calc(unit * 2);
+
+  &:hover {
+    & .input:not([disabled]) + .switch {
+      background-color: border-hover-color;
+    }
+
+    & .input:checked:not([disabled]) + .switch {
+      background-color: main-hover-color;
+    }
+  }
+}
+
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  cursor: pointer;
+
+  opacity: 0;
+}
+
+.switch {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  transition: background-color timing-function duration;
+
+  pointer-events: none;
+
+  border-radius: unit;
+  background-color: icon-color;
+
+  &::before {
+    position: absolute;
+    top: padding;
+    left: padding;
+
+    width: calc(unit * 1.5);
+    height: calc(unit * 1.5);
+
+    content: "";
+
+    transition: left timing-function duration;
+
+    border-radius: calc(unit * 0.75);
+    background-color: white-color;
+  }
+}
+
+.input:checked + .switch {
+  background-color: main-color;
+
+  &::before {
+    left: calc(unit * 1.5 - padding);
+  }
+}
+
+.input[disabled] {
+  pointer-events: none;
+
+  & + .switch::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: "";
+
+    border-radius: unit;
+    background-image:
+      linear-gradient(
+        45deg,
+        transparent,
+        transparent 37.5%,
+        disabled-line-color 37.5%,
+        disabled-line-color 50%,
+        transparent 50%,
+        transparent 87.5%,
+        disabled-line-color 87.5%,
+        disabled-line-color
+      );
+    background-repeat: repeat;
+    background-size: 4px 4px;
+  }
+}
