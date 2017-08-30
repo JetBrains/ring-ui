@@ -323,23 +323,28 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           const handler = () => {
             ctrl.selectInstance._clickHandler();
           };
-          const nodeName = element.nodeName.toLowerCase();
-          /**
-           * Pressing keys "Enter" or "Space" on button propagates MouseClickEvent.
-           * Due to this extra MouseClickEvent dropdown opens and immediately closes again.
-           * It is needed to skip processing of MouseEvent for such nodes.
-           */
-          const skipMouseEnterProcessing = nodeName === 'button' || nodeName === 'input';
           element.addEventListener('click', handler);
           element.addEventListener('keydown', event => {
             const key = getEventKey(event);
             const modifier = event.ctrlKey || event.altKey || event.metaKey || event.shiftKey;
 
             if (
-              (!skipMouseEnterProcessing && (key === 'Enter' && !modifier || key === ' '))
+              (key === 'Enter' && !modifier || key === ' ')
             ) {
               if (!isSelectPopupOpen()) {
                 handler();
+
+                // XXX: preventDefault is needed because some controlls (button, input, etc)
+                // have activation behaviour which fires `click` event on `keypress`
+                // @see https://www.w3.org/TR/2017/PR-html51-20170803/editing.html#activation
+                event.preventDefault();
+
+                // XXX: stopPropagation is needed because when we render react component with
+                // shortcuts it adds handlers to the document for example `enter` that leads
+                // to call this handler right after current function's call
+                // In current situation, it leads to the closing popup immediately after open
+                // @see https://www.w3.org/TR/uievents/#Event_dispatch_and_DOM_event_flow
+                event.stopPropagation();
               }
             }
           });
