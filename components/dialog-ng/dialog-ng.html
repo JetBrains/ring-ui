@@ -5,6 +5,7 @@
   ng-attr-data-portaltarget="{{!dialog.inSidebar  ? 'dialog-ng-popup-container' : null}}"
 >
   <div data-anchor="dialog-container"
+    ng-attr-data-in-sidebar="{{dialog.inSidebar  ? 'true' : 'false'}}"
     ng-attr-data-test="{{dialog.active ? 'ring-dialog' : null}}"
     ng-class="[
       dialog.styles.dialogContainer,
