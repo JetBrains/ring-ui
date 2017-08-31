@@ -20,7 +20,7 @@ type Props = {
   onFocusRestore: () => void
 };
 
-class ItemTitle extends PureComponent {
+class Title extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
@@ -51,15 +51,15 @@ class ItemTitle extends PureComponent {
     } = this.props;
 
     const classes = classNames(className, {
-      [styles.itemTitle]: true,
-      [styles.itemTitleFocused]: showFocus,
-      [styles.itemTitleSelected]: selected
+      [styles.title]: true,
+      [styles.titleFocused]: showFocus,
+      [styles.titleSelected]: selected
     });
 
     return (
       <div className={classes}>
-        <div className={styles.metaColumn}>
-          {selectable &&
+        {selectable &&
+          <div className={styles.checkboxBox}>
             <Checkbox
               className={showFocus ? 'ring-checkbox_focus' : ''}
               checked={selected}
@@ -67,10 +67,14 @@ class ItemTitle extends PureComponent {
               onChange={this.onCheckboxChange}
               tabIndex="-1"
             />
-          }
+          </div>
+        }
 
-          {collapserExpander}
-        </div>
+        {collapserExpander &&
+          <div className={styles.expanderBox}>
+            {collapserExpander}
+          </div>
+        }
 
         {title}
       </div>
@@ -78,4 +82,4 @@ class ItemTitle extends PureComponent {
   }
 }
 
-export default focusSensorHOC(ItemTitle);
+export default focusSensorHOC(Title);
