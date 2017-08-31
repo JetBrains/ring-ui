@@ -11,7 +11,7 @@ import SelectLazy from './select-ng__lazy';
 
 const LOADER_DELAY = 150; // delay to show loader in ms
 const INFINITE_SCROLL_PACK_SIZE = 50;
-const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container]';
+const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container][data-in-sidebar=false]';
 /**
  * @name Select Ng
  * @category Legacy Angular Components
