@@ -313,7 +313,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(props) {
-    this.toggleShortcuts(this.props);
+    this.toggleShortcuts(props);
 
     if (props.data) {
       //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
