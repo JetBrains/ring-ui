@@ -320,16 +320,14 @@ class DialogController extends RingAngularComponent {
       event.stopPropagation();
       event.preventDefault();
 
-      if (this.dialogForm.$valid) {
-        (this.buttons || []).every(button => {
-          if (button.default) {
+      if (this.dialogForm.$valid && this.buttons) {
+        for (const button of this.buttons) {
+          if (button.default && !button.hidden && !button.disabled) {
             this.action(button);
             this.$inject.$scope.$apply();
-            return false;
+            return;
           }
-
-          return undefined;
-        });
+        }
       }
     };
   }
