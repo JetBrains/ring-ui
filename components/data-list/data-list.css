@@ -22,7 +22,7 @@
   background-color: #ebebeb;
 }
 
-.groupTitle {
+.title {
   display: flex;
   align-items: center;
 
@@ -33,28 +33,32 @@
   border: solid 0 #e6e6e6;
   border-width: 1px 0;
   outline: none;
-}
 
-.groupTitleCheckbox {
-  margin-right: 8px;
-}
+  @nest .item & {
+    height: 32px;
+    padding: 0 60px;
 
-.itemTitle {
-  display: flex;
-  align-items: center;
+    border-color: #ebebeb;
+  }
 
-  box-sizing: border-box;
-  height: 32px;
-  padding: 0 50px;
+  @nest .dataList:not(.disabledHover) &:hover {
+    background-color: #fff !important;
+  }
 
-  border: 0 solid #ebebeb;
-  border-width: 1px 0;
-  outline: none;
+  &.titleFocused {
+    border: 1px none #25b7ff;
+    border-top-style: solid;
+    border-bottom-style: solid;
+  }
+
+  @nest .dataList:not(.multiSelection) &.titleFocused,
+  &.titleSelected {
+    background-color: light-blue-color;
+  }
 }
 
 .showMore {
-  margin-left: 27px;
-  padding: 4px 50px;
+  padding: 4px 60px;
 
   color: #999;
 
@@ -65,31 +69,20 @@
   font-size: 12px;
 }
 
-.dataList:not(.disabledHover) .groupTitle:hover,
-.dataList:not(.disabledHover) .itemTitle:hover {
-  background-color: #fff !important;
-}
+.checkboxBox,
+.expanderBox {
+  width: 30px;
 
-.groupTitleFocused,
-.itemTitleFocused {
-  border: 1px none #25b7ff;
-  border-top-style: solid;
-  border-bottom-style: solid;
-}
-
-.dataList:not(.multiSelection) .groupTitleFocused,
-.dataList:not(.multiSelection) .itemTitleFocused,
-.groupTitleSelected,
-.itemTitleSelected {
-  background-color: light-blue-color;
+  color: #bbb;
 }
 
 .metaColumn {
-  display: inline-block;
+  display: inline-flex;
 
-  min-width: 27px;
+  align-items: center;
 
   color: #bbb;
+  justify-items: center;
 }
 
 .collapseIcon {
