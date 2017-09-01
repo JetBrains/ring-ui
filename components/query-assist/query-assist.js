@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 import debounce from 'mout/function/debounce';
-import deepEquals from 'mout/lang/deepEquals';
 import classNames from 'classnames';
+import deepEqual from 'deep-equal';
 
 import {SearchIcon, CloseIcon} from '../icon';
 
@@ -432,7 +432,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.immediateState.suggestionsQuery = query;
 
       // Do not update deep equal styleRanges to simplify shouldComponentUpdate check
-      if (!deepEquals(this.state.styleRanges, styleRanges)) {
+      if (!deepEqual(this.state.styleRanges, styleRanges)) {
         state.styleRanges = styleRanges;
       }
 
