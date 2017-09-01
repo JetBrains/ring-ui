@@ -1,9 +1,9 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
-import guid from 'mout/random/guid';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 
+import getUID from '../global/get-uid';
 import linkStyles from '../link/link.css';
 import Icon, {CheckmarkIcon} from '../icon';
 
@@ -25,7 +25,7 @@ describe('List', () => {
     function createItemMock(itemType) {
       return {
         rgItemType: itemType,
-        label: guid()
+        label: getUID('list-test-')
       };
     }
 
