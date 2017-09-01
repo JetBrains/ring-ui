@@ -31,11 +31,11 @@ class Title extends PureComponent {
 
   onCheckboxFocus = (): void => {
     this.props.onFocusRestore();
-  }
+  };
 
   onCheckboxChange = (): void => {
     this.toggleSelection();
-  }
+  };
 
   toggleSelection(): void {
     const {selectable, selected, onSelect} = this.props;

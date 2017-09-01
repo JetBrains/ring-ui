@@ -23,7 +23,7 @@ export function linkHOC(ComposedComponent) {
       inherit: PropTypes.bool,
       pseudo: PropTypes.bool,
       hover: PropTypes.bool
-    }
+    };
 
     render() {
       const {active, inherit, pseudo, hover, className, ...props} = this.props;

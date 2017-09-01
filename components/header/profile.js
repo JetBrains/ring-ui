@@ -36,7 +36,7 @@ export default class Profile extends PureComponent {
     closeOnSelect: true,
     renderPopupItems: items => items,
     translations: {}
-  }
+  };
 
   render() {
     const {

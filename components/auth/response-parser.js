@@ -25,7 +25,7 @@ export default class AuthResponseParser {
       this.uri = authResponse.errorUri;
       this.stateId = authResponse.state;
     }
-  }
+  };
 
   static convertKey(key) {
     return key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());

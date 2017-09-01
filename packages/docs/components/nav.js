@@ -52,7 +52,7 @@ const linkListItem = ({url, title}) => ({
 class Nav extends PureComponent {
   state = {
     filter: ''
-  }
+  };
 
   setFilter = e => this.setState({
     filter: e.target.value

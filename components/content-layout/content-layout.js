@@ -29,7 +29,7 @@ export default class ContentLayout extends Component {
 
   saveContentNode = contentNode => {
     this.setState({contentNode});
-  }
+  };
 
   render() {
     const {children, className, responsive, ...restProps} = this.props;

@@ -15,7 +15,7 @@ class TestComponent extends RingComponent {
     someObj: PropTypes.object,
     onClick: PropTypes.func,
     className: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     someObj: {}

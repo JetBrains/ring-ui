@@ -11,9 +11,9 @@ export default function shortcutsHOC(ComposedComponent) {
     static propTypes = {
       rgShortcutsOptions: PropTypes.object,
       rgShortcutsMap: PropTypes.object
-    }
+    };
 
-    _shortcutsScopeUid = getUID('rg-shortcuts-')
+    _shortcutsScopeUid = getUID('rg-shortcuts-');
 
     render() {
       const {rgShortcutsOptions, rgShortcutsMap, ...props} = this.props;

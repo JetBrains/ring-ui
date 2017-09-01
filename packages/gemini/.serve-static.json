@@ -1,5 +1,5 @@
 {
-  "append": true, // append log
+  "append": true,
   "outFile": "./http-server.log",
   "uid": "serve-static",
   "script": "http-server",

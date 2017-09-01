@@ -80,32 +80,32 @@ export default class Group extends PureComponent {
   onShowMore = (): void => {
     const {onGroupMoreLess, group} = this.props;
     onGroupMoreLess(group, true);
-  }
+  };
 
   onShowLess = (): void => {
     const {onGroupMoreLess, group} = this.props;
     onGroupMoreLess(group, false);
-  }
+  };
 
   onFocus = (): void => {
     const {onFocus, group} = this.props;
     onFocus(group);
-  }
+  };
 
   onItemFocus = (item: ItemType): void => {
     const {onFocus} = this.props;
     onFocus(item);
-  }
+  };
 
   onSelect = (selected: boolean): void => {
     const {onSelect, group} = this.props;
     onSelect(group, selected);
-  }
+  };
 
   onItemSelect = (item: ItemType, selected: boolean): void => {
     const {onSelect} = this.props;
     onSelect(item, selected);
-  }
+  };
 
   onCollapse = (): void => {
     const {group, onCollapse} = this.props;
@@ -148,7 +148,7 @@ export default class Group extends PureComponent {
         onSelect={onSelect}
       />
     );
-  }
+  };
 
   render(): Element<any> {
     const {

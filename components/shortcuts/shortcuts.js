@@ -9,11 +9,11 @@ export default class Shortcuts extends Component {
     scope: PropTypes.string.isRequired,
     options: PropTypes.object,
     children: PropTypes.node
-  }
+  };
 
   static defaultProps = {
     options: {}
-  }
+  };
 
   componentWillMount() {
     const {map, scope, options} = this.props;

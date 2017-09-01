@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Scss" pattern="file:*.scss" />
+</component>

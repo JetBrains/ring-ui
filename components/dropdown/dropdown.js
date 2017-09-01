@@ -29,7 +29,7 @@ export default class Dropdown extends Component {
     initShown: false,
     onShow: () => {},
     onHide: () => {}
-  }
+  };
 
   state = {show: this.props.initShown};
 
