@@ -9,7 +9,6 @@ import 'core-js/modules/es6.array.find';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import debounce from 'mout/function/debounce';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
@@ -18,6 +17,7 @@ import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/C
 import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
+import scheduleRAF from '../global/schedule-raf';
 import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import './list.scss';
@@ -28,6 +28,7 @@ import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import ListHint from './list__hint';
 
+const scheduleScrollListener = scheduleRAF();
 /**
  * @enum {number}
  */
@@ -40,7 +41,6 @@ const Type = {
   TITLE: 5,
   MARGIN: 6
 };
-const SCROLL_HANDLER_DEBOUNCE = 100;
 
 const Dimension = {
   ITEM_PADDING: 16,
@@ -380,7 +380,7 @@ export default class List extends RingComponentWithShortcuts {
       props.activateSingleItem && props.length === 1;
   }
 
-  scrollEndHandler = debounce(() => {
+  scrollEndHandler = () => scheduleScrollListener(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
       const maxScrollingPosition = innerContainer.scrollHeight;
@@ -391,7 +391,7 @@ export default class List extends RingComponentWithShortcuts {
         this.props.onScrollToBottom();
       }
     }
-  }, SCROLL_HANDLER_DEBOUNCE);
+  });
 
   checkOverflow = () => {
     if (this.inner) {
