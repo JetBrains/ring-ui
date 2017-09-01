@@ -1,4 +1,4 @@
-import deepEquals from 'mout/lang/deepEquals';
+import deepEqual from 'deep-equal';
 
 const DEFAULT_CHECK_DELAY = 3000;
 const COOKIE_EXPIRES = 365;
@@ -182,7 +182,7 @@ export default class FallbackStorage {
           return;
         }
 
-        if (!deepEquals(oldValue, newValue)) {
+        if (!deepEqual(oldValue, newValue)) {
           callback(newValue);
         }
 
