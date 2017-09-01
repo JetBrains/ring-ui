@@ -52,6 +52,7 @@ export default class Badge extends RingComponent {
       <span
         {...props}
         className={classes}
+        data-test="ring-badge"
       >
         {children}
       </span>
