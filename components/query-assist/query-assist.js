@@ -270,7 +270,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
       this.scrollInput();
     }
-  }
+  };
 
   scrollInput() {
     const caretOffset = this.caret.getOffset();
@@ -307,7 +307,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     this.setShortcutsEnabled(focus);
-  }
+  };
 
   getQuery() {
     return this.input.textContent.replace(/\s/g, ' ');
@@ -321,12 +321,12 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     if (newQueryIsEmpty !== currentQueryIsEmpty) {
       this.setState({placeholderEnabled: newQueryIsEmpty});
     }
-  }
+  };
 
   // To hide placeholder as quickly as possible, does not work in IE/Edge
   handleInput = () => {
     this.togglePlaceholder();
-  }
+  };
 
   handleKeyUp = e => {
     const props = {
@@ -350,14 +350,14 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.immediateState = props;
     this.props.onChange(props);
     this.requestData();
-  }
+  };
 
   // It's necessary to prevent new element creation before any other hooks
   handleEnter = e => {
     if (e.key === 'Enter') {
       preventDefault(e);
     }
-  }
+  };
 
   handleTab = e => {
     const list = this._popup && this._popup.list;
@@ -379,7 +379,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
 
     return true;
-  }
+  };
 
   handlePaste(e) {
     const INSERT_COMMAND = 'insertText';
@@ -403,7 +403,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.scrollInput();
       this.requestData();
     }
-  }
+  };
 
   // eslint-disable-next-line no-unused-vars
   handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
@@ -450,7 +450,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.setState({dirty: false});
     }
     return this.props.onApply(this.immediateState);
-  }
+  };
 
   handleComplete = (data, replace) => {
     if (!data || !data.data) {
@@ -496,7 +496,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
 
     this.closePopup();
     this.requestData();
-  }
+  };
 
   requestStyleRanges = () => {
     const {query, caret} = this.immediateState;
@@ -508,7 +508,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.sendRequest({query, caret, omitSuggestions: true}).
       then(this.handleStyleRangesResponse).
       catch(noop);
-  }
+  };
 
   requestHandler = () => {
     if (this.props.disabled) {
@@ -520,7 +520,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     return this.sendRequest({query, caret}).
       then(this.handleResponse).
       catch(noop);
-  }
+  };
 
   sendRequest(params) {
     const value = this.props.dataSource(params);
@@ -586,25 +586,25 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     if (!this.state.showPopup) {
       this.requestData();
     }
-  }
+  };
 
   trackPopupMouseState = e => {
     this.mouseIsDownOnPopup = e.type === 'mousedown';
-  }
+  };
 
   trackInputMouseState = e => {
     this.mouseIsDownOnInput = e.type === 'mousedown';
-  }
+  };
 
   trackCompositionState = e => {
     this.isComposing = e.type !== 'compositionend';
-  }
+  };
 
   closePopup = () => {
     if (this.node) {
       this.setState({showPopup: false});
     }
-  }
+  };
 
   clearQuery = () => {
     const state = {
@@ -624,7 +624,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       placeholderEnabled: true,
       loading: false
     });
-  }
+  };
 
   renderSuggestions() {
     const renderedSuggestions = [];
@@ -755,27 +755,27 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     // eslint-disable-next-line react/no-find-dom-node
     this.input = findDOMNode(node);
     this.caret = new Caret(this.input);
-  }
+  };
 
   popupRef = node => {
     this._popup = node;
-  }
+  };
 
   placeholderRef = node => {
     this.placeholder = node;
-  }
+  };
 
   glassRef = node => {
     this.glass = node;
-  }
+  };
 
   loaderRef = node => {
     this.loader = node;
-  }
+  };
 
   clearRef = node => {
     this.clear = node;
-  }
+  };
 
   render() {
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;

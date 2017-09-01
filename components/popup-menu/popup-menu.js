@@ -54,7 +54,7 @@ export default class PopupMenu extends Popup {
     ...Popup.defaultProps,
     renderOptimization: false,
     closeOnSelect: false
-  }
+  };
 
   onSelect = (item, event) => {
     if (this.props.closeOnSelect) {

@@ -49,7 +49,7 @@ export default class Checkbox extends PureComponent {
         this.props.onChange(newValue);
       }
     });
-  }
+  };
 
   inputRef = el => {
     this.input = el;

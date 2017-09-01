@@ -80,7 +80,7 @@ export default class DatePicker extends RingComponent {
         ? {from: null, to: null}
         : null
     );
-  }
+  };
 
   render() {
     const {

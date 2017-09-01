@@ -21,7 +21,7 @@ export default class Badge extends RingComponent {
     invalid: PropTypes.bool,
     disabled: PropTypes.bool,
     className: PropTypes.string
-  }
+  };
 
   render() {
     const {

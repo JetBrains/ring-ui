@@ -22,7 +22,7 @@ export default class Header extends PureComponent {
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     selectable: true,
@@ -34,7 +34,7 @@ export default class Header extends PureComponent {
     onCheckboxChange: () => {},
     sortKey: 'id',
     sortOrder: true
-  }
+  };
 
   state = {
     fixed: false,
@@ -44,19 +44,19 @@ export default class Header extends PureComponent {
 
   onCheckboxFocus = event => {
     event.target.blur();
-  }
+  };
 
   storeColumnsRowNode = node => {
     if (node) {
       this._columnsRowNode = node;
       this.calculateColumnsWidths(node);
     }
-  }
+  };
 
   onScrollIn = () => {
     this.calculateColumnsWidths(this._columnsRowNode);
     this.setState({fixed: false});
-  }
+  };
 
   onScrollOut = ({currentPosition}) => {
     if (currentPosition !== 'above') {
@@ -64,7 +64,7 @@ export default class Header extends PureComponent {
     }
     this.calculateColumnsWidths(this._columnsRowNode);
     this.setState({fixed: true});
-  }
+  };
 
   calculateColumnsWidths(columnsRowNode) {
     this.setState({

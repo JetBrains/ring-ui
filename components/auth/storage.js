@@ -9,6 +9,7 @@ import Storage from '../storage/storage';
 
 /**
  * @typedef {Object} StoredState
+ * @property {Date} created
  * @property {string} restoreLocation
  * @property {string[]} scopes
  */

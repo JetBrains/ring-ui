@@ -131,14 +131,14 @@ export default class DatePopup extends RingComponent {
 
     this._scrollTS = moment();
     window.requestAnimationFrame(this.scheduleScroll);
-  }
+  };
 
   scrollTo = scrollDate => {
     this._scrollDate = scrollDate;
     if (!this._scrollTS) {
       this.scheduleScroll();
     }
-  }
+  };
 
   didMount() {
     const {range, from, to} = this.props;

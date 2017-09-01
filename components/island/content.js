@@ -28,7 +28,7 @@ export default class Content extends Component {
   state = {
     scrolledToTop: true,
     scrolledToBottom: false
-  }
+  };
 
   componentWillUnmount() {
     this.scrollableNode = null;
@@ -44,7 +44,7 @@ export default class Content extends Component {
     }
     this.wrapperNode = node;
     resizeDetector.listenTo(node, this.calculateScrollPosition);
-  }
+  };
 
   calculateScrollPosition = throttle(() => {
     const {scrollableNode} = this;
@@ -55,13 +55,13 @@ export default class Content extends Component {
     const scrolledToTop = scrollTop === 0;
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
     this.setState({scrolledToTop, scrolledToBottom});
-  }, FADE_SHOW_THROTTLING)
+  }, FADE_SHOW_THROTTLING);
 
   onScroll = () => {
     const {scrollTop, scrollHeight} = this.scrollableNode;
     this.props.onScroll({scrollTop, scrollHeight});
     this.calculateScrollPosition();
-  }
+  };
 
   setScrollableNodeAndCalculatePosition = node => {
     if (!node) {
@@ -69,7 +69,7 @@ export default class Content extends Component {
     }
     this.scrollableNode = node;
     this.calculateScrollPosition();
-  }
+  };
 
   render() {
     const {children, className, bottomBorder, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars

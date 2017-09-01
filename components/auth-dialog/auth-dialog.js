@@ -40,13 +40,13 @@ export default class AuthDialog extends Component {
     cancelLabel: 'Remain a guest',
     onLogin: () => {},
     onCancel: () => {}
-  }
+  };
 
   onEscPress = () => {
     if (this.props.cancelOnEsc) {
       this.props.onCancel();
     }
-  }
+  };
 
   render() {
     const {

@@ -109,7 +109,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   focusInput = () => {
     this.getInputNode().focus();
-  }
+  };
 
   addTag = tag => {
     const tags = this.state.tags.concat([tag]);
@@ -118,7 +118,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     this.select.filterValue('');
     this.props.onAddTag({tag});
     this.setActiveIndex();
-  }
+  };
 
   onRemoveTag(tagToRemove) {
     return Promise.resolve(this.props.onRemoveTag({tag: tagToRemove})).
@@ -139,12 +139,12 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
     this.loadSuggestions(this.getInputNode().value);
     this.focusInput();
-  }
+  };
 
   filterExistingTags = suggestions => {
     const tagsMap = new Map(this.state.tags.map(tag => [tag.key, tag]));
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
-  }
+  };
 
   loadSuggestions = query => {
     this.setState({loading: true});
@@ -156,7 +156,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         }
       }).
       catch(() => this.node && this.setState({loading: false}));
-  }
+  };
 
   willMount() {
     this.updateStateFromProps(this.props);
@@ -179,13 +179,13 @@ export default class TagsInput extends RingComponentWithShortcuts {
       shortcuts: true
     });
     this.setActiveIndex(null);
-  }
+  };
 
   _blurHandler = () => {
     this.setState({
       shortcuts: false
     });
-  }
+  };
 
   selectTag = moveForward => {
     const activeIndex = typeof this.state.activeIndex === 'number'
@@ -202,7 +202,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     if (this.state.activeIndex !== newActiveIndex) {
       this.setActiveIndex(newActiveIndex);
     }
-  }
+  };
 
   handleKeyDown = event => {
     if (this.select._popup.isVisible()) {
@@ -250,7 +250,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
 
     return true;
-  }
+  };
 
   handleClick = memoize(tag => () => {
     this.setActiveIndex(this.state.tags.indexOf(tag));

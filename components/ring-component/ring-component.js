@@ -20,7 +20,7 @@ export default class RingComponent extends Component {
 
   static propTypes = {
     _onModelChange: PropTypes.func
-  }
+  };
 
   static factory(...args) {
     return createElement(this, ...args);

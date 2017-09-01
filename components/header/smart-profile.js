@@ -15,7 +15,7 @@ export default class SmartProfile extends PureComponent {
 
   state = {
     user: null
-  }
+  };
 
   componentDidMount() {
     this.requestUser();

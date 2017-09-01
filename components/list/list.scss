@@ -163,8 +163,7 @@ $list-spacing: $ring-unit / 2;
   height: $ring-unit*2;
 
   background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: no-repeat center;
 }
 
 .ring-list__highlight {

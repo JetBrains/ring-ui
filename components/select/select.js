@@ -135,7 +135,7 @@ export default class Select extends RingComponentWithShortcuts {
     }
 
     return undefined;
-  }
+  };
 
   _onEsc = event => {
     if (!this._popup.isVisible()) {
@@ -158,13 +158,13 @@ export default class Select extends RingComponentWithShortcuts {
     });
 
     return undefined;
-  }
+  };
 
   _inputShortcutHandler = () => {
     if (this.state.focused && this._popup && !this._popup.isVisible()) {
       this._clickHandler();
     }
-  }
+  };
 
   _handleMultipleToggling(multiple) {
     const empty = Select._getEmptyValue(multiple);
@@ -381,7 +381,7 @@ export default class Select extends RingComponentWithShortcuts {
   addHandler = () => {
     this._hidePopup();
     this.props.onAdd(this.filterValue());
-  }
+  };
 
   getToolbar() {
     const isToolbarHasElements = this._addButton || this.props.hint;
@@ -526,7 +526,7 @@ export default class Select extends RingComponentWithShortcuts {
         this._showPopup();
       }
     }
-  }
+  };
 
   _filterChangeHandler = event => {
     if (this.isInputMode() && !this.state.focused) {
@@ -559,7 +559,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.setState({filterValue}, () => {
       this._showPopup();
     });
-  }
+  };
 
   _resetMultipleSelectionMap() {
     this._multipleMap = {};
@@ -582,7 +582,7 @@ export default class Select extends RingComponentWithShortcuts {
         this._showPopup();
       }, 0);
     }
-  }
+  };
 
   _listSelectHandler = (selected, event) => {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
@@ -643,7 +643,7 @@ export default class Select extends RingComponentWithShortcuts {
 
       this.props.onChange(currentSelection, event);
     }
-  }
+  };
 
   _onCloseAttempt = (event, isEsc) => {
     if (this.isInputMode()) {
@@ -662,7 +662,7 @@ export default class Select extends RingComponentWithShortcuts {
     if (!isTagRemoved) {
       this._hidePopup(isEsc);
     }
-  }
+  };
 
   clearFilter() {
     this.filterValue('');
@@ -681,7 +681,7 @@ export default class Select extends RingComponentWithShortcuts {
     });
 
     return false;
-  }
+  };
 
   _focusHandler = () => {
     this.props.onFocus();
@@ -690,7 +690,7 @@ export default class Select extends RingComponentWithShortcuts {
       shortcuts: true,
       focused: true
     });
-  }
+  };
 
   _blurHandler = () => {
     this.props.onBlur();
@@ -707,7 +707,7 @@ export default class Select extends RingComponentWithShortcuts {
         focused: false
       });
     }
-  }
+  };
 
   _inputShortcutsEnabled() {
     if (!this._popup || this._popup.isVisible()) {

@@ -217,7 +217,7 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     this.moveHandler(newIndex, this.upHandler, e);
-  }
+  };
 
   downHandler = e => {
     const index = this.state.activeIndex;
@@ -234,7 +234,7 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     this.moveHandler(newIndex, this.downHandler, e);
-  }
+  };
 
   moveHandler(index, retryCallback, e) {
     let correctedIndex;
@@ -266,11 +266,11 @@ export default class List extends RingComponentWithShortcuts {
 
   mouseHandler = () => {
     this.setState({scrolling: false});
-  }
+  };
 
   scrollHandler = () => {
     this.setState({scrolling: true}, this.scrollEndHandler);
-  }
+  };
 
   enterHandler = event => {
     if (this.state.activeIndex !== null) {
@@ -284,7 +284,7 @@ export default class List extends RingComponentWithShortcuts {
     } else {
       return true; // propagate event to the parent component (e.g., QueryAssist)
     }
-  }
+  };
 
   getFirst() {
     return this.props.data.find(item => item.rgItemType === Type.ITEM);
@@ -495,7 +495,7 @@ export default class List extends RingComponentWithShortcuts {
         <div style={style}>{el}</div>
       </CellMeasurer>
     );
-  }
+  };
 
   virtualizedListRef = el => {
     this.virtualizedList = el;
@@ -503,7 +503,7 @@ export default class List extends RingComponentWithShortcuts {
 
   containerRef = el => {
     this.container = el;
-  }
+  };
 
   get inner() {
     if (!this._inner) {

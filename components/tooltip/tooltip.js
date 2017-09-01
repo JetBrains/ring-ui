@@ -94,12 +94,12 @@ export default class Tooltip extends RingComponent {
     } else {
       showPopup();
     }
-  }
+  };
 
   hidePopup = () => {
     clearTimeout(this.timeout);
     this.setState({showPopup: false});
-  }
+  };
 
   popupRef = el => {
     this.popup = el;
