@@ -11,14 +11,14 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       selectable: PropTypes.bool,
       onSelect: PropTypes.func,
       shortcuts: PropTypes.object
-    }
+    };
 
     static defaultProps = {
       ...ComposedComponent.defaultProps,
       selectable: true,
       onSelect: () => {},
       shortcuts: {}
-    }
+    };
 
     onUpPress = () => {
       const {selection, onSelect} = this.props;
@@ -29,7 +29,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
 
       return false;
-    }
+    };
 
     onDownPress = () => {
       const {selection, onSelect} = this.props;
@@ -40,7 +40,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
 
       return false;
-    }
+    };
 
     onShiftKeyDown = () => {
       const {selection} = this.props;
@@ -50,7 +50,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       } else {
         this.shiftSelectionMode = 'addition';
       }
-    }
+    };
 
     shiftSelect = selection => {
       if (this.shiftSelectionMode === 'addition') {
@@ -58,7 +58,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       } else {
         return selection.deselect();
       }
-    }
+    };
 
     onShiftUpPress = e => {
       e.preventDefault();
@@ -76,7 +76,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       } else {
         onSelect(newSelection);
       }
-    }
+    };
 
     onShiftDownPress = e => {
       e.preventDefault();
@@ -94,7 +94,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       } else {
         onSelect(newSelection);
       }
-    }
+    };
 
     onHomePress = () => {
       const {selection, onSelect} = this.props;
@@ -105,7 +105,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
 
       return false;
-    }
+    };
 
     onEndPress = () => {
       const {selection, onSelect} = this.props;
@@ -116,7 +116,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       }
 
       return false;
-    }
+    };
 
     onSpacePress = () => {
       const {selectable, selection, onSelect} = this.props;
@@ -127,14 +127,14 @@ export default function selectionShortcutsHOC(ComposedComponent) {
 
       onSelect(selection.toggleSelection());
       return false;
-    }
+    };
 
     onEscPress = () => {
       const {selection, onSelect} = this.props;
 
       onSelect(selection.reset());
       //this.restoreFocusWithoutScroll();
-    }
+    };
 
     onCmdAPress = () => {
       const {selectable, selection, onSelect} = this.props;
@@ -145,7 +145,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
 
       onSelect(selection.selectAll());
       return false;
-    }
+    };
 
     shortcutsMap = {
       up: this.onUpPress,
@@ -159,7 +159,7 @@ export default function selectionShortcutsHOC(ComposedComponent) {
       esc: this.onEscPress,
       'command+a': this.onCmdAPress,
       'ctrl+a': this.onCmdAPress
-    }
+    };
 
     render() {
       const {selection, selectable, onSelect} = this.props;

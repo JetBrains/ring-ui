@@ -8,7 +8,7 @@ export default class Cell extends PureComponent {
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string
-  }
+  };
 
   render() {
     const classes = classNames(style.cell, this.props.className);

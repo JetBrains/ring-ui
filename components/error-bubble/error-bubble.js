@@ -48,7 +48,7 @@ export default class ErrorBubble extends RingComponent {
     error: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.node
-  }
+  };
 
   render() {
     const {children, className, ...restProps} = this.props;

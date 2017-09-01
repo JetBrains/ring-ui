@@ -25,7 +25,7 @@ class Input extends RingComponent {
     valid: PropTypes.bool,
     material: PropTypes.bool,
     shortcuts: PropTypes.bool
-  }
+  };
 
   render() {
     const {className, inputRef, active, error, material, valid, multiline, shortcuts, ...props} = this.props; // eslint-disable-line no-unused-vars, max-len

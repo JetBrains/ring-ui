@@ -42,12 +42,12 @@ export default class Item extends PureComponent {
   onCollapse = (): void => {
     const {item, onCollapse} = this.props;
     onCollapse(item);
-  }
+  };
 
   onExpand = (): void => {
     const {item, onExpand} = this.props;
     onExpand(item);
-  }
+  };
 
   render(): Element<any> {
     const {

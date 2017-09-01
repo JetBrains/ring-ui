@@ -213,7 +213,7 @@ class DialogController extends RingAngularComponent {
 
     this._resetFormState();
     this.$inject.$scope.$broadcast('dialog.hide');
-  }
+  };
 
   _resetFormState() {
     const dialogForm = this.dialogForm;

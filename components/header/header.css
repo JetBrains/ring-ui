@@ -7,7 +7,7 @@
   height: calc(unit * 7);
   padding: 0 calc(unit * 4);
 
-  line-height: calc(unit * 7 - 5);
+  line-height: calc(calc(unit * 7) - 5);
 }
 
 .item {

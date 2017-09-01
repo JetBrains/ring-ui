@@ -28,7 +28,7 @@ export default class Button extends RingComponent {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     iconSize: PropTypes.number,
     className: PropTypes.string
-  }
+  };
 
   render() {
     const {

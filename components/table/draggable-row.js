@@ -8,19 +8,19 @@ class DraggableRow extends PureComponent {
 
   onFocus = () => {
     this.props.onFocus(this.props.item);
-  }
+  };
 
   onSelect = selected => {
     this.props.onSelect(this.props.item, selected);
-  }
+  };
 
   onCollapse = () => {
     this.props.onCollapse(this.props.item);
-  }
+  };
 
   onExpand = () => {
     this.props.onExpand(this.props.item);
-  }
+  };
 
   render() {
     return (

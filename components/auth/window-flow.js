@@ -79,7 +79,7 @@ export default class WindowFlow {
   _reset = () => {
     this._promise = null;
     this._loginWindow = null;
-  }
+  };
 
   stop() {
     if (this._loginWindow !== null) {

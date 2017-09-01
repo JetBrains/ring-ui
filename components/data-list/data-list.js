@@ -94,7 +94,7 @@ class DataList extends PureComponent {
   state = {
     shortcutsEnabled: this.props.focused,
     shortcutsScope: getUID('ring-data-list-')
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
@@ -118,7 +118,7 @@ class DataList extends PureComponent {
   onGroupOrItemFocus = (groupOrItem: GroupType|ItemType): void => {
     const {selection, onSelect} = this.props;
     onSelect(selection.focus(groupOrItem));
-  }
+  };
 
   onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean): void => {
     const {selection, onSelect} = this.props;
@@ -127,7 +127,7 @@ class DataList extends PureComponent {
     } else {
       onSelect(selection.deselect(groupOrItem));
     }
-  }
+  };
 
   render(): Element<any> {
     const {

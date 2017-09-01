@@ -27,17 +27,17 @@ export default class MonthSlider extends RingComponent {
 
   onMouseDown = () => {
     this.setState({dragging: true});
-  }
+  };
 
   onMouseUp = () => {
     this.setState({dragging: false});
-  }
+  };
 
   onMouseMove = e => {
     this.props.onScroll(
       linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
     );
-  }
+  };
 
   didUpdate(prevProps, prevState) {
     if (this.state.dragging && !prevState.dragging) {
