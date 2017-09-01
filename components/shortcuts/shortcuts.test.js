@@ -1,8 +1,8 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import guid from 'mout/random/guid';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
+import getUID from '../global/get-uid';
 
 import Shortcuts from './shortcuts';
 
@@ -10,7 +10,7 @@ describe('ShortcutsComponent', () => {
   const factory = props => (
     <Shortcuts
       map={{enter: sandbox.spy()}}
-      scope={guid()}
+      scope={getUID('shortcuts-test-')}
       {...props}
     />
   );

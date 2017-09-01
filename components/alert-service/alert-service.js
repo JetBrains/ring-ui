@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
-import guid from 'mout/random/guid';
+
+import getUID from '../global/get-uid';
 
 import Alert, {Container as AlertContainer} from '../alert/alert';
 
@@ -78,7 +79,7 @@ class AlertService {
     }
 
     const alert = {
-      key: guid(),
+      key: getUID('alert-service-'),
       message,
       type,
       timeout,
