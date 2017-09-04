@@ -100,7 +100,12 @@ export default class Popup extends RingComponentWithShortcuts {
         return new Error(Messages.CUT_EDGE_RENAMED);
       }
       return null;
-    }
+    },
+
+    onMouseDown: PropTypes.func,
+    onMouseUp: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func
   };
 
   static contextTypes = {
@@ -253,8 +258,10 @@ export default class Popup extends RingComponentWithShortcuts {
   };
 
   render() {
-    // eslint-disable-next-line max-len
-    const {className, hidden, attached, keepMounted, legacy, cutEdge, onMouseDown, onMouseUp, target} = this.props;
+    const {
+      className, hidden, attached, keepMounted, legacy, cutEdge, target,
+      onMouseDown, onMouseUp, onMouseEnter, onMouseLeave
+    } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
     const classes = classNames(className, styles.popup, {
@@ -282,6 +289,8 @@ export default class Popup extends RingComponentWithShortcuts {
               className={classes}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
             >
               {this.getInternalContent()}
             </div>
