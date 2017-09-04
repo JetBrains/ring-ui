@@ -36,6 +36,7 @@
     background-color: transparent;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   & :global(.ring-panel .ring-button) {
     margin-right: unit;
   }

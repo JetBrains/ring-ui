@@ -48,6 +48,7 @@
 .datePicker:hover .clear {
   opacity: 0.5;
 
+  /* stylelint-disable-next-line selector-max-specificity */
   &:hover {
     transition: none;
 
