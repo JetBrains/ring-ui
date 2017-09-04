@@ -117,6 +117,7 @@
     border-top: 1px solid table-caption-border-color;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   & .headerCell:first-child {
     padding-left: calc(unit * 4);
   }
@@ -167,6 +168,7 @@
     border-bottom-style: solid;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   &.rowFocused + .row .cell {
     border-top-style: none;
   }

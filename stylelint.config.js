@@ -1,4 +1,6 @@
 module.exports = {
   extends: '@jetbrains/stylelint-config',
-  rules: {}
+  rules: {
+    'selector-max-specificity': '0,3,0'
+  }
 };
