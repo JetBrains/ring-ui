@@ -5,6 +5,8 @@
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/gemini-report" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/docs/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/generator/test_gen" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ring-ui-docs/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ring-ui-gemini/gemini-report" />
       <excludeFolder url="file://$MODULE_DIR$/packages/ring-ui-generator/test_gen" />
