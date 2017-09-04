@@ -35,6 +35,7 @@
 
   vertical-align: baseline;
 
+  /* stylelint-disable-next-line selector-max-specificity */
   &:global(.ring-icon) {
     /* Redefine positioning inside ring-link */
 
