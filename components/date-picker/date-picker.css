@@ -22,18 +22,6 @@
   color: link-hover-color;
 }
 
-.displayDate {
-  display: inline-block;
-
-  min-width: calc(unit * 11);
-
-  text-align: left;
-}
-
-.displayDate.displayRange {
-  min-width: calc(unit * 22);
-}
-
 .datePopup {
   user-select: none;
   text-align: left;
@@ -166,25 +154,25 @@
   text-align: center;
 }
 
-.day.between {
+.between {
   transition: none;
 
   background-color: selected-background-color;
 }
 
-.day.activeBetween {
+.activeBetween {
   transition: none;
 
   background-color: hover-color;
 }
 
-.day.current {
+.current {
   color: white-color;
   border-radius: border-radius;
   background-color: main-color;
 }
 
-.day.active {
+.active {
   transition: none;
 
   color: link-hover-color;
@@ -192,15 +180,15 @@
   background-color: hover-color;
 }
 
-.day.from {
+.from {
   border-radius: border-radius 0 0 border-radius;
 }
 
-.day.to {
+.to {
   border-radius: 0 border-radius border-radius 0;
 }
 
-.day.from.to {
+.from.to {
   border-radius: border-radius;
 }
 
@@ -275,56 +263,56 @@
     &::after {
       height: calc(unit * 5);
     }
-
-    & + .Tuesday {
-      position: relative;
-
-      &::before {
-        position: absolute;
-        z-index: invisible-element-z-index;
-        top: calc(unit * -8);
-        left: 600%;
-
-        width: calc(unit * 2);
-        height: 100%;
-
-        content: '';
-        transition: background-color ease;
-      }
-    }
   }
 
-  &.Friday,
-  &.Saturday,
-  &.Sunday {
-    &::before,
-    &::after {
-      height: calc(unit * 5);
-    }
-  }
+  & + .Tuesday {
+    position: relative;
 
-  &.spread {
-    &::before,
-    &::after,
-    & + .Tuesday::before {
-      transition: none;
+    &::before {
+      position: absolute;
+      z-index: invisible-element-z-index;
+      top: calc(unit * -8);
+      left: 600%;
 
-      background-color: selected-background-color;
-    }
-  }
+      width: calc(unit * 2);
+      height: 100%;
 
-  &.activeSpread {
-    &::before,
-    &::after,
-    & + .Tuesday::before {
-      transition: none;
-
-      background-color: hover-color;
+      content: '';
+      transition: background-color ease;
     }
   }
 }
 
-.day.empty {
+.Friday,
+.Saturday,
+.Sunday {
+  &::before,
+  &::after {
+    height: calc(unit * 5);
+  }
+}
+
+.spread {
+  &::before,
+  &::after,
+  & + .Tuesday::before {
+    transition: none;
+
+    background-color: selected-background-color;
+  }
+}
+
+.activeSpread {
+  &::before,
+  &::after,
+  & + .Tuesday::before {
+    transition: none;
+
+    background-color: hover-color;
+  }
+}
+
+.empty {
   pointer-events: none;
 
   opacity: 0;
@@ -390,7 +378,7 @@
   opacity: 0.15;
 }
 
-.monthSlider.dragging {
+.dragging {
   cursor: grabbing;
 
   opacity: 0.25;

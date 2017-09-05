@@ -12,7 +12,45 @@
   outline: none;
 }
 
-.input[type="checkbox"] {
+.cell {
+  position: relative;
+  top: -2px;
+
+  display: inline-block;
+
+  box-sizing: border-box;
+  width: checkbox-size;
+  height: checkbox-size;
+
+  content: "";
+  user-select: none;
+  transition: border-color ease, background-color ease, box-shadow ease;
+  vertical-align: middle;
+  pointer-events: none;
+
+  border: 1px solid borders-color;
+  border-radius: 3px;
+  background-color: white-color;
+}
+
+.icon {
+  position: absolute;
+  top: calc(unit * -1.5);
+  left: 1px;
+
+  width: checkbox-size;
+  height: checkbox-size;
+
+  transition: opacity fast-ease, top fast-ease;
+
+  opacity: 0;
+
+  & svg {
+    position: absolute;
+  }
+}
+
+.input {
   position: absolute;
   top: 0;
   left: 0;
@@ -24,44 +62,6 @@
   cursor: pointer;
 
   opacity: 0;
-
-  & + .cell {
-    position: relative;
-    top: -2px;
-
-    display: inline-block;
-
-    box-sizing: border-box;
-    width: checkbox-size;
-    height: checkbox-size;
-
-    content: "";
-    user-select: none;
-    transition: border-color ease, background-color ease, box-shadow ease;
-    vertical-align: middle;
-    pointer-events: none;
-
-    border: 1px solid borders-color;
-    border-radius: 3px;
-    background-color: white-color;
-
-    & .icon {
-      position: absolute;
-      top: calc(unit * -1.5);
-      left: 1px;
-
-      width: checkbox-size;
-      height: checkbox-size;
-
-      transition: opacity fast-ease, top fast-ease;
-
-      opacity: 0;
-
-      & svg {
-        position: absolute;
-      }
-    }
-  }
 
   &[disabled] {
     pointer-events: none;
@@ -76,6 +76,7 @@
     border-color: border-hover-color;
     background-color: selected-background-color;
 
+    /* stylelint-disable-next-line selector-max-specificity */
     & .icon {
       top: calc(unit * -0.5);
 

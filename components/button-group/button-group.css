@@ -12,7 +12,7 @@
   font-size: 0;
 }
 
-.buttonGroup :global(.ring-button),
+.buttonGroup button,
 .buttonGroup .button {
   margin: 0 0 0 -1px;
 
@@ -33,7 +33,7 @@
 
 .buttonGroup > .first,
 .buttonGroup > .caption + .button,
-.buttonGroup > :global(.ring-button):first-child,
+.buttonGroup > button:first-child,
 .buttonGroup > .button:first-child,
 .buttonGroup > :first-child .button {
   margin: 0;
@@ -44,7 +44,7 @@
 
 .buttonGroup > .last,
 .buttonGroup > .button:last-child,
-.buttonGroup > :global(.ring-button):last-child,
+.buttonGroup > button:last-child,
 .buttonGroup > :last-child .button {
   border-top-right-radius: border-radius;
   border-bottom-right-radius: border-radius;
