@@ -130,6 +130,12 @@
   }
 }
 
+.label {
+  position: relative;
+
+  color: dark-gray-color;
+}
+
 .select:hover .value,
 .select:hover .icons,
 .value:focus,
@@ -150,12 +156,6 @@
     color: gray-color;
     border-bottom-style: dashed;
   }
-}
-
-.label {
-  position: relative;
-
-  color: dark-gray-color;
 }
 
 .selectedLabel {

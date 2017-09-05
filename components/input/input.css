@@ -70,11 +70,16 @@
       font-size: font-size-smaller;
     }
   }
+
+  /* if you need a cross, pass onClear prop */
+  &::-ms-clear {
+    display: none;
+  }
 }
 
 .clear {
   position: absolute;
-  top: 14px;
+  top: 16px;
 
   right: 0;
 
@@ -83,7 +88,7 @@
   }
 
   @nest .borderless & {
-    top: -2px;
+    top: 0;
   }
 
   /* override Button */
