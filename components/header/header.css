@@ -70,11 +70,13 @@
 .icon {
   width: calc(unit * 5);
 
-  vertical-align: baseline;
+  vertical-align: top;
 
   /* override button */
   && {
     height: compensated;
+
+    padding-top: 4px;
   }
 }
 
