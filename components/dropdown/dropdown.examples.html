@@ -120,3 +120,31 @@
     render(dropdown, container);
   </file>
 </example>
+
+<example name="Dropdown with hover mode and disabled click mode">
+  <file type="html">
+    <div id="dropdown"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
+    import Link from '@jetbrains/ring-ui/components/link/link';
+
+    const container = document.getElementById('dropdown');
+    const dropdown = (
+    <Dropdown
+      anchor={<Link href="#hash">Hover me</Link>}
+      clickMode={false}
+      hoverMode
+    >
+      <Popup>Popup content</Popup>
+    </Dropdown>
+    );
+
+    render(dropdown, container);
+  </file>
+</example>
