@@ -49,7 +49,8 @@ class DialogController extends RingAngularComponent {
     const {dialog, dialogInSidebar, $scope} = this.$inject;
     const dialogService = this.inSidebar ? dialogInSidebar : dialog;
     this.focusTrap = createFocusTrap(this.$inject.$element[0], {
-      fallbackFocus: '[data-anchor="focus-trap-fallback"]'
+      fallbackFocus: '[data-anchor="focus-trap-fallback"]',
+      escapeDeactivates: false
     });
 
     this.dialogService = dialogService;
@@ -212,7 +213,7 @@ class DialogController extends RingAngularComponent {
 
     this._resetFormState();
     this.$inject.$scope.$broadcast('dialog.hide');
-  }
+  };
 
   _resetFormState() {
     const dialogForm = this.dialogForm;
@@ -319,16 +320,14 @@ class DialogController extends RingAngularComponent {
       event.stopPropagation();
       event.preventDefault();
 
-      if (this.dialogForm.$valid) {
-        (this.buttons || []).every(button => {
-          if (button.default) {
+      if (this.dialogForm.$valid && this.buttons) {
+        for (const button of this.buttons) {
+          if (button.default && !button.hidden && !button.disabled) {
             this.action(button);
             this.$inject.$scope.$apply();
-            return false;
+            return;
           }
-
-          return undefined;
-        });
+        }
       }
     };
   }

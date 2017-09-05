@@ -58,7 +58,7 @@ export default class DatePicker extends PureComponent {
         ? {from: null, to: null}
         : null
     );
-  }
+  };
 
   popupRef = el => {
     this.popup = el;

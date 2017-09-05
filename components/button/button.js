@@ -41,18 +41,18 @@ export default class Button extends PureComponent {
     onMouseDown: PropTypes.func,
 
     children: PropTypes.node
-  }
+  };
 
   static defaultProps = {
     theme: Theme.LIGHT,
     iconSize: Size.Size16,
     onMouseDown() {}
-  }
+  };
 
   onMouseDown = e => {
     e.preventDefault();
     this.props.onMouseDown(e);
-  }
+  };
 
   render() {
     const {

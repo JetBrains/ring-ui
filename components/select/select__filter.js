@@ -18,7 +18,7 @@ export default class SelectFilter extends Component {
   static defaultProps = {
     placeholder: 'Filter items',
     inputRef: noop
-  }
+  };
 
   componentDidMount() {
     setTimeout(() => this.focus());

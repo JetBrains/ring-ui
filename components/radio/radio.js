@@ -50,11 +50,11 @@ export default class Radio extends Component {
     ]),
     onChange: PropTypes.func,
     children: PropTypes.node.isRequired
-  }
+  };
 
   static childContextTypes = {
     ringRadioGroup: PropTypes.object
-  }
+  };
 
   static Item = RadioItem;
 

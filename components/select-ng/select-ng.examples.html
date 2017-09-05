@@ -256,7 +256,7 @@
     import DialogNG from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
 
     function fillScrollableContent() {
-      var html = '<h2>Text to scroll</h2>';
+      let html = '<h2>Text to scroll</h2>';
       for (var i = 0; i < 100; i++) {
         html += 'Text<br/>'
       }
@@ -267,11 +267,17 @@
 
     angular.module('test', [SelectNG, DialogNG])
     .run(function($templateCache) {
-      var tpl = '<rg-select ng-model="data.selectedItem" options="item in data.getOptions()"></rg-select>';
+      const tpl = `
+        <rg-select
+          ng-model="data.selectedItem"
+          filter="true"
+          options="item in data.getOptions()"
+        ></rg-select>
+      `;
       $templateCache.put('test-tpl.html', tpl);
     })
     .controller('testCtrl', function($timeout, dialog) {
-    var data = {
+    const data = {
       getOptions: () => {
         return $timeout(function() {
           return [
@@ -282,14 +288,14 @@
       }
     }
 
-    $timeout(function(){
+    $timeout(() =>{
       dialog.show({
         title: 'Select in dialog demo',
         description: 'Select popup should not scroll with background page content',
         data: data,
         content: 'test-tpl.html'
       });
-      }, 100);
+    }, 100);
     });
   </file>
 </example>

@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import throttle from 'mout/function/throttle';
 import createResizeDetector from 'element-resize-detector';
+
+import scheduleRAF from '../global/schedule-raf';
 
 import styles from './island.css';
 
+const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const FADE_SHOW_THROTTLING = 50;
 const resizeDetector = createResizeDetector();
 
 export default class Content extends Component {
@@ -28,7 +29,7 @@ export default class Content extends Component {
   state = {
     scrolledToTop: true,
     scrolledToBottom: false
-  }
+  };
 
   componentWillUnmount() {
     this.scrollableNode = null;
@@ -44,9 +45,9 @@ export default class Content extends Component {
     }
     this.wrapperNode = node;
     resizeDetector.listenTo(node, this.calculateScrollPosition);
-  }
+  };
 
-  calculateScrollPosition = throttle(() => {
+  calculateScrollPosition = () => scheduleScrollAction(() => {
     const {scrollableNode} = this;
     if (!scrollableNode) {
       return;
@@ -55,13 +56,13 @@ export default class Content extends Component {
     const scrolledToTop = scrollTop === 0;
     const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
     this.setState({scrolledToTop, scrolledToBottom});
-  }, FADE_SHOW_THROTTLING)
+  });
 
   onScroll = () => {
     const {scrollTop, scrollHeight} = this.scrollableNode;
     this.props.onScroll({scrollTop, scrollHeight});
     this.calculateScrollPosition();
-  }
+  };
 
   setScrollableNodeAndCalculatePosition = node => {
     if (!node) {
@@ -69,7 +70,7 @@ export default class Content extends Component {
     }
     this.scrollableNode = node;
     this.calculateScrollPosition();
-  }
+  };
 
   render() {
     const {children, className, bottomBorder, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars

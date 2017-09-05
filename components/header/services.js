@@ -21,16 +21,16 @@ export default class Services extends PureComponent {
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
-  static Link = ServicesLink
+  static Link = ServicesLink;
   static sort = (a, b) => {
     const aApplicationName = a.applicationName || '';
     const bApplicationName = b.applicationName || '';
 
     return aApplicationName.localeCompare(bApplicationName) ||
       a.name.localeCompare(b.name);
-  }
+  };
 
-  serviceIsActive = service => service.id === this.props.clientId
+  serviceIsActive = service => service.id === this.props.clientId;
 
   render() {
     // eslint-disable-next-line no-unused-vars

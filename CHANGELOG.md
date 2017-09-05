@@ -4,7 +4,7 @@ category: Docs
 order: 2
 ---
 
-## [0.2.10] - 22-08-2017
+## [0.2.10] — 22-08-2017
 ### Added
 - `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
 A previously introduced feature of importing them directly from packages is deprecated:

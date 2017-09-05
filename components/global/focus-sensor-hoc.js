@@ -10,7 +10,7 @@ export default function focusSensorHOC(ComposedComponent) {
       autofocus: PropTypes.bool,
       onFocus: PropTypes.func,
       onBlur: PropTypes.func
-    }
+    };
 
     static defaultProps = {
       ...ComposedComponent.defaultProps,
@@ -18,11 +18,11 @@ export default function focusSensorHOC(ComposedComponent) {
       autofocus: false,
       onFocus: () => {},
       onBlur: () => {}
-    }
+    };
 
     state = {
       focused: this.props.focused
-    }
+    };
 
     componentDidMount() {
       const {props: {autofocus}, node} = this;
@@ -55,7 +55,7 @@ export default function focusSensorHOC(ComposedComponent) {
     onRefUpdate = component => {
       // eslint-disable-next-line react/no-find-dom-node
       this.node = findDOMNode(component);
-    }
+    };
 
     onFocusCapture = ({target}) => {
       const focused = this.node.contains(target);
@@ -63,7 +63,7 @@ export default function focusSensorHOC(ComposedComponent) {
         this.setState({focused: true});
         this.props.onFocus();
       }
-    }
+    };
 
     onBlurCapture = ({target}) => {
       const {state: {focused}, node} = this;
@@ -76,15 +76,15 @@ export default function focusSensorHOC(ComposedComponent) {
           }
         }, 1);
       }
-    }
+    };
 
     onFocusRestore = () => {
       this.node.focus();
-    }
+    };
 
     onFocusReset = () => {
       this.node.blur();
-    }
+    };
 
     render() {
       return (

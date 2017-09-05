@@ -6,8 +6,13 @@ import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 
+import {
+  CollapseIcon,
+  ExpandIcon
+} from '../icon';
+
 import Selection from './selection';
-import GroupTitle from './group-title';
+import Title from './title';
 import Item from './item';
 import type {GroupType, ItemType} from './types';
 import styles from './data-list.css';
@@ -28,13 +33,22 @@ type Props = {
   title: string,
   items: ItemType[],
   className?: string,
-  onItemCollapse: (item?: ItemType) => void,
+
+  collapsible: boolean,
+  collapsed: boolean,
+  onCollapse: (item?: GroupType) => void,
+  onExpand: (item?: GroupType) => void,
+
+  onItemCollapse: (item?: GroupType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
+
   showMoreLessButton: MoreLessButtonState,
   onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
+
   showFocus: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
+
   onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
   selection: Selection,
   selectable: boolean,
@@ -43,15 +57,22 @@ type Props = {
 
 export default class Group extends PureComponent {
   static defaultProps = {
+    collapsible: false,
+    collapsed: true,
+    onCollapse: () => {},
+    onExpand: () => {},
+
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true,
+
     showMoreLessButton: moreLessButtonStates.UNUSED,
     onGroupMoreLess: () => {},
-    selectable: false,
-    selected: false,
+
     showFocus: false,
-    hasMoreItems: false
+
+    selectable: false,
+    selected: false
   };
 
   props: Props;
@@ -59,31 +80,41 @@ export default class Group extends PureComponent {
   onShowMore = (): void => {
     const {onGroupMoreLess, group} = this.props;
     onGroupMoreLess(group, true);
-  }
+  };
 
   onShowLess = (): void => {
     const {onGroupMoreLess, group} = this.props;
     onGroupMoreLess(group, false);
-  }
+  };
 
   onFocus = (): void => {
     const {onFocus, group} = this.props;
     onFocus(group);
-  }
+  };
 
   onItemFocus = (item: ItemType): void => {
     const {onFocus} = this.props;
     onFocus(item);
-  }
+  };
 
   onSelect = (selected: boolean): void => {
     const {onSelect, group} = this.props;
     onSelect(group, selected);
-  }
+  };
 
   onItemSelect = (item: ItemType, selected: boolean): void => {
     const {onSelect} = this.props;
     onSelect(item, selected);
+  };
+
+  onCollapse = (): void => {
+    const {group, onCollapse} = this.props;
+    onCollapse(group);
+  }
+
+  onExpand = (): void => {
+    const {group, onExpand} = this.props;
+    onExpand(group);
   }
 
   renderItem = (item: ItemType): Element<any> => {
@@ -117,12 +148,13 @@ export default class Group extends PureComponent {
         onSelect={onSelect}
       />
     );
-  }
+  };
 
   render(): Element<any> {
     const {
       title, items, showMoreLessButton,
-      showFocus, selectable, selected
+      showFocus, selectable, selected,
+      collapsible, collapsed
     } = this.props;
 
     let moreLessButton;
@@ -152,19 +184,41 @@ export default class Group extends PureComponent {
       );
     }
 
+    let collapserExpander = null;
+    if (collapsible && items.length) {
+      if (collapsed) {
+        collapserExpander = (
+          <ExpandIcon
+            className={styles.collapseIcon}
+            size={13}
+            onClick={this.onExpand}
+          />
+        );
+      } else {
+        collapserExpander = (
+          <CollapseIcon
+            className={styles.collapseIcon}
+            size={13}
+            onClick={this.onCollapse}
+          />
+        );
+      }
+    }
+
     return (
       <li>
-        <GroupTitle
+        <Title
           title={title}
           focused={showFocus}
           showFocus={showFocus}
           selectable={selectable}
           selected={selected}
+          collapserExpander={collapserExpander}
           onFocus={this.onFocus}
           onSelect={this.onSelect}
         />
 
-        {items.length ? (
+        {!collapsible || (items.length && !collapsed) ? (
           <ul className={styles.group}>
             {items.map(item => this.renderItem(item))}
 

@@ -29,7 +29,7 @@ export default class Checkbox extends PureComponent {
 
   inputRef = el => {
     this.input = el;
-  }
+  };
 
   render() {
     const {children, label, ...restProps} = this.props;

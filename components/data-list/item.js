@@ -7,7 +7,7 @@ import {
 } from '../icon';
 
 import type {SubitemType, ItemType} from './types';
-import ItemTitle from './item-title';
+import Title from './title';
 import styles from './data-list.css';
 
 type Props = {
@@ -42,12 +42,12 @@ export default class Item extends PureComponent {
   onCollapse = (): void => {
     const {item, onCollapse} = this.props;
     onCollapse(item);
-  }
+  };
 
   onExpand = (): void => {
     const {item, onExpand} = this.props;
     onExpand(item);
-  }
+  };
 
   render(): Element<any> {
     const {
@@ -78,7 +78,7 @@ export default class Item extends PureComponent {
 
     return (
       <li className={styles.item}>
-        <ItemTitle
+        <Title
           title={title}
           focused={showFocus}
           showFocus={showFocus}

@@ -1,9 +1,9 @@
 import React from 'react';
 import {renderIntoDocument} from 'react-dom/test-utils';
-import guid from 'mout/random/guid';
 
 import shortcuts from '../shortcuts/core';
 import simulateCombo from '../../test-helpers/simulate-combo';
+import getUID from '../global/get-uid';
 
 import RingComponentWithShortcuts from './ring-component_with-shortcuts';
 
@@ -37,7 +37,7 @@ describe('Ring Component With Shortcuts', () => {
       };
 
       super();
-      this.scope = guid();
+      this.scope = getUID('shortcuts-test-');
       this.shortcutsProps = params.shortcutsProps || defaultShortcutsProps;
 
       this.shortcutsProps.scope = this.scope;
