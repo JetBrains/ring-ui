@@ -16,11 +16,12 @@ import styles from './dropdown.css';
 
 export default class Dropdown extends Component {
   static propTypes = {
-    anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func, PropTypes.string]).isRequired,
+    anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
     className: PropTypes.string,
     activeClassName: PropTypes.string,
+    clickMode: PropTypes.bool,
     hoverMode: PropTypes.bool,
     hoverShowTimeOut: PropTypes.number,
     hoverHideTimeOut: PropTypes.number,
@@ -30,6 +31,7 @@ export default class Dropdown extends Component {
 
   static defaultProps = {
     initShown: false,
+    clickMode: true,
     hoverMode: false,
     hoverShowTimeOut: 300,
     hoverHideTimeOut: 600,
@@ -39,20 +41,20 @@ export default class Dropdown extends Component {
 
   state = {show: this.props.initShown};
 
-  hideByClick = false;
+  pinnedByClick = false;
 
   onClick = () => {
     const {show} = this.state;
 
     if (this.props.hoverMode) {
-      if (!this.hideByClick) {
-        this.hideByClick = true;
+      if (!this.pinnedByClick) {
+        this.pinnedByClick = true;
 
         if (show) {
           return;
         }
       } else {
-        this.hideByClick = false;
+        this.pinnedByClick = false;
       }
     }
 
@@ -60,7 +62,11 @@ export default class Dropdown extends Component {
   };
 
   onChildCloseAttempt = () => {
-    this.hideByClick = false;
+    const {clickMode, hoverMode} = this.props;
+    if (clickMode && hoverMode) {
+      this.pinnedByClick = false;
+    }
+
     this._toggle(false);
   };
 
@@ -75,7 +81,7 @@ export default class Dropdown extends Component {
   };
 
   onMouseLeave = () => {
-    if (this.hideByClick) {
+    if (this.pinnedByClick) {
       return;
     }
 
@@ -103,7 +109,7 @@ export default class Dropdown extends Component {
     const {show} = this.state;
     const {
       initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut, // eslint-disable-line no-unused-vars
-      children, anchor, className, activeClassName, hoverMode, ...restProps
+      children, anchor, className, activeClassName, hoverMode, clickMode, ...restProps
     } = this.props;
 
     const classes = classNames(styles.dropdown, className, {
@@ -128,7 +134,7 @@ export default class Dropdown extends Component {
       <div
         data-test="ring-dropdown"
         {...restProps}
-        onClick={this.onClick}
+        onClick={clickMode ? this.onClick : undefined}
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}
