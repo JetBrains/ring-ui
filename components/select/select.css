@@ -36,7 +36,7 @@
 
   line-height: calc(unit * 4px);
 
-  :global(.ring-loader.ring-loader_inline) {
+  :global(.ring-loader_inline) {
     top: 2px;
 
     margin-right: 2px;
@@ -63,13 +63,11 @@
 }
 
 .clearIcon {
-  &&& {
-    padding: 0 3px;
+  padding: 0 3px;
 
-    vertical-align: -2px;
-  }
+  vertical-align: -2px;
 
-  &&&& > span > span {
+  && > span > span {
     color: dark-gray-color;
   }
 }
@@ -115,17 +113,6 @@
 
   font: inherit;
 
-  @nest .select:hover &,
-  &:focus,
-  &.open {
-    &,
-    & + .icons {
-      transition: none;
-
-      color: main-color;
-    }
-  }
-
   &:focus {
     border-color: main-color;
   }
@@ -141,6 +128,17 @@
     border: 0;
     outline: 0;
   }
+}
+
+.select:hover .value,
+.select:hover .icons,
+.value:focus,
+.value:focus + .icons,
+.open,
+.open + .icons {
+  transition: none;
+
+  color: main-color;
 }
 
 .disabled {

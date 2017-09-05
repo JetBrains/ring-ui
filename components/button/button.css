@@ -3,6 +3,115 @@
 @value height: calc(unit * 3);
 @value loader-width: calc(unit * 8);
 
+.light {
+  color: text-color;
+  background-color: white-color;
+  box-shadow: button-shadow borders-color;
+
+  &:hover {
+    box-shadow: button-shadow border-hover-color;
+  }
+
+  &:active,
+  &.active {
+    background-color: selected-background-color;
+    box-shadow: button-shadow border-hover-color;
+  }
+
+  &[disabled] {
+    color: gray-color;
+  }
+
+  &.primary:active,
+  &.primary.active {
+    background-color: #1a98ff;
+    box-shadow: button-shadow #0062b2;
+  }
+
+  &.danger:active,
+  &.danger.active {
+    background-color: #f50000;
+    box-shadow: button-shadow #7f0000;
+  }
+
+  &.withIcon {
+    color: dark-gray-color;
+  }
+
+  & .icon {
+    color: icon-color;
+  }
+
+  &[disabled] .icon {
+    color: #dbdbdb;
+  }
+
+  &.loader {
+    background-image:
+      linear-gradient(
+        to right,
+        white-color,
+        selected-background-color 40%,
+        white-color 80%
+      );
+  }
+}
+
+.dark {
+  color: darker-gray-color;
+  background-color: black-color;
+  box-shadow: button-shadow dark-line-color;
+
+  &:hover {
+    box-shadow: button-shadow main-color;
+  }
+
+  &:active,
+  &.active {
+    color: white-color;
+    background-color: dark-selected-background-color;
+    box-shadow: button-shadow main-color;
+  }
+
+  &[disabled] {
+    color: text-color;
+  }
+
+  &.primary:active,
+  &.primary.active {
+    background-color: main-hover-color;
+    box-shadow: button-shadow border-hover-color;
+  }
+
+  &.danger:active,
+  &.danger.active {
+    background-color: error-color;
+    box-shadow: button-shadow #ffb2b2;
+  }
+
+  &.withIcon {
+    color: darker-gray-color;
+  }
+
+  & .icon {
+    color: darker-gray-color;
+  }
+
+  &[disabled] .icon {
+    color: #333;
+  }
+
+  &.loader {
+    background-image:
+      linear-gradient(
+        to right,
+        black-color,
+        #002039 40%,
+        black-color 80%
+      );
+  }
+}
+
 .button {
   composes: font-smaller-lower;
   composes: button from "../button-group/button-group.css";
@@ -28,228 +137,22 @@
 
   line-height: height;
 
-  &.light {
-    color: text-color;
-    background-color: white-color;
-    box-shadow: button-shadow borders-color;
+  &:hover {
+    z-index: 3;
+
+    transition: none;
   }
 
-  &.dark {
-    color: darker-gray-color;
-    background-color: black-color;
-    box-shadow: button-shadow dark-line-color;
+  &:focus {
+    z-index: 4;
+
+    transition: none;
+
+    box-shadow: inset 0 0 0 1px border-hover-color, 0 0 0 1px border-hover-color;
   }
 
-  &:not([disabled]):not(.loader) {
-    &:hover {
-      z-index: 3;
-
-      transition: none;
-
-      &.light {
-        box-shadow: button-shadow border-hover-color;
-      }
-
-      &.dark {
-        box-shadow: button-shadow main-color;
-      }
-    }
-
-    &:active,
-    &.active {
-      z-index: 2;
-
-      &.light {
-        background-color: selected-background-color;
-        box-shadow: button-shadow border-hover-color;
-      }
-
-      &.dark {
-        color: white-color;
-        background-color: dark-selected-background-color;
-        box-shadow: button-shadow main-color;
-      }
-    }
-
-    &:focus {
-      z-index: 4;
-
-      transition: none;
-
-      &.light,
-      &.dark {
-        box-shadow: inset 0 0 0 1px border-hover-color, 0 0 0 1px border-hover-color;
-      }
-    }
-  }
-
-  &&[disabled] {
+  &[disabled] {
     pointer-events: none;
-
-    &.light {
-      color: gray-color;
-    }
-
-    &.dark {
-      color: text-color;
-    }
-  }
-
-  &.primary {
-    color: white-color;
-    background-color: main-color;
-    box-shadow: none;
-
-    &:not([disabled]):not(.loader) {
-      &:hover,
-      &:focus {
-        transition: none;
-
-        background-color: main-hover-color;
-        box-shadow: none;
-      }
-
-      &:active,
-      &.active {
-        &.light {
-          background-color: #1a98ff;
-          box-shadow: button-shadow #0062b2;
-        }
-
-        &.dark {
-          background-color: main-hover-color;
-          box-shadow: button-shadow border-hover-color;
-        }
-      }
-    }
-
-    &[disabled] {
-      background-color: white-color;
-      box-shadow: button-shadow borders-color;
-    }
-  }
-
-  &.danger {
-    color: error-color;
-
-    &:not([disabled]):not(.loader) {
-      &:hover,
-      &:focus {
-        transition: none;
-
-        color: white-color;
-        background-color: error-color;
-        box-shadow: none;
-      }
-
-      &:active,
-      &.active {
-        &.light {
-          background-color: #f50000;
-          box-shadow: button-shadow #7f0000;
-        }
-
-        &.dark {
-          background-color: error-color;
-          box-shadow: button-shadow #ffb2b2;
-        }
-      }
-    }
-  }
-
-  &.text,
-  &.withIcon {
-    padding: 0 unit;
-
-    background-color: transparent;
-    box-shadow: none;
-
-    &:not([disabled]):not(.loader) {
-      &:hover {
-        transition: none;
-      }
-
-      &:hover,
-      &:active,
-      &.active {
-        background-color: transparent;
-        box-shadow: none;
-      }
-
-      &:focus {
-        &.light,
-        &.dark {
-          box-shadow: inset 0 0 0 2px border-hover-color;
-        }
-      }
-    }
-  }
-
-  &.text {
-    color: main-color;
-
-    &:not([disabled]):not(.loader) {
-      &:hover {
-        color: link-hover-color;
-      }
-    }
-  }
-
-  &.withIcon {
-    &.light {
-      color: dark-gray-color;
-
-      & .icon {
-        color: icon-color;
-      }
-    }
-
-    &.dark {
-      color: darker-gray-color;
-
-      & .icon {
-        color: darker-gray-color;
-      }
-    }
-
-    & .icon {
-      transition: color ease;
-      vertical-align: 2px;
-
-      &:not(:last-child) {
-        margin-right: calc(unit * 0.5);
-      }
-    }
-
-    &:not([disabled]):not(.loader) {
-      &:hover,
-      &.active:hover:not(:active) {
-        color: main-color;
-
-        & .icon {
-          transition: none;
-
-          color: border-hover-color;
-        }
-      }
-
-      &:active,
-      &.active {
-        & .icon {
-          color: main-color;
-        }
-      }
-    }
-
-    &[disabled] {
-      &.light .icon {
-        color: #dbdbdb;
-      }
-
-      &.dark .icon {
-        color: #333;
-      }
-    }
   }
 
   &::-moz-focus-inner {
@@ -258,53 +161,136 @@
     border: 0;
     outline: 0;
   }
+}
 
-  &.loader {
-    animation: progress 1s linear infinite;
-    pointer-events: none;
+.button:active,
+.active {
+  z-index: 2;
+}
 
-    background-repeat: repeat;
-    background-size: loader-width;
+.primary {
+  color: white-color;
+  background-color: main-color;
+  box-shadow: none;
 
-    &.light {
-      background-image:
-        linear-gradient(
-          to right,
-          white-color,
-          selected-background-color 40%,
-          white-color 80%
-        );
-    }
+  &:hover,
+  &:focus {
+    transition: none;
 
-    &.dark {
-      background-image:
-        linear-gradient(
-          to right,
-          black-color,
-          #002039 40%,
-          black-color 80%
-        );
-    }
+    background-color: main-hover-color;
+    box-shadow: none;
+  }
 
-    &.primary {
-      background-image:
-        linear-gradient(
-          to right,
-          main-color,
-          #33a3ff 40%,
-          main-color 80%
-        );
+  &[disabled] {
+    background-color: white-color;
+    box-shadow: button-shadow borders-color;
+  }
+}
+
+.danger {
+  color: error-color;
+
+  &:hover,
+  &:focus {
+    transition: none;
+
+    color: white-color;
+    background-color: error-color;
+    box-shadow: none;
+  }
+}
+
+.text,
+.withIcon {
+  padding: 0 unit;
+
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover {
+    transition: none;
+  }
+
+  &:hover,
+  &:active,
+  &.active {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &:focus {
+    box-shadow: inset 0 0 0 2px border-hover-color;
+  }
+}
+
+.text {
+  color: main-color;
+
+  &:hover {
+    color: link-hover-color;
+  }
+}
+
+.withIcon {
+  &.active {
+    & .icon {
+      color: main-color;
     }
   }
 
-  &.delayed .content::after {
-    content: '…';
+  &:hover {
+    color: main-color;
+
+    & .icon {
+      transition: none;
+
+      color: border-hover-color;
+    }
   }
 
-  &.short {
-    width: calc(unit * 4);
-    padding: 0;
+  &:active {
+    & .icon {
+      color: main-color;
+    }
   }
+}
+
+.icon {
+  transition: color ease;
+  vertical-align: 2px;
+
+  line-height: normal;
+
+  &:not(:last-child) {
+    margin-right: calc(unit * 0.5);
+  }
+}
+
+.loader {
+  animation: progress 1s linear infinite;
+  pointer-events: none;
+
+  background-repeat: repeat;
+  background-size: loader-width;
+
+  &.primary {
+    background-image:
+      linear-gradient(
+        to right,
+        main-color,
+        #33a3ff 40%,
+        main-color 80%
+      );
+  }
+}
+
+.delayed .content::after {
+  content: '…';
+}
+
+.short {
+  width: calc(unit * 4);
+  padding: 0;
 }
 
 @keyframes progress {
