@@ -20,18 +20,18 @@ export default class HeaderCell extends PureComponent {
     onSort: PropTypes.func,
     sortKey: PropTypes.string,
     sortOrder: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     onSort: () => {}
-  }
+  };
 
   onClick = () => {
     if (this.sortable) {
       const {column, onSort, sortOrder} = this.props;
       onSort({column, order: !(this.sorted && sortOrder)});
     }
-  }
+  };
 
   onChildrenClick(e) {
     e.stopPropagation();

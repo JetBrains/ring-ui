@@ -16,15 +16,15 @@ class SmartTable extends PureComponent {
   static propTypes = {
     onSelectionChange: PropTypes.func,
     ...restPropTypes
-  }
+  };
 
   static defaultProps = {
     onSelectionChange: () => {}
-  }
+  };
 
   state = {
     selection: new Selection({data: this.props.data})
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const data = nextProps.data;
@@ -37,7 +37,7 @@ class SmartTable extends PureComponent {
   onSelect = selection => {
     this.setState({selection});
     this.props.onSelectionChange(selection);
-  }
+  };
 
   render() {
     return (

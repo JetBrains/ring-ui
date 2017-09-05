@@ -99,7 +99,7 @@ class Table extends PureComponent {
 
     // disableHoverHOC
     disabledHover: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     isItemSelectable: () => true,
@@ -117,13 +117,13 @@ class Table extends PureComponent {
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {}
-  }
+  };
 
   state = {
     shortcutsEnabled: this.props.selectable && this.props.focused,
     shortcutsScope: getUID('ring-table-'),
     userSelectNone: false
-  }
+  };
 
   componentDidMount() {
     document.addEventListener('mouseup', this.onMouseUp);
@@ -154,18 +154,18 @@ class Table extends PureComponent {
     if (e.shiftKey) {
       this.setState({userSelectNone: true});
     }
-  }
+  };
 
   onMouseUp = () => {
     if (this.state.userSelectNone) {
       this.setState({userSelectNone: false});
     }
-  }
+  };
 
   onRowFocus = row => {
     const {selection, onSelect} = this.props;
     onSelect(selection.focus(row));
-  }
+  };
 
   onRowSelect = (row, selected) => {
     const {selection, onSelect} = this.props;
@@ -174,12 +174,12 @@ class Table extends PureComponent {
     } else {
       onSelect(selection.deselect(row));
     }
-  }
+  };
 
   onSortEnd = ({oldIndex, newIndex}) => {
     const data = arrayMove(this.props.data, oldIndex, newIndex);
     this.props.onReorder({data, oldIndex, newIndex});
-  }
+  };
 
   onCheckboxChange = e => {
     const {checked} = e.target;
@@ -192,13 +192,13 @@ class Table extends PureComponent {
     }
 
     this.restoreFocusWithoutScroll();
-  }
+  };
 
   restoreFocusWithoutScroll = () => {
     const {scrollX, scrollY} = window;
     this.props.onFocusRestore();
     window.scrollTo(scrollX, scrollY);
-  }
+  };
 
   render() {
     const {

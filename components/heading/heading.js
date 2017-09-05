@@ -60,7 +60,7 @@ export default class Heading extends PureComponent {
 
   static defaultProps = {
     level: Levels.H1
-  }
+  };
 
   static Levels = Levels;
 

@@ -110,7 +110,7 @@ export default class Alert extends RingComponent {
     const height = getRect(this.node).height;
     this.setState({height});
     return this.props.onCloseRequest(...args);
-  }
+  };
 
   _close() {
     setTimeout(() => {
@@ -126,7 +126,7 @@ export default class Alert extends RingComponent {
     if (evt.target.matches('a')) {
       this.closeRequest(evt);
     }
-  }
+  };
 
   /**
    * @private

@@ -24,14 +24,14 @@ export default class Sidebar extends Component {
 
   handleTopWaypoint = ({currentPosition}) => {
     this.setState({topIsOutside: currentPosition === ABOVE});
-  }
+  };
 
   handleBottomWaypoint = ({currentPosition, waypointTop}) => {
     this.setState({
       sidebarVisibleHeight: waypointTop,
       bottomIsOutside: currentPosition !== INSIDE
     });
-  }
+  };
 
   shouldUseFixation() {
     const {contentNode} = this.props;
@@ -49,7 +49,7 @@ export default class Sidebar extends Component {
 
   sidebarRef = node => {
     this.sidebarNode = node;
-  }
+  };
 
   render() {
     // eslint-disable-next-line no-unused-vars

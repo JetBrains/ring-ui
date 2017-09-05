@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'dom4';
-import debounce from 'mout/function/debounce';
+import debounce from 'just-debounce-it';
 
 import {getRect, getStyles, getWindowHeight} from '../global/dom';
 import PlaceUnder from '../place-under-ng/place-under-ng';

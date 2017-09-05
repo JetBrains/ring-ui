@@ -37,13 +37,13 @@ export default class Tag extends RingComponent {
 
   state = {
     focused: false
-  }
+  };
 
   onDocumentClick = event => {
     if (this.tag) {
       this.setState({focused: this.node === event.target});
     }
-  }
+  };
 
   setDocumentClickListener(setListener) {
     if (setListener) {

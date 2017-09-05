@@ -66,7 +66,7 @@ class RgTemplateController extends RingAngularComponent {
       $element.html(template);
       $compile($element.contents())(this.currentScope);
     });
-  }
+  };
 
   cleanup() {
     if (this.currentScope) {

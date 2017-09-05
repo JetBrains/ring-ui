@@ -1,10 +1,12 @@
 import angular from 'angular';
-import debounce from 'mout/function/debounce';
 import 'dom4';
 
+import scheduleRAF from '../global/schedule-raf';
 import {getDocumentScrollTop, getWindowHeight} from '../global/dom';
 
 import './docked-panel-ng.scss';
+
+const scheduleScroll = scheduleRAF();
 
 /**
  * @name Docked Panel Ng
@@ -98,7 +100,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
 
       function init() {
         // eslint-disable-next-line no-magic-numbers
-        const scrollListener = debounce(checkPanelPosition, 10);
+        const scrollListener = () => scheduleScroll(checkPanelPosition);
 
         /**
          * Wait until all content on the page is loaded

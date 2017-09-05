@@ -181,7 +181,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
   state = {
     display: Display.SHOWING
-  }
+  };
 
   getShortcutsProps() {
     return {
@@ -242,12 +242,12 @@ export default class Popup extends RingComponentWithShortcuts {
     if (el && this.context.parentPopupUid) {
       this._redraw();
     }
-  }
+  };
 
   popupRef = el => {
     this.popup = el;
     this._redraw();
-  }
+  };
 
   containerRef = el => {
     this.container = el;
@@ -326,7 +326,7 @@ export default class Popup extends RingComponentWithShortcuts {
       }
       this.setState(this.calculateDisplay);
     }
-  }
+  };
 
   _redraw = () => this.redrawScheduler(this._updatePosition);
 
@@ -445,7 +445,7 @@ export default class Popup extends RingComponentWithShortcuts {
   _onEscPress = evt => {
     this.props.onEscPress(evt);
     this._onCloseAttempt(evt, true);
-  }
+  };
 
   /**
    * @param {jQuery.Event} evt
@@ -466,7 +466,7 @@ export default class Popup extends RingComponentWithShortcuts {
 
     this.props.onOutsideClick(evt);
     this._onCloseAttempt(evt, false);
-  }
+  };
 
   getInternalContent() {
     return this.props.children;

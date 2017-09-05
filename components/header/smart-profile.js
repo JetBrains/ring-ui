@@ -19,7 +19,7 @@ export default class SmartProfile extends PureComponent {
   state = {
     user: null,
     size: Profile.defaultProps.size
-  }
+  };
 
   componentDidMount() {
     this.requestUser();

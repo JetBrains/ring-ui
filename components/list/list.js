@@ -10,7 +10,6 @@ import 'core-js/modules/es6.array.find';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import debounce from 'mout/function/debounce';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
@@ -30,6 +29,8 @@ import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import ListHint from './list__hint';
 
+const scheduleScrollListener = scheduleRAF();
+const scheduleHoverListener = scheduleRAF();
 /**
  * @enum {number}
  */
@@ -42,7 +43,6 @@ const Type = {
   TITLE: 5,
   MARGIN: 6
 };
-const SCROLL_HANDLER_DEBOUNCE = 100;
 
 const Dimension = {
   ITEM_PADDING: 16,
@@ -168,8 +168,6 @@ export default class List extends RingComponentWithShortcuts {
     keyMapper: this.sizeCacheKey
   });
 
-  hoverScheduler = scheduleRAF();
-
   hasActivatableItems() {
     return this._activatableItems;
   }
@@ -192,7 +190,7 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   hoverHandler = memoize(index => () =>
-    this.hoverScheduler(() => {
+    scheduleHoverListener(() => {
       if (this.node) {
         this.setState({
           activeIndex: index,
@@ -227,7 +225,7 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     this.moveHandler(newIndex, this.upHandler, e);
-  }
+  };
 
   downHandler = e => {
     const index = this.state.activeIndex;
@@ -244,7 +242,7 @@ export default class List extends RingComponentWithShortcuts {
     }
 
     this.moveHandler(newIndex, this.downHandler, e);
-  }
+  };
 
   moveHandler(index, retryCallback, e) {
     let correctedIndex;
@@ -276,11 +274,11 @@ export default class List extends RingComponentWithShortcuts {
 
   mouseHandler = () => {
     this.setState({scrolling: false});
-  }
+  };
 
   scrollHandler = () => {
     this.setState({scrolling: true}, this.scrollEndHandler);
-  }
+  };
 
   enterHandler = event => {
     if (this.state.activeIndex !== null) {
@@ -294,7 +292,7 @@ export default class List extends RingComponentWithShortcuts {
     } else {
       return true; // propagate event to the parent component (e.g., QueryAssist)
     }
-  }
+  };
 
   getFirst() {
     return this.props.data.find(item => item.rgItemType === Type.ITEM);
@@ -323,6 +321,8 @@ export default class List extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(props) {
+    this.toggleShortcuts(props);
+
     if (props.data) {
       //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
@@ -393,7 +393,7 @@ export default class List extends RingComponentWithShortcuts {
       props.activateSingleItem && props.length === 1;
   }
 
-  scrollEndHandler = debounce(() => {
+  scrollEndHandler = () => scheduleScrollListener(() => {
     const innerContainer = this.inner;
     if (innerContainer) {
       const maxScrollingPosition = innerContainer.scrollHeight;
@@ -404,7 +404,7 @@ export default class List extends RingComponentWithShortcuts {
         this.props.onScrollToBottom();
       }
     }
-  }, SCROLL_HANDLER_DEBOUNCE);
+  });
 
   checkOverflow = () => {
     if (this.inner) {
@@ -512,7 +512,7 @@ export default class List extends RingComponentWithShortcuts {
         <div style={style}>{el}</div>
       </CellMeasurer>
     );
-  }
+  };
 
   virtualizedListRef = el => {
     this.virtualizedList = el;
@@ -520,7 +520,7 @@ export default class List extends RingComponentWithShortcuts {
 
   containerRef = el => {
     this.container = el;
-  }
+  };
 
   get inner() {
     if (!this._inner) {

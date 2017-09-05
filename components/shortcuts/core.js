@@ -43,7 +43,7 @@ class Shortcuts {
     }
 
     return undefined;
-  }
+  };
 
   /**
    * Binds a handler to a shortcut
@@ -199,7 +199,7 @@ class Shortcuts {
 
     // stop for input, select, and textarea
     return element.matches('input,select,textarea') || (element.contentEditable && element.contentEditable === 'true');
-  }
+  };
 
   _getKeyboardEventType(params) {
     if (!params.type && sniffr.os.name === 'windows') {

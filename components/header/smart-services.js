@@ -20,7 +20,7 @@ export default class SmartServices extends Component {
     visible: true,
     loading: false,
     services: null
-  }
+  };
 
   componentDidMount() {
     const {auth} = this.props;
@@ -36,7 +36,7 @@ export default class SmartServices extends Component {
 
   stopLoading = () => {
     this.setState({loading: false});
-  }
+  };
 
   getServicesContent = () => {
     this.setState({loading: true});
@@ -45,7 +45,7 @@ export default class SmartServices extends Component {
       this.setState({services});
       this.stopLoading();
     }).catch(this.stopLoading);
-  }
+  };
 
   getServices(fields) {
     return this.http.get(`services/header?fields=${fields}`);
