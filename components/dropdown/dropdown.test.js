@@ -6,6 +6,7 @@ import {shallow, mount} from 'enzyme';
 
 import Popup from '../popup/popup';
 
+import Anchor from './anchor';
 import Dropdown from './dropdown';
 
 describe('Dropdown', () => {
@@ -104,5 +105,71 @@ describe('Dropdown', () => {
 
     anchorFunc.should.have.been.calledTwice;
     anchorFunc.getCall(1).calledWithMatch({active: true}).should.be.true;
+  });
+
+  it('should render <Anchor> with child if type of anchor property is string', () => {
+    const anchorText = 'Test anchor text';
+    shallowDropdown({anchor: anchorText}).find(Anchor).children().should.have.text(anchorText);
+  });
+
+  describe('hoverMode', () => {
+    let wrapper;
+    let popupEl;
+    let clock;
+
+    const dropDownProps = {
+      hoverMode: true,
+      hoverShowTimeOut: 100,
+      hoverHideTimeOut: 300
+    };
+
+    beforeEach(() => {
+      clock = sandbox.useFakeTimers();
+
+      const popupComponent = (
+        <Popup
+          ref={function popupRef(el) {
+            popupEl = el;
+          }}
+        />
+      );
+
+      wrapper = mountDropdown(dropDownProps, popupComponent);
+    });
+
+    it('should show popup on mouse enter', () => {
+      wrapper.simulate('mouseenter');
+      clock.tick(dropDownProps.hoverShowTimeOut);
+
+      popupEl.isVisible().should.be.true;
+    });
+
+    it('should hide popup on mouse leave', () => {
+      wrapper.simulate('mouseenter');
+      clock.tick(dropDownProps.hoverShowTimeOut);
+
+      wrapper.simulate('mouseleave');
+      clock.tick(dropDownProps.hoverHideTimeOut);
+
+      popupEl.isVisible().should.be.false;
+    });
+
+    it('should no hide popup on mouse leave if wrapper was clicked', () => {
+      wrapper.simulate('click');
+
+      wrapper.simulate('mouseleave');
+      clock.tick(dropDownProps.hoverHideTimeOut);
+
+      popupEl.isVisible().should.be.true;
+    });
+
+    it('should no hide popup on click if popup is already opened by hover popup', () => {
+      wrapper.simulate('mouseenter');
+      clock.tick(dropDownProps.hoverShowTimeOut);
+
+      wrapper.simulate('click');
+
+      popupEl.isVisible().should.be.true;
+    });
   });
 });
