@@ -104,18 +104,18 @@
   @nest .table:not(.disabledHover) &:hover {
     background-color: selected-background-color;
   }
+}
 
-  &.rowFocused {
-    box-shadow: inset 0 2px border-hover-color, inset 0 -2px border-hover-color;
+.rowFocused {
+  box-shadow: inset 0 2px border-hover-color, inset 0 -2px border-hover-color;
 
-    /* we need vertical box-shadows on cells not rows because of IE =( */
-    & > .cell:first-child {
-      box-shadow: inset 2px 0 border-hover-color;
-    }
+  /* we need vertical box-shadows on cells not rows because of IE =( */
+  & > :first-child {
+    box-shadow: inset 2px 0 border-hover-color;
+  }
 
-    & > .cell:last-child {
-      box-shadow: inset -2px 0 border-hover-color;
-    }
+  & > :last-child {
+    box-shadow: inset -2px 0 border-hover-color;
   }
 }
 
@@ -205,9 +205,6 @@
     position: absolute;
 
     height: calc(height - top);
-  }
-
-  &&& {
     padding: 0;
   }
 }
@@ -220,7 +217,7 @@
 .draggingRow {
   background-color: selected-background-color;
 
-  &&& .dragHandle {
+  & .dragHandle {
     cursor: grabbing;
 
     opacity: 1;

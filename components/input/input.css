@@ -126,18 +126,20 @@ textarea.input {
   font-size: font-size-smaller;
 }
 
-.noLabel .input::placeholder,
+.noLabel ::placeholder,
 .input:focus::placeholder {
   transition: text-shadow ease;
 }
 
-.light.noLabel .input::placeholder,
-.light .input:focus::placeholder {
+.light.noLabel ::placeholder,
+.light :focus::placeholder {
   text-shadow: text-shadow gray-color;
 }
 
-.dark.noLabel .input::placeholder,
-.dark .input:focus::placeholder {
+/* stylelint-disable-next-line selector-max-specificity */
+.dark.noLabel ::placeholder,
+/* stylelint-disable-next-line selector-max-specificity */
+.dark :focus::placeholder {
   text-shadow: text-shadow text-color;
 }
 
@@ -145,7 +147,7 @@ textarea.input {
   color: main-color;
 }
 
-.error > .input:focus ~ .label {
+.error > :focus ~ .label {
   color: error-color;
 }
 

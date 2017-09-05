@@ -72,16 +72,16 @@
 
 .input:checked + .switch {
   background-color: main-color;
+}
 
-  &::before {
-    left: calc(unit * 1.5 - padding);
-  }
+.input:checked + ::before {
+  left: calc(unit * 1.5 - padding);
 }
 
 .input[disabled] {
   pointer-events: none;
 
-  & + .switch::after {
+  & + ::after {
     position: absolute;
     top: 0;
     left: 0;
