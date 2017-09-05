@@ -37,17 +37,17 @@ export default class MonthSlider extends PureComponent {
 
   onMouseDown = () => {
     this.setState({dragging: true});
-  }
+  };
 
   onMouseUp = () => {
     this.setState({dragging: false});
-  }
+  };
 
   onMouseMove = e => {
     this.props.onScroll(
       linearFunction(0, this.props.scrollDate, yearScrollSpeed).y(e.movementY)
     );
-  }
+  };
 
   render() {
     let year = moment(this.props.scrollDate).

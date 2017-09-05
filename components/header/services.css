@@ -1,7 +1,7 @@
 @value unit, dark-gray-color from  "../global/global.css";
 
 .services {
-  max-width: calc(unit * 50 + 2);
+  max-width: calc(calc(unit * 50) + 2);
   padding: calc(unit * 4) calc(unit * 4) calc(unit * 3);
 
   background-color: #000;
@@ -89,7 +89,7 @@
   }
 
   &:last-child {
-    margin-bottom: -calc(unit * 3);
+    margin-bottom: calc(unit * -3);
   }
 }
 

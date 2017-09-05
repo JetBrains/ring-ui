@@ -40,7 +40,7 @@ export function linkHOC(ComposedComponent) {
       pseudo: PropTypes.bool,
       hover: PropTypes.bool,
       children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-    }
+    };
 
     render() {
       const {

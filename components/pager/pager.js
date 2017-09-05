@@ -35,7 +35,7 @@ export default class Pager extends PureComponent {
     onPageSizeChange: PropTypes.func,
     className: PropTypes.string,
     translations: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     currentPage: 1,
@@ -51,7 +51,7 @@ export default class Pager extends PureComponent {
       previousPage: 'previous'
     },
     onPageSizeChange: () => {}
-  }
+  };
 
   getSelectOptions() {
     const {pageSize, pageSizes} = this.props;

@@ -43,7 +43,7 @@ export default class Profile extends PureComponent {
     renderPopupItems: items => items,
     translations: {},
     size: Size.Size32
-  }
+  };
 
   render() {
     const {

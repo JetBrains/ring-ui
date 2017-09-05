@@ -47,11 +47,11 @@ export default class Dialog extends PureComponent {
     onEscPress: () => {},
     onCloseAttempt: () => {},
     trapFocus: true
-  }
+  };
 
   state = {
     shortcutsScope: getUID('ring-dialog-')
-  }
+  };
 
   handleClick = event => {
     if (event.target !== this.dialog) {
@@ -59,7 +59,7 @@ export default class Dialog extends PureComponent {
     }
     this.props.onOverlayClick(event);
     this.props.onCloseAttempt(event);
-  }
+  };
 
   getShortcutsMap = () => {
     const onEscape = event => {
@@ -72,11 +72,11 @@ export default class Dialog extends PureComponent {
     return {
       esc: onEscape
     };
-  }
+  };
 
   dialogRef = focusTrap => {
     this.dialog = focusTrap && focusTrap.node;
-  }
+  };
 
   render() {
     // eslint-disable-next-line no-unused-vars, max-len

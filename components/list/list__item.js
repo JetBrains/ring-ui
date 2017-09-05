@@ -59,7 +59,7 @@ export default class ListItem extends PureComponent {
 
   static defaultProps = {
     iconSize: Icon.Size.Size18
-  }
+  };
 
   render() {
     /* eslint-disable no-unused-vars */

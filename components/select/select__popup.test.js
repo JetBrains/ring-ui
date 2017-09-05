@@ -1,9 +1,8 @@
+import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
-import React from 'react';
-import last from 'mout/array/last';
-import guid from 'mout/random/guid';
-import randString from 'mout/random/randString';
+
+import getUID from '../global/get-uid';
 
 import List from '../list/list';
 import simulateCombo from '../../test-helpers/simulate-combo';
@@ -41,8 +40,8 @@ describe('SelectPopup', () => {
 
   describe('visible', () => {
     function createListItemMock(itemLabel, id) {
-      const key = id || guid();
-      const label = itemLabel || randString();
+      const key = id || getUID('popup-test-');
+      const label = itemLabel || getUID('popup-label-');
 
       return {
         key,
@@ -101,7 +100,7 @@ describe('SelectPopup', () => {
       it('should highlight last item', () => {
         const wrapper = mountSelectPopup({data: testData});
         wrapper.setProps({hidden: false});
-        const lastItem = last(testData);
+        const lastItem = testData[testData.length - 1];
 
         simulateCombo('up');
 

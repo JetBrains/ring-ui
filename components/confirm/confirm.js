@@ -46,13 +46,13 @@ export default class Confirm extends PureComponent {
     rejectLabel: 'Cancel',
     onConfirm: () => {},
     onReject: () => {}
-  }
+  };
 
   onEscPress = () => {
     if (this.props.rejectOnEsc) {
       this.props.onReject();
     }
-  }
+  };
 
   render() {
     const {

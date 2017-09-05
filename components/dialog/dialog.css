@@ -20,7 +20,7 @@
 .content {
   width: calc(unit * 58);
   min-height: calc(unit * 15);
-  max-height: calc(100% - calc(unit * 8 + 2px));
+  max-height: calc(100% - calc(calc(unit * 8) + 2px));
   margin: calc(unit * 4) 0;
   overflow-wrap: break-word;
 
@@ -35,6 +35,7 @@
     background-color: transparent;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   & :global(.ring-panel) button {
     margin-right: unit;
   }
@@ -44,7 +45,7 @@
   }
 
   & .islandScrollableWrapperInsideDialog {
-    padding-bottom: calc(unit * 2.5 - 1);
+    padding-bottom: calc(calc(unit * 2.5) - 1);
   }
 }
 

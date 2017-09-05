@@ -9,7 +9,7 @@
 
 import angular from 'angular';
 import 'dom4';
-import debounce from 'mout/function/debounce';
+import debounce from 'just-debounce-it';
 import createResizeDetector from 'element-resize-detector';
 
 import {getDocumentScrollTop} from '../global/dom';

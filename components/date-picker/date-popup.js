@@ -162,14 +162,14 @@ export default class DatePopup extends Component {
 
     this._scrollTS = moment();
     window.requestAnimationFrame(this.scheduleScroll);
-  }
+  };
 
   scrollTo = scrollDate => {
     this._scrollDate = scrollDate;
     if (!this._scrollTS) {
       this.scheduleScroll();
     }
-  }
+  };
 
   hoverHandler = hoverDate => this.setState({hoverDate});
 

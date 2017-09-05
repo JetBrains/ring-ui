@@ -44,7 +44,7 @@ class Row extends PureComponent {
     collapsed: PropTypes.bool,
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func
-  }
+  };
 
   static defaultProps = {
     selectable: true,
@@ -60,26 +60,26 @@ class Row extends PureComponent {
     collapsed: false,
     onCollapse: () => {},
     onExpand: () => {}
-  }
+  };
 
   onMouseEnter = () => {
     const {item, onHover} = this.props;
     onHover(item);
-  }
+  };
 
   onClick = e => {
     if (e.shiftKey) {
       this.toggleSelection();
     }
-  }
+  };
 
   onCheckboxFocus = () => {
     this.props.onFocusRestore();
-  }
+  };
 
   onCheckboxChange = () => {
     this.toggleSelection();
-  }
+  };
 
   toggleSelection() {
     const {selectable, selected, onSelect} = this.props;
