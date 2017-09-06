@@ -47,13 +47,12 @@
 
 .datePicker:hover .clear {
   opacity: 0.5;
+}
 
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:hover {
-    transition: none;
+.datePicker .clear:hover {
+  transition: none;
 
-    opacity: 1;
-  }
+  opacity: 1;
 }
 
 .datePopup {
