@@ -104,8 +104,8 @@ export default class Popup extends RingComponentWithShortcuts {
 
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func
+    onMouseOver: PropTypes.func,
+    onMouseOut: PropTypes.func
   };
 
   static contextTypes = {
@@ -260,7 +260,7 @@ export default class Popup extends RingComponentWithShortcuts {
   render() {
     const {
       className, hidden, attached, keepMounted, legacy, cutEdge, target,
-      onMouseDown, onMouseUp, onMouseEnter, onMouseLeave
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
@@ -281,6 +281,8 @@ export default class Popup extends RingComponentWithShortcuts {
           <div
             data-portaltarget={this.uid}
             ref={this.containerRef}
+            onMouseOver={onMouseOver}
+            onMouseOut={onMouseOut}
           >
             <div
               data-test={this.props['data-test']}
@@ -289,8 +291,6 @@ export default class Popup extends RingComponentWithShortcuts {
               className={classes}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
             >
               {this.getInternalContent()}
             </div>
