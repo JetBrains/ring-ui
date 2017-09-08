@@ -70,7 +70,7 @@ export default class Dropdown extends Component {
     this._toggle(false);
   };
 
-  onMouseOver = () => {
+  onMouseEnter = () => {
     this._clearTimer();
 
     this.hoverTimer = setTimeout(() => {
@@ -80,7 +80,7 @@ export default class Dropdown extends Component {
     }, this.props.hoverShowTimeOut);
   };
 
-  onMouseOut = () => {
+  onMouseLeave = () => {
     if (this.pinnedByClick) {
       return;
     }
@@ -135,8 +135,8 @@ export default class Dropdown extends Component {
         data-test="ring-dropdown"
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
-        onMouseOver={hoverMode ? this.onMouseOver : undefined}
-        onMouseOut={hoverMode ? this.onMouseOut : undefined}
+        onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
+        onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}
       >
         {anchorElement}
@@ -144,8 +144,8 @@ export default class Dropdown extends Component {
           hidden: !show,
           onCloseAttempt: this.onChildCloseAttempt,
           dontCloseOnAnchorClick: true,
-          onMouseOver: hoverMode ? this.onMouseOver : undefined,
-          onMouseOut: hoverMode ? this.onMouseOut : undefined
+          onMouseOver: hoverMode ? this.onMouseEnter : undefined,
+          onMouseOut: hoverMode ? this.onMouseLeave : undefined
         })}
       </div>
     );
