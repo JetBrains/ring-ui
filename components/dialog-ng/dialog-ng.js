@@ -137,8 +137,7 @@ class DialogController extends RingAngularComponent {
 
     if (!this.inSidebar) {
       ScrollPreventer.prevent();
-      const isTrapDisabled = config && config.trapFocus === false;
-      if (!isTrapDisabled) {
+      if (config && config.trapFocus === true) {
         this.focusTrap.activate();
       }
     }

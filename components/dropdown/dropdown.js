@@ -145,8 +145,8 @@ export default class Dropdown extends Component {
           hidden: !show,
           onCloseAttempt: this.onChildCloseAttempt,
           dontCloseOnAnchorClick: true,
-          onMouseEnter: hoverMode ? this.onMouseEnter : undefined,
-          onMouseLeave: hoverMode ? this.onMouseLeave : undefined
+          onMouseOver: hoverMode ? this.onMouseEnter : undefined,
+          onMouseOut: hoverMode ? this.onMouseLeave : undefined
         })}
       </div>
     );
