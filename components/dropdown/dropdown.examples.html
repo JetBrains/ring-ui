@@ -120,10 +120,13 @@
     const container = document.getElementById('dropdown');
     const dropdown = (
     <Dropdown
-      anchor="Hover me"
+      anchor="Hover over me"
       hoverMode
     >
-      <Popup>Popup content</Popup>
+      <Popup>
+        <div>Outer popup</div>
+        <Popup>Inner popup</Popup>
+      </Popup>
     </Dropdown>
     );
 
@@ -147,7 +150,7 @@
     const container = document.getElementById('dropdown');
     const dropdown = (
     <Dropdown
-      anchor={<Link href="#hash">Hover me</Link>}
+      anchor={<Link href="#hash">Hover over me</Link>}
       clickMode={false}
       hoverMode
     >
