@@ -43,7 +43,8 @@ export default function Months(props) {
     clone().
     date(1).
     // prevent switching from april to march because of daylight saving time
-    hours(1);
+    hours(1).
+    startOf('hour');
 
   let month = monthStart.
     clone().
