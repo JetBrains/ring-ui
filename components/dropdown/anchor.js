@@ -7,11 +7,12 @@ import Button from '../button/button';
 
 import styles from './dropdown.css';
 
-export default function Anchor({children}) {
+export default function Anchor({children, ...restProps}) {
   return (
     <Button
       text={true}
       className={styles.anchor}
+      {...restProps}
     >
       {children}
       <ChevronDownIcon
