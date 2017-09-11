@@ -391,7 +391,9 @@ export default class Select extends RingComponentWithShortcuts {
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement ||
           this.node.query('[data-test=ring-select__focus]');
-        restoreFocusNode.focus();
+        if (restoreFocusNode) {
+          restoreFocusNode.focus();
+        }
       }
     }
   }
