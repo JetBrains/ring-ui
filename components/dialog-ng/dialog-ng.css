@@ -66,6 +66,8 @@
 }
 
 .error {
+  max-width: calc(unit * 45);
+
   word-wrap: break-word;
 
   color: error-color;
