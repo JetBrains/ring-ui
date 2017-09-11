@@ -17,7 +17,8 @@ export default function MonthNames(props) {
       scrollDate.
         clone().
         month(i).
-        date(MIDDLE_DAY)
+        date(MIDDLE_DAY).
+        startOf('day')
     );
   }
 
