@@ -106,6 +106,10 @@
 
   border: 1px none #d8d8d8;
   border-left-style: dotted;
+
+  @nest .groupShifted & {
+    margin-left: 108px;
+  }
 }
 
 .subitem {
