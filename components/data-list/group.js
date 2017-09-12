@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
+import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
@@ -219,7 +220,11 @@ export default class Group extends PureComponent {
         />
 
         {!collapsible || (items.length && !collapsed) ? (
-          <ul className={styles.group}>
+          <ul
+            className={classNames(styles.group, {
+              [styles.groupShifted]: selectable
+            })}
+          >
             {items.map(item => this.renderItem(item))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED

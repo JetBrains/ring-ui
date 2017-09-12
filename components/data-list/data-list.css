@@ -41,6 +41,10 @@
     border-color: #ebebeb;
   }
 
+  @nest .groupShifted .item & {
+    padding-left: 92px;
+  }
+
   @nest .dataList:not(.disabledHover) &:hover {
     background-color: #fff !important;
   }
