@@ -194,6 +194,8 @@ export default class Select extends RingComponentWithShortcuts {
   }
 
   willReceiveProps(newProps) {
+    const {multiple} = this.props;
+
     if ('data' in newProps && newProps.data !== this.props.data) {
       const shownData = this.getListItems(this.filterValue(), newProps.data);
       this.setState({shownData});
@@ -206,18 +208,32 @@ export default class Select extends RingComponentWithShortcuts {
       const selected = newProps.selected
         ? newProps.selected
         : Select._getEmptyValue(this.props.multiple);
+
+      const selectedIndex = this._getSelectedIndex(
+        selected,
+        (newProps.data ? newProps.data : this.props.data)
+      );
+
       this.setState({
         selected,
-        selectedIndex: this._getSelectedIndex(
-          selected,
-          (newProps.data ? newProps.data : this.props.data)
-        ),
+        selectedIndex: multiple ? this.state.selectedIndex : selectedIndex,
         filterValue: this.getValueForFilter(selected)
       });
-      this._rebuildMultipleMap(selected, this.props.multiple);
+
+      if (multiple) {
+        const isSameSelected = selected &&
+          this.props.selected &&
+          selected.length === this.props.selected.length &&
+          this.props.selected.every((it, index) => selected[index].key === it.key);
+
+        if (!isSameSelected) {
+          this.setState({selectedIndex});
+        }
+      }
+      this._rebuildMultipleMap(selected, multiple);
     }
 
-    if (newProps.multiple !== this.props.multiple) {
+    if (newProps.multiple !== multiple) {
       this._handleMultipleToggling(newProps.multiple);
     }
   }
