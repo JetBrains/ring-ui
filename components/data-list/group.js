@@ -222,7 +222,7 @@ export default class Group extends PureComponent {
         {!collapsible || (items.length && !collapsed) ? (
           <ul
             className={classNames(styles.group, {
-              [styles.groupShifted]: selectable
+              [styles.groupShifted]: selectable && collapserExpander
             })}
           >
             {items.map(item => this.renderItem(item))}
