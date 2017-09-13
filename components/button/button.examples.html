@@ -15,20 +15,20 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Button from '@jetbrains/ring-ui/components/button/button';
     import {CaretDownIcon} from '@jetbrains/ring-ui/components/icon';
 
-    render(Button.factory({}, 'Button default'),
-      document.getElementById('button'));
+    render(<Button>Button default</Button>, document.getElementById('button'));
 
-    render(Button.factory({
-      icon: CaretDownIcon
-    }, 'Button icon'), document.getElementById('button-icon'));
+    render(
+      <Button icon={CaretDownIcon}>Button icon</Button>, document.getElementById('button-icon')
+    );
 
-    render(Button.factory({
-      short: true,
-    }, '...'), document.getElementById('button-short'));
+    render(
+      <Button short={true}>...</Button>, document.getElementById('button-short')
+    );
 
     var container = document.getElementById('buttons');
     ['active', 'blue', 'danger', 'delayed', 'loader',
@@ -36,9 +36,7 @@
       var node = document.createElement('span');
       container.appendChild(node);
 
-      render(Button.factory({
-        [modifier]: true
-      }, 'Button ' + modifier), node);
+      render(<Button {...{[modifier]: true}}>{'Button ' + modifier}</Button>, node);
     });
 
   </file>

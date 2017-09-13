@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import RingComponent from '../ring-component/ring-component';
 import Icon, {CloseIcon} from '../icon';
 
 import './tag.scss';
@@ -14,7 +13,7 @@ import './tag.scss';
  * @example-file ./tag.examples.html
  */
 
-export default class Tag extends RingComponent {
+export default class Tag extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
@@ -24,7 +23,10 @@ export default class Tag extends RingComponent {
     rgTagTitle: PropTypes.string,
     readOnly: PropTypes.bool,
     disabled: PropTypes.bool,
-    focused: PropTypes.bool
+    focused: PropTypes.bool,
+
+    children: PropTypes.node,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -39,9 +41,24 @@ export default class Tag extends RingComponent {
     focused: false
   };
 
+  componentWillReceiveProps(props) {
+    this.updateStateFromProps(props);
+  }
+
+  componentDidUpdate() {
+    if (this.state.focused) {
+      this.tagNode.focus();
+    }
+  }
+
+  componentWillUnmount() {
+    this.setDocumentClickListener(false);
+    this.setState({focused: false});
+  }
+
   onDocumentClick = event => {
-    if (this.tag) {
-      this.setState({focused: this.node === event.target});
+    if (this.tagNode) {
+      this.setState({focused: this.tagNode === event.target});
     }
   };
 
@@ -58,23 +75,8 @@ export default class Tag extends RingComponent {
     this.setDocumentClickListener(props.focused);
   }
 
-  didUpdate() {
-    if (this.state.focused) {
-      this.node.focus();
-    }
-  }
-
-  willReceiveProps(props) {
-    this.updateStateFromProps(props);
-  }
-
-  willUnmount() {
-    this.setDocumentClickListener(false);
-    this.setState({focused: false});
-  }
-
   tagRef = el => {
-    this.tag = el;
+    this.tagNode = el;
   };
 
   renderCustomIcon() {
