@@ -23,6 +23,10 @@ export default class Badge extends RingComponent {
     className: PropTypes.string
   };
 
+  static defaultProps = {
+    'data-test': 'ring-badge'
+  };
+
   render() {
     const {
       // Modifiers
@@ -52,7 +56,6 @@ export default class Badge extends RingComponent {
       <span
         {...props}
         className={classes}
-        data-test="ring-badge"
       >
         {children}
       </span>
