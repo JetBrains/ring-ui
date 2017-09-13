@@ -12,22 +12,18 @@
 /* eslint-disable react/no-multi-comp */
 
 import 'dom4';
-import React, {isValidElement} from 'react';
+import React, {isValidElement, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import RingComponent from '../ring-component/ring-component';
 import Link from '../link/link';
 
 import styles from './footer.css';
 
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class FooterColumn extends RingComponent {
+class FooterColumn extends PureComponent {
   static propTypes = {
-    position: PropTypes.string
+    position: PropTypes.string,
+    children: PropTypes.node
   };
 
   render() {
@@ -66,11 +62,7 @@ export function copyright(year) {
   return ret;
 }
 
-/**
- * @constructor
- * @extends {ReactComponent}
- */
-class FooterLine extends RingComponent {
+class FooterLine extends PureComponent {
   static propTypes = {
     item: PropTypes.oneOfType([
       PropTypes.object,
@@ -133,30 +125,30 @@ class FooterLine extends RingComponent {
       }
      </file>
      <file name="index.js" webpack="true">
+      import React from 'react';
       import {render} from 'react-dom';
       import Footer from '@jetbrains/ring-ui/components/footer/footer';
 
       render(
-      Footer.factory({
-           className: 'stuff',
-           left: [
+        <Footer
+           className="stuff"
+           left={[
              [{url: 'http://www.jetbrains.com/teamcity/?fromserver', label: 'TeamCity'}, ' by JetBrains'],
              'Enterprise 8.0.2 EAP (build 27448)'
-           ],
-           center: [
+           ]}
+           center={[
              [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
              {url: 'https://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'read me!'}
-           ],
-           right: [
+           ]}
+           right={[
              {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
-           ]
-         }
-      ), document.getElementById('footer'));
+           ]}
+         />,
+       document.getElementById('footer'));
      </file>
    </example>
  */
-export default class Footer extends RingComponent {
-  /** @override */
+export default class Footer extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     floating: PropTypes.bool,
@@ -197,13 +189,15 @@ export default class Footer extends RingComponent {
       <div
         className={classes}
         data-test="ring-footer"
-      >{
+      >
+        {
           [
             content(this.props.left, 'left'),
             content(this.props.center, 'center'),
             content(this.props.right, 'right')
           ]
-        }</div>
+        }
+      </div>
     );
   }
 }

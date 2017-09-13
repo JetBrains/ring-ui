@@ -1,6 +1,5 @@
-import React from 'react';
-
-import RingComponent from '../ring-component/ring-component';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 
 import LoaderCore from './loader__core';
 
@@ -18,12 +17,13 @@ import LoaderCore from './loader__core';
      </file>
 
      <file name="index.js" webpack="true">
+       import React from 'react';
        import {render} from 'react-dom';
        import Loader from '@jetbrains/ring-ui/components/loader/loader';
 
-       render(Loader.factory({message: 'Loading...'}), document.getElementById('loader1'));
+       render(<Loader message="Loading..."/>, document.getElementById('loader1'));
 
-       render(Loader.factory({message: 'Loading...'}), document.getElementById('loader2'));
+       render(<Loader message="Loading..."/>, document.getElementById('loader2'));
      </file>
      <file name="index.css">
        body {
@@ -44,8 +44,15 @@ import LoaderCore from './loader__core';
     </example>
  */
 
-export default class Loader extends RingComponent {
-  willUnmount() {
+export default class Loader extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string,
+    size: PropTypes.number,
+    colors: PropTypes.array,
+    message: PropTypes.string
+  };
+
+  componentWillUnmount() {
     this.loader.destroy();
   }
 

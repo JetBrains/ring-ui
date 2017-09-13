@@ -1,8 +1,6 @@
-import React, {Children, cloneElement} from 'react';
+import React, {Children, cloneElement, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import './error-bubble.scss';
 
@@ -30,7 +28,7 @@ import './error-bubble.scss';
        const renderBubbleDemo = value => (
          <ErrorBubble
            error={value ? null : 'Value is required'}
-           valid={value}
+           valid={value !== null}
            onInput={e => render(renderBubbleDemo(e.target.value), container)}
            placeholder="enter something"
          >
@@ -43,15 +41,17 @@ import './error-bubble.scss';
    </example>
  */
 
-export default class ErrorBubble extends RingComponent {
+export default class ErrorBubble extends PureComponent {
   static propTypes = {
     error: PropTypes.string,
+    valid: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node
   };
 
   render() {
-    const {children, className, ...restProps} = this.props;
+    // eslint-disable-next-line no-unused-vars
+    const {children, className, valid, ...restProps} = this.props;
     const classes = classNames('ring-error-bubble active', className);
 
     return (

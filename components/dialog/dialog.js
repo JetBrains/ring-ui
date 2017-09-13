@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@jetbrains/react-portal';
 import FocusTrap from 'focus-trap-react';
 
-import RingComponent from '../ring-component/ring-component';
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
@@ -25,7 +24,7 @@ function PortalPropsCleaner({children}) {
  * @example-file ./dialog.examples.html
  */
 
-export default class Dialog extends RingComponent {
+export default class Dialog extends Component {
   static propTypes = {
     className: PropTypes.string,
     contentClassName: PropTypes.string,

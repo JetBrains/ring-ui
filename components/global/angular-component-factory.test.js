@@ -1,15 +1,13 @@
 /* global inject: false */
 import angular from 'angular';
 import 'angular-mocks';
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Simulate} from 'react-dom/test-utils';
 
-import RingComponent from '../ring-component/ring-component';
-
 import angularComponentFactory from './angular-component-factory';
 
-class TestComponent extends RingComponent {
+class TestComponent extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
     someObj: PropTypes.object,
