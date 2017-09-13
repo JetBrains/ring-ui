@@ -1,6 +1,7 @@
 import 'dom4';
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import {
   ExceptionIcon,
@@ -63,6 +64,21 @@ const TypeToIconColor = {
  */
 export default class Alert extends RingComponent {
   static Type = Type;
+
+  static propTypes = {
+    timeout: PropTypes.number,
+    onCloseRequest: PropTypes.func,
+    onClose: PropTypes.func,
+    count: PropTypes.number,
+    isClosing: PropTypes.bool,
+    inline: PropTypes.bool,
+    showWithAnimation: PropTypes.bool,
+    closeable: PropTypes.bool,
+    type: PropTypes.oneOf(Object.values(Type)),
+
+    children: PropTypes.node,
+    className: PropTypes.string
+  };
 
   /** @override */
   static defaultProps = {
