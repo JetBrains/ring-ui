@@ -1,5 +1,5 @@
 import 'dom4';
-import React from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,6 @@ import {
   WarningIcon,
   CloseIcon
 } from '../icon';
-import RingComponent from '../ring-component/ring-component';
 import Loader from '../loader-inline/loader-inline';
 import Badge from '../badge/badge';
 import {getRect} from '../global/dom';
@@ -62,7 +61,7 @@ const TypeToIconColor = {
  * @extends {ReactComponent}
  * @example-file ./alert.examples.html
  */
-export default class Alert extends RingComponent {
+export default class Alert extends PureComponent {
   static Type = Type;
 
   static propTypes = {
@@ -106,19 +105,19 @@ export default class Alert extends RingComponent {
     height: null
   };
 
-  willReceiveProps(newProps) {
-    if (newProps.isClosing) {
-      this._close();
-    }
-  }
-
-  didMount() {
+  componentDidMount() {
     if (this.props.timeout > 0) {
       this.hideTimeout = setTimeout(this.closeRequest, this.props.timeout);
     }
   }
 
-  willUnmount() {
+  componentWillReceiveProps(newProps) {
+    if (newProps.isClosing) {
+      this._close();
+    }
+  }
+
+  componentWillUnmount() {
     clearTimeout(this.hideTimeout);
   }
 
@@ -188,6 +187,10 @@ export default class Alert extends RingComponent {
     return '';
   }
 
+  storeAlertRef = node => {
+    this.node = node;
+  };
+
   render() {
     const {type, inline, isClosing, showWithAnimation, className} = this.props;
 
@@ -206,6 +209,7 @@ export default class Alert extends RingComponent {
         className={classes}
         data-test="alert"
         style={style}
+        ref={this.storeAlertRef}
       >
         {this._getIcon()}
         {this._getCaption()}
