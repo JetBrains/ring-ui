@@ -1,8 +1,7 @@
-import React, {Children, cloneElement} from 'react';
+import React, {Children, cloneElement, PureComponent} from 'react';
 import classNames from 'classnames';
 import Portal from '@jetbrains/react-portal';
-
-import RingComponent from '../ring-component/ring-component';
+import PropTypes from 'prop-types';
 
 import styles from './container.css';
 
@@ -14,7 +13,12 @@ import styles from './container.css';
  * @extends {RingComponent}
  */
 
-export default class Alerts extends RingComponent {
+export default class Alerts extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string
+  };
+
   render() {
     const {children, className, ...restProps} = this.props;
     const classes = classNames(styles.alertContainer, className);
