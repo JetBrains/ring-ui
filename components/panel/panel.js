@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import './panel.scss';
 
@@ -36,7 +34,7 @@ import './panel.scss';
      </file>
    </example>
  */
-export default class Panel extends RingComponent {
+export default class Panel extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node

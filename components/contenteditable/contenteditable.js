@@ -4,11 +4,9 @@
  * @description Provides a ContentEditable component.
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {render} from 'react-dom';
-
-import RingComponent from '../ring-component/ring-component';
 
 function noop() {}
 
@@ -30,21 +28,30 @@ function noop() {}
 
        import ContentEditable from '@jetbrains/ring-ui/components/contenteditable/contenteditable';
 
-       render(ContentEditable.factory({className: 'ring-input'},
-         <span>text <b>bold text</b> text</span>
-       ), document.getElementById('contenteditable'));
+       render(
+         <ContentEditable className="ring-input">
+           <span>text <b>bold text</b> text</span>
+         </ContentEditable>,
+         document.getElementById('contenteditable')
+       );
 
-       render(ContentEditable.factory({className: 'ring-input', disabled: true},
-         <span>text <b>bold text</b> text</span>
-       ), document.getElementById('contenteditable-disabled'));
+       render(
+         <ContentEditable className="ring-input" disabled={true}>
+           <span>text <b>bold text</b> text</span>
+         </ContentEditable>,
+         document.getElementById('contenteditable-disabled')
+       );
      </file>
    </example>
  */
-export default class ContentEditable extends RingComponent {
+export default class ContentEditable extends Component {
   /** @override */
   static propTypes = {
     disabled: PropTypes.bool,
-    componentDidUpdate: PropTypes.func
+    componentDidUpdate: PropTypes.func,
+    onComponentUpdate: PropTypes.func,
+    className: PropTypes.string,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -56,16 +63,21 @@ export default class ContentEditable extends RingComponent {
 
   state = {};
 
-  didUpdate(prevProps, prevState) {
-    this.props.onComponentUpdate(prevProps, prevState);
-  }
-
-  willMount() {
+  componentWillMount() {
     this.renderStatic(this.props);
   }
 
-  willReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.renderStatic(nextProps);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.disabled !== this.props.disabled ||
+      nextState.__html !== this.state.__html;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.onComponentUpdate(prevProps, prevState);
   }
 
   renderStatic(nextProps) {
@@ -78,11 +90,6 @@ export default class ContentEditable extends RingComponent {
     };
 
     render(<i ref={onRender}>{nextProps.children}</i>, document.createElement('i'));
-  }
-
-  shouldUpdate(nextProps, nextState) {
-    return nextProps.disabled !== this.props.disabled ||
-      nextState.__html !== this.state.__html;
   }
 
   render() {

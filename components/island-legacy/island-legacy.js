@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import './island-legacy.scss';
 
@@ -13,9 +11,10 @@ import './island-legacy.scss';
  * @example-file ./island-legacy.examples.html
  */
 
-export default class Island extends RingComponent {
+export default class Island extends PureComponent {
   static propTypes = {
-    className: PropTypes.string
+    className: PropTypes.string,
+    children: PropTypes.node
   };
 
   render() {

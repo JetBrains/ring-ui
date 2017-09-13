@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
+import PropTypes from 'prop-types';
 
 import './button-group.scss';
 
@@ -13,7 +12,12 @@ import './button-group.scss';
  * @extends {ReactComponent}
  * @example-file ./button-group.examples.html
  */
-export default class ButtonGroup extends RingComponent {
+export default class ButtonGroup extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string
+  };
+
   render() {
     const classes = classNames('ring-button-group', this.props.className);
     return (

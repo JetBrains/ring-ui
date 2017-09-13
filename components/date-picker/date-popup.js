@@ -1,8 +1,8 @@
-import React from 'react';
+/* eslint-disable react/no-did-mount-set-state,react/no-did-update-set-state */
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import RingComponent from '../ring-component/ring-component';
 import popupStyles from '../popup/popup.css';
 import memoize from '../global/memoize';
 
@@ -15,7 +15,7 @@ import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
 
-export default class DatePopup extends RingComponent {
+export default class DatePopup extends PureComponent {
   static defaultProps = {
     onChange() {}
   };
@@ -28,7 +28,8 @@ export default class DatePopup extends RingComponent {
     to: dateType,
     displayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onComplete: PropTypes.func
   };
 
   state = {
@@ -37,6 +38,33 @@ export default class DatePopup extends RingComponent {
     scrollDate: null,
     active: null
   };
+
+  componentDidMount() {
+    const {range, from, to} = this.props;
+
+    if (!range) {
+      this.setState({active: 'date'});
+    } else if (from && !to) {
+      this.setState({active: 'to'});
+    } else {
+      this.setState({active: 'from'});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.active !== prevState.active) {
+      if (this.state.text && prevState.active) {
+        this.confirm(prevState.active);
+      }
+
+      this.setState({text: null});
+    }
+
+    const name = this.state.active;
+    if (this.props[name] && !this.sameDay(this.props[name], prevProps[name])) {
+      this.setState({text: null});
+    }
+  }
 
   sameDay(next, prev) {
     const nextMoment = this.parseDate(next);
@@ -139,33 +167,6 @@ export default class DatePopup extends RingComponent {
       this.scheduleScroll();
     }
   };
-
-  didMount() {
-    const {range, from, to} = this.props;
-
-    if (!range) {
-      this.setState({active: 'date'});
-    } else if (from && !to) {
-      this.setState({active: 'to'});
-    } else {
-      this.setState({active: 'from'});
-    }
-  }
-
-  didUpdate(prevProps, prevState) {
-    if (this.state.active !== prevState.active) {
-      if (this.state.text && prevState.active) {
-        this.confirm(prevState.active);
-      }
-
-      this.setState({text: null});
-    }
-
-    const name = this.state.active;
-    if (this.props[name] && !this.sameDay(this.props[name], prevProps[name])) {
-      this.setState({text: null});
-    }
-  }
 
   hoverHandler = hoverDate => this.setState({hoverDate});
 
