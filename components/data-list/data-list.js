@@ -43,6 +43,8 @@ type Props = {
   onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
   groupMoreLessState: (group?: GroupType) => MoreLessButtonState,
 
+  remoteSelection: boolean,
+
   // selectionShortcutsHOC
   selection: Selection,
   selectable: boolean,
@@ -71,7 +73,9 @@ class DataList extends PureComponent {
     isItemCollapsed: PropTypes.func,
 
     onGroupMoreLess: PropTypes.func,
-    groupMoreLessState: PropTypes.func
+    groupMoreLessState: PropTypes.func,
+
+    remoteSelection: PropTypes.bool
   };
 
   static defaultProps = {
@@ -88,7 +92,9 @@ class DataList extends PureComponent {
     isItemCollapsed: () => true,
 
     onGroupMoreLess: () => {},
-    groupMoreLessState: () => moreLessButtonStates.UNUSED
+    groupMoreLessState: () => moreLessButtonStates.UNUSED,
+
+    remoteSelection: false
   };
 
   state = {
@@ -99,7 +105,7 @@ class DataList extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
-    if (data !== nextProps.data) {
+    if (data !== nextProps.data && !this.props.remoteSelection) {
       onSelect(selection.cloneWith({data: nextProps.data}));
     }
 
