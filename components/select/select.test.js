@@ -126,17 +126,15 @@ describe('Select', () => {
   it('Should handle UP, DOWN and ENTER shortcuts', () => {
     const wrapper = shallowSelect();
     const instance = wrapper.instance();
-    const shortcuts = instance.getShortcutsProps();
-    shortcuts.map.enter.should.exist;
-    shortcuts.map.up.should.exist;
-    shortcuts.map.down.should.exist;
+    const shortcutsMap = instance.getShortcutsMap();
+    shortcutsMap.enter.should.exist;
+    shortcutsMap.up.should.exist;
+    shortcutsMap.down.should.exist;
   });
 
   it('Should generate unique scope for shortcuts', () => {
-    const wrapper = shallowSelect();
-    const instance = wrapper.instance();
-    const firstTimeScope = instance.getShortcutsProps().scope;
-    const secondTimeScope = instance.getShortcutsProps().scope;
+    const firstTimeScope = shallowSelect().instance().shortcutsScope;
+    const secondTimeScope = shallowSelect().instance().shortcutsScope;
     secondTimeScope.should.not.be.equal(firstTimeScope);
   });
 
@@ -289,7 +287,7 @@ describe('Select', () => {
 
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', () => {
-        const wrapper = mountSelect({add: true});
+        const wrapper = mountSelect({add: {}});
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('');
         instance._showPopup();
@@ -297,7 +295,7 @@ describe('Select', () => {
       });
 
       it('Should add "Add" button if enabled and filter query not empty', () => {
-        const wrapper = mountSelect({add: true});
+        const wrapper = mountSelect({add: {}});
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
@@ -340,7 +338,7 @@ describe('Select', () => {
 
       it('Hint should be placed under "add" button', () => {
         const wrapper = mountSelect({
-          add: true,
+          add: {},
           hint: 'blah blah'
         });
         const instance = wrapper.instance();
