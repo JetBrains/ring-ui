@@ -1,14 +1,16 @@
 import angular from 'angular';
-import {createElement} from 'react';
+import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import getEventKey from 'react-dom/lib/getEventKey';
 
 import Select from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
+import rerenderHOC from '../ring-component/rerender-hoc';
 
 import SelectNgOptions from './select-ng__options';
 import SelectLazy from './select-ng__lazy';
 
+const RerenderableSelect = rerenderHOC(Select);
 const LOADER_DELAY = 150; // delay to show loader in ms
 const INFINITE_SCROLL_PACK_SIZE = 50;
 const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container][data-in-sidebar=false]';
@@ -475,7 +477,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
 
         if (getType() === 'suggest' || getType() === 'input') {
-          ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
+          ctrl.selectInstance = render(<RerenderableSelect {...ctrl.config}/>, container);
         } else {
           ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
         }
