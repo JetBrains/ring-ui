@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {findDOMNode} from 'react-dom';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input from '../input/input';
+import Shortcuts from '../shortcuts/shortcuts';
 import Icon, {CaretDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
@@ -21,8 +22,6 @@ import './select.scss';
  * @example-file ./select.examples.html
  */
 
-const ngModelStateField = 'selected';
-
 function noop() {}
 
 /**
@@ -37,11 +36,62 @@ const Type = {
 /**
  * @name Select
  * @constructor
- * @extends {RingComponentWithShortcuts}
+ * @extends {Component}
  */
-export default class Select extends RingComponentWithShortcuts {
+export default class Select extends Component {
   static Type = Type;
-  static ngModelStateField = ngModelStateField;
+
+  static _getEmptyValue(multiple) {
+    return multiple ? [] : null;
+  }
+
+  static propTypes = {
+    className: PropTypes.string,
+    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    allowAny: PropTypes.bool,
+    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+
+    getInitial: PropTypes.func,
+    onClose: PropTypes.func,
+    onOpen: PropTypes.func,
+    onDone: PropTypes.func,
+    onFilter: PropTypes.func,
+    onChange: PropTypes.func,
+    onReset: PropTypes.func,
+    onLoadMore: PropTypes.func,
+    onAdd: PropTypes.func,
+    onBeforeOpen: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
+
+    selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    data: PropTypes.array,
+    tags: PropTypes.object,
+    targetElement: PropTypes.object,
+    loading: PropTypes.bool,
+    loadingMessage: PropTypes.string,
+    notFoundMessage: PropTypes.string,
+    maxHeight: PropTypes.number,
+    minWidth: PropTypes.number,
+    directions: PropTypes.array,
+    popupClassName: PropTypes.string,
+    top: PropTypes.number,
+    left: PropTypes.number,
+    renderOptimization: PropTypes.bool,
+    ringPopupTarget: PropTypes.string,
+    hint: PropTypes.string,
+    add: PropTypes.object,
+    type: PropTypes.oneOf(Object.values(Type)),
+    disabled: PropTypes.bool,
+    hideSelected: PropTypes.bool,
+    label: PropTypes.string,
+    selectedLabel: PropTypes.string,
+    clear: PropTypes.bool,
+    hideArrow: PropTypes.bool
+  };
 
   static defaultProps = {
     data: [],
@@ -69,7 +119,7 @@ export default class Select extends RingComponentWithShortcuts {
     selectedLabel: '', // BUTTON label or INPUT placeholder (something selected)
     hint: null, // hint text to display under the list
 
-    shortcuts: false,
+    shortcutsEnabled: false,
 
     onBeforeOpen: noop,
     onLoadMore: noop,
@@ -99,31 +149,98 @@ export default class Select extends RingComponentWithShortcuts {
     shownData: [],
     selected: (this.props.multiple ? [] : null),
     selectedIndex: null,
-    shortcuts: false,
+    shortcutsEnabled: false,
     popupShortcuts: false,
     filterValue: this.props.filter && this.props.filter.value || '',
     showPopup: false
   };
 
-  ngModelStateField = ngModelStateField;
+  componentWillMount() {
+    // set selected element if provided during init
+    if (this.props.selected) {
+      this.setState({
+        selected: this.props.selected,
+        selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data),
+        filterValue: this.getValueForFilter(this.props.selected)
+      });
+    }
+  }
+
+  componentDidMount() {
+    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const {multiple} = this.props;
+
+    if ('data' in newProps && newProps.data !== this.props.data) {
+      const shownData = this.getListItems(this.filterValue(), newProps.data);
+      this.setState({shownData});
+    }
+
+    if (
+      'selected' in newProps &&
+      (newProps.selected !== this.props.selected || newProps.data !== this.props.data)
+    ) {
+      const selected = newProps.selected
+        ? newProps.selected
+        : Select._getEmptyValue(this.props.multiple);
+
+      const selectedIndex = this._getSelectedIndex(
+        selected,
+        (newProps.data ? newProps.data : this.props.data)
+      );
+
+      this.setState({
+        selected,
+        selectedIndex: multiple ? this.state.selectedIndex : selectedIndex,
+        filterValue: this.getValueForFilter(selected)
+      });
+
+      if (multiple) {
+        const isSameSelected = selected &&
+          this.props.selected &&
+          selected.length === this.props.selected.length &&
+          this.props.selected.every((it, index) => selected[index].key === it.key);
+
+        if (!isSameSelected) {
+          this.setState({selectedIndex});
+        }
+      }
+      this._rebuildMultipleMap(selected, multiple);
+    }
+
+    if (newProps.multiple !== multiple) {
+      this._handleMultipleToggling(newProps.multiple);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {showPopup} = this.state;
+
+    if (prevState.showPopup && !showPopup) {
+      this.props.onClose();
+    } else if (!prevState.showPopup && showPopup) {
+      this.props.onOpen();
+    }
+  }
+
   _popup = null;
   _addButton = null;
   _multipleMap = {};
+  shortcutsScope = getUID('select-');
 
-  getShortcutsProps() {
+  getShortcutsMap() {
     return {
-      map: {
-        enter: this._onEnter,
-        esc: this._onEsc,
-        up: this._inputShortcutHandler,
-        down: this._inputShortcutHandler,
-        right: noop,
-        left: noop,
-        'shift+up': noop,
-        'shift+down': noop,
-        space: noop
-      },
-      scope: getUID('select-')
+      enter: this._onEnter,
+      esc: this._onEsc,
+      up: this._inputShortcutHandler,
+      down: this._inputShortcutHandler,
+      right: noop,
+      left: noop,
+      'shift+up': noop,
+      'shift+down': noop,
+      space: noop
     };
   }
 
@@ -176,80 +293,6 @@ export default class Select extends RingComponentWithShortcuts {
 
   getValueForFilter(selected) {
     return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.filterValue;
-  }
-
-  willMount() {
-    // set selected element if provided during init
-    if (this.props.selected) {
-      this.setState({
-        selected: this.props.selected,
-        selectedIndex: this._getSelectedIndex(this.props.selected, this.props.data),
-        filterValue: this.getValueForFilter(this.props.selected)
-      });
-    }
-  }
-
-  didMount() {
-    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-  }
-
-  willReceiveProps(newProps) {
-    const {multiple} = this.props;
-
-    if ('data' in newProps && newProps.data !== this.props.data) {
-      const shownData = this.getListItems(this.filterValue(), newProps.data);
-      this.setState({shownData});
-    }
-
-    if (
-      'selected' in newProps &&
-      (newProps.selected !== this.props.selected || newProps.data !== this.props.data)
-    ) {
-      const selected = newProps.selected
-        ? newProps.selected
-        : Select._getEmptyValue(this.props.multiple);
-
-      const selectedIndex = this._getSelectedIndex(
-        selected,
-        (newProps.data ? newProps.data : this.props.data)
-      );
-
-      this.setState({
-        selected,
-        selectedIndex: multiple ? this.state.selectedIndex : selectedIndex,
-        filterValue: this.getValueForFilter(selected)
-      });
-
-      if (multiple) {
-        const isSameSelected = selected &&
-          this.props.selected &&
-          selected.length === this.props.selected.length &&
-          this.props.selected.every((it, index) => selected[index].key === it.key);
-
-        if (!isSameSelected) {
-          this.setState({selectedIndex});
-        }
-      }
-      this._rebuildMultipleMap(selected, multiple);
-    }
-
-    if (newProps.multiple !== multiple) {
-      this._handleMultipleToggling(newProps.multiple);
-    }
-  }
-
-  didUpdate(prevProps, prevState) {
-    const {showPopup} = this.state;
-
-    if (prevState.showPopup && !showPopup) {
-      this.props.onClose();
-    } else if (!prevState.showPopup && showPopup) {
-      this.props.onOpen();
-    }
-  }
-
-  static _getEmptyValue(multiple) {
-    return multiple ? [] : null;
   }
 
   _getSelectedIndex(selected, data) {
@@ -703,7 +746,7 @@ export default class Select extends RingComponentWithShortcuts {
     this.props.onFocus();
 
     this.setState({
-      shortcuts: true,
+      shortcutsEnabled: true,
       focused: true
     });
   };
@@ -719,7 +762,7 @@ export default class Select extends RingComponentWithShortcuts {
 
     if (!this._popup.isClickingPopup) {
       this.setState({
-        shortcuts: false,
+        shortcutsEnabled: false,
         focused: false
       });
     }
@@ -818,7 +861,12 @@ export default class Select extends RingComponentWithShortcuts {
     this.filter = el;
   };
 
+  nodeRef = el => {
+    this.node = el;
+  };
+
   render() {
+    const {shortcutsEnabled} = this.state;
     const selectCS = classNames({
       'ring-select': true,
       'ring-select_disabled': this.props.disabled,
@@ -844,9 +892,15 @@ export default class Select extends RingComponentWithShortcuts {
 
       return (
         <div
+          ref={this.nodeRef}
           className={selectCS}
           onClick={this._clickHandler}
         >
+          {shortcutsEnabled &&
+          <Shortcuts
+            map={this.getShortcutsMap()}
+            scope={this.shortcutsScope}
+          />}
           <Input
             ref={this.filterRef}
             disabled={this.props.disabled}
@@ -876,7 +930,15 @@ export default class Select extends RingComponentWithShortcuts {
       });
 
       return (
-        <div className={selectCS}>
+        <div
+          ref={this.nodeRef}
+          className={selectCS}
+        >
+          {shortcutsEnabled &&
+          <Shortcuts
+            map={this.getShortcutsMap()}
+            scope={this.shortcutsScope}
+          />}
           <Button
             className={buttonCS}
             disabled={this.props.disabled}

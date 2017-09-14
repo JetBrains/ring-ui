@@ -3,7 +3,7 @@ import 'angular-mocks';
 import React from 'react';
 
 import RingComponent from '../ring-component/ring-component';
-import Select from '../select/select';
+import TagsInput from '../tags-input/tags-input';
 
 import registerComponents from './react-ng';
 
@@ -11,7 +11,7 @@ describe('React Ng', () => {
   let $scope;
   let $compile;
 
-  registerComponents({Select});
+  registerComponents({TagsInput});
 
   beforeEach(window.module('Ring.react-ng'));
 
@@ -59,7 +59,7 @@ describe('React Ng', () => {
     it('should write component instance in provided scope field', () => {
       $scope.instanceFieldName = 'componentInstance';
 
-      $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="TagsInput" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
       $scope.componentInstance.should.exist;
@@ -69,7 +69,7 @@ describe('React Ng', () => {
       $scope.instanceField = {};
       $scope.instanceFieldName = 'instanceField.componentInstance';
 
-      $compile('<div react="Select" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="TagsInput" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
       $scope.instanceField.componentInstance.should.exist;
@@ -79,13 +79,13 @@ describe('React Ng', () => {
   describe('react directive with ngmodel', () => {
     it('should pass ng-model to ng-model state property', () => {
       const TEST_ID = 123;
-      $scope.defaultSelectState = {id: TEST_ID};
+      $scope.defaultTags = [{id: TEST_ID, key: TEST_ID}];
       $scope.instanceFieldName = 'componentInstance';
 
-      $compile('<div react="Select" ng-model="defaultSelectState" react-instance="instanceFieldName"></div>')($scope);
+      $compile('<div react="TagsInput" ng-model="defaultTags" react-instance="instanceFieldName"></div>')($scope);
       $scope.$digest();
 
-      $scope.componentInstance.state.selected.id.should.equal(TEST_ID);
+      $scope.componentInstance.state.tags[0].id.should.equal(TEST_ID);
     });
   });
 
