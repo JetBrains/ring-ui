@@ -9,13 +9,14 @@
     }
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import hubConfig from '@ring-ui/docs/components/hub-config';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
     import {WarningIcon} from '@jetbrains/ring-ui/components/icon';
 
-    var props = {
+    const props = {
       multiple: true,
       filter: {
         placeholder: 'Search'
@@ -47,13 +48,12 @@
         avatar: avatarUrl
       }
     ];
-    var data = {
+    const data = {
       data: tags,
       selected: [tags[0]]
     };
 
-    var select = render(Select.factory(props), document.getElementById('demo'))
-    select.rerender(data);
+    render(<Select {...props} {...data}/>, document.getElementById('demo'));
   </file>
 </example>
 
@@ -70,34 +70,32 @@
     }
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var props = {
-      filter: true
-    };
+    const data = [
+      {'label': 'One', 'key': '1', 'type': 'user'},
+      {'label': 'Group', 'key': '2', 'type': 'user'},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      }
+    ];
 
-    var data = {
-      data: [
-        {'label': 'One', 'key': '1', 'type': 'user'},
-        {'label': 'Group', 'key': '2', 'type': 'user'},
-        {'label': 'Three', 'key': '3', 'type': 'user'},
-        {
-          'label': 'With icon',
-          key: 4,
-          icon: 'http://flagpedia.net/data/flags/mini/de.png'
-        }
-      ],
-      clear: true,
-      selected: {'label': 'Group', 'key': '2', 'type': 'user'}
-    };
+    function renderSelect() {
+      render(<Select filter={true} clear={true} selected={data[1]} data={data}/>,
+      document.getElementById('demo'));
+    }
 
-    var select = render(Select.factory(props), document.getElementById('demo'))
-    select.rerender(data);
+    renderSelect();
 
     document.getElementById('clear').addEventListener('click', function () {
-      select.rerender({selected: null});
+      data.selected = null;
+      renderSelect();
     });
   </file>
 </example>
@@ -113,26 +111,22 @@
     }
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var elementsNum = 100000;
-    var selectedIndex = parseInt(elementsNum / 2);
-    var dataset = [];
-    for (var i = 0; i < elementsNum; i++) {
+    const elementsNum = 100000;
+    const selectedIndex = parseInt(elementsNum / 2);
+    const dataset = [];
+    for (let i = 0; i < elementsNum; i++) {
       dataset.push({'label': 'element ' + i, 'key': i, 'type': 'user'});
     }
 
-    var props = {
-      data: dataset
-    };
-
-    var select = render(Select.factory({
-      filter: true,
-      selected: dataset[selectedIndex]
-    }), document.getElementById('demo'))
-    select.rerender(props);
+    render(
+      <Select filter={true} selected={dataset[selectedIndex]} data={dataset}/>,
+      document.getElementById('demo')
+    );
   </file>
 </example>
 
@@ -147,17 +141,18 @@
     }
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
-    var ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
-    var icons = [deFlag, ruFlag, undefined];
+    const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
+    const ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
+    const icons = [deFlag, ruFlag, undefined];
 
-    var elementsNum = 5;
-    var dataset = [];
-    for (var i = 0; i < elementsNum; i++) {
+    const elementsNum = 5;
+    const dataset = [];
+    for (let i = 0; i < elementsNum; i++) {
       dataset.push({
         'label': 'element ' + i,
         'key': i,
@@ -166,16 +161,10 @@
       });
     }
 
-    var props = {
-      data: dataset
-    };
-
-    var select = render(
-      Select.factory(
-        {filter: true, selected: [dataset[0], dataset[3]], multiple: true}),
+    render(
+      <Select filter={true} selected={[dataset[0], dataset[3]]} multiple={true} data={dataset}/>,
       document.getElementById('demo')
     );
-    select.rerender(props);
   </file>
 </example>
 
@@ -185,16 +174,17 @@
     <div id="demo2"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(
-      Select.factory({disabled: true, loading: true}),
+      <Select disabled={true} loading={true}/>,
       document.getElementById('demo1')
     );
 
     render(
-      Select.factory({disabled: true, loading: true, type: Select.Type.INPUT}),
+      <Select disabled={true} loading={true} type={Select.Type.INPUT}/>,
       document.getElementById('demo2')
     );
   </file>
@@ -211,23 +201,24 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 20; i++) {
       data.push({'label': 'Item ' + i, 'key': i});
     }
 
     render(
-      Select.factory({type: Select.Type.INPUT, data: data}),
+      <Select type={Select.Type.INPUT} data={data}/>,
       document.getElementById('demo')
     );
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -237,26 +228,28 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 20; i++) {
       data.push({'label': 'Item ' + i, 'key': i});
     }
 
-    render(Select.factory({
-      type: Select.Type.INPUT,
-      allowAny: true,
-      hideArrow: true,
-      label: 'Placeholder without arrow',
-      data: data, selected: data[1]
-    }), document.getElementById('demo'));
+    render(<Select
+      type={Select.Type.INPUT}
+      allowAny={true}
+      hideArrow={true}
+      label="Placeholder without arrow"
+      data={data}
+      selected={data[1]}
+    />, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -266,19 +259,19 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    render(Select.factory({
-      filter: true,
-      data: [
-        {'label': 'One', 'key': '1'},
-        {'label': 'Two', 'key': '2', disabled: true},
-        {'label': 'Two One', 'key': '2.1', level: 1},
-        {'label': 'Two Two', 'key': '2.2', level: 1},
-        {'label': 'Three', 'key': '3'}
-      ]
-    }), document.getElementById('demo'));
+    const data = [
+      {'label': 'One', 'key': '1'},
+      {'label': 'Two', 'key': '2', disabled: true},
+      {'label': 'Two One', 'key': '2.1', level: 1},
+      {'label': 'Two Two', 'key': '2.2', level: 1},
+      {'label': 'Three', 'key': '3'}
+    ];
+
+    render(<Select filter={true} data={data}/>, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
@@ -294,19 +287,20 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    render(Select.factory({
-      filter: true,
-      loading: true,
-      data: [
-        {'label': 'One', 'key': '1'},
-        {'label': 'Group', 'key': '2'},
-        {'label': 'Three', 'key': '3'}
-      ],
-      selected: {'label': 'Group', 'key': '2'}
-    }), document.getElementById('demo'));
+    const data = [
+      {'label': 'One', 'key': '1'},
+      {'label': 'Group', 'key': '2'},
+      {'label': 'Three', 'key': '3'}
+    ];
+
+    render(
+      <Select filter={true} loading={true} data={data} selected={data[1]}/>,
+      document.getElementById('demo')
+    );
   </file>
 </example>
 
@@ -315,11 +309,12 @@
     <div id="demo" class="ring-input-size_md"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 100; i++) {
       data.push({
         'label': 'Item long long long long long  long long long label ' + i,
@@ -327,29 +322,25 @@
       });
     }
 
-    render(Select.factory({
-      filter: {
+    render(<Select
+      filter={{
         placeholder: 'Select me',
         value: 'One'
-      },
-      hint: 'Press down to do something',
-      add: {
+      }}
+      hint="Press down to do something"
+      add={{
         prefix: 'Add name'
-      },
-      onAdd: function (value) {
-        console.log('Add', value);
-      },
-      data: data,
-      selected: data[49],
-      'onSelect': function (selected) {
-        console.log('onSelect, selected item:', selected);
-      }
-    }), document.getElementById('demo'));
+      }}
+      onAdd={value => console.log('Add', value)}
+      data={data}
+      selected={data[49]}
+      onSelect={selected => console.log('onSelect, selected item:', selected)}
+    />, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -379,7 +370,7 @@
     import List from '@jetbrains/ring-ui/components/list/list';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 100; i++) {
       const label = `Label ${i}`;
       data.push({
@@ -390,21 +381,16 @@
       });
     }
 
-    render(Select.factory({
-
-      filter: true,
-      hint: 'Press down to do something',
-      add: {
+    render(<Select
+      filter={true}
+      hint="Press down to do something"
+      add={{
         prefix: 'Add label'
-      },
-      onAdd: function (value) {
-        console.log('Add', value);
-      },
-      data: data,
-      'onSelect': function (selected) {
-        console.log('onSelect, selected label:', selected.text);
-      }
-    }), document.getElementById('demo'));
+      }}
+      onAdd={value => console.log('Add', value)}
+      data={data}
+      onSelect={selected => console.log('onSelect, selected item:', selected)}
+    />, document.getElementById('demo'));
   </file>
 </example>
 
@@ -413,36 +399,33 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 10; i++) {
       data.push({'label': 'Item ' + i, 'key': i});
     }
 
-    render(Select.factory({
-      filter: {
+    render(<Select
+      filter={{
         placeholder: 'Select me',
         value: 'One'
-      },
-      add: {
+      }}
+      add={{
         alwaysVisible: true,
         label: 'Create New Blah Blah'
-      },
-      onAdd: function (value) {
-        console.log('Add', value);
-      },
-      data: data,
-      'onSelect': function (selected) {
-        console.log('onSelect, selected item:', selected);
-      }
-    }), document.getElementById('demo'));
+      }}
+      onAdd={value => console.log('Add', value)}
+      data={data}
+      onSelect={selected => console.log('onSelect, selected item:', selected)}
+    />, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -453,44 +436,38 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    render(Select.factory({
-      filter: true,
-      add: {
+    render(<Select
+      filter={true}
+      add={{
         prefix: 'Add some item'
-      },
-      multiple: {
-        label: 'Change selected items', // override button label if something selected
-        removeSelectedItems: false      // remove selected items from the list, useful with "disableLabelSelection" and custom display
-      },
-      selected: [{'label': 'Two long label', 'key': '2'}],
-      data: [
+      }}
+      multiple={{
+        label: 'Change selected items',
+        removeSelectedItems: false
+      }}
+      selected={[{'label': 'Two long label', 'key': '2'}]}
+      data={[
         {'label': 'One long label', 'key': '1'},
         {'label': 'Two long label', 'key': '2'},
         {'label': 'Three long label', 'key': '3'}
-      ],
-      onSelect: function (selected) {
-        console.log('onSelect, selected item:', selected);
-      },
-      onDeselect: function (deselected) {
-        console.log('onDeselect, deselected item:', deselected);
-      },
-      onChange: function (selection) {
+      ]}
+      onSelect={selected => console.log('onSelect, selected item:', selected)}
+      onDeselect={deselected => console.log('onDeselect, deselected item:', deselected)}
+      onChange={selection => {
         console.log('onChange, selection:', selection);
-        var items = [];
-        selection.forEach(function (item) {
-          items.push(item.label);
-        });
+        const items = selection.map(item => item.label);
         document.getElementById('multipleCustomView').innerHTML = items.join(', ');
-      }
-    }), document.getElementById('demo'));
+      }}
+    />, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -502,10 +479,11 @@
     <div id="changeResult"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
-    var data = [];
+    const data = [];
     for (let i = 0; i < 20; i++) {
       data.push({
         'label': 'Item ' + i,
@@ -513,14 +491,14 @@
         'key': i
       });
     }
-    var select = render(
-      Select.factory({
-        type: Select.Type.CUSTOM,
-        data: data,
-        onChange: function (selected) {
+    const select = render(
+      <Select
+        type={Select.Type.CUSTOM}
+        data={data}
+        onChange={selected => {
           document.getElementById('changeResult').innerHTML = selected.label;
-        }
-      }),
+        }}
+      />,
       document.getElementById('demo')
     );
 
@@ -530,8 +508,8 @@
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
 </example>
@@ -542,31 +520,25 @@
   </file>
   <file type="css">
     body {
-    padding: 8px;
-    width: 50%;
+      padding: 8px;
+      width: 50%;
     }
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import List from '@jetbrains/ring-ui/components/list/list';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    var props = {
-      filter: true
-    };
+    const data = (new Array(1000)).join(',').split(',').map((item, index) => {
+      return {
+        label: 'Label ' + index,
+        key: index,
+        rgItemType: index % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
+      }
+    });
 
-    var data = {
-      data: (new Array(1000)).join(',').split(',').map(function (_, index) {
-        return {
-          label: 'Label ' + index,
-          key: index,
-          rgItemType: index % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
-        }
-      })
-    };
-
-    var select = render(Select.factory(props), document.getElementById('demo'))
-    select.rerender(data);
+    render(<Select filter={true} data={data} />, document.getElementById('demo'));
   </file>
 </example>
