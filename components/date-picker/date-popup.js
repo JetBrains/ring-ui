@@ -1,5 +1,5 @@
 /* eslint-disable react/no-did-mount-set-state,react/no-did-update-set-state */
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -15,7 +15,7 @@ import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
 
-export default class DatePopup extends PureComponent {
+export default class DatePopup extends Component {
   static defaultProps = {
     onChange() {}
   };
