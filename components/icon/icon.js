@@ -24,7 +24,8 @@ export default class Icon extends PureComponent {
     glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     height: PropTypes.number,
     size: PropTypes.number,
-    width: PropTypes.number
+    width: PropTypes.number,
+    loading: PropTypes.bool
   };
 
   static defaultProps = ({
@@ -38,12 +39,12 @@ export default class Icon extends PureComponent {
   static Size = Size;
 
   render() {
-    const {className, size, color, glyph, width, height, ...restProps} = this.props;
+    const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
 
-    const classes = classNames(
+    const classes = classNames('ring-icon',
       {
-        'ring-icon': true,
-        [`ring-icon_${color}`]: !!color
+        [`ring-icon_${color}`]: !!color,
+        'ring-icon_loading': loading
       },
       className
     );

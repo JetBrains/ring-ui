@@ -85,7 +85,7 @@ export default class Button extends PureComponent {
         [styles.danger]: danger,
         [styles.delayed]: delayed,
         [styles.withIcon]: icon,
-        [styles.loader]: loader,
+        [styles.loader]: loader && !icon,
         [styles.primary]: primary || blue,
         [styles.short]: short,
         [styles.text]: text
@@ -106,6 +106,7 @@ export default class Button extends PureComponent {
               <Icon
                 glyph={icon}
                 size={iconSize}
+                loading={loader}
               />
             </span>
           )}
