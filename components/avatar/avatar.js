@@ -24,7 +24,7 @@ import styles from './avatar.css';
        :global(.avatar-demo) {
          display: flex;
          justify-content: space-between;
-         width: 150px;
+         width: 200px;
          margin-bottom: 16px;
        }
      </file>
