@@ -3,24 +3,26 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
 
-    var props = {
-      className: 'test-additional-class',
-      tags: [
+    function dataSource() {
+      return Promise.resolve(
+        [...Array(20)].
+          map((it, index) => ({key: `test${index}`, label: `test${index}`}))
+      );
+    }
+
+    render(<TagsInput
+      className="test-additional-class"
+      tags={[
         {key: 'test1', label: 'test1'},
         {key: 'test2', label: 'test2'}
-      ],
-      dataSource: function () {
-        return Promise.resolve([
-          {key: 'test3', label: 'test3'},
-          {key: 'test4', label: 'test4'}
-        ]);
-      }
-    };
-
-    render(TagsInput.factory(props), document.getElementById('demo'));
+      ]}
+      maxPopupHeight={250}
+      dataSource={dataSource}
+    />, document.getElementById('demo'));
   </file>
 </example>
 
@@ -74,6 +76,7 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
     import {
@@ -82,19 +85,22 @@
       FrownIcon
     } from '@jetbrains/ring-ui/components/icon';
 
-    var props = {
-      tags: [
-        {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
-        {key: 'test2', label: 'test2'}
-      ],
-      dataSource: function (query) {
-        return [
-          {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
-          {key: 'test4', label: 'test4', rgTagIcon: FrownIcon}
-        ];
-      }
-    };
-    render(TagsInput.factory(props), document.getElementById('demo'));
+    const tags = [
+      {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
+      {key: 'test2', label: 'test2'}
+    ];
+
+    function dataSource(query) {
+      return [
+        {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
+        {key: 'test4', label: 'test4', rgTagIcon: FrownIcon}
+      ];
+    }
+
+    render(<TagsInput
+      tags={tags}
+      dataSource={dataSource}
+    />, document.getElementById('demo'));
   </file>
 </example>
 
@@ -103,18 +109,14 @@
     <div id="demo"></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
 
-    var props = {
-      disabled: true,
-      tags: [
-        {key: 'test2', label: 'test2'}
-      ],
-      dataSource: function () {
-        return [];
-      }
-    };
-    render(TagsInput.factory(props), document.getElementById('demo'));
+    render(<TagsInput
+      disabled={true}
+      tags={[{key: 'test2', label: 'test2'}]}
+      dataSource={() => []}
+    />, document.getElementById('demo'));
   </file>
 </example>
