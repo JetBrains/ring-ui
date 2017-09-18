@@ -42,6 +42,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
       return null;
     },
     maxPopupHeight: PropTypes.number,
+    minPopupWidth: PropTypes.number,
     placeholder: PropTypes.string,
     canNotBeEmpty: PropTypes.bool,
     modalShortcuts: PropTypes.bool,
@@ -56,11 +57,12 @@ export default class TagsInput extends RingComponentWithShortcuts {
     onRemoveTag: noop,
     customTagComponent: null,
     maxPopupHeight: 500,
+    minPopupWidth: 360,
     canNotBeEmpty: false,
     modalShortcuts: false,
     disabled: false,
     autoOpen: false,
-    renderOptimization: false
+    renderOptimization: true
   };
 
   state = {
@@ -301,6 +303,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
             fn: () => true
           }}
           maxHeight={this.props.maxPopupHeight}
+          minWidth={this.props.minPopupWidth}
           loading={this.state.loading}
           onFilter={this.loadSuggestions}
           onBeforeOpen={this.loadSuggestions}
