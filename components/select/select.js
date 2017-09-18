@@ -11,6 +11,7 @@ import Icon, {CaretDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
+import rerenderHOC from '../global/rerender-hoc';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -954,10 +955,12 @@ export default class Select extends Component {
       );
     } else {
       return (
-        <span>
+        <span ref={this.nodeRef}>
           {this._renderPopup()}
         </span>
       );
     }
   }
 }
+
+export const RerenderableSelect = rerenderHOC(Select, {captureNode: false});
