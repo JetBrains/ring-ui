@@ -1,5 +1,7 @@
 /* eslint-disable no-magic-numbers */
+/* eslint-disable react/no-find-dom-node */
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
@@ -175,7 +177,7 @@ describe('Select', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.focus(instance.filter.node);
+    Simulate.focus(findDOMNode(instance.filter));
     wrapper.prop('onFocus').should.be.called;
   });
 
@@ -183,7 +185,7 @@ describe('Select', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.blur(instance.filter.node);
+    Simulate.blur(findDOMNode(instance.filter));
     wrapper.prop('onBlur').should.be.called;
   });
 
@@ -193,7 +195,7 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.blur(instance.filter.node);
+    Simulate.blur(findDOMNode(instance.filter));
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.true;
   });
@@ -205,7 +207,7 @@ describe('Select', () => {
     instance._showPopup();
 
     Simulate.mouseDown(instance._popup.list.node);
-    Simulate.blur(instance.filter.node);
+    Simulate.blur(findDOMNode(instance.filter));
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.false;
   });
@@ -471,7 +473,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       instance._showPopup = sandbox.spy();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter.node, 'a');
+      simulateInput(findDOMNode(instance.filter), 'a');
       instance._showPopup.should.be.called;
     });
 
@@ -504,7 +506,7 @@ describe('Select', () => {
       const wrapper = mountSelect({filter: false, type: Select.Type.INPUT});
       const instance = wrapper.instance();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter.node, 'test input');
+      simulateInput(findDOMNode(instance.filter), 'test input');
       instance.filterValue().should.equal('test input');
     });
 
@@ -521,7 +523,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
 
       instance.filterValue('test');
-      instance.filter.node.value.should.equal('test');
+      findDOMNode(instance.filter).value.should.equal('test');
     });
 
     it('Should clear fiter value when closing', () => {
