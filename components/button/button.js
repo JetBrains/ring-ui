@@ -12,7 +12,7 @@ const DEFAULT_ICON_SIZE = Icon.Size.Size16;
  * @category Components
  * @constructor
  * @description Provides styled buttons.
- * @extends {RingComponent}
+ * @extends {PureComponent}
  * @example-file ./button.examples.html
  */
 export default class Button extends PureComponent {
