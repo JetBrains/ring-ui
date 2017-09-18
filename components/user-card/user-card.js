@@ -1,7 +1,3 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-
-import UserCardTooltip from './tooltip';
 
 /**
  * @name User Card
@@ -12,30 +8,6 @@ import UserCardTooltip from './tooltip';
  * @example-file ./user-card.examples.html
  */
 
-export default class SmartUserCardTooltip extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  };
-
-  state = {
-    user: null
-  };
-
-  render() {
-    const {user} = this.state;
-    const {children} = this.props;
-
-    if (!user) {
-      return children;
-    }
-
-    return (
-      <UserCardTooltip user={user}>
-        {children}
-      </UserCardTooltip>
-    );
-  }
-}
-
 export {default as UserCard} from './card';
-export {UserCardTooltip};
+export {default as UserCardTooltip} from './tooltip';
+export {default as HubUserCardTooltip} from './hub-user-card-tooltip';
