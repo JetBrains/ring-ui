@@ -7,6 +7,8 @@ import LoaderInline from '../loader-inline/loader-inline';
 
 import UserCardTooltip from './tooltip';
 
+const fields = 'id,name,login,profile(email/email,avatar/url)';
+
 export default class HubUserCardTooltip extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -27,7 +29,7 @@ export default class HubUserCardTooltip extends Component {
       throw new Error('Either "auth" or "userDataSource" are not provided to HubUserCardTooltip');
     }
     const http = new HTTP(auth);
-    return http.get(`${auth.config.serverUri}api/rest/users/${userId}`);
+    return http.get(`${auth.config.serverUri}api/rest/users/${userId}?fields=${fields}`);
   }
 
   loadUser = async () => {
