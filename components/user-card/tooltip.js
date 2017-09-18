@@ -9,12 +9,15 @@ import styles from './user-card.css';
 
 export default class UserCardTooltip extends Component {
   static propTypes = {
+    className: PropTypes.string,
     children: PropTypes.node,
     tooltipProps: PropTypes.object,
-    ...UserCard.propTypes
+    user: PropTypes.object,
+    renderNoUser: PropTypes.func
   };
 
   static defaultProps = {
+    renderNoUser: () => null,
     tooltipProps: {
       delay: 100,
       hideDelay: 500
@@ -23,7 +26,7 @@ export default class UserCardTooltip extends Component {
 
   renderUserCard() {
     // eslint-disable-next-line no-unused-vars
-    const {className, children, tooltipProps, ...props} = this.props;
+    const {className, children, renderNoUser, tooltipProps, ...props} = this.props;
 
     return (
       <UserCard
@@ -34,11 +37,11 @@ export default class UserCardTooltip extends Component {
   }
 
   render() {
-    const {children, tooltipProps} = this.props;
+    const {children, user, renderNoUser, tooltipProps} = this.props;
 
     return (
       <Tooltip
-        title={this.renderUserCard()}
+        title={user ? this.renderUserCard() : renderNoUser()}
         {...tooltipProps}
       >
         {children}
