@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
 import getEventKey from 'react-dom/lib/getEventKey';
 import classNames from 'classnames';
@@ -92,7 +93,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   getInputNode() {
     if (!this.input) {
-      this.input = this.select.filter.node;
+      this.input = findDOMNode(this.select.filter); // eslint-disable-line react/no-find-dom-node
       this.caret = new Caret(this.input);
     }
     return this.input;
