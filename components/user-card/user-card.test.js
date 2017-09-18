@@ -15,8 +15,12 @@ describe('UserCard', () => {
     }
   };
 
-  const shallowCard = props => shallow(<UserCard user={fakeUser} {...props}/>);
-  const mountCard = props => mount(<UserCard user={fakeUser} {...props}/>);
+  const fakeLink = 'http://foo';
+
+  const shallowCard = props => shallow(
+    <UserCard user={fakeUser} userNameHref={fakeLink} {...props}/>
+  );
+  const mountCard = props => mount(<UserCard user={fakeUser} userNameHref={fakeLink} {...props}/>);
 
   it('should create component', () => {
     mountCard().should.have.type(UserCard);
