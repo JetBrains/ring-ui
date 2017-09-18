@@ -10,6 +10,7 @@
     import hubConfig from '@ring-ui/docs/components/hub-config';
 
     const user = {
+      id: '0',
       login: 'testuser',
       name: 'Test User',
       profile: {
@@ -22,15 +23,15 @@
 
     class UserCardDemo extends Component {
      render() {
-       const href = `${hubConfig.serverUri}/users`;
+       const getHref =  user => `${hubConfig.serverUri}/users/${user.id}`;
 
        return (
          <div>
            <div>Inline user card:</div>
-           <UserCard user={user} userNameHref={href}/>
+           <UserCard user={user} getHref={getHref} />
 
-           <UserCardTooltip user={user} userNameHref={href}>
-            <span>Hover this text see card in dropdown mode</span>
+           <UserCardTooltip user={user} getHref={getHref}>
+             <span>Hover this text see card in dropdown mode</span>
            </UserCardTooltip>
          </div>
        );

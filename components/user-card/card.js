@@ -11,7 +11,13 @@ export default class UserCard extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
-    userNameHref: PropTypes.string.isRequired,
+
+    getName: PropTypes.func,
+    getLogin: PropTypes.func,
+    getEmail: PropTypes.func,
+    getAvatarUrl: PropTypes.func,
+    getHref: PropTypes.func.isRequired,
+
     user: PropTypes.shape({
       login: PropTypes.string,
       name: PropTypes.string,
@@ -22,10 +28,16 @@ export default class UserCard extends PureComponent {
     }).isRequired
   };
 
-  render() {
-    const {children, className, user, userNameHref, ...restProps} = this.props;
+  static defaultProps = {
+    getName: user => user.name,
+    getLogin: user => user.login,
+    getEmail: user => user.profile.email && user.profile.email.email,
+    getAvatarUrl: user => user.profile.avatar.url
+  };
 
-    const email = user.profile.email && user.profile.email.email;
+  render() {
+    const {children, className, user,
+      getName, getLogin, getEmail, getAvatarUrl, getHref, ...restProps} = this.props;
 
     const classes = classNames(className, {});
 
@@ -34,17 +46,17 @@ export default class UserCard extends PureComponent {
         <div className={styles.userInformationContainer}>
           <Avatar
             size={Size.Size56}
-            url={user.profile.avatar.url}
+            url={getAvatarUrl(user)}
           />
           <div className={styles.userInformation}>
             <Link
-              href={userNameHref}
+              href={getHref(user)}
               className={styles.userName}
             >
-              {user.name}
+              {getName(user)}
             </Link>
-            <div>{user.login}</div>
-            {email && <div>{email}</div>}
+            <div>{getLogin(user)}</div>
+            {getEmail(user) && <div>{getEmail(user)}</div>}
           </div>
         </div>
         {children}
