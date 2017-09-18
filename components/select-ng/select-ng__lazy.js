@@ -2,10 +2,7 @@ import angular from 'angular';
 import {render} from 'react-dom';
 import React from 'react';
 
-import Select from '../select/select';
-import rerenderHOC from '../ring-component/rerender-hoc';
-
-const RerenderableSelect = rerenderHOC(Select);
+import {RerenderableSelect} from '../select/select';
 
 class SelectLazy {
   constructor(container, props, ctrl, type) {
@@ -22,7 +19,7 @@ class SelectLazy {
   }
 
   render(props) {
-    this.reactSelect = <RerenderableSelect {...angular.extend({}, this.props, props || {})}/>;
+    this.reactSelect = <RerenderableSelect {...Object.assign({}, this.props, props || {})}/>;
     this.props = this.reactSelect.props;
 
     if (this.type !== 'dropdown') {
@@ -45,7 +42,6 @@ class SelectLazy {
   }
 
   attachEvents() {
-    this.onClick = this.onClick.bind(this);
     this.container.addEventListener('click', this.onClick);
   }
 
@@ -53,9 +49,9 @@ class SelectLazy {
     this.container.removeEventListener('click', this.onClick);
   }
 
-  onClick() {
+  onClick = () => {
     this._clickHandler();
-  }
+  };
 
   _clickHandler() {
     this.detachEvents();

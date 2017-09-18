@@ -1,7 +1,13 @@
 import React, {createElement} from 'react';
 import {findDOMNode, render} from 'react-dom';
 
-export default function rerenderHOC(ComposedComponent) {
+/**
+ * Creates wrapper around component with "rerender" meothod
+ * @param ComposedComponent
+ * @param captureNode, should wrapper capture this.node itself. Set to false if component already has "node" property captured
+ * @returns {Rerenderer}
+ */
+export default function rerenderHOC(ComposedComponent, {captureNode} = {captureNode: true}) {
   return class Rerenderer extends ComposedComponent {
     _propsCache = {};
 
@@ -27,6 +33,10 @@ export default function rerenderHOC(ComposedComponent) {
     }
 
     render() {
+      if (!captureNode) {
+        return super.render();
+      }
+
       return (
         <ComposedComponent
           ref={this.onRefUpdate}
