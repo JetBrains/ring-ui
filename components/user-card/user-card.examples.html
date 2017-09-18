@@ -31,7 +31,7 @@
            <UserCard user={user} getHref={getHref} data-test="user-card-inline"/>
 
            <UserCardTooltip user={user} getHref={getHref}>
-             <span>Hover this text see card in dropdown mode</span>
+             <span>Hover this text see card in tooltip mode</span>
            </UserCardTooltip>
          </div>
        );
@@ -43,27 +43,34 @@
  </example>
 
 <example name="Hub User Card">
-  <file type="html"}>
+  <file type="html"} disable-auto-size>
     <div id="demo"></div>
   </file>
 
   <file type="js">
     import React, {Component} from 'react';
     import {render} from 'react-dom';
-    import SmartUserCardTooltip from '@jetbrains/ring-ui/components/user-card/user-card';
+    import {HubUserCardTooltip} from '@jetbrains/ring-ui/components/user-card/user-card';
+    import Auth from '@jetbrains/ring-ui/components/auth/auth';
+    import hubConfig from '@ring-ui/docs/components/hub-config';
 
-    class UserCardDemo extends Component {
-      render() {
-        return (
-          <div>
-            <SmartUserCardTooltip userId={'0'}>
-              <span>Hover this text load user information</span>
-            </SmartUserCardTooltip>
-          </div>
-        );
+    (async function () {
+      const auth = new Auth(hubConfig);
+      await auth.init();
+
+      class UserCardDemo extends Component {
+        render() {
+          return (
+            <div>
+              <HubUserCardTooltip userId={auth.user.id} auth={auth}>
+                <span>Hover this text load user information</span>
+              </HubUserCardTooltip>
+            </div>
+          );
+        }
       }
-    }
 
-    render(<UserCardDemo />, document.getElementById('demo'));
+      render(<UserCardDemo />, document.getElementById('demo'));
+    })();
   </file>
 </example>
