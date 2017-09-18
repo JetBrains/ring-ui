@@ -1,0 +1,68 @@
+<example name="User Card">
+  <file type="html"}>
+    <div id="demo"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import {UserCard, UserCardTooltip} from '@jetbrains/ring-ui/components/user-card/user-card';
+    import hubConfig from '@ring-ui/docs/components/hub-config';
+
+    const user = {
+      login: 'testuser',
+      name: 'Test User',
+      profile: {
+        email: {email: 'testuser@mail.com'},
+        avatar: {
+          url: `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`
+        }
+      }
+    };
+
+    class UserCardDemo extends Component {
+     render() {
+       const href = `${hubConfig.serverUri}/users`;
+
+       return (
+         <div>
+           <div>Inline user card:</div>
+           <UserCard user={user} userNameHref={href}/>
+
+           <UserCardTooltip user={user} userNameHref={href}>
+            <span>Hover this text see card in dropdown mode</span>
+           </UserCardTooltip>
+         </div>
+       );
+     }
+    }
+
+    render(<UserCardDemo />, document.getElementById('demo'));
+  </file>
+ </example>
+
+<example name="Hub User Card">
+  <file type="html"}>
+    <div id="demo"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import SmartUserCardTooltip from '@jetbrains/ring-ui/components/user-card/user-card';
+
+    class UserCardDemo extends Component {
+      render() {
+        return (
+          <div>
+            <SmartUserCardTooltip userId={'0'}>
+              <span>Hover this text load user information</span>
+            </SmartUserCardTooltip>
+          </div>
+        );
+      }
+    }
+
+    render(<UserCardDemo />, document.getElementById('demo'));
+  </file>
+</example>
