@@ -1,7 +1,7 @@
 @value unit, text-color from  "../global/global.css";
 
 .userCardSpaced {
-  padding: calc(unit) calc(unit);
+  padding: calc(unit * 2) calc(unit * 2);
 }
 
 .userInformationContainer {
@@ -11,6 +11,8 @@
 
 .userInformation {
   padding-left: 12px;
+
+  text-align: left;
 
   color: text-color;
 

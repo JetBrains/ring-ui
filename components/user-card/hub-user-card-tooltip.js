@@ -14,8 +14,7 @@ export default class HubUserCardTooltip extends Component {
     children: PropTypes.node,
     auth: PropTypes.instanceOf(Auth),
     userDataSource: PropTypes.func,
-    userId: PropTypes.string.isRequired,
-    tooltipProps: UserCardTooltip.propTypes.tooltipProps
+    userId: PropTypes.string.isRequired
   };
 
   state = {
@@ -59,19 +58,17 @@ export default class HubUserCardTooltip extends Component {
   render() {
     const {user} = this.state;
     // eslint-disable-next-line no-unused-vars
-    const {children, tooltipProps, auth, userId, userDataSource, ...restProps} = this.props;
+    const {children, auth, userId, userDataSource, ...restProps} = this.props;
 
-    const mergedTooltipProps = {
-      ...UserCardTooltip.defaultProps.tooltipProps,
-      ...{onMouseEnter: this.loadUser},
-      ...tooltipProps
+    const dropdownProps = {
+      onMouseEnter: this.loadUser
     };
 
     return (
       <UserCardTooltip
         user={user}
         renderNoUser={this.renderNoUser}
-        tooltipProps={mergedTooltipProps}
+        dropdownProps={dropdownProps}
         getHref={this.getHref}
         {...restProps}
       >
