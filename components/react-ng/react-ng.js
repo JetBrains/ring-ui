@@ -97,7 +97,7 @@ function reactNgDirective($parse) {
 
           const props = {};
           modifyProps(props, name, value);
-          component.rerender(props);
+          component = renderAndRemoveOnDestroy(ComponentClass, iElement, directiveProps);
         };
       }
 

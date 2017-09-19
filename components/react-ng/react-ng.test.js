@@ -1,8 +1,7 @@
 import 'angular';
 import 'angular-mocks';
-import React from 'react';
+import React, {Component} from 'react';
 
-import RingComponent from '../ring-component/ring-component';
 import TagsInput from '../tags-input/tags-input';
 
 import registerComponents from './react-ng';
@@ -23,7 +22,7 @@ describe('React Ng', () => {
 
   //common checker for properties passing
   function checkPropertyPassingForTemplate(template, propname, propvalue) {
-    class TestPropsComponent extends RingComponent {
+    class TestPropsComponent extends Component {
       render() {
         // handle undefined values
         (propvalue === this.props[propname]).should.be.true;
@@ -105,6 +104,7 @@ describe('React Ng', () => {
         undefined
       );
     });
+
     it('react-static should pass props from scope to react component', () => {
       $scope.fromScope = 'fromScopeProperty';
       checkPropertyPassingForTemplate(
