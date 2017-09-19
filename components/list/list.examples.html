@@ -4,6 +4,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
 
@@ -15,12 +16,15 @@
       });
     }
 
-    render(List.factory({
-      maxHeight: 400,
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+    render(
+      <List
+        maxHeight={400}
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -30,6 +34,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
 
@@ -45,13 +50,16 @@
       }
     ];
 
-    render(List.factory({
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console),
-      activeIndex: 2,
-      hint: 'Hint about the list'
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+        activeIndex={2}
+        hint="Hint about the list"
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -61,6 +69,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
 
@@ -72,12 +81,15 @@
       {'label': 'Five', 'rgItemType': List.ListProps.Type.ITEM}
     ];
 
-    render(List.factory({
-      data: listData,
-      activeIndex: 2,
-      shortcuts: true,
-      onSelect: console.log.bind(console),
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        activeIndex={2}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -87,6 +99,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
 
@@ -130,11 +143,14 @@
       },
     ];
 
-    render(List.factory({
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -144,6 +160,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
     import {WarningIcon} from '@jetbrains/ring-ui/components/icon';
@@ -188,11 +205,14 @@
       }
     ];
 
-    render(List.factory({
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -202,6 +222,7 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
 
@@ -213,11 +234,14 @@
       {'label': 'Five', 'type': List.ListProps.Type.ITEM}
     ];
 
-    render(List.factory({
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
 
@@ -226,9 +250,9 @@
     <div id='list'></div>
   </file>
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import List from '@jetbrains/ring-ui/components/list/list';
-    import React from 'react';
 
     var listData = [
       {
@@ -249,10 +273,13 @@
       },
     ];
 
-    render(List.factory({
-      data: listData,
-      shortcuts: true,
-      onSelect: console.log.bind(console)
-    }), document.getElementById('list'));
+    render(
+      <List
+        data={listData}
+        shortcuts={true}
+        onSelect={console.log.bind(console)}
+      />,
+      document.getElementById('list')
+    );
   </file>
 </example>
