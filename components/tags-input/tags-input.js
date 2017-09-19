@@ -66,6 +66,8 @@ export default class TagsInput extends Component {
     renderOptimization: true
   };
 
+  static ngModelStateField = 'tags';
+
   state = {
     tags: [],
     suggestions: [],
@@ -74,7 +76,22 @@ export default class TagsInput extends Component {
     activeIndex: 0
   };
 
-  static ngModelStateField = 'tags';
+  componentWillMount() {
+    this.updateStateFromProps(this.props);
+  }
+
+  componentDidMount() {
+    if (this.props.autoOpen && !this.props.disabled) {
+      this.focusInput();
+      this.loadSuggestions();
+      this.select._showPopup();
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.updateStateFromProps(props);
+  }
+
   ngModelStateField = TagsInput.ngModelStateField;
 
   getShortcutsProps() {
@@ -160,22 +177,6 @@ export default class TagsInput extends Component {
       }).
       catch(() => this.node && this.setState({loading: false}));
   };
-
-  componentWillMount() {
-    this.updateStateFromProps(this.props);
-  }
-
-  componentDidMount() {
-    if (this.props.autoOpen && !this.props.disabled) {
-      this.focusInput();
-      this.loadSuggestions();
-      this.select._showPopup();
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    this.updateStateFromProps(props);
-  }
 
   _focusHandler = () => {
     this.setState({
