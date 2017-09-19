@@ -177,29 +177,29 @@ describe('Query Assist', () => {
   describe('shortcuts', () => {
     it('should enable shortcuts when we set focus', () => {
       const instance = mountQueryAssist({focus: null}).instance();
-      instance.shortcutsEnabled().should.equal(false);
+      instance.state.shortcuts.should.equal(false);
 
       instance.setFocus(true);
-      instance.shortcutsEnabled().should.equal(true);
+      instance.state.shortcuts.should.equal(true);
     });
 
 
     it('should disable shortcuts when we remove focus', () => {
       const instance = mountQueryAssist({focus: true}).instance();
-      instance.shortcutsEnabled().should.equal(true);
+      instance.state.shortcuts.should.equal(true);
 
       instance.setFocus(false);
-      instance.shortcutsEnabled().should.equal(false);
+      instance.state.shortcuts.should.equal(false);
     });
 
 
     it('should not enable shortcuts after rerender', () => {
       const wrapper = mountQueryAssist({focus: false, placeholder: 'bar'});
       const instance = wrapper.instance();
-      instance.shortcutsEnabled().should.equal(false);
+      instance.state.shortcuts.should.equal(false);
 
       wrapper.setProps({placeholder: 'foo'});
-      instance.shortcutsEnabled().should.equal(false);
+      instance.state.shortcuts.should.equal(false);
     });
   });
 
