@@ -137,6 +137,71 @@ export default class QueryAssist extends Component {
     showPopup: false
   };
 
+  componentDidMount() {
+    const query = this.props.query || '';
+
+    this.immediateState = {
+      query,
+      caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
+      focus: Boolean(this.props.autoOpen || this.props.focus)
+    };
+
+    this.setupRequestHandler(this.props.delay);
+    this.setShortcutsEnabled(this.props.focus);
+
+    if (this.props.autoOpen) {
+      this.requestHandler().
+        catch(noop).
+        then(this.setCaretPosition);
+    } else {
+      this.requestStyleRanges().catch(noop);
+    }
+
+    this.setCaretPosition();
+  }
+
+  componentWillReceiveProps({caret, delay, query}) {
+    this.setupRequestHandler(delay);
+    const shouldSetCaret = typeof caret === 'number';
+
+    if (shouldSetCaret) {
+      this.immediateState.caret = caret;
+    }
+
+    if (typeof query === 'string' && query !== this.immediateState.query) {
+      this.immediateState.query = query;
+      let callback = noop;
+
+      if (query && this.props.autoOpen) {
+        callback = this.requestData;
+      } else if (query) {
+        callback = this.requestStyleRanges;
+      }
+
+      this.setState({query, placeholderEnabled: !query}, callback);
+    }
+  }
+
+  shouldComponentUpdate(props, state) {
+    return state.query !== this.state.query ||
+      state.dirty !== this.state.dirty ||
+      state.loading !== this.state.loading ||
+      state.showPopup !== this.state.showPopup ||
+      state.suggestions !== this.state.suggestions ||
+      state.styleRanges !== this.state.styleRanges ||
+      state.placeholderEnabled !== this.state.placeholderEnabled ||
+      props.placeholder !== this.props.placeholder ||
+      props.disabled !== this.props.disabled ||
+      props.clear !== this.props.clear ||
+      props.focus !== this.props.focus ||
+      props.loader !== this.props.loader ||
+      props.glass !== this.props.glass;
+  }
+
+  componentDidUpdate(prevProps) {
+    this.updateFocus(prevProps);
+  }
+
   ngModelStateField = ngModelStateField;
 
   getShortcutsProps() {
@@ -163,29 +228,6 @@ export default class QueryAssist extends Component {
     window.getSelection().removeAllRanges();
   }
 
-  componentDidMount() {
-    const query = this.props.query || '';
-
-    this.immediateState = {
-      query,
-      caret: Number.isFinite(this.props.caret) ? this.props.caret : query.length,
-      focus: Boolean(this.props.autoOpen || this.props.focus)
-    };
-
-    this.setupRequestHandler(this.props.delay);
-    this.setShortcutsEnabled(this.props.focus);
-
-    if (this.props.autoOpen) {
-      this.requestHandler().
-        catch(noop).
-        then(this.setCaretPosition);
-    } else {
-      this.requestStyleRanges().catch(noop);
-    }
-
-    this.setCaretPosition();
-  }
-
   /**
    * Optionally setup data request delay. For each component create a separate
    * instance of the delayed function. This may help reduce the load on the server
@@ -202,32 +244,6 @@ export default class QueryAssist extends Component {
         this.requestData = this.requestHandler;
       }
     }
-  }
-
-  componentWillReceiveProps({caret, delay, query}) {
-    this.setupRequestHandler(delay);
-    const shouldSetCaret = typeof caret === 'number';
-
-    if (shouldSetCaret) {
-      this.immediateState.caret = caret;
-    }
-
-    if (typeof query === 'string' && query !== this.immediateState.query) {
-      this.immediateState.query = query;
-      let callback = noop;
-
-      if (query && this.props.autoOpen) {
-        callback = this.requestData;
-      } else if (query) {
-        callback = this.requestStyleRanges;
-      }
-
-      this.setState({query, placeholderEnabled: !query}, callback);
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    this.updateFocus(prevProps);
   }
 
   updateFocus({focus, caret}) {
@@ -726,22 +742,6 @@ export default class QueryAssist extends Component {
         >{letter === ' ' ? '\u00a0' : letter}</span>
       );
     });
-  }
-
-  shouldComponentUpdate(props, state) {
-    return state.query !== this.state.query ||
-      state.dirty !== this.state.dirty ||
-      state.loading !== this.state.loading ||
-      state.showPopup !== this.state.showPopup ||
-      state.suggestions !== this.state.suggestions ||
-      state.styleRanges !== this.state.styleRanges ||
-      state.placeholderEnabled !== this.state.placeholderEnabled ||
-      props.placeholder !== this.props.placeholder ||
-      props.disabled !== this.props.disabled ||
-      props.clear !== this.props.clear ||
-      props.focus !== this.props.focus ||
-      props.loader !== this.props.loader ||
-      props.glass !== this.props.glass;
   }
 
   inputRef = node => {
