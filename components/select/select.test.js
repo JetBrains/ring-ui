@@ -206,7 +206,7 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.mouseDown(instance._popup.list.node);
+    Simulate.mouseDown(findDOMNode(instance._popup.list));
     Simulate.blur(findDOMNode(instance.filter));
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.false;
