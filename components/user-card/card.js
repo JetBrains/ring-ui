@@ -18,14 +18,7 @@ export default class UserCard extends PureComponent {
     getAvatarUrl: PropTypes.func,
     getHref: PropTypes.func.isRequired,
 
-    user: PropTypes.shape({
-      login: PropTypes.string,
-      name: PropTypes.string,
-      profile: PropTypes.shape({
-        avatar: PropTypes.shape({url: PropTypes.string}),
-        email: PropTypes.shape({email: PropTypes.string})
-      }).isRequired
-    }).isRequired
+    user: PropTypes.object.isRequired
   };
 
   static defaultProps = {

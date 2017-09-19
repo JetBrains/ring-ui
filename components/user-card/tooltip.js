@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Tooltip from '../tooltip/tooltip';
+import Dropdown from '../dropdown/dropdown';
+import Popup from '../popup/popup';
 
 import UserCard from './card';
 import styles from './user-card.css';
@@ -11,22 +12,18 @@ export default class UserCardTooltip extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
-    tooltipProps: PropTypes.object,
+    dropdownProps: PropTypes.object,
     user: PropTypes.object,
     renderNoUser: PropTypes.func
   };
 
   static defaultProps = {
-    renderNoUser: () => null,
-    tooltipProps: {
-      delay: 100,
-      hideDelay: 500
-    }
+    renderNoUser: () => null
   };
 
   renderUserCard() {
     // eslint-disable-next-line no-unused-vars
-    const {className, children, renderNoUser, tooltipProps, ...props} = this.props;
+    const {className, children, renderNoUser, dropdownProps, ...props} = this.props;
 
     return (
       <UserCard
@@ -37,15 +34,19 @@ export default class UserCardTooltip extends Component {
   }
 
   render() {
-    const {children, user, renderNoUser, tooltipProps} = this.props;
+    const {children, user, renderNoUser, dropdownProps} = this.props;
 
     return (
-      <Tooltip
-        title={user ? this.renderUserCard() : renderNoUser()}
-        {...tooltipProps}
+      <Dropdown
+        anchor={children}
+        hoverMode={true}
+        clickMode={false}
+        {...dropdownProps}
       >
-        {children}
-      </Tooltip>
+        <Popup>
+          {user ? this.renderUserCard() : renderNoUser()}
+        </Popup>
+      </Dropdown>
     );
   }
 }
