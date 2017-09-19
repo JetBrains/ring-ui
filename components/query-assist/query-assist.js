@@ -13,6 +13,7 @@ import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import './query-assist.scss';
 import '../input/input.scss';
@@ -137,6 +138,10 @@ export default class QueryAssist extends Component {
     showPopup: false
   };
 
+  componentWillMount() {
+    this.setState({shortcuts: this.props.focus});
+  }
+
   componentDidMount() {
     const query = this.props.query || '';
 
@@ -147,7 +152,6 @@ export default class QueryAssist extends Component {
     };
 
     this.setupRequestHandler(this.props.delay);
-    this.setShortcutsEnabled(this.props.focus);
 
     if (this.props.autoOpen) {
       this.requestHandler().
@@ -204,25 +208,6 @@ export default class QueryAssist extends Component {
 
   ngModelStateField = ngModelStateField;
 
-  getShortcutsProps() {
-    return {
-      map: {
-        del: noop,
-        enter: this.handleComplete,
-        'command+enter': this.handleComplete,
-        'ctrl+enter': this.handleComplete,
-        'ctrl+space': this.handleCtrlSpace,
-        tab: this.handleTab,
-        right: noop,
-        left: noop,
-        space: noop,
-        home: noop,
-        end: noop
-      },
-      scope: getUID('ring-query-assist-')
-    };
-  }
-
   // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
   blurInput() {
     window.getSelection().removeAllRanges();
@@ -257,7 +242,7 @@ export default class QueryAssist extends Component {
   }
 
   setFocus(focus) {
-    this.setShortcutsEnabled(focus);
+    this.setState({shortcuts: focus});
 
     const isComponentFocused = Boolean(this.immediateState.focus);
 
@@ -319,7 +304,7 @@ export default class QueryAssist extends Component {
       this.props.onFocusChange({focus});
     }
 
-    this.setShortcutsEnabled(focus);
+    this.setState({shortcuts: focus});
   };
 
   getQuery() {
@@ -639,6 +624,22 @@ export default class QueryAssist extends Component {
     });
   };
 
+  shortcutsScope = getUID('ring-query-assist-');
+
+  shortcutsMap = {
+    del: noop,
+    enter: this.handleComplete,
+    'command+enter': this.handleComplete,
+    'ctrl+enter': this.handleComplete,
+    'ctrl+space': this.handleCtrlSpace,
+    tab: this.handleTab,
+    right: noop,
+    left: noop,
+    space: noop,
+    home: noop,
+    end: noop
+  };
+
   renderSuggestions() {
     const renderedSuggestions = [];
     const {suggestions} = this.state;
@@ -744,6 +745,10 @@ export default class QueryAssist extends Component {
     });
   }
 
+  nodeRef = node => {
+    this.node = node;
+  };
+
   inputRef = node => {
     if (!node) {
       return;
@@ -794,7 +799,15 @@ export default class QueryAssist extends Component {
         className="ring-query-assist"
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
+        ref={this.nodeRef}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         <ContentEditable
           className={inputClasses}
           data-test="ring-query-assist-input"
