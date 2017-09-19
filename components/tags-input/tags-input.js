@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import getEventKey from 'react-dom/lib/getEventKey';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Select from '../select/select';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
@@ -24,8 +23,9 @@ function noop() {}
  * @example-file ./tags-input.examples.html
  */
 
-export default class TagsInput extends RingComponentWithShortcuts {
+export default class TagsInput extends Component {
   static propTypes = {
+    className: PropTypes.string,
     tags: PropTypes.array,
     /**
      * Datasource should return array(or promise) of suggestions.
@@ -161,11 +161,11 @@ export default class TagsInput extends RingComponentWithShortcuts {
       catch(() => this.node && this.setState({loading: false}));
   };
 
-  willMount() {
+  componentWillMount() {
     this.updateStateFromProps(this.props);
   }
 
-  didMount() {
+  componentDidMount() {
     if (this.props.autoOpen && !this.props.disabled) {
       this.focusInput();
       this.loadSuggestions();
@@ -173,7 +173,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps(props) {
+  componentWillReceiveProps(props) {
     this.updateStateFromProps(props);
   }
 
@@ -261,6 +261,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
+  nodeRef = node => {
+    this.node = node;
+  };
+
   selectRef = el => {
     this.select = el;
   };
@@ -279,6 +283,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}
+        ref={this.nodeRef}
       >
 
         <TagsList
