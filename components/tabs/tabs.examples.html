@@ -54,6 +54,70 @@
   </file>
 </example>
 
+<example name="Dark Tabs">
+  <file name="index.html">
+    <div id="dark" class="dark-wrapper"></div>
+  </file>
+
+  <file type="css">
+    :global(.dark-wrapper) {
+      background: #000;
+      padding: 8px;
+    }
+  </file>
+
+  <file name="index.js">
+    import {render} from 'react-dom';
+    import React, {Component} from 'react';
+
+    import {Tabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
+
+    const container = document.getElementById('dark');
+
+    class TabsExample extends Component {
+    state = {selected: 'first'};
+
+    render() {
+      return (
+        <Tabs
+          selected={this.state.selected}
+          onSelect={selected => this.setState({selected})}
+          theme={Tabs.Theme.DARK}
+        >
+          <Tab
+            id="first"
+            title="First tab"
+          >
+            First tab content
+          </Tab>
+          <Tab
+            id="second"
+            title="Second tab"
+          >
+            Second tab content
+          </Tab>
+          <Tab
+            id="third"
+            title="Third tab"
+          >
+            Third tab content
+          </Tab>
+          <Tab
+            disabled
+            id="disabled"
+            title="Disabled tab"
+          >
+            Disabled tab content
+          </Tab>
+        </Tabs>
+      );
+      }
+    }
+
+    render(<TabsExample />, container);
+  </file>
+</example>
+
 <example name="Smart tabs">
   <file name="index.html">
     <div id="tabs"></div>
