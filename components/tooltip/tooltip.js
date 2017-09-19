@@ -39,7 +39,6 @@ import './tooltip.scss';
 export default class Tooltip extends RingComponent {
   static propTypes = {
     delay: PropTypes.number,
-    hideDelay: PropTypes.number,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
   };
@@ -54,9 +53,6 @@ export default class Tooltip extends RingComponent {
   state = {showPopup: false};
 
   listeners = new Listeners();
-
-  showTimeout = null;
-  hideTimeout = null;
 
   didMount() {
     if (this.props.title) {
@@ -78,7 +74,7 @@ export default class Tooltip extends RingComponent {
 
   addListeners() {
     this.listeners.add(this.node, 'mouseover', this.showPopup);
-    this.listeners.add(this.node, 'mouseout', this.hidePopupIfMouseOut);
+    this.listeners.add(this.node, 'mouseout', this.hidePopup);
     this.listeners.add(document, 'scroll', this.hidePopup);
   }
 
@@ -88,52 +84,21 @@ export default class Tooltip extends RingComponent {
     if (!title) {
       return;
     }
-    clearTimeout(this.hideTimeout);
 
     const showPopup = () => {
       this.setState({showPopup: true});
     };
 
     if (delay) {
-      this.showTimeout = setTimeout(showPopup, delay);
+      this.timeout = setTimeout(showPopup, delay);
     } else {
       showPopup();
     }
   };
 
   hidePopup = () => {
-    const {hideDelay} = this.props;
-
-    clearTimeout(this.showTimeout);
-
-    const hidePopup = () => {
-      this.setState({showPopup: false});
-    };
-
-    if (hideDelay) {
-      this.hideTimeout = setTimeout(hidePopup, hideDelay);
-    } else {
-      hidePopup();
-    }
-  };
-
-  hidePopupIfMouseOut = event => {
-    const {toElement} = event;
-    const popupNode = this.popup.popup;
-
-    if (
-      popupNode &&
-      (
-        this.node.contains(toElement) ||
-        this.node === toElement ||
-        popupNode.contains(toElement) ||
-        toElement === popupNode
-      )
-    ) {
-      return null;
-    }
-
-    return this.hidePopup();
+    clearTimeout(this.timeout);
+    this.setState({showPopup: false});
   };
 
   popupRef = el => {
@@ -141,15 +106,13 @@ export default class Tooltip extends RingComponent {
   };
 
   render() {
-    const {children, title, delay, hideDelay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <span {...restProps}>
         {children}
         <Popup
           hidden={!this.state.showPopup}
-          onMouseOut={this.hidePopupIfMouseOut}
-          onMouseOver={this.showPopup}
           onCloseAttempt={this.hidePopup}
           maxHeight={400}
           className="ring-tooltip"
