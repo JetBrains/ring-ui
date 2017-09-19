@@ -18,6 +18,7 @@ import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import './list.scss';
 import ListItem from './list__item';
@@ -140,8 +141,6 @@ export default class List extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this.toggleShortcuts(props);
-
     if (props.data) {
       //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
@@ -401,16 +400,13 @@ export default class List extends Component {
     }
   };
 
-  getShortcutsProps() {
-    return {
-      map: {
-        up: this.upHandler,
-        down: this.downHandler,
-        enter: this.enterHandler
-      },
-      scope: getUID('list-')
-    };
-  }
+  shortcutsScope = getUID('list-');
+
+  shortcutsMap = {
+    up: this.upHandler,
+    down: this.downHandler,
+    enter: this.enterHandler
+  };
 
   getVisibleListHeight(props) {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
@@ -619,6 +615,12 @@ export default class List extends Component {
         className={classes}
         onMouseOut={this.props.onMouseOut}
       >
+        {this.props.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
         {this.props.renderOptimization
           ? this.renderVirtualized(maxHeight, rowCount)
           : this.renderSimple(maxHeight, rowCount)
