@@ -128,6 +128,80 @@ export default class List extends Component {
     hasOverflow: false
   };
 
+  componentWillMount() {
+    this.checkActivatableItems(this.props.data);
+    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
+      this.setState({
+        activeIndex: this.props.activeIndex,
+        activeItem: this.props.data[this.props.activeIndex],
+        needScrollToActive: true
+      });
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.toggleShortcuts(props);
+
+    if (props.data) {
+      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
+      //props.data = props.data.map(normalizeListItemType);
+
+      this.checkActivatableItems(props.data);
+
+      let activeIndex = null;
+      let activeItem = null;
+
+      if (
+        props.restoreActiveIndex &&
+        this.state.activeItem &&
+        this.state.activeItem.key !== undefined &&
+        this.state.activeItem.key !== null
+      ) {
+        for (let i = 0; i < props.data.length; i++) {
+          // Restore active index if there is an item with the same "key" property
+          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
+            activeIndex = i;
+            activeItem = props.data[i];
+            break;
+          }
+        }
+      }
+
+      if (
+        activeIndex === null &&
+        this.shouldActivateFirstItem(props) &&
+        this.isActivatable(props.data[0])
+      ) {
+        activeIndex = 0;
+        activeItem = props.data[0];
+      } else if (
+        props.activeIndex != null &&
+        props.activeIndex !== this.props.activeIndex &&
+        props.data[props.activeIndex]
+      ) {
+        activeIndex = props.activeIndex;
+        activeItem = props.data[props.activeIndex];
+      }
+
+      this.setState({
+        activeIndex,
+        activeItem,
+        needScrollToActive: true
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.props ||
+      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
+      this.virtualizedList.recomputeRowHeights();
+    }
+  }
+
   _activatableItems = false;
   // eslint-disable-next-line no-magic-numbers
   _bufferSize = 10; // keep X items above and below of the visible area
@@ -299,80 +373,6 @@ export default class List extends Component {
       activeIndex: null,
       needScrollToActive: false
     });
-  }
-
-  componentWillMount() {
-    this.checkActivatableItems(this.props.data);
-    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
-      this.setState({
-        activeIndex: this.props.activeIndex,
-        activeItem: this.props.data[this.props.activeIndex],
-        needScrollToActive: true
-      });
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    this.toggleShortcuts(props);
-
-    if (props.data) {
-      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
-      //props.data = props.data.map(normalizeListItemType);
-
-      this.checkActivatableItems(props.data);
-
-      let activeIndex = null;
-      let activeItem = null;
-
-      if (
-        props.restoreActiveIndex &&
-        this.state.activeItem &&
-        this.state.activeItem.key !== undefined &&
-        this.state.activeItem.key !== null
-      ) {
-        for (let i = 0; i < props.data.length; i++) {
-          // Restore active index if there is an item with the same "key" property
-          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
-            activeIndex = i;
-            activeItem = props.data[i];
-            break;
-          }
-        }
-      }
-
-      if (
-        activeIndex === null &&
-        this.shouldActivateFirstItem(props) &&
-        this.isActivatable(props.data[0])
-      ) {
-        activeIndex = 0;
-        activeItem = props.data[0];
-      } else if (
-        props.activeIndex != null &&
-        props.activeIndex !== this.props.activeIndex &&
-        props.data[props.activeIndex]
-      ) {
-        activeIndex = props.activeIndex;
-        activeItem = props.data[props.activeIndex];
-      }
-
-      this.setState({
-        activeIndex,
-        activeItem,
-        needScrollToActive: true
-      });
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps !== this.props ||
-      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
-      this.virtualizedList.recomputeRowHeights();
-    }
   }
 
   shouldActivateFirstItem(props) {
