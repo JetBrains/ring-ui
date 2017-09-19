@@ -1,17 +1,31 @@
 /* global gemini: false */
 
-gemini.suite('Tabs', suite => {
-  suite.
-    setUrl('tabs/tabs.html').
-    setCaptureElements('#tabs').
+gemini.suite('Tabs', () => {
+  gemini.suite('Light Tabs', child => {
+    child.
+      setUrl('tabs/tabs.html').
+      setCaptureElements('#tabs').
 
-    capture('tab').
+      capture('tab').
 
-    capture('click-on-tab', (actions, find) => {
-      actions.click(find('div>div>div:nth-child(3)'));
-    }).
+      capture('click-on-tab', (actions, find) => {
+        actions.click(find('div>div>div:nth-child(3)'));
+      }).
 
-    capture('do-not-switch-to-disabled-tab', (actions, find) => {
-      actions.click(find('div>div>div:nth-child(4)'));
-    });
+      capture('do-not-switch-to-disabled-tab', (actions, find) => {
+        actions.click(find('div>div>div:nth-child(4)'));
+      });
+  });
+
+  gemini.suite('Dark Tabs', child => {
+    child.
+      setUrl('tabs/dark-tabs.html').
+      setCaptureElements('#dark').
+
+      capture('dark-tab').
+
+      capture('click-on-dark-tab', (actions, find) => {
+        actions.click(find('div>div>div:nth-child(3)'));
+      });
+  });
 });

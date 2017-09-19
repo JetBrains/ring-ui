@@ -4,11 +4,15 @@ import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
+import Theme from '../global/theme';
+
 import styles from './tabs.css';
 import Tab from './tab';
 
 export default class Tabs extends PureComponent {
+  static Theme = Theme;
   static propTypes = {
+    theme: PropTypes.string,
     selected: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -16,14 +20,15 @@ export default class Tabs extends PureComponent {
   }
 
   static defaultProps = {
+    theme: Theme.LIGHT,
     onSelect() {}
   }
 
   handleSelect = memoize(key => () => this.props.onSelect(key));
 
   render() {
-    const {className, children, selected} = this.props;
-    const classes = classNames(styles.tabs, className);
+    const {className, children, selected, theme} = this.props;
+    const classes = classNames(styles.tabs, className, styles[theme]);
 
     return (
       <div className={classes}>
