@@ -46,7 +46,6 @@ export default class TagsInput extends Component {
     minPopupWidth: PropTypes.number,
     placeholder: PropTypes.string,
     canNotBeEmpty: PropTypes.bool,
-    modalShortcuts: PropTypes.bool,
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool
@@ -60,7 +59,6 @@ export default class TagsInput extends Component {
     maxPopupHeight: 500,
     minPopupWidth: 360,
     canNotBeEmpty: false,
-    modalShortcuts: false,
     disabled: false,
     autoOpen: false,
     renderOptimization: true
@@ -71,7 +69,6 @@ export default class TagsInput extends Component {
   state = {
     tags: [],
     suggestions: [],
-    shortcuts: false,
     loading: true,
     activeIndex: 0
   };
@@ -93,20 +90,6 @@ export default class TagsInput extends Component {
   }
 
   ngModelStateField = TagsInput.ngModelStateField;
-
-  getShortcutsProps() {
-    return {
-      map: {
-        backspace: (...args) => this.handleKeyDown(...args),
-        left: this.selectTag,
-        right: () => this.selectTag(true)
-      },
-      scope: () => this.constructor.getUID('ring-tags-input-'),
-      options: {
-        modal: this.props.modalShortcuts
-      }
-    };
-  }
 
   getInputNode() {
     if (!this.input) {
@@ -179,16 +162,7 @@ export default class TagsInput extends Component {
   };
 
   _focusHandler = () => {
-    this.setState({
-      shortcuts: true
-    });
     this.setActiveIndex(null);
-  };
-
-  _blurHandler = () => {
-    this.setState({
-      shortcuts: false
-    });
   };
 
   selectTag = moveForward => {
@@ -272,7 +246,6 @@ export default class TagsInput extends Component {
 
   render() {
     const classes = classNames(
-      'ring-js-shortcuts',
       'ring-tags-input',
       {
         'ring-tags-input_disabled': this.props.disabled
