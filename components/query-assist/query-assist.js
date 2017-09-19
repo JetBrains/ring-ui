@@ -139,7 +139,7 @@ export default class QueryAssist extends Component {
   };
 
   componentWillMount() {
-    this.setState({shortcuts: this.props.focus});
+    this.setState({shortcuts: !!this.props.focus});
   }
 
   componentDidMount() {
@@ -242,7 +242,7 @@ export default class QueryAssist extends Component {
   }
 
   setFocus(focus) {
-    this.setState({shortcuts: focus});
+    this.setState({shortcuts: !!focus});
 
     const isComponentFocused = Boolean(this.immediateState.focus);
 
@@ -304,7 +304,7 @@ export default class QueryAssist extends Component {
       this.props.onFocusChange({focus});
     }
 
-    this.setState({shortcuts: focus});
+    this.setState({shortcuts: !!focus});
   };
 
   getQuery() {
