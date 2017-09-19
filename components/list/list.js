@@ -6,7 +6,7 @@
 
 import 'dom4';
 import 'core-js/modules/es6.array.find';
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
@@ -18,7 +18,6 @@ import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 
 import './list.scss';
 import ListItem from './list__item';
@@ -75,7 +74,7 @@ function isItemType(listItemType, item) {
  * @extends {ReactComponent}
  * @example-file ./list.examples.html
  */
-export default class List extends RingComponentWithShortcuts {
+export default class List extends Component {
   static isItemType = isItemType;
 
   static ListProps = {
@@ -92,6 +91,7 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.string,
       PropTypes.number
     ]),
+    activeIndex: PropTypes.number,
     restoreActiveIndex: PropTypes.bool,
     activateSingleItem: PropTypes.bool,
     activateFirstItem: PropTypes.bool,
@@ -301,7 +301,7 @@ export default class List extends RingComponentWithShortcuts {
     });
   }
 
-  willMount() {
+  componentWillMount() {
     this.checkActivatableItems(this.props.data);
     if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
       this.setState({
@@ -312,7 +312,7 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps(props) {
+  componentWillReceiveProps(props) {
     this.toggleShortcuts(props);
 
     if (props.data) {
@@ -364,12 +364,12 @@ export default class List extends RingComponentWithShortcuts {
     }
   }
 
-  shouldUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextProps !== this.props ||
       Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
       this.virtualizedList.recomputeRowHeights();
     }
