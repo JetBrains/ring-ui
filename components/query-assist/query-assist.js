@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 import debounce from 'just-debounce-it';
@@ -9,7 +9,6 @@ import {SearchIcon, CloseIcon} from '../icon';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
@@ -97,7 +96,7 @@ function cleanText(text) {
  __icon__ `string=` Icon URI, Data URI is possible
 
  */
-export default class QueryAssist extends RingComponentWithShortcuts {
+export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
 
   static propTypes = {
@@ -164,7 +163,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     window.getSelection().removeAllRanges();
   }
 
-  didMount() {
+  componentDidMount() {
     const query = this.props.query || '';
 
     this.immediateState = {
@@ -205,7 +204,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  willReceiveProps({caret, delay, query}) {
+  componentWillReceiveProps({caret, delay, query}) {
     this.setupRequestHandler(delay);
     const shouldSetCaret = typeof caret === 'number';
 
@@ -227,11 +226,9 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     this.updateFocus(prevProps);
   }
-
-  componentWillUpdate() {}
 
   updateFocus({focus, caret}) {
     const isCaretChanged = caret !== this.props.caret;
@@ -731,7 +728,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     });
   }
 
-  shouldUpdate(props, state) {
+  shouldComponentUpdate(props, state) {
     return state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
       state.loading !== this.state.loading ||
