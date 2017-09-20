@@ -4,7 +4,7 @@
  * @description Displays a popup.
  */
 
-import React, {cloneElement} from 'react';
+import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
 import Portal from '@jetbrains/react-portal';
@@ -12,7 +12,6 @@ import classNames from 'classnames';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import {Listeners} from '../global/dom';
@@ -63,7 +62,7 @@ function deprecateString(old, replacement) {
  * @extends {ReactComponent}
  * @example-file ./popup.examples.html
  */
-export default class Popup extends RingComponentWithShortcuts {
+export default class Popup extends Component {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
@@ -207,7 +206,7 @@ export default class Popup extends RingComponentWithShortcuts {
     this.setShortcutsEnabled(this.props.shortcuts && !this.props.hidden);
   }
 
-  didMount() {
+  componentDidMount() {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -221,7 +220,7 @@ export default class Popup extends RingComponentWithShortcuts {
     this.setShortcutsEnabled(nextProps.shortcuts && !nextProps.hidden);
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
       const {hidden} = this.props;
 
@@ -233,7 +232,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  willUnmount() {
+  componentWillUnmount() {
     if (this.props.legacy) {
       legacyPopups.delete(this);
     }
