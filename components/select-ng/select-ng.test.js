@@ -35,6 +35,7 @@ describe('Select Ng', () => {
 
     scope.items = angular.copy(fakeItems);
     scope.selectedItem = scope.items[2];
+    scope.selectedItems = scope.items.slice(1);
 
     compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
   }));
@@ -274,14 +275,14 @@ describe('Select Ng', () => {
     });
 
     it('Should use "multiple" attribute and provide it to select', () => {
-      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="true" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="true" ng-model="selectedItems"></rg-select>');
 
       ctrl.selectInstance.props.multiple.should.be.true;
     });
 
     it('Should watch "multiple" and update select after change', () => {
       scope.selectMultiple = false;
-      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="selectMultiple" ng-model="selectedItem"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" multiple="selectMultiple" ng-model="selectedItems"></rg-select>');
 
       scope.selectMultiple = true;
       scope.$digest();

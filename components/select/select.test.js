@@ -1000,8 +1000,10 @@ describe('Select', () => {
 
     it('should redraw a popup in multiselect mode', () => {
       const instance = shallowSelect({
-        multiple: true
+        multiple: true,
+        selected: testData.slice(1)
       }).instance();
+
       sandbox.stub(instance, '_showPopup');
       instance._redrawPopup();
 
