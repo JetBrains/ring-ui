@@ -19,10 +19,11 @@ import './loader-inline.scss';
      </file>
 
      <file name="index.js" webpack="true">
+       import React from 'react';
        import {render} from 'react-dom';
        import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
 
-       render(Loader.factory(), document.getElementById('loader-inline'));
+       render(<Loader/>, document.getElementById('loader-inline'));
      </file>
    </example>
     <example name="Inline loader without React">
