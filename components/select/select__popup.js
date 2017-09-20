@@ -15,6 +15,7 @@ import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import SelectFilter from './select__filter';
 import './select-popup.scss';
@@ -167,15 +168,6 @@ export default class SelectPopup extends Component {
         disabled: shortcutsDisabled
       }
     });
-  }
-
-  getShortcutsProps() {
-    return {
-      map: {
-        tab: this.tabPress
-      },
-      scope: getUID('select-popup-')
-    };
   }
 
   listOnMouseOut = () => {
@@ -331,6 +323,12 @@ export default class SelectPopup extends Component {
     this.popup = el;
   };
 
+  shortcutsScope = getUID('select-popup-');
+
+  shortcutsMap = {
+    tab: this.tabPress
+  };
+
   render() {
     const classes = classNames(
       'ring-select-popup',
@@ -354,6 +352,13 @@ export default class SelectPopup extends Component {
         onMouseDown={this.mouseDownHandler}
         target={this.props.ringPopupTarget}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         {this.getFilterWithTags()}
         {this.getList()}
         {this.getBottomLine()}
