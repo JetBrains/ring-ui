@@ -80,6 +80,7 @@ export default class Popup extends Component {
     dontCloseOnAnchorClick: PropTypes.bool,
     shortcuts: PropTypes.bool,
     keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
+    'data-test': PropTypes.string,
 
     directions: PropTypes.arrayOf(PropTypes.string),
     autoPositioning: PropTypes.bool,
@@ -171,29 +172,9 @@ export default class Popup extends Component {
     return render(cloned, wrapperElement, onRender);
   }
 
-  listeners = new Listeners();
-  redrawScheduler = scheduleRAF();
-  uid = getUID('popup-');
-
-  calculateDisplay = prevState => ({
-    ...prevState,
-    display: this.props.hidden
-      ? Display.SHOWING
-      : Display.SHOWN
-  });
-
   state = {
     display: Display.SHOWING
   };
-
-  getShortcutsProps() {
-    return {
-      map: {
-        esc: this._onEscPress
-      },
-      scope: this.uid
-    };
-  }
 
   getChildContext() {
     return {
@@ -201,7 +182,6 @@ export default class Popup extends Component {
     };
   }
 
-  /** @override */
   componentWillMount() {
     this.setShortcutsEnabled(this.props.shortcuts && !this.props.hidden);
   }
@@ -215,7 +195,6 @@ export default class Popup extends Component {
     }
   }
 
-  /** @override */
   componentWillUpdate(nextProps) {
     this.setShortcutsEnabled(nextProps.shortcuts && !nextProps.hidden);
   }
@@ -240,6 +219,26 @@ export default class Popup extends Component {
     this.popup = null;
   }
 
+  listeners = new Listeners();
+  redrawScheduler = scheduleRAF();
+  uid = getUID('popup-');
+
+  calculateDisplay = prevState => ({
+    ...prevState,
+    display: this.props.hidden
+      ? Display.SHOWING
+      : Display.SHOWN
+  });
+
+  getShortcutsProps() {
+    return {
+      map: {
+        esc: this._onEscPress
+      },
+      scope: this.uid
+    };
+  }
+
   portalRef = el => {
     this.parent = el && el.parentElement;
     if (el && this.context.parentPopupUid) {
@@ -255,49 +254,6 @@ export default class Popup extends Component {
   containerRef = el => {
     this.container = el;
   };
-
-  render() {
-    const {
-      className, hidden, attached, keepMounted, legacy, cutEdge, target,
-      onMouseDown, onMouseUp, onMouseOver, onMouseOut
-    } = this.props;
-    const showing = this.state.display === Display.SHOWING;
-
-    const classes = classNames(className, styles.popup, {
-      [styles.attached]: attached || legacy && cutEdge !== false,
-      [styles.hidden]: hidden,
-      [styles.showing]: showing
-    });
-
-    return (
-      <span
-        ref={this.portalRef}
-      >
-        <Portal
-          isOpen={keepMounted || !hidden}
-          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
-        >
-          <div
-            data-portaltarget={this.uid}
-            ref={this.containerRef}
-            onMouseOver={onMouseOver}
-            onMouseOut={onMouseOut}
-          >
-            <div
-              data-test={this.props['data-test']}
-              data-test-shown={!hidden && !showing}
-              ref={this.popupRef}
-              className={classes}
-              onMouseDown={onMouseDown}
-              onMouseUp={onMouseUp}
-            >
-              {this.getInternalContent()}
-            </div>
-          </div>
-        </Portal>
-      </span>
-    );
-  }
 
   position() {
     const positionProps = positionPropKeys.reduce((acc, key) => {
@@ -477,5 +433,48 @@ export default class Popup extends Component {
 
   getInternalContent() {
     return this.props.children;
+  }
+
+  render() {
+    const {
+      className, hidden, attached, keepMounted, legacy, cutEdge, target,
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut
+    } = this.props;
+    const showing = this.state.display === Display.SHOWING;
+
+    const classes = classNames(className, styles.popup, {
+      [styles.attached]: attached || legacy && cutEdge !== false,
+      [styles.hidden]: hidden,
+      [styles.showing]: showing
+    });
+
+    return (
+      <span
+        ref={this.portalRef}
+      >
+        <Portal
+          isOpen={keepMounted || !hidden}
+          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
+        >
+          <div
+            data-portaltarget={this.uid}
+            ref={this.containerRef}
+            onMouseOver={onMouseOver}
+            onMouseOut={onMouseOut}
+          >
+            <div
+              data-test={this.props['data-test']}
+              data-test-shown={!hidden && !showing}
+              ref={this.popupRef}
+              className={classes}
+              onMouseDown={onMouseDown}
+              onMouseUp={onMouseUp}
+            >
+              {this.getInternalContent()}
+            </div>
+          </div>
+        </Portal>
+      </span>
+    );
   }
 }
