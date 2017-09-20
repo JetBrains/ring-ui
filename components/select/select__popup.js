@@ -2,10 +2,9 @@
  * @description Displays a popup with select's options.
  */
 
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -23,7 +22,7 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-export default class SelectPopup extends RingComponentWithShortcuts {
+export default class SelectPopup extends Component {
   isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
 
   static defaultProps = {
@@ -151,11 +150,11 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     });
   }
 
-  didMount() {
+  componentDidMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
   }
 
-  willReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.hidden !== this.props.hidden) {
       this.setState({
         popupShortcuts: !nextProps.hidden,
@@ -164,7 +163,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     }
   }
 
-  willUnmount() {
+  componentWillUnmount() {
     window.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
