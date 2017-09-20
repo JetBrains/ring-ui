@@ -27,7 +27,9 @@ export default class Dropdown extends Component {
     hoverShowTimeOut: PropTypes.number,
     hoverHideTimeOut: PropTypes.number,
     onShow: PropTypes.func,
-    onHide: PropTypes.func
+    onHide: PropTypes.func,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func
   };
 
   static defaultProps = {
@@ -37,7 +39,9 @@ export default class Dropdown extends Component {
     hoverShowTimeOut: 300,
     hoverHideTimeOut: 600,
     onShow: () => {},
-    onHide: () => {}
+    onHide: () => {},
+    onMouseEnter: () => {},
+    onMouseLeave: () => {}
   };
 
   state = {show: this.props.initShown};
@@ -71,8 +75,9 @@ export default class Dropdown extends Component {
     this._toggle(false);
   };
 
-  onMouseEnter = () => {
+  onMouseEnter = event => {
     this._clearTimer();
+    this.props.onMouseEnter(event);
 
     this.hoverTimer = setTimeout(() => {
       if (!this.state.show) {
@@ -81,7 +86,8 @@ export default class Dropdown extends Component {
     }, this.props.hoverShowTimeOut);
   };
 
-  onMouseLeave = () => {
+  onMouseLeave = event => {
+    this.props.onMouseLeave(event);
     if (this.pinnedByClick) {
       return;
     }
