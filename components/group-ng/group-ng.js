@@ -25,7 +25,15 @@
   </example>
 */
 
-import angularComponentFactory from '../global/angular-component-factory';
-import GroupNg from '../group/group';
+import angular from 'angular';
 
-export default angularComponentFactory(GroupNg, 'Group').name;
+import styles from '../group/group.css';
+
+const angularModule = angular.module('Ring.group', []);
+
+angularModule.component('rgGroup', {
+  transclude: true,
+  template: `<span ng-transclude class="${styles.group}"></span>`
+});
+
+export default angularModule.name;

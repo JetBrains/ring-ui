@@ -25,7 +25,7 @@ import styles from './avatar.css';
        :global(.avatar-demo) {
          display: flex;
          justify-content: space-between;
-         width: 150px;
+         width: 200px;
          margin-bottom: 16px;
        }
      </file>
@@ -73,7 +73,9 @@ export const Size = {
   Size20: 20,
   Size24: 24,
   Size32: 32,
-  Size40: 40
+  Size40: 40,
+  Size48: 48,
+  Size56: 56
 };
 
 export default class Avatar extends PureComponent {
