@@ -15,6 +15,7 @@ import 'core-js/modules/es7.array.includes';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import {Listeners} from '../global/dom';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import position, {
   DEFAULT_DIRECTIONS,
@@ -173,6 +174,7 @@ export default class Popup extends Component {
   }
 
   state = {
+    shortcuts: this.props.shortcuts && !this.props.hidden,
     display: Display.SHOWING
   };
 
@@ -180,10 +182,6 @@ export default class Popup extends Component {
     return {
       parentPopupUid: this.uid
     };
-  }
-
-  componentWillMount() {
-    this.setShortcutsEnabled(this.props.shortcuts && !this.props.hidden);
   }
 
   componentDidMount() {
@@ -196,7 +194,10 @@ export default class Popup extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    this.setShortcutsEnabled(nextProps.shortcuts && !nextProps.hidden);
+    const shortcuts = nextProps.shortcuts && !nextProps.hidden;
+    if (this.state.shortcuts !== shortcuts) {
+      this.setState({shortcuts});
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -230,16 +231,8 @@ export default class Popup extends Component {
       : Display.SHOWN
   });
 
-  getShortcutsProps() {
-    return {
-      map: {
-        esc: this._onEscPress
-      },
-      scope: this.uid
-    };
-  }
-
   portalRef = el => {
+    this.node = el;
     this.parent = el && el.parentElement;
     if (el && this.context.parentPopupUid) {
       this._redraw();
@@ -435,6 +428,12 @@ export default class Popup extends Component {
     return this.props.children;
   }
 
+  shortcutsScope = this.uid;
+
+  shortcutsMap = {
+    esc: this._onEscPress
+  };
+
   render() {
     const {
       className, hidden, attached, keepMounted, legacy, cutEdge, target,
@@ -452,6 +451,13 @@ export default class Popup extends Component {
       <span
         ref={this.portalRef}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         <Portal
           isOpen={keepMounted || !hidden}
           target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
