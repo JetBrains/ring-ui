@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import style from './badge.css';
 
@@ -14,13 +12,18 @@ import style from './badge.css';
  * @extends {RingComponent}
  * @example-file ./badge.examples.html
  */
-export default class Badge extends RingComponent {
+export default class Badge extends PureComponent {
   static propTypes = {
     gray: PropTypes.bool,
     valid: PropTypes.bool,
     invalid: PropTypes.bool,
     disabled: PropTypes.bool,
-    className: PropTypes.string
+    className: PropTypes.string,
+    children: PropTypes.node
+  };
+
+  static defaultProps = {
+    'data-test': 'ring-badge'
   };
 
   render() {
@@ -52,7 +55,6 @@ export default class Badge extends RingComponent {
       <span
         {...props}
         className={classes}
-        data-test="ring-badge"
       >
         {children}
       </span>

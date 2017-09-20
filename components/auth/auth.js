@@ -199,8 +199,6 @@ export default class Auth {
    * that should be restored after returning back from auth server.
    */
   async init() {
-    this._saveCurrentService();
-
     if (this.config.windowLogin === true) {
       this._storage.onMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, () => {
         if (this._authDialogService !== undefined) {
@@ -394,8 +392,10 @@ export default class Auth {
     this._showAuthDialog(params);
   }
 
-  _showAuthDialog({nonInteractive} = {}) {
+  async _showAuthDialog({nonInteractive} = {}) {
     const {windowLogin} = this.config;
+
+    await this._saveCurrentService();
 
     this._createInitDeferred();
 

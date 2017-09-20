@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
+import PropTypes from 'prop-types';
 
 import './loader-inline.scss';
 
@@ -40,7 +39,11 @@ import './loader-inline.scss';
    </example>
  */
 
-export default class LoaderInline extends RingComponent {
+export default class LoaderInline extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string
+  };
+
   render() {
     const classes = classNames(
       'ring-loader-inline',

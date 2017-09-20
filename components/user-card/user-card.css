@@ -1,0 +1,26 @@
+@value unit, text-color from  "../global/global.css";
+
+.userCardSpaced {
+  padding: calc(unit * 2) calc(unit * 2);
+}
+
+.userInformationContainer {
+  display: flex;
+  align-items: center;
+}
+
+.userInformation {
+  padding-left: 12px;
+
+  text-align: left;
+
+  color: text-color;
+
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 600;
+}
