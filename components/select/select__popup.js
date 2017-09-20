@@ -1,6 +1,7 @@
 /**
  * @description Displays a popup with select's options.
  */
+/* eslint-disable react/prop-types */
 
 import React, {Component} from 'react';
 import classNames from 'classnames';
@@ -23,8 +24,6 @@ function noop() {}
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
 export default class SelectPopup extends Component {
-  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
-
   static defaultProps = {
     data: [],
     activeIndex: null,
@@ -52,6 +51,25 @@ export default class SelectPopup extends Component {
     },
     tagsActiveIndex: null
   };
+
+  componentDidMount() {
+    window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hidden !== this.props.hidden) {
+      this.setState({
+        popupShortcuts: !nextProps.hidden,
+        shortcuts: !nextProps.hidden && this.props.filter
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
 
   popupFilterShortcuts = {
     map: {
@@ -135,6 +153,7 @@ export default class SelectPopup extends Component {
   }
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+
   popupFilterOnBlur = () => {
     if (this.state.tagsActiveIndex === null) {
       this._togglePopupFilterShortcuts(true);
@@ -148,23 +167,6 @@ export default class SelectPopup extends Component {
         disabled: shortcutsDisabled
       }
     });
-  }
-
-  componentDidMount() {
-    window.document.addEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.hidden !== this.props.hidden) {
-      this.setState({
-        popupShortcuts: !nextProps.hidden,
-        shortcuts: !nextProps.hidden && this.props.filter
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    window.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
   getShortcutsProps() {
