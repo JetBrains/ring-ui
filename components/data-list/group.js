@@ -162,10 +162,10 @@ export default class Group extends PureComponent {
     if (showMoreLessButton === moreLessButtonStates.MORE ||
       showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
       moreLessButton = (
-        <Text comment={true}>
+        <Text comment>
           <Link
-            inherit={true}
-            pseudo={true}
+            inherit
+            pseudo
             onClick={this.onShowMore}
           >Show more</Link>
           {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
@@ -175,10 +175,10 @@ export default class Group extends PureComponent {
       );
     } else if (showMoreLessButton === moreLessButtonStates.LESS) {
       moreLessButton = (
-        <Text comment={true}>
+        <Text comment>
           <Link
-            inherit={true}
-            pseudo={true}
+            inherit
+            pseudo
             onClick={this.onShowLess}
           >Show less</Link>
         </Text>

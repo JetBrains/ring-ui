@@ -32,7 +32,7 @@ describe('Content Layout', () => {
 
   it('should render sidebar on the right', () => {
     const component = mount(<ContentLayout>
-      <Sidebar right={true}>{'In sidebar'}</Sidebar>
+      <Sidebar right>{'In sidebar'}</Sidebar>
       <div>{'Foo'}</div>
     </ContentLayout>);
 

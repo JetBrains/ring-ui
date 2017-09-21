@@ -67,7 +67,7 @@ export default class Profile extends PureComponent {
     if (user.guest) {
       return (
         <Button
-          blue={true}
+          blue
           className={classNames(styles.loginButton, className)}
           data-test="ring-header-login-button"
           disabled={loading}
