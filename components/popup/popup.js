@@ -284,7 +284,11 @@ export default class Popup extends Component {
     }
   };
 
-  _redraw = () => this.redrawScheduler(this._updatePosition);
+  _redraw = () => {
+    if (this.isVisible()) {
+      this.redrawScheduler(this._updatePosition);
+    }
+  };
 
   _legacyOnly(method, message = Messages.SHOW) {
     if (!this.props.legacy) {

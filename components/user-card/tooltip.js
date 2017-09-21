@@ -8,6 +8,8 @@ import Popup from '../popup/popup';
 import UserCard from './card';
 import styles from './user-card.css';
 
+const DEFAULT_TIMEOUT = 300;
+
 export default class UserCardTooltip extends Component {
   static propTypes = {
     className: PropTypes.string,
@@ -18,7 +20,11 @@ export default class UserCardTooltip extends Component {
   };
 
   static defaultProps = {
-    renderNoUser: () => null
+    renderNoUser: () => null,
+    dropdownProps: {
+      hoverShowTimeOut: DEFAULT_TIMEOUT,
+      hoverHideTimeOut: DEFAULT_TIMEOUT
+    }
   };
 
   renderUserCard() {
@@ -43,7 +49,7 @@ export default class UserCardTooltip extends Component {
         clickMode={false}
         {...dropdownProps}
       >
-        <Popup>
+        <Popup attached={false}>
           {user ? this.renderUserCard() : renderNoUser()}
         </Popup>
       </Dropdown>
