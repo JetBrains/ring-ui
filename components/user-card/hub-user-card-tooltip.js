@@ -6,6 +6,7 @@ import HTTP from '../http/http';
 import LoaderInline from '../loader-inline/loader-inline';
 
 import UserCardTooltip from './tooltip';
+import styles from './user-card.css';
 
 const fields = 'id,name,login,profile(email/email,avatar/url)';
 
@@ -52,7 +53,7 @@ export default class HubUserCardTooltip extends Component {
   getHref = user => `${this.props.auth.config.serverUri}users/${user.id}`;
 
   renderNoUser = () => (
-    this.state.loading ? <LoaderInline/> : null
+    this.state.loading ? <LoaderInline class={styles.userCardSpaced}/> : null
   );
 
   render() {
@@ -61,7 +62,8 @@ export default class HubUserCardTooltip extends Component {
     const {children, auth, userId, userDataSource, ...restProps} = this.props;
 
     const dropdownProps = {
-      onMouseEnter: this.loadUser
+      onMouseEnter: this.loadUser,
+      ...UserCardTooltip.defaultProps.dropdownProps
     };
 
     return (
