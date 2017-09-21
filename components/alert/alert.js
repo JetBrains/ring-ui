@@ -155,7 +155,7 @@ export default class Alert extends PureComponent {
         {this.props.children}
         {this.props.count > 1 &&
           <Badge
-            gray={true}
+            gray
             className={styles.badge}
           >{this.props.count}</Badge>
         }
