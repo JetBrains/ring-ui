@@ -49,7 +49,7 @@ export default class UserCardTooltip extends Component {
         clickMode={false}
         {...dropdownProps}
       >
-        <Popup>
+        <Popup attached={false}>
           {user ? this.renderUserCard() : renderNoUser()}
         </Popup>
       </Dropdown>
