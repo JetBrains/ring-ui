@@ -2,9 +2,9 @@ import React, {createElement} from 'react';
 import {findDOMNode, render} from 'react-dom';
 
 /**
- * Creates wrapper around component with "rerender" meothod
+ * Wraps a component to add a "rerender" method
  * @param ComposedComponent
- * @param captureNode, should wrapper capture this.node itself. Set to false if component already has "node" property captured
+ * @param captureNode, whether the wrapper should capture this.node itself. Set to false if the component already has "node" property captured
  * @returns {Rerenderer}
  */
 export default function rerenderHOC(ComposedComponent, {captureNode} = {captureNode: true}) {

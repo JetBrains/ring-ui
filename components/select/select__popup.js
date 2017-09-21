@@ -70,7 +70,7 @@ export default class SelectPopup extends Component {
     window.document.removeEventListener('mouseup', this.mouseUpHandler);
   }
 
-  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
+  isClickingPopup = false; // This flag is set to true while an item in the popup is being clicked
 
   popupFilterShortcuts = {
     map: {
@@ -304,8 +304,8 @@ export default class SelectPopup extends Component {
           data={this.props.data}
           activeIndex={this.props.activeIndex}
           ref={this.listRef}
-          restoreActiveIndex
-          activateFirstItem
+          restoreActiveIndex={true}
+          activateFirstItem={true}
           onSelect={this.onListSelect}
           onMouseOut={this.listOnMouseOut}
           onScrollToBottom={this.props.onLoadMore}
@@ -341,8 +341,8 @@ export default class SelectPopup extends Component {
         hidden={this.props.hidden}
         attached={false}
         className={classes}
-        dontCloseOnAnchorClick
-        keepMounted
+        dontCloseOnAnchorClick={true}
+        keepMounted={true}
         anchorElement={this.props.anchorElement}
         minWidth={this.props.minWidth}
         onCloseAttempt={this.props.onCloseAttempt}
