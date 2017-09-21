@@ -9,6 +9,7 @@ import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import '../input-size/input-size.scss';
 import memoize from '../global/memoize';
+import rerenderHOC from '../global/rerender-hoc';
 
 import './tags-input.scss';
 
@@ -293,3 +294,6 @@ export default class TagsInput extends Component {
       </div>);
   }
 }
+
+export const RerenderableTagsInput = rerenderHOC(TagsInput, {captureNode: false});
+

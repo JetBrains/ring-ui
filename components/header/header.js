@@ -2,6 +2,8 @@ import React, {Children, Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import rerenderHOC from '../global/rerender-hoc';
+
 import Tray from './tray';
 import styles from './header.css';
 
@@ -43,6 +45,7 @@ export default class Header extends Component {
   }
 }
 
+export const RerenderableHeader = rerenderHOC(Header);
 export {Tray};
 export {default as TrayIcon} from './tray-icon';
 export {default as Profile} from './profile';
