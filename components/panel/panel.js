@@ -25,7 +25,7 @@ import './panel.scss';
        render(
          (
            <Panel>
-             <Button blue={true}>{'Apply changes'}</Button>
+             <Button blue>{'Apply changes'}</Button>
              <Button>{'Cancel'}</Button>
            </Panel>
          ),
