@@ -12,7 +12,7 @@ import SelectPopup from './select__popup';
 describe('SelectPopup', () => {
   const factory = props => (
     <SelectPopup
-      filter={true}
+      filter
       onSelect={sandbox.spy()}
       onFilter={sandbox.spy()}
       onCloseAttempt={sandbox.spy()}

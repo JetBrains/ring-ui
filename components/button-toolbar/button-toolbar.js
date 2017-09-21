@@ -28,7 +28,7 @@ import './button-toolbar.scss';
 
       const buttonToolbarDemo = (
         <ButtonToolbar>
-          <Button primary={true} delayed={true}>Run</Button>
+          <Button primary delayed>Run</Button>
           <ButtonGroup>
             <Button>Button one</Button>
             <Button>Button two</Button>

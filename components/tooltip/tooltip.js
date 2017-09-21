@@ -122,7 +122,7 @@ export default class Tooltip extends Component {
           className="ring-tooltip"
           attached={false}
           top={4}
-          dontCloseOnAnchorClick={true}
+          dontCloseOnAnchorClick
           ref={this.popupRef}
           {...popupProps}
         >{title}</Popup>

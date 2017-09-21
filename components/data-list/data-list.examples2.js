@@ -49,7 +49,7 @@ class DataListDemo extends PureComponent {
         selection={this.state.selection}
         onSelect={this.onSelect}
 
-        groupsAreCollapsible={true}
+        groupsAreCollapsible
         onGroupCollapse={this.onGroupCollapse}
         onGroupExpand={this.onGroupExpand}
         isGroupCollapsed={this.isGroupCollapsed}
