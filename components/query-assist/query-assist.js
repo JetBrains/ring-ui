@@ -14,6 +14,7 @@ import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
+import rerenderHOC from '../global/rerender-hoc';
 
 import './query-assist.scss';
 import '../input/input.scss';
@@ -885,3 +886,5 @@ export default class QueryAssist extends Component {
     );
   }
 }
+
+export const RerenderableQueryAssist = rerenderHOC(QueryAssist, {captureNode: false});

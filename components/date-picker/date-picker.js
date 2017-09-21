@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import rerenderHOC from '../global/rerender-hoc';
+
 import {
   CalendarIcon,
   CloseIcon
@@ -176,4 +178,6 @@ export default class DatePicker extends Component {
     );
   }
 }
+
+export const RerenderableDatePicker = rerenderHOC(DatePicker);
 
