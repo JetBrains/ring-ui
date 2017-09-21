@@ -165,8 +165,8 @@ export default class DatePicker extends Component {
         <Popup
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}
-          dontCloseOnAnchorClick={true}
-          keepMounted={true}
+          dontCloseOnAnchorClick
+          keepMounted
           className={popupClassName}
         >
           <DatePopup

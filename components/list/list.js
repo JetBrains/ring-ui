@@ -518,14 +518,14 @@ export default class List extends Component {
     scrollTop
   }) {
     return (
-      <AutoSizer disableHeight={true}>
+      <AutoSizer disableHeight>
         {({width}) => (
           <VirtualizedList
             ref={this.virtualizedListRef}
             className="ring-list__i"
             autoHeight={autoHeight}
             style={maxHeight ? {maxHeight, height: 'auto'} : {}}
-            autoContainerWidth={true}
+            autoContainerWidth
             height={height}
             width={width}
             isScrolling={isScrolling}

@@ -45,7 +45,7 @@ export default class UserCardTooltip extends Component {
     return (
       <Dropdown
         anchor={children}
-        hoverMode={true}
+        hoverMode
         clickMode={false}
         {...dropdownProps}
       >
