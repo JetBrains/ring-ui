@@ -206,8 +206,16 @@ export default class Group extends PureComponent {
       }
     }
 
+    const groupIsEmpty = !items.length || (collapsible && collapsed);
+
     return (
-      <li>
+      <li
+        className={classNames(styles.group, {
+          [styles.groupShifted]: selectable && collapserExpander,
+          [styles.groupEmpty]: groupIsEmpty,
+          [styles.groupFocused]: showFocus
+        })}
+      >
         <Title
           title={title}
           focused={showFocus}
@@ -219,12 +227,8 @@ export default class Group extends PureComponent {
           onSelect={this.onSelect}
         />
 
-        {!collapsible || (items.length && !collapsed) ? (
-          <ul
-            className={classNames(styles.group, {
-              [styles.groupShifted]: selectable && collapserExpander
-            })}
-          >
+        {!groupIsEmpty ? (
+          <ul className={styles.groupContent}>
             {items.map(item => this.renderItem(item))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
