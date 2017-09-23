@@ -304,8 +304,8 @@ export default class SelectPopup extends Component {
           data={this.props.data}
           activeIndex={this.props.activeIndex}
           ref={this.listRef}
-          restoreActiveIndex={true}
-          activateFirstItem={true}
+          restoreActiveIndex
+          activateFirstItem
           onSelect={this.onListSelect}
           onMouseOut={this.listOnMouseOut}
           onScrollToBottom={this.props.onLoadMore}
@@ -341,8 +341,8 @@ export default class SelectPopup extends Component {
         hidden={this.props.hidden}
         attached={false}
         className={classes}
-        dontCloseOnAnchorClick={true}
-        keepMounted={true}
+        dontCloseOnAnchorClick
+        keepMounted
         anchorElement={this.props.anchorElement}
         minWidth={this.props.minWidth}
         onCloseAttempt={this.props.onCloseAttempt}
