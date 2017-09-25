@@ -126,7 +126,7 @@ export default class DatePicker extends PureComponent {
         anchor={text}
       >
         <Popup
-          keepMounted={true}
+          keepMounted
           className={popupClassName}
           ref={this.popupRef}
           directions={[

@@ -63,7 +63,7 @@ export default [
           <span>
             <Link href="#">JetProfile</Link>
             <span> </span>
-            <Badge gray={true}>duplicate</Badge>
+            <Badge gray>duplicate</Badge>
           </span>
         )
       },
@@ -229,7 +229,7 @@ export const moreItems = [
       <span>
         <Link href="#">More item 1</Link>
         <span> </span>
-        <Badge gray={true}>duplicate</Badge>
+        <Badge gray>duplicate</Badge>
       </span>
     )
   },
@@ -241,7 +241,7 @@ export const moreItems = [
       <span>
         <Link href="#">More item 2</Link>
         <span> </span>
-        <Badge gray={true}>duplicate</Badge>
+        <Badge gray>duplicate</Badge>
       </span>
     )
   }

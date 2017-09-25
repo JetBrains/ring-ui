@@ -322,8 +322,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
           data={this.props.data}
           activeIndex={this.props.activeIndex}
           ref={this.listRef}
-          restoreActiveIndex={true}
-          activateFirstItem={true}
+          restoreActiveIndex
+          activateFirstItem
           onSelect={this.onListSelect}
           onMouseOut={this.listOnMouseOut}
           onScrollToBottom={this.props.onLoadMore}
@@ -359,8 +359,8 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         hidden={this.props.hidden}
         attached={this.props.isInputMode}
         className={classes}
-        dontCloseOnAnchorClick={true}
-        keepMounted={true}
+        dontCloseOnAnchorClick
+        keepMounted
         anchorElement={this.props.anchorElement}
         minWidth={this.props.minWidth}
         onCloseAttempt={this.props.onCloseAttempt}

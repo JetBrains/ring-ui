@@ -117,7 +117,7 @@
               selectable={selectable}
               isItemSelectable={this.isItemSelectable}
               draggable={draggable}
-              autofocus={true}
+              autofocus
             />
 
             <Grid>
@@ -127,7 +127,7 @@
                     total={total}
                     pageSize={pageSize}
                     currentPage={page}
-                    disablePageSizeSelector={true}
+                    disablePageSizeSelector
                     onPageChange={this.onPageChange}
                   />
                 </Col>
@@ -259,7 +259,7 @@
               data={mock.countries}
               columns={this.columns2}
               caption="Countries"
-              autofocus={true}
+              autofocus
               selection={this.selection2}
             />
           </MultiTable>

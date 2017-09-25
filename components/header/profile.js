@@ -68,7 +68,7 @@ export default class Profile extends PureComponent {
           {...props}
           className={classNames(styles.profileEmpty, className)}
         >
-          <Avatar size={size} round={true}/>
+          <Avatar size={size} round/>
         </div>
       );
     }
@@ -80,7 +80,7 @@ export default class Profile extends PureComponent {
         >
           <Button
             theme={Button.Theme.DARK}
-            primary={true}
+            primary
             data-test="ring-header-login-button"
             disabled={loading}
             loader={loading}
@@ -101,7 +101,7 @@ export default class Profile extends PureComponent {
         <Avatar
           url={user.profile && user.profile.avatar && user.profile.avatar.url}
           size={size}
-          round={true}
+          round
         />
       </div>
     );

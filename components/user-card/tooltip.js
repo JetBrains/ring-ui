@@ -8,43 +8,49 @@ import Popup from '../popup/popup';
 import UserCard from './card';
 import styles from './user-card.css';
 
+const DEFAULT_TIMEOUT = 300;
+
 export default class UserCardTooltip extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
     dropdownProps: PropTypes.object,
     user: PropTypes.object,
+    renderUserCard: PropTypes.func,
     renderNoUser: PropTypes.func
   };
 
   static defaultProps = {
-    renderNoUser: () => null
+    renderUserCard: props => {
+      const {className,
+        children, renderUserCard, renderNoUser, dropdownProps, ...restProps} = props; //eslint-disable-line no-unused-vars
+
+      return (
+        <UserCard
+          {...restProps}
+          className={classNames(styles.userCardSpaced, className)}
+        />
+      );
+    },
+    renderNoUser: () => null,
+    dropdownProps: {
+      hoverShowTimeOut: DEFAULT_TIMEOUT,
+      hoverHideTimeOut: DEFAULT_TIMEOUT
+    }
   };
 
-  renderUserCard() {
-    // eslint-disable-next-line no-unused-vars
-    const {className, children, renderNoUser, dropdownProps, ...props} = this.props;
-
-    return (
-      <UserCard
-        {...props}
-        className={classNames(styles.userCardSpaced, className)}
-      />
-    );
-  }
-
   render() {
-    const {children, user, renderNoUser, dropdownProps} = this.props;
+    const {children, user, renderUserCard, renderNoUser, dropdownProps} = this.props;
 
     return (
       <Dropdown
         anchor={children}
-        hoverMode={true}
+        hoverMode
         clickMode={false}
         {...dropdownProps}
       >
-        <Popup>
-          {user ? this.renderUserCard() : renderNoUser()}
+        <Popup attached={false}>
+          {user ? renderUserCard(this.props) : renderNoUser()}
         </Popup>
       </Dropdown>
     );
