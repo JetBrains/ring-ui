@@ -37,20 +37,25 @@ export default class HubUserCardTooltip extends Component {
       return;
     }
 
-    const {userId, userDataSource} = this.props;
+    const {userId, userDataSource, auth} = this.props;
 
     try {
       this.setState({loading: true});
       const user = await (userDataSource ? userDataSource() : this.defaultUserDataSource(userId));
-      this.setState({user});
+      const userForCard = {
+        name: user.name,
+        login: user.login,
+        email: user.profile.email && user.profile.email.email,
+        avatarUrl: user.profile.avatar.url,
+        href: `${auth.config.serverUri}users/${user.id}`
+      };
+      this.setState({user: userForCard});
     } catch (e) {
       // Skip it
     } finally {
       this.setState({loading: false});
     }
   };
-
-  getHref = user => `${this.props.auth.config.serverUri}users/${user.id}`;
 
   renderNoUser = () => (
     this.state.loading ? <LoaderInline class={styles.userCardSpaced}/> : null
@@ -71,7 +76,6 @@ export default class HubUserCardTooltip extends Component {
         user={user}
         renderNoUser={this.renderNoUser}
         dropdownProps={dropdownProps}
-        getHref={this.getHref}
         {...restProps}
       >
         {children}
