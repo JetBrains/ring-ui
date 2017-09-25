@@ -44,35 +44,38 @@ export default class Dropdown extends Component {
     onMouseLeave: () => {}
   };
 
-  state = {show: this.props.initShown};
-
-  pinnedByClick = false;
+  state = {
+    show: this.props.initShown,
+    pinned: false
+  };
 
   onClick = () => {
-    const {show} = this.state;
+    const {show, pinned} = this.state;
+    let nextPinned = pinned;
 
     if (this.props.hoverMode) {
-      if (!this.pinnedByClick) {
-        this.pinnedByClick = true;
+      if (!pinned) {
+        nextPinned = true;
 
         if (show) {
+          this.setState({pinned: true});
           return;
         }
       } else {
-        this.pinnedByClick = false;
+        nextPinned = false;
       }
     }
 
-    this._toggle(!show);
+    this._toggle(!show, nextPinned);
   };
 
   onChildCloseAttempt = () => {
-    const {clickMode, hoverMode} = this.props;
-    if (clickMode && hoverMode) {
-      this.pinnedByClick = false;
+    let nextPinned = this.state.pinned;
+    if (this.props.hoverMode) {
+      nextPinned = false;
     }
 
-    this._toggle(false);
+    this._toggle(false, nextPinned);
   };
 
   onMouseEnter = event => {
@@ -88,7 +91,7 @@ export default class Dropdown extends Component {
 
   onMouseLeave = event => {
     this.props.onMouseLeave(event);
-    if (this.pinnedByClick) {
+    if (this.state.pinned) {
       return;
     }
 
@@ -101,8 +104,14 @@ export default class Dropdown extends Component {
     }, this.props.hoverHideTimeOut);
   };
 
-  _toggle(show) {
-    this.setState({show}, () => (show ? this.props.onShow() : this.props.onHide()));
+  onContextMenu = () => {
+    if (!this.state.pinned) {
+      this.setState({pinned: true});
+    }
+  };
+
+  _toggle(show, pinned = this.state.pinned) {
+    this.setState({show, pinned}, () => (show ? this.props.onShow() : this.props.onHide()));
   }
 
   _clearTimer() {
@@ -113,7 +122,7 @@ export default class Dropdown extends Component {
   }
 
   render() {
-    const {show} = this.state;
+    const {show, pinned} = this.state;
     const {
       initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut, // eslint-disable-line no-unused-vars
       children, anchor, className, activeClassName, hoverMode, clickMode, ...restProps
@@ -130,7 +139,7 @@ export default class Dropdown extends Component {
         anchorElement = (<Anchor>{anchor}</Anchor>);
         break;
       case 'function':
-        anchorElement = anchor({active: show});
+        anchorElement = anchor({active: show, pinned});
         break;
 
       default:
@@ -144,6 +153,7 @@ export default class Dropdown extends Component {
         onClick={clickMode ? this.onClick : undefined}
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
+        onContextMenu={hoverMode ? this.onContextMenu : undefined}
         className={classes}
       >
         {anchorElement}
@@ -152,7 +162,8 @@ export default class Dropdown extends Component {
           onCloseAttempt: this.onChildCloseAttempt,
           dontCloseOnAnchorClick: true,
           onMouseOver: hoverMode ? this.onMouseEnter : undefined,
-          onMouseOut: hoverMode ? this.onMouseLeave : undefined
+          onMouseOut: hoverMode ? this.onMouseLeave : undefined,
+          onContextMenu: hoverMode ? this.onContextMenu : undefined
         })}
       </div>
     );

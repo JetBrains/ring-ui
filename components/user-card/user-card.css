@@ -17,10 +17,14 @@
   color: text-color;
 
   font-size: 13px;
-  line-height: 20px;
+  line-height: 18px;
 }
 
 .userName {
+  display: inline-block;
+
+  margin-bottom: 3px;
+
   font-size: 16px;
   font-weight: 600;
 }

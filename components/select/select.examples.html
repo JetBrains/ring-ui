@@ -90,15 +90,8 @@
     ];
 
     function renderSelect() {
-      render(
-        <Select
-          selectedLabel="Option"
-          label="Please select option"
-          filter={true}
-          clear={true}
-          selected={data[1]}
-          data={data}
-        />,
+      render(<SelectselectedLabel="Option"
+          label="Please select option" filter clear selected={data[1]} data={data}/>,
       document.getElementById('demo'));
     }
 
@@ -203,7 +196,7 @@
     }
 
     render(
-      <Select filter={true} compact={true} selected={dataset[selectedIndex]} data={dataset}/>,
+      <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>,
       document.getElementById('demo')
     );
   </file>
@@ -240,7 +233,7 @@
     }
 
     render(
-      <Select filter={true} selected={[dataset[0], dataset[3]]} multiple={true} data={dataset}/>,
+      <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>,
       document.getElementById('demo')
     );
   </file>
@@ -257,12 +250,12 @@
     import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(
-      <Select disabled={true} loading={true}/>,
+      <Select disabled loading/>,
       document.getElementById('demo1')
     );
 
     render(
-      <Select disabled={true} loading={true} type={Select.Type.INPUT}/>,
+      <Select disabled loading type={Select.Type.INPUT}/>,
       document.getElementById('demo2')
     );
   </file>
@@ -317,8 +310,8 @@
 
     render(<Select
       type={Select.Type.INPUT}
-      allowAny={true}
-      hideArrow={true}
+      allowAny
+      hideArrow
       label="Placeholder without arrow"
       data={data}
       selected={data[1]}
@@ -349,7 +342,7 @@
       {'label': 'Three', 'key': '3'}
     ];
 
-    render(<Select filter={true} data={data}/>, document.getElementById('demo'));
+    render(<Select filter data={data}/>, document.getElementById('demo'));
   </file>
   <file type="css">
     body {
@@ -376,7 +369,7 @@
     ];
 
     render(
-      <Select filter={true} loading={true} data={data} selected={data[1]}/>,
+      <Select filter loading data={data} selected={data[1]}/>,
       document.getElementById('demo')
     );
   </file>
@@ -459,7 +452,7 @@
     }
 
     render(<Select
-      filter={true}
+      filter
       hint="Press down to do something"
       add={{
         prefix: 'Add label'
@@ -518,7 +511,7 @@
     import Select from '@jetbrains/ring-ui/components/select/select';
 
     render(<Select
-      filter={true}
+      filter
       add={{
         prefix: 'Add some item'
       }}
@@ -616,6 +609,6 @@
       }
     });
 
-    render(<Select filter={true} data={data} />, document.getElementById('demo'));
+    render(<Select filter data={data} />, document.getElementById('demo'));
   </file>
 </example>
