@@ -52,7 +52,7 @@ export default class SelectFilter extends Component {
     return (
       <Input
         {...restProps}
-        borderless={true}
+        borderless
         inputRef={this.inputRef}
         className={classes}
       />
