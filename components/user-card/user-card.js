@@ -10,4 +10,4 @@
 
 export {default as UserCard} from './card';
 export {default as UserCardTooltip} from './tooltip';
-export {default as HubUserCardTooltip} from './hub-user-card-tooltip';
+export {default as SmartUserCardTooltip} from './smart-user-card-tooltip';
