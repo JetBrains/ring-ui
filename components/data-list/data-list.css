@@ -14,7 +14,7 @@
   background-color: #f0f0f0;
 }
 
-.group {
+.groupContent {
   padding: 10px 0;
 
   list-style: none;
@@ -26,8 +26,7 @@
   display: flex;
   align-items: center;
 
-  box-sizing: border-box;
-  height: 40px;
+  height: 38px;
   padding: 0 30px;
 
   border: solid 0 #e6e6e6;
@@ -35,7 +34,7 @@
   outline: none;
 
   @nest .item & {
-    height: 32px;
+    height: 30px;
     padding: 0 60px;
 
     border-color: #ebebeb;
@@ -43,6 +42,10 @@
 
   @nest .groupShifted .item & {
     padding-left: 92px;
+  }
+
+  @nest .groupEmpty:not(:last-child) > & {
+    border-bottom: none;
   }
 
   @nest .dataList:not(.disabledHover) &:hover {
@@ -53,6 +56,14 @@
     border: 1px none #25b7ff;
     border-top-style: solid;
     border-bottom-style: solid;
+  }
+
+  @nest .groupFocused.groupEmpty:not(:last-child) > &.title {
+    border-bottom: none;
+  }
+
+  @nest .groupFocused.groupEmpty + .group > & {
+    border-top: 1px solid #25b7ff;
   }
 
   @nest .dataList:not(.multiSelection) &.titleFocused,

@@ -858,8 +858,8 @@ export default class QueryAssist extends RingComponentWithShortcuts {
           onCloseAttempt={this.closePopup}
           ref={this.popupRef}
           anchorElement={this.node}
-          keepMounted={true}
-          attached={true}
+          keepMounted
+          attached
           className={this.props.popupClassName}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           data={this.renderSuggestions()}

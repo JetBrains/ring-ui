@@ -1,27 +1,22 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import {HubUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
+import {SmartUserCardTooltip, UserCard, UserCardTooltip} from './user-card';
 
 describe('UserCard', () => {
   const fakeUser = {
     login: 'testuser',
     name: 'Test User',
-    profile: {
-      email: {email: 'testuser@mail.com'},
-      avatar: {
-        url: 'http://some-url'
-      }
-    }
+    email: 'testuser@mail.com',
+    avatarUrl: 'http://some-url',
+    href: 'http://foo'
   };
-
-  const getHref = () => 'http://foo';
 
   describe('Card', () => {
     const shallowCard = props => shallow(
-      <UserCard user={fakeUser} getHref={getHref} {...props}/>
+      <UserCard user={fakeUser} {...props}/>
     );
-    const mountCard = props => mount(<UserCard user={fakeUser} getHref={getHref} {...props}/>);
+    const mountCard = props => mount(<UserCard user={fakeUser} {...props}/>);
 
     it('should create component', () => {
       mountCard().should.have.type(UserCard);
@@ -44,7 +39,7 @@ describe('UserCard', () => {
     const anchor = <span data-test="anchor">{'foo'}</span>;
 
     const mountTooltip = props => mount(
-      <UserCardTooltip user={fakeUser} getHref={getHref} {...props}>
+      <UserCardTooltip user={fakeUser} {...props}>
         {anchor}
       </UserCardTooltip>
     );
@@ -56,13 +51,17 @@ describe('UserCard', () => {
     });
   });
 
-  describe('HubUserCardTooltip', () => {
+  describe('SmartUserCardTooltip', () => {
     const anchor = <span>{'foo'}</span>;
 
+    function userSource() {
+      return fakeUser;
+    }
+
     const mountTooltip = props => mount(
-      <HubUserCardTooltip userId="test-id" {...props}>
+      <SmartUserCardTooltip userDataSource={userSource} {...props}>
         {anchor}
-      </HubUserCardTooltip>
+      </SmartUserCardTooltip>
     );
 
     it('should load user on hover', () => {
