@@ -74,7 +74,7 @@ export default class DateInput extends Component {
 
     return (
       <Input
-        borderless={true}
+        borderless
         inputRef={this.inputRef}
         className={classes}
         value={displayText}

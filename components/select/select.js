@@ -441,8 +441,8 @@ export default class Select extends RingComponentWithShortcuts {
       const {prefix, label} = this._addButton;
       addButton = (
         <Button
-          text={true}
-          delayed={true}
+          text
+          delayed
           className={styles.button}
           onClick={this.addHandler}
         >
