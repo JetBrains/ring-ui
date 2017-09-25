@@ -10,7 +10,7 @@ import styles from './dropdown.css';
 export default function Anchor({children, ...restProps}) {
   return (
     <Button
-      text={true}
+      text
       className={styles.anchor}
       {...restProps}
     >
