@@ -105,7 +105,8 @@ export default class Popup extends RingComponentWithShortcuts {
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     onMouseOver: PropTypes.func,
-    onMouseOut: PropTypes.func
+    onMouseOut: PropTypes.func,
+    onContextMenu: PropTypes.func
   };
 
   static contextTypes = {
@@ -260,7 +261,7 @@ export default class Popup extends RingComponentWithShortcuts {
   render() {
     const {
       className, hidden, attached, keepMounted, legacy, cutEdge, target,
-      onMouseDown, onMouseUp, onMouseOver, onMouseOut
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
@@ -283,6 +284,7 @@ export default class Popup extends RingComponentWithShortcuts {
             ref={this.containerRef}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
+            onContextMenu={onContextMenu}
           >
             <div
               data-test={this.props['data-test']}
