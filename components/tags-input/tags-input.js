@@ -48,7 +48,10 @@ export default class TagsInput extends RingComponentWithShortcuts {
     modalShortcuts: PropTypes.bool,
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
-    renderOptimization: PropTypes.bool
+    renderOptimization: PropTypes.bool,
+
+    loadingMessage: PropTypes.string,
+    notFoundMessage: PropTypes.string
   };
 
   static defaultProps = {
@@ -309,6 +312,9 @@ export default class TagsInput extends RingComponentWithShortcuts {
           onBeforeOpen={this.loadSuggestions}
           onKeyDown={this.handleKeyDown}
           disabled={this.props.disabled}
+
+          loadingMessage={this.props.loadingMessage}
+          notFoundMessage={this.props.notFoundMessage}
         />
       </div>);
   }
