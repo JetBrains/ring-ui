@@ -107,6 +107,7 @@ export default class Dialog extends Component {
           <TabTrap
             trapDisabled={!trapFocus}
             autoFocusFirst={autoFocusFirst}
+            data-test="ring-dialog-container"
             ref={this.dialogRef}
             className={classes}
             onClick={this.handleClick}
