@@ -256,7 +256,7 @@ class Table extends PureComponent {
           <Header {...headerProps}/>
           <DraggableRows
             /* Sortable props */
-            useDragHandle={true}
+            useDragHandle
             disabled={!draggable}
             helperClass={style.draggingRow}
             onSortEnd={this.onSortEnd}
