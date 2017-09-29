@@ -39,18 +39,6 @@ export default class UserCardTooltip extends Component {
     }
   };
 
-  renderUserCard() {
-    // eslint-disable-next-line no-unused-vars
-    const {className, children, renderNoUser, dropdownProps, ...props} = this.props;
-
-    return (
-      <UserCard
-        {...props}
-        className={classNames(styles.userCardSpaced, className)}
-      />
-    );
-  }
-
   render() {
     const {children, user, renderUserCard, renderNoUser, dropdownProps} = this.props;
 
