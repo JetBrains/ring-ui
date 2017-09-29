@@ -5,7 +5,7 @@ import 'core-js/modules/es7.array.includes';
 import RingAngularComponent from '../global/ring-angular-component';
 import IconNG from '../icon-ng/icon-ng';
 
-import '../button-legacy/button-legacy.scss';
+import '../button/button.scss';
 
 const DEFAULT_ICON_SIZE = 16;
 

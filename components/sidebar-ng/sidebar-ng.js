@@ -5,7 +5,7 @@ import IconNG from '../icon-ng/icon-ng';
 import RingAngularComponent from '../global/ring-angular-component';
 
 import '../sidebar/sidebar.scss';
-import '../button-legacy/button-legacy.scss';
+import '../button/button.scss';
 
 /**
  * @name Sidebar Ng

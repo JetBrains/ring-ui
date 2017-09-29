@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Input from '../input-legacy/input-legacy';
+import Input from '../input/input';
 
 import ErrorBubble from './error-bubble';
 

@@ -18,7 +18,7 @@ import {getRect} from '../global/dom';
       </div>
     </file>
     <file name="index.js">
-      import '@jetbrains/ring-ui/components/input-legacy/input-legacy.scss';
+      import '@jetbrains/ring-ui/components/input/input.scss';
       import '@jetbrains/ring-ui/components/link/link.scss';
       import Caret from '@jetbrains/ring-ui/components/caret/caret';
 

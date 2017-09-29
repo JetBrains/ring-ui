@@ -7,7 +7,7 @@
 import angular from 'angular';
 import 'dom4';
 import '../form/form.scss';
-import '../button-legacy/button-legacy.scss';
+import '../button/button.scss';
 import '../save-field-ng/save-field-ng.scss';
 
 import '../loader-inline/loader-inline';

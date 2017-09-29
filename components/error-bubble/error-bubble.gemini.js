@@ -6,6 +6,6 @@ gemini.suite('Error Bubble', suite => {
     setCaptureElements('#container').
     capture('error bubble').
     capture('error bubble hidden', (actions, find) => {
-      actions.sendKeys(find('.ring-input'), 'something');
+      actions.sendKeys(find('input'), 'something');
     });
 });
