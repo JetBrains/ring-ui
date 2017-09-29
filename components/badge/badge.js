@@ -9,7 +9,7 @@ import style from './badge.css';
  * @category Components
  * @constructor
  * @description Displays a badge.
- * @extends {RingComponent}
+ * @extends {PureComponent}
  * @example-file ./badge.examples.html
  */
 export default class Badge extends PureComponent {

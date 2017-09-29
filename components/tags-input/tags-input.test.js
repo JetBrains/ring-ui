@@ -1,5 +1,4 @@
 import React from 'react';
-import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
 import Select from '../select/select';
@@ -137,24 +136,6 @@ describe('Tags Input', () => {
 
 
   describe('Shortcuts', () => {
-    it('should enable shortcuts on input focus', () => {
-      const wrapper = mountTagsInput();
-      const instance = wrapper.instance();
-      Simulate.focus(instance.getInputNode());
-
-      wrapper.should.have.state('shortcuts', true);
-    });
-
-    it('should disable shortcuts when input lose focus', () => {
-      const wrapper = mountTagsInput();
-      const instance = wrapper.instance();
-      Simulate.focus(instance.getInputNode());
-      Simulate.blur(instance.getInputNode());
-
-      wrapper.should.have.state('shortcuts', false);
-    });
-
-
     describe('Keyboard handling', () => {
       const getEventMock = keyboardKey => Object.assign({
         key: keyboardKey,

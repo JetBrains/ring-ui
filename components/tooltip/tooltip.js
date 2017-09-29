@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Popup from '../popup/popup';
-import RingComponent from '../ring-component/ring-component';
 import {Listeners} from '../global/dom';
 
 import './tooltip.scss';
@@ -24,7 +23,7 @@ import './tooltip.scss';
        import {render} from 'react-dom';
 
        import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
-       import Button from '@jetbrains/ring-ui/components/button-legacy/button-legacy';
+       import Button from '@jetbrains/ring-ui/components/button/button';
 
        const buttonWithTooltip = (
          <Tooltip title="Explanation">
@@ -36,11 +35,12 @@ import './tooltip.scss';
      </file>
    </example>
  */
-export default class Tooltip extends RingComponent {
+export default class Tooltip extends Component {
   static propTypes = {
     delay: PropTypes.number,
     popupProps: PropTypes.object,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    children: PropTypes.node
   };
 
   static PopupProps = Popup.PopupProps;
@@ -52,19 +52,13 @@ export default class Tooltip extends RingComponent {
 
   state = {showPopup: false};
 
-  listeners = new Listeners();
-
-  didMount() {
+  componentDidMount() {
     if (this.props.title) {
       this.addListeners();
     }
   }
 
-  willUnmount() {
-    this.listeners.removeAll();
-  }
-
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (!prevProps.title && this.props.title) {
       this.addListeners();
     } else if (prevProps.title && !this.props.title) {
@@ -72,11 +66,14 @@ export default class Tooltip extends RingComponent {
     }
   }
 
-  addListeners() {
-    this.listeners.add(this.node, 'mouseover', this.showPopup);
-    this.listeners.add(this.node, 'mouseout', this.hidePopup);
-    this.listeners.add(document, 'scroll', this.hidePopup);
+  componentWillUnmount() {
+    this.listeners.removeAll();
   }
+
+  listeners = new Listeners();
+  containerRef = el => {
+    this.containerNode = el;
+  };
 
   showPopup = () => {
     const {delay, title} = this.props;
@@ -101,6 +98,12 @@ export default class Tooltip extends RingComponent {
     this.setState({showPopup: false});
   };
 
+  addListeners() {
+    this.listeners.add(this.containerNode, 'mouseover', this.showPopup);
+    this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
+    this.listeners.add(document, 'scroll', this.hidePopup);
+  }
+
   popupRef = el => {
     this.popup = el;
   };
@@ -109,7 +112,7 @@ export default class Tooltip extends RingComponent {
     const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     return (
-      <span {...restProps}>
+      <span {...restProps} ref={this.containerRef}>
         {children}
         <Popup
           hidden={!this.state.showPopup}

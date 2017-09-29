@@ -1,8 +1,8 @@
 import angular from 'angular';
 import {render} from 'react-dom';
-import {createElement} from 'react';
+import React from 'react';
 
-import Select from '../select/select';
+import {RerenderableSelect} from '../select/select';
 
 class SelectLazy {
   constructor(container, props, ctrl, type) {
@@ -18,15 +18,9 @@ class SelectLazy {
     this.render();
   }
 
-  render(props) {
-    this.reactSelect = createElement(Select, angular.extend({}, this.props, props || {}));
-    this.props = this.reactSelect.props;
-
-    if (this.type !== 'dropdown') {
-      const ReactDOMServer = require('react-dom/server');
-      this.container.innerHTML = ReactDOMServer.renderToStaticMarkup(this.reactSelect);
-    }
-  }
+  onClick = () => {
+    this._clickHandler();
+  };
 
   rerender(props = {}) {
     for (const prop in props) {
@@ -42,7 +36,6 @@ class SelectLazy {
   }
 
   attachEvents() {
-    this.onClick = this.onClick.bind(this);
     this.container.addEventListener('click', this.onClick);
   }
 
@@ -50,8 +43,14 @@ class SelectLazy {
     this.container.removeEventListener('click', this.onClick);
   }
 
-  onClick() {
-    this._clickHandler();
+  render(props) {
+    this.reactSelect = <RerenderableSelect {...Object.assign({}, this.props, props || {})}/>;
+    this.props = this.reactSelect.props;
+
+    if (this.type !== 'dropdown') {
+      const ReactDOMServer = require('react-dom/server');
+      this.container.innerHTML = ReactDOMServer.renderToStaticMarkup(this.reactSelect);
+    }
   }
 
   _clickHandler() {

@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import Input, {Size} from '../input/input';
+import Shortcuts from '../shortcuts/shortcuts';
 import Icon, {ChevronDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
+import rerenderHOC from '../global/rerender-hoc';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -21,8 +23,6 @@ import styles from './select.css';
  * @description Displays a select.
  * @example-file ./select.examples.html
  */
-
-const ngModelStateField = 'selected';
 
 function noop() {}
 
@@ -38,13 +38,60 @@ const Type = {
 /**
  * @name Select
  * @constructor
- * @extends {RingComponentWithShortcuts}
+ * @extends {Component}
  */
-export default class Select extends RingComponentWithShortcuts {
+export default class Select extends Component {
   static Type = Type;
   static Size = Size;
-  static ngModelStateField = ngModelStateField;
+  static propTypes = {
+    className: PropTypes.string,
+    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+    allowAny: PropTypes.bool,
+    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 
+    getInitial: PropTypes.func,
+    onClose: PropTypes.func,
+    onOpen: PropTypes.func,
+    onDone: PropTypes.func,
+    onFilter: PropTypes.func,
+    onChange: PropTypes.func,
+    onReset: PropTypes.func,
+    onLoadMore: PropTypes.func,
+    onAdd: PropTypes.func,
+    onBeforeOpen: PropTypes.func,
+    onSelect: PropTypes.func,
+    onDeselect: PropTypes.func,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onKeyDown: PropTypes.func,
+
+    selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    data: PropTypes.array,
+    tags: PropTypes.object,
+    targetElement: PropTypes.object,
+    loading: PropTypes.bool,
+    loadingMessage: PropTypes.string,
+    notFoundMessage: PropTypes.string,
+    maxHeight: PropTypes.number,
+    minWidth: PropTypes.number,
+    directions: PropTypes.array,
+    popupClassName: PropTypes.string,
+    top: PropTypes.number,
+    left: PropTypes.number,
+    renderOptimization: PropTypes.bool,
+    ringPopupTarget: PropTypes.string,
+    hint: PropTypes.string,
+    add: PropTypes.object,
+    type: PropTypes.oneOf(Object.values(Type)),
+    disabled: PropTypes.bool,
+    hideSelected: PropTypes.bool,
+    label: PropTypes.string,
+    selectedLabel: PropTypes.string,
+    clear: PropTypes.bool,
+    hideArrow: PropTypes.bool,
+    compact: PropTypes.bool,
+    size: PropTypes.oneOf(Object.values(Size))
+  };
   static defaultProps = {
     data: [],
     filter: false, // enable filter (BUTTON or CUSTOM mode)
@@ -77,7 +124,7 @@ export default class Select extends RingComponentWithShortcuts {
     selectedLabel: '', // BUTTON label or INPUT placeholder (something selected)
     hint: null, // hint text to display under the list
 
-    shortcuts: false,
+    shortcutsEnabled: false,
 
     onBeforeOpen: noop,
     onLoadMore: noop,
@@ -102,38 +149,74 @@ export default class Select extends RingComponentWithShortcuts {
     ringPopupTarget: null
   };
 
+  static _getEmptyValue(multiple) {
+    return multiple ? [] : null;
+  }
   state = {
     data: [],
     shownData: [],
     selected: (this.props.multiple ? [] : null),
     selectedIndex: null,
     filterValue: this.props.filter && this.props.filter.value || '',
-    shortcuts: false,
+    shortcutsEnabled: false,
     popupShortcuts: false,
     showPopup: false
   };
 
-  ngModelStateField = ngModelStateField;
+  componentWillMount() {
+    this.updateState(this.props, true);
+  }
+
+  componentDidMount() {
+    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.updateState(newProps);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {showPopup} = this.state;
+
+    if (prevState.showPopup && !showPopup) {
+      this.props.onClose();
+    } else if (!prevState.showPopup && showPopup) {
+      this.props.onOpen();
+    }
+  }
+
+  shortcutsScope = getUID('select-');
+  _focusHandler = () => {
+    this.props.onFocus();
+
+    this.setState({
+      shortcutsEnabled: true,
+      focused: true
+    });
+  };
+  _blurHandler = () => {
+    this.props.onBlur();
+
+    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
+      window.setTimeout(() => {
+        this.setState({showPopup: false});
+      });
+    }
+
+    if (!this._popup.isClickingPopup) {
+      this.setState({
+        shortcutsEnabled: false,
+        focused: false
+      });
+    }
+  };
+  nodeRef = el => {
+    this.node = el;
+  };
+
   _popup = null;
   _addButton = null;
   _multipleMap = {};
-
-  getShortcutsProps() {
-    return {
-      map: {
-        enter: this._onEnter,
-        esc: this._onEsc,
-        up: this._inputShortcutHandler,
-        down: this._inputShortcutHandler,
-        right: noop,
-        left: noop,
-        'shift+up': noop,
-        'shift+down': noop,
-        space: noop
-      },
-      scope: getUID('select-')
-    };
-  }
 
   _onEnter = () => {
     this.props.onDone();
@@ -184,28 +267,6 @@ export default class Select extends RingComponentWithShortcuts {
 
   getValueForFilter(selected) {
     return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.filterValue;
-  }
-
-  willMount() {
-    this.updateState(this.props, true);
-  }
-
-  didMount() {
-    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-  }
-
-  willReceiveProps(newProps) {
-    this.updateState(newProps);
-  }
-
-  didUpdate(prevProps, prevState) {
-    const {showPopup} = this.state;
-
-    if (prevState.showPopup && !showPopup) {
-      this.props.onClose();
-    } else if (!prevState.showPopup && showPopup) {
-      this.props.onOpen();
-    }
   }
 
   updateState(props, initial) {
@@ -268,10 +329,6 @@ export default class Select extends RingComponentWithShortcuts {
 
       return prevSelected.every(it => keysMap[it.key]);
     }
-  }
-
-  static _getEmptyValue(multiple) {
-    return multiple ? [] : null;
   }
 
   _getSelectedIndex(selected, data) {
@@ -571,7 +628,7 @@ export default class Select extends RingComponentWithShortcuts {
 
   _filterChangeHandler = e => {
     this._setFilter(e.target.value, e);
-  }
+  };
 
   _setFilter = (value, event = {}) => {
     if (this.isInputMode() && !this.state.focused) {
@@ -729,32 +786,6 @@ export default class Select extends RingComponentWithShortcuts {
     return false;
   };
 
-  _focusHandler = () => {
-    this.props.onFocus();
-
-    this.setState({
-      shortcuts: true,
-      focused: true
-    });
-  };
-
-  _blurHandler = () => {
-    this.props.onBlur();
-
-    if (this._popup && this._popup.isVisible() && !this._popup.isClickingPopup) {
-      window.setTimeout(() => {
-        this.setState({showPopup: false});
-      });
-    }
-
-    if (!this._popup.isClickingPopup) {
-      this.setState({
-        shortcuts: false,
-        focused: false
-      });
-    }
-  };
-
   _selectionIsEmpty() {
     return (this.props.multiple && !this.state.selected.length) || !this.state.selected;
   }
@@ -848,7 +879,22 @@ export default class Select extends RingComponentWithShortcuts {
     this.filter = el;
   };
 
+  getShortcutsMap() {
+    return {
+      enter: this._onEnter,
+      esc: this._onEsc,
+      up: this._inputShortcutHandler,
+      down: this._inputShortcutHandler,
+      right: noop,
+      left: noop,
+      'shift+up': noop,
+      'shift+down': noop,
+      space: noop
+    };
+  }
+
   render() {
+    const {shortcutsEnabled} = this.state;
     const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`size${this.props.size}`], {
       [styles.disabled]: this.props.disabled
     });
@@ -865,10 +911,16 @@ export default class Select extends RingComponentWithShortcuts {
     if (this.isInputMode()) {
       return (
         <div
+          ref={this.nodeRef}
           className={classNames(classes, styles.inputMode)}
           onClick={this._clickHandler}
           data-test="ring-select"
         >
+          {shortcutsEnabled &&
+          <Shortcuts
+            map={this.getShortcutsMap()}
+            scope={this.shortcutsScope}
+          />}
           <Input
             inputRef={this.filterRef}
             disabled={this.props.disabled}
@@ -879,7 +931,7 @@ export default class Select extends RingComponentWithShortcuts {
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
             placeholder={this._getInputPlaceholder()}
-            onKeyDown={this.props.handleKeyDown}
+            onKeyDown={this.props.onKeyDown}
             data-test="ring-select__focus"
           />
           {iconsNode}
@@ -894,10 +946,16 @@ export default class Select extends RingComponentWithShortcuts {
 
       return (
         <div
+          ref={this.nodeRef}
           className={classNames(classes, styles.buttonMode)}
           data-test="ring-select"
           {...clickListenProps}
         >
+          {shortcutsEnabled &&
+          <Shortcuts
+            map={this.getShortcutsMap()}
+            scope={this.shortcutsScope}
+          />}
           {!this._selectionIsEmpty() && this.props.selectedLabel && (
             <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
           )}
@@ -921,10 +979,12 @@ export default class Select extends RingComponentWithShortcuts {
       );
     } else {
       return (
-        <span data-test="ring-select">
+        <span ref={this.nodeRef} data-test="ring-select">
           {this._renderPopup()}
         </span>
       );
     }
   }
 }
+
+export const RerenderableSelect = rerenderHOC(Select, {captureNode: false});

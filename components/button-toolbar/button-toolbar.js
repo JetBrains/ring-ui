@@ -46,8 +46,9 @@ import styles from './button-toolbar.css';
 
 export default class ButtonToolbar extends PureComponent {
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string
-  }
+  };
 
   render() {
     const {className} = this.props;
