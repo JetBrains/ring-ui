@@ -212,7 +212,7 @@ describe('Select', () => {
     instance._popup.props.hidden.should.be.false;
   });
 
-  describe('willReceiveProps', () => {
+  describe('componentWillReceiveProps', () => {
 
     let wrapper;
     let instance;
@@ -229,33 +229,33 @@ describe('Select', () => {
 
 
     it('Should update shown data', () => {
-      instance.willReceiveProps({data: []});
+      instance.componentWillReceiveProps({data: []});
 
       instance.setState.should.be.calledWith({shownData: []});
     });
 
     it('Should not update shown data if data is not passed', () => {
-      instance.willReceiveProps({});
+      instance.componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
     });
 
     it('Should not update shown data if data the same as previous', () => {
-      instance.willReceiveProps({data: instance.props.data});
+      instance.componentWillReceiveProps({data: instance.props.data});
 
       instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
     });
 
     it('Should toggle multiple state', () => {
       const newMultiple = !instance.props.multiple;
-      instance.willReceiveProps({multiple: newMultiple});
+      instance.componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.be.calledWith(newMultiple);
     });
 
     it('Should not toggle multiple state if value the same as previous', () => {
       const newMultiple = instance.props.multiple;
-      instance.willReceiveProps({multiple: newMultiple});
+      instance.componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.not.be.called;
     });
@@ -265,7 +265,7 @@ describe('Select', () => {
 
       instance.props = {multiple: false, selected: null, data: [selectedItem, createItem()]};
 
-      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
       instance.setState.should.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -279,7 +279,7 @@ describe('Select', () => {
         data: [selectedItem, createItem()]
       };
 
-      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -289,7 +289,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.willReceiveProps({selected: [selectedItem]});
+      instance.componentWillReceiveProps({selected: [selectedItem]});
 
       instance.setState.should.be.calledWith({selectedIndex: 0});
     });
@@ -299,7 +299,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem, createItem()]};
 
-      instance.willReceiveProps({selected: [selectedItem, createItem()]});
+      instance.componentWillReceiveProps({selected: [selectedItem, createItem()]});
 
       instance.setState.should.be.calledWith({selectedIndex: 0});
     });
@@ -309,7 +309,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.willReceiveProps({});
+      instance.componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -324,7 +324,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.willReceiveProps({selected: [selectedItem1, selectedItem2]});
+      instance.componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -339,7 +339,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.willReceiveProps({selected: [selectedItem2, selectedItem1]});
+      instance.componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
