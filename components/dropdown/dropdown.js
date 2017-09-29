@@ -110,6 +110,10 @@ export default class Dropdown extends Component {
     }
   };
 
+  toggle(show = !this.state.show) {
+    this._toggle(show);
+  }
+
   _toggle(show, pinned = this.state.pinned) {
     this.setState({show, pinned}, () => (show ? this.props.onShow() : this.props.onHide()));
   }

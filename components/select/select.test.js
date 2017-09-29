@@ -214,6 +214,144 @@ describe('Select', () => {
     instance._popup.props.hidden.should.be.false;
   });
 
+  describe('willReceiveProps', () => {
+
+    let wrapper;
+    let instance;
+    beforeEach(() => {
+      wrapper = shallowSelect();
+      instance = wrapper.instance();
+    });
+
+
+    beforeEach(() => {
+      sandbox.stub(instance, 'setState');
+      sandbox.stub(instance, '_handleMultipleToggling');
+    });
+
+
+    it('Should update shown data', () => {
+      instance.willReceiveProps({data: []});
+
+      instance.setState.should.be.calledWith({shownData: []});
+    });
+
+    it('Should not update shown data if data is not passed', () => {
+      instance.willReceiveProps({});
+
+      instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
+    });
+
+    it('Should not update shown data if data the same as previous', () => {
+      instance.willReceiveProps({data: instance.props.data});
+
+      instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
+    });
+
+    it('Should toggle multiple state', () => {
+      const newMultiple = !instance.props.multiple;
+      instance.willReceiveProps({multiple: newMultiple});
+
+      instance._handleMultipleToggling.should.be.calledWith(newMultiple);
+    });
+
+    it('Should not toggle multiple state if value the same as previous', () => {
+      const newMultiple = instance.props.multiple;
+      instance.willReceiveProps({multiple: newMultiple});
+
+      instance._handleMultipleToggling.should.not.be.called;
+    });
+
+    it('Should update selected index for select', () => {
+      const selectedItem = createItem();
+
+      instance.props = {multiple: false, selected: null, data: [selectedItem, createItem()]};
+
+      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+
+      instance.setState.should.be.calledWith({selectedIndex: sandbox.match.any});
+    });
+
+    it('Should not update selected index if selected is the same as previous', () => {
+      const selectedItem = createItem();
+
+      instance.props = {
+        multiple: false,
+        selected: selectedItem,
+        data: [selectedItem, createItem()]
+      };
+
+      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+
+      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+    });
+
+    it('Should update selected index for multiple select if selected is changed', () => {
+      const selectedItem = createItem();
+
+      instance.props = {multiple: true, selected: [], data: [selectedItem]};
+
+      instance.willReceiveProps({selected: [selectedItem]});
+
+      instance.setState.should.be.calledWith({selectedIndex: 0});
+    });
+
+    it('Should update selected index for multiple select if selected is changed but count of element is the same', () => {
+      const selectedItem = createItem();
+
+      instance.props = {multiple: true, selected: [], data: [selectedItem, createItem()]};
+
+      instance.willReceiveProps({selected: [selectedItem, createItem()]});
+
+      instance.setState.should.be.calledWith({selectedIndex: 0});
+    });
+
+    it('Should not update selected index for multiple select if selected is not changed', () => {
+      const selectedItem = createItem();
+
+      instance.props = {multiple: true, selected: [], data: [selectedItem]};
+
+      instance.willReceiveProps({});
+
+      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+    });
+
+    it('Should not update selected index for multiple select if items inside the selected list are the same and order is same', () => {
+      const selectedItem1 = createItem();
+      const selectedItem2 = createItem();
+
+      instance.props = {
+        multiple: true,
+        selected: [selectedItem1, selectedItem2],
+        data: [selectedItem1, createItem(), selectedItem2]
+      };
+
+      instance.willReceiveProps({selected: [selectedItem1, selectedItem2]});
+
+      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+    });
+
+    it('Should not update selected index for multiple select if items inside the selected list are the same but order is changed', () => {
+      const selectedItem1 = createItem();
+      const selectedItem2 = createItem();
+
+      instance.props = {
+        multiple: true,
+        selected: [selectedItem1, selectedItem2],
+        data: [selectedItem1, createItem(), selectedItem2]
+      };
+
+      instance.willReceiveProps({selected: [selectedItem2, selectedItem1]});
+
+      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+    });
+
+    function createItem() {
+      createItem.key = (createItem.key || 0) + 1;
+      return {key: createItem.key};
+    }
+  });
+
   describe('DOM', () => {
     it('Should place select button inside container', () => {
       const wrapper = shallowSelect();
