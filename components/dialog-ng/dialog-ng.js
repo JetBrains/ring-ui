@@ -9,7 +9,7 @@ import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
-import '../button-legacy/button-legacy.scss';
+import '../button/button.scss';
 import '../form/form.scss';
 import dialogStyles from '../dialog/dialog.css';
 import islandStyles from '../island/island.css';

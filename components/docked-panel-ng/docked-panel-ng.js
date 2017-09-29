@@ -31,7 +31,7 @@ const scheduleScroll = scheduleRAF();
      </file>
      <file name="index.js" webpack="true">
       import angular from 'angular';
-      import '@jetbrains/ring-ui/components/button-legacy/button-legacy.scss';
+      import '@jetbrains/ring-ui/components/button/button.scss';
       import '@jetbrains/ring-ui/components/panel/panel.scss';
       import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
       angular.module('DockedPanelExample', [DockedPanelNG]);
