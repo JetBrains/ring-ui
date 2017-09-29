@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {findDOMNode} from 'react-dom';
 import debounce from 'just-debounce-it';
@@ -9,14 +9,15 @@ import {SearchIcon, CloseIcon} from '../icon';
 
 import getUID from '../global/get-uid';
 import {getRect, preventDefault} from '../global/dom';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
 import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
+import Shortcuts from '../shortcuts/shortcuts';
+import rerenderHOC from '../global/rerender-hoc';
 
 import './query-assist.scss';
-import '../input-legacy/input-legacy.scss';
+import '../input/input.scss';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -97,7 +98,7 @@ function cleanText(text) {
  __icon__ `string=` Icon URI, Data URI is possible
 
  */
-export default class QueryAssist extends RingComponentWithShortcuts {
+export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
 
   static propTypes = {
@@ -138,33 +139,11 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     showPopup: false
   };
 
-  ngModelStateField = ngModelStateField;
-
-  getShortcutsProps() {
-    return {
-      map: {
-        del: noop,
-        enter: this.handleComplete,
-        'command+enter': this.handleComplete,
-        'ctrl+enter': this.handleComplete,
-        'ctrl+space': this.handleCtrlSpace,
-        tab: this.handleTab,
-        right: noop,
-        left: noop,
-        space: noop,
-        home: noop,
-        end: noop
-      },
-      scope: getUID('ring-query-assist-')
-    };
+  componentWillMount() {
+    this.setState({shortcuts: !!this.props.focus});
   }
 
-  // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
-  blurInput() {
-    window.getSelection().removeAllRanges();
-  }
-
-  didMount() {
+  componentDidMount() {
     const query = this.props.query || '';
 
     this.immediateState = {
@@ -174,7 +153,6 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     };
 
     this.setupRequestHandler(this.props.delay);
-    this.setShortcutsEnabled(this.props.focus);
 
     if (this.props.autoOpen) {
       this.requestHandler().
@@ -187,25 +165,7 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.setCaretPosition();
   }
 
-  /**
-   * Optionally setup data request delay. For each component create a separate
-   * instance of the delayed function. This may help reduce the load on the server
-   * when the user quickly inputs data.
-   */
-  setupRequestHandler(delay) {
-    const needDelay = typeof delay === 'number';
-    const hasDelay = this.requestData !== this.requestHandler;
-
-    if (!this.requestData || hasDelay !== needDelay) {
-      if (needDelay) {
-        this.requestData = debounce(this.requestHandler, delay);
-      } else {
-        this.requestData = this.requestHandler;
-      }
-    }
-  }
-
-  willReceiveProps({caret, delay, query}) {
+  componentWillReceiveProps({caret, delay, query}) {
     this.setupRequestHandler(delay);
     const shouldSetCaret = typeof caret === 'number';
 
@@ -227,58 +187,27 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     }
   }
 
-  didUpdate(prevProps) {
+  shouldComponentUpdate(props, state) {
+    return state.query !== this.state.query ||
+      state.dirty !== this.state.dirty ||
+      state.loading !== this.state.loading ||
+      state.showPopup !== this.state.showPopup ||
+      state.suggestions !== this.state.suggestions ||
+      state.styleRanges !== this.state.styleRanges ||
+      state.placeholderEnabled !== this.state.placeholderEnabled ||
+      props.placeholder !== this.props.placeholder ||
+      props.disabled !== this.props.disabled ||
+      props.clear !== this.props.clear ||
+      props.focus !== this.props.focus ||
+      props.loader !== this.props.loader ||
+      props.glass !== this.props.glass;
+  }
+
+  componentDidUpdate(prevProps) {
     this.updateFocus(prevProps);
   }
 
-  componentWillUpdate() {}
-
-  updateFocus({focus, caret}) {
-    const isCaretChanged = caret !== this.props.caret;
-    const isFocusChanged = focus !== this.props.focus;
-
-    if (isFocusChanged || isCaretChanged) {
-      const focusValue = isFocusChanged ? this.props.focus : true;
-      this.setFocus(focusValue);
-    }
-  }
-
-  setFocus(focus) {
-    this.setShortcutsEnabled(focus);
-
-    const isComponentFocused = Boolean(this.immediateState.focus);
-
-    if (focus === false && isComponentFocused) {
-      this.immediateState.focus = focus;
-      this.blurInput();
-    } else if (focus === true && !isComponentFocused) {
-      this.immediateState.focus = focus;
-      this.setCaretPosition();
-    }
-  }
-
-  setCaretPosition = () => {
-    const queryLength = this.immediateState.query != null && this.immediateState.query.length;
-    const newCaretPosition =
-      this.immediateState.caret < queryLength
-        ? this.immediateState.caret
-        : queryLength;
-    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
-
-    if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
-      // Set to end of field value if newCaretPosition is inappropriate
-      this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
-      this.scrollInput();
-    }
-  };
-
-  scrollInput() {
-    const caretOffset = this.caret.getOffset();
-
-    if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
-      this.input.scrollLeft = this.input.scrollLeft + caretOffset;
-    }
-  }
+  ngModelStateField = ngModelStateField;
 
   handleFocusChange = e => {
     // otherwise it's blur and false
@@ -306,8 +235,43 @@ export default class QueryAssist extends RingComponentWithShortcuts {
       this.props.onFocusChange({focus});
     }
 
-    this.setShortcutsEnabled(focus);
+    this.setState({shortcuts: !!focus});
   };
+  nodeRef = node => {
+    this.node = node;
+  };
+  updateFocus({focus, caret}) {
+    const isCaretChanged = caret !== this.props.caret;
+    const isFocusChanged = focus !== this.props.focus;
+
+    if (isFocusChanged || isCaretChanged) {
+      const focusValue = isFocusChanged ? this.props.focus : true;
+      this.setFocus(focusValue);
+    }
+  }
+
+  setCaretPosition = () => {
+    const queryLength = this.immediateState.query != null && this.immediateState.query.length;
+    const newCaretPosition =
+      this.immediateState.caret < queryLength
+        ? this.immediateState.caret
+        : queryLength;
+    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
+
+    if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
+      // Set to end of field value if newCaretPosition is inappropriate
+      this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
+      this.scrollInput();
+    }
+  };
+
+  scrollInput() {
+    const caretOffset = this.caret.getOffset();
+
+    if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
+      this.input.scrollLeft = this.input.scrollLeft + caretOffset;
+    }
+  }
 
   getQuery() {
     return this.input.textContent.replace(/\s/g, ' ');
@@ -626,6 +590,29 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     });
   };
 
+  // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
+  blurInput() {
+    window.getSelection().removeAllRanges();
+  }
+
+  /**
+   * Optionally setup data request delay. For each component create a separate
+   * instance of the delayed function. This may help reduce the load on the server
+   * when the user quickly inputs data.
+   */
+  setupRequestHandler(delay) {
+    const needDelay = typeof delay === 'number';
+    const hasDelay = this.requestData !== this.requestHandler;
+
+    if (!this.requestData || hasDelay !== needDelay) {
+      if (needDelay) {
+        this.requestData = debounce(this.requestHandler, delay);
+      } else {
+        this.requestData = this.requestHandler;
+      }
+    }
+  }
+
   renderSuggestions() {
     const renderedSuggestions = [];
     const {suggestions} = this.state;
@@ -731,20 +718,18 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     });
   }
 
-  shouldUpdate(props, state) {
-    return state.query !== this.state.query ||
-      state.dirty !== this.state.dirty ||
-      state.loading !== this.state.loading ||
-      state.showPopup !== this.state.showPopup ||
-      state.suggestions !== this.state.suggestions ||
-      state.styleRanges !== this.state.styleRanges ||
-      state.placeholderEnabled !== this.state.placeholderEnabled ||
-      props.placeholder !== this.props.placeholder ||
-      props.disabled !== this.props.disabled ||
-      props.clear !== this.props.clear ||
-      props.focus !== this.props.focus ||
-      props.loader !== this.props.loader ||
-      props.glass !== this.props.glass;
+  setFocus(focus) {
+    this.setState({shortcuts: !!focus});
+
+    const isComponentFocused = Boolean(this.immediateState.focus);
+
+    if (focus === false && isComponentFocused) {
+      this.immediateState.focus = focus;
+      this.blurInput();
+    } else if (focus === true && !isComponentFocused) {
+      this.immediateState.focus = focus;
+      this.setCaretPosition();
+    }
   }
 
   inputRef = node => {
@@ -777,6 +762,21 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     this.clear = node;
   };
 
+  shortcutsScope = getUID('ring-query-assist-');
+  shortcutsMap = {
+    del: noop,
+    enter: this.handleComplete,
+    'command+enter': this.handleComplete,
+    'ctrl+enter': this.handleComplete,
+    'ctrl+space': this.handleCtrlSpace,
+    tab: this.handleTab,
+    right: noop,
+    left: noop,
+    space: noop,
+    home: noop,
+    end: noop
+  };
+
   render() {
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
@@ -797,7 +797,15 @@ export default class QueryAssist extends RingComponentWithShortcuts {
         className="ring-query-assist"
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
+        ref={this.nodeRef}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         <ContentEditable
           className={inputClasses}
           data-test="ring-query-assist-input"
@@ -876,3 +884,5 @@ export default class QueryAssist extends RingComponentWithShortcuts {
     );
   }
 }
+
+export const RerenderableQueryAssist = rerenderHOC(QueryAssist, {captureNode: false});

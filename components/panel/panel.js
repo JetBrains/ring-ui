@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import './panel.scss';
 
@@ -22,7 +20,7 @@ import './panel.scss';
        import React from 'react';
        import {render} from 'react-dom';
        import Panel from '@jetbrains/ring-ui/components/panel/panel';
-       import Button from '@jetbrains/ring-ui/components/button-legacy/button-legacy';
+       import Button from '@jetbrains/ring-ui/components/button/button';
 
        render(
          (
@@ -36,7 +34,7 @@ import './panel.scss';
      </file>
    </example>
  */
-export default class Panel extends RingComponent {
+export default class Panel extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node

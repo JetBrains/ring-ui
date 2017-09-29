@@ -1,9 +1,9 @@
 import angular from 'angular';
-import {createElement} from 'react';
+import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 import getEventKey from 'react-dom/lib/getEventKey';
 
-import Select from '../select/select';
+import Select, {RerenderableSelect} from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 import SelectNgOptions from './select-ng__options';
@@ -489,7 +489,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
 
         if (getType() === 'suggest' || getType() === 'input') {
-          ctrl.selectInstance = render(createElement(Select, ctrl.config), container);
+          ctrl.selectInstance = render(<RerenderableSelect {...ctrl.config}/>, container);
         } else {
           ctrl.selectInstance = new SelectLazy(container, ctrl.config, ctrl, getType());
         }

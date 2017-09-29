@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import rerenderHOC from '../global/rerender-hoc';
+
 import Popup from '../popup/popup';
 import Dropdown from '../dropdown/dropdown';
 
@@ -62,11 +64,11 @@ export default class DatePicker extends PureComponent {
 
   popupRef = el => {
     this.popup = el;
-  }
+  };
 
   closePopup = () => {
     this.popup._onCloseAttempt();
-  }
+  };
 
   render() {
     const {
@@ -146,4 +148,6 @@ export default class DatePicker extends PureComponent {
     );
   }
 }
+
+export const RerenderableDatePicker = rerenderHOC(DatePicker);
 
