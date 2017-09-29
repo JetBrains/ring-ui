@@ -93,6 +93,7 @@ export default class Dialog extends PureComponent {
         <PortalPropsCleaner>
           <FocusTrap
             active={trapFocus}
+            data-test="ring-dialog-container"
             ref={this.dialogRef}
             className={classes}
             onClick={this.handleClick}

@@ -98,7 +98,9 @@ class Table extends PureComponent {
     shortcutsMap: PropTypes.object,
 
     // disableHoverHOC
-    disabledHover: PropTypes.bool
+    disabledHover: PropTypes.bool,
+
+    remoteSelection: PropTypes.bool
   };
 
   static defaultProps = {
@@ -116,7 +118,8 @@ class Table extends PureComponent {
     isItemCollapsible: () => false,
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
-    onItemExpand: () => {}
+    onItemExpand: () => {},
+    remoteSelection: false
   };
 
   state = {
@@ -132,7 +135,7 @@ class Table extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
-    if (data !== nextProps.data) {
+    if (data !== nextProps.data && !this.props.remoteSelection) {
       onSelect(selection.cloneWith({data: nextProps.data}));
     }
 
