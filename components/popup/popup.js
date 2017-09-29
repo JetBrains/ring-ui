@@ -5,7 +5,7 @@
  * @description Displays a popup.
  */
 
-import React, {cloneElement} from 'react';
+import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import {render, unmountComponentAtNode} from 'react-dom';
 import Portal from '@jetbrains/react-portal';
@@ -13,10 +13,10 @@ import classNames from 'classnames';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import {Listeners} from '../global/dom';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import position, {
   DEFAULT_DIRECTIONS,
@@ -64,7 +64,7 @@ function deprecateString(old, replacement) {
  * @extends {ReactComponent}
  * @example-file ./popup.examples.html
  */
-export default class Popup extends RingComponentWithShortcuts {
+export default class Popup extends Component {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
@@ -82,6 +82,7 @@ export default class Popup extends RingComponentWithShortcuts {
     dontCloseOnAnchorClick: PropTypes.bool,
     shortcuts: PropTypes.bool,
     keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
+    'data-test': PropTypes.string,
 
     directions: PropTypes.arrayOf(PropTypes.string),
     autoPositioning: PropTypes.bool,
@@ -174,29 +175,10 @@ export default class Popup extends RingComponentWithShortcuts {
     return render(cloned, wrapperElement, onRender);
   }
 
-  listeners = new Listeners();
-  redrawScheduler = scheduleRAF();
-  uid = getUID('popup-');
-
-  calculateDisplay = prevState => ({
-    ...prevState,
-    display: this.props.hidden
-      ? Display.SHOWING
-      : Display.SHOWN
-  });
-
   state = {
+    shortcuts: this.props.shortcuts && !this.props.hidden,
     display: Display.SHOWING
   };
-
-  getShortcutsProps() {
-    return {
-      map: {
-        esc: this._onEscPress
-      },
-      scope: this.uid
-    };
-  }
 
   getChildContext() {
     return {
@@ -204,12 +186,7 @@ export default class Popup extends RingComponentWithShortcuts {
     };
   }
 
-  /** @override */
-  componentWillMount() {
-    this.setShortcutsEnabled(this.props.shortcuts && !this.props.hidden);
-  }
-
-  didMount() {
+  componentDidMount() {
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -218,12 +195,14 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  /** @override */
   componentWillUpdate(nextProps) {
-    this.setShortcutsEnabled(nextProps.shortcuts && !nextProps.hidden);
+    const shortcuts = nextProps.shortcuts && !nextProps.hidden;
+    if (this.state.shortcuts !== shortcuts) {
+      this.setState({shortcuts});
+    }
   }
 
-  didUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props !== prevProps) {
       const {hidden} = this.props;
 
@@ -235,7 +214,7 @@ export default class Popup extends RingComponentWithShortcuts {
     }
   }
 
-  willUnmount() {
+  componentWillUnmount() {
     if (this.props.legacy) {
       legacyPopups.delete(this);
     }
@@ -243,13 +222,22 @@ export default class Popup extends RingComponentWithShortcuts {
     this.popup = null;
   }
 
+  listeners = new Listeners();
+  redrawScheduler = scheduleRAF();
+  uid = getUID('popup-');
+  calculateDisplay = prevState => ({
+    ...prevState,
+    display: this.props.hidden
+      ? Display.SHOWING
+      : Display.SHOWN
+  });
   portalRef = el => {
+    this.node = el;
     this.parent = el && el.parentElement;
     if (el && this.context.parentPopupUid) {
       this._redraw();
     }
   };
-
   popupRef = el => {
     this.popup = el;
     this._redraw();
@@ -258,50 +246,6 @@ export default class Popup extends RingComponentWithShortcuts {
   containerRef = el => {
     this.container = el;
   };
-
-  render() {
-    const {
-      className, hidden, attached, keepMounted, legacy, cutEdge, target,
-      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu
-    } = this.props;
-    const showing = this.state.display === Display.SHOWING;
-
-    const classes = classNames(className, styles.popup, {
-      [styles.attached]: attached || legacy && cutEdge !== false,
-      [styles.hidden]: hidden,
-      [styles.showing]: showing
-    });
-
-    return (
-      <span
-        ref={this.portalRef}
-      >
-        <Portal
-          isOpen={keepMounted || !hidden}
-          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
-        >
-          <div
-            data-portaltarget={this.uid}
-            ref={this.containerRef}
-            onMouseOver={onMouseOver}
-            onMouseOut={onMouseOut}
-            onContextMenu={onContextMenu}
-          >
-            <div
-              data-test={this.props['data-test']}
-              data-test-shown={!hidden && !showing}
-              ref={this.popupRef}
-              className={classes}
-              onMouseDown={onMouseDown}
-              onMouseUp={onMouseUp}
-            >
-              {this.getInternalContent()}
-            </div>
-          </div>
-        </Portal>
-      </span>
-    );
-  }
 
   position() {
     const positionProps = positionPropKeys.reduce((acc, key) => {
@@ -485,5 +429,61 @@ export default class Popup extends RingComponentWithShortcuts {
 
   getInternalContent() {
     return this.props.children;
+  }
+
+  shortcutsScope = this.uid;
+  shortcutsMap = {
+    esc: this._onEscPress
+  };
+
+  render() {
+    const {
+      className, hidden, attached, keepMounted, legacy, cutEdge, target,
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu
+    } = this.props;
+    const showing = this.state.display === Display.SHOWING;
+
+    const classes = classNames(className, styles.popup, {
+      [styles.attached]: attached || legacy && cutEdge !== false,
+      [styles.hidden]: hidden,
+      [styles.showing]: showing
+    });
+
+    return (
+      <span
+        ref={this.portalRef}
+      >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
+        <Portal
+          isOpen={keepMounted || !hidden}
+          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
+        >
+          <div
+            data-portaltarget={this.uid}
+            ref={this.containerRef}
+            onMouseOver={onMouseOver}
+            onMouseOut={onMouseOut}
+            onContextMenu={onContextMenu}
+          >
+            <div
+              data-test={this.props['data-test']}
+              data-test-shown={!hidden && !showing}
+              ref={this.popupRef}
+              className={classes}
+              onMouseDown={onMouseDown}
+              onMouseUp={onMouseUp}
+            >
+              {this.getInternalContent()}
+            </div>
+          </div>
+        </Portal>
+      </span>
+    );
   }
 }

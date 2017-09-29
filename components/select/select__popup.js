@@ -1,13 +1,13 @@
 /**
  * @description Displays a popup with select's options.
  */
+/* eslint-disable react/prop-types */
 
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 
 import {SearchIcon} from '../icon';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -16,6 +16,7 @@ import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
@@ -27,9 +28,7 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-export default class SelectPopup extends RingComponentWithShortcuts {
-  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
-
+export default class SelectPopup extends Component {
   static defaultProps = {
     data: [],
     activeIndex: null,
@@ -59,20 +58,24 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     tagsActiveIndex: null
   };
 
-  popupFilterShortcuts = {
-    map: {
-      up: event => (this.list && this.list.upHandler(event)),
-      down: event => (this.list && this.list.downHandler(event)),
-      enter: event => (this.list && this.list.enterHandler(event)),
-      esc: event => this.props.onCloseAttempt(event, true),
-      tab: event => this.tabPress(event),
-      backspace: event => this.handleBackspace(event),
-      del: () => this.removeSelectedTag(),
-      left: () => this.handleNavigation(true),
-      right: () => this.handleNavigation()
-    }
-  };
+  componentDidMount() {
+    window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hidden !== this.props.hidden) {
+      this.setState({
+        popupShortcuts: !nextProps.hidden,
+        shortcuts: !nextProps.hidden && this.props.filter
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  isClickingPopup = false; // This flag is set to true while an item in the popup is being clicked
   focusFilter() {
     setTimeout(() => this.filter.focus());
   }
@@ -141,6 +144,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+
   popupFilterOnBlur = () => {
     if (this.state.tagsActiveIndex === null) {
       this._togglePopupFilterShortcuts(true);
@@ -154,32 +158,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         disabled: shortcutsDisabled
       }
     });
-  }
-
-  didMount() {
-    window.document.addEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  willReceiveProps(nextProps) {
-    if (nextProps.hidden !== this.props.hidden) {
-      this.setState({
-        popupShortcuts: !nextProps.hidden,
-        shortcuts: !nextProps.hidden && this.props.filter
-      });
-    }
-  }
-
-  willUnmount() {
-    window.document.removeEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  getShortcutsProps() {
-    return {
-      map: {
-        tab: this.tabPress
-      },
-      scope: getUID('select-popup-')
-    };
   }
 
   listOnMouseOut = () => {
@@ -253,12 +231,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   handleRemoveTag = memoize(tag => () => this.removeTag(tag));
+
   handleTagClick = memoize(tag => () => {
     this.setState({
       tagsActiveIndex: this.props.selected.indexOf(tag)
     });
   });
-
   getTags() {
     return (
       <div className="ring-select-popup__tags">
@@ -350,6 +328,25 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.filter = el;
   };
 
+  shortcutsScope = getUID('select-popup-');
+  shortcutsMap = {
+    tab: this.tabPress
+  };
+
+  popupFilterShortcuts = {
+    map: {
+      up: event => (this.list && this.list.upHandler(event)),
+      down: event => (this.list && this.list.downHandler(event)),
+      enter: event => (this.list && this.list.enterHandler(event)),
+      esc: event => this.props.onCloseAttempt(event, true),
+      tab: event => this.tabPress(event),
+      backspace: event => this.handleBackspace(event),
+      del: () => this.removeSelectedTag(),
+      left: () => this.handleNavigation(true),
+      right: () => this.handleNavigation()
+    }
+  };
+
   render() {
     const classes = classNames(styles.popup, this.props.className);
 
@@ -370,6 +367,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         onMouseDown={this.mouseDownHandler}
         target={this.props.ringPopupTarget}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         {this.getFilterWithTags()}
         {this.getList()}
         {this.getBottomLine()}

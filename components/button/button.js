@@ -13,6 +13,7 @@ import styles from './button.css';
  * @tags Ring UI Language
  * @constructor
  * @description Provides styled buttons.
+ * @extends {PureComponent}
  * @example-file ./button.examples.html
  */
 export default class Button extends PureComponent {

@@ -235,7 +235,7 @@ describe('Select Ng', () => {
     });
 
     it('Should be disabled if disabled', () => {
-      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" disabled="true"></rg-select>');
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" ng-disabled="true"></rg-select>');
 
       element[0].should.contain(`.${styles.disabled}`);
     });

@@ -10,31 +10,29 @@
   </file>
 
   <file type="js">
+    import React from 'react';
     import {render} from 'react-dom';
     import ProgressBar from '@jetbrains/ring-ui/components/progress-bar/progress-bar';
 
-    var progressBar = render(
-      ProgressBar.factory({value: 0}),
-      document.getElementById('progress-bar')
-    );
-
-    var progressBarBlack = render(
-      ProgressBar.factory({value: 0, light: true}),
-      document.getElementById('progress-bar-black')
-    );
-
-    var progressBarGray = render(
-      ProgressBar.factory({value: 0}),
-      document.getElementById('progress-bar-gray')
-    );
+    let value = 0;
 
     setInterval(function updateProgress() {
-      const currentValue = progressBar.props.value;
-      const value = currentValue >= 1 ? 0 : currentValue + 0.1;
+      value = value >= 1 ? 0 : value + 0.1;
 
-      progressBar.rerender({value});
-      progressBarBlack.rerender({value});
-      progressBarGray.rerender({value});
+      render(
+        <ProgressBar value={value}/>,
+        document.getElementById('progress-bar')
+      );
+
+      render(
+        <ProgressBar value={value} light={true}/>,
+        document.getElementById('progress-bar-black')
+      );
+
+      render(
+        <ProgressBar value={value}/>,
+        document.getElementById('progress-bar-gray')
+      );
     }, 500);
   </file>
 </example>

@@ -76,9 +76,7 @@ export default class Icon extends PureComponent {
 
 export {Size};
 
-let hasWarned = false;
-
-export function iconHOC(glyph, displayName, warnDeprecation) {
+export function iconHOC(glyph, displayName) {
   // eslint-disable-next-line react/no-multi-comp
   return class BoundIcon extends PureComponent {
     static displayName = displayName;
@@ -95,15 +93,6 @@ export function iconHOC(glyph, displayName, warnDeprecation) {
     }
 
     render() {
-      if (warnDeprecation && !hasWarned) {
-        // eslint-disable-next-line no-console
-        console.warn(`
-You're using a deprecated "import svg as component" feature from @jetbrains/ring-ui@0.2.x.
-This will not be available starting from 0.3.0. See https://github.com/JetBrains/ring-ui/blob/master/CHANGELOG.md#027--22-08-2017
-`);
-        hasWarned = true;
-      }
-
       const {iconRef, ...restProps} = this.props;
       return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
     }

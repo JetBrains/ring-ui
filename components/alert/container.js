@@ -10,7 +10,7 @@ import styles from './container.css';
  * @constructor
  * @category Components
  * @description Displays a stack of alerts on top of the page.
- * @extends {RingComponent}
+ * @extends {PureComponent}
  */
 
 export default class Alerts extends PureComponent {
