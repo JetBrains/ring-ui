@@ -90,8 +90,15 @@
     ];
 
     function renderSelect() {
-      render(<SelectselectedLabel="Option"
-          label="Please select option" filter clear selected={data[1]} data={data}/>,
+      render(
+        <Select
+          selectedLabel="Option"
+          label="Please select option"
+          filter
+          clear
+          selected={data[1]}
+          data={data}
+        />,
       document.getElementById('demo'));
     }
 

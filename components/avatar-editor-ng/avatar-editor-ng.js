@@ -7,7 +7,7 @@ import alertService from '../alert-service/alert-service';
 import IconNG from '../icon-ng/icon-ng';
 
 import '../avatar-editor/avatar-editor.scss';
-import '../button-legacy/button-legacy.scss';
+import '../button/button.scss';
 
 const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, IconNG]);
 

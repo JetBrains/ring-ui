@@ -9,7 +9,7 @@ import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
 import IconNg from '../icon-ng/icon-ng';
-import '../input-legacy/input-legacy.scss';
+import '../input/input.scss';
 
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import './shortcuts-hint-ng.scss';

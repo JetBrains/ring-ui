@@ -115,6 +115,7 @@
 .button {
   composes: font-smaller-lower;
   composes: button from "../button-group/button-group.css";
+  composes: button from "../button-set/button-set.css";
   composes: button from "../button-toolbar/button-toolbar.css";
 
   position: relative;
