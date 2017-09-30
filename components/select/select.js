@@ -194,25 +194,31 @@ export default class Select extends Component {
 
       this.setState({
         selected,
-        selectedIndex: multiple ? this.state.selectedIndex : selectedIndex,
         filterValue: this.getValueForFilter(selected)
       });
 
-      if (multiple) {
-        const isSameSelected = selected &&
-          this.props.selected &&
-          selected.length === this.props.selected.length &&
-          this.props.selected.every((it, index) => selected[index].key === it.key);
-
-        if (!isSameSelected) {
-          this.setState({selectedIndex});
-        }
+      if (!multiple || !isSameSelected(this.props.selected, selected)) {
+        this.setState({selectedIndex});
       }
+
       this._rebuildMultipleMap(selected, multiple);
     }
 
     if (newProps.multiple !== multiple) {
       this._handleMultipleToggling(newProps.multiple);
+    }
+
+    function isSameSelected(prevSelected, selected) {
+      if (!prevSelected || !selected || prevSelected.length !== selected.length) {
+        return false;
+      }
+
+      const keysMap = selected.reduce((result, item) => {
+        result[item.key] = true;
+        return result;
+      }, {});
+
+      return prevSelected.every(it => keysMap[it.key]);
     }
   }
 
@@ -654,8 +660,8 @@ export default class Select extends Component {
     }
 
     if ((!isItem(selected) && !isCustomItem(selected)) ||
-        selected.disabled ||
-        selected.isResetItem) {
+      selected.disabled ||
+      selected.isResetItem) {
       return;
     }
 

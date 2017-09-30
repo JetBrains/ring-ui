@@ -25,7 +25,7 @@ const svgSpriteLoader = {
       options: {
         extract: false,
         runtimeCompat: true,
-        runtimeGenerator: require.resolve('./icon-runtime-generator')
+        esModule: false
       }
     }
   ],
