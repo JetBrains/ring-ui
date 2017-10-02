@@ -45,7 +45,7 @@ type Props = {
   isItemCollapsed: (item?: ItemType) => boolean,
 
   showMoreLessButton: MoreLessButtonState,
-  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
+  onItemMoreLess: (group?: GroupType, more?: boolean) => void,
 
   showFocus: boolean,
   onFocus: (groupOrItem: GroupType|ItemType) => void,
@@ -68,7 +68,7 @@ export default class Group extends PureComponent {
     isItemCollapsed: () => true,
 
     showMoreLessButton: moreLessButtonStates.UNUSED,
-    onGroupMoreLess: () => {},
+    onItemMoreLess: () => {},
 
     showFocus: false,
 
@@ -79,13 +79,13 @@ export default class Group extends PureComponent {
   props: Props;
 
   onShowMore = (): void => {
-    const {onGroupMoreLess, group} = this.props;
-    onGroupMoreLess(group, true);
+    const {onItemMoreLess, group} = this.props;
+    onItemMoreLess(group, true);
   };
 
   onShowLess = (): void => {
-    const {onGroupMoreLess, group} = this.props;
-    onGroupMoreLess(group, false);
+    const {onItemMoreLess, group} = this.props;
+    onItemMoreLess(group, false);
   };
 
   onFocus = (): void => {

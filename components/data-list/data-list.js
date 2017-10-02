@@ -37,8 +37,8 @@ type Props = {
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
 
-  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
-  groupMoreLessState: (group?: GroupType) => MoreLessButtonState,
+  onItemMoreLess: (group?: GroupType, more?: boolean) => void,
+  itemMoreLessState: (group?: GroupType) => MoreLessButtonState,
 
   remoteSelection: boolean,
 
@@ -66,8 +66,8 @@ class DataList extends PureComponent {
     onItemExpand: PropTypes.func,
     isItemCollapsed: PropTypes.func,
 
-    onGroupMoreLess: PropTypes.func,
-    groupMoreLessState: PropTypes.func,
+    onItemMoreLess: PropTypes.func,
+    itemMoreLessState: PropTypes.func,
 
     remoteSelection: PropTypes.bool
   };
@@ -82,8 +82,8 @@ class DataList extends PureComponent {
     onItemExpand: () => {},
     isItemCollapsed: () => true,
 
-    onGroupMoreLess: () => {},
-    groupMoreLessState: () => moreLessButtonStates.UNUSED,
+    onItemMoreLess: () => {},
+    itemMoreLessState: () => moreLessButtonStates.UNUSED,
 
     remoteSelection: false
   };
@@ -152,7 +152,7 @@ class DataList extends PureComponent {
           {data.map(group => {
             const {id, title, items} = group;
 
-            const showMoreLessButton = this.props.groupMoreLessState(group);
+            const showMoreLessButton = this.props.itemMoreLessState(group);
 
             return (
               <Group
@@ -164,7 +164,7 @@ class DataList extends PureComponent {
                 onItemCollapse={onItemCollapse}
                 isItemCollapsed={isItemCollapsed}
                 showMoreLessButton={showMoreLessButton}
-                onGroupMoreLess={this.props.onGroupMoreLess}
+                onItemMoreLess={this.props.onItemMoreLess}
                 onFocus={this.onGroupOrItemFocus}
                 focused={selection.isFocused(group)}
                 showFocus={selection.isFocused(group)}
