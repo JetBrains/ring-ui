@@ -32,9 +32,6 @@ type Props = {
   loading: boolean,
 
   groupsAreCollapsible: boolean,
-  onGroupCollapse: (item?: GroupType) => void,
-  onGroupExpand: (item?: GroupType) => void,
-  isGroupCollapsed: (item?: GroupType) => boolean,
 
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
@@ -64,9 +61,6 @@ class DataList extends PureComponent {
     loading: PropTypes.bool,
 
     groupsAreCollapsible: PropTypes.bool,
-    onGroupCollapse: PropTypes.func,
-    onGroupExpand: PropTypes.func,
-    isGroupCollapsed: PropTypes.func,
 
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
@@ -83,9 +77,6 @@ class DataList extends PureComponent {
     groupItemsLimit: Infinity,
 
     groupsAreCollapsible: false,
-    onGroupCollapse: () => {},
-    onGroupExpand: () => {},
-    isGroupCollapsed: () => true,
 
     onItemCollapse: () => {},
     onItemExpand: () => {},
@@ -139,7 +130,6 @@ class DataList extends PureComponent {
     const {
       data, className, loading,
       onItemCollapse, onItemExpand, isItemCollapsed,
-      onGroupCollapse, onGroupExpand, isGroupCollapsed,
       selection, disabledHover, groupsAreCollapsible
     } = this.props;
 
@@ -183,9 +173,9 @@ class DataList extends PureComponent {
                 selectable={group.selectable}
                 selected={selection.isSelected(group)}
                 collapsible={groupsAreCollapsible}
-                collapsed={isGroupCollapsed(group)}
-                onExpand={onGroupExpand}
-                onCollapse={onGroupCollapse}
+                collapsed={isItemCollapsed(group)}
+                onExpand={onItemExpand}
+                onCollapse={onItemCollapse}
               />
             );
           })}

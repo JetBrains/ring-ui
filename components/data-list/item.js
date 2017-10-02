@@ -89,15 +89,13 @@ export default class Item extends PureComponent {
           onSelect={onSelect}
         />
 
-        {subitems.length && !collapsed
-          ? (
-            <ul className={styles.subgroup}>
-              {subitems.map(subitem => (
-                <li key={subitem.id} className={styles.subitem}>{subitem.title}</li>
-              ))}
-            </ul>
-          ) : null
-        }
+        {subitems.length && !collapsed ? (
+          <ul className={styles.subgroup}>
+            {subitems.map(subitem => (
+              <li key={subitem.id} className={styles.subitem}>{subitem.title}</li>
+            ))}
+          </ul>
+        ) : null}
       </li>
     );
   }
