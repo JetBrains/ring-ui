@@ -16,8 +16,8 @@ class DataListDemo extends PureComponent {
 
   expandedItems = new Set();
 
-  moreExpandebleGroups = new Set([mock[0].id]);
-  moreExpandedGroups = new Set();
+  moreExpandebleItems = new Set([mock[0].id]);
+  moreExpandedItems = new Set();
 
   isItemCollapsed = item => !this.expandedItems.has(item);
 
@@ -31,9 +31,9 @@ class DataListDemo extends PureComponent {
     this.setState({data: [...this.state.data]});
   };
 
-  groupMoreLessState = group => {
-    if (this.moreExpandebleGroups.has(group.id)) {
-      return this.moreExpandedGroups.has(group.id)
+  itemMoreLessState = item => {
+    if (this.moreExpandebleItems.has(item.id)) {
+      return this.moreExpandedItems.has(item.id)
         ? moreLessButtonStates.LESS
         : moreLessButtonStates.MORE;
     } else {
@@ -41,13 +41,13 @@ class DataListDemo extends PureComponent {
     }
   };
 
-  onGroupMoreLess = (group, more) => {
+  onItemMoreLess = (item, more) => {
     if (more) {
-      this.moreExpandedGroups.add(group.id);
-      group.items = group.items.concat([...moreItems]);
+      this.moreExpandedItems.add(item.id);
+      item.items = item.items.concat([...moreItems]);
     } else {
-      this.moreExpandedGroups.delete(group.id);
-      group.items = group.items.slice(0, group.items.length - moreItems.length);
+      this.moreExpandedItems.delete(item.id);
+      item.items = item.items.slice(0, item.items.length - moreItems.length);
     }
 
     this.setState({data: [...this.state.data]});
@@ -68,8 +68,8 @@ class DataListDemo extends PureComponent {
         onItemExpand={this.onItemExpand}
         isItemCollapsed={this.isItemCollapsed}
 
-        onGroupMoreLess={this.onGroupMoreLess}
-        groupMoreLessState={this.groupMoreLessState}
+        onItemMoreLess={this.onItemMoreLess}
+        itemMoreLessState={this.itemMoreLessState}
       />
     );
   }
