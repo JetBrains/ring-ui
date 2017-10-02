@@ -21,7 +21,6 @@ import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/t
 
 import styles from './index.css';
 import hubConfig from './hub-config';
-import Item from './item';
 import Version from './version';
 import {getIndexDoc} from './utils';
 
@@ -39,8 +38,8 @@ class SiteHeader extends PureComponent {
   auth = new Auth(hubConfig);
 
   render() {
-    const {docsItems, version} = this.props;
-    const indexDoc = getIndexDoc(docsItems);
+    const {version} = this.props;
+    const indexDoc = getIndexDoc();
 
     return (
       <Header className={styles.header}>
@@ -48,19 +47,13 @@ class SiteHeader extends PureComponent {
           <Logo
             className={styles.logo}
             glyph={jetbrainsLogo}
-            size={Logo.Size.Size128}
+            size={Logo.Size.Size96}
           />
         </a>
         <span className={styles.headerItem}>
-          {'Ring UI library '}
+          {'Version '}
           <Version version={version}/>
         </span>
-        {docsItems.map(item => (
-          <Item
-            key={item.title}
-            {...item}
-          />
-        ))}
         <Tray>
           <Services
             services={[
@@ -90,6 +83,8 @@ class SiteHeader extends PureComponent {
               href="https://github.com/JetBrains/ring-ui"
               bannerColor="#fff"
               octoColor="#000"
+              height={64}
+              width={64}
             />
           </div>
         </Tray>
@@ -100,8 +95,7 @@ class SiteHeader extends PureComponent {
 
 SiteHeader.propTypes = {
   version: PropTypes.string,
-  noAuth: PropTypes.bool,
-  docsItems: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
+  noAuth: PropTypes.bool
 };
 
 export default SiteHeader;

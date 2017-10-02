@@ -8,7 +8,6 @@ import fuzzyHighlight from '@jetbrains/ring-ui/components/global/fuzzy-highlight
 
 import {currentPath} from './utils';
 import styles from './index.css';
-import Item from './item';
 
 function makeFilter(filter) {
   const needle = filter.trim();
@@ -38,7 +37,7 @@ const filterItems = (items, filterFn) =>
 
 const groupListItem = name => ({
   rgItemType: List.ListProps.Type.TITLE,
-  label: name,
+  label: name === 'Docs' ? 'Ring UI' : name,
   key: name
 });
 
@@ -108,7 +107,10 @@ class Nav extends PureComponent {
 Nav.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
-    items: PropTypes.arrayOf(PropTypes.shape(Item.propTypes))
+    items: PropTypes.arrayOf(PropTypes.shape({
+      url: PropTypes.string,
+      title: PropTypes.string
+    }))
   }))
 };
 

@@ -72,7 +72,7 @@ function createCategoryItemsFromSources(sources, category) {
       return {
         url,
         title,
-        legacy: attrs.tags !== 'Ring UI Language',
+        legacy: attrs.category !== 'Docs' && attrs.tags !== 'Ring UI Language',
         order: attrs.order
       };
     });
