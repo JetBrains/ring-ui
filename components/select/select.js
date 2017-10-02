@@ -10,6 +10,7 @@ import Icon, {CaretDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
+import fuzzyHighlight from '../global/fuzzy-highlight';
 
 import SelectPopup from './select__popup';
 import './select.scss';
@@ -457,6 +458,36 @@ export default class Select extends RingComponentWithShortcuts {
     return item.label.toLowerCase();
   }
 
+  doesLabelMatch(itemToCheck, fn) {
+    const lowerCaseLabel = this.getLowerCaseLabel(itemToCheck);
+
+    if (lowerCaseLabel == null) {
+      return true;
+    }
+
+    return fn(lowerCaseLabel);
+  }
+
+  getFilterFn() {
+    const {filter} = this.props;
+
+    if (filter.fn) {
+      return filter.fn;
+    }
+
+    if (filter.fuzzy) {
+      return (itemToCheck, checkString) =>
+        this.doesLabelMatch(itemToCheck, lowerCaseLabel =>
+          fuzzyHighlight(checkString, lowerCaseLabel).matched
+        );
+    }
+
+    return (itemToCheck, checkString) =>
+      this.doesLabelMatch(itemToCheck, lowerCaseLabel =>
+        lowerCaseLabel.indexOf(checkString) >= 0
+      );
+  }
+
   getListItems(rawFilterString, data = this.props.data) {
     let filterString = rawFilterString.trim();
 
@@ -468,19 +499,7 @@ export default class Select extends RingComponentWithShortcuts {
     const filteredData = [];
     let exactMatch = false;
 
-    const check = this.props.filter.fn || ((itemToCheck, checkString) => {
-      if (checkString === '') {
-        return true;
-      }
-
-      const lowerCaseLabel = this.getLowerCaseLabel(itemToCheck);
-
-      if (lowerCaseLabel == null) {
-        return true;
-      }
-
-      return lowerCaseLabel.indexOf(checkString) >= 0;
-    });
+    const check = this.getFilterFn();
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
