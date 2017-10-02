@@ -52,8 +52,6 @@ body {
   z-index: fixed-z-index;
 
   overflow: visible;
-
-  height: calc(unit * 10);
 }
 
 .logo {
@@ -61,7 +59,7 @@ body {
 }
 
 .githubCorner {
-  width: calc(unit * 7);
+  width: calc(unit * 5);
 }
 
 .list {
@@ -126,6 +124,8 @@ a.legacy {
 
 .version button {
   height: auto;
+
+  color: white-color;
 }
 
 .footer {
