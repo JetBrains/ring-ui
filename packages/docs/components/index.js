@@ -12,14 +12,10 @@ import Header from './header';
 import Footer from './footer';
 import Nav from './nav';
 import Content from './content';
-import {getDocs, getIndexDoc} from './utils';
+import {getIndexDoc} from './utils';
 import styles from './index.css';
 
 const {source, navData, version} = window;
-
-const docs = getDocs();
-const docsItems = docs.items;
-const categories = navData.filter(category => category !== docs);
 
 class App extends Component {
   componentDidMount() {
@@ -51,7 +47,6 @@ class App extends Component {
       <div className={styles.app}>
         <Header
           version={version}
-          docsItems={docsItems}
           noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
         />
         <ContentLayout className={styles.main} responsive={false}>
@@ -59,7 +54,7 @@ class App extends Component {
             className={styles.sidebar}
             fixedClassName={styles.sidebarFixed}
           >
-            <Nav categories={categories}/>
+            <Nav categories={navData}/>
           </Sidebar>
           <Content {...source}/>
           <Footer/>
