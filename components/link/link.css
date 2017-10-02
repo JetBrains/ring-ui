@@ -14,7 +14,6 @@
   }
 
   &:hover,
-  &:focus,
   &.hover {
     transition: none;
 
@@ -23,13 +22,19 @@
 
   &:hover .inner {
     border-width: 0;
-    border-bottom: 1px solid;
+    border-bottom: 2px solid;
     border-image-source: linear-gradient(currentcolor 50%, transparent 50%);
     border-image-slice: 0 0 100% 0;
   }
 
   &.active {
     color: inherit;
+  }
+}
+
+@media (min-resolution: 2dppx) {
+  .link:hover .inner {
+    border-bottom-width: 1px;
   }
 }
 
