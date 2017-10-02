@@ -12,21 +12,9 @@ class DataListDemo extends PureComponent {
     selection: new Selection({data: mock, isItemSelectable: item => item.selectable})
   };
 
-  expandedGroups = new Set();
   expandedItems = new Set();
 
-  isGroupCollapsed = item => !this.expandedGroups.has(item);
   isItemCollapsed = item => !this.expandedItems.has(item);
-
-  onGroupExpand = item => {
-    this.expandedGroups.add(item);
-    this.setState({data: [...this.state.data]});
-  };
-
-  onGroupCollapse = item => {
-    this.expandedGroups.delete(item);
-    this.setState({data: [...this.state.data]});
-  };
 
   onItemExpand = item => {
     this.expandedItems.add(item);
@@ -49,14 +37,11 @@ class DataListDemo extends PureComponent {
         selection={this.state.selection}
         onSelect={this.onSelect}
 
-        groupsAreCollapsible
-        onGroupCollapse={this.onGroupCollapse}
-        onGroupExpand={this.onGroupExpand}
-        isGroupCollapsed={this.isGroupCollapsed}
-
         onItemCollapse={this.onItemCollapse}
         onItemExpand={this.onItemExpand}
         isItemCollapsed={this.isItemCollapsed}
+
+        groupsAreCollapsible
       />
     );
   }
