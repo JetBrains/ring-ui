@@ -19,6 +19,8 @@ class DataListDemo extends PureComponent {
   moreExpandebleGroups = new Set([mock[0].id]);
   moreExpandedGroups = new Set();
 
+  isItemCollapsed = item => !this.expandedItems.has(item);
+
   onItemExpand = item => {
     this.expandedItems.add(item);
     this.setState({data: [...this.state.data]});
@@ -28,8 +30,6 @@ class DataListDemo extends PureComponent {
     this.expandedItems.delete(item);
     this.setState({data: [...this.state.data]});
   };
-
-  isItemCollapsed = item => !this.expandedItems.has(item);
 
   groupMoreLessState = group => {
     if (this.moreExpandebleGroups.has(group.id)) {

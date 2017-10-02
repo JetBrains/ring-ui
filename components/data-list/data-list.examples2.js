@@ -4,7 +4,9 @@ import {render} from 'react-dom';
 
 import DataList from './data-list';
 import Selection from './selection';
-import mock from './data-list.mock';
+import mock, {moreItems} from './data-list.mock';
+
+import {moreLessButtonStates} from './group';
 
 class DataListDemo extends PureComponent {
   state = {
@@ -13,6 +15,9 @@ class DataListDemo extends PureComponent {
   };
 
   expandedItems = new Set();
+
+  moreExpandebleGroups = new Set([mock[0].id]);
+  moreExpandedGroups = new Set();
 
   isItemCollapsed = item => !this.expandedItems.has(item);
 
@@ -23,6 +28,28 @@ class DataListDemo extends PureComponent {
 
   onItemCollapse = item => {
     this.expandedItems.delete(item);
+    this.setState({data: [...this.state.data]});
+  };
+
+  groupMoreLessState = group => {
+    if (this.moreExpandebleGroups.has(group.id)) {
+      return this.moreExpandedGroups.has(group.id)
+        ? moreLessButtonStates.LESS
+        : moreLessButtonStates.MORE;
+    } else {
+      return moreLessButtonStates.UNUSED;
+    }
+  };
+
+  onGroupMoreLess = (group, more) => {
+    if (more) {
+      this.moreExpandedGroups.add(group.id);
+      group.items = group.items.concat([...moreItems]);
+    } else {
+      this.moreExpandedGroups.delete(group.id);
+      group.items = group.items.slice(0, group.items.length - moreItems.length);
+    }
+
     this.setState({data: [...this.state.data]});
   };
 
@@ -40,6 +67,9 @@ class DataListDemo extends PureComponent {
         onItemCollapse={this.onItemCollapse}
         onItemExpand={this.onItemExpand}
         isItemCollapsed={this.isItemCollapsed}
+
+        onGroupMoreLess={this.onGroupMoreLess}
+        groupMoreLessState={this.groupMoreLessState}
 
         groupsAreCollapsible
       />
