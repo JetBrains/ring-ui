@@ -9,6 +9,12 @@
   "command": {
     "init": {
       "exact": true
+    },
+    "publish": {
+      "ignore": [
+        "@ring-ui/docs",
+        "@ring-ui/gemini"
+      ]
     }
   }
 }
