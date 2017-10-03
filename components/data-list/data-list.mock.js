@@ -8,39 +8,43 @@ import Badge from '../badge/badge';
 
 export default [
   {
-    type: 'group',
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
-    size: 62,
     selectable: true,
+    collapsible: true,
     items: [
       {
-        type: 'item',
         id: 11,
         title: '6 projects: as a member of jetbrains-team',
+        collapsible: true,
         items: [
           {
             id: 111,
+            collapsible: true,
             title: <Link href="#">TeamCity</Link>
           },
 
           {
             id: 112,
+            collapsible: true,
             title: <Link href="#">YouTrack</Link>
           },
 
           {
             id: 113,
+            collapsible: true,
             title: <Link href="#">Sandbox</Link>
           },
 
           {
             id: 114,
+            collapsible: true,
             title: <Link href="#">Exception Analyzer</Link>
           },
 
           {
             id: 115,
+            collapsible: true,
             title: <Link href="#">MPS</Link>
           }
         ]
@@ -49,14 +53,12 @@ export default [
   },
 
   {
-    type: 'group',
     id: 2,
     title: <span><strong>Code Reviewer</strong> in 5 projects</span>,
-    size: 5,
     selectable: true,
+    collapsible: true,
     items: [
       {
-        type: 'item',
         id: 21,
         selectable: true,
         title: (
@@ -69,40 +71,45 @@ export default [
       },
 
       {
-        type: 'item',
         id: 22,
         title: '6 projects: as a member of jetbrains-team',
+        collapsible: true,
         items: [
           {
             id: 221,
+            collapsible: true,
             title: <Link href="#">TeamCity</Link>
           },
 
           {
             id: 222,
+            collapsible: true,
             title: <Link href="#">YouTrack</Link>
           },
 
           {
             id: 223,
+            collapsible: true,
             title: <Link href="#">Sandbox</Link>
           },
 
           {
             id: 224,
+            collapsible: true,
             title: <Link href="#">Exception Analyzer</Link>
           },
 
           {
             id: 225,
+            collapsible: true,
             title: <Link href="#">MPS</Link>
           }
         ]
       },
 
       {
-        type: 'item',
         id: 23,
+        collapsible: true,
         title: (
           <span>
             <Link href="#">CustomJDK</Link>
@@ -114,15 +121,14 @@ export default [
   },
 
   {
-    type: 'group',
     id: 3,
     title: <span><strong>Code Viewer</strong> in 5 projects</span>,
-    size: 5,
     selectable: true,
+    collapsible: true,
     items: [
       {
-        type: 'item',
         id: 31,
+        collapsible: true,
         title: (
           <span>
             <Link href="#">ide-frontend</Link>
@@ -132,8 +138,8 @@ export default [
       },
 
       {
-        type: 'item',
         id: 32,
+        collapsible: true,
         title: (
           <span>
             <Link href="#">ide-frontend</Link>
@@ -145,14 +151,13 @@ export default [
   },
 
   {
-    type: 'group',
     id: 4,
     title: <span><strong>Commenter</strong> in 12 projects</span>,
-    size: 12,
+    collapsible: true,
     items: [
       {
-        type: 'item',
         id: 41,
+        collapsible: true,
         title: (
           <span>
             <Link href="#">Intellij IDEA</Link>
@@ -162,8 +167,8 @@ export default [
       },
 
       {
-        type: 'item',
         id: 42,
+        collapsible: true,
         title: (
           <span>
             <Link href="#">YouTrack Backlog</Link>
@@ -175,8 +180,8 @@ export default [
   },
 
   {
-    type: 'group',
     id: 5,
+    collapsible: true,
     title: (
       <span>
         <strong>Developer</strong>
@@ -184,20 +189,19 @@ export default [
         <Badge>team role</Badge>
       </span>
     ),
-    size: 12,
     items: [
       {
-        type: 'item',
         id: 51,
         selectable: true,
+        collapsible: true,
         title: <Link href="#">Wasabi</Link>
       }
     ]
   },
 
   {
-    type: 'group',
     id: 6,
+    collapsible: true,
     title: (
       <span>
         <strong>Git Hosting Admin</strong>
@@ -206,25 +210,23 @@ export default [
         <span>: as a member of jetbrains-team</span>
       </span>
     ),
-    size: 12,
     items: []
   },
 
   {
-    type: 'group',
     id: 7,
     title: <span><strong>Git Hosting Checkout</strong> in 7 projects</span>,
-    size: 12,
     selectable: true,
+    collapsible: true,
     items: []
   }
 ];
 
 export const moreItems = [
   {
-    type: 'item',
     id: 91,
     selectable: true,
+    collapsible: true,
     title: (
       <span>
         <Link href="#">More item 1</Link>
@@ -233,10 +235,11 @@ export const moreItems = [
       </span>
     )
   },
+
   {
-    type: 'item',
     id: 92,
     selectable: true,
+    collapsible: true,
     title: (
       <span>
         <Link href="#">More item 2</Link>

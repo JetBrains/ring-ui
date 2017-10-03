@@ -20,6 +20,7 @@ class DataListDemo extends PureComponent {
   moreExpandedItems = new Set();
 
   isItemCollapsed = item => !this.expandedItems.has(item);
+  isItemCollapsible = item => item.collapsible;
 
   onItemExpand = item => {
     this.expandedItems.add(item);
@@ -67,11 +68,10 @@ class DataListDemo extends PureComponent {
         onItemCollapse={this.onItemCollapse}
         onItemExpand={this.onItemExpand}
         isItemCollapsed={this.isItemCollapsed}
+        isItemCollapsible={this.isItemCollapsible}
 
         onItemMoreLess={this.onItemMoreLess}
         itemMoreLessState={this.itemMoreLessState}
-
-        groupsAreCollapsible
       />
     );
   }
