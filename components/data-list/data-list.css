@@ -33,14 +33,14 @@
   border-width: 1px 0;
   outline: none;
 
-  @nest .item & {
+  @nest .groupNested & {
     height: 30px;
     padding: 0 60px;
 
     border-color: #ebebeb;
   }
 
-  @nest .groupShifted .item & {
+  @nest .groupShifted .groupNested & {
     padding-left: 92px;
   }
 

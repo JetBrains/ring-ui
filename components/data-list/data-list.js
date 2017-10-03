@@ -31,11 +31,10 @@ type Props = {
   data: ItemType[],
   loading: boolean,
 
-  groupsAreCollapsible: boolean,
-
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
+  isItemCollapsible: (item?: ItemType) => boolean,
 
   onItemMoreLess: (item?: ItemType, more?: boolean) => void,
   itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
@@ -60,11 +59,10 @@ class DataList extends PureComponent {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
 
-    groupsAreCollapsible: PropTypes.bool,
-
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     isItemCollapsed: PropTypes.func,
+    isItemCollapsible: PropTypes.func,
 
     onItemMoreLess: PropTypes.func,
     itemMoreLessState: PropTypes.func,
@@ -75,11 +73,10 @@ class DataList extends PureComponent {
   static defaultProps = {
     loading: false,
 
-    groupsAreCollapsible: false,
-
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true,
+    isItemCollapsible: () => false,
 
     onItemMoreLess: () => {},
     itemMoreLessState: () => moreLessButtonStates.UNUSED,
@@ -128,8 +125,9 @@ class DataList extends PureComponent {
   render(): Element<any> {
     const {
       data, className, loading,
-      onItemCollapse, onItemExpand, isItemCollapsed,
-      selection, disabledHover, groupsAreCollapsible
+      onItemCollapse, onItemExpand,
+      isItemCollapsed, isItemCollapsible,
+      selection, disabledHover
     } = this.props;
 
     const classes = classNames(className, {
@@ -159,12 +157,14 @@ class DataList extends PureComponent {
                 item={item}
                 title={title}
                 items={items}
+                theFirstLevel
 
-                collapsible={groupsAreCollapsible}
+                collapsible={isItemCollapsible(item)}
                 collapsed={isItemCollapsed(item)}
                 onCollapse={onItemCollapse}
                 onExpand={onItemExpand}
                 isCollapsed={isItemCollapsed}
+                isCollapsible={isItemCollapsible}
 
                 focused={selection.isFocused(item)}
                 showFocus={selection.isFocused(item)}
