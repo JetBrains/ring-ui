@@ -14,7 +14,6 @@ import {
 
 import Selection from './selection';
 import Title from './title';
-import Item from './item';
 import type {ItemType} from './types';
 import styles from './data-list.css';
 
@@ -32,8 +31,9 @@ export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
 type Props = {
   item: ItemType,
   title: string,
-  items: ItemType[],
+  items?: ItemType[],
   className?: string,
+  theFirstLevel?: boolean,
 
   collapsible: boolean,
   collapsed: boolean,
@@ -41,6 +41,7 @@ type Props = {
   onExpand: (item?: ItemType) => void,
 
   isCollapsed: (item?: ItemType) => boolean,
+  isCollapsible: (item?: ItemType) => boolean,
 
   showFocus: boolean,
   onFocus: (item: ItemType) => void,
@@ -56,20 +57,10 @@ type Props = {
 
 export default class Group extends PureComponent {
   static defaultProps = {
-    collapsible: false,
-    collapsed: true,
-    onCollapse: () => {},
-    onExpand: () => {},
-
-    isCollapsed: () => true,
-
+    items: [],
+    theFirstLevel: false,
     showMoreLessButton: moreLessButtonStates.UNUSED,
-    onItemMoreLess: () => {},
-
-    showFocus: false,
-
-    selectable: false,
-    selected: false
+    onItemMoreLess: () => {}
   };
 
   props: Props;
@@ -116,7 +107,8 @@ export default class Group extends PureComponent {
 
   renderItem = (item: ItemType): Element<any> => {
     const {
-      onCollapse, onExpand, isCollapsed,
+      onCollapse, onExpand,
+      isCollapsed, isCollapsible,
       selection
     } = this.props;
 
@@ -129,16 +121,18 @@ export default class Group extends PureComponent {
     };
 
     return (
-      <Item
+      <Group
         key={item.id}
         item={item}
         title={item.title}
         items={item.items}
 
+        collapsible={isCollapsible(item)}
         collapsed={isCollapsed(item)}
         onCollapse={onCollapse}
         onExpand={onExpand}
         isCollapsed={isCollapsed}
+        isCollapsible={isCollapsible}
 
         focused={selection.isFocused(item)}
         showFocus={selection.isFocused(item)}
@@ -155,7 +149,8 @@ export default class Group extends PureComponent {
   render(): Element<any> {
     const {
       title, items, showMoreLessButton,
-      showFocus, selectable, selected,
+      theFirstLevel, showFocus,
+      selectable, selected,
       collapsible, collapsed
     } = this.props;
 
@@ -213,8 +208,9 @@ export default class Group extends PureComponent {
       <li
         className={classNames(styles.group, {
           [styles.groupShifted]: selectable && collapserExpander,
-          [styles.groupEmpty]: itemIsEmpty,
-          [styles.groupFocused]: showFocus
+          [styles.groupEmpty]: theFirstLevel && itemIsEmpty,
+          [styles.groupFocused]: showFocus,
+          [styles.groupNested]: !theFirstLevel
         })}
       >
         <Title
