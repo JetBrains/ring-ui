@@ -15,7 +15,7 @@ import {
 import Selection from './selection';
 import Title from './title';
 import Item from './item';
-import type {GroupType, ItemType} from './types';
+import type {ItemType} from './types';
 import styles from './data-list.css';
 
 export const moreLessButtonStates = {
@@ -30,27 +30,27 @@ export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
   typeof moreLessButtonStates.LESS;
 
 type Props = {
-  group: GroupType,
+  item: ItemType,
   title: string,
   items: ItemType[],
   className?: string,
 
   collapsible: boolean,
   collapsed: boolean,
-  onCollapse: (item?: GroupType) => void,
-  onExpand: (item?: GroupType) => void,
+  onCollapse: (item?: ItemType) => void,
+  onExpand: (item?: ItemType) => void,
 
-  onItemCollapse: (item?: GroupType) => void,
+  onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
 
   showMoreLessButton: MoreLessButtonState,
-  onItemMoreLess: (group?: GroupType, more?: boolean) => void,
+  onItemMoreLess: (item?: ItemType, more?: boolean) => void,
 
   showFocus: boolean,
-  onFocus: (groupOrItem: GroupType|ItemType) => void,
+  onFocus: (item: ItemType) => void,
 
-  onSelect: (groupOrItem: GroupType|ItemType, selected: boolean) => void,
+  onSelect: (item: ItemType, selected: boolean) => void,
   selection: Selection,
   selectable: boolean,
   selected: boolean
@@ -79,18 +79,18 @@ export default class Group extends PureComponent {
   props: Props;
 
   onShowMore = (): void => {
-    const {onItemMoreLess, group} = this.props;
-    onItemMoreLess(group, true);
+    const {onItemMoreLess, item} = this.props;
+    onItemMoreLess(item, true);
   };
 
   onShowLess = (): void => {
-    const {onItemMoreLess, group} = this.props;
-    onItemMoreLess(group, false);
+    const {onItemMoreLess, item} = this.props;
+    onItemMoreLess(item, false);
   };
 
   onFocus = (): void => {
-    const {onFocus, group} = this.props;
-    onFocus(group);
+    const {onFocus, item} = this.props;
+    onFocus(item);
   };
 
   onItemFocus = (item: ItemType): void => {
@@ -99,8 +99,8 @@ export default class Group extends PureComponent {
   };
 
   onSelect = (selected: boolean): void => {
-    const {onSelect, group} = this.props;
-    onSelect(group, selected);
+    const {onSelect, item} = this.props;
+    onSelect(item, selected);
   };
 
   onItemSelect = (item: ItemType, selected: boolean): void => {
@@ -109,13 +109,13 @@ export default class Group extends PureComponent {
   };
 
   onCollapse = (): void => {
-    const {group, onCollapse} = this.props;
-    onCollapse(group);
+    const {item, onCollapse} = this.props;
+    onCollapse(item);
   }
 
   onExpand = (): void => {
-    const {group, onExpand} = this.props;
-    onExpand(group);
+    const {item, onExpand} = this.props;
+    onExpand(item);
   }
 
   renderItem = (item: ItemType): Element<any> => {
@@ -206,13 +206,13 @@ export default class Group extends PureComponent {
       }
     }
 
-    const groupIsEmpty = !items.length || (collapsible && collapsed);
+    const itemIsEmpty = !items.length || (collapsible && collapsed);
 
     return (
       <li
         className={classNames(styles.group, {
           [styles.groupShifted]: selectable && collapserExpander,
-          [styles.groupEmpty]: groupIsEmpty,
+          [styles.groupEmpty]: itemIsEmpty,
           [styles.groupFocused]: showFocus
         })}
       >
@@ -227,7 +227,7 @@ export default class Group extends PureComponent {
           onSelect={this.onSelect}
         />
 
-        {!groupIsEmpty ? (
+        {!itemIsEmpty ? (
           <ul className={styles.groupContent}>
             {items.map(item => this.renderItem(item))}
 
