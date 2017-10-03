@@ -159,20 +159,24 @@ class DataList extends PureComponent {
                 item={item}
                 title={title}
                 items={items}
+
+                collapsible={groupsAreCollapsible}
+                collapsed={isItemCollapsed(item)}
+                onCollapse={onItemCollapse}
+                onExpand={onItemExpand}
                 isCollapsed={isItemCollapsed}
-                showMoreLessButton={showMoreLessButton}
-                onItemMoreLess={this.props.onItemMoreLess}
-                onFocus={this.onItemFocus}
+
                 focused={selection.isFocused(item)}
                 showFocus={selection.isFocused(item)}
-                onSelect={this.onItemSelect}
+                onFocus={this.onItemFocus}
+
                 selection={selection}
                 selectable={item.selectable}
                 selected={selection.isSelected(item)}
-                collapsible={groupsAreCollapsible}
-                collapsed={isItemCollapsed(item)}
-                onExpand={onItemExpand}
-                onCollapse={onItemCollapse}
+                onSelect={this.onItemSelect}
+
+                showMoreLessButton={showMoreLessButton}
+                onItemMoreLess={this.props.onItemMoreLess}
               />
             );
           })}
