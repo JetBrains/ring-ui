@@ -159,9 +159,7 @@ class DataList extends PureComponent {
                 item={item}
                 title={title}
                 items={items}
-                onItemExpand={onItemExpand}
-                onItemCollapse={onItemCollapse}
-                isItemCollapsed={isItemCollapsed}
+                isCollapsed={isItemCollapsed}
                 showMoreLessButton={showMoreLessButton}
                 onItemMoreLess={this.props.onItemMoreLess}
                 onFocus={this.onItemFocus}
