@@ -42,16 +42,16 @@ type Props = {
 
   isCollapsed: (item?: ItemType) => boolean,
 
-  showMoreLessButton: MoreLessButtonState,
-  onItemMoreLess: (item?: ItemType, more?: boolean) => void,
-
   showFocus: boolean,
   onFocus: (item: ItemType) => void,
 
-  onSelect: (item: ItemType, selected: boolean) => void,
   selection: Selection,
   selectable: boolean,
-  selected: boolean
+  selected: boolean,
+  onSelect: (item: ItemType, selected: boolean) => void,
+
+  showMoreLessButton: MoreLessButtonState,
+  onItemMoreLess: (item?: ItemType, more?: boolean) => void
 };
 
 export default class Group extends PureComponent {
@@ -133,15 +133,20 @@ export default class Group extends PureComponent {
         key={item.id}
         item={item}
         title={item.title}
-        selectable={item.selectable}
-        selected={selection.isSelected(item)}
         items={item.items}
-        onExpand={onExpand}
-        onCollapse={onCollapse}
+
         collapsed={isCollapsed(item)}
+        onCollapse={onCollapse}
+        onExpand={onExpand}
+        isCollapsed={isCollapsed}
+
         focused={selection.isFocused(item)}
         showFocus={selection.isFocused(item)}
         onFocus={onFocus}
+
+        selection={selection}
+        selectable={item.selectable}
+        selected={selection.isSelected(item)}
         onSelect={onSelect}
       />
     );
