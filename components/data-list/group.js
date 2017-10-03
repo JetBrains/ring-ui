@@ -40,9 +40,7 @@ type Props = {
   onCollapse: (item?: ItemType) => void,
   onExpand: (item?: ItemType) => void,
 
-  onItemCollapse: (item?: ItemType) => void,
-  onItemExpand: (item?: ItemType) => void,
-  isItemCollapsed: (item?: ItemType) => boolean,
+  isCollapsed: (item?: ItemType) => boolean,
 
   showMoreLessButton: MoreLessButtonState,
   onItemMoreLess: (item?: ItemType, more?: boolean) => void,
@@ -63,9 +61,7 @@ export default class Group extends PureComponent {
     onCollapse: () => {},
     onExpand: () => {},
 
-    onItemCollapse: () => {},
-    onItemExpand: () => {},
-    isItemCollapsed: () => true,
+    isCollapsed: () => true,
 
     showMoreLessButton: moreLessButtonStates.UNUSED,
     onItemMoreLess: () => {},
@@ -120,7 +116,7 @@ export default class Group extends PureComponent {
 
   renderItem = (item: ItemType): Element<any> => {
     const {
-      onItemCollapse, onItemExpand, isItemCollapsed,
+      onCollapse, onExpand, isCollapsed,
       selection
     } = this.props;
 
@@ -140,9 +136,9 @@ export default class Group extends PureComponent {
         selectable={item.selectable}
         selected={selection.isSelected(item)}
         subitems={item.subitems}
-        onExpand={onItemExpand}
-        onCollapse={onItemCollapse}
-        collapsed={isItemCollapsed(item)}
+        onExpand={onExpand}
+        onCollapse={onCollapse}
+        collapsed={isCollapsed(item)}
         focused={selection.isFocused(item)}
         showFocus={selection.isFocused(item)}
         onFocus={onFocus}
