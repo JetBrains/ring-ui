@@ -21,14 +21,14 @@ import Loader from '../loader/loader';
 
 import Selection from './selection';
 import Group, {moreLessButtonStates} from './group';
-import type {ItemType, GroupType} from './types';
+import type {ItemType} from './types';
 import styles from './data-list.css';
 
 import type {MoreLessButtonState} from './group';
 
 type Props = {
   className?: string,
-  data: GroupType[],
+  data: ItemType[],
   loading: boolean,
 
   groupsAreCollapsible: boolean,
@@ -37,8 +37,8 @@ type Props = {
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
 
-  onItemMoreLess: (group?: GroupType, more?: boolean) => void,
-  itemMoreLessState: (group?: GroupType) => MoreLessButtonState,
+  onItemMoreLess: (item?: ItemType, more?: boolean) => void,
+  itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
 
   remoteSelection: boolean,
 
@@ -74,7 +74,6 @@ class DataList extends PureComponent {
 
   static defaultProps = {
     loading: false,
-    groupItemsLimit: Infinity,
 
     groupsAreCollapsible: false,
 
@@ -112,17 +111,17 @@ class DataList extends PureComponent {
 
   props: Props;
 
-  onGroupOrItemFocus = (groupOrItem: GroupType|ItemType): void => {
+  onItemFocus = (item: ItemType): void => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(groupOrItem));
+    onSelect(selection.focus(item));
   };
 
-  onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean): void => {
+  onItemSelect = (item: ItemType, selected: boolean): void => {
     const {selection, onSelect} = this.props;
     if (selected) {
-      onSelect(selection.select(groupOrItem));
+      onSelect(selection.select(item));
     } else {
-      onSelect(selection.deselect(groupOrItem));
+      onSelect(selection.deselect(item));
     }
   };
 
@@ -149,15 +148,15 @@ class DataList extends PureComponent {
         }
 
         <ul className={classes}>
-          {data.map(group => {
-            const {id, title, items} = group;
+          {data.map(item => {
+            const {id, title, items} = item;
 
-            const showMoreLessButton = this.props.itemMoreLessState(group);
+            const showMoreLessButton = this.props.itemMoreLessState(item);
 
             return (
               <Group
                 key={id}
-                group={group}
+                item={item}
                 title={title}
                 items={items}
                 onItemExpand={onItemExpand}
@@ -165,15 +164,15 @@ class DataList extends PureComponent {
                 isItemCollapsed={isItemCollapsed}
                 showMoreLessButton={showMoreLessButton}
                 onItemMoreLess={this.props.onItemMoreLess}
-                onFocus={this.onGroupOrItemFocus}
-                focused={selection.isFocused(group)}
-                showFocus={selection.isFocused(group)}
-                onSelect={this.onGroupOrItemSelect}
+                onFocus={this.onItemFocus}
+                focused={selection.isFocused(item)}
+                showFocus={selection.isFocused(item)}
+                onSelect={this.onItemSelect}
                 selection={selection}
-                selectable={group.selectable}
-                selected={selection.isSelected(group)}
+                selectable={item.selectable}
+                selected={selection.isSelected(item)}
                 collapsible={groupsAreCollapsible}
-                collapsed={isItemCollapsed(group)}
+                collapsed={isItemCollapsed(item)}
                 onExpand={onItemExpand}
                 onCollapse={onItemCollapse}
               />
