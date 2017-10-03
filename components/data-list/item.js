@@ -6,7 +6,7 @@ import {
   ExpandIcon
 } from '../icon';
 
-import type {SubitemType, ItemType} from './types';
+import type {ItemType} from './types';
 import Title from './title';
 import styles from './data-list.css';
 
@@ -16,7 +16,7 @@ type Props = {
   title: string,
   selectable: boolean,
   selected: boolean,
-  subitems: SubitemType[],
+  items: ItemType[],
   collapsed: boolean,
   onCollapse: (item?: ItemType) => void,
   onExpand: (item?: ItemType) => void,
@@ -29,7 +29,7 @@ export default class Item extends PureComponent {
   static defaultProps = {
     selectable: false,
     selected: false,
-    subitems: [],
+    items: [],
     collapsed: true,
     onCollapse: () => {},
     onExpand: () => {},
@@ -51,12 +51,12 @@ export default class Item extends PureComponent {
 
   render(): Element<any> {
     const {
-      title, selectable, selected, subitems,
+      title, selectable, selected, items,
       collapsed, onFocus, showFocus, onSelect
     } = this.props;
 
     let collapserExpander = null;
-    if (subitems.length) {
+    if (items.length) {
       if (collapsed) {
         collapserExpander = (
           <ExpandIcon
@@ -89,10 +89,10 @@ export default class Item extends PureComponent {
           onSelect={onSelect}
         />
 
-        {subitems.length && !collapsed ? (
+        {items.length && !collapsed ? (
           <ul className={styles.subgroup}>
-            {subitems.map(subitem => (
-              <li key={subitem.id} className={styles.subitem}>{subitem.title}</li>
+            {items.map(item => (
+              <li key={item.id} className={styles.subitem}>{item.title}</li>
             ))}
           </ul>
         ) : null}
