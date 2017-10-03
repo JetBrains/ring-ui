@@ -18,7 +18,7 @@ export default [
         type: 'item',
         id: 11,
         title: '6 projects: as a member of jetbrains-team',
-        subitems: [
+        items: [
           {
             id: 111,
             title: <Link href="#">TeamCity</Link>
@@ -72,7 +72,7 @@ export default [
         type: 'item',
         id: 22,
         title: '6 projects: as a member of jetbrains-team',
-        subitems: [
+        items: [
           {
             id: 221,
             title: <Link href="#">TeamCity</Link>
