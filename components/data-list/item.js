@@ -33,9 +33,9 @@ export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
 type Props = {
   item: ItemType,
   title: string,
-  items?: ItemType[],
+  items: ItemType[],
   className?: string,
-  level?: number,
+  level: number,
   parentShift?: number,
 
   collapsible: boolean,

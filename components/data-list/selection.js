@@ -4,7 +4,7 @@ import TableSelection from '../table/selection';
 import type {ItemType} from './types';
 
 export default class Selection extends TableSelection {
-  _getItems(items) {
+  _getItems(items: ItemType[]) {
     let result: ItemType[] = [];
 
     items.forEach(item => {
