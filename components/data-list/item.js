@@ -84,18 +84,8 @@ export default class Item extends PureComponent {
     onFocus(item);
   };
 
-  onItemFocus = (item: ItemType): void => {
-    const {onFocus} = this.props;
-    onFocus(item);
-  };
-
   onSelect = (selected: boolean): void => {
     const {onSelect, item} = this.props;
-    onSelect(item, selected);
-  };
-
-  onItemSelect = (item: ItemType, selected: boolean): void => {
-    const {onSelect} = this.props;
     onSelect(item, selected);
   };
 
@@ -111,18 +101,9 @@ export default class Item extends PureComponent {
 
   renderItem = (item: ItemType, parentShift: number): Element<any> => {
     const {
-      onCollapse, onExpand,
-      isCollapsed, isCollapsible,
-      selection, level
+      onFocus, onSelect, selection, level,
+      onCollapse, onExpand, isCollapsed, isCollapsible
     } = this.props;
-
-    const onFocus = () => {
-      this.onItemFocus(item);
-    };
-
-    const onSelect = _selected => {
-      this.onItemSelect(item, _selected);
-    };
 
     return (
       <Item
