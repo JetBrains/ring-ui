@@ -20,11 +20,11 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 import Selection from './selection';
-import Group, {moreLessButtonStates} from './group';
+import Item, {moreLessButtonStates} from './item';
 import type {ItemType} from './types';
 import styles from './data-list.css';
 
-import type {MoreLessButtonState} from './group';
+import type {MoreLessButtonState} from './item';
 
 type Props = {
   className?: string,
@@ -152,7 +152,7 @@ class DataList extends PureComponent {
             const showMoreLessButton = this.props.itemMoreLessState(item);
 
             return (
-              <Group
+              <Item
                 key={id}
                 item={item}
                 title={title}

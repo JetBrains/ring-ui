@@ -6,7 +6,7 @@ import DataList from './data-list';
 import Selection from './selection';
 import mock, {moreItems} from './data-list.mock';
 
-import {moreLessButtonStates} from './group';
+import {moreLessButtonStates} from './item';
 
 class DataListDemo extends PureComponent {
   state = {

@@ -58,7 +58,7 @@ type Props = {
   onItemMoreLess: (item?: ItemType, more?: boolean) => void
 };
 
-export default class Group extends PureComponent {
+export default class Item extends PureComponent {
   static defaultProps = {
     items: [],
     level: 0,
@@ -125,7 +125,7 @@ export default class Group extends PureComponent {
     };
 
     return (
-      <Group
+      <Item
         key={item.id}
         item={item}
         title={item.title}
