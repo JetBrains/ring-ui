@@ -14,7 +14,7 @@
   background-color: #f0f0f0;
 }
 
-.groupContent {
+.itemContent {
   padding: 10px 0;
 
   list-style: none;
@@ -33,13 +33,13 @@
   border-width: 1px 0;
   outline: none;
 
-  @nest .groupNested & {
+  @nest .itemNested & {
     height: 30px;
 
     border-color: #ebebeb;
   }
 
-  @nest .groupEmpty:not(:last-child) > & {
+  @nest .itemEmpty:not(:last-child) > & {
     border-bottom: none;
   }
 
@@ -53,11 +53,11 @@
     border-bottom-style: solid;
   }
 
-  @nest .groupFocused.groupEmpty:not(:last-child) > &.title {
+  @nest .itemFocused.itemEmpty:not(:last-child) > &.title {
     border-bottom: none;
   }
 
-  @nest .groupFocused.groupEmpty + .group > & {
+  @nest .itemFocused.itemEmpty + .item > & {
     border-top: 1px solid #25b7ff;
   }
 

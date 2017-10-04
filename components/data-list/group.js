@@ -216,10 +216,10 @@ export default class Group extends PureComponent {
 
     return (
       <li
-        className={classNames(styles.group, {
-          [styles.groupEmpty]: itemIsEmpty && !itemIsNested,
-          [styles.groupFocused]: showFocus,
-          [styles.groupNested]: itemIsNested
+        className={classNames(styles.item, {
+          [styles.itemEmpty]: itemIsEmpty && !itemIsNested,
+          [styles.itemFocused]: showFocus,
+          [styles.itemNested]: itemIsNested
         })}
       >
         <Title
@@ -235,7 +235,7 @@ export default class Group extends PureComponent {
         />
 
         {!itemIsEmpty ? (
-          <ul className={styles.groupContent}>
+          <ul className={styles.itemContent}>
             {items.map(item => this.renderItem(item, itemShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
