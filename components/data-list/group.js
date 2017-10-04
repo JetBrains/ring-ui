@@ -24,6 +24,8 @@ export const moreLessButtonStates = {
   LESS: 3
 };
 
+const ITEM_LEFT_OFFSET = 30;
+
 export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
   typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
   typeof moreLessButtonStates.LESS;
@@ -33,7 +35,8 @@ type Props = {
   title: string,
   items?: ItemType[],
   className?: string,
-  theFirstLevel?: boolean,
+  level?: number,
+  parentShift?: number,
 
   collapsible: boolean,
   collapsed: boolean,
@@ -58,7 +61,8 @@ type Props = {
 export default class Group extends PureComponent {
   static defaultProps = {
     items: [],
-    theFirstLevel: false,
+    level: 0,
+    parentShift: 0,
     showMoreLessButton: moreLessButtonStates.UNUSED,
     onItemMoreLess: () => {}
   };
@@ -105,11 +109,11 @@ export default class Group extends PureComponent {
     onExpand(item);
   }
 
-  renderItem = (item: ItemType): Element<any> => {
+  renderItem = (item: ItemType, parentShift: number): Element<any> => {
     const {
       onCollapse, onExpand,
       isCollapsed, isCollapsible,
-      selection
+      selection, level
     } = this.props;
 
     const onFocus = () => {
@@ -126,6 +130,8 @@ export default class Group extends PureComponent {
         item={item}
         title={item.title}
         items={item.items}
+        level={level + 1}
+        parentShift={parentShift}
 
         collapsible={isCollapsible(item)}
         collapsed={isCollapsed(item)}
@@ -149,7 +155,7 @@ export default class Group extends PureComponent {
   render(): Element<any> {
     const {
       title, items, showMoreLessButton,
-      theFirstLevel, showFocus,
+      level, parentShift, showFocus,
       selectable, selected,
       collapsible, collapsed
     } = this.props;
@@ -202,15 +208,18 @@ export default class Group extends PureComponent {
       }
     }
 
+    const itemIsNested = level > 0;
     const itemIsEmpty = !items.length || (collapsible && collapsed);
+
+    const offset = level * ITEM_LEFT_OFFSET + ITEM_LEFT_OFFSET + parentShift;
+    const itemShift = ((selectable && collapserExpander) ? ITEM_LEFT_OFFSET : 0) + parentShift;
 
     return (
       <li
         className={classNames(styles.group, {
-          [styles.groupShifted]: selectable && collapserExpander,
-          [styles.groupEmpty]: theFirstLevel && itemIsEmpty,
+          [styles.groupEmpty]: itemIsEmpty && !itemIsNested,
           [styles.groupFocused]: showFocus,
-          [styles.groupNested]: !theFirstLevel
+          [styles.groupNested]: itemIsNested
         })}
       >
         <Title
@@ -222,11 +231,12 @@ export default class Group extends PureComponent {
           collapserExpander={collapserExpander}
           onFocus={this.onFocus}
           onSelect={this.onSelect}
+          offset={offset}
         />
 
         {!itemIsEmpty ? (
           <ul className={styles.groupContent}>
-            {items.map(item => this.renderItem(item))}
+            {items.map(item => this.renderItem(item, itemShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>

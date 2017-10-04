@@ -10,7 +10,6 @@ export default [
   {
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
-    selectable: true,
     collapsible: true,
     items: [
       {
@@ -20,31 +19,31 @@ export default [
         items: [
           {
             id: 111,
-            collapsible: true,
+            selectable: true,
             title: <Link href="#">TeamCity</Link>
           },
 
           {
             id: 112,
-            collapsible: true,
+            selectable: true,
             title: <Link href="#">YouTrack</Link>
           },
 
           {
             id: 113,
-            collapsible: true,
+            selectable: true,
             title: <Link href="#">Sandbox</Link>
           },
 
           {
             id: 114,
-            collapsible: true,
+            selectable: true,
             title: <Link href="#">Exception Analyzer</Link>
           },
 
           {
             id: 115,
-            collapsible: true,
+            selectable: true,
             title: <Link href="#">MPS</Link>
           }
         ]
