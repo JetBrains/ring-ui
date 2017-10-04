@@ -157,7 +157,6 @@ class DataList extends PureComponent {
                 item={item}
                 title={title}
                 items={items}
-                theFirstLevel
 
                 collapsible={isItemCollapsible(item)}
                 collapsed={isItemCollapsed(item)}

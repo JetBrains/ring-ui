@@ -27,7 +27,7 @@
   align-items: center;
 
   height: 38px;
-  padding: 0 30px;
+  padding-right: 30px;
 
   border: solid 0 #e6e6e6;
   border-width: 1px 0;
@@ -35,13 +35,8 @@
 
   @nest .groupNested & {
     height: 30px;
-    padding: 0 60px;
 
     border-color: #ebebeb;
-  }
-
-  @nest .groupShifted .groupNested & {
-    padding-left: 92px;
   }
 
   @nest .groupEmpty:not(:last-child) > & {
