@@ -31,7 +31,7 @@ export default class Selection extends TableSelection {
     selected.add(value);
 
     if (value.items) {
-      value.items.forEach(item => {
+      this._getItems(value.items).forEach(item => {
         selected.add(item);
       });
     }
@@ -59,7 +59,7 @@ export default class Selection extends TableSelection {
     selected.delete(value);
 
     if (value.items) {
-      value.items.forEach(item => {
+      this._getItems(value.items).forEach(item => {
         selected.delete(item);
       });
     }
