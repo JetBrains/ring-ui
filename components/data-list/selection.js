@@ -1,11 +1,11 @@
 /* @flow */
 import TableSelection from '../table/selection';
 
-import type {ItemType, GroupType} from './types';
+import type {ItemType} from './types';
 
 export default class Selection extends TableSelection {
-  _buildData(data: GroupType[]): Set<GroupType|ItemType> {
-    const items: Set<GroupType|ItemType> = new Set();
+  _buildData(data: ItemType[]): Set<ItemType> {
+    const items: Set<ItemType> = new Set();
 
     data.forEach(group => {
       items.add(group);
@@ -17,7 +17,7 @@ export default class Selection extends TableSelection {
     return items;
   }
 
-  select(value: GroupType|ItemType = this._focused) {
+  select(value: ItemType = this._focused) {
     if (!value) {
       return this;
     }
@@ -43,7 +43,7 @@ export default class Selection extends TableSelection {
     return this.cloneWith({selected});
   }
 
-  deselect(value: GroupType|ItemType = this._focused) {
+  deselect(value: ItemType = this._focused) {
     if (!value) {
       return this;
     }
