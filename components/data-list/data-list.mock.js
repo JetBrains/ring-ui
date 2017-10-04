@@ -11,11 +11,13 @@ export default [
     id: 1,
     title: <span><strong>Assigner</strong> in 60 projects</span>,
     collapsible: true,
+    selectable: true,
     items: [
       {
         id: 11,
         title: '6 projects: as a member of jetbrains-team',
         collapsible: true,
+        selectable: true,
         items: [
           {
             id: 111,
