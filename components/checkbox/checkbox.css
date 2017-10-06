@@ -10,6 +10,12 @@
 
   color: text-color;
   outline: none;
+
+  &:hover .cell {
+    transition: background-color ease;
+
+    border-color: border-hover-color;
+  }
 }
 
 .cell {
@@ -90,12 +96,6 @@
 
     border-color: border-hover-color;
     box-shadow: 0 0 0 1px border-hover-color;
-  }
-
-  &:hover + .cell {
-    transition: background-color ease;
-
-    border-color: border-hover-color;
   }
 }
 
