@@ -12,14 +12,16 @@
   width: calc(unit * 3);
   height: calc(unit * 2);
 
+  cursor: pointer;
+
   &:hover {
-    & .input:not([disabled]) + .switch {
+    & .switch {
       background-color: border-hover-color;
     }
+  }
 
-    & .input:checked:not([disabled]) + .switch {
-      background-color: main-hover-color;
-    }
+  &.disabled {
+    pointer-events: none;
   }
 }
 
@@ -33,8 +35,6 @@
 
   margin: 0;
 
-  cursor: pointer;
-
   opacity: 0;
 }
 
@@ -47,8 +47,6 @@
   height: 100%;
 
   transition: background-color timing-function duration;
-
-  pointer-events: none;
 
   border-radius: unit;
   background-color: icon-color;
@@ -78,33 +76,29 @@
   left: calc(unit * 1.5 - padding);
 }
 
-.input[disabled] {
-  pointer-events: none;
+.input[disabled] + ::after {
+  position: absolute;
+  top: 0;
+  left: 0;
 
-  & + ::after {
-    position: absolute;
-    top: 0;
-    left: 0;
+  width: 100%;
+  height: 100%;
 
-    width: 100%;
-    height: 100%;
+  content: "";
 
-    content: "";
-
-    border-radius: unit;
-    background-image:
-      linear-gradient(
-        45deg,
-        transparent,
-        transparent 37.5%,
-        disabled-line-color 37.5%,
-        disabled-line-color 50%,
-        transparent 50%,
-        transparent 87.5%,
-        disabled-line-color 87.5%,
-        disabled-line-color
-      );
-    background-repeat: repeat;
-    background-size: 4px 4px;
-  }
+  border-radius: unit;
+  background-image:
+    linear-gradient(
+      45deg,
+      transparent,
+      transparent 37.5%,
+      disabled-line-color 37.5%,
+      disabled-line-color 50%,
+      transparent 50%,
+      transparent 87.5%,
+      disabled-line-color 87.5%,
+      disabled-line-color
+    );
+  background-repeat: repeat;
+  background-size: 4px 4px;
 }
