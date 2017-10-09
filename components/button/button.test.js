@@ -44,7 +44,7 @@ describe('Button', () => {
 
     wrapper.should.have.className(styles.withIcon);
     wrapper.should.have.descendants('svg[style*="16"]');
-    wrapper.find('use').should.have.attr('xlink:href', '#caret-down');
+    wrapper.find('use').should.have.attr('href', '#caret-down');
   });
 
   it('should set custom class', () => {

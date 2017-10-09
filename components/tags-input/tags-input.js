@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import getEventKey from 'react-dom/lib/getEventKey';
 import classNames from 'classnames';
 
+import getEventKey from '../global/get-event-key';
 import Select from '../select/select';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
