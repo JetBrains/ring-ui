@@ -137,6 +137,16 @@ export default class List extends Component {
         activeItem: this.props.data[this.props.activeIndex],
         needScrollToActive: true
       });
+    } else if (
+      this.props.activeIndex == null &&
+      this.shouldActivateFirstItem(this.props) &&
+      this.isActivatable(this.props.data[0])
+    ) {
+      this.setState({
+        activeIndex: 0,
+        activeItem: this.props.data[0],
+        needScrollToActive: true
+      });
     }
   }
 
