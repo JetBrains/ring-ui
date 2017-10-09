@@ -4,7 +4,7 @@ import 'dom4';
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 
 import simulateCombo from '../../test-helpers/simulate-combo';
 
@@ -73,7 +73,6 @@ describe('Query Assist', () => {
       suggestions
     }))
   });
-  const shallowQueryAssist = props => shallow(<QueryAssist {...defaultProps()} {...props}/>);
   const mountQueryAssist = (props, options) =>
     mount(<QueryAssist {...defaultProps()} {...props}/>, options);
 
@@ -86,13 +85,13 @@ describe('Query Assist', () => {
     });
 
     it('should set state props to state on init', () => {
-      const wrapper = shallowQueryAssist();
+      const wrapper = mountQueryAssist();
       wrapper.should.have.state('query', testQuery);
       wrapper.should.have.state('placeholderEnabled', false);
     });
 
     it('should not set other props to state on init', () => {
-      const wrapper = shallowQueryAssist();
+      const wrapper = mountQueryAssist();
 
       wrapper.should.not.have.state('popupClassName');
       wrapper.should.not.have.state('dataSource');
@@ -109,7 +108,7 @@ describe('Query Assist', () => {
     });
 
     it('should set state props to state on update', () => {
-      const wrapper = shallowQueryAssist({
+      const wrapper = mountQueryAssist({
         query: 'update',
         caret: 2,
         focus: false
@@ -131,7 +130,7 @@ describe('Query Assist', () => {
     });
 
     it('should not set undefined state props to state on update', () => {
-      const wrapper = shallowQueryAssist();
+      const wrapper = mountQueryAssist();
 
       wrapper.setProps({
         query: undefined
