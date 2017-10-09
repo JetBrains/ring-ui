@@ -230,19 +230,19 @@ describe('Select', () => {
     it('Should update shown data', () => {
       instance.componentWillReceiveProps({data: []});
 
-      instance.setState.should.be.calledWith({shownData: []});
+      instance.setState.should.be.calledWithMatch({shownData: []});
     });
 
     it('Should not update shown data if data is not passed', () => {
       instance.componentWillReceiveProps({});
 
-      instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
     });
 
     it('Should not update shown data if data the same as previous', () => {
       instance.componentWillReceiveProps({data: instance.props.data});
 
-      instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
     });
 
     it('Should toggle multiple state', () => {
@@ -266,7 +266,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
-      instance.setState.should.be.calledWith({selectedIndex: sandbox.match.any});
+      instance.setState.should.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
 
     it('Should not update selected index if selected is the same as previous', () => {
@@ -280,7 +280,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
-      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
 
     it('Should update selected index for multiple select if selected is changed', () => {
@@ -290,7 +290,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: [selectedItem]});
 
-      instance.setState.should.be.calledWith({selectedIndex: 0});
+      instance.setState.should.be.calledWithMatch({selectedIndex: 0});
     });
 
     it('Should update selected index for multiple select if selected is changed but count of element is the same', () => {
@@ -300,7 +300,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: [selectedItem, createItem()]});
 
-      instance.setState.should.be.calledWith({selectedIndex: 0});
+      instance.setState.should.be.calledWithMatch({selectedIndex: 0});
     });
 
     it('Should not update selected index for multiple select if selected is not changed', () => {
@@ -310,7 +310,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({});
 
-      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
 
     it('Should not update selected index for multiple select if items inside the selected list are the same and order is same', () => {
@@ -325,7 +325,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
 
-      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
 
     it('Should not update selected index for multiple select if items inside the selected list are the same but order is changed', () => {
@@ -340,7 +340,7 @@ describe('Select', () => {
 
       instance.componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
 
-      instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
+      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
 
     function createItem() {
