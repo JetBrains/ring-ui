@@ -173,8 +173,6 @@ describe('List', () => {
   });
 
   describe('should render items', () => {
-    const shallowFirstItem = instance =>
-      shallow(instance.renderItem({index: 1}));
     const mountFirstItem = instance =>
       mount(instance.renderItem({index: 1}));
 
@@ -342,13 +340,13 @@ describe('List', () => {
     it('should handle click', () => {
       const clicked = sandbox.stub();
 
-      const instance = shallowList({
+      const instance = mountList({
         data: [
           {label: 'Hello!', onClick: clicked}
         ]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
       firstItemWrapper.simulate('click');
       clicked.should.have.been.called;
     });
@@ -356,12 +354,12 @@ describe('List', () => {
     it('should handle select', () => {
       const onSelect = sandbox.stub();
 
-      const instance = shallowList({
+      const instance = mountList({
         onSelect,
         data: [{label: 'Hello!'}]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
       firstItemWrapper.simulate('click');
       onSelect.should.have.been.called;
     });
@@ -382,7 +380,7 @@ describe('List', () => {
 
     it('Should support click on custom elements', () => {
       const onClick = sandbox.stub();
-      const instance = shallowList({
+      const instance = mountList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -392,7 +390,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListCustom);
+      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
       firstItemWrapper.simulate('click');
       onClick.should.have.been.called;
     });

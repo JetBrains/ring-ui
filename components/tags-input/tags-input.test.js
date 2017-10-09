@@ -124,7 +124,7 @@ describe('Tags Input', () => {
   });
 
   it('Should drop existing tags from suggestions by key', () => {
-    const wrapper = shallowTagsInput();
+    const wrapper = mountTagsInput();
     const instance = wrapper.instance();
     const notAddedSuggestions = instance.filterExistingTags([
       {key: 1, label: 'test1'},
