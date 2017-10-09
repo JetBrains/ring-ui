@@ -9,7 +9,8 @@ describe('Code', () => {
     <Code
       code=""
       {...props}
-    />
+    />,
+    {disableLifecycleMethods: true}
   );
   const mountCode = props => mount(
     <Code
@@ -43,8 +44,9 @@ describe('Code', () => {
         );
       `
     });
-    wrapper.should.have.descendants('.javascript');
+
     // child tree is rendered with highlight.js, so it's unaccessible by enzyme
+    wrapper.getDOMNode().should.contain('.javascript');
     wrapper.getDOMNode().should.contain('.xml');
   });
 
@@ -57,7 +59,7 @@ describe('Code', () => {
         }
       `
     });
-    wrapper.should.have.descendants('.css');
+    wrapper.getDOMNode().should.contain('.css');
   });
 
   it('should detect HTML', () => {
@@ -68,7 +70,7 @@ describe('Code', () => {
         </body>
       `
     });
-    wrapper.should.have.descendants('.xml');
+    wrapper.getDOMNode().should.contain('.xml');
   });
 
   it('should parse and highlight the code', () => {
