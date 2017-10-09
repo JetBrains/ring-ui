@@ -20,28 +20,24 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 import Selection from './selection';
-import Group, {moreLessButtonStates} from './group';
-import type {ItemType, GroupType} from './types';
+import Item, {moreLessButtonStates} from './item';
+import type {ItemType} from './types';
 import styles from './data-list.css';
 
-import type {MoreLessButtonState} from './group';
+import type {MoreLessButtonState} from './item';
 
 type Props = {
   className?: string,
-  data: GroupType[],
+  data: ItemType[],
   loading: boolean,
-
-  groupsAreCollapsible: boolean,
-  onGroupCollapse: (item?: GroupType) => void,
-  onGroupExpand: (item?: GroupType) => void,
-  isGroupCollapsed: (item?: GroupType) => boolean,
 
   onItemCollapse: (item?: ItemType) => void,
   onItemExpand: (item?: ItemType) => void,
   isItemCollapsed: (item?: ItemType) => boolean,
+  isItemCollapsible: (item?: ItemType) => boolean,
 
-  onGroupMoreLess: (group?: GroupType, more?: boolean) => void,
-  groupMoreLessState: (group?: GroupType) => MoreLessButtonState,
+  onItemMoreLess: (item?: ItemType, more?: boolean) => void,
+  itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
 
   remoteSelection: boolean,
 
@@ -63,36 +59,27 @@ class DataList extends PureComponent {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
 
-    groupsAreCollapsible: PropTypes.bool,
-    onGroupCollapse: PropTypes.func,
-    onGroupExpand: PropTypes.func,
-    isGroupCollapsed: PropTypes.func,
-
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     isItemCollapsed: PropTypes.func,
+    isItemCollapsible: PropTypes.func,
 
-    onGroupMoreLess: PropTypes.func,
-    groupMoreLessState: PropTypes.func,
+    onItemMoreLess: PropTypes.func,
+    itemMoreLessState: PropTypes.func,
 
     remoteSelection: PropTypes.bool
   };
 
   static defaultProps = {
     loading: false,
-    groupItemsLimit: Infinity,
-
-    groupsAreCollapsible: false,
-    onGroupCollapse: () => {},
-    onGroupExpand: () => {},
-    isGroupCollapsed: () => true,
 
     onItemCollapse: () => {},
     onItemExpand: () => {},
     isItemCollapsed: () => true,
+    isItemCollapsible: () => false,
 
-    onGroupMoreLess: () => {},
-    groupMoreLessState: () => moreLessButtonStates.UNUSED,
+    onItemMoreLess: () => {},
+    itemMoreLessState: () => moreLessButtonStates.UNUSED,
 
     remoteSelection: false
   };
@@ -121,26 +108,26 @@ class DataList extends PureComponent {
 
   props: Props;
 
-  onGroupOrItemFocus = (groupOrItem: GroupType|ItemType): void => {
+  onItemFocus = (item: ItemType): void => {
     const {selection, onSelect} = this.props;
-    onSelect(selection.focus(groupOrItem));
+    onSelect(selection.focus(item));
   };
 
-  onGroupOrItemSelect = (groupOrItem: GroupType|ItemType, selected: boolean): void => {
+  onItemSelect = (item: ItemType, selected: boolean): void => {
     const {selection, onSelect} = this.props;
     if (selected) {
-      onSelect(selection.select(groupOrItem));
+      onSelect(selection.select(item));
     } else {
-      onSelect(selection.deselect(groupOrItem));
+      onSelect(selection.deselect(item));
     }
   };
 
   render(): Element<any> {
     const {
       data, className, loading,
-      onItemCollapse, onItemExpand, isItemCollapsed,
-      onGroupCollapse, onGroupExpand, isGroupCollapsed,
-      selection, disabledHover, groupsAreCollapsible
+      onItemCollapse, onItemExpand,
+      isItemCollapsed, isItemCollapsible,
+      selection, disabledHover
     } = this.props;
 
     const classes = classNames(className, {
@@ -159,33 +146,36 @@ class DataList extends PureComponent {
         }
 
         <ul className={classes}>
-          {data.map(group => {
-            const {id, title, items} = group;
+          {data.map(item => {
+            const {id, title, items} = item;
 
-            const showMoreLessButton = this.props.groupMoreLessState(group);
+            const showMoreLessButton = this.props.itemMoreLessState(item);
 
             return (
-              <Group
+              <Item
                 key={id}
-                group={group}
+                item={item}
                 title={title}
                 items={items}
-                onItemExpand={onItemExpand}
-                onItemCollapse={onItemCollapse}
-                isItemCollapsed={isItemCollapsed}
-                showMoreLessButton={showMoreLessButton}
-                onGroupMoreLess={this.props.onGroupMoreLess}
-                onFocus={this.onGroupOrItemFocus}
-                focused={selection.isFocused(group)}
-                showFocus={selection.isFocused(group)}
-                onSelect={this.onGroupOrItemSelect}
+
+                collapsible={isItemCollapsible(item)}
+                collapsed={isItemCollapsed(item)}
+                onCollapse={onItemCollapse}
+                onExpand={onItemExpand}
+                isCollapsed={isItemCollapsed}
+                isCollapsible={isItemCollapsible}
+
+                focused={selection.isFocused(item)}
+                showFocus={selection.isFocused(item)}
+                onFocus={this.onItemFocus}
+
                 selection={selection}
-                selectable={group.selectable}
-                selected={selection.isSelected(group)}
-                collapsible={groupsAreCollapsible}
-                collapsed={isGroupCollapsed(group)}
-                onExpand={onGroupExpand}
-                onCollapse={onGroupCollapse}
+                selectable={item.selectable}
+                selected={selection.isSelected(item)}
+                onSelect={this.onItemSelect}
+
+                showMoreLessButton={showMoreLessButton}
+                onItemMoreLess={this.props.onItemMoreLess}
               />
             );
           })}

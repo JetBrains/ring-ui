@@ -1,8 +1,8 @@
 import angular from 'angular';
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
-import getEventKey from 'react-dom/lib/getEventKey';
 
+import getEventKey from '../global/get-event-key';
 import Select, {RerenderableSelect} from '../select/select';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 

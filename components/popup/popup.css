@@ -24,7 +24,7 @@
 }
 
 .showing {
-  visibility: hidden;
+  opacity: 0;
 }
 
 .attached {

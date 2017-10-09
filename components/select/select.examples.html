@@ -176,6 +176,49 @@
   </file>
 </example>
 
+<example name="Select with fuzzy search filter">
+  <file type="html" disable-auto-size>
+    <p>test</p>
+    <div id="demo"></div>
+    <button id="clear">Clear selected</button>
+  </file>
+  <file type="css">
+    body {
+    padding: 8px;
+    width: 50%;
+    }
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Select from '@jetbrains/ring-ui/components/select/select';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+
+    const data = [
+      {'label': 'One', 'key': '1', 'type': 'user'},
+      {'label': 'Group', 'key': '2', 'type': 'user'},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      }
+    ];
+
+    function renderSelect() {
+      render(<Select filter={{fuzzy: true}} clear selected={data[1]} data={data}/>,
+      document.getElementById('demo'));
+    }
+
+    renderSelect();
+
+    document.getElementById('clear').addEventListener('click', function () {
+      data.selected = null;
+      renderSelect();
+    });
+  </file>
+</example>
+
 <example name="Select with a large dataset">
   <file type="html" disable-auto-size>
     <div id="demo"></div>
