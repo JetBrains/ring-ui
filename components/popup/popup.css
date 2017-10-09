@@ -26,10 +26,7 @@
 }
 
 .showing {
-  width: 0;
-  height: 0;
-
-  font-size: 0;
+  opacity: 0;
 }
 
 .filterWrapper {
