@@ -61,7 +61,7 @@ export default class ContentEditable extends Component {
     onComponentUpdate: noop
   };
 
-  state = {};
+  state = {__html: ''};
 
   componentWillMount() {
     this.renderStatic(this.props);
