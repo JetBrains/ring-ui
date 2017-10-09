@@ -26,7 +26,10 @@
 }
 
 .showing {
-  visibility: hidden;
+  width: 0;
+  height: 0;
+
+  font-size: 0;
 }
 
 .filterWrapper {
