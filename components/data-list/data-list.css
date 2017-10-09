@@ -14,7 +14,7 @@
   background-color: #f0f0f0;
 }
 
-.groupContent {
+.itemContent {
   padding: 10px 0;
 
   list-style: none;
@@ -27,24 +27,19 @@
   align-items: center;
 
   height: 38px;
-  padding: 0 30px;
+  padding-right: 30px;
 
   border: solid 0 #e6e6e6;
   border-width: 1px 0;
   outline: none;
 
-  @nest .item & {
+  @nest .itemNested & {
     height: 30px;
-    padding: 0 60px;
 
     border-color: #ebebeb;
   }
 
-  @nest .groupShifted .item & {
-    padding-left: 92px;
-  }
-
-  @nest .groupEmpty:not(:last-child) > & {
+  @nest .itemEmpty:not(:last-child) > & {
     border-bottom: none;
   }
 
@@ -58,11 +53,11 @@
     border-bottom-style: solid;
   }
 
-  @nest .groupFocused.groupEmpty:not(:last-child) > &.title {
+  @nest .itemFocused.itemEmpty:not(:last-child) > &.title {
     border-bottom: none;
   }
 
-  @nest .groupFocused.groupEmpty + .group > & {
+  @nest .itemFocused.itemEmpty + .item > & {
     border-top: 1px solid #25b7ff;
   }
 
@@ -106,25 +101,6 @@
   &:hover {
     color: #ff5a00;
   }
-}
-
-.subgroup {
-  margin-left: 76px;
-  padding: 0;
-  padding-left: 16px;
-
-  list-style: none;
-
-  border: 1px none #d8d8d8;
-  border-left-style: dotted;
-
-  @nest .groupShifted & {
-    margin-left: 108px;
-  }
-}
-
-.subitem {
-  padding: 5px 0;
 }
 
 .loadingOverlay {

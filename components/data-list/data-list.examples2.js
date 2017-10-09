@@ -4,7 +4,9 @@ import {render} from 'react-dom';
 
 import DataList from './data-list';
 import Selection from './selection';
-import mock from './data-list.mock';
+import mock, {moreItems} from './data-list.mock';
+
+import {moreLessButtonStates} from './item';
 
 class DataListDemo extends PureComponent {
   state = {
@@ -12,21 +14,13 @@ class DataListDemo extends PureComponent {
     selection: new Selection({data: mock, isItemSelectable: item => item.selectable})
   };
 
-  expandedGroups = new Set();
   expandedItems = new Set();
 
-  isGroupCollapsed = item => !this.expandedGroups.has(item);
+  moreExpandebleItems = new Set([mock[0].id]);
+  moreExpandedItems = new Set();
+
   isItemCollapsed = item => !this.expandedItems.has(item);
-
-  onGroupExpand = item => {
-    this.expandedGroups.add(item);
-    this.setState({data: [...this.state.data]});
-  };
-
-  onGroupCollapse = item => {
-    this.expandedGroups.delete(item);
-    this.setState({data: [...this.state.data]});
-  };
+  isItemCollapsible = item => item.collapsible;
 
   onItemExpand = item => {
     this.expandedItems.add(item);
@@ -35,6 +29,28 @@ class DataListDemo extends PureComponent {
 
   onItemCollapse = item => {
     this.expandedItems.delete(item);
+    this.setState({data: [...this.state.data]});
+  };
+
+  itemMoreLessState = item => {
+    if (this.moreExpandebleItems.has(item.id)) {
+      return this.moreExpandedItems.has(item.id)
+        ? moreLessButtonStates.LESS
+        : moreLessButtonStates.MORE;
+    } else {
+      return moreLessButtonStates.UNUSED;
+    }
+  };
+
+  onItemMoreLess = (item, more) => {
+    if (more) {
+      this.moreExpandedItems.add(item.id);
+      item.items = item.items.concat([...moreItems]);
+    } else {
+      this.moreExpandedItems.delete(item.id);
+      item.items = item.items.slice(0, item.items.length - moreItems.length);
+    }
+
     this.setState({data: [...this.state.data]});
   };
 
@@ -49,14 +65,13 @@ class DataListDemo extends PureComponent {
         selection={this.state.selection}
         onSelect={this.onSelect}
 
-        groupsAreCollapsible
-        onGroupCollapse={this.onGroupCollapse}
-        onGroupExpand={this.onGroupExpand}
-        isGroupCollapsed={this.isGroupCollapsed}
-
         onItemCollapse={this.onItemCollapse}
         onItemExpand={this.onItemExpand}
         isItemCollapsed={this.isItemCollapsed}
+        isItemCollapsible={this.isItemCollapsible}
+
+        onItemMoreLess={this.onItemMoreLess}
+        itemMoreLessState={this.itemMoreLessState}
       />
     );
   }

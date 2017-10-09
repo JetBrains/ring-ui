@@ -10,6 +10,7 @@ import styles from './data-list.css';
 type Props = {
   className?: string,
   title: string,
+  offset: number,
   selectable: boolean,
   selected: boolean,
   onSelect: (selected: boolean) => void,
@@ -46,7 +47,7 @@ class Title extends PureComponent {
 
   render(): Element<any> {
     const {
-      className, title, showFocus,
+      className, title, offset, showFocus,
       selectable, selected, collapserExpander
     } = this.props;
 
@@ -57,7 +58,10 @@ class Title extends PureComponent {
     });
 
     return (
-      <div className={classes}>
+      <div
+        className={classes}
+        style={{paddingLeft: offset}}
+      >
         {selectable &&
           <div className={styles.checkboxBox}>
             <Checkbox
