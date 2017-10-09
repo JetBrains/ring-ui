@@ -37,8 +37,14 @@ describe('List', () => {
 
       const instance = shallowList({data}).instance();
 
-      shallow(instance.renderItem({index: 0})).should.have.tagName('div');
-      shallow(instance.renderItem({index: 3})).should.have.tagName('div');
+      shallow(
+        instance.renderItem({index: 0}),
+        {disableLifecycleMethods: true}
+      ).should.have.tagName('div');
+      shallow(
+        instance.renderItem({index: 3}),
+        {disableLifecycleMethods: true}
+      ).should.have.tagName('div');
     });
 
     it('should apply styles from virtualized', () => {
@@ -52,10 +58,22 @@ describe('List', () => {
         top: -1000
       };
 
-      shallow(instance.renderItem({index: 0, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 1, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 2, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 3, style})).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 0, style}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 1, style}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 2, style}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 3, style}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
     });
 
     it('should scroll to the active item', () => {
