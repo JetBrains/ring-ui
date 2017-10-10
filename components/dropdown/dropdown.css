@@ -4,7 +4,8 @@
 
 .anchor {
   && {
-    padding: 0;
+    margin: 0 -3px;
+    padding: 0 3px;
 
     font: inherit;
   }
@@ -14,4 +15,6 @@
   margin-left: 2px;
 
   vertical-align: 1px;
+
+  line-height: normal;
 }
