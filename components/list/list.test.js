@@ -57,21 +57,22 @@ describe('List', () => {
       const style = {
         top: -1000
       };
+      const parent = {};
 
       shallow(
-        instance.renderItem({index: 0, style}),
+        instance.renderItem({index: 0, style, parent}),
         {disableLifecycleMethods: true}
       ).should.have.style('top', '-1000px');
       shallow(
-        instance.renderItem({index: 1, style}),
+        instance.renderItem({index: 1, style, parent}),
         {disableLifecycleMethods: true}
       ).should.have.style('top', '-1000px');
       shallow(
-        instance.renderItem({index: 2, style}),
+        instance.renderItem({index: 2, style, parent}),
         {disableLifecycleMethods: true}
       ).should.have.style('top', '-1000px');
       shallow(
-        instance.renderItem({index: 3, style}),
+        instance.renderItem({index: 3, style, parent}),
         {disableLifecycleMethods: true}
       ).should.have.style('top', '-1000px');
     });
