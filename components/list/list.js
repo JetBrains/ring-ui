@@ -7,7 +7,7 @@
 
 import 'dom4';
 import 'core-js/modules/es6.array.find';
-import React, {Component} from 'react';
+import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
@@ -509,7 +509,7 @@ export default class List extends Component {
       >
         <div style={style}>{el}</div>
       </CellMeasurer>
-    ) : el;
+    ) : cloneElement(el, {key});
   };
 
   virtualizedListRef = el => {
