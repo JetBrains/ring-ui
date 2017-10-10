@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
 import List from '../list/list';
@@ -33,7 +34,8 @@ function noop() {}
 const Type = {
   BUTTON: 0,
   INPUT: 1,
-  CUSTOM: 2
+  CUSTOM: 2,
+  INLINE: 3
 };
 
 /**
@@ -916,7 +918,8 @@ export default class Select extends Component {
 
   render() {
     const {shortcutsEnabled} = this.state;
-    const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, styles[`size${this.props.size}`], {
+    const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, {
+      [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
       [styles.disabled]: this.props.disabled
     });
 
@@ -929,81 +932,104 @@ export default class Select extends Component {
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;
 
-    if (this.isInputMode()) {
-      return (
-        <div
-          ref={this.nodeRef}
-          className={classNames(classes, styles.inputMode)}
-          onClick={this._clickHandler}
-          data-test="ring-select"
-        >
-          {shortcutsEnabled &&
-          <Shortcuts
-            map={this.getShortcutsMap()}
-            scope={this.shortcutsScope}
-          />}
-          <Input
-            inputRef={this.filterRef}
-            disabled={this.props.disabled}
-            value={this.state.filterValue}
-            className={classNames(styles.input, 'ring-js-shortcuts')}
-            style={style}
-            onChange={this._filterChangeHandler}
-            onFocus={this._focusHandler}
-            onBlur={this._blurHandler}
-            placeholder={this._getInputPlaceholder()}
-            onKeyDown={this.props.onKeyDown}
-            data-test="ring-select__focus"
-          />
-          {iconsNode}
-          {this._renderPopup()}
-        </div>
-      );
-    } else if (this.isButtonMode()) {
-      const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-      const clickListenProps = isIE11
-        ? {onMouseDown: this._clickHandler}
-        : {onClick: this._clickHandler};
+    const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
+    const clickListenProps = isIE11
+      ? {onMouseDown: this._clickHandler}
+      : {onClick: this._clickHandler};
 
-      return (
-        <div
-          ref={this.nodeRef}
-          className={classNames(classes, styles.buttonMode)}
-          data-test="ring-select"
-          {...clickListenProps}
-        >
-          {shortcutsEnabled &&
-          <Shortcuts
-            map={this.getShortcutsMap()}
-            scope={this.shortcutsScope}
-          />}
-          {!this._selectionIsEmpty() && this.props.selectedLabel && (
-            <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
-          )}
-          <button
-            type="button"
-            disabled={this.props.disabled}
-            className={classNames(styles.value, {
-              [styles.open]: this.state.showPopup,
-              [styles.label]: this._selectionIsEmpty()
-            })}
-            style={style}
-            data-test="ring-select__focus"
-            ref={this.buttonRef}
+    switch (this.props.type) {
+      case Type.INPUT:
+        return (
+          <div
+            ref={this.nodeRef}
+            className={classNames(classes, styles.inputMode)}
+            onClick={this._clickHandler}
+            data-test="ring-select"
           >
-            {this._getAvatar()}
-            {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
-          </button>
-          {iconsNode}
-          {this._renderPopup()}
-        </div>
-      );
-    } else {
-      return (
-        <span ref={this.nodeRef} data-test="ring-select">
-          {this._renderPopup()}
-        </span>
-      );
+            {shortcutsEnabled &&
+            <Shortcuts
+              map={this.getShortcutsMap()}
+              scope={this.shortcutsScope}
+            />}
+            <Input
+              inputRef={this.filterRef}
+              disabled={this.props.disabled}
+              value={this.state.filterValue}
+              className={classNames(styles.input, 'ring-js-shortcuts')}
+              style={style}
+              onChange={this._filterChangeHandler}
+              onFocus={this._focusHandler}
+              onBlur={this._blurHandler}
+              placeholder={this._getInputPlaceholder()}
+              onKeyDown={this.props.onKeyDown}
+              data-test="ring-select__focus"
+            />
+            {iconsNode}
+            {this._renderPopup()}
+          </div>
+        );
+      case Type.BUTTON:
+        return (
+          <div
+            ref={this.nodeRef}
+            className={classNames(classes, styles.buttonMode)}
+            data-test="ring-select"
+            {...clickListenProps}
+          >
+            {shortcutsEnabled &&
+            <Shortcuts
+              map={this.getShortcutsMap()}
+              scope={this.shortcutsScope}
+            />}
+            {!this._selectionIsEmpty() && this.props.selectedLabel && (
+              <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
+            )}
+            <button
+              type="button"
+              disabled={this.props.disabled}
+              className={classNames(styles.value, {
+                [styles.open]: this.state.showPopup,
+                [styles.label]: this._selectionIsEmpty()
+              })}
+              style={style}
+              data-test="ring-select__focus"
+              ref={this.buttonRef}
+            >
+              {this._getAvatar()}
+              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+            </button>
+            {iconsNode}
+            {this._renderPopup()}
+          </div>
+        );
+      case Type.INLINE:
+        return (
+          <div
+            className={classes}
+            ref={this.nodeRef}
+            data-test="ring-select"
+            {...clickListenProps}
+          >
+            {shortcutsEnabled &&
+            <Shortcuts
+              map={this.getShortcutsMap()}
+              scope={this.shortcutsScope}
+            />}
+            <Anchor
+              data-test="ring-select__focus"
+              disabled={this.props.disabled}
+            >
+              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+            </Anchor>
+            {this._renderPopup()}
+          </div>
+        );
+      default:
+        return (
+          <span ref={this.nodeRef} data-test="ring-select">
+            {this._renderPopup()}
+          </span>
+        );
     }
   }
 }
