@@ -490,7 +490,7 @@ export default class List extends Component {
       el = <ItemComponent {...itemProps}/>;
     }
 
-    return (
+    return parent ? (
       <CellMeasurer
         cache={this._cache}
         key={key}
@@ -500,7 +500,7 @@ export default class List extends Component {
       >
         <div style={style}>{el}</div>
       </CellMeasurer>
-    );
+    ) : el;
   };
 
   virtualizedListRef = el => {
