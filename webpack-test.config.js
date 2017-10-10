@@ -31,7 +31,7 @@ config.output = {
   devtoolModuleFilenameTemplate: '/[absolute-resource-path]' // For some reason slash in the beginning is required
 };
 
-config.devtool = false;
+config.devtool = 'source-map';
 
 config.plugins = [
   new webpack.ProvidePlugin({
