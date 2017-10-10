@@ -122,6 +122,26 @@ class DataList extends PureComponent {
     }
   };
 
+  onEqualPress = () => {
+    const {
+      onItemCollapse, onItemExpand,
+      isItemCollapsed, selection
+    } = this.props;
+
+    const item = selection.getFocused();
+    if (item) {
+      if (isItemCollapsed(item)) {
+        onItemExpand(item);
+      } else {
+        onItemCollapse(item);
+      }
+    }
+  }
+
+  shortcutsMap = {
+    '=': this.onEqualPress
+  };
+
   render(): Element<any> {
     const {
       data, className, loading,
@@ -129,6 +149,8 @@ class DataList extends PureComponent {
       isItemCollapsed, isItemCollapsible,
       selection, disabledHover
     } = this.props;
+
+    const shortcutsMap = {...this.shortcutsMap, ...this.props.shortcutsMap};
 
     const classes = classNames(className, {
       [styles.dataList]: true,
@@ -140,7 +162,7 @@ class DataList extends PureComponent {
       <div className={styles.dataListWrapper}>
         {this.state.shortcutsEnabled &&
           <Shortcuts
-            map={this.props.shortcutsMap}
+            map={shortcutsMap}
             scope={this.state.shortcutsScope}
           />
         }
