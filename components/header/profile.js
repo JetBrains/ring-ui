@@ -79,8 +79,12 @@ export default class Profile extends PureComponent {
       );
     }
 
+    const anchorClassName = classNames({
+      [styles.hasUpdates]: hasUpdates
+    });
+
     const anchor = (
-      <span className={hasUpdates && styles.hasUpdates}>
+      <span className={anchorClassName}>
         <Avatar
           url={user.profile && user.profile.avatar && user.profile.avatar.url}
           size={Size.Size24}
