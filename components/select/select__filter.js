@@ -20,6 +20,10 @@ export default class SelectFilter extends Component {
     inputRef: noop
   };
 
+  componentDidMount() {
+    setTimeout(() => this.focus());
+  }
+
   componentWillUnmount() {
     this.blur();
   }
@@ -47,7 +51,6 @@ export default class SelectFilter extends Component {
 
     return (
       <Input
-        autoFocus
         {...restProps}
         borderless
         inputRef={this.inputRef}
