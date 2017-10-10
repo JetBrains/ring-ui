@@ -74,7 +74,7 @@
   </file>
 
   <file type="css">
-    @value unit, link-color from '../global/global.css';
+    @value unit, link-color, link-hover-color from '../global/global.css';
 
     :global(.icon-example__container) {
       margin-left: calc(0 - calc(unit * 2));
@@ -84,6 +84,10 @@
       margin: 8px;
       padding: 8px;
       color: link-color;
+    }
+
+    :global(.secondary) {
+      fill: link-hover-color;
     }
   </file>
 
