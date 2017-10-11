@@ -100,7 +100,7 @@
 
     render(
       <div className="icon-example__container">
-        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon}/>)}
+        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon.displayName}/>)}
       </div>,
       document.getElementById('all-icons')
     );
