@@ -33,18 +33,17 @@ export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
 type Props = {
   item: ItemType,
   title: string,
-  items: ItemType[],
+  items: any[],
   className?: string,
   level: number,
   parentShift?: number,
 
+  itemFormatter: (item: any) => ItemType,
+
   collapsible: boolean,
   collapsed: boolean,
-  onCollapse: (item?: ItemType) => void,
-  onExpand: (item?: ItemType) => void,
-
-  isCollapsed: (item?: ItemType) => boolean,
-  isCollapsible: (item?: ItemType) => boolean,
+  onCollapse: () => void,
+  onExpand: () => void,
 
   showFocus: boolean,
   onFocus: (item: ItemType) => void,
@@ -89,20 +88,10 @@ export default class Item extends PureComponent {
     onSelect(item, selected);
   };
 
-  onCollapse = (): void => {
-    const {item, onCollapse} = this.props;
-    onCollapse(item);
-  }
-
-  onExpand = (): void => {
-    const {item, onExpand} = this.props;
-    onExpand(item);
-  }
-
   renderItem = (item: ItemType, parentShift: number): Element<any> => {
     const {
       onFocus, onSelect, selection, level,
-      onCollapse, onExpand, isCollapsed, isCollapsible
+      itemFormatter
     } = this.props;
 
     return (
@@ -114,12 +103,12 @@ export default class Item extends PureComponent {
         level={level + 1}
         parentShift={parentShift}
 
-        collapsible={isCollapsible(item)}
-        collapsed={isCollapsed(item)}
-        onCollapse={onCollapse}
-        onExpand={onExpand}
-        isCollapsed={isCollapsed}
-        isCollapsible={isCollapsible}
+        itemFormatter={itemFormatter}
+
+        collapsible={item.collapsible}
+        collapsed={item.collapsed}
+        onCollapse={item.onCollapse}
+        onExpand={item.onExpand}
 
         focused={selection.isFocused(item)}
         showFocus={selection.isFocused(item)}
@@ -138,7 +127,8 @@ export default class Item extends PureComponent {
       title, items, showMoreLessButton,
       level, parentShift, showFocus,
       selectable, selected,
-      collapsible, collapsed
+      collapsible, collapsed, onCollapse, onExpand,
+      itemFormatter
     } = this.props;
 
     let moreLessButton;
@@ -175,7 +165,7 @@ export default class Item extends PureComponent {
           <ExpandIcon
             className={styles.collapseIcon}
             size={13}
-            onClick={this.onExpand}
+            onClick={onExpand}
           />
         );
       } else {
@@ -183,7 +173,7 @@ export default class Item extends PureComponent {
           <CollapseIcon
             className={styles.collapseIcon}
             size={13}
-            onClick={this.onCollapse}
+            onClick={onCollapse}
           />
         );
       }
@@ -217,7 +207,7 @@ export default class Item extends PureComponent {
 
         {!itemIsEmpty ? (
           <ul className={styles.itemContent}>
-            {items.map(item => this.renderItem(item, itemShift))}
+            {items.map(item => this.renderItem(itemFormatter(item), itemShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>
