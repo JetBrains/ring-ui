@@ -20,19 +20,6 @@ class DataListDemo extends PureComponent {
   moreExpandebleItems = new Set([mock[0].id]);
   moreExpandedItems = new Set();
 
-  isItemCollapsed = item => !this.expandedItems.has(item);
-  isItemCollapsible = item => item.collapsible && item.id > 10;
-
-  onItemExpand = item => {
-    this.expandedItems.add(item);
-    this.setState({data: [...this.state.data]});
-  };
-
-  onItemCollapse = item => {
-    this.expandedItems.delete(item);
-    this.setState({data: [...this.state.data]});
-  };
-
   itemMoreLessState = item => {
     if (this.moreExpandebleItems.has(item.id)) {
       return this.moreExpandedItems.has(item.id)
@@ -59,6 +46,29 @@ class DataListDemo extends PureComponent {
     this.setState({selection});
   };
 
+  itemFormatter = item => {
+    const collapsible = item.collapsible && item.id > 10;
+    const collapsed = !this.expandedItems.has(item.id);
+
+    const onCollapse = () => {
+      this.expandedItems.delete(item.id);
+      this.setState({data: [...this.state.data]});
+    };
+
+    const onExpand = () => {
+      this.expandedItems.add(item.id);
+      this.setState({data: [...this.state.data]});
+    };
+
+    return {
+      ...item,
+      collapsible,
+      collapsed,
+      onCollapse,
+      onExpand
+    };
+  };
+
   render() {
     return (
       <DataList
@@ -66,10 +76,7 @@ class DataListDemo extends PureComponent {
         selection={this.state.selection}
         onSelect={this.onSelect}
 
-        onItemCollapse={this.onItemCollapse}
-        onItemExpand={this.onItemExpand}
-        isItemCollapsed={this.isItemCollapsed}
-        isItemCollapsible={this.isItemCollapsible}
+        itemFormatter={this.itemFormatter}
 
         onItemMoreLess={this.onItemMoreLess}
         itemMoreLessState={this.itemMoreLessState}
