@@ -163,7 +163,7 @@ class DataList extends PureComponent {
             return (
               <Item
                 key={id}
-                item={item}
+                item={_item}
                 title={title}
                 items={items}
 
@@ -174,13 +174,13 @@ class DataList extends PureComponent {
                 onCollapse={item.onCollapse}
                 onExpand={item.onExpand}
 
-                focused={selection.isFocused(item)}
-                showFocus={selection.isFocused(item)}
+                focused={selection.isFocused(_item)}
+                showFocus={selection.isFocused(_item)}
                 onFocus={this.onItemFocus}
 
                 selection={selection}
                 selectable={item.selectable}
-                selected={selection.isSelected(item)}
+                selected={selection.isSelected(_item)}
                 onSelect={this.onItemSelect}
 
                 showMoreLessButton={showMoreLessButton}

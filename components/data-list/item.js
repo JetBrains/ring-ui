@@ -31,7 +31,7 @@ export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
   typeof moreLessButtonStates.LESS;
 
 type Props = {
-  item: ItemType,
+  item: any,
   title: string,
   items: any[],
   className?: string,
@@ -88,16 +88,18 @@ export default class Item extends PureComponent {
     onSelect(item, selected);
   };
 
-  renderItem = (item: ItemType, parentShift: number): Element<any> => {
+  renderItem = (_item: any, parentShift: number): Element<any> => {
     const {
       onFocus, onSelect, selection, level,
       itemFormatter
     } = this.props;
 
+    const item = itemFormatter(_item);
+
     return (
       <Item
         key={item.id}
-        item={item}
+        item={_item}
         title={item.title}
         items={item.items}
         level={level + 1}
@@ -110,13 +112,13 @@ export default class Item extends PureComponent {
         onCollapse={item.onCollapse}
         onExpand={item.onExpand}
 
-        focused={selection.isFocused(item)}
-        showFocus={selection.isFocused(item)}
+        focused={selection.isFocused(_item)}
+        showFocus={selection.isFocused(_item)}
         onFocus={onFocus}
 
         selection={selection}
         selectable={item.selectable}
-        selected={selection.isSelected(item)}
+        selected={selection.isSelected(_item)}
         onSelect={onSelect}
       />
     );
@@ -127,8 +129,7 @@ export default class Item extends PureComponent {
       title, items, showMoreLessButton,
       level, parentShift, showFocus,
       selectable, selected,
-      collapsible, collapsed, onCollapse, onExpand,
-      itemFormatter
+      collapsible, collapsed, onCollapse, onExpand
     } = this.props;
 
     let moreLessButton;
@@ -207,7 +208,7 @@ export default class Item extends PureComponent {
 
         {!itemIsEmpty ? (
           <ul className={styles.itemContent}>
-            {items.map(item => this.renderItem(itemFormatter(item), itemShift))}
+            {items.map(_item => this.renderItem(_item, itemShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>
