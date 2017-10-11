@@ -160,7 +160,7 @@ export default class Item extends PureComponent {
     }
 
     let collapserExpander = null;
-    if (collapsible && items.length) {
+    if (collapsible) {
       if (collapsed) {
         collapserExpander = (
           <ExpandIcon

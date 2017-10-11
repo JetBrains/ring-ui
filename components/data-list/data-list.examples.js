@@ -47,7 +47,7 @@ class DataListDemo extends PureComponent {
   };
 
   itemFormatter = item => {
-    const collapsible = item.collapsible && item.id > 10;
+    const collapsible = item.collapsible && item.items && item.id > 10;
     const collapsed = !this.expandedItems.has(item.id);
 
     const onCollapse = () => {
