@@ -28,13 +28,10 @@ import type {MoreLessButtonState} from './item';
 
 type Props = {
   className?: string,
-  data: ItemType[],
+  data: any[],
   loading: boolean,
 
-  onItemCollapse: (item?: ItemType) => void,
-  onItemExpand: (item?: ItemType) => void,
-  isItemCollapsed: (item?: ItemType) => boolean,
-  isItemCollapsible: (item?: ItemType) => boolean,
+  itemFormatter: (item: any) => ItemType,
 
   onItemMoreLess: (item?: ItemType, more?: boolean) => void,
   itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
@@ -59,10 +56,7 @@ class DataList extends PureComponent {
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
 
-    onItemCollapse: PropTypes.func,
-    onItemExpand: PropTypes.func,
-    isItemCollapsed: PropTypes.func,
-    isItemCollapsible: PropTypes.func,
+    itemFormatter: PropTypes.func.isRequired,
 
     onItemMoreLess: PropTypes.func,
     itemMoreLessState: PropTypes.func,
@@ -72,11 +66,6 @@ class DataList extends PureComponent {
 
   static defaultProps = {
     loading: false,
-
-    onItemCollapse: () => {},
-    onItemExpand: () => {},
-    isItemCollapsed: () => true,
-    isItemCollapsible: () => false,
 
     onItemMoreLess: () => {},
     itemMoreLessState: () => moreLessButtonStates.UNUSED,
@@ -124,17 +113,15 @@ class DataList extends PureComponent {
 
   onEqualPress = () => {
     const {
-      onItemCollapse, onItemExpand,
-      isItemCollapsed, selection
+      selection, itemFormatter
     } = this.props;
 
-    const item = selection.getFocused();
-    if (item) {
-      if (isItemCollapsed(item)) {
-        onItemExpand(item);
-      } else {
-        onItemCollapse(item);
-      }
+    const item = itemFormatter(selection.getFocused());
+
+    if (item.collapsed) {
+      item.onExpand();
+    } else {
+      item.onCollapse();
     }
   }
 
@@ -145,9 +132,8 @@ class DataList extends PureComponent {
   render(): Element<any> {
     const {
       data, className, loading,
-      onItemCollapse, onItemExpand,
-      isItemCollapsed, isItemCollapsible,
-      selection, disabledHover
+      selection, disabledHover,
+      itemFormatter
     } = this.props;
 
     const shortcutsMap = {...this.shortcutsMap, ...this.props.shortcutsMap};
@@ -168,7 +154,8 @@ class DataList extends PureComponent {
         }
 
         <ul className={classes}>
-          {data.map(item => {
+          {data.map(_item => {
+            const item = itemFormatter(_item);
             const {id, title, items} = item;
 
             const showMoreLessButton = this.props.itemMoreLessState(item);
@@ -180,12 +167,12 @@ class DataList extends PureComponent {
                 title={title}
                 items={items}
 
-                collapsible={isItemCollapsible(item)}
-                collapsed={isItemCollapsed(item)}
-                onCollapse={onItemCollapse}
-                onExpand={onItemExpand}
-                isCollapsed={isItemCollapsed}
-                isCollapsible={isItemCollapsible}
+                itemFormatter={itemFormatter}
+
+                collapsible={item.collapsible}
+                collapsed={item.collapsed}
+                onCollapse={item.onCollapse}
+                onExpand={item.onExpand}
 
                 focused={selection.isFocused(item)}
                 showFocus={selection.isFocused(item)}
