@@ -4,14 +4,14 @@ import TableSelection from '../table/selection';
 import type {ItemType} from './types';
 
 export default class Selection extends TableSelection {
-  _getItems(items: ItemType[]) {
+  _itemsTraversal(items: ItemType[]) {
     let result: ItemType[] = [];
 
     items.forEach(item => {
       result.push(item);
 
       if (item.items) {
-        result = [...result, ...this._getItems(item.items)];
+        result = [...result, ...this._itemsTraversal(item.items)];
       }
     });
 
@@ -19,7 +19,7 @@ export default class Selection extends TableSelection {
   }
 
   _buildData(data: ItemType[]): Set<ItemType> {
-    return new Set(this._getItems(data));
+    return new Set(this._itemsTraversal(data));
   }
 
   select(value: ItemType = this._focused) {
@@ -31,7 +31,7 @@ export default class Selection extends TableSelection {
     selected.add(value);
 
     if (value.items) {
-      this._getItems(value.items).forEach(item => {
+      this._itemsTraversal(value.items).forEach(item => {
         selected.add(item);
       });
     }
@@ -59,7 +59,7 @@ export default class Selection extends TableSelection {
     selected.delete(value);
 
     if (value.items) {
-      this._getItems(value.items).forEach(item => {
+      this._itemsTraversal(value.items).forEach(item => {
         selected.delete(item);
       });
     }
