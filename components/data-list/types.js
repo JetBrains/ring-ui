@@ -3,5 +3,9 @@ export type ItemType = {
   id: number,
   title: any,
   selectable?: boolean,
-  items?: ItemType[]
+  collapsible?: boolean,
+  collapsed?: boolean,
+  items?: ItemType[],
+  onCollapse: () => void,
+  onExpand: () => void
 };

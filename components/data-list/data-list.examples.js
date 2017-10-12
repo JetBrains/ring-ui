@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint-disable no-magic-numbers */
+/* eslint-disable react/sort-comp */
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 
@@ -10,28 +11,25 @@ import mock, {moreItems} from './data-list.mock';
 import {moreLessButtonStates} from './item';
 
 class DataListDemo extends PureComponent {
+  expandedItems = new Set();
+  isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
+  isItemCollapsed = item => !this.expandedItems.has(item.id);
+
   state = {
     data: mock,
-    selection: new Selection({data: mock, isItemSelectable: item => item.selectable})
+    selection: new Selection({
+      data: mock,
+      isItemSelectable: item => item.selectable,
+      getChildren: item => {
+        const collapsible = this.isItemCollapsible(item);
+        const collapsed = this.isItemCollapsed(item);
+        return ((collapsible && collapsed) || !item.items) ? [] : item.items;
+      }
+    })
   };
-
-  expandedItems = new Set();
 
   moreExpandebleItems = new Set([mock[0].id]);
   moreExpandedItems = new Set();
-
-  isItemCollapsed = item => !this.expandedItems.has(item);
-  isItemCollapsible = item => item.collapsible && item.id > 10;
-
-  onItemExpand = item => {
-    this.expandedItems.add(item);
-    this.setState({data: [...this.state.data]});
-  };
-
-  onItemCollapse = item => {
-    this.expandedItems.delete(item);
-    this.setState({data: [...this.state.data]});
-  };
 
   itemMoreLessState = item => {
     if (this.moreExpandebleItems.has(item.id)) {
@@ -59,6 +57,29 @@ class DataListDemo extends PureComponent {
     this.setState({selection});
   };
 
+  itemFormatter = item => {
+    const collapsible = this.isItemCollapsible(item);
+    const collapsed = this.isItemCollapsed(item);
+
+    const onCollapse = () => {
+      this.expandedItems.delete(item.id);
+      this.setState({data: [...this.state.data]});
+    };
+
+    const onExpand = () => {
+      this.expandedItems.add(item.id);
+      this.setState({data: [...this.state.data]});
+    };
+
+    return {
+      ...item,
+      collapsible,
+      collapsed,
+      onCollapse,
+      onExpand
+    };
+  };
+
   render() {
     return (
       <DataList
@@ -66,10 +87,7 @@ class DataListDemo extends PureComponent {
         selection={this.state.selection}
         onSelect={this.onSelect}
 
-        onItemCollapse={this.onItemCollapse}
-        onItemExpand={this.onItemExpand}
-        isItemCollapsed={this.isItemCollapsed}
-        isItemCollapsible={this.isItemCollapsible}
+        itemFormatter={this.itemFormatter}
 
         onItemMoreLess={this.onItemMoreLess}
         itemMoreLessState={this.itemMoreLessState}
