@@ -210,16 +210,14 @@ export default [
         <Link href="#">Hackathon 2016</Link>
         <span>: as a member of jetbrains-team</span>
       </span>
-    ),
-    items: []
+    )
   },
 
   {
     id: 7,
     title: <span><strong>Git Hosting Checkout</strong> in 7 projects</span>,
     selectable: true,
-    collapsible: true,
-    items: []
+    collapsible: true
   }
 ];
 
