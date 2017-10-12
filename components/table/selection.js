@@ -100,7 +100,7 @@ export default class Selection {
   }
 
   select(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
@@ -110,7 +110,7 @@ export default class Selection {
   }
 
   deselect(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
