@@ -8,17 +8,22 @@ describe('Data List', () => {
   const shallowDataList = (props = {}) => {
     const data = props.data || [];
     const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    return shallow(<DataList {...{...{data, selection}, ...props}}/>);
+    const itemFormatter = () => {};
+    return shallow(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
   };
+
   const mountDataList = (props = {}) => {
     const data = props.data || [];
     const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    return mount(<DataList {...{...{data, selection}, ...props}}/>);
+    const itemFormatter = () => {};
+    return mount(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
   };
+
   const renderDataList = (props = {}) => {
     const data = props.data || [];
     const selection = new Selection({data, isItemSelectable: item => item.selectable});
-    return render(<DataList {...{...{data, selection}, ...props}}/>);
+    const itemFormatter = () => {};
+    return render(<DataList {...{...{data, selection, itemFormatter}, ...props}}/>);
   };
 
   it('should create component', () => {
