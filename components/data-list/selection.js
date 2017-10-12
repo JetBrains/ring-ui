@@ -9,10 +9,7 @@ export default class Selection extends TableSelection {
 
     items.forEach(item => {
       result.push(item);
-
-      if (item.items) {
-        result = [...result, ...this._itemsTraversal(item.items)];
-      }
+      result = [...result, ...this._itemsTraversal(this._getChildren(item))];
     });
 
     return result;
@@ -30,15 +27,13 @@ export default class Selection extends TableSelection {
     const selected = new Set(this._selected);
     selected.add(value);
 
-    if (value.items) {
-      this._itemsTraversal(value.items).forEach(item => {
-        selected.add(item);
-      });
-    }
+    this._itemsTraversal(this._getChildren(value)).forEach(item => {
+      selected.add(item);
+    });
 
-    const group = this._rawData.find(it => it.items && it.items.includes(value));
+    const group = this._rawData.find(it => this._getChildren(it).includes(value));
     if (group) {
-      const groupIsSelected = group.items.
+      const groupIsSelected = this._getChildren(group).
         filter(it => this._isItemSelectable(it)).
         every(it => selected.has(it));
 
@@ -58,13 +53,11 @@ export default class Selection extends TableSelection {
     const selected = new Set(this._selected);
     selected.delete(value);
 
-    if (value.items) {
-      this._itemsTraversal(value.items).forEach(item => {
-        selected.delete(item);
-      });
-    }
+    this._itemsTraversal(this._getChildren(value)).forEach(item => {
+      selected.delete(item);
+    });
 
-    const group = this._rawData.find(it => it.items && it.items.includes(value));
+    const group = this._rawData.find(it => this._getChildren(it).includes(value));
     if (group) {
       selected.delete(group);
     }

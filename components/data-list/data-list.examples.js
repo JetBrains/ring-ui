@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint-disable no-magic-numbers */
+/* eslint-disable react/sort-comp */
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 
@@ -10,12 +11,22 @@ import mock, {moreItems} from './data-list.mock';
 import {moreLessButtonStates} from './item';
 
 class DataListDemo extends PureComponent {
+  expandedItems = new Set();
+  isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
+  isItemCollapsed = item => !this.expandedItems.has(item.id);
+
   state = {
     data: mock,
-    selection: new Selection({data: mock, isItemSelectable: item => item.selectable})
+    selection: new Selection({
+      data: mock,
+      isItemSelectable: item => item.selectable,
+      getChildren: item => {
+        const collapsible = this.isItemCollapsible(item);
+        const collapsed = this.isItemCollapsed(item);
+        return ((collapsible && collapsed) || !item.items) ? [] : item.items;
+      }
+    })
   };
-
-  expandedItems = new Set();
 
   moreExpandebleItems = new Set([mock[0].id]);
   moreExpandedItems = new Set();
@@ -47,8 +58,8 @@ class DataListDemo extends PureComponent {
   };
 
   itemFormatter = item => {
-    const collapsible = item.collapsible && item.items && item.id > 10;
-    const collapsed = !this.expandedItems.has(item.id);
+    const collapsible = this.isItemCollapsible(item);
+    const collapsed = this.isItemCollapsed(item);
 
     const onCollapse = () => {
       this.expandedItems.delete(item.id);
