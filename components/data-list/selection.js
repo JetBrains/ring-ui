@@ -20,7 +20,7 @@ export default class Selection extends TableSelection {
   }
 
   select(value: ItemType = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
@@ -46,7 +46,7 @@ export default class Selection extends TableSelection {
   }
 
   deselect(value: ItemType = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
