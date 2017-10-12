@@ -1,7 +1,16 @@
 export default class Selection {
   // eslint-disable-next-line max-len
-  constructor({data = [], selected = new Set(), focused = null, key = 'id', isItemSelectable = () => true} = {}) {
+  constructor({
+    data = [],
+    selected = new Set(),
+    focused = null,
+    key = 'id',
+    isItemSelectable = () => true,
+    getChildren = () => []
+  } = {}) {
     this._rawData = data;
+    this._getChildren = getChildren;
+
     this._data = this._buildData(data);
 
     this._focused = focused;
@@ -29,7 +38,8 @@ export default class Selection {
       selected: (data && !selected) ? cloneSelected() : selected || this._selected,
       focused: (data && !focused) ? cloneFocus() : newFocused,
       key: this._key,
-      isItemSelectable: this._isItemSelectable
+      isItemSelectable: this._isItemSelectable,
+      getChildren: this._getChildren
     });
   }
 
@@ -90,7 +100,7 @@ export default class Selection {
   }
 
   select(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
@@ -100,7 +110,7 @@ export default class Selection {
   }
 
   deselect(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 

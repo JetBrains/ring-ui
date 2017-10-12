@@ -4,41 +4,36 @@ import TableSelection from '../table/selection';
 import type {ItemType} from './types';
 
 export default class Selection extends TableSelection {
-  _getItems(items: ItemType[]) {
+  _itemsTraversal(items: ItemType[]) {
     let result: ItemType[] = [];
 
     items.forEach(item => {
       result.push(item);
-
-      if (item.items) {
-        result = [...result, ...this._getItems(item.items)];
-      }
+      result = [...result, ...this._itemsTraversal(this._getChildren(item))];
     });
 
     return result;
   }
 
   _buildData(data: ItemType[]): Set<ItemType> {
-    return new Set(this._getItems(data));
+    return new Set(this._itemsTraversal(data));
   }
 
   select(value: ItemType = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
     const selected = new Set(this._selected);
     selected.add(value);
 
-    if (value.items) {
-      this._getItems(value.items).forEach(item => {
-        selected.add(item);
-      });
-    }
+    this._itemsTraversal(this._getChildren(value)).forEach(item => {
+      selected.add(item);
+    });
 
-    const group = this._rawData.find(it => it.items && it.items.includes(value));
+    const group = this._rawData.find(it => this._getChildren(it).includes(value));
     if (group) {
-      const groupIsSelected = group.items.
+      const groupIsSelected = this._getChildren(group).
         filter(it => this._isItemSelectable(it)).
         every(it => selected.has(it));
 
@@ -51,20 +46,18 @@ export default class Selection extends TableSelection {
   }
 
   deselect(value: ItemType = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
     const selected = new Set(this._selected);
     selected.delete(value);
 
-    if (value.items) {
-      this._getItems(value.items).forEach(item => {
-        selected.delete(item);
-      });
-    }
+    this._itemsTraversal(this._getChildren(value)).forEach(item => {
+      selected.delete(item);
+    });
 
-    const group = this._rawData.find(it => it.items && it.items.includes(value));
+    const group = this._rawData.find(it => this._getChildren(it).includes(value));
     if (group) {
       selected.delete(group);
     }
