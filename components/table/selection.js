@@ -1,5 +1,4 @@
 export default class Selection {
-  // eslint-disable-next-line max-len
   constructor({
     data = [],
     selected = new Set(),
