@@ -88,18 +88,18 @@ export default class Item extends PureComponent {
     onSelect(item, selected);
   };
 
-  renderItem = (_item: any, parentShift: number): Element<any> => {
+  renderItem = (model: any, parentShift: number): Element<any> => {
     const {
       onFocus, onSelect, selection, level,
       itemFormatter
     } = this.props;
 
-    const item = itemFormatter(_item);
+    const item = itemFormatter(model);
 
     return (
       <Item
         key={item.id}
-        item={_item}
+        item={model}
         title={item.title}
         items={item.items}
         level={level + 1}
@@ -112,13 +112,13 @@ export default class Item extends PureComponent {
         onCollapse={item.onCollapse}
         onExpand={item.onExpand}
 
-        focused={selection.isFocused(_item)}
-        showFocus={selection.isFocused(_item)}
+        focused={selection.isFocused(model)}
+        showFocus={selection.isFocused(model)}
         onFocus={onFocus}
 
         selection={selection}
         selectable={item.selectable}
-        selected={selection.isSelected(_item)}
+        selected={selection.isSelected(model)}
         onSelect={onSelect}
       />
     );
@@ -208,7 +208,7 @@ export default class Item extends PureComponent {
 
         {!itemIsEmpty ? (
           <ul className={styles.itemContent}>
-            {items.map(_item => this.renderItem(_item, itemShift))}
+            {items.map(model => this.renderItem(model, itemShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>

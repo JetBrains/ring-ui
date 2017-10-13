@@ -154,8 +154,8 @@ class DataList extends PureComponent {
         }
 
         <ul className={classes}>
-          {data.map(_item => {
-            const item = itemFormatter(_item);
+          {data.map(model => {
+            const item = itemFormatter(model);
             const {id, title, items} = item;
 
             const showMoreLessButton = this.props.itemMoreLessState(item);
@@ -163,7 +163,7 @@ class DataList extends PureComponent {
             return (
               <Item
                 key={id}
-                item={_item}
+                item={model}
                 title={title}
                 items={items}
 
@@ -174,13 +174,13 @@ class DataList extends PureComponent {
                 onCollapse={item.onCollapse}
                 onExpand={item.onExpand}
 
-                focused={selection.isFocused(_item)}
-                showFocus={selection.isFocused(_item)}
+                focused={selection.isFocused(model)}
+                showFocus={selection.isFocused(model)}
                 onFocus={this.onItemFocus}
 
                 selection={selection}
                 selectable={item.selectable}
-                selected={selection.isSelected(_item)}
+                selected={selection.isSelected(model)}
                 onSelect={this.onItemSelect}
 
                 showMoreLessButton={showMoreLessButton}
