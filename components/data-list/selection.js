@@ -8,6 +8,18 @@ export default class Selection extends TableSelection {
     return new Set(this._getDescendants(data));
   }
 
+  _buildSelected(data: ItemType[], selected: ItemType[]): Set<ItemType> {
+    const _selected = new Set(selected);
+
+    [...data].forEach(item => {
+      if (_selected.has(item)) {
+        this._selectDescendants(item, _selected);
+      }
+    });
+
+    return _selected;
+  }
+
   _getDescendants(items: ItemType[]) {
     let result: ItemType[] = [];
 
