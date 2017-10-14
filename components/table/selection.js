@@ -3,9 +3,9 @@ export default class Selection {
     data = [],
     selected = new Set(),
     focused = null,
-    key = 'id',
-    isItemSelectable = () => true,
-    getChildren = () => []
+    getKey = item => item.id,
+    getChildren = () => [],
+    isItemSelectable = () => true
   } = {}) {
     this._rawData = data;
     this._getChildren = getChildren;
@@ -14,7 +14,7 @@ export default class Selection {
 
     this._selected = selected;
     this._focused = focused;
-    this._key = key;
+    this._getKey = getKey;
     this._isItemSelectable = isItemSelectable;
   }
 
@@ -32,7 +32,7 @@ export default class Selection {
     let newSelected;
     if (data && !selected) {
       newSelected = new Set([...this._buildData(newData)].
-        filter(item => [...this._selected].some(it => item[this._key] === it[this._key])));
+        filter(item => [...this._selected].some(it => this._getKey(item) === this._getKey(it))));
       newSelected = this._buildSelected(this._buildData(newData), newSelected);
     } else if (selected) {
       newSelected = selected;
@@ -42,7 +42,7 @@ export default class Selection {
     newSelected = new Set([...newSelected].filter(item => this._isItemSelectable(item)));
 
     const cloneFocus = () => [...this._buildData(data)].filter(
-      item => this._focused && item[this._key] === this._focused[this._key]
+      item => this._focused && this._getKey(item) === this._getKey(this._focused)
     )[0];
 
     const newFocused = focused === undefined ? this._focused : focused;
@@ -51,9 +51,9 @@ export default class Selection {
       data: newData,
       selected: newSelected,
       focused: (data && !focused) ? cloneFocus() : newFocused,
-      key: this._key,
-      isItemSelectable: this._isItemSelectable,
-      getChildren: this._getChildren
+      getKey: this._getKey,
+      getChildren: this._getChildren,
+      isItemSelectable: this._isItemSelectable
     });
   }
 
