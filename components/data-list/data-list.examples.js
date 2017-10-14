@@ -15,16 +15,18 @@ class DataListDemo extends PureComponent {
   isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
   isItemCollapsed = item => !this.expandedItems.has(item.id);
 
+  getChildren = item => {
+    const collapsible = this.isItemCollapsible(item);
+    const collapsed = this.isItemCollapsed(item);
+    return ((collapsible && collapsed) || !item.items) ? [] : item.items;
+  };
+
   state = {
     data: mock,
     selection: new Selection({
       data: mock,
       isItemSelectable: item => item.selectable,
-      getChildren: item => {
-        const collapsible = this.isItemCollapsible(item);
-        const collapsed = this.isItemCollapsed(item);
-        return ((collapsible && collapsed) || !item.items) ? [] : item.items;
-      }
+      getChildren: this.getChildren
     })
   };
 
@@ -58,6 +60,7 @@ class DataListDemo extends PureComponent {
   };
 
   itemFormatter = item => {
+    const items = this.getChildren(item);
     const collapsible = this.isItemCollapsible(item);
     const collapsed = this.isItemCollapsed(item);
 
@@ -73,6 +76,7 @@ class DataListDemo extends PureComponent {
 
     return {
       ...item,
+      items,
       collapsible,
       collapsed,
       onCollapse,

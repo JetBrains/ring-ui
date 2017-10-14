@@ -4,19 +4,68 @@ import TableSelection from '../table/selection';
 import type {ItemType} from './types';
 
 export default class Selection extends TableSelection {
-  _itemsTraversal(items: ItemType[]) {
+  _buildData(data: ItemType[]): Set<ItemType> {
+    return new Set(this._getDescendants(data));
+  }
+
+  _buildSelected(data: ItemType[], selected: ItemType[]): Set<ItemType> {
+    const _selected = new Set(selected);
+
+    [...data].forEach(item => {
+      if (_selected.has(item)) {
+        this._selectDescendants(item, _selected);
+      }
+    });
+
+    return _selected;
+  }
+
+  _getDescendants(items: ItemType[]) {
     let result: ItemType[] = [];
 
     items.forEach(item => {
       result.push(item);
-      result = [...result, ...this._itemsTraversal(this._getChildren(item))];
+      result = [...result, ...this._getDescendants(this._getChildren(item))];
     });
 
     return result;
   }
 
-  _buildData(data: ItemType[]): Set<ItemType> {
-    return new Set(this._itemsTraversal(data));
+  _getAncestors(item: ItemType) {
+    let result: ItemType[] = [];
+
+    const parent = [...this._data].find(it => this._getChildren(it).includes(item));
+    if (parent) {
+      result = [parent, ...this._getAncestors(parent)];
+    }
+
+    return result;
+  }
+
+  _selectDescendants(item: ItemType, selected: Set<ItemType>) {
+    this._getDescendants(this._getChildren(item)).
+      forEach(it => selected.add(it));
+  }
+
+  _deselectDescendants(item: ItemType, selected: Set<ItemType>) {
+    this._getDescendants(this._getChildren(item)).
+      forEach(it => selected.delete(it));
+  }
+
+  _selectAncestors(item: ItemType, selected: Set<ItemType>) {
+    this._getAncestors(item).forEach(ancestor => {
+      const groupIsSelected = this._getChildren(ancestor).
+        filter(it => this._isItemSelectable(it)).
+        every(it => selected.has(it));
+
+      if (groupIsSelected) {
+        selected.add(ancestor);
+      }
+    });
+  }
+
+  _deselectAncestors(item: ItemType, selected: Set<ItemType>) {
+    this._getAncestors(item).forEach(it => selected.delete(it));
   }
 
   select(value: ItemType = this._focused) {
@@ -27,20 +76,8 @@ export default class Selection extends TableSelection {
     const selected = new Set(this._selected);
     selected.add(value);
 
-    this._itemsTraversal(this._getChildren(value)).forEach(item => {
-      selected.add(item);
-    });
-
-    const group = this._rawData.find(it => this._getChildren(it).includes(value));
-    if (group) {
-      const groupIsSelected = this._getChildren(group).
-        filter(it => this._isItemSelectable(it)).
-        every(it => selected.has(it));
-
-      if (groupIsSelected) {
-        selected.add(group);
-      }
-    }
+    this._selectDescendants(value, selected);
+    this._selectAncestors(value, selected);
 
     return this.cloneWith({selected});
   }
@@ -53,14 +90,8 @@ export default class Selection extends TableSelection {
     const selected = new Set(this._selected);
     selected.delete(value);
 
-    this._itemsTraversal(this._getChildren(value)).forEach(item => {
-      selected.delete(item);
-    });
-
-    const group = this._rawData.find(it => this._getChildren(it).includes(value));
-    if (group) {
-      selected.delete(group);
-    }
+    this._deselectDescendants(value, selected);
+    this._deselectAncestors(value, selected);
 
     return this.cloneWith({selected});
   }
