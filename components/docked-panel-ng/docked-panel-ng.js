@@ -10,7 +10,7 @@ const scheduleScroll = scheduleRAF();
 
 /**
  * @name Docked Panel Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Creates a panel docked at the bottom of the page.
  * @example
    <example name="Docked Panel Ng">

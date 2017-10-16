@@ -1,6 +1,6 @@
 /**
  * @name Group Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @framework Angular
  * @description Provides an Angular wrapper for Group.
  * @example

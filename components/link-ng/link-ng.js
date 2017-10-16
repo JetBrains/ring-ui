@@ -3,7 +3,7 @@ import '../link/link.scss';
 
 /**
  * @name Link Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @framework Angular
  * @constructor
  * @description Displays a link.

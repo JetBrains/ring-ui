@@ -1,6 +1,6 @@
 /**
  * @name Button Set Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Provides an Angular wrapper for Button Set.
  * @example
    <example name="Button Set Ng">

@@ -4,7 +4,7 @@ import styles from './<%= paramCaseNameSuffix %>.css';
 
 /**
   * @name <%= titleCaseName %>
-  * @category Legacy Angular Components
+  * @category Legacy Angular
   * @framework Angular
   * @constructor
   * @description TODO add <%= titleCaseName %> description

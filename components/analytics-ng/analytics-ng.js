@@ -6,7 +6,7 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
  * @name Analytics Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @tags Ring UI Language
  * @description Provides an Angular wrapper for Analytics.
  * @example
