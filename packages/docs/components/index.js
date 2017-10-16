@@ -9,7 +9,7 @@ import ContentLayout, {
 } from '@jetbrains/ring-ui/components/content-layout/content-layout';
 
 import Header from './header';
-import Footer from './footer';
+import SideFooter from './side-footer';
 import Nav from './nav';
 import Content from './content';
 import {getIndexDoc} from './utils';
@@ -55,9 +55,9 @@ class App extends Component {
             fixedClassName={styles.sidebarFixed}
           >
             <Nav categories={navData}/>
+            <SideFooter/>
           </Sidebar>
           <Content {...source}/>
-          <Footer/>
         </ContentLayout>
       </div>
     );

@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, line-height-lowest, link-color, white-color, line-color, gray-color, dark-gray-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -20,7 +20,7 @@ body {
 .sidebar {
   position: relative;
 
-  padding: 0 0 calc(unit * 6);
+  padding: calc(unit * 4) 0 calc(unit * 5);
 
   background-color: sidebar-background-color;
 
@@ -35,7 +35,7 @@ body {
   position: relative;
   z-index: overlay-z-index;
 
-  margin: calc(unit * 2) 0;
+  margin: calc(unit * -2) 0 0;
 
   line-height: calc(unit * 3);
 }
@@ -126,10 +126,18 @@ a.legacy {
   color: white-color;
 }
 
-.footer {
-  /* override Footer */
+.sideFooter {
+  composes: item;
 
-  && {
-    margin: calc(unit * 5) 0 0;
-  }
+  margin-top: calc(unit * 6);
+
+  line-height: line-height-lowest;
+}
+
+.copyright {
+  margin-bottom: unit;
+
+  color: dark-gray-color;
+
+  line-height: line-height-lowest;
 }
