@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-gather" />
     </scripts>
-    <arguments value="../../components/date-picker/*.gemini.js" />
+    <arguments value="../../components/content-layout/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
