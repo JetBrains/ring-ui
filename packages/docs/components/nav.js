@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Input from '@jetbrains/ring-ui/components/input/input';
+import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
 import List from '@jetbrains/ring-ui/components/list/list';
 import Markdown from '@jetbrains/ring-ui/components/markdown/markdown';
 import fuzzyHighlight from '@jetbrains/ring-ui/components/global/fuzzy-highlight';
@@ -38,19 +38,26 @@ const filterItems = (items, filterFn) =>
 const groupListItem = name => ({
   rgItemType: List.ListProps.Type.TITLE,
   label: name === 'Docs' ? 'Ring UI' : name,
-  key: name
+  key: name,
+  className: styles.item
 });
 
-const linkListItem = ({url, title, legacy}) => ({
-  rgItemType: List.ListProps.Type.LINK,
-  href: url,
-  active: url === currentPath(),
-  label: title,
-  key: url,
-  className: classNames({
-    [styles.legacy]: legacy
-  })
-});
+const linkListItem = ({url, title, legacy}) => {
+  const active = url === currentPath();
+
+  return {
+    rgItemType: List.ListProps.Type.LINK,
+    href: url,
+    active
+    ,
+    label: title,
+    key: url,
+    className: classNames(styles.item, {
+      [styles.legacy]: legacy,
+      [styles.active]: active
+    })
+  };
+};
 
 class Nav extends PureComponent {
   state = {
@@ -85,7 +92,8 @@ class Nav extends PureComponent {
     return (
       <div className={styles.nav}>
         <Input
-          className="ring-js-shortcuts"
+          size={Size.AUTO}
+          className={classNames(styles.item, 'ring-js-shortcuts')}
           autoFocus={true}
           placeholder="Search components"
           value={filter}

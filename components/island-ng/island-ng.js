@@ -1,6 +1,6 @@
 /**
  * @name Island Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @framework Angular
  * @description Provides an Angular wrapper for Island.
  * @example-file ./island-ng.examples.html

@@ -2,7 +2,7 @@ import '../tabs/tabs.scss';
 
 /**
  * @name Tabs Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Displays a tabset.
  * @example
    <example name="Tabs Ng">

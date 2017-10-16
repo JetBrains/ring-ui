@@ -10,7 +10,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Error Page Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Displays an error page, e.g. 404 Not Found.
  * @example
    <example name="Error Page Ng">

@@ -1,6 +1,6 @@
 /**
  * @name Compiler Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @example
    <example name="Compiler Ng">
     <file name="index.html">

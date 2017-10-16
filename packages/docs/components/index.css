@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, link-color, white-color, line-color, gray-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -20,16 +20,15 @@ body {
 .sidebar {
   position: relative;
 
-  width: auto;
+  padding: 0 0 calc(unit * 6);
 
-  transition: background-color ease;
+  background-color: sidebar-background-color;
+
+  box-shadow: 1px 0 line-color;
 }
 
 .sidebarFixed {
   z-index: overlay-z-index;
-
-  background-color: rgba(256, 256, 256, 0.9);
-  backdrop-filter: blur(5px);
 }
 
 .nav {
@@ -58,20 +57,19 @@ body {
   margin-left: calc(unit * -5 + 1);
 }
 
-.githubCorner {
-  width: calc(unit * 5);
+.item {
+  padding-right: calc(unit * 2);
+  padding-left: calc(unit * 4);
 }
 
-.list {
-  margin: -2px 0 0 calc(unit * -2);
-}
-
-.list p {
+.item p {
   margin: 0;
 }
 
 .active {
-  font-weight: 500;
+  background-color: selected-background-color;
+
+  font-weight: bold;
 }
 
 a.legacy {

@@ -6,10 +6,10 @@ import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service
 import Header, {
   Logo,
   Tray,
+  TrayIcon,
   SmartProfile,
   Services
 } from '@jetbrains/ring-ui/components/header/header';
-import GithubCorner from 'react-github-corner';
 
 /* eslint-disable import/no-unresolved */
 import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
@@ -18,6 +18,8 @@ import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/u
 
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
 /* eslint-enable */
+
+import gitHubLogo from '../GitHub.svg';
 
 import styles from './index.css';
 import hubConfig from './hub-config';
@@ -55,6 +57,13 @@ class SiteHeader extends PureComponent {
           <Version version={version}/>
         </span>
         <Tray>
+          <a
+            href="https://github.com/JetBrains/ring-ui"
+            target="_blank"
+            title="GitHub repo"
+          >
+            <TrayIcon icon={gitHubLogo} iconSize={24}/>
+          </a>
           <Services
             services={[
               {
@@ -78,15 +87,6 @@ class SiteHeader extends PureComponent {
             ]}
           />
           <SmartProfile auth={this.auth} size={SmartProfile.Size.Size40}/>
-          <div className={styles.githubCorner}>
-            <GithubCorner
-              href="https://github.com/JetBrains/ring-ui"
-              bannerColor="#fff"
-              octoColor="#000"
-              height={64}
-              width={64}
-            />
-          </div>
         </Tray>
       </Header>
     );

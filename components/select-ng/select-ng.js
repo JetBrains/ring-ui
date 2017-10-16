@@ -14,7 +14,7 @@ const INFINITE_SCROLL_PACK_SIZE = 50;
 const DIALOG_NG_SELECTOR = '[data-anchor=dialog-container][data-in-sidebar=false]';
 /**
  * @name Select Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @tags Ring UI Language
  * @description Provides an Angular wrapper for Select.
  * Options argument has one of the following forms:

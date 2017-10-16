@@ -5,7 +5,7 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Confirm Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @tags Ring UI Language
  * @description Displays a confirmation prompt.
  * @example
