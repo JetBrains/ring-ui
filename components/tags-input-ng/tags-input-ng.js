@@ -1,6 +1,6 @@
 /**
  * @name Tags Input Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @framework Angular
  * @description Provides an Angular wrapper for Tags Input.
  * @example-file ./tags-input-ng.examples.html

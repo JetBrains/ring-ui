@@ -10,7 +10,7 @@ import './tooltip-ng.scss';
 
 /**
  * @name Tooltip Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Provides an Angular wrapper for Tooltip.
  * @example
     <example name="Tooltip Ng">

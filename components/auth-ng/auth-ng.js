@@ -4,7 +4,7 @@ import Auth from '../auth/auth';
 
 /**
  * @name Auth Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @tags Ring UI Language
  * @description Provides an Angular wrapper for Auth.
  */

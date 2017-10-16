@@ -13,7 +13,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
 
 /**
  * @name Avatar Editor Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Allows to choose images to be uploaded as Data URI. On-select attribute will receive the
  * filename as `name` and the file contents as `data`.
  * @example

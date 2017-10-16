@@ -1,6 +1,6 @@
 /**
  * @name DataList Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @framework Angular
  * @description Provides an Angular wrapper for DataList.
  * @example-file ./data-list-ng.examples.html

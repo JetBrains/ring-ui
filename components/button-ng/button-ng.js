@@ -11,7 +11,7 @@ const DEFAULT_ICON_SIZE = 16;
 
 /**
  * @name Button Ng
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Provides an Angular wrapper for Button.
  * @example-file ./button-ng.examples.html
  */

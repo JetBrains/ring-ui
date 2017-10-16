@@ -22,6 +22,7 @@ function noop() {}
  */
 
 const Size = {
+  AUTO: 'Auto',
   S: 'S',
   M: 'M',
   L: 'L'

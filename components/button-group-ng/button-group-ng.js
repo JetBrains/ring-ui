@@ -7,7 +7,7 @@ import styles from '../button-group/button-group.css';
 /**
  * @name Button Group Ng
  * @tags Ring UI Language
- * @category Legacy Angular Components
+ * @category Legacy Angular
  * @description Provides an Angular wrapper for Button Group.
  * @example
    <example name="Button Group Ng">

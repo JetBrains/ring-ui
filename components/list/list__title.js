@@ -6,6 +6,7 @@ import styles from './list.css';
 
 export default class ListTitle extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     description: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
@@ -18,9 +19,9 @@ export default class ListTitle extends PureComponent {
   };
 
   render() {
-    const {description, label, isFirst} = this.props;
+    const {className, description, label, isFirst} = this.props;
 
-    const classes = classnames(styles.title, {
+    const classes = classnames(styles.title, className, {
       [styles.title_first]: isFirst
     });
 
