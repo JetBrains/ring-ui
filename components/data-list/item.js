@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Link from '../link/link';
@@ -15,7 +16,7 @@ import {
 import Selection from './selection';
 import Title from './title';
 import {moreLessStates} from './types';
-import type {MoreLessState, ItemType} from './types';
+import type {MoreLessState} from './types';
 import styles from './data-list.css';
 
 const ITEM_LEFT_OFFSET = 30;
@@ -28,23 +29,17 @@ type Props = {
   level: number,
   parentShift?: number,
 
-  itemFormatter: (item: any) => ItemType,
-
   collapsible: boolean,
   collapsed: boolean,
   onCollapse: () => void,
   onExpand: () => void,
 
   showFocus: boolean,
-  onFocus: (item: ItemType) => void,
 
-  selection: Selection,
   selectable: boolean,
   selected: boolean,
-  onSelect: (item: ItemType, selected: boolean) => void,
 
-  moreLessState: MoreLessState,
-  onItemMoreLess: (item?: ItemType, more?: boolean) => void
+  moreLessState: MoreLessState
 };
 
 export default class Item extends PureComponent {
@@ -52,38 +47,38 @@ export default class Item extends PureComponent {
     items: [],
     level: 0,
     parentShift: 0,
-    moreLessState: moreLessStates.UNUSED,
-    onItemMoreLess: () => {}
+    moreLessState: moreLessStates.UNUSED
+  };
+
+  static contextTypes = {
+    itemFormatter: PropTypes.func.isRequired,
+    selection: PropTypes.instanceOf(Selection).isRequired,
+    onSelect: PropTypes.func,
+    onFocus: PropTypes.func,
+    onItemMoreLess: PropTypes.func
   };
 
   props: Props;
 
   onShowMore = (): void => {
-    const {onItemMoreLess, model} = this.props;
-    onItemMoreLess(model, true);
+    this.context.onItemMoreLess(this.props.model, true);
   };
 
   onShowLess = (): void => {
-    const {onItemMoreLess, model} = this.props;
-    onItemMoreLess(model, false);
+    this.context.onItemMoreLess(this.props.model, false);
   };
 
   onFocus = (): void => {
-    const {onFocus, model} = this.props;
-    onFocus(model);
+    this.context.onFocus(this.props.model);
   };
 
   onSelect = (selected: boolean): void => {
-    const {onSelect, model} = this.props;
-    onSelect(model, selected);
+    this.context.onSelect(this.props.model, selected);
   };
 
   renderItem = (model: any, parentShift: number): Element<any> => {
-    const {
-      onFocus, onSelect, selection, level,
-      itemFormatter
-    } = this.props;
-
+    const {level} = this.props;
+    const {itemFormatter, selection} = this.context;
     const item = itemFormatter(model);
 
     const {
@@ -97,10 +92,9 @@ export default class Item extends PureComponent {
         model={model}
         title={title}
         items={children}
+
         level={level + 1}
         parentShift={parentShift}
-
-        itemFormatter={itemFormatter}
 
         collapsible={collapsible}
         collapsed={collapsed}
@@ -109,12 +103,9 @@ export default class Item extends PureComponent {
 
         focused={selection.isFocused(model)}
         showFocus={selection.isFocused(model)}
-        onFocus={onFocus}
 
-        selection={selection}
         selectable={selectable}
         selected={selection.isSelected(model)}
-        onSelect={onSelect}
       />
     );
   };

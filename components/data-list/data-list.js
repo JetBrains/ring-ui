@@ -54,6 +54,14 @@ class DataList extends PureComponent {
     remoteSelection: PropTypes.bool
   };
 
+  static childContextTypes = {
+    itemFormatter: PropTypes.func.isRequired,
+    selection: PropTypes.instanceOf(Selection).isRequired,
+    onSelect: PropTypes.func,
+    onFocus: PropTypes.func,
+    onItemMoreLess: PropTypes.func
+  };
+
   static defaultProps = {
     loading: false,
     onItemMoreLess: () => {},
@@ -64,6 +72,17 @@ class DataList extends PureComponent {
     shortcutsEnabled: this.props.focused,
     shortcutsScope: getUID('ring-data-list-')
   };
+
+  getChildContext() {
+    const {
+      itemFormatter, selection, onSelect, onItemMoreLess
+    } = this.props;
+
+    return {
+      itemFormatter, selection, onSelect, onItemMoreLess,
+      onFocus: this.onItemFocus
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
@@ -159,8 +178,6 @@ class DataList extends PureComponent {
                 title={title}
                 items={children}
 
-                itemFormatter={itemFormatter}
-
                 collapsible={collapsible}
                 collapsed={collapsed}
                 onCollapse={onCollapse}
@@ -168,15 +185,11 @@ class DataList extends PureComponent {
 
                 focused={selection.isFocused(model)}
                 showFocus={selection.isFocused(model)}
-                onFocus={this.onItemFocus}
 
-                selection={selection}
                 selectable={selectable}
                 selected={selection.isSelected(model)}
-                onSelect={this.onItemSelect}
 
                 moreLessState={moreLessState}
-                onItemMoreLess={this.props.onItemMoreLess}
               />
             );
           })}
