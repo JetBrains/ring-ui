@@ -1,11 +1,25 @@
 /* @flow */
+export const moreLessStates = {
+  UNUSED: 0,
+  MORE: 1,
+  MORE_LOADING: 2,
+  LESS: 3
+};
+
+export type MoreLessState =
+  typeof moreLessStates.UNUSED |
+  typeof moreLessStates.MORE |
+  typeof moreLessStates.MORE_LOADING |
+  typeof moreLessStates.LESS;
+
 export type ItemType = {
-  id: number,
+  key: number|string,
   title: any,
+  children?: ItemType[],
   selectable?: boolean,
   collapsible?: boolean,
   collapsed?: boolean,
-  items?: ItemType[],
-  onCollapse: () => void,
-  onExpand: () => void
+  moreLessState?: MoreLessState,
+  onCollapse?: () => void,
+  onExpand?: () => void
 };

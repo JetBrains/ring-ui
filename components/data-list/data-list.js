@@ -20,22 +20,16 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
 import Selection from './selection';
-import Item, {moreLessButtonStates} from './item';
+import Item from './item';
 import type {ItemType} from './types';
 import styles from './data-list.css';
-
-import type {MoreLessButtonState} from './item';
 
 type Props = {
   className?: string,
   data: any[],
-  loading: boolean,
-
   itemFormatter: (item: any) => ItemType,
-
+  loading: boolean,
   onItemMoreLess: (item?: ItemType, more?: boolean) => void,
-  itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
-
   remoteSelection: boolean,
 
   // selectionShortcutsHOC
@@ -54,22 +48,15 @@ type Props = {
 class DataList extends PureComponent {
   static propTypes = {
     data: PropTypes.array.isRequired,
-    loading: PropTypes.bool,
-
     itemFormatter: PropTypes.func.isRequired,
-
+    loading: PropTypes.bool,
     onItemMoreLess: PropTypes.func,
-    itemMoreLessState: PropTypes.func,
-
     remoteSelection: PropTypes.bool
   };
 
   static defaultProps = {
     loading: false,
-
     onItemMoreLess: () => {},
-    itemMoreLessState: () => moreLessButtonStates.UNUSED,
-
     remoteSelection: false
   };
 
@@ -119,8 +106,10 @@ class DataList extends PureComponent {
     const item = itemFormatter(selection.getFocused());
 
     if (item.collapsed) {
-      item.onExpand();
-    } else {
+      if (item.onExpand) {
+        item.onExpand();
+      }
+    } else if (item.onCollapse) {
       item.onCollapse();
     }
   }
@@ -156,34 +145,37 @@ class DataList extends PureComponent {
         <ul className={classes}>
           {data.map(model => {
             const item = itemFormatter(model);
-            const {id, title, items} = item;
 
-            const showMoreLessButton = this.props.itemMoreLessState(item);
+            const {
+              key, title, children, selectable,
+              collapsible, collapsed, onCollapse, onExpand,
+              moreLessState
+            } = item;
 
             return (
               <Item
-                key={id}
-                item={model}
+                key={key}
+                model={model}
                 title={title}
-                items={items}
+                items={children}
 
                 itemFormatter={itemFormatter}
 
-                collapsible={item.collapsible}
-                collapsed={item.collapsed}
-                onCollapse={item.onCollapse}
-                onExpand={item.onExpand}
+                collapsible={collapsible}
+                collapsed={collapsed}
+                onCollapse={onCollapse}
+                onExpand={onExpand}
 
                 focused={selection.isFocused(model)}
                 showFocus={selection.isFocused(model)}
                 onFocus={this.onItemFocus}
 
                 selection={selection}
-                selectable={item.selectable}
+                selectable={selectable}
                 selected={selection.isSelected(model)}
                 onSelect={this.onItemSelect}
 
-                showMoreLessButton={showMoreLessButton}
+                moreLessState={moreLessState}
                 onItemMoreLess={this.props.onItemMoreLess}
               />
             );

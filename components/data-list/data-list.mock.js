@@ -12,6 +12,7 @@ export default [
     title: <span><strong>Assigner</strong> in 60 projects</span>,
     collapsible: true,
     selectable: true,
+    moreLess: true,
     items: [
       {
         id: 11,

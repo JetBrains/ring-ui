@@ -6,7 +6,7 @@ import DataList from './data-list';
 import Selection from './selection';
 import mock, {moreItems} from './data-list.mock';
 
-import {moreLessButtonStates} from './item';
+import {moreLessStates} from './types';
 
 class DataListDemo extends PureComponent {
   state = {
@@ -35,10 +35,10 @@ class DataListDemo extends PureComponent {
   itemMoreLessState = item => {
     if (this.moreExpandebleItems.has(item.id)) {
       return this.moreExpandedItems.has(item.id)
-        ? moreLessButtonStates.LESS
-        : moreLessButtonStates.MORE;
+        ? moreLessStates.LESS
+        : moreLessStates.MORE;
     } else {
-      return moreLessButtonStates.UNUSED;
+      return moreLessStates.UNUSED;
     }
   };
 

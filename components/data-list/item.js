@@ -14,24 +14,14 @@ import {
 
 import Selection from './selection';
 import Title from './title';
-import type {ItemType} from './types';
+import {moreLessStates} from './types';
+import type {MoreLessState, ItemType} from './types';
 import styles from './data-list.css';
-
-export const moreLessButtonStates = {
-  UNUSED: 0,
-  MORE: 1,
-  MORE_LOADING: 2,
-  LESS: 3
-};
 
 const ITEM_LEFT_OFFSET = 30;
 
-export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
-  typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
-  typeof moreLessButtonStates.LESS;
-
 type Props = {
-  item: any,
+  model: any,
   title: string,
   items: any[],
   className?: string,
@@ -53,7 +43,7 @@ type Props = {
   selected: boolean,
   onSelect: (item: ItemType, selected: boolean) => void,
 
-  showMoreLessButton: MoreLessButtonState,
+  moreLessState: MoreLessState,
   onItemMoreLess: (item?: ItemType, more?: boolean) => void
 };
 
@@ -62,30 +52,30 @@ export default class Item extends PureComponent {
     items: [],
     level: 0,
     parentShift: 0,
-    showMoreLessButton: moreLessButtonStates.UNUSED,
+    moreLessState: moreLessStates.UNUSED,
     onItemMoreLess: () => {}
   };
 
   props: Props;
 
   onShowMore = (): void => {
-    const {onItemMoreLess, item} = this.props;
-    onItemMoreLess(item, true);
+    const {onItemMoreLess, model} = this.props;
+    onItemMoreLess(model, true);
   };
 
   onShowLess = (): void => {
-    const {onItemMoreLess, item} = this.props;
-    onItemMoreLess(item, false);
+    const {onItemMoreLess, model} = this.props;
+    onItemMoreLess(model, false);
   };
 
   onFocus = (): void => {
-    const {onFocus, item} = this.props;
-    onFocus(item);
+    const {onFocus, model} = this.props;
+    onFocus(model);
   };
 
   onSelect = (selected: boolean): void => {
-    const {onSelect, item} = this.props;
-    onSelect(item, selected);
+    const {onSelect, model} = this.props;
+    onSelect(model, selected);
   };
 
   renderItem = (model: any, parentShift: number): Element<any> => {
@@ -96,28 +86,33 @@ export default class Item extends PureComponent {
 
     const item = itemFormatter(model);
 
+    const {
+      key, title, children, selectable,
+      collapsible, collapsed, onCollapse, onExpand
+    } = item;
+
     return (
       <Item
-        key={item.id}
-        item={model}
-        title={item.title}
-        items={item.items}
+        key={key}
+        model={model}
+        title={title}
+        items={children}
         level={level + 1}
         parentShift={parentShift}
 
         itemFormatter={itemFormatter}
 
-        collapsible={item.collapsible}
-        collapsed={item.collapsed}
-        onCollapse={item.onCollapse}
-        onExpand={item.onExpand}
+        collapsible={collapsible}
+        collapsed={collapsed}
+        onCollapse={onCollapse}
+        onExpand={onExpand}
 
         focused={selection.isFocused(model)}
         showFocus={selection.isFocused(model)}
         onFocus={onFocus}
 
         selection={selection}
-        selectable={item.selectable}
+        selectable={selectable}
         selected={selection.isSelected(model)}
         onSelect={onSelect}
       />
@@ -126,29 +121,29 @@ export default class Item extends PureComponent {
 
   render(): Element<any> {
     const {
-      title, items, showMoreLessButton,
+      title, items, moreLessState,
       level, parentShift, showFocus,
       selectable, selected,
       collapsible, collapsed, onCollapse, onExpand
     } = this.props;
 
-    let moreLessButton;
-    if (showMoreLessButton === moreLessButtonStates.MORE ||
-      showMoreLessButton === moreLessButtonStates.MORE_LOADING) {
-      moreLessButton = (
+    let moreLess;
+    if (moreLessState === moreLessStates.MORE ||
+      moreLessState === moreLessStates.MORE_LOADING) {
+      moreLess = (
         <Text comment>
           <Link
             inherit
             pseudo
             onClick={this.onShowMore}
           >Show more</Link>
-          {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
+          {moreLessState === moreLessStates.MORE_LOADING &&
             <LoaderInline className={styles.showMoreLoader}/>
           }
         </Text>
       );
-    } else if (showMoreLessButton === moreLessButtonStates.LESS) {
-      moreLessButton = (
+    } else if (moreLessState === moreLessStates.LESS) {
+      moreLess = (
         <Text comment>
           <Link
             inherit
@@ -210,8 +205,8 @@ export default class Item extends PureComponent {
           <ul className={styles.itemContent}>
             {items.map(model => this.renderItem(model, itemShift))}
 
-            {showMoreLessButton !== moreLessButtonStates.UNUSED
-              ? <li className={styles.showMore}>{moreLessButton}</li>
+            {moreLessState !== moreLessStates.UNUSED
+              ? <li className={styles.showMore}>{moreLess}</li>
               : null
             }
           </ul>
