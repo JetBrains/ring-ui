@@ -831,14 +831,15 @@ export default class Select extends Component {
       for (let i = 0; i < this.state.selected.length; i++) {
         labels.push(this._getItemLabel(this.state.selected[i]));
       }
-      return labels.join(', ');
+      return labels.filter(Boolean).join(', ');
     } else {
       return this._getItemLabel(this.state.selected);
     }
   }
 
   _getItemLabel(item) {
-    return item.selectedLabel || item.label;
+    const {selectedLabel, label} = item;
+    return selectedLabel != null ? selectedLabel : label;
   }
 
   _getIcons() {
