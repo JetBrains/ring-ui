@@ -30,7 +30,7 @@ describe('Select', () => {
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
     {key: 2, label: 'test2', type: List.ListProps.Type.ITEM},
     {key: 3, label: 'test3', type: List.ListProps.Type.ITEM},
-    {key: 4, label: 'four4', type: List.ListProps.Type.ITEM}
+    {key: 4, label: 'four4', selectedLabel: '', type: List.ListProps.Type.ITEM}
   ];
 
   const defaultProps = () => ({
@@ -708,6 +708,15 @@ describe('Select', () => {
       const instance = wrapper.instance();
       const selectedLabel = instance._getSelectedString();
       selectedLabel.should.equal('first1, test2');
+    });
+
+    it('Should skip empty labels', () => {
+      const wrapper = shallowSelectMultiple({
+        selected: testData.slice(2)
+      });
+      const instance = wrapper.instance();
+      const selectedLabel = instance._getSelectedString();
+      selectedLabel.should.equal('test3');
     });
 
     it('Should detect selection is empty according on not empty array', () => {
