@@ -185,4 +185,23 @@ describe('Compiler Ng', () => {
 
     compileData.element[0].should.have.html(text);
   });
+
+
+  it('should allow use ngTranslcude', () => {
+    let compileData = null;
+    const transcludeFn = sandbox.stub();
+
+
+    compiler({
+      template: '<ng-transclude>',
+      locals: {$transclude: transcludeFn}
+    }).then(data => (compileData = data));
+    runDigest();
+
+
+    compileData.link($scope);
+    runDigest();
+
+    transcludeFn.should.have.been.called;
+  });
 });
