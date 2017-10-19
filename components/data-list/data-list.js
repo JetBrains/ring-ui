@@ -56,7 +56,6 @@ class DataList extends PureComponent {
 
   static childContextTypes = {
     itemFormatter: PropTypes.func.isRequired,
-    selection: PropTypes.instanceOf(Selection).isRequired,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
     onItemMoreLess: PropTypes.func
@@ -75,11 +74,11 @@ class DataList extends PureComponent {
 
   getChildContext() {
     const {
-      itemFormatter, selection, onSelect, onItemMoreLess
+      itemFormatter, onSelect, onItemMoreLess
     } = this.props;
 
     return {
-      itemFormatter, selection, onSelect, onItemMoreLess,
+      itemFormatter, onSelect, onItemMoreLess,
       onFocus: this.onItemFocus
     };
   }
@@ -186,6 +185,7 @@ class DataList extends PureComponent {
                 focused={selection.isFocused(model)}
                 showFocus={selection.isFocused(model)}
 
+                selection={selection}
                 selectable={selectable}
                 selected={selection.isSelected(model)}
 

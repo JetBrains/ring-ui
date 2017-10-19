@@ -36,6 +36,7 @@ type Props = {
 
   showFocus: boolean,
 
+  selection: Selection,
   selectable: boolean,
   selected: boolean,
 
@@ -52,7 +53,6 @@ export default class Item extends PureComponent {
 
   static contextTypes = {
     itemFormatter: PropTypes.func.isRequired,
-    selection: PropTypes.instanceOf(Selection).isRequired,
     onSelect: PropTypes.func,
     onFocus: PropTypes.func,
     onItemMoreLess: PropTypes.func
@@ -77,8 +77,8 @@ export default class Item extends PureComponent {
   };
 
   renderItem = (model: any, parentShift: number): Element<any> => {
-    const {level} = this.props;
-    const {itemFormatter, selection} = this.context;
+    const {level, selection} = this.props;
+    const {itemFormatter} = this.context;
     const item = itemFormatter(model);
 
     const {
@@ -104,6 +104,7 @@ export default class Item extends PureComponent {
         focused={selection.isFocused(model)}
         showFocus={selection.isFocused(model)}
 
+        selection={selection}
         selectable={selectable}
         selected={selection.isSelected(model)}
       />
