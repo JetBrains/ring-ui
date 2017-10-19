@@ -191,7 +191,7 @@ class DataList extends PureComponent {
         </ul>
 
         {loading && (
-          <div className={styles.loadingOverlay}>
+          <div className={data.length > 0 ? styles.loadingOverlay : null}>
             <Loader/>
           </div>
         )}
