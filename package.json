@@ -18,7 +18,7 @@
       "git add"
     ],
     "*.css": [
-      "stylelint --fix",
+      "stylelint --fix --ignore-path .eslintignore",
       "git add"
     ]
   },
