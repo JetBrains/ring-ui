@@ -46,10 +46,11 @@
 .caption {
   display: inline-block;
 
-  margin: 12px calc(unit * 4) 12px 0;
+  margin: 12px calc(unit * 5) 12px 0;
 
   vertical-align: middle;
   white-space: normal;
+  word-break: break-all;
 
   line-height: 20px;
 }
