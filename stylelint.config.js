@@ -3,5 +3,5 @@ module.exports = {
   rules: {
     'selector-max-specificity': '0,3,0'
   },
-  ignorePath: '.eslintignore'
+  ignoreFiles: '.eslintignore'
 };
