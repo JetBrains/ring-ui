@@ -74,6 +74,7 @@ export default class TagsInput extends Component {
     tags: [],
     suggestions: [],
     loading: true,
+    query: '',
     activeIndex: 0
   };
 
@@ -154,11 +155,11 @@ export default class TagsInput extends Component {
   };
 
   loadSuggestions = query => {
-    this.setState({loading: true});
+    this.setState({loading: true, query});
     return Promise.resolve(this.props.dataSource({query})).
       then(this.filterExistingTags).
       then(suggestions => {
-        if (this.node) {
+        if (this.node && query === this.state.query) {
           this.setState({suggestions, loading: false});
         }
       }).
