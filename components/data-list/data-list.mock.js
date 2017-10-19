@@ -13,13 +13,13 @@ export default [
     collapsible: true,
     selectable: true,
     moreLess: true,
-    items: [
+    children: [
       {
         id: 11,
         title: '6 projects: as a member of jetbrains-team',
         collapsible: true,
         selectable: true,
-        items: [
+        children: [
           {
             id: 111,
             selectable: true,
@@ -59,7 +59,7 @@ export default [
     title: <span><strong>Code Reviewer</strong> in 5 projects</span>,
     selectable: true,
     collapsible: true,
-    items: [
+    children: [
       {
         id: 21,
         selectable: true,
@@ -76,7 +76,7 @@ export default [
         id: 22,
         title: '6 projects: as a member of jetbrains-team',
         collapsible: true,
-        items: [
+        children: [
           {
             id: 221,
             collapsible: true,
@@ -127,7 +127,7 @@ export default [
     title: <span><strong>Code Viewer</strong> in 5 projects</span>,
     selectable: true,
     collapsible: true,
-    items: [
+    children: [
       {
         id: 31,
         collapsible: true,
@@ -156,7 +156,7 @@ export default [
     id: 4,
     title: <span><strong>Commenter</strong> in 12 projects</span>,
     collapsible: true,
-    items: [
+    children: [
       {
         id: 41,
         collapsible: true,
@@ -191,7 +191,7 @@ export default [
         <Badge>team role</Badge>
       </span>
     ),
-    items: [
+    children: [
       {
         id: 51,
         selectable: true,

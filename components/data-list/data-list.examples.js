@@ -14,7 +14,7 @@ class DataListDemo extends PureComponent {
   expandedItems = new Set();
   moreExpandedItems = new Set();
 
-  isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
+  isItemCollapsible = item => item.collapsible && item.children && item.id > 10;
   isItemCollapsed = item => !this.expandedItems.has(item.id);
 
   getKey = item => item.id;
@@ -22,7 +22,7 @@ class DataListDemo extends PureComponent {
   getChildren = item => {
     const collapsible = this.isItemCollapsible(item);
     const collapsed = this.isItemCollapsed(item);
-    return ((collapsible && collapsed) || !item.items) ? [] : item.items;
+    return ((collapsible && collapsed) || !item.children) ? [] : item.children;
   };
 
   isItemSelectable = item => item.selectable;
@@ -40,10 +40,10 @@ class DataListDemo extends PureComponent {
   onItemMoreLess = (item, more) => {
     if (more) {
       this.moreExpandedItems.add(item.id);
-      item.items = item.items.concat([...moreItems]);
+      item.children = item.children.concat([...moreItems]);
     } else {
       this.moreExpandedItems.delete(item.id);
-      item.items = item.items.slice(0, item.items.length - moreItems.length);
+      item.children = item.children.slice(0, item.children.length - moreItems.length);
     }
 
     this.setState({data: [...this.state.data]});
