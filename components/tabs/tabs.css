@@ -1,4 +1,4 @@
-@value unit, font, line-color, main-color, text-color, gray-color, white-color, darker-gray-color, dark-line-color from "../global/global.css";
+@value unit, font, line-color, main-color, link-hover-color, text-color, gray-color, white-color, darker-gray-color, dark-line-color from "../global/global.css";
 @value line-shadow: inset 0 -1px 0 0;
 @value selected-line-shadow: inset 0 -3px 0 0;
 
@@ -32,8 +32,8 @@
   }
 
   &:hover:not(.selected) {
-    color: main-color;
-    box-shadow: inset 0 -1px 0 0 main-color;
+    color: link-hover-color;
+    box-shadow: inset 0 -1px 0 0 link-hover-color;
   }
 
   &[disabled] {
@@ -42,10 +42,6 @@
 }
 
 .light .title {
-  &:hover:not(.selected) {
-    color: main-color;
-  }
-
   &[disabled] {
     color: gray-color;
   }

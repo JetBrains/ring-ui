@@ -8,6 +8,10 @@ gemini.suite('Tabs', () => {
 
       capture('tab').
 
+      capture('hovered', (actions, find) => {
+        actions.mouseMove(find('div>div>div:nth-child(2)'));
+      }).
+
       capture('click-on-tab', (actions, find) => {
         actions.click(find('div>div>div:nth-child(3)'));
       }).
@@ -23,6 +27,10 @@ gemini.suite('Tabs', () => {
       setCaptureElements('#dark').
 
       capture('dark-tab').
+
+      capture('hovered', (actions, find) => {
+        actions.mouseMove(find('div>div>div:nth-child(2)'));
+      }).
 
       capture('click-on-dark-tab', (actions, find) => {
         actions.click(find('div>div>div:nth-child(3)'));
