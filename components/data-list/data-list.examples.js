@@ -30,11 +30,11 @@ class DataListDemo extends PureComponent {
     })
   };
 
-  moreExpandebleItems = new Set([mock[0].id]);
+  moreExpandableItems = new Set([mock[0].id]);
   moreExpandedItems = new Set();
 
   itemMoreLessState = item => {
-    if (this.moreExpandebleItems.has(item.id)) {
+    if (this.moreExpandableItems.has(item.id)) {
       return this.moreExpandedItems.has(item.id)
         ? moreLessButtonStates.LESS
         : moreLessButtonStates.MORE;
