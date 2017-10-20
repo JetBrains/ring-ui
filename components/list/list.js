@@ -103,6 +103,7 @@ export default class List extends Component {
     onMouseOut: PropTypes.func,
     onSelect: PropTypes.func,
     onScrollToBottom: PropTypes.func,
+    onResize: PropTypes.func,
     useMouseUp: PropTypes.bool,
     visible: PropTypes.bool,
     renderOptimization: PropTypes.bool,
@@ -118,6 +119,7 @@ export default class List extends Component {
     onMouseOut: noop,
     onSelect: noop,
     onScrollToBottom: noop,
+    onResize: noop,
     shortcuts: false,
     renderOptimization: true,
     disableMoveDownOverflow: false
@@ -537,7 +539,7 @@ export default class List extends Component {
     scrollTop
   }) {
     return (
-      <AutoSizer disableHeight>
+      <AutoSizer disableHeight onResize={this.props.onResize}>
         {({width}) => (
           <VirtualizedList
             ref={this.virtualizedListRef}
