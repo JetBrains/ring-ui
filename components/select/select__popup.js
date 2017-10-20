@@ -283,6 +283,10 @@ export default class SelectPopup extends Component {
     </div>);
   }
 
+  handleListResize = () => {
+    this.forceUpdate();
+  };
+
   listRef = el => {
     this.list = el;
   };
@@ -304,6 +308,7 @@ export default class SelectPopup extends Component {
           activateFirstItem
           onSelect={this.onListSelect}
           onMouseOut={this.listOnMouseOut}
+          onResize={this.handleListResize}
           onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
           disableMoveDownOverflow={this.props.loading}

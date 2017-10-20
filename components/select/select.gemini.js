@@ -46,6 +46,17 @@ gemini.suite('Select', () => {
       });
   });
 
+  gemini.suite('Inline select (opens to left)', child => {
+    child.
+      setUrl('/select/inline-select-opens-to-left.html').
+      setCaptureElements('[data-test=ring-select]', '[data-test=ring-popup]').
+      capture('selectPopup', (actions, find) => {
+        actions.click(find('[data-test=ring-select]'));
+        actions.mouseMove(find('body'), {x: 800, y: 1024});
+        actions.wait(UNHOVER_DELAY);
+      });
+  });
+
   gemini.suite('Multi-value select with options descriptions', child => {
     child.
       setUrl('/select/multiple-select-with-a-description.html').
