@@ -4,6 +4,48 @@ category: Docs
 order: 2
 ---
 
+## [0.3.0] — ??-??-2017
+### Breaking
+- Release 0.3.0 is designed to work with React 16. Moreover, `react` and `react-dom` are no longer `dependencies` but
+`peerDependencies` — make sure to include them in your project's `dependencies`, if you don't have them already. 
+If your project's `webpack.config.js` includes a `resolve` section for making sure only one copy of React is loaded, 
+it can now be removed.
+
+- `RingComponent`, a base class for all Ring UI components is now gone. The components are now inherited directly from
+`PureComponent`. If you have your own components using `RingComponent` as the base class, please refactor them:
+
+      // Before
+      import React from 'react';
+      import RingComponent from '../ring-component/ring-component';
+      
+      export default class MyComponent extends RingComponent {
+        ...
+        // RingComponent had its own lifecycle methods, matching the original ones        
+        didUpdate(prevProps, prevState) {
+        
+        }
+      }
+      
+      // After
+      import React, {PureComponent} from 'react';
+      
+      export default class MyComponent extends PureComponent {
+        ...
+        componentDidUpdate(prevProps, prevState) {
+        
+        }
+      }
+      
+- If you were relying on the `rerender` method of `RingComponent` (for example, to trigger re-rendering of `date-picker`
+or `query-assist`), special wrapped versions of those components should be used instead. Those wrapped versions include
+the `rerender` method for backward compatibility:
+
+      // Before
+      import DatePicker from "@jetbrains/ring-ui/components/date-picker/date-picker";
+      
+      // After
+      import {RerenderableDatePicker as DatePicker} from "@jetbrains/ring-ui/components/date-picker/date-picker";
+       
 ## [0.2.10] — 22-08-2017
 ### Added
 - `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
