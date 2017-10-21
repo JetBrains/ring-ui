@@ -45,13 +45,28 @@ the `rerender` method for backward compatibility:
       
       // After
       import {RerenderableDatePicker as DatePicker} from "@jetbrains/ring-ui/components/date-picker/date-picker";
+      
+### Added
+
+- [Hover mode](http://www.jetbrains.org/ring-ui/dropdown.html#Dropdown%20with%20hover%20mode) was added to `Dropdown`. [Review][RING-UI-CR-2998]
+- `user-card` [component](http://www.jetbrains.org/ring-ui/user-card.html) was added. [Review][RING-UI-CR-3016]
+- Support for fuzzy search was added to `Select`, pass `props.filter = { fuzzy: true }` to activate. [Review][RING-UI-CR-3037]
+
+### Removed
+
+- `React Ng`, a legacy Angular directive for proxying React components was removed.
+- An ability to import SVG icons as components (`import PencilIcon from '@jetbrains/icons/pencil.svg'`) deprecated earlier was removed.
+
+[RING-UI-CR-2998]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2998
+[RING-UI-CR-3016]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3016
+[RING-UI-CR-3037]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3037
        
 ## [0.2.10] — 22-08-2017
 ### Added
 - `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
 A previously introduced feature of importing them directly from packages is deprecated:
 
-      // deprecated, will be removed in 3.0
+      // deprecated, will be removed in 0.3
       import PencilIcon from '@jetbrains/icons/pencil.svg'
       import SearchIcon from '@jetbrains/icons/search.svg'
       import HubLogo from '@jetbrains/logos/hub/hub.svg'
