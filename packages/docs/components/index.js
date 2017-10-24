@@ -46,6 +46,7 @@ class App extends Component {
     return (
       <div className={styles.app}>
         <Header
+          categories={navData}
           version={version}
           noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
         />
