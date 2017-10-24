@@ -24,6 +24,7 @@ import gitHubLogo from '../GitHub.svg';
 import styles from './index.css';
 import hubConfig from './hub-config';
 import Version from './version';
+import Search from './search';
 import {getIndexDoc} from './utils';
 
 class SiteHeader extends PureComponent {
@@ -40,7 +41,7 @@ class SiteHeader extends PureComponent {
   auth = new Auth(hubConfig);
 
   render() {
-    const {version} = this.props;
+    const {version, categories} = this.props;
     const indexDoc = getIndexDoc();
 
     return (
@@ -57,6 +58,7 @@ class SiteHeader extends PureComponent {
           <Version version={version}/>
         </span>
         <Tray>
+          <Search categories={categories}/>
           <a
             href="https://github.com/JetBrains/ring-ui"
             target="_blank"
@@ -95,7 +97,14 @@ class SiteHeader extends PureComponent {
 
 SiteHeader.propTypes = {
   version: PropTypes.string,
-  noAuth: PropTypes.bool
+  noAuth: PropTypes.bool,
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      url: PropTypes.string,
+      title: PropTypes.string
+    }))
+  }))
 };
 
 export default SiteHeader;

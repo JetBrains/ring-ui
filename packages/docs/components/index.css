@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, line-height-lowest, link-color, white-color, line-color, gray-color, dark-gray-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-size, line-height, line-height-lowest, link-color, white-color, line-color, gray-color, dark-gray-color, search-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -140,4 +140,34 @@ a.legacy {
   color: dark-gray-color;
 
   line-height: line-height-lowest;
+}
+
+.search {
+  position: relative;
+
+  margin-right: calc(unit * 2);
+
+  color: search-color;
+}
+
+.searchIcon {
+  position: absolute;
+
+  z-index: 1;
+  top: 0;
+  left: unit;
+}
+
+.searchInput {
+  display: inline-block;
+
+  && {
+    padding-left: calc(unit * 4);
+  }
+
+  background-color: #001d32;
+
+  &&& ::placeholder {
+    text-shadow: 0 0 0 search-color;
+  }
 }
