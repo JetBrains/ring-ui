@@ -54,7 +54,7 @@ body {
 }
 
 .logo {
-  margin-left: calc(unit * -5 + 1);
+  margin-left: calc(unit * -4 + 1);
 }
 
 .item {
