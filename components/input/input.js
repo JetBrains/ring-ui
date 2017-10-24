@@ -33,6 +33,7 @@ export class Input extends PureComponent {
     value: PropTypes.string,
     theme: PropTypes.string,
     className: PropTypes.string,
+    inputClassName: PropTypes.string,
     size: PropTypes.string,
     label: PropTypes.string,
     active: PropTypes.bool,
@@ -97,7 +98,7 @@ export class Input extends PureComponent {
 
   clear = e => {
     this.props.onClear && this.props.onClear(e);
-  }
+  };
 
   handleChange = e => {
     this.props.onChange(e);
@@ -117,6 +118,7 @@ export class Input extends PureComponent {
       label,
       error,
       className,
+      inputClassName,
       children,
       value,
       onClear,
@@ -140,6 +142,8 @@ export class Input extends PureComponent {
       }
     );
 
+    const inputClasses = classNames(styles.input, inputClassName);
+
     const TagName = multiline ? 'textarea' : 'input';
 
     const text = value != null ? value : children;
@@ -152,7 +156,7 @@ export class Input extends PureComponent {
         <TagName
           ref={this.inputRef}
           onChange={this.handleChange}
-          className={styles.input}
+          className={inputClasses}
           value={text}
           rows={multiline ? 1 : null}
           {...restProps}
