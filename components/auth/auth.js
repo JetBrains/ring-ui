@@ -322,10 +322,7 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      const accessToken = await this._backgroundFlow.authorize();
-      await this._detectUserChange(accessToken);
-
-      return accessToken;
+      return await this._backgroundFlow.authorize();
     } catch (e) {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
@@ -335,6 +332,9 @@ export default class Auth {
   }
 
   async _saveCurrentService() {
+    if (this._service.serviceName) {
+      return;
+    }
     try {
       const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
       this._service = {serviceImage, serviceName};
@@ -440,7 +440,7 @@ export default class Auth {
 
     const onCancel = () => {
       closeDialog();
-      if (nonInteractive !== true) {
+      if (nonInteractive === true) {
         this.forceTokenUpdate();
       }
     };
