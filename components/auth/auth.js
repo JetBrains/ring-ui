@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 import HTTP from '../http/http';
+import alertService from '../alert-service/alert-service';
 
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
@@ -15,7 +16,27 @@ import TokenValidator from './token-validator';
 // eslint-disable-next-line no-magic-numbers
 const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 
+export const USER_CHANGED_EVENT = 'userChange';
+export const LOGOUT_EVENT = 'logout';
+
 function noop() {}
+
+const DEFAULT_CONFIG = {
+  reloadOnUserChange: true,
+  windowLogin: false,
+  clientId: '0-0-0-0-0',
+  redirectUri: getAbsoluteBaseURL(),
+  redirect: false,
+  requestCredentials: 'default',
+  scope: [],
+  userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
+  cleanHash: true,
+  onLogout: noop,
+  onPostponeChangedUser: () => {
+    alertService.warning('You are now in read-only mode', 0);
+  },
+  defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
+};
 
 /**
  * @name Auth
@@ -122,11 +143,11 @@ export default class Auth {
     this.listeners = new Listeners();
 
     if (this.config.onLogout) {
-      this.addListener('logout', this.config.onLogout);
+      this.addListener(LOGOUT_EVENT, this.config.onLogout);
     }
 
     if (this.config.reloadOnUserChange === true) {
-      this.addListener('userChange', () => this._reloadCurrentPage());
+      this.addListener(USER_CHANGED_EVENT, () => this._reloadCurrentPage());
     }
 
     this._createInitDeferred();
@@ -136,22 +157,7 @@ export default class Auth {
     this._service = {};
   }
 
-  /**
-   * @const {{clientId: string, redirectUri: string, scope: string[], defaultExpiresIn: number}}
-   */
-  static DEFAULT_CONFIG = {
-    reloadOnUserChange: true,
-    windowLogin: false,
-    clientId: '0-0-0-0-0',
-    redirectUri: getAbsoluteBaseURL(),
-    redirect: false,
-    requestCredentials: 'default',
-    scope: [],
-    userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
-    cleanHash: true,
-    onLogout: noop,
-    defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
-  };
+  static DEFAULT_CONFIG = DEFAULT_CONFIG;
 
   /**
    * @const {string}
@@ -372,10 +378,26 @@ export default class Auth {
   async _detectUserChange(accessToken) {
     try {
       const user = await this.getUser(accessToken);
-      if (user && this.user && this.user.id !== user.id) {
-        // Reload page if user has been changed after background refresh
+      const onApply = () => {
         this.user = user;
-        this.listeners.trigger('userChange', user);
+        this.listeners.trigger(USER_CHANGED_EVENT, user);
+      };
+
+      if (user && this.user && this.user.id !== user.id) {
+        if (this.user.guest) {
+          onApply();
+          return;
+        }
+
+        await this._showUserChangedDialog({
+          newUser: user,
+          onApply,
+          onPostpone: () => {
+            this.config.onPostponeChangedUser(this.user, user);
+            //TODO: set up postpone mode(RG-1593)
+          }
+        });
+
       }
     } catch (e) {
       // noop
@@ -448,6 +470,23 @@ export default class Auth {
     }
   }
 
+  async _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
+    const hide = this._authDialogService({
+      ...this._service,
+      title: `You have logged in as another user: ${newUser.name}`,
+      loginLabel: 'Apply change',
+      cancelLabel: 'Postpone',
+      onLogin: () => {
+        hide();
+        onApply();
+      },
+      onCancel: () => {
+        hide();
+        onPostpone();
+      }
+    });
+  }
+
   /**
    * Wipe accessToken and redirect to auth page with required authorization
    */
@@ -458,7 +497,7 @@ export default class Auth {
       ...extraParams
     };
 
-    await this.listeners.trigger('logout');
+    await this.listeners.trigger(LOGOUT_EVENT);
     await this._storage.wipeToken();
 
     const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
@@ -484,7 +523,7 @@ export default class Auth {
         this._beforeLogout();
       } else {
         this.user = user;
-        this.listeners.trigger('userChange', user);
+        this.listeners.trigger(USER_CHANGED_EVENT, user);
       }
     } catch (e) {
       this._beforeLogout();

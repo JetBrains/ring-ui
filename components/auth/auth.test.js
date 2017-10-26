@@ -1,7 +1,7 @@
 import sniffer from '../global/sniffer';
 import HTTP from '../http/http';
 
-import Auth from './auth';
+import Auth, {USER_CHANGED_EVENT, LOGOUT_EVENT} from './auth';
 import AuthRequestBuilder from './request-builder';
 import AuthResponseParser from './response-parser';
 import BackgroundFlow from './background-flow';
@@ -86,7 +86,7 @@ describe('Auth', () => {
         onLogout
       });
 
-      auth.listeners.trigger('logout');
+      auth.listeners.trigger(LOGOUT_EVENT);
 
       onLogout.should.have.been.called;
     });
@@ -95,7 +95,7 @@ describe('Auth', () => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
 
       const auth = new Auth({serverUri: ''});
-      auth.listeners.trigger('userChange');
+      auth.listeners.trigger(USER_CHANGED_EVENT);
 
       Auth.prototype._redirectCurrentPage.should.have.been.called;
     });
@@ -107,7 +107,7 @@ describe('Auth', () => {
         reloadOnUserChange: false,
         serverUri: ''
       });
-      auth.listeners.trigger('userChange');
+      auth.listeners.trigger(USER_CHANGED_EVENT);
 
       Auth.prototype._redirectCurrentPage.should.not.been.called;
     });
@@ -462,7 +462,7 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should reload page', async () => {
+    it('should show userchanged overlay if token was changed', async () => {
       auth.user = {id: 'initUser'};
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame').callsFake(() => {
         auth._storage.saveToken({
@@ -471,13 +471,21 @@ describe('Auth', () => {
           scopes: ['0-0-0-0-0']
         });
       });
+      sandbox.stub(Auth.prototype, '_showUserChangedDialog');
+
       const accessToken = await auth.requestToken();
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
           '&request_credentials=silent&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
-      Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
+      auth._showUserChangedDialog.should.have.been.called;
       accessToken.should.be.equal('token');
+    });
+
+    it('should reload page if user change was applied', async () => {
+      auth.user = {id: 'initUser'};
+      auth.listeners.trigger(USER_CHANGED_EVENT);
+      Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);
     });
 
     it('should redirect current page if get token in iframe fails', async () => {
@@ -599,7 +607,7 @@ describe('Auth', () => {
       sandbox.stub(BackgroundFlow.prototype, 'authorize').
         returns(Promise.resolve('token'));
       sandbox.stub(Auth.prototype, '_saveCurrentService');
-      sandbox.stub(Auth.prototype, 'logout');
+      sandbox.stub(Auth.prototype, LOGOUT_EVENT);
       sandbox.stub(auth.listeners, 'trigger');
     });
 
@@ -617,7 +625,7 @@ describe('Auth', () => {
       await auth.login();
 
       auth.listeners.trigger.should.have.been.
-        calledWithMatch('userChange', sinon.match({name: 'APIuser'}));
+        calledWithMatch(USER_CHANGED_EVENT, sinon.match({name: 'APIuser'}));
     });
 
     it('should update user in instance', async () => {
@@ -648,7 +656,7 @@ describe('Auth', () => {
     });
   });
 
-  describe('logout', () => {
+  describe(LOGOUT_EVENT, () => {
     const auth = new Auth({
       serverUri: '',
       redirectUri: 'http://localhost:8080/hub',
