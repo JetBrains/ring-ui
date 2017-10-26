@@ -474,6 +474,9 @@ describe('Auth', () => {
       sandbox.stub(Auth.prototype, '_showUserChangedDialog');
 
       const accessToken = await auth.requestToken();
+      // _detectUserChange is called by localStorage event in real life
+      await auth._detectUserChange('token');
+
       BackgroundFlow.prototype._redirectFrame.should.have.been.
         calledWithMatch(sinon.match.any, 'api/rest/oauth2/auth?response_type=token' +
           '&state=unique&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fhub' +
