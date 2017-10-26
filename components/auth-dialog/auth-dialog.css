@@ -1,10 +1,12 @@
-@value unit, font-size, error-color from '../global/global.css';
+@value unit, font, font-size, error-color from '../global/global.css';
 
 .dialog.dialog {
   width: auto;
 }
 
 .content {
+  composes: font;
+
   display: flex;
   align-items: center;
   flex-direction: column;
