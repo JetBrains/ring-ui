@@ -31,7 +31,7 @@ class SiteHeader extends PureComponent {
     if (!this.props.noAuth) {
       this.auth.setAuthDialogService(authDialogService);
       const restoreLocation = await this.auth.init();
-      if (restoreLocation) {
+      if (restoreLocation && window.location.href !== restoreLocation) {
         window.location = restoreLocation;
       }
     }
