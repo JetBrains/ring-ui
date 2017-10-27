@@ -624,7 +624,9 @@ export default class Auth {
         window.location.search
       ].join('');
 
-      history.replaceState(undefined, undefined, `${cleanedUrl}#${hash}`);
+      const hashIfExist = hash ? `#${hash}` : '';
+
+      history.replaceState(undefined, undefined, `${cleanedUrl}${hashIfExist}`);
     } else {
       window.location.hash = hash;
     }
