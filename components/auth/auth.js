@@ -35,6 +35,9 @@ const DEFAULT_CONFIG = {
   onPostponeChangedUser: () => {
     alertService.warning('You are now in read-only mode', 0);
   },
+  onPostponeLogout: () => {
+    alertService.warning('You are now in read-only mode', 0);
+  },
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
 };
 
@@ -414,7 +417,8 @@ export default class Auth {
   }
 
   async _showAuthDialog({nonInteractive} = {}) {
-    const {windowLogin} = this.config;
+    const {windowLogin, onPostponeLogout} = this.config;
+    const isGuest = this.user.guest;
 
     await this._saveCurrentService();
 
@@ -440,13 +444,19 @@ export default class Auth {
 
     const onCancel = () => {
       closeDialog();
-      if (nonInteractive === true) {
+      if (!isGuest) {
+        onPostponeLogout();
+        return;
+      }
+
+      if (nonInteractive) {
         this.forceTokenUpdate();
       }
     };
 
     const hide = this._authDialogService({
       ...this._service,
+      cancelLabel: isGuest ? 'Remain a guest' : 'Postpone',
       onLogin,
       onCancel
     });
