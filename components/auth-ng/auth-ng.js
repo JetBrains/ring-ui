@@ -6,39 +6,11 @@ import Auth from '../auth/auth';
  * @name Auth Ng
  * @category Legacy Angular Components
  * @description Provides an Angular wrapper for Auth.
+ * @example-file ./auth-ng.examples.html
  */
 const angularModule = angular.module('Ring.auth', []);
 
 angularModule.provider('auth', ['$httpProvider', function provider($httpProvider) {
-  /**
-   * @example
-     <example name="Auth Ng">
-       <file name="index.html">
-         <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
-            <h3>User info</h3>
-            <pre>{{ ctrl.user | json }}</pre>
-         </div>
-       </file>
-
-       <file name="index.js" webpack="true">
-         import hubConfig from '@ring-ui/docs/components/hub-config';
-
-         import angular from 'angular';
-         import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
-
-         angular.module('test', [AuthNG])
-           .config(['authProvider', function (authProvider) {
-             authProvider.config(hubConfig);
-           }])
-           .controller('testCtrl', ['auth', '$q', function(auth, $q) {
-             const ctrl = this;
-             $q.resolve(auth.requestUser()).then(function(user) {
-              ctrl.user = user;
-             });
-           }]);
-       </file>
-     </example>
-   */
   /**
    * @type Auth
    */
