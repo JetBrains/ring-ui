@@ -18,6 +18,8 @@ const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
+export const LOGOUT_POSTPONED_EVENT = 'logoutPostponed';
+export const USER_CHANGE_POSTPONED_EVENT = 'changePostponed';
 
 function noop() {}
 
@@ -378,6 +380,13 @@ export default class Auth {
     return user;
   }
 
+  async updateUser() {
+    const accessToken = await this.requestToken();
+    const user = await this.getUser(accessToken);
+    this.listeners.trigger(USER_CHANGED_EVENT, user);
+    this.user = user;
+  }
+
   async _detectUserChange(accessToken) {
     try {
       const user = await this.getUser(accessToken);
@@ -396,8 +405,8 @@ export default class Auth {
           newUser: user,
           onApply,
           onPostpone: () => {
+            this.listeners.trigger(USER_CHANGE_POSTPONED_EVENT);
             this.config.onPostponeChangedUser(this.user, user);
-            //TODO: set up postpone mode(RG-1593)
           }
         });
 
@@ -445,6 +454,7 @@ export default class Auth {
     const onCancel = () => {
       closeDialog();
       if (!isGuest) {
+        this.listeners.trigger(LOGOUT_POSTPONED_EVENT);
         onPostponeLogout();
         return;
       }
