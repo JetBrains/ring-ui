@@ -29,9 +29,13 @@ export default class SmartProfile extends PureComponent {
   login = async () => {
     this.setState({loading: true});
 
-    await this.props.auth.login();
-
-    this.setState({loading: false});
+    try {
+      await this.props.auth.login();
+    } catch (err) {
+      // do nothing
+    } finally {
+      this.setState({loading: false});
+    }
   };
 
   logout = () => this.props.auth.logout();
