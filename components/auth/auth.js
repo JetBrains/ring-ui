@@ -40,6 +40,7 @@ const DEFAULT_CONFIG = {
   onPostponeLogout: () => {
     alertService.warning('You are now in read-only mode', 0);
   },
+  checkBackendIsUp: () => Promise.resolve(null),
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
 };
 
@@ -329,6 +330,7 @@ export default class Auth {
     try {
       return await this._backgroundFlow.authorize();
     } catch (e) {
+      await this._checkBackendsStatuses();
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
@@ -507,6 +509,32 @@ export default class Auth {
     });
   }
 
+  async _showBackendDownDialog(backendError) {
+    return new Promise((resolve, reject) => {
+      const hide = this._authDialogService({
+        ...this._service,
+        title: 'Backend is down',
+        loginLabel: 'Check again',
+        cancelLabel: 'Postpone',
+        errorMessage: backendError.toString(),
+        onLogin: async () => {
+          try {
+            await this.checkBackendsAreUp();
+            hide();
+            resolve();
+          } catch (err) {
+            throw err;
+          }
+        },
+        onCancel: () => {
+          hide();
+          reject();
+        }
+      });
+    });
+
+  }
+
   /**
    * Wipe accessToken and redirect to auth page with required authorization
    */
@@ -531,6 +559,7 @@ export default class Auth {
    */
   async login() {
     if (this.config.windowLogin && this._authDialogService !== undefined) {
+      await this._checkBackendsStatuses();
       this._showAuthDialog();
       return;
     }
@@ -588,6 +617,22 @@ export default class Auth {
     await this._storage.saveToken({accessToken, scopes, expires});
 
     return newState;
+  }
+
+  async checkHubIsUp() {
+    return await this.http.get('settings/public?fields=id');
+  }
+
+  checkBackendsAreUp() {
+    return Promise.all([this.checkHubIsUp(), this.config.checkBackendIsUp()]);
+  }
+
+  async _checkBackendsStatuses() {
+    try {
+      await this.checkBackendsAreUp();
+    } catch (backendDownErr) {
+      await this._showBackendDownDialog(backendDownErr);
+    }
   }
 
   /**
