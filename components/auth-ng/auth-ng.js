@@ -10,7 +10,7 @@ import Auth from '../auth/auth';
  */
 const angularModule = angular.module('Ring.auth', []);
 
-angularModule.provider('auth', ['$httpProvider', function provider($httpProvider) {
+angularModule.provider('auth', function provider($httpProvider) {
   /**
    * @type Auth
    */
@@ -139,6 +139,6 @@ angularModule.provider('auth', ['$httpProvider', function provider($httpProvider
       promise: authInitPromise
     };
   };
-}]);
+});
 
 export default angularModule.name;
