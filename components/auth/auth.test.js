@@ -494,6 +494,8 @@ describe('Auth', () => {
     it('should redirect current page if get token in iframe fails', async () => {
       auth._backgroundFlow._timeout = 100;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
+      sandbox.stub(Auth.prototype, 'checkHubIsUp');
+
       try {
         await auth.requestToken();
       } catch (reject) {
