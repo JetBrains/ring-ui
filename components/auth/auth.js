@@ -557,10 +557,9 @@ export default class Auth {
       ...extraParams
     };
 
+    await this._checkBackendsStatusesIfEnabled();
     await this.listeners.trigger(LOGOUT_EVENT);
     await this._storage.wipeToken();
-
-    await this._checkBackendsStatusesIfEnabled();
 
     const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
     this._redirectCurrentPage(authRequest.url);
