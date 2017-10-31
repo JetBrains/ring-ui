@@ -403,6 +403,10 @@ export default class Auth {
           onApply();
           return;
         }
+        if (user.guest) {
+          this._showAuthDialog({nonInteractive: true});
+          return;
+        }
 
         await this._showUserChangedDialog({
           newUser: user,
