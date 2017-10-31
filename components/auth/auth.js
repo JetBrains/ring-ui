@@ -157,6 +157,10 @@ export default class Auth {
       this.addListener(USER_CHANGED_EVENT, () => this._reloadCurrentPage());
     }
 
+    this.addListener(LOGOUT_POSTPONED_EVENT, () => this._setPostponed(true));
+    this.addListener(USER_CHANGE_POSTPONED_EVENT, () => this._setPostponed(true));
+    this.addListener(USER_CHANGED_EVENT, () => this._setPostponed(false));
+
     this._createInitDeferred();
 
     this.setUpPreconnect(config.serverUri);
@@ -185,6 +189,12 @@ export default class Auth {
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
 
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
+
+  _postponed = false;
+
+  _setPostponed(postponed = false) {
+    this._postponed = postponed;
+  }
 
   addListener(event, handler) {
     this.listeners.add(event, handler);
@@ -314,6 +324,10 @@ export default class Auth {
    * @return {Promise.<string>}
    */
   async requestToken() {
+    if (this._postponed) {
+      throw new Error('You should log in to be able to make requests');
+    }
+
     try {
       await this._initDeferred.promise;
 
