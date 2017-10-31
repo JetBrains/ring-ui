@@ -414,6 +414,7 @@ describe('Auth', () => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
       sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
@@ -494,7 +495,6 @@ describe('Auth', () => {
     it('should redirect current page if get token in iframe fails', async () => {
       auth._backgroundFlow._timeout = 100;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
-      sandbox.stub(Auth.prototype, 'checkHubIsUp');
 
       try {
         await auth.requestToken();
@@ -612,6 +612,7 @@ describe('Auth', () => {
       sandbox.stub(BackgroundFlow.prototype, 'authorize').
         returns(Promise.resolve('token'));
       sandbox.stub(Auth.prototype, '_saveCurrentService');
+      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(Auth.prototype, LOGOUT_EVENT);
       sandbox.stub(auth.listeners, 'trigger');
     });
@@ -661,7 +662,7 @@ describe('Auth', () => {
     });
   });
 
-  describe(LOGOUT_EVENT, () => {
+  describe('Logout', () => {
     const auth = new Auth({
       serverUri: '',
       redirectUri: 'http://localhost:8080/hub',
@@ -672,6 +673,7 @@ describe('Auth', () => {
 
     beforeEach(() => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
+      sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
     });
 

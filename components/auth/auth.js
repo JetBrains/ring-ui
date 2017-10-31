@@ -40,6 +40,7 @@ const DEFAULT_CONFIG = {
   onPostponeLogout: () => {
     alertService.warning('You are now in read-only mode', 0);
   },
+  enableBackendStatusCheck: true,
   checkBackendIsUp: () => Promise.resolve(null),
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
 };
@@ -330,7 +331,7 @@ export default class Auth {
     try {
       return await this._backgroundFlow.authorize();
     } catch (e) {
-      await this._checkBackendsStatuses();
+      await this._checkBackendsStatusesIfEnabled();
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
@@ -456,6 +457,7 @@ export default class Auth {
     const onCancel = () => {
       closeDialog();
       if (!isGuest) {
+        this._initDeferred.resolve();
         this.listeners.trigger(LOGOUT_POSTPONED_EVENT);
         onPostponeLogout();
         return;
@@ -463,6 +465,8 @@ export default class Auth {
 
       if (nonInteractive) {
         this.forceTokenUpdate();
+      } else {
+        this._initDeferred.resolve();
       }
     };
 
@@ -493,17 +497,25 @@ export default class Auth {
   }
 
   async _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
+    this._createInitDeferred();
+
+    const done = () => {
+      this._initDeferred.resolve();
+      // eslint-disable-next-line no-use-before-define
+      hide();
+    };
+
     const hide = this._authDialogService({
       ...this._service,
       title: `You have logged in as another user: ${newUser.name}`,
       loginLabel: 'Apply change',
       cancelLabel: 'Postpone',
       onLogin: () => {
-        hide();
+        done();
         onApply();
       },
       onCancel: () => {
-        hide();
+        done();
         onPostpone();
       }
     });
@@ -519,7 +531,7 @@ export default class Auth {
         errorMessage: backendError.toString(),
         onLogin: async () => {
           try {
-            await this.checkBackendsAreUp();
+            await this._checkBackendsAreUp();
             hide();
             resolve();
           } catch (err) {
@@ -548,6 +560,8 @@ export default class Auth {
     await this.listeners.trigger(LOGOUT_EVENT);
     await this._storage.wipeToken();
 
+    await this._checkBackendsStatusesIfEnabled();
+
     const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
     this._redirectCurrentPage(authRequest.url);
   }
@@ -558,8 +572,8 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
+    await this._checkBackendsStatusesIfEnabled();
     if (this.config.windowLogin && this._authDialogService !== undefined) {
-      await this._checkBackendsStatuses();
       this._showAuthDialog();
       return;
     }
@@ -619,17 +633,19 @@ export default class Auth {
     return newState;
   }
 
-  async checkHubIsUp() {
-    return await this.http.get('settings/public?fields=id');
+  _checkBackendsAreUp() {
+    return Promise.all([
+      this.http.get('settings/public?fields=id'),
+      this.config.checkBackendIsUp()
+    ]);
   }
 
-  checkBackendsAreUp() {
-    return Promise.all([this.checkHubIsUp(), this.config.checkBackendIsUp()]);
-  }
-
-  async _checkBackendsStatuses() {
+  async _checkBackendsStatusesIfEnabled() {
+    if (!this.config.enableBackendStatusCheck) {
+      return;
+    }
     try {
-      await this.checkBackendsAreUp();
+      await this._checkBackendsAreUp();
     } catch (backendDownErr) {
       await this._showBackendDownDialog(backendDownErr);
     }
