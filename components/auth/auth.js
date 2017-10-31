@@ -78,6 +78,26 @@ const DEFAULT_CONFIG = {
  * @example-file ./auth.examples.html
  */
 export default class Auth {
+  static DEFAULT_CONFIG = DEFAULT_CONFIG;
+  static API_PATH = 'api/rest/';
+  static API_AUTH_PATH = 'oauth2/auth';
+  static API_PROFILE_PATH = 'users/me';
+  static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
+  static CLOSE_WINDOW_MESSAGE = 'close-login-window';
+  static shouldRefreshToken = TokenValidator.shouldRefreshToken;
+
+  config = {};
+  listeners = new Listeners();
+  http = null;
+  _service = {};
+  _storage = null;
+  _responseParser = new AuthResponseParser();
+  _requestBuilder = null;
+  _backgroundFlow = null;
+  _windowFlow = null;
+  _tokenValidator = null;
+  _postponed = false;
+
   constructor(config) {
     if (!config) {
       throw new Error('Config is required');
@@ -94,7 +114,7 @@ export default class Auth {
 
     config.userFields = config.userFields || [];
 
-    this.config = Object.assign({}, Auth.DEFAULT_CONFIG, config);
+    this.config = {...Auth.DEFAULT_CONFIG, ...config};
 
     const {clientId, redirect, redirectUri, requestCredentials, scope} = this.config;
     const serverUriLength = this.config.serverUri.length;
@@ -118,8 +138,6 @@ export default class Auth {
       stateKeyPrefix: `${clientId}-states-`,
       tokenKey: `${clientId}-token`
     });
-
-    this._responseParser = new AuthResponseParser();
 
     this._requestBuilder = new AuthRequestBuilder({
       authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
@@ -147,8 +165,6 @@ export default class Auth {
 
     this._tokenValidator = new TokenValidator(this.config, getUser, this._storage);
 
-    this.listeners = new Listeners();
-
     if (this.config.onLogout) {
       this.addListener(LOGOUT_EVENT, this.config.onLogout);
     }
@@ -164,33 +180,7 @@ export default class Auth {
     this._createInitDeferred();
 
     this.setUpPreconnect(config.serverUri);
-
-    this._service = {};
   }
-
-  static DEFAULT_CONFIG = DEFAULT_CONFIG;
-
-  /**
-   * @const {string}
-   */
-  static API_PATH = 'api/rest/';
-
-  /**
-   * @const {string}
-   */
-  static API_AUTH_PATH = 'oauth2/auth';
-
-  /**
-   * @const {string}
-   */
-  static API_PROFILE_PATH = 'users/me';
-
-  static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
-  static CLOSE_WINDOW_MESSAGE = 'close-login-window';
-
-  static shouldRefreshToken = TokenValidator.shouldRefreshToken;
-
-  _postponed = false;
 
   _setPostponed(postponed = false) {
     this._postponed = postponed;
