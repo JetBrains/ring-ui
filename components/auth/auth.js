@@ -642,7 +642,7 @@ export default class Auth {
 
   _checkBackendsAreUp() {
     return Promise.all([
-      this.http.get('settings/public?fields=id'),
+      this.http.fetch('settings/public?fields=id'),
       this.config.checkBackendIsUp()
     ]);
   }
