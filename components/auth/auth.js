@@ -14,7 +14,7 @@ import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
 // eslint-disable-next-line no-magic-numbers
-const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
+export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
