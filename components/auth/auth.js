@@ -87,6 +87,7 @@ export default class Auth {
   static API_AUTH_PATH = 'oauth2/auth';
   static API_PROFILE_PATH = 'users/me';
   static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
+  static CLOSE_BACKEND_DIALOG_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
 
@@ -533,13 +534,19 @@ export default class Auth {
   }
 
   async _showBackendDownDialog(backendError) {
+    // eslint-disable-next-line no-unused-vars
+    const CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT = 10000;
+
     return new Promise((resolve, reject) => {
       let hide = null;
 
       const done = () => {
         hide();
+        this._storage.sendMessage(Auth.CLOSE_BACKEND_DIALOG_MESSAGE, Date.now());
         // eslint-disable-next-line no-use-before-define
-        window.removeEventListener('online', checkAgain);
+        window.removeEventListener('online', checkAfterRandomTimeout);
+        // eslint-disable-next-line no-use-before-define
+        stopListeningCloseMessage();
       };
 
       const checkAgain = async () => {
@@ -554,12 +561,26 @@ export default class Auth {
         }
       };
 
+      const checkAfterRandomTimeout = async () => {
+        // eslint-disable-next-line no-magic-numbers
+        setTimeout(checkAgain, Math.random() * CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT);
+      };
+
       const onCancel = () => {
         done();
         reject();
       };
 
-      window.addEventListener('online', checkAgain);
+      window.addEventListener('online', checkAfterRandomTimeout);
+
+      const stopListeningCloseMessage = this._storage.onMessage(
+        Auth.CLOSE_BACKEND_DIALOG_MESSAGE,
+        () => {
+          stopListeningCloseMessage();
+          resolve();
+          done();
+        }
+      );
 
       const showDialog = err => this._authDialogService({
         ...this._service,
