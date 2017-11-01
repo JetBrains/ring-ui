@@ -351,32 +351,18 @@ export default class Auth {
    * @return {Promise.<string>}
    */
   async forceTokenUpdate() {
-    const onTokenRefreshFailed = async e => {
+    try {
+      try {
+        await this._checkBackendsStatusesIfEnabled();
+      } catch (e) {
+        throw new Error('Cannot refresh token: backend is not available. Postponed by user.');
+      }
+      return await this._backgroundFlow.authorize();
+    } catch (e) {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
 
       this._redirectCurrentPage(authRequest.url);
       throw new TokenValidator.TokenValidationError(e.message);
-    };
-
-    try {
-      return await this._backgroundFlow.authorize();
-    } catch (refreshError) {
-      if (!this.config.enableBackendStatusCheck || !this._authDialogService) {
-        return onTokenRefreshFailed(refreshError);
-      }
-
-      try {
-        await this._checkBackendsAreUp();
-        return onTokenRefreshFailed(refreshError);
-      } catch (backendDownErr) {
-        try {
-          await this._showBackendDownDialog(backendDownErr);
-          //Backend is up again
-          return this.forceTokenUpdate();
-        } catch (err) {
-          throw new Error('Token refresh failed because of unavailable backend');
-        }
-      }
     }
   }
 
