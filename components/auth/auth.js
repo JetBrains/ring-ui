@@ -198,6 +198,10 @@ export default class Auth {
     this._authDialogService = authDialogService;
   }
 
+  setCurrentService(service) {
+    this._service = service;
+  }
+
   _createInitDeferred() {
     this._initDeferred = {};
     this._initDeferred.promise = new Promise((resolve, reject) => {
@@ -343,18 +347,6 @@ export default class Auth {
     }
   }
 
-  async _saveCurrentService() {
-    if (this._service.serviceName) {
-      return;
-    }
-    try {
-      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
-      this._service = {serviceImage, serviceName};
-    } catch (e) {
-      // noop
-    }
-  }
-
   getAPIPath() {
     return this.config.serverUri + Auth.API_PATH;
   }
@@ -439,8 +431,6 @@ export default class Auth {
   async _showAuthDialog({nonInteractive} = {}) {
     const {windowLogin, onPostponeLogout} = this.config;
     const isGuest = this.user.guest;
-
-    await this._saveCurrentService();
 
     this._createInitDeferred();
 
