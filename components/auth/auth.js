@@ -13,11 +13,12 @@ import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
-/* eslint-disable no-magic-numbers */
+// eslint-disable-next-line no-magic-numbers
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
+// eslint-disable-next-line no-magic-numbers,no-magic-numbers
 export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
+// eslint-disable-next-line no-magic-numbers
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
-/* eslint-enable no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
@@ -409,7 +410,7 @@ export default class Auth {
       };
 
       if (user && this.user && this.user.id !== user.id) {
-        if (this.user.guest) {
+        if (!this._authDialogService || this.user.guest) {
           onApply();
           return;
         }
@@ -690,7 +691,7 @@ export default class Auth {
   }
 
   async _checkBackendsStatusesIfEnabled() {
-    if (!this.config.enableBackendStatusCheck) {
+    if (!this.config.enableBackendStatusCheck || !this._authDialogService) {
       return;
     }
     try {
