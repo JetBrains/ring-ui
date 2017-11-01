@@ -426,6 +426,7 @@ describe('Auth', () => {
       });
 
       auth._storage._tokenStorage = new MockedStorage();
+      auth.setAuthDialogService(() => {});
       auth._initDeferred.resolve();
     });
 
