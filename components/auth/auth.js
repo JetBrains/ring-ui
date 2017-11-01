@@ -569,12 +569,12 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
-    await this._checkBackendsStatusesIfEnabled();
     if (this.config.windowLogin && this._authDialogService !== undefined) {
       this._showAuthDialog();
       return;
     }
 
+    await this._checkBackendsStatusesIfEnabled();
     try {
       const accessToken = await this._backgroundFlow.authorize();
       const user = await this.getUser(accessToken);
