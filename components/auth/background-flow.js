@@ -1,13 +1,7 @@
 import AuthResponseParser from './response-parser';
 
-/**
- * @const {number} non-interactive auth timeout
- */
-// eslint-disable-next-line no-magic-numbers
-const DEFAULT_TIMEOUT = 20 * 1000; // 20 sec in ms
-
 export default class BackgroundFlow {
-  constructor(requestBuilder, storage, timeout = DEFAULT_TIMEOUT) {
+  constructor(requestBuilder, storage, timeout) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
     this._timeout = timeout;

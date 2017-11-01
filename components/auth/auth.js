@@ -15,6 +15,8 @@ import TokenValidator from './token-validator';
 
 // eslint-disable-next-line no-magic-numbers
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
+// eslint-disable-next-line no-magic-numbers
+export const DEFAULT_BACKGROUND_TIMEOUT = 20 * 1000;
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
@@ -33,6 +35,7 @@ const DEFAULT_CONFIG = {
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
+  backgroundRefreshTimeout: DEFAULT_BACKGROUND_TIMEOUT,
   onLogout: noop,
   onPostponeChangedUser: () => {
     alertService.warning('You are now in read-only mode', 0);
@@ -148,7 +151,9 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
-    this._backgroundFlow = new BackgroundFlow(this._requestBuilder, this._storage);
+    this._backgroundFlow = new BackgroundFlow(
+      this._requestBuilder, this._storage, this.config.backgroundRefreshTimeout
+    );
     this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
