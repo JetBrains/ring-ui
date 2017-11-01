@@ -521,26 +521,44 @@ export default class Auth {
 
   async _showBackendDownDialog(backendError) {
     return new Promise((resolve, reject) => {
-      const hide = this._authDialogService({
+      let hide = null;
+
+      const done = () => {
+        hide();
+        // eslint-disable-next-line no-use-before-define
+        window.removeEventListener('online', checkAgain);
+      };
+
+      const checkAgain = async () => {
+        try {
+          await this._checkBackendsAreUp();
+          done();
+          resolve();
+        } catch (err) {
+          // eslint-disable-next-line no-use-before-define
+          hide = showDialog(err);
+          return;
+        }
+      };
+
+      const onCancel = () => {
+        done();
+        reject();
+      };
+
+      window.addEventListener('online', checkAgain);
+
+      const showDialog = err => this._authDialogService({
         ...this._service,
-        title: 'Backend is down',
+        title: 'Backend is not available',
         loginLabel: 'Check again',
         cancelLabel: 'Postpone',
-        errorMessage: backendError.toString(),
-        onLogin: async () => {
-          try {
-            await this._checkBackendsAreUp();
-            hide();
-            resolve();
-          } catch (err) {
-            throw err;
-          }
-        },
-        onCancel: () => {
-          hide();
-          reject();
-        }
+        errorMessage: err.toString ? err.toString() : null,
+        onLogin: checkAgain,
+        onCancel
       });
+
+      hide = showDialog(backendError);
     });
 
   }
