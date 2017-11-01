@@ -13,10 +13,11 @@ import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
-// eslint-disable-next-line no-magic-numbers
+/* eslint-disable no-magic-numbers */
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
-// eslint-disable-next-line no-magic-numbers
-export const DEFAULT_BACKGROUND_TIMEOUT = 20 * 1000;
+export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
+const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
+/* eslint-enable no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
@@ -35,7 +36,6 @@ const DEFAULT_CONFIG = {
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
-  backgroundRefreshTimeout: DEFAULT_BACKGROUND_TIMEOUT,
   onLogout: noop,
   onPostponeChangedUser: () => {
     alertService.warning('You are now in read-only mode', 0);
@@ -151,8 +151,15 @@ export default class Auth {
       scopes: scope
     }, this._storage);
 
+    let {backgroundRefreshTimeout} = this.config;
+    if (!backgroundRefreshTimeout) {
+      backgroundRefreshTimeout = this.config.windowLogin
+        ? DEFAULT_BACKGROUND_TIMEOUT
+        : BACKGROUND_REDIRECT_TIMEOUT;
+    }
+
     this._backgroundFlow = new BackgroundFlow(
-      this._requestBuilder, this._storage, this.config.backgroundRefreshTimeout
+      this._requestBuilder, this._storage, backgroundRefreshTimeout
     );
     this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
 
