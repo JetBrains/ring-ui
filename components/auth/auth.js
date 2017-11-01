@@ -33,6 +33,7 @@ const DEFAULT_CONFIG = {
   redirectUri: getAbsoluteBaseURL(),
   redirect: false,
   requestCredentials: 'default',
+  backgroundRefreshTimeout: null,
   scope: [],
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
