@@ -13,12 +13,11 @@ import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
 
-// eslint-disable-next-line no-magic-numbers
+/* eslint-disable no-magic-numbers */
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
-// eslint-disable-next-line no-magic-numbers,no-magic-numbers
 export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
-// eslint-disable-next-line no-magic-numbers
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
+/* eslint-enable no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
 export const LOGOUT_EVENT = 'logout';
@@ -47,7 +46,15 @@ const DEFAULT_CONFIG = {
   },
   enableBackendStatusCheck: true,
   checkBackendIsUp: () => Promise.resolve(null),
-  defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT
+  defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
+  translations: {
+    remainAGuest: 'Remain a guest',
+    postpone: 'Postpone',
+    youHaveLoggedInAs: 'You have logged in as another user',
+    applyChange: 'Apply change',
+    backendIsNotAvailable: 'Backend is not available',
+    checkAgain: 'Check again'
+  }
 };
 
 /**
@@ -103,6 +110,7 @@ export default class Auth {
   _windowFlow = null;
   _tokenValidator = null;
   _postponed = false;
+  _authDialogService = undefined;
 
   constructor(config) {
     if (!config) {
@@ -448,7 +456,7 @@ export default class Auth {
   }
 
   async _showAuthDialog({nonInteractive} = {}) {
-    const {windowLogin, onPostponeLogout} = this.config;
+    const {windowLogin, onPostponeLogout, translations} = this.config;
     const isGuest = this.user.guest;
 
     this._createInitDeferred();
@@ -489,7 +497,7 @@ export default class Auth {
 
     const hide = this._authDialogService({
       ...this._service,
-      cancelLabel: isGuest ? 'Remain a guest' : 'Postpone',
+      cancelLabel: isGuest ? translations.remainAGuest : translations.postpone,
       onLogin,
       onCancel
     });
@@ -514,6 +522,8 @@ export default class Auth {
   }
 
   async _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
+    const {translations} = this.config;
+
     this._createInitDeferred();
 
     const done = () => {
@@ -524,9 +534,9 @@ export default class Auth {
 
     const hide = this._authDialogService({
       ...this._service,
-      title: `You have logged in as another user: ${newUser.name}`,
-      loginLabel: 'Apply change',
-      cancelLabel: 'Postpone',
+      title: `${translations.youHaveLoggedInAs}: ${newUser.name}`,
+      loginLabel: translations.applyChange,
+      cancelLabel: translations.postpone,
       onLogin: () => {
         done();
         onApply();
@@ -539,7 +549,8 @@ export default class Auth {
   }
 
   async _showBackendDownDialog(backendError) {
-    // eslint-disable-next-line no-unused-vars
+    const {translations} = this.config;
+
     const CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT = 10000;
 
     return new Promise((resolve, reject) => {
@@ -567,7 +578,6 @@ export default class Auth {
       };
 
       const checkAfterRandomTimeout = async () => {
-        // eslint-disable-next-line no-magic-numbers
         setTimeout(checkAgain, Math.random() * CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT);
       };
 
@@ -589,9 +599,9 @@ export default class Auth {
 
       const showDialog = err => this._authDialogService({
         ...this._service,
-        title: 'Backend is not available',
-        loginLabel: 'Check again',
-        cancelLabel: 'Postpone',
+        title: translations.backendIsNotAvailable,
+        loginLabel: translations.checkAgain,
+        cancelLabel: translations.postpone,
         errorMessage: err.toString ? err.toString() : null,
         onLogin: checkAgain,
         onCancel
