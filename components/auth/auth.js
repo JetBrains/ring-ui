@@ -48,9 +48,11 @@ const DEFAULT_CONFIG = {
   checkBackendIsUp: () => Promise.resolve(null),
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   translations: {
+    login: 'Log in',
+    loginTo: 'Log in to %serviceName%',
     remainAGuest: 'Remain a guest',
     postpone: 'Postpone',
-    youHaveLoggedInAs: 'You have logged in as another user',
+    youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
     backendIsNotAvailable: 'Backend is not available',
     checkAgain: 'Check again'
@@ -497,6 +499,9 @@ export default class Auth {
 
     const hide = this._authDialogService({
       ...this._service,
+      loginCaption: translations.login,
+      loginToCaption: translations.loginTo,
+      loginLabel: translations.login,
       cancelLabel: isGuest ? translations.remainAGuest : translations.postpone,
       onLogin,
       onCancel
@@ -534,7 +539,9 @@ export default class Auth {
 
     const hide = this._authDialogService({
       ...this._service,
-      title: `${translations.youHaveLoggedInAs}: ${newUser.name}`,
+      title: translations.youHaveLoggedInAs.replace('%userName%', newUser.name),
+      loginCaption: translations.login,
+      loginToCaption: translations.loginTo,
       loginLabel: translations.applyChange,
       cancelLabel: translations.postpone,
       onLogin: () => {
@@ -600,6 +607,8 @@ export default class Auth {
       const showDialog = err => this._authDialogService({
         ...this._service,
         title: translations.backendIsNotAvailable,
+        loginCaption: translations.login,
+        loginToCaption: translations.loginTo,
         loginLabel: translations.checkAgain,
         cancelLabel: translations.postpone,
         errorMessage: err.toString ? err.toString() : null,
