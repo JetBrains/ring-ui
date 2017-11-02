@@ -35,7 +35,7 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should replace serviceName in in title', () => {
-    hideAuthDialog = authDialog({title: '==%s==', serviceName: 'My service'});
+    hideAuthDialog = authDialog({title: '==%serviceName%==', serviceName: 'My service'});
     getContainer().querySelector(`.${styles.title}`).should.contain.text('==My service==');
   });
 

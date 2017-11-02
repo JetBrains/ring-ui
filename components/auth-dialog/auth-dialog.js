@@ -23,6 +23,8 @@ export default class AuthDialog extends Component {
     errorMessage: PropTypes.string,
     serviceImage: PropTypes.string,
     serviceName: PropTypes.string,
+    loginCaption: PropTypes.string,
+    loginToCaption: PropTypes.string,
 
     show: PropTypes.bool,
     cancelOnEsc: PropTypes.bool,
@@ -34,6 +36,8 @@ export default class AuthDialog extends Component {
   };
 
   static defaultProps = {
+    loginCaption: 'Log in',
+    loginToCaption: 'Log in to %serviceName%',
     show: false,
     cancelOnEsc: true,
     loginLabel: 'Log in',
@@ -52,17 +56,19 @@ export default class AuthDialog extends Component {
     const {
       show,
       className,
-      title,
       errorMessage,
       serviceImage,
       serviceName,
+      loginCaption,
+      loginToCaption,
       loginLabel,
       cancelLabel,
       onLogin,
       onCancel
     } = this.props;
 
-    const defaultTitle = serviceName ? 'Log in to %s' : 'Log in';
+    const defaultTitle = serviceName ? loginToCaption : loginCaption;
+    const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName);
 
     return (
       <Dialog
@@ -79,7 +85,7 @@ export default class AuthDialog extends Component {
               src={serviceImage}
             />
           )}
-          <div className={styles.title}>{(title || defaultTitle).replace('%s', serviceName)}</div>
+          <div className={styles.title}>{title}</div>
           {errorMessage && (
             <div className={styles.error}>{errorMessage}</div>
           )}
