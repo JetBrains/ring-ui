@@ -379,6 +379,18 @@ export default class Auth {
     }
   }
 
+  async loadCurrentService() {
+    if (this._service.serviceName) {
+      return;
+    }
+    try {
+      const {serviceName, iconUrl: serviceImage} = await this.http.get(`oauth2/interactive/login/settings?client_id=${this.config.clientId}`) || {};
+      this.setCurrentService({serviceImage, serviceName});
+    } catch (e) {
+      // noop
+    }
+  }
+
   getAPIPath() {
     return this.config.serverUri + Auth.API_PATH;
   }
