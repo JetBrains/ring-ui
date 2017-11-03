@@ -364,11 +364,12 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      try {
-        await this._checkBackendsStatusesIfEnabled();
-      } catch (e) {
-        throw new Error('Cannot refresh token: backend is not available. Postponed by user.');
-      }
+      await this._checkBackendsStatusesIfEnabled();
+    } catch (e) {
+      throw new Error('Cannot refresh token: backend is not available. Postponed by user.');
+    }
+
+    try {
       return await this._backgroundFlow.authorize();
     } catch (e) {
       const authRequest = await this._requestBuilder.prepareAuthRequest();
@@ -746,6 +747,7 @@ export default class Auth {
    * @private
    */
   _redirectCurrentPage(url) {
+
     window.location = fixUrl(url);
   }
 
