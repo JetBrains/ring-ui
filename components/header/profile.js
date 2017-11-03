@@ -32,6 +32,7 @@ export default class Profile extends PureComponent {
       profile: PropTypes.object
     }),
     showLogIn: PropTypes.bool,
+    showLogOut: PropTypes.bool,
     showApplyChangedUser: PropTypes.bool,
     onRevertPostponement: PropTypes.func
   };
@@ -56,6 +57,7 @@ export default class Profile extends PureComponent {
       onRevertPostponement,
       showApplyChangedUser,
       showLogIn,
+      showLogOut,
       translations,
       ...props
     } = this.props;
@@ -119,7 +121,7 @@ export default class Profile extends PureComponent {
         target: '_self', // Full page reload in Angular
         href: profileUrl
       },
-      {
+      showLogOut && {
         rgItemType,
         label: translations.logout || 'Log out',
         className: styles.profileMenuItem,
