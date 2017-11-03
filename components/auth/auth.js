@@ -409,10 +409,11 @@ export default class Auth {
   }
 
   async updateUser() {
+    this._setPostponed(false);
     const accessToken = await this.requestToken();
     const user = await this.getUser(accessToken);
-    this.listeners.trigger(USER_CHANGED_EVENT, user);
     this.user = user;
+    this.listeners.trigger(USER_CHANGED_EVENT, user);
   }
 
   async _detectUserChange(accessToken) {
