@@ -89,6 +89,7 @@ export default class SmartProfile extends PureComponent {
         profileUrl={url}
         showApplyChangedUser={isUserChangePostponed}
         showLogIn={isLogoutPostponed}
+        showLogOut={!isLogoutPostponed}
         onRevertPostponement={this.onRevertPostponement}
         {...props}
       />
