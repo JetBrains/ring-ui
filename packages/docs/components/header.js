@@ -34,9 +34,7 @@ class SiteHeader extends PureComponent {
       if (restoreLocation && window.location.href !== restoreLocation) {
         window.location = restoreLocation;
       }
-
-      const {serviceName, iconUrl: serviceImage} = await this.auth.http.get(`oauth2/interactive/login/settings?client_id=${hubConfig.clientId}`) || {};
-      this.auth.setCurrentService({serviceName, serviceImage});
+      this.auth.loadCurrentService();
     }
   }
 
