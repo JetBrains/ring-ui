@@ -254,9 +254,7 @@ export default class Auth {
 
     this._storage.onTokenChange(token => {
       if (token === null) {
-        this._beforeLogout({
-          nonInteractive: true
-        });
+        this.logout();
       } else {
         this._detectUserChange(token.accessToken);
       }
