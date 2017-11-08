@@ -19,7 +19,8 @@ export default class SmartProfile extends PureComponent {
 
   state = {
     user: null,
-    isLogoutPostponed: false
+    isLogoutPostponed: false,
+    isUserChangePostponed: false
   };
 
   componentDidMount() {
@@ -39,6 +40,8 @@ export default class SmartProfile extends PureComponent {
   };
 
   logout = () => this.props.auth.logout();
+
+  switchUser = () => this.props.auth.switchUser();
 
   onRevertPostponement = () => {
     if (this.state.isLogoutPostponed) {
@@ -84,12 +87,14 @@ export default class SmartProfile extends PureComponent {
       <Profile
         onLogin={this.login}
         onLogout={this.logout}
+        onSwitchUser={this.switchUser}
         loading={loading}
         user={user}
         profileUrl={url}
         showApplyChangedUser={isUserChangePostponed}
         showLogIn={isLogoutPostponed}
         showLogOut={!isLogoutPostponed}
+        showSwitchUser={auth._canShowDialogs() && !isLogoutPostponed && !isUserChangePostponed}
         onRevertPostponement={this.onRevertPostponement}
         {...props}
       />
