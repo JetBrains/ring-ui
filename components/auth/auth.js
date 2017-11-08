@@ -430,6 +430,8 @@ export default class Auth {
   }
 
   async _detectUserChange(accessToken) {
+    const windowWasOpen = this._isLoginWindowOpen;
+
     try {
       const user = await this.getUser(accessToken);
       const onApply = () => {
@@ -438,7 +440,7 @@ export default class Auth {
       };
 
       if (user && this.user && this.user.id !== user.id) {
-        if (!this._authDialogService || this.user.guest) {
+        if (!this._canShowDialogs() || this.user.guest || windowWasOpen) {
           onApply();
           return;
         }
@@ -477,6 +479,18 @@ export default class Auth {
 
     this._createInitDeferred();
 
+    const runWindowLogin = async () => {
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+      try {
+        this._isLoginWindowOpen = true;
+        await this._windowFlow.authorize();
+      } catch (e) {
+        throw e;
+      } finally {
+        this._isLoginWindowOpen = false;
+      }
+    };
+
     const closeDialog = () => {
       /* eslint-disable no-use-before-define */
       stopTokenListening();
@@ -491,8 +505,7 @@ export default class Auth {
         this.logout();
         return;
       }
-      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
-      this._windowFlow.authorize();
+      runWindowLogin();
     };
 
     const onCancel = () => {
@@ -535,8 +548,7 @@ export default class Auth {
 
     if (windowLogin === true && nonInteractive !== true) {
       this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
-      this._storage.sendMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, Date.now());
-      this._windowFlow.authorize();
+      runWindowLogin();
     }
   }
 
@@ -682,7 +694,7 @@ export default class Auth {
 
   switchUser() {
     if (this._canShowDialogs()) {
-      this._showAuthDialog();
+      return this._showAuthDialog();
     }
 
     throw new Error('Auth: switchUser only supported for "windowLogin" mode');
