@@ -19,13 +19,15 @@ export default class Profile extends PureComponent {
     loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
+    onSwitchUser: PropTypes.func,
     profileUrl: PropTypes.string,
     renderPopupItems: PropTypes.func,
     translations: PropTypes.shape({
       profile: PropTypes.string,
       login: PropTypes.string,
       logout: PropTypes.string,
-      applyChangedUser: PropTypes.string
+      applyChangedUser: PropTypes.string,
+      switchUser: PropTypes.string
     }),
     user: PropTypes.shape({
       guest: PropTypes.bool,
@@ -33,6 +35,7 @@ export default class Profile extends PureComponent {
     }),
     showLogIn: PropTypes.bool,
     showLogOut: PropTypes.bool,
+    showSwitchUser: PropTypes.bool,
     showApplyChangedUser: PropTypes.bool,
     onRevertPostponement: PropTypes.func
   };
@@ -53,11 +56,13 @@ export default class Profile extends PureComponent {
       profileUrl,
       onLogin,
       onLogout,
+      onSwitchUser,
       renderPopupItems,
       onRevertPostponement,
       showApplyChangedUser,
       showLogIn,
       showLogOut,
+      showSwitchUser,
       translations,
       ...props
     } = this.props;
@@ -120,6 +125,12 @@ export default class Profile extends PureComponent {
         className: styles.profileMenuItem,
         target: '_self', // Full page reload in Angular
         href: profileUrl
+      },
+      showSwitchUser && {
+        rgItemType,
+        label: translations.switchUser || 'Switch user',
+        className: styles.profileMenuItem,
+        onClick: onSwitchUser
       },
       showLogOut && {
         rgItemType,
