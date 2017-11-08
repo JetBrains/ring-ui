@@ -39,6 +39,7 @@ export default class WindowFlow {
     );
 
     return new Promise((resolve, reject) => {
+      this.reject = reject;
       let cleanRun;
 
       const cleanUp = () => {
@@ -85,6 +86,7 @@ export default class WindowFlow {
     if (this._loginWindow !== null) {
       this._loginWindow.close();
     }
+    this.reject('Authorization window closed');
     this._reset();
   }
 
