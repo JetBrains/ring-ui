@@ -52,10 +52,13 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       width: '@?'
     },
     template: require('./icon-ng.html'),
+    controller: $scope => {
+      $scope.$watch('glyph', value => {
+        $scope.glyphPath = resolveRelativeURL(value);
+      });
+    },
     link: function link(scope, iElement, iAttrs) {
       iAttrs.$addClass('ring-icon');
-
-      scope.resolveGlyph = resolveRelativeURL;
 
       scope.$watch('loading', value => {
         if (value) {
