@@ -28,10 +28,10 @@ export default class AuthDialog extends Component {
 
     show: PropTypes.bool,
     cancelOnEsc: PropTypes.bool,
-    loginLabel: PropTypes.string,
+    confirmLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
 
-    onLogin: PropTypes.func,
+    onConfirm: PropTypes.func,
     onCancel: PropTypes.func
   };
 
@@ -40,9 +40,9 @@ export default class AuthDialog extends Component {
     loginToCaption: 'Log in to %serviceName%',
     show: false,
     cancelOnEsc: true,
-    loginLabel: 'Log in',
+    confirmLabel: 'Log in',
     cancelLabel: 'Remain a guest',
-    onLogin: () => {},
+    onConfirm: () => {},
     onCancel: () => {}
   };
 
@@ -61,9 +61,9 @@ export default class AuthDialog extends Component {
       serviceName,
       loginCaption,
       loginToCaption,
-      loginLabel,
+      confirmLabel,
       cancelLabel,
-      onLogin,
+      onConfirm,
       onCancel
     } = this.props;
 
@@ -92,10 +92,10 @@ export default class AuthDialog extends Component {
           <Button
             blue
             className={styles.firstButton}
-            data-test="auth-dialog-login-button"
-            onClick={onLogin}
+            data-test="auth-dialog-confirm-button"
+            onClick={onConfirm}
           >
-            {loginLabel}
+            {confirmLabel}
           </Button>
           <Button
             className={styles.button}
