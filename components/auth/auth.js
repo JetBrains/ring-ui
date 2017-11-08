@@ -487,7 +487,7 @@ export default class Auth {
       /* eslint-enable no-use-before-define */
     };
 
-    const onLogin = () => {
+    const onConfirm = () => {
       if (windowLogin !== true) {
         closeDialog();
         this.logout();
@@ -517,9 +517,9 @@ export default class Auth {
       ...this._service,
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
-      loginLabel: translations.login,
+      confirmLabel: translations.login,
       cancelLabel: isGuest ? translations.remainAGuest : translations.postpone,
-      onLogin,
+      onConfirm,
       onCancel
     });
 
@@ -558,9 +558,9 @@ export default class Auth {
       title: translations.youHaveLoggedInAs.replace('%userName%', newUser.name),
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
-      loginLabel: translations.applyChange,
+      confirmLabel: translations.applyChange,
       cancelLabel: translations.postpone,
-      onLogin: () => {
+      onConfirm: () => {
         done();
         onApply();
       },
@@ -625,10 +625,10 @@ export default class Auth {
         title: translations.backendIsNotAvailable,
         loginCaption: translations.login,
         loginToCaption: translations.loginTo,
-        loginLabel: translations.checkAgain,
+        confirmLabel: translations.checkAgain,
         cancelLabel: translations.postpone,
         errorMessage: err.toString ? err.toString() : null,
-        onLogin: checkAgain,
+        onConfirm: checkAgain,
         onCancel
       });
 
