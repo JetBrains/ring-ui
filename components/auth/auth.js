@@ -661,7 +661,7 @@ export default class Auth {
    * if user is logged in or log her in otherwise
    */
   async login() {
-    if (this.config.windowLogin && this._authDialogService !== undefined) {
+    if (this._canShowDialogs()) {
       this._showAuthDialog();
       return;
     }
@@ -680,6 +680,14 @@ export default class Auth {
     } catch (e) {
       this._beforeLogout();
     }
+  }
+
+  switchUser() {
+    if (this._canShowDialogs()) {
+      this._showAuthDialog();
+    }
+
+    throw new Error('Auth: switchUser only supported for "windowLogin" mode');
   }
 
   /**
@@ -768,6 +776,10 @@ export default class Auth {
    */
   _reloadCurrentPage() {
     this._redirectCurrentPage(window.location.href);
+  }
+
+  _canShowDialogs() {
+    return this.config.windowLogin && this._authDialogService;
   }
 
   /**
