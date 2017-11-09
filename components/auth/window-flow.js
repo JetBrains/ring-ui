@@ -1,6 +1,9 @@
+import sniffer from '../global/sniffer';
+
 import AuthResponseParser from './response-parser';
 
 const NAVBAR_HEIGHT = 50;
+const isEdge = sniffer.browser.name === 'edge';
 
 export default class WindowFlow {
   constructor(requestBuilder, storage) {
@@ -21,11 +24,19 @@ export default class WindowFlow {
     const top = (window.screen.height - height - NAVBAR_HEIGHT) / screenHalves;
     const left = (window.screen.width - width) / screenHalves;
 
-    return window.open(
-      url,
+    const loginWindow = window.open(
+      isEdge ? null : url,
       'HubLoginWindow',
       `height=${height}, width=${width}, left=${left}, top=${top}`
     );
+
+    if (isEdge) {
+      setTimeout(() => {
+        loginWindow.location = url;
+      }, 0);
+    }
+
+    return loginWindow;
   }
 
   /**
