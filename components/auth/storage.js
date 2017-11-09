@@ -1,4 +1,5 @@
 import Storage from '../storage/storage';
+import sniffr from '../global/sniffer';
 
 /**
  * @typedef {Object} StoredToken
@@ -17,6 +18,7 @@ import Storage from '../storage/storage';
 const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of scopes
 // eslint-disable-next-line no-magic-numbers
 const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
+const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default class AuthStorage {
   /**
@@ -28,6 +30,7 @@ export default class AuthStorage {
     this.stateKeyPrefix = config.stateKeyPrefix;
     this.tokenKey = config.tokenKey;
     this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
+    this._lastMessage = null;
 
     const StorageConstructor = config.storage || Storage;
     this.stateQuota = Math.min(
@@ -73,10 +76,17 @@ export default class AuthStorage {
    * @return {function()} remove listener function
    */
   onMessage(key, fn) {
-    return this._messagesStorage.on(this.messagePrefix + key, fn);
+    return this._messagesStorage.on(this.messagePrefix + key, message => {
+      //IE11 triggers storage events on same window where localStorage was updated
+      if (isIE11 && message === this._lastMessage) {
+        return null;
+      }
+      return fn(message);
+    });
   }
 
   sendMessage(key, message = null) {
+    this._lastMessage = message;
     this._messagesStorage.set(this.messagePrefix + key, message);
   }
 
