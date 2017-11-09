@@ -422,7 +422,8 @@ describe('Auth', () => {
         redirectUri: 'http://localhost:8080/hub',
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
-        optionalScopes: ['youtrack']
+        optionalScopes: ['youtrack'],
+        windowLogin: true
       });
 
       auth._storage._tokenStorage = new MockedStorage();
