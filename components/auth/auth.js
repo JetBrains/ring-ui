@@ -584,8 +584,6 @@ export default class Auth {
   async _showBackendDownDialog(backendError) {
     const {translations} = this.config;
 
-    const CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT = 10000;
-
     return new Promise((resolve, reject) => {
       let hide = null;
 
@@ -593,7 +591,7 @@ export default class Auth {
         hide();
         this._storage.sendMessage(Auth.CLOSE_BACKEND_DIALOG_MESSAGE, Date.now());
         // eslint-disable-next-line no-use-before-define
-        window.removeEventListener('online', checkAfterRandomTimeout);
+        window.removeEventListener('online', checkAgain);
         // eslint-disable-next-line no-use-before-define
         stopListeningCloseMessage();
       };
@@ -610,16 +608,12 @@ export default class Auth {
         }
       };
 
-      const checkAfterRandomTimeout = async () => {
-        setTimeout(checkAgain, Math.random() * CHECK_AFTER_GO_ONLINE_MAX_TIMEOUT);
-      };
-
       const onCancel = () => {
         done();
         reject();
       };
 
-      window.addEventListener('online', checkAfterRandomTimeout);
+      window.addEventListener('online', checkAgain);
 
       const stopListeningCloseMessage = this._storage.onMessage(
         Auth.CLOSE_BACKEND_DIALOG_MESSAGE,
