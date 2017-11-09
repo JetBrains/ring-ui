@@ -495,6 +495,7 @@ describe('Auth', () => {
     });
 
     it('should redirect current page if get token in iframe fails', async () => {
+      auth.config.windowLogin = false;
       auth._backgroundFlow._timeout = 100;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
 
@@ -510,6 +511,21 @@ describe('Auth', () => {
           '&request_credentials=default&client_id=1-1-1-1-1&scope=0-0-0-0-0%20youtrack');
 
         reject.authRedirect.should.be.true;
+      }
+    });
+
+    it('should show login overlay if token refresh fails and window login enabled', async () => {
+      auth._backgroundFlow._timeout = 100;
+      sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
+      sandbox.stub(Auth.prototype, '_showAuthDialog');
+
+      try {
+        await auth.requestToken();
+      } catch (reject) {
+        Auth.prototype._showAuthDialog.should.have.been.calledWith({
+          nonInteractive: true,
+          error: reject
+        });
       }
     });
   });

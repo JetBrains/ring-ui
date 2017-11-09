@@ -372,11 +372,16 @@ export default class Auth {
 
     try {
       return await this._backgroundFlow.authorize();
-    } catch (e) {
-      const authRequest = await this._requestBuilder.prepareAuthRequest();
+    } catch (error) {
 
-      this._redirectCurrentPage(authRequest.url);
-      throw new TokenValidator.TokenValidationError(e.message);
+      if (this._canShowDialogs()) {
+        return this._showAuthDialog({nonInteractive: true, error});
+      } else {
+        const authRequest = await this._requestBuilder.prepareAuthRequest();
+        this._redirectCurrentPage(authRequest.url);
+      }
+
+      throw new TokenValidator.TokenValidationError(error.message);
     }
   }
 
@@ -476,7 +481,7 @@ export default class Auth {
     this._showAuthDialog(params);
   }
 
-  async _showAuthDialog({nonInteractive} = {}) {
+  async _showAuthDialog({nonInteractive, error} = {}) {
     const {windowLogin, onPostponeLogout, translations} = this.config;
     const isGuest = this.user.guest;
 
@@ -533,6 +538,7 @@ export default class Auth {
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
       cancelLabel: isGuest ? translations.remainAGuest : translations.postpone,
+      errorMessage: error && error.toString ? error.toString() : null,
       onConfirm,
       onCancel
     });
