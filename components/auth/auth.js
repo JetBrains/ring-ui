@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 import HTTP from '../http/http';
+import promiseWithTimeout from '../global/promise-with-timeout';
 import alertService from '../alert-service/alert-service';
 
 import AuthStorage from './storage';
@@ -50,6 +51,7 @@ import TokenValidator from './token-validator';
 /* eslint-disable no-magic-numbers */
 export const DEFAULT_EXPIRES_TIMEOUT = 40 * 60;
 export const DEFAULT_BACKGROUND_TIMEOUT = 10 * 1000;
+const DEFAULT_BACKEND_CHECK_TIMEOUT = 10 * 1000;
 const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 /* eslint-enable no-magic-numbers */
 
@@ -79,6 +81,7 @@ const DEFAULT_CONFIG = {
     alertService.warning('You are now in read-only mode', 0);
   },
   enableBackendStatusCheck: true,
+  backendCheckTimeout: DEFAULT_BACKEND_CHECK_TIMEOUT,
   checkBackendIsUp: () => Promise.resolve(null),
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   translations: {
@@ -735,8 +738,9 @@ export default class Auth {
   }
 
   _checkBackendsAreUp() {
+    const {backendCheckTimeout} = this.config;
     return Promise.all([
-      this.http.fetch('settings/public?fields=id'),
+      promiseWithTimeout(this.http.fetch('settings/public?fields=id'), backendCheckTimeout),
       this.config.checkBackendIsUp()
     ]);
   }
