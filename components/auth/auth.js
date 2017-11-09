@@ -87,7 +87,7 @@ const DEFAULT_CONFIG = {
   translations: {
     login: 'Log in',
     loginTo: 'Log in to %serviceName%',
-    remainAGuest: 'Remain a guest',
+    cancel: 'Cancel',
     postpone: 'Postpone',
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
@@ -481,9 +481,9 @@ export default class Auth {
     this._showAuthDialog(params);
   }
 
-  async _showAuthDialog({nonInteractive, error} = {}) {
+  async _showAuthDialog({nonInteractive, error, canCancel} = {}) {
     const {windowLogin, onPostponeLogout, translations} = this.config;
-    const isGuest = this.user.guest;
+    const cancelable = this.user.guest || canCancel;
 
     this._createInitDeferred();
 
@@ -517,15 +517,18 @@ export default class Auth {
     };
 
     const onCancel = () => {
+      this._windowFlow.stop();
+      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
       closeDialog();
-      if (!isGuest) {
+
+      if (!cancelable) {
         this._initDeferred.resolve();
         this.listeners.trigger(LOGOUT_POSTPONED_EVENT);
         onPostponeLogout();
         return;
       }
 
-      if (nonInteractive) {
+      if (this.user.guest && nonInteractive) {
         this.forceTokenUpdate();
       } else {
         this._initDeferred.resolve();
@@ -537,7 +540,7 @@ export default class Auth {
       loginCaption: translations.login,
       loginToCaption: translations.loginTo,
       confirmLabel: translations.login,
-      cancelLabel: isGuest ? translations.remainAGuest : translations.postpone,
+      cancelLabel: cancelable ? translations.cancel : translations.postpone,
       errorMessage: error && error.toString ? error.toString() : null,
       onConfirm,
       onCancel
@@ -697,7 +700,7 @@ export default class Auth {
 
   switchUser() {
     if (this._canShowDialogs()) {
-      return this._showAuthDialog();
+      return this._showAuthDialog({canCancel: true});
     }
 
     throw new Error('Auth: switchUser only supported for "windowLogin" mode');
