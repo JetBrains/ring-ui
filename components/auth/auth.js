@@ -101,7 +101,6 @@ export default class Auth {
   static API_PATH = 'api/rest/';
   static API_AUTH_PATH = 'oauth2/auth';
   static API_PROFILE_PATH = 'users/me';
-  static SHOW_AUTH_DIALOG_MESSAGE = 'show-auth-dialog';
   static CLOSE_BACKEND_DIALOG_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
@@ -245,16 +244,6 @@ export default class Auth {
    * that should be restored after returning back from auth server.
    */
   async init() {
-    if (this.config.windowLogin === true) {
-      this._storage.onMessage(Auth.SHOW_AUTH_DIALOG_MESSAGE, () => {
-        if (this._authDialogService !== undefined) {
-          this._showAuthDialog({
-            nonInteractive: true
-          });
-        }
-      });
-    }
-
     this._storage.onTokenChange(token => {
       if (token === null) {
         this.logout();
@@ -520,7 +509,6 @@ export default class Auth {
       this._windowFlow.stop();
       this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
       closeDialog();
-
       if (!cancelable) {
         this._initDeferred.resolve();
         this.listeners.trigger(LOGOUT_POSTPONED_EVENT);
