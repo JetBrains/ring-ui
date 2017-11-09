@@ -547,7 +547,6 @@ export default class Auth {
     );
 
     if (windowLogin === true && nonInteractive !== true) {
-      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
       runWindowLogin();
     }
   }
