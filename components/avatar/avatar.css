@@ -1,5 +1,10 @@
 @value border-color from  "../global/global.css";
 
+.avatar {
+  object-fit: contain;
+  object-position: center;
+}
+
 .empty {
   display: inline-block;
 
