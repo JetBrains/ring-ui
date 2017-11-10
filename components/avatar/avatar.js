@@ -119,7 +119,7 @@ export default class Avatar extends PureComponent {
       return (
         <span
           {...restProps}
-          className={classNames(styles.empty, this.props.className)}
+          className={classNames(styles.avatar, styles.empty, this.props.className)}
           style={styleObj}
         />
       );
@@ -142,6 +142,7 @@ export default class Avatar extends PureComponent {
         {...restProps}
         onError={this.handleError}
         onLoad={this.handleSuccess}
+        className={classNames(styles.avatar, this.props.className)}
         style={styleObj}
         src={src}
       />
