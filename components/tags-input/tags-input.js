@@ -290,6 +290,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
           disabled={this.props.disabled}
           canNotBeEmpty={this.props.canNotBeEmpty}
           handleRemove={this.handleRemove}
+          className="ring-tags-input__tags-list"
           handleClick={this.handleClick}
         />
 
