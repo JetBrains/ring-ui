@@ -4,7 +4,7 @@ category: Docs
 order: 2
 ---
 
-## [0.3.0] — ??-??-2017
+## [0.3.0] — 20-11-2017
 ### Breaking
 - Release 0.3.0 is designed to work with React 16. Moreover, `react` and `react-dom` are no longer `dependencies` but
 `peerDependencies` — make sure to include them in your project's `dependencies`, if you don't have them already. 
