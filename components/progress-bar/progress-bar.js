@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import './progress-bar.scss';
 
@@ -14,7 +12,7 @@ import './progress-bar.scss';
  * @extends {ReactComponent}
  * @example-file ./progress-bar.examples.html
  */
-export default class ProgressBar extends RingComponent {
+export default class ProgressBar extends PureComponent {
   static propTypes = {
     /**
      * Dark background mode

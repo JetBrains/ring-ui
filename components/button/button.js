@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import RingComponent from '../ring-component/ring-component';
 import Icon from '../icon';
 import './button.scss';
 
@@ -13,10 +12,10 @@ const DEFAULT_ICON_SIZE = Icon.Size.Size16;
  * @category Components
  * @constructor
  * @description Provides styled buttons.
- * @extends {RingComponent}
+ * @extends {PureComponent}
  * @example-file ./button.examples.html
  */
-export default class Button extends RingComponent {
+export default class Button extends PureComponent {
   static propTypes = {
     active: PropTypes.bool,
     blue: PropTypes.bool,
@@ -27,7 +26,9 @@ export default class Button extends RingComponent {
     short: PropTypes.bool,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     iconSize: PropTypes.number,
-    className: PropTypes.string
+
+    className: PropTypes.string,
+    children: PropTypes.node
   };
 
   render() {

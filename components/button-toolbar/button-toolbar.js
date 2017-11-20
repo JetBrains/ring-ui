@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
+import PropTypes from 'prop-types';
 
 import './button-toolbar.scss';
 
@@ -44,7 +43,12 @@ import './button-toolbar.scss';
   </example>
 */
 
-export default class ButtonToolbar extends RingComponent {
+export default class ButtonToolbar extends PureComponent {
+  static propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string
+  };
+
   render() {
     const classes = classNames('ring-button-toolbar', this.props.className);
     return (

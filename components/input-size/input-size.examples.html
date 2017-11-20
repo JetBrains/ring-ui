@@ -4,47 +4,47 @@
       <h3 class="example-block">Query Assists</h3>
       <div class="example-block">
         <div class="ring-error-bubble-wrapper">
-          <div react="QueryAssist"
+          <rg-query-assist
             class="ring-input-size_xs"
-            x-data-source="exampleCtrl.dataSource()"
+            x-data-source="exampleCtrl.dataSource"
             glass="true"
             placeholder="'Extra-short'">
-          </div>
+          </rg-query-assist>
           <div class="ring-error-bubble active">Extra-short Query Assist</div>
         </div>
         <div class="ring-error-bubble-wrapper">
-          <div react="QueryAssist"
+          <rg-query-assist
             class="ring-input-size_s"
-            x-data-source="exampleCtrl.dataSource()"
+            x-data-source="exampleCtrl.dataSource"
             glass="true"
             placeholder="'Short'">
-          </div>
+          </rg-query-assist>
           <div class="ring-error-bubble active">Short Query Assist</div>
         </div>
         <div class="ring-error-bubble-wrapper">
-          <div react="QueryAssist"
+          <rg-query-assist
             class="ring-input-size_md"
-            x-data-source="exampleCtrl.dataSource()"
+            x-data-source="exampleCtrl.dataSource"
             glass="true"
             placeholder="'Medium'">
-          </div>
+          </rg-query-assist>
           <div class="ring-error-bubble active">Medium Query Assist</div>
         </div>
         <div class="ring-error-bubble-wrapper">
-          <div react="QueryAssist"
+          <rg-query-assist
             class="ring-input-size_l"
-            x-data-source="exampleCtrl.dataSource()"
+            x-data-source="exampleCtrl.dataSource"
             glass="true"
             placeholder="'Long'">
-          </div>
+          </rg-query-assist>
           <div class="ring-error-bubble active">Long Query Assist</div>
         </div>
         <div class="ring-error-bubble-wrapper">
-          <div react="QueryAssist"
-            x-data-source="exampleCtrl.dataSource()"
+          <rg-query-assist
+            x-data-source="exampleCtrl.dataSource"
             glass="true"
             placeholder="'Full-width'">
-          </div>
+          </rg-query-assist>
           <div class="ring-error-bubble active">Full-width Query Assist</div>
         </div>
       </div>
@@ -188,16 +188,13 @@
   </file>
   <file type="js">
     import angular from 'angular';
-    import '@jetbrains/ring-ui/components/select-ng/select-ng';
-    import registerComponents from '@jetbrains/ring-ui/components/react-ng/react-ng';
-    import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
+    import SelectNg from '@jetbrains/ring-ui/components/select-ng/select-ng';
+    import QueryAssistNg from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-    registerComponents({QueryAssist});
-
     angular.module('Example.input-size', [
-      'Ring.react-ng',
-      'Ring.select'
+      QueryAssistNg,
+      SelectNg
     ]).controller('ExampleCtrl', [
       function () {
         var exampleCtrl = this;
