@@ -20,6 +20,10 @@ $tags-input-padding: $ring-unit / 4;
   }
 }
 
+.ring-tags-input__tags-list {
+  display: inline-block;
+}
+
 .ring-tags-input .ring-tag, .ring-tags-input .ring-select {
   margin-bottom: $tags-input-padding;
 }
