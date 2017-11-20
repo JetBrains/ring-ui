@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
-import getEventKey from 'react-dom/lib/getEventKey';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import getEventKey from '../global/get-event-key';
 import Select from '../select/select';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import '../input-size/input-size.scss';
 import memoize from '../global/memoize';
+import rerenderHOC from '../global/rerender-hoc';
 
 import './tags-input.scss';
 
@@ -23,8 +24,9 @@ function noop() {}
  * @example-file ./tags-input.examples.html
  */
 
-export default class TagsInput extends RingComponentWithShortcuts {
+export default class TagsInput extends Component {
   static propTypes = {
+    className: PropTypes.string,
     tags: PropTypes.array,
     /**
      * Datasource should return array(or promise) of suggestions.
@@ -45,7 +47,6 @@ export default class TagsInput extends RingComponentWithShortcuts {
     minPopupWidth: PropTypes.number,
     placeholder: PropTypes.string,
     canNotBeEmpty: PropTypes.bool,
-    modalShortcuts: PropTypes.bool,
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
@@ -62,41 +63,42 @@ export default class TagsInput extends RingComponentWithShortcuts {
     maxPopupHeight: 500,
     minPopupWidth: 360,
     canNotBeEmpty: false,
-    modalShortcuts: false,
     disabled: false,
     autoOpen: false,
     renderOptimization: true
   };
 
+  static ngModelStateField = 'tags';
+
   state = {
     tags: [],
     suggestions: [],
-    shortcuts: false,
     loading: true,
     query: '',
     activeIndex: 0
   };
 
-  static ngModelStateField = 'tags';
-  ngModelStateField = TagsInput.ngModelStateField;
-
-  getShortcutsProps() {
-    return {
-      map: {
-        backspace: (...args) => this.handleKeyDown(...args),
-        left: this.selectTag,
-        right: () => this.selectTag(true)
-      },
-      scope: () => this.constructor.getUID('ring-tags-input-'),
-      options: {
-        modal: this.props.modalShortcuts
-      }
-    };
+  componentWillMount() {
+    this.updateStateFromProps(this.props);
   }
+
+  componentDidMount() {
+    if (this.props.autoOpen && !this.props.disabled) {
+      this.focusInput();
+      this.loadSuggestions();
+      this.select._showPopup();
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this.updateStateFromProps(props);
+  }
+
+  ngModelStateField = TagsInput.ngModelStateField;
 
   getInputNode() {
     if (!this.input) {
-      this.input = this.select.filter.node;
+      this.input = findDOMNode(this.select.filter); // eslint-disable-line react/no-find-dom-node
       this.caret = new Caret(this.input);
     }
     return this.input;
@@ -164,33 +166,8 @@ export default class TagsInput extends RingComponentWithShortcuts {
       catch(() => this.node && this.setState({loading: false}));
   };
 
-  willMount() {
-    this.updateStateFromProps(this.props);
-  }
-
-  didMount() {
-    if (this.props.autoOpen && !this.props.disabled) {
-      this.focusInput();
-      this.loadSuggestions();
-      this.select._showPopup();
-    }
-  }
-
-  willReceiveProps(props) {
-    this.updateStateFromProps(props);
-  }
-
   _focusHandler = () => {
-    this.setState({
-      shortcuts: true
-    });
     this.setActiveIndex(null);
-  };
-
-  _blurHandler = () => {
-    this.setState({
-      shortcuts: false
-    });
   };
 
   selectTag = moveForward => {
@@ -264,13 +241,16 @@ export default class TagsInput extends RingComponentWithShortcuts {
 
   handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
+  nodeRef = node => {
+    this.node = node;
+  };
+
   selectRef = el => {
     this.select = el;
   };
 
   render() {
     const classes = classNames(
-      'ring-js-shortcuts',
       'ring-tags-input',
       {
         'ring-tags-input_disabled': this.props.disabled
@@ -282,6 +262,7 @@ export default class TagsInput extends RingComponentWithShortcuts {
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}
+        ref={this.nodeRef}
       >
 
         <TagsList
@@ -321,3 +302,6 @@ export default class TagsInput extends RingComponentWithShortcuts {
       </div>);
   }
 }
+
+export const RerenderableTagsInput = rerenderHOC(TagsInput, {captureNode: false});
+

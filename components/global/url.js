@@ -120,7 +120,7 @@ export function resolveRelativeURL(
     return absoluteURLGetter() + relUrl;
   }
 
-  return relUrl;
+  return String(relUrl);
 }
 
 /**
