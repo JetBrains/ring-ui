@@ -20,6 +20,26 @@
         <div>Disabled checked</div>
         <div id="toggle-checked-disabled"/>
       </div>
+
+      <div>
+        <div>Pale unchecked by default</div>
+        <div id="pale-toggle-unchecked"/>
+      </div>
+
+      <div>
+        <div>Pale checked by default</div>
+        <div id="pale-toggle-checked"/>
+      </div>
+
+      <div>
+        <div>Pale disabled unchecked</div>
+        <div id="pale-toggle-unchecked-disabled"/>
+      </div>
+
+      <div>
+        <div>Pale disabled checked</div>
+        <div id="pale-toggle-checked-disabled"/>
+      </div>
     </div>
   </file>
 
@@ -46,6 +66,26 @@
     render(
       <Toggle disabled defaultChecked/>,
       document.getElementById('toggle-checked-disabled')
+    );
+
+    render(
+      <Toggle pale/>,
+      document.getElementById('pale-toggle-unchecked')
+    );
+
+    render(
+      <Toggle pale defaultChecked/>,
+      document.getElementById('pale-toggle-checked')
+    );
+
+    render(
+      <Toggle pale disabled/>,
+      document.getElementById('pale-toggle-unchecked-disabled')
+    );
+
+    render(
+      <Toggle pale disabled defaultChecked/>,
+      document.getElementById('pale-toggle-checked-disabled')
     );
   </file>
 </example>
