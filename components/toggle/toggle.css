@@ -1,4 +1,4 @@
-@value unit, white-color, icon-color, main-color, main-hover-color, border-hover-color from  "../global/global.css";
+@value unit, white-color, icon-color, borders-color, main-color, main-hover-color, border-hover-color from  "../global/global.css";
 @value padding: 2px;
 @value disabled-line-color: rgba(255, 255, 255, 0.9);
 @value duration: 300ms;
@@ -101,4 +101,12 @@
     );
   background-repeat: repeat;
   background-size: 4px 4px;
+}
+
+.paleSwitch {
+  background-color: borders-color;
+}
+
+.input:checked + .paleSwitch {
+  background-color: border-hover-color;
 }
