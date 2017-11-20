@@ -21,11 +21,12 @@ export default class Toggle extends PureComponent {
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
+    pale: PropTypes.bool,
     onChange: PropTypes.func
   };
 
   render() {
-    const {className, disabled, ...restProps} = this.props;
+    const {className, disabled, pale, ...restProps} = this.props;
 
     const classes = classNames(
       className,
@@ -42,7 +43,7 @@ export default class Toggle extends PureComponent {
           className={styles.input}
         />
 
-        <span className={styles.switch}/>
+        <span className={classNames(styles.switch, pale && styles.paleSwitch)}/>
       </label>
     );
   }
