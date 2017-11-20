@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
 import Loader from '../loader/loader';
-import RingComponent from '../ring-component/ring-component';
 
 import './loader-screen.scss';
 
@@ -19,11 +19,12 @@ import './loader-screen.scss';
      </file>
 
      <file name="index.js" webpack="true">
+       import React from 'react';
        import {render} from 'react-dom';
        import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
 
        render(
-         LoaderScreen.factory(),
+         <LoaderScreen/>,
          document.getElementById('loader-screen')
        );
      </file>
@@ -34,22 +35,29 @@ import './loader-screen.scss';
      </file>
 
      <file name="index.js" webpack="true">
+       import React from 'react';
        import {render} from 'react-dom';
        import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
 
        render(
-         LoaderScreen.factory({message: 'Loading...'}),
+         <LoaderScreen message="Loading..."/>,
          document.getElementById('loader-screen')
        );
      </file>
    </example>
  */
-export default class LoaderScreen extends RingComponent {
+export default class LoaderScreen extends PureComponent {
+  static propTypes = {
+    className: PropTypes.string,
+    message: PropTypes.string
+  };
+
   render() {
+    const {message} = this.props;
     const classes = classNames(
       'ring-loader-screen__loader',
       {
-        'ring-loader-screen__loader_without-spacings': !this.props.message
+        'ring-loader-screen__loader_without-spacings': !message
       }
     );
 

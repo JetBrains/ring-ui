@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import linearFunction from '../global/linear-function';
-import RingComponent from '../ring-component/ring-component';
 
 import styles from './date-picker.css';
 import units, {dateType, DOUBLE, HALF, yearDuration} from './consts';
@@ -16,7 +15,7 @@ let scrollTO;
 const YEARSBACK = 5;
 const scrollDelay = 100;
 
-export default class Years extends RingComponent {
+export default class Years extends PureComponent {
   static propTypes = {
     scrollDate: dateType,
     onScroll: PropTypes.func,
@@ -25,7 +24,7 @@ export default class Years extends RingComponent {
 
   state = {scrollDate: null};
 
-  didUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     this.stoppedScrolling = prevState.scrollDate && !this.state.scrollDate;
   }
 

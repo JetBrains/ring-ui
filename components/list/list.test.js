@@ -37,8 +37,14 @@ describe('List', () => {
 
       const instance = shallowList({data}).instance();
 
-      shallow(instance.renderItem({index: 0})).should.have.tagName('div');
-      shallow(instance.renderItem({index: 3})).should.have.tagName('div');
+      shallow(
+        instance.renderItem({index: 0}),
+        {disableLifecycleMethods: true}
+      ).should.have.tagName('div');
+      shallow(
+        instance.renderItem({index: 3}),
+        {disableLifecycleMethods: true}
+      ).should.have.tagName('div');
     });
 
     it('should apply styles from virtualized', () => {
@@ -51,11 +57,24 @@ describe('List', () => {
       const style = {
         top: -1000
       };
+      const parent = {};
 
-      shallow(instance.renderItem({index: 0, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 1, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 2, style})).should.have.style('top', '-1000px');
-      shallow(instance.renderItem({index: 3, style})).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 0, style, parent}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 1, style, parent}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 2, style, parent}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
+      shallow(
+        instance.renderItem({index: 3, style, parent}),
+        {disableLifecycleMethods: true}
+      ).should.have.style('top', '-1000px');
     });
 
     it('should scroll to the active item', () => {
@@ -173,8 +192,6 @@ describe('List', () => {
   });
 
   describe('should render items', () => {
-    const shallowFirstItem = instance =>
-      shallow(instance.renderItem({index: 1}));
     const mountFirstItem = instance =>
       mount(instance.renderItem({index: 1}));
 
@@ -342,13 +359,13 @@ describe('List', () => {
     it('should handle click', () => {
       const clicked = sandbox.stub();
 
-      const instance = shallowList({
+      const instance = mountList({
         data: [
           {label: 'Hello!', onClick: clicked}
         ]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
       firstItemWrapper.simulate('click');
       clicked.should.have.been.called;
     });
@@ -356,12 +373,12 @@ describe('List', () => {
     it('should handle select', () => {
       const onSelect = sandbox.stub();
 
-      const instance = shallowList({
+      const instance = mountList({
         onSelect,
         data: [{label: 'Hello!'}]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
       firstItemWrapper.simulate('click');
       onSelect.should.have.been.called;
     });
@@ -382,7 +399,7 @@ describe('List', () => {
 
     it('Should support click on custom elements', () => {
       const onClick = sandbox.stub();
-      const instance = shallowList({
+      const instance = mountList({
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
@@ -392,7 +409,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      const firstItemWrapper = shallowFirstItem(instance).find(ListCustom);
+      const firstItemWrapper = mountFirstItem(instance).find(ListCustom);
       firstItemWrapper.simulate('click');
       onClick.should.have.been.called;
     });

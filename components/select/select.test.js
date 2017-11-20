@@ -1,5 +1,7 @@
 /* eslint-disable no-magic-numbers */
+/* eslint-disable react/no-find-dom-node */
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
@@ -126,17 +128,15 @@ describe('Select', () => {
   it('Should handle UP, DOWN and ENTER shortcuts', () => {
     const wrapper = shallowSelect();
     const instance = wrapper.instance();
-    const shortcuts = instance.getShortcutsProps();
-    shortcuts.map.enter.should.exist;
-    shortcuts.map.up.should.exist;
-    shortcuts.map.down.should.exist;
+    const shortcutsMap = instance.getShortcutsMap();
+    shortcutsMap.enter.should.exist;
+    shortcutsMap.up.should.exist;
+    shortcutsMap.down.should.exist;
   });
 
   it('Should generate unique scope for shortcuts', () => {
-    const wrapper = shallowSelect();
-    const instance = wrapper.instance();
-    const firstTimeScope = instance.getShortcutsProps().scope;
-    const secondTimeScope = instance.getShortcutsProps().scope;
+    const firstTimeScope = shallowSelect().instance().shortcutsScope;
+    const secondTimeScope = shallowSelect().instance().shortcutsScope;
     secondTimeScope.should.not.be.equal(firstTimeScope);
   });
 
@@ -177,7 +177,7 @@ describe('Select', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.focus(instance.filter.node);
+    Simulate.focus(findDOMNode(instance.filter));
     wrapper.prop('onFocus').should.be.called;
   });
 
@@ -185,7 +185,7 @@ describe('Select', () => {
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
 
-    Simulate.blur(instance.filter.node);
+    Simulate.blur(findDOMNode(instance.filter));
     wrapper.prop('onBlur').should.be.called;
   });
 
@@ -195,7 +195,7 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.blur(instance.filter.node);
+    Simulate.blur(findDOMNode(instance.filter));
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.true;
   });
@@ -206,13 +206,13 @@ describe('Select', () => {
     const instance = wrapper.instance();
     instance._showPopup();
 
-    Simulate.mouseDown(instance._popup.list.node);
-    Simulate.blur(instance.filter.node);
+    Simulate.mouseDown(findDOMNode(instance._popup.list));
+    Simulate.blur(findDOMNode(instance.filter));
     sandbox.clock.tick();
     instance._popup.props.hidden.should.be.false;
   });
 
-  describe('willReceiveProps', () => {
+  describe('componentWillReceiveProps', () => {
 
     let wrapper;
     let instance;
@@ -229,33 +229,33 @@ describe('Select', () => {
 
 
     it('Should update shown data', () => {
-      instance.willReceiveProps({data: []});
+      instance.componentWillReceiveProps({data: []});
 
       instance.setState.should.be.calledWith({shownData: []});
     });
 
     it('Should not update shown data if data is not passed', () => {
-      instance.willReceiveProps({});
+      instance.componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
     });
 
     it('Should not update shown data if data the same as previous', () => {
-      instance.willReceiveProps({data: instance.props.data});
+      instance.componentWillReceiveProps({data: instance.props.data});
 
       instance.setState.should.not.be.calledWith({shownData: sandbox.match.any});
     });
 
     it('Should toggle multiple state', () => {
       const newMultiple = !instance.props.multiple;
-      instance.willReceiveProps({multiple: newMultiple});
+      instance.componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.be.calledWith(newMultiple);
     });
 
     it('Should not toggle multiple state if value the same as previous', () => {
       const newMultiple = instance.props.multiple;
-      instance.willReceiveProps({multiple: newMultiple});
+      instance.componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.not.be.called;
     });
@@ -265,7 +265,7 @@ describe('Select', () => {
 
       instance.props = {multiple: false, selected: null, data: [selectedItem, createItem()]};
 
-      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
       instance.setState.should.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -279,7 +279,7 @@ describe('Select', () => {
         data: [selectedItem, createItem()]
       };
 
-      instance.willReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -289,7 +289,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.willReceiveProps({selected: [selectedItem]});
+      instance.componentWillReceiveProps({selected: [selectedItem]});
 
       instance.setState.should.be.calledWith({selectedIndex: 0});
     });
@@ -299,7 +299,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem, createItem()]};
 
-      instance.willReceiveProps({selected: [selectedItem, createItem()]});
+      instance.componentWillReceiveProps({selected: [selectedItem, createItem()]});
 
       instance.setState.should.be.calledWith({selectedIndex: 0});
     });
@@ -309,7 +309,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.willReceiveProps({});
+      instance.componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -324,7 +324,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.willReceiveProps({selected: [selectedItem1, selectedItem2]});
+      instance.componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -339,7 +339,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.willReceiveProps({selected: [selectedItem2, selectedItem1]});
+      instance.componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
 
       instance.setState.should.not.be.calledWith({selectedIndex: sandbox.match.any});
     });
@@ -427,7 +427,7 @@ describe('Select', () => {
 
     describe('Bottom toolbar', () => {
       it('Should not add "Add" button if enabled but filter query is empty', () => {
-        const wrapper = mountSelect({add: true});
+        const wrapper = mountSelect({add: {}});
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('');
         instance._showPopup();
@@ -435,7 +435,7 @@ describe('Select', () => {
       });
 
       it('Should add "Add" button if enabled and filter query not empty', () => {
-        const wrapper = mountSelect({add: true});
+        const wrapper = mountSelect({add: {}});
         const instance = wrapper.instance();
         instance.filterValue = sandbox.stub().returns('test');
         instance._showPopup();
@@ -478,7 +478,7 @@ describe('Select', () => {
 
       it('Hint should be placed under "add" button', () => {
         const wrapper = mountSelect({
-          add: true,
+          add: {},
           hint: 'blah blah'
         });
         const instance = wrapper.instance();
@@ -611,7 +611,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
       instance._showPopup = sandbox.spy();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter.node, 'a');
+      simulateInput(findDOMNode(instance.filter), 'a');
       instance._showPopup.should.be.called;
     });
 
@@ -644,7 +644,7 @@ describe('Select', () => {
       const wrapper = mountSelect({filter: false, type: Select.Type.INPUT});
       const instance = wrapper.instance();
       wrapper.setState({focused: true});
-      simulateInput(instance.filter.node, 'test input');
+      simulateInput(findDOMNode(instance.filter), 'test input');
       instance.filterValue().should.equal('test input');
     });
 
@@ -661,7 +661,7 @@ describe('Select', () => {
       const instance = wrapper.instance();
 
       instance.filterValue('test');
-      instance.filter.node.value.should.equal('test');
+      findDOMNode(instance.filter).value.should.equal('test');
     });
 
     it('Should clear fiter value when closing', () => {

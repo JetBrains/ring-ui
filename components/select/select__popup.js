@@ -1,11 +1,11 @@
 /**
  * @description Displays a popup with select's options.
  */
+/* eslint-disable react/prop-types */
 
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
 import Popup from '../popup/popup';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -15,6 +15,7 @@ import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import SelectFilter from './select__filter';
 import './select-popup.scss';
@@ -23,9 +24,7 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-export default class SelectPopup extends RingComponentWithShortcuts {
-  isClickingPopup = false; // This flag is to true while an item in the popup is being clicked
-
+export default class SelectPopup extends Component {
   static defaultProps = {
     data: [],
     activeIndex: null,
@@ -53,6 +52,25 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     },
     tagsActiveIndex: null
   };
+
+  componentDidMount() {
+    window.document.addEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.hidden !== this.props.hidden) {
+      this.setState({
+        popupShortcuts: !nextProps.hidden,
+        shortcuts: !nextProps.hidden && this.props.filter
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    window.document.removeEventListener('mouseup', this.mouseUpHandler);
+  }
+
+  isClickingPopup = false; // This flag is set to true while an item in the popup is being clicked
 
   popupFilterShortcuts = {
     map: {
@@ -136,6 +154,7 @@ export default class SelectPopup extends RingComponentWithShortcuts {
   }
 
   popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+
   popupFilterOnBlur = () => {
     if (this.state.tagsActiveIndex === null) {
       this._togglePopupFilterShortcuts(true);
@@ -149,32 +168,6 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         disabled: shortcutsDisabled
       }
     });
-  }
-
-  didMount() {
-    window.document.addEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  willReceiveProps(nextProps) {
-    if (nextProps.hidden !== this.props.hidden) {
-      this.setState({
-        popupShortcuts: !nextProps.hidden,
-        shortcuts: !nextProps.hidden && this.props.filter
-      });
-    }
-  }
-
-  willUnmount() {
-    window.document.removeEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  getShortcutsProps() {
-    return {
-      map: {
-        tab: this.tabPress
-      },
-      scope: getUID('select-popup-')
-    };
   }
 
   listOnMouseOut = () => {
@@ -330,6 +323,12 @@ export default class SelectPopup extends RingComponentWithShortcuts {
     this.popup = el;
   };
 
+  shortcutsScope = getUID('select-popup-');
+
+  shortcutsMap = {
+    tab: this.tabPress
+  };
+
   render() {
     const classes = classNames(
       'ring-select-popup',
@@ -353,6 +352,13 @@ export default class SelectPopup extends RingComponentWithShortcuts {
         onMouseDown={this.mouseDownHandler}
         target={this.props.ringPopupTarget}
       >
+        {this.state.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
+
         {this.getFilterWithTags()}
         {this.getList()}
         {this.getBottomLine()}

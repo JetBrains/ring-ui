@@ -6,7 +6,7 @@
 
 import 'dom4';
 import 'core-js/modules/es6.array.find';
-import React from 'react';
+import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';
@@ -18,7 +18,7 @@ import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
-import RingComponentWithShortcuts from '../ring-component/ring-component_with-shortcuts';
+import Shortcuts from '../shortcuts/shortcuts';
 
 import './list.scss';
 import ListItem from './list__item';
@@ -75,7 +75,7 @@ function isItemType(listItemType, item) {
  * @extends {ReactComponent}
  * @example-file ./list.examples.html
  */
-export default class List extends RingComponentWithShortcuts {
+export default class List extends Component {
   static isItemType = isItemType;
 
   static ListProps = {
@@ -92,6 +92,7 @@ export default class List extends RingComponentWithShortcuts {
       PropTypes.string,
       PropTypes.number
     ]),
+    activeIndex: PropTypes.number,
     restoreActiveIndex: PropTypes.bool,
     activateSingleItem: PropTypes.bool,
     activateFirstItem: PropTypes.bool,
@@ -127,6 +128,88 @@ export default class List extends RingComponentWithShortcuts {
     scrolling: false,
     hasOverflow: false
   };
+
+  componentWillMount() {
+    this.checkActivatableItems(this.props.data);
+    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
+      this.setState({
+        activeIndex: this.props.activeIndex,
+        activeItem: this.props.data[this.props.activeIndex],
+        needScrollToActive: true
+      });
+    } else if (
+      this.props.activeIndex == null &&
+      this.shouldActivateFirstItem(this.props) &&
+      this.isActivatable(this.props.data[0])
+    ) {
+      this.setState({
+        activeIndex: 0,
+        activeItem: this.props.data[0],
+        needScrollToActive: true
+      });
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.data) {
+      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
+      //props.data = props.data.map(normalizeListItemType);
+
+      this.checkActivatableItems(props.data);
+
+      let activeIndex = null;
+      let activeItem = null;
+
+      if (
+        props.restoreActiveIndex &&
+        this.state.activeItem &&
+        this.state.activeItem.key !== undefined &&
+        this.state.activeItem.key !== null
+      ) {
+        for (let i = 0; i < props.data.length; i++) {
+          // Restore active index if there is an item with the same "key" property
+          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
+            activeIndex = i;
+            activeItem = props.data[i];
+            break;
+          }
+        }
+      }
+
+      if (
+        activeIndex === null &&
+        this.shouldActivateFirstItem(props) &&
+        this.isActivatable(props.data[0])
+      ) {
+        activeIndex = 0;
+        activeItem = props.data[0];
+      } else if (
+        props.activeIndex != null &&
+        props.activeIndex !== this.props.activeIndex &&
+        props.data[props.activeIndex]
+      ) {
+        activeIndex = props.activeIndex;
+        activeItem = props.data[props.activeIndex];
+      }
+
+      this.setState({
+        activeIndex,
+        activeItem,
+        needScrollToActive: true
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.props ||
+      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
+      this.virtualizedList.recomputeRowHeights();
+    }
+  }
 
   _activatableItems = false;
   // eslint-disable-next-line no-magic-numbers
@@ -301,80 +384,6 @@ export default class List extends RingComponentWithShortcuts {
     });
   }
 
-  willMount() {
-    this.checkActivatableItems(this.props.data);
-    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
-      this.setState({
-        activeIndex: this.props.activeIndex,
-        activeItem: this.props.data[this.props.activeIndex],
-        needScrollToActive: true
-      });
-    }
-  }
-
-  willReceiveProps(props) {
-    this.toggleShortcuts(props);
-
-    if (props.data) {
-      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
-      //props.data = props.data.map(normalizeListItemType);
-
-      this.checkActivatableItems(props.data);
-
-      let activeIndex = null;
-      let activeItem = null;
-
-      if (
-        props.restoreActiveIndex &&
-        this.state.activeItem &&
-        this.state.activeItem.key !== undefined &&
-        this.state.activeItem.key !== null
-      ) {
-        for (let i = 0; i < props.data.length; i++) {
-          // Restore active index if there is an item with the same "key" property
-          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
-            activeIndex = i;
-            activeItem = props.data[i];
-            break;
-          }
-        }
-      }
-
-      if (
-        activeIndex === null &&
-        this.shouldActivateFirstItem(props) &&
-        this.isActivatable(props.data[0])
-      ) {
-        activeIndex = 0;
-        activeItem = props.data[0];
-      } else if (
-        props.activeIndex != null &&
-        props.activeIndex !== this.props.activeIndex &&
-        props.data[props.activeIndex]
-      ) {
-        activeIndex = props.activeIndex;
-        activeItem = props.data[props.activeIndex];
-      }
-
-      this.setState({
-        activeIndex,
-        activeItem,
-        needScrollToActive: true
-      });
-    }
-  }
-
-  shouldUpdate(nextProps, nextState) {
-    return nextProps !== this.props ||
-      Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
-  }
-
-  didUpdate(prevProps) {
-    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
-      this.virtualizedList.recomputeRowHeights();
-    }
-  }
-
   shouldActivateFirstItem(props) {
     return props.activateFirstItem ||
       props.activateSingleItem && props.length === 1;
@@ -401,16 +410,13 @@ export default class List extends RingComponentWithShortcuts {
     }
   };
 
-  getShortcutsProps() {
-    return {
-      map: {
-        up: this.upHandler,
-        down: this.downHandler,
-        enter: this.enterHandler
-      },
-      scope: getUID('list-')
-    };
-  }
+  shortcutsScope = getUID('list-');
+
+  shortcutsMap = {
+    up: this.upHandler,
+    down: this.downHandler,
+    enter: this.enterHandler
+  };
 
   getVisibleListHeight(props) {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
@@ -484,7 +490,7 @@ export default class List extends RingComponentWithShortcuts {
       el = <ItemComponent {...itemProps}/>;
     }
 
-    return (
+    return parent ? (
       <CellMeasurer
         cache={this._cache}
         key={key}
@@ -494,7 +500,7 @@ export default class List extends RingComponentWithShortcuts {
       >
         <div style={style}>{el}</div>
       </CellMeasurer>
-    );
+    ) : cloneElement(el, {key});
   };
 
   virtualizedListRef = el => {
@@ -619,6 +625,12 @@ export default class List extends RingComponentWithShortcuts {
         className={classes}
         onMouseOut={this.props.onMouseOut}
       >
+        {this.props.shortcuts &&
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        }
         {this.props.renderOptimization
           ? this.renderVirtualized(maxHeight, rowCount)
           : this.renderSimple(maxHeight, rowCount)

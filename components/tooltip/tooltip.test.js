@@ -2,7 +2,7 @@ import React from 'react';
 import {
   isCompositeComponentWithType
 } from 'react-dom/test-utils';
-import {shallow, mount, render} from 'enzyme';
+import {mount, render} from 'enzyme';
 
 import Popup from '../popup/popup';
 
@@ -14,7 +14,6 @@ describe('Tooltip', () => {
     className: 'test-class',
     children: 'test elem'
   };
-  const shallowTooltip = props => shallow(<Tooltip {...defaultProps} {...props}/>);
   const mountTooltip = props => mount(<Tooltip {...defaultProps} {...props}/>);
   const renderTooltip = props => render(<Tooltip {...defaultProps} {...props}/>);
 
@@ -41,11 +40,12 @@ describe('Tooltip', () => {
     });
 
     it('should pass props to children', () => {
-      shallowTooltip().should.have.className('test-class');
+      mountTooltip().should.have.className('test-class');
     });
 
     it('should not pass title to children', () => {
-      shallowTooltip().should.not.have.prop('title');
+      const wrapper = mountTooltip();
+      wrapper.children().first().should.not.have.prop('title');
     });
   });
 
@@ -108,7 +108,7 @@ describe('Tooltip', () => {
     });
 
     it('should close popup on unmount', () => {
-      const wrapper = shallowTooltip();
+      const wrapper = mountTooltip();
       const instance = wrapper.instance();
       instance.showPopup();
       wrapper.unmount();

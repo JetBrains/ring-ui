@@ -1,5 +1,4 @@
 import React from 'react';
-import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
 import Select from '../select/select';
@@ -125,7 +124,7 @@ describe('Tags Input', () => {
   });
 
   it('Should drop existing tags from suggestions by key', () => {
-    const wrapper = shallowTagsInput();
+    const wrapper = mountTagsInput();
     const instance = wrapper.instance();
     const notAddedSuggestions = instance.filterExistingTags([
       {key: 1, label: 'test1'},
@@ -137,24 +136,6 @@ describe('Tags Input', () => {
 
 
   describe('Shortcuts', () => {
-    it('should enable shortcuts on input focus', () => {
-      const wrapper = mountTagsInput();
-      const instance = wrapper.instance();
-      Simulate.focus(instance.getInputNode());
-
-      wrapper.should.have.state('shortcuts', true);
-    });
-
-    it('should disable shortcuts when input lose focus', () => {
-      const wrapper = mountTagsInput();
-      const instance = wrapper.instance();
-      Simulate.focus(instance.getInputNode());
-      Simulate.blur(instance.getInputNode());
-
-      wrapper.should.have.state('shortcuts', false);
-    });
-
-
     describe('Keyboard handling', () => {
       const getEventMock = keyboardKey => Object.assign({
         key: keyboardKey,

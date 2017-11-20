@@ -1,8 +1,6 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import RingComponent from '../ring-component/ring-component';
 
 import ieCompatibleInputHOC from './ie-compatible-hoc';
 import './input.scss';
@@ -15,7 +13,7 @@ import './input.scss';
  * @extends {ReactComponent}
  * @example-file ./input.examples.html
  */
-class Input extends RingComponent {
+class Input extends PureComponent {
   static propTypes = {
     multiline: PropTypes.bool,
     className: PropTypes.string,

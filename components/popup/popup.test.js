@@ -18,7 +18,7 @@ describe('Popup', () => {
 
   it('should attempt to close by pressing esc', () => {
     const onCloseAttempt = sandbox.stub();
-    shallowPopup({onCloseAttempt});
+    mountPopup({onCloseAttempt});
 
     simulateCombo('esc');
 
