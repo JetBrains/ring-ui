@@ -4,12 +4,75 @@ category: Docs
 order: 2
 ---
 
+## [0.3.0] — 20-11-2017
+### Breaking
+- Release 0.3.0 is designed to work with React 16. Moreover, `react` and `react-dom` are no longer `dependencies` but
+`peerDependencies` — make sure to include them in your project's `dependencies`, if you don't have them already. 
+If your project's `webpack.config.js` includes a `resolve` section for making sure only one copy of React is loaded, 
+it can now be removed.
+
+- `RingComponent`, a base class for all Ring UI components is now gone. The components are now inherited directly from
+`PureComponent`. If you have your own components using `RingComponent` as the base class, please refactor them:
+
+      // Before
+      import React from 'react';
+      import RingComponent from '../ring-component/ring-component';
+      
+      export default class MyComponent extends RingComponent {
+        ...
+        // RingComponent had its own lifecycle methods, matching the original ones        
+        didUpdate(prevProps, prevState) {
+        
+        }
+      }
+      
+      // After
+      import React, {PureComponent} from 'react';
+      
+      export default class MyComponent extends PureComponent {
+        ...
+        componentDidUpdate(prevProps, prevState) {
+        
+        }
+      }
+      
+- If you were relying on the `rerender` method of `RingComponent` (for example, to trigger re-rendering of `date-picker`
+or `query-assist`), special wrapped versions of those components should be used instead. Those wrapped versions include
+the `rerender` method for backward compatibility:
+
+      // Before
+      import DatePicker from "@jetbrains/ring-ui/components/date-picker/date-picker";
+      
+      // After
+      import {RerenderableDatePicker as DatePicker} from "@jetbrains/ring-ui/components/date-picker/date-picker";
+      
+### Added
+
+- [Hover mode](http://www.jetbrains.org/ring-ui/dropdown.html#Dropdown%20with%20hover%20mode) was added to `Dropdown`. [Review][RING-UI-CR-2998]
+- `user-card` [component](http://www.jetbrains.org/ring-ui/user-card.html) was added. [Review][RING-UI-CR-3016]
+- Support for fuzzy search was added to `Select`, pass `props.filter = { fuzzy: true }` to activate. [Review][RING-UI-CR-3037]
+- `data-list` component [received a major rewrite](http://www.jetbrains.org/ring-ui/data-list.html). [Review][RING-UI-CR-3042]
+
+### Removed
+
+- `React Ng`, a legacy Angular directive for proxying React components was removed.
+- An ability to import SVG icons as components (`import PencilIcon from '@jetbrains/icons/pencil.svg'`) deprecated earlier was removed.
+
+### Internals
+- Updated lots of dependencies
+- `mout` is no longer a dependency
+
+[RING-UI-CR-2998]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2998
+[RING-UI-CR-3016]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3016
+[RING-UI-CR-3037]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3037
+[RING-UI-CR-3042]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3042
+       
 ## [0.2.10] — 22-08-2017
 ### Added
 - `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
 A previously introduced feature of importing them directly from packages is deprecated:
 
-      // deprecated, will be removed in 3.0
+      // deprecated, will be removed in 0.3
       import PencilIcon from '@jetbrains/icons/pencil.svg'
       import SearchIcon from '@jetbrains/icons/search.svg'
       import HubLogo from '@jetbrains/logos/hub/hub.svg'
@@ -43,18 +106,18 @@ A previously introduced feature of importing them directly from packages is depr
       <Icon glyph={PencilIcon}/>
       <Icon glyph={SearchIcon}/>
       <Icon glyph={HubLogo}/>
-  [Review][RING-UI-CR-2945].
-- `Tag`: `disabled` prop was added. [Review][RING-UI-CR-2951].
-- `Popup`: a custom container can be passed as a prop. [Review][RING-UI-CR-2941].
+  [Review][RING-UI-CR-2945]
+- `Tag`: `disabled` prop was added. [Review][RING-UI-CR-2951]
+- `Popup`: a custom container can be passed as a prop. [Review][RING-UI-CR-2941]
 - `Dialog`: focus is trapped inside dialog. Tabbing outside of the dialog is blocked.
-You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-UI-CR-2935].
+You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-UI-CR-2935]
 
 ### Changed
-- `Select`: after selecting a tag, the input is cleared. [Review][RING-UI-CR-2944].
+- `Select`: after selecting a tag, the input is cleared. [Review][RING-UI-CR-2944]
 
 ### Fixed
 - "Clear" icon on `Select`'s button was not clickable in Firefox. [Review][RING-UI-CR-2952]
-- `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942].
+- `svg-sprite-loader` was updated to fix rendering of logos in Firefox. [Review][RING-UI-CR-2942]
 
 [0.2.10]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.1...%40jetbrains/ring-ui%400.2.10
 [RING-UI-CR-2952]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2952
@@ -92,8 +155,8 @@ You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-U
         size={PencilIcon.Size.Size12}
         title="edit"
       />
-  [Review][RING-UI-CR-2921].
-- `baseline` option for `Grid` component. [Review][RING-UI-CR-2913].
+  [Review][RING-UI-CR-2921]
+- `baseline` option for `Grid` component. [Review][RING-UI-CR-2913]
 
 ### Changed
 - `Code` component now comes with a list of highlighed languages.
@@ -102,12 +165,12 @@ Other languages supported by `highlight.js` can be enabled manually:
       import {highlight} from '@jetbrains/ring-ui/components/code/code'
       import lang1c from 'highlight.js/lib/languages/1c';
       highlight.registerLanguage('1c', lang1c);
-   [Review][RING-UI-CR-2914].
-- `DataList` component: "show more / less" functionality was fully rewritten. [Review][RING-UI-CR-2908].
+   [Review][RING-UI-CR-2914]
+- `DataList` component: "show more / less" functionality was fully rewritten. [Review][RING-UI-CR-2908]
 
 ### Fixed
-- `DataList`: fixed the issue with selection and focus being cleared when toggling a tree element. [Review][RING-UI-CR-2903].
-- Various optimizations were applied to reduce app bundle size. [Review][RING-UI-CR-2923].
+- `DataList`: fixed the issue with selection and focus being cleared when toggling a tree element. [Review][RING-UI-CR-2903]
+- Various optimizations were applied to reduce app bundle size. [Review][RING-UI-CR-2923]
 
 [0.2.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.1.2...%40jetbrains/ring-ui%400.2.0
 [RING-UI-CR-2903]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2903
