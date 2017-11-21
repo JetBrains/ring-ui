@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, line-height-lowest, link-color, white-color, line-color, gray-color, dark-gray-color, search-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-smaller, font-size, line-height, line-height-lowest, link-color, text-color, white-color, line-color, gray-color, dark-gray-color, search-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -10,7 +10,11 @@ body {
 .app {
   composes: font;
 
+  display: flex;
+  flex-direction: column;
+
   min-width: breakpoint-middle;
+  min-height: 100vh;
 }
 
 .headerItem {
@@ -20,6 +24,9 @@ body {
 .sidebar {
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+
   padding: calc(unit * 4) 0 calc(unit * 5);
 
   background-color: sidebar-background-color;
@@ -27,20 +34,24 @@ body {
   box-shadow: 1px 0 line-color;
 }
 
+.sidebar > * {
+  flex-shrink: 0;
+}
+
 .sidebarFixed {
   z-index: overlay-z-index;
 }
 
-.nav {
-  position: relative;
-  z-index: overlay-z-index;
+.main {
+  flex-basis: 0;
+  flex-grow: 1;
 
-  margin: calc(unit * -2) 0 0;
-
-  line-height: calc(unit * 3);
+  min-height: 0;
 }
 
 .main > div:last-child {
+  overflow-y: auto;
+  align-self: stretch;
   flex-grow: 1;
 
   min-width: 0;
@@ -57,16 +68,55 @@ body {
   margin-left: calc(unit * -4 + 1);
 }
 
-.item {
-  padding-right: calc(unit * 2);
-  padding-left: calc(unit * 4);
+.item.item {
+  display: block;
+
+  padding: 3px calc(unit * 2) 5px calc(unit * 4);
+
+  text-align: left;
+
+  line-height: calc(unit * 2);
 }
 
 .item p {
   margin: 0;
 }
 
+.category {
+  composes: font-smaller;
+  composes: item;
+
+  position: relative;
+
+  margin: unit 0 2px;
+
+  color: text-color;
+}
+
+.chevron {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+}
+
+.chevron svg {
+  transition: transform fast-ease;
+  transform-origin: 45% 50%;
+}
+
+.chevronExpanded svg {
+  transform: rotate(90deg);
+}
+
+.items {
+  overflow: hidden;
+
+  transition: height fast-ease;
+}
+
 .active {
+  color: text-color;
+
   background-color: selected-background-color;
 
   font-weight: bold;
@@ -129,9 +179,13 @@ a.legacy {
 .sideFooter {
   composes: item;
 
-  margin-top: calc(unit * 6);
+  margin-top: auto;
 
   line-height: line-height-lowest;
+}
+
+.sideFooter.sideFooter {
+  padding-top: calc(unit * 6);
 }
 
 .copyright {
