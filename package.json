@@ -5,7 +5,7 @@
   "author": "JetBrains",
   "license": "Apache-2.0",
   "files": [
-    "components/**/*.{js,css,scss,gif,html,svg}",
+    "components",
     "postcss.config.js",
     "webpack.config.js",
     "icon-runtime-generator.js",
@@ -137,12 +137,12 @@
     "karma-teamcity-reporter": "1.0.1",
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
-    "lerna": "^2.4.0",
+    "lerna": "^2.5.1",
     "lint-staged": "4.2.3",
     "mocha": "3.4.2",
-    "react": "16.0.0",
-    "react-dom": "16.0.0",
-    "react-test-renderer": "16.0.0",
+    "react": "16.1.0",
+    "react-dom": "16.1.0",
+    "react-test-renderer": "16.1.0",
     "sinon": "2.3.8",
     "sinon-chai": "2.14.0",
     "storage-mock": "1.0.3",
@@ -155,8 +155,8 @@
     "yo": "2.0.0"
   },
   "peerDependencies": {
-    "react": ">=15.6.1",
-    "react-dom": ">=15.6.1"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",

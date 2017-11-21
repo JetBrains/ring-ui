@@ -1,34 +1,58 @@
 export default class Selection {
-  // eslint-disable-next-line max-len
-  constructor({data = [], selected = new Set(), focused = null, key = 'id', isItemSelectable = () => true} = {}) {
+  constructor({
+    data = [],
+    selected = new Set(),
+    focused = null,
+    getKey = item => item.id,
+    getChildren = () => [],
+    isItemSelectable = () => true
+  } = {}) {
     this._rawData = data;
+    this._getChildren = getChildren;
+
     this._data = this._buildData(data);
 
+    this._selected = selected;
     this._focused = focused;
-    this._key = key;
+    this._getKey = getKey;
     this._isItemSelectable = isItemSelectable;
-
-    this._selected = new Set([...selected].filter(item => this._isItemSelectable(item)));
   }
 
   _buildData(data) {
     return new Set(data);
   }
 
+  _buildSelected(data, selected) {
+    return new Set(selected);
+  }
+
   cloneWith({data, selected, focused}) {
-    const cloneSelected = () => new Set(Array.from(this._buildData(data)).filter(
-      item => [...this._selected].some(it => item[this._key] === it[this._key])
-    ));
-    const cloneFocus = () => Array.from(this._buildData(data)).filter(
-      item => this._focused && item[this._key] === this._focused[this._key]
+    const newData = data || this._rawData;
+
+    let newSelected;
+    if (data && !selected) {
+      newSelected = new Set([...this._buildData(newData)].
+        filter(item => [...this._selected].some(it => this._getKey(item) === this._getKey(it))));
+      newSelected = this._buildSelected(this._buildData(newData), newSelected);
+    } else if (selected) {
+      newSelected = selected;
+    } else {
+      newSelected = this._selected;
+    }
+    newSelected = new Set([...newSelected].filter(item => this._isItemSelectable(item)));
+
+    const cloneFocus = () => [...this._buildData(data)].filter(
+      item => this._focused && this._getKey(item) === this._getKey(this._focused)
     )[0];
+
     const newFocused = focused === undefined ? this._focused : focused;
 
     return new this.constructor({
-      data: data || this._rawData,
-      selected: (data && !selected) ? cloneSelected() : selected || this._selected,
+      data: newData,
+      selected: newSelected,
       focused: (data && !focused) ? cloneFocus() : newFocused,
-      key: this._key,
+      getKey: this._getKey,
+      getChildren: this._getChildren,
       isItemSelectable: this._isItemSelectable
     });
   }
@@ -90,7 +114,7 @@ export default class Selection {
   }
 
   select(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
@@ -100,7 +124,7 @@ export default class Selection {
   }
 
   deselect(value = this._focused) {
-    if (!value) {
+    if (!value || !this._isItemSelectable(value)) {
       return this;
     }
 
