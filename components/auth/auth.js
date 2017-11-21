@@ -56,6 +56,7 @@ const BACKGROUND_REDIRECT_TIMEOUT = 20 * 1000;
 /* eslint-enable no-magic-numbers */
 
 export const USER_CHANGED_EVENT = 'userChange';
+export const DOMAIN_USER_CHANGED_EVENT = 'domainUser';
 export const LOGOUT_EVENT = 'logout';
 export const LOGOUT_POSTPONED_EVENT = 'logoutPostponed';
 export const USER_CHANGE_POSTPONED_EVENT = 'changePostponed';
@@ -159,6 +160,8 @@ export default class Auth {
       tokenKey: `${clientId}-token`
     });
 
+    this._domainStorage = new AuthStorage({messagePrefix: 'domain-message-'});
+
     this._requestBuilder = new AuthRequestBuilder({
       authorization: this.config.serverUri + Auth.API_PATH + Auth.API_AUTH_PATH,
       clientId,
@@ -205,6 +208,7 @@ export default class Auth {
     this.addListener(LOGOUT_POSTPONED_EVENT, () => this._setPostponed(true));
     this.addListener(USER_CHANGE_POSTPONED_EVENT, () => this._setPostponed(true));
     this.addListener(USER_CHANGED_EVENT, () => this._setPostponed(false));
+    this.addListener(USER_CHANGED_EVENT, user => user && this._updateDomainUser(user.id));
 
     this._createInitDeferred();
 
@@ -213,6 +217,13 @@ export default class Auth {
 
   _setPostponed(postponed = false) {
     this._postponed = postponed;
+  }
+
+  _updateDomainUser(userID) {
+    this._domainStorage.sendMessage(DOMAIN_USER_CHANGED_EVENT, {
+      userID,
+      serviceID: this.config.clientId
+    });
   }
 
   addListener(event, handler) {
@@ -252,6 +263,16 @@ export default class Auth {
       }
     });
 
+    this._domainStorage.onMessage(DOMAIN_USER_CHANGED_EVENT, ({userID, serviceID}) => {
+      if (serviceID === this.config.clientId) {
+        return;
+      }
+      if (this.user && userID === this.user.id) {
+        return;
+      }
+      this.forceTokenUpdate();
+    });
+
     let state;
 
     try {
@@ -269,6 +290,16 @@ export default class Auth {
     try {
       // Check if there is a valid token
       await this._tokenValidator.validateToken();
+
+
+      // Checking if there is a message left by another app on this domain
+      const message = await this._domainStorage._messagesStorage.get(`domain-message-${DOMAIN_USER_CHANGED_EVENT}`);
+      if (message) {
+        const {userID, serviceID} = message;
+        if (serviceID !== this.config.clientId && (!userID || this.user.id !== userID)) {
+          this.forceTokenUpdate();
+        }
+      }
 
       // Access token appears to be valid.
       // We may resolve restoreLocation URL now
@@ -652,6 +683,7 @@ export default class Auth {
 
     await this._checkBackendsStatusesIfEnabled();
     await this.listeners.trigger(LOGOUT_EVENT);
+    this._updateDomainUser(null);
     await this._storage.wipeToken();
 
     const authRequest = await this._requestBuilder.prepareAuthRequest(requestParams);
