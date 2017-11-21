@@ -318,7 +318,10 @@ describe('Auth', () => {
         optionalScopes: ['youtrack']
       });
 
-      auth._storage._tokenStorage = auth._storage._stateStorage = new MockedStorage();
+      auth._storage._tokenStorage = auth._storage._stateStorage =
+        auth._storage._messagesStorage = new MockedStorage();
+
+      auth._domainStorage._messagesStorage = new MockedStorage();
     });
 
     it('should initiate when there is no valid token', async () => {
