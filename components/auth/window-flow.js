@@ -97,7 +97,9 @@ export default class WindowFlow {
     if (this._loginWindow !== null) {
       this._loginWindow.close();
     }
-    this.reject('Authorization window closed');
+    if (this.reject) {
+      this.reject('Authorization window closed');
+    }
     this._reset();
   }
 
