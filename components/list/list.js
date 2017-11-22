@@ -272,13 +272,17 @@ export default class List extends RingComponentWithShortcuts {
     this.setState({scrolling: true}, this.scrollEndHandler);
   };
 
-  enterHandler = event => {
+  enterHandler = (event, shortcut) => {
     if (this.state.activeIndex !== null) {
       const item = this.props.data[this.state.activeIndex];
       this.selectHandler(this.state.activeIndex)(event);
 
       if (item.href) {
-        window.location.href = item.href;
+        if (shortcut === 'meta+enter') {
+          window.open(item.href, '_blank');
+        } else {
+          window.location.href = item.href;
+        }
       }
       return false; // do not propagate event
     } else {
@@ -406,7 +410,8 @@ export default class List extends RingComponentWithShortcuts {
       map: {
         up: this.upHandler,
         down: this.downHandler,
-        enter: this.enterHandler
+        enter: this.enterHandler,
+        'meta+enter': this.enterHandler
       },
       scope: getUID('list-')
     };
