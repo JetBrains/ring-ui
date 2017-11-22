@@ -71,6 +71,7 @@ export default class AuthDialog extends Component {
         contentClassName={classNames(className, styles.dialog)}
         onEscPress={this.onEscPress}
         show={show}
+        trapFocus
       >
         <div className={styles.content}>
           {serviceImage && (
