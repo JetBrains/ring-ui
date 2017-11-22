@@ -355,13 +355,17 @@ export default class List extends Component {
     this.setState({scrolling: true}, this.scrollEndHandler);
   };
 
-  enterHandler = event => {
+  enterHandler = (event, shortcut) => {
     if (this.state.activeIndex !== null) {
       const item = this.props.data[this.state.activeIndex];
       this.selectHandler(this.state.activeIndex)(event);
 
       if (item.href) {
-        window.location.href = item.href;
+        if (shortcut === 'meta+enter') {
+          window.open(item.href, '_blank');
+        } else {
+          window.location.href = item.href;
+        }
       }
       return false; // do not propagate event
     } else {
@@ -415,7 +419,8 @@ export default class List extends Component {
   shortcutsMap = {
     up: this.upHandler,
     down: this.downHandler,
-    enter: this.enterHandler
+    enter: this.enterHandler,
+    'meta+enter': this.enterHandler
   };
 
   getVisibleListHeight(props) {
@@ -437,7 +442,10 @@ export default class List extends Component {
       el = <div style={{height: Dimension.MARGIN}}/>;
     } else {
 
-      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+      // Hack around SelectNG implementation
+      // eslint-disable-next-line no-unused-vars
+      const {selectedLabel, originalModel, ...cleanedProps} = item;
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, cleanedProps);
 
       if (itemProps.url) {
         itemProps.href = itemProps.url;
