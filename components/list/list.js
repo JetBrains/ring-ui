@@ -436,7 +436,10 @@ export default class List extends RingComponentWithShortcuts {
       el = <div style={{height: Dimension.MARGIN}}/>;
     } else {
 
-      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, item);
+      // Hack around SelectNG implementation
+      // eslint-disable-next-line no-unused-vars
+      const {selectedLabel, originalModel, ...cleanedProps} = item;
+      const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, cleanedProps);
 
       if (itemProps.url) {
         itemProps.href = itemProps.url;
