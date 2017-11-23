@@ -1,8 +1,12 @@
 @value unit, font-size, line-height, border-radius, sidebar-background-color from "../global/global.css";
 
+.code {
+  margin: calc(unit * 2) 0;
+}
+
 /* override hljs */
 .code code {
-  padding: line-height calc(unit * 2);
+  padding: calc(unit * 1.5) calc(unit * 2) calc(unit * 2);
 
   border-radius: border-radius;
   background-color: sidebar-background-color;
