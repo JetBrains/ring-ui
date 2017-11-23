@@ -46,10 +46,7 @@
   }
 
   @nest h5&, h6& {
-    margin-bottom: 1px;
-
-    font-size: 13px;
-    line-height: 18px;
+    margin-bottom: 0;
   }
 }
 

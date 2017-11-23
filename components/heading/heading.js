@@ -16,6 +16,28 @@ import styles from './heading.css';
     <file name="index.html">
       <div id="heading"></div>
     </file>
+    <file name="index.css">
+      h1, h2, h3 {
+        &::after {
+          content: 'Heading';
+          display: block;
+          position: absolute;
+          color: #DDD;
+          z-index: -1;
+        }
+      }
+
+      h4, h5 {
+        & + div::before {
+          content: 'Lorem ipsum';
+          display: block;
+          position: absolute;
+          color: #CCC;
+          z-index: -1;
+          transform: translateY(-100%);
+        }
+      }
+    </file>
     <file name="index.js">
       import React, {Component} from 'react';
       import {render} from 'react-dom';
