@@ -256,7 +256,7 @@ export default class Auth {
    */
   async init() {
     this._storage.onTokenChange(token => {
-      if (token === null) {
+      if (!token) {
         this.logout();
       } else {
         this._detectUserChange(token.accessToken);
@@ -566,7 +566,7 @@ export default class Auth {
     });
 
     const stopTokenListening = this._storage.onTokenChange(token => {
-      if (token !== null) {
+      if (!token) {
         closeDialog();
         this._initDeferred.resolve();
       }

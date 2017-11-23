@@ -67,7 +67,7 @@ export default class WindowFlow {
       };
 
       const removeTokenListener = this._storage.onTokenChange(token => {
-        if (token !== null) {
+        if (token) {
           cleanUp();
           resolve(token.accessToken);
         }
