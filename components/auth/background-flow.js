@@ -56,7 +56,7 @@ export default class BackgroundFlow {
       }, this._timeout);
 
       const removeTokenListener = this._storage.onTokenChange(token => {
-        if (token !== null) {
+        if (token) {
           cleanUp();
           resolve(token.accessToken);
         }
