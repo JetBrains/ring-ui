@@ -27,7 +27,7 @@ body {
   display: flex;
   flex-direction: column;
 
-  padding: calc(unit * 4) 0 calc(unit * 5);
+  padding: calc(unit * 2) 0 calc(unit * 5);
 
   background-color: sidebar-background-color;
 
@@ -139,16 +139,18 @@ a.legacy {
 }
 
 .example {
-  margin-top: line-height;
+  position: relative;
+
+  margin-top: calc(unit * 4);
 }
 
 .exampleTitle {
-  position: relative;
+  composes: font-larger;
 }
 
 .exampleAnchor {
   position: absolute;
-  top: -1px;
+  top: 0;
   left: calc(unit * -3.5);
 }
 
@@ -163,7 +165,18 @@ a.legacy {
   min-height: calc(unit * 5);
   max-height: 1000px;
 
-  border: 1px solid line-color;
+  margin: calc(unit * 2) 0;
+
+  transition: box-shadow fast-ease;
+
+  border: none;
+  box-shadow: 2px 0 line-color inset;
+
+  &:hover {
+    transition: none;
+
+    box-shadow: 0 0 0 2px line-color inset;
+  }
 }
 
 .frameFixedHeight {
@@ -171,21 +184,13 @@ a.legacy {
 }
 
 .exampleLink {
-  /* override Link */
-  && {
-    position: absolute;
-    right: 0;
-    bottom: 5px;
+  composes: font-smaller;
 
-    display: block;
+  position: absolute;
+  top: 3px;
+  right: 0;
 
-    padding: unit;
-
-    border: 1px solid line-color;
-    background: white-color;
-
-    font-size: font-size;
-  }
+  color: dark-gray-color;
 }
 
 .version button {

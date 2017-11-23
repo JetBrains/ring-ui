@@ -13,12 +13,16 @@ function Example({name, url, disableAutoSize, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
   return (
     <div className={styles.example}>
-      <H5 id={id} className={styles.exampleTitle}>
-        <Link href={`#${id}`} className={styles.exampleAnchor} tabIndex={-1}>
-          {() => <Button icon={LinkIcon}/>}
-        </Link>
-        {name}
-      </H5>
+      <Link href={`#${id}`} className={styles.exampleAnchor} tabIndex={-1}>
+        {() => <Button icon={LinkIcon}/>}
+      </Link>
+      <H5 id={id} className={styles.exampleTitle}>{name}</H5>
+      <Link
+        href={url}
+        className={styles.exampleLink}
+        target="_blank"
+        title="Open in new tab"
+      >{'Example'}</Link>
       {files.some(({type}) => type === 'html') &&
         <Iframe src={url} disableAutoSize={disableAutoSize}/>
       }
