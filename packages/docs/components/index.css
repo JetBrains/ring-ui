@@ -1,4 +1,4 @@
-@value unit, font, font-smaller, font-size, line-height, line-height-lowest, link-color, text-color, white-color, line-color, gray-color, dark-gray-color, search-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-smaller, font-larger, font-size, line-height, line-height-lowest, link-color, text-color, white-color, line-color, gray-color, dark-gray-color, search-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -55,6 +55,9 @@ body {
   flex-grow: 1;
 
   min-width: 0;
+
+  margin: 0;
+  padding: 0 calc(unit * 4);
 }
 
 .header {
@@ -131,8 +134,22 @@ a.legacy {
   padding: calc(unit * 3) 0;
 }
 
+.mainText {
+  composes: font-larger;
+}
+
 .example {
   margin-top: line-height;
+}
+
+.exampleTitle {
+  position: relative;
+}
+
+.exampleAnchor {
+  position: absolute;
+  top: -1px;
+  left: calc(unit * -3.5);
 }
 
 .iframe {
@@ -140,6 +157,7 @@ a.legacy {
 }
 
 .frame {
+  box-sizing: border-box;
   width: 100%;
   height: calc(unit * 10);
   min-height: calc(unit * 5);
@@ -156,7 +174,7 @@ a.legacy {
   /* override Link */
   && {
     position: absolute;
-    right: -2px;
+    right: 0;
     bottom: 5px;
 
     display: block;
