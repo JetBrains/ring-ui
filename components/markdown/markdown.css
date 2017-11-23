@@ -11,9 +11,6 @@
 .markdown {
   composes: font;
 
-  font-size: font-size;
-  line-height: line-height;
-
   & p,
   & blockquote,
   & ul,
