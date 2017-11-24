@@ -1,4 +1,4 @@
-@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index from  "../global/global.css";
+@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, overlay-z-index, fixed-z-index from  "../global/global.css";
 @value soft-blue-color: #cef;
 @value border-color: #dfe5eb;
 @value cellSize: calc(unit * 3);
@@ -8,6 +8,8 @@
 @value yearWidth: calc(unit * 7);
 
 .container {
+  position: relative;
+
   display: inline-block;
 }
 
@@ -39,17 +41,19 @@
 }
 
 .clear {
+  position: relative;
+  z-index: overlay-z-index;
+  top: -3px;
+  right: calc(unit * 5 + 1px);
+
   cursor: pointer;
   transition: opacity ease;
 
   opacity: 0.3;
+  color: dark-gray-color;
 }
 
-.datePicker:hover .clear {
-  opacity: 0.5;
-}
-
-.datePicker .clear:hover {
+.clear:hover {
   transition: none;
 
   opacity: 1;
