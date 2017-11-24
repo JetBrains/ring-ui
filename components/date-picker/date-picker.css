@@ -201,6 +201,10 @@
   opacity: 0;
 }
 
+.today {
+  font-weight: bold;
+}
+
 .today::after {
   position: absolute;
   top: 0;
@@ -304,8 +308,6 @@
   transition: none;
 
   color: text-color;
-
-  font-weight: bold;
 }
 
 .currentYear:hover {
