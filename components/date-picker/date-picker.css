@@ -185,6 +185,11 @@
   cursor: pointer;
   transition: background-color ease, color ease;
   text-align: center;
+
+  &::before,
+  &::after {
+    pointer-events: none;
+  }
 }
 
 .between {
@@ -352,6 +357,8 @@
 }
 
 .today {
+  position: relative;
+
   font-weight: bold;
 }
 
@@ -365,13 +372,18 @@
   font-size: font-size-smaller;
 }
 
-.day.today::before {
-  top: unit;
+.day > .today::before {
+  top: 4px;
   left: 0;
 
   width: 100%;
 
   text-align: center;
+}
+
+.year.today::before {
+  top: -1px;
+  left: 2px;
 }
 
 .monthNames {
@@ -455,10 +467,6 @@
   color: dark-gray-color;
 
   line-height: yearHeight;
-
-  &.today::after {
-    top: -1px;
-  }
 }
 
 .currentYear {
