@@ -1,4 +1,4 @@
-@value unit, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, overlay-z-index, fixed-z-index from  "../global/global.css";
+@value unit, font-size-smaller, gray-color, blue-color, light-blue-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, overlay-z-index, fixed-z-index from  "../global/global.css";
 @value soft-blue-color: #cef;
 @value border-color: #dfe5eb;
 @value cellSize: calc(unit * 3);
@@ -205,19 +205,19 @@
   font-weight: bold;
 }
 
-.today::after {
+.today::before {
   position: absolute;
   top: 0;
-  right: calc(unit * 0.5);
+  left: calc(unit * 0.5);
 
   content: '•';
 
-  font-size: unit;
+  font-size: font-size-smaller;
 }
 
-.day.today::after {
-  top: 9px;
-  right: 0;
+.day.today::before {
+  top: unit;
+  left: 0;
 
   width: 100%;
 
