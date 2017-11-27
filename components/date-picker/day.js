@@ -47,7 +47,6 @@ export default function Day(props) {
         styles[day.format('dddd')],
         {
           [styles.current]: ['date', 'from', 'to'].some(is),
-          [styles.today]: day.isSame(moment(), 'day'),
           [styles.active]: is('activeDate'),
           [styles.weekend]: [weekdays.SA, weekdays.SU].includes(day.day()),
           [styles.empty]: empty,
@@ -77,7 +76,11 @@ export default function Day(props) {
         hoverTO = window.setTimeout(onHover, 0);
       }}
     >
-      {empty || day.format('D')}
+      {empty || (
+        <span className={classNames({[styles.today]: day.isSame(moment(), 'day')})}>
+          {day.format('D')}
+        </span>
+      )}
     </div>
   );
 }
