@@ -73,6 +73,7 @@ export default class Confirm extends PureComponent {
         className={className}
         onEscPress={this.onEscPress}
         show={show}
+        trapFocus
       >
         {text && <Header>{text}</Header>}
         <Content>

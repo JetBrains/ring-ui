@@ -1,3 +1,4 @@
+import 'dom4';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@jetbrains/ring-ui/components/button/button';
@@ -8,6 +9,26 @@ import {LinkIcon} from '@jetbrains/ring-ui/components/icon';
 
 import styles from './index.css';
 import Iframe from './iframe';
+import {currentPath} from './utils';
+
+const componentRE = /^'(@jetbrains\/ring-ui\/components\/([\w-]+)(?:\/.*)?)'$/;
+
+const injectLinks = code => code.queryAll('.hljs-string')
+  .forEach(node => {
+    const match = node.textContent.match(componentRE);
+
+    if (!match) {
+      return;
+    }
+
+    const href = `${match[2]}.html`;
+
+    if (href === currentPath()) {
+      return;
+    }
+
+    node.innerHTML = `'<a href="${href}" class="${styles.codeLink}">${match[1]}</a>'`;
+  });
 
 function Example({name, url, disableAutoSize, files}) {
   const id = encodeURIComponent(name.replace(/s/g, '_').replace(/:/g, ''));
@@ -30,6 +51,7 @@ function Example({name, url, disableAutoSize, files}) {
         <Code
           code={content}
           key={type}
+          replacer={injectLinks}
         />
       ))}
     </div>
