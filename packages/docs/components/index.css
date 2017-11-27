@@ -248,3 +248,7 @@ a.legacy {
     text-shadow: 0 0 0 search-color;
   }
 }
+
+.codeLink {
+  color: inherit;
+}

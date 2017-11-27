@@ -1,4 +1,4 @@
-@value unit, main-color, line-color, white-color, selected-background-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
+@value unit, font-size-smaller, main-color, line-color, white-color, selected-background-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
 @value hover-color: #cef;
 @value filter, filterWrapper, filterIcon from "../select/select-popup.css";
 @value cellSize: calc(unit * 3);
@@ -20,6 +20,39 @@
   transition: none;
 
   color: link-hover-color;
+}
+
+.datePicker.datePicker {
+  padding-right: unit;
+}
+
+.displayDate {
+  display: inline-block;
+
+  min-width: calc(unit * 11);
+
+  text-align: left;
+}
+
+.displayDate.displayRange {
+  min-width: calc(unit * 22);
+}
+
+.clear {
+  cursor: pointer;
+  transition: opacity ease;
+
+  opacity: 0.3;
+}
+
+.datePicker:hover .clear {
+  opacity: 0.5;
+}
+
+.datePicker .clear:hover {
+  transition: none;
+
+  opacity: 1;
 }
 
 .datePopup {
@@ -318,19 +351,23 @@
   opacity: 0;
 }
 
-.today::after {
+.today {
+  font-weight: bold;
+}
+
+.today::before {
   position: absolute;
   top: 0;
-  right: calc(unit * 0.5);
+  left: calc(unit * 0.5);
 
   content: '•';
 
-  font-size: unit;
+  font-size: font-size-smaller;
 }
 
-.day.today::after {
-  top: 9px;
-  right: 0;
+.day.today::before {
+  top: unit;
+  left: 0;
 
   width: 100%;
 
@@ -429,8 +466,6 @@
   transition: none;
 
   color: text-color;
-
-  font-weight: bold;
 }
 
 .currentYear:hover {

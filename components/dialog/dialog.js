@@ -39,6 +39,7 @@ export default class Dialog extends PureComponent {
     // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
     // Use it if you don't need different behaviors for this cases.
     onCloseAttempt: PropTypes.func,
+    // focusTrap may break popups inside dialog, so use it carefully
     trapFocus: PropTypes.bool
   };
 
@@ -46,7 +47,7 @@ export default class Dialog extends PureComponent {
     onOverlayClick: () => {},
     onEscPress: () => {},
     onCloseAttempt: () => {},
-    trapFocus: true
+    trapFocus: false
   };
 
   state = {
