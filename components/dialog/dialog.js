@@ -120,6 +120,7 @@ export default class Dialog extends Component {
               {children}
               {showCloseButton &&
               <button
+                data-test="ring-dialog-close-button"
                 className={styles.closeButton}
                 onClick={this.onCloseClick}
               >
