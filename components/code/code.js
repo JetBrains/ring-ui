@@ -8,6 +8,8 @@ import trivialTemplateTag from '../global/trivial-template-tag';
 import highlight from './highlight';
 import styles from './code.css';
 
+function noop() {}
+
 /**
  * @name Code
  * @category Components
@@ -28,11 +30,13 @@ export default class Code extends PureComponent {
     className: PropTypes.string,
     code: PropTypes.string.isRequired,
     inline: PropTypes.bool,
-    language: PropTypes.string
+    language: PropTypes.string,
+    replacer: PropTypes.func
   };
 
   static defaultProps = {
-    inline: false
+    inline: false,
+    replacer: noop
   };
 
   componentDidMount() {
@@ -47,6 +51,7 @@ export default class Code extends PureComponent {
     if (!this.props.inline) {
       highlight.highlightBlock(this.code);
     }
+    this.props.replacer(this.code);
   }
 
   codeRef = el => {
