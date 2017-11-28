@@ -1,4 +1,4 @@
-@value unit, overlay-z-index, border-radius from '../global/global.css';
+@value unit, gray-color, link-hover-color, overlay-z-index, border-radius from '../global/global.css';
 
 .container {
   position: fixed;
@@ -18,6 +18,8 @@
 }
 
 .content {
+  position: relative;
+
   width: calc(unit * 58);
   min-height: calc(unit * 15);
   max-height: calc(100% - calc(calc(unit * 8) + 2px));
@@ -47,6 +49,26 @@
 
   & .islandScrollableWrapperInsideDialog {
     padding-bottom: calc(calc(unit * 2.5) - 1);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  right: calc(unit * -6);
+
+  cursor: pointer;
+
+  transition: opacity 0.3s ease-in;
+
+  opacity: 0.3;
+  color: gray-color;
+  border: none;
+  background: transparent;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+    color: link-hover-color;
   }
 }
 
