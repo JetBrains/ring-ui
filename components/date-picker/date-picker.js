@@ -153,15 +153,15 @@ export default class DatePicker extends Component {
             className={displayClasses}
           >
             {text}
-            {clear && (date || from || to) && (
-              <CloseIcon
-                className={styles.clear}
-                size={CloseIcon.Size.Size14}
-                onClick={this.clear}
-              />
-            )}
           </span>
         </Button>
+        {clear && (date || from || to) && (
+          <CloseIcon
+            className={styles.clear}
+            size={CloseIcon.Size.Size14}
+            onClick={this.clear}
+          />
+        )}
         <Popup
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}

@@ -42,7 +42,7 @@
               <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             </div>
 
-            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
+            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus>
               <Header>Dialog title</Header>
               <Content>Dialog content</Content>
               <Panel>
@@ -97,7 +97,7 @@
               <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             </div>
 
-            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog}>
+            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus>
               <Header>Dialog title</Header>
               <Content>
                 <div>
