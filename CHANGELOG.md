@@ -3,6 +3,14 @@ title: Changelog
 category: Docs
 order: 2
 ---
+## [0.3.x] — xx-11-2017
+
+### Auth improvements
+– Auth now has tested support for "embedded" login: instead of redirects, login form opens in separate window
+while page's content is hovered with overlay. To enable this mode, pass "embeddedLogin: true" to Auth config.
+Also there is a new "enableBackendStatusCheck" option that performs Hub status check before redirects which
+is enabled by default.
+
 
 ## [0.3.0] — 20-11-2017
 ### Breaking
