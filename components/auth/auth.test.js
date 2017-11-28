@@ -426,7 +426,7 @@ describe('Auth', () => {
         clientId: '1-1-1-1-1',
         scope: ['0-0-0-0-0', 'youtrack'],
         optionalScopes: ['youtrack'],
-        windowLogin: true
+        embeddedLogin: true
       });
 
       auth._storage._tokenStorage = new MockedStorage();
@@ -498,7 +498,7 @@ describe('Auth', () => {
     });
 
     it('should redirect current page if get token in iframe fails', async () => {
-      auth.config.windowLogin = false;
+      auth.config.embeddedLogin = false;
       auth._backgroundFlow._timeout = 100;
       sandbox.stub(BackgroundFlow.prototype, '_redirectFrame');
 
