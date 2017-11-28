@@ -6,11 +6,11 @@ order: 2
 ## [0.3.x] — xx-11-2017
 
 ### Auth improvements
-– Auth now has tested support for "embedded" login: instead of redirects, login form opens in separate window
-while page's content is hovered with overlay. To enable this mode, pass "embeddedLogin: true" to Auth config.
-Also there is a new "enableBackendStatusCheck" option that performs Hub status check before redirects which
-is enabled by default.
-
+– Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
+can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
+or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
+To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
+option that checks if authentication is required before redirecting to Hub. This option is enabled by default.
 
 ## [0.3.0] — 20-11-2017
 ### Breaking
