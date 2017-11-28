@@ -6,6 +6,7 @@
 
 import 'dom4';
 import 'core-js/modules/es6.array.find';
+import 'core-js/modules/es7.array.includes';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -278,8 +279,10 @@ export default class List extends RingComponentWithShortcuts {
       this.selectHandler(this.state.activeIndex)(event);
 
       if (item.href) {
-        if (shortcut === 'meta+enter') {
+        if (['command+enter', 'ctrl+enter'].includes(shortcut)) {
           window.open(item.href, '_blank');
+        } else if (shortcut === 'shift+enter') {
+          window.open(item.href);
         } else {
           window.location.href = item.href;
         }
@@ -405,17 +408,16 @@ export default class List extends RingComponentWithShortcuts {
     }
   };
 
-  getShortcutsProps() {
-    return {
-      map: {
-        up: this.upHandler,
-        down: this.downHandler,
-        enter: this.enterHandler,
-        'meta+enter': this.enterHandler
-      },
-      scope: getUID('list-')
-    };
-  }
+  shortcutsScope = getUID('list-');
+
+  shortcutsMap = {
+    up: this.upHandler,
+    down: this.downHandler,
+    enter: this.enterHandler,
+    'ctrl+enter': this.enterHandler,
+    'command+enter': this.enterHandler,
+    'shift+enter': this.enterHandler
+  };
 
   getVisibleListHeight(props) {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
