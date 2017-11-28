@@ -10,7 +10,7 @@ order: 2
 can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
 or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
 To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
-option that checks if authentication is required before redirecting to Hub. This option is enabled by default.
+option that checks if Hub is up and running before opening the login window or making the redirect. This option is enabled by default.
 
 ## [0.3.0] — 20-11-2017
 ### Breaking
