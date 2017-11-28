@@ -12,7 +12,7 @@ const base = pathname.startsWith(RING_UI_BASE)
 
 export default {
   reloadOnUserChange: false,
-  windowLogin: true,
+  embeddedLogin: true,
   serverUri,
   clientId,
   requestCredentials: 'skip',

@@ -65,7 +65,7 @@ function noop() {}
 
 const DEFAULT_CONFIG = {
   reloadOnUserChange: true,
-  windowLogin: false,
+  embeddedLogin: false,
   clientId: '0-0-0-0-0',
   redirectUri: getAbsoluteBaseURL(),
   redirect: false,
@@ -173,7 +173,7 @@ export default class Auth {
 
     let {backgroundRefreshTimeout} = this.config;
     if (!backgroundRefreshTimeout) {
-      backgroundRefreshTimeout = this.config.windowLogin
+      backgroundRefreshTimeout = this.config.embeddedLogin
         ? DEFAULT_BACKGROUND_TIMEOUT
         : BACKGROUND_REDIRECT_TIMEOUT;
     }
@@ -502,7 +502,7 @@ export default class Auth {
   }
 
   async _showAuthDialog({nonInteractive, error, canCancel} = {}) {
-    const {windowLogin, onPostponeLogout, translations} = this.config;
+    const {embeddedLogin, onPostponeLogout, translations} = this.config;
     const cancelable = this.user.guest || canCancel;
 
     this._createInitDeferred();
@@ -528,7 +528,7 @@ export default class Auth {
     };
 
     const onConfirm = () => {
-      if (windowLogin !== true) {
+      if (embeddedLogin !== true) {
         closeDialog();
         this.logout();
         return;
@@ -577,7 +577,7 @@ export default class Auth {
       () => this._windowFlow.stop()
     );
 
-    if (windowLogin === true && nonInteractive !== true) {
+    if (embeddedLogin === true && nonInteractive !== true) {
       runWindowLogin();
     }
   }
@@ -722,7 +722,7 @@ export default class Auth {
       return this._showAuthDialog({canCancel: true});
     }
 
-    throw new Error('Auth: switchUser only supported for "windowLogin" mode');
+    throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
   }
 
   /**
@@ -815,7 +815,7 @@ export default class Auth {
   }
 
   _canShowDialogs() {
-    return this.config.windowLogin && this._authDialogService;
+    return this.config.embeddedLogin && this._authDialogService;
   }
 
   /**
