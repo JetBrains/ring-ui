@@ -3,6 +3,14 @@ title: Changelog
 category: Docs
 order: 2
 ---
+## [0.3.x] — xx-11-2017
+
+### Auth improvements
+– Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
+can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
+or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
+To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
+option that checks if Hub is up and running before opening the login window or making the redirect. This option is enabled by default.
 
 ## [0.3.0] — 20-11-2017
 ### Breaking
