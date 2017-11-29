@@ -134,7 +134,6 @@ describe('Auth', () => {
 
     beforeEach(() => {
       sandbox.stub(Auth.prototype, 'getUser').resolves({login: 'user'});
-      sandbox.stub(Auth.prototype, '_saveCurrentService');
       sandbox.stub(Auth.prototype, 'setHash');
     });
 
@@ -306,7 +305,6 @@ describe('Auth', () => {
         returns(Promise.reject({authRedirect: true}));
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser');
-      sandbox.stub(Auth.prototype, '_saveCurrentService');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
       auth = new Auth({
@@ -416,7 +414,6 @@ describe('Auth', () => {
     beforeEach(() => {
       sandbox.stub(Auth.prototype, '_redirectCurrentPage');
       sandbox.stub(Auth.prototype, 'getUser').resolves({id: 'APIuser'});
-      sandbox.stub(Auth.prototype, '_saveCurrentService');
       sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(AuthRequestBuilder, '_uuid').returns('unique');
 
@@ -546,7 +543,6 @@ describe('Auth', () => {
       });
 
       sandbox.stub(Auth.prototype, 'getUser').resolves({name: 'APIuser'});
-      sandbox.stub(Auth.prototype, '_saveCurrentService');
     });
 
     it('should return existing user', async () => {
@@ -632,7 +628,6 @@ describe('Auth', () => {
     beforeEach(() => {
       sandbox.stub(BackgroundFlow.prototype, 'authorize').
         returns(Promise.resolve('token'));
-      sandbox.stub(Auth.prototype, '_saveCurrentService');
       sandbox.stub(Auth.prototype, '_checkBackendsAreUp');
       sandbox.stub(Auth.prototype, LOGOUT_EVENT);
       sandbox.stub(auth.listeners, 'trigger');
