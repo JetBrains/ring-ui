@@ -3,7 +3,7 @@ title: Changelog
 category: Docs
 order: 2
 ---
-## [0.3.x] — xx-11-2017
+## [0.3.8] — 29-11-2017
 
 ### Auth improvements
 – Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
