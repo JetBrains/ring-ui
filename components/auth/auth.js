@@ -507,18 +507,6 @@ export default class Auth {
 
     this._createInitDeferred();
 
-    const runWindowLogin = async () => {
-      this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
-      try {
-        this._isLoginWindowOpen = true;
-        await this._windowFlow.authorize();
-      } catch (e) {
-        throw e;
-      } finally {
-        this._isLoginWindowOpen = false;
-      }
-    };
-
     const closeDialog = () => {
       /* eslint-disable no-use-before-define */
       stopTokenListening();
@@ -533,7 +521,7 @@ export default class Auth {
         this.logout();
         return;
       }
-      runWindowLogin();
+      this._runWindowLogin();
     };
 
     const onCancel = () => {
@@ -576,10 +564,6 @@ export default class Auth {
       Auth.CLOSE_WINDOW_MESSAGE,
       () => this._windowFlow.stop()
     );
-
-    if (embeddedLogin === true && nonInteractive !== true) {
-      runWindowLogin();
-    }
   }
 
   async _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
@@ -690,14 +674,25 @@ export default class Auth {
     this._redirectCurrentPage(authRequest.url);
   }
 
+  async _runWindowLogin() {
+    this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
+    try {
+      this._isLoginWindowOpen = true;
+      return await this._windowFlow.authorize();
+    } catch (e) {
+      throw e;
+    } finally {
+      this._isLoginWindowOpen = false;
+    }
+  }
 
   /**
    * Wipe accessToken and redirect to auth page to obtain authorization data
    * if user is logged in or log her in otherwise
    */
   async login() {
-    if (this._canShowDialogs()) {
-      this._showAuthDialog();
+    if (this.config.embeddedLogin) {
+      await this._runWindowLogin();
       return;
     }
 
@@ -717,9 +712,9 @@ export default class Auth {
     }
   }
 
-  switchUser() {
-    if (this._canShowDialogs()) {
-      return this._showAuthDialog({canCancel: true});
+  async switchUser() {
+    if (this.config.embeddedLogin) {
+      await this._runWindowLogin();
     }
 
     throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
