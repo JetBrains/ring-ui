@@ -566,7 +566,7 @@ export default class Auth {
     });
 
     const stopTokenListening = this._storage.onTokenChange(token => {
-      if (!token) {
+      if (token) {
         closeDialog();
         this._initDeferred.resolve();
       }
