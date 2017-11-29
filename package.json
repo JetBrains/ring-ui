@@ -131,7 +131,6 @@
     "karma-coverage-html-index-reporter": "1.0.2",
     "karma-electron-launcher": "0.2.0",
     "karma-mocha": "1.3.0",
-    "karma-osx-reporter": "0.2.1",
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.0.1",
     "karma-webdriver-launcher": "1.0.5",
