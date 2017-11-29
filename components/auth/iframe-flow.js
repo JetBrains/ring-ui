@@ -1,9 +1,6 @@
-import sniffer from '../global/sniffer';
+import loginDialogService from '../login-dialog/service';
 
 import AuthResponseParser from './response-parser';
-
-const NAVBAR_HEIGHT = 50;
-const isEdge = sniffer.browser.name === 'edge';
 
 export default class WindowFlow {
   constructor(requestBuilder, storage) {
@@ -13,57 +10,25 @@ export default class WindowFlow {
   }
 
   /**
-   * Opens window with the given URL
-   * @param {string} url
-   * @private
-   */
-  _openWindow(url) {
-    const height = 700;
-    const width = 750;
-    const screenHalves = 2;
-    const top = (window.screen.height - height - NAVBAR_HEIGHT) / screenHalves;
-    const left = (window.screen.width - width) / screenHalves;
-
-    const loginWindow = window.open(
-      isEdge ? null : url,
-      'HubLoginWindow',
-      `height=${height}, width=${width}, left=${left}, top=${top}`
-    );
-
-    if (isEdge) {
-      setTimeout(() => {
-        loginWindow.location = url;
-      }, 0);
-    }
-
-    return loginWindow;
-  }
-
-  /**
    * Initiates authorization in window
    */
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
-      {request_credentials: 'required', auth_mode: 'bypass_to_login'},
+      {request_credentials: 'required'},
       {nonRedirect: true}
     );
 
     return new Promise((resolve, reject) => {
+
       this.reject = reject;
-      let cleanRun;
 
       const cleanUp = () => {
-        if (cleanRun) {
-          return;
-        }
-        cleanRun = true;
         /* eslint-disable no-use-before-define */
+        hideDialog();
         removeStateListener();
         removeTokenListener();
         /* eslint-enable no-use-before-define */
-
-        this._loginWindow.close();
       };
 
       const removeTokenListener = this._storage.onTokenChange(token => {
@@ -80,11 +45,9 @@ export default class WindowFlow {
         }
       });
 
-      if (this._loginWindow === null || this._loginWindow.closed === true) {
-        this._loginWindow = this._openWindow(authRequest.url);
-      } else {
-        this._loginWindow.location = authRequest.url;
-      }
+      const hideDialog = loginDialogService({
+        url: authRequest.url
+      });
     });
   }
 
@@ -98,15 +61,13 @@ export default class WindowFlow {
       this._loginWindow.close();
     }
     if (this.reject) {
-      this.reject('Authorization window closed');
+      this.reject('Login form closed');
     }
     this._reset();
   }
 
   authorize() {
     if (this._promise !== null && this._loginWindow !== null && this._loginWindow.closed !== true) {
-      this._loginWindow.focus();
-
       return this._promise;
     }
 

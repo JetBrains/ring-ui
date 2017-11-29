@@ -1,12 +1,14 @@
 <example name="Auth">
   <file type="html">
-    <div id="example">
-    </div>
+    <div><a href="#" id="force-update" hidden="true" class="ring-link">Force token update</a></div>
+    <div id="example"></div>
   </file>
 
   <file type="js">
     import Auth from '@jetbrains/ring-ui/components/auth/auth';
+    import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
     import hubConfig from '@ring-ui/docs/components/hub-config';
+    import '@jetbrains/ring-ui/components/link/link.scss';
     // Example config:
     // var hubConfig = {
     //   serverUri: 'https://hub.jetbrains.com/',
@@ -16,17 +18,23 @@
     // };
 
     const log = function (title, obj) {
-      const titleElem = document.createElement('h3');
-      const jsonElem = document.createElement('div');
+      const titleElem = document.createElement('b');
+      const jsonElem = document.createElement('span');
+      const lineBreak = document.createElement('br');
+      lineBreak.style.lineHeight = '32px';
 
-      titleElem.innerHTML = title;
-      jsonElem.innerHTML = JSON.stringify(obj);
+      titleElem.innerHTML = title + ' ';
+      jsonElem.innerHTML = JSON.stringify(obj) + '\n';
 
       document.getElementById('example').appendChild(titleElem);
       document.getElementById('example').appendChild(jsonElem);
+      document.getElementById('example').appendChild(lineBreak);
     };
 
-    (async auth => {
+    const auth = new Auth(hubConfig);
+    auth.setAuthDialogService(authDialogService);
+
+    (async () => {
       try {
         const location = await auth.init();
         log('Location to restore:', location)
@@ -37,7 +45,15 @@
       } catch (e) {
         log('error', e);
       }
-    })(new Auth(hubConfig));
+
+      const forceUpdateLink = document.querySelector('#force-update');
+      forceUpdateLink.hidden = false;
+
+      forceUpdateLink.addEventListener('click', async () => {
+        const newToken = await auth.forceTokenUpdate();
+        log('Token has been refreshed:', newToken);
+      });
+    })();
   </file>
 </example>
 
@@ -45,10 +61,10 @@
 <example name="Auth landing page">
   <file type="html">
     <div id="example">
-      <div id="example"></div>
       <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
       <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
       <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
+      <div id="example"></div>
     </div>
   </file>
 
@@ -59,20 +75,37 @@
     import hubConfig from '@ring-ui/docs/components/hub-config';
     import LandingEntryFileName from '@jetbrains/ring-ui/components/auth/landing-entry';
 
+    const log = function (title, obj) {
+      const titleElem = document.createElement('b');
+      const jsonElem = document.createElement('span');
+      const lineBreak = document.createElement('br');
+      lineBreak.style.lineHeight = '32px';
+
+      titleElem.innerHTML = title + ' ';
+      jsonElem.innerHTML = JSON.stringify(obj) + '\n';
+
+      document.getElementById('example').appendChild(titleElem);
+      document.getElementById('example').appendChild(jsonElem);
+      document.getElementById('example').appendChild(lineBreak);
+    };
+
     async function run() {
       const auth = new Auth({
         ...hubConfig,
-        windowLogin: true,
-        redirectUri: hubConfig.redirect_uri + LandingEntryFileName
+        redirectUri: hubConfig.redirectUri + LandingEntryFileName
       });
 
       auth.setAuthDialogService(authService);
       await auth.init();
 
+      const user = await auth.requestUser();
+      log('Logged in as:', user.name)
+
       document.querySelector('#open-link').href = LandingEntryFileName;
 
-      document.querySelector('#force-update').addEventListener('click', () => {
-        auth.forceTokenUpdate();
+      document.querySelector('#force-update').addEventListener('click', async () => {
+        const newToken = await auth.forceTokenUpdate();
+        log('New token:', newToken);
       });
 
       document.querySelector('#log-out').addEventListener('click', () => {

@@ -23,22 +23,26 @@ export default class AuthDialog extends Component {
     errorMessage: PropTypes.string,
     serviceImage: PropTypes.string,
     serviceName: PropTypes.string,
+    loginCaption: PropTypes.string,
+    loginToCaption: PropTypes.string,
 
     show: PropTypes.bool,
     cancelOnEsc: PropTypes.bool,
-    loginLabel: PropTypes.string,
+    confirmLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
 
-    onLogin: PropTypes.func,
+    onConfirm: PropTypes.func,
     onCancel: PropTypes.func
   };
 
   static defaultProps = {
+    loginCaption: 'Log in',
+    loginToCaption: 'Log in to %serviceName%',
     show: false,
     cancelOnEsc: true,
-    loginLabel: 'Log in',
+    confirmLabel: 'Log in',
     cancelLabel: 'Remain a guest',
-    onLogin: () => {},
+    onConfirm: () => {},
     onCancel: () => {}
   };
 
@@ -52,17 +56,19 @@ export default class AuthDialog extends Component {
     const {
       show,
       className,
-      title,
       errorMessage,
       serviceImage,
       serviceName,
-      loginLabel,
+      loginCaption,
+      loginToCaption,
+      confirmLabel,
       cancelLabel,
-      onLogin,
+      onConfirm,
       onCancel
     } = this.props;
 
-    const defaultTitle = serviceName ? 'Log in to %s' : 'Log in';
+    const defaultTitle = serviceName ? loginToCaption : loginCaption;
+    const title = (this.props.title || defaultTitle).replace('%serviceName%', serviceName);
 
     return (
       <Dialog
@@ -80,17 +86,17 @@ export default class AuthDialog extends Component {
               src={serviceImage}
             />
           )}
-          <div className={styles.title}>{(title || defaultTitle).replace('%s', serviceName)}</div>
+          <div className={styles.title}>{title}</div>
           {errorMessage && (
             <div className={styles.error}>{errorMessage}</div>
           )}
           <Button
             blue
             className={styles.firstButton}
-            data-test="auth-dialog-login-button"
-            onClick={onLogin}
+            data-test="auth-dialog-confirm-button"
+            onClick={onConfirm}
           >
-            {loginLabel}
+            {confirmLabel}
           </Button>
           <Button
             className={styles.button}
