@@ -6,7 +6,7 @@ order: 2
 ## [0.3.8] — 29-11-2017
 
 ### Auth improvements
-– Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
+— Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
 can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
 or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
 To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
@@ -70,6 +70,8 @@ the `rerender` method for backward compatibility:
 - Updated lots of dependencies
 - `mout` is no longer a dependency
 
+[0.3.8]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.3.1...%40jetbrains/ring-ui%400.3.8
+[0.3.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.50...%40jetbrains/ring-ui%400.3.1
 [RING-UI-CR-2998]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2998
 [RING-UI-CR-3016]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3016
 [RING-UI-CR-3037]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-3037
