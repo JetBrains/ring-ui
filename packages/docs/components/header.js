@@ -19,7 +19,7 @@ import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/u
 import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
 /* eslint-enable */
 
-import gitHubLogo from '../GitHub.svg';
+import gitHubLogo from 'octicons/build/svg/octoface.svg';
 
 import styles from './index.css';
 import hubConfig from './hub-config';
@@ -65,7 +65,7 @@ class SiteHeader extends PureComponent {
             target="_blank"
             title="GitHub repo"
           >
-            <TrayIcon icon={gitHubLogo} iconSize={24}/>
+            <TrayIcon tabIndex={-1} icon={gitHubLogo} iconSize={24}/>
           </a>
           <Services
             services={[
