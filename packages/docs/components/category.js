@@ -1,7 +1,6 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Fragment from '@jetbrains/ring-ui/components/fragment/fragment';
 import Button from '@jetbrains/ring-ui/components/button/button';
 import Link from '@jetbrains/ring-ui/components/link/link';
 import {ChevronRightIcon} from '@jetbrains/ring-ui/components/icon';
