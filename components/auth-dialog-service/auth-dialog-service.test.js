@@ -35,7 +35,7 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should replace serviceName in in title', () => {
-    hideAuthDialog = authDialog({title: '==%s==', serviceName: 'My service'});
+    hideAuthDialog = authDialog({title: '==%serviceName%==', serviceName: 'My service'});
     getContainer().querySelector(`.${styles.title}`).should.contain.text('==My service==');
   });
 
@@ -45,7 +45,7 @@ describe('Auth Dialog Service', () => {
   });
 
   it('should show auth dialog button text', () => {
-    hideAuthDialog = authDialog({title: 'foo', loginLabel: 'confirm text'});
+    hideAuthDialog = authDialog({title: 'foo', confirmLabel: 'confirm text'});
     getContainer().should.contain.text('confirm text');
   });
 
@@ -54,14 +54,14 @@ describe('Auth Dialog Service', () => {
     getContainer().should.contain.text('reject text');
   });
 
-  it('should call onLogin on login click', async () => {
-    const onLogin = sandbox.spy();
-    hideAuthDialog = authDialog({onLogin});
-    const okButton = getContainer().querySelector('*[data-test="auth-dialog-login-button"]');
+  it('should call onConfirm on confirm click', async () => {
+    const onConfirm = sandbox.spy();
+    hideAuthDialog = authDialog({onConfirm});
+    const okButton = getContainer().querySelector('*[data-test="auth-dialog-confirm-button"]');
     Simulate.click(okButton);
 
 
-    onLogin.should.have.been.called;
+    onConfirm.should.have.been.called;
   });
 
   it('should call onCancel on cancel click', async () => {
