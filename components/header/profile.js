@@ -9,6 +9,8 @@ import PopupMenu from '../popup-menu/popup-menu';
 
 import styles from './header.css';
 
+const rgItemType = PopupMenu.ListProps.Type.LINK;
+
 export default class Profile extends PureComponent {
   static Size = Size;
 
@@ -19,6 +21,7 @@ export default class Profile extends PureComponent {
     loading: PropTypes.bool,
     onLogin: PropTypes.func,
     onLogout: PropTypes.func,
+    onSwitchUser: PropTypes.func,
     profileUrl: PropTypes.string,
     renderPopupItems: PropTypes.func,
     LinkComponent: PropTypes.oneOfType([
@@ -29,13 +32,20 @@ export default class Profile extends PureComponent {
     translations: PropTypes.shape({
       profile: PropTypes.string,
       login: PropTypes.string,
-      logout: PropTypes.string
+      logout: PropTypes.string,
+      applyChangedUser: PropTypes.string,
+      switchUser: PropTypes.string
     }),
     user: PropTypes.shape({
       guest: PropTypes.bool,
       profile: PropTypes.object
     }),
-    size: PropTypes.number
+    size: PropTypes.number,
+    showLogIn: PropTypes.bool,
+    showLogOut: PropTypes.bool,
+    showSwitchUser: PropTypes.bool,
+    showApplyChangedUser: PropTypes.bool,
+    onRevertPostponement: PropTypes.func
   };
 
   static defaultProps = {
@@ -56,7 +66,13 @@ export default class Profile extends PureComponent {
       LinkComponent,
       onLogin,
       onLogout,
+      onSwitchUser,
       renderPopupItems,
+      onRevertPostponement,
+      showApplyChangedUser,
+      showLogIn,
+      showLogOut,
+      showSwitchUser,
       translations,
       size,
       ...props
@@ -106,6 +122,41 @@ export default class Profile extends PureComponent {
       </div>
     );
 
+    const items = [
+      showApplyChangedUser && {
+        rgItemType,
+        label: translations.applyChangedUser || 'Apply changeduser',
+        className: styles.profileMenuItem,
+        onClick: onRevertPostponement
+      },
+      showLogIn && {
+        rgItemType,
+        label: translations.login || 'Log in',
+        className: styles.profileMenuItem,
+        onClick: onRevertPostponement
+      },
+      {
+        rgItemType: PopupMenu.ListProps.Type.LINK,
+        label: translations.profile || 'Profile',
+
+        target: '_self', // Full page reload in Angular
+        href: profileUrl,
+        LinkComponent
+      },
+      showSwitchUser && {
+        rgItemType,
+        label: translations.switchUser || 'Switch user',
+        className: styles.profileMenuItem,
+        onClick: onSwitchUser
+      },
+      showLogOut && {
+        rgItemType,
+        label: translations.logout || 'Log out',
+
+        onClick: onLogout
+      }
+    ].filter(it => !!it);
+
     return (
       <Dropdown
         {...props}
@@ -115,20 +166,7 @@ export default class Profile extends PureComponent {
       >
         <PopupMenu
           closeOnSelect={closeOnSelect}
-          data={renderPopupItems([
-            {
-              rgItemType: PopupMenu.ListProps.Type.LINK,
-              label: translations.profile || 'Profile',
-              target: '_self', // Full page reload in Angular
-              href: profileUrl,
-              LinkComponent
-            },
-            {
-              rgItemType: PopupMenu.ListProps.Type.ITEM,
-              label: translations.logout || 'Log out',
-              onClick: onLogout
-            }
-          ])}
+          data={renderPopupItems(items)}
           top={-8}
           left={-32}
           sidePadding={32}

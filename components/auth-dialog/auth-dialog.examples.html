@@ -34,7 +34,7 @@
               show: true,
               errorMessage: 'Authorization lost',
               serviceName: 'YouTrack',
-              onLogin: () => this.hideAuthDialog() || resolve(),
+    onConfirm: () => this.hideAuthDialog() || resolve(),
               onCancel: () => this.hideAuthDialog() || reject()
             }
           });
@@ -52,7 +52,7 @@
           <AuthDialog
             {...this.state.confirm}
             serviceImage={youtrackLogo}
-            loginLabel="Log in"
+            confirmLabel="Log in"
             cancelLabel="Stay as guest"
           />
         </div>

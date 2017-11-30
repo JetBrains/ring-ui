@@ -13,6 +13,7 @@ export default class Sidebar extends Component {
     right: PropTypes.bool,
     children: PropTypes.node,
     className: PropTypes.string,
+    containerClassName: PropTypes.string,
     fixedClassName: PropTypes.string,
     contentNode: PropTypes.object
   };
@@ -52,14 +53,14 @@ export default class Sidebar extends Component {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const {right, children, className, fixedClassName, contentNode, ...restProps} = this.props;
+    // eslint-disable-next-line no-unused-vars, max-len
+    const {right, children, className, containerClassName, fixedClassName, contentNode, ...restProps} = this.props;
     const {topIsOutside, bottomIsOutside, sidebarVisibleHeight} = this.state;
 
     const shouldFixateTop = bottomIsOutside && topIsOutside && this.shouldUseFixation();
     const shouldFixateBottom = this.shouldFixateBottom();
 
-    const containerClasses = classNames(styles.sidebarContainer, {
+    const containerClasses = classNames(styles.sidebarContainer, containerClassName, {
       [styles.sidebarContainerRight]: right
     });
 

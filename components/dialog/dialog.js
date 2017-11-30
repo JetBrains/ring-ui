@@ -6,6 +6,7 @@ import FocusTrap from 'focus-trap-react';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
+import {CloseIcon} from '../icon/icons';
 import Shortcuts from '../shortcuts/shortcuts';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
@@ -34,8 +35,10 @@ export default class Dialog extends PureComponent {
       PropTypes.node
     ]),
     show: PropTypes.bool.isRequired,
+    showCloseButton: PropTypes.bool,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
+    onCloseClick: PropTypes.func,
     // onCloseAttempt is a common callback for ESC pressing and overlay clicking.
     // Use it if you don't need different behaviors for this cases.
     onCloseAttempt: PropTypes.func,
@@ -46,7 +49,9 @@ export default class Dialog extends PureComponent {
   static defaultProps = {
     onOverlayClick: () => {},
     onEscPress: () => {},
+    onCloseClick: () => {},
     onCloseAttempt: () => {},
+    showCloseButton: false,
     trapFocus: false
   };
 
@@ -59,6 +64,11 @@ export default class Dialog extends PureComponent {
       return;
     }
     this.props.onOverlayClick(event);
+    this.props.onCloseAttempt(event);
+  };
+
+  onCloseClick = event => {
+    this.props.onCloseClick(event);
     this.props.onCloseAttempt(event);
   };
 
@@ -81,7 +91,7 @@ export default class Dialog extends PureComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
-    const {show, onOverlayClick, onCloseAttempt, onEscPress, children, className, contentClassName, trapFocus, ...restProps} = this.props;
+    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -109,6 +119,15 @@ export default class Dialog extends PureComponent {
               data-test="ring-dialog"
             >
               {children}
+              {showCloseButton &&
+              <button
+                data-test="ring-dialog-close-button"
+                className={styles.closeButton}
+                onClick={this.onCloseClick}
+              >
+                <CloseIcon/>
+              </button>
+              }
             </AdaptiveIsland>
           </FocusTrap>
         </PortalPropsCleaner>

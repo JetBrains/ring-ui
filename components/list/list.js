@@ -7,6 +7,7 @@
 
 import 'dom4';
 import 'core-js/modules/es6.array.find';
+import 'core-js/modules/es7.array.includes';
 import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -372,8 +373,10 @@ export default class List extends Component {
       this.selectHandler(this.state.activeIndex)(event);
 
       if (item.href && !event.defaultPrevented) {
-        if (shortcut === 'meta+enter') {
+        if (['command+enter', 'ctrl+enter'].includes(shortcut)) {
           window.open(item.href, '_blank');
+        } else if (shortcut === 'shift+enter') {
+          window.open(item.href);
         } else {
           window.location.href = item.href;
         }
@@ -631,7 +634,10 @@ export default class List extends Component {
     up: this.upHandler,
     down: this.downHandler,
     enter: this.enterHandler,
-    'meta+enter': this.enterHandler
+    'meta+enter': this.enterHandler,
+    'ctrl+enter': this.enterHandler,
+    'command+enter': this.enterHandler,
+    'shift+enter': this.enterHandler
   };
 
   /** @override */
