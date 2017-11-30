@@ -26,7 +26,7 @@ const siteComponents = path.resolve(__dirname, 'components');
 webpackConfig.componentsPath.push(siteComponents);
 webpackConfig.loaders.svgSpriteLoader.include.push(
   require('@jetbrains/logos'),
-  path.resolve('GitHub.svg')
+  path.dirname(require.resolve('octicons/package.json'))
 );
 
 module.exports = (env = {}) => {

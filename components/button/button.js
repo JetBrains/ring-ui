@@ -99,10 +99,10 @@ export default class Button extends PureComponent {
     return (
       <button
         type="button"
+        tabIndex={loader ? -1 : 0}
         {...props}
         onMouseDown={this.onMouseDown}
         className={classes}
-        tabIndex={loader ? -1 : 0}
       >
         <span className={styles.content}>
           {icon && (
