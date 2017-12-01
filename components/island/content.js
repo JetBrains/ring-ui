@@ -15,6 +15,7 @@ export default class Content extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    scrollableWrapperClassName: PropTypes.string,
     fade: PropTypes.bool,
     bottomBorder: PropTypes.bool,
     onScroll: PropTypes.func
@@ -73,7 +74,7 @@ export default class Content extends Component {
   };
 
   render() {
-    const {children, className, bottomBorder, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, className, bottomBorder, scrollableWrapperClassName, onScroll, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const {scrolledToTop, scrolledToBottom} = this.state;
 
     const classes = classNames(styles.content, className, {
@@ -83,6 +84,11 @@ export default class Content extends Component {
       [styles.withBottomBorder]: bottomBorder && !scrolledToBottom
     });
 
+    const scrollableWrapperClasses = classNames(
+      styles.scrollableWrapper,
+      scrollableWrapperClassName
+    );
+
     return (
       <div
         {...restProps}
@@ -90,7 +96,7 @@ export default class Content extends Component {
         className={classes}
       >
         <div
-          className={styles.scrollableWrapper}
+          className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.onScroll : noop}
         >

@@ -19,7 +19,6 @@ export default class Island extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     narrow: PropTypes.bool,
-    wide: PropTypes.bool,
     withoutPaddings: PropTypes.bool
   };
 
@@ -28,10 +27,9 @@ export default class Island extends Component {
   };
 
   render() {
-    const {children, className, narrow, wide, withoutPaddings, ...restProps} = this.props;
+    const {children, className, narrow, withoutPaddings, ...restProps} = this.props;
     const classes = classNames(styles.island, className, {
       [styles.narrowIsland]: narrow,
-      [styles.wideIsland]: wide,
       [styles.withoutPaddings]: withoutPaddings
     });
 

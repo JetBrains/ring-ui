@@ -70,10 +70,6 @@
   padding: calc(unit * 2) calc(unit * 2);
 }
 
-.wideIsland .scrollableWrapper {
-  padding: calc(unit * 4) calc(unit * 4);
-}
-
 .withoutPaddings .scrollableWrapper {
   padding: 0;
 }
