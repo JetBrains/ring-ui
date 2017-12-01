@@ -1,0 +1,36 @@
+collectors:
+
+- type: js-npm
+  path: packages/docs
+  actors:
+  # pull requests for all major, minor, and patch updates
+  - type: js-npm
+    versions: "Y.Y.Y"
+
+- type: js-npm
+  path: packages/generator
+  actors:
+  # pull requests for all major, minor, and patch updates
+  - type: js-npm
+    versions: "Y.Y.Y"
+
+- type: js-npm
+  path: packages/gemini
+  actors:
+  # pull requests for all major, minor, and patch updates
+  - type: js-npm
+    versions: "Y.Y.Y"
+
+- type: js-npm
+  path: /
+  actors:
+  # pull requests for all major, minor, and patch updates
+  - type: js-npm
+    versions: "Y.Y.Y"
+
+- type: js-npm
+  path: components/icon
+  actors:
+  # pull requests for all major, minor, and patch updates
+  - type: js-npm
+    versions: "Y.Y.Y"
