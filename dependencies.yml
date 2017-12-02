@@ -3,7 +3,7 @@ collectors:
   path: /
   settings:
     collect_root: true
-    bootstrap_command: yarn bootstrap --concurrency 1 && git status -v
+    bootstrap_command: yarn bootstrap --concurrency 1 && git diff
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
