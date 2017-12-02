@@ -256,7 +256,7 @@ export default class DatePopup extends Component {
               active={this.state.active === name}
               onActivate={this.handleActivate(name)}
               onInput={this.handleInput}
-              onConfirm={this.handleConfirm}
+              onConfirm={this.handleConfirm(name)}
             />
           ))}
           <Weekdays/>
