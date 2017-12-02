@@ -3,7 +3,7 @@ collectors:
   path: /
   settings:
     collect_root: true
-    bootstrap_command: npm install && yarn bootstrap
+    bootstrap_command: npm install && yarn bootstrap && git status -v
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
