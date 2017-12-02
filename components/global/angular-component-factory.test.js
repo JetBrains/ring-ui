@@ -19,15 +19,15 @@ class TestComponent extends PureComponent {
     someObj: {}
   };
 
+  handleClick = () => this.props.onClick('payload');
+
   render() {
-    const {id, someObj, onClick, className} = this.props;
+    const {id, someObj, className} = this.props;
     return (
       <div
         id={id}
         data-some-obj={someObj.foo}
-        onClick={function handleClick() {
-          onClick('payload');
-        }}
+        onClick={this.handleClick}
         className={className}
       />
     );

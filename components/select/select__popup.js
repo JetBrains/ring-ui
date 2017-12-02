@@ -208,13 +208,14 @@ export default class SelectPopup extends Component {
     this.caret = new Caret(this.filter);
   };
 
+  onClickHandler = () => this.filter.focus();
+
   getFilter() {
     if ((this.props.filter || this.props.tags) && !this.props.hidden) {
       const classes = classNames([
         filterWrapper,
         'ring-select-popup__filter'
       ]);
-      const onClickHandler = () => this.filter.focus();
 
       return (
         <div className={classes}>
@@ -230,7 +231,7 @@ export default class SelectPopup extends Component {
             placeholder={this.props.filter.placeholder}
 
             onChange={this.props.onFilter}
-            onClick={onClickHandler}
+            onClick={this.onClickHandler}
           />
         </div>
       );
