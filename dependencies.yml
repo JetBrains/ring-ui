@@ -1,36 +1,22 @@
 collectors:
-
-- type: js-npm
-  path: packages/docs
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: js-npm
-    versions: "Y.Y.Y"
-
-- type: js-npm
-  path: packages/generator
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: js-npm
-    versions: "Y.Y.Y"
-
-- type: js-npm
-  path: packages/gemini
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: js-npm
-    versions: "Y.Y.Y"
-
-- type: js-npm
+- type: js-lerna
   path: /
+  settings:
+    collect_root: true
+    bootstrap_command: npm install && yarn bootstrap
   actors:
-  # pull requests for all major, minor, and patch updates
-  - type: js-npm
-    versions: "Y.Y.Y"
-
-- type: js-npm
-  path: components/icon
-  actors:
-  # pull requests for all major, minor, and patch updates
-  - type: js-npm
-    versions: "Y.Y.Y"
+    # batch PR for minor and patch updates
+    - type: js-lerna
+      versions: "L.Y.Y"
+      settings:
+        batch_mode: true
+        bootstrap_command: npm install && yarn bootstrap
+        github_labels:
+        - dependencies
+    # separate PRs for major updates
+    - type: js-lerna
+      versions: "Y.0.0"
+      settings:
+        bootstrap_command: npm install && yarn bootstrap
+        github_labels:
+        - dependencies
