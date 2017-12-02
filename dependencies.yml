@@ -3,20 +3,20 @@ collectors:
   path: /
   settings:
     collect_root: true
-    bootstrap_command: npm install && yarn bootstrap && git status -v
+    bootstrap_command: yarn bootstrap --concurrency 1 && git status -v
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
       versions: "L.Y.Y"
       settings:
         batch_mode: true
-        bootstrap_command: npm install && yarn bootstrap
+        bootstrap_command: yarn bootstrap --concurrency 1
         github_labels:
         - dependencies
     # separate PRs for major updates
     - type: js-lerna
       versions: "Y.0.0"
       settings:
-        bootstrap_command: npm install && yarn bootstrap
+        bootstrap_command: yarn bootstrap --concurrency 1
         github_labels:
         - dependencies
