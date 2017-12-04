@@ -137,7 +137,7 @@
     "karma-webpack": "2.0.4",
     "lerna": "^2.5.1",
     "lint-staged": "4.2.3",
-    "mocha": "3.4.2",
+    "mocha": "4.0.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-github-corner": "^1.0.0",
