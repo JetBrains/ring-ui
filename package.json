@@ -167,7 +167,7 @@
     "@jetbrains/react-portal": "3.1.0",
     "autoprefixer": "7.1.4",
     "babel-core": "6.26.0",
-    "babel-loader": "6.4.1",
+    "babel-loader": "7.0.0",
     "babel-plugin-transform-runtime": "6.23.0",
     "classnames": "2.2.5",
     "combokeys": "3.0.0",
