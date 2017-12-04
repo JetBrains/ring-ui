@@ -2,18 +2,20 @@ collectors:
 - type: js-lerna
   path: /
   settings:
-    bootstrap_command: npm run bootstrap -- --loglevel verbose --npm-client="/usr/src/collector/node_modules/.bin/npm" && git diff
+    bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
       versions: "L.Y.Y"
       settings:
         batch_mode: true
+        bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
         github_labels:
         - dependencies
     # separate PRs for major updates
     - type: js-lerna
       versions: "Y.0.0"
       settings:
+        bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
         github_labels:
         - dependencies
