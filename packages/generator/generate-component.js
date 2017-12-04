@@ -1,7 +1,7 @@
 const format = require('util').format;
 const path = require('path');
 
-const generators = require('yeoman-generator');
+const Generator = require('yeoman-generator');
 const green = require('chalk').green;
 const changeCase = require('change-case');
 const readPkgUp = require('read-pkg-up');
@@ -12,9 +12,9 @@ const RING_UI_DIRECTIVE_PREFIX = 'rg';
 const RING_UI_NG_SUFFIX = ' Ng';
 const COMPONENT_DEFAULT_FILENAME = 'component';
 
-module.exports = params => generators.Base.extend({
-  constructor: function constructor() {
-    generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
+module.exports = params => class ComponentGenerator extends Generator {
+  constructor(...args) {
+    super(...args);
 
     this.argument('componentName', {type: String, required: false});
     this.option('path', {
@@ -22,9 +22,9 @@ module.exports = params => generators.Base.extend({
       required: false,
       default: process.cwd()
     });
-  },
+  }
 
-  writing: function writing() {
+  writing() {
     const pkgFile = readPkgUp();
     const promptParams = [{
       type: 'input',
@@ -33,8 +33,8 @@ module.exports = params => generators.Base.extend({
       default: this.appname
     }];
 
-    const prompt = this.componentName
-      ? Promise.resolve({componentName: this.componentName})
+    const prompt = this.options.componentName
+      ? Promise.resolve({componentName: this.options.componentName})
       : this.prompt(promptParams);
 
     Promise.all([pkgFile, prompt]).then(results => {
@@ -104,4 +104,4 @@ module.exports = params => generators.Base.extend({
       });
     });
   }
-});
+};

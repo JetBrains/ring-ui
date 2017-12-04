@@ -25,7 +25,7 @@ const additionalDevServerOptions = `
       'Access-Control-Allow-Origin': '*'
     },`;
 
-module.exports = class extends Generator.Base {
+module.exports = class HubWidgetGenerator extends Generator {
   prompting() {
     let spinner;
 
