@@ -408,16 +408,19 @@ export default class List extends RingComponentWithShortcuts {
     }
   };
 
-  shortcutsScope = getUID('list-');
-
-  shortcutsMap = {
-    up: this.upHandler,
-    down: this.downHandler,
-    enter: this.enterHandler,
-    'ctrl+enter': this.enterHandler,
-    'command+enter': this.enterHandler,
-    'shift+enter': this.enterHandler
-  };
+  getShortcutsProps() {
+    return {
+      map: {
+        up: this.upHandler,
+        down: this.downHandler,
+        enter: this.enterHandler,
+        'ctrl+enter': this.enterHandler,
+        'command+enter': this.enterHandler,
+        'shift+enter': this.enterHandler
+      },
+      scope: getUID('list-')
+    };
+  }
 
   getVisibleListHeight(props) {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
