@@ -170,7 +170,7 @@
     "babel-loader": "6.4.1",
     "babel-plugin-transform-runtime": "6.23.0",
     "classnames": "2.2.5",
-    "combokeys": "2.4.6",
+    "combokeys": "3.0.0",
     "compile-code-loader": "0.2.0",
     "css-loader": "0.28.7",
     "deep-equal": "1.0.1",
