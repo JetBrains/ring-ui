@@ -177,7 +177,7 @@
     "dom4": "1.8.5",
     "element-resize-detector": "1.1.12",
     "es6-error": "^4.0.2",
-    "extricate-loader": "^1.0.0",
+    "extricate-loader": "^2.0.0",
     "file-loader": "0.11.2",
     "focus-trap": "2.3.0",
     "focus-trap-react": "3.0.4",
