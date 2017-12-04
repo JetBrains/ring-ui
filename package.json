@@ -136,7 +136,7 @@
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "2.0.4",
     "lerna": "^2.5.1",
-    "lint-staged": "4.2.3",
+    "lint-staged": "6.0.0",
     "mocha": "3.4.2",
     "react": "16.2.0",
     "react-dom": "16.2.0",
