@@ -142,7 +142,7 @@
     "react-dom": "16.2.0",
     "react-github-corner": "^1.0.0",
     "react-test-renderer": "16.2.0",
-    "sinon": "2.3.8",
+    "sinon": "4.0.0",
     "sinon-chai": "2.14.0",
     "storage-mock": "1.0.3",
     "stylelint": "8.1.1",
