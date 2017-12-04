@@ -16,7 +16,7 @@
     "chalk": "^1.1.3",
     "change-case": "^3.0.0",
     "find-port": "^2.0.1",
-    "ora": "^0.3.0",
+    "ora": "^1.3.0",
     "package-json": "^4.0.1",
     "pify": "^2.3.0",
     "portscanner": "^1.0.0",
