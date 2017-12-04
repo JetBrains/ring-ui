@@ -98,7 +98,7 @@
     "angular-route": "1.6.6",
     "babel-cli": "6.26.0",
     "babel-eslint": "7.2.3",
-    "babel-plugin-istanbul": "3.1.2",
+    "babel-plugin-istanbul": "4.0.0",
     "babel-polyfill": "6.26.0",
     "chai": "4.1.2",
     "chai-as-promised": "^7.1.1",
