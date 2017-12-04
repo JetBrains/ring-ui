@@ -4,8 +4,11 @@ import AuthResponseParser from './response-parser';
 
 const NAVBAR_HEIGHT = 50;
 const isEdge = sniffer.browser.name === 'edge';
+const CLOSED_CHECK_INTERVAL = 200;
 
 export default class WindowFlow {
+  _timeoutId = null;
+
   constructor(requestBuilder, storage) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
@@ -64,6 +67,7 @@ export default class WindowFlow {
         /* eslint-enable no-use-before-define */
 
         this._loginWindow.close();
+        clearTimeout(this._timeoutId);
       };
 
       const removeTokenListener = this._storage.onTokenChange(token => {
@@ -85,12 +89,23 @@ export default class WindowFlow {
       } else {
         this._loginWindow.location = authRequest.url;
       }
+
+      this.checkIsClosed();
     });
   }
+
+  checkIsClosed = () => {
+    if (this._loginWindow.closed) {
+      this.stop();
+      return;
+    }
+    this._timeoutId = setTimeout(this.checkIsClosed, CLOSED_CHECK_INTERVAL);
+  };
 
   _reset = () => {
     this._promise = null;
     this._loginWindow = null;
+    clearTimeout(this._timeoutId);
   };
 
   stop() {
