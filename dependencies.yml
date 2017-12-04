@@ -1,7 +1,8 @@
 collectors:
 - type: js-lerna
   path: /
-  bootstrap_command: npm run bootstrap && git diff
+  settings:
+    bootstrap_command: npm run bootstrap && git diff
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
