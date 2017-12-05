@@ -25,7 +25,6 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "npm rebuild node-sass",
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
