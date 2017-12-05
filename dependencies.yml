@@ -2,13 +2,16 @@ collectors:
 - type: js-lerna
   path: /
   settings:
-    bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
+    root_install_command: echo 'Skip root install'
+    bootstrap_command: echo 'Skip updating lockfile'
+    #bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
       versions: "L.L.Y"
       settings:
         batch_mode: true
+        root_install_command: echo 'Skip root install'
 #        bootstrap_command: rm -rf node_modules/@jetbrains/generator-ring-ui && npm install && npm run bootstrap -- --concurrency 1 --npm-client="/usr/src/actor/node_modules/.bin/npm"
         bootstrap_command: echo 'Skip updating lockfile'
         github_labels:
