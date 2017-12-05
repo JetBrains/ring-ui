@@ -18,7 +18,6 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "npm rebuild node-sass",
     "build-prod": "webpack --env.production",
     "build": "webpack",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
