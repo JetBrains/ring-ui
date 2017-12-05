@@ -15,6 +15,10 @@ $tags-input-padding: $ring-unit / 4;
     height: 18px;
   }
 
+  &_focused {
+    border-color: $ring-blue-color;
+  }
+
   .ring-select__icons {
     display: none;
   }
