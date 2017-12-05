@@ -3,8 +3,7 @@ collectors:
   path: /
   settings:
     root_install_command: echo 'Skip root install'
-    bootstrap_command: echo 'Skip updating lockfile'
-    #bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
+    bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
