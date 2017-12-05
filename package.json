@@ -160,7 +160,7 @@
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
-    "@jetbrains/babel-preset-jetbrains": "1.0.1",
+    "@jetbrains/babel-preset-jetbrains": "1.0.2",
     "@jetbrains/babel-runtime": "6.23.1",
     "@jetbrains/icons": "1.6.1",
     "@jetbrains/logos": "0.1.2",
