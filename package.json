@@ -110,7 +110,7 @@
     "deep-assign": "2.0.0",
     "docpack": "1.0.4",
     "docpack-examples-compiler": "0.0.4",
-    "docpack-jsdoc-extractor": "0.0.6",
+    "docpack-jsdoc-extractor": "0.0.7",
     "docpack-markdown-extractor": "0.0.2",
     "docpack-page-generator": "0.0.6",
     "electron": "1.7.8",
