@@ -121,7 +121,7 @@
     "exports-loader": "0.6.4",
     "flow-bin": "0.44.2",
     "front-matter": "2.2.0",
-    "gen-idea-libs": "1.0.2",
+    "gen-idea-libs": "1.0.5",
     "glob": "7.1.2",
     "husky": "0.14.3",
     "iframe-resizer": "3.5.14",
