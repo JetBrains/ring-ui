@@ -148,7 +148,7 @@
     "stylelint": "8.1.1",
     "wallaby-webpack": "0.0.45",
     "webpack": "2.7.0",
-    "webpack-dev-server": "2.9.1",
+    "webpack-dev-server": "2.9.5",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
     "xmlappend": "1.0.4",
     "yo": "2.0.0"
