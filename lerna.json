@@ -16,6 +16,5 @@
         "@ring-ui/gemini"
       ]
     }
-  },
-  "npmClientArgs": ["--no-package-lock"]
+  }
 }
