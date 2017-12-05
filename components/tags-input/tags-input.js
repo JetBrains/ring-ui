@@ -142,7 +142,7 @@ export default class TagsInput extends Component {
   }
 
   clickHandler = event => {
-    if (!event.target.matches(this.getInputNode().tagName)) {
+    if (event.target !== this.node) {
       return;
     }
 
