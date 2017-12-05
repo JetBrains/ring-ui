@@ -203,7 +203,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.19.0",
-    "svg-sprite-loader": "3.2.5",
+    "svg-sprite-loader": "3.2.6",
     "url-loader": "0.5.9"
   }
 }
