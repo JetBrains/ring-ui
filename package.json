@@ -108,7 +108,7 @@
     "cheerio": "^0.22.0",
     "css-module-flow": "^1.0.0",
     "deep-assign": "2.0.0",
-    "docpack": "1.0.2",
+    "docpack": "1.0.4",
     "docpack-examples-compiler": "0.0.3",
     "docpack-jsdoc-extractor": "0.0.6",
     "docpack-markdown-extractor": "0.0.2",
