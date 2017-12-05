@@ -9,7 +9,6 @@ collectors:
       versions: "L.Y.Y"
       settings:
         batch_mode: true
-        root_install_command: echo 'Skip root install'
         bootstrap_command: rm -rf node_modules/@jetbrains/generator-ring-ui && npm install && npm run bootstrap -- --concurrency 1 --npm-client="/usr/src/actor/node_modules/.bin/npm"
         github_labels:
         - dependencies
