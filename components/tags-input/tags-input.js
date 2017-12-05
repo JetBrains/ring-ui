@@ -265,6 +265,7 @@ export default class TagsInput extends Component {
         ref={this.nodeRef}
       >
 
+        {this.state.tags && this.state.tags.length > 0 &&
         <TagsList
           tags={this.state.tags}
           activeIndex={this.state.activeIndex}
@@ -273,7 +274,7 @@ export default class TagsInput extends Component {
           handleRemove={this.handleRemove}
           className="ring-tags-input__tags-list"
           handleClick={this.handleClick}
-        />
+        />}
 
         <Select
           ref={this.selectRef}
