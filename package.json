@@ -204,6 +204,6 @@
     "sniffr": "1.1.4",
     "style-loader": "0.19.0",
     "svg-sprite-loader": "3.4.1",
-    "url-loader": "0.5.9"
+    "url-loader": "0.6.2"
   }
 }
