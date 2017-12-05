@@ -42,11 +42,11 @@
     padding-right: calc(unit * 4);
   }
 
-  &:nth-child(1) {
+  &:first-child {
     min-width: 297px;
   }
 
-  &:nth-child(1):only-child {
+  &:first-child:only-child {
     width: initial;
     max-width: none;
   }
@@ -172,6 +172,7 @@
     border-top-style: none;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   &.rowSelected:not(.rowFocused) + .rowSelected:not(.rowFocused) .cell {
     border-top-color: dirty-blue-color;
   }
@@ -215,12 +216,12 @@
     padding-right: calc(unit * 4);
   }
 
-  &:nth-child(1) {
+  &:first-child {
     min-width: 297px;
     max-width: 617px;
   }
 
-  &:nth-child(1):only-child {
+  &:first-child:only-child {
     width: initial;
     max-width: none;
   }
