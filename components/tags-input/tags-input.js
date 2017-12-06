@@ -74,6 +74,7 @@ export default class TagsInput extends Component {
     tags: [],
     suggestions: [],
     loading: true,
+    focused: false,
     query: '',
     activeIndex: 0
   };
@@ -141,7 +142,7 @@ export default class TagsInput extends Component {
   }
 
   clickHandler = event => {
-    if (!event.target.matches(this.getInputNode().tagName)) {
+    if (event.target !== this.node) {
       return;
     }
 
@@ -168,6 +169,11 @@ export default class TagsInput extends Component {
 
   _focusHandler = () => {
     this.setActiveIndex(null);
+    this.setState({focused: true});
+  };
+
+  _blurHandler = () => {
+    this.setState({focused: false});
   };
 
   selectTag = moveForward => {
@@ -253,7 +259,8 @@ export default class TagsInput extends Component {
     const classes = classNames(
       'ring-tags-input',
       {
-        'ring-tags-input_disabled': this.props.disabled
+        'ring-tags-input_disabled': this.props.disabled,
+        'ring-tags-input_focused': this.state.focused
       },
       this.props.className);
 
@@ -265,6 +272,7 @@ export default class TagsInput extends Component {
         ref={this.nodeRef}
       >
 
+        {this.state.tags && this.state.tags.length > 0 &&
         <TagsList
           tags={this.state.tags}
           activeIndex={this.state.activeIndex}
@@ -273,7 +281,7 @@ export default class TagsInput extends Component {
           handleRemove={this.handleRemove}
           className="ring-tags-input__tags-list"
           handleClick={this.handleClick}
-        />
+        />}
 
         <Select
           ref={this.selectRef}
