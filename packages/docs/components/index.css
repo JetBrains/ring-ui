@@ -98,30 +98,25 @@ body {
   height: 500px;
 }
 
-.exampleLink {
-  /* override Link */
-  && {
-    position: absolute;
-    right: -2px;
-    bottom: 5px;
+/* override Link */
+.exampleLink.exampleLink {
+  position: absolute;
+  right: -2px;
+  bottom: 5px;
 
-    display: block;
+  display: block;
 
-    padding: unit;
+  padding: unit;
 
-    border: 1px solid #ccc;
-    background-color: #fff;
+  border: 1px solid #ccc;
+  background-color: #fff;
 
-    font-size: font-size;
-  }
+  font-size: font-size;
 }
 
-.footer {
-  /* override Footer */
-
-  && {
-    margin: calc(unit * 5) 0 0;
-  }
+/* override Footer */
+.footer.footer {
+  margin: calc(unit * 5) 0 0;
 }
 
 .codeLink {
