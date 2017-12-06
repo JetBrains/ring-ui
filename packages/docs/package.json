@@ -25,7 +25,7 @@
   "devDependencies": {
     "@jetbrains/ring-ui": "^0.3.0",
     "extract-text-webpack-plugin": "2.1.2",
-    "webpack": "2.7.0",
+    "webpack": "3.0.0",
     "webpack-dev-server": "2.9.6"
   }
 }
