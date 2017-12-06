@@ -193,6 +193,7 @@ export default class SelectPopup extends Component {
         customEvent = document.createEvent('Event');
         customEvent.initEvent('select', true, false);
       }
+      event.persist && event.persist();
       customEvent.originalEvent = event;
       return customEvent;
     };
