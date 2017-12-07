@@ -146,7 +146,7 @@
     "storage-mock": "1.0.3",
     "stylelint": "8.3.1",
     "wallaby-webpack": "0.0.45",
-    "webpack": "3.0.0",
+    "webpack": "3.10.0",
     "webpack-dev-server": "2.9.6",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
     "webpack-toolkit": "1.0.0",
