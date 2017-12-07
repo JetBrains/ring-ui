@@ -123,7 +123,7 @@ module.exports = (env = {}) => {
         assets: false,
         chunks: false,
         hash: false,
-        children: 'error',
+        children: false,
         version: false
       }
     },
