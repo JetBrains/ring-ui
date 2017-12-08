@@ -73,7 +73,7 @@ describe('Place Under Ng', () => {
 
     let clock;
     beforeEach(() => {
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setTimeout', 'clearTimeout']});
     });
 
 
