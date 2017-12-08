@@ -11,7 +11,7 @@ describe('Alert Service', () => {
   let clock;
 
   beforeEach(() => {
-    clock = sandbox.useFakeTimers();
+    clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
   });
 
   afterEach(() => {
