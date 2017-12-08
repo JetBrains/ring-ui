@@ -18,7 +18,6 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "npm rebuild node-sass",
     "build-prod": "webpack --env.production",
     "build": "webpack",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
@@ -27,6 +26,6 @@
     "@jetbrains/ring-ui": "^0.3.0",
     "extract-text-webpack-plugin": "2.1.2",
     "webpack": "2.7.0",
-    "webpack-dev-server": "2.6.1"
+    "webpack-dev-server": "2.9.7"
   }
 }
