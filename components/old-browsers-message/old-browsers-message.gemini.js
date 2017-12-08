@@ -2,7 +2,7 @@
 
 gemini.suite('old-browsers-message', suite => {
   suite.
-    setUrl('/old-browsers-message/old-browsers-message.html').
+    setUrl('old-browsers-message/old-browsers-message.html').
     setCaptureElements('.ring-old-browsers-message').
     capture('plain');
 });

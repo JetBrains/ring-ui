@@ -2,7 +2,7 @@
 //
 // gemini.suite('Header', suite => {
 //   suite.
-//     setUrl('/example-header/').
+//     setUrl('example-header/').
 //     setCaptureElements('#header').
 //     capture('header');
 // });
