@@ -155,7 +155,7 @@ function testStorageEvents(storage) {
     });
 
     it('on after set with other key shouldn\'t be fired', () => {
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       const spy = sandbox.stub();
 
       stop = storage.on('testKey4', spy);
@@ -166,7 +166,7 @@ function testStorageEvents(storage) {
     });
 
     it('stop should stop', () => {
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       const spy = sandbox.spy();
 
       const testEvent = 'testKey5';

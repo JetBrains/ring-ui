@@ -82,7 +82,7 @@ describe('Analytics', () => {
     let analyticsInstance;
     beforeEach(() => {
       send = sandbox.spy();
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setInterval']});
       analyticsInstance = new Analytics();
     });
 
