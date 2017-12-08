@@ -1,4 +1,4 @@
-const generators = require('yeoman-generator');
+const Generator = require('yeoman-generator');
 const {paramCase, camelCase} = require('change-case');
 // We have to use deprecated npm-latest-version package
 // because there's no .npmrc in target folder on generator start
@@ -14,19 +14,19 @@ const packages = [
   '@jetbrains/icons'
 ];
 
-module.exports = generators.Base.extend({
-  constructor: function constructor() {
-    generators.Base.apply(this, arguments); // eslint-disable-line prefer-reflect
+module.exports = class AppGenerator extends Generator {
+  constructor(...args) {
+    super(...args);
 
     this.argument('projectName', {type: String, required: false});
-  },
+  }
 
   prompting() {
     let spinner;
 
-    const prompt = this.projectName
+    const prompt = this.options.projectName
       ? Promise.resolve({
-        projectName: this.projectName
+        projectName: this.options.projectName
       })
       : this.prompt([{
         type: 'input',
@@ -56,15 +56,22 @@ module.exports = generators.Base.extend({
           spinner.succeed();
         }
       });
-  },
+  }
+
+  _copyTemplate(src, dst) {
+    this.fs.copyTpl(
+      this.templatePath(require.resolve(`../app/templates/${src}`)),
+      this.destinationPath(dst)
+    );
+  }
 
   configuring() {
-    this.template('editorconfig', '.editorconfig');
-    this.template('gitignore', '.gitignore');
-    this.template('eslintignore', '.eslintignore');
-    this.template('eslintrc', '.eslintrc');
-    this.template('src/eslintrc', 'src/.eslintrc');
-  },
+    this._copyTemplate('editorconfig', '.editorconfig');
+    this._copyTemplate('gitignore', '.gitignore');
+    this._copyTemplate('eslintignore', '.eslintignore');
+    this._copyTemplate('eslintrc', '.eslintrc');
+    this._copyTemplate('src/eslintrc', 'src/.eslintrc');
+  }
 
   files() {
     this.fs.copyTpl(
@@ -78,7 +85,7 @@ module.exports = generators.Base.extend({
       this.destinationPath('src/'),
       this.props
     );
-  },
+  }
 
   install() {
     this.installDependencies({
@@ -86,4 +93,4 @@ module.exports = generators.Base.extend({
       skipInstall: this.options['skip-install']
     });
   }
-});
+};
