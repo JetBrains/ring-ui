@@ -2,7 +2,7 @@
 
 gemini.suite('Link', suite => {
   suite.
-    setUrl('/link/link.html').
+    setUrl('link/link.html').
     setCaptureElements('#link').
     capture('link', (actions, find) => {
       // Move to bottom right corner of the page to avoid unexpected hover on link
