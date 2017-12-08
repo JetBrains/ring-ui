@@ -19,6 +19,9 @@ module.exports = {
   system: {
     plugins: {
       teamcity: process.argv.indexOf('--teamcity') !== -1,
+      'html-reporter': {
+        defaultView: 'all'
+      },
       sauce: {
         username: process.env.SAUCE_USERNAME,
         accessKey: process.env.SAUCE_ACCESS_KEY,

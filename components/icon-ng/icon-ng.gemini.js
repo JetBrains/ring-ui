@@ -2,7 +2,7 @@
 
 gemini.suite('Icon Ng', suite => {
   suite.
-    setUrl('/icon-ng/icon-ng.html').
+    setUrl('icon-ng/icon-ng.html').
     setCaptureElements('body > div').
     capture('icons', actions => {
       actions.executeJS(function disableLoadingButtons() {
