@@ -31,7 +31,7 @@ describe('Popup', () => {
     let clock;
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
     });
 
     it('should attempt to close by click outside the element', () => {

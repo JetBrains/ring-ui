@@ -125,7 +125,7 @@ describe('Dropdown', () => {
     };
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
 
       const popupComponent = (
         <Popup
