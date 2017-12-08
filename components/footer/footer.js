@@ -85,6 +85,7 @@ class FooterLine extends PureComponent {
         return (
           <Link
             href={item.url}
+            target={item.target}
             key={item.url + item.title}
             title={item.title}
           >{element}</Link>
@@ -138,7 +139,7 @@ class FooterLine extends PureComponent {
            ]}
            center={[
              [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
-             {url: 'https://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'read me!'}
+             {url: 'https://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'read me!', target: '_blank'}
            ]}
            right={[
              {url: 'http://www.jetbrains.com/teamcity/feedback?source=footer&version=8.0.3%20(build%2027531)&build=27531&mode=ent', label: 'Feedback'}
