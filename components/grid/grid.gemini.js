@@ -23,7 +23,7 @@ const extraSmall = {
 gemini.suite('Grid', () => {
   gemini.suite('Responsive', child => {
     child.
-      setUrl('/grid/responsive-grid.html').
+      setUrl('grid/responsive-grid.html').
       setCaptureElements('#grid').
       capture(
         'grid-extra-small',
@@ -36,14 +36,14 @@ gemini.suite('Grid', () => {
 
   gemini.suite('Offset', child => {
     child.
-      setUrl('/grid/grid-offset.html').
+      setUrl('grid/grid-offset.html').
       setCaptureElements('*[data-test="offset"]').
       capture('offset');
   });
 
   gemini.suite('Auto size', child => {
     child.
-      setUrl('/grid/grid-auto-size.html').
+      setUrl('grid/grid-auto-size.html').
       setCaptureElements('*[data-test="auto-size"]').
       capture(
         'auto-size-xs',
@@ -55,14 +55,14 @@ gemini.suite('Grid', () => {
 
   gemini.suite('Alignment', child => {
     child.
-      setUrl('/grid/grid-alignment.html').
+      setUrl('grid/grid-alignment.html').
       setCaptureElements('*[data-test="alignment"]').
       capture('alignment');
   });
 
   gemini.suite('Distribution', child => {
     child.
-      setUrl('/grid/grid-columns-distribution.html').
+      setUrl('grid/grid-columns-distribution.html').
       setCaptureElements('*[data-test="distribution"]').
       capture('distribution');
   });
