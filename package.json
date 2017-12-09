@@ -118,7 +118,7 @@
     "eslint": "^4.13.0",
     "eslint-plugin-flowtype-errors": "^3.3.0",
     "exports-loader": "0.6.4",
-    "flow-bin": "0.44.2",
+    "flow-bin": "0.61.0",
     "front-matter": "2.3.0",
     "gen-idea-libs": "1.0.5",
     "glob": "7.1.2",
