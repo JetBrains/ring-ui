@@ -6,16 +6,17 @@ collectors:
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
+      dependencies_not_matching: "^flow-bin$"
       versions: "L.Y.Y"
       settings:
         batch_mode: true
-        bootstrap_command: echo 'Skip updating lockfile'
+        bootstrap_command: npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
         github_labels:
         - dependencies
     # separate PRs for major updates
     - type: js-lerna
       versions: "Y.0.0"
       settings:
-        bootstrap_command: echo 'Skip updating lockfile'
+        bootstrap_command: npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
         github_labels:
         - dependencies

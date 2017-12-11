@@ -2,7 +2,7 @@
 
 gemini.suite('Badge', suite => {
   suite.
-    setUrl('/badge/badge.html').
+    setUrl('badge/badge.html').
     setCaptureElements('#badges').
     capture('badge');
 });

@@ -2,7 +2,7 @@
 
 gemini.suite('Query Assist', suite => {
   suite.
-    setUrl('/query-assist/query-assist-no-auth.html').
+    setUrl('query-assist/query-assist-no-auth.html').
     setCaptureElements('#query-assist').
     capture('default');
 

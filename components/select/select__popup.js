@@ -186,14 +186,18 @@ export default class SelectPopup extends Component {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect = selected => {
+  onListSelect = (selected, event) => {
     const getSelectItemEvent = () => {
-      let event;
+      let customEvent;
       if (document.createEvent) {
-        event = document.createEvent('Event');
-        event.initEvent('select', true, false);
+        customEvent = document.createEvent('Event');
+        customEvent.initEvent('select', true, false);
       }
-      return event;
+      if (event && event.persist) {
+        event.persist();
+      }
+      customEvent.originalEvent = event;
+      return customEvent;
     };
 
     this.props.onSelect(selected, getSelectItemEvent());
