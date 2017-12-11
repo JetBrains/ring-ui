@@ -44,17 +44,15 @@
   top: 0;
   bottom: 0;
 
-  && {
+  &.sidebarFixedTop {
     position: fixed;
   }
 }
 
-.sidebarFixedBottom {
-  && {
-    position: absolute;
-    top: auto;
-    bottom: 0;
-  }
+.sidebarFixedBottom.sidebarFixedBottom {
+  position: absolute;
+  top: auto;
+  bottom: 0;
 }
 
 .bottomMarker {
