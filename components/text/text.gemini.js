@@ -2,7 +2,7 @@
 
 gemini.suite('Text', suite => {
   suite.
-    setUrl('/text/text.html').
+    setUrl('text/text.html').
     setCaptureElements('#text').
     capture('text');
 });

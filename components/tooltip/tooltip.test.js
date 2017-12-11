@@ -80,7 +80,7 @@ describe('Tooltip', () => {
     });
 
     it('should render with delay when provided', () => {
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
       const wrapper = mountTooltip({
         delay: 100
       });
