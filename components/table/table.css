@@ -86,7 +86,7 @@
 
   & .headerCell {
     box-sizing: border-box;
-    height: calc(calc(unit * 5) + 1);
+    height: calc(calc(unit * 5) + 1px);
 
     border-top: 1px solid table-border-color;
     box-shadow: inset 0 1px 0 0 box-shadow-color;
