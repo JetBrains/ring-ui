@@ -2,7 +2,7 @@ collectors:
 - type: js-lerna
   path: /
   settings:
-    bootstrap_command: npm run bootstrap -- --npm-client="/usr/src/collector/node_modules/.bin/npm"
+    bootstrap_command: npm run bootstrap && git checkout .
   actors:
     # batch PR for minor and patch updates
     - type: js-lerna
