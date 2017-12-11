@@ -108,7 +108,7 @@ export default class ListItem extends PureComponent {
             )}
           </div>
 
-          <div className="ring-list__item__label">{label}</div>
+          <div className="ring-list__item__label" title={label}>{label}</div>
           <div className="ring-list__item__description">{description}</div>
 
           <div className="ring-list__item__right">
