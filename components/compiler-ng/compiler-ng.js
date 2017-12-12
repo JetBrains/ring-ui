@@ -55,6 +55,7 @@ const angularModule = angular.module('Ring.compiler', []).
           html(template.trim()).
           contents();
         const linkFn = $compile(element, locals.$transclude);
+        locals.$element = element;
 
         return {
           locals,
