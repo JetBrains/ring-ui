@@ -526,7 +526,7 @@ export default class List extends Component {
 
   get inner() {
     if (!this._inner) {
-      this._inner = this.container && this.container.query('.ring-list__i');
+      this._inner = this.container && this.container.querySelector('.ring-list__i');
     }
     return this._inner;
   }

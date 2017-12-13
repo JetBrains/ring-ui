@@ -71,7 +71,7 @@ class ButtonController extends RingAngularComponent {
 
   updateIcon() {
     const {$attrs, $compile, $scope} = this.$inject;
-    const icon = this.element.query('.ring-button__icon');
+    const icon = this.element.querySelector('.ring-button__icon');
     const glyph = $attrs.icon;
     const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;
