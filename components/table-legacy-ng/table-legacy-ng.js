@@ -96,20 +96,21 @@ angularModule.directive('rgLegacyTableHeader',
           scope.stickToSelector = '.ring-table__toolbar';
         }
 
-        const scrollableHeader = element.query('.ring-table__header:not(.ring-table__header_sticky)');
-        const fixedHeader = element.query('.ring-table__header_sticky');
+        const scrollableHeader = element.querySelector('.ring-table__header:not(.ring-table__header_sticky)');
+        const fixedHeader = element.querySelector('.ring-table__header_sticky');
 
-        const toolbarFixed = () => stickToElement.query(`.${TOOLBAR_FIXED_CLASSNAME}`) !== null;
+        const toolbarFixed = () => stickToElement.querySelector(`.${TOOLBAR_FIXED_CLASSNAME}`) !== null;
 
         /**
          * Sync header columns width with real table
          */
         const resizeFixedHeader = debounce(() => {
           fixedHeader.style.width = `${scrollableHeader.offsetWidth}px`;
-          const titles = fixedHeader.queryAll('.ring-table__title');
+          const titles = [...fixedHeader.querySelectorAll('.ring-table__title')];
 
           titles.forEach((titleElement, index) => {
-            const targetHeaderTitle = scrollableHeader.queryAll('.ring-table__title')[index];
+            const targetHeaderTitle =
+              scrollableHeader.querySelectorAll('.ring-table__title')[index];
             titleElement.style.width = getStyles(targetHeaderTitle).width;
           });
 
@@ -375,7 +376,7 @@ angularModule.directive('rgLegacyTableColumn', function rgLegacyTableColumnDirec
 
       function adjustUnlimitedColumnWidths() {
         const unlimitedColumnsCount = element.parentNode.
-          queryAll('.ring-table__column[unlimited]').length;
+          querySelectorAll('.ring-table__column[unlimited]').length;
         if (unlimitedColumnsCount > 1) {
           element.style.width = `${(FULL_WIDTH / unlimitedColumnsCount).toFixed()}%`;
         }
