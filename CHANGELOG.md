@@ -3,6 +3,13 @@ title: Changelog
 category: Docs
 order: 2
 ---
+
+## [0.4.0] - xx-xx-xxxx
+
+— `react-markdown` package has been updated to 3.0 version with breaking changes. 
+Since `Markdown` component passes props to `react-markdown` component, `Markdown` component also has breaking changes. 
+See details [here](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
+
 ## [0.3.8] — 29-11-2017
 
 ### Auth improvements
