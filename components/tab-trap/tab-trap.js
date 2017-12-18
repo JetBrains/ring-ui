@@ -34,16 +34,16 @@ export default class TabTrap extends Component {
     if (!node) {
       return;
     }
-    this.container = node;
+    this.node = node;
   };
 
   focusElement = (first = true) => {
-    const {container} = this;
-    if (!container) {
+    const {node} = this;
+    if (!node) {
       return;
     }
 
-    const tabbables = [...container.querySelectorAll(FOCUSEABLE_ELEMENTS)].
+    const tabbables = [...node.querySelectorAll(FOCUSEABLE_ELEMENTS)].
       filter(item => item.tabIndex >= 0);
 
     const toBeFocused = first ? tabbables[0] : tabbables[tabbables.length - 1];
@@ -63,7 +63,10 @@ export default class TabTrap extends Component {
 
     if (trapDisabled) {
       return (
-        <div {...restProps}>
+        <div
+          ref={this.containerRef}
+          {...restProps}
+        >
           {children}
         </div>
       );
