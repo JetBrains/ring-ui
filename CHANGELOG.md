@@ -4,11 +4,11 @@ category: Docs
 order: 2
 ---
 
-## [0.4.0] - xx-xx-xxxx
+## [0.4.0] - 18-12-2017
 
-— `react-markdown` package has been updated to 3.0 version with breaking changes. 
-Since `Markdown` component passes props to `react-markdown` component, `Markdown` component also has breaking changes. 
-See details [here](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
+— `react-markdown` package was updated to version 3.0 which contains breaking changes. 
+Since the `Markdown` component passes props to `react-markdown`, this constitutes a breaking change for Ring UI itself. 
+See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
 
 ## [0.3.8] — 29-11-2017
 
