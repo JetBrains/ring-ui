@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Portal from '@jetbrains/react-portal';
-import FocusTrap from 'focus-trap-react';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
 import {CloseIcon} from '../icon/icons';
 import Shortcuts from '../shortcuts/shortcuts';
+import TabTrap from '../tab-trap/tab-trap';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -84,8 +84,8 @@ export default class Dialog extends Component {
     };
   };
 
-  dialogRef = focusTrap => {
-    this.dialog = focusTrap && focusTrap.node;
+  dialogRef = node => {
+    this.dialog = node;
   };
 
   render() {
@@ -101,8 +101,8 @@ export default class Dialog extends Component {
         onClose={ScrollPreventer.reset}
       >
         <PortalPropsCleaner>
-          <FocusTrap
-            active={trapFocus}
+          <TabTrap
+            trapDisabled={!trapFocus}
             data-test="ring-dialog-container"
             ref={this.dialogRef}
             className={classes}
@@ -128,7 +128,7 @@ export default class Dialog extends Component {
               </button>
               }
             </AdaptiveIsland>
-          </FocusTrap>
+          </TabTrap>
         </PortalPropsCleaner>
       </Portal>
     );
