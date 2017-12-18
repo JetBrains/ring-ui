@@ -84,8 +84,8 @@ export default class Dialog extends Component {
     };
   };
 
-  dialogRef = node => {
-    this.dialog = node;
+  dialogRef = tabTrap => {
+    this.dialog = tabTrap && tabTrap.node;
   };
 
   render() {
