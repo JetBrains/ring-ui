@@ -3,6 +3,15 @@ title: Changelog
 category: Docs
 order: 2
 ---
+
+## [0.4.0] — 18-12-2017
+
+— `react-markdown` package was updated to version 3.0 which contains breaking changes. 
+Since the `Markdown` component passes props to `react-markdown`, this constitutes a breaking change for Ring UI itself. 
+See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
+
+- [dependencies.io](https://www.dependencies.io/) was set up to help us keep dependencies up-to-date. Most dependencies were updated to latest versions.
+
 ## [0.3.8] — 29-11-2017
 
 ### Auth improvements
@@ -70,6 +79,7 @@ the `rerender` method for backward compatibility:
 - Updated lots of dependencies
 - `mout` is no longer a dependency
 
+[0.4.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.3.8...9a4e78c2d33ec82fec05f8b5afc14d081d553798
 [0.3.8]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.3.1...%40jetbrains/ring-ui%400.3.8
 [0.3.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.50...%40jetbrains/ring-ui%400.3.1
 [RING-UI-CR-2998]: https://upsource.jetbrains.com/ring-ui/review/RING-UI-CR-2998
