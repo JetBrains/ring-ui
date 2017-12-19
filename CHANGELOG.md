@@ -6,7 +6,7 @@ order: 2
 
 ## [0.4.0] — 18-12-2017
 
-— `react-markdown` package was updated to version 3.0 which contains breaking changes. 
+- `react-markdown` package was updated to version 3.0 which contains breaking changes. 
 Since the `Markdown` component passes props to `react-markdown`, this constitutes a breaking change for Ring UI itself. 
 See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
 
@@ -15,7 +15,7 @@ See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELO
 ## [0.3.8] — 29-11-2017
 
 ### Auth improvements
-— Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
+- Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
 can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
 or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
 To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
