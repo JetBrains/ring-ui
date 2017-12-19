@@ -167,6 +167,7 @@ export default class Item extends PureComponent {
             className={styles.collapseIcon}
             size={13}
             onClick={onExpand}
+            data-test="ring-data-list-expand"
           />
         );
       } else {
@@ -175,6 +176,7 @@ export default class Item extends PureComponent {
             className={styles.collapseIcon}
             size={13}
             onClick={onCollapse}
+            data-test="ring-data-list-collapse"
           />
         );
       }
