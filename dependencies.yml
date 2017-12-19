@@ -10,13 +10,13 @@ collectors:
       versions: "L.Y.Y"
       settings:
         batch_mode: true
-        bootstrap_command: npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
+        bootstrap_command: rm -rf node_modules/@jetbrains/generator-ring-ui && npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
         github_labels:
         - dependencies
     # separate PRs for major updates
     - type: js-lerna
       versions: "Y.0.0"
       settings:
-        bootstrap_command: npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
+        bootstrap_command: rm -rf node_modules/@jetbrains/generator-ring-ui && npm install && npm run bootstrap -- --npm-client="/usr/src/actor/node_modules/.bin/npm"
         github_labels:
         - dependencies

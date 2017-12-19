@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import Code from '../code/code';
 
-const MarkdownCode = ({literal, language, inline}) => (
+const MarkdownCode = ({value, language, inline}) => (
   <Code
     language={language}
-    code={literal}
+    code={value}
     inline={inline}
   />
 );
 
 MarkdownCode.propTypes = {
   language: PropTypes.string,
-  literal: PropTypes.string,
+  value: PropTypes.string,
   inline: PropTypes.bool
 };
 
