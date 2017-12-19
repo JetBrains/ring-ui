@@ -24,7 +24,7 @@ const categories = navData.filter(category => category !== docs);
 class App extends Component {
   componentDidMount() {
     const iFrameSelector = 'iframe[data-resize="enabled"]';
-    this.iframesToResize = document.queryAll(iFrameSelector).length;
+    this.iframesToResize = document.querySelectorAll(iFrameSelector).length;
 
     this.retriggerHashNavigation();
     iFrameResize({
@@ -78,6 +78,6 @@ if (!/\.html$/.test(pathname) && indexDoc) {
 } else {
   render(
     <App/>,
-    document.query('#app')
+    document.querySelector('#app')
   );
 }
