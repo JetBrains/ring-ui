@@ -90,7 +90,7 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
     replace: true,
     template: proxyAttrs(require('./checkbox-ng.html')),
     link: function link(scope, iElement) {
-      const input = iElement[0].query('.ring-checkbox__input');
+      const input = iElement[0].querySelector('.ring-checkbox__input');
 
       const id = CHECKBOX_ID_PREFIX + idCounter++;
       iElement[0].setAttribute('for', id);

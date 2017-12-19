@@ -40,7 +40,7 @@ describe('Checkbox Ng', () => {
 
     const click = new MouseEvent('click');
     // Doesn't trigger handler in IE for some reason
-    element.query('input').dispatchEvent(click);
+    element.querySelector('input').dispatchEvent(click);
 
     iElement.controller('ngModel').$viewValue.should.be.true;
   });
@@ -58,13 +58,13 @@ describe('Checkbox Ng', () => {
   });
 
   it('label and input should have same ids', () => {
-    element.query('input').id.should.equal(element.htmlFor);
+    element.querySelector('input').id.should.equal(element.htmlFor);
   });
 
   it('should disable input with disabled expression constant', () => {
     scope = $rootScope.$new();
     element = $compile('<rg-checkbox ng-disabled="true">Checkbox</rg-checkbox>')(scope)[0];
     scope.$digest();
-    element.query('input').should.have.property('disabled');
+    element.querySelector('input').should.have.property('disabled');
   });
 });
