@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Input from '../input/input';
+import sniffr from '../global/sniffer';
 
 function noop() {}
 
@@ -27,8 +28,9 @@ export default class SelectFilter extends Component {
   }
 
   focus() {
-    if (this.input && this.input !== document.activeElement) {
-      this.input.select();
+    const {input} = this;
+    if (input && input !== document.activeElement) {
+      sniffr.browser.name === 'firefox' ? input.select() : input.focus();
     }
   }
 
