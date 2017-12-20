@@ -99,7 +99,7 @@ describe('Dialog Ng', () => {
         template: '<div class="content">{{text}}</div>'
       });
 
-      element.querySelector('form .content').should.have.html($scope.text);
+      element.query('form .content').should.have.html($scope.text);
     });
 
     it('should allow pass custom controller', () => {
@@ -112,7 +112,7 @@ describe('Dialog Ng', () => {
         }]
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should trigger $destroy event on the scope when user close dialog', () => {
@@ -181,7 +181,7 @@ describe('Dialog Ng', () => {
         }
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should allow pass controller name', () => {
@@ -193,7 +193,7 @@ describe('Dialog Ng', () => {
         controller: 'testCtrl'
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should allow custom locals dependencies to the controller', () => {
@@ -210,7 +210,7 @@ describe('Dialog Ng', () => {
         }]
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should allow pass resolve object', () => {
@@ -227,7 +227,7 @@ describe('Dialog Ng', () => {
         }]
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should reject dialog promise on unsatisfied resolve', () => {
@@ -273,7 +273,7 @@ describe('Dialog Ng', () => {
         }]
       });
 
-      element.querySelector('form .content').should.have.html(text);
+      element.query('form .content').should.have.html(text);
     });
 
     it('should render template with more than one root node', () => {
@@ -285,7 +285,7 @@ describe('Dialog Ng', () => {
         template: '<div class="content">{{text}}</div><div class="content-2">{{text}}</div>'
       });
 
-      element.querySelector('form .content-2').should.have.html($scope.text);
+      element.query('form .content-2').should.have.html($scope.text);
     });
 
     it('should allow use old data api in template', () => {
@@ -300,7 +300,7 @@ describe('Dialog Ng', () => {
       const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
       $rootScope.$apply();
 
-      element.querySelector('form .content').should.have.html(dialogConfig.data.text);
+      element.query('form .content').should.have.html(dialogConfig.data.text);
     });
 
     it('should transclude custom footer', () => {
@@ -446,7 +446,7 @@ describe('Dialog Ng', () => {
     ctrl.update({data: {prop: 'qwe'}});
     scope.$digest();
 
-    element.querySelector('.content').should.have.text('qwe');
+    element.query('.content').should.have.text('qwe');
   });
 
   it('should be updated via the dialog', () => {
@@ -459,7 +459,7 @@ describe('Dialog Ng', () => {
     dialogInSidebar.update({data: {prop: 'qwe'}});
     scope.$digest();
 
-    element.querySelector('.content').should.have.text('qwe');
+    element.query('.content').should.have.text('qwe');
   });
 
   it('should broadcast the event after opening', () => {
@@ -561,7 +561,7 @@ describe('Dialog Ng', () => {
         {title: 'Dialog Title'}
       );
 
-      element.querySelector('*[data-anchor=dialog-header]').should.contain.text('Dialog Title');
+      element.query('*[data-anchor=dialog-header]').should.contain.text('Dialog Title');
     });
 
     it('should change title via controller', () => {
@@ -575,7 +575,7 @@ describe('Dialog Ng', () => {
       ctrl.setTitle('New Dialog Title');
       scope.$digest();
 
-      element.querySelector('*[data-anchor=dialog-header]').should.contain.text('New Dialog Title');
+      element.query('*[data-anchor=dialog-header]').should.contain.text('New Dialog Title');
     });
 
     it('should be draggable', () => {
@@ -584,8 +584,8 @@ describe('Dialog Ng', () => {
         '<div></div>'
       );
 
-      const container = element.querySelector('*[data-anchor=dialog-container]');
-      const header = element.querySelector('*[data-anchor=dialog-header]');
+      const container = element.query('*[data-anchor=dialog-container]');
+      const header = element.query('*[data-anchor=dialog-header]');
 
       const mousedown = new CustomEvent('mousedown');
       const mousemove = new CustomEvent('mousemove');
@@ -613,8 +613,8 @@ describe('Dialog Ng', () => {
         '<div></div>'
       );
 
-      const container = element.querySelector('*[data-anchor=dialog-container]');
-      const header = element.querySelector('*[data-anchor=dialog-header]');
+      const container = element.query('*[data-anchor=dialog-container]');
+      const header = element.query('*[data-anchor=dialog-header]');
 
       const mousedown = new CustomEvent('mousedown');
       const mousemove = new CustomEvent('mousemove');
@@ -649,7 +649,7 @@ describe('Dialog Ng', () => {
         '<div class="content"></div>'
       );
 
-      element.querySelector('form').should.contain('.content');
+      element.query('form').should.contain('.content');
     });
 
     it('should allow pass custom template as html', () => {
@@ -661,7 +661,7 @@ describe('Dialog Ng', () => {
 
       const {element} = showDialog('<rg-dialog></rg-dialog>', null, null, null, dialogConfig);
 
-      element.querySelector('form').should.contain('.content');
+      element.query('form').should.contain('.content');
     });
   });
 
@@ -672,7 +672,7 @@ describe('Dialog Ng', () => {
         '<div></div>',
         [{label: 'Ok', default: true}, {label: 'Cancel'}]
       );
-      const buttons = element.querySelectorAll('button');
+      const buttons = element.queryAll('button');
 
       buttons.should.have.length(2);
       buttons[0].should.include.text('Ok');
@@ -686,7 +686,7 @@ describe('Dialog Ng', () => {
         [{label: 'Ok', default: true}]
       );
 
-      element.querySelector('button').should.have.class('ring-button_blue');
+      element.query('button').should.have.class('ring-button_blue');
     });
 
     it('should be closed by clicking a button', () => {
@@ -695,7 +695,7 @@ describe('Dialog Ng', () => {
         '<div></div>',
         [{label: 'Button'}]
       );
-      element.querySelector('button').dispatchEvent(click);
+      element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
       element.should.not.have.class('active');
@@ -738,7 +738,7 @@ describe('Dialog Ng', () => {
           action: () => defer.promise
         }]
       );
-      element.querySelector('button').dispatchEvent(click);
+      element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
       ctrl.active.should.be.true;
@@ -759,7 +759,7 @@ describe('Dialog Ng', () => {
           action: () => defer.promise
         }]
       );
-      element.querySelector('button').dispatchEvent(click);
+      element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
       ctrl.active.should.be.true;
@@ -778,7 +778,7 @@ describe('Dialog Ng', () => {
           action: () => false
         }]
       );
-      element.querySelector('button').dispatchEvent(click);
+      element.query('button').dispatchEvent(click);
 
       $rootScope.$digest();
 
@@ -792,7 +792,7 @@ describe('Dialog Ng', () => {
         '<div></div>',
         [{action}]
       );
-      element.querySelector('button').dispatchEvent(click);
+      element.query('button').dispatchEvent(click);
 
       element.should.not.have.class('active');
       action.should.have.been.called;
@@ -818,7 +818,7 @@ describe('Dialog Ng', () => {
 
       element.should.contain(`.${styles.footerDescription}`);
 
-      const lines = element.querySelector(`.${styles.footerDescription}`).querySelectorAll('div');
+      const lines = element.query(`.${styles.footerDescription}`).queryAll('div');
 
       lines.should.have.length(2);
       lines[0].should.have.text('Multiline');

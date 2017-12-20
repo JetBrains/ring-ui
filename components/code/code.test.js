@@ -77,7 +77,7 @@ describe('Code', () => {
     const wrapper = mountCode({
       code: '"foo"'
     });
-    const token = wrapper.getDOMNode().querySelector('.hljs-string');
+    const token = wrapper.getDOMNode().query('.hljs-string');
     token.textContent.should.equal('"foo"');
   });
 
@@ -88,7 +88,7 @@ describe('Code', () => {
     wrapper.setProps({
       code: '"bar"'
     });
-    const token = wrapper.getDOMNode().querySelector('.hljs-string');
+    const token = wrapper.getDOMNode().query('.hljs-string');
     token.textContent.should.equal('"bar"');
   });
 });
