@@ -51,8 +51,7 @@ angularModule.factory('getClosestElementWithCommonParent',
     return function getClosestElementWithCommonParent(currentElement, selector) {
       const parent = currentElement.parentNode;
       if (parent) {
-        return parent.querySelector(selector) ||
-          getClosestElementWithCommonParent(parent, selector);
+        return parent.query(selector) || getClosestElementWithCommonParent(parent, selector);
       } else {
         return null;
       }

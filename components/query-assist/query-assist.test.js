@@ -246,7 +246,7 @@ describe('Query Assist', () => {
       const instance = mountQueryAssist().instance();
 
       instance.input.should.contain(`.${LETTER_CLASS}`);
-      instance.input.querySelectorAll(`.${LETTER_CLASS}`).
+      instance.input.queryAll(`.${LETTER_CLASS}`).
         should.have.length(testQueryLength);
     });
 
@@ -307,7 +307,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.instance().input.querySelectorAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_field-value`);
@@ -328,7 +328,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.instance().input.querySelectorAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_default`);
@@ -347,7 +347,7 @@ describe('Query Assist', () => {
         ]
       });
 
-      const letters = wrapper.instance().input.querySelectorAll(`.${LETTER_CLASS}`);
+      const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
       letters[0].should.have.class(`${LETTER_CLASS}_text`);
       letters[1].should.have.class(`${LETTER_CLASS}_default`);
@@ -476,9 +476,9 @@ describe('Query Assist', () => {
           const list = findDOMNode(instance._popup.list);
           const {length} = suggestions;
 
-          list.querySelectorAll('.ring-list__item').should.have.length(length);
-          list.querySelectorAll('.ring-list__highlight').should.have.length(length);
-          list.querySelectorAll('.ring-list__service').should.have.length(length * TWICE);
+          list.queryAll('.ring-list__item').should.have.length(length);
+          list.queryAll('.ring-list__highlight').should.have.length(length);
+          list.queryAll('.ring-list__service').should.have.length(length * TWICE);
 
           wrapper.detach();
           document.body.removeChild(container);

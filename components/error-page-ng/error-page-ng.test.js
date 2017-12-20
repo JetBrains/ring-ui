@@ -31,7 +31,7 @@ describe('Error Page Ng', () => {
     elem = $compile(elem)($rootScope);
     $rootScope.$digest();
 
-    elem[0].querySelector('.content').should.have.text('Hello!');
+    elem[0].query('.content').should.have.text('Hello!');
     elem[0].should.not.contain('.error-message');
   }));
 
@@ -45,7 +45,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
@@ -59,7 +59,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.have.text(`404: ${RingMessageBundle.errorpage_404()}`);
+      elem[0].query('.error-message__title').should.have.text(`404: ${RingMessageBundle.errorpage_404()}`);
     })
   );
 
@@ -74,7 +74,7 @@ describe('Error Page Ng', () => {
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
 
-      elem[0].querySelector('.content').should.have.text('Hello!');
+      elem[0].query('.content').should.have.text('Hello!');
       elem[0].should.not.contain('.error-message');
     })
   );
@@ -90,7 +90,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
@@ -106,7 +106,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
@@ -124,7 +124,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
@@ -148,7 +148,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
@@ -173,7 +173,7 @@ describe('Error Page Ng', () => {
       $rootScope.$digest();
 
       elem[0].should.contain('.error-message');
-      elem[0].querySelector('.error-message__title').should.
+      elem[0].query('.error-message__title').should.
         have.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );

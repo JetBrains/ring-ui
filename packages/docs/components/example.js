@@ -11,7 +11,7 @@ import {currentPath} from './utils';
 
 const componentRE = /^'(@jetbrains\/ring-ui\/components\/([\w-]+)(?:\/.*)?)'$/;
 
-const injectLinks = code => [...code.querySelectorAll('.hljs-string')]
+const injectLinks = code => code.queryAll('.hljs-string')
   .forEach(node => {
     const match = node.textContent.match(componentRE);
 

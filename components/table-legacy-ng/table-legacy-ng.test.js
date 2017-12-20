@@ -53,7 +53,7 @@ describe('Table Legacy Ng', () => {
     });
 
     it('Should place all items inside table', () => {
-      const rows = element[0].querySelectorAll('.ring-table__row');
+      const rows = element[0].queryAll('.ring-table__row');
       rows.should.have.length(fakeData.items.length);
     });
 
@@ -70,7 +70,7 @@ describe('Table Legacy Ng', () => {
       )(scope);
       scope.$digest();
 
-      const columns = element[0].querySelector('.ring-table__row').querySelectorAll('.ring-table__column');
+      const columns = element[0].query('.ring-table__row').queryAll('.ring-table__column');
       columns[0].style.should.have.property('width', '33%');
       columns[1].style.should.have.property('width', '33%');
     });
@@ -183,7 +183,7 @@ describe('Table Legacy Ng', () => {
 
     describe('Table row', () => {
       it('Should activate item on clicking row', () => {
-        element[0].querySelector('.ring-table__row:nth-child(4)').dispatchEvent(new CustomEvent('click'));
+        element[0].query('.ring-table__row:nth-child(4)').dispatchEvent(new CustomEvent('click'));
         scope.$digest();
 
         directiveController.selection.getActiveItem().should.equal(fakeData.items[2]);

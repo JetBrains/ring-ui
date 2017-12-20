@@ -45,38 +45,38 @@ describe('Table Ng Pager', () => {
 
   it('should render pager with 2 pages', () => {
     createPager(15, 10, 0);
-    element[0].querySelectorAll('[anchor-id="table-pager-page"]').should.have.length(2);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(2);
   });
 
   it('should render pager with 5 pages', () => {
     createPager(25, 5, 0);
-    element[0].querySelectorAll('[anchor-id="table-pager-page"]').should.have.length(5);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(5);
   });
 
   it('should render pager with 7 pages maximum', () => {
     createPager(100, 5, 0);
-    element[0].querySelectorAll('[anchor-id="table-pager-page"]').should.have.length(7);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(7);
   });
 
   it('first page should be selected as default', () => {
     createPager(100, 5, 0);
-    element[0].querySelector('[anchor-id="table-pager-page"]:first-child').should.have.class('ring-button_active');
+    element[0].query('[anchor-id="table-pager-page"]:first-child').should.have.class('ring-button_active');
   });
 
   it('third page should be selected as default', () => {
     createPager(100, 5, 10);
-    element[0].querySelector('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
   });
 
   it('third page should be selected as default with optional search param', () => {
     $location.search('page', 3);
     createPager(100, 5, 0);
-    element[0].querySelector('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
+    element[0].query('[anchor-id="table-pager-page"]:nth-child(3)').should.have.class('ring-button_active');
   });
 
   it('change top by optional search param', () => {
     $location.search('top', 10);
     createPager(20, 5, 0);
-    element[0].querySelectorAll('[anchor-id="table-pager-page"]').should.have.length(2);
+    element[0].queryAll('[anchor-id="table-pager-page"]').should.have.length(2);
   });
 });
