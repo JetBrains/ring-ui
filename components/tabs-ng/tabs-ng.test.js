@@ -11,8 +11,8 @@ describe('Tabs Ng', () => {
 
   function getActiveTab(element) {
     return {
-      title: element[0].querySelector('.active'),
-      content: element[0].querySelector('div.ring-tabs__container')
+      title: element[0].query('.active'),
+      content: element[0].query('div.ring-tabs__container')
     };
   }
 

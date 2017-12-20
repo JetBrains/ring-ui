@@ -40,15 +40,13 @@ describe('Icon Ng', () => {
 
   it('should contain non-empty use element', () => {
     // queries like 'use[*|href="#ok"]' do not work in IE
-    element.querySelector('use').getAttributeNS(XLINK_NS, 'href').
-      should.equal(CheckmarkIcon.toString());
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(CheckmarkIcon.toString());
   });
 
   it('should change use element content', () => {
     scope.icon = WarningIcon;
     scope.$digest();
-    element.querySelector('use').getAttributeNS(XLINK_NS, 'href').
-      should.equal(WarningIcon.toString());
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(WarningIcon.toString());
   });
 
   it('should remove use element content', () => {
@@ -90,31 +88,31 @@ describe('Icon Ng', () => {
   });
 
   it('should set default size', () => {
-    element.querySelector('svg').should.have.attr('style', 'width: 32px; height: 32px;');
+    element.query('svg').should.have.attr('style', 'width: 32px; height: 32px;');
   });
 
   it('should set size', () => {
     scope.size = 64;
     scope.$digest();
-    element.querySelector('svg').should.have.attr('style', 'width: 64px; height: 64px;');
+    element.query('svg').should.have.attr('style', 'width: 64px; height: 64px;');
   });
 
   it('should set width', () => {
     scope.width = 64;
     scope.$digest();
-    element.querySelector('svg').should.have.attr('style', 'width: 64px;');
+    element.query('svg').should.have.attr('style', 'width: 64px;');
   });
 
   it('should set height', () => {
     scope.height = 64;
     scope.$digest();
-    element.querySelector('svg').should.have.attr('style', 'height: 64px;');
+    element.query('svg').should.have.attr('style', 'height: 64px;');
   });
 
   it('should set width and height', () => {
     scope.height = 67;
     scope.width = 76;
     scope.$digest();
-    element.querySelector('svg').should.have.attr('style', 'width: 76px; height: 67px;');
+    element.query('svg').should.have.attr('style', 'width: 76px; height: 67px;');
   });
 });

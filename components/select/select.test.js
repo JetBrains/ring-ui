@@ -462,7 +462,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const addButton = instance._popup.popup.popup.querySelector('.ring-select__button');
+        const addButton = instance._popup.popup.popup.query('.ring-select__button');
 
         addButton.should.contain.text('Add Something');
       });
@@ -483,7 +483,7 @@ describe('Select', () => {
         });
         const instance = wrapper.instance();
         instance._showPopup();
-        const hint = instance._popup.popup.popup.querySelectorAll('.ring-list__item_hint');
+        const hint = instance._popup.popup.popup.queryAll('.ring-list__item_hint');
 
         hint.should.exist;
       });
