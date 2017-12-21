@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
 import Link from '../link/link';
-import ringBadgeStyles from '../badge/badge.css';
+import badgeStyles from '../badge/badge.css';
 
 import styles from './user-card.css';
 
@@ -55,7 +55,7 @@ export default class UserCard extends PureComponent {
               {
                 user.banned &&
                 <span
-                  className={[ringBadgeStyles.badge, ringBadgeStyles.invalid].join(' ')}
+                  className={classNames(badgeStyles.badge, badgeStyles.invalid)}
                   title={user.banReason}
                 >{this.props.wording.banned}</span>
               }
