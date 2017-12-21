@@ -100,7 +100,7 @@
 
     render(
       <div className="icon-example__container">
-        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon}/>)}
+        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon.displayName}/>)}
       </div>,
       document.getElementById('all-icons')
     );
@@ -129,7 +129,7 @@
 
     render(
       <div>
-        {Object.values(logos).map(Logo => <Logo key={Logo} title={Logo} size={Logo.Size.Size128}/>)}
+        {Object.values(logos).map(Logo => <Logo key={Logo} title={Logo.displayName} size={Logo.Size.Size128}/>)}
       </div>,
       document.getElementById('logos')
     );
