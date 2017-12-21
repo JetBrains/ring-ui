@@ -17,6 +17,8 @@
   height: 20px;
   padding: 2px unit;
 
+  cursor: default;
+
   vertical-align: baseline;
 
   color: normal-color;

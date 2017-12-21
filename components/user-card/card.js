@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import Avatar, {Size} from '../avatar/avatar';
 import Link from '../link/link';
+import ringBadgeStyles from '../badge/badge.css';
 
 import styles from './user-card.css';
 
@@ -18,7 +19,17 @@ export default class UserCard extends PureComponent {
       avatarUrl: PropTypes.string.isRequired,
       email: PropTypes.string,
       href: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+
+    wording: PropTypes.shape({
+      banned: PropTypes.string.isRequired
+    })
+  };
+
+  static defaultProps = {
+    wording: {
+      banned: 'banned'
+    }
   };
 
   render() {
@@ -34,13 +45,24 @@ export default class UserCard extends PureComponent {
             url={user.avatarUrl}
           />
           <div className={styles.userInformation}>
-            <Link
-              href={user.href}
-              className={styles.userName}
-            >
-              {user.name}
-            </Link>
-            <div>{user.login}</div>
+            <div>
+              <Link
+                href={user.href}
+                className={styles.userName}
+              >
+                {user.name}
+              </Link>
+              {
+                user.banned &&
+                <span
+                  className={[ringBadgeStyles.badge, ringBadgeStyles.invalid].join(' ')}
+                  title={user.banReason}
+                >{this.props.wording.banned}</span>
+              }
+            </div>
+            <div>
+              {user.login}
+            </div>
             {user.email && <div>{user.email}</div>}
           </div>
         </div>
