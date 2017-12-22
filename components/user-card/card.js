@@ -33,7 +33,7 @@ export default class UserCard extends PureComponent {
   };
 
   render() {
-    const {children, className, user, ...restProps} = this.props;
+    const {children, className, user, wording, ...restProps} = this.props;
 
     const classes = classNames(className, {});
 
@@ -57,7 +57,7 @@ export default class UserCard extends PureComponent {
                 <span
                   className={classNames(badgeStyles.badge, badgeStyles.invalid)}
                   title={user.banReason}
-                >{this.props.wording.banned}</span>
+                >{wording.banned}</span>
               }
             </div>
             <div>
