@@ -125,7 +125,7 @@
     "husky": "0.14.3",
     "iframe-resizer": "3.5.15",
     "json-loader": "0.5.7",
-    "karma": "1.7.1",
+    "karma": "2.0.0",
     "karma-coverage": "1.1.1",
     "karma-coverage-html-index-reporter": "1.0.2",
     "karma-electron-launcher": "0.2.0",
