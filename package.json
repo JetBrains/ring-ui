@@ -162,7 +162,7 @@
     "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
     "@jetbrains/babel-preset-jetbrains": "1.0.2",
     "@jetbrains/babel-runtime": "6.23.1",
-    "@jetbrains/icons": "1.11.0",
+    "@jetbrains/icons": "1.12.0",
     "@jetbrains/logos": "0.1.6",
     "@jetbrains/react-portal": "3.1.0",
     "autoprefixer": "7.2.3",
