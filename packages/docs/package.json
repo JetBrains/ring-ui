@@ -18,15 +18,14 @@
     "components": "./components/"
   },
   "scripts": {
-    "postinstall": "npm rebuild node-sass",
-    "build-prod": "webpack --env.production",
-    "build": "webpack",
+    "build-prod": "webpack --bail --env.production",
+    "build": "webpack --bail",
     "start": "node --max_old_space_size=2000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "^1.0.0-beta.19",
     "extract-text-webpack-plugin": "2.1.2",
     "webpack": "2.7.0",
-    "webpack-dev-server": "2.6.1"
+    "webpack-dev-server": "2.9.7"
   }
 }

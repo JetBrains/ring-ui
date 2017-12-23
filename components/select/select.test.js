@@ -189,7 +189,7 @@ describe('Select', () => {
   });
 
   it('Should close popup if input lost focus in INPUT mode', () => {
-    sandbox.useFakeTimers();
+    sandbox.useFakeTimers({toFake: ['setTimeout']});
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
     instance._showPopup();
@@ -200,7 +200,7 @@ describe('Select', () => {
   });
 
   it('Should not close popup while clicking on popup in INPUT mode', () => {
-    sandbox.useFakeTimers();
+    sandbox.useFakeTimers({toFake: ['setTimeout']});
     const wrapper = mountSelect({type: Select.Type.INPUT});
     const instance = wrapper.instance();
     instance._showPopup();
@@ -1130,7 +1130,7 @@ describe('Select', () => {
     let clock;
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
     });
 
     it('should not redraw a popup in default mode', () => {

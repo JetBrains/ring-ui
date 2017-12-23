@@ -23,6 +23,7 @@
 .userName {
   display: inline-block;
 
+  margin-right: 4px;
   margin-bottom: 3px;
 
   font-size: 16px;

@@ -2,7 +2,7 @@
 
 gemini.suite('LinkNg', suite => {
   suite.
-    setUrl('/link-ng/link-ng.html').
+    setUrl('link-ng/link-ng.html').
     setCaptureElements('#link').
     capture('link-ng', (actions, find) => {
       // Click on div to avoid unexpected hover on link

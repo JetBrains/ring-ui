@@ -44,7 +44,7 @@
     padding-right: calc(unit * 4);
   }
 
-  &:nth-child(1):only-child {
+  &:first-child:only-child {
     width: initial;
     max-width: none;
   }
@@ -114,6 +114,7 @@
     box-shadow: inset 2px 0 border-hover-color;
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
   & > :last-child {
     box-shadow: inset -2px 0 border-hover-color;
   }
@@ -160,12 +161,12 @@
     padding-right: calc(unit * 4);
   }
 
-  &:nth-child(1) {
+  &:first-child {
     min-width: calc(unit * 37);
     max-width: calc(unit * 77);
   }
 
-  &:nth-child(1):only-child {
+  &:first-child:only-child {
     width: initial;
     max-width: none;
   }
