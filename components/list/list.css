@@ -133,16 +133,14 @@
   margin-left: 20px;
 }
 
-.hint {
-  /* Override :last-child */
-  && {
-    margin-bottom: 0;
+/* Override :last-child */
+.hint.hint {
+  margin-bottom: 0;
 
-    border-top: 1px solid #e5dcb8;
-    background-color: #fff5cd;
+  border-top: 1px solid #e5dcb8;
+  background-color: #fff5cd;
 
-    font-size: font-size-smaller;
-  }
+  font-size: font-size-smaller;
 }
 
 .action {
@@ -151,11 +149,9 @@
   color: text-color;
 }
 
-.actionLink {
-  /* override link */
-  && {
-    transition: none;
-  }
+/* override link */
+.actionLink.actionLink {
+  transition: none;
 }
 
 .hover:not(.error) {

@@ -34,7 +34,7 @@
 
   color: dark-gray-color;
 
-  line-height: calc(unit * 4px);
+  line-height: calc(unit * 4);
 
   :global(.ring-loader_inline) {
     top: 2px;
@@ -66,10 +66,10 @@
   padding: 0 3px;
 
   vertical-align: -2px;
+}
 
-  && > span > span {
-    color: dark-gray-color;
-  }
+.clearIcon.clearIcon > span > span {
+  color: dark-gray-color;
 }
 
 .sizeS {

@@ -26,10 +26,6 @@
   margin: calc(unit * 4) 0;
   overflow-wrap: break-word;
 
-  && {
-    box-shadow: 0 2px 16px color(popup-border-color a(0.15));
-  }
-
   & :global(.ring-panel) {
     margin-top: 0;
     padding: 0 calc(unit * 4) calc(unit * 2);
@@ -49,6 +45,10 @@
   & .islandScrollableWrapperInsideDialog {
     padding-bottom: calc(calc(unit * 2.5) - 1px);
   }
+}
+
+.content.content {
+  box-shadow: 0 2px 16px color(popup-border-color a(0.15));
 }
 
 .closeButton {

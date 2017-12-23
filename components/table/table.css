@@ -190,24 +190,23 @@
   padding-right: 0;
 }
 
+@value top: -5px;
+
 .dragHandle {
   top: top;
-
   left: calc(-2 * unit);
 
   cursor: grab;
 
   opacity: 0;
+}
 
-  @value top: -5px;
+/* override button */
+.dragHandle.dragHandle {
+  position: absolute;
 
-  /* override button */
-  && {
-    position: absolute;
-
-    height: calc(height - top);
-    padding: 0;
-  }
+  height: calc(height - top);
+  padding: 0;
 }
 
 .dragHandle.visibleDragHandle,
