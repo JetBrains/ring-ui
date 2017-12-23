@@ -2,13 +2,11 @@
   display: inline-block;
 }
 
-.anchor {
-  && {
-    margin: 0 -3px;
-    padding: 0 3px;
+.anchor.anchor {
+  margin: 0 -3px;
+  padding: 0 3px;
 
-    font: inherit;
-  }
+  font: inherit;
 }
 
 .chevron {

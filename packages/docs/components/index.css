@@ -238,15 +238,16 @@ a.legacy {
 .searchInput {
   display: inline-block;
 
-  && {
-    padding-left: calc(unit * 4);
-  }
-
   background-color: #001d32;
+}
 
-  &&& ::placeholder {
-    text-shadow: 0 0 0 search-color;
-  }
+.searchInput.searchInput {
+  padding-left: calc(unit * 4);
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.searchInput.searchInput.searchInput ::placeholder {
+  text-shadow: 0 0 0 search-color;
 }
 
 .codeLink {
