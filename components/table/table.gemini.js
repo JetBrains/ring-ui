@@ -3,7 +3,7 @@
 const ANIMATION_DELAY = 400;
 
 gemini.suite('Table', suite => {
-  suite.setUrl('/table/table.html');
+  suite.setUrl('table/table.html');
 
   suite.setCaptureElements('table');
 

@@ -62,8 +62,8 @@ export default class Selection {
   }
 
   moveUp() {
-    const {_focused: focused, _data} = this;
-    const data = [..._data];
+    const focused = this._focused;
+    const data = [...this._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[data.length - 1]});
@@ -78,8 +78,8 @@ export default class Selection {
   }
 
   moveDown() {
-    const {_focused: focused, _data} = this;
-    const data = [..._data];
+    const focused = this._focused;
+    const data = [...this._data];
 
     if (!focused) {
       return this.cloneWith({focused: data[0]});

@@ -2,7 +2,7 @@
 
 gemini.suite('Palette', suite => {
   suite.
-    setUrl('/palette/palette.html').
+    setUrl('palette/palette.html').
     setCaptureElements('#palette').
     capture('palette');
 });

@@ -448,21 +448,21 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
               ctrl.onClose();
             });
           },
-          onSelect: item => {
+          onSelect: (selected, event) => {
             $scope.$evalAsync(() => {
-              ctrl.onSelect({selected: item});
+              ctrl.onSelect({selected, event});
             });
           },
-          onDeselect: item => {
+          onDeselect: (deselected, event) => {
             $scope.$evalAsync(() => {
-              ctrl.onDeselect({deselected: item});
+              ctrl.onDeselect({deselected, event});
             });
           },
-          onChange: selected => {
+          onChange: (selected, event) => {
             ctrl.syncSelectToNgModel(selected);
 
             $scope.$evalAsync(() => {
-              ctrl.onChange({selected});
+              ctrl.onChange({selected, event});
             });
           },
           onFilter: query => {

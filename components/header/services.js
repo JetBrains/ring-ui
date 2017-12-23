@@ -11,6 +11,17 @@ import TrayIcon from './tray-icon';
 import ServicesLink from './services-link';
 import styles from './services.css';
 
+const Anchor = ({active}) => (
+  <TrayIcon
+    active={active}
+    glyph={ServicesIcon}
+  />
+);
+
+Anchor.propTypes = {
+  active: PropTypes.bool
+};
+
 export default class Services extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -55,17 +66,11 @@ export default class Services extends PureComponent {
     const servicesWithIcons = sortedServices.filter(service => service.iconUrl);
     const servicesWithOutIcons = sortedServices.filter(service => !service.iconUrl);
     const separatorIsRequired = servicesWithIcons.length !== 0 && servicesWithOutIcons.length !== 0;
-    const anchor = ({active}) => (
-      <TrayIcon
-        active={active}
-        icon={ServicesIcon}
-      />
-    );
 
     return (
       <Dropdown
         {...props}
-        anchor={anchor}
+        anchor={Anchor}
         className={className}
         initShown={initShown}
       >

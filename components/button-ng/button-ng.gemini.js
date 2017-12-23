@@ -2,7 +2,7 @@
 
 gemini.suite('Button Ng', suite => {
   suite.
-    setUrl('/button-ng/button-ng.html').
+    setUrl('button-ng/button-ng.html').
     setCaptureElements('body > div').
     capture('buttons', actions => {
       actions.executeJS(function disableLoadingButtons() {

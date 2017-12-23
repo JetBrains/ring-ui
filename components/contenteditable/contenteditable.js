@@ -80,16 +80,16 @@ export default class ContentEditable extends Component {
     this.props.onComponentUpdate(prevProps, prevState);
   }
 
+  onRender = node => {
+    this.setState({__html: node ? node.innerHTML : ''});
+  };
+
   renderStatic(nextProps) {
     if (!nextProps.children) {
       this.setState({__html: ''});
     }
 
-    const onRender = node => {
-      this.setState({__html: node ? node.innerHTML : ''});
-    };
-
-    render(<i ref={onRender}>{nextProps.children}</i>, document.createElement('i'));
+    render(<i ref={this.onRender}>{nextProps.children}</i>, document.createElement('i'));
   }
 
   render() {
