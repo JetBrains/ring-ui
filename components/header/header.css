@@ -39,16 +39,16 @@
 
   line-height: normal;
 
-  /* override .header > * */
-  && {
-    display: inline-flex;
-
-    padding: 0 0 0 calc(unit * 2);
-  }
-
   & svg {
     vertical-align: bottom;
   }
+}
+
+/* override .header > * */
+.logo.logo {
+  display: inline-flex;
+
+  padding: 0 0 0 calc(unit * 2);
 }
 
 .tray {
@@ -56,11 +56,11 @@
 
   margin-left: auto;
   padding: 0 0 compensate;
+}
 
-  /* override .header > * */
-  && {
-    display: flex;
-  }
+/* override .header > * */
+.tray.tray {
+  display: flex;
 }
 
 .trayItemContent {
@@ -71,13 +71,13 @@
   width: calc(unit * 5);
 
   vertical-align: top;
+}
 
-  /* override button */
-  && {
-    height: compensated;
+/* override button */
+.icon.icon {
+  height: compensated;
 
-    padding-top: 4px;
-  }
+  padding-top: 4px;
 }
 
 .main svg {
@@ -102,11 +102,11 @@
   padding: 0 calc(unit * 4) 0 unit;
 
   vertical-align: bottom;
+}
 
-  /* override dropdown */
-  && {
-    display: inline-flex;
-  }
+/* override dropdown */
+.profileEmpty.profileEmpty {
+  display: inline-flex;
 }
 
 .profile {

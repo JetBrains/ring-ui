@@ -14,7 +14,7 @@ import styles from './services.css';
 const Anchor = ({active}) => (
   <TrayIcon
     active={active}
-    glyph={ServicesIcon}
+    icon={ServicesIcon}
   />
 );
 

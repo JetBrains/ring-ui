@@ -90,11 +90,11 @@
   @nest .borderless & {
     top: 0;
   }
+}
 
-  /* override Button */
-  && {
-    line-height: calc(unit * 4);
-  }
+/* override Button */
+.clear.clear {
+  line-height: calc(unit * 4);
 }
 
 textarea.input {
