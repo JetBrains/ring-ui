@@ -68,7 +68,7 @@ body {
 }
 
 .logo {
-  margin-left: calc(unit * -4 + 1);
+  margin-left: calc(unit * -4 + 1px);
 }
 
 .item.item {

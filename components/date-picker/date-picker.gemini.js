@@ -5,7 +5,7 @@ const UNHOVER_DELAY = 500;
 gemini.suite('Date Picker', () => {
   gemini.suite('Single date', child => {
     child.
-      setUrl('/date-picker/date-picker-single-date.html').
+      setUrl('date-picker/date-picker-single-date.html').
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
@@ -16,7 +16,7 @@ gemini.suite('Date Picker', () => {
 
   gemini.suite('Range', child => {
     child.
-      setUrl('/date-picker/date-picker-range.html').
+      setUrl('date-picker/date-picker-range.html').
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));
@@ -27,7 +27,7 @@ gemini.suite('Date Picker', () => {
 
   gemini.suite('Clearable', child => {
     child.
-      setUrl('/date-picker/date-picker-clearable.html').
+      setUrl('date-picker/date-picker-clearable.html').
       setCaptureElements('#date-picker', '[data-test=ring-popup]').
       capture('datePickerPopup', (actions, find) => {
         actions.click(find('button'));

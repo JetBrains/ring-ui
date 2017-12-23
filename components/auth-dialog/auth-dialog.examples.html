@@ -32,7 +32,7 @@
           this.setState({
             confirm: {
               show: true,
-              errorMessage: 'Authorization lost',
+              errorMessage: 'Authorization is required',
               serviceName: 'YouTrack',
     onConfirm: () => this.hideAuthDialog() || resolve(),
               onCancel: () => this.hideAuthDialog() || reject()
@@ -47,13 +47,13 @@
         return (
         <div>
           <div>
-            <Button onClick={this.showAuthDialog}>Show confirm</Button>
+            <Button onClick={this.showAuthDialog}>Show dialog</Button>
           </div>
           <AuthDialog
             {...this.state.confirm}
             serviceImage={youtrackLogo}
             confirmLabel="Log in"
-            cancelLabel="Stay as guest"
+            cancelLabel="Stay a guest"
           />
         </div>
         );

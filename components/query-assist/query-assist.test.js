@@ -618,7 +618,7 @@ describe('Query Assist', () => {
 
   describe('request data', () => {
     it('should batch requests', () => {
-      sandbox.useFakeTimers();
+      sandbox.useFakeTimers({toFake: ['setTimeout', 'clearTimeout']});
 
       const wrapper = mountQueryAssist();
       const instance = wrapper.instance();

@@ -12,12 +12,10 @@ module.exports = ctx => {
     }
   };
   const cssModules = Object.assign({}, {
-    'postcss-modules-values-replace': {
-      fs: ctx.webpack._compiler.inputFileSystem
-    }
+    'postcss-modules-values-replace': {}
   }, cssNext);
 
-  const plugins = scssRE.test(ctx.webpack.resourcePath)
+  const plugins = scssRE.test(ctx.file.basename)
     ? cssNext
     : cssModules;
 

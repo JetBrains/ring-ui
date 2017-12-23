@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import {
   Simulate
@@ -124,7 +125,7 @@ describe('Dropdown', () => {
     };
 
     beforeEach(() => {
-      clock = sandbox.useFakeTimers();
+      clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
 
       const popupComponent = (
         <Popup

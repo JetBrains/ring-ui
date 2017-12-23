@@ -393,6 +393,25 @@ describe('Select Ng', () => {
       scope.callback.should.have.been.calledWith(selectedModel);
     });
 
+    it('Should pass an event to a callback as a second parameter', () => {
+      scope.event = {};
+      scope.onSelect = sandbox.spy();
+      scope.onDeselect = sandbox.spy();
+      scope.onChange = sandbox.spy();
+      scope.options = [{}];
+      const model = {originalModel: scope.options[0]};
+
+      compileTemplate('<rg-select options="item in options" on-change="onChange(selected,event)" on-select="onSelect(selected,event)" on-deselect="onDeselect(deselected,event)"></rg-select>');
+      ctrl.config.onSelect(model, scope.event);
+      ctrl.config.onChange(model, scope.event);
+      ctrl.config.onDeselect(model, scope.event);
+      scope.$digest();
+
+      scope.onSelect.should.have.been.calledWith(model, scope.event);
+      scope.onDeselect.should.have.been.calledWith(model, scope.event);
+      scope.onChange.should.have.been.calledWith(model, scope.event);
+    });
+
     it('Should take just plain option as label if option is string', () => {
       ctrl.optionsParser.getLabel('test').should.equal('test');
     });

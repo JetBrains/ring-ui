@@ -136,7 +136,7 @@
 @value breakpoint-large: 1200px;
 
 /* Media queries */
-@value extra-small-screen-media: (max-width: calc(breakpoint-small - 1));
-@value small-screen-media: (min-width: breakpoint-small) and (max-width: calc(breakpoint-middle - 1));
-@value middle-screen-media: (min-width: breakpoint-middle) and (max-width: calc(breakpoint-large - 1));
+@value extra-small-screen-media: (max-width: calc(breakpoint-small - 1px));
+@value small-screen-media: (min-width: breakpoint-small) and (max-width: calc(breakpoint-middle - 1px));
+@value middle-screen-media: (min-width: breakpoint-middle) and (max-width: calc(breakpoint-large - 1px));
 @value large-screen-media: (min-width: breakpoint-large);

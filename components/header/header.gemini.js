@@ -3,7 +3,7 @@
 gemini.suite('Header', () => {
   gemini.suite('Header', suite => {
     suite.
-      setUrl('/header/header.html').
+      setUrl('header/header.html').
       setCaptureElements('#header').
       capture('header');
   });

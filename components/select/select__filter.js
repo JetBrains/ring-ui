@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Input from '../input/input';
+import sniffr from '../global/sniffer';
 
 import styles from './select-popup.css';
 
@@ -29,8 +30,9 @@ export default class SelectFilter extends Component {
   }
 
   focus() {
-    if (this.input && this.input !== document.activeElement) {
-      this.input.focus();
+    const {input} = this;
+    if (input && input !== document.activeElement) {
+      sniffr.browser.name === 'firefox' ? input.select() : input.focus();
     }
   }
 

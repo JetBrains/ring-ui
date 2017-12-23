@@ -176,14 +176,18 @@ export default class SelectPopup extends Component {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect = selected => {
+  onListSelect = (selected, event) => {
     const getSelectItemEvent = () => {
-      let event;
+      let customEvent;
       if (document.createEvent) {
-        event = document.createEvent('Event');
-        event.initEvent('select', true, false);
+        customEvent = document.createEvent('Event');
+        customEvent.initEvent('select', true, false);
       }
-      return event;
+      if (event && event.persist) {
+        event.persist();
+      }
+      customEvent.originalEvent = event;
+      return customEvent;
     };
 
     this.props.onSelect(selected, getSelectItemEvent());
@@ -198,10 +202,10 @@ export default class SelectPopup extends Component {
     this.caret = new Caret(this.filter);
   };
 
+  onClickHandler = () => this.filter.focus();
+
   getFilter() {
     if ((this.props.filter || this.props.tags) && !this.props.hidden) {
-      const onClickHandler = () => this.filter.focus();
-
       return (
         <div className={styles.filterWrapper}>
           <SearchIcon
@@ -220,7 +224,7 @@ export default class SelectPopup extends Component {
             placeholder={this.props.filter.placeholder}
 
             onChange={this.props.onFilter}
-            onClick={onClickHandler}
+            onClick={this.onClickHandler}
             onClear={this.props.onClear}
           />
         </div>

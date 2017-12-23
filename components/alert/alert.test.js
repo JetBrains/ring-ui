@@ -13,7 +13,7 @@ describe('Alert', () => {
 
   let clock;
   beforeEach(() => {
-    clock = sandbox.useFakeTimers();
+    clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
   });
 
   it('should render', () => {
