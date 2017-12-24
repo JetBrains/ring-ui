@@ -115,7 +115,7 @@
     "electron": "1.8.1",
     "enzyme": "3.2.0",
     "enzyme-adapter-react-16": "1.1.1",
-    "eslint": "^4.13.1",
+    "eslint": "^4.14.0",
     "eslint-plugin-flowtype-errors": "^3.3.0",
     "exports-loader": "0.6.4",
     "flow-bin": "0.44.2",
