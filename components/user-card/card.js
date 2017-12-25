@@ -22,13 +22,17 @@ export default class UserCard extends PureComponent {
     }).isRequired,
 
     wording: PropTypes.shape({
-      banned: PropTypes.string.isRequired
+      banned: PropTypes.string.isRequired,
+      online: PropTypes.string.isRequired,
+      offline: PropTypes.string.isRequired
     })
   };
 
   static defaultProps = {
     wording: {
-      banned: 'banned'
+      banned: 'banned',
+      online: 'online',
+      offline: 'offline'
     }
   };
 
@@ -36,6 +40,10 @@ export default class UserCard extends PureComponent {
     const {children, className, user, wording, ...restProps} = this.props;
 
     const classes = classNames(className, {});
+    const userActiveStatusClasses = classNames(
+      styles.userActiveStatus,
+      user.online ? styles.online : ''
+    );
 
     return (
       <div className={classes} {...restProps}>
@@ -61,6 +69,13 @@ export default class UserCard extends PureComponent {
               }
             </div>
             <div>
+              {
+                typeof user.online === 'boolean' &&
+                <span
+                  className={userActiveStatusClasses}
+                  title={user.online ? wording.online : wording.offline}
+                />
+              }
               {user.login}
             </div>
             {user.email && <div>{user.email}</div>}
