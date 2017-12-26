@@ -14,8 +14,8 @@
     "forever": "0.15.3",
     "gemini": "5.1.2",
     "gemini-sauce": "^1.0.1",
-    "gemini-teamcity": "2.1.3",
-    "html-reporter": "1.1.0",
+    "gemini-teamcity": "2.1.5",
+    "html-reporter": "1.2.0",
     "http-server": "0.10.0",
     "ip": "1.1.5"
   }
