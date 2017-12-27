@@ -4,6 +4,11 @@ category: Docs
 order: 2
 ---
 
+## [0.4.6] - 28-12-2017
+
+- `ErrorBubble` component has been reimplemented using `Popup`. Despite it has the same public API,
+internal implementation may introduce issues if it has been customized too much or if class names were used as DOM selectors.
+
 ## [0.4.0] — 18-12-2017
 
 - `react-markdown` package was updated to version 3.0 which contains breaking changes. 
