@@ -28,7 +28,6 @@ import './error-bubble.scss';
        const renderBubbleDemo = value => (
          <ErrorBubble
            error={value ? null : 'Value is required'}
-           valid={value !== null}
            onInput={e => render(renderBubbleDemo(e.target.value), container)}
            placeholder="enter something"
          >
@@ -44,14 +43,13 @@ import './error-bubble.scss';
 export default class ErrorBubble extends PureComponent {
   static propTypes = {
     error: PropTypes.string,
-    valid: PropTypes.bool,
     className: PropTypes.string,
     children: PropTypes.node
   };
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const {children, className, valid, ...restProps} = this.props;
+    const {children, className, ...restProps} = this.props;
     const classes = classNames('ring-error-bubble active', className);
 
     return (
