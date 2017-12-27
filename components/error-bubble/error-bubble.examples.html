@@ -1,0 +1,72 @@
+<example name="Error Bubble">
+  <file type="html">
+    <div id="container"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
+    import Input from '@jetbrains/ring-ui/components/input/input';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+
+    const container = document.getElementById('container');
+    const renderBubbleDemo = value => (
+    <ErrorBubble
+      error={value ? null :
+    'Value is required'}
+    onInput={e => render(renderBubbleDemo(e.target.value), container)}
+    placeholder="enter something"
+    >
+    <Input className="ring-input-size_md"/>
+    </ErrorBubble>
+    );
+
+    render(renderBubbleDemo(), container);
+  </file>
+</example>
+
+<example name="Error Bubble In Dialog Form">
+  <file type="html">
+    <div id="container"></div>
+  </file>
+
+  <file type="js">
+    import {render} from 'react-dom';
+    import React from 'react';
+
+    import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
+    import Input from '@jetbrains/ring-ui/components/input/input';
+    import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+    import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
+    import '@jetbrains/ring-ui/components/form/form.scss';
+    import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+
+    const container = document.getElementById('container');
+    const renderBubbleDemo = value => (
+    <Dialog show>
+      <Header>Dialog example</Header>
+      <Content>
+        <form className="ring-form">
+          <div className="ring-form__group">
+            <label className="ring-form__label">Field name</label>
+            <div className="ring-form__control ring-form__control_small">
+              <ErrorBubble
+                error={value ? null :
+              'Value is required'}
+              onInput={e => render(renderBubbleDemo(e.target.value), container)}
+              placeholder="enter something"
+              >
+              <Input className="ring-input-size_md"/>
+              </ErrorBubble>
+            </div>
+          </div>
+        </form>
+      </Content>
+    </Dialog>
+    );
+
+    render(renderBubbleDemo(), container);
+  </file>
+</example>
