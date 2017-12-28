@@ -4,10 +4,11 @@ category: Docs
 order: 2
 ---
 
-## [0.4.6] - 28-12-2017
+## [0.4.6] — 28-12-2017
 
-- `ErrorBubble` component has been reimplemented using `Popup`. Despite it has the same public API,
-internal implementation may introduce issues if it has been customized too much or if class names were used as DOM selectors.
+- `ErrorBubble` component was reimplemented using `Popup`. While the API did not change, the
+implementation has changed drastically. If you were relying on the internals 
+(to customize CSS, for example) please review your implementation.
 
 ## [0.4.0] — 18-12-2017
 
@@ -84,6 +85,7 @@ the `rerender` method for backward compatibility:
 - Updated lots of dependencies
 - `mout` is no longer a dependency
 
+[0.4.6]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.4.5...%40jetbrains/ring-ui%400.4.6
 [0.4.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.3.8...9a4e78c2d33ec82fec05f8b5afc14d081d553798
 [0.3.8]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.3.1...%40jetbrains/ring-ui%400.3.8
 [0.3.0]: https://upsource.jetbrains.com/ring-ui/compare/%40jetbrains/ring-ui%400.2.50...%40jetbrains/ring-ui%400.3.1
