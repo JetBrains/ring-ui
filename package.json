@@ -113,7 +113,7 @@
     "docpack-markdown-extractor": "0.0.3",
     "docpack-page-generator": "0.0.8",
     "electron": "1.8.1",
-    "enzyme": "3.2.0",
+    "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "^4.14.0",
     "eslint-plugin-flowtype-errors": "^3.3.0",
