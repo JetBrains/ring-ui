@@ -190,7 +190,7 @@
     "pascal-case": "2.0.1",
     "postcss": "6.0.15",
     "postcss-cssnext": "3.0.2",
-    "postcss-loader": "2.0.9",
+    "postcss-loader": "2.0.10",
     "postcss-modules-values-replace": "1.2.1",
     "prop-types": "15.6.0",
     "react-markdown": "3.1.4",
