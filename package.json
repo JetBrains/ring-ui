@@ -172,7 +172,7 @@
     "classnames": "2.2.5",
     "combokeys": "3.0.0",
     "compile-code-loader": "0.2.0",
-    "css-loader": "0.28.7",
+    "css-loader": "0.28.8",
     "deep-equal": "1.0.1",
     "dom4": "1.8.5",
     "element-resize-detector": "1.1.12",
