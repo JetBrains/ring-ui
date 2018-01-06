@@ -188,7 +188,7 @@
     "moment": "2.20.1",
     "node-sass": "4.7.2",
     "pascal-case": "2.0.1",
-    "postcss": "6.0.15",
+    "postcss": "6.0.16",
     "postcss-cssnext": "3.0.2",
     "postcss-loader": "2.0.10",
     "postcss-modules-values-replace": "1.2.1",
