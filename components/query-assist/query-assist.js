@@ -576,7 +576,9 @@ export default class QueryAssist extends Component {
       }
     }
 
-    return offset - POPUP_COMPENSATION;
+    const result = offset - POPUP_COMPENSATION;
+
+    return result < 0 ? 0 : result;
   }
 
   handleCtrlSpace = e => {
