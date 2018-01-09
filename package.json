@@ -139,7 +139,7 @@
     "mocha": "4.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
-    "react-github-corner": "^2.0.0",
+    "react-github-corner": "^2.1.0",
     "react-test-renderer": "16.2.0",
     "sinon": "4.1.3",
     "sinon-chai": "2.14.0",
