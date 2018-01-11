@@ -116,7 +116,7 @@
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "^4.15.0",
-    "eslint-plugin-flowtype-errors": "^3.3.0",
+    "eslint-plugin-flowtype-errors": "^3.3.7",
     "exports-loader": "0.6.4",
     "flow-bin": "0.44.2",
     "front-matter": "2.3.0",
