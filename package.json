@@ -33,6 +33,7 @@
     "test": "karma start",
     "test-generator-e2e": "npm --prefix packages/generator test",
     "gemini-test": "npm --prefix packages/gemini run gemini-test",
+    "gemini-test-single": "npm --prefix packages/gemini run gemini-test-single",
     "gemini-test-ci": "npm --prefix packages/gemini run gemini-test-ci",
     "gemini-gather": "npm --prefix packages/gemini run gemini-gather",
     "build": "npm --prefix packages/docs run build",
