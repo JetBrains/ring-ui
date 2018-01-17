@@ -1,0 +1,10 @@
+/* This fixes vertical align of icons, contained in button content */
+.ringIconVerticalAlignFix :global(.ring-icon) {
+  top: auto;
+
+  vertical-align: 1px;
+
+  color: #999;
+
+  line-height: 8px;
+}
