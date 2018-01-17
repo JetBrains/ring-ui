@@ -1,11 +1,15 @@
 import angular from 'angular';
 import 'dom4';
+import classNames from 'classnames';
 import 'core-js/modules/es7.array.includes';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import IconNG from '../icon-ng/icon-ng';
+import Theme from '../global/theme';
+import styles from '../button/button.css';
 
-import '../button/button.scss';
+import {ringIconVerticalAlignFix} from './button-ng.css';
+
 
 const DEFAULT_ICON_SIZE = 16;
 
@@ -19,6 +23,12 @@ const DEFAULT_ICON_SIZE = 16;
 
 const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';
+const buttonClasses = classNames(
+  styles.button,
+  styles.buttonWithoutIcon,
+  ringIconVerticalAlignFix,
+  styles.light
+);
 
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile'];
@@ -27,13 +37,15 @@ class ButtonController extends RingAngularComponent {
     super(...args);
 
     const {$element, $attrs, $scope} = this.$inject;
+    $scope.styles = styles;
     this.element = $element[0];
 
-    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active'];
+    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text'];
     const cl = this.element.classList;
+
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
-        val ? cl.add(`ring-button_${mod}`) : cl.remove(`ring-button_${mod}`);
+        val ? cl.add(styles[mod]) : cl.remove(styles[mod]);
       });
     });
 
@@ -55,33 +67,48 @@ class ButtonController extends RingAngularComponent {
     // A dirty workaround for IE9 :(
     const updateMode = val => setTimeout(this.updateMode.bind(this, val), 0);
     const updateIcon = val => setTimeout(this.updateIcon.bind(this, val), 0);
+    const updateTheme = val => setTimeout(this.updateTheme.bind(this, val), 0);
 
     $attrs.$observe('mode', updateMode);
     $attrs.$observe('icon', updateIcon);
     $attrs.$observe('iconSize', updateIcon);
+    $attrs.$observe('theme', updateTheme);
+  }
+
+  updateTheme(val) {
+    const cl = this.element.classList;
+    if (val === Theme.DARK) {
+      cl.remove(styles.light);
+      cl.add(styles.dark);
+    }
+    if (val === Theme.LIGHT) {
+      cl.remove(styles.dark);
+      cl.add(styles.light);
+    }
   }
 
   updateMode(val) {
     const cl = this.element.classList;
-    const mode = ['primary', 'blue'].includes(val) ? val : 'default';
-
-    cl.remove('ring-button_default', 'ring-button_primary', 'ring-button_blue');
-    cl.add(`ring-button_${mode}`);
+    if (val === 'primary') {
+      cl.add(styles.primary);
+    } else {
+      cl.remove(styles.primary);
+    }
   }
 
   updateIcon() {
     const {$attrs, $compile, $scope} = this.$inject;
-    const icon = this.element.query('.ring-button__icon');
+    const icon = this.element.query('.ring-icon');
     const glyph = $attrs.icon;
     const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;
 
     if (glyph) {
-      cl.add('ring-button_icon');
+      cl.remove(styles.buttonWithoutIcon);
       icon.setAttribute('glyph', glyph);
       icon.setAttribute('size', size);
     } else {
-      cl.remove('ring-button_icon');
+      cl.add(styles.buttonWithoutIcon);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
     }
@@ -95,7 +122,13 @@ function rgButtonDirective() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    template: require('./button-ng.html'),
+    template: `
+<button class="${buttonClasses}">
+  <span class="${styles.content}"><span ng-transclude></span
+  ><rg-icon class="${styles.icon}"></rg-icon
+  ></span>
+</button>
+    `,
     controller: ButtonController
   };
 }
@@ -105,7 +138,13 @@ function rgButtonLinkDirective() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    template: require('./button-link-ng.html'),
+    template: `
+<a class="${buttonClasses}">
+  <span class="${styles.content}"><span ng-transclude></span
+  ><rg-icon class="${styles.icon}"></rg-icon
+  ></span>
+</a>
+    `,
     controller: ButtonController
   };
 }

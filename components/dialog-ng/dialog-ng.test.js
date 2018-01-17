@@ -7,6 +7,7 @@ import 'dom4';
 
 import {getRect} from '../global/dom';
 import dialogStyles from '../dialog/dialog.css';
+import buttonStyles from '../button/button.css';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Dialog from './dialog-ng';
@@ -673,20 +674,22 @@ describe('Dialog Ng', () => {
         [{label: 'Ok', default: true}, {label: 'Cancel'}]
       );
       const buttons = element.queryAll('button');
-
       buttons.should.have.length(2);
       buttons[0].should.include.text('Ok');
       buttons[1].should.include.text('Cancel');
     });
 
     it('should have a given "default" button', () => {
+      const clock = sandbox.useFakeTimers({toFake: ['setTimeout']});
+
       const {element} = showDialog(
         '<rg-dialog></rg-dialog>',
         '<div></div>',
         [{label: 'Ok', default: true}]
       );
+      clock.tick(1);
 
-      element.query('button').should.have.class('ring-button_blue');
+      element.query('button').className.should.contain(buttonStyles.primary);
     });
 
     it('should be closed by clicking a button', () => {
