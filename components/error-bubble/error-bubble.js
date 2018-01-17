@@ -23,7 +23,6 @@ export default class ErrorBubble extends PureComponent {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars
     const {children, className, ...restProps} = this.props;
 
     const errorBubbleClasses = classNames(styles.errorBubble, className);

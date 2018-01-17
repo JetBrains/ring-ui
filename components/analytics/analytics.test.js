@@ -299,7 +299,6 @@ describe('Analytics', () => {
           let counter = 0;
           function flushingIsAllowedOnSecondCheck() {
             ++counter;
-            // eslint-disable-next-line no-magic-numbers
             return counter === 2;
           }
 
