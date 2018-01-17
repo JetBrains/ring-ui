@@ -8,7 +8,7 @@
   "scripts": {
     "gemini-test-single": "gemini test --reporter flat",
     "gemini-test": "npm run gemini-test-single '../../components/**/*.gemini.js'",
-    "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- --teamcity; forever stop serve-static",
+    "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- -- --teamcity; forever stop serve-static",
     "gemini-gather": "gemini update"
   },
   "devDependencies": {
