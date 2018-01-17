@@ -1,29 +1,16 @@
-import '../tabs/tabs.scss';
+import angular from 'angular';
+import className from 'classnames';
+
+import styles from '../tabs/tabs.css';
+import Theme from '../global/theme';
 
 /**
  * @name Tabs Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Displays a tabset.
- * @example
-   <example name="Tabs Ng">
-     <file name="index.html">
-       <div ng-app="Ring.tabs" ng-strict-di>
-         <rg-tabs class="container container_tabs">
-           <rg-tabs-pane x-title="Settings">Settings tab content</rg-tabs-pane>
-           <rg-tabs-pane x-title="Access" counter="7">Access tab content</rg-tabs-pane>
-           <rg-tabs-pane x-title="Disabled" ng-disabled="true" counter="8">Inaccessible tab content</rg-tabs-pane>
-           <rg-tabs-pane x-title="Members">Members tab content</rg-tabs-pane>
-           <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
-         </rg-tabs>
-       </div>
-     </file>
-     <file name="index.js" webpack="true">
-       import angular from 'angular';
-       import '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
-     </file>
-   </example>
+ * @example-file ./tabs-ng.examples.html
  */
-import angular from 'angular';
 
 const angularModule = angular.module('Ring.tabs', []);
 
@@ -38,12 +25,15 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       tabParameter: '@',
       tabsClass: '=',
       control: '=?',
-      disableLocationChanging: '='
+      disableLocationChanging: '=',
+      theme: '@?'
     },
 
     controller: function controller($scope) {
       $scope.panes = [];
       $scope.current = null;
+      $scope.styles = styles;
+      $scope.theme = $scope.theme || Theme.LIGHT;
 
       function getTabIdFromUrl() {
         return $location.search()[$scope.tabParameter];
@@ -174,21 +164,9 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       // I think this bug depends on the frequency of addTab calls (actually on digests)
       // and ng-class detection of added and removed classes becomes broken.
       // @maxim.erekhinskiy
-      $scope.tabClass = pane => {
-        let classes = 'ring-tabs__btn';
-
-        if (pane.ngDisabled) {
-          classes += ' ring-tabs__btn_disabled';
-        } else if (pane.selected) {
-          classes += ' active';
-
-          if ($scope.focus) {
-            classes += ' ring-tabs__btn_focus';
-          }
-        }
-
-        return classes;
-      };
+      $scope.tabClass = pane => className(styles.title, {
+        [styles.selected]: pane.selected
+      });
 
       this.$onInit = () => {
         if (!$scope.tabParameter) {
