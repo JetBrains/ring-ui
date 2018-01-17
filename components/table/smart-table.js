@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Table from './table';
 import Selection from './selection';
 
-/* eslint-disable no-unused-vars, camelcase */
+/* eslint-disable no-unused-vars */
 const {
   selection: __selection__,
   onSelect: __onSelect__,
