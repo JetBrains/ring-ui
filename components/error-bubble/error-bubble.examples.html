@@ -13,14 +13,13 @@
 
     const container = document.getElementById('container');
     const renderBubbleDemo = value => (
-    <ErrorBubble
-      error={value ? null :
-    'Value is required'}
-    onInput={e => render(renderBubbleDemo(e.target.value), container)}
-    placeholder="enter something"
-    >
-    <Input className="ring-input-size_md"/>
-    </ErrorBubble>
+      <ErrorBubble
+        error={value ? null : 'Value is required'}
+        onInput={e => render(renderBubbleDemo(e.target.value), container)}
+        placeholder="enter something"
+      >
+        <Input borderless className="ring-input-size_md"/>
+      </ErrorBubble>
     );
 
     render(renderBubbleDemo(), container);
@@ -53,12 +52,11 @@
             <label className="ring-form__label">Field name</label>
             <div className="ring-form__control ring-form__control_small">
               <ErrorBubble
-                error={value ? null :
-              'Value is required'}
-              onInput={e => render(renderBubbleDemo(e.target.value), container)}
-              placeholder="enter something"
+                error={value ? null : 'Value is required'}
+                onInput={e => render(renderBubbleDemo(e.target.value), container)}
+                placeholder="enter something"
               >
-              <Input className="ring-input-size_md"/>
+                <Input borderless className="ring-input-size_md"/>
               </ErrorBubble>
             </div>
           </div>
