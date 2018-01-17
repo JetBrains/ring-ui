@@ -94,11 +94,11 @@
   }
 
   /* Increase selector specificity when ring buttons are used as footer items */
-  &.ring-button {
+  &:global(.ring-button) {
     margin-left: unit;
   }
 
-  &.ring-button:first-of-type {
+  &:global(.ring-button):first-of-type {
     margin-left: 0;
   }
 }

@@ -3,6 +3,7 @@ import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input/input.scss';
+import '../error-bubble/error-bubble.scss';
 
 /**
  * @name Form Ng
