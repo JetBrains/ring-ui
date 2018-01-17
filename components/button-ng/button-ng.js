@@ -15,6 +15,7 @@ const DEFAULT_ICON_SIZE = 16;
 
 /**
  * @name Button Ng
+ * @tags Ring UI Language
  * @category Legacy Angular
  * @description Provides an Angular wrapper for Button.
  * @example-file ./button-ng.examples.html
