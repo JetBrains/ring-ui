@@ -7,6 +7,7 @@ import Theme from '../global/theme';
 /**
  * @name Tabs Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Displays a tabset.
  * @example-file ./tabs-ng.examples.html
  */
