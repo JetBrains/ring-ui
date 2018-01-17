@@ -83,3 +83,15 @@
 
   font-weight: bold;
 }
+
+.tabCounter {
+  position: relative;
+  top: -4px;
+  left: 2px;
+
+  color: text-color;
+
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 19px; /* prevent jumps in Firefox */
+}
