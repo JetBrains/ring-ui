@@ -25,6 +25,7 @@
     "components": "./components/"
   },
   "scripts": {
+    "prebootstrap": "rm -rf node_modules/@jetbrains/generator-ring-ui && npm install",
     "bootstrap": "lerna bootstrap",
     "precommit": "lint-staged",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
