@@ -1,4 +1,7 @@
-import '../tabs/tabs.scss';
+import angular from 'angular';
+import className from 'classnames';
+
+import styles from '../tabs/tabs.css';
 
 /**
  * @name Tabs Ng
@@ -23,7 +26,6 @@ import '../tabs/tabs.scss';
      </file>
    </example>
  */
-import angular from 'angular';
 
 const angularModule = angular.module('Ring.tabs', []);
 
@@ -44,6 +46,7 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
     controller: function controller($scope) {
       $scope.panes = [];
       $scope.current = null;
+      $scope.styles = styles;
 
       function getTabIdFromUrl() {
         return $location.search()[$scope.tabParameter];
@@ -174,21 +177,9 @@ angularModule.directive('rgTabs', function rgTabsDirective($location, $rootScope
       // I think this bug depends on the frequency of addTab calls (actually on digests)
       // and ng-class detection of added and removed classes becomes broken.
       // @maxim.erekhinskiy
-      $scope.tabClass = pane => {
-        let classes = 'ring-tabs__btn';
-
-        if (pane.ngDisabled) {
-          classes += ' ring-tabs__btn_disabled';
-        } else if (pane.selected) {
-          classes += ' active';
-
-          if ($scope.focus) {
-            classes += ' ring-tabs__btn_focus';
-          }
-        }
-
-        return classes;
-      };
+      $scope.tabClass = pane => className(styles.title, {
+        [styles.selected]: pane.selected
+      });
 
       this.$onInit = () => {
         if (!$scope.tabParameter) {

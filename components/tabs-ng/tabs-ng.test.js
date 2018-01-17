@@ -3,6 +3,8 @@ import 'angular-route';
 import 'angular-mocks';
 import 'dom4';
 
+import styles from '../tabs/tabs.css';
+
 import Tabs from './tabs-ng';
 
 describe('Tabs Ng', () => {
@@ -11,8 +13,8 @@ describe('Tabs Ng', () => {
 
   function getActiveTab(element) {
     return {
-      title: element[0].query('.active'),
-      content: element[0].query('div.ring-tabs__container')
+      title: element[0].query('[data-test-active="true"]'),
+      content: element[0].query('div[ng-transclude]')
     };
   }
 
@@ -32,8 +34,7 @@ describe('Tabs Ng', () => {
       )($rootScope);
 
       $rootScope.$digest();
-
-      element[0].should.match('div.ring-tabs');
+      element[0].className.should.contain(styles.tabs);
     });
 
     it('One tab', () => {
