@@ -123,11 +123,11 @@ function rgButtonDirective() {
     transclude: true,
     replace: true,
     template: `
-<a class="${buttonClasses}">
-    <span class="${styles.content}"><span ng-transclude></span
-    ><rg-icon class="${styles.icon}"></rg-icon
-    ></span>
-</a>
+<button class="${buttonClasses}">
+  <span class="${styles.content}"><span ng-transclude></span
+  ><rg-icon class="${styles.icon}"></rg-icon
+  ></span>
+</button>
     `,
     controller: ButtonController
   };
@@ -139,11 +139,11 @@ function rgButtonLinkDirective() {
     transclude: true,
     replace: true,
     template: `
-<button class="${buttonClasses}">
+<a class="${buttonClasses}">
   <span class="${styles.content}"><span ng-transclude></span
   ><rg-icon class="${styles.icon}"></rg-icon
   ></span>
-</button>
+</a>
     `,
     controller: ButtonController
   };
