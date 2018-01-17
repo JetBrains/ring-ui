@@ -28,13 +28,13 @@
 
   font-size: font-size-smaller;
   line-height: line-height-lower;
+}
 
-  &_first {
-    margin-top: calc(0 - listSpacing);
-    padding-top: 0;
+.separator_first {
+  margin-top: calc(0 - listSpacing);
+  padding-top: 0;
 
-    border: none;
-  }
+  border: none;
 }
 
 .item {
