@@ -1,34 +1,43 @@
 <example name="Button Ng">
+  <file type="css">
+    p {
+      margin: 16px 0;
+    }
+
+    :global(.dark) {
+      margin: -8px;
+      padding: 8px;
+      background: #000;
+    }
+  </file>
+
   <file type="html">
     <div ng-app="test" ng-strict-di ng-controller="testCtrl">
       <p>
         <rg-button>Press me</rg-button>
-        <rg-button>Press me Press me Press me Press me Press me Press me Press
-          me
-        </rg-button>
+        <rg-button>Press me Press me Press me Press me Press me</rg-button>
         <rg-button disabled="true">Press me</rg-button>
         <rg-button loader="true">Press me</rg-button>
         <rg-button delayed="true">Press me</rg-button>
+        <rg-button text="true">Press me</rg-button>
       </p>
 
       <p>
         <rg-button mode="primary">Press me</rg-button>
-        <rg-button mode="primary">Press me Press me Press me Press me Press me
-          Press me Press me
-        </rg-button>
+        <rg-button mode="primary">Press me Press me Press me Press me Press me</rg-button>
         <rg-button mode="primary" disabled="true">Press me</rg-button>
         <rg-button mode="primary" loader="true">Press me</rg-button>
         <rg-button mode="primary" delayed="true">Press me</rg-button>
+        <rg-button mode="primary" text="true">Press me</rg-button>
       </p>
 
-      <p>
-        <rg-button mode="blue">Press me</rg-button>
-        <rg-button mode="blue">Press me Press me Press me Press me Press me
-          Press me Press me
-        </rg-button>
-        <rg-button mode="blue" disabled="true">Press me</rg-button>
-        <rg-button mode="blue" loader="true">Press me</rg-button>
-        <rg-button mode="blue" delayed="true">Press me</rg-button>
+      <p class="dark">
+        <rg-button theme="dark">Press me</rg-button>
+        <rg-button mode="primary" theme="dark">Press me</rg-button>
+        <rg-button danger="true" theme="dark">Press me</rg-button>
+        <rg-button loader="true" theme="dark">Press me</rg-button>
+        <rg-button text="true" theme="dark">Press me</rg-button>
+        <rg-button icon="{{close}}" theme="dark"></rg-button>
       </p>
 
       <p>
@@ -36,7 +45,6 @@
         <rg-button icon="{{caretDown}}">Press me</rg-button>
         <rg-button icon="{{close}}"></rg-button>
         <rg-button icon="{{close}}" mode="primary"></rg-button>
-        <rg-button icon="{{close}}" mode="blue"></rg-button>
         <rg-button icon="{{permission}}" disabled="true"></rg-button>
         <rg-button icon="{{pencil}}" loader="true"></rg-button>
         <rg-button>Press me</rg-button>
@@ -50,10 +58,10 @@
       </p>
 
       <p>
-        <rg-button-link href="/button-link">Press me</rg-button-link>
-        <rg-button-link href="/button-link" disabled="true">Press me
+        <rg-button-link href="/button-link">Button link</rg-button-link>
+        <rg-button-link href="/button-link" disabled="true">Button link
         </rg-button-link>
-        <rg-button-link href="/button-link" loader="true">Press me
+        <rg-button-link href="/button-link" loader="true">Button link
         </rg-button-link>
         <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
       </p>

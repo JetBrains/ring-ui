@@ -267,6 +267,10 @@
   }
 }
 
+.buttonWithoutIcon .icon {
+  display: none;
+}
+
 .loader {
   animation: progress 1s linear infinite;
   pointer-events: none;
