@@ -23,6 +23,12 @@ const DEFAULT_ICON_SIZE = 16;
 
 const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';
+const buttonClasses = classNames(
+  styles.button,
+  styles.buttonWithoutIcon,
+  ringIconVerticalAlignFix,
+  styles.light
+);
 
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile'];
@@ -36,13 +42,6 @@ class ButtonController extends RingAngularComponent {
 
     const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text'];
     const cl = this.element.classList;
-
-    cl.add(...classNames(
-      styles.button,
-      styles.buttonWithoutIcon,
-      ringIconVerticalAlignFix,
-      styles.light
-    ).split(' '));
 
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
@@ -124,7 +123,7 @@ function rgButtonDirective() {
     transclude: true,
     replace: true,
     template: `
-<a>
+<a class="${buttonClasses}">
     <span class="${styles.content}"><span ng-transclude></span
     ><rg-icon class="${styles.icon}"></rg-icon
     ></span>
@@ -140,7 +139,7 @@ function rgButtonLinkDirective() {
     transclude: true,
     replace: true,
     template: `
-<button>
+<button class="${buttonClasses}">
   <span class="${styles.content}"><span ng-transclude></span
   ><rg-icon class="${styles.icon}"></rg-icon
   ></span>
