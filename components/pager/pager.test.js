@@ -43,4 +43,14 @@ describe('Pager', () => {
   it('should use passed className', () => {
     shallowPager({className: 'test-class'}).should.have.className('test-class');
   });
+
+  it('should render page buttons even when currentPage==total if openTotal is true', () => {
+    const wrapper = shallowPager({
+      total: 10,
+      pageSize: 10,
+      currentPage: 1,
+      openTotal: true
+    });
+    wrapper.should.have.descendants(ButtonToolbar);
+  });
 });

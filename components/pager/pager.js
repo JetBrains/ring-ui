@@ -32,8 +32,10 @@ export default class Pager extends PureComponent {
     pageSizes: PropTypes.arrayOf(PropTypes.number),
     visiblePagesLimit: PropTypes.number,
     disablePageSizeSelector: PropTypes.bool,
+    openTotal: PropTypes.bool,
     onPageChange: PropTypes.func.isRequired,
     onPageSizeChange: PropTypes.func,
+    onLoadPage: PropTypes.func,
     className: PropTypes.string,
     translations: PropTypes.object
   };
@@ -44,7 +46,7 @@ export default class Pager extends PureComponent {
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
-    unknownTotal: false,
+    openTotal: false,
     translations: {
       perPage: 'per page',
       firstPage: 'First page',
@@ -52,7 +54,8 @@ export default class Pager extends PureComponent {
       nextPage: 'next page',
       previousPage: 'previous'
     },
-    onPageSizeChange: () => {}
+    onPageSizeChange: () => {},
+    onLoadPage: () => {}
   };
 
   getSelectOptions() {
@@ -82,9 +85,13 @@ export default class Pager extends PureComponent {
   };
 
   handleNextClick = () => {
-    const {currentPage, onPageChange} = this.props;
-    if (currentPage !== this.getTotal()) {
-      onPageChange(currentPage + 1);
+    const {currentPage, onPageChange, onLoadPage} = this.props;
+    const nextPage = currentPage + 1;
+    const total = this.getTotal();
+    if (currentPage !== total) {
+      onPageChange(nextPage);
+    } else if (this.props.openTotal) {
+      onLoadPage(nextPage);
     }
   };
 
@@ -109,7 +116,7 @@ export default class Pager extends PureComponent {
 
     const prevLinkAvailable = this.props.currentPage !== 1;
 
-    const nextLinkAvailable = this.props.currentPage !== this.getTotal();
+    const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
 
     const nextLinkText = `${this.props.translations.nextPage} →`;
 
@@ -151,7 +158,7 @@ export default class Pager extends PureComponent {
     const {currentPage, visiblePagesLimit} = this.props;
     const totalPages = this.getTotal();
 
-    if (totalPages < 2) {
+    if (totalPages < 2 && !this.props.openTotal) {
       return null;
     }
 
@@ -195,37 +202,42 @@ export default class Pager extends PureComponent {
       buttons.push(button);
     }
 
-    return (
-      <div>
-        {this.getPagerLinks()}
+    const lastPageButtonAvailable = end < totalPages && !this.props.openTotal;
 
-        <ButtonToolbar>
-          {start > 1 &&
-          <ButtonGroup>
-            <Button onClick={this.handlePageChange(1)}>
-              {this.props.translations.firstPage}
-            </Button>
-          </ButtonGroup>
-          }
+    return (<div>
+      {this.getPagerLinks()}
 
-          <ButtonGroup>
-            {start > 1 && <Button onClick={this.handlePageChange(start - 1)}>...</Button>}
+      <ButtonToolbar>
+        {start > 1 &&
+        <ButtonGroup>
+          <Button onClick={this.handlePageChange(1)}>
+            {this.props.translations.firstPage}
+          </Button>
+        </ButtonGroup>
+        }
 
-            {buttons}
+        <ButtonGroup>
+          {start > 1 && <Button onClick={this.handlePageChange(start - 1)}>...</Button>}
 
-            {end < totalPages && <Button onClick={this.handlePageChange(end + 1)}>...</Button>}
-          </ButtonGroup>
+          {buttons}
 
-          {end < totalPages &&
-          <ButtonGroup>
-            <Button onClick={this.handlePageChange(totalPages)}>
-              {this.props.translations.lastPage}
-            </Button>
-          </ButtonGroup>
-          }
-        </ButtonToolbar>
-      </div>
-    );
+          {end < totalPages && <Button onClick={this.handlePageChange(end + 1)}>...</Button>}
+
+          {end === totalPages && this.props.openTotal &&
+          <Button onClick={this.handleNextClick}>...</Button>}
+        </ButtonGroup>
+
+        {lastPageButtonAvailable &&
+        <ButtonGroup>
+          <Button
+            onClick={this.handlePageChange(totalPages)}
+          >
+            {this.props.translations.lastPage}
+          </Button>
+        </ButtonGroup>
+        }
+      </ButtonToolbar>
+    </div>);
   }
 
   render() {
