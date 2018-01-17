@@ -1,6 +1,7 @@
 /**
  * @name Pager
  * @category Components
+ * @tags Ring UI Language
  * @framework React
  * @extends {ReactComponent}
  * @description The pager.
@@ -19,8 +20,8 @@ import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select from '../select/select';
 import memoize from '../global/memoize';
+import Link from '../link/link';
 
-import '../link/link.scss';
 import style from './pager.css';
 
 export default class Pager extends PureComponent {
@@ -43,6 +44,7 @@ export default class Pager extends PureComponent {
     pageSizes: [20, 50, 100],
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
+    unknownTotal: false,
     translations: {
       perPage: 'per page',
       firstPage: 'First page',
@@ -55,7 +57,10 @@ export default class Pager extends PureComponent {
 
   getSelectOptions() {
     const {pageSize, pageSizes} = this.props;
-    const data = pageSizes.map(size => ({key: size, label: `${size} ${this.props.translations.perPage}`}));
+    const data = pageSizes.map(size => ({
+      key: size,
+      label: `${size} ${this.props.translations.perPage}`
+    }));
     const selected = data.find(it => it.key === pageSize);
     return {selected, data};
   }
@@ -123,16 +128,17 @@ export default class Pager extends PureComponent {
 
     const classes = classNames(style.pager, className);
 
-    const prevLinkClasses = classNames({
-      'ring-link': currentPage !== 1,
-      [style.link]: true,
-      [style.linkDisabled]: currentPage === 1
-    });
+    const prevLinkAvailable = currentPage !== 1;
 
-    const nextLinkClasses = classNames({
-      'ring-link': currentPage !== totalPages,
+    const nextLinkAvailable = currentPage !== totalPages;
+
+    const nextLinkText = `${this.props.translations.nextPage} →`;
+
+    const prevLinkText = `← ${this.props.translations.previousPage}`;
+
+    const disabledLinkClasses = classNames({
       [style.link]: true,
-      [style.linkDisabled]: currentPage === totalPages
+      [style.linkDisabled]: true
     });
 
     const getPageSizeSelector = () => {
@@ -175,24 +181,36 @@ export default class Pager extends PureComponent {
       return (
         <div>
           <div className={style.links}>
-            <span
-              className={prevLinkClasses}
-              onClick={this.handlePrevClick}
-            >← {this.props.translations.previousPage}</span>
+            {prevLinkAvailable
+              ? (
+                <Link
+                  href="#hash"
+                  className={style.link}
+                  onClick={this.handlePrevClick}
+                >{prevLinkText}</Link>
+              )
+              : <span className={disabledLinkClasses}>{prevLinkText}</span>
+            }
 
-            <span
-              className={nextLinkClasses}
-              onClick={this.handleNextClick}
-            >{this.props.translations.nextPage} →</span>
+            {nextLinkAvailable
+              ? (
+                <Link
+                  href="#hash"
+                  className={style.link}
+                  onClick={this.handleNextClick}
+                >{nextLinkText}</Link>
+              )
+              : <span className={disabledLinkClasses}>{nextLinkText}</span>
+            }
           </div>
 
           <ButtonToolbar>
             {start > 1 &&
-              <ButtonGroup>
-                <Button onClick={this.handlePageChange(1)}>
-                  {this.props.translations.firstPage}
-                </Button>
-              </ButtonGroup>
+            <ButtonGroup>
+              <Button onClick={this.handlePageChange(1)}>
+                {this.props.translations.firstPage}
+              </Button>
+            </ButtonGroup>
             }
 
             <ButtonGroup>
@@ -206,11 +224,11 @@ export default class Pager extends PureComponent {
             </ButtonGroup>
 
             {end < totalPages &&
-              <ButtonGroup>
-                <Button onClick={this.handlePageChange(totalPages)}>
-                  {this.props.translations.lastPage}
-                </Button>
-              </ButtonGroup>
+            <ButtonGroup>
+              <Button onClick={this.handlePageChange(totalPages)}>
+                {this.props.translations.lastPage}
+              </Button>
+            </ButtonGroup>
             }
           </ButtonToolbar>
 
