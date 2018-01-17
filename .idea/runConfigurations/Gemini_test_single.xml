@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Gemini test single" type="js.build_tools.npm" factoryName="npm" editBeforeRun="true">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="gemini-test-single" />
+    </scripts>
+    <arguments value="../../components/icon-ng/*.gemini.js" />
+    <node-interpreter value="project" />
+    <envs />
+    <method />
+  </configuration>
+</component>
