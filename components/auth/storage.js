@@ -158,9 +158,7 @@ export default class AuthStorage {
         }
 
         return false;
-      }).map(state => {
-        this._stateStorage.remove(state.key);
-      });
+      }).map(state => this._stateStorage.remove(state.key));
 
       return removalPromises.length && Promise.all(removalPromises);
     }
