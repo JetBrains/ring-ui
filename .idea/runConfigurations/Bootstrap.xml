@@ -7,13 +7,6 @@
     </scripts>
     <node-interpreter value="project" />
     <envs />
-    <method>
-      <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/package.json" />
-        <command value="install" />
-        <node-interpreter value="project" />
-        <envs />
-      </option>
-    </method>
+    <method />
   </configuration>
 </component>
