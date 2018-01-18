@@ -73,12 +73,14 @@ export default class Header extends Component {
         style={headerStyle}
       >
         {wrapWithTitle &&
-        <div
-          className={styles.title}
-          style={titleStyle}
-        >
-          {children}
-        </div>}
+        (
+          <div
+            className={styles.title}
+            style={titleStyle}
+          >
+            {children}
+          </div>
+        )}
 
         {!wrapWithTitle && children}
 
