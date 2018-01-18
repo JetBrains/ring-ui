@@ -37,8 +37,10 @@ export default class UserAgreement extends PureComponent {
   onTextRef = component => {
     // eslint-disable-next-line react/no-find-dom-node
     const textRef = this.textRef = findDOMNode(component);
-    textRef.addEventListener('scroll', this.onScroll);
-    this.onScroll();
+    if (textRef) {
+      textRef.addEventListener('scroll', this.onScroll);
+      this.onScroll();
+    }
   };
 
   onScroll = () => {
