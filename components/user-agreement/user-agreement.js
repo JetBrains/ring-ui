@@ -25,7 +25,7 @@ export default class UserAgreement extends PureComponent {
     show: false,
     translations: {
       accept: 'Accept',
-      readToAccept: 'Read the text fully to accept',
+      scrollToAccept: 'Read the text fully to accept',
       decline: 'Decline'
     }
   };
