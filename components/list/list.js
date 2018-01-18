@@ -638,10 +638,12 @@ export default class List extends Component {
         onMouseOut={this.props.onMouseOut}
       >
         {this.props.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
         {this.props.renderOptimization
           ? this.renderVirtualized(maxHeight, rowCount)

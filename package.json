@@ -43,7 +43,7 @@
     "lint:js": "eslint --report-unused-disable-directives",
     "lint": "npm run lint:js . && npm run stylelint",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
-    "lint-ci": "npm run lint:js -- --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
+    "lint-ci": "eslint --report-unused-disable-directives --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
     "stylelint-ci": "stylelint --ignore-path .eslintignore --custom-formatter './jslint-xml.js' '**/*.css' | xmlappend eslint-report.xml",
     "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'",
     "flow": "flow",
@@ -92,7 +92,7 @@
     }
   },
   "devDependencies": {
-    "@jetbrains/eslint-config": "^3.0.0",
+    "@jetbrains/eslint-config": "4.0.1",
     "@jetbrains/generator-ring-ui": "^0.4.8",
     "@jetbrains/stylelint-config": "^1.3.1",
     "angular": "1.6.8",
@@ -119,6 +119,7 @@
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "^4.15.0",
+    "eslint-import-resolver-webpack": "^0.8.4",
     "eslint-plugin-flowtype-errors": "^3.3.7",
     "exports-loader": "0.6.4",
     "flow-bin": "0.44.2",
