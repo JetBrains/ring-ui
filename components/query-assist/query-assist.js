@@ -805,10 +805,12 @@ export default class QueryAssist extends Component {
         ref={this.nodeRef}
       >
         {this.state.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
 
         <ContentEditable

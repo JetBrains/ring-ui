@@ -154,10 +154,12 @@ export default class Alert extends PureComponent {
       >
         {this.props.children}
         {this.props.count > 1 &&
-          <Badge
-            gray
-            className={styles.badge}
-          >{this.props.count}</Badge>
+          (
+            <Badge
+              gray
+              className={styles.badge}
+            >{this.props.count}</Badge>
+          )
         }
       </span>
     );
@@ -217,6 +219,7 @@ export default class Alert extends PureComponent {
           this.props.closeable
             ? (
               <button
+                type="button"
                 className={styles.close}
                 data-test="alert-close"
                 onClick={this.closeRequest}
