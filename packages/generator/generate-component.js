@@ -37,6 +37,7 @@ module.exports = params => class ComponentGenerator extends Generator {
       ? Promise.resolve({componentName: this.options.componentName})
       : this.prompt(promptParams);
 
+    // eslint-disable-next-line complexity
     Promise.all([pkgFile, prompt]).then(results => {
       const pkg = results[0].pkg;
       const ringUIPath = results[0].path;

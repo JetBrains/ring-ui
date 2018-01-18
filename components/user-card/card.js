@@ -62,19 +62,23 @@ export default class UserCard extends PureComponent {
               </Link>
               {
                 user.banned &&
-                <span
-                  className={classNames(badgeStyles.badge, badgeStyles.invalid)}
-                  title={user.banReason}
-                >{wording.banned}</span>
+                (
+                  <span
+                    className={classNames(badgeStyles.badge, badgeStyles.invalid)}
+                    title={user.banReason}
+                  >{wording.banned}</span>
+                )
               }
             </div>
             <div>
               {
                 typeof user.online === 'boolean' &&
-                <span
-                  className={userActiveStatusClasses}
-                  title={user.online ? wording.online : wording.offline}
-                />
+                (
+                  <span
+                    className={userActiveStatusClasses}
+                    title={user.online ? wording.online : wording.offline}
+                  />
+                )
               }
               {user.login}
             </div>

@@ -432,7 +432,6 @@ export default class List extends Component {
     return props.maxHeight - Dimension.ITEM_HEIGHT - Dimension.INNER_PADDING;
   }
 
-  // eslint-disable-next-line react/prop-types
   renderItem = ({index, style, isScrolling, parent}) => {
     let key;
     let el;
@@ -639,10 +638,12 @@ export default class List extends Component {
         onMouseOut={this.props.onMouseOut}
       >
         {this.props.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
         {this.props.renderOptimization
           ? this.renderVirtualized(maxHeight, rowCount)
