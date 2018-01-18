@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-control-regex
 const xmlEscape = s => (`${s}`).replace(/[<>&"'\x00-\x1F\x7F\u0080-\uFFFF]/g, c => {
   switch (c) {
     case '<':

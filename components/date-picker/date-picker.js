@@ -41,6 +41,7 @@ export default class DatePicker extends Component {
     rangePlaceholder: 'Select a date range',
     onChange() {}
   };
+
   static propTypes = {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
