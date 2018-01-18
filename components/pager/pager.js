@@ -188,11 +188,13 @@ export default class Pager extends PureComponent {
 
           <ButtonToolbar>
             {start > 1 &&
-              <ButtonGroup>
-                <Button onClick={this.handlePageChange(1)}>
-                  {this.props.translations.firstPage}
-                </Button>
-              </ButtonGroup>
+              (
+                <ButtonGroup>
+                  <Button onClick={this.handlePageChange(1)}>
+                    {this.props.translations.firstPage}
+                  </Button>
+                </ButtonGroup>
+              )
             }
 
             <ButtonGroup>
@@ -206,11 +208,13 @@ export default class Pager extends PureComponent {
             </ButtonGroup>
 
             {end < totalPages &&
-              <ButtonGroup>
-                <Button onClick={this.handlePageChange(totalPages)}>
-                  {this.props.translations.lastPage}
-                </Button>
-              </ButtonGroup>
+              (
+                <ButtonGroup>
+                  <Button onClick={this.handlePageChange(totalPages)}>
+                    {this.props.translations.lastPage}
+                  </Button>
+                </ButtonGroup>
+              )
             }
           </ButtonToolbar>
 
