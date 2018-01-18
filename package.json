@@ -43,7 +43,7 @@
     "lint:js": "eslint --report-unused-disable-directives",
     "lint": "npm run lint:js . && npm run stylelint",
     "prelint-ci": "echo \"##teamcity[importData type='jslint' path='eslint-report.xml']\"",
-    "lint-ci": "npm run lint:js --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
+    "lint-ci": "npm run lint:js -- --format jslint-xml . > eslint-report.xml && npm run stylelint-ci",
     "stylelint-ci": "stylelint --ignore-path .eslintignore --custom-formatter './jslint-xml.js' '**/*.css' | xmlappend eslint-report.xml",
     "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'",
     "flow": "flow",
