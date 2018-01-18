@@ -10,7 +10,6 @@ import mock, {moreItems} from './data-list.mock';
 import {moreLessButtonStates} from './item';
 
 class DataListDemo extends PureComponent {
-  expandedItems = new Set();
   isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
   isItemCollapsed = item => !this.expandedItems.has(item.id);
 
@@ -51,7 +50,7 @@ class DataListDemo extends PureComponent {
       item.items = item.items.slice(0, item.items.length - moreItems.length);
     }
 
-    this.setState({data: [...this.state.data]});
+    this.forceUpdate();
   };
 
   onSelect = selection => {
@@ -64,12 +63,12 @@ class DataListDemo extends PureComponent {
 
     const onCollapse = () => {
       this.expandedItems.delete(item.id);
-      this.setState({data: [...this.state.data]});
+      this.forceUpdate();
     };
 
     const onExpand = () => {
       this.expandedItems.add(item.id);
-      this.setState({data: [...this.state.data]});
+      this.forceUpdate();
     };
 
     return {
