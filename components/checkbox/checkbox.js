@@ -81,11 +81,13 @@ export default class Checkbox extends PureComponent {
           />
           <span className="ring-checkbox__icon">
             {checked &&
-            <CheckIcon
-              className="ring-checkbox__icon__image"
-              color="black"
-              size={CheckIcon.Size.Size18}
-            />}
+            (
+              <CheckIcon
+                className="ring-checkbox__icon__image"
+                color="black"
+                size={CheckIcon.Size.Size18}
+              />
+            )}
           </span>
         </span>
         <span className="ring-checkbox__label">{label}</span>
