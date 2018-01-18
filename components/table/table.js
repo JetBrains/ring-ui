@@ -246,10 +246,12 @@ class Table extends PureComponent {
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper">
         {this.state.shortcutsEnabled &&
-          <Shortcuts
-            map={this.props.shortcutsMap}
-            scope={this.state.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.props.shortcutsMap}
+              scope={this.state.shortcutsScope}
+            />
+          )
         }
 
         <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
@@ -280,9 +282,11 @@ class Table extends PureComponent {
           />
         </table>
 
-        {loading && <div className={style.loadingOverlay}>
-          <Loader className={loaderClassName}/>
-        </div>}
+        {loading && (
+          <div className={style.loadingOverlay}>
+            <Loader className={loaderClassName}/>
+          </div>
+        )}
       </div>
     );
   }
