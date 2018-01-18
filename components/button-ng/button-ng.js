@@ -32,7 +32,7 @@ const buttonClasses = classNames(
 );
 
 class ButtonController extends RingAngularComponent {
-  static $inject = ['$element', '$attrs', '$scope', '$compile'];
+  static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
   constructor(...args) {
     super(...args);
@@ -90,7 +90,15 @@ class ButtonController extends RingAngularComponent {
 
   updateMode(val) {
     const cl = this.element.classList;
-    if (val === 'primary') {
+    if (val === 'primary' || val === 'blue') {
+      // Deprecation fallback. Someone please remove this one day.
+      if (val === 'blue') {
+        this.$inject.$log.warn(
+          'Ring UI ButtonNG doesn\'t have "blue" mode anymore. Use "primary" mode instead.',
+          this.element
+        );
+      }
+
       cl.add(styles.primary);
     } else {
       cl.remove(styles.primary);
