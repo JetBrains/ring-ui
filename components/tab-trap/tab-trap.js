@@ -78,12 +78,14 @@ export default class TabTrap extends Component {
         {...restProps}
       >
         <button
+          type="button"
           className={styles.trapButton}
           onFocus={this.focusLast}
           data-trap-button
         />
         {children}
         <button
+          type="button"
           className={styles.trapButton}
           onFocus={this.focusFirst}
           data-trap-button
