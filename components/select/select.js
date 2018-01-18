@@ -352,9 +352,9 @@ export default class Select extends Component {
         this._resetMultipleSelectionMap();
         this.clearFilter();
         this.props.onFilter('');
-        this.setState({
-          shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
-        });
+        this.setState(prevState => ({
+          shownData: prevState.shownData.slice(reset.separator ? 2 : 1)
+        }));
         this._redrawPopup();
       }
     };
@@ -704,29 +704,30 @@ export default class Select extends Component {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
-      const currentSelection = this.state.selected;
-      if (!this._multipleMap[selected.key]) {
-        this._multipleMap[selected.key] = true;
-        currentSelection.push(selected);
-        this.props.onSelect && this.props.onSelect(selected, event);
-      } else {
-        Reflect.deleteProperty(this._multipleMap, selected.key);
-        for (let i = 0; i < currentSelection.length; i++) {
-          if (selected.key === currentSelection[i].key) {
-            currentSelection.splice(i, 1);
-            break;
-          }
-        }
-        this.props.onDeselect && this.props.onDeselect(selected);
-      }
+      this.setState(prevState => {
+        const currentSelection = prevState.selected;
+        let nextSelection;
 
-      this.setState({
-        filterValue: '',
-        selected: currentSelection,
-        selectedIndex: this._getSelectedIndex(selected, this.props.data)
+        if (!this._multipleMap[selected.key]) {
+          this._multipleMap[selected.key] = true;
+          nextSelection = currentSelection.concat(selected);
+          this.props.onSelect && this.props.onSelect(selected, event);
+        } else {
+          delete this._multipleMap[selected.key];
+          nextSelection = currentSelection.filter(item => item.key !== selected.key);
+          this.props.onDeselect && this.props.onDeselect(selected);
+        }
+
+        this.props.onChange(nextSelection, event);
+
+        return {
+          filterValue: '',
+          selected: nextSelection,
+          selectedIndex: this._getSelectedIndex(selected, this.props.data)
+        };
+
       }, this._redrawPopup);
 
-      this.props.onChange(currentSelection, event);
     }
   };
 
@@ -923,10 +924,12 @@ export default class Select extends Component {
           onClick={this._clickHandler}
         >
           {shortcutsEnabled &&
-          <Shortcuts
-            map={this.getShortcutsMap()}
-            scope={this.shortcutsScope}
-          />}
+          (
+            <Shortcuts
+              map={this.getShortcutsMap()}
+              scope={this.shortcutsScope}
+            />
+          )}
           <Input
             ref={this.filterRef}
             disabled={this.props.disabled}
@@ -961,10 +964,12 @@ export default class Select extends Component {
           className={selectCS}
         >
           {shortcutsEnabled &&
-          <Shortcuts
-            map={this.getShortcutsMap()}
-            scope={this.shortcutsScope}
-          />}
+          (
+            <Shortcuts
+              map={this.getShortcutsMap()}
+              scope={this.shortcutsScope}
+            />
+          )}
           <Button
             className={buttonCS}
             disabled={this.props.disabled}
