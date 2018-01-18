@@ -289,12 +289,14 @@ export default class SelectPopup extends Component {
   }
 
   getBottomLine() {
-    return (<div>
-      {this.props.loading && <LoaderInline/>}
+    return (
+      <div>
+        {this.props.loading && <LoaderInline/>}
 
-      {this.props.message &&
-      <div className="ring-select__message">{this.props.message}</div>}
-    </div>);
+        {this.props.message &&
+        <div className="ring-select__message">{this.props.message}</div>}
+      </div>
+    );
   }
 
   listRef = el => {
@@ -358,10 +360,12 @@ export default class SelectPopup extends Component {
         target={this.props.ringPopupTarget}
       >
         {this.state.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
 
         {this.getFilterWithTags()}

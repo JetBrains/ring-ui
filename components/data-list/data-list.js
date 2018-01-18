@@ -147,10 +147,12 @@ class DataList extends PureComponent {
     return (
       <div className={styles.dataListWrapper} data-test="ring-data-list">
         {this.state.shortcutsEnabled &&
-          <Shortcuts
-            map={shortcutsMap}
-            scope={this.state.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={shortcutsMap}
+              scope={this.state.shortcutsScope}
+            />
+          )
         }
 
         <ul className={classes}>
