@@ -67,9 +67,11 @@ export default class HeaderCell extends PureComponent {
 
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
-        {this.sortable && <span className={style.sorter}>
-          <Icon className={style.icon} size={ICON_SIZE}/>
-        </span>}
+        {this.sortable && (
+          <span className={style.sorter}>
+            <Icon className={style.icon} size={ICON_SIZE}/>
+          </span>
+        )}
       </th>
     );
   }
