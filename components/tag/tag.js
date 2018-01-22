@@ -61,6 +61,7 @@ export default class Tag extends PureComponent {
       this.setState({focused: this.tagNode === event.target});
     }
   };
+
   tagRef = el => {
     this.tagNode = el;
   };
