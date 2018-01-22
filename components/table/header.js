@@ -86,12 +86,14 @@ export default class Header extends PureComponent {
     const metaColumn = (
       <div className={metaColumnClasses}>
         {selectable &&
-        <Checkbox
-          disabled={checkboxDisabled}
-          checked={checked}
-          onChange={onCheckboxChange}
-          onFocus={this.onCheckboxFocus}
-        />}
+        (
+          <Checkbox
+            disabled={checkboxDisabled}
+            checked={checked}
+            onChange={onCheckboxChange}
+            onFocus={this.onCheckboxFocus}
+          />
+        )}
       </div>
     );
 
@@ -117,22 +119,26 @@ export default class Header extends PureComponent {
 
     return (
       <thead data-test="ring-table-header" className={style.tableHead}>
-        {caption && <tr data-test="ring-table-header-row">
-          <th
-            className={classNames(style.headerCell, style.caption)}
-            colSpan={regularCells.length + 1}
-            data-test="ring-table-header-cell"
-          >{caption}</th>
-        </tr>}
+        {caption && (
+          <tr data-test="ring-table-header-row">
+            <th
+              className={classNames(style.headerCell, style.caption)}
+              colSpan={regularCells.length + 1}
+              data-test="ring-table-header-cell"
+            >{caption}</th>
+          </tr>
+        )}
 
         {sticky &&
-        <Waypoint
-          topOffset={topStickOffset}
-          onEnter={this.onScrollIn}
-          onLeave={this.onScrollOut}
-        >
-          <tr data-test="ring-table-header-row"/>
-        </Waypoint>
+        (
+          <Waypoint
+            topOffset={topStickOffset}
+            onEnter={this.onScrollIn}
+            onLeave={this.onScrollOut}
+          >
+            <tr data-test="ring-table-header-row"/>
+          </Waypoint>
+        )
         }
 
         <tr
@@ -141,13 +147,15 @@ export default class Header extends PureComponent {
         >{regularCells}</tr>
 
         {fixed && sticky &&
-          <tr
-            className={style.subHeaderFixed}
-            style={{width: headerWidth, top: topStickOffset}}
-            data-test="ring-table-header-row"
-          >
-            {this.createCells(widths)}
-          </tr>
+          (
+            <tr
+              className={style.subHeaderFixed}
+              style={{width: headerWidth, top: topStickOffset}}
+              data-test="ring-table-header-row"
+            >
+              {this.createCells(widths)}
+            </tr>
+          )
         }
       </thead>
     );

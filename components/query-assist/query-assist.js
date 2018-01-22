@@ -237,9 +237,11 @@ export default class QueryAssist extends Component {
 
     this.setState({shortcuts: !!focus});
   };
+
   nodeRef = node => {
     this.node = node;
   };
+
   updateFocus({focus, caret}) {
     const isCaretChanged = caret !== this.props.caret;
     const isFocusChanged = focus !== this.props.focus;
@@ -802,10 +804,12 @@ export default class QueryAssist extends Component {
         ref={this.nodeRef}
       >
         {this.state.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
 
         <ContentEditable

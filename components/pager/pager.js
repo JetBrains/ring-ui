@@ -204,40 +204,39 @@ export default class Pager extends PureComponent {
 
     const lastPageButtonAvailable = end < totalPages && !this.props.openTotal;
 
-    return (<div>
-      {this.getPagerLinks()}
+    return (
+      <div>
+        {this.getPagerLinks()}
 
-      <ButtonToolbar>
-        {start > 1 &&
-        <ButtonGroup>
-          <Button onClick={this.handlePageChange(1)}>
-            {this.props.translations.firstPage}
-          </Button>
-        </ButtonGroup>
-        }
+        <ButtonToolbar>
+          {start > 1 && (
+            <ButtonGroup>
+              <Button onClick={this.handlePageChange(1)}>
+                {this.props.translations.firstPage}
+              </Button>
+            </ButtonGroup>
+          )}
 
-        <ButtonGroup>
-          {start > 1 && <Button onClick={this.handlePageChange(start - 1)}>...</Button>}
+          <ButtonGroup>
+            {start > 1 && <Button onClick={this.handlePageChange(start - 1)}>...</Button>}
 
-          {buttons}
+            {buttons}
 
-          {end < totalPages && <Button onClick={this.handlePageChange(end + 1)}>...</Button>}
+            {end < totalPages && <Button onClick={this.handlePageChange(end + 1)}>...</Button>}
 
-          {end === totalPages && this.props.openTotal &&
-          <Button onClick={this.handleNextClick}>...</Button>}
-        </ButtonGroup>
+            {end === totalPages && this.props.openTotal &&
+            <Button onClick={this.handleNextClick}>...</Button>}
+          </ButtonGroup>
 
-        {lastPageButtonAvailable &&
-        <ButtonGroup>
-          <Button
-            onClick={this.handlePageChange(totalPages)}
-          >
-            {this.props.translations.lastPage}
-          </Button>
-        </ButtonGroup>
-        }
-      </ButtonToolbar>
-    </div>);
+          {lastPageButtonAvailable && (
+            <ButtonGroup>
+              <Button onClick={this.handlePageChange(totalPages)}>
+                {this.props.translations.lastPage}
+              </Button>
+            </ButtonGroup>
+          )}
+        </ButtonToolbar></div>
+    );
   }
 
   render() {

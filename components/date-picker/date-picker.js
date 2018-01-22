@@ -37,6 +37,7 @@ export default class DatePicker extends PureComponent {
     rangePlaceholder: 'Set a period',
     onChange() {}
   };
+
   static propTypes = {
     className: PropTypes.string,
     popupClassName: PropTypes.string,

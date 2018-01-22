@@ -95,6 +95,7 @@ export default class Select extends Component {
     compact: PropTypes.bool,
     size: PropTypes.oneOf(Object.values(Size))
   };
+
   static defaultProps = {
     data: [],
     filter: false, // enable filter (BUTTON or CUSTOM mode)
@@ -155,6 +156,7 @@ export default class Select extends Component {
   static _getEmptyValue(multiple) {
     return multiple ? [] : null;
   }
+
   state = {
     data: [],
     shownData: [],
@@ -197,6 +199,7 @@ export default class Select extends Component {
       focused: true
     });
   };
+
   _blurHandler = () => {
     this.props.onBlur();
 
@@ -213,6 +216,7 @@ export default class Select extends Component {
       });
     }
   };
+
   nodeRef = el => {
     this.node = el;
   };
@@ -280,16 +284,14 @@ export default class Select extends Component {
       this.setState({shownData});
 
       if (this.state.selected && props.data !== this.props.data) {
-        const selected = this.state.selected;
-        this.setState({
-          selected,
+        this.setState(prevState => ({
           selectedIndex: this._getSelectedIndex(
-            selected,
+            prevState.selected,
             props.data
           ),
-          prevFilterValue: this.getValueForFilter(selected)
-        });
-        this._rebuildMultipleMap(selected, multiple);
+          prevFilterValue: this.getValueForFilter(prevState.selected)
+        }));
+        this._rebuildMultipleMap(this.state.selected, multiple);
       }
     }
 
@@ -385,9 +387,9 @@ export default class Select extends Component {
         this._resetMultipleSelectionMap();
         this.clearFilter();
         this.props.onFilter('');
-        this.setState({
-          shownData: this.state.shownData.splice(0, reset.separator ? 2 : 1)
-        });
+        this.setState(prevState => ({
+          shownData: prevState.shownData.slice(reset.separator ? 2 : 1)
+        }));
         this._redrawPopup();
       }
     };
@@ -742,29 +744,30 @@ export default class Select extends Component {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
 
-      const currentSelection = this.state.selected;
-      if (!this._multipleMap[selected.key]) {
-        this._multipleMap[selected.key] = true;
-        currentSelection.push(selected);
-        this.props.onSelect && this.props.onSelect(selected, event);
-      } else {
-        Reflect.deleteProperty(this._multipleMap, selected.key);
-        for (let i = 0; i < currentSelection.length; i++) {
-          if (selected.key === currentSelection[i].key) {
-            currentSelection.splice(i, 1);
-            break;
-          }
-        }
-        this.props.onDeselect && this.props.onDeselect(selected);
-      }
+      this.setState(prevState => {
+        const currentSelection = prevState.selected;
+        let nextSelection;
 
-      this.setState({
-        filterValue: '',
-        selected: currentSelection,
-        selectedIndex: this._getSelectedIndex(selected, this.props.data)
+        if (!this._multipleMap[selected.key]) {
+          this._multipleMap[selected.key] = true;
+          nextSelection = currentSelection.concat(selected);
+          this.props.onSelect && this.props.onSelect(selected, event);
+        } else {
+          delete this._multipleMap[selected.key];
+          nextSelection = currentSelection.filter(item => item.key !== selected.key);
+          this.props.onDeselect && this.props.onDeselect(selected);
+        }
+
+        this.props.onChange(nextSelection, event);
+
+        return {
+          filterValue: '',
+          selected: nextSelection,
+          selectedIndex: this._getSelectedIndex(selected, this.props.data)
+        };
+
       }, this._redrawPopup);
 
-      this.props.onChange(currentSelection, event);
     }
   };
 
@@ -939,37 +942,39 @@ export default class Select extends Component {
       : {onClick: this._clickHandler};
 
     switch (this.props.type) {
-      case Type.INPUT:
-        return (
-          <div
-            ref={this.nodeRef}
-            className={classNames(classes, styles.inputMode)}
-            onClick={this._clickHandler}
-            data-test="ring-select"
-          >
-            {shortcutsEnabled &&
+      case Type.INPUT: return (
+        <div
+          ref={this.nodeRef}
+          className={classNames(classes, styles.inputMode)}
+          onClick={this._clickHandler}
+          data-test="ring-select"
+        >
+          {shortcutsEnabled && (
             <Shortcuts
               map={this.getShortcutsMap()}
               scope={this.shortcutsScope}
-            />}
-            <Input
-              inputRef={this.filterRef}
-              disabled={this.props.disabled}
-              value={this.state.filterValue}
-              className={classNames(styles.input, 'ring-js-shortcuts')}
-              style={style}
-              onChange={this._filterChangeHandler}
-              onFocus={this._focusHandler}
-              onBlur={this._blurHandler}
-              placeholder={this._getInputPlaceholder()}
-              onKeyDown={this.props.onKeyDown}
-              data-test="ring-select__focus"
             />
-            {iconsNode}
-            {this._renderPopup()}
-          </div>
-        );
+          )}
+          <Input
+            inputRef={this.filterRef}
+            disabled={this.props.disabled}
+            value={this.state.filterValue}
+            className={classNames(styles.input, 'ring-js-shortcuts')}
+            style={style}
+            onChange={this._filterChangeHandler}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
+
+            placeholder={this._getInputPlaceholder()}
+            onKeyDown={this.props.onKeyDown}
+            data-test="ring-select__focus"
+          />
+          {iconsNode}
+          {this._renderPopup()}
+        </div>
+      );
       case Type.BUTTON:
+
         return (
           <div
             ref={this.nodeRef}
@@ -977,11 +982,12 @@ export default class Select extends Component {
             data-test="ring-select"
             {...clickListenProps}
           >
-            {shortcutsEnabled &&
-            <Shortcuts
-              map={this.getShortcutsMap()}
-              scope={this.shortcutsScope}
-            />}
+            {shortcutsEnabled && (
+              <Shortcuts
+                map={this.getShortcutsMap()}
+                scope={this.shortcutsScope}
+              />
+            )}
             {!this._selectionIsEmpty() && this.props.selectedLabel && (
               <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
             )}
@@ -1011,11 +1017,12 @@ export default class Select extends Component {
             data-test="ring-select"
             {...clickListenProps}
           >
-            {shortcutsEnabled &&
-            <Shortcuts
-              map={this.getShortcutsMap()}
-              scope={this.shortcutsScope}
-            />}
+            {shortcutsEnabled && (
+              <Shortcuts
+                map={this.getShortcutsMap()}
+                scope={this.shortcutsScope}
+              />
+            )}
             <Anchor
               data-test="ring-select__focus"
               disabled={this.props.disabled}

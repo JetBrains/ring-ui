@@ -120,13 +120,16 @@ export default class Dialog extends PureComponent {
             >
               {children}
               {showCloseButton &&
-              <button
-                data-test="ring-dialog-close-button"
-                className={styles.closeButton}
-                onClick={this.onCloseClick}
-              >
-                <CloseIcon/>
-              </button>
+              (
+                <button
+                  type="button"
+                  data-test="ring-dialog-close-button"
+                  className={styles.closeButton}
+                  onClick={this.onCloseClick}
+                >
+                  <CloseIcon/>
+                </button>
+              )
               }
             </AdaptiveIsland>
           </TabTrap>
