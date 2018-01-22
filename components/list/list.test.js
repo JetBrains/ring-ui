@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/commonjs/List';

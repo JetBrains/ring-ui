@@ -125,29 +125,35 @@ class Row extends PureComponent {
         }
 
         {selectable &&
-          <Checkbox
-            className={showFocus ? 'ring-checkbox_focus' : ''}
-            checked={selected}
-            onFocus={this.onCheckboxFocus}
-            onChange={this.onCheckboxChange}
-            tabIndex="-1"
-          />
+          (
+            <Checkbox
+              className={showFocus ? 'ring-checkbox_focus' : ''}
+              checked={selected}
+              onFocus={this.onCheckboxFocus}
+              onChange={this.onCheckboxChange}
+              tabIndex="-1"
+            />
+          )
         }
 
         {collapsible && collapsed &&
-          <ExpandIcon
-            size={ExpandIcon.Size.Size14}
-            onClick={onExpand}
-            style={{top: '-3px'}}
-          />
+          (
+            <ExpandIcon
+              size={ExpandIcon.Size.Size14}
+              onClick={onExpand}
+              style={{top: '-3px'}}
+            />
+          )
         }
 
         {collapsible && !collapsed &&
-          <CollapseIcon
-            size={CollapseIcon.Size.Size14}
-            onClick={onCollapse}
-            style={{top: '-3px'}}
-          />
+          (
+            <CollapseIcon
+              size={CollapseIcon.Size.Size14}
+              onClick={onCollapse}
+              style={{top: '-3px'}}
+            />
+          )
         }
       </div>
     );

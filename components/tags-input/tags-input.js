@@ -124,8 +124,9 @@ export default class TagsInput extends Component {
   };
 
   addTag = tag => {
-    const tags = this.state.tags.concat([tag]);
-    this.setState({tags});
+    this.setState(prevState => ({
+      tags: prevState.tags.concat([tag])
+    }));
     this.select.clear();
     this.select.filterValue('');
     this.props.onAddTag({tag});
@@ -272,15 +273,17 @@ export default class TagsInput extends Component {
       >
 
         {this.state.tags && this.state.tags.length > 0 &&
-        <TagsList
-          tags={this.state.tags}
-          activeIndex={this.state.activeIndex}
-          disabled={this.props.disabled}
-          canNotBeEmpty={this.props.canNotBeEmpty}
-          handleRemove={this.handleRemove}
-          className="ring-tags-input__tags-list"
-          handleClick={this.handleClick}
-        />}
+        (
+          <TagsList
+            tags={this.state.tags}
+            activeIndex={this.state.activeIndex}
+            disabled={this.props.disabled}
+            canNotBeEmpty={this.props.canNotBeEmpty}
+            handleRemove={this.handleRemove}
+            className="ring-tags-input__tags-list"
+            handleClick={this.handleClick}
+          />
+        )}
 
         <Select
           ref={this.selectRef}

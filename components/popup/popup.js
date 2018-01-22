@@ -231,6 +231,7 @@ export default class Popup extends Component {
       ? Display.SHOWING
       : Display.SHOWN
   });
+
   portalRef = el => {
     this.node = el;
     this.parent = el && el.parentElement;
@@ -238,6 +239,7 @@ export default class Popup extends Component {
       this._redraw();
     }
   };
+
   popupRef = el => {
     this.popup = el;
     this._redraw();
@@ -454,10 +456,12 @@ export default class Popup extends Component {
         ref={this.portalRef}
       >
         {this.state.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
 
         <Portal

@@ -241,6 +241,7 @@ export default class SelectPopup extends Component {
       tagsActiveIndex: this.props.selected.indexOf(tag)
     });
   });
+
   getTags() {
     return (
       <div className="ring-select-popup__tags">
@@ -279,12 +280,15 @@ export default class SelectPopup extends Component {
   }
 
   getBottomLine() {
-    return (<div>
-      {this.props.loading && <LoaderInline/>}
+    return (
+      <div>
+        {this.props.loading && <LoaderInline/>}
 
-      {this.props.message &&
-      <div className={styles.message}>{this.props.message}</div>}
-    </div>);
+        {this.props.message && (
+          <div className={styles.message}>{this.props.message}</div>
+        )}
+      </div>
+    );
   }
 
   handleListResize = () => {
@@ -377,10 +381,12 @@ export default class SelectPopup extends Component {
         target={this.props.ringPopupTarget}
       >
         {this.state.shortcuts &&
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
         }
 
         {this.getFilterWithTags()}

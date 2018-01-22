@@ -71,7 +71,6 @@ describe('DOM', () => {
   });
 
   describe('getRect', () => {
-    // eslint-disable-next-line max-len
     const style = 'position: absolute; width: 100px; height: 100px; top: 10px; left: 10px; padding: 3px; margin: 4px; border: 2px solid;';
 
     it('should return DOMRect-like object for an element', () => {

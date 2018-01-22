@@ -100,7 +100,6 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
       }
 
       function init() {
-        // eslint-disable-next-line no-magic-numbers
         const scrollListener = () => scheduleScroll(checkPanelPosition);
 
         /**
