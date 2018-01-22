@@ -94,7 +94,6 @@ describe('Url', () => {
       }
     );
 
-    // eslint-disable-next-line max-len
     it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', () => {
       if (standardsCompliantRelativeSVG) {
         return;
