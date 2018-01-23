@@ -115,27 +115,16 @@ export default class Button extends PureComponent {
         )}
       </span>
     );
-    return (href
-      ? (
-        <a
-          href={href}
-          tabIndex={loader ? -1 : 0}
-          {...props}
-          onMouseDown={this.onMouseDown}
-          className={classes}
-        >{content}
-        </a>
-      )
-      : (
-        <button
-          type="button"
-          tabIndex={loader ? -1 : 0}
-          {...props}
-          onMouseDown={this.onMouseDown}
-          className={classes}
-        >{content}
-        </button>
-      )
+    const Tag = href ? 'a' : 'button';
+    return (
+      <Tag
+        href={href}
+        tabIndex={loader ? -1 : 0}
+        {...props}
+        onMouseDown={this.onMouseDown}
+        className={classes}
+      >{content}
+      </Tag>
     );
   }
 }
