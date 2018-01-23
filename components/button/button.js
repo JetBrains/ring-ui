@@ -36,6 +36,8 @@ export default class Button extends PureComponent {
     short: PropTypes.bool,
     text: PropTypes.bool,
 
+    href: PropTypes.string,
+
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     iconSize: PropTypes.number,
     iconClassName: PropTypes.string,
@@ -71,6 +73,7 @@ export default class Button extends PureComponent {
       text,
 
       // Props
+      href,
       icon,
       iconSize,
       iconClassName,
@@ -96,29 +99,41 @@ export default class Button extends PureComponent {
       }
     );
 
-    return (
-      <button
-        type="button"
-        tabIndex={loader ? -1 : 0}
-        {...props}
-        onMouseDown={this.onMouseDown}
-        className={classes}
-      >
-        <span className={styles.content}>
-          {icon && (
-            <span className={classNames(styles.icon, iconClassName)}>
-              <Icon
-                glyph={icon}
-                size={iconSize}
-                loading={loader}
-              />
-            </span>
-          )}
-          {children && (
-            <span>{children}</span>
-          )}
+    const content = (<span className={styles.content}>
+      {icon && (
+        <span className={classNames(styles.icon, iconClassName)}>
+          <Icon
+            glyph={icon}
+            size={iconSize}
+            loading={loader}
+          />
         </span>
-      </button>
+      )}
+      {children && (
+        <span>{children}</span>
+      )}
+    </span>);
+    return (href
+      ? (
+        <a
+          href={href}
+          tabIndex={loader ? -1 : 0}
+          {...props}
+          onMouseDown={this.onMouseDown}
+          className={classes}
+        >{content}
+        </a>
+      )
+      : (
+        <button
+          type="button"
+          tabIndex={loader ? -1 : 0}
+          {...props}
+          onMouseDown={this.onMouseDown}
+          className={classes}
+        >{content}
+        </button>
+      )
     );
   }
 }
