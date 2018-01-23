@@ -73,7 +73,6 @@ export default class Button extends PureComponent {
       text,
 
       // Props
-      href,
       icon,
       iconSize,
       iconClassName,
@@ -115,10 +114,9 @@ export default class Button extends PureComponent {
         )}
       </span>
     );
-    const Tag = href ? 'a' : 'button';
+    const Tag = props.href ? 'a' : 'button';
     return (
       <Tag
-        href={href}
         tabIndex={loader ? -1 : 0}
         {...props}
         onMouseDown={this.onMouseDown}
