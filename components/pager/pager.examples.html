@@ -209,23 +209,19 @@
     import {render} from 'react-dom';
     import Pager from '@jetbrains/ring-ui/components/pager/pager';
 
-    const getDataFromUrl = (param, dv) => {
-      let href = window.location.href;
-      const regexp = "" + param + "=([^&]+)";
-      if (href.match(regexp)){
-        return parseInt(href.match(regexp)[1]);
-      } else{
-        return dv;
-      }
+    const getDataFromUrl = (name, defaultValue) => {
+      const params = new URLSearchParams(location.search);
+      const value = params.get(name);
+      return value != undefined ? parseInt(value) : defaultValue;
     }
 
     const hrefGenerator = (linkPageNumber, pageSize) => {
-      let href = window.location.href;
-      const i = href.indexOf('?');
-      if (i > -1){
-        href = href.substring(0, i);
+      const params = new URLSearchParams(location.search);
+      params.set('page', linkPageNumber)
+      if (pageSize != undefined){
+         params.set('pageSize', pageSize)
       }
-      return href + "?page=" + linkPageNumber + (pageSize != undefined ? "&pageSize=" + pageSize : "");
+      return `${location.pathname}?${params}`;
     }
 
     class Example extends Component {
