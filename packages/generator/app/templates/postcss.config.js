@@ -1,4 +1,4 @@
-module.exports = ctx => ({
+module.exports = () => ({
   plugins: [
     require('postcss-modules-values-replace')({}),
     require('postcss-cssnext')({
