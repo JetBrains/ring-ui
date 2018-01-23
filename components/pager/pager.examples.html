@@ -199,3 +199,59 @@
     render(createElement(Example, {}), document.getElementById('pager'));
   </file>
 </example>
+
+<example name="Pager with open total and history support">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from '@jetbrains/ring-ui/components/pager/pager';
+
+    const getDataFromUrl = (param, dv) => {
+      let href = window.location.href;
+      const regexp = "" + param + "=([^&]+)";
+      if (href.match(regexp)){
+        return parseInt(href.match(regexp)[1]);
+      } else{
+        return dv;
+      }
+    }
+
+    const hrefGenerator = (linkPageNumber, pageSize) => {
+      let href = window.location.href;
+      const i = href.indexOf('?');
+      if (i > -1){
+        href = href.substring(0, i);
+      }
+      return href + "?page=" + linkPageNumber + (pageSize != undefined ? "&pageSize=" + pageSize : "");
+    }
+
+    class Example extends Component {
+      state = {
+          total: 1000,
+          currentPage: getDataFromUrl("page", 1),
+          pageSize: getDataFromUrl("pageSize", 20)
+      }
+
+      render() {
+        const {total, currentPage, pageSize} = this.state;
+        return (
+          <Pager
+            total={total}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            hrefFunc={hrefGenerator}
+            visiblePagesLimit={5}
+            openTotal={total < 2000}
+            onPageChange={cp => this.setState({currentPage: cp})}
+            onPageSizeChange={pageSize => this.setState({pageSize: pageSize})}
+            onLoadPage={cp => this.setState({currentPage: cp, total: this.state.total + 1000})}
+          />
+        );
+      }
+    }
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
