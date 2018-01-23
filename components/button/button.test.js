@@ -56,4 +56,11 @@ describe('Button', () => {
 
     wrapper.should.have.className(CUSTOM_CLASS);
   });
+
+  it('should render link instead of button if href specified', () => {
+    const linkButton = render(<Button href="http://www.jetbrains.com"/>);
+    linkButton.should.have.tagName('a');
+    linkButton.should.not.have.tagName('button');
+    linkButton.should.have.attr('href', 'http://www.jetbrains.com');
+  });
 });
