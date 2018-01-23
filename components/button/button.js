@@ -99,20 +99,22 @@ export default class Button extends PureComponent {
       }
     );
 
-    const content = (<span className={styles.content}>
-      {icon && (
-        <span className={classNames(styles.icon, iconClassName)}>
-          <Icon
-            glyph={icon}
-            size={iconSize}
-            loading={loader}
-          />
-        </span>
-      )}
-      {children && (
-        <span>{children}</span>
-      )}
-    </span>);
+    const content = (
+      <span className={styles.content}>
+        {icon && (
+          <span className={classNames(styles.icon, iconClassName)}>
+            <Icon
+              glyph={icon}
+              size={iconSize}
+              loading={loader}
+            />
+          </span>
+        )}
+        {children && (
+          <span>{children}</span>
+        )}
+      </span>
+    );
     return (href
       ? (
         <a
