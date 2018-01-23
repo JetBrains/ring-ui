@@ -144,14 +144,16 @@ export default class Pager extends PureComponent {
     const selectOptions = this.getSelectOptions();
 
     return !this.props.disablePageSizeSelector &&
-      <div data-test="ring-pager-page-size-selector" style={{float: 'right'}}>
-        <Select
-          data={selectOptions.data}
-          selected={selectOptions.selected}
-          onSelect={this.handlePageSizeChange}
-          type={Select.Type.INLINE}
-        />
-      </div>;
+      (
+        <div data-test="ring-pager-page-size-selector" style={{float: 'right'}}>
+          <Select
+            data={selectOptions.data}
+            selected={selectOptions.selected}
+            onSelect={this.handlePageSizeChange}
+            type={Select.Type.INLINE}
+          />
+        </div>
+      );
   }
 
   getPagerLinks() {
@@ -255,40 +257,48 @@ export default class Pager extends PureComponent {
 
     const lastPageButtonAvailable = end < totalPages && !this.props.openTotal;
 
-    return (<div>
-      {this.getPagerLinks()}
+    return (
+      <div>
+        {this.getPagerLinks()}
 
-      <ButtonToolbar>
-        {start > 1 &&
-        <ButtonGroup>
-          {this.getButton(1, this.props.translations.firstPage)}
-        </ButtonGroup>
-        }
+        <ButtonToolbar>
+          {start > 1 &&
+        (
+          <ButtonGroup>
+            {this.getButton(1, this.props.translations.firstPage)}
+          </ButtonGroup>
+        )
+          }
 
-        <ButtonGroup>
-          {start > 1 && this.getButton(start - 1, '...')}
+          <ButtonGroup>
+            {start > 1 && this.getButton(start - 1, '...')}
 
-          {buttons}
+            {buttons}
 
-          {end < totalPages && this.getButton(end + 1, '...')}
+            {end < totalPages && this.getButton(end + 1, '...')}
 
-          {end === totalPages && this.props.openTotal &&
-          <Button
-            href={this.generateHref(currentPage + 1)}
-            onClick={this.handleNextClick}
-          >...</Button>}
-        </ButtonGroup>
+            {end === totalPages && this.props.openTotal &&
+          (
+            <Button
+              href={this.generateHref(currentPage + 1)}
+              onClick={this.handleNextClick}
+            >...</Button>
+          )}
+          </ButtonGroup>
 
-        {lastPageButtonAvailable &&
-        <ButtonGroup>
-          {this.getButton(totalPages, this.props.translations.lastPage)}
-        </ButtonGroup>
-        }
-      </ButtonToolbar>
+          {lastPageButtonAvailable &&
+        (
+          <ButtonGroup>
+            {this.getButton(totalPages, this.props.translations.lastPage)}
+          </ButtonGroup>
+        )
+          }
+        </ButtonToolbar>
 
-      {this.getPageSizeSelector()}
+        {this.getPageSizeSelector()}
 
-    </div>);
+      </div>
+    );
   }
 
   render() {
