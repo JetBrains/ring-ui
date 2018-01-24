@@ -677,7 +677,6 @@ export default class List extends Component {
         )}
         {hint && (
           <ListHint
-            key={this.props.hint + Type.ITEM}
             label={hint}
           />
         )}
