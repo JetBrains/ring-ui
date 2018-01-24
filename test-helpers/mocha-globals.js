@@ -16,7 +16,7 @@ chai.use(chaiEnzyme());
 
 Object.assign(window, {
   sinon,
-  sandbox: sinon.sandbox.create(),
+  sandbox: sinon.createSandbox(),
   chai,
   should: chai.should()
 });
