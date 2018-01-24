@@ -29,7 +29,7 @@
     "html-webpack-plugin": "2.22.0",
     "postcss-cssnext": "3.0.2",
     "postcss-loader": "2.0.9",
-    "postcss-modules-values-replace": "1.2.1",
+    "postcss-modules-values-replace": "3.0.0",
     "prop-types": "15.6.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
