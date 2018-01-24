@@ -1,5 +1,4 @@
 {
-  "name": "<%= projectName %>",
   "version": "1.0.0",
   "private": true,
   "config": {
@@ -21,9 +20,6 @@
   },
   "dependencies": {
     "@jetbrains/babel-preset-jetbrains": "1.0.1",
-    "@jetbrains/icons": "<%= jetbrainsIcons %>",
-    "@jetbrains/logos": "<%= jetbrainsLogos %>",
-    "@jetbrains/ring-ui": "<%= jetbrainsRingUi %>",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
     "babel-polyfill": "6.26.0",
@@ -43,7 +39,6 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "1.0.0",
-    "@jetbrains/generator-ring-ui": "<%= jetbrainsGeneratorRingUi %>",
     "@jetbrains/stylelint-config": "1.1.35",
     "babel-eslint": "7.2.3",
     "chai": "4.0.2",
