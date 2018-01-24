@@ -22,6 +22,8 @@ import Select from '../select/select';
 import memoize from '../global/memoize';
 import Link from '../link/link';
 
+import {ChevronLeftIcon, ChevronRightIcon} from '../icon';
+
 import style from './pager.css';
 
 export default class Pager extends PureComponent {
@@ -52,8 +54,8 @@ export default class Pager extends PureComponent {
       perPage: 'per page',
       firstPage: 'First page',
       lastPage: 'Last page',
-      nextPage: 'next page',
-      previousPage: 'previous'
+      nextPage: 'Next page',
+      previousPage: 'Previous'
     },
     onPageSizeChange: () => {},
     onLoadPage: () => {}
@@ -164,9 +166,27 @@ export default class Pager extends PureComponent {
 
     const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
 
-    const nextLinkText = `${this.props.translations.nextPage} →`;
+    const nextIcon = (
+      <ChevronRightIcon key="icon" className={style.chevron} size={ChevronRightIcon.Size.Size16}/>
+    );
 
-    const prevLinkText = `← ${this.props.translations.previousPage}`;
+    const prevIcon = (
+      <ChevronLeftIcon key="icon" className={style.chevron} size={ChevronLeftIcon.Size.Size16}/>
+    );
+
+    const prevText = this.props.translations.previousPage;
+
+    const nextText = this.props.translations.nextPage;
+
+    const nextLinkContent = WrapText => [
+      <span key="text"><WrapText>{nextText}</WrapText></span>,
+      nextIcon
+    ];
+
+    const prevLinkContent = WrapText => [
+      prevIcon,
+      <span key="text"><WrapText>{prevText}</WrapText></span>
+    ];
 
     const prevLinkHref = this.generateLinkHref(this.props.currentPage - 1);
 
@@ -185,9 +205,13 @@ export default class Pager extends PureComponent {
               href={prevLinkHref}
               className={style.link}
               onClick={this.handlePrevClick}
-            >{prevLinkText}</Link>
+            >{prevLinkContent}</Link>
           )
-          : <span className={disabledLinkClasses}>{prevLinkText}</span>
+          : (
+            <span className={disabledLinkClasses}>
+              {prevIcon}<span key="text">{prevText}</span>
+            </span>
+          )
         }
 
         {nextLinkAvailable
@@ -196,9 +220,13 @@ export default class Pager extends PureComponent {
               href={nextLinkHref}
               className={style.link}
               onClick={this.handleNextClick}
-            >{nextLinkText}</Link>
+            >{nextLinkContent}</Link>
           )
-          : <span className={disabledLinkClasses}>{nextLinkText}</span>
+          : (
+            <span className={disabledLinkClasses}>
+              <span key="text">{nextText}</span>{nextIcon}
+            </span>
+          )
         }
       </div>
     );
