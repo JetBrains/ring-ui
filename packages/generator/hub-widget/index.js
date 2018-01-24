@@ -7,6 +7,7 @@ const ora = require('ora');
 
 const getFreePort = require('../app/get-free-port');
 const getLatestVersions = require('../app/get-latest-versions');
+const processPackageJson = require('../app/process-package-json');
 
 const packages = [
   '@jetbrains/ring-ui',
@@ -19,6 +20,8 @@ const BASE_GENERATOR_PATH = path.resolve(
   require.resolve('../app/index'),
   '../templates'
 );
+
+const INDENT = 2;
 
 const additionalDevServerOptions = `
     headers: {
@@ -89,7 +92,7 @@ module.exports = class HubWidgetGenerator extends Generator {
 
     // Base generator files
     this.fs.copyTpl(
-      this.templatePath(path.join(BASE_GENERATOR_PATH, '*.{json,js}')),
+      this.templatePath(path.join(BASE_GENERATOR_PATH, '{json,js}')),
       this.destinationPath(''),
       this.props
     );
@@ -100,16 +103,20 @@ module.exports = class HubWidgetGenerator extends Generator {
       this.destinationPath('package.json'),
       {
         process: content => {
-          const pkg = JSON.parse(content);
-
-          pkg.config.components = './src';
-
           console.log('>>>', this.props);
-          pkg.dependencies['hub-dashboard-addons'] =
-            this.props.hubDashboardAddons;
-
-          const SPACES = 2;
-          return JSON.stringify(pkg, null, SPACES);
+          const packageJson = processPackageJson(
+            this.props,
+            JSON.parse(content)
+          );
+          const newPackageJson = Object.assign({}, packageJson, {
+            config: Object.assign({}, packageJson.config, {
+              components: './src'
+            }),
+            dependencies: Object.assign({}, packageJson.dependencies, {
+              'hub-dashboard-addons': this.props.hubDashboardAddons
+            })
+          });
+          return JSON.stringify(newPackageJson, null, INDENT);
         }
       }
     );
