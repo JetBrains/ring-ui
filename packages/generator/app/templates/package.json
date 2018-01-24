@@ -35,7 +35,7 @@
     "react-dom": "16.2.0",
     "redbox-react": "1.5.0",
     "webpack": "3.0.0",
-    "webpack-dev-server": "2.9.7"
+    "webpack-dev-server": "2.11.1"
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "2.0.0",
