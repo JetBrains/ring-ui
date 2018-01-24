@@ -6,6 +6,7 @@ const ora = require('ora');
 
 const getFreePort = require('./get-free-port');
 const getLatestVersions = require('./get-latest-versions');
+const processPackageJson = require('./process-package-json');
 
 const packages = [
   '@jetbrains/generator-ring-ui',
@@ -13,6 +14,8 @@ const packages = [
   '@jetbrains/logos',
   '@jetbrains/icons'
 ];
+
+const INDENT = 2;
 
 module.exports = class AppGenerator extends Generator {
   constructor(...args) {
@@ -78,6 +81,20 @@ module.exports = class AppGenerator extends Generator {
       this.templatePath('*.{json,js}'),
       this.destinationPath(''),
       this.props
+    );
+
+    this.fs.copy(
+      this.destinationPath('package.json'),
+      this.destinationPath('package.json'),
+      {
+        process: content => {
+          const packageJson = processPackageJson(
+            this.props,
+            JSON.parse(content)
+          );
+          return JSON.stringify(packageJson, null, INDENT);
+        }
+      }
     );
 
     this.fs.copyTpl(
