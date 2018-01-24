@@ -31,9 +31,11 @@ collectors:
         batch_mode: true
         github_labels:
         - dependencies
+        - generator
     # separate PRs for major updates
     - type: js-npm
       versions: "Y.0.0"
       settings:
         github_labels:
         - dependencies
+        - generator
