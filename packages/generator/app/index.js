@@ -77,8 +77,14 @@ module.exports = class AppGenerator extends Generator {
   }
 
   files() {
+    this.fs.copyTpl(
+      this.templatePath('*.{json,js}'),
+      this.destinationPath(''),
+      this.props
+    );
+
     this.fs.copy(
-      this.templatePath('package.json'),
+      this.destinationPath('package.json'),
       this.destinationPath('package.json'),
       {
         process: content => {
@@ -89,12 +95,6 @@ module.exports = class AppGenerator extends Generator {
           return JSON.stringify(packageJson, null, INDENT);
         }
       }
-    );
-
-    this.fs.copyTpl(
-      this.templatePath('*.js'),
-      this.destinationPath(''),
-      this.props
     );
 
     this.fs.copyTpl(
