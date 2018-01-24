@@ -17,3 +17,9 @@
 .linkDisabled {
   color: dark-gray-color;
 }
+
+.chevron {
+  vertical-align: 2px;
+
+  line-height: normal;
+}
