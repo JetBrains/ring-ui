@@ -13,7 +13,7 @@
     "test": "karma start",
     "lint": "eslint . && npm run stylelint",
     "stylelint": "stylelint --ignore-path .gitignore **/*.css",
-    "ci-test": "npm run lint && karma start --teamcity",
+    "ci-test": "npm run lint && xvfb-maybe karma start --teamcity",
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
@@ -66,6 +66,7 @@
     "sinon": "2.3.5",
     "sinon-chai": "2.11.0",
     "stylelint": "7.11.1",
+    "xvfb-maybe": "0.2.1",
     "yo": "1.8.5"
   },
   "engines": {
