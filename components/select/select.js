@@ -83,7 +83,7 @@ export default class Select extends Component {
     left: PropTypes.number,
     renderOptimization: PropTypes.bool,
     ringPopupTarget: PropTypes.string,
-    hint: PropTypes.string,
+    hint: List.ListHint.propTypes.label,
     add: PropTypes.object,
     type: PropTypes.oneOf(Object.values(Type)),
     disabled: PropTypes.bool,
@@ -501,7 +501,6 @@ export default class Select extends Component {
     if (this.props.hint) {
       hint = (
         <List.ListHint
-          key={this.props.hint + Type.ITEM}
           label={this.props.hint}
         />
       );
