@@ -49,7 +49,7 @@
     "flow": "flow",
     "test-crossbrowser": "karma start karma-crossbrowser.conf.js",
     "pretest-ci": "npm run lint-ci",
-    "test-ci": "xvfb-run karma start karma-ci.conf.js",
+    "test-ci": "xvfb-maybe karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prerelease-ci": "git pull",
     "release-ci": "lerna publish --yes"
@@ -155,6 +155,7 @@
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
     "webpack-toolkit": "1.0.0",
     "xmlappend": "1.0.4",
+    "xvfb-maybe": "0.2.1",
     "yo": "2.0.0"
   },
   "peerDependencies": {
