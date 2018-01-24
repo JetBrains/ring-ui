@@ -38,7 +38,7 @@
     "webpack-dev-server": "2.9.7"
   },
   "devDependencies": {
-    "@jetbrains/eslint-config": "1.0.0",
+    "@jetbrains/eslint-config": "2.0.0",
     "@jetbrains/stylelint-config": "1.1.35",
     "babel-eslint": "7.2.3",
     "chai": "4.0.2",
