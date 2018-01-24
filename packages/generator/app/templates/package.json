@@ -58,7 +58,7 @@
     "karma-webpack": "2.0.9",
     "mocha": "5.0.0",
     "react-test-renderer": "16.2.0",
-    "sinon": "4.0.0",
+    "sinon": "4.2.1",
     "sinon-chai": "2.14.0",
     "stylelint": "8.0.0",
     "xvfb-maybe": "0.2.1",
