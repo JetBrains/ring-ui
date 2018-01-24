@@ -265,8 +265,8 @@
             visiblePagesLimit={5}
             openTotal={total < 2000}
             onPageChange={currentPage => this.handlePageChange({currentPage})}
-            onPageSizeChange={pageSize => this.setState({pageSize})}
-            onLoadPage={currentPage => this.setState(prevState => ({currentPage: currentPage, total: prevState.total + 500}))}
+            onPageSizeChange={pageSize => this.handlePageChange({currentPage: 1, pageSize})}
+            onLoadPage={currentPage => this.handlePageChange(prevState => ({currentPage, total: prevState.total + 500}))}
           />
         );
       }
