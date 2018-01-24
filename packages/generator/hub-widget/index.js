@@ -92,14 +92,14 @@ module.exports = class HubWidgetGenerator extends Generator {
 
     // Base generator files
     this.fs.copyTpl(
-      this.templatePath(path.join(BASE_GENERATOR_PATH, '*.js')),
+      this.templatePath(path.join(BASE_GENERATOR_PATH, '{json,js}')),
       this.destinationPath(''),
       this.props
     );
 
     // Modify package.json – add hub-dashboard-addons
     this.fs.copy(
-      this.templatePath(path.join(BASE_GENERATOR_PATH, 'package.json')),
+      this.destinationPath('package.json'),
       this.destinationPath('package.json'),
       {
         process: content => {
