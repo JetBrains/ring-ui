@@ -230,7 +230,7 @@
 
     class Example extends Component {
       state = {
-          total: 1000,
+          total: 999,
           currentPage: getDataFromUrl("page", 1),
           pageSize: getDataFromUrl("pageSize", 20)
       }
@@ -240,17 +240,19 @@
                           hrefGenerator(this.state.currentPage, this.state.pageSize)))
       }
 
-      componentDidMount = () => {
+      componentDidMount() {
+        history.replaceState(this.state, '', hrefGenerator(this.state.currentPage, this.state.pageSize))
         window.addEventListener('popstate', event => {
-          const page = window.history.state && window.history.state.currentPage || 1;
-          const pageSize = window.history.state && window.history.state.pageSize || 20;
-          this.setState({pageSize: pageSize, currentPage: page});
+          if (window.history.state && window.history.state.currentPage && window.history.state.pageSize){
+              this.setState({pageSize: window.history.state.pageSize, currentPage: window.history.state.currentPage});
+          }
         }, false);
       }
 
-      componentWillUnmount = () => {
+      componentWillUnmount() {
         window.removeEventListener('popstate');
       }
+
 
       render() {
         const {total, currentPage, pageSize} = this.state;
@@ -264,9 +266,7 @@
             openTotal={total < 2000}
             onPageChange={currentPage => this.handlePageChange({currentPage})}
             onPageSizeChange={pageSize => this.setState({pageSize})}
-            onLoadPage={currentPage =>
-                this.setState(prevState =>
-                                  ({currentPage: currentPage, total: prevState.total + 1000}))}
+            onLoadPage={currentPage => this.setState(prevState => ({currentPage: currentPage, total: prevState.total + 500}))}
           />
         );
       }

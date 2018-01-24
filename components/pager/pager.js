@@ -124,6 +124,14 @@ export default class Pager extends PureComponent {
     this.props.onPageChange(i, event);
   });
 
+  handleLoadMore = memoize(i => event => {
+    if (this.skipEvent(event)) {
+      return;
+    }
+    this.props.onLoadPage(i);
+    this.props.onPageChange(i, event);
+  });
+
   getButton = (page, content, key, active) => (
     <Button
       href={this.generateHref(page)}
@@ -276,8 +284,8 @@ export default class Pager extends PureComponent {
             {end === totalPages && this.props.openTotal &&
           (
             <Button
-              href={this.generateHref(currentPage + 1)}
-              onClick={this.handleNextClick}
+              href={this.generateHref(end + 1)}
+              onClick={this.handleLoadMore(end + 1)}
             >...</Button>
           )}
           </ButtonGroup>
