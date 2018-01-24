@@ -2,6 +2,9 @@
 
 set -e -x
 
+mkdir -p /root/.config/configstore || echo ''
+chmod g+rwx /root /root/.config /root/.config/configstore || echo ''
+
 cd ../..
 yarn link
 cd packages/generator
