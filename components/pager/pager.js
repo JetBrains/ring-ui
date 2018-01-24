@@ -76,7 +76,6 @@ export default class Pager extends PureComponent {
 
   handlePageSizeChange = item => {
     this.props.onPageSizeChange(item.key);
-    this.props.onPageChange(1);
   };
 
   handlePrevClick = event => {
@@ -129,7 +128,6 @@ export default class Pager extends PureComponent {
       return;
     }
     this.props.onLoadPage(i);
-    this.props.onPageChange(i, event);
   });
 
   getButton = (page, content, key, active) => (
