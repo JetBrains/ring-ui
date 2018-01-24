@@ -74,58 +74,54 @@ export default class Pager extends PureComponent {
     return Math.ceil(total / pageSize);
   }
 
-  handleHistory = (page, pageSize) => {
-    if (this.props.hrefFunc === undefined) {
-      return;
-    }
-
-    const ps = this.props.disablePageSizeSelector ? undefined : pageSize;
-
-    window.history.pushState({}, '', this.props.hrefFunc(page, ps));
-  };
-
   handlePageSizeChange = item => {
     this.props.onPageSizeChange(item.key);
     this.props.onPageChange(1);
-    this.handleHistory(1, item.key);
-  };
-
-  isModifiedEvent = event =>
-    !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
-
-  handleLinkFunc = (event, page) => {
-    if (this.isModifiedEvent(event) || event.button !== 0) {
-      return;
-    }
-    event.preventDefault();
-    this.handleHistory(page, this.props.pageSize);
   };
 
   handlePrevClick = event => {
-    const {currentPage, onPageChange} = this.props;
+    if (this.skipEvent(event)) {
+      return;
+    }
+    const {currentPage} = this.props;
     if (currentPage !== 1) {
       const prevPage = currentPage - 1;
-      onPageChange(prevPage);
-      this.handleLinkFunc(event, prevPage);
+      this.props.onPageChange(prevPage);
     }
   };
 
   handleNextClick = event => {
-    const {currentPage, onPageChange, onLoadPage} = this.props;
+    if (this.skipEvent(event)) {
+      return;
+    }
+    const {currentPage, onLoadPage} = this.props;
     const nextPage = currentPage + 1;
     const total = this.getTotal();
     if (currentPage !== total) {
-      onPageChange(nextPage);
-      this.handleLinkFunc(event, nextPage);
+      this.props.onPageChange(nextPage);
     } else if (this.props.openTotal) {
       onLoadPage(nextPage);
-      this.handleLinkFunc(event, nextPage);
     }
   };
 
+  skipEvent = event => {
+    if (!this.props.hrefFunc) {
+      return false;
+    }
+
+    if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+      return true;
+    }
+
+    event.preventDefault();
+    return false;
+  };
+
   handlePageChange = memoize(i => event => {
-    this.props.onPageChange(i);
-    this.handleLinkFunc(event, i);
+    if (this.skipEvent(event)) {
+      return;
+    }
+    this.props.onPageChange(i, event);
   });
 
   getButton = (page, content, key, active) => (

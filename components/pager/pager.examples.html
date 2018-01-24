@@ -224,11 +224,32 @@
       return `${location.pathname}?${params}`;
     }
 
+    const handleHistory = (page, pageSize) => {
+      window.history.pushState({page: page, pageSize: pageSize}, '', hrefGenerator(page, pageSize));
+    };
+
     class Example extends Component {
       state = {
           total: 1000,
           currentPage: getDataFromUrl("page", 1),
           pageSize: getDataFromUrl("pageSize", 20)
+      }
+
+      handlePageChange(update) {
+          this.setState(update, () => history.pushState(this.state, '',
+                          hrefGenerator(this.state.currentPage, this.state.pageSize)))
+      }
+
+      componentDidMount = () => {
+        window.addEventListener('popstate', event => {
+          const page = window.history.state && window.history.state.currentPage || 1;
+          const pageSize = window.history.state && window.history.state.pageSize || 20;
+          this.setState({pageSize: pageSize, currentPage: page});
+        }, false);
+      }
+
+      componentWillUnmount = () => {
+        window.removeEventListener('popstate');
       }
 
       render() {
@@ -241,9 +262,11 @@
             hrefFunc={hrefGenerator}
             visiblePagesLimit={5}
             openTotal={total < 2000}
-            onPageChange={cp => this.setState({currentPage: cp})}
-            onPageSizeChange={pageSize => this.setState({pageSize: pageSize})}
-            onLoadPage={cp => this.setState({currentPage: cp, total: this.state.total + 1000})}
+            onPageChange={currentPage => this.handlePageChange({currentPage})}
+            onPageSizeChange={pageSize => this.setState({pageSize})}
+            onLoadPage={currentPage =>
+                this.setState(prevState =>
+                                  ({currentPage: currentPage, total: prevState.total + 1000}))}
           />
         );
       }
