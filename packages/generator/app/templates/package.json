@@ -62,7 +62,7 @@
     "sinon-chai": "2.11.0",
     "stylelint": "8.0.0",
     "xvfb-maybe": "0.2.1",
-    "yo": "1.8.5"
+    "yo": "2.0.0"
   },
   "engines": {
     "node": ">=6.0.0"
