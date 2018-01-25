@@ -493,12 +493,12 @@ export default class Auth {
   }
 
   _beforeLogout(params) {
-    if (this._authDialogService === undefined) {
-      this.logout();
+    if (this._canShowDialogs()) {
+      this._showAuthDialog(params);
       return;
     }
 
-    this._showAuthDialog(params);
+    this.logout();
   }
 
   async _showAuthDialog({nonInteractive, error, canCancel} = {}) {
