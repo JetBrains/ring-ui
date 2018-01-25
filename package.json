@@ -156,7 +156,7 @@
     "webpack-toolkit": "1.0.0",
     "xmlappend": "1.0.4",
     "xvfb-maybe": "0.2.1",
-    "yo": "2.0.0"
+    "yo": "2.0.1"
   },
   "peerDependencies": {
     "react": "^16.0.0",
