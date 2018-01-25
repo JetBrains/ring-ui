@@ -11,7 +11,7 @@
 .link {
   display: inline-block;
 
-  margin-right: calc(unit * 4);
+  margin-right: calc(unit * 2);
 }
 
 .linkDisabled {
