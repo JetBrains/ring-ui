@@ -92,7 +92,7 @@ module.exports = class HubWidgetGenerator extends Generator {
 
     // Base generator files
     this.fs.copyTpl(
-      this.templatePath(path.join(BASE_GENERATOR_PATH, '{json,js}')),
+      this.templatePath(path.join(BASE_GENERATOR_PATH, '*.{json,js}')),
       this.destinationPath(''),
       this.props
     );
