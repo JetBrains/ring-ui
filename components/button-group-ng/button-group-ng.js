@@ -41,7 +41,9 @@ function rgButtonGroup() {
       const element = iElement[0];
       const children = Array.from(element.children);
 
-      element.classList.add(styles.buttonGroup);
+      styles.buttonGroup.
+        split(' ').
+        forEach(className => element.classList.add(className));
 
       // For $watchCollection it should be Array, not jQuery collection
       $scope.$watchCollection(
