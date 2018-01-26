@@ -226,10 +226,10 @@
   padding: listSpacing calc(unit * 2) 0;
 
   text-align: left;
+}
 
-  &_first {
-    margin-top: 0;
-  }
+.title_first {
+  margin-top: 0;
 }
 
 .text {

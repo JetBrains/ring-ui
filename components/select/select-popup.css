@@ -9,10 +9,6 @@
   text-align: left;
 
   border: 1px solid borders-color;
-
-  /* &_focused {
-    @include focused_input;
-  } */
 }
 
 .tags {
