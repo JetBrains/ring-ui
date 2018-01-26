@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-test-single" />
     </scripts>
-    <arguments value="../../components/icon-ng/*.gemini.js" />
+    <arguments value="../../components/select/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
