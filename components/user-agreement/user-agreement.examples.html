@@ -1,0 +1,50 @@
+<example name="User Agreement">
+  <file type="html"}>
+    <div id="demo"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import UserAgreement from '@jetbrains/ring-ui/components/user-agreement/user-agreement';
+    import text from './toolbox.eula';
+
+    const userAgreement = {
+      enabled: true,
+      majorVersion: 1,
+      minorVersion: 0,
+      text
+    };
+
+    const userConsent = {
+      accepted: false,
+      majorVersion: 0,
+      minorVersion: 0
+    };
+
+    const onAccept = () => {
+      console.log('accept');
+    };
+
+    const onDecline = () => {
+      console.log('decline');
+    };
+
+    class Demo extends Component {
+      render() {
+        return (
+          <div>
+             <UserAgreement
+               userAgreement={userAgreement}
+               userConsent={userConsent}
+               onAccept={onAccept}
+               onDecline={onDecline}
+             />
+          </div>
+         );
+       }
+    }
+
+    render(<Demo />, document.getElementById('demo'));
+  </file>
+ </example>
