@@ -1,3 +1,12 @@
+/**
+ * @name User Agreement
+ * @category Components
+ * @framework React
+ * @constructor
+ * @description A component displays user agreement dialog
+ * @example-file ./user-agreement.examples.html
+ */
+
 import React, {PureComponent} from 'react';
 import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
@@ -14,19 +23,30 @@ const SCROLL_TOLERANCE = 10;
 
 export default class UserAgreement extends PureComponent {
   static propTypes = {
-    show: PropTypes.bool,
-    text: PropTypes.string.isRequired,
+    translations: PropTypes.object,
+
     onAccept: PropTypes.func.isRequired,
     onDecline: PropTypes.func.isRequired,
-    translations: PropTypes.object
+
+    userAgreement: PropTypes.shape({
+      enabled: PropTypes.bool.isRequired,
+      majorVersion: PropTypes.number.isRequired,
+      minorVersion: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired
+    }).isRequired,
+
+    userConsent: PropTypes.shape({
+      accepted: PropTypes.bool.isRequired,
+      majorVersion: PropTypes.number.isRequired,
+      minorVersion: PropTypes.number.isRequired
+    }).isRequired
   };
 
   static defaultProps = {
-    show: false,
     translations: {
       accept: 'Accept',
-      scrollToAccept: 'Read the text fully to accept',
-      decline: 'Decline'
+      decline: 'Decline',
+      scrollToAccept: 'View the entire agreement to continue'
     }
   };
 
@@ -54,7 +74,13 @@ export default class UserAgreement extends PureComponent {
 
   render() {
     const {scrolledDown} = this.state;
-    const {show, text, translations, onAccept, onDecline} = this.props;
+    const {
+      translations, onAccept, onDecline,
+      userAgreement: {enabled, text, majorVersion: actualVersion},
+      userConsent: {accepted, majorVersion: acceptedVersion}
+    } = this.props;
+
+    const show = enabled && (!accepted || actualVersion > acceptedVersion);
 
     return (
       <Dialog show={show} contentClassName={style.dialogContent}>
@@ -62,11 +88,9 @@ export default class UserAgreement extends PureComponent {
           <Markdown source={text} className={style.text} ref={this.onTextRef}/>
         </Content>
         <Panel>
-          {scrolledDown
-            ? <Button blue onClick={onAccept}>{translations.accept}</Button>
-            : <Button blue disabled>{translations.scrollToAccept}</Button>
-          }
+          <Button blue disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
           <Button onClick={onDecline}>{translations.decline}</Button>
+          {!scrolledDown && translations.scrollToAccept}
         </Panel>
       </Dialog>
     );
