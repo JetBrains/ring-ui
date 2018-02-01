@@ -19,7 +19,7 @@ module.exports = {
   system: {
     plugins: {
       teamcity: process.argv.indexOf('--teamcity') !== -1,
-      'html-reporter': {
+      'html-reporter/gemini': {
         defaultView: 'all'
       },
       sauce: {
