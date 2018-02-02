@@ -16,7 +16,12 @@ export default class SmartUserAgreement extends PureComponent {
     setUserConsent: PropTypes.func.isRequired,
     onAccept: PropTypes.func,
     onDecline: PropTypes.func,
+    interval: PropTypes.number,
     translations: PropTypes.object
+  };
+
+  static defaultProps = {
+    interval: ONE_HOUR
   };
 
   state = {
@@ -37,8 +42,9 @@ export default class SmartUserAgreement extends PureComponent {
   }
 
   componentWillMount() {
+    const {interval} = this.props;
     this.check();
-    this.intervalId = setInterval(this.check, ONE_HOUR);
+    this.intervalId = setInterval(this.check, interval);
   }
 
   componentWillUnmount() {
