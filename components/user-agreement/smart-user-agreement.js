@@ -13,7 +13,6 @@ export default class SmartUserAgreement extends PureComponent {
   static propTypes = {
     getUser: PropTypes.func.isRequired,
     getAgreement: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
     setUserConsent: PropTypes.func.isRequired,
     onAccept: PropTypes.func,
     onDecline: PropTypes.func,
@@ -85,15 +84,10 @@ export default class SmartUserAgreement extends PureComponent {
   };
 
   onDecline = () => {
-    const {auth: {auth}, onDecline} = this.props;
-
+    const {onDecline} = this.props;
     if (onDecline) {
       onDecline();
     }
-
-    return auth.logout({
-      message: 'user-agreement-was-declined'
-    });
   };
 
   render() {
