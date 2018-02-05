@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "forever": "0.15.3",
-    "gemini": "5.3.0",
+    "gemini": "5.4.0",
     "gemini-sauce": "^1.0.1",
     "gemini-teamcity": "2.1.5",
     "html-reporter": "2.0.1",
