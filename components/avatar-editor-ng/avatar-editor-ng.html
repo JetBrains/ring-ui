@@ -14,12 +14,12 @@
     delayed="true"
     class="ring-button ring-button_delayed-action"
     ng-disabled="ngDisabled"
-    ng-show="!model && !default"
+    ng-if="showAddButton && !model && !default"
     ng-click="controls.select()"
   >{{ getAddMessage() }}</button>
 
   <button
-    ng-if="model && !ngDisabled"
+    ng-if="showDeleteButton&& model && !ngDisabled"
     class="ring-button ring-button_danger ring-avatar-editor__remove"
     ng-click="controls.remove()"
   >
