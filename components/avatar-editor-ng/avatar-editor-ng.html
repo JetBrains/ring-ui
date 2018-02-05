@@ -16,13 +16,13 @@
     ng-disabled="ngDisabled"
     ng-show="!model && !default"
     ng-click="controls.select()"
-  >{{ addMessage }}</button>
+  >{{ getAddMessage() }}</button>
 
   <button
     ng-if="model && !ngDisabled"
     class="ring-button ring-button_danger ring-avatar-editor__remove"
     ng-click="controls.remove()"
   >
-    <span translate>{{ deleteMessage }}</span>
+    <span translate>{{ getDeleteLabel() }}</span>
   </button>
 </div>

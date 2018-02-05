@@ -22,6 +22,7 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
        <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
          <rg-avatar-editor
            on-select="ctrl.name = name"
+           delete-label="Clear"
            ng-model="ctrl.data"></rg-avatar-editor>
 
          <h3>{{ ctrl.name || 'No file name' }}</h3>
@@ -51,7 +52,9 @@ function rgAvatarEditor() {
       model: '=ngModel',
       onSelect: '&',
       default: '@',
-      ngDisabled: '='
+      ngDisabled: '=',
+      deleteLabel: '@',
+      addMessage: '@'
     },
     template: require('./avatar-editor-ng.html'),
     transclude: true,
@@ -62,7 +65,6 @@ function rgAvatarEditor() {
         $scope.editIcon = PencilIcon;
 
         function setLang() {
-          $scope.deleteMessage = RingMessageBundle.avatareditor_delete();
           $scope.addMessage = RingMessageBundle.avatareditor_add();
         }
 
@@ -136,6 +138,14 @@ function rgAvatarEditor() {
             $scope.model = data;
           }
         };
+
+        $scope.getDeleteLabel = () => (
+          $scope.deleteLabel || RingMessageBundle.avatareditor_delete()
+        );
+
+        $scope.getAddMessage = () => (
+          $scope.addMessage || RingMessageBundle.avatareditor_add()
+        );
       }
     ]
   };
