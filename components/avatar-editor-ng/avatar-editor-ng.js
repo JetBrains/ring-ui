@@ -53,6 +53,8 @@ function rgAvatarEditor() {
       onSelect: '&',
       default: '@',
       ngDisabled: '=',
+      showDeleteButton: '=?',
+      showAddButton: '=?',
       deleteLabel: '@',
       addMessage: '@'
     },
@@ -63,6 +65,8 @@ function rgAvatarEditor() {
       function controller($scope, $attrs, RingMessageBundle) {
         let fileInput;
         $scope.editIcon = PencilIcon;
+        $scope.showAddButton = 'showAddButton' in $scope ? $scope.showAddButton : true;
+        $scope.showDeleteButton = 'showDeleteButton' in $scope ? $scope.showDeleteButton : true;
 
         function setLang() {
           $scope.addMessage = RingMessageBundle.avatareditor_add();
