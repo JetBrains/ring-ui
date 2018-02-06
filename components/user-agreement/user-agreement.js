@@ -23,23 +23,11 @@ const SCROLL_TOLERANCE = 10;
 
 export default class UserAgreement extends PureComponent {
   static propTypes = {
-    translations: PropTypes.object,
-
+    show: PropTypes.bool,
+    text: PropTypes.string.isRequired,
     onAccept: PropTypes.func.isRequired,
     onDecline: PropTypes.func.isRequired,
-
-    userAgreement: PropTypes.shape({
-      enabled: PropTypes.bool.isRequired,
-      majorVersion: PropTypes.number.isRequired,
-      minorVersion: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired
-    }).isRequired,
-
-    userConsent: PropTypes.shape({
-      accepted: PropTypes.bool.isRequired,
-      majorVersion: PropTypes.number.isRequired,
-      minorVersion: PropTypes.number.isRequired
-    }).isRequired
+    translations: PropTypes.object
   };
 
   static defaultProps = {
@@ -47,7 +35,8 @@ export default class UserAgreement extends PureComponent {
       accept: 'Accept',
       decline: 'Decline',
       scrollToAccept: 'View the entire agreement to continue'
-    }
+    },
+    show: false
   };
 
   state = {
@@ -74,13 +63,7 @@ export default class UserAgreement extends PureComponent {
 
   render() {
     const {scrolledDown} = this.state;
-    const {
-      translations, onAccept, onDecline,
-      userAgreement: {enabled, text, majorVersion: actualVersion},
-      userConsent: {accepted, majorVersion: acceptedVersion}
-    } = this.props;
-
-    const show = enabled && (!accepted || actualVersion > acceptedVersion);
+    const {translations, onAccept, onDecline, text, show} = this.props;
 
     return (
       <Dialog show={show} contentClassName={style.dialogContent}>
