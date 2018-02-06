@@ -35,12 +35,12 @@ export default class Pager extends PureComponent {
     visiblePagesLimit: PropTypes.number,
     disablePageSizeSelector: PropTypes.bool,
     openTotal: PropTypes.bool,
-    onPageChange: PropTypes.func.isRequired,
+    onPageChange: PropTypes.func,
     onPageSizeChange: PropTypes.func,
     onLoadPage: PropTypes.func,
     className: PropTypes.string,
     translations: PropTypes.object,
-    hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter
+    hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
   };
 
   static defaultProps = {
@@ -110,7 +110,12 @@ export default class Pager extends PureComponent {
       return false;
     }
 
-    if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+    if (event.metaKey ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.button !== 0 ||
+      !this.props.onPageChange) {
       return true;
     }
 
