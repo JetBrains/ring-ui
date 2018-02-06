@@ -68,13 +68,6 @@ function rgAvatarEditor() {
         $scope.showAddButton = 'showAddButton' in $scope ? $scope.showAddButton : true;
         $scope.showDeleteButton = 'showDeleteButton' in $scope ? $scope.showDeleteButton : true;
 
-        function setLang() {
-          $scope.addMessage = RingMessageBundle.avatareditor_add();
-        }
-
-        $scope.$on('gettextLanguageChanged', setLang);
-        setLang();
-
         if ('controls' in $attrs) {
           $scope.controlled = true;
         }
