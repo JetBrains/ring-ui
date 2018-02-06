@@ -274,3 +274,51 @@
     render(createElement(Example, {}), document.getElementById('pager'));
   </file>
 </example>
+
+<example name="Pager with reload on current page change">
+  <file type="html">
+    <div id="pager"></div>
+  </file>
+  <file type="js">
+    import React, {Component, createElement} from 'react';
+    import {render} from 'react-dom';
+    import Pager from '@jetbrains/ring-ui/components/pager/pager';
+
+    const getDataFromUrl = (name, defaultValue) => {
+      const params = new URLSearchParams(location.search);
+      const value = params.get(name);
+      return value != undefined ? parseInt(value) : defaultValue;
+    }
+
+    const hrefGenerator = (linkPageNumber, pageSize) => {
+      const params = new URLSearchParams(location.search);
+      params.set('page', linkPageNumber)
+      if (pageSize != undefined){
+        params.set('pageSize', pageSize)
+      }
+      return `${location.pathname}?${params}`;
+    }
+
+    class Example extends Component {
+      state = {
+      total: 120,
+      currentPage: getDataFromUrl("page", 1),
+      pageSize: getDataFromUrl("pageSize", 20)
+    }
+
+    render() {
+      const {total, currentPage, pageSize} = this.state;
+      return (
+        <Pager
+          total={total}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          hrefFunc={hrefGenerator}
+          visiblePagesLimit={5}
+        />
+        );
+      }
+    }
+    render(createElement(Example, {}), document.getElementById('pager'));
+  </file>
+</example>
