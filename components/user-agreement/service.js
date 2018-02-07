@@ -100,7 +100,7 @@ export default class UserAgreementService {
 
   showDialog = () => {
     const {onAccept, onDecline} = this;
-    const {translations} = this.config;
+    const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
     const show = true;
 
@@ -110,10 +110,20 @@ export default class UserAgreementService {
       <UserAgreement {...props}/>,
       this.container
     );
+
+    if (onDialogShow) {
+      onDialogShow();
+    }
   }
 
   hideDialog = () => {
+    const {onDialogHide} = this.config;
+
     unmountComponentAtNode(this.container);
+
+    if (onDialogHide) {
+      onDialogHide();
+    }
   }
 
   onAccept = async () => {
