@@ -21,7 +21,11 @@
 
     box-sizing: border-box;
     height: height;
-    padding: 0 calc(unit * 2) compensate;
+    padding: 0 calc(unit * 1.5) compensate;
+
+    &:first-child {
+      padding-left: calc(unit * 4);
+    }
   }
 
   /* override link */
@@ -31,6 +35,7 @@
 }
 
 .logo {
+  display: inline-flex;
   align-items: center;
 
   height: height;
@@ -42,13 +47,6 @@
   & svg {
     vertical-align: bottom;
   }
-}
-
-/* override .header > * */
-.logo.logo {
-  display: inline-flex;
-
-  padding: 0 0 0 calc(unit * 2);
 }
 
 .tray {
