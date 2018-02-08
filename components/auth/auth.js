@@ -257,6 +257,12 @@ export default class Auth {
    */
   async init() {
     this._storage.onTokenChange(token => {
+      const isGuest = this.user ? this.user.guest : false;
+
+      if (isGuest && !token) {
+        return;
+      }
+
       if (!token) {
         this.logout();
       } else {
