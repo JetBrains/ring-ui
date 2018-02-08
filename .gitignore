@@ -15,6 +15,7 @@ Thumbs.db
 coverage
 dist
 gemini-report
+html-report
 node_modules
 npm-debug.log*
 http-server.log
