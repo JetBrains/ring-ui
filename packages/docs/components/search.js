@@ -89,7 +89,7 @@ class Search extends PureComponent {
       <div className={styles.search}>
         <SearchIcon
           className={styles.searchIcon}
-          size={SearchIcon.Size.Size14}
+          size={SearchIcon.Size.Size16}
         />
         <Input
           borderless
