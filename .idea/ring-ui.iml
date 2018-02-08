@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/packages/docs/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/gemini/gemini-report" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/gemini/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/test_gen" />
     </content>
     <orderEntry type="inheritedJdk" />
