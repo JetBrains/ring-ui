@@ -10,19 +10,19 @@
   </div>
   <input class="ring-avatar-editor__file-input" rg-avatar-editor-file-input type="file" ng-model="fileInput" accept="image/*" ng-if="!ngDisabled">
 
-  <button
+  <rg-button
     delayed="true"
-    class="ring-button ring-button_delayed-action"
     ng-disabled="ngDisabled"
     ng-if="showAddButton && !model && !default"
     ng-click="controls.select()"
-  >{{ getAddMessage() }}</button>
+  >{{ getAddMessage() }}</rg-button>
 
-  <button
+  <rg-button
     ng-if="showDeleteButton&& model && !ngDisabled"
-    class="ring-button ring-button_danger ring-avatar-editor__remove"
+    danger="true"
+    class="ring-avatar-editor__remove"
     ng-click="controls.remove()"
   >
     <span translate>{{ getDeleteLabel() }}</span>
-  </button>
+  </rg-button>
 </div>
