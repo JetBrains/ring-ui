@@ -127,7 +127,8 @@ export default class List extends Component {
     activeItem: null,
     needScrollToActive: false,
     scrolling: false,
-    hasOverflow: false
+    hasOverflow: false,
+    disabledHover: false
   };
 
   componentWillMount() {
@@ -149,6 +150,11 @@ export default class List extends Component {
         needScrollToActive: true
       });
     }
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousemove', this.onDocumentMouseMove);
+    document.addEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
   componentWillReceiveProps(props) {
@@ -212,6 +218,11 @@ export default class List extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('keydown', this.onDocumentKeyDown, true);
+  }
+
   _activatableItems = false;
   // eslint-disable-next-line no-magic-numbers
   _bufferSize = 10; // keep X items above and below of the visible area
@@ -269,13 +280,16 @@ export default class List extends Component {
       item.disabled);
   }
 
-  hoverHandler = memoize(index => () =>
+  hoverHandler = memoize(index => () => {
+    if (this.state.disabledHover) {
+      return;
+    }
     this.setState({
       activeIndex: index,
       activeItem: this.props.data[index],
       needScrollToActive: false
-    })
-  );
+    });
+  });
 
   selectHandler = memoize(index => event => {
     const item = this.props.data[index];
@@ -318,6 +332,19 @@ export default class List extends Component {
     }
 
     this.moveHandler(newIndex, this.downHandler, e);
+  };
+
+  onDocumentMouseMove = () => {
+    if (this.state.disabledHover) {
+      this.setState({disabledHover: false});
+    }
+  };
+
+  onDocumentKeyDown = (e: KeyboardEvent) => {
+    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
+    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
+      this.setState({disabledHover: true});
+    }
   };
 
   moveHandler(index, retryCallback, e) {
