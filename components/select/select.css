@@ -1,4 +1,4 @@
-@value unit, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
+@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
 
 .select {
   position: relative;
@@ -42,6 +42,8 @@
 
   @nest .inputMode & {
     top: 12px;
+
+    font-size: font-size;
   }
 }
 
@@ -90,6 +92,7 @@
 
 .value {
   composes: ellipsis;
+  composes: font;
 
   display: inline-block;
 
@@ -103,13 +106,10 @@
   text-align: left;
   vertical-align: top;
 
-  color: text-color;
   border: none;
   border-bottom: 1px solid line-color;
   outline: none;
   background: transparent;
-
-  font: inherit;
 
   &:focus {
     border-color: main-color;
