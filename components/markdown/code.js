@@ -6,7 +6,7 @@ import Code from '../code/code';
 const MarkdownCode = ({value, language, inline}) => (
   <Code
     language={language}
-    code={value}
+    code={value || ''}
     inline={inline}
   />
 );
