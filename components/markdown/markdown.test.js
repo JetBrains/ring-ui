@@ -48,4 +48,13 @@ describe('Markdown', () => {
     });
     wrapper.should.have.descendants(Code);
   });
+
+  it('should convert not finished code block to empty ring Code', () => {
+    const wrapper = mountMarkdown({
+      source: `
+        \`\`\`
+      `
+    });
+    wrapper.should.have.descendants(Code);
+  });
 });
