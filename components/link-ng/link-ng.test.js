@@ -2,6 +2,8 @@
 import 'angular';
 import 'angular-mocks';
 
+import linkStyles from '../link/link.css';
+
 import Link from './link-ng';
 
 describe('LinkNg', () => {
@@ -18,7 +20,7 @@ describe('LinkNg', () => {
   }));
 
   it('should replace with a tag', () => {
-    element.should.match('a.ring-link');
+    element.should.match(`a.${linkStyles.link}`);
   });
 
   it('should pass attributes to a tag', () => {
