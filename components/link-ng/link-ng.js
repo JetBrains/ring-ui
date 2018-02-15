@@ -1,9 +1,11 @@
 import angular from 'angular';
-import '../link/link.scss';
+
+import styles from '../link/link.css';
 
 /**
  * @name Link Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @framework Angular
  * @constructor
  * @description Displays a link.
@@ -31,7 +33,11 @@ function rgLinkDirective() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    template: '<a class="ring-link" ng-transclude></a>'
+    template: `
+<a class="${styles.link}">
+  <span class="${styles.inner}" ng-transclude></span>
+</a>
+    `
   };
 }
 
