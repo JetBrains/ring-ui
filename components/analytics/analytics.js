@@ -9,7 +9,7 @@
       <div>
         <p>Click the link below and check the console output:</p>
         <div>
-          <a href id="click-me" class="ring-link">
+          <a href id="click-me">
             Track click event
           </a>
         </div>
@@ -17,7 +17,7 @@
     </file>
     <file name="index.js">
       import analytics from '@jetbrains/ring-ui/components/analytics/analytics';
-      import '@jetbrains/ring-ui/components/link/link.scss';
+      import linkStyles from '@jetbrains/ring-ui/components/link/link.css';
       import AnalyticsCustomPlugin from '@jetbrains/ring-ui/components/analytics/analytics__custom-plugin';
 
       const FLUSH_INTERVAL = 100;
@@ -27,6 +27,8 @@
       ), false, FLUSH_INTERVAL);
 
       analytics.config([customPlugin]);
+
+      document.getElementById('click-me').className = linkStyles.link;
 
       document.getElementById('click-me').addEventListener('click', event => {
         analytics.trackEvent('test-category', 'test-action');

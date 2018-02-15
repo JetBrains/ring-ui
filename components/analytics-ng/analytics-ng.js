@@ -13,10 +13,10 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
    <example name="Analytics Ng">
      <file name="index.js">
        import angular from 'angular';
-       import '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
-       import '@jetbrains/ring-ui/components/link/link.scss';
+       import AnalyticsNG from '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
+       import LinkNG from '@jetbrains/ring-ui/components/link-ng/link-ng';
 
-        angular.module('Example.analyticsDemo', ['Ring.analytics'])
+        angular.module('Example.analyticsDemo', [AnalyticsNG, LinkNG])
           .config([
             'analyticsProvider',
             'AnalyticsCustomPlugin',
@@ -47,14 +47,14 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
        <div ng-app="Example.analyticsDemo" ng-strict-di>
         <p>Hover or click the links below and check the console output:</p>
         <div>
-          <a href="" rg-analytics="overview:view-doc" class="ring-link">
+          <rg-link href="" rg-analytics="overview:view-doc">
             Link with an onclick analytics trigger
-          </a>
+          </rg-link>
         </div>
         <div>
-          <a href="" rg-analytics="overview:view-doc" class="ring-link" rg-analytics-on="mouseover">
+          <rg-link href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">
             Link with an onmouseover analytics trigger
-          </a>
+          </rg-link>
         </div>
         <div ng-controller="TrackEventDemoCtrl"></div>
        </div>
