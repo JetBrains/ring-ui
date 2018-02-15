@@ -10,6 +10,6 @@ gemini.suite('LinkNg', suite => {
     }).
     capture('link-ng hovered', (actions, find) => {
       // Mousemove doesn't work in Chrome for some reason
-      actions.focus(find('.ring-link'));
+      actions.focus(find('.test-class'));
     });
 });
