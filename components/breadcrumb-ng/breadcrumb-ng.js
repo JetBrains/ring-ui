@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 import '../breadcrumb/breadcrumb.scss';
-import '../link/link.scss';
+import LinkModule from '../link-ng/link-ng';
 
 
 /**
@@ -34,7 +34,7 @@ import '../link/link.scss';
  */
 
 
-const angularModule = angular.module('Ring.breadcrumb', []);
+const angularModule = angular.module('Ring.breadcrumb', [LinkModule]);
 
 angularModule.directive('rgBreadcrumb', function rgBreadcrumbDirective() {
   return {
