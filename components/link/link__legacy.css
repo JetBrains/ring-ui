@@ -1,7 +1,7 @@
 @value link-color, link-hover-color, fast-ease from "../global/global.css";
 
 /**
-  These styles are deprecated and keept for backward compatibility with direct class usages
+  These styles are deprecated and kept for backward compatibility with direct class usages
   like `<a class="ring-link">link</a>
  */
 
