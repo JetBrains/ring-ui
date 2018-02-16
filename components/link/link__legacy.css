@@ -36,6 +36,6 @@
   }
 }
 
-:global .inherit:not(:hover) {
+:global .ring-link_inherit:not(:hover) {
   color: inherit;
 }
