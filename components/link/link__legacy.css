@@ -1,0 +1,41 @@
+@value link-color, link-hover-color, fast-ease from "../global/global.css";
+
+/**
+  These styles are deprecated and keept for backward compatibility with direct class usages
+  like `<a class="ring-link">link</a>
+ */
+
+:global .ring-link {
+  & {
+    cursor: pointer;
+    transition: color fast-ease;
+
+    color: link-color;
+  }
+
+  &,
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:hover {
+    transition: none;
+
+    color: link-hover-color;
+
+    border-width: 0;
+    border-bottom: 2px solid;
+    border-image-source: linear-gradient(currentcolor 50%, transparent 50%);
+    border-image-slice: 0 0 100% 0;
+  }
+}
+
+@media (min-resolution: 2dppx) {
+  :global .ring-link:hover {
+    border-bottom-width: 1px;
+  }
+}
+
+:global .inherit:not(:hover) {
+  color: inherit;
+}

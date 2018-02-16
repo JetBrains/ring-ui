@@ -34,7 +34,7 @@ import {copyright} from '../footer/footer';
       <file name="index.js">
         import angular from 'angular';
         import Footer from '@jetbrains/ring-ui/components/footer-ng/footer-ng';
-        import '@jetbrains/ring-ui/components/link/link.scss';
+        import '@jetbrains/ring-ui/components/link/link__legacy.css';
 
         angular.module('TestApp', [Footer]);
       </file>
