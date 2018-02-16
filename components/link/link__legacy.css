@@ -10,29 +10,17 @@
     cursor: pointer;
     transition: color fast-ease;
 
-    color: link-color;
-  }
-
-  &,
-  &:hover {
     text-decoration: none;
+
+    color: link-color;
   }
 
   &:hover {
     transition: none;
 
+    text-decoration: underline;
+
     color: link-hover-color;
-
-    border-width: 0;
-    border-bottom: 2px solid;
-    border-image-source: linear-gradient(currentcolor 50%, transparent 50%);
-    border-image-slice: 0 0 100% 0;
-  }
-}
-
-@media (min-resolution: 2dppx) {
-  :global .ring-link:hover {
-    border-bottom-width: 1px;
   }
 }
 
