@@ -30,6 +30,15 @@
   &.active {
     color: inherit;
   }
+
+  &.compatibilityUnderlineMode:hover {
+    text-decoration: underline;
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    & .inner {
+      border: none;
+    }
+  }
 }
 
 @media (min-resolution: 2dppx) {

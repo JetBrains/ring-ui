@@ -28,8 +28,9 @@
     import React, {Component} from 'react';
     import {render} from 'react-dom';
     import classNames from 'classnames';
-    import Link, {linkHOC} from '@jetbrains/ring-ui/components/link/link';
+    import Link, {linkHOC, setCompatibilityMode} from '@jetbrains/ring-ui/components/link/link';
     import Icon from '@jetbrains/ring-ui/components/icon/icon';
+    import Toggle from '@jetbrains/ring-ui/components/toggle/toggle';
     import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
     class CustomComponent extends Component {
@@ -49,6 +50,14 @@
 
     const CustomLink = linkHOC(CustomComponent);
     class LinkDemo extends Component {
+      state = {compatibility: false};
+
+      changeCompatibility = () => {
+        setCompatibilityMode(!this.state.compatibility);
+
+        this.setState({compatibility: !this.state.compatibility});
+      };
+
       render() {
         return (
          <div className="container">
@@ -65,6 +74,10 @@
               <div key="text"><WrapText>Link with non-text content</WrapText></div>
             ]}
            </Link>
+
+           <span>
+             <Toggle onChange={this.changeCompatibility} /> Compatibility mode
+           </span>
          </div>
         );
       }
