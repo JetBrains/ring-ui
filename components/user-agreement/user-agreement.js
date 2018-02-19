@@ -3,7 +3,7 @@
  * @category Components
  * @framework React
  * @constructor
- * @description A component displays user agreement dialog
+ * @description A component that displays a user agreement dialog.
  * @example-file ./user-agreement.examples.html
  */
 
