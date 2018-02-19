@@ -14,6 +14,12 @@ import styles from './link.css';
  * @example-file ./link.examples.html
  */
 
+let isCompatibilityMode = false;
+
+export function setCompatibilityMode(isEnabled) {
+  isCompatibilityMode = isEnabled;
+}
+
 function makeWrapText(innerClassName) {
   const WrapText = ({className, children}) => {
     const classes = classNames(styles.inner, className, innerClassName);
@@ -56,7 +62,8 @@ export function linkHOC(ComposedComponent) {
       const classes = classNames(styles.link, className, {
         [styles.active]: active,
         [styles.inherit]: inherit,
-        [styles.hover]: hover
+        [styles.hover]: hover,
+        [styles.compatibilityUnderlineMode]: isCompatibilityMode
       });
 
       if (!isTag && !props.activeClassName) {
