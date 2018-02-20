@@ -1,9 +1,10 @@
 import angular from 'angular';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import IconNG from '../icon-ng/icon-ng';
 import proxyAttrs from '../proxy-attrs/proxy-attrs';
 
-import '../checkbox/checkbox.scss';
+import styles from '../checkbox/checkbox.css';
 
 /**
  * @name Checkbox Ng
@@ -23,7 +24,7 @@ import '../checkbox/checkbox.scss';
            <rg-checkbox ng-disabled="disabled === true" ng-model="checked">Checkbox</rg-checkbox>
          </p>
          <p style="width: 300px;">
-           <rg-checkbox ng-disabled="disabled === true" ng-model="checked" ng-change="onNgChange()" invert-value>Inverted checkbox</rg-checkbox>
+           <rg-checkbox ng-disabled="disabled === true" ng-model="checked" ng-change="onNgChange()">Inverted checkbox</rg-checkbox>
            <div>{{ changeText }}</div>
          </p>
        </div>
@@ -88,9 +89,27 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    template: proxyAttrs(require('./checkbox-ng.html')),
+    template: proxyAttrs(`
+<label class="${styles.checkbox}">
+  <input
+    data-proxy-ng-disabled
+    data-proxy-ng-model
+    data-proxy-ng-change
+    data-proxy-ng-true-value
+    data-proxy-ng-false-value
+    data-test="ring-checkbox"
+    type="checkbox"
+    class="${styles.input}"
+  />
+    <span class="${styles.cell}">
+      <rg-icon class="${styles.icon}" size="14" glyph="${checkmarkIcon}" />
+    </span>
+  </span>
+  <span class="${styles.label}" ng-transclude></span>
+</label>
+    `),
     link: function link(scope, iElement) {
-      const input = iElement[0].query('.ring-checkbox__input');
+      const input = iElement[0].query('input[type="checkbox"]');
 
       const id = CHECKBOX_ID_PREFIX + idCounter++;
       iElement[0].setAttribute('for', id);
