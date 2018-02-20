@@ -9,6 +9,7 @@ import styles from '../checkbox/checkbox.css';
 /**
  * @name Checkbox Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Checkbox.
  * @example
    <example name="Checkbox Ng">
