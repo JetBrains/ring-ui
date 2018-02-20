@@ -19,13 +19,20 @@
 }
 
 .title {
+  composes: font;
+
   position: relative;
 
   display: inline-block;
 
+  padding: 0;
+
   cursor: pointer;
 
   color: inherit;
+
+  border: none;
+  background: none;
 
   line-height: calc(unit * 4);
 
