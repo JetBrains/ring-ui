@@ -6,7 +6,7 @@ gemini.suite('Checkbox Ng', parent => {
     setCaptureElements('p').
     capture('default').
     capture('hovered', (actions, find) => {
-      actions.mouseMove(find('.ring-checkbox'));
+      actions.mouseMove(find('[data-test="ring-checkbox"]'));
     }).
     capture('checked', (actions, find) => {
       actions.click(find('#checkButton'));
@@ -18,7 +18,7 @@ gemini.suite('Checkbox Ng', parent => {
         actions.click(find('#disableButton'));
       }).
       capture('hovered', (actions, find) => {
-        actions.mouseMove(find('.ring-checkbox'));
+        actions.mouseMove(find('[data-test="ring-checkbox"]'));
       }).
       capture('checked-disabled', (actions, find) => {
         actions.click(find('#checkButton'));
