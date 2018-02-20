@@ -230,7 +230,7 @@
 
     function Title({Icon, children}) {
       return (
-        <span className={children && 'has-content'}>
+        <span className={children ? 'has-content' : ''}>
           <Icon
             className="icon"
             size={Icon.Size.Size16}
