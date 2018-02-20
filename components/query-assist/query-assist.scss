@@ -114,7 +114,7 @@ $over-input-z-index: 2;
 
 .ring-query-assist__icon {
   position: absolute;
-  top: 3px;
+  top: $ring-unit/2;
   right: 1px;
   height: $ring-unit*2;
   width: $ring-unit*2;
