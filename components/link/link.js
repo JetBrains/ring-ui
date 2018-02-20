@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import memoize from '../global/memoize';
+
 import styles from './link.css';
 
 /**
@@ -20,7 +22,7 @@ export function setCompatibilityMode(isEnabled) {
   isCompatibilityMode = isEnabled;
 }
 
-function makeWrapText(innerClassName) {
+const makeWrapText = memoize(innerClassName => {
   const WrapText = ({className, children}) => {
     const classes = classNames(styles.inner, className, innerClassName);
     return <span className={classes}>{children}</span>;
@@ -32,7 +34,7 @@ function makeWrapText(innerClassName) {
   };
 
   return WrapText;
-}
+});
 
 export function linkHOC(ComposedComponent) {
   const isTag = typeof ComposedComponent === 'string';
