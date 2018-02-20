@@ -4,7 +4,7 @@
  * @category Components
  * @framework React
  * @constructor
- * @description A component displays user details
+ * @description A component that displays user details.
  * @example-file ./user-card.examples.html
  */
 

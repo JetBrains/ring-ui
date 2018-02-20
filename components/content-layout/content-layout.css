@@ -12,6 +12,7 @@
   align-self: flex-start;
   flex-grow: 2;
 
+  width: 100%; /* without this hack IE11 render contentLayoutContent wider than its container */
   margin: 0 calc(unit * 4);
 }
 

@@ -133,7 +133,8 @@ export default class List extends Component {
     activeItem: null,
     needScrollToActive: false,
     scrolling: false,
-    hasOverflow: false
+    hasOverflow: false,
+    disabledHover: false
   };
 
   componentWillMount() {
@@ -155,6 +156,11 @@ export default class List extends Component {
         needScrollToActive: true
       });
     }
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousemove', this.onDocumentMouseMove);
+    document.addEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
   componentWillReceiveProps(props) {
@@ -220,8 +226,17 @@ export default class List extends Component {
     this.checkOverflow();
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('keydown', this.onDocumentKeyDown, true);
+  }
+
   hoverHandler = memoize(index => () =>
     scheduleHoverListener(() => {
+      if (this.state.disabledHover) {
+        return;
+      }
+
       if (this.container) {
         this.setState({
           activeIndex: index,
@@ -330,6 +345,19 @@ export default class List extends Component {
     }
 
     this.moveHandler(newIndex, this.downHandler, e);
+  };
+
+  onDocumentMouseMove = () => {
+    if (this.state.disabledHover) {
+      this.setState({disabledHover: false});
+    }
+  };
+
+  onDocumentKeyDown = (e: KeyboardEvent) => {
+    const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
+    if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
+      this.setState({disabledHover: true});
+    }
   };
 
   moveHandler(index, retryCallback, e) {

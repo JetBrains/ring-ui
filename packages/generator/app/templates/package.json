@@ -34,7 +34,7 @@
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "redbox-react": "1.5.0",
-    "webpack": "3.10.0",
+    "webpack": "3.11.0",
     "webpack-dev-server": "2.11.1"
   },
   "devDependencies": {
@@ -48,7 +48,7 @@
     "electron": "1.8.2",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
-    "eslint": "4.17.0",
+    "eslint": "4.18.0",
     "karma": "2.0.0",
     "karma-chai-plugins": "0.9.0",
     "karma-electron-launcher": "0.2.0",
@@ -56,11 +56,11 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.1.0",
     "karma-webpack": "2.0.9",
-    "mocha": "5.0.0",
+    "mocha": "5.0.1",
     "react-test-renderer": "16.2.0",
-    "sinon": "4.2.2",
+    "sinon": "4.3.0",
     "sinon-chai": "2.14.0",
-    "stylelint": "8.4.0",
+    "stylelint": "9.0.0",
     "xvfb-maybe": "0.2.1",
     "yo": "2.0.1"
   },
