@@ -8,9 +8,9 @@
     ng-class=":: [styles.titles, tabsClass]"
     role="tablist"
   >
-    <a
+    <button
+      type="button"
       ng-repeat="pane in panes | orderBy:'tabIndex'"
-      href=""
       ng-click="control.select(pane)"
       ng-attr-tabindex="{{(pane.selected || pane.ngDisabled) ? -1 : 0}}"
       ng-disabled="pane.ngDisabled"
@@ -25,7 +25,7 @@
       hack for preserving constant tab width
     --><span ng-class=":: styles.hidden">{{pane.title}}<span
       ng-class=":: styles.tabCounter" ng-show="pane.counter !== undefined">{{ pane.counter }}</span></span>
-    </a>
+    </button>
   </div>
 
   <div ng-transclude></div>

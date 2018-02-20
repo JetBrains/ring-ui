@@ -44,7 +44,8 @@ export default class Tabs extends PureComponent {
             const renderTitle = () => Tab.renderTitle(title, isSelected);
 
             return (
-              <div
+              <button
+                type="button"
                 key={key}
                 className={titleClasses}
                 disabled={disabled}
@@ -53,7 +54,7 @@ export default class Tabs extends PureComponent {
                 <span className={styles.visible}>{renderTitle()}</span>
                 {/* hack for preserving constant tab width*/}
                 <span className={styles.hidden}>{renderTitle()}</span>
-              </div>
+              </button>
             );
           })}
         </div>
