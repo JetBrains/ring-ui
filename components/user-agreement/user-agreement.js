@@ -71,7 +71,7 @@ export default class UserAgreement extends PureComponent {
           <Markdown source={text} className={style.text} ref={this.onTextRef}/>
         </Content>
         <Panel>
-          <Button blue disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
+          <Button primary disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
           <Button onClick={onDecline}>{translations.decline}</Button>
           {!scrolledDown && translations.scrollToAccept}
         </Panel>
