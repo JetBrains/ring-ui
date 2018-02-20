@@ -10,7 +10,7 @@ import '../input-size/input-size.scss';
 import memoize from '../global/memoize';
 import rerenderHOC from '../global/rerender-hoc';
 
-import './tags-input.scss';
+import styles from './tags-input.css';
 
 function noop() {}
 
@@ -257,10 +257,10 @@ export default class TagsInput extends Component {
 
   render() {
     const classes = classNames(
-      'ring-tags-input',
+      styles.tagsInput,
       {
-        'ring-tags-input_disabled': this.props.disabled,
-        'ring-tags-input_focused': this.state.focused
+        [styles.tagsInputDisabled]: this.props.disabled,
+        [styles.tagsInputFocused]: this.state.focused
       },
       this.props.className);
 
@@ -280,14 +280,14 @@ export default class TagsInput extends Component {
             disabled={this.props.disabled}
             canNotBeEmpty={this.props.canNotBeEmpty}
             handleRemove={this.handleRemove}
-            className="ring-tags-input__tags-list"
+            className={styles.tagsList}
             handleClick={this.handleClick}
           />
         )}
 
         <Select
           ref={this.selectRef}
-          type={Select.Type.INPUT}
+          type={Select.Type.INPUT_WITHOUT_CONTROLS}
           label={this.props.placeholder}
           data={this.state.suggestions}
           className="ring-input-size_md"
