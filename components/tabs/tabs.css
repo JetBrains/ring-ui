@@ -25,6 +25,8 @@
 
   cursor: pointer;
 
+  color: inherit;
+
   line-height: calc(unit * 4);
 
   &:hover:not(.selected) {
