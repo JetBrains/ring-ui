@@ -1,0 +1,27 @@
+@value unit, gray-color, blue-color, input-disabled from '../global/global.css';
+@value tagsInputPadding: 2px;
+
+.tagsInput {
+  overflow: hidden;
+
+  padding: tagsInputPadding tagsInputPadding 0;
+
+  white-space: normal;
+
+  border: 1px solid gray-color;
+  background-color: #fff;
+}
+
+.tagsInputDisabled {
+  composes: input-disabled;
+
+  pointer-events: none;
+}
+
+.tagsInputFocused {
+  border-color: blue-color;
+}
+
+.tagsList {
+  display: inline-block;
+}

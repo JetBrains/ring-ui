@@ -12,8 +12,8 @@ describe('Tags Input', () => {
   const mountTagsInput = props => mount(<TagsInput tags={fakeTags} {...props}/>);
 
   describe('DOM', () => {
-    it('should render select in input mode', () => {
-      shallowTagsInput().find(Select).should.have.prop('type', Select.Type.INPUT);
+    it('should render select in input_without_controls mode', () => {
+      shallowTagsInput().find(Select).should.have.prop('type', Select.Type.INPUT_WITHOUT_CONTROLS);
     });
 
     it('Should use passed className', () => {
