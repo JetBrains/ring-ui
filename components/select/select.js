@@ -35,7 +35,8 @@ const Type = {
   BUTTON: 0,
   INPUT: 1,
   CUSTOM: 2,
-  INLINE: 3
+  INLINE: 3,
+  INPUT_WITHOUT_CONTROLS: 4
 };
 
 /**
@@ -632,7 +633,7 @@ export default class Select extends Component {
   }
 
   isInputMode() {
-    return (this.props.type === Type.INPUT);
+    return (this.props.type === Type.INPUT || this.props.type === Type.INPUT_WITHOUT_CONTROLS);
   }
 
   isButtonMode() {
@@ -941,6 +942,7 @@ export default class Select extends Component {
       : {onClick: this._clickHandler};
 
     switch (this.props.type) {
+      case Type.INPUT_WITHOUT_CONTROLS:
       case Type.INPUT: return (
         <div
           ref={this.nodeRef}
@@ -958,7 +960,7 @@ export default class Select extends Component {
             inputRef={this.filterRef}
             disabled={this.props.disabled}
             value={this.state.filterValue}
-            className={classNames(styles.input, 'ring-js-shortcuts')}
+            borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
             style={style}
             onChange={this._filterChangeHandler}
             onFocus={this._focusHandler}
@@ -968,7 +970,7 @@ export default class Select extends Component {
             onKeyDown={this.props.onKeyDown}
             data-test="ring-select__focus"
           />
-          {iconsNode}
+          {this.props.type === Type.INPUT && iconsNode}
           {this._renderPopup()}
         </div>
       );
