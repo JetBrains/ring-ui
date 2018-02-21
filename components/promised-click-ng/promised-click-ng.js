@@ -1,19 +1,22 @@
 import angular from 'angular';
 import 'dom4';
 
+import buttonStyles from '../button/button.css';
+
 import RingAngularComponent from '../global/ring-angular-component';
 
 /**
  * @name Promised Click Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Controls the active state of a button.
  * @example
     <example name="Promised Click Ng">
       <file name="index.html">
         <div class="button-example" ng-app="button-test" ng-strict-di ng-controller="testController as ctrl">
-          <rg-button class="ring-button" rg-promised-click="ctrl.onClick()">Simple use</rg-button>
-          <rg-button class="ring-button" rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
-          <rg-button class="ring-button" rg-promised-click test-directive>Via controller</rg-button>
+          <rg-button rg-promised-click="ctrl.onClick()">Simple use</rg-button>
+          <rg-button rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
+          <rg-button rg-promised-click test-directive>Via controller</rg-button>
           <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
         </div>
       </file>
@@ -67,11 +70,11 @@ class PromisedClickController extends RingAngularComponent {
       currentMode = mode;
       switch (mode) {
         case 'loader':
-          this.activeClass = 'ring-button_loader';
+          this.activeClass = buttonStyles.loader;
           break;
         default:
         case 'active':
-          this.activeClass = 'ring-button_active';
+          this.activeClass = buttonStyles.active;
           break;
       }
     };
