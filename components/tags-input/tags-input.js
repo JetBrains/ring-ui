@@ -256,11 +256,12 @@ export default class TagsInput extends Component {
   };
 
   render() {
+    const {focused, tags, activeIndex} = this.state;
     const classes = classNames(
       styles.tagsInput,
       {
         [styles.tagsInputDisabled]: this.props.disabled,
-        [styles.tagsInputFocused]: this.state.focused
+        [styles.tagsInputFocused]: focused
       },
       this.props.className);
 
@@ -272,11 +273,11 @@ export default class TagsInput extends Component {
         ref={this.nodeRef}
       >
 
-        {this.state.tags && this.state.tags.length > 0 &&
+        {tags && tags.length > 0 &&
         (
           <TagsList
-            tags={this.state.tags}
-            activeIndex={this.state.activeIndex}
+            tags={tags}
+            activeIndex={activeIndex}
             disabled={this.props.disabled}
             canNotBeEmpty={this.props.canNotBeEmpty}
             handleRemove={this.handleRemove}
@@ -290,7 +291,7 @@ export default class TagsInput extends Component {
           type={Select.Type.INPUT_WITHOUT_CONTROLS}
           label={this.props.placeholder}
           data={this.state.suggestions}
-          className="ring-input-size_md"
+          className={classNames('ring-input-size_md', styles.tagsSelect)}
           onSelect={this.addTag}
           onFocus={this._focusHandler}
           onBlur={this._blurHandler}
@@ -309,6 +310,9 @@ export default class TagsInput extends Component {
           loadingMessage={this.props.loadingMessage}
           notFoundMessage={this.props.notFoundMessage}
         />
+
+        <div className={styles.underline}/>
+        <div className={styles.focusUnderline}/>
       </div>);
   }
 }
