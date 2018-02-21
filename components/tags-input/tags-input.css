@@ -1,14 +1,12 @@
-@value unit, gray-color, blue-color, input-disabled from '../global/global.css';
-@value tagsInputPadding: 2px;
+@value unit, gray-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
 
 .tagsInput {
   overflow: hidden;
 
-  padding: tagsInputPadding tagsInputPadding 0;
+  padding-top: 2px;
 
   white-space: normal;
 
-  border: 1px solid gray-color;
   background-color: #fff;
 }
 
@@ -24,4 +22,30 @@
 
 .tagsList {
   display: inline-block;
+}
+
+.tagsSelect {
+  margin-bottom: -1px;
+}
+
+.underline {
+  height: 1px;
+
+  border-color: line-color;
+  border-bottom: line-color 1px solid;
+}
+
+.focusUnderline {
+  width: 0;
+  height: 2px;
+
+  margin-top: -1px;
+
+  transition: width 0.15s ease-out;
+
+  background: main-color;
+
+  @nest .tagsInputFocused & {
+    width: 100%;
+  }
 }
