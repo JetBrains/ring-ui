@@ -13,7 +13,7 @@
   "main": "components/index.js",
   "lint-staged": {
     "*.js": [
-      "lint:js --fix",
+      "npm run lint:js --fix --",
       "git add"
     ],
     "*.css": [
