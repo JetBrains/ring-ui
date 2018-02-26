@@ -31,7 +31,6 @@
   }
 }
 
-.buttonGroup > .first,
 .buttonGroup > .caption + .button,
 .buttonGroup > button:first-child,
 .buttonGroup > .button:first-child,
@@ -42,7 +41,6 @@
   border-bottom-left-radius: border-radius;
 }
 
-.buttonGroup > .last,
 .buttonGroup > .button:last-child,
 .buttonGroup > button:last-child,
 .buttonGroup > :last-child .button {
