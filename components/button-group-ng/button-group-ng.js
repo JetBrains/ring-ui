@@ -13,8 +13,9 @@ import styles from '../button-group/button-group.css';
     <file name="index.html">
       <div ng-app="test" ng-strict-di>
         <div rg-button-group>
-          <rg-button>Button 1</rg-button>
-          <rg-button>Button 2</rg-button>
+          <span rg-button-group-caption>Side</span>
+          <rg-button>Left</rg-button>
+          <rg-button>Right</rg-button>
         </div>
       </div>
     </file>
@@ -40,6 +41,17 @@ function rgButtonGroup() {
   };
 }
 
+function rgButtonGroupCaption() {
+  return {
+    restrict: 'A',
+    link: function link($scope, iElement) {
+      const element = iElement[0];
+      element.classList.add(...styles.caption.split(' '));
+    }
+  };
+}
+
 angularModule.directive('rgButtonGroup', rgButtonGroup);
+angularModule.directive('rgButtonGroupCaption', rgButtonGroupCaption);
 
 export default angularModule.name;
