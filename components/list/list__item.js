@@ -77,6 +77,8 @@ export default class ListItem extends PureComponent {
       paddingLeft: `${(+props.level || 0) * RING_UNIT + DEFAULT_PADDING}px`
     };
 
+    const labelIsString = typeof label === 'string' || label instanceof String;
+
     return (
       <div
         tabIndex={tabIndex}
@@ -108,7 +110,7 @@ export default class ListItem extends PureComponent {
             )}
           </div>
 
-          <div className="ring-list__item__label" title={label}>{label}</div>
+          <div className="ring-list__item__label" title={labelIsString ? label : ''}>{label}</div>
           <div className="ring-list__item__description">{description}</div>
 
           <div className="ring-list__item__right">
