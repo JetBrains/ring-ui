@@ -105,6 +105,8 @@ export default class ListItem extends PureComponent {
       paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING}px`
     };
 
+    const labelIsString = typeof label === 'string' || label instanceof String;
+
     return (
       <div
         tabIndex={tabIndex}
@@ -133,7 +135,7 @@ export default class ListItem extends PureComponent {
             )}
           </div>
 
-          <span className={styles.label} title={label}>{label}</span>
+          <span className={styles.label} title={labelIsString ? label : ''}>{label}</span>
 
           {description && (
             <span
