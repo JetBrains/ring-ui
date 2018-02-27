@@ -23,6 +23,8 @@ function noop() {}
  * @example-file ./tags-input.examples.html
  */
 
+const POPUP_VERTICAL_SHIFT = 2;
+
 export default class TagsInput extends Component {
   static propTypes = {
     className: PropTypes.string,
@@ -301,6 +303,7 @@ export default class TagsInput extends Component {
           }}
           maxHeight={this.props.maxPopupHeight}
           minWidth={this.props.minPopupWidth}
+          top={POPUP_VERTICAL_SHIFT}
           loading={this.state.loading}
           onFilter={this.loadSuggestions}
           onBeforeOpen={this.loadSuggestions}
