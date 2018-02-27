@@ -17,6 +17,7 @@ function noop() {}
 /**
  * @name Tags Input
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a tags input field.
  * @extends {ReactComponent}
