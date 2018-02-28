@@ -25,7 +25,8 @@ const svgSpriteLoader = {
       options: {
         extract: false,
         runtimeCompat: true,
-        esModule: false
+        esModule: false,
+        symbolId: 'ring-icon-[name]'
       }
     }
   ],
