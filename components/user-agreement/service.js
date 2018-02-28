@@ -75,9 +75,10 @@ export default class UserAgreementService {
   }
 
   checkConsentAndShowDialog = async () => {
-    const accepted = await this.checkConsent();
-    if (!accepted) {
-      this.showDialog();
+    if (await this.checkConsent()) {
+      return Promise.resolve();
+    } else {
+      return this.showDialog();
     }
   }
 
@@ -99,21 +100,32 @@ export default class UserAgreementService {
   }
 
   showDialog = () => {
-    const {onAccept, onDecline} = this;
     const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
     const show = true;
 
-    const props = {text, show, onAccept, onDecline, translations};
+    return new Promise((resolve, reject) => {
+      const onAccept = () => {
+        resolve();
+        this.onAccept();
+      };
 
-    render(
-      <UserAgreement {...props}/>,
-      this.container
-    );
+      const onDecline = () => {
+        reject();
+        this.onDecline();
+      };
 
-    if (onDialogShow) {
-      onDialogShow();
-    }
+      const props = {text, show, onAccept, onDecline, translations};
+
+      render(
+        <UserAgreement {...props}/>,
+        this.container
+      );
+
+      if (onDialogShow) {
+        onDialogShow();
+      }
+    });
   }
 
   hideDialog = () => {
