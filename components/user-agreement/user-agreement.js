@@ -66,13 +66,18 @@ export default class UserAgreement extends PureComponent {
     const {translations, onAccept, onDecline, text, show} = this.props;
 
     return (
-      <Dialog show={show} contentClassName={style.dialogContent}>
+      <Dialog
+        show={show}
+        contentClassName={style.dialogContent}
+        trapFocus
+        autoFocusFirst={false}
+      >
         <Content>
-          <Markdown source={text} className={style.text} ref={this.onTextRef}/>
+          <Markdown source={text} className={style.text} ref={this.onTextRef} tabindex={-1}/>
         </Content>
         <Panel>
-          <Button blue disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
-          <Button onClick={onDecline}>{translations.decline}</Button>
+          <Button primary disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
+          <Button onClick={onDecline} autoFocus>{translations.decline}</Button>
           {!scrolledDown && translations.scrollToAccept}
         </Panel>
       </Dialog>
