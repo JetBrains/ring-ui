@@ -18,6 +18,7 @@ export default class Toggle extends PureComponent {
   static propTypes = {
     name: PropTypes.string,
     className: PropTypes.string,
+    title: PropTypes.string,
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -26,7 +27,7 @@ export default class Toggle extends PureComponent {
   };
 
   render() {
-    const {className, disabled, pale, ...restProps} = this.props;
+    const {className, disabled, pale, title, ...restProps} = this.props;
 
     const classes = classNames(
       className,
@@ -35,7 +36,7 @@ export default class Toggle extends PureComponent {
     );
 
     return (
-      <label className={classes}>
+      <label className={classes} title={title}>
         <input
           {...restProps}
           type="checkbox"
