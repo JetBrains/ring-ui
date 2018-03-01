@@ -43,7 +43,8 @@ export default class Dialog extends PureComponent {
     // Use it if you don't need different behaviors for this cases.
     onCloseAttempt: PropTypes.func,
     // focusTrap may break popups inside dialog, so use it carefully
-    trapFocus: PropTypes.bool
+    trapFocus: PropTypes.bool,
+    autoFocusFirst: PropTypes.bool
   };
 
   static defaultProps = {
@@ -52,7 +53,8 @@ export default class Dialog extends PureComponent {
     onCloseClick: () => {},
     onCloseAttempt: () => {},
     showCloseButton: false,
-    trapFocus: false
+    trapFocus: false,
+    autoFocusFirst: true
   };
 
   state = {
@@ -91,7 +93,7 @@ export default class Dialog extends PureComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
-    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
+    const {show, showCloseButton, autoFocusFirst, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -104,6 +106,7 @@ export default class Dialog extends PureComponent {
         <PortalPropsCleaner>
           <TabTrap
             trapDisabled={!trapFocus}
+            autoFocusFirst={autoFocusFirst}
             data-test="ring-dialog-container"
             ref={this.dialogRef}
             className={classes}
