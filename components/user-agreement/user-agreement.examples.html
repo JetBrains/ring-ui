@@ -9,19 +9,6 @@
     import UserAgreement from '@jetbrains/ring-ui/components/user-agreement/user-agreement';
     import text from './toolbox.eula';
 
-    const userAgreement = {
-      enabled: true,
-      majorVersion: 1,
-      minorVersion: 0,
-      text
-    };
-
-    const userConsent = {
-      accepted: false,
-      majorVersion: 0,
-      minorVersion: 0
-    };
-
     const onAccept = () => {
       console.log('accept');
     };
@@ -35,8 +22,8 @@
         return (
           <div>
              <UserAgreement
-               userAgreement={userAgreement}
-               userConsent={userConsent}
+               show
+               text={text}
                onAccept={onAccept}
                onDecline={onDecline}
              />
