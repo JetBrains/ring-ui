@@ -226,7 +226,7 @@ describe('List', () => {
 
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
       firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.data('test', 'ring-link');
+      firstItemWrapper.should.have.data('test', 'ring-link ring-list-link');
       firstItemWrapper.should.have.text('Hello!');
       firstItemWrapper.should.have.tagName('a');
       firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');
@@ -241,7 +241,7 @@ describe('List', () => {
 
       const firstItemWrapper = mountFirstItem(instance).find(ListLink);
       firstItemWrapper.should.exist;
-      firstItemWrapper.should.have.data('test', 'ring-link');
+      firstItemWrapper.should.have.data('test', 'ring-link ring-list-link');
       firstItemWrapper.should.have.text('Hello!');
       firstItemWrapper.should.have.tagName('a');
       firstItemWrapper.should.have.attr('href', 'http://www.jetbrains.com');

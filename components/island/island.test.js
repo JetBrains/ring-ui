@@ -21,6 +21,10 @@ describe('Island', () => {
     shallowIsland({className: 'test-class'}).should.have.className('test-class');
   });
 
+  it('should join with passed data-test', () => {
+    shallowIsland({['data-test']: 'foobar'}).should.have.attr('data-test', 'ring-island foobar');
+  });
+
   describe('AdaptiveIsland', () => {
     it('should render AdaptiveIsland', () => {
       mount(<AdaptiveIsland/>).should.have.type(AdaptiveIsland);

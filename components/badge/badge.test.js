@@ -23,6 +23,14 @@ describe('Badge', () => {
     shallowBadge({className: 'test-class'}).should.have.className('test-class');
   });
 
+  it('should have default data-test', () => {
+    shallowBadge({}).should.have.attr('data-test', 'ring-badge');
+  });
+
+  it('should use passed data-test', () => {
+    shallowBadge({['data-test']: 'foo'}).should.have.attr('data-test', 'ring-badge foo');
+  });
+
   it('should render children', () => {
     renderBadge({}, 'foo').should.have.text('foo');
   });
