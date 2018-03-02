@@ -120,7 +120,7 @@
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "^4.18.1",
     "eslint-import-resolver-webpack": "^0.8.4",
-    "eslint-plugin-flowtype-errors": "^3.5.0",
+    "eslint-plugin-flowtype-errors": "^3.5.1",
     "exports-loader": "0.7.0",
     "flow-bin": "0.44.2",
     "front-matter": "2.3.0",
