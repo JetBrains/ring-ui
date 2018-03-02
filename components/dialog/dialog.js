@@ -53,7 +53,8 @@ export default class Dialog extends Component {
     onCloseAttempt: () => {},
     showCloseButton: false,
     trapFocus: false,
-    autoFocusFirst: true
+    autoFocusFirst: true,
+    'data-test': 'ring-dialog-container'
   };
 
   state = {
@@ -106,7 +107,6 @@ export default class Dialog extends Component {
           <TabTrap
             trapDisabled={!trapFocus}
             autoFocusFirst={autoFocusFirst}
-            data-test="ring-dialog-container"
             ref={this.dialogRef}
             className={classes}
             onClick={this.handleClick}

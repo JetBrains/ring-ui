@@ -71,7 +71,7 @@ export default class UserAgreement extends PureComponent {
         contentClassName={style.dialogContent}
         trapFocus
         autoFocusFirst={false}
-        data-test-custom="user-agreement-dialog-container"
+        data-test="user-agreement-dialog-container"
       >
         <Content>
           <Markdown source={text} className={style.text} ref={this.onTextRef} tabindex={-1}/>
