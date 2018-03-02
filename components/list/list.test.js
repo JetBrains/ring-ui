@@ -214,7 +214,7 @@ describe('List', () => {
       }).instance();
 
       mount(instance.renderItem({index: 1})).
-        should.have.descendants('[data-test="ring-list-item"]');
+        should.have.descendants('[data-test~="ring-list-item"]');
     });
 
     it('should render a if href defined', () => {

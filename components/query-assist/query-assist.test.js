@@ -476,7 +476,7 @@ describe('Query Assist', () => {
           const list = findDOMNode(instance._popup.list);
           const {length} = suggestions;
 
-          list.queryAll('[data-test=ring-list-item]').should.have.length(length);
+          list.queryAll('[data-test~=ring-list-item]').should.have.length(length);
           list.queryAll('.ring-query-assist__highlight').should.have.length(length);
           list.queryAll('.ring-query-assist__service').should.have.length(length * TWICE);
 

@@ -111,7 +111,7 @@ export default class ListItem extends PureComponent {
 
     let dataTest = 'ring-list-item';
     if (!disabled) {
-      dataTest += 'ring-list-item-action';
+      dataTest += ' ring-list-item-action';
     }
 
     return (
