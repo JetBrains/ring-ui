@@ -32,8 +32,12 @@ export default class ListTitle extends PureComponent {
       >
         <span
           className={classnames(styles.label, styles.text)}
+          data-test="ring-list-title-label"
         >{label}</span>
-        <div className={styles.description}>{description}</div>
+        <div
+          className={styles.description}
+          data-test="ring-list-title-description"
+        >{description}</div>
       </span>
     );
   }

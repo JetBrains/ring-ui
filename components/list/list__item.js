@@ -135,11 +135,16 @@ export default class ListItem extends PureComponent {
             )}
           </div>
 
-          <span className={styles.label} title={labelIsString ? label : ''}>{label}</span>
+          <span
+            className={styles.label}
+            title={labelIsString ? label : ''}
+            data-test="ring-list-item-label"
+          >{label}</span>
 
           {description && (
             <span
               className={styles.description}
+              data-test="ring-list-item-description"
             >{description}</span>
           )}
 
