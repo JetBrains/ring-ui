@@ -503,6 +503,7 @@ export default class Select extends Component {
       hint = (
         <List.ListHint
           label={this.props.hint}
+          data-test="ring-select-toolbar-hint"
         />
       );
     }
@@ -515,6 +516,7 @@ export default class Select extends Component {
           delayed
           className={styles.button}
           onClick={this.addHandler}
+          data-test="ring-select-toolbar-button"
         >
           {prefix ? `${prefix} ${label}` : label}
         </Button>
@@ -522,7 +524,10 @@ export default class Select extends Component {
     }
 
     return (
-      <div className={styles.toolbar}>
+      <div
+        className={styles.toolbar}
+        data-test="ring-select-toolbar"
+      >
         {addButton}
         {hint}
       </div>
