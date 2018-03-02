@@ -207,10 +207,14 @@ export default class SelectPopup extends Component {
   getFilter() {
     if ((this.props.filter || this.props.tags) && !this.props.hidden) {
       return (
-        <div className={styles.filterWrapper}>
+        <div
+          className={styles.filterWrapper}
+          data-test="ring-select-popup-filter"
+        >
           <SearchIcon
             className={styles.filterIcon}
             size={SearchIcon.Size.Size18}
+            data-test-custom="ring-select-popup-filter-icon"
           />
           <FilterWithShortcuts
             rgShortcutsOptions={this.state.popupFilterShortcutsOptions}
@@ -226,6 +230,8 @@ export default class SelectPopup extends Component {
             onChange={this.props.onFilter}
             onClick={this.onClickHandler}
             onClear={this.props.onClear}
+
+            data-test-custom="ring-select-popup-filter-input"
           />
         </div>
       );
