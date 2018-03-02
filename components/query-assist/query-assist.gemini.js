@@ -8,7 +8,7 @@ gemini.suite('Query Assist', suite => {
 
   gemini.suite('with popup', child => {
     child.
-      setCaptureElements(['#query-assist', '[data-test=ring-query-assist-popup]']).
+      setCaptureElements(['#query-assist', '[data-test~=ring-query-assist-popup]']).
       capture('focused', (actions, find) => {
         actions.click(find('[data-test=ring-query-assist-input]'));
         actions.executeJS(function hideCaret() {
@@ -16,7 +16,7 @@ gemini.suite('Query Assist', suite => {
             '[data-test=ring-query-assist-input]'
           ).style = 'color: transparent;';
         });
-        actions.waitForElementToShow('[data-test=ring-query-assist-popup]');
+        actions.waitForElementToShow('[data-test~=ring-query-assist-popup]');
       }).
       capture('input', (actions, find) => {
         actions.sendKeys(find('[data-test=ring-query-assist-input]'), 'test ');
@@ -25,7 +25,7 @@ gemini.suite('Query Assist', suite => {
             '[data-test=ring-query-assist-last-letter]'
           ).style = 'color: transparent;';
         });
-        actions.waitForElementToShow('[data-test=ring-query-assist-popup]');
+        actions.waitForElementToShow('[data-test~=ring-query-assist-popup]');
       });
   });
 });

@@ -10,7 +10,7 @@ describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};
   const mountConfirm = props => mount(<Confirm {...props}/>);
 
-  const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');
+  const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');
 
   it('should create component', () => {
     mountConfirm(defaultProps).should.have.type(Confirm);

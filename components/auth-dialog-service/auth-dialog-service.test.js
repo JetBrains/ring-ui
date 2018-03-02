@@ -15,7 +15,7 @@ describe('Auth Dialog Service', () => {
   it('should show auth dialog', () => {
     hideAuthDialog = authDialog();
     const classList = getContainer().
-      querySelector('[data-test="ring-dialog"]').children[0].classList;
+      querySelector('[data-test~="ring-dialog"]').children[0].classList;
     [...classList].join(' ').should.equal(styles.content);
   });
 

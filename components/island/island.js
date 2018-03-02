@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import adaptiveIslandHOC from '../island/adaptive-island-hoc';
+import dataTests from '../global/data-tests';
 
 import styles from './island.css';
 
@@ -20,15 +21,13 @@ export default class Island extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     narrow: PropTypes.bool,
-    withoutPaddings: PropTypes.bool
-  };
-
-  static defaultProps = {
-    'data-test': 'ring-island'
+    withoutPaddings: PropTypes.bool,
+    'data-test': PropTypes.string
   };
 
   render() {
-    const {children, className, narrow, withoutPaddings, ...restProps} = this.props;
+    // eslint-disable-next-line max-len
+    const {children, className, narrow, withoutPaddings, 'data-test': dataTest, ...restProps} = this.props;
     const classes = classNames(styles.island, className, {
       [styles.narrowIsland]: narrow,
       [styles.withoutPaddings]: withoutPaddings
@@ -38,6 +37,7 @@ export default class Island extends Component {
       <div
         {...restProps}
         className={classes}
+        data-test={dataTests('ring-island', dataTest)}
       >
         {children}
       </div>
