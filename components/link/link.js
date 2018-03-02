@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import memoize from '../global/memoize';
+import dataTests from '../global/data-tests';
 
 import styles from './link.css';
 
@@ -47,7 +48,8 @@ export function linkHOC(ComposedComponent) {
       inherit: PropTypes.bool,
       pseudo: PropTypes.bool,
       hover: PropTypes.bool,
-      children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+      children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+      'data-test': PropTypes.string
     };
 
     render() {
@@ -59,6 +61,7 @@ export function linkHOC(ComposedComponent) {
         className,
         innerClassName,
         children,
+        'data-test': dataTest,
         ...props
       } = this.props;
       const classes = classNames(styles.link, className, {
@@ -88,7 +91,7 @@ export function linkHOC(ComposedComponent) {
         <ComposedComponent
           {...props}
           className={classes}
-          data-test="ring-link"
+          data-test={dataTests('ring-link', dataTest)}
         >
           {typeof children === 'function'
             ? children(WrapText)

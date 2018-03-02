@@ -17,6 +17,7 @@ import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import {Listeners} from '../global/dom';
 import Shortcuts from '../shortcuts/shortcuts';
+import dataTests from '../global/data-tests';
 
 import position, {
   DEFAULT_DIRECTIONS,
@@ -121,7 +122,6 @@ export default class Popup extends Component {
   };
 
   static defaultProps = {
-    ['data-test']: 'ring-popup',
     shortcuts: true,
     hidden: false,
     onOutsideClick() {},
@@ -441,7 +441,7 @@ export default class Popup extends Component {
   render() {
     const {
       className, hidden, attached, keepMounted, legacy, cutEdge, target,
-      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu
+      onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
 
@@ -476,7 +476,7 @@ export default class Popup extends Component {
             onContextMenu={onContextMenu}
           >
             <div
-              data-test={this.props['data-test']}
+              data-test={dataTests('ring-popup', dataTest)}
               data-test-shown={!hidden && !showing}
               ref={this.popupRef}
               className={classes}

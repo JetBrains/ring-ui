@@ -14,7 +14,7 @@ gemini.suite('Error Bubble', () => {
   gemini.suite('Error Bubble in dialog form', child => {
     child.
       setUrl('error-bubble/error-bubble-in-dialog-form.html').
-      setCaptureElements('[data-test="ring-dialog"]').
+      setCaptureElements('[data-test~="ring-dialog"]').
       capture('error bubble');
   });
 });

@@ -5,7 +5,7 @@ import islandStyles from '../island/island.css';
 import confirm, {hideConfirm} from './confirm-service';
 
 describe('Confirm Service', () => {
-  const getContainer = () => document.querySelector('*[data-test="ring-dialog"]');
+  const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');
 
   afterEach(hideConfirm);
 
