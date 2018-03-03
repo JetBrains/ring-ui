@@ -34,6 +34,11 @@ export default class ListCustom extends PureComponent {
       [styles.scrolling]: scrolling
     });
 
+    let dataTest = 'ring-list-item ring-list-item-custom';
+    if (!disabled) {
+      dataTest += ' ring-list-item-action';
+    }
+
     const content = (typeof template === 'function') ? template(this.props) : template;
     return (
       <span
@@ -42,6 +47,7 @@ export default class ListCustom extends PureComponent {
         onMouseOver={onMouseOver}
         onMouseUp={onMouseUp}
         className={classes}
+        data-test={dataTest}
       >
         {content}
       </span>
