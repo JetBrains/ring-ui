@@ -684,6 +684,7 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
+        data-test="ring-list"
       >
         {this.props.shortcuts &&
           (
