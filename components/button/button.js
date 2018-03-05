@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import './button.scss';
 
 const DEFAULT_ICON_SIZE = Icon.Size.Size16;
