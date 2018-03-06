@@ -23,9 +23,10 @@
     }
   </file>
 
-  <file type="html">
+  <file type="html" disable-auto-size>
     <div
       class="inputs"
+      data-test="inputs"
       ng-app="Example.input"
       ng-controller="InputTestCtrl as ctrl"
       ng-strict-di
@@ -84,11 +85,6 @@
       <rg-input
         label="Long input"
         size="L"
-      ></rg-input>
-
-      <rg-input
-        label="Autogrowing textarea"
-        multiline="true"
       ></rg-input>
 
       <div class="dark">
