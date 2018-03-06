@@ -114,9 +114,11 @@ class ButtonController extends RingAngularComponent {
 
     if (glyph) {
       cl.remove(styles.buttonWithoutIcon);
+      cl.add(styles.withIcon);
       icon.setAttribute('glyph', glyph);
       icon.setAttribute('size', size);
     } else {
+      cl.remove(styles.withIcon);
       cl.add(styles.buttonWithoutIcon);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
