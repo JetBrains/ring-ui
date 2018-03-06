@@ -34,7 +34,6 @@ class RingInputComponent extends RingAngularComponent {
     placeholder: '@',
     ngModel: '<',
     onChange: '&',
-    form: '<',
     label: '@',
     hint: '@',
     size: '@',
