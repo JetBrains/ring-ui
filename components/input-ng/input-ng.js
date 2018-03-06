@@ -83,11 +83,12 @@ class RingInputComponent extends RingAngularComponent {
 
   static template = `
 <div 
-  data-test="ring-input"
+  data-test="ring-input-container"
   ng-class="$ctrl.getContainerClasses()"
 >
   <input 
     type="text"
+    data-test="ring-input"
     class="${styles.input}"
     name="{{$ctrl.name}}"
     ng-if="!$ctrl.multiline"
@@ -101,6 +102,7 @@ class RingInputComponent extends RingAngularComponent {
   />
   
   <textarea
+    data-test="ring-input"
     ng-if="$ctrl.multiline"
     class="${styles.input}"
     name="{{$ctrl.name}}"
