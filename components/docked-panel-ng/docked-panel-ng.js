@@ -11,6 +11,7 @@ const scheduleScroll = scheduleRAF();
 /**
  * @name Docked Panel Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Creates a panel docked at the bottom of the page.
  * @example
    <example name="Docked Panel Ng">

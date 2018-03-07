@@ -1,5 +1,6 @@
 /**
  * @name Place Under Ng
+ * @tags Ring UI Language
  * @category Legacy Angular
  * @description Displays a sidebar that fills the entire right half of its container.
  * To make sidebar have fixed positioning under some other element (e.g. toolbar),
