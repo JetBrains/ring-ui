@@ -1,5 +1,6 @@
 /**
  * @name Permissions Ng
+ * @tags Ring UI Language
  * @category Legacy Angular
  */
 import angular from 'angular';
