@@ -1,6 +1,7 @@
 /**
  * @name Avatar Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @framework Angular
  * @description Provides an Angular wrapper for Avatar.
  * @example
