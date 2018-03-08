@@ -63,7 +63,7 @@ class rgFooterLineComponent extends RingAngularComponent {
 }
 
 class rgFooterCopyrightComponent extends RingAngularComponent {
-  static template = '<span>{{:: $ctrl.copyrightYears}} {{:: $ctrl.companyName}} · All rights reserved</span>';
+  static template = '<span>{{:: $ctrl.copyrightYears}} {{:: $ctrl.companyName}}</span>';
 
   static bindings = {
     year: '@',
