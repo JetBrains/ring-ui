@@ -9,7 +9,7 @@ const SideFooter = () => {
   return (
     <div className={styles.sideFooter}>
       <div className={styles.copyright}>
-        Copyright © 2000–{currentYear} JetBrains
+        Copyright © 2013–{currentYear} JetBrains
       </div>
       <Link
         href="https://raw.githubusercontent.com/JetBrains/ring-ui/master/LICENSE.txt"
