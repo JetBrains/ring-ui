@@ -50,13 +50,13 @@ class FooterColumn extends PureComponent {
  */
 export function copyright(year) {
   const currentYear = (new Date()).getUTCFullYear();
-  const mdash = '—';
-  let ret = '© ';
+  const ndash = '–';
+  let ret = 'Copyright © ';
 
   if (year >= currentYear) {
     ret += year;
   } else {
-    ret += year + mdash + currentYear;
+    ret += year + ndash + currentYear;
   }
 
   return ret;
@@ -138,7 +138,7 @@ class FooterLine extends PureComponent {
              'Enterprise 8.0.2 EAP (build 27448)'
            ]}
            center={[
-             [{copyright: 2000, label: ' JetBrains'}, ' · All rights reserved'],
+             [{copyright: 2000, label: ' JetBrains'}],
              {url: 'https://teamcity.jetbrains.com/showAgreement.html', label: 'License agreement', title: 'read me!', target: '_blank'}
            ]}
            right={[

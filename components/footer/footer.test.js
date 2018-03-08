@@ -59,7 +59,7 @@ describe('Footer', () => {
       ]
     });
 
-    wrapper.find('li').should.contain.text(`© 2010—${(new Date()).getFullYear()} JetBrains`);
+    wrapper.find('li').should.contain.text(`Copyright © 2010–${(new Date()).getFullYear()} JetBrains`);
   });
 
   it('should render link', () => {
