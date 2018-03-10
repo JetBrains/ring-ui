@@ -207,7 +207,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.20.2",
-    "svg-sprite-loader": "3.6.2",
+    "svg-sprite-loader": "3.7.0",
     "url-loader": "1.0.1"
   },
   "engines": {
