@@ -1,9 +1,10 @@
 <example name="Autofocus Ng">
   <file type="html">
-    <div ng-app="Ring.autofocus" ng-strict-di class="test-container">
-      <input
+    <div ng-app="testApp" ng-strict-di class="test-container">
+      <rg-input
         class="ring-input"
         rg-autofocus="true"
+        size="M"
         placeholder="Should be focused"/>
     </div>
   </file>
@@ -13,9 +14,11 @@
     }
   </file>
   <file type="js">
-    import '@jetbrains/ring-ui/components/input/input.scss';
     import angular from 'angular';
-    import '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
+    import InputNg from '@jetbrains/ring-ui/components/input-ng/input-ng';
+    import ShortcutsNg from '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
+
+    angular.module('testApp', [InputNg, ShortcutsNg])
   </file>
 </example>
 
