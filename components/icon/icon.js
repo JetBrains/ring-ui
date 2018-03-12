@@ -25,21 +25,25 @@ export default class Icon extends PureComponent {
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    inline: PropTypes.bool
   };
 
   static defaultProps = ({
     className: '',
     color: Color.DEFAULT,
     glyph: '',
-    size: Size.Size32
+    size: Size.Size32,
+    inline: false
   });
 
   static Color = Color;
   static Size = Size;
 
   render() {
-    const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
+    const {
+      className, size, color, loading, glyph, width, height, inline, ...restProps
+    } = this.props;
 
     const classes = classNames('ring-icon',
       {
@@ -56,19 +60,33 @@ export default class Icon extends PureComponent {
         height: size
       };
 
-    const xlinkHref = resolveRelativeURL(glyph);
-
-    return (
-      <span
-        {...restProps}
-        className={classes}
-      >
+    let icon;
+    if (inline) {
+      const InlineIcon = glyph;
+      icon = (
+        <InlineIcon
+          className={'ring-icon__i'}
+          style={style}
+        />
+      );
+    } else {
+      const xlinkHref = resolveRelativeURL(glyph);
+      icon = (
         <svg
           className={'ring-icon__i'}
           style={style}
         >
           <use xlinkHref={xlinkHref}/>
         </svg>
+      );
+    }
+
+    return (
+      <span
+        {...restProps}
+        className={classes}
+      >
+        {icon}
       </span>
     );
   }
@@ -76,7 +94,7 @@ export default class Icon extends PureComponent {
 
 export {Size};
 
-export function iconHOC(glyph, displayName) {
+export function iconHOC(glyph, displayName, inline) {
   // eslint-disable-next-line react/no-multi-comp
   return class BoundIcon extends PureComponent {
     static displayName = displayName;
@@ -89,12 +107,12 @@ export function iconHOC(glyph, displayName) {
     static Size = Size;
 
     static toString() {
-      return glyph;
+      return inline ? displayName : glyph;
     }
 
     render() {
       const {iconRef, ...restProps} = this.props;
-      return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
+      return <Icon ref={iconRef} {...restProps} glyph={glyph} inline={inline}/>;
     }
   };
 }

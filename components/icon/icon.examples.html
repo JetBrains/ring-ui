@@ -71,6 +71,9 @@
     <h3>All available icons are listed below. Place the cursor over an icon to
       see its name.</h3>
     <div id="all-icons"></div>
+
+    <h3>Please use inline SVG icons for icons in large lists.</h3>
+    <div id="all-inline-icons"></div>
   </file>
 
   <file type="css">
@@ -97,12 +100,20 @@
     import {render} from 'react-dom';
 
     import * as icons from '@jetbrains/ring-ui/components/icon/icons';
+    import * as inlineIcons from '@jetbrains/ring-ui/components/icon/inline-icons';
 
     render(
       <div className="icon-example__container">
         {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon.displayName}/>)}
       </div>,
       document.getElementById('all-icons')
+    );
+
+    render(
+      <div className="icon-example__container">
+        {Object.values(inlineIcons).map(Icon => <Icon key={Icon} title={Icon.displayName}/>)}
+      </div>,
+      document.getElementById('all-inline-icons')
     );
   </file>
 </example>
@@ -125,7 +136,7 @@
     import React from 'react';
     import {render} from 'react-dom';
 
-    import * as logos from '@jetbrains/ring-ui/components/icon/logos';
+    import * as logos from '@jetbrains/ring-ui/components/icon/inline-logos';
 
     render(
       <div>

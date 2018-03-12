@@ -1,6 +1,6 @@
 module.exports = {
   overrides: {
-    files: ['logos.js'],
+    files: ['logos.js', 'inline-logos.js'],
     rules: {
       'max-len': 'off'
     }

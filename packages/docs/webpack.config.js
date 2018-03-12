@@ -24,10 +24,13 @@ const siteComponents = path.resolve(__dirname, 'components');
 
 // For docs-app entry point
 webpackConfig.componentsPath.push(siteComponents);
-webpackConfig.loaders.svgSpriteLoader.include.push(
+
+const svgIncludes = [
   require('@jetbrains/logos'),
   path.dirname(require.resolve('octicons/package.json'))
-);
+];
+webpackConfig.loaders.svgSpriteLoader.include.push(...svgIncludes);
+webpackConfig.loaders.svgInlineLoader.include.push(...svgIncludes);
 
 module.exports = (env = {}) => {
   const {server, production} = env;

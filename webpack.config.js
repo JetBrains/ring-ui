@@ -1,6 +1,10 @@
 const path = require('path');
 
+const uuid = require('simply-uuid');
+
 const componentsPath = [path.join(__dirname, 'components')];
+
+const inlineSvgIssuer = [/inline-icons/, /inline-logos/];
 
 function resolveLoader(loader) {
   return require.resolve(`${loader}-loader`);
@@ -30,7 +34,48 @@ const svgSpriteLoader = {
       }
     }
   ],
-  include: [require('@jetbrains/icons')]
+  include: [require('@jetbrains/icons')],
+  issuer: {
+    exclude: inlineSvgIssuer
+  }
+};
+
+const svgInlineLoader = {
+  test: /\.svg$/,
+  use: [
+    {
+      loader: 'babel-loader'
+    },
+    {
+      loader: resolveLoader('react-svg'),
+      options: {
+        jsx: true,
+        svgo: {
+          plugins: [
+            {
+              removeTitle: true
+            },
+            {
+              removeAttrs: {attrs: ['*:data-name']}
+            },
+            {
+              cleanupIDs: {
+                remove: false,
+                minify: true,
+                prefix: {
+                  toString() {
+                    return `ring-icon-${uuid.generate()}`;
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  include: [require('@jetbrains/icons')],
+  issuer: inlineSvgIssuer
 };
 
 const svgLoader = {
@@ -96,6 +141,7 @@ const gifLoader = {
 
 const loaders = {
   svgSpriteLoader,
+  svgInlineLoader,
   svgLoader,
   cssLoader,
   externalCssLoader,
@@ -116,5 +162,7 @@ module.exports = {
 
   componentsPath,
 
-  loaders
+  loaders,
+
+  inlineSvgIssuer
 };

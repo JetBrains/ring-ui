@@ -6,7 +6,7 @@ const fs = require('fs');
 const glob = require('glob');
 const changeCase = require('change-case');
 
-const generate = (packageName, output, suffix = 'Icon') => {
+const generate = (packageName, output, suffix = 'Icon', inline = false) => {
   const dirname = path.dirname(require.resolve(path.join(packageName, 'package.json')));
   const icons = glob.sync('**/*.svg', {cwd: dirname}).
     // TODO: add deduplication instead
@@ -25,7 +25,9 @@ const generate = (packageName, output, suffix = 'Icon') => {
   source += "\nimport {iconHOC} from './icon';\n\n";
   icons.forEach(({name}) => {
     const displayName = changeCase.pascalCase(name) + suffix;
-    source += `export const ${displayName} = iconHOC(${name}.toString(), '${displayName}');\n`;
+    source += inline
+      ? `export const ${displayName} = iconHOC(${name}, '${displayName}', true);\n`
+      : `export const ${displayName} = iconHOC(${name}.toString(), '${displayName}');\n`;
   });
 
   fs.writeFileSync(path.resolve(__dirname, output), source);
@@ -33,3 +35,5 @@ const generate = (packageName, output, suffix = 'Icon') => {
 
 generate('@jetbrains/icons', 'icons.js');
 generate('@jetbrains/logos', 'logos.js', 'Logo');
+generate('@jetbrains/icons', 'inline-icons.js', undefined, true);
+generate('@jetbrains/logos', 'inline-logos.js', 'Logo', true);
