@@ -20,7 +20,7 @@ import styleOverrides from './input-ng.css';
 const angularModule = angular.module('Ring.input', []);
 
 class RingInputComponent extends RingAngularComponent {
-  static $inject = [];
+  static $inject = ['$element'];
 
   static require = {
     ngModelCtrl: '?ngModel'
@@ -64,6 +64,23 @@ class RingInputComponent extends RingAngularComponent {
     this.ngModelCtrl.$setViewValue(this.value);
   }
 
+  stretch(el) {
+    if (!el) {
+      return;
+    }
+    el.style.height = `${el.scrollHeight}px`;
+  }
+
+  onKeyUp() {
+    if (!this.inputNode) {
+      this.inputNode = this.$inject.$element[0].querySelector('[data-test="ring-input"]');
+    }
+
+    if (this.multiline && this.inputNode.scrollHeight > this.inputNode.clientHeight) {
+      this.stretch(this.inputNode);
+    }
+  }
+
   getContainerClasses() {
     return classNames(
       styles.container,
@@ -98,12 +115,14 @@ class RingInputComponent extends RingAngularComponent {
     ng-minlength="$ctrl.ngMinlength"
     ng-maxlength="$ctrl.ngMaxlength"
     ng-change="$ctrl.onInputChange()"
+    ng-keyup="$ctrl.onKeyUp()"
   />
   
   <textarea
     data-test="ring-input"
     ng-if="$ctrl.multiline"
     class="${styles.input}"
+    rows="1"
     name="{{$ctrl.name}}"
     placeholder="{{$ctrl.placeholder}}"
     ng-model="$ctrl.value"
@@ -112,6 +131,7 @@ class RingInputComponent extends RingAngularComponent {
     ng-minlength="$ctrl.ngMinlength"
     ng-maxlength="$ctrl.ngMaxlength"
     ng-change="$ctrl.onInputChange()"
+    ng-keyup="$ctrl.onKeyUp()"
   ></textarea>
   
   <rg-button
