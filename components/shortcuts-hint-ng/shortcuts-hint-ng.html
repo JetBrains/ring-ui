@@ -1,9 +1,15 @@
 <div class="shortcuts-hint">
 
   <div class="shortcuts-hint__search-input-wrapper">
-    <input class="ring-input shortcuts-hint__search-input" ng-attr-placeholder="{{hintPopupCtrl.searchPlaceholder}}"
-      ng-model="hintPopupCtrl.searchText" autofocus/>
-    <rg-icon class="shortcuts-hint__search-icon" glyph="{{hintPopupCtrl.searchIcon}}" size="16"></rg-icon>
+    <rg-input
+      ng-attr-placeholder="{{hintPopupCtrl.searchPlaceholder}}"
+      ng-model="hintPopupCtrl.searchText"
+    ></rg-input>
+    <rg-icon
+      class="shortcuts-hint__search-icon"
+      glyph="{{hintPopupCtrl.searchIcon}}"
+      size="16"
+    ></rg-icon>
   </div>
 
   <div class="shortcuts-hint__columns">
