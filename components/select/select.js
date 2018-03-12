@@ -807,7 +807,8 @@ export default class Select extends Component {
 
     this.setState({
       selected: empty,
-      selectedIndex: null
+      selectedIndex: null,
+      filterValue: ''
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(empty, event);
