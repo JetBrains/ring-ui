@@ -1,4 +1,6 @@
-/*gemini.suite('Checkbox Ng', parent => {
+/* global gemini: false */
+
+gemini.suite('Checkbox Ng', parent => {
   parent.
     setUrl('checkbox-ng/checkbox-ng.html').
     setCaptureElements('p').
@@ -22,4 +24,4 @@
         actions.click(find('#checkButton'));
       });
   });
-});*/
+});
