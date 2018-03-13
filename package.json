@@ -191,7 +191,7 @@
     "interpolate-loader": "^1.0.0",
     "just-debounce-it": "1.0.1",
     "moment": "2.21.0",
-    "node-sass": "4.8.1",
+    "node-sass": "4.8.2",
     "pascal-case": "2.0.1",
     "postcss": "6.0.19",
     "postcss-cssnext": "3.1.0",
