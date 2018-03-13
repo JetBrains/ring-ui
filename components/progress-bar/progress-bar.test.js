@@ -42,10 +42,10 @@ describe('Progress Bar', () => {
 
     it('should set additional classes(modifiers) to the component', () => {
       const wrapper = mountProgressBar({
-        className: 'ring-button__loader'
+        className: 'test-class'
       });
 
-      findDOMNode(wrapper.instance().progressbarWrapper).should.have.class('ring-button__loader');
+      findDOMNode(wrapper.instance().progressbarWrapper).should.have.class('test-class');
     });
 
     it('should set light modifier', () => {
