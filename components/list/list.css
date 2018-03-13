@@ -11,6 +11,10 @@
   line-height: normal;
 }
 
+.simpleInner {
+  overflow: auto;
+}
+
 .scrolling {
   pointer-events: none;
 }
