@@ -64,7 +64,10 @@ class ButtonController extends RingAngularComponent {
         this.element.removeAttribute('tabindex');
       }
     });
+  }
 
+  $postLink() {
+    const {$attrs} = this.$inject;
     $attrs.$observe('mode', this.updateMode);
     $attrs.$observe('icon', this.updateIcon);
     $attrs.$observe('iconSize', this.updateIcon);
@@ -102,7 +105,7 @@ class ButtonController extends RingAngularComponent {
 
   updateIcon = () => {
     const {$attrs, $compile, $scope} = this.$inject;
-    const icon = this.element.query('.ring-icon');
+    const icon = this.element.query('rg-icon');
     const glyph = $attrs.icon;
     const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;
