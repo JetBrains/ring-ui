@@ -14,6 +14,7 @@ import Alert, {Container as AlertContainer} from '../alert/alert';
 
 class AlertService {
   defaultTimeout = 0;
+  // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts = [];
   containerElement = document.createElement('div');
 
@@ -89,7 +90,7 @@ class AlertService {
       count: 1
     };
 
-    this.showingAlerts.push(alert);
+    this.showingAlerts = [alert, ...this.showingAlerts];
     this.renderAlerts();
     return alert.key;
   }
