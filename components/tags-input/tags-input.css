@@ -22,6 +22,8 @@
 
 .tagsList {
   display: inline-block;
+
+  padding-left: 2px;
 }
 
 .tagsSelect {
