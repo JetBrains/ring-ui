@@ -64,19 +64,17 @@ class ButtonController extends RingAngularComponent {
         this.element.removeAttribute('tabindex');
       }
     });
-
-    // A dirty workaround for IE9 :(
-    const updateMode = val => setTimeout(this.updateMode.bind(this, val), 0);
-    const updateIcon = val => setTimeout(this.updateIcon.bind(this, val), 0);
-    const updateTheme = val => setTimeout(this.updateTheme.bind(this, val), 0);
-
-    $attrs.$observe('mode', updateMode);
-    $attrs.$observe('icon', updateIcon);
-    $attrs.$observe('iconSize', updateIcon);
-    $attrs.$observe('theme', updateTheme);
   }
 
-  updateTheme(val) {
+  $postLink() {
+    const {$attrs} = this.$inject;
+    $attrs.$observe('mode', this.updateMode);
+    $attrs.$observe('icon', this.updateIcon);
+    $attrs.$observe('iconSize', this.updateIcon);
+    $attrs.$observe('theme', this.updateTheme);
+  }
+
+  updateTheme = val => {
     const cl = this.element.classList;
     if (val === Theme.DARK) {
       cl.remove(styles.light);
@@ -86,9 +84,9 @@ class ButtonController extends RingAngularComponent {
       cl.remove(styles.dark);
       cl.add(styles.light);
     }
-  }
+  };
 
-  updateMode(val) {
+  updateMode = val => {
     const cl = this.element.classList;
     if (val === 'primary' || val === 'blue') {
       // Deprecation fallback. Someone please remove this one day.
@@ -103,11 +101,11 @@ class ButtonController extends RingAngularComponent {
     } else {
       cl.remove(styles.primary);
     }
-  }
+  };
 
-  updateIcon() {
+  updateIcon = () => {
     const {$attrs, $compile, $scope} = this.$inject;
-    const icon = this.element.query('.ring-icon');
+    const icon = this.element.query('rg-icon');
     const glyph = $attrs.icon;
     const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;

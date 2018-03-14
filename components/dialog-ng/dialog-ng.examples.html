@@ -50,6 +50,7 @@
   <file type="css">
     :global(.custom-css-class-button-right) {
       float: right;
+      color: #C10000;
     }
 
     :global(.long-page) {
@@ -96,7 +97,7 @@
               },
               {
                 label: 'Dangerous Action',
-                cssClasses: 'ring-button_danger custom-css-class-button-right',
+                cssClasses: 'custom-css-class-button-right',
                 action: function () {
                   return $timeout(angular.noop, 2000).
                     then(() => $q.reject('Some error'));
@@ -209,10 +210,6 @@
     </div>
   </file>
   <file type="css">
-    :global(.custom-css-class-button-right) {
-      float: right;
-    }
-
     :global(.long-page) {
       height: 2000px;
     }

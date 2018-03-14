@@ -630,7 +630,7 @@ export default class Select extends Component {
 
   filterValue(setValue) {
     if (typeof setValue === 'string' || typeof setValue === 'number') {
-      this._setFilter(setValue);
+      this.setState({filterValue: setValue});
     } else {
       return this.state.filterValue;
     }
@@ -807,7 +807,8 @@ export default class Select extends Component {
 
     this.setState({
       selected: empty,
-      selectedIndex: null
+      selectedIndex: null,
+      filterValue: ''
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(empty, event);
