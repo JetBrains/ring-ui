@@ -282,7 +282,7 @@ describe('List', () => {
       firstItemWrapper.should.exist;
       firstItemWrapper.should.have.data('test', 'ring-link');
       firstItemWrapper.should.have.text('Hello!');
-      firstItemWrapper.should.have.tagName('span');
+      firstItemWrapper.should.have.tagName('button');
     });
 
     it('should not render icon if not provided', () => {
