@@ -27,6 +27,10 @@
         this.lastKey = alert.error('Something wrong happened');
       }
 
+      showRandomWarning = () => {
+        this.lastKey = alert.message(`Warning! Something bad is going to happen (${Math.random()})`, 30000);
+      }
+
       showMessage = () => {
         this.lastKey = alert.message('This is just a message', 5000);
       }
@@ -39,7 +43,8 @@
         return (
           <div>
             <Button onClick={this.showError}>Show error</Button>
-            <Button onClick={this.showMessage}>Show message</Button>
+            <Button onClick={this.showMessage} primary>Show message</Button>
+            <Button onClick={this.showRandomWarning}>Show warning</Button>
             <Button onClick={this.removeLastAlert}>Remove last alert</Button>
           </div>
         );

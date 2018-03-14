@@ -52,7 +52,7 @@ const TypeToIcon = {
 const TypeToIconColor = {
   [Type.ERROR]: ExceptionIcon.Color.RED,
   [Type.SUCCESS]: CheckmarkIcon.Color.GREEN,
-  [Type.WARNING]: WarningIcon.Color.ORANGE
+  [Type.WARNING]: WarningIcon.Color.WHITE
 };
 
 /**
@@ -204,7 +204,7 @@ export default class Alert extends PureComponent {
       [styles.animationClosing]: isClosing
     });
 
-    const style = this.state.height ? {marginTop: -this.state.height} : null;
+    const style = this.state.height ? {marginBottom: -this.state.height} : null;
 
     return (
       <div
