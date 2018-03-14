@@ -1,4 +1,4 @@
-@value unit, borders-color, border-radius, error-color, gray-color, link-hover-color, font-size from '../global/global.css';
+@value unit, border-radius, error-color, darker-gray-color, link-hover-color, font-size, invisible-element-z-index from '../global/global.css';
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -12,14 +12,13 @@
 
   transition:
     transform animation-duration animation-easing,
-    margin-top animation-duration animation-easing,
+    margin-bottom animation-duration animation-easing,
     opacity animation-duration animation-easing;
   white-space: nowrap;
   pointer-events: auto;
 
-  border: solid 1px borders-color;
   border-radius: border-radius;
-  background: #fff;
+  background-color: rgba(0, 21, 38, 0.9);
 
   font-size: font-size;
   line-height: calc(unit * 5);
@@ -53,6 +52,8 @@
   vertical-align: middle;
   white-space: normal;
 
+  color: #fff;
+
   line-height: 20px;
 }
 
@@ -78,7 +79,7 @@
 
   cursor: pointer;
 
-  color: gray-color;
+  color: darker-gray-color;
   border: none;
   background: transparent;
 
@@ -93,13 +94,13 @@
 
 @keyframes show {
   from {
-    transform: scale(0);
+    transform: translateY(100%);
 
     opacity: 0;
   }
 
   to {
-    transform: scale(1);
+    transform: translateY(0);
 
     opacity: 1;
   }
@@ -111,9 +112,7 @@
 }
 
 .animationClosing {
-  z-index: -1;
-
-  transform: scale(0);
+  z-index: invisible-element-z-index;
 
   opacity: 0;
 }

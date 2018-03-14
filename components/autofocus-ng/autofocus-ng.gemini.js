@@ -4,7 +4,7 @@ gemini.suite('Autofocus Ng', () => {
   gemini.suite('input', child => {
     child.
       setUrl('autofocus-ng/autofocus-ng.html').
-      setCaptureElements('input[rg-autofocus]').
+      setCaptureElements('rg-input').
       capture('autofocused-input');
   });
 
