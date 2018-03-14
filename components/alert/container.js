@@ -1,7 +1,7 @@
 import React, {Children, cloneElement, PureComponent} from 'react';
 import classNames from 'classnames';
-import Portal from '@jetbrains/react-portal';
 import PropTypes from 'prop-types';
+import Portal from '@jetbrains/react-portal';
 
 import styles from './container.css';
 
@@ -24,10 +24,12 @@ export default class Alerts extends PureComponent {
     const classes = classNames(styles.alertContainer, className);
     const show = Children.count(children) > 0;
 
+    if (!show) {
+      return null;
+    }
+
     return (
-      <Portal
-        isOpen={show}
-      >
+      <Portal isOpen>
         <div
           data-test="alert-container"
           className={classes}
