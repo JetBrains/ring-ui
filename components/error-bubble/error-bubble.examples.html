@@ -8,7 +8,7 @@
     import React from 'react';
 
     import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
-    import Input from '@jetbrains/ring-ui/components/input/input';
+    import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     const container = document.getElementById('container');
@@ -18,7 +18,7 @@
         onInput={e => render(renderBubbleDemo(e.target.value), container)}
         placeholder="enter something"
       >
-        <Input borderless className="ring-input-size_md"/>
+        <Input borderless size={Size.M}/>
       </ErrorBubble>
     );
 
@@ -36,7 +36,7 @@
     import React from 'react';
 
     import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
-    import Input from '@jetbrains/ring-ui/components/input/input';
+    import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
     import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
     import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
     import '@jetbrains/ring-ui/components/form/form.scss';
@@ -56,7 +56,7 @@
                 onInput={e => render(renderBubbleDemo(e.target.value), container)}
                 placeholder="enter something"
               >
-                <Input borderless className="ring-input-size_md"/>
+                <Input borderless size={Size.M}/>
               </ErrorBubble>
             </div>
           </div>
