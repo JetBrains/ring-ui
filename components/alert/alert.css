@@ -106,6 +106,29 @@
   }
 }
 
+@keyframes shaking {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
 .animationOpen {
   animation-name: show;
   animation-duration: animation-duration;
@@ -115,4 +138,9 @@
   z-index: invisible-element-z-index;
 
   opacity: 0;
+}
+
+.animationShaking {
+  animation-name: shaking;
+  animation-duration: 500ms;
 }
