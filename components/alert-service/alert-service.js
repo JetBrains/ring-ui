@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 
 import getUID from '../global/get-uid';
 
-import Alert, {Container as AlertContainer} from '../alert/alert';
+import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
 
 /**
  * @name Alert Service
@@ -71,11 +71,20 @@ class AlertService {
     this.renderAlerts();
   }
 
+  stopShakingWhenAnimationDone(shakingAlert) {
+    setTimeout(() => {
+      shakingAlert.showWithAnimation = false;
+      shakingAlert.isShaking = false;
+      this.renderAlerts();
+    }, ANIMATION_TIME);
+  }
+
   addAlert(message, type, timeout = this.defaultTimeout) {
     const sameAlert = this.findSameAlert(message, type);
     if (sameAlert) {
-      sameAlert.count++;
+      sameAlert.isShaking = true;
       this.renderAlerts();
+      this.stopShakingWhenAnimationDone(sameAlert);
       return sameAlert.key;
     }
 
@@ -86,8 +95,7 @@ class AlertService {
       timeout,
       isClosing: false,
       onCloseRequest: () => this.startAlertClosing(alert),
-      onClose: () => this.removeWithoutAnimation(alert.key),
-      count: 1
+      onClose: () => this.removeWithoutAnimation(alert.key)
     };
 
     this.showingAlerts = [alert, ...this.showingAlerts];
