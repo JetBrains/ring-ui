@@ -89,7 +89,7 @@ class RingInputComponent extends RingAngularComponent {
       {
         [styles.active]: this.active,
         [styles.error]: this.error != null,
-        [styles.empty]: !this.ngModel,
+        [styles.empty]: !this.value,
         [styles.noLabel]: !this.label,
         [styles.clearable]: this.clearable,
         [styles.borderless]: this.borderless
