@@ -7,8 +7,6 @@ import styles from './container.css';
 
 /**
  * @name Alert Container
- * @constructor
- * @category Components
  * @description Displays a stack of alerts on top of the page.
  * @extends {PureComponent}
  */
