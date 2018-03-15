@@ -97,7 +97,7 @@ export function linkHOC(ComposedComponent) {
             type="button"
             {...props}
             className={classes}
-            data-test="ring-link"
+            data-test={dataTests('ring-link', dataTest)}
           >{this.getChildren()}</button>
         );
       }
