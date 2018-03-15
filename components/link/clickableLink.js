@@ -8,19 +8,26 @@ const isPlainLeftClick = e =>
 
 export default class ClickableLink extends PureComponent {
   static propTypes = {
-    onPlainLeftClick: PropTypes.func,
     onClick: PropTypes.func,
+    onPlainLeftClick: PropTypes.func,
+    onConditionalClick: PropTypes.func,
     activeClassName: PropTypes.string
   };
 
   onClick = e => {
-    const {onClick, onPlainLeftClick} = this.props;
+    const {onClick, onConditionalClick, onPlainLeftClick} = this.props;
+
+    const isPlainLeft = isPlainLeftClick(e);
 
     if (onClick) {
       onClick(e);
     }
 
-    if (onPlainLeftClick && isPlainLeftClick(e)) {
+    if (onConditionalClick) {
+      onConditionalClick(isPlainLeft, e);
+    }
+
+    if (onPlainLeftClick && isPlainLeft) {
       e.preventDefault();
       onPlainLeftClick(e);
     }
