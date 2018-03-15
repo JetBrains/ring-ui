@@ -77,6 +77,7 @@ describe('Link', () => {
       };
 
       let onClick;
+      let onConditionalClick;
       let onPlainLeftClick;
       let wrapper;
 
@@ -87,69 +88,83 @@ describe('Link', () => {
 
       beforeEach(() => {
         onClick = sandbox.spy();
+        onConditionalClick = sandbox.spy();
         onPlainLeftClick = sandbox.spy();
-        wrapper = shallow(<ClickableLink onClick={onClick} onPlainLeftClick={onPlainLeftClick}/>);
+        wrapper = shallow(
+          <ClickableLink
+            onClick={onClick}
+            onConditionalClick={onConditionalClick}
+            onPlainLeftClick={onPlainLeftClick}
+          />
+        );
       });
 
-      it('should call onClick and onPlainLeftClick on a plain left click', () => {
+      it('should handle a plain left click', () => {
         const e = makeEvent({button: Buttons.LEFT});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(true, e);
         onPlainLeftClick.should.have.been.calledWith(e);
         e.preventDefault.should.have.been.calledOnce;
       });
 
-      it('should call only onClick on a middle click', () => {
+      it('should handle a middle click', () => {
         const e = makeEvent({button: Buttons.MIDDLE});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
 
-      it('should call only onClick on a right click', () => {
+      it('should handle a right click', () => {
         const e = makeEvent({button: Buttons.RIGHT});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
 
-      it('should call only onClick on alt+click', () => {
+      it('should handle alt+click', () => {
         const e = makeEvent({button: Buttons.LEFT, altKey: true});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
 
-      it('should call only onClick on ctrl+click', () => {
+      it('should handle ctrl+click', () => {
         const e = makeEvent({button: Buttons.LEFT, ctrlKey: true});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
 
-      it('should call only onClick on cmd+click / win+click', () => {
+      it('should handle cmd+click / win+click', () => {
         const e = makeEvent({button: Buttons.LEFT, metaKey: true});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
 
-      it('should call only onClick on shift+click', () => {
+      it('should handle shift+click', () => {
         const e = makeEvent({button: Buttons.LEFT, shiftKey: true});
         wrapper.simulate('click', e);
 
         onClick.should.have.been.calledWith(e);
+        onConditionalClick.should.have.been.calledWith(false, e);
         onPlainLeftClick.should.not.have.been.called;
         e.preventDefault.should.not.have.been.called;
       });
