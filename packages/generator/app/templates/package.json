@@ -60,7 +60,7 @@
     "react-test-renderer": "16.2.0",
     "sinon": "4.4.6",
     "sinon-chai": "3.0.0",
-    "stylelint": "9.1.2",
+    "stylelint": "9.1.3",
     "xvfb-maybe": "0.2.1",
     "yo": "2.0.1"
   },
