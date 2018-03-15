@@ -26,8 +26,7 @@ describe('Alert Service', () => {
     alertItem.message.should.equal('foo');
     alertItem.type.should.equal(Alert.Type.MESSAGE);
     alertItem.timeout.should.equal(0);
-    alertItem.isClosing.should.equal(false);
-    alertItem.count.should.equal(1);
+    alertItem.isClosing.should.be.false;
   });
 
   it('Should show message', () => {
@@ -45,13 +44,12 @@ describe('Alert Service', () => {
     alert._getShowingAlerts()[0].type.should.equal(Alert.Type.WARNING);
   });
 
-  it('Should join same alerts', () => {
-    const SHOW_ALERTS_COUNT = 2;
+  it('Should join same alerts and shake', () => {
     alertKey = alert.message('foo');
     alertKey = alert.message('foo');
 
     alert._getShowingAlerts().length.should.equal(1);
-    alert._getShowingAlerts()[0].count.should.equal(SHOW_ALERTS_COUNT);
+    alert._getShowingAlerts()[0].isShaking.should.be.true;
   });
 
   it('Should remove alert after timeout', () => {

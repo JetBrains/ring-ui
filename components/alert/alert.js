@@ -10,12 +10,11 @@ import {
   CloseIcon
 } from '../icon';
 import Loader from '../loader-inline/loader-inline';
-import Badge from '../badge/badge';
 import {getRect} from '../global/dom';
 
 import styles from './alert.css';
 
-const ANIMATION_TIME = 500;
+export const ANIMATION_TIME = 500;
 
 /**
  * @name Alert
@@ -68,7 +67,7 @@ export default class Alert extends PureComponent {
     timeout: PropTypes.number,
     onCloseRequest: PropTypes.func,
     onClose: PropTypes.func,
-    count: PropTypes.number,
+    isShaking: PropTypes.bool,
     isClosing: PropTypes.bool,
     inline: PropTypes.bool,
     showWithAnimation: PropTypes.bool,
@@ -92,6 +91,7 @@ export default class Alert extends PureComponent {
      */
     inline: true,
     isClosing: false,
+    isShaking: false,
     timeout: 0,
     onClose: () => {},
     /**
@@ -153,14 +153,6 @@ export default class Alert extends PureComponent {
         onClick={this._handleCaptionsLinksClick}
       >
         {this.props.children}
-        {this.props.count > 1 &&
-          (
-            <Badge
-              gray
-              className={styles.badge}
-            >{this.props.count}</Badge>
-          )
-        }
       </span>
     );
   }
@@ -194,14 +186,15 @@ export default class Alert extends PureComponent {
   };
 
   render() {
-    const {type, inline, isClosing, showWithAnimation, className} = this.props;
+    const {type, inline, isClosing, isShaking, showWithAnimation, className} = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
       [styles.animationOpen]: showWithAnimation,
       [styles.error]: type === 'error',
       [styles.alertInline]: inline,
-      [styles.animationClosing]: isClosing
+      [styles.animationClosing]: isClosing,
+      [styles.animationShaking]: isShaking
     });
 
     const style = this.state.height ? {marginBottom: -this.state.height} : null;
