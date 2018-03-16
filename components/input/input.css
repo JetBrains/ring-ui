@@ -227,3 +227,7 @@ textarea.input {
 .sizeL {
   width: calc(unit * 50);
 }
+
+.sizeFULL {
+  width: 100%;
+}

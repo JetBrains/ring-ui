@@ -25,7 +25,8 @@ const Size = {
   AUTO: 'Auto',
   S: 'S',
   M: 'M',
-  L: 'L'
+  L: 'L',
+  FULL: 'FULL'
 };
 
 export class Input extends PureComponent {
