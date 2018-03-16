@@ -56,9 +56,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
   };
 
   const sizes = {
-    s: Select.Size.S,
-    m: Select.Size.M,
-    l: Select.Size.L
+    FULL: Select.Size.FULL,
+    S: Select.Size.S,
+    M: Select.Size.M,
+    L: Select.Size.L
   };
 
   return {
@@ -382,7 +383,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       }
 
       function getSelectSize() {
-        return sizes[ctrl.size] || sizes.m;
+        return sizes[ctrl.size] || sizes.FULL;
       }
 
       /**

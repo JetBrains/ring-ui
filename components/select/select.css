@@ -89,6 +89,10 @@
   width: calc(unit * 50);
 }
 
+.sizeFULL {
+  width: 100%;
+}
+
 .buttonMode,
 .materialMode {
   position: relative;
@@ -135,6 +139,8 @@
 }
 
 .buttonValue {
+  composes: ellipsis;
+
   width: 100%;
 
   text-align: left;
