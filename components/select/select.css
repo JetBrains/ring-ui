@@ -45,6 +45,11 @@
 
     font-size: font-size;
   }
+
+  @nest .buttonMode & {
+    top: -6px;
+    right: unit;
+  }
 }
 
 .selectedIcon {
@@ -84,7 +89,8 @@
   width: calc(unit * 50);
 }
 
-.buttonMode {
+.buttonMode,
+.materialMode {
   position: relative;
 
   cursor: pointer;
@@ -126,6 +132,12 @@
     border: 0;
     outline: 0;
   }
+}
+
+.buttonValue {
+  width: 100%;
+
+  text-align: left;
 }
 
 .label {
