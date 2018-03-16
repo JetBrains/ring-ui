@@ -965,6 +965,7 @@ export default class Select extends Component {
             value={this.state.filterValue}
             borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
             style={style}
+            size={Size.FULL}
             onChange={this._filterChangeHandler}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
@@ -995,7 +996,7 @@ export default class Select extends Component {
               className={styles.buttonValue}
               disabled={this.props.disabled}
               style={style}
-              data-test="ring-select__focus"
+              data-test="ring-select__button"
             >
               {this._getAvatar()}
               {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
