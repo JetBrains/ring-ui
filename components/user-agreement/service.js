@@ -104,28 +104,34 @@ export default class UserAgreementService {
     const {text} = this.userAgreement;
     const show = true;
 
-    return new Promise((resolve, reject) => {
-      const onAccept = () => {
-        resolve();
-        this.onAccept();
-      };
+    if (!this._dialogPromise) {
+      this._dialogPromise = new Promise((resolve, reject) => {
+        const onAccept = () => {
+          resolve();
+          this.onAccept();
+          Reflect.deleteProperty(this._dialogPromise);
+        };
 
-      const onDecline = () => {
-        reject();
-        this.onDecline();
-      };
+        const onDecline = () => {
+          reject();
+          this.onDecline();
+          Reflect.deleteProperty(this._dialogPromise);
+        };
 
-      const props = {text, show, onAccept, onDecline, translations};
+        const props = {text, show, onAccept, onDecline, translations};
 
-      render(
-        <UserAgreement {...props}/>,
-        this.container
-      );
+        render(
+          <UserAgreement {...props}/>,
+          this.container
+        );
 
-      if (onDialogShow) {
-        onDialogShow();
-      }
-    });
+        if (onDialogShow) {
+          onDialogShow();
+        }
+      });
+    }
+
+    return this._dialogPromise;
   }
 
   hideDialog = () => {
