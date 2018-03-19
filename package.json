@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "1.0.0-beta.67",
+  "version": "1.0.0-beta.68",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -93,7 +93,7 @@
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "4.0.2",
-    "@jetbrains/generator-ring-ui": "^1.0.0-beta.67",
+    "@jetbrains/generator-ring-ui": "^1.0.0-beta.68",
     "@jetbrains/stylelint-config": "^1.3.3",
     "angular": "1.6.9",
     "angular-mocks": "1.6.9",
