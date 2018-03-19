@@ -55,7 +55,14 @@ const cssLoader = {
   include: componentsPath,
   use: [
     resolveLoader('style'),
-    `${resolveLoader('css')}?modules&importLoaders=1&localIdentName=[local]_[hash:3]')`,
+    {
+      loader: resolveLoader('css'),
+      options: {
+        modules: true,
+        importLoaders: 1,
+        localIdentName: '[local]_[hash:3]'
+      }
+    },
     resolveLoader('postcss')
   ]
 };
