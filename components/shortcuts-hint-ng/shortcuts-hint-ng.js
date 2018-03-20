@@ -9,7 +9,7 @@ import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
 import IconNg from '../icon-ng/icon-ng';
-import '../input/input.scss';
+import InputNg from '../input-ng/input-ng';
 
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import './shortcuts-hint-ng.scss';
@@ -67,7 +67,7 @@ const winSymbolsMap = {
 
 const angularModule = angular.module(
   'Ring.shortcuts.hint-popup',
-  [DialogNg, ShortcutsNg, IconNg, RingTemplateNg]
+  [DialogNg, ShortcutsNg, IconNg, InputNg, RingTemplateNg]
 );
 const getTitle = title => (typeof title === 'function' ? title() : title);
 

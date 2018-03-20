@@ -113,7 +113,7 @@ describe('Select Ng', () => {
 
     it('Should use default type "Button" if type is not passed', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
-      ctrl.selectInstance.props.type.should.equal(Select.Type.BUTTON);
+      ctrl.selectInstance.props.type.should.equal(Select.Type.MATERIAL);
     });
 
     it('Should support type "input"', () => {

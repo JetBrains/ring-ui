@@ -80,7 +80,7 @@ describe('Promised Click Ng', () => {
   });
 
   describe('semi-automatic mode', () => {
-    it('should not have the "ring-button_active" class by default', () => {
+    it('should not have the "active" class by default', () => {
       const {element} = buildPromisedClick();
 
       element.should.not.have.class(buttonStyles.active);
