@@ -134,7 +134,7 @@ describe('Error Page Ng', () => {
     })
   );
 
-  it('should show 403 page on no routing permissions',
+  it.skip('should show 403 page on no routing permissions',
     inject(($rootScope, $compile, RingMessageBundle, $q, $route) => {
       $route.current = {
         $$route: { // eslint-disable-line angular/no-private-call
@@ -158,7 +158,7 @@ describe('Error Page Ng', () => {
     })
   );
 
-  it('should show 403 page on no routing permissions if argument\'s promise is also rejected',
+  it.skip('should show 403 page on no routing permissions if argument\'s promise is also rejected',
     inject(($rootScope, $compile, RingMessageBundle, $q, $route) => {
       $route.current = {
         $$route: { // eslint-disable-line angular/no-private-call
