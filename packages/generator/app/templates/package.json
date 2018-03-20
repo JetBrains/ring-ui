@@ -55,7 +55,7 @@
     "karma-mocha": "1.3.0",
     "karma-sourcemap-loader": "0.3.7",
     "karma-teamcity-reporter": "1.1.0",
-    "karma-webpack": "2.0.13",
+    "karma-webpack": "3.0.0",
     "mocha": "5.0.4",
     "react-test-renderer": "16.2.0",
     "sinon": "4.4.6",
