@@ -3,17 +3,19 @@ import {render} from 'react-dom';
 
 import getUID from '../global/get-uid';
 
-import Alert, {Container as AlertContainer} from '../alert/alert';
+import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert';
 
 /**
  * @name Alert Service
  * @category Services
+ * @tags Ring UI Language
  * @description Service for managing a stack of alerts.
  * @example-file ./alert-service.examples.html
  */
 
 class AlertService {
   defaultTimeout = 0;
+  // This alerts are stored in inverse order (last shown is first in array)
   showingAlerts = [];
   containerElement = document.createElement('div');
 
@@ -70,11 +72,20 @@ class AlertService {
     this.renderAlerts();
   }
 
+  stopShakingWhenAnimationDone(shakingAlert) {
+    setTimeout(() => {
+      shakingAlert.showWithAnimation = false;
+      shakingAlert.isShaking = false;
+      this.renderAlerts();
+    }, ANIMATION_TIME);
+  }
+
   addAlert(message, type, timeout = this.defaultTimeout) {
     const sameAlert = this.findSameAlert(message, type);
     if (sameAlert) {
-      sameAlert.count++;
+      sameAlert.isShaking = true;
       this.renderAlerts();
+      this.stopShakingWhenAnimationDone(sameAlert);
       return sameAlert.key;
     }
 
@@ -85,11 +96,10 @@ class AlertService {
       timeout,
       isClosing: false,
       onCloseRequest: () => this.startAlertClosing(alert),
-      onClose: () => this.removeWithoutAnimation(alert.key),
-      count: 1
+      onClose: () => this.removeWithoutAnimation(alert.key)
     };
 
-    this.showingAlerts.push(alert);
+    this.showingAlerts = [alert, ...this.showingAlerts];
     this.renderAlerts();
     return alert.key;
   }
