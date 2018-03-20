@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import Icon, {Size} from '../icon';
 import Theme from '../global/theme';
+import ClickableLink from '../link/clickableLink';
 
 import styles from './button.css';
 
@@ -116,7 +117,7 @@ export default class Button extends PureComponent {
     );
     const isLink = !!props.href;
 
-    const Tag = isLink ? 'a' : 'button';
+    const Tag = isLink ? ClickableLink : 'button';
     return (
       <Tag
         tabIndex={loader ? -1 : 0}

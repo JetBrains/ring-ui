@@ -60,6 +60,8 @@ describe('Select', () => {
     Select.Type.BUTTON.should.exist;
     Select.Type.INPUT.should.exist;
     Select.Type.CUSTOM.should.exist;
+    Select.Type.MATERIAL.should.exist;
+    Select.Type.INLINE.should.exist;
   });
 
   it('Should take provided className', () => {
@@ -614,7 +616,7 @@ describe('Select', () => {
     });
 
     it('should filter if not focused but not in input mode', () => {
-      const wrapper = mountSelect({type: Select.Type.BUTTON});
+      const wrapper = mountSelect({type: Select.Type.MATERIAL});
       const instance = wrapper.instance();
       wrapper.setState({showPopup: true});
       simulateInput(instance._popup.filter, 'a');
@@ -632,7 +634,7 @@ describe('Select', () => {
     });
 
     it('Should return empty string if not input mode and filter is disabled', () => {
-      const wrapper = shallowSelect({filter: false, type: Select.Type.BUTTON});
+      const wrapper = shallowSelect({filter: false, type: Select.Type.MATERIAL});
       const instance = wrapper.instance();
 
       instance.filterValue().should.equal('');

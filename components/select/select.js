@@ -36,7 +36,8 @@ const Type = {
   INPUT: 1,
   CUSTOM: 2,
   INLINE: 3,
-  INPUT_WITHOUT_CONTROLS: 4
+  MATERIAL: 4,
+  INPUT_WITHOUT_CONTROLS: 5
 };
 
 /**
@@ -99,7 +100,7 @@ export default class Select extends Component {
 
   static defaultProps = {
     data: [],
-    filter: false, // enable filter (BUTTON or CUSTOM mode)
+    filter: false, // enable filter (not in INPUT modes)
     multiple: false, // multiple can be an object - see demo for more information
     clear: false, // enable clear button that clears the "selected" state
     loading: false, // show a loading indicator while data is loading
@@ -108,7 +109,7 @@ export default class Select extends Component {
     loadingMessage: 'Loading...',
     notFoundMessage: 'No options found',
 
-    type: Type.BUTTON,
+    type: Type.MATERIAL,
     size: Size.M,
     targetElement: null, // element to bind the popup to (select BUTTON or INPUT by default)
     hideSelected: false, // INPUT mode: clears the input after an option is selected (useful when the selection is displayed in some custom way elsewhere)
@@ -630,7 +631,7 @@ export default class Select extends Component {
 
   filterValue(setValue) {
     if (typeof setValue === 'string' || typeof setValue === 'number') {
-      this._setFilter(setValue);
+      this.setState({filterValue: setValue});
     } else {
       return this.state.filterValue;
     }
@@ -639,10 +640,6 @@ export default class Select extends Component {
 
   isInputMode() {
     return (this.props.type === Type.INPUT || this.props.type === Type.INPUT_WITHOUT_CONTROLS);
-  }
-
-  isButtonMode() {
-    return (this.props.type === Type.BUTTON);
   }
 
   _clickHandler = () => {
@@ -807,7 +804,8 @@ export default class Select extends Component {
 
     this.setState({
       selected: empty,
-      selectedIndex: null
+      selectedIndex: null,
+      filterValue: ''
     }, () => {
       if (this.props.onChange) {
         this.props.onChange(empty, event);
@@ -967,6 +965,7 @@ export default class Select extends Component {
             value={this.state.filterValue}
             borderless={this.props.type === Type.INPUT_WITHOUT_CONTROLS}
             style={style}
+            size={Size.FULL}
             onChange={this._filterChangeHandler}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
@@ -980,11 +979,38 @@ export default class Select extends Component {
         </div>
       );
       case Type.BUTTON:
-
         return (
           <div
             ref={this.nodeRef}
             className={classNames(classes, styles.buttonMode)}
+            data-test="ring-select"
+            {...clickListenProps}
+          >
+            {shortcutsEnabled && (
+              <Shortcuts
+                map={this.getShortcutsMap()}
+                scope={this.shortcutsScope}
+              />
+            )}
+            <Button
+              className={styles.buttonValue}
+              disabled={this.props.disabled}
+              style={style}
+              data-test="ring-select__button"
+            >
+              {this._getAvatar()}
+              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+              {iconsNode}
+            </Button>
+            {this._renderPopup()}
+          </div>
+        );
+
+      case Type.MATERIAL:
+        return (
+          <div
+            ref={this.nodeRef}
+            className={classNames(classes, styles.materialMode)}
             data-test="ring-select"
             {...clickListenProps}
           >

@@ -50,14 +50,16 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
   const types = {
     input: Select.Type.INPUT,
     button: Select.Type.BUTTON,
+    material: Select.Type.MATERIAL,
     dropdown: Select.Type.CUSTOM,
     suggest: Select.Type.INPUT
   };
 
   const sizes = {
-    s: Select.Size.S,
-    m: Select.Size.M,
-    l: Select.Size.L
+    FULL: Select.Size.FULL,
+    S: Select.Size.S,
+    M: Select.Size.M,
+    L: Select.Size.L
   };
 
   return {
@@ -377,11 +379,11 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       }
 
       function getSelectType() {
-        return types[getType()] || types.button;
+        return types[getType()] || types.material;
       }
 
       function getSelectSize() {
-        return sizes[ctrl.size] || sizes.m;
+        return sizes[ctrl.size] || sizes.FULL;
       }
 
       /**
