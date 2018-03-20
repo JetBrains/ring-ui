@@ -9,11 +9,16 @@ import AuthProviderMock from '../auth-ng/auth-ng.mock';
 
 import ErrorPage from './error-page-ng';
 
+const fakeUserPermissions = {
+  load: () => Promise.resolve({has: () => false})
+};
+
 describe('Error Page Ng', () => {
   beforeEach(
     window.module('Ring.error-page',
       $provide => {
         $provide.provider('auth', AuthProviderMock);
+        $provide.value('userPermissions', fakeUserPermissions);
       })
   );
 

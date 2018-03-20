@@ -59,7 +59,22 @@ angularModule.provider('userPermissions', function provider() {
     _config = config;
   };
 
-  this.$get = (auth, $q) => {
+  this.$get = (auth, $q, $http) => {
+    const apiUri = auth.auth.getAPIPath() + Permissions.API_PERMISSION_CACHE_PATH;
+
+    async function datasource(query) {
+      const {data} = await $http.get(apiUri, {
+        params: {
+          fields: 'permission/key,global,projects(id)',
+          query
+        }
+      });
+
+      return data;
+    }
+
+    _config.datasource = _config.datasource || datasource;
+
     const permissions = new Permissions(auth.auth, _config);
 
     // Override load to execute in $digest
