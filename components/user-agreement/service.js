@@ -109,13 +109,13 @@ export default class UserAgreementService {
         const onAccept = async () => {
           await this.onAccept();
           resolve();
-          Reflect.deleteProperty(this._dialogPromise);
+          Reflect.deleteProperty(this, '_dialogPromise');
         };
 
         const onDecline = async () => {
           await this.onDecline();
           reject();
-          Reflect.deleteProperty(this._dialogPromise);
+          Reflect.deleteProperty(this, '_dialogPromise');
         };
 
         const props = {text, show, onAccept, onDecline, translations};
