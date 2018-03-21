@@ -1,0 +1,68 @@
+@value unit, black-color, white-color from "../global/global.css";
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(calc(12 / 16));
+  }
+
+  100% {
+    transform: scale(calc(17 / 16));
+  }
+}
+
+.loader {
+  position: relative;
+
+  display: inline-block;
+
+  width: calc(unit * 2);
+  height: calc(unit * 2);
+
+  animation: spin 0.25s linear infinite;
+  vertical-align: -3px;
+
+  background-image:
+    radial-gradient(transparent 0%, transparent 50%, red 100%),
+    conic-gradient(
+      black-color,
+      #e32581,
+      #d73cea,
+      #9135e0,
+      #5848f4,
+      #25b7ff,
+      #59bd00,
+      #fbac02,
+      black-color
+    );
+
+  &,
+  &::after {
+    transform-origin: center;
+
+    border-radius: unit;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+    transform: scale(calc(12 / 16));
+    animation: pulse 1s ease-out infinite alternate;
+
+    background-color: white-color;
+  }
+}

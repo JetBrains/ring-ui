@@ -2,7 +2,7 @@
 
 gemini.suite('Button', suite => {
   suite.
-    setUrl('button/button.html').
+    setUrl('button/button.html?block-animations').
     setCaptureElements('#buttons', '#dark').
     capture('button');
 });
