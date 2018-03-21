@@ -1,7 +1,7 @@
-@value unit, font-smaller-lower, border-radius, icon-color, icon-disabled-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease from "../global/global.css";
+@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
-@value loader-width: calc(unit * 8);
+@value loaderWidth: calc(unit * 8);
 
 .light {
   color: text-color;
@@ -46,7 +46,7 @@
     color: icon-disabled-color;
   }
 
-  &.loader {
+  & .loaderBackground::before {
     background-image:
       linear-gradient(
         to right,
@@ -101,7 +101,7 @@
     color: #333;
   }
 
-  &.loader {
+  & .loaderBackground::before {
     background-image:
       linear-gradient(
         to right,
@@ -185,6 +185,25 @@
   &[disabled] {
     background-color: white-color;
     box-shadow: button-shadow borders-color;
+  }
+
+  & .loaderBackground {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border-radius: border-radius;
+
+    &::before {
+      background-image:
+        linear-gradient(
+          to right,
+          main-color,
+          #33a3ff 40%,
+          main-color 80%
+        );
+    }
   }
 }
 
@@ -272,20 +291,37 @@
 }
 
 .loader {
-  animation: progress 1s linear infinite;
+  position: relative;
+  z-index: 0;
+
   pointer-events: none;
 
-  background-repeat: repeat;
-  background-size: loader-width;
+  background-color: transparent;
+}
 
-  &.primary {
-    background-image:
-      linear-gradient(
-        to right,
-        main-color,
-        #33a3ff 40%,
-        main-color 80%
-      );
+.loaderBackground {
+  position: absolute;
+  z-index: -1;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+
+  overflow: hidden;
+
+  border-radius: border-radius-small;
+
+  &::before {
+    display: block;
+
+    width: calc(100% + loaderWidth);
+    height: 100%;
+
+    content: '';
+    animation: progress 1s linear infinite;
+
+    background-repeat: repeat;
+    background-size: loaderWidth;
   }
 }
 
@@ -300,10 +336,10 @@
 
 @keyframes progress {
   from {
-    background-position-x: 0;
+    transform: translateX(calc(0 - loaderWidth));
   }
 
   to {
-    background-position-x: loader-width;
+    transform: translateX(0);
   }
 }

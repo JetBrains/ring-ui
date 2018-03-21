@@ -130,3 +130,57 @@
 
   </file>
 </example>
+
+<example name="Perform a heavy operation while loading">
+
+  <file type="css">
+    :global(.icon) {
+      margin-left: 8px;
+    }
+  </file>
+
+  <file type="html">
+    <div id="example"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component, Fragment} from 'react';
+    import {render} from 'react-dom';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import {HourglassIcon} from '@jetbrains/ring-ui/components/icon';
+
+    class Sleeper extends Component {
+      state = {
+        loading: false
+      };
+
+      load = () => {
+        this.setState({loading: true}, () => {
+          setTimeout(this.sleep, 2000);
+        })
+      }
+
+      sleep = () => {
+        const date = new Date();
+        let curDate
+        do {
+          curDate = new Date();
+        } while(curDate - date < 2000);
+        this.setState({loading: false});
+      }
+
+      render() {
+        const {loading} = this.state;
+        return (
+          <Fragment>
+            <Button loader={loading} onClick={this.load}>Sleep</Button>
+            <Button loader={loading} icon={HourglassIcon} onClick={this.load} />
+          </Fragment>
+        );
+      }
+    }
+
+    render(<Sleeper />, document.getElementById('example'));
+
+  </file>
+</example>

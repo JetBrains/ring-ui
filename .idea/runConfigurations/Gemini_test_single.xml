@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-test-single" />
     </scripts>
-    <arguments value="../../components/pager/*.gemini.js" />
+    <arguments value="../../components/button/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
