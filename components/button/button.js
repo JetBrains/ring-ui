@@ -125,7 +125,9 @@ export default class Button extends PureComponent {
         {...props}
         onMouseDown={this.onMouseDown}
         className={classes}
-      >{content}
+      >
+        {loader && !icon && <div className={styles.loaderBackground}/>}
+        {content}
       </Tag>
     );
   }
