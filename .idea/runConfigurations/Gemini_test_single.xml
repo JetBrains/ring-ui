@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-test-single" />
     </scripts>
-    <arguments value="../../components/button/*.gemini.js" />
+    <arguments value="../../components/loader-inline/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
