@@ -9,15 +9,12 @@ import styles from './loader-inline.css';
 
 injectRuleSet(`.${styles.loader}`, {
   'background-image': conicGradient([
-    '#000',
-    '#e32581',
-    '#d73cea',
-    '#9135e0',
-    '#5848f4',
-    '#25b7ff',
-    '#59bd00',
-    '#fbac02',
-    '#000'
+    '#ff008c',
+    '#ac3cff',
+    '#008eff',
+    '#58ba00',
+    '#f48700',
+    '#ff008c'
   ])
 });
 
