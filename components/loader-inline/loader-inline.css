@@ -48,7 +48,13 @@
     content: '';
     transform: scale(calc(12 / 16));
     animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
-
-    background-color: white-color;
   }
+}
+
+.light::after {
+  background-color: white-color;
+}
+
+.dark::after {
+  background-color: black-color;
 }
