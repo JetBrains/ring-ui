@@ -14,7 +14,7 @@ const ANIMATION_DELAY = 600;
 
 gemini.suite('Alert Container', suite => {
   suite.
-    setUrl('alert/alert-container.html').
+    setUrl('alert/alert-container.html?block-animations').
     setCaptureElements('*[data-test="alert-container"]').
     capture('plain', actions => {
       actions.waitForElementToShow('[data-test=alert]');

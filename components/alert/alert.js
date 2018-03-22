@@ -175,7 +175,7 @@ export default class Alert extends PureComponent {
       );
     } else if (this.props.type === Type.LOADING) {
       return (
-        <Loader className={styles.loader}/>
+        <Loader className={styles.loader} theme={Loader.Theme.DARK}/>
       );
     }
 
