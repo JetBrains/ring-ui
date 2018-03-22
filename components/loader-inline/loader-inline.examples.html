@@ -14,7 +14,7 @@
   </file>
 </example>
 
-<example name="Inline loader on non-white background">
+<example name="Inline loader on black background">
   <file type="html">
     <div class="container">
       <span>some text on top</span>
@@ -31,9 +31,33 @@
     :global(.container) {
       color: #fff;
     }
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
+
+    render(<Loader theme={Loader.Theme.DARK} />, document.getElementById('loader-inline'));
+  </file>
+</example>
+
+<example name="Inline loader on custom background">
+  <file type="html">
+    <div class="container">
+      <span>some text on top</span>
+      <div>before <span id="loader-inline"></span> Some text after</div>
+      <div>some text under loader</div>
+    </div>
+  </file>
+
+  <file type="css">
+    body {
+      background-color: #E5F4FF;
+    }
 
     :global(.loader)::after {
-      background-color: #000;
+      background-color: #E5F4FF;
     }
   </file>
 
@@ -45,6 +69,7 @@
     render(<Loader className="loader" />, document.getElementById('loader-inline'));
   </file>
 </example>
+
 
 <example name="Inline loader without React [deprecated]">
   <file type="html">
