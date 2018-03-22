@@ -9,10 +9,6 @@
   }
 
   & .queryAssistInput {
-    border-width: 0;
-    border-color: transparent;
-    background: transparent;
-
     box-shadow: 0 0 0 1px gray-color;
 
     &:active,
@@ -77,7 +73,7 @@
   line-height: normal;
 }
 
-.queryAssistInput.queryAssistInput {
+.queryAssistInput {
   position: relative;
 
   z-index: overPlaceholderZIndex;
@@ -86,14 +82,26 @@
 
   overflow: hidden;
 
+  box-sizing: border-box;
+
   width: calc(100% - 2px);
   height: calc(unit * 3 - 2px);
+  margin: 0;
 
-  padding-top: 2px;
+  padding: 2px calc(unit / 2) 3px;
 
   white-space: nowrap;
 
+  border-width: 0;
+  border-color: transparent;
+  background: transparent;
+
   line-height: 16px;
+
+  &:active,
+  &:focus {
+    outline: 0;
+  }
 
   @nest & _:-ms-input-placeholder,
   :root & {
@@ -117,6 +125,12 @@
     & ~ .iconClear {
       right: calc(unit * 3 + 2px);
     }
+  }
+
+  &.inputDisabled {
+    color: #4448;
+    border-color: #dedede;
+    background-color: #f8f8f8;
   }
 }
 
