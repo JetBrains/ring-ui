@@ -18,7 +18,6 @@ import rerenderHOC from '../global/rerender-hoc';
 import Theme from '../global/theme';
 
 import styles from './query-assist.css';
-import '../input/input.scss';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -794,11 +793,11 @@ export default class QueryAssist extends Component {
     const renderGlassOrLoader = this.props.glass || renderLoader;
 
     const inputClasses = classNames({
-      [`${styles.queryAssistInput} ring-input ring-js-shortcuts`]: true,
+      [`${styles.queryAssistInput} ring-js-shortcuts`]: true,
       [styles.inputGap]: renderGlassOrLoader !== renderClear &&
       (renderGlassOrLoader || renderClear),
       [styles.inputDoubleGap]: renderGlassOrLoader && renderClear,
-      'ring-input_disabled': this.props.disabled
+      [styles.inputDisabled]: this.props.disabled
     });
 
     return (
