@@ -15,6 +15,7 @@ import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
+import Theme from '../global/theme';
 
 import styles from './query-assist.css';
 import '../input/input.scss';
@@ -102,6 +103,7 @@ export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
 
   static propTypes = {
+    theme: PropTypes.string,
     autoOpen: PropTypes.bool,
     caret: PropTypes.number,
     clear: PropTypes.bool,
@@ -124,6 +126,7 @@ export default class QueryAssist extends Component {
   };
 
   static defaultProps = {
+    theme: Theme.LIGHT,
     onApply: noop,
     onChange: noop,
     onClear: noop,
@@ -782,6 +785,7 @@ export default class QueryAssist extends Component {
   };
 
   render() {
+    const {theme} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
@@ -798,7 +802,7 @@ export default class QueryAssist extends Component {
 
     return (
       <div
-        className={styles.queryAssist}
+        className={classNames(styles.queryAssist, styles[theme])}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
         ref={this.nodeRef}
@@ -874,7 +878,7 @@ export default class QueryAssist extends Component {
           anchorElement={this.node}
           keepMounted
           attached
-          className={this.props.popupClassName}
+          className={classNames(styles[theme], this.props.popupClassName)}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           data={this.renderSuggestions()}
           data-test="ring-query-assist-popup"
