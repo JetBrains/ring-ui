@@ -1,0 +1,161 @@
+@value unit, font, white-color, gray-color, dark-gray-color, link-hover-color, font-size from '../global/global.css';
+@value overPlaceholderZIndex: 1;
+@value overInputZIndex: 2;
+@value oldBlueColor: #25B7FF;
+
+.queryAssist {
+  composes: font;
+
+  position: relative;
+
+  box-sizing: border-box;
+  height: calc(unit * 3);
+
+  background: white-color;
+
+  line-height: normal;
+}
+
+.queryAssistInput.queryAssistInput {
+  position: relative;
+
+  z-index: overPlaceholderZIndex;
+  top: 1px;
+  left: 1px;
+
+  overflow: hidden;
+
+  width: calc(100% - 2px);
+  height: calc(unit * 3 - 2px);
+
+  padding-top: 2px;
+
+  white-space: nowrap;
+
+  border-width: 0;
+  border-color: transparent;
+  background: transparent;
+
+  box-shadow: 0 0 0 1px gray-color;
+
+  line-height: 16px;
+
+  /* Supports IE */
+  @nest & _:-ms-input-placeholder,
+  :root & {
+    line-height: 17px;
+  }
+
+  @supports (-ms-ime-align:auto) {
+    & {
+      line-height: 17px;
+    }
+  }
+
+  &:active,
+  &:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 1px oldBlueColor;
+  }
+
+  &.inputGap {
+    border-right-width: calc(unit * 3);
+  }
+
+  &.inputDoubleGap {
+    border-right-width: calc(unit * 6);
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    & ~ .iconClear {
+      right: calc(unit * 3 + 2px);
+    }
+  }
+}
+
+.queryAssistPlaceholder {
+  position: relative;
+  top: -19px;
+
+  left: 5px;
+
+  display: block;
+
+  width: calc(100% - unit * 3);
+
+  color: #9c9c9c;
+
+  font-size: font-size;
+
+  /* Supports IE */
+  @nest & _:-ms-input-placeholder,
+  :root & {
+    top: -18px;
+  }
+
+  @supports (-ms-ime-align:auto) {
+    & {
+      top: -18px;
+    }
+  }
+}
+
+/*
+  Following "letter-*" names are constructed by JS, so we shouldn't change names
+ */
+.letter {
+  display: inline;
+}
+
+.letter-text {
+  color: #b58900;
+}
+
+.letterDefault,
+.letter-field-name {
+  color: #1a1a1a;
+}
+
+.letter-field-value {
+  color: #176b8a;
+}
+
+.letter-operator {
+  color: dark-gray-color;
+}
+
+.letter-error {
+  padding-bottom: 2px;
+
+  background: url('./query-assist__error.gif') bottom repeat-x;
+}
+
+.queryAssistIcon {
+  position: absolute;
+  z-index: overInputZIndex;
+  top: 4px;
+  right: 1px;
+
+  width: calc(unit * 2);
+  height: calc(unit * 2);
+
+  padding: 0 4px;
+
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: link-hover-color;
+  }
+
+  & svg {
+    vertical-align: baseline;
+  }
+}
+
+.highlight {
+  color: #d800ff;
+}
+
+.service {
+  color: #b4b4b4;
+}
