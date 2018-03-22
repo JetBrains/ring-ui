@@ -791,9 +791,10 @@ export default class QueryAssist extends Component {
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = this.props.glass && !renderLoader;
     const renderGlassOrLoader = this.props.glass || renderLoader;
+    const renderUnderline = theme === Theme.DARK;
 
     const inputClasses = classNames({
-      [`${styles.queryAssistInput} ring-js-shortcuts`]: true,
+      [`${styles.input} ring-js-shortcuts`]: true,
       [styles.inputGap]: renderGlassOrLoader !== renderClear &&
       (renderGlassOrLoader || renderClear),
       [styles.inputDoubleGap]: renderGlassOrLoader && renderClear,
@@ -838,16 +839,17 @@ export default class QueryAssist extends Component {
 
         {renderPlaceholder && (
           <span
-            className={styles.queryAssistPlaceholder}
+            className={styles.placeholder}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
           >
             {this.props.placeholder}
           </span>
         )}
+        {renderUnderline && <div className={styles.focusUnderline}/>}
         {renderGlass && (
           <SearchIcon
-            className={styles.queryAssistIcon}
+            className={styles.icon}
             iconRef={this.glassRef}
             color="gray"
             onClick={this.handleApply}
@@ -856,7 +858,7 @@ export default class QueryAssist extends Component {
         )}
         {renderLoader && (
           <div
-            className={styles.queryAssistIcon}
+            className={styles.icon}
             ref={this.loaderRef}
           >
             <LoaderInline/>
@@ -864,7 +866,7 @@ export default class QueryAssist extends Component {
         )}
         {renderClear && (
           <CloseIcon
-            className={classNames(styles.queryAssistIcon, styles.iconClear)}
+            className={classNames(styles.icon, styles.iconClear)}
             iconRef={this.clearRef}
             color="gray"
             onClick={this.clearQuery}
@@ -876,6 +878,7 @@ export default class QueryAssist extends Component {
           onCloseAttempt={this.closePopup}
           ref={this.popupRef}
           anchorElement={this.node}
+          top={renderUnderline ? 1 : 0}
           keepMounted
           attached
           className={classNames(styles[theme], this.props.popupClassName)}
