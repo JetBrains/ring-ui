@@ -7,6 +7,7 @@ export const injectStyleSheet = styles => {
 
 export const injectRuleSet = (selector, declarations) =>
   injectStyleSheet(`
-${selector} {${Object.entries(declarations).map(([property, value]) => `
-  ${property}: ${value};`)}
+${selector} {
+  ${Object.entries(declarations).map(([property, value]) => `${property}: ${value};`).join(`
+  `)}
 }`);

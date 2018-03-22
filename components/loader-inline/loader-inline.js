@@ -2,33 +2,37 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import conicGradient from '../global/conic-gradient';
+import {conicGradientWithMask} from '../global/conic-gradient';
 import {injectRuleSet} from '../global/inject-styles';
+import radialGradientMask from '../global/radial-gradient-mask';
 import Theme from '../global/theme';
 
 import styles from './loader-inline.css';
 
-injectRuleSet(`.${styles[Theme.LIGHT]}`, {
-  'background-image': conicGradient([
-    '#ff008c',
-    '#ac3cff',
-    '#008eff',
-    '#58ba00',
-    '#f48700',
-    '#ff008c'
-  ])
+const mask = radialGradientMask(styles.unit, {
+  /* eslint-disable no-magic-numbers */
+  transparent: `${23 / 32 * 100}%`,
+  white: `${25 / 32 * 100}%`
+  /* eslint-enable */
 });
 
-injectRuleSet(`.${styles[Theme.DARK]}`, {
-  'background-image': conicGradient([
-    '#ff35a4',
-    '#cd89ff',
-    '#289fff',
-    '#88d444',
-    '#ffe000',
-    '#ff35a4'
-  ])
-});
+injectRuleSet(`.${styles.loader}_${[Theme.LIGHT]}::after`, conicGradientWithMask(mask, [
+  '#ff008c',
+  '#ac3cff',
+  '#008eff',
+  '#58ba00',
+  '#f48700',
+  '#ff008c'
+]));
+
+injectRuleSet(`.${styles.loader}_${[Theme.DARK]}::after`, conicGradientWithMask(mask, [
+  '#ff35a4',
+  '#cd89ff',
+  '#289fff',
+  '#88d444',
+  '#ffe000',
+  '#ff35a4'
+]));
 
 /**
  * @name Loader Inline
@@ -55,7 +59,7 @@ export default class LoaderInline extends PureComponent {
     const classes = classNames(
       styles.loader,
       this.props.className,
-      styles[this.props.theme]
+      `${styles.loader}_${this.props.theme}`
     );
 
     return (
