@@ -95,7 +95,6 @@
 
   line-height: 16px;
 
-  /* Supports IE */
   @nest & _:-ms-input-placeholder,
   :root & {
     line-height: 17px;
@@ -133,7 +132,6 @@
 
   font-size: font-size;
 
-  /* Supports IE */
   @nest & _:-ms-input-placeholder,
   :root & {
     top: -18px;
