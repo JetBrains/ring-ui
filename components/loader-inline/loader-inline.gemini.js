@@ -10,7 +10,14 @@ gemini.suite('Loader inline', () => {
 
   gemini.suite('Black background', suite => {
     suite.
-      setUrl('loader-inline/inline-loader-on-non-white-background.html?block-animations').
+      setUrl('loader-inline/inline-loader-on-black-background.html?block-animations').
+      setCaptureElements('body').
+      capture('loader');
+  });
+
+  gemini.suite('Custom background', suite => {
+    suite.
+      setUrl('loader-inline/inline-loader-on-custom-background.html?block-animations').
       setCaptureElements('body').
       capture('loader');
   });

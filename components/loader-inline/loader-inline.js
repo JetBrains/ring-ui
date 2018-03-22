@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import conicGradient from '../global/conic-gradient';
 import {injectRuleSet} from '../global/inject-styles';
+import Theme from '../global/theme';
 
 import styles from './loader-inline.css';
 
@@ -29,14 +30,21 @@ injectRuleSet(`.${styles.loader}`, {
  */
 
 export default class LoaderInline extends PureComponent {
+  static Theme = Theme;
   static propTypes = {
+    theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string
+  };
+
+  static defaultProps = {
+    theme: Theme.LIGHT
   };
 
   render() {
     const classes = classNames(
       styles.loader,
-      this.props.className
+      this.props.className,
+      styles[this.props.theme]
     );
 
     return (
