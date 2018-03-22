@@ -362,7 +362,7 @@ describe('Query Assist', () => {
       }).instance();
 
       instance.input.should.have.attr('contenteditable', 'false');
-      instance.input.should.have.class('ring-input_disabled');
+      instance.input.should.have.class(styles.inputDisabled);
     });
 
     it('should render glass when enabled', () => {
