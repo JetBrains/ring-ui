@@ -28,7 +28,7 @@
   width: calc(unit * 2);
   height: calc(unit * 2);
 
-  animation: spin 0.25s linear infinite;
+  animation: spin 1s linear infinite;
   vertical-align: -3px;
 
   &,
@@ -47,7 +47,7 @@
 
     content: '';
     transform: scale(calc(12 / 16));
-    animation: pulse 1s ease-out infinite alternate;
+    animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
 
     background-color: white-color;
   }
