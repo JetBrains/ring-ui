@@ -12,51 +12,41 @@
 
 @keyframes pulse {
   0% {
-    transform: scale(calc(12 / 16));
+    transform: scale(1);
   }
 
   100% {
-    transform: scale(calc(17 / 16));
+    transform: scale(calc(17 / 12));
   }
 }
 
 .loader {
+  /* needed for better backward-compatibility */
+
   position: relative;
 
   display: inline-block;
 
-  width: calc(unit * 2);
-  height: calc(unit * 2);
+  overflow: hidden;
 
   animation: spin 1s linear infinite;
   vertical-align: -3px;
 
+  border-radius: unit;
+
   &,
   &::after {
-    transform-origin: center;
-
-    border-radius: unit;
+    transform-origin: 50% 50%;
   }
 
   &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    display: block;
+
+    width: calc(unit * 2);
+    height: calc(unit * 2);
 
     content: '';
-    transform: scale(calc(12 / 16));
     animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
-
-    background-color: inherit;
   }
 }
 
-.light {
-  background-color: white-color;
-}
-
-.dark {
-  background-color: black-color;
-}
