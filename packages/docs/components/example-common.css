@@ -11,3 +11,10 @@ body {
   font-size: font-size;
   line-height: line-height;
 }
+
+.blockAnimations *,
+.blockAnimations *::before,
+.blockAnimations *::after {
+  transition: none !important;
+  animation: none !important;
+}

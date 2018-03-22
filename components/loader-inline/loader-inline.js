@@ -2,64 +2,67 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import './loader-inline.scss';
+import conicGradient from '../global/conic-gradient';
+import {injectRuleSet} from '../global/inject-styles';
+import Theme from '../global/theme';
+
+import styles from './loader-inline.css';
+
+injectRuleSet(`.${styles[Theme.LIGHT]}`, {
+  'background-image': conicGradient([
+    '#ff008c',
+    '#ac3cff',
+    '#008eff',
+    '#58ba00',
+    '#f48700',
+    '#ff008c'
+  ])
+});
+
+injectRuleSet(`.${styles[Theme.DARK]}`, {
+  'background-image': conicGradient([
+    '#ff35a4',
+    '#cd89ff',
+    '#289fff',
+    '#88d444',
+    '#ffe000',
+    '#ff35a4'
+  ])
+});
 
 /**
  * @name Loader Inline
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
  * @extends {ReactComponent}
- * @example
-   <example name="Inline loader">
-     <file name="index.html">
-        <span>some text on top</span>
-        <div>before <span id="loader-inline"></span> some text after</div>
-        <div>some text under loader</div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import React from 'react';
-       import {render} from 'react-dom';
-       import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
-
-       render(<Loader/>, document.getElementById('loader-inline'));
-     </file>
-   </example>
-    <example name="Inline loader without React">
-     <file name="index.html">
-       <div class="ring-loader-inline">
-         <div class="ring-loader-inline__ball"></div>
-         <div class="ring-loader-inline__ball ring-loader-inline__ball_second"></div>
-         <div class="ring-loader-inline__ball ring-loader-inline__ball_third"></div>
-       </div>
-     </file>
-      <file name="index.js" webpack="true">
-        import '@jetbrains/ring-ui/components/loader-inline/loader-inline';
-      </file>
-   </example>
+ * @example-file ./loader-inline.examples.html
  */
 
 export default class LoaderInline extends PureComponent {
+  static Theme = Theme;
   static propTypes = {
+    theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string
+  };
+
+  static defaultProps = {
+    theme: Theme.LIGHT
   };
 
   render() {
     const classes = classNames(
-      'ring-loader-inline',
-      this.props.className
+      styles.loader,
+      this.props.className,
+      styles[this.props.theme]
     );
 
     return (
       <div
         {...this.props}
         className={classes}
-      >
-        <div className="ring-loader-inline__ball"/>
-        <div className="ring-loader-inline__ball ring-loader-inline__ball_second"/>
-        <div className="ring-loader-inline__ball ring-loader-inline__ball_third"/>
-      </div>
+      />
     );
   }
 }

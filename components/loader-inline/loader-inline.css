@@ -1,0 +1,62 @@
+@value unit, black-color, white-color from "../global/global.css";
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(calc(12 / 16));
+  }
+
+  100% {
+    transform: scale(calc(17 / 16));
+  }
+}
+
+.loader {
+  position: relative;
+
+  display: inline-block;
+
+  width: calc(unit * 2);
+  height: calc(unit * 2);
+
+  animation: spin 1s linear infinite;
+  vertical-align: -3px;
+
+  &,
+  &::after {
+    transform-origin: center;
+
+    border-radius: unit;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+    transform: scale(calc(12 / 16));
+    animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
+
+    background-color: inherit;
+  }
+}
+
+.light {
+  background-color: white-color;
+}
+
+.dark {
+  background-color: black-color;
+}
