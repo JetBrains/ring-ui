@@ -16,7 +16,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 
-import './query-assist.scss';
+import styles from './query-assist.css';
 import '../input/input.scss';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
@@ -653,7 +653,7 @@ export default class QueryAssist extends Component {
       if (matchingStart !== matchingEnd) {
         before = option.substring(0, matchingStart);
         wrappedOption = (
-          <span className="ring-query-assist__highlight">
+          <span className={styles.highlight}>
             {option.substring(matchingStart, matchingEnd)}
           </span>
         );
@@ -662,8 +662,8 @@ export default class QueryAssist extends Component {
         wrappedOption = option;
       }
 
-      const wrappedPrefix = prefix && <span className="ring-query-assist__service">{prefix}</span>;
-      const wrappedSuffix = suffix && <span className="ring-query-assist__service">{suffix}</span>;
+      const wrappedPrefix = prefix && <span className={styles.service}>{prefix}</span>;
+      const wrappedSuffix = suffix && <span className={styles.service}>{suffix}</span>;
 
       const label = (
         <span className={className}>
@@ -687,24 +687,24 @@ export default class QueryAssist extends Component {
   renderQuery() {
     const {dirty, styleRanges, query} = this.state;
     const classes = [];
-    const LETTER_CLASS = 'ring-query-assist__letter';
-    const LETTER_DEFAULT_CLASS = `${LETTER_CLASS}_default`;
+    const LETTER_CLASS = 'letter';
+    const LETTER_DEFAULT_CLASS = styles.letterDefault;
 
     if (styleRanges && styleRanges.length) {
       styleRanges.forEach((item, index) => {
         if (dirty && index === styleRanges.length - 1 && item.style === 'text') {
           return;
         }
-        const className = `${LETTER_CLASS}_${item.style.replace('_', '-')}`;
+        const styleName = `${LETTER_CLASS}-${item.style.replace('_', '-')}`;
 
         for (let i = item.start; i < item.start + item.length; i++) {
-          classes[i] = className;
+          classes[i] = styles[styleName];
         }
       });
     }
 
     return [...query].map((letter, index, letters) => {
-      const className = classNames(LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS);
+      const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
 
       const dataTest = (letters.length - 1 === index)
         ? 'ring-query-assist-last-letter'
@@ -789,16 +789,16 @@ export default class QueryAssist extends Component {
     const renderGlassOrLoader = this.props.glass || renderLoader;
 
     const inputClasses = classNames({
-      'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
+      [`${styles.queryAssistInput} ring-input ring-js-shortcuts`]: true,
+      [styles.inputGap]: renderGlassOrLoader !== renderClear &&
       (renderGlassOrLoader || renderClear),
-      'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
+      [styles.inputDoubleGap]: renderGlassOrLoader && renderClear,
       'ring-input_disabled': this.props.disabled
     });
 
     return (
       <div
-        className="ring-query-assist"
+        className={styles.queryAssist}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
         ref={this.nodeRef}
@@ -834,7 +834,7 @@ export default class QueryAssist extends Component {
 
         {renderPlaceholder && (
           <span
-            className="ring-query-assist__placeholder"
+            className={styles.queryAssistPlaceholder}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
           >
@@ -843,7 +843,7 @@ export default class QueryAssist extends Component {
         )}
         {renderGlass && (
           <SearchIcon
-            className="ring-query-assist__icon ring-query-assist__icon_glass"
+            className={styles.queryAssistIcon}
             iconRef={this.glassRef}
             color="gray"
             onClick={this.handleApply}
@@ -852,7 +852,7 @@ export default class QueryAssist extends Component {
         )}
         {renderLoader && (
           <div
-            className="ring-query-assist__icon ring-query-assist__icon_loader"
+            className={styles.queryAssistIcon}
             ref={this.loaderRef}
           >
             <LoaderInline/>
@@ -860,7 +860,7 @@ export default class QueryAssist extends Component {
         )}
         {renderClear && (
           <CloseIcon
-            className="ring-query-assist__icon ring-query-assist__icon_clear"
+            className={classNames(styles.queryAssistIcon, styles.iconClear)}
             iconRef={this.clearRef}
             color="gray"
             onClick={this.clearQuery}
