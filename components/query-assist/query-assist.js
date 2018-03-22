@@ -101,6 +101,7 @@ function cleanText(text) {
  */
 export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
+  static Theme = Theme;
 
   static propTypes = {
     theme: PropTypes.string,
