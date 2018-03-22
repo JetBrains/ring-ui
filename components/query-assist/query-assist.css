@@ -3,6 +3,69 @@
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
 
+.light {
+  &.queryAssist {
+    background: white-color;
+  }
+
+  & .queryAssistInput {
+    border-width: 0;
+    border-color: transparent;
+    background: transparent;
+
+    box-shadow: 0 0 0 1px gray-color;
+
+    &:active,
+    &:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 1px oldBlueColor;
+    }
+  }
+
+  & .queryAssistPlaceholder {
+    color: #9c9c9c;
+  }
+
+  & .letter-text {
+    color: #b58900;
+  }
+
+  & .letterDefault,
+  & .letter-field-name {
+    color: #1a1a1a;
+  }
+
+  & .letter-field-value {
+    color: #176b8a;
+  }
+
+  & .letter-operator {
+    color: dark-gray-color;
+  }
+
+  & .letter-error {
+    padding-bottom: 2px;
+
+    background: url('./query-assist__error.gif') bottom repeat-x;
+  }
+
+  & .queryAssistIcon:hover {
+    color: link-hover-color;
+  }
+
+  & .highlight {
+    color: #d800ff;
+  }
+
+  & .service {
+    color: #b4b4b4;
+  }
+}
+
+.dark {
+  /* TODO To be implemented */
+}
+
 .queryAssist {
   composes: font;
 
@@ -10,8 +73,6 @@
 
   box-sizing: border-box;
   height: calc(unit * 3);
-
-  background: white-color;
 
   line-height: normal;
 }
@@ -32,12 +93,6 @@
 
   white-space: nowrap;
 
-  border-width: 0;
-  border-color: transparent;
-  background: transparent;
-
-  box-shadow: 0 0 0 1px gray-color;
-
   line-height: 16px;
 
   /* Supports IE */
@@ -50,12 +105,6 @@
     & {
       line-height: 17px;
     }
-  }
-
-  &:active,
-  &:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 1px oldBlueColor;
   }
 
   &.inputGap {
@@ -82,8 +131,6 @@
 
   width: calc(100% - unit * 3);
 
-  color: #9c9c9c;
-
   font-size: font-size;
 
   /* Supports IE */
@@ -99,34 +146,8 @@
   }
 }
 
-/*
-  Following "letter-*" names are constructed by JS, so we shouldn't change names
- */
 .letter {
   display: inline;
-}
-
-.letter-text {
-  color: #b58900;
-}
-
-.letterDefault,
-.letter-field-name {
-  color: #1a1a1a;
-}
-
-.letter-field-value {
-  color: #176b8a;
-}
-
-.letter-operator {
-  color: dark-gray-color;
-}
-
-.letter-error {
-  padding-bottom: 2px;
-
-  background: url('./query-assist__error.gif') bottom repeat-x;
 }
 
 .queryAssistIcon {
@@ -143,19 +164,8 @@
   cursor: pointer;
   user-select: none;
 
-  &:hover {
-    color: link-hover-color;
-  }
-
   & svg {
     vertical-align: baseline;
   }
 }
 
-.highlight {
-  color: #d800ff;
-}
-
-.service {
-  color: #b4b4b4;
-}
