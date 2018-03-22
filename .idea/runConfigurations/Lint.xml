@@ -1,11 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Gemini test single" type="js.build_tools.npm" factoryName="npm" editBeforeRun="true">
+  <configuration default="false" name="Lint" type="js.build_tools.npm" factoryName="npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
-      <script value="gemini-test-single" />
+      <script value="lint" />
     </scripts>
-    <arguments value="../../components/loader-inline/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
