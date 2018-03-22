@@ -8,7 +8,7 @@ import Theme from '../global/theme';
 
 import styles from './loader-inline.css';
 
-injectRuleSet(`.${styles.loader}`, {
+injectRuleSet(`.${styles[Theme.LIGHT]}`, {
   'background-image': conicGradient([
     '#ff008c',
     '#ac3cff',
@@ -16,6 +16,17 @@ injectRuleSet(`.${styles.loader}`, {
     '#58ba00',
     '#f48700',
     '#ff008c'
+  ])
+});
+
+injectRuleSet(`.${styles[Theme.DARK]}`, {
+  'background-image': conicGradient([
+    '#ff35a4',
+    '#cd89ff',
+    '#289fff',
+    '#88d444',
+    '#ffe000',
+    '#ff35a4'
   ])
 });
 
