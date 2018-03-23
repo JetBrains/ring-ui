@@ -9,6 +9,16 @@ import Theme from '../global/theme';
 
 import styles from './loader-inline.css';
 
+/**
+ * @name Loader Inline
+ * @category Components
+ * @tags Ring UI Language
+ * @constructor
+ * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
+ * @extends {ReactComponent}
+ * @example-file ./loader-inline.examples.html
+ */
+
 const mask = radialGradientMask(styles.unit, {
   /* eslint-disable no-magic-numbers */
   transparent: `${23 / 32 * 100}%`,
@@ -33,16 +43,6 @@ injectRuleSet(`.${styles.loader}_${[Theme.DARK]}::after`, conicGradientWithMask(
   '#ffe000',
   '#ff35a4'
 ]));
-
-/**
- * @name Loader Inline
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a small animated loader, shown inline with text. Use case: contextual loading animation.
- * @extends {ReactComponent}
- * @example-file ./loader-inline.examples.html
- */
 
 export default class LoaderInline extends PureComponent {
   static Theme = Theme;
