@@ -19,30 +19,32 @@ import styles from './loader-inline.css';
  * @example-file ./loader-inline.examples.html
  */
 
-const mask = radialGradientMask(styles.unit, {
-  /* eslint-disable no-magic-numbers */
-  transparent: `${23 / 32 * 100}%`,
-  white: `${25 / 32 * 100}%`
-  /* eslint-enable */
-});
+if (!/jsdom/.test(navigator.userAgent)) {
+  const mask = radialGradientMask(styles.unit, {
+    /* eslint-disable no-magic-numbers */
+    transparent: `${23 / 32 * 100}%`,
+    white: `${25 / 32 * 100}%`
+    /* eslint-enable */
+  });
 
-injectRuleSet(`.${styles.loader}_${[Theme.LIGHT]}::after`, conicGradientWithMask(mask, [
-  '#ff008c',
-  '#ac3cff',
-  '#008eff',
-  '#58ba00',
-  '#f48700',
-  '#ff008c'
-]));
+  injectRuleSet(`.${styles.loader}_${[Theme.LIGHT]}::after`, conicGradientWithMask(mask, [
+    '#ff008c',
+    '#ac3cff',
+    '#008eff',
+    '#58ba00',
+    '#f48700',
+    '#ff008c'
+  ]));
 
-injectRuleSet(`.${styles.loader}_${[Theme.DARK]}::after`, conicGradientWithMask(mask, [
-  '#ff35a4',
-  '#cd89ff',
-  '#289fff',
-  '#88d444',
-  '#ffe000',
-  '#ff35a4'
-]));
+  injectRuleSet(`.${styles.loader}_${[Theme.DARK]}::after`, conicGradientWithMask(mask, [
+    '#ff35a4',
+    '#cd89ff',
+    '#289fff',
+    '#88d444',
+    '#ffe000',
+    '#ff35a4'
+  ]));
+}
 
 export default class LoaderInline extends PureComponent {
   static Theme = Theme;

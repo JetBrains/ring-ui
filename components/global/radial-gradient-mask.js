@@ -21,21 +21,21 @@ export default (length, stops) => {
     }
   }
 
-  const svg = document.createElement('svg');
-  document.body.appendChild(svg);
   const gradientId = getUID('gradient');
   const maskId = getUID('mask');
   const svgDefs = renderToStaticMarkup(
-    <defs>
-      <radialGradient id={gradientId}>
-        {Object.entries(stops).map(([color, offset]) => (
-          <stop key={`${color} ${offset}`} offset={offset} stopColor={color}/>
-        ))}
-      </radialGradient>
-      <mask id={maskId}>
-        <rect height="100%" width="100%" fill={`url(#${gradientId})`}/>
-      </mask>
-    </defs>
+    <svg>
+      <defs>
+        <radialGradient id={gradientId}>
+          {Object.entries(stops).map(([color, offset]) => (
+            <stop key={`${color} ${offset}`} offset={offset} stopColor={color}/>
+          ))}
+        </radialGradient>
+        <mask id={maskId}>
+          <rect height="100%" width="100%" fill={`url(#${gradientId})`}/>
+        </mask>
+      </defs>
+    </svg>
   );
   return {
     supports: false,
