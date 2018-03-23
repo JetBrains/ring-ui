@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {conicGradientWithMask} from '../global/conic-gradient';
 import {injectRuleSet} from '../global/inject-styles';
+import memoize from '../global/memoize';
 import radialGradientMask from '../global/radial-gradient-mask';
 import Theme from '../global/theme';
 
@@ -19,7 +20,7 @@ import styles from './loader-inline.css';
  * @example-file ./loader-inline.examples.html
  */
 
-if (!/jsdom/.test(navigator.userAgent)) {
+const injectStyles = memoize(() => {
   const mask = radialGradientMask(styles.unit, {
     /* eslint-disable no-magic-numbers */
     transparent: `${23 / 32 * 100}%`,
@@ -44,7 +45,7 @@ if (!/jsdom/.test(navigator.userAgent)) {
     '#ffe000',
     '#ff35a4'
   ]));
-}
+});
 
 export default class LoaderInline extends PureComponent {
   static Theme = Theme;
@@ -56,6 +57,12 @@ export default class LoaderInline extends PureComponent {
   static defaultProps = {
     theme: Theme.LIGHT
   };
+
+  constructor(...args) {
+    super(...args);
+
+    injectStyles();
+  }
 
   render() {
     const classes = classNames(
