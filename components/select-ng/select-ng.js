@@ -416,7 +416,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
 
         ctrl.config = angular.extend({}, {
-          selected: ctrl.convertNgModelToSelect(ctrl.ngModel),
           label: ctrl.label || RingMessageBundle.select_label(),
           selectedLabel: ctrl.selectedLabel,
           allowAny: getType() === 'suggest',
