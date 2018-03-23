@@ -65,15 +65,17 @@ export default class LoaderInline extends PureComponent {
   }
 
   render() {
+    const {className, theme, ...restProps} = this.props;
+
     const classes = classNames(
       styles.loader,
-      this.props.className,
-      `${styles.loader}_${this.props.theme}`
+      className,
+      `${styles.loader}_${theme}`
     );
 
     return (
       <div
-        {...this.props}
+        {...restProps}
         className={classes}
       />
     );
