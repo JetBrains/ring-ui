@@ -88,12 +88,14 @@ export default class ListItem extends PureComponent {
       ...restProps
     } = this.props;
     /* eslint-enable */
+
     const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
       [styles.compact]: compact,
       [styles.scrolling]: scrolling
     });
+
     const detailsClasses = classNames({
       [styles.details]: details,
       [styles.padded]: icon !== undefined ||
@@ -107,6 +109,11 @@ export default class ListItem extends PureComponent {
 
     const labelIsString = typeof label === 'string' || label instanceof String;
 
+    let dataTest = 'ring-list-item';
+    if (!disabled) {
+      dataTest += ' ring-list-item-action';
+    }
+
     return (
       <div
         tabIndex={tabIndex}
@@ -114,7 +121,7 @@ export default class ListItem extends PureComponent {
         onMouseOver={onMouseOver}
         onMouseUp={onMouseUp}
         className={classes}
-        data-test="ring-list-item"
+        data-test={dataTest}
         style={style}
       >
         <div className={styles.top}>

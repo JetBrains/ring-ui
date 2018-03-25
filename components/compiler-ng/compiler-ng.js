@@ -1,6 +1,7 @@
 /**
  * @name Compiler Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @example
    <example name="Compiler Ng">
     <file name="index.html">

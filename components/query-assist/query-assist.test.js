@@ -6,9 +6,11 @@ import {findDOMNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
 import {mount} from 'enzyme';
 
+
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import QueryAssist from './query-assist';
+import styles from './query-assist.css';
 
 describe('Query Assist', () => {
   const testQuery = 'oooooooooooo';
@@ -240,7 +242,7 @@ describe('Query Assist', () => {
   });
 
   describe('rendering', () => {
-    const LETTER_CLASS = 'ring-query-assist__letter';
+    const LETTER_CLASS = styles.letter;
 
     it('should render letters', () => {
       const instance = mountQueryAssist().instance();
@@ -309,10 +311,10 @@ describe('Query Assist', () => {
 
       const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(`${LETTER_CLASS}_text`);
-      letters[1].should.have.class(`${LETTER_CLASS}_field-value`);
-      letters[2].should.have.class(`${LETTER_CLASS}_field-name`);
-      letters[3].should.have.class(`${LETTER_CLASS}_operator`);
+      letters[0].should.have.class(styles['letter-text']);
+      letters[1].should.have.class(styles['letter-field-value']);
+      letters[2].should.have.class(styles['letter-field-name']);
+      letters[3].should.have.class(styles['letter-operator']);
     });
 
     it('should render last text range with default style when applied', () => {
@@ -330,9 +332,9 @@ describe('Query Assist', () => {
 
       const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(`${LETTER_CLASS}_text`);
-      letters[1].should.have.class(`${LETTER_CLASS}_default`);
-      letters[2].should.have.class(`${LETTER_CLASS}_default`);
+      letters[0].should.have.class(styles['letter-text']);
+      letters[1].should.have.class(styles.letterDefault);
+      letters[2].should.have.class(styles.letterDefault);
     });
 
     it('should render last text range with text style when applied', () => {
@@ -349,9 +351,9 @@ describe('Query Assist', () => {
 
       const letters = wrapper.instance().input.queryAll(`.${LETTER_CLASS}`);
 
-      letters[0].should.have.class(`${LETTER_CLASS}_text`);
-      letters[1].should.have.class(`${LETTER_CLASS}_default`);
-      letters[2].should.have.class(`${LETTER_CLASS}_text`);
+      letters[0].should.have.class(styles['letter-text']);
+      letters[1].should.have.class(styles.letterDefault);
+      letters[2].should.have.class(styles['letter-text']);
     });
 
     it('should disable field when component disabled', () => {
@@ -360,7 +362,7 @@ describe('Query Assist', () => {
       }).instance();
 
       instance.input.should.have.attr('contenteditable', 'false');
-      instance.input.should.have.class('ring-input_disabled');
+      instance.input.should.have.class(styles.inputDisabled);
     });
 
     it('should render glass when enabled', () => {
@@ -476,9 +478,9 @@ describe('Query Assist', () => {
           const list = findDOMNode(instance._popup.list);
           const {length} = suggestions;
 
-          list.queryAll('[data-test=ring-list-item]').should.have.length(length);
-          list.queryAll('.ring-query-assist__highlight').should.have.length(length);
-          list.queryAll('.ring-query-assist__service').should.have.length(length * TWICE);
+          list.queryAll('[data-test~=ring-list-item]').should.have.length(length);
+          list.queryAll(`.${styles.highlight}`).should.have.length(length);
+          list.queryAll(`.${styles.service}`).should.have.length(length * TWICE);
 
           wrapper.detach();
           document.body.removeChild(container);

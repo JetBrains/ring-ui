@@ -15,9 +15,9 @@ import PopupMenu from '../popup-menu/popup-menu';
 import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
+import Theme from '../global/theme';
 
-import './query-assist.scss';
-import '../input/input.scss';
+import styles from './query-assist.css';
 
 const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
@@ -41,26 +41,26 @@ function cleanText(text) {
  *
  ## Component params
 
- __autoOpen__ `bool=false` Open suggestions popup during the initial render\
- __caret__ `number=query.length` Initial caret position\
- __clear__ `bool=false` Show clickable "cross" icon on the right which clears the query\
- __className__ `string=''` Additional class for the component\
- __popupClassName__ `string=''` Additional class for the popup\
- __dataSource__ `func` Data source function\
- __delay__ `number=0` Input debounce delay\
- __disabled__ `bool=false` Disable the component\
- __focus__ `bool=false` Initial focus\
- __hint__ `string=''` Hint under the suggestions list\
- __hintOnSelection__ `string=''` Hint under the suggestions list visible when a suggestion is selected\
- __glass__ `bool=false` Show clickable "glass" icon on the right which applies the query\
- __loader__ `bool=false` Show loader when a data request is in process\
- __placeholder__ `string=''` Field placeholder value\
- __onApply__ `func=` Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument\
- __onChange__ `func=`  Called when the query is changed. An object with fields `caret` and `query` is passed as an argument\
- __onClear__ `func=` Called when the query is cleared. Called without arguments\
- __onFocusChange__ `func` Called when the focus status is changed. An object with fields `focus` is passed as an argument\
- __shortcuts__ `bool=true` Enable shortcut\
- __query__ `string=''` Initial query
++ __autoOpen__ `bool=false` Open suggestions popup during the initial render
++ __caret__ `number=query.length` Initial caret position
++ __clear__ `bool=false` Show clickable "cross" icon on the right which clears the query
++ __className__ `string=''` Additional class for the component
++ __popupClassName__ `string=''` Additional class for the popup
++ __dataSource__ `func` Data source function
++ __delay__ `number=0` Input debounce delay
++ __disabled__ `bool=false` Disable the component
++ __focus__ `bool=false` Initial focus
++ __hint__ `string=''` Hint under the suggestions list
++ __hintOnSelection__ `string=''` Hint under the suggestions list visible when a suggestion is selected
++ __glass__ `bool=false` Show clickable "glass" icon on the right which applies the query
++ __loader__ `bool=false` Show loader when a data request is in process
++ __placeholder__ `string=''` Field placeholder value
++ __onApply__ `func=` Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
++ __onChange__ `func=`  Called when the query is changed. An object with fields `caret` and `query` is passed as an argument
++ __onClear__ `func=` Called when the query is cleared. Called without arguments
++ __onFocusChange__ `func` Called when the focus status is changed. An object with fields `focus` is passed as an argument
++ __shortcuts__ `bool=true` Enable shortcut
++ __query__ `string=''` Initial query
 
  ## Data source function
 
@@ -72,36 +72,38 @@ function cleanText(text) {
  `caret` and `query` should just return server values provided to data source function.
  These fields allow the Query Assist component to recognise and drop earlier responses from the server.
 
- __caret__ (`string=0`) Caret from request\
- __query__ (`string=''`) Query from request\
- __styleRanges__ (`Array<suggestion>=`) Array of `styleRange` objects, used to highlight the request in the input field\
- __suggestions__ (`Array<styleRange>`) Array of `suggestion` objects to show.
++ __caret__ (`string=0`) Caret from request
++ __query__ (`string=''`) Query from request
++ __styleRanges__ (`Array<suggestion>=`) Array of `styleRange` objects, used to highlight the request in the input field
++ __suggestions__ (`Array<styleRange>`) Array of `suggestion` objects to show.
 
  ### `styleRange` object fields
 
- start `number` Range start (in characters)\
- length `number` Range length (in characters)\
+ start `number` Range start (in characters)
+ length `number` Range length (in characters)
  style `string` Style of the range. Possible values: `text`, `field_value`, `field_name`, `operator`
 
  ### `suggestion` object fields
 
- __prefix__ `string=` Suggestion option prefix\
- __option__ `string` Suggestion option\
- __suffix__ `string=` Suggestion option suffix\
- __description__ `string=` Suggestion option description. Is not visible when a group is set\
- __matchingStart__ `number` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)\
- __matchingEnd__ `number` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)\
- __caret__ `number` Caret position after option completion (in characters)\
- __completionStart__ `number` Where to start insertion (or replacement, when completing with the `Tab` key) of the completion option (in characters)\
- __completionEnd__ `number` Where to end insertion of the completion option (in characters)\
- __group__ `string=` Group title. Options with the same title are grouped under it\
- __icon__ `string=` Icon URI, Data URI is possible
++ __prefix__ `string=` Suggestion option prefix
++ __option__ `string` Suggestion option
++ __suffix__ `string=` Suggestion option suffix
++ __description__ `string=` Suggestion option description. Is not visible when a group is set
++ __matchingStart__ `number` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)
++ __matchingEnd__ `number` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)
++ __caret__ `number` Caret position after option completion (in characters)
++ __completionStart__ `number` Where to start insertion (or replacement, when completing with the `Tab` key) of the completion option (in characters)
++ __completionEnd__ `number` Where to end insertion of the completion option (in characters)
++ __group__ `string=` Group title. Options with the same title are grouped under it
++ __icon__ `string=` Icon URI, Data URI is possible
 
  */
 export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
+  static Theme = Theme;
 
   static propTypes = {
+    theme: PropTypes.string,
     autoOpen: PropTypes.bool,
     caret: PropTypes.number,
     clear: PropTypes.bool,
@@ -124,6 +126,7 @@ export default class QueryAssist extends Component {
   };
 
   static defaultProps = {
+    theme: Theme.LIGHT,
     onApply: noop,
     onChange: noop,
     onClear: noop,
@@ -653,7 +656,7 @@ export default class QueryAssist extends Component {
       if (matchingStart !== matchingEnd) {
         before = option.substring(0, matchingStart);
         wrappedOption = (
-          <span className="ring-query-assist__highlight">
+          <span className={styles.highlight}>
             {option.substring(matchingStart, matchingEnd)}
           </span>
         );
@@ -662,8 +665,8 @@ export default class QueryAssist extends Component {
         wrappedOption = option;
       }
 
-      const wrappedPrefix = prefix && <span className="ring-query-assist__service">{prefix}</span>;
-      const wrappedSuffix = suffix && <span className="ring-query-assist__service">{suffix}</span>;
+      const wrappedPrefix = prefix && <span className={styles.service}>{prefix}</span>;
+      const wrappedSuffix = suffix && <span className={styles.service}>{suffix}</span>;
 
       const label = (
         <span className={className}>
@@ -687,24 +690,24 @@ export default class QueryAssist extends Component {
   renderQuery() {
     const {dirty, styleRanges, query} = this.state;
     const classes = [];
-    const LETTER_CLASS = 'ring-query-assist__letter';
-    const LETTER_DEFAULT_CLASS = `${LETTER_CLASS}_default`;
+    const LETTER_CLASS = 'letter';
+    const LETTER_DEFAULT_CLASS = styles.letterDefault;
 
     if (styleRanges && styleRanges.length) {
       styleRanges.forEach((item, index) => {
         if (dirty && index === styleRanges.length - 1 && item.style === 'text') {
           return;
         }
-        const className = `${LETTER_CLASS}_${item.style.replace('_', '-')}`;
+        const styleName = `${LETTER_CLASS}-${item.style.replace('_', '-')}`;
 
         for (let i = item.start; i < item.start + item.length; i++) {
-          classes[i] = className;
+          classes[i] = styles[styleName];
         }
       });
     }
 
     return [...query].map((letter, index, letters) => {
-      const className = classNames(LETTER_CLASS, classes[index] || LETTER_DEFAULT_CLASS);
+      const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
 
       const dataTest = (letters.length - 1 === index)
         ? 'ring-query-assist-last-letter'
@@ -782,23 +785,25 @@ export default class QueryAssist extends Component {
   };
 
   render() {
+    const {theme} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = this.props.glass && !renderLoader;
     const renderGlassOrLoader = this.props.glass || renderLoader;
+    const renderUnderline = theme === Theme.DARK;
 
     const inputClasses = classNames({
-      'ring-query-assist__input ring-input ring-js-shortcuts': true,
-      'ring-query-assist__input_gap': renderGlassOrLoader !== renderClear &&
+      [`${styles.input} ring-js-shortcuts`]: true,
+      [styles.inputGap]: renderGlassOrLoader !== renderClear &&
       (renderGlassOrLoader || renderClear),
-      'ring-query-assist__input_double-gap': renderGlassOrLoader && renderClear,
-      'ring-input_disabled': this.props.disabled
+      [styles.inputDoubleGap]: renderGlassOrLoader && renderClear,
+      [styles.inputDisabled]: this.props.disabled
     });
 
     return (
       <div
-        className="ring-query-assist"
+        className={classNames(styles.queryAssist, styles[theme])}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
         ref={this.nodeRef}
@@ -834,16 +839,17 @@ export default class QueryAssist extends Component {
 
         {renderPlaceholder && (
           <span
-            className="ring-query-assist__placeholder"
+            className={styles.placeholder}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
           >
             {this.props.placeholder}
           </span>
         )}
+        {renderUnderline && <div className={styles.focusUnderline}/>}
         {renderGlass && (
           <SearchIcon
-            className="ring-query-assist__icon ring-query-assist__icon_glass"
+            className={styles.icon}
             iconRef={this.glassRef}
             color="gray"
             onClick={this.handleApply}
@@ -852,15 +858,15 @@ export default class QueryAssist extends Component {
         )}
         {renderLoader && (
           <div
-            className="ring-query-assist__icon ring-query-assist__icon_loader"
+            className={styles.icon}
             ref={this.loaderRef}
           >
-            <LoaderInline/>
+            <LoaderInline theme={theme}/>
           </div>
         )}
         {renderClear && (
           <CloseIcon
-            className="ring-query-assist__icon ring-query-assist__icon_clear"
+            className={classNames(styles.icon, styles.iconClear)}
             iconRef={this.clearRef}
             color="gray"
             onClick={this.clearQuery}
@@ -872,9 +878,10 @@ export default class QueryAssist extends Component {
           onCloseAttempt={this.closePopup}
           ref={this.popupRef}
           anchorElement={this.node}
+          top={renderUnderline ? 1 : 0}
           keepMounted
           attached
-          className={this.props.popupClassName}
+          className={classNames(styles[theme], this.props.popupClassName)}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           data={this.renderSuggestions()}
           data-test="ring-query-assist-popup"
