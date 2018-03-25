@@ -641,7 +641,7 @@ export default class List extends Component {
 
     return (
       <div
-        className="ring-list__i"
+        className={classNames('ring-list__i', styles.simpleInner)}
         onScroll={this.scrollHandler}
         onMouseMove={this.mouseHandler}
       >
@@ -684,6 +684,7 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
+        data-test="ring-list"
       >
         {this.props.shortcuts &&
           (

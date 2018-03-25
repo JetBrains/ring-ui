@@ -2,6 +2,17 @@
   <file type="html" disable-auto-size>
     <div id="example">
     </div>
+
+    <div class="example-dark" id="example-dark">
+    </div>
+  </file>
+
+  <file type="css">
+    :global(.example-dark) {
+      background: #000;
+      padding: 32px;
+      margin: 32px -32px;
+    }
   </file>
 
   <file type="js">
@@ -49,6 +60,24 @@
           dataSource={dataSource}
         />,
         document.getElementById('example')
+      );
+
+      render(
+        <QueryAssist
+          theme={QueryAssist.Theme.DARK}
+          query="test"
+          placeholder="placeholder"
+          popupClassName="popupClassNameTest"
+          glass
+          clear
+          onApply={log}
+          focus
+          hint="lol"
+          hintOnSelection="lol selected"
+          popupClassName="test"
+          dataSource={dataSource}
+        />,
+        document.getElementById('example-dark')
       );
     });
   </file>

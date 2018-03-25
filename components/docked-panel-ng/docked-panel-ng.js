@@ -11,6 +11,7 @@ const scheduleScroll = scheduleRAF();
 /**
  * @name Docked Panel Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Creates a panel docked at the bottom of the page.
  * @example
    <example name="Docked Panel Ng">
@@ -31,7 +32,6 @@ const scheduleScroll = scheduleRAF();
      </file>
      <file name="index.js" webpack="true">
       import angular from 'angular';
-      import '@jetbrains/ring-ui/components/button/button.scss';
       import '@jetbrains/ring-ui/components/panel/panel.scss';
       import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
       import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';

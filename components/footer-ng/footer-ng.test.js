@@ -36,6 +36,6 @@ describe('Footer', () => {
   });
 
   it('should copyright', () => {
-    element.should.contain.text('JetBrains · All rights reserved');
+    element.should.contain.text('JetBrains');
   });
 });
