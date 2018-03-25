@@ -11,6 +11,7 @@ import './tooltip-ng.scss';
 /**
  * @name Tooltip Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Tooltip.
  * @example
     <example name="Tooltip Ng">

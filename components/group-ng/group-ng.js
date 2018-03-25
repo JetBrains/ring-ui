@@ -2,6 +2,7 @@
  * @name Group Ng
  * @category Legacy Angular
  * @framework Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Group.
  * @example
   <example name="Group Ng">

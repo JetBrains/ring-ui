@@ -41,11 +41,20 @@ export default class Permissions {
     }
 
     this._auth = auth;
-    this._http = auth.http;
+    this._datasource = config.datasource || this._defaultDatasource;
     this._promise = null;
     this._subscribed = false;
     this._permissionCache = new PermissionCache(null, this.namesConverter);
   }
+
+  _defaultDatasource = query => (
+    this._auth.http.get(Permissions.API_PERMISSION_CACHE_PATH, {
+      query: {
+        fields: 'permission/key,global,projects(id)',
+        query
+      }
+    })
+  )
 
   /**
    * Returns function, which cuts off prefix from server-side permission name
@@ -129,12 +138,7 @@ export default class Permissions {
   }
 
   _loadPermissions() {
-    return this._http.get(Permissions.API_PERMISSION_CACHE_PATH, {
-      query: {
-        fields: 'permission/key,global,projects(id)',
-        query: this.query
-      }
-    });
+    return this._datasource(this.query);
   }
 
   /**
