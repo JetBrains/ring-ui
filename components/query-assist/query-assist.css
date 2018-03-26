@@ -44,6 +44,10 @@
     background: url('./query-assist__error.gif') bottom repeat-x;
   }
 
+  & .icon {
+    color: gray-color;
+  }
+
   & .icon:hover {
     color: link-hover-color;
   }
@@ -97,6 +101,10 @@
     background: url('./query-assist__error.gif') bottom repeat-x;
   }
 
+  & .icon {
+    color: hint-color;
+  }
+
   & .icon:hover {
     color: link-hover-color;
   }
@@ -140,6 +148,7 @@
   white-space: nowrap;
 
   border-width: 0;
+  border-style: solid;
   border-color: transparent;
   background: transparent;
 
@@ -161,17 +170,16 @@
     }
   }
 
+  & .icon {
+    color: hint-color;
+  }
+
   &.inputGap {
     border-right-width: calc(unit * 3);
   }
 
-  &.inputDoubleGap {
-    border-right-width: calc(unit * 6);
-
-    /* stylelint-disable-next-line selector-max-specificity */
-    & ~ .iconClear {
-      right: calc(unit * 3 + 2px);
-    }
+  &.inputLeftGap {
+    border-left-width: calc(unit * 3);
   }
 
   &.inputDisabled {
@@ -195,6 +203,10 @@
 
   font-size: font-size;
 
+  &.placeholderSpaced {
+    left: calc(unit * 3 + 5px);
+  }
+
   @nest & _:-ms-input-placeholder,
   :root & {
     top: 4px;
@@ -215,7 +227,6 @@
   position: absolute;
   z-index: overInputZIndex;
   top: 4px;
-  right: 1px;
 
   width: calc(unit * 2);
   height: calc(unit * 2);
@@ -228,6 +239,14 @@
   & svg {
     vertical-align: baseline;
   }
+}
+
+.iconClear {
+  right: 1px;
+}
+
+.iconGlass {
+  left: 1px;
 }
 
 .focusUnderline {
