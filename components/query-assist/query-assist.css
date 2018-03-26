@@ -4,10 +4,14 @@
 
 .light {
   &.queryAssist {
+    height: calc(unit * 3);
+
     background: white-color;
   }
 
   & .input {
+    height: calc(unit * 3 - 2px);
+
     box-shadow: 0 0 0 1px gray-color;
 
     &:active,
@@ -62,8 +66,18 @@
 }
 
 .dark {
+  &.queryAssist {
+    height: calc(unit * 4);
+
+    font-size: 16px;
+  }
+
   & .input {
+    height: calc(unit * 4 - 2px);
+
     color: search-color;
+
+    border-top-width: 5px;
     background: #001c33;
 
     &:active,
@@ -75,6 +89,8 @@
   }
 
   & .placeholder {
+    top: 7px;
+
     color: hint-color;
   }
 
@@ -102,6 +118,8 @@
   }
 
   & .icon {
+    top: 9px;
+
     color: hint-color;
   }
 
@@ -124,7 +142,6 @@
   position: relative;
 
   box-sizing: border-box;
-  height: calc(unit * 3);
 
   line-height: normal;
 }
@@ -140,7 +157,6 @@
   box-sizing: border-box;
 
   width: calc(100% - 2px);
-  height: calc(unit * 3 - 2px);
   margin: 0;
 
   padding: 2px calc(unit / 2) 3px;
@@ -200,8 +216,6 @@
   width: calc(100% - unit * 3);
 
   pointer-events: none;
-
-  font-size: font-size;
 
   &.placeholderSpaced {
     left: calc(unit * 3 + 5px);
