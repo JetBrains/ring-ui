@@ -282,6 +282,11 @@ export default class QueryAssist extends Component {
     return this.input.textContent.replace(/\s/g, ' ');
   }
 
+  isRenderingGlassOrLoader() {
+    const renderLoader = this.props.loader !== false && this.state.loading;
+    return this.props.glass || renderLoader;
+  }
+
   togglePlaceholder = () => {
     const query = this.getQuery();
     const currentQueryIsEmpty = this.immediateState.query === '';
@@ -515,8 +520,11 @@ export default class QueryAssist extends Component {
   }
 
   getPopupOffset(suggestions) {
+    const ICON_SPACING = 12;
+    const minOffset = this.isRenderingGlassOrLoader() ? ICON_SPACING : 0;
+
     if (!this.input) {
-      return 0;
+      return minOffset;
     }
 
     // First suggestion should be enough?
@@ -540,15 +548,14 @@ export default class QueryAssist extends Component {
 
       // Do not compensate caret in the beginning of field
       if (caret === 0) {
-        return caret;
+        return minOffset;
       } else {
         offset = caret;
       }
     }
 
     const result = offset - POPUP_COMPENSATION;
-
-    return result < 0 ? 0 : result;
+    return result < minOffset ? minOffset : result;
   }
 
   handleCtrlSpace = e => {
@@ -790,14 +797,12 @@ export default class QueryAssist extends Component {
     const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = this.props.glass && !renderLoader;
-    const renderGlassOrLoader = this.props.glass || renderLoader;
     const renderUnderline = theme === Theme.DARK;
 
     const inputClasses = classNames({
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: renderGlassOrLoader !== renderClear &&
-      (renderGlassOrLoader || renderClear),
-      [styles.inputDoubleGap]: renderGlassOrLoader && renderClear,
+      [styles.inputGap]: renderClear,
+      [styles.inputLeftGap]: this.isRenderingGlassOrLoader(),
       [styles.inputDisabled]: this.props.disabled
     });
 
@@ -816,6 +821,23 @@ export default class QueryAssist extends Component {
             />
           )
         }
+
+        {renderGlass && (
+          <SearchIcon
+            className={classNames(styles.icon, styles.iconGlass)}
+            iconRef={this.glassRef}
+            onClick={this.handleApply}
+            size={SearchIcon.Size.Size16}
+          />
+        )}
+        {renderLoader && (
+          <div
+            className={styles.icon}
+            ref={this.loaderRef}
+          >
+            <LoaderInline theme={theme}/>
+          </div>
+        )}
 
         <ContentEditable
           className={inputClasses}
@@ -839,7 +861,9 @@ export default class QueryAssist extends Component {
 
         {renderPlaceholder && (
           <span
-            className={styles.placeholder}
+            className={classNames(styles.placeholder, {
+              [styles.placeholderSpaced]: this.isRenderingGlassOrLoader()
+            })}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
           >
@@ -847,28 +871,10 @@ export default class QueryAssist extends Component {
           </span>
         )}
         {renderUnderline && <div className={styles.focusUnderline}/>}
-        {renderGlass && (
-          <SearchIcon
-            className={styles.icon}
-            iconRef={this.glassRef}
-            color="gray"
-            onClick={this.handleApply}
-            size={SearchIcon.Size.Size16}
-          />
-        )}
-        {renderLoader && (
-          <div
-            className={styles.icon}
-            ref={this.loaderRef}
-          >
-            <LoaderInline theme={theme}/>
-          </div>
-        )}
         {renderClear && (
           <CloseIcon
             className={classNames(styles.icon, styles.iconClear)}
             iconRef={this.clearRef}
-            color="gray"
             onClick={this.clearQuery}
             size={CloseIcon.Size.Size16}
           />
