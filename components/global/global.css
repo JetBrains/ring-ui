@@ -49,8 +49,6 @@
 }
 
 .font {
-  color: text-color;
-
   /* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
 
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
