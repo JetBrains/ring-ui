@@ -131,7 +131,7 @@
     <inspection_tool class="CssNoGenericFontName" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Exclude inspections" level="INFORMATION" enabled="true" />
     </inspection_tool>
-    <inspection_tool class="CssOptimizeSimilarProperties" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="CssOptimizeSimilarProperties" enabled="true" level="WEAK WARNING" enabled_by_default="false">
       <scope name="Exclude inspections" level="INFORMATION" enabled="true" />
     </inspection_tool>
     <inspection_tool class="CssOverwrittenProperties" enabled="true" level="WARNING" enabled_by_default="true">
