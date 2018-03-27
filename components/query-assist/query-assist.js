@@ -884,7 +884,6 @@ export default class QueryAssist extends Component {
           onCloseAttempt={this.closePopup}
           ref={this.popupRef}
           anchorElement={this.node}
-          top={renderUnderline ? 1 : 0}
           keepMounted
           attached
           className={classNames(styles[theme], this.props.popupClassName)}
