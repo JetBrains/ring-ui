@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-gather" />
     </scripts>
-    <arguments value="../../components/input/*.gemini.js" />
+    <arguments value="../../components/dialog/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
