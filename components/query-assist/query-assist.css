@@ -73,6 +73,8 @@
   }
 
   & .input {
+    top: 0;
+
     height: calc(unit * 4 - 2px);
 
     color: search-color;
@@ -89,9 +91,20 @@
   }
 
   & .placeholder {
-    top: 7px;
+    top: 6px;
 
     color: hint-color;
+
+    @nest & _:-ms-input-placeholder,
+    :root & {
+      top: 7px;
+    }
+
+    @supports (-ms-ime-align:auto) {
+      & {
+        top: 7px;
+      }
+    }
   }
 
   & .letter-text {
@@ -118,7 +131,7 @@
   }
 
   & .icon {
-    top: 9px;
+    top: unit;
 
     color: hint-color;
   }
@@ -266,8 +279,6 @@
 .focusUnderline {
   width: 0;
   height: 2px;
-
-  margin-top: 1px;
 
   transition: width 0.15s ease-out;
 
