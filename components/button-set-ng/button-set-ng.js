@@ -1,6 +1,7 @@
 /**
  * @name Button Set Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Button Set.
  * @example
    <example name="Button Set Ng">

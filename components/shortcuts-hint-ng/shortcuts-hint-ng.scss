@@ -2,7 +2,6 @@
 
 .shortcuts-hint {
   margin-bottom: $ring-unit * 2;
-  margin-top: $ring-unit * 2;
   width: 900px;
 }
 
@@ -45,13 +44,9 @@
   width: $ring-unit * 30;
 }
 
-.shortcuts-hint__search-input {
-
-}
-
 .shortcuts-hint__search-icon {
   position: absolute;
-  top: 0;
+  top: 18px;
   right: 0;
   height: $ring-unit*2;
   width: $ring-unit*2;

@@ -6,6 +6,7 @@ import '../loader-screen/loader-screen.scss';
 /**
  * @name Loader Screen Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Loader Screen.
  * @example
  * <example name="Loader Screen Ng">

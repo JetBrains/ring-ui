@@ -51,13 +51,13 @@ export default class HTTP {
     };
   }
 
-  setAuth(auth) {
+  setAuth = auth => {
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = auth.constructor.shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
   }
 
-  setBaseUrl(baseUrl) {
+  setBaseUrl = baseUrl => {
     this.baseUrl = baseUrl;
   }
 
@@ -114,7 +114,7 @@ export default class HTTP {
     return status < STATUS_OK_IF_MORE_THAN || status >= STATUS_BAD_IF_MORE_THAN;
   }
 
-  async fetch(url, params = {}) {
+  fetch = async (url, params = {}) => {
     const {body, query = {}, ...fetchConfig} = params;
 
     const response = await this._fetch(
@@ -134,7 +134,7 @@ export default class HTTP {
     return this._processResponse(response);
   }
 
-  async request(url, params) {
+  request = async (url, params) => {
     let token = await this.requestToken();
     let response = await this._performRequest(url, token, params);
 
@@ -161,17 +161,17 @@ export default class HTTP {
     }
   }
 
-  get(url, params) {
-    return this.request(url, {
+  get = (url, params) => (
+    this.request(url, {
       method: 'GET',
       ...params
-    });
-  }
+    })
+  )
 
-  post(url, params) {
-    return this.request(url, {
+  post = (url, params) => (
+    this.request(url, {
       method: 'POST',
       ...params
-    });
-  }
+    })
+  )
 }

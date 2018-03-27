@@ -5,13 +5,6 @@
 @value timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
 .toggle {
-  position: relative;
-
-  display: inline-block;
-
-  width: calc(unit * 3);
-  height: calc(unit * 2);
-
   cursor: pointer;
 
   &:hover {
@@ -23,6 +16,21 @@
   &.disabled {
     pointer-events: none;
   }
+}
+
+.label {
+  margin-left: calc(unit / 2);
+}
+
+.switchWrapper {
+  position: relative;
+
+  display: inline-block;
+
+  width: calc(unit * 3);
+  height: calc(unit * 2);
+
+  vertical-align: -3px;
 }
 
 .input {
@@ -54,14 +62,16 @@
   &::before {
     position: absolute;
     top: padding;
-    left: padding;
+    left: 0;
 
     width: calc(unit * 1.5);
     height: calc(unit * 1.5);
 
     content: "";
 
-    transition: left timing-function duration;
+    transition: transform timing-function duration;
+
+    transform: translateX(padding);
 
     border-radius: calc(unit * 0.75);
     background-color: white-color;
@@ -73,7 +83,7 @@
 }
 
 .input:checked + ::before {
-  left: calc(unit * 1.5 - padding);
+  transform: translateX(calc(unit * 1.5 - padding));
 }
 
 .input[disabled] + ::after {

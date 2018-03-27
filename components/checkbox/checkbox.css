@@ -47,7 +47,7 @@
   width: checkbox-size;
   height: checkbox-size;
 
-  transition: opacity fast-ease, top fast-ease;
+  transition: opacity fast-ease, transform fast-ease;
 
   opacity: 0;
 
@@ -84,7 +84,7 @@
 
     /* stylelint-disable-next-line selector-max-specificity */
     & .icon {
-      top: calc(unit * -0.5);
+      transform: translateY(unit);
 
       opacity: 1;
     }

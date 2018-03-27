@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="LanguageInjectionConfiguration">
+    <injection language="CSS" injector-id="xml">
+      <display-name>CSS example</display-name>
+      <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
+      <xpath-condition>@type='css'</xpath-condition>
+    </injection>
     <injection language="PostCSS" injector-id="xml">
       <display-name>CSS example</display-name>
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
@@ -11,20 +16,15 @@
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file")).withNamespace(string().equalTo("http://www.w3.org/1999/html"))]]></place>
       <xpath-condition>@type='html'</xpath-condition>
     </injection>
-    <injection language="JavaScript" injector-id="xml">
-      <display-name>JavaScript example</display-name>
+    <injection language="kotlin" injector-id="xml">
+      <display-name>Kotlin example</display-name>
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
-      <xpath-condition>@type='js'</xpath-condition>
+      <xpath-condition>@type='kt'</xpath-condition>
     </injection>
     <injection language="SCSS" injector-id="xml">
       <display-name>SCSS example</display-name>
       <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
       <xpath-condition>@type='scss'</xpath-condition>
-    </injection>
-    <injection language="kotlin" injector-id="xml">
-      <display-name>Kotlin example</display-name>
-      <place><![CDATA[xmlTag().withLocalName(string().equalTo("file"))]]></place>
-      <xpath-condition>@type='kt'</xpath-condition>
     </injection>
   </component>
 </project>

@@ -57,6 +57,10 @@ describe('Select Ng', () => {
   });
 
   describe('Interface', () => {
+    function selected(_ctrl) {
+      return _ctrl.selectInstance.props.selected;
+    }
+
     it('Should receive ngModel controller', () => {
       ctrl.ngModelCtrl.should.exist;
     });
@@ -80,13 +84,13 @@ describe('Select Ng', () => {
       const newLabel = 'Some new label';
       scope.selectedItem.name = newLabel;
       scope.$digest();
-      ctrl.selectInstance.props.selected.label.should.equal(newLabel);
+      selected(ctrl).label.should.equal(newLabel);
     });
 
     it('Should clear selected item on ngModel clearing', () => {
       scope.selectedItem = null;
       scope.$digest();
-      should.not.exist(ctrl.selectInstance.props.selected);
+      should.not.exist(selected(ctrl));
     });
 
     it('Should not get options on on initialization', () => {
@@ -100,8 +104,8 @@ describe('Select Ng', () => {
     });
 
     it('Should convert ngModel to select supported object', () => {
-      ctrl.config.selected.key.should.equal(scope.selectedItem.id);
-      ctrl.config.selected.label.should.equal(scope.selectedItem.name);
+      selected(ctrl).key.should.equal(scope.selectedItem.id);
+      selected(ctrl).label.should.equal(scope.selectedItem.name);
     });
 
     it('Should convert options to select supported objects', () => {
@@ -113,7 +117,7 @@ describe('Select Ng', () => {
 
     it('Should use default type "Button" if type is not passed', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
-      ctrl.selectInstance.props.type.should.equal(Select.Type.BUTTON);
+      ctrl.selectInstance.props.type.should.equal(Select.Type.MATERIAL);
     });
 
     it('Should support type "input"', () => {
@@ -129,7 +133,7 @@ describe('Select Ng', () => {
     it('Should support selectedLabelField customization', () => {
       scope.selectedItem.testField = 'test';
       compileTemplate('<rg-select options="item.name select as item.testField for item in items track by item.id" ng-model="selectedItem"></rg-select>');
-      ctrl.config.selected.selectedLabel.should.equal('test');
+      selected(ctrl).selectedLabel.should.equal('test');
     });
 
     it('Should support selected formatter function', () => {
@@ -137,14 +141,14 @@ describe('Select Ng', () => {
 
       compileTemplate('<rg-select options="item.name select as formatter(item) for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
-      ctrl.config.selected.selectedLabel.should.equal('Formatted label');
+      selected(ctrl).selectedLabel.should.equal('Formatted label');
     });
 
     it('Should support description customization', () => {
       scope.selectedItem.testField = 'test';
       compileTemplate('<rg-select options="item.name describe as item.testField for item in items track by item.id" ng-model="selectedItem"></rg-select>');
 
-      ctrl.config.selected.description.should.equal('test');
+      selected(ctrl).description.should.equal('test');
     });
 
     it('Should support description and selected label customization together', () => {
@@ -152,8 +156,8 @@ describe('Select Ng', () => {
       scope.selectedItem.descriptionText = 'description';
       compileTemplate('<rg-select options="item.name select as item.selectText describe as item.descriptionText for item in items track by item.id" ng-model="selectedItem"></rg-select>');
 
-      ctrl.config.selected.selectedLabel.should.equal(scope.selectedItem.selectText);
-      ctrl.config.selected.description.should.equal(scope.selectedItem.descriptionText);
+      selected(ctrl).selectedLabel.should.equal(scope.selectedItem.selectText);
+      selected(ctrl).description.should.equal(scope.selectedItem.descriptionText);
     });
 
     it('Should not call get option by value for description customization', () => {
@@ -305,6 +309,25 @@ describe('Select Ng', () => {
       scope.$digest();
 
       ctrl.selectInstance.rerender.should.have.been.calledWith(sinon.match({add: {label: 'fooo'}}));
+    });
+
+
+    it('Should update config and do not loose new selected items', () => {
+      scope.config = {someField: 'AAA'};
+      scope.selectedItem = [scope.items[1]];
+      compileTemplate('<rg-select multiple=true options="item.name for item in items track by item.id" ng-model="selectedItem" config="config" config-auto-update="true"></rg-select>');
+
+      selected(ctrl).length.should.equal(1);
+
+      const newItems = [scope.items[0], scope.items[1]];
+      scope.selectedItem = newItems;
+      scope.$digest();
+      selected(ctrl).length.should.equal(newItems.length);
+
+      scope.config.someField = 'BBB';
+      scope.$digest();
+
+      selected(ctrl).length.should.equal(newItems.length);
     });
   });
 
