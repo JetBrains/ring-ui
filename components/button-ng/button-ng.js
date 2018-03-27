@@ -31,6 +31,8 @@ const buttonClasses = classNames(
   styles.light
 );
 
+const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
+
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
@@ -47,6 +49,11 @@ class ButtonController extends RingAngularComponent {
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
         val ? cl.add(styles[mod]) : cl.remove(styles[mod]);
+
+        if (mod === 'loader') {
+          this.element.querySelector(LOADER_BACKGROUND_SELECTOR).
+            classList[val ? 'add' : 'remove'](styles.loaderBackground);
+        }
       });
     });
 
@@ -133,9 +140,10 @@ function rgButtonDirective() {
     replace: true,
     template: `
 <button class="${buttonClasses}">
-  <span class="${styles.content}"><span ng-transclude></span
+  <span class="${styles.content}"
+  ><span ng-transclude></span
   ><rg-icon class="${styles.icon}"></rg-icon
-  ></span>
+  ></span><div class="js-button-loader"></div>
 </button>
     `,
     controller: ButtonController
@@ -149,9 +157,11 @@ function rgButtonLinkDirective() {
     replace: true,
     template: `
 <a class="${buttonClasses}">
-  <span class="${styles.content}"><span ng-transclude></span
+  <span class="${styles.content}"
+  ><span ng-transclude></span
+  ></span
   ><rg-icon class="${styles.icon}"></rg-icon
-  ></span>
+  ><div class="js-button-loader"></div>
 </a>
     `,
     controller: ButtonController
