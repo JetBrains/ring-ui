@@ -15,6 +15,8 @@ body {
 
   min-width: breakpoint-middle;
   min-height: 100vh;
+
+  color: text-color;
 }
 
 .headerItem {

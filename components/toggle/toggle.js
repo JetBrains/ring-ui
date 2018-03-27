@@ -16,6 +16,7 @@ import styles from './toggle.css';
 
 export default class Toggle extends PureComponent {
   static propTypes = {
+    children: PropTypes.node,
     name: PropTypes.string,
     className: PropTypes.string,
     title: PropTypes.string,
@@ -23,11 +24,12 @@ export default class Toggle extends PureComponent {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
     pale: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onTransitionEnd: PropTypes.func
   };
 
   render() {
-    const {className, disabled, pale, title, ...restProps} = this.props;
+    const {className, children, disabled, pale, title, onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
@@ -37,14 +39,21 @@ export default class Toggle extends PureComponent {
 
     return (
       <label className={classes} title={title}>
-        <input
-          {...restProps}
-          type="checkbox"
-          disabled={disabled}
-          className={styles.input}
-        />
+        <span className={styles.switchWrapper}>
+          <input
+            {...restProps}
+            type="checkbox"
+            disabled={disabled}
+            className={styles.input}
+          />
 
-        <span className={classNames(styles.switch, pale && styles.paleSwitch)}/>
+          <span
+            className={classNames(styles.switch, pale && styles.paleSwitch)}
+            onTransitionEnd={onTransitionEnd}
+          />
+        </span>
+
+        {children && <span className={styles.label}>{children}</span>}
       </label>
     );
   }

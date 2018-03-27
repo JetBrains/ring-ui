@@ -8,17 +8,11 @@
     :global(.dark) {
       background: #000;
     }
-
-    :global(.inline) {
-      display: inline-block;
-      padding: 8px;
-    }
   </file>
 
   <file type="html">
     <div id="buttons"></div>
     <div id="dark"></div>
-    <div id="dynamic"></div>
   </file>
 
   <file type="js">
@@ -46,6 +40,20 @@
         <Button
           href="/"
         >Button link</Button>
+
+        <Button
+          loader
+        >Button loader</Button>
+
+        <Button
+          primary
+          loader
+        >Primary loader</Button>
+
+        <Button
+          icon={PencilIcon}
+          loader
+        >Icon loader</Button>
 
         {
           [
@@ -88,6 +96,11 @@
           href="/"
         >Button link</Button>
 
+        <Button
+          theme={Button.Theme.DARK}
+          loader
+        >Dark loader</Button>
+
         {
           [
             'active', 'primary', 'danger', 'delayed', 'disabled'
@@ -104,29 +117,61 @@
 
     render(dark, document.getElementById('dark'));
 
-    const dynamic = (
-      <div className="buttons">
-        <Button
-          loader
-        >Button loader</Button>
-        <Button
-          primary
-          loader
-        >Primary loader</Button>
-        <Button
-          icon={PencilIcon}
-          loader
-        >Icon loader</Button>
-        <div className="dark inline">
-          <Button
-            theme={Button.Theme.DARK}
-            loader
-          >Dark loader</Button>
-        </div>
-      </div>
-    );
+  </file>
+</example>
 
-    render(dynamic, document.getElementById('dynamic'));
+<example name="Perform a heavy operation while loading">
+
+  <file type="css">
+    #example > :not(:first-child) {
+      margin-left: 8px;
+    }
+  </file>
+
+  <file type="html">
+    <div id="example"></div>
+  </file>
+
+  <file type="js">
+    import React, {Component, Fragment} from 'react';
+    import {render} from 'react-dom';
+    import Button from '@jetbrains/ring-ui/components/button/button';
+    import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
+    import {HourglassIcon} from '@jetbrains/ring-ui/components/icon';
+
+    class Sleeper extends Component {
+      state = {
+        loading: false
+      };
+
+      load = () => {
+        this.setState({loading: true}, () => {
+          setTimeout(this.sleep, 2000);
+        })
+      }
+
+      sleep = () => {
+        const date = new Date();
+        let curDate
+        do {
+          curDate = new Date();
+        } while(curDate - date < 2000);
+        this.setState({loading: false});
+      }
+
+      render() {
+        const {loading} = this.state;
+        return (
+          <Fragment>
+            <Button loader={loading} onClick={this.load}>Sleep</Button>
+            <Button loader={loading} icon={HourglassIcon} onClick={this.load} />
+            {loading && <Loader/>}
+          </Fragment>
+        );
+      }
+    }
+
+    render(<Sleeper />, document.getElementById('example'));
 
   </file>
 </example>

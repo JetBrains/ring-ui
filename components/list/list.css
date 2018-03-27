@@ -11,6 +11,10 @@
   line-height: normal;
 }
 
+.simpleInner {
+  overflow: auto;
+}
+
 .scrolling {
   pointer-events: none;
 }
@@ -88,6 +92,7 @@
 
 .label {
   overflow: hidden;
+  flex-grow: 1;
   flex-shrink: 1;
 
   text-align: left;
