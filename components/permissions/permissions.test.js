@@ -41,9 +41,8 @@ describe('Permissions', () => {
   it('should load permissions', function _(done) {
     const auth = createAuthMock();
     const permissionsData = [createPermission('A')];
-    const permissions = new Permissions(auth);
-
     sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
+    const permissions = new Permissions(auth);
 
     permissions.load().then(permissionsCache => {
       permissionsCache.has('A').should.be.true;
@@ -80,13 +79,12 @@ describe('Permissions', () => {
     beforeEach(() => {
       auth = createAuthMock();
       permissionsData = [createPermission('A')];
+      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
       permissions = new Permissions(auth);
     });
 
 
     it('should cache loaded permissions', function _(done) {
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
       permissions.load();
       permissions.load();
       permissions.load();
@@ -100,8 +98,6 @@ describe('Permissions', () => {
 
 
     it('should reload permissions', function _() {
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
       permissions.load();
       permissions.reload();
 
@@ -110,8 +106,6 @@ describe('Permissions', () => {
 
 
     it('should not cache response', function _() {
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
       permissions.load({
         cacheControl: {NO_STORE: true}
       });
@@ -122,8 +116,6 @@ describe('Permissions', () => {
 
 
     it('should ignore cache', function _() {
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
       permissions.load();
 
       permissions.load({
@@ -137,8 +129,6 @@ describe('Permissions', () => {
 
 
     it('should ignore cache and do not update cache', function _() {
-      sandbox.stub(auth.http, 'get').returns(Promise.resolve(permissionsData));
-
       permissions.load();
 
       permissions.load({

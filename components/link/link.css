@@ -39,6 +39,15 @@
       border: none;
     }
   }
+
+  &.pseudo:hover {
+    text-decoration: none;
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    & .inner {
+      border: none;
+    }
+  }
 }
 
 @media (min-resolution: 2dppx) {
@@ -49,4 +58,22 @@
 
 .inherit:not(:hover) {
   color: inherit;
+}
+
+.pseudo {
+  padding: 0;
+
+  text-align: left;
+
+  border: 0;
+
+  background: transparent;
+
+  font: inherit;
+
+  &::-moz-focus-inner {
+    padding: 0;
+
+    border: 0;
+  }
 }

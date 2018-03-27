@@ -40,6 +40,11 @@
         <div>Pale disabled checked</div>
         <div id="pale-toggle-checked-disabled"/>
       </div>
+
+      <div>
+        <div>With label</div>
+        <div id="with-label"/>
+      </div>
     </div>
   </file>
 
@@ -86,6 +91,11 @@
     render(
       <Toggle pale disabled defaultChecked/>,
       document.getElementById('pale-toggle-checked-disabled')
+    );
+
+    render(
+      <Toggle>Label</Toggle>,
+      document.getElementById('with-label')
     );
   </file>
 </example>

@@ -3,9 +3,9 @@ import angular from 'angular';
 import PlaceUnder from '../place-under-ng/place-under-ng';
 import IconNG from '../icon-ng/icon-ng';
 import RingAngularComponent from '../global/ring-angular-component';
+import ButtonNG from '../button-ng/button-ng';
 
 import '../sidebar/sidebar.scss';
-import '../button/button.scss';
 
 /**
  * @name Sidebar Ng
@@ -16,7 +16,7 @@ import '../button/button.scss';
  * @example-file ./sidebar-ng.examples.html
  */
 
-const angularModule = angular.module('Ring.sidebar', [PlaceUnder, IconNG]);
+const angularModule = angular.module('Ring.sidebar', [PlaceUnder, IconNG, ButtonNG]);
 
 class SidebarController extends RingAngularComponent {
   static $inject = ['$scope'];

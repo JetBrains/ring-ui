@@ -9,7 +9,6 @@ import RingButton from '../button-ng/button-ng';
 import PromisedClickNg from '../promised-click-ng/promised-click-ng';
 import rgCompilerModuleName from '../compiler-ng/compiler-ng';
 import ScrollPreventer from '../dialog/dialog__body-scroll-preventer';
-import '../button/button.scss';
 import '../form/form.scss';
 import dialogStyles from '../dialog/dialog.css';
 import islandStyles from '../island/island.css';
@@ -19,6 +18,7 @@ import styles from './dialog-ng.css';
 /**
  * @name Dialog Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Dialog.
  * @example-file ./dialog-ng.examples.html
  */
