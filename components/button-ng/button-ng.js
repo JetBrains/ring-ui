@@ -43,7 +43,7 @@ class ButtonController extends RingAngularComponent {
     $scope.styles = styles;
     this.element = $element[0];
 
-    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text'];
+    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text', 'narrowRight'];
     const cl = this.element.classList;
 
     modifiers.forEach(mod => {
@@ -141,8 +141,8 @@ function rgButtonDirective() {
     template: `
 <button class="${buttonClasses}">
   <span class="${styles.content}"
-  ><span ng-transclude></span
   ><rg-icon class="${styles.icon}" size="0"></rg-icon
+  ><span ng-transclude></span
   ></span><div class="js-button-loader"></div>
 </button>
     `,
@@ -158,9 +158,9 @@ function rgButtonLinkDirective() {
     template: `
 <a class="${buttonClasses}">
   <span class="${styles.content}"
+  ><rg-icon class="${styles.icon}" size="0"></rg-icon
   ><span ng-transclude></span
   ></span
-  ><rg-icon class="${styles.icon}" size="0"></rg-icon
   ><div class="js-button-loader"></div>
 </a>
     `,
