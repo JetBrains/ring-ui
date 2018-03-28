@@ -187,7 +187,7 @@
 
   height: 16px;
   padding-top: 1px;
-  padding-right: unit;
+  padding-right: calc(unit / 2);
 }
 
 @value top: -5px;
