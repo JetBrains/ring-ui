@@ -13,7 +13,7 @@
     margin: 0 unit 0 0;
   }
 
-  & .button:last-child {
+  & > .button:last-child {
     margin-right: 0;
   }
 }
