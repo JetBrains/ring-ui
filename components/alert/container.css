@@ -4,12 +4,12 @@
 .alertContainer {
   position: fixed;
   z-index: alert-z-index;
+  right: calc(unit * 2);
   bottom: calc(unit);
-  left: calc(unit * 2);
 
   display: flex;
   overflow: visible;
-  align-items: flex-start;
+  align-items: flex-end;
   flex-direction: column;
 
   pointer-events: none;
