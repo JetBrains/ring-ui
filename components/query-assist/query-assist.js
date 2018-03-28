@@ -792,11 +792,11 @@ export default class QueryAssist extends Component {
   };
 
   render() {
-    const {theme} = this.props;
+    const {theme, glass} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
-    const renderGlass = this.props.glass && !renderLoader;
+    const renderGlass = glass && !renderLoader;
     const renderUnderline = theme === Theme.DARK;
 
     const inputClasses = classNames({
@@ -832,7 +832,9 @@ export default class QueryAssist extends Component {
         )}
         {renderLoader && (
           <div
-            className={classNames(styles.icon, styles.loader)}
+            className={classNames(styles.icon, styles.loader, {
+              [styles.loaderOnTheRight]: !glass
+            })}
             ref={this.loaderRef}
           >
             <LoaderInline theme={theme}/>
@@ -862,7 +864,7 @@ export default class QueryAssist extends Component {
         {renderPlaceholder && (
           <span
             className={classNames(styles.placeholder, {
-              [styles.placeholderSpaced]: this.isRenderingGlassOrLoader()
+              [styles.placeholderSpaced]: glass
             })}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
