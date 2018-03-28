@@ -272,6 +272,12 @@
   }
 }
 
+.loaderOnTheRight {
+  right: 1px;
+
+  left: auto;
+}
+
 .iconClear {
   right: 1px;
 }
