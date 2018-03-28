@@ -155,7 +155,6 @@
     };
 
     const dataSource = async ({query, caret}) => {
-      await new Promise(resolve => setTimeout(resolve, 500));
       return {
         query,
         caret,
