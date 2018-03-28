@@ -32,12 +32,12 @@ function noop() {}
  * @enum {number}
  */
 const Type = {
-  BUTTON: 0,
-  INPUT: 1,
-  CUSTOM: 2,
-  INLINE: 3,
-  MATERIAL: 4,
-  INPUT_WITHOUT_CONTROLS: 5
+  BUTTON: 'BUTTON',
+  INPUT: 'INPUT',
+  CUSTOM: 'CUSTOM',
+  INLINE: 'INLINE',
+  MATERIAL: 'MATERIAL',
+  INPUT_WITHOUT_CONTROLS: 'INPUT_WITHOUT_CONTROLS'
 };
 
 /**
