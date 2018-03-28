@@ -136,6 +136,10 @@
     color: hint-color;
   }
 
+  & .loader {
+    top: 6px;
+  }
+
   & .icon:hover {
     color: link-hover-color;
   }
