@@ -42,8 +42,8 @@
 
       <p>
         <rg-button>Press me</rg-button>
-        <rg-button icon="{{caretDown}}">Press me</rg-button>
-        <rg-button icon="{{close}}"></rg-button>
+        <rg-button icon="{{close}}">Action with icon</rg-button>
+        <rg-button narrow-right="true">Dropdown <rg-icon glyph="{{chevronDown}}" size="16"></rg-icon></rg-button>
         <rg-button icon="{{close}}" mode="primary"></rg-button>
         <rg-button icon="{{permission}}" disabled="true"></rg-button>
         <rg-button icon="{{pencil}}" loader="true"></rg-button>
@@ -95,7 +95,7 @@
     import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
     import {
       PencilIcon,
-      CaretDownIcon,
+      ChevronDownIcon,
       CloseIcon,
       PermissionIcon
     } from '@jetbrains/ring-ui/components/icon';
@@ -103,7 +103,7 @@
     angular.module('test', [ButtonNG, IconNG]).
       controller('testCtrl', function ($scope) {
         $scope.pencil = PencilIcon;
-        $scope.caretDown = CaretDownIcon;
+        $scope.chevronDown = ChevronDownIcon;
         $scope.close = CloseIcon;
         $scope.permission = PermissionIcon;
       });
