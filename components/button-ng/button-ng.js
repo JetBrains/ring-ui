@@ -8,7 +8,7 @@ import IconNG from '../icon-ng/icon-ng';
 import Theme from '../global/theme';
 import styles from '../button/button.css';
 
-import {ringIconVerticalAlignFix} from './button-ng.css';
+import {ringIconVerticalAlignFix, iconMarginFix, transcludeSpacer} from './button-ng.css';
 
 
 const DEFAULT_ICON_SIZE = 16;
@@ -113,6 +113,7 @@ class ButtonController extends RingAngularComponent {
   updateIcon = () => {
     const {$attrs, $compile, $scope} = this.$inject;
     const icon = this.element.query('rg-icon');
+    const transcludeNode = this.element.query('ng-transclude');
     const glyph = $attrs.icon;
     const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
     const cl = this.element.classList;
@@ -120,11 +121,13 @@ class ButtonController extends RingAngularComponent {
     if (glyph) {
       cl.remove(styles.buttonWithoutIcon);
       cl.add(styles.withIcon);
+      transcludeNode.classList.add(transcludeSpacer);
       icon.setAttribute('glyph', glyph);
       icon.setAttribute('size', size);
     } else {
       cl.remove(styles.withIcon);
       cl.add(styles.buttonWithoutIcon);
+      transcludeNode.classList.remove(transcludeSpacer);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
     }
@@ -141,8 +144,8 @@ function rgButtonDirective() {
     template: `
 <button class="${buttonClasses}">
   <span class="${styles.content}"
-  ><rg-icon class="${styles.icon}" size="0"></rg-icon
-  ><span ng-transclude></span
+  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
+  ><ng-transclude></ng-transclude
   ></span><div class="js-button-loader"></div>
 </button>
     `,
@@ -158,8 +161,8 @@ function rgButtonLinkDirective() {
     template: `
 <a class="${buttonClasses}">
   <span class="${styles.content}"
-  ><rg-icon class="${styles.icon}" size="0"></rg-icon
-  ><span ng-transclude></span
+  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
+  ><ng-transclude></ng-transclude
   ></span
   ><div class="js-button-loader"></div>
 </a>

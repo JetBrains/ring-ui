@@ -4,7 +4,13 @@
 
   vertical-align: 1px;
 
-  color: #999;
-
   line-height: 8px;
+}
+
+.iconMarginFix.iconMarginFix {
+  margin-right: 0;
+}
+
+.transcludeSpacer:not(:empty) {
+  margin-left: 4px;
 }
