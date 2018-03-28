@@ -34,9 +34,8 @@ function rgLinkDirective() {
     transclude: true,
     replace: true,
     template: `
-<a class="${styles.link} ${styles.compatibilityUnderlineMode}">
-  <span class="${styles.inner}" ng-transclude></span>
-</a>
+<a class="${styles.link} ${styles.compatibilityUnderlineMode}"
+><span class="${styles.inner}" ng-transclude></span></a>
     `
   };
 }
