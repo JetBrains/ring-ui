@@ -832,7 +832,7 @@ export default class QueryAssist extends Component {
         )}
         {renderLoader && (
           <div
-            className={styles.icon}
+            className={classNames(styles.icon, styles.loader)}
             ref={this.loaderRef}
           >
             <LoaderInline theme={theme}/>
