@@ -6,14 +6,16 @@
   padding-top: 2px;
 
   white-space: normal;
-
-  background-color: #fff;
 }
 
 .tagsInputDisabled {
-  composes: input-disabled;
-
   pointer-events: none;
+
+  color: gray-color;
+
+  & .underline {
+    border-bottom-style: dashed;
+  }
 }
 
 .tagsInputFocused {
