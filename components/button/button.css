@@ -162,6 +162,10 @@
     border: 0;
     outline: 0;
   }
+
+  &.narrowRight {
+    padding-right: 12px;
+  }
 }
 
 .button:active,
