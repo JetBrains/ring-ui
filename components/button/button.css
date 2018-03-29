@@ -117,7 +117,9 @@
   composes: button from "../button-group/button-group.css";
   composes: button from "../button-set/button-set.css";
   composes: button from "../button-toolbar/button-toolbar.css";
+}
 
+.button.button {
   position: relative;
   z-index: 0;
 
