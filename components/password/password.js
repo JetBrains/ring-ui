@@ -15,7 +15,7 @@ import './password.scss';
  * @example-file ./password.examples.html
  */
 
-const ifStringEmpty = value => {
+export const isStringEmpty = value => {
   const valueType = typeof value;
 
   switch (valueType) {
@@ -78,17 +78,17 @@ export default class Password extends PureComponent {
           {...restProps}
         />
 
-        <div className={'password'}>
-          {!!required && <div className={getValidClasses('password__marker', markerColorize)} style={{left: `${required}%`}}/>}
-          <div className={getValidClasses('password__progress')} style={{width: `${current}%`}}/>
+        <div className={'ring-password'}>
+          {!!required && <div className={getValidClasses('ring-password__marker', markerColorize)} style={{left: `${required}%`}}/>}
+          <div className={getValidClasses('ring-password__progress')} style={{width: `${current}%`}}/>
         </div>
 
-        {Boolean(message) && !ifStringEmpty(value) &&
-          <div className={getValidClasses('password__message')}>{message}</div>
+        {Boolean(message) && !isStringEmpty(value) &&
+          <div className={getValidClasses('ring-password__message')}>{message}</div>
         }
 
         {Boolean(description) &&
-          <div className={getValidClasses('password__description')}>{description}</div>
+          <div className={getValidClasses('ring-password__description')}>{description}</div>
         }
       </div>
     );
