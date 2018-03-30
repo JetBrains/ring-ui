@@ -144,7 +144,7 @@
     "octicons": "^7.2.0",
     "react": "16.3.0",
     "react-dom": "16.3.0",
-    "react-test-renderer": "16.2.0",
+    "react-test-renderer": "16.3.0",
     "sinon": "5.0.0",
     "sinon-chai": "3.0.0",
     "storage-mock": "1.0.3",
