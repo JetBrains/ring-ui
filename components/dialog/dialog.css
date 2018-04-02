@@ -10,9 +10,8 @@
 
   display: flex;
   overflow: auto;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
+
+  padding: calc(unit * 4) unit;
 
   background-color: rgba(255, 255, 255, 0.4);
 }
@@ -22,8 +21,8 @@
 
   width: calc(unit * 58);
   min-height: calc(unit * 15);
-  max-height: calc(100% - calc(calc(unit * 8) + 2px));
-  margin: calc(unit * 4) 0;
+  max-height: 100%;
+  margin: auto;
   overflow-wrap: break-word;
 
   &.content {
