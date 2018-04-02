@@ -30,6 +30,7 @@ angularModule.component('rgPassword', {
     value: '=',
     requiredStrength: '<?',
     currentStrength: '<',
+    valid: '<',
 
     message: '@',
     description: '@'
@@ -57,8 +58,12 @@ angularModule.component('rgPassword', {
         this.description = value;
       });
 
-      this.valid = this.current > this.required;
-      this.invalid = !this.valid;
+      onChange(changes, 'valid', value => {
+        this.forceValid = value;
+      });
+
+      this.valid = this.required ? this.current > this.required : this.forceValid;
+      this.invalid = this.required && !this.valid;
 
       this.getClasses = baseClass => ({
         [baseClass]: true,

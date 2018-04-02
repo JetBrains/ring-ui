@@ -36,7 +36,7 @@ export default class Password extends PureComponent {
     description: PropTypes.string,
     requiredStrength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     currentStrength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    forceValid: PropTypes.bool
+    valid: PropTypes.bool
   };
 
   static defaultProps = {
@@ -51,7 +51,6 @@ export default class Password extends PureComponent {
       requiredStrength, currentStrength,
       message,
       description,
-      forceValid,
       ...restProps
     } = this.props;
 
@@ -62,7 +61,7 @@ export default class Password extends PureComponent {
     const markerColorize = current >= required;
 
     const getValidClasses = (baseClass, applyColors = true) => classNames(baseClass, {
-      [`${baseClass}_valid`]: ((valid && required) || forceValid) && applyColors,
+      [`${baseClass}_valid`]: ((valid && required) || this.props.valid) && applyColors,
       [`${baseClass}_invalid`]: !valid && required && applyColors
     });
 
