@@ -5,7 +5,7 @@
     <scripts>
       <script value="gemini-gather" />
     </scripts>
-    <arguments value="../../components/table/*.gemini.js" />
+    <arguments value="../../components/markdown/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
     <method />
