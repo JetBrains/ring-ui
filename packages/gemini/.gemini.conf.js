@@ -13,7 +13,7 @@ console.log('Grid at:', gridUrl);
 module.exports = {
   rootUrl,
   gridUrl,
-  retry: 2,
+  // retry: 2,
   suitesPerSession: 100, // workaround for Gemini bug
   compositeImage: true,
   system: {
@@ -52,7 +52,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'internet explorer',
-        version: '11.103',
+        version: '11.309',
         platform: WIN10
       }
     },
