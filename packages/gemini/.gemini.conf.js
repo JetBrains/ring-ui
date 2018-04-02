@@ -52,7 +52,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'internet explorer',
-        version: '11.103',
+        version: '11.309',
         platform: WIN10
       }
     },
