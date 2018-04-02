@@ -13,7 +13,7 @@ console.log('Grid at:', gridUrl);
 module.exports = {
   rootUrl,
   gridUrl,
-  // retry: 2,
+  retry: 2,
   suitesPerSession: 100, // workaround for Gemini bug
   compositeImage: true,
   system: {
