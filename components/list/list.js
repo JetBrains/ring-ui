@@ -54,7 +54,7 @@ const Dimension = {
   SEPARATOR_TEXT_HEIGHT: 18,
   TITLE_HEIGHT: 42,
   INNER_PADDING: 8,
-  MARGIN: 4
+  MARGIN: 8
 };
 
 const DEFAULT_ITEM_TYPE = Type.ITEM;
