@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, border-radius, font-size-smaller from global;
+@value unit, border-radius from global;
 @value normal-color: #8C8C8C;
 @value valid-color: #89AF31;
 @value invalid-color: #C3120F;
@@ -14,7 +14,7 @@
   display: inline-block;
 
   box-sizing: border-box;
-  height: 20px;
+  height: 19px;
   padding: 0 unit;
 
   cursor: default;
@@ -26,10 +26,10 @@
   border-radius: border-radius;
   background-color: normal-background-color;
 
-  font-size: font-size-smaller;
+  font-size: 11px;
   font-weight: normal;
   font-style: normal;
-  line-height: 17px;
+  line-height: 16px;
 
   &.gray {
     background-color: gray-background-color;
