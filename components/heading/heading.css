@@ -1,4 +1,4 @@
-@value font, font-size, line-height, unit from  "../global/global.css";
+@value heading-color, font, font-size, line-height, unit from  "../global/global.css";
 
 .heading {
   composes: font;
@@ -10,7 +10,7 @@
   }
 
   @nest h1&, h2& {
-    color: #222;
+    color: heading-color;
   }
 
   @nest h1& {

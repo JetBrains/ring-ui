@@ -510,11 +510,11 @@ export default class Select extends Component {
     }
 
     if (this._addButton) {
-      const {prefix, label} = this._addButton;
+      const {prefix, label, delayed} = this._addButton;
       addButton = (
         <Button
           text
-          delayed
+          delayed={delayed}
           className={styles.button}
           onClick={this.addHandler}
           data-test="ring-select-toolbar-button"
@@ -611,17 +611,19 @@ export default class Select extends Component {
     }
 
     this._addButton = null;
+    const {add} = this.props;
     if (
-      (this.props.add && filterString && !exactMatch) ||
-      (this.props.add && this.props.add.alwaysVisible)
+      (add && filterString && !exactMatch) ||
+      (add && add.alwaysVisible)
     ) {
-      if (!(this.props.add.regexp && !this.props.add.regexp.test(filterString)) &&
-        !(this.props.add.minlength && filterString.length < +this.props.add.minlength) ||
-        this.props.add.alwaysVisible) {
+      if (!(add.regexp && !add.regexp.test(filterString)) &&
+        !(add.minlength && filterString.length < +add.minlength) ||
+        add.alwaysVisible) {
 
         this._addButton = {
-          prefix: this.props.add.prefix,
-          label: this.props.add.label || filterString
+          prefix: add.prefix,
+          label: add.label || filterString,
+          delayed: add.hasOwnProperty('delayed') ? add.delayed : true
         };
       }
     }
