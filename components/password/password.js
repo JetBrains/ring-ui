@@ -36,7 +36,7 @@ export default class Password extends PureComponent {
     description: PropTypes.string,
     requiredStrength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     currentStrength: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    forceValid: PropTypes.bool
+    valid: PropTypes.bool
   };
 
   static defaultProps = {
@@ -51,19 +51,18 @@ export default class Password extends PureComponent {
       requiredStrength, currentStrength,
       message,
       description,
-      forceValid,
       ...restProps
     } = this.props;
 
     const required = +requiredStrength;
     const current = +currentStrength;
 
-    const valid = current > required;
-    const markerColorize = current >= required;
+    const valid = required ? current >= required : this.props.valid;
+    const invalid = required && !valid;
 
     const getValidClasses = (baseClass, applyColors = true) => classNames(baseClass, {
-      [`${baseClass}_valid`]: ((valid && required) || forceValid) && applyColors,
-      [`${baseClass}_invalid`]: !valid && required && applyColors
+      [`${baseClass}_valid`]: valid && applyColors,
+      [`${baseClass}_invalid`]: invalid && applyColors
     });
 
     return (
@@ -79,7 +78,7 @@ export default class Password extends PureComponent {
         />
 
         <div className={'ring-password'}>
-          {!!required && <div className={getValidClasses('ring-password__marker', markerColorize)} style={{left: `${required}%`}}/>}
+          {!!required && <div className={getValidClasses('ring-password__marker', valid)} style={{left: `${required}%`}}/>}
           <div className={getValidClasses('ring-password__progress')} style={{width: `${current}%`}}/>
         </div>
 
