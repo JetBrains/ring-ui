@@ -30,7 +30,7 @@ angularModule.component('rgPassword', {
     value: '=',
     requiredStrength: '<?',
     currentStrength: '<',
-    valid: '<',
+    forceValid: '<valid',
 
     message: '@',
     description: '@'
@@ -50,29 +50,14 @@ angularModule.component('rgPassword', {
         this.current = +value;
       });
 
-      onChange(changes, 'message', value => {
-        this.message = value;
-      });
-
-      onChange(changes, 'description', value => {
-        this.description = value;
-      });
-
-      onChange(changes, 'valid', value => {
-        this.forceValid = value;
-      });
-
-      this.valid = this.required ? this.current > this.required : this.forceValid;
+      this.valid = this.required ? this.current >= this.required : this.forceValid;
       this.invalid = this.required && !this.valid;
 
-      this.getClasses = baseClass => ({
+      this.getClasses = (baseClass, applyColors = true) => ({
         [baseClass]: true,
-        [`${baseClass}_valid`]: this.valid,
-        [`${baseClass}_invalid`]: this.invalid
+        [`${baseClass}_valid`]: this.valid && applyColors,
+        [`${baseClass}_invalid`]: this.invalid && applyColors
       });
-
-      this.isMarkerValid = () => this.valid && this.current > this.required;
-      this.isMarkerInvalid = () => this.invalid && this.current >= this.required;
     };
 
     $scope.$watch('$ctrl.value', value => {
