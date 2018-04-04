@@ -36,7 +36,7 @@
   }
 
   &:first-child {
-    padding-left: calc(unit * 2);
+    padding-left: calc(unit * 4);
   }
 
   &:last-child {
@@ -149,7 +149,7 @@
   }
 
   &:first-child {
-    padding-left: calc(unit * 2);
+    padding-left: calc(unit * 4);
   }
 
   &:last-child {

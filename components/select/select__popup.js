@@ -213,7 +213,7 @@ export default class SelectPopup extends Component {
         >
           <SearchIcon
             className={styles.filterIcon}
-            size={SearchIcon.Size.Size18}
+            size={SearchIcon.Size.Size16}
             data-test-custom="ring-select-popup-filter-icon"
           />
           <FilterWithShortcuts
