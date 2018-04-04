@@ -47,7 +47,7 @@
   height: $ring-unit*3;
 
   font-size: 24px;
-  line-height: 20px;
+  line-height: 28px;
   text-decoration: none;
 }
 
@@ -73,5 +73,10 @@
 }
 
 .ring-breadcrumb__sep {
-  color: $ring-gray-color;
+}
+
+.ring-breadcrumb__sep__icon {
+  margin: 0 2px;
+  margin-top: -14px;
+  color: #DBDBDB;
 }
