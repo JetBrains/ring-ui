@@ -139,12 +139,12 @@
     "karma-webdriver-launcher": "1.0.5",
     "karma-webpack": "3.0.0",
     "lerna": "^2.9.1",
-    "lint-staged": "7.0.2",
+    "lint-staged": "7.0.3",
     "mocha": "5.0.1",
     "octicons": "^7.2.0",
-    "react": "16.3.0",
-    "react-dom": "16.3.0",
-    "react-test-renderer": "16.3.0",
+    "react": "16.3.1",
+    "react-dom": "16.3.1",
+    "react-test-renderer": "16.3.1",
     "sinon": "5.0.0",
     "sinon-chai": "3.0.0",
     "storage-mock": "1.0.3",
@@ -159,8 +159,8 @@
     "yo": "2.0.1"
   },
   "peerDependencies": {
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0"
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
