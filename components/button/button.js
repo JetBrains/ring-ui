@@ -36,6 +36,7 @@ export default class Button extends PureComponent {
     },
     short: PropTypes.bool,
     text: PropTypes.bool,
+    inline: PropTypes.bool,
 
     href: PropTypes.string,
 
@@ -72,6 +73,7 @@ export default class Button extends PureComponent {
       primary,
       short,
       text,
+      inline,
 
       // Props
       icon,
@@ -96,7 +98,8 @@ export default class Button extends PureComponent {
         [styles.loader]: loader && !icon,
         [styles.primary]: primary || blue,
         [styles.short]: short,
-        [styles.text]: text
+        [styles.text]: text,
+        [styles.inline]: inline
       }
     );
 
