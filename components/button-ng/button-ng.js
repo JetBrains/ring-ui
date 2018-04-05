@@ -132,6 +132,12 @@ class ButtonController extends RingAngularComponent {
       icon.removeAttribute('size');
     }
 
+    if (glyph && !transcludeNode.textContent) {
+      cl.add(styles.onlyIcon);
+    } else {
+      cl.remove(styles.onlyIcon);
+    }
+
     $compile(icon)($scope);
   }
 }
