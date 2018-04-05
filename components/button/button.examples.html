@@ -21,13 +21,48 @@
     import Button from '@jetbrains/ring-ui/components/button/button';
     import {PencilIcon} from '@jetbrains/ring-ui/components/icon';
 
+    function renderButtonModifications(theme) {
+      return [
+        'active', 'primary', 'danger', 'delayed', 'disabled'
+      ].map(modifier => (
+        <Button
+          theme={theme}
+          key={modifier}
+          {...{[modifier]: true}}
+        >Button {modifier}</Button>
+      ));
+    }
+
+    function renderIconWithTextModifications(theme) {
+      return [
+        'primary', 'danger', 'disabled'
+      ].map(modifier => (
+         <Button
+           theme={theme}
+           key={modifier}
+           icon={PencilIcon}
+           {...{[modifier]: true}}
+         >Icon action {modifier}</Button>
+      ));
+    }
+
+    function renderIconActionModifications(theme) {
+      return [
+        'primary', 'danger', 'disabled'
+      ].map(modifier => (
+        <Button
+          theme={theme}
+          key={modifier}
+          title={`Icon without text (${modifier})`}
+          icon={PencilIcon}
+          {...{[modifier]: true}}
+        />
+      ));
+    }
+
     const buttons = (
       <div className="buttons">
         <Button>Button default</Button>
-
-        <Button
-          icon={PencilIcon}
-        >Icon action</Button>
 
         <Button
           text
@@ -55,16 +90,20 @@
           loader
         >Icon loader</Button>
 
-        {
-          [
-            'active', 'primary', 'danger', 'delayed', 'disabled'
-          ].map(modifier => (
-            <Button
-              key={modifier}
-              {...{[modifier]: true}}
-            >Button {modifier}</Button>
-          ))
-        }
+        {renderButtonModifications()}
+
+        <Button
+          icon={PencilIcon}
+        >Icon action</Button>
+
+        {renderIconWithTextModifications()}
+
+        <Button
+          icon={PencilIcon}
+          title="Icon action"
+        />
+
+        {renderIconActionModifications()}
       </div>
     );
 
@@ -75,11 +114,6 @@
         <Button
           theme={Button.Theme.DARK}
         >Button default</Button>
-
-        <Button
-          theme={Button.Theme.DARK}
-          icon={PencilIcon}
-        >Icon action</Button>
 
         <Button
           theme={Button.Theme.DARK}
@@ -101,17 +135,21 @@
           loader
         >Dark loader</Button>
 
-        {
-          [
-            'active', 'primary', 'danger', 'delayed', 'disabled'
-          ].map(modifier => (
-            <Button
-              theme={Button.Theme.DARK}
-              key={modifier}
-              {...{[modifier]: true}}
-            >Button {modifier}</Button>
-          ))
-        }
+        {renderButtonModifications(Button.Theme.DARK)}
+
+        <Button
+          theme={Button.Theme.DARK}
+          icon={PencilIcon}
+        >Icon action</Button>
+
+        {renderIconWithTextModifications(Button.Theme.DARK)}
+
+        <Button
+          icon={PencilIcon}
+          title="Icon action"
+        />
+
+        {renderIconActionModifications(Button.Theme.DARK)}
       </div>
     );
 
