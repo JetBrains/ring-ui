@@ -92,6 +92,7 @@ export default class Button extends PureComponent {
         [styles.danger]: danger,
         [styles.delayed]: delayed,
         [styles.withIcon]: icon,
+        [styles.onlyIcon]: icon && !children,
         [styles.loader]: loader && !icon,
         [styles.primary]: primary || blue,
         [styles.short]: short,
