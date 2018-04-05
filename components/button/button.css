@@ -38,12 +38,11 @@
     color: dark-gray-color;
   }
 
-  & .icon {
-    color: icon-color;
-  }
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:not(.primary):not(.danger):not(.active):not(:active):not(:hover):not(:focus) .icon {
+    transition: color ease;
 
-  &[disabled] .icon {
-    color: icon-disabled-color;
+    color: icon-color;
   }
 
   & .loaderBackground::before {
@@ -91,14 +90,6 @@
 
   &.withIcon {
     color: darker-gray-color;
-  }
-
-  & .icon {
-    color: darker-gray-color;
-  }
-
-  &[disabled] .icon {
-    color: #333;
   }
 
   & .loaderBackground::before {
@@ -180,6 +171,12 @@
   background-color: main-color;
   box-shadow: none;
 
+  &.withIcon,
+  &.withIcon:active,
+  &.withIcon.active {
+    color: main-color;
+  }
+
   &:hover,
   &:focus {
     transition: none;
@@ -216,6 +213,15 @@
 .danger {
   color: error-color;
 
+  &.withIcon,
+  &.withIcon:active,
+  &.withIcon.active,
+  &.text,
+  &.text:active,
+  &.text.active {
+    color: error-color;
+  }
+
   &:hover,
   &:focus {
     transition: none;
@@ -226,10 +232,8 @@
   }
 }
 
-.text,
-.withIcon {
-  padding: 0 unit;
-
+.text.text,
+.withIcon.withIcon {
   background-color: transparent;
   box-shadow: none;
 
@@ -251,38 +255,33 @@
 
 .text {
   color: main-color;
-
-  &:hover {
-    color: link-hover-color;
-  }
 }
 
 .withIcon {
+  padding: 0 unit;
+}
+
+.withIcon,
+.text {
+  &:hover,
+  &:focus {
+    color: link-hover-color;
+  }
+
+  &:active,
   &.active {
-    & .icon {
-      color: main-color;
-    }
-  }
-
-  &:hover {
     color: main-color;
-
-    & .icon {
-      transition: none;
-
-      color: border-hover-color;
-    }
   }
+}
 
-  &:active {
-    & .icon {
-      color: main-color;
-    }
+.onlyIcon {
+  &:hover,
+  &:focus {
+    color: border-hover-color;
   }
 }
 
 .icon {
-  transition: color ease;
   vertical-align: 2px;
 
   line-height: normal;
