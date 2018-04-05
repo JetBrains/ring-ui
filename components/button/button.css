@@ -1,4 +1,4 @@
-@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease, font-size-smaller, font-family from "../global/global.css";
+@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease, font-size-smaller, font-size, font-family from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loaderWidth: calc(unit * 8);
@@ -255,6 +255,15 @@
 
 .text {
   color: main-color;
+}
+
+.inline {
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: font-size;
 }
 
 .withIcon {

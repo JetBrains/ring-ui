@@ -43,7 +43,7 @@ class ButtonController extends RingAngularComponent {
     $scope.styles = styles;
     this.element = $element[0];
 
-    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text', 'narrowRight'];
+    const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text', 'inline', 'narrowRight'];
     const cl = this.element.classList;
 
     modifiers.forEach(mod => {
