@@ -18,8 +18,13 @@
     box-shadow: button-shadow border-hover-color;
   }
 
-  &[disabled] {
+  &[disabled],
+  &[disabled].withIcon {
     color: gray-color;
+  }
+
+  &[disabled] .icon {
+    color: icon-disabled-color;
   }
 
   &.primary:active,
@@ -36,13 +41,6 @@
 
   &.withIcon {
     color: dark-gray-color;
-  }
-
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:not(.primary):not(.danger):not(.active):not(:active):not(:hover):not(:focus) .icon {
-    transition: color ease;
-
-    color: icon-color;
   }
 
   & .loaderBackground::before {
@@ -72,8 +70,13 @@
     box-shadow: button-shadow main-color;
   }
 
-  &[disabled] {
+  &[disabled],
+  &[disabled].withIcon {
     color: text-color;
+  }
+
+  &[disabled] .icon {
+    color: #333;
   }
 
   &.primary:active,
@@ -190,6 +193,12 @@
     box-shadow: button-shadow borders-color;
   }
 
+  & .icon.icon {
+    transition: none;
+
+    color: inherit;
+  }
+
   & .loaderBackground {
     top: 0;
     right: 0;
@@ -220,6 +229,12 @@
   &.text:active,
   &.text.active {
     color: error-color;
+  }
+
+  & .icon.icon {
+    transition: none;
+
+    color: inherit;
   }
 
   &:hover,
@@ -293,10 +308,28 @@
 .icon {
   vertical-align: 2px;
 
+  color: inherit;
+
   line-height: normal;
 
   &:not(:last-child) {
     margin-right: calc(unit * 0.5);
+  }
+}
+
+.withIconLight .icon {
+  transition: color ease;
+
+  color: icon-color;
+}
+
+.withIconLight {
+  &:hover .icon,
+  &:focus .icon,
+  &:active .icon {
+    transition: none;
+
+    color: inherit;
   }
 }
 
