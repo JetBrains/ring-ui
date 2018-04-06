@@ -10,10 +10,10 @@ const conicGradient = memoize(stops => (
     : new ConicGradient({stops})
 ));
 
-export default stops => conicGradient(stops.join(',')).toString();
+export default stops => conicGradient(stops).toString();
 
 export const conicGradientWithMask = (mask, stops) => {
-  const gradient = conicGradient(stops.join(','));
+  const gradient = conicGradient(stops);
 
   if (!mask.supports && gradient instanceof ConicGradient) {
     Object.defineProperty(gradient, 'svg', {
