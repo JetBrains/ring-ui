@@ -28,23 +28,14 @@ const injectStyles = memoize(() => {
     /* eslint-enable */
   });
 
-  injectRuleSet(`.${styles.loader}_${[Theme.LIGHT]}::after`, conicGradientWithMask(mask, [
-    '#ff008c',
-    '#ac3cff',
-    '#008eff',
-    '#58ba00',
-    '#f48700',
-    '#ff008c'
-  ]));
+  injectRuleSet(
+    `.${styles.loader}_${[Theme.LIGHT]}::after`,
+    conicGradientWithMask(mask, '#ff00eb,#bd3bff,#008eff, #58ba00,#f48700,#ff00eb')
+  );
 
-  injectRuleSet(`.${styles.loader}_${[Theme.DARK]}::after`, conicGradientWithMask(mask, [
-    '#ff35a4',
-    '#cd89ff',
-    '#289fff',
-    '#88d444',
-    '#ffe000',
-    '#ff35a4'
-  ]));
+  injectRuleSet(
+    `.${styles.loader}_${[Theme.DARK]}::after`,
+    conicGradientWithMask(mask, '#ff2eef,#d178ff,#289fff,#88d444,#ffe000,#ff2eef'));
 });
 
 export default class LoaderInline extends PureComponent {
