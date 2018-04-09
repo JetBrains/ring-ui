@@ -13,7 +13,7 @@
 .buttonToolbar > .button,
 .buttonToolbar > .buttonGroup,
 .buttonToolbar > .buttonToolbar {
-  margin-right: calc(unit * 2);
+  margin-right: unit;
 }
 
 .buttonToolbar > :last-child {
