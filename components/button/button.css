@@ -35,8 +35,13 @@
 
   &.danger:active,
   &.danger.active {
-    background-color: #f50000;
-    box-shadow: button-shadow #7f0000;
+    background-color: #ffe5e5;
+    box-shadow: button-shadow #ffb2b2;
+  }
+
+  &.danger:focus,
+  &.danger:hover {
+    box-shadow: button-shadow #ffb2b2;
   }
 
   &.withIcon {
@@ -87,8 +92,14 @@
 
   &.danger:active,
   &.danger.active {
-    background-color: error-color;
-    box-shadow: button-shadow #ffb2b2;
+    color: error-color;
+    background-color: #1a0000;
+    box-shadow: button-shadow #7f0000;
+  }
+
+  &.danger:focus,
+  &.danger:hover {
+    box-shadow: button-shadow #7f0000;
   }
 
   &.withIcon {
@@ -169,6 +180,13 @@
   z-index: 2;
 }
 
+.onlyIcon {
+  &:hover,
+  &:focus {
+    color: border-hover-color;
+  }
+}
+
 .primary {
   color: white-color;
   background-color: main-color;
@@ -240,10 +258,6 @@
   &:hover,
   &:focus {
     transition: none;
-
-    color: white-color;
-    background-color: error-color;
-    box-shadow: none;
   }
 }
 
@@ -295,13 +309,6 @@
   &:active,
   &.active {
     color: main-color;
-  }
-}
-
-.onlyIcon {
-  &:hover,
-  &:focus {
-    color: border-hover-color;
   }
 }
 
