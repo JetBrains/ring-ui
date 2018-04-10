@@ -180,13 +180,6 @@
   z-index: 2;
 }
 
-.onlyIcon {
-  &:hover,
-  &:focus {
-    color: border-hover-color;
-  }
-}
-
 .primary {
   color: white-color;
   background-color: main-color;
@@ -304,6 +297,18 @@
   &:hover,
   &:focus {
     color: link-hover-color;
+  }
+
+  &:active,
+  &.active {
+    color: main-color;
+  }
+}
+
+.onlyIcon {
+  &:hover,
+  &:focus {
+    color: border-hover-color;
   }
 
   &:active,
