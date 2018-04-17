@@ -30,7 +30,8 @@
     white-space: nowrap;
 
     color: dark-gray-color;
-    box-shadow: inset 0 -1px 0 0 line-color;
+
+    border-bottom: solid 1px line-color;
 
     font-weight: 200;
   }
@@ -81,6 +82,7 @@
   padding-bottom: 6px;
 
   color: text-color;
+  border-bottom: none;
 
   font-weight: bold;
   line-height: line-height-lower;
