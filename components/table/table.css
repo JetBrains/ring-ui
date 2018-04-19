@@ -110,6 +110,7 @@
 }
 
 .rowFocused {
+  background-color: hover-color;
   box-shadow: inset 2px 0 main-color;
 }
 
