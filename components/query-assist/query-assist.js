@@ -8,6 +8,7 @@ import deepEqual from 'deep-equal';
 import {SearchIcon, CloseIcon} from '../icon';
 
 import getUID from '../global/get-uid';
+import dataTests from '../global/data-tests';
 import {getRect, preventDefault} from '../global/dom';
 import Caret from '../caret/caret';
 import ContentEditable from '../contenteditable/contenteditable';
@@ -122,7 +123,8 @@ export default class QueryAssist extends Component {
     onChange: PropTypes.func,
     onClear: PropTypes.func,
     onFocusChange: PropTypes.func,
-    query: PropTypes.string
+    query: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -792,7 +794,7 @@ export default class QueryAssist extends Component {
   };
 
   render() {
-    const {theme, glass} = this.props;
+    const {theme, glass, 'data-test': dataTest} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
     const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
@@ -808,6 +810,7 @@ export default class QueryAssist extends Component {
 
     return (
       <div
+        data-test={dataTests('ring-query-assist', dataTest)}
         className={classNames(styles.queryAssist, styles[theme])}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
