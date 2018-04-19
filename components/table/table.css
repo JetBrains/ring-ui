@@ -104,11 +104,6 @@
     line-height: compensated;
   }
 
-  @nest .table:not(.multiSelection) &.rowFocused,
-  .rowSelected {
-    background-color: sidebar-background-color;
-  }
-
   @nest .table:not(.disabledHover) &:hover {
     background-color: hover-color;
   }
