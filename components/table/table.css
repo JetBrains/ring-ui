@@ -212,6 +212,11 @@
   opacity: 1;
 }
 
+.rowCollapseExpandButton {
+  padding-right: calc(unit / 2);
+  padding-left: 7px;
+}
+
 .draggingRow {
   background-color: hover-color;
 
