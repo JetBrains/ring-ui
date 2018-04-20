@@ -16,7 +16,7 @@
   </file>
 
   <file type="js">
-    import React from 'react';
+    import React, {Fragment} from 'react';
     import {render} from 'react-dom';
     import Button from '@jetbrains/ring-ui/components/button/button';
     import {PencilIcon} from '@jetbrains/ring-ui/components/icon';
@@ -48,27 +48,35 @@
 
     function renderIconWithTextModifications(theme) {
       return [
-        'primary', 'danger', 'disabled'
-      ].map(modifier => (
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map((modifiers, index) => (
          <Button
            theme={theme}
-           key={modifier}
+           key={index}
            icon={PencilIcon}
-           {...{[modifier]: true}}
-         >Icon action {modifier}</Button>
+           {...modifiers}
+         >Icon action {modifiers.label}</Button>
       ));
     }
 
     function renderIconActionModifications(theme) {
       return [
-        'primary', 'danger', 'disabled'
-      ].map(modifier => (
+        {label: 'primary', primary: true},
+        {label: 'danger', danger: true},
+        {label: 'disabled', disabled: true},
+        {label: 'primary-disabled', primary: true, disabled: true},
+        {label: 'danger-disabled', danger: true, disabled: true}
+      ].map((modifiers, index) => (
         <Button
           theme={theme}
-          key={modifier}
-          title={`Icon without text (${modifier})`}
+          key={index}
+          title={`Just icon action (${modifiers.label})`}
           icon={PencilIcon}
-          {...{[modifier]: true}}
+          {...modifiers}
         />
       ));
     }

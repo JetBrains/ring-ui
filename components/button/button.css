@@ -204,12 +204,6 @@
     box-shadow: button-shadow borders-color;
   }
 
-  & .icon.icon {
-    transition: none;
-
-    color: inherit;
-  }
-
   & .loaderBackground {
     top: 0;
     right: 0;
@@ -240,12 +234,6 @@
   &.text:active,
   &.text.active {
     color: error-color;
-  }
-
-  & .icon.icon {
-    transition: none;
-
-    color: inherit;
   }
 
   &:hover,
@@ -329,13 +317,13 @@
   }
 }
 
-.withIconLight .icon {
+.withNormalIconLight .icon {
   transition: color ease;
 
   color: icon-color;
 }
 
-.withIconLight {
+.withNormalIconLight {
   &:hover .icon,
   &:focus .icon,
   &:active .icon {
