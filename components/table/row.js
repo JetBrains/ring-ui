@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
 
-import {DragIcon, CollapseIcon, ExpandIcon} from '../icon';
+import {DragIcon, ChevronRightIcon, ChevronDownIcon} from '../icon';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
@@ -138,20 +138,22 @@ class Row extends PureComponent {
 
         {collapsible && collapsed &&
           (
-            <ExpandIcon
-              size={ExpandIcon.Size.Size14}
+            <Button
+              className={style.rowCollapseExpandButton}
+              icon={ChevronRightIcon}
+              iconSize={ChevronRightIcon.Size.Size14}
               onClick={onExpand}
-              style={{top: '-3px'}}
             />
           )
         }
 
         {collapsible && !collapsed &&
           (
-            <CollapseIcon
-              size={CollapseIcon.Size.Size14}
+            <Button
+              className={style.rowCollapseExpandButton}
+              iconSize={ChevronRightIcon.Size.Size14}
+              icon={ChevronDownIcon}
               onClick={onCollapse}
-              style={{top: '-3px'}}
             />
           )
         }
