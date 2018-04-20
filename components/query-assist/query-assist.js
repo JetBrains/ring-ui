@@ -831,6 +831,7 @@ export default class QueryAssist extends Component {
             iconRef={this.glassRef}
             onClick={this.handleApply}
             size={SearchIcon.Size.Size16}
+            data-test="query-assist-search-icon"
           />
         )}
         {renderLoader && (
@@ -871,6 +872,7 @@ export default class QueryAssist extends Component {
             })}
             ref={this.placeholderRef}
             onClick={this.handleCaretMove}
+            data-test="query-assist-placeholder"
           >
             {this.props.placeholder}
           </span>
@@ -882,6 +884,7 @@ export default class QueryAssist extends Component {
             iconRef={this.clearRef}
             onClick={this.clearQuery}
             size={CloseIcon.Size.Size16}
+            data-test="query-assist-clear-icon"
           />
         )}
         <PopupMenu
