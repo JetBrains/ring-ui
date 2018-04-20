@@ -109,13 +109,13 @@
   }
 }
 
+.rowSelected {
+  background-color: selected-background-color;
+}
+
 .rowFocused {
   background-color: hover-color;
   box-shadow: inset 2px 0 main-color;
-}
-
-.rowSelected {
-  background-color: selected-background-color;
 }
 
 .loadingOverlay {
