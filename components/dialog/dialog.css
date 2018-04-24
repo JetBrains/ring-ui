@@ -29,6 +29,8 @@
     margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4);
 
+    border-top: none;
+
     background-color: transparent;
   }
 
