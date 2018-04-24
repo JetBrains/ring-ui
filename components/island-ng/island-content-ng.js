@@ -1,8 +1,11 @@
 import angular from 'angular';
 
 import styles from '../island/island.css';
+import scheduleRAF from '../global/schedule-raf';
 
 import compile from './island-ng-class-fixer';
+
+const scheduleScroll = scheduleRAF();
 
 const angularModule = angular.module('Ring.island-ng.header', []);
 
@@ -11,7 +14,8 @@ angularModule.directive('rgIslandContent', function islandContentDirective() {
     transclude: true,
     replace: true,
     bindToController: {
-      fade: '=?'
+      fade: '=?',
+      onScroll: '&?'
     },
     compile,
     template: `
@@ -24,13 +28,27 @@ angularModule.directive('rgIslandContent', function islandContentDirective() {
   }"
 >
   <div
-    class="${styles.scrollableWrapper}"
+    class="${styles.scrollableWrapper} js-scrollable-wrapper"
     ng-transclude
   ></div>
 </div>
 `,
     controllerAs: 'contentCtrl',
-    controller: angular.noop
+    controller: function controller($scope, $element) {
+      const el = $element[0];
+
+      if (this.onScroll) {
+        const scrollable = el.querySelector('.js-scrollable-wrapper');
+
+        const scrollCallback = evt => {
+          const $scrollTop = scrollable.scrollTop;
+          this.onScroll({$event: evt, $scrollTop});
+          $scope.$apply();
+        };
+
+        scrollable.addEventListener('scroll', () => scheduleScroll(scrollCallback));
+      }
+    }
   };
 });
 
