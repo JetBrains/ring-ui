@@ -27,7 +27,7 @@
 
   & :global(.ring-panel) {
     margin-top: 0;
-    padding: 0 calc(unit * 4) calc(unit * 2);
+    padding: calc(unit * 2) calc(unit * 4);
 
     background-color: transparent;
   }
@@ -39,10 +39,6 @@
 
   & :global(.ring-form__label) {
     max-width: calc(unit * 14);
-  }
-
-  & .islandScrollableWrapperInsideDialog {
-    padding-bottom: calc(calc(unit * 2.5) - 1px);
   }
 }
 

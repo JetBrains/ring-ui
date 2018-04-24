@@ -59,8 +59,6 @@
 }
 
 .scrollableWrapper {
-  composes: islandScrollableWrapperInsideDialog from '../dialog/dialog.css';
-
   overflow: auto;
 
   width: 100%;
