@@ -1,4 +1,4 @@
-@value unit, font, main-color, black-color, white-color, gray-color, dark-gray-color, search-color, hint-color, link-hover-color, font-size from '../global/global.css';
+@value unit, font, main-color, black-color, white-color, gray-color, dark-gray-color, borders-color, search-color, hint-color, link-hover-color, font-size from '../global/global.css';
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
 
@@ -12,7 +12,7 @@
   & .input {
     height: calc(unit * 3 - 2px);
 
-    box-shadow: 0 0 0 1px gray-color;
+    box-shadow: 0 0 0 1px borders-color;
 
     &:active,
     &:focus {
@@ -22,7 +22,7 @@
   }
 
   & .placeholder {
-    color: #9c9c9c;
+    color: dark-gray-color;
   }
 
   & .letter-text {
