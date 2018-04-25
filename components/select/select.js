@@ -526,7 +526,9 @@ export default class Select extends Component {
 
     return (
       <div
-        className={styles.toolbar}
+        className={classNames({
+          [styles.toolbar]: addButton
+        })}
         data-test="ring-select-toolbar"
       >
         {addButton}
