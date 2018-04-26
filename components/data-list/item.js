@@ -7,8 +7,8 @@ import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 
 import {
-  CollapseIcon,
-  ExpandIcon
+  ChevronRightIcon,
+  ChevronDownIcon
 } from '../icon';
 
 import Selection from './selection';
@@ -163,7 +163,7 @@ export default class Item extends PureComponent {
     if (collapsible) {
       if (collapsed) {
         collapserExpander = (
-          <ExpandIcon
+          <ChevronDownIcon
             className={styles.collapseIcon}
             size={13}
             onClick={onExpand}
@@ -172,7 +172,7 @@ export default class Item extends PureComponent {
         );
       } else {
         collapserExpander = (
-          <CollapseIcon
+          <ChevronRightIcon
             className={styles.collapseIcon}
             size={13}
             onClick={onCollapse}

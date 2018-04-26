@@ -66,21 +66,17 @@
   color: #bbb;
 }
 
-.metaColumn {
-  display: inline-flex;
-
-  align-items: center;
-
-  color: #bbb;
-  justify-items: center;
-}
-
-.collapseIcon {
-  top: -3px;
+.expanderBox {
+  cursor: pointer;
 
   &:hover {
     color: #ff5a00;
   }
+}
+
+.collapseIcon {
+  top: calc(0 - compensate);
+  left: compensate;
 }
 
 .loadingOverlay {
