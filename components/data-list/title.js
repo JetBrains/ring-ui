@@ -62,27 +62,29 @@ class Title extends PureComponent {
         className={classes}
         style={{paddingLeft: offset}}
       >
-        {selectable &&
-          (
-            <div className={styles.checkboxBox}>
-              <Checkbox
-                className={showFocus ? 'ring-checkbox_focus' : ''}
-                checked={selected}
-                onFocus={this.onCheckboxFocus}
-                onChange={this.onCheckboxChange}
-                tabIndex="-1"
-              />
-            </div>
-          )
-        }
+        <div className={styles.boxes}>
+          {selectable &&
+            (
+              <div className={styles.checkboxBox}>
+                <Checkbox
+                  className={showFocus ? 'ring-checkbox_focus' : ''}
+                  checked={selected}
+                  onFocus={this.onCheckboxFocus}
+                  onChange={this.onCheckboxChange}
+                  tabIndex="-1"
+                />
+              </div>
+            )
+          }
 
-        {collapserExpander &&
-          (
-            <div className={styles.expanderBox}>
-              {collapserExpander}
-            </div>
-          )
-        }
+          {collapserExpander &&
+            (
+              <div className={styles.expanderBox}>
+                {collapserExpander}
+              </div>
+            )
+          }
+        </div>
 
         {title}
       </div>
