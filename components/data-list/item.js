@@ -36,7 +36,7 @@ type Props = {
   items: any[],
   className?: string,
   level: number,
-  parentShift?: number,
+  parentShift: number,
 
   itemFormatter: (item: any) => ItemType,
 
