@@ -163,21 +163,29 @@ export default class Item extends PureComponent {
     if (collapsible) {
       if (collapsed) {
         collapserExpander = (
-          <ChevronDownIcon
-            className={styles.collapseIcon}
-            size={13}
+          <div
+            className={styles.expanderBox}
             onClick={onExpand}
-            data-test="ring-data-list-expand"
-          />
+          >
+            <ChevronRightIcon
+              className={styles.collapseIcon}
+              size={13}
+              data-test="ring-data-list-expand"
+            />
+          </div>
         );
       } else {
         collapserExpander = (
-          <ChevronRightIcon
-            className={styles.collapseIcon}
-            size={13}
+          <div
+            className={styles.expanderBox}
             onClick={onCollapse}
-            data-test="ring-data-list-collapse"
-          />
+          >
+            <ChevronDownIcon
+              className={styles.collapseIcon}
+              size={13}
+              data-test="ring-data-list-collapse"
+            />
+          </div>
         );
       }
     }
