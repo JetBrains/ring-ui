@@ -77,13 +77,7 @@ class Title extends PureComponent {
             )
           }
 
-          {collapserExpander &&
-            (
-              <div className={styles.expanderBox}>
-                {collapserExpander}
-              </div>
-            )
-          }
+          {collapserExpander}
         </div>
 
         {title}
