@@ -1,7 +1,6 @@
 /* @flow */
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent, Element} from 'react';
-import classNames from 'classnames';
 
 import Link from '../link/link';
 import Text from '../text/text';
@@ -24,7 +23,8 @@ export const moreLessButtonStates = {
   LESS: 3
 };
 
-const ITEM_LEFT_OFFSET = 30;
+const ITEM_LEFT_OFFSET = 32;
+const LIST_LEFT_OFFSET = 24;
 
 export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
   typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
@@ -182,20 +182,11 @@ export default class Item extends PureComponent {
       }
     }
 
-    const itemIsNested = level > 0;
     const itemIsEmpty = !items.length || (collapsible && collapsed);
-
-    const offset = level * ITEM_LEFT_OFFSET + ITEM_LEFT_OFFSET + parentShift;
-    const itemShift = ((selectable && collapserExpander) ? ITEM_LEFT_OFFSET : 0) + parentShift;
+    const offset = level * LIST_LEFT_OFFSET + ITEM_LEFT_OFFSET + parentShift;
 
     return (
-      <li
-        className={classNames(styles.item, {
-          [styles.itemEmpty]: itemIsEmpty && !itemIsNested,
-          [styles.itemFocused]: showFocus,
-          [styles.itemNested]: itemIsNested
-        })}
-      >
+      <li>
         <Title
           title={title}
           focused={showFocus}
@@ -210,7 +201,7 @@ export default class Item extends PureComponent {
 
         {!itemIsEmpty ? (
           <ul className={styles.itemContent}>
-            {items.map(model => this.renderItem(model, itemShift))}
+            {items.map(model => this.renderItem(model, parentShift))}
 
             {showMoreLessButton !== moreLessButtonStates.UNUSED
               ? <li className={styles.showMore}>{moreLessButton}</li>
