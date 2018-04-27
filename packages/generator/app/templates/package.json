@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@jetbrains/babel-preset-jetbrains": "1.1.1",
-    "babel-core": "6.26.0",
+    "babel-core": "6.26.3",
     "babel-loader": "7.1.4",
     "babel-polyfill": "6.26.0",
     "css-loader": "0.28.11",
