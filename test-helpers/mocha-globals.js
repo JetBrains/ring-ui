@@ -25,7 +25,7 @@ afterEach(function restoreSandbox() {
   window.sandbox.restore();
 
   Array.from(document.body.children).forEach(child => {
-    if (child.tagName.toLowerCase() === 'div') {
+    if (child._reactRootContainer) {
       unmountComponentAtNode(child);
     }
   });
