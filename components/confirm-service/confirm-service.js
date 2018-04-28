@@ -68,7 +68,7 @@ import Confirm from '../confirm/confirm';
  </example>
  */
 
-const containerElement = document.createElement('div');
+export const containerElement = document.createElement('div');
 
 /**
  * Renders Confirm into virtual node to skip maintaining container
