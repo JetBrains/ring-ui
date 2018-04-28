@@ -8,9 +8,15 @@ import Confirm from './confirm';
 
 describe('Confirm', () => {
   const defaultProps = {show: true, text: 'Foo'};
-  const mountConfirm = props => mount(<Confirm {...props}/>);
+  let wrapper;
+  const mountConfirm = props => {
+    wrapper = mount(<Confirm {...props}/>);
+    return wrapper;
+  };
 
   const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');
+
+  afterEach(() => wrapper.unmount());
 
   it('should create component', () => {
     mountConfirm(defaultProps).should.have.type(Confirm);

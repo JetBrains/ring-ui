@@ -1,13 +1,16 @@
 import {Simulate} from 'react-dom/test-utils';
+import {unmountComponentAtNode} from 'react-dom';
 
 import islandStyles from '../island/island.css';
 
-import confirm, {hideConfirm} from './confirm-service';
+import confirm, {containerElement} from './confirm-service';
 
 describe('Confirm Service', () => {
   const getContainer = () => document.querySelector('[data-test~="ring-dialog"]');
 
-  afterEach(hideConfirm);
+  afterEach(() => {
+    unmountComponentAtNode(containerElement);
+  });
 
   it('should show confirm', () => {
     confirm({text: 'foo'});

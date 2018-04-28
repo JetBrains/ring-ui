@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
+import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Portal from '@jetbrains/react-portal';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
@@ -11,10 +11,6 @@ import TabTrap from '../tab-trap/tab-trap';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
-
-function PortalPropsCleaner({children}) {
-  return children;
-}
 
 /**
  * @name Dialog
@@ -61,6 +57,24 @@ export default class Dialog extends PureComponent {
     shortcutsScope: getUID('ring-dialog-')
   };
 
+  componentDidMount() {
+    this.toggleScrollPreventer();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.show !== this.props.show) {
+      this.toggleScrollPreventer();
+    }
+  }
+
+  toggleScrollPreventer() {
+    if (this.props.show) {
+      ScrollPreventer.prevent();
+    } else {
+      ScrollPreventer.reset();
+    }
+  }
+
   handleClick = event => {
     if (event.target !== this.dialog) {
       return;
@@ -97,47 +111,40 @@ export default class Dialog extends PureComponent {
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
-    return (
-      <Portal
-        isOpen={show}
-        onOpen={ScrollPreventer.prevent}
-        onClose={ScrollPreventer.reset}
+    return show && createPortal(
+      <TabTrap
+        trapDisabled={!trapFocus}
+        autoFocusFirst={autoFocusFirst}
+        data-test="ring-dialog-container"
+        ref={this.dialogRef}
+        className={classes}
+        onClick={this.handleClick}
+        {...restProps}
       >
-        <PortalPropsCleaner>
-          <TabTrap
-            trapDisabled={!trapFocus}
-            autoFocusFirst={autoFocusFirst}
-            data-test="ring-dialog-container"
-            ref={this.dialogRef}
-            className={classes}
-            onClick={this.handleClick}
-            {...restProps}
-          >
-            <Shortcuts
-              map={shortcutsMap}
-              scope={this.state.shortcutsScope}
-            />
-            <AdaptiveIsland
-              className={classNames(styles.content, contentClassName)}
-              data-test="ring-dialog"
+        <Shortcuts
+          map={shortcutsMap}
+          scope={this.state.shortcutsScope}
+        />
+        <AdaptiveIsland
+          className={classNames(styles.content, contentClassName)}
+          data-test="ring-dialog"
+        >
+          {children}
+          {showCloseButton &&
+          (
+            <button
+              type="button"
+              data-test="ring-dialog-close-button"
+              className={styles.closeButton}
+              onClick={this.onCloseClick}
             >
-              {children}
-              {showCloseButton &&
-              (
-                <button
-                  type="button"
-                  data-test="ring-dialog-close-button"
-                  className={styles.closeButton}
-                  onClick={this.onCloseClick}
-                >
-                  <CloseIcon/>
-                </button>
-              )
-              }
-            </AdaptiveIsland>
-          </TabTrap>
-        </PortalPropsCleaner>
-      </Portal>
+              <CloseIcon/>
+            </button>
+          )
+          }
+        </AdaptiveIsland>
+      </TabTrap>,
+      document.body
     );
   }
 }

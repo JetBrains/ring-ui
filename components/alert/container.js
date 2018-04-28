@@ -1,7 +1,7 @@
 import React, {Children, cloneElement, PureComponent} from 'react';
+import {createPortal} from 'react-dom';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Portal from '@jetbrains/react-portal';
 
 import styles from './container.css';
 
@@ -26,22 +26,21 @@ export default class Alerts extends PureComponent {
       return null;
     }
 
-    return (
-      <Portal isOpen>
-        <div
-          data-test="alert-container"
-          className={classes}
-          {...restProps}
-        >
-          {Children.map(children, child => {
-            const alertClassNames = classNames(styles.alertInContainer, child.props.className);
+    return createPortal(
+      <div
+        data-test="alert-container"
+        className={classes}
+        {...restProps}
+      >
+        {Children.map(children, child => {
+          const alertClassNames = classNames(styles.alertInContainer, child.props.className);
 
-            return cloneElement(child, {
-              className: alertClassNames
-            });
-          })}
-        </div>
-      </Portal>
+          return cloneElement(child, {
+            className: alertClassNames
+          });
+        })}
+      </div>,
+      document.body
     );
   }
 }
