@@ -159,8 +159,8 @@
     "yo": "2.0.2"
   },
   "peerDependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": ">=16.3.0",
+    "react-dom": ">=16.3.0"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",

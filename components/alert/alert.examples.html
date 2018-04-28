@@ -59,8 +59,8 @@
       state = {
         alerts: [
           {type: Alert.Type.WARNING, key: 1, message: 'Test warning', isClosing: false},
-          {type: Alert.Type.LOADING, key: 1, message: 'Test loading', isClosing: false},
-          {type: Alert.Type.MESSAGE, key: 2, message: 'Test message', isClosing: false}
+          {type: Alert.Type.LOADING, key: 2, message: 'Test loading', isClosing: false},
+          {type: Alert.Type.MESSAGE, key: 3, message: 'Test message', isClosing: false}
         ]
       };
 
@@ -92,6 +92,21 @@
         return (
           <div>
             <Button onClick={this.yetAnotherMessage}>Create another message</Button>
+
+            <Container>
+              {this.state.alerts.map(alert => {
+                const {message, ...rest} = alert;
+                return (
+                  <Alert
+                    {...rest}
+                    onCloseRequest={() => this.onCloseAlertClick(alert)}
+                    onClose={() => this.onCloseAlert(alert)}
+                  >
+                    {message}
+                  </Alert>
+                );
+              })}
+            </Container>
 
             <Container>
               {this.state.alerts.map(alert => {
