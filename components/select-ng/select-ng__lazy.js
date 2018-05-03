@@ -1,5 +1,5 @@
 import angular from 'angular';
-import {render} from 'react-dom';
+import {render, hydrate} from 'react-dom';
 import React from 'react';
 
 import {RerenderableSelect} from '../select/select';
@@ -49,14 +49,22 @@ class SelectLazy {
 
     if (this.type !== 'dropdown') {
       const ReactDOMServer = require('react-dom/server');
-      this.container.innerHTML = ReactDOMServer.renderToStaticMarkup(this.reactSelect);
+      if (this.hydrated) {
+        this.ctrl.selectInstance = render(this.reactSelect, this.container);
+      } else {
+        this.container.innerHTML = ReactDOMServer.renderToString(this.reactSelect);
+      }
     }
   }
 
   _clickHandler() {
     this.detachEvents();
-    this.ctrl.selectInstance = render(this.reactSelect, this.container);
-    this.ctrl.selectInstance._clickHandler();
+    if (this.hydrated) {
+      this.ctrl.selectInstance = render(this.reactSelect, this.container);
+    } else {
+      this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
+      this.hydrated = true;
+    }
   }
 }
 
