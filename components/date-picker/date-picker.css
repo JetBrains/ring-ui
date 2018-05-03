@@ -26,6 +26,8 @@
 
 .datePicker.datePicker {
   padding-right: unit;
+
+  white-space: nowrap;
 }
 
 .displayDate {
