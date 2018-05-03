@@ -433,10 +433,9 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           targetElement: getType() === 'dropdown' ? element : null,
           size: getSelectSize(),
           onBeforeOpen: () => {
-            $scope.$evalAsync(() => {
-              resetMemorizedOptions();
-              ctrl.loadOptionsToSelect(ctrl.query);
-            });
+            resetMemorizedOptions();
+            ctrl.loadOptionsToSelect(ctrl.query);
+            $scope.$evalAsync(() => {});
           },
           onOpen: () => {
             $scope.$evalAsync(() => {
