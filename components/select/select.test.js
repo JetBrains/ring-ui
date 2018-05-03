@@ -43,8 +43,19 @@ describe('Select', () => {
     filter: true
   });
 
+  let mountWrapper;
   const shallowSelect = props => shallow(<Select {...defaultProps()} {...props}/>);
-  const mountSelect = props => mount(<Select {...defaultProps()} {...props}/>);
+  const mountSelect = props => {
+    mountWrapper = mount(<Select {...defaultProps()} {...props}/>);
+    return mountWrapper;
+  };
+
+  afterEach(() => {
+    if (mountWrapper) {
+      mountWrapper.unmount();
+      mountWrapper = null;
+    }
+  });
 
   it('Should initialize', () => {
     shallowSelect().should.exist;
@@ -688,9 +699,12 @@ describe('Select', () => {
     const shallowSelectMultiple = props => shallow(
       <Select {...defaultPropsMultiple()} {...props}/>
     );
-    const mountSelectMultiple = props => mount(
-      <Select {...defaultPropsMultiple()} {...props}/>
-    );
+    const mountSelectMultiple = props => {
+      mountWrapper = mount(
+        <Select {...defaultPropsMultiple()} {...props}/>
+      );
+      return mountWrapper;
+    };
 
     it('Should fill _multipleMap on initialization', () => {
       const wrapper = mountSelectMultiple();
@@ -893,7 +907,6 @@ describe('Select', () => {
 
   describe('Popup', () => {
     let container;
-    let mountWrapper;
     const mountSelectToContainer = props => {
       mountWrapper = mount(
         <Select {...props}/>,
@@ -908,10 +921,6 @@ describe('Select', () => {
     });
 
     afterEach(() => {
-      if (mountWrapper) {
-        mountWrapper.detach();
-        mountWrapper = null;
-      }
       document.body.removeChild(container);
       container = null;
     });
