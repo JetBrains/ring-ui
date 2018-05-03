@@ -6,15 +6,15 @@
  */
 
 import React, {Component} from 'react';
+import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
-import Portal from '@jetbrains/react-portal';
 import classNames from 'classnames';
 import 'dom4';
 import 'core-js/modules/es7.array.includes';
 
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
-import {Listeners} from '../global/dom';
+import {Listeners, getStyles} from '../global/dom';
 import Shortcuts from '../shortcuts/shortcuts';
 import dataTests from '../global/data-tests';
 
@@ -73,12 +73,11 @@ export default class Popup extends Component {
   };
 
   static contextTypes = {
-    parentPopupUid: PropTypes.string,
     ringPopupTarget: PropTypes.string
   };
 
   static childContextTypes = {
-    parentPopupUid: PropTypes.string
+    ringPopupTarget: PropTypes.string
   };
 
   static defaultProps = {
@@ -115,11 +114,13 @@ export default class Popup extends Component {
 
   getChildContext() {
     return {
-      parentPopupUid: this.uid
+      ringPopupTarget: this.uid
     };
   }
 
   componentDidMount() {
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({client: true});
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -162,7 +163,7 @@ export default class Popup extends Component {
   portalRef = el => {
     this.node = el;
     this.parent = el && el.parentElement;
-    if (el && this.context.parentPopupUid) {
+    if (el && this.getContainer()) {
       this._redraw();
     }
   };
@@ -176,20 +177,21 @@ export default class Popup extends Component {
     this.container = el;
   };
 
+  getContainer() {
+    const target = this.props.target || this.context.ringPopupTarget;
+    return document.querySelector(`[data-portaltarget=${target}`);
+  }
+
   position() {
     const positionProps = positionPropKeys.reduce((acc, key) => {
       acc[key] = this.props[key];
       return acc;
     }, {});
-    const {ringPopupTarget} = this.context;
-    const {target} = this.props;
-    const container = target || ringPopupTarget
-      ? document.querySelector(`[data-portaltarget=${target || ringPopupTarget}]`)
-      : null;
+    const container = this.getContainer();
 
     return position({
       popup: this.popup,
-      container,
+      container: container && getStyles(container).position !== 'static' ? container : null,
       anchor: this._getAnchor(),
       ...positionProps
     });
@@ -298,7 +300,7 @@ export default class Popup extends Component {
 
   render() {
     const {
-      className, hidden, attached, keepMounted, target,
+      className, hidden, attached, keepMounted,
       onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -322,10 +324,7 @@ export default class Popup extends Component {
           )
         }
 
-        <Portal
-          isOpen={keepMounted || !hidden}
-          target={this.context.parentPopupUid || target || this.context.ringPopupTarget}
-        >
+        {this.state.client && (keepMounted || !hidden) && createPortal(
           <div
             data-portaltarget={this.uid}
             ref={this.containerRef}
@@ -343,8 +342,9 @@ export default class Popup extends Component {
             >
               {this.getInternalContent()}
             </div>
-          </div>
-        </Portal>
+          </div>,
+          this.getContainer() || document.body
+        )}
       </span>
     );
   }

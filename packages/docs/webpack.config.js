@@ -164,7 +164,6 @@ module.exports = (env = {}) => {
             'react',
             'react-dom',
             'prop-types',
-            '@jetbrains/react-portal',
             'react-waypoint',
             'angular',
             'classnames',
