@@ -3,6 +3,7 @@
 .ring-docked-panel {
   margin-top: $ring-unit * 4;
   padding-left: 0;
+  border-top: none;
 }
 
 .ring-docked-panel_fixed {
@@ -18,4 +19,5 @@
   width: 100%;
   margin-left: 0;
   background-color: #fff;
+  border-top: 1px solid rgba(0, 42, 76, .1);
 }
