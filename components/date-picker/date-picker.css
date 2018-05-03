@@ -11,6 +11,8 @@
   position: relative;
 
   display: inline-block;
+
+  background-color: green;
 }
 
 .hoverable {
@@ -45,6 +47,8 @@
   z-index: overlay-z-index;
   top: -3px;
   right: calc(unit * 5 + 1px);
+
+  margin-right: -20px; /* hack to not increase container size RG-1768 */
 
   cursor: pointer;
   transition: opacity ease;
