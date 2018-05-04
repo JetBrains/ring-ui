@@ -1,4 +1,4 @@
-@value unit, fixed-z-index, border-radius, popup-border-color from '../global/global.css';
+@value unit, fixed-z-index, border-radius, heading-color, popup-border-color from '../global/global.css';
 @value gradientStart: rgba(255, 255, 255, 0);
 @value gradientStop: rgba(255, 255, 255, 0.8);
 
@@ -41,6 +41,8 @@
 
   transform-origin: 0 50%;
   word-break: break-word;
+
+  color: heading-color;
 
   font-weight: bold;
 }

@@ -28,7 +28,7 @@
 }
 
 .header.header {
-  padding-top: unit;
+  padding-top: calc(unit * 2);
 
   cursor: move;
   user-select: none;
@@ -49,6 +49,8 @@
   overflow: visible;
 
   width: auto;
+
+  padding-top: calc(unit * 3);
 }
 
 .content.content {
