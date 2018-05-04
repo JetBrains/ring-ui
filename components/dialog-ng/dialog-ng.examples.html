@@ -3,7 +3,7 @@
     <div ng-app="Example.dialog" ng-strict-di class="long-page">
 
       <script type="template" id="dialog-template">
-        <div>
+        <div class="form-with-inputs">
           <div class="ring-form__group">
             <rg-input id="dialog__key" label="Key" type="text">
           </div>
@@ -39,6 +39,10 @@
     :global(.custom-css-class-button-right) {
       float: right;
       color: #C10000;
+    }
+
+    :global(.form-with-inputs) {
+      margin-top: -16px;
     }
 
     :global(.long-page) {

@@ -9,7 +9,7 @@ import styles from './island.css';
 const Start = {
   FONT_SIZE: 24,
   LINE_HEIGHT: 28,
-  PADDING: 11
+  PADDING: 16
 };
 
 const End = {
