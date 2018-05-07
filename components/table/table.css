@@ -141,7 +141,7 @@
     min-width: 0;
 
     height: height;
-    padding: 0 calc(unit * 5) compensate 0;
+    padding-right: calc(unit * 5);
 
     color: text-color;
   }
@@ -184,8 +184,11 @@
   float: left;
 
   height: 16px;
-  padding-top: 1px;
-  padding-right: 2px;
+  padding-right: compensate;
+
+  &.headerMetaColumn {
+    padding-top: 1px;
+  }
 }
 
 @value top: -5px;
