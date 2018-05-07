@@ -201,7 +201,7 @@ export default function position(attrs) {
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
     styles.minWidth = anchorRect.width;
   } else if (minWidth) {
-    styles.minWidth = minWidth;
+    styles.minWidth = anchorRect.width < minWidth ? minWidth : anchorRect.width;
   }
 
   return styles;
