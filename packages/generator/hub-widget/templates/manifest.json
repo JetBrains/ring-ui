@@ -3,5 +3,9 @@
   "name": "<%= widgetName %>",
   "version": "1.0.0",
   "description": "<%= widgetDescription %>",
-  "author": "<%= widgetAuthor %>"
+  "author": "<%= widgetAuthor %>",
+  "products": {
+    "Hub": "2018.2",
+    "YouTrack": "2018.2"
+  }
 }
