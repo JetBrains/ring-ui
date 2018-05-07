@@ -605,15 +605,21 @@ export default class Auth {
     const {translations} = this.config;
 
     return new Promise((resolve, reject) => {
+      const MAX_REPEAT = 5;
+      const REPEAT_TIMEOUT = 2000;
       let hide = null;
+      let repeatCount = -1;
+      let timeoutId = null;
 
       const done = () => {
         hide();
         this._storage.sendMessage(Auth.CLOSE_BACKEND_DIALOG_MESSAGE, Date.now());
         // eslint-disable-next-line no-use-before-define
-        window.removeEventListener('online', checkAgain);
+        window.removeEventListener('online', checkAgainFewTimes);
         // eslint-disable-next-line no-use-before-define
         stopListeningCloseMessage();
+
+        clearTimeout(timeoutId);
       };
 
       const checkAgain = async () => {
@@ -621,10 +627,24 @@ export default class Auth {
           await this._checkBackendsAreUp();
           done();
           resolve();
+          return null;
         } catch (err) {
           // eslint-disable-next-line no-use-before-define
           hide = showDialog(err);
+          return err;
+        }
+      };
+
+      const checkAgainFewTimes = async () => {
+        repeatCount++;
+        if (repeatCount >= MAX_REPEAT) {
+          repeatCount = -1;
           return;
+        }
+
+        const err = await checkAgain();
+        if (err) {
+          timeoutId = setTimeout(checkAgainFewTimes, REPEAT_TIMEOUT);
         }
       };
 
@@ -633,7 +653,7 @@ export default class Auth {
         reject();
       };
 
-      window.addEventListener('online', checkAgain);
+      window.addEventListener('online', checkAgainFewTimes);
 
       const stopListeningCloseMessage = this._storage.onMessage(
         Auth.CLOSE_BACKEND_DIALOG_MESSAGE,
