@@ -16,12 +16,12 @@
     "chalk": "^2.4.1",
     "change-case": "^3.0.2",
     "find-port": "^2.0.1",
-    "ora": "^2.0.0",
+    "ora": "^2.1.0",
     "package-json": "^4.0.1",
     "pify": "^3.0.0",
     "portscanner": "^1.0.0",
     "read-pkg-up": "^3.0.0",
-    "yeoman-generator": "^2.0.4",
+    "yeoman-generator": "^2.0.5",
     "yeoman-option-or-prompt": "^2.0.0"
   },
   "devDependencies": {
