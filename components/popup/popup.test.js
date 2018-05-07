@@ -178,9 +178,29 @@ describe('Popup', () => {
       element.remove();
     });
 
-    it('Should support minWidth = some number in pixels', () => {
+    it('Should support minWidth = number in pixels if anchor width is less than minWidth', () => {
+      const anchorElement = document.createElement('div');
+      anchorElement.setAttribute('style', 'width: 50px;');
+      document.body.append(anchorElement);
+
       const WIDTH = 345;
-      const instance = mountPopup({minWidth: WIDTH, hidden: false}).instance();
+      const instance = mountPopup({
+        minWidth: WIDTH, hidden: false, anchorElement
+      }).instance();
+
+      parseInt(instance.popup.style.minWidth, 10).should.equal(WIDTH);
+    });
+
+    it('Should use width of anchor if it is bigger than minWidth', () => {
+      const WIDTH = 345;
+
+      const anchorElement = document.createElement('div');
+      anchorElement.setAttribute('style', `width: ${WIDTH}px;`);
+      document.body.append(anchorElement);
+
+      const instance = mountPopup({
+        minWidth: 20, hidden: false, anchorElement
+      }).instance();
 
       parseInt(instance.popup.style.minWidth, 10).should.equal(WIDTH);
     });
