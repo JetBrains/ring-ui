@@ -8,6 +8,10 @@ import UserAgreement from './user-agreement';
 const GUEST_SESSION_KEY = 'end-user-agreement-consent';
 const ONE_HOUR = 60 * 60 * 1000; // eslint-disable-line no-magic-numbers
 
+const storageKey = 'userAgreementKey';
+export const showMessage = 'userAgreementShow';
+export const hideMessage = 'userAgreementHide';
+
 export default class UserAgreementService {
   constructor(config = {}) {
     if (!config.getUserAgreement) {
@@ -26,6 +30,8 @@ export default class UserAgreementService {
     this.interval = config.interval || this.interval;
   }
 
+  _dialogPromise = null;
+  tabId = Math.random();
   interval = ONE_HOUR;
   container = document.createElement('div');
   storage = new Storage();
@@ -46,13 +52,29 @@ export default class UserAgreementService {
   };
 
   startChecking = () => {
-    this.checkConsentAndShowDialog();
     this.intervalId = setInterval(this.checkConsentAndShowDialog, this.interval);
+    window.addEventListener('storage', this.onStorageEvent);
+    this.checkConsentAndShowDialog();
   }
 
   stopChecking = () => {
     clearInterval(this.intervalId);
+    window.removeEventListener('storage', this.onStorageEvent);
     this.hideDialog();
+  }
+
+  onStorageEvent = event => {
+    if (event.key === storageKey) {
+      const {tabId, command} = JSON.parse(event.newValue);
+
+      if (tabId !== this.tabId) {
+        if (command === showMessage) {
+          this.checkConsentAndShowDialog(true);
+        } else if (command === hideMessage) {
+          this.hideDialog(true);
+        }
+      }
+    }
   }
 
   getUserAgreement = async () => {
@@ -74,11 +96,11 @@ export default class UserAgreementService {
     return this.userConsent;
   }
 
-  checkConsentAndShowDialog = async () => {
+  checkConsentAndShowDialog = async withoutNotifications => {
     if (await this.checkConsent()) {
-      return Promise.resolve();
+      return this.hideDialog(withoutNotifications);
     } else {
-      return this.showDialog();
+      return this.showDialog(withoutNotifications);
     }
   }
 
@@ -99,7 +121,7 @@ export default class UserAgreementService {
     return !enabled || (accepted && actualVersion === acceptedVersion);
   }
 
-  showDialog = () => {
+  showDialog = withoutNotifications => {
     const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
     const show = true;
@@ -109,13 +131,11 @@ export default class UserAgreementService {
         const onAccept = async () => {
           await this.onAccept();
           resolve();
-          Reflect.deleteProperty(this, '_dialogPromise');
         };
 
         const onDecline = async () => {
           await this.onDecline();
           reject();
-          Reflect.deleteProperty(this, '_dialogPromise');
         };
 
         const props = {text, show, onAccept, onDecline, translations};
@@ -129,18 +149,27 @@ export default class UserAgreementService {
           onDialogShow();
         }
       });
+
+      if (!withoutNotifications) {
+        localStorage.setItem(storageKey, JSON.stringify({command: showMessage, tabId: this.tabId}));
+      }
     }
 
     return this._dialogPromise;
   }
 
-  hideDialog = () => {
+  hideDialog = withoutNotifications => {
     const {onDialogHide} = this.config;
 
     unmountComponentAtNode(this.container);
 
     if (onDialogHide) {
       onDialogHide();
+      this._dialogPromise = null;
+
+      if (!withoutNotifications) {
+        localStorage.setItem(storageKey, JSON.stringify({command: hideMessage, tabId: this.tabId}));
+      }
     }
   }
 
