@@ -79,9 +79,7 @@ export default class Header extends PureComponent {
       onCheckboxChange, onSort, sortKey, sortOrder
     } = this.props;
 
-    const metaColumnClasses = classNames(style.metaColumn, {
-      [style.metaColumnSpaced]: selectable
-    });
+    const metaColumnClasses = classNames(style.metaColumn, style.headerMetaColumn);
 
     const metaColumn = (
       <div className={metaColumnClasses}>
