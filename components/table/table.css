@@ -32,8 +32,6 @@
 
     color: dark-gray-color;
 
-    border-bottom: solid 1px line-color;
-
     font-weight: 200;
   }
 
@@ -89,12 +87,38 @@
   line-height: line-height-lower;
 }
 
+.subHeader,
+.subHeaderFixed {
+  &::after {
+    position: absolute;
+    top: 23px;
+
+    height: 1px;
+
+    content: "";
+
+    background-color: line-color;
+  }
+}
+
+.subHeader {
+  &::after {
+    right: calc(unit * 4);
+    left: calc(unit * 4);
+  }
+}
+
 .subHeaderFixed {
   position: fixed;
   z-index: fixed-z-index;
   top: 0;
 
   background-color: rgba(256, 256, 256, 0.95);
+
+  &::after {
+    right: 0;
+    left: 0;
+  }
 }
 
 .row {
