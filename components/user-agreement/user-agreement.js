@@ -24,9 +24,11 @@ const SCROLL_TOLERANCE = 10;
 export default class UserAgreement extends PureComponent {
   static propTypes = {
     show: PropTypes.bool,
+    preview: PropTypes.bool,
     text: PropTypes.string.isRequired,
     onAccept: PropTypes.func.isRequired,
     onDecline: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     translations: PropTypes.object
   };
 
@@ -34,6 +36,7 @@ export default class UserAgreement extends PureComponent {
     translations: {
       accept: 'Accept',
       decline: 'Decline',
+      close: 'Close',
       scrollToAccept: 'View the entire agreement to continue'
     },
     show: false
@@ -63,7 +66,7 @@ export default class UserAgreement extends PureComponent {
 
   render() {
     const {scrolledDown} = this.state;
-    const {translations, onAccept, onDecline, text, show} = this.props;
+    const {translations, onAccept, onDecline, onClose, text, show, preview} = this.props;
 
     return (
       <Dialog
@@ -75,11 +78,20 @@ export default class UserAgreement extends PureComponent {
         <Content>
           <Markdown source={text} className={style.text} ref={this.onTextRef} tabindex={-1}/>
         </Content>
-        <Panel>
-          <Button primary disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
-          <Button onClick={onDecline} autoFocus>{translations.decline}</Button>
-          {!scrolledDown && translations.scrollToAccept}
-        </Panel>
+        {!preview && (
+          <Panel>
+            <Button primary disabled={!scrolledDown} onClick={onAccept}>
+              {translations.accept}
+            </Button>
+            <Button onClick={onDecline} autoFocus>{translations.decline}</Button>
+            {!scrolledDown && translations.scrollToAccept}
+          </Panel>
+        )}
+        {preview && (
+          <Panel>
+            <Button onClick={onClose} autoFocus>{translations.close}</Button>
+          </Panel>
+        )}
       </Dialog>
     );
   }
