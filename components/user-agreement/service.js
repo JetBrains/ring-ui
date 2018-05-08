@@ -121,7 +121,7 @@ export default class UserAgreementService {
     return !enabled || (accepted && actualVersion === acceptedVersion);
   }
 
-  showDialog = withoutNotifications => {
+  showDialog = (withoutNotifications, preview = false) => {
     const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
     const show = true;
@@ -138,7 +138,9 @@ export default class UserAgreementService {
           reject();
         };
 
-        const props = {text, show, onAccept, onDecline, translations};
+        const onClose = this.hideDialog;
+
+        const props = {text, show, onAccept, onDecline, onClose, translations, preview};
 
         render(
           <UserAgreement {...props}/>,
