@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, main-color, text-color, border-hover-color, line-height-lower, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis from global;
+@value unit, main-color, text-color, border-hover-color, line-height-lower, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis, font-size from global;
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
@@ -80,9 +80,12 @@
   padding-top: unit;
   padding-bottom: 6px;
 
+  text-transform: capitalize;
+
   color: text-color;
   border-bottom: none;
 
+  font-size: font-size;
   font-weight: bold;
   line-height: line-height-lower;
 }
