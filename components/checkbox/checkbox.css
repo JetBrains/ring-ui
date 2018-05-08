@@ -1,4 +1,4 @@
-@value unit, font-size, text-color, borders-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
+@value unit, font-size, text-color, gray-color, borders-color, white-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
 @value checkbox-size: 14px;
 
 .checkbox {
@@ -28,7 +28,6 @@
   width: checkbox-size;
   height: checkbox-size;
 
-  content: "";
   user-select: none;
   transition: border-color ease, background-color ease, box-shadow ease;
   vertical-align: middle;
@@ -69,15 +68,6 @@
 
   opacity: 0;
 
-  &[disabled] {
-    pointer-events: none;
-  }
-
-  &[disabled] ~ span {
-    color: color(text-color alpha(-50%));
-    filter: grayscale(1);
-  }
-
   &:checked + .cell {
     border-color: border-hover-color;
     background-color: selected-background-color;
@@ -96,6 +86,24 @@
 
     border-color: border-hover-color;
     box-shadow: 0 0 0 1px border-hover-color;
+  }
+
+  &[disabled] {
+    pointer-events: none;
+  }
+
+  &[disabled] + .cell {
+    border-color: borders-color;
+    background-color: white-color;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &[disabled]:checked + .cell .icon {
+    opacity: 0.5;
+  }
+
+  &[disabled] ~ .label {
+    color: gray-color;
   }
 }
 

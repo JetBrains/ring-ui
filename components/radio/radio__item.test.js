@@ -2,17 +2,17 @@ import React from 'react';
 import {Simulate} from 'react-dom/test-utils';
 import {shallow, mount} from 'enzyme';
 
-import RadioItem from './radio__item';
+import {Radio} from './radio__item';
 
 describe('Radio Item', () => {
   const factory = props => (
-    <RadioItem
+    <Radio
       checked={false}
       value="test"
       {...props}
     >
       {'test'}
-    </RadioItem>
+    </Radio>
   );
   const mountRadioItem = props => mount(factory(props));
   const shallowRadioItem = props => shallow(factory(props));
@@ -91,6 +91,5 @@ describe('Radio Item', () => {
     const id = radioItem.instance().input.getAttribute('id');
 
     radioItem.instance().label.should.have.attribute('for', id);
-    radioItem.instance().textLabel.should.have.attribute('for', id);
   });
 });
