@@ -12,6 +12,12 @@ const storageKey = 'userAgreementKey';
 export const showMessage = 'userAgreementShow';
 export const hideMessage = 'userAgreementHide';
 
+const DEFAULT_CONSENT = {
+  accepted: false,
+  majorVersion: 0,
+  minorVersion: 0
+};
+
 export default class UserAgreementService {
   constructor(config = {}) {
     if (!config.getUserAgreement) {
@@ -45,11 +51,7 @@ export default class UserAgreementService {
     text: ''
   };
 
-  userConsent = {
-    accepted: false,
-    majorVersion: 0,
-    minorVersion: 0
-  };
+  userConsent = DEFAULT_CONSENT;
 
   startChecking = () => {
     this.intervalId = setInterval(this.checkConsentAndShowDialog, this.interval);
@@ -88,9 +90,9 @@ export default class UserAgreementService {
     this.guest = guest;
 
     if (guest) {
-      this.userConsent = await this.storage.get(GUEST_SESSION_KEY) || this.userConsent;
+      this.userConsent = await this.storage.get(GUEST_SESSION_KEY) || DEFAULT_CONSENT;
     } else {
-      this.userConsent = endUserAgreementConsent || this.userConsent;
+      this.userConsent = endUserAgreementConsent || DEFAULT_CONSENT;
     }
 
     return this.userConsent;
