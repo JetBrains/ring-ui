@@ -1,48 +1,23 @@
-import React, {Children, Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import getUID from '../global/get-uid';
 
-import RadioItem from './radio__item';
+import RadioItem, {RadioContext} from './radio__item';
 
 /**
  * @name Radio
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).
- * @example
-   <example name="Radio button">
-     <file name="index.html">
-       <div id="container"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import {render} from 'react-dom';
-       import React from 'react';
-
-       import Radio from '@jetbrains/ring-ui/components/radio/radio';
-       import RadioItem from '@jetbrains/ring-ui/components/radio/radio__item';
-
-       const container = document.getElementById('container');
-       const radio = value => (
-         <div>
-           <span>Selected: {value}</span>
-           <Radio onChange={newValue => render(radio(newValue), container)}>
-             <RadioItem value="one">One</RadioItem>
-             <RadioItem value="two">Two</RadioItem>
-             <RadioItem value="three">Three</RadioItem>
-           </Radio>
-         </div>
-       );
-
-       render(radio('one'), container);
-     </file>
-   </example>
+ * @example-file ./radio.examples.html
  */
 
 export default class Radio extends Component {
   static propTypes = {
     name: PropTypes.string,
+    disabled: PropTypes.bool,
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -52,35 +27,16 @@ export default class Radio extends Component {
     children: PropTypes.node.isRequired
   };
 
-  static childContextTypes = {
-    ringRadioGroup: PropTypes.object
-  };
-
   static Item = RadioItem;
 
-  constructor(...args) {
-    super(...args);
-
-    this.uid = getUID('ring-radio-');
-  }
-
-  getChildContext() {
-    const name = this.uid;
-    const {value, onChange} = this.props;
-
-    return {
-      ringRadioGroup: {name, value, onChange}
-    };
-  }
+  uid = getUID('ring-radio-');
 
   render() {
-    const {value, onChange, children, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-    if (Children.count(children) === 1 && typeof children === 'object') {
-      return children;
-      // Autowrapping of text and array children
-    } else {
-      return <div {...restProps}>{children}</div>;
-    }
+    return (
+      <RadioContext.Provider value={{name: this.uid, ...this.props}}>
+        {this.props.children}
+      </RadioContext.Provider>
+    );
   }
 }
 
