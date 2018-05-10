@@ -381,6 +381,25 @@
   padding: 0;
 }
 
+.dropdownIcon {
+  margin-right: -2px;
+
+  margin-left: 2px;
+
+  transition: color ease;
+  vertical-align: 1px;
+
+  color: dark-gray-color;
+
+  line-height: normal;
+}
+
+.button:hover .dropdownIcon {
+  transition: none;
+
+  color: main-color;
+}
+
 @keyframes progress {
   from {
     transform: translateX(calc(0 - loaderWidth));
