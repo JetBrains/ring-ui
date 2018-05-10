@@ -52,10 +52,6 @@ export default class LoaderInline extends PureComponent {
     theme: Theme.LIGHT
   };
 
-  constructor(...args) {
-    super(...args);
-  }
-
   componentDidMount() {
     injectStyles();
   }
