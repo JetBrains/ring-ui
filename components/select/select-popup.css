@@ -17,6 +17,10 @@
 
 .filter {
   width: 100%;
+
+  & input {
+    font-weight: 200;
+  }
 }
 
 .filterWrapper {
