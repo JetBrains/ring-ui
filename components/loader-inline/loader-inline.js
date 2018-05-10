@@ -20,6 +20,8 @@ import styles from './loader-inline.css';
  * @example-file ./loader-inline.examples.html
  */
 
+const IMAGE_SIZE = 32;
+
 const injectStyles = memoize(() => {
   const mask = radialGradientMask(styles.unit, {
     /* eslint-disable no-magic-numbers */
@@ -30,12 +32,13 @@ const injectStyles = memoize(() => {
 
   injectRuleSet(
     `.${styles.loader}_${[Theme.LIGHT]}::after`,
-    conicGradientWithMask(mask, '#ff00eb,#bd3bff,#008eff, #58ba00,#f48700,#ff00eb')
+    conicGradientWithMask(mask, '#ff00eb,#bd3bff,#008eff, #58ba00,#f48700,#ff00eb', IMAGE_SIZE)
   );
 
   injectRuleSet(
     `.${styles.loader}_${[Theme.DARK]}::after`,
-    conicGradientWithMask(mask, '#ff2eef,#d178ff,#289fff,#88d444,#ffe000,#ff2eef'));
+    conicGradientWithMask(mask, '#ff2eef,#d178ff,#289fff,#88d444,#ffe000,#ff2eef', IMAGE_SIZE)
+  );
 });
 
 export default class LoaderInline extends PureComponent {
@@ -51,7 +54,9 @@ export default class LoaderInline extends PureComponent {
 
   constructor(...args) {
     super(...args);
+  }
 
+  componentDidMount() {
     injectStyles();
   }
 
