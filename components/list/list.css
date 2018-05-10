@@ -103,7 +103,7 @@
   overflow: hidden;
   flex-shrink: 100;
 
-  padding-left: calc(unit * 2);
+  padding-left: unit;
 
   text-align: right;
   white-space: nowrap;
@@ -112,6 +112,7 @@
   color: dark-gray-color;
 
   font-size: font-size-smaller;
+  font-weight: 200;
   line-height: line-height-lowest;
 }
 
