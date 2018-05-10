@@ -8,7 +8,8 @@
 .text {
   overflow-y: auto;
 
-  width: 600px;
+  min-width: 260px;
+  max-width: 600px;
   max-height: 300px;
   padding: calc(unit * 2);
 
