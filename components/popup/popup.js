@@ -179,7 +179,7 @@ export default class Popup extends Component {
 
   getContainer() {
     const target = this.props.target || this.context.ringPopupTarget;
-    return document.querySelector(`[data-portaltarget=${target}`);
+    return target && document.querySelector(`[data-portaltarget=${target}]`);
   }
 
   position() {
