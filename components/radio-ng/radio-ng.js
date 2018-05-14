@@ -1,0 +1,50 @@
+import angular from 'angular';
+
+import styles from '../radio/radio.css';
+import proxyAttrs from '../proxy-attrs/proxy-attrs';
+import getUID from '../global/get-uid';
+
+/**
+ * @name Radio Ng
+ * @category Legacy Angular
+ * @tags Ring UI Language
+ * @framework Angular
+ * @description Provides an Radio component.
+ * @example-file ./radio-ng.examples.html
+ */
+const angularModule = angular.module('Ring.radio', []);
+
+angularModule.directive('rgRadio', function rgCheckboxDirective() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    replace: true,
+    template: proxyAttrs(`
+      <label class="${styles.radio}" data-test="ring-radio">
+        <input
+          type="radio"
+          class=${styles.input}
+          
+          data-proxy-ng-disabled
+          data-proxy-ng-model
+          data-proxy-ng-change
+          data-proxy-name
+          data-proxy-value
+          data-proxy-ng-value
+        />
+        <span class="${styles.circle}"></span>
+        <span class="${styles.label}" ng-transclude></span>
+      </label>
+
+`),
+    link: function link(scope, iElement) {
+      const input = iElement[0].querySelector('input[type="radio"]');
+
+      const id = getUID('ring-radio-item-');
+      iElement[0].setAttribute('for', id);
+      input.setAttribute('id', id);
+    }
+  };
+});
+
+export default angularModule.name;
