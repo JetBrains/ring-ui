@@ -38,11 +38,27 @@ angularModule.directive('rgRadio', function rgCheckboxDirective() {
 
 `),
     link: function link(scope, iElement) {
-      const input = iElement[0].querySelector('input[type="radio"]');
+      const element = iElement[0];
+      const input = element.querySelector('input[type="radio"]');
 
-      const id = getUID('ring-radio-item-');
-      iElement[0].setAttribute('for', id);
-      input.setAttribute('id', id);
+      function usePassedID() {
+        const {id} = element;
+        element.setAttribute('for', id);
+        input.setAttribute('id', id);
+        element.removeAttribute('id');
+      }
+
+      function generateID() {
+        const id = getUID('ring-radio-item-');
+        element.setAttribute('for', id);
+        input.setAttribute('id', id);
+      }
+
+      if (element.id) {
+        usePassedID();
+      } else {
+        generateID();
+      }
     }
   };
 });
