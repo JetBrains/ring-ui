@@ -2,13 +2,10 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import {conicGradientWithMask} from '../global/conic-gradient';
-import {injectRuleSet} from '../global/inject-styles';
-import memoize from '../global/memoize';
-import radialGradientMask from '../global/radial-gradient-mask';
 import Theme from '../global/theme';
 
 import styles from './loader-inline.css';
+import injectStyles from './inject-styles';
 
 /**
  * @name Loader Inline
@@ -19,27 +16,6 @@ import styles from './loader-inline.css';
  * @extends {ReactComponent}
  * @example-file ./loader-inline.examples.html
  */
-
-const IMAGE_SIZE = 32;
-
-const injectStyles = memoize(() => {
-  const mask = radialGradientMask(styles.unit, {
-    /* eslint-disable no-magic-numbers */
-    transparent: `${23 / 32 * 100}%`,
-    white: `${25 / 32 * 100}%`
-    /* eslint-enable */
-  });
-
-  injectRuleSet(
-    `.${styles.loader}_${[Theme.LIGHT]}::after`,
-    conicGradientWithMask(mask, '#ff00eb,#bd3bff,#008eff, #58ba00,#f48700,#ff00eb', IMAGE_SIZE)
-  );
-
-  injectRuleSet(
-    `.${styles.loader}_${[Theme.DARK]}::after`,
-    conicGradientWithMask(mask, '#ff2eef,#d178ff,#289fff,#88d444,#ffe000,#ff2eef', IMAGE_SIZE)
-  );
-});
 
 export default class LoaderInline extends PureComponent {
   static Theme = Theme;
