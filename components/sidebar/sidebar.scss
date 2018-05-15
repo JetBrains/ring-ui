@@ -20,7 +20,7 @@
 
   width: $ring-unit * 58;
 
-  padding-top: 4*$ring-unit;
+  padding-top: 2*$ring-unit;
 
   box-sizing: border-box;
 
@@ -68,6 +68,10 @@
 
   .tag-flag {
     vertical-align: bottom;
+  }
+
+  .ring-sidebar__avatar ~ & {
+    margin-bottom: 42px;
   }
 }
 
