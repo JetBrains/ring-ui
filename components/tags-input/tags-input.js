@@ -52,6 +52,7 @@ export default class TagsInput extends Component {
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
+    legacyMode: PropTypes.bool,
 
     loadingMessage: PropTypes.string,
     notFoundMessage: PropTypes.string
@@ -67,7 +68,8 @@ export default class TagsInput extends Component {
     canNotBeEmpty: false,
     disabled: false,
     autoOpen: false,
-    renderOptimization: true
+    renderOptimization: true,
+    legacyMode: false
   };
 
   static ngModelStateField = 'tags';
@@ -260,11 +262,13 @@ export default class TagsInput extends Component {
 
   render() {
     const {focused, tags, activeIndex} = this.state;
+    const {legacyMode, disabled, canNotBeEmpty} = this.props;
     const classes = classNames(
       styles.tagsInput,
       {
-        [styles.tagsInputDisabled]: this.props.disabled,
-        [styles.tagsInputFocused]: focused
+        [styles.tagsInputDisabled]: disabled,
+        [styles.tagsInputFocused]: focused,
+        [styles.tagsInputLegacyMode]: legacyMode
       },
       this.props.className);
 
@@ -281,8 +285,8 @@ export default class TagsInput extends Component {
           <TagsList
             tags={tags}
             activeIndex={activeIndex}
-            disabled={this.props.disabled}
-            canNotBeEmpty={this.props.canNotBeEmpty}
+            disabled={disabled}
+            canNotBeEmpty={canNotBeEmpty}
             handleRemove={this.handleRemove}
             className={styles.tagsList}
             handleClick={this.handleClick}
@@ -315,8 +319,8 @@ export default class TagsInput extends Component {
           notFoundMessage={this.props.notFoundMessage}
         />
 
-        <div className={styles.underline}/>
-        <div className={styles.focusUnderline}/>
+        {!legacyMode && <div className={styles.underline}/>}
+        {!legacyMode && <div className={styles.focusUnderline}/>}
       </div>);
   }
 }
