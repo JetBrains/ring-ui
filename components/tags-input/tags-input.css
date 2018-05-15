@@ -1,4 +1,4 @@
-@value unit, gray-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
+@value unit, gray-color, borders-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
 
 .tagsInput {
   overflow: hidden;
@@ -6,6 +6,13 @@
   padding-top: 2px;
 
   white-space: normal;
+}
+
+.tagsInputLegacyMode {
+  padding-top: 0;
+
+  border: 1px solid borders-color;
+  background-color: #fff;
 }
 
 .tagsInputDisabled {
