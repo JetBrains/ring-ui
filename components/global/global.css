@@ -42,7 +42,7 @@
 @value fast-ease: 0.15s ease-out;
 
 /* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
-@value font-family -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+@value font-family -apple-system, BlinkMacSystemFont, Ubuntu, "Helvetica Neue", Arial, sans-serif;
 
 .clearfix {
   &::after {
