@@ -21,4 +21,11 @@ gemini.suite('Loader inline', () => {
       setCaptureElements('body').
       capture('loader');
   });
+
+  gemini.suite('Without React', suite => {
+    suite.
+      setUrl('loader-inline/inline-loader-without-react.html?block-animations').
+      setCaptureElements('body').
+      capture('loader');
+  });
 });

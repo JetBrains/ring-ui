@@ -20,7 +20,8 @@
   }
 }
 
-.loader {
+.loader,
+:global(.ring-loader-inline) {
   /* needed for better backward-compatibility */
 
   position: relative;
