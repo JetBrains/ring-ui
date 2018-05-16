@@ -29,6 +29,8 @@ import position, {
 } from './position';
 import styles from './popup.css';
 
+const stop = e => e.stopPropagation();
+
 /**
  * @constructor
  * @name Popup
@@ -313,6 +315,8 @@ export default class Popup extends Component {
 
     return (
       <span
+        // prevent bubbling through portal
+        onClick={stop}
         ref={this.portalRef}
       >
         {this.state.shortcuts &&

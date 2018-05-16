@@ -164,10 +164,7 @@ export default class Dropdown extends Component {
         {cloneElement(children, {
           hidden: !show,
           onCloseAttempt: this.onChildCloseAttempt,
-          dontCloseOnAnchorClick: true,
-          onMouseOver: hoverMode ? this.onMouseEnter : undefined,
-          onMouseOut: hoverMode ? this.onMouseLeave : undefined,
-          onContextMenu: hoverMode ? this.onContextMenu : undefined
+          dontCloseOnAnchorClick: true
         })}
       </div>
     );
