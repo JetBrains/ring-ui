@@ -10,15 +10,16 @@ describe('Message', () => {
   const mountMessage = props => mount(<Message {...props}/>);
 
   it('should create component', () => {
-    mountMessage().should.have.type(Message);
+    mountMessage({title: 'foo'}).should.have.type(Message);
   });
 
   it('should wrap children with Popup', () => {
-    shallowMessage().should.have.type(Popup);
+    shallowMessage({title: 'foo'}).should.have.type(Popup);
   });
 
   it('should use passed className', () => {
     shallowMessage({
+      title: 'foo',
       className: 'test-class'
     }).should.have.className('test-class');
   });
