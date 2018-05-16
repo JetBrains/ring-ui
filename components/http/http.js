@@ -18,7 +18,8 @@ export const defaultFetchConfig = {
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json'
-  }
+  },
+  credentials: 'same-origin'
 };
 
 export class HTTPError extends ExtendableError {
@@ -41,10 +42,14 @@ export default class HTTP {
       this.setAuth(auth);
     }
     this.setBaseUrl(baseUrl);
+
+    const {headers, ...defaultConfig} = defaultFetchConfig;
+
     this.fetchConfig = {
+      ...defaultConfig,
       ...fetchConfig,
       headers: {
-        ...defaultFetchConfig.headers,
+        ...headers,
         ...fetchConfig.headers
       }
     };
