@@ -73,7 +73,7 @@ export default class Message extends PureComponent {
     title: PropTypes.string.isRequired,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     direction: PropTypes.string,
-    popupProps: PropTypes.shape(Popup.propTypes),
+    popupProps: PropTypes.object,
     tailOffset: PropTypes.number,
     onClose: PropTypes.func
   };
