@@ -45,6 +45,7 @@ describe('HTTP', () => {
         ...defaultFetchConfig.headers,
         Authorization: `Bearer ${FAKE_TOKEN}`
       },
+      credentials: 'same-origin',
       body: undefined
     });
   });
