@@ -67,6 +67,10 @@ export default class Dialog extends PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    ScrollPreventer.reset();
+  }
+
   toggleScrollPreventer() {
     if (this.props.show) {
       ScrollPreventer.prevent();
