@@ -4,6 +4,7 @@
   overflow: hidden;
 
   padding-top: 2px;
+  padding-bottom: 2px;
 
   white-space: normal;
 }
@@ -33,10 +34,20 @@
   display: inline-block;
 
   padding-left: 2px;
+
+  line-height: 24px;
 }
 
 .tagsSelect {
   margin-bottom: -1px;
+
+  & > div {
+    min-height: 20px;
+  }
+
+  & input {
+    min-height: 20px;
+  }
 }
 
 .underline {
