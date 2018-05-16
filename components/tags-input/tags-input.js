@@ -279,45 +279,41 @@ export default class TagsInput extends Component {
         onClick={this.clickHandler}
         ref={this.nodeRef}
       >
+        <TagsList
+          tags={tags}
+          activeIndex={activeIndex}
+          disabled={disabled}
+          canNotBeEmpty={canNotBeEmpty}
+          handleRemove={this.handleRemove}
+          className={styles.tagsList}
+          handleClick={this.handleClick}
+        >
+          <Select
+            ref={this.selectRef}
+            type={Select.Type.INPUT_WITHOUT_CONTROLS}
+            label={this.props.placeholder}
+            data={this.state.suggestions}
+            className={classNames('ring-input-size_md', styles.tagsSelect)}
+            onSelect={this.addTag}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
+            renderOptimization={this.props.renderOptimization}
+            filter={{
+              fn: () => true
+            }}
+            maxHeight={this.props.maxPopupHeight}
+            minWidth={this.props.minPopupWidth}
+            top={POPUP_VERTICAL_SHIFT}
+            loading={this.state.loading}
+            onFilter={this.loadSuggestions}
+            onBeforeOpen={this.loadSuggestions}
+            onKeyDown={this.handleKeyDown}
+            disabled={this.props.disabled}
 
-        {tags && tags.length > 0 &&
-        (
-          <TagsList
-            tags={tags}
-            activeIndex={activeIndex}
-            disabled={disabled}
-            canNotBeEmpty={canNotBeEmpty}
-            handleRemove={this.handleRemove}
-            className={styles.tagsList}
-            handleClick={this.handleClick}
+            loadingMessage={this.props.loadingMessage}
+            notFoundMessage={this.props.notFoundMessage}
           />
-        )}
-
-        <Select
-          ref={this.selectRef}
-          type={Select.Type.INPUT_WITHOUT_CONTROLS}
-          label={this.props.placeholder}
-          data={this.state.suggestions}
-          className={classNames('ring-input-size_md', styles.tagsSelect)}
-          onSelect={this.addTag}
-          onFocus={this._focusHandler}
-          onBlur={this._blurHandler}
-          renderOptimization={this.props.renderOptimization}
-          filter={{
-            fn: () => true
-          }}
-          maxHeight={this.props.maxPopupHeight}
-          minWidth={this.props.minPopupWidth}
-          top={POPUP_VERTICAL_SHIFT}
-          loading={this.state.loading}
-          onFilter={this.loadSuggestions}
-          onBeforeOpen={this.loadSuggestions}
-          onKeyDown={this.handleKeyDown}
-          disabled={this.props.disabled}
-
-          loadingMessage={this.props.loadingMessage}
-          notFoundMessage={this.props.notFoundMessage}
-        />
+        </TagsList>
 
         {!legacyMode && <div className={styles.underline}/>}
         {!legacyMode && <div className={styles.focusUnderline}/>}
