@@ -5,9 +5,9 @@
     <scripts>
       <script value="gemini-test-single" />
     </scripts>
-    <arguments value="../../components/alert/*.gemini.js" />
+    <arguments value="../../components/message/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
-    <method />
+    <method v="2" />
   </configuration>
 </component>

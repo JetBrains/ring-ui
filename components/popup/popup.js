@@ -95,6 +95,7 @@ export default class Popup extends Component {
     autoPositioning: true,
     left: 0,
     top: 0,
+    offset: 0,
     sidePadding: 8,
 
     attached: false,
