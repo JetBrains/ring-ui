@@ -1,6 +1,3 @@
-import React from 'react';
-import {renderToStaticMarkup} from 'react-dom/server';
-
 import getUID from './get-uid';
 import supportsCss from './supports-css';
 
@@ -23,20 +20,20 @@ export default (length, stops) => {
 
   const gradientId = getUID('gradient');
   const maskId = getUID('mask');
-  const svgDefs = renderToStaticMarkup(
+  const svgDefs = `
     <svg>
       <defs>
-        <radialGradient id={gradientId}>
-          {Object.entries(stops).map(([color, offset]) => (
-            <stop key={`${color} ${offset}`} offset={offset} stopColor={color}/>
-          ))}
+        <radialGradient id="${gradientId}">
+          ${Object.entries(stops).map(([color, offset]) => `
+            <stop offset="${offset}" stop-color="${color}"/>
+          `).join('')}
         </radialGradient>
-        <mask id={maskId}>
-          <rect height="100%" width="100%" fill={`url(#${gradientId})`}/>
+        <mask id="${maskId}">
+          <rect height="100%" width="100%" fill="url(#${gradientId})"/>
         </mask>
       </defs>
     </svg>
-  );
+  `;
   return {
     supports: false,
     css: {},
