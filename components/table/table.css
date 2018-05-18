@@ -168,6 +168,7 @@
     min-width: 0;
 
     height: height;
+    padding: 0;
     padding-right: calc(unit * 5);
 
     color: text-color;
