@@ -1,5 +1,7 @@
 import AuthResponseParser from './response-parser';
 
+export const HUB_LOGIN_FORM_OPENED = 'HUB_LOGIN_FORM_OPENED';
+
 export default class BackgroundFlow {
   constructor(requestBuilder, storage, timeout) {
     this._requestBuilder = requestBuilder;
@@ -46,6 +48,15 @@ export default class BackgroundFlow {
       prepareAuthRequest({request_credentials: 'silent'}, {nonRedirect: true});
 
     return new Promise((resolve, reject) => {
+      function onMessage(e) {
+        if (e.data === HUB_LOGIN_FORM_OPENED) {
+          reject(new Error('Failed to obtain/refresh token in background'));
+          cleanUp();
+        }
+      }
+
+      window.addEventListener('message', onMessage);
+
       const iframe = this._createHiddenFrame();
 
       let cleanRun;
@@ -77,6 +88,7 @@ export default class BackgroundFlow {
         clearTimeout(timeout);
         removeStateListener();
         removeTokenListener();
+        window.removeEventListener('message', onMessage);
         window.document.body.removeChild(iframe);
       }
 
