@@ -1,0 +1,93 @@
+@value unit, text-color, border-radius, border-hover-color, dark-gray-color, link-hover-color from "../global/global.css";
+@value background-color: #e9f1f5;
+@value max-height: 20px;
+
+.tag {
+  display: inline-block;
+
+  box-sizing: border-box;
+  height: max-height;
+
+  margin-right: calc(unit / 2);
+  padding: 1px calc(unit / 2);
+
+  color: text-color;
+
+  border: 1px solid background-color;
+  border-radius: border-radius;
+  background-color: background-color;
+
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.focused,
+.tag:focus {
+  position: relative;
+
+  outline: none;
+  box-shadow: 0 0 0 2px border-hover-color;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.remove {
+  margin-right: calc(unit * -0.5);
+  padding: 0 calc(unit / 2);
+
+  cursor: pointer;
+
+  color: dark-gray-color;
+
+  & svg {
+    vertical-align: -1px;
+  }
+
+  &:hover {
+    color: border-hover-color;
+  }
+}
+
+.icon {
+  margin-right: calc(unit / 2);
+
+  color: dark-gray-color;
+
+  & svg {
+    vertical-align: -2px;
+  }
+}
+
+.avatarContainer {
+  position: relative;
+  top: -2px;
+  left: -5px;
+
+  display: inline-block;
+  overflow: hidden;
+
+  box-sizing: border-box;
+  height: max-height;
+
+  vertical-align: top;
+
+  border-radius: border-radius;
+}
+
+.customIcon {
+  max-width: calc(unit * 2);
+  max-height: calc(unit * 2);
+
+  margin-right: calc(unit / 2);
+
+  vertical-align: bottom;
+}
+
+.avatarIcon {
+  max-width: max-height;
+  max-height: max-height;
+
+  border-radius: border-radius;
+}

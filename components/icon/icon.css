@@ -1,0 +1,67 @@
+@value gray-color, icon-hover-color, green-color, link-hover-color, error-color, main-color, white-color from '../global/global.css';
+
+.icon {
+  position: relative;
+
+  display: inline-block;
+
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+.glyph {
+  display: inline-block;
+
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+.gray {
+  color: gray-color;
+}
+
+.hover {
+  color: icon-hover-color;
+}
+
+.green {
+  color: green-color;
+}
+
+.magenta {
+  color: link-hover-color;
+}
+
+.red {
+  color: error-color;
+}
+
+.blue {
+  color: main-color;
+}
+
+.white {
+  color: white-color;
+}
+
+.loading {
+  animation-name: icon-loading;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes icon-loading {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

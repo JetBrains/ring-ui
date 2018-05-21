@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {shallow, render} from 'enzyme';
 
+import tagStyles from '../tag/tag.css';
+
 import TagsList from './tags-list';
 
 describe('Tags List', () => {
@@ -15,7 +17,7 @@ describe('Tags List', () => {
     });
 
     it('should render passed label inside tags', () => {
-      renderTagsList().find('.ring-tag').should.have.text('test1');
+      renderTagsList().find(`.${tagStyles.tag}`).should.have.text('test1');
     });
 
     it('should render custom tag', () => {

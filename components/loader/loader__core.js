@@ -1,6 +1,7 @@
 import 'dom4';
-import './loader.scss';
 import {getPixelRatio} from '../global/dom';
+
+import styles from './loader.css';
 
 const INITIAL_TICKS = 100;
 
@@ -209,10 +210,10 @@ export default class LoaderCore {
 
   renderInNodeAndStart(node) {
     this.canvas = document.createElement('canvas');
-    this.canvas.classList.add('ring-loader__canvas');
+    this.canvas.classList.add(styles.canvas);
 
     this.textNode = document.createElement('div');
-    this.textNode.classList.add('ring-loader__text');
+    this.textNode.classList.add(styles.text);
 
     this.textNode.textContent = this.props.message ? this.props.message : '';
 

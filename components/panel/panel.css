@@ -1,0 +1,20 @@
+@value unit, popup-border-color from "../global/global.css";
+
+.panel {
+  composes: panel from "../dialog/dialog.css";
+
+  position: relative;
+
+  margin-top: calc(unit * 2);
+  padding: calc(unit * 2) 0 calc(unit * 2) calc(unit * 2);
+
+  border-top: 1px solid popup-border-color;
+
+  &:empty {
+    display: none;
+  }
+
+  & button {
+    margin-right: unit;
+  }
+}
