@@ -54,7 +54,7 @@ export {
   Profile, SmartProfile,
   Services, SmartServices
 } from './header/header';
-export {default as Heading, H1, H2, H3, H4, H5} from './heading/heading';
+export {default as Heading, H1, H2, H3, H4} from './heading/heading';
 export {default as Http} from './http/http';
 export {default as HubSource} from './hub-source/hub-source';
 export {default as Icon} from './icon';
