@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import deprecate from 'util-deprecate';
 
 import styles from './heading.css';
 
@@ -17,7 +18,7 @@ import styles from './heading.css';
       <div id="heading"></div>
     </file>
     <file name="index.css">
-      h1, h2, h3 {
+      h1, h2 {
         &::after {
           content: 'Heading';
           display: block;
@@ -27,7 +28,7 @@ import styles from './heading.css';
         }
       }
 
-      h4, h5 {
+      h3, h4 {
         & + div::before {
           content: 'Lorem ipsum';
           display: block;
@@ -41,7 +42,7 @@ import styles from './heading.css';
     <file name="index.js">
       import React, {Component} from 'react';
       import {render} from 'react-dom';
-      import Heading, {H1, H2, H3, H4, H5} from '@jetbrains/ring-ui/components/heading/heading';
+      import Heading, {H1, H2, H3, H4} from '@jetbrains/ring-ui/components/heading/heading';
       const container = document.getElementById('heading');
       const lorem = <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>;
       const demo = (
@@ -56,8 +57,6 @@ import styles from './heading.css';
           {lorem}
           <H4>Heading 4</H4>
           {lorem}
-          <H5>Heading 5</H5>
-          {lorem}
         </div>
       );
       render(demo, container);
@@ -69,9 +68,13 @@ const Levels = {
   H1: 1,
   H2: 2,
   H3: 3,
-  H4: 4,
-  H5: 5
+  H4: 4
 };
+
+const fallbackHeading = deprecate(
+  () => 'h3',
+  'Headings of level 5 and higher are replaced with h3'
+);
 
 export default class Heading extends PureComponent {
   static propTypes = {
@@ -89,7 +92,8 @@ export default class Heading extends PureComponent {
   render() {
     const {children, className, level, ...restProps} = this.props;
     const classes = classNames(styles.heading, className);
-    const Tag = `h${level}`;
+
+    const Tag = level <= Levels.H4 ? `h${level}` : fallbackHeading();
 
     return (
       <Tag
@@ -133,6 +137,5 @@ const H1 = makeHeading(Levels.H1, true);
 const H2 = makeHeading(Levels.H2);
 const H3 = makeHeading(Levels.H3);
 const H4 = makeHeading(Levels.H4);
-const H5 = makeHeading(Levels.H5);
 
-export {H1, H2, H3, H4, H5};
+export {H1, H2, H3, H4};

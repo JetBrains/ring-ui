@@ -1,5 +1,5 @@
 @value unit, font, font-size, line-height, line-color, dark-gray-color from  "../global/global.css";
-@value baselineCorrection: 6px;
+@value p-margin: 10px;
 
 .inline {
   &,
@@ -11,30 +11,48 @@
 .markdown {
   composes: font;
 
+  & ol,
+  & ul {
+    margin: 0;
+  }
+
   & p,
   & blockquote,
-  & ul,
-  & ol,
   & pre {
     margin: 0;
 
-    &:not(:last-child) {
-      margin-bottom: line-height;
+    &:not(:first-child) {
+      margin-top: p-margin;
     }
   }
 
-  & li:not(:last-child) {
-    & > p,
-    & > blockquote,
-    & > ul,
-    & > ol,
-    & > pre {
-      margin-bottom: line-height;
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6 {
+    & + :not(:first-child) {
+      margin-top: 0;
+    }
+  }
+
+  & li:not(:first-child) {
+    margin-top: unit;
+  }
+
+  & li {
+    & p,
+    & blockquote,
+    & pre {
+      &:not(:first-child) {
+        margin-top: 6px;
+      }
     }
   }
 
   & hr {
-    margin: calc(0 - baselineCorrection) 0 calc(baselineCorrection - 1px);
+    margin: p-margin 0;
 
     border: none;
     border-bottom: 1px solid line-color;
@@ -50,23 +68,15 @@
     line-height: 18px;
   }
 
-  & ul,
+  & ul {
+    padding: 0 0 0 calc(3 * unit);
+  }
+
   & ol {
-    padding: 0 0 0 calc(4 * unit);
+    padding: 0 0 0 calc(5 * unit);
   }
 
   & ul {
     list-style-type: none;
-
-    & > li {
-      position: relative;
-
-      &::before {
-        position: absolute;
-        left: calc(-2 * unit);
-
-        content: '—';
-      }
-    }
   }
 }
