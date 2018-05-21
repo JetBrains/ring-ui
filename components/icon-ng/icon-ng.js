@@ -16,7 +16,7 @@ import '../icon/icon.scss';
         <div ng-app="TestApp" ng-strict-di ng-controller="testCtrl">
           <rg-icon glyph="{{icon}}" size="14"></rg-icon>
           <rg-icon glyph="{{icon}}"></rg-icon>
-          <rg-icon glyph="{{icon}}" color="ORANGE"></rg-icon>
+          <rg-icon glyph="{{icon}}" color="MAGENTA"></rg-icon>
           <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
           <rg-icon glyph="{{icon}}" size="64"></rg-icon>
           <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>

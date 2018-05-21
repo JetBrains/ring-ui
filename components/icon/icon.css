@@ -1,4 +1,4 @@
-@value gray-color, icon-hover-color, green-color, link-hover-color, error-color, main-color, white-color from '../global/global.css';
+@value gray-color, icon-hover-color, success-color, link-hover-color, error-color, main-color, white-color from '../global/global.css';
 
 .icon {
   position: relative;
@@ -25,7 +25,7 @@
 }
 
 .green {
-  color: green-color;
+  color: success-color;
 }
 
 .magenta {
