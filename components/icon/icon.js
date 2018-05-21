@@ -1,6 +1,7 @@
 /**
  * @name Icon
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays an icon.
  * @extends {ReactComponent}
@@ -15,7 +16,7 @@ import classNames from 'classnames';
 import {resolveRelativeURL} from '../global/url';
 
 import {Color, Size} from './icon__constants';
-import './icon.scss';
+import styles from './icon.css';
 
 export default class Icon extends PureComponent {
   static propTypes = {
@@ -41,10 +42,10 @@ export default class Icon extends PureComponent {
   render() {
     const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
 
-    const classes = classNames('ring-icon',
+    const classes = classNames(styles.icon,
       {
-        [`ring-icon_${color}`]: !!color,
-        'ring-icon_loading': loading
+        [styles[color]]: !!color,
+        [styles.loading]: loading
       },
       className
     );
@@ -64,7 +65,7 @@ export default class Icon extends PureComponent {
         className={classes}
       >
         <svg
-          className={'ring-icon__i'}
+          className={styles.glyph}
           style={style}
         >
           <use xlinkHref={xlinkHref}/>

@@ -25,7 +25,7 @@
   margin: auto;
   overflow-wrap: break-word;
 
-  & :global(.ring-panel) {
+  & .panel {
     margin-top: 0;
     padding: calc(unit * 2) calc(unit * 4);
 
@@ -35,7 +35,7 @@
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  & :global(.ring-panel) button {
+  & .panel button {
     margin-right: unit;
   }
 

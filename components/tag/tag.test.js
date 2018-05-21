@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import Icon, {CheckmarkIcon} from '../icon';
 
 import Tag from './tag';
-
+import styles from './tag.css';
 
 describe('Tag', () => {
   const tagMock = {key: 1, label: 'test1', rgTagIcon: CheckmarkIcon};
@@ -16,6 +16,6 @@ describe('Tag', () => {
   });
 
   it('should contains icon', () => {
-    shallowTag().find(Icon).should.have.className('ring-tag__ring-icon');
+    shallowTag().find(Icon).should.have.className(styles.icon);
   });
 });
