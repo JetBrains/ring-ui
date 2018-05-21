@@ -1,6 +1,6 @@
 import AuthResponseParser from './response-parser';
 
-export const HUB_LOGIN_FORM_OPENED = 'HUB_LOGIN_FORM_OPENED';
+export const HUB_AUTH_PAGE_OPENED = 'HUB_AUTH_PAGE_OPENED';
 
 export default class BackgroundFlow {
   constructor(requestBuilder, storage, timeout) {
@@ -49,7 +49,7 @@ export default class BackgroundFlow {
 
     return new Promise((resolve, reject) => {
       function onMessage(e) {
-        if (e.data === HUB_LOGIN_FORM_OPENED) {
+        if (e.data === HUB_AUTH_PAGE_OPENED) {
           reject(new Error('Failed to obtain/refresh token in background'));
           cleanUp();
         }
