@@ -6,6 +6,7 @@ import LoaderCore from './loader__core';
 /**
  * @name Loader
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a large animated loader and an (optional) text. Use cases: while the site is loading, during major actions.
  * @extends {ReactComponent}
@@ -37,7 +38,7 @@ import LoaderCore from './loader__core';
          background-color: black;
        }
 
-       :global(.loader-container_black) :global(.ring-loader__text) {
+       :global(.loader-container_black) {
          color: #FFF;
        }
      </file>

@@ -2,6 +2,8 @@
 import 'angular';
 import 'angular-mocks';
 
+import loaderStyles from '../loader/loader.css';
+
 import Loader from './loader-ng';
 
 describe('Loader', () => {
@@ -24,16 +26,16 @@ describe('Loader', () => {
   });
 
   it('should render loader', () => {
-    element.should.contain('.ring-loader__canvas');
+    element.should.contain(`.${loaderStyles.canvas}`);
   });
 
   it('should render text', () => {
-    element.querySelector('.ring-loader__text').textContent.should.equal('foo');
+    element.querySelector(`.${loaderStyles.text}`).textContent.should.equal('foo');
   });
 
   it('should update text', () => {
     scope.message = 'bar';
     scope.$digest();
-    element.querySelector('.ring-loader__text').textContent.should.equal('bar');
+    element.querySelector(`.${loaderStyles.text}`).textContent.should.equal('bar');
   });
 });

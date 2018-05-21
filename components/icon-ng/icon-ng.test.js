@@ -82,7 +82,7 @@ describe('Icon Ng', () => {
   it('should remove previous color class', () => {
     scope.color = 'BLUE';
     scope.$digest();
-    scope.color = 'ORANGE';
+    scope.color = 'MAGENTA';
     scope.$digest();
     element.should.not.match('.ring-icon_blue');
   });

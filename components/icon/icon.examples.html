@@ -28,8 +28,8 @@
 
     render(
       <CheckmarkIcon
-        className="additional-class"
-        color="orange"
+        className="additional-class ring-icon"
+        color={CheckmarkIcon.Color.MAGENTA}
         size={CheckmarkIcon.Size.Size32}
       />,
       document.getElementById('icon-container')
@@ -37,6 +37,7 @@
 
     render(
       <SearchIcon
+        className="ring-icon"
         size={SearchIcon.Size.Size32}
       />,
       document.getElementById('icon-search')
@@ -44,6 +45,7 @@
 
     render(
       <PencilIcon
+        className="ring-icon"
         size={PencilIcon.Size.Size16}
       />,
       document.getElementById('icon-16-pencil')
@@ -51,6 +53,7 @@
 
     render(
       <PencilIcon
+        className="ring-icon"
         size={PencilIcon.Size.Size14}
       />,
       document.getElementById('icon-14-pencil')
@@ -58,6 +61,7 @@
 
     render(
       <PermissionIcon
+        className="ring-icon"
         height={80}
         width={100}
       />,
@@ -100,7 +104,13 @@
 
     render(
       <div className="icon-example__container">
-        {Object.values(icons).map(Icon => <Icon key={Icon} title={Icon.displayName}/>)}
+        {Object.values(icons).map(Icon => (
+          <Icon
+            key={Icon}
+            title={Icon.displayName}
+            className="ring-icon"
+          />
+        ))}
       </div>,
       document.getElementById('all-icons')
     );
@@ -129,7 +139,14 @@
 
     render(
       <div>
-        {Object.values(logos).map(Logo => <Logo key={Logo} title={Logo.displayName} size={Logo.Size.Size128}/>)}
+        {Object.values(logos).map(Logo => (
+          <Logo
+            key={Logo}
+            title={Logo.displayName}
+            size={Logo.Size.Size128}
+            className="ring-icon"
+          />
+        ))}
       </div>,
       document.getElementById('logos')
     );
