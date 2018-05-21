@@ -71,7 +71,7 @@ To enable the `Wallaby.js` test runner follow these steps:
 
 ### Visual regression testing
 
-**Run the development server with `npm start` before executing the commands listed below**
+*Run the development server with `npm start` before executing the commands listed below*
 
 Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works
 by taking screenshots and comparing them to existing reference images. 
