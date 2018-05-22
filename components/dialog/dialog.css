@@ -1,4 +1,4 @@
-@value unit, gray-color, link-hover-color, overlay-z-index, border-radius, popup-border-color from '../global/global.css';
+@value unit, gray-color, link-hover-color, overlay-z-index, border-radius, popup-border-color, icon-color, border-hover-color, main-color from '../global/global.css';
 
 .container {
   position: fixed;
@@ -23,11 +23,13 @@
   min-height: calc(unit * 15);
   max-height: 100%;
   margin: auto;
+
+  cursor: default;
   overflow-wrap: break-word;
 
   & .panel {
     margin-top: 0;
-    padding: calc(unit * 2) calc(unit * 4);
+    padding-left: calc(unit * 4);
 
     border-top: none;
 
@@ -48,24 +50,38 @@
   box-shadow: 0 2px 16px color(popup-border-color a(0.15));
 }
 
+.clickableOverlay {
+  cursor: pointer;
+}
+
+.clickableOverlay:hover .closeIcon {
+  color: border-hover-color;
+}
+
+.content:hover .closeIcon {
+  color: icon-color;
+}
+
+.closeButton:hover .closeIcon {
+  color: border-hover-color;
+}
+
+.clickableOverlay:active .closeIcon {
+  color: main-color;
+}
+
+.content:active .closeIcon {
+  color: icon-color;
+}
+
+.closeButton:active .closeIcon {
+  color: main-color;
+}
+
 .closeButton {
   position: absolute;
-  right: calc(unit * -6);
-
-  cursor: pointer;
-
-  transition: opacity 0.3s ease-in;
-
-  opacity: 0.3;
-  color: gray-color;
-  border: none;
-  background: transparent;
-
-  &:hover,
-  &:focus {
-    opacity: 1;
-    color: link-hover-color;
-  }
+  top: 0;
+  right: calc(unit * -4);
 }
 
 .bodyWithoutScroll {
