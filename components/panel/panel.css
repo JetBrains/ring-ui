@@ -6,7 +6,7 @@
   position: relative;
 
   margin-top: calc(unit * 2);
-  padding: calc(unit * 2) 0 calc(unit * 2) calc(unit * 2);
+  padding: calc(unit * 1.5) 0 calc(unit * 2) calc(unit * 2);
 
   border-top: 1px solid popup-border-color;
 
