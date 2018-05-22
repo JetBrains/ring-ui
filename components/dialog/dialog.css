@@ -29,6 +29,7 @@
 
   & .panel {
     margin-top: 0;
+    padding-right: calc(unit * 4);
     padding-left: calc(unit * 4);
 
     border-top: none;
