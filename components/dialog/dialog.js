@@ -8,6 +8,7 @@ import getUID from '../global/get-uid';
 import {CloseIcon} from '../icon/icons';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap from '../tab-trap/tab-trap';
+import Button from '../button/button';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -21,6 +22,8 @@ import styles from './dialog.css';
  * @description The Dialog component is a simple way to present content above an enclosing view.
  * @example-file ./dialog.examples.html
  */
+
+function noop() {}
 
 export default class Dialog extends PureComponent {
   static propTypes = {
@@ -44,10 +47,10 @@ export default class Dialog extends PureComponent {
   };
 
   static defaultProps = {
-    onOverlayClick: () => {},
-    onEscPress: () => {},
-    onCloseClick: () => {},
-    onCloseAttempt: () => {},
+    onOverlayClick: noop,
+    onEscPress: noop,
+    onCloseClick: noop,
+    onCloseAttempt: noop,
     showCloseButton: false,
     trapFocus: false,
     autoFocusFirst: true
@@ -112,7 +115,9 @@ export default class Dialog extends PureComponent {
   render() {
     // eslint-disable-next-line no-unused-vars, max-len
     const {show, showCloseButton, autoFocusFirst, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
-    const classes = classNames(styles.container, className);
+    const classes = classNames(styles.container, className, {
+      [styles.clickableOverlay]: onOverlayClick !== noop || onCloseAttempt !== noop
+    });
     const shortcutsMap = this.getShortcutsMap();
 
     return show && createPortal(
@@ -135,16 +140,15 @@ export default class Dialog extends PureComponent {
         >
           {children}
           {showCloseButton &&
-          (
-            <button
-              type="button"
-              data-test="ring-dialog-close-button"
-              className={styles.closeButton}
-              onClick={this.onCloseClick}
-            >
-              <CloseIcon/>
-            </button>
-          )
+            (
+              <Button
+                icon={CloseIcon}
+                data-test="ring-dialog-close-button"
+                className={styles.closeButton}
+                iconClassName={styles.closeIcon}
+                onClick={this.onCloseClick}
+              />
+            )
           }
         </AdaptiveIsland>
       </TabTrap>,
