@@ -210,9 +210,11 @@ export default class LoaderCore {
 
   renderInNodeAndStart(node) {
     this.canvas = document.createElement('canvas');
+    this.canvas.dataset.test = 'ring-loader';
     this.canvas.classList.add(styles.canvas);
 
     this.textNode = document.createElement('div');
+    this.textNode.dataset.test = 'ring-loader-text';
     this.textNode.classList.add(styles.text);
 
     this.textNode.textContent = this.props.message ? this.props.message : '';
