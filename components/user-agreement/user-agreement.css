@@ -1,11 +1,11 @@
 @value unit, extra-small-screen-media from '../global/global.css';
 
 .dialogContent {
-  max-width: 600px;
+  width: 600px;
 
   @media extra-small-screen-media {
     & {
-      max-width: 90vw;
+      width: 90vw;
     }
   }
 }
