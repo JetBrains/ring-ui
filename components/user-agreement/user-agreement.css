@@ -1,18 +1,13 @@
 @value unit from '../global/global.css';
 
 .dialogContent {
-  width: auto;
-  padding: calc(unit * 3) 0 calc(unit * 2);
+  width: 600px;
 }
 
-.text {
-  overflow-y: auto;
+.scrollableWrapper {
+  padding-top: 0;
+}
 
-  min-width: 260px;
-  max-width: 600px;
-  max-height: 300px;
-  padding: calc(unit * 2);
-
-  border: 1px solid #e7ebf0;
-  background-color: #fafafa;
+.suggestion {
+  font-size: 12px;
 }
