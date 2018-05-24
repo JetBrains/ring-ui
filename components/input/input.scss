@@ -72,4 +72,10 @@ textarea.ring-input {
   height: auto;
   min-height: 8*$ring_unit;
   resize: vertical;
+
+  &::placeholder {
+    color: $ring-gray-color;
+    line-height: 16px;
+    font-size: $ring-font-size-smaller;
+  }
 }
