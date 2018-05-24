@@ -145,7 +145,7 @@
     "node-sass": "4.9.0",
     "octicons": "^7.3.0",
     "react": "16.4.0",
-    "react-dom": "16.3.2",
+    "react-dom": "16.4.0",
     "react-test-renderer": "16.3.2",
     "recompose": "^0.27.1",
     "sinon": "5.0.0",
@@ -163,7 +163,7 @@
   },
   "peerDependencies": {
     "react": "16.4.0",
-    "react-dom": ">=16.3.0"
+    "react-dom": "16.4.0"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
