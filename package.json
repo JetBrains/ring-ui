@@ -146,7 +146,7 @@
     "octicons": "^7.3.0",
     "react": "16.4.0",
     "react-dom": "16.4.0",
-    "react-test-renderer": "16.3.2",
+    "react-test-renderer": "16.4.0",
     "recompose": "^0.27.1",
     "sinon": "5.0.0",
     "sinon-chai": "3.1.0",
