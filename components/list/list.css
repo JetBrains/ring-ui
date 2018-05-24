@@ -44,8 +44,6 @@
 .item {
   display: block;
 
-  padding: 3px calc(unit * 2) 5px;
-
   text-align: left;
   vertical-align: bottom;
   white-space: nowrap;
@@ -55,6 +53,10 @@
 
   font-size: font-size;
   line-height: calc(unit * 3);
+}
+
+.item.item {
+  padding: 3px calc(unit * 2) 5px;
 }
 
 .compact {
