@@ -81,13 +81,17 @@ angularModule.directive('rgPageTitle', function rgPageTitleDirective() {
   });
 });
 
-angularModule.service('pageTitle', function service($interpolate) {
+angularModule.service('pageTitle', function service($interpolate, $document) {
   let delimiter = ' | ';
-  let current = document.title;
+  let current = $document[0].title;
 
   function setTitle(text) {
     current = text && $interpolate(text)();
-    document.title = current;
+    updateDocumentTitle(current);
+  }
+
+  function updateDocumentTitle(text) {
+    $document[0].title = text;
   }
 
   function prepend(element) {
@@ -108,6 +112,8 @@ angularModule.service('pageTitle', function service($interpolate) {
   this.setCurrent = newBase => {
     current = newBase;
   };
+
+  this.setText = text => updateDocumentTitle(text);
 
   this.addElement = (element, fieldName) => {
     if (element.$promise) {
