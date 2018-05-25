@@ -9,13 +9,11 @@
     import UserAgreement from '@jetbrains/ring-ui/components/user-agreement/user-agreement';
     import text from './toolbox.eula';
 
-    const onAccept = () => {
-      console.log('accept');
-    };
+    const onAccept = () => console.log('accept');
 
-    const onDecline = () => {
-      console.log('decline');
-    };
+    const onDecline = () => console.log('decline');
+
+    const onClose = () => console.log('close');
 
     class Demo extends Component {
       render() {
@@ -26,6 +24,7 @@
                text={text}
                onAccept={onAccept}
                onDecline={onDecline}
+               onClose={onClose}
              />
           </div>
          );
