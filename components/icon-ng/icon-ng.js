@@ -3,7 +3,7 @@ import 'dom4';
 
 import {resolveRelativeURL} from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
-import '../icon/icon.scss';
+import styles from '../icon/icon.css';
 
 /**
  * @name Icon Ng
@@ -37,8 +37,6 @@ import '../icon/icon.scss';
  */
 
 const angularModule = angular.module('Ring.icon', []);
-const CLASS_PREFIX = 'ring-icon_';
-const LOADING_CLASS = `${CLASS_PREFIX}loading`;
 const DEFAULT_SIZE = Size.Size32;
 
 angularModule.directive('rgIcon', function rgIconDirective() {
@@ -52,25 +50,33 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: require('./icon-ng.html'),
+    template: `
+<svg
+  class="${styles.glyph}"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  ng-style="style"
+>
+  <use ng-href="{{glyphPath}}" xlink:href=""></use>
+</svg>`,
     controller: $scope => {
       $scope.$watch('glyph', value => {
         $scope.glyphPath = resolveRelativeURL(value);
       });
     },
     link: function link(scope, iElement, iAttrs) {
-      iAttrs.$addClass('ring-icon');
+      iAttrs.$addClass('ring-icon'); // TODO: We keep this class for now for compatibility reasons (styles overrides)
+      iAttrs.$addClass(styles.icon);
 
       scope.$watch('loading', value => {
         if (value) {
-          iAttrs.$addClass(LOADING_CLASS);
+          iAttrs.$addClass(styles.loading);
         } else {
-          iAttrs.$removeClass(LOADING_CLASS);
+          iAttrs.$removeClass(styles.loading);
         }
       });
 
-      scope.$watch(
-        () => scope.color && Color[scope.color] && CLASS_PREFIX + Color[scope.color],
+      scope.$watch(() => scope.color && Color[scope.color] && styles[Color[scope.color]],
         (colorClass, prevColorClass) => {
           if (colorClass) {
             iAttrs.$addClass(colorClass);
