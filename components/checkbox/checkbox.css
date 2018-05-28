@@ -38,7 +38,7 @@
   background-color: white-color;
 }
 
-.icon.icon {
+.icon {
   position: absolute;
   top: calc(unit * -1.5);
   left: 1px;
