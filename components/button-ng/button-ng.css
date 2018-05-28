@@ -1,5 +1,6 @@
 /* This fixes vertical align of icons, contained in button content */
-.ringIconVerticalAlignFix :global(.ring-icon) {
+/* stylelint-disable-next-line selector-type-no-unknown */
+.ringIconVerticalAlignFix rg-icon {
   top: auto;
 
   vertical-align: 1px;
