@@ -90,11 +90,24 @@
   line-height: line-height-lower;
 }
 
-.subHeader,
+.tableHead {
+  &::after {
+    position: absolute;
+
+    width: 100%;
+
+    height: 1px;
+
+    content: "";
+
+    background-color: line-color;
+  }
+}
+
 .subHeaderFixed {
   &::after {
     position: absolute;
-    top: 23px;
+    top: 24px;
 
     height: 1px;
 
