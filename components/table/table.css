@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, main-color, text-color, border-hover-color, line-height-lower, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis from global;
+@value unit, main-color, text-color, border-hover-color, line-height-lower, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis, font-size from global;
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
@@ -31,8 +31,6 @@
     white-space: nowrap;
 
     color: dark-gray-color;
-
-    border-bottom: solid 1px line-color;
 
     font-weight: 200;
   }
@@ -82,11 +80,35 @@
   padding-top: unit;
   padding-bottom: 6px;
 
+  text-transform: capitalize;
+
   color: text-color;
   border-bottom: none;
 
+  font-size: font-size;
   font-weight: bold;
   line-height: line-height-lower;
+}
+
+.subHeader,
+.subHeaderFixed {
+  &::after {
+    position: absolute;
+    top: 23px;
+
+    height: 1px;
+
+    content: "";
+
+    background-color: line-color;
+  }
+}
+
+.subHeader {
+  &::after {
+    right: calc(unit * 4);
+    left: calc(unit * 4);
+  }
 }
 
 .subHeaderFixed {
@@ -95,6 +117,11 @@
   top: 0;
 
   background-color: rgba(256, 256, 256, 0.95);
+
+  &::after {
+    right: 0;
+    left: 0;
+  }
 }
 
 .row {
@@ -141,7 +168,8 @@
     min-width: 0;
 
     height: height;
-    padding: 0 calc(unit * 5) compensate 0;
+    padding: 0;
+    padding-right: calc(unit * 5);
 
     color: text-color;
   }
@@ -184,8 +212,11 @@
   float: left;
 
   height: 16px;
-  padding-top: 1px;
-  padding-right: 2px;
+  padding-right: compensate;
+
+  &.headerMetaColumn {
+    padding-top: 1px;
+  }
 }
 
 @value top: -5px;

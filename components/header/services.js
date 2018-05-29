@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import {ServicesIcon} from '../icon';
 
@@ -11,15 +10,20 @@ import TrayIcon from './tray-icon';
 import ServicesLink from './services-link';
 import styles from './services.css';
 
-const Anchor = ({active}) => (
-  <TrayIcon
-    active={active}
-    icon={ServicesIcon}
-  />
-);
+const makeAnchor = loading => {
+  const Anchor = ({active}) => (
+    <TrayIcon
+      loader={loading}
+      active={active}
+      icon={ServicesIcon}
+    />
+  );
 
-Anchor.propTypes = {
-  active: PropTypes.bool
+  Anchor.propTypes = {
+    active: PropTypes.bool
+  };
+
+  return Anchor;
 };
 
 export default class Services extends PureComponent {
@@ -45,18 +49,14 @@ export default class Services extends PureComponent {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const {className, clientId, loading, services, initShown, ...props} = this.props;
-
-    const classes = classNames(className, {
-      ['ring-icon_loading']: loading
-    });
+    const {clientId, loading, services, initShown, ...props} = this.props;
 
     if (!services) {
       return (
         <TrayIcon
           {...props}
+          loader={loading}
           active={loading}
-          className={classes}
           icon={ServicesIcon}
         />
       );
@@ -70,8 +70,7 @@ export default class Services extends PureComponent {
     return (
       <Dropdown
         {...props}
-        anchor={Anchor}
-        className={className}
+        anchor={makeAnchor(loading)}
         initShown={initShown}
       >
         <Popup

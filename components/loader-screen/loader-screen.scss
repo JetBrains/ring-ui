@@ -9,7 +9,7 @@
   .ring-loader-screen__loader {
     display: inline-block;
 
-    &_without-spacings .ring-loader__canvas {
+    &_without-spacings canvas {
       margin: 0;
     }
   }

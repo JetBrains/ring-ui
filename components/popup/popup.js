@@ -29,6 +29,8 @@ import position, {
 } from './position';
 import styles from './popup.css';
 
+const stop = e => e.stopPropagation();
+
 /**
  * @constructor
  * @name Popup
@@ -93,6 +95,7 @@ export default class Popup extends Component {
     autoPositioning: true,
     left: 0,
     top: 0,
+    offset: 0,
     sidePadding: 8,
 
     attached: false,
@@ -179,7 +182,7 @@ export default class Popup extends Component {
 
   getContainer() {
     const target = this.props.target || this.context.ringPopupTarget;
-    return document.querySelector(`[data-portaltarget=${target}`);
+    return target && document.querySelector(`[data-portaltarget=${target}]`);
   }
 
   position() {
@@ -313,6 +316,8 @@ export default class Popup extends Component {
 
     return (
       <span
+        // prevent bubbling through portal
+        onClick={stop}
         ref={this.portalRef}
       >
         {this.state.shortcuts &&

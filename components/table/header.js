@@ -79,9 +79,7 @@ export default class Header extends PureComponent {
       onCheckboxChange, onSort, sortKey, sortOrder
     } = this.props;
 
-    const metaColumnClasses = classNames(style.metaColumn, {
-      [style.metaColumnSpaced]: selectable
-    });
+    const metaColumnClasses = classNames(style.metaColumn, style.headerMetaColumn);
 
     const metaColumn = (
       <div className={metaColumnClasses}>
@@ -142,6 +140,7 @@ export default class Header extends PureComponent {
         }
 
         <tr
+          className={style.subHeader}
           ref={this.storeColumnsRowNode}
           data-test="ring-table-header-row"
         >{regularCells}</tr>

@@ -2,9 +2,25 @@
   <file type="html" disable-auto-size>
     <div ng-app="Ring.sidebar" ng-strict-di ng-init="isShowSideBar = true"
       style="position: relative;">
-      <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar"
+      <rg-sidebar
+        show="isShowSideBar"
+        place-under-sibling=".some-toolbar"
         top-offset="1">
-        <div class="sidebar__empty">Nothing to show</div>
+        <div>
+
+          <img class="ring-sidebar__avatar"
+               ng-src="http://via.placeholder.com/64x64"/>
+
+          <h3 class="ring-sidebar__title">
+            <a class="ring-link" href="#">User Link</a>
+          </h3>
+
+          <div class="ring-sidebar__section">
+            <span class="ring-sidebar__section-title" translate>Full Name</span>
+
+            <div class="ring-sidebar__section-text">Value</div>
+          </div>
+        </div>
       </rg-sidebar>
       <div class="some-toolbar">
         Toolbar to place before sidebar
@@ -16,6 +32,7 @@
   <file type="js">
     import angular from 'angular';
     import '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
+    import '@jetbrains/ring-ui/components/link/link__legacy.css';
   </file>
 </example>
 

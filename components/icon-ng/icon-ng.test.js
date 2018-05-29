@@ -3,6 +3,7 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 import {CheckmarkIcon, WarningIcon} from '../icon';
+import styles from '../icon/icon.css';
 
 import Icon from './icon-ng';
 
@@ -35,7 +36,7 @@ describe('Icon Ng', () => {
   }));
 
   it('should set base class', () => {
-    element.should.match('rg-icon.ring-icon');
+    element.should.match(`rg-icon.${styles.icon}`);
   });
 
   it('should contain non-empty use element', () => {
@@ -56,13 +57,13 @@ describe('Icon Ng', () => {
   });
 
   it('should not have loading class initially', () => {
-    element.should.not.match('.ring-icon_loading');
+    element.should.not.match(`.${styles.loading}`);
   });
 
   it('should set loading class', () => {
     scope.loading = true;
     scope.$digest();
-    element.should.match('.ring-icon_loading');
+    element.should.match(`.${styles.loading}`);
   });
 
   it('should remove loading class', () => {
@@ -70,19 +71,19 @@ describe('Icon Ng', () => {
     scope.$digest();
     scope.loading = false;
     scope.$digest();
-    element.should.not.match('.ring-icon_loading');
+    element.should.not.match(`.${styles.loading}`);
   });
 
   it('should set color class', () => {
     scope.color = 'BLUE';
     scope.$digest();
-    element.should.match('.ring-icon_blue');
+    element.should.match(`.${styles.blue}`);
   });
 
   it('should remove previous color class', () => {
     scope.color = 'BLUE';
     scope.$digest();
-    scope.color = 'ORANGE';
+    scope.color = 'MAGENTA';
     scope.$digest();
     element.should.not.match('.ring-icon_blue');
   });

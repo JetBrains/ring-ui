@@ -40,14 +40,6 @@
 .error-message__icon {
   float: left;
 
-  // Custom size for ring icon
-  &.ring-icon {
-    svg {
-      width: 100px;
-      height: 100px;
-    }
-  }
-
   margin: 0 $ring-unit*2 $ring-unit*100;
   overflow: hidden;
   color: rgba(0, 0, 0, 0.2);
