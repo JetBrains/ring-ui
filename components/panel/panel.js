@@ -2,11 +2,12 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './panel.scss';
+import styles from './panel.css';
 
 /**
  * @name Panel
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a button panel.
  * @extends {ReactComponent}
@@ -42,7 +43,7 @@ export default class Panel extends PureComponent {
 
   render() {
     const {className, children, ...props} = this.props;
-    const classes = classNames('ring-panel', className);
+    const classes = classNames(styles.panel, className);
     return (
       <div
         {...props}

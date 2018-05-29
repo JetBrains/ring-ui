@@ -10,28 +10,23 @@
   }
 
   @nest h1&, h2& {
-    color: heading-color;
-  }
-
-  @nest h1& {
     margin-bottom: 8px;
+
+    color: heading-color;
 
     font-size: 24px;
     line-height: 28px;
   }
 
   @nest h2& {
-    margin-bottom: 4px;
-
-    font-size: 20px;
-    line-height: 24px;
+    font-weight: 200;
   }
 
   @nest h3& {
-    margin-bottom: 1px;
+    margin-bottom: 0;
 
-    font-size: 16px;
-    line-height: 20px;
+    font-size: inherit;
+    line-height: inherit;
   }
 
   @nest h4& {
@@ -43,10 +38,6 @@
     font-size: 12px;
     font-weight: normal;
     line-height: 16px;
-  }
-
-  @nest h5&, h6& {
-    margin-bottom: 0;
   }
 }
 

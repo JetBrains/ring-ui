@@ -8,6 +8,6 @@
     <arguments value="../../components/alert/*.gemini.js" />
     <node-interpreter value="project" />
     <envs />
-    <method />
+    <method v="2" />
   </configuration>
 </component>

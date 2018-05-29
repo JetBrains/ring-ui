@@ -1,25 +1,24 @@
-import React, {Component} from 'react';
+import React, {Component, createContext, forwardRef} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import getUID from '../global/get-uid';
 
-import './radio.scss';
+import styles from './radio.css';
 
-export default class Radio extends Component {
-  static contextTypes = {
-    ringRadioGroup: PropTypes.object
-  };
+export const RadioContext = createContext({});
 
+export class Radio extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
-    value: PropTypes.string
+    value: PropTypes.string,
+    name: PropTypes.string,
+    checked: PropTypes.bool,
+    onChange: PropTypes.func
   };
 
-  constructor(...args) {
-    super(...args);
-    this.uid = getUID('ring-radio-item-');
-  }
+  uid = getUID('ring-radio-item-');
 
   inputRef = el => {
     this.input = el;
@@ -29,47 +28,38 @@ export default class Radio extends Component {
     this.label = el;
   };
 
-  textLabelRef = el => {
-    this.textLabel = el;
-  };
-
   render() {
-    const {name, value, onChange} = this.context.ringRadioGroup || {};
     const {className, children, ...restProps} = this.props;
 
-    const optional = {};
-    if (value !== undefined) {
-      optional.checked = (this.props.value === value);
-    }
-    if (typeof onChange === 'function') {
-      optional.onChange = () => onChange(this.props.value);
-    }
+    const classes = classNames(styles.radio, className);
 
     return (
-      <div className={className}>
+      <label ref={this.labelRef} className={classes} htmlFor={this.uid}>
         <input
           name={name}
           id={this.uid}
           {...restProps}
           ref={this.inputRef}
-          className="ring-radio"
+          className={styles.input}
           type="radio"
-          {...optional}
         />
-        <label
-          className="ring-radio__label"
-          htmlFor={this.uid}
-          ref={this.labelRef}
-        />
-        <label
-          className="ring-radio__text-label"
-          htmlFor={this.uid}
-          ref={this.textLabelRef}
-        >
-          {children}
-        </label>
-      </div>
+        <span className={styles.circle}/>
+        <span className={styles.label}>{children}</span>
+      </label>
     );
   }
 }
 
+export default forwardRef((props, ref) => (
+  <RadioContext.Consumer>
+    {({value, onChange, ...restContext}) => (
+      <Radio
+        ref={ref}
+        {...restContext}
+        checked={value != null ? value === props.value : undefined}
+        onChange={onChange && (() => onChange(props.value))}
+        {...props}
+      />
+    )}
+  </RadioContext.Consumer>
+));

@@ -57,11 +57,11 @@
   }
 
   & .highlight {
-    color: #d800ff;
+    font-weight: 600;
   }
 
   & .service {
-    color: #b4b4b4;
+    color: dark-gray-color;
   }
 }
 
@@ -145,7 +145,7 @@
   }
 
   & .highlight {
-    color: #d800ff;
+    font-weight: 600;
   }
 
   & .service {

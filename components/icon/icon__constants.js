@@ -7,7 +7,7 @@ export const Color = {
   DEFAULT: '',
   GRAY: 'gray',
   GREEN: 'green',
-  ORANGE: 'orange',
+  MAGENTA: 'magenta',
   RED: 'red',
   WHITE: 'white'
 };

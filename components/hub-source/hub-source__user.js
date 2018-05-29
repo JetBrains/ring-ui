@@ -2,7 +2,7 @@ import HTTP from '../http/http';
 
 const DEFAULT_FIELDS = 'id,name,login,banned,banReason,profile(email/email,avatar/url)';
 
-export function convertUserForCard(hubUser, serverUri) {
+export function convertUserForCard(hubUser, serverUri = '') {
   return {
     name: hubUser.name,
     login: hubUser.login,

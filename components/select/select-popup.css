@@ -17,12 +17,17 @@
 
 .filter {
   width: 100%;
+
+  & input {
+    font-weight: 200;
+  }
 }
 
 .filterWrapper {
   position: relative;
 
   margin: 0;
+  padding-right: unit;
   padding-left: calc(unit * 5.5);
 
   border-bottom: 1px solid line-color;

@@ -1,5 +1,5 @@
 @value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
-@value listSpacing: calc(unit / 2);
+@value listSpacing: unit;
 
 .list {
   position: relative;
@@ -23,7 +23,7 @@
   display: block;
 
   margin-top: listSpacing;
-  padding: 0 calc(unit * 2) 2px;
+  padding: 0 calc(unit * 2) 1px;
 
   text-align: right;
 
@@ -35,7 +35,7 @@
 }
 
 .separator_first {
-  margin-top: calc(0 - listSpacing);
+  margin-top: 0;
   padding-top: 0;
 
   border: none;
@@ -43,8 +43,6 @@
 
 .item {
   display: block;
-
-  padding: 3px calc(unit * 2) 5px;
 
   text-align: left;
   vertical-align: bottom;
@@ -55,6 +53,10 @@
 
   font-size: font-size;
   line-height: calc(unit * 3);
+}
+
+.item.item {
+  padding: 3px calc(unit * 2) 5px;
 }
 
 .compact {
@@ -103,7 +105,7 @@
   overflow: hidden;
   flex-shrink: 100;
 
-  padding-left: calc(unit * 2);
+  padding-left: unit;
 
   text-align: right;
   white-space: nowrap;
@@ -112,6 +114,7 @@
   color: dark-gray-color;
 
   font-size: font-size-smaller;
+  font-weight: 200;
   line-height: line-height-lowest;
 }
 

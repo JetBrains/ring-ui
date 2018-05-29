@@ -66,16 +66,13 @@
   </file>
 </example>
 
-
-<example name="Inline loader without React [deprecated]">
+<example name="Inline loader without React">
   <file type="html">
-    <div class="ring-loader-inline">
-      <div class="ring-loader-inline__ball"></div>
-      <div class="ring-loader-inline__ball ring-loader-inline__ball_second"></div>
-      <div class="ring-loader-inline__ball ring-loader-inline__ball_third"></div>
-    </div>
+    <div class="ring-loader-inline"></div>
   </file>
   <file type="js">
-    import '@jetbrains/ring-ui/components/loader-inline/loader-inline.scss';
+    import injectStyles from '@jetbrains/ring-ui/components/loader-inline/inject-styles';
+
+    injectStyles();
   </file>
 </example>

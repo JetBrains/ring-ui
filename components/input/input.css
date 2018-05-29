@@ -23,7 +23,7 @@
 .input {
   width: 100%;
   min-height: calc(unit * 4);
-  padding: 0 0 3px;
+  padding: 0;
 
   border: none;
   outline: none;
@@ -79,9 +79,11 @@
 
 .clear {
   position: absolute;
-  top: 16px;
+  top: 17px;
 
   right: 0;
+
+  padding-right: 0;
 
   @nest .empty & {
     display: none;
@@ -108,7 +110,7 @@ textarea.input {
 
 .label {
   position: absolute;
-  top: calc(unit * 3 - 2px);
+  top: calc(unit * 3 - 3px);
   left: 0;
 
   transition: transform fast-ease, color fast-ease;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Button from '@jetbrains/ring-ui/components/button/button';
 import Link from '@jetbrains/ring-ui/components/link/link';
 import Code from '@jetbrains/ring-ui/components/code/code';
-import {H5} from '@jetbrains/ring-ui/components/heading/heading';
+import {H3} from '@jetbrains/ring-ui/components/heading/heading';
 import {LinkIcon} from '@jetbrains/ring-ui/components/icon';
 
 import styles from './index.css';
@@ -37,7 +37,7 @@ function Example({name, url, disableAutoSize, files}) {
       <Link href={`#${id}`} className={styles.exampleAnchor} tabIndex={-1}>
         {() => <Button icon={LinkIcon}/>}
       </Link>
-      <H5 id={id} className={styles.exampleTitle}>{name}</H5>
+      <H3 id={id} className={styles.exampleTitle}>{name}</H3>
       <Link
         href={url}
         className={styles.exampleLink}
