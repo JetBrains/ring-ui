@@ -52,6 +52,7 @@ export default class TagsInput extends Component {
     disabled: PropTypes.bool,
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
+    legacyMode: PropTypes.bool,
 
     loadingMessage: PropTypes.string,
     notFoundMessage: PropTypes.string
@@ -67,7 +68,8 @@ export default class TagsInput extends Component {
     canNotBeEmpty: false,
     disabled: false,
     autoOpen: false,
-    renderOptimization: true
+    renderOptimization: true,
+    legacyMode: false
   };
 
   static ngModelStateField = 'tags';
@@ -260,11 +262,13 @@ export default class TagsInput extends Component {
 
   render() {
     const {focused, tags, activeIndex} = this.state;
+    const {legacyMode, disabled, canNotBeEmpty} = this.props;
     const classes = classNames(
       styles.tagsInput,
       {
-        [styles.tagsInputDisabled]: this.props.disabled,
-        [styles.tagsInputFocused]: focused
+        [styles.tagsInputDisabled]: disabled,
+        [styles.tagsInputFocused]: focused,
+        [styles.tagsInputLegacyMode]: legacyMode
       },
       this.props.className);
 
@@ -275,48 +279,44 @@ export default class TagsInput extends Component {
         onClick={this.clickHandler}
         ref={this.nodeRef}
       >
-
-        {tags && tags.length > 0 &&
-        (
-          <TagsList
-            tags={tags}
-            activeIndex={activeIndex}
+        <TagsList
+          tags={tags}
+          activeIndex={activeIndex}
+          disabled={disabled}
+          canNotBeEmpty={canNotBeEmpty}
+          handleRemove={this.handleRemove}
+          className={styles.tagsList}
+          handleClick={this.handleClick}
+        >
+          <Select
+            ref={this.selectRef}
+            type={Select.Type.INPUT_WITHOUT_CONTROLS}
+            label={this.props.placeholder}
+            data={this.state.suggestions}
+            className={classNames('ring-input-size_md', styles.tagsSelect)}
+            onSelect={this.addTag}
+            onFocus={this._focusHandler}
+            onBlur={this._blurHandler}
+            renderOptimization={this.props.renderOptimization}
+            filter={{
+              fn: () => true
+            }}
+            maxHeight={this.props.maxPopupHeight}
+            minWidth={this.props.minPopupWidth}
+            top={POPUP_VERTICAL_SHIFT}
+            loading={this.state.loading}
+            onFilter={this.loadSuggestions}
+            onBeforeOpen={this.loadSuggestions}
+            onKeyDown={this.handleKeyDown}
             disabled={this.props.disabled}
-            canNotBeEmpty={this.props.canNotBeEmpty}
-            handleRemove={this.handleRemove}
-            className={styles.tagsList}
-            handleClick={this.handleClick}
+
+            loadingMessage={this.props.loadingMessage}
+            notFoundMessage={this.props.notFoundMessage}
           />
-        )}
+        </TagsList>
 
-        <Select
-          ref={this.selectRef}
-          type={Select.Type.INPUT_WITHOUT_CONTROLS}
-          label={this.props.placeholder}
-          data={this.state.suggestions}
-          className={classNames('ring-input-size_md', styles.tagsSelect)}
-          onSelect={this.addTag}
-          onFocus={this._focusHandler}
-          onBlur={this._blurHandler}
-          renderOptimization={this.props.renderOptimization}
-          filter={{
-            fn: () => true
-          }}
-          maxHeight={this.props.maxPopupHeight}
-          minWidth={this.props.minPopupWidth}
-          top={POPUP_VERTICAL_SHIFT}
-          loading={this.state.loading}
-          onFilter={this.loadSuggestions}
-          onBeforeOpen={this.loadSuggestions}
-          onKeyDown={this.handleKeyDown}
-          disabled={this.props.disabled}
-
-          loadingMessage={this.props.loadingMessage}
-          notFoundMessage={this.props.notFoundMessage}
-        />
-
-        <div className={styles.underline}/>
-        <div className={styles.focusUnderline}/>
+        {!legacyMode && <div className={styles.underline}/>}
+        {!legacyMode && <div className={styles.focusUnderline}/>}
       </div>);
   }
 }

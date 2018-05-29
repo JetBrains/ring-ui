@@ -161,6 +161,7 @@ export default class Profile extends PureComponent {
         {...props}
         title={user.name}
         anchor={anchor}
+        data-test="ring-profile"
         className={classNames(styles.profile, className)}
       >
         <PopupMenu

@@ -26,6 +26,7 @@
 @value sidebar-background-color: #F7F9FA;
 @value selected-background-color: #E5F4FF;
 @value dark-selected-background-color: #001526;
+@value message-background-color: rgba(0, 21, 38, 0.9);
 @value black-color: #000;
 @value border-radius: 3px;
 @value border-radius-small: 2px;
@@ -41,7 +42,7 @@
 @value fast-ease: 0.15s ease-out;
 
 /* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
-@value font-family -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+@value font-family -apple-system, BlinkMacSystemFont, Ubuntu, "Helvetica Neue", Arial, sans-serif;
 
 .clearfix {
   &::after {

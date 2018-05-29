@@ -67,7 +67,7 @@ function getScrollingCoordinates(container) {
   };
 }
 
-function getPositionStyles(popup, anchorRect, anchorLeft, anchorTop) {
+function getPositionStyles(popup, anchorRect, anchorLeft, anchorTop, offset) {
   const popupWidth = popup.clientWidth;
   const popupHeight = popup.clientHeight;
 
@@ -82,18 +82,18 @@ function getPositionStyles(popup, anchorRect, anchorLeft, anchorTop) {
   const popupBottomToTop = anchorBottom - popupHeight;
 
   return {
-    [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom},
-    [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom},
-    [Directions.BOTTOM_CENTER]: {left: popupHorizontalCenter, top: anchorBottom},
-    [Directions.TOP_RIGHT]: {left: anchorLeft, top: popupTop},
-    [Directions.TOP_LEFT]: {left: popupRightToLeft, top: popupTop},
-    [Directions.TOP_CENTER]: {left: popupHorizontalCenter, top: popupTop},
-    [Directions.LEFT_BOTTOM]: {left: popupLeft, top: anchorTop},
-    [Directions.LEFT_TOP]: {left: popupLeft, top: popupBottomToTop},
-    [Directions.LEFT_CENTER]: {left: popupLeft, top: popupVerticalCenter},
-    [Directions.RIGHT_BOTTOM]: {left: anchorRight, top: anchorTop},
-    [Directions.RIGHT_TOP]: {left: anchorRight, top: popupBottomToTop},
-    [Directions.RIGHT_CENTER]: {left: anchorRight, top: popupVerticalCenter}
+    [Directions.BOTTOM_RIGHT]: {left: anchorLeft, top: anchorBottom + offset},
+    [Directions.BOTTOM_LEFT]: {left: popupRightToLeft, top: anchorBottom + offset},
+    [Directions.BOTTOM_CENTER]: {left: popupHorizontalCenter, top: anchorBottom + offset},
+    [Directions.TOP_RIGHT]: {left: anchorLeft, top: popupTop - offset},
+    [Directions.TOP_LEFT]: {left: popupRightToLeft, top: popupTop - offset},
+    [Directions.TOP_CENTER]: {left: popupHorizontalCenter, top: popupTop - offset},
+    [Directions.LEFT_BOTTOM]: {left: popupLeft - offset, top: anchorTop},
+    [Directions.LEFT_TOP]: {left: popupLeft - offset, top: popupBottomToTop},
+    [Directions.LEFT_CENTER]: {left: popupLeft - offset, top: popupVerticalCenter},
+    [Directions.RIGHT_BOTTOM]: {left: anchorRight + offset, top: anchorTop},
+    [Directions.RIGHT_TOP]: {left: anchorRight + offset, top: popupBottomToTop},
+    [Directions.RIGHT_CENTER]: {left: anchorRight + offset, top: popupVerticalCenter}
   };
 }
 
@@ -133,6 +133,7 @@ export const positionPropKeys = [
   'sidePadding',
   'top',
   'left',
+  'offset',
   'maxHeight',
   'minWidth'
 ];
@@ -152,6 +153,7 @@ export default function position(attrs) {
     sidePadding, // eslint-disable-line no-unused-vars
     top,
     left,
+    offset,
     maxHeight,
     minWidth
   } = attrs;
@@ -169,7 +171,7 @@ export default function position(attrs) {
   const anchorTop = anchorRect.top + scroll.top + top - containerRect.top;
 
   if (popup) {
-    const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop);
+    const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop, offset);
     if (!autoPositioning || directions.length === 1) {
       styles = directionsMatrix[directions[0]];
     } else {
@@ -201,7 +203,7 @@ export default function position(attrs) {
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
     styles.minWidth = anchorRect.width;
   } else if (minWidth) {
-    styles.minWidth = minWidth;
+    styles.minWidth = anchorRect.width < minWidth ? minWidth : anchorRect.width;
   }
 
   return styles;

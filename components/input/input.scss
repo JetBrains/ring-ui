@@ -72,4 +72,11 @@ textarea.ring-input {
   height: auto;
   min-height: 8*$ring_unit;
   resize: vertical;
+  vertical-align: top; // https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers
+
+  &::placeholder {
+    color: $ring-gray-color;
+    line-height: 16px;
+    font-size: $ring-font-size-smaller;
+  }
 }

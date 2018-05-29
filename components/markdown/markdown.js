@@ -43,6 +43,7 @@ export default class Markdown extends PureComponent {
         source={normalizeIndent(source)}
         renderers={{
           link: Link,
+          linkReference: Link,
           code: Code,
           inlineCode: Code,
           heading: Heading,

@@ -1,0 +1,75 @@
+@value unit, font-lower, font-smaller-lower, message-background-color, white-color, light-gray-color, popup-border-color, invisible-element-z-index, border-radius from  "../global/global.css";
+@value padding: calc(unit * 1.5);
+
+.message {
+  overflow: visible;
+
+  max-width: calc(unit * 40);
+
+  padding: padding padding calc(unit * 2) calc(unit * 5);
+
+  text-align: left;
+
+  color: white-color;
+
+  border: none;
+
+  background-color: message-background-color;
+
+  box-shadow: none;
+
+  &::before {
+    position: absolute;
+    z-index: invisible-element-z-index;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    content: '';
+
+    border-radius: border-radius;
+
+    box-shadow: 0 2px 8px 0 color(popup-border-color a(0.3));
+  }
+}
+
+.icon {
+  position: absolute;
+  top: padding;
+  left: padding;
+
+  & svg {
+    vertical-align: baseline;
+  }
+}
+
+.title {
+  composes: font-lower;
+
+  margin: 0;
+
+  font-weight: normal;
+}
+
+.description {
+  composes: font-smaller-lower;
+
+  margin: calc(unit / 2) 0 0;
+
+  color: light-gray-color;
+}
+
+.button {
+  margin-top: padding;
+}
+
+.tail {
+  position: absolute;
+
+  transform-origin: 50% 0;
+
+  border-width: unit unit 0;
+  border-style: solid;
+  border-color: #192c3b transparent transparent;
+}

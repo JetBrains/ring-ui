@@ -4,11 +4,12 @@ import classNames from 'classnames';
 
 import Icon, {CloseIcon} from '../icon';
 
-import './tag.scss';
+import styles from './tag.css';
 
 /**
  * @name Tag
  * @category Components
+ * @tags Ring UI Language
  * @description Displays a tag.
  * @example-file ./tag.examples.html
  */
@@ -83,7 +84,7 @@ export default class Tag extends PureComponent {
     if (this.props.rgTagIcon) {
       return (
         <Icon
-          className="ring-tag__ring-icon"
+          className={styles.icon}
           title={this.props.rgTagTitle}
           glyph={this.props.rgTagIcon}
           size={Icon.Size.Size12}
@@ -94,14 +95,10 @@ export default class Tag extends PureComponent {
   }
 
   _renderImageElement(avatarSrc) {
-    const classes = classNames([
-      {
-        'ring-tag__custom-icon': this.props.icon
-      },
-      {
-        'ring-tag__avatar-icon': avatarSrc
-      }
-    ]);
+    const classes = classNames({
+      [styles.customIcon]: this.props.icon,
+      [styles.avatarIcon]: avatarSrc
+    });
     return (
       <img
         className={classes}
@@ -121,7 +118,7 @@ export default class Tag extends PureComponent {
     if (this.props.avatar) {
       return (
         <span
-          className="ring-tag__avatar-container"
+          className={styles.avatarContainer}
         >
           {this._renderImageElement(this.props.avatar)}
         </span>
@@ -135,7 +132,7 @@ export default class Tag extends PureComponent {
       return (
         <CloseIcon
           data-test="ring-tag-remove"
-          className="ring-tag__remove ring-link"
+          className={styles.remove}
           onClick={this.props.onRemove}
           size={CloseIcon.Size.Size14}
         />
@@ -147,10 +144,10 @@ export default class Tag extends PureComponent {
   render() {
     const classes = classNames(
       'ring-js-shortcuts',
-      'ring-tag',
+      styles.tag,
       {
-        'ring-tag_focused': this.state.focused,
-        'ring-tag_disabled': this.props.disabled
+        [styles.focused]: this.state.focused,
+        [styles.disabled]: this.props.disabled
       },
       this.props.className
     );

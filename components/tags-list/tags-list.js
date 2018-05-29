@@ -17,6 +17,7 @@ function noop() {}
 
 export default class TagsList extends Component {
   static propTypes = {
+    children: PropTypes.node,
     tags: PropTypes.array,
     customTagComponent: (props, propName, componentName) => {
       if (props[propName] && !props[propName].prototype instanceof Component) {
@@ -58,7 +59,7 @@ export default class TagsList extends Component {
 
   render() {
     const {
-      className, customTagComponent, canNotBeEmpty, handleClick, handleRemove, tags, activeIndex, // eslint-disable-line no-unused-vars
+      children, className, customTagComponent, canNotBeEmpty, handleClick, handleRemove, tags, activeIndex, // eslint-disable-line no-unused-vars, max-len
       ...props
     } = this.props;
     const classes = classNames(
@@ -77,6 +78,7 @@ export default class TagsList extends Component {
         {...props}
       >
         {tagsList}
+        {children}
       </div>);
   }
 }

@@ -2,6 +2,8 @@ import React, {cloneElement, Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
+
 import Anchor from './anchor';
 import styles from './dropdown.css';
 
@@ -29,7 +31,8 @@ export default class Dropdown extends Component {
     onShow: PropTypes.func,
     onHide: PropTypes.func,
     onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func
+    onMouseLeave: PropTypes.func,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -129,7 +132,8 @@ export default class Dropdown extends Component {
     const {show, pinned} = this.state;
     const {
       initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut, // eslint-disable-line no-unused-vars
-      children, anchor, className, activeClassName, hoverMode, clickMode, ...restProps
+      children, anchor, className, activeClassName, hoverMode, clickMode, 'data-test': dataTest,
+      ...restProps
     } = this.props;
 
     const classes = classNames(styles.dropdown, className, {
@@ -152,7 +156,7 @@ export default class Dropdown extends Component {
 
     return (
       <div
-        data-test="ring-dropdown"
+        data-test={dataTests('ring-dropdown', dataTest)}
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
@@ -164,10 +168,7 @@ export default class Dropdown extends Component {
         {cloneElement(children, {
           hidden: !show,
           onCloseAttempt: this.onChildCloseAttempt,
-          dontCloseOnAnchorClick: true,
-          onMouseOver: hoverMode ? this.onMouseEnter : undefined,
-          onMouseOut: hoverMode ? this.onMouseLeave : undefined,
-          onContextMenu: hoverMode ? this.onContextMenu : undefined
+          dontCloseOnAnchorClick: true
         })}
       </div>
     );

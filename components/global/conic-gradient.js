@@ -4,16 +4,16 @@ import 'conic-gradient';
 import memoize from './memoize';
 import supportsCss from './supports-css';
 
-const conicGradient = memoize(stops => (
+const conicGradient = memoize(({stops, size}) => (
   supportsCss('background-image: conic-gradient(white, black)')
     ? `conic-gradient(${stops})`
-    : new ConicGradient({stops})
+    : new ConicGradient({stops, size})
 ));
 
 export default stops => conicGradient(stops).toString();
 
-export const conicGradientWithMask = (mask, stops) => {
-  const gradient = conicGradient(stops);
+export const conicGradientWithMask = (mask, stops, size) => {
+  const gradient = conicGradient({stops, size});
 
   if (!mask.supports && gradient instanceof ConicGradient) {
     Object.defineProperty(gradient, 'svg', {

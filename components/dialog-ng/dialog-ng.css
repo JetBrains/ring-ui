@@ -37,6 +37,8 @@
 }
 
 .inSidebar .header {
+  padding-top: 0;
+
   cursor: default;
   user-select: text;
 }
@@ -68,7 +70,6 @@
 .footer {
   height: auto;
   padding: calc(unit * 2) calc(unit * 4);
-  padding-top: calc(calc(unit * 2) - 2px);
 
   text-align: left;
 
@@ -92,6 +93,6 @@
   * Do not make space using margin-right as it will break spaces between right-sided buttons in dialog's footer
   */
   &:not(:first-child) {
-    margin-left: calc(unit * 2);
+    margin-left: unit;
   }
 }

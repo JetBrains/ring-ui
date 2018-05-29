@@ -1,17 +1,21 @@
-@value unit from '../global/global.css';
+@value unit, extra-small-screen-media from '../global/global.css';
 
 .dialogContent {
-  width: auto;
-  padding: calc(unit * 3) 0 calc(unit * 2);
+  width: 600px;
+
+  @media extra-small-screen-media {
+    & {
+      width: 90vw;
+    }
+  }
 }
 
-.text {
-  overflow-y: auto;
+.scrollableWrapper {
+  padding-top: 0;
+}
 
-  width: 600px;
-  max-height: 300px;
-  padding: calc(unit * 2);
+.suggestion {
+  white-space: nowrap;
 
-  border: 1px solid #e7ebf0;
-  background-color: #fafafa;
+  font-size: 12px;
 }

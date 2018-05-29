@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import chevronDown from '@jetbrains/icons/chevron-down.svg';
 
 import Icon, {Size} from '../icon';
 import Theme from '../global/theme';
@@ -37,6 +38,7 @@ export default class Button extends PureComponent {
     short: PropTypes.bool,
     text: PropTypes.bool,
     inline: PropTypes.bool,
+    dropdown: PropTypes.bool,
 
     href: PropTypes.string,
 
@@ -74,6 +76,7 @@ export default class Button extends PureComponent {
       short,
       text,
       inline,
+      dropdown,
 
       // Props
       icon,
@@ -119,6 +122,13 @@ export default class Button extends PureComponent {
         )}
         {children && (
           <span>{children}</span>
+        )}
+        {dropdown && (
+          <Icon
+            glyph={chevronDown}
+            size={Icon.Size.Size14}
+            className={styles.dropdownIcon}
+          />
         )}
       </span>
     );
