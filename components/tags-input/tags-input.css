@@ -11,9 +11,18 @@
 
 .tagsInputLegacyMode {
   padding-top: 0;
+  padding-bottom: 1px;
 
   border: 1px solid borders-color;
   background-color: #fff;
+
+  & .tagsList {
+    line-height: 20px;
+  }
+
+  & .tag {
+    margin-right: 2px;
+  }
 }
 
 .tagsInputDisabled {
@@ -27,7 +36,7 @@
 }
 
 .tagsInputFocused {
-  border-color: blue-color;
+  border-color: main-color;
 }
 
 .tagsList {

@@ -30,7 +30,8 @@ export default class TagsList extends Component {
     disabled: PropTypes.bool,
     handleClick: PropTypes.func,
     handleRemove: PropTypes.func,
-    className: PropTypes.string
+    className: PropTypes.string,
+    tagClassName: PropTypes.string
   };
 
   static defaultProps = {
@@ -46,6 +47,8 @@ export default class TagsList extends Component {
     const readOnly = this.props.disabled || tag.readOnly ||
       (this.props.canNotBeEmpty && this.props.tags.length === 1);
 
+    const {tagClassName} = this.props;
+
     return (
       <TagComponent
         {...tag}
@@ -54,6 +57,7 @@ export default class TagsList extends Component {
         focused={focusTag}
         onClick={this.props.handleClick(tag)}
         onRemove={this.props.handleRemove(tag)}
+        className={tagClassName}
       >{tag.label}</TagComponent>);
   }
 
