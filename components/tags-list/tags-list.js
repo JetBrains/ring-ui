@@ -63,7 +63,7 @@ export default class TagsList extends Component {
 
   render() {
     const {
-      children, className, customTagComponent, canNotBeEmpty, handleClick, handleRemove, tags, activeIndex, // eslint-disable-line no-unused-vars, max-len
+      children, className, customTagComponent, canNotBeEmpty, handleClick, tagClassName, handleRemove, tags, activeIndex, // eslint-disable-line no-unused-vars, max-len
       ...props
     } = this.props;
     const classes = classNames(
