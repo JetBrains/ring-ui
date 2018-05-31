@@ -1,5 +1,8 @@
 import angular from 'angular';
-import '../loader-inline/loader-inline.scss';
+
+import styles from '../loader-inline/loader-inline.css';
+import injectStyles from '../loader-inline/inject-styles';
+import Theme from '../global/theme';
 
 /**
  * @name Loader Inline Ng
@@ -11,7 +14,11 @@ import '../loader-inline/loader-inline.scss';
     <example name="Loader Inline Ng">
       <file name="index.html">
         <div ng-app="TestApp" ng-strict-di>
-          <rg-loader-inline></rg-loader-inline>
+           <div>
+             <span>some text on top</span>
+             <div>before <rg-loader-inline></rg-loader-inline> Some text after</div>
+             <div>some text under loader</div>
+           </div>
         </div>
       </file>
       <file name="index.js">
@@ -26,10 +33,23 @@ import '../loader-inline/loader-inline.scss';
 
 const angularModule = angular.module('Ring.loader-inline', []);
 
+class LoaderController {
+  $onInit() {
+    injectStyles();
+
+    this.theme = this.theme || Theme.LIGHT;
+  }
+
+  getThemeClass = () => `${styles.loader}_${this.theme}`;
+}
+
 angularModule.
   component('rgLoaderInline', {
-    // eslint-disable-next-line import/no-commonjs
-    template: require('./loader-inline-ng.html')
+    bindings: {
+      theme: '@?'
+    },
+    template: `<div class="${styles.loader}" ng-class="$ctrl.getThemeClass()"></div>`,
+    controller: LoaderController
   });
 
 export default angularModule.name;

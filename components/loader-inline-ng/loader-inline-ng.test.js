@@ -2,6 +2,8 @@
 import 'angular';
 import 'angular-mocks';
 
+import styles from '../loader-inline/loader-inline.css';
+
 import LoaderInline from './loader-inline-ng';
 
 describe('LoaderInline', () => {
@@ -15,11 +17,22 @@ describe('LoaderInline', () => {
     scope = $rootScope.$new();
     $compile = _$compile_;
     element = $compile('<rg-loader-inline></rg-loader-inline>')(scope)[0];
+    scope.$digest();
   }));
 
   it('should render loader markup', () => {
-    element.should.contain('.ring-loader-inline');
-    element.should.contain('.ring-loader-inline__ball');
+    element.should.contain(`.${styles.loader}`);
+    element.should.contain(`.${styles.loader}_light`);
+  });
+
+  it('should render light loader theme by default', () => {
+    element.should.contain(`.${styles.loader}_light`);
+  });
+
+  it('should render dark loader theme if passed', () => {
+    element = $compile('<rg-loader-inline theme="dark"></rg-loader-inline>')(scope)[0];
+    scope.$digest();
+    element.should.contain(`.${styles.loader}_dark`);
   });
 
 });
