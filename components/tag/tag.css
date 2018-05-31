@@ -1,4 +1,4 @@
-@value unit, text-color, border-radius, border-hover-color, dark-gray-color, link-hover-color from "../global/global.css";
+@value unit, text-color, border-radius, border-hover-color, icon-disabled-color, dark-gray-color, link-hover-color from "../global/global.css";
 @value background-color: #e9f1f5;
 @value max-height: 20px;
 
@@ -9,7 +9,7 @@
   height: max-height;
 
   margin-right: calc(unit / 2);
-  padding: 1px calc(unit / 2);
+  padding: 1px unit;
 
   color: text-color;
 
@@ -51,7 +51,7 @@
 }
 
 .icon {
-  margin-right: calc(unit / 2);
+  margin-right: 6px;
 
   color: dark-gray-color;
 
@@ -63,17 +63,20 @@
 .avatarContainer {
   position: relative;
   top: -2px;
-  left: -5px;
+  left: -9px;
 
   display: inline-block;
   overflow: hidden;
 
   box-sizing: border-box;
+  width: max-height;
   height: max-height;
+  margin-right: -4px;
 
   vertical-align: top;
 
-  border-radius: border-radius;
+  border-top-left-radius: border-radius;
+  border-bottom-left-radius: border-radius;
 }
 
 .customIcon {
@@ -86,8 +89,10 @@
 }
 
 .avatarIcon {
-  max-width: max-height;
-  max-height: max-height;
+  width: max-height;
 
-  border-radius: border-radius;
+  margin-right: -4px;
+
+  object-fit: contain;
+  object-position: center;
 }
