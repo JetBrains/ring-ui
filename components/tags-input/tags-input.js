@@ -286,6 +286,7 @@ export default class TagsInput extends Component {
           canNotBeEmpty={canNotBeEmpty}
           handleRemove={this.handleRemove}
           className={styles.tagsList}
+          tagClassName={styles.tag}
           handleClick={this.handleClick}
         >
           <Select
