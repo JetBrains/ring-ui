@@ -997,7 +997,9 @@ export default class Select extends Component {
               />
             )}
             <Button
-              className={styles.buttonValue}
+              className={classNames(styles.buttonValue, {
+                [styles.buttonValueOpen]: this.state.showPopup
+              })}
               disabled={this.props.disabled}
               style={style}
               data-test="ring-select__button"
