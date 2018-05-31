@@ -1,4 +1,4 @@
-@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
+@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, selected-background-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
 
 .select {
   position: relative;
@@ -144,6 +144,17 @@
   width: 100%;
 
   text-align: left;
+}
+
+.buttonValueOpen {
+  border-color: selected-background-color;
+  background-color: selected-background-color;
+
+  & .icons {
+    transition: none;
+
+    color: main-color;
+  }
 }
 
 .label {
