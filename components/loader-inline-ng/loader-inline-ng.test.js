@@ -23,6 +23,7 @@ describe('LoaderInline', () => {
   it('should render loader markup', () => {
     element.should.contain(`.${styles.loader}`);
     element.should.contain(`.${styles.loader}_light`);
+    element.should.contain('[data-test="ring-loader-inline-ng"]');
   });
 
   it('should render light loader theme by default', () => {
