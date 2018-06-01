@@ -1,3 +1,5 @@
+import GroupIcon from '@jetbrains/icons/group.svg';
+
 import List from '../list/list';
 import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
 
@@ -75,6 +77,8 @@ export default class ListUsersGroupsSource extends HubSourceUsersGroups {
         ...group,
         key: group.id,
         label: group.name,
+        avatar: group.iconUrl,
+        glyph: group.iconUrl ? null : GroupIcon,
         description: this.listSourceOptions.getPluralForUserCount(group.userCount)
       }));
     }
