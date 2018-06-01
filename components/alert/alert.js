@@ -11,6 +11,7 @@ import {
 } from '../icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
+import dataTests from '../global/data-tests';
 
 import styles from './alert.css';
 
@@ -76,7 +77,8 @@ export default class Alert extends PureComponent {
     type: PropTypes.oneOf(Object.values(Type)),
 
     children: PropTypes.node,
-    className: PropTypes.string
+    className: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   /** @override */
@@ -187,7 +189,8 @@ export default class Alert extends PureComponent {
   };
 
   render() {
-    const {type, inline, isClosing, isShaking, showWithAnimation, className} = this.props;
+    const {type, inline, isClosing, isShaking,
+      showWithAnimation, className, 'data-test': dataTest} = this.props;
 
     const classes = classNames(className, {
       [styles.alert]: true,
@@ -203,7 +206,8 @@ export default class Alert extends PureComponent {
     return (
       <div
         className={classes}
-        data-test="alert"
+        data-test={dataTests('alert', dataTest)}
+        data-test-type={type}
         style={style}
         ref={this.storeAlertRef}
       >
