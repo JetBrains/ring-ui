@@ -73,7 +73,7 @@ describe('Hub Users Groups Source', () => {
 
     await source.getGroups();
     source.groupsSource.get.should.have.been.calledWith('', {
-      fields: 'id,name,total,userCount',
+      fields: 'id,name,total,userCount,iconUrl',
       orderBy: 'name'
     });
   });
