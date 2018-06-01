@@ -48,7 +48,7 @@ angularModule.
     bindings: {
       theme: '@?'
     },
-    template: `<div class="${styles.loader}" ng-class="$ctrl.getThemeClass()"></div>`,
+    template: `<div data-test="ring-loader-inline-ng" class="${styles.loader}" ng-class="$ctrl.getThemeClass()"></div>`,
     controller: LoaderController
   });
 
