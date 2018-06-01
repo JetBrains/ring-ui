@@ -41,10 +41,6 @@
   & .panel button {
     margin-right: unit;
   }
-
-  & :global(.ring-form__label) {
-    max-width: calc(unit * 14);
-  }
 }
 
 .content.content {
