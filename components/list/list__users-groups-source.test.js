@@ -24,7 +24,8 @@ describe('List Users Groups Source', () => {
       id: 1,
       name: 'test group',
       type: 'userGroup',
-      userCount: 123
+      userCount: 123,
+      iconUrl: 'http://foo.bar'
     }]));
 
     const dataForList = await source.getForList();
@@ -55,7 +56,8 @@ describe('List Users Groups Source', () => {
       id: 1,
       name: 'test group',
       type: 'userGroup',
-      userCount: 123
+      userCount: 123,
+      iconUrl: 'http://foo.bar'
     }]));
 
     const dataForList = await source.getForList();
@@ -66,7 +68,10 @@ describe('List Users Groups Source', () => {
       label: 'test group',
       type: 'userGroup',
       description: '123 members',
-      userCount: 123
+      userCount: 123,
+      avatar: 'http://foo.bar',
+      glyph: null,
+      iconUrl: 'http://foo.bar'
     });
   });
 

@@ -49,7 +49,7 @@ export default class HubSourceUsersGroups {
 
   getGroups(query = '') {
     return this.groupsSource.get(query, {
-      fields: 'id,name,total,userCount',
+      fields: 'id,name,total,userCount,iconUrl',
       orderBy: 'name'
     });
   }
