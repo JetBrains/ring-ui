@@ -48,6 +48,7 @@
           ng-repeat="button in dialog.buttons"
           ng-class="[dialog.styles.footerItem , button.cssClasses]"
           mode="{{button.default ? 'primary' : ''}}"
+          text="button.text"
           ng-disabled="(button.default && dialog.dialogForm.$invalid) || button.disabled"
           ng-if="!button.hidden"
           data-test="dialog-footer-button"
