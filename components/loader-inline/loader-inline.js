@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import Theme from '../global/theme';
+import dataTests from '../global/data-tests';
 
 import styles from './loader-inline.css';
 import injectStyles from './inject-styles';
@@ -21,7 +22,8 @@ export default class LoaderInline extends PureComponent {
   static Theme = Theme;
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(Theme)),
-    className: PropTypes.string
+    className: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -33,7 +35,7 @@ export default class LoaderInline extends PureComponent {
   }
 
   render() {
-    const {className, theme, ...restProps} = this.props;
+    const {className, theme, 'data-test': dataTest, ...restProps} = this.props;
 
     const classes = classNames(
       styles.loader,
@@ -44,6 +46,7 @@ export default class LoaderInline extends PureComponent {
     return (
       <div
         {...restProps}
+        data-test={dataTests('ring-loader-inline', dataTest)}
         className={classes}
       />
     );
