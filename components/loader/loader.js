@@ -1,6 +1,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
+import dataTests from '../global/data-tests';
+
 import LoaderCore from './loader__core';
 
 /**
@@ -50,7 +52,8 @@ export default class Loader extends PureComponent {
     className: PropTypes.string,
     size: PropTypes.number,
     colors: PropTypes.array,
-    message: PropTypes.string
+    message: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   componentWillUnmount() {
@@ -64,9 +67,10 @@ export default class Loader extends PureComponent {
   };
 
   render() {
-    const {message, size, colors, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {message, size, colors, 'data-test': dataTest, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     return (
       <div
+        data-test={dataTests('ring-loader', dataTest)}
         {...restProps}
         ref={this.initLoader}
       />
