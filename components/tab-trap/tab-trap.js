@@ -26,12 +26,9 @@ export default class TabTrap extends Component {
     focusBackOnClose: true
   };
 
-  constructor(...args) {
-    super(...args);
-    this.previousFocusedNode = document.activeElement;
-  }
-
   componentDidMount() {
+    this.previousFocusedNode = document.activeElement;
+
     if (this.props.autoFocusFirst) {
       this.focusFirst();
     } else {
