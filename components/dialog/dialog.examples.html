@@ -20,12 +20,15 @@
     import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
     import Button from '@jetbrains/ring-ui/components/button/button';
     import Input from '@jetbrains/ring-ui/components/input/input';
+    import Group from '@jetbrains/ring-ui/components/group/group';
+    import Toggle from '@jetbrains/ring-ui/components/toggle/toggle';
     import Panel from '@jetbrains/ring-ui/components/panel/panel';
 
     class DialogDemo extends React.Component {
       state = {
         show: true,
-        text: ""
+        text: "",
+        autoFocusEnabled: true
       };
 
       doAction = () => {
@@ -38,19 +41,29 @@
       }
 
       render() {
+        const {show, text, autoFocusEnabled} = this.state;
         return (
           <div>
-            <div>
+            <Group>
               <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
-            </div>
+              <Toggle
+                checked={this.state.autoFocusEnabled}
+                onChange={() => this.setState({autoFocusEnabled: !autoFocusEnabled})}
+              >Autofocus dialog</Toggle>
+            </Group>
 
-            <Dialog show={this.state.show} onCloseAttempt={this.cancelDialog} trapFocus
-                    showCloseButton>
+            <Dialog
+              show={show}
+              onCloseAttempt={this.cancelDialog}
+              trapFocus
+              autoFocusFirst={autoFocusEnabled}
+              showCloseButton
+            >
               <Header>Dialog title</Header>
               <Content>
                 <Input
                   label="Enter action name"
-                  value={this.state.text}
+                  value={text}
                   onChange={e => this.setState({text: e.target.value})}
                 />
               </Content>
