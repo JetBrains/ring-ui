@@ -34,6 +34,9 @@ export default class TabTrap extends Component {
   componentDidMount() {
     if (this.props.autoFocusFirst) {
       this.focusFirst();
+    } else {
+      this.trapWithoutFocus = true;
+      this.trapButtonNode.focus();
     }
   }
 
@@ -78,6 +81,39 @@ export default class TabTrap extends Component {
 
   focusLast = () => this.focusElement(false);
 
+  focusLastIfEnabled = () => {
+    if (this.trapWithoutFocus) {
+      return;
+    }
+    this.focusLast();
+  };
+
+  handleBlurIfWithoutFocus = event => {
+    if (!this.trapWithoutFocus) {
+      return;
+    }
+    this.trapWithoutFocus = false;
+
+    const newFocused = event.nativeEvent.relatedTarget;
+    if (!newFocused) {
+      return;
+    }
+
+    if (this.node.contains(newFocused)) {
+      return;
+    }
+
+    this.focusLast();
+  };
+
+  trapButtonRef = node => {
+    if (!node) {
+      return;
+    }
+
+    this.trapButtonNode = node;
+  };
+
   render() {
     // eslint-disable-next-line no-unused-vars
     const {children, trapDisabled, autoFocusFirst, focusBackOnClose, ...restProps} = this.props;
@@ -100,8 +136,10 @@ export default class TabTrap extends Component {
       >
         <button
           type="button"
+          ref={this.trapButtonRef}
           className={styles.trapButton}
-          onFocus={this.focusLast}
+          onFocus={this.focusLastIfEnabled}
+          onBlur={this.handleBlurIfWithoutFocus}
           data-trap-button
         />
         {children}
