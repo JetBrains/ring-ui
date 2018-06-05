@@ -16,17 +16,38 @@ export default class TabTrap extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     trapDisabled: PropTypes.bool,
-    autoFocusFirst: PropTypes.bool
+    autoFocusFirst: PropTypes.bool,
+    focusBackOnClose: PropTypes.bool
   };
 
   static defaultProps = {
     trapDisabled: false,
-    autoFocusFirst: true
+    autoFocusFirst: true,
+    focusBackOnClose: true
   };
+
+  constructor(...args) {
+    super(...args);
+    this.previousFocusedNode = document.activeElement;
+  }
 
   componentDidMount() {
     if (this.props.autoFocusFirst) {
       this.focusFirst();
+    }
+  }
+
+  componentWillUnmount() {
+    this.restoreFocus();
+  }
+
+  restoreFocus() {
+    if (!this.props.focusBackOnClose) {
+      return;
+    }
+    const {previousFocusedNode} = this;
+    if (previousFocusedNode && previousFocusedNode.focus) {
+      previousFocusedNode.focus();
     }
   }
 
@@ -59,7 +80,7 @@ export default class TabTrap extends Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const {children, trapDisabled, autoFocusFirst, ...restProps} = this.props;
+    const {children, trapDisabled, autoFocusFirst, focusBackOnClose, ...restProps} = this.props;
 
     if (trapDisabled) {
       return (
