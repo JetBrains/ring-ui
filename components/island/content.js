@@ -51,13 +51,14 @@ export default class Content extends Component {
   };
 
   calculateScrollPosition = () => scheduleScrollAction(() => {
+    const END_DISTANCE = 6;
     const {scrollableNode} = this;
     if (!scrollableNode) {
       return;
     }
     const {scrollTop, scrollHeight, offsetHeight} = scrollableNode;
     const scrolledToTop = scrollTop === 0;
-    const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight;
+    const scrolledToBottom = offsetHeight + scrollTop >= scrollHeight - END_DISTANCE;
 
     if (scrolledToBottom) {
       this.props.onScrollToBottom();
