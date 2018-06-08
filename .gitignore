@@ -1,29 +1,32 @@
 # Editors
 *.iws
-.idea/shelf/
-.idea/workspace.xml
-.idea/dictionaries/*.xml
 .idea/copyright/
-.idea/jsLibraryMappings.xml
 .idea/deployment.xml
+.idea/dictionaries/*.xml
+.idea/jsLibraryMappings.xml
+.idea/shelf/
+.idea/usage.statistics.xml
+.idea/workspace.xml
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Generated
+# Generated dirs
+build
 coverage
 dist
 gemini-report
 html-report
 node_modules
-npm-debug.log*
-http-server.log
-saucelabs-session.log
-jetbrains-ring-ui-*.tgz
-yarn.lock
-yarn-error.log
-build
-eslint-report.xml
-lerna-debug.log
 test_gen
+
+# Generated files
+eslint-report.xml
+http-server.log
+jetbrains-ring-ui-*.tgz
+lerna-debug.log
+npm-debug.log*
+saucelabs-session.log
+yarn-error.log
+yarn.lock
