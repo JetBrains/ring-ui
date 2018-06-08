@@ -290,7 +290,7 @@ export default class SelectPopup extends Component {
 
   getBottomLine() {
     return (
-      <div>
+      <div className="ring-select__bottom-line">
         {this.props.loading && <LoaderInline/>}
 
         {this.props.message &&

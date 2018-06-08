@@ -19,6 +19,10 @@
     opacity: 0.5;
   }
 
+  &__bottom-line {
+    text-align: center;
+  }
+
   &__message {
     display: inline-block;
     margin: $ring-unit 0;
