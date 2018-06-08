@@ -1,8 +1,11 @@
 import loginDialogService from '../login-dialog/service';
 
 import AuthResponseParser from './response-parser';
+import {HUB_AUTH_PAGE_OPENED} from './background-flow';
 
 export default class WindowFlow {
+  hideDialog = null;
+
   constructor(requestBuilder, storage) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
@@ -15,24 +18,26 @@ export default class WindowFlow {
   async _load() {
     const authRequest = await this._requestBuilder.prepareAuthRequest(
       // eslint-disable-next-line camelcase
-      {request_credentials: 'required'},
+      {request_credentials: 'required', auth_mode: 'bypass_to_login'},
       {nonRedirect: true}
     );
 
     return new Promise((resolve, reject) => {
+      this.hideDialog = loginDialogService({url: authRequest.url, loader: true});
+
+      const onMessage = e => {
+        if (e.data === HUB_AUTH_PAGE_OPENED) {
+          this.hideDialog = loginDialogService({url: authRequest.url, loader: false});
+        }
+      };
+
+      window.addEventListener('message', onMessage);
 
       this.reject = reject;
 
-      const cleanUp = () => {
-        /* eslint-disable no-use-before-define */
-        hideDialog();
-        removeStateListener();
-        removeTokenListener();
-        /* eslint-enable no-use-before-define */
-      };
-
       const removeTokenListener = this._storage.onTokenChange(token => {
         if (token) {
+          // eslint-disable-next-line no-use-before-define
           cleanUp();
           resolve(token.accessToken);
         }
@@ -40,25 +45,29 @@ export default class WindowFlow {
 
       const removeStateListener = this._storage.onStateChange(authRequest.stateId, state => {
         if (state && state.error) {
+          // eslint-disable-next-line no-use-before-define
           cleanUp();
           reject(new AuthResponseParser.AuthError(state));
         }
       });
 
-      const hideDialog = loginDialogService({
-        url: authRequest.url
-      });
+      const cleanUp = () => {
+        this.hideDialog();
+        removeStateListener();
+        removeTokenListener();
+        window.removeEventListener('message', onMessage);
+      };
     });
   }
 
   _reset = () => {
     this._promise = null;
-    this._loginWindow = null;
+    this.hideDialog = null;
   };
 
   stop() {
-    if (this._loginWindow !== null) {
-      this._loginWindow.close();
+    if (this.hideDialog) {
+      this.hideDialog();
     }
     if (this.reject) {
       this.reject('Login form closed');

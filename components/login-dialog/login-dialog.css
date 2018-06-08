@@ -2,3 +2,7 @@
 .iFrame {
   border: none;
 }
+
+.dialogContent {
+  width: auto;
+}
