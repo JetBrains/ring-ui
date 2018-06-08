@@ -66,6 +66,7 @@ function noop() {}
 const DEFAULT_CONFIG = {
   reloadOnUserChange: true,
   embeddedLogin: false,
+  EmbeddedLoginFlow: WindowFlow,
   clientId: '0-0-0-0-0',
   redirectUri: getAbsoluteBaseURL(),
   redirect: false,
@@ -114,7 +115,7 @@ export default class Auth {
   _responseParser = new AuthResponseParser();
   _requestBuilder = null;
   _backgroundFlow = null;
-  _windowFlow = null;
+  _embeddedFlow = null;
   _tokenValidator = null;
   _postponed = false;
   _authDialogService = undefined;
@@ -181,7 +182,7 @@ export default class Auth {
     this._backgroundFlow = new BackgroundFlow(
       this._requestBuilder, this._storage, backgroundRefreshTimeout
     );
-    this._windowFlow = new WindowFlow(this._requestBuilder, this._storage);
+    this._embeddedFlow = new this.config.EmbeddedLoginFlow(this._requestBuilder, this._storage);
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
@@ -527,11 +528,11 @@ export default class Auth {
         this.logout();
         return;
       }
-      this._runWindowLogin();
+      this._runEmbeddedLogin();
     };
 
     const onCancel = () => {
-      this._windowFlow.stop();
+      this._embeddedFlow.stop();
       this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
       closeDialog();
       if (!cancelable) {
@@ -568,7 +569,7 @@ export default class Auth {
 
     const stopMessageListening = this._storage.onMessage(
       Auth.CLOSE_WINDOW_MESSAGE,
-      () => this._windowFlow.stop()
+      () => this._embeddedFlow.stop()
     );
   }
 
@@ -700,11 +701,11 @@ export default class Auth {
     this._redirectCurrentPage(authRequest.url);
   }
 
-  async _runWindowLogin() {
+  async _runEmbeddedLogin() {
     this._storage.sendMessage(Auth.CLOSE_WINDOW_MESSAGE, Date.now());
     try {
       this._isLoginWindowOpen = true;
-      return await this._windowFlow.authorize();
+      return await this._embeddedFlow.authorize();
     } catch (e) {
       throw e;
     } finally {
@@ -718,7 +719,7 @@ export default class Auth {
    */
   async login() {
     if (this.config.embeddedLogin) {
-      await this._runWindowLogin();
+      await this._runEmbeddedLogin();
       return;
     }
 
@@ -740,7 +741,7 @@ export default class Auth {
 
   async switchUser() {
     if (this.config.embeddedLogin) {
-      await this._runWindowLogin();
+      await this._runEmbeddedLogin();
     }
 
     throw new Error('Auth: switchUser only supported for "embeddedLogin" mode');
