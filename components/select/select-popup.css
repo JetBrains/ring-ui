@@ -41,9 +41,11 @@
   color: dark-gray-color;
 }
 
+.bottomLine {
+  text-align: center;
+}
+
 .message {
   margin: unit 0;
   padding: 0 calc(2 * unit);
-
-  text-align: center;
 }
