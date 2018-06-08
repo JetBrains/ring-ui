@@ -57,6 +57,37 @@
   </file>
 </example>
 
+<example name="Auth in iframe">
+  <file type="html" disable-auto-size>
+    <div id="example"></div>
+  </file>
+
+  <file type="js">
+    import Auth from '@jetbrains/ring-ui/components/auth/auth';
+    import IFrameFlow from '@jetbrains/ring-ui/components/auth/iframe-flow'
+    import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
+    import hubConfig from '@ring-ui/docs/components/hub-config';
+    import '@jetbrains/ring-ui/components/link/link__legacy.css';
+
+    const auth = new Auth({
+      ...hubConfig,
+      EmbeddedLoginFlow: IFrameFlow
+    });
+    auth.setAuthDialogService(authDialogService);
+
+    (async () => {
+      try {
+        const location = await auth.init();
+        await auth.login();
+        const data = await auth.requestUser();
+        document.getElementById('example').innerHTML = JSON.stringify(data);
+      } catch (e) {
+        console.error('Failed', e);
+      }
+    })();
+  </file>
+</example>
+
 
 <example name="Auth landing page">
   <file type="html">
