@@ -5,6 +5,8 @@
 
   position: absolute;
   z-index: overlay-z-index;
+  top: -100vh;
+  left: -100vw;
 
   overflow-y: auto;
 
