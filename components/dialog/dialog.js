@@ -142,6 +142,7 @@ export default class Dialog extends PureComponent {
             (
               <Button
                 icon={CloseIcon}
+                iconSize={CloseIcon.Size.Size24}
                 data-test="ring-dialog-close-button"
                 className={styles.closeButton}
                 iconClassName={styles.closeIcon}
