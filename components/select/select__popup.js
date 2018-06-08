@@ -287,7 +287,7 @@ export default class SelectPopup extends Component {
 
   getBottomLine() {
     return (
-      <div>
+      <div className={styles.bottomLine}>
         {this.props.loading && <LoaderInline/>}
 
         {this.props.message && (
