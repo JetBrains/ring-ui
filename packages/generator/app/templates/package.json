@@ -59,7 +59,7 @@
     "mocha": "5.1.1",
     "node-sass": "^4.9.0",
     "react-test-renderer": "16.4.0",
-    "sinon": "5.1.0",
+    "sinon": "5.1.1",
     "sinon-chai": "3.0.0",
     "stylelint": "9.2.1",
     "xvfb-maybe": "0.2.1",
