@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import loginDialogService from '../login-dialog/service';
@@ -28,7 +29,11 @@ export default class WindowFlow {
       this.hideDialog = loginDialogService({
         url: authRequest.url,
         loader: true,
-        // eslint-disable-next-line react/display-name
+        onCancel: () => {
+          // eslint-disable-next-line no-use-before-define
+          cleanUp();
+          this.stop();
+        },
         renderFallbackLink: () => <Link href={authRequest.url}>{'Can\'t see login form?'}</Link>
       });
 
