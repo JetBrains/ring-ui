@@ -26,6 +26,16 @@ describe('UserCard', () => {
       shallowCard().should.have.tagName('div');
     });
 
+    it('should render link', () => {
+      shallowCard({user: {...fakeUser, href: null}}).
+        should.not.have.descendants('a[href="http://foo"]');
+    });
+
+    it('should not render link if user has no href', () => {
+      shallowCard({user: {...fakeUser, href: null}}).
+        should.not.have.descendants('a');
+    });
+
     it('should use passed className', () => {
       shallowCard({className: 'test-class'}).should.have.className('test-class');
     });
