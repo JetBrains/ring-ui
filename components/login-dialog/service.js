@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from 'react-dom';
+import {render, unmountComponentAtNode} from 'react-dom';
 
 import LoginDialog from './login-dialog';
 
@@ -19,6 +19,6 @@ export default function showAuthDialog(props = {}) {
   });
 
   return () => {
-    renderLoginDialog({show: false});
+    unmountComponentAtNode(containerElement);
   };
 }
