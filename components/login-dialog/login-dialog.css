@@ -6,3 +6,7 @@
 .dialogContent {
   width: auto;
 }
+
+.nonOpaqueLoader {
+  background-color: #fff;
+}
