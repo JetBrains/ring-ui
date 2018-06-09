@@ -13,6 +13,7 @@ const HUB_AUTH_PAGE_LOGIN_DIMENSIONS = 'HUB_AUTH_PAGE_LOGIN_DIMENSIONS';
 
 const DEFAULT_HEIGHT = 517;
 const DEFAULT_WIDTH = 333;
+const SHOW_FALLBACK_TIMEOUT = 2000;
 /**
  * @name Login Dialog
  * @category Components
@@ -28,22 +29,30 @@ export default class LoginDialog extends Component {
     url: PropTypes.string,
     loader: PropTypes.bool,
     loadingMessage: PropTypes.string,
+    renderFallbackLink: PropTypes.func,
     onCancel: PropTypes.func
   };
 
   static defaultProps = {
     show: false,
-    url: 'about:blank'
+    url: 'about:blank',
+    renderFallbackLink: () => null
   };
 
   state = {
     loading: true,
+    showFallbackLink: false,
     height: DEFAULT_HEIGHT,
     width: DEFAULT_WIDTH
   };
 
   componentDidMount() {
     window.addEventListener('message', this.onMessage);
+
+    this.showFallbackTimout = setTimeout(
+      () => this.setState({showFallbackLink: true}),
+      SHOW_FALLBACK_TIMEOUT
+    );
   }
 
   componentWillUnmount() {
@@ -57,6 +66,7 @@ export default class LoginDialog extends Component {
     }
 
     if (data === HUB_AUTH_PAGE_OPENED) {
+      clearTimeout(this.showFallbackTimout);
       this.setState({loading: false});
       return;
     }
@@ -78,8 +88,8 @@ export default class LoginDialog extends Component {
   };
 
   render() {
-    const {show, className, url, loadingMessage} = this.props;
-    const {loading, height, width} = this.state;
+    const {show, className, url, loadingMessage, renderFallbackLink} = this.props;
+    const {loading, height, width, showFallbackLink} = this.state;
 
     const iFrameStyle = {height, width};
 
@@ -102,6 +112,10 @@ export default class LoginDialog extends Component {
 
         {loading && (
           <LoaderScreen message={loadingMessage} containerClassName={styles.nonOpaqueLoader}/>
+        )}
+
+        {showFallbackLink && (
+          <div className={styles.fallbackLinkContainer}>{renderFallbackLink()}</div>
         )}
       </Dialog>
     );
