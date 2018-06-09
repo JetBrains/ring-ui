@@ -18,7 +18,7 @@ export default class UserCard extends PureComponent {
       login: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
       email: PropTypes.string,
-      href: PropTypes.string.isRequired
+      href: PropTypes.string
     }).isRequired,
 
     wording: PropTypes.shape({
@@ -54,12 +54,15 @@ export default class UserCard extends PureComponent {
           />
           <div className={styles.userInformation}>
             <div>
-              <Link
-                href={user.href}
-                className={styles.userName}
-              >
-                {user.name}
-              </Link>
+              {user.href && (
+                <Link
+                  href={user.href}
+                  className={styles.userName}
+                >
+                  {user.name}
+                </Link>
+              )}
+              {!user.href && <span className={styles.userName}>{user.name}</span>}
               {
                 user.banned &&
                 (
