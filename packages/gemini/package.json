@@ -16,7 +16,7 @@
     "gemini": "5.7.2",
     "gemini-sauce": "^1.0.1",
     "gemini-teamcity": "2.1.5",
-    "html-reporter": "2.17.1",
+    "html-reporter": "2.18.1",
     "http-server": "0.11.1",
     "ip": "1.1.5"
   }
