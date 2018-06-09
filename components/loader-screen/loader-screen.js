@@ -54,7 +54,7 @@ export default class LoaderScreen extends PureComponent {
   };
 
   render() {
-    const {message, className, containerClassName} = this.props;
+    const {message, className, containerClassName, ...restProps} = this.props;
 
     const containerClasses = classNames(containerClassName, 'ring-loader-screen');
 
@@ -65,7 +65,8 @@ export default class LoaderScreen extends PureComponent {
     return (
       <div className={containerClasses}>
         <Loader
-          {...this.props}
+          {...restProps}
+          message={message}
           className={loaderClasses}
         />
       </div>
