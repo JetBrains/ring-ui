@@ -1,4 +1,7 @@
+import React from 'react';
+
 import loginDialogService from '../login-dialog/service';
+import Link from '../link/link';
 
 import AuthResponseParser from './response-parser';
 
@@ -22,7 +25,12 @@ export default class WindowFlow {
     );
 
     return new Promise((resolve, reject) => {
-      this.hideDialog = loginDialogService({url: authRequest.url, loader: true});
+      this.hideDialog = loginDialogService({
+        url: authRequest.url,
+        loader: true,
+        // eslint-disable-next-line react/display-name
+        renderFallbackLink: () => <Link href={authRequest.url}>{'Can\'t see login form?'}</Link>
+      });
 
       this.reject = reject;
 

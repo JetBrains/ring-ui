@@ -1,3 +1,4 @@
+@value unit from '../global/global.css';
 
 .iFrame {
   border: none;
@@ -9,4 +10,12 @@
 
 .nonOpaqueLoader {
   background-color: #fff;
+}
+
+.fallbackLinkContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  padding: unit;
 }
