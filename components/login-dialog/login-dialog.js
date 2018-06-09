@@ -30,7 +30,7 @@ export default class LoginDialog extends Component {
     loader: PropTypes.bool,
     loadingMessage: PropTypes.string,
     renderFallbackLink: PropTypes.func,
-    onCancel: PropTypes.func
+    onCancel: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -81,14 +81,8 @@ export default class LoginDialog extends Component {
     }
   };
 
-  onEscPress = () => {
-    if (this.props.onCancel) {
-      this.props.onCancel();
-    }
-  };
-
   render() {
-    const {show, className, url, loadingMessage, renderFallbackLink} = this.props;
+    const {show, className, url, loadingMessage, renderFallbackLink, onCancel} = this.props;
     const {loading, height, width, showFallbackLink} = this.state;
 
     const iFrameStyle = {height, width};
@@ -98,9 +92,11 @@ export default class LoginDialog extends Component {
         data-test="ring-login-dialog"
         className={className}
         contentClassName={styles.dialogContent}
-        onEscPress={this.onEscPress}
-        trapFocus={false}
+        trapFocus
+        autoFocusFirst={false}
         show={show}
+        showCloseButton
+        onCloseAttempt={onCancel}
       >
         <Content>
           <iframe
