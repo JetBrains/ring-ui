@@ -1,7 +1,6 @@
 import loginDialogService from '../login-dialog/service';
 
 import AuthResponseParser from './response-parser';
-import {HUB_AUTH_PAGE_OPENED} from './background-flow';
 
 export default class WindowFlow {
   hideDialog = null;
@@ -25,14 +24,6 @@ export default class WindowFlow {
     return new Promise((resolve, reject) => {
       this.hideDialog = loginDialogService({url: authRequest.url, loader: true});
 
-      const onMessage = e => {
-        if (e.data === HUB_AUTH_PAGE_OPENED) {
-          this.hideDialog = loginDialogService({url: authRequest.url, loader: false});
-        }
-      };
-
-      window.addEventListener('message', onMessage);
-
       this.reject = reject;
 
       const removeTokenListener = this._storage.onTokenChange(token => {
@@ -55,7 +46,6 @@ export default class WindowFlow {
         this.hideDialog();
         removeStateListener();
         removeTokenListener();
-        window.removeEventListener('message', onMessage);
       };
     });
   }

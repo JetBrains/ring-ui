@@ -49,23 +49,24 @@ import './loader-screen.scss';
 export default class LoaderScreen extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
+    containerClassName: PropTypes.string,
     message: PropTypes.string
   };
 
   render() {
-    const {message} = this.props;
-    const classes = classNames(
-      'ring-loader-screen__loader',
-      {
-        'ring-loader-screen__loader_without-spacings': !message
-      }
-    );
+    const {message, className, containerClassName} = this.props;
+
+    const containerClasses = classNames(containerClassName, 'ring-loader-screen');
+
+    const loaderClasses = classNames(className, 'ring-loader-screen__loader', {
+      'ring-loader-screen__loader_without-spacings': !message
+    });
 
     return (
-      <div className="ring-loader-screen">
+      <div className={containerClasses}>
         <Loader
           {...this.props}
-          className={classes}
+          className={loaderClasses}
         />
       </div>
     );
