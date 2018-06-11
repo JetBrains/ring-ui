@@ -148,7 +148,7 @@
     "react-dom": "16.3.2",
     "react-test-renderer": "16.3.2",
     "recompose": "^0.27.1",
-    "sinon": "5.0.0",
+    "sinon": "6.0.0",
     "sinon-chai": "3.1.0",
     "storage-mock": "1.0.3",
     "stylelint": "9.2.1",
