@@ -1,4 +1,4 @@
-<example name="User Agreement">
+<example name="User Agreement Dialog">
   <file type="html" disable-auto-size>
     <div id="demo"></div>
   </file>
@@ -34,3 +34,37 @@
     render(<Demo />, document.getElementById('demo'));
   </file>
  </example>
+
+<example name="User Agreement Service">
+  <file type="html" disable-auto-size></file>
+
+  <file type="js">
+    import UserAgreementService from '@jetbrains/ring-ui/components/user-agreement/service';
+    import text from './toolbox.eula';
+
+    const fakeUserAgreement = {
+      enabled: true,
+      majorVersion: 1.0,
+      text
+    };
+
+    const fakeUserConsent = {
+      guest: true,
+      accepted: false
+    }
+
+    const agreementService = new UserAgreementService({
+      getUserAgreement: async () => console.log('getUserAgreement') || fakeUserAgreement,
+      getUserConsent: async () => console.log('getUserConsent') || fakeUserConsent,
+      setUserConsent: async () => console.log('User consent has been set'),
+      onAccept: () => console.log('Agreement accepted'),
+      onDecline: () => console.log('Agreement declined'),
+      onDialogShow: () => console.log('Dialog shown'),
+      onDialogHide: () => console.log('Dialog hidden'),
+      interval: 10000
+    });
+
+    agreementService.startChecking();
+  </file>
+</example>
+
