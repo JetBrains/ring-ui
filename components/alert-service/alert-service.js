@@ -70,7 +70,7 @@ class AlertService {
     this.renderAlerts();
   }
 
-  addAlert(message, type, timeout = this.defaultTimeout) {
+  addAlert(message, type, timeout = this.defaultTimeout, restOptions = {}) {
     const sameAlert = this.findSameAlert(message, type);
     if (sameAlert) {
       sameAlert.count++;
@@ -86,7 +86,8 @@ class AlertService {
       isClosing: false,
       onCloseRequest: () => this.startAlertClosing(alert),
       onClose: () => this.removeWithoutAnimation(alert.key),
-      count: 1
+      count: 1,
+      ...restOptions
     };
 
     this.showingAlerts.push(alert);
