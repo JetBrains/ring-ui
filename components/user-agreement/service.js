@@ -144,7 +144,7 @@ export default class UserAgreementService {
       return this._alertPromise;
     }
     this._alertPromise = new Promise((resolve, reject) => {
-      const {userAgremeent, reviewNow, remindLater} = (this.config.translations || {});
+      const {userAgreement, reviewNow, remindLater} = (this.config.translations || {});
       const onReview = () => this.showDialog(true).then(resolve);
       const onRemind = () => {
         this.hideDialogAndAlert(withoutNotifications);
@@ -153,7 +153,7 @@ export default class UserAgreementService {
 
       const message = (
         <Group>
-          <span>{userAgremeent || 'User Agreement'}</span>
+          <span>{userAgreement || 'User Agreement'}</span>
           <Link onClick={onReview}>{reviewNow || 'Review now'}</Link>
           <Link onClick={onRemind}>{remindLater || 'Remind me later'}</Link>
         </Group>
