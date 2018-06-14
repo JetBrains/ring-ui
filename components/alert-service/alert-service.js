@@ -80,7 +80,7 @@ class AlertService {
     }, ANIMATION_TIME);
   }
 
-  addAlert(message, type, timeout = this.defaultTimeout) {
+  addAlert(message, type, timeout = this.defaultTimeout, restOptions = {}) {
     const sameAlert = this.findSameAlert(message, type);
     if (sameAlert) {
       sameAlert.isShaking = true;
@@ -96,7 +96,8 @@ class AlertService {
       timeout,
       isClosing: false,
       onCloseRequest: () => this.startAlertClosing(alert),
-      onClose: () => this.removeWithoutAnimation(alert.key)
+      onClose: () => this.removeWithoutAnimation(alert.key),
+      ...restOptions
     };
 
     this.showingAlerts = [alert, ...this.showingAlerts];

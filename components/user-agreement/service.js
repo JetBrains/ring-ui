@@ -1,7 +1,12 @@
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
 import Storage from '../storage/storage';
+import alertService from '../alert-service/alert-service';
+import Link from '../link/link';
+import Alert from '../alert/alert';
+import Group from '../group/group';
 
 import UserAgreement from './user-agreement';
 
@@ -11,6 +16,20 @@ const ONE_HOUR = 60 * 60 * 1000; // eslint-disable-line no-magic-numbers
 const storageKey = 'userAgreementKey';
 export const showMessage = 'userAgreementShow';
 export const hideMessage = 'userAgreementHide';
+
+const DEFAULT_CONSENT = {
+  accepted: false,
+  majorVersion: 0,
+  minorVersion: 0
+};
+
+const DEFAULT_AGREEMENT = {
+  enabled: false,
+  majorVersion: 0,
+  minorVersion: 0,
+  requiredForREST: false,
+  text: ''
+};
 
 export default class UserAgreementService {
   constructor(config = {}) {
@@ -31,6 +50,7 @@ export default class UserAgreementService {
   }
 
   _dialogPromise = null;
+  _alertPromise = null;
   tabId = Math.random();
   interval = ONE_HOUR;
   container = document.createElement('div');
@@ -38,18 +58,8 @@ export default class UserAgreementService {
   checkingPromise = null;
   guest = false;
 
-  userAgreement = {
-    enabled: false,
-    majorVersion: 0,
-    minorVersion: 0,
-    text: ''
-  };
-
-  userConsent = {
-    accepted: false,
-    majorVersion: 0,
-    minorVersion: 0
-  };
+  userAgreement = DEFAULT_AGREEMENT;
+  userConsent = DEFAULT_CONSENT;
 
   startChecking = () => {
     this.intervalId = setInterval(this.checkConsentAndShowDialog, this.interval);
@@ -71,14 +81,22 @@ export default class UserAgreementService {
         if (command === showMessage) {
           this.checkConsentAndShowDialog(true);
         } else if (command === hideMessage) {
-          this.hideDialog(true);
+          this.hideDialogAndAlert(true);
         }
       }
     }
   }
 
+  _notifyAboutShowing = () => {
+    localStorage.setItem(storageKey, JSON.stringify({command: showMessage, tabId: this.tabId}));
+  };
+
+  _notifyAboutHiding = () => {
+    localStorage.setItem(storageKey, JSON.stringify({command: hideMessage, tabId: this.tabId}));
+  };
+
   getUserAgreement = async () => {
-    this.userAgreement = await this.config.getUserAgreement() || this.userAgreement;
+    this.userAgreement = await this.config.getUserAgreement() || DEFAULT_AGREEMENT;
     return this.userAgreement;
   }
 
@@ -98,9 +116,9 @@ export default class UserAgreementService {
 
   checkConsentAndShowDialog = async withoutNotifications => {
     if (await this.checkConsent()) {
-      return this.hideDialog(withoutNotifications);
+      return this.hideDialogAndAlert(withoutNotifications);
     } else {
-      return this.showDialog(withoutNotifications);
+      return this.showDialogOrAlert(withoutNotifications);
     }
   }
 
@@ -121,6 +139,51 @@ export default class UserAgreementService {
     return !enabled || (accepted && actualVersion === acceptedVersion);
   }
 
+  showAlert = withoutNotifications => {
+    if (this._alertPromise) {
+      return this._alertPromise;
+    }
+    this._alertPromise = new Promise((resolve, reject) => {
+      const {userAgremeent, reviewNow, remindLater} = (this.config.translations || {});
+      const onReview = () => this.showDialog(true).then(resolve);
+      const onRemind = () => {
+        this.hideDialogAndAlert(withoutNotifications);
+        reject('Postponed');
+      };
+
+      const message = (
+        <Group>
+          <span>{userAgremeent || 'User Agreement'}</span>
+          <Link onClick={onReview}>{reviewNow || 'Review now'}</Link>
+          <Link onClick={onRemind}>{remindLater || 'Remind me later'}</Link>
+        </Group>
+      );
+      this.alertKey = alertService.addAlert(message, Alert.Type.WARNING, 0, {closeable: false});
+    });
+
+    if (!withoutNotifications) {
+      this._notifyAboutShowing();
+    }
+
+    return this._alertPromise;
+  }
+
+  hideAlert = withoutNotifications => {
+    const {onRemindLater} = this.config;
+
+    alertService.remove(this.alertKey);
+    this.alertKey = null;
+    this._alertPromise = null;
+
+    if (onRemindLater) {
+      onRemindLater();
+    }
+
+    if (!withoutNotifications) {
+      this._notifyAboutHiding();
+    }
+  }
+
   showDialog = (withoutNotifications, preview = false) => {
     const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
@@ -138,7 +201,7 @@ export default class UserAgreementService {
           reject();
         };
 
-        const onClose = this.hideDialog;
+        const onClose = this.hideDialogAndAlert;
 
         const props = {text, show, onAccept, onDecline, onClose, translations, preview};
 
@@ -153,7 +216,7 @@ export default class UserAgreementService {
       });
 
       if (!withoutNotifications) {
-        localStorage.setItem(storageKey, JSON.stringify({command: showMessage, tabId: this.tabId}));
+        this._notifyAboutShowing();
       }
     }
 
@@ -170,10 +233,22 @@ export default class UserAgreementService {
       this._dialogPromise = null;
 
       if (!withoutNotifications) {
-        localStorage.setItem(storageKey, JSON.stringify({command: hideMessage, tabId: this.tabId}));
+        this._notifyAboutHiding();
       }
     }
   }
+
+  showDialogOrAlert = (...args) => {
+    if (this.guest && !this.userAgreement.requiredForREST) {
+      return this.showAlert(...args);
+    }
+    return this.showDialog(...args);
+  };
+
+  hideDialogAndAlert = (...args) => {
+    this.hideAlert(...args);
+    this.hideDialog(...args);
+  };
 
   onAccept = async () => {
     const {setUserConsent, onAccept} = this.config;
