@@ -1,6 +1,8 @@
 @value unit from '../global/global.css';
 
 .iFrame {
+  overflow: hidden;
+
   border: none;
 }
 

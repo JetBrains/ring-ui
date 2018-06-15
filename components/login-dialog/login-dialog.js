@@ -103,6 +103,7 @@ export default class LoginDialog extends Component {
             style={iFrameStyle}
             src={url}
             className={styles.iFrame}
+            scrolling="no"
           />
         </Content>
 
