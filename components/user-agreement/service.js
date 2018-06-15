@@ -145,11 +145,12 @@ export default class UserAgreementService {
     }
     this._alertPromise = new Promise((resolve, reject) => {
       const {userAgreement, reviewNow, remindLater} = (this.config.translations || {});
-      const onReview = () => this.showDialog(true).then(resolve);
       const onRemind = () => {
         this.hideDialogAndAlert(withoutNotifications);
         reject('Postponed');
       };
+
+      const onReview = () => this.showDialog(true, false, {onRemindLater: onRemind}).then(resolve);
 
       const message = (
         <Group>
@@ -184,7 +185,7 @@ export default class UserAgreementService {
     }
   }
 
-  showDialog = (withoutNotifications, preview = false) => {
+  showDialog = (withoutNotifications, preview = false, restOptions) => {
     const {translations, onDialogShow} = this.config;
     const {text} = this.userAgreement;
     const show = true;
@@ -203,7 +204,15 @@ export default class UserAgreementService {
 
         const onClose = this.hideDialogAndAlert;
 
-        const props = {text, show, onAccept, onDecline, onClose, translations, preview};
+        const props = {
+          text,
+          show,
+          onAccept,
+          onDecline,
+          onClose,
+          translations,
+          preview, ...restOptions
+        };
 
         render(
           <UserAgreement {...props}/>,

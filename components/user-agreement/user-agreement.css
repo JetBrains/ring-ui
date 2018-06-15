@@ -15,7 +15,13 @@
 }
 
 .suggestion {
+  padding-bottom: unit;
+
   white-space: nowrap;
 
   font-size: 12px;
+}
+
+.remindLaterButton {
+  float: right;
 }
