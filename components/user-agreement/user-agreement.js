@@ -26,6 +26,7 @@ export default class UserAgreement extends PureComponent {
     onAccept: PropTypes.func.isRequired,
     onDecline: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    onRemindLater: PropTypes.func,
     translations: PropTypes.object
   };
 
@@ -34,7 +35,8 @@ export default class UserAgreement extends PureComponent {
       accept: 'Accept',
       decline: 'Decline',
       close: 'Close',
-      scrollToAccept: 'View the entire agreement to continue'
+      scrollToAccept: 'View the entire agreement to continue',
+      remindLater: 'Remind me later'
     },
     show: false
   };
@@ -47,7 +49,8 @@ export default class UserAgreement extends PureComponent {
 
   render() {
     const {scrolledDown} = this.state;
-    const {translations, onAccept, onDecline, onClose, text, show, preview} = this.props;
+    // eslint-disable-next-line max-len
+    const {translations, onAccept, onDecline, onClose, onRemindLater, text, show, preview} = this.props;
 
     return (
       <Dialog
@@ -67,10 +70,19 @@ export default class UserAgreement extends PureComponent {
         </Content>
         {!preview && (
           <Panel>
+            {onRemindLater && !scrolledDown && (
+              <div className={style.suggestion}>{translations.scrollToAccept}</div>
+            )}
             <Button blue disabled={!scrolledDown} onClick={onAccept}>{translations.accept}</Button>
             <Button onClick={onDecline} autoFocus>{translations.decline}</Button>
-            {!scrolledDown && (
+
+            {!onRemindLater && !scrolledDown && (
               <span className={style.suggestion}>{translations.scrollToAccept}</span>
+            )}
+            {onRemindLater && (
+              <Button className={style.remindLaterButton} onClick={onRemindLater}>
+                {translations.remindLater}
+              </Button>
             )}
           </Panel>
         )}
