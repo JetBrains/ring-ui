@@ -155,8 +155,8 @@ export default class UserAgreementService {
       const message = (
         <Group>
           <span>{userAgreement || 'User Agreement'}</span>
-          <Link onClick={onReview}>{reviewNow || 'Review now'}</Link>
-          <Link onClick={onRemind}>{remindLater || 'Remind me later'}</Link>
+          <Link onClick={onReview} data-test="review">{reviewNow || 'Review now'}</Link>
+          <Link onClick={onRemind} data-test="later">{remindLater || 'Remind me later'}</Link>
         </Group>
       );
       this.alertKey = alertService.addAlert(message, Alert.Type.WARNING, 0, {closeable: false});
