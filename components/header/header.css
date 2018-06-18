@@ -3,6 +3,20 @@
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
 
+.light {
+  background-color: transparent;
+}
+
+.dark {
+  color: white-color;
+  background-color: black-color;
+
+  /* override link */
+  & > a {
+    color: darker-gray-color;
+  }
+}
+
 .header {
   display: flex;
   overflow: hidden;
@@ -10,9 +24,6 @@
 
   box-sizing: border-box;
   height: height;
-
-  color: white-color;
-  background-color: black-color;
 
   line-height: compensated;
 
@@ -26,11 +37,6 @@
     &:first-child {
       padding-left: calc(unit * 4);
     }
-  }
-
-  /* override link */
-  & > a {
-    color: darker-gray-color;
   }
 }
 
