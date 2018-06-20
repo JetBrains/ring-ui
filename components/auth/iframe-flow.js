@@ -6,12 +6,13 @@ import Link from '../link/link';
 
 import AuthResponseParser from './response-parser';
 
-export default class WindowFlow {
+export default class IFrameFlow {
   hideDialog = null;
 
-  constructor(requestBuilder, storage) {
+  constructor(requestBuilder, storage, translations) {
     this._requestBuilder = requestBuilder;
     this._storage = storage;
+    this._translations = translations;
     this._reset();
   }
 
@@ -34,7 +35,9 @@ export default class WindowFlow {
           cleanUp();
           this.stop();
         },
-        renderFallbackLink: () => <Link href={authRequest.url}>{'Can\'t see login form?'}</Link>
+        renderFallbackLink: () => (
+          <Link href={authRequest.url}>{this._translations.nothingHappensLink}</Link>
+        )
       });
 
       this.reject = reject;

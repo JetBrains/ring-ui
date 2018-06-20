@@ -95,7 +95,8 @@ const DEFAULT_CONFIG = {
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
     backendIsNotAvailable: 'Backend is not available',
-    checkAgain: 'Check again'
+    checkAgain: 'Check again',
+    nothingHappensLink: 'Click here if nothing happens'
   }
 };
 
@@ -183,7 +184,11 @@ export default class Auth {
     this._backgroundFlow = new BackgroundFlow(
       this._requestBuilder, this._storage, backgroundRefreshTimeout
     );
-    this._embeddedFlow = new this.config.EmbeddedLoginFlow(this._requestBuilder, this._storage);
+    this._embeddedFlow = new this.config.EmbeddedLoginFlow(
+      this._requestBuilder,
+      this._storage,
+      this.config.translations
+    );
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
