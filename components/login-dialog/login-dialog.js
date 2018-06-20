@@ -13,7 +13,7 @@ const HUB_AUTH_PAGE_LOGIN_DIMENSIONS = 'HUB_AUTH_PAGE_LOGIN_DIMENSIONS';
 
 const DEFAULT_HEIGHT = 517;
 const DEFAULT_WIDTH = 333;
-const SHOW_FALLBACK_TIMEOUT = 2000;
+const DEFAULT_SHOW_FALLBACK_TIMEOUT = 5000;
 /**
  * @name Login Dialog
  * @category Components
@@ -29,6 +29,7 @@ export default class LoginDialog extends Component {
     url: PropTypes.string,
     loader: PropTypes.bool,
     loadingMessage: PropTypes.string,
+    showFallbackTimeout: PropTypes.number,
     renderFallbackLink: PropTypes.func,
     onCancel: PropTypes.func.isRequired
   };
@@ -36,11 +37,13 @@ export default class LoginDialog extends Component {
   static defaultProps = {
     show: false,
     url: 'about:blank',
-    renderFallbackLink: () => null
+    renderFallbackLink: () => null,
+    showFallbackTimeout: DEFAULT_SHOW_FALLBACK_TIMEOUT
   };
 
   state = {
     loading: true,
+    loggingIn: false,
     showFallbackLink: false,
     height: DEFAULT_HEIGHT,
     width: DEFAULT_WIDTH
@@ -48,15 +51,18 @@ export default class LoginDialog extends Component {
 
   componentDidMount() {
     window.addEventListener('message', this.onMessage);
-
-    this.showFallbackTimout = setTimeout(
-      () => this.setState({showFallbackLink: true}),
-      SHOW_FALLBACK_TIMEOUT
-    );
+    this.startFallbackCountdown();
   }
 
   componentWillUnmount() {
     window.removeEventListener('message', this.onMessage);
+  }
+
+  startFallbackCountdown() {
+    this.showFallbackTimout = setTimeout(
+      () => this.setState({showFallbackLink: true}),
+      this.props.showFallbackTimeout
+    );
   }
 
   onMessage = event => {
@@ -67,12 +73,13 @@ export default class LoginDialog extends Component {
 
     if (data === HUB_AUTH_PAGE_OPENED) {
       clearTimeout(this.showFallbackTimout);
-      this.setState({loading: false});
+      this.setState({loading: false, loggingIn: false});
       return;
     }
 
     if (data === HUB_AUTH_PAGE_LOGIN_STARTED) {
-      this.setState({loading: true});
+      this.setState({loading: true, loggingIn: true});
+      this.startFallbackCountdown();
       return;
     }
 
@@ -83,7 +90,7 @@ export default class LoginDialog extends Component {
 
   render() {
     const {show, className, url, loadingMessage, renderFallbackLink, onCancel} = this.props;
-    const {loading, height, width, showFallbackLink} = this.state;
+    const {loading, height, width, loggingIn, showFallbackLink} = this.state;
 
     const iFrameStyle = {height, width};
 
@@ -112,7 +119,7 @@ export default class LoginDialog extends Component {
         )}
 
         {showFallbackLink && (
-          <div className={styles.fallbackLinkContainer}>{renderFallbackLink()}</div>
+          <div className={styles.fallbackLinkContainer}>{renderFallbackLink(loggingIn)}</div>
         )}
       </Dialog>
     );
