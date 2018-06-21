@@ -798,7 +798,7 @@ export default class Auth {
       promiseWithTimeout(
         this.http.fetch('settings/public?fields=id'),
         backendCheckTimeout,
-        {error: new Error('It is taking too long for the authorization server to respond. Please try again later.')}
+        {error: new Error('The authorization server is taking too long to respond. Please try again later.')}
       ),
       this.config.checkBackendIsUp()
     ]);
@@ -814,7 +814,7 @@ export default class Auth {
       // TypeError likely means fetch call has errored with network error
       if (backendDownErr instanceof TypeError) {
         await this._showBackendDownDialog(
-          new TypeError('Could not connect to the server due to the network error. Please check your connection and try again.')
+          new TypeError('Could not connect to the server due to network error. Please check your connection and try again.')
         );
         return;
       }
