@@ -4,7 +4,9 @@
   max-width: calc(calc(unit * 50) + 2px);
   padding: calc(unit * 4) calc(unit * 4) calc(unit * 3);
 
-  background-color: #000;
+  background-color: rgba(0, 21, 38, 0.9);
+
+  box-shadow: 0 2px unit rgba(0, 42, 76, 0.3);
 
   line-height: 10px; /* Eliminate gap between clickable blocks rows */
 }
