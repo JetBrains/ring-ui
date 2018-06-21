@@ -62,7 +62,7 @@ export default class BackgroundFlow {
       let cleanRun;
 
       const timeout = setTimeout(() => {
-        reject(new Error('Auth Timeout'));
+        reject(new Error('Failed to refresh authorization'));
         cleanUp();
       }, this._timeout);
 
