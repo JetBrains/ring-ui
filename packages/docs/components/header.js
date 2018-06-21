@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Icon from '@jetbrains/ring-ui/components/icon';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import IFrameFlow from '@jetbrains/ring-ui/components/auth/iframe-flow';
 import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 import Header, {
   Tray,
@@ -38,7 +39,10 @@ class SiteHeader extends PureComponent {
     }
   }
 
-  auth = new Auth(hubConfig);
+  auth = new Auth({
+    ...hubConfig,
+    EmbeddedLoginFlow: IFrameFlow
+  });
 
   render() {
     const {docsItems, version} = this.props;
