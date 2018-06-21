@@ -658,7 +658,7 @@ export default class Auth {
         loginToCaption: translations.loginTo,
         confirmLabel: translations.checkAgain,
         cancelLabel: translations.postpone,
-        errorMessage: err.toString ? err.toString() : null,
+        errorMessage: err.message || (err.toString ? err.toString() : null),
         onConfirm: checkAgain,
         onCancel
       });
@@ -776,7 +776,11 @@ export default class Auth {
   _checkBackendsAreUp() {
     const {backendCheckTimeout} = this.config;
     return Promise.all([
-      promiseWithTimeout(this.http.fetch('settings/public?fields=id'), backendCheckTimeout),
+      promiseWithTimeout(
+        this.http.fetch('settings/public?fields=id'),
+        backendCheckTimeout,
+        {error: new Error('It is taking too long for the authorization server to respond. Please try again later.')}
+      ),
       this.config.checkBackendIsUp()
     ]);
   }
@@ -788,6 +792,14 @@ export default class Auth {
     try {
       await this._checkBackendsAreUp();
     } catch (backendDownErr) {
+      // TypeError likely means fetch call has errored with network error
+      if (backendDownErr instanceof TypeError) {
+        await this._showBackendDownDialog(
+          new TypeError('Could not connect to the server due to the network error. Please check your connection and try again.')
+        );
+        return;
+      }
+
       await this._showBackendDownDialog(backendDownErr);
     }
   }
