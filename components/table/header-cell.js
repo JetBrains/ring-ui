@@ -49,7 +49,7 @@ export default class HeaderCell extends PureComponent {
       Icon = sortOrder ? SortedUpIcon : SortedDownIcon;
     }
 
-    const classes = classNames(className, {
+    const classes = classNames(className, column.headerClassName, {
       [style.headerCell]: true,
       [style.headerCellSortable]: this.sortable,
       [style.headerCellSorted]: this.sorted,

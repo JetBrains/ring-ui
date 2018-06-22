@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import rerenderHOC from '../global/rerender-hoc';
+import Theme from '../global/theme';
 
 import styles from './header.css';
 
@@ -19,12 +20,17 @@ import styles from './header.css';
 export default class Header extends Component {
   static propTypes = {
     className: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    theme: PropTypes.string
+  };
+
+  static defaultProps = {
+    theme: Theme.DARK
   };
 
   render() {
-    const {children, className, ...restProps} = this.props;
-    const classes = classNames(styles.header, className);
+    const {children, className, theme, ...restProps} = this.props;
+    const classes = classNames(styles.header, styles[theme], className);
 
     return (
       <div
