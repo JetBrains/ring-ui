@@ -5,7 +5,6 @@ import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 import HTTP from '../http/http';
 import promiseWithTimeout from '../global/promise-with-timeout';
-import alertService from '../alert-service/alert-service';
 
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
@@ -77,12 +76,8 @@ const DEFAULT_CONFIG = {
   userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
   cleanHash: true,
   onLogout: noop,
-  onPostponeChangedUser: () => {
-    alertService.warning('You are now in read-only mode', 0);
-  },
-  onPostponeLogout: () => {
-    alertService.warning('You are now in read-only mode', 0);
-  },
+  onPostponeChangedUser: () => {},
+  onPostponeLogout: () => {},
   enableBackendStatusCheck: true,
   backendCheckTimeout: DEFAULT_BACKEND_CHECK_TIMEOUT,
   checkBackendIsUp: () => Promise.resolve(null),
