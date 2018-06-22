@@ -95,7 +95,8 @@ const DEFAULT_CONFIG = {
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
     backendIsNotAvailable: 'Backend is not available',
-    checkAgain: 'Check again'
+    checkAgain: 'Check again',
+    nothingHappensLink: 'Click here if nothing happens'
   }
 };
 
@@ -183,7 +184,11 @@ export default class Auth {
     this._backgroundFlow = new BackgroundFlow(
       this._requestBuilder, this._storage, backgroundRefreshTimeout
     );
-    this._embeddedFlow = new this.config.EmbeddedLoginFlow(this._requestBuilder, this._storage);
+    this._embeddedFlow = new this.config.EmbeddedLoginFlow(
+      this._requestBuilder,
+      this._storage,
+      this.config.translations
+    );
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
@@ -653,7 +658,7 @@ export default class Auth {
         loginToCaption: translations.loginTo,
         confirmLabel: translations.checkAgain,
         cancelLabel: translations.postpone,
-        errorMessage: err.toString ? err.toString() : null,
+        errorMessage: err.message || (err.toString ? err.toString() : null),
         onConfirm: checkAgain,
         onCancel
       });
@@ -771,7 +776,11 @@ export default class Auth {
   _checkBackendsAreUp() {
     const {backendCheckTimeout} = this.config;
     return Promise.all([
-      promiseWithTimeout(this.http.fetch('settings/public?fields=id'), backendCheckTimeout),
+      promiseWithTimeout(
+        this.http.fetch('settings/public?fields=id'),
+        backendCheckTimeout,
+        {error: new Error('The authorization server is taking too long to respond. Please try again later.')}
+      ),
       this.config.checkBackendIsUp()
     ]);
   }
@@ -783,6 +792,14 @@ export default class Auth {
     try {
       await this._checkBackendsAreUp();
     } catch (backendDownErr) {
+      // TypeError likely means fetch call has errored with network error
+      if (backendDownErr instanceof TypeError) {
+        await this._showBackendDownDialog(
+          new TypeError('Could not connect to the server due to network error. Please check your connection and try again.')
+        );
+        return;
+      }
+
       await this._showBackendDownDialog(backendDownErr);
     }
   }
