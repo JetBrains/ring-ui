@@ -546,7 +546,11 @@ export default class Select extends Component {
 
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
-      if (check(item, lowerCaseString, data)) {
+
+      const nonFiltering = [List.ListProps.Type.SEPARATOR, List.ListProps.Type.TITLE];
+      const isFilterApplicable = !rawFilterString || !nonFiltering.includes(item.rgItemType);
+
+      if (isFilterApplicable && check(item, lowerCaseString, data)) {
         exactMatch = (item.label === filterString);
 
         if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
