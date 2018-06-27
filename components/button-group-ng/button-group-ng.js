@@ -30,6 +30,7 @@ import '../button-group/button-group.scss';
 
 const CLASSNAME_FIRST = 'ring-button-group__first';
 const CLASSNAME_LAST = 'ring-button-group__last';
+const CLASSNAME_GROUP = 'ring-button-group';
 
 const angularModule = angular.module('Ring.button-group', []);
 
@@ -39,6 +40,11 @@ function rgButtonGroup() {
     link: function link($scope, iElement) {
       const element = iElement[0];
       const children = Array.from(element.children);
+
+      const classList = element.classList;
+      if (!classList.contains(CLASSNAME_GROUP)) {
+        classList.add(CLASSNAME_GROUP);
+      }
 
       // For $watchCollection it should be Array, not jQuery collection
       $scope.$watchCollection(
