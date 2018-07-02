@@ -50,8 +50,6 @@ function rgButtonGroup() {
       $scope.$watchCollection(
         () => children.filter(node => getStyles(node).display !== 'none'),
         (newVisible, oldVisible) => {
-          element.classList.toggle('ng-hide', !newVisible.length);
-
           if (oldVisible && oldVisible.length) {
             oldVisible[0].classList.remove(CLASSNAME_FIRST);
             oldVisible[oldVisible.length - 1].classList.remove(CLASSNAME_LAST);
