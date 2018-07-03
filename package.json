@@ -170,7 +170,7 @@
     "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
     "@jetbrains/babel-preset-jetbrains": "1.1.1",
     "@jetbrains/babel-runtime": "6.23.1",
-    "@jetbrains/icons": "1.18.2",
+    "@jetbrains/icons": "1.18.3",
     "@jetbrains/logos": "1.0.0",
     "autoprefixer": "7.2.6",
     "babel-core": "6.26.3",
