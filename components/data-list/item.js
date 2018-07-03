@@ -98,7 +98,7 @@ export default class Item extends PureComponent {
 
     return (
       <Item
-        key={item.id}
+        key={item.key || item.id}
         item={model}
         title={item.title}
         items={item.items}
