@@ -202,7 +202,7 @@
     "prop-types": "15.6.2",
     "react-markdown": "3.3.4",
     "react-sortable-hoc": "0.6.8",
-    "react-virtualized": "9.19.1",
+    "react-virtualized": "9.20.0",
     "react-waypoint": "8.0.1",
     "remark-breaks": "1.0.0",
     "sass-loader": "7.0.3",
