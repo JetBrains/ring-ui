@@ -21,16 +21,20 @@ export default class Header extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
+    spaced: PropTypes.bool,
     theme: PropTypes.string
   };
 
   static defaultProps = {
+    spaced: true,
     theme: Theme.DARK
   };
 
   render() {
-    const {children, className, theme, ...restProps} = this.props;
-    const classes = classNames(styles.header, styles[theme], className);
+    const {children, className, spaced, theme, ...restProps} = this.props;
+    const classes = classNames(styles.header, styles[theme], className, {
+      [styles.headerSpaced]: spaced
+    });
 
     return (
       <div
