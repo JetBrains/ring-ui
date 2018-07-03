@@ -30,7 +30,7 @@
     "postcss-cssnext": "3.1.0",
     "postcss-loader": "2.1.5",
     "postcss-modules-values-replace": "3.0.1",
-    "prop-types": "15.6.1",
+    "prop-types": "15.6.2",
     "react": "16.4.0",
     "react-dom": "16.4.0",
     "redbox-react": "1.6.0",
