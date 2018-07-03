@@ -158,13 +158,13 @@ class DataList extends PureComponent {
         <ul className={classes}>
           {data.map(model => {
             const item = itemFormatter(model);
-            const {id, title, items} = item;
+            const {id, key, title, items} = item;
 
             const showMoreLessButton = this.props.itemMoreLessState(item);
 
             return (
               <Item
-                key={id}
+                key={key || id}
                 item={model}
                 title={title}
                 items={items}
