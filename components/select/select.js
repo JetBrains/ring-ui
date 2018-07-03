@@ -10,10 +10,12 @@ import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
 import Icon, {ChevronDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
+import buttonStyles from '../button/button.css';
 import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
+import Theme from '../global/theme';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -48,6 +50,8 @@ const Type = {
 export default class Select extends Component {
   static Type = Type;
   static Size = Size;
+  static Theme = Theme;
+
   static propTypes = {
     className: PropTypes.string,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -95,7 +99,8 @@ export default class Select extends Component {
     clear: PropTypes.bool,
     hideArrow: PropTypes.bool,
     compact: PropTypes.bool,
-    size: PropTypes.oneOf(Object.values(Size))
+    size: PropTypes.oneOf(Object.values(Size)),
+    theme: PropTypes.string
   };
 
   static defaultProps = {
@@ -119,7 +124,7 @@ export default class Select extends Component {
     maxHeight: 600, // height of the options list, including the filter and the 'Add' button
     directions: [
       Popup.PopupProps.Directions.BOTTOM_RIGHT,
-      Popup .PopupProps.Directions.BOTTOM_LEFT,
+      Popup.PopupProps.Directions.BOTTOM_LEFT,
       Popup.PopupProps.Directions.TOP_LEFT,
       Popup.PopupProps.Directions.TOP_RIGHT
     ],
@@ -152,7 +157,8 @@ export default class Select extends Component {
 
     tags: null,
     onRemoveTag: noop,
-    ringPopupTarget: null
+    ringPopupTarget: null,
+    theme: Theme.LIGHT
   };
 
   static _getEmptyValue(multiple) {
@@ -996,10 +1002,16 @@ export default class Select extends Component {
                 scope={this.shortcutsScope}
               />
             )}
-            <Button
-              className={classNames(styles.buttonValue, {
-                [styles.buttonValueOpen]: this.state.showPopup
-              })}
+            <div
+              className={classNames(
+                buttonStyles.button,
+                buttonStyles[this.props.theme],
+                styles.buttonValue,
+                {
+                  [styles.buttonValueOpen]: this.state.showPopup
+                })
+              }
+              tabIndex={0}
               disabled={this.props.disabled}
               style={style}
               data-test="ring-select__button"
@@ -1007,7 +1019,7 @@ export default class Select extends Component {
               {this._getAvatar()}
               {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
               {iconsNode}
-            </Button>
+            </div>
             {this._renderPopup()}
           </div>
         );
