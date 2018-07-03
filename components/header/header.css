@@ -33,10 +33,16 @@
     box-sizing: border-box;
     height: height;
     padding: 0 calc(unit * 1.5) compensate;
+  }
+}
 
-    &:first-child {
-      padding-left: calc(unit * 4);
-    }
+.headerSpaced {
+  & > *:first-child {
+    padding-left: calc(unit * 4);
+  }
+
+  & > *:last-child {
+    padding-right: calc(unit * 4);
   }
 }
 
@@ -103,7 +109,7 @@
 
   width: auto;
   height: compensated;
-  padding: 0 calc(unit * 4) 0 unit;
+  padding-left: unit;
 
   vertical-align: bottom;
 }
