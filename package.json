@@ -195,7 +195,7 @@
     "just-debounce-it": "1.0.1",
     "moment": "2.22.2",
     "pascal-case": "2.0.1",
-    "postcss": "6.0.22",
+    "postcss": "6.0.23",
     "postcss-cssnext": "3.1.0",
     "postcss-loader": "2.1.5",
     "postcss-modules-values-replace": "3.0.1",
