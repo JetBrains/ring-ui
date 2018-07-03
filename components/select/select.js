@@ -390,7 +390,7 @@ export default class Select extends Component {
       glyph: reset.glyph,
       iconSize: Icon.Size.Size14,
       className: 'ring-select__clear-tags',
-      onClick: event => {
+      onClick: (item, event) => {
         this.clear(event);
         this._resetMultipleSelectionMap();
         this.clearFilter();
