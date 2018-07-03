@@ -199,7 +199,7 @@
     "postcss-cssnext": "3.1.0",
     "postcss-loader": "2.1.5",
     "postcss-modules-values-replace": "3.0.1",
-    "prop-types": "15.6.1",
+    "prop-types": "15.6.2",
     "react-markdown": "3.3.3",
     "react-sortable-hoc": "0.6.8",
     "react-virtualized": "9.19.1",
