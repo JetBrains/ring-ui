@@ -144,6 +144,7 @@
   width: 100%;
 
   text-align: left;
+  vertical-align: baseline;
 }
 
 .buttonValueOpen {
