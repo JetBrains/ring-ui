@@ -1,3 +1,5 @@
+@value dark-gray-color from "../global/global.css";
+
 /* This fixes vertical align of icons, contained in button content */
 /* stylelint-disable-next-line selector-type-no-unknown */
 .ringIconVerticalAlignFix rg-icon {
@@ -6,6 +8,12 @@
   vertical-align: 1px;
 
   line-height: 8px;
+}
+
+/* stylelint-disable-next-line selector-type-no-unknown */
+.ringIconDefaultColor rg-icon,
+.ringIconDefaultColor :global(.ring-icon) {
+  color: dark-gray-color;
 }
 
 .iconMarginFix.iconMarginFix {
