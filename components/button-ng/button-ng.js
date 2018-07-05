@@ -8,9 +8,9 @@ import IconNG from '../icon-ng/icon-ng';
 import Theme from '../global/theme';
 import styles from '../button/button.css';
 
-import {ringIconVerticalAlignFix, iconMarginFix, transcludeSpacer} from './button-ng.css';
+import overrides from './button-ng.css';
 
-
+const {ringIconVerticalAlignFix, ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
 const DEFAULT_ICON_SIZE = 16;
 
 /**
@@ -151,7 +151,7 @@ function rgButtonDirective() {
 <button class="${buttonClasses}">
   <span class="${styles.content}"
   ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
-  ><ng-transclude></ng-transclude
+  ><ng-transclude class="${ringIconDefaultColor}"></ng-transclude
   ></span><div class="js-button-loader"></div>
 </button>
     `,
@@ -168,7 +168,7 @@ function rgButtonLinkDirective() {
 <a class="${buttonClasses}">
   <span class="${styles.content}"
   ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
-  ><ng-transclude></ng-transclude
+  ><ng-transclude class="${ringIconDefaultColor}"></ng-transclude
   ></span
   ><div class="js-button-loader"></div>
 </a>
