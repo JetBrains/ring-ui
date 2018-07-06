@@ -21,7 +21,7 @@
   "dependencies": {
     "@jetbrains/babel-preset-jetbrains": "1.1.1",
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.4",
+    "babel-loader": "7.1.5",
     "babel-polyfill": "6.26.0",
     "css-loader": "0.28.11",
     "file-loader": "1.1.11",
