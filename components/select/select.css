@@ -144,6 +144,7 @@
   width: 100%;
 
   text-align: left;
+  vertical-align: calc(0 - unit);
 }
 
 .buttonValueOpen {
