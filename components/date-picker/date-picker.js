@@ -52,7 +52,8 @@ export default class DatePicker extends PureComponent {
     inputFormat: PropTypes.string,
     datePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    dropdownProps: PropTypes.object
   };
 
   clear = () => {
@@ -80,6 +81,7 @@ export default class DatePicker extends PureComponent {
       datePlaceholder,
       rangePlaceholder,
       clear,
+      dropdownProps,
       ...datePopupProps
     } = this.props;
 
@@ -127,6 +129,7 @@ export default class DatePicker extends PureComponent {
       <Dropdown
         className={classes}
         anchor={text}
+        {...dropdownProps}
       >
         <Popup
           keepMounted
