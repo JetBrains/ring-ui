@@ -143,7 +143,10 @@ export default class SelectPopup extends Component {
     return true;
   }
 
-  popupFilterOnFocus = () => this._togglePopupFilterShortcuts(false);
+  onFilterFocus = () => {
+    this._togglePopupFilterShortcuts(false);
+    this.setState({tagsActiveIndex: null});
+  };
 
   popupFilterOnBlur = () => {
     if (this.state.tagsActiveIndex === null) {
@@ -223,7 +226,7 @@ export default class SelectPopup extends Component {
             value={this.props.filterValue}
             inputRef={this.filterRef}
             onBlur={this.popupFilterOnBlur}
-            onFocus={this.popupFilterOnFocus}
+            onFocus={this.onFilterFocus}
             className="ring-js-shortcuts"
             placeholder={this.props.filter.placeholder}
 
