@@ -48,7 +48,15 @@ class ButtonController extends RingAngularComponent {
 
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
-        val ? cl.add(styles[mod]) : cl.remove(styles[mod]);
+        const attrName = `data-test-${mod}`;
+
+        if (val) {
+          cl.add(styles[mod]);
+          this.element.setAttribute(attrName, true);
+        } else {
+          cl.remove(styles[mod]);
+          this.element.removeAttribute(attrName);
+        }
 
         if (mod === 'loader') {
           this.element.querySelector(LOADER_BACKGROUND_SELECTOR).
