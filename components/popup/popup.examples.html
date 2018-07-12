@@ -293,3 +293,62 @@
     render(example, document.getElementById('example'));
   </file>
 </example>
+
+<example name="Popup fits screen">
+  <file type="css">
+    body {
+      margin: 0;
+    }
+
+    :global(.container) {}
+    :global(.popupContent) {
+      height: 1300px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    :global(.anchorBottom) {
+      position: absolute;
+      bottom: 20px;
+      left: 200px;
+    }
+  </file>
+  <file type="html" disable-auto-size>
+    <div id="example"></div>
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+
+    import Popup from '@jetbrains/ring-ui/components/popup/popup';
+
+    function renderPopup() {
+      return (
+        <Popup maxHeight={1380}>
+          <div className="popupContent">
+            <div>Popup top</div>
+            <div>popup bottom</div>
+          </div>
+        </Popup>
+      );
+    }
+
+    const example = (
+      <div className="container">
+        <div>
+          Popup anchor
+          {renderPopup()}
+        </div>
+
+        <div className="anchorBottom">
+          Popup anchor on bottom
+          {renderPopup()}
+        </div>
+      </div>
+    );
+
+    render(example, document.getElementById('example'));
+  </file>
+</example>
