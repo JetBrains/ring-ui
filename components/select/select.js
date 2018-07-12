@@ -861,13 +861,14 @@ export default class Select extends Component {
     const icons = [];
 
     if (this.state.selected && this.state.selected.icon) {
+      /* eslint-disable react/self-closing-comp */
       icons.push(
         <span
           className={styles.selectedIcon}
           key="selected"
           onClick={this._clickHandler}
           style={{backgroundImage: `url(${this.state.selected.icon})`}}
-        />
+        ></span>
       );
     }
 
