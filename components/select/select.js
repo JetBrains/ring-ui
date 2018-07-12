@@ -11,7 +11,6 @@ import Shortcuts from '../shortcuts/shortcuts';
 import Icon, {ChevronDownIcon, CloseIcon} from '../icon';
 import Button from '../button/button';
 import buttonStyles from '../button/button.css';
-import sniffr from '../global/sniffer';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
@@ -862,13 +861,14 @@ export default class Select extends Component {
     const icons = [];
 
     if (this.state.selected && this.state.selected.icon) {
+      /* eslint-disable react/self-closing-comp */
       icons.push(
         <span
           className={styles.selectedIcon}
           key="selected"
           onClick={this._clickHandler}
           style={{backgroundImage: `url(${this.state.selected.icon})`}}
-        />
+        ></span>
       );
     }
 
@@ -949,11 +949,6 @@ export default class Select extends Component {
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;
 
-    const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-    const clickListenProps = isIE11
-      ? {onMouseDown: this._clickHandler}
-      : {onClick: this._clickHandler};
-
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
       case Type.INPUT: return (
@@ -994,7 +989,7 @@ export default class Select extends Component {
             ref={this.nodeRef}
             className={classNames(classes, styles.buttonMode)}
             data-test="ring-select"
-            {...clickListenProps}
+            onClick={this._clickHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1030,7 +1025,7 @@ export default class Select extends Component {
             ref={this.nodeRef}
             className={classNames(classes, styles.materialMode)}
             data-test="ring-select"
-            {...clickListenProps}
+            onClick={this._clickHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1065,7 +1060,7 @@ export default class Select extends Component {
             className={classes}
             ref={this.nodeRef}
             data-test="ring-select"
-            {...clickListenProps}
+            onClick={this._clickHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts

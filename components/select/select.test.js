@@ -430,7 +430,6 @@ describe('Select', () => {
       const wrapper = shallowSelect();
       const instance = wrapper.instance();
       sandbox.spy(instance, '_showPopup');
-      wrapper.simulate('mousedown');
       wrapper.simulate('click');
 
       instance._showPopup.should.be.called;

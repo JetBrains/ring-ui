@@ -108,10 +108,14 @@ export default class ListItem extends PureComponent {
     };
 
     const labelIsString = typeof label === 'string' || label instanceof String;
+    const isSelected = checkbox !== undefined;
 
     let dataTest = 'ring-list-item';
     if (!disabled) {
       dataTest += ' ring-list-item-action';
+    }
+    if (isSelected) {
+      dataTest += ' ring-list-item-selected';
     }
 
     return (
@@ -170,8 +174,9 @@ export default class ListItem extends PureComponent {
               />
             )}
             {rightNodes}
-            {checkbox !== undefined && (
+            {isSelected && (
               <CheckmarkIcon
+                data-test="ring-list-item-checkmark"
                 className={classNames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
