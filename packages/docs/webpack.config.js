@@ -37,7 +37,7 @@ module.exports = (env = {}) => {
       NODE_ENV: JSON.stringify(envString)
     }
   };
-  const devtool = production ? false : 'eval';
+  const devtool = production ? false : 'cheap-eval-source-map';
   const dllPath = `dll-${envString}`;
   const optimizePlugins = production
     ? [
@@ -115,7 +115,7 @@ module.exports = (env = {}) => {
         }
       ]
     },
-    // devtool,
+    devtool,
     devServer: {
       host,
       port,
