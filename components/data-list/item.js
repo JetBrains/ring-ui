@@ -1,6 +1,6 @@
-/* @flow */
 /* eslint-disable react/jsx-no-literals */
-import React, {PureComponent, Element} from 'react';
+import React, {PureComponent} from 'react';
+import PropTypes from 'prop-types';
 
 import Link from '../link/link';
 import Text from '../text/text';
@@ -11,9 +11,8 @@ import {
   ChevronDownIcon
 } from '../icon';
 
-import Selection from './selection';
 import Title from './title';
-import type {ItemType} from './types';
+
 import styles from './data-list.css';
 
 export const moreLessButtonStates = {
@@ -26,38 +25,35 @@ export const moreLessButtonStates = {
 const ITEM_LEFT_OFFSET = 32;
 const LIST_LEFT_OFFSET = 24;
 
-export type MoreLessButtonState = typeof moreLessButtonStates.UNUSED |
-  typeof moreLessButtonStates.MORE | typeof moreLessButtonStates.MORE_LOADING |
-  typeof moreLessButtonStates.LESS;
-
-type Props = {
-  item: any,
-  title: string,
-  items: any[],
-  className?: string,
-  level: number,
-  parentShift: number,
-
-  itemFormatter: (item: any) => ItemType,
-
-  collapsible: boolean,
-  collapsed: boolean,
-  onCollapse: () => void,
-  onExpand: () => void,
-
-  showFocus: boolean,
-  onFocus: (item: ItemType) => void,
-
-  selection: Selection,
-  selectable: boolean,
-  selected: boolean,
-  onSelect: (item: ItemType, selected: boolean) => void,
-
-  showMoreLessButton: MoreLessButtonState,
-  onItemMoreLess: (item?: ItemType, more?: boolean) => void
-};
 
 export default class Item extends PureComponent {
+  static propTypes = {
+    item: PropTypes.object,
+    title: PropTypes.node,
+    items: PropTypes.array,
+    className: PropTypes.string,
+    level: PropTypes.number,
+    parentShift: PropTypes.number,
+
+    itemFormatter: PropTypes.func,
+
+    collapsible: PropTypes.bool,
+    collapsed: PropTypes.bool,
+    onCollapse: PropTypes.func,
+    onExpand: PropTypes.func,
+
+    showFocus: PropTypes.bool,
+    onFocus: PropTypes.func,
+
+    selection: PropTypes.object,
+    selectable: PropTypes.bool,
+    selected: PropTypes.bool,
+    onSelect: PropTypes.func,
+
+    showMoreLessButton: PropTypes.number,
+    onItemMoreLess: PropTypes.func
+  };
+
   static defaultProps = {
     items: [],
     level: 0,
@@ -66,29 +62,28 @@ export default class Item extends PureComponent {
     onItemMoreLess: () => {}
   };
 
-  props: Props;
 
-  onShowMore = (): void => {
+  onShowMore = () => {
     const {onItemMoreLess, item} = this.props;
     onItemMoreLess(item, true);
   };
 
-  onShowLess = (): void => {
+  onShowLess = () => {
     const {onItemMoreLess, item} = this.props;
     onItemMoreLess(item, false);
   };
 
-  onFocus = (): void => {
+  onFocus = () => {
     const {onFocus, item} = this.props;
     onFocus(item);
   };
 
-  onSelect = (selected: boolean): void => {
+  onSelect = selected => {
     const {onSelect, item} = this.props;
     onSelect(item, selected);
   };
 
-  renderItem = (model: any, parentShift: number): Element<any> => {
+  renderItem = (model, parentShift) => {
     const {
       onFocus, onSelect, selection, level,
       itemFormatter
@@ -124,7 +119,7 @@ export default class Item extends PureComponent {
     );
   };
 
-  render(): Element<any> {
+  render() {
     const {
       title, items, showMoreLessButton,
       level, parentShift, showFocus,

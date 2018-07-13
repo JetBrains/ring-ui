@@ -1,5 +1,4 @@
 /* eslint-disable react/sort-comp,no-magic-numbers */
-/* @flow */
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 

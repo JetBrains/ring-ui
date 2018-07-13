@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint-disable no-magic-numbers */
 /* eslint-disable react/sort-comp */
 import React, {PureComponent} from 'react';

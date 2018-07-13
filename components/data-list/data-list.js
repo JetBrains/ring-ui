@@ -6,9 +6,8 @@
   * @description A component for rendering interactive hierarchical tables.
   * @example-file ./data-list.examples.html
   */
-/* @flow */
 
-import React, {PureComponent, Element} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -19,47 +18,27 @@ import getUID from '../global/get-uid';
 import Shortcuts from '../shortcuts/shortcuts';
 import Loader from '../loader/loader';
 
-import Selection from './selection';
 import Item, {moreLessButtonStates} from './item';
-import type {ItemType} from './types';
+
 import styles from './data-list.css';
 
-import type {MoreLessButtonState} from './item';
-
-type Props = {
-  className?: string,
-  data: any[],
-  loading: boolean,
-
-  itemFormatter: (item: any) => ItemType,
-
-  onItemMoreLess: (item?: ItemType, more?: boolean) => void,
-  itemMoreLessState: (item?: ItemType) => MoreLessButtonState,
-
-  remoteSelection: boolean,
-
-  // selectionShortcutsHOC
-  selection: Selection,
-  selectable: boolean,
-  onSelect: (selection?: Selection) => void,
-  shortcutsMap: {},
-
-  // focusSensorHOC
-  focused: boolean,
-
-  // disableHoverHOC
-  disabledHover: boolean
-};
 
 class DataList extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     data: PropTypes.array.isRequired,
     loading: PropTypes.bool,
+    focused: PropTypes.bool,
+    disabledHover: PropTypes.bool,
+    selection: PropTypes.object,
+    selectable: PropTypes.bool,
+    shortcutsMap: PropTypes.object,
 
     itemFormatter: PropTypes.func.isRequired,
 
     onItemMoreLess: PropTypes.func,
     itemMoreLessState: PropTypes.func,
+    onSelect: PropTypes.func,
 
     remoteSelection: PropTypes.bool
   };
@@ -95,14 +74,13 @@ class DataList extends PureComponent {
     }
   }
 
-  props: Props;
 
-  onItemFocus = (item: ItemType): void => {
+  onItemFocus = item => {
     const {selection, onSelect} = this.props;
     onSelect(selection.focus(item));
   };
 
-  onItemSelect = (item: ItemType, selected: boolean): void => {
+  onItemSelect = (item, selected) => {
     const {selection, onSelect} = this.props;
     if (selected) {
       onSelect(selection.select(item));
@@ -129,7 +107,7 @@ class DataList extends PureComponent {
     '=': this.onEqualPress
   };
 
-  render(): Element<any> {
+  render() {
     const {
       data, className, loading,
       selection, disabledHover,
