@@ -49,26 +49,18 @@ class SelectLazy {
 
     if (this.type !== 'dropdown') {
       const ReactDOMServer = require('react-dom/server');
-      if (this.hydrated) {
-        this.ctrl.selectInstance = render(this.reactSelect, this.container);
-      } else {
-        this.container.innerHTML = ReactDOMServer.renderToString(this.reactSelect);
-      }
+      this.container.innerHTML = ReactDOMServer.renderToString(this.reactSelect);
     }
   }
 
   _clickHandler() {
     this.detachEvents();
-    if (this.hydrated) {
+    if (this.type === 'dropdown') {
       this.ctrl.selectInstance = render(this.reactSelect, this.container);
+      // In "dropdown" mode we don't click select itself, so need to force click handler
+      this.ctrl.selectInstance._clickHandler();
     } else {
       this.ctrl.selectInstance = hydrate(this.reactSelect, this.container);
-
-      // In "dropdown" mode we don't click select itself, so need to force click handler
-      if (this.type === 'dropdown') {
-        this.ctrl.selectInstance._clickHandler();
-      }
-      this.hydrated = true;
     }
   }
 }
