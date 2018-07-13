@@ -155,7 +155,11 @@
 
 .rowFocused {
   background-color: hover-color;
-  box-shadow: inset 2px 0 main-color;
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .cell:nth-child(1) {
+    box-shadow: inset 2px 0 main-color;
+  }
 }
 
 .loadingOverlay {
