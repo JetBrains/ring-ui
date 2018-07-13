@@ -1,5 +1,3 @@
-const isCI = process.argv.indexOf('jslint-xml') !== -1;
-
 module.exports = {
   "root": true,
   "parser": "babel-eslint",
@@ -15,9 +13,6 @@ module.exports = {
     "browser": true,
     "mocha": false
   },
-  "plugins": [
-    "flowtype-errors"
-  ],
   "rules": {
     // Possible Errors
     "valid-jsdoc": "off",
@@ -37,11 +32,7 @@ module.exports = {
     "quotes": ["error", "single", { "avoidEscape": true }],
 
     // Angular
-    "angular/directive-name": ["error", "rg"],
-
-    // Flow
-    "flowtype-errors/show-errors": isCI ? "error" : "off",
-    "flowtype-errors/enforce-min-coverage": isCI ? ["error", 50] : "off"
+    "angular/directive-name": ["error", "rg"]
   },
   "overrides": {
     "files": ["**/*.test.js"],
