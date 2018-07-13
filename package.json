@@ -98,7 +98,7 @@
     "angular-mocks": "1.6.10",
     "angular-route": "1.6.10",
     "babel-cli": "6.26.0",
-    "babel-eslint": "8.2.5",
+    "babel-eslint": "8.2.6",
     "babel-plugin-istanbul": "5.0.0",
     "babel-polyfill": "6.26.0",
     "chai": "4.1.2",
