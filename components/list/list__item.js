@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Icon, {CheckmarkIcon} from '../icon';
 
@@ -108,15 +109,10 @@ export default class ListItem extends PureComponent {
     };
 
     const labelIsString = typeof label === 'string' || label instanceof String;
-    const isSelected = checkbox !== undefined;
-
-    let dataTest = 'ring-list-item';
-    if (!disabled) {
-      dataTest += ' ring-list-item-action';
-    }
-    if (isSelected) {
-      dataTest += ' ring-list-item-selected';
-    }
+    const dataTest = dataTests('ring-list-item', {
+      'ring-list-item-action': !disabled,
+      'ring-list-item-selected': checkbox
+    });
 
     return (
       <div
@@ -174,7 +170,7 @@ export default class ListItem extends PureComponent {
               />
             )}
             {rightNodes}
-            {isSelected && (
+            {checkbox !== undefined && (
               <CheckmarkIcon
                 data-test="ring-list-item-checkmark"
                 className={classNames(styles.checkbox, {
