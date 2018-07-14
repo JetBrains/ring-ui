@@ -3,7 +3,7 @@ require('babel-polyfill');
 const path = require('path');
 
 const webpack = require('webpack');
-const AutoDllPlugin = require('autodll-webpack-plugin');
+const {DllBundlesPlugin} = require('webpack-dll-bundles-plugin');
 const webpackConfig = require('@jetbrains/ring-ui/webpack.config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -150,22 +150,19 @@ module.exports = (env = {}) => {
       docpackSetup(dllPath),
       extractCSS,
       extractHTML,
-      new AutoDllPlugin({
-        filename: '[name].dll.js',
-        path: path.join(contentBase, dllPath),
-        context: path.resolve(__dirname, '../..'),
-        debug: true,
-        entry: {
+      new DllBundlesPlugin({
+        bundles: {
           vendor: [
             'babel-polyfill',
             'core-js',
-            'core-js/library',
+            {
+              name: 'core-js',
+              path: 'core-js/library'
+            },
             'dom4',
             'whatwg-fetch',
             'react',
             'react-dom',
-            'react-virtualized',
-            'react-sortable-hoc',
             'prop-types',
             'react-waypoint',
             'angular',
@@ -176,18 +173,19 @@ module.exports = (env = {}) => {
             'sniffr'
           ]
         },
-        // Webpack config part
-        devtool,
-        module: {
-          rules: [
-            webpackConfig.loaders.whatwgLoader
-          ]
-        },
-        plugins: optimizePlugins
+        dllDir: path.join(contentBase, dllPath),
+        webpackConfig: {
+          devtool,
+          module: {
+            rules: [
+              webpackConfig.loaders.whatwgLoader
+            ]
+          },
+          plugins: optimizePlugins // DllBundlesPlugin will set the DllPlugin here
+        }
       })
     ]
   };
 
   return docsWebpackConfig;
 };
-console.log('__dirname', path.resolve(__dirname, '../..'))
