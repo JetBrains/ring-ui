@@ -372,12 +372,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         });
       }
 
-      function listenToDestroy() {
-        $scope.$on('$destroy', () => {
-          unmountComponentAtNode(container);
-        });
-      }
-
       function getSelectType() {
         return types[getType()] || types.material;
       }
@@ -405,6 +399,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           setSelectModel(ctrl.ngModelCtrl.$modelValue);
         }
       }
+
+      ctrl.$onDestroy = () => {
+        unmountComponentAtNode(container);
+      };
 
       ctrl.$onInit = () => {
         ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
@@ -517,7 +515,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
         attachDropdownIfNeeded();
         listenToRouteChanges();
-        listenToDestroy();
       };
     }
   };
