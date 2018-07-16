@@ -113,7 +113,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       onChange: '&',
       notFoundMessage: '@',
       loadingMessage: '@',
-      config: '=?',
+      config: '<?',
       configAutoUpdate: '=',
       selectInstance: '=?',
       size: '@'
