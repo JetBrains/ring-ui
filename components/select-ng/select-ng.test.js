@@ -61,6 +61,12 @@ describe('Select Ng', () => {
       return _ctrl.selectInstance.props.selected;
     }
 
+    it('Should unmount react component on destroy', () => {
+      initializeReactSelect(element[0]);
+      ctrl.$onDestroy();
+      should.not.exist(ctrl.selectInstance.node);
+    });
+
     it('Should receive ngModel controller', () => {
       ctrl.ngModelCtrl.should.exist;
     });
@@ -552,4 +558,17 @@ describe('Select Ng', () => {
       should.not.exist(ctrl.query);
     });
   });
+
+  function initializeReactSelect(node) {
+    simulateClick(findContainerNode(node));
+  }
+
+  function simulateClick(node) {
+    const clickEvent = new CustomEvent('click');
+    node.dispatchEvent(clickEvent);
+  }
+
+  function findContainerNode(node) {
+    return node.querySelector('span');
+  }
 });
