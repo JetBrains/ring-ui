@@ -246,7 +246,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       let loaderDelayTimeout = null;
       ctrl.showLoader = () => {
         if (getType() !== 'suggest') {
-          ctrl.selectInstance.rerender({loading: true});
+          reRenderSelect({loading: true});
         }
       };
 
@@ -280,14 +280,14 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             map(ctrl.convertNgModelToSelect);
           $timeout.cancel(loaderDelayTimeout);
           ctrl.dataReceived = true;
-          ctrl.selectInstance.rerender({
+          reRenderSelect({
             data: items,
             loading: false
           });
         }).catch(() => {
           inProcessQueries--;
           $timeout.cancel(loaderDelayTimeout);
-          ctrl.selectInstance.rerender({
+          reRenderSelect({
             loading: false
           });
         });
@@ -295,7 +295,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       function setSelectModel(newValue) {
         if (ctrl.ngModelCtrl) {
-          ctrl.selectInstance.rerender({
+          reRenderSelect({
             selected: ctrl.convertNgModelToSelect(newValue)
           });
         }
@@ -307,14 +307,14 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       function syncDisabled() {
         $attrs.$observe('disabled', newValue => {
-          ctrl.selectInstance.rerender({disabled: newValue});
+          reRenderSelect({disabled: newValue});
         });
       }
 
       function syncMultiple() {
         $scope.$watch(() => ctrl.multiple, () => {
           if (angular.isDefined(ctrl.multiple)) {
-            ctrl.selectInstance.rerender({multiple: ctrl.multiple});
+            reRenderSelect({multiple: ctrl.multiple});
           }
         });
       }
@@ -322,7 +322,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       function syncConfig() {
         $scope.$watchCollection(() => ctrl.config, (config, old) => {
           if (config !== old) {
-            ctrl.selectInstance.rerender(config);
+            reRenderSelect(config);
           }
         });
       }
@@ -384,6 +384,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       function getSelectSize() {
         return sizes[ctrl.size] || sizes.FULL;
+      }
+
+      function reRenderSelect(props) {
+        return ctrl.selectInstance.rerender(props);
       }
 
       /**
