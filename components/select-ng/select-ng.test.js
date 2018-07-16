@@ -121,6 +121,14 @@ describe('Select Ng', () => {
       ctrl.selectInstance.props.data[0].label.should.equal(fakeItems[0].name);
     });
 
+    it('Should reject promise on loading error', inject($q => {
+      const onError = sandbox.spy();
+      sandbox.stub(ctrl, 'getOptions').returns($q.reject());
+      ctrl.loadOptionsToSelect().catch(onError);
+      scope.$digest();
+      onError.should.be.called;
+    }));
+
     it('Should use default type "Button" if type is not passed', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem"></rg-select>');
       ctrl.selectInstance.props.type.should.equal(Select.Type.MATERIAL);
