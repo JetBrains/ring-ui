@@ -148,7 +148,7 @@
     "sinon-chai": "3.1.0",
     "storage-mock": "1.0.3",
     "stylelint": "9.3.0",
-    "wallaby-webpack": "0.0.45",
+    "wallaby-webpack": "3.9.10",
     "webpack": "2.7.0",
     "webpack-dev-server": "2.9.7",
     "webpack-dll-bundles-plugin": "1.0.0-beta.5",
