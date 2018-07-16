@@ -252,7 +252,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
 
       ctrl.loadOptionsToSelect = query => {
         if (ctrl.stopLoadingNewOptions && query === lastQuery) {
-          return;
+          return $q.resolve();
         }
 
         ctrl.stopLoadingNewOptions = false;
@@ -270,7 +270,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
 
         inProcessQueries++;
-        ctrl.getOptions(query, skip).then(results => {
+        return ctrl.getOptions(query, skip).then(results => {
           inProcessQueries--;
           if (query !== lastQuery) {
             return; // do not process the result if queries don't match
@@ -284,12 +284,13 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             data: items,
             loading: false
           });
-        }).catch(() => {
+        }).catch(error => {
           inProcessQueries--;
           $timeout.cancel(loaderDelayTimeout);
           reRenderSelect({
             loading: false
           });
+          return $q.reject(error);
         });
       };
 
