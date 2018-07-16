@@ -1,4 +1,4 @@
-@value unit, borders-color, dark-gray-color, line-color from "../global/global.css";
+@value unit, borders-color, secondary-color, line-color from "../global/global.css";
 
 .filterWithTags {
   overflow: hidden;
@@ -38,7 +38,7 @@
   top: 3px;
   left: calc(unit * 2);
 
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .bottomLine {

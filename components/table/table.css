@@ -1,5 +1,5 @@
 @value global: '../global/global.css';
-@value unit, main-color, text-color, border-hover-color, line-height-lower, dark-gray-color, darker-gray-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis, font-size from global;
+@value unit, main-color, text-color, border-hover-color, line-height-lower, secondary-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis, font-size from global;
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
@@ -30,7 +30,7 @@
     text-align: left;
     white-space: nowrap;
 
-    color: dark-gray-color;
+    color: secondary-color;
 
     font-weight: 200;
   }

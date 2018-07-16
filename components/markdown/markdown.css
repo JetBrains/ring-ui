@@ -1,4 +1,4 @@
-@value unit, font, font-size, line-height, line-color, dark-gray-color from  "../global/global.css";
+@value unit, font, font-size, line-height, line-color, secondary-color from  "../global/global.css";
 @value p-margin: 10px;
 
 .inline {
@@ -61,7 +61,7 @@
   & blockquote {
     padding: 0 0 0 calc(2 * unit);
 
-    color: dark-gray-color;
+    color: secondary-color;
     box-shadow: inset 2px 0 0 line-color;
 
     font-size: 12px;

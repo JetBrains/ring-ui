@@ -1,4 +1,4 @@
-@value unit, overlay-z-index, white-color, border-radius, font, popup-border-color from  "../global/global.css";
+@value unit, overlay-z-index, border-radius, font, popup-border-color from  "../global/global.css";
 
 .popup {
   composes: font;

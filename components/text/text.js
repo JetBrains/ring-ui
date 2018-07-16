@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import deprecate from 'util-deprecate';
 
 import styles from './text.css';
 
@@ -29,8 +30,7 @@ import styles from './text.css';
              <div>
                <Group>
                  <Text>Text</Text>
-                 <Text comment>with a comment</Text>
-                 <Text info>and an info message</Text>
+                 <Text info>with an info message</Text>
                </Group>
              </div>
            );
@@ -42,6 +42,12 @@ import styles from './text.css';
    </example>
  */
 
+const deprecateComment = deprecate(
+  () => {},
+  '<Text comment> is deprecated, use <Text info> instead'
+);
+
+
 export default class Text extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -52,9 +58,11 @@ export default class Text extends Component {
 
   render() {
     const {children, className, comment, info, ...restProps} = this.props;
+    if (comment) {
+      deprecateComment();
+    }
     const classes = classNames(styles.text, className, {
-      [styles.comment]: comment,
-      [styles.info]: info
+      [styles.info]: info || comment
     });
 
     return (

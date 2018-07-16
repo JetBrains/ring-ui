@@ -1,4 +1,4 @@
-@value unit, black-color, white-color from "../global/global.css";
+@value unit from "../global/global.css";
 
 @keyframes spin {
   0% {

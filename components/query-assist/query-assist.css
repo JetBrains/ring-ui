@@ -1,4 +1,4 @@
-@value unit, font, main-color, black-color, white-color, gray-color, dark-gray-color, borders-color, search-color, hint-color, link-hover-color, font-size from '../global/global.css';
+@value unit, font, main-color, navigation-background-color, content-background-color, dark-text-color, secondary-color, borders-color, search-color, hint-color, link-hover-color, font-size from '../global/global.css';
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
 
@@ -6,7 +6,7 @@
   &.queryAssist {
     height: calc(unit * 3);
 
-    background: white-color;
+    background: content-background-color;
   }
 
   & .input {
@@ -22,7 +22,7 @@
   }
 
   & .placeholder {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   & .letter-text {
@@ -39,7 +39,7 @@
   }
 
   & .letter-operator {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   & .letter-error {
@@ -49,7 +49,7 @@
   }
 
   & .icon {
-    color: gray-color;
+    color: secondary-color;
   }
 
   & .icon:hover {
@@ -61,7 +61,7 @@
   }
 
   & .service {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 }
 
@@ -84,9 +84,9 @@
 
     &:active,
     &:focus {
-      border-color: black-color;
+      border-color: navigation-background-color;
 
-      background-color: black-color;
+      background-color: navigation-background-color;
     }
   }
 
@@ -117,11 +117,11 @@
   }
 
   & .letter-field-value {
-    color: white-color;
+    color: dark-text-color;
   }
 
   & .letter-operator {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   & .letter-error {
