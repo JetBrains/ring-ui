@@ -1,4 +1,4 @@
-@value unit, dark-gray-color from  "../global/global.css";
+@value unit, secondary-color from  "../global/global.css";
 
 .services {
   max-width: calc(calc(unit * 50) + 2px);
@@ -85,7 +85,7 @@
 
   &,
   &:visited {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   &:last-child {
@@ -98,6 +98,6 @@
   composes: active;
 
   &:hover {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 }

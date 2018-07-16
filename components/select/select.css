@@ -1,4 +1,4 @@
-@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, dark-gray-color, selected-background-color, gray-color, ellipsis, blue-caret, ease from "../global/global.css";
+@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, secondary-color, selected-background-color, disabled-color, ellipsis, blue-caret, ease from "../global/global.css";
 
 .select {
   position: relative;
@@ -30,7 +30,7 @@
 
   transition: color ease;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   line-height: calc(unit * 4);
 
@@ -74,7 +74,7 @@
 }
 
 .clearIcon.clearIcon > span > span {
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .sizeS {
@@ -161,7 +161,7 @@
 .label {
   position: relative;
 
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .select:hover .value,
@@ -178,10 +178,10 @@
 .disabled {
   pointer-events: none;
 
-  color: gray-color;
+  color: disabled-color;
 
   & .value {
-    color: gray-color;
+    color: disabled-color;
     border-bottom-style: dashed;
   }
 }
@@ -190,7 +190,7 @@
   position: absolute;
   top: calc(unit * -1.5);
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   font-size: font-size-smaller;
   line-height: line-height-lowest;

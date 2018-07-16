@@ -1,4 +1,4 @@
-@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, white-color, gray-color, dark-gray-color, darker-gray-color, main-color, error-color, text-color, ease, fast-ease from  "../global/global.css";
+@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, dark-text-color, disabled-color, secondary-color, dark-secondary-color, main-color, error-color, icon-error-color, text-color, ease, fast-ease from  "../global/global.css";
 @value text-shadow: 0 0 0;
 
 .container {
@@ -41,7 +41,7 @@
   }
 
   @nest .dark & {
-    color: white-color;
+    color: dark-text-color;
   }
 
   &::placeholder {
@@ -50,7 +50,7 @@
   }
 
   &[disabled] {
-    color: gray-color;
+    color: disabled-color;
   }
 
   /*
@@ -118,11 +118,11 @@ textarea.input {
   pointer-events: none;
 
   @nest .light & {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   @nest .dark & {
-    color: darker-gray-color;
+    color: dark-secondary-color;
   }
 }
 
@@ -139,7 +139,7 @@ textarea.input {
 
 .light.noLabel ::placeholder,
 .light :focus::placeholder {
-  text-shadow: text-shadow gray-color;
+  text-shadow: text-shadow disabled-color;
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
@@ -194,7 +194,7 @@ textarea.input {
 .errorUnderline {
   margin-top: -2px;
 
-  background: error-color;
+  background: icon-error-color;
 }
 
 .input:focus ~ .focusUnderline,

@@ -1,4 +1,4 @@
-@value unit, font-lower, font-smaller-lower, message-background-color, white-color, light-gray-color, popup-border-color, invisible-element-z-index, border-radius from  "../global/global.css";
+@value unit, font-lower, font-smaller-lower, message-background-color, dark-text-color, dark-active-color, popup-border-color, invisible-element-z-index, border-radius from  "../global/global.css";
 @value padding: calc(unit * 1.5);
 
 .message {
@@ -10,7 +10,7 @@
 
   text-align: left;
 
-  color: white-color;
+  color: dark-text-color;
 
   border: none;
 
@@ -57,7 +57,7 @@
 
   margin: calc(unit / 2) 0 0;
 
-  color: light-gray-color;
+  color: dark-active-color;
 }
 
 .button {

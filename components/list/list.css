@@ -1,4 +1,4 @@
-@value unit, border-radius, line-color, dark-gray-color, error-color, text-color, selected-background-color, white-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
+@value unit, border-radius, line-color, secondary-color, error-color, text-color, selected-background-color, content-background-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
 @value listSpacing: unit;
 
 .list {
@@ -27,7 +27,7 @@
 
   text-align: right;
 
-  color: dark-gray-color;
+  color: secondary-color;
   border-top: 1px solid line-color;
 
   font-size: font-size-smaller;
@@ -111,7 +111,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   font-size: font-size-smaller;
   font-weight: 200;
@@ -131,7 +131,7 @@
 
   white-space: normal;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   font-size: font-size-smaller;
   line-height: line-height-lowest;
@@ -196,7 +196,7 @@
   width: 20px;
   margin-right: unit;
 
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .avatar {
@@ -244,7 +244,7 @@
   letter-spacing: 1.5px;
   text-transform: uppercase;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   font-size: font-size-smaller;
 }
@@ -258,5 +258,5 @@
 
   pointer-events: none;
 
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), white-color);
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), content-background-color);
 }

@@ -1,10 +1,10 @@
 @value global: '../global/global.css';
-@value unit, border-radius, font-size-smaller, darker-gray-color, error-color, success-color, white-color from global;
-@value normal-color: darker-gray-color;
+@value unit, border-radius, font-size-smaller, secondary-color, error-color, success-color, content-background-color from global;
+@value normal-color: secondary-color;
 @value valid-color: success-color;
 @value invalid-color: error-color;
 @value disabled-color: #C3120F;
-@value normal-background-color: white-color;
+@value normal-background-color: content-background-color;
 @value gray-background-color: #F8F8F8;
 @value disabled-background-color: #EBD9DA;
 @value normal-border-color: #F0F0F0;

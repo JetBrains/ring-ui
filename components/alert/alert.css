@@ -1,4 +1,4 @@
-@value unit, border-radius, error-color, white-color, darker-gray-color, link-hover-color, message-background-color, font-size, invisible-element-z-index from '../global/global.css';
+@value unit, border-radius, error-color, dark-text-color, dark-secondary-color, link-hover-color, message-background-color, font-size, invisible-element-z-index from '../global/global.css';
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -52,7 +52,7 @@
   vertical-align: middle;
   white-space: normal;
 
-  color: white-color;
+  color: dark-text-color;
 
   line-height: 20px;
 }
@@ -79,7 +79,7 @@
 
   cursor: pointer;
 
-  color: darker-gray-color;
+  color: dark-secondary-color;
   border: none;
   background: transparent;
 

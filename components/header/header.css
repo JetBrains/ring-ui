@@ -1,4 +1,4 @@
-@value unit, darker-gray-color, black-color, white-color, main-color, link-hover-color from  "../global/global.css";
+@value unit, dark-secondary-color, navigation-background-color, dark-text-color, main-color, link-hover-color from  "../global/global.css";
 @value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
@@ -8,12 +8,12 @@
 }
 
 .dark {
-  color: white-color;
-  background-color: black-color;
+  color: dark-text-color;
+  background-color: navigation-background-color;
 
   /* override link */
   & > a {
-    color: darker-gray-color;
+    color: dark-secondary-color;
   }
 }
 
@@ -52,7 +52,7 @@
 
   height: height;
 
-  color: black-color;
+  color: navigation-background-color;
 
   line-height: normal;
 
@@ -146,7 +146,7 @@
 
     content: '';
 
-    border: 1px solid white-color;
+    border: 1px solid dark-text-color;
     border-radius: 50%;
     background-color: link-hover-color;
   }

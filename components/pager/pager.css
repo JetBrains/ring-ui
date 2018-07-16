@@ -1,4 +1,4 @@
-@value unit, dark-gray-color from '../global/global.css';
+@value unit, secondary-color from '../global/global.css';
 
 .pager {
   user-select: none;
@@ -15,7 +15,7 @@
 }
 
 .linkDisabled {
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .chevron {

@@ -1,4 +1,4 @@
-@value unit, gray-color, borders-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
+@value unit, disabled-color, borders-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
 
 .tagsInput {
   overflow: hidden;
@@ -28,7 +28,7 @@
 .tagsInputDisabled {
   pointer-events: none;
 
-  color: gray-color;
+  color: disabled-color;
 
   & .underline {
     border-bottom-style: dashed;

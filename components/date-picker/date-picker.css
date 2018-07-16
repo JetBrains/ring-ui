@@ -1,4 +1,4 @@
-@value unit, font-size-smaller, main-color, line-color, white-color, selected-background-color, dark-gray-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
+@value unit, font-size-smaller, main-color, line-color, content-background-color, dark-text-color, selected-background-color, secondary-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
 @value hover-color: #cef;
 @value filter, filterWrapper, filterIcon from "../select/select-popup.css";
 @value cellSize: calc(unit * 3);
@@ -103,7 +103,7 @@
   height: calc(unit * 4);
   padding: 5px calc(unit * 2) 0;
 
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .weekday {
@@ -205,7 +205,7 @@
 }
 
 .current {
-  color: white-color;
+  color: dark-text-color;
   border-radius: border-radius;
   background-color: main-color;
 }
@@ -394,7 +394,7 @@
 
   width: calc(unit * 6);
 
-  background-color: white-color;
+  background-color: content-background-color;
   box-shadow: -1px 0 line-color;
 }
 
@@ -449,7 +449,7 @@
 
   width: yearWidth;
 
-  background-color: white-color;
+  background-color: content-background-color;
   box-shadow: -1px 0 line-color;
 
   font-size: font-size-smaller;
@@ -464,7 +464,7 @@
 
   text-align: center;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   line-height: yearHeight;
 }

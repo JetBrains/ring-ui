@@ -1,13 +1,9 @@
-@value text-color, gray-color, dark-gray-color from  "../global/global.css";
+@value text-color, disabled-color, secondary-color from  "../global/global.css";
 
 .text {
   color: text-color;
 }
 
-.comment {
-  color: dark-gray-color;
-}
-
 .info {
-  color: gray-color;
+  color: secondary-color;
 }
