@@ -1,4 +1,4 @@
-@value unit, font, font-smaller, font-larger, font-size, line-height, line-height-lowest, link-color, text-color, white-color, line-color, gray-color, dark-gray-color, hint-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle, border-radius from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, font, font-smaller, font-larger, font-size, line-height, line-height-lowest, link-color, text-color, dark-text-color, line-color, disabled-color, secondary-color, hint-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle, border-radius from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -128,7 +128,7 @@ body {
 }
 
 a.legacy {
-  color: gray-color;
+  color: disabled-color;
 }
 
 .content {
@@ -192,13 +192,13 @@ a.legacy {
   top: 3px;
   right: 0;
 
-  color: dark-gray-color;
+  color: secondary-color;
 }
 
 .version button {
   height: auto;
 
-  color: white-color;
+  color: dark-text-color;
 }
 
 .sideFooter {
@@ -216,7 +216,7 @@ a.legacy {
 .copyright {
   margin-bottom: unit;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   line-height: line-height-lowest;
 }

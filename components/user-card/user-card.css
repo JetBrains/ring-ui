@@ -1,4 +1,4 @@
-@value unit, text-color, gray-color from  "../global/global.css";
+@value unit, text-color, secondary-color from  "../global/global.css";
 
 .userCardSpaced {
   padding: calc(unit * 2) calc(unit * 2);
@@ -39,7 +39,7 @@
   margin-right: 4px;
 
   border-radius: 50%;
-  background: gray-color;
+  background-color: secondary-color;
 }
 
 .userActiveStatus.online {

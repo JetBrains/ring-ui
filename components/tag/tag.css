@@ -1,4 +1,4 @@
-@value unit, text-color, border-radius, border-hover-color, icon-disabled-color, dark-gray-color, link-hover-color from "../global/global.css";
+@value unit, text-color, border-radius, border-hover-color, icon-disabled-color, secondary-color, link-hover-color from "../global/global.css";
 @value background-color: #e9f1f5;
 @value max-height: 20px;
 
@@ -39,7 +39,7 @@
 
   cursor: pointer;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   & svg {
     vertical-align: -1px;
@@ -53,7 +53,7 @@
 .icon {
   margin-right: 6px;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   & svg {
     vertical-align: -2px;

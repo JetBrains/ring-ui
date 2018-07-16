@@ -1,4 +1,4 @@
-@value unit, white-color, icon-color, borders-color, main-color, main-hover-color, border-hover-color from  "../global/global.css";
+@value unit, content-background-color, icon-color, borders-color, main-color, main-hover-color, border-hover-color from  "../global/global.css";
 @value padding: 2px;
 @value disabled-line-color: rgba(255, 255, 255, 0.9);
 @value duration: 300ms;
@@ -74,7 +74,7 @@
     transform: translateX(padding);
 
     border-radius: calc(unit * 0.75);
-    background-color: white-color;
+    background-color: content-background-color;
   }
 }
 

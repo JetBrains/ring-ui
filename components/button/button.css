@@ -1,11 +1,11 @@
-@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, white-color, black-color, text-color, darker-gray-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, dark-gray-color, link-hover-color, gray-color, dark-line-color, ease, font-size-smaller, font-size, font-family from "../global/global.css";
+@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, content-background-color, dark-text-color, navigation-background-color, text-color, dark-secondary-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, icon-error-color, secondary-color, link-hover-color, disabled-color, dark-line-color, ease, font-size-smaller, font-size, font-family from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loaderWidth: calc(unit * 8);
 
 .light {
   color: text-color;
-  background-color: white-color;
+  background-color: content-background-color;
   box-shadow: button-shadow borders-color;
 
   &:hover {
@@ -20,7 +20,7 @@
 
   &[disabled],
   &[disabled].withIcon {
-    color: gray-color;
+    color: disabled-color;
   }
 
   &[disabled] .icon {
@@ -45,23 +45,23 @@
   }
 
   &.withIcon {
-    color: dark-gray-color;
+    color: secondary-color;
   }
 
   & .loaderBackground::before {
     background-image:
       linear-gradient(
         to right,
-        white-color,
+        content-background-color,
         selected-background-color 40%,
-        white-color 80%
+        content-background-color 80%
       );
   }
 }
 
 .dark {
-  color: darker-gray-color;
-  background-color: black-color;
+  color: dark-secondary-color;
+  background-color: navigation-background-color;
   box-shadow: button-shadow dark-line-color;
 
   &:hover {
@@ -70,7 +70,7 @@
 
   &:active,
   &.active {
-    color: white-color;
+    color: dark-text-color;
     background-color: dark-selected-background-color;
     box-shadow: button-shadow main-color;
   }
@@ -103,16 +103,16 @@
   }
 
   &.withIcon {
-    color: darker-gray-color;
+    color: dark-secondary-color;
   }
 
   & .loaderBackground::before {
     background-image:
       linear-gradient(
         to right,
-        black-color,
+        navigation-background-color,
         #002039 40%,
-        black-color 80%
+        navigation-background-color 80%
       );
   }
 }
@@ -181,7 +181,7 @@
 }
 
 .primary {
-  color: white-color;
+  color: dark-text-color;
   background-color: main-color;
   box-shadow: none;
 
@@ -200,7 +200,7 @@
   }
 
   &[disabled] {
-    background-color: white-color;
+    background-color: content-background-color;
     box-shadow: button-shadow borders-color;
   }
 
@@ -239,6 +239,10 @@
   &:hover,
   &:focus {
     transition: none;
+  }
+
+  & .icon {
+    color: icon-error-color;
   }
 }
 
@@ -323,7 +327,8 @@
   color: icon-color;
 }
 
-.withNormalIconLight {
+.withNormalIconLight,
+.danger {
   &:hover .icon,
   &:focus .icon,
   &:active .icon {
@@ -389,7 +394,7 @@
   transition: color ease;
   vertical-align: 1px;
 
-  color: dark-gray-color;
+  color: secondary-color;
 
   line-height: normal;
 }

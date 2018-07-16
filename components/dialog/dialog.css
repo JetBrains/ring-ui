@@ -1,4 +1,4 @@
-@value unit, gray-color, link-hover-color, overlay-z-index, border-radius, popup-border-color, icon-color, border-hover-color, main-color from '../global/global.css';
+@value unit, link-hover-color, overlay-z-index, border-radius, popup-border-color, icon-color, border-hover-color, main-color from '../global/global.css';
 
 .container {
   position: fixed;
