@@ -14,4 +14,11 @@ gemini.suite('Popup', () => {
       setCaptureElements('.left', '.right', '.bottom', '.top').
       capture('popup-autoposition');
   });
+
+  gemini.suite('Auto fit screen', child => {
+    child.
+      setUrl('popup/popup-fits-screen.html').
+      setCaptureElements(['body']).
+      capture('popup-fit-screen');
+  });
 });
