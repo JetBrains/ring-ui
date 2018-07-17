@@ -316,13 +316,29 @@ describe('Select Ng', () => {
     });
 
     it('Should rerender with new config if config changed and autosync enabled', () => {
-      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config-auto-update="true"></rg-select>');
+      scope.config = {};
+      compileTemplate('<rg-select options="item.name for item in items track by item.id" ng-model="selectedItem" config="config" config-auto-update="true"></rg-select>');
 
       sandbox.spy(ctrl.selectInstance, 'rerender');
-      ctrl.config.add = {label: 'fooo'};
+      scope.config.add = {label: 'fooo'};
       scope.$digest();
 
       ctrl.selectInstance.rerender.should.have.been.calledWith(sinon.match({add: {label: 'fooo'}}));
+    });
+
+
+    it('Should correctly reinitialize select with config', () => {
+      const template = '<rg-select type="dropdown" options="item.name for item in items track by item.id" ng-model="selectedItem" config="config" config-auto-update="true"></rg-select>';
+      scope.config = {};
+
+      compileTemplate(template);
+      initializeReactSelect(element[0]);
+      scope.$digest();
+      ctrl.$onDestroy();
+
+      compileTemplate(template);
+      initializeReactSelect(element[0]);
+      scope.$digest();
     });
 
 

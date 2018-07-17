@@ -113,7 +113,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       onChange: '&',
       notFoundMessage: '@',
       loadingMessage: '@',
-      config: '<?',
+      config: '=?',
       configAutoUpdate: '=',
       selectInstance: '=?',
       size: '@'
@@ -382,7 +382,9 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       }
 
       function reRenderSelect(props) {
-        return ctrl.selectInstance.rerender(props);
+        if (ctrl.selectInstance.node) {
+          ctrl.selectInstance.rerender(props);
+        }
       }
 
       /**
@@ -401,24 +403,9 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
       }
 
-      ctrl.$onDestroy = () => {
-        unmountComponentAtNode(container);
-      };
 
-      ctrl.$onInit = () => {
-        ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
-
-        ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
-
-        /**
-         * Provide specific filter function if externalFilter is enabled
-         */
-        if (ctrl.externalFilter) {
-          ctrl.filter = ctrl.filter || {};
-          ctrl.filter.fn = () => true;
-        }
-
-        ctrl.config = angular.extend({}, {
+      function createDefaultConfig() {
+        const defaultConfig = {
           label: ctrl.label || RingMessageBundle.select_label(),
           selectedLabel: ctrl.selectedLabel,
           allowAny: getType() === 'suggest',
@@ -479,10 +466,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
               }
             });
           }
-        }, ctrl.config || {});
+        };
 
-        if (infiniteScrollPackSize && !ctrl.config.onLoadMore) {
-          ctrl.config.onLoadMore = () => {
+        if (infiniteScrollPackSize) {
+          defaultConfig.onLoadMore = () => {
             if (inProcessQueries === 0) {
               $scope.$evalAsync(() => {
                 ctrl.loadOptionsToSelect(ctrl.query);
@@ -490,6 +477,42 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             }
           };
         }
+
+        return defaultConfig;
+      }
+
+      function removeDefaultConfigPropFromUserConfig() {
+        if (!ctrl.defaultConfig || !ctrl.config) {
+          return;
+        }
+
+        Object.keys(ctrl.defaultConfig).filter(propName =>
+          ctrl.config[propName] === ctrl.defaultConfig[propName]
+        ).forEach(propName => {
+          delete ctrl.config[propName];
+        });
+      }
+
+      ctrl.$onDestroy = () => {
+        unmountComponentAtNode(container);
+        removeDefaultConfigPropFromUserConfig();
+      };
+
+      ctrl.$onInit = () => {
+        ctrl.optionsParser = new SelectOptions(scope, ctrl.options);
+
+        ctrl.lazy = ctrl.hasOwnProperty('lazy') ? ctrl.lazy : true;
+
+        /**
+         * Provide specific filter function if externalFilter is enabled
+         */
+        if (ctrl.externalFilter) {
+          ctrl.filter = ctrl.filter || {};
+          ctrl.filter.fn = () => true;
+        }
+
+        ctrl.defaultConfig = createDefaultConfig();
+        ctrl.config = angular.extend({}, ctrl.defaultConfig, ctrl.config || {});
 
         if (getType() === 'suggest' || getType() === 'input') {
           ctrl.selectInstance = render(<RerenderableSelect {...ctrl.config}/>, container);
