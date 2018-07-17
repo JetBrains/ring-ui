@@ -195,6 +195,10 @@ textarea.input {
   margin-top: -2px;
 
   background: icon-error-color;
+
+  @nest .dark & {
+    background: error-color;
+  }
 }
 
 .input:focus ~ .focusUnderline,
