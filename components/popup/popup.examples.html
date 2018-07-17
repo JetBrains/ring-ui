@@ -300,7 +300,10 @@
       margin: 0;
     }
 
-    :global(.container) {}
+    :global(html),
+    :global(body) {
+      height: 100%;
+    }
     :global(.popupContent) {
       height: 1300px;
       padding: 8px;
@@ -324,16 +327,14 @@
     import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
     const example = (
-      <div className="container">
-        <div className="anchorBottom">
-          Popup anchor on bottom
-          <Popup maxHeight={1380}>
-            <div className="popupContent">
-              <div>Popup top</div>
-              <div>popup bottom</div>
-            </div>
-          </Popup>
-        </div>
+      <div className="anchorBottom">
+        Popup anchor on bottom
+        <Popup maxHeight={1380}>
+          <div className="popupContent">
+            <div>Popup top</div>
+            <div>popup bottom</div>
+          </div>
+        </Popup>
       </div>
     );
 
