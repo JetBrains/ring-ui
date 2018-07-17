@@ -143,6 +143,21 @@ const defaultcontainerRect = {
   left: 0
 };
 
+function handleTopOffScreen({sidePadding, styles, anchorRect, maxHeight, popupScrollHeight}) {
+  const isOnTop = anchorRect.left === styles.left;
+  const anchorSnapY = (isOnTop ? anchorRect.top : anchorRect.bottom);
+
+  const effectiveHeight = Math.min(popupScrollHeight, maxHeight);
+  const hypotheticalTop = (isOnTop ? anchorRect.top : anchorRect.bottom) - effectiveHeight;
+
+  if (hypotheticalTop <= sidePadding) {
+    styles.top = sidePadding;
+    styles.maxHeight = anchorSnapY - sidePadding + 1;
+  }
+
+  return styles;
+}
+
 export default function position(attrs) {
   const {
     popup,
@@ -150,7 +165,7 @@ export default function position(attrs) {
     container,
     directions,
     autoPositioning,
-    sidePadding, // eslint-disable-line no-unused-vars
+    sidePadding,
     top,
     left,
     offset,
@@ -198,6 +213,9 @@ export default function position(attrs) {
     styles.maxHeight = window.innerHeight + scroll.top - styles.top - Dimension.MARGIN;
   } else if (maxHeight) {
     styles.maxHeight = maxHeight;
+    styles = handleTopOffScreen(
+      {sidePadding, styles, anchorRect, maxHeight, popupScrollHeight: popup.scrollHeight}
+    );
   }
 
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
