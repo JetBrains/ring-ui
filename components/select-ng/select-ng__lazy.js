@@ -10,6 +10,7 @@ class SelectLazy {
     this.ctrl = ctrl;
     this.props = props || {};
     this.type = type;
+    this.node = container;
     this._popup = {
       isVisible: angular.noop
     };
