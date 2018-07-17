@@ -300,7 +300,10 @@
       margin: 0;
     }
 
-    :global(.container) {}
+    :global(html),
+    :global(body) {
+      height: 100%;
+    }
     :global(.popupContent) {
       height: 1300px;
       padding: 8px;
@@ -312,7 +315,6 @@
     :global(.anchorBottom) {
       position: absolute;
       bottom: 20px;
-      left: 200px;
     }
   </file>
   <file type="html" disable-auto-size>
@@ -324,28 +326,15 @@
 
     import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
-    function renderPopup() {
-      return (
+    const example = (
+      <div className="anchorBottom">
+        Popup anchor on bottom
         <Popup maxHeight={1380}>
           <div className="popupContent">
             <div>Popup top</div>
             <div>popup bottom</div>
           </div>
         </Popup>
-      );
-    }
-
-    const example = (
-      <div className="container">
-        <div>
-          Popup anchor
-          {renderPopup()}
-        </div>
-
-        <div className="anchorBottom">
-          Popup anchor on bottom
-          {renderPopup()}
-        </div>
       </div>
     );
 
