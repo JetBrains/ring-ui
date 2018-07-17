@@ -101,6 +101,9 @@ export default class Button extends PureComponent {
         [styles.withNormalIconLight]: (
           icon && !active && !danger && !primary && theme === Theme.LIGHT
         ),
+        [styles.withDangerIconLight]: (
+          icon && danger && theme === Theme.LIGHT
+        ),
         [styles.loader]: loader && !icon,
         [styles.primary]: primary || blue,
         [styles.short]: short,
