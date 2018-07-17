@@ -115,6 +115,26 @@ describe('Popup', () => {
         should.equal(elementOffset.top - popupElement.clientHeight);
     });
 
+    it('should limit top by sidePadding if opens to the top', () => {
+      const SIDE_PADDING = 8;
+      const element = document.createElement('div');
+      element.setAttribute(
+        'style',
+        'position: absolute; top: 10px; left: 15px; width: 50px; height: 50px;'
+      );
+      document.body.append(element);
+
+      const instance = mountPopup({
+        directions: [Popup.PopupProps.Directions.TOP_CENTER],
+        anchorElement: element,
+        sidePadding: SIDE_PADDING,
+        maxHeight: 300,
+        children: <div style={{height: '300px'}}>{'foo'}</div>
+      }).instance();
+
+      getStyles(instance.popup).top.should.equal(`${SIDE_PADDING}px`);
+    });
+
     it('bottom-right corner', () => {
       const element = document.createElement('div');
       element.setAttribute(
