@@ -169,8 +169,8 @@
 .icon {
   display: inline-block;
 
-  width: calc(unit * 2);
-  height: calc(unit * 2);
+  width: 20px;
+  height: 20px;
   margin-left: calc(unit * 2);
 
   background-repeat: no-repeat;
