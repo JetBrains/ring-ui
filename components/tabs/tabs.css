@@ -69,6 +69,7 @@
 .selected {
   cursor: default;
 
+  outline: none;
   box-shadow: selected-line-shadow text-color;
 
   font-weight: bold;
