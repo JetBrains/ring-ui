@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Link, {linkHOC} from '../link/link';
+import dataTests from '../global/data-tests';
 
 import styles from './list.css';
 
@@ -30,7 +31,7 @@ export default class ListLink extends PureComponent {
   };
 
   render() {
-    const {scrolling, className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {scrolling, 'data-test': dataTest, className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(styles.item, className, {
       [styles.actionLink]: !disabled,
       [styles.compact]: compact,
@@ -45,7 +46,7 @@ export default class ListLink extends PureComponent {
         {...restProps}
         hover={hover && !disabled}
         className={classes}
-        data-test="ring-list-link"
+        data-test={dataTests('ring-list-link', dataTest)}
       >
         {label}
       </Comp>
