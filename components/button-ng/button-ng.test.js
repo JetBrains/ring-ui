@@ -1,6 +1,7 @@
 import 'dom4';
-import 'angular';
+import angular from 'angular';
 import 'angular-mocks';
+
 import Button from './button-ng';
 
 describe('Button Ng', () => {
@@ -21,6 +22,18 @@ describe('Button Ng', () => {
     element.tagName.toLowerCase().should.be.equal('button');
   });
 
+  it('should render button link', () => {
+    const element = renderButtonLink();
+    element.tagName.toLowerCase().should.be.equal('a');
+  });
+
+  it('should transclude content', () => {
+    const buttonElement = renderButton();
+    const linkElement = renderButtonLink();
+
+    angular.element(buttonElement).text().trim().should.be.equal('A');
+    angular.element(linkElement).text().trim().should.be.equal('A');
+  });
 
   it('should render active button', () => {
     const scope = $rootScope.$new();
@@ -44,7 +57,15 @@ describe('Button Ng', () => {
 
 
   function renderButton(scope = $rootScope.$new()) {
-    const iElement = $compile('<rg-button loader="loader" active="active">A</rg-button>')(scope);
+    return compileButton('rg-button', scope);
+  }
+
+  function renderButtonLink(scope = $rootScope.$new()) {
+    return compileButton('rg-button-link', scope);
+  }
+
+  function compileButton(tagName, scope) {
+    const iElement = $compile(`<${tagName} loader="loader" active="active">A</${tagName}>`)(scope);
     scope.$digest();
     return iElement[0];
   }
