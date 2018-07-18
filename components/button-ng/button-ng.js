@@ -150,42 +150,27 @@ class ButtonController extends RingAngularComponent {
   }
 }
 
-function rgButtonDirective() {
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    template: `
-<button class="${buttonClasses}">
-  <span class="${styles.content}"
-  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
-  ><ng-transclude class="${ringIconDefaultColor}"></ng-transclude
-  ></span><div class="js-button-loader"></div>
-</button>
-    `,
-    controller: ButtonController
-  };
-}
 
-function rgButtonLinkDirective() {
-  return {
+function createButtonDirective(tagName) {
+  return () => ({
     restrict: 'E',
     transclude: true,
     replace: true,
     template: `
-<a class="${buttonClasses}">
+  <${tagName} class="${buttonClasses}">
   <span class="${styles.content}"
   ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
   ><ng-transclude class="${ringIconDefaultColor}"></ng-transclude
   ></span
   ><div class="js-button-loader"></div>
-</a>
+  </${tagName}>
     `,
     controller: ButtonController
-  };
+  });
 }
 
-angularModule.directive('rgButton', rgButtonDirective);
-angularModule.directive('rgButtonLink', rgButtonLinkDirective);
+
+angularModule.directive('rgButton', createButtonDirective('button'));
+angularModule.directive('rgButtonLink', createButtonDirective('a'));
 
 export default angularModule.name;
