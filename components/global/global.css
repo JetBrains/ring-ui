@@ -32,7 +32,7 @@
 @value dark-active-color: #ccc;
 
 /* Background */
-@value content-background-color: #ff;
+@value content-background-color: #fff;
 @value sidebar-background-color: #f7f9fa;
 @value selected-background-color: #e5f4ff;
 @value dark-selected-background-color: #001526;
