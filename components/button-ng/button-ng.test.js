@@ -60,7 +60,7 @@ describe('Button Ng', () => {
   });
 
   it('should add default icon color class if button without mode', () => {
-    const element = renderButton();
+    const element = findTranscludeNode(renderButton());
     [...element.classList].should.contains(ringIconDefaultColor);
   });
 
@@ -70,7 +70,7 @@ describe('Button Ng', () => {
     // if it should be different from text color
     // when use a button with mode
     const scope = $rootScope.$new();
-    const element = $compile('<rg-button mode="primary"/>')(scope)[0];
+    const element = findTranscludeNode($compile('<rg-button mode="primary"/>')(scope)[0]);
     scope.$digest();
     [...element.classList].should.not.contains(ringIconDefaultColor);
   });
@@ -88,5 +88,9 @@ describe('Button Ng', () => {
     const iElement = $compile(`<${tagName} loader="loader" active="active">A</${tagName}>`)(scope);
     scope.$digest();
     return iElement[0];
+  }
+
+  function findTranscludeNode(element) {
+    return element.query('ng-transclude');
   }
 });
