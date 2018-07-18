@@ -16,6 +16,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
 import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/CellMeasurer';
 
+import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
 import scheduleRAF from '../global/schedule-raf';
 import memoize from '../global/memoize';
@@ -521,12 +522,15 @@ export default class List extends Component {
           break;
         case Type.LINK:
           ItemComponent = ListLink;
+          this.addItemDataTestToProp(itemProps);
           break;
         case Type.ITEM:
           ItemComponent = ListItem;
+          this.addItemDataTestToProp(itemProps);
           break;
         case Type.CUSTOM:
           ItemComponent = ListCustom;
+          this.addItemDataTestToProp(itemProps);
           break;
         case Type.TITLE:
           itemProps.isFirst = isFirst;
@@ -550,6 +554,11 @@ export default class List extends Component {
         <div style={style}>{el}</div>
       </CellMeasurer>
     ) : cloneElement(el, {key});
+  };
+
+  addItemDataTestToProp = props => {
+    props['data-test'] = dataTests('ring-list-item', props['data-test']);
+    return props;
   };
 
   virtualizedListRef = el => {
@@ -687,12 +696,12 @@ export default class List extends Component {
         data-test="ring-list"
       >
         {this.props.shortcuts &&
-          (
-            <Shortcuts
-              map={this.shortcutsMap}
-              scope={this.shortcutsScope}
-            />
-          )
+        (
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        )
         }
         {this.props.renderOptimization
           ? this.renderVirtualized(maxHeight, rowCount)

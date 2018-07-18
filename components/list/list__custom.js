@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
+
 import styles from './list.css';
 
 export default class ListCustom extends PureComponent {
@@ -19,7 +21,8 @@ export default class ListCustom extends PureComponent {
     ]),
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
-    onMouseUp: PropTypes.func
+    onMouseUp: PropTypes.func,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -34,10 +37,10 @@ export default class ListCustom extends PureComponent {
       [styles.scrolling]: scrolling
     });
 
-    let dataTest = 'ring-list-item ring-list-item-custom';
-    if (!disabled) {
-      dataTest += ' ring-list-item-action';
-    }
+
+    const dataTest = dataTests('ring-list-item-custom', {
+      'ring-list-item-action': !disabled
+    }, restProps['data-test']);
 
     const content = (typeof template === 'function') ? template(this.props) : template;
     return (
