@@ -1,4 +1,5 @@
 import 'dom4';
+import 'core-js/modules/es7.array.includes';
 import {
   getDocumentScrollLeft,
   getDocumentScrollTop,
@@ -143,16 +144,20 @@ const defaultcontainerRect = {
   left: 0
 };
 
-function handleTopOffScreen({sidePadding, styles, anchorRect, maxHeight, popupScrollHeight}) {
-  const isOnTop = anchorRect.left === styles.left;
-  const anchorSnapY = (isOnTop ? anchorRect.top : anchorRect.bottom);
+function handleTopOffScreen({
+  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction
+}) {
+  const BORDER_COMPENSATION = 1;
+  const isAttachedToAnchorTop = [Directions.TOP_LEFT, Directions.TOP_CENTER, Directions.TOP_RIGHT].
+    includes(direction);
+  const attachingPointY = (isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom);
 
   const effectiveHeight = Math.min(popupScrollHeight, maxHeight);
-  const hypotheticalTop = (isOnTop ? anchorRect.top : anchorRect.bottom) - effectiveHeight;
+  const hypotheticalTop = attachingPointY - effectiveHeight;
 
   if (hypotheticalTop <= sidePadding) {
     styles.top = sidePadding;
-    styles.maxHeight = anchorSnapY - sidePadding + 1;
+    styles.maxHeight = attachingPointY - sidePadding + BORDER_COMPENSATION;
   }
 
   return styles;
@@ -177,6 +182,7 @@ export default function position(attrs) {
     top: 0,
     left: 0
   };
+  let chosenDirection = null;
 
   const containerRect = container !== null ? getRect(container) : defaultcontainerRect;
   const defaultAnchor = container !== null ? container : document.body;
@@ -190,21 +196,22 @@ export default function position(attrs) {
     if (!autoPositioning || directions.length === 1) {
       styles = directionsMatrix[directions[0]];
     } else {
-      const directionStylesSortedByIncreasingOverflow = directions.
-      // Fall back to the first option
+      const sortedByIncreasingOverflow = directions.
+        // Fall back to the first option
         concat(directions[0]).filter(direction => directionsMatrix[direction]).
-        map(direction => directionsMatrix[direction]).
-        sort((firstDirectionStyles, secondDirectionStyles) => {
-          const firstDirectionOverflow =
-          verticalOverflow(firstDirectionStyles, scroll, attrs) +
-          horizontalOverflow(firstDirectionStyles, scroll, attrs);
-          const secondDirectionOverflow =
-          verticalOverflow(secondDirectionStyles, scroll, attrs) +
-          horizontalOverflow(secondDirectionStyles, scroll, attrs);
-          return firstDirectionOverflow - secondDirectionOverflow;
+        map(direction => ({styles: directionsMatrix[direction], direction})).
+        sort(({styles: stylesA}, {styles: stylesB}) => {
+          const overflowA =
+            verticalOverflow(stylesA, scroll, attrs) +
+            horizontalOverflow(stylesA, scroll, attrs);
+          const overflowB =
+            verticalOverflow(stylesB, scroll, attrs) +
+            horizontalOverflow(stylesB, scroll, attrs);
+          return overflowA - overflowB;
         });
 
-      styles = directionStylesSortedByIncreasingOverflow[0];
+      styles = sortedByIncreasingOverflow[0].styles;
+      chosenDirection = sortedByIncreasingOverflow[0].direction;
     }
   }
 
@@ -213,9 +220,14 @@ export default function position(attrs) {
     styles.maxHeight = window.innerHeight + scroll.top - styles.top - Dimension.MARGIN;
   } else if (maxHeight) {
     styles.maxHeight = maxHeight;
-    styles = handleTopOffScreen(
-      {sidePadding, styles, anchorRect, maxHeight, popupScrollHeight: popup.scrollHeight}
-    );
+    styles = handleTopOffScreen({
+      sidePadding,
+      styles,
+      anchorRect,
+      maxHeight,
+      direction: chosenDirection,
+      popupScrollHeight: popup.scrollHeight
+    });
   }
 
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
