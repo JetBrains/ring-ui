@@ -55,7 +55,8 @@ export default class ListItem extends PureComponent {
     compact: PropTypes.bool,
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
-    onMouseUp: PropTypes.func
+    onMouseUp: PropTypes.func,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -109,10 +110,11 @@ export default class ListItem extends PureComponent {
     };
 
     const labelIsString = typeof label === 'string' || label instanceof String;
-    const dataTest = dataTests('ring-list-item', {
+    const dataTest = dataTests({
+      'ring-list-item': (restProps['data-test'] || '').indexOf('ring-list-item') === -1,
       'ring-list-item-action': !disabled,
       'ring-list-item-selected': checkbox
-    });
+    }, restProps['data-test']);
 
     return (
       <div
