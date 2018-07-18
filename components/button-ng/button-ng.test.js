@@ -4,6 +4,10 @@ import 'angular-mocks';
 
 import Button from './button-ng';
 
+import overrides from './button-ng.css';
+
+const {ringIconDefaultColor} = overrides;
+
 describe('Button Ng', () => {
   let $compile;
   let $rootScope;
@@ -53,6 +57,22 @@ describe('Button Ng', () => {
     scope.active = false;
     scope.$digest();
     element.should.not.have.attribute('data-test-active');
+  });
+
+  it('should add default icon color class if button without mode', () => {
+    const element = renderButton();
+    [...element.classList].should.contains(ringIconDefaultColor);
+  });
+
+
+  it('should not set default icon color for buttons with mode', () => {
+    // User should explicitly set color for icon
+    // if it should be different from text color
+    // when use a button with mode
+    const scope = $rootScope.$new();
+    const element = $compile('<rg-button mode="primary"/>')(scope)[0];
+    scope.$digest();
+    [...element.classList].should.not.contains(ringIconDefaultColor);
   });
 
 

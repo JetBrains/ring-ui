@@ -83,6 +83,9 @@ class ButtonController extends RingAngularComponent {
 
   $postLink() {
     const {$attrs} = this.$inject;
+    if (!$attrs.hasOwnProperty('mode')) {
+      this.element.classList.add(ringIconDefaultColor);
+    }
     $attrs.$observe('mode', this.updateMode);
     $attrs.$observe('icon', this.updateIcon);
     $attrs.$observe('iconSize', this.updateIcon);
@@ -160,7 +163,7 @@ function createButtonDirective(tagName) {
   <${tagName} class="${buttonClasses}">
   <span class="${styles.content}"
   ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
-  ><ng-transclude class="${ringIconDefaultColor}"></ng-transclude
+  ><ng-transclude></ng-transclude
   ></span
   ><div class="js-button-loader"></div>
   </${tagName}>
