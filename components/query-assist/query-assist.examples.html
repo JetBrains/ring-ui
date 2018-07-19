@@ -134,6 +134,75 @@
   </file>
 </example>
 
+<example name="QueryAssist (custom renderer)">
+  <file type="html" disable-auto-size>
+    <div id="query-assist">
+    </div>
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
+    import List from '@jetbrains/ring-ui/components/list/list';
+
+    const log = obj => {
+      const div = document.createElement('div');
+      div.innerHTML = JSON.stringify(obj);
+      document.getElementById('query-assist').appendChild(div);
+    };
+
+    const template = item => (
+      React.createElement(
+        'span',
+        null,
+        `My name is ${item.description}, my ${item.prefix} is ${item.option}`
+      )
+    );
+
+    const dataSource = ({query, caret}) => ({
+      query,
+      caret,
+      styleRanges: [
+        {start: 0, length: 1, style: 'text'},
+        {start: 1, length: 1, style: 'field_value'},
+        {start: 2, length: 1, style: 'field_name'},
+        {start: 3, length: 1, style: 'operator'}
+      ],
+      suggestions: [{
+        prefix: 'login:',
+        option: 'John.Abrams',
+        description: 'John Abrams',
+        group: 'Logins',
+      }, {
+        prefix: 'login:',
+        option: 'lenni',
+        description: 'Lenni Joy',
+        group: 'Names',
+      }].map(i => {
+          i.rgItemType = List.ListProps.Type.CUSTOM
+          i.template = template(i);
+          i.data = i;
+          return i;
+        })
+    });
+
+    render(
+    <QueryAssist
+      placeholder="placeholder"
+      glass
+      clear
+      onApply={log}
+      hint="hint"
+      hintOnSelection="hint on selection"
+      dataSource={dataSource}
+      useCustomItemRender={true}
+    />,
+    document.getElementById('query-assist')
+    );
+  </file>
+</example>
+
 <example name="QueryAssist dark theme (no auth)">
   <file type="html" disable-auto-size>
     <div class="example-dark">
