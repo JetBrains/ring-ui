@@ -158,9 +158,9 @@ $list-spacing: $ring-unit / 2;
 
 .ring-list__icon {
   display: block;
-  margin: $ring-unit/2 0 0 $ring-unit*2;
-  width: $ring-unit*2;
-  height: $ring-unit*2;
+  margin: $ring-unit/4 0 0 $ring-unit*2;
+  width: 20px;
+  height: 20px;
 
   background: no-repeat center;
   background-size: contain;

@@ -16,6 +16,8 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 
+import QueryAssistSuggestions from './query-assist__suggestions';
+
 import './query-assist.scss';
 import '../input/input.scss';
 
@@ -23,7 +25,6 @@ const POPUP_COMPENSATION = PopupMenu.ListProps.Dimension.ITEM_PADDING +
   PopupMenu.PopupProps.Dimension.BORDER_WIDTH;
 
 const ngModelStateField = 'query';
-const ICON_ID_LENGTH = 44;
 
 function noop() {}
 
@@ -120,7 +121,8 @@ export default class QueryAssist extends Component {
     onChange: PropTypes.func,
     onClear: PropTypes.func,
     onFocusChange: PropTypes.func,
-    query: PropTypes.string
+    query: PropTypes.string,
+    useCustomItemRender: PropTypes.bool
   };
 
   static defaultProps = {
@@ -642,71 +644,29 @@ export default class QueryAssist extends Component {
     end: noop
   };
 
+  _renderSuggestion(suggestion) {
+    const {ITEM} = PopupMenu.ListProps.Type;
+    const {description, icon, group} = suggestion;
+    const key = QueryAssistSuggestions.createKey(suggestion);
+    const label = QueryAssistSuggestions.renderLabel(suggestion);
+
+    return {
+      key,
+      icon,
+      label,
+      description,
+      group,
+      rgItemType: ITEM,
+      data: suggestion
+    };
+  }
+
   renderSuggestions() {
-    const renderedSuggestions = [];
     const {suggestions} = this.state;
-
-    suggestions.forEach((suggestion, index, arr) => {
-      const {ITEM, SEPARATOR} = PopupMenu.ListProps.Type;
-      const {
-        className,
-        description,
-        group,
-        icon,
-        matchingStart,
-        matchingEnd,
-        option,
-        prefix = '',
-        suffix = ''
-      } = suggestion;
-      const prevSuggestion = arr[index - 1] && arr[index - 1].group;
-      const key = prefix + option + suffix + group + description +
-        (icon ? icon.substring(icon.length - ICON_ID_LENGTH) : '');
-
-      if (prevSuggestion !== group) {
-        renderedSuggestions.push({
-          key: option + group + SEPARATOR,
-          description: group,
-          rgItemType: SEPARATOR
-        });
-      }
-
-      let wrappedOption;
-      let before = '';
-      let after = '';
-
-      if (matchingStart !== matchingEnd) {
-        before = option.substring(0, matchingStart);
-        wrappedOption = (
-          <span className="ring-list__highlight">
-            {option.substring(matchingStart, matchingEnd)}
-          </span>
-        );
-        after = option.substring(matchingEnd);
-      } else {
-        wrappedOption = option;
-      }
-
-      const wrappedPrefix = prefix && <span className="ring-list__service">{prefix}</span>;
-      const wrappedSuffix = suffix && <span className="ring-list__service">{suffix}</span>;
-
-      const label = (
-        <span className={className}>
-          {wrappedPrefix}{before}{wrappedOption}{after}{wrappedSuffix}
-        </span>
-      );
-
-      renderedSuggestions.push({
-        key,
-        icon,
-        label,
-        description,
-        rgItemType: ITEM,
-        data: suggestion
-      });
-    });
-
-    return renderedSuggestions;
+    if (!suggestions || !suggestions.length) {
+      return [];
+    }
+    return QueryAssistSuggestions.renderList(suggestions, this._renderSuggestion);
   }
 
   renderQuery() {
@@ -875,7 +835,7 @@ export default class QueryAssist extends Component {
           keepMounted
           className={this.props.popupClassName}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
-          data={this.renderSuggestions()}
+          data={this.props.useCustomItemRender ? this.state.suggestions : this.renderSuggestions()}
           data-test="ring-query-assist-popup"
           hint={this.props.hint}
           hintOnSelection={this.props.hintOnSelection}
