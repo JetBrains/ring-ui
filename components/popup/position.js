@@ -152,7 +152,7 @@ function handleTopOffScreen({
     includes(direction);
   const attachingPointY = (isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom);
 
-  const effectiveHeight = Math.min(popupScrollHeight, maxHeight);
+  const effectiveHeight = maxHeight ? Math.min(popupScrollHeight, maxHeight) : popupScrollHeight;
   const hypotheticalTop = attachingPointY - effectiveHeight;
 
   if (hypotheticalTop <= sidePadding) {
@@ -220,15 +220,16 @@ export default function position(attrs) {
     styles.maxHeight = window.innerHeight + scroll.top - styles.top - Dimension.MARGIN;
   } else if (maxHeight) {
     styles.maxHeight = maxHeight;
-    styles = handleTopOffScreen({
-      sidePadding,
-      styles,
-      anchorRect,
-      maxHeight,
-      direction: chosenDirection,
-      popupScrollHeight: popup.scrollHeight
-    });
   }
+
+  styles = handleTopOffScreen({
+    sidePadding,
+    styles,
+    anchorRect,
+    maxHeight,
+    direction: chosenDirection,
+    popupScrollHeight: popup.scrollHeight
+  });
 
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
     styles.minWidth = anchorRect.width;
