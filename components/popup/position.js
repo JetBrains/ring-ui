@@ -148,8 +148,15 @@ function handleTopOffScreen({
   sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction
 }) {
   const BORDER_COMPENSATION = 1;
-  const isAttachedToAnchorTop = [Directions.TOP_LEFT, Directions.TOP_CENTER, Directions.TOP_RIGHT].
-    includes(direction);
+  const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
+
+  const openedToTop = [TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP].includes(direction);
+
+  if (!openedToTop) {
+    return styles;
+  }
+
+  const isAttachedToAnchorTop = [TOP_LEFT, TOP_CENTER, TOP_RIGHT].includes(direction);
   const attachingPointY = (isAttachedToAnchorTop ? anchorRect.top : anchorRect.bottom);
 
   const effectiveHeight = maxHeight ? Math.min(popupScrollHeight, maxHeight) : popupScrollHeight;
@@ -195,6 +202,7 @@ export default function position(attrs) {
     const directionsMatrix = getPositionStyles(popup, anchorRect, anchorLeft, anchorTop, offset);
     if (!autoPositioning || directions.length === 1) {
       styles = directionsMatrix[directions[0]];
+      chosenDirection = directions[0];
     } else {
       const sortedByIncreasingOverflow = directions.
         // Fall back to the first option
@@ -209,7 +217,6 @@ export default function position(attrs) {
             horizontalOverflow(stylesB, scroll, attrs);
           return overflowA - overflowB;
         });
-
       styles = sortedByIncreasingOverflow[0].styles;
       chosenDirection = sortedByIncreasingOverflow[0].direction;
     }
