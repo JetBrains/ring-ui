@@ -125,10 +125,9 @@ describe('Popup', () => {
       document.body.append(element);
 
       const instance = mountPopup({
-        directions: [Popup.PopupProps.Directions.TOP_CENTER],
+        directions: [Popup.PopupProps.Directions.TOP_LEFT],
         anchorElement: element,
         sidePadding: SIDE_PADDING,
-        maxHeight: 300,
         children: <div style={{height: '300px'}}>{'foo'}</div>
       }).instance();
 
