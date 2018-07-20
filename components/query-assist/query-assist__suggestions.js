@@ -9,6 +9,10 @@ const ICON_ID_LENGTH = 44;
 
 export default class QueryAssistSuggestions {
 
+  /*
+  * Pay attention that this method produces not a 100% unique key.
+  * Consider to use a unique identifier provided by a server.
+   */
   static createKey(suggestion) {
     const {
       description,
