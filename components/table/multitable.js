@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class MultiTable extends PureComponent {
   static propTypes = {
-    children: PropTypes.any
-  };
-
-  static defaultProps = {
+    children: PropTypes.any.isRequired
   };
 
   static getDerivedStateFromProps(props) {
