@@ -6,6 +6,21 @@ export default class MultiTable extends PureComponent {
     children: PropTypes.any.isRequired
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.children) {
+      const prevSelections = prevProps.children.map(element => element.props.selection);
+      const prevFocusedIndex = prevSelections.findIndex(selection => selection.getFocused());
+      const prevFocused = prevSelections[prevFocusedIndex];
+
+      const currentSelections = this.props.children.map(element => element.props.selection);
+      const currentFocused = currentSelections.filter(selection => selection.getFocused());
+
+      if (currentFocused.includes(prevFocused)) {
+        prevProps.children[prevFocusedIndex].props.onSelect(prevFocused.resetFocus());
+      }
+    }
+  }
+
   onUpPress = () => {
     const {children: tables} = this.props;
 
