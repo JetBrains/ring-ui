@@ -18,18 +18,20 @@ export default class MultiTable extends PureComponent {
   };
 
   onUpPress = () => {
-    const {selections, onSelects} = this.state;
+    const {children: tables} = this.props;
 
-    const i = selections.findIndex(selection => selection.getFocused());
-    let newSelection = selections[i].moveUp();
+    const tableIndex = tables.findIndex(({props: {selection}}) => selection.getFocused());
+    const currentTable = tables[tableIndex].props;
+    const prevTable = tables[tableIndex - 1] ? tables[tableIndex - 1].props : null;
 
+    let newSelection = currentTable.selection.moveUp();
     if (newSelection) {
-      onSelects[i](newSelection);
-    } else if (i > 0) {
-      onSelects[i](selections[i].resetFocus());
-      newSelection = selections[i - 1].moveUp();
+      currentTable.onSelect(newSelection);
+    } else if (prevTable) {
+      currentTable.onSelect(currentTable.selection.resetFocus());
+      newSelection = prevTable.selection.moveUp();
       if (newSelection) {
-        onSelects[i - 1](newSelection);
+        prevTable.onSelect(newSelection);
       }
     }
 
@@ -37,18 +39,20 @@ export default class MultiTable extends PureComponent {
   };
 
   onDownPress = () => {
-    const {selections, onSelects} = this.state;
+    const {children: tables} = this.props;
 
-    const i = selections.findIndex(selection => selection.getFocused());
-    let newSelection = selections[i].moveDown();
+    const tableIndex = tables.findIndex(({props: {selection}}) => selection.getFocused());
+    const currentTable = tables[tableIndex].props;
+    const nextTable = tables[tableIndex + 1] ? tables[tableIndex + 1].props : null;
 
+    let newSelection = currentTable.selection.moveDown();
     if (newSelection) {
-      onSelects[i](newSelection);
-    } else if (i <= selections.length) {
-      onSelects[i](selections[i].resetFocus());
-      newSelection = selections[i + 1].moveDown();
+      currentTable.onSelect(newSelection);
+    } else if (nextTable) {
+      currentTable.onSelect(currentTable.selection.resetFocus());
+      newSelection = nextTable.selection.moveDown();
       if (newSelection) {
-        onSelects[i + 1](newSelection);
+        nextTable.onSelect(newSelection);
       }
     }
 
