@@ -6,17 +6,6 @@ export default class MultiTable extends PureComponent {
     children: PropTypes.any.isRequired
   };
 
-  static getDerivedStateFromProps(props) {
-    const selections = Children.map(props.children, child => child.props.selection);
-    const onSelects = Children.map(props.children, child => child.props.onSelect);
-    return {selections, onSelects};
-  }
-
-  state = {
-    selections: [],
-    onSelects: []
-  };
-
   onUpPress = () => {
     const {children: tables} = this.props;
 
