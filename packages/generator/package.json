@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "^1.0.0-beta.150",
-    "yo": "2.0.4"
+    "yo": "2.0.5"
   }
 }
