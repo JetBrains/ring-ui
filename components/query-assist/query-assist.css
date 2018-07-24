@@ -230,7 +230,11 @@
 
   display: block;
 
-  width: calc(100% - unit * 3);
+  overflow: hidden;
+
+  width: calc(100% - unit * 4);
+
+  text-overflow: ellipsis;
 
   pointer-events: none;
 
