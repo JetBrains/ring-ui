@@ -21,11 +21,11 @@
     "pify": "^3.0.0",
     "portscanner": "^1.0.0",
     "read-pkg-up": "^4.0.0",
-    "yeoman-generator": "^3.0.0",
+    "yeoman-generator": "^3.1.0",
     "yeoman-option-or-prompt": "^2.0.0"
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "^1.0.0-beta.150",
-    "yo": "2.0.4"
+    "yo": "2.0.5"
   }
 }
