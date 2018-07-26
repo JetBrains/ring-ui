@@ -170,6 +170,38 @@ function handleTopOffScreen({
   return styles;
 }
 
+
+export function maxHeightForDirection(direction, anchorNode, containerNode) {
+  // eslint-disable-next-line no-param-reassign
+  containerNode = containerNode || document.documentElement;
+  const domRect = anchorNode.getBoundingClientRect();
+  const containerRect = containerNode.getBoundingClientRect();
+  const scroll = getScrollingCoordinates(containerNode);
+
+  const topMaxHeight = (domRect.top - containerRect.top) + scroll.top;
+  const bottomMaxHeight = containerNode.scrollHeight - (topMaxHeight + domRect.height);
+  switch (direction) {
+    case Directions.TOP_LEFT:
+    case Directions.TOP_CENTER:
+    case Directions.TOP_RIGHT:
+      return topMaxHeight;
+    case Directions.BOTTOM_LEFT:
+    case Directions.BOTTOM_CENTER:
+    case Directions.BOTTOM_RIGHT:
+    case Directions.LEFT_BOTTOM:
+    case Directions.RIGHT_BOTTOM:
+      return bottomMaxHeight;
+    case Directions.LEFT_TOP:
+    case Directions.RIGHT_TOP:
+      return domRect.height + bottomMaxHeight;
+    case Directions.RIGHT_CENTER:
+    case Directions.LEFT_CENTER:
+      return (domRect.height / 2) + bottomMaxHeight;
+    default:
+      return null;
+  }
+}
+
 export default function position(attrs) {
   const {
     popup,
