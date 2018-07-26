@@ -818,36 +818,3 @@
     render(<Select filter data={data} />, document.getElementById('demo'));
   </file>
 </example>
-
-<example name="Select fits to screen">
-  <file type="html" disable-auto-size>
-    <div id="demo" style="position: absolute; bottom: 20px;"></div>
-  </file>
-  <file type="css">
-    body {
-    padding: 8px;
-    width: 50%;
-    }
-  </file>
-  <file type="js">
-    import React from 'react';
-    import {render} from 'react-dom';
-    import Select from '@jetbrains/ring-ui/components/select/select';
-
-    const elementsNum = 1000;
-    const selectedIndex = parseInt(elementsNum / 2);
-    const dataset = [];
-    for (let i = 0; i < elementsNum; i++) {
-    dataset.push({
-    label: 'element ' + i,
-    key: i,
-    type: 'user'
-    });
-    }
-
-    render(
-    <Select maxHeight={5000} filter compact selected={dataset[selectedIndex]} data={dataset}/>,
-      document.getElementById('demo')
-      );
-  </file>
-</example>
