@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import {SearchIcon} from '../icon';
 
 import Popup from '../popup/popup';
+import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
@@ -68,6 +69,7 @@ export default class SelectPopup extends Component {
         popupShortcuts: !nextProps.hidden,
         shortcuts: !nextProps.hidden && this.props.filter
       });
+      this._cachedAdjustedMaxHeight = null;
     }
   }
 
@@ -311,6 +313,11 @@ export default class SelectPopup extends Component {
   getList() {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
+
+      if (this.props.anchorElement) {
+        maxHeight = this._adjustListMaxHeight(maxHeight);
+      }
+
       if (this.props.filter) {
         maxHeight -= FILTER_HEIGHT;
       }
@@ -336,6 +343,31 @@ export default class SelectPopup extends Component {
     }
 
     return null;
+  }
+
+  _adjustListMaxHeight(userDefinedMaxHeight) {
+    // Calculate list's maximum height that can't
+    // get beyond the screen
+    // @see RG-1838, JT-48358
+
+    const minMaxHeight = 100;
+    const directions = this.props.directions || DEFAULT_DIRECTIONS;
+
+    // Cache the value because this method is called
+    // inside `render` function which can be called N times
+    // and should be fast as possible.
+    // Create a method which'll be called only when the popup opens and before
+    // render the list would be better way
+    this._cachedAdjustedMaxHeight = this._cachedAdjustedMaxHeight || (Math.min(
+      directions.reduce((maxHeight, direction) => (
+        Math.max(
+          maxHeight,
+          maxHeightForDirection(direction, this.props.anchorElement, this.props.ringPopupTarget)
+        )
+      ), minMaxHeight),
+      userDefinedMaxHeight));
+
+    return this._cachedAdjustedMaxHeight;
   }
 
   popupRef = el => {
