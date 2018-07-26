@@ -179,7 +179,7 @@ export function maxHeightForDirection(direction, anchorNode, containerNode) {
   const scroll = getScrollingCoordinates(containerNode);
 
   const topMaxHeight = (domRect.top - containerRect.top) + scroll.top;
-  const bottomMaxHeight = containerNode.scrollHeight - (topMaxHeight + domRect.height);
+  const bottomMaxHeight = scrollHeightOf(containerNode) - (topMaxHeight + domRect.height);
   switch (direction) {
     case Directions.TOP_LEFT:
     case Directions.TOP_CENTER:
@@ -199,6 +199,19 @@ export function maxHeightForDirection(direction, anchorNode, containerNode) {
       return (domRect.height / 2) + bottomMaxHeight;
     default:
       return null;
+  }
+
+  function scrollHeightOf(domNode) {
+    const documentElement = document.documentElement;
+    if (domNode === documentElement) {
+      // Quirk behaviour in some browsers
+      // when try to calculate scrollHeight on the documentElement
+      // sometimes clientHeight is bigger than scrollHeight
+      return Math.max(
+        documentElement.clientHeight,
+        documentElement.scrollHeight);
+    }
+    return domNode.scrollHeight;
   }
 }
 
