@@ -460,6 +460,11 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
                 ctrl.onFilter(query);
               }
             });
+          },
+          reloadOptions: query => {
+            $scope.$evalAsync(() => {
+              ctrl.loadOptionsToSelect(query || ctrl.query);
+            });
           }
         }, ctrl.config || {});
 

@@ -230,6 +230,28 @@ describe('Select Ng', () => {
       scope.dataSource.should.have.been.calledWith('test');
     });
 
+    it('Should reload options with a controller query', () => {
+      const queryMock = 'query';
+      ctrl.query = queryMock;
+      sandbox.spy(ctrl, 'loadOptionsToSelect');
+
+      ctrl.config.reloadOptions();
+      scope.$digest();
+
+      ctrl.loadOptionsToSelect.should.have.been.calledWith(queryMock);
+    });
+
+    it('Should reload options with a provided query parameter', () => {
+      const queryMock = 'query';
+      ctrl.query = 'ctrlQuery';
+      sandbox.spy(ctrl, 'loadOptionsToSelect');
+
+      ctrl.config.reloadOptions(queryMock);
+      scope.$digest();
+
+      ctrl.loadOptionsToSelect.should.have.been.calledWith(queryMock);
+    });
+
     it('If externalFilter enabled should provide custom filter.fn which should always return true', () => {
       compileTemplate('<rg-select options="item.name for item in items track by item.id" external-filter="true" ng-model="selectedItem"></rg-select>');
 
