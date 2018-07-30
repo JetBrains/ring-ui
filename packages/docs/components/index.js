@@ -48,7 +48,7 @@ class App extends Component {
         <Header
           categories={navData}
           version={version}
-          noAuth={window.location.hostname === 'teamcity.jetbrains.com'}
+          noAuth={true}
         />
         <ContentLayout className={styles.main} responsive={false}>
           <Sidebar

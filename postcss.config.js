@@ -1,7 +1,7 @@
 const scssRE = /\.scss$/;
 
 module.exports = ctx => {
-  const cssNext = {
+  const commonPlugins = {
     'postcss-cssnext': {
       features: {
         calc: {
@@ -9,14 +9,15 @@ module.exports = ctx => {
         },
         customProperties: false
       }
-    }
+    },
+    'postcss-flexbugs-fixes': {}
   };
   const cssModules = Object.assign({}, {
     'postcss-modules-values-replace': {}
-  }, cssNext);
+  }, commonPlugins);
 
   const plugins = scssRE.test(ctx.file.basename)
-    ? cssNext
+    ? commonPlugins
     : cssModules;
 
   return {plugins};
