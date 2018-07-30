@@ -470,7 +470,8 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
             $scope.$evalAsync(() => {
               ctrl.loadOptionsToSelect(query || ctrl.query);
             });
-          }
+          },
+          getLoadedOptions: () => ctrl.loadedOptions
         };
 
         if (infiniteScrollPackSize) {
