@@ -60,9 +60,7 @@
 @value line-height-lowest: 16px;
 @value ease: 0.3s ease-out;
 @value fast-ease: 0.15s ease-out;
-
-/* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
-@value font-family -apple-system, BlinkMacSystemFont, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+@value font-family: system-ui;
 
 .clearfix {
   &::after {
