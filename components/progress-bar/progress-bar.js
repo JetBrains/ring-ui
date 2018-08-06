@@ -2,11 +2,14 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './progress-bar.scss';
+import Theme from '../global/theme';
+
+import styles from './progress-bar.css';
 
 /**
  * @name Progress Bar
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays the progress of a task (akin to HTML5 progress tag).
  * @extends {ReactComponent}
@@ -14,11 +17,8 @@ import './progress-bar.scss';
  */
 export default class ProgressBar extends PureComponent {
   static propTypes = {
-    /**
-     * Dark background mode
-     * @type {boolean}
-     */
-    light: PropTypes.bool,
+    light: PropTypes.bool, // Obsolete prop, should be replaced with theme
+    theme: PropTypes.string,
 
     /**
      * Sets the ring-progress-bar_global class to position the progress bar on top of the screen.
@@ -50,7 +50,8 @@ export default class ProgressBar extends PureComponent {
 
   static defaultProps = {
     max: 1.0,
-    value: 0
+    value: 0,
+    theme: Theme.LIGHT
   };
 
   /**
@@ -65,6 +66,13 @@ export default class ProgressBar extends PureComponent {
     return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
   }
 
+  componentDidMount() {
+    if (typeof this.props.light === 'boolean') {
+      // eslint-disable-next-line no-console
+      console.warn('Ring UI Progress component doesn\'t have "light" prop anymore. Please use "theme" instead');
+    }
+  }
+
   progressbarWrapperRef = el => {
     this.progressbarWrapper = el;
   };
@@ -74,14 +82,14 @@ export default class ProgressBar extends PureComponent {
   };
 
   render() {
-    const {light, className, global, max, value, ...otherProps} = this.props;
+    const {theme, light, className, global, max, value, ...otherProps} = this.props;
+    const themeFallback = light ? Theme.DARK : theme;
 
     const width = value ? `${ProgressBar.toPercent(value, max)}%` : null;
-    const classes = classNames({
-      'ring-progress-bar': true,
-      'ring-progress-bar_light': light,
-      'ring-progress-bar_global': global,
-      [className]: !!className
+    const classes = classNames(styles.progressBar, className, {
+      [styles.light]: themeFallback === Theme.LIGHT,
+      [styles.dark]: themeFallback === Theme.DARK,
+      [styles.globalMode]: global
     });
 
     return (
@@ -91,7 +99,7 @@ export default class ProgressBar extends PureComponent {
         ref={this.progressbarWrapperRef}
       >
         <div
-          className="ring-progress-bar__i"
+          className={styles.line}
           ref={this.progressbarRef}
           role="progressbar"
           aria-valuenow={value}
