@@ -13,6 +13,7 @@
     import React from 'react';
     import {render} from 'react-dom';
     import ProgressBar from '@jetbrains/ring-ui/components/progress-bar/progress-bar';
+    import Theme from '@jetbrains/ring-ui/components/global/theme';
 
     let value = 0;
 
@@ -25,7 +26,7 @@
       );
 
       render(
-        <ProgressBar value={value} light={true}/>,
+        <ProgressBar value={value} theme={Theme.DARK}/>,
         document.getElementById('progress-bar-black')
       );
 

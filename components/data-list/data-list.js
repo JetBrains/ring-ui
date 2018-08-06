@@ -1,6 +1,7 @@
 /**
   * @name Data List
   * @category Components
+  * @tags Ring UI Language
   * @framework React
   * @extends {PureComponent}
   * @description A component for rendering interactive hierarchical tables.
