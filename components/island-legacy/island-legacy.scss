@@ -1,5 +1,12 @@
 @import '../global/global';
 
+/**
+ * @name Island Legacy
+ * @category Style-only
+ * @description Displays an island.
+ * @example-file ./island-legacy.examples.html
+ */
+
 .ring-island {
   @include ring-font;
 
