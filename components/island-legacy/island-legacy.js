@@ -4,13 +4,6 @@ import classNames from 'classnames';
 
 import './island-legacy.scss';
 
-/**
- * @name Island Legacy
- * @category Components
- * @description Displays an island.
- * @example-file ./island-legacy.examples.html
- */
-
 export default class Island extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
