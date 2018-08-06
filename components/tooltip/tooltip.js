@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 import {Listeners} from '../global/dom';
@@ -42,8 +41,7 @@ export default class Tooltip extends Component {
     delay: PropTypes.number,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    children: PropTypes.node,
-    className: PropTypes.string
+    children: PropTypes.node
   };
 
   static PopupProps = Popup.PopupProps;
@@ -112,9 +110,7 @@ export default class Tooltip extends Component {
   };
 
   render() {
-    const {className, children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
-
-    const classes = classNames(styles.tooltip, className);
+    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <span {...restProps} ref={this.containerRef}>
@@ -123,7 +119,7 @@ export default class Tooltip extends Component {
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}
           maxHeight={400}
-          className={classes}
+          className={styles.tooltip}
           attached={false}
           top={4}
           dontCloseOnAnchorClick
