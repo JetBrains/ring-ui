@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 import loaderNg from '../loader-ng/loader-ng';
-import '../loader-screen/loader-screen.scss';
+import styles from '../loader-screen/loader-screen.css';
 
 /**
  * @name Loader Screen Ng
@@ -104,7 +104,12 @@ angularModule.directive('rgLoaderScreen', function rgLoaderScreenDirective() {
       message: '@rgLoaderScreen'
     },
 
-    template: require('./loader-screen-ng.html')
+    template: `
+<div class="${styles.loaderScreen}" ng-if="$root.isLoaderVisible()">
+  <rg-loader class="${styles.loader}"
+    message="{{$root.isInitialLoading() ? message : ''}}"></rg-loader>
+</div>
+    `
   };
 });
 

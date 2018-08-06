@@ -3,7 +3,10 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {shallow, mount} from 'enzyme';
 
+import Theme from '../global/theme';
+
 import ProgressBar from './progress-bar';
+import styles from './progress-bar.css';
 
 describe('Progress Bar', () => {
   const shallowProgressBar = props => shallow(<ProgressBar {...props}/>);
@@ -50,10 +53,10 @@ describe('Progress Bar', () => {
 
     it('should set light modifier', () => {
       const wrapper = mountProgressBar({
-        light: true
+        theme: Theme.DARK
       });
       findDOMNode(wrapper.instance().progressbarWrapper).
-        should.have.class('ring-progress-bar_light');
+        should.have.class(styles.dark);
     });
 
     it('should set global modifier', () => {
@@ -62,7 +65,7 @@ describe('Progress Bar', () => {
       });
 
       findDOMNode(wrapper.instance().progressbarWrapper).
-        should.have.class('ring-progress-bar_global');
+        should.have.class(styles.globalMode);
     });
   });
 
