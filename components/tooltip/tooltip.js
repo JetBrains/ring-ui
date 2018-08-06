@@ -4,21 +4,22 @@ import PropTypes from 'prop-types';
 import Popup from '../popup/popup';
 import {Listeners} from '../global/dom';
 
-import './tooltip.scss';
+import styles from './tooltip.css';
 
 /**
  * @name Tooltip
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a tooltip.
  * @extends {ReactComponent}
  * @example
    <example name="Tooltip">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div id="tooltip"></div>
      </file>
 
-     <file name="index.js" webpack="true">
+     <file name="index.js">
        import React from 'react';
        import {render} from 'react-dom';
 
@@ -118,7 +119,7 @@ export default class Tooltip extends Component {
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}
           maxHeight={400}
-          className="ring-tooltip"
+          className={styles.tooltip}
           attached={false}
           top={4}
           dontCloseOnAnchorClick
