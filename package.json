@@ -140,10 +140,10 @@
     "mocha": "5.0.1",
     "node-sass": "4.9.2",
     "octicons": "^8.0.0",
-    "react": "16.4.1",
-    "react-dom": "16.4.1",
-    "react-test-renderer": "16.4.1",
-    "recompose": "^0.28.0",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-test-renderer": "16.4.2",
+    "recompose": "^0.28.1",
     "sinon": "5.0.0",
     "sinon-chai": "3.1.0",
     "storage-mock": "1.0.3",
@@ -158,8 +158,8 @@
     "yo": "2.0.5"
   },
   "peerDependencies": {
-    "react": "16.4.1",
-    "react-dom": "16.4.1"
+    "react": "16.4.2",
+    "react-dom": "16.4.2"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
