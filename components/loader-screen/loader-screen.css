@@ -1,24 +1,27 @@
-.ring-loader-screen {
+.loaderScreen {
   position: absolute;
+
   width: 100%;
   height: 100%;
 
   text-align: center;
   vertical-align: middle;
 
-  .ring-loader-screen__loader {
+  &::before {
     display: inline-block;
 
-    &_without-spacings canvas {
-      margin: 0;
-    }
-  }
-
-  &:before {
-    content: '';
-    display: inline-block;
     height: 100%;
+
+    content: '';
 
     vertical-align: middle;
   }
+}
+
+.loader {
+  display: inline-block;
+}
+
+.loaderWithoutSpacing canvas {
+  margin: 0;
 }
