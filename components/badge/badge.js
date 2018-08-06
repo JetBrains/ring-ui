@@ -9,6 +9,7 @@ import style from './badge.css';
 /**
  * @name Badge
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a badge.
  * @extends {PureComponent}
