@@ -1,24 +1,26 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Popup from '../popup/popup';
 import {Listeners} from '../global/dom';
 
-import './tooltip.scss';
+import styles from './tooltip.css';
 
 /**
  * @name Tooltip
  * @category Components
+ * @tags Ring UI Language
  * @constructor
  * @description Displays a tooltip.
  * @extends {ReactComponent}
  * @example
    <example name="Tooltip">
-     <file name="index.html">
+     <file name="index.html" disable-auto-size>
        <div id="tooltip"></div>
      </file>
 
-     <file name="index.js" webpack="true">
+     <file name="index.js">
        import React from 'react';
        import {render} from 'react-dom';
 
@@ -40,7 +42,8 @@ export default class Tooltip extends Component {
     delay: PropTypes.number,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    children: PropTypes.node
+    children: PropTypes.node,
+    className: PropTypes.string
   };
 
   static PopupProps = Popup.PopupProps;
@@ -109,7 +112,9 @@ export default class Tooltip extends Component {
   };
 
   render() {
-    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+
+    const classes = classNames(styles.tooltip, className);
 
     return (
       <span {...restProps} ref={this.containerRef}>
@@ -118,7 +123,7 @@ export default class Tooltip extends Component {
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}
           maxHeight={400}
-          className="ring-tooltip"
+          className={classes}
           attached={false}
           top={4}
           dontCloseOnAnchorClick
