@@ -3,6 +3,7 @@ import sniffer from '../global/sniffer';
 /**
  * @name Old Browsers Message
  * @category Components
+ * @tags Ring UI Language
  * @description Displays a full-screen "Browser is unsupported" message if a JavaScript error occurs on page load in an old browser.
  *
  * Note: this script does not have any dependencies, you should include it directly.
@@ -24,7 +25,7 @@ import sniffer from '../global/sniffer';
         </div>
       </file>
       <file type="js">
-        import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message.scss';
+        import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message.css';
         import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message';
 
         //Trigger an error to imitate an unsupported browser
