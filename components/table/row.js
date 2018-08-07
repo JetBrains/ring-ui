@@ -43,7 +43,8 @@ class Row extends PureComponent {
     collapsible: PropTypes.bool,
     collapsed: PropTypes.bool,
     onCollapse: PropTypes.func,
-    onExpand: PropTypes.func
+    onExpand: PropTypes.func,
+    showDisabledSelection: PropTypes.bool
   };
 
   static defaultProps = {
@@ -96,7 +97,8 @@ class Row extends PureComponent {
     const {
       item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,
-      collapsible, collapsed, onCollapse, onExpand
+      collapsible, collapsed, onCollapse, onExpand,
+      showDisabledSelection
     } = this.props;
 
     const classes = classNames(this.props.className, {
@@ -136,6 +138,10 @@ class Row extends PureComponent {
           )
         }
 
+        {!selectable && showDisabledSelection &&
+          <Checkbox checked={selected} disabled/>
+        }
+
         {collapsible && collapsed &&
           (
             <Button
@@ -167,7 +173,7 @@ class Row extends PureComponent {
 
       return (
         <Cell key={column.id} className={cellClasses}>
-          {index === 0 && (draggable || selectable) && metaColumn}
+          {index === 0 && (draggable || selectable || showDisabledSelection) && metaColumn}
           {value}
         </Cell>
       );
