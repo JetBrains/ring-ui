@@ -35,7 +35,7 @@ const DraggableRows = sortableContainer(props => {
     data, getItemKey, selection, selectable,
     isItemSelectable, onRowFocus, onRowSelect,
     getItemLevel, isItemCollapsible, isItemCollapsed,
-    onItemCollapse, onItemExpand,
+    onItemCollapse, onItemExpand, showDisabledSelection,
     ...restProps
   } = props;
 
@@ -57,6 +57,7 @@ const DraggableRows = sortableContainer(props => {
           collapsed={isItemCollapsed(item)}
           onCollapse={onItemCollapse}
           onExpand={onItemExpand}
+          showDisabledSelection={showDisabledSelection}
           {...restProps}
         />
       ))}
@@ -88,6 +89,7 @@ class Table extends PureComponent {
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     theme: PropTypes.string,
+    showDisabledSelection: PropTypes.bool,
 
     // focusSensorHOC
     focused: PropTypes.bool,
@@ -122,7 +124,8 @@ class Table extends PureComponent {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     theme: null,
-    remoteSelection: false
+    remoteSelection: false,
+    showDisabledSelection: false
   };
 
   state = {
@@ -211,7 +214,7 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, theme
+      onItemCollapse, onItemExpand, theme, showDisabledSelection
     } = this.props;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -279,6 +282,7 @@ class Table extends PureComponent {
             isItemCollapsed={isItemCollapsed}
             onItemCollapse={onItemCollapse}
             onItemExpand={onItemExpand}
+            showDisabledSelection={showDisabledSelection}
           />
         </table>
 
