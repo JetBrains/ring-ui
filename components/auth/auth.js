@@ -12,6 +12,7 @@ import AuthRequestBuilder from './request-builder';
 import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
+import defaultOnBackendDown from './down-notification';
 
 
 /**
@@ -81,6 +82,8 @@ const DEFAULT_CONFIG = {
   enableBackendStatusCheck: true,
   backendCheckTimeout: DEFAULT_BACKEND_CHECK_TIMEOUT,
   checkBackendIsUp: () => Promise.resolve(null),
+  onBackendDown: defaultOnBackendDown,
+
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   translations: {
     login: 'Log in',
@@ -100,7 +103,7 @@ export default class Auth {
   static API_PATH = 'api/rest/';
   static API_AUTH_PATH = 'oauth2/auth';
   static API_PROFILE_PATH = 'users/me';
-  static CLOSE_BACKEND_DIALOG_MESSAGE = 'backend-check-succeeded';
+  static CLOSE_BACKEND_DOWN_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
 
@@ -115,6 +118,7 @@ export default class Auth {
   _embeddedFlow = null;
   _tokenValidator = null;
   _postponed = false;
+  _backendCheckPromise = null;
   _authDialogService = undefined;
 
   constructor(config) {
@@ -393,9 +397,14 @@ export default class Auth {
    */
   async forceTokenUpdate() {
     try {
-      await this._checkBackendsStatusesIfEnabled();
+      if (!this._backendCheckPromise) {
+        this._backendCheckPromise = this._checkBackendsStatusesIfEnabled();
+      }
+      await this._backendCheckPromise;
     } catch (e) {
       throw new Error('Cannot refresh token: backend is not available. Postponed by user.');
+    } finally {
+      this._backendCheckPromise = null;
     }
 
     try {
@@ -604,63 +613,55 @@ export default class Auth {
   }
 
   async _showBackendDownDialog(backendError) {
-    const {translations} = this.config;
+    const {onBackendDown, translations} = this.config;
+    const REPEAT_TIMEOUT = 5000;
+    let timerId = null;
 
     return new Promise((resolve, reject) => {
-      let hide = null;
-
       const done = () => {
+        /* eslint-disable no-use-before-define */
         hide();
-        this._storage.sendMessage(Auth.CLOSE_BACKEND_DIALOG_MESSAGE, Date.now());
-        // eslint-disable-next-line no-use-before-define
-        window.removeEventListener('online', checkAgain);
-        // eslint-disable-next-line no-use-before-define
+        window.removeEventListener('online', onCheckAgain);
         stopListeningCloseMessage();
+        /* eslint-enable no-use-before-define */
+        this._storage.sendMessage(Auth.CLOSE_BACKEND_DOWN_MESSAGE, Date.now());
+        this._awaitingForBackendPromise = null;
+        clearTimeout(timerId);
       };
-
-      const checkAgain = async () => {
-        try {
-          await this._checkBackendsAreUp();
-          done();
-          resolve();
-        } catch (err) {
-          // eslint-disable-next-line no-use-before-define
-          hide = showDialog(err);
-          return;
-        }
-      };
-
-      const onCancel = () => {
-        done();
-        reject();
-      };
-
-      window.addEventListener('online', checkAgain);
 
       const stopListeningCloseMessage = this._storage.onMessage(
-        Auth.CLOSE_BACKEND_DIALOG_MESSAGE,
+        Auth.CLOSE_BACKEND_DOWN_MESSAGE,
         () => {
           stopListeningCloseMessage();
-          resolve();
           done();
+          resolve();
         }
       );
 
-      const showDialog = err => this._authDialogService({
-        ...this._service,
-        title: translations.backendIsNotAvailable,
-        loginCaption: translations.login,
-        loginToCaption: translations.loginTo,
-        confirmLabel: translations.checkAgain,
-        cancelLabel: translations.postpone,
-        errorMessage: err.message || (err.toString ? err.toString() : null),
-        onConfirm: checkAgain,
-        onCancel
-      });
+      const onCheckAgain = async () => {
+        await this._checkBackendsAreUp();
+        done();
+        resolve();
+      };
 
-      hide = showDialog(backendError);
+      const onPostpone = () => {
+        done();
+        reject(new Error('Auth(@jetbrains/ring-ui): postponed by user'));
+      };
+
+      const hide = onBackendDown({onCheckAgain, onPostpone, backendError, translations});
+
+      window.addEventListener('online', onCheckAgain);
+
+      function networkWatchdog() {
+        if (navigator && navigator.onLine) {
+          onCheckAgain();
+        }
+        timerId = setTimeout(networkWatchdog, REPEAT_TIMEOUT);
+      }
+
+      timerId = setTimeout(networkWatchdog, REPEAT_TIMEOUT);
     });
-
   }
 
   /**
@@ -777,24 +778,21 @@ export default class Auth {
         {error: new Error('The authorization server is taking too long to respond. Please try again later.')}
       ),
       this.config.checkBackendIsUp()
-    ]);
+    ]).catch(err => {
+      if (err instanceof TypeError) {
+        throw new TypeError('Could not connect to the server due to network error. Please check your connection and try again.');
+      }
+      throw err;
+    });
   }
 
   async _checkBackendsStatusesIfEnabled() {
-    if (!this.config.enableBackendStatusCheck || !this._authDialogService) {
+    if (!this.config.enableBackendStatusCheck) {
       return;
     }
     try {
       await this._checkBackendsAreUp();
     } catch (backendDownErr) {
-      // TypeError likely means fetch call has errored with network error
-      if (backendDownErr instanceof TypeError) {
-        await this._showBackendDownDialog(
-          new TypeError('Could not connect to the server due to network error. Please check your connection and try again.')
-        );
-        return;
-      }
-
       await this._showBackendDownDialog(backendDownErr);
     }
   }
