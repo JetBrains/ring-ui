@@ -109,6 +109,14 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
         isDocked = false;
       }
 
+      function onResize() {
+        if (config) {
+          if (config && config.onResize) {
+            scope.$eval(config.onResize(element));
+          }
+        }
+      }
+
       /**
        * Check panel position
        */
@@ -126,6 +134,10 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
       }
 
       function init() {
+        const _onResize = () => {
+          checkPanelPosition();
+          onResize();
+        };
         const scrollListener = () => scheduleScroll(checkPanelPosition);
 
         /**
@@ -133,11 +145,11 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
          */
         scope.$applyAsync(() => {
           window.addEventListener('scroll', scrollListener);
-          window.addEventListener('resize', checkPanelPosition);
+          window.addEventListener('resize', _onResize);
 
           scope.$on('$destroy', () => {
             window.removeEventListener('scroll', scrollListener);
-            window.removeEventListener('resize', checkPanelPosition);
+            window.removeEventListener('resize', _onResize);
           });
 
           saveInitialPos();
