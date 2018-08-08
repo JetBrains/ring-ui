@@ -42,13 +42,14 @@ const scheduleScroll = scheduleRAF();
 
 const angularModule = angular.module('Ring.docked-panel', []);
 
-angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
+angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse) {
   return {
     link: function link(scope, element, attrs) {
       const TOGGLE_GAP = 8;
       const CSS_CLASS_NAME = 'ring-docked-panel';
       const DOCKED_CSS_CLASS_NAME = 'ring-docked-panel_fixed';
       const dockedPanelClass = attrs.rgDockedPanelClass || '';
+      const config = attrs.rgDockedPanelConfig ? $parse(attrs.rgDockedPanelConfig)(scope) : null;
       let initialPos;
       let isDocked;
 
@@ -68,10 +69,34 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
         initialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
       }
 
+      function onBeforeDock() {
+        if (config) {
+          if (config.beforeDock) {
+            scope.$eval(config.beforeDock(element));
+          }
+          if (config.className) {
+            panel.classList.add(config.className);
+          }
+        }
+      }
+
+      function onBeforeUndock() {
+        if (config) {
+          if (config.beforeUndock) {
+            scope.$eval(config.beforeUndock(element));
+          }
+          if (config.className) {
+            panel.classList.remove(config.className);
+          }
+        }
+      }
+
       /**
        * Docks the panel to the bottom of the page
        */
       function dock() {
+        onBeforeDock();
+
         panel.classList.add(DOCKED_CSS_CLASS_NAME);
         if (dockedPanelClass) {
           panel.classList.add(dockedPanelClass);
@@ -80,6 +105,8 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective() {
       }
 
       function undock() {
+        onBeforeUndock();
+
         panel.classList.remove(DOCKED_CSS_CLASS_NAME);
         if (dockedPanelClass) {
           panel.classList.remove(dockedPanelClass);
