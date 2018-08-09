@@ -1,5 +1,6 @@
 @value unit, font-size, text-color, disabled-color, borders-color, content-background-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
 @value checkbox-size: 14px;
+@value disabled-border-color: #f0f0f0;
 
 .checkbox {
   position: relative;
@@ -93,7 +94,7 @@
   }
 
   &[disabled] + .cell {
-    border-color: borders-color;
+    border-color: disabled-border-color;
     background-color: content-background-color;
   }
 
