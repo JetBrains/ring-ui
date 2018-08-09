@@ -4,7 +4,12 @@
     <div id="checkbox-base">
       <span id="checkbox"></span>
       <span id="checkbox-selected"></span>
+    </div>
+
+    <h1>Disabled checkboxes</h1>
+    <div id="checkbox-base">
       <span id="checkbox-disabled"></span>
+      <span id="checkbox-disabled-selected"></span>
     </div>
 
     <h1>Examples with outer styles</h1>
@@ -41,11 +46,13 @@
     );
 
     render(
-      <Checkbox
-        defaultChecked
-        disabled
-      >This checkbox is disabled</Checkbox>,
+      <Checkbox disabled/>,
       document.getElementById('checkbox-disabled')
+    );
+
+    render(
+      <Checkbox disabled defaultChecked/>,
+      document.getElementById('checkbox-disabled-selected')
     );
 
     render(
