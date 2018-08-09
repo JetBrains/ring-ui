@@ -46,7 +46,13 @@ const scssLoader = {
     resolveLoader('style'),
     resolveLoader('css'),
     resolveLoader('postcss'),
-    `${resolveLoader('sass')}?outputStyle=expanded`
+    {
+      loader: `${resolveLoader('sass')}?outputStyle=expanded`,
+      options: {
+        implementation: require('sass'), // Dart implementation of SASS compiler
+        fiber: require('fibers')
+      }
+    }
   ]
 };
 
