@@ -166,7 +166,7 @@
     "@jetbrains/babel-preset-jetbrains": "1.1.2",
     "@jetbrains/babel-runtime": "6.23.1",
     "@jetbrains/icons": "1.18.5",
-    "@jetbrains/logos": "1.0.0",
+    "@jetbrains/logos": "1.0.3",
     "autoprefixer": "9.1.0",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",
