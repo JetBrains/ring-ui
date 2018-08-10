@@ -77,6 +77,8 @@ const fallbackHeading = deprecate(
 );
 
 export default class Heading extends PureComponent {
+  static Levels = Levels;
+
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -86,8 +88,6 @@ export default class Heading extends PureComponent {
   static defaultProps = {
     level: Levels.H1
   };
-
-  static Levels = Levels;
 
   render() {
     const {children, className, level, ...restProps} = this.props;

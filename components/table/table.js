@@ -64,6 +64,7 @@ const DraggableRows = sortableContainer(props => {
   );
 });
 
+// eslint-disable-next-line react/no-deprecated
 class Table extends PureComponent {
   static propTypes = {
     className: PropTypes.string,

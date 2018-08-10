@@ -26,7 +26,10 @@ function noop() {}
 
 const POPUP_VERTICAL_SHIFT = 2;
 
+// eslint-disable-next-line react/no-deprecated
 export default class TagsInput extends Component {
+  static ngModelStateField = 'tags';
+
   static propTypes = {
     className: PropTypes.string,
     tags: PropTypes.array,
@@ -71,8 +74,6 @@ export default class TagsInput extends Component {
     renderOptimization: true,
     legacyMode: false
   };
-
-  static ngModelStateField = 'tags';
 
   state = {
     tags: [],

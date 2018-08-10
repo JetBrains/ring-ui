@@ -37,14 +37,14 @@ import styles from './tooltip.css';
    </example>
  */
 export default class Tooltip extends Component {
+  static PopupProps = Popup.PopupProps;
+
   static propTypes = {
     delay: PropTypes.number,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     children: PropTypes.node
   };
-
-  static PopupProps = Popup.PopupProps;
 
   static defaultProps = {
     title: '',

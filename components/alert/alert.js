@@ -62,6 +62,7 @@ const TypeToIconColor = {
  * @extends {ReactComponent}
  * @example-file ./alert.examples.html
  */
+// eslint-disable-next-line react/no-deprecated
 export default class Alert extends PureComponent {
   static Type = Type;
 

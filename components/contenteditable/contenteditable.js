@@ -44,6 +44,7 @@ function noop() {}
      </file>
    </example>
  */
+// eslint-disable-next-line react/no-deprecated
 export default class ContentEditable extends Component {
   /** @override */
   static propTypes = {
