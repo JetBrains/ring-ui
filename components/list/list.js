@@ -80,6 +80,7 @@ function isItemType(listItemType, item) {
  * @extends {ReactComponent}
  * @example-file ./list.examples.html
  */
+// eslint-disable-next-line react/no-deprecated
 export default class List extends Component {
   static isItemType = isItemType;
 

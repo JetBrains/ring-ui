@@ -29,6 +29,7 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
+// eslint-disable-next-line react/no-deprecated
 export default class SelectPopup extends Component {
   static defaultProps = {
     data: [],

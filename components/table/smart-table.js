@@ -12,6 +12,7 @@ const {
 } = Table.propTypes;
 /* eslint-enable */
 
+// eslint-disable-next-line react/no-deprecated
 class SmartTable extends PureComponent {
   static propTypes = {
     onSelectionChange: PropTypes.func,

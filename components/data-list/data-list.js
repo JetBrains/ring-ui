@@ -24,6 +24,7 @@ import Item, {moreLessButtonStates} from './item';
 import styles from './data-list.css';
 
 
+// eslint-disable-next-line react/no-deprecated
 class DataList extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
