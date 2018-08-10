@@ -14,6 +14,7 @@ import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
 
+// eslint-disable-next-line react/no-deprecated
 export default class DatePopup extends Component {
   static propTypes = {
     className: PropTypes.string,

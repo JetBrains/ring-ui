@@ -100,6 +100,7 @@ function cleanText(text) {
 + __icon__ `string=` Icon URI, Data URI is possible
 
  */
+// eslint-disable-next-line react/no-deprecated
 export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
   static Theme = Theme;

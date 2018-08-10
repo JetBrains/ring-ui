@@ -26,6 +26,7 @@ function noop() {}
 
 const POPUP_VERTICAL_SHIFT = 2;
 
+// eslint-disable-next-line react/no-deprecated
 export default class TagsInput extends Component {
   static ngModelStateField = 'tags';
 
