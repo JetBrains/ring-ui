@@ -15,15 +15,15 @@ import styles from './content-layout.css';
  */
 
 export default class ContentLayout extends Component {
-  static defaultProps = {
-    responsive: true
-  };
-
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
     contentClassName: PropTypes.string,
     responsive: PropTypes.bool
+  };
+
+  static defaultProps = {
+    responsive: true
   };
 
   state = {};

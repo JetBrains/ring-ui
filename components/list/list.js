@@ -83,6 +83,8 @@ function isItemType(listItemType, item) {
 export default class List extends Component {
   static isItemType = isItemType;
 
+  static ListHint = ListHint;
+
   static ListProps = {
     Type,
     Dimension
@@ -126,8 +128,6 @@ export default class List extends Component {
     renderOptimization: true,
     disableMoveDownOverflow: false
   };
-
-  static ListHint = ListHint;
 
   state = {
     activeIndex: null,

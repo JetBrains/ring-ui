@@ -17,10 +17,6 @@ const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
 
 export default class ListItem extends PureComponent {
-  static defaultProps = {
-    hover: false
-  };
-
   static propTypes = {
     scrolling: PropTypes.bool,
     hover: PropTypes.bool,

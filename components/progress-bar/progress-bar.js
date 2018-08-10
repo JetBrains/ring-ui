@@ -16,6 +16,18 @@ import styles from './progress-bar.css';
  * @example-file ./progress-bar.examples.html
  */
 export default class ProgressBar extends PureComponent {
+  /**
+   * @param {number} value The progress task value
+   * @param {number} max The maximum value
+   * @return {number} The progress task value in percents
+   * @private
+   */
+  static toPercent(value, max) {
+    const HUNDRED_PERCENT = 100;
+    const percents = (value * HUNDRED_PERCENT) / max;
+    return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
+  }
+
   static propTypes = {
     light: PropTypes.bool, // Obsolete prop, should be replaced with theme
     theme: PropTypes.string,
@@ -53,18 +65,6 @@ export default class ProgressBar extends PureComponent {
     value: 0,
     theme: Theme.LIGHT
   };
-
-  /**
-   * @param {number} value The progress task value
-   * @param {number} max The maximum value
-   * @return {number} The progress task value in percents
-   * @private
-   */
-  static toPercent(value, max) {
-    const HUNDRED_PERCENT = 100;
-    const percents = (value * HUNDRED_PERCENT) / max;
-    return percents > HUNDRED_PERCENT ? HUNDRED_PERCENT : percents;
-  }
 
   componentDidMount() {
     if (typeof this.props.light === 'boolean') {

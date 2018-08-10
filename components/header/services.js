@@ -27,15 +27,6 @@ const makeAnchor = loading => {
 };
 
 export default class Services extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    clientId: PropTypes.string,
-    initShown: PropTypes.bool,
-    loading: PropTypes.bool,
-    onClick: PropTypes.func,
-    services: PropTypes.arrayOf(ServicesLink.propTypes.service)
-  };
-
   static Link = ServicesLink;
   static sort = (a, b) => {
     const aApplicationName = a.applicationName || '';
@@ -43,6 +34,15 @@ export default class Services extends PureComponent {
 
     return aApplicationName.localeCompare(bApplicationName) ||
       a.name.localeCompare(b.name);
+  };
+
+  static propTypes = {
+    className: PropTypes.string,
+    clientId: PropTypes.string,
+    initShown: PropTypes.bool,
+    loading: PropTypes.bool,
+    onClick: PropTypes.func,
+    services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
   serviceIsActive = service => service.id === this.props.clientId;
