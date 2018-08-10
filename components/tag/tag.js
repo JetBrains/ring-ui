@@ -14,6 +14,7 @@ import styles from './tag.css';
  * @example-file ./tag.examples.html
  */
 
+// eslint-disable-next-line react/no-deprecated
 export default class Tag extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func,

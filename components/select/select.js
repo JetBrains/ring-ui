@@ -46,10 +46,15 @@ const Type = {
  * @constructor
  * @extends {Component}
  */
+// eslint-disable-next-line react/no-deprecated
 export default class Select extends Component {
   static Type = Type;
   static Size = Size;
   static Theme = Theme;
+
+  static _getEmptyValue(multiple) {
+    return multiple ? [] : null;
+  }
 
   static propTypes = {
     className: PropTypes.string,
@@ -159,10 +164,6 @@ export default class Select extends Component {
     ringPopupTarget: null,
     theme: Theme.LIGHT
   };
-
-  static _getEmptyValue(multiple) {
-    return multiple ? [] : null;
-  }
 
   state = {
     data: [],
