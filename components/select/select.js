@@ -51,6 +51,10 @@ export default class Select extends Component {
   static Size = Size;
   static Theme = Theme;
 
+  static _getEmptyValue(multiple) {
+    return multiple ? [] : null;
+  }
+
   static propTypes = {
     className: PropTypes.string,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -159,10 +163,6 @@ export default class Select extends Component {
     ringPopupTarget: null,
     theme: Theme.LIGHT
   };
-
-  static _getEmptyValue(multiple) {
-    return multiple ? [] : null;
-  }
 
   state = {
     data: [],
