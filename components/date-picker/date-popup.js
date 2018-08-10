@@ -15,10 +15,6 @@ import styles from './date-picker.css';
 const scrollExpDelay = 10;
 
 export default class DatePopup extends Component {
-  static defaultProps = {
-    onChange() {}
-  };
-
   static propTypes = {
     className: PropTypes.string,
     date: dateType,
@@ -30,6 +26,10 @@ export default class DatePopup extends Component {
     onChange: PropTypes.func,
     onComplete: PropTypes.func,
     onClear: PropTypes.func
+  };
+
+  static defaultProps = {
+    onChange() {}
   };
 
   state = {

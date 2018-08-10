@@ -38,6 +38,13 @@ const stop = e => e.stopPropagation();
  * @example-file ./popup.examples.html
  */
 export default class Popup extends Component {
+  static PopupProps = {
+    Directions,
+    Dimension,
+    MinWidth,
+    MaxHeight
+  };
+
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
@@ -101,13 +108,6 @@ export default class Popup extends Component {
     attached: false,
 
     legacy: false
-  };
-
-  static PopupProps = {
-    Directions,
-    Dimension,
-    MinWidth,
-    MaxHeight
   };
 
   state = {
