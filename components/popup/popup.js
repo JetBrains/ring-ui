@@ -37,6 +37,7 @@ const stop = e => e.stopPropagation();
  * @extends {ReactComponent}
  * @example-file ./popup.examples.html
  */
+// eslint-disable-next-line react/no-deprecated
 export default class Popup extends Component {
   static PopupProps = {
     Directions,
