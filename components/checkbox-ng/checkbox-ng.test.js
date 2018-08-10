@@ -3,8 +3,6 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 
-import sniffer from '../global/sniffer';
-
 import Checkbox from './checkbox-ng';
 
 describe('Checkbox Ng', () => {
@@ -34,13 +32,8 @@ describe('Checkbox Ng', () => {
   });
 
   it('should have been set checked by click', () => {
-    if (sniffer.browser.name === 'ie') {
-      return;
-    }
-
-    const click = new MouseEvent('click');
-    // Doesn't trigger handler in IE for some reason
-    element.query('input').dispatchEvent(click);
+    element.query('input').dispatchEvent(new MouseEvent('click'));
+    element.query('input').dispatchEvent(new Event('change'));
 
     iElement.controller('ngModel').$viewValue.should.be.true;
   });
