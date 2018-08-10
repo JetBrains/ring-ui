@@ -19,6 +19,9 @@ import {Color, Size} from './icon__constants';
 import styles from './icon.css';
 
 export default class Icon extends PureComponent {
+  static Color = Color;
+  static Size = Size;
+
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
@@ -35,9 +38,6 @@ export default class Icon extends PureComponent {
     glyph: '',
     size: Size.Size32
   });
-
-  static Color = Color;
-  static Size = Size;
 
   render() {
     const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
@@ -80,18 +80,18 @@ export {Size};
 export function iconHOC(glyph, displayName) {
   // eslint-disable-next-line react/no-multi-comp
   return class BoundIcon extends PureComponent {
-    static displayName = displayName;
-
-    static propTypes = {
-      iconRef: PropTypes.func
-    };
-
     static Color = Color;
     static Size = Size;
 
     static toString() {
       return glyph;
     }
+
+    static displayName = displayName;
+
+    static propTypes = {
+      iconRef: PropTypes.func
+    };
 
     render() {
       const {iconRef, ...restProps} = this.props;

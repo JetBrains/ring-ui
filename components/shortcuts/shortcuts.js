@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import shortcuts from '../shortcuts/core';
 
+// eslint-disable-next-line react/no-deprecated
 export default class Shortcuts extends Component {
   static propTypes = {
     map: PropTypes.object.isRequired,

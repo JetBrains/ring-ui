@@ -22,22 +22,6 @@ import styles from './date-picker.css';
  */
 
 export default class DatePicker extends PureComponent {
-  static defaultProps = {
-    className: '',
-    date: null,
-    range: false,
-    from: null,
-    to: null,
-    clear: false,
-    displayFormat: 'D MMM YYYY',
-    displayMonthFormat: 'D MMM',
-    displayDayFormat: 'D',
-    inputFormat: 'D MMM YYYY',
-    datePlaceholder: 'Set a date',
-    rangePlaceholder: 'Set a period',
-    onChange() {}
-  };
-
   static propTypes = {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
@@ -54,6 +38,22 @@ export default class DatePicker extends PureComponent {
     rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func,
     dropdownProps: PropTypes.object
+  };
+
+  static defaultProps = {
+    className: '',
+    date: null,
+    range: false,
+    from: null,
+    to: null,
+    clear: false,
+    displayFormat: 'D MMM YYYY',
+    displayMonthFormat: 'D MMM',
+    displayDayFormat: 'D',
+    inputFormat: 'D MMM YYYY',
+    datePlaceholder: 'Set a date',
+    rangePlaceholder: 'Set a period',
+    onChange() {}
   };
 
   clear = () => {

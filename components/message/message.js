@@ -67,6 +67,9 @@ const getTailOffsets = offset => ({
 });
 
 export default class Message extends PureComponent {
+  static Directions = Directions;
+  static PopupProps = Popup.PopupProps;
+
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -83,9 +86,6 @@ export default class Message extends PureComponent {
     direction: Directions.TOP_RIGHT,
     tailOffset: 56
   };
-
-  static Directions = Directions;
-  static PopupProps = Popup.PopupProps;
 
   render() {
     const {

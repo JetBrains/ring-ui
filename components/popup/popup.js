@@ -37,7 +37,15 @@ const stop = e => e.stopPropagation();
  * @extends {ReactComponent}
  * @example-file ./popup.examples.html
  */
+// eslint-disable-next-line react/no-deprecated
 export default class Popup extends Component {
+  static PopupProps = {
+    Directions,
+    Dimension,
+    MinWidth,
+    MaxHeight
+  };
+
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
@@ -101,13 +109,6 @@ export default class Popup extends Component {
     attached: false,
 
     legacy: false
-  };
-
-  static PopupProps = {
-    Directions,
-    Dimension,
-    MinWidth,
-    MaxHeight
   };
 
   state = {

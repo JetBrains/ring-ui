@@ -9,12 +9,12 @@ import Services from './services';
 function noop() {}
 
 export default class SmartServices extends Component {
+  static allFields = 'id,name,applicationName,homeUrl,iconUrl';
+  static countFields = 'key';
+
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired
   };
-
-  static allFields = 'id,name,applicationName,homeUrl,iconUrl';
-  static countFields = 'key';
 
   state = {
     visible: true,
