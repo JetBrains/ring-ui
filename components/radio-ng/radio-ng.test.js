@@ -3,8 +3,6 @@ import 'dom4';
 import 'angular';
 import 'angular-mocks';
 
-import sniffer from '../global/sniffer';
-
 import Radio from './radio-ng';
 
 describe('Radio Ng', () => {
@@ -45,13 +43,8 @@ describe('Radio Ng', () => {
   });
 
   it('should have been set checked by click', () => {
-    if (sniffer.browser.name === 'ie') {
-      return;
-    }
-
-    const click = new MouseEvent('click');
-    // Doesn't trigger handler in IE for some reason
-    element.query('input[value=two]').dispatchEvent(click);
+    element.query('input[value=two]').dispatchEvent(new MouseEvent('click'));
+    element.query('input[value=two]').dispatchEvent(new Event('change'));
 
     scope.radioModel.should.equal('two');
   });
