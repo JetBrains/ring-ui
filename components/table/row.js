@@ -8,6 +8,7 @@ import {DragIcon, ChevronRightIcon, ChevronDownIcon} from '../icon';
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
+import Tooltip from '../tooltip/tooltip';
 
 import Cell from './cell';
 import style from './table.css';
@@ -44,7 +45,8 @@ class Row extends PureComponent {
     collapsed: PropTypes.bool,
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func,
-    showDisabledSelection: PropTypes.bool
+    showDisabledSelection: PropTypes.bool,
+    checkboxTooltip: PropTypes.string
   };
 
   static defaultProps = {
@@ -98,7 +100,7 @@ class Row extends PureComponent {
       item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,
       collapsible, collapsed, onCollapse, onExpand,
-      showDisabledSelection
+      showDisabledSelection, checkboxTooltip
     } = this.props;
 
     const classes = classNames(this.props.className, {
@@ -128,18 +130,27 @@ class Row extends PureComponent {
 
         {selectable &&
           (
-            <Checkbox
-              className={showFocus ? 'ring-checkbox_focus' : ''}
-              checked={selected}
-              onFocus={this.onCheckboxFocus}
-              onChange={this.onCheckboxChange}
-              tabIndex="-1"
-            />
+            <Tooltip title={checkboxTooltip}>
+              <Checkbox
+                className={showFocus ? 'ring-checkbox_focus' : ''}
+                checked={selected}
+                onFocus={this.onCheckboxFocus}
+                onChange={this.onCheckboxChange}
+                tabIndex="-1"
+              />
+            </Tooltip>
           )
         }
 
         {!selectable && showDisabledSelection &&
-          <Checkbox checked={selected} disabled/>
+          (
+            <Tooltip title={checkboxTooltip}>
+              <Checkbox
+                checked={selected}
+                disabled
+              />
+            </Tooltip>
+          )
         }
 
         {collapsible && collapsed &&
