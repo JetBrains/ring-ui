@@ -419,7 +419,9 @@ export default class List extends Component {
   };
 
   getFirst() {
-    return this.props.data.find(item => item.rgItemType === Type.ITEM);
+    return this.props.data.find(
+      item => item.rgItemType === Type.ITEM || item.rgItemType === Type.CUSTOM
+    );
   }
 
   getSelected() {
