@@ -36,6 +36,7 @@ const DraggableRows = sortableContainer(props => {
     isItemSelectable, onRowFocus, onRowSelect,
     getItemLevel, isItemCollapsible, isItemCollapsed,
     onItemCollapse, onItemExpand, showDisabledSelection,
+    getCheckboxTooltip,
     ...restProps
   } = props;
 
@@ -58,6 +59,7 @@ const DraggableRows = sortableContainer(props => {
           onCollapse={onItemCollapse}
           onExpand={onItemExpand}
           showDisabledSelection={showDisabledSelection}
+          checkboxTooltip={getCheckboxTooltip(item)}
           {...restProps}
         />
       ))}
@@ -90,6 +92,7 @@ class Table extends PureComponent {
     onItemExpand: PropTypes.func,
     theme: PropTypes.string,
     showDisabledSelection: PropTypes.bool,
+    getCheckboxTooltip: PropTypes.func,
 
     // focusSensorHOC
     focused: PropTypes.bool,
@@ -125,7 +128,8 @@ class Table extends PureComponent {
     onItemExpand: () => {},
     theme: null,
     remoteSelection: false,
-    showDisabledSelection: false
+    showDisabledSelection: false,
+    getCheckboxTooltip: () => {}
   };
 
   state = {
@@ -214,7 +218,8 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, theme, showDisabledSelection
+      onItemCollapse, onItemExpand, theme, showDisabledSelection,
+      getCheckboxTooltip
     } = this.props;
 
     // NOTE: Do not construct new object per render because it causes all rows rerendering
@@ -283,6 +288,7 @@ class Table extends PureComponent {
             onItemCollapse={onItemCollapse}
             onItemExpand={onItemExpand}
             showDisabledSelection={showDisabledSelection}
+            getCheckboxTooltip={getCheckboxTooltip}
           />
         </table>
 
