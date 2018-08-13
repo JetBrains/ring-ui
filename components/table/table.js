@@ -35,6 +35,7 @@ const DraggableRows = sortableContainer(props => {
     isItemSelectable, onRowFocus, onRowSelect,
     getItemLevel, isItemCollapsible, isItemCollapsed,
     onItemCollapse, onItemExpand, showDisabledSelection,
+    getCheckboxTooltip,
     ...restProps
   } = props;
 
@@ -57,6 +58,7 @@ const DraggableRows = sortableContainer(props => {
           onCollapse={onItemCollapse}
           onExpand={onItemExpand}
           showDisabledSelection={showDisabledSelection}
+          checkboxTooltip={getCheckboxTooltip(item)}
           {...restProps}
         />
       ))}
@@ -89,6 +91,7 @@ class Table extends PureComponent {
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
     showDisabledSelection: PropTypes.bool,
+    getCheckboxTooltip: PropTypes.func,
 
     // focusSensorHOC
     focused: PropTypes.bool,
@@ -123,7 +126,8 @@ class Table extends PureComponent {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     remoteSelection: false,
-    showDisabledSelection: false
+    showDisabledSelection: false,
+    getCheckboxTooltip: () => {}
   };
 
   state = {
@@ -213,7 +217,7 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, showDisabledSelection
+      onItemCollapse, onItemExpand, showDisabledSelection, getCheckboxTooltip
     } = this.props;
 
 
@@ -282,6 +286,7 @@ class Table extends PureComponent {
             onItemCollapse={onItemCollapse}
             onItemExpand={onItemExpand}
             showDisabledSelection={showDisabledSelection}
+            getCheckboxTooltip={getCheckboxTooltip}
           />
         </table>
 
