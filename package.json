@@ -209,7 +209,7 @@
     "sniffr": "1.1.4",
     "style-loader": "0.22.0",
     "svg-sprite-loader": "3.9.0",
-    "url-loader": "1.0.1",
+    "url-loader": "1.1.0",
     "url-search-params": "^0.10.2",
     "util-deprecate": "^1.0.2"
   },
