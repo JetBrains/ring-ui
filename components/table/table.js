@@ -34,7 +34,7 @@ const DraggableRows = sortableContainer(props => {
     data, getItemKey, selection, selectable,
     isItemSelectable, onRowFocus, onRowSelect,
     getItemLevel, isItemCollapsible, isItemCollapsed,
-    onItemCollapse, onItemExpand, showDisabledSelection,
+    onItemCollapse, onItemExpand, isDisabledSelectionVisible,
     getCheckboxTooltip,
     ...restProps
   } = props;
@@ -57,7 +57,7 @@ const DraggableRows = sortableContainer(props => {
           collapsed={isItemCollapsed(item)}
           onCollapse={onItemCollapse}
           onExpand={onItemExpand}
-          showDisabledSelection={showDisabledSelection}
+          showDisabledSelection={isDisabledSelectionVisible(item)}
           checkboxTooltip={getCheckboxTooltip(item)}
           {...restProps}
         />
@@ -90,7 +90,7 @@ class Table extends PureComponent {
     isItemCollapsed: PropTypes.func,
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
-    showDisabledSelection: PropTypes.bool,
+    isDisabledSelectionVisible: PropTypes.func,
     getCheckboxTooltip: PropTypes.func,
 
     // focusSensorHOC
@@ -126,7 +126,7 @@ class Table extends PureComponent {
     onItemCollapse: () => {},
     onItemExpand: () => {},
     remoteSelection: false,
-    showDisabledSelection: false,
+    isDisabledSelectionVisible: () => {},
     getCheckboxTooltip: () => {}
   };
 
@@ -217,7 +217,7 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, showDisabledSelection, getCheckboxTooltip
+      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip
     } = this.props;
 
 
@@ -285,7 +285,7 @@ class Table extends PureComponent {
             isItemCollapsed={isItemCollapsed}
             onItemCollapse={onItemCollapse}
             onItemExpand={onItemExpand}
-            showDisabledSelection={showDisabledSelection}
+            isDisabledSelectionVisible={isDisabledSelectionVisible}
             getCheckboxTooltip={getCheckboxTooltip}
           />
         </table>
