@@ -74,7 +74,7 @@ class Widget extends Component {
           label="Select text color"
         />
         <Panel>
-          <Button blue={true} onClick={this.saveConfig}>{'Save'}</Button>
+          <Button primary={true} onClick={this.saveConfig}>{'Save'}</Button>
           <Button onClick={this.cancelConfig}>{'Cancel'}</Button>
         </Panel>
       </div>
