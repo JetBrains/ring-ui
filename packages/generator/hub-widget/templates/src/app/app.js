@@ -9,7 +9,7 @@ import Button from '@jetbrains/ring-ui/components/button/button';
 
 import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
 import styles from './app.css';
-import sayHello from './sayHello';
+import sayHello from './say-hello';
 
 const COLOR_OPTIONS = [
   {key: 'black', label: 'Black'},
