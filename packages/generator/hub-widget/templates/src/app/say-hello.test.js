@@ -1,4 +1,4 @@
-import sayHello from './sayHello';
+import sayHello from './say-hello';
 
 describe('sayHello', () => {
   const defaultName = 'World';
