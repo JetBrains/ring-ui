@@ -181,7 +181,6 @@
     "element-resize-detector": "1.1.14",
     "es6-error": "^4.1.1",
     "extricate-loader": "^3.0.0",
-    "fibers": "3.0.0",
     "file-loader": "1.1.11",
     "focus-trap": "2.4.6",
     "highlight.js": "9.12.0",
