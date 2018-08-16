@@ -49,8 +49,7 @@ const scssLoader = {
     {
       loader: `${resolveLoader('sass')}?outputStyle=expanded`,
       options: {
-        implementation: require('sass'), // Dart implementation of SASS compiler
-        fiber: require('fibers')
+        implementation: require('sass') // Dart implementation of SASS compiler
       }
     }
   ]
