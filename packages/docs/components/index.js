@@ -48,7 +48,6 @@ class App extends Component {
         <Header
           categories={navData}
           version={version}
-          noAuth={true}
         />
         <ContentLayout className={styles.main} responsive={false}>
           <Sidebar
