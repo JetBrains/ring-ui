@@ -173,7 +173,8 @@ describe('Auth', () => {
       token.should.be.deep.equal({
         accessToken: '2YotnFZFEjr1zCsicMWpAA',
         scopes: ['0-0-0-0-0'],
-        expires: frozenTime + HOUR
+        expires: frozenTime + HOUR,
+        lifeTime: 3600
       });
     });
 

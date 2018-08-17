@@ -24,7 +24,7 @@ export default class TokenValidator {
    * @const {number}
    */
   // eslint-disable-next-line no-magic-numbers
-  static REFRESH_BEFORE = 20 * 60; // 20 min in s
+  static DEFAULT_REFRESH_BEFORE = 10 * 60; // 20 min in s
 
   /**
    * Error class for auth token validation
@@ -84,10 +84,13 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static async _validateExpiration(storedToken) {
-    if (
-      storedToken.expires &&
-      storedToken.expires < (TokenValidator._epoch() + TokenValidator.REFRESH_BEFORE)) {
+  static async _validateExpiration({expires, lifeTime}) {
+    const REFRESH_BEFORE_RATIO = 6;
+    const refreshBefore = lifeTime
+      ? Math.ceil(lifeTime / REFRESH_BEFORE_RATIO)
+      : TokenValidator.DEFAULT_REFRESH_BEFORE;
+
+    if (expires && expires < (TokenValidator._epoch() + refreshBefore)) {
       throw new TokenValidator.TokenValidationError('Token expired');
     }
   }
