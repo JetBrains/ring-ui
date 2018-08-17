@@ -753,18 +753,11 @@ export default class Auth {
     const {state: stateId, scope, expiresIn, accessToken} = authResponse;
     const newState = await (stateId && this._storage.getState(stateId)) || {};
 
-    /**
-     * @type {string[]}
-     */
     const scopes = scope ? scope.split(' ') : newState.scopes || defaultScope || [];
-
-    /**
-     * @type {number}
-     */
     const effectiveExpiresIn = expiresIn ? parseInt(expiresIn, 10) : defaultExpiresIn;
     const expires = TokenValidator._epoch() + effectiveExpiresIn;
 
-    await this._storage.saveToken({accessToken, scopes, expires});
+    await this._storage.saveToken({accessToken, scopes, expires, lifeTime: effectiveExpiresIn});
 
     return newState;
   }
