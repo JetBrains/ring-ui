@@ -5,7 +5,7 @@ import 'core-js/modules/es7.array.includes';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import IconNG from '../icon-ng/icon-ng';
-import Theme from '../global/theme';
+import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
 
 import overrides from './button-ng.css';
@@ -92,15 +92,9 @@ class ButtonController extends RingAngularComponent {
     $attrs.$observe('theme', this.updateTheme);
   }
 
-  updateTheme = val => {
-    const cl = this.element.classList;
-    if (val === Theme.DARK) {
-      cl.remove(styles.light);
-      cl.add(styles.dark);
-    }
-    if (val === Theme.LIGHT) {
-      cl.remove(styles.dark);
-      cl.add(styles.light);
+  updateTheme = themeName => {
+    if (isValidTheme(themeName)) {
+      changeTheme(this.element, {currentTheme: themeName});
     }
   };
 
@@ -156,11 +150,26 @@ class ButtonController extends RingAngularComponent {
 }
 
 
+function isValidTheme(themeName) {
+  return themeName && Object.values(Theme).some(theme => theme === themeName);
+}
+
+function changeTheme(element, data) {
+  return applyTheme({
+    element,
+    prevTheme: data.prevTheme && styles[data.prevTheme] || styles.light,
+    currentTheme: styles[data.currentTheme]
+  });
+}
+
 function createButtonDirective(tagName) {
   return () => ({
     restrict: 'E',
     transclude: true,
     replace: true,
+    require: {
+      rgThemeCtrl: '?^^rgTheme'
+    },
     template: `
   <${tagName} class="${buttonClasses}">
   <span class="${styles.content}"
@@ -170,7 +179,13 @@ function createButtonDirective(tagName) {
   ><div class="js-button-loader"></div>
   </${tagName}>
     `,
-    controller: ButtonController
+    controller: ButtonController,
+    link: (scope, element, attrs, {rgThemeCtrl}) => {
+      if (rgThemeCtrl) {
+        changeTheme(element[0], {currentTheme: rgThemeCtrl.theme});
+        rgThemeCtrl.on('change', (event, data) => changeTheme(element[0], data));
+      }
+    }
   });
 }
 
