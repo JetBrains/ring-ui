@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import HTTP from '../http/http';
 
 import Auth from './auth';
@@ -17,8 +18,8 @@ describe('Auth', () => {
       scope: ['0-0-0-0-0', 'youtrack'],
       optionalScopes: ['youtrack']
     }, getUser, storage);
-    // eslint-disable-next-line no-magic-numbers
-    const expires = TokenValidator._epoch() + 60 * 60;
+    const lifeTime = 60 * 60;
+    const expires = TokenValidator._epoch() + lifeTime;
 
     describe('getValidatedToken', () => {
       beforeEach(function beforeEach() {
@@ -30,6 +31,7 @@ describe('Auth', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
+          lifeTime,
           scopes: ['0-0-0-0-0', 'youtrack']
         }));
 
@@ -41,6 +43,7 @@ describe('Auth', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
+          lifeTime,
           scopes: ['0-0-0-0-0']
         }));
 
@@ -52,6 +55,7 @@ describe('Auth', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: null,
           expires,
+          lifeTime,
           scopes: ['0-0-0-0-0']
         }));
 
@@ -65,11 +69,33 @@ describe('Auth', () => {
           should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token not found');
       });
 
-      it('should reject if token is expired', () => {
+      it('should reject if token is about to be expired (<1/6 lifeTime left)', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: 'token',
-          // eslint-disable-next-line no-magic-numbers
-          expires: TokenValidator._epoch() + 15 * 60,
+          expires: TokenValidator._epoch() + (lifeTime / 6) - 1,
+          lifeTime,
+          scopes: ['0-0-0-0-0']
+        }));
+        return tokenValidator.validateTokenLocally().
+          should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token expired');
+      });
+
+      it('should reject if short-life token is about to be expired (<1/6 lifeTime left)', () => {
+        const minimalLifeTime = 60 * 5;
+        AuthStorage.prototype.getToken.returns(Promise.resolve({
+          accessToken: 'token',
+          expires: TokenValidator._epoch() + (minimalLifeTime / 6) - 1,
+          lifeTime: minimalLifeTime,
+          scopes: ['0-0-0-0-0']
+        }));
+        return tokenValidator.validateTokenLocally().
+          should.be.rejectedWith(TokenValidator.TokenValidationError, 'Token expired');
+      });
+
+      it('should reject if token is about to be expired but lifeTime is not set and default time used', () => {
+        AuthStorage.prototype.getToken.returns(Promise.resolve({
+          accessToken: 'token',
+          expires: TokenValidator._epoch() + 5 * 60,
           scopes: ['0-0-0-0-0']
         }));
         return tokenValidator.validateTokenLocally().
@@ -80,6 +106,7 @@ describe('Auth', () => {
         AuthStorage.prototype.getToken.returns(Promise.resolve({
           accessToken: 'token',
           expires,
+          lifeTime,
           scopes: ['youtrack']
         }));
 
