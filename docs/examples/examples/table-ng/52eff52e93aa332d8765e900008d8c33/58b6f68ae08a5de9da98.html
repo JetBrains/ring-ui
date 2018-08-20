@@ -1,0 +1,22 @@
+
+<div ng-app="Example.table" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+  <h3>Title of the page</h3>
+
+  <rg-legacy-table-toolbar stick>
+    <div>Some toolbar content. Focused: {{ctrl.selection.getFocused().country}}</div>
+  </rg-legacy-table-toolbar>
+
+  <rg-table
+    data="ctrl.data"
+    columns="ctrl.columns"
+    selection="ctrl.selection"
+    on-select="ctrl.onSelect"
+    autofocus="true"
+    sticky-header-offset="'56px'"
+
+    sort-key="ctrl.sortKey"
+    sort-order="ctrl.sortOrder"
+    on-sort="ctrl.onSort"
+  ></rg-table>
+</div>
+  

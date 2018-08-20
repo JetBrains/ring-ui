@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../favicon.ico?v=1" />
+  <title>Sizes of inputs</title>
+  <!-- Google Tag Manager -->
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-5P98');
+</script>
+<!-- End Google Tag Manager -->
+  <script src="../../dll-development/vendor.dll.js"></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM­5P98" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <script src="../../example-common.js"></script>
+  <!-- example content -->
+      
+<div ng-app="Example.input-size" ng-strict-di ng-controller="ExampleCtrl as exampleCtrl">
+  <h3 class="example-block">Query Assists</h3>
+  <div class="example-block">
+    <div class="ring-error-bubble-wrapper">
+      <rg-query-assist
+        class="ring-input-size_xs"
+        x-data-source="exampleCtrl.dataSource"
+        glass="true"
+        placeholder="'Extra-short'">
+      </rg-query-assist>
+      <div class="ring-error-bubble active">Extra-short Query Assist</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-query-assist
+        class="ring-input-size_s"
+        x-data-source="exampleCtrl.dataSource"
+        glass="true"
+        placeholder="'Short'">
+      </rg-query-assist>
+      <div class="ring-error-bubble active">Short Query Assist</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-query-assist
+        class="ring-input-size_md"
+        x-data-source="exampleCtrl.dataSource"
+        glass="true"
+        placeholder="'Medium'">
+      </rg-query-assist>
+      <div class="ring-error-bubble active">Medium Query Assist</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-query-assist
+        class="ring-input-size_l"
+        x-data-source="exampleCtrl.dataSource"
+        glass="true"
+        placeholder="'Long'">
+      </rg-query-assist>
+      <div class="ring-error-bubble active">Long Query Assist</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-query-assist
+        x-data-source="exampleCtrl.dataSource"
+        glass="true"
+        placeholder="'Full-width'">
+      </rg-query-assist>
+      <div class="ring-error-bubble active">Full-width Query Assist</div>
+    </div>
+  </div>
+
+  <h3 class="example-block">Rg Selects: Buttons</h3>
+  <div class="example-block">
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_xs"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Extra-short Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_s"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Short Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_md"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Medium Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_l"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Long Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Full-width Select</div>
+    </div>
+  </div>
+
+  <h3 class="example-block">Rg Selects: Inputs</h3>
+  <div class="example-block">
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_xs"
+        type="input"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Extra-short Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_s"
+        type="input"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Short Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_md"
+        type="input"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Medium Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select class="ring-input-size_l"
+        type="input"
+        ng-model="exampleCtrl.selected"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Long Select</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <rg-select ng-model="exampleCtrl.selected"
+        type="input"
+        options="item in exampleCtrl.options"
+        label="Select item"></rg-select>
+      <div class="ring-error-bubble active">Full-width Select</div>
+    </div>
+  </div>
+
+  <h3 class="example-block">Inputs</h3>
+  <div class="example-block">
+    <div class="ring-error-bubble-wrapper">
+      <input type="number" class="ring-input ring-input-size_xs">
+      <div class="ring-error-bubble active">Extra-short Input</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <input type="number" class="ring-input ring-input-size_s">
+      <div class="ring-error-bubble active">Short Input</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <input type="number" class="ring-input ring-input-size_md">
+      <div class="ring-error-bubble active">Medium Input</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <input type="number" class="ring-input ring-input-size_l">
+      <div class="ring-error-bubble active">Long Input</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <input type="number" class="ring-input">
+      <div class="ring-error-bubble active">Full-width Input</div>
+    </div>
+  </div>
+
+  <h3 class="example-block">Textareas</h3>
+  <div class="example-block">
+    <div class="ring-error-bubble-wrapper">
+      <textarea class="ring-input ring-input-size_xs"></textarea>
+      <div class="ring-error-bubble active">Extra-short Textarea</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <textarea class="ring-input ring-input-size_s"></textarea>
+      <div class="ring-error-bubble active">Short Textarea</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <textarea class="ring-input ring-input-size_md"></textarea>
+      <div class="ring-error-bubble active">Medium Textarea</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <textarea class="ring-input ring-input-size_l"></textarea>
+      <div class="ring-error-bubble active">Long Textarea</div>
+    </div>
+    <div class="ring-error-bubble-wrapper">
+      <textarea class="ring-input"></textarea>
+      <div class="ring-error-bubble active">Full-width Textarea</div>
+    </div>
+  </div>
+
+</div>
+  
+  
+    <style>
+            
+.example-block {
+  margin: 16px;
+  max-width: 600px;
+}
+  
+      </style>
+  
+  <!-- example assets -->
+                    <script src="../../examples/input-size/7724748f418e190384c63ea199ebaea2.js"></script>
+            </body>
+</html>
