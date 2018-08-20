@@ -425,6 +425,7 @@ export default class SelectPopup extends Component {
         left={this.props.left}
         onMouseDown={this.mouseDownHandler}
         target={this.props.ringPopupTarget}
+        autoCorrectTopOverflow={false}
       >
         {this.state.shortcuts &&
           (
