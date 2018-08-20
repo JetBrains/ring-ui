@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/generator-ring-ui",
-  "version": "0.4.77",
+  "version": "0.4.78",
   "description": "Generator for Ring UI frontend apps",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
     "yeoman-option-or-prompt": "^2.0.0"
   },
   "devDependencies": {
-    "@jetbrains/ring-ui": "^0.4.77",
+    "@jetbrains/ring-ui": "^0.4.78",
     "yo": "2.0.1"
   }
 }
