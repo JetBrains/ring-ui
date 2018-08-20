@@ -1,0 +1,14 @@
+
+<div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
+  <rg-tabs>
+    <rg-tabs-pane x-title="With select">
+      <div>tab 1</div>
+      <rg-select ng-model="ctrl.selectedItem" config="ctrl.selectConfig"
+        size="M"
+        options="item.text for item in ctrl.options track by item.id"
+        label="Select item"></rg-select>
+    </rg-tabs-pane>
+    <rg-tabs-pane x-title="Another tab" counter="7">Tab 2</rg-tabs-pane>
+  </rg-tabs>
+</div>
+  
