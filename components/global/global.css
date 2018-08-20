@@ -14,6 +14,10 @@
 @value icon-warning-color: #eda200;
 @value icon-success-color: #59a869;
 @value popup-border-color: rgba(0, 42, 76, 0.1);
+@value darcula-borders-color: #4c4c4c;
+@value darcula-main-color: #71a0c8;
+@value darcula-main-hover-color: #5f8db4;
+@value darcula-border-hover-color: #aaa;
 
 /* Text */
 @value search-color: #669ecc;
@@ -30,6 +34,7 @@
 @value dark-secondary-color: #888;
 @value disabled-color: #bbb;
 @value dark-active-color: #ccc;
+@value darcula-dark-text-color: #777;
 
 /* Background */
 @value content-background-color: #fff;
@@ -38,6 +43,8 @@
 @value dark-selected-background-color: #001526;
 @value message-background-color: rgba(0, 21, 38, 0.9);
 @value navigation-background-color: #000;
+@value darcula-background-color: #2d2e2f;
+@value darcula-content-background-color: rgba(70, 70, 70, 0.2);
 
 /* Deprecated, use referenced values instead */
 @value black-color: navigation-background-color;
