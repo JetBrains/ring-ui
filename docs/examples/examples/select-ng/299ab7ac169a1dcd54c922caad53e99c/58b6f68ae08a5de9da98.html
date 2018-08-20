@@ -1,0 +1,25 @@
+
+<h4>Form with validation</h4>
+
+<div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
+  <form name="testForm" class="ring-form ring-form_border" novalidate>
+    <div class="ring-form__wrap">
+      <div class="ring-form__control">
+        <label class="ring-form__label" translate>Required item:</label>
+        <rg-select ng-model="ctrl.item1"
+          options="item as item for item in ctrl.options"
+          size="M"
+          label="Select item" required name="requiredSelect"></rg-select>
+
+        <div class="installer-form__error-hint ring-error-bubble active"
+          ng-if="testForm.requiredSelect.$invalid">
+          Error {{testForm.requiredSelect.$error}}
+        </div>
+      </div>
+      <button ng-disabled="testForm.$invalid">Submit</button>
+    </div>
+    <div>Errors: {{testForm.$error}}</div>
+  </form>
+</div>
+
+  

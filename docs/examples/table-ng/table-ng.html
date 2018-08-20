@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../favicon.ico?v=1" />
+  <title>Table Ng</title>
+  <!-- Google Tag Manager -->
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-5P98');
+</script>
+<!-- End Google Tag Manager -->
+  <script src="../../dll-development/vendor.dll.js"></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM­5P98" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <script src="../../example-common.js"></script>
+  <!-- example content -->
+      
+<div ng-app="Example.table" ng-strict-di ng-controller="ExampleCtrl as ctrl">
+  <h3>Title of the page</h3>
+
+  <rg-legacy-table-toolbar stick>
+    <div>Some toolbar content. Focused: {{ctrl.selection.getFocused().country}}</div>
+  </rg-legacy-table-toolbar>
+
+  <rg-table
+    data="ctrl.data"
+    columns="ctrl.columns"
+    selection="ctrl.selection"
+    on-select="ctrl.onSelect"
+    autofocus="true"
+    sticky-header-offset="'56px'"
+
+    sort-key="ctrl.sortKey"
+    sort-order="ctrl.sortOrder"
+    on-sort="ctrl.onSort"
+  ></rg-table>
+</div>
+  
+  
+    <style>
+            
+body {
+  margin: 0;
+  padding: 0;
+}
+  
+      </style>
+  
+  <!-- example assets -->
+                    <script src="../../examples/table-ng/ea225f9e8678d66908fd12b46ee7bb0a.js"></script>
+            </body>
+</html>

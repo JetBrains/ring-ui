@@ -1,0 +1,10 @@
+
+<div ng-app="Ring.table-legacy" ng-strict-di
+  ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
+  <rg-legacy-table items="itemsArray" disable-selection="true">
+    <rg-legacy-table-row row-item="item" ng-repeat="item in itemsArray">
+      <rg-legacy-table-column>{{item}}</rg-legacy-table-column>
+    </rg-legacy-table-row>
+  </rg-legacy-table>
+</div>
+  
