@@ -12,7 +12,7 @@
       "host": "0.0.0.0"
     },
     "production": {
-      "host": "jetbrains.org/ring-ui"
+      "host": "jetbrains.github.io/ring-ui"
     },
     "hub": "https://hub.jetbrains.com",
     "components": "./components/"
