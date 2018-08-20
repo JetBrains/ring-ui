@@ -165,7 +165,7 @@
     "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
     "@jetbrains/babel-preset-jetbrains": "1.1.2",
     "@jetbrains/babel-runtime": "6.23.1",
-    "@jetbrains/icons": "1.18.5",
+    "@jetbrains/icons": "1.19.0",
     "@jetbrains/logos": "1.0.3",
     "autoprefixer": "9.1.1",
     "babel-core": "6.26.3",
