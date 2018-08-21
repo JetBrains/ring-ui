@@ -170,17 +170,25 @@
       background-color: darcula-main-button-hover-color;
     }
 
-    /* stylelint-disable */
+    &.withIcon,
+    &.withIcon:active,
+    &.withIcon.active {
+      color: darcula-main-color;
+    }
+
+    &.withIcon:hover {
+      color: link-hover-color;
+    }
+
     & .loaderBackground::before {
       background-image:
         linear-gradient(
           to right,
           darcula-content-background-color,
-          #496b8b 40%,
+          #80a5c4 40%,
           darcula-content-background-color 80%
         );
     }
-    /* stylelint-enable */
   }
 
   &.danger:active,
@@ -200,6 +208,7 @@
     color: darcula-main-color;
   }
 }
+
 
 .button {
   composes: button from "../button-group/button-group.css";
