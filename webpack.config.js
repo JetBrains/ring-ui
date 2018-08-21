@@ -2,6 +2,8 @@ const path = require('path');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
+const variables = require('./extract-css-vars');
+
 function resolveLoader(loader) {
   return require.resolve(`${loader}-loader`);
 }
@@ -45,7 +47,14 @@ const scssLoader = {
   use: [
     resolveLoader('style'),
     resolveLoader('css'),
-    resolveLoader('postcss'),
+    {
+      loader: resolveLoader('postcss'),
+      options: {
+        config: {
+          ctx: {variables}
+        }
+      }
+    },
     {
       loader: `${resolveLoader('sass')}?outputStyle=expanded`,
       options: {
@@ -68,7 +77,14 @@ const cssLoader = {
         localIdentName: '[local]_[hash:3]'
       }
     },
-    resolveLoader('postcss')
+    {
+      loader: resolveLoader('postcss'),
+      options: {
+        config: {
+          ctx: {variables}
+        }
+      }
+    }
   ]
 };
 

@@ -1,5 +1,70 @@
 /* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
 
+:root {
+  /* Element */
+  --line-color: #dfe5eb;
+  --dark-line-color: #263b4c;
+  --borders-color: #cfdbe5;
+  --icon-color: #b8d1e5;
+  --icon-disabled-color: #dbdbdb;
+  --border-hover-color: #80c6ff;
+  --icon-hover-color: var(--border-hover-color);
+  --main-color: #008eff;
+  --main-hover-color: #007ee5;
+  --icon-error-color: #db5860;
+  --icon-warning-color: #eda200;
+  --icon-success-color: #59a869;
+  --popup-border-color: rgba(0, 42, 76, 0.1);
+
+  /* Text */
+  --search-color: #669ecc;
+  --hint-color: #406380;
+  --link-color: #0f5b99;
+  --link-hover-color: #ff008c;
+  --error-color: #c22731;
+  --warning-color: #cc8b00;
+  --success-color: #1c8c32;
+  --text-color: #444;
+  --dark-text-color: #fff;
+  --heading-color: #222;
+  --secondary-color: #999;
+  --dark-secondary-color: #888;
+  --disabled-color: #bbb;
+  --dark-active-color: #ccc;
+
+  /* Background */
+  --content-background-color: #fff;
+  --sidebar-background-color: #f7f9fa;
+  --selected-background-color: #e5f4ff;
+  --dark-selected-background-color: #001526;
+  --message-background-color: rgba(0, 21, 38, 0.9);
+  --navigation-background-color: #000;
+
+  /* Deprecated, use referenced values instead */
+  --black-color: var(--navigation-background-color);
+  --darker-gray-color: var(--dark-secondary-color);
+  --dark-gray-color: var(--secondary-color);
+  --gray-color: var(--disabled-color);
+  --light-gray-color: var(--dark-active-color);
+  --white-color: var(--content-background-color); /* or dark-text-color for text on dark background *)/
+
+  /* Metrics */
+  --unit: 8px;
+  --border-radius: 3px;
+  --border-radius-small: 2px;
+  --font-size-larger: 14px;
+  --font-size: 13px;
+  --font-size-smaller: 12px;
+  --line-height-taller: 21px;
+  --line-height: 20px;
+  --line-height-lower: 18px;
+  --line-height-lowest: 16px;
+  --ease: 0.3s ease-out;
+  --fast-ease: 0.15s ease-out;
+  --font-family: system-ui, Arial, sans-serif;
+}
+
+/* TODO: REMOVE @value-like variables after migration to CSS properties */
 /* Element */
 @value line-color: #dfe5eb;
 @value dark-line-color: #263b4c;
