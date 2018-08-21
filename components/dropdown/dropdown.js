@@ -107,10 +107,8 @@ export default class Dropdown extends Component {
     }, this.props.hoverHideTimeOut);
   };
 
-  onContextMenu = () => {
-    if (!this.state.pinned) {
-      this.setState({pinned: true});
-    }
+  handlePopupInteraction = () => {
+    this.setState(({pinned}) => (pinned ? null : {pinned: true}));
   };
 
   toggle(show = !this.state.show) {
@@ -161,13 +159,14 @@ export default class Dropdown extends Component {
         onClick={clickMode ? this.onClick : undefined}
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
-        onContextMenu={hoverMode ? this.onContextMenu : undefined}
         className={classes}
       >
         {anchorElement}
         {cloneElement(children, {
           hidden: !show,
           onCloseAttempt: this.onChildCloseAttempt,
+          onMouseDown: hoverMode ? this.handlePopupInteraction : undefined,
+          onContextMenu: hoverMode ? this.handlePopupInteraction : undefined,
           dontCloseOnAnchorClick: true
         })}
       </div>
