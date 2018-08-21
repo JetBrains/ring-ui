@@ -1,0 +1,33 @@
+
+h1::after, h2::after {
+
+    content: 'Heading';
+
+    display: block;
+
+    position: absolute;
+
+    color: #DDD;
+
+    z-index: -1;
+}
+
+h3 + div::before, h4 + div::before {
+
+    content: 'Lorem ipsum';
+
+    content: 'Lorem ipsum';
+
+    display: block;
+
+    position: absolute;
+
+    color: #CCC;
+
+    z-index: -1;
+
+    -webkit-transform: translateY(-100%);
+
+            transform: translateY(-100%);
+}
+    

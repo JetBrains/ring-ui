@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../favicon.ico?v=1" />
+  <title>Query Assist Ng</title>
+  <!-- Google Tag Manager -->
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-5P98');
+</script>
+<!-- End Google Tag Manager -->
+  <script src="../../dll-development/vendor.dll.js"></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM­5P98" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <script src="../../example-common.js"></script>
+  <!-- example content -->
+      
+<div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
+  <button ng-click="ctrl.disabled = !ctrl.disabled">Disable/Enable</button>
+
+  <div>
+    <p>{{ ctrl.query || 'no value' }}</p>
+
+    <rg-query-assist
+      x-clear="true"
+      x-data-source="ctrl.source"
+      x-disabled="ctrl.disabled"
+      glass="true"
+      focus="ctrl.focus"
+      query="ctrl.query"
+      on-apply="ctrl.save"
+      on-change="ctrl.change"
+      on-focus-change="ctrl.focusChange"
+      placeholder="'placeholder'"
+      hint="'Press ⇥ to complete first item'"
+      hint-on-selection="'Press ↩ to complete selected item'"></rg-query-assist>
+
+    <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
+  </div>
+</div>
+  
+  
+  
+  <!-- example assets -->
+                    <script src="../../examples/query-assist-ng/0253885a96542b61c93035d6e7fd5732.js"></script>
+            </body>
+</html>
