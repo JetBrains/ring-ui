@@ -1,0 +1,8 @@
+
+.buttons > button {
+  margin: 8px;
+}
+
+.dark {
+  background: #000;
+}

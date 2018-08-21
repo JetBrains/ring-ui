@@ -195,12 +195,6 @@ a.legacy {
   color: secondary-color;
 }
 
-.version button {
-  height: auto;
-
-  color: dark-text-color;
-}
-
 .sideFooter {
   composes: item;
 

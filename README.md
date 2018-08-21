@@ -57,7 +57,7 @@ In case boilerplate generators are not your thing and you prefer to understand t
 
 ### Links
 
-- [Living style guide](https://www.jetbrains.org/ring-ui/)
+- [Living style guide](https://jetbrains.github.io/ring-ui)
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
 - [Issues in YouTrack](https://youtrack.jetbrains.com/issues/RG)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)

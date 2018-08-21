@@ -1,0 +1,15 @@
+
+.parent-popup {
+  width: 100px;
+  height: 100px;
+
+  text-align: center;
+}
+
+.child-popup {
+
+  margin: 8px;
+
+  text-align: center;
+  background-color: red;
+}

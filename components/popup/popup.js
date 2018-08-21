@@ -67,6 +67,7 @@ export default class Popup extends Component {
 
     directions: PropTypes.arrayOf(PropTypes.string),
     autoPositioning: PropTypes.bool,
+    autoCorrectTopOverflow: PropTypes.bool,
     left: PropTypes.number,
     top: PropTypes.number,
     maxHeight: PropTypes.number,
@@ -101,6 +102,7 @@ export default class Popup extends Component {
 
     directions: DEFAULT_DIRECTIONS,
     autoPositioning: true,
+    autoCorrectTopOverflow: true,
     left: 0,
     top: 0,
     offset: 0,
