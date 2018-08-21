@@ -1,4 +1,4 @@
-@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, content-background-color, dark-text-color, navigation-background-color, text-color, dark-secondary-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, icon-error-color, secondary-color, link-hover-color, disabled-color, dark-line-color, ease, font-size-smaller, font-size, font-family from "../global/global.css";
+@value unit, font-smaller-lower, border-radius, border-radius-small, icon-color, icon-disabled-color, borders-color, border-hover-color, content-background-color, dark-text-color, navigation-background-color, text-color, dark-secondary-color, selected-background-color, dark-selected-background-color, main-color, main-hover-color, error-color, icon-error-color, secondary-color, link-hover-color, disabled-color, dark-line-color, ease, font-size-smaller, font-size, font-family, darcula-content-background-color, darcula-borders-color, darcula-main-color, darcula-border-hover-color, darcula-dark-text-color, darcula-main-hover-color, darcula-main-button-color, darcula-main-button-hover-color from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loaderWidth: calc(unit * 8);
@@ -119,6 +119,88 @@
   }
 }
 
+.darcula {
+  color: dark-secondary-color;
+  background-color: darcula-content-background-color;
+  box-shadow: button-shadow darcula-borders-color;
+
+  &:hover {
+    box-shadow: button-shadow darcula-border-hover-color;
+  }
+
+  &:active,
+  &.active {
+    color: dark-text-color;
+    box-shadow: button-shadow darcula-border-hover-color;
+  }
+
+  &[disabled],
+  &[disabled].primary,
+  &[disabled].withIcon {
+    color: text-color;
+    background-color: darcula-content-background-color;
+    box-shadow: button-shadow darcula-borders-color;
+  }
+
+  &[disabled] .icon {
+    color: #424242;
+  }
+
+  & .loaderBackground::before {
+    background-image:
+      linear-gradient(
+        to right,
+        darcula-content-background-color,
+        #424242 40%,
+        darcula-content-background-color 80%
+      );
+  }
+
+  &.primary {
+    background-color: darcula-main-button-color;
+
+    &:active,
+    &.active {
+      background-color: darcula-main-button-hover-color;
+      box-shadow: button-shadow darcula-main-button-color;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: darcula-main-button-hover-color;
+    }
+
+    /* stylelint-disable */
+    & .loaderBackground::before {
+      background-image:
+        linear-gradient(
+          to right,
+          darcula-content-background-color,
+          #496b8b 40%,
+          darcula-content-background-color 80%
+        );
+    }
+    /* stylelint-enable */
+  }
+
+  &.danger:active,
+  &.danger.active {
+    color: error-color;
+    background-color: #26080a;
+  }
+
+  &.danger:active,
+  &.danger.active,
+  &.danger:focus,
+  &.danger:hover {
+    box-shadow: button-shadow #db5860;
+  }
+
+  &.text {
+    color: darcula-main-color;
+  }
+}
+
 .button {
   composes: button from "../button-group/button-group.css";
   composes: button from "../button-set/button-set.css";
@@ -158,7 +240,7 @@
 
     transition: none;
 
-    box-shadow: inset 0 0 0 1px border-hover-color, 0 0 0 1px border-hover-color;
+    box-shadow: button-shadow border-hover-color, 0 0 0 1px border-hover-color;
   }
 
   &[disabled] {

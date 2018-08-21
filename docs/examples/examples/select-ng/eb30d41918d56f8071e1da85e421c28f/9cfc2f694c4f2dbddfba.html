@@ -1,0 +1,12 @@
+
+<h4>Load more elements on scroll</h4>
+
+<div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
+  <rg-select ng-model="ctrl.selectedItem"
+    external-filter="true"
+    size="M"
+    with-infinite-scroll="true"
+    infinite-scroll-pack-size="20"
+    options="item as item for item in ctrl.getOptions(skip, query)"></rg-select>
+</div>
+  

@@ -1,0 +1,9 @@
+
+.icon.icon {
+  vertical-align: 3px;
+  line-height: normal
+}
+.has-content .icon.icon {
+  margin-right: 4px;
+}
+  
