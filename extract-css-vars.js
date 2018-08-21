@@ -23,7 +23,7 @@ const ExtractVariablesPlugin = postcss.
         if (isCustomProperty(node)) {
           const [, property] = node.prop.match(customPropertyMatch);
 
-          Object.assign(variables, {[`--${property}`]: node.value});
+          variables[`--${property}`] = node.value;
         }
       });
 
