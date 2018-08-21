@@ -170,7 +170,7 @@
       background-color: darcula-main-button-hover-color;
     }
 
-    /* stylelint-disable */
+    /* stylelint-disable-next-line selector-max-specificity */
     & .loaderBackground::before {
       background-image:
         linear-gradient(
@@ -180,7 +180,6 @@
           darcula-content-background-color 80%
         );
     }
-    /* stylelint-enable */
   }
 
   &.danger:active,
