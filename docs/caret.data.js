@@ -1,0 +1,34 @@
+window.source = {
+  "title": "Caret",
+  "url": "caret.html",
+  "type": "js",
+  "content": "import {getRect} from '../global/dom';\n\n/**\n * @name Caret\n * @category Utilities\n * @tags Ring UI Language\n * @description Manipulate the caret's position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).\n * @see https://github.com/princed/caret\n * @example\n   <example name=\"Caret\">\n    <file name=\"index.html\">\n      <textarea id=\"test-input\" class=\"ring-input\">\n      Lorem ipsum\n      dolor sit amet\n      </textarea>\n      <div>\n        <a href=\"\" id=\"cursor-action\" class=\"ring-link\">Set caret position</a>\n      </div>\n    </file>\n    <file name=\"index.js\">\n      import '@jetbrains/ring-ui/components/input/input.scss';\n      import '@jetbrains/ring-ui/components/link/link__legacy.css';\n      import Caret from '@jetbrains/ring-ui/components/caret/caret';\n\n      const targetEl = document.getElementById('test-input');\n      const caret = new Caret(targetEl);\n\n      document.getElementById('cursor-action').addEventListener('click', event => {\n        caret.focus();\n        caret.setPosition(4);\n        event.preventDefault();\n      })\n    </file>\n   </example>\n */\n\nexport default class Caret {\n  /**\n   * Line endings RegExp\n   * @type {RegExp}\n   */\n  static returnRE = /\\r/g;\n\n  /**\n   * Line endings normalizer\n   * Borrowed from jQuery\n   * @see https://github.com/jquery/jquery/blob/master/src/attributes/val.js\n   * @param value {*}\n   * @return {*}\n   */\n  static normalizeNewlines(value) {\n    return typeof value === 'string' ? value.replace(this.returnRE, '') : value;\n  }\n\n  constructor(target) {\n    this.target = target;\n  }\n\n  isContentEditable() {\n    return this.target.contentEditable === 'true';\n  }\n\n  /**\n   * Set focus on target if possible\n   */\n  focus() {\n    if (!document.activeElement || document.activeElement !== this.target) {\n      this.target.focus();\n    }\n  }\n\n  /**\n   * Get caret position index\n   * @param {Object} [params]\n   * @param {boolean} params.avoidFocus\n   * @return {number}\n   */\n  getPosition(params = {}) {\n    if (this.isContentEditable()) {\n      if (!params.avoidFocus) {\n        this.focus();\n      }\n\n      const selection = window.getSelection();\n\n      if (!selection.rangeCount) {\n        return 0;\n      }\n\n      const range1 = selection.getRangeAt(0);\n\n      if (range1.startOffset !== range1.endOffset) {\n        return -1;\n      }\n\n      const range2 = range1.cloneRange();\n\n      range2.selectNodeContents(this.target);\n      range2.setEnd(range1.endContainer, range1.endOffset);\n\n      return range2.toString().length;\n    }\n\n    if (this.target.selectionStart !== this.target.selectionEnd) {\n      return -1;\n    }\n\n    return this.target.selectionStart;\n  }\n\n  /**\n   * Set caret position index\n   * @param  {number} position\n   * @return {number}\n   */\n  setPosition(position) {\n    const isContentEditable = this.isContentEditable();\n    let correctedPosition;\n\n    if (position === -1) {\n      const value = isContentEditable\n        ? this.target.textContent\n        : this.constructor.normalizeNewlines(this.target.value);\n      correctedPosition = value.length;\n    } else {\n      correctedPosition = position;\n    }\n\n    if (isContentEditable) {\n      this.focus();\n\n      try {\n        window.getSelection().collapse(this.target.firstChild || this.target, correctedPosition);\n      } catch (e) {\n        // Do nothing\n      }\n\n    } else {\n      this.target.setSelectionRange(correctedPosition, correctedPosition);\n    }\n\n    return correctedPosition;\n  }\n\n  /**\n   * Get caret position in pixels\n   * @return {number}\n   */\n  getOffset() {\n    let offset = 0;\n    let range;\n\n    try {\n      // Both statements may throw\n      range = window.getSelection().getRangeAt(0).cloneRange();\n      range.setStart(range.startContainer, range.startOffset - 1);\n    } catch (e) {\n      return offset;\n    }\n\n    if (range && range.endOffset !== 0 && range.toString() !== '') {\n      offset =\n        getRect(range).right -\n        getRect(this.target).left -\n        (range.startContainer.offsetLeft || 0);\n    }\n\n    return offset;\n  }\n}\n",
+  "examples": [
+    {
+      "name": "Caret",
+      "url": "examples/caret/caret.html",
+      "disableAutoSize": false,
+      "files": [
+        {
+          "type": "html",
+          "content": "\n<textarea id=\"test-input\" class=\"ring-input\">\nLorem ipsum\ndolor sit amet\n</textarea>\n<div>\n  <a href=\"\" id=\"cursor-action\" class=\"ring-link\">Set caret position</a>\n</div>\n    ",
+          "showCode": true
+        },
+        {
+          "type": "js",
+          "content": "\nimport '@jetbrains/ring-ui/components/input/input.scss';\nimport '@jetbrains/ring-ui/components/link/link__legacy.css';\nimport Caret from '@jetbrains/ring-ui/components/caret/caret';\n\nconst targetEl = document.getElementById('test-input');\nconst caret = new Caret(targetEl);\n\ndocument.getElementById('cursor-action').addEventListener('click', event => {\n  caret.focus();\n  caret.setPosition(4);\n  event.preventDefault();\n})\n    ",
+          "showCode": true
+        }
+      ]
+    }
+  ],
+  "description": "Manipulate the caret's position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).",
+  "attrs": {
+    "name": "Caret",
+    "category": "Utilities",
+    "tags": "Ring UI Language",
+    "description": "Manipulate the caret's position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).",
+    "see": "https://github.com/princed/caret",
+    "example": "   <example name=\"Caret\">\n    <file name=\"index.html\">\n      <textarea id=\"test-input\" class=\"ring-input\">\n      Lorem ipsum\n      dolor sit amet\n      </textarea>\n      <div>\n        <a href=\"\" id=\"cursor-action\" class=\"ring-link\">Set caret position</a>\n      </div>\n    </file>\n    <file name=\"index.js\">\n      import '@jetbrains/ring-ui/components/input/input.scss';\n      import '@jetbrains/ring-ui/components/link/link__legacy.css';\n      import Caret from '@jetbrains/ring-ui/components/caret/caret';\n\n      const targetEl = document.getElementById('test-input');\n      const caret = new Caret(targetEl);\n\n      document.getElementById('cursor-action').addEventListener('click', event => {\n        caret.focus();\n        caret.setPosition(4);\n        event.preventDefault();\n      })\n    </file>\n   </example>"
+  }
+};
