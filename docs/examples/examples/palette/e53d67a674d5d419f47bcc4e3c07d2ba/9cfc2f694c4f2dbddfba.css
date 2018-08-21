@@ -1,0 +1,10 @@
+
+.example {
+  margin: 4px;
+}
+
+.example div {
+  width: 90px;
+  display: inline-block;
+}
+  
