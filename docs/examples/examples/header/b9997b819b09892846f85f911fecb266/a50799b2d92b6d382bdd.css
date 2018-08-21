@@ -1,0 +1,14 @@
+
+/* override common styles */
+:root body {
+  margin: 0;
+
+  background: #e8e8e9;
+}
+
+.page-content {
+  height: 370px;
+
+  padding: 32px;
+  background: #fff;
+}
