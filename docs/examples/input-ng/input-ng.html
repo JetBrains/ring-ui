@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../favicon.ico?v=1" />
+  <title>Input NG</title>
+  <!-- Google Tag Manager -->
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    var f = d.getElementsByTagName(s)[0], j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-5P98');
+</script>
+<!-- End Google Tag Manager -->
+  <script src="../../dll-development/vendor.dll.js"></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+<noscript>
+  <iframe src="https://www.googletagmanager.com/ns.html?id=GTM­5P98" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <script src="../../example-common.js"></script>
+  <!-- example content -->
+      
+<div
+  class="inputs"
+  data-test="inputs"
+  ng-app="Example.input"
+  ng-controller="InputTestCtrl as ctrl"
+  ng-strict-di
+>
+  <rg-input
+    size="M"
+    label="Type something"
+  ></rg-input>
+
+  <rg-input
+    name="login"
+    size="M"
+    label="Label and hint"
+    placeholder="Hint"
+  ></rg-input>
+
+  <rg-input
+    label="Label and value"
+    size="M"
+    ng-model="ctrl.inputModel"
+  ></rg-input>
+
+  <rg-input
+    placeholder="Hint"
+    size="M"
+    ng-model="ctrl.inputModel"
+    borderless="true"
+  ></rg-input>
+
+  <rg-input
+    label="Active input"
+    active="true"
+    size="M"
+    ng-model="ctrl.inputModel"
+  ></rg-input>
+
+  <rg-input
+    label="Disabled input"
+    data-disabled="true"
+    size="M"
+    ng-model="ctrl.inputModel"
+  ></rg-input>
+
+  <rg-input
+    label="Invalid input"
+    size="M"
+    error="Error description that wraps over lines because of being really long"
+    ng-model="ctrl.inputModel"
+  ></rg-input>
+
+  <rg-input
+    label="Short input"
+    size="S"
+  ></rg-input>
+
+  <rg-input
+    label="Long input"
+    size="L"
+  ></rg-input>
+
+  <rg-input
+    label="Autogrowing textarea"
+    size="M"
+    multiline="true"
+  ></rg-input>
+
+  <div class="dark">
+    <rg-input
+      label="Input on dark background"
+      placeholder="Hint on dark background"
+      theme="dark"
+    ></rg-input>
+  </div>
+</div>
+  
+  
+    <style>
+            
+body {
+  margin: 0;
+}
+
+.inputs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  max-height: 100vh;
+  margin-top: 8px
+}
+
+.inputs rg-input {
+  margin: 0 16px;
+}
+
+div.dark {
+  background: #000;
+  margin-left: 0;
+  padding-left: 16px;
+}
+  
+      </style>
+  
+  <!-- example assets -->
+                    <script src="../../examples/input-ng/fd145362c5bd1eebe6131e7d331cf3d3.js"></script>
+            </body>
+</html>

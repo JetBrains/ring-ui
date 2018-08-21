@@ -1,0 +1,18 @@
+
+.cell {
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+  background-color: silver;
+}
+  
+.cell {
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+  background-color: silver;
+}

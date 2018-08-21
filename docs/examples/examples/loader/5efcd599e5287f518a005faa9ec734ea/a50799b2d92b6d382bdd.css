@@ -1,0 +1,16 @@
+
+body {
+  margin: 0;
+}
+
+.loader-container {
+  padding: 32px;
+}
+
+.loader-container_black {
+  background-color: black;
+}
+
+.loader-container_black {
+  color: #fff;
+}
