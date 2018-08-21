@@ -1,0 +1,24 @@
+
+<div id="content-before">
+  <div>Lorem</div>
+  <div>Ipsum</div>
+  <div>Lorem</div>
+  <div>Lorem</div>
+  <div>Lorem</div>
+</div>
+<div ng-app="foo" ng-strict-di ng-init="isShowSideBar = true"
+  style="position: relative;">
+  <rg-sidebar show="isShowSideBar" place-under-sibling=".some-toolbar"
+    top-offset="1">
+    <div id="big-content">===== The start of sidebar =====
+      <rg-select options="item in []"></rg-select>
+      <br/></div>
+  </rg-sidebar>
+  <div class="some-toolbar">
+    Toolbar to place before sidebar
+    <rg-sidebar-toggle-button model="isShowSideBar">Toggle sidebar
+    </rg-sidebar-toggle-button>
+  </div>
+</div>
+<div id="content-after"></div>
+  

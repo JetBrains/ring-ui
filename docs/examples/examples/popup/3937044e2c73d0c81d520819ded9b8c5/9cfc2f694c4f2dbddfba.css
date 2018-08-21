@@ -1,0 +1,41 @@
+
+body {
+  overflow: hidden;
+}
+
+.button {
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+}
+
+.anchor {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.topLeft {
+  left: 0;
+  top: 0;
+  background-color: red;
+}
+
+.topRight {
+  right: 0;
+  top: 0;
+  background-color: blue;
+}
+
+.bottomLeft {
+  left: 0;
+  bottom: 0;
+  background-color: green;
+}
+
+.bottomRight {
+  right: 0;
+  bottom: 0;
+  background-color: orange;
+}
+  

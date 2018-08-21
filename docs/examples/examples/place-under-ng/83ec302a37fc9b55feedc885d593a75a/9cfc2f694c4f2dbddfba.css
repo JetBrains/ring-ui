@@ -1,0 +1,118 @@
+/* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
+
+/* Element */
+
+/* Text */
+
+/* Background */
+
+/* Deprecated, use referenced values instead */ /* or dark-text-color for text on dark background */
+
+/* Metrics */
+
+.clearfix_1e8::after {
+  display: block;
+  clear: both;
+  content: '';
+}
+
+.font_3f3 {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans, Helvetica Neue, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.font-lower_cf2 {
+
+  line-height: 18px;
+}
+
+.font-smaller_1da {
+
+  font-size: 12px;
+}
+
+.font-smaller-lower_c69 {
+
+  line-height: 16px;
+}
+
+.font-larger-lower_fa1 {
+
+  font-size: 14px;
+}
+
+.font-larger_938 {
+
+  line-height: 21px;
+}
+
+/* To be used at large sizes */
+/* As close as possible to Helvetica Neue Thin (to replace Gotham) */
+.thin-font_52b {
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 100; /* Renders Helvetica Neue UltraLight on OS X  */
+}
+
+.monospace-font_b2e {
+  font-family: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
+  font-size: 12px;
+}
+
+.input-disabled_f9c {
+  border-color: #dedede;
+  background-color: #f8f8f8;
+}
+
+.ellipsis_894 {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Common z-index-values */
+
+/* Invisible element is an absolutely positioned element which should be below */
+/* all other elements on the page */
+
+/* z-index for position: fixed elements */
+
+/* Elements that should overlay all other elements on the page */
+
+/* Alerts should de displayed above overlays */
+
+/* Note: footer also has top margin which isn't taken into account here */
+
+/* Media breakpoints (minimal values) */
+
+/* Media queries */
+.place-under {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  padding: 16px;
+  background-color: #888;
+}
+
+.head {
+  height: 30px;
+}
+
+.target-element {
+  position: static;
+  top: 0;
+  width: 100%;
+  padding: 16px;
+  background-color: #CCC;
+}
+
+.scrollable {
+  height: 1000px;
+  padding: 16px;
+  padding-top: 64px;
+  background-color: #EEE;
+}
+  

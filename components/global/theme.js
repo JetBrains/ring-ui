@@ -1,6 +1,7 @@
 const Theme = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
+  DARCULA: 'darcula'
 };
 
 function applyTheme(params) {

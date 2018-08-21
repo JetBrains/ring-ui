@@ -131,6 +131,7 @@ function horizontalOverflow(styles, scrollingCoordinates, attrs) {
 export const positionPropKeys = [
   'directions',
   'autoPositioning',
+  'autoCorrectTopOverflow',
   'sidePadding',
   'top',
   'left',
@@ -227,7 +228,8 @@ export default function position(attrs) {
     left,
     offset,
     maxHeight,
-    minWidth
+    minWidth,
+    autoCorrectTopOverflow = true
   } = attrs;
 
   let styles = {
@@ -274,14 +276,16 @@ export default function position(attrs) {
     styles.maxHeight = maxHeight;
   }
 
-  styles = handleTopOffScreen({
-    sidePadding,
-    styles,
-    anchorRect,
-    maxHeight,
-    direction: chosenDirection,
-    popupScrollHeight: popup.scrollHeight
-  });
+  if (autoCorrectTopOverflow) {
+    styles = handleTopOffScreen({
+      sidePadding,
+      styles,
+      anchorRect,
+      maxHeight,
+      direction: chosenDirection,
+      popupScrollHeight: popup.scrollHeight
+    });
+  }
 
   if (minWidth === MinWidth.TARGET || minWidth === 'target') {
     styles.minWidth = anchorRect.width;
