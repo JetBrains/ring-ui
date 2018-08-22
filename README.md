@@ -55,6 +55,10 @@ In case boilerplate generators are not your thing and you prefer to understand t
    module.exports = webpackConfig;
    ```
 
+### Contributing
+
+Please, see [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 ### Links
 
 - [Living style guide](https://jetbrains.github.io/ring-ui)
