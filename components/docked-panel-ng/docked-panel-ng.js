@@ -112,7 +112,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse,
       function onResize() {
         if (config) {
           if (config && config.onResize) {
-            scope.$eval(config.onResize(element));
+            scope.$eval(config.onResize(element, isDocked));
           }
         }
       }
