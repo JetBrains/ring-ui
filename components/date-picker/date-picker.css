@@ -1,4 +1,3 @@
-@value filter, filterWrapper, filterIcon from "../select/select-popup.css";
 @value hover-color: #cef;
 @value cellSize: calc(var(--ring-unit) * 3);
 @value calHeight: calc(var(--ring-unit) * 36);
@@ -64,17 +63,17 @@
 }
 
 .filterWrapper {
-  composes: filterWrapper;
+  composes: filterWrapper from "../select/select-popup.css";
 
   display: flex;
 }
 
 .filter {
-  composes: filter;
+  composes: filter from "../select/select-popup.css";
 }
 
 .filterIcon {
-  composes: filterIcon;
+  composes: filterIcon from "../select/select-popup.css";
 }
 
 .fromInput {
