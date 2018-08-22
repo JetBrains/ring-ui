@@ -14,7 +14,8 @@
   --ring-icon-error-color: #db5860;
   --ring-icon-warning-color: #eda200;
   --ring-icon-success-color: #59a869;
-  --ring-popup-border-color: rgba(0, 42, 76, 0.1);
+  --ring-popup-border-components: 0, 42, 76;
+  --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
 
   /* Text */
   --ring-search-color: #669ecc;

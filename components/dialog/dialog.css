@@ -42,7 +42,7 @@
 }
 
 .content.content {
-  box-shadow: 0 2px 16px color(var(--ring-popup-border-color) a(0.15));
+  box-shadow: 0 2px 16px rgba(var(--ring-popup-border-components), 0.15);
 }
 
 .clickableOverlay {

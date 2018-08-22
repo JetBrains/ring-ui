@@ -14,7 +14,7 @@
   border-radius: var(--ring-border-radius);
 
   background-color: #fff;
-  box-shadow: 0 2px 16px 0 color(var(--ring-popup-border-color) a(0.15));
+  box-shadow: 0 2px 16px 0 rgba(var(--ring-popup-border-components), 0.15);
 }
 
 .hidden {
