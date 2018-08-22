@@ -1,7 +1,7 @@
-@value unit, breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
-@value gutterWidth: (unit*2);
+@value breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
+@value gutterWidth: (var(--ring-unit)*2);
 @value gutterCompensation: calc(gutterWidth / -2);
-@value outerMargin: calc(unit*2);
+@value outerMargin: calc(var(--ring-unit)*2);
 @value containerSmall: calc(breakpoint-small + gutterWidth);
 @value containerMedium: calc(breakpoint-middle + gutterWidth);
 @value containerLarge: calc(breakpoint-large + gutterWidth);
@@ -25,7 +25,7 @@
 }
 
 .container-fluid {
-  min-width: calc(unit * 40);
+  min-width: calc(var(--ring-unit) * 40);
   padding-right: outerMargin;
   padding-left: outerMargin;
 }
@@ -45,8 +45,8 @@
 }
 
 .col {
-  margin-top: unit;
-  margin-bottom: unit;
+  margin-top: var(--ring-unit);
+  margin-bottom: var(--ring-unit);
 }
 
 .col.reverse {

@@ -1,5 +1,4 @@
-@value unit, dark-secondary-color, navigation-background-color, dark-text-color, main-color, link-hover-color from  "../global/global.css";
-@value height: calc(unit * 8);
+@value height: calc(var(--ring-unit) * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
 
@@ -8,12 +7,12 @@
 }
 
 .dark {
-  color: dark-text-color;
-  background-color: navigation-background-color;
+  color: var(--ring-dark-text-color);
+  background-color: var(--ring-navigation-background-color);
 
   /* override link */
   & > a {
-    color: dark-secondary-color;
+    color: var(--ring-dark-secondary-color);
   }
 }
 
@@ -32,17 +31,17 @@
 
     box-sizing: border-box;
     height: height;
-    padding: 0 calc(unit * 1.5) compensate;
+    padding: 0 calc(var(--ring-unit) * 1.5) compensate;
   }
 }
 
 .headerSpaced {
   & > *:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(var(--ring-unit) * 4);
   }
 
   & > *:last-child {
-    padding-right: calc(unit * 4);
+    padding-right: calc(var(--ring-unit) * 4);
   }
 }
 
@@ -52,7 +51,7 @@
 
   height: height;
 
-  color: navigation-background-color;
+  color: var(--ring-navigation-background-color);
 
   line-height: normal;
 
@@ -78,7 +77,7 @@
 }
 
 .icon {
-  width: calc(unit * 5);
+  width: calc(var(--ring-unit) * 5);
 
   vertical-align: top;
 }
@@ -91,7 +90,7 @@
 }
 
 .main svg {
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .rotateable svg {
@@ -109,7 +108,7 @@
 
   width: auto;
   height: compensated;
-  padding-left: unit;
+  padding-left: var(--ring-unit);
 
   vertical-align: bottom;
 }
@@ -141,13 +140,13 @@
 
     display: block;
 
-    width: unit;
-    height: unit;
+    width: var(--ring-unit);
+    height: var(--ring-unit);
 
     content: '';
 
-    border: 1px solid dark-text-color;
+    border: 1px solid var(--ring-dark-text-color);
     border-radius: 50%;
-    background-color: link-hover-color;
+    background-color: var(--ring-link-hover-color);
   }
 }

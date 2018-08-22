@@ -62,6 +62,25 @@
   --ring-ease: 0.3s ease-out;
   --ring-fast-ease: 0.15s ease-out;
   --ring-font-family: system-ui, Arial, sans-serif;
+  --ring-font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
+
+  /* Common z-index-values */
+
+  /* Invisible element is an absolutely positioned element which should be below */
+  /* all other elements on the page */
+  --ring-invisible-element-z-index: -1;
+
+  /* z-index for position: fixed elements */
+  --ring-fixed-z-index: 1;
+
+  /* Elements that should overlay all other elements on the page */
+  --ring-overlay-z-index: 5;
+
+  /* Alerts should de displayed above overlays */
+  --ring-alert-z-index: 6;
+
+  /* Note: footer also has top margin which isn't taken into account here */
+  --ring-footer-height: calc(var(--ring-unit) * 8);
 }
 
 /* TODO: REMOVE @value-like variables after migration to CSS properties */
@@ -126,6 +145,7 @@
 @value ease: 0.3s ease-out;
 @value fast-ease: 0.15s ease-out;
 @value font-family: system-ui, Arial, sans-serif;
+@value font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
 
 .clearfix {
   &::after {
@@ -179,8 +199,6 @@
   font-size: font-size;
   font-weight: 100; /* Renders Helvetica Neue UltraLight on OS X  */
 }
-
-@value font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
 
 .monospace-font {
   font-family: font-family-monospace;

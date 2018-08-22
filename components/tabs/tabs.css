@@ -1,27 +1,26 @@
-@value unit, font, line-color, main-color, link-hover-color, text-color, disabled-color, dark-text-color, dark-secondary-color, dark-line-color from "../global/global.css";
 @value line-shadow: inset 0 -1px 0 0;
 @value selected-line-shadow: inset 0 -3px 0 0;
 
 .tabs {
-  composes: font;
+  composes: font from "../global/global.css";
 }
 
 .titles {
   display: inline-block;
 
-  margin-bottom: calc(unit * 2);
+  margin-bottom: calc(var(--ring-unit) * 2);
 }
 
 .light .titles {
-  box-shadow: line-shadow line-color;
+  box-shadow: line-shadow var(--ring-line-color);
 }
 
 .dark .titles {
-  box-shadow: line-shadow dark-line-color;
+  box-shadow: line-shadow var(--ring-dark-line-color);
 }
 
 .title {
-  composes: font;
+  composes: font from "../global/global.css";
 
   position: relative;
 
@@ -36,11 +35,11 @@
   border: none;
   background: none;
 
-  line-height: calc(unit * 4);
+  line-height: calc(var(--ring-unit) * 4);
 
   &:hover:not(.selected) {
-    color: link-hover-color;
-    box-shadow: inset 0 -1px 0 0 link-hover-color;
+    color: var(--ring-link-hover-color);
+    box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
   }
 
   &[disabled] {
@@ -49,20 +48,20 @@
 }
 
 .title + .title {
-  margin-left: calc(unit * 3);
+  margin-left: calc(var(--ring-unit) * 3);
 }
 
 .light .title {
   &[disabled] {
-    color: disabled-color;
+    color: var(--ring-disabled-color);
   }
 }
 
 .dark .title {
-  color: dark-secondary-color;
+  color: var(--ring-dark-secondary-color);
 
   &[disabled] {
-    color: text-color;
+    color: var(--ring-text-color);
   }
 }
 
@@ -70,14 +69,14 @@
   cursor: default;
 
   outline: none;
-  box-shadow: selected-line-shadow text-color;
+  box-shadow: selected-line-shadow var(--ring-text-color);
 
   font-weight: bold;
 }
 
 .dark .selected {
-  color: dark-text-color;
-  box-shadow: selected-line-shadow main-color;
+  color: var(--ring-dark-text-color);
+  box-shadow: selected-line-shadow var(--ring-main-color);
 }
 
 .visible {

@@ -1,32 +1,30 @@
-@value unit, fixed-z-index, footer-height, font, font-size-smaller, line-color from  "../global/global.css";
-
 .footer {
-  composes: font;
+  composes: font from "../global/global.css";
 
   position: relative;
 
   box-sizing: border-box;
-  height: footer-height;
-  margin: calc(unit * 5) calc(unit * 4) 0 calc(unit * 4);
-  padding-top: calc(unit * 2);
+  height: var(--ring-footer-height);
+  margin: calc(var(--ring-unit) * 5) calc(var(--ring-unit) * 4) 0 calc(var(--ring-unit) * 4);
+  padding-top: calc(var(--ring-unit) * 2);
 
   text-align: center;
 
-  border-top: 1px solid line-color;
+  border-top: 1px solid var(--ring-line-color);
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .footerFloating {
   composes: footer;
 
   position: absolute;
-  z-index: fixed-z-index;
+  z-index: var(--ring-fixed-z-index);
   bottom: 0;
 
   width: 100%;
   margin-right: 0;
-  margin-bottom: unit;
+  margin-bottom: var(--ring-unit);
   margin-left: 0;
 }
 
@@ -64,7 +62,7 @@
 .columnRight {
   composes: column;
 
-  top: calc(unit * 2);
+  top: calc(var(--ring-unit) * 2);
   right: 0;
 
   text-align: right;
@@ -75,7 +73,7 @@
 
   list-style: none;
 
-  line-height: calc(unit * 2);
+  line-height: calc(var(--ring-unit) * 2);
 }
 
 .lineCenter {

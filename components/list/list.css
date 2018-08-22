@@ -1,12 +1,11 @@
-@value unit, border-radius, line-color, secondary-color, error-color, text-color, selected-background-color, content-background-color, font-size, font-size-smaller, line-height-lower, line-height-lowest, fast-ease from '../global/global.css';
-@value listSpacing: unit;
+@value listSpacing: var(--ring-unit);
 
 .list {
   position: relative;
 
   z-index: 1;
 
-  border-radius: border-radius;
+  border-radius: var(--ring-border-radius);
 
   line-height: normal;
 }
@@ -23,15 +22,15 @@
   display: block;
 
   margin-top: listSpacing;
-  padding: 0 calc(unit * 2) 1px;
+  padding: 0 calc(var(--ring-unit) * 2) 1px;
 
   text-align: right;
 
-  color: secondary-color;
-  border-top: 1px solid line-color;
+  color: var(--ring-secondary-color);
+  border-top: 1px solid var(--ring-line-color);
 
-  font-size: font-size-smaller;
-  line-height: line-height-lower;
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lower);
 }
 
 .separator_first {
@@ -51,16 +50,16 @@
 
   outline: none;
 
-  font-size: font-size;
-  line-height: calc(unit * 3);
+  font-size: var(--ring-fast-ease);
+  line-height: calc(var(--ring-unit) * 3);
 }
 
 .item.item {
-  padding: 3px calc(unit * 2) 5px;
+  padding: 3px calc(var(--ring-unit) * 2) 5px;
 }
 
 .compact {
-  line-height: calc(unit * 2);
+  line-height: calc(var(--ring-unit) * 2);
 }
 
 .error {
@@ -71,14 +70,14 @@
   &:hover,
   &:focus,
   &:visited {
-    color: error-color;
+    color: var(--ring-error-color);
   }
 }
 
 .add {
-  padding: unit calc(2 * unit);
+  padding: var(--ring-unit) calc(2 * var(--ring-unit));
 
-  line-height: calc(4 * unit);
+  line-height: calc(4 * var(--ring-unit));
 }
 
 .top {
@@ -105,17 +104,17 @@
   overflow: hidden;
   flex-shrink: 100;
 
-  padding-left: unit;
+  padding-left: var(--ring-unit);
 
   text-align: right;
   white-space: nowrap;
   text-overflow: ellipsis;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   font-weight: 200;
-  line-height: line-height-lowest;
+  line-height: var(--ring-line-height-lowest);
 }
 
 .right {
@@ -131,10 +130,10 @@
 
   white-space: normal;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  font-size: font-size-smaller;
-  line-height: line-height-lowest;
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .padded {
@@ -148,13 +147,13 @@
   border-top: 1px solid #e5dcb8;
   background-color: #fff5cd;
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .action {
   cursor: pointer;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 /* override link */
@@ -163,7 +162,7 @@
 }
 
 .hover:not(.error) {
-  background-color: selected-background-color;
+  background-color: var(--ring-selected-background-color);
 }
 
 .icon {
@@ -171,7 +170,7 @@
 
   width: 20px;
   height: 20px;
-  margin-left: calc(unit * 2);
+  margin-left: calc(var(--ring-unit) * 2);
 
   background-repeat: no-repeat;
   background-position: center;
@@ -194,9 +193,9 @@
   float: left;
 
   width: 20px;
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .avatar {
@@ -215,7 +214,7 @@
   float: right;
 
   margin-right: 0;
-  margin-left: calc(unit * 2);
+  margin-left: calc(var(--ring-unit) * 2);
 }
 
 .checkbox {
@@ -223,7 +222,7 @@
 
   width: auto;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .title {
@@ -231,7 +230,7 @@
 
   margin-top: 10px;
   margin-bottom: 6px;
-  padding: listSpacing calc(unit * 2) 0;
+  padding: listSpacing calc(var(--ring-unit) * 2) 0;
 
   text-align: left;
 }
@@ -244,9 +243,9 @@
   letter-spacing: 1.5px;
   text-transform: uppercase;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .fade {
@@ -254,9 +253,9 @@
   bottom: 0;
 
   width: 100%;
-  height: calc(unit * 3);
+  height: calc(var(--ring-unit) * 3);
 
   pointer-events: none;
 
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), content-background-color);
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), var(--ring-content-background-color));
 }

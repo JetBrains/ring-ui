@@ -1,8 +1,6 @@
-@value unit, link-hover-color, overlay-z-index, border-radius, popup-border-color, icon-color, border-hover-color, main-color from '../global/global.css';
-
 .container {
   position: fixed;
-  z-index: overlay-z-index;
+  z-index: var(--ring-overlay-z-index);
   top: 0;
   right: 0;
   bottom: 0;
@@ -11,7 +9,7 @@
   display: flex;
   overflow: auto;
 
-  padding: calc(unit * 4) unit;
+  padding: calc(var(--ring-unit) * 4) var(--ring-unit);
 
   background-color: rgba(255, 255, 255, 0.4);
 }
@@ -19,8 +17,8 @@
 .content {
   position: relative;
 
-  width: calc(unit * 58);
-  min-height: calc(unit * 15);
+  width: calc(var(--ring-unit) * 58);
+  min-height: calc(var(--ring-unit) * 15);
   max-height: 100%;
   margin: auto;
 
@@ -29,8 +27,8 @@
 
   & .panel {
     margin-top: 0;
-    padding-right: calc(unit * 4);
-    padding-left: calc(unit * 4);
+    padding-right: calc(var(--ring-unit) * 4);
+    padding-left: calc(var(--ring-unit) * 4);
 
     border-top: none;
 
@@ -39,12 +37,12 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .panel button {
-    margin-right: unit;
+    margin-right: var(--ring-unit);
   }
 }
 
 .content.content {
-  box-shadow: 0 2px 16px color(popup-border-color a(0.15));
+  box-shadow: 0 2px 16px color(var(--ring-popup-border-color) a(0.15));
 }
 
 .clickableOverlay {
@@ -52,33 +50,33 @@
 }
 
 .clickableOverlay:hover .closeIcon {
-  color: border-hover-color;
+  color: var(--ring-border-hover-color);
 }
 
 .content:hover .closeIcon {
-  color: icon-color;
+  color: var(--ring-icon-color);
 }
 
 .closeButton:hover .closeIcon {
-  color: border-hover-color;
+  color: var(--ring-border-hover-color);
 }
 
 .clickableOverlay:active .closeIcon {
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .content:active .closeIcon {
-  color: icon-color;
+  color: var(--ring-icon-color);
 }
 
 .closeButton:active .closeIcon {
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .closeButton {
   position: absolute;
   top: 0;
-  right: calc(unit * -5);
+  right: calc(var(--ring-unit) * -5);
 }
 
 .bodyWithoutScroll {

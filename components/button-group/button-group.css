@@ -1,5 +1,3 @@
-@value unit, border-radius, font, font-size from "../global/global.css";
-
 .buttonGroup {
   composes: buttonGroup from "../button-toolbar/button-toolbar.css";
 
@@ -20,11 +18,11 @@
 }
 
 .caption {
-  composes: font;
+  composes: font from "../global/global.css";
 
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 
-  font-size: font-size;
+  font-size: var(--ring-font-size);
 
   &:empty {
     margin-right: 0;
@@ -37,13 +35,13 @@
 .buttonGroup > :first-child .button {
   margin: 0;
 
-  border-top-left-radius: border-radius;
-  border-bottom-left-radius: border-radius;
+  border-top-left-radius: var(--ring-border-radius);
+  border-bottom-left-radius: var(--ring-border-radius);
 }
 
 .buttonGroup > .button:last-child,
 .buttonGroup > button:last-child,
 .buttonGroup > :last-child .button {
-  border-top-right-radius: border-radius;
-  border-bottom-right-radius: border-radius;
+  border-top-right-radius: var(--ring-border-radius);
+  border-bottom-right-radius: var(--ring-border-radius);
 }

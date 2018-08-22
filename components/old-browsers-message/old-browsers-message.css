@@ -1,4 +1,3 @@
-@value unit, font-size-larger, text-color from '../global/global.css';
 
 :global(.ring-old-browsers-message) {
   display: block;
@@ -7,11 +6,11 @@
 
   text-align: center;
 
-  color: text-color;
+  color: var(--ring-text-color);
 
   font-family: -apple-system, BlinkMacSystemFont, Ubuntu, "Helvetica Neue", Arial, sans-serif;
-  font-size: font-size-larger;
-  line-height: calc(2.5 * unit);
+  font-size: var(--ring-font-size-larger);
+  line-height: calc(2.5 * var(--ring-unit));
 }
 
 :global(.ring-old-browsers-message_hidden) {
@@ -22,6 +21,6 @@
   cursor: pointer;
   user-select: none;
 
-  font-size: calc(3 * unit);
+  font-size: calc(3 * var(--ring-unit));
 }
 

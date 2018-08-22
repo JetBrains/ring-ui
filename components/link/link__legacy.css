@@ -1,5 +1,3 @@
-@value link-color, link-hover-color, fast-ease from "../global/global.css";
-
 /**
   These styles are deprecated and kept for backward compatibility with direct class usages
   like `<a class="ring-link">link</a>
@@ -8,11 +6,11 @@
 :global .ring-link {
   & {
     cursor: pointer;
-    transition: color fast-ease;
+    transition: color var(--ring-fast-ease);
 
     text-decoration: none;
 
-    color: link-color;
+    color: var(--ring-link-color);
   }
 
   &:hover {
@@ -20,7 +18,7 @@
 
     text-decoration: underline;
 
-    color: link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 }
 

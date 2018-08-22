@@ -1,4 +1,4 @@
-@value unit, extra-small-screen-media from '../global/global.css';
+@value extra-small-screen-media from '../global/global.css';
 
 .dialogContent {
   width: 600px;
@@ -15,7 +15,7 @@
 }
 
 .suggestion {
-  padding-bottom: unit;
+  padding-bottom: var(--ring-unit);
 
   white-space: nowrap;
 

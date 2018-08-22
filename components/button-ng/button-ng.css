@@ -1,5 +1,3 @@
-@value secondary-color from "../global/global.css";
-
 /* This fixes vertical align of icons, contained in button content */
 /* stylelint-disable-next-line selector-type-no-unknown */
 .ringIconVerticalAlignFix rg-icon {
@@ -13,7 +11,7 @@
 /* stylelint-disable-next-line selector-type-no-unknown */
 .ringIconDefaultColor rg-icon,
 .ringIconDefaultColor :global(.ring-icon) {
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .iconMarginFix.iconMarginFix {

@@ -1,26 +1,25 @@
-@value unit, font-lower, font-smaller-lower, message-background-color, dark-text-color, dark-active-color, popup-border-color, invisible-element-z-index, border-radius from  "../global/global.css";
-@value padding: calc(unit * 1.5);
+@value padding: calc(var(--ring-unit) * 1.5);
 
 .message {
   overflow: visible;
 
-  max-width: calc(unit * 40);
+  max-width: calc(var(--ring-unit) * 40);
 
-  padding: padding padding calc(unit * 2) calc(unit * 5);
+  padding: padding padding calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 5);
 
   text-align: left;
 
-  color: dark-text-color;
+  color: var(--ring-dark-text-color);
 
   border: none;
 
-  background-color: message-background-color;
+  background-color: var(--ring-message-background-color);
 
   box-shadow: none;
 
   &::before {
     position: absolute;
-    z-index: invisible-element-z-index;
+    z-index: var(--ring-invisible-element-z-index);
     top: 0;
     right: 0;
     bottom: 0;
@@ -28,9 +27,9 @@
 
     content: '';
 
-    border-radius: border-radius;
+    border-radius: var(--ring-border-radius);
 
-    box-shadow: 0 2px 8px 0 color(popup-border-color a(0.3));
+    box-shadow: 0 2px 8px 0 color(var(--ring-popup-border-color) a(0.3));
   }
 }
 
@@ -45,7 +44,7 @@
 }
 
 .title {
-  composes: font-lower;
+  composes: font-lower from "../global/global.css";
 
   margin: 0;
 
@@ -53,11 +52,11 @@
 }
 
 .description {
-  composes: font-smaller-lower;
+  composes: font-smaller-lower from "../global/global.css";
 
-  margin: calc(unit / 2) 0 0;
+  margin: calc(var(--ring-unit) / 2) 0 0;
 
-  color: dark-active-color;
+  color: var(--ring-dark-active-color);
 }
 
 .button {
@@ -69,7 +68,7 @@
 
   transform-origin: 50% 0;
 
-  border-width: unit unit 0;
+  border-width: var(--ring-unit) var(--ring-unit) 0;
   border-style: solid;
   border-color: #192c3b transparent transparent;
 }

@@ -1,10 +1,8 @@
-@value unit, overlay-z-index, border-radius, font, popup-border-color from  "../global/global.css";
-
 .popup {
-  composes: font;
+  composes: font from "../global/global.css";
 
   position: absolute;
-  z-index: overlay-z-index;
+  z-index: var(--ring-popup-border-color);
   top: -100vh;
   left: -100vw;
 
@@ -12,11 +10,11 @@
 
   box-sizing: border-box;
 
-  border: 1px solid popup-border-color;
-  border-radius: border-radius;
+  border: 1px solid var(--ring-popup-border-color);
+  border-radius: var(--ring-border-radius);
 
   background-color: #fff;
-  box-shadow: 0 2px 16px 0 color(popup-border-color a(0.15));
+  box-shadow: 0 2px 16px 0 color(var(--ring-popup-border-color) a(0.15));
 }
 
 .hidden {

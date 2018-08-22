@@ -1,5 +1,3 @@
-@value unit, font, font-size, font-size-smaller, line-height-lowest, text-color, line-color, main-color, secondary-color, selected-background-color, disabled-color, ellipsis, blue-caret, ease from "../global/global.css";
-
 .select {
   position: relative;
 
@@ -7,18 +5,18 @@
 
   white-space: nowrap;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .toolbar {
-  border-top: 1px solid line-color;
+  border-top: 1px solid var(--ring-line-color);
 }
 
 .button {
   width: 100%;
-  height: calc(4 * unit);
-  margin: unit 0;
-  padding: 0 calc(2 * unit);
+  height: calc(4 * var(--ring-unit));
+  margin: var(--ring-unit) 0;
+  padding: 0 calc(2 * var(--ring-unit));
 
   text-align: left;
 }
@@ -28,11 +26,11 @@
   top: -4px;
   right: 0;
 
-  transition: color ease;
+  transition: color var(--ring-ease);
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  line-height: calc(unit * 4);
+  line-height: calc(var(--ring-unit) * 4);
 
   & :global(.ring-loader_inline) {
     top: 2px;
@@ -43,20 +41,20 @@
   @nest .inputMode & {
     top: 12px;
 
-    font-size: font-size;
+    font-size: var(--ring-font-size);
   }
 
   @nest .buttonMode & {
     top: -6px;
-    right: unit;
+    right: var(--ring-unit);
   }
 }
 
 .selectedIcon {
   display: inline-block;
 
-  width: calc(2 * unit);
-  height: calc(2 * unit);
+  width: calc(2 * var(--ring-unit));
+  height: calc(2 * var(--ring-unit));
   margin: 0 4px;
 
   vertical-align: middle;
@@ -74,19 +72,19 @@
 }
 
 .clearIcon.clearIcon > span > span {
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .sizeS {
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 }
 
 .sizeM {
-  width: calc(unit * 30);
+  width: calc(var(--ring-unit) * 30);
 }
 
 .sizeL {
-  width: calc(unit * 50);
+  width: calc(var(--ring-unit) * 50);
 }
 
 .sizeFULL {
@@ -101,28 +99,28 @@
 }
 
 .value {
-  composes: ellipsis;
-  composes: font;
+  composes: ellipsis from "../global/global.css";
+  composes: font from "../global/global.css";
 
   display: inline-block;
 
   box-sizing: border-box;
   width: 100%;
-  height: calc(unit * 4 + 1px);
+  height: calc(var(--ring-unit) * 4 + 1px);
   padding: 0 0 3px;
 
   cursor: pointer;
-  transition: color ease, border-color ease;
+  transition: color var(--ring-ease), border-color var(--ring-ease);
   text-align: left;
   vertical-align: top;
 
   border: none;
-  border-bottom: 1px solid line-color;
+  border-bottom: 1px solid var(--ring-line-color);
   outline: none;
   background: transparent;
 
   &:focus {
-    border-color: main-color;
+    border-color: var(--ring-main-color);
   }
 
   &.open,
@@ -139,29 +137,29 @@
 }
 
 .buttonValue {
-  composes: ellipsis;
+  composes: ellipsis from "../global/global.css";
 
   width: 100%;
 
   text-align: left;
-  vertical-align: calc(0 - unit);
+  vertical-align: calc(0 - var(--ring-unit));
 }
 
 .buttonValueOpen {
-  border-color: selected-background-color;
-  background-color: selected-background-color;
+  border-color: var(--ring-selected-background-color);
+  background-color: var(--ring-selected-background-color);
 
   & .icons {
     transition: none;
 
-    color: main-color;
+    color: var(--ring-main-color);
   }
 }
 
 .label {
   position: relative;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .select:hover .value,
@@ -172,28 +170,28 @@
 .open + .icons {
   transition: none;
 
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .disabled {
   pointer-events: none;
 
-  color: disabled-color;
+  color: var(--ring-disabled-color);
 
   & .value {
-    color: disabled-color;
+    color: var(--ring-disabled-color);
     border-bottom-style: dashed;
   }
 }
 
 .selectedLabel {
   position: absolute;
-  top: calc(unit * -1.5);
+  top: calc(var(--ring-unit) * -1.5);
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  font-size: font-size-smaller;
-  line-height: line-height-lowest;
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .avatar {
@@ -203,6 +201,6 @@
 }
 
 .popup {
-  min-width: calc(unit * 30);
-  max-width: calc(unit * 40);
+  min-width: calc(var(--ring-unit) * 30);
+  max-width: calc(var(--ring-unit) * 40);
 }
