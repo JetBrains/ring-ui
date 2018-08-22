@@ -83,70 +83,6 @@
   --ring-footer-height: calc(var(--ring-unit) * 8);
 }
 
-/* TODO: REMOVE @value-like variables after migration to CSS properties */
-/* Element */
-@value line-color: #dfe5eb;
-@value dark-line-color: #263b4c;
-@value borders-color: #cfdbe5;
-@value icon-color: #b8d1e5;
-@value icon-disabled-color: #dbdbdb;
-@value border-hover-color: #80c6ff;
-@value icon-hover-color: border-hover-color;
-@value main-color: #008eff;
-@value main-hover-color: #007ee5;
-@value icon-error-color: #db5860;
-@value icon-warning-color: #eda200;
-@value icon-success-color: #59a869;
-@value popup-border-color: rgba(0, 42, 76, 0.1);
-
-/* Text */
-@value search-color: #669ecc;
-@value hint-color: #406380;
-@value link-color: #0f5b99;
-@value link-hover-color: #ff008c;
-@value error-color: #c22731;
-@value warning-color: #cc8b00;
-@value success-color: #1c8c32;
-@value text-color: #444;
-@value dark-text-color: #fff;
-@value heading-color: #222;
-@value secondary-color: #999;
-@value dark-secondary-color: #888;
-@value disabled-color: #bbb;
-@value dark-active-color: #ccc;
-
-/* Background */
-@value content-background-color: #fff;
-@value sidebar-background-color: #f7f9fa;
-@value selected-background-color: #e5f4ff;
-@value dark-selected-background-color: #001526;
-@value message-background-color: rgba(0, 21, 38, 0.9);
-@value navigation-background-color: #000;
-
-/* Deprecated, use referenced values instead */
-@value black-color: navigation-background-color;
-@value darker-gray-color: dark-secondary-color;
-@value dark-gray-color: secondary-color;
-@value gray-color: disabled-color;
-@value light-gray-color: dark-active-color;
-@value white-color: content-background-color; /* or dark-text-color for text on dark background */
-
-/* Metrics */
-@value unit: 8px;
-@value border-radius: 3px;
-@value border-radius-small: 2px;
-@value font-size-larger: 14px;
-@value font-size: 13px;
-@value font-size-smaller: 12px;
-@value line-height-taller: 21px;
-@value line-height: 20px;
-@value line-height-lower: 18px;
-@value line-height-lowest: 16px;
-@value ease: 0.3s ease-out;
-@value fast-ease: 0.15s ease-out;
-@value font-family: system-ui, Arial, sans-serif;
-@value font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
-
 .clearfix {
   &::after {
     display: block;
@@ -157,52 +93,52 @@
 }
 
 .font {
-  font-family: font-family;
-  font-size: font-size;
-  line-height: line-height;
+  font-family: var(--ring-font-family);
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 }
 
 .font-lower {
   composes: font;
 
-  line-height: line-height-lower;
+  line-height: var(--ring-line-height-lower);
 }
 
 .font-smaller {
   composes: font-lower;
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .font-smaller-lower {
   composes: font-smaller;
 
-  line-height: line-height-lowest;
+  line-height: var(--ring-line-height-lowest);
 }
 
 .font-larger-lower {
   composes: font-lower;
 
-  font-size: font-size-larger;
+  font-size: var(--ring-font-size-larger);
 }
 
 .font-larger {
   composes: font-larger-lower;
 
-  line-height: line-height-taller;
+  line-height: var(--ring-line-height-taller);
 }
 
 /* To be used at large sizes */
 /* As close as possible to Helvetica Neue Thin (to replace Gotham) */
 .thin-font {
   font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: font-size;
+  font-size: var(--ring-font-size);
   font-weight: 100; /* Renders Helvetica Neue UltraLight on OS X  */
 }
 
 .monospace-font {
-  font-family: font-family-monospace;
-  font-size: font-size-smaller;
+  font-family: var(--ring-font-family-monospace);
+  font-size: var(--ring-font-size-smaller);
 }
 
 .input-disabled {
@@ -216,24 +152,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-/* Common z-index-values */
-
-/* Invisible element is an absolutely positioned element which should be below */
-/* all other elements on the page */
-@value invisible-element-z-index: -1;
-
-/* z-index for position: fixed elements */
-@value fixed-z-index: 1;
-
-/* Elements that should overlay all other elements on the page */
-@value overlay-z-index: 5;
-
-/* Alerts should de displayed above overlays */
-@value alert-z-index: 6;
-
-/* Note: footer also has top margin which isn't taken into account here */
-@value footer-height: calc(unit*8);
 
 /* Media breakpoints (minimal values) */
 @value breakpoint-small: 640px;

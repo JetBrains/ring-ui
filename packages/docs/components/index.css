@@ -1,4 +1,4 @@
-@value unit, font, font-smaller, font-larger, font-size, line-height, line-height-lowest, link-color, text-color, dark-text-color, line-color, disabled-color, secondary-color, hint-color, selected-background-color, sidebar-background-color, fixed-z-index, overlay-z-index, ease, fast-ease, breakpoint-middle, border-radius from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -8,7 +8,7 @@ body {
 }
 
 .app {
-  composes: font;
+  composes: font from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ body {
   min-width: breakpoint-middle;
   min-height: 100vh;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .headerItem {
@@ -29,11 +29,11 @@ body {
   display: flex;
   flex-direction: column;
 
-  padding: calc(unit * 2) 0 calc(unit * 5);
+  padding: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) * 5);
 
-  background-color: sidebar-background-color;
+  background-color: var(--ring-sidebar-background-color);
 
-  box-shadow: 1px 0 line-color;
+  box-shadow: 1px 0 var(--ring-line-color);
 }
 
 .sidebar > * {
@@ -41,7 +41,7 @@ body {
 }
 
 .sidebarFixed {
-  z-index: overlay-z-index;
+  z-index: var(--ring-overlay-z-index);
 }
 
 .main {
@@ -59,28 +59,28 @@ body {
   min-width: 0;
 
   margin: 0;
-  padding: 0 calc(unit * 4);
+  padding: 0 calc(var(--ring-unit) * 4);
 }
 
 .header {
   position: relative;
-  z-index: fixed-z-index;
+  z-index: var(--ring-fixed-z-index);
 
   overflow: visible;
 }
 
 .logo {
-  margin-left: calc(unit * -4 + 1px);
+  margin-left: calc(var(--ring-unit) * -4 + 1px);
 }
 
 .item.item {
   display: block;
 
-  padding: 3px calc(unit * 2) 5px calc(unit * 4);
+  padding: 3px calc(var(--ring-unit) * 2) 5px calc(var(--ring-unit) * 4);
 
   text-align: left;
 
-  line-height: calc(unit * 2);
+  line-height: calc(var(--ring-unit) * 2);
 }
 
 .item p {
@@ -88,14 +88,14 @@ body {
 }
 
 .category {
-  composes: font-smaller;
+  composes: font-smaller from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
   composes: item;
 
   position: relative;
 
-  margin: unit 0 2px;
+  margin: var(--ring-unit) 0 2px;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .chevron {
@@ -105,7 +105,7 @@ body {
 }
 
 .chevron svg {
-  transition: transform fast-ease;
+  transition: transform var(--ring-fast-ease);
   transform-origin: 45% 50%;
 }
 
@@ -116,44 +116,44 @@ body {
 .items {
   overflow: hidden;
 
-  transition: height fast-ease;
+  transition: height var(--ring-fast-ease);
 }
 
 .active {
-  color: text-color;
+  color: var(--ring-text-color);
 
-  background-color: selected-background-color;
+  background-color: var(--ring-selected-background-color);
 
   font-weight: bold;
 }
 
 a.legacy {
-  color: disabled-color;
+  color: var(--ring-disabled-color);
 }
 
 .content {
   min-width: 200px;
-  padding: calc(unit * 3) 0;
+  padding: calc(var(--ring-unit) * 3) 0;
 }
 
 .mainText {
-  composes: font-larger;
+  composes: font-larger from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 }
 
 .example {
   position: relative;
 
-  margin-top: calc(unit * 4);
+  margin-top: calc(var(--ring-unit) * 4);
 }
 
 .exampleTitle {
-  composes: font-larger;
+  composes: font-larger from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 }
 
 .exampleAnchor {
   position: absolute;
   top: 0;
-  left: calc(unit * -3.5);
+  left: calc(var(--ring-unit) * -3.5);
 }
 
 .iframe {
@@ -163,21 +163,21 @@ a.legacy {
 .frame {
   box-sizing: border-box;
   width: 100%;
-  height: calc(unit * 10);
-  min-height: calc(unit * 5);
+  height: calc(var(--ring-unit) * 10);
+  min-height: calc(var(--ring-unit) * 5);
   max-height: 1000px;
 
-  margin: calc(unit * 2) 0;
+  margin: calc(var(--ring-unit) * 2) 0;
 
-  transition: box-shadow fast-ease;
+  transition: box-shadow var(--ring-fast-ease);
 
   border: none;
-  box-shadow: 2px 0 line-color inset;
+  box-shadow: 2px 0 var(--ring-line-color) inset;
 
   &:hover {
     transition: none;
 
-    box-shadow: 0 0 0 2px line-color inset;
+    box-shadow: 0 0 0 2px var(--ring-line-color) inset;
   }
 }
 
@@ -186,13 +186,13 @@ a.legacy {
 }
 
 .exampleLink {
-  composes: font-smaller;
+  composes: font-smaller from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 
   position: absolute;
   top: 3px;
   right: 0;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .sideFooter {
@@ -200,27 +200,27 @@ a.legacy {
 
   margin-top: auto;
 
-  line-height: line-height-lowest;
+  line-height: var(--ring-line-height-lowest);
 }
 
 .sideFooter.sideFooter {
-  padding-top: calc(unit * 6);
+  padding-top: calc(var(--ring-unit) * 6);
 }
 
 .copyright {
-  margin-bottom: unit;
+  margin-bottom: var(--ring-unit);
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
-  line-height: line-height-lowest;
+  line-height: var(--ring-line-height-lowest);
 }
 
 .search {
   position: relative;
 
-  margin-right: calc(unit * 2);
+  margin-right: calc(var(--ring-unit) * 2);
 
-  color: hint-color;
+  color: var(--ring-hint-color);
 }
 
 .searchIcon {
@@ -228,24 +228,24 @@ a.legacy {
 
   z-index: 1;
   top: 0;
-  left: unit;
+  left: var(--ring-unit);
 }
 
 .searchInput {
   display: inline-block;
 
-  border-radius: border-radius;
+  border-radius: var(--ring-border-radius);
 
   background-color: #001d32;
 }
 
 .searchInput.searchInput {
-  padding-left: calc(unit * 4);
+  padding-left: calc(var(--ring-unit) * 4);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
 .searchInput.searchInput.searchInput ::placeholder {
-  text-shadow: 0 0 0 hint-color;
+  text-shadow: 0 0 0 var(--ring-hint-color);
 }
 
 .codeLink {
