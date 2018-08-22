@@ -1,5 +1,3 @@
-@value unit from  "<%= ringUIRoot %>/global/global.css";
-
-.<%= camelCaseName %> {
+.<%= camelCaseName % > {
   /* TODO: add styles */
 }

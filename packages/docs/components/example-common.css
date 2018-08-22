@@ -1,18 +1,16 @@
-@value unit, font, font-size, text-color, line-height from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
-
 body {
-  margin: unit calc(unit * 4) calc(unit * 2);
+  margin: var(--ring-unit) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 2);
   padding: 0;
 }
 
 .body {
-  composes: font;
+  composes: font from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 
-  color: text-color;
+  color: var(--ring-text-color);
 
-  font-size: font-size;
+  font-size: var(--ring-font-size);
 
-  line-height: line-height;
+  line-height: var(--ring-line-height);
 }
 
 .blockAnimations *,
