@@ -38,7 +38,7 @@
 
 .clear {
   cursor: pointer;
-  transition: opacity var(--ring-unit);
+  transition: opacity var(--ring-ease);
 
   opacity: 0.3;
 }
@@ -185,7 +185,7 @@
   flex-basis: cellSize;
 
   cursor: pointer;
-  transition: background-color var(--ring-unit), color var(--ring-unit);
+  transition: background-color var(--ring-ease), color var(--ring-ease);
   text-align: center;
 
   &::before,
@@ -243,7 +243,7 @@
     height: 100%;
 
     content: '';
-    transition: background-color var(--ring-unit);
+    transition: background-color var(--ring-ease);
   }
 
   &::before {
@@ -286,7 +286,7 @@
     height: calc(var(--ring-unit) * 8);
 
     content: '';
-    transition: background-color var(--ring-unit);
+    transition: background-color var(--ring-ease);
   }
 
   &::before {
@@ -318,7 +318,7 @@
       height: 100%;
 
       content: '';
-      transition: background-color var(--ring-unit);
+      transition: background-color var(--ring-ease);
     }
   }
 }
