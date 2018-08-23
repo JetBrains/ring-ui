@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import {encodeURL, isDataURI, parseQueryString} from '../global/url';
 import {getPixelRatio} from '../global/dom';
-import global from '../global/global.css';
 
 import styles from './avatar.css';
 
@@ -109,9 +108,9 @@ export default class Avatar extends PureComponent {
   render() {
     const {size, url, dpr, style, round, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const borderRadius = size <= Size.Size18 ? 'border-radius-small' : 'border-radius';
+    const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
     const styleObj = {
-      borderRadius: round ? '50%' : global[borderRadius],
+      borderRadius: round ? '50%' : borderRadius,
       height: sizeString,
       width: sizeString,
       ...style

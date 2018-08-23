@@ -1,6 +1,5 @@
-@value unit, font-size-smaller, main-color, line-color, content-background-color, dark-text-color, selected-background-color, secondary-color, error-color, link-hover-color, text-color, border-radius, ease, fixed-z-index, invisible-element-z-index, line-height-lower, font-size-smaller from  "../global/global.css";
+@value unit from "../global/global.css";
 @value hover-color: #cef;
-@value filter, filterWrapper, filterIcon from "../select/select-popup.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
@@ -19,28 +18,28 @@
 .hoverable:hover {
   transition: none;
 
-  color: link-hover-color;
+  color: var(--ring-link-hover-color);
 }
 
 .datePicker.datePicker {
-  padding-right: unit;
+  padding-right: var(--ring-unit);
 }
 
 .displayDate {
   display: inline-block;
 
-  min-width: calc(unit * 11);
+  min-width: calc(var(--ring-unit) * 11);
 
   text-align: left;
 }
 
 .displayDate.displayRange {
-  min-width: calc(unit * 22);
+  min-width: calc(var(--ring-unit) * 22);
 }
 
 .clear {
   cursor: pointer;
-  transition: opacity ease;
+  transition: opacity var(--ring-ease);
 
   opacity: 0.3;
 }
@@ -65,27 +64,29 @@
 }
 
 .filterWrapper {
-  composes: filterWrapper;
+  composes: filterWrapper from "../select/select-popup.css";
 
   display: flex;
 }
 
 .filter {
-  composes: filter;
+  composes: filter from "../select/select-popup.css";
 }
 
 .filterIcon {
-  composes: filterIcon;
+  composes: filterIcon from "../select/select-popup.css";
 }
 
 .fromInput {
   position: relative;
 
-  flex: 0 0 calc(unit * 13);
+  flex-basis: calc(var(--ring-unit) * 13);
+  flex-grow: 0;
+  flex-shrink: 0;
 
   &::after {
     position: absolute;
-    right: unit;
+    right: var(--ring-unit);
 
     content: '—';
 
@@ -94,16 +95,18 @@
 }
 
 .toInput {
-  flex: 1 0 calc(unit * 13);
+  flex-basis: calc(var(--ring-unit) * 13);
+  flex-grow: 1;
+  flex-shrink: 0;
 
-  width: calc(unit * 13);
+  width: calc(var(--ring-unit) * 13);
 }
 
 .weekdays {
-  height: calc(unit * 4);
-  padding: 5px calc(unit * 2) 0;
+  height: calc(var(--ring-unit) * 4);
+  padding: 5px calc(var(--ring-unit) * 2) 0;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .weekday {
@@ -116,7 +119,7 @@
 }
 
 .weekend {
-  color: error-color;
+  color: var(--ring-error-color);
 }
 
 .calendar {
@@ -127,7 +130,7 @@
   width: calWidth;
   height: calHeight;
 
-  box-shadow: 0 -1px line-color;
+  box-shadow: 0 -1px var(--ring-line-color);
 }
 
 .months {
@@ -147,8 +150,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  width: calc(unit * 21);
-  margin: calc(unit * 2);
+  width: calc(var(--ring-unit) * 21);
+  margin: calc(var(--ring-unit) * 2);
 }
 
 .month > * {
@@ -162,16 +165,16 @@
 .monthTitle {
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
 
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 
-  padding-left: calc(unit * 0.5);
+  padding-left: calc(var(--ring-unit) * 0.5);
 
   text-align: left;
 
   font-weight: bold;
 
   @supports (flex-basis: 1px) {
-    flex-basis: calc(unit * 12);
+    flex-basis: calc(var(--ring-unit) * 12);
 
     width: auto;
   }
@@ -183,7 +186,7 @@
   flex-basis: cellSize;
 
   cursor: pointer;
-  transition: background-color ease, color ease;
+  transition: background-color var(--ring-ease), color var(--ring-ease);
   text-align: center;
 
   &::before,
@@ -195,7 +198,7 @@
 .between {
   transition: none;
 
-  background-color: selected-background-color;
+  background-color: var(--ring-selected-background-color);
 }
 
 .activeBetween {
@@ -205,29 +208,29 @@
 }
 
 .current {
-  color: dark-text-color;
-  border-radius: border-radius;
-  background-color: main-color;
+  color: var(--ring-dark-text-color);
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-main-color);
 }
 
 .active {
   transition: none;
 
-  color: link-hover-color;
-  border-radius: border-radius;
+  color: var(--ring-link-hover-color);
+  border-radius: var(--ring-border-radius);
   background-color: hover-color;
 }
 
 .from {
-  border-radius: border-radius 0 0 border-radius;
+  border-radius: var(--ring-border-radius) 0 0 var(--ring-border-radius);
 }
 
 .to {
-  border-radius: 0 border-radius border-radius 0;
+  border-radius: 0 var(--ring-border-radius) var(--ring-border-radius) 0;
 }
 
 .from.to {
-  border-radius: border-radius;
+  border-radius: var(--ring-border-radius);
 }
 
 .Monday {
@@ -237,11 +240,11 @@
   &::after {
     position: absolute;
 
-    width: calc(unit * 2);
+    width: calc(var(--ring-unit) * 2);
     height: 100%;
 
     content: '';
-    transition: background-color ease;
+    transition: background-color var(--ring-ease);
   }
 
   &::before {
@@ -258,7 +261,7 @@
     &::after {
       transition: none;
 
-      background-color: selected-background-color;
+      background-color: var(--ring-selected-background-color);
     }
   }
 
@@ -278,13 +281,13 @@
   &::before,
   &::after {
     position: absolute;
-    z-index: invisible-element-z-index;
+    z-index: var(--ring-invisible-element-z-index);
 
-    width: calc(unit * 23);
-    height: calc(unit * 8);
+    width: calc(var(--ring-unit) * 23);
+    height: calc(var(--ring-unit) * 8);
 
     content: '';
-    transition: background-color ease;
+    transition: background-color var(--ring-ease);
   }
 
   &::before {
@@ -299,7 +302,7 @@
 
   &.Monday {
     &::after {
-      height: calc(unit * 5);
+      height: calc(var(--ring-unit) * 5);
     }
   }
 
@@ -308,15 +311,15 @@
 
     &::before {
       position: absolute;
-      z-index: invisible-element-z-index;
-      top: calc(unit * -8);
+      z-index: var(--ring-invisible-element-z-index);
+      top: calc(var(--ring-unit) * -8);
       left: 600%;
 
-      width: calc(unit * 2);
+      width: calc(var(--ring-unit) * 2);
       height: 100%;
 
       content: '';
-      transition: background-color ease;
+      transition: background-color var(--ring-ease);
     }
   }
 }
@@ -326,7 +329,7 @@
 .Sunday {
   &::before,
   &::after {
-    height: calc(unit * 5);
+    height: calc(var(--ring-unit) * 5);
   }
 }
 
@@ -336,7 +339,7 @@
   & + .Tuesday::before {
     transition: none;
 
-    background-color: selected-background-color;
+    background-color: var(--ring-selected-background-color);
   }
 }
 
@@ -365,11 +368,11 @@
 .today::before {
   position: absolute;
   top: 0;
-  left: calc(unit * 0.5);
+  left: calc(var(--ring-unit) * 0.5);
 
   content: '•';
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .day > .today::before {
@@ -392,10 +395,10 @@
   right: 0;
   bottom: 0;
 
-  width: calc(unit * 6);
+  width: calc(var(--ring-unit) * 6);
 
-  background-color: content-background-color;
-  box-shadow: -1px 0 line-color;
+  background-color: var(--ring-content-background-color);
+  box-shadow: -1px 0 var(--ring-line-color);
 }
 
 .monthName {
@@ -404,23 +407,23 @@
   position: relative;
 
   height: cellSize;
-  padding-left: calc(unit * 1.5);
+  padding-left: calc(var(--ring-unit) * 1.5);
 
   line-height: cellSize;
 }
 
 .monthSlider {
   position: absolute;
-  z-index: fixed-z-index;
+  z-index: var(--ring-fixed-z-index);
   right: 0;
   left: -1px;
 
-  height: calc(unit * 6);
+  height: calc(var(--ring-unit) * 6);
 
   cursor: grab;
 
   opacity: 0.1;
-  background-color: main-color;
+  background-color: var(--ring-main-color);
 }
 
 .monthSlider:hover {
@@ -439,7 +442,7 @@
 
   width: 2px;
 
-  background-color: main-color;
+  background-color: var(--ring-main-color);
 }
 
 .years {
@@ -449,10 +452,10 @@
 
   width: yearWidth;
 
-  background-color: content-background-color;
-  box-shadow: -1px 0 line-color;
+  background-color: var(--ring-content-background-color);
+  box-shadow: -1px 0 var(--ring-line-color);
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
 }
 
 .year {
@@ -464,7 +467,7 @@
 
   text-align: center;
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 
   line-height: yearHeight;
 }
@@ -473,9 +476,9 @@
   cursor: auto;
   transition: none;
 
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .currentYear:hover {
-  color: text-color;
+  color: var(--ring-text-color);
 }

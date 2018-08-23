@@ -1,21 +1,19 @@
-@value unit, font, font-size from "@jetbrains/ring-ui/components/global/global.css";
-
 html,
 .<%= camelCaseName %> {
   height: 100%;
 }
 
 .<%= camelCaseName %> {
-  composes: font;
+  composes: font from "@jetbrains/ring-ui/components/global/global.css";
 
   margin: 0;
   padding: 0;
 
   background: #f0f0f0;
 
-  font-size: font-size;
+  font-size: var(--ring-font-size);
 }
 
 .content {
-  margin: calc(unit * 4);
+  margin: calc(var(--ring-unit) * 4);
 }

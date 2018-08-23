@@ -1,33 +1,31 @@
-@value unit, font, font-size, error-color from '../global/global.css';
-
 .dialog.dialog {
   width: auto;
   max-width: 400px;
 }
 
 .content {
-  composes: font;
+  composes: font from "../global/global.css";
 
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  margin: calc(unit * 4);
+  margin: calc(var(--ring-unit) * 4);
 }
 
 .button {
-  width: calc(unit * 25);
-  margin-top: unit;
+  width: calc(var(--ring-unit) * 25);
+  margin-top: var(--ring-unit);
 }
 
 .firstButton {
   composes: button;
 
-  margin-top: calc(unit * 4);
+  margin-top: calc(var(--ring-unit) * 4);
 }
 
 .title {
-  margin-bottom: unit;
+  margin-bottom: var(--ring-unit);
 
   text-align: center;
 
@@ -37,8 +35,8 @@
 }
 
 .logo {
-  width: calc(unit * 12);
-  height: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
+  height: calc(var(--ring-unit) * 12);
   margin-bottom: 12px;
   object-fit: contain;
 }
@@ -46,5 +44,5 @@
 .error {
   text-align: center;
 
-  color: error-color;
+  color: var(--ring-error-color);
 }

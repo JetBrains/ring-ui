@@ -1,4 +1,4 @@
-@value unit, border-radius, error-color, dark-text-color, dark-secondary-color, link-hover-color, message-background-color, font-size, invisible-element-z-index from '../global/global.css';
+@value unit from "../global/global.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -6,9 +6,9 @@
   position: relative;
 
   box-sizing: border-box;
-  min-height: calc(unit * 5);
-  margin: unit auto;
-  padding: 0 calc(unit * 2);
+  min-height: calc(var(--ring-unit) * 5);
+  margin: var(--ring-unit) auto;
+  padding: 0 calc(var(--ring-unit) * 2);
 
   transition:
     transform animation-duration animation-easing,
@@ -17,27 +17,27 @@
   white-space: nowrap;
   pointer-events: auto;
 
-  border-radius: border-radius;
-  background-color: message-background-color;
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-message-background-color);
 
-  font-size: font-size;
+  font-size: var(--ring-font-size);
   line-height: calc(unit * 5);
 }
 
 .alertInline {
-  margin: unit;
+  margin: var(--ring-unit);
 }
 
 .error {
   word-wrap: break-word;
 
-  color: error-color;
+  color: var(--ring-error-color);
 }
 
 .icon {
   display: inline-block;
 
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 
   vertical-align: top;
 }
@@ -45,20 +45,20 @@
 .caption {
   display: inline-block;
 
-  max-width: calc(100% - calc(unit * 5));
+  max-width: calc(100% - calc(var(--ring-unit) * 5));
 
-  margin: 12px calc(unit * 5) 12px 0;
+  margin: 12px calc(var(--ring-unit) * 5) 12px 0;
 
   vertical-align: middle;
   white-space: normal;
 
-  color: dark-text-color;
+  color: var(--ring-dark-text-color);
 
   line-height: 20px;
 }
 
 .badge {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   vertical-align: baseline;
 }
@@ -66,7 +66,7 @@
 .loader {
   top: 2px;
 
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .close {
@@ -74,12 +74,12 @@
   top: 2px;
   right: 0;
 
-  margin: calc(unit / 2);
-  padding: unit;
+  margin: calc(var(--ring-unit) / 2);
+  padding: var(--ring-unit);
 
   cursor: pointer;
 
-  color: dark-secondary-color;
+  color: var(--ring-dark-secondary-color);
   border: none;
   background: transparent;
 
@@ -88,7 +88,7 @@
 
   &:hover,
   &:focus {
-    color: link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 }
 
@@ -135,7 +135,7 @@
 }
 
 .animationClosing {
-  z-index: invisible-element-z-index;
+  z-index: var(--ring-invisible-element-z-index);
 
   opacity: 0;
 }

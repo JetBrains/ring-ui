@@ -1,5 +1,3 @@
-@value unit, font-family, font-size, line-height from "../global/global.css";
-
 @keyframes rotation-keyframes {
   100% {
     transform: rotate(360deg);
@@ -9,7 +7,7 @@
 .canvas {
   display: block;
 
-  margin: calc(unit * 2) auto;
+  margin: calc(var(--ring-unit) * 2) auto;
 
   animation: rotation-keyframes 36s linear infinite;
   pointer-events: none;
@@ -18,7 +16,7 @@
 .text {
   text-align: center;
 
-  font-family: font-family;
-  font-size: font-size;
-  line-height: line-height;
+  font-family: var(--ring-font-family);
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
 }

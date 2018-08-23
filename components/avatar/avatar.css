@@ -1,8 +1,8 @@
-@value borders-color from  "../global/global.css";
-
 .avatar {
   object-fit: contain;
   object-position: center;
+
+  border-radius: var(--ring-border-radius); /* This is a "graceful degradation" fallback, while the real value is controlled by JS */
 }
 
 .empty {
@@ -10,5 +10,5 @@
 
   box-sizing: border-box;
 
-  border: 1px solid borders-color;
+  border: 1px solid var(--ring-borders-color);
 }
