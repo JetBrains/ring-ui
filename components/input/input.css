@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value text-shadow: 0 0 0;
 
 .container {
@@ -95,7 +96,7 @@
 
 /* override Button */
 .clear.clear {
-  line-height: calc(var(--ring-unit) * 4);
+  line-height: calc(unit * 4);
 }
 
 textarea.input {

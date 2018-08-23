@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 .title {
   font-weight: 600;
 }
@@ -9,5 +11,5 @@
 
   color: var(--ring-error-color);
 
-  line-height: calc(var(--ring-unit) * 2);
+  line-height: calc(unit * 2);
 }

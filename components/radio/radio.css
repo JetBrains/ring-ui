@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value radio-size: calc(2 * var(--ring-unit));
 
 .radio {
@@ -110,5 +111,5 @@
 .label {
   margin-left: var(--ring-unit);
 
-  line-height: calc(var(--ring-unit) * 4);
+  line-height: calc(unit * 4);
 }

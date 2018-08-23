@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 .select {
   position: relative;
 
@@ -30,7 +32,7 @@
 
   color: var(--ring-secondary-color);
 
-  line-height: calc(var(--ring-unit) * 4);
+  line-height: calc(unit * 4);
 
   & :global(.ring-loader_inline) {
     top: 2px;

@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value line-shadow: inset 0 -1px 0 0;
 @value selected-line-shadow: inset 0 -3px 0 0;
 
@@ -35,7 +36,7 @@
   border: none;
   background: none;
 
-  line-height: calc(var(--ring-unit) * 4);
+  line-height: calc(unit * 4);
 
   &:hover:not(.selected) {
     color: var(--ring-link-hover-color);

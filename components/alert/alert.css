@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -20,7 +21,7 @@
   background-color: var(--ring-message-background-color);
 
   font-size: var(--ring-font-size);
-  line-height: calc(var(--ring-unit) * 5);
+  line-height: calc(unit * 5);
 }
 
 .alertInline {

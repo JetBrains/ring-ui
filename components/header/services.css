@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 .services {
   max-width: calc(calc(var(--ring-unit) * 50) + 2px);
   padding: calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 3);
@@ -79,7 +81,7 @@
 
   text-decoration: none;
 
-  line-height: calc(var(--ring-unit) * 2);
+  line-height: calc(unit * 2);
 
   &,
   &:visited {

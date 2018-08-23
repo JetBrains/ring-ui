@@ -166,3 +166,11 @@
 @value small-screen-media: (min-width: breakpoint-small) and (max-width: calc(breakpoint-middle - 1px));
 @value middle-screen-media: (min-width: breakpoint-middle) and (max-width: calc(breakpoint-large - 1px));
 @value large-screen-media: (min-width: breakpoint-large);
+
+/*
+========= WARNING: DEPRECATED! ===========
+This value shouldn't, use CSS-property "--ring-unit" where possible.
+The reason to use not CSS-property for unit is that FF 47 and older doesn't support calc for "line-height"
+https://bugzilla.mozilla.org/show_bug.cgi?id=594933
+*/
+@value unit: 8px;

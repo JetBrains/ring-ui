@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 .footer {
   composes: font from "../global/global.css";
 
@@ -73,7 +75,7 @@
 
   list-style: none;
 
-  line-height: calc(var(--ring-unit) * 2);
+  line-height: calc(unit * 2);
 }
 
 .lineCenter {
