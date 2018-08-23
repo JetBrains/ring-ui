@@ -56,7 +56,7 @@
 }
 
 .item.item {
-  padding: 3px calc(unit * 2) 5px;
+  padding: 3px calc(var(--ring-unit) * 2) 5px;
 }
 
 .compact {

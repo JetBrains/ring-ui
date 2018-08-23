@@ -22,6 +22,6 @@
   cursor: pointer;
   user-select: none;
 
-  font-size: calc(3 * unit);
+  font-size: calc(3 * var(--ring-unit));
 }
 
