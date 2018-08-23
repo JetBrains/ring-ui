@@ -50,7 +50,7 @@
 
   outline: none;
 
-  font-size: var(--ring-fast-ease);
+  font-size: var(--ring-font-size);
   line-height: calc(var(--ring-unit) * 3);
 }
 
