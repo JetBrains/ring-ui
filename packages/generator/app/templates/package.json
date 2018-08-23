@@ -44,7 +44,7 @@
     "chai-as-promised": "7.1.1",
     "chai-dom": "1.8.0",
     "chai-enzyme": "1.0.0-beta.0",
-    "electron": "2.0.7",
+    "electron": "2.0.8",
     "enzyme": "3.4.4",
     "enzyme-adapter-react-16": "1.2.0",
     "eslint": "5.4.0",
