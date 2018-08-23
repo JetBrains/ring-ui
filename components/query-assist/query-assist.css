@@ -11,7 +11,7 @@
   & .input {
     height: calc(var(--ring-unit) * 3 - 2px);
 
-    box-shadow: 0 0 0 1px var(--ring-hint-color);
+    box-shadow: 0 0 0 1px var(--ring-borders-color);
 
     &:active,
     &:focus {
