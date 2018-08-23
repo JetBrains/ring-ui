@@ -1,5 +1,3 @@
-@value unit, disabled-color, borders-color, blue-color, main-color, line-color, input-disabled from '../global/global.css';
-
 .tagsInput {
   overflow: hidden;
 
@@ -13,7 +11,7 @@
   padding-top: 0;
   padding-bottom: 1px;
 
-  border: 1px solid borders-color;
+  border: 1px solid var(--ring-borders-color);
   background-color: #fff;
 
   & .tagsList {
@@ -28,7 +26,7 @@
 .tagsInputDisabled {
   pointer-events: none;
 
-  color: disabled-color;
+  color: var(--ring-disabled-color);
 
   & .underline {
     border-bottom-style: dashed;
@@ -36,7 +34,7 @@
 }
 
 .tagsInputFocused {
-  border-color: main-color;
+  border-color: var(--ring-main-color);
 }
 
 .tagsList {
@@ -62,8 +60,8 @@
 .underline {
   height: 1px;
 
-  border-color: line-color;
-  border-bottom: line-color 1px solid;
+  border-color: var(--ring-line-color);
+  border-bottom: var(--ring-line-color) 1px solid;
 }
 
 .focusUnderline {
@@ -74,7 +72,7 @@
 
   transition: width 0.15s ease-out;
 
-  background: main-color;
+  background: var(--ring-main-color);
 
   @nest .tagsInputFocused & {
     width: 100%;

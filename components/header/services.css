@@ -1,8 +1,8 @@
-@value unit, secondary-color from  "../global/global.css";
+@value unit from "../global/global.css";
 
 .services {
-  max-width: calc(calc(unit * 50) + 2px);
-  padding: calc(unit * 4) calc(unit * 4) calc(unit * 3);
+  max-width: calc(calc(var(--ring-unit) * 50) + 2px);
+  padding: calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 3);
 
   background-color: #000;
 
@@ -18,8 +18,8 @@
   overflow-x: hidden;
 
   box-sizing: border-box;
-  width: calc(unit * 14);
-  height: calc(unit * 14);
+  width: calc(var(--ring-unit) * 14);
+  height: calc(var(--ring-unit) * 14);
 
   text-align: center;
   text-overflow: ellipsis;
@@ -29,7 +29,7 @@
   line-height: initial;
 
   &::after {
-    height: calc(unit * 14);
+    height: calc(var(--ring-unit) * 14);
 
     vertical-align: middle;
   }
@@ -49,9 +49,9 @@
 .itemLogo {
   display: inline-block;
 
-  width: calc(unit * 6);
-  height: calc(unit * 6);
-  margin: calc(unit * 2) 0 calc(unit + 1px);
+  width: calc(var(--ring-unit) * 6);
+  height: calc(var(--ring-unit) * 6);
+  margin: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) + 1px);
 
   background-repeat: no-repeat;
   background-size: contain;
@@ -68,7 +68,7 @@
 
 .line {
   height: 1px;
-  margin: calc(unit * 4) 0 calc(unit * 2);
+  margin: calc(var(--ring-unit) * 4) 0 calc(var(--ring-unit) * 2);
 
   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
@@ -77,7 +77,7 @@
   display: inline-block;
 
   width: 100%;
-  margin-bottom: calc(unit * 2);
+  margin-bottom: calc(var(--ring-unit) * 2);
 
   text-decoration: none;
 
@@ -85,11 +85,11 @@
 
   &,
   &:visited {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   &:last-child {
-    margin-bottom: calc(unit * -3);
+    margin-bottom: calc(var(--ring-unit) * -3);
   }
 }
 
@@ -98,6 +98,6 @@
   composes: active;
 
   &:hover {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 }

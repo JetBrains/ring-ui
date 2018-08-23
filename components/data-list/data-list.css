@@ -1,7 +1,4 @@
-@value global: '../global/global.css';
-@value table: '../table/table.css';
-@value unit, main-color, selected-background-color from global;
-@value height, compensate, hover-color from table;
+@value height, compensate, hover-color from '../table/table.css';
 
 .dataListWrapper {
   position: relative;
@@ -26,7 +23,7 @@
 
   box-sizing: content-box;
   height: height;
-  padding: 0 calc(unit * 5) compensate 0;
+  padding: 0 calc(var(--ring-unit) * 5) compensate 0;
 
   outline: none;
 
@@ -35,12 +32,12 @@
   }
 
   &.titleSelected {
-    background-color: selected-background-color;
+    background-color: var(--ring-selected-background-color);
   }
 
   &.titleFocused {
     background-color: hover-color;
-    box-shadow: inset 2px 0 main-color;
+    box-shadow: inset 2px 0 var(--ring-main-color);
   }
 }
 
@@ -56,12 +53,12 @@
 .boxes {
   display: flex;
 
-  min-width: calc(unit * 3);
+  min-width: calc(var(--ring-unit) * 3);
 }
 
 .checkboxBox,
 .expanderBox {
-  width: calc(unit * 3);
+  width: calc(var(--ring-unit) * 3);
 
   color: #bbb;
 }

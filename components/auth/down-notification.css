@@ -1,15 +1,15 @@
-@value unit, error-color from '../global/global.css';
+@value unit from "../global/global.css";
 
 .title {
   font-weight: 600;
 }
 
 .error {
-  margin-top: calc(unit / 2);
+  margin-top: calc(var(--ring-unit) / 2);
 
   word-wrap: break-word;
 
-  color: error-color;
+  color: var(--ring-error-color);
 
   line-height: calc(unit * 2);
 }

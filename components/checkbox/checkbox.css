@@ -1,6 +1,5 @@
-@value unit, font-size, text-color, disabled-color, borders-color, content-background-color, border-hover-color, selected-background-color, ease, fast-ease from "../global/global.css";
-@value checkbox-size: 14px;
-@value disabled-border-color: #f0f0f0;
+@value checkboxSize: 14px;
+@value disabledBorderColor: #f0f0f0;
 
 .checkbox {
   position: relative;
@@ -9,13 +8,13 @@
 
   text-align: left;
 
-  color: text-color;
+  color: var(--ring-text-color);
   outline: none;
 
   &:hover .cell {
-    transition: background-color ease;
+    transition: background-color var(--ring-ease);
 
-    border-color: border-hover-color;
+    border-color: var(--ring-border-hover-color);
   }
 }
 
@@ -26,28 +25,28 @@
   display: inline-block;
 
   box-sizing: border-box;
-  width: checkbox-size;
-  height: checkbox-size;
+  width: checkboxSize;
+  height: checkboxSize;
 
   user-select: none;
-  transition: border-color ease, background-color ease, box-shadow ease;
+  transition: border-color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
   vertical-align: middle;
   pointer-events: none;
 
-  border: 1px solid borders-color;
+  border: 1px solid var(--ring-borders-color);
   border-radius: 3px;
-  background-color: content-background-color;
+  background-color: var(--ring-content-background-color);
 }
 
 .icon {
   position: absolute;
-  top: calc(unit * -1.5);
+  top: calc(var(--ring-unit) * -1.5);
   left: 1px;
 
-  width: checkbox-size;
-  height: checkbox-size;
+  width: checkboxSize;
+  height: checkboxSize;
 
-  transition: opacity fast-ease, transform fast-ease;
+  transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
 
   opacity: 0;
 
@@ -70,12 +69,12 @@
   opacity: 0;
 
   &:checked + .cell {
-    border-color: border-hover-color;
-    background-color: selected-background-color;
+    border-color: var(--ring-border-hover-color);
+    background-color: var(--ring-selected-background-color);
 
     /* stylelint-disable-next-line selector-max-specificity */
     & .icon {
-      transform: translateY(unit);
+      transform: translateY(var(--ring-unit));
 
       opacity: 1;
     }
@@ -83,10 +82,10 @@
 
   &:focus + .cell,
   &.focus + .cell {
-    transition: background-color ease;
+    transition: background-color var(--ring-ease);
 
-    border-color: border-hover-color;
-    box-shadow: 0 0 0 1px border-hover-color;
+    border-color: var(--ring-border-hover-color);
+    box-shadow: 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {
@@ -94,8 +93,8 @@
   }
 
   &[disabled] + .cell {
-    border-color: disabled-border-color;
-    background-color: content-background-color;
+    border-color: disabledBorderColor;
+    background-color: var(--ring-content-background-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
@@ -104,12 +103,12 @@
   }
 
   &[disabled] ~ .label {
-    color: disabled-color;
+    color: var(--ring-disabled-color);
   }
 }
 
 .label {
-  margin-left: unit;
+  margin-left: var(--ring-unit);
 
   line-height: normal;
 }

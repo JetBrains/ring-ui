@@ -1,21 +1,19 @@
-@value unit, secondary-color from '../global/global.css';
-
 .pager {
   user-select: none;
 }
 
 .links {
-  margin-bottom: calc(unit);
+  margin-bottom: calc(var(--ring-unit));
 }
 
 .link {
   display: inline-block;
 
-  margin-right: calc(unit * 2);
+  margin-right: calc(var(--ring-unit) * 2);
 }
 
 .linkDisabled {
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .chevron {

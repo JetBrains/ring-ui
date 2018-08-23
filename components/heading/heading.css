@@ -1,9 +1,7 @@
-@value heading-color, font, font-size, line-height, unit from  "../global/global.css";
-
 .heading {
-  composes: font;
+  composes: font from "../global/global.css";
 
-  margin-top: line-height;
+  margin-top: var(--ring-line-height);
 
   &:first-child {
     margin-top: 0;
@@ -12,7 +10,7 @@
   @nest h1&, h2& {
     margin-bottom: 8px;
 
-    color: heading-color;
+    color: var(--ring-heading-color);
 
     font-size: 24px;
     line-height: 28px;

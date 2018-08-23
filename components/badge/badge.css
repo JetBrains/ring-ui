@@ -1,10 +1,6 @@
-@value global: '../global/global.css';
-@value unit, border-radius, font-size-smaller, secondary-color, error-color, success-color, content-background-color from global;
-@value normal-color: secondary-color;
-@value valid-color: success-color;
-@value invalid-color: error-color;
+
+/* TODO: Replace with palette colors */
 @value disabled-color: #C3120F;
-@value normal-background-color: content-background-color;
 @value gray-background-color: #F8F8F8;
 @value disabled-background-color: #EBD9DA;
 @value normal-border-color: #F0F0F0;
@@ -15,18 +11,18 @@
 
   box-sizing: border-box;
   height: 20px;
-  padding: 0 unit;
+  padding: 0 var(--ring-unit);
 
   cursor: default;
 
   vertical-align: baseline;
 
-  color: normal-color;
+  color: var(--ring-secondary-color);
   border: 1px normal-border-color solid;
-  border-radius: border-radius;
-  background-color: normal-background-color;
+  border-radius: var(--ring-border-radius);
+  background-color: var(--ring-content-background-color);
 
-  font-size: font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   font-weight: normal;
   font-style: normal;
   line-height: 17px;
@@ -36,11 +32,11 @@
   }
 
   &.valid {
-    color: valid-color;
+    color: var(--ring-success-color);
   }
 
   &.invalid {
-    color: invalid-color;
+    color: var(--ring-error-color);
   }
 
   &.disabled {

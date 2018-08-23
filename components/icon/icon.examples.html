@@ -78,20 +78,18 @@
   </file>
 
   <file type="css">
-    @value unit, link-color, link-hover-color from '../global/global.css';
-
     :global(.icon-example__container) {
-      margin-left: calc(0 - calc(unit * 2));
+      margin-left: calc(0 - calc(var(--ring-unit) * 2));
     }
 
     :global(.ring-icon) {
       margin: 8px;
       padding: 8px;
-      color: link-color;
+      color: var(--ring-link-color);
     }
 
     :global(.secondary) {
-      fill: link-hover-color;
+      fill: var(--ring-link-hover-color);
     }
   </file>
 

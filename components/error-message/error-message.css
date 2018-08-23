@@ -1,5 +1,3 @@
-@value unit from  "../global/global.css";
-
 .errorMessage {
   display: flex;
   align-items: center;

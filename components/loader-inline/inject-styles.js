@@ -7,9 +7,10 @@ import Theme from '../global/theme';
 import styles from './loader-inline.css';
 
 const IMAGE_SIZE = 32;
+const UNIT = '8px';
 
 export default memoize(() => {
-  const mask = radialGradientMask(styles.unit, {
+  const mask = radialGradientMask(UNIT, {
     /* eslint-disable no-magic-numbers */
     transparent: `${23 / 32 * 100}%`,
     white: `${25 / 32 * 100}%`
