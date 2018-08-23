@@ -1,10 +1,10 @@
 @value unit from "../global/global.css";
 @value hover-color: #cef;
-@value cellSize: calc(var(--ring-unit) * 3);
-@value calHeight: calc(var(--ring-unit) * 36);
-@value calWidth: calc(var(--ring-unit) * 37);
+@value cellSize: calc(unit * 3);
+@value calHeight: calc(unit * 36);
+@value calWidth: calc(unit * 37);
 @value yearHeight: calc(unit * 4);
-@value yearWidth: calc(var(--ring-unit) * 6);
+@value yearWidth: calc(unit * 6);
 
 .container {
   display: inline-block;
