@@ -1,6 +1,8 @@
 .avatar {
   object-fit: contain;
   object-position: center;
+
+  border-radius: var(--ring-border-radius); /* This is a "graceful degradation" fallback, while the real value is controlled by JS */
 }
 
 .empty {
