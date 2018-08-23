@@ -1,6 +1,4 @@
-@value global: '../global/global.css';
-@value unit, main-color, text-color, border-hover-color, line-height-lower, secondary-color, line-color, sidebar-background-color, selected-background-color, font-smaller-lower, fast-ease, fixed-z-index, ellipsis, font-size from global;
-@value height: calc(4 * unit);
+@value height: calc(4 * var(--ring-unit));
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
 @value hover-color: #f2f9ff;
@@ -21,27 +19,27 @@
 
 .headerCell {
   & {
-    composes: font-smaller-lower;
+    composes: font-smaller-lower from "../global/global.css";
 
     box-sizing: border-box;
-    height: calc(unit * 3);
-    padding-right: calc(unit * 5);
+    height: calc(var(--ring-unit) * 3);
+    padding-right: calc(var(--ring-unit) * 5);
 
     text-align: left;
     white-space: nowrap;
 
-    color: secondary-color;
+    color: var(--ring-secondary-color);
 
     font-weight: 200;
   }
 
   &:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(var(--ring-unit) * 4);
   }
 
   &:last-child {
     width: 100%;
-    padding-right: calc(unit * 4);
+    padding-right: calc(var(--ring-unit) * 4);
   }
 
   &:first-child:only-child {
@@ -77,17 +75,17 @@
 }
 
 .caption {
-  padding-top: unit;
+  padding-top: var(--ring-unit);
   padding-bottom: 6px;
 
   text-transform: capitalize;
 
-  color: text-color;
+  color: var(--ring-text-color);
   border-bottom: none;
 
-  font-size: font-size;
+  font-size: var(--ring-font-size);
   font-weight: bold;
-  line-height: line-height-lower;
+  line-height: var(--ring-line-height-lower);
 }
 
 .tableHead {
@@ -100,7 +98,7 @@
 
     content: "";
 
-    background-color: line-color;
+    background-color: var(--ring-line-color);
   }
 }
 
@@ -113,20 +111,20 @@
 
     content: "";
 
-    background-color: line-color;
+    background-color: var(--ring-line-color);
   }
 }
 
 .subHeader {
   &::after {
-    right: calc(unit * 4);
-    left: calc(unit * 4);
+    right: calc(var(--ring-unit) * 4);
+    left: calc(var(--ring-unit) * 4);
   }
 }
 
 .subHeaderFixed {
   position: fixed;
-  z-index: fixed-z-index;
+  z-index: var(--ring-fixed-z-index);
   top: 0;
 
   background-color: rgba(256, 256, 256, 0.95);
@@ -150,7 +148,7 @@
 }
 
 .rowSelected {
-  background-color: selected-background-color;
+  background-color: var(--ring-selected-background-color);
 }
 
 .rowFocused {
@@ -158,7 +156,7 @@
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .cell:nth-child(1) {
-    box-shadow: inset 2px 0 main-color;
+    box-shadow: inset 2px 0 var(--ring-main-color);
   }
 }
 
@@ -178,7 +176,7 @@
 
 .cell {
   & {
-    composes: ellipsis;
+    composes: ellipsis from "../global/global.css";
 
     box-sizing: content-box;
 
@@ -186,13 +184,13 @@
 
     height: height;
     padding: 0;
-    padding-right: calc(unit * 5);
+    padding-right: calc(var(--ring-unit) * 5);
 
-    color: text-color;
+    color: var(--ring-text-color);
   }
 
   &:first-child {
-    padding-left: calc(unit * 4);
+    padding-left: calc(var(--ring-unit) * 4);
   }
 
   &:last-child {
@@ -201,12 +199,12 @@
     /* Markup hack, allows cell to have content which is wider than cell and collapses it */
 
     max-width: 0;
-    padding-right: calc(unit * 4);
+    padding-right: calc(var(--ring-unit) * 4);
   }
 
   &:first-child {
-    min-width: calc(unit * 37);
-    max-width: calc(unit * 77);
+    min-width: calc(var(--ring-unit) * 37);
+    max-width: calc(var(--ring-unit) * 77);
   }
 
   &:first-child:only-child {
@@ -240,7 +238,7 @@
 
 .dragHandle {
   top: top;
-  left: calc(-2 * unit);
+  left: calc(-2 * var(--ring-unit));
 
   cursor: grab;
 
@@ -261,7 +259,7 @@
 }
 
 .rowCollapseExpandButton {
-  padding-right: calc(unit / 2);
+  padding-right: calc(var(--ring-unit) / 2);
   padding-left: 7px;
 }
 
@@ -274,7 +272,7 @@
     opacity: 1;
 
     & svg {
-      color: main-color;
+      color: var(--ring-main-color);
     }
   }
 }

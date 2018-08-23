@@ -1,11 +1,9 @@
-@value link-color, link-hover-color, fast-ease from "../global/global.css";
-
 .link {
   & {
     cursor: pointer;
-    transition: color fast-ease;
+    transition: color var(--ring-fast-ease);
 
-    color: link-color;
+    color: var(--ring-link-color);
   }
 
   &,
@@ -17,7 +15,7 @@
   &.hover {
     transition: none;
 
-    color: link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 
   &:hover .inner {

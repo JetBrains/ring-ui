@@ -1,4 +1,3 @@
-@value unit, font, font-size, line-height, line-color, secondary-color from  "../global/global.css";
 @value p-margin: 10px;
 
 .inline {
@@ -9,7 +8,7 @@
 }
 
 .markdown {
-  composes: font;
+  composes: font from  "../global/global.css";
 
   & ol,
   & ul {
@@ -38,7 +37,7 @@
   }
 
   & li:not(:first-child) {
-    margin-top: unit;
+    margin-top: var(--ring-unit);
   }
 
   & li {
@@ -55,25 +54,25 @@
     margin: p-margin 0;
 
     border: none;
-    border-bottom: 1px solid line-color;
+    border-bottom: 1px solid var(--ring-line-color);
   }
 
   & blockquote {
-    padding: 0 0 0 calc(2 * unit);
+    padding: 0 0 0 calc(2 * var(--ring-unit));
 
-    color: secondary-color;
-    box-shadow: inset 2px 0 0 line-color;
+    color: var(--ring-secondary-color);
+    box-shadow: inset 2px 0 0 var(--ring-line-color);
 
     font-size: 12px;
     line-height: 18px;
   }
 
   & ul {
-    padding: 0 0 0 calc(3 * unit);
+    padding: 0 0 0 calc(3 * var(--ring-unit));
   }
 
   & ol {
-    padding: 0 0 0 calc(5 * unit);
+    padding: 0 0 0 calc(5 * var(--ring-unit));
   }
 
   & ul {

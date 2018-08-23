@@ -1,7 +1,5 @@
-@value unit, text-color, secondary-color from  "../global/global.css";
-
 .userCardSpaced {
-  padding: calc(unit * 2) calc(unit * 2);
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 2);
 }
 
 .userInformationContainer {
@@ -14,7 +12,7 @@
 
   text-align: left;
 
-  color: text-color;
+  color: var(--ring-text-color);
 
   font-size: 13px;
   line-height: 18px;
@@ -33,13 +31,13 @@
 .userActiveStatus {
   display: inline-block;
 
-  width: unit;
-  height: unit;
+  width: var(--ring-unit);
+  height: var(--ring-unit);
 
   margin-right: 4px;
 
   border-radius: 50%;
-  background-color: secondary-color;
+  background-color: var(--ring-secondary-color);
 }
 
 .userActiveStatus.online {

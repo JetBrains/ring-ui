@@ -1,14 +1,14 @@
-@value unit, font-lower, font-size-smaller, line-height-lowest, line-color, dark-line-color, dark-text-color, disabled-color, secondary-color, dark-secondary-color, main-color, error-color, icon-error-color, text-color, ease, fast-ease from  "../global/global.css";
+@value unit from "../global/global.css";
 @value text-shadow: 0 0 0;
 
 .container {
-  composes: font-lower;
+  composes: font-lower from  "../global/global.css";
 
   position: relative;
 
   box-sizing: border-box;
-  min-height: calc(unit * 8);
-  padding-top: calc(unit * 2);
+  min-height: calc(var(--ring-unit) * 8);
+  padding-top: calc(var(--ring-unit) * 2);
 
   & * {
     box-sizing: border-box;
@@ -16,13 +16,13 @@
 }
 
 .borderless {
-  min-height: calc(unit * 4);
+  min-height: calc(var(--ring-unit) * 4);
   padding: 0;
 }
 
 .input {
   width: 100%;
-  min-height: calc(unit * 4);
+  min-height: calc(var(--ring-unit) * 4);
   padding: 0;
 
   border: none;
@@ -33,15 +33,15 @@
   caret-color: main-color;
 
   @nest .clearable & {
-    padding-right: calc(unit * 3);
+    padding-right: calc(var(--ring-unit) * 3);
   }
 
   @nest .light & {
-    color: text-color;
+    color: var(--ring-text-color);
   }
 
   @nest .dark & {
-    color: dark-text-color;
+    color: var(--ring-dark-text-color);
   }
 
   &::placeholder {
@@ -50,7 +50,7 @@
   }
 
   &[disabled] {
-    color: disabled-color;
+    color: var(--ring-disabled-color);
   }
 
   /*
@@ -65,9 +65,9 @@
     }
 
     & ~ .label {
-      top: calc(unit / 2);
+      top: calc(var(--ring-unit) / 2);
 
-      font-size: font-size-smaller;
+      font-size: var(--ring-font-size-smaller);
     }
   }
 
@@ -103,43 +103,43 @@ textarea.input {
   overflow: hidden;
 
   box-sizing: border-box;
-  padding-top: unit;
+  padding-top: var(--ring-unit);
 
   resize: none;
 }
 
 .label {
   position: absolute;
-  top: calc(unit * 3 - 3px);
+  top: calc(var(--ring-unit) * 3 - 3px);
   left: 0;
 
-  transition: transform fast-ease, color fast-ease;
+  transition: transform var(--ring-fast-ease), color var(--ring-fast-ease);
   transform-origin: top left;
   pointer-events: none;
 
   @nest .light & {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   @nest .dark & {
-    color: dark-secondary-color;
+    color: var(--ring-dark-secondary-color);
   }
 }
 
 .input:focus ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
-  transform: translateY(calc(unit * -2 - 1px)) scale(calc(12 / 13));
+  transform: translateY(calc(var(--ring-unit) * -2 - 1px)) scale(calc(12 / 13));
 }
 
 .noLabel ::placeholder,
 .input:focus::placeholder {
-  transition: text-shadow ease;
+  transition: text-shadow var(--ring-ease);
 }
 
 .light.noLabel ::placeholder,
 .light :focus::placeholder {
-  text-shadow: text-shadow disabled-color;
+  text-shadow: text-shadow var(--ring-disabled-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
@@ -150,11 +150,11 @@ textarea.input {
 }
 
 .input:focus ~ .label {
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .error > :focus ~ .label {
-  color: error-color;
+  color: var(--ring-error-color);
 }
 
 .underline {
@@ -164,11 +164,11 @@ textarea.input {
   border-bottom-style: solid;
 
   @nest .light & {
-    border-color: line-color;
+    border-color: var(--ring-line-color);
   }
 
   @nest .dark & {
-    border-color: dark-line-color;
+    border-color: var(--ring-dark-line-color);
   }
 }
 
@@ -188,16 +188,16 @@ textarea.input {
 .focusUnderline {
   margin-top: -1px;
 
-  background: main-color;
+  background: var(--ring-main-color);
 }
 
 .errorUnderline {
   margin-top: -2px;
 
-  background: icon-error-color;
+  background: var(--ring-icon-error-color);
 
   @nest .dark & {
-    background: error-color;
+    background: var(--ring-error-color);
   }
 }
 
@@ -213,26 +213,26 @@ textarea.input {
 
   box-sizing: border-box;
   height: 0;
-  padding: calc(unit / 2) 0 unit;
+  padding: calc(var(--ring-unit) / 2) 0 var(--ring-unit);
 
   transition: height 0.3s ease-out;
 
-  color: error-color;
+  color: var(--ring-error-color);
 
-  font-size: font-size-smaller;
-  line-height: line-height-lowest;
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .sizeS {
-  width: calc(unit * 12);
+  width: calc(var(--ring-unit) * 12);
 }
 
 .sizeM {
-  width: calc(unit * 30);
+  width: calc(var(--ring-unit) * 30);
 }
 
 .sizeL {
-  width: calc(unit * 50);
+  width: calc(var(--ring-unit) * 50);
 }
 
 .sizeFULL {

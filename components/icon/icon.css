@@ -1,5 +1,3 @@
-@value secondary-color, icon-hover-color, icon-success-color, link-hover-color, icon-error-color, main-color, dark-text-color from '../global/global.css';
-
 .icon {
   position: relative;
 
@@ -17,31 +15,31 @@
 }
 
 .gray {
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .hover {
-  color: icon-hover-color;
+  color: var(--ring-icon-hover-color);
 }
 
 .green {
-  color: icon-success-color;
+  color: var(--ring-icon-success-color);
 }
 
 .magenta {
-  color: link-hover-color;
+  color: var(--ring-link-hover-color);
 }
 
 .red {
-  color: icon-error-color;
+  color: var(--ring-icon-error-color);
 }
 
 .blue {
-  color: main-color;
+  color: var(--ring-main-color);
 }
 
 .white {
-  color: dark-text-color;
+  color: var(--ring-dark-text-color);
 }
 
 .loading {

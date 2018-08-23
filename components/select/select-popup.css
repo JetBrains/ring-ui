@@ -1,14 +1,12 @@
-@value unit, borders-color, secondary-color, line-color from "../global/global.css";
-
 .filterWithTags {
   overflow: hidden;
 
-  margin: calc(unit * 2) unit 0;
+  margin: calc(var(--ring-unit) * 2) var(--ring-unit) 0;
   padding: 1px;
 
   text-align: left;
 
-  border: 1px solid borders-color;
+  border: 1px solid var(--ring-borders-color);
 }
 
 .tags {
@@ -27,18 +25,18 @@
   position: relative;
 
   margin: 0;
-  padding-right: unit;
-  padding-left: calc(unit * 5.5);
+  padding-right: var(--ring-unit);
+  padding-left: calc(var(--ring-unit) * 5.5);
 
-  border-bottom: 1px solid line-color;
+  border-bottom: 1px solid var(--ring-line-color);
 }
 
 .filterIcon {
   position: absolute;
   top: 3px;
-  left: calc(unit * 2);
+  left: calc(var(--ring-unit) * 2);
 
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }
 
 .bottomLine {
@@ -46,6 +44,6 @@
 }
 
 .message {
-  margin: unit 0;
-  padding: 0 calc(2 * unit);
+  margin: var(--ring-unit) 0;
+  padding: 0 calc(2 * var(--ring-unit));
 }

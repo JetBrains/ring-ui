@@ -1,18 +1,17 @@
-@value unit, font, main-color, navigation-background-color, content-background-color, dark-text-color, secondary-color, borders-color, search-color, hint-color, link-hover-color, font-size from '../global/global.css';
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
 
 .light {
   &.queryAssist {
-    height: calc(unit * 3);
+    height: calc(var(--ring-unit) * 3);
 
-    background: content-background-color;
+    background: var(--ring-content-background-color);
   }
 
   & .input {
-    height: calc(unit * 3 - 2px);
+    height: calc(var(--ring-unit) * 3 - 2px);
 
-    box-shadow: 0 0 0 1px borders-color;
+    box-shadow: 0 0 0 1px var(--ring-borders-color);
 
     &:active,
     &:focus {
@@ -22,7 +21,7 @@
   }
 
   & .placeholder {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   & .letter-text {
@@ -39,7 +38,7 @@
   }
 
   & .letter-operator {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   & .letter-error {
@@ -49,11 +48,11 @@
   }
 
   & .icon {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   & .icon:hover {
-    color: link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 
   & .highlight {
@@ -61,13 +60,13 @@
   }
 
   & .service {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 }
 
 .dark {
   &.queryAssist {
-    height: calc(unit * 4);
+    height: calc(var(--ring-unit) * 4);
 
     font-size: 16px;
   }
@@ -75,25 +74,25 @@
   & .input {
     top: 0;
 
-    height: calc(unit * 4 - 2px);
+    height: calc(var(--ring-unit) * 4 - 2px);
 
-    color: search-color;
+    color: var(--ring-search-color);
 
     border-top-width: 5px;
     background: #002a4d;
 
     &:active,
     &:focus {
-      border-color: navigation-background-color;
+      border-color: var(--ring-navigation-background-color);
 
-      background-color: navigation-background-color;
+      background-color: var(--ring-navigation-background-color);
     }
   }
 
   & .placeholder {
     top: 6px;
 
-    color: hint-color;
+    color: var(--ring-hint-color);
 
     @nest & _:-ms-input-placeholder,
     :root & {
@@ -113,15 +112,15 @@
 
   & .letterDefault,
   & .letter-field-name {
-    color: search-color;
+    color: var(--ring-search-color);
   }
 
   & .letter-field-value {
-    color: dark-text-color;
+    color: var(--ring-dark-text-color);
   }
 
   & .letter-operator {
-    color: secondary-color;
+    color: var(--ring-secondary-color);
   }
 
   & .letter-error {
@@ -131,9 +130,9 @@
   }
 
   & .icon {
-    top: unit;
+    top: var(--ring-unit);
 
-    color: hint-color;
+    color: var(--ring-hint-color);
   }
 
   & .loader {
@@ -141,7 +140,7 @@
   }
 
   & .icon:hover {
-    color: link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 
   & .highlight {
@@ -154,7 +153,7 @@
 }
 
 .queryAssist {
-  composes: font;
+  composes: font from '../global/global.css';
 
   position: relative;
 
@@ -176,7 +175,7 @@
   width: calc(100% - 2px);
   margin: 0;
 
-  padding: 2px calc(unit / 2) 3px;
+  padding: 2px calc(var(--ring-unit) / 2) 3px;
 
   white-space: nowrap;
 
@@ -204,15 +203,15 @@
   }
 
   & .icon {
-    color: hint-color;
+    color: var(--ring-hint-color);
   }
 
   &.inputGap {
-    border-right-width: calc(unit * 3);
+    border-right-width: calc(var(--ring-unit) * 3);
   }
 
   &.inputLeftGap {
-    border-left-width: calc(unit * 3);
+    border-left-width: calc(var(--ring-unit) * 3);
   }
 
   &.inputDisabled {
@@ -232,14 +231,14 @@
 
   overflow: hidden;
 
-  width: calc(100% - unit * 4);
+  width: calc(100% - var(--ring-unit) * 4);
 
   text-overflow: ellipsis;
 
   pointer-events: none;
 
   &.placeholderSpaced {
-    left: calc(unit * 3 + 5px);
+    left: calc(var(--ring-unit) * 3 + 5px);
   }
 
   @nest & _:-ms-input-placeholder,
@@ -263,8 +262,8 @@
   z-index: overInputZIndex;
   top: 4px;
 
-  width: calc(unit * 2);
-  height: calc(unit * 2);
+  width: calc(var(--ring-unit) * 2);
+  height: calc(var(--ring-unit) * 2);
 
   padding: 0 4px;
 
@@ -296,7 +295,7 @@
 
   transition: width 0.15s ease-out;
 
-  background: main-color;
+  background: var(--ring-main-color);
 }
 
 .input:focus ~ .focusUnderline,

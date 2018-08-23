@@ -1,5 +1,3 @@
-@value unit from "../global/global.css";
-
 .buttonToolbar {
   display: inline-block;
 
@@ -13,7 +11,7 @@
 .buttonToolbar > .button,
 .buttonToolbar > .buttonGroup,
 .buttonToolbar > .buttonToolbar {
-  margin-right: unit;
+  margin-right: var(--ring-unit);
 }
 
 .buttonToolbar > :last-child {

@@ -1,9 +1,7 @@
-@value text-color, disabled-color, secondary-color from  "../global/global.css";
-
 .text {
-  color: text-color;
+  color: var(--ring-text-color);
 }
 
 .info {
-  color: secondary-color;
+  color: var(--ring-secondary-color);
 }

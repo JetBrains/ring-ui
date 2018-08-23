@@ -7,7 +7,10 @@ module.exports = ctx => {
         calc: {
           mediaQueries: true
         },
-        customProperties: false
+        customProperties: {
+          preserve: true,
+          variables: ctx.options.variables
+        }
       }
     },
     'postcss-flexbugs-fixes': {}

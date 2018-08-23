@@ -41,14 +41,12 @@
     });
   </file>
   <file type="css">
-    @value unit from '../global/global.css';
-
     :global(.place-under) {
       position: fixed;
       top: 0;
       right: 0;
       width: 50%;
-      padding: calc(unit * 2);
+      padding: calc(var(--ring-unit) * 2);
       background-color: #888;
     }
 
@@ -60,14 +58,14 @@
       position: static;
       top: 0;
       width: 100%;
-      padding: calc(unit * 2);
+      padding: calc(var(--ring-unit) * 2);
       background-color: #CCC;
     }
 
     :global(.scrollable) {
       height: 1000px;
-      padding: calc(unit * 2);
-      padding-top: calc(unit * 8);
+      padding: calc(var(--ring-unit) * 2);
+      padding-top: calc(var(--ring-unit) * 8);
       background-color: #EEE;
     }
   </file>

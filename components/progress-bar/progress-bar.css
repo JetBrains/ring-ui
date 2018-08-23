@@ -1,4 +1,4 @@
-@value unit, font-size-larger, main-color from '../global/global.css';
+@value unit from "../global/global.css";
 
 .light {
   &.progressBar {
@@ -22,9 +22,9 @@
 
   overflow: hidden;
 
-  max-width: calc(36 * unit);
-  height: calc(unit / 2);
-  margin-bottom: calc(unit / 2);
+  max-width: calc(36 * var(--ring-unit));
+  height: calc(var(--ring-unit) / 2);
+  margin-bottom: calc(var(--ring-unit) / 2);
 
   border-radius: 2px;
 }
@@ -50,7 +50,7 @@
 
   color: #fff;
   border-radius: 2px;
-  background-color: main-color;
+  background-color: var(--ring-main-color);
 
   line-height: calc(unit / 2);
 

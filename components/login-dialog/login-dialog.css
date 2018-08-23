@@ -1,5 +1,3 @@
-@value unit from '../global/global.css';
-
 .iFrame {
   overflow: hidden;
 
@@ -19,5 +17,5 @@
   top: 0;
   right: 0;
 
-  padding: unit;
+  padding: var(--ring-unit);
 }
