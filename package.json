@@ -8,6 +8,7 @@
     "components",
     "postcss.config.js",
     "webpack.config.js",
+    "extract-css-vars.js",
     "jslint-xml.js"
   ],
   "main": "components/index.js",
