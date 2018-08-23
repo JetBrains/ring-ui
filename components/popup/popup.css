@@ -2,7 +2,7 @@
   composes: font from "../global/global.css";
 
   position: absolute;
-  z-index: var(--ring-popup-border-color);
+  z-index: var(--ring-overlay-z-index);
   top: -100vh;
   left: -100vw;
 
