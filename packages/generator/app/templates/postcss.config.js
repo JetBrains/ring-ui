@@ -1,4 +1,4 @@
-module.exports = () => ({
+module.exports = ctx => ({
   plugins: [
     require('postcss-cssnext')({
       features: {

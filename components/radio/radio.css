@@ -47,7 +47,7 @@
 
     content: "";
 
-    transition: opacity transform var(--ring-fast-ease);
+    transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
 
     transform: scale(0);
 
