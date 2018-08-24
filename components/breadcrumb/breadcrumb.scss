@@ -34,7 +34,7 @@
     display: inline-block;
     height: $ring-unit*2;
     line-height: 14px;
-    font-size: $ring-font-size;
+    font-size: var(--ring-font-size);
   }
 }
 
@@ -68,7 +68,7 @@
   width: 50 * $ring-unit;
   padding-left: 2 * $ring-unit;
 
-  font-size: $ring-font-size;
+  font-size: var(--ring-font-size);
   line-height: 16px;
 }
 
