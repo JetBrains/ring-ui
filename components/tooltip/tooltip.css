@@ -1,6 +1,8 @@
+@value unit from "../global/global.css";
+
 .tooltip {
-  max-width: calc(var(--ring-unit) * 50);
-  padding: var(--ring-unit);
+  max-width: calc(unit * 50);
+  padding: unit;
 
   text-align: left;
 }

@@ -9,7 +9,7 @@
 .titles {
   display: inline-block;
 
-  margin-bottom: calc(var(--ring-unit) * 2);
+  margin-bottom: calc(unit * 2);
 }
 
 .light .titles {
@@ -49,7 +49,7 @@
 }
 
 .title + .title {
-  margin-left: calc(var(--ring-unit) * 3);
+  margin-left: calc(unit * 3);
 }
 
 .light .title {

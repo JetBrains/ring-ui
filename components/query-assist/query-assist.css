@@ -1,15 +1,16 @@
+@value unit from "../global/global.css";
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
 
 .light {
   &.queryAssist {
-    height: calc(var(--ring-unit) * 3);
+    height: calc(unit * 3);
 
     background: var(--ring-content-background-color);
   }
 
   & .input {
-    height: calc(var(--ring-unit) * 3 - 2px);
+    height: calc(unit * 3 - 2px);
 
     box-shadow: 0 0 0 1px var(--ring-borders-color);
 
@@ -66,7 +67,7 @@
 
 .dark {
   &.queryAssist {
-    height: calc(var(--ring-unit) * 4);
+    height: calc(unit * 4);
 
     font-size: 16px;
   }
@@ -74,7 +75,7 @@
   & .input {
     top: 0;
 
-    height: calc(var(--ring-unit) * 4 - 2px);
+    height: calc(unit * 4 - 2px);
 
     color: var(--ring-search-color);
 
@@ -130,7 +131,7 @@
   }
 
   & .icon {
-    top: var(--ring-unit);
+    top: unit;
 
     color: var(--ring-hint-color);
   }
@@ -175,7 +176,7 @@
   width: calc(100% - 2px);
   margin: 0;
 
-  padding: 2px calc(var(--ring-unit) / 2) 3px;
+  padding: 2px calc(unit / 2) 3px;
 
   white-space: nowrap;
 
@@ -207,11 +208,11 @@
   }
 
   &.inputGap {
-    border-right-width: calc(var(--ring-unit) * 3);
+    border-right-width: calc(unit * 3);
   }
 
   &.inputLeftGap {
-    border-left-width: calc(var(--ring-unit) * 3);
+    border-left-width: calc(unit * 3);
   }
 
   &.inputDisabled {
@@ -231,14 +232,14 @@
 
   overflow: hidden;
 
-  width: calc(100% - var(--ring-unit) * 4);
+  width: calc(100% - unit * 4);
 
   text-overflow: ellipsis;
 
   pointer-events: none;
 
   &.placeholderSpaced {
-    left: calc(var(--ring-unit) * 3 + 5px);
+    left: calc(unit * 3 + 5px);
   }
 
   @nest & _:-ms-input-placeholder,
@@ -262,8 +263,8 @@
   z-index: overInputZIndex;
   top: 4px;
 
-  width: calc(var(--ring-unit) * 2);
-  height: calc(var(--ring-unit) * 2);
+  width: calc(unit * 2);
+  height: calc(unit * 2);
 
   padding: 0 4px;
 

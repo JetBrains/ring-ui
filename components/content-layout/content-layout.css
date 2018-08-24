@@ -1,5 +1,5 @@
-@value extra-small-screen-media, small-screen-media from '../global/global.css';
-@value sidebarWidth: calc(var(--ring-unit) * 30);
+@value unit, extra-small-screen-media, small-screen-media from '../global/global.css';
+@value sidebarWidth: calc(unit * 30);
 
 .contentLayout {
   position: relative;
@@ -13,7 +13,7 @@
   flex-grow: 2;
 
   width: 100%; /* without this hack IE11 render contentLayoutContent wider than its container */
-  margin: 0 calc(var(--ring-unit) * 4);
+  margin: 0 calc(unit * 4);
 }
 
 .sidebarContainer {
@@ -32,13 +32,13 @@
   min-width: sidebarWidth;
   max-width: sidebarWidth;
   height: 100%;
-  padding-right: calc(var(--ring-unit) * 2);
-  padding-left: calc(var(--ring-unit) * 4);
+  padding-right: calc(unit * 2);
+  padding-left: calc(unit * 4);
 }
 
 .sidebarRight {
-  padding-right: calc(var(--ring-unit) * 4);
-  padding-left: calc(var(--ring-unit) * 2);
+  padding-right: calc(unit * 4);
+  padding-left: calc(unit * 2);
 }
 
 .sidebarFixedTop {

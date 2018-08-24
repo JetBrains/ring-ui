@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value p-margin: 10px;
 
 .inline {
@@ -37,7 +38,7 @@
   }
 
   & li:not(:first-child) {
-    margin-top: var(--ring-unit);
+    margin-top: unit;
   }
 
   & li {
@@ -58,7 +59,7 @@
   }
 
   & blockquote {
-    padding: 0 0 0 calc(2 * var(--ring-unit));
+    padding: 0 0 0 calc(2 * unit);
 
     color: var(--ring-secondary-color);
     box-shadow: inset 2px 0 0 var(--ring-line-color);
@@ -68,11 +69,11 @@
   }
 
   & ul {
-    padding: 0 0 0 calc(3 * var(--ring-unit));
+    padding: 0 0 0 calc(3 * unit);
   }
 
   & ol {
-    padding: 0 0 0 calc(5 * var(--ring-unit));
+    padding: 0 0 0 calc(5 * unit);
   }
 
   & ul {

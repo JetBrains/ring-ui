@@ -1,4 +1,5 @@
-@value height: calc(4 * var(--ring-unit));
+@value unit from "../global/global.css";
+@value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
 @value hover-color: #f2f9ff;
@@ -22,8 +23,8 @@
     composes: font-smaller-lower from "../global/global.css";
 
     box-sizing: border-box;
-    height: calc(var(--ring-unit) * 3);
-    padding-right: calc(var(--ring-unit) * 5);
+    height: calc(unit * 3);
+    padding-right: calc(unit * 5);
 
     text-align: left;
     white-space: nowrap;
@@ -34,12 +35,12 @@
   }
 
   &:first-child {
-    padding-left: calc(var(--ring-unit) * 4);
+    padding-left: calc(unit * 4);
   }
 
   &:last-child {
     width: 100%;
-    padding-right: calc(var(--ring-unit) * 4);
+    padding-right: calc(unit * 4);
   }
 
   &:first-child:only-child {
@@ -75,7 +76,7 @@
 }
 
 .caption {
-  padding-top: var(--ring-unit);
+  padding-top: unit;
   padding-bottom: 6px;
 
   text-transform: capitalize;
@@ -117,8 +118,8 @@
 
 .subHeader {
   &::after {
-    right: calc(var(--ring-unit) * 4);
-    left: calc(var(--ring-unit) * 4);
+    right: calc(unit * 4);
+    left: calc(unit * 4);
   }
 }
 
@@ -184,13 +185,13 @@
 
     height: height;
     padding: 0;
-    padding-right: calc(var(--ring-unit) * 5);
+    padding-right: calc(unit * 5);
 
     color: var(--ring-text-color);
   }
 
   &:first-child {
-    padding-left: calc(var(--ring-unit) * 4);
+    padding-left: calc(unit * 4);
   }
 
   &:last-child {
@@ -199,12 +200,12 @@
     /* Markup hack, allows cell to have content which is wider than cell and collapses it */
 
     max-width: 0;
-    padding-right: calc(var(--ring-unit) * 4);
+    padding-right: calc(unit * 4);
   }
 
   &:first-child {
-    min-width: calc(var(--ring-unit) * 37);
-    max-width: calc(var(--ring-unit) * 77);
+    min-width: calc(unit * 37);
+    max-width: calc(unit * 77);
   }
 
   &:first-child:only-child {
@@ -238,7 +239,7 @@
 
 .dragHandle {
   top: top;
-  left: calc(-2 * var(--ring-unit));
+  left: calc(-2 * unit);
 
   cursor: grab;
 
@@ -259,7 +260,7 @@
 }
 
 .rowCollapseExpandButton {
-  padding-right: calc(var(--ring-unit) / 2);
+  padding-right: calc(unit / 2);
   padding-left: 7px;
 }
 

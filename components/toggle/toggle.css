@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value padding: 2px;
 @value disabled-line-color: rgba(255, 255, 255, 0.9);
 @value duration: 300ms;
@@ -18,7 +19,7 @@
 }
 
 .label {
-  margin-left: calc(var(--ring-unit) / 2);
+  margin-left: calc(unit / 2);
 }
 
 .switchWrapper {
@@ -26,8 +27,8 @@
 
   display: inline-block;
 
-  width: calc(var(--ring-unit) * 3);
-  height: calc(var(--ring-unit) * 2);
+  width: calc(unit * 3);
+  height: calc(unit * 2);
 
   vertical-align: -3px;
 }
@@ -55,7 +56,7 @@
 
   transition: background-color timing-function duration;
 
-  border-radius: var(--ring-unit);
+  border-radius: unit;
   background-color: var(--ring-icon-color);
 
   &::before {
@@ -63,8 +64,8 @@
     top: padding;
     left: 0;
 
-    width: calc(var(--ring-unit) * 1.5);
-    height: calc(var(--ring-unit) * 1.5);
+    width: calc(unit * 1.5);
+    height: calc(unit * 1.5);
 
     content: "";
 
@@ -72,7 +73,7 @@
 
     transform: translateX(padding);
 
-    border-radius: calc(var(--ring-unit) * 0.75);
+    border-radius: calc(unit * 0.75);
     background-color: var(--ring-content-background-color);
   }
 }
@@ -82,7 +83,7 @@
 }
 
 .input:checked + ::before {
-  transform: translateX(calc(var(--ring-unit) * 1.5 - padding));
+  transform: translateX(calc(unit * 1.5 - padding));
 }
 
 .input[disabled] + ::after {
@@ -95,7 +96,7 @@
 
   content: "";
 
-  border-radius: var(--ring-unit);
+  border-radius: unit;
   background-image:
     linear-gradient(
       45deg,

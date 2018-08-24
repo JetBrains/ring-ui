@@ -78,8 +78,10 @@
   </file>
 
   <file type="css">
+    @value unit from '../global/global.css';
+
     :global(.icon-example__container) {
-      margin-left: calc(0 - calc(var(--ring-unit) * 2));
+      margin-left: calc(0 - calc(unit * 2));
     }
 
     :global(.ring-icon) {

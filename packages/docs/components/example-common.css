@@ -1,5 +1,7 @@
+@value unit from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
+
 body {
-  margin: var(--ring-unit) calc(var(--ring-unit) * 4) calc(var(--ring-unit) * 2);
+  margin: unit calc(unit * 4) calc(unit * 2);
   padding: 0;
 }
 

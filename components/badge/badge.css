@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 
 /* TODO: Replace with palette colors */
 @value disabled-color: #C3120F;
@@ -11,7 +12,7 @@
 
   box-sizing: border-box;
   height: 20px;
-  padding: 0 var(--ring-unit);
+  padding: 0 unit;
 
   cursor: default;
 

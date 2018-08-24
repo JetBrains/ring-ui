@@ -1,4 +1,4 @@
-@value unit from "../global/global.css";
+@value unit, footer-height from "../global/global.css";
 
 .footer {
   composes: font from "../global/global.css";
@@ -6,9 +6,9 @@
   position: relative;
 
   box-sizing: border-box;
-  height: var(--ring-footer-height);
-  margin: calc(var(--ring-unit) * 5) calc(var(--ring-unit) * 4) 0 calc(var(--ring-unit) * 4);
-  padding-top: calc(var(--ring-unit) * 2);
+  height: footer-height;
+  margin: calc(unit * 5) calc(unit * 4) 0 calc(unit * 4);
+  padding-top: calc(unit * 2);
 
   text-align: center;
 
@@ -26,7 +26,7 @@
 
   width: 100%;
   margin-right: 0;
-  margin-bottom: var(--ring-unit);
+  margin-bottom: unit;
   margin-left: 0;
 }
 
@@ -64,7 +64,7 @@
 .columnRight {
   composes: column;
 
-  top: calc(var(--ring-unit) * 2);
+  top: calc(unit * 2);
   right: 0;
 
   text-align: right;
