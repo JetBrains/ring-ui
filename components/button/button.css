@@ -1,7 +1,7 @@
 @value unit from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
-@value loaderWidth: calc(var(--ring-unit) * 8);
+@value loaderWidth: calc(unit * 8);
 
 .light {
   color: var(--ring-text-color);
@@ -132,7 +132,7 @@
   box-sizing: border-box;
   height: height;
   margin: 0;
-  padding: 0 calc(var(--ring-unit) * 2);
+  padding: 0 calc(unit * 2);
 
   cursor: pointer;
   transition: color var(--ring-ease), background-color var(--ring-ease), box-shadow var(--ring-ease);
@@ -279,7 +279,7 @@
 }
 
 .withIcon {
-  padding: 0 var(--ring-unit);
+  padding: 0 unit;
 }
 
 .withIcon,
@@ -315,7 +315,7 @@
   line-height: normal;
 
   &:not(:last-child) {
-    margin-right: calc(var(--ring-unit) * 0.5);
+    margin-right: calc(unit * 0.5);
   }
 }
 
@@ -388,7 +388,7 @@
 }
 
 .short {
-  width: calc(var(--ring-unit) * 4);
+  width: calc(unit * 4);
   padding: 0;
 }
 

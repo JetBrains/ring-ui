@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value height, compensate, hover-color from '../table/table.css';
 
 .dataListWrapper {
@@ -23,7 +24,7 @@
 
   box-sizing: content-box;
   height: height;
-  padding: 0 calc(var(--ring-unit) * 5) compensate 0;
+  padding: 0 calc(unit * 5) compensate 0;
 
   outline: none;
 
@@ -53,12 +54,12 @@
 .boxes {
   display: flex;
 
-  min-width: calc(var(--ring-unit) * 3);
+  min-width: calc(unit * 3);
 }
 
 .checkboxBox,
 .expanderBox {
-  width: calc(var(--ring-unit) * 3);
+  width: calc(unit * 3);
 
   color: #bbb;
 }

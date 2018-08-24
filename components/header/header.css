@@ -32,17 +32,17 @@
 
     box-sizing: border-box;
     height: height;
-    padding: 0 calc(var(--ring-unit) * 1.5) compensate;
+    padding: 0 calc(unit * 1.5) compensate;
   }
 }
 
 .headerSpaced {
   & > *:first-child {
-    padding-left: calc(var(--ring-unit) * 4);
+    padding-left: calc(unit * 4);
   }
 
   & > *:last-child {
-    padding-right: calc(var(--ring-unit) * 4);
+    padding-right: calc(unit * 4);
   }
 }
 
@@ -78,7 +78,7 @@
 }
 
 .icon {
-  width: calc(var(--ring-unit) * 5);
+  width: calc(unit * 5);
 
   vertical-align: top;
 }
@@ -109,7 +109,7 @@
 
   width: auto;
   height: compensated;
-  padding-left: var(--ring-unit);
+  padding-left: unit;
 
   vertical-align: bottom;
 }
@@ -141,8 +141,8 @@
 
     display: block;
 
-    width: var(--ring-unit);
-    height: var(--ring-unit);
+    width: unit;
+    height: unit;
 
     content: '';
 

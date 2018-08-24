@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value background-color: #e9f1f5;
 @value max-height: 20px;
 
@@ -7,8 +8,8 @@
   box-sizing: border-box;
   height: max-height;
 
-  margin-right: calc(var(--ring-unit) / 2);
-  padding: 1px var(--ring-unit);
+  margin-right: calc(unit / 2);
+  padding: 1px unit;
 
   color: var(--ring-text-color);
 
@@ -33,8 +34,8 @@
 }
 
 .remove {
-  margin-right: calc(var(--ring-unit) * -0.5);
-  padding: 0 calc(var(--ring-unit) / 2);
+  margin-right: calc(unit * -0.5);
+  padding: 0 calc(unit / 2);
 
   cursor: pointer;
 
@@ -79,10 +80,10 @@
 }
 
 .customIcon {
-  max-width: calc(var(--ring-unit) * 2);
-  max-height: calc(var(--ring-unit) * 2);
+  max-width: calc(unit * 2);
+  max-height: calc(unit * 2);
 
-  margin-right: calc(var(--ring-unit) / 2);
+  margin-right: calc(unit / 2);
 
   vertical-align: bottom;
 }

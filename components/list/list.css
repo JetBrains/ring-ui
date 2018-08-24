@@ -1,5 +1,5 @@
 @value unit from "../global/global.css";
-@value listSpacing: var(--ring-unit);
+@value listSpacing: unit;
 
 .list {
   position: relative;
@@ -23,7 +23,7 @@
   display: block;
 
   margin-top: listSpacing;
-  padding: 0 calc(var(--ring-unit) * 2) 1px;
+  padding: 0 calc(unit * 2) 1px;
 
   text-align: right;
 
@@ -56,7 +56,7 @@
 }
 
 .item.item {
-  padding: 3px calc(var(--ring-unit) * 2) 5px;
+  padding: 3px calc(unit * 2) 5px;
 }
 
 .compact {
@@ -76,7 +76,7 @@
 }
 
 .add {
-  padding: var(--ring-unit) calc(2 * var(--ring-unit));
+  padding: unit calc(2 * unit);
 
   line-height: calc(4 * unit);
 }
@@ -105,7 +105,7 @@
   overflow: hidden;
   flex-shrink: 100;
 
-  padding-left: var(--ring-unit);
+  padding-left: unit;
 
   text-align: right;
   white-space: nowrap;
@@ -171,7 +171,7 @@
 
   width: 20px;
   height: 20px;
-  margin-left: calc(var(--ring-unit) * 2);
+  margin-left: calc(unit * 2);
 
   background-repeat: no-repeat;
   background-position: center;
@@ -194,7 +194,7 @@
   float: left;
 
   width: 20px;
-  margin-right: var(--ring-unit);
+  margin-right: unit;
 
   color: var(--ring-secondary-color);
 }
@@ -215,7 +215,7 @@
   float: right;
 
   margin-right: 0;
-  margin-left: calc(var(--ring-unit) * 2);
+  margin-left: calc(unit * 2);
 }
 
 .checkbox {
@@ -231,7 +231,7 @@
 
   margin-top: 10px;
   margin-bottom: 6px;
-  padding: listSpacing calc(var(--ring-unit) * 2) 0;
+  padding: listSpacing calc(unit * 2) 0;
 
   text-align: left;
 }
@@ -254,7 +254,7 @@
   bottom: 0;
 
   width: 100%;
-  height: calc(var(--ring-unit) * 3);
+  height: calc(unit * 3);
 
   pointer-events: none;
 

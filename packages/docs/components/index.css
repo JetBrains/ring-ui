@@ -1,4 +1,4 @@
-@value breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
+@value unit, breakpoint-middle from '../node_modules/@jetbrains/ring-ui/components/global/global.css';
 
 html,
 body {
@@ -29,7 +29,7 @@ body {
   display: flex;
   flex-direction: column;
 
-  padding: calc(var(--ring-unit) * 2) 0 calc(var(--ring-unit) * 5);
+  padding: calc(unit * 2) 0 calc(unit * 5);
 
   background-color: var(--ring-sidebar-background-color);
 
@@ -59,7 +59,7 @@ body {
   min-width: 0;
 
   margin: 0;
-  padding: 0 calc(var(--ring-unit) * 4);
+  padding: 0 calc(unit * 4);
 }
 
 .header {
@@ -70,17 +70,17 @@ body {
 }
 
 .logo {
-  margin-left: calc(var(--ring-unit) * -4 + 1px);
+  margin-left: calc(unit * -4 + 1px);
 }
 
 .item.item {
   display: block;
 
-  padding: 3px calc(var(--ring-unit) * 2) 5px calc(var(--ring-unit) * 4);
+  padding: 3px calc(unit * 2) 5px calc(unit * 4);
 
   text-align: left;
 
-  line-height: calc(var(--ring-unit) * 2);
+  line-height: calc(unit * 2);
 }
 
 .item p {
@@ -93,7 +93,7 @@ body {
 
   position: relative;
 
-  margin: var(--ring-unit) 0 2px;
+  margin: unit 0 2px;
 
   color: var(--ring-text-color);
 }
@@ -133,7 +133,7 @@ a.legacy {
 
 .content {
   min-width: 200px;
-  padding: calc(var(--ring-unit) * 3) 0;
+  padding: calc(unit * 3) 0;
 }
 
 .mainText {
@@ -143,7 +143,7 @@ a.legacy {
 .example {
   position: relative;
 
-  margin-top: calc(var(--ring-unit) * 4);
+  margin-top: calc(unit * 4);
 }
 
 .exampleTitle {
@@ -153,7 +153,7 @@ a.legacy {
 .exampleAnchor {
   position: absolute;
   top: 0;
-  left: calc(var(--ring-unit) * -3.5);
+  left: calc(unit * -3.5);
 }
 
 .iframe {
@@ -163,11 +163,11 @@ a.legacy {
 .frame {
   box-sizing: border-box;
   width: 100%;
-  height: calc(var(--ring-unit) * 10);
-  min-height: calc(var(--ring-unit) * 5);
+  height: calc(unit * 10);
+  min-height: calc(unit * 5);
   max-height: 1000px;
 
-  margin: calc(var(--ring-unit) * 2) 0;
+  margin: calc(unit * 2) 0;
 
   transition: box-shadow var(--ring-fast-ease);
 
@@ -204,11 +204,11 @@ a.legacy {
 }
 
 .sideFooter.sideFooter {
-  padding-top: calc(var(--ring-unit) * 6);
+  padding-top: calc(unit * 6);
 }
 
 .copyright {
-  margin-bottom: var(--ring-unit);
+  margin-bottom: unit;
 
   color: var(--ring-secondary-color);
 
@@ -218,7 +218,7 @@ a.legacy {
 .search {
   position: relative;
 
-  margin-right: calc(var(--ring-unit) * 2);
+  margin-right: calc(unit * 2);
 
   color: var(--ring-hint-color);
 }
@@ -228,7 +228,7 @@ a.legacy {
 
   z-index: 1;
   top: 0;
-  left: var(--ring-unit);
+  left: unit;
 }
 
 .searchInput {
@@ -240,7 +240,7 @@ a.legacy {
 }
 
 .searchInput.searchInput {
-  padding-left: calc(var(--ring-unit) * 4);
+  padding-left: calc(unit * 4);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */

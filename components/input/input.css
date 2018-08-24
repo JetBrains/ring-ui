@@ -7,8 +7,8 @@
   position: relative;
 
   box-sizing: border-box;
-  min-height: calc(var(--ring-unit) * 8);
-  padding-top: calc(var(--ring-unit) * 2);
+  min-height: calc(unit * 8);
+  padding-top: calc(unit * 2);
 
   & * {
     box-sizing: border-box;
@@ -16,13 +16,13 @@
 }
 
 .borderless {
-  min-height: calc(var(--ring-unit) * 4);
+  min-height: calc(unit * 4);
   padding: 0;
 }
 
 .input {
   width: 100%;
-  min-height: calc(var(--ring-unit) * 4);
+  min-height: calc(unit * 4);
   padding: 0;
 
   border: none;
@@ -33,7 +33,7 @@
   caret-color: main-color;
 
   @nest .clearable & {
-    padding-right: calc(var(--ring-unit) * 3);
+    padding-right: calc(unit * 3);
   }
 
   @nest .light & {
@@ -65,7 +65,7 @@
     }
 
     & ~ .label {
-      top: calc(var(--ring-unit) / 2);
+      top: calc(unit / 2);
 
       font-size: var(--ring-font-size-smaller);
     }
@@ -103,14 +103,14 @@ textarea.input {
   overflow: hidden;
 
   box-sizing: border-box;
-  padding-top: var(--ring-unit);
+  padding-top: unit;
 
   resize: none;
 }
 
 .label {
   position: absolute;
-  top: calc(var(--ring-unit) * 3 - 3px);
+  top: calc(unit * 3 - 3px);
   left: 0;
 
   transition: transform var(--ring-fast-ease), color var(--ring-fast-ease);
@@ -129,7 +129,7 @@ textarea.input {
 .input:focus ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
-  transform: translateY(calc(var(--ring-unit) * -2 - 1px)) scale(calc(12 / 13));
+  transform: translateY(calc(unit * -2 - 1px)) scale(calc(12 / 13));
 }
 
 .noLabel ::placeholder,
@@ -213,7 +213,7 @@ textarea.input {
 
   box-sizing: border-box;
   height: 0;
-  padding: calc(var(--ring-unit) / 2) 0 var(--ring-unit);
+  padding: calc(unit / 2) 0 unit;
 
   transition: height 0.3s ease-out;
 
@@ -224,15 +224,15 @@ textarea.input {
 }
 
 .sizeS {
-  width: calc(var(--ring-unit) * 12);
+  width: calc(unit * 12);
 }
 
 .sizeM {
-  width: calc(var(--ring-unit) * 30);
+  width: calc(unit * 30);
 }
 
 .sizeL {
-  width: calc(var(--ring-unit) * 50);
+  width: calc(unit * 50);
 }
 
 .sizeFULL {

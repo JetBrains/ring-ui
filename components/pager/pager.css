@@ -1,15 +1,17 @@
+@value unit from "../global/global.css";
+
 .pager {
   user-select: none;
 }
 
 .links {
-  margin-bottom: calc(var(--ring-unit));
+  margin-bottom: calc(unit);
 }
 
 .link {
   display: inline-block;
 
-  margin-right: calc(var(--ring-unit) * 2);
+  margin-right: calc(unit * 2);
 }
 
 .linkDisabled {
