@@ -1,5 +1,7 @@
+@value unit from "../global/global.css";
+
 .description {
-  margin-top: var(--ring-unit);
+  margin-top: unit;
 
   font-size: var(--ring-font-size);
 }

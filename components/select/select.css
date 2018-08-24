@@ -16,9 +16,9 @@
 
 .button {
   width: 100%;
-  height: calc(4 * var(--ring-unit));
-  margin: var(--ring-unit) 0;
-  padding: 0 calc(2 * var(--ring-unit));
+  height: calc(4 * unit);
+  margin: unit 0;
+  padding: 0 calc(2 * unit);
 
   text-align: left;
 }
@@ -48,15 +48,15 @@
 
   @nest .buttonMode & {
     top: -6px;
-    right: var(--ring-unit);
+    right: unit;
   }
 }
 
 .selectedIcon {
   display: inline-block;
 
-  width: calc(2 * var(--ring-unit));
-  height: calc(2 * var(--ring-unit));
+  width: calc(2 * unit);
+  height: calc(2 * unit);
   margin: 0 4px;
 
   vertical-align: middle;
@@ -78,15 +78,15 @@
 }
 
 .sizeS {
-  width: calc(var(--ring-unit) * 12);
+  width: calc(unit * 12);
 }
 
 .sizeM {
-  width: calc(var(--ring-unit) * 30);
+  width: calc(unit * 30);
 }
 
 .sizeL {
-  width: calc(var(--ring-unit) * 50);
+  width: calc(unit * 50);
 }
 
 .sizeFULL {
@@ -108,7 +108,7 @@
 
   box-sizing: border-box;
   width: 100%;
-  height: calc(var(--ring-unit) * 4 + 1px);
+  height: calc(unit * 4 + 1px);
   padding: 0 0 3px;
 
   cursor: pointer;
@@ -144,7 +144,7 @@
   width: 100%;
 
   text-align: left;
-  vertical-align: calc(0 - var(--ring-unit));
+  vertical-align: calc(0 - unit);
 }
 
 .buttonValueOpen {
@@ -188,7 +188,7 @@
 
 .selectedLabel {
   position: absolute;
-  top: calc(var(--ring-unit) * -1.5);
+  top: calc(unit * -1.5);
 
   color: var(--ring-secondary-color);
 
@@ -203,6 +203,6 @@
 }
 
 .popup {
-  min-width: calc(var(--ring-unit) * 30);
-  max-width: calc(var(--ring-unit) * 40);
+  min-width: calc(unit * 30);
+  max-width: calc(unit * 40);
 }

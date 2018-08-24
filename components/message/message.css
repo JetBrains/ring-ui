@@ -1,11 +1,12 @@
-@value padding: calc(var(--ring-unit) * 1.5);
+@value unit from "../global/global.css";
+@value padding: calc(unit * 1.5);
 
 .message {
   overflow: visible;
 
-  max-width: calc(var(--ring-unit) * 40);
+  max-width: calc(unit * 40);
 
-  padding: padding padding calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 5);
+  padding: padding padding calc(unit * 2) calc(unit * 5);
 
   text-align: left;
 
@@ -54,7 +55,7 @@
 .description {
   composes: font-smaller-lower from "../global/global.css";
 
-  margin: calc(var(--ring-unit) / 2) 0 0;
+  margin: calc(unit / 2) 0 0;
 
   color: var(--ring-dark-active-color);
 }
@@ -68,7 +69,7 @@
 
   transform-origin: 50% 0;
 
-  border-width: var(--ring-unit) var(--ring-unit) 0;
+  border-width: unit unit 0;
   border-style: solid;
   border-color: #192c3b transparent transparent;
 }

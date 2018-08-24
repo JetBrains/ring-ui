@@ -1,5 +1,11 @@
 /* https://readymag.com/artemtiunov/RingUILanguage/colours/ */
 
+/*
+Unit shouldn't be CSS custom property because it is not intended to change
+Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
+*/
+@value unit: 8px;
+
 :root {
   /* Element */
   --ring-line-color: #dfe5eb;
@@ -50,7 +56,6 @@
   --ring-white-color: var(--ring-content-background-color); /* or dark-text-color for text on dark background *)/
 
   /* Metrics */
-  --ring-unit: 8px;
   --ring-border-radius: 3px;
   --ring-border-radius-small: 2px;
   --ring-font-size-larger: 14px;
@@ -81,9 +86,6 @@
 
   /* Alerts should de displayed above overlays */
   --ring-alert-z-index: 6;
-
-  /* Note: footer also has top margin which isn't taken into account here */
-  --ring-footer-height: calc(var(--ring-unit) * 8);
 }
 
 .clearfix {
@@ -156,6 +158,9 @@
   text-overflow: ellipsis;
 }
 
+/* Note: footer also has top margin which isn't taken into account here */
+@value footer-height: calc(unit * 8);
+
 /* Media breakpoints (minimal values) */
 @value breakpoint-small: 640px;
 @value breakpoint-middle: 960px;
@@ -166,11 +171,3 @@
 @value small-screen-media: (min-width: breakpoint-small) and (max-width: calc(breakpoint-middle - 1px));
 @value middle-screen-media: (min-width: breakpoint-middle) and (max-width: calc(breakpoint-large - 1px));
 @value large-screen-media: (min-width: breakpoint-large);
-
-/*
-========= WARNING: DEPRECATED! ===========
-This value shouldn't, use CSS-property "--ring-unit" where possible.
-The reason to use not CSS-property for unit is that FF 47 and older doesn't support calc for "line-height"
-https://bugzilla.mozilla.org/show_bug.cgi?id=594933
-*/
-@value unit: 8px;

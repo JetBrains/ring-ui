@@ -1,6 +1,8 @@
+@value unit from "@jetbrains/ring-ui/components/global/global.css";
+
 :global(.widget-body) {
   margin: 0;
-  padding: calc(var(--ring-unit) * 2);
+  padding: calc(unit * 2);
 
   background: #fff;
 

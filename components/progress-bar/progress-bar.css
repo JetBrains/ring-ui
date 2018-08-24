@@ -22,9 +22,9 @@
 
   overflow: hidden;
 
-  max-width: calc(36 * var(--ring-unit));
-  height: calc(var(--ring-unit) / 2);
-  margin-bottom: calc(var(--ring-unit) / 2);
+  max-width: calc(36 * unit);
+  height: calc(unit / 2);
+  margin-bottom: calc(unit / 2);
 
   border-radius: 2px;
 }

@@ -5,7 +5,7 @@
 }
 
 .error {
-  margin-top: calc(var(--ring-unit) / 2);
+  margin-top: calc(unit / 2);
 
   word-wrap: break-word;
 

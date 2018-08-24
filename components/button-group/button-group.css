@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 .buttonGroup {
   composes: buttonGroup from "../button-toolbar/button-toolbar.css";
 
@@ -20,7 +22,7 @@
 .caption {
   composes: font from "../global/global.css";
 
-  margin-right: var(--ring-unit);
+  margin-right: unit;
 
   font-size: var(--ring-font-size);
 

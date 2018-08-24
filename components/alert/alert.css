@@ -6,9 +6,9 @@
   position: relative;
 
   box-sizing: border-box;
-  min-height: calc(var(--ring-unit) * 5);
-  margin: var(--ring-unit) auto;
-  padding: 0 calc(var(--ring-unit) * 2);
+  min-height: calc(unit * 5);
+  margin: unit auto;
+  padding: 0 calc(unit * 2);
 
   transition:
     transform animation-duration animation-easing,
@@ -25,7 +25,7 @@
 }
 
 .alertInline {
-  margin: var(--ring-unit);
+  margin: unit;
 }
 
 .error {
@@ -37,7 +37,7 @@
 .icon {
   display: inline-block;
 
-  margin-right: var(--ring-unit);
+  margin-right: unit;
 
   vertical-align: top;
 }
@@ -45,9 +45,9 @@
 .caption {
   display: inline-block;
 
-  max-width: calc(100% - calc(var(--ring-unit) * 5));
+  max-width: calc(100% - calc(unit * 5));
 
-  margin: 12px calc(var(--ring-unit) * 5) 12px 0;
+  margin: 12px calc(unit * 5) 12px 0;
 
   vertical-align: middle;
   white-space: normal;
@@ -58,7 +58,7 @@
 }
 
 .badge {
-  margin-left: var(--ring-unit);
+  margin-left: unit;
 
   vertical-align: baseline;
 }
@@ -66,7 +66,7 @@
 .loader {
   top: 2px;
 
-  margin-right: var(--ring-unit);
+  margin-right: unit;
 }
 
 .close {
@@ -74,8 +74,8 @@
   top: 2px;
   right: 0;
 
-  margin: calc(var(--ring-unit) / 2);
-  padding: var(--ring-unit);
+  margin: calc(unit / 2);
+  padding: unit;
 
   cursor: pointer;
 

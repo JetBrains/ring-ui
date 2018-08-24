@@ -1,3 +1,5 @@
+@value unit from "../global/global.css";
+
 @keyframes rotation-keyframes {
   100% {
     transform: rotate(360deg);
@@ -7,7 +9,7 @@
 .canvas {
   display: block;
 
-  margin: calc(var(--ring-unit) * 2) auto;
+  margin: calc(unit * 2) auto;
 
   animation: rotation-keyframes 36s linear infinite;
   pointer-events: none;

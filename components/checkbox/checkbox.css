@@ -1,3 +1,4 @@
+@value unit from "../global/global.css";
 @value checkboxSize: 14px;
 @value disabledBorderColor: #f0f0f0;
 
@@ -40,7 +41,7 @@
 
 .icon {
   position: absolute;
-  top: calc(var(--ring-unit) * -1.5);
+  top: calc(unit * -1.5);
   left: 1px;
 
   width: checkboxSize;
@@ -74,7 +75,7 @@
 
     /* stylelint-disable-next-line selector-max-specificity */
     & .icon {
-      transform: translateY(var(--ring-unit));
+      transform: translateY(unit);
 
       opacity: 1;
     }
@@ -108,7 +109,7 @@
 }
 
 .label {
-  margin-left: var(--ring-unit);
+  margin-left: unit;
 
   line-height: normal;
 }

@@ -22,19 +22,19 @@
 }
 
 .datePicker.datePicker {
-  padding-right: var(--ring-unit);
+  padding-right: unit;
 }
 
 .displayDate {
   display: inline-block;
 
-  min-width: calc(var(--ring-unit) * 11);
+  min-width: calc(unit * 11);
 
   text-align: left;
 }
 
 .displayDate.displayRange {
-  min-width: calc(var(--ring-unit) * 22);
+  min-width: calc(unit * 22);
 }
 
 .clear {
@@ -80,13 +80,13 @@
 .fromInput {
   position: relative;
 
-  flex-basis: calc(var(--ring-unit) * 13);
+  flex-basis: calc(unit * 13);
   flex-grow: 0;
   flex-shrink: 0;
 
   &::after {
     position: absolute;
-    right: var(--ring-unit);
+    right: unit;
 
     content: '—';
 
@@ -95,16 +95,16 @@
 }
 
 .toInput {
-  flex-basis: calc(var(--ring-unit) * 13);
+  flex-basis: calc(unit * 13);
   flex-grow: 1;
   flex-shrink: 0;
 
-  width: calc(var(--ring-unit) * 13);
+  width: calc(unit * 13);
 }
 
 .weekdays {
-  height: calc(var(--ring-unit) * 4);
-  padding: 5px calc(var(--ring-unit) * 2) 0;
+  height: calc(unit * 4);
+  padding: 5px calc(unit * 2) 0;
 
   color: var(--ring-secondary-color);
 }
@@ -150,8 +150,8 @@
   display: flex;
   flex-wrap: wrap;
 
-  width: calc(var(--ring-unit) * 21);
-  margin: calc(var(--ring-unit) * 2);
+  width: calc(unit * 21);
+  margin: calc(unit * 2);
 }
 
 .month > * {
@@ -165,16 +165,16 @@
 .monthTitle {
   /* IE workaround, see https://github.com/philipwalton/flexbugs#7-flex-basis-doesnt-account-for-box-sizingborder-box */
 
-  width: calc(var(--ring-unit) * 12);
+  width: calc(unit * 12);
 
-  padding-left: calc(var(--ring-unit) * 0.5);
+  padding-left: calc(unit * 0.5);
 
   text-align: left;
 
   font-weight: bold;
 
   @supports (flex-basis: 1px) {
-    flex-basis: calc(var(--ring-unit) * 12);
+    flex-basis: calc(unit * 12);
 
     width: auto;
   }
@@ -240,7 +240,7 @@
   &::after {
     position: absolute;
 
-    width: calc(var(--ring-unit) * 2);
+    width: calc(unit * 2);
     height: 100%;
 
     content: '';
@@ -283,8 +283,8 @@
     position: absolute;
     z-index: var(--ring-invisible-element-z-index);
 
-    width: calc(var(--ring-unit) * 23);
-    height: calc(var(--ring-unit) * 8);
+    width: calc(unit * 23);
+    height: calc(unit * 8);
 
     content: '';
     transition: background-color var(--ring-ease);
@@ -302,7 +302,7 @@
 
   &.Monday {
     &::after {
-      height: calc(var(--ring-unit) * 5);
+      height: calc(unit * 5);
     }
   }
 
@@ -312,10 +312,10 @@
     &::before {
       position: absolute;
       z-index: var(--ring-invisible-element-z-index);
-      top: calc(var(--ring-unit) * -8);
+      top: calc(unit * -8);
       left: 600%;
 
-      width: calc(var(--ring-unit) * 2);
+      width: calc(unit * 2);
       height: 100%;
 
       content: '';
@@ -329,7 +329,7 @@
 .Sunday {
   &::before,
   &::after {
-    height: calc(var(--ring-unit) * 5);
+    height: calc(unit * 5);
   }
 }
 
@@ -368,7 +368,7 @@
 .today::before {
   position: absolute;
   top: 0;
-  left: calc(var(--ring-unit) * 0.5);
+  left: calc(unit * 0.5);
 
   content: '•';
 
@@ -395,7 +395,7 @@
   right: 0;
   bottom: 0;
 
-  width: calc(var(--ring-unit) * 6);
+  width: calc(unit * 6);
 
   background-color: var(--ring-content-background-color);
   box-shadow: -1px 0 var(--ring-line-color);
@@ -407,7 +407,7 @@
   position: relative;
 
   height: cellSize;
-  padding-left: calc(var(--ring-unit) * 1.5);
+  padding-left: calc(unit * 1.5);
 
   line-height: cellSize;
 }
@@ -418,7 +418,7 @@
   right: 0;
   left: -1px;
 
-  height: calc(var(--ring-unit) * 6);
+  height: calc(unit * 6);
 
   cursor: grab;
 
