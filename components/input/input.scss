@@ -12,7 +12,7 @@
 // .ring-input_error    - The entered value is incorrect.
 
 @mixin focused_input {
-  border-color: $ring-blue-color;
+  border-color: var(--ring-main-color);
   outline: 0;
 }
 
@@ -24,7 +24,7 @@
   padding-right: $ring-unit/ 2;
   padding-left: $ring-unit / 2;
   padding-bottom: 3px;
-  border: 1px solid $ring-border-color;
+  border: 1px solid var(--ring-borders-color);
   background-color: #FFF;
 
   @include ring-font;
@@ -37,7 +37,7 @@
   }
 
   &_correct {
-    border-color: $ring-green-color;
+    border-color: var(--ring-success-color);
   }
 
   &_error {
@@ -75,8 +75,8 @@ textarea.ring-input {
   vertical-align: top; // https://stackoverflow.com/questions/7144843/extra-space-under-textarea-differs-along-browsers
 
   &::placeholder {
-    color: $ring-gray-color;
+    color: var(--ring-disabled-color);
     line-height: 16px;
-    font-size: $ring-font-size-smaller;
+    font-size: var(--ring-font-size-smaller);
   }
 }

@@ -21,7 +21,7 @@
   @include ring-font(12px);
   @include button-background(#f0f0f0, #fff);
 
-  color: $ring-text-color;
+  color: var(--ring-text-color);
   text-decoration: none;
 
   display: inline-block;
@@ -36,7 +36,7 @@
   outline: 0;
 
   border: 0;
-  border-radius: $ring-border-radius;
+  border-radius: var(--ring-border-radius);
   box-shadow: inset 0 1px 0 0 #ccc, inset 1px 0 0 0 #ccc, inset -1px 0 0 0 #ccc, inset 0 -1px 0 0 #bfbfbf;
 
   cursor: default;
@@ -59,7 +59,7 @@
 
   &:active:not([disabled]):not(.ring-button_loader),
   &.ring-button_active:not([disabled]):not(.ring-button_loader) {
-    background: $ring-light-blue-color;
+    background: var(--ring-icon-color);
     box-shadow: inset 0 0 0 1px #25b7ff, inset 0 1px 4px 0 rgba(3, 116, 172, 0.5);
     z-index: 2;
   }
@@ -70,7 +70,7 @@
   }
 
   .ring-icon {
-    color: $ring-dark-gray-color;
+    color: var(--ring-secondary-color);
     line-height: $ring-unit;
     vertical-align: 1px;
     top: auto;
@@ -154,7 +154,7 @@
 }
 
 .ring-button_danger {
-  color: $ring-error-color;
+  color: var(--ring-link-hover-color);
 
   .ring-icon {
     color: inherit;

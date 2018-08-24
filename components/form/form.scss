@@ -18,7 +18,7 @@ $ring-input-width: $ring-unit*25;
 }
 
 .ring-form_border {
-  border: 1px solid $ring-gray-color;
+  border: 1px solid var(--ring-disabled-color);
   border-radius: 2px;
 }
 
@@ -46,9 +46,9 @@ $ring-input-width: $ring-unit*25;
 
 .ring-form__control__description {
   padding-top: $ring-unit / 2;
-  font-size: $ring-font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   line-height: 16px !important;
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
   max-width: 900px;
   display: block;
 }
@@ -149,11 +149,11 @@ $ring-input-width: $ring-unit*25;
 }
 
 .ring-form__control_on {
-  color: $ring-green-color;
+  color: var(--ring-success-color);
 }
 
 .ring-form__control_off {
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
 }
 
 .ring-form__control-link {

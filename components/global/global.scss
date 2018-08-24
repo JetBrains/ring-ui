@@ -2,6 +2,11 @@
 
 $ring-unit: 8px;
 
+/**
+  =============== DEPRECATION NOTICE ================
+  All the following constants are deprecated and will be removed soon
+  Use CSS variables from global.css instead
+ */
 $ring-text-color: #444;
 
 $ring-link-color: #0F5B99;
@@ -34,12 +39,12 @@ $ring-font-size-smaller: 12px;
   }
 }
 
-@mixin ring-font($font-size: $ring-font-size) {
-  color: $ring-text-color;
+@mixin ring-font($font-size: var(--ring-font-size)) {
+  color: var(--ring-text-color);
 
   //  This is a carefully tested set of fonts, do not touch without consulting with UI designers
   font-size: $font-size;
-  font-family: -apple-system, BlinkMacSystemFont, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--ring-font-family);
 }
 
 // To be used at large sizes
@@ -50,7 +55,7 @@ $ring-font-size-smaller: 12px;
 }
 
 @mixin ring-monospace-font() {
-  font: 12px Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", "Courier New", Courier, monospace;
+  font: var(--ring-font-family-monospace);
 }
 
 @mixin ring-vertical-compensation($compensation: -2px, $position: relative) {
@@ -61,7 +66,7 @@ $ring-font-size-smaller: 12px;
 @mixin ring-input-disabled() {
   border-color: #DEDEDE;
   background-color: #F8F8F8;
-  color: rgba($ring-text-color, 0.5);
+  color: rgba(var(--ring-text-color), 0.5);
 }
 
 @mixin ring-ellipsis() {

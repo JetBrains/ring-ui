@@ -15,27 +15,27 @@
 
 // Available icon colours
 .ring-icon_gray {
-  color: $ring-gray-color;
+  color: var(--ring-disabled-color);
 }
 
 .ring-icon_hover {
-  color: $ring-link-hover-color;
+  color: var(--ring-link-hover-color);
 }
 
 .ring-icon_green {
-  color: $ring-green-color;
+  color: var(--ring-success-color);
 }
 
 .ring-icon_magenta {
-  color: $ring-link-hover-color;
+  color: var(--ring-link-hover-color);
 }
 
 .ring-icon_red {
-  color: $ring-error-color;
+  color: var(--ring-link-hover-color);
 }
 
 .ring-icon_blue {
-  color: $ring-blue-color;
+  color: var(--ring-main-color);
 }
 
 .ring-icon_white {

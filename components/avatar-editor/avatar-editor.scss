@@ -21,7 +21,7 @@
 }
 
 .ring-avatar-editor:hover:not(:disabled):not(.ring-avatar-editor_controlled) {
-  border: 1px solid $ring-link-hover-color;
+  border: 1px solid var(--ring-link-hover-color);
   padding: 0;
 
   .ring-avatar-editor__icon {
@@ -74,7 +74,7 @@
   cursor: pointer;
   display: inline-block;
   vertical-align: top;
-  border: 1px solid $ring-gray-color;
+  border: 1px solid var(--ring-disabled-color);
   padding: 0;
 }
 

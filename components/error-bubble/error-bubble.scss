@@ -19,13 +19,13 @@ $border-color: #e5e5e5;
   padding-left: 2*$ring-unit;
   line-height: 22px;
 
-  border-radius: $ring-border-radius;
+  border-radius: var(--ring-border-radius);
   border: 1px solid $border-color;
 
   @include ring-font(12px);
   white-space: nowrap;
 
-  color: $ring-error-color;
+  color: var(--ring-link-hover-color);
   background: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
@@ -36,7 +36,7 @@ $border-color: #e5e5e5;
   &:before {
     content: '';
     transform: rotate(45deg);
-    z-index: $ring-invisible-element-z-index;
+    z-index: var(--ring-invisible-element-z-index);
 
     position: absolute;
     top: 7px;

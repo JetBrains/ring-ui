@@ -53,7 +53,7 @@
 
   padding: 3px 4px 3px 5px;
 
-  color: $ring-gray-color;
+  color: var(--ring-disabled-color);
   user-select: none;
 }
 
@@ -75,7 +75,7 @@
 
 .shortcuts-hint__shortcut {
   white-space: nowrap;
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
   font-family: monospace;
 }
 
@@ -88,7 +88,7 @@
   display: table-cell;
   padding-left: $ring-unit;
   font-size: 12px;
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
