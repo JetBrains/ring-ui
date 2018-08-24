@@ -47,14 +47,6 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
   --ring-message-background-color: rgba(0, 21, 38, 0.9);
   --ring-navigation-background-color: #000;
 
-  /* Deprecated, use referenced values instead */
-  --ring-black-color: var(--ring-navigation-background-color);
-  --ring-darker-gray-color: var(--ring-dark-secondary-color);
-  --ring-dark-gray-color: var(--ring-secondary-color);
-  --ring-gray-color: var(--ring-disabled-color);
-  --ring-light-gray-color: var(--ring-dark-active-color);
-  --ring-white-color: var(--ring-content-background-color); /* or dark-text-color for text on dark background *)/
-
   /* Metrics */
   --ring-border-radius: 3px;
   --ring-border-radius-small: 2px;
