@@ -14,7 +14,7 @@
 
   border: 1px solid;
   border-color: rgba(0, 0, 0, 0.15);
-  border-radius: $ring-border-radius;
+  border-radius: var(--ring-border-radius);
 
   background-color: #FFF;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
@@ -40,15 +40,15 @@
   line-height: $ring-unit*3 - 2;
 
   border-bottom: 1px solid #B4B4B4;
-  border-top-left-radius: $ring-border-radius;
-  border-top-right-radius: $ring-border-radius;
+  border-top-left-radius: var(--ring-border-radius);
+  border-top-right-radius: var(--ring-border-radius);
 
   background-image: linear-gradient(to top, #EBEBEB, #FFF);
 }
 
 .ring-island__header-btn,
 .ring-island__header-button {
-  font-size: $ring-font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   float: right;
 
   padding: 0 $ring-unit*2 - 1; // -1 to account for border

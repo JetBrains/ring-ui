@@ -8,12 +8,12 @@
 
 .ring-tooltip-ng__hint-icon {
   margin-left: $ring-unit;
-  color: $ring-light-blue-color;
+  color: var(--ring-icon-color);
   cursor: pointer;
 
   @include ring-vertical-compensation();
 
   .ring-tooltip-ng_open & {
-    color: $ring-link-hover-color;
+    color: var(--ring-link-hover-color);
   }
 }

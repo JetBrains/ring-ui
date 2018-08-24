@@ -6,7 +6,7 @@
   border-spacing: 0;
   border-collapse: collapse;
   background-color: transparent;
-  font-size: $ring-font-size;
+  font-size: var(--ring-font-size);
 }
 
 .ring-table__header {
@@ -29,10 +29,10 @@
   text-align: left;
   line-height: 23px;
   white-space: nowrap;
-  font-size: $ring-font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   font-weight: normal;
 
-  color: $ring-text-color;
+  color: var(--ring-text-color);
   border-top: 1px solid #BEBEBE;
   border-bottom: 1px solid #D8D8D8;
 
@@ -92,7 +92,7 @@
   cursor: pointer;
 
   &:hover {
-    color: $ring-text-color;
+    color: var(--ring-text-color);
   }
 }
 
@@ -101,7 +101,7 @@
 }
 
 .ring-table__toggle-icon:hover {
-  color: $ring-link-hover-color;
+  color: var(--ring-link-hover-color);
 }
 
 .ring-table__column-inline-avatar {
@@ -164,7 +164,7 @@
   }
 
   &_gray {
-    color: $ring-dark-gray-color;
+    color: var(--ring-secondary-color);
   }
 
   &_snuggle-right {
@@ -251,7 +251,7 @@
 
   &.ring-table__row_active {
     .ring-table__column {
-      border-color: $ring-blue-color;
+      border-color: var(--ring-main-color);
       border-top-style: double; // Using double to override border-top-color because of border collapsed
     }
 
@@ -272,7 +272,7 @@
 
 .ring-table__description {
   margin-left: $ring-unit;
-  font-size: $ring-font-size-smaller;
+  font-size: var(--ring-font-size-smaller);
   color: #6E6E6E;
 }
 
@@ -293,7 +293,7 @@
   width: auto;
 
   // Set z-index to avoid overlaying icons in rows and fixed header
-  z-index: $ring-fixed-z-index;
+  z-index: var(--ring-fixed-z-index);
 }
 
 .table__pager {
@@ -309,7 +309,7 @@
   margin-right: 4*$ring-unit;
 
   &_disabled {
-    color: $ring-dark-gray-color;
+    color: var(--ring-secondary-color);
   }
 }
 

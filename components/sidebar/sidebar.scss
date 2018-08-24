@@ -45,7 +45,7 @@
 }
 
 .ring-sidebar__toggle-icon {
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
 }
 
 .ring-sidebar__avatar {
@@ -83,14 +83,14 @@
 
 .ring-sidebar__section-title {
   display: inline-block;
-  font-size: $ring-font-size;
+  font-size: var(--ring-font-size);
   font-weight: bold;
-  color: $ring-text-color;
+  color: var(--ring-text-color);
 }
 
 .ring-sidebar__section-text {
-  font-size: $ring-font-size;
-  color: $ring-text-color;
+  font-size: var(--ring-font-size);
+  color: var(--ring-text-color);
   line-height: 3*$ring-unit;
 
   &_multiline {
@@ -110,7 +110,7 @@
 
   width: 4*$ring-unit;
 
-  color: $ring-dark-gray-color;
+  color: var(--ring-secondary-color);
   font-size: 12px;
   text-align: center;
 }
@@ -122,12 +122,12 @@
 
 .ring-sidebar__empty-icon {
   font-size: 100px;
-  color: $ring-gray-color;
+  color: var(--ring-disabled-color);
 }
 
 .ring-sidebar__empty-description {
   margin-top: $ring-unit*2;
-  color: $ring-text-color;
+  color: var(--ring-text-color);
   font-size: 12px;
 
   line-height: 18px;

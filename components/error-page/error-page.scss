@@ -9,7 +9,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: $ring-invisible-element-z-index;
+  z-index: var(--ring-invisible-element-z-index);
 }
 
 .error-page_enabled:before {
