@@ -1,11 +1,11 @@
 @value unit from "@jetbrains/ring-ui/components/global/global.css";
 
 html,
-.<%= camelCaseName % > {
+.<%= camelCaseName %> {
   height: 100%;
 }
 
-.<%= camelCaseName % > {
+.<%= camelCaseName %> {
   composes: font from "@jetbrains/ring-ui/components/global/global.css";
 
   margin: 0;
