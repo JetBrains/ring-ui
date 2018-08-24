@@ -25,7 +25,7 @@ $border-color: #e5e5e5;
   @include ring-font(12px);
   white-space: nowrap;
 
-  color: var(--ring-link-error-color);
+  color: var(--ring-error-color);
   background: #FFF;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
