@@ -45,7 +45,7 @@
 .showMore {
   padding: 4px 60px;
 
-  color: #999;
+  color: var(--ring-secondary-color);
   outline: none;
 
   font-size: 12px;
@@ -61,14 +61,14 @@
 .expanderBox {
   width: calc(unit * 3);
 
-  color: #bbb;
+  color: var(--ring-disabled-color);
 }
 
 .expanderBox {
   cursor: pointer;
 
   &:hover {
-    color: #ff5a00;
+    color: var(--ring-link-hover-color);
   }
 }
 

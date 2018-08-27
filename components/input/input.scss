@@ -41,7 +41,7 @@
   }
 
   &_error {
-    border-color: #F00;
+    border-color: var(--ring-error-color);
   }
 
   &_no-resize {
