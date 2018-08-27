@@ -99,7 +99,7 @@
 .tabCounter {
   padding-left: 8px;
 
-  color: #999;
+  color: var(--ring-secondary-color);
 
   font-size: 12px;
   font-weight: normal;

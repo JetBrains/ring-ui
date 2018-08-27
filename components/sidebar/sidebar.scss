@@ -60,7 +60,7 @@
   margin: 0;
   padding-left: 4*$ring-unit;
 
-  color: #222;
+  color: var(--ring-heading-color);
   vertical-align: middle;
   font-size: 3*$ring-unit;
   font-weight: normal;
