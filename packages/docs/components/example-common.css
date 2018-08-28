@@ -1,3 +1,5 @@
+@import "../node_modules/@jetbrains/ring-ui/components/global/variables.css";
+
 @value unit from "../node_modules/@jetbrains/ring-ui/components/global/global.css";
 
 body {

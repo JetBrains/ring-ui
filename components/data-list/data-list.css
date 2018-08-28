@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value height, compensate, hover-color from '../table/table.css';
 

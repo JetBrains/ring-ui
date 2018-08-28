@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit, breakpoint-small, breakpoint-middle, breakpoint-large, large-screen-media, middle-screen-media, small-screen-media from '../global/global.css';
 @value gutterWidth: (unit*2);
 @value gutterCompensation: calc(gutterWidth / -2);
