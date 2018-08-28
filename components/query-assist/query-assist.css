@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value overInputZIndex: 2;
 @value oldBlueColor: #25B7FF;
