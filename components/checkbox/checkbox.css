@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value checkboxSize: 14px;
 @value disabledBorderColor: #f0f0f0;

@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value background-color: #e9f1f5;
 @value max-height: 20px;
