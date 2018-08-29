@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit, extra-small-screen-media from '../global/global.css';
 
 .dialogContent {

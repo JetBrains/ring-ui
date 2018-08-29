@@ -1,7 +1,22 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value button-shadow: inset 0 0 0 1px;
 @value height: calc(unit * 3);
 @value loaderWidth: calc(unit * 8);
+
+:root {
+  --ring-button-primary-background-color: #1a98ff;
+  --ring-button-primary-border-color: #0062b2;
+  --ring-button-danger-active-color: #ffe7e8;
+  --ring-button-danger-hover-color: #ffb3b8;
+  --ring-button-loader-background: #33a3ff;
+  --ring-button-dark-icon-color: #333;
+  --ring-button-dark-danger-active-color: #26080a;
+  --ring-button-dark-danger-hover-color: #db5860;
+  --ring-button-dark-active-color: #001526; /* TODO: Can't it be replaced with #002A4D? */
+  --ring-button-dark-loader-background: #002039;
+}
 
 .light {
   color: var(--ring-text-color);
@@ -29,20 +44,20 @@
 
   &.primary:active,
   &.primary.active {
-    background-color: #1a98ff;
-    box-shadow: button-shadow #0062b2;
+    background-color: var(--ring-button-primary-background-color);
+    box-shadow: button-shadow var(--ring-button-primary-border-color);
   }
 
   &.danger:active,
   &.danger.active {
-    background-color: #ffe7e8;
+    background-color: var(--ring-button-danger-active-color);
   }
 
   &.danger:active,
   &.danger.active,
   &.danger:focus,
   &.danger:hover {
-    box-shadow: button-shadow #ffb3b8;
+    box-shadow: button-shadow var(--ring-button-danger-hover-color);
   }
 
   &.withIcon {
@@ -72,7 +87,7 @@
   &:active,
   &.active {
     color: var(--ring-dark-text-color);
-    background-color: var(--ring-dark-selected-background-color);
+    background-color: var(--ring-button-dark-active-color);
     box-shadow: button-shadow var(--ring-main-color);
   }
 
@@ -82,7 +97,7 @@
   }
 
   &[disabled] .icon {
-    color: #333;
+    color: var(--ring-button-dark-icon-color);
   }
 
   &.primary:active,
@@ -94,14 +109,14 @@
   &.danger:active,
   &.danger.active {
     color: var(--ring-error-color);
-    background-color: #26080a;
+    background-color: var(--ring-button-dark-danger-active-color);
   }
 
   &.danger:active,
   &.danger.active,
   &.danger:focus,
   &.danger:hover {
-    box-shadow: button-shadow #db5860;
+    box-shadow: button-shadow var(--ring-button-dark-danger-hover-color);
   }
 
   &.withIcon {
@@ -113,7 +128,7 @@
       linear-gradient(
         to right,
         var(--ring-navigation-background-color),
-        #002039 40%,
+        var(--ring-button-dark-loader-background) 40%,
         var(--ring-navigation-background-color) 80%
       );
   }
@@ -219,7 +234,7 @@
         linear-gradient(
           to right,
           var(--ring-main-color),
-          #33a3ff 40%,
+          var(--ring-button-loader-background) 40%,
           var(--ring-main-color) 80%
         );
     }
