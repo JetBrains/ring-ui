@@ -6,7 +6,7 @@
   margin: 0;
   padding: calc(unit * 2);
 
-  background: #fff;
+  background: var(--ring-content-background-color);
 
   font-size: var(--ring-font-size);
 }
