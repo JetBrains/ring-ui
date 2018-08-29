@@ -164,8 +164,7 @@ export default class QueryAssist extends Component {
 
     if (this.props.autoOpen) {
       this.requestHandler().
-        catch(noop).
-        then(this.setCaretPosition);
+        catch(noop);
     } else {
       this.requestStyleRanges().catch(noop);
     }

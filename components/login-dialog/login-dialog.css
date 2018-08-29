@@ -13,7 +13,7 @@
 }
 
 .nonOpaqueLoader {
-  background-color: #fff;
+  background-color: var(--ring-content-background-color);
 }
 
 .fallbackLinkContainer {
