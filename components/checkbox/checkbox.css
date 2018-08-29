@@ -2,7 +2,6 @@
 
 @value unit from "../global/global.css";
 @value checkboxSize: 14px;
-@value disabledBorderColor: #f0f0f0;
 
 .checkbox {
   position: relative;
@@ -96,7 +95,7 @@
   }
 
   &[disabled] + .cell {
-    border-color: disabledBorderColor;
+    border-color: var(--ring-line-color);
     background-color: var(--ring-content-background-color);
   }
 
