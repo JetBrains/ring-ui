@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value height: calc(unit * 8);
 @value compensate: 3px;

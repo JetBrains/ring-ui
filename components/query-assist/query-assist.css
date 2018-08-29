@@ -1,6 +1,7 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value overInputZIndex: 2;
-@value oldBlueColor: #25B7FF;
 
 .light {
   &.queryAssist {
@@ -17,7 +18,7 @@
     &:active,
     &:focus {
       border-color: transparent;
-      box-shadow: 0 0 0 1px oldBlueColor;
+      box-shadow: 0 0 0 1px var(--ring-main-color);
     }
   }
 
@@ -26,16 +27,16 @@
   }
 
   & .letter-text {
-    color: #b58900;
+    color: var(--ring-warning-color);
   }
 
   & .letterDefault,
   & .letter-field-name {
-    color: #1a1a1a;
+    color: var(--ring-text-color);
   }
 
   & .letter-field-value {
-    color: #176b8a;
+    color: var(--ring-link-color);
   }
 
   & .letter-operator {
@@ -80,7 +81,7 @@
     color: var(--ring-search-color);
 
     border-top-width: 5px;
-    background: #002a4d;
+    background: var(--ring-dark-selected-background-color);
 
     &:active,
     &:focus {
@@ -93,7 +94,7 @@
   & .placeholder {
     top: 6px;
 
-    color: var(--ring-hint-color);
+    color: var(--ring-icon-color);
 
     @nest & _:-ms-input-placeholder,
     :root & {
@@ -108,7 +109,7 @@
   }
 
   & .letter-text {
-    color: #b58900;
+    color: var(--ring-warning-color);
   }
 
   & .letterDefault,
@@ -133,7 +134,7 @@
   & .icon {
     top: unit;
 
-    color: var(--ring-hint-color);
+    color: var(--ring-icon-color);
   }
 
   & .loader {
@@ -149,7 +150,7 @@
   }
 
   & .service {
-    color: #b4b4b4;
+    color: var(--ring-secondary-color);
   }
 }
 
@@ -204,7 +205,7 @@
   }
 
   & .icon {
-    color: var(--ring-hint-color);
+    color: var(--ring-icon-color);
   }
 
   &.inputGap {
@@ -216,9 +217,8 @@
   }
 
   &.inputDisabled {
-    color: #4448;
-    border-color: #dedede;
-    background-color: #f8f8f8;
+    color: var(--ring-disabled-color);
+    border-color: var(--ring-line-color);
   }
 }
 

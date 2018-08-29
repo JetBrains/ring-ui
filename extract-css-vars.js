@@ -32,7 +32,7 @@ const ExtractVariablesPlugin = postcss.
   });
 
 const variablesSource = fs.
-  readFileSync(require.resolve('./components/global/global.css'));
+  readFileSync(require.resolve('./components/global/variables.css'));
 
 const res = ExtractVariablesPlugin.
   process(variablesSource.toString(), {}, {}).sync();

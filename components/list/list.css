@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value listSpacing: unit;
 
@@ -145,8 +147,8 @@
 .hint.hint {
   margin-bottom: 0;
 
-  border-top: 1px solid #e5dcb8;
-  background-color: #fff5cd;
+  border-top: 1px solid var(--ring-line-color);
+  background-color: var(--ring-sidebar-background-color);
 
   font-size: var(--ring-font-size-smaller);
 }
@@ -180,11 +182,11 @@
 }
 
 .highlight {
-  color: #d800ff;
+  color: var(--ring-link-hover-color);
 }
 
 .service {
-  color: #b4b4b4;
+  color: var(--ring-secondary-color);
 }
 
 .glyph {
