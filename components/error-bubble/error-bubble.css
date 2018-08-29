@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value borderColor: #e5e5e5;
 
 .errorBubblePopup {
   overflow: visible;
@@ -27,10 +26,10 @@
 
   color: var(--ring-error-color);
 
-  border: 1px solid borderColor;
+  border: 1px solid var(--ring-popup-border-color);
   border-radius: var(--ring-border-radius);
 
-  background: #fff;
+  background: var(--ring-content-background-color);
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
 
   font-size: 12px;
@@ -49,9 +48,9 @@
     content: '';
     transform: rotate(45deg);
 
-    border: 1px solid borderColor;
+    border: 1px solid var(--ring-borders-color);
     border-top: none;
     border-right: none;
-    background: #fff;
+    background: var(--ring-content-background-color);
   }
 }
