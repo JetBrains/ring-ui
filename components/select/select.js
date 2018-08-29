@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -104,7 +104,8 @@ export default class Select extends Component {
     hideArrow: PropTypes.bool,
     compact: PropTypes.bool,
     size: PropTypes.oneOf(Object.values(Size)),
-    theme: PropTypes.string
+    theme: PropTypes.string,
+    customAnchor: PropTypes.func
   };
 
   static defaultProps = {
@@ -1078,6 +1079,31 @@ export default class Select extends Component {
           </div>
         );
       default:
+        if (this.props.customAnchor) {
+          return (
+            <Fragment>
+              {shortcutsEnabled && (
+                <Shortcuts
+                  map={this.getShortcutsMap()}
+                  scope={this.shortcutsScope}
+                />
+              )}
+              {this.props.customAnchor({
+                wrapperProps: {
+                  ref: this.nodeRef,
+                  'data-test': 'ring-select'
+                },
+                buttonProps: {
+                  onClick: this._clickHandler,
+                  disabled: this.props.disabled,
+                  children: this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString(),
+                  'data-test': 'ring-select_focus'
+                },
+                popup: this._renderPopup()
+              })}
+            </Fragment>
+          );
+        }
         return (
           <span ref={this.nodeRef} data-test="ring-select">
             {this._renderPopup()}

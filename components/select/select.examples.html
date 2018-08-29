@@ -750,7 +750,6 @@
 
 <example name="Select as a dropdown without filter">
   <file type="html" disable-auto-size>
-    <button id="demoButton">Click me</button>
     <div id="demo"></div>
     <div id="changeResult"></div>
   </file>
@@ -767,20 +766,21 @@
         'key': i
       });
     }
-    const select = render(
+    render(
       <Select
         type={Select.Type.CUSTOM}
         data={data}
-        onChange={selected => {
-          document.getElementById('changeResult').innerHTML = selected.label;
-        }}
+        label="Click me"
+        customAnchor={({wrapperProps, buttonProps, popup}) => (
+          <span {...wrapperProps}>
+            <button type="button" {...buttonProps}/>
+            {popup}
+          </span>
+        )}
       />,
       document.getElementById('demo')
     );
 
-    document.getElementById('demoButton').onclick = function () {
-      select._clickHandler();
-    }
   </file>
   <file type="css">
     body {
