@@ -19,6 +19,6 @@
   z-index: 2; // should be on top of button groups which have z-index: 1 for active element
   width: 100%;
   margin-left: 0;
-  background-color: #fff;
-  border-top: 1px solid rgba(0, 42, 76, .1);
+  background-color: var(--ring-content-background-color);
+  border-top: 1px solid var(--ring-popup-border-color);
 }

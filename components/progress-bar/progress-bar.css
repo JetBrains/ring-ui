@@ -50,7 +50,7 @@
   transition: width 0.6s ease;
   text-align: center;
 
-  color: #fff;
+  color: var(--ring-content-background-color);
   border-radius: 2px;
   background-color: var(--ring-main-color);
 

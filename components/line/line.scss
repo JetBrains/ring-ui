@@ -1,35 +1,14 @@
 @import url("../global/variables.css");
 @import "../global/global";
 
-/**
- * @name Line
- * @category Style-only
- * @description Draws a horizontal separator.
- * @example
-   <example name="Line">
-     <file type="html">
-       <div>Before</div>
-       <div class="ring-line"></div>
-       <div>After</div>
-     </file>
-     <file type="js">
-       import '@jetbrains/ring-ui/components/line/line.scss';
-     </file>
-   </example>
- */
-
 .ring-line {
   display: block;
   width: 100%;
   height: 1px;
-  background-color: #D8D8D8;
+  background-color: var(--ring-line-color);
 
   &_separated {
     margin: $ring-unit*2 0;
-  }
-
-  &_table {
-    background-color: #BEBEBE;
   }
 }
 
