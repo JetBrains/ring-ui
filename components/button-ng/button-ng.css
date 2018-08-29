@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 /* This fixes vertical align of icons, contained in button content */
 /* stylelint-disable-next-line selector-type-no-unknown */
 .ringIconVerticalAlignFix rg-icon {

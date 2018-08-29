@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value padding: calc(unit * 1.5);
 
@@ -71,5 +73,5 @@
 
   border-width: unit unit 0;
   border-style: solid;
-  border-color: #192c3b transparent transparent;
+  border-color: #192c3b transparent transparent; /* TODO: replace hex color with palette */
 }

@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 .avatar {
   object-fit: contain;
   object-position: center;

@@ -1,10 +1,12 @@
+@import "@jetbrains/ring-ui/components/global/variables.css";
+
 @value unit from "@jetbrains/ring-ui/components/global/global.css";
 
 :global(.widget-body) {
   margin: 0;
   padding: calc(unit * 2);
 
-  background: #fff;
+  background: var(--ring-content-background-color);
 
   font-size: var(--ring-font-size);
 }
