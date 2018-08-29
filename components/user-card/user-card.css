@@ -45,5 +45,5 @@
 }
 
 .userActiveStatus.online {
-  background-color: #6fa01f;
+  background-color: var(--ring-icon-success-color);
 }
