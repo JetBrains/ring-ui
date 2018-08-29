@@ -25,7 +25,7 @@
   box-sizing: border-box;
 
   overflow: hidden;
-  background: #FFF;
+  background: var(--ring-content-background-color);
   transition: right 0.5s ease, visibility 0.5s;
   visibility: hidden;
 }
@@ -60,7 +60,7 @@
   margin: 0;
   padding-left: 4*$ring-unit;
 
-  color: #222;
+  color: var(--ring-heading-color);
   vertical-align: middle;
   font-size: 3*$ring-unit;
   font-weight: normal;

@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 
 .userCardSpaced {
@@ -43,5 +45,5 @@
 }
 
 .userActiveStatus.online {
-  background-color: #6fa01f;
+  background-color: var(--ring-icon-success-color);
 }

@@ -1,10 +1,12 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 
 .services {
   max-width: calc(calc(unit * 50) + 2px);
   padding: calc(unit * 4) calc(unit * 4) calc(unit * 3);
 
-  background-color: #000;
+  background-color: var(--ring-navigation-background-color);
 
   line-height: 10px; /* Eliminate gap between clickable blocks rows */
 }
@@ -24,7 +26,7 @@
   text-align: center;
   text-overflow: ellipsis;
 
-  color: #fff;
+  color: var(--ring-dark-text-color);
 
   line-height: initial;
 
@@ -36,7 +38,7 @@
 
   &:not(:hover),
   &:visited:not(:hover) {
-    color: #fff;
+    color: var(--ring-dark-text-color);
   }
 
   /* Disable animation .ring-icon_loading in Header in Edge, see https://youtrack.jetbrains.com/issue/RG-928 */
@@ -62,7 +64,7 @@
   composes: active;
 
   &:hover {
-    color: #fff;
+    color: var(--ring-dark-text-color);
   }
 }
 

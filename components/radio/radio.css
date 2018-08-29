@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 @value radio-size: calc(2 * unit);
 

@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 @value unit from "../global/global.css";
 
 .filterWithTags {
@@ -46,6 +48,8 @@
 }
 
 .message {
+  display: inline-block;
+
   margin: unit 0;
   padding: 0 calc(2 * unit);
 }

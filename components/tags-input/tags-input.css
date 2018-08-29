@@ -1,3 +1,5 @@
+@import "../global/variables.css";
+
 .tagsInput {
   overflow: hidden;
 
@@ -12,7 +14,7 @@
   padding-bottom: 1px;
 
   border: 1px solid var(--ring-borders-color);
-  background-color: #fff;
+  background-color: var(--ring-content-background-color);
 
   & .tagsList {
     line-height: 20px;
