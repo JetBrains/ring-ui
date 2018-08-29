@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value link from "../link/link.css";
 @value animation-duration: 300ms;
 @value animation-easing: ease-out;
 
@@ -24,6 +25,10 @@
 
   font-size: var(--ring-font-size);
   line-height: calc(unit * 5);
+
+  & a {
+    color: var(--ring-main-color);
+  }
 }
 
 .alertInline {

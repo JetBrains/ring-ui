@@ -1,8 +1,8 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value gradientStart: rgba(255, 255, 255, 0);
-@value gradientStop: rgba(255, 255, 255, 0.8);
+@value gradientStart: transparent;
+@value gradientStop: var(--ring-content-background-color);
 
 .island {
   display: flex;
@@ -11,7 +11,7 @@
   border: 1px solid var(--ring-popup-border-color);
   border-radius: var(--ring-border-radius);
 
-  background-color: #fff;
+  background-color: var(--ring-content-background-color);
   box-shadow: 0 1px 4px rgba(var(--ring-popup-border-components), 0.15);
 }
 
@@ -92,7 +92,8 @@
 
   pointer-events: none;
 
-  background: linear-gradient(gradientStop, gradientStart); /* stylelint-disable-line function-linear-gradient-no-nonstandard-direction */
+  opacity: 0.8;
+  background: linear-gradient(to top, gradientStart, gradientStop); /* stylelint-disable-line function-linear-gradient-no-nonstandard-direction */
 }
 
 .contentWithTopFade:first-child::before {
@@ -113,7 +114,8 @@
   content: '';
   pointer-events: none;
 
+  opacity: 0.8;
   border-bottom-right-radius: var(--ring-border-radius);
   border-bottom-left-radius: var(--ring-border-radius);
-  background: linear-gradient(gradientStart, gradientStop);
+  background: linear-gradient(to bottom, gradientStart, gradientStop);
 }

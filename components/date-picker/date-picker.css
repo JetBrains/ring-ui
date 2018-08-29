@@ -1,12 +1,15 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value hover-color: #cef;
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
 @value yearHeight: calc(unit * 4);
 @value yearWidth: calc(unit * 6);
+
+:root {
+  --ring-date-picker-hover-color: #cef;
+}
 
 .container {
   display: inline-block;
@@ -206,7 +209,7 @@
 .activeBetween {
   transition: none;
 
-  background-color: hover-color;
+  background-color: var(--ring-date-picker-hover-color);
 }
 
 .current {
@@ -220,7 +223,7 @@
 
   color: var(--ring-link-hover-color);
   border-radius: var(--ring-border-radius);
-  background-color: hover-color;
+  background-color: var(--ring-date-picker-hover-color);
 }
 
 .from {
@@ -272,7 +275,7 @@
     &::after {
       transition: none;
 
-      background-color: hover-color;
+      background-color: var(--ring-date-picker-hover-color);
     }
   }
 }
@@ -351,7 +354,7 @@
   & + .Tuesday::before {
     transition: none;
 
-    background-color: hover-color;
+    background-color: var(--ring-date-picker-hover-color);
   }
 }
 
