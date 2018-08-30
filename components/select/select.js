@@ -803,9 +803,9 @@ export default class Select extends Component {
     }
   };
 
-  clearFilter = () => {
-    this.filterValue('');
-  }
+  clearFilter = e => {
+    this._setFilter('', e);
+  };
 
   clear = event => {
     if (event) {
