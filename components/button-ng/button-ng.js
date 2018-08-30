@@ -31,7 +31,7 @@ const buttonClasses = classNames(
   styles.light
 );
 
-const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
+export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];

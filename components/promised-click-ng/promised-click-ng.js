@@ -4,7 +4,7 @@ import 'dom4';
 import buttonStyles from '../button/button.css';
 
 import RingAngularComponent from '../global/ring-angular-component';
-
+import {LOADER_BACKGROUND_SELECTOR} from '../button-ng/button-ng';
 /**
  * @name Promised Click Ng
  * @category Legacy Angular
@@ -50,6 +50,8 @@ import RingAngularComponent from '../global/ring-angular-component';
 
 const angularModule = angular.module('Ring.promised-click', []);
 
+const DEFAULT_MODE = 'active';
+
 class PromisedClickController extends RingAngularComponent {
   static $inject = ['$scope', '$element', '$attrs', '$parse'];
   constructor(...args) {
@@ -65,27 +67,30 @@ class PromisedClickController extends RingAngularComponent {
 
     let currentMode = null;
 
-    const setModeParams = mode => {
-      currentMode = mode;
-      switch (mode) {
-        case 'loader':
-          this.activeClass = buttonStyles.loader;
-          break;
-        default:
-        case 'active':
-          this.activeClass = buttonStyles.active;
-          break;
+    this.toggleActive = enable => {
+      if (currentMode === 'loader') {
+        this.element.classList[enable ? 'add' : 'remove'](buttonStyles.loader);
+        const loaderNode = this.element.querySelector(LOADER_BACKGROUND_SELECTOR);
+        if (loaderNode) {
+          this.element.querySelector(LOADER_BACKGROUND_SELECTOR).
+            classList[enable ? 'add' : 'remove'](buttonStyles.loaderBackground);
+        }
+      } else if (currentMode === 'active') {
+        this.element.classList[enable ? 'add' : 'remove'](buttonStyles.active);
       }
     };
 
-    setModeParams($attrs.promisedMode);
+    const setModeParams = mode => {
+      currentMode = mode;
+    };
+
+    setModeParams($attrs.promisedMode || DEFAULT_MODE);
 
     if ($attrs.promisedMode && $attrs.promisedMode.indexOf('{{') !== -1) {
       $attrs.$observe('promisedMode', newMode => {
         if (newMode !== currentMode) {
-          this.active && this.element.classList.remove(this.activeClass);
+          this.toggleActive(false);
           setModeParams(newMode);
-          this.active && this.element.classList.add(this.activeClass);
         }
       });
     }
@@ -120,11 +125,11 @@ class PromisedClickController extends RingAngularComponent {
   activate() {
     this.active = true;
 
-    this.element.classList.add(this.activeClass);
+    this.toggleActive(true);
 
     const done = () => {
       this.active = false;
-      this.element.classList.remove(this.activeClass);
+      this.toggleActive(false);
     };
 
     this.promise.then(done, done);
