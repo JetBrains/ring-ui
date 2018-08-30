@@ -23,6 +23,8 @@
   padding-top: 2*$ring-unit;
 
   box-sizing: border-box;
+  border: solid 1px var(--ring-line-color);
+  border-right-width: 0;
 
   overflow: hidden;
   background: var(--ring-content-background-color);
