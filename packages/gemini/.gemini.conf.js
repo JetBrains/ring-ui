@@ -6,6 +6,7 @@ const gridUrl = process.env.SELENIUM_GRID || 'http://ondemand.saucelabs.com/wd/h
 // Supports Firefox
 const windowSize = '1024x1000';
 const WIN10 = 'Windows 10';
+const RELAXED_TOLERANCE = 3;
 
 console.log('Docsite url detected:', rootUrl);
 console.log('Grid at:', gridUrl);
@@ -61,7 +62,8 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         version: '14.14393',
-        platform: WIN10
+        platform: WIN10,
+        tolerance: RELAXED_TOLERANCE
       }
     }
   }
