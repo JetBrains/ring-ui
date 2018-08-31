@@ -164,7 +164,6 @@ export class Input extends PureComponent {
         />
         {clearable && (
           <Button
-            data-test="ring-input-clear"
             className={styles.clear}
             icon={CloseIcon}
             iconSize={Button.IconSize.Size14}
