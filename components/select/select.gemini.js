@@ -18,13 +18,10 @@ gemini.suite('Select', () => {
     child.
       setUrl('select/select-with-a-customized-filter-and-an-add-item-button.html').
       setCaptureElements('[data-test=ring-select]', '[data-test~=ring-popup]').
-      capture('selectPopup', (actions, find) => {
+      capture('button', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));
         actions.mouseMove(find('body'), {x: 800, y: 1024});
         actions.wait(UNHOVER_DELAY);
-      }).
-      capture('after clear', (actions, find) => {
-        actions.click(find('[data-test=ring-input-clear]'));
       });
   });
 
