@@ -8,7 +8,7 @@
 @value yearWidth: calc(unit * 6);
 
 :root {
-  --ring-date-picker-hover-color: #cef;
+  --ring-date-picker-hover-color: #b3dfff;
 }
 
 .container {
@@ -427,18 +427,18 @@
 
   cursor: grab;
 
-  opacity: 0.1;
+  opacity: 0.17;
   background-color: var(--ring-main-color);
 }
 
 .monthSlider:hover {
-  opacity: 0.15;
+  opacity: 0.3;
 }
 
-.dragging {
+.dragging.dragging {
   cursor: grabbing;
 
-  opacity: 0.25;
+  opacity: 0.35;
 }
 
 .range {
