@@ -32,7 +32,7 @@
   background: transparent;
 
   font: inherit;
-  caret-color: main-color;
+  caret-color: var(--ring-main-color);
 
   @nest .clearable & {
     padding-right: calc(unit * 3);
