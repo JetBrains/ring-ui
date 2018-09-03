@@ -31,7 +31,7 @@ describe('position', () => {
     });
 
 
-    it('should include scroll height to max height', () => {
+    it('should NOT include scroll height when calculate max height', () => {
       const containerNode = createNode(
         {
           scrollTop: 10,
@@ -54,8 +54,8 @@ describe('position', () => {
         }))
       });
 
-      const topMaxHeight = 20;
-      const bottomMaxHeight = 20;
+      const topMaxHeight = 10;
+      const bottomMaxHeight = 10;
       checkMaxHeight(anchorNode, containerNode, [
         topMaxHeight,
         bottomMaxHeight
@@ -132,7 +132,10 @@ describe('position', () => {
       ]
     ].forEach((directions, i) => {
       directions.forEach(d => {
-        maxHeightForDirection(d, anchorNode, containerNode).should.be.equal(expectedValues[i]);
+        maxHeightForDirection(d, anchorNode, containerNode).
+          should.
+          be.
+          equal(expectedValues[i]);
       });
     });
   }
