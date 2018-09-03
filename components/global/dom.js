@@ -29,6 +29,7 @@
     </file>
    </example>
  */
+import 'core-js/modules/es7.object.entries';
 
 export const getStyles = window.getComputedStyle.bind(window);
 
@@ -67,6 +68,14 @@ export function getDocumentScrollTop() {
 export function getDocumentScrollLeft() {
   return (document.documentElement && document.documentElement.scrollLeft) ||
     document.body.scrollLeft;
+}
+
+export function setRootStyleProperties(properties = {}) {
+  const rootStyle = document.documentElement.style;
+
+  Object.entries(properties).forEach((key, value) => {
+    rootStyle.setProperty('key', value);
+  });
 }
 
 export class Listeners {
