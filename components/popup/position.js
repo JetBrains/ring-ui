@@ -178,7 +178,13 @@ export function maxHeightForDirection(direction, anchorNode, containerNode) {
   const domRect = anchorNode.getBoundingClientRect();
   const containerRect = containerNode.getBoundingClientRect();
   const topMaxHeight = Math.max(domRect.top - containerRect.top, 0);
-  const bottomMaxHeight = Math.max(containerRect.height - (topMaxHeight + domRect.height), 0);
+  const containerHeight = Math.max(containerRect.height,
+    // XXX
+    // If container is the document element
+    // then we check client height too because we may have situation when
+    // "height" from "getBoundingClientRect" less then "clientHeight".
+    containerNode === document.documentElement ? containerNode.clientHeight : 0);
+  const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
   switch (direction) {
     case Directions.TOP_LEFT:
     case Directions.TOP_CENTER:
