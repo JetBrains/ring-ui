@@ -41,7 +41,7 @@ const scheduleScroll = scheduleRAF();
 
 const angularModule = angular.module('Ring.docked-panel', []);
 
-angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse, $timeout) {
+angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse) {
   return {
     link: function link(scope, element, attrs) {
       const CSS_CLASS_NAME = 'ring-docked-panel';
@@ -152,10 +152,8 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse,
             window.removeEventListener('resize', _onResize);
           });
 
-          $timeout(() => {
-            saveInitialPos();
-            checkPanelPosition();
-          });
+          saveInitialPos();
+          checkPanelPosition();
         });
       }
 
