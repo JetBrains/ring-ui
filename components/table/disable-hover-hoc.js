@@ -25,7 +25,7 @@ export default function disableHoverHOC(ComposedComponent) {
       }
     };
 
-    onKeyDown = (e: KeyboardEvent) => {
+    onKeyDown = e => {
       const metaKeys = [16, 17, 18, 19, 20, 91]; // eslint-disable-line no-magic-numbers
       if (!this.state.disabledHover && !metaKeys.includes(e.keyCode)) {
         this.setState({disabledHover: true});
