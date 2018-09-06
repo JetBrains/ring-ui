@@ -15,7 +15,11 @@ config.module.rules.push({
   use: {
     loader: 'babel-loader',
     options: {
-      presets: ['@jetbrains/jetbrains'],
+      presets: [
+        'babel-preset-react',
+        'babel-preset-env',
+        'babel-preset-stage-2'
+      ],
       babelrc: false
     }
   }
