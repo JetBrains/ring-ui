@@ -59,38 +59,6 @@
     "url": "ssh://github.com/JetBrains/ring-ui.git"
   },
   "readmeFilename": "README.md",
-  "babel": {
-    "presets": "@jetbrains/jetbrains",
-    "plugins": [
-      [
-        "transform-runtime",
-        {
-          "moduleName": "@jetbrains/babel-runtime"
-        }
-      ],
-      [
-        "@jetbrains/babel-plugin-angular-annotate",
-        [
-          "angular",
-          "ngRoute"
-        ]
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          [
-            "istanbul",
-            {
-              "exclude": [
-                "**/*.test.js"
-              ]
-            }
-          ]
-        ]
-      }
-    }
-  },
   "devDependencies": {
     "@jetbrains/eslint-config": "4.0.3",
     "@jetbrains/generator-ring-ui": "^1.0.0-beta.182",
@@ -163,7 +131,6 @@
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
-    "@jetbrains/babel-preset-jetbrains": "1.1.2",
     "@jetbrains/babel-runtime": "6.23.1",
     "@jetbrains/icons": "1.19.0",
     "@jetbrains/logos": "1.0.3",
@@ -171,6 +138,9 @@
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",
     "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
     "classnames": "2.2.5",
     "combokeys": "3.0.0",
     "compile-code-loader": "0.2.0",
