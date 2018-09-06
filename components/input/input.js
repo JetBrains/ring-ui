@@ -44,7 +44,8 @@ export class Input extends PureComponent {
     onChange: PropTypes.func,
     onClear: PropTypes.func,
     inputRef: PropTypes.func,
-    children: PropTypes.string
+    children: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -123,6 +124,7 @@ export class Input extends PureComponent {
       children,
       value,
       onClear,
+      disabled,
       inputRef, onChange, // eslint-disable-line no-unused-vars
       ...restProps
     } = this.props;
@@ -160,9 +162,10 @@ export class Input extends PureComponent {
           className={inputClasses}
           value={text}
           rows={multiline ? 1 : null}
+          disabled={disabled}
           {...restProps}
         />
-        {clearable && (
+        {clearable && !disabled && (
           <Button
             data-test="ring-input-clear"
             className={styles.clear}
