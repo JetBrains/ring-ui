@@ -117,7 +117,7 @@
     "docpack-page-generator": "0.0.8",
     "electron": "2.0.8",
     "enzyme": "3.6.0",
-    "enzyme-adapter-react-16": "1.4.0",
+    "enzyme-adapter-react-16": "1.5.0",
     "eslint": "^5.4.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "exports-loader": "0.7.0",
