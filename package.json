@@ -60,7 +60,9 @@
   },
   "readmeFilename": "README.md",
   "babel": {
-    "presets": "@jetbrains/jetbrains",
+    "presets": [
+        "@jetbrains/jetbrains"
+    ],
     "plugins": [
       [
         "transform-runtime",

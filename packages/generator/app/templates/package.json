@@ -15,12 +15,14 @@
     "start": "webpack-dev-server -d --history-api-fallback --inline --hot --colors --port <%= port %>"
   },
   "babel": {
-    "presets": "@jetbrains/jetbrains"
+    "presets": [
+        "@jetbrains/jetbrains"
+    ]
   },
   "dependencies": {
     "@jetbrains/babel-preset-jetbrains": "1.1.2",
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.5",
+    "babel-loader": "8.0.0",
     "babel-polyfill": "6.26.0",
     "css-loader": "1.0.0",
     "file-loader": "2.0.0",
