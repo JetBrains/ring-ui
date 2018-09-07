@@ -15,17 +15,8 @@ config.module.rules.push({
   use: {
     loader: 'babel-loader',
     options: {
-      presets: [
-        '@babel/preset-react',
-        '@babel/preset-env'
-      ],
-      plugins: [
-        '@babel/plugin-proposal-object-rest-spread',
-        '@babel/plugin-proposal-class-properties',
-        '@babel/plugin-proposal-optional-chaining',
-        '@babel/plugin-proposal-nullish-coalescing-operator'
-      ],
-      babelrc: false
+      configFile: path.join(__dirname, '.babelrc'),
+      cacheDirectory: true
     }
   }
 });
