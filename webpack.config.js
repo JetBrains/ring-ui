@@ -102,7 +102,11 @@ const externalCssLoader = {
 const babelLoader = {
   test: /\.js$/,
   include: componentsPath,
-  loader: `${resolveLoader('babel')}?cacheDirectory`
+  loader: resolveLoader('babel'),
+  options: {
+    configFile: path.join(__dirname, '.babelrc'),
+    cacheDirectory: true
+  }
 };
 
 const whatwgLoader = {
