@@ -42,7 +42,7 @@ const scheduleScroll = scheduleRAF();
 
 const angularModule = angular.module('Ring.docked-panel', []);
 
-angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse, $timeout) {
+angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse) {
   return {
     link: function link(scope, element, attrs) {
       const TOGGLE_GAP = 8;
@@ -133,7 +133,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse,
         } else if (
           isDocked &&
           currentPanelRect.top + currentPanelRect.height +
-          getDocumentScrollTop() >= initialPos + TOGGLE_GAP
+            getDocumentScrollTop() >= initialPos + TOGGLE_GAP
         ) {
           undock();
         }
@@ -158,11 +158,8 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse,
             window.removeEventListener('resize', _onResize);
           });
 
-
-          $timeout(() => {
-            saveInitialPos();
-            checkPanelPosition();
-          });
+          saveInitialPos();
+          checkPanelPosition();
         });
       }
 
