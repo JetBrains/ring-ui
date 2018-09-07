@@ -34,8 +34,11 @@ const angularModule = angular.module('Ring.confirm', [
   MessageBundle
 ]);
 
-angularModule.service('confirm', ($q, RingMessageBundle) =>
-  function showConfirm(message, description, actionTitle, cancelTitle, cancelIsDefault, actionFn) {
+angularModule.service('confirm', function service($q, RingMessageBundle) {
+  return function showConfirm(
+    message, description, actionTitle, cancelTitle,
+    cancelIsDefault, actionFn
+  ) {
     return $q.when(confirm({
       text: message,
       description,
@@ -44,7 +47,7 @@ angularModule.service('confirm', ($q, RingMessageBundle) =>
       cancelIsDefault,
       onBeforeConfirm: actionFn
     }));
-  }
-);
+  };
+});
 
 export default angularModule.name;

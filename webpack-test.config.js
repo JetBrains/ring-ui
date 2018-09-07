@@ -16,9 +16,12 @@ config.module.rules.push({
     loader: 'babel-loader',
     options: {
       presets: [
-        'babel-preset-react',
-        'babel-preset-env',
-        'babel-preset-stage-2'
+        '@babel/preset-react',
+        '@babel/preset-env'
+      ],
+      plugins: [
+        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-proposal-class-properties'
       ],
       babelrc: false
     }

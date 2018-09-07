@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import '@babel/polyfill';
 import DashboardAddons from 'hub-dashboard-addons';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';

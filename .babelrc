@@ -1,22 +1,17 @@
 {
   "presets": [
-    "babel-preset-react",
-    ["babel-preset-env", {
-      "targets": {
-        "browsers": "defaults"
-      },
-      "modules": false
-    }],
-    "babel-preset-stage-2"
+    "@babel/preset-react",
+    ["@babel/preset-env", {
+      include: [
+        "transform-parameters"
+      ]
+    }]
   ],
   "plugins": [
-    ["transform-runtime", {
-      "moduleName": "@jetbrains/babel-runtime"
-    }],
-    ["@jetbrains/babel-plugin-angular-annotate", [
-      "angular",
-      "ngRoute"
-    ]]
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-runtime",
+    "angularjs-annotate"
   ],
   "env": {
     "test": {
