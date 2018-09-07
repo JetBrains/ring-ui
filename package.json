@@ -60,7 +60,9 @@
   },
   "readmeFilename": "README.md",
   "babel": {
-    "presets": "@jetbrains/jetbrains",
+    "presets": [
+        "@jetbrains/jetbrains"
+    ],
     "plugins": [
       [
         "transform-runtime",
@@ -169,7 +171,7 @@
     "@jetbrains/logos": "1.0.3",
     "autoprefixer": "9.1.5",
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.5",
+    "babel-loader": "8.0.0",
     "babel-plugin-transform-runtime": "6.23.0",
     "classnames": "2.2.5",
     "combokeys": "3.0.0",
