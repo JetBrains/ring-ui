@@ -8,7 +8,7 @@ import branches from '../branches.json';
 import {currentPath} from './utils';
 import styles from './index.css';
 
-const HOST = '//jetbrains.org/ring-ui';
+const HOST = 'https://jetbrains.github.io/ring-ui';
 
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
@@ -30,7 +30,7 @@ const Version = ({version}) => (
         return {
           rgItemType,
           active,
-          href: `${HOST}${branch.path}${currentPath()}`,
+          href: `${HOST}/${branch.path}/${currentPath()}`,
           label: active ? version : branch.version
         };
       })}
