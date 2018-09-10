@@ -136,7 +136,8 @@ export default class List extends Component {
     needScrollToActive: false,
     scrolling: false,
     hasOverflow: false,
-    disabledHover: false
+    disabledHover: false,
+    scrolledToBottom: false
   };
 
   componentWillMount() {
@@ -451,7 +452,9 @@ export default class List extends Component {
       const sensitivity = this.defaultItemHeight() / 2;
       const currentScrollingPosition =
         innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-      if (currentScrollingPosition >= maxScrollingPosition) {
+      const scrolledToBottom = currentScrollingPosition >= maxScrollingPosition;
+      this.setState({scrolledToBottom});
+      if (scrolledToBottom) {
         this.props.onScrollToBottom();
       }
     }
@@ -710,7 +713,7 @@ export default class List extends Component {
           ? this.renderVirtualized(maxHeight, rowCount)
           : this.renderSimple(maxHeight, rowCount)
         }
-        {this.state.hasOverflow && (
+        {this.state.hasOverflow && !this.state.scrolledToBottom && (
           <div
             className={styles.fade}
             style={fadeStyles}
