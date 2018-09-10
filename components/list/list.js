@@ -455,7 +455,8 @@ export default class List extends Component {
       const sensitivity = this.defaultItemHeight() / 2;
       const currentScrollingPosition =
         innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-      const scrolledToBottom = currentScrollingPosition >= maxScrollingPosition;
+      const scrolledToBottom =
+        maxScrollingPosition > 0 && currentScrollingPosition >= maxScrollingPosition;
       if (!this.unmounted) {
         this.setState({scrolledToBottom});
       }
