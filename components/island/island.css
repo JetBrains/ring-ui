@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value gradientStart: transparent;
+@value gradientStart: rgba(255, 255, 255, 0);
 @value gradientStop: var(--ring-content-background-color);
 
 .island {
