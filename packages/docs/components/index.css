@@ -200,7 +200,7 @@ a.legacy {
 .version button {
   height: auto;
 
-  color: dark-text-color;
+  color: var(--ring-dark-text-color);
 }
 
 .sideFooter {
