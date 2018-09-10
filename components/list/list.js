@@ -232,6 +232,7 @@ export default class List extends Component {
   }
 
   componentWillUnmount() {
+    this.unmounted = true;
     document.removeEventListener('mousemove', this.onDocumentMouseMove);
     document.removeEventListener('keydown', this.onDocumentKeyDown, true);
   }
@@ -455,7 +456,9 @@ export default class List extends Component {
       const currentScrollingPosition =
         innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
       const scrolledToBottom = currentScrollingPosition >= maxScrollingPosition;
-      this.setState({scrolledToBottom});
+      if (!this.unmounted) {
+        this.setState({scrolledToBottom});
+      }
       if (scrolledToBottom) {
         this.props.onScrollToBottom();
       }
