@@ -173,45 +173,47 @@ export default class List extends Component {
 
       this.checkActivatableItems(props.data);
 
-      let activeIndex = null;
-      let activeItem = null;
+      this.setState(prevState => {
+        let activeIndex = null;
+        let activeItem = null;
 
-      if (
-        props.restoreActiveIndex &&
-        this.state.activeItem &&
-        this.state.activeItem.key !== undefined &&
-        this.state.activeItem.key !== null
-      ) {
-        for (let i = 0; i < props.data.length; i++) {
-          // Restore active index if there is an item with the same "key" property
-          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
-            activeIndex = i;
-            activeItem = props.data[i];
-            break;
+        if (
+          props.restoreActiveIndex &&
+          prevState.activeItem &&
+          prevState.activeItem.key != null
+        ) {
+          for (let i = 0; i < props.data.length; i++) {
+            // Restore active index if there is an item with the same "key" property
+            if (props.data[i].key !== undefined && props.data[i].key === prevState.activeItem.key) {
+              activeIndex = i;
+              activeItem = props.data[i];
+              break;
+            }
           }
         }
-      }
 
-      if (
-        activeIndex === null &&
-        this.shouldActivateFirstItem(props) &&
-        this.isActivatable(props.data[0])
-      ) {
-        activeIndex = 0;
-        activeItem = props.data[0];
-      } else if (
-        props.activeIndex != null &&
-        props.activeIndex !== this.props.activeIndex &&
-        props.data[props.activeIndex]
-      ) {
-        activeIndex = props.activeIndex;
-        activeItem = props.data[props.activeIndex];
-      }
+        if (
+          activeIndex === null &&
+          this.shouldActivateFirstItem(props) &&
+          this.isActivatable(props.data[0])
+        ) {
+          activeIndex = 0;
+          activeItem = props.data[0];
+        } else if (
+          props.activeIndex != null &&
+          props.activeIndex !== this.props.activeIndex &&
+          props.data[props.activeIndex]
+        ) {
+          activeIndex = props.activeIndex;
+          activeItem = props.data[props.activeIndex];
+        }
 
-      this.setState({
-        activeIndex,
-        activeItem,
-        needScrollToActive: true
+        return {
+          activeIndex,
+          activeItem,
+          needScrollToActive:
+            activeIndex !== prevState.activeIndex ? true : prevState.needScrollToActive
+        };
       });
     }
   }
@@ -624,6 +626,7 @@ export default class List extends Component {
                 ? this.state.activeIndex + 1
                 : undefined
             }
+            scrollToAlignment="center"
             deferredMeasurementCache={this._cache}
             onRowsRendered={this.checkOverflow}
           />
@@ -699,6 +702,8 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
+        onMouseDown={this.mouseDownHandler}
+        onMouseUp={this.mouseUpHandler}
         data-test="ring-list"
       >
         {this.props.shortcuts &&
