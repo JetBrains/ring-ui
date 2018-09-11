@@ -267,6 +267,8 @@
 }
 
 .draggingRow {
+  z-index: var(--ring-overlay-z-index);
+
   background-color: var(--ring-hover-background-color);
 
   & .dragHandle {
