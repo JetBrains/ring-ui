@@ -55,7 +55,7 @@ $ring-font-size-smaller: 12px;
 }
 
 @mixin ring-monospace-font() {
-  font: var(--ring-font-family-monospace);
+  font-family: var(--ring-font-family-monospace);
 }
 
 @mixin ring-vertical-compensation($compensation: -2px, $position: relative) {
