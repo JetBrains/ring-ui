@@ -16,24 +16,17 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-react",
-      "@babel/preset-env"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-object-rest-spread",
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-optional-chaining",
-      "@babel/plugin-proposal-nullish-coalescing-operator"
+      ["@jetbrains/jetbrains", {
+        "angular": true,
+        "transformRuntime": true,
+        "useBuiltIns": "usage"
+      }]
     ]
   },
   "dependencies": {
     "@babel/core": "7.0.0",
-    "@babel/plugin-proposal-class-properties": "7.0.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "7.0.0",
-    "@babel/plugin-proposal-optional-chaining": "7.0.0",
     "@babel/polyfill": "7.0.0",
-    "@babel/preset-env": "7.0.0",
-    "@babel/preset-react": "7.0.0",
+    "@jetbrains/babel-preset-jetbrains": "2.1.0",
     "babel-loader": "8.0.2",
     "css-loader": "1.0.0",
     "file-loader": "2.0.0",
