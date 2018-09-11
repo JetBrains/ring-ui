@@ -58,7 +58,8 @@ export default class TagsInput extends Component {
     legacyMode: PropTypes.bool,
 
     loadingMessage: PropTypes.string,
-    notFoundMessage: PropTypes.string
+    notFoundMessage: PropTypes.string,
+    allowAddNewTags: PropTypes.bool
   };
 
   static defaultProps = {
@@ -72,7 +73,8 @@ export default class TagsInput extends Component {
     disabled: false,
     autoOpen: false,
     renderOptimization: true,
-    legacyMode: false
+    legacyMode: false,
+    allowAddNewTags: false
   };
 
   state = {
@@ -130,13 +132,17 @@ export default class TagsInput extends Component {
   };
 
   addTag = tag => {
-    this.setState(prevState => ({
-      tags: prevState.tags.concat([tag])
-    }));
+    const isUniqueTag = this.state.tags.filter(item => tag.key === item.key).length === 0;
     this.select.clear();
     this.select.filterValue('');
-    this.props.onAddTag({tag});
-    this.setActiveIndex();
+
+    if (isUniqueTag) {
+      this.setState(prevState => ({
+        tags: prevState.tags.concat([tag])
+      }));
+      this.props.onAddTag({tag});
+      this.setActiveIndex();
+    }
   };
 
   onRemoveTag(tagToRemove) {
@@ -204,12 +210,22 @@ export default class TagsInput extends Component {
   };
 
   handleKeyDown = event => {
+    const key = getEventKey(event);
+    const isInputFocused = () => event.target.matches(this.getInputNode().tagName);
+
+    if (key === ' ') {
+      event.stopPropagation();
+      const value = this.getInputNode().value;
+      if (value !== '') {
+        this.handleTagCreation(value);
+      }
+      return true;
+    }
+
     if (this.select._popup.isVisible()) {
       return true;
     }
 
-    const key = getEventKey(event);
-    const isInputFocused = () => event.target.matches(this.getInputNode().tagName);
 
     if (key === 'ArrowLeft') {
       if (this.getInputNode() && this.caret.getPosition() > 0) {
@@ -257,13 +273,17 @@ export default class TagsInput extends Component {
 
   handleRemove = memoize(tag => () => this.onRemoveTag(tag));
 
+  handleTagCreation = label => {
+    this.addTag({key: label, label});
+  };
+
   selectRef = el => {
     this.select = el;
   };
 
   render() {
     const {focused, tags, activeIndex} = this.state;
-    const {legacyMode, disabled, canNotBeEmpty} = this.props;
+    const {legacyMode, disabled, canNotBeEmpty, allowAddNewTags} = this.props;
     const classes = classNames(
       styles.tagsInput,
       {
@@ -300,9 +320,9 @@ export default class TagsInput extends Component {
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
             renderOptimization={this.props.renderOptimization}
-            filter={{
-              fn: () => true
-            }}
+            add={allowAddNewTags ? {prefix: 'Add new tag'} : undefined}
+            onAdd={allowAddNewTags ? this.handleTagCreation : undefined}
+            filter={allowAddNewTags ? undefined : {fn: () => true}}
             maxHeight={this.props.maxPopupHeight}
             minWidth={this.props.minPopupWidth}
             top={POPUP_VERTICAL_SHIFT}
