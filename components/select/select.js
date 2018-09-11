@@ -89,6 +89,7 @@ export default class Select extends Component {
     minWidth: PropTypes.number,
     directions: PropTypes.array,
     popupClassName: PropTypes.string,
+    popupStyle: PropTypes.object,
     top: PropTypes.number,
     left: PropTypes.number,
     renderOptimization: PropTypes.bool,
@@ -444,6 +445,7 @@ export default class Select extends Component {
         minWidth={this.props.minWidth}
         directions={this.props.directions}
         className={this.props.popupClassName}
+        style={this.props.popupStyle}
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
