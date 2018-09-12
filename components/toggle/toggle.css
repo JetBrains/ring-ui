@@ -116,7 +116,7 @@
 }
 
 .paleSwitch {
-  background-color: #cfdbe5;
+  background-color: var(--ring-pale-control-color);
 }
 
 .input:checked + .paleSwitch {
