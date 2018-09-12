@@ -22,7 +22,6 @@
 
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-message-background-color);
-  box-shadow: 0 2px 16px var(--ring-popup-shadow-color);
 
   font-size: var(--ring-font-size);
   line-height: calc(unit * 5);
