@@ -127,6 +127,7 @@ export default class QueryAssist extends Component {
     onFocusChange: PropTypes.func,
     query: PropTypes.string,
     useCustomItemRender: PropTypes.bool,
+    translations: PropTypes.object,
     'data-test': PropTypes.string
   };
 
@@ -135,7 +136,11 @@ export default class QueryAssist extends Component {
     onApply: noop,
     onChange: noop,
     onClear: noop,
-    onFocusChange: noop
+    onFocusChange: noop,
+    translations: {
+      searchTitle: 'Search',
+      clearTitle: 'Clear search input'
+    }
   };
 
   state = {
@@ -777,17 +782,18 @@ export default class QueryAssist extends Component {
         ref={this.nodeRef}
       >
         {this.state.shortcuts &&
-          (
-            <Shortcuts
-              map={this.shortcutsMap}
-              scope={this.shortcutsScope}
-            />
-          )
+        (
+          <Shortcuts
+            map={this.shortcutsMap}
+            scope={this.shortcutsScope}
+          />
+        )
         }
 
         {renderGlass && (
           <SearchIcon
             className={classNames(styles.icon, styles.iconGlass)}
+            title={this.props.translations.searchTitle}
             iconRef={this.glassRef}
             onClick={this.handleApply}
             size={SearchIcon.Size.Size16}
@@ -841,6 +847,7 @@ export default class QueryAssist extends Component {
         {renderClear && (
           <CloseIcon
             className={classNames(styles.icon, styles.iconClear)}
+            title={this.props.translations.clearTitle}
             iconRef={this.clearRef}
             onClick={this.clearQuery}
             size={CloseIcon.Size.Size16}
