@@ -9,18 +9,6 @@ const helpersPath = path.join(__dirname, 'test-helpers');
 
 loaders.babelLoader.include.push(helpersPath);
 
-config.module.rules.push({
-  test: /\.js$/,
-  include: path.join(__dirname, 'node_modules/chai-as-promised'),
-  use: {
-    loader: 'babel-loader',
-    options: {
-      configFile: path.join(__dirname, '.babelrc'),
-      cacheDirectory: true
-    }
-  }
-});
-
 config.resolve = {
   alias: {
     '@jetbrains/ring-ui': __dirname
