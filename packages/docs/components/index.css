@@ -197,6 +197,12 @@ a.legacy {
   color: var(--ring-secondary-color);
 }
 
+.version button {
+  height: auto;
+
+  color: var(--ring-dark-text-color);
+}
+
 .sideFooter {
   composes: item;
 
