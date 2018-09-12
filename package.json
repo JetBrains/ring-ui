@@ -34,6 +34,7 @@
     "component:es6": "yo @jetbrains/ring-ui:es6 --path $npm_package_config_components",
     "test": "karma start",
     "test-generator-e2e": "npm --prefix packages/generator test",
+    "gemini-gui": "npm --prefix packages/gemini run gemini-gui",
     "gemini-test": "npm --prefix packages/gemini run gemini-test",
     "gemini-test-single": "npm --prefix packages/gemini run gemini-test-single",
     "gemini-test-ci": "npm --prefix packages/gemini run gemini-test-ci",
