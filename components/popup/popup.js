@@ -50,6 +50,7 @@ export default class Popup extends Component {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
     className: PropTypes.string,
+    style: PropTypes.object,
     hidden: PropTypes.bool.isRequired,
     onOutsideClick: PropTypes.func,
     onEscPress: PropTypes.func,
@@ -306,7 +307,7 @@ export default class Popup extends Component {
 
   render() {
     const {
-      className, hidden, attached, keepMounted,
+      className, style, hidden, attached, keepMounted,
       onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -345,6 +346,7 @@ export default class Popup extends Component {
               data-test-shown={!hidden && !showing}
               ref={this.popupRef}
               className={classes}
+              style={style}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
             >

@@ -136,7 +136,8 @@ export default class List extends Component {
     needScrollToActive: false,
     scrolling: false,
     hasOverflow: false,
-    disabledHover: false
+    disabledHover: false,
+    scrolledToBottom: false
   };
 
   componentWillMount() {
@@ -172,45 +173,47 @@ export default class List extends Component {
 
       this.checkActivatableItems(props.data);
 
-      let activeIndex = null;
-      let activeItem = null;
+      this.setState(prevState => {
+        let activeIndex = null;
+        let activeItem = null;
 
-      if (
-        props.restoreActiveIndex &&
-        this.state.activeItem &&
-        this.state.activeItem.key !== undefined &&
-        this.state.activeItem.key !== null
-      ) {
-        for (let i = 0; i < props.data.length; i++) {
-          // Restore active index if there is an item with the same "key" property
-          if (props.data[i].key !== undefined && props.data[i].key === this.state.activeItem.key) {
-            activeIndex = i;
-            activeItem = props.data[i];
-            break;
+        if (
+          props.restoreActiveIndex &&
+          prevState.activeItem &&
+          prevState.activeItem.key != null
+        ) {
+          for (let i = 0; i < props.data.length; i++) {
+            // Restore active index if there is an item with the same "key" property
+            if (props.data[i].key !== undefined && props.data[i].key === prevState.activeItem.key) {
+              activeIndex = i;
+              activeItem = props.data[i];
+              break;
+            }
           }
         }
-      }
 
-      if (
-        activeIndex === null &&
-        this.shouldActivateFirstItem(props) &&
-        this.isActivatable(props.data[0])
-      ) {
-        activeIndex = 0;
-        activeItem = props.data[0];
-      } else if (
-        props.activeIndex != null &&
-        props.activeIndex !== this.props.activeIndex &&
-        props.data[props.activeIndex]
-      ) {
-        activeIndex = props.activeIndex;
-        activeItem = props.data[props.activeIndex];
-      }
+        if (
+          activeIndex === null &&
+          this.shouldActivateFirstItem(props) &&
+          this.isActivatable(props.data[0])
+        ) {
+          activeIndex = 0;
+          activeItem = props.data[0];
+        } else if (
+          props.activeIndex != null &&
+          props.activeIndex !== this.props.activeIndex &&
+          props.data[props.activeIndex]
+        ) {
+          activeIndex = props.activeIndex;
+          activeItem = props.data[props.activeIndex];
+        }
 
-      this.setState({
-        activeIndex,
-        activeItem,
-        needScrollToActive: true
+        return {
+          activeIndex,
+          activeItem,
+          needScrollToActive:
+            activeIndex !== prevState.activeIndex ? true : prevState.needScrollToActive
+        };
       });
     }
   }
@@ -229,6 +232,7 @@ export default class List extends Component {
   }
 
   componentWillUnmount() {
+    this.unmounted = true;
     document.removeEventListener('mousemove', this.onDocumentMouseMove);
     document.removeEventListener('keydown', this.onDocumentKeyDown, true);
   }
@@ -451,7 +455,12 @@ export default class List extends Component {
       const sensitivity = this.defaultItemHeight() / 2;
       const currentScrollingPosition =
         innerContainer.scrollTop + innerContainer.clientHeight + sensitivity;
-      if (currentScrollingPosition >= maxScrollingPosition) {
+      const scrolledToBottom =
+        maxScrollingPosition > 0 && currentScrollingPosition >= maxScrollingPosition;
+      if (!this.unmounted) {
+        this.setState({scrolledToBottom});
+      }
+      if (scrolledToBottom) {
         this.props.onScrollToBottom();
       }
     }
@@ -621,6 +630,7 @@ export default class List extends Component {
                 ? this.state.activeIndex + 1
                 : undefined
             }
+            scrollToAlignment="center"
             deferredMeasurementCache={this._cache}
             onRowsRendered={this.checkOverflow}
           />
@@ -696,6 +706,8 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
+        onMouseDown={this.mouseDownHandler}
+        onMouseUp={this.mouseUpHandler}
         data-test="ring-list"
       >
         {this.props.shortcuts &&
@@ -710,7 +722,7 @@ export default class List extends Component {
           ? this.renderVirtualized(maxHeight, rowCount)
           : this.renderSimple(maxHeight, rowCount)
         }
-        {this.state.hasOverflow && (
+        {this.state.hasOverflow && !this.state.scrolledToBottom && (
           <div
             className={styles.fade}
             style={fadeStyles}

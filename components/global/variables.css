@@ -14,6 +14,8 @@
   --ring-icon-success-color: #59a869;
   --ring-popup-border-components: 0, 42, 76;
   --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
+  --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.15);
+  --ring-message-shadow-color: rgba(var(--ring-popup-border-components), 0.3);
 
   /* Text */
   --ring-search-color: #669ecc;
@@ -35,6 +37,7 @@
   --ring-content-background-color: #fff;
   --ring-sidebar-background-color: #f7f9fa;
   --ring-selected-background-color: #d4edff;
+  --ring-hover-background-color: #f2f9ff;
   --ring-dark-selected-background-color: #002a4d;
   --ring-message-background-color: rgba(0, 21, 38, 0.9);
   --ring-navigation-background-color: #000;
