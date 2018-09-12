@@ -64,11 +64,6 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
   font-size: var(--ring-font-size-smaller);
 }
 
-.input-disabled {
-  border-color: #dedede;
-  background-color: #f8f8f8;
-}
-
 .ellipsis {
   overflow: hidden;
 

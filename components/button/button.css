@@ -6,6 +6,8 @@
 @value loaderWidth: calc(unit * 8);
 
 :root {
+  /* TODO: This colors are not ready to move to variables.css */
+  /* stylelint-disable color-no-hex */
   --ring-button-primary-background-color: #1a98ff;
   --ring-button-primary-border-color: #0062b2;
   --ring-button-danger-active-color: #ffe7e8;
@@ -16,6 +18,7 @@
   --ring-button-dark-danger-hover-color: #db5860;
   --ring-button-dark-active-color: #001526; /* TODO: Can't it be replaced with #002A4D? */
   --ring-button-dark-loader-background: #002039;
+  /* stylelint-enable color-no-hex */
 }
 
 .light {
