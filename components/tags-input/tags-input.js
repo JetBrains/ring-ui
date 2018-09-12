@@ -213,7 +213,7 @@ export default class TagsInput extends Component {
     const key = getEventKey(event);
     const isInputFocused = () => event.target.matches(this.getInputNode().tagName);
 
-    if (key === ' ') {
+    if (key === ' ' && this.props.allowAddNewTags) {
       event.stopPropagation();
       const value = this.getInputNode().value;
       if (value !== '') {
