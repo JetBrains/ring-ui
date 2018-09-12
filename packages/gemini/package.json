@@ -1,6 +1,6 @@
 {
   "name": "@ring-ui/gemini",
-  "version": "0.2.1-beta.35",
+  "version": "0.2.1-beta.40",
   "description": "Gemini tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "forever": "0.15.3",
-    "gemini": "5.8.1",
+    "gemini": "5.9.0",
     "gemini-sauce": "^1.0.1",
     "gemini-teamcity": "2.1.5",
     "html-reporter": "2.21.0",

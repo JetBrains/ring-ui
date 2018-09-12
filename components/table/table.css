@@ -6,10 +6,6 @@
 @value compensated: calc(height - compensate);
 @value hover-color: #f2f9ff;
 
-:root {
-  --ring-table-hover-color: #f2f9ff;
-}
-
 .tableWrapper {
   position: relative;
 }
@@ -150,7 +146,7 @@
   }
 
   @nest .table:not(.disabledHover) &:hover {
-    background-color: var(--ring-table-hover-color);
+    background-color: var(--ring-hover-background-color);
   }
 }
 
@@ -159,7 +155,7 @@
 }
 
 .rowFocused {
-  background-color: var(--ring-table-hover-color);
+  background-color: var(--ring-hover-background-color);
 
   /* stylelint-disable-next-line selector-max-specificity */
   & .cell:nth-child(1) {
@@ -271,7 +267,9 @@
 }
 
 .draggingRow {
-  background-color: var(--ring-table-hover-color);
+  z-index: var(--ring-overlay-z-index);
+
+  background-color: var(--ring-hover-background-color);
 
   & .dragHandle {
     cursor: grabbing;

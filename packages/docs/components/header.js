@@ -24,6 +24,7 @@ import gitHubLogo from 'octicons/build/svg/octoface.svg';
 
 import styles from './index.css';
 import hubConfig from './hub-config';
+import Version from './version';
 import Search from './search';
 import {getIndexDoc} from './utils';
 
@@ -58,7 +59,8 @@ class SiteHeader extends PureComponent {
           />
         </a>
         <span className={styles.headerItem}>
-          {`Version ${version}`}
+          {'Version '}
+          <Version version={version}/>
         </span>
         <Tray>
           <Search categories={categories}/>

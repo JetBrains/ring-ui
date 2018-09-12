@@ -76,7 +76,5 @@ textarea.ring-input {
 
   &::placeholder {
     color: var(--ring-disabled-color);
-    line-height: 16px;
-    font-size: var(--ring-font-size-smaller);
   }
 }
