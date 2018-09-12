@@ -8,6 +8,7 @@
 @value yearWidth: calc(unit * 6);
 
 :root {
+  /* stylelint-disable-next-line color-no-hex */
   --ring-date-picker-hover-color: #b3dfff;
 }
 
