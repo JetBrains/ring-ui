@@ -2,7 +2,6 @@
   "presets": [
     ["@jetbrains/jetbrains", {
       "angular": true,
-      "transformRuntime": true,
       "useBuiltIns": "usage"
     }]
   ],
