@@ -16,7 +16,7 @@ body {
   flex-direction: column;
 
   min-width: breakpoint-middle;
-  min-height: 100vh;
+  height: 100vh;
 
   color: var(--ring-text-color);
 }
