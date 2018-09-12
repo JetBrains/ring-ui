@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "pregemini-gui": "kill-port 8000",
-    "gemini-gui": "npm run gemini gui '../../components/**/*.gemini.js'",
+    "gemini-gui": "gemini gui '../../components/**/*.gemini.js'",
     "gemini-test-single": "gemini test --reporter flat",
     "gemini-test": "npm run gemini-test-single '../../components/**/*.gemini.js'",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- -- --teamcity; forever stop serve-static",
