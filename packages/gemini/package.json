@@ -6,6 +6,8 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
+    "pregemini-gui": "kill-port 8000",
+    "gemini-gui": "npm run gemini gui '../../components/**/*.gemini.js'",
     "gemini-test-single": "gemini test --reporter flat",
     "gemini-test": "npm run gemini-test-single '../../components/**/*.gemini.js'",
     "gemini-test-ci": "forever start .serve-static.json && npm run gemini-test -- -- --teamcity; forever stop serve-static",
@@ -18,6 +20,7 @@
     "gemini-teamcity": "2.1.5",
     "html-reporter": "2.21.0",
     "http-server": "0.11.1",
-    "ip": "1.1.5"
+    "ip": "1.1.5",
+    "kill-port": "^1.3.2"
   }
 }
