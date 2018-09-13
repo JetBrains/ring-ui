@@ -34,12 +34,12 @@ const buttonClasses = classNames(
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
 // Support `composes`
-function addClasses(classList, classes) {
-  classes.split(/\s+/g).forEach(className => classList.add(className));
-}
-function removeClasses(classList, classes) {
-  classes.split(/\s+/g).forEach(className => classList.remove(className));
-}
+const applyMethodToClasses = method => (classList, classes = '') => {
+  classes.split(/\s+/g).forEach(className => classList[method](className));
+};
+
+const addClasses = applyMethodToClasses('add');
+const removeClasses = applyMethodToClasses('remove');
 
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
@@ -67,7 +67,7 @@ class ButtonController extends RingAngularComponent {
         }
 
         if (mod === 'loader') {
-          (val ? addClasses : removeClasses)(
+          applyMethodToClasses(val ? 'add' : 'remove')(
             this.element.querySelector(LOADER_BACKGROUND_SELECTOR),
             styles.loaderBackground
           );
