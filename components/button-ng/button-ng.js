@@ -87,7 +87,7 @@ class ButtonController extends RingAngularComponent {
   $postLink() {
     const {$attrs} = this.$inject;
     if (!$attrs.hasOwnProperty('mode')) {
-      this.findTranscludeNode().classList.add(ringIconDefaultColor);
+      addClasses(this.findTranscludeNode().classList, ringIconDefaultColor);
     }
     $attrs.$observe('mode', this.updateMode);
     $attrs.$observe('icon', this.updateIcon);
@@ -131,13 +131,13 @@ class ButtonController extends RingAngularComponent {
     if (glyph) {
       removeClasses(cl, styles.buttonWithoutIcon);
       addClasses(cl, styles.withIcon);
-      transcludeNode.classList.add(transcludeSpacer);
+      addClasses(transcludeNode.classList, transcludeSpacer);
       icon.setAttribute('glyph', glyph);
       icon.setAttribute('size', size);
     } else {
       removeClasses(cl, styles.withIcon);
       addClasses(cl, styles.buttonWithoutIcon);
-      transcludeNode.classList.remove(transcludeSpacer);
+      removeClasses(transcludeNode.classList, transcludeSpacer);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
     }
