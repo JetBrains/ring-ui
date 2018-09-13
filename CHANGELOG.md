@@ -6,25 +6,27 @@ order: 2
 
 ## [1.0.0]
 
-- [Breaking] New visual language. Most components UI have significant 
-updates which may be incompatible with rest parts of your app.
+- [Breaking] New visual language. Most UI components have received significant 
+updates which may require you to update the rest of your application's UI.
 
-- Many components like Button, Input, Query Assist now have `theme` 
-property that toggles component appearance to better fit dark or light 
-background.
+- Many components now have a `theme` property that toggles the component's appearance to better 
+fit dark and light backgrounds.
 
-- [Breaking] In scope of moving to CSS Modules, many SASS files 
-have been removed and replaced with CSS implementation.
-If your project imports this files directly, please remove imports 
-and use appropriate components instead.
-Here is the list of removed SCSS files:
-`badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, loader.scss, old-browsers-message.scss, 
-popup.scss, query-assist.scss, radio.scss, select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss`.
+- [Breaking] The styles of many components were rewritten from SASS to CSS modules. If you were 
+importing the SASS files directly, you will have to remove those imports and use the corresponding 
+components instead.
 
-- [Breaking] SASS and `postcss-modules-values-replace` variables are 
-deprecated. CSS custom properties must be used instead.
-In order to use CSS custom properties in your app, PostCSS should be 
-configured like that:
+The complete list of removed SASS files:
+
+```
+badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, 
+loader.scss, old-browsers-message.scss, popup.scss, query-assist.scss, radio.scss, 
+select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
+```
+
+- [Breaking] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
+properties must be used instead. In order to use CSS custom properties in your app, you will need to
+configure PostCSS as follows:
 ```
  plugins: [
    ...
@@ -34,9 +36,11 @@ configured like that:
    })
  ]
 ```
-- Build moved to Babel 7.
-- Fonts set changed so it may now fallback to Sergo UI instead of 
-Helvetica Neue on Windows.
+
+- Babel 7 was introduced.
+
+- The default font-family declaration was changed. Notably, it may now fall back to Segoe UI instead
+of Helvetica Neue on Windows.
 
 ## [0.4.6] — 28-12-2017
 

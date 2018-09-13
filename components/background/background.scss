@@ -4,7 +4,7 @@
  * @deprecated Is not used anywhere.
  */
 
-@warn 'Ring UI: "background.scss" file is deprecated and about to be removed. Please don\'t import this file.';
+@warn 'Ring UI: "background.scss" file is deprecated and will be removed soon. Please don\'t import this file.';
 
 .background__gradient {
   background: #FFF linear-gradient(to bottom, #E6E6E6, #FFF 160px) repeat-x;
