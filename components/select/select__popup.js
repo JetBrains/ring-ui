@@ -397,6 +397,8 @@ export default class SelectPopup extends Component {
     map: {
       up: event => (this.list && this.list.upHandler(event)),
       down: event => (this.list && this.list.downHandler(event)),
+      home: event => (this.list && this.list.homeHandler(event)),
+      end: event => (this.list && this.list.endHandler(event)),
       enter: event => (this.list && this.list.enterHandler(event)),
       esc: event => this.props.onCloseAttempt(event, true),
       tab: event => this.tabPress(event),
