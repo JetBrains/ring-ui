@@ -336,6 +336,7 @@ export default class SelectPopup extends Component {
           onResize={this.handleListResize}
           onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
+          disableMoveOverflow={this.props.disableMoveOverflow}
           disableMoveDownOverflow={this.props.loading}
           compact={this.props.compact}
           renderOptimization={this.props.renderOptimization}
