@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import 'core-js/modules/es7.array.includes';
 
 import RingAngularComponent from '../global/ring-angular-component';
+import {addClasses, applyMethodToClasses, removeClasses} from '../global/dom';
 import IconNG from '../icon-ng/icon-ng';
 import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
@@ -33,14 +34,6 @@ const buttonClasses = classNames(
 
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
-// Support `composes`
-const applyMethodToClasses = method => (classList, classes = '') => {
-  classes.split(/\s+/g).forEach(className => classList[method](className));
-};
-
-const addClasses = applyMethodToClasses('add');
-const removeClasses = applyMethodToClasses('remove');
-
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
@@ -62,13 +55,13 @@ class ButtonController extends RingAngularComponent {
           addClasses(cl, styles[mod]);
           this.element.setAttribute(attrName, true);
         } else {
-          removeClasses(styles[mod]);
+          removeClasses(cl, styles[mod]);
           this.element.removeAttribute(attrName);
         }
 
         if (mod === 'loader') {
           applyMethodToClasses(val ? 'add' : 'remove')(
-            this.element.querySelector(LOADER_BACKGROUND_SELECTOR),
+            this.element.querySelector(LOADER_BACKGROUND_SELECTOR).classList,
             styles.loaderBackground
           );
         }
