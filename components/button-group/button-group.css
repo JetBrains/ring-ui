@@ -2,6 +2,14 @@
 
 @value unit from "../global/global.css";
 
+:root {
+  --ring-button-group-default-z-index: 0;
+  --ring-button-group-disabled-z-index: -1;
+  --ring-button-group-active-z-index: 1;
+  --ring-button-group-hover-z-index: 2;
+  --ring-button-group-focus-z-index: 3;
+}
+
 .buttonGroup {
   composes: buttonGroup from "../button-toolbar/button-toolbar.css";
 
@@ -49,4 +57,31 @@
 .buttonGroup > :last-child .button {
   border-top-right-radius: var(--ring-border-radius);
   border-bottom-right-radius: var(--ring-border-radius);
+}
+
+.buttonGroup {
+  & .button {
+    position: relative;
+    z-index: var(--ring-button-group-default-z-index);
+
+    &[disabled] {
+      z-index: var(--ring-button-group-disabled-z-index);
+    }
+
+    &:active {
+      z-index: var(--ring-button-group-active-z-index);
+    }
+
+    &:hover {
+      z-index: var(--ring-button-group-hover-z-index);
+    }
+
+    &:focus {
+      z-index: var(--ring-button-group-focus-z-index);
+    }
+  }
+
+  & .active {
+    z-index: var(--ring-button-group-active-z-index);
+  }
 }
