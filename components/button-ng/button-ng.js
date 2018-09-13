@@ -33,6 +33,14 @@ const buttonClasses = classNames(
 
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
+// Support `composes`
+function addClasses(classList, classes) {
+  classes.split(/\s+/g).forEach(className => classList.add(className));
+}
+function removeClasses(classList, classes) {
+  classes.split(/\s+/g).forEach(className => classList.remove(className));
+}
+
 class ButtonController extends RingAngularComponent {
   static $inject = ['$element', '$attrs', '$scope', '$compile', '$log'];
 
@@ -51,16 +59,18 @@ class ButtonController extends RingAngularComponent {
         const attrName = `data-test-${mod}`;
 
         if (val) {
-          cl.add(styles[mod]);
+          addClasses(cl, styles[mod]);
           this.element.setAttribute(attrName, true);
         } else {
-          cl.remove(styles[mod]);
+          removeClasses(styles[mod]);
           this.element.removeAttribute(attrName);
         }
 
         if (mod === 'loader') {
-          this.element.querySelector(LOADER_BACKGROUND_SELECTOR).
-            classList[val ? 'add' : 'remove'](styles.loaderBackground);
+          (val ? addClasses : removeClasses)(
+            this.element.querySelector(LOADER_BACKGROUND_SELECTOR),
+            styles.loaderBackground
+          );
         }
       });
     });
@@ -111,9 +121,9 @@ class ButtonController extends RingAngularComponent {
         );
       }
 
-      cl.add(styles.primary);
+      addClasses(cl, styles.primary);
     } else {
-      cl.remove(styles.primary);
+      removeClasses(cl, styles.primary);
     }
   };
 
@@ -126,23 +136,23 @@ class ButtonController extends RingAngularComponent {
     const cl = this.element.classList;
 
     if (glyph) {
-      cl.remove(styles.buttonWithoutIcon);
-      cl.add(styles.withIcon);
+      removeClasses(cl, styles.buttonWithoutIcon);
+      addClasses(cl, styles.withIcon);
       transcludeNode.classList.add(transcludeSpacer);
       icon.setAttribute('glyph', glyph);
       icon.setAttribute('size', size);
     } else {
-      cl.remove(styles.withIcon);
-      cl.add(styles.buttonWithoutIcon);
+      removeClasses(cl, styles.withIcon);
+      addClasses(cl, styles.buttonWithoutIcon);
       transcludeNode.classList.remove(transcludeSpacer);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
     }
 
     if (glyph && !transcludeNode.textContent) {
-      cl.add(styles.onlyIcon);
+      addClasses(cl, styles.onlyIcon);
     } else {
-      cl.remove(styles.onlyIcon);
+      removeClasses(cl, styles.onlyIcon);
     }
 
     $compile(icon)($scope);
