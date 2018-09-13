@@ -5,8 +5,9 @@
   --ring-line-color: #dfe5eb;
   --ring-dark-line-color: #263b4c;
   --ring-borders-color: #b8d1e5;
-  --ring-icon-color: #b8d1e5;
-  --ring-icon-disabled-color: #dbdbdb;
+  --ring-icon-color: var(--ring-borders-color);
+  --ring-border-disabled-color: #dbdbdb;
+  --ring-icon-disabled-color: var(--ring-border-disabled-color);
   --ring-border-hover-color: #80c6ff;
   --ring-icon-hover-color: var(--ring-border-hover-color);
   --ring-main-color: #008eff;

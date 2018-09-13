@@ -13,7 +13,8 @@
   --ring-button-danger-active-color: #ffe7e8;
   --ring-button-danger-hover-color: #ffb3b8;
   --ring-button-loader-background: #33a3ff;
-  --ring-button-dark-icon-color: #333;
+  --ring-button-dark-border-disabled-color: #333;
+  --ring-button-dark-icon-disabled-color: var(--ring-button-dark-border-disabled-color);
   --ring-button-dark-danger-active-color: #26080a;
   --ring-button-dark-danger-hover-color: #db5860;
   --ring-button-dark-active-color: #001526; /* TODO: Can't it be replaced with #002A4D? */
@@ -34,6 +35,10 @@
   &.active {
     background-color: var(--ring-selected-background-color);
     box-shadow: button-shadow var(--ring-border-hover-color);
+  }
+
+  &[disabled] {
+    box-shadow: button-shadow var(--ring-border-disabled-color);
   }
 
   &[disabled],
@@ -94,13 +99,17 @@
     box-shadow: button-shadow var(--ring-main-color);
   }
 
+  &[disabled] {
+    box-shadow: button-shadow var(--ring-button-dark-border-disabled-color);
+  }
+
   &[disabled],
   &[disabled].withIcon {
     color: var(--ring-text-color);
   }
 
   &[disabled] .icon {
-    color: var(--ring-button-dark-icon-color);
+    color: var(--ring-button-dark-icon-disabled-color);
   }
 
   &.primary:active,
@@ -143,7 +152,6 @@
   composes: button from "../button-toolbar/button-toolbar.css";
 
   position: relative;
-  z-index: 0;
 
   display: inline-block;
 
@@ -166,14 +174,10 @@
   line-height: height;
 
   &:hover {
-    z-index: 3;
-
     transition: none;
   }
 
   &:focus {
-    z-index: 4;
-
     transition: none;
 
     box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
@@ -195,9 +199,8 @@
   }
 }
 
-.button:active,
 .active {
-  z-index: 2;
+  composes: active from "../button-group/button-group.css";
 }
 
 .primary {
