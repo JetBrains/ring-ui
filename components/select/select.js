@@ -106,7 +106,8 @@ export default class Select extends Component {
     compact: PropTypes.bool,
     size: PropTypes.oneOf(Object.values(Size)),
     theme: PropTypes.string,
-    customAnchor: PropTypes.func
+    customAnchor: PropTypes.func,
+    disableMoveOverflow: PropTypes.func
   };
 
   static defaultProps = {
@@ -462,6 +463,7 @@ export default class Select extends Component {
         compact={this.props.compact}
         renderOptimization={this.props.renderOptimization}
         ringPopupTarget={this.props.ringPopupTarget}
+        disableMoveOverflow={this.props.disableMoveOverflow}
       />
     );
   }
