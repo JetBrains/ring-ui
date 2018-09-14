@@ -10,6 +10,7 @@ import overrideStyles from './error-bubble-ng.css';
 /**
  * @name Form Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Form.
  * @example-file ./form-ng.examples.html
  */
