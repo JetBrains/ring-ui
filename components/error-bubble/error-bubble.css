@@ -48,7 +48,7 @@
     content: '';
     transform: rotate(45deg);
 
-    border: 1px solid var(--ring-borders-color);
+    border: 1px solid var(--ring-popup-border-color);
     border-top: none;
     border-right: none;
     background: var(--ring-content-background-color);
