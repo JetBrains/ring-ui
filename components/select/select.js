@@ -107,7 +107,7 @@ export default class Select extends Component {
     size: PropTypes.oneOf(Object.values(Size)),
     theme: PropTypes.string,
     customAnchor: PropTypes.func,
-    disableMoveOverflow: PropTypes.func
+    disableMoveOverflow: PropTypes.bool
   };
 
   static defaultProps = {
