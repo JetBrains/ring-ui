@@ -13,7 +13,7 @@
         </div>
 
         <div class="ring-form__group">
-          <rg-select size="M" options="item.name for item in formExampleCtrl.data track by item.name"></rg-select>
+          <rg-select options="item.name for item in formExampleCtrl.data track by item.name"></rg-select>
           <div class="ring-form__control__description">I am a simple description</div>
         </div>
 
@@ -33,7 +33,7 @@
         </div>
 
         <div class="ring-form__footer">
-          <rg-button mode="primary" ng-click="ExampleForm.$validate()">Save</rg-button>
+          <rg-button mode="primary">Save</rg-button>
           <rg-button>Cancel</rg-button>
         </div>
       </form>
