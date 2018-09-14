@@ -154,11 +154,6 @@ module.exports = (env = {}) => {
         bundles: {
           vendor: [
             '@babel/polyfill',
-            'core-js',
-            {
-              name: 'core-js',
-              path: 'core-js/library'
-            },
             'dom4',
             'whatwg-fetch',
             'react',
