@@ -1,5 +1,4 @@
 import 'dom4';
-import 'core-js/modules/es7.array.includes';
 import {
   getDocumentScrollLeft,
   getDocumentScrollTop,

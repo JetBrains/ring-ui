@@ -1,5 +1,4 @@
 import angular from 'angular';
-import 'core-js/modules/es7.array.includes';
 
 import {SearchIcon} from '../icon';
 

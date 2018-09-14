@@ -1,6 +1,4 @@
 // chai-as-promised uses es6
-import 'core-js/es6';
-
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';

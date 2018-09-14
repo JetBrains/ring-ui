@@ -8,8 +8,6 @@
  * @example-file ./table.examples.html
  */
 
-import 'core-js/modules/es6.array.find';
-
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
