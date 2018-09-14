@@ -1,6 +1,4 @@
 /* global hubConfig */
-import 'core-js/modules/es6.string.starts-with';
-
 const {serverUri, clientId} = hubConfig;
 
 const RING_UI_BASE = '/ring-ui/';

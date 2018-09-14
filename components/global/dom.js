@@ -29,7 +29,6 @@
     </file>
    </example>
  */
-import 'core-js/modules/es7.object.entries';
 
 export const getStyles = window.getComputedStyle.bind(window);
 

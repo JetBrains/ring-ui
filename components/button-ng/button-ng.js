@@ -1,7 +1,6 @@
 import angular from 'angular';
 import 'dom4';
 import classNames from 'classnames';
-import 'core-js/modules/es7.array.includes';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import IconNG from '../icon-ng/icon-ng';

@@ -110,7 +110,7 @@ const babelLoader = {
 
 const whatwgLoader = {
   test: require.resolve('whatwg-fetch'),
-  loader: `${resolveLoader('imports')}?Promise=core-js/es6/promise`
+  loader: resolveLoader('imports')
 };
 
 const htmlLoader = {

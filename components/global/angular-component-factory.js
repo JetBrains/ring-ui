@@ -1,7 +1,6 @@
 import angular from 'angular';
 /* global process: false */
 
-import 'core-js/modules/es7.array.includes';
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
