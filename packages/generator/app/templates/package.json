@@ -31,7 +31,7 @@
     "postcss-loader": "3.0.0",
     "postcss-modules-values-replace": "3.0.1",
     "prop-types": "15.6.2",
-    "react": "16.5.0",
+    "react": "16.5.1",
     "react-dom": "16.5.1",
     "redbox-react": "1.6.0",
     "webpack": "3.12.0",
