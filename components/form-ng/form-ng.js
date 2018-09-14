@@ -3,7 +3,9 @@ import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 import '../input/input.scss';
-import '../error-bubble/error-bubble.scss';
+import styles from '../error-bubble/error-bubble.css';
+
+import overrideStyles from './error-bubble-ng.css';
 
 /**
  * @name Form Ng
@@ -56,8 +58,10 @@ angularModule.directive('rgErrorBubble', function rgErrorBubbleDirective(getForm
     },
 
     replace: true,
-    template: require('./form-ng__error-bubble.html'),
-
+    template: `
+<div class="${styles.errorBubble} ${overrideStyles.errorBubbleNg}" ng-show="active" ng-style="style">
+  <div ng-repeat="errorMessage in getFormErrorMessages(errorBubble().$error)">{{ errorMessage }}</div>
+</div>`,
     link: function link(scope, iElement, iAttrs) {
       scope.style = {};
 
