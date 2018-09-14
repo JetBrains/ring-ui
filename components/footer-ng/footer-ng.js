@@ -7,6 +7,7 @@ import {copyright} from '../footer/footer';
 /**
  * @name Footer Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @framework Angular
  * @constructor
  * @description Renders application's footer.
