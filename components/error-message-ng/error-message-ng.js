@@ -1,12 +1,14 @@
 import angular from 'angular';
 
 import IconNG from '../icon-ng/icon-ng';
+import LinkNG from '../link-ng/link-ng';
 
 import '../error-message-ng/error-message-ng.scss';
 
 /**
  * @name Error Message Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Displays an error message.
  * @example
   <example name="Error Message Ng">
@@ -30,7 +32,7 @@ import '../error-message-ng/error-message-ng.scss';
   </example>
  */
 
-const angularModule = angular.module('Ring.error-message', [IconNG]);
+const angularModule = angular.module('Ring.error-message', [IconNG, LinkNG]);
 
 angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
   return {
