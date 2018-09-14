@@ -20,7 +20,7 @@ const scheduleScroll = scheduleRAF();
         <div>
           <textarea placeholder="Add description" rows="70" cols="100"></textarea>
         </div>
-        <div class="ring-panel" rg-docked-panel rg-docked-panel-class="customCssClass">
+        <div rg-panel rg-docked-panel rg-docked-panel-class="customCssClass">
           <rg-button mode="primary">Save</rg-button>
           <rg-button >Cancel</rg-button>
         </div>
@@ -32,10 +32,10 @@ const scheduleScroll = scheduleRAF();
      </file>
      <file name="index.js" webpack="true">
       import angular from 'angular';
-      import '@jetbrains/ring-ui/components/panel/panel.scss';
       import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
+      import PanelNG from '@jetbrains/ring-ui/components/panel-ng/panel-ng';
       import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-      angular.module('DockedPanelExample', [DockedPanelNG, ButtonNG]);
+      angular.module('DockedPanelExample', [DockedPanelNG, ButtonNG, PanelNG]);
      </file>
    </example>
  */
