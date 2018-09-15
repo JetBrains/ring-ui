@@ -141,7 +141,7 @@
     "mocha": "5.0.1",
     "octicons": "^8.1.0",
     "react": "16.5.1",
-    "react-dom": "16.4.2",
+    "react-dom": "16.5.1",
     "react-test-renderer": "16.4.2",
     "recompose": "^0.29.0",
     "sinon": "5.0.0",
@@ -159,7 +159,7 @@
   },
   "peerDependencies": {
     "react": "16.5.1",
-    "react-dom": "16.4.2"
+    "react-dom": "16.5.1"
   },
   "dependencies": {
     "@jetbrains/angular-elastic": "2.5.1",
