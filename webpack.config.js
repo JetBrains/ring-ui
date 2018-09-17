@@ -102,12 +102,15 @@ const externalCssLoader = {
 const babelLoader = {
   test: /\.js$/,
   include: componentsPath,
-  loader: `${resolveLoader('babel')}?cacheDirectory`
+  loader: `${resolveLoader('babel')}?${JSON.stringify({
+    configFile: path.join(__dirname, '.babelrc'),
+    cacheDirectory: true
+  })}`
 };
 
 const whatwgLoader = {
   test: require.resolve('whatwg-fetch'),
-  loader: `${resolveLoader('imports')}?Promise=core-js/es6/promise`
+  loader: resolveLoader('imports')
 };
 
 const htmlLoader = {
