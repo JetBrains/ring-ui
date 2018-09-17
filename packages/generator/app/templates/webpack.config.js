@@ -57,6 +57,13 @@ const webpackConfig = () => ({
         ]
       },
       {
+        // Loaders for any other external packages styles
+        test: /\.css$/,
+        include: /node_modules/,
+        exclude: ringUiWebpackConfig.componentsPath,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.js$/,
         include: [componentsPath],
         loader: 'babel-loader?cacheDirectory'
