@@ -16,14 +16,17 @@
   },
   "babel": {
     "presets": [
-      ["@jetbrains/jetbrains", {
-        "angular": true,
-        "useBuiltIns": "usage"
-      }]
+      [
+        "@jetbrains/jetbrains",
+        {
+          "angular": true,
+          "useBuiltIns": "usage"
+        }
+      ]
     ]
   },
   "dependencies": {
-    "@babel/core": "7.0.0",
+    "@babel/core": "7.0.1",
     "@babel/polyfill": "7.0.0",
     "@jetbrains/babel-preset-jetbrains": "2.1.0",
     "babel-loader": "8.0.2",
