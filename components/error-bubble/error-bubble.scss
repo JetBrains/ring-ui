@@ -1,12 +1,8 @@
 @import "../global/global";
 
-@warn 'Ring UI: "error-bubble.scss" file is deprecated and will be removed soon. Please don\'t import this file.';
-
 /*
   To be deprecated in favor of error-bubble.css
  */
-
-$border-color: #e5e5e5;
 
 .ring-error-bubble {
   z-index: 2;
@@ -14,7 +10,6 @@ $border-color: #e5e5e5;
   display: none;
   position: absolute;
   top: 0;
-  left: 25*$ring-unit + 2; // fallback if calc is not supported
   left: calc(100% + 2px);
   min-height: 3*$ring-unit;
   padding-right: 2*$ring-unit;
@@ -22,14 +17,14 @@ $border-color: #e5e5e5;
   line-height: 22px;
 
   border-radius: var(--ring-border-radius);
-  border: 1px solid $border-color;
+  border: 1px solid var(--ring-popup-border-color);
 
   @include ring-font(12px);
   white-space: nowrap;
 
   color: var(--ring-error-color);
-  background: #FFF;
-  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+  background: var(--ring-content-background-color);
+  box-shadow: 0 2px 16px 0 var(--ring-popup-shadow-color);
 
   &.active {
     display: inline-block;
@@ -48,11 +43,11 @@ $border-color: #e5e5e5;
     width: $ring-unit;
     height: $ring-unit;
 
-    border: 1px solid $border-color;
+    border: 1px solid var(--ring-popup-border-color);
     border-right: none;
     border-top: none;
 
-    background: #FFF;
+    background: var(--ring-content-background-color);
   }
 
   &_material {
