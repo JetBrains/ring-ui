@@ -73,5 +73,8 @@
 
   border-width: unit unit 0;
   border-style: solid;
-  border-color: #192c3b transparent transparent; /* TODO: replace hex color with palette */
+
+  /* TODO: Replace with palette color */
+
+  border-color: #192c3b transparent transparent; /* stylelint-disable-line color-no-hex */
 }

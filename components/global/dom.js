@@ -69,6 +69,14 @@ export function getDocumentScrollLeft() {
     document.body.scrollLeft;
 }
 
+// Support `composes`
+export const applyMethodToClasses = method => (classList, classes = '') => {
+  classes.split(/\s+/g).forEach(className => classList[method](className));
+};
+
+export const addClasses = applyMethodToClasses('add');
+export const removeClasses = applyMethodToClasses('remove');
+
 export function setRootStyleProperties(properties = {}) {
   const rootStyle = document.documentElement.style;
 

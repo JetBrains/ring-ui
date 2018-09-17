@@ -3,7 +3,7 @@
 @value unit from "../global/global.css";
 
 .panel {
-  composes: panel from "../dialog/dialog.css";
+  composes: panel from "../dialog/dialog.css"; /* TODO: Invert dependency using :externals CSS Modules selector */
 
   position: relative;
 

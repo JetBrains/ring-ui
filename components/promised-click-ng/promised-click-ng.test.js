@@ -57,7 +57,7 @@ describe('Promised Click Ng', () => {
       const {element} = buildPromisedClick(true);
       element.dispatchEvent(click);
 
-      element.should.have.class(buttonStyles.active);
+      element.should.have.class(buttonStyles.active.split(' ')[0]);
     });
 
     it('should remove the active class by resolving Promise', () => {
@@ -100,7 +100,7 @@ describe('Promised Click Ng', () => {
       ctrl.onClick(() => $q(noop));
       element.dispatchEvent(click);
 
-      element.should.have.class(buttonStyles.active);
+      element.should.have.class(buttonStyles.active.split(' ')[0]);
     });
 
     it('should remove the active class by resolving Promise', () => {
@@ -143,7 +143,7 @@ describe('Promised Click Ng', () => {
       const {element, ctrl} = buildPromisedClick();
       ctrl.process(() => $q(noop));
 
-      element.should.have.class(buttonStyles.active);
+      element.should.have.class(buttonStyles.active.split(' ')[0]);
     });
 
     it('should remove the active class by resolving Promise', () => {

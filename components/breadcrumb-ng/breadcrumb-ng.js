@@ -7,6 +7,7 @@ import IconModule from '../icon-ng/icon-ng';
 /**
  * @name Breadcrumb Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Displays a breadcrumb.
  * @example
    <example name="Breadcrumb Ng">
