@@ -6,7 +6,6 @@ import getEventKey from '../global/get-event-key';
 import Select from '../select/select';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
-import '../input-size/input-size.scss';
 import memoize from '../global/memoize';
 import rerenderHOC from '../global/rerender-hoc';
 
@@ -315,7 +314,7 @@ export default class TagsInput extends Component {
             type={Select.Type.INPUT_WITHOUT_CONTROLS}
             label={this.props.placeholder}
             data={this.state.suggestions}
-            className={classNames('ring-input-size_md', styles.tagsSelect)}
+            className={classNames(styles.tagsSelect)}
             onSelect={this.addTag}
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
