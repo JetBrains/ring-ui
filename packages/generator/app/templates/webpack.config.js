@@ -57,11 +57,15 @@ const webpackConfig = () => ({
         ]
       },
       {
+        // Loaders for any other external packages styles
+        test: /\.css$/,
+        include: /node_modules/,
+        exclude: ringUiWebpackConfig.componentsPath,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.js$/,
-        include: [
-          join(__dirname, 'node_modules/chai-as-promised'),
-          componentsPath
-        ],
+        include: [componentsPath],
         loader: 'babel-loader?cacheDirectory'
       }
     ]
