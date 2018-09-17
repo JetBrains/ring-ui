@@ -680,7 +680,7 @@ export default class QueryAssist extends Component {
       });
     }
 
-    return [...query].map((letter, index, letters) => {
+    return Array.from(query).map((letter, index, letters) => {
       const className = classNames(styles.letter, classes[index] || LETTER_DEFAULT_CLASS);
 
       const dataTest = (letters.length - 1 === index)

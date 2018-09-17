@@ -1,5 +1,3 @@
-import 'core-js/modules/es6.array.find';
-
 /**
  * Selection class, catches all selection and activation operations and triggers events
  */
