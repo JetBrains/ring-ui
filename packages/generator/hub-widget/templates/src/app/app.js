@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import DashboardAddons from 'hub-dashboard-addons';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
@@ -74,7 +73,7 @@ class Widget extends Component {
           label="Select text color"
         />
         <Panel>
-          <Button primary={true} onClick={this.saveConfig}>{'Save'}</Button>
+          <Button primary onClick={this.saveConfig}>{'Save'}</Button>
           <Button onClick={this.cancelConfig}>{'Cancel'}</Button>
         </Panel>
       </div>
