@@ -14,6 +14,7 @@ const packages = [
   '@jetbrains/logos',
   '@jetbrains/icons',
   '@jetbrains/generator-ring-ui',
+  '@jetbrains/hub-widget-ui',
   'hub-dashboard-addons'
 ];
 const BASE_GENERATOR_PATH = path.resolve(
