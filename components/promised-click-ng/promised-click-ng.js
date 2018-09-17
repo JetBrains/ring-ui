@@ -2,6 +2,7 @@ import angular from 'angular';
 import 'dom4';
 
 import buttonStyles from '../button/button.css';
+import {applyMethodToClasses} from '../global/dom';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import {LOADER_BACKGROUND_SELECTOR} from '../button-ng/button-ng';
@@ -69,14 +70,23 @@ class PromisedClickController extends RingAngularComponent {
 
     this.toggleActive = enable => {
       if (currentMode === 'loader') {
-        this.element.classList[enable ? 'add' : 'remove'](buttonStyles.loader);
+        applyMethodToClasses(enable ? 'add' : 'remove')(
+          this.element.classList,
+          buttonStyles.loader
+        );
+
         const loaderNode = this.element.querySelector(LOADER_BACKGROUND_SELECTOR);
         if (loaderNode) {
-          this.element.querySelector(LOADER_BACKGROUND_SELECTOR).
-            classList[enable ? 'add' : 'remove'](buttonStyles.loaderBackground);
+          applyMethodToClasses(enable ? 'add' : 'remove')(
+            this.element.querySelector(LOADER_BACKGROUND_SELECTOR).classList,
+            buttonStyles.loaderBackground
+          );
         }
       } else if (currentMode === 'active') {
-        this.element.classList[enable ? 'add' : 'remove'](buttonStyles.active);
+        applyMethodToClasses(enable ? 'add' : 'remove')(
+          this.element.classList,
+          buttonStyles.active
+        );
       }
     };
 

@@ -1,5 +1,7 @@
 @import "../global/global";
 
+@warn 'Ring UI: "button.scss" file is deprecated and will be removed soon. Please don\'t import this file.';
+
 @mixin button-background($dark, $light) {
   background-color: #{$light};
   background-image: linear-gradient(to top, #{$dark}, #{$light});

@@ -42,6 +42,7 @@ class Row extends PureComponent {
     onFocusRestore: PropTypes.func,
     level: PropTypes.number,
     collapsible: PropTypes.bool,
+    parentCollapsible: PropTypes.bool,
     collapsed: PropTypes.bool,
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func,
@@ -60,6 +61,7 @@ class Row extends PureComponent {
     onFocusRestore: () => {},
     level: 0,
     collapsible: false,
+    parentCollapsible: false,
     collapsed: false,
     onCollapse: () => {},
     onExpand: () => {}
@@ -99,8 +101,9 @@ class Row extends PureComponent {
     const {
       item, columns, selectable, selected,
       showFocus, draggable, alwaysShowDragHandle, level,
-      collapsible, collapsed, onCollapse, onExpand,
-      showDisabledSelection, checkboxTooltip
+      collapsible, parentCollapsible, collapsed,
+      onCollapse, onExpand, showDisabledSelection,
+      checkboxTooltip
     } = this.props;
 
     const classes = classNames(this.props.className, {
@@ -117,7 +120,8 @@ class Row extends PureComponent {
     const metaColumnClasses = style.metaColumn;
 
     const SUBITEM_OFFSET = 30;
-    const gap = level * SUBITEM_OFFSET;
+    const COLLAPSIBLE_PARENT_OFFSET = 20;
+    const gap = level * SUBITEM_OFFSET + (parentCollapsible ? COLLAPSIBLE_PARENT_OFFSET : 0);
     const metaColumnStyle = {
       paddingLeft: `${gap}px`
     };

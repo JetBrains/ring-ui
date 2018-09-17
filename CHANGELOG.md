@@ -4,6 +4,44 @@ category: Docs
 order: 2
 ---
 
+## [1.0.0]
+
+- [Breaking] New visual language. Most UI components have received significant 
+updates which may require you to update the rest of your application's UI.
+
+- Many components now have a `theme` property that toggles the component's appearance to better 
+fit dark and light backgrounds.
+
+- [Breaking] The styles of many components were rewritten from SASS to CSS modules. If you were 
+importing the SASS files directly, you will have to remove those imports and use the corresponding 
+components instead.
+
+The complete list of removed SASS files:
+
+```
+badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, 
+loader.scss, old-browsers-message.scss, popup.scss, query-assist.scss, radio.scss, 
+select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
+```
+
+- [Breaking] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
+properties must be used instead. In order to use CSS custom properties in your app, you will need to
+configure PostCSS as follows:
+```
+ plugins: [
+   ...
+   require('postcss-custom-properties')({
+     preserve: true,
+     variables: require('@jetbrains/ring-ui/extract-css-vars')
+   })
+ ]
+```
+
+- Babel 7 was introduced.
+
+- The default font-family declaration was changed. Notably, it may now fall back to Segoe UI instead
+of Helvetica Neue on Windows.
+
 ## [0.4.6] — 28-12-2017
 
 - `ErrorBubble` component was reimplemented using `Popup`. While the API did not change, the

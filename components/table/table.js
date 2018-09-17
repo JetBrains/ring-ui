@@ -31,9 +31,9 @@ const DraggableRows = sortableContainer(props => {
   const {
     data, getItemKey, selection, selectable,
     isItemSelectable, onRowFocus, onRowSelect,
-    getItemLevel, isItemCollapsible, isItemCollapsed,
-    onItemCollapse, onItemExpand, isDisabledSelectionVisible,
-    getCheckboxTooltip,
+    getItemLevel, isItemCollapsible, isParentCollapsible,
+    isItemCollapsed, onItemCollapse, onItemExpand,
+    isDisabledSelectionVisible, getCheckboxTooltip,
     ...restProps
   } = props;
 
@@ -52,6 +52,7 @@ const DraggableRows = sortableContainer(props => {
           onFocus={onRowFocus}
           onSelect={onRowSelect}
           collapsible={isItemCollapsible(item)}
+          parentCollapsible={isParentCollapsible(item)}
           collapsed={isItemCollapsed(item)}
           onCollapse={onItemCollapse}
           onExpand={onItemExpand}
@@ -85,6 +86,7 @@ class Table extends PureComponent {
     alwaysShowDragHandle: PropTypes.bool,
     getItemLevel: PropTypes.func,
     isItemCollapsible: PropTypes.func,
+    isParentCollapsible: PropTypes.func,
     isItemCollapsed: PropTypes.func,
     onItemCollapse: PropTypes.func,
     onItemExpand: PropTypes.func,
@@ -120,6 +122,7 @@ class Table extends PureComponent {
     stickyHeader: true,
     getItemLevel: () => 0,
     isItemCollapsible: () => false,
+    isParentCollapsible: () => false,
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
@@ -214,7 +217,7 @@ class Table extends PureComponent {
       data, selection, columns, caption, getItemKey, selectable,
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
-      stickyHeaderOffset, isItemCollapsible, isItemCollapsed,
+      stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip
     } = this.props;
 
@@ -280,6 +283,7 @@ class Table extends PureComponent {
             onRowSelect={this.onRowSelect}
             getItemLevel={getItemLevel}
             isItemCollapsible={isItemCollapsible}
+            isParentCollapsible={isParentCollapsible}
             isItemCollapsed={isItemCollapsed}
             onItemCollapse={onItemCollapse}
             onItemExpand={onItemExpand}
