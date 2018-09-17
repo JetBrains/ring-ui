@@ -110,6 +110,7 @@ export default class List extends Component {
     useMouseUp: PropTypes.bool,
     visible: PropTypes.bool,
     renderOptimization: PropTypes.bool,
+    disableMoveOverflow: PropTypes.bool,
     disableMoveDownOverflow: PropTypes.bool,
     compact: PropTypes.bool
   };
@@ -322,11 +323,16 @@ export default class List extends Component {
   });
 
   upHandler = e => {
+    const {data, disableMoveOverflow} = this.props;
     const index = this.state.activeIndex;
     let newIndex;
 
     if (index === null || index === 0) {
-      newIndex = this.props.data.length - 1;
+      if (!disableMoveOverflow) {
+        newIndex = data.length - 1;
+      } else {
+        return;
+      }
     } else {
       newIndex = index - 1;
     }
@@ -335,11 +341,12 @@ export default class List extends Component {
   };
 
   downHandler = e => {
+    const {data, disableMoveOverflow, disableMoveDownOverflow} = this.props;
     const index = this.state.activeIndex;
     let newIndex;
 
-    if ((index === null || index + 1 === this.props.data.length)) {
-      if (!this.props.disableMoveDownOverflow) {
+    if ((index === null || index + 1 === data.length)) {
+      if (!disableMoveOverflow && !disableMoveDownOverflow) {
         newIndex = 0;
       } else {
         return;
@@ -349,6 +356,14 @@ export default class List extends Component {
     }
 
     this.moveHandler(newIndex, this.downHandler, e);
+  };
+
+  homeHandler = e => {
+    this.moveHandler(0, this.downHandler, e);
+  };
+
+  endHandler = e => {
+    this.moveHandler(this.props.data.length - 1, this.upHandler, e);
   };
 
   onDocumentMouseMove = () => {
@@ -681,6 +696,8 @@ export default class List extends Component {
   shortcutsMap = {
     up: this.upHandler,
     down: this.downHandler,
+    home: this.homeHandler,
+    end: this.endHandler,
     enter: this.enterHandler,
     'meta+enter': this.enterHandler,
     'ctrl+enter': this.enterHandler,

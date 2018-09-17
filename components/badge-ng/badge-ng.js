@@ -2,6 +2,7 @@
  * @name Badge Ng
  * @category Legacy Angular
  * @framework Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Badge.
  * @example
   <example name="Badge Ng">

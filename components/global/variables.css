@@ -1,10 +1,13 @@
+/* stylelint-disable color-no-hex */
+
 :root {
   /* Element */
   --ring-line-color: #dfe5eb;
   --ring-dark-line-color: #263b4c;
   --ring-borders-color: #b8d1e5;
-  --ring-icon-color: #b8d1e5;
-  --ring-icon-disabled-color: #dbdbdb;
+  --ring-icon-color: var(--ring-borders-color);
+  --ring-border-disabled-color: #dbdbdb;
+  --ring-icon-disabled-color: var(--ring-border-disabled-color);
   --ring-border-hover-color: #80c6ff;
   --ring-icon-hover-color: var(--ring-border-hover-color);
   --ring-main-color: #008eff;
@@ -12,6 +15,7 @@
   --ring-icon-error-color: #db5860;
   --ring-icon-warning-color: #eda200;
   --ring-icon-success-color: #59a869;
+  --ring-pale-control-color: #cfdbe5;
   --ring-popup-border-components: 0, 42, 76;
   --ring-popup-border-color: rgba(var(--ring-popup-border-components), 0.1);
   --ring-popup-shadow-color: rgba(var(--ring-popup-border-components), 0.15);

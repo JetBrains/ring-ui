@@ -1,5 +1,7 @@
 @import '../global/global';
 
+@warn 'Ring UI: "icon.scss" file is deprecated and will be removed soon. Please don\'t import this file.';
+
 .ring-icon {
   display: inline-block;
   fill: currentColor;

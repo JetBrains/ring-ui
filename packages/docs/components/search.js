@@ -106,6 +106,7 @@ class Search extends PureComponent {
           dontCloseOnAnchorClick
           top={-8}
           minWidth={PopupMenu.PopupProps.MinWidth.TARGET}
+          maxHeight={PopupMenu.PopupProps.MaxHeight.SCREEN}
           directions={[PopupMenu.PopupProps.Directions.BOTTOM_RIGHT]}
           className={styles.list}
           shortcuts={true}

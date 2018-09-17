@@ -11,8 +11,8 @@
           <div class="ring-form__control">
             <rg-save-field value="data.email"
               on-save="save()">
-              <rg-input type="text"
-                size="M"
+              <input type="text"
+                class="ring-input ring-input-size_md"
                 ng-required="true"
                 ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]*[@][a-zA-Z0-9-_\.]+$/"
                 ng-model="data.email">
@@ -29,8 +29,8 @@
           <div class="ring-form__control">
             <rg-save-field value="data.email" working-value="data.emailWorkingValue"
               on-save="save()">
-              <rg-input type="text"
-                size="M"
+              <input type="text"
+                class="ring-input ring-input-size_md"
                 ng-required="true"
                 ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\.]*[@][a-zA-Z0-9-_\.]+$/"
                 ng-model="data.emailWorkingValue">
@@ -47,11 +47,10 @@
           <div class="ring-form__control">
             <rg-save-field value="data.longText"
               on-save="save()">
-                <rg-input type="text"
-                  size="M"
-                  multiline="true"
+                <textarea type="text"
+                  class="ring-input ring-input-size_l"
                   ng-required="true"
-                  ng-model="data.longText"></rg-input>
+                  ng-model="data.longText"></textarea>
             </rg-save-field>
           </div>
         </div>
@@ -65,11 +64,10 @@
             <rg-save-field value="data.longTextList"
               multiline="list"
               on-save="save()">
-                <rg-input type="text"
-                  size="M"
-                  multiline="true"
+                <textarea type="text"
                   name="myMultilineArea"
-                  ng-model="data.longTextList"></rg-input>
+                  class="ring-input ring-input-size_md"
+                  ng-model="data.longTextList"></textarea>
             </rg-save-field>
             <div class="ring-form__control__description">data.longTextList =
               {{data.longTextList}}
@@ -85,9 +83,9 @@
           <div class="ring-form__control">
             <rg-save-field value="data.num"
               on-save="save()">
-              <rg-input type="number"
+              <input type="number"
                 max="10"
-                size="XS"
+                class="ring-input ring-input-size_xs"
                 ng-model="data.num">
             </rg-save-field>
           </div>
@@ -101,8 +99,8 @@
           <div class="ring-form__control">
             <rg-save-field value="data.someText"
               on-save="invalidSave(value)">
-              <rg-input type="text"
-                size="M"
+              <input type="text"
+                class="ring-input ring-input-size_md"
                 ng-model="data.someText">
             </rg-save-field>
           </div>
@@ -138,13 +136,12 @@
   </file>
   <file type="js">
     import angular from 'angular';
-    import InputNG from '@jetbrains/ring-ui/components/input-ng/input-ng';
     import SaveFieldNG from '@jetbrains/ring-ui/components/save-field-ng/save-field-ng';
     import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
     import hubConfig from '@ring-ui/docs/components/hub-config';
 
-    angular.module('Example.saveField', [SaveFieldNG, QueryAssistNG, InputNG]).
+    angular.module('Example.saveField', [SaveFieldNG, QueryAssistNG]).
       config(['shortcutsProvider', 'rgSaveFieldShortcutsMode', function (shortcutsProvider, rgSaveFieldShortcutsMode) {
         shortcutsProvider.mode({
           id: 'ring-shortcuts',

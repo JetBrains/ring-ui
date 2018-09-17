@@ -7,6 +7,7 @@ import Theme from '../global/theme';
 /**
  * @name Loader Inline Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @framework Angular
  * @constructor
  * @description Wraps markup for loader-inline component.

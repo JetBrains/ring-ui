@@ -8,6 +8,7 @@ import '../error-bubble/error-bubble.scss';
 /**
  * @name Form Ng
  * @category Legacy Angular
+ * @tags Ring UI Language
  * @description Provides an Angular wrapper for Form.
  * @example-file ./form-ng.examples.html
  */
