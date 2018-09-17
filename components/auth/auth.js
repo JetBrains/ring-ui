@@ -1,4 +1,3 @@
-import 'core-js/modules/es7.array.includes';
 import 'whatwg-fetch';
 
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';

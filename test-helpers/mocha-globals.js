@@ -1,6 +1,4 @@
 // chai-as-promised uses es6
-import 'core-js/es6';
-
 import {unmountComponentAtNode} from 'react-dom';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';

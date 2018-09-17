@@ -5,6 +5,7 @@
   "author": "JetBrains",
   "license": "Apache-2.0",
   "files": [
+    ".babelrc",
     "components",
     "postcss.config.js",
     "webpack.config.js",
@@ -60,49 +61,17 @@
     "url": "ssh://github.com/JetBrains/ring-ui.git"
   },
   "readmeFilename": "README.md",
-  "babel": {
-    "presets": "@jetbrains/jetbrains",
-    "plugins": [
-      [
-        "transform-runtime",
-        {
-          "moduleName": "@jetbrains/babel-runtime"
-        }
-      ],
-      [
-        "@jetbrains/babel-plugin-angular-annotate",
-        [
-          "angular",
-          "ngRoute"
-        ]
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          [
-            "istanbul",
-            {
-              "exclude": [
-                "**/*.test.js"
-              ]
-            }
-          ]
-        ]
-      }
-    }
-  },
   "devDependencies": {
+    "@babel/cli": "7.0.0",
+    "@babel/polyfill": "7.0.0",
     "@jetbrains/eslint-config": "4.0.3",
     "@jetbrains/generator-ring-ui": "^1.0.0-beta.196",
     "@jetbrains/stylelint-config": "^1.3.4",
     "angular": "1.7.3",
     "angular-mocks": "1.7.3",
     "angular-route": "1.7.3",
-    "babel-cli": "6.26.0",
     "babel-eslint": "9.0.0",
     "babel-plugin-istanbul": "5.1.0",
-    "babel-polyfill": "6.26.0",
     "chai": "4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "1.8.0",
@@ -121,7 +90,6 @@
     "enzyme-adapter-react-16": "1.5.0",
     "eslint": "^5.4.0",
     "eslint-import-resolver-webpack": "^0.10.1",
-    "exports-loader": "0.7.0",
     "front-matter": "2.3.0",
     "glob": "7.1.3",
     "husky": "0.14.3",
@@ -162,16 +130,13 @@
     "react-dom": "16.4.2"
   },
   "dependencies": {
+    "@babel/core": "7.0.0",
     "@jetbrains/angular-elastic": "2.5.1",
-    "@jetbrains/babel-plugin-angular-annotate": "2.0.3",
-    "@jetbrains/babel-preset-jetbrains": "1.1.3",
-    "@jetbrains/babel-runtime": "6.23.1",
+    "@jetbrains/babel-preset-jetbrains": "2.1.0",
     "@jetbrains/icons": "1.19.0",
     "@jetbrains/logos": "1.0.3",
     "autoprefixer": "9.1.5",
-    "babel-core": "6.26.3",
-    "babel-loader": "7.1.5",
-    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-loader": "8.0.2",
     "classnames": "2.2.5",
     "combokeys": "3.0.0",
     "compile-code-loader": "0.2.0",

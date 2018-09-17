@@ -1,4 +1,4 @@
-require('babel-polyfill');
+require('@babel/polyfill');
 
 const path = require('path');
 
@@ -153,12 +153,7 @@ module.exports = (env = {}) => {
       new DllBundlesPlugin({
         bundles: {
           vendor: [
-            'babel-polyfill',
-            'core-js',
-            {
-              name: 'core-js',
-              path: 'core-js/library'
-            },
+            '@babel/polyfill',
             'dom4',
             'whatwg-fetch',
             'react',

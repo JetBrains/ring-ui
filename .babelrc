@@ -1,0 +1,19 @@
+{
+  "presets": [
+    ["@jetbrains/jetbrains", {
+      "angular": true,
+      "useBuiltIns": "usage"
+    }]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        ["istanbul", {
+          "exclude": [
+            "**/*.test.js"
+          ]
+        }]
+      ]
+    }
+  }
+}

@@ -1,4 +1,3 @@
-import 'core-js/modules/es6.array.find-index';
 import 'dom4';
 import Combokeys from 'combokeys';
 

@@ -6,8 +6,6 @@
  */
 
 import 'dom4';
-import 'core-js/modules/es6.array.find';
-import 'core-js/modules/es7.array.includes';
 import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
