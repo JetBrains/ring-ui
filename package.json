@@ -130,7 +130,7 @@
     "react-dom": "16.4.2"
   },
   "dependencies": {
-    "@babel/core": "7.0.0",
+    "@babel/core": "7.0.1",
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-preset-jetbrains": "2.1.0",
     "@jetbrains/icons": "1.19.0",
