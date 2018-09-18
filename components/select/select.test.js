@@ -675,7 +675,7 @@ describe('Select', () => {
       instance.filter.value.should.equal('test');
     });
 
-    it('Should clear fiter value when closing', () => {
+    it('Should clear filter value when closing', () => {
       const wrapper = mountSelect();
       const instance = wrapper.instance();
       instance.filterValue('test');

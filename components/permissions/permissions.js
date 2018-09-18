@@ -168,7 +168,7 @@ export default class Permissions {
    * Binds a property with the name <code>propertyName</code> of the <code>object</code>
    * to a boolean value that is true if user has the permissions and false if she doesn't.
    *
-   * @expample
+   * @example
    * <code>
    *   userPermissions.bindVariable($scope, 'canReadRole', 'role-read')
    * </code>
