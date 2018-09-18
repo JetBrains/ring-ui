@@ -16,13 +16,16 @@
   },
   "babel": {
     "presets": [
-      ["@jetbrains/jetbrains", {
-        "useBuiltIns": "usage"
-      }]
+      [
+        "@jetbrains/jetbrains",
+        {
+          "useBuiltIns": "usage"
+        }
+      ]
     ]
   },
   "dependencies": {
-    "@babel/core": "7.0.1",
+    "@babel/core": "7.1.0",
     "@babel/polyfill": "7.0.0",
     "@jetbrains/babel-preset-jetbrains": "2.1.1",
     "babel-loader": "8.0.2",
