@@ -37,6 +37,7 @@ export const CODE = {
 
 export default class HTTP {
   baseUrl = null;
+  _requestsMeta = new WeakMap();
 
   constructor(auth, baseUrl, fetchConfig = {}) {
     if (auth) {
@@ -93,6 +94,12 @@ export default class HTTP {
     );
   }
 
+  _storeRequestMeta(parsedResponse, rawResponse) {
+    const {headers, ok, redirected, status, statusText, type, url} = rawResponse;
+    this._requestsMeta.
+      set(parsedResponse, {headers, ok, redirected, status, statusText, type, url});
+  }
+
   async _processResponse(response) {
     const contentType = response.headers.get('content-type');
     const isJson = contentType && contentType.indexOf('application/json') !== -1;
@@ -109,7 +116,9 @@ export default class HTTP {
     }
 
     try {
-      return await (isJson ? response.json() : response.text());
+      const parsedResponse = await (isJson ? response.json() : {data: await response.text()});
+      this._storeRequestMeta(parsedResponse, response);
+      return parsedResponse;
     } catch (err) {
       return response;
     }
@@ -165,6 +174,8 @@ export default class HTTP {
       throw error;
     }
   }
+
+  getMetaForResponse = response => this._requestsMeta.get(response);
 
   get = (url, params) => (
     this.request(url, {
