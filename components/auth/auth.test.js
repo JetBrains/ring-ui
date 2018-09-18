@@ -66,7 +66,7 @@ describe('Auth', () => {
 
       auth.config.userParams.should.deep.equal({
         query: {
-          fields: 'guest,id,name,profile/avatar/url,profile/email'
+          fields: 'guest,id,name,login,profile/avatar/url,profile/email'
         }
       });
     });
@@ -612,7 +612,7 @@ describe('Auth', () => {
       HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
       const matchParams = sinon.match({
         query: {
-          fields: 'guest,id,name,profile/avatar/url'
+          fields: 'guest,id,name,login,profile/avatar/url'
         }
       });
       HTTP.prototype.authorizedFetch.should.have.been.

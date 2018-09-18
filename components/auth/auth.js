@@ -73,7 +73,7 @@ const DEFAULT_CONFIG = {
   requestCredentials: 'default',
   backgroundRefreshTimeout: null,
   scope: [],
-  userFields: ['guest', 'id', 'name', 'profile/avatar/url'],
+  userFields: ['guest', 'id', 'name', 'login', 'profile/avatar/url'],
   cleanHash: true,
   onLogout: noop,
   onPostponeChangedUser: () => {},
