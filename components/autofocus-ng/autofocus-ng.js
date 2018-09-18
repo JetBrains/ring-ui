@@ -7,7 +7,7 @@
  */
 import angular from 'angular';
 
-import {FOCUSEABLE_ELEMENTS} from '../tab-trap/tab-trap';
+import {FOCUSABLE_ELEMENTS} from '../tab-trap/tab-trap';
 
 const angularModule = angular.module('Ring.autofocus', []);
 const RING_SELECT_SELECTOR = '[data-test=ring-select__focus]';
@@ -30,15 +30,15 @@ angularModule.directive('rgAutofocus', function rgAutofocusDirective() {
       return;
     }
 
-    if (element.matches(FOCUSEABLE_ELEMENTS) && element.focus) {
+    if (element.matches(FOCUSABLE_ELEMENTS) && element.focus) {
       element.focus();
       return;
     }
 
-    const focuseableChild = element.querySelector(FOCUSEABLE_ELEMENTS);
+    const focusableChild = element.querySelector(FOCUSABLE_ELEMENTS);
 
-    if (focuseableChild && focuseableChild.focus) {
-      focuseableChild.focus();
+    if (focusableChild && focusableChild.focus) {
+      focusableChild.focus();
     }
   }
 

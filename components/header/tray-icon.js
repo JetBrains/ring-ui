@@ -10,7 +10,7 @@ export default class TrayIcon extends Component {
   static propTypes = {
     ...Button.propTypes,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-    rotateable: PropTypes.bool
+    rotatable: PropTypes.bool
   };
 
   static defaultProps = {
@@ -20,10 +20,10 @@ export default class TrayIcon extends Component {
   };
 
   render() {
-    const {className, rotateable, ...restProps} = this.props;
+    const {className, rotatable: rotatable, ...restProps} = this.props;
     const classes = classNames(styles.icon, className, {
-      [styles.rotateable]: rotateable,
-      [styles.rotated]: rotateable && restProps.active
+      [styles.rotatable]: rotatable,
+      [styles.rotated]: rotatable && restProps.active
     });
     return (
       <Button

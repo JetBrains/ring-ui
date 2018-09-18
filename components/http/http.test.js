@@ -95,7 +95,7 @@ describe('HTTP', () => {
     http._fetch.should.have.been.calledWith('http://test/foo', sinon.match(Object));
   });
 
-  it('should perform request convert "body" as object inro string', async () => {
+  it('should perform request convert "body" as object into string', async () => {
     await http.request('testurl', {
       method: 'POST',
       body: {foo: 'bar'}

@@ -43,7 +43,7 @@ describe('Radio', () => {
   });
 
   describe('refs', () => {
-    // TODO move back to enxyme when https://github.com/airbnb/enzyme/pull/1592 gets released
+    // TODO move back to enzyme when https://github.com/airbnb/enzyme/pull/1592 gets released
     const container = document.createElement('div');
     const renderRadio = (props, refOne, refTwo) =>
       render(factory(props, refOne, refTwo), container);
