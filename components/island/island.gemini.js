@@ -11,7 +11,7 @@ gemini.suite('Island', () => {
   gemini.suite('Island with scroll', child => {
     child.
       setUrl('island/island-with-scroll.html').
-      skip('edge', 'Disabled in EDGE because of weird rendering artefact').
+      skip('edge', 'Disabled in EDGE because of weird rendering artifact').
       setCaptureElements('*[data-test~=ring-island]').
       capture('island');
   });

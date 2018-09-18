@@ -64,7 +64,7 @@ gemini.suite('Select', () => {
   gemini.suite('Multi-value select with options descriptions', child => {
     child.
       setUrl('select/multiple-select-with-a-description.html').
-      skip('ie', 'Disabled in IE because of weird rendering artefact').
+      skip('ie', 'Disabled in IE because of weird rendering artifact').
       setCaptureElements('[data-test~=ring-popup]').
       capture('selectPopup', (actions, find) => {
         actions.click(find('[data-test=ring-select]'));

@@ -1,5 +1,5 @@
 function proxyAttrs(template, attrsWhitelist) {
-  return function copyAtrrs(iElement, iAttrs) {
+  return function copyAttrs(iElement, iAttrs) {
     const PREFIX = 'data-proxy-';
 
     const attrsList = attrsWhitelist || Object.keys(iAttrs.$attr);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './tab-trap.css';
 
-export const FOCUSEABLE_ELEMENTS = 'input, button:not([data-trap-button]), select, textarea, a[href], *[tabindex]';
+export const FOCUSABLE_ELEMENTS = 'input, button:not([data-trap-button]), select, textarea, a[href], *[tabindex]';
 
 /**
  * @name TabTrap
@@ -65,10 +65,10 @@ export default class TabTrap extends Component {
       return;
     }
 
-    const tabbables = [...node.querySelectorAll(FOCUSEABLE_ELEMENTS)].
+    const tabables = [...node.querySelectorAll(FOCUSABLE_ELEMENTS)].
       filter(item => item.tabIndex >= 0);
 
-    const toBeFocused = first ? tabbables[0] : tabbables[tabbables.length - 1];
+    const toBeFocused = first ? tabables[0] : tabables[tabables.length - 1];
 
     if (toBeFocused) {
       toBeFocused.focus();

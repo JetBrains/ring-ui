@@ -119,7 +119,7 @@ describe('Place Under Ng', () => {
       synchronizer.onScroll.should.have.been.called;
     });
 
-    it('should call recheck scroll position after some delay after scroll events finich', () => {
+    it('should call recheck scroll position after some delay after scroll events finish', () => {
       const BIG_TICK = 500;
       synchronizer.syncPositionWith(syncElementMock);
 

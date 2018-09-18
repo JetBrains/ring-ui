@@ -147,7 +147,7 @@ describe('Url', () => {
         should.be.equal('hub?a=a&b=b');
     });
 
-    it('should not encode nulls and undefineds', () => {
+    it('should not encode null and undefined values', () => {
       encodeURL('hub', {a: 'a', b: null, c: undefined, d: '', e: false}).
         should.be.equal('hub?a=a&d=&e=false');
     });

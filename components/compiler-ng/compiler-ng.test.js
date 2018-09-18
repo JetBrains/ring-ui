@@ -187,7 +187,7 @@ describe('Compiler Ng', () => {
   });
 
 
-  it('should allow use ngTranslcude', () => {
+  it('should allow use ngTransclude', () => {
     let compileData = null;
     const transcludeFn = sandbox.stub();
 
