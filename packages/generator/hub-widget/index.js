@@ -68,6 +68,8 @@ module.exports = class HubWidgetGenerator extends Generator {
           additionalDevServerOptions,
           port
         }, answers, versions);
+
+        console.log('Generating package with given parameters:', this.props);
       }).
       then(() => {
         if (spinner) {
@@ -104,7 +106,6 @@ module.exports = class HubWidgetGenerator extends Generator {
       this.destinationPath('package.json'),
       {
         process: content => {
-          console.log('>>>', this.props);
           const packageJson = processPackageJson(
             this.props,
             JSON.parse(content)
