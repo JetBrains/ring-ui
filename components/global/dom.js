@@ -70,7 +70,7 @@ export function getDocumentScrollLeft() {
 }
 
 // Support `composes`
-export const applyMethodToClasses = method => (classList, classes = '') => {
+export const applyMethodToClasses = method => (classList, classes) => {
   classes.split(/\s+/g).forEach(className => classList[method](className));
 };
 
