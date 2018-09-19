@@ -69,9 +69,11 @@ export function getDocumentScrollLeft() {
     document.body.scrollLeft;
 }
 
-// Support `composes`
-export const applyMethodToClasses = method => (classList, classes) => {
-  classes.split(/\s+/g).forEach(className => classList[method](className));
+export const applyMethodToClasses = method => (classList, classes = '') => {
+  classes.
+    split(/\s+/g).
+    filter(className => !!className).
+    forEach(className => classList[method](className));
 };
 
 export const addClasses = applyMethodToClasses('add');
