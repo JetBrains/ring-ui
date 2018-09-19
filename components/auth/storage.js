@@ -48,6 +48,8 @@ export default class AuthStorage {
     this._messagesStorage = new StorageConstructor({
       cookieName: 'ring-message'
     });
+
+    this.isInMemory = this._tokenStorage.isInMemory;
   }
 
   /**
