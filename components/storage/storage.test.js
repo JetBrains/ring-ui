@@ -1,6 +1,7 @@
 /* eslint-disable import/no-duplicates */
 import Storage from './storage__local';
-import FallbackStorage from './storage__fallback';
+import FallbackStorage from './storage__cookies-fallback';
+import InMemoryFallbackStorage from './storage__in-memory-fallback';
 
 import MockedStorage from 'imports-loader?window=storage-mock!./storage__local';
 
@@ -220,7 +221,7 @@ describe('Storage', () => {
     });
   });
 
-  describe('Fallback', () => {
+  describe('Cookies Fallback', () => {
     const cookieName = 'testCookie';
 
     beforeEach(() => {
@@ -244,5 +245,17 @@ describe('Storage', () => {
       testStorage(storageSession);
     });
     testStorageEvents(storage);
+  });
+
+  describe('In-memory fallback', () => {
+    const storage = new InMemoryFallbackStorage();
+
+    it('should be fulfilled', () => storage.set('empty', {}).should.be.fulfilled);
+
+    it('should read', async () => {
+      const obj = {bar: 123};
+      await storage.set('foo', obj);
+      (await storage.get('foo')).should.be.deep.equal(obj);
+    });
   });
 });
