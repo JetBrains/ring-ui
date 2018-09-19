@@ -117,6 +117,10 @@ module.exports = class HubWidgetGenerator extends Generator {
             dependencies: Object.assign({}, packageJson.dependencies, {
               'hub-dashboard-addons': this.props.hubDashboardAddons,
               '@jetbrains/hub-widget-ui': this.props.jetbrainsHubWidgetUi
+            }),
+            scripts: Object.assign({}, packageJson.scripts, {
+              build: 'webpack -p', // Widgets with sourcemaps take to much space
+              dist: `npm run build && rm -f ${this.props.projectName}.zip && zip -r -j ${this.props.projectName}.zip ./dist`
             })
           });
           return JSON.stringify(newPackageJson, null, INDENT);
