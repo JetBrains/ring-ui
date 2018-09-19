@@ -5,9 +5,12 @@ import {shallow, mount} from 'enzyme';
 import {Radio} from './radio__item';
 
 describe('Radio Item', () => {
+  function noop() {}
+
   const factory = props => (
     <Radio
       checked={false}
+      onChange={noop}
       value="test"
       {...props}
     >
