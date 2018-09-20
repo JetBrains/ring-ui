@@ -173,7 +173,7 @@
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
     "style-loader": "0.23.0",
-    "svg-sprite-loader": "4.0.0",
+    "svg-sprite-loader": "4.1.1",
     "url-loader": "1.1.1",
     "url-search-params": "^0.10.2",
     "util-deprecate": "^1.0.2",
