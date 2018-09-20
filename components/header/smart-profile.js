@@ -18,10 +18,7 @@ export default class SmartProfile extends PureComponent {
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired,
     className: PropTypes.string,
-    translations: PropTypes.shape({
-      certificateMismatch: PropTypes.string,
-      ...Profile.propTypes.translations
-    }),
+    translations: PropTypes.object,
     profileUrl: PropTypes.string,
     size: Profile.propTypes.size
   };
