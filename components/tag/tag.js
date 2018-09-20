@@ -161,11 +161,11 @@ export default class Tag extends PureComponent {
         ref={this.tagRef}
         onClick={this.props.onClick}
       >
+        {this.renderRemoveIcon()}
         {this.renderAvatar()}
         {this.renderCustomIcon()}
         {this.renderImage()}
         <span>{this.props.children}</span>
-        {this.renderRemoveIcon()}
       </span>);
   }
 }

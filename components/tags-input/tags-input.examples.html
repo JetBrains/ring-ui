@@ -79,3 +79,31 @@
     />, document.getElementById('demo'));
   </file>
 </example>
+
+<example name="Tags Input with too long tag labels">
+  <file type="html" disable-auto-size>
+    <div id="demo" style="width: 100px;"></div>
+  </file>
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import TagsInput from '@jetbrains/ring-ui/components/tags-input/tags-input';
+
+    const tags = [
+      {key: 'test1', label: 'Label'},
+      {key: 'test2', label: 'Very long label'}
+    ];
+
+    function dataSource(query) {
+      return [
+        {key: 'test3', label: 'Very very long label'},
+        {key: 'test4', label: 'Very very very long label'}
+      ];
+    }
+
+    render(<TagsInput
+      tags={tags}
+      dataSource={dataSource}
+    />, document.getElementById('demo'));
+  </file>
+</example>

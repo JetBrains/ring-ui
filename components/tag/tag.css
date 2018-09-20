@@ -5,12 +5,16 @@
 @value max-height: 20px;
 
 .tag {
+  composes: ellipsis from "../global/global.css";
+
   display: inline-block;
 
   box-sizing: border-box;
+  max-width: 100%;
   height: max-height;
 
   margin-right: calc(unit / 2);
+  margin-bottom: -6px; /* it needs to fix vertical alignment broken by "overflow: hidden" */
   padding: 1px unit;
 
   color: var(--ring-text-color);
@@ -36,8 +40,10 @@
 }
 
 .remove {
+  float: right;
+
   margin-right: calc(unit * -0.5);
-  padding: 0 calc(unit / 2);
+  padding: 1px calc(unit / 2);
 
   cursor: pointer;
 
