@@ -50,7 +50,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
       const DOCKED_CSS_CLASS_NAME = 'ring-docked-panel_fixed';
       const dockedPanelClass = attrs.rgDockedPanelClass || '';
       const config = attrs.rgDockedPanelConfig ? $parse(attrs.rgDockedPanelConfig)(scope) : null;
-      let initialPos;
+      let initialPanelPos;
       let isDocked;
 
       /**
@@ -61,12 +61,20 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
 
       panel.classList.add(CSS_CLASS_NAME);
 
+      function getYPosition(node) {
+        const clientRect = node.getBoundingClientRect();
+        return clientRect.top + clientRect.height + getDocumentScrollTop();
+      }
+
       /**
-       * Save panel initial rects and left margin for further use
+       * Save panel initial rects and left margin and container-node for further use
        */
       function saveInitialPos() {
-        const panelClientRect = panel.getBoundingClientRect();
-        initialPos = panelClientRect.top + panelClientRect.height + getDocumentScrollTop();
+        initialPanelPos = getYPosition(panel);
+      }
+
+      function getInitialUndockedPosition() {
+        return (config || {}).container ? getYPosition(config.container) : initialPanelPos;
       }
 
       function onBeforeDock() {
@@ -133,7 +141,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
         } else if (
           isDocked &&
           currentPanelRect.top + currentPanelRect.height +
-            getDocumentScrollTop() >= initialPos + TOGGLE_GAP
+            getDocumentScrollTop() >= getInitialUndockedPosition() + TOGGLE_GAP
         ) {
           undock();
         }
