@@ -16,7 +16,14 @@ const generate = (packageName, output, suffix = 'Icon') => {
       name: changeCase.camelCase(path.basename(filename).slice(0, -4), null, true)
     }));
 
-  let source =
+  let source = '';
+
+  // Suppress the max-len check when it's known to fail
+  if (packageName === '@jetbrains/icons') {
+    source += '/* eslint-disable max-len */\n';
+  }
+
+  source +=
     '/* This is a generated file. If you want to change it, edit generate-exports instead. */\n\n';
   icons.forEach(({importPath, name}) => {
     source += `import ${name} from '${importPath}';\n`;
