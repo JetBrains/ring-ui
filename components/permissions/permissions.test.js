@@ -324,7 +324,7 @@ describe('Permissions', () => {
     describe('cache with defined permissions converter', () => {
       function namesConverter(key) {
         const splitKey = key.split('.');
-        return splitKey[splitKey.length - 1].toLowerCase().replace(/\_/g, '-');
+        return splitKey[splitKey.length - 1].toLowerCase().replace(/_/g, '-');
       }
 
       const permissionCacheWithConverter = new PermissionCache([

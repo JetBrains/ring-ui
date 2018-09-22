@@ -105,7 +105,7 @@ class Analytics {
       }
 
       if (typeof value === 'string') {
-        value = value.toLowerCase().replace(/[\._]+/g, '-');
+        value = value.toLowerCase().replace(/[._]+/g, '-');
       }
 
       const resultAction = `${keys.join('-')}__${value}`;

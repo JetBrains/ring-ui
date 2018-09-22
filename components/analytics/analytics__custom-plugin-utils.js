@@ -15,7 +15,7 @@ AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
   /**
    * Category also cannot contain the '/' character (but an action can)
    */
-  const regexp = isCategory ? /[\.:;!@#^&*()\{}\[\]?,%=+\\\/]+/g : /[\.:;!@#^&*()\{}\[\]?,%=+\\]+/g;
+  const regexp = isCategory ? /[.:;!@#^&*(){}\[\]?,%=+\\\/]+/g : /[.:;!@#^&*(){}\[\]?,%=+\\]+/g;
   return str.replace(regexp, '_');
 };
 
