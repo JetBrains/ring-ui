@@ -85,7 +85,7 @@ export default class HTTP {
         ...this.fetchConfig,
         headers: {
           ...this.fetchConfig.headers,
-          Authorization: `${TOKEN_TYPE} ${token}`,
+          ...(token ? {Authorization: `${TOKEN_TYPE} ${token}`} : {}),
           ...headers
         },
         ...fetchConfig,
