@@ -37,6 +37,7 @@ function cleanText(text) {
  * @name Query Assist
  * @constructor
  * @category Components
+ * @tags Ring UI Language
  * @extends {ReactComponent}
  * @example-file ./query-assist.examples.html
  * @description
