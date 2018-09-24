@@ -57,7 +57,9 @@ angularModule.provider('auth', function provider($httpProvider) {
         return authInstance.promise.
           then(() => authInstance.auth.requestToken()).
           then(accessToken => {
-            config.headers.Authorization = `Bearer ${accessToken}`;
+            if (accessToken) {
+              config.headers.Authorization = `Bearer ${accessToken}`;
+            }
             return config;
           });
       },
