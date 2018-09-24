@@ -1,49 +1,18 @@
-/**
- * @name ContentEditable
- * @category Components
- * @description Provides a ContentEditable component.
- */
-
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {render} from 'react-dom';
 
-function noop() {}
-
 /**
  * @name ContentEditable
+ * @description Provides a ContentEditable component.
+ * @tags Ring UI Language
+ * @category Components
  * @constructor
- * @extends {ReactComponent}
- * @example
-   <example name="ContentEditable">
-     <file name="index.html">
-       <div id='contenteditable'></div>
-       <div id='contenteditable-disabled' style="padding-top: 16px;"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import '@jetbrains/ring-ui/components/input/input.scss';
-       import {render} from 'react-dom';
-       import React from 'react';
-
-       import ContentEditable from '@jetbrains/ring-ui/components/contenteditable/contenteditable';
-
-       render(
-         <ContentEditable className="ring-input">
-           <span>text <b>bold text</b> text</span>
-         </ContentEditable>,
-         document.getElementById('contenteditable')
-       );
-
-       render(
-         <ContentEditable className="ring-input" disabled={true}>
-           <span>text <b>bold text</b> text</span>
-         </ContentEditable>,
-         document.getElementById('contenteditable-disabled')
-       );
-     </file>
-   </example>
+ * @example-file ./contenteditable.examples.html
  */
+
+function noop() {}
+
 // eslint-disable-next-line react/no-deprecated
 export default class ContentEditable extends Component {
   /** @override */
