@@ -9,6 +9,7 @@
 
     import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
     import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
+    import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
     const container = document.getElementById('container');
@@ -18,7 +19,7 @@
         onInput={e => render(renderBubbleDemo(e.target.value), container)}
         placeholder="enter something"
       >
-        <Input borderless size={Size.M}/>
+        <Select type={Select.Type.BUTTON} size={Size.M} />
       </ErrorBubble>
     );
 
