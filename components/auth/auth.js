@@ -105,6 +105,7 @@ export default class Auth {
   static CLOSE_BACKEND_DOWN_MESSAGE = 'backend-check-succeeded';
   static CLOSE_WINDOW_MESSAGE = 'close-login-window';
   static shouldRefreshToken = TokenValidator.shouldRefreshToken;
+  static storageIsUnavailable = !navigator.cookieEnabled;
 
   config = {};
   listeners = new Listeners();
@@ -317,6 +318,11 @@ export default class Auth {
       this._initDeferred.resolve(state && state.restoreLocation);
       return state && state.restoreLocation;
     } catch (error) {
+      if (Auth.storageIsUnavailable) {
+        this._initDeferred.resolve(); // No way to handle if cookies are disabled
+        await this.requestUser(); // Someone may expect user to be loaded as a part of token validation
+        return null;
+      }
       return this.handleInitValidationError(error);
     }
   }
@@ -384,6 +390,9 @@ export default class Auth {
     try {
       await this._initDeferred.promise;
 
+      if (Auth.storageIsUnavailable) {
+        return null; // Forever guest if storage is unavailable
+      }
       return await this._tokenValidator.validateTokenLocally();
     } catch (e) {
       return this.forceTokenUpdate();
