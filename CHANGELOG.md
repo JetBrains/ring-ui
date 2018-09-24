@@ -6,16 +6,15 @@ order: 2
 
 ## [1.0.0]
 
-- [Breaking] New visual language. Most UI components have received significant 
+- \[Breaking\] New visual language. Most UI components have received significant 
 updates which may require you to update the rest of your application's UI.
 
 - Many components now have a `theme` property that toggles the component's appearance to better 
 fit dark and light backgrounds.
 
-- [Breaking] The styles of many components were rewritten from SASS to CSS modules. If you were 
+- \[Breaking\] The styles of many components were rewritten from SASS to CSS modules. If you were 
 importing the SASS files directly, you will have to remove those imports and use the corresponding 
 components instead.
-
 The complete list of removed SASS files:
 
 ```
@@ -24,7 +23,7 @@ loader.scss, old-browsers-message.scss, popup.scss, query-assist.scss, radio.scs
 select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
 ```
 
-- [Breaking] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
+- \[Breaking\] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
 properties must be used instead. In order to use CSS custom properties in your app, you will need to
 configure PostCSS as follows:
 ```
