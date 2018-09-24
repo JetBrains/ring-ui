@@ -357,10 +357,6 @@ export default class Auth {
     // Background flow
     if (error.authRedirect && !this.config.redirect) {
       try {
-        if (this._storage.isInMemory) {
-          throw new Error('Ring UI: background refresh can\'t work with in-memory storage');
-        }
-
         await this._backgroundFlow.authorize();
         await this._tokenValidator.validateToken();
         this._initDeferred.resolve();
