@@ -5,10 +5,7 @@ gemini.suite('Error Bubble', () => {
     child.
       setUrl('error-bubble/error-bubble.html').
       setCaptureElements('#container').
-      capture('error bubble').
-      capture('error bubble hidden', (actions, find) => {
-        actions.sendKeys(find('input'), 'something');
-      });
+      capture('error bubble');
   });
 
   gemini.suite('Error Bubble in dialog form', child => {

@@ -8,7 +8,6 @@
     import React from 'react';
 
     import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
-    import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
     import Select from '@jetbrains/ring-ui/components/select/select';
     import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
@@ -16,10 +15,10 @@
     const renderBubbleDemo = value => (
       <ErrorBubble
         error={value ? null : 'Value is required'}
-        onInput={e => render(renderBubbleDemo(e.target.value), container)}
+        onSelect={value => render(renderBubbleDemo(value), container)}
         placeholder="enter something"
       >
-        <Select type={Select.Type.BUTTON} size={Size.M} />
+        <Select type={Select.Type.BUTTON} size={Select.Size.M} data={[{label: 'One'}, {label: 'Two'}]} />
       </ErrorBubble>
     );
 
@@ -37,7 +36,7 @@
     import React from 'react';
 
     import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
-    import Input, {Size} from '@jetbrains/ring-ui/components/input/input';
+    import Select from '@jetbrains/ring-ui/components/select/select';
     import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
     import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
     import '@jetbrains/ring-ui/components/form/form.scss';
@@ -54,10 +53,10 @@
             <div className="ring-form__control ring-form__control_small">
               <ErrorBubble
                 error={value ? null : 'Value is required'}
-                onInput={e => render(renderBubbleDemo(e.target.value), container)}
+                onSelect={value => render(renderBubbleDemo(value), container)}
                 placeholder="enter something"
               >
-                <Input borderless size={Size.M}/>
+                <Select type={Select.Type.BUTTON} size={Select.Size.M} data={[{label: 'One'}, {label: 'Two'}]} />
               </ErrorBubble>
             </div>
           </div>
