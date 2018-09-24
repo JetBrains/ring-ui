@@ -64,8 +64,8 @@ $ring-font-size-smaller: 12px;
 }
 
 @mixin ring-input-disabled() {
-  border-color: #DEDEDE;
-  background-color: #F8F8F8;
+  border-color: var(--ring-border-disabled-color);
+  background-color: var(--ring-sidebar-background-color);
   color: var(--ring-disabled-color);
 }
 
