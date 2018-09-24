@@ -1,6 +1,5 @@
 import LocalStorage from './storage__local';
-import CookiesStorageFallback from './storage__cookies-fallback';
-import InMemoryStorageFallback from './storage__in-memory-fallback';
+import FallbackStorage from './storage__fallback';
 
 /**
  * @name Storage
@@ -50,11 +49,7 @@ try {
   localStorage.setItem(temp, temp);
   localStorage.removeItem(temp);
 } catch (e) {
-  if (navigator.cookieEnabled) {
-    Storage = CookiesStorageFallback;
-  } else {
-    Storage = InMemoryStorageFallback;
-  }
+  Storage = FallbackStorage;
 }
 
 const ActualStorage = Storage;
