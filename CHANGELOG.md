@@ -17,24 +17,24 @@ importing the SASS files directly, you will have to remove those imports and use
 components instead.
 The complete list of removed SASS files:
 
-```
-badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, 
-loader.scss, old-browsers-message.scss, popup.scss, query-assist.scss, radio.scss, 
-select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
-```
+  ```
+  badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, 
+  loader.scss, old-browsers-message.scss, popup.scss, query-assist.scss, radio.scss, 
+  select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
+  ```
 
 - \[Breaking\] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
 properties must be used instead. In order to use CSS custom properties in your app, you will need to
 configure PostCSS as follows:
-```
- plugins: [
-   ...
-   require('postcss-custom-properties')({
-     preserve: true,
-     variables: require('@jetbrains/ring-ui/extract-css-vars')
-   })
- ]
-```
+  ```
+   plugins: [
+     ...
+     require('postcss-custom-properties')({
+       preserve: true,
+       variables: require('@jetbrains/ring-ui/extract-css-vars')
+     })
+   ]
+  ```
 
 - Babel 7 was introduced.
 
