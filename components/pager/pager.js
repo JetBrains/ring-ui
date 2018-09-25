@@ -4,7 +4,7 @@
  * @tags Ring UI Language
  * @framework React
  * @extends {ReactComponent}
- * @description The pager.
+ * @description Displays a pager.
  * @example-file ./pager.examples.html
  */
 

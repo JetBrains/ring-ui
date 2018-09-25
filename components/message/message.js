@@ -15,7 +15,7 @@ import styles from './message.css';
   * @tags Ring UI Language
   * @framework React
   * @constructor
-  * @description Popup with message
+  * @description Displays a popup containing a message.
   * @example
     <example name="message">
       <file name="index.html">
