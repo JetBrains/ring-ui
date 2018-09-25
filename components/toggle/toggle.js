@@ -10,7 +10,7 @@ import styles from './toggle.css';
   * @tags Ring UI Language
   * @framework React
   * @constructor
-  * @description Visual toggle wrapper around checkbox.
+  * @description Displays a checkbox as an animated on/off toggle.
   * @example-file ./toggle.examples.html
   */
 

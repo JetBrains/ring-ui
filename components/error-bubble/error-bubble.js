@@ -12,7 +12,7 @@ import styles from './error-bubble.css';
  * @tags Ring UI Language
  * @constructor
  * @description Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop.
- * Passes any prop except `className` down to input.
+ * Passes any prop except `className` down to the input.
  * @example-file ./error-bubble.examples.html
  */
 

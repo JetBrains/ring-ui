@@ -4,7 +4,7 @@ import {getRect} from '../global/dom';
  * @name Caret
  * @category Utilities
  * @tags Ring UI Language
- * @description Manipulate the caret's position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).
+ * @description Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).
  * @see https://github.com/princed/caret
  * @example
    <example name="Caret">
