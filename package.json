@@ -133,7 +133,7 @@
     "@babel/core": "7.1.0",
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-preset-jetbrains": "2.1.2",
-    "@jetbrains/icons": "1.20.0",
+    "@jetbrains/icons": "1.20.1",
     "@jetbrains/logos": "1.0.3",
     "autoprefixer": "9.1.5",
     "babel-loader": "8.0.2",
