@@ -11,8 +11,7 @@ import styles from './grid.css';
  * @framework React
  * @constructor
  * @description Implements a flexbox-like grid system for components placement.
- * Inspired by React-flexbox-grid component.
- * See http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.
+ * Inspired by react-flexbox-grid, see http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.
  * @example-file ./grid.examples.html
  */
 

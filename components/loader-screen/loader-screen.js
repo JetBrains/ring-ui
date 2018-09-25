@@ -11,7 +11,7 @@ import styles from './loader-screen.css';
  * @category Components
  * @tags Ring UI Language
  * @constructor
- * @description Displays a large animated loader and an (optional) text. Use cases: while the site is loading, during major actions.
+ * @description Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.
  * @extends {ReactComponent}
  * @example
     <example name="Loader Screen">

@@ -14,7 +14,7 @@ import styles from './button.css';
  * @category Components
  * @tags Ring UI Language
  * @constructor
- * @description Provides styled buttons.
+ * @description A component for displaying variously styled buttons.
  * @extends {PureComponent}
  * @example-file ./button.examples.html
  */

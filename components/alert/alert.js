@@ -21,7 +21,7 @@ export const ANIMATION_TIME = 500;
  * @name Alert
  * @category Components
  * @tags Ring UI Language
- * @description Use **Alert** to display contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
+ * @description **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
 
 /**
