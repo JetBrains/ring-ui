@@ -18,7 +18,7 @@
     "components": "./components/"
   },
   "scripts": {
-    "build-prod": "webpack --bail --env.production",
+    "build-prod": "webpack --bail --env.production --max_old_space_size=2500",
     "build": "webpack --bail",
     "start": "node --max_old_space_size=2500 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
