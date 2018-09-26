@@ -29,7 +29,6 @@
   "scripts": {
     "prebootstrap": "rm -rf node_modules/@jetbrains/generator-ring-ui && npm install",
     "bootstrap": "lerna bootstrap",
-    "precommit": "lint-staged",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
     "component:es6": "yo @jetbrains/ring-ui:es6 --path $npm_package_config_components",
@@ -181,5 +180,10 @@
   },
   "engines": {
     "node": ">=7.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
