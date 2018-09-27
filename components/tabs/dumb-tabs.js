@@ -15,54 +15,59 @@ export default class Tabs extends PureComponent {
     theme: PropTypes.string,
     selected: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.element),
+      PropTypes.element
+    ]).isRequired,
     onSelect: PropTypes.func
-  }
+  };
 
   static defaultProps = {
     theme: Theme.LIGHT,
     onSelect() {}
-  }
+  };
 
   handleSelect = memoize(key => () => this.props.onSelect(key));
+
+  getTabTitle = (props, i) => {
+    const {selected} = this.props;
+    // eslint-disable-next-line
+    const {title, id, disabled} = props;
+    const key = id || String(i);
+    const isSelected = key === selected;
+    const titleClasses = classNames(styles.title, {
+      [styles.selected]: isSelected
+    });
+
+    const renderTitle = () => Tab.renderTitle(title, isSelected);
+
+    return (
+      <button
+        type="button"
+        key={key}
+        className={titleClasses}
+        disabled={disabled}
+        onClick={this.handleSelect(key)}
+      >
+        <span className={styles.visible}>{renderTitle()}</span>
+        {/* hack for preserving constant tab width*/}
+        <span className={styles.hidden}>{renderTitle()}</span>
+      </button>
+    );
+  };
 
   render() {
     const {className, children, selected, theme} = this.props;
     const classes = classNames(styles.tabs, className, styles[theme]);
+    const childrenArray = React.Children.toArray(children).filter(Boolean);
 
     return (
       <div className={classes}>
         <div className={styles.titles}>
-          {children.map(({props}, i) => {
-            const {title, id, disabled} = props;
-            const key = id || String(i);
-            const isSelected = key === selected;
-            const titleClasses = classNames(styles.title, {
-              [styles.selected]: isSelected
-            });
-
-            const renderTitle = () => Tab.renderTitle(title, isSelected);
-
-            return (
-              <button
-                type="button"
-                key={key}
-                className={titleClasses}
-                disabled={disabled}
-                onClick={this.handleSelect(key)}
-              >
-                <span className={styles.visible}>{renderTitle()}</span>
-                {/* hack for preserving constant tab width*/}
-                <span className={styles.hidden}>{renderTitle()}</span>
-              </button>
-            );
-          })}
+          {childrenArray.map(({props}, i) => this.getTabTitle(props, i))}
         </div>
         <div className={styles.tab}>
-          {children.filter(({props}, i) => {
-            const key = props.id || String(i);
-            return key === selected;
-          })[0]}
+          {childrenArray.filter(({props}, i) => (props.id || String(i)) === selected)[0]}
         </div>
       </div>
     );
