@@ -28,7 +28,7 @@
     "@babel/core": "7.1.0",
     "@babel/polyfill": "7.0.0",
     "@jetbrains/babel-preset-jetbrains": "2.1.2",
-    "babel-loader": "8.0.2",
+    "babel-loader": "8.0.4",
     "css-loader": "1.0.0",
     "file-loader": "2.0.0",
     "html-loader": "0.5.5",
