@@ -6,8 +6,12 @@ import memoize from '../global/memoize';
 
 import Theme from '../global/theme';
 
+import Link from '../link/link';
+
 import styles from './tabs.css';
+
 import Tab from './tab';
+
 
 export default class Tabs extends PureComponent {
   static Theme = Theme;
@@ -16,10 +20,7 @@ export default class Tabs extends PureComponent {
     selected: PropTypes.string,
     className: PropTypes.string,
     href: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.element),
-      PropTypes.element
-    ]).isRequired,
+    children: PropTypes.node.isRequired,
     onSelect: PropTypes.func
   };
 
@@ -41,7 +42,7 @@ export default class Tabs extends PureComponent {
     );
   };
 
-  getTabTitle = (props, i) => {
+  getTabTitle = ({props}, i) => {
     const {selected} = this.props;
     // eslint-disable-next-line
     const {title, id, disabled, href} = props;
@@ -53,25 +54,19 @@ export default class Tabs extends PureComponent {
 
     const tabCaption = this.getTabTitleCaption(title, isSelected);
 
-    return (href
-      ? (
-        <a
-          key={key}
-          href={href}
-          className={titleClasses}
-          disabled={disabled}
-          onClick={this.handleSelect(key)}
-        >{tabCaption}</a>
-      ) : (
-        <button
-          type="button"
-          key={key}
-          className={titleClasses}
-          disabled={disabled}
-          onClick={this.handleSelect(key)}
-        >{tabCaption}</button>
-      ));
+    return (
+      <Link
+        active
+        key={key}
+        href={href}
+        innerClassName={titleClasses}
+        className={titleClasses}
+        disabled={disabled}
+        onClick={this.handleSelect(key)}
+      >{() => tabCaption}</Link>
+    );
   };
+
 
   render() {
     const {className, children, selected, theme} = this.props;
@@ -81,10 +76,10 @@ export default class Tabs extends PureComponent {
     return (
       <div className={classes}>
         <div className={styles.titles}>
-          {childrenArray.map(({props}, i) => this.getTabTitle(props, i))}
+          {childrenArray.map(this.getTabTitle)}
         </div>
         <div className={styles.tab}>
-          {childrenArray.filter(({props}, i) => (props.id || String(i)) === selected)[0]}
+          {childrenArray.find(({props}, i) => (props.id || String(i)) === selected)}
         </div>
       </div>
     );
