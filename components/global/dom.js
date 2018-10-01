@@ -82,8 +82,8 @@ export const removeClasses = applyMethodToClasses('remove');
 export function setRootStyleProperties(properties = {}) {
   const rootStyle = document.documentElement.style;
 
-  Object.entries(properties).forEach((key, value) => {
-    rootStyle.setProperty('key', value);
+  Object.entries(properties).forEach(([key, value]) => {
+    rootStyle.setProperty(key, value);
   });
 }
 
