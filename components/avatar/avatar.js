@@ -146,6 +146,7 @@ export default class Avatar extends PureComponent {
         className={classNames(styles.avatar, this.props.className)}
         style={styleObj}
         src={src}
+        alt="User avatar"
       />
     );
   }
