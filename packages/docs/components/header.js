@@ -64,13 +64,14 @@ class SiteHeader extends PureComponent {
         </span>
         <Tray>
           <Search categories={categories}/>
-          <a
+          <TrayIcon
+            icon={gitHubLogo}
+            iconSize={24}
             href="https://github.com/JetBrains/ring-ui"
             target="_blank"
             title="GitHub repo"
+            aria-label="GitHub repo"
           >
-            <TrayIcon tabIndex={-1} icon={gitHubLogo} iconSize={24} aria-label="Services"/>
-          </a>
           <Services
             services={[
               {

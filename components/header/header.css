@@ -89,7 +89,9 @@
 .icon.icon {
   height: compensated;
 
-  padding-top: 4px;
+  padding-top: calc(unit / 2);
+
+  line-height: calc(compensated - unit / 2);
 }
 
 .main svg {
