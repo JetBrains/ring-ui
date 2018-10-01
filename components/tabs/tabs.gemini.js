@@ -9,15 +9,23 @@ gemini.suite('Tabs', () => {
       capture('tab').
 
       capture('hovered', (actions, find) => {
-        actions.mouseMove(find('div>div>button:nth-child(2),div>div>a'));
+        actions.mouseMove(find('div>div>button:nth-child(2)'));
+      }).
+
+      capture('hovered-link', (actions, find) => {
+        actions.mouseMove(find('div>div>a'));
       }).
 
       capture('click-on-tab', (actions, find) => {
-        actions.click(find('div>div>button:nth-child(3),div>div>a'));
+        actions.click(find('div>div>button:nth-child(3)'));
+      }).
+
+      capture('click-on-tab-link', (actions, find) => {
+        actions.click(find('div>div>a'));
       }).
 
       capture('do-not-switch-to-disabled-tab', (actions, find) => {
-        actions.click(find('div>div>button:nth-child(4),div>div>a'));
+        actions.click(find('div>div>button:nth-child(5)'));
       });
   });
 
@@ -30,6 +38,14 @@ gemini.suite('Tabs', () => {
 
       capture('hovered', (actions, find) => {
         actions.mouseMove(find('div>div>button:nth-child(2)'));
+      }).
+
+      capture('hovered-link', (actions, find) => {
+        actions.mouseMove(find('div>div>a'));
+      }).
+
+      capture('click-on-dark-tab-link', (actions, find) => {
+        actions.click(find('div>div>a'));
       }).
 
       capture('click-on-dark-tab', (actions, find) => {
