@@ -16,6 +16,7 @@ const makeAnchor = loading => {
       loader={loading}
       active={active}
       icon={ServicesIcon}
+      aria-label="Services"
     />
   );
 
@@ -58,6 +59,7 @@ export default class Services extends PureComponent {
           loader={loading}
           active={loading}
           icon={ServicesIcon}
+          aria-label="Services"
         />
       );
     }
