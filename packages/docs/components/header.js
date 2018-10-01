@@ -69,7 +69,7 @@ class SiteHeader extends PureComponent {
             target="_blank"
             title="GitHub repo"
           >
-            <TrayIcon tabIndex={-1} icon={gitHubLogo} iconSize={24}/>
+            <TrayIcon tabIndex={-1} icon={gitHubLogo} iconSize={24} aria-label="Services"/>
           </a>
           <Services
             services={[
