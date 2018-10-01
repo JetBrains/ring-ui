@@ -34,7 +34,8 @@
             </Tab>
             <Tab
               id="third"
-              title="Third tab"
+              title="Third tab (Link)"
+              href="#href"
             >
               Third tab content
             </Tab>
@@ -98,7 +99,8 @@
           </Tab>
           <Tab
             id="third"
-            title="Third tab"
+            title="Third tab (Link)"
+            href="#href"
           >
             Third tab content
           </Tab>
@@ -139,7 +141,7 @@
         <Tab title="Second tab">
           Second tab content
         </Tab>
-        <Tab title="Third tab">
+        <Tab title="Third tab (Link)" href="#href">
           Third tab content
         </Tab>
         <Tab
@@ -194,7 +196,7 @@
         <Tab title={<Title Icon={SearchIcon}>First tab</Title>}>
           First tab content
         </Tab>
-        <Tab title={<Title Icon={WarningIcon}>Second tab</Title>}>
+        <Tab title={<Title Icon={WarningIcon}>Second tab (Link)</Title>} href="#href">
           Second tab content
         </Tab>
       </SmartTabs>
@@ -245,7 +247,7 @@
         <Tab title={isSelected => <Title Icon={SearchIcon}>{isSelected && "First tab"}</Title>}>
           First tab content
         </Tab>
-        <Tab title={isSelected => <Title Icon={WarningIcon}>{isSelected && "Second tab"}</Title>}>
+        <Tab title={isSelected => <Title Icon={WarningIcon}>{isSelected && "Second tab (Link)"}</Title>} href="#href">
           Second tab content
         </Tab>
       </SmartTabs>
