@@ -34,10 +34,16 @@
             </Tab>
             <Tab
               id="third"
-              title="Third tab (Link)"
-              href="#href"
+              title="Third tab"
             >
               Third tab content
+            </Tab>
+            <Tab
+              id="fourth"
+              title="Fourth tab (Link)"
+              href="#href"
+            >
+              Fourth tab content
             </Tab>
             <Tab
               disabled
@@ -99,10 +105,16 @@
           </Tab>
           <Tab
             id="third"
-            title="Third tab (Link)"
-            href="#href"
+            title="Third tab"
           >
             Third tab content
+          </Tab>
+          <Tab
+            id="fourth"
+            title="Fourth tab (Link)"
+            href="#href"
+          >
+            Fourth tab content
           </Tab>
           <Tab
             disabled
@@ -141,8 +153,11 @@
         <Tab title="Second tab">
           Second tab content
         </Tab>
-        <Tab title="Third tab (Link)" href="#href">
+        <Tab title="Third tab">
           Third tab content
+        </Tab>
+        <Tab title="Fourth  tab (Link)" href="#href">
+          Fourth tab content
         </Tab>
         <Tab
           disabled
@@ -196,8 +211,11 @@
         <Tab title={<Title Icon={SearchIcon}>First tab</Title>}>
           First tab content
         </Tab>
-        <Tab title={<Title Icon={WarningIcon}>Second tab (Link)</Title>} href="#href">
+        <Tab title={<Title Icon={WarningIcon}>Second tab</Title>}>
           Second tab content
+        </Tab>
+        <Tab title={<Title Icon={WarningIcon}>Third tab (Link)</Title>} href="#href">
+          Third tab content
         </Tab>
       </SmartTabs>
     );
