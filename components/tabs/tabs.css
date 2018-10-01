@@ -40,8 +40,11 @@
 
   line-height: calc(unit * 4);
 
-  &:hover:not(.selected) {
+  &:hover:not(.selected),
+  &:focus:not(.selected),
+  &:active:not(.selected) {
     color: var(--ring-link-hover-color);
+    outline-style: none;
     box-shadow: inset 0 -1px 0 0 var(--ring-link-hover-color);
   }
 
