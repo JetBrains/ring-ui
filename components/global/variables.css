@@ -59,8 +59,8 @@
   --ring-ease: 0.3s ease-out;
   --ring-fast-ease: 0.15s ease-out;
 
-  /* TODO: return raw value back if this issue fixed https://github.com/JLHwung/postcss-font-family-system-ui/issues/65 */
-  --ring-font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans, Helvetica Neue, Arial, sans-serif;
+  /* This is a carefully tested set of fonts, do not touch without consulting with UI designers */
+  --ring-font-family: -apple-system, BlinkMacSystemFont, Ubuntu, Arial, sans-serif;
   --ring-font-family-monospace: Menlo, "Bitstream Vera Sans Mono", "Ubuntu Mono", Consolas, "Courier New", Courier, monospace;
 
   /* Common z-index-values */
