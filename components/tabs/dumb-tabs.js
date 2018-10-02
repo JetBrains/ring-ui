@@ -32,12 +32,12 @@ export default class Tabs extends PureComponent {
   handleSelect = memoize(key => () => this.props.onSelect(key));
 
   getTabTitleCaption = (title, isSelected) => {
-    const renderTitle = () => Tab.renderTitle(title, isSelected);
+    const renderedTitle = Tab.renderTitle(title, isSelected);
     return (
       <>
-        <span className={styles.visible}>{renderTitle()}</span>
+        <span className={styles.visible}>{renderedTitle}</span>
         {/* hack for preserving constant tab width*/}
-        <span className={styles.hidden}>{renderTitle()}</span>
+        <span className={styles.hidden}>{renderedTitle}</span>
       </>
     );
   };
