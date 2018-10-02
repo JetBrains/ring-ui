@@ -90,7 +90,7 @@ export default class SmartProfile extends PureComponent {
     const {auth, translations} = this.props;
     const userMeta = auth.http.getMetaForResponse(user);
     if (userMeta?.headers?.has(CERTIFICATE_MISMATCH_HEADER)) {
-      const message = translations?.certificateMismatch || `You are still authenticated as ${user.login || user.name}. To authenticate with the client certificate for your account, log out, then click the "Log in with certificate" option on the login page.`;
+      const message = translations?.certificateMismatch || `You are authenticated as ${user.login || user.name}. To authenticate with the client certificate for your account, log out, then click the "Log in with certificate" option on the login page.`;
       alertService.warning(message, 0);
     }
   }
