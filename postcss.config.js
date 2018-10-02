@@ -10,8 +10,7 @@ module.exports = ctx => {
         customProperties: {
           preserve: true,
           variables: ctx.options.variables
-        },
-        fontFamilySystemUi: false
+        }
       }
     },
     'postcss-flexbugs-fixes': {}
