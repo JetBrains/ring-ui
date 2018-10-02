@@ -31,7 +31,7 @@ export default class Tabs extends PureComponent {
 
   handleSelect = memoize(key => () => this.props.onSelect(key));
 
-  getTabTitleCaption = (title, isSelected) => {
+  getTabTitleCaption(title, isSelected) {
     const renderedTitle = Tab.renderTitle(title, isSelected);
     return (
       <>
@@ -40,7 +40,7 @@ export default class Tabs extends PureComponent {
         <span className={styles.hidden}>{renderedTitle}</span>
       </>
     );
-  };
+  }
 
   getTabTitle = ({props}, i) => {
     const {selected} = this.props;
