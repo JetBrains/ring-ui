@@ -52,8 +52,6 @@ export default class Tabs extends PureComponent {
       [styles.selected]: isSelected
     });
 
-    const tabCaption = this.getTabTitleCaption(title, isSelected);
-
     return (
       <Link
         active
@@ -63,10 +61,9 @@ export default class Tabs extends PureComponent {
         className={titleClasses}
         disabled={disabled}
         onClick={this.handleSelect(key)}
-      >{() => tabCaption}</Link>
+      >{() => this.getTabTitleCaption(title, isSelected)}</Link>
     );
   };
-
 
   render() {
     const {className, children, selected, theme} = this.props;
