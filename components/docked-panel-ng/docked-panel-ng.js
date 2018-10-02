@@ -63,7 +63,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
 
       function getYPosition(node) {
         const clientRect = node.getBoundingClientRect();
-        return clientRect.top + clientRect.height + getDocumentScrollTop();
+        return clientRect.top + clientRect.height + getScrollContainerScrollTop();
       }
 
       /**
@@ -75,6 +75,20 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
 
       function getInitialUndockedPosition() {
         return (config || {}).container ? getYPosition(config.container) : initialPanelPos;
+      }
+
+      function getScrollContainerScrollTop() {
+        if (config && config.scrollContainer) {
+          return config.scrollContainer.scrollTop;
+        }
+        return getDocumentScrollTop();
+      }
+
+      function getScrollContainerHeight() {
+        if (config && config.scrollContainer) {
+          return config.scrollContainer.getBoundingClientRect().height;
+        }
+        return getWindowHeight();
       }
 
       function onBeforeDock() {
@@ -136,12 +150,13 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
       function checkPanelPosition() {
         const currentPanelRect = panel.getBoundingClientRect();
 
-        if (currentPanelRect.top + currentPanelRect.height > getWindowHeight() && !isDocked) {
+        if (currentPanelRect.top + currentPanelRect.height > getScrollContainerHeight() &&
+          !isDocked) {
           dock();
         } else if (
           isDocked &&
           currentPanelRect.top + currentPanelRect.height +
-            getDocumentScrollTop() >= getInitialUndockedPosition() + TOGGLE_GAP
+            getScrollContainerScrollTop() >= getInitialUndockedPosition() + TOGGLE_GAP
         ) {
           undock();
         }
@@ -158,11 +173,13 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
          * Wait until all content on the page is loaded
          */
         scope.$applyAsync(() => {
-          window.addEventListener('scroll', scrollListener);
+          const scrollContainer = (config || {}).scrollContainer || window;
+
+          scrollContainer.addEventListener('scroll', scrollListener);
           window.addEventListener('resize', _onResize);
 
           scope.$on('$destroy', () => {
-            window.removeEventListener('scroll', scrollListener);
+            scrollContainer.removeEventListener('scroll', scrollListener);
             window.removeEventListener('resize', _onResize);
           });
 
