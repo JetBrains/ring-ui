@@ -13,7 +13,8 @@ module.exports = ctx => {
         }
       }
     },
-    'postcss-flexbugs-fixes': {}
+    'postcss-flexbugs-fixes': {},
+    '@jetbrains/postcss-require-hover': {}
   };
   const cssModules = Object.assign({}, {
     'postcss-modules-values-replace': {}
