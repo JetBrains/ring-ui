@@ -7,7 +7,7 @@
 }
 
 .links {
-  margin-bottom: calc(unit);
+  margin-bottom: calc(unit * 2);
 }
 
 .link {
