@@ -63,8 +63,7 @@
 
   &.danger:active,
   &.danger.active,
-  &.danger:focus,
-  &.danger:hover {
+  &.danger:focus {
     box-shadow: button-shadow var(--ring-button-danger-hover-color);
   }
 
@@ -81,6 +80,10 @@
         var(--ring-content-background-color) 80%
       );
   }
+}
+
+.light.danger:hover {
+  box-shadow: button-shadow var(--ring-button-danger-hover-color);
 }
 
 .dark {
@@ -126,8 +129,7 @@
 
   &.danger:active,
   &.danger.active,
-  &.danger:focus,
-  &.danger:hover {
+  &.danger:focus {
     box-shadow: button-shadow var(--ring-button-dark-danger-hover-color);
   }
 
@@ -144,6 +146,10 @@
         var(--ring-navigation-background-color) 80%
       );
   }
+}
+
+.dark.danger:hover {
+  box-shadow: button-shadow var(--ring-button-dark-danger-hover-color);
 }
 
 .button {
@@ -214,7 +220,6 @@
     color: var(--ring-main-color);
   }
 
-  &:hover,
   &:focus {
     transition: none;
 
@@ -247,6 +252,13 @@
   }
 }
 
+.primary:hover {
+  transition: none;
+
+  background-color: var(--ring-main-hover-color);
+  box-shadow: none;
+}
+
 .danger {
   color: var(--ring-error-color);
 
@@ -259,10 +271,13 @@
     color: var(--ring-error-color);
   }
 
-  &:hover,
   &:focus {
     transition: none;
   }
+}
+
+.danger:hover {
+  transition: none;
 }
 
 .text.text,
@@ -274,7 +289,6 @@
     transition: none;
   }
 
-  &:hover,
   &:active,
   &.active {
     background-color: transparent;
@@ -284,6 +298,16 @@
   &:focus {
     box-shadow: inset 0 0 0 2px var(--ring-border-hover-color);
   }
+}
+
+.text.text:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.withIcon.withIcon:hover {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .text {
@@ -305,19 +329,21 @@
 
 .withIcon,
 .text {
-  &:hover,
-  &:focus {
-    color: var(--ring-link-hover-color);
-  }
-
   &:active,
   &.active {
     color: var(--ring-main-color);
   }
 }
 
+.withIcon:hover {
+  color: var(--ring-link-hover-color);
+}
+
+.text:hover {
+  color: var(--ring-link-hover-color);
+}
+
 .onlyIcon {
-  &:hover,
   &:focus {
     color: var(--ring-border-hover-color);
   }
@@ -326,6 +352,10 @@
   &.active {
     color: var(--ring-main-color);
   }
+}
+
+.onlyIcon:hover {
+  color: var(--ring-border-hover-color);
 }
 
 .icon {
@@ -346,16 +376,26 @@
   color: var(--ring-icon-color);
 }
 
-.withNormalIconLight:hover,
 .withNormalIconLight:focus,
 .withNormalIconLight:active,
-.withDangerIconLight:hover,
 .withDangerIconLight:focus {
   & .icon {
     transition: none;
 
     color: inherit;
   }
+}
+
+.withNormalIconLight:hover .icon {
+  transition: none;
+
+  color: inherit;
+}
+
+.withDangerIconLight:hover .icon {
+  transition: none;
+
+  color: inherit;
 }
 
 .withDangerIconLight,
