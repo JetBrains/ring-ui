@@ -51,6 +51,8 @@ body {
   flex-grow: 1;
 
   min-height: 0;
+
+  background-color: var(--ring-content-background-color);
 }
 
 .main > div:last-child {
