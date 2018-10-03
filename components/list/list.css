@@ -261,5 +261,5 @@
 
   pointer-events: none;
 
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.8), var(--ring-content-background-color));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--ring-content-background-color));
 }
