@@ -7,6 +7,7 @@
    import React from 'react';
    import {render} from 'react-dom';
    import Alert from '@jetbrains/ring-ui/components/alert/alert';
+   import Link from '@jetbrains/ring-ui/components/link/link';
 
    class AlertDemo extends React.Component {
       state = {
@@ -35,7 +36,7 @@
             onCloseRequest={this.onCloseRequest}
             isClosing={isClosing}
           >
-            Sample alert
+            Sample alert <Link>with link</Link>
           </Alert>;
       }
    }
