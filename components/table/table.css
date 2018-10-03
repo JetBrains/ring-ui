@@ -130,7 +130,8 @@
   z-index: var(--ring-fixed-z-index);
   top: 0;
 
-  background-color: rgba(256, 256, 256, 0.95);
+  opacity: 0.9;
+  background-color: var(--ring-content-background-color);
 
   &::after {
     right: 0;
