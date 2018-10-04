@@ -162,7 +162,7 @@
     "postcss-loader": "3.0.0",
     "postcss-modules-values-replace": "3.0.1",
     "prop-types": "15.6.2",
-    "react-markdown": "3.6.0",
+    "react-markdown": "4.0.0",
     "react-sortable-hoc": "0.6.8",
     "react-virtualized": "9.20.1",
     "react-waypoint": "8.0.3",
