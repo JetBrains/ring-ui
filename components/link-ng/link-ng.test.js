@@ -20,7 +20,7 @@ describe('LinkNg', () => {
   }));
 
   it('should replace with a tag', () => {
-    element.should.match(`a.${linkStyles.link}`);
+    element.should.match(`a.${linkStyles.link.split(' ')[0]}`);
   });
 
   it('should pass attributes to a tag', () => {
