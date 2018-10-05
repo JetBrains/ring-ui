@@ -101,6 +101,7 @@ export default class Select extends Component {
     hideSelected: PropTypes.bool,
     label: PropTypes.string,
     selectedLabel: PropTypes.string,
+    inputPlaceholder: PropTypes.string,
     clear: PropTypes.bool,
     hideArrow: PropTypes.bool,
     compact: PropTypes.bool,
@@ -138,8 +139,9 @@ export default class Select extends Component {
 
     selected: null, // current selection (item / array of items)
 
-    label: '', // BUTTON label or INPUT placeholder (nothing selected)
-    selectedLabel: '', // BUTTON label or INPUT placeholder (something selected)
+    label: '', // BUTTON or INPUT label (nothing selected)
+    selectedLabel: '', // BUTTON or INPUT label (something selected)
+    inputPlaceholder: '', // Placeholder for input modes
     hint: null, // hint text to display under the list
 
     shortcutsEnabled: false,
@@ -838,14 +840,6 @@ export default class Select extends Component {
     return this.props.label || this.props.selectedLabel || 'Select an option';
   }
 
-  _getInputPlaceholder() {
-    if (!this.props.allowAny) {
-      return this._getLabel();
-    } else {
-      return '';
-    }
-  }
-
   _getSelectedString() {
     if (this.props.multiple) {
       const labels = [];
@@ -980,7 +974,8 @@ export default class Select extends Component {
             onFocus={this._focusHandler}
             onBlur={this._blurHandler}
 
-            placeholder={this._getInputPlaceholder()}
+            label={this.props.type === Type.INPUT ? this._getLabel() : null}
+            placeholder={this.props.inputPlaceholder}
             onKeyDown={this.props.onKeyDown}
             data-test="ring-select__focus"
           />
