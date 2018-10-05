@@ -73,7 +73,8 @@ export default class TagsInput extends Component {
     autoOpen: false,
     renderOptimization: true,
     legacyMode: false,
-    allowAddNewTags: false
+    allowAddNewTags: false,
+    placeholder: 'Select an option'
   };
 
   state = {
@@ -312,7 +313,7 @@ export default class TagsInput extends Component {
           <Select
             ref={this.selectRef}
             type={Select.Type.INPUT_WITHOUT_CONTROLS}
-            label={this.props.placeholder}
+            inputPlaceholder={this.props.placeholder}
             data={this.state.suggestions}
             className={classNames(styles.tagsSelect)}
             onSelect={this.addTag}
