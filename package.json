@@ -172,7 +172,7 @@
     "scrollbar-width": "3.1.1",
     "simply-uuid": "1.0.1",
     "sniffr": "1.1.4",
-    "style-loader": "0.23.0",
+    "style-loader": "0.23.1",
     "svg-sprite-loader": "4.1.2",
     "url-loader": "1.1.1",
     "url-search-params": "^0.10.2",
