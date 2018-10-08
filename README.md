@@ -67,7 +67,6 @@ Please, see [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [Code review in Upsource](https://upsource.jetbrains.com/ring-ui/view)
 - [Builds in TeamCity][ci-project]
 - [npm package][npm-package]
-- [Community Discord](https://discord.gg/SVSNPba)
 
 [ci-project]: https://teamcity.jetbrains.com/project.html?projectId=JetBrainsUi_RingUi&tab=projectOverview
 [ci-bt]: https://teamcity.jetbrains.com/viewType.html?buildTypeId=JetBrainsUi_RingUi_GeminiTests&tab=buildTypeStatusDiv
