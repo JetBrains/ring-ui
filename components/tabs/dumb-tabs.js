@@ -60,7 +60,7 @@ export default class Tabs extends PureComponent {
         innerClassName={titleClasses}
         className={titleClasses}
         disabled={disabled}
-        onPlainLeftClick={this.handleSelect(key)}
+        onClick={this.handleSelect(key)}
       >{() => this.getTabTitleCaption(title, isSelected)}</Link>
     );
   };
