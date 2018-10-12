@@ -51,7 +51,9 @@ export function linkHOC(ComposedComponent) {
       hover: PropTypes.bool,
       children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
       'data-test': PropTypes.string,
-      href: PropTypes.string
+      href: PropTypes.string,
+      onPlainLeftClick: PropTypes.func,
+      onClick: PropTypes.func
     };
 
     getChildren() {
@@ -74,7 +76,7 @@ export function linkHOC(ComposedComponent) {
         'data-test': dataTest,
         href,
         // eslint-disable-next-line no-unused-vars
-        innerClassName, children,
+        innerClassName, children, onPlainLeftClick, onClick,
         ...props
       } = this.props;
       const useButton = pseudo || !isCustom && !href;
@@ -97,6 +99,7 @@ export function linkHOC(ComposedComponent) {
             type="button"
             {...props}
             className={classes}
+            onClick={onClick || onPlainLeftClick}
             data-test={dataTests('ring-link', dataTest)}
           >{this.getChildren()}</button>
         );
@@ -107,6 +110,8 @@ export function linkHOC(ComposedComponent) {
           {...props}
           href={href}
           className={classes}
+          onClick={onClick}
+          onPlainLeftClick={onPlainLeftClick}
           data-test={dataTests('ring-link', dataTest)}
         >
           {this.getChildren()}
