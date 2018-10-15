@@ -72,6 +72,13 @@ function isItemType(listItemType, item) {
   return type === listItemType;
 }
 
+function isActivatable(item) {
+  return !(item.rgItemType === Type.HINT ||
+    item.rgItemType === Type.SEPARATOR ||
+    item.rgItemType === Type.TITLE ||
+    item.disabled);
+}
+
 /**
  * @name List
  * @constructor
@@ -140,21 +147,23 @@ export default class List extends Component {
   };
 
   componentWillMount() {
-    this.checkActivatableItems(this.props.data);
-    if (this.props.activeIndex != null && this.props.data[this.props.activeIndex]) {
+    const {data, activeIndex} = this.props;
+    this.checkActivatableItems(data);
+    if (activeIndex != null && data[this.props.activeIndex]) {
       this.setState({
-        activeIndex: this.props.activeIndex,
-        activeItem: this.props.data[this.props.activeIndex],
+        activeIndex,
+        activeItem: data[activeIndex],
         needScrollToActive: true
       });
     } else if (
-      this.props.activeIndex == null &&
+      activeIndex == null &&
       this.shouldActivateFirstItem(this.props) &&
-      this.isActivatable(this.props.data[0])
+      this.hasActivatableItems()
     ) {
+      const firstActivatableIndex = data.findIndex(isActivatable);
       this.setState({
-        activeIndex: 0,
-        activeItem: this.props.data[0],
+        activeIndex: firstActivatableIndex,
+        activeItem: data[firstActivatableIndex],
         needScrollToActive: true
       });
     }
@@ -194,10 +203,10 @@ export default class List extends Component {
         if (
           activeIndex === null &&
           this.shouldActivateFirstItem(props) &&
-          this.isActivatable(props.data[0])
+          this.hasActivatableItems()
         ) {
-          activeIndex = 0;
-          activeItem = props.data[0];
+          activeIndex = props.data.findIndex(isActivatable);
+          activeItem = props.data[activeIndex];
         } else if (
           props.activeIndex != null &&
           props.activeIndex !== this.props.activeIndex &&
@@ -295,18 +304,11 @@ export default class List extends Component {
   checkActivatableItems(items) {
     this._activatableItems = false;
     for (let i = 0; i < items.length; i++) {
-      if (this.isActivatable(items[i])) {
+      if (isActivatable(items[i])) {
         this._activatableItems = true;
         return;
       }
     }
-  }
-
-  isActivatable(item) {
-    return !(item.rgItemType === Type.HINT ||
-      item.rgItemType === Type.SEPARATOR ||
-      item.rgItemType === Type.TITLE ||
-      item.disabled);
   }
 
   selectHandler = memoize(index => event => {
@@ -345,7 +347,9 @@ export default class List extends Component {
     const index = this.state.activeIndex;
     let newIndex;
 
-    if ((index === null || index + 1 === data.length)) {
+    if (index === null) {
+      newIndex = 0;
+    } else if (index + 1 === data.length) {
       if (!disableMoveOverflow && !disableMoveDownOverflow) {
         newIndex = 0;
       } else {
@@ -397,7 +401,7 @@ export default class List extends Component {
         needScrollToActive: true
       },
       function onSet() {
-        if (!this.isActivatable(item)) {
+        if (!isActivatable(item)) {
           retryCallback(e);
           return;
         }
