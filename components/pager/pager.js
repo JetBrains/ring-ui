@@ -291,13 +291,12 @@ export default class Pager extends PureComponent {
 
             {end < totalPages && this.getButton(end + 1, '...')}
 
-            {end === totalPages && this.props.openTotal &&
-          (
-            <Button
-              href={this.generateHref(end + 1)}
-              onClick={this.handleLoadMore(end + 1)}
-            >...</Button>
-          )}
+            {end === totalPages && this.props.openTotal && (
+              <Button
+                href={this.generateHref(end + 1)}
+                {...this.getClickProps(this.handleLoadMore(end + 1))}
+              >...</Button>
+            )}
           </ButtonGroup>
 
           {lastPageButtonAvailable &&
