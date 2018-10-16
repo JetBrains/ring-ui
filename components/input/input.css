@@ -1,7 +1,6 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value text-shadow: 0 0 0;
 
 .container {
   composes: font-lower from  "../global/global.css";
@@ -48,7 +47,6 @@
 
   &::placeholder {
     color: transparent;
-    text-shadow: none;
   }
 
   &[disabled] {
@@ -136,19 +134,19 @@ textarea.input {
 
 .noLabel ::placeholder,
 .input:focus::placeholder {
-  transition: text-shadow var(--ring-ease);
+  transition: color var(--ring-fast-ease);
 }
 
 .light.noLabel ::placeholder,
 .light :focus::placeholder {
-  text-shadow: text-shadow var(--ring-disabled-color);
+  color: var(--ring-disabled-color);
 }
 
 /* stylelint-disable-next-line selector-max-specificity */
 .dark.noLabel ::placeholder,
 /* stylelint-disable-next-line selector-max-specificity */
 .dark :focus::placeholder {
-  text-shadow: text-shadow text-color;
+  color: var(--ring-text-color);
 }
 
 .input:focus ~ .label {
