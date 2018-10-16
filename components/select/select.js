@@ -109,7 +109,7 @@ export default class Select extends Component {
     theme: PropTypes.string,
     customAnchor: PropTypes.func,
     disableMoveOverflow: PropTypes.bool,
-    dir: PropTypes.oneOf('ltr', 'rtl')
+    dir: PropTypes.oneOf(['ltr', 'rtl'])
   };
 
   static defaultProps = {
