@@ -73,7 +73,7 @@
     "babel-plugin-istanbul": "5.1.0",
     "chai": "4.2.0",
     "chai-as-promised": "^7.1.1",
-    "chai-dom": "1.8.0",
+    "chai-dom": "1.8.1",
     "chai-enzyme": "1.0.0-beta.0",
     "change-case": "^3.0.2",
     "cheerio": "^0.22.0",
