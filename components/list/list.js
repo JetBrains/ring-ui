@@ -614,6 +614,7 @@ export default class List extends Component {
     onChildScroll = noop,
     scrollTop
   }) {
+    const dirOverride = {direction: 'auto'}; // Virtualized sets "direction: ltr" by defaulthttps://github.com/bvaughn/react-virtualized/issues/457
     return (
       <AutoSizer disableHeight onResize={this.props.onResize}>
         {({width}) => (
@@ -621,7 +622,7 @@ export default class List extends Component {
             ref={this.virtualizedListRef}
             className="ring-list__i"
             autoHeight={autoHeight}
-            style={maxHeight ? {maxHeight, height: 'auto'} : {}}
+            style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
             autoContainerWidth
             height={height}
             width={width}

@@ -35,6 +35,11 @@
 
   @nest .clearable & {
     padding-right: calc(unit * 3);
+
+    @nest [dir=rtl] & {
+      padding-right: 0;
+      padding-left: calc(unit * 3);
+    }
   }
 
   @nest .light & {
@@ -91,6 +96,11 @@
 
   @nest .borderless & {
     top: 0;
+  }
+
+  @nest [dir=rtl] & {
+    right: auto;
+    left: 0;
   }
 }
 

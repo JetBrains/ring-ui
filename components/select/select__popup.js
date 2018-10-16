@@ -431,19 +431,21 @@ export default class SelectPopup extends Component {
         autoCorrectTopOverflow={false}
         style={this.props.style}
       >
-        {this.state.shortcuts &&
-          (
-            <Shortcuts
-              map={this.shortcutsMap}
-              scope={this.shortcutsScope}
-            />
-          )
-        }
+        <div dir={this.props.dir}>
+          {this.state.shortcuts &&
+            (
+              <Shortcuts
+                map={this.shortcutsMap}
+                scope={this.shortcutsScope}
+              />
+            )
+          }
 
-        {this.getFilterWithTags()}
-        {this.getList()}
-        {this.getBottomLine()}
-        {this.props.toolbar}
+          {this.getFilterWithTags()}
+          {this.getList()}
+          {this.getBottomLine()}
+          {this.props.toolbar}
+        </div>
       </Popup>
     );
   }

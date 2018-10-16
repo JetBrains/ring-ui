@@ -108,7 +108,8 @@ export default class Select extends Component {
     size: PropTypes.oneOf(Object.values(Size)),
     theme: PropTypes.string,
     customAnchor: PropTypes.func,
-    disableMoveOverflow: PropTypes.bool
+    disableMoveOverflow: PropTypes.bool,
+    dir: PropTypes.oneOf('ltr', 'rtl')
   };
 
   static defaultProps = {
@@ -167,7 +168,8 @@ export default class Select extends Component {
     tags: null,
     onRemoveTag: noop,
     ringPopupTarget: null,
-    theme: Theme.LIGHT
+    theme: Theme.LIGHT,
+    dir: 'ltr'
   };
 
   state = {
@@ -466,6 +468,7 @@ export default class Select extends Component {
         renderOptimization={this.props.renderOptimization}
         ringPopupTarget={this.props.ringPopupTarget}
         disableMoveOverflow={this.props.disableMoveOverflow}
+        dir={this.props.dir}
       />
     );
   }
