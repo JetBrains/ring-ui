@@ -23,6 +23,11 @@
   padding: 0 calc(2 * unit);
 
   text-align: left;
+
+  @nest [dir=rtl] & {
+    text-align: right;
+    direction: ltr;
+  }
 }
 
 .icons {
