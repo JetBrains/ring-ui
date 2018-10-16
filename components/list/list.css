@@ -102,6 +102,10 @@
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @nest [dir=rtl] & {
+    text-align: right;
+  }
 }
 
 .description {
@@ -237,6 +241,10 @@
   padding: listSpacing calc(unit * 2) 0;
 
   text-align: left;
+
+  @nest [dir=rtl] & {
+    text-align: right;
+  }
 }
 
 .title_first {
