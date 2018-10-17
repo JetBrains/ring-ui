@@ -105,6 +105,7 @@
 
   @nest [dir=rtl] & {
     text-align: right;
+    direction: ltr;
   }
 }
 
@@ -244,6 +245,7 @@
 
   @nest [dir=rtl] & {
     text-align: right;
+    direction: ltr;
   }
 }
 
