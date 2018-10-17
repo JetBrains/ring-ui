@@ -117,7 +117,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       configAutoUpdate: '=',
       selectInstance: '=?',
       size: '@',
-      selectDir: '@'
+      dir: '@'
     },
     bindToController: true,
     controllerAs: 'selectCtrl',
@@ -413,7 +413,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           hideArrow: getType() === 'suggest',
           filter: ctrl.filter,
           tags: ctrl.tags,
-          dir: ctrl.selectDir,
+          dir: ctrl.dir,
           multiple: ctrl.multiple,
           popupClassName: $attrs.popupClass,
           clear: ctrl.clear,
