@@ -156,7 +156,7 @@ textarea.input {
 .dark.noLabel ::placeholder,
 /* stylelint-disable-next-line selector-max-specificity */
 .dark :focus::placeholder {
-  color: var(--ring-text-color);
+  color: var(--ring-secondary-color);
 }
 
 .input:focus ~ .label {
