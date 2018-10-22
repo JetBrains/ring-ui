@@ -29,12 +29,13 @@
   --ring-error-color: #c22731;
   --ring-warning-color: #cc8b00;
   --ring-success-color: #1c8c32;
-  --ring-text-color: #444;
+  --ring-text-color: #1f2326;
   --ring-dark-text-color: #fff;
   --ring-heading-color: #222;
-  --ring-secondary-color: #999;
+  --ring-secondary-color: #737577;
   --ring-dark-secondary-color: #888;
-  --ring-disabled-color: #bbb;
+  --ring-disabled-color: #999;
+  --ring-dark-disabled-color: #444;
   --ring-dark-active-color: #ccc;
 
   /* Background */
