@@ -163,7 +163,7 @@
     "prop-types": "15.6.2",
     "react-markdown": "4.0.3",
     "react-sortable-hoc": "0.6.8",
-    "react-virtualized": "9.20.1",
+    "react-virtualized": "9.21.0",
     "react-waypoint": "8.0.3",
     "remark-breaks": "1.0.1",
     "sass": "1.14.3",
