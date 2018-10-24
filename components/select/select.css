@@ -37,7 +37,7 @@
 
   transition: color var(--ring-ease);
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   line-height: calc(unit * 4);
 
@@ -81,7 +81,7 @@
 }
 
 .clearIcon.clearIcon > span > span {
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 }
 
 .sizeS {
