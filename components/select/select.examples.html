@@ -288,16 +288,17 @@
     import React from 'react';
     import {render} from 'react-dom';
     import Select from '@jetbrains/ring-ui/components/select/select';
+    import List from '@jetbrains/ring-ui/components/list/list';
 
     const data = [
-    {'label': 'One', 'key': '1', 'type': 'user'},
-    {'label': 'Group', 'key': '2', 'description': 'Long descriptions', 'type': 'user'},
-    {'label': 'Three', 'key': '3', 'type': 'user'},
-    {
-    'label': 'With icon',
-    key: 4,
-    icon: 'http://flagpedia.net/data/flags/mini/de.png'
-    }
+      {'label': 'One', 'key': '1', 'type': 'user'},
+      {'description': 'Group', 'key': '2', 'rgItemType': List.ListProps.Type.SEPARATOR},
+      {'label': 'Three', 'key': '3', 'type': 'user'},
+      {
+        'label': 'With icon',
+        key: 4,
+        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+      }
     ];
 
     function renderSelect() {
@@ -307,7 +308,7 @@
       label="Please select option"
       filter
       clear
-      selected={data[1]}
+      selected={data[0]}
       data={data}
       disableMoveOverflow
     />,

@@ -50,7 +50,7 @@
   }
 
   & .icon {
-    color: var(--ring-secondary-color);
+    color: var(--ring-icon-secondary-color);
   }
 
   & .icon:hover {
