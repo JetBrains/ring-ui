@@ -465,7 +465,7 @@
   transition: color var(--ring-ease);
   vertical-align: 1px;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   line-height: normal;
 }
