@@ -107,7 +107,7 @@
     "lint-staged": "7.3.0",
     "mocha": "5.0.1",
     "octicons": "^8.1.0",
-    "react": "16.5.2",
+    "react": "16.6.0",
     "react-dom": "16.5.2",
     "react-test-renderer": "16.5.2",
     "recompose": "^0.29.0",
@@ -125,7 +125,7 @@
     "yo": "2.0.5"
   },
   "peerDependencies": {
-    "react": "16.5.2",
+    "react": "16.6.0",
     "react-dom": "16.5.2"
   },
   "dependencies": {
