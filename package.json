@@ -108,7 +108,7 @@
     "mocha": "5.0.1",
     "octicons": "^8.1.0",
     "react": "16.6.0",
-    "react-dom": "16.5.2",
+    "react-dom": "16.6.0",
     "react-test-renderer": "16.5.2",
     "recompose": "^0.29.0",
     "sinon": "5.0.0",
@@ -126,7 +126,7 @@
   },
   "peerDependencies": {
     "react": "16.6.0",
-    "react-dom": "16.5.2"
+    "react-dom": "16.6.0"
   },
   "dependencies": {
     "@babel/core": "7.1.2",
