@@ -204,7 +204,7 @@
   width: 20px;
   margin-right: unit;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 }
 
 .avatar {

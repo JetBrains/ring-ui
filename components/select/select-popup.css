@@ -45,7 +45,7 @@
   top: 3px;
   left: calc(unit * 2);
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   @nest [dir=rtl] & {
     right: calc(unit * 2);

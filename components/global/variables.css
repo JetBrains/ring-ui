@@ -6,6 +6,7 @@
   --ring-dark-line-color: #263b4c;
   --ring-borders-color: #b8d1e5;
   --ring-icon-color: var(--ring-borders-color);
+  --ring-icon-secondary-color: #999;
   --ring-border-disabled-color: #dbdbdb;
   --ring-icon-disabled-color: var(--ring-border-disabled-color);
   --ring-border-hover-color: #80c6ff;
