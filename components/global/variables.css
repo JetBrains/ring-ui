@@ -6,6 +6,7 @@
   --ring-dark-line-color: #263b4c;
   --ring-borders-color: #b8d1e5;
   --ring-icon-color: var(--ring-borders-color);
+  --ring-icon-secondary-color: #999;
   --ring-border-disabled-color: #dbdbdb;
   --ring-icon-disabled-color: var(--ring-border-disabled-color);
   --ring-border-hover-color: #80c6ff;
@@ -29,12 +30,13 @@
   --ring-error-color: #c22731;
   --ring-warning-color: #cc8b00;
   --ring-success-color: #1c8c32;
-  --ring-text-color: #444;
+  --ring-text-color: #1f2326;
   --ring-dark-text-color: #fff;
   --ring-heading-color: #222;
-  --ring-secondary-color: #999;
+  --ring-secondary-color: #737577;
   --ring-dark-secondary-color: #888;
-  --ring-disabled-color: #bbb;
+  --ring-disabled-color: #999;
+  --ring-dark-disabled-color: #444;
   --ring-dark-active-color: #ccc;
 
   /* Background */

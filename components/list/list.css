@@ -102,6 +102,11 @@
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  @nest [dir=rtl] & {
+    text-align: right;
+    direction: ltr;
+  }
 }
 
 .description {
@@ -199,7 +204,7 @@
   width: 20px;
   margin-right: unit;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 }
 
 .avatar {
@@ -237,6 +242,11 @@
   padding: listSpacing calc(unit * 2) 0;
 
   text-align: left;
+
+  @nest [dir=rtl] & {
+    text-align: right;
+    direction: ltr;
+  }
 }
 
 .title_first {

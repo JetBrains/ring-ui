@@ -33,6 +33,11 @@
   padding-left: calc(unit * 5.5);
 
   border-bottom: 1px solid var(--ring-line-color);
+
+  @nest [dir=rtl] & {
+    padding-right: calc(unit * 5.5);
+    padding-left: unit;
+  }
 }
 
 .filterIcon {
@@ -40,7 +45,12 @@
   top: 3px;
   left: calc(unit * 2);
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
+
+  @nest [dir=rtl] & {
+    right: calc(unit * 2);
+    left: auto;
+  }
 }
 
 .bottomLine {
