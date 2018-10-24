@@ -47,7 +47,7 @@
 }
 
 .ring-sidebar__toggle-icon {
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 }
 
 .ring-sidebar__avatar {
@@ -112,7 +112,7 @@
 
   width: 4*$ring-unit;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
   font-size: 12px;
   text-align: center;
 }

@@ -108,7 +108,7 @@
 
   &[disabled],
   &[disabled].withIcon {
-    color: var(--ring-text-color);
+    color: var(--ring-dark-disabled-color);
   }
 
   &[disabled] .icon {
@@ -145,6 +145,10 @@
         var(--ring-button-dark-loader-background) 40%,
         var(--ring-navigation-background-color) 80%
       );
+  }
+
+  & .dropdownIcon {
+    color: var(--ring-dark-secondary-color);
   }
 }
 
@@ -461,7 +465,7 @@
   transition: color var(--ring-ease);
   vertical-align: 1px;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   line-height: normal;
 }

@@ -13,7 +13,7 @@
 /* stylelint-disable-next-line selector-type-no-unknown */
 .ringIconDefaultColor rg-icon,
 .ringIconDefaultColor :global(.ring-icon) {
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 }
 
 .iconMarginFix.iconMarginFix {

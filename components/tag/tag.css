@@ -47,7 +47,7 @@
 
   cursor: pointer;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   & svg {
     vertical-align: -1px;
@@ -61,7 +61,7 @@
 .icon {
   margin-right: 6px;
 
-  color: var(--ring-secondary-color);
+  color: var(--ring-icon-secondary-color);
 
   & svg {
     vertical-align: -2px;
