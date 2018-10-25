@@ -32,7 +32,7 @@
   --ring-success-color: #1c8c32;
   --ring-text-color: #1f2326;
   --ring-dark-text-color: #fff;
-  --ring-heading-color: #222;
+  --ring-heading-color: var(--ring-text-color);
   --ring-secondary-color: #737577;
   --ring-dark-secondary-color: #888;
   --ring-disabled-color: #999;
