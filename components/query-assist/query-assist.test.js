@@ -627,7 +627,7 @@ describe('Query Assist', () => {
       wrapper.setProps({
         delay: 100
       }, () => {
-        wrapper.prop('dataSource').reset();
+        wrapper.prop('dataSource').resetHistory();
 
         instance.requestData();
         instance.requestData();
