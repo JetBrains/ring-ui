@@ -64,6 +64,7 @@ export default class Popup extends Component {
     shortcuts: PropTypes.bool,
     keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
     'data-test': PropTypes.string,
+    client: PropTypes.bool, // true means that it's never used in SSR
 
     directions: PropTypes.arrayOf(PropTypes.string),
     autoPositioning: PropTypes.bool,
@@ -125,8 +126,10 @@ export default class Popup extends Component {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({client: true});
+    if (!this.props.client) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({client: true});
+    }
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
     }
@@ -306,7 +309,7 @@ export default class Popup extends Component {
 
   render() {
     const {
-      className, style, hidden, attached, keepMounted,
+      className, style, hidden, attached, keepMounted, client,
       onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -332,7 +335,7 @@ export default class Popup extends Component {
           )
         }
 
-        {this.state.client && (keepMounted || !hidden) && createPortal(
+        {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
           <div
             data-portaltarget={this.uid}
             ref={this.containerRef}
