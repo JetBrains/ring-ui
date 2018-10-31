@@ -203,11 +203,6 @@ export default class SelectPopup extends Component {
     this.props.onCloseAttempt(event, true);
   };
 
-  filterRef = el => {
-    this.filter = el;
-    this.caret = new Caret(this.filter);
-  };
-
   onClickHandler = () => this.filter.focus();
 
   getFilter() {
@@ -307,10 +302,6 @@ export default class SelectPopup extends Component {
     this.forceUpdate();
   };
 
-  listRef = el => {
-    this.list = el;
-  };
-
   getList() {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
@@ -386,6 +377,7 @@ export default class SelectPopup extends Component {
 
   filterRef = el => {
     this.filter = el;
+    this.caret = new Caret(this.filter);
   };
 
   shortcutsScope = getUID('select-popup-');
