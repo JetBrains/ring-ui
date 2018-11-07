@@ -365,14 +365,15 @@ export default class QueryAssist extends Component {
     return true;
   };
 
-  handlePaste(e) {
+  handlePaste = e => {
     const INSERT_COMMAND = 'insertText';
     if (e.clipboardData && document.queryCommandSupported(INSERT_COMMAND)) {
       preventDefault(e);
       const text = cleanText(e.clipboardData.getData('text/plain'));
       document.execCommand(INSERT_COMMAND, false, text);
+      this.handleKeyUp(e);
     }
-  }
+  };
 
   handleCaretMove = e => {
     if (this.isComposing) {
