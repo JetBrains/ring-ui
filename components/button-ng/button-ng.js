@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import 'dom4';
 import classNames from 'classnames';
 

@@ -9,6 +9,7 @@
  */
 
 import angular from 'angular';
+
 import 'dom4';
 import debounce from 'just-debounce-it';
 import createResizeDetector from 'element-resize-detector';

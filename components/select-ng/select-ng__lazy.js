@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import {render, hydrate} from 'react-dom';
 import React from 'react';
 

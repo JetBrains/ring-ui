@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import className from 'classnames';
 
 import styles from '../tabs/tabs.css';
