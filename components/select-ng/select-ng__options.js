@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import deepEqual from 'deep-equal';
 
 class Options {
