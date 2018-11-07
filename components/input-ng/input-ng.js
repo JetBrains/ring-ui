@@ -8,6 +8,7 @@
  * @example-file ./input-ng.examples.html
  */
 import angular from 'angular';
+
 import classNames from 'classnames';
 import CloseIcon from '@jetbrains/icons/close.svg';
 

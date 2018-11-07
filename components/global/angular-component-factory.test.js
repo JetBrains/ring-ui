@@ -1,5 +1,6 @@
 /* global inject: false */
 import angular from 'angular';
+
 import 'angular-mocks';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';

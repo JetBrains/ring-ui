@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import AngularElastic from '@jetbrains/angular-elastic';
 
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';

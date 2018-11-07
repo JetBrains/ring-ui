@@ -1,4 +1,5 @@
 import angular from 'angular';
+
 import 'dom4';
 import {createElement} from 'react';
 import {render} from 'react-dom';
