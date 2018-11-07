@@ -29,7 +29,9 @@ module.exports = wallaby => {
     testFramework: 'mocha',
 
     compilers: {
-      '**/*.js': wallaby.compilers.babel()
+      '**/*.js': wallaby.compilers.babel(
+        JSON.parse(require('fs').readFileSync('.babelrc'))
+      )
     },
 
     postprocessor: wallabyWebpack(webpackTestConfig),
