@@ -445,18 +445,18 @@ describe('Query Assist', () => {
     });
 
     it('should close popup with after zero suggestions provided', done => {
+      let currentSuggestions = suggestions;
       const instance = mountQueryAssist({
         dataSource: ({query, caret}) => ({
           query,
           caret,
-          suggestions: this.suggestions
+          suggestions: currentSuggestions
         })
       }).instance();
 
-      this.suggestions = suggestions;
       instance.requestData().
         then(() => {
-          this.suggestions = [];
+          currentSuggestions = [];
           instance.requestData().
             then(() => {
               instance._popup.isVisible().should.be.false;
