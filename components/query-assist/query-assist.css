@@ -2,6 +2,7 @@
 
 @value unit from "../global/global.css";
 @value overInputZIndex: 2;
+@value inputGap: calc(unit * 3);
 
 .light {
   &.queryAssist {
@@ -209,11 +210,15 @@
   }
 
   &.inputGap {
-    border-right-width: calc(unit * 3);
+    border-right-width: inputGap;
+  }
+
+  &.inputGap2 {
+    border-right-width: calc(2 * inputGap);
   }
 
   &.inputLeftGap {
-    border-left-width: calc(unit * 3);
+    border-left-width: inputGap;
   }
 
   &.inputDisabled {
@@ -258,6 +263,13 @@
   display: inline;
 }
 
+.actions {
+  position: absolute;
+  z-index: overInputZIndex;
+  top: 3px;
+  right: 1px;
+}
+
 .icon {
   position: absolute;
   z-index: overInputZIndex;
@@ -274,16 +286,17 @@
   & svg {
     vertical-align: baseline;
   }
+
+  @nest .actions & {
+    position: relative;
+    top: auto;
+  }
 }
 
 .loaderOnTheRight {
   right: 1px;
 
   left: auto;
-}
-
-.iconClear {
-  right: 1px;
 }
 
 .iconGlass {

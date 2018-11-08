@@ -129,6 +129,7 @@ export default class QueryAssist extends Component {
     query: PropTypes.string,
     useCustomItemRender: PropTypes.bool,
     translations: PropTypes.object,
+    actions: PropTypes.array,
     'data-test': PropTypes.string
   };
 
@@ -760,17 +761,39 @@ export default class QueryAssist extends Component {
     end: noop
   };
 
+  renderActions() {
+    const actions = [].concat(this.props.actions || []);
+    const renderClear = this.props.clear && !!this.state.query;
+
+    if (renderClear) {
+      actions.push(
+        <CloseIcon
+          key={'clearAction'}
+          className={classNames(styles.icon)}
+          title={this.props.translations.clearTitle}
+          iconRef={this.clearRef}
+          onClick={this.clearQuery}
+          size={CloseIcon.Size.Size16}
+          data-test="query-assist-clear-icon"
+        />
+      );
+    }
+
+    return actions;
+  }
+
   render() {
     const {theme, glass, 'data-test': dataTest, useCustomItemRender} = this.props;
     const renderPlaceholder = !!this.props.placeholder && this.state.placeholderEnabled;
-    const renderClear = this.props.clear && !!this.state.query;
     const renderLoader = this.props.loader !== false && this.state.loading;
     const renderGlass = glass && !renderLoader;
     const renderUnderline = theme === Theme.DARK;
+    const actions = this.renderActions();
 
     const inputClasses = classNames({
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: renderClear,
+      [styles.inputGap]: actions.length,
+      [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
       [styles.inputLeftGap]: this.isRenderingGlassOrLoader(),
       [styles.inputDisabled]: this.props.disabled
     });
@@ -846,16 +869,7 @@ export default class QueryAssist extends Component {
           </span>
         )}
         {renderUnderline && <div className={styles.focusUnderline}/>}
-        {renderClear && (
-          <CloseIcon
-            className={classNames(styles.icon, styles.iconClear)}
-            title={this.props.translations.clearTitle}
-            iconRef={this.clearRef}
-            onClick={this.clearQuery}
-            size={CloseIcon.Size.Size16}
-            data-test="query-assist-clear-icon"
-          />
-        )}
+        {actions && <div className={styles.actions}>{actions}</div>}
         <PopupMenu
           hidden={!this.state.showPopup}
           onCloseAttempt={this.closePopup}
