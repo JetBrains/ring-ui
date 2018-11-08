@@ -78,7 +78,7 @@
     "change-case": "^3.0.2",
     "cheerio": "^0.22.0",
     "css-module-flow": "^1.0.0",
-    "deep-assign": "2.0.0",
+    "deep-assign": "3.0.0",
     "docpack": "1.0.4",
     "docpack-examples-compiler": "0.0.4",
     "docpack-jsdoc-extractor": "0.0.7",
