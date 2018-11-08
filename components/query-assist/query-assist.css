@@ -266,7 +266,7 @@
 .actions {
   position: absolute;
   z-index: overInputZIndex;
-  top: 3px;
+  top: 2px;
   right: 1px;
 }
 
