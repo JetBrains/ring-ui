@@ -67,8 +67,7 @@ describe('Popup', () => {
     it('should be closed by click outside the element after show', () => {
       const onCloseAttempt = sandbox.stub();
       const wrapper = mountPopup({
-        onCloseAttempt,
-        ...this.state
+        onCloseAttempt
       });
 
       wrapper.setProps({hidden: false}, () => {
