@@ -11,6 +11,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import InlineSVG from 'svg-inline-react';
 
 import {resolveRelativeURL} from '../global/url';
 
@@ -41,6 +42,8 @@ export default class Icon extends PureComponent {
   render() {
     const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
 
+    const isSprite = glyph[0] === '#';
+
     const classes = classNames(styles.icon,
       {
         [styles[color]]: !!color,
@@ -56,19 +59,35 @@ export default class Icon extends PureComponent {
         height: size
       };
 
-    const xlinkHref = resolveRelativeURL(glyph);
+    if (isSprite) {
+      const xlinkHref = resolveRelativeURL(glyph);
+
+      return (
+        <span
+          {...restProps}
+          className={classes}
+        >
+          <svg
+            className={styles.glyph}
+            style={style}
+          >
+            <use xlinkHref={xlinkHref}/>
+          </svg>
+        </span>
+      );
+    }
 
     return (
       <span
         {...restProps}
         className={classes}
       >
-        <svg
+        <InlineSVG
+          raw
+          src={glyph.call ? String(glyph) : glyph}
           className={styles.glyph}
           style={style}
-        >
-          <use xlinkHref={xlinkHref}/>
-        </svg>
+        />
       </span>
     );
   }
