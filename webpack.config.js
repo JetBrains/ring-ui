@@ -19,20 +19,34 @@ const htmlLoaderOptions = `?${JSON.stringify({
   root: require('@jetbrains/icons')
 })}`;
 
-const svgSpriteLoader = {
+// eslint-disable-next-line import/order
+const svgInlineLoaderInclude = [require('@jetbrains/icons')];
+
+const svgInlineLoader = {
   test: /\.svg$/,
   use: [
     {
-      loader: resolveLoader('svg-sprite'),
+      loader: resolveLoader('svg-inline'),
       options: {
-        extract: false,
-        runtimeCompat: true,
-        esModule: false,
-        symbolId: 'ring-icon-[name]'
+        classPrefix: true
       }
     }
   ],
-  include: [require('@jetbrains/icons')]
+  include: svgInlineLoaderInclude
+};
+
+const svgSpriteLoaderBackwardCompatibilityHack = {
+  get include() {
+    // eslint-disable-next-line
+    console.warn(`
+***
+  WARNING: Ring UI svgSpriteLoader is DEPRECATED. Don\'t include svg files in it.
+  Most simple solution is to rename "svgSpriteLoader.include.push(...)" => "svgInlineLoader.include.push(...)"
+  Please consider having own "svg-inline-loader". More details https://youtrack.jetbrains.com/issue/RG-1646
+***
+    `);
+    return svgInlineLoaderInclude;
+  }
 };
 
 const svgLoader = {
@@ -126,7 +140,7 @@ const gifLoader = {
 };
 
 const loaders = {
-  svgSpriteLoader,
+  svgInlineLoader,
   svgLoader,
   cssLoader,
   externalCssLoader,
@@ -147,5 +161,8 @@ module.exports = {
 
   componentsPath,
 
-  loaders
+  loaders: {
+    ...loaders,
+    svgSpriteLoader: svgSpriteLoaderBackwardCompatibilityHack
+  }
 };

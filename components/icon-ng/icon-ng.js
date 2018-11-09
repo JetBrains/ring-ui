@@ -50,7 +50,11 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: `
+    template: (tElem, tAttrs) => {
+      const isSprite = tAttrs.glyph[0] === '#';
+
+      if (isSprite) {
+        return `
 <svg
   class="${styles.glyph}"
   xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +62,11 @@ angularModule.directive('rgIcon', function rgIconDirective() {
   ng-style="style"
 >
   <use ng-href="{{glyphPath}}" xlink:href=""></use>
-</svg>`,
+</svg>`;
+      }
+
+      return tAttrs.glyph;
+    },
     controller: $scope => {
       $scope.$watch('glyph', value => {
         $scope.glyphPath = resolveRelativeURL(value);
