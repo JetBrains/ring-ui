@@ -106,7 +106,7 @@
     "lerna": "3.4.3",
     "lint-staged": "8.0.4",
     "mocha": "5.0.1",
-    "octicons": "^8.1.0",
+    "octicons": "^8.1.2",
     "react": "16.6.0",
     "react-dom": "16.6.0",
     "react-test-renderer": "16.6.0",
