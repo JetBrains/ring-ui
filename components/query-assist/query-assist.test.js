@@ -639,4 +639,19 @@ describe('Query Assist', () => {
 
     });
   });
+
+
+  describe('custom actions', () => {
+    it('should allow to pass custom actions', () => {
+      const wrapper = mountQueryAssist({
+        actions: [
+          <div id={'A'} key={'A'}/>,
+          <div id={'B'} key={'B'}/>
+        ]
+      });
+
+      wrapper.find('#A').should.exist;
+      wrapper.find('#B').should.exist;
+    });
+  });
 });

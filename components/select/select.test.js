@@ -985,14 +985,15 @@ describe('Select', () => {
 
     describe('Focus after close', () => {
       let instance;
+      let targetInput;
       beforeEach(() => {
-        this.targetInput = document.createElement('input');
-        document.body.appendChild(this.targetInput);
+        targetInput = document.createElement('input');
+        document.body.appendChild(targetInput);
 
         mountSelectToContainer({
           data: testData,
           filter: true,
-          targetElement: this.targetInput
+          targetElement: targetInput
         });
         instance = mountWrapper.instance();
 
@@ -1000,31 +1001,31 @@ describe('Select', () => {
       });
 
       afterEach(() => {
-        document.body.removeChild(this.targetInput);
-        this.targetInput = null;
+        document.body.removeChild(targetInput);
+        targetInput = null;
       });
 
       it('Should restore focus on provided target element after closing popup', () => {
         instance._hidePopup(true);
 
-        this.targetInput.should.equal(document.activeElement);
+        targetInput.should.equal(document.activeElement);
       });
 
       it('Should restore focus on provided target element after closing popup with keyboard', () => {
         simulateCombo('esc');
-        this.targetInput.should.equal(document.activeElement);
+        targetInput.should.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup with not keyboard event', () => {
         Simulate.click(document.body);
 
-        this.targetInput.should.not.equal(document.activeElement);
+        targetInput.should.not.equal(document.activeElement);
       });
 
       it('Should not restore focus on provided target element after closing popup', () => {
         instance._hidePopup();
 
-        this.targetInput.should.not.equal(document.activeElement);
+        targetInput.should.not.equal(document.activeElement);
       });
     });
 
