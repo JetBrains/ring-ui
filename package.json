@@ -61,7 +61,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "7.1.2",
+    "@babel/cli": "7.1.5",
     "@babel/polyfill": "7.0.0",
     "@jetbrains/eslint-config": "4.0.3",
     "@jetbrains/generator-ring-ui": "^1.0.18",
@@ -107,9 +107,9 @@
     "lint-staged": "8.0.4",
     "mocha": "5.0.1",
     "octicons": "^8.1.2",
-    "react": "16.6.0",
-    "react-dom": "16.6.0",
-    "react-test-renderer": "16.6.0",
+    "react": "16.6.1",
+    "react-dom": "16.6.1",
+    "react-test-renderer": "16.6.1",
     "recompose": "^0.29.0",
     "sinon": "7.1.1",
     "sinon-chai": "3.1.0",
@@ -125,11 +125,11 @@
     "yo": "2.0.5"
   },
   "peerDependencies": {
-    "react": "16.6.0",
-    "react-dom": "16.6.0"
+    "react": "16.6.1",
+    "react-dom": "16.6.1"
   },
   "dependencies": {
-    "@babel/core": "7.1.2",
+    "@babel/core": "7.1.5",
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-preset-jetbrains": "2.1.2",
     "@jetbrains/icons": "1.20.2",
