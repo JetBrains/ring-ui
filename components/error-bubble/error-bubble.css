@@ -29,7 +29,7 @@
   border: 1px solid var(--ring-popup-border-color);
   border-radius: var(--ring-border-radius);
 
-  background: var(--ring-content-background-color);
+  background: var(--ring-popup-background-color);
   box-shadow: 0 2px 16px 0 var(--ring-popup-shadow-color);
 
   font-size: 12px;
@@ -51,6 +51,6 @@
     border: 1px solid var(--ring-popup-border-color);
     border-top: none;
     border-right: none;
-    background: var(--ring-content-background-color);
+    background: var(--ring-popup-background-color);
   }
 }
