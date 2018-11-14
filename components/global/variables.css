@@ -41,6 +41,7 @@
 
   /* Background */
   --ring-content-background-color: #fff;
+  --ring-popup-background-color: #fff;
   --ring-sidebar-background-color: #f7f9fa;
   --ring-selected-background-color: #d4edff;
   --ring-hover-background-color: #f2f9ff;

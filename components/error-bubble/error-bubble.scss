@@ -23,7 +23,7 @@
   white-space: nowrap;
 
   color: var(--ring-error-color);
-  background: var(--ring-content-background-color);
+  background: var(--ring-popup-background-color);
   box-shadow: 0 2px 16px 0 var(--ring-popup-shadow-color);
 
   &.active {
@@ -47,7 +47,7 @@
     border-right: none;
     border-top: none;
 
-    background: var(--ring-content-background-color);
+    background: var(--ring-popup-background-color);
   }
 
   &_material {
