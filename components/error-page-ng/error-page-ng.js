@@ -85,6 +85,12 @@ angularModule.provider('errorPageConfiguration', function errorPageConfiguration
 
 angularModule.factory('getErrorPagePresentation', RingMessageBundle => error => {
   const presentationModels = {
+    401: {
+      status: 401,
+      title: RingMessageBundle.errorpage_401(),
+      description: RingMessageBundle.errorpage_401msg(),
+      icon: PermissionIcon
+    },
     404: {
       status: 404,
       title: RingMessageBundle.errorpage_404(),
