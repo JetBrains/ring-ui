@@ -59,6 +59,7 @@
 
   line-height: 20px;
 
+  & :global(.ring-link),
   /* This link styles are used in link.css */
   & .link {
     color: var(--ring-main-color);
