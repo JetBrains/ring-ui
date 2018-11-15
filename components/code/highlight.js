@@ -1,5 +1,5 @@
 import highlight from 'highlight.js/lib/highlight';
-import 'highlight.js/styles/github.css';
+import './highlight.css';
 
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';

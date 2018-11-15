@@ -1,0 +1,82 @@
+/*
+  Custom theme for highlight.js
+  Inspired by "darcula.css" theme of hljs distributive
+*/
+
+:global(.hljs) {
+  display: block;
+  overflow-x: auto;
+
+  padding: 0.5em;
+
+  background: var(--ring-content-background-color);
+}
+
+:global(.hljs) {
+  color: var(--ring-text-color);
+}
+
+:global(.hljs-keyword),
+:global(.hljs-selector-tag),
+:global(.hljs-subst) {
+  font-weight: bold;
+}
+
+:global(.hljs-bullet),
+:global(.hljs-quote),
+:global(.hljs-link),
+:global(.hljs-number),
+:global(.hljs-regexp),
+:global(.hljs-tag),
+:global(.hljs-name),
+:global(.hljs-attribute) {
+  color: var(--ring-link-color);
+
+  font-weight: normal;
+}
+
+:global(.hljs-literal),
+:global(.hljs-tag .hljs-attr) {
+  color: var(--ring-success-color);
+}
+
+:global(.hljs-code),
+:global(.hljs-selector-class) {
+  color: var(--ring-success-color);
+}
+
+:global(.hljs-emphasis) {
+  font-style: italic;
+}
+
+:global(.hljs-params) {
+  color: var(--ring-secondary-color);
+}
+
+:global(.hljs-string) {
+  color: var(--ring-error-color);
+}
+
+:global(.hljs-subst),
+:global(.hljs-type),
+:global(.hljs-built_in),
+:global(.hljs-builtin-name),
+:global(.hljs-symbol),
+:global(.hljs-selector-id),
+:global(.hljs-selector-attr),
+:global(.hljs-selector-pseudo),
+:global(.hljs-template-tag),
+:global(.hljs-section),
+:global(.hljs-variable),
+:global(.hljs-template-variable),
+:global(.hljs-addition) {
+  color: var(--ring-hint-color);
+}
+
+:global(.hljs-strong),
+:global(.hljs-emphasis),
+:global(.hljs-comment),
+:global(.hljs-deletion),
+:global(.hljs-meta) {
+  color: var(--ring-secondary-color);
+}
