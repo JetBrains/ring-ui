@@ -87,6 +87,13 @@ export function setRootStyleProperties(properties = {}) {
   });
 }
 
+export function resetRootStyleProperties(properties = {}) {
+  const rootStyle = document.documentElement.style;
+
+  Object.keys(properties).
+    forEach(key => rootStyle.removeProperty(key));
+}
+
 export class Listeners {
   _all = new Set();
 

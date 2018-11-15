@@ -261,3 +261,7 @@ a.legacy {
 .codeLink {
   color: inherit;
 }
+
+.darkThemeToggle {
+  padding: calc(unit * 2) calc(unit * 4);
+}
