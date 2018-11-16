@@ -14,7 +14,6 @@ import Nav from './nav';
 import Content from './content';
 import {getIndexDoc} from './utils';
 import styles from './index.css';
-import ThemeToggle from './theme-toggle';
 
 const {source, navData, version} = window;
 
@@ -57,7 +56,6 @@ class App extends Component {
             fixedClassName={styles.sidebarFixed}
           >
             <Nav categories={navData}/>
-            <ThemeToggle/>
             <SideFooter/>
           </Sidebar>
           <Content {...source}/>

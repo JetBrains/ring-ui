@@ -27,6 +27,7 @@ import hubConfig from './hub-config';
 import Version from './version';
 import Search from './search';
 import {getIndexDoc} from './utils';
+import ThemeToggle from './theme-toggle';
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {
@@ -63,6 +64,7 @@ class SiteHeader extends PureComponent {
           <Version version={version}/>
         </span>
         <Tray>
+          <ThemeToggle/>
           <Search categories={categories}/>
           <TrayIcon
             icon={gitHubLogo}

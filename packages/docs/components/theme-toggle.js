@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react';
 import Toggle from '../../../components/toggle/toggle';
 import styles from './index.css';
 import darkVariables from '@jetbrains/ring-ui/components/global/variables_dark';
+import Storage from '@jetbrains/ring-ui/components/storage/storage';
 import {setRootStyleProperties, resetRootStyleProperties} from '@jetbrains/ring-ui/components/global/dom';
 
 function toggleDarkTheme(isOn) {
@@ -19,14 +20,29 @@ function messageToIFrames(isOn) {
     forEach(iFrame => iFrame.contentWindow.postMessage(message, '*'))
 }
 
+const STORAGE_KEY = 'ring-ui-dark-mode';
+
 export default class ThemeToggle extends PureComponent {
+  storage = new Storage();
   state = {dark: false};
+
+  componentDidMount() {
+    this.loadDarkModeState();
+  }
+
+  async loadDarkModeState() {
+    const dark = await this.storage.get(STORAGE_KEY);
+    this.setState({dark});
+    toggleDarkTheme(dark);
+    messageToIFrames(dark);
+  }
 
   onToggle = () => {
     const dark = !this.state.dark;
     this.setState({dark});
     toggleDarkTheme(dark);
     messageToIFrames(dark);
+    this.storage.set(STORAGE_KEY, dark);
   };
 
   render() {
