@@ -5,6 +5,7 @@ import styles from './index.css';
 import darkVariables from '@jetbrains/ring-ui/components/global/variables_dark';
 import Storage from '@jetbrains/ring-ui/components/storage/storage';
 import {setRootStyleProperties, resetRootStyleProperties} from '@jetbrains/ring-ui/components/global/dom';
+import Theme from '@jetbrains/ring-ui/components/global/theme';
 
 function toggleDarkTheme(isOn) {
   isOn ? setRootStyleProperties(darkVariables) : resetRootStyleProperties(darkVariables);
@@ -48,12 +49,12 @@ export default class ThemeToggle extends PureComponent {
   render() {
     return (
       <Toggle
+        theme={Theme.DARK}
         checked={this.state.dark}
         onChange={this.onToggle}
         className={styles.darkThemeToggle}
-      >
-        Dark mode
-      </Toggle>
+        leftLabel="Dark mode"
+      />
     );
   }
 };
