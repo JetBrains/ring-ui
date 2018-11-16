@@ -263,5 +263,5 @@ a.legacy {
 }
 
 .darkThemeToggle {
-  padding: calc(unit * 2) calc(unit * 4);
+  padding-right: calc(unit * 2);
 }
