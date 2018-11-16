@@ -141,7 +141,7 @@
   background-size: 4px 4px;
 }
 
-.paleSwitch {
+.paleSwitch.paleSwitch {
   background-color: var(--ring-pale-control-color);
 }
 
