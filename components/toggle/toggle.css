@@ -24,6 +24,30 @@
   margin-left: calc(unit / 2);
 }
 
+.leftLabel {
+  margin-right: calc(unit / 2);
+}
+
+.light {
+  & .switch {
+    background-color: var(--ring-icon-color);
+
+    &::before {
+      background-color: var(--ring-content-background-color);
+    }
+  }
+}
+
+.dark {
+  & .switch {
+    background-color: var(--ring-hint-color);
+
+    &::before {
+      background-color: var(--ring-navigation-background-color);
+    }
+  }
+}
+
 .switchWrapper {
   position: relative;
 
@@ -59,7 +83,6 @@
   transition: background-color timing-function duration;
 
   border-radius: unit;
-  background-color: var(--ring-icon-color);
 
   @nest .input:focus + & {
     box-shadow: inset 0 0 0 1px var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
@@ -80,7 +103,6 @@
     transform: translateX(padding);
 
     border-radius: calc(unit * 0.75);
-    background-color: var(--ring-content-background-color);
   }
 }
 
