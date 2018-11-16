@@ -5,6 +5,7 @@ import darkVariables from '@jetbrains/ring-ui/components/global/variables_dark';
 import {setRootStyleProperties, resetRootStyleProperties} from '@jetbrains/ring-ui/components/global/dom';
 
 import styles from './example-common.css';
+import {RING_DARK_THEME_MESSAGE} from './theme';
 
 const params = new URLSearchParams(location.search.slice(1));
 document.body.className = classNames(styles.body, {
@@ -25,7 +26,7 @@ function toggleDarkTheme(isOn) {
 window.addEventListener('message', event => {
   try {
     const message = JSON.parse(event.data);
-    if (message.type === 'RING_DARK_THEME') {
+    if (message.type === RING_DARK_THEME_MESSAGE) {
       toggleDarkTheme(message.value);
     }
   } catch (e) {
