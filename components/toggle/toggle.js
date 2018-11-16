@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Theme from '../global/theme';
+
 import styles from './toggle.css';
 
 /**
@@ -20,25 +22,35 @@ export default class Toggle extends PureComponent {
     name: PropTypes.string,
     className: PropTypes.string,
     title: PropTypes.string,
+    leftLabel: PropTypes.string,
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
     pale: PropTypes.bool,
     onChange: PropTypes.func,
-    onTransitionEnd: PropTypes.func
+    onTransitionEnd: PropTypes.func,
+    theme: PropTypes.string
+  };
+
+  static defaultProps = {
+    theme: Theme.LIGHT
   };
 
   render() {
-    const {className, children, disabled, pale, title, onTransitionEnd, ...restProps} = this.props;
+    const {className, children, disabled, pale, title, leftLabel, theme,
+      onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
       styles.toggle,
+      styles[theme],
       disabled && styles.disabled
     );
 
     return (
       <label className={classes} title={title}>
+        {leftLabel && <span className={styles.leftLabel}>{leftLabel}</span>}
+
         <span className={styles.switchWrapper}>
           <input
             {...restProps}
