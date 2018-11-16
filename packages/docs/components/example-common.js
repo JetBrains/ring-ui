@@ -5,7 +5,7 @@ import darkVariables from '@jetbrains/ring-ui/components/global/variables_dark';
 import {setRootStyleProperties, resetRootStyleProperties} from '@jetbrains/ring-ui/components/global/dom';
 
 import styles from './example-common.css';
-import {RING_DARK_THEME_MESSAGE} from './theme';
+import {RING_DARK_THEME_MESSAGE, RING_GET_THEME_MESSAGE} from './theme';
 
 const params = new URLSearchParams(location.search.slice(1));
 document.body.className = classNames(styles.body, {
@@ -33,3 +33,8 @@ window.addEventListener('message', event => {
 
   }
 });
+
+if (window.parent !== window) {
+  // Request current theme if it was changed before iframe load finish
+  window.parent.postMessage(RING_GET_THEME_MESSAGE, '*')
+}

@@ -3,6 +3,7 @@ import darkVariables from '../../../components/global/variables_dark';
 import Storage from '../../../components/storage/storage';
 
 export const RING_DARK_THEME_MESSAGE = 'RING_DARK_THEME_MESSAGE';
+export const RING_GET_THEME_MESSAGE = 'RING_GET_THEME_MESSAGE';
 const STORAGE_KEY = 'ring-ui-dark-mode';
 const storage = new Storage();
 
@@ -32,3 +33,9 @@ export async function setTheme(isDark) {
   messageToIFrames(isDark);
   await this.storage.set(STORAGE_KEY, isDark);
 }
+
+window.addEventListener('message', event => {
+  if (event.data === RING_GET_THEME_MESSAGE) {
+    loadStoredTheme();
+  }
+});
