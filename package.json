@@ -165,7 +165,7 @@
     "react-sortable-hoc": "0.6.8",
     "react-virtualized": "9.21.0",
     "react-waypoint": "8.1.0",
-    "remark-breaks": "1.0.1",
+    "remark-breaks": "1.0.2",
     "sass": "1.15.1",
     "sass-loader": "7.1.0",
     "scrollbar-width": "3.1.1",
