@@ -78,6 +78,7 @@ export default class Message extends Component {
     title: PropTypes.string.isRequired,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     directions: PropTypes.arrayOf(PropTypes.string),
+    direction: PropTypes.string,
     popupProps: PropTypes.object,
     tailOffset: PropTypes.number,
     onClose: PropTypes.func,
@@ -109,20 +110,22 @@ export default class Message extends Component {
       className,
       title,
       icon,
-      directions,
       tailOffset,
       popupProps,
       onClose,
       translations
     } = this.props;
     const classes = classNames(styles.message, className);
+    const popupDirections = this.props.direction
+      ? [this.props.direction]
+      : this.props.directions;
 
     const {direction} = this.state;
 
     return (
       <Popup
         hidden={false}
-        directions={directions}
+        directions={popupDirections}
         className={classes}
         offset={UNIT * 2}
         onDirectionChange={this._onDirectionChange}
