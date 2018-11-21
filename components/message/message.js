@@ -26,6 +26,9 @@ import styles from './message.css';
         import React from 'react';
         import {render} from 'react-dom';
         import Message from '@jetbrains/ring-ui/components/message/message';
+        import Popup from '@jetbrains/ring-ui/components/message/message';
+
+        const {Directions} = Popup.PopupProps;
 
         const container = document.getElementById('message');
         const onGotIt = () => console.log('>>>>> got it');
@@ -37,6 +40,7 @@ import styles from './message.css';
               <Message
                 title="This is title"
                 onClose={onGotIt}
+                direction={Directions.TOP_RIGHT}
                 tailOffset={32}
               >
                 This is long long long long long long long long long long long long long long long long long long description
