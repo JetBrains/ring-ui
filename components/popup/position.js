@@ -283,5 +283,5 @@ export default function position(attrs) {
     styles.minWidth = anchorRect.width < minWidth ? minWidth : anchorRect.width;
   }
 
-  return styles;
+  return {styles, direction: chosenDirection};
 }
