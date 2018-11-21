@@ -28,6 +28,7 @@ import styles from './message.css';
         import Message from '@jetbrains/ring-ui/components/message/message';
 
         const container = document.getElementById('message');
+        const onGotIt = () => console.log('>>>>> got it');
 
         render(
           <div style={{padding: 200}}>
@@ -35,6 +36,7 @@ import styles from './message.css';
               Anchor
               <Message
                 title="This is title"
+                onClose={onGotIt}
                 tailOffset={32}
               >
                 This is long long long long long long long long long long long long long long long long long long description
