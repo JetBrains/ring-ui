@@ -26,6 +26,9 @@ import styles from './message.css';
         import React from 'react';
         import {render} from 'react-dom';
         import Message from '@jetbrains/ring-ui/components/message/message';
+        import Popup from '@jetbrains/ring-ui/components/message/message';
+
+        const {Directions} = Popup.PopupProps;
 
         const container = document.getElementById('message');
         const onGotIt = () => console.log('>>>>> got it');
@@ -37,6 +40,7 @@ import styles from './message.css';
               <Message
                 title="This is title"
                 onClose={onGotIt}
+                direction={Directions.TOP_RIGHT}
                 tailOffset={32}
               >
                 This is long long long long long long long long long long long long long long long long long long description
@@ -95,7 +99,7 @@ export default class Message extends Component {
     ],
     tailOffset: 56,
     translations: {
-      gotIt: 'Got it!'
+      gotIt: 'Got it'
     }
   };
 
@@ -103,6 +107,10 @@ export default class Message extends Component {
 
   _onDirectionChange = direction =>
     this.setState({direction});
+
+  popupRef = el => {
+    this.popup = el;
+  };
 
   render() {
     const {
@@ -124,6 +132,7 @@ export default class Message extends Component {
 
     return (
       <Popup
+        ref={this.popupRef}
         hidden={false}
         directions={popupDirections}
         className={classes}
