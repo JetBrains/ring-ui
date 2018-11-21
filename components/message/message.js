@@ -108,6 +108,10 @@ export default class Message extends Component {
   _onDirectionChange = direction =>
     this.setState({direction});
 
+  popupRef = el => {
+    this.popup = el;
+  };
+
   render() {
     const {
       children,
@@ -128,6 +132,7 @@ export default class Message extends Component {
 
     return (
       <Popup
+        ref={this.popupRef}
         hidden={false}
         directions={popupDirections}
         className={classes}
