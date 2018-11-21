@@ -81,7 +81,8 @@ export default class Popup extends Component {
     onMouseUp: PropTypes.func,
     onMouseOver: PropTypes.func,
     onMouseOut: PropTypes.func,
-    onContextMenu: PropTypes.func
+    onContextMenu: PropTypes.func,
+    onDirectionChange: PropTypes.func
   };
 
   static contextTypes = {
@@ -206,10 +207,19 @@ export default class Popup extends Component {
     });
   }
 
+  _updateDirection = newDirection => {
+    if (this.state.direction !== newDirection) {
+      this.setState({direction: newDirection});
+      if (this.props.onDirectionChange) {
+        this.props.onDirectionChange(newDirection);
+      }
+    }
+  }
+
   _updatePosition = () => {
     if (this.popup) {
       if (this.isVisible()) {
-        const style = this.position();
+        const {styles: style, direction} = this.position();
         Object.keys(style).forEach(key => {
           const value = style[key];
           if (typeof value === 'number') {
@@ -218,6 +228,7 @@ export default class Popup extends Component {
             this.popup.style[key] = value.toString();
           }
         });
+        this._updateDirection(direction);
       }
       this.setState(this.calculateDisplay);
     }
@@ -320,6 +331,9 @@ export default class Popup extends Component {
       [styles.showing]: showing
     });
 
+    const direction = (this.state.direction || '').
+      toLowerCase().replace(/[_]/g, '-');
+
     return (
       <span
         // prevent bubbling through portal
@@ -346,6 +360,7 @@ export default class Popup extends Component {
             <div
               data-test={dataTests('ring-popup', dataTest)}
               data-test-shown={!hidden && !showing}
+              data-test-direction={direction}
               ref={this.popupRef}
               className={classes}
               style={style}
