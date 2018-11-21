@@ -95,7 +95,7 @@ export default class Message extends Component {
     ],
     tailOffset: 56,
     translations: {
-      gotIt: 'Got it!'
+      gotIt: 'Got it'
     }
   };
 
