@@ -143,7 +143,7 @@ export default class Message extends Component {
         {direction && <div className={styles.tail} style={getTailOffsets(tailOffset)[direction]}/>}
         {icon && <Icon className={styles.icon} glyph={icon} size={Icon.Size.Size16}/>}
         <h1 className={styles.title}>{title}</h1>
-        {children && <p className={styles.description}>{children}</p>}
+        {children && <div className={styles.description}>{children}</div>}
         {
           onClose &&
           <Button className={styles.button} onClick={onClose} primary>{translations.gotIt}</Button>
