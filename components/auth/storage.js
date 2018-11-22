@@ -17,7 +17,7 @@ import sniffr from '../global/sniffer';
 
 const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of scopes
 // eslint-disable-next-line no-magic-numbers
-const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24 * 3; // nobody will need auth state after 3 days
+const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24; // nobody will need auth state after a day
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default class AuthStorage {
