@@ -162,7 +162,7 @@
     "postcss-modules-values-replace": "3.0.1",
     "prop-types": "15.6.2",
     "react-markdown": "4.0.3",
-    "react-sortable-hoc": "0.6.8",
+    "react-sortable-hoc": "0.8.4",
     "react-virtualized": "9.21.0",
     "react-waypoint": "8.1.0",
     "remark-breaks": "1.0.2",
