@@ -1,5 +1,7 @@
 import angular from 'angular';
 
+import angularSanitize from 'angular-sanitize';
+
 import 'dom4';
 import createFocusTrap from 'focus-trap';
 
@@ -26,7 +28,7 @@ import styles from './dialog-ng.css';
 
 const angularModule = angular.module(
   'Ring.dialog',
-  [RingButton, PromisedClickNg, rgCompilerModuleName]
+  [angularSanitize, RingButton, PromisedClickNg, rgCompilerModuleName]
 );
 
 class DialogController extends RingAngularComponent {
