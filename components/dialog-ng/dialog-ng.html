@@ -30,7 +30,7 @@
           <rg-dialog-content></rg-dialog-content>
 
           <div class="ring-form__group" ng-show="dialog.error">
-            <div ng-class="dialog.styles.error">{{ dialog.error }}</div>
+            <div ng-class="dialog.styles.error" ng-bind-html="dialog.error"></div>
           </div>
         </form>
       </div>
