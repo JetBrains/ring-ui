@@ -61,7 +61,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "7.1.5",
+    "@babel/cli": "7.2.0",
     "@babel/polyfill": "7.0.0",
     "@jetbrains/eslint-config": "4.0.3",
     "@jetbrains/generator-ring-ui": "^1.0.24",
@@ -129,7 +129,7 @@
     "react-dom": "16.6.3"
   },
   "dependencies": {
-    "@babel/core": "7.1.6",
+    "@babel/core": "7.2.0",
     "@jetbrains/angular-elastic": "2.5.1",
     "@jetbrains/babel-preset-jetbrains": "2.1.2",
     "@jetbrains/icons": "2.0.2",
