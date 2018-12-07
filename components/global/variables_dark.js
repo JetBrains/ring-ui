@@ -31,5 +31,20 @@ export default {
   '--ring-selected-background-color': '#062640',
   '--ring-hover-background-color': '#062640',
   '--ring-message-background-color': 'rgba(0, 21, 38, 0.9)',
-  '--ring-navigation-background-color': '#111314'
+  '--ring-navigation-background-color': '#111314',
+
+  /* Code */
+  '--ring-code-background-color': '#2b2b2b',
+  '--ring-code-color': '#a9b7c6',
+  '--ring-code-meta-color': '#bbb529',
+  '--ring-code-keyword-color': '#cc7832',
+  '--ring-code-tag-background-color': '#2b2b2b',
+  '--ring-code-tag-color': '#e8BF6a',
+  '--ring-code-tag-font-weight': 'normal',
+  '--ring-code-field-color': '#9876aa',
+  '--ring-code-attribute-color': '#bababa',
+  '--ring-code-number-color': '#6897bb',
+  '--ring-code-string-color': '#6a8759',
+  '--ring-code-addition-color': '#447152',
+  '--ring-code-deletion-color': '#656e76'
 };
