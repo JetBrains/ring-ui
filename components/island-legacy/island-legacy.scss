@@ -39,11 +39,11 @@
   min-height: $ring-unit*3 - 2;
   line-height: $ring-unit*3 - 2;
 
-  border-bottom: 1px solid #B4B4B4;
+  border-bottom: 1px solid var(--ring-line-color);
   border-top-left-radius: var(--ring-border-radius);
   border-top-right-radius: var(--ring-border-radius);
 
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+  background-color: var(--ring-content-background-color);
 }
 
 .ring-island__header-btn,
