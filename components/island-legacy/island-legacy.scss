@@ -13,11 +13,11 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: var(--ring-line-color);
   border-radius: var(--ring-border-radius);
 
-  background-color: #FFF;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
+  background-color: var(--ring-content-background-color);
+  box-shadow: 0 1px 4px var(--ring-popup-shadow-color);
 
   &_stack-right {
     border-right: none;
