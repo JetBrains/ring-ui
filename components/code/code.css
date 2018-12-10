@@ -14,8 +14,8 @@
   background-color: var(--ring-sidebar-background-color);
 
   font-family: var(--ring-font-family-monospace);
-  font-size: var(--ring-font-size);
-  line-height: var(--ring-line-height);
+  font-size: var(--ring-font-size-smaller);
+  line-height: var(--ring-line-height-lowest);
 }
 
 .inline code {
