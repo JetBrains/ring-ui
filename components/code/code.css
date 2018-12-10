@@ -23,3 +23,7 @@
 
   padding: 0 calc(unit / 2);
 }
+
+.softWrap code {
+  white-space: pre-wrap;
+}
