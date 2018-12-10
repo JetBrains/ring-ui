@@ -1,10 +1,10 @@
 {
-  "lerna": "3.0.0",
   "packages": [
     "components/*",
     "packages/*",
     "."
   ],
+  "npmClient": "yarn",
   "version": "independent",
   "command": {
     "init": {
