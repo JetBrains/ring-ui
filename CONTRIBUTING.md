@@ -8,8 +8,8 @@ order: 1
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install Node.js
-3. Install Lerna: `npm install -g lerna`
-4. Bootstrap the packages: `lerna bootstrap`
+3. Install [yarn](http://yarnpkg.cn/en/docs/install)
+4. Bootstrap the packages: `yarn bootstrap`
 5. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ### Available commands
