@@ -13,11 +13,11 @@
   min-width: $ring-unit*25 - 2;
 
   border: 1px solid;
-  border-color: rgba(0, 0, 0, 0.15);
+  border-color: var(--ring-line-color);
   border-radius: var(--ring-border-radius);
 
-  background-color: #FFF;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
+  background-color: var(--ring-content-background-color);
+  box-shadow: 0 1px 4px var(--ring-popup-shadow-color);
 
   &_stack-right {
     border-right: none;
@@ -39,11 +39,11 @@
   min-height: $ring-unit*3 - 2;
   line-height: $ring-unit*3 - 2;
 
-  border-bottom: 1px solid #B4B4B4;
+  border-bottom: 1px solid var(--ring-line-color);
   border-top-left-radius: var(--ring-border-radius);
   border-top-right-radius: var(--ring-border-radius);
 
-  background-image: linear-gradient(to top, #EBEBEB, #FFF);
+  background-color: var(--ring-content-background-color);
 }
 
 .ring-island__header-btn,
