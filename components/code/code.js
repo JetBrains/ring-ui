@@ -34,7 +34,10 @@ export default class Code extends PureComponent {
     softWrap: PropTypes.bool,
     language: PropTypes.string,
     replacer: PropTypes.func,
-    codeRef: PropTypes.shape({current: PropTypes.instanceOf(Element)})
+    codeRef: PropTypes.oneOfType([
+      PropTypes.shape({current: PropTypes.instanceOf(Element)}),
+      PropTypes.func
+    ])
   };
 
   static defaultProps = {
@@ -64,7 +67,12 @@ export default class Code extends PureComponent {
   }
 
   get codeRef() {
-    return this.props.codeRef ? this.props.codeRef : this.defaultCodeRef;
+    const {codeRef} = this.props;
+    if (typeof (codeRef) === 'function') {
+      codeRef(this.defaultCodeRef.current);
+      return this.defaultCodeRef;
+    }
+    return codeRef ? codeRef : this.defaultCodeRef;
   }
 
   render() {
