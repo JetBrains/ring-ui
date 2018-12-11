@@ -38,11 +38,15 @@ export default class Code extends PureComponent {
   };
 
   static defaultProps = {
-    codeRef: React.createRef(),
     inline: false,
     softWrap: false,
     replacer: noop
   };
+
+  constructor(props) {
+    super(props);
+    this.defaultCodeRef = React.createRef();
+  }
 
   componentDidMount() {
     this.highlight();
@@ -53,15 +57,18 @@ export default class Code extends PureComponent {
   }
 
   highlight() {
-    const {codeRef, inline} = this.props;
-    if (!inline) {
-      highlight.highlightBlock(codeRef.current);
+    if (!this.props.inline) {
+      highlight.highlightBlock(this.codeRef.current);
     }
-    this.props.replacer(codeRef.current);
+    this.props.replacer(this.codeRef.current);
+  }
+
+  get codeRef() {
+    return this.props.codeRef ? this.props.codeRef : this.defaultCodeRef;
   }
 
   render() {
-    const {code, className, inline, softWrap, language, codeRef} = this.props;
+    const {code, className, inline, softWrap, language} = this.props;
 
     const Tag = inline ? 'span' : 'pre';
     const classes = classNames(styles.code, className, language, {
@@ -71,7 +78,7 @@ export default class Code extends PureComponent {
 
     return (
       <Tag className={classes}>
-        <code ref={codeRef}>{normalizeIndent(code)}</code>
+        <code ref={this.codeRef}>{normalizeIndent(code)}</code>
       </Tag>
     );
   }
