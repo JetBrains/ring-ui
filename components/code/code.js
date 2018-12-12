@@ -46,11 +46,6 @@ export default class Code extends PureComponent {
     replacer: noop
   };
 
-  constructor(props) {
-    super(props);
-    this.defaultCodeRef = React.createRef();
-  }
-
   componentDidMount() {
     this.highlight();
   }
@@ -61,18 +56,31 @@ export default class Code extends PureComponent {
 
   highlight() {
     if (!this.props.inline) {
-      highlight.highlightBlock(this.codeRef.current);
+      highlight.highlightBlock(this.codeRef);
     }
-    this.props.replacer(this.codeRef.current);
+    this.props.replacer(this.codeRef);
   }
 
   get codeRef() {
     const {codeRef} = this.props;
-    if (typeof (codeRef) === 'function') {
-      codeRef(this.defaultCodeRef.current);
-      return this.defaultCodeRef;
+    return !codeRef || this.isFunctionCodeRef ? this.code : codeRef.current;
+  }
+
+  get isFunctionCodeRef() {
+    return typeof (this.props.codeRef) === 'function';
+  }
+
+  get initCodeRef() {
+    const {codeRef} = this.props;
+    if (codeRef && !this.isFunctionCodeRef) {
+      return codeRef;
     }
-    return codeRef ? codeRef : this.defaultCodeRef;
+    return ref => {
+      this.code = ref;
+      if (this.isFunctionCodeRef) {
+        codeRef(this.code);
+      }
+    };
   }
 
   render() {
@@ -86,7 +94,7 @@ export default class Code extends PureComponent {
 
     return (
       <Tag className={classes}>
-        <code ref={this.codeRef}>{normalizeIndent(code)}</code>
+        <code ref={this.initCodeRef}>{normalizeIndent(code)}</code>
       </Tag>
     );
   }
