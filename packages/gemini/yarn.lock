@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@jetbrains/gemini-teamcity@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/gemini-teamcity/-/gemini-teamcity-2.2.0.tgz#1e01e365b3c01caecdf8d4c705fd4a781103343a"
-  integrity sha512-uKBLJh2bbJ8GMrWMpLBP0ogJB7VySbUCOF2fHT6pwwM+U1wXlCBYi/EDh5j/i/DFa/bSaN3h+H1q2Qs3mP0WZg==
+"@jetbrains/gemini-teamcity@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@jetbrains/gemini-teamcity/-/gemini-teamcity-2.2.1.tgz#9b3f1cca2ef05cb4583e6bae2380bce5bf08fc8f"
+  integrity sha512-QBioI6pyEHX7llERFFKN7K9NNnv98r2PFC1/ObH2YBI+IvnYoK26iyf8XzS6V8NafcriClBYPOOsVJPRhXd9fA==
   dependencies:
     fs-extra "^7.0.1"
     lodash "^4.0.0"

@@ -14,7 +14,7 @@
     "gemini-gather": "gemini update"
   },
   "devDependencies": {
-    "@jetbrains/gemini-teamcity": "^2.2.0",
+    "@jetbrains/gemini-teamcity": "^2.2.1",
     "forever": "0.15.3",
     "gemini": "5.9.1",
     "gemini-sauce": "^1.0.1",
