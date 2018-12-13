@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@jetbrains/gemini-teamcity@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/gemini-teamcity/-/gemini-teamcity-2.2.0.tgz#1e01e365b3c01caecdf8d4c705fd4a781103343a"
+  integrity sha512-uKBLJh2bbJ8GMrWMpLBP0ogJB7VySbUCOF2fHT6pwwM+U1wXlCBYi/EDh5j/i/DFa/bSaN3h+H1q2Qs3mP0WZg==
+  dependencies:
+    fs-extra "^7.0.1"
+    lodash "^4.0.0"
+    teamcity-service-messages "^0.1.7"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -1670,6 +1679,15 @@ fs-extra@^5.0.0:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
+fs-extra@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-7.0.1.tgz#4f189c44aa123b895f722804f55ea23eadc348e9"
+  integrity sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs-minipass@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.5.tgz#06c277218454ec288df77ada54a03b8702aacb9d"
@@ -1757,14 +1775,6 @@ gemini-sauce@^1.0.1:
     q "^1.2.0"
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
-
-gemini-teamcity@2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/gemini-teamcity/-/gemini-teamcity-2.1.5.tgz#5c05bdcdf10e19cfd149d27c28d1de5d002a8da7"
-  integrity sha512-/QBsTAtS9pEha6wH7wdhmhtt1NY3kCqsyJzviTtNc+0e1rwS74XzKa7zro2oujPZ4MMDmJ5WcWkvWzI86fEyMQ==
-  dependencies:
-    lodash "^4.0.0"
-    teamcity-service-messages "^0.1.7"
 
 gemini@5.9.1:
   version "5.9.1"
