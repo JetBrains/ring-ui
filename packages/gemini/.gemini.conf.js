@@ -19,7 +19,7 @@ module.exports = {
   compositeImage: true,
   system: {
     plugins: {
-      teamcity: process.argv.indexOf('--teamcity') !== -1,
+      '@jetbrains/gemini-teamcity': process.argv.indexOf('--teamcity') !== -1,
       'html-reporter/gemini': {
         defaultView: 'all'
       },

@@ -14,10 +14,10 @@
     "gemini-gather": "gemini update"
   },
   "devDependencies": {
+    "@jetbrains/gemini-teamcity": "^2.2.0",
     "forever": "0.15.3",
     "gemini": "5.9.1",
     "gemini-sauce": "^1.0.1",
-    "gemini-teamcity": "2.1.5",
     "html-reporter": "2.25.0",
     "http-server": "0.11.1",
     "ip": "1.1.5",
