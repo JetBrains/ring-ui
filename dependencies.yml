@@ -7,7 +7,8 @@ collectors:
     # batch PR for minor and patch updates
     - type: js-lerna
       # webpack-dev-server update breaks IE11 (RG-1668)
-      dependencies_not_matching: "^(flow-bin|webpack-dev-server|mocha)$"
+      # css-loader 2 requires webpack 4
+      dependencies_not_matching: "^(flow-bin|webpack-dev-server|css-loader|mocha)$"
       versions: "L.Y.Y"
       settings:
         batch_mode: true
