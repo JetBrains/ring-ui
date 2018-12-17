@@ -31,7 +31,7 @@ export async function loadStoredTheme() {
 export async function setTheme(isDark) {
   toggleDarkTheme(isDark);
   messageToIFrames(isDark);
-  await this.storage.set(STORAGE_KEY, isDark);
+  await storage.set(STORAGE_KEY, isDark);
 }
 
 window.addEventListener('message', event => {
