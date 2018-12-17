@@ -55,6 +55,7 @@ export default class TagsInput extends Component {
     autoOpen: PropTypes.bool,
     renderOptimization: PropTypes.bool,
     legacyMode: PropTypes.bool,
+    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({fn: PropTypes.func})]),
 
     loadingMessage: PropTypes.string,
     notFoundMessage: PropTypes.string,
@@ -74,6 +75,7 @@ export default class TagsInput extends Component {
     renderOptimization: true,
     legacyMode: false,
     allowAddNewTags: false,
+    filter: {fn: () => true},
     placeholder: 'Select an option'
   };
 
@@ -283,7 +285,7 @@ export default class TagsInput extends Component {
 
   render() {
     const {focused, tags, activeIndex} = this.state;
-    const {legacyMode, disabled, canNotBeEmpty, allowAddNewTags} = this.props;
+    const {legacyMode, disabled, canNotBeEmpty, allowAddNewTags, filter} = this.props;
     const classes = classNames(
       styles.tagsInput,
       {
@@ -322,7 +324,7 @@ export default class TagsInput extends Component {
             renderOptimization={this.props.renderOptimization}
             add={allowAddNewTags ? {prefix: 'Add new tag'} : undefined}
             onAdd={allowAddNewTags ? this.handleTagCreation : undefined}
-            filter={allowAddNewTags ? undefined : {fn: () => true}}
+            filter={filter}
             maxHeight={this.props.maxPopupHeight}
             minWidth={this.props.minPopupWidth}
             top={POPUP_VERTICAL_SHIFT}
