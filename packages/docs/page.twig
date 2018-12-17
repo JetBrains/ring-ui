@@ -6,7 +6,7 @@
   <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" sizes="16x16 32x32"/>
-  <title>{{ source.attrs.name or source.attrs.title }} — Ring UI</title>
+  <title>{% if source.attrs.title %}{{ source.attrs.title }}{% endif %}{% if source.attrs.name %}{{ source.attrs.name }}{% endif %} — Ring UI</title>
   <meta name="description" content="{{source.attrs.description|escape}}">
   {% include './inc/google-tag-manager.twig' %}
 </head>
