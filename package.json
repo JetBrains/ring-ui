@@ -94,7 +94,7 @@
     "husky": "1.2.0",
     "iframe-resizer": "3.6.3",
     "json-loader": "0.5.7",
-    "karma": "2.0.4",
+    "karma": "3.1.4",
     "karma-coverage": "1.1.2",
     "karma-coverage-html-index-reporter": "1.0.2",
     "karma-electron-launcher": "0.2.0",
