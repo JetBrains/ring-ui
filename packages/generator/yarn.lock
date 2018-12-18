@@ -3957,7 +3957,7 @@ yeoman-option-or-prompt@^2.0.1:
   dependencies:
     pinkie-promise "2.0.1"
 
-yo@2.0.5:
+yo@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/yo/-/yo-2.0.5.tgz#2f747f5d279ab777e0167b0aa63d7b607507d73d"
   integrity sha512-PLyTNZSJjHkks/FIln+QE5PxV224MsekCzbROVhZEW0MvLyj/6ghWIVkdBmrwdAbapH8H9q21F1/pQ9Q0Lk9UA==
