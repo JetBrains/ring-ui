@@ -1765,10 +1765,10 @@ gemini-coverage@^2.0.0:
     fs-extra "^5.0.0"
     handlebars "~1.3.0"
 
-gemini-sauce@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/gemini-sauce/-/gemini-sauce-1.0.1.tgz#841891483853f984aaabe94d60fb52393bf742b7"
-  integrity sha1-hBiRSDhT+YSqq+lNYPtSOTv3Qrc=
+gemini-sauce@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gemini-sauce/-/gemini-sauce-1.0.2.tgz#d205edf476afc17a210387220aab44eaa450860e"
+  integrity sha512-YhL7VrSM1GWiag+BVpIsazMCaIqTpsdMS/eb+DLef2LknSZ0Eh+tdJkXQU9C4x33PB4HSt8psA+lnxD/GjHOYQ==
   dependencies:
     cleankill "^1.0.0"
     lodash "^3.5.0"
