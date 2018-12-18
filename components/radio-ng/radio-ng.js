@@ -32,8 +32,8 @@ angularModule.directive('rgRadio', function rgCheckboxDirective() {
           data-proxy-value
           data-proxy-ng-value
         />
-        <span class="${styles.circle}"></span>
-        <span class="${styles.label}" ng-transclude></span>
+        <span class="${styles.circle}"></span><span
+         class="${styles.label}" ng-transclude></span>
       </label>
 
 `),
