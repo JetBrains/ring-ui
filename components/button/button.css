@@ -384,6 +384,11 @@
   color: var(--ring-icon-color);
 }
 
+.withNormalIconLight:active,
+.withNormalIconLight.active {
+  color: var(--ring-main-color);
+}
+
 .withNormalIconLight:focus,
 .withNormalIconLight:active,
 .withDangerIconLight:focus {
