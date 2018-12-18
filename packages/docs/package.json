@@ -24,11 +24,11 @@
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "^1.0.28",
-    "extract-text-webpack-plugin": "2.1.2",
-    "webpack": "2.7.0",
-    "webpack-dev-server": "2.11.3"
+    "extract-text-webpack-plugin": "^2.1.2",
+    "webpack": "^2.7.0",
+    "webpack-dev-server": "^2.11.3"
   },
   "optionalDependencies": {
-    "fsevents": "1.2.4"
+    "fsevents": "^1.2.4"
   }
 }

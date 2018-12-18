@@ -1599,7 +1599,7 @@ forever-monitor@~1.7.0:
     ps-tree "0.0.x"
     utile "~0.2.1"
 
-forever@0.15.3:
+forever@^0.15.3:
   version "0.15.3"
   resolved "https://registry.yarnpkg.com/forever/-/forever-0.15.3.tgz#77d9d7e15fd2f511ad9d84a110c7dd8fc8ecebc2"
   integrity sha1-d9nX4V/S9RGtnYShEMfdj8js68I=
@@ -1776,7 +1776,7 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@5.9.1:
+gemini@^5.9.1:
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/gemini/-/gemini-5.9.1.tgz#ff986a25d3e9b60fb2d749959ef0099c11793175"
   integrity sha512-3ZekgeJr3w0Y/+a9vrFmhS7JDjsspYj5zf826Hw/T8hJpcxtZ9Zsm21spbt8QQGaBvfO7Zn7+7UltDnQq8gC4g==
@@ -1997,7 +1997,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-html-reporter@2.25.0:
+html-reporter@^2.25.0:
   version "2.25.0"
   resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-2.25.0.tgz#1bdc139db1a27a88dc77be37f7158e40c867292d"
   integrity sha512-CmUY3H7aGqBLkAAhFgeaRcfYWSK3lNyluPo587ZYxN2gVHmASRuQAzm0TYZRY1/bmU3as9uwKvZC+EAREtK9tQ==
@@ -2043,7 +2043,7 @@ http-proxy@^1.8.1:
     follow-redirects "^1.0.0"
     requires-port "^1.0.0"
 
-http-server@0.11.1:
+http-server@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/http-server/-/http-server-0.11.1.tgz#2302a56a6ffef7f9abea0147d838a5e9b6b6a79b"
   integrity sha512-6JeGDGoujJLmhjiRGlt8yK8Z9Kl0vnl/dQoQZlc4oeqaUoAKQg94NILLfrY3oWzSyFaQCVNTcKE5PZ3cH8VP9w==
@@ -2171,7 +2171,7 @@ interpret@^1.0.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
   integrity sha1-ftGxQQxqDg94z5XTuEQMY/eLhhQ=
 
-ip@1.1.5:
+ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
   integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
