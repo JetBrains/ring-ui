@@ -167,6 +167,7 @@ export default class Profile extends PureComponent {
         <PopupMenu
           closeOnSelect={closeOnSelect}
           data={renderPopupItems(items)}
+          left={-2}
           top={-8}
           sidePadding={32}
         />
