@@ -10918,9 +10918,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sniffr@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/sniffr/-/sniffr-1.1.4.tgz#c57fa9fc1e8fccc47432be3764ca33b79698e0e8"
+sniffr@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/sniffr/-/sniffr-1.2.0.tgz#d4e31073ef4f7c00d87dba89289736fba25cadb4"
+  integrity sha512-k7C0ZcHBU330LcSkKyc2cOOB0uHosME8b2t9qFJqdqB1cKwGmZWd7BVwBz5mWOMJ5dggK1dy2qv+DSwteKLBzQ==
 
 sntp@1.x.x:
   version "1.0.9"
