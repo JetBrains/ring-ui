@@ -19,7 +19,8 @@ module.exports = config => {
         timeout: 60000
       }
     },
-    processKillTimeout: 15000
+    browserDisconnectTimeout: 15000,
+    browserDisconnectTolerance: 3
   });
 
   config.set(configCIDev);
