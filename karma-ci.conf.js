@@ -18,7 +18,8 @@ module.exports = config => {
       mocha: {
         timeout: 60000
       }
-    }
+    },
+    processKillTimeout: 15000
   });
 
   config.set(configCIDev);
