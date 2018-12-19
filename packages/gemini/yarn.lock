@@ -830,13 +830,6 @@ collection-visit@^1.0.0:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
 
-collections@5.1.5:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/collections/-/collections-5.1.5.tgz#55b900799306d4fbd1c3587b1f400bf7db572d77"
-  integrity sha1-VbkAeZMG1PvRw1h7H0AL99tXLXc=
-  dependencies:
-    weak-map "~1.0.x"
-
 color-convert@~0.5.0:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
@@ -1734,15 +1727,14 @@ gemini-configparser@^1.0.0:
   dependencies:
     lodash "^4.17.4"
 
-gemini-core@^2.11.2:
-  version "2.11.2"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-2.11.2.tgz#242dc48d225289bd4129eba85b3a51f19249c55b"
-  integrity sha512-pAMMLGTCeB5ZohO4hFKI6JrPHAad+mmCYWojOTg0USfPRW9of2Xc6IOvcY4zOPchM0M7dVF1WReJoxk9L8M2Vg==
+gemini-core@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.0.3.tgz#a8a2c1aa0ab24778e960b28b8628caa382d75cb0"
+  integrity sha512-i4EAk0jCcLyvE4ZwAeG0+RTBsdLVDRU086hF3+Ddy8sA7mFejZyvclZciQCLc5uFK2sHK+wuQYUT/pAZtU4xuw==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
     browserify "^13.3.0"
-    collections "5.1.5"
     debug "^2.2.0"
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.0"
@@ -1754,6 +1746,7 @@ gemini-core@^2.11.2:
     temp "^0.8.3"
     uglify-js "^2.8.29"
     uglifyify "^3.0.4"
+    yallist "^3.0.3"
 
 gemini-coverage@^2.0.0:
   version "2.0.0"
@@ -1776,10 +1769,10 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^5.9.1:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-5.9.1.tgz#ff986a25d3e9b60fb2d749959ef0099c11793175"
-  integrity sha512-3ZekgeJr3w0Y/+a9vrFmhS7JDjsspYj5zf826Hw/T8hJpcxtZ9Zsm21spbt8QQGaBvfO7Zn7+7UltDnQq8gC4g==
+gemini@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.0.1.tgz#c875ab607d379f3ef8861ea07ce78e6a22af3196"
+  integrity sha512-O3khJqpupHamwslPQelYxhacphZa+KX6wDOM6CnA2mMx3KIhowudIM7nZNh3tvJWQm+4OKXopLbMGI31KVqgcg==
   dependencies:
     bluebird "^3.4.6"
     chalk "^1.1.3"
@@ -1788,7 +1781,7 @@ gemini@^5.9.1:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^2.11.2"
+    gemini-core "^3.0.2"
     gemini-coverage "^2.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -4470,11 +4463,6 @@ wd@^1.6.2:
     request "2.88.0"
     vargs "0.1.0"
 
-weak-map@~1.0.x:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/weak-map/-/weak-map-1.0.5.tgz#79691584d98607f5070bd3b70a40e6bb22e401eb"
-  integrity sha1-eWkVhNmGB/UHC9O3CkDmuyLkAes=
-
 wide-align@^1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.3.tgz#ae074e6bdc0c14a431e804e624549c633b000457"
@@ -4544,7 +4532,7 @@ xtend@^4.0.0, xtend@^4.0.1, xtend@~4.0.1:
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
   integrity sha1-pcbVMr5lbiPbgg77lDofBJmNY68=
 
-yallist@^3.0.0, yallist@^3.0.2:
+yallist@^3.0.0, yallist@^3.0.2, yallist@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-3.0.3.tgz#b4b049e314be545e3ce802236d6cd22cd91c3de9"
   integrity sha512-S+Zk8DEWE6oKpV+vI3qWkaK+jSbIK86pCwe2IF/xwIpQ8jEuxpw9NyaGjmp9+BoJv5FV2piqCDcoCtStppiq2A==
