@@ -168,7 +168,6 @@ export default class Profile extends PureComponent {
           closeOnSelect={closeOnSelect}
           data={renderPopupItems(items)}
           top={-8}
-          left={-16}
           sidePadding={32}
         />
       </Dropdown>
