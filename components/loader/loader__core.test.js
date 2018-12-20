@@ -8,13 +8,21 @@ describe('Loader', () => {
   let createLoader;
   let loaderContainer;
   let loader;
+
   beforeEach(() => {
+    sandbox.stub(LoaderCore.prototype, 'loop').callsFake(() => {});
+
     createLoader = props => {
       loaderContainer = document.createElement('div');
       loader = new LoaderCore(loaderContainer, props);
     };
 
     createLoader({});
+  });
+
+  afterEach(() => {
+    LoaderCore.prototype.loop.restore();
+    loader.destroy();
   });
 
   it('Should calculate gradient', () => {
