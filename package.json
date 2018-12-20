@@ -154,7 +154,7 @@
     "imports-loader": "0.8.0",
     "interpolate-loader": "^1.0.0",
     "just-debounce-it": "1.1.0",
-    "moment": "2.22.2",
+    "moment": "2.23.0",
     "pascal-case": "2.0.1",
     "postcss": "7.0.7",
     "postcss-cssnext": "3.1.0",
