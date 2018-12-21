@@ -20,10 +20,7 @@ describe('Loader', () => {
     createLoader({});
   });
 
-  afterEach(() => {
-    LoaderCore.prototype.loop.restore();
-    loader.destroy();
-  });
+  afterEach(() => loader.destroy());
 
   it('Should calculate gradient', () => {
     const middleColor = LoaderCore.calculateGradient(
