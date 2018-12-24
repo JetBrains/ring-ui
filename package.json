@@ -87,7 +87,7 @@
     "electron": "^4.0.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
-    "eslint": "^5.10.0",
+    "eslint": "^5.11.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "front-matter": "^3.0.1",
     "glob": "^7.1.3",
