@@ -3562,9 +3562,10 @@ dom-serializer@0, dom-serializer@~0.1.0:
     domelementtype "~1.1.1"
     entities "~1.1.1"
 
-dom4@1.8.5:
-  version "1.8.5"
-  resolved "https://registry.yarnpkg.com/dom4/-/dom4-1.8.5.tgz#4de3a2e59af45b2af8b30bc595713ecae5037037"
+dom4@2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/dom4/-/dom4-2.1.4.tgz#400a42cba4719a3e2eced93eff7738831d2746f6"
+  integrity sha512-7NNKNViuZYu4GaZMUsSbsV6MFsT/ZpYNKP1NT4YIUgAvwPR8ODuvQEZZ7vRC1u5Y4dHwQ7je/UNOlRRWkaCyvw==
 
 domain-browser@^1.1.1:
   version "1.2.0"

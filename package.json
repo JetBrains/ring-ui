@@ -143,7 +143,7 @@
     "conic-gradient": "^1.0.0",
     "css-loader": "1.0.1",
     "deep-equal": "1.0.1",
-    "dom4": "1.8.5",
+    "dom4": "2.1.4",
     "element-resize-detector": "1.2.0",
     "es6-error": "^4.1.1",
     "extricate-loader": "^3.0.0",
