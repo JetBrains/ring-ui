@@ -21,7 +21,7 @@
     "pify": "^4.0.1",
     "portscanner": "^1.0.0",
     "read-pkg-up": "^4.0.0",
-    "yeoman-generator": "^3.1.1",
+    "yeoman-generator": "^3.2.0",
     "yeoman-option-or-prompt": "^2.0.1"
   },
   "devDependencies": {
