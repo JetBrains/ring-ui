@@ -61,7 +61,7 @@
   },
   "readmeFilename": "README.md",
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
+    "@babel/cli": "^7.2.3",
     "@babel/polyfill": "^7.2.5",
     "@jetbrains/eslint-config": "^4.0.3",
     "@jetbrains/generator-ring-ui": "^1.0.26",
