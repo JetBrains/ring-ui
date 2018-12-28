@@ -4,7 +4,6 @@
 @value height: calc(4 * unit);
 @value compensate: 2px;
 @value compensated: calc(height - compensate);
-@value hover-color: #f2f9ff;
 
 .tableWrapper {
   position: relative;
