@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
-@value height, compensate, hover-color from '../table/table.css';
+@value height, compensate from '../table/table.css';
 
 .dataListWrapper {
   position: relative;
@@ -31,7 +31,7 @@
   outline: none;
 
   @nest .dataList:not(.disabledHover) &:hover {
-    background-color: hover-color;
+    background-color: var(--ring-hover-background-color);
   }
 
   &.titleSelected {
@@ -39,7 +39,7 @@
   }
 
   &.titleFocused {
-    background-color: hover-color;
+    background-color: var(--ring-hover-background-color);
     box-shadow: inset 2px 0 var(--ring-main-color);
   }
 }
