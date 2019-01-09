@@ -6,6 +6,7 @@ gemini.suite('Tooltip', () => {
   gemini.suite('displayed', child => {
     child.
       setUrl('tooltip/tooltip.html').
+      skip('ie', 'Disabled in IE because gemini doesn\'t render tooltip in it').
       setCaptureElements(['body']).
       before((actions, find) => {
         this.button = find('#button-with-explanation');
@@ -20,6 +21,7 @@ gemini.suite('Tooltip', () => {
   gemini.suite('displayed-on-self-overflow', child => {
     child.
       setUrl('tooltip/tooltip-can-only-be-displayed-when-necessary.html').
+      skip('ie', 'Disabled in IE because gemini doesn\'t render tooltip in it').
       setCaptureElements(['body']).
       before((actions, find) => {
         this.fullTextElement = find('.lorem-ipsum__text');
