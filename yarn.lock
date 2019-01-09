@@ -9575,10 +9575,10 @@ react-markdown@4.0.6:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-sortable-hoc@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.2.0.tgz#a15fa9a9725fa35f2f699f545c84be4d0c269265"
-  integrity sha512-TA70heEaLhJ/juv8yfEDu3Sr/YAysx1Ngs201aC07ViuQGOC3wROUPKHPO81UMQpbHDIXjycKuo31xRQ9VYrQA==
+react-sortable-hoc@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.3.1.tgz#a4ab4fc08be29cdfc9af1e508c100ec178c3b5e4"
+  integrity sha512-73XmU9HwvFrju5R6QTr+qWX5bK+8CCA4fOu/xzb8cvbUGfq2EtO2aJuH+rqo3Qsg5eyvM0IsO9feSE7K05PYiQ==
   dependencies:
     invariant "^2.2.1"
     prop-types "^15.5.7"
