@@ -156,7 +156,7 @@
     "just-debounce-it": "1.1.0",
     "moment": "2.23.0",
     "pascal-case": "2.0.1",
-    "postcss": "7.0.7",
+    "postcss": "7.0.8",
     "postcss-cssnext": "3.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "3.0.0",
