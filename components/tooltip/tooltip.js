@@ -13,34 +13,14 @@ import styles from './tooltip.css';
  * @constructor
  * @description Displays a tooltip.
  * @extends {ReactComponent}
- * @example
-   <example name="Tooltip">
-     <file name="index.html" disable-auto-size>
-       <div id="tooltip"></div>
-     </file>
-
-     <file name="index.js">
-       import React from 'react';
-       import {render} from 'react-dom';
-
-       import Tooltip from '@jetbrains/ring-ui/components/tooltip/tooltip';
-       import Button from '@jetbrains/ring-ui/components/button/button';
-
-       const buttonWithTooltip = (
-         <Tooltip title="Explanation">
-           <Button>Button that requires an explanation</Button>
-         </Tooltip>
-       );
-
-       render(buttonWithTooltip, document.getElementById('tooltip'));
-     </file>
-   </example>
+ * @example-file ./tooltip.examples.html
  */
 export default class Tooltip extends Component {
   static PopupProps = Popup.PopupProps;
 
   static propTypes = {
     delay: PropTypes.number,
+    selfOverflowOnly: PropTypes.bool,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     children: PropTypes.node
@@ -48,6 +28,7 @@ export default class Tooltip extends Component {
 
   static defaultProps = {
     title: '',
+    selfOverflowOnly: false,
     popupProps: {}
   };
 
@@ -77,13 +58,27 @@ export default class Tooltip extends Component {
   };
 
   showPopup = () => {
-    const {delay, title} = this.props;
+    const {delay, title, selfOverflowOnly} = this.props;
 
     if (!title) {
       return;
     }
 
     const showPopup = () => {
+      if (selfOverflowOnly) {
+        const {containerNode} = this;
+
+        // inline element?
+        if (containerNode.clientWidth === 0 && containerNode.clientHeight === 0) {
+          return;
+        }
+        if (
+          containerNode.scrollWidth <= containerNode.clientWidth &&
+          containerNode.scrollHeight <= containerNode.clientHeight
+        ) {
+          return;
+        }
+      }
       this.setState({showPopup: true});
     };
 
@@ -110,7 +105,7 @@ export default class Tooltip extends Component {
   };
 
   render() {
-    const {children, title, delay, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <span {...restProps} ref={this.containerRef}>
