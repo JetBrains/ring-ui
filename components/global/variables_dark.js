@@ -32,6 +32,7 @@ export default {
   '--ring-hover-background-color': '#062640',
   '--ring-message-background-color': 'rgba(0, 21, 38, 0.9)',
   '--ring-navigation-background-color': '#111314',
+  '--ring-tag-background-color': '#3e4d59',
 
   /* Code */
   '--ring-code-background-color': '#2b2b2b',

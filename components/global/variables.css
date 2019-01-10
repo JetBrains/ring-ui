@@ -48,6 +48,7 @@
   --ring-dark-selected-background-color: #002a4d;
   --ring-message-background-color: rgba(0, 21, 38, 0.9);
   --ring-navigation-background-color: #000;
+  --ring-tag-background-color: #e6ecf2;
 
   /* Code */
   --ring-code-background-color: var(--ring-content-background-color);
