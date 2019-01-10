@@ -738,12 +738,12 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.27.tgz#4c8ee53cac5f64c404251929348eefec4c3f1c66"
-  integrity sha512-k37dLESNC9lvAr/+GydoxobsKjt+UZhxfkj+h5eUhPk2uwUfTeG2OgbzNFKPSuERZOXSge1p+AWviu9mNejn5g==
+"@jetbrains/generator-ring-ui@^1.0.28":
+  version "1.0.28"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.28.tgz#ec5bad432e96704a699982cbd45ec8bf705c2a1b"
+  integrity sha512-huLiysYrQeWPuCb57wuIMnrXcy0AQNWqE4DzGrXPkMPnJBj2TRMDZ/15kL8lqwWahMGyvkQ5rJVGeZvexdVTfA==
   dependencies:
-    chalk "^2.4.1"
+    chalk "^2.4.2"
     change-case "^3.0.2"
     find-port "^2.0.1"
     ora "^3.0.0"
@@ -8212,9 +8212,10 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
-octicons@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.2.0.tgz#cf077d62442248c1c54d1b00df3b19913d47f29d"
+octicons@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.3.0.tgz#88206818d8b531317ede7d5e1bb53beee62b7a9e"
+  integrity sha512-zyc72Pz2TV4Ae3pcrmy9zUhG9QFU1CtS682Cp6fV4o36fskN+RJsaA1L5bFg6xMASDPX+glnjv0B7Tp1uz6J5A==
   dependencies:
     object-assign "^4.1.1"
 
