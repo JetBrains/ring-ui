@@ -22,7 +22,7 @@ export default class Toggle extends PureComponent {
     name: PropTypes.string,
     className: PropTypes.string,
     title: PropTypes.string,
-    leftLabel: PropTypes.string,
+    leftLabel: PropTypes.node,
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
