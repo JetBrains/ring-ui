@@ -14,6 +14,20 @@
   </file>
 </example>
 
+<example name="Inline loader with children">
+  <file type="html">
+    <span id="loader-inline"></span>
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
+
+    render(<Loader>Loading...</Loader>, document.getElementById('loader-inline'));
+  </file>
+</example>
+
 <example name="Inline loader on black background">
   <file type="html">
     <div class="container">

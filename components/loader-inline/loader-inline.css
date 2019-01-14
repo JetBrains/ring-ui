@@ -52,3 +52,7 @@
     animation: pulse 0.85s cubic-bezier(0.68, 0, 0.74, 0.74) infinite alternate;
   }
 }
+
+.children {
+  margin-left: calc(unit / 2);
+}
