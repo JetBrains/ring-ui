@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Theme from '../global/theme';
+import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
 
@@ -29,7 +30,8 @@ export default class Toggle extends PureComponent {
     pale: PropTypes.bool,
     onChange: PropTypes.func,
     onTransitionEnd: PropTypes.func,
-    theme: PropTypes.string
+    theme: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -37,7 +39,7 @@ export default class Toggle extends PureComponent {
   };
 
   render() {
-    const {className, children, disabled, pale, title, leftLabel, theme,
+    const {className, children, disabled, pale, title, leftLabel, theme, 'data-test': dataTest,
       onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
@@ -48,11 +50,16 @@ export default class Toggle extends PureComponent {
     );
 
     return (
-      <label className={classes} title={title}>
+      <label
+        className={classes}
+        title={title}
+        data-test={dataTests('ring-toggle', dataTest)}
+      >
         {leftLabel && <span className={styles.leftLabel}>{leftLabel}</span>}
 
         <span className={styles.switchWrapper}>
           <input
+            data-test="ring-toggle-input"
             {...restProps}
             type="checkbox"
             disabled={disabled}
