@@ -23,7 +23,8 @@ export default class LoaderInline extends PureComponent {
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string,
-    'data-test': PropTypes.string
+    'data-test': PropTypes.string,
+    children: PropTypes.node
   };
 
   static defaultProps = {
@@ -35,7 +36,7 @@ export default class LoaderInline extends PureComponent {
   }
 
   render() {
-    const {className, theme, 'data-test': dataTest, ...restProps} = this.props;
+    const {className, theme, 'data-test': dataTest, children, ...restProps} = this.props;
 
     const classes = classNames(
       styles.loader,
@@ -43,12 +44,19 @@ export default class LoaderInline extends PureComponent {
       `${styles.loader}_${theme}`
     );
 
-    return (
+    const loader = (
       <div
         {...restProps}
         data-test={dataTests('ring-loader-inline', dataTest)}
         className={classes}
       />
     );
+
+    return children ? (
+      <>
+        {loader}
+        <span className={styles.children}>{children}</span>
+      </>
+    ) : loader;
   }
 }
