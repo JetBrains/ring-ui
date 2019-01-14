@@ -30,7 +30,7 @@ export default {
   '--ring-sidebar-background-color': '#28343d',
   '--ring-selected-background-color': '#062640',
   '--ring-hover-background-color': '#062640',
-  '--ring-message-background-color': 'rgba(0, 21, 38, 0.9)',
+  '--ring-message-background-color': 'var(--ring-popup-background-color)',
   '--ring-navigation-background-color': '#111314',
   '--ring-tag-background-color': '#3e4d59',
 

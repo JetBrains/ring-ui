@@ -76,5 +76,5 @@
 
   /* TODO: Replace with palette color */
 
-  border-color: #192c3b transparent transparent; /* stylelint-disable-line color-no-hex */
+  border-color: var(--ring-message-background-color) transparent transparent; /* stylelint-disable-line color-no-hex */
 }
