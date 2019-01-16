@@ -29,6 +29,6 @@
     "webpack-dev-server": "^2.11.3"
   },
   "optionalDependencies": {
-    "fsevents": "^2.0.1"
+    "fsevents": "^1.2.6"
   }
 }
