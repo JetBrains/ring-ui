@@ -114,7 +114,7 @@
     "sinon": "^7.2.0",
     "sinon-chai": "^3.3.0",
     "storage-mock": "^1.0.3",
-    "stylelint": "^9.9.0",
+    "stylelint": "^9.10.0",
     "wallaby-webpack": "^3.9.13",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.11.3",
