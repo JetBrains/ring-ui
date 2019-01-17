@@ -123,6 +123,8 @@
   text-align: left;
   vertical-align: top;
 
+  color: var(--ring-text-color);
+
   border: none;
   border-bottom: 1px solid var(--ring-line-color);
   outline: none;
