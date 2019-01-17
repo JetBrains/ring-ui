@@ -5826,9 +5826,10 @@ iferr@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
 
-iframe-resizer@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-3.6.3.tgz#77f474180e9b0accd7454c37b6f71bf6ff5482c5"
+iframe-resizer@^3.6.4:
+  version "3.6.4"
+  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-3.6.4.tgz#cbb8caf6a832f1f9820d038d8f9898fe58e1658a"
+  integrity sha512-cdEz9M7JK2vxwwcGfYs2NT/CGqdZ9YnEhNV81s7/gAcQmkRx41lOtQYoVVdTv680ZibCrG41kFOpnrHC4S30Pw==
 
 ignore-walk@^3.0.1:
   version "3.0.1"
