@@ -135,7 +135,7 @@
     "@jetbrains/icons": "^1.24.3",
     "@jetbrains/logos": "1.0.5",
     "@jetbrains/postcss-require-hover": "^0.1.2",
-    "angular-sanitize": "1.7.5",
+    "angular-sanitize": "1.7.6",
     "babel-loader": "8.0.5",
     "classnames": "2.2.6",
     "combokeys": "3.0.0",
