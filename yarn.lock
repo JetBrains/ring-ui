@@ -1627,9 +1627,10 @@ angular-route@^1.7.6:
   resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.7.6.tgz#2c8337b07ef601937a5428d5ba05de0a973db551"
   integrity sha512-pssJ9IdZfXdFO5lYUokIeihTUjZf9Wvy+hwyuZdFj2BBr7dIccpVfdIv9LbbH+4ahVLQrY5tzuyJQh/Hp7gRaQ==
 
-angular-sanitize@1.7.5:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.5.tgz#75d49e15071ca9c70581e76d20940f26372e24d2"
+angular-sanitize@1.7.6:
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/angular-sanitize/-/angular-sanitize-1.7.6.tgz#3ee2d4fc6ca31fee2b375b27ae526a6c3c108e3c"
+  integrity sha512-wDRCQ6VAHzHmEWgpC9nb1ea74IGJgP3dCUgF9DHtHQJSeNvAB/2e4glxfogS3tzGOEnppzLEOD1v+m5lJeEo1Q==
 
 angular@>=1.0.6, angular@^1.7.6:
   version "1.7.6"
