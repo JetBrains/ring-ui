@@ -40,6 +40,7 @@ export default class Pager extends PureComponent {
     onLoadPage: PropTypes.func,
     className: PropTypes.string,
     translations: PropTypes.object,
+    loader: PropTypes.bool,
     hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
   };
 
@@ -113,6 +114,7 @@ export default class Pager extends PureComponent {
         href={this.generateHref(page)}
         key={key}
         active={active}
+        loader={this.props.loader}
         {...this.getClickProps(this.handlePageChange(page))}
       >
         {content}
@@ -144,6 +146,7 @@ export default class Pager extends PureComponent {
             selected={selectOptions.selected}
             onSelect={this.handlePageSizeChange}
             type={Select.Type.INLINE}
+            disabled={this.props.loader}
           />
         </div>
       );
@@ -188,7 +191,7 @@ export default class Pager extends PureComponent {
 
     return (
       <div className={style.links}>
-        {prevLinkAvailable
+        {prevLinkAvailable && !this.props.loader
           ? (
             <Link
               href={prevLinkHref}
@@ -203,7 +206,7 @@ export default class Pager extends PureComponent {
           )
         }
 
-        {nextLinkAvailable
+        {nextLinkAvailable && !this.props.loader
           ? (
             <Link
               href={nextLinkHref}
@@ -294,6 +297,7 @@ export default class Pager extends PureComponent {
             {end === totalPages && this.props.openTotal && (
               <Button
                 href={this.generateHref(end + 1)}
+                loader={this.props.loader}
                 {...this.getClickProps(this.handleLoadMore(end + 1))}
               >...</Button>
             )}
