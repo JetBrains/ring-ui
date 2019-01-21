@@ -35,6 +35,7 @@ export default class Pager extends PureComponent {
     visiblePagesLimit: PropTypes.number,
     disablePageSizeSelector: PropTypes.bool,
     openTotal: PropTypes.bool,
+    canLoadLastPageWithOpenTotal: PropTypes.bool,
     onPageChange: PropTypes.func,
     onPageSizeChange: PropTypes.func,
     onLoadPage: PropTypes.func,
@@ -51,6 +52,7 @@ export default class Pager extends PureComponent {
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
     openTotal: false,
+    canLoadLastPageWithOpenTotal: false,
     translations: {
       perPage: 'per page',
       firstPage: 'First page',
@@ -58,6 +60,7 @@ export default class Pager extends PureComponent {
       nextPage: 'Next page',
       previousPage: 'Previous'
     },
+    loader: false,
     onPageSizeChange: () => {},
     onLoadPage: () => {}
   };
@@ -272,7 +275,8 @@ export default class Pager extends PureComponent {
       buttons.push(this.getButton(i, i, i, i === currentPage));
     }
 
-    const lastPageButtonAvailable = end < totalPages && !this.props.openTotal;
+    const lastPageButtonAvailable = (end < totalPages && !this.props.openTotal) ||
+      (this.props.openTotal && this.props.canLoadLastPageWithOpenTotal);
 
     return (
       <div>
@@ -306,7 +310,10 @@ export default class Pager extends PureComponent {
           {lastPageButtonAvailable &&
         (
           <ButtonGroup>
-            {this.getButton(totalPages, this.props.translations.lastPage)}
+            {this.getButton(
+              this.props.openTotal ? -1 : totalPages,
+              this.props.translations.lastPage
+            )}
           </ButtonGroup>
         )
           }
