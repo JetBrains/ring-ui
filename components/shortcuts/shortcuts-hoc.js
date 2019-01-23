@@ -18,21 +18,12 @@ export default function shortcutsHOC(ComposedComponent) {
     render() {
       const {rgShortcutsOptions, rgShortcutsMap, ...props} = this.props;
 
-
-      if (
-        rgShortcutsOptions &&
-        rgShortcutsOptions.disabled
-      ) {
-        return (
-          <ComposedComponent {...props}/>
-        );
-      }
-
       return (
         <Shortcuts
           scope={this._shortcutsScopeUid}
           map={rgShortcutsMap}
           options={rgShortcutsOptions}
+          disabled={rgShortcutsOptions.disabled}
         >
           <ComposedComponent {...props}/>
         </Shortcuts>
