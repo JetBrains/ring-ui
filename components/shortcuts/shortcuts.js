@@ -9,6 +9,7 @@ export default class Shortcuts extends Component {
     map: PropTypes.object.isRequired,
     scope: PropTypes.string.isRequired,
     options: PropTypes.object,
+    disabled: PropTypes.bool,
     children: PropTypes.node
   };
 
@@ -17,12 +18,34 @@ export default class Shortcuts extends Component {
   };
 
   componentWillMount() {
+    if (!this.props.disabled) {
+      this.turnShorcutsOn();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {disabled} = this.props;
+    if (!disabled && nextProps.disabled) {
+      this.turnShorcutsOff();
+    }
+    if (disabled && !nextProps.disabled) {
+      this.turnShorcutsOn();
+    }
+  }
+
+  componentWillUnmount() {
+    if (!this.props.disabled) {
+      this.turnShorcutsOff();
+    }
+  }
+
+  turnShorcutsOn() {
     const {map, scope, options} = this.props;
     shortcuts.bindMap(map, this.props);
     shortcuts.pushScope(scope, options);
   }
 
-  componentWillUnmount() {
+  turnShorcutsOff() {
     const {scope} = this.props;
     shortcuts.unbindScope(scope);
     shortcuts.spliceScope(scope);
