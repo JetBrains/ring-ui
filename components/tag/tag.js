@@ -26,6 +26,7 @@ export default class Tag extends PureComponent {
     readOnly: PropTypes.bool,
     disabled: PropTypes.bool,
     focused: PropTypes.bool,
+    angled: PropTypes.bool,
 
     children: PropTypes.node,
     className: PropTypes.string
@@ -148,7 +149,8 @@ export default class Tag extends PureComponent {
       styles.tag,
       {
         [styles.focused]: this.state.focused,
-        [styles.disabled]: this.props.disabled
+        [styles.disabled]: this.props.disabled,
+        [styles.tagAngled]: this.props.angled
       },
       this.props.className
     );
@@ -161,11 +163,11 @@ export default class Tag extends PureComponent {
         ref={this.tagRef}
         onClick={this.props.onClick}
       >
-        {this.renderRemoveIcon()}
         {this.renderAvatar()}
         {this.renderCustomIcon()}
         {this.renderImage()}
-        <span>{this.props.children}</span>
+        <span className={styles.content}>{this.props.children}</span>
+        {this.renderRemoveIcon()}
       </span>);
   }
 }
