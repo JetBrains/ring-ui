@@ -38,14 +38,7 @@ const webpackConfig = () => ({
         include: componentsPath,
         use: [
           'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:7]'
-            }
-          },
+          {loader: 'css-loader'},
           {
             loader: 'postcss-loader',
             options: {
