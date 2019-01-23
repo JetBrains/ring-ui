@@ -11,10 +11,14 @@
   text-align: left;
 
   border: 1px solid var(--ring-borders-color);
+
+  & .filterWrapper {
+    border-bottom: none;
+  }
 }
 
-.tags {
-  display: inline-block;
+.filterWithTagsFocused {
+  border: 1px solid var(--ring-border-hover-color);
 }
 
 .filter {
