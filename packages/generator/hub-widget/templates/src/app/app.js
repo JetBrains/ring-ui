@@ -8,7 +8,7 @@ import Button from '@jetbrains/ring-ui/components/button/button';
 import EmptyWidget, {EmptyWidgetFaces} from '@jetbrains/hub-widget-ui/dist/empty-widget';
 
 import 'file-loader?name=[name].[ext]!../../manifest.json'; // eslint-disable-line import/no-unresolved
-import styles from './app.css';
+import './app.css';
 import sayHello from './say-hello';
 
 const COLOR_OPTIONS = [
@@ -66,7 +66,7 @@ class Widget extends Component {
     const {selectedColor} = this.state;
 
     return (
-      <div className={styles.widget}>
+      <div className="widget">
         <Select
           data={COLOR_OPTIONS}
           selected={selectedColor}
@@ -89,7 +89,7 @@ class Widget extends Component {
     }
 
     return (
-      <div className={styles.widget}>
+      <div className="widget">
         {selectedColor
           ? <h1 style={{color: selectedColor.key}}>{sayHello()}</h1>
           : (
