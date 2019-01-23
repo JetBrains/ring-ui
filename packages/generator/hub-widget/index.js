@@ -29,6 +29,10 @@ const additionalDevServerOptions = `
       'Access-Control-Allow-Origin': '*'
     },`;
 
+const additionalWebpackPlugins = `,
+  new require('copy-webpack-plugin')(['manifest.json'], {})
+`;
+
 module.exports = class HubWidgetGenerator extends Generator {
   prompting() {
     let spinner;
@@ -66,6 +70,7 @@ module.exports = class HubWidgetGenerator extends Generator {
           projectName,
           camelCaseName,
           additionalDevServerOptions,
+          additionalWebpackPlugins,
           port
         }, answers, versions);
 
