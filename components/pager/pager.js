@@ -117,7 +117,8 @@ export default class Pager extends PureComponent {
         href={this.generateHref(page)}
         key={key}
         active={active}
-        loader={this.props.loader}
+        disabled={this.props.loader && !active}
+        loader={this.props.loader && active}
         {...this.getClickProps(this.handlePageChange(page))}
       >
         {content}
@@ -301,7 +302,7 @@ export default class Pager extends PureComponent {
             {end === totalPages && this.props.openTotal && (
               <Button
                 href={this.generateHref(end + 1)}
-                loader={this.props.loader}
+                disabled={this.props.loader}
                 {...this.getClickProps(this.handleLoadMore(end + 1))}
               >...</Button>
             )}
