@@ -75,7 +75,7 @@ const webpackConfig = () => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: 'html-loader?interpolate!src/index.html'
-    })<%- additionalWebpackPlugins %>
+    })
   ]
 });
 
