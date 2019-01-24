@@ -51,8 +51,7 @@ module.exports = class AppGenerator extends Generator {
           projectName,
           camelCaseName,
           port,
-          additionalDevServerOptions: '',
-          additionalWebpackPlugins: ''
+          additionalDevServerOptions: ''
         }, versions);
       }).
       then(() => {
