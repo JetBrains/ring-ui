@@ -30,7 +30,7 @@ const additionalDevServerOptions = `
     },`;
 
 const additionalWebpackPlugins = `,
-  new require('copy-webpack-plugin')(['manifest.json'], {})
+    new (require('copy-webpack-plugin'))(['manifest.json'], {})
 `;
 
 module.exports = class HubWidgetGenerator extends Generator {
