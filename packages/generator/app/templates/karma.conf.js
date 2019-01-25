@@ -32,6 +32,7 @@ module.exports = config => {
 
     webpack: Object.assign({}, require('./webpack.config.js')(), {
       devtool: 'inline-source-map',
+      mode: 'development',
       entry: null,
       externals: {
         'react/addons': 'react',
