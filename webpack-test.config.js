@@ -9,6 +9,8 @@ const helpersPath = path.join(__dirname, 'test-helpers');
 
 loaders.babelLoader.include.push(helpersPath);
 
+config.mode = 'development';
+
 config.resolve = {
   alias: {
     '@jetbrains/ring-ui': __dirname
