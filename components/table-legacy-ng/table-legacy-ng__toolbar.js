@@ -14,6 +14,9 @@ angularModule.directive('rgLegacyTableToolbar', function rgLegacyTableToolbarDir
     replace: true,
     transclude: true,
     template: '<div class="ring-table__toolbar"><div class="ring-table__toolbar-controls ring-popup-container-mark" ng-transclude></div></div>',
+    scope: {
+      toolbarIsReady: '=?'
+    },
     link: function link(scope, iElement, attrs) {
       /**
        * Use plain DOM functions without any jquery. Should work with IE8+
@@ -47,6 +50,8 @@ angularModule.directive('rgLegacyTableToolbar', function rgLegacyTableToolbarDir
           window.removeEventListener('scroll', toolbarScrollListener);
         });
       }
+
+      scope.toolbarIsReady = true;
     }
   };
 });
