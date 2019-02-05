@@ -67,7 +67,7 @@
     "@jetbrains/generator-ring-ui": "^1.0.32",
     "@jetbrains/stylelint-config": "^1.3.4",
     "angular": "^1.7.7",
-    "angular-mocks": "^1.7.5",
+    "angular-mocks": "^1.7.7",
     "angular-route": "^1.7.7",
     "babel-eslint": "^10.0.1",
     "babel-plugin-istanbul": "^5.1.0",
