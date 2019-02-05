@@ -1568,10 +1568,10 @@ angular-mocks@^1.7.5:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.7.5.tgz#c8baba5a06ed60b934697026b492169626af384b"
 
-angular-route@^1.7.6:
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.7.6.tgz#2c8337b07ef601937a5428d5ba05de0a973db551"
-  integrity sha512-pssJ9IdZfXdFO5lYUokIeihTUjZf9Wvy+hwyuZdFj2BBr7dIccpVfdIv9LbbH+4ahVLQrY5tzuyJQh/Hp7gRaQ==
+angular-route@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/angular-route/-/angular-route-1.7.7.tgz#0573c8efa87e735bcd4f64f6551a176faca3b6d1"
+  integrity sha512-nshsCti751h8GfvYQ2nlTbQnaY/q5zvxLctj78sS5SjB8iRDqNbT1NVNz8B/nDQUudjc7etE7xYaTdM8idzq6g==
 
 angular-sanitize@1.7.6:
   version "1.7.6"
