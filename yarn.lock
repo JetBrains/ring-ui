@@ -1564,9 +1564,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-mocks@^1.7.5:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.7.5.tgz#c8baba5a06ed60b934697026b492169626af384b"
+angular-mocks@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/angular-mocks/-/angular-mocks-1.7.7.tgz#227feca8a7e9cc61c4680366db024d6563d4c6eb"
+  integrity sha512-EIUUAigjCgyk4Lqspf1iM0RItOPtlKoHlqDyrYsgVmMqj5xS41BDXIqedcMAFn6Lln5Qe9YDsGQ3ZHAAoX1SgA==
 
 angular-route@^1.7.7:
   version "1.7.7"
