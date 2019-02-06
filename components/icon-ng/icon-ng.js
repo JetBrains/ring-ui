@@ -3,6 +3,7 @@ import 'dom4';
 
 import {resolveRelativeURL} from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
+import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
 
 /**
@@ -36,7 +37,7 @@ import styles from '../icon/icon.css';
   </example>
  */
 
-const angularModule = angular.module('Ring.icon', []);
+const angularModule = angular.module('Ring.icon', [TemplateNg]);
 const DEFAULT_SIZE = Size.Size32;
 
 angularModule.directive('rgIcon', function rgIconDirective() {
@@ -51,21 +52,21 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       width: '@?'
     },
     template: (tElem, tAttrs) => {
-      const isSprite = tAttrs.glyph[0] === '#';
+      const isSprite = (tAttrs.glyph || '')[0] === '#';
 
       if (isSprite) {
         return `
-<svg
-  class="${styles.glyph}"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  ng-style="style"
->
-  <use ng-href="{{glyphPath}}" xlink:href=""></use>
-</svg>`;
+<span class="${styles.glyph}" ng-style="style">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+  >
+    <use ng-href="{{glyphPath}}" xlink:href=""></use>
+  </svg>
+</span>`;
       }
 
-      return tAttrs.glyph;
+      return `<span class="${styles.glyph}" rg-template="glyph" ng-style="style"></span>`;
     },
     controller: $scope => {
       $scope.$watch('glyph', value => {
