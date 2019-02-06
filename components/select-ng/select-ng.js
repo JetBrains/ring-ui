@@ -148,6 +148,8 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       ctrl.query = null;
       ctrl.dataReceived = false;
 
+      ctrl.skipNextModelSync = false;
+
       const scope = ctrl.optionsScope ? ctrl.optionsScope : $scope.$parent;
 
       ctrl.setNgModelCtrl = ngModelCtrl => {
@@ -202,6 +204,7 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
         }
 
         if (ctrl.ngModelCtrl) {
+          ctrl.skipNextModelSync = true;
           if (getType() === 'suggest') {
             ctrl.ngModelCtrl.$setViewValue(selectedValue.label);
           } else if (Array.isArray(selectedValue)) {
@@ -297,6 +300,10 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       };
 
       function setSelectModel(newValue) {
+        if (ctrl.skipNextModelSync) {
+          ctrl.skipNextModelSync = false;
+          return;
+        }
         if (ctrl.ngModelCtrl) {
           reRenderSelect({
             selected: ctrl.convertNgModelToSelect(newValue)
