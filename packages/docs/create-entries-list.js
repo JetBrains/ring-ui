@@ -28,7 +28,6 @@ function createEntriesList(dir) {
         }
       }
     }).
-    filter(filePath => filePath.includes('/select-ng/')).
     filter(filePath => filePath !== false);
 }
 
