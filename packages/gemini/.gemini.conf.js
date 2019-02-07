@@ -37,7 +37,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'chrome',
-        version: '60.0',
+        version: '72.0',
         platform: WIN10
       }
     },
