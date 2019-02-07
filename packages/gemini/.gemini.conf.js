@@ -61,7 +61,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
-        version: '14.14393',
+        version: '17.17134',
         platform: WIN10,
         tolerance: RELAXED_TOLERANCE
       }
