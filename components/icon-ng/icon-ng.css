@@ -2,6 +2,9 @@
   display: inline-block;
 
   & > svg {
-    composes: icon from '../icon/icon.css';
+    display: inline-block;
+
+    vertical-align: middle;
+    pointer-events: none;
   }
 }
