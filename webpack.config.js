@@ -37,15 +37,13 @@ const svgInlineLoader = {
 
 const svgSpriteLoaderBackwardCompatibilityHack = {
   get include() {
-    // eslint-disable-next-line
-    console.warn(`
+    throw new Error(`
 ***
-  WARNING: Ring UI svgSpriteLoader is DEPRECATED. Don\'t include svg files in it.
+  ERROR: Ring UI svgSpriteLoader is REMOVED in 1.1.0. Looks like your webpack config is patching it.
   Most simple solution is to rename "svgSpriteLoader.include.push(...)" => "svgInlineLoader.include.push(...)"
   Please consider having own "svg-inline-loader". More details https://youtrack.jetbrains.com/issue/RG-1646
 ***
     `);
-    return svgInlineLoaderInclude;
   }
 };
 

@@ -4,6 +4,13 @@ category: Docs
 order: 2
 ---
 
+## [1.1.0] 
+
+- \[Breaking\] SVG icons are not inlined anymore – Icons and IconNg components don't support sprite IDs. 
+If you are patching svgSpriteLoader, replace 
+`"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
+See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
+
 ## [1.0.0]
 
 - \[Breaking\] New visual language. Most UI components have received significant 
