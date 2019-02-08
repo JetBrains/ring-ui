@@ -9,8 +9,7 @@
   fill: currentColor;
 }
 
-.glyph,
-.glyphIconNg > svg {
+.glyph {
   display: inline-block;
 
   vertical-align: middle;
