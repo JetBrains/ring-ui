@@ -11,6 +11,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import InlineSVG from 'svg-inline-react';
 
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
@@ -54,15 +55,18 @@ export default class Icon extends PureComponent {
         height: size
       };
 
-    const __html = glyph.call ? String(glyph) : glyph;
-
     return (
       <span
         {...restProps}
         className={classes}
-        dangerouslySetInnerHTML={{__html}}
-        style={style}
-      />
+      >
+        <InlineSVG
+          raw
+          src={glyph.call ? String(glyph) : glyph}
+          className={styles.glyph}
+          style={style}
+        />
+      </span>
     );
   }
 }
