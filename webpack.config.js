@@ -19,20 +19,21 @@ const htmlLoaderOptions = `?${JSON.stringify({
   root: require('@jetbrains/icons')
 })}`;
 
-// eslint-disable-next-line import/order
-const svgInlineLoaderInclude = [require('@jetbrains/icons')];
-
 const svgInlineLoader = {
   test: /\.svg$/,
   use: [
+    resolveLoader('raw'),
     {
-      loader: resolveLoader('svg-inline'),
+      loader: resolveLoader('svgo'),
       options: {
-        classPrefix: true
+        plugins: [
+          {prefixIds: true},
+          {removeViewBox: false}
+        ]
       }
     }
   ],
-  include: svgInlineLoaderInclude
+  include: [require('@jetbrains/icons')]
 };
 
 const svgSpriteLoaderBackwardCompatibilityHack = {
