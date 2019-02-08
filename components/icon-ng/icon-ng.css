@@ -1,0 +1,7 @@
+.glyphNg {
+  display: inline-block;
+
+  & > svg {
+    composes: icon from '../icon/icon.css';
+  }
+}

@@ -5,6 +5,8 @@ import {Color, Size} from '../icon/icon__constants';
 import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
 
+import stylesOverride from './icon-ng.css';
+
 /**
  * @name Icon Ng
  * @category Legacy Angular
@@ -51,7 +53,7 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: `<span class="${styles.glyphIconNg}" rg-template="normalizedGlyph" ng-style="style"></span>`,
+    template: `<span class="${stylesOverride.glyphNg}" rg-template="normalizedGlyph" ng-style="style"></span>`,
     controller: $scope => {
       function decodeBase64IfNeeded(glyph) {
         // This hack allows passing SVG content as string from angular templates like
