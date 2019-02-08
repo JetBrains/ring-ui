@@ -12,8 +12,6 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import dataTests from '../global/data-tests';
-
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
 
@@ -28,8 +26,7 @@ export default class Icon extends PureComponent {
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
-    loading: PropTypes.bool,
-    'data-test': PropTypes.string
+    loading: PropTypes.bool
   };
 
   static defaultProps = ({
@@ -40,8 +37,7 @@ export default class Icon extends PureComponent {
   });
 
   render() {
-    const {className, size, color, loading, glyph, width, height,
-      'data-test': dataTest, ...restProps} = this.props;
+    const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
 
     const classes = classNames(styles.icon,
       {
@@ -64,7 +60,6 @@ export default class Icon extends PureComponent {
       <span
         {...restProps}
         className={classes}
-        data-test={dataTests('ring-icon', dataTest)}
         dangerouslySetInnerHTML={{__html}}
         style={style}
       />
