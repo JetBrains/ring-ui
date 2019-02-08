@@ -21,18 +21,7 @@ const htmlLoaderOptions = `?${JSON.stringify({
 
 const svgInlineLoader = {
   test: /\.svg$/,
-  use: [
-    resolveLoader('raw'),
-    {
-      loader: resolveLoader('svgo'),
-      options: {
-        plugins: [
-          {prefixIds: true},
-          {removeViewBox: false}
-        ]
-      }
-    }
-  ],
+  loader: resolveLoader('svg-inline'),
   include: [require('@jetbrains/icons')]
 };
 
