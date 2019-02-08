@@ -1,7 +1,6 @@
 import angular from 'angular';
 import 'dom4';
 
-import {resolveRelativeURL} from '../global/url';
 import {Color, Size} from '../icon/icon__constants';
 import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
@@ -39,6 +38,7 @@ import styles from '../icon/icon.css';
 
 const angularModule = angular.module('Ring.icon', [TemplateNg]);
 const DEFAULT_SIZE = Size.Size32;
+const BASE64_PREFIX = 'data:image/svg+xml;base64,';
 
 angularModule.directive('rgIcon', function rgIconDirective() {
   return {
@@ -51,26 +51,20 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: (tElem, tAttrs) => {
-      const isSprite = (tAttrs.glyph || '')[0] === '#';
-
-      if (isSprite) {
-        return `
-<span class="${styles.glyph}" ng-style="style">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-  >
-    <use ng-href="{{glyphPath}}" xlink:href=""></use>
-  </svg>
-</span>`;
+    template: `<span class="${styles.glyph}" rg-template="normalizedGlyph" ng-style="style"></span>`,
+    controller: $scope => {
+      function decodeBase64IfNeeded(glyph) {
+        // This hack allows passing SVG content as string from angular templates like
+        // <rg-icon glyph="data:image/svg+xml;base64,PHN2ZyB4bWx...></rg-icon>
+        const isEncoded = glyph.indexOf(BASE64_PREFIX) === 0;
+        return isEncoded ? window.atob(glyph.replace(BASE64_PREFIX, '')) : glyph;
       }
 
-      return `<span class="${styles.glyph}" rg-template="glyph" ng-style="style"></span>`;
-    },
-    controller: $scope => {
       $scope.$watch('glyph', value => {
-        $scope.glyphPath = resolveRelativeURL(value);
+        if (!value) {
+          return;
+        }
+        $scope.normalizedGlyph = decodeBase64IfNeeded(value);
       });
     },
     link: function link(scope, iElement, iAttrs) {
