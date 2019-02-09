@@ -5,8 +5,9 @@
 
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import searchIcon from '@jetbrains/icons/search.svg';
 
-import {SearchIcon} from '../icon';
+import Icon from '../icon/icon';
 
 import Popup from '../popup/popup';
 import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
@@ -212,9 +213,10 @@ export default class SelectPopup extends Component {
           className={styles.filterWrapper}
           data-test="ring-select-popup-filter"
         >
-          <SearchIcon
+          <Icon
+            glyph={searchIcon}
             className={styles.filterIcon}
-            size={SearchIcon.Size.Size16}
+            size={Icon.Size.Size16}
             data-test-custom="ring-select-popup-filter-icon"
           />
           <FilterWithShortcuts

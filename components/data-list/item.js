@@ -1,15 +1,14 @@
 /* eslint-disable react/jsx-no-literals */
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 
-import {
-  ChevronRightIcon,
-  ChevronDownIcon
-} from '../icon';
+import Icon from '../icon';
 
 import Title from './title';
 
@@ -162,7 +161,8 @@ export default class Item extends PureComponent {
             className={styles.expanderBox}
             onClick={onExpand}
           >
-            <ChevronRightIcon
+            <Icon
+              glyph={chevronRightIcon}
               className={styles.collapseIcon}
               size={13}
               data-test="ring-data-list-expand"
@@ -175,7 +175,8 @@ export default class Item extends PureComponent {
             className={styles.expanderBox}
             onClick={onCollapse}
           >
-            <ChevronDownIcon
+            <Icon
+              glyph={chevronDownIcon}
               className={styles.collapseIcon}
               size={13}
               data-test="ring-data-list-collapse"

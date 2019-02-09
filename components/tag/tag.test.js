@@ -1,13 +1,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
+import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon, {CheckmarkIcon} from '../icon';
+import Icon from '../icon';
 
 import Tag from './tag';
-import styles from './tag.css';
 
 describe('Tag', () => {
-  const tagMock = {key: 1, label: 'test1', rgTagIcon: CheckmarkIcon};
+  const tagMock = {key: 1, label: 'test1', rgTagIcon: closeIcon};
 
   const shallowTag = props => shallow(<Tag {...tagMock} {...props}/>);
 
@@ -16,6 +16,6 @@ describe('Tag', () => {
   });
 
   it('should contains icon', () => {
-    shallowTag().find(Icon).should.have.className(styles.icon);
+    shallowTag().find(Icon).length.should.not.equal(0);
   });
 });
