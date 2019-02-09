@@ -1,5 +1,3 @@
-import 'whatwg-fetch';
-
 import {fixUrl, getAbsoluteBaseURL} from '../global/url';
 import Listeners from '../global/listeners';
 import HTTP from '../http/http';
@@ -8,11 +6,8 @@ import promiseWithTimeout from '../global/promise-with-timeout';
 import AuthStorage from './storage';
 import AuthResponseParser from './response-parser';
 import AuthRequestBuilder from './request-builder';
-import WindowFlow from './window-flow';
 import BackgroundFlow from './background-flow';
 import TokenValidator from './token-validator';
-import defaultOnBackendDown from './down-notification';
-
 
 /**
  * @name Auth
@@ -66,7 +61,7 @@ function noop() {}
 const DEFAULT_CONFIG = {
   reloadOnUserChange: true,
   embeddedLogin: false,
-  EmbeddedLoginFlow: WindowFlow,
+  EmbeddedLoginFlow: null,
   clientId: '0-0-0-0-0',
   redirectUri: getAbsoluteBaseURL(),
   redirect: false,
@@ -81,7 +76,7 @@ const DEFAULT_CONFIG = {
   enableBackendStatusCheck: true,
   backendCheckTimeout: DEFAULT_BACKEND_CHECK_TIMEOUT,
   checkBackendIsUp: () => Promise.resolve(null),
-  onBackendDown: defaultOnBackendDown,
+  onBackendDown: () => {},
 
   defaultExpiresIn: DEFAULT_EXPIRES_TIMEOUT,
   translations: {
