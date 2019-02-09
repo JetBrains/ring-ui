@@ -144,11 +144,13 @@ export default class Auth {
     this._backgroundFlow = new BackgroundFlow(
       this._requestBuilder, this._storage, backgroundRefreshTimeout
     );
-    this._embeddedFlow = new this.config.EmbeddedLoginFlow(
-      this._requestBuilder,
-      this._storage,
-      this.config.translations
-    );
+    if (this.config.EmbeddedLoginFlow) {
+      this._embeddedFlow = new this.config.EmbeddedLoginFlow(
+        this._requestBuilder,
+        this._storage,
+        this.config.translations
+      );
+    }
 
     const API_BASE = this.config.serverUri + Auth.API_PATH;
     const fetchConfig = config.fetchCredentials
