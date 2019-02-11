@@ -1,10 +1,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import dataTests from '../global/data-tests';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
-import Icon, {CheckmarkIcon} from '../icon';
+import Icon from '../icon';
 
 import styles from './list.css';
 
@@ -169,12 +170,13 @@ export default class ListItem extends PureComponent {
             )}
             {rightNodes}
             {checkbox !== undefined && (
-              <CheckmarkIcon
+              <Icon
+                glyph={checkmarkIcon}
                 data-test="ring-list-item-checkmark"
                 className={classNames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
-                size={CheckmarkIcon.Size.Size14}
+                size={Icon.Size.Size14}
               />
             )}
           </div>
