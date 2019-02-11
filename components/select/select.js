@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
@@ -8,7 +10,7 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
-import Icon, {ChevronDownIcon, CloseIcon} from '../icon';
+import Icon from '../icon';
 import Button from '../button/button';
 import buttonStyles from '../button/button.css';
 import getUID from '../global/get-uid';
@@ -880,18 +882,19 @@ export default class Select extends Component {
           className={styles.clearIcon}
           key="close"
           onClick={this.clear}
-          icon={CloseIcon}
-          iconSize={CloseIcon.Size.Size14}
+          icon={closeIcon}
+          iconSize={Icon.Size.Size14}
         />
       );
     }
 
     if (!this.props.hideArrow) {
       icons.push(
-        <ChevronDownIcon
+        <Icon
+          glyph={chevronDownIcon}
           key="hide"
           onClick={this._clickHandler}
-          size={ChevronDownIcon.Size.Size14}
+          size={Icon.Size.Size14}
         />
       );
     }

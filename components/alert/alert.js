@@ -3,12 +3,12 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import {
-  ExceptionIcon,
-  CheckmarkIcon,
-  WarningIcon,
-  CloseIcon
-} from '../icon';
+import exceptionIcon from '@jetbrains/icons/exception.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import warningIcon from '@jetbrains/icons/warning.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
+
+import Icon from '../icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
@@ -41,9 +41,9 @@ const Type = {
  * @type {Object.<Type, string>}
  */
 const TypeToIcon = {
-  [Type.ERROR]: ExceptionIcon,
-  [Type.SUCCESS]: CheckmarkIcon,
-  [Type.WARNING]: WarningIcon
+  [Type.ERROR]: exceptionIcon,
+  [Type.SUCCESS]: checkmarkIcon,
+  [Type.WARNING]: warningIcon
 };
 
 /**
@@ -51,9 +51,9 @@ const TypeToIcon = {
  * @type {Object.<Type, Icon.Color>}
  */
 const TypeToIconColor = {
-  [Type.ERROR]: ExceptionIcon.Color.RED,
-  [Type.SUCCESS]: CheckmarkIcon.Color.GREEN,
-  [Type.WARNING]: WarningIcon.Color.WHITE
+  [Type.ERROR]: Icon.Color.RED,
+  [Type.SUCCESS]: Icon.Color.GREEN,
+  [Type.WARNING]: Icon.Color.WHITE
 };
 
 /**
@@ -166,11 +166,12 @@ export default class Alert extends PureComponent {
    * @return {XML|string}
    */
   _getIcon() {
-    const Icon = TypeToIcon[this.props.type];
+    const glyph = TypeToIcon[this.props.type];
 
-    if (Icon) {
+    if (glyph) {
       return (
         <Icon
+          glyph={glyph}
           className={styles.icon}
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
           size={Icon.Size.Size16}
@@ -223,8 +224,9 @@ export default class Alert extends PureComponent {
                 data-test="alert-close"
                 onClick={this.closeRequest}
               >
-                <CloseIcon
-                  size={CloseIcon.Size.Size16}
+                <Icon
+                  glyph={closeIcon}
+                  size={Icon.Size.Size16}
                 />
               </button>
             )

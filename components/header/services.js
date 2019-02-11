@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-
-import {ServicesIcon} from '../icon';
+import servicesIcon from '@jetbrains/icons/services.svg';
 
 import Dropdown from '../dropdown/dropdown';
 import Popup from '../popup/popup';
@@ -15,7 +14,7 @@ const makeAnchor = loading => {
     <TrayIcon
       loader={loading}
       active={active}
-      icon={ServicesIcon}
+      icon={servicesIcon}
       aria-label="Services"
     />
   );
@@ -58,7 +57,7 @@ export default class Services extends PureComponent {
           {...props}
           loader={loading}
           active={loading}
-          icon={ServicesIcon}
+          icon={servicesIcon}
           aria-label="Services"
         />
       );
