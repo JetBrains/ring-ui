@@ -14,6 +14,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import chevronLeftIcon from '@jetbrains/icons/chevron-left.svg';
+import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
 
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
@@ -21,8 +23,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select from '../select/select';
 import memoize from '../global/memoize';
 import Link from '../link/link';
-
-import {ChevronLeftIcon, ChevronRightIcon} from '../icon';
+import Icon from '../icon/icon';
 
 import style from './pager.css';
 
@@ -163,11 +164,11 @@ export default class Pager extends PureComponent {
     const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
 
     const nextIcon = (
-      <ChevronRightIcon key="icon" className={style.chevron} size={ChevronRightIcon.Size.Size16}/>
+      <Icon glyph={chevronRightIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
     );
 
     const prevIcon = (
-      <ChevronLeftIcon key="icon" className={style.chevron} size={ChevronLeftIcon.Size.Size16}/>
+      <Icon glyph={chevronLeftIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
     );
 
     const prevText = this.props.translations.previousPage;

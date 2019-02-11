@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon, {CloseIcon} from '../icon';
+import Icon from '../icon';
 
 import styles from './tag.css';
 
@@ -132,11 +133,12 @@ export default class Tag extends PureComponent {
   renderRemoveIcon() {
     if (!this.props.readOnly) {
       return (
-        <CloseIcon
+        <Icon
+          glyph={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}
           onClick={this.props.onRemove}
-          size={CloseIcon.Size.Size12}
+          size={Icon.Size.Size12}
         />
       );
     }

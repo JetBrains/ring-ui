@@ -4,8 +4,10 @@ import {findDOMNode} from 'react-dom';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
+import searchIcon from '@jetbrains/icons/search.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
-import {SearchIcon, CloseIcon} from '../icon';
+import Icon from '../icon';
 
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
@@ -768,13 +770,14 @@ export default class QueryAssist extends Component {
 
     if (renderClear) {
       actions.push(
-        <CloseIcon
+        <Icon
+          glyph={closeIcon}
           key={'clearAction'}
           className={classNames(styles.icon)}
           title={this.props.translations.clearTitle}
-          iconRef={this.clearRef}
+          ref={this.clearRef}
           onClick={this.clearQuery}
-          size={CloseIcon.Size.Size16}
+          size={Icon.Size.Size16}
           data-test="query-assist-clear-icon"
         />
       );
@@ -817,12 +820,13 @@ export default class QueryAssist extends Component {
         }
 
         {renderGlass && (
-          <SearchIcon
+          <Icon
+            glyph={searchIcon}
             className={classNames(styles.icon, styles.iconGlass)}
             title={this.props.translations.searchTitle}
-            iconRef={this.glassRef}
+            ref={this.glassRef}
             onClick={this.handleApply}
-            size={SearchIcon.Size.Size16}
+            size={Icon.Size.Size16}
             data-test="query-assist-search-icon"
           />
         )}

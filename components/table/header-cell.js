@@ -1,12 +1,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import sortableIcon from '@jetbrains/icons/unsorted.svg';
+import sortedUpIcon from '@jetbrains/icons/chevron-up.svg';
+import sortedDownIcon from '@jetbrains/icons/chevron-down.svg';
 
-import {
-  UnsortedIcon as SortableIcon,
-  ChevronUpIcon as SortedUpIcon,
-  ChevronDownIcon as SortedDownIcon
-} from '../icon';
+import Icon from '../icon';
 
 import style from './table.css';
 
@@ -43,10 +42,10 @@ export default class HeaderCell extends PureComponent {
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
 
-    let Icon = SortableIcon;
+    let glyph = sortableIcon;
 
     if (this.sorted) {
-      Icon = sortOrder ? SortedUpIcon : SortedDownIcon;
+      glyph = sortOrder ? sortedUpIcon : sortedDownIcon;
     }
 
     const classes = classNames(className, column.headerClassName, {
@@ -69,7 +68,7 @@ export default class HeaderCell extends PureComponent {
 
         {this.sortable && (
           <span className={style.sorter}>
-            <Icon className={style.icon} size={ICON_SIZE}/>
+            <Icon glyph={glyph} className={style.icon} size={ICON_SIZE}/>
           </span>
         )}
       </th>
