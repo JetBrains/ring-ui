@@ -23,7 +23,7 @@
     "start": "node --max_old_space_size=2500 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
-    "@jetbrains/ring-ui": "^1.1.0-beta.1",
+    "@jetbrains/ring-ui": "^2.0.0-beta.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.11.3"
