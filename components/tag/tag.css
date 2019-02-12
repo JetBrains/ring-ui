@@ -93,7 +93,7 @@
   color: var(--ring-icon-secondary-color);
 
   & svg {
-    vertical-align: -2px;
+    vertical-align: -3px;
   }
 
   &:hover {
@@ -107,7 +107,7 @@
   color: var(--ring-icon-secondary-color);
 
   & svg {
-    vertical-align: -2px;
+    vertical-align: -3px;
   }
 }
 

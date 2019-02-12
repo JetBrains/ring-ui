@@ -56,7 +56,6 @@ export default class Checkbox extends PureComponent {
           <Icon
             glyph={checkmarkIcon}
             className={styles.icon}
-            size={Icon.Size.Size14}
           />
         </span>
         <span className={styles.label}>{label || children}</span>

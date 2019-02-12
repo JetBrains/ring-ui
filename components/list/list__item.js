@@ -56,10 +56,6 @@ export default class ListItem extends PureComponent {
     'data-test': PropTypes.string
   };
 
-  static defaultProps = {
-    iconSize: Icon.Size.Size18
-  };
-
   render() {
     /* eslint-disable no-unused-vars */
     const {
@@ -176,7 +172,6 @@ export default class ListItem extends PureComponent {
                 className={classNames(styles.checkbox, {
                   [styles.hidden]: !checkbox
                 })}
-                size={Icon.Size.Size14}
               />
             )}
           </div>

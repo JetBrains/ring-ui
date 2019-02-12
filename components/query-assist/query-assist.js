@@ -777,7 +777,6 @@ export default class QueryAssist extends Component {
           title={this.props.translations.clearTitle}
           ref={this.clearRef}
           onClick={this.clearQuery}
-          size={Icon.Size.Size16}
           data-test="query-assist-clear-icon"
         />
       );
@@ -826,7 +825,6 @@ export default class QueryAssist extends Component {
             title={this.props.translations.searchTitle}
             ref={this.glassRef}
             onClick={this.handleApply}
-            size={Icon.Size.Size16}
             data-test="query-assist-search-icon"
           />
         )}

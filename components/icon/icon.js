@@ -34,7 +34,7 @@ export default class Icon extends PureComponent {
     className: '',
     color: Color.DEFAULT,
     glyph: '',
-    size: Size.Size32
+    size: Size.Size16
   });
 
   render() {

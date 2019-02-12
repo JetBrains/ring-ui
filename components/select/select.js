@@ -397,7 +397,6 @@ export default class Select extends Component {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: Icon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: (item, event) => {
         this.clear(event);
@@ -883,7 +882,6 @@ export default class Select extends Component {
           key="close"
           onClick={this.clear}
           icon={closeIcon}
-          iconSize={Icon.Size.Size14}
         />
       );
     }
@@ -894,7 +892,6 @@ export default class Select extends Component {
           glyph={chevronDownIcon}
           key="hide"
           onClick={this._clickHandler}
-          size={Icon.Size.Size14}
         />
       );
     }

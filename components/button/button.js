@@ -54,7 +54,6 @@ export default class Button extends PureComponent {
 
   static defaultProps = {
     theme: Theme.LIGHT,
-    iconSize: Size.Size16,
     onMouseDown() {}
   };
 
@@ -129,7 +128,6 @@ export default class Button extends PureComponent {
         {dropdown && (
           <Icon
             glyph={chevronDown}
-            size={Icon.Size.Size14}
             className={styles.dropdownIcon}
           />
         )}

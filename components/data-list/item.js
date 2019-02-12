@@ -164,7 +164,6 @@ export default class Item extends PureComponent {
             <Icon
               glyph={chevronRightIcon}
               className={styles.collapseIcon}
-              size={13}
               data-test="ring-data-list-expand"
             />
           </div>
@@ -178,7 +177,6 @@ export default class Item extends PureComponent {
             <Icon
               glyph={chevronDownIcon}
               className={styles.collapseIcon}
-              size={13}
               data-test="ring-data-list-collapse"
             />
           </div>
