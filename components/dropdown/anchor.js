@@ -19,7 +19,6 @@ export default function Anchor({children, ...restProps}) {
       <Icon
         glyph={chevronDown}
         className={styles.chevron}
-        size={Icon.Size.Size12}
       />
     </Button>
   );

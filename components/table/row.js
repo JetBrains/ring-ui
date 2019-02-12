@@ -23,7 +23,6 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
     <Button
       className={classes}
       icon={dragIcon}
-      iconSize={Button.IconSize.Size14}
     />
   );
 });
@@ -163,7 +162,6 @@ class Row extends PureComponent {
             <Button
               className={style.rowCollapseExpandButton}
               icon={chevronRightIcon}
-              iconSize={Button.IconSize.Size14}
               onClick={onExpand}
             />
           )
@@ -173,7 +171,6 @@ class Row extends PureComponent {
           (
             <Button
               className={style.rowCollapseExpandButton}
-              iconSize={Button.IconSize.Size14}
               icon={chevronDownIcon}
               onClick={onCollapse}
             />

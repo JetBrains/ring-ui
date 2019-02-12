@@ -46,7 +46,7 @@ export default class Category extends PureComponent {
       <Fragment>
         {collapsible ? (
           <Button text className={styles.category} onClick={this.toggle}>
-            <ChevronRightIcon className={chevronClasses} size={ChevronRightIcon.Size.Size12}/>
+            <ChevronRightIcon className={chevronClasses} />
             {name}
           </Button>
         ) : <div className={styles.category}>{name}</div>}
