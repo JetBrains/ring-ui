@@ -60,10 +60,11 @@
     class AlertContainerDemo extends React.Component {
       state = {
         alerts: [
+          {type: Alert.Type.ERROR, key: 0, message: 'Test error', isClosing: false},
           {type: Alert.Type.WARNING, key: 1, message: 'Test warning', isClosing: false},
           {type: Alert.Type.LOADING, key: 2, message: 'Test loading', isClosing: false},
           {type: Alert.Type.MESSAGE, key: 3, message: 'Test message', isClosing: false},
-          {type: Alert.Type.MESSAGE, key: 3, message: <span>Message <Link href="#">with link</Link></span>, isClosing: false},
+          {type: Alert.Type.MESSAGE, key: 4, message: <span>Message <Link href="#">with link</Link></span>, isClosing: false},
         ]
       };
 

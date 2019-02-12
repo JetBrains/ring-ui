@@ -20,11 +20,13 @@
   "scripts": {
     "build-prod": "node --max_old_space_size=2500 ./node_modules/.bin/webpack --bail --env.production",
     "build": "webpack --bail",
+    "prestart": "kill-port 9999",
     "start": "node --max_old_space_size=2500 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
     "@jetbrains/ring-ui": "^2.0.0-beta.2",
     "extract-text-webpack-plugin": "^2.1.2",
+    "kill-port": "^1.3.2",
     "webpack": "^2.7.0",
     "webpack-dev-server": "^2.11.3"
   },

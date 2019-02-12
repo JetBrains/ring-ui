@@ -7,7 +7,6 @@ import {shallow, mount} from 'enzyme';
 import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
-import Icon from '../icon';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
@@ -1059,7 +1058,6 @@ describe('Select', () => {
           label: labelMock,
           glyph: 'glyph',
           rgItemType: List.ListProps.Type.LINK,
-          iconSize: Icon.Size.Size14,
           className: 'cssClass',
           onClick: () => {}
         }
@@ -1072,7 +1070,6 @@ describe('Select', () => {
       const resetOption = instance._getResetOption();
 
       resetOption.rgItemType.should.be.equal(List.ListProps.Type.ITEM);
-      resetOption.iconSize.should.be.equal(Icon.Size.Size14);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
       resetOption.onClick.should.be.an.instanceof(Function);
     });

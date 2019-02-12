@@ -170,7 +170,6 @@ export class Input extends PureComponent {
             data-test="ring-input-clear"
             className={styles.clear}
             icon={closeIcon}
-            iconSize={Button.IconSize.Size14}
             onClick={this.clear}
           />
         )}

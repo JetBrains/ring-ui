@@ -6,6 +6,10 @@ order: 2
 
 ## [2.0.0] 
 
+- \[Breaking\] `@jetbrains/icons` updated to `3.0.0` which includes a major rework of icons shapes and dimensions.
+  16px is now used as default `size` prop value for `Icon`, as it's the natural size of most of the icons.
+  Please consider talking to a designer before passing other `size` values.
+
 - \[Breaking\] SVG icons are not inlined anymore – Icons and IconNg components don't support sprite IDs. 
 If you are patching svgSpriteLoader, replace 
 `"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.

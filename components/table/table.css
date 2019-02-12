@@ -237,7 +237,7 @@
   }
 }
 
-@value top: -5px;
+@value top: -3px;
 
 .dragHandle {
   top: top;

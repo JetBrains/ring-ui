@@ -224,10 +224,7 @@ export default class Alert extends PureComponent {
                 data-test="alert-close"
                 onClick={this.closeRequest}
               >
-                <Icon
-                  glyph={closeIcon}
-                  size={Icon.Size.Size16}
-                />
+                <Icon glyph={closeIcon}/>
               </button>
             )
             : ''

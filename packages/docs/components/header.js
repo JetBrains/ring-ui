@@ -68,7 +68,6 @@ class SiteHeader extends PureComponent {
           <Search categories={categories}/>
           <TrayIcon
             icon={gitHubLogo}
-            iconSize={24}
             href="https://github.com/JetBrains/ring-ui"
             target="_blank"
             title="GitHub repo"
