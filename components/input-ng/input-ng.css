@@ -1,3 +1,7 @@
 .errorText {
   height: auto;
 }
+
+.clear.clear {
+  position: absolute;
+}
