@@ -6880,7 +6880,7 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-lerna@^3.11.0:
+lerna@^3.11.1:
   version "3.11.1"
   resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.11.1.tgz#c3f86aaf6add615ffc172554657a139bc2360b9a"
   integrity sha512-7an/cia9u6qVTts5PQ/adFq8QSgE7gzG1pUHhH+XKVU1seDKQ99JLu61n3/euv2qeQF+ww4WLKnFHIPa5+LJSQ==
@@ -8430,10 +8430,10 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
-octicons@^8.3.0:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.3.0.tgz#88206818d8b531317ede7d5e1bb53beee62b7a9e"
-  integrity sha512-zyc72Pz2TV4Ae3pcrmy9zUhG9QFU1CtS682Cp6fV4o36fskN+RJsaA1L5bFg6xMASDPX+glnjv0B7Tp1uz6J5A==
+octicons@^8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.4.1.tgz#ccc3a17ba956278a64390d361bfb88be18a195c7"
+  integrity sha512-xg+HvjTNy+4+i+Tz5AUetJd7kyKMjLjCxgWkl/75HH4OzxmL7bzDsay4ShfgCRu7rLMocipWkitQ8d51Kd4ngQ==
   dependencies:
     object-assign "^4.1.1"
 
@@ -9731,14 +9731,6 @@ raw-body@2.3.3:
     iconv-lite "0.4.23"
     unpipe "1.0.0"
 
-raw-loader@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-1.0.0.tgz#3f9889e73dadbda9a424bce79809b4133ad46405"
-  integrity sha512-Uqy5AqELpytJTRxYT4fhltcKPj0TyaEpzJDcGz7DFJi+pQOOi3GjR/DOdxTkTsF+NzhnldIoG6TORaBlInUuqA==
-  dependencies:
-    loader-utils "^1.1.0"
-    schema-utils "^1.0.0"
-
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
@@ -9780,10 +9772,10 @@ react-markdown@4.0.6:
     unist-util-visit "^1.3.0"
     xtend "^4.0.1"
 
-react-sortable-hoc@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.6.0.tgz#fd8a601c9d7d7902d3296dce980889d4c17fbf8b"
-  integrity sha512-mOxqkbx5FJ3bqr5zN08DRnZcURdHCVtmmKIqbu/DkFCDe2qrcoViDvAALx+rKd1GnUzTqqcjdHupyf01MgqzIw==
+react-sortable-hoc@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-1.6.1.tgz#2e9b551a7a1733201477571ad82608a7801309c6"
+  integrity sha512-ZIt3wjGeHQETMyv/dE9Wfk9a6T9IP9kGO++00vIiQkol+w7Gh6sUarBNWkGINgwYqwMWV0ALPAQdq4Ixwur8jw==
   dependencies:
     "@babel/runtime" "^7.2.0"
     invariant "^2.2.4"
