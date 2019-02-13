@@ -26,7 +26,8 @@ module.exports = {
       sauce: {
         username: process.env.SAUCE_USERNAME,
         accessKey: process.env.SAUCE_ACCESS_KEY,
-        logfile: 'saucelabs-session.log'
+        logfile: 'saucelabs-session.log',
+        connectRetries: 3,
       }
     },
     projectRoot: __dirname
