@@ -1,8 +1,8 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import Icon from '../icon';
+import Checkbox from '../checkbox/checkbox';
 
 import ListItem from './list__item';
 
@@ -44,12 +44,12 @@ describe('ListItem', () => {
   });
 
 
-  it('should render check mark icon', () => {
+  it('should render checkbox icon', () => {
     shallowListItem({checkbox: true}).
-      find(Icon).prop('glyph').should.equal(checkmarkIcon);
+      find(Checkbox).prop('checked').should.be.true;
 
-    shallowListItem({checkbox: false}).
-      find(Icon).prop('glyph').should.equal(checkmarkIcon);
+    shallowListItem({checkbox: undefined}).
+      find(Checkbox).length.should.equal(0);
   });
 
 

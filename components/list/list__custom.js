@@ -22,6 +22,7 @@ export default class ListCustom extends PureComponent {
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func,
+    onCheckboxChange: PropTypes.func,
     'data-test': PropTypes.string
   };
 
@@ -30,7 +31,7 @@ export default class ListCustom extends PureComponent {
   };
 
   render() {
-    const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onCheckboxChange, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
