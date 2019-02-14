@@ -15,6 +15,12 @@ If you are patching svgSpriteLoader, replace
 `"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
 See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
 
+- \[Breaking\] Some deprecated SASS 
+files [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e):
+`button.scss`, `icon.scss`, `loader-inline__legasy.scss`.
+
+- \[Breaking\] Some deprecated SASS constants (like `$ring-text-color`) [removed](https://github.com/JetBrains/ring-ui/commit/4ec18fa1bbd5e069e1e357246893a8511501237a).
+
 ## [1.0.0]
 
 - \[Breaking\] New visual language. Most UI components have received significant 
