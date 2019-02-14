@@ -786,15 +786,44 @@ describe('Select', () => {
         instance._multipleMap['4'].should.be.true;
       });
 
-      it('Should add item to selected on selecting item', () => {
-        const lengthBefore = testData.slice(0, 2).length;
+      it('Should select just picked item on selecting by clicking item', () => {
         instance._listSelectHandler(testData[3]);
+        wrapper.state('selected').length.should.equal(1);
+      });
+
+      it('Should add item to selection on clicking by checkbox', () => {
+        const lengthBefore = testData.slice(0, 2).length;
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => true
+            }
+          }
+        });
         wrapper.state('selected').length.should.equal(lengthBefore + 1);
       });
 
-      it('Should not close popup on selecting', () => {
+      it('Should close popup on selecting by item', () => {
         instance._hidePopup = sandbox.spy();
-        instance._listSelectHandler(testData[3]);
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => false
+            }
+          }
+        });
+        instance._hidePopup.should.have.been.called;
+      });
+
+      it('Should not close popup on selecting by checkbox', () => {
+        instance._hidePopup = sandbox.spy();
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => true
+            }
+          }
+        });
         instance._hidePopup.should.not.be.called;
       });
 

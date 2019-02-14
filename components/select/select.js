@@ -763,7 +763,7 @@ export default class Select extends Component {
         this.props.onChange(selected, event);
       });
     } else {
-      const checkboxClicked = event.originalEvent.target.matches('input[type=checkbox]');
+      const checkboxClicked = event?.originalEvent?.target.matches('input[type=checkbox]');
       if (!checkboxClicked) {
         this._hidePopup(isSelectItemEvent);
       }
@@ -783,6 +783,11 @@ export default class Select extends Component {
           delete this._multipleMap[selected.key];
           nextSelection = currentSelection.filter(item => item.key !== selected.key);
           this.props.onDeselect && this.props.onDeselect(selected);
+        }
+
+        if (!checkboxClicked) {
+          this._multipleMap = {[selected.key]: true};
+          nextSelection = [selected];
         }
 
         this.props.onChange(nextSelection, event);
