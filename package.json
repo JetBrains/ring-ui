@@ -161,7 +161,7 @@
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "3.0.0",
     "postcss-modules-values-replace": "3.0.1",
-    "prop-types": "15.7.1",
+    "prop-types": "15.7.2",
     "react-markdown": "4.0.6",
     "react-sortable-hoc": "1.6.1",
     "react-virtualized": "9.21.0",
