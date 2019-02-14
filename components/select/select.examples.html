@@ -477,11 +477,13 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
+    import hubConfig from '@ring-ui/docs/components/hub-config';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
     const ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
     const icons = [deFlag, ruFlag, undefined];
+    const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
     const elementsNum = 5;
     const dataset = [];
@@ -490,7 +492,8 @@
         'label': 'element ' + i,
         'key': i,
         description: 'description ' + i,
-        icon: icons[i % 3]
+        icon: icons[i % 3],
+        avatar: i % 2 ? avatarUrl : null
       });
     }
 
