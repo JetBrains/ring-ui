@@ -213,10 +213,6 @@
   top: 0;
 }
 
-.hidden {
-  visibility: hidden;
-}
-
 .rightGlyph {
   composes: glyph;
 
@@ -226,12 +222,14 @@
   margin-left: calc(unit * 2);
 }
 
-.checkbox {
-  composes: rightGlyph;
+.checkboxContainer {
+  position: relative;
+  top: -2px;
+  left: 3px;
 
-  width: auto;
-
-  color: var(--ring-text-color);
+  width: 20px;
+  height: 20px;
+  margin-right: unit;
 }
 
 .title {

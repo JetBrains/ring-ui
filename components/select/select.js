@@ -763,6 +763,10 @@ export default class Select extends Component {
         this.props.onChange(selected, event);
       });
     } else {
+      const checkboxClicked = event.originalEvent.target.matches('input[type=checkbox]');
+      if (!checkboxClicked) {
+        this._hidePopup(isSelectItemEvent);
+      }
       if (selected.key == null) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
@@ -789,7 +793,7 @@ export default class Select extends Component {
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
 
-      }, this._redrawPopup);
+      }, checkboxClicked ? this._redrawPopup : null);
 
     }
   };
