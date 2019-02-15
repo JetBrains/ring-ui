@@ -6,20 +6,20 @@ order: 2
 
 ## [2.0.0] 
 
-- \[Breaking\] `@jetbrains/icons` updated to `3.0.0` which includes a major rework of icons shapes and dimensions.
-  16px is now used as default `size` prop value for `Icon`, as it's the natural size of most of the icons.
-  Please consider talking to a designer before passing other `size` values.
+- \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
+  16px is now used as the default `size` prop value for the `Icon` component, as it's the natural size of most icons.
+  Please talk to a designer before passing other `size` values.
 
-- \[Breaking\] SVG icons are not inlined anymore – Icons and IconNg components don't support sprite IDs. 
+- \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. 
 If you are patching svgSpriteLoader, replace 
 `"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
 See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
 
 - \[Breaking\] Some deprecated SASS 
-files [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e):
-`button.scss`, `icon.scss`, `loader-inline__legasy.scss`.
+files were [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e):
+`button.scss`, `icon.scss`, `loader-inline__legacy.scss`.
 
-- \[Breaking\] Some deprecated SASS constants (like `$ring-text-color`) [removed](https://github.com/JetBrains/ring-ui/commit/4ec18fa1bbd5e069e1e357246893a8511501237a).
+- \[Breaking\] Some deprecated SASS constants (like `$ring-text-color`) were [removed](https://github.com/JetBrains/ring-ui/commit/4ec18fa1bbd5e069e1e357246893a8511501237a).
 
 ## [1.0.0]
 
