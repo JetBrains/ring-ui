@@ -6,6 +6,7 @@ order: 2
 
 ## [2.0.0] 
 
+- Caret (`^`) is prepended to all the dependencies versions except for prerelease ones
 - \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
   16px is now used as the default `size` prop value for the `Icon` component, as it's the natural size of most icons.
   Please talk to a designer before passing other `size` values.
