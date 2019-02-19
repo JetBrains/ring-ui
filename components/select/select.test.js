@@ -787,8 +787,9 @@ describe('Select', () => {
       });
 
       it('Should select just picked item on selecting by clicking item', () => {
+        const lengthBefore = testData.slice(0, 2).length;
         instance._listSelectHandler(testData[3]);
-        wrapper.state('selected').length.should.equal(1);
+        wrapper.state('selected').length.should.equal(lengthBefore + 1);
       });
 
       it('Should add item to selection on clicking by checkbox', () => {
