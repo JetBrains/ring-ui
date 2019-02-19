@@ -785,11 +785,6 @@ export default class Select extends Component {
           this.props.onDeselect && this.props.onDeselect(selected);
         }
 
-        if (!checkboxClicked) {
-          this._multipleMap = {[selected.key]: true};
-          nextSelection = [selected];
-        }
-
         this.props.onChange(nextSelection, event);
 
         return {
