@@ -41,7 +41,7 @@
     "react": "16.8.2",
     "react-dom": "16.7.0",
     "redbox-react": "1.6.0",
-    "webpack": "4.29.0",
+    "webpack": "4.29.5",
     "webpack-cli": "3.2.1",
     "webpack-dev-server": "3.1.14"
   },
