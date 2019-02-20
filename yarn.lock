@@ -10012,9 +10012,10 @@ react-virtualized@9.21.0:
     prop-types "^15.6.0"
     react-lifecycles-compat "^3.0.4"
 
-react-waypoint@8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/react-waypoint/-/react-waypoint-8.1.0.tgz#91d926a2fd1be4cbd0351cb8c3d494fac0ef1699"
+react-waypoint@9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/react-waypoint/-/react-waypoint-9.0.0.tgz#a027deaafa60e3c2c998e78aa3542fa5ffc98afb"
+  integrity sha512-pp1hi1iJ1UjE9KFNyL7TDRYBNRaiCbDNU7XbKpQsA5DRTv7rpP5F7KLfKxCVxagoTQvS6oTycdEvJl0cMgnDZQ==
   dependencies:
     consolidated-events "^1.1.0 || ^2.0.0"
     prop-types "^15.0.0"
