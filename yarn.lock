@@ -8572,10 +8572,10 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
-octicons@^8.4.1:
-  version "8.4.1"
-  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.4.1.tgz#ccc3a17ba956278a64390d361bfb88be18a195c7"
-  integrity sha512-xg+HvjTNy+4+i+Tz5AUetJd7kyKMjLjCxgWkl/75HH4OzxmL7bzDsay4ShfgCRu7rLMocipWkitQ8d51Kd4ngQ==
+octicons@^8.4.2:
+  version "8.4.2"
+  resolved "https://registry.yarnpkg.com/octicons/-/octicons-8.4.2.tgz#1867cb5157b9f928ef80f284543d04d11514789a"
+  integrity sha512-rl6FPFU8rWP7PUP6aoyBjm/VXhshWV0QglEMCHglyh5gCHQZozioq61bM40bvtxKJ910iqwANuuXT039Ke6I+Q==
   dependencies:
     object-assign "^4.1.1"
 
