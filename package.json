@@ -63,7 +63,7 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/polyfill": "^7.2.5",
-    "@jetbrains/eslint-config": "^4.0.3",
+    "@jetbrains/eslint-config": "^4.0.5",
     "@jetbrains/generator-ring-ui": "^1.0.32",
     "@jetbrains/stylelint-config": "^1.3.4",
     "angular": "^1.7.7",
