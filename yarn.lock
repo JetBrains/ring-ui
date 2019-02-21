@@ -10702,10 +10702,10 @@ sass-loader@7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sass@1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.17.0.tgz#e370b9302af121c9eadad5639619127772094ae6"
-  integrity sha512-aFi9RQqrCYkHB2DaLKBBbdUhos1N5o3l1ke9N5JqWzgSPmYwZsdmA+ViPVatUy/RPA21uejgYVUXM7GCh8lcdw==
+sass@1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.17.1.tgz#0963dd58d624a7e2a17fafcbfc9241aaeae70ce5"
+  integrity sha512-Wc3FoEClXIhRh7uVkKU04PTkJpGY32qlots+zbPXSqmL2MgnBONTq8gjSTf/ZwlF1MAqrSltGQacJuw1nbYRGA==
   dependencies:
     chokidar "^2.0.0"
 
