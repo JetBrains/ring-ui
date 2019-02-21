@@ -691,9 +691,10 @@
     "@babel/runtime" "^7.0.0"
     babel-plugin-angularjs-annotate "^0.9.0"
 
-"@jetbrains/eslint-config@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-4.0.3.tgz#680cf9b1a24a26d40a2aa1cab9ef57759b3e5079"
+"@jetbrains/eslint-config@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-4.0.5.tgz#6eeea9f9a5bbc6ad5837f2962472ecb69ba91288"
+  integrity sha512-+0sClhKpcWgsBBW+cLwj395OI3u1WUvne6fs9IkECLEcuNbB6k6LPjQ2e0e4++D5qKOFiWc+S/ziNPRR4KX9BA==
   dependencies:
     eslint-import-resolver-webpack "^0.10.1"
     eslint-plugin-angular "3.3.0"
