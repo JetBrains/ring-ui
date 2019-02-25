@@ -14,6 +14,8 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import chevronLeftIcon from '@jetbrains/icons/chevron-left.svg';
+import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
 
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
@@ -21,8 +23,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import Select from '../select/select';
 import memoize from '../global/memoize';
 import Link from '../link/link';
-
-import {ChevronLeftIcon, ChevronRightIcon} from '../icon';
+import Icon from '../icon/icon';
 
 import style from './pager.css';
 
@@ -35,11 +36,13 @@ export default class Pager extends PureComponent {
     visiblePagesLimit: PropTypes.number,
     disablePageSizeSelector: PropTypes.bool,
     openTotal: PropTypes.bool,
+    canLoadLastPageWithOpenTotal: PropTypes.bool,
     onPageChange: PropTypes.func,
     onPageSizeChange: PropTypes.func,
     onLoadPage: PropTypes.func,
     className: PropTypes.string,
     translations: PropTypes.object,
+    loader: PropTypes.bool,
     hrefFunc: PropTypes.func //function which generates href for all pager's buttons based on pager state passed as a function parameter, either this function or onPageChange should be provided
   };
 
@@ -50,6 +53,7 @@ export default class Pager extends PureComponent {
     visiblePagesLimit: 7,
     disablePageSizeSelector: false,
     openTotal: false,
+    canLoadLastPageWithOpenTotal: false,
     translations: {
       perPage: 'per page',
       firstPage: 'First page',
@@ -57,6 +61,7 @@ export default class Pager extends PureComponent {
       nextPage: 'Next page',
       previousPage: 'Previous'
     },
+    loader: false,
     onPageSizeChange: () => {},
     onLoadPage: () => {}
   };
@@ -113,6 +118,8 @@ export default class Pager extends PureComponent {
         href={this.generateHref(page)}
         key={key}
         active={active}
+        disabled={this.props.loader && !active}
+        loader={this.props.loader && active}
         {...this.getClickProps(this.handlePageChange(page))}
       >
         {content}
@@ -144,6 +151,7 @@ export default class Pager extends PureComponent {
             selected={selectOptions.selected}
             onSelect={this.handlePageSizeChange}
             type={Select.Type.INLINE}
+            disabled={this.props.loader}
           />
         </div>
       );
@@ -156,11 +164,11 @@ export default class Pager extends PureComponent {
     const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
 
     const nextIcon = (
-      <ChevronRightIcon key="icon" className={style.chevron} size={ChevronRightIcon.Size.Size16}/>
+      <Icon glyph={chevronRightIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
     );
 
     const prevIcon = (
-      <ChevronLeftIcon key="icon" className={style.chevron} size={ChevronLeftIcon.Size.Size16}/>
+      <Icon glyph={chevronLeftIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
     );
 
     const prevText = this.props.translations.previousPage;
@@ -188,7 +196,7 @@ export default class Pager extends PureComponent {
 
     return (
       <div className={style.links}>
-        {prevLinkAvailable
+        {prevLinkAvailable && !this.props.loader
           ? (
             <Link
               href={prevLinkHref}
@@ -203,7 +211,7 @@ export default class Pager extends PureComponent {
           )
         }
 
-        {nextLinkAvailable
+        {nextLinkAvailable && !this.props.loader
           ? (
             <Link
               href={nextLinkHref}
@@ -269,7 +277,8 @@ export default class Pager extends PureComponent {
       buttons.push(this.getButton(i, i, i, i === currentPage));
     }
 
-    const lastPageButtonAvailable = end < totalPages && !this.props.openTotal;
+    const lastPageButtonAvailable = (end < totalPages && !this.props.openTotal) ||
+      (this.props.openTotal && this.props.canLoadLastPageWithOpenTotal);
 
     return (
       <div>
@@ -294,6 +303,7 @@ export default class Pager extends PureComponent {
             {end === totalPages && this.props.openTotal && (
               <Button
                 href={this.generateHref(end + 1)}
+                disabled={this.props.loader}
                 {...this.getClickProps(this.handleLoadMore(end + 1))}
               >...</Button>
             )}
@@ -302,7 +312,10 @@ export default class Pager extends PureComponent {
           {lastPageButtonAvailable &&
         (
           <ButtonGroup>
-            {this.getButton(totalPages, this.props.translations.lastPage)}
+            {this.getButton(
+              this.props.openTotal ? -1 : totalPages,
+              this.props.translations.lastPage
+            )}
           </ButtonGroup>
         )
           }

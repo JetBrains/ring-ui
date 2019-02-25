@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon, {CloseIcon} from '../icon';
+import Icon from '../icon';
 
 import styles from './tag.css';
 
@@ -26,6 +27,7 @@ export default class Tag extends PureComponent {
     readOnly: PropTypes.bool,
     disabled: PropTypes.bool,
     focused: PropTypes.bool,
+    angled: PropTypes.bool,
 
     children: PropTypes.node,
     className: PropTypes.string
@@ -131,11 +133,12 @@ export default class Tag extends PureComponent {
   renderRemoveIcon() {
     if (!this.props.readOnly) {
       return (
-        <CloseIcon
+        <Icon
+          glyph={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}
           onClick={this.props.onRemove}
-          size={CloseIcon.Size.Size12}
+          size={Icon.Size.Size12}
         />
       );
     }
@@ -148,7 +151,8 @@ export default class Tag extends PureComponent {
       styles.tag,
       {
         [styles.focused]: this.state.focused,
-        [styles.disabled]: this.props.disabled
+        [styles.disabled]: this.props.disabled,
+        [styles.tagAngled]: this.props.angled
       },
       this.props.className
     );
@@ -161,11 +165,11 @@ export default class Tag extends PureComponent {
         ref={this.tagRef}
         onClick={this.props.onClick}
       >
-        {this.renderRemoveIcon()}
         {this.renderAvatar()}
         {this.renderCustomIcon()}
         {this.renderImage()}
-        <span>{this.props.children}</span>
+        <span className={styles.content}>{this.props.children}</span>
+        {this.renderRemoveIcon()}
       </span>);
   }
 }

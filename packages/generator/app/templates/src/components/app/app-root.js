@@ -9,7 +9,7 @@ import Auth from '@jetbrains/ring-ui/components/auth/auth';
 import Footer from '@jetbrains/ring-ui/components/footer/footer';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
-import styles from './app.css';
+import './app.css';
 
 export default class AppRoot extends Component {
   componentDidMount() {
@@ -38,7 +38,7 @@ export default class AppRoot extends Component {
             <SmartProfile auth={this.auth}/>
           </Tray>
         </Header>
-        <div className={styles.content}>
+        <div className="app-content">
           {'App content'}
         </div>
         <Footer/>

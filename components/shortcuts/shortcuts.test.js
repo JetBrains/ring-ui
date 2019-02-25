@@ -30,4 +30,16 @@ describe('ShortcutsComponent', () => {
 
     wrapper.prop('map').enter.should.be.called;
   });
+
+  it('should enable shortcuts if disabled becomes "false"', () => {
+    const wrapper = mountShortcuts({disabled: true});
+
+    simulateCombo('enter');
+    wrapper.prop('map').enter.should.not.be.called;
+
+    wrapper.setProps({disabled: false});
+
+    simulateCombo('enter');
+    wrapper.prop('map').enter.should.be.called;
+  });
 });
