@@ -809,10 +809,10 @@
     yeoman-generator "^3.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-2.0.2.tgz#ced60272877926652dc7601780cc72161a96b62d"
-  integrity sha512-Ylj/9RjSAFWR/33OctemYf/TBypnf6liSwtaxGE9V63tOawmQ9enEX8NqhlsIof4KG8CxIsh2yHf8RR6pM86aQ==
+"@jetbrains/icons@^3.0.0-9":
+  version "3.0.0-12"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.0.0-12.tgz#e02acdc7a7adb38df07d3113f6a4c49bfce4fa82"
+  integrity sha512-o2h3kZvAw7WbdWp3AdN3gqmK5Z0LyyrmzI+RAAbw0YqYdfSELwEkzueacT/BhtYDbMYGLU8420IlcvVdEYkCWA==
 
 "@jetbrains/logos@^1.1.0":
   version "1.1.0"
