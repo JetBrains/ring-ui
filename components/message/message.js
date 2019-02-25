@@ -120,6 +120,7 @@ export default class Message extends Component {
     directions: PropTypes.arrayOf(PropTypes.string),
     direction: PropTypes.string,
     popupProps: PropTypes.object,
+    buttonProps: PropTypes.object,
     tailOffset: PropTypes.number,
     onClose: PropTypes.func,
     onDismiss: PropTypes.func,
@@ -158,6 +159,7 @@ export default class Message extends Component {
       icon,
       tailOffset,
       popupProps,
+      buttonProps,
       onClose,
       onDismiss,
       translations
@@ -183,10 +185,14 @@ export default class Message extends Component {
         {icon && <Icon className={styles.icon} glyph={icon} size={Icon.Size.Size16}/>}
         <h1 className={styles.title}>{title}</h1>
         {children && <div className={styles.description}>{children}</div>}
-        {
-          onClose &&
-          <Button className={styles.button} onClick={onClose} primary>{translations.gotIt}</Button>
-        }
+        {(onClose || buttonProps) && (
+          <Button
+            className={styles.button}
+            onClick={onClose}
+            primary
+            {...buttonProps}
+          >{translations.gotIt}</Button>
+        )}
         {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
       </Popup>
     );
