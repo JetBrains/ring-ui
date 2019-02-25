@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Waypoint from 'react-waypoint';
+import {Waypoint} from 'react-waypoint';
 
 import Checkbox from '../checkbox/checkbox';
 
