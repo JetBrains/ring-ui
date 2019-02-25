@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import {PencilIcon} from '../icon';
+import pencilIcon from '@jetbrains/icons/pencil.svg';
 
 import messageBundleNg from '../message-bundle-ng/message-bundle-ng';
 import alertService from '../alert-service/alert-service';
@@ -64,7 +64,7 @@ function rgAvatarEditor() {
       '$scope', '$attrs', 'RingMessageBundle',
       function controller($scope, $attrs, RingMessageBundle) {
         let fileInput;
-        $scope.editIcon = PencilIcon;
+        $scope.editIcon = pencilIcon;
         $scope.showAddButton = 'showAddButton' in $scope ? $scope.showAddButton : true;
         $scope.showDeleteButton = 'showDeleteButton' in $scope ? $scope.showDeleteButton : true;
 

@@ -26,7 +26,8 @@ module.exports = {
       sauce: {
         username: process.env.SAUCE_USERNAME,
         accessKey: process.env.SAUCE_ACCESS_KEY,
-        logfile: 'saucelabs-session.log'
+        logfile: 'saucelabs-session.log',
+        connectRetries: 3,
       }
     },
     projectRoot: __dirname
@@ -37,7 +38,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'chrome',
-        version: '60.0',
+        version: '72.0',
         platform: WIN10
       }
     },
@@ -61,7 +62,7 @@ module.exports = {
       windowSize,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
-        version: '14.14393',
+        version: '17.17134',
         platform: WIN10,
         tolerance: RELAXED_TOLERANCE
       }

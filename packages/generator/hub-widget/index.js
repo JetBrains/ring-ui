@@ -27,7 +27,12 @@ const INDENT = 2;
 const additionalDevServerOptions = `
     headers: {
       'Access-Control-Allow-Origin': '*'
-    },`;
+    },
+    disableHostCheck: true,`;
+
+const additionalWebpackPlugins = `,
+    new (require('copy-webpack-plugin'))(['manifest.json'], {})
+`;
 
 module.exports = class HubWidgetGenerator extends Generator {
   prompting() {
@@ -66,6 +71,7 @@ module.exports = class HubWidgetGenerator extends Generator {
           projectName,
           camelCaseName,
           additionalDevServerOptions,
+          additionalWebpackPlugins,
           port
         }, answers, versions);
 

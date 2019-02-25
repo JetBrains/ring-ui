@@ -2,8 +2,9 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {sortableHandle} from 'react-sortable-hoc';
-
-import {DragIcon, ChevronRightIcon, ChevronDownIcon} from '../icon';
+import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import dragIcon from '@jetbrains/icons/drag.svg';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
@@ -21,8 +22,8 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
   return (
     <Button
       className={classes}
-      icon={DragIcon}
-      iconSize={DragIcon.Size.Size14}
+      icon={dragIcon}
+      iconSize={Button.IconSize.Size14}
     />
   );
 });
@@ -161,8 +162,8 @@ class Row extends PureComponent {
           (
             <Button
               className={style.rowCollapseExpandButton}
-              icon={ChevronRightIcon}
-              iconSize={ChevronRightIcon.Size.Size14}
+              icon={chevronRightIcon}
+              iconSize={Button.IconSize.Size14}
               onClick={onExpand}
             />
           )
@@ -172,8 +173,8 @@ class Row extends PureComponent {
           (
             <Button
               className={style.rowCollapseExpandButton}
-              iconSize={ChevronRightIcon.Size.Size14}
-              icon={ChevronDownIcon}
+              iconSize={Button.IconSize.Size14}
+              icon={chevronDownIcon}
               onClick={onCollapse}
             />
           )

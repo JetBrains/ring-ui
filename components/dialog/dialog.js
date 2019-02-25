@@ -2,10 +2,10 @@ import React, {PureComponent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
-import {CloseIcon} from '../icon/icons';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap from '../tab-trap/tab-trap';
 import Button from '../button/button';
@@ -141,8 +141,8 @@ export default class Dialog extends PureComponent {
           {showCloseButton &&
             (
               <Button
-                icon={CloseIcon}
-                iconSize={CloseIcon.Size.Size24}
+                icon={closeIcon}
+                iconSize={Button.IconSize.Size24}
                 data-test="ring-dialog-close-button"
                 className={styles.closeButton}
                 iconClassName={styles.closeIcon}

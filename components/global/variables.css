@@ -1,6 +1,8 @@
 /* stylelint-disable color-no-hex */
 
 :root {
+  --ring-unit: 8px;
+
   /* Element */
   --ring-line-color: #dfe5eb;
   --ring-dark-line-color: #263b4c;
