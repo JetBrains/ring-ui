@@ -86,7 +86,7 @@
     "docpack-page-generator": "^0.0.8",
     "electron": "^4.0.5",
     "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.9.1",
+    "enzyme-adapter-react-16": "^1.10.0",
     "eslint": "^5.14.1",
     "eslint-import-resolver-webpack": "^0.11.0",
     "front-matter": "^3.0.1",
