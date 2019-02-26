@@ -105,7 +105,7 @@
     "karma-webpack": "^3.0.0",
     "lerna": "^3.13.0",
     "lint-staged": "^8.1.4",
-    "mocha": "^6.0.1",
+    "mocha": "^6.0.2",
     "octicons": "^8.4.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
