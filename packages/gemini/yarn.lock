@@ -1982,10 +1982,10 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-html-reporter@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-3.6.1.tgz#d1e11619cce46790876ffe10a6d11bcffa34e0c3"
-  integrity sha512-z7GO75fT9MyPk9Y750lTPUkSnt0UU1NO5ViIZOeXyXs4gZui+IGHZW3UDhnYNoYE4MxEI/EO+PwLA2KLV7V5Bg==
+html-reporter@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-3.6.2.tgz#e40c556851f51ab3c16ececa980e456b57da8455"
+  integrity sha512-jyvDCRHj7oQJXlt91cJ7H5UsNAUzLpxztfTj64qM83NuSqiPS92nCrv4iwI3ohH7fIHZFdGQpbuKW1kSxccC/w==
   dependencies:
     bluebird "^3.4.7"
     body-parser "^1.18.2"
