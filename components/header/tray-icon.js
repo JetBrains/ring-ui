@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Button from '../button/button';
+import Button, {IconSize} from '../button/button';
 
 import styles from './header.css';
 
@@ -15,6 +15,7 @@ export default class TrayIcon extends Component {
 
   static defaultProps = {
     ...Button.defaultProps,
+    iconSize: IconSize.Size20,
     theme: Button.Theme.DARK
   };
 
