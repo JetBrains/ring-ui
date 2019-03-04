@@ -28,8 +28,8 @@
     }
   }
 
-  & li:not(:first-child) {
-    margin-top: unit;
+  & li {
+    margin-top: p-margin;
   }
 
   & li {
@@ -60,11 +60,14 @@
   }
 
   & ul {
-    padding: 0 0 0 calc(3 * unit);
+    padding: 0 0 0 calc(2 * unit);
   }
 
   & ol {
-    padding: 0 0 0 calc(5 * unit);
+    padding: 0;
+
+    list-style-position: inside;
+    font-variant-numeric: tabular-nums;
   }
 
   & ul {
