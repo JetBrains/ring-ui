@@ -20,6 +20,7 @@ export const Size = {
   Size14: 14,
   Size16: 16,
   Size18: 18,
+  Size20: 20,
   Size24: 24,
   Size32: 32,
   Size40: 40,
