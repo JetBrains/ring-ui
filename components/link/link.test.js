@@ -19,6 +19,14 @@ describe('Link', () => {
     shallowLink({href: '/'}).should.have.type(ClickableLink);
   });
 
+  it('should wrap children with ClickableLink if href is empty string', () => {
+    shallowLink({href: ''}).should.have.type(ClickableLink);
+  });
+
+  it('should wrap children with button if no href', () => {
+    shallowLink({}).should.have.type('button');
+  });
+
   it('should use passed className', () => {
     shallowLink({className: 'test-class'}).should.have.className('test-class');
   });
