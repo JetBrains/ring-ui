@@ -191,6 +191,7 @@
 
     import {SmartTabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
     import {SearchIcon, WarningIcon} from '@jetbrains/ring-ui/components/icon';
+    import Button from '@jetbrains/ring-ui/components/button/button';
 
     const container = document.getElementById('tabs');
 
@@ -217,6 +218,7 @@
         <Tab title={<Title Icon={WarningIcon}>Third tab (Link)</Title>} href="#href">
           Third tab content
         </Tab>
+        <Button text>Action</Button>
       </SmartTabs>
     );
 
