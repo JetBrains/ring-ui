@@ -42,10 +42,13 @@ export default class Tabs extends PureComponent {
     );
   }
 
-  getTabTitle = ({props}, i) => {
+  getTabTitle = (child, i) => {
+    if (child == null || child.type !== Tab) {
+      return child;
+    }
+
     const {selected} = this.props;
-    // eslint-disable-next-line react/prop-types
-    const {title, id, disabled, href} = props;
+    const {title, id, disabled, href} = child.props;
     const key = id || String(i);
     const isSelected = key === selected;
     const titleClasses = classNames(styles.title, {
