@@ -8,8 +8,11 @@ order: 2
 
 - Caret (`^`) is prepended to all the dependencies versions except for prerelease ones
 - \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
-  16px is now used as the default `size` prop value for the `Icon` component, as it's the natural size of most icons.
-  Please talk to a designer before passing other `size` values.
+  `size`, `width` and `height` props are deprecated in `Icon` component. The intrinsic sizes of SVG icon (`width` and `height` SVG attributes) are used instead.
+  
+  We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.
+  
+  If you're using your own instance of `svg-inline-loader` make sure to pass `options: {removeSVGTagAttrs: false}` to avoid removing `width` and `height` attributes.
 
 - \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. 
 If you are patching svgSpriteLoader, replace 

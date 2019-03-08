@@ -20,9 +20,9 @@ import './tooltip-ng.scss';
         <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
           <div ng-controller="testController">
             Some text that needs an explanation
-            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="'Test message'"></rg-icon>
-            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
-            <rg-icon glyph="{{warningIcon}}" size="16" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" rg-tooltip="'Test message'"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
+            <rg-icon glyph="{{warningIcon}}" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
           </div>
         </div>
       </file>

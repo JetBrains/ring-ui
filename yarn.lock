@@ -707,15 +707,15 @@
     yeoman-generator "^3.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.0.0-14":
-  version "3.0.0-14"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.0.0-14.tgz#0ef3a21041e9d0656911c5b08bf51b85bf61496f"
-  integrity sha512-6xd4JIHUxsd9DKph9LcwVt/Xk0pAtc5ceEbOYILxoV/oJ+UJN9/4OjC8SQ3jsssQIb+HjvHLqXZnwzNTBUdJ4Q==
+"@jetbrains/icons@^3.0.0-16":
+  version "3.0.0-16"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.0.0-16.tgz#d2a22ac2f17b9a5e5f7b623e8553b9f8edb914dd"
+  integrity sha512-g4j431YfryMud9JC2IJ7MxDWhsBRDGQBgLW3MLFFekQG5re1wdTEMoEEo39sUrfDzjlcLLcN55DVAirLa44f4g==
 
-"@jetbrains/logos@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.0.tgz#5dd0a5ac62d85fe6eaa974f00eb22c781851384e"
-  integrity sha512-62vegk2vu1yWaFEdcU+CbCaxwyqG+iRlAngM7buTuxLSv0sl06aWJteuFAJ/VphLse2Z8yWzV3Qvc++2KN9Ojg==
+"@jetbrains/logos@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.3.tgz#1911614cede0f1c14515de810ca47d5808724b5b"
+  integrity sha512-Wln91LJjHI/WsbeskrIgwC0SPByIrtllULNcypEn5J4tGBSL/xXYR+xOVlqnejGKR1yicbPXzHmEUZycaNfJOw==
 
 "@jetbrains/postcss-require-hover@^0.1.2":
   version "0.1.2"

@@ -44,7 +44,6 @@ describe('Button', () => {
     });
 
     wrapper.should.have.className(styles.withIcon);
-    wrapper.should.have.descendants('svg[style*="16"]');
     caretDownSVG.should.include(wrapper.find('svg').html());
   });
 
