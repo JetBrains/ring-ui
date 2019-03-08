@@ -188,7 +188,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn bootstrap && lint-staged"
     }
   }
 }
