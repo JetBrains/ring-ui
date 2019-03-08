@@ -85,6 +85,7 @@ module.exports = (env = {}) => {
       // needed in examples
       alias: {
         '@ring-ui/docs': __dirname,
+        '@jetbrains/logos': require('@jetbrains/logos'),
         '@jetbrains/ring-ui': ringUiPath
       }
     },
