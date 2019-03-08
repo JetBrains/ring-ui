@@ -3,8 +3,7 @@
     <div id="some-icons">
       <span id="icon-container"></span>
       <span id="icon-search"></span>
-      <span id="icon-16-pencil"></span>
-      <span id="icon-14-pencil"></span>
+      <span id="icon-pencil"></span>
       <span id="icon-custom-permission"></span>
     </div>
   </file>
@@ -30,7 +29,6 @@
       <CheckmarkIcon
         className="additional-class ring-icon"
         color={CheckmarkIcon.Color.MAGENTA}
-        size={CheckmarkIcon.Size.Size32}
       />,
       document.getElementById('icon-container')
     );
@@ -38,7 +36,6 @@
     render(
       <SearchIcon
         className="ring-icon"
-        size={SearchIcon.Size.Size32}
       />,
       document.getElementById('icon-search')
     );
@@ -46,26 +43,8 @@
     render(
       <PencilIcon
         className="ring-icon"
-        size={PencilIcon.Size.Size16}
       />,
-      document.getElementById('icon-16-pencil')
-    );
-
-    render(
-      <PencilIcon
-        className="ring-icon"
-        size={PencilIcon.Size.Size14}
-      />,
-      document.getElementById('icon-14-pencil')
-    );
-
-    render(
-      <PermissionIcon
-        className="ring-icon"
-        height={80}
-        width={100}
-      />,
-      document.getElementById('icon-custom-permission')
+      document.getElementById('icon-pencil')
     );
   </file>
 </example>
@@ -141,7 +120,6 @@
           <Logo
             key={Logo}
             title={Logo.displayName}
-            size={Logo.Size.Size128}
             className="ring-icon"
           />
         ))}
