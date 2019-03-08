@@ -1,7 +1,7 @@
 import angular from 'angular';
 import 'dom4';
 
-import {Color, Size} from '../icon/icon__constants';
+import {Color} from '../icon/icon__constants';
 import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
 
@@ -16,12 +16,9 @@ import stylesOverride from './icon-ng.css';
     <example name="Icon Ng">
       <file name="index.html">
         <div ng-app="TestApp" ng-strict-di ng-controller="testCtrl">
-          <rg-icon glyph="{{icon}}" size="14"></rg-icon>
           <rg-icon glyph="{{icon}}"></rg-icon>
           <rg-icon glyph="{{icon}}" color="MAGENTA"></rg-icon>
           <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
-          <rg-icon glyph="{{icon}}" size="64"></rg-icon>
-          <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>
         </div>
       </file>
     <file name="index.js" webpack="true">
@@ -39,7 +36,6 @@ import stylesOverride from './icon-ng.css';
  */
 
 const angularModule = angular.module('Ring.icon', [TemplateNg]);
-const DEFAULT_SIZE = Size.Size32;
 const BASE64_PREFIX = 'data:image/svg+xml;base64,';
 
 angularModule.directive('rgIcon', function rgIconDirective() {
@@ -95,8 +91,8 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       );
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
-        if (!width && !height) {
-          const sizeString = `${size || DEFAULT_SIZE}px`;
+        if (size && !width && !height) {
+          const sizeString = `${size}px`;
           scope.style = {
             width: sizeString,
             height: sizeString

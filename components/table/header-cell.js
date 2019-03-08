@@ -9,8 +9,6 @@ import Icon from '../icon';
 
 import style from './table.css';
 
-const ICON_SIZE = 10;
-
 export default class HeaderCell extends PureComponent {
   static propTypes = {
     children: PropTypes.any,
@@ -68,7 +66,7 @@ export default class HeaderCell extends PureComponent {
 
         {this.sortable && (
           <span className={style.sorter}>
-            <Icon glyph={glyph} className={style.icon} size={ICON_SIZE}/>
+            <Icon glyph={glyph} className={style.icon}/>
           </span>
         )}
       </th>
