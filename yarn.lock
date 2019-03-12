@@ -710,10 +710,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-1.24.3.tgz#c64ab7b96d5c7d3f1359d4c14fd8f8b610b70f2f"
   integrity sha512-SF/Jk8l9kgyNvVfjA5urTMsW3i9jXaS8ZEyrQovY0+X76VnzCX5Mo+6YMSmRyGRIHB3RAk9IXCGIQvNFl572Gg==
 
-"@jetbrains/logos@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.3.tgz#1911614cede0f1c14515de810ca47d5808724b5b"
-  integrity sha512-Wln91LJjHI/WsbeskrIgwC0SPByIrtllULNcypEn5J4tGBSL/xXYR+xOVlqnejGKR1yicbPXzHmEUZycaNfJOw==
+"@jetbrains/logos@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.4.tgz#493ad7b066fb83130cb266f3e7f84339e2219d30"
+  integrity sha512-R4GBkvfeQ8oQSofyLeROA5iubmfPtIrt28BATttUExaMy73/RI5s+cKk7AYn6iUoey518aCqSjqqWXtTDznVvA==
 
 "@jetbrains/postcss-require-hover@^0.1.2":
   version "0.1.2"
