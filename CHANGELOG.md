@@ -6,11 +6,11 @@ order: 2
 
 ## [2.0.0] 
 
-- Caret (`^`) is prepended to all the dependencies versions except for prerelease ones
+- Versions of dependencies are now prepended with a caret (`^`) rather than fixed
 - \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
-  `size`, `width` and `height` props are deprecated in `Icon` component. The intrinsic sizes of SVG icon (`width` and `height` SVG attributes) are used instead.
+  `size`, `width` and `height` props are deprecated in the `Icon` component. The intrinsic size of the icon (`width` and `height` SVG attributes) is used instead.
   
-  We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.
+  We strongly recommend to use icons handcrafted for particular sizes. If an icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting an icon.
   
   If you're using your own instance of `svg-inline-loader` make sure to pass `options: {removeSVGTagAttrs: false}` to avoid removing `width` and `height` attributes.
 
