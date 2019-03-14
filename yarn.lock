@@ -689,16 +689,16 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^1.0.35":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.35.tgz#62fb127e67305fc07cf50c00d9fda7d983b020ed"
-  integrity sha512-Yik8RxN5M+nWLj3fvOSqXyFg1bq2TOWITUaMVRw/6Ip24x1A88fMH65ORNaZ63wZ/EEm3bZU59Z1oaBvD4cgJw==
+"@jetbrains/generator-ring-ui@^1.0.36":
+  version "1.0.36"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.36.tgz#98d6f9640e20536c91a94f1dc1e532e5b1752b67"
+  integrity sha512-4iy6MtXB0ZoaVAIqvMrqRM60V6QtnrJt/wADqAEonOAJqRl6U8L3Fp76b/ccOgQ86mlO0OxbK3hULsqsbfpvxA==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
     find-port "^2.0.1"
     ora "^3.2.0"
-    package-json "^6.0.0"
+    package-json "^6.1.0"
     pify "^4.0.1"
     portscanner "^2.2.0"
     read-pkg-up "^4.0.0"
@@ -3965,10 +3965,10 @@ electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.86:
   version "1.3.88"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.88.tgz#f36ab32634f49ef2b0fdc1e82e2d1cc17feb29e7"
 
-electron@^4.0.8:
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-4.0.8.tgz#b7998b16543d2094f081757a0c5afdb8875ea510"
-  integrity sha512-FOBJIHkuv8wc15N+ZyqwDzPavYVu5CHMBEf14jHDWv7QW2vkEIpJjVK+PIT31kfZfvjsIP0j2wvA/FBsiqB7pw==
+electron@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-4.1.0.tgz#ecba9c83de271e8ba7637332ece9ed023c6ea3f0"
+  integrity sha512-q/yTi9dT5UEFK/s+vOQaHNkTHWiRK9kEBYVJt34nmWc9piW42hXT+nhKUEHHhccMPr3q18gG0iPZqeR+LG76ow==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
@@ -8804,14 +8804,14 @@ package-json@^5.0.0:
     registry-url "^3.1.0"
     semver "^5.5.0"
 
-package-json@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/package-json/-/package-json-6.0.0.tgz#49e41a4393aba2f26f4c030c333f90539173dcd2"
-  integrity sha512-GdLbzmDhU7w9tNy8zKYVKU2AnaXB/hDuzvRBagUg+EjCR2ukO7FQCMATL2I8cRjhko+wi4KmvsEV3G9zUKe/bg==
+package-json@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/package-json/-/package-json-6.1.0.tgz#d6f9516e0f8b16ee5c00b7d49f001a665b0c15d2"
+  integrity sha512-TCE9JWb3IU1XMy/d9j3lwLJFF8UUfO7tiXminR3OhtsEm6147k+IFwQ3gAu2VqLZmFvcnOoIKUwOVteUmKwW4Q==
   dependencies:
     got "^9.6.0"
     registry-auth-token "^3.3.2"
-    registry-url "^4.0.0"
+    registry-url "^5.0.0"
     semver "^5.6.0"
 
 pacote@^9.5.0:
@@ -9708,7 +9708,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9903,7 +9903,7 @@ raw-body@2.3.3:
     iconv-lite "0.4.23"
     unpipe "1.0.0"
 
-rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
+rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7, rc@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
   dependencies:
@@ -9927,7 +9927,7 @@ react-is@^16.6.3, react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.4.tgz#90f336a68c3a29a096a3d648ab80e87ec61482a2"
   integrity sha512-PVadd+WaUDOAciICm/J1waJaSvgq+4rHE/K70j0PFqKhkTBsPv/82UGQJNXAngz1fOQLLxI6z1sEDmJDQhCTAA==
 
-react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
@@ -9963,16 +9963,16 @@ react-test-renderer@^16.0.0-0, react-test-renderer@^16.8.4:
     react-is "^16.8.4"
     scheduler "^0.13.4"
 
-react-virtualized@9.21.0:
-  version "9.21.0"
-  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.21.0.tgz#8267c40ffb48db35b242a36dea85edcf280a6506"
+react-virtualized@9.11.0:
+  version "9.11.0"
+  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.11.0.tgz#3c5cddef120c60fe273d3e544fc7742d3518e9a3"
+  integrity sha512-43pnqugc22/jkRICMibCynIzSOKWB/v2EAA3ht8T7Fa1i4lBGZDlOvjBswV5/sQq0Gib3zMdJ/GbzoQnke9Amg==
   dependencies:
-    babel-runtime "^6.26.0"
+    babel-runtime "^6.23.0"
     classnames "^2.2.3"
     dom-helpers "^2.4.0 || ^3.0.0"
     loose-envify "^1.3.0"
-    prop-types "^15.6.0"
-    react-lifecycles-compat "^3.0.4"
+    prop-types "^15.5.4"
 
 react-waypoint@9.0.1:
   version "9.0.1"
@@ -10294,12 +10294,12 @@ registry-url@^3.0.3, registry-url@^3.1.0:
   dependencies:
     rc "^1.0.1"
 
-registry-url@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/registry-url/-/registry-url-4.0.0.tgz#7dc344ef0f1496fc95a6ad04ccb9a491df11c025"
-  integrity sha512-WAfGLywivb8s2+Cfblq1UV+kOyzURHzWSJmciDvrmstr4bv/0lnVSB9jfoOfkxx5xNJ1OGlSFmZh9WYBLFJOPg==
+registry-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/registry-url/-/registry-url-5.0.0.tgz#ea9b9f54247d0d95adfcaf9e20a4f8fa28d86e72"
+  integrity sha512-qH1SjdlyxreHU8atIDzP1MOb1GG2g5746L3nnwISWTUh8GBLotl82sOayZJtm/KwmrMeMaEzAV26o6Pk1hJuoA==
   dependencies:
-    rc "^1.2.7"
+    rc "^1.2.8"
 
 regjsgen@^0.2.0:
   version "0.2.0"
