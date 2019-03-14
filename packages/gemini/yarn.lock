@@ -1719,10 +1719,10 @@ gemini-configparser@^1.0.0:
   dependencies:
     lodash "^4.17.4"
 
-gemini-core@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.3.0.tgz#84ccef96f789c6dbbb370a6e6ca524d4d55f45aa"
-  integrity sha512-EYPjeH9PfhM153LUvZzFfaH68s4idC4cg6UGXhLg/ANVX0syM9gT5F8Rt8aG0xsXNk48+WFTEkz7yiXCwWyqAA==
+gemini-core@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.5.0.tgz#e8cae7f0b8266d79aaeec1c3129481a7742ea777"
+  integrity sha512-CJNFsTqItcPfFbFTzZW+iUi0BTVgmeQeEO2qrYm8WQZRto5aTOX31I6wiUstwWP8tmJo7IEsIaM3KbDyw6B5vw==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -1731,7 +1731,7 @@ gemini-core@^3.3.0:
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.0"
     lodash "^4.15.0"
-    looks-same "^6.0.0"
+    looks-same "^7.1.0"
     micromatch "^2.3.11"
     png-img "^2.1.1"
     sizzle "^2.3.3"
@@ -1761,10 +1761,10 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.3.0.tgz#713aba6a55738d6eac41d69818d70d11c4de6faa"
-  integrity sha512-zx6zulW5QbV6drvo49ZCiSdV+J10rIsxYnIHipE1jsQQzBII7SEz8Ua+Po/DTcpjpg6dLCeHUoUmgE9AwcH+wQ==
+gemini@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.4.0.tgz#c09d6f35cf2301a7354fe9528a064992b8b8074b"
+  integrity sha512-7C2lKuJScEzjd1eljHAloWqho1MNT0dZHN08+tM1xRGcuCK//g+zoTJooSZltwHVtL/DL/aas9SdmO50sRrNMw==
   dependencies:
     bluebird "^3.4.6"
     chalk "^1.1.3"
@@ -1773,7 +1773,7 @@ gemini@^7.3.0:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^3.3.0"
+    gemini-core "^3.5.0"
     gemini-coverage "^2.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -2412,6 +2412,11 @@ isstream@0.1.x, isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+js-graph-algorithms@1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/js-graph-algorithms/-/js-graph-algorithms-1.0.18.tgz#f96ec87bf194f5c0a31365fa0e1d07b7b962d891"
+  integrity sha1-+W7Ie/GU9cCjE2X6Dh0Ht7li2JE=
+
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -2571,13 +2576,14 @@ longest@^1.0.1:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-looks-same@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-6.0.0.tgz#aa8f24291b78b966eb6fc315a41b33adeb3fc068"
-  integrity sha512-143Xf0qKRubHjVlWiPI2VMOMbvS94ldHsYrccXvihe6nCI7Z/JFy5ZskQzpLtYy4TFX2vbSJM1uAn5gShvqlcw==
+looks-same@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-7.1.0.tgz#8ecab8d015c428a3efd13003b9c649f8852f57e4"
+  integrity sha512-nroqc3WnrTLYRGWVx6geMS3kO4ww50AQM0QdGP3Zy8Q5ohma6k7xEq3gUEd8Mf7CiXiJAbrUJpokcN0xLBDCUQ==
   dependencies:
     color-diff "^1.1.0"
     concat-stream "^1.6.2"
+    js-graph-algorithms "1.0.18"
     lodash "^4.17.3"
     parse-color "^1.0.0"
     pngjs "^3.3.3"
