@@ -84,7 +84,7 @@
     "docpack-jsdoc-extractor": "^0.0.7",
     "docpack-markdown-extractor": "^0.0.3",
     "docpack-page-generator": "^0.0.8",
-    "electron": "^4.0.8",
+    "electron": "^4.1.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.0",
     "eslint": "^5.15.1",
