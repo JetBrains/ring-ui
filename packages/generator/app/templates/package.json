@@ -55,7 +55,7 @@
     "chai-enzyme": "1.0.0-beta.1",
     "electron": "4.0.8",
     "enzyme": "3.9.0",
-    "enzyme-adapter-react-16": "1.11.0",
+    "enzyme-adapter-react-16": "1.11.2",
     "eslint": "5.15.1",
     "karma": "4.0.1",
     "karma-chai-plugins": "0.9.0",
