@@ -12,6 +12,10 @@ import styles from './tabs.css';
 
 import Tab from './tab';
 
+export const CustomItem = ({children}) => children;
+CustomItem.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default class Tabs extends PureComponent {
   static Theme = Theme;
@@ -43,7 +47,7 @@ export default class Tabs extends PureComponent {
   }
 
   getTabTitle = (child, i) => {
-    if (child == null || child.type !== Tab) {
+    if (child == null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
     }
 
