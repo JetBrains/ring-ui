@@ -16,7 +16,7 @@
   "devDependencies": {
     "@jetbrains/gemini-teamcity": "^2.2.2",
     "forever": "^0.15.3",
-    "gemini": "^7.4.0",
+    "gemini": "^7.4.1",
     "gemini-sauce": "^1.0.2",
     "html-reporter": "^3.7.1",
     "http-server": "^0.11.1",

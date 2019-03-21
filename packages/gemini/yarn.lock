@@ -1719,10 +1719,10 @@ gemini-configparser@^1.0.0:
   dependencies:
     lodash "^4.17.4"
 
-gemini-core@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.5.0.tgz#e8cae7f0b8266d79aaeec1c3129481a7742ea777"
-  integrity sha512-CJNFsTqItcPfFbFTzZW+iUi0BTVgmeQeEO2qrYm8WQZRto5aTOX31I6wiUstwWP8tmJo7IEsIaM3KbDyw6B5vw==
+gemini-core@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.6.1.tgz#779526a0d244d86388f13bcbd4013e113cb14d06"
+  integrity sha512-hJcCS/AbkQhaiIOVe0QzcG7U+71q6KzYT9zuoYa+86nRJnsMaX+54PGfrRZ5gPYMs9Qrnti8dAhqknzrMASmoA==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -1731,7 +1731,7 @@ gemini-core@^3.5.0:
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.0"
     lodash "^4.15.0"
-    looks-same "^7.1.0"
+    looks-same "^7.1.1"
     micromatch "^2.3.11"
     png-img "^2.1.1"
     sizzle "^2.3.3"
@@ -1761,10 +1761,10 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.4.0.tgz#c09d6f35cf2301a7354fe9528a064992b8b8074b"
-  integrity sha512-7C2lKuJScEzjd1eljHAloWqho1MNT0dZHN08+tM1xRGcuCK//g+zoTJooSZltwHVtL/DL/aas9SdmO50sRrNMw==
+gemini@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.4.1.tgz#4f5ff3a546d5e45237ed38125d8608e4a7f17cd1"
+  integrity sha512-0XENR1gJ2MVsU7o2iRJ9i+V+CpJlEPWvRGPe1DygnQBq2E4lT37MV9eziNG4HYt8mDE9pdX4jCFqJQXh4MVegQ==
   dependencies:
     bluebird "^3.4.6"
     chalk "^1.1.3"
@@ -1773,7 +1773,7 @@ gemini@^7.4.0:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^3.5.0"
+    gemini-core "^3.6.1"
     gemini-coverage "^2.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -2576,10 +2576,10 @@ longest@^1.0.1:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-looks-same@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-7.1.0.tgz#8ecab8d015c428a3efd13003b9c649f8852f57e4"
-  integrity sha512-nroqc3WnrTLYRGWVx6geMS3kO4ww50AQM0QdGP3Zy8Q5ohma6k7xEq3gUEd8Mf7CiXiJAbrUJpokcN0xLBDCUQ==
+looks-same@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-7.1.1.tgz#599fe1b23a1c37665d78f3277a6df8b71d8363fe"
+  integrity sha512-AqyjVTnkF9ksgAtO+k7bPJcEafH12BAnj58z6o87yn2d6tKGOgd6yR1QnXJIT04Reg7EL1VCy8MBmubelMyUvQ==
   dependencies:
     color-diff "^1.1.0"
     concat-stream "^1.6.2"
