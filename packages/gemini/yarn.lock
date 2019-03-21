@@ -1982,10 +1982,10 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-html-reporter@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-3.7.1.tgz#1a0772e0c660a525f2418f877b40c38697df018d"
-  integrity sha512-VjrmDXr+F5tqGT+o8nvvhYYul3mIwDw/iM4nTTjh3xjuHjj8WczdamLp4CuBWG1YYfLNPF5ysQ//QI6Vrx0wPQ==
+html-reporter@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.1.0.tgz#519d9503e21245152c747ba02c2cac890b7d8fe7"
+  integrity sha512-5825Uv+VCz1Xaa/kRDNb8hnPiu4wEsJ6LV+fZQ3s/3gjPdBJj9uMA2euN3Z1ojk3kA/wrHd/+/CN29JwGSp/1Q==
   dependencies:
     bluebird "^3.4.7"
     body-parser "^1.18.2"
@@ -1995,7 +1995,9 @@ html-reporter@^3.7.1:
     gemini-configparser "^1.0.0"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
+    looks-same "^7.1.1"
     opener "^1.4.3"
+    react-lazily-render "^1.1.0"
     react-markdown "^3.2.0"
     resolve "^1.5.0"
     semver "^5.5.0"
@@ -3401,6 +3403,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-lazily-render@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-lazily-render/-/react-lazily-render-1.1.0.tgz#bd831961040503bfd9e852b990fd44561090ff09"
+  integrity sha512-uoMSvvjgFs0lVhZbIZePQzTMjR1+4Bof3cbFq/WqARkw5jMCsRGLMuymLUAEYQfdp0wYo73bWMWBAfcPMCqWZQ==
+  dependencies:
+    scrollparent "^2.0.1"
+
 react-markdown@^3.2.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-3.6.0.tgz#29f6aaab5270c8ef0a5e234093a873ec3e01722b"
@@ -3648,6 +3657,11 @@ sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+
+scrollparent@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/scrollparent/-/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
+  integrity sha1-cV1bnMV3YPsivczDvvtb/gaxoxc=
 
 semver@^5.3.0, semver@^5.5.0:
   version "5.6.0"
