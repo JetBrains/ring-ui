@@ -3753,13 +3753,14 @@ docpack-markdown-extractor@^0.0.3:
     remarkable "^1.7.1"
     webpack-toolkit "^1.0.0"
 
-docpack-page-generator@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.8.tgz#a45376f9afc6cbff32e08c1886deefa7937be303"
+docpack-page-generator@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.9.tgz#e1e17f6ad1b72b3d95cfb701dbcb9d118d73380b"
+  integrity sha512-CA3PaWsAmfxYX+d5/PgH3iYslP9i709o0eSwAMLWPTo/k+kJdhRINZT8hsDmoztHXC9b8Tb2TWzVhgfS7s0Lng==
   dependencies:
     docpack "^1.0.0"
     is-plain-object "^2.0.1"
-    merge-options "0.0.64"
+    merge-options "^1.0.1"
     twig-loader "^0.2.3"
     url-slug "^2.0.0"
     webpack-toolkit "^1.0.0"
