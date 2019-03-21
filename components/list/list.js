@@ -232,8 +232,14 @@ export default class List extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
-      this.virtualizedList.recomputeRowHeights();
+    if (prevProps.data !== this.props.data ||
+      prevProps.data.length !== this.props.data.length
+    ) {
+      this._cache.clearAll();
+
+      if (this.virtualizedList) {
+        this.virtualizedList.recomputeRowHeights();
+      }
     }
 
     this.checkOverflow();
