@@ -3717,15 +3717,16 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docpack-examples-compiler@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/docpack-examples-compiler/-/docpack-examples-compiler-0.0.4.tgz#4890c656962c9c2fbe38d87eadd0ec712ae98d54"
+docpack-examples-compiler@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/docpack-examples-compiler/-/docpack-examples-compiler-0.0.5.tgz#8ca53a016e706ee849c792d7237f8fb56e880163"
+  integrity sha512-5afq0wfvKTrasQ3wMaOq+brbLBGUsXrVNKF0YQgnSLYLK6NRajb52gRgc4jFii/uByWJiHN7OT9JWibjupkKSA==
   dependencies:
     bluebird "^3.4.0"
     docpack "^1.0.0"
     dotty "0.0.2"
     loader-utils "^0.2.0"
-    merge-options "0.0.64"
+    merge-options "^1.0.1"
     webpack-toolkit "^1.0.0"
 
 docpack-jsdoc-extractor@^0.0.7:
@@ -7750,7 +7751,7 @@ merge-options@0.0.64:
   dependencies:
     is-plain-obj "^1.1.0"
 
-merge-options@1.0.1:
+merge-options@1.0.1, merge-options@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-1.0.1.tgz#2a64b24457becd4e4dc608283247e94ce589aa32"
   dependencies:

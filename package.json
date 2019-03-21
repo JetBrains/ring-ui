@@ -80,7 +80,7 @@
     "css-module-flow": "^1.0.0",
     "deep-assign": "^3.0.0",
     "docpack": "^1.0.4",
-    "docpack-examples-compiler": "^0.0.4",
+    "docpack-examples-compiler": "^0.0.5",
     "docpack-jsdoc-extractor": "^0.0.7",
     "docpack-markdown-extractor": "^0.0.3",
     "docpack-page-generator": "^0.0.8",
