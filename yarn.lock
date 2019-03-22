@@ -4980,12 +4980,12 @@ fn-name@~2.0.1:
   resolved "https://registry.yarnpkg.com/fn-name/-/fn-name-2.0.1.tgz#5214d7537a4d06a4a301c0cc262feb84188002e7"
   integrity sha1-UhTXU3pNBqSjAcDMJi/rhBiAAuc=
 
-focus-trap@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-4.0.2.tgz#4ee2b96547c9ea0e4252a2d4b2cca68944194663"
-  integrity sha512-HtLjfAK7Hp2qbBtLS6wEznID1mPT+48ZnP2nkHzgjpL4kroYHg0CdqJ5cTXk+UO5znAxF5fRUkhdyfgrhh8Lzw==
+focus-trap@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-5.0.0.tgz#b0d535b4669714e29880d294d13c8c7bbee6a085"
+  integrity sha512-ECigB+4yoFBIpzQ0uO+ReM1yU4I4pVxuRSe2W24ElcWo4nJLRCb6amo2wLYEaPXgZ/mt0sSAW0ZNYkgiMrz4fQ==
   dependencies:
-    tabbable "^3.1.2"
+    tabbable "^4.0.0"
     xtend "^4.0.1"
 
 follow-redirects@^1.0.0:
@@ -7746,12 +7746,6 @@ meow@^5.0.0:
 merge-descriptors@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
-
-merge-options@0.0.64:
-  version "0.0.64"
-  resolved "https://registry.yarnpkg.com/merge-options/-/merge-options-0.0.64.tgz#cbe04f594a6985eaf27f7f8f0b2a3acf6f9d562d"
-  dependencies:
-    is-plain-obj "^1.1.0"
 
 merge-options@1.0.1, merge-options@^1.0.1:
   version "1.0.1"
@@ -11624,10 +11618,10 @@ synchronous-promise@^2.0.5:
   resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-2.0.6.tgz#de76e0ea2b3558c1e673942e47e714a930fa64aa"
   integrity sha512-TyOuWLwkmtPL49LHCX1caIwHjRzcVd62+GF6h8W/jHOeZUFHpnd2XJDVuUlaTaLPH1nuu2M69mfHr5XbQJnf/g==
 
-tabbable@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-3.1.2.tgz#f2d16cccd01f400e38635c7181adfe0ad965a4a2"
-  integrity sha512-wjB6puVXTYO0BSFtCmWQubA/KIn7Xvajw0x0l6eJUudMG/EAiJvIUnyNX6xO4NpGrJ16lbD0eUseB9WxW0vlpQ==
+tabbable@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-4.0.0.tgz#5bff1d1135df1482cf0f0206434f15eadbeb9261"
+  integrity sha512-H1XoH1URcBOa/rZZWxLxHCtOdVUEev+9vo5YdYhC9tCY4wnybX+VQrCYuy9ubkg69fCBxCONJOSLGfw0DWMffQ==
 
 table@^5.0.0, table@^5.2.3:
   version "5.2.3"
