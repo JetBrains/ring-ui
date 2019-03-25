@@ -108,7 +108,7 @@
     "mocha": "^6.0.2",
     "octicons": "^8.5.0",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react-dom": "^16.8.5",
     "react-test-renderer": "^16.8.4",
     "recompose": "^0.30.0",
     "sinon": "^7.3.0",
