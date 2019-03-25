@@ -232,9 +232,7 @@ export default class List extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data ||
-      prevProps.data.length !== this.props.data.length
-    ) {
+    if (prevProps.data !== this.props.data) {
       this._cache.clearAll();
 
       if (this.virtualizedList) {
