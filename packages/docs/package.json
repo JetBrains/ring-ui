@@ -27,7 +27,7 @@
     "@jetbrains/ring-ui": "^1.0.46",
     "extract-text-webpack-plugin": "^2.1.2",
     "webpack": "^2.7.0",
-    "webpack-dev-server": "^2.11.3"
+    "webpack-dev-server": "^2.11.5"
   },
   "optionalDependencies": {
     "fsevents": "^1.2.7"
