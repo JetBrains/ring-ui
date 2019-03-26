@@ -77,19 +77,27 @@ export default class HTTP {
   }
 
   _performRequest(url, token, params = {}) {
-    const {headers, body, query = {}, ...fetchConfig} = params;
+    const {headers, body, query = {}, sendRawBody, ...fetchConfig} = params;
+
+    const combinedHeaders = {
+      ...this.fetchConfig.headers,
+      ...(token ? {Authorization: `${TOKEN_TYPE} ${token}`} : {}),
+      ...headers
+    };
+
+    Object.keys(combinedHeaders).forEach(key => {
+      if (combinedHeaders[key] === null || combinedHeaders[key] === undefined) {
+        Reflect.deleteProperty(combinedHeaders, key);
+      }
+    });
 
     return this._fetch(
       this._makeRequestUrl(url, query),
       {
         ...this.fetchConfig,
-        headers: {
-          ...this.fetchConfig.headers,
-          ...(token ? {Authorization: `${TOKEN_TYPE} ${token}`} : {}),
-          ...headers
-        },
+        headers: combinedHeaders,
         ...fetchConfig,
-        body: body ? JSON.stringify(body) : body
+        body: body && !sendRawBody ? JSON.stringify(body) : body
       }
     );
   }
