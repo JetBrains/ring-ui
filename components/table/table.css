@@ -76,6 +76,11 @@
   }
 }
 
+.sortedUp .icon {
+  transform: rotate(180deg);
+  transform-origin: center 60%;
+}
+
 .caption {
   padding-top: unit;
   padding-bottom: 6px;

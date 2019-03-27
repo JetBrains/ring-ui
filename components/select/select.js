@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-10px.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
 
 import {Anchor} from '../dropdown/dropdown';
