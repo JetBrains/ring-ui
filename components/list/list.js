@@ -233,7 +233,6 @@ export default class List extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
-      this._cache.clearAll();
       this.virtualizedList.recomputeRowHeights();
     }
 
