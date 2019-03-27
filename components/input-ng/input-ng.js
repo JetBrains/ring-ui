@@ -146,7 +146,6 @@ class RingInputComponent extends RingAngularComponent {
     data-test="ring-input-clear"
     class="${styles.clear} ${styleOverrides.clear}"
     icon="{{:: $ctrl.closeIcon}}"
-    icon-size="14"
     ng-click="$ctrl.onClear()"
   ></rg-button>
   

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronDown from '@jetbrains/icons/chevron-down.svg';
+import chevronDown from '@jetbrains/icons/chevron-10px.svg';
 
 import Icon, {Size} from '../icon';
 import Theme from '../global/theme';
