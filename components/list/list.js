@@ -232,7 +232,8 @@ export default class List extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.virtualizedList && prevProps.data.length !== this.props.data.length) {
+    if (this.virtualizedList && prevProps.data !== this.props.data) {
+      this._cache.clearAll();
       this.virtualizedList.recomputeRowHeights();
     }
 
@@ -495,8 +496,8 @@ export default class List extends Component {
     return props.maxHeight - this.defaultItemHeight() - Dimension.INNER_PADDING;
   }
 
-  renderItem = ({index, style, isScrolling, parent}) => {
-    let key;
+  renderItem = ({index, style, isScrolling, parent, key}) => {
+    let itemKey;
     let el;
 
     const realIndex = index - 1;
@@ -505,7 +506,7 @@ export default class List extends Component {
 
     // top and bottom margins
     if (index === 0 || index === this.props.data.length + 1 || item.rgItemType === Type.MARGIN) {
-      key = `${Type.MARGIN}_${index}`;
+      itemKey = key || `${Type.MARGIN}_${index}`;
       el = <div style={{height: Dimension.MARGIN}}/>;
     } else {
 
@@ -522,7 +523,7 @@ export default class List extends Component {
       }
 
       // Probably unique enough key
-      key = itemProps.key ||
+      itemKey = key || itemProps.key ||
         `${itemProps.rgItemType}_${itemProps.label || itemProps.description}`;
 
       itemProps.hover = (realIndex === this.state.activeIndex);
@@ -576,14 +577,14 @@ export default class List extends Component {
     return parent ? (
       <CellMeasurer
         cache={this._cache}
-        key={key}
+        key={itemKey}
         parent={parent}
         rowIndex={index}
         columnIndex={0}
       >
         <div style={style}>{el}</div>
       </CellMeasurer>
-    ) : cloneElement(el, {key});
+    ) : cloneElement(el, {key: itemKey});
   };
 
   addItemDataTestToProp = props => {

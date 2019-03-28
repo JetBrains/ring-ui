@@ -1719,10 +1719,10 @@ gemini-configparser@^1.0.0:
   dependencies:
     lodash "^4.17.4"
 
-gemini-core@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.3.0.tgz#84ccef96f789c6dbbb370a6e6ca524d4d55f45aa"
-  integrity sha512-EYPjeH9PfhM153LUvZzFfaH68s4idC4cg6UGXhLg/ANVX0syM9gT5F8Rt8aG0xsXNk48+WFTEkz7yiXCwWyqAA==
+gemini-core@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.6.1.tgz#779526a0d244d86388f13bcbd4013e113cb14d06"
+  integrity sha512-hJcCS/AbkQhaiIOVe0QzcG7U+71q6KzYT9zuoYa+86nRJnsMaX+54PGfrRZ5gPYMs9Qrnti8dAhqknzrMASmoA==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -1731,7 +1731,7 @@ gemini-core@^3.3.0:
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.0"
     lodash "^4.15.0"
-    looks-same "^6.0.0"
+    looks-same "^7.1.1"
     micromatch "^2.3.11"
     png-img "^2.1.1"
     sizzle "^2.3.3"
@@ -1761,10 +1761,10 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.3.0.tgz#713aba6a55738d6eac41d69818d70d11c4de6faa"
-  integrity sha512-zx6zulW5QbV6drvo49ZCiSdV+J10rIsxYnIHipE1jsQQzBII7SEz8Ua+Po/DTcpjpg6dLCeHUoUmgE9AwcH+wQ==
+gemini@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.4.1.tgz#4f5ff3a546d5e45237ed38125d8608e4a7f17cd1"
+  integrity sha512-0XENR1gJ2MVsU7o2iRJ9i+V+CpJlEPWvRGPe1DygnQBq2E4lT37MV9eziNG4HYt8mDE9pdX4jCFqJQXh4MVegQ==
   dependencies:
     bluebird "^3.4.6"
     chalk "^1.1.3"
@@ -1773,7 +1773,7 @@ gemini@^7.3.0:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^3.3.0"
+    gemini-core "^3.6.1"
     gemini-coverage "^2.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -1982,10 +1982,10 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-html-reporter@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-3.6.3.tgz#0cb120ecf7cf835dbec57404ead9ea66f1bcc91a"
-  integrity sha512-susHLVn6aoD9N4YC70DbLmEug9q3vrlPN1XkQ2C0izbyBWj8PO9O4UL2SIO2ZAm53qA2TbnL5GfF3YMrwcQy5g==
+html-reporter@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.1.1.tgz#881a530cdc7b349ef262afcfa8d0da0a7662aec1"
+  integrity sha512-omZHKBEMMIuGKAGMlp255zhI9sLJ2zACdOnIm6xcR+2Pzo1+UqzoIhQvP+yvm2YN1VoPjExm9VA2cNscTFkPpA==
   dependencies:
     bluebird "^3.4.7"
     body-parser "^1.18.2"
@@ -1995,6 +1995,7 @@ html-reporter@^3.6.3:
     gemini-configparser "^1.0.0"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
+    looks-same "^7.1.1"
     opener "^1.4.3"
     react-markdown "^3.2.0"
     resolve "^1.5.0"
@@ -2412,6 +2413,11 @@ isstream@0.1.x, isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+js-graph-algorithms@1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/js-graph-algorithms/-/js-graph-algorithms-1.0.18.tgz#f96ec87bf194f5c0a31365fa0e1d07b7b962d891"
+  integrity sha1-+W7Ie/GU9cCjE2X6Dh0Ht7li2JE=
+
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -2571,13 +2577,14 @@ longest@^1.0.1:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-looks-same@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-6.0.0.tgz#aa8f24291b78b966eb6fc315a41b33adeb3fc068"
-  integrity sha512-143Xf0qKRubHjVlWiPI2VMOMbvS94ldHsYrccXvihe6nCI7Z/JFy5ZskQzpLtYy4TFX2vbSJM1uAn5gShvqlcw==
+looks-same@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-7.1.1.tgz#599fe1b23a1c37665d78f3277a6df8b71d8363fe"
+  integrity sha512-AqyjVTnkF9ksgAtO+k7bPJcEafH12BAnj58z6o87yn2d6tKGOgd6yR1QnXJIT04Reg7EL1VCy8MBmubelMyUvQ==
   dependencies:
     color-diff "^1.1.0"
     concat-stream "^1.6.2"
+    js-graph-algorithms "1.0.18"
     lodash "^4.17.3"
     parse-color "^1.0.0"
     pngjs "^3.3.3"
