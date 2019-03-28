@@ -3715,9 +3715,10 @@ docpack-examples-compiler@^0.0.5:
     merge-options "^1.0.1"
     webpack-toolkit "^1.0.0"
 
-docpack-jsdoc-extractor@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/docpack-jsdoc-extractor/-/docpack-jsdoc-extractor-0.0.7.tgz#4186ff1aae5c35fb8d9993a617a22ec52484adac"
+docpack-jsdoc-extractor@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/docpack-jsdoc-extractor/-/docpack-jsdoc-extractor-0.0.8.tgz#c5a46c221fa4f922886b7d8c37b2d6a13f4d91a1"
+  integrity sha512-+5QoKNzZXj++6Um0imZSnB63IMhXEor83rGfaw49vDoduFD/q55+m0HhhBG1z5V2eD6+dDm6reuVAowoPRQmXQ==
   dependencies:
     bluebird "^3.4.0"
     docpack "^1.0.0"
