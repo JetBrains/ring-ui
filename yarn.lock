@@ -697,19 +697,19 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^1.0.37":
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.37.tgz#ecb35ed1fd7f2eabccdb2f525799f3e84c174d7a"
-  integrity sha512-eUpPHAREXFFaOPAZBzx5oCmpBb76IXOmcDf2dwdlflk/1GvnbjiEfJTARL1scGDdPiz/ArY7kzjJzccwGs1P7w==
+"@jetbrains/generator-ring-ui@^1.0.38":
+  version "1.0.38"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.38.tgz#abb8db484c4c51e5dacf217d811092e0a23d4464"
+  integrity sha512-CxYaUJJy//oHE+lJfPBeD/TrVNeKnY361r643ZAx40ABW5O5/gNUPvi5gB3rzsEVaX96yaTaIcSevvRixaH8og==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
     find-port "^2.0.1"
     ora "^3.2.0"
-    package-json "^6.1.0"
+    package-json "^6.2.0"
     pify "^4.0.1"
     portscanner "^2.2.0"
-    read-pkg-up "^4.0.0"
+    read-pkg-up "^5.0.0"
     yeoman-generator "^3.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
@@ -3751,10 +3751,10 @@ docpack-page-generator@^0.0.9:
     url-slug "^2.0.0"
     webpack-toolkit "^1.0.0"
 
-docpack@^1.0.0, docpack@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/docpack/-/docpack-1.0.5.tgz#c426c061d49650e265d606550a5fbe209b8e7387"
-  integrity sha512-hF1FmIBHNf+3hB+9u/L2EKoWdOOHHYgZw9SaRPDlLECrIQGdtN8Ms7T8bvOa6aqSwO4b8WrKBqUCZ8M+GohryQ==
+docpack@^1.0.0, docpack@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/docpack/-/docpack-1.0.6.tgz#a4386e014eda65f83a87600923ea8f8693b79c11"
+  integrity sha512-Q+aJ5BvmEYhXOG1zlbvfdxtzxH19Wa3NQcANVsWnoyMW6/OhobL5gU15j7udJNhEMN82PfVBo2vBgiMlbTCEWQ==
   dependencies:
     bluebird "^3.4.0"
     is-plain-object "^2.0.1"
@@ -8694,10 +8694,10 @@ package-json@^5.0.0:
     registry-url "^3.1.0"
     semver "^5.5.0"
 
-package-json@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/package-json/-/package-json-6.1.0.tgz#d6f9516e0f8b16ee5c00b7d49f001a665b0c15d2"
-  integrity sha512-TCE9JWb3IU1XMy/d9j3lwLJFF8UUfO7tiXminR3OhtsEm6147k+IFwQ3gAu2VqLZmFvcnOoIKUwOVteUmKwW4Q==
+package-json@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/package-json/-/package-json-6.2.0.tgz#06ab45d593929f4d694cc113c3ea983554b151c1"
+  integrity sha512-r9i1TSMI5x+0CtzP/hkpcmAoVtwTT7Vdy1UrkUxeSJ5N+Lzeg5+yUMlxD2FYFdOpt9Sb3QLLxdI2eosmRQGwBA==
   dependencies:
     got "^9.6.0"
     registry-auth-token "^3.3.2"
@@ -9925,6 +9925,14 @@ read-pkg-up@^4.0.0:
     find-up "^3.0.0"
     read-pkg "^3.0.0"
 
+read-pkg-up@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-5.0.0.tgz#b6a6741cb144ed3610554f40162aa07a6db621b8"
+  integrity sha512-XBQjqOBtTzyol2CpsQOw8LHV0XbDZVG7xMMjmXAJomlVY03WOBRmYgDJETlvcg0H63AJvPRwT7GFi5rvOzUOKg==
+  dependencies:
+    find-up "^3.0.0"
+    read-pkg "^5.0.0"
+
 read-pkg@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/read-pkg/-/read-pkg-1.1.0.tgz#f5ffaa5ecd29cb31c0474bca7d756b6bb29e3f28"
@@ -9956,6 +9964,14 @@ read-pkg@^4.0.1:
     normalize-package-data "^2.3.2"
     parse-json "^4.0.0"
     pify "^3.0.0"
+
+read-pkg@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/read-pkg/-/read-pkg-5.0.0.tgz#75449907ece8dfb89cbc76adcba2665316e32b94"
+  integrity sha512-OWufaRc67oJjcgrxckW/qO9q22iYzyiONh8h+GMcnOvSHAmhV1Dr3x+gyRjP+Qxc5jKupkSfoCQLS/98rDPh9A==
+  dependencies:
+    normalize-package-data "^2.3.2"
+    parse-json "^4.0.0"
 
 read@1, read@~1.0.1:
   version "1.0.7"
