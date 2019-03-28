@@ -3739,10 +3739,10 @@ docpack-markdown-extractor@^0.0.3:
     remarkable "^1.7.1"
     webpack-toolkit "^1.0.0"
 
-docpack-page-generator@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.9.tgz#e1e17f6ad1b72b3d95cfb701dbcb9d118d73380b"
-  integrity sha512-CA3PaWsAmfxYX+d5/PgH3iYslP9i709o0eSwAMLWPTo/k+kJdhRINZT8hsDmoztHXC9b8Tb2TWzVhgfS7s0Lng==
+docpack-page-generator@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.10.tgz#764ea2ae8da12fa84d1f0647c758bb291a1f104e"
+  integrity sha512-OBiAmH22VxVWVIpIejmqbiSFrKyIP6dv2NAA/TkJQ+ecnRhGK7MgNbgDLMUYaCysAW+nvzds4s4UVvuhxmoR+A==
   dependencies:
     docpack "^1.0.0"
     is-plain-object "^2.0.1"
