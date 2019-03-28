@@ -3703,10 +3703,10 @@ dns-txt@^2.0.2:
   dependencies:
     buffer-indexof "^1.0.0"
 
-docpack-examples-compiler@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/docpack-examples-compiler/-/docpack-examples-compiler-0.0.5.tgz#8ca53a016e706ee849c792d7237f8fb56e880163"
-  integrity sha512-5afq0wfvKTrasQ3wMaOq+brbLBGUsXrVNKF0YQgnSLYLK6NRajb52gRgc4jFii/uByWJiHN7OT9JWibjupkKSA==
+docpack-examples-compiler@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/docpack-examples-compiler/-/docpack-examples-compiler-0.0.6.tgz#f332312ec667d27e341eadb77f6763c6131a7cfa"
+  integrity sha512-Wpizc1B5YAdD1x0dhZ+F/5/nF4Mw3z6IOCjIHVIpyGE2CM1ydv7Q77PzWKRsWpfNTMOUstPU2poXLyvHeoznpQ==
   dependencies:
     bluebird "^3.4.0"
     docpack "^1.0.0"
