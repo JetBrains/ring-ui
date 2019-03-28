@@ -36,7 +36,7 @@ export default class IFrameFlow {
           this.stop();
         },
         renderFallbackLink: () => (
-          <Link href={authRequest.url}>{this._translations.nothingHappensLink}</Link>
+          <Link href={authRequest.url} target="_self">{this._translations.nothingHappensLink}</Link>
         )
       });
 
