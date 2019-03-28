@@ -3751,10 +3751,10 @@ docpack-page-generator@^0.0.9:
     url-slug "^2.0.0"
     webpack-toolkit "^1.0.0"
 
-docpack@^1.0.0, docpack@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/docpack/-/docpack-1.0.5.tgz#c426c061d49650e265d606550a5fbe209b8e7387"
-  integrity sha512-hF1FmIBHNf+3hB+9u/L2EKoWdOOHHYgZw9SaRPDlLECrIQGdtN8Ms7T8bvOa6aqSwO4b8WrKBqUCZ8M+GohryQ==
+docpack@^1.0.0, docpack@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/docpack/-/docpack-1.0.6.tgz#a4386e014eda65f83a87600923ea8f8693b79c11"
+  integrity sha512-Q+aJ5BvmEYhXOG1zlbvfdxtzxH19Wa3NQcANVsWnoyMW6/OhobL5gU15j7udJNhEMN82PfVBo2vBgiMlbTCEWQ==
   dependencies:
     bluebird "^3.4.0"
     is-plain-object "^2.0.1"
