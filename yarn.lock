@@ -3726,9 +3726,10 @@ docpack-jsdoc-extractor@^0.0.7:
     strip-indent "^1.0.1"
     webpack-toolkit "^1.0.0"
 
-docpack-markdown-extractor@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/docpack-markdown-extractor/-/docpack-markdown-extractor-0.0.3.tgz#bfa3df723a15e18465ade1f60a1d7ada1e4bc331"
+docpack-markdown-extractor@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/docpack-markdown-extractor/-/docpack-markdown-extractor-0.0.4.tgz#ae5b7291c9d70cba10373f20b8a013e2c48fa6e6"
+  integrity sha512-WCb9KltKhuUetXgxTGxTX9HDWzfBSO6QeH9A/7mkobwxdZfVU8lzeuESlHf5wPq/KgkQ6aM4D76QW0V40UlDDw==
   dependencies:
     bluebird "^3.4.0"
     docpack "^1.0.0"
