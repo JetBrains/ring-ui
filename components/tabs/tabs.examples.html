@@ -189,7 +189,7 @@
     import {render} from 'react-dom';
     import React, {Component} from 'react';
 
-    import {SmartTabs, Tab} from '@jetbrains/ring-ui/components/tabs/tabs';
+    import {SmartTabs, Tab, CustomItem} from '@jetbrains/ring-ui/components/tabs/tabs';
     import {SearchIcon, WarningIcon} from '@jetbrains/ring-ui/components/icon';
     import Button from '@jetbrains/ring-ui/components/button/button';
 
@@ -215,7 +215,9 @@
         <Tab title={<Title Icon={WarningIcon}>Third tab (Link)</Title>} href="#href">
           Third tab content
         </Tab>
-        <Button text>Action</Button>
+        <CustomItem>
+          <Button text>Action</Button>
+        </CustomItem>
       </SmartTabs>
     );
 
