@@ -73,6 +73,7 @@ class SiteHeader extends PureComponent {
             target="_blank"
             title="GitHub repo"
             aria-label="GitHub repo"
+            className={styles.githubIcon}
           />
           <Services
             services={[
