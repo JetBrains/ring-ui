@@ -93,7 +93,7 @@
 
   padding-top: calc(unit / 2);
 
-  line-height: calc(compensated - unit / 2);
+  line-height: compensated;
 }
 
 .main svg {

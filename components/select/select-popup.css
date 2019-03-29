@@ -46,7 +46,7 @@
 
 .filterIcon {
   position: absolute;
-  top: 5px;
+  top: 7px;
   left: calc(unit * 2);
 
   color: var(--ring-icon-color);

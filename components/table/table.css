@@ -70,15 +70,11 @@
   &.headerCellSortable .sorter {
     display: inline-block;
   }
-
-  & .sorter .icon {
-    top: -2px;
-  }
 }
 
 .sortedUp .icon {
   transform: rotate(180deg);
-  transform-origin: center 60%;
+  transform-origin: center 53%;
 }
 
 .caption {

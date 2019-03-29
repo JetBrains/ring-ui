@@ -1,19 +1,31 @@
 @import "../global/variables.css";
 
 .icon {
-  position: relative;
-
   display: inline-block;
 
-  vertical-align: middle;
   fill: currentColor;
 }
 
 .glyph {
-  display: inline-block;
+  display: inline-flex;
 
-  vertical-align: middle;
   pointer-events: none;
+
+  &[width='10'] {
+    vertical-align: -1px;
+  }
+
+  &[width='14'] {
+    vertical-align: -3px;
+  }
+
+  &[width='16'] {
+    vertical-align: -3px;
+  }
+
+  &[width='20'] {
+    vertical-align: -2px;
+  }
 }
 
 .gray {

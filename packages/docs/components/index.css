@@ -225,6 +225,11 @@ a.legacy {
   line-height: var(--ring-line-height-lowest);
 }
 
+.githubIcon {
+  position: relative;
+  top: 2px;
+}
+
 .search {
   position: relative;
 
@@ -237,7 +242,7 @@ a.legacy {
   position: absolute;
 
   z-index: 1;
-  top: 0;
+  top: 2px;
   left: unit;
 }
 
