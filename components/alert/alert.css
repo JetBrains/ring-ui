@@ -38,11 +38,9 @@
 }
 
 .icon {
-  display: inline-block;
-
   margin-right: unit;
 
-  vertical-align: top;
+  vertical-align: -2px;
 }
 
 .caption {

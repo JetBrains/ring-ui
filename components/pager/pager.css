@@ -19,9 +19,3 @@
 .linkDisabled {
   color: var(--ring-secondary-color);
 }
-
-.chevron {
-  vertical-align: 2px;
-
-  line-height: normal;
-}
