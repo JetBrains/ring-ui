@@ -8,6 +8,13 @@ gemini.suite('Icon', () => {
       capture('some icons');
   });
 
+  gemini.suite('Icons in text', suite => {
+    suite.
+      setUrl('icon/icons-in-text.html').
+      setCaptureElements('#some-icons').
+      capture('icons in text');
+  });
+
   gemini.suite('All icons', suite => {
     suite.
       setUrl('icon/icons-list.html').
