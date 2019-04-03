@@ -9,6 +9,9 @@
 .glyph {
   display: inline-flex;
 
+  margin-right: -1px;
+  margin-left: -1px;
+
   pointer-events: none;
 
   &[width='10'] {
@@ -16,6 +19,9 @@
   }
 
   &[width='14'] {
+    margin-right: -2px;
+    margin-left: 0;
+
     vertical-align: -3px;
   }
 
