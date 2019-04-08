@@ -556,10 +556,10 @@
     "@babel/helper-regex" "^7.0.0"
     regexpu-core "^4.1.3"
 
-"@babel/polyfill@^7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.0.tgz#90f9d68ae34ac42ab4b4aa03151848f536960218"
-  integrity sha512-bVsjsrtsDflIHp5I6caaAa2V25Kzn50HKPL6g3X0P0ni1ks+58cPB8Mz6AOKVuRPgaVdq/OwEUc/1vKqX+Mo4A==
+"@babel/polyfill@^7.4.3":
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.3.tgz#332dc6f57b718017c3a8b37b4eea8aa6eeac1187"
+  integrity sha512-rkv8WIvJshA5Ev8iNMGgz5WZkRtgtiPexiT7w5qevGTuT7ZBfM3de9ox1y9JR5/OXb/sWGBbWlHNa7vQKqku3Q==
   dependencies:
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
@@ -3741,15 +3741,15 @@ docpack-markdown-extractor@^0.0.4:
     remarkable "^1.7.1"
     webpack-toolkit "^1.0.0"
 
-docpack-page-generator@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.10.tgz#764ea2ae8da12fa84d1f0647c758bb291a1f104e"
-  integrity sha512-OBiAmH22VxVWVIpIejmqbiSFrKyIP6dv2NAA/TkJQ+ecnRhGK7MgNbgDLMUYaCysAW+nvzds4s4UVvuhxmoR+A==
+docpack-page-generator@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.11.tgz#842d44aa57333a32e198e9c2bf9e3b550e488f68"
+  integrity sha512-sKl70tg4OXU0Uriu8PRRqAi+0bgwl4cnRx318+anLtpcYRf6PwkP6T++Q6uvc5JtnM5f+taBHDw+45MMBO9yRw==
   dependencies:
     docpack "^1.0.0"
     is-plain-object "^2.0.1"
     merge-options "^1.0.1"
-    twig-loader "^0.2.3"
+    twig-loader "^0.4.1"
     url-slug "^2.0.0"
     webpack-toolkit "^1.0.0"
 
@@ -4365,10 +4365,10 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^5.15.3:
-  version "5.15.3"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.15.3.tgz#c79c3909dc8a7fa3714fb340c11e30fd2526b8b5"
-  integrity sha512-vMGi0PjCHSokZxE0NLp2VneGw5sio7SSiDNgIUn2tC0XkWJRNOIoHIg3CliLVfXnJsiHxGAYrkw0PieAu8+KYQ==
+eslint@^5.16.0:
+  version "5.16.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-5.16.0.tgz#a1e3ac1aae4a3fbd8296fcf8f7ab7314cbb6abea"
+  integrity sha512-S3Rz11i7c8AA5JPv7xAH+dOyq/Cu/VXHiHXBPOU1k/JAM5dXqQPt3qcrhpHSorXmrpu2g0gkIBVXAqCpzfoZIg==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     ajv "^6.9.1"
@@ -4390,7 +4390,7 @@ eslint@^5.15.3:
     import-fresh "^3.0.0"
     imurmurhash "^0.1.4"
     inquirer "^6.2.2"
-    js-yaml "^3.12.0"
+    js-yaml "^3.13.0"
     json-stable-stringify-without-jsonify "^1.0.1"
     levn "^0.3.0"
     lodash "^4.17.11"
@@ -5605,6 +5605,13 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+hasha@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hasha/-/hasha-3.0.0.tgz#52a32fab8569d41ca69a61ff1a214f8eb7c8bd39"
+  integrity sha1-UqMvq4Vp1BymmmH/GiFPjrfIvTk=
+  dependencies:
+    is-stream "^1.0.1"
+
 he@1.2.0, he@1.2.x, he@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
@@ -5867,10 +5874,10 @@ iferr@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
 
-iframe-resizer@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.0.4.tgz#56b93b47512d80edabf8bcbdca2e227195c791a6"
-  integrity sha512-02+nZ1kBzTFjLqaM24zgqM6GQ9KUzOA55T0y9sn/Le7oe2xQ2mASXAyoELZmbbWdWKG+bkzcmIpRi8j1fJ5AcA==
+iframe-resizer@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.1.0.tgz#1748efec6d6c686fb4860b48bac253d1b9ff4625"
+  integrity sha512-3StipulkB8c11snIemgOU6bqzpAN6zLIaUXAveHvlb0Pm3BxdtTXuxy/JivmrNRsN0SsDiQMQu6xi4tY8K4SfA==
 
 ignore-walk@^3.0.1:
   version "3.0.1"
@@ -6566,9 +6573,17 @@ js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@3.12.0, js-yaml@3.x, js-yaml@^3.10.0, js-yaml@^3.12.0, js-yaml@^3.9.0:
+js-yaml@3.12.0:
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.0.tgz#eaed656ec8344f10f527c6bfa1b6e2244de167d1"
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
+
+js-yaml@3.x, js-yaml@^3.10.0, js-yaml@^3.13.0, js-yaml@^3.9.0:
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.13.0.tgz#38ee7178ac0eea2c97ff6d96fff4b18c7d8cf98e"
+  integrity sha512-pZZoSxcCYco+DIKBTimr67J6Hy+EYGZDY/HCWC+iAEA9h1ByhMXAIVUXMcMFpOCxQ/xjXmPI2MkDL5HRm5eFrQ==
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
@@ -7016,7 +7031,7 @@ loader-utils@1.1.x, loader-utils@^1.0.0, loader-utils@^1.0.1, loader-utils@^1.0.
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-loader-utils@^0.2.0, loader-utils@^0.2.11, loader-utils@^0.2.16:
+loader-utils@^0.2.0, loader-utils@^0.2.16:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -10547,10 +10562,10 @@ sass-loader@7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sass@1.17.3:
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.17.3.tgz#19f9164cf8653b9fca670a64e53285272c96d192"
-  integrity sha512-S4vJawbrNUxJUBiHLXPYUKZCoO6cvq3/3ZFBV66a+PafTxcDEFJB+FHLDFl0P+rUfha/703ajEXMuGTYhJESkQ==
+sass@1.17.4:
+  version "1.17.4"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.17.4.tgz#b65b9d11f5cef9b96d6c44566ab91d6357210dbd"
+  integrity sha512-NM/RkY54d6C5xJMWk7Z+p0/TfIB71/46/T335Egc0O3G+NeKKVFz1s9EwBlekRnYq3fUCTsbk0zPNMpee5LIdA==
   dependencies:
     chokidar "^2.0.0"
 
@@ -10565,6 +10580,14 @@ scheduler@^0.13.6:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+schema-utils@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
+  integrity sha512-v/iwU6wvwGK8HbU9yi3/nhGzP0yGSuhQMzL6ySiec1FSrZZDkhm4noOSWzrNFo/jEc+SJY6jRTwuwbSXJPDUnQ==
+  dependencies:
+    ajv "^6.1.0"
+    ajv-keywords "^3.1.0"
 
 schema-utils@^1.0.0:
   version "1.0.0"
@@ -11814,13 +11837,17 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-twig-loader@^0.2.3:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/twig-loader/-/twig-loader-0.2.4.tgz#4c29b0cd401fa78056cf874ba9e9257d65cd1429"
+twig-loader@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/twig-loader/-/twig-loader-0.4.1.tgz#711ca640a71da0721547e3e86915b0e8365707fc"
+  integrity sha512-4d9FesBws+5cyWMxu/MczQ1oUuWp2vBXPfeIv+Jb17kvuSAsbcxXh7tVN/CccltG9ffvRFk7iCGBS4cmL5+GXg==
   dependencies:
-    loader-utils "^0.2.11"
-    twig "~0.8.9"
-    underscore "^1.8.3"
+    hasha "^3.0.0"
+    loader-utils "^1.1.0"
+    map-cache "^0.2.2"
+    schema-utils "^0.4.5"
+    twig "^1.12.0"
+    underscore "^1.9.1"
 
 twig@^1.10.5:
   version "1.12.0"
@@ -11830,10 +11857,12 @@ twig@^1.10.5:
     minimatch "3.0.x"
     walk "2.3.x"
 
-twig@~0.8.9:
-  version "0.8.9"
-  resolved "https://registry.yarnpkg.com/twig/-/twig-0.8.9.tgz#b1594f002b684e5f029de3e54e87bec4f084b6c2"
+twig@^1.12.0:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/twig/-/twig-1.13.2.tgz#d349895a5f762b52fab71c7a373cf3153819cd7b"
+  integrity sha512-F7o4sDD2DaIj2II8VrbmDXnompOO6ESNQSh97rtJuif00v5FoUWTlkJE1ZlfeFNAwSCU9rexWsB1+3oF8jmU/Q==
   dependencies:
+    locutus "^2.0.5"
     minimatch "3.0.x"
     walk "2.3.x"
 
@@ -11902,9 +11931,10 @@ underscore.string@~2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-2.4.0.tgz#8cdd8fbac4e2d2ea1e7e2e8097c42f442280f85b"
 
-underscore@^1.8.3:
+underscore@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
+  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 underscore@~1.4.4:
   version "1.4.4"
