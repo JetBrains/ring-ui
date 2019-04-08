@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/generator-ring-ui",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "Generator for Ring UI frontend apps",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -17,7 +17,7 @@
     "change-case": "^3.1.0",
     "find-port": "^2.0.1",
     "ora": "^3.2.0",
-    "package-json": "^6.1.0",
+    "package-json": "^6.2.0",
     "pify": "^4.0.1",
     "portscanner": "^2.2.0",
     "read-pkg-up": "^5.0.0",
