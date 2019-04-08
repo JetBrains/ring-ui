@@ -83,7 +83,7 @@
     "docpack-examples-compiler": "^0.0.6",
     "docpack-jsdoc-extractor": "^0.0.8",
     "docpack-markdown-extractor": "^0.0.4",
-    "docpack-page-generator": "^0.0.10",
+    "docpack-page-generator": "^0.0.11",
     "electron": "^4.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",

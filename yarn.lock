@@ -3741,15 +3741,15 @@ docpack-markdown-extractor@^0.0.4:
     remarkable "^1.7.1"
     webpack-toolkit "^1.0.0"
 
-docpack-page-generator@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.10.tgz#764ea2ae8da12fa84d1f0647c758bb291a1f104e"
-  integrity sha512-OBiAmH22VxVWVIpIejmqbiSFrKyIP6dv2NAA/TkJQ+ecnRhGK7MgNbgDLMUYaCysAW+nvzds4s4UVvuhxmoR+A==
+docpack-page-generator@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/docpack-page-generator/-/docpack-page-generator-0.0.11.tgz#842d44aa57333a32e198e9c2bf9e3b550e488f68"
+  integrity sha512-sKl70tg4OXU0Uriu8PRRqAi+0bgwl4cnRx318+anLtpcYRf6PwkP6T++Q6uvc5JtnM5f+taBHDw+45MMBO9yRw==
   dependencies:
     docpack "^1.0.0"
     is-plain-object "^2.0.1"
     merge-options "^1.0.1"
-    twig-loader "^0.2.3"
+    twig-loader "^0.4.1"
     url-slug "^2.0.0"
     webpack-toolkit "^1.0.0"
 
@@ -5605,6 +5605,13 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+hasha@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/hasha/-/hasha-3.0.0.tgz#52a32fab8569d41ca69a61ff1a214f8eb7c8bd39"
+  integrity sha1-UqMvq4Vp1BymmmH/GiFPjrfIvTk=
+  dependencies:
+    is-stream "^1.0.1"
+
 he@1.2.0, he@1.2.x, he@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
@@ -7016,7 +7023,7 @@ loader-utils@1.1.x, loader-utils@^1.0.0, loader-utils@^1.0.1, loader-utils@^1.0.
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-loader-utils@^0.2.0, loader-utils@^0.2.11, loader-utils@^0.2.16:
+loader-utils@^0.2.0, loader-utils@^0.2.16:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-0.2.17.tgz#f86e6374d43205a6e6c60e9196f17c0299bfb348"
   dependencies:
@@ -10566,6 +10573,14 @@ scheduler@^0.13.6:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
+schema-utils@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.7.tgz#ba74f597d2be2ea880131746ee17d0a093c68187"
+  integrity sha512-v/iwU6wvwGK8HbU9yi3/nhGzP0yGSuhQMzL6ySiec1FSrZZDkhm4noOSWzrNFo/jEc+SJY6jRTwuwbSXJPDUnQ==
+  dependencies:
+    ajv "^6.1.0"
+    ajv-keywords "^3.1.0"
+
 schema-utils@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-1.0.0.tgz#0b79a93204d7b600d4b2850d1f66c2a34951c770"
@@ -11814,13 +11829,17 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
-twig-loader@^0.2.3:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/twig-loader/-/twig-loader-0.2.4.tgz#4c29b0cd401fa78056cf874ba9e9257d65cd1429"
+twig-loader@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/twig-loader/-/twig-loader-0.4.1.tgz#711ca640a71da0721547e3e86915b0e8365707fc"
+  integrity sha512-4d9FesBws+5cyWMxu/MczQ1oUuWp2vBXPfeIv+Jb17kvuSAsbcxXh7tVN/CccltG9ffvRFk7iCGBS4cmL5+GXg==
   dependencies:
-    loader-utils "^0.2.11"
-    twig "~0.8.9"
-    underscore "^1.8.3"
+    hasha "^3.0.0"
+    loader-utils "^1.1.0"
+    map-cache "^0.2.2"
+    schema-utils "^0.4.5"
+    twig "^1.12.0"
+    underscore "^1.9.1"
 
 twig@^1.10.5:
   version "1.12.0"
@@ -11830,10 +11849,12 @@ twig@^1.10.5:
     minimatch "3.0.x"
     walk "2.3.x"
 
-twig@~0.8.9:
-  version "0.8.9"
-  resolved "https://registry.yarnpkg.com/twig/-/twig-0.8.9.tgz#b1594f002b684e5f029de3e54e87bec4f084b6c2"
+twig@^1.12.0:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/twig/-/twig-1.13.2.tgz#d349895a5f762b52fab71c7a373cf3153819cd7b"
+  integrity sha512-F7o4sDD2DaIj2II8VrbmDXnompOO6ESNQSh97rtJuif00v5FoUWTlkJE1ZlfeFNAwSCU9rexWsB1+3oF8jmU/Q==
   dependencies:
+    locutus "^2.0.5"
     minimatch "3.0.x"
     walk "2.3.x"
 
@@ -11902,9 +11923,10 @@ underscore.string@~2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-2.4.0.tgz#8cdd8fbac4e2d2ea1e7e2e8097c42f442280f85b"
 
-underscore@^1.8.3:
+underscore@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
+  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 underscore@~1.4.4:
   version "1.4.4"
