@@ -103,7 +103,7 @@
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webdriver-launcher": "^1.0.5",
     "karma-webpack": "^3.0.0",
-    "lerna": "^3.13.1",
+    "lerna": "^3.13.2",
     "lint-staged": "^8.1.5",
     "mocha": "^6.0.2",
     "octicons": "^8.5.0",
