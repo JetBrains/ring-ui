@@ -17,6 +17,7 @@ import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import Theme from '../global/theme';
+import memoize from '../global/memoize';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -42,6 +43,11 @@ const Type = {
   MATERIAL: 'MATERIAL',
   INPUT_WITHOUT_CONTROLS: 'INPUT_WITHOUT_CONTROLS'
 };
+
+const ICON_WIDTH = 20;
+const getStyle = memoize(iconsLength => ({
+  paddingRight: iconsLength * ICON_WIDTH
+}));
 
 /**
  * @name Select
@@ -947,10 +953,7 @@ export default class Select extends Component {
 
     const icons = this._getIcons();
 
-    const style = {
-      // eslint-disable-next-line no-magic-numbers
-      paddingRight: icons.length * 20
-    };
+    const style = getStyle(icons.length);
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;
 

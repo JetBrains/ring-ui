@@ -1,10 +1,10 @@
-import {Component} from 'react';
+import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
 import shortcuts from '../shortcuts/core';
 
 // eslint-disable-next-line react/no-deprecated
-export default class Shortcuts extends Component {
+export default class Shortcuts extends PureComponent {
   static propTypes = {
     map: PropTypes.object.isRequired,
     scope: PropTypes.string.isRequired,
