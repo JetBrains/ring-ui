@@ -77,6 +77,7 @@
     "chai-enzyme": "1.0.0-beta.1",
     "change-case": "^3.1.0",
     "cheerio": "^0.22.0",
+    "core-js": "^2.6.5",
     "css-module-flow": "^1.0.0",
     "deep-assign": "^3.0.0",
     "docpack": "^1.0.6",
@@ -125,13 +126,14 @@
     "yo": "^2.0.5"
   },
   "peerDependencies": {
+    "core-js": ">=2.0.0",
     "react": ">=16.4.0",
     "react-dom": ">=16.4.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",
     "@jetbrains/angular-elastic": "^2.5.1",
-    "@jetbrains/babel-preset-jetbrains": "^2.1.2",
+    "@jetbrains/babel-preset-jetbrains": "^2.1.4",
     "@jetbrains/icons": "^3.0.0-20",
     "@jetbrains/logos": "^1.1.4",
     "@jetbrains/postcss-require-hover": "^0.1.2",
