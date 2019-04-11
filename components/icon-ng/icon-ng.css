@@ -1,0 +1,10 @@
+.glyphNg {
+  display: inline-block;
+
+  & > svg {
+    display: inline-block;
+
+    vertical-align: middle;
+    pointer-events: none;
+  }
+}

@@ -307,23 +307,6 @@ describe('List', () => {
       icon.prop('style').backgroundImage.should.contain('http://some.url');
     });
 
-    it('should render icon of a custom size', () => {
-      const customIconSize = Icon.Size.Size12;
-      const instance = shallowList({
-        data: [
-          {
-            iconSize: customIconSize,
-            label: 'Hello!',
-            glyph: CheckmarkIcon,
-            type: List.ListProps.Type.ITEM
-          }
-        ]
-      }).instance();
-
-      const icon = mountFirstItem(instance).find(Icon);
-      icon.should.have.prop('size', customIconSize);
-    });
-
     it('should not render glyph if not provided', () => {
       const instance = shallowList({
         data: [

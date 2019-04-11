@@ -38,12 +38,8 @@
 
 .icon {
   position: absolute;
-  top: padding;
+  top: 10px;
   left: padding;
-
-  & svg {
-    vertical-align: baseline;
-  }
 }
 
 .title {

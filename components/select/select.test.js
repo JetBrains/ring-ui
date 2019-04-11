@@ -7,7 +7,6 @@ import {shallow, mount} from 'enzyme';
 import List from '../list/list';
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
-import Icon from '../icon';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
@@ -787,15 +786,45 @@ describe('Select', () => {
         instance._multipleMap['4'].should.be.true;
       });
 
-      it('Should add item to selected on selecting item', () => {
+      it('Should select just picked item on selecting by clicking item', () => {
         const lengthBefore = testData.slice(0, 2).length;
         instance._listSelectHandler(testData[3]);
         wrapper.state('selected').length.should.equal(lengthBefore + 1);
       });
 
-      it('Should not close popup on selecting', () => {
+      it('Should add item to selection on clicking by checkbox', () => {
+        const lengthBefore = testData.slice(0, 2).length;
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => true
+            }
+          }
+        });
+        wrapper.state('selected').length.should.equal(lengthBefore + 1);
+      });
+
+      it('Should close popup on selecting by item', () => {
         instance._hidePopup = sandbox.spy();
-        instance._listSelectHandler(testData[3]);
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => false
+            }
+          }
+        });
+        instance._hidePopup.should.have.been.called;
+      });
+
+      it('Should not close popup on selecting by checkbox', () => {
+        instance._hidePopup = sandbox.spy();
+        instance._listSelectHandler(testData[3], {
+          originalEvent: {
+            target: {
+              matches: () => true
+            }
+          }
+        });
         instance._hidePopup.should.not.be.called;
       });
 
@@ -1059,7 +1088,6 @@ describe('Select', () => {
           label: labelMock,
           glyph: 'glyph',
           rgItemType: List.ListProps.Type.LINK,
-          iconSize: Icon.Size.Size14,
           className: 'cssClass',
           onClick: () => {}
         }
@@ -1072,7 +1100,6 @@ describe('Select', () => {
       const resetOption = instance._getResetOption();
 
       resetOption.rgItemType.should.be.equal(List.ListProps.Type.ITEM);
-      resetOption.iconSize.should.be.equal(Icon.Size.Size14);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
       resetOption.onClick.should.be.an.instanceof(Function);
     });

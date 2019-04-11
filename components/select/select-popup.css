@@ -46,10 +46,10 @@
 
 .filterIcon {
   position: absolute;
-  top: 3px;
+  top: 7px;
   left: calc(unit * 2);
 
-  color: var(--ring-icon-secondary-color);
+  color: var(--ring-icon-color);
 
   @nest [dir=rtl] & {
     right: calc(unit * 2);

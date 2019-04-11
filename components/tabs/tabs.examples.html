@@ -179,7 +179,7 @@
 
   <file name="index.css">
     :global(.icon.icon) {
-      vertical-align: 3px;
+      vertical-align: 1px;
       line-height: normal;
       margin-right: 4px;
     }
@@ -198,10 +198,7 @@
     function Title({Icon, children}) {
       return (
         <span>
-          <Icon
-            className="icon"
-            size={Icon.Size.Size16}
-          />
+          <Icon className="icon"/>
           {children}
         </span>
       );
@@ -257,7 +254,6 @@
         <span className={children ? 'has-content' : ''}>
           <Icon
             className="icon"
-            size={Icon.Size.Size16}
           />
           {children}
         </span>

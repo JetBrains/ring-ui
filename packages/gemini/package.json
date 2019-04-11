@@ -1,12 +1,12 @@
 {
   "name": "@ring-ui/gemini",
-  "version": "0.3.30",
+  "version": "2.0.0",
   "description": "Gemini tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "pregemini-gui": "kill-port 8000",
+    "pregemini-gui": "kill-port 8000 && kill-port 4445",
     "gemini-gui": "gemini gui '../../components/**/*.gemini.js'",
     "gemini-test-single": "gemini test --reporter flat",
     "gemini-test": "npm run gemini-test-single '../../components/**/*.gemini.js'",

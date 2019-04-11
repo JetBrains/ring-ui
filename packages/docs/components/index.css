@@ -105,12 +105,12 @@ body {
 .chevron {
   position: absolute;
   top: 2px;
-  left: 20px;
+  left: 14px;
 }
 
 .chevron svg {
   transition: transform var(--ring-fast-ease);
-  transform-origin: 45% 50%;
+  transform-origin: center;
 }
 
 .chevronExpanded svg {
@@ -225,6 +225,11 @@ a.legacy {
   line-height: var(--ring-line-height-lowest);
 }
 
+.githubIcon {
+  position: relative;
+  top: 2px;
+}
+
 .search {
   position: relative;
 
@@ -237,7 +242,7 @@ a.legacy {
   position: absolute;
 
   z-index: 1;
-  top: 0;
+  top: 2px;
   left: unit;
 }
 
@@ -246,7 +251,7 @@ a.legacy {
 
   border-radius: var(--ring-border-radius);
 
-  background-color: #001d32;
+  background-color: #001d32; /* stylelint-disable-line color-no-hex */
 }
 
 .searchInput.searchInput {

@@ -3,14 +3,14 @@
     <div id="some-icons">
       <span id="icon-container"></span>
       <span id="icon-search"></span>
-      <span id="icon-16-pencil"></span>
-      <span id="icon-14-pencil"></span>
+      <span id="icon-pencil"></span>
       <span id="icon-custom-permission"></span>
     </div>
   </file>
 
   <file type="css">
     :global(.ring-icon) {
+      display: inline-block;
       margin: 8px;
       padding: 8px;
     }
@@ -30,7 +30,6 @@
       <CheckmarkIcon
         className="additional-class ring-icon"
         color={CheckmarkIcon.Color.MAGENTA}
-        size={CheckmarkIcon.Size.Size32}
       />,
       document.getElementById('icon-container')
     );
@@ -38,7 +37,6 @@
     render(
       <SearchIcon
         className="ring-icon"
-        size={SearchIcon.Size.Size32}
       />,
       document.getElementById('icon-search')
     );
@@ -46,26 +44,71 @@
     render(
       <PencilIcon
         className="ring-icon"
-        size={PencilIcon.Size.Size16}
       />,
-      document.getElementById('icon-16-pencil')
+      document.getElementById('icon-pencil')
     );
+  </file>
+</example>
+
+<example name="Icons in text">
+  <file type="html">
+    <div id="some-icons" class="icons">
+      Some text
+      <span id="chevron"></span>
+      Text
+      <span id="small-add"></span>
+      text
+      <span id="star"></span>
+      Text
+      <span id="big-add"></span>
+
+      <div class="underline"></div>
+    </div>
+  </file>
+
+  <file type="css">
+    :global(.icons) {
+      position: relative;
+    }
+
+    :global(.icons) svg {
+      background-color: #eeea;
+    }
+
+    :global(.underline) {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      border-bottom: 0.1em solid rgba(0, 255, 0, 0.4);
+      bottom: 0.3em;
+    }
+  </file>
+
+  <file type="js">
+    import React from 'react';
+    import {render} from 'react-dom';
+    import {
+      ChevronDownIcon,
+      Add10pxIcon,
+      Add20pxIcon,
+      StarFilledIcon
+    } from '@jetbrains/ring-ui/components/icon';
 
     render(
-      <PencilIcon
-        className="ring-icon"
-        size={PencilIcon.Size.Size14}
-      />,
-      document.getElementById('icon-14-pencil')
+      <ChevronDownIcon/>,
+      document.getElementById('chevron')
     );
-
     render(
-      <PermissionIcon
-        className="ring-icon"
-        height={80}
-        width={100}
-      />,
-      document.getElementById('icon-custom-permission')
+      <Add10pxIcon/>,
+      document.getElementById('small-add')
+    );
+    render(
+      <StarFilledIcon/>,
+      document.getElementById('star')
+    );
+    render(
+      <Add20pxIcon/>,
+      document.getElementById('big-add')
     );
   </file>
 </example>
@@ -85,6 +128,7 @@
     }
 
     :global(.ring-icon) {
+      display: inline-block;
       margin: 8px;
       padding: 8px;
       color: var(--ring-link-color);
@@ -123,6 +167,7 @@
 
   <file type="css">
     :global(.ring-icon) {
+      display: inline-block;
       color: black;
       margin: 8px;
       padding: 8px;
@@ -141,7 +186,6 @@
           <Logo
             key={Logo}
             title={Logo.displayName}
-            size={Logo.Size.Size128}
             className="ring-icon"
           />
         ))}
