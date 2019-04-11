@@ -14,6 +14,9 @@ order: 2
   
   If you're using your own instance of `svg-inline-loader` make sure to pass `options: {removeSVGTagAttrs: false}` to avoid removing `width` and `height` attributes.
 
+- \[Breaking\] Icons are now aligned to baseline. The `vertical-align: middle;` that used before has been considered as a bad default, which 
+forced to fine-tune vertical align almost every time. You might need to inspect all Icon component usages to remove such compensations. 
+
 - \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. 
 If you are patching svgSpriteLoader, replace 
 `"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
