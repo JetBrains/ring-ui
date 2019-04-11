@@ -164,11 +164,11 @@ export default class Pager extends PureComponent {
     const nextLinkAvailable = this.props.openTotal || this.props.currentPage !== this.getTotal();
 
     const nextIcon = (
-      <Icon glyph={chevronRightIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
+      <Icon glyph={chevronRightIcon} key="icon"/>
     );
 
     const prevIcon = (
-      <Icon glyph={chevronLeftIcon} key="icon" className={style.chevron} size={Icon.Size.Size16}/>
+      <Icon glyph={chevronLeftIcon} key="icon"/>
     );
 
     const prevText = this.props.translations.previousPage;

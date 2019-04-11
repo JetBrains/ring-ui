@@ -373,8 +373,6 @@
 }
 
 .icon {
-  vertical-align: 2px;
-
   color: inherit;
 
   line-height: normal;
@@ -478,7 +476,6 @@
   margin-left: 2px;
 
   transition: color var(--ring-ease);
-  vertical-align: 1px;
 
   color: var(--ring-icon-secondary-color);
 

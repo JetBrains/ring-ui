@@ -182,7 +182,7 @@ export default class Message extends Component {
         {...popupProps}
       >
         {direction && <div className={styles.tail} style={getTailOffsets(tailOffset)[direction]}/>}
-        {icon && <Icon className={styles.icon} glyph={icon} size={Icon.Size.Size16}/>}
+        {icon && <Icon className={styles.icon} glyph={icon}/>}
         <h1 className={styles.title}>{title}</h1>
         {children && <div className={styles.description}>{children}</div>}
         {(onClose || buttonProps) && (
