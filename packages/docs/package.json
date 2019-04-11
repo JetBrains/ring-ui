@@ -18,10 +18,10 @@
     "components": "./components/"
   },
   "scripts": {
-    "build-prod": "node --max_old_space_size=2500 ./node_modules/.bin/webpack --bail --env.production",
+    "build-prod": "node --max_old_space_size=4000 ./node_modules/.bin/webpack --bail --env.production",
     "build": "webpack --bail",
     "prestart": "kill-port 9999",
-    "start": "node --max_old_space_size=2500 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
+    "start": "node --max_old_space_size=4000 ./node_modules/.bin/webpack-dev-server --env.server --disable-host-check"
   },
   "devDependencies": {
     "@jetbrains/logos": "^1.1.3",
