@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import dataTests from '../global/data-tests';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
+import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon';
 
 import styles from './list.css';
@@ -51,14 +51,13 @@ export default class ListItem extends PureComponent {
     rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     compact: PropTypes.bool,
     onClick: PropTypes.func,
+    onCheckboxChange: PropTypes.func,
     onMouseOver: PropTypes.func,
     onMouseUp: PropTypes.func,
     'data-test': PropTypes.string
   };
 
-  static defaultProps = {
-    iconSize: Icon.Size.Size18
-  };
+  stopBubbling = e => e.stopPropagation();
 
   render() {
     /* eslint-disable no-unused-vars */
@@ -80,6 +79,7 @@ export default class ListItem extends PureComponent {
       tabIndex,
       compact,
       onClick,
+      onCheckboxChange,
       onMouseOver,
       onMouseUp,
       rightNodes,
@@ -87,6 +87,10 @@ export default class ListItem extends PureComponent {
       ...restProps
     } = this.props;
     /* eslint-enable */
+
+    const checkable = checkbox !== undefined;
+    const hasLeftNodes = leftNodes || glyph || avatar;
+    const showCheckbox = checkable && (checkbox || !hasLeftNodes || (hover && !disabled));
 
     const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
@@ -123,23 +127,37 @@ export default class ListItem extends PureComponent {
         data-test={dataTest}
         style={style}
       >
-        <div className={styles.top}>
-          <div className={styles.left}>
-            {glyph && (
-              <Icon
-                className={styles.glyph}
-                glyph={glyph}
-                size={this.props.iconSize}
+        <div className={styles.top} onMouseOut={this.stopBubbling}>
+          {!showCheckbox && (
+            <div className={styles.left}>
+              {leftNodes}
+              {glyph && (
+                <Icon
+                  className={styles.glyph}
+                  glyph={glyph}
+                  size={this.props.iconSize}
+                />
+              )}
+              {avatar && (
+                <Avatar
+                  className={styles.avatar}
+                  url={avatar}
+                  size={AvatarSize.Size20}
+                />
+              )}
+            </div>
+          )}
+          {showCheckbox && (
+            <div
+              onClick={this.stopBubbling}
+              className={classNames(styles.left, styles.checkboxContainer)}
+            >
+              <Checkbox
+                checked={checkbox}
+                onChange={onCheckboxChange}
               />
-            )}
-            {avatar && (
-              <Avatar
-                className={styles.avatar}
-                url={avatar}
-                size={AvatarSize.Size20}
-              />
-            )}
-          </div>
+            </div>
+          )}
 
           <span
             className={styles.label}
@@ -169,16 +187,6 @@ export default class ListItem extends PureComponent {
               />
             )}
             {rightNodes}
-            {checkbox !== undefined && (
-              <Icon
-                glyph={checkmarkIcon}
-                data-test="ring-list-item-checkmark"
-                className={classNames(styles.checkbox, {
-                  [styles.hidden]: !checkbox
-                })}
-                size={Icon.Size.Size14}
-              />
-            )}
           </div>
         </div>
 

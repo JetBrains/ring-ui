@@ -105,11 +105,12 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
     class="${styles.input}"
   />
   <span class="${styles.cell}">
-    <rg-icon class="${styles.icon}" size="14" glyph="${checkmarkIcon}" />
+    <rg-icon class="${styles.icon}" glyph="{{:: checkmarkIcon}}" />
   </span><span class="${styles.label}" ng-transclude></span>
 </label>
     `),
     link: function link(scope, iElement) {
+      scope.checkmarkIcon = checkmarkIcon;
       const input = iElement[0].query('input[type="checkbox"]');
 
       const id = CHECKBOX_ID_PREFIX + idCounter++;

@@ -537,6 +537,7 @@ export default class List extends Component {
       } else {
         itemProps.onClick = selectHandler;
       }
+      itemProps.onCheckboxChange = selectHandler;
 
       if (itemProps.compact == null) {
         itemProps.compact = this.props.compact;

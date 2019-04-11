@@ -43,10 +43,10 @@
 .icon.icon {
   position: absolute;
   top: calc(unit * -1.5);
-  left: 1px;
+  left: -1px;
 
-  width: checkboxSize;
-  height: checkboxSize;
+  width: calc(unit * 2);
+  height: calc(unit * 2);
 
   transition: opacity var(--ring-fast-ease), transform var(--ring-fast-ease);
 
@@ -54,6 +54,8 @@
 
   & svg {
     position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 

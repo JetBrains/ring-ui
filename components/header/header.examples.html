@@ -23,7 +23,7 @@
     import React from 'react';
 
     import hubLogo from '@jetbrains/logos/hub/hub.svg';
-    import {DragIcon, ExpandIcon} from '@jetbrains/ring-ui/components/icon';
+    import {Add20pxIcon, Settings20pxIcon, Help20pxIcon, Gift20pxIcon, Search20pxIcon} from '@jetbrains/ring-ui/components/icon';
     import Auth from '@jetbrains/ring-ui/components/auth/auth';
     import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
     import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from '@jetbrains/ring-ui/components/header/header';
@@ -55,13 +55,16 @@
           <TrayIcon
             primary
             title="Create issue"
-            icon={ExpandIcon}
+            icon={Add20pxIcon}
           />
+          <TrayIcon icon={Help20pxIcon} />
+          <TrayIcon icon={Gift20pxIcon} />
+          <TrayIcon icon={Search20pxIcon} />
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
                 active={active}
-                icon={DragIcon}
+                icon={Settings20pxIcon}
               />
             )}
           >
@@ -107,7 +110,7 @@
     import React from 'react';
 
     import hubLogo from '@jetbrains/logos/hub/hub.svg';
-    import {DragIcon, ExpandIcon} from '@jetbrains/ring-ui/components/icon';
+    import {Add20pxIcon, Settings20pxIcon, Help20pxIcon, Gift20pxIcon, Search20pxIcon} from '@jetbrains/ring-ui/components/icon';
     import Auth from '@jetbrains/ring-ui/components/auth/auth';
     import Theme from '@jetbrains/ring-ui/components/global/theme';
     import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from '@jetbrains/ring-ui/components/header/header';
@@ -132,11 +135,19 @@
         <Link href="#">Groups</Link>
 
         <Tray>
+          <TrayIcon
+            primary
+            title="Create issue"
+            icon={Add20pxIcon}
+          />
+          <TrayIcon icon={Help20pxIcon} />
+          <TrayIcon icon={Gift20pxIcon} />
+          <TrayIcon icon={Search20pxIcon} />
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
                 active={active}
-                icon={DragIcon}
+                icon={Settings20pxIcon}
               />
             )}
           >
@@ -198,7 +209,7 @@
     import React from 'react';
 
     import hubLogo from '@jetbrains/logos/hub/hub-text.svg';
-    import {DragIcon, ExpandIcon} from '@jetbrains/ring-ui/components/icon';
+    import {Add20pxIcon, Settings20pxIcon, Help20pxIcon, Gift20pxIcon, Search20pxIcon} from '@jetbrains/ring-ui/components/icon';
     import Auth from '@jetbrains/ring-ui/components/auth/auth';
     import Header, {Logo, Tray, TrayIcon, SmartProfile, SmartServices} from '@jetbrains/ring-ui/components/header/header';
     import Link from '@jetbrains/ring-ui/components/link/link';
@@ -225,13 +236,16 @@
           <TrayIcon
             primary
             title="Create issue"
-            icon={ExpandIcon}
+            icon={Add20pxIcon}
           />
+          <TrayIcon icon={Help20pxIcon} />
+          <TrayIcon icon={Gift20pxIcon} />
+          <TrayIcon icon={Search20pxIcon} />
           <Dropdown
             anchor={({active}) => (
               <TrayIcon
                 active={active}
-                icon={DragIcon}
+                icon={Settings20pxIcon}
               />
             )}
           >

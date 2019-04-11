@@ -4,6 +4,30 @@ category: Docs
 order: 2
 ---
 
+## [2.0.0] 
+
+- Versions of dependencies are now prepended with a caret (`^`) rather than fixed
+- \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
+  `size`, `width` and `height` props are deprecated in the `Icon` component. The intrinsic size of the icon (`width` and `height` SVG attributes) is used instead.
+  
+  We strongly recommend to use icons handcrafted for particular sizes. If an icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting an icon.
+  
+  If you're using your own instance of `svg-inline-loader` make sure to pass `options: {removeSVGTagAttrs: false}` to avoid removing `width` and `height` attributes.
+
+- \[Breaking\] Icons are now aligned to the text baseline out of the box (only when using the following icon sizes: 10px, 14px, 16px, 20px). Previously, `vertical-align: middle;` was used by default which was not great as it 
+required fine-tuning almost every time to achieve perfect alignment. If you have such compensations in your code, please inspect and remove them.
+
+- \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. 
+If you are patching svgSpriteLoader, replace 
+`"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
+See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
+
+- \[Breaking\] Some deprecated SASS 
+files were [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e):
+`button.scss`, `icon.scss`, `loader-inline__legacy.scss`.
+
+- \[Breaking\] Some deprecated SASS constants (like `$ring-text-color`) were [removed](https://github.com/JetBrains/ring-ui/commit/4ec18fa1bbd5e069e1e357246893a8511501237a).
+
 ## [1.0.0]
 
 - \[Breaking\] New visual language. Most UI components have received significant 

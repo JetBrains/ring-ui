@@ -1,7 +1,8 @@
 import React from 'react';
 import {shallow, mount, render} from 'enzyme';
+import caretDownSVG from '@jetbrains/icons/caret-down-10px.svg';
 
-import {CaretDownIcon} from '../icon';
+import {CaretDown10pxIcon} from '../icon';
 
 import Button from './button';
 import styles from './button.css';
@@ -39,12 +40,11 @@ describe('Button', () => {
 
   it('should add icon', () => {
     const wrapper = renderButton({
-      icon: CaretDownIcon
+      icon: CaretDown10pxIcon
     });
 
     wrapper.should.have.className(styles.withIcon);
-    wrapper.should.have.descendants('svg[style*="16"]');
-    wrapper.find('use').should.have.attr('href', '#ring-icon-caret-down');
+    caretDownSVG.should.include(wrapper.find('svg').html());
   });
 
   it('should set custom class', () => {

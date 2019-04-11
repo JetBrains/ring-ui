@@ -27,11 +27,12 @@ export default class ListLink extends PureComponent {
       PropTypes.func,
       PropTypes.string
     ]),
+    onCheckboxChange: PropTypes.func,
     compact: PropTypes.bool
   };
 
   render() {
-    const {scrolling, 'data-test': dataTest, className, label, hover, description, rgItemType, url, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {scrolling, 'data-test': dataTest, className, label, hover, description, rgItemType, url, onCheckboxChange, disabled, LinkComponent, compact, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(styles.item, className, {
       [styles.actionLink]: !disabled,
       [styles.compact]: compact,
