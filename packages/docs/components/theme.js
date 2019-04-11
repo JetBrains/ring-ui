@@ -7,6 +7,10 @@ export const RING_GET_THEME_MESSAGE = 'RING_GET_THEME_MESSAGE';
 const STORAGE_KEY = 'ring-ui-dark-mode';
 const storage = new Storage();
 
+async function detectIsDarkPreferredInBrowser() {
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+}
+
 function toggleDarkTheme(isDark) {
   isDark ? setRootStyleProperties(darkVariables) : resetRootStyleProperties(darkVariables);
 }
@@ -22,7 +26,10 @@ function messageToIFrames(isDark) {
 }
 
 export async function loadStoredTheme() {
-  const isDark = await storage.get(STORAGE_KEY);
+  let isDark = await storage.get(STORAGE_KEY);
+  if (isDark === null) {
+    isDark = detectIsDarkPreferredInBrowser();
+  }
   toggleDarkTheme(isDark);
   messageToIFrames(isDark);
   return isDark;
