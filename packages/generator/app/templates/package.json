@@ -28,6 +28,8 @@
     "@babel/core": "7.4.3",
     "@babel/polyfill": "7.4.3",
     "@jetbrains/babel-preset-jetbrains": "2.1.2",
+    "@jetbrains/icons": "^1.24.3",
+    "@jetbrains/ring-ui": "^1.0.49",
     "babel-loader": "8.0.5",
     "copy-webpack-plugin": "5.0.2",
     "css-loader": "2.1.1",

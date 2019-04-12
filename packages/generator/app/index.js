@@ -10,9 +10,7 @@ const processPackageJson = require('./process-package-json');
 
 const packages = [
   '@jetbrains/generator-ring-ui',
-  '@jetbrains/ring-ui',
-  '@jetbrains/logos',
-  '@jetbrains/icons'
+  '@jetbrains/logos'
 ];
 
 const INDENT = 2;
