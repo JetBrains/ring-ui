@@ -8,7 +8,7 @@ order: 2
 
 - Due to deprecation, `postcss-cssnext` has been replaced with `postcss-preset-env`.
 
-- `extract-css-vars.js` script has been deprecated in favor of ['importFrom'](https://github.com/csstools/postcss-preset-env#importfrom) option of postcss-preset-env. Please consider using the same way in your project. 
+- `extract-css-vars.js` script has been deprecated in favor of ['importFrom'](https://github.com/csstools/postcss-preset-env#importfrom) option of postcss-preset-env. Please consider using the same approach in your project. 
 
 ## [2.0.0] 
 
