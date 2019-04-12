@@ -27,7 +27,7 @@
   "dependencies": {
     "@babel/core": "^7.4.3",
     "@babel/polyfill": "^7.4.3",
-    "@jetbrains/babel-preset-jetbrains": "^2.1.2",
+    "@jetbrains/babel-preset-jetbrains": "^2.1.4",
     "babel-loader": "^8.0.5",
     "copy-webpack-plugin": "^5.0.2",
     "css-loader": "^2.1.1",
