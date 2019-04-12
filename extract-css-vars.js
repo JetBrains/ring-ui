@@ -17,7 +17,7 @@ console.warn(`
       }
     }
   }
-  **** More details https://github.com/postcss/postcss-custom-properties#importfrom https://github.com/csstools/postcss-preset-env#importfrom ***
+  **** More details: https://github.com/postcss/postcss-custom-properties#importfrom, https://github.com/csstools/postcss-preset-env#importfrom ***
 `);
 
 const fs = require('fs');
