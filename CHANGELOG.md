@@ -8,38 +8,28 @@ order: 2
 
 - Versions of dependencies are now prepended with a caret (`^`) rather than fixed
 - \[Breaking\] `@jetbrains/icons` was updated to `3.0.0` which includes a major rework of icons' shapes and dimensions.
+  
   `size`, `width` and `height` props are deprecated in the `Icon` component. The intrinsic size of the icon (`width` and `height` SVG attributes) is used instead.
   
   We strongly recommend to use icons handcrafted for particular sizes. If an icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting an icon.
   
   If you're using your own instance of `svg-inline-loader` make sure to pass `options: {removeSVGTagAttrs: false}` to avoid removing `width` and `height` attributes.
 
-- \[Breaking\] Icons are now aligned to the text baseline out of the box (only when using the following icon sizes: 10px, 14px, 16px, 20px). Previously, `vertical-align: middle;` was used by default which was not great as it 
-required fine-tuning almost every time to achieve perfect alignment. If you have such compensations in your code, please inspect and remove them.
+- \[Breaking\] Icons are now aligned to the text baseline out of the box (only when using the following icon sizes: 10px, 14px, 16px, 20px). Previously, `vertical-align: middle;` was used by default which was not great as it required fine-tuning almost every time to achieve perfect alignment. If you have such compensations in your code, please inspect and remove them.
 
-- \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. 
-If you are patching svgSpriteLoader, replace 
-`"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`.
-See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
+- \[Breaking\] SVG icons are not inlined anymore – Icon and IconNg components don't support sprite IDs. If you are patching svgSpriteLoader, replace `"svgSpriteLoader.include.push(...)"` with `"svgInlineLoader.include.push(...)"`. See [this issue](https://youtrack.jetbrains.com/issue/RG-1646) for details.
 
-- \[Breaking\] Some deprecated SASS 
-files were [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e):
-`button.scss`, `icon.scss`, `loader-inline__legacy.scss`.
+- \[Breaking\] Some deprecated SASS files were [removed](https://github.com/JetBrains/ring-ui/commit/b174d82d5c683ebd8716524c8affc880adc7460e): `button.scss`, `icon.scss`, `loader-inline__legacy.scss`.
 
 - \[Breaking\] Some deprecated SASS constants (like `$ring-text-color`) were [removed](https://github.com/JetBrains/ring-ui/commit/4ec18fa1bbd5e069e1e357246893a8511501237a).
 
 ## [1.0.0]
 
-- \[Breaking\] New visual language. Most UI components have received significant 
-updates which may require you to update the rest of your application's UI.
+- \[Breaking\] New visual language. Most UI components have received significant updates which may require you to update the rest of your application's UI.
 
-- Many components now have a `theme` property that toggles the component's appearance to better 
-fit dark and light backgrounds.
+- Many components now have a `theme` property that toggles the component's appearance to better fit dark and light backgrounds.
 
-- \[Breaking\] The styles of many components were rewritten from SASS to CSS modules. If you were 
-importing the SASS files directly, you will have to remove those imports and use the corresponding 
-components instead.
-The complete list of removed SASS files:
+- \[Breaking\] The styles of many components were rewritten from SASS to CSS modules. If you were importing the SASS files directly, you will have to remove those imports and use the corresponding components instead. The complete list of removed SASS files:
 
   ```
   badge.scss, button-group.scss, button-toolbar.scss, checkbox.scss, link.scss, list.scss, 
@@ -47,9 +37,7 @@ The complete list of removed SASS files:
   select-popup.scss, select.scss, tabs.css, tag.scss, tags-input.scss, tooltip.scss
   ```
 
-- \[Breaking\] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom 
-properties must be used instead. In order to use CSS custom properties in your app, you will need to
-configure PostCSS as follows:
+- \[Breaking\] SASS and `postcss-modules-values-replace` variables were deprecated, CSS custom properties must be used instead. In order to use CSS custom properties in your app, you will need to configure PostCSS as follows:
   ```
    plugins: [
      ...
@@ -62,41 +50,28 @@ configure PostCSS as follows:
 
 - Babel 7 was introduced.
 
-- The default font-family declaration was changed. Notably, it may now fall back to Segoe UI instead
-of Helvetica Neue on Windows.
+- The default font-family declaration was changed. Notably, it may now fall back to Segoe UI instead of Helvetica Neue on Windows.
 
 ## [0.4.6] — 28-12-2017
 
-- `ErrorBubble` component was reimplemented using `Popup`. While the API did not change, the
-implementation has changed drastically. If you were relying on the internals 
-(to customize CSS, for example) please review your implementation.
+- `ErrorBubble` component was reimplemented using `Popup`. While the API did not change, the implementation has changed drastically. If you were relying on the internals (to customize CSS, for example) please review your implementation.
 
 ## [0.4.0] — 18-12-2017
 
-- `react-markdown` package was updated to version 3.0 which contains breaking changes. 
-Since the `Markdown` component passes props to `react-markdown`, this constitutes a breaking change for Ring UI itself. 
-See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
+- `react-markdown` package was updated to version 3.0 which contains breaking changes. Since the `Markdown` component passes props to `react-markdown`, this constitutes a breaking change for Ring UI itself. See the [details](https://github.com/rexxars/react-markdown/blob/master/CHANGELOG.md#300---2017-11-20).
 
 - [dependencies.io](https://www.dependencies.io/) was set up to help us keep dependencies up-to-date. Most dependencies were updated to latest versions.
 
 ## [0.3.8] — 29-11-2017
 
 ### Auth improvements
-- Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form 
-can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page
-or to partially update the UI without reloading, which results in a more pleasant login experience for the users. 
-To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` 
-option that checks if Hub is up and running before opening the login window or making the redirect. This option is enabled by default.
+- Embedded login flow is now supported: instead of redirecting to and from Hub to perform authentication, a login form can now be opened in a separate window. Upon successful authentication the service may choose to either reload the page or to partially update the UI without reloading, which results in a more pleasant login experience for the users. To enable the new mode, pass `embeddedLogin: true` to Auth configuration. There's also a new `enableBackendStatusCheck` option that checks if Hub is up and running before opening the login window or making the redirect. This option is enabled by default.
 
 ## [0.3.0] — 20-11-2017
 ### Breaking
-- Release 0.3.0 is designed to work with React 16. Moreover, `react` and `react-dom` are no longer `dependencies` but
-`peerDependencies` — make sure to include them in your project's `dependencies`, if you don't have them already. 
-If your project's `webpack.config.js` includes a `resolve` section for making sure only one copy of React is loaded, 
-it can now be removed.
+- Release 0.3.0 is designed to work with React 16. Moreover, `react` and `react-dom` are no longer `dependencies` but `peerDependencies` — make sure to include them in your project's `dependencies`, if you don't have them already. If your project's `webpack.config.js` includes a `resolve` section for making sure only one copy of React is loaded, it can now be removed.
 
-- `RingComponent`, a base class for all Ring UI components is now gone. The components are now inherited directly from
-`PureComponent`. If you have your own components using `RingComponent` as the base class, please refactor them:
+- `RingComponent`, a base class for all Ring UI components is now gone. The components are now inherited directly from `PureComponent`. If you have your own components using `RingComponent` as the base class, please refactor them:
 
       // Before
       import React from 'react';
@@ -120,9 +95,7 @@ it can now be removed.
         }
       }
       
-- If you were relying on the `rerender` method of `RingComponent` (for example, to trigger re-rendering of `date-picker`
-or `query-assist`), special wrapped versions of those components should be used instead. Those wrapped versions include
-the `rerender` method for backward compatibility:
+- If you were relying on the `rerender` method of `RingComponent` (for example, to trigger re-rendering of `date-picker` or `query-assist`), special wrapped versions of those components should be used instead. Those wrapped versions include the `rerender` method for backward compatibility:
 
       // Before
       import DatePicker from "@jetbrains/ring-ui/components/date-picker/date-picker";
@@ -157,8 +130,7 @@ the `rerender` method for backward compatibility:
        
 ## [0.2.10] — 22-08-2017
 ### Added
-- `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components.
-A previously introduced feature of importing them directly from packages is deprecated:
+- `Icon` component now exports icons (`@jetbrains/icons` package) and logos (`@jetbrains/logos`) as React components. A previously introduced feature of importing them directly from packages is deprecated:
 
       // deprecated, will be removed in 0.3
       import PencilIcon from '@jetbrains/icons/pencil.svg'
@@ -247,8 +219,7 @@ You can opt out of this behavior by passing `trapFocus={false}`. [Review][RING-U
 - `baseline` option for `Grid` component. [Review][RING-UI-CR-2913]
 
 ### Changed
-- `Code` component now comes with a list of highlighed languages.
-Other languages supported by `highlight.js` can be enabled manually:
+- `Code` component now comes with a list of highlighed languages. Other languages supported by `highlight.js` can be enabled manually:
 
       import {highlight} from '@jetbrains/ring-ui/components/code/code'
       import lang1c from 'highlight.js/lib/languages/1c';
@@ -592,14 +563,11 @@ class TogglePopup extends Component {
 
 ### 05-12-2016: Alert API reimplemented
 
-* There are now two ways to use alerts in React: 1) as a pure component with 
-custom management of alerts' stack (see Alert Container example),
-and 2) a simple `alert-service`, which should cover most usages.
+* There are now two ways to use alerts in React: 1) as a pure component with custom management of alerts' stack (see Alert Container example), and 2) a simple `alert-service`, which should cover most usages.
 * Alert now receives the message as its child, not as `caption` prop.
 * Alert is now closeable by default.
 * Alert now has a `timeout` property to define timeout for `onCloseRequest` call.
-* Alert doesn't remove itself anymore. It now calls the `onCloseRequest` callback if it should be removed with an animation. 
-The host component should then set the `isClosing={true}` prop which performs the closing animation and calls the `onClose` callback after it finishes.
+* Alert doesn't remove itself anymore. It now calls the `onCloseRequest` callback if it should be removed with an animation. The host component should then set the `isClosing={true}` prop which performs the closing animation and calls the `onClose` callback after it finishes.
 * To remove an alert use `{remove, removeWithoutAnimation}` functions from alert-service.
 * [Angular] `alert-ng` component was removed – `alert-service` should be used instead.
 
@@ -624,8 +592,7 @@ After:
 
 ### 31-10-2016: ListItem and ListCustom no longer pass all props to DOM elements
 
-Since React prohibits passing non-supported props to DOM elements we now have a whitelist of supported props declared in PropTypes.
-Other props are no longer passed to `ListItem` and `ListCustom`.
+Since React prohibits passing non-supported props to DOM elements we now have a whitelist of supported props declared in PropTypes. Other props are no longer passed to `ListItem` and `ListCustom`.
 
 ### 29-08-2016: The long-deprecated .ring-input__error-bubble and .ring-form__footer styles were removed
 
@@ -691,8 +658,7 @@ After:
 
 ### 04-04-2016: Browser requirements for Autoprefixer should be specified in the target project (RG-963)
 
-Place a [`browserslist`](https://github.com/ai/browserslist#config-file) file in your project directory.
-Default query is `> 1%, last 2 versions, Firefox ESR` which currently resolves to:
+Place a [`browserslist`](https://github.com/ai/browserslist#config-file) file in your project directory. Default query is `> 1%, last 2 versions, Firefox ESR` which currently resolves to:
 
 ```
 and_chr 49
@@ -787,8 +753,8 @@ After:
 
 ### 11-01-2016: Popup API change: "Corner" and "Direction" props replaced with "Directions" array
 
-The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field).
-"Corner" and "Direction" properties were dropped, "Directions" array was introduced. Example:
+The arcane bitwise API was replaced with a more straightforward [direction specification](https://en.bem.info/libs/bem-components/v2.4.0/desktop/popup/#directions-field). "Corner" and "Direction" properties were dropped, "Directions" array was introduced. Example:
+
 Before:
 ```
 props: {
@@ -817,13 +783,11 @@ Please use `ring-input` instead.
 
 ### 11-12-2015: SVGO is not used in Ring UI anymore, its config has been removed
 
-`jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`.
-Migration path: update `jetbrains-icons` and `jetbrains-logos`.
+`jetbrains-icons` (since 1.0.12) and `jetbrains-logos` (since 1.0.5) packages now contain compressed SVG images, so there is no more `RingSVGOConfig` in `webpack.config.js`. Migration path: update `jetbrains-icons` and `jetbrains-logos`.
 
 ### 07-12-2015: Changes in markup of ring-input, ring-textarea, error-bubble and ring-form__control (RG-965)
 
-* If ring-input or ring-textarea is used outside of `ring-form__control`, it should have class `ring-input_medium` (`ring-textarea_medium`),
-otherwise it will have a width of 100%
+* If ring-input or ring-textarea is used outside of `ring-form__control`, it should have class `ring-input_medium` (`ring-textarea_medium`), otherwise it will have a width of 100%
 * Class `ring-input_full-width` renamed to `ring-form__control_full-width` (as `ring-input` is now full-width by default)
 
 ### 19-11-2015: LoaderInline was reimplemented
@@ -875,8 +839,7 @@ Use the `guest` field of the user object instead. It is included by default in `
 
 ### 20-04-2015: userFields introduced in Auth config (RG-640)
 
-It's now required to set `userFields` in the `Auth` config if any fields other than `guest, id, name, profile/avatar/url` are needed in auth.requestUser.
-Please note that you need to explicitly specify `profile` sub-fields to request them, specifying `profile` won't do anything.
+It's now required to set `userFields` in the `Auth` config if any fields other than `guest, id, name, profile/avatar/url` are needed in auth.requestUser. Please note that you need to explicitly specify `profile` sub-fields to request them, specifying `profile` won't do anything.
 
 Example:
 ```js

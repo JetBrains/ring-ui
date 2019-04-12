@@ -3,9 +3,7 @@
 
 [![official JetBrains project](http://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
-This collection of UI components aims to provide all of the necessary building 
-blocks for web-based products built inside JetBrains, as well as third-party 
-plugins developed for JetBrains' products.
+This collection of UI components aims to provide all of the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
 ### Quick start
 
@@ -57,7 +55,7 @@ In case boilerplate generators are not your thing and you prefer to understand t
 
 ### Contributing
 
-Please, see [CONTRIBUTING.md](./CONTRIBUTING.md)
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ### Links
 
