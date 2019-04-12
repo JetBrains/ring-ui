@@ -1,7 +1,6 @@
 const {join, resolve} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const variables = require('@jetbrains/ring-ui/extract-css-vars');
 const ringUiWebpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkgConfig = require('./package.json').config;
@@ -39,14 +38,7 @@ const webpackConfig = () => ({
         use: [
           'style-loader',
           {loader: 'css-loader'},
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                ctx: {variables}
-              }
-            }
-          }
+          {loader: 'postcss-loader'}
         ]
       },
       {
