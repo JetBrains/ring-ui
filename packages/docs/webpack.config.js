@@ -1,4 +1,5 @@
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 
 const path = require('path');
 
@@ -154,7 +155,8 @@ module.exports = (env = {}) => {
       new DllBundlesPlugin({
         bundles: {
           vendor: [
-            '@babel/polyfill',
+            'core-js',
+            'regenerator-runtime',
             'dom4',
             'whatwg-fetch',
             'react',

@@ -1,4 +1,5 @@
-require('@babel/polyfill');
+require('core-js/stable');
+require('regenerator-runtime/runtime');
 
 const fs = require('fs');
 const path = require('path');
