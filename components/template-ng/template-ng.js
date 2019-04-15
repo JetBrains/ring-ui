@@ -64,9 +64,17 @@ class RgTemplateController extends RingAngularComponent {
 
     this.currentScope.$evalAsync(() => {
       $element.html(template);
+      this.addInnerClass();
       $compile($element.contents())(this.currentScope);
     });
   };
+
+  addInnerClass = () => {
+    const {rgTemplateClass} = this.$inject.$attrs;
+    if (rgTemplateClass) {
+      this.$inject.$element.contents().addClass(rgTemplateClass);
+    }
+  }
 
   cleanup() {
     if (this.currentScope) {

@@ -5,8 +5,6 @@ import {Color} from '../icon/icon__constants';
 import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
 
-import stylesOverride from './icon-ng.css';
-
 /**
  * @name Icon Ng
  * @category Legacy Angular
@@ -49,7 +47,7 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: `<span class="${stylesOverride.glyphNg}" rg-template="normalizedGlyph" ng-style="style"></span>`,
+    template: `<span class="${styles.icon}" rg-template="normalizedGlyph" rg-template-class="${styles.glyph}" ng-style="style"></span>`,
     controller: $scope => {
       function decodeBase64IfNeeded(glyph) {
         // This hack allows passing SVG content as string from angular templates like
@@ -67,7 +65,6 @@ angularModule.directive('rgIcon', function rgIconDirective() {
     },
     link: function link(scope, iElement, iAttrs) {
       iAttrs.$addClass('ring-icon'); // TODO: We keep this class for now for compatibility reasons (styles overrides)
-      iAttrs.$addClass(styles.icon);
 
       scope.$watch('loading', value => {
         if (value) {
