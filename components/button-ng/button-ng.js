@@ -11,7 +11,7 @@ import styles from '../button/button.css';
 
 import overrides from './button-ng.css';
 
-const {ringIconVerticalAlignFix, ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
+const {ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
 
 /**
  * @name Button Ng
@@ -27,7 +27,6 @@ const ORDER_NOT_DEFINED = '-1';
 const buttonClasses = classNames(
   styles.button,
   styles.buttonWithoutIcon,
-  ringIconVerticalAlignFix,
   styles.light
 );
 
