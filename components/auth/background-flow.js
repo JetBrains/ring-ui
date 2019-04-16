@@ -14,18 +14,13 @@ export default class BackgroundFlow {
    * @return {HTMLIFrameElement}
    * @private
    */
-  _createHiddenFrame(reject) {
+  _createHiddenFrame() {
     const iframe = document.createElement('iframe');
 
     iframe.style.border = iframe.style.width = iframe.style.height = '0px';
     iframe.style.visibility = 'hidden';
     iframe.style.position = 'fixed';
     iframe.style.left = '-10000px';
-    iframe.onload = () => {
-      if (!iframe.contentDocument) {
-        reject('BackgroundFlow(@jetbrains/ring-ui): could not load iFrame. Check CORS configuration.');
-      }
-    };
     window.document.body.appendChild(iframe);
 
     return iframe;
@@ -62,7 +57,7 @@ export default class BackgroundFlow {
 
       window.addEventListener('message', onMessage);
 
-      const iframe = this._createHiddenFrame(reject);
+      const iframe = this._createHiddenFrame();
 
       let cleanRun;
 
