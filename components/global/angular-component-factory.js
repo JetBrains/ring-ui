@@ -1,5 +1,4 @@
 import angular from 'angular';
-/* global process: false */
 
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
@@ -8,44 +7,11 @@ import RingAngularComponent from '../global/ring-angular-component';
 
 import DomRenderer from './react-dom-renderer';
 
-function iterateRecursive(obj, iterator) {
-  if (!obj) {
-    return;
-  }
-
-  Object.keys(obj).forEach(key => {
-    if (typeof obj[key] === 'object') {
-      iterateRecursive(obj[key], iterator);
-    } else {
-      iterator(obj, key);
-    }
-  });
-}
-
-function addWarningOnPropertiesChange(object, name) {
-  iterateRecursive(object, (obj, key) => {
-    let value = obj[key];
-    if (!Object.isFrozen(obj)) {
-      Object.defineProperty(obj, key, {
-        get: () => value,
-        set: val => {
-          // eslint-disable-next-line no-console
-          console.warn(`Warning! You have modified a "${key}" property of object, which is passed to Ring UI
-            angular-component-factory. This change is not handled by "${name}" component.
-            You should reassign object itself if you need this component to handle change.`, obj);
-          value = val;
-          return value;
-        }
-      });
-    }
-  });
-}
-
 function getAngularComponentName(name) {
   return `rg${name}`;
 }
 
-function createAngularComponent(Component, name) {
+function createAngularComponent(Component) {
   const propKeys = Object.keys(Component.propTypes);
 
   const bindings = {};
@@ -94,10 +60,6 @@ function createAngularComponent(Component, name) {
           } else {
             props[key] = this[key];
           }
-
-          if (process.env.NODE_ENV === 'development' && typeof this[key] === 'object') {
-            addWarningOnPropertiesChange(this[key], getAngularComponentName(name));
-          }
         }
       });
 
@@ -118,7 +80,7 @@ function angularComponentFactory(Component, name) {
 
   return angular.
     module(angularModuleName, []).
-    component(getAngularComponentName(name), createAngularComponent(Component, name));
+    component(getAngularComponentName(name), createAngularComponent(Component));
 }
 
 export default angularComponentFactory;
