@@ -898,10 +898,10 @@
     yeoman-generator "^3.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.0.1.tgz#1e8b25390f2869db3db76cb78a1e67a98d01588e"
-  integrity sha512-8SUuJ1BP4BJpeLuk2NNHq7oBcPYbuC1gBN820E7K1LNOB5bGmRZfFSb8R4XqQ5LIl95bsaNo60it4hlIQz6VGA==
+"@jetbrains/icons@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.1.0.tgz#36073e84ae0483c1a10c969eb1be05d81596dd73"
+  integrity sha512-CfRZylEZzGlO2hMkwYmpBC4e/WFOp+xH+o3vtAHz+LHv/K5LBqqVpQGDfZLwNH13yX8mACh3tUl3RQ5GH5UhEw==
 
 "@jetbrains/logos@^1.1.4":
   version "1.1.4"
