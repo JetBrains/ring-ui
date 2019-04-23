@@ -1,8 +1,10 @@
 import {configure} from '@storybook/html';
 import './preview.css';
 
+const req = require.context('../components', true, /\.examples\.js$/);
+
 function loadStories() {
-  require('../components/alert/alert.examples');
+  req.keys().forEach(filename => req(filename));
 }
 
 configure(loadStories, module);
