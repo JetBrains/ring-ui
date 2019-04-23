@@ -16,7 +16,12 @@ module.exports = async ({config}) => {
 
   config.module.rules = [
     ...config.module.rules,
-    ...ringConfig.config.module.rules
+    ...ringConfig.config.module.rules,
+    {
+      test: /\.examples\.js$/,
+      loaders: [require.resolve('@storybook/addon-storysource/loader')],
+      enforce: 'pre',
+    }
   ];
 
   return config;
