@@ -2,8 +2,6 @@ const path = require('path');
 
 const componentsPath = [path.join(__dirname, 'components')];
 
-const variables = require('./extract-css-vars');
-
 function resolveLoader(loader) {
   return require.resolve(`${loader}-loader`);
 }
@@ -19,20 +17,23 @@ const htmlLoaderOptions = `?${JSON.stringify({
   root: require('@jetbrains/icons')
 })}`;
 
-const svgSpriteLoader = {
+const svgInlineLoader = {
   test: /\.svg$/,
-  use: [
-    {
-      loader: resolveLoader('svg-sprite'),
-      options: {
-        extract: false,
-        runtimeCompat: true,
-        esModule: false,
-        symbolId: 'ring-icon-[name]'
-      }
-    }
-  ],
+  loader: resolveLoader('svg-inline'),
+  options: {removeSVGTagAttrs: false},
   include: [require('@jetbrains/icons')]
+};
+
+const svgSpriteLoaderBackwardCompatibilityHack = {
+  get include() {
+    throw new Error(`
+***
+  ERROR: Ring UI svgSpriteLoader is REMOVED in 2.0.0. Looks like your webpack config is patching it.
+  The most simple fix is to replace "svgSpriteLoader.include.push(...)" with "svgInlineLoader.include.push(...)"
+  Please consider using your own "svg-inline-loader". More details: https://youtrack.jetbrains.com/issue/RG-1646
+***
+    `);
+  }
 };
 
 const svgLoader = {
@@ -48,12 +49,7 @@ const scssLoader = {
     resolveLoader('style'),
     resolveLoader('css'),
     {
-      loader: resolveLoader('postcss'),
-      options: {
-        config: {
-          ctx: {variables}
-        }
-      }
+      loader: resolveLoader('postcss')
     },
     {
       loader: `${resolveLoader('sass')}?outputStyle=expanded`,
@@ -78,12 +74,7 @@ const cssLoader = {
       }
     },
     {
-      loader: resolveLoader('postcss'),
-      options: {
-        config: {
-          ctx: {variables}
-        }
-      }
+      loader: resolveLoader('postcss')
     }
   ]
 };
@@ -126,7 +117,7 @@ const gifLoader = {
 };
 
 const loaders = {
-  svgSpriteLoader,
+  svgInlineLoader,
   svgLoader,
   cssLoader,
   externalCssLoader,
@@ -147,5 +138,8 @@ module.exports = {
 
   componentsPath,
 
-  loaders
+  loaders: {
+    ...loaders,
+    svgSpriteLoader: svgSpriteLoaderBackwardCompatibilityHack
+  }
 };

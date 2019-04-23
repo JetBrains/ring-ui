@@ -51,6 +51,42 @@ import styles from './message.css';
         );
       </file>
     </example>
+    <example name="with onDissmiss">
+      <file name="index.html">
+        <div id="message"></div>
+      </file>
+
+      <file name="index.js">
+        import React from 'react';
+        import {render} from 'react-dom';
+        import Message from '@jetbrains/ring-ui/components/message/message';
+        import Popup from '@jetbrains/ring-ui/components/message/message';
+
+        const {Directions} = Popup.PopupProps;
+
+        const container = document.getElementById('message');
+        const onGotIt = () => console.log('>>>>> got it');
+        const onDismiss = () => console.log('>>>>> dismiss');
+
+        render(
+          <div style={{padding: 200}}>
+            <span>
+              Anchor
+              <Message
+                title="This is title"
+                onClose={onGotIt}
+                onDismiss={onDismiss}
+                direction={Directions.TOP_RIGHT}
+                tailOffset={32}
+              >
+                This is long long long long long long long long long long long long long long long long long long description
+              </Message>
+            </span>
+          </div>,
+          container
+        );
+      </file>
+    </example>
   */
 
 const {Directions} = Popup.PopupProps;
@@ -84,8 +120,10 @@ export default class Message extends Component {
     directions: PropTypes.arrayOf(PropTypes.string),
     direction: PropTypes.string,
     popupProps: PropTypes.object,
+    buttonProps: PropTypes.object,
     tailOffset: PropTypes.number,
     onClose: PropTypes.func,
+    onDismiss: PropTypes.func,
     translations: PropTypes.object
   };
 
@@ -99,7 +137,8 @@ export default class Message extends Component {
     ],
     tailOffset: 56,
     translations: {
-      gotIt: 'Got it'
+      gotIt: 'Got it',
+      dismiss: 'Dismiss'
     }
   };
 
@@ -120,7 +159,9 @@ export default class Message extends Component {
       icon,
       tailOffset,
       popupProps,
+      buttonProps,
       onClose,
+      onDismiss,
       translations
     } = this.props;
     const classes = classNames(styles.message, className);
@@ -141,13 +182,18 @@ export default class Message extends Component {
         {...popupProps}
       >
         {direction && <div className={styles.tail} style={getTailOffsets(tailOffset)[direction]}/>}
-        {icon && <Icon className={styles.icon} glyph={icon} size={Icon.Size.Size16}/>}
+        {icon && <Icon className={styles.icon} glyph={icon}/>}
         <h1 className={styles.title}>{title}</h1>
         {children && <div className={styles.description}>{children}</div>}
-        {
-          onClose &&
-          <Button className={styles.button} onClick={onClose} primary>{translations.gotIt}</Button>
-        }
+        {(onClose || buttonProps) && (
+          <Button
+            className={styles.button}
+            onClick={onClose}
+            primary
+            {...buttonProps}
+          >{translations.gotIt}</Button>
+        )}
+        {onDismiss && <Button onClick={onDismiss} text>{translations.dismiss}</Button>}
       </Popup>
     );
   }

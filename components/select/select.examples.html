@@ -477,11 +477,13 @@
   <file type="js">
     import React from 'react';
     import {render} from 'react-dom';
+    import hubConfig from '@ring-ui/docs/components/hub-config';
     import Select from '@jetbrains/ring-ui/components/select/select';
 
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
     const ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
     const icons = [deFlag, ruFlag, undefined];
+    const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
     const elementsNum = 5;
     const dataset = [];
@@ -490,7 +492,8 @@
         'label': 'element ' + i,
         'key': i,
         description: 'description ' + i,
-        icon: icons[i % 3]
+        icon: icons[i % 3],
+        avatar: i % 2 ? avatarUrl : null
       });
     }
 
@@ -905,5 +908,116 @@
     <Select maxHeight={5000} filter compact selected={dataset[selectedIndex]} data={dataset}/>,
       document.getElementById('demo')
       );
+  </file>
+</example>
+
+<example name="Select with filtered fields">
+  <file type="html" disable-auto-size>
+    <div id="demo" class="demo"></div>
+  </file>
+  <file type="css">
+    body {
+      padding: 8px;
+      width: 50%;
+    }
+
+    :global(.filters-block) > *:not(:nth-of-type(1)) {
+      margin-left: 20px;
+    }
+  </file>
+  <file type="js">
+    import React, {Component} from 'react';
+    import {render} from 'react-dom';
+    import Select from '@jetbrains/ring-ui/components/select/select';
+    import List from '@jetbrains/ring-ui/components/list/list';
+
+    class SelectWrapper extends Component {
+      constructor(props) {
+        super(props);
+
+        const data = [];
+        for (let i = 1; i < 100; i++) {
+          const label = `Label ${i}`;
+          data.push({
+            key: i,
+            label,
+            template: <span className="label">{label}</span>,
+            rgItemType: List.ListProps.Type.CUSTOM
+          });
+        }
+
+        const filtersData = [
+          {'label': 'Show odd', 'key': '1'},
+          {'label': 'Show even', 'key': '2'},
+          {'label': 'Show all', 'key': '3'},
+        ]
+
+        this.state = {
+          data,
+          filtersData,
+          filteredData: data.filter(item => item.key % 2),
+          selectedDataKey: null,
+          selectedFilterKey: filtersData[0].key,
+        }
+        this.onFilterSelect = this.handleFilterSelect.bind(this);
+        this.onDataSelect = this.handleDataSelect.bind(this);
+
+      }
+
+      handleFilterSelect(selected) {
+        const { data } = this.state;
+
+        let filteredData;
+        switch (selected.label) {
+          case 'Show odd':
+            filteredData = data.filter(item => item.key % 2)
+            break;
+          case 'Show even':
+            filteredData = data.filter(item => !(item.key % 2))
+            break;
+          case 'Show all':
+          default:
+            filteredData = [...data];
+        }
+
+        this.setState({...this.state, filteredData, selectedFilterKey: selected.key, selectedDataKey: null});
+
+      }
+
+      handleDataSelect(selected){
+        this.setState({...this.state, selecteData: selected});
+      }
+
+      render() {
+        const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
+        return (
+          <div class="filters-block">
+            <Select
+              selectedLabel="Filter"
+              label="Please select filter"
+              filter
+              clear
+              selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
+              onSelect={this.onFilterSelect}
+              data={filtersData}
+            />
+            <Select
+              selectedLabel="Option"
+              label="Please select option"
+              filter
+              clear
+              selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
+              onSelect={this.onDataSelect}
+              data={filteredData}
+            />
+          </div>
+        );
+      }
+    }
+
+    render(
+      <SelectWrapper/>,
+      document.getElementById('demo')
+    );
   </file>
 </example>

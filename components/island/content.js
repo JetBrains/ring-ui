@@ -10,6 +10,7 @@ import styles from './island.css';
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
 const resizeDetector = createResizeDetector();
+const END_DISTANCE = 16;
 
 export default class Content extends Component {
   static propTypes = {
@@ -51,7 +52,6 @@ export default class Content extends Component {
   };
 
   calculateScrollPosition = () => scheduleScrollAction(() => {
-    const END_DISTANCE = 6;
     const {scrollableNode} = this;
     if (!scrollableNode) {
       return;
