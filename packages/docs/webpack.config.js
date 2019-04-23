@@ -24,7 +24,7 @@ const siteComponents = path.resolve(__dirname, 'components');
 
 // For docs-app entry point
 webpackConfig.componentsPath.push(siteComponents);
-webpackConfig.loaders.svgSpriteLoader.include.push(
+webpackConfig.loaders.svgInlineLoader.include.push(
   require('@jetbrains/logos'),
   path.dirname(require.resolve('octicons/package.json'))
 );
@@ -85,6 +85,7 @@ module.exports = (env = {}) => {
       // needed in examples
       alias: {
         '@ring-ui/docs': __dirname,
+        '@jetbrains/logos': require('@jetbrains/logos'),
         '@jetbrains/ring-ui': ringUiPath
       }
     },

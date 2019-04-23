@@ -5,7 +5,7 @@
  * @description Displays a popup.
  */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -37,7 +37,7 @@ const stop = e => e.stopPropagation();
  * @example-file ./popup.examples.html
  */
 // eslint-disable-next-line react/no-deprecated
-export default class Popup extends Component {
+export default class Popup extends PureComponent {
   static PopupProps = {
     Directions,
     Dimension,

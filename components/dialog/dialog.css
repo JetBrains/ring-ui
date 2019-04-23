@@ -80,7 +80,7 @@
 .closeButton {
   position: absolute;
   top: 0;
-  right: calc(unit * -5);
+  right: calc(unit * -4);
 }
 
 .bodyWithoutScroll {

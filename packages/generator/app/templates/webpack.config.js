@@ -1,7 +1,6 @@
 const {join, resolve} = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const variables = require('@jetbrains/ring-ui/extract-css-vars');
 const ringUiWebpackConfig = require('@jetbrains/ring-ui/webpack.config');
 
 const pkgConfig = require('./package.json').config;
@@ -9,7 +8,7 @@ const pkgConfig = require('./package.json').config;
 const componentsPath = join(__dirname, pkgConfig.components);
 
 // Patch @jetbrains/ring-ui svg-sprite-loader config
-ringUiWebpackConfig.loaders.svgSpriteLoader.include.push(
+ringUiWebpackConfig.loaders.svgInlineLoader.include.push(
   require('@jetbrains/logos'),
   require('@jetbrains/icons')
 );
@@ -39,14 +38,7 @@ const webpackConfig = () => ({
         use: [
           'style-loader',
           {loader: 'css-loader'},
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                ctx: {variables}
-              }
-            }
-          }
+          {loader: 'postcss-loader'}
         ]
       },
       {

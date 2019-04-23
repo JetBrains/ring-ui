@@ -24,9 +24,7 @@ To build production files: `npm run build`
 
 ### Settings
 
-By default, documentation is built using the `development` environment.
-Use the `--env.production` flag to switch it to `production`.
-Environment has an effect on source map generation. It also affects the following parameters:
+By default, documentation is built using the `development` environment. Use the `--env.production` flag to switch it to `production`. Environment has an effect on source map generation. It also affects the following parameters:
 
  * **port**
  * **host**
@@ -53,13 +51,11 @@ It will ask for component name and then create the skeleton for you.
 
 ### Is Lodash or Underscore available?
 
-Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/).
-Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
+Instead of utility libraries Ring UI uses new features of *ES2015* and beyond provided by [Babel.js](https://babeljs.io) and [core-js](https://github.com/zloirock/core-js/). Polyfills like `Array.prototype.find` that patch native objects should be imported manually (e.g. via `import 'core-js/modules/es6.array.find';`).
 
 ### Is jQuery available?
 
-Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4';`) 
-and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
+Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.com/WebReflection/dom4) (should be imported via `import 'dom4';`) and some handy helpers located in the `dom` component. `jqLite` is still available for Angular.js components, however, using it is not recommended.
 
 ### Wallaby support
 
@@ -73,12 +69,9 @@ To enable the `Wallaby.js` test runner follow these steps:
 
 *Run the development server with `npm start` before executing the commands listed below*
 
-Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works
-by taking screenshots and comparing them to existing reference images. 
+Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works by taking screenshots and comparing them to existing reference images. 
 
-We use [Sauce Labs](https://saucelabs.com/) as a cloud Selenium grid. In order to use it on your local machine, you need to have 
-a Sauce Labs account. **Note that simply logging in to Sauce Labs with a GitHub account is not enough, you need 
-to create a regular account.** 
+We use [Sauce Labs](https://saucelabs.com/) as a cloud Selenium grid. In order to use it on your local machine, you need to have a Sauce Labs account. **Note that simply logging in to Sauce Labs with a GitHub account is not enough, you need to create a regular account.** 
 
 Set your username and access token as environment variables:
 ```

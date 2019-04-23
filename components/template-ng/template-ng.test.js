@@ -45,6 +45,13 @@ describe('Template Ng', () => {
     element.should.contain('test');
   });
 
+  it('should apply a given template class', () => {
+    $rootScope.template = '<test></test>';
+    const {element} = build('<rg-template template="template" rg-template-class="test-class"></rg-template>');
+
+    element.querySelector('test').should.match('.test-class');
+  });
+
   it('should watch a given template expression', () => {
     $rootScope.template = '<test></test>';
     const {element} = build('<rg-template template="template"></rg-template>');

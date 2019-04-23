@@ -52,4 +52,12 @@ gemini.suite('Tabs', () => {
         actions.click(find('div>div>button:nth-child(3)'));
       });
   });
+
+  gemini.suite('Custom titles', child => {
+    child.
+      setUrl('tabs/custom-titles.html').
+      setCaptureElements('#tabs').
+
+      capture('custom-titles');
+  });
 });

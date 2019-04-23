@@ -90,7 +90,6 @@ export default class Tag extends PureComponent {
           className={styles.icon}
           title={this.props.rgTagTitle}
           glyph={this.props.rgTagIcon}
-          size={Icon.Size.Size14}
         />
       );
     }
@@ -138,7 +137,6 @@ export default class Tag extends PureComponent {
           data-test="ring-tag-remove"
           className={styles.remove}
           onClick={this.props.onRemove}
-          size={Icon.Size.Size12}
         />
       );
     }

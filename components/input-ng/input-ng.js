@@ -10,15 +10,16 @@
 import angular from 'angular';
 
 import classNames from 'classnames';
-import CloseIcon from '@jetbrains/icons/close.svg';
+import closeIcon from '@jetbrains/icons/close.svg';
 
 import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../input/input.css';
 import Theme from '../global/theme';
+import ButtonNg from '../button-ng/button-ng';
 
 import styleOverrides from './input-ng.css';
 
-const angularModule = angular.module('Ring.input', []);
+const angularModule = angular.module('Ring.input', [ButtonNg]);
 
 class RingInputComponent extends RingAngularComponent {
   static $inject = ['$element'];
@@ -49,6 +50,7 @@ class RingInputComponent extends RingAngularComponent {
   };
 
   $onInit() {
+    this.closeIcon = closeIcon;
     if (!this.ngModelCtrl) {
       return;
     }
@@ -80,6 +82,10 @@ class RingInputComponent extends RingAngularComponent {
     if (this.multiline && this.inputNode.scrollHeight > this.inputNode.clientHeight) {
       this.stretch(this.inputNode);
     }
+  }
+
+  onClear() {
+    this.value = '';
   }
 
   getContainerClasses() {
@@ -138,9 +144,9 @@ class RingInputComponent extends RingAngularComponent {
   <rg-button
     ng-if="$ctrl.clearable"
     data-test="ring-input-clear"
-    class="${styles.clear}"
-    icon="${CloseIcon}"
-    icon-size="14"
+    class="${styles.clear} ${styleOverrides.clear}"
+    icon="{{:: $ctrl.closeIcon}}"
+    ng-click="$ctrl.onClear()"
   ></rg-button>
   
   <label

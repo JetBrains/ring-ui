@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import chevronDown from '@jetbrains/icons/chevron-down.svg';
+import chevronDown from '@jetbrains/icons/chevron-10px.svg';
 
 import Icon, {Size} from '../icon';
 import Theme from '../global/theme';
@@ -54,7 +54,6 @@ export default class Button extends PureComponent {
 
   static defaultProps = {
     theme: Theme.LIGHT,
-    iconSize: Size.Size16,
     onMouseDown() {}
   };
 
@@ -129,7 +128,6 @@ export default class Button extends PureComponent {
         {dropdown && (
           <Icon
             glyph={chevronDown}
-            size={Icon.Size.Size14}
             className={styles.dropdownIcon}
           />
         )}
@@ -146,7 +144,7 @@ export default class Button extends PureComponent {
         onMouseDown={this.onMouseDown}
         className={classes}
       >
-        {loader && !icon && <div className={styles.loaderBackground}/>}
+        {loader && !text && !icon && <div className={styles.loaderBackground}/>}
         {content}
       </Tag>
     );

@@ -1,8 +1,8 @@
 import angular from 'angular';
 import 'dom4';
 
-import {resolveRelativeURL} from '../global/url';
-import {Color, Size} from '../icon/icon__constants';
+import {Color} from '../icon/icon__constants';
+import TemplateNg from '../template-ng/template-ng';
 import styles from '../icon/icon.css';
 
 /**
@@ -14,12 +14,9 @@ import styles from '../icon/icon.css';
     <example name="Icon Ng">
       <file name="index.html">
         <div ng-app="TestApp" ng-strict-di ng-controller="testCtrl">
-          <rg-icon glyph="{{icon}}" size="14"></rg-icon>
           <rg-icon glyph="{{icon}}"></rg-icon>
           <rg-icon glyph="{{icon}}" color="MAGENTA"></rg-icon>
           <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
-          <rg-icon glyph="{{icon}}" size="64"></rg-icon>
-          <rg-icon glyph="{{error}}" height="80" width="100"></rg-icon>
         </div>
       </file>
     <file name="index.js" webpack="true">
@@ -36,8 +33,8 @@ import styles from '../icon/icon.css';
   </example>
  */
 
-const angularModule = angular.module('Ring.icon', []);
-const DEFAULT_SIZE = Size.Size32;
+const angularModule = angular.module('Ring.icon', [TemplateNg]);
+const BASE64_PREFIX = 'data:image/svg+xml;base64,';
 
 angularModule.directive('rgIcon', function rgIconDirective() {
   return {
@@ -50,23 +47,24 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: `
-<svg
-  class="${styles.glyph}"
-  xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  ng-style="style"
->
-  <use ng-href="{{glyphPath}}" xlink:href=""></use>
-</svg>`,
+    template: `<span class="${styles.icon}" rg-template="normalizedGlyph" rg-template-class="${styles.glyph}" ng-style="style"></span>`,
     controller: $scope => {
+      function decodeBase64IfNeeded(glyph) {
+        // This hack allows passing SVG content as string from angular templates like
+        // <rg-icon glyph="data:image/svg+xml;base64,PHN2ZyB4bWx...></rg-icon>
+        const isEncoded = glyph.indexOf(BASE64_PREFIX) === 0;
+        return isEncoded ? window.atob(glyph.replace(BASE64_PREFIX, '')) : glyph;
+      }
+
       $scope.$watch('glyph', value => {
-        $scope.glyphPath = resolveRelativeURL(value);
+        if (!value) {
+          return;
+        }
+        $scope.normalizedGlyph = decodeBase64IfNeeded(value);
       });
     },
     link: function link(scope, iElement, iAttrs) {
       iAttrs.$addClass('ring-icon'); // TODO: We keep this class for now for compatibility reasons (styles overrides)
-      iAttrs.$addClass(styles.icon);
 
       scope.$watch('loading', value => {
         if (value) {
@@ -90,8 +88,8 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       );
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
-        if (!width && !height) {
-          const sizeString = `${size || DEFAULT_SIZE}px`;
+        if (size && !width && !height) {
+          const sizeString = `${size}px`;
           scope.style = {
             width: sizeString,
             height: sizeString
