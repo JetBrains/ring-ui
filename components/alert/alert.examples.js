@@ -1,7 +1,5 @@
-/* eslint-disable react/no-multi-comp,react/jsx-no-literals,react/jsx-no-bind */
 import React from 'react';
 import {render} from 'react-dom';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {storiesOf} from '@storybook/html';
 
 import Link from '../link/link';
@@ -10,7 +8,6 @@ import Button from '../button/button';
 import Alert, {Container} from './alert';
 
 
-// eslint-disable-next-line no-undef
 storiesOf('Alert', module).
   add('simple', () => {
     class AlertDemo extends React.Component {
@@ -105,10 +102,10 @@ storiesOf('Alert', module).
 
             <Container>
               {this.state.alerts.map(alert => {
-                const {message, ...rest} = alert;
+                const {message, key, ...rest} = alert;
                 return (
-                  // eslint-disable-next-line react/jsx-key
                   <Alert
+                    key={key}
                     {...rest}
                     onCloseRequest={() => this.onCloseAlertClick(alert)}
                     onClose={() => this.onCloseAlert(alert)}

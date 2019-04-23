@@ -74,6 +74,25 @@ module.exports = {
       globals: {
         sandbox: false
       }
+    },
+    {
+      files: [
+        '**/*.examples.js'
+      ],
+      env: {
+        browser: true,
+        node: true
+      },
+      globals: {
+        sandbox: false
+      },
+      rules: {
+        'import/no-extraneous-dependencies': ignore,
+        'react/no-multi-comp': ignore,
+        // It's fine for examples:
+        'react/jsx-no-literals': ignore,
+        'react/jsx-no-bind': ignore
+      }
     }
   ]
 };
