@@ -82,6 +82,8 @@
 .icon {
   width: calc(unit * 5);
 
+  text-align: center;
+
   vertical-align: top;
 }
 
@@ -91,7 +93,7 @@
 
   padding-top: calc(unit / 2);
 
-  line-height: calc(compensated - unit / 2);
+  line-height: compensated;
 }
 
 .main svg {

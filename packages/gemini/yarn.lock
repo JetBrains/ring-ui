@@ -311,6 +311,11 @@ async@^2.0.0, async@^2.1.2, async@^2.5.0:
   dependencies:
     lodash "^4.17.10"
 
+async@~0.9.0:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
+  integrity sha1-rqdNXmHB+JlhO/ZL2mbUx48v0X0=
+
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1109,6 +1114,11 @@ deep-equal@~0.1.0:
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-0.1.2.tgz#b246c2b80a570a47c11be1d9bd1070ec878b87ce"
   integrity sha1-skbCuApXCkfBG+HZvRBw7IeLh84=
 
+deep-equal@~0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-0.2.2.tgz#84b745896f34c684e98f2ce0e42abaf43bba017d"
+  integrity sha1-hLdFiW80xoTpjyzg5Cq69Du6AX0=
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
@@ -1592,16 +1602,18 @@ forever-monitor@~1.7.0:
     ps-tree "0.0.x"
     utile "~0.2.1"
 
-forever@^0.15.3:
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/forever/-/forever-0.15.3.tgz#77d9d7e15fd2f511ad9d84a110c7dd8fc8ecebc2"
-  integrity sha1-d9nX4V/S9RGtnYShEMfdj8js68I=
+forever@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/forever/-/forever-1.0.0.tgz#d6dc092da8e44da838318fabe45205b191f2a094"
+  integrity sha512-ZaNWo5aMdtfui5GZWxaPcmFPW/TaaJZgGE0/p47lhn0FGRhFehuG338zuUURIqjn0dZEmgNPUAahZMOdykEAiw==
   dependencies:
+    async "~0.2.9"
     cliff "~0.1.9"
     clone "^1.0.2"
     colors "~0.6.2"
     flatiron "~0.4.2"
     forever-monitor "~1.7.0"
+    mkdirp "0.x.x"
     nconf "~0.6.9"
     nssocket "~0.5.1"
     object-assign "^3.0.0"
@@ -1609,8 +1621,7 @@ forever@^0.15.3:
     path-is-absolute "~1.0.0"
     prettyjson "^1.1.2"
     shush "^1.0.0"
-    timespan "~2.3.0"
-    utile "~0.2.1"
+    utile "~0.3.0"
     winston "~0.8.1"
 
 form-data@~2.3.2:
@@ -1654,14 +1665,6 @@ fs-extra@^0.30.0:
     klaw "^1.0.0"
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
-
-fs-extra@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-2.1.2.tgz#046c70163cef9aad46b0e4a7fa467fb22d71de35"
-  integrity sha1-BGxwFjzvmq1GsOSn+kZ/si1x3jU=
-  dependencies:
-    graceful-fs "^4.1.2"
-    jsonfile "^2.1.0"
 
 fs-extra@^5.0.0:
   version "5.0.0"
@@ -1727,10 +1730,10 @@ gemini-configparser@^1.0.0:
   dependencies:
     lodash "^4.17.4"
 
-gemini-core@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.3.0.tgz#84ccef96f789c6dbbb370a6e6ca524d4d55f45aa"
-  integrity sha512-EYPjeH9PfhM153LUvZzFfaH68s4idC4cg6UGXhLg/ANVX0syM9gT5F8Rt8aG0xsXNk48+WFTEkz7yiXCwWyqAA==
+gemini-core@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-3.6.1.tgz#779526a0d244d86388f13bcbd4013e113cb14d06"
+  integrity sha512-hJcCS/AbkQhaiIOVe0QzcG7U+71q6KzYT9zuoYa+86nRJnsMaX+54PGfrRZ5gPYMs9Qrnti8dAhqknzrMASmoA==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -1739,7 +1742,7 @@ gemini-core@^3.3.0:
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.0"
     lodash "^4.15.0"
-    looks-same "^6.0.0"
+    looks-same "^7.1.1"
     micromatch "^2.3.11"
     png-img "^2.1.1"
     sizzle "^2.3.3"
@@ -1769,10 +1772,10 @@ gemini-sauce@^1.0.2:
     sauce-connect-launcher "^1.2.0"
     uuid "^2.0.1"
 
-gemini@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.3.0.tgz#713aba6a55738d6eac41d69818d70d11c4de6faa"
-  integrity sha512-zx6zulW5QbV6drvo49ZCiSdV+J10rIsxYnIHipE1jsQQzBII7SEz8Ua+Po/DTcpjpg6dLCeHUoUmgE9AwcH+wQ==
+gemini@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/gemini/-/gemini-7.4.1.tgz#4f5ff3a546d5e45237ed38125d8608e4a7f17cd1"
+  integrity sha512-0XENR1gJ2MVsU7o2iRJ9i+V+CpJlEPWvRGPe1DygnQBq2E4lT37MV9eziNG4HYt8mDE9pdX4jCFqJQXh4MVegQ==
   dependencies:
     bluebird "^3.4.6"
     chalk "^1.1.3"
@@ -1781,7 +1784,7 @@ gemini@^7.3.0:
     debug "^2.2.0"
     fs-extra "^0.30.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^3.3.0"
+    gemini-core "^3.6.1"
     gemini-coverage "^2.0.0"
     graceful-fs "^4.1.11"
     handlebars "^4.0.5"
@@ -1990,19 +1993,20 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-html-reporter@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-3.4.1.tgz#6b89f1f99fa9a4dea7baa830bce5c03a207b25e4"
-  integrity sha512-B5y42yS+1mGYcp9RynLBAjz6h1dk4zGqzdV6undfQB+2sRJDCWmHLpymCgRK+ZUQQZp3IT6qZDDJFE0Qh7yf/w==
+html-reporter@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.6.0.tgz#96240012bda1f887629917b0476202233af6620d"
+  integrity sha512-A/CW4hZgZfNOxh1GyCJP5piTq+jkLCDssPZTDrNDltKAqR3M5OOZoohLs3PSl2U55zljZ7WUD1f9CXPLcWYZ2Q==
   dependencies:
     bluebird "^3.4.7"
     body-parser "^1.18.2"
     chalk "^1.1.3"
     express "^4.16.2"
-    fs-extra "^2.1.2"
+    fs-extra "^7.0.1"
     gemini-configparser "^1.0.0"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
+    looks-same "^7.1.1"
     opener "^1.4.3"
     react-markdown "^3.2.0"
     resolve "^1.5.0"
@@ -2420,6 +2424,11 @@ isstream@0.1.x, isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+js-graph-algorithms@1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/js-graph-algorithms/-/js-graph-algorithms-1.0.18.tgz#f96ec87bf194f5c0a31365fa0e1d07b7b962d891"
+  integrity sha1-+W7Ie/GU9cCjE2X6Dh0Ht7li2JE=
+
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -2579,13 +2588,14 @@ longest@^1.0.1:
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
   integrity sha1-MKCy2jj3N3DoKUoNIuZiXtd9AJc=
 
-looks-same@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-6.0.0.tgz#aa8f24291b78b966eb6fc315a41b33adeb3fc068"
-  integrity sha512-143Xf0qKRubHjVlWiPI2VMOMbvS94ldHsYrccXvihe6nCI7Z/JFy5ZskQzpLtYy4TFX2vbSJM1uAn5gShvqlcw==
+looks-same@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/looks-same/-/looks-same-7.1.1.tgz#599fe1b23a1c37665d78f3277a6df8b71d8363fe"
+  integrity sha512-AqyjVTnkF9ksgAtO+k7bPJcEafH12BAnj58z6o87yn2d6tKGOgd6yR1QnXJIT04Reg7EL1VCy8MBmubelMyUvQ==
   dependencies:
     color-diff "^1.1.0"
     concat-stream "^1.6.2"
+    js-graph-algorithms "1.0.18"
     lodash "^4.17.3"
     parse-color "^1.0.0"
     pngjs "^3.3.3"
@@ -2856,6 +2866,11 @@ ncp@0.4.x:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-0.4.2.tgz#abcc6cbd3ec2ed2a729ff6e7c1fa8f01784a8574"
   integrity sha1-q8xsvT7C7Spyn/bnwfqPAXhKhXQ=
+
+ncp@1.0.x:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ncp/-/ncp-1.0.1.tgz#d15367e5cb87432ba117d2bf80fdf45aecfb4246"
+  integrity sha1-0VNn5cuHQyuhF9K/gP30Wuz7QkY=
 
 needle@^2.2.1:
   version "2.2.4"
@@ -4079,11 +4094,6 @@ timers-browserify@^1.0.1:
   dependencies:
     process "~0.11.0"
 
-timespan@~2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/timespan/-/timespan-2.3.0.tgz#4902ce040bd13d845c8f59b27e9d59bad6f39929"
-  integrity sha1-SQLOBAvRPYRcj1myfp1ZutbzmSk=
-
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/to-arraybuffer/-/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
@@ -4385,6 +4395,18 @@ utile@0.2.1, utile@0.2.x, utile@~0.2.1:
     i "0.3.x"
     mkdirp "0.x.x"
     ncp "0.4.x"
+    rimraf "2.x.x"
+
+utile@~0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/utile/-/utile-0.3.0.tgz#1352c340eb820e4d8ddba039a4fbfaa32ed4ef3a"
+  integrity sha1-E1LDQOuCDk2N26A5pPv6oy7U7zo=
+  dependencies:
+    async "~0.9.0"
+    deep-equal "~0.2.1"
+    i "0.3.x"
+    mkdirp "0.x.x"
+    ncp "1.0.x"
     rimraf "2.x.x"
 
 utils-merge@1.0.1:

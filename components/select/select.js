@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-10px.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
 
 import {Anchor} from '../dropdown/dropdown';
@@ -17,6 +17,7 @@ import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import Theme from '../global/theme';
+import memoize from '../global/memoize';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -42,6 +43,11 @@ const Type = {
   MATERIAL: 'MATERIAL',
   INPUT_WITHOUT_CONTROLS: 'INPUT_WITHOUT_CONTROLS'
 };
+
+const ICON_WIDTH = 20;
+const getStyle = memoize(iconsLength => ({
+  paddingRight: iconsLength * ICON_WIDTH
+}));
 
 /**
  * @name Select
@@ -397,7 +403,6 @@ export default class Select extends Component {
       rgItemType: List.ListProps.Type.ITEM,
       label: reset.label,
       glyph: reset.glyph,
-      iconSize: Icon.Size.Size14,
       className: 'ring-select__clear-tags',
       onClick: (item, event) => {
         this.clear(event);
@@ -764,6 +769,10 @@ export default class Select extends Component {
         this.props.onChange(selected, event);
       });
     } else {
+      const checkboxClicked = event?.originalEvent?.target.matches('input[type=checkbox]');
+      if (!checkboxClicked) {
+        this._hidePopup(isSelectItemEvent);
+      }
       if (selected.key == null) {
         throw new Error('Multiple selection requires each item to have the "key" property');
       }
@@ -790,7 +799,7 @@ export default class Select extends Component {
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
 
-      }, this._redrawPopup);
+      }, checkboxClicked ? this._redrawPopup : null);
 
     }
   };
@@ -883,7 +892,6 @@ export default class Select extends Component {
           key="close"
           onClick={this.clear}
           icon={closeIcon}
-          iconSize={Icon.Size.Size14}
         />
       );
     }
@@ -894,7 +902,6 @@ export default class Select extends Component {
           glyph={chevronDownIcon}
           key="hide"
           onClick={this._clickHandler}
-          size={Icon.Size.Size14}
         />
       );
     }
@@ -947,10 +954,7 @@ export default class Select extends Component {
 
     const icons = this._getIcons();
 
-    const style = {
-      // eslint-disable-next-line no-magic-numbers
-      paddingRight: icons.length * 20
-    };
+    const style = getStyle(icons.length);
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;
 

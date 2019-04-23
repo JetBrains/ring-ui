@@ -133,7 +133,7 @@
   }
 
   & .icon {
-    top: unit;
+    top: 6px;
 
     color: var(--ring-icon-color);
   }
@@ -266,7 +266,7 @@
 .actions {
   position: absolute;
   z-index: overInputZIndex;
-  top: 2px;
+  top: 4px;
   right: 1px;
 }
 

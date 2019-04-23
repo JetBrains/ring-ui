@@ -2,35 +2,6 @@
 
 $ring-unit: 8px;
 
-/**
-  =============== DEPRECATION NOTICE ================
-  All the following constants are deprecated and will be removed soon
-  Use CSS variables from global.css instead
- */
-$ring-text-color: #1F2326;
-
-$ring-link-color: #0F5B99;
-$ring-link-hover-color: #FF008C;
-
-$ring-error-color: #E50000;
-
-$ring-gray-color: #999; /* disabled text & hints */
-$ring-dark-gray-color: #737577; /* headers & actions */
-
-$ring-green-color: #4DA400;
-$ring-blue-color: #008EFF;
-$ring-light-blue-color: #B8D1E5;
-$ring-pale-blue-color: #A6D5ED;
-$ring-pink-color: #BC00DE;
-
-$ring-border-color: #CFDBE5;
-$ring-outline-color: rgba(37, 183, 255, 0.5);
-
-$ring-border-radius: 3px;
-
-$ring-font-size: 13px;
-$ring-font-size-smaller: 12px;
-
 @mixin ring-clearfix() {
   &:after {
     clear: both;
@@ -74,21 +45,3 @@ $ring-font-size-smaller: 12px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-// Common z-index-values
-
-// Invisible element is an absolutely positioned element which should be below
-// all other elements on the page
-$ring-invisible-element-z-index: -1;
-
-// z-index for position: fixed elements
-$ring-fixed-z-index: 1;
-
-// Elements that should overlay all other elements on the page
-$ring-overlay-z-index: 5;
-
-// Alerts should de displayed above overlays
-$ring-alert-z-index: 6;
-
-// Note: footer also has top margin which isn't taken into account here
-$ring-footer-height: $ring-unit*8;

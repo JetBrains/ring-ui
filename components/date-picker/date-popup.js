@@ -255,7 +255,6 @@ export default class DatePopup extends Component {
           <Icon
             glyph={calendarIcon}
             className={styles.filterIcon}
-            size={Icon.Size.Size18}
           />
           {names.map(name => (
             <DateInput

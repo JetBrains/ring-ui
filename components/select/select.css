@@ -32,7 +32,7 @@
 
 .icons {
   position: absolute;
-  top: -4px;
+  top: -2px;
   right: 0;
 
   transition: color var(--ring-ease);
@@ -54,7 +54,7 @@
   }
 
   @nest .buttonMode & {
-    top: -6px;
+    top: -4px;
     right: unit;
   }
 }
@@ -66,8 +66,6 @@
   height: calc(2 * unit);
   margin: 0 4px;
 
-  vertical-align: middle;
-
   background-repeat: no-repeat;
   background-position: center;
 
@@ -77,7 +75,7 @@
 .clearIcon {
   padding: 0 3px;
 
-  vertical-align: -2px;
+  vertical-align: -1px;
 }
 
 .clearIcon.clearIcon > span > span {

@@ -11,8 +11,7 @@ import styles from '../button/button.css';
 
 import overrides from './button-ng.css';
 
-const {ringIconVerticalAlignFix, ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
-const DEFAULT_ICON_SIZE = 16;
+const {ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
 
 /**
  * @name Button Ng
@@ -28,7 +27,6 @@ const ORDER_NOT_DEFINED = '-1';
 const buttonClasses = classNames(
   styles.button,
   styles.buttonWithoutIcon,
-  ringIconVerticalAlignFix,
   styles.light
 );
 
@@ -125,7 +123,7 @@ class ButtonController extends RingAngularComponent {
     const icon = this.element.query('rg-icon');
     const transcludeNode = this.findTranscludeNode();
     const glyph = $attrs.icon;
-    const size = $attrs.iconSize || DEFAULT_ICON_SIZE;
+    const size = $attrs.iconSize;
     const cl = this.element.classList;
 
     if (glyph) {
@@ -133,7 +131,9 @@ class ButtonController extends RingAngularComponent {
       addClasses(cl, styles.withIcon);
       addClasses(transcludeNode.classList, transcludeSpacer);
       icon.setAttribute('glyph', glyph);
-      icon.setAttribute('size', size);
+      if (size) {
+        icon.setAttribute('size', size);
+      }
     } else {
       removeClasses(cl, styles.withIcon);
       addClasses(cl, styles.buttonWithoutIcon);
@@ -176,7 +176,7 @@ function createButtonDirective(tagName) {
     template: `
   <${tagName} class="${buttonClasses}">
   <span class="${styles.content}"
-  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}" size="0"></rg-icon
+  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}"></rg-icon
   ><ng-transclude></ng-transclude
   ></span
   ><div class="js-button-loader"></div>

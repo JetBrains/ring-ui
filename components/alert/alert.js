@@ -174,7 +174,6 @@ export default class Alert extends PureComponent {
           glyph={glyph}
           className={styles.icon}
           color={TypeToIconColor[this.props.type] || Icon.Color.DEFAULT}
-          size={Icon.Size.Size16}
         />
       );
     } else if (this.props.type === Type.LOADING) {
@@ -224,10 +223,7 @@ export default class Alert extends PureComponent {
                 data-test="alert-close"
                 onClick={this.closeRequest}
               >
-                <Icon
-                  glyph={closeIcon}
-                  size={Icon.Size.Size16}
-                />
+                <Icon glyph={closeIcon}/>
               </button>
             )
             : ''
