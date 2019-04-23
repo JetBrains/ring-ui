@@ -1,0 +1,9 @@
+@import "../components/global/variables.css";
+
+body {
+  color: var(--ring-text-color);
+
+  font-family: var(--ring-font-family);
+  font-size: var(--ring-font-size);
+  line-height: var(--ring-line-height);
+}
