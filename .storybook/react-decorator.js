@@ -3,6 +3,7 @@ import addons from '@storybook/addons';
 import {REGISTER_SUBSCRIPTION, STORY_CHANGED} from '@storybook/core-events';
 
 const reactDecorator = () => {
+  // NOTE: this node is being reused across decorated stories. May cause side effects
   const node = document.createElement('div');
   const channel = addons.getChannel();
 
