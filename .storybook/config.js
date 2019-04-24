@@ -1,5 +1,9 @@
 import {configure, addParameters} from '@storybook/html';
 import {create} from '@storybook/theming';
+
+// eslint-disable-next-line import/no-unresolved
+import jetbrainsLogoURL from '!file-loader!@jetbrains/logos/jetbrains/favicon.ico';
+
 import {paramCase} from 'change-case';
 import './preview.css';
 
@@ -49,7 +53,7 @@ addParameters({
       base: 'light',
       brandTitle: 'Ring UI',
       brandUrl: '#',
-      brandImage: null,
+      brandImage: jetbrainsLogoURL,
       ...theme
     })
   }
