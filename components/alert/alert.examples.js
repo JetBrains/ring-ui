@@ -1,7 +1,7 @@
 import React from 'react';
-import {render} from 'react-dom';
 import {storiesOf} from '@storybook/html';
 
+import reactDecorator from '../../.storybook/react-decorator';
 import Link from '../link/link';
 import Button from '../button/button';
 
@@ -9,6 +9,7 @@ import Alert, {Container} from './alert';
 
 
 storiesOf('Components|Alert', module).
+  addDecorator(reactDecorator()).
   add('simple', () => {
     class AlertDemo extends React.Component {
       state = {
@@ -44,9 +45,7 @@ storiesOf('Components|Alert', module).
       }
     }
 
-    const node = document.createElement('div');
-    render(<AlertDemo/>, node);
-    return node;
+    return <AlertDemo/>;
   }).
   add('Alert Container', () => {
     class AlertContainerDemo extends React.Component {
@@ -120,7 +119,5 @@ storiesOf('Components|Alert', module).
       }
     }
 
-    const node = document.createElement('div');
-    render(<AlertContainerDemo/>, node);
-    return node;
+    return <AlertContainerDemo/>;
   });

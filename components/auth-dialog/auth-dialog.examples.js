@@ -1,15 +1,16 @@
 import React from 'react';
-import {render} from 'react-dom';
 import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import Button from '../button/button';
+import reactDecorator from '../../.storybook/react-decorator';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
 import AuthDialog from './auth-dialog';
 
 storiesOf('Components|Auth Dialog', module).
+  addDecorator(reactDecorator()).
   add('dialog', () => {
     class AuthDialogDemo extends React.Component {
       state = {
@@ -61,7 +62,5 @@ storiesOf('Components|Auth Dialog', module).
       }
     }
 
-    const node = document.createElement('div');
-    render(<AuthDialogDemo/>, node);
-    return node;
+    return <AuthDialogDemo/>;
   });
