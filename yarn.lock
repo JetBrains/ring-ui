@@ -998,10 +998,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^1.0.40":
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-1.0.40.tgz#7e62e9f6743b47f14dd613eb953ea0e9f65093e5"
-  integrity sha512-GLkN6Q8Cok5alKMTl7jzLLkbmWQ2vAlMVsnWeL/zCJ0JhHPF7Iftn+eSuwueAo27LZEIMHhAh50+VdAkjPfGYw==
+"@jetbrains/generator-ring-ui@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.3.tgz#e731a004fca208b1f552feb69fc60d3378b6c0d0"
+  integrity sha512-6m0DW7v1WWqepyVVC+YMpDTGRQ2jG3vnXyY8Wto0FRuD/icZ4eE2WMdY3oVd5kQSRGozFmaZXqsO7/MnD4MX6A==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -1802,7 +1802,7 @@
     react-syntax-highlighter "^8.0.1"
     regenerator-runtime "^0.12.1"
 
-"@storybook/addons@5.0.10":
+"@storybook/addons@5.0.10", "@storybook/addons@^5.0.10":
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.0.10.tgz#8911e6e7797185327f0117035a4bc451a57e62d7"
   integrity sha512-plpLh17dt8KWhs8dRQlleClc7sibE1Plq7QQWyAsZjblRHfpNnv82Ax9ArmMeGFx2TRTTbCOcw9PiaKkt5/E7Q==
@@ -1889,14 +1889,14 @@
     recompose "^0.30.0"
     render-fragment "^0.1.1"
 
-"@storybook/core-events@5.0.10":
+"@storybook/core-events@5.0.10", "@storybook/core-events@^5.0.10":
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-5.0.10.tgz#6437f8b6a6c3c902fa2fbad8de992c5104115332"
   integrity sha512-Hp8PleSXAbVNr/yi58JIQb/tjZVpRcjEe8ztIp4JT5qhpz+xHTiVnS7mo8gCdyMw5cr38ANgdlZGnLshJY29lQ==
   dependencies:
     core-js "^2.6.5"
 
-"@storybook/core@5.0.10":
+"@storybook/core@5.0.10", "@storybook/core@^5.0.10":
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/core/-/core-5.0.10.tgz#fa9632a97fa97fd86c75c9fbeb02a54c34c7e903"
   integrity sha512-b87JULxcvZxyM3w8JwdW5iJAt9aVqohfFA3v6dTGSq+H6q8do2rGD3nBCG/iaLsy1NnSskLw6Cd2BNuLDvvWOA==
@@ -2007,7 +2007,7 @@
     memoizerific "^1.11.3"
     qs "^6.5.2"
 
-"@storybook/theming@5.0.10":
+"@storybook/theming@5.0.10", "@storybook/theming@^5.0.10":
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-5.0.10.tgz#6e2b00f879678419e2297ed8a31c357ae7976801"
   integrity sha512-4IUtWglyAQCPHKMqPZkTWc/8FbfGHwtRSbaNxbv5S6PEcfWPIiMVWWRYMBNyETvYoYbCOHORH1w7iwJs75sRmA==

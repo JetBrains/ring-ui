@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import addons from '@storybook/addons';
-import {REGISTER_SUBSCRIPTION, STORY_CHANGED} from '@storybook/core-events'
+import {REGISTER_SUBSCRIPTION, STORY_CHANGED} from '@storybook/core-events';
 
 const reactDecorator = () => {
   const node = document.createElement('div');
@@ -12,7 +12,7 @@ const reactDecorator = () => {
     channel.on(STORY_CHANGED, unmount);
     return () => {
       unmount();
-      channel.removeListener(STORY_CHANGED, unmount)
+      channel.removeListener(STORY_CHANGED, unmount);
     };
   };
 
@@ -20,7 +20,7 @@ const reactDecorator = () => {
 
   return story => {
     ReactDOM.render(story(), node);
-    return node
+    return node;
   };
 };
 
