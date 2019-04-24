@@ -113,6 +113,7 @@
     "lint-staged": "^8.1.5",
     "mocha": "^6.1.4",
     "octicons": "^8.5.0",
+    "raw-loader": "^2.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
