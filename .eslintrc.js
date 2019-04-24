@@ -20,7 +20,8 @@ module.exports = {
         'wallaby.config.js',
         'karma-*.conf.js',
         '**/*.test.js',
-        '**/.eslintrc.js'
+        '**/.eslintrc.js',
+        '.storybook/**'
       ],
       peerDependencies: true
     }]
