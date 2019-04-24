@@ -1,7 +1,7 @@
 import React from 'react';
-import {render} from 'react-dom';
 import {storiesOf} from '@storybook/html';
 
+import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import ButtonToolbar from '../button-toolbar/button-toolbar';
 
@@ -9,6 +9,7 @@ import alert from './alert-service';
 
 
 storiesOf('Components|Alert Service', module).
+  addDecorator(reactDecorator()).
   add('simple', () => {
     const MSG_TIMEOUT = 5000;
     const MSG_LONG_TIMEOUT = 30000;
@@ -49,7 +50,5 @@ storiesOf('Components|Alert Service', module).
       }
     }
 
-    const node = document.createElement('div');
-    render(<AlertServiceDemo/>, node);
-    return node;
+    return <AlertServiceDemo/>;
   });
