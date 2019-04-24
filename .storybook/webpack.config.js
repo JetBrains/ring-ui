@@ -1,4 +1,5 @@
 const webpack = require('@storybook/core/node_modules/webpack');
+
 const ringConfig = require('../webpack.config');
 const pkgConfig = require('../packages/docs/package.json').config;
 
@@ -19,13 +20,14 @@ module.exports = ({config}) => {
     {
       test: /\.examples\.js$/,
       loaders: [require.resolve('@storybook/addon-storysource/loader')],
-      enforce: 'pre',
+      enforce: 'pre'
     }
   ];
 
   const serverUri = getParam('hub');
   const clientId = getParam('clientId');
 
+  // eslint-disable-next-line no-console
   console.log(`Hub server used is ${colorInfo(serverUri)}`);
   const hubConfig = JSON.stringify({serverUri, clientId});
 
