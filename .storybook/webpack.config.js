@@ -7,7 +7,7 @@ const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 // TODO: support ENV variables
 const getParam = name => pkgConfig[name];
 
-module.exports = async ({config}) => {
+module.exports = ({config}) => {
   // TODO: Use more robust way instead of indexes
   const cssRule = config.module.rules.filter(m => m.test.toString().includes('css$'))[0];
   const svgRule = config.module.rules.filter(m => m.test.toString().includes('svg'))[0];
