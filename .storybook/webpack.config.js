@@ -8,22 +8,14 @@ const colorInfo = msg => `\u001b[1m\u001b[34m${msg}\u001b[39m\u001b[22m`;
 const getParam = name => pkgConfig[name];
 
 module.exports = ({config}) => {
-  // TODO: Use more robust way instead of indexes
-  const cssRule = config.module.rules.filter(m => m.test.toString().includes('css$'))[0];
-  const svgRule = config.module.rules.filter(m => m.test.toString().includes('svg'))[0];
-
-  // Keep embedded StoryBook CSS loader away from our files
-  cssRule.exclude = [
-    ...ringConfig.componentsPath
-  ];
-  // Keep embedded StoryBook SVG loader away from our SVGs
-  svgRule.exclude = [
-    /@jetbrains\/icons/
-  ];
+  ringConfig.loaders.cssLoader.include.push(/\.storybook/);
 
   config.module.rules = [
-    ...config.module.rules,
     ...ringConfig.config.module.rules,
+    {
+      test: /\.md$/,
+      loader: 'raw-loader'
+    },
     {
       test: /\.examples\.js$/,
       loaders: [require.resolve('@storybook/addon-storysource/loader')],
