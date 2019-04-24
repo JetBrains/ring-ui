@@ -5,13 +5,15 @@ import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import LinkNG from '../link-ng/link-ng';
+import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import AnalyticsNG from './analytics-ng';
 
 
 storiesOf('Legacy Angular|Analytics Ng', module).
+  addDecorator(angularDecorator()).
   add('analytics', () => {
-    angular.module('Example.analyticsDemo', [AnalyticsNG, LinkNG]).
+    angular.module(APP_NAME, [AnalyticsNG, LinkNG]).
       config(function config(analyticsProvider, AnalyticsCustomPlugin/*, AnalyticsGAPlugin*/) {
         const analyticsEnabled = true;
         if (analyticsEnabled) {
@@ -31,8 +33,7 @@ storiesOf('Legacy Angular|Analytics Ng', module).
         analytics.trackEvent('track-event-demo', 'show');
       });
 
-    const node = document.createElement('div');
-    node.innerHTML = `
+    return `
       <div>
         <p>Hover or click the links below and check the console output:</p>
         <div>
@@ -48,8 +49,4 @@ storiesOf('Legacy Angular|Analytics Ng', module).
         <div ng-controller="TrackEventDemoCtrl"></div>
       </div>
     `;
-
-    angular.bootstrap(node, ['Example.analyticsDemo'], {strictDi: true});
-
-    return node;
   });
