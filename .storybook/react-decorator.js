@@ -16,9 +16,9 @@ const reactDecorator = () => {
     };
   };
 
-  channel.emit(REGISTER_SUBSCRIPTION, subscription);
 
   return story => {
+    channel.emit(REGISTER_SUBSCRIPTION, subscription);
     ReactDOM.render(story(), node);
     return node;
   };
