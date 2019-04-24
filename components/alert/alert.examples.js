@@ -8,7 +8,7 @@ import Button from '../button/button';
 import Alert, {Container} from './alert';
 
 
-storiesOf('Alert', module).
+storiesOf('Components|Alert', module).
   add('simple', () => {
     class AlertDemo extends React.Component {
       state = {
