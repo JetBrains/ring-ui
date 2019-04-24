@@ -92,7 +92,8 @@ module.exports = {
         'react/no-multi-comp': ignore,
         // It's fine for examples:
         'react/jsx-no-literals': ignore,
-        'react/jsx-no-bind': ignore
+        'react/jsx-no-bind': ignore,
+        'no-magic-numbers': ignore
       }
     }
   ]
