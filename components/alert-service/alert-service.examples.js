@@ -22,6 +22,11 @@ storiesOf('Components|Alert Service', module).
         });
       }
 
+      componentWillUnmount() {
+        alert._getShowingAlerts().
+          forEach(item => alert.removeWithoutAnimation(item.key));
+      }
+
       showError = () => {
         this.lastKey = alert.error('Something wrong happened');
       }
