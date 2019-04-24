@@ -6,8 +6,8 @@ import authDialogService from '../auth-dialog-service/auth-dialog-service';
 import hubConfig from '../../packages/docs/components/hub-config';
 import '../link/link__legacy.css';
 
-storiesOf('Auth', module).
-  add('simple', () => {
+storiesOf('Utilities|Auth', module).
+  add('Authorization', () => {
     const log = action('auth-log');
 
     const auth = new Auth(hubConfig);

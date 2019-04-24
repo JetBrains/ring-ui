@@ -8,7 +8,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import alert from './alert-service';
 
 
-storiesOf('Alert Service', module).
+storiesOf('Components|Alert Service', module).
   add('simple', () => {
     const MSG_TIMEOUT = 5000;
     const MSG_LONG_TIMEOUT = 30000;
