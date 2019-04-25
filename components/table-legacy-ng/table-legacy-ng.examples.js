@@ -12,6 +12,19 @@ import TableNG from './table-legacy-ng';
 
 storiesOf('Legacy Angular|TableLegacy Ng', module).
   addDecorator(angularDecorator()).
+  add('without selection', () => {
+    angular.module(APP_NAME, [TableNG]);
+
+    return `
+      <div ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
+        <rg-legacy-table items="itemsArray" disable-selection="true">
+          <rg-legacy-table-row row-item="item" ng-repeat="item in itemsArray">
+            <rg-legacy-table-column>{{item}}</rg-legacy-table-column>
+          </rg-legacy-table-row>
+        </rg-legacy-table>
+      </div>
+    `;
+  }).
   add('with sidebar', () => {
     angular.module(APP_NAME, [TableNG, SidebarNG, SelectNG, QueryAssistNG]).
       controller('testCtrl', function controller($timeout) {
