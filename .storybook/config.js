@@ -1,4 +1,5 @@
-import {configure, addParameters} from '@storybook/html';
+import {configure, addParameters, addDecorator} from '@storybook/html';
+import {withCssResources} from '@storybook/addon-cssresources';
 import {create} from '@storybook/theming';
 
 // eslint-disable-next-line import/no-unresolved
@@ -58,6 +59,8 @@ addParameters({
     })
   }
 });
+
+addDecorator(withCssResources);
 
 const req = require.context('../components', true, /\.examples\.js$/);
 
