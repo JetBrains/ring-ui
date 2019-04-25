@@ -1,4 +1,3 @@
-/* eslint-disable angular/no-controller */
 import angular from 'angular';
 
 import {storiesOf} from '@storybook/html';
