@@ -41,7 +41,7 @@
     "gemini-gather": "yarn --cwd packages/gemini run gemini-gather",
     "build": "yarn --cwd packages/docs run build",
     "build-prod": "yarn --cwd packages/docs run build-prod",
-    "start": "yarn --cwd packages/docs run start",
+    "start": "yarn run storybook",
     "storybook": "start-storybook -p 9999",
     "storybook-build": "build-storybook -c .storybook -o dist",
     "storybook-debug": "node --inspect-brk node_modules/.bin/start-storybook -p 9999",
