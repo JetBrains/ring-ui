@@ -12,6 +12,59 @@ import TableNG from './table-legacy-ng';
 
 storiesOf('Legacy Angular|TableLegacy Ng', module).
   addDecorator(angularDecorator()).
+  add('basic', () => {
+    angular.module(APP_NAME, [TableNG]).
+      controller('testCtrl', function controller() {
+        this.itemsArray = [{
+          name: 'test1',
+          subList: [{name: 'some group'}],
+          iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
+        }];
+
+        for (let i = 0; i < 20; i++) {
+          this.itemsArray.push({
+            name: Math.random(),
+            subList: [
+              {name: Math.random()},
+              {name: Math.random()},
+              {name: Math.random()}
+            ]
+          });
+        }
+      });
+
+    return `
+      <div ng-controller="testCtrl as ctrl">
+        <rg-legacy-table-toolbar stick>
+          <div>Some toolbar content. Selected item:
+            {{ctrl.selection.getActiveItem().name}}
+          </div>
+        </rg-legacy-table-toolbar>
+
+        <rg-legacy-table items="ctrl.itemsArray" selection="ctrl.selection">
+          <rg-legacy-table-header>
+            <rg-legacy-table-title>Avatar</rg-legacy-table-title>
+            <rg-legacy-table-title>Check</rg-legacy-table-title>
+            <rg-legacy-table-title active>Name</rg-legacy-table-title>
+            <rg-legacy-table-title>Groups</rg-legacy-table-title>
+          </rg-legacy-table-header>
+
+          <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
+            <rg-legacy-table-column avatar>
+              <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+                class="ring-table__avatar__img"/>
+            </rg-legacy-table-column>
+            <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
+            <rg-legacy-table-column limited>{{ ::item.name }}</rg-legacy-table-column>
+            <rg-legacy-table-column wide limited>
+              <span class="ring-table__column-list"
+                ng-repeat="subItem in ::item.subList">{{ ::subItem.name }}</span>
+            </rg-legacy-table-column>
+          </rg-legacy-table-row>
+        </rg-legacy-table>
+      </div>
+    `;
+  }).
   add('without selection', () => {
     angular.module(APP_NAME, [TableNG]);
 
