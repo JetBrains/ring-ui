@@ -10,6 +10,7 @@ const getParam = name => pkgConfig[name];
 
 module.exports = ({config}) => {
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
+  ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
 
   config.module.rules = [
     ...ringConfig.config.module.rules,
