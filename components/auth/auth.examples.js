@@ -2,7 +2,9 @@ import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import Auth from '../auth/auth';
+import IFrameFlow from '../auth/iframe-flow';
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
+import LandingEntryFileName from '../auth/landing-entry';
 import hubConfig from '../../packages/docs/components/hub-config';
 import '../link/link__legacy.css';
 
@@ -37,6 +39,69 @@ storiesOf('Utilities|Auth', module).
         log('Token has been refreshed:', newToken);
       });
     })();
+
+    return node;
+  }).
+  add('Authorization in IFrame', () => {
+    const node = document.createElement('div');
+
+    const auth = new Auth({
+      ...hubConfig,
+      EmbeddedLoginFlow: IFrameFlow
+    });
+    auth.setAuthDialogService(authDialogService);
+
+    (async () => {
+      try {
+        const location = await auth.init();
+        action('auth')(location);
+        await auth.login();
+        const data = await auth.requestUser();
+        node.innerHTML = JSON.stringify(data);
+      } catch (e) {
+        action('auth-error')('Failed', e.toString());
+      }
+    })();
+
+    return node;
+  }).
+  add('Auth landing page', () => {
+    const log = action('auth-log');
+    const node = document.createElement('div');
+    node.innerHTML = `
+      <div id="example">
+        <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
+        <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
+        <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
+        <div id="example"></div>
+      </div>
+    `;
+
+    async function run() {
+      const auth = new Auth({
+        ...hubConfig,
+        redirectUri: hubConfig.redirectUri + LandingEntryFileName
+      });
+
+      auth.setAuthDialogService(authDialogService);
+      await auth.init();
+
+      const user = await auth.requestUser();
+      log('Logged in as:', user.name);
+
+      node.querySelector('#open-link').href = LandingEntryFileName;
+
+      node.querySelector('#force-update').addEventListener('click', async () => {
+        const newToken = await auth.forceTokenUpdate();
+        log('New token:', newToken);
+      });
+
+      node.querySelector('#log-out').addEventListener('click', () => {
+        auth.login();
+      });
+    }
+
+    run();
 
     return node;
   });
