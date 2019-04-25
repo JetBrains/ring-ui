@@ -57,7 +57,12 @@ addParameters({
       brandImage: jetbrainsLogoURL,
       ...theme
     })
-  }
+  },
+  cssresources: [{
+    id: 'empty',
+    code: '',
+    picked: false
+  }]
 });
 
 addDecorator(withCssResources);
