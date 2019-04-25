@@ -1,4 +1,4 @@
-/* eslint-disable angular/controller-as,angular/no-controller */
+/* eslint-disable angular/controller-as */
 import angular from 'angular';
 
 import {storiesOf} from '@storybook/html';
