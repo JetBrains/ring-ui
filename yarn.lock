@@ -1785,6 +1785,23 @@
     react-inspector "^2.3.0"
     uuid "^3.3.2"
 
+"@storybook/addon-cssresources@^5.0.10":
+  version "5.0.10"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-cssresources/-/addon-cssresources-5.0.10.tgz#687c032920f75ba98dcf878b53c7c0d200e5b712"
+  integrity sha512-rg/VMAxwUxMStuo1Js5rDkV3dv9QRJNBOhyYwTgewHV65jYddjrw/tMX6sf6CKs7OWxhJ38fC/iS1TJQtpQuKw==
+  dependencies:
+    "@storybook/addons" "5.0.10"
+    "@storybook/channels" "5.0.10"
+    "@storybook/components" "5.0.10"
+    "@storybook/core-events" "5.0.10"
+    core-js "^2.6.5"
+    global "^4.3.2"
+    prop-types "^15.6.2"
+    react "^16.8.1"
+    react-dom "^16.8.1"
+    react-syntax-highlighter "^8.0.1"
+    util-deprecate "^1.0.2"
+
 "@storybook/addon-storysource@^5.0.10":
   version "5.0.10"
   resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-5.0.10.tgz#8322b1cf5d5de283d5d6e2448295344b65621a65"

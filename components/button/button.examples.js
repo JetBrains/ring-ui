@@ -166,6 +166,22 @@ storiesOf('Components|Button', module).
         </div>
       </div>
     );
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .buttons > button {
+    margin: 8px;
+  }
+  
+  .dark {
+    background: #000;
+  }
+</style>
+      `
+    }]
   }).
   add('long action', () => {
     class Sleeper extends Component {
