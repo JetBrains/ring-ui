@@ -93,7 +93,8 @@ module.exports = {
         // It's fine for examples:
         'react/jsx-no-literals': ignore,
         'react/jsx-no-bind': ignore,
-        'no-magic-numbers': ignore
+        'no-magic-numbers': ignore,
+        'angular/no-controller': ignore
       }
     }
   ]
