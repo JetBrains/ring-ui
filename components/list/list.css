@@ -196,9 +196,6 @@
 }
 
 .glyph {
-  position: relative;
-  top: -2px;
-
   float: left;
 
   width: 20px;
