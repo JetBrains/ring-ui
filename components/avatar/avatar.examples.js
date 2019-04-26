@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Avatar, {Size} from '../avatar/avatar';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 
 storiesOf('Components|Avatar', module).
   addDecorator(reactDecorator()).

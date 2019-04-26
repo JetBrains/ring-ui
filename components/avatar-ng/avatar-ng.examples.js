@@ -3,7 +3,7 @@ import angular from 'angular';
 import {storiesOf} from '@storybook/html';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 import {Size as AvatarSize} from '../avatar/avatar';
 import AvatarNG from '../avatar-ng/avatar-ng';
 
