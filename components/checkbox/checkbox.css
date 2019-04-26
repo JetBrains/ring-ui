@@ -43,7 +43,7 @@
 .icon.icon {
   position: absolute;
   top: calc(unit * -1.5);
-  left: -1px;
+  left: 1px;
 
   width: calc(unit * 2);
   height: calc(unit * 2);
