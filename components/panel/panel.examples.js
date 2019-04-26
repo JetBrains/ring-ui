@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, {Component} from 'react';
 import {storiesOf} from '@storybook/html';
 
