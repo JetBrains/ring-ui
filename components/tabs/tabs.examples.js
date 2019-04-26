@@ -70,6 +70,7 @@ storiesOf('Components|Tabs', module).
             selected={this.state.selected}
             onSelect={selected => this.setState({selected})}
             theme={Tabs.Theme.DARK}
+            className="dark-wrapper"
           >
             <Tab
               id="first"
@@ -109,6 +110,19 @@ storiesOf('Components|Tabs', module).
     }
 
     return <TabsDemo/>;
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .dark-wrapper {
+    background: #000;
+    padding: 8px;
+  }
+</style>
+      `
+    }]
   }).
   add('smart', () => {
     class TabsDemo extends Component {
@@ -172,6 +186,20 @@ storiesOf('Components|Tabs', module).
     }
 
     return <TabsDemo/>;
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .icon.icon {
+    vertical-align: 1px;
+    line-height: normal;
+    margin-right: 4px;
+  }
+</style>
+      `
+    }]
   }).
   add('custom titles (function)', () => {
     class TabsDemo extends Component {
@@ -201,4 +229,21 @@ storiesOf('Components|Tabs', module).
     }
 
     return <TabsDemo/>;
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .icon.icon {
+    vertical-align: 3px;
+    line-height: normal;
+  }
+
+  .has-content .icon.icon {
+    margin-right: 4px;
+  }
+</style>
+      `
+    }]
   });
