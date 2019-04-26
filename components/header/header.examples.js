@@ -4,7 +4,7 @@ import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 import Link from '../link/link';
 
 import {Auth} from '../index';
