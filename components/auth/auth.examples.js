@@ -78,10 +78,7 @@ storiesOf('Utilities|Auth', module).
     `;
 
     async function run() {
-      const auth = new Auth({
-        ...hubConfig,
-        redirectUri: hubConfig.redirectUri + LandingEntryFileName
-      });
+      const auth = new Auth(hubConfig);
 
       auth.setAuthDialogService(authDialogService);
       await auth.init();
