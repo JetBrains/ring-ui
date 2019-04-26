@@ -16,7 +16,6 @@ storiesOf('Components|Link', module).
   add('all variants', () => {
     class CustomComponent extends React.Component {
       render() {
-        // eslint-disable-next-line react/prop-types
         const {active, activeClassName, className, ...props} = this.props;
         const classes = classNames(className, {
           [activeClassName]: active
