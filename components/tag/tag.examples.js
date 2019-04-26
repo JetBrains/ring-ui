@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import {CheckmarkIcon} from '../../components/icon/icons';
 
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 
 import Tag from './tag';
 

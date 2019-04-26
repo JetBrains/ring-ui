@@ -4,7 +4,7 @@ import {storiesOf} from '@storybook/html';
 
 import AuthNG from '../auth-ng/auth-ng';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 
 
 storiesOf('Legacy Angular|Auth Ng', module).

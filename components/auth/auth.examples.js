@@ -5,7 +5,7 @@ import Auth from '../auth/auth';
 import IFrameFlow from '../auth/iframe-flow';
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
 import LandingEntryFileName from '../auth/landing-entry';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 import '../link/link__legacy.css';
 
 storiesOf('Utilities|Auth', module).
