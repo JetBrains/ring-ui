@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {storiesOf} from '@storybook/html';
+import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../packages/docs/components/hub-config';
 import {WarningIcon} from '../icon';
 import Link from '../link/link';
 import Popup from '../popup/popup';
+import List from '../list/list';
+import Auth from '../auth/auth';
+import Source from '../list/list__users-groups-source';
 import '../input-size/input-size.scss';
 
 import Select from './select';
@@ -400,6 +404,328 @@ storiesOf('Components|Select', module).
 </style>
       `
     }]
-  });
+  }).
 
+  add('Select with server-side filtering', () => {
+    const alwaysTrue = () => true;
+
+    class UserList extends Component {
+      state = {
+        users: [],
+        request: null
+      };
+
+      componentDidMount() {
+        this.initialize();
+      }
+
+      auth = new Auth(hubConfig);
+
+      source = new Source(this.auth, {
+        searchMax: 8
+      });
+
+      initialize = async () => {
+        await this.auth.init();
+        await this.loadData();
+      };
+
+      loadData = async query => {
+        const request = this.source.getForList(query);
+        this.setState({request});
+
+        const users = await request;
+
+        // only the latest request is relevant
+        if (this.state.request === request) {
+          this.setState({
+            users,
+            request: null
+          });
+        }
+      };
+
+      render() {
+        return (
+          <Select
+            data={this.state.users}
+            label="Set owner"
+            selectedLabel="Owner"
+            filter={{
+              placeholder: 'Search user or group',
+              fn: alwaysTrue // disable client filtering
+            }}
+            onFilter={this.loadData}
+            loading={!!this.state.request}
+          />
+        );
+      }
+    }
+
+    return <UserList/>;
+  }).
+
+  add('Select with fuzzy search filter', () => {
+    class SelectExample extends Component {
+
+      static propTypes = {
+        data: PropTypes.arrayOf(Object)
+      };
+
+      constructor(props) {
+        super(props);
+        this.state = {selected: props.data[0]};
+      }
+
+      clearSelection = () => {
+        this.setState({selected: null});
+      };
+
+      onSelect = option => {
+        this.setState({selected: option});
+      };
+
+      render() {
+        return (
+          <div className="demo-container">
+            <div className="demo">
+              <Select
+                selectedLabel="Option"
+                label="Please select option"
+                filter={{fuzzy: true}}
+                clear
+                selected={this.state.selected}
+                data={this.props.data}
+                onSelect={this.onSelect}
+              />
+            </div>
+
+            <>
+              <Link pseudo onClick={this.clearSelection}>
+                Clear
+              </Link>
+            </>
+          </div>
+        );
+      }
+    }
+
+    const data = [
+      {label: 'One', key: '1', type: 'user'},
+      {label: 'Group', key: '2', type: 'user'},
+      {label: 'Three', key: '3', type: 'user'},
+      {label: 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
+    ];
+
+    return <SelectExample data={data}/>;
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .demo {
+    margin: 32px 0 16px 0;
+  }
+</style>
+      `
+    }]
+  }).
+
+  add('Select with a large dataset', () => {
+    const elementsNum = 100000;
+    const selectedIndex = elementsNum / 2;
+    const dataset = [...Array(elementsNum)].map(
+      (elem, idx) => ({
+        label: `element ${idx}`,
+        key: idx,
+        type: 'user'
+      })
+    );
+
+    return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
+  }).
+
+  add('Multiple select with a description', () => {
+    const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
+    const ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
+    const icons = [deFlag, ruFlag, undefined];
+    const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
+
+    const elementsNum = 5;
+    const dataset = [...Array(elementsNum)].map(
+      (elem, idx) => ({
+        label: `element ${idx}`,
+        key: idx,
+        description: `description ${idx}`,
+        icon: icons[idx % 3],
+        avatar: idx % 2 ? avatarUrl : null
+      })
+    );
+
+    return <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>;
+  }).
+
+  add('Disabled select', () => (
+    <div>
+      <div className="demo-wrapper">
+        <Select disabled loading/>
+      </div>
+      <div className="demo-wrapper">
+        <Select disabled loading type={Select.Type.BUTTON}/>
+      </div>
+    </div>
+  ), {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .demo-wrapper {
+    margin: 8px;
+  }
+</style>
+      `
+    }]
+  }).
+
+  add('Simple input-based select', () => {
+    const data = [...Array(20)].map(
+      (elem, idx) => ({label: `Item ${idx}`, key: idx})
+    );
+
+    return <Select type={Select.Type.INPUT} data={data} clear/>;
+  }).
+
+  add('Simple input-based select in suggest-only mode', () => {
+    const data = [...Array(20)].map(
+      (elem, idx) => ({label: `Item ${idx}`, key: idx})
+    );
+
+    return (
+      <Select
+        type={Select.Type.INPUT}
+        allowAny
+        hideArrow
+        label="Placeholder without arrow"
+        data={data}
+        selected={data[1]}
+      />
+    );
+  }).
+
+  add('Simple select with sub levels for list element', () => {
+    const data = [
+      {label: 'One', key: '1'},
+      {label: 'Two', key: '2', disabled: true},
+      {label: 'Two One', key: '2.1', level: 1},
+      {label: 'Two Two', key: '2.2', level: 1},
+      {label: 'Three', key: '3'}
+    ];
+
+    return (<Select filter data={data}/>);
+  }).
+
+  add('Simple select with default filter mode enabled and a loading indicator', () => {
+    const data = [
+      {label: 'One', key: '1'},
+      {label: 'Group', key: '2'},
+      {label: 'Three', key: '3'}
+    ];
+
+    return (<Select filter loading data={data} selected={data[1]}/>);
+  }).
+
+  add('Select with a customized filter and an \'Add item\' button', () => {
+    const data = [...Array(100)].map(
+      (elem, idx) => ({
+        label: `Item long long long long long long long long label ${idx}`,
+        key: idx
+      })
+    );
+
+    return (
+      <Select
+        filter={{
+          placeholder: 'Select me',
+          value: 'One'
+        }}
+        hint="Press down to do something"
+        add={{
+          prefix: 'Add name'
+        }}
+        onAdd={action('added')}
+        data={data}
+        selected={data[49]}
+        onSelect={action('selected')}
+      />
+    );
+  }).
+
+  add('Select with custom items and an \'Add item\' button', () => {
+    const data = [...Array(100)].map(
+      (elem, idx) => {
+        const label = `Label ${idx}`;
+        return {
+          label,
+          key: label,
+          template: <span className="label">{label}</span>,
+          rgItemType: List.ListProps.Type.CUSTOM
+        };
+      }
+    );
+
+    return (
+      <Select
+        filter
+        hint="Press down to do something"
+        add={{
+          prefix: 'Add label'
+        }}
+        onAdd={action('added')}
+        data={data}
+        onSelect={action('selected')}
+      />
+    );
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .label {
+    border-radius: 3px;
+    color: #669ECC;
+    background-color: #E5F4FF;
+    padding-left: 8px;
+    margin: 2px 0;
+  }
+</style>
+      `
+    }]
+  }).
+
+  add('Select with an always visible \'Add item\' button', () => {
+    const data = [...Array(10)].map(
+      (elem, idx) => ({
+        key: idx, label: `Item ${idx}`
+      })
+    );
+
+    return (
+      <Select
+        filter={{
+          placeholder: 'Select me',
+          value: 'One'
+        }}
+        add={{
+          alwaysVisible: true,
+          label: 'Create New Blah Blah'
+        }}
+        onAdd={action('added')}
+        data={data}
+        onSelect={action('selected')}
+      />
+    );
+  });
 
