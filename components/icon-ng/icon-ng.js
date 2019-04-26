@@ -47,7 +47,7 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       height: '@?',
       width: '@?'
     },
-    template: `<span class="${styles.icon}" rg-template="normalizedGlyph" rg-template-class="${styles.glyph}" ng-style="style"></span>`,
+    template: `<span class="${styles.icon}" rg-template="normalizedGlyph" rg-template-class="${styles.glyph}"></span>`,
     controller: $scope => {
       function decodeBase64IfNeeded(glyph) {
         // This hack allows passing SVG content as string from angular templates like
@@ -88,21 +88,20 @@ angularModule.directive('rgIcon', function rgIconDirective() {
       );
 
       scope.$watchGroup(['size', 'width', 'height'], ([size, width, height]) => {
+        const svgNode = iElement[0].querySelector('svg');
+
         if (size && !width && !height) {
           const sizeString = `${size}px`;
-          scope.style = {
-            width: sizeString,
-            height: sizeString
-          };
+          const style = `width: ${sizeString}; height: ${sizeString};`;
+          svgNode.setAttribute('style', style);
           return;
         }
 
-        scope.style = {};
         if (width) {
-          scope.style.width = `${width}px`;
+          svgNode.setAttribute('style', `width: ${width}px;`);
         }
         if (height) {
-          scope.style.height = `${height}px`;
+          svgNode.setAttribute('style', `height: ${height}px;`);
         }
       });
     }
