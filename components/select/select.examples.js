@@ -4,7 +4,7 @@ import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import hubConfig from '../../packages/docs/components/hub-config';
+import hubConfig from '../../.storybook/hub-config';
 import {WarningIcon} from '../icon';
 import Link from '../link/link';
 import Popup from '../popup/popup';
@@ -727,5 +727,200 @@ storiesOf('Components|Select', module).
         onSelect={action('selected')}
       />
     );
+  }).
+
+  add('Multiple-choice select with custom view', () => {
+    const data = [
+      {label: 'One long label', key: '1'},
+      {label: 'Two long label', key: '2'},
+      {label: 'Three long label', key: '3'}
+    ];
+
+    return (
+      <Select
+        filter
+        add={{
+          prefix: 'Add some item'
+        }}
+        multiple={{
+          label: 'Change selected items',
+          removeSelectedItems: false
+        }}
+        selected={[data[1]]}
+        data={data}
+        onSelect={action('selected')}
+        onDeselect={action('deselected')}
+        onChange={action('changed-selection')}
+      />
+    );
+  }).
+
+  add('Select as a dropdown without filter', () => {
+    const data = [...Array(20)].map(
+      (elem, idx) => ({
+        label: `Item ${idx}`,
+        description: `Description for the item lalalalala ${idx}`,
+        key: idx
+      })
+    );
+
+    return (
+      <Select
+        type={Select.Type.CUSTOM}
+        data={data}
+        label="Click me"
+        customAnchor={({wrapperProps, buttonProps, popup}) => (
+          <span {...wrapperProps}>
+            <button type="button" {...buttonProps}/>
+            {popup}
+          </span>
+        )}
+      />
+    );
+  }).
+
+  add('Select with render optimization', () => {
+    const data = [...Array(1000)].map(
+      (item, idx) => ({
+        label: `Label ${idx}`,
+        key: idx,
+        rgItemType: idx % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
+      })
+    );
+
+    return <Select filter data={data}/>;
+  }).
+
+  add('Select fits to screen', () => {
+    const dataset = [...Array(1000)].map(
+      (item, idx) => ({
+        label: `element ${idx}`,
+        key: idx,
+        type: 'user'
+      })
+    );
+    const selectedIndex = dataset.length / 2;
+
+    return (
+      <div className="demo">
+        <Select
+          maxHeight={5000}
+          filter
+          compact
+          selected={dataset[selectedIndex]}
+          data={dataset}
+        />
+      </div>
+    );
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+  .demo {
+    position: absolute;
+    bottom: 20px;
+  }
+</style>
+      `
+    }]
+  }).
+
+  add('Select with filtered fields', () => {
+    class SelectWrapper extends Component {
+      constructor(props) {
+        super(props);
+
+        const data = [...Array(100)].map(
+          (item, idx) => {
+            const label = `Label ${idx}`;
+            return {
+              key: idx,
+              label,
+              template: <span className="label">{label}</span>,
+              rgItemType: List.ListProps.Type.CUSTOM
+            };
+          }
+        );
+
+        const filtersData = [
+          {label: 'Show odd', key: '1'},
+          {label: 'Show even', key: '2'},
+          {label: 'Show all', key: '3'}
+        ];
+
+        this.state = {
+          data,
+          filtersData,
+          filteredData: data.filter(item => item.key % 2),
+          selectedDataKey: null,
+          selectedFilterKey: filtersData[0].key
+        };
+      }
+
+      handleFilterSelect = selected => {
+        const {data} = this.state;
+
+        const filteredData = selected.label === 'Show all'
+          ? [...data]
+          : data.filter(
+            item => !!(item.key % 2) === (selected.label === 'Show odd')
+          );
+
+        this.setState({
+          filteredData,
+          selectedFilterKey: selected.key,
+          selectedDataKey: null
+        });
+      };
+
+      handleDataSelect = selected =>
+        this.setState({selectedDataKey: selected && selected.key});
+
+      render() {
+        const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
+        return (
+          <div className="filters-block">
+            <Select
+              selectedLabel="Filter"
+              label="Please select filter"
+              filter
+              clear
+              selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
+              onSelect={this.handleFilterSelect}
+              data={filtersData}
+            />
+            <Select
+              selectedLabel="Option"
+              label="Please select option"
+              filter
+              clear
+              selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
+              onSelect={this.handleDataSelect}
+              data={filteredData}
+            />
+          </div>
+        );
+      }
+    }
+
+    return <SelectWrapper/>;
+  }, {
+    cssresources: [{
+      id: 'example-styles',
+      picked: true,
+      code: `
+<style>
+    .filters-block {
+      padding: 8px 0;
+    }
+    
+    .filters-block > *:not(:nth-of-type(1)) {
+      margin-left: 20px;
+    }
+</style>
+      `
+    }]
   });
 
