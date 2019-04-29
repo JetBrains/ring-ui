@@ -59,10 +59,7 @@ storiesOf('Components|Popup', module).
 
     return <PopupDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   body {
     overflow: hidden;
@@ -105,7 +102,6 @@ storiesOf('Components|Popup', module).
   }
 </style>
       `
-    }]
   }).
   add('auto-positioning', () => {
     const Directions = Popup.PopupProps.Directions;
@@ -154,10 +150,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .message {
     position: absolute;
@@ -196,7 +189,6 @@ storiesOf('Components|Popup', module).
   }
 </style>
       `
-    }]
   }).
   add('popup in a popup', () => {
     class PopupBox extends Component {
@@ -230,10 +222,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .parent-popup {
     width: 100px;
@@ -248,7 +237,6 @@ storiesOf('Components|Popup', module).
   }
 </style>
       `
-    }]
   }).
   add('inside a scrollable container', () => {
     const PopupDemo = (
@@ -264,10 +252,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     body {
       margin: 0;
@@ -288,7 +273,6 @@ storiesOf('Components|Popup', module).
     }
 </style>
       `
-    }]
   }).
   add('fits screen', () => {
     const PopupDemo = (
@@ -305,10 +289,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     body {
       margin: 0;
@@ -333,5 +314,4 @@ storiesOf('Components|Popup', module).
     }
 </style>
       `
-    }]
   });

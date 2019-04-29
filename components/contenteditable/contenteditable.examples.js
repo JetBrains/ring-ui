@@ -17,10 +17,7 @@ storiesOf('Components|ContentEditable', module).
       </ContentEditable>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     .my-input {
       padding-left: 4px;
@@ -30,7 +27,5 @@ storiesOf('Components|ContentEditable', module).
       border: 1px solid var(--ring-border-disabled-color);
       background-color: var(--ring-disabled-color);
     }
-</style>
-      `
-    }]
+</style>`
   });

@@ -86,10 +86,7 @@ storiesOf('Legacy Angular|Dialog Ng', module).
       </div>
     `;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     .custom-css-class-button-right {
       float: right;
@@ -108,9 +105,7 @@ storiesOf('Legacy Angular|Dialog Ng', module).
       padding: 0;
       line-height: 32px;
     }
-</style>
-      `
-    }]
+</style>`
   }).
   add('in sidebar', () => {
     angular.module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
@@ -197,10 +192,7 @@ storiesOf('Legacy Angular|Dialog Ng', module).
       </div>
     `;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .long-page {
     height: 2000px;
@@ -208,7 +200,5 @@ storiesOf('Legacy Angular|Dialog Ng', module).
   .custom-css-class {
     padding: 40px;
   }
-</style>
-      `
-    }]
+</style>`
   });
