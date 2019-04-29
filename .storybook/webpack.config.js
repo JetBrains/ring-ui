@@ -25,6 +25,8 @@ module.exports = ({config}) => {
     }
   ];
 
+  config.entry.favicon = 'file-loader?name=favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
+
   const serverUri = getParam('hub');
   const clientId = getParam('clientId');
 
