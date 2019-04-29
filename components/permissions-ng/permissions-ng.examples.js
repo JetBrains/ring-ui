@@ -9,6 +9,7 @@ import hubConfig from '../../.storybook/hub-config';
 import PermissionsNG from './permissions-ng';
 
 storiesOf('Legacy Angular|Permissions Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('rg-permission-if', () => {
     angular.module(APP_NAME, [PermissionsNG, AuthNG]).
