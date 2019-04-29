@@ -6,7 +6,14 @@ import {create} from '@storybook/theming';
 import jetbrainsLogoURL from '!file-loader!@jetbrains/logos/jetbrains/favicon.ico';
 
 import {paramCase} from 'change-case';
-import './preview.css';
+import URLSearchParams from 'url-search-params';
+
+import styles from './preview.css';
+
+const params = new URLSearchParams(location.search.slice(1));
+if (params.has('block-animations')) {
+  document.body.classList.add(styles.blockAnimations);
+}
 
 // Proxy support is more or less the same as one of CSS custom properties
 const variables = window.Proxy
