@@ -17,7 +17,7 @@ import Source from './list__users-groups-source';
 
 storiesOf('Components|List', module).
   addDecorator(reactDecorator()).
-  add('List', () => {
+  add('basic', () => {
     const listData = [];
     for (let i = 0; i < 1000; i++) {
       listData.push({
@@ -36,7 +36,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List with a hint below', () => {
+  add('with a hint below', () => {
     const listData = [
       {label: 'One', rgItemType: List.ListProps.Type.ITEM},
       {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
@@ -59,7 +59,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List #2', () => {
+  add('list #2', () => {
     const listData = [
       {label: 'One', href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
       {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
@@ -77,7 +77,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List #3', () => {
+  add('list #3', () => {
     const listData = [
       {
         rgItemType: List.ListProps.Type.SEPARATOR,
@@ -126,7 +126,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List with item icons', () => {
+  add('with item icons', () => {
     const listData = [
       {
         label: 'Some item',
@@ -175,7 +175,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List should support the deprecated item.type parameter', () => {
+  add('with deprecated item.type parameter', () => {
     const listData = [
       {label: 'One', type: List.ListProps.Type.ITEM},
       {label: 'Two', type: List.ListProps.Type.ITEM},
@@ -192,7 +192,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List with custom items', () => {
+  add('with custom items', () => {
     const listData = [
       {
         key: '1',
@@ -220,7 +220,7 @@ storiesOf('Components|List', module).
       />
     );
   }).
-  add('List of users', () => {
+  add('with users', () => {
     class UserList extends React.Component {
       state = {
         listData: null,

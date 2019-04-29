@@ -8,7 +8,7 @@ import LoaderScreen from './loader-screen-ng';
 
 storiesOf('Legacy Angular|Loader Screen Ng', module).
   addDecorator(angularDecorator()).
-  add('simple', () => {
+  add('basic', () => {
     angular.module(APP_NAME, [LoaderScreen]).run(loaderScreen => {
       loaderScreen.setVisible(true);
       loaderScreen.startInitialLoading();
