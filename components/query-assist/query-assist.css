@@ -97,7 +97,7 @@
 
     color: var(--ring-icon-color);
 
-    @nest & _:-ms-input-placeholder,
+    @nest & :-ms-input-placeholder,
     :root & {
       top: 7px;
     }
@@ -194,7 +194,7 @@
     outline: 0;
   }
 
-  @nest & _:-ms-input-placeholder,
+  @nest & :-ms-input-placeholder,
   :root & {
     line-height: 17px;
   }
@@ -247,7 +247,7 @@
     left: calc(unit * 3 + 5px);
   }
 
-  @nest & _:-ms-input-placeholder,
+  @nest & :-ms-input-placeholder,
   :root & {
     top: 4px;
   }

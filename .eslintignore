@@ -9,3 +9,4 @@ packages/generator/**/templates
 test_gen
 !.eslintrc.js
 !.storybook
+!.hermione.conf.js
