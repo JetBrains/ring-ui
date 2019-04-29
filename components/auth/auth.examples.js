@@ -9,7 +9,7 @@ import hubConfig from '../../.storybook/hub-config';
 import '../link/link__legacy.css';
 
 storiesOf('Utilities|Auth', module).
-  add('Authorization', () => {
+  add('basic', () => {
     const log = action('auth-log');
 
     const auth = new Auth(hubConfig);
@@ -42,7 +42,7 @@ storiesOf('Utilities|Auth', module).
 
     return node;
   }).
-  add('Authorization in IFrame', () => {
+  add('in IFrame', () => {
     const node = document.createElement('div');
 
     const auth = new Auth({
@@ -65,7 +65,7 @@ storiesOf('Utilities|Auth', module).
 
     return node;
   }).
-  add('Auth landing page', () => {
+  add('landing page', () => {
     const log = action('auth-log');
     const node = document.createElement('div');
     node.innerHTML = `

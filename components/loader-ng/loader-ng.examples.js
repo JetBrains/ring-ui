@@ -8,7 +8,7 @@ import LoaderNg from './loader-ng';
 
 storiesOf('Legacy Angular|Loader Ng', module).
   addDecorator(angularDecorator()).
-  add('simple', () => {
+  add('basic', () => {
     angular.module(APP_NAME, [LoaderNg]);
 
     return `

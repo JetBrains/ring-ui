@@ -26,7 +26,7 @@ import SmartProfile from './smart-profile';
 
 storiesOf('Components|Header', module).
   addDecorator(reactDecorator()).
-  add('Header', () => {
+  add('basic', () => {
     class HeaderDemo extends React.Component {
       render() {
         const auth = new Auth(hubConfig);
@@ -83,7 +83,7 @@ storiesOf('Components|Header', module).
 
     return <HeaderDemo/>;
   }).
-  add('Light header', () => {
+  add('light', () => {
     class LightHeaderDemo extends React.Component {
       render() {
         const auth = new Auth(hubConfig);
@@ -140,7 +140,7 @@ storiesOf('Components|Header', module).
 
     return <LightHeaderDemo/>;
   }).
-  add('Compact header', () => {
+  add('compact', () => {
     class CompactHeaderDemo extends React.Component {
       render() {
         const auth = new Auth(hubConfig);

@@ -8,7 +8,7 @@ import Loader from './loader';
 
 storiesOf('Components|Loader', module).
   addDecorator(reactDecorator()).
-  add('Loader', () => {
+  add('basic', () => {
     class Example extends React.Component {
       render() {
         return (
