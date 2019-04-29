@@ -3,6 +3,7 @@ export const injectStyleSheet = styles => {
   styleTag.setAttribute('type', 'text/css');
   styleTag.textContent = styles;
   document.head.appendChild(styleTag);
+  return styleTag;
 };
 
 export const injectRuleSet = (selector, declarations) =>
