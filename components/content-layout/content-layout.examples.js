@@ -86,10 +86,7 @@ storiesOf('Components|Content Layout', module).
       </div>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     body {
       margin: 0;
@@ -99,9 +96,7 @@ storiesOf('Components|Content Layout', module).
     .sidebar {
       background-color: #EEEEEE;
     }
-</style>
-      `
-    }]
+</style>`
   }).
   add('with sidebar on the right', () => (
     <div>
@@ -173,10 +168,7 @@ storiesOf('Components|Content Layout', module).
       </div>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     body {
       margin: 0;
@@ -188,5 +180,4 @@ storiesOf('Components|Content Layout', module).
     }
 </style>
       `
-    }]
   });

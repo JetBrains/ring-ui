@@ -37,10 +37,7 @@ storiesOf('Components|Dropdown', module).
       <Popup>Popup content</Popup>
     </Dropdown>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .chevron svg {
     transition: transform 0.3s ease-out;
@@ -51,9 +48,7 @@ storiesOf('Components|Dropdown', module).
   .rotated svg {
     transform: rotate(180deg);
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('with hover mode', () => (
     <Dropdown

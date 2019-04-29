@@ -32,10 +32,7 @@ storiesOf('Components|Avatar', module).
 
     return <Example/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .avatar-demo {
     display: flex;
@@ -43,7 +40,5 @@ storiesOf('Components|Avatar', module).
     width: 200px;
     margin-bottom: 16px;
   }
-</style>
-      `
-    }]
+</style>`
   });
