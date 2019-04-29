@@ -21,7 +21,9 @@ module.exports = {
         'karma-*.conf.js',
         '**/*.test.js',
         '**/.eslintrc.js',
-        '.storybook/**'
+        '.storybook/**',
+        'packages/hermione/**',
+        '**/.hermione.conf.js'
       ],
       peerDependencies: true
     }]
