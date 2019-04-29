@@ -1118,6 +1118,7 @@ object PublishToGitHubPages : BuildType({
         param("vcs.branch.spec", """
             +:refs/heads/(master)
             +:refs/heads/(release-1.0)
+            +:refs/heads/(develop-storybook)
         """.trimIndent())
     }
 
