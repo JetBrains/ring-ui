@@ -42,7 +42,7 @@ project {
     description = "https://jetbrains.github.io/ring-ui/"
 
     buildType(UnpublishSpecificVersion)
-    buildType(HermioneTests)
+    buildType(GeminiTests)
     buildType(UnitTestsAndBuild)
     buildType(Publish)
     buildType(Publish10hotfix)
@@ -124,7 +124,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(HermioneTests, UnitTestsAndBuild, Publish, Publish10hotfix, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Publish10hotfix, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -165,7 +165,7 @@ object AllChecks : BuildType({
     }
 
     dependencies {
-        snapshot(HermioneTests) {
+        snapshot(GeminiTests) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(GeneratorE2eTest) {
@@ -325,7 +325,7 @@ object Deploy : BuildType({
     }
 })
 
-object HermioneTests : BuildType({
+object GeminiTests : BuildType({
     name = "Visual Regression Tests (Hermione)"
     description = "Screenshots based snapshot tests"
 
@@ -691,7 +691,7 @@ object Publish : BuildType({
     }
 
     dependencies {
-        snapshot(HermioneTests) {
+        snapshot(GeminiTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -835,7 +835,7 @@ object Publish10hotfix : BuildType({
     }
 
     dependencies {
-        snapshot(HermioneTests) {
+        snapshot(GeminiTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -984,7 +984,7 @@ object PublishCanary : BuildType({
     }
 
     dependencies {
-        snapshot(HermioneTests) {
+        snapshot(GeminiTests) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
     }
@@ -1124,7 +1124,7 @@ object PublishNext : BuildType({
     }
 
     dependencies {
-        snapshot(HermioneTests) {
+        snapshot(GeminiTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
