@@ -10,13 +10,6 @@ function loadersObjectToArray(loaders) {
   return Object.keys(loaders).map(name => loaders[name]);
 }
 
-const htmlLoaderOptions = `?${JSON.stringify({
-  interpolate: true,
-  collapseBooleanAttributes: false,
-  attrs: 'rg-icon:glyph',
-  root: require('@jetbrains/icons')
-})}`;
-
 const svgInlineLoader = {
   test: /\.svg$/,
   loader: resolveLoader('svg-inline'),
@@ -107,7 +100,10 @@ const whatwgLoader = {
 const htmlLoader = {
   test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
   include: componentsPath,
-  loader: resolveLoader('html') + htmlLoaderOptions
+  loader: resolveLoader('html'),
+  query: {
+    collapseBooleanAttributes: false
+  }
 };
 
 const gifLoader = {
