@@ -181,7 +181,7 @@ object Deploy : BuildType({
     allowExternalStatus = true
     artifactRules = """
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogs
-        packages/docs/dist => ring-ui
+        dist => dist.zip
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
 
@@ -209,35 +209,10 @@ object Deploy : BuildType({
                 npm config set unsafe-perm true
                 
                 npm run bootstrap
-                npm run build-prod
+                npm run storybook-build
             """.trimIndent()
             dockerImage = "huston007/node-electron:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
-        }
-        script {
-            name = "Deploy to GitHub pages"
-            enabled = false
-            scriptContent = """
-                #!/bin/bash
-                set -e -x
-                
-                mkdir -p ~/.ssh/
-                touch ~/.ssh/config
-                cat << EOT >> ~/.ssh/config
-                Host github.com
-                    StrictHostKeyChecking no
-                    UserKnownHostsFile /dev/null
-                EOT
-                
-                chmod 644 ~/.ssh/config
-                 
-                # GitHub authorization
-                git config user.email "%github.com.builduser.email%"
-                git config user.name "%github.com.builduser.name%"
-                
-                npx gh-pages --clone . --dist packages/docs --dest %teamcity.build.branch%
-            """.trimIndent()
-            dockerImage = "node:latest"
         }
     }
 
@@ -1171,7 +1146,7 @@ object PublishToGitHubPages : BuildType({
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
                 
-                npx gh-pages --dist docs --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+                npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
             dockerImage = "node:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -1244,7 +1219,7 @@ object PublishToGitHubPages : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "ring-ui=>docs"
+                artifactRules = "dist.zip!**=>dist"
             }
         }
     }
