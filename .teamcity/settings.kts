@@ -86,6 +86,13 @@ project {
             param("type", "BuildReportTab")
         }
         feature {
+          id = "PROJECT_EXT_124"
+          type = "ReportTab"
+          param("startPage", "dist.zip!index.html")
+          param("title", "Storybook")
+          param("type", "BuildReportTab")
+        }
+        feature {
             id = "PROJECT_EXT_126"
             type = "ReportTab"
             param("buildTypeId", "JetBrainsUi_RingUi_Build")
