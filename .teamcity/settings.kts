@@ -74,7 +74,7 @@ project {
         feature {
             id = "PROJECT_EXT_122"
             type = "ReportTab"
-            param("startPage", "gemini-report.zip!index.html")
+            param("startPage", "html-report.zip!index.html")
             param("title", "Visual Regression")
             param("type", "BuildReportTab")
         }
@@ -338,7 +338,7 @@ object GeminiTests : BuildType({
 
     allowExternalStatus = true
     artifactRules = """
-        packages/gemini/html-report/ => gemini-report.zip
+        packages/gemini/html-report/ => html-report.zip
         packages/gemini/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
