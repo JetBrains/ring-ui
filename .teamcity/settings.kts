@@ -444,7 +444,7 @@ object HermioneTests : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "dist.zip!*=>dist"
+                artifactRules = "dist.zip!**=>dist"
             }
         }
     }
