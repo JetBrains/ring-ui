@@ -9,6 +9,7 @@ import hubConfig from '../../.storybook/hub-config';
 import '../link/link__legacy.css';
 
 storiesOf('Utilities|Auth', module).
+  addParameters({hermione: {skip: true}}).
   add('basic', () => {
     const log = action('auth-log');
 
