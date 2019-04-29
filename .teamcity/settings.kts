@@ -42,7 +42,7 @@ project {
     description = "https://jetbrains.github.io/ring-ui/"
 
     buildType(UnpublishSpecificVersion)
-    buildType(GeminiTests)
+    buildType(HermioneTests)
     buildType(UnitTestsAndBuild)
     buildType(Publish)
     buildType(Publish10hotfix)
@@ -65,24 +65,24 @@ project {
             id = "PROJECT_EXT_121"
             type = "ReportTab"
             param("buildTypeId", "JetBrainsUi_RingUi_Deploy")
-            param("startPage", "ring-ui/index.html")
+            param("startPage", "dist.zip!index.html")
             param("revisionRuleName", "lastSuccessful")
             param("revisionRuleRevision", "latest.lastSuccessful")
-            param("title", "Docs")
+            param("title", "Storybook")
             param("type", "ProjectReportTab")
         }
         feature {
             id = "PROJECT_EXT_122"
             type = "ReportTab"
-            param("startPage", "gemini-report.zip!index.html")
+            param("startPage", "html-report.zip!index.html")
             param("title", "Visual Regression")
             param("type", "BuildReportTab")
         }
         feature {
             id = "PROJECT_EXT_123"
             type = "ReportTab"
-            param("startPage", "ring-ui/index.html")
-            param("title", "Docs")
+            param("startPage", "dist.zip!index.html")
+            param("title", "Storybook")
             param("type", "BuildReportTab")
         }
         feature {
@@ -124,7 +124,7 @@ project {
             param("multi", "true")
         }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Publish10hotfix, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
+    buildTypesOrder = arrayListOf(HermioneTests, UnitTestsAndBuild, Publish, Publish10hotfix, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
 }
 
 object AllChecks : BuildType({
@@ -165,7 +165,7 @@ object AllChecks : BuildType({
     }
 
     dependencies {
-        snapshot(GeminiTests) {
+        snapshot(HermioneTests) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(GeneratorE2eTest) {
@@ -325,14 +325,14 @@ object Deploy : BuildType({
     }
 })
 
-object GeminiTests : BuildType({
-    name = "Visual Regression Tests (Gemini)"
+object HermioneTests : BuildType({
+    name = "Visual Regression Tests (Hermione)"
     description = "Screenshots based snapshot tests"
 
     allowExternalStatus = true
     artifactRules = """
-        packages/gemini/html-report/ => gemini-report.zip
-        packages/gemini/*.log
+        packages/hermione/html-report/ => html-report.zip
+        packages/hermione/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
     maxRunningBuilds = 3
@@ -357,7 +357,7 @@ object GeminiTests : BuildType({
 
     steps {
         script {
-            name = "Run gemini"
+            name = "Run hermione"
             scriptContent = """
                 #!/bin/bash
                 set -e -x
@@ -365,10 +365,10 @@ object GeminiTests : BuildType({
                 node -v
                 npm -v
                 
-                cd packages/gemini
+                cd packages/hermione
                 yarn install
-                # ! We run tests against built docs from another build configuration
-                npm run gemini-test-ci
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
             """.trimIndent()
             dockerImage = "node:8"
             dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -444,7 +444,7 @@ object GeminiTests : BuildType({
 
             artifacts {
                 cleanDestination = true
-                artifactRules = "ring-ui=>packages/docs/dist"
+                artifactRules = "dist.zip!*=>dist"
             }
         }
     }
@@ -691,7 +691,7 @@ object Publish : BuildType({
     }
 
     dependencies {
-        snapshot(GeminiTests) {
+        snapshot(HermioneTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -835,7 +835,7 @@ object Publish10hotfix : BuildType({
     }
 
     dependencies {
-        snapshot(GeminiTests) {
+        snapshot(HermioneTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -984,7 +984,7 @@ object PublishCanary : BuildType({
     }
 
     dependencies {
-        snapshot(GeminiTests) {
+        snapshot(HermioneTests) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
     }
@@ -1124,7 +1124,7 @@ object PublishNext : BuildType({
     }
 
     dependencies {
-        snapshot(GeminiTests) {
+        snapshot(HermioneTests) {
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
@@ -1259,7 +1259,7 @@ object UnitTestsAndBuild : BuildType({
 
     allowExternalStatus = true
     artifactRules = """
-        packages/docs/dist => ring-ui
+        dist => dist.zip
         %teamcity.build.workingDir%/npmlogs/*.log=>npmlogsssssssssssssssssssss
         coverage => coverage.zip
         lerna-debug.log
@@ -1304,7 +1304,7 @@ object UnitTestsAndBuild : BuildType({
                 
                 yarn bootstrap
                 yarn run test-ci
-                yarn run build
+                yarn run storybook-build
             """.trimIndent()
             dockerImage = "huston007/node-electron:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
