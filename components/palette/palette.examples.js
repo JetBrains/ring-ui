@@ -38,10 +38,7 @@ storiesOf('Style-only|Pallete', module).
       </div>
     `;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .example {
     margin: 4px;
@@ -53,5 +50,4 @@ storiesOf('Style-only|Pallete', module).
   }
 </style>
       `
-    }]
   });

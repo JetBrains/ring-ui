@@ -28,19 +28,14 @@ storiesOf('Components|Icon', module).
       <PencilIcon className="ring-icon"/>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .ring-icon {
     display: inline-block;
     margin: 8px;
     padding: 8px;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('in text', () => (
     <div className="icons">
@@ -55,10 +50,7 @@ storiesOf('Components|Icon', module).
       <div className="underline"/>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .icons {
     position: relative;
@@ -75,9 +67,7 @@ storiesOf('Components|Icon', module).
     border-bottom: 0.1em solid rgba(0, 255, 0, 0.4);
     bottom: 0.3em;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('all icons list', () => (
     <div className="icon-example__container">
@@ -90,10 +80,7 @@ storiesOf('Components|Icon', module).
       ))}
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .icon-example__container {
     margin-left: -16px;
@@ -109,9 +96,7 @@ storiesOf('Components|Icon', module).
   .secondary {
     fill: var(--ring-link-hover-color);
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('JetBrains product logos list', () => (
     <div>
@@ -124,10 +109,7 @@ storiesOf('Components|Icon', module).
       ))}
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .ring-icon {
     display: inline-block;
@@ -135,7 +117,5 @@ storiesOf('Components|Icon', module).
     margin: 8px;
     padding: 8px;
   }
-</style>
-      `
-    }]
+</style>`
   });
