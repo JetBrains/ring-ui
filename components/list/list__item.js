@@ -125,6 +125,7 @@ export default class ListItem extends PureComponent {
       >
         <div className={styles.top}>
           <div className={styles.left}>
+            {leftNodes}
             {glyph && (
               <Icon
                 className={styles.glyph}
