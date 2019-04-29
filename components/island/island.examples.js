@@ -25,10 +25,7 @@ storiesOf('Components|Island', module).
       </Content>
     </Island>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .limited-island {
     height: 200px;
@@ -36,7 +33,6 @@ storiesOf('Components|Island', module).
   }
 </style>
       `
-    }]
   }).
   add('with resizeable header', () => (
     <AdaptiveIsland className="limited-island" narrow>
@@ -51,10 +47,7 @@ storiesOf('Components|Island', module).
       </Content>
     </AdaptiveIsland>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .limited-island {
     height: 200px;
@@ -62,5 +55,4 @@ storiesOf('Components|Island', module).
   }
 </style>
       `
-    }]
   });

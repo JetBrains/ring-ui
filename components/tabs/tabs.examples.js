@@ -111,18 +111,13 @@ storiesOf('Components|Tabs', module).
 
     return <TabsDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .dark-wrapper {
     background: #000;
     padding: 8px;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('smart', () => {
     class TabsDemo extends Component {
@@ -187,10 +182,7 @@ storiesOf('Components|Tabs', module).
 
     return <TabsDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .icon.icon {
     vertical-align: 1px;
@@ -199,7 +191,6 @@ storiesOf('Components|Tabs', module).
   }
 </style>
       `
-    }]
   }).
   add('custom titles (function)', () => {
     class TabsDemo extends Component {
@@ -230,10 +221,7 @@ storiesOf('Components|Tabs', module).
 
     return <TabsDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .icon.icon {
     vertical-align: 3px;
@@ -245,5 +233,4 @@ storiesOf('Components|Tabs', module).
   }
 </style>
       `
-    }]
   });

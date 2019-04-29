@@ -106,10 +106,7 @@ storiesOf('Components|Input', module).
       </form>
     );
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .inputs {
     display: flex;
@@ -127,7 +124,5 @@ storiesOf('Components|Input', module).
     margin-left: 0;
     padding-left: 16px;
   }
-</style>
-      `
-    }]
+</style>`
   });

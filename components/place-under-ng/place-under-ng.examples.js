@@ -46,10 +46,7 @@ storiesOf('Legacy Angular|Place Under Ng', module).
       </div>
     `;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .place-under {
     position: fixed;
@@ -80,5 +77,4 @@ storiesOf('Legacy Angular|Place Under Ng', module).
   }
 </style>
       `
-    }]
   });

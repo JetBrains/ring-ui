@@ -21,17 +21,12 @@ storiesOf('Components|Grid', module).
       </Row>
     </Grid>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .cell {
     background-color: silver;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('offset', () => (
     <div>
@@ -75,10 +70,7 @@ storiesOf('Components|Grid', module).
       </Grid>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .cell {
     background-color: silver;
@@ -86,9 +78,7 @@ storiesOf('Components|Grid', module).
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('auto size', () => (
     <div>
@@ -118,10 +108,7 @@ storiesOf('Components|Grid', module).
       </Grid>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .cell {
     background-color: silver;
@@ -129,9 +116,7 @@ storiesOf('Components|Grid', module).
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('alignment', () => (
     <div>
@@ -200,10 +185,7 @@ storiesOf('Components|Grid', module).
       </Grid>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .cell {
     background-color: silver;
@@ -211,9 +193,7 @@ storiesOf('Components|Grid', module).
   .cell_tall {
     height: 64px;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('columns distribution', () => (
     <div>
@@ -244,15 +224,10 @@ storiesOf('Components|Grid', module).
       </Grid>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .cell {
     background-color: silver;
   }
-</style>
-      `
-    }]
+</style>`
   });

@@ -196,21 +196,16 @@ storiesOf('Components|Header', module).
 
     return <CompactHeaderDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
-        <style>
-          .header.header {
-            height: 40px;
-          }
-      
-          .logo.logo {
-            color: #fff;
-            position: relative;
-            top: -2px;
-          }
-        </style>
-      `
-    }]
+    storyStyles: `
+<style>
+  .header.header {
+    height: 40px;
+  }
+
+  .logo.logo {
+    color: #fff;
+    position: relative;
+    top: -2px;
+  }
+</style>`
   });

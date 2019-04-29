@@ -70,17 +70,12 @@ storiesOf('Components|Dialog', module).
     }
     return <DialogDemo/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .long-page {
     height: 2000px;
   }
-</style>
-      `
-    }]
+</style>`
   }).
   add('with scroll', () => {
     class DialogDemo extends React.Component {

@@ -1,5 +1,4 @@
 import {configure, addParameters, addDecorator} from '@storybook/html';
-import {withCssResources} from '@storybook/addon-cssresources';
 import {create} from '@storybook/theming';
 
 // eslint-disable-next-line import/no-unresolved
@@ -9,6 +8,7 @@ import {paramCase} from 'change-case';
 import URLSearchParams from 'url-search-params';
 
 import styles from './preview.css';
+import stylesDecorator from './styles-decorator';
 
 const params = new URLSearchParams(location.search.slice(1));
 if (params.has('block-animations')) {
@@ -64,15 +64,10 @@ addParameters({
       brandImage: jetbrainsLogoURL,
       ...theme
     })
-  },
-  cssresources: [{
-    id: 'empty',
-    code: '',
-    picked: false
-  }]
+  }
 });
 
-addDecorator(withCssResources);
+addDecorator(stylesDecorator());
 
 const req = require.context('../components', true, /\.examples\.js$/);
 
