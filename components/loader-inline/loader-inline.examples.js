@@ -8,7 +8,7 @@ import injectStyles from './inject-styles';
 
 storiesOf('Components|Inline Loader', module).
   addDecorator(reactDecorator()).
-  add('Inline loader', () => {
+  add('basic', () => {
     class Example extends React.Component {
       render() {
         return (
@@ -23,7 +23,7 @@ storiesOf('Components|Inline Loader', module).
 
     return <Example/>;
   }).
-  add('Inline loader with children', () => {
+  add('with children', () => {
     class Example extends React.Component {
       render() {
         return (
@@ -34,7 +34,7 @@ storiesOf('Components|Inline Loader', module).
 
     return <Example/>;
   }).
-  add('Inline loader on black background', () => {
+  add('on black background', () => {
     class Example extends React.Component {
       render() {
         return (
@@ -49,7 +49,7 @@ storiesOf('Components|Inline Loader', module).
 
     return <Example/>;
   }).
-  add('Inline loader on custom background', () => {
+  add('on custom background', () => {
     class Example extends React.Component {
       render() {
         return (
@@ -64,7 +64,7 @@ storiesOf('Components|Inline Loader', module).
 
     return <Example/>;
   }).
-  add('Inline loader without React', () => {
+  add('without React', () => {
     class Example extends React.Component {
       render() {
         return (

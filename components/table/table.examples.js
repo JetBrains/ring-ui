@@ -14,7 +14,7 @@ import Selection from './selection';
 
 storiesOf('Components|Table', module).
   addDecorator(reactDecorator()).
-  add('Basic', () => {
+  add('basic', () => {
     const mock = require('./table.examples.json');
 
     const PAGE_SIZE = 7;
@@ -246,7 +246,7 @@ storiesOf('Components|Table', module).
 
     return <TableDemo/>;
   }).
-  add('MultiTable', () => {
+  add('multi table', () => {
     const mock = require('./table.examples2.json');
 
     const data1 = mock.continents;

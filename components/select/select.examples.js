@@ -17,7 +17,7 @@ import Select from './select';
 
 storiesOf('Components|Select', module).
   addDecorator(reactDecorator()).
-  add('Select with a filter and tags', () => {
+  add('with a filter and tags', () => {
     const selectProps = {
       multiple: true,
       filter: {
@@ -58,7 +58,7 @@ storiesOf('Components|Select', module).
     return (<Select {...selectProps} {...data}/>);
   }).
 
-  add('Select with a filter', () => {
+  add('with a filter', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -125,7 +125,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select-button with a filter', () => {
+  add('button mode with a filter', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -193,7 +193,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Inline select with a filter', () => {
+  add('inline with a filter', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -260,7 +260,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Inline select (opens to left)', () => {
+  add('inline (opens to left)', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -334,7 +334,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select with disabled move overflow', () => {
+  add('with disabled move overflow', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -406,7 +406,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select with server-side filtering', () => {
+  add('with server-side filtering', () => {
     const alwaysTrue = () => true;
 
     class UserList extends Component {
@@ -465,7 +465,7 @@ storiesOf('Components|Select', module).
     return <UserList/>;
   }).
 
-  add('Select with fuzzy search filter', () => {
+  add('with fuzzy search filter', () => {
     class SelectExample extends Component {
 
       static propTypes = {
@@ -532,7 +532,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select with a large dataset', () => {
+  add('with a large dataset', () => {
     const elementsNum = 100000;
     const selectedIndex = elementsNum / 2;
     const dataset = [...Array(elementsNum)].map(
@@ -546,7 +546,7 @@ storiesOf('Components|Select', module).
     return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
   }).
 
-  add('Multiple select with a description', () => {
+  add('multiple with a description', () => {
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
     const ruFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAOUlEQVR42u3TUQ0AIAwD0aIGt5OFBtx0mCBNljsD7+uWXwoEDPwPrvKJwJINDDwLvtqZnSwZGHgU3Kx2NIuI4wdUAAAAAElFTkSuQmCC';
     const icons = [deFlag, ruFlag, undefined];
@@ -566,7 +566,7 @@ storiesOf('Components|Select', module).
     return <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>;
   }).
 
-  add('Disabled select', () => (
+  add('disabled', () => (
     <div>
       <div className="demo-wrapper">
         <Select disabled loading/>
@@ -589,7 +589,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Simple input-based select', () => {
+  add('input-based', () => {
     const data = [...Array(20)].map(
       (elem, idx) => ({label: `Item ${idx}`, key: idx})
     );
@@ -597,7 +597,7 @@ storiesOf('Components|Select', module).
     return <Select type={Select.Type.INPUT} data={data} clear/>;
   }).
 
-  add('Simple input-based select in suggest-only mode', () => {
+  add('input-based in suggest-only mode', () => {
     const data = [...Array(20)].map(
       (elem, idx) => ({label: `Item ${idx}`, key: idx})
     );
@@ -614,7 +614,7 @@ storiesOf('Components|Select', module).
     );
   }).
 
-  add('Simple select with sub levels for list element', () => {
+  add('with sub levels for list element', () => {
     const data = [
       {label: 'One', key: '1'},
       {label: 'Two', key: '2', disabled: true},
@@ -626,7 +626,7 @@ storiesOf('Components|Select', module).
     return (<Select filter data={data}/>);
   }).
 
-  add('Simple select with default filter mode enabled and a loading indicator', () => {
+  add('with default filter mode and a loading indicator', () => {
     const data = [
       {label: 'One', key: '1'},
       {label: 'Group', key: '2'},
@@ -636,7 +636,7 @@ storiesOf('Components|Select', module).
     return (<Select filter loading data={data} selected={data[1]}/>);
   }).
 
-  add('Select with a customized filter and an \'Add item\' button', () => {
+  add('with a customized filter and an \'Add item\' button', () => {
     const data = [...Array(100)].map(
       (elem, idx) => ({
         label: `Item long long long long long long long long label ${idx}`,
@@ -662,7 +662,7 @@ storiesOf('Components|Select', module).
     );
   }).
 
-  add('Select with custom items and an \'Add item\' button', () => {
+  add('with custom items and an \'Add item\' button', () => {
     const data = [...Array(100)].map(
       (elem, idx) => {
         const label = `Label ${idx}`;
@@ -705,7 +705,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select with an always visible \'Add item\' button', () => {
+  add('with an always visible \'Add item\' button', () => {
     const data = [...Array(10)].map(
       (elem, idx) => ({
         key: idx, label: `Item ${idx}`
@@ -729,7 +729,7 @@ storiesOf('Components|Select', module).
     );
   }).
 
-  add('Multiple-choice select with custom view', () => {
+  add('multiple with custom view', () => {
     const data = [
       {label: 'One long label', key: '1'},
       {label: 'Two long label', key: '2'},
@@ -755,7 +755,7 @@ storiesOf('Components|Select', module).
     );
   }).
 
-  add('Select as a dropdown without filter', () => {
+  add('as a dropdown without filter', () => {
     const data = [...Array(20)].map(
       (elem, idx) => ({
         label: `Item ${idx}`,
@@ -779,7 +779,7 @@ storiesOf('Components|Select', module).
     );
   }).
 
-  add('Select with render optimization', () => {
+  add('with render optimization', () => {
     const data = [...Array(1000)].map(
       (item, idx) => ({
         label: `Label ${idx}`,
@@ -791,7 +791,7 @@ storiesOf('Components|Select', module).
     return <Select filter data={data}/>;
   }).
 
-  add('Select fits to screen', () => {
+  add('fits to screen', () => {
     const dataset = [...Array(1000)].map(
       (item, idx) => ({
         label: `element ${idx}`,
@@ -827,7 +827,7 @@ storiesOf('Components|Select', module).
     }]
   }).
 
-  add('Select with filtered fields', () => {
+  add('with filtered fields', () => {
     class SelectWrapper extends Component {
       constructor(props) {
         super(props);

@@ -8,7 +8,7 @@ import LoaderScreen from './loader-screen';
 
 storiesOf('Components|Loader Screen', module).
   addDecorator(reactDecorator()).
-  add('Loader Screen', () => {
+  add('basic', () => {
     class Example extends React.Component {
       render() {
         return (
@@ -19,7 +19,7 @@ storiesOf('Components|Loader Screen', module).
 
     return <Example/>;
   }).
-  add('Loader Screen with message', () => {
+  add('with message', () => {
     class Example extends React.Component {
       render() {
         return (
