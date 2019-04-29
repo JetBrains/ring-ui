@@ -19,6 +19,7 @@ module.exports = {
   gridUrl,
   retry: 0,
   testsPerSession: 100,
+  parallelLimit: 2,
   compositeImage: true,
   windowSize,
   plugins: {
