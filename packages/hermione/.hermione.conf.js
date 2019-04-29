@@ -20,6 +20,7 @@ module.exports = {
   retry: 0,
   testsPerSession: 100,
   compositeImage: true,
+  windowSize,
   plugins: {
     '@jetbrains/hermione-teamcity-reporter': {
       enabled: process.argv.indexOf('--teamcity') !== -1
@@ -33,7 +34,6 @@ module.exports = {
   // See all platforms here https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
   browsers: {
     chrome: {
-      windowSize,
       desiredCapabilities: {
         browserName: 'chrome',
         version: '72.0',
@@ -41,7 +41,7 @@ module.exports = {
       }
     },
     firefox: {
-      windowSize,
+      resetCursor: false, // Prevents SauceLabs failure on performing "moveto" command
       desiredCapabilities: {
         browserName: 'firefox',
         version: '60.0',
@@ -49,7 +49,6 @@ module.exports = {
       }
     },
     ie: {
-      windowSize,
       desiredCapabilities: {
         browserName: 'internet explorer',
         version: '11.309',
@@ -57,7 +56,6 @@ module.exports = {
       }
     },
     edge: {
-      windowSize,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         version: '17.17134',
