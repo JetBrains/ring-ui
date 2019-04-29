@@ -9,6 +9,7 @@ import Markdown from '../components/markdown/markdown';
 import reactDecorator from '../.storybook/react-decorator';
 
 storiesOf('Ring UI|Welcome', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(reactDecorator()).
   add('Getting Started', () => <Markdown source={ReadMe}/>).
   add('Contributing', () => <Markdown source={Contributing}/>).

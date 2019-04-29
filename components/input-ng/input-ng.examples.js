@@ -95,10 +95,7 @@ storiesOf('Legacy Angular|Input Ng', module).
       </div>
     `;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .inputs {
     display: flex;
@@ -116,7 +113,5 @@ storiesOf('Legacy Angular|Input Ng', module).
     margin-left: 0;
     padding-left: 16px;
   }
-</style>
-      `
-    }]
+</style>`
   });
