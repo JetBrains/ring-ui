@@ -30,10 +30,7 @@ storiesOf('Components|Heading', module).
       {lorem}
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   h3 + div::after, 
   h4 + div::after {
@@ -53,7 +50,5 @@ storiesOf('Components|Heading', module).
     z-index: -1;
     transform: translateY(-100%);
   }
-</style>
-      `
-    }]
+</style>`
   });

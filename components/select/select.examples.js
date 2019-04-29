@@ -112,17 +112,13 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo {
     padding: 16px 0;
   }
 </style>
       `
-    }]
   }).
 
   add('button mode with a filter', () => {
@@ -180,17 +176,13 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo {
     margin: 32px 0 16px 0;
   }
 </style>
       `
-    }]
   }).
 
   add('inline with a filter', () => {
@@ -247,17 +239,13 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo {
     margin: 16px 0;
   }
 </style>
       `
-    }]
   }).
 
   add('inline (opens to left)', () => {
@@ -315,10 +303,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles-open-left',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo-container {
     padding: 8px;
@@ -331,9 +316,7 @@ storiesOf('Components|Select', module).
   }
 </style>
       `
-    }]
   }).
-
   add('with disabled move overflow', () => {
     class SelectExample extends Component {
 
@@ -388,10 +371,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles-disable-move-over',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo-container {
     padding: 8px;
@@ -401,9 +381,7 @@ storiesOf('Components|Select', module).
   .demo {
     margin: 16px 0;
   }
-</style>
-      `
-    }]
+</style>`
   }).
 
   add('with server-side filtering', () => {
@@ -519,17 +497,13 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo {
     margin: 32px 0 16px 0;
   }
 </style>
       `
-    }]
   }).
 
   add('with a large dataset', () => {
@@ -576,17 +550,13 @@ storiesOf('Components|Select', module).
       </div>
     </div>
   ), {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo-wrapper {
     margin: 8px;
   }
 </style>
       `
-    }]
   }).
 
   add('input-based', () => {
@@ -688,10 +658,7 @@ storiesOf('Components|Select', module).
       />
     );
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .label {
     border-radius: 3px;
@@ -702,7 +669,6 @@ storiesOf('Components|Select', module).
   }
 </style>
       `
-    }]
   }).
 
   add('with an always visible \'Add item\' button', () => {
@@ -813,10 +779,7 @@ storiesOf('Components|Select', module).
       </div>
     );
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
   .demo {
     position: absolute;
@@ -824,7 +787,6 @@ storiesOf('Components|Select', module).
   }
 </style>
       `
-    }]
   }).
 
   add('with filtered fields', () => {
@@ -907,10 +869,7 @@ storiesOf('Components|Select', module).
 
     return <SelectWrapper/>;
   }, {
-    cssresources: [{
-      id: 'example-styles',
-      picked: true,
-      code: `
+    storyStyles: `
 <style>
     .filters-block {
       padding: 8px 0;
@@ -921,6 +880,5 @@ storiesOf('Components|Select', module).
     }
 </style>
       `
-    }]
   });
 
