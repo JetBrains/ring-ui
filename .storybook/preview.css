@@ -7,3 +7,10 @@ body {
   font-size: var(--ring-font-size);
   line-height: var(--ring-line-height);
 }
+
+.blockAnimations *,
+.blockAnimations *::before,
+.blockAnimations *::after {
+  transition: none !important;
+  animation: none !important;
+}
