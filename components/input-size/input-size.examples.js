@@ -9,13 +9,12 @@ import '../form/form.scss';
 import '../input-size/input-size.scss';
 
 import SelectNG from '../select-ng/select-ng';
-import ButtonNG from '../button-ng/button-ng';
 import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
 storiesOf('Style-only|Input Sizes', module).
   addDecorator(angularDecorator()).
   add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, QueryAssistNG, SelectNG]).
+    angular.module(APP_NAME, [QueryAssistNG, SelectNG]).
       controller('ExampleCtrl', function ctrl() {
         this.dataSource = () => [];
 
@@ -24,105 +23,191 @@ storiesOf('Style-only|Input Sizes', module).
       });
 
     return `
-      <div style="width: 700px">
-        <form class="ring-form">
-          <span class="ring-form__title">Form Title</span>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-1" class="ring-form__label">Full-Width
-              Input</label>
-            <div class="ring-form__control">
-              <input class="ring-input" id="ring-form-1" type="text">
-            </div>
+      <div ng-controller="ExampleCtrl as exampleCtrl">
+        <h3 class="example-block">Query Assists</h3>
+        <div class="example-block">
+          <div class="ring-error-bubble-wrapper">
+            <rg-query-assist
+              class="ring-input-size_xs"
+              x-data-source="exampleCtrl.dataSource"
+              glass="true"
+              placeholder="'Extra-short'">
+            </rg-query-assist>
+            <div class="ring-error-bubble active">Extra-short Query Assist</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-2" class="ring-form__label">Medium Input</label>
-            <div class="ring-form__control">
-              <input class="ring-input ring-input-size_md" id="ring-form-2"
-                type="text">
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-query-assist
+              class="ring-input-size_s"
+              x-data-source="exampleCtrl.dataSource"
+              glass="true"
+              placeholder="'Short'">
+            </rg-query-assist>
+            <div class="ring-error-bubble active">Short Query Assist</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-3" class="ring-form__label">Medium Input & Error</label>
-            <div class="ring-form__control">
-              <input class="ring-input ring-input_error ring-input-size_md"
-                id="ring-form-3" type="text">
-              <div class="ring-error-bubble active">Error bubble</div>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-query-assist
+              class="ring-input-size_md"
+              x-data-source="exampleCtrl.dataSource"
+              glass="true"
+              placeholder="'Medium'">
+            </rg-query-assist>
+            <div class="ring-error-bubble active">Medium Query Assist</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-4" class="ring-form__label">Long Input</label>
-            <div class="ring-form__control">
-              <input class="ring-input ring-input-size_l" id="ring-form-4"
-                type="text">
-              <div class="ring-error-bubble active">Error bubble for a long
-                control
-              </div>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-query-assist
+              class="ring-input-size_l"
+              x-data-source="exampleCtrl.dataSource"
+              glass="true"
+              placeholder="'Long'">
+            </rg-query-assist>
+            <div class="ring-error-bubble active">Long Query Assist</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-5" class="ring-form__label">Full-Width
-              Control</label>
-            <div class="ring-form__control">
-              <input class="ring-input" id="ring-form-5" type="text">
-              <div class="ring-error-bubble active">Error bubble for a full-width
-                control
-              </div>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-query-assist
+              x-data-source="exampleCtrl.dataSource"
+              glass="true"
+              placeholder="'Full-width'">
+            </rg-query-assist>
+            <div class="ring-error-bubble active">Full-width Query Assist</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-7" class="ring-form__label">Textarea</label>
-            <div class="ring-form__control">
-              <textarea class="ring-input ring-input-size_md"
-                id="ring-form-7"></textarea>
-            </div>
+        </div>
+  
+        <h3 class="example-block">Rg Selects: Buttons</h3>
+        <div class="example-block">
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_xs"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Extra-short Select</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-8" class="ring-form__label">Long
-              Textarea</label>
-            <div class="ring-form__control">
-              <textarea class="ring-input ring-input-size_l"
-                id="ring-form-8"></textarea>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_s"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Short Select</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-9" class="ring-form__label">Full-Width
-              Textarea</label>
-            <div class="ring-form__control">
-              <textarea class="ring-input" id="ring-form-9"></textarea>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_md"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Medium Select</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-11" class="ring-form__label">Input in
-              a small container</label>
-            <div class="ring-form__control ring-form__control_small">
-              <input class="ring-input ring-input-size_md" id="ring-form-11"
-                type="text">
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_l"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Long Select</div>
           </div>
-        
-          <div class="ring-form__group">
-            <label for="ring-form-12" class="ring-form__label">Textarea in
-              a small container</label>
-            <div class="ring-form__control ring-form__control_small">
-              <textarea class="ring-input ring-input-size_md"
-                id="ring-form-12"></textarea>
-            </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Full-width Select</div>
           </div>
-        
-          <div class="ring-form__footer">
-            <rg-button mode="primary">Save</rg-button>
-            <rg-button>Cancel</rg-button>
+        </div>
+  
+        <h3 class="example-block">Rg Selects: Inputs</h3>
+        <div class="example-block">
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_xs"
+              type="input"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Extra-short Select</div>
           </div>
-        </form>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_s"
+              type="input"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Short Select</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_md"
+              type="input"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Medium Select</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select class="ring-input-size_l"
+              type="input"
+              ng-model="exampleCtrl.selected"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Long Select</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <rg-select ng-model="exampleCtrl.selected"
+              type="input"
+              options="item in exampleCtrl.options"
+              label="Select item"></rg-select>
+            <div class="ring-error-bubble active">Full-width Select</div>
+          </div>
+        </div>
+  
+        <h3 class="example-block">Inputs</h3>
+        <div class="example-block">
+          <div class="ring-error-bubble-wrapper">
+            <input type="number" class="ring-input ring-input-size_xs">
+            <div class="ring-error-bubble active">Extra-short Input</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <input type="number" class="ring-input ring-input-size_s">
+            <div class="ring-error-bubble active">Short Input</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <input type="number" class="ring-input ring-input-size_md">
+            <div class="ring-error-bubble active">Medium Input</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <input type="number" class="ring-input ring-input-size_l">
+            <div class="ring-error-bubble active">Long Input</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <input type="number" class="ring-input">
+            <div class="ring-error-bubble active">Full-width Input</div>
+          </div>
+        </div>
+  
+        <h3 class="example-block">Textareas</h3>
+        <div class="example-block">
+          <div class="ring-error-bubble-wrapper">
+            <textarea class="ring-input ring-input-size_xs"></textarea>
+            <div class="ring-error-bubble active">Extra-short Textarea</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <textarea class="ring-input ring-input-size_s"></textarea>
+            <div class="ring-error-bubble active">Short Textarea</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <textarea class="ring-input ring-input-size_md"></textarea>
+            <div class="ring-error-bubble active">Medium Textarea</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <textarea class="ring-input ring-input-size_l"></textarea>
+            <div class="ring-error-bubble active">Long Textarea</div>
+          </div>
+          <div class="ring-error-bubble-wrapper">
+            <textarea class="ring-input"></textarea>
+            <div class="ring-error-bubble active">Full-width Textarea</div>
+          </div>
+        </div>
       </div>
     `;
+  }, {
+    storyStyles: `
+<style>
+  .example-block {
+    margin: 16px;
+    max-width: 600px;
+  }
+</style>`
   });
