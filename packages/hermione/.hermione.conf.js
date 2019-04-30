@@ -39,7 +39,7 @@ module.exports = {
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
-        version: '72.0',
+        version: '74.0',
         platform: WIN10
       }
     },
@@ -47,7 +47,7 @@ module.exports = {
       resetCursor: false, // Prevents SauceLabs failure on performing "moveto" command
       desiredCapabilities: {
         browserName: 'firefox',
-        version: '60.0',
+        version: '66.0',
         platform: WIN10
       }
     },
