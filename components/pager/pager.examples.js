@@ -68,7 +68,7 @@ storiesOf('Components|Pager', module).
     }
 
     return <PagerDemo/>;
-  }).
+  }, {hermione: {skip: true}}).
   add('custom frame size #2', () => {
     class PagerDemo extends Component {
       state = {
@@ -91,7 +91,7 @@ storiesOf('Components|Pager', module).
     }
 
     return <PagerDemo/>;
-  }).
+  }, {hermione: {skip: true}}).
   add('custom frame size #3', () => {
     class PagerDemo extends Component {
       state = {
@@ -114,7 +114,7 @@ storiesOf('Components|Pager', module).
     }
 
     return <PagerDemo/>;
-  }).
+  }, {hermione: {skip: true}}).
   add('page size selector', () => {
     class PagerDemo extends Component {
       state = {
@@ -215,7 +215,7 @@ storiesOf('Components|Pager', module).
     }
 
     return <PagerDemo/>;
-  }).
+  }, {hermione: {skip: true}}).
   add('reload on current page change', () => {
     class PagerDemo extends Component {
       state = {
@@ -239,4 +239,4 @@ storiesOf('Components|Pager', module).
     }
 
     return <PagerDemo/>;
-  });
+  }, {hermione: {skip: true}});
