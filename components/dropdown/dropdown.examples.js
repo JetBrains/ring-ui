@@ -14,8 +14,6 @@ storiesOf('Components|Dropdown', module).
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-dropdown]'},
-        {type: 'mouseMove', x: 800, y: 1024},
-        {type: 'wait', delay: 500},
         {
           type: 'capture',
           name: 'dropdown',
