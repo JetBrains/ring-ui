@@ -37,6 +37,7 @@ kill(saucePort).then(() => {
     // eslint-disable-next-line no-magic-numbers
     const hermioneProcesss = exec(`node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`, cleanup);
     hermioneProcesss.stdout.pipe(process.stdout);
+    hermioneProcesss.stderr.pipe(process.stderr);
   });
 });
 
