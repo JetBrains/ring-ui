@@ -7,15 +7,20 @@ import Theme from '../global/theme';
 
 import ProgressBar from './progress-bar';
 
+const disableAnimations = window.location.search.includes('block-animations');
+
 storiesOf('Components|Progress Bar', module).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class ProgressBarDemo extends Component {
       state = {
-        value: 0
+        value: disableAnimations ? 0.5 : 0
       };
 
       componentDidMount() {
+        if (disableAnimations) {
+          return;
+        }
         setInterval(() => {
           // eslint-disable-next-line react/no-access-state-in-setstate
           const value = this.state.value >= 1 ? 0 : this.state.value + 0.1;

@@ -6,17 +6,21 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import RingProgressBar from './progress-bar-ng';
 
+const disableAnimations = window.location.search.includes('block-animations');
+
 storiesOf('Legacy Angular|Progress Bar Ng', module).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingProgressBar]).
       controller('ExampleCtrl', function controller($interval) {
-        this.value = 0;
+        this.value = disableAnimations ? 0.5 : 0;
 
-        $interval(() => {
-          const currentValue = this.value;
-          this.value = currentValue >= 1 ? 0 : currentValue + 0.1;
-        }, 500);
+        if (!disableAnimations) {
+          $interval(() => {
+            const currentValue = this.value;
+            this.value = currentValue >= 1 ? 0 : currentValue + 0.1;
+          }, 500);
+        }
       });
     return `
       <div ng-controller="ExampleCtrl as ctrl">
