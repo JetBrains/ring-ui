@@ -10,6 +10,7 @@ import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 import AuthDialog from './auth-dialog';
 
 storiesOf('Components|Auth Dialog', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
   addDecorator(reactDecorator()).
   add('dialog', () => {
     class AuthDialogDemo extends React.Component {

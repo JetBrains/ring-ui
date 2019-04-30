@@ -13,6 +13,7 @@ import Panel from '../panel/panel';
 
 
 storiesOf('Components|Dialog', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class DialogDemo extends React.Component {

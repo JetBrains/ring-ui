@@ -11,6 +11,7 @@ import AuthNG from '../auth-ng/auth-ng';
 import QueryAssistNG from './query-assist-ng';
 
 storiesOf('Legacy Angular|Query Assist Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [QueryAssistNG, AuthNG]).

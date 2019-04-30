@@ -5,6 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Island, {AdaptiveIsland, Header, Content} from '../island/island';
 
 storiesOf('Components|Island', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-island]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Island>

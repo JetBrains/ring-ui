@@ -27,4 +27,6 @@ storiesOf('Components|Code', module).
 
       const el = code\`some('js')\`;
     `
-  ));
+  ), {
+    hermione: {skip: true}
+  });

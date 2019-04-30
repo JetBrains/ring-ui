@@ -26,6 +26,7 @@ angularModule.directive('rgIsland', function islandDirective() {
     compile,
     template: `
 <div 
+  data-test="ring-island"
   class="${styles.island}" 
   ng-class="{'${styles.narrowIsland}': islandCtrl.narrow}" 
   ng-transclude

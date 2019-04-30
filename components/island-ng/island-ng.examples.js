@@ -7,6 +7,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IslandNg from '../island-ng/island-ng';
 
 storiesOf('Legacy Angular|Island Ng', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-island]'}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [IslandNg]);

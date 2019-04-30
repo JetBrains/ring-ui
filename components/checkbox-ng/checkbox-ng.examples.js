@@ -41,7 +41,7 @@ storiesOf('Legacy Angular|Checkbox Ng', module).
        </div>
     `;
   }).
-  add('with custom true/false values', () => {
+  add('with custom true-false values', () => {
     angular.module(APP_NAME, [CheckboxNG]);
 
     return `
@@ -52,7 +52,7 @@ storiesOf('Legacy Angular|Checkbox Ng', module).
          </p>
        </div>
     `;
-  }).
+  }, {hermione: {skip: true}}).
   add('disabled', () => {
     angular.module(APP_NAME, [CheckboxNG]);
 
