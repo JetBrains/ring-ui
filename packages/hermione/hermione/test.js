@@ -6,6 +6,14 @@ const items = require('./stories.json');
 
 const Actions = require('./actions');
 
+function addTestNamesToCaptures(actions, storyName) {
+  actions.forEach(action => {
+    if (action.type === 'capture') {
+      action.name = `${storyName}${action.name ? `-${action.name}` : ''}`;
+    }
+  });
+}
+
 for (const {kind, stories} of items) {
   const kindName = kind.
     split(/[|/]/g).
@@ -18,8 +26,10 @@ for (const {kind, stories} of items) {
       const {
         captureSelector = '[id=root]',
         skip,
-        actions = [{type: 'capture', name, selector: captureSelector}]
+        actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;
+
+      addTestNamesToCaptures(actions, name);
 
       if (skip) {
         continue;
