@@ -10,6 +10,7 @@ import SelectNG from '../select-ng/select-ng';
 import SidebarNG from './sidebar-ng';
 
 storiesOf('Legacy Angular|Sidebar Ng', module).
+  addParameters({hermione: {captureSelector: ['#root', '.ring-sidebar']}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [SidebarNG, SelectNG]);
@@ -79,4 +80,4 @@ storiesOf('Legacy Angular|Sidebar Ng', module).
         <div>${after}</div>
       </div>
     `;
-  });
+  }, {hermione: {skip: true}});

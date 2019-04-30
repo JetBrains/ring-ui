@@ -56,7 +56,7 @@ storiesOf('Components|Select', module).
     };
 
     return (<Select {...selectProps} {...data}/>);
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with a filter', () => {
     class SelectExample extends Component {
@@ -112,6 +112,14 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test~=ring-select]'},
+        {type: 'mouseMove', x: 800, y: 1024},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
+      ]
+    },
     storyStyles: `
 <style>
   .demo {
@@ -176,6 +184,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {captureSelector: '*[data-test~=ring-select]'},
     storyStyles: `
 <style>
   .demo {
@@ -239,6 +248,14 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test~=ring-select]'},
+        {type: 'mouseMove', x: 800, y: 1024},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
+      ]
+    },
     storyStyles: `
 <style>
   .demo {
@@ -303,6 +320,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
   .demo-container {
@@ -371,6 +389,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
   .demo-container {
@@ -441,7 +460,7 @@ storiesOf('Components|Select', module).
     }
 
     return <UserList/>;
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with fuzzy search filter', () => {
     class SelectExample extends Component {
@@ -497,6 +516,7 @@ storiesOf('Components|Select', module).
 
     return <SelectExample data={data}/>;
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
   .demo {
@@ -518,7 +538,7 @@ storiesOf('Components|Select', module).
     );
 
     return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
-  }).
+  }, {hermione: {skip: true}}).
 
   add('multiple with a description', () => {
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -538,6 +558,15 @@ storiesOf('Components|Select', module).
     );
 
     return <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>;
+  }, {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test~=ring-select]'},
+        {type: 'mouseMove', x: 800, y: 1024},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
+      ]
+    }
   }).
 
   add('disabled', () => (
@@ -565,6 +594,15 @@ storiesOf('Components|Select', module).
     );
 
     return <Select type={Select.Type.INPUT} data={data} clear/>;
+  }, {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test~=ring-input]'},
+        {type: 'mouseMove', x: 800, y: 1024},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
+      ]
+    }
   }).
 
   add('input-based in suggest-only mode', () => {
@@ -582,7 +620,7 @@ storiesOf('Components|Select', module).
         selected={data[1]}
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with sub levels for list element', () => {
     const data = [
@@ -594,7 +632,7 @@ storiesOf('Components|Select', module).
     ];
 
     return (<Select filter data={data}/>);
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with default filter mode and a loading indicator', () => {
     const data = [
@@ -604,7 +642,7 @@ storiesOf('Components|Select', module).
     ];
 
     return (<Select filter loading data={data} selected={data[1]}/>);
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with a customized filter and an \'Add item\' button', () => {
     const data = [...Array(100)].map(
@@ -630,7 +668,7 @@ storiesOf('Components|Select', module).
         onSelect={action('selected')}
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
 
   add('with custom items and an \'Add item\' button', () => {
     const data = [...Array(100)].map(
@@ -658,6 +696,7 @@ storiesOf('Components|Select', module).
       />
     );
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
   .label {
@@ -693,7 +732,7 @@ storiesOf('Components|Select', module).
         onSelect={action('selected')}
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
 
   add('multiple with custom view', () => {
     const data = [
@@ -719,7 +758,7 @@ storiesOf('Components|Select', module).
         onChange={action('changed-selection')}
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
 
   add('as a dropdown without filter', () => {
     const data = [...Array(20)].map(
@@ -743,7 +782,7 @@ storiesOf('Components|Select', module).
         )}
       />
     );
-  }).
+  }, {hermione: {skip: true}}, {hermione: {skip: true}}).
 
   add('with render optimization', () => {
     const data = [...Array(1000)].map(
@@ -755,7 +794,7 @@ storiesOf('Components|Select', module).
     );
 
     return <Select filter data={data}/>;
-  }).
+  }, {hermione: {skip: true}}).
 
   add('fits to screen', () => {
     const dataset = [...Array(1000)].map(
@@ -779,6 +818,7 @@ storiesOf('Components|Select', module).
       </div>
     );
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
   .demo {
@@ -869,6 +909,7 @@ storiesOf('Components|Select', module).
 
     return <SelectWrapper/>;
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
     .filters-block {

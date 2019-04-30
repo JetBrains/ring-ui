@@ -7,6 +7,7 @@ import LoaderScreen from './loader-screen';
 
 
 storiesOf('Components|Loader Screen', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class Example extends React.Component {

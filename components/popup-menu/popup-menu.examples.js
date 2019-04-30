@@ -6,6 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import PopupMenu, {ListProps} from './popup-menu';
 
 storiesOf('Components|PopupMenu', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-popup]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const data = [

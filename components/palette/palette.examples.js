@@ -7,6 +7,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import './palette.scss';
 
 storiesOf('Style-only|Pallete', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, []).

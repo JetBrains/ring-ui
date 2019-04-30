@@ -74,4 +74,4 @@ storiesOf('Components|ErrorBubble', module).
     }
 
     return <ErrorBubbleDemo/>;
-  });
+  }, {hermione: {captureSelector: '*[data-test~=ring-dialog]'}});

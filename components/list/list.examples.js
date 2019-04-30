@@ -16,23 +16,24 @@ import List from './list';
 import Source from './list__users-groups-source';
 
 storiesOf('Components|List', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-list]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
-    const listData = [];
-    for (let i = 0; i < 1000; i++) {
-      listData.push({
-        label: `Item ${i}`,
-        rgItemType: List.ListProps.Type.ITEM
-      });
-    }
+    const listData = [
+      {label: 'One', href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
+      {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Active as default', rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Four', rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Five', rgItemType: List.ListProps.Type.ITEM}
+    ];
 
     return (
       <List
-        maxHeight={400}
         data={listData}
+        activeIndex={2}
         shortcuts
-        compact
         onSelect={action('selected')}
+        renderOptimization={false}
       />
     );
   }).
@@ -56,28 +57,30 @@ storiesOf('Components|List', module).
         onSelect={action('selected')}
         activeIndex={2}
         hint="Hint about the list"
+        renderOptimization={false}
       />
     );
   }).
-  add('list #2', () => {
-    const listData = [
-      {label: 'One', href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
-      {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Active as default', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Four', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Five', rgItemType: List.ListProps.Type.ITEM}
-    ];
+  add('long list', () => {
+    const listData = [];
+    for (let i = 0; i < 1000; i++) {
+      listData.push({
+        label: `Item ${i}`,
+        rgItemType: List.ListProps.Type.ITEM
+      });
+    }
 
     return (
       <List
+        maxHeight={400}
         data={listData}
-        activeIndex={2}
         shortcuts
+        compact
         onSelect={action('selected')}
       />
     );
-  }).
-  add('list #3', () => {
+  }, {hermione: {skip: true}}).
+  add('list #2', () => {
     const listData = [
       {
         rgItemType: List.ListProps.Type.SEPARATOR,
@@ -123,6 +126,7 @@ storiesOf('Components|List', module).
         data={listData}
         shortcuts
         onSelect={action('selected')}
+        renderOptimization={false}
       />
     );
   }).
@@ -172,6 +176,7 @@ storiesOf('Components|List', module).
         data={listData}
         shortcuts
         onSelect={action('selected')}
+        renderOptimization={false}
       />
     );
   }).
@@ -191,7 +196,7 @@ storiesOf('Components|List', module).
         onSelect={action('selected')}
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
   add('with custom items', () => {
     const listData = [
       {
@@ -217,6 +222,7 @@ storiesOf('Components|List', module).
         data={listData}
         shortcuts
         onSelect={action('selected')}
+        renderOptimization={false}
       />
     );
   }).
@@ -269,4 +275,4 @@ storiesOf('Components|List', module).
     return (
       <UserList/>
     );
-  });
+  }, {hermione: {skip: true}});

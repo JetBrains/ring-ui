@@ -3,6 +3,7 @@ import {storiesOf} from '@storybook/html';
 import Storage from './storage';
 
 storiesOf('Components|Storage', module).
+  addParameters({hermione: {skip: true}}).
   add('basic', () => {
     const STORAGE_KEY = 'storage-example-key';
     const storage = new Storage();
