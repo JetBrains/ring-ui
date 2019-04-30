@@ -10,7 +10,7 @@ module.exports = {
   setWindowSize: (browser, {width, height}) =>
     browser.setWindowSize(width, height),
   waitForElementToShow: (browser, {timeout, selector, hidden}) =>
-    browser.waitForDisplayed(timeout, selector, hidden),
+    browser.waitForVisible(selector, timeout, hidden),
   waitForJSCondition: (browser, {condition}) =>
     browser.waitUntil(() => browser.execute(condition)),
   wait: (_, {delay}) => new Promise(resolve => setTimeout(resolve, delay))
