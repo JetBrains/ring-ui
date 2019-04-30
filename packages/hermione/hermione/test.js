@@ -4,11 +4,7 @@ const filenamify = require('filenamify');
 
 const items = require('./stories.json');
 
-const TIMEOUT = 1000;
-
-const defaultParameters = {
-  captureSelector: '[id=root]'
-};
+const Actions = require('./actions');
 
 for (const {kind, stories} of items) {
   const kindName = kind.
@@ -17,12 +13,13 @@ for (const {kind, stories} of items) {
     join('/');
   describe(kindName, () => {
     for (const story of stories) {
-      const {name, parameters} = story;
+      const {name, parameters = {}} = story;
       const testName = filenamify(name);
-      const {captureSelector, skip, waitElements} = {
-        ...defaultParameters,
-        ...parameters
-      };
+      const {
+        captureSelector = '[id=root]',
+        skip,
+        actions = [{type: 'capture', name, selector: captureSelector}]
+      } = parameters;
 
       if (skip) {
         continue;
@@ -36,21 +33,9 @@ for (const {kind, stories} of items) {
           })}&block-animations`,
         );
 
-        if (waitElements) {
-          try {
-            await this.browser.waitForVisible(captureSelector, TIMEOUT);
-            await Promise.all(
-              Object.entries(waitElements).map(([selector, visible]) =>
-                this.browser.waitForVisible(selector, TIMEOUT, !visible),
-              ),
-            );
-          } catch (e) {
-            // eslint-disable-next-line no-console
-            console.error(e);
-          }
+        for (const action of actions) {
+          await Actions[action.type](this.browser, action);
         }
-
-        await this.browser.assertView(testName.toLowerCase(), captureSelector);
       });
     }
   });

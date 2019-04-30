@@ -6,6 +6,16 @@ import DatePicker from '../date-picker/date-picker';
 
 storiesOf('Components|Date Picker', module).
   addDecorator(reactDecorator()).
+  addParameters({
+    hermione: {
+      actions: [
+        {type: 'click', selector: 'button'},
+        {type: 'mouseMove', x: 800, y: 1024},
+        {type: 'wait', delay: 500},
+        {type: 'capture', name: 'datePickerPopup', selector: ['#date-picker', '[data-test~=ring-popup]']}
+      ]
+    }
+  }).
   add('single date', () => {
     class DatePickerExample extends Component {
       state = {date: '01.01.18'};
