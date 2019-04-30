@@ -59,11 +59,11 @@ module.exports = {
       }
     },
     edge: {
+      tolerance: RELAXED_TOLERANCE,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         version: '17.17134',
-        platform: WIN10,
-        tolerance: RELAXED_TOLERANCE
+        platform: WIN10
       }
     }
   }
