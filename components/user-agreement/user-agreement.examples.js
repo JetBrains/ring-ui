@@ -69,4 +69,4 @@ storiesOf('Components|User Agreement', module).
     }
 
     return <UserAgreementServiceDemo/>;
-  });
+  }, {hermione: {skip: true}});

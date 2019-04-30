@@ -125,6 +125,7 @@ storiesOf('Components|Query Assist', module).
       actions: [
         {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
         {type: 'click', selector: '[data-test=ring-query-assist-input]'},
+        {type: 'sendKeys', selector: '[data-test=ring-query-assist-input]', value: 'test '},
         {type: 'capture', name: 'withPopup', selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']}
       ]
     }

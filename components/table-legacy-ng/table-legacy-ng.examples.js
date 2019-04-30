@@ -77,7 +77,7 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         </rg-legacy-table>
       </div>
     `;
-  }).
+  }, {hermione: {skip: true}}).
   add('with sidebar', () => {
     angular.module(APP_NAME, [TableNG, SidebarNG, SelectNG, QueryAssistNG]).
       controller('testCtrl', function controller($timeout) {
@@ -173,4 +173,4 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         </rg-legacy-table>
       </div>
     `;
-  });
+  }, {hermione: {skip: true}});

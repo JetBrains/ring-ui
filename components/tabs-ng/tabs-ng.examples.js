@@ -33,4 +33,11 @@ storiesOf('Legacy Angular|Tabs Ng', module).
         <rg-tabs-pane x-title="Members" counter="666">Members 666 tab content</rg-tabs-pane>
       </rg-tabs>
     `;
+  }, {
+    storyStyles: `
+    <style>
+      body {
+        background: #000;
+      }
+    </style>`
   });

@@ -4,8 +4,12 @@ module.exports = {
   click: (browser, {selector}) => browser.click(selector),
   executeJS: (browser, {script}) => browser.execute(script),
   focus: (browser, {selector}) =>
-    browser.execute(`document.querySelector(${selector}).focus()`),
+    browser.execute(`document.querySelector('${selector}').focus()`),
   mouseMove: (browser, {selector, x, y}) => browser.moveTo(selector, x, y),
+  mouseEvent: (browser, {selector, eventname}) =>
+    browser.execute(
+      `document.querySelector('${selector}').dispatchEvent(new MouseEvent('${eventname}'))`
+    ),
   sendKeys: (browser, {selector, value}) => browser.addValue(selector, value),
   setWindowSize: (browser, {width, height}) =>
     browser.setWindowSize(width, height),
