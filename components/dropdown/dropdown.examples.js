@@ -83,4 +83,4 @@ storiesOf('Components|Dropdown', module).
     >
       <Popup>Popup content</Popup>
     </Dropdown>
-  ));
+  ), {hermione: {skip: true}});
