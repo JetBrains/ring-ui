@@ -213,4 +213,4 @@ storiesOf('Components|Button', module).
     }
 
     return <Sleeper/>;
-  });
+  }, {hermione: {skip: true}});

@@ -59,6 +59,7 @@ storiesOf('Components|Popup', module).
 
     return <PopupDemo/>;
   }, {
+    hermione: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
     storyStyles: `
 <style>
   body {
@@ -150,6 +151,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
+    hermione: {captureSelector: ['.left', '.right', '.bottom', '.top']},
     storyStyles: `
 <style>
   .message {
@@ -222,8 +224,13 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
+    hermione: {captureSelector: 'body'},
     storyStyles: `
 <style>
+  body {
+    min-height: 400px;
+  }
+  
   .parent-popup {
     width: 100px;
     height: 100px;
@@ -252,6 +259,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
+    hermione: {skip: true},
     storyStyles: `
 <style>
     body {
@@ -289,6 +297,7 @@ storiesOf('Components|Popup', module).
 
     return PopupDemo;
   }, {
+    hermione: {captureSelector: 'body'},
     storyStyles: `
 <style>
     body {

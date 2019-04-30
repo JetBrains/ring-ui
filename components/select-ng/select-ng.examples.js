@@ -10,6 +10,7 @@ import TabsNG from '../tabs-ng/tabs-ng';
 import DialogNG from '../dialog-ng/dialog-ng';
 
 storiesOf('Legacy Angular|Select Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [SelectNG]).

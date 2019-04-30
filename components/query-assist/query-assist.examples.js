@@ -13,7 +13,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 const queryAssistLog = action('queryAssistLog');
 
-storiesOf('Components|Query Set', module).
+storiesOf('Components|Query Assist', module).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const auth = new Auth(hubConfig);
@@ -62,7 +62,7 @@ storiesOf('Components|Query Set', module).
     }
 
     return <QueryAssistExample/>;
-  }).
+  }, {hermione: {skip: true}}).
   add('no auth', () => {
     const dataSource = ({query, caret}) => ({
       query,
@@ -120,6 +120,14 @@ storiesOf('Components|Query Set', module).
         dataSource={dataSource}
       />
     );
+  }, {
+    hermione: {
+      actions: [
+        {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
+        {type: 'click', selector: '[data-test=ring-query-assist-input]'},
+        {type: 'capture', name: 'withPopup', selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']}
+      ]
+    }
   }).
   add('with custom renderer', () => {
     const template = item => (
@@ -169,7 +177,7 @@ storiesOf('Components|Query Set', module).
         useCustomItemRender
       />
     );
-  }).
+  }, {hermione: {skip: true}}).
   add('dark theme (no-auth)', () => {
     const dataSource = async ({query, caret}) => ({
       query,
@@ -219,6 +227,14 @@ storiesOf('Components|Query Set', module).
         />
       </div>
     );
+  }, {
+    hermione: {
+      actions: [
+        {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
+        {type: 'click', selector: '[data-test=ring-query-assist-input]'},
+        {type: 'capture', name: 'withPopup', selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']}
+      ]
+    }
   }).
   add('with custom actions', () => {
     const auth = new Auth(hubConfig);
@@ -268,4 +284,4 @@ storiesOf('Components|Query Set', module).
     }
 
     return <QueryAssistExample/>;
-  });
+  }, {hermione: {skip: true}});

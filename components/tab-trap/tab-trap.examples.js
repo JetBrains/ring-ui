@@ -11,6 +11,7 @@ import Group from '../group/group';
 import TabTrap from './tab-trap';
 
 storiesOf('Components|TabTrap', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class TabTrapDemo extends Component {
