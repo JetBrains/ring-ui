@@ -109,6 +109,7 @@ storiesOf('Components|Icon', module).
       ))}
     </div>
   ), {
+    hermione: {skip: true}, // Logos example is too big and have no much sense to test
     storyStyles: `
 <style>
   .ring-icon {
