@@ -10,14 +10,13 @@ storiesOf('Components|Tooltip', module).
   add('basic', () => (
     <div style={{paddingBottom: '100px'}}>
       <Tooltip title="Explanation">
-        <Button>Button that requires an explanation</Button>
+        <Button id="button-with-tooltip">Button that requires an explanation</Button>
       </Tooltip>
     </div>
   ), {
     hermione: {
-      skip: true, // TODO: find why hover doesn't work with hermione
       actions: [
-        {type: 'mouseMove', selector: 'button'},
+        {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
         {type: 'capture', name: '', selector: '#root'}
       ]
     }
@@ -58,11 +57,10 @@ storiesOf('Components|Tooltip', module).
     );
   }, {
     hermione: {
-      skip: true, // TODO: find why hover doesn't work with hermione
       actions: [
-        {type: 'mouseMove', selector: '.lorem-ipsum__text'},
+        {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
         {type: 'capture', name: 'full text element', selector: '#root'},
-        {type: 'mouseMove', selector: '.lorem-ipsum__text_overflow'},
+        {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseover'},
         {type: 'capture', name: 'cut text element', selector: '#root'}
       ]
     }

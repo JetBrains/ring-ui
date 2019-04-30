@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Popup from '../popup/popup';
 import {Listeners} from '../global/dom';
+import dataTests from '../global/data-tests';
 
 import styles from './tooltip.css';
 
@@ -23,7 +24,8 @@ export default class Tooltip extends Component {
     selfOverflowOnly: PropTypes.bool,
     popupProps: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    children: PropTypes.node
+    children: PropTypes.node,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -105,10 +107,15 @@ export default class Tooltip extends Component {
   };
 
   render() {
-    const {children, title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, 'data-test': dataTest,
+      title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
 
     return (
-      <span {...restProps} ref={this.containerRef}>
+      <span
+        {...restProps}
+        ref={this.containerRef}
+        data-test={dataTests('ring-tooltip', dataTest)}
+      >
         {children}
         <Popup
           hidden={!this.state.showPopup}

@@ -8,6 +8,7 @@ import ButtonNG from '../button-ng/button-ng';
 import PromisedClickNG from './promised-click-ng';
 
 storiesOf('Legacy Angular|Promised Click Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [PromisedClickNG, ButtonNG]).
