@@ -10,6 +10,9 @@ import Button from '../button/button';
 import Link from '../link/link';
 
 storiesOf('Components|Dropdown', module).
+  addParameters({
+    hermione: {captureSelector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]']}
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Dropdown

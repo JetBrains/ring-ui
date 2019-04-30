@@ -11,7 +11,7 @@ const {Directions} = Popup.PopupProps;
 storiesOf('Components|Message', module).
   addDecorator(reactDecorator()).
   add('basic', () => (
-    <div style={{padding: 200}}>
+    <div style={{padding: 200}} id="message-example">
       <span>
         Anchor
         <Message

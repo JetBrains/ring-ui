@@ -120,4 +120,8 @@ storiesOf('Components|Alert', module).
     }
 
     return <AlertContainerDemo/>;
+  }, {
+    hermione: {
+      captureSelector: '*[data-test="alert-container"]'
+    }
   });

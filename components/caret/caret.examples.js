@@ -4,6 +4,7 @@ import '../link/link__legacy.css';
 import Caret from '../caret/caret';
 
 storiesOf('Utilities|Caret', module).
+  addParameters({hermione: {skip: true}}).
   add('basic', () => {
     const node = document.createElement('div');
 

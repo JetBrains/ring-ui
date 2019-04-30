@@ -6,6 +6,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import AvatarEditorNG from '../avatar-editor-ng/avatar-editor-ng';
 
 storiesOf('Legacy Angular|Avatar Editor Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [AvatarEditorNG]).

@@ -9,6 +9,7 @@ import alert from './alert-service';
 
 
 storiesOf('Components|Alert Service', module).
+  addParameters({hermione: {captureSelector: 'body'}}).
   addDecorator(reactDecorator()).
   add('simple', () => {
     const MSG_TIMEOUT = 5000;

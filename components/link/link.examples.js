@@ -44,7 +44,7 @@ storiesOf('Components|Link', module).
 
       render() {
         return (
-          <div style={{display: 'flex', flexDirection: 'column'}}>
+          <div style={{display: 'flex', flexDirection: 'column'}} data-test="lik-example">
 
             <Link href="#hash">Ordinary link</Link>
 
@@ -74,4 +74,4 @@ storiesOf('Components|Link', module).
     }
 
     return <LinkDemo/>;
-  });
+  }, {hermione: {captureSelector: '*[data-test~=lik-example]'}});

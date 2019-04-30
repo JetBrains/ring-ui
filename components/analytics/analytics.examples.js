@@ -6,6 +6,7 @@ import linkStyles from '../link/link.css';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 storiesOf('Components|Analytics', module).
+  addParameters({hermione: {skip: true}}).
   add('analytics', () => {
 
     const node = document.createElement('div');
