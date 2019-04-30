@@ -115,8 +115,6 @@ storiesOf('Components|Select', module).
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-select]'},
-        {type: 'mouseMove', x: 800, y: 1024},
-        {type: 'wait', delay: 500},
         {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
       ]
     },
@@ -251,8 +249,6 @@ storiesOf('Components|Select', module).
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-select]'},
-        {type: 'mouseMove', x: 800, y: 1024},
-        {type: 'wait', delay: 500},
         {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
       ]
     },
@@ -562,8 +558,6 @@ storiesOf('Components|Select', module).
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-select]'},
-        {type: 'mouseMove', x: 800, y: 1024},
-        {type: 'wait', delay: 500},
         {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
       ]
     }
@@ -598,8 +592,6 @@ storiesOf('Components|Select', module).
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-input]'},
-        {type: 'mouseMove', x: 800, y: 1024},
-        {type: 'wait', delay: 500},
         {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
       ]
     }
