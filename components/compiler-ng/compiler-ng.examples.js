@@ -6,6 +6,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import CompilerNG from '../compiler-ng/compiler-ng';
 
 storiesOf('Legacy Angular|Compiler Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [CompilerNG]).

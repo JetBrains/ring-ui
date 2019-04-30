@@ -12,7 +12,7 @@ storiesOf('Components|Date Picker', module).
         {type: 'click', selector: 'button'},
         {type: 'mouseMove', x: 800, y: 1024},
         {type: 'wait', delay: 500},
-        {type: 'capture', name: 'datePickerPopup', selector: ['#date-picker', '[data-test~=ring-popup]']}
+        {type: 'capture', name: 'datePickerPopup', selector: ['[data-test~=ring-dropdown]', '[data-test~=ring-popup]']}
       ]
     }
   }).

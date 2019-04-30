@@ -27,7 +27,7 @@ storiesOf('Components|Radio', module).
       <Radio.Item value="two">Two</Radio.Item>
       <Radio.Item value="three">Three</Radio.Item>
     </Radio>
-  )).
+  ), {hermione: {skip: true}}).
   add('disabled', () => (
     <Radio disabled>
       <Radio.Item value="one" defaultChecked>One</Radio.Item>
