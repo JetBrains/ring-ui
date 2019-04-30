@@ -10,6 +10,7 @@ import AnalyticsNG from './analytics-ng';
 
 
 storiesOf('Legacy Angular|Analytics Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('analytics', () => {
     angular.module(APP_NAME, [AnalyticsNG, LinkNG]).

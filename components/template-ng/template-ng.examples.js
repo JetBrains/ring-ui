@@ -7,6 +7,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import TemplateNG from './template-ng';
 
 storiesOf('Legacy Angular|Template Ng', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [TemplateNG]);

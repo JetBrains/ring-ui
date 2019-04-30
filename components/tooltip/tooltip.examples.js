@@ -6,6 +6,7 @@ import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
 
 storiesOf('Components|Tooltip', module).
+  addParameters({hermione: {skip: true}}).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div style={{paddingBottom: '100px'}}>

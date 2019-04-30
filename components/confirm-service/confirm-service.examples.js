@@ -7,6 +7,7 @@ import confirm, {hideConfirm} from '../confirm-service/confirm-service';
 import Button from '../button/button';
 
 storiesOf('Components|Confirm Service', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class ConfirmDemo extends React.Component {

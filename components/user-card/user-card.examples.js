@@ -51,7 +51,7 @@ storiesOf('Components|User Card', module).
         <span>Hover this text load user information</span>
       </SmartUserCardTooltip>
     );
-  }).
+  }, {hermione: {skip: true}}).
   add('hub user card', () => {
     const auth = new Auth(hubConfig);
 
@@ -66,4 +66,4 @@ storiesOf('Components|User Card', module).
         <span>Hover this text load user information</span>
       </SmartUserCardTooltip>
     );
-  });
+  }, {hermione: {skip: true}});

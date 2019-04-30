@@ -22,6 +22,7 @@ function hrefGenerator(linkPageNumber, pageSize) {
 }
 
 storiesOf('Components|Pager', module).
+  addParameters({hermione: {captureSelector: '*[data-test~=ring-pager]'}}).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class PagerDemo extends Component {
