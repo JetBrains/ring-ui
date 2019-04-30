@@ -167,10 +167,6 @@ export default class SelectPopup extends Component {
     });
   }
 
-  listOnMouseOut = () => {
-    this.list.clearSelected();
-  };
-
   mouseDownHandler = () => {
     this.isClickingPopup = true;
   };
@@ -324,7 +320,6 @@ export default class SelectPopup extends Component {
           restoreActiveIndex
           activateFirstItem
           onSelect={this.onListSelect}
-          onMouseOut={this.listOnMouseOut}
           onResize={this.handleListResize}
           onScrollToBottom={this.props.onLoadMore}
           shortcuts={this.state.popupShortcuts}
