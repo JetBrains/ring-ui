@@ -449,12 +449,12 @@ export default class List extends Component {
     return this.props.data[this.state.activeIndex];
   }
 
-  clearSelected() {
+  clearSelected = () => {
     this.setState({
       activeIndex: null,
       needScrollToActive: false
     });
-  }
+  };
 
   defaultItemHeight() {
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
@@ -727,8 +727,7 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
-        onMouseDown={this.mouseDownHandler}
-        onMouseUp={this.mouseUpHandler}
+        onMouseLeave={this.clearSelected}
         data-test="ring-list"
       >
         {this.props.shortcuts &&
