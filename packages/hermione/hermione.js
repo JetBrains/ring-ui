@@ -13,7 +13,8 @@ kill(saucePort).then(() => {
     username: process.env.SAUCE_USERNAME,
     accessKey: process.env.SAUCE_ACCESS_KEY,
     logfile: 'saucelabs-session.log',
-    connectRetries: 3
+    connectRetries: 3,
+    directDomains: ['hub.jetbrains.com', 'via.placeholder.com', '*.microsoft.com', 'icons.iconarchive.com']
   }, async (err, sauceConnectProcess) => {
     if (err) {
       console.error(err.message);
