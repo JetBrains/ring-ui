@@ -18,7 +18,7 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         this.itemsArray = [{
           name: 'test1',
           subList: [{name: 'some group'}],
-          iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
+          iconUrl: 'http://via.placeholder.com/16x16'
         }];
 
         for (let i = 0; i < 20; i++) {
