@@ -20,7 +20,7 @@ module.exports = {
   retry: 0,
   testsPerSession: 100,
   system: {
-    parallelLimit: 2
+    parallelLimit: 3
   },
   compositeImage: true,
   windowSize,
