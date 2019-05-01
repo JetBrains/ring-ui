@@ -52,6 +52,7 @@ module.exports = {
       }
     },
     ie: {
+      testsPerSession: 20,
       desiredCapabilities: {
         browserName: 'internet explorer',
         version: '11.309',
