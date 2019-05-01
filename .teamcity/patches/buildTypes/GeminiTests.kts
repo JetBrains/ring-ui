@@ -32,7 +32,7 @@ changeBuildType(RelativeId("GeminiTests")) {
     }
     steps {
         update<ScriptBuildStep>(0) {
-            dockerImage = "node"
+            dockerImage = "node:10"
         }
     }
 }
