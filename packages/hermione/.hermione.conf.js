@@ -60,6 +60,7 @@ module.exports = {
     },
     edge: {
       tolerance: RELAXED_TOLERANCE,
+      antialiasingTolerance: RELAXED_TOLERANCE,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         version: '17.17134',
