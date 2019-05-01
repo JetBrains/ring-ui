@@ -6,16 +6,8 @@ const items = require('./stories.json');
 
 const Actions = require('./actions');
 
-function addTestNamesToCaptures(actions, storyName) {
-  return actions.map(action => {
-    if (action.type === 'capture') {
-      return {
-        ...action,
-        name: `${storyName}${action.name ? `-${action.name}` : ''}`
-      };
-    }
-    return action;
-  });
+function addTestName(name, storyName) {
+  return `${storyName}${name ? `-${name}` : ''}`;
 }
 
 for (const {kind, stories} of items) {
@@ -33,8 +25,6 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;
 
-      const namedActions = addTestNamesToCaptures(actions, name);
-
       if (skip) {
         continue;
       }
@@ -47,8 +37,11 @@ for (const {kind, stories} of items) {
           })}&block-animations`,
         );
 
-        for (const action of namedActions) {
-          await Actions[action.type](this.browser, action);
+        for (const action of actions) {
+          await Actions[action.type](
+            this.browser,
+            {...action, name: addTestName(action.name, name)}
+          );
         }
       });
     }
