@@ -3,9 +3,11 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/docs/dist" />
       <excludeFolder url="file://$MODULE_DIR$/packages/gemini/html-report" />
       <excludeFolder url="file://$MODULE_DIR$/packages/generator/test_gen" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/hermione/html-report" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
