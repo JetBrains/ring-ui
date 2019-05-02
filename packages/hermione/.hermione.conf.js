@@ -23,8 +23,7 @@ module.exports = {
   windowSize,
   plugins: {
     '@jetbrains/hermione-teamcity-reporter': {
-      // enabled: process.argv.indexOf('--teamcity') !== -1
-      enabled: false // investigating why hermione stops on TeamCity
+      enabled: process.argv.indexOf('--teamcity') !== -1
     },
     'html-reporter/hermione': {
       defaultView: 'all'
