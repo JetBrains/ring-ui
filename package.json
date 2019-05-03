@@ -105,7 +105,7 @@
     "karma-webdriver-launcher": "^1.0.5",
     "karma-webpack": "^3.0.0",
     "lerna": "^3.13.4",
-    "lint-staged": "^8.1.5",
+    "lint-staged": "^8.1.6",
     "mocha": "^6.1.4",
     "octicons": "^8.5.0",
     "react": "^16.8.6",
