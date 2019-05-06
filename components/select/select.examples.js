@@ -15,6 +15,8 @@ import '../input-size/input-size.scss';
 
 import Select from './select';
 
+const FLAG_DE_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
+
 storiesOf('Components|Select', module).
   addParameters({
     notes: 'Displays a select.'
@@ -44,7 +46,7 @@ storiesOf('Components|Select', module).
       {
         label: 'With icon',
         key: 4,
-        icon: 'http://flagpedia.net/data/flags/mini/de.png'
+        icon: FLAG_DE_URL
       },
       {
         label: 'With avatar',
@@ -110,7 +112,7 @@ storiesOf('Components|Select', module).
       {label: 'One', key: '1', type: 'user'},
       {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
       {label: 'Three', key: '3', type: 'user'},
-      {label: 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
+      {label: 'With icon', key: 4, icon: FLAG_DE_URL}
     ];
 
     return <SelectExample data={data}/>;
@@ -180,7 +182,7 @@ storiesOf('Components|Select', module).
       {label: 'One', key: '1', type: 'user'},
       {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
       {label: 'Three', key: '3', type: 'user'},
-      {label: 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
+      {label: 'With icon', key: 4, icon: FLAG_DE_URL}
     ];
 
     return <SelectExample data={data}/>;
@@ -510,7 +512,7 @@ storiesOf('Components|Select', module).
       {label: 'One', key: '1', type: 'user'},
       {label: 'Group', key: '2', type: 'user'},
       {label: 'Three', key: '3', type: 'user'},
-      {label: 'With icon', key: 4, icon: 'http://flagpedia.net/data/flags/mini/de.png'}
+      {label: 'With icon', key: 4, icon: FLAG_DE_URL}
     ];
 
     return <SelectExample data={data}/>;
@@ -736,16 +738,15 @@ storiesOf('Components|Select', module).
       {label: 'Three long label', key: '3'}
     ];
 
+    const multipleConfig = {label: 'Change selected items', removeSelectedItems: false};
+
     return (
       <Select
         filter
         add={{
           prefix: 'Add some item'
         }}
-        multiple={{
-          label: 'Change selected items',
-          removeSelectedItems: false
-        }}
+        multiple={multipleConfig}
         selected={[data[1]]}
         data={data}
         onSelect={action('selected')}
