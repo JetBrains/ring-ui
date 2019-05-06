@@ -9,7 +9,7 @@ const gridUrl = process.env.SELENIUM_GRID ||
 // Supports Firefox
 const windowSize = '1024x1000';
 const WIN10 = 'Windows 10';
-const RELAXED_TOLERANCE = 4;
+const RELAXED_TOLERANCE = 7;
 const maxDuration = 3600;
 const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
 
