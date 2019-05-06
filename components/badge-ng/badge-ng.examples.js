@@ -8,6 +8,9 @@ import GroupNG from '../group-ng/group-ng';
 import BadgeNG from './badge-ng';
 
 storiesOf('Legacy Angular|Badge Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Badge.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [GroupNG, BadgeNG]);

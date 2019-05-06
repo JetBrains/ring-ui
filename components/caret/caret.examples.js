@@ -4,7 +4,10 @@ import '../link/link__legacy.css';
 import Caret from '../caret/caret';
 
 storiesOf('Utilities|Caret', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).',
+    hermione: {skip: true}
+  }).
   add('basic', () => {
     const node = document.createElement('div');
 

@@ -6,6 +6,9 @@ import TagsList from '../tags-list/tags-list';
 import {CheckmarkIcon} from '../icon';
 
 storiesOf('Components|Tags List', module).
+  addParameters({
+    notes: 'Displays a list of tags.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <TagsList

@@ -6,6 +6,9 @@ import Text from '../text/text';
 import Group from '../group/group';
 
 storiesOf('Components|Text', module).
+  addParameters({
+    notes: 'A component for rendering text content.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Group>

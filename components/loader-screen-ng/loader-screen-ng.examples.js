@@ -7,7 +7,10 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LoaderScreen from './loader-screen-ng';
 
 storiesOf('Legacy Angular|Loader Screen Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Loader Screen.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [LoaderScreen]).run(loaderScreen => {

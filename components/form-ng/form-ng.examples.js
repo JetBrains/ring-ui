@@ -14,6 +14,9 @@ import InputNG from '../input-ng/input-ng';
 
 
 storiesOf('Legacy Angular|Form Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Form.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [FormNG, CheckboxNG, SelectNG, ButtonNG, InputNG]).

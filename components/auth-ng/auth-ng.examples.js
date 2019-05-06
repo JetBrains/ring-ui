@@ -8,7 +8,10 @@ import hubConfig from '../../.storybook/hub-config';
 
 
 storiesOf('Legacy Angular|Auth Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Auth.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('authorization', () => {
     angular.module(APP_NAME, [AuthNG]).

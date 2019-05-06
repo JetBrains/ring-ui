@@ -11,7 +11,10 @@ import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 import SaveFieldNG from './save-field-ng';
 
 storiesOf('Legacy Angular|Save Field Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Allows to create forms where some fields have their own Save buttons.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [SaveFieldNG, QueryAssistNG]).

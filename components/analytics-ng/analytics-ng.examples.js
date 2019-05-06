@@ -10,7 +10,10 @@ import AnalyticsNG from './analytics-ng';
 
 
 storiesOf('Legacy Angular|Analytics Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Analytics.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('analytics', () => {
     angular.module(APP_NAME, [AnalyticsNG, LinkNG]).

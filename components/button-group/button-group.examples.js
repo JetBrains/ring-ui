@@ -7,6 +7,9 @@ import ButtonGroup, {Caption} from '../button-group/button-group';
 
 
 storiesOf('Components|Button Group', module).
+  addParameters({
+    notes: 'Allows to group several buttons.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div>

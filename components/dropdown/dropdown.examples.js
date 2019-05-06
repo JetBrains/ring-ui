@@ -11,6 +11,7 @@ import Link from '../link/link';
 
 storiesOf('Components|Dropdown', module).
   addParameters({
+    notes: 'A stateful popup with a clickable anchor.',
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-dropdown]'},

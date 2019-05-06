@@ -9,6 +9,9 @@ import data from '../data-list/data-list.mock';
 import RingDataList from './data-list-ng';
 
 storiesOf('Legacy Angular|DataList Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for DataList.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingDataList]).

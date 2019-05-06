@@ -8,6 +8,9 @@ import {PencilIcon, HourglassIcon} from '../icon';
 import Loader from '../loader-inline/loader-inline';
 
 storiesOf('Components|Button', module).
+  addParameters({
+    notes: 'A component for displaying variously styled buttons.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     function renderButtonModifications(theme) {

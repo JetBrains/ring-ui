@@ -8,6 +8,9 @@ import Link from '../link/link';
 import Group from './group';
 
 storiesOf('Components|Group', module).
+  addParameters({
+    notes: 'Places inner components with fixed spacing between them.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Group>

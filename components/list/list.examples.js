@@ -16,7 +16,10 @@ import List from './list';
 import Source from './list__users-groups-source';
 
 storiesOf('Components|List', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-list]'}}).
+  addParameters({
+    notes: 'Displays a list of items.',
+    hermione: {captureSelector: '*[data-test~=ring-list]'}
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const listData = [

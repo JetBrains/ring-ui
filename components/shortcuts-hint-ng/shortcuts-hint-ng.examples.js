@@ -7,7 +7,10 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import ShortcutsHintNg from './shortcuts-hint-ng';
 
 storiesOf('Legacy Angular|ShortcutsHint Ng', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
+  addParameters({
+    notes: 'Displays a popup listing all registered shortcuts.',
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ShortcutsHintNg]).

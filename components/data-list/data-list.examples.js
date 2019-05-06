@@ -10,6 +10,9 @@ import {moreLessButtonStates} from './item';
 import mock, {moreItems} from './data-list.mock';
 
 storiesOf('Components|DataList', module).
+  addParameters({
+    notes: 'A component for rendering interactive hierarchical tables.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class DataListDemo extends PureComponent {

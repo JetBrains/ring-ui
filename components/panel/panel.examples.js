@@ -8,6 +8,9 @@ import Button from '../button/button';
 import Panel from './panel';
 
 storiesOf('Components|Panel', module).
+  addParameters({
+    notes: 'Displays a button panel.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class PanelDemo extends Component {

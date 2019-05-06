@@ -7,6 +7,9 @@ import Group from '../group/group';
 import Badge from './badge';
 
 storiesOf('Components|Badge', module).
+  addParameters({
+    notes: 'Displays a badge.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Group>

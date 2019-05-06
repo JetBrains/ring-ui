@@ -25,6 +25,9 @@ import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
 
 storiesOf('Components|Header', module).
+  addParameters({
+    notes: 'Displays a configurable page header.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class HeaderDemo extends React.Component {

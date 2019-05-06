@@ -9,7 +9,10 @@ import {FrownIcon} from '../icon';
 import ErrorMessageNG from './error-message-ng';
 
 storiesOf('Legacy Angular|Error Message Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Displays an error message.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ErrorMessageNG]).

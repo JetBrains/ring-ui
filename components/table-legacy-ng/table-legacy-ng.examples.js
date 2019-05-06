@@ -12,7 +12,10 @@ import TableNG from './table-legacy-ng';
 
 storiesOf('Legacy Angular|TableLegacy Ng', module).
   addDecorator(angularDecorator()).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Displays tabular data.',
+    hermione: {skip: true}
+  }).
   add('basic', () => {
     angular.module(APP_NAME, [TableNG]).
       controller('testCtrl', function controller() {

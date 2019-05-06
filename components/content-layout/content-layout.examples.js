@@ -6,6 +6,9 @@ import ContentLayout from '../content-layout/content-layout';
 import Sidebar from '../content-layout/sidebar';
 
 storiesOf('Components|Content Layout', module).
+  addParameters({
+    notes: 'A component for simple content layout.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <ContentLayout>

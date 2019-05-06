@@ -13,7 +13,10 @@ import Panel from '../panel/panel';
 
 
 storiesOf('Components|Dialog', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
+  addParameters({
+    notes: 'The Dialog component is a simple way to present content above an enclosing view.',
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class DialogDemo extends React.Component {

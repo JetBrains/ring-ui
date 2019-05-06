@@ -9,6 +9,9 @@ import ButtonNG from '../button-ng/button-ng';
 import ButtonSetNG from './button-set-ng';
 
 storiesOf('Legacy Angular|Button Set Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Button Set.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ButtonNG, ButtonSetNG]);

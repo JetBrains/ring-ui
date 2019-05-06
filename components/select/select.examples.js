@@ -16,6 +16,9 @@ import '../input-size/input-size.scss';
 import Select from './select';
 
 storiesOf('Components|Select', module).
+  addParameters({
+    notes: 'Displays a select.'
+  }).
   addDecorator(reactDecorator()).
   add('with a filter and tags', () => {
     const selectProps = {

@@ -6,6 +6,17 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Footer from './footer';
 
 storiesOf('Components|Footer', module).
+  addParameters({
+    notes: `
+Displays a configurable page footer.
+
+A footer consists of three sections, each optional:
+
+- left
+- center
+- right
+    `
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Footer

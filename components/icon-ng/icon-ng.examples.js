@@ -8,6 +8,9 @@ import {CheckmarkIcon, WarningIcon} from '../icon';
 import IconNG from './icon-ng';
 
 storiesOf('Legacy Angular|Icon Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Icon.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [IconNG]).

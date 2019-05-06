@@ -11,7 +11,10 @@ import AutofocusNG from './autofocus-ng';
 // TODO: calling .focus() doesn't actually focus inputs in Storybook by some reason
 
 storiesOf('Legacy Angular|Autofocus Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Sets focus to the element if the condition is true. Supports standard input elements as well as Select.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('autofocus on input', () => {
     angular.module(APP_NAME, [AutofocusNG, InputNg]);

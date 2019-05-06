@@ -8,6 +8,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import TagsInputNG from './tags-input-ng';
 
 storiesOf('Legacy Angular|Tags Input Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Tags Input.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [TagsInputNG]).

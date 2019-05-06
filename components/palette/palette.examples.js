@@ -7,7 +7,10 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import './palette.scss';
 
 storiesOf('Style-only|Pallete', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Defines the color palette used for tags and custom fields.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, []).
