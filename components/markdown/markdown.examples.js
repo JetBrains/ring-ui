@@ -5,6 +5,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Markdown, {md} from '../markdown/markdown';
 
 storiesOf('Components|Markdown', module).
+  addParameters({
+    notes: 'Renders Markdown.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Markdown

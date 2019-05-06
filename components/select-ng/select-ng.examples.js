@@ -10,7 +10,38 @@ import TabsNG from '../tabs-ng/tabs-ng';
 import DialogNG from '../dialog-ng/dialog-ng';
 
 storiesOf('Legacy Angular|Select Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: `
+## Provides an Angular wrapper for Select.
+Options argument has one of the following forms:
+
++ \`label\` **\`in\`** \`items\`
++ \`label\` **\`for\`** \`item\` **\`in\`** \`items\`
++ \`label\` **\`for\`** \`item\` **\`in\`** \`items\` **\`track by\`** \`trackexpr\`
++ \`label\` **\`select as\`** \`buttontext\` **\`describe as\`** \`description\` **\`for\`** \`item\` **\`in\`** \`items\` **\`track by\`** \`trackexpr\`
++ \`select\` **\`as\`** \`label\` **\`select as\`** \`buttontext\` **\`for\`** \`item\` **\`in\`** \`items\`
+
+Where:
+
++ \`items\` is an expression that evaluates to a datasource containing data to iterate over. Datasource can be an array or a function that accepts the \`query\` parameter and returns a promise of an array filtered by the query.
++ \`item\` is a local variable that will refer to each item in the items.
++ \`label\` – the result of this expression will be the label for &lt;option&gt; element. The expression will most likely refer to the value variable (e.g. item.name).
++ \`select\` – the result of this expression will be bound to the model of the parent &lt;select&gt; element. If not specified, select expression will default to item.
++ \`trackexpr\` is used when working with an array of objects. The result of this expression will be used to identify the objects in the array. The trackexpr will most likely refer to the item variable (e.g. item.id). Used to preserve selection even when the options are recreated (e.g. reloaded from the server).
++ \`buttontext\` – label for the selected item to be displayed on the button.
++ \`description\` – description of an item to display in the option list.
+
+Examples:
+
++ \`item in items\`
++ \`item in dataSource(query)\`
++ \`item.text for item in items\`
++ \`item.text for item in items track by item.id\`
++ \`item.text select as item.fullText describe as item.fullDescription for item in items track by item.id\`
++ \`item as item.text select as makeFullText(item) for item in items\`
+    `,
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [SelectNG]).

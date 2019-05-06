@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LoaderInlineNg from './loader-inline-ng';
 
 storiesOf('Legacy Angular|Loader Inline Ng', module).
+  addParameters({
+    notes: 'Wraps markup for loader-inline component.'
+  }).
   addDecorator(angularDecorator()).
   add('simple', () => {
     angular.module(APP_NAME, [LoaderInlineNg]);

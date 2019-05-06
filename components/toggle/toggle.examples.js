@@ -5,6 +5,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Toggle from '../toggle/toggle';
 
 storiesOf('Components|Toggle', module).
+  addParameters({
+    notes: 'Displays a checkbox as an animated on/off toggle.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div>

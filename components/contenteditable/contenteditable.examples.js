@@ -6,6 +6,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import ContentEditable from './contenteditable';
 
 storiesOf('Components|ContentEditable', module).
+  addParameters({
+    notes: 'Provides a ContentEditable component.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div>

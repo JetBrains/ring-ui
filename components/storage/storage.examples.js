@@ -3,7 +3,10 @@ import {storiesOf} from '@storybook/html';
 import Storage from './storage';
 
 storiesOf('Components|Storage', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides a façade to localStorage/sessionStorage/cookies.',
+    hermione: {skip: true}
+  }).
   add('basic', () => {
     const STORAGE_KEY = 'storage-example-key';
     const storage = new Storage();

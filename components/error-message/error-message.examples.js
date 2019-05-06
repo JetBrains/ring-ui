@@ -8,6 +8,9 @@ import Link from '../link/link';
 import ErrorMessage from './error-message';
 
 storiesOf('Components|Error Message', module).
+  addParameters({
+    notes: 'Displays an error message centered both vertically and horizontally inside the parent container.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div style={{height: '300px'}}>

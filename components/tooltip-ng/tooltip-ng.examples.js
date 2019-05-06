@@ -9,6 +9,9 @@ import {WarningIcon} from '../icon';
 import TooltipNG from './tooltip-ng';
 
 storiesOf('Legacy Angular|Tooltip Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Tooltip.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [IconNG, TooltipNG]).

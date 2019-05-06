@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RadioNG from '../radio-ng/radio-ng';
 
 storiesOf('Legacy Angular|Radio Ng', module).
+  addParameters({
+    notes: 'Provides a Radio component.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RadioNG]).

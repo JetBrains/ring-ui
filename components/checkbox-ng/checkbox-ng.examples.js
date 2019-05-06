@@ -9,6 +9,9 @@ import ButtonNG from '../button-ng/button-ng';
 import CheckboxNG from './checkbox-ng';
 
 storiesOf('Legacy Angular|Checkbox Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Checkbox.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ButtonNG, CheckboxNG]).

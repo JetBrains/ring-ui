@@ -7,6 +7,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Popup from './popup';
 
 storiesOf('Components|Popup', module).
+  addParameters({
+    notes: 'Displays a popup.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const {Directions} = Popup.PopupProps;

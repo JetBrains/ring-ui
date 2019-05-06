@@ -6,7 +6,10 @@ import linkStyles from '../link/link.css';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 storiesOf('Components|Analytics', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides a façade to Google Analytics and other web analytics services through a system of plugins.',
+    hermione: {skip: true}
+  }).
   add('analytics', () => {
 
     const node = document.createElement('div');

@@ -10,6 +10,9 @@ import data from '../table/table.examples.json';
 import TableNG from './table-ng';
 
 storiesOf('Legacy Angular|Table Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Table.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [TableNG, TableLegacyToolbar]).

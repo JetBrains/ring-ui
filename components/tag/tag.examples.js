@@ -11,6 +11,9 @@ import Tag from './tag';
 
 
 storiesOf('Components|Tag', module).
+  addParameters({
+    notes: 'Displays a tag.'
+  }).
   addDecorator(reactDecorator()).
   add('demo', () => {
     const url = `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`;

@@ -5,6 +5,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Checkbox from '../checkbox/checkbox';
 
 storiesOf('Components|Checkbox', module).
+  addParameters({
+    notes: 'Displays a checkbox.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <Fragment>

@@ -3,7 +3,7 @@ import {storiesOf} from '@storybook/html';
 import {getStyles, getRect, getPixelRatio, getWindowHeight} from '../global/dom';
 
 storiesOf('Utilities|DOM', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({notes: 'A collection of DOM utilities.', hermione: {skip: true}}).
   add('basic', () => {
     const node = document.createElement('div');
 

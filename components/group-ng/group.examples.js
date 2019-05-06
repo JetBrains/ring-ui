@@ -8,6 +8,9 @@ import ButtonNG from '../button-ng/button-ng';
 import GroupNG from './group-ng';
 
 storiesOf('Legacy Angular|Group Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Group.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ButtonNG, GroupNG]);

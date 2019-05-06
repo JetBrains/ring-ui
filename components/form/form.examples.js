@@ -11,6 +11,9 @@ import '../input-size/input-size.scss';
 import ButtonNG from '../button-ng/button-ng';
 
 storiesOf('Style-only|Form', module).
+  addParameters({
+    notes: 'Helps create forms with various types of controls.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ButtonNG]);

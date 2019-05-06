@@ -12,6 +12,9 @@ import Link, {linkHOC, setCompatibilityMode} from './link';
 
 
 storiesOf('Components|Link', module).
+  addParameters({
+    notes: 'Displays a link.'
+  }).
   addDecorator(reactDecorator()).
   add('all variants', () => {
     class CustomComponent extends React.Component {

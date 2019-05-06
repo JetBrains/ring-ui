@@ -9,6 +9,9 @@ import RingProgressBar from './progress-bar-ng';
 const disableAnimations = window.location.search.includes('block-animations');
 
 storiesOf('Legacy Angular|Progress Bar Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Progress Bar.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingProgressBar]).

@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import InputNG from '../input-ng/input-ng';
 
 storiesOf('Legacy Angular|Input Ng', module).
+  addParameters({
+    notes: 'Text input fields of varying size.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [InputNG]).

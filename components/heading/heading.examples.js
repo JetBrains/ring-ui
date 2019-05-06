@@ -15,6 +15,9 @@ const lorem = (
 );
 
 storiesOf('Components|Heading', module).
+  addParameters({
+    notes: 'A component for rendering h1-h5 tags.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div>

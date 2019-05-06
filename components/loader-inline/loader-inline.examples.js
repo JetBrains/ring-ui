@@ -7,6 +7,9 @@ import LoaderInline from './loader-inline';
 import injectStyles from './inject-styles';
 
 storiesOf('Components|Inline Loader', module).
+  addParameters({
+    notes: 'Displays a small animated loader, shown inline with text. Use case: contextual loading animation.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class Example extends React.Component {

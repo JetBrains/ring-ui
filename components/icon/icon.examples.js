@@ -17,6 +17,9 @@ import * as allIcons from './icons';
 import * as allLogos from './logos';
 
 storiesOf('Components|Icon', module).
+  addParameters({
+    notes: 'Displays an icon.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div>

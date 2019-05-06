@@ -9,6 +9,9 @@ import Popup from '../popup/popup';
 const {Directions} = Popup.PopupProps;
 
 storiesOf('Components|Message', module).
+  addParameters({
+    notes: 'Displays a popup containing a message.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div style={{padding: 200}} id="message-example">

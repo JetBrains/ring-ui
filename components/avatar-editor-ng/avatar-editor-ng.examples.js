@@ -6,7 +6,10 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import AvatarEditorNG from '../avatar-editor-ng/avatar-editor-ng';
 
 storiesOf('Legacy Angular|Avatar Editor Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Allows to choose images to be uploaded as Data URI. On-select attribute will receive the * filename as `name` and the file contents as `data`.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [AvatarEditorNG]).

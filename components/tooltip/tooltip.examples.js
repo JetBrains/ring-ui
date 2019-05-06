@@ -6,6 +6,9 @@ import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
 
 storiesOf('Components|Tooltip', module).
+  addParameters({
+    notes: 'Displays a tooltip.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => (
     <div style={{paddingBottom: '100px'}}>

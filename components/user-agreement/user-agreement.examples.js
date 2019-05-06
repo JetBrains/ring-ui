@@ -10,7 +10,10 @@ import UserAgreementService from './service';
 import text from './toolbox.eula';
 
 storiesOf('Components|User Agreement', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
+  addParameters({
+    notes: 'A component that displays a user agreement dialog.',
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+  }).
   addDecorator(reactDecorator()).
   add('dialog', () => (
     <div>

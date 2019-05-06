@@ -6,6 +6,9 @@ import Avatar, {Size} from '../avatar/avatar';
 import hubConfig from '../../.storybook/hub-config';
 
 storiesOf('Components|Avatar', module).
+  addParameters({
+    notes: 'Displays an avatar. In case of a loading error an empty square is displayed.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     function Example() {
