@@ -11,6 +11,7 @@ const windowSize = '1024x1000';
 const WIN10 = 'Windows 10';
 const RELAXED_TOLERANCE = 4;
 const maxDuration = 3600;
+const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
 
 // eslint-disable-next-line no-console
 console.log('Storybook url detected:', baseUrl);
@@ -18,13 +19,14 @@ console.log('Storybook url detected:', baseUrl);
 module.exports = {
   baseUrl,
   gridUrl,
-  retry: 0,
+  // eslint-disable-next-line no-magic-numbers
+  retry: isTeamCity ? 2 : 0,
   testsPerSession: 100,
   compositeImage: true,
   windowSize,
   plugins: {
     '@jetbrains/hermione-teamcity-reporter': {
-      enabled: process.argv.indexOf('--teamcity') !== -1
+      enabled: isTeamCity
     },
     'html-reporter/hermione': {
       defaultView: 'all'
