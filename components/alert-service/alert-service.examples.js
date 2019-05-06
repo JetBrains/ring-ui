@@ -8,7 +8,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import alert from './alert-service';
 
 
-storiesOf('Components|Alert Service', module).
+storiesOf('Services|Alert Service', module).
   addParameters({
     notes: 'Service for managing a stack of alerts.',
     hermione: {skip: true}
