@@ -6,7 +6,7 @@ const branch = 'master';
 
 const {origin, pathname} = window.location;
 const base = pathname.startsWith(RING_UI_BASE)
-  ? `${RING_UI_BASE}/${branch}/`
+  ? `${RING_UI_BASE}${branch}/`
   : '/';
 
 export default {
