@@ -11,12 +11,6 @@ import styles from './button.css';
 
 /**
  * @name Button
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description A component for displaying variously styled buttons.
- * @extends {PureComponent}
- * @example-file ./button.examples.html
  */
 export default class Button extends PureComponent {
   static IconSize = Size;

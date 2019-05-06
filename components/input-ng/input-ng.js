@@ -1,11 +1,5 @@
 /**
  * @name Input Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @constructor
- * @description Text input fields of varying size.
- * @example-file ./input-ng.examples.html
  */
 import angular from 'angular';
 

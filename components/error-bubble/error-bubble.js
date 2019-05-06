@@ -8,12 +8,6 @@ import {Directions} from '../popup/position';
 import styles from './error-bubble.css';
 /**
  * @name Error Bubble
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop.
- * Passes any prop except `className` down to the input.
- * @example-file ./error-bubble.examples.html
  */
 
 export default class ErrorBubble extends PureComponent {

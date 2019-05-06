@@ -13,12 +13,6 @@ import styles from './date-picker.css';
 
 /**
  * @name Date Picker
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Allows picking a date or a date range. Uses [moment.js](http://momentjs.com/) under the hood. You may want to either [bundle only the needed locales](https://webpack.js.org/plugins/context-replacement-plugin/#newcontentresource-newcontentrecursive-newcontentregexp) or even to [ignore all of them](https://webpack.js.org/plugins/ignore-plugin/#ignore-moment-locales).
- * @example-file ./date-picker.examples.html
  */
 
 export default class DatePicker extends PureComponent {

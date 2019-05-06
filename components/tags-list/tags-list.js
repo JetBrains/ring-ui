@@ -8,12 +8,6 @@ function noop() {}
 
 /**
  * @name Tags List
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a list of tags.
- * @extends {ReactComponent}
- * @example-file ./tags-list.examples.html
  */
 
 export default class TagsList extends Component {

@@ -1,11 +1,5 @@
 /**
  * @name User Agreement
- * @category Components
- * @framework React
- * @tags Ring UI Language
- * @constructor
- * @description A component that displays a user agreement dialog.
- * @example-file ./user-agreement.examples.html
  */
 
 import React, {PureComponent} from 'react';

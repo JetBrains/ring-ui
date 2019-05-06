@@ -8,12 +8,6 @@ import styles from './progress-bar.css';
 
 /**
  * @name Progress Bar
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays the progress of a task (akin to HTML5 progress tag).
- * @extends {ReactComponent}
- * @example-file ./progress-bar.examples.html
  */
 export default class ProgressBar extends PureComponent {
   /**

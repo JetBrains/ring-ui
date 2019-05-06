@@ -1,10 +1,5 @@
 /**
  * @name Island Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @description Provides an Angular wrapper for Island.
- * @example-file ./island-ng.examples.html
  */
 import angular from 'angular';
 

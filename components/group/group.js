@@ -6,41 +6,6 @@ import styles from './group.css';
 
 /**
  * @name Group
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Places inner components with fixed spacing between them.
- * @example
-   <example name="Group">
-     <file name="index.html">
-       <div id="group"></div>
-     </file>
-
-     <file name="index.js">
-       import React, {Component} from 'react';
-       import {render} from 'react-dom';
-
-       import Link from '@jetbrains/ring-ui/components/link/link';
-       import Badge from '@jetbrains/ring-ui/components/badge/badge';
-       import Group from '@jetbrains/ring-ui/components/group/group';
-
-       const container = document.getElementById('group');
-       class GroupDemo extends Component {
-         render() {
-           return (
-             <Group>
-               <Badge valid>Badge</Badge>
-               <span>Text</span>
-               <Link>Link</Link>
-             </Group>
-           );
-         }
-       }
-
-       render(<GroupDemo />, container);
-     </file>
-   </example>
  */
 
 export default class Group extends Component {

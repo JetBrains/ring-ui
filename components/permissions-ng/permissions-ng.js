@@ -1,7 +1,5 @@
 /**
  * @name Permissions Ng
- * @tags Ring UI Language
- * @category Legacy Angular
  */
 import angular from 'angular';
 import 'dom4';
@@ -26,19 +24,6 @@ const angularModule = angular.module('Ring.permissions', ['Ring.auth']);
  *
  * @description
  * Configured instance of Permissions object.
- *
- * Configure:
- * @example
- * <pre>
- * angular.config(['userPermissionsProvider', function (userPermissionsProvider) {
- *   userPermissionsProvider.config({
- *     serviceId: '0-0-0-0-0',
- *     prefix: 'jetbrains.jetpass.'
- *   });
- * }]);
- * </pre>
- *
- * @requires auth
  */
 
 /**
@@ -94,23 +79,6 @@ angularModule.provider('userPermissions', function provider() {
  * The `permission` directive show or hide a portion of the DOM tree (HTML) depending
  * on the logged in user permissions. If the user has listed permissions then the DOM tree
  * is shown, otherwise it is hidden.
- * @example
- <example name="rgPermission directive">
- <file name="index.html">
- <div rg-permission="project-read" in-project="0-0-0-0-0">
- Is visible if user has permission 'read-project' in project 0-0-0-0-0.
- </div>
- <div rg-permission="{{scopeVariableName}}" in-project="0-0-0-0-0">
- Is visible if user has permission 'read-project' in project 0-0-0-0-0.
- </div>
- <div rg-permission="project-read">
- Is visible if user has permission 'read-project' at least in one project.
- </div>
- <div rg-permission="project-read" in-global>
- Is visible if user has permission 'read-project' at project "global".
- </div>
- </file>
- </example>
  *
  * @restrict A
  * @element ANY
@@ -237,20 +205,6 @@ angularModule.directive(
  * @description
  * Binds left-value expression with a boolean value that is true when at least one permission of
  * nested {@link permission} or {@link rgPermissionIf} directive is obtained by the logged in user.
- *
- * @example
- <example name="rgSomePermissions directive">
- <file name="index.html">
- <div rg-some-permissions="atLeastOneNestedDivIsShown" ng-show="atLeastOneNestedDivIsShown">
- <div rg-permission-if="project-read" in-project="0-0-0-0-0">
- Is transcluded if user has permission 'read-project' in project 0-0-0-0-0.
- </div>
- <div rg-permission-if="project-read">
- Is transcluded if user has permission 'read-project' at least in one project.
- </div>
- </div>
- </file>
- </example>
  *
  * @scope
  * @restrict A

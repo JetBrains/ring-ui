@@ -1,10 +1,5 @@
 /**
  * @name User Card Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @description Provides an Angular wrapper for User Card.
- * @example-file ./user-card-ng.examples.html
  */
 import angular from 'angular';
 

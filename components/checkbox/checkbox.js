@@ -9,12 +9,6 @@ import styles from './checkbox.css';
 
 /**
  * @name Checkbox
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a checkbox.
- * @extends {ReactComponent}
- * @example-file ./checkbox.examples.html
  */
 export default class Checkbox extends PureComponent {
 

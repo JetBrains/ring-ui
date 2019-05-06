@@ -1,28 +1,5 @@
 /**
  * @name Title Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description A component for manipulating page title.
- * @example
-   <example name="Title Ng">
-    <file name="index.html">
-      <div ng-app="test">
-        <h4>Open the example in a separate tab to see how tab title changes.</h4>
-
-        <!--It is better to use this directive with <title> tag in your <head> section.-->
-        <div rg-page-title="App name"></rg-page-title>
-      </div>
-    </file>
-    <file name="index.js">
-      import angular from 'angular';
-      import TitleNg from '@jetbrains/ring-ui/components/title-ng/title-ng';
-
-      angular.module('test', [TitleNg]).
-        run(function (pageTitle) {
-          pageTitle.addElement('Some page');
-        });
-    </file>
-   </example>
  */
 import angular from 'angular';
 

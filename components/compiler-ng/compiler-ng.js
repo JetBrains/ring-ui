@@ -1,32 +1,5 @@
 /**
  * @name Compiler Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @example
-   <example name="Compiler Ng">
-    <file name="index.html">
-      <div ng-app="test" ng-strict-di>
-        <div id="for-compiled"></div>
-      </div>
-    </file>
-    <file name="index.js">
-      import angular from 'angular';
-      import CompilerNg from '@jetbrains/ring-ui/components/compiler-ng/compiler-ng';
-
-      angular.module('test', [CompilerNg]).
-        run(function controller($rootScope, rgCompiler) {
-          const $scope = $rootScope.$new();
-          $scope.testValue = 'Hello from compiled node';
-
-          rgCompiler({template: '<div>{{testValue}}</div>'}).
-            then(data => {
-              data.link($scope);
-
-              document.getElementById('for-compiled').appendChild(data.element[0]);
-            });
-        });
-    </file>
-   </example>
  */
 import angular from 'angular';
 

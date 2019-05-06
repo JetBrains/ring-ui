@@ -15,12 +15,6 @@ import styles from './dialog.css';
 
 /**
  * @name Dialog
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description The Dialog component is a simple way to present content above an enclosing view.
- * @example-file ./dialog.examples.html
  */
 
 function noop() {}

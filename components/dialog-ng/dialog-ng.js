@@ -20,10 +20,6 @@ import styles from './dialog-ng.css';
 
 /**
  * @name Dialog Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Dialog.
- * @example-file ./dialog-ng.examples.html
  */
 
 const angularModule = angular.module(

@@ -9,12 +9,6 @@ import styles from './toggle.css';
 
 /**
   * @name Toggle
-  * @category Components
-  * @tags Ring UI Language
-  * @framework React
-  * @constructor
-  * @description Displays a checkbox as an animated on/off toggle.
-  * @example-file ./toggle.examples.html
   */
 
 export default class Toggle extends PureComponent {

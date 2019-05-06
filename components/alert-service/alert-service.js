@@ -7,10 +7,6 @@ import Alert, {ANIMATION_TIME, Container as AlertContainer} from '../alert/alert
 
 /**
  * @name Alert Service
- * @category Services
- * @tags Ring UI Language
- * @description Service for managing a stack of alerts.
- * @example-file ./alert-service.examples.html
  */
 
 class AlertService {

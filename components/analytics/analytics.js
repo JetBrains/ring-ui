@@ -1,41 +1,5 @@
 /**
  * @name Analytics
- * @category Utilities
- * @tags Ring UI Language
- * @description Provides a façade to Google Analytics and other web analytics services through a system of plugins.
- * @example
-   <example name="Analytics">
-    <file name="index.html">
-      <div>
-        <p>Click the link below and check the console output:</p>
-        <div>
-          <a href id="click-me">
-            Track click event
-          </a>
-        </div>
-      </div>
-    </file>
-    <file name="index.js">
-      import analytics from '@jetbrains/ring-ui/components/analytics/analytics';
-      import linkStyles from '@jetbrains/ring-ui/components/link/link.css';
-      import AnalyticsCustomPlugin from '@jetbrains/ring-ui/components/analytics/analytics__custom-plugin';
-
-      const FLUSH_INTERVAL = 100;
-
-      const customPlugin = new AnalyticsCustomPlugin(events => (
-        console.log('Custom plugin receives:', events[0].category, events[0].action)
-      ), false, FLUSH_INTERVAL);
-
-      analytics.config([customPlugin]);
-
-      document.getElementById('click-me').className = linkStyles.link;
-
-      document.getElementById('click-me').addEventListener('click', event => {
-        analytics.trackEvent('test-category', 'test-action');
-        event.preventDefault();
-      });
-    </file>
-   </example>
  */
 class Analytics {
   constructor() {

@@ -8,44 +8,6 @@ import RingAngularComponent from '../global/ring-angular-component';
 import {LOADER_BACKGROUND_SELECTOR} from '../button-ng/button-ng';
 /**
  * @name Promised Click Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Controls the active state of a button.
- * @example
-    <example name="Promised Click Ng">
-      <file name="index.html">
-        <div class="button-example" ng-app="button-test" ng-strict-di ng-controller="testController as ctrl">
-          <rg-button rg-promised-click="ctrl.onClick()">Simple use</rg-button>
-          <rg-button rg-promised-click="ctrl.onClick()" promised-mode="loader">Simple use loader mode</rg-button>
-          <rg-button rg-promised-click test-directive>Via controller</rg-button>
-          <rg-button rg-promised-click="ctrl.onClick()">Ring button</rg-button>
-        </div>
-      </file>
-      <file name="index.js" webpack="true">
-        import angular from 'angular';
-        import PromisedClickNG from '@jetbrains/ring-ui/components/promised-click-ng/promised-click-ng';
-        import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-
-        var buttonTestModule = angular.module('button-test', [PromisedClickNG, ButtonNG]);
-
-        buttonTestModule.controller('testController', function($scope, $timeout) {
-          this.onClick = function () {
-            return $timeout(angular.noop, 5000);
-          };
-        });
-
-        buttonTestModule.directive('testDirective', ['$timeout', function($timeout) {
-          return {
-            require: 'rgPromisedClick',
-            link: function (scope, iElement, iAttrs, rgPromisedClick) {
-              rgPromisedClick.onClick(function () {
-                return $timeout(angular.noop, 1000);
-              });
-            }
-          }
-        }]);
-      </file>
-    </example>
 */
 
 

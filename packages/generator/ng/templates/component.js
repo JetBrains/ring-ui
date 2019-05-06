@@ -4,27 +4,6 @@ import styles from './<%= paramCaseNameSuffix %>.css';
 
 /**
   * @name <%= titleCaseName %>
-  * @category Legacy Angular
-  * @framework Angular
-  * @constructor
-  * @description TODO add <%= titleCaseName %> description
-  * @example
-     <example name="<%= paramCaseNameSuffix %>">
-       <file name="index.html">
-         <div id="<%= paramCaseName %>" ng-app="TestApp" ng-controller="testCtrl">
-           <<%= ngDirectiveTagName%> name="{{name}} ({{clicks}} clicks)" ng-click="clicks = clicks + 1"></<%= ngDirectiveTagName%>>
-         </div>
-       </file>
-       <file name="index.js">
-         import angular from 'angular';
-         import <%= pascalCaseName %> from  '@jetbrains/ring-ui/components/<%= paramCaseNameSuffix %>/<%= paramCaseNameSuffix %>';
-
-         angular.module('TestApp', [<%= pascalCaseName %>]).controller('testCtrl', $scope => {
-           $scope.name = '<%= titleCaseName %>';
-           $scope.clicks = 0;
-         });
-       </file>
-   </example>
   */
 
 import angular from 'angular';

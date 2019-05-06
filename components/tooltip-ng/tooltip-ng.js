@@ -11,40 +11,6 @@ import './tooltip-ng.scss';
 
 /**
  * @name Tooltip Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Tooltip.
- * @example
-    <example name="Tooltip Ng">
-      <file name="index.html">
-        <div class="tooltip-example" ng-app="tooltip-test" ng-strict-di>
-          <div ng-controller="testController">
-            Some text that needs an explanation
-            <rg-icon glyph="{{warningIcon}}" rg-tooltip="'Test message'"></rg-icon>
-            <rg-icon glyph="{{warningIcon}}" rg-tooltip="{{testMessageWithQuote}}"></rg-icon>
-            <rg-icon glyph="{{warningIcon}}" rg-tooltip="{{someUndefinedValue}}"></rg-icon>
-          </div>
-        </div>
-      </file>
-
-      <file name="index.js" webpack="true">
-        import angular from 'angular';
-        import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
-        import TooltipNG from '@jetbrains/ring-ui/components/tooltip-ng/tooltip-ng';
-        import {WarningIcon} from '@jetbrains/ring-ui/components/icon';
-
-        angular.module('tooltip-test', [IconNG, TooltipNG]).controller('testController', ($scope) => {
-          $scope.warningIcon = WarningIcon;
-          $scope.testMessageWithQuote = 'It\'s a message with a single quotation mark';
-        });
-      </file>
-
-      <file name="index.css">
-        :global(.tooltip-example) {
-          margin: 16px;
-        }
-      </file>
-    </example>
 */
 
 const OPEN_CLASS = 'ring-tooltip-ng_open';
