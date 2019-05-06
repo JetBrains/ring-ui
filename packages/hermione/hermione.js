@@ -7,6 +7,8 @@ const kill = require('kill-port');
 const storiesTreePromise = require('./get-stories-tree');
 
 const saucePort = 4445;
+// eslint-disable-next-line no-magic-numbers
+const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
 kill(saucePort).then(() => {
   sauceConnectLauncher({
@@ -38,10 +40,10 @@ kill(saucePort).then(() => {
     });
 
     await storiesTreePromise;
-    // eslint-disable-next-line no-magic-numbers
-    const command = `node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`;
-    console.log('run hermione by command', command);
-    const hermioneProcess = exec(command,
+    const hermioneProcess = exec(
+      // eslint-disable-next-line no-magic-numbers
+      `node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`,
+      {maxBuffer: STDOUT_BUFFER_SIZE},
       error => {
         console.log('hermione execution have been done, error =', error);
         cleanup();
