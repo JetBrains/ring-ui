@@ -2,36 +2,6 @@ import sniffer from '../global/sniffer';
 
 /**
  * @name Old Browsers Message
- * @category Components
- * @tags Ring UI Language
- * @description Displays a full-screen "Browser is unsupported" message if a JavaScript error occurs on page load in an old browser.
- *
- * Note: this script does not have any dependencies, you should include it directly.
- * Once loaded, it attaches a global error handler. When your app finishes loading you should probably turn it off by calling oldBrowserMessage.stop();
- *
- * @example
-    <example name="Old Browsers Message">
-      <file type="html" disable-auto-size>
-        <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden" hidden>
-          <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
-          <br/><br/>
-          <span id="ring-old-browsers-message__browser-message">This version of your browser is not <a href="https://documentation.link">supported</a>.<br/>
-          Try upgrading to the latest stable version.</span>
-          <span id="ring-old-browsers-message__error-message">Something went seriously wrong.</span>
-          <br/><br/>
-          <!--[if IE 9]>
-            <span>When using IE9.0 or higher, make sure that compatibility mode is disabled.</span>
-          <![endif]-->
-        </div>
-      </file>
-      <file type="js">
-        import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message.css';
-        import '@jetbrains/ring-ui/components/old-browsers-message/old-browsers-message';
-
-        //Trigger an error to imitate an unsupported browser
-        Object.unknownMethodCall();
-      </file>
-    </example>
  */
 
 /**

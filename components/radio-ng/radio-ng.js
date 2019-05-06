@@ -6,11 +6,6 @@ import getUID from '../global/get-uid';
 
 /**
  * @name Radio Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @description Provides a Radio component.
- * @example-file ./radio-ng.examples.html
  */
 const angularModule = angular.module('Ring.radio', []);
 

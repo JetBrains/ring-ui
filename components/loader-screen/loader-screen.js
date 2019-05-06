@@ -8,44 +8,6 @@ import styles from './loader-screen.css';
 
 /**
  * @name Loader Screen
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.
- * @extends {ReactComponent}
- * @example
-    <example name="Loader Screen">
-     <file name="index.html" disable-auto-size>
-       <div id="loader-screen"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import React from 'react';
-       import {render} from 'react-dom';
-       import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
-
-       render(
-         <LoaderScreen/>,
-         document.getElementById('loader-screen')
-       );
-     </file>
-   </example>
-   <example name="Loader Screen with a message">
-     <file name="index.html" disable-auto-size>
-       <div id="loader-screen"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import React from 'react';
-       import {render} from 'react-dom';
-       import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
-
-       render(
-         <LoaderScreen message="Loading..."/>,
-         document.getElementById('loader-screen')
-       );
-     </file>
-   </example>
  */
 export default class LoaderScreen extends PureComponent {
   static propTypes = {

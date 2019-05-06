@@ -10,12 +10,6 @@ import styles from './link.css';
 
 /**
  * @name Link
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a link.
- * @extends {ReactComponent}
- * @example-file ./link.examples.html
  */
 
 let isCompatibilityMode = false;

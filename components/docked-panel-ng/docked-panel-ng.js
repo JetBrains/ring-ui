@@ -10,34 +10,6 @@ const scheduleScroll = scheduleRAF();
 
 /**
  * @name Docked Panel Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Creates a panel docked at the bottom of the page.
- * @example
-   <example name="Docked Panel Ng">
-     <file name="index.html" disable-auto-size>
-      <div ng-app='DockedPanelExample'>
-        <div>
-          <textarea placeholder="Add description" rows="70" cols="100"></textarea>
-        </div>
-        <div rg-panel rg-docked-panel rg-docked-panel-class="customCssClass">
-          <rg-button mode="primary">Save</rg-button>
-          <rg-button >Cancel</rg-button>
-        </div>
-        <br/>
-        <div>
-          <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
-        </div>
-      </div>
-     </file>
-     <file name="index.js" webpack="true">
-      import angular from 'angular';
-      import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
-      import PanelNG from '@jetbrains/ring-ui/components/panel-ng/panel-ng';
-      import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-      angular.module('DockedPanelExample', [DockedPanelNG, ButtonNG, PanelNG]);
-     </file>
-   </example>
  */
 
 const angularModule = angular.module('Ring.docked-panel', []);

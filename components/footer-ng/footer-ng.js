@@ -6,40 +6,6 @@ import {copyright} from '../footer/footer';
 
 /**
  * @name Footer Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @constructor
- * @description Renders application's footer.
- * @example
-    <example name="Footer Ng">
-      <file name="index.html">
-        <div id="footer" ng-app="TestApp" ng-strict-di>
-          <rg-footer>
-            <rg-footer-left>
-              <rg-footer-line>Left</rg-footer-line>
-              <rg-footer-line>Build 1.0.0 1234</rg-footer-line>
-            </rg-footer-left>
-            <rg-footer-center>
-              <rg-footer-line>
-                <rg-footer-copyright year="2000" company-name="JetBrains"></rg-footer-copyright>
-              </rg-footer-line>
-              <rg-footer-line><a class="ring-link">License agreement</a></rg-footer-line>
-            </rg-footer-center>
-            <rg-footer-right>
-              <rg-footer-line>Right</rg-footer-line>
-            </rg-footer-right>
-          </rg-footer>
-        </div>
-      </file>
-      <file name="index.js">
-        import angular from 'angular';
-        import Footer from '@jetbrains/ring-ui/components/footer-ng/footer-ng';
-        import '@jetbrains/ring-ui/components/link/link__legacy.css';
-
-        angular.module('TestApp', [Footer]);
-      </file>
-  </example>
  */
 
 

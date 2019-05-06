@@ -1,11 +1,5 @@
 /**
  * @name Pager
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @extends {ReactComponent}
- * @description Displays a pager.
- * @example-file ./pager.examples.html
  */
 
 /* eslint-disable react/jsx-no-literals */

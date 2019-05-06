@@ -3,37 +3,6 @@ import FallbackStorage from './storage__fallback';
 
 /**
  * @name Storage
- * @category Utilities
- * @tags Ring UI Language
- * @description Provides a façade to localStorage/sessionStorage/cookies.
- * @example
-   <example name="Storage">
-    <file name="index.html">
-      <div>
-        Stored value = <span id="stored-value"></span>
-      </div>
-    </file>
-    <file name="index.js">
-      import Storage from '@jetbrains/ring-ui/components/storage/storage';
-
-      const STORAGE_KEY = 'storage-example-key';
-      const storage = new Storage();
-
-      const infoNode = document.getElementById('stored-value');
-
-      async function init() {
-       const storedValue = await storage.get(STORAGE_KEY);
-       if (!storedValue) {
-         const generatedValue = Math.random().toString();
-         await storage.set(STORAGE_KEY, generatedValue);
-         infoNode.innerText = generatedValue;
-       } else {
-         infoNode.innerText = storedValue;
-       }
-      }
-      init();
-    </file>
-   </example>
  */
 
 /**

@@ -7,30 +7,6 @@ import styles from '../icon/icon.css';
 
 /**
  * @name Icon Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Icon.
- * @example
-    <example name="Icon Ng">
-      <file name="index.html">
-        <div ng-app="TestApp" ng-strict-di ng-controller="testCtrl">
-          <rg-icon glyph="{{icon}}"></rg-icon>
-          <rg-icon glyph="{{icon}}" color="MAGENTA"></rg-icon>
-          <rg-icon glyph="{{icon}}" color="{{'BLUE'}}" loading="true"></rg-icon>
-        </div>
-      </file>
-    <file name="index.js" webpack="true">
-      import angular from 'angular';
-      import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
-      import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
-      import {CheckmarkIcon, WarningIcon} from '@jetbrains/ring-ui/components/icon';
-
-      angular.module('TestApp', [ButtonNG, IconNG]).controller('testCtrl', function($scope) {
-        $scope.icon = CheckmarkIcon;
-        $scope.error = WarningIcon;
-      });
-    </file>
-  </example>
  */
 
 const angularModule = angular.module('Ring.icon', [TemplateNg]);

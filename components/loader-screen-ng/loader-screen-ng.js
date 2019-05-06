@@ -5,27 +5,6 @@ import styles from '../loader-screen/loader-screen.css';
 
 /**
  * @name Loader Screen Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Loader Screen.
- * @example
- * <example name="Loader Screen Ng">
-    <file name="index.html" disable-auto-size>
-      <div ng-app="ExampleApp" ng-strict-di>
-        <div rg-loader-screen="Loading..."></div>
-      </div>
-    </file>
-    <file name="index.js">
-      import angular from 'angular';
-      import loaderScreenNg from '@jetbrains/ring-ui/components/loader-screen-ng/loader-screen-ng';
-
-      angular.module('ExampleApp', [loaderScreenNg]).
-        run((loaderScreen) => {
-          loaderScreen.setVisible(true);
-          loaderScreen.startInitialLoading();
-        });
-     </file>
-  </example>
  */
 
 const angularModule = angular.module('Ring.loader-screen', [loaderNg]);

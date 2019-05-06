@@ -5,28 +5,6 @@ import LoaderCore from '../loader/loader__core';
 
 /**
  * @name Loader Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @framework Angular
- * @constructor
- * @description Displays the loader.
- * @example
-    <example name="Loader Ng">
-      <file name="index.html">
-        <div id="loader" ng-app="TestApp" ng-strict-di ng-controller="TestCtrl as testCtrl">
-          <rg-loader message="{{testCtrl.message}}"></rg-loader>
-        </div>
-      </file>
-      <file name="index.js">
-        import angular from 'angular';
-        import Loader from  '@jetbrains/ring-ui/components/loader-ng/loader-ng';
-
-        angular.module('TestApp', [Loader]).
-          controller('TestCtrl', function () {
-            this.message = 'Loading...';
-          })
-      </file>
-  </example>
  */
 
 

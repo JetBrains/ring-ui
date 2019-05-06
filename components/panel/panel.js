@@ -6,34 +6,6 @@ import styles from './panel.css';
 
 /**
  * @name Panel
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a button panel.
- * @extends {ReactComponent}
- * @example
-   <example name="Panel">
-     <file name="index.html">
-       <div id="panel"></div>
-     </file>
-
-     <file name="index.js" webpack="true">
-       import React from 'react';
-       import {render} from 'react-dom';
-       import Panel from '@jetbrains/ring-ui/components/panel/panel';
-       import Button from '@jetbrains/ring-ui/components/button/button';
-
-       render(
-         (
-           <Panel>
-             <Button blue>{'Apply changes'}</Button>
-             <Button>{'Cancel'}</Button>
-           </Panel>
-         ),
-         document.getElementById('panel')
-       );
-     </file>
-   </example>
  */
 export default class Panel extends PureComponent {
   static propTypes = {

@@ -9,12 +9,6 @@ import styles from './header.css';
 
 /**
  * @name Header
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Displays a configurable page header.
- * @example-file ./header.examples.html
  */
 
 export default class Header extends Component {

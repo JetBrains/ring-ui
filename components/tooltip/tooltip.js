@@ -9,12 +9,6 @@ import styles from './tooltip.css';
 
 /**
  * @name Tooltip
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a tooltip.
- * @extends {ReactComponent}
- * @example-file ./tooltip.examples.html
  */
 export default class Tooltip extends Component {
   static PopupProps = Popup.PopupProps;

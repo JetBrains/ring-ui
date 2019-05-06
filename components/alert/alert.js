@@ -19,9 +19,6 @@ export const ANIMATION_TIME = 500;
 
 /**
  * @name Alert
- * @category Components
- * @tags Ring UI Language
- * @description **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
 
 /**
@@ -60,7 +57,6 @@ const TypeToIconColor = {
  * @constructor
  * @name Alert
  * @extends {ReactComponent}
- * @example-file ./alert.examples.html
  */
 // eslint-disable-next-line react/no-deprecated
 export default class Alert extends PureComponent {

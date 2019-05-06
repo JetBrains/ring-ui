@@ -16,10 +16,6 @@ const DEFAULT_WIDTH = 333;
 const DEFAULT_SHOW_FALLBACK_TIMEOUT = 5000;
 /**
  * @name Login Dialog
- * @category Components
- * @framework React
- * @constructor
- * @description A component that shows an authentication form.
  */
 
 export default class LoginDialog extends Component {

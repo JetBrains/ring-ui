@@ -1,11 +1,5 @@
 /**
   * @name Data List
-  * @category Components
-  * @tags Ring UI Language
-  * @framework React
-  * @extends {PureComponent}
-  * @description A component for rendering interactive hierarchical tables.
-  * @example-file ./data-list.examples.html
   */
 
 import React, {PureComponent} from 'react';

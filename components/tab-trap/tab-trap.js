@@ -7,10 +7,6 @@ export const FOCUSABLE_ELEMENTS = 'input, button:not([data-trap-button]), select
 
 /**
  * @name TabTrap
- * @category Components
- * @tags Ring UI Language
- * @description Disallows tabbing out of a designated area.
- * @example-file ./tab-trap.examples.html
  */
 
 export default class TabTrap extends Component {

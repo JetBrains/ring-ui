@@ -1,11 +1,5 @@
 /**
  * @name Table
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @extends {ReactComponent}
- * @description Interactive table with selection and keyboard navigation support.
- * @example-file ./table.examples.html
  */
 
 import React, {PureComponent} from 'react';
