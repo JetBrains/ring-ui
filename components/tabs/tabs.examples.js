@@ -11,6 +11,9 @@ import {Tabs, Tab, SmartTabs, CustomItem} from './tabs';
 
 storiesOf('Components|Tabs', module).
   addDecorator(reactDecorator()).
+  addParameters({
+    notes: 'Displays a tab set.'
+  }).
   add('basic', () => {
     class TabsDemo extends Component {
       state = {selected: 'first'};

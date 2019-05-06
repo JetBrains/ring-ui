@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RingTabs from './tabs-ng';
 
 storiesOf('Legacy Angular|Tabs Ng', module).
+  addParameters({
+    notes: 'Displays a tabset.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingTabs]);

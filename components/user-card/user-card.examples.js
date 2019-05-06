@@ -8,6 +8,9 @@ import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
 storiesOf('Components|User Card', module).
+  addParameters({
+    notes: 'A component that displays user details.'
+  }).
   addDecorator(reactDecorator()).
   add('inline', () => {
     const user = {

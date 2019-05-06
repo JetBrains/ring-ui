@@ -6,7 +6,10 @@ import HTTP from '../http/http';
 
 
 storiesOf('Utilities|HTTP service', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides a way to perform authorized network requests.',
+    hermione: {skip: true}
+  }).
   add('basic', () => {
     const node = document.createElement('div');
     node.innerHTML = '<div id="output">Fetching user using HTTP service...</div>';

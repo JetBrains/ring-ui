@@ -8,6 +8,9 @@ import {Size as AvatarSize} from '../avatar/avatar';
 import AvatarNG from '../avatar-ng/avatar-ng';
 
 storiesOf('Legacy Angular|Avatar Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Avatar.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [AvatarNG]).

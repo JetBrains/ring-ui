@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import BreadcrumbNG from './breadcrumb-ng';
 
 storiesOf('Legacy Angular|Breadcrumb Ng', module).
+  addParameters({
+    notes: 'Displays a breadcrumb.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [BreadcrumbNG]).

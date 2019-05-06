@@ -10,7 +10,10 @@ import SelectNG from '../select-ng/select-ng';
 import SidebarNG from './sidebar-ng';
 
 storiesOf('Legacy Angular|Sidebar Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Sidebar. To make sidebar have fixed positioning under some other element (e.g. toolbar), a selector for that element should be passed as placeUnderSibling parameter.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [SidebarNG, SelectNG]);

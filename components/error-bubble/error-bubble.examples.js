@@ -12,6 +12,9 @@ import '../input-size/input-size.scss';
 import ErrorBubble from './error-bubble';
 
 storiesOf('Components|ErrorBubble', module).
+  addParameters({
+    notes: 'Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop. * Passes any prop except `className` down to the input.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class ErrorBubbleDemo extends Component {

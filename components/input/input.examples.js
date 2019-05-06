@@ -6,6 +6,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Input, {Size, Theme} from './input';
 
 storiesOf('Components|Input', module).
+  addParameters({
+    notes: 'Text input fields of varying size.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class ClearableInput extends PureComponent {

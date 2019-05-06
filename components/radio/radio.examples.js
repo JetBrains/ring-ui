@@ -6,6 +6,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Radio from '../radio/radio';
 
 storiesOf('Components|Radio', module).
+  addParameters({
+    notes: 'Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const RadioExample = withState('value', 'onChange', 'one')(props => (

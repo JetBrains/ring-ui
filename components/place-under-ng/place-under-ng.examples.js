@@ -8,6 +8,13 @@ import {getDocumentScrollTop} from '../global/dom';
 import RingPlaceUnder from './place-under-ng';
 
 storiesOf('Legacy Angular|Place Under Ng', module).
+  addParameters({
+    notes: `
+Displays a sidebar that fills the entire right half of its container.
+To make sidebar have fixed positioning under some other element (e.g. toolbar),
+a selector for that element should be passed as placeUnderSibling parameter.
+    `
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingPlaceUnder]);

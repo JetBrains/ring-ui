@@ -9,7 +9,10 @@ import alert from './alert-service';
 
 
 storiesOf('Components|Alert Service', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Service for managing a stack of alerts.',
+    hermione: {skip: true}
+  }).
   addDecorator(reactDecorator()).
   add('simple', () => {
     const MSG_TIMEOUT = 5000;

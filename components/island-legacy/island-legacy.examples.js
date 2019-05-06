@@ -3,6 +3,9 @@ import {storiesOf} from '@storybook/html';
 import '../island-legacy/island-legacy.scss';
 
 storiesOf('Style-only|Island', module).
+  addParameters({
+    notes: 'Displays an island.'
+  }).
   add('basic', () => `
     <div class="ring-island">
       <div class="ring-island__header">

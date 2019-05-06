@@ -11,7 +11,10 @@ import Group from '../group/group';
 import TabTrap from './tab-trap';
 
 storiesOf('Components|TabTrap', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Disallows tabbing out of a designated area.',
+    hermione: {skip: true}
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     class TabTrapDemo extends Component {

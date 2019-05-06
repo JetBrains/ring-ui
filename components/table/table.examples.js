@@ -13,6 +13,9 @@ import MultiTable from './multitable';
 import Selection from './selection';
 
 storiesOf('Components|Table', module).
+  addParameters({
+    notes: 'Interactive table with selection and keyboard navigation support.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const mock = require('./table.examples.json');

@@ -10,7 +10,10 @@ import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
 storiesOf('Legacy Angular|User Card Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for User Card.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [UserCardNG]).

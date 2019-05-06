@@ -8,7 +8,10 @@ import ConfirmNG from '../confirm-ng/confirm-ng';
 import {hideConfirm} from '../confirm-service/confirm-service';
 
 storiesOf('Legacy Angular|Confirm Ng', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
+  addParameters({
+    notes: 'Displays a confirmation prompt.',
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ConfirmNG]).

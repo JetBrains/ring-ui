@@ -13,7 +13,10 @@ import SidebarNG from '../sidebar-ng/sidebar-ng';
 import DialogNG from './dialog-ng';
 
 storiesOf('Legacy Angular|Dialog Ng', module).
-  addParameters({hermione: {captureSelector: '*[data-test~=ring-dialog]'}}).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Dialog.',
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG]).

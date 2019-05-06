@@ -6,6 +6,9 @@ import TagsInput from '../tags-input/tags-input';
 import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
 
 storiesOf('Components|Tags Input', module).
+  addParameters({
+    notes: 'Displays a tags input field.'
+  }).
   addDecorator(reactDecorator()).
   add('basic', () => {
     function dataSource() {

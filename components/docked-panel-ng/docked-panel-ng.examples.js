@@ -9,7 +9,10 @@ import PanelNG from '../panel-ng/panel-ng';
 import ButtonNG from '../button-ng/button-ng';
 
 storiesOf('Legacy Angular|Docked Panel Ng', module).
-  addParameters({hermione: {skip: true}}).
+  addParameters({
+    notes: 'Creates a panel docked at the bottom of the page.',
+    hermione: {skip: true}
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [ButtonNG, DockedPanelNG, PanelNG]);

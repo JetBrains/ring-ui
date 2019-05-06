@@ -5,6 +5,9 @@ import reactDecorator from '../../.storybook/react-decorator';
 import {Grid, Row, Col} from '../grid/grid';
 
 storiesOf('Components|Grid', module).
+  addParameters({
+    notes: 'Implements a flexbox-like grid system for components placement. Inspired by react-flexbox-grid, see http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.'
+  }).
   addDecorator(reactDecorator()).
   add('responsive', () => (
     <Grid>

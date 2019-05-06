@@ -7,6 +7,9 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RingPager from './pager-ng';
 
 storiesOf('Legacy Angular|Pager Ng', module).
+  addParameters({
+    notes: 'Provides an Angular wrapper for Pager.'
+  }).
   addDecorator(angularDecorator()).
   add('basic', () => {
     angular.module(APP_NAME, [RingPager]).
