@@ -9,10 +9,6 @@ import styles from './tag.css';
 
 /**
  * @name Tag
- * @category Components
- * @tags Ring UI Language
- * @description Displays a tag.
- * @example-file ./tag.examples.html
  */
 
 // eslint-disable-next-line react/no-deprecated

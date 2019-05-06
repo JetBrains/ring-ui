@@ -6,12 +6,6 @@ import styles from './button-set.css';
 
 /**
  * @name Button Set
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Allows to group several buttons and ensures that margins between them are consistent.
- * @extends {ReactComponent}
- * @example-file ./button-set.examples.html
  */
 export default class ButtonSet extends PureComponent {
   static propTypes = {

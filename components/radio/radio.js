@@ -7,11 +7,6 @@ import RadioItem, {RadioContext} from './radio__item';
 
 /**
  * @name Radio
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a radio button. Adopted from [react-radio-group](https://github.com/chenglou/react-radio-group).
- * @example-file ./radio.examples.html
  */
 
 export default class Radio extends Component {

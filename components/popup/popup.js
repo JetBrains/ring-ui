@@ -1,8 +1,5 @@
 /**
  * @name Popup
- * @category Components
- * @tags Ring UI Language
- * @description Displays a popup.
  */
 
 import React, {PureComponent} from 'react';
@@ -34,7 +31,6 @@ const stop = e => e.stopPropagation();
  * @constructor
  * @name Popup
  * @extends {ReactComponent}
- * @example-file ./popup.examples.html
  */
 // eslint-disable-next-line react/no-deprecated
 export default class Popup extends PureComponent {

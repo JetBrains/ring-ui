@@ -4,9 +4,6 @@ import Auth from './auth__core';
 
 /**
  * @name Auth
- * @category Utilities
- * @tags Ring UI Language
- * @description Authenticates a user in [Hub](https://www.jetbrains.com/hub/).
  *
  * @prop {object} config
  * @prop {string} config.serverUri
@@ -33,7 +30,6 @@ import Auth from './auth__core';
  *   userFields: string[]?
  * }} config
  *
- * @example-file ./auth.examples.html
  */
 
 /**

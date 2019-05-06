@@ -15,10 +15,6 @@ import './shortcuts-hint-ng.scss';
 
 /**
  * @name Shortcuts Ng Hint Popup
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Displays a popup listing all registered shortcuts.
- * @example-file ./shortcuts-hint-ng.examples.html
  */
 
 const macSymbolsMap = {

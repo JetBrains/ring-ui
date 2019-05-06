@@ -6,13 +6,6 @@ import styles from './grid.css';
 
 /**
  * @name Grid
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Implements a flexbox-like grid system for components placement.
- * Inspired by react-flexbox-grid, see http://roylee0704.github.io/react-flexbox-grid/ and http://flexboxgrid.com/ for additional information.
- * @example-file ./grid.examples.html
  */
 
 export class Grid extends Component {

@@ -6,60 +6,6 @@ import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
  * @name Analytics Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Analytics.
- * @example
-   <example name="Analytics Ng">
-     <file name="index.js">
-       import angular from 'angular';
-       import AnalyticsNG from '@jetbrains/ring-ui/components/analytics-ng/analytics-ng';
-       import LinkNG from '@jetbrains/ring-ui/components/link-ng/link-ng';
-
-        angular.module('Example.analyticsDemo', [AnalyticsNG, LinkNG])
-          .config([
-            'analyticsProvider',
-            'AnalyticsCustomPlugin',
-            'AnalyticsGAPlugin',
-            function(analyticsProvider, AnalyticsCustomPlugin, AnalyticsGAPlugin) {
-              var analyticsEnabled = true;
-              if (analyticsEnabled) {
-                var isDevelopment = true;
-                var customPlugin = new AnalyticsCustomPlugin(function(data) {
-                  console.log('Here you can send data to server', data);
-                }, isDevelopment, 600);
-                var gaId; // = 'GA-XXXXX-ID';
-                analyticsProvider.plugins([
-                  customPlugin //, new AnalyticsGAPlugin(gaId)
-                ]);
-              }
-            }
-          ])
-
-          .controller('TrackEventDemoCtrl', [
-            'analytics',
-            function(analytics) {
-              analytics.trackEvent('track-event-demo', 'show');
-            }
-          ]);
-     </file>
-     <file name="index.html">
-       <div ng-app="Example.analyticsDemo" ng-strict-di>
-        <p>Hover or click the links below and check the console output:</p>
-        <div>
-          <rg-link href="" rg-analytics="overview:view-doc">
-            Link with an onclick analytics trigger
-          </rg-link>
-        </div>
-        <div>
-          <rg-link href="" rg-analytics="overview:view-doc" rg-analytics-on="mouseover">
-            Link with an onmouseover analytics trigger
-          </rg-link>
-        </div>
-        <div ng-controller="TrackEventDemoCtrl"></div>
-       </div>
-     </file>
-   </example>
 */
 
 const angularModule = angular.module('Ring.analytics', []);

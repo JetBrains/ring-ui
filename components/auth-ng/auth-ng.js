@@ -4,10 +4,6 @@ import Auth from '../auth/auth';
 
 /**
  * @name Auth Ng
- * @category Legacy Angular
- * @tags Ring UI Language
- * @description Provides an Angular wrapper for Auth.
- * @example-file ./auth-ng.examples.html
  */
 const angularModule = angular.module('Ring.auth', []);
 

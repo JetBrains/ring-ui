@@ -2,36 +2,6 @@ import {getRect} from '../global/dom';
 
 /**
  * @name Caret
- * @category Utilities
- * @tags Ring UI Language
- * @description Allows manipulation of the caret position in a text box or a contenteditable element. Ported from [jquery-caret](https://github.com/accursoft/caret/).
- * @see https://github.com/princed/caret
- * @example
-   <example name="Caret">
-    <file name="index.html">
-      <textarea id="test-input" class="ring-input">
-      Lorem ipsum
-      dolor sit amet
-      </textarea>
-      <div>
-        <a href="" id="cursor-action" class="ring-link">Set caret position</a>
-      </div>
-    </file>
-    <file name="index.js">
-      import '@jetbrains/ring-ui/components/input/input.scss';
-      import '@jetbrains/ring-ui/components/link/link__legacy.css';
-      import Caret from '@jetbrains/ring-ui/components/caret/caret';
-
-      const targetEl = document.getElementById('test-input');
-      const caret = new Caret(targetEl);
-
-      document.getElementById('cursor-action').addEventListener('click', event => {
-        caret.focus();
-        caret.setPosition(4);
-        event.preventDefault();
-      })
-    </file>
-   </example>
  */
 
 export default class Caret {

@@ -4,11 +4,6 @@ import {render} from 'react-dom';
 
 /**
  * @name ContentEditable
- * @description Provides a ContentEditable component.
- * @tags Ring UI Language
- * @category Components
- * @constructor
- * @example-file ./contenteditable.examples.html
  */
 
 function noop() {}

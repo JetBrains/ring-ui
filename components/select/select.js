@@ -24,10 +24,6 @@ import styles from './select.css';
 
 /**
  * @name Select
- * @category Components
- * @tags Ring UI Language
- * @description Displays a select.
- * @example-file ./select.examples.html
  */
 
 function noop() {}

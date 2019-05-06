@@ -13,12 +13,6 @@ function noop() {}
 
 /**
  * @name Input
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Text input fields of varying size.
- * @example-file ./input.examples.html
  */
 
 const Size = {

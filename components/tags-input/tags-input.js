@@ -15,12 +15,6 @@ function noop() {}
 
 /**
  * @name Tags Input
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays a tags input field.
- * @extends {ReactComponent}
- * @example-file ./tags-input.examples.html
  */
 
 const POPUP_VERTICAL_SHIFT = 2;

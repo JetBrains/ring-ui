@@ -10,31 +10,6 @@ import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
 /**
  * @name Error Page Ng
- * @category Legacy Angular
- * @description Displays an error page, e.g. 404 Not Found.
- * @example
-   <example name="Error Page Ng">
-     <file name="index.html" disable-auto-size>
-      <div ng-app="Ring.error-page" ng-strict-di>
-          <div class="app" rg-error-page-background>
-              <div rg-error-page="{error: {status: 403}}"></div>
-          </div>
-      </div>
-     </file>
-     <file name="index.css">
-       body {
-          margin: 0;
-       }
-     </file>
-     <file name="index.js" webpack="true">
-        import angular from 'angular';
-        import AngularRoute from 'angular-route';
-        import ErrorPageNG from '@jetbrains/ring-ui/components/error-page-ng/error-page-ng';
-        import authMock from '@jetbrains/ring-ui/components/auth-ng/auth-ng.mock';
-
-        angular.module('Ring.auth', [AngularRoute, ErrorPageNG]).provider('auth', authMock);
-     </file>
-   </example>
  */
 
 const angularModule = angular.module('Ring.error-page', [

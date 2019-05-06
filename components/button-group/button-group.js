@@ -7,12 +7,6 @@ import styles from './button-group.css';
 
 /**
  * @name Button Group
- * @tags Ring UI Language
- * @category Components
- * @constructor
- * @description Allows to group several buttons.
- * @extends {ReactComponent}
- * @example-file ./button-group.examples.html
  */
 export default class ButtonGroup extends PureComponent {
   static propTypes = {

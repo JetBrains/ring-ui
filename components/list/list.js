@@ -1,8 +1,5 @@
 /**
  * @name List
- * @category Components
- * @tags Ring UI Language
- * @description Displays a list of items.
  */
 
 import 'dom4';
@@ -83,7 +80,6 @@ function isActivatable(item) {
  * @name List
  * @constructor
  * @extends {ReactComponent}
- * @example-file ./list.examples.html
  */
 // eslint-disable-next-line react/no-deprecated
 export default class List extends Component {

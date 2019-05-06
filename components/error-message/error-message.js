@@ -10,12 +10,6 @@ import styles from './error-message.css';
 
 /**
  * @name Error Message
- * @category Components
- * @tags Ring UI Language
- * @framework React
- * @constructor
- * @description Displays an error message centered both vertically and horizontally inside the parent container.
- * @example-file ./error-message.examples.html
  */
 
 export default class ErrorMessage extends Component {

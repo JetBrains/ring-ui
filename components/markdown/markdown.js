@@ -14,12 +14,6 @@ import styles from './markdown.css';
 
 /**
   * @name Markdown
-  * @category Components
-  * @tags Ring UI Language
-  * @framework React
-  * @constructor
-  * @description Renders Markdown.
-  * @example-file ./markdown.examples.html
 */
 
 export default class Markdown extends PureComponent {

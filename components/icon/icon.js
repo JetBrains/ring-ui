@@ -1,11 +1,5 @@
 /**
  * @name Icon
- * @category Components
- * @tags Ring UI Language
- * @constructor
- * @description Displays an icon.
- * @extends {ReactComponent}
- * @example-file ./icon.examples.html
  */
 
 import React, {PureComponent} from 'react';

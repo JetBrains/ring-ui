@@ -9,11 +9,6 @@ import styles from './island.css';
 
 /**
  * @name Island
- * @name Island
- * @category Components
- * @tags Ring UI Language
- * @description Displays an island.
- * @example-file ./island.examples.html
  */
 
 export default class Island extends Component {

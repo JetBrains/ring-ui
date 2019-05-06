@@ -12,38 +12,6 @@ const angularModule = angular.module('Ring.avatar-editor', [messageBundleNg, Ico
 
 /**
  * @name Avatar Editor Ng
- * @tags Ring UI Language
- * @category Legacy Angular
- * @description Allows to choose images to be uploaded as Data URI. On-select attribute will receive the
- * filename as `name` and the file contents as `data`.
- * @example
-   <example name="Avatar Editor Ng">
-     <file name="index.html">
-       <div ng-app="test" ng-strict-di ng-controller="testCtrl as ctrl">
-         <rg-avatar-editor
-           on-select="ctrl.name = name"
-           delete-label="Clear"
-           ng-model="ctrl.data"></rg-avatar-editor>
-
-         <h3>{{ ctrl.name || 'No file name' }}</h3>
-         <img style="max-width: 300px; max-height: 300px;"ng-src="{{ ctrl.data }}" />
-       </div>
-     </file>
-     <file name="index.js" webpack="true">
-       import angular from 'angular';
-       import AvatarEditorNG from '@jetbrains/ring-ui/components/avatar-editor-ng/avatar-editor-ng';
-
-       angular.module('test', [AvatarEditorNG]).controller('testCtrl', function () {
-          const ctrl = this;
-
-          ctrl.data = `data:image/svg+xml;utf8,
-            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="60" cy="60" r="50" style="fill: #00cc00"/>
-            </svg>
-          `;
-        });
-     </file>
-   </example>
  */
 function rgAvatarEditor() {
   return {
