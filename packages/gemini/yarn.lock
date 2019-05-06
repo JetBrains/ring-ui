@@ -2,14 +2,14 @@
 # yarn lockfile v1
 
 
-"@jetbrains/gemini-teamcity@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@jetbrains/gemini-teamcity/-/gemini-teamcity-2.2.2.tgz#f2653e2fcce44c131a1d8a5ec97a81b59ff62d17"
-  integrity sha512-NxO6O4QxVvQg2fTkNQOXA6Qf968gamiZ/qcCN+nSTXqgTQDAA881VymWr1fe1282qPcmwcW1OVDn96EeS7/zqw==
+"@jetbrains/gemini-teamcity@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@jetbrains/gemini-teamcity/-/gemini-teamcity-2.2.3.tgz#a822661a761128db907b9722e5e28234a02c111e"
+  integrity sha512-TgADRT7cU1G+Cvio65DP/p/bW51nPOnu9ghG7rPi1Xt66JAWln3FpSHHliUOL70SY9YtBnXfQJ1aMVTZckbEZw==
   dependencies:
     fs-extra "^7.0.1"
     lodash "^4.0.0"
-    teamcity-service-messages "^0.1.7"
+    teamcity-service-messages "^0.1.10"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -4061,10 +4061,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-teamcity-service-messages@^0.1.7:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/teamcity-service-messages/-/teamcity-service-messages-0.1.9.tgz#bb700cf2e15cac6ad244cb2f0bb3cc9d6da7ba2d"
-  integrity sha512-agmBUllpL8n02cG/6s16St5yXYEdynkyyGDWM5qsFq9sKEkc+gBAJgcgJQCVsqlxbZZUToRwTI1hLataRjCGcw==
+teamcity-service-messages@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/teamcity-service-messages/-/teamcity-service-messages-0.1.10.tgz#30efd4057fc4943b045e5d1eee8c09449ec76164"
+  integrity sha512-CdpMw9RPc8v/Vv3tzx8Bo1EQxNWs4toE/KtYRE8uDxr67vh9asTd3WRHI/y0VB7fZho2NGSuvecVjzl2BULFEQ==
 
 temp@^0.8.3:
   version "0.8.3"
