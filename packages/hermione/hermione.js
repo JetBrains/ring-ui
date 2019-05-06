@@ -28,17 +28,27 @@ kill(saucePort).then(() => {
         console.log('Closed Sauce Connect process');
       });
       // eslint-disable-next-line no-use-before-define
-      hermioneProcesss.kill();
+      hermioneProcess.kill();
       exec('git add hermione/screenshots');
     };
 
-    process.on('SIGINT', cleanup);
+    process.on('SIGINT', () => {
+      console.log('killed by SIGINT');
+      cleanup();
+    });
 
     await storiesTreePromise;
     // eslint-disable-next-line no-magic-numbers
-    const hermioneProcesss = exec(`node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`, cleanup);
-    hermioneProcesss.stdout.pipe(process.stdout);
-    hermioneProcesss.stderr.pipe(process.stderr);
+    const command = `node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`;
+    console.log('run hermione by command', command);
+    const hermioneProcess = exec(command,
+      error => {
+        console.log('hermione execution have been done, error =', error);
+        cleanup();
+      }
+    );
+    hermioneProcess.stdout.pipe(process.stdout);
+    hermioneProcess.stderr.pipe(process.stderr);
   });
 });
 
