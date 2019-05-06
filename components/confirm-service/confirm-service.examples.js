@@ -6,7 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import confirm, {hideConfirm} from '../confirm-service/confirm-service';
 import Button from '../button/button';
 
-storiesOf('Components|Confirm Service', module).
+storiesOf('Services|Confirm Service', module).
   addParameters({
     notes: ' wrapper for the Confirm component. Allows showing the confirmation dialog * without mounting the Confirm component first. Can be used outside React.',
     hermione: {captureSelector: '*[data-test~=ring-dialog]'}
