@@ -216,7 +216,7 @@ object Deploy : BuildType({
                 npm config set unsafe-perm true
                 
                 npm run bootstrap
-                npm run storybook-build
+                npm run build
             """.trimIndent()
             dockerImage = "huston007/node-electron:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -1287,7 +1287,7 @@ object UnitTestsAndBuild : BuildType({
                 
                 yarn bootstrap
                 yarn run test-ci
-                yarn run storybook-build
+                yarn run build
             """.trimIndent()
             dockerImage = "huston007/node-electron:latest"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
