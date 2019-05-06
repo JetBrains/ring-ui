@@ -10,6 +10,7 @@ const gridUrl = process.env.SELENIUM_GRID ||
 const windowSize = '1024x1000';
 const WIN10 = 'Windows 10';
 const RELAXED_TOLERANCE = 4;
+const maxDuration = 3600;
 
 // eslint-disable-next-line no-console
 console.log('Storybook url detected:', baseUrl);
@@ -37,7 +38,8 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'chrome',
         version: '74.0',
-        platform: WIN10
+        platform: WIN10,
+        maxDuration
       }
     },
     firefox: {
@@ -45,7 +47,8 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'firefox',
         version: '66.0',
-        platform: WIN10
+        platform: WIN10,
+        maxDuration
       }
     },
     ie: {
@@ -53,7 +56,8 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'internet explorer',
         version: '11.309',
-        platform: WIN10
+        platform: WIN10,
+        maxDuration
       }
     },
     edge: {
@@ -62,7 +66,8 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
         version: '17.17134',
-        platform: WIN10
+        platform: WIN10,
+        maxDuration
       }
     }
   }
