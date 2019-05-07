@@ -16,7 +16,6 @@ Thumbs.db
 build
 coverage
 dist
-gemini-report
 html-report
 node_modules
 test_gen

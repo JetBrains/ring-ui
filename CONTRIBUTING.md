@@ -54,7 +54,7 @@ To enable the `Wallaby.js` test runner follow these steps:
 
 Run the development server with `yarn start` before executing the commands listed below*
 
-Ring UI uses [Hermione](https://github.com/gemini-testing/hermione) for visual regression testing. Gemini works by taking screenshots and comparing them to existing reference images. 
+Ring UI uses [Hermione](https://github.com/gemini-testing/hermione) for visual regression testing. Hermione works by taking screenshots and comparing them to existing reference images. 
 
 We use [Sauce Labs](https://saucelabs.com/) as a cloud Selenium grid. In order to use it on your local machine, you need to have a Sauce Labs account. **Note that simply logging in to Sauce Labs with a GitHub account is not enough, you need to create a regular account.** 
 
@@ -67,6 +67,4 @@ export SAUCE_ACCESS_KEY=yourkey
 After you make some visual changes, run `npm run hermione-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`):
-
-1. `cd packages/gemini`
-2. `yarn run hermione-gather --grep Components/Alert`.
+`yarn run hermione-gather --grep Components/Alert`.

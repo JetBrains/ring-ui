@@ -1,7 +1,6 @@
 coverage
 dist
 docs
-gemini-report
 html-report
 node_modules
 build
