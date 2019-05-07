@@ -1,9 +1,3 @@
----
-title: Contributing
-category: Docs
-order: 1
----
-
 ### Environment setup
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
@@ -30,15 +24,6 @@ By default, documentation is built using the `development` environment. Use the 
  * **host**
  * **hub** (Hub server URI)
  * **clientId** (Ring UI service client ID in Hub)
-
-You can change them by the following means (in order of precedence):
-
-1. Command line switch: `npm <start|run build> -- --env.<param> <value>`
-Example: `npm start -- --env.port 8765`
-2. Persistently using NPM: `npm config set @ring-ui/docs:<param> <value>`
-Example: `npm config set @ring-ui/docs:port 8765`
-3. Persistently for a given environment: `npm config set @ring-ui/docs:<environment>:<param> <value>`  
-Example: `npm config set @ring-ui/docs:development:port 8765`
 
 ### Contributing
 
@@ -67,9 +52,9 @@ To enable the `Wallaby.js` test runner follow these steps:
 
 ### Visual regression testing
 
-*Run the development server with `npm start` before executing the commands listed below*
+Run the development server with `yarn start` before executing the commands listed below*
 
-Ring UI uses [Gemini](https://ru.bem.info/tools/testing/gemini) for visual regression testing. Gemini works by taking screenshots and comparing them to existing reference images. 
+Ring UI uses [Hermione](https://github.com/gemini-testing/hermione) for visual regression testing. Gemini works by taking screenshots and comparing them to existing reference images. 
 
 We use [Sauce Labs](https://saucelabs.com/) as a cloud Selenium grid. In order to use it on your local machine, you need to have a Sauce Labs account. **Note that simply logging in to Sauce Labs with a GitHub account is not enough, you need to create a regular account.** 
 
@@ -79,9 +64,9 @@ export SAUCE_USERNAME=yourlogin
 export SAUCE_ACCESS_KEY=yourkey
 ```
 
-After you make some visual changes, run `npm run gemini-test` to make sure there are no regressions.
+After you make some visual changes, run `npm run hermione-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`):
 
 1. `cd packages/gemini`
-2. `npm run gemini-gather ../../components/alert/*.gemini.js`.
+2. `yarn run hermione-gather --grep Components/Alert`.
