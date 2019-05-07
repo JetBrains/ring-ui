@@ -1,9 +1,3 @@
----
-title: Changelog
-category: Docs
-order: 2
----
-
 ## [2.0.2] 
 
 - Due to deprecation, `postcss-cssnext` has been replaced with `postcss-preset-env`.
