@@ -1,4 +1,4 @@
-const webpack = require('@storybook/core/node_modules/webpack');
+const webpack = require('webpack');
 
 const ringConfig = require('../webpack.config');
 const pkgConfig = require('../package.json').config;
