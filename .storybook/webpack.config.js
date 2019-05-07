@@ -20,8 +20,6 @@ module.exports = ({config}) => {
     }
   ];
 
-  config.entry.favicon = 'file-loader?name=favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
-
   const serverUri = pkgConfig.hub;
   const clientId = pkgConfig.clientId;
   const hubConfig = JSON.stringify({serverUri, clientId});
