@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
+
 import styles from './tabs.css';
 
 export default class Tab extends PureComponent {
@@ -15,14 +17,15 @@ export default class Tab extends PureComponent {
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     id: PropTypes.string,
     className: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    'data-test': PropTypes.string
   };
 
   render() {
-    const {className, children} = this.props;
+    const {className, children, 'data-test': dataTest} = this.props;
     const classes = classNames(styles.tab, className);
     return (
-      <div className={classes}>{children}</div>
+      <div data-test={dataTests('ring-tab', dataTest)} className={classes}>{children}</div>
     );
   }
 }
