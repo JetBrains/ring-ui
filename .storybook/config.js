@@ -2,6 +2,8 @@ import {configure, addParameters, addDecorator} from '@storybook/html';
 import {create} from '@storybook/theming';
 
 // eslint-disable-next-line import/no-unresolved
+import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
+// eslint-disable-next-line import/no-unresolved
 import jetbrainsLogoURL from '!file-loader!@jetbrains/logos/jetbrains/favicon.ico';
 
 import {paramCase} from 'change-case';
