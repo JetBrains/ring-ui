@@ -12,8 +12,7 @@
     },
     "publish": {
       "ignoreChanges": [
-        "@ring-ui/docs",
-        "@ring-ui/gemini"
+        "@ring-ui/hermione"
       ]
     }
   }
