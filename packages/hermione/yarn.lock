@@ -42,13 +42,13 @@
   dependencies:
     errno "~0.1.7"
 
-"@jetbrains/hermione-teamcity-reporter@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@jetbrains/hermione-teamcity-reporter/-/hermione-teamcity-reporter-1.0.5.tgz#7ce72f825bc1fa441b573d383648a1ebf80471de"
-  integrity sha512-gcPt+j5ZcJqpQzfsQV8FRGGih3LSXD9AZjANpVCTeFbpLL+xsXOkwk/iW7uBrKzQV1Pq2jj/Yi6eQ9wJ+LaEKA==
+"@jetbrains/hermione-teamcity-reporter@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@jetbrains/hermione-teamcity-reporter/-/hermione-teamcity-reporter-1.0.6.tgz#946d583ad31e36448dc8d7611ad53871df2a90c1"
+  integrity sha512-wqCEChkbs3fHWU28oYQrzJIzscKI8CI7777Uj9gP+JgbUuBxFxHbuiXNcShlX3BmfbuNt5qcjHMo9WGCNElHmw==
   dependencies:
     fs-extra "^7.0.1"
-    teamcity-service-messages "^0.1.8"
+    teamcity-service-messages "^0.1.10"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -4757,7 +4757,7 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-teamcity-service-messages@^0.1.6, teamcity-service-messages@^0.1.8:
+teamcity-service-messages@^0.1.10, teamcity-service-messages@^0.1.6:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/teamcity-service-messages/-/teamcity-service-messages-0.1.10.tgz#30efd4057fc4943b045e5d1eee8c09449ec76164"
   integrity sha512-CdpMw9RPc8v/Vv3tzx8Bo1EQxNWs4toE/KtYRE8uDxr67vh9asTd3WRHI/y0VB7fZho2NGSuvecVjzl2BULFEQ==
