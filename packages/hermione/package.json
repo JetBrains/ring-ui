@@ -14,7 +14,7 @@
     "test-ci": "forever start .serve-static.json && yarn test --teamcity; forever stop serve-static"
   },
   "devDependencies": {
-    "@jetbrains/hermione-teamcity-reporter": "^1.0.5",
+    "@jetbrains/hermione-teamcity-reporter": "^1.0.6",
     "commander": "^2.20.0",
     "filenamify": "^4.0.0",
     "forever": "^1.0.0",
