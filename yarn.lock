@@ -7227,12 +7227,13 @@ insight@0.10.1:
     tough-cookie "^2.0.0"
     uuid "^3.0.0"
 
-interpolate-loader@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/interpolate-loader/-/interpolate-loader-1.0.0.tgz#00989d46602a669489159777f0f5219104569864"
+interpolate-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/interpolate-loader/-/interpolate-loader-2.0.0.tgz#a541ec4c52194e304f2a40f58f26271239284d47"
+  integrity sha1-pUHsTFIZTjBPKkD1jyYnEjkoTUc=
   dependencies:
     escape-string-regexp "^1.0.5"
-    loader-utils "^1.0.2"
+    loader-utils "^1.1.0"
 
 interpret@^1.0.0:
   version "1.1.0"
@@ -8180,7 +8181,7 @@ loader-runner@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.1.tgz#026f12fe7c3115992896ac02ba022ba92971b979"
 
-loader-utils@1.1.0, loader-utils@1.1.x, loader-utils@^1.0.0, loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
+loader-utils@1.1.0, loader-utils@1.1.x:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -8188,7 +8189,7 @@ loader-utils@1.1.0, loader-utils@1.1.x, loader-utils@^1.0.0, loader-utils@^1.0.1
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-loader-utils@1.2.3, loader-utils@^1.2.1, loader-utils@^1.2.3:
+loader-utils@1.2.3, loader-utils@^1.0.0, loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.1, loader-utils@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
   integrity sha512-fkpz8ejdnEMG3s37wGL07iSBDg99O9D5yflE9RGNH3hRdx9SOwYfnGYdZOUIZitN8E+E2vkq3MUMYMvPYl5ZZA==
