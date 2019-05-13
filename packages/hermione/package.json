@@ -18,7 +18,7 @@
     "commander": "^2.20.0",
     "filenamify": "^4.0.0",
     "forever": "^1.0.0",
-    "jsdom": "^15.0.0",
+    "jsdom": "^15.1.0",
     "hermione": "^2.6.1",
     "html-reporter": "^4.6.0",
     "http-server": "^0.11.1",
