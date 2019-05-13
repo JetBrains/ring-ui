@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import memoize from '../global/memoize';
 
 import Theme from '../global/theme';
+import dataTests from '../global/data-tests';
 
 import Link from '../link/link';
 
@@ -25,7 +26,8 @@ export default class Tabs extends PureComponent {
     className: PropTypes.string,
     href: PropTypes.string,
     children: PropTypes.node.isRequired,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -73,12 +75,12 @@ export default class Tabs extends PureComponent {
   };
 
   render() {
-    const {className, children, selected, theme} = this.props;
+    const {className, children, selected, theme, 'data-test': dataTest} = this.props;
     const classes = classNames(styles.tabs, className, styles[theme]);
     const childrenArray = React.Children.toArray(children).filter(Boolean);
 
     return (
-      <div className={classes}>
+      <div className={classes} data-test={dataTests('ring-dumb-tabs', dataTest)}>
         <div className={styles.titles}>
           {childrenArray.map(this.getTabTitle)}
         </div>
