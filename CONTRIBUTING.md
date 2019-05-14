@@ -2,7 +2,7 @@
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install Node.js
-3. Install [yarn](http://yarnpkg.cn/en/docs/install)
+3. Install [yarn](https://yarnpkg.com/en/docs/install)
 4. Bootstrap the packages: `yarn bootstrap`
 5. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
@@ -46,7 +46,7 @@ Instead of jQuery Ring UI uses modern DOM APIs, [DOM 4 polyfill](https://github.
 
 To enable the `Wallaby.js` test runner follow these steps:
  
-1. Download and install the [Wallaby.js plugin](http://wallabyjs.com/) for WebStorm.
+1. Download and install the [Wallaby.js plugin](https://wallabyjs.com/) for WebStorm.
 2. Make sure Node.js is available at `/usr/local/bin/node`, if not – create a symlink.  
 3. Run the `Wallaby` configuration in WebStorm.
 
