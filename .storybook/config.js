@@ -3,21 +3,12 @@ import {create} from '@storybook/theming';
 
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
-import jetbrainsLogoSVG from '@jetbrains/logos/jetbrains/apple-mask-icon.svg';
 
 import {paramCase} from 'change-case';
 import URLSearchParams from 'url-search-params';
 
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';
-
-function resizeLogo(logoSVG) {
-  const sizedLogoSVG = logoSVG.
-    replace(/width="\d+"/, 'width="24"').
-    replace(/height="\d+"/, 'height="24"');
-
-  return `data:image/svg+xml,${encodeURIComponent(sizedLogoSVG)}`;
-}
 
 const params = new URLSearchParams(location.search.slice(1));
 if (params.has('block-animations')) {
@@ -68,9 +59,7 @@ addParameters({
   options: {
     theme: create({
       base: 'light',
-      brandTitle: 'Ring UI',
-      brandUrl: '#',
-      brandImage: resizeLogo(jetbrainsLogoSVG),
+      brandTitle: 'JetBrains Ring UI',
       ...theme
     })
   }
