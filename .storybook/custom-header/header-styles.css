@@ -1,0 +1,37 @@
+
+/**
+  Hackish handle Strotybooks fixed position
+ */
+/* stylelint-disable-next-line selector-max-specificity */
+:global(#root) > div:nth-child(2) {
+  top: 64px;
+}
+
+.header {
+  position: relative;
+  z-index: var(--ring-fixed-z-index);
+
+  overflow: visible;
+
+  font-family: var(--ring-font-family);
+  font-size: var(--ring-font-size);
+}
+
+.logo {
+  margin-left: calc(var(--ring-unit) * -4 + 1px);
+}
+
+.headerItem {
+  white-space: nowrap;
+}
+
+.version button {
+  height: auto;
+
+  color: var(--ring-dark-text-color);
+}
+
+.githubIcon {
+  position: relative;
+  top: 2px;
+}
