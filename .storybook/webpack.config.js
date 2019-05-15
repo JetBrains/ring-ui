@@ -5,6 +5,7 @@ const pkgConfig = require('../package.json').config;
 
 module.exports = ({config}) => {
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
+  ringConfig.loaders.svgInlineLoader.include.push(/octicons/);
   ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
 
   config.module.rules = [
