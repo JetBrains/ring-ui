@@ -2,7 +2,6 @@ import React from 'react';
 
 import {storiesOf} from '@storybook/html';
 
-import packageInfo from '../package.json';
 import ReadMe from '../README.md';
 import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
@@ -11,7 +10,7 @@ import reactDecorator from '../.storybook/react-decorator';
 
 import License from 'raw-loader!../LICENSE.txt';
 
-storiesOf(`Ring UI [${packageInfo.version}]|Welcome`, module).
+storiesOf('Ring UI|Welcome', module).
   addParameters({hermione: {skip: true}}).
   addDecorator(reactDecorator()).
   add('Getting Started', () => <Markdown source={ReadMe}/>).
