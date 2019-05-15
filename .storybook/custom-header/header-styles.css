@@ -5,6 +5,8 @@
 /* stylelint-disable-next-line selector-max-specificity */
 :global(#root) > div:nth-child(2) {
   top: 64px;
+
+  height: calc(100vh - 64px);
 }
 
 .header {
