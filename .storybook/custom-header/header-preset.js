@@ -7,6 +7,7 @@ const ringConfig = require('../../webpack.config');
 exports.managerWebpack = function managerWebpack(config) {
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
   ringConfig.loaders.svgInlineLoader.include.push(/octicons/);
+  ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
 
   return {
     ...config,
