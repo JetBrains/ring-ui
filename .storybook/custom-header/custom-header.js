@@ -12,17 +12,39 @@ import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/t
 /* eslint-enable */
 
 import packageInfo from '../../package.json';
+import Auth from '../../components/auth/auth';
+import IFrameFlow from '../../components/auth/iframe-flow';
 import Header, {
   Tray,
   TrayIcon,
   Logo,
+  SmartProfile,
   Services
 } from '../../components/header/header';
+import hubConfig from '../hub-config';
+import authDialogService from '../../components/auth-dialog-service/auth-dialog-service';
 
 import Version from './version';
 import styles from './header-styles.css';
 
 class SiteHeader extends PureComponent {
+  async componentDidMount() {
+    const noAuth = window.location.hostname === 'teamcity.jetbrains.com';
+
+    if (!noAuth) {
+      this.auth.setAuthDialogService(authDialogService);
+      const restoreLocation = await this.auth.init();
+      if (restoreLocation && window.location.href !== restoreLocation) {
+        window.location = restoreLocation;
+      }
+      this.auth.loadCurrentService();
+    }
+  }
+
+  auth = new Auth({
+    ...hubConfig,
+    EmbeddedLoginFlow: IFrameFlow
+  });
 
   render() {
     return (
@@ -73,6 +95,7 @@ class SiteHeader extends PureComponent {
               }
             ]}
           />
+          <SmartProfile auth={this.auth}/>
         </Tray>
       </Header>
     );
