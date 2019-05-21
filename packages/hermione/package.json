@@ -24,6 +24,6 @@
     "ip": "^1.1.5",
     "jsdom": "^15.1.0",
     "kill-port": "^1.5.0",
-    "sauce-connect-launcher": "^1.2.6"
+    "sauce-connect-launcher": "^1.2.7"
   }
 }
