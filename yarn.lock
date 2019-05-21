@@ -932,10 +932,10 @@
     yeoman-generator "^4.0.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.1.0.tgz#36073e84ae0483c1a10c969eb1be05d81596dd73"
-  integrity sha512-CfRZylEZzGlO2hMkwYmpBC4e/WFOp+xH+o3vtAHz+LHv/K5LBqqVpQGDfZLwNH13yX8mACh3tUl3RQ5GH5UhEw==
+"@jetbrains/icons@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.1.1.tgz#288a1c3f137b23f444fd44625b7ad6384a90d3ef"
+  integrity sha512-Hz6rJ7FasZS930u2yq0LFmHOdmzOoVcxN9MOFiSWRJ3XzYg4Khwjzk/89DW0wHZuac/bQpHnPFfuYJjH92VkKQ==
 
 "@jetbrains/logos@^1.1.4":
   version "1.1.4"
