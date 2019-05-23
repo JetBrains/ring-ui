@@ -229,6 +229,13 @@
   margin-right: unit;
 }
 
+.compact .checkboxContainer {
+  top: 0;
+
+  width: calc(unit * 2);
+  height: calc(unit * 2);
+}
+
 .title {
   display: block;
 
