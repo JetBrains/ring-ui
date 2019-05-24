@@ -778,11 +778,9 @@ export default class Select extends Component {
         let nextSelection;
 
         if (!this._multipleMap[selected.key]) {
-          this._multipleMap[selected.key] = true;
           nextSelection = currentSelection.concat(selected);
           this.props.onSelect && this.props.onSelect(selected, event);
         } else {
-          delete this._multipleMap[selected.key];
           nextSelection = currentSelection.filter(item => item.key !== selected.key);
           this.props.onDeselect && this.props.onDeselect(selected);
         }
@@ -795,7 +793,17 @@ export default class Select extends Component {
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
 
-      }, checkboxClicked ? this._redrawPopup : null);
+      }, () => {
+        if (!this._multipleMap[selected.key]) {
+          this._multipleMap[selected.key] = true;
+        } else {
+          delete this._multipleMap[selected.key];
+        }
+
+        if (checkboxClicked) {
+          this._redrawPopup();
+        }
+      });
 
     }
   };
