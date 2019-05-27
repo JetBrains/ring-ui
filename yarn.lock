@@ -916,10 +916,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.7.tgz#538d1ee706361b7c0c947bacb4a05cdee3410a05"
-  integrity sha512-c7UjViPH86+UF/I0+bQkFV4Noq7ZB6T5jXl6ELr91qYGsarYyy9wB1KMnfzVArHhoLV5iDl1L6HAGUfi+N0yWQ==
+"@jetbrains/generator-ring-ui@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.8.tgz#b1c30b7e877533278646d149d1f5205ac3e19d3c"
+  integrity sha512-at8tdN98pC5HrKN/dpZIcN+FmydoQ274hCmBp54KWrWpk+itnhPb2nTWaoRg/ktMWVQmT7NEErOHPpbczIZK3Q==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -5113,10 +5113,10 @@ env-paths@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-1.0.0.tgz#4168133b42bb05c38a35b1ae4397c8298ab369e0"
 
-enzyme-adapter-react-16@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.13.1.tgz#2e8ee300e38674b9914ae52b04af9493050355e2"
-  integrity sha512-DCKbkiVlfLTbn4SXO8mXDQx1SmmwON5oKXn2QfQSMCt8eTYGwUXy/OBGSuss6KKwY5w5QfK1sQFxhgFOkMCjrw==
+enzyme-adapter-react-16@^1.13.2:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.13.2.tgz#8a574d7cbbef7ef0cab2022e9bfc12aeaebb7ae5"
+  integrity sha512-h0neTuAAFfQUgEZ+PPHVIMDFJ9+CGafI8AjojNlSVh4Fd1pLDgtl2OeVkm4yKF7RSgzrPAwugq4JW8Jjo2iRJA==
   dependencies:
     enzyme-adapter-utils "^1.12.0"
     has "^1.0.3"
@@ -5125,7 +5125,7 @@ enzyme-adapter-react-16@^1.13.1:
     prop-types "^15.7.2"
     react-is "^16.8.6"
     react-test-renderer "^16.0.0-0"
-    semver "^5.6.0"
+    semver "^5.7.0"
 
 enzyme-adapter-utils@^1.12.0:
   version "1.12.0"
