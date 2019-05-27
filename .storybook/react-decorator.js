@@ -1,3 +1,4 @@
+import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 import addons from '@storybook/addons';
 import {REGISTER_SUBSCRIPTION, STORY_CHANGED} from '@storybook/core-events';
@@ -20,7 +21,11 @@ const reactDecorator = () => {
 
   return story => {
     channel.emit(REGISTER_SUBSCRIPTION, subscription);
-    ReactDOM.render(story(), node);
+    ReactDOM.render((
+      <StrictMode>
+        {story()}
+      </StrictMode>
+    ), node);
     return node;
   };
 };
