@@ -452,10 +452,10 @@ bluebird-q@^2.1.1:
   dependencies:
     bluebird "^3.4.6"
 
-bluebird@^3.4.6, bluebird@^3.4.7, bluebird@^3.5.1:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
-  integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
+bluebird@^3.4.6, bluebird@^3.5.1, bluebird@^3.5.3:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
@@ -1593,6 +1593,11 @@ eventemitter3@^3.0.0:
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.0.tgz#090b4d6cdbd645ed10bf750d4b5407942d7ba163"
   integrity sha512-ivIvhpq/Y0uSjcHDcOIccjmYjGLcP09MFGE7ysAwkAvkXfpZlC985pH2/ui64DKazbTW/4kN3yqozUxlXzI6cA==
 
+eventemitter3@^3.1.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
+  integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
+
 events@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
@@ -2283,21 +2288,23 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-reporter@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.6.0.tgz#96240012bda1f887629917b0476202233af6620d"
-  integrity sha512-A/CW4hZgZfNOxh1GyCJP5piTq+jkLCDssPZTDrNDltKAqR3M5OOZoohLs3PSl2U55zljZ7WUD1f9CXPLcWYZ2Q==
+html-reporter@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.6.1.tgz#c2a0dc910dba5bc8455545ff22975658217a6ba4"
+  integrity sha512-AKMBzALKMYdPSjmjWeAdJC+itQYZFnKqKQeMsrzvqZVPJg45JPu8aYnOilF6b7bZCU7i1F+mF69xQD79UAYt8Q==
   dependencies:
-    bluebird "^3.4.7"
+    bluebird "^3.5.3"
     body-parser "^1.18.2"
     chalk "^1.1.3"
     express "^4.16.2"
     fs-extra "^7.0.1"
     gemini-configparser "^1.0.0"
+    gemini-core "^3.7.0"
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
     looks-same "^7.1.1"
     opener "^1.4.3"
+    p-queue "^5.0.0"
     react-markdown "^3.2.0"
     resolve "^1.5.0"
     semver "^5.5.0"
@@ -3520,6 +3527,13 @@ osenv@^0.1.4:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
+
+p-queue@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/p-queue/-/p-queue-5.0.0.tgz#80f1741d5e78a6fa72fce889406481baa5617a3c"
+  integrity sha512-6QfeouDf236N+MAxHch0CVIy8o/KBnmhttKjxZoOkUlzqU+u9rZgEyXH3OdckhTgawbqf5rpzmyR+07+Lv0+zg==
+  dependencies:
+    eventemitter3 "^3.1.0"
 
 pako@~0.2.0:
   version "0.2.9"
