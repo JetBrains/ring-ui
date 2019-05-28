@@ -35,13 +35,6 @@
     wdio-dot-reporter "~0.0.8"
     wgxpath "~1.0.0"
 
-"@gemini-testing/worker-farm@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@gemini-testing/worker-farm/-/worker-farm-1.6.0.tgz#50ae14300330084c1b27268bac1b37d326cc566e"
-  integrity sha512-YOmMjlhUo6ae5I7/6zKgpMurujOO5lfcWOPtX4Y+NN59EBoJuG0iX9vTvVz8uSO9najv+VfDmrfPHozapCmQ2g==
-  dependencies:
-    errno "~0.1.7"
-
 "@jetbrains/hermione-teamcity-reporter@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@jetbrains/hermione-teamcity-reporter/-/hermione-teamcity-reporter-1.0.6.tgz#946d583ad31e36448dc8d7611ad53871df2a90c1"
@@ -2250,14 +2243,13 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.6.1.tgz#3831983c0446dee850b6e7efbbd2f1da4cfe6fdf"
-  integrity sha512-ybW6EI3vOcPL8vMyo1da3WRb+FvWgVaRY4ST5vzMsJyJNJNQ0Gh6NEzn9K7o1Ps1NILb4Q7tyfJTR/uLZSiTAQ==
+hermione@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.7.0.tgz#50bddf1721c91a74a8a0a775e6d75d26c966fbd9"
+  integrity sha512-Wze71d34WrhXY2W79ETaOWr476yXdIkwHIhmpVKZEZLuHcpRZNPC/sDnW2YyLJD+QkcdQBKPKUV3hakZonDK2Q==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
     "@gemini-testing/webdriverio" "4.15.0"
-    "@gemini-testing/worker-farm" "1.6.0"
     bluebird "^3.5.1"
     bluebird-q "^2.1.1"
     chalk "^1.1.1"
@@ -2273,6 +2265,7 @@ hermione@^2.6.1:
     q-promise-utils "^1.0.0"
     teamcity-service-messages "^0.1.6"
     urijs "^1.17.0"
+    worker-farm "^1.7.0"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -5189,6 +5182,13 @@ wordwrap@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
   integrity sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=
+
+worker-farm@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.7.0.tgz#26a94c5391bbca926152002f69b84a4bf772e5a8"
+  integrity sha512-rvw3QTZc8lAxyVrqcSGVm5yP/IJ2UcB3U0graE3LCFoZ0Yn2x4EoVSqJKdB/T5M+FLcRPjz4TDacRf3OCfNUzw==
+  dependencies:
+    errno "~0.1.7"
 
 wrappy@1:
   version "1.0.2"
