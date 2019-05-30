@@ -19,7 +19,7 @@
     "filenamify": "^4.0.0",
     "forever": "^1.0.0",
     "hermione": "^2.7.0",
-    "html-reporter": "^4.6.1",
+    "html-reporter": "^4.6.2",
     "http-server": "^0.11.1",
     "ip": "^1.1.5",
     "jsdom": "^15.1.1",
