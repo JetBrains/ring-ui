@@ -89,7 +89,7 @@
     "core-js": "^2.6.5",
     "css-module-flow": "^1.0.0",
     "deep-assign": "^3.0.0",
-    "electron": "^4.1.4",
+    "electron": "^5.0.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^5.16.0",
