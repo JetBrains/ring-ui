@@ -3,10 +3,12 @@
 .errorMessage {
   display: flex;
   align-items: center;
-  flex-flow: row wrap;
+  flex-direction: row;
   justify-content: center;
 
+  max-width: 600px;
   height: 100%;
+  margin: 0 auto;
 }
 
 .title {
@@ -18,7 +20,7 @@
 }
 
 .content {
-  flex-flow: column wrap;
+  flex-direction: column;
 
   color: var(--ring-text-color);
 }
