@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Icon from '../icon';
-import {Color, Size} from '../icon/icon__constants';
+import {Size} from '../icon/icon__constants';
 
 import styles from './error-message.css';
 
@@ -34,7 +34,6 @@ export default class ErrorMessage extends Component {
             className={styles.icon}
             glyph={icon}
             size={Size.Size64}
-            color={Color.GRAY}
           />
         )}
         <div className={styles.content}>
