@@ -8,6 +8,8 @@ import ErrorMessage from '../error-message-ng/error-message-ng';
 import Permissions from '../permissions-ng/permissions-ng';
 import MessageBundle from '../message-bundle-ng/message-bundle-ng';
 
+import styles from './error-page-ng.css';
+
 /**
  * @name Error Page Ng
  */
@@ -215,7 +217,18 @@ angularModule.directive('rgErrorPage', [
             scope.error = getErrorPagePresentation(error);
             scope.links = errorPageConfiguration.links;
 
-            const template = require('./error-page-ng.html');
+            const template = `
+              <div class="${styles.errorPageNg}">
+                <rg-error-message 
+                  code="{{ error.status }}" 
+                  message="{{ error.title }}" 
+                  links="links"
+                  icon="{{ error.icon }}"
+                >
+                  <span>{{ error.description }}</span>
+                </rg-error-message>
+              </div>
+            `;
             const el = $compile(angular.element(template))(scope);
             iElement.append(el);
             if (errorPageBackgroundCtrl) {
