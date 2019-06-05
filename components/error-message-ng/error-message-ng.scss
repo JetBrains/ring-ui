@@ -1,5 +1,7 @@
 @import "../global/global";
 
+@warn "error-message-ng.scss is not used by Ring UI anymore and is subject to delete in next versions. Please don't import it directly and use ErrorMessage component instead";
+
 .error-message {
   position: fixed;
   text-align: center;
