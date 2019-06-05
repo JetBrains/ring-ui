@@ -13,6 +13,9 @@ const fakeUserPermissions = {
   load: () => Promise.resolve({has: () => false})
 };
 
+const MESSAGE_SELECTOR = '[data-test~=ring-error-message]';
+const TITLE_SELECTOR = '[data-test~=ring-error-message-title]';
+
 describe('Error Page Ng', () => {
   beforeEach(
     window.module('Ring.error-page',
@@ -37,7 +40,7 @@ describe('Error Page Ng', () => {
     $rootScope.$digest();
 
     elem[0].query('.content').should.have.text('Hello!');
-    elem[0].should.not.contain('.error-message');
+    elem[0].should.not.contain(MESSAGE_SELECTOR);
   }));
 
   it('should compile directive to default error if has empty error',
@@ -49,9 +52,9 @@ describe('Error Page Ng', () => {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -63,8 +66,8 @@ describe('Error Page Ng', () => {
       elem = $compile(elem)($rootScope);
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.have.text(`404: ${RingMessageBundle.errorpage_404()}`);
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.contain.text(`404: ${RingMessageBundle.errorpage_404()}`);
     })
   );
 
@@ -79,8 +82,8 @@ describe('Error Page Ng', () => {
       $rootScope.errorSource.resolve();
       $rootScope.$digest();
 
-      elem[0].query('.content').should.have.text('Hello!');
-      elem[0].should.not.contain('.error-message');
+      elem[0].query('.content').should.contain.text('Hello!');
+      elem[0].should.not.contain(MESSAGE_SELECTOR);
     })
   );
 
@@ -94,9 +97,9 @@ describe('Error Page Ng', () => {
       $rootScope.errorSource.reject();
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(RingMessageBundle.errorpage_seriouslywrong());
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(RingMessageBundle.errorpage_seriouslywrong());
     })
   );
 
@@ -110,9 +113,9 @@ describe('Error Page Ng', () => {
       $rootScope.errorSource.reject({status: 403});
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -128,9 +131,9 @@ describe('Error Page Ng', () => {
       df.reject({status: 403});
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -152,9 +155,9 @@ describe('Error Page Ng', () => {
       df.resolve();
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 
@@ -177,9 +180,9 @@ describe('Error Page Ng', () => {
       df.reject({status: 500});
       $rootScope.$digest();
 
-      elem[0].should.contain('.error-message');
-      elem[0].query('.error-message__title').should.
-        have.text(`403: ${RingMessageBundle.errorpage_403()}`);
+      elem[0].should.contain(MESSAGE_SELECTOR);
+      elem[0].query(TITLE_SELECTOR).should.
+        contain.text(`403: ${RingMessageBundle.errorpage_403()}`);
     })
   );
 });

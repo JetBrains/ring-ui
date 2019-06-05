@@ -21,10 +21,8 @@ angularModule.directive('rgErrorMessage', function rgErrorMessageDirective() {
     <rg-icon class="${styles.icon}" glyph="{{icon}}" color="gray" size="64"></rg-icon>
     
     <div class="${styles.content}">
-      <div class="${styles.title}">
-        <span ng-if="code">{{ code }}:</span>
-        {{ message }}
-      </div>
+      <div class="${styles.title}" data-test="ring-error-message-title"
+      ><span ng-if="code">{{ code }}:</span> {{ message }}</div>
       
       <div class="${styles.description}" ng-transclude></div>
       
