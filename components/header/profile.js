@@ -122,6 +122,7 @@ export default class Profile extends PureComponent {
         <Avatar
           url={user.profile && user.profile.avatar && user.profile.avatar.url}
           size={size}
+          round={round}
         />
       </div>
     );
