@@ -41,6 +41,7 @@ export default class Profile extends PureComponent {
       profile: PropTypes.object
     }),
     size: PropTypes.number,
+    round: PropTypes.bool,
     showLogIn: PropTypes.bool,
     showLogOut: PropTypes.bool,
     showSwitchUser: PropTypes.bool,
@@ -75,6 +76,7 @@ export default class Profile extends PureComponent {
       showSwitchUser,
       translations,
       size,
+      round,
       ...props
     } = this.props;
 
@@ -84,7 +86,7 @@ export default class Profile extends PureComponent {
           {...props}
           className={classNames(styles.profileEmpty, className)}
         >
-          <Avatar size={size}/>
+          <Avatar size={size} round={round}/>
         </div>
       );
     }
