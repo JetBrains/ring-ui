@@ -46,14 +46,31 @@ export default class Profile extends PureComponent {
     showLogOut: PropTypes.bool,
     showSwitchUser: PropTypes.bool,
     showApplyChangedUser: PropTypes.bool,
-    onRevertPostponement: PropTypes.func
+    onRevertPostponement: PropTypes.func,
+    renderGuest: PropTypes.func
   };
 
   static defaultProps = {
     closeOnSelect: true,
     renderPopupItems: items => items,
     translations: {},
-    size: Size.Size32
+    size: Size.Size32,
+    renderGuest: ({loading, onLogin, className, translations}) => (
+      <div
+        className={classNames(styles.profileEmpty, className)}
+      >
+        <Button
+          theme={Button.Theme.DARK}
+          primary
+          data-test="ring-header-login-button"
+          disabled={loading}
+          loader={loading}
+          onClick={onLogin}
+        >
+          {translations.login || 'Log in...'}
+        </Button>
+      </div>
+    )
   };
 
   render() {
@@ -61,12 +78,10 @@ export default class Profile extends PureComponent {
       className,
       closeOnSelect,
       hasUpdates,
-      loading,
+      onLogout,
       user,
       profileUrl,
       LinkComponent,
-      onLogin,
-      onLogout,
       onSwitchUser,
       renderPopupItems,
       onRevertPostponement,
@@ -77,6 +92,8 @@ export default class Profile extends PureComponent {
       translations,
       size,
       round,
+      // eslint-disable-next-line no-unused-vars
+      loading, onLogin,
       ...props
     } = this.props;
 
@@ -92,22 +109,7 @@ export default class Profile extends PureComponent {
     }
 
     if (user.guest) {
-      return (
-        <div
-          className={classNames(styles.profileEmpty, className)}
-        >
-          <Button
-            theme={Button.Theme.DARK}
-            primary
-            data-test="ring-header-login-button"
-            disabled={loading}
-            loader={loading}
-            onClick={onLogin}
-          >
-            {translations.login || 'Log in...'}
-          </Button>
-        </div>
-      );
+      return this.props.renderGuest(this.props);
     }
 
     const anchorClassName = classNames(styles.avatarWrapper, {
