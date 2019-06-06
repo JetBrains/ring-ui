@@ -26,7 +26,13 @@ import SmartProfile from './smart-profile';
 
 storiesOf('Components|Header', module).
   addParameters({
-    notes: 'Displays a configurable page header.'
+    notes: 'Displays a configurable page header.',
+    storyStyles: `
+<style>
+  body {
+    margin: 0;
+  }
+</style>`
   }).
   addDecorator(reactDecorator()).
   add('basic', () => {
@@ -201,6 +207,10 @@ storiesOf('Components|Header', module).
   }, {
     storyStyles: `
 <style>
+  body {
+    margin: 0;
+  }
+  
   .header.header {
     height: 40px;
   }
