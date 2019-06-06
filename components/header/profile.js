@@ -89,6 +89,7 @@ export default class Profile extends PureComponent {
       showLogIn,
       showLogOut,
       showSwitchUser,
+      renderGuest,
       translations,
       size,
       round,
@@ -109,7 +110,7 @@ export default class Profile extends PureComponent {
     }
 
     if (user.guest) {
-      return this.props.renderGuest(this.props);
+      return renderGuest(this.props);
     }
 
     const anchorClassName = classNames(styles.avatarWrapper, {
