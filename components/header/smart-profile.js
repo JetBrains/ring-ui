@@ -20,7 +20,8 @@ export default class SmartProfile extends PureComponent {
     className: PropTypes.string,
     translations: PropTypes.object,
     profileUrl: PropTypes.string,
-    size: Profile.propTypes.size
+    size: Profile.propTypes.size,
+    round: Profile.propTypes.round
   };
 
   state = {
