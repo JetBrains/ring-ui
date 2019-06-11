@@ -34,6 +34,13 @@
   }
 }
 
+/* HACK: This media query hack makes styles applied for WebKit browsers only */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .glyph {
+    width: auto; /* Safari size bug workaround, see https://youtrack.jetbrains.com/issue/RG-1983 */
+  }
+}
+
 .gray {
   color: var(--ring-icon-secondary-color);
 }
