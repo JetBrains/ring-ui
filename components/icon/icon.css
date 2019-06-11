@@ -9,8 +9,6 @@
 .glyph {
   display: inline-flex;
 
-  width: auto; /* Safari size bug workaround, see https://youtrack.jetbrains.com/issue/RG-1983 */
-
   margin-right: -1px;
   margin-left: -1px;
 
