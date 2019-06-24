@@ -2248,10 +2248,10 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.7.0.tgz#50bddf1721c91a74a8a0a775e6d75d26c966fbd9"
-  integrity sha512-Wze71d34WrhXY2W79ETaOWr476yXdIkwHIhmpVKZEZLuHcpRZNPC/sDnW2YyLJD+QkcdQBKPKUV3hakZonDK2Q==
+hermione@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.7.1.tgz#8c0cb3185df6ab013e6cd86e60e39815c6f85784"
+  integrity sha512-wRpy9c7I6mxE2I4YX/62xn1KEjpYntadgodIjH6NqBugNcggg9dwOYe7IGq66TM6gcuUWKCQBQtPA168bS4LSQ==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
     "@gemini-testing/webdriverio" "4.15.0"
