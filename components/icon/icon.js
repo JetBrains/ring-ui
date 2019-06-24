@@ -62,12 +62,23 @@ export default class Icon extends PureComponent {
     return null;
   }
 
+  isCompatibilityMode(iconSrc) {
+    const hasWidth = /width="\d+"/ig.test(iconSrc);
+    const hasHeight = /height="\d+"/ig.test(iconSrc);
+    return !hasWidth || !hasHeight;
+  }
+
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
       className, size, color, loading, glyph, width, height, suppressSizeWarning,
       ...restProps
     } = this.props;
+
+    const iconSrc = glyph.call ? String(glyph) : glyph;
+    if (!iconSrc) {
+      throw new Error('No icon source passed to Icon component');
+    }
 
     const classes = classNames(styles.icon,
       {
@@ -77,6 +88,10 @@ export default class Icon extends PureComponent {
       className
     );
 
+    const glyphClasses = classNames(styles.glyph, {
+      [styles.compatibilityMode]: this.isCompatibilityMode(iconSrc)
+    });
+
     return (
       <span
         {...restProps}
@@ -84,8 +99,8 @@ export default class Icon extends PureComponent {
       >
         <InlineSVG
           raw
-          src={glyph.call ? String(glyph) : glyph}
-          className={styles.glyph}
+          src={iconSrc}
+          className={glyphClasses}
           style={this.getStyle()}
         />
       </span>
