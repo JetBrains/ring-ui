@@ -39,6 +39,7 @@ export default class Button extends PureComponent {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     iconSize: PropTypes.number,
     iconClassName: PropTypes.string,
+    iconSuppressSizeWarning: PropTypes.bool,
 
     className: PropTypes.string,
     onMouseDown: PropTypes.func,
@@ -75,6 +76,7 @@ export default class Button extends PureComponent {
       icon,
       iconSize,
       iconClassName,
+      iconSuppressSizeWarning,
       className,
       children,
       onMouseDown, // eslint-disable-line no-unused-vars
@@ -113,6 +115,7 @@ export default class Button extends PureComponent {
               glyph={icon}
               size={iconSize}
               loading={loader}
+              suppressSizeWarning={iconSuppressSizeWarning}
             />
           </span>
         )}
