@@ -11,9 +11,9 @@ import deprecate from 'util-deprecate';
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
 
-const deprecateSize = deprecate(
+const warnSize = deprecate(
   () => {},
-  `\`size\`, \`width\` and \`height\` props are deprecated in Ring UI \`Icon\` component. The intrinsic sizes of SVG icon (\`width\` and \`height\` SVG attributes) are used instead.
+  `\`size\`, \`width\` and \`height\` props are not recommended to use in Ring UI \`Icon\` component. The intrinsic sizes of SVG icon (\`width\` and \`height\` SVG attributes) are used instead.
 
 We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
 );
@@ -29,7 +29,8 @@ export default class Icon extends PureComponent {
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    suppressSizeWarning: PropTypes.bool
   };
 
   static defaultProps = ({
@@ -38,14 +39,21 @@ export default class Icon extends PureComponent {
     glyph: ''
   });
 
+  warnSize() {
+    if (this.props.suppressSizeWarning) {
+      return;
+    }
+    warnSize();
+  }
+
   getStyle() {
     const {size, width, height} = this.props;
     if (width || height) {
-      deprecateSize();
+      this.warnSize();
       return {width, height};
     }
     if (size) {
-      deprecateSize();
+      this.warnSize();
       return {
         width: size,
         height: size
@@ -55,8 +63,11 @@ export default class Icon extends PureComponent {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const {className, size, color, loading, glyph, width, height, ...restProps} = this.props;
+    const {
+      // eslint-disable-next-line no-unused-vars
+      className, size, color, loading, glyph, width, height, suppressSizeWarning,
+      ...restProps
+    } = this.props;
 
     const classes = classNames(styles.icon,
       {
