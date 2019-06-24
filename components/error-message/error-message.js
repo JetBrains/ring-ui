@@ -34,6 +34,7 @@ export default class ErrorMessage extends Component {
             className={styles.icon}
             glyph={icon}
             size={Size.Size64}
+            suppressSizeWarning
           />
         )}
         <div className={styles.content}>
