@@ -45,6 +45,7 @@ export default class Tooltip extends Component {
   }
 
   componentWillUnmount() {
+    clearTimeout(this.timeout);
     this.listeners.removeAll();
   }
 
