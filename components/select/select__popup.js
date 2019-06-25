@@ -115,7 +115,7 @@ export default class SelectPopup extends Component {
   removeTag(tag, event) {
     const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
     if (_tag) {
-      this.onListSelect(_tag, event);
+      this.onListSelect(_tag, event, {tryKeepOpen: true});
       this.setState({
         tagsActiveIndex: null
       });
@@ -179,7 +179,7 @@ export default class SelectPopup extends Component {
     return this.popup && this.popup.isVisible();
   }
 
-  onListSelect = (selected, event) => {
+  onListSelect = (selected, event, opts) => {
     const getSelectItemEvent = () => {
       let customEvent;
       if (document.createEvent) {
@@ -193,7 +193,7 @@ export default class SelectPopup extends Component {
       return customEvent;
     };
 
-    this.props.onSelect(selected, getSelectItemEvent());
+    this.props.onSelect(selected, getSelectItemEvent(), opts);
   };
 
   tabPress = event => {

@@ -307,7 +307,7 @@ export default class List extends Component {
     }
   }
 
-  selectHandler = memoize(index => event => {
+  selectHandler = memoize(index => (event, tryKeepOpen = false) => {
     const item = this.props.data[index];
     if (!this.props.useMouseUp && item.onClick) {
       item.onClick(item, event);
@@ -316,7 +316,7 @@ export default class List extends Component {
     }
 
     if (this.props.onSelect) {
-      this.props.onSelect(item, event);
+      this.props.onSelect(item, event, {tryKeepOpen});
     }
   });
 
@@ -533,7 +533,7 @@ export default class List extends Component {
       } else {
         itemProps.onClick = selectHandler;
       }
-      itemProps.onCheckboxChange = selectHandler;
+      itemProps.onCheckboxChange = event => selectHandler(event, true);
 
       if (itemProps.compact == null) {
         itemProps.compact = this.props.compact;
