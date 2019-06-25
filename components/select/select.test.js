@@ -818,13 +818,7 @@ describe('Select', () => {
 
       it('Should not close popup on selecting by checkbox', () => {
         instance._hidePopup = sandbox.spy();
-        instance._listSelectHandler(testData[3], {
-          originalEvent: {
-            target: {
-              matches: () => true
-            }
-          }
-        });
+        instance._listSelectHandler(testData[3], {}, {tryKeepOpen: true});
         instance._hidePopup.should.not.be.called;
       });
 
