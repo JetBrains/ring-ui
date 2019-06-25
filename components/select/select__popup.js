@@ -112,10 +112,10 @@ export default class SelectPopup extends Component {
     });
   }
 
-  removeTag(tag) {
+  removeTag(tag, event) {
     const _tag = tag || this.props.selected.slice(0)[this.props.selected.length - 1];
     if (_tag) {
-      this.onListSelect(_tag);
+      this.onListSelect(_tag, event);
       this.setState({
         tagsActiveIndex: null
       });
@@ -238,7 +238,7 @@ export default class SelectPopup extends Component {
     return null;
   }
 
-  handleRemoveTag = memoize(tag => () => this.removeTag(tag));
+  handleRemoveTag = memoize(tag => event => this.removeTag(tag, event));
 
   handleTagClick = memoize(tag => () => {
     this.setState({
