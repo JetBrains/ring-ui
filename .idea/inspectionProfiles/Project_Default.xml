@@ -343,7 +343,7 @@
     <inspection_tool class="JSClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="false">
       <scope name="Exclude inspections" level="INFORMATION" enabled="true" />
     </inspection_tool>
-    <inspection_tool class="JSClosureCompilerSyntax" enabled="true" level="WARNING" enabled_by_default="true">
+    <inspection_tool class="JSClosureCompilerSyntax" enabled="true" level="WARNING" enabled_by_default="false">
       <scope name="Exclude inspections" level="INFORMATION" enabled="true" />
     </inspection_tool>
     <inspection_tool class="JSCommentMatchesSignature" enabled="true" level="WARNING" enabled_by_default="true">
