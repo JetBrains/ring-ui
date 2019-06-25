@@ -41,7 +41,7 @@ storiesOf('Components|Select', module).
 
     const tags = [
       {label: 'One', key: '1', type: 'user', readOnly: true},
-      {label: 'Two', key: '2', type: 'user', readOnly: true},
+      {label: 'Two', key: '2', type: 'user', readOnly: false},
       {label: 'Three', key: '3', type: 'user'},
       {
         label: 'With icon',
