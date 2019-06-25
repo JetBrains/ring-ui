@@ -63,8 +63,8 @@ export default class Icon extends PureComponent {
   }
 
   isCompatibilityMode(iconSrc) {
-    const hasWidth = /width="\d+"/ig.test(iconSrc);
-    const hasHeight = /height="\d+"/ig.test(iconSrc);
+    const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
+    const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
     return !hasWidth || !hasHeight;
   }
 
