@@ -75,9 +75,11 @@ export default class Icon extends PureComponent {
       ...restProps
     } = this.props;
 
-    const iconSrc = glyph.call ? String(glyph) : glyph;
+    const iconSrc = glyph?.call ? String(glyph) : glyph;
     if (!iconSrc) {
-      throw new Error('No icon source passed to Icon component');
+      // eslint-disable-next-line no-console
+      console.warn('No icon source passed to Icon component', this.props);
+      return null;
     }
 
     const classes = classNames(styles.icon,

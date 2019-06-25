@@ -24,6 +24,16 @@ describe('Icon', () => {
     icon.find('svg').should.have.className(styles.compatibilityMode);
   });
 
+  it('should render nothing if null passed as glyph', () => {
+    const icon = renderIcon({glyph: null});
+    icon.find('svg').should.be.empty;
+  });
+
+  it('should render nothing if null passed as glyph', () => {
+    const icon = renderIcon({glyph: ''});
+    icon.find('svg').should.be.empty;
+  });
+
   it('should set custom class', () => {
     const CUSTOM_CSS_CLASS = 'my-icon';
     const icon = renderIcon({glyph: expandIcon, className: CUSTOM_CSS_CLASS});
