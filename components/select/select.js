@@ -734,7 +734,7 @@ export default class Select extends Component {
     }
   };
 
-  _listSelectHandler = (selected, event) => {
+  _listSelectHandler = (selected, event, opts = {}) => {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
@@ -765,8 +765,8 @@ export default class Select extends Component {
         this.props.onChange(selected, event);
       });
     } else {
-      const checkboxClicked = event?.originalEvent?.target.matches('input[type=checkbox]');
-      if (!checkboxClicked) {
+      const {tryKeepOpen} = opts;
+      if (!tryKeepOpen) {
         this._hidePopup(isSelectItemEvent);
       }
       if (selected.key == null) {
@@ -800,7 +800,7 @@ export default class Select extends Component {
           delete this._multipleMap[selected.key];
         }
 
-        if (checkboxClicked) {
+        if (tryKeepOpen) {
           this._redrawPopup();
         }
       });
