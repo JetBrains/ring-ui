@@ -217,6 +217,7 @@ export default class Alert extends PureComponent {
                 type="button"
                 className={styles.close}
                 data-test="alert-close"
+                aria-label="close alert"
                 onClick={this.closeRequest}
               >
                 <Icon glyph={closeIcon}/>

@@ -130,6 +130,7 @@ export default class Dialog extends PureComponent {
         <AdaptiveIsland
           className={classNames(styles.content, contentClassName)}
           data-test="ring-dialog"
+          role="dialog"
         >
           {children}
           {showCloseButton &&
@@ -140,6 +141,7 @@ export default class Dialog extends PureComponent {
                 className={styles.closeButton}
                 iconClassName={styles.closeIcon}
                 onClick={this.onCloseClick}
+                aria-label="close dialog"
               />
             )
           }
