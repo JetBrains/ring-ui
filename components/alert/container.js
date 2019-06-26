@@ -30,6 +30,7 @@ export default class Alerts extends PureComponent {
       <div
         data-test="alert-container"
         className={classes}
+        aria-live="polite"
         {...restProps}
       >
         {Children.map(children, child => {
