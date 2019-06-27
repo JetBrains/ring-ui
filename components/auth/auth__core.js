@@ -278,8 +278,12 @@ export default class Auth {
 
       // Access token appears to be valid.
       // We may resolve restoreLocation URL now
+      if (!state) {
+        // Check if we have requested to restore state anyway
+        state = await this._checkForStateRestoration();
+      }
       this._initDeferred.resolve(state && state.restoreLocation);
-      return state && state.restoreLocation;
+      return state?.restoreLocation;
     } catch (error) {
       if (Auth.storageIsUnavailable) {
         this._initDeferred.resolve(); // No way to handle if cookies are disabled
@@ -731,6 +735,15 @@ export default class Auth {
     await this._storage.saveToken({accessToken, scopes, expires, lifeTime: effectiveExpiresIn});
 
     return newState;
+  }
+
+  async _checkForStateRestoration() {
+    const authResponse = this._responseParser._authResponse;
+    if (authResponse && this.config.cleanHash) {
+      this.setHash('');
+    }
+    const stateId = authResponse?.restoreAuthState;
+    return await (stateId && this._storage.getState(stateId)) || {};
   }
 
   _checkBackendsAreUp() {
