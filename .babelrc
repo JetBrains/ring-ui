@@ -2,7 +2,8 @@
   "presets": [
     ["@jetbrains/jetbrains", {
       "angular": true,
-      "useBuiltIns": "usage"
+      "useBuiltIns": "usage",
+      "corejs": "3"
     }]
   ],
   "env": {

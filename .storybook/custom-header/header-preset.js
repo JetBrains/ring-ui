@@ -15,6 +15,14 @@ exports.managerWebpack = function managerWebpack(config) {
   const clientId = pkgConfig.clientId;
   const hubConfig = JSON.stringify({serverUri, clientId});
 
+  /**
+   * Remove own Storybook css loaders due to double-applying
+   * https://github.com/storybookjs/storybook/issues/6319#issuecomment-477852640
+   */
+  config.module.rules = config.module.rules.filter(
+    f => f.test.toString() !== '/\\.css$/'
+  );
+
   return {
     ...config,
     entry: [
