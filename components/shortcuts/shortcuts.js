@@ -17,7 +17,7 @@ export default class Shortcuts extends PureComponent {
     options: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.disabled) {
       this.turnShorcutsOn();
     }
