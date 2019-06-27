@@ -52,12 +52,18 @@ export default function focusSensorHOC(ComposedComponent) {
       document.removeEventListener('blur', this.onBlurCapture, true);
     }
 
+    _skipNextCapture = false;
+
     onRefUpdate = component => {
       // eslint-disable-next-line react/no-find-dom-node
       this.node = findDOMNode(component);
     };
 
     onFocusCapture = ({target}) => {
+      if (this._skipNextCapture) {
+        this._skipNextCapture = false;
+        return;
+      }
       const focused = this.node.contains(target);
       if (focused && !this.state.focused) {
         this.setState({focused: true});
@@ -79,6 +85,7 @@ export default function focusSensorHOC(ComposedComponent) {
     };
 
     onFocusRestore = () => {
+      this._skipNextCapture = true;
       this.node.focus();
     };
 
