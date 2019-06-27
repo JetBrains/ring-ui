@@ -182,9 +182,6 @@
     "util-deprecate": "^1.0.2",
     "whatwg-fetch": "^3.0.0"
   },
-  "resolutions": {
-    "caniuse-lite": "1.0.30000887"
-  },
   "engines": {
     "node": ">=7.4"
   },
