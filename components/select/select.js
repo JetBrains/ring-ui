@@ -18,6 +18,7 @@ import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
 import Theme from '../global/theme';
 import memoize from '../global/memoize';
+import getEventKey from '../global/get-event-key';
 
 import SelectPopup from './select__popup';
 import styles from './select.css';
@@ -497,7 +498,7 @@ export default class Select extends Component {
 
       if (tryFocusAnchor) {
         const restoreFocusNode = this.props.targetElement ||
-          this.node.query('[data-test=ring-select__focus]');
+          this.node.query('[data-test~=ring-select__focus]');
         if (restoreFocusNode) {
           restoreFocusNode.focus();
         }
@@ -673,6 +674,13 @@ export default class Select extends Component {
         this.props.onBeforeOpen();
         this._showPopup();
       }
+    }
+  };
+
+  _selectButtonKeyboardHack = event => {
+    const key = getEventKey(event);
+    if (key === 'Enter' || key === ' ') {
+      this._clickHandler();
     }
   };
 
@@ -1004,6 +1012,7 @@ export default class Select extends Component {
             className={classNames(classes, styles.buttonMode)}
             data-test="ring-select"
             onClick={this._clickHandler}
+            onKeyPress={this._selectButtonKeyboardHack}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1020,10 +1029,11 @@ export default class Select extends Component {
                   [styles.buttonValueOpen]: this.state.showPopup
                 })
               }
+              role="button"
               tabIndex={0}
               disabled={this.props.disabled}
               style={style}
-              data-test="ring-select__button"
+              data-test="ring-select__button ring-select__focus"
             >
               {this._getAvatar()}
               {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
