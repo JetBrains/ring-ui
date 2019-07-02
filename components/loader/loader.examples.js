@@ -1,10 +1,10 @@
 import React from 'react';
 import {storiesOf} from '@storybook/html';
+import {withKnobs, boolean} from '@storybook/addon-knobs';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Loader from './loader';
-
 
 storiesOf('Components|Loader', module).
   addParameters({
@@ -12,11 +12,12 @@ storiesOf('Components|Loader', module).
     hermione: {skip: true}
   }).
   addDecorator(reactDecorator()).
+  addDecorator(withKnobs).
   add('basic', () => {
     class Example extends React.Component {
       render() {
         return (
-          <Loader message="Loading..."/>
+          <Loader message="Loading..." stop={boolean('Stop animation', false)}/>
         );
       }
     }
