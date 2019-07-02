@@ -130,7 +130,7 @@ export default class List extends Component {
     onResize: noop,
     shortcuts: false,
     renderOptimization: true,
-    disableMoveDownOverflow: false,
+    disableMoveDownOverflow: false
   };
 
   state = {
