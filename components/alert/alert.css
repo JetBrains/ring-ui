@@ -7,6 +7,9 @@
 .alert {
   position: relative;
 
+  display: flex;
+  align-items: baseline;
+
   box-sizing: border-box;
   min-height: calc(unit * 5);
   margin: unit auto;
@@ -39,18 +42,13 @@
 
 .icon {
   margin-right: unit;
-
-  vertical-align: -2px;
 }
 
 .caption {
-  display: inline-block;
-
   max-width: calc(100% - calc(unit * 5));
 
   margin: 12px calc(unit * 5) 12px 0;
 
-  vertical-align: middle;
   white-space: normal;
 
   color: var(--ring-dark-text-color);
