@@ -15,8 +15,19 @@ export default class Loader extends PureComponent {
     size: PropTypes.number,
     colors: PropTypes.array,
     message: PropTypes.string,
-    'data-test': PropTypes.string
+    'data-test': PropTypes.string,
+    stop: PropTypes.bool
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.loader) {
+      if (!prevProps.stop && this.props.stop) {
+        this.loader.stopAnimation();
+      } else if (prevProps.stop && !this.props.stop) {
+        this.loader.startAnimation();
+      }
+    }
+  }
 
   componentWillUnmount() {
     this.loader.destroy();
@@ -29,7 +40,7 @@ export default class Loader extends PureComponent {
   };
 
   render() {
-    const {message, size, colors, 'data-test': dataTest, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {message, size, colors, 'data-test': dataTest, stop, ...restProps} = this.props; // eslint-disable-line no-unused-vars
     return (
       <div
         data-test={dataTests('ring-loader', dataTest)}

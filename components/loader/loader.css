@@ -13,8 +13,11 @@
 
   margin: calc(unit * 2) auto;
 
-  animation: rotation-keyframes 36s linear infinite;
   pointer-events: none;
+}
+
+.animate {
+  animation: rotation-keyframes 36s linear infinite;
 }
 
 .text {
