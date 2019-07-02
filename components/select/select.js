@@ -114,6 +114,7 @@ export default class Select extends Component {
     theme: PropTypes.string,
     customAnchor: PropTypes.func,
     disableMoveOverflow: PropTypes.bool,
+    disableScrollToActive: PropTypes.bool,
     dir: PropTypes.oneOf(['ltr', 'rtl'])
   };
 
@@ -472,6 +473,7 @@ export default class Select extends Component {
         renderOptimization={this.props.renderOptimization}
         ringPopupTarget={this.props.ringPopupTarget}
         disableMoveOverflow={this.props.disableMoveOverflow}
+        disableScrollToActive={this.props.disableScrollToActive}
         dir={this.props.dir}
       />
     );

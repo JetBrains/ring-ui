@@ -115,7 +115,8 @@ export default class List extends Component {
     renderOptimization: PropTypes.bool,
     disableMoveOverflow: PropTypes.bool,
     disableMoveDownOverflow: PropTypes.bool,
-    compact: PropTypes.bool
+    compact: PropTypes.bool,
+    disableScrollToActive: PropTypes.bool
   };
 
   static defaultProps = {
@@ -129,7 +130,7 @@ export default class List extends Component {
     onResize: noop,
     shortcuts: false,
     renderOptimization: true,
-    disableMoveDownOverflow: false
+    disableMoveDownOverflow: false,
   };
 
   state = {
@@ -641,7 +642,9 @@ export default class List extends Component {
             noop={() => {}}
 
             scrollToIndex={
-              this.state.needScrollToActive && this.state.activeIndex != null
+              !this.props.disableScrollToActive &&
+                this.state.needScrollToActive &&
+                this.state.activeIndex != null
                 ? this.state.activeIndex + 1
                 : undefined
             }
