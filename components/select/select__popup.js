@@ -325,6 +325,7 @@ export default class SelectPopup extends Component {
           shortcuts={this.state.popupShortcuts}
           disableMoveOverflow={this.props.disableMoveOverflow}
           disableMoveDownOverflow={this.props.loading}
+          disableScrollToActive={this.props.disableScrollToActive}
           compact={this.props.compact}
           renderOptimization={this.props.renderOptimization}
         />

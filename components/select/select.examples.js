@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
+import {withKnobs, boolean} from '@storybook/addon-knobs';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
@@ -538,8 +539,16 @@ storiesOf('Components|Select', module).
       })
     );
 
-    return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
-  }, {hermione: {skip: true}}).
+    return (
+      <Select
+        filter
+        compact
+        selected={dataset[selectedIndex]}
+        data={dataset}
+        disableScrollToActive={boolean('Disable scroll to active item', false)}
+      />
+    );
+  }, {decorators: [withKnobs], hermione: {skip: true}}).
 
   add('multiple with a description', () => {
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
