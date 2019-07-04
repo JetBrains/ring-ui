@@ -31,10 +31,16 @@ storiesOf('Services|Auth Dialog Service', module).
         });
       }
 
+      componentWillUnmount() {
+        if (this.hideAuthDialog) {
+          this.hideAuthDialog();
+        }
+      }
+
       showAuthDialog = () => {
         const {serviceDetails} = this.state;
 
-        showAuthDialog({
+        this.hideAuthDialog = showAuthDialog({
           serviceDetails,
           errorMessage: 'Error message',
           onConfirm: action('onConfirm'),
