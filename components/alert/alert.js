@@ -75,6 +75,7 @@ export default class Alert extends PureComponent {
 
     children: PropTypes.node,
     className: PropTypes.string,
+    captionClassName: PropTypes.string,
     'data-test': PropTypes.string
   };
 
@@ -149,7 +150,7 @@ export default class Alert extends PureComponent {
   _getCaption() {
     return (
       <span
-        className={styles.caption}
+        className={classNames(styles.caption, this.props.captionClassName)}
         onClick={this._handleCaptionsLinksClick}
       >
         {this.props.children}
