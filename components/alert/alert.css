@@ -45,6 +45,8 @@
 }
 
 .caption {
+  overflow: hidden;
+
   max-width: calc(100% - calc(unit * 5));
 
   margin: 12px calc(unit * 5) 12px 0;
