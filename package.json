@@ -64,7 +64,7 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/polyfill": "^7.4.4",
-    "@jetbrains/eslint-config": "^4.0.5",
+    "@jetbrains/eslint-config": "^4.0.6",
     "@jetbrains/generator-ring-ui": "^2.0.13",
     "@jetbrains/stylelint-config": "^1.3.4",
     "@storybook/addon-actions": "^5.1.9",
