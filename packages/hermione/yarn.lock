@@ -2248,10 +2248,10 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.7.1.tgz#8c0cb3185df6ab013e6cd86e60e39815c6f85784"
-  integrity sha512-wRpy9c7I6mxE2I4YX/62xn1KEjpYntadgodIjH6NqBugNcggg9dwOYe7IGq66TM6gcuUWKCQBQtPA168bS4LSQ==
+hermione@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.8.1.tgz#3e81d48150a81f5208e7358f884eb5ca61b57442"
+  integrity sha512-AEzAUWLT1j//0kQOfJ6wV0llJX3q7psvnPNNNUol45zE3sjeiQpeIU3yebttXtI+WOztDlJ0hDpvjnKdVsQWyg==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
     "@gemini-testing/webdriverio" "4.15.0"
@@ -2288,10 +2288,10 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-reporter@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.6.2.tgz#e0c073bc1cd43d7e7b7ac1ac5f40218a55bf7be0"
-  integrity sha512-MUQnByq04i0/ge2GBCfp3Gh3Nmd2oNJ9nyeNhZ7roFwO23v3FoycNLVseoThTqODiZxn7yY4Np5zn7JAIKg8AQ==
+html-reporter@^4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.8.0.tgz#78056806cb6076488724ad68995fb4c17a56b032"
+  integrity sha512-FUd8RX8QyFwMdEoCZ0KnsHO1mbzFwU3yyv6eauH5jwFFiMdsCpWTEod/pQ0S55BxOzHViUoI+ILiOIKbv0i0Kw==
   dependencies:
     bluebird "^3.5.3"
     body-parser "^1.18.2"
