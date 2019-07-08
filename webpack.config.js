@@ -61,9 +61,10 @@ const cssLoader = {
     {
       loader: resolveLoader('css'),
       options: {
-        modules: true,
-        importLoaders: 1,
-        localIdentName: '[local]_[hash:3]'
+        modules: {
+          localIdentName: '[local]_[hash:3]'
+        },
+        importLoaders: 1
       }
     },
     {
