@@ -149,7 +149,7 @@
     "element-resize-detector": "^1.2.0",
     "es6-error": "^4.1.1",
     "extricate-loader": "^3.0.0",
-    "file-loader": "^3.0.1",
+    "file-loader": "^4.0.0",
     "focus-trap": "^5.0.1",
     "highlight.js": "^9.15.8",
     "html-loader": "^0.5.5",
