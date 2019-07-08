@@ -1,3 +1,4 @@
+/* eslint-disable import/no-commonjs,no-undef */
 const {ignore} = require('@jetbrains/eslint-config/consts');
 
 module.exports = {
