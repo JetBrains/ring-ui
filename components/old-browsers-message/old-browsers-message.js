@@ -11,14 +11,26 @@ import sniffer from '../global/sniffer';
  */
 
 const MAJOR_VERSION_INDEX = 0;
+/**
+ * SUPPORTED_BROWSERS are defined by Babel plugin, see babel config
+ */
+/* global SUPPORTED_BROWSERS */
+const SUPPORTED = SUPPORTED_BROWSERS || [];
 
-const WHITE_LIST = {
-  chrome: 70,
-  firefox: 60,
-  safari: 11,
-  ie: 11,
-  edge: 14
-};
+const WHITE_LISTED_BROWSERS = ['chrome', 'firefox', 'safari', 'ie', 'edge'];
+
+const WHITE_LIST = SUPPORTED.
+  reduce((acc, item) => {
+    const [, browserName, version] = item.match(/(\S+)\s(\S+)/);
+    if (!WHITE_LISTED_BROWSERS.includes(browserName)) {
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [browserName]: parseInt(version, 10)
+    };
+  }, {});
 
 
 let smileChanges = 0;
