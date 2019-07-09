@@ -1,4 +1,4 @@
-import sniffer from '../global/sniffer';
+import {isBrowserInWhiteList} from './white-list';
 
 /**
  * @name Old Browsers Message
@@ -9,33 +9,6 @@ import sniffer from '../global/sniffer';
   won't be displayed for those and higher versions even when a JS error occurs
   on application start.
  */
-
-const MAJOR_VERSION_INDEX = 0;
-/**
- * SUPPORTED_BROWSERS are defined by Babel plugin, see babel config
- */
-/* global SUPPORTED_BROWSERS */
-if (!SUPPORTED_BROWSERS) {
-  // eslint-disable-next-line no-console
-  console.warn('Ring UI: no SUPPORTED_BROWSERS passed. Please check babel config.');
-}
-const SUPPORTED = SUPPORTED_BROWSERS || [];
-
-const WHITE_LISTED_BROWSERS = ['chrome', 'firefox', 'safari', 'ie', 'edge'];
-
-export const WHITE_LIST = SUPPORTED.
-  reduce((acc, item) => {
-    const [, browserName, version] = item.match(/(\S+)\s(\S+)/);
-    if (!WHITE_LISTED_BROWSERS.includes(browserName)) {
-      return acc;
-    }
-
-    return {
-      ...acc,
-      [browserName]: parseInt(version, 10)
-    };
-  }, {});
-
 
 let smileChanges = 0;
 const MAX_SMILE_CHANGES = 50;
@@ -72,10 +45,6 @@ function attachSmileClickListener(smileNode) {
   } else if (smileNode.attachEvent) {
     smileNode.attachEvent('onclick', changeSmileClickListener);
   }
-}
-
-export function isBrowserInWhiteList() {
-  return sniffer.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffer.browser.name];
 }
 
 /**
