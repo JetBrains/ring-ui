@@ -36,7 +36,6 @@ module.exports = wallaby => {
 
     postprocessor: wallabyWebpack(webpackTestConfig),
 
-    /* global window */
     bootstrap: function bootstrap() {
       // required to trigger tests loading
       window.__moduleBundler.loadTests();
