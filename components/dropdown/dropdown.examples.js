@@ -8,6 +8,7 @@ import Popup from '../popup/popup';
 import PopupMenu from '../popup-menu/popup-menu';
 import Button from '../button/button';
 import Link from '../link/link';
+import {Input} from '../input/input';
 
 storiesOf('Components|Dropdown', module).
   addParameters({
@@ -82,4 +83,17 @@ storiesOf('Components|Dropdown', module).
     >
       <Popup>Popup content</Popup>
     </Dropdown>
+  ), {hermione: {skip: true}}).
+  add('autofocus on open', () => (
+    <div>
+      <div style={{height: '90vh'}}/>
+      <Dropdown
+        anchor="Scroll and then click me"
+      >
+        <Popup>
+          <Input autoFocus/>
+        </Popup>
+      </Dropdown>
+      <div style={{height: '50vh'}}/>
+    </div>
   ), {hermione: {skip: true}});
