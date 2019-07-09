@@ -165,7 +165,7 @@
     "postcss-modules-values-replace": "^3.0.1",
     "postcss-preset-env": "^6.6.0",
     "prop-types": "^15.7.2",
-    "react-markdown": "^4.0.8",
+    "react-markdown": "^4.1.0",
     "react-sortable-hoc": "^1.9.1",
     "react-virtualized": "^9.21.1",
     "react-waypoint": "^9.0.2",
