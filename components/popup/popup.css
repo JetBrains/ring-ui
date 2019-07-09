@@ -3,7 +3,7 @@
 .popup {
   composes: font from "../global/global.css";
 
-  position: absolute;
+  position: fixed;
   z-index: var(--ring-overlay-z-index);
   top: -100vh;
   left: -100vw;
