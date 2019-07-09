@@ -214,6 +214,7 @@ export default class Popup extends PureComponent {
 
   _updatePosition = () => {
     if (this.popup) {
+      this.popup.style.position = 'absolute';
       if (this.isVisible()) {
         const {styles: style, direction} = this.position();
         Object.keys(style).forEach(key => {
