@@ -19,7 +19,7 @@ const SUPPORTED = SUPPORTED_BROWSERS || [];
 
 const WHITE_LISTED_BROWSERS = ['chrome', 'firefox', 'safari', 'ie', 'edge'];
 
-const WHITE_LIST = SUPPORTED.
+export const WHITE_LIST = SUPPORTED.
   reduce((acc, item) => {
     const [, browserName, version] = item.match(/(\S+)\s(\S+)/);
     if (!WHITE_LISTED_BROWSERS.includes(browserName)) {
@@ -70,7 +70,7 @@ function attachSmileClickListener(smileNode) {
   }
 }
 
-function browserInWhiteList() {
+export function isBrowserInWhiteList() {
   return sniffer.browser.version[MAJOR_VERSION_INDEX] >= WHITE_LIST[sniffer.browser.name];
 }
 
@@ -105,7 +105,7 @@ startOldBrowsersDetector(() => {
   const errorMessage = document.getElementById('ring-old-browsers-message__error-message');
   const smileNode = document.getElementById('ring-old-browsers-message__smile');
 
-  if (browserInWhiteList()) {
+  if (isBrowserInWhiteList()) {
     browserMessage.style.display = 'none';
     errorMessage.style.display = 'block';
   } else {
