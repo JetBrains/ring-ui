@@ -13,11 +13,11 @@ import sniffer from '../global/sniffer';
 const MAJOR_VERSION_INDEX = 0;
 
 const WHITE_LIST = {
-  chrome: 38,
-  firefox: 34,
-  safari: 7,
-  ie: 10,
-  edge: 1
+  chrome: 70,
+  firefox: 60,
+  safari: 11,
+  ie: 11,
+  edge: 14
 };
 
 
