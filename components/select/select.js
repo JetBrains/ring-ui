@@ -514,47 +514,37 @@ export default class Select extends Component {
   };
 
   getToolbar() {
-    const isToolbarHasElements = this._addButton || this.props.hint;
+    const {hint} = this.props;
+    const {prefix, label, delayed} = this._addButton || {};
+    const isToolbarHasElements = this._addButton || hint;
     if (!isToolbarHasElements) {
       return null;
-    }
-
-    let hint = null;
-    let addButton = null;
-
-    if (this.props.hint) {
-      hint = (
-        <List.ListHint
-          label={this.props.hint}
-          data-test="ring-select-toolbar-hint"
-        />
-      );
-    }
-
-    if (this._addButton) {
-      const {prefix, label, delayed} = this._addButton;
-      addButton = (
-        <Button
-          text
-          delayed={delayed}
-          className={styles.button}
-          onClick={this.addHandler}
-          data-test="ring-select-toolbar-button"
-        >
-          {prefix ? `${prefix} ${label}` : label}
-        </Button>
-      );
     }
 
     return (
       <div
         className={classNames({
-          [styles.toolbar]: addButton
+          [styles.toolbar]: !!this._addButton
         })}
         data-test="ring-select-toolbar"
       >
-        {addButton}
-        {hint}
+        {this._addButton && (
+          <Button
+            text
+            delayed={delayed}
+            className={styles.button}
+            onClick={this.addHandler}
+            data-test="ring-select-toolbar-button"
+          >
+            {prefix ? `${prefix} ${label}` : label}
+          </Button>
+        )}
+        {hint && (
+          <List.ListHint
+            label={hint}
+            data-test="ring-select-toolbar-hint"
+          />
+        )}
       </div>
     );
   }
