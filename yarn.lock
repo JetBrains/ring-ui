@@ -1285,10 +1285,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.12":
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.12.tgz#ab3ac6ab739f528f60c422144c2a50aeb292a7a0"
-  integrity sha512-9xQgWinNiyfM0g+XI5n8VKQxQuzrr8aq4glBWRjmig8YkUr14gFcntyvq8JXSO0C+4h85C/Jf/e0lgLO0HXh9g==
+"@jetbrains/generator-ring-ui@^2.0.13":
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.13.tgz#b74f8429059b8c6e506235811c0cde96fb7a3702"
+  integrity sha512-qDy8OnI2j4GImFkk9lgld4AcGFjp+dHAswI4be69gpAgev+S2Y8bRb0y7iQEmzRSBHmf8p9Brm8hkoBNYDSqRw==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
