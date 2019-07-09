@@ -52,7 +52,7 @@ module.exports = {
           ignoreTemplateLiterals: true,
           ignoreRegExpLiterals: true,
           // Strings longer than 40 symbols (half of standard max-len)
-          ignorePattern: '"(?=([^"]|\\"){40,}")|\'(?=([^\']|\\\'){40,}\')'
+          ignorePattern: '"(?=([^"]|"){40,}")|\'(?=([^\']|\'){40,}\')'
         }],
         quotes: [error, 'single', {avoidEscape: true}],
 
