@@ -9,8 +9,6 @@ import styles from './select-popup.css';
 
 function noop() {}
 
-const FOCUS_TIMEOUT_HACK = 100;
-
 export default class SelectFilter extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
@@ -22,10 +20,6 @@ export default class SelectFilter extends Component {
     placeholder: 'Filter items',
     inputRef: noop
   };
-
-  componentDidMount() {
-    setTimeout(() => this.focus(), FOCUS_TIMEOUT_HACK);
-  }
 
   componentWillUnmount() {
     this.blur();
@@ -56,6 +50,7 @@ export default class SelectFilter extends Component {
     return (
       <Input
         {...restProps}
+        autoFocus
         borderless
         inputRef={this.inputRef}
         className={classes}
