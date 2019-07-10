@@ -79,7 +79,8 @@ module.exports = config => {
       height: 1024,
       width: 768,
       webPreferences: {
-        pageVisibility: true
+        pageVisibility: true,
+        sandbox: false
       }
     },
 
