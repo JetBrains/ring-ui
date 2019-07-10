@@ -79,9 +79,9 @@ module.exports = config => {
       height: 1024,
       width: 768,
       webPreferences: {
-        pageVisibility: true,
-        sandbox: false
-      }
+        pageVisibility: true
+      },
+      commandLineSwitches: ['--no-sandbox']
     },
 
     // Continuous Integration mode
