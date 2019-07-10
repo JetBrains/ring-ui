@@ -73,9 +73,9 @@ module.exports = config => {
       height: 1024,
       width: 768,
       webPreferences: {
-        pageVisibility: true
-      },
-      flags: ['--no-sandbox']
+        pageVisibility: true,
+        sandbox: false
+      }
     },
 
     // If browser does not capture in given timeout [ms], kill it
