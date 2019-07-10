@@ -11,6 +11,12 @@ To apply the patch, change the buildType with id = 'UnitTestsAndBuild'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("UnitTestsAndBuild")) {
+    params {
+        add {
+            param("env.ELECTRON_ENABLE_LOGGING", "true")
+        }
+    }
+
     features {
         val feature1 = find<CommitStatusPublisher> {
             commitStatusPublisher {
