@@ -65,17 +65,19 @@ module.exports = config => {
     autoWatch: true,
 
     // Start these browsers
-    browsers: ['Electron'],
+    browsers: ['CustomElectron'],
 
-    electronOpts: {
-      show: false,
-      skipTaskbar: true,
-      height: 1024,
-      width: 768,
-      webPreferences: {
-        pageVisibility: true
-      },
-      commandLineSwitches: ['--no-sandbox']
+    customLaunchers: {
+      CustomElectron: {
+        base: 'Electron',
+        browserWindowOptions: {
+          show: false,
+          skipTaskbar: true,
+          height: 1024,
+          width: 768
+        },
+        flags: ['--no-sandbox']
+      }
     },
 
     // If browser does not capture in given timeout [ms], kill it
@@ -96,6 +98,7 @@ module.exports = config => {
     const webdriverConfig = {hostname, port, user, pwd};
 
     conf.customLaunchers = {
+      ...conf.customLaunchers,
       // Custom Chrome launcher for CI use
       ChromeNoSandbox: {
         base: 'Chrome',
