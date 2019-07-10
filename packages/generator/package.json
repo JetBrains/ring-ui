@@ -17,7 +17,7 @@
     "change-case": "^3.1.0",
     "find-port": "^2.0.1",
     "ora": "^3.4.0",
-    "package-json": "^6.3.0",
+    "package-json": "^6.4.0",
     "pify": "^4.0.1",
     "portscanner": "^2.2.0",
     "read-pkg-up": "^6.0.0",
