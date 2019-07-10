@@ -5,7 +5,7 @@
   "author": "JetBrains",
   "license": "Apache-2.0",
   "files": [
-    ".babelrc",
+    "babel.config.js",
     "components",
     "postcss.config.js",
     "webpack.config.js",
