@@ -12565,10 +12565,10 @@ relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
 
-remark-breaks@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/remark-breaks/-/remark-breaks-1.0.2.tgz#ad7bac95a30214ab44d7dd5ab3fe0bab97f0bc63"
-  integrity sha512-oVEmI9PH6RihPT84xWw1Z39CbaFRszEVQjlw+T1Di6bKp/RDO/QaLtMB5rrGmClKVoJsv/CYVivGsAdznsDiMA==
+remark-breaks@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/remark-breaks/-/remark-breaks-1.0.3.tgz#9ca5dbf99ad04154bbf0b6e8f227b3735dfe637a"
+  integrity sha512-ip5hvJE8vsUJCGfgHaEJbf/JfO6KTZV+NBG68AWkEMhrjHW3Qh7EorED41mCt0FFSTrUDeRiNHovKO7cqgPZmw==
 
 remark-parse@^5.0.0:
   version "5.0.0"
