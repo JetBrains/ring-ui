@@ -80,7 +80,8 @@ module.exports = config => {
       width: 768,
       webPreferences: {
         pageVisibility: true
-      }
+      },
+      commandLineSwitches: ['--no-sandbox']
     },
 
     // Continuous Integration mode
