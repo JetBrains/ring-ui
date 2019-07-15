@@ -97,7 +97,7 @@
     "eslint-import-resolver-webpack": "^0.11.1",
     "glob": "^7.1.4",
     "husky": "^3.0.0",
-    "karma": "^4.1.0",
+    "karma": "^4.2.0",
     "karma-coverage": "^1.1.2",
     "karma-coverage-html-index-reporter": "^1.0.2",
     "karma-electron": "^6.3.0",
