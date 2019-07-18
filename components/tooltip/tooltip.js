@@ -65,6 +65,14 @@ export default class Tooltip extends Component {
       if (selfOverflowOnly) {
         const {containerNode} = this;
 
+        // rare cases when containerNode is null are possible;
+        // probably the collision is due to the asynchronous nature of the code,
+        // i.e. this code runs after the component is unmounted,
+        // although at first glance it looks unlikely.
+        if (!containerNode) {
+          return;
+        }
+
         // inline element?
         if (containerNode.clientWidth === 0 && containerNode.clientHeight === 0) {
           return;
