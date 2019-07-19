@@ -14489,14 +14489,14 @@ url-loader@^1.1.2:
     mime "^2.0.3"
     schema-utils "^1.0.0"
 
-url-loader@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-2.0.1.tgz#6c47fc7090e3d48939e01fe3c6efcba5938dcec5"
-  integrity sha512-nd+jtHG6VgYx/NnXxXSWCJ7FtHIhuyk6Pe48HKhq29Avq3r5FSdIrenvzlbb67A3SNFaQyLk0/lMZfubj0+5ww==
+url-loader@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-2.1.0.tgz#bcc1ecabbd197e913eca23f5e0378e24b4412961"
+  integrity sha512-kVrp/8VfEm5fUt+fl2E0FQyrpmOYgMEkBsv8+UDP1wFhszECq5JyGF33I7cajlVY90zRZ6MyfgKXngLvHYZX8A==
   dependencies:
-    loader-utils "^1.1.0"
+    loader-utils "^1.2.3"
     mime "^2.4.4"
-    schema-utils "^1.0.0"
+    schema-utils "^2.0.0"
 
 url-parse-lax@^1.0.0:
   version "1.0.0"
