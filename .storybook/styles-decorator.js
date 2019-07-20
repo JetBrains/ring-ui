@@ -1,44 +1,22 @@
-import addons from '@storybook/addons';
-import {REGISTER_SUBSCRIPTION, STORY_CHANGED} from '@storybook/core-events';
+import {useEffect} from '@storybook/client-api';
 
 import {injectStyleSheet} from '../components/global/inject-styles';
 
-const stylesDecorator = () => {
-  const channel = addons.getChannel();
-  let stylesNode = null;
+const stylesDecorator = (story, context) => {
+  const storyStyles = context.parameters?.storyStyles;
 
-  const unmount = () => {
-    if (!stylesNode) {
-      return;
+  useEffect(() => {
+    if (storyStyles != null) {
+      // We want styles string to contain "<style>" tag to push WebStorm to parse it as CSS
+      const pureStyles = storyStyles.replace('<style>', '').
+        replace('</style>', '');
+      const stylesNode = injectStyleSheet(pureStyles);
+      return () => stylesNode.remove();
     }
-    stylesNode.remove();
-    stylesNode = null;
-  };
+    return undefined;
+  }, [storyStyles]);
 
-  const subscription = () => {
-    channel.on(STORY_CHANGED, unmount);
-    return () => {
-      unmount();
-      channel.removeListener(STORY_CHANGED, unmount);
-    };
-  };
-
-
-  return (storyFn, story) => {
-    const storyStyles = story.parameters?.storyStyles;
-
-    if (!storyStyles) {
-      return storyFn();
-    }
-    channel.emit(REGISTER_SUBSCRIPTION, subscription);
-
-    // We want styles string to contain "<style>" tag to push WebStorm to parse it as CSS
-    const pureStyles = storyStyles.replace('<style>', '').
-      replace('</style>', '');
-    stylesNode = injectStyleSheet(pureStyles);
-
-    return storyFn();
-  };
+  return story();
 };
 
-export default stylesDecorator;
+export default () => stylesDecorator;
