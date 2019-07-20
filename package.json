@@ -75,6 +75,7 @@
     "@storybook/core": "5.2.0-beta.4",
     "@storybook/core-events": "5.2.0-beta.4",
     "@storybook/html": "5.2.0-beta.4",
+    "@storybook/source-loader": "5.2.0-beta.4",
     "@storybook/theming": "5.2.0-beta.4",
     "angular": "^1.7.8",
     "angular-mocks": "^1.7.8",
