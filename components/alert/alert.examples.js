@@ -10,7 +10,9 @@ import Alert, {Container} from './alert';
 
 storiesOf('Components|Alert', module).
   addParameters({
-    notes: '**Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.'
+    notes: '**Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.',
+    component: Alert,
+    framework: 'react'
   }).
   addDecorator(reactDecorator()).
   add('simple', () => {

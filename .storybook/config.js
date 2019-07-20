@@ -1,5 +1,6 @@
 import {configure, addParameters, addDecorator} from '@storybook/html';
 import {create} from '@storybook/theming';
+import {DocsPage} from '@storybook/addon-docs/blocks';
 
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
@@ -56,7 +57,11 @@ const theme = variablesSupported
   : {};
 
 addParameters({
+  docs: DocsPage,
   options: {
+    docs: {
+      inlineStories: false
+    },
     theme: create({
       base: 'light',
       brandTitle: 'JetBrains Ring UI',
