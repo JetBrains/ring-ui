@@ -26,5 +26,8 @@
   },
   "devDependencies": {
     "yo": "^3.1.0"
+  },
+  "resolutions": {
+    "yo/fullname": "^4.0.1"
   }
 }
