@@ -71,17 +71,19 @@ module.exports = config => {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Electron'],
+    browsers: ['CustomElectron'],
 
-    electronOpts: {
-      show: false,
-      skipTaskbar: true,
-      height: 1024,
-      width: 768,
-      webPreferences: {
-        pageVisibility: true
-      },
-      commandLineSwitches: ['--no-sandbox']
+    customLaunchers: {
+      CustomElectron: {
+        base: 'Electron',
+        browserWindowOptions: {
+          show: false,
+          skipTaskbar: true,
+          height: 1024,
+          width: 768
+        },
+        flags: ['--no-sandbox']
+      }
     },
 
     // Continuous Integration mode
