@@ -46,6 +46,7 @@ export default class ListItem extends PureComponent {
       PropTypes.array
     ]),
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    title: PropTypes.string,
     level: PropTypes.number,
     rgItemType: PropTypes.number,
     rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
@@ -58,6 +59,8 @@ export default class ListItem extends PureComponent {
   };
 
   stopBubbling = e => e.stopPropagation();
+
+  _isString = val => typeof val === 'string' || val instanceof String;
 
   render() {
     /* eslint-disable no-unused-vars */
@@ -72,6 +75,7 @@ export default class ListItem extends PureComponent {
       rightGlyph,
       description,
       label,
+      title,
       details,
       hover,
       rgItemType,
@@ -110,7 +114,16 @@ export default class ListItem extends PureComponent {
       paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING}px`
     };
 
-    const labelIsString = typeof label === 'string' || label instanceof String;
+    let computedTitle = null;
+    if (this._isString(title)) {
+      // if title is specified and is a string then use it
+      computedTitle = title;
+    } else {
+      // otherwise use label if it is a string;
+      // label can also be an element, use empty string in this case
+      computedTitle = this._isString(label) ? label : '';
+    }
+
     const dataTest = dataTests({
       'ring-list-item': (restProps['data-test'] || '').indexOf('ring-list-item') === -1,
       'ring-list-item-action': !disabled,
@@ -161,7 +174,7 @@ export default class ListItem extends PureComponent {
 
           <span
             className={styles.label}
-            title={labelIsString ? label : ''}
+            title={computedTitle}
             data-test="ring-list-item-label"
           >{label}</span>
 
