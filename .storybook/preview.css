@@ -1,6 +1,10 @@
 @import "../components/global/variables.css";
 
 body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--ring-unit);
+
   color: var(--ring-text-color);
 
   font-family: var(--ring-font-family);
