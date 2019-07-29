@@ -15,7 +15,7 @@
   "main": "components/index.js",
   "lint-staged": {
     "*.js": [
-      "npm run lint:js --fix --",
+      "npm run lint:js -- --fix",
       "git add"
     ],
     "*.css": [
@@ -113,7 +113,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
-    "recompose": "^0.30.0",
     "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0",
     "storage-mock": "^1.0.3",
@@ -171,6 +170,7 @@
     "react-sortable-hoc": "^1.9.1",
     "react-virtualized": "^9.21.1",
     "react-waypoint": "^9.0.2",
+    "recompose": "^0.30.0",
     "remark-breaks": "^1.0.3",
     "sass": "^1.22.7",
     "sass-loader": "^7.1.0",

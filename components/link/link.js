@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {pure} from 'recompose';
 
 import memoize from '../global/memoize';
 import dataTests from '../global/data-tests';
@@ -19,10 +20,10 @@ export function setCompatibilityMode(isEnabled) {
 }
 
 const makeWrapText = memoize(innerClassName => {
-  const WrapText = ({className, children}) => {
+  const WrapText = pure(({className, children}) => {
     const classes = classNames(styles.inner, className, innerClassName);
     return <span className={classes}>{children}</span>;
-  };
+  });
 
   WrapText.propTypes = {
     className: PropTypes.string,
