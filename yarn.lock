@@ -1364,10 +1364,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.17":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.17.tgz#60aa98bf65ab5e63e5d0c4fb4387a3fb86848d00"
-  integrity sha512-PX/aLGUQCiHWhBDSjtQnlZzYRyZRxoPKRNntM7nnAqrk7sZaiR02SOloGEc42nAyGOUK12OLtjSVNJZMfOdpgg==
+"@jetbrains/generator-ring-ui@^2.0.18":
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.18.tgz#8bd2ae1aa86d8f02718c14341ac3705fe8cf71d1"
+  integrity sha512-LQ41ufAncCvdEDeNN8oQoYjdXTuhW3CNLMx2brPBb5FW/UtkWMAp65atSx9Qm2cOaFJtTSNl+kH0p2v4NL0VMw==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -13019,10 +13019,10 @@ sass-loader@^7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sass@^1.22.7:
-  version "1.22.7"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.7.tgz#5a1a77dc11aa659db4e782d238bf9f3d44a60546"
-  integrity sha512-ahREi0AdG7RTovSv14+yd1prQSfIvFcrDpOsth5EQf1+RM7SvOxsSttzNQaFmK1aa/k/3vyYwlYF5l0Xl+6c+g==
+sass@^1.22.9:
+  version "1.22.9"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.9.tgz#41a2ed6038027f58be2bd5041293452a29c2cb84"
+  integrity sha512-FzU1X2V8DlnqabrL4u7OBwD2vcOzNMongEJEx3xMEhWY/v26FFR3aG0hyeu2T965sfR0E9ufJwmG+Qjz78vFPQ==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
