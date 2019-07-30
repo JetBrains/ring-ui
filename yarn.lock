@@ -1364,10 +1364,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.17":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.17.tgz#60aa98bf65ab5e63e5d0c4fb4387a3fb86848d00"
-  integrity sha512-PX/aLGUQCiHWhBDSjtQnlZzYRyZRxoPKRNntM7nnAqrk7sZaiR02SOloGEc42nAyGOUK12OLtjSVNJZMfOdpgg==
+"@jetbrains/generator-ring-ui@^2.0.18":
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.18.tgz#8bd2ae1aa86d8f02718c14341ac3705fe8cf71d1"
+  integrity sha512-LQ41ufAncCvdEDeNN8oQoYjdXTuhW3CNLMx2brPBb5FW/UtkWMAp65atSx9Qm2cOaFJtTSNl+kH0p2v4NL0VMw==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -5750,10 +5750,10 @@ electron-to-chromium@^1.3.188:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.188.tgz#e28e1afe4bb229989e280bfd3b395c7ec03c8b7a"
   integrity sha512-tEQcughYIMj8WDMc59EGEtNxdGgwal/oLLTDw+NEqJRJwGflQvH3aiyiexrWeZOETP4/ko78PVr6gwNhdozvuQ==
 
-electron@^5.0.8:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-5.0.8.tgz#b240726ce9e3510d3af30a981486c9850462c718"
-  integrity sha512-wkUVE2GaYCsqQTsISSHWkIkcdpwLwZ1jhzAXSFFoSzsTgugmzhX60rJjIccotUmZ0iPzw+u4ahfcaJ0eslrPNQ==
+electron@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-6.0.0.tgz#03712d461ac73cdf920b2336d6560d6c6b7f19cc"
+  integrity sha512-JVHj0dYtvVFrzVk1TgvrdXJSyLpdvlWNLhtG8ItYZsyg9XbCOQ9OoPfgLm04FjMzKMzEl4YIN0PfGC02MTx3PQ==
   dependencies:
     "@types/node" "^10.12.18"
     electron-download "^4.1.0"
