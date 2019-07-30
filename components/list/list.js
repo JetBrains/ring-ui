@@ -6,10 +6,10 @@ import 'dom4';
 import React, {Component, cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import VirtualizedList from 'react-virtualized/dist/commonjs/List';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import WindowScroller from 'react-virtualized/dist/commonjs/WindowScroller';
-import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/commonjs/CellMeasurer';
+import VirtualizedList from 'react-virtualized/dist/es/List';
+import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
+import WindowScroller from 'react-virtualized/dist/es/WindowScroller';
+import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
 
 import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';

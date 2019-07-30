@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import VirtualizedList from 'react-virtualized/dist/commonjs/List';
+import VirtualizedList from 'react-virtualized/dist/es/List';
 
 import getUID from '../global/get-uid';
 import Icon, {CheckmarkIcon} from '../icon';
