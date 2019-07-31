@@ -152,7 +152,7 @@
     "extricate-loader": "^3.0.0",
     "file-loader": "^4.1.0",
     "focus-trap": "^5.0.2",
-    "highlight.js": "^9.15.8",
+    "highlight.js": "^9.15.9",
     "html-loader": "^0.5.5",
     "imports-loader": "^0.8.0",
     "interpolate-loader": "^2.0.0",
