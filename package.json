@@ -75,7 +75,7 @@
     "@storybook/core": "^5.1.9",
     "@storybook/core-events": "^5.1.9",
     "@storybook/html": "^5.1.9",
-    "@storybook/theming": "^5.1.9",
+    "@storybook/theming": "^5.1.10",
     "angular": "^1.7.8",
     "angular-mocks": "^1.7.8",
     "angular-route": "^1.7.8",
