@@ -20,7 +20,7 @@ export function setCompatibilityMode(isEnabled) {
 }
 
 const makeWrapText = memoize(innerClassName => {
-  const WrapText = pure(({className, children}) => {
+  const WrapText = pure(function WrapText({className, children}) {
     const classes = classNames(styles.inner, className, innerClassName);
     return <span className={classes}>{children}</span>;
   });
