@@ -2266,18 +2266,18 @@
     react-lifecycles-compat "^3.0.4"
     react-select "^2.2.0"
 
-"@storybook/addon-notes@^5.1.9":
-  version "5.1.9"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-notes/-/addon-notes-5.1.9.tgz#7a19373589b4280b9a10a107a0357e63d2d56f5c"
-  integrity sha512-UE+/RNysKRo2ZqCaqllwwV59x2S1laZjF4Netcm0nf9dKNcnqOoSHlTs0t4m8WpmfBQKAde4p+8fJGP2bCM+8A==
+"@storybook/addon-notes@^5.1.10":
+  version "5.1.10"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-notes/-/addon-notes-5.1.10.tgz#92609d64401b962c5eaea0b5235474daa59a0d3f"
+  integrity sha512-S2I9W7n8xQKuJFxk3dF1RO1o648L+yX/JHR9j9rMHbre+5LuZ/Bev5WOIhHHthKllPqy1/Wxe9ECsGR7L4W2CQ==
   dependencies:
-    "@storybook/addons" "5.1.9"
-    "@storybook/api" "5.1.9"
-    "@storybook/client-logger" "5.1.9"
-    "@storybook/components" "5.1.9"
-    "@storybook/core-events" "5.1.9"
-    "@storybook/router" "5.1.9"
-    "@storybook/theming" "5.1.9"
+    "@storybook/addons" "5.1.10"
+    "@storybook/api" "5.1.10"
+    "@storybook/client-logger" "5.1.10"
+    "@storybook/components" "5.1.10"
+    "@storybook/core-events" "5.1.10"
+    "@storybook/router" "5.1.10"
+    "@storybook/theming" "5.1.10"
     core-js "^3.0.1"
     global "^4.3.2"
     markdown-to-jsx "^6.9.3"
@@ -9624,15 +9624,7 @@ markdown-table@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/markdown-table/-/markdown-table-1.1.2.tgz#c78db948fa879903a41bce522e3b96f801c63786"
 
-markdown-to-jsx@^6.9.1:
-  version "6.9.4"
-  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-6.9.4.tgz#ed1e6925e643f7a0ee2fed90f28d16b4402aad09"
-  integrity sha512-Fvx2ZhiknGmcLsWVjIq6MmiN9gcCot8w+jzwN2mLXZcQsJGRN3Zes5Sp5M9YNIzUy/sDyuOTjimFdtAcvvmAPQ==
-  dependencies:
-    prop-types "^15.6.2"
-    unquote "^1.1.0"
-
-markdown-to-jsx@^6.9.3:
+markdown-to-jsx@^6.9.1, markdown-to-jsx@^6.9.3:
   version "6.10.2"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-6.10.2.tgz#644f602b81d088f10aef1c3674874876146cf38b"
   integrity sha512-eDCsRobOkbQ4PqCphrxNi/U8geA8DGf52dMP4BrrYsVFyQ2ILFnXIB5sRcIxnRK2nPl8k5hUYdRNRXLlQNYLYg==
