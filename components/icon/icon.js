@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import InlineSVG from 'svg-inline-react';
 import deprecate from 'util-deprecate';
+import {pure} from 'recompose';
 
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
@@ -17,6 +18,8 @@ const warnSize = deprecate(
 
 We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
 );
+
+const PureInlineSVG = pure(InlineSVG);
 
 export default class Icon extends PureComponent {
   static Color = Color;
@@ -99,7 +102,7 @@ export default class Icon extends PureComponent {
         {...restProps}
         className={classes}
       >
-        <InlineSVG
+        <PureInlineSVG
           raw
           src={iconSrc}
           className={glyphClasses}
