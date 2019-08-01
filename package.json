@@ -72,7 +72,7 @@
     "@storybook/addon-notes": "^5.1.10",
     "@storybook/addon-storysource": "^5.1.10",
     "@storybook/addons": "^5.1.9",
-    "@storybook/core": "^5.1.9",
+    "@storybook/core": "^5.1.10",
     "@storybook/core-events": "^5.1.9",
     "@storybook/html": "^5.1.9",
     "@storybook/theming": "^5.1.9",
