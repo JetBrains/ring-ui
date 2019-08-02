@@ -2,8 +2,7 @@
 
 body {
   box-sizing: border-box;
-  margin: 0;
-  padding: var(--ring-unit);
+  height: calc(100% - 16px);
 
   color: var(--ring-text-color);
 
