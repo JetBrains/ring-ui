@@ -53,8 +53,7 @@ module.exports = {
         maxDuration
       }
     },
-    // TODO enable when https://github.com/storybookjs/storybook/pull/7510 gets merged and released
-    /*ie: {
+    ie: {
       testsPerSession: 20,
       desiredCapabilities: {
         browserName: 'internet explorer',
@@ -62,7 +61,7 @@ module.exports = {
         platform: WIN10,
         maxDuration
       }
-    },*/
+    },
     edge: {
       tolerance: RELAXED_TOLERANCE,
       antialiasingTolerance: RELAXED_TOLERANCE,
