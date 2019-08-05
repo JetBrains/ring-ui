@@ -501,7 +501,7 @@ export default class List extends Component {
   _deprecatedGenerateKeyFromContent(itemProps) {
     const identificator = itemProps.label || itemProps.description;
     const isString = typeof identificator === 'string' || identificator instanceof String;
-    if (!isString) {
+    if (identificator && !isString) {
       warnEmptyKey();
       `${itemProps.rgItemType}_${JSON.stringify(identificator)}`;
     }

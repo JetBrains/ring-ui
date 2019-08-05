@@ -250,7 +250,7 @@ describe('List', () => {
     it('should render separator', () => {
       const instance = shallowList({
         data: [
-          {rgItemType: List.ListProps.Type.SEPARATOR}
+          {rgItemType: List.ListProps.Type.SEPARATOR, label: 'test'}
         ]
       }).instance();
 
@@ -371,6 +371,7 @@ describe('List', () => {
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
+            key: 1,
             rgItemType: List.ListProps.Type.CUSTOM
           }
         ]
@@ -386,6 +387,7 @@ describe('List', () => {
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
+            key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
             onClick
           }
@@ -402,6 +404,7 @@ describe('List', () => {
         data: [
           {
             template: React.createElement('span', {}, 'custom item'),
+            key: 1,
             rgItemType: List.ListProps.Type.CUSTOM,
             disabled: true
           }
