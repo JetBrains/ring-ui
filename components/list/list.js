@@ -10,6 +10,7 @@ import VirtualizedList from 'react-virtualized/dist/es/List';
 import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/es/WindowScroller';
 import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
+import deprecate from 'util-deprecate';
 
 import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
@@ -56,6 +57,11 @@ const Dimension = {
 const DEFAULT_ITEM_TYPE = Type.ITEM;
 
 function noop() {}
+
+const warnEmptyKey = deprecate(
+  () => {},
+  'No key passed for list item with non-string label. It is considered as a bad practice and has been deprecated, please provide a key.'
+);
 
 /**
  * @param {Type} listItemType
@@ -492,6 +498,16 @@ export default class List extends Component {
     return props.maxHeight - this.defaultItemHeight() - Dimension.INNER_PADDING;
   }
 
+  _deprecatedGenerateKeyFromContent(itemProps) {
+    const identificator = itemProps.label || itemProps.description;
+    const isString = typeof identificator === 'string' || identificator instanceof String;
+    if (!isString) {
+      warnEmptyKey();
+      `${itemProps.rgItemType}_${JSON.stringify(identificator)}`;
+    }
+    return `${itemProps.rgItemType}_${identificator}`;
+  }
+
   renderItem = ({index, style, isScrolling, parent, key}) => {
     let itemKey;
     let el;
@@ -518,9 +534,7 @@ export default class List extends Component {
         itemProps.rgItemType = Type.LINK;
       }
 
-      // Probably unique enough key
-      itemKey = key || itemProps.key ||
-        `${itemProps.rgItemType}_${itemProps.label || itemProps.description}`;
+      itemKey = key || itemProps.key || this._deprecatedGenerateKeyFromContent(itemProps);
 
       itemProps.hover = (realIndex === this.state.activeIndex);
       itemProps.onMouseOver = this.hoverHandler(realIndex);
