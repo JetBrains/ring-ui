@@ -144,7 +144,7 @@
     "combokeys": "^3.0.1",
     "compile-code-loader": "^0.2.0",
     "conic-gradient": "^1.0.0",
-    "css-loader": "^3.1.0",
+    "css-loader": "^3.2.0",
     "deep-equal": "^1.0.1",
     "dom4": "^1.8.5",
     "element-resize-detector": "^1.2.0",
