@@ -27,6 +27,8 @@ export default class AnalyticsGAPlugin {
     const key = gaId || 'UA-57284711-1';
     /* global ga */
     ga('create', key, (!gaId ? {cookieDomain: 'none'} : {}));
+    ga('set', 'anonymizeIp', true);
+    ga('set', 'allowAdFeatures', false);
   }
 
   trackEvent(category, action) {

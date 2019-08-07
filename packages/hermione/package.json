@@ -1,6 +1,6 @@
 {
   "name": "@ring-ui/hermione",
-  "version": "2.0.13",
+  "version": "2.0.16",
   "description": "Hermione tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -18,12 +18,16 @@
     "commander": "^2.20.0",
     "filenamify": "^4.1.0",
     "forever": "^1.0.0",
-    "hermione": "^2.10.1",
-    "html-reporter": "^4.9.0",
+    "hermione": "^2.12.3",
+    "html-reporter": "^4.9.6",
     "http-server": "^0.11.1",
     "ip": "^1.1.5",
     "jsdom": "^15.1.1",
     "kill-port": "^1.5.1",
     "sauce-connect-launcher": "^1.2.7"
+  },
+  "resolutions": {
+    "hermione/**/lodash": "^4.17.13",
+    "hermione/mocha": "^5.2.0"
   }
 }

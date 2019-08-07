@@ -25,11 +25,11 @@ storiesOf('Components|List', module).
   addDecorator(reactDecorator()).
   add('basic', () => {
     const listData = [
-      {label: 'One', href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
-      {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Active as default', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Four', rgItemType: List.ListProps.Type.ITEM},
-      {label: 'Five', rgItemType: List.ListProps.Type.ITEM}
+      {label: 'One', key: 1, href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
+      {label: <b>foo</b>, key: 2, rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Active as default', key: 3, rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Four', key: 4, rgItemType: List.ListProps.Type.ITEM},
+      {label: 'Five', key: 5, rgItemType: List.ListProps.Type.ITEM}
     ];
 
     return (
