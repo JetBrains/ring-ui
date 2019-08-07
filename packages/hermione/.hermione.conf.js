@@ -48,7 +48,7 @@ module.exports = {
       resetCursor: false, // Prevents SauceLabs failure on performing "moveto" command
       desiredCapabilities: {
         browserName: 'firefox',
-        version: '66.0',
+        version: '68.0',
         platform: WIN10,
         maxDuration
       }
