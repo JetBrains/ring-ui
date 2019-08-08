@@ -16,7 +16,6 @@ let renderApp = () => {
 };
 
 /* Hot Replacement support, won't be bundled to production */
-/* eslint-disable modules/no-exports-typo */
 if (module.hot) {
   const renderAppHot = renderApp;
   const renderError = error => {
