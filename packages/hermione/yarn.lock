@@ -2286,10 +2286,10 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-reporter@^4.9.6:
-  version "4.9.6"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.9.6.tgz#7b0b22d6c30d7d34706f934703300b71030632c3"
-  integrity sha512-xhR1ixSct+aAUG8GzN5BHHNhbj/hppiRHMb72Odz/PfFL9ozANL9sLxDxZCvEkw4Nd3E4M7jiyJS25z5/3XqDg==
+html-reporter@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.11.1.tgz#577631303fdd603984d5976e0a22975102c0e2a9"
+  integrity sha512-kLlYwgimfh3IXH42/npyzO6/RDRj0SEbv0BH24rDYpqPxP+23EvcBxDieEu+TAbYrOM+y4A0Exs86pKkUSfflQ==
   dependencies:
     bluebird "^3.5.3"
     body-parser "^1.18.2"
@@ -2308,7 +2308,7 @@ html-reporter@^4.9.6:
     semver "^5.5.0"
     shelljs "^0.8.1"
     signal-exit "^3.0.2"
-    temp "^0.8.3"
+    tmp "^0.1.0"
     urijs "^1.18.12"
 
 htmlescape@^1.1.0:
@@ -4121,7 +4121,7 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2.x.x, rimraf@^2.5.4, rimraf@^2.6.1:
+rimraf@2.x.x, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
   integrity sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
@@ -4660,6 +4660,13 @@ tmp@^0.0.33:
   integrity sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==
   dependencies:
     os-tmpdir "~1.0.2"
+
+tmp@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.1.0.tgz#ee434a4e22543082e294ba6201dcc6eafefa2877"
+  integrity sha512-J7Z2K08jbGcdA1kkQpJSqLF6T0tdQqpR2pnSUXsIchbPdTI9v3e85cLW0d6WDhwuAleOV71j2xWs8qMPfK7nKw==
+  dependencies:
+    rimraf "^2.6.3"
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"
