@@ -38,7 +38,7 @@
     "postcss-preset-env": "^6.7.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.9.0",
     "redbox-react": "^1.6.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
