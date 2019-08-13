@@ -337,7 +337,7 @@ export default class QueryAssist extends Component {
     if (
       query === this.getQuery() &&
       (caret === this.immediateState.caret ||
-      this.immediateState.caret === undefined)
+        this.immediateState.caret === undefined)
     ) {
       // Do not setState on unmounted component
       if (!this.node) {
@@ -807,7 +807,8 @@ export default class QueryAssist extends Component {
           </span>
         )}
         {renderUnderline && <div className={styles.focusUnderline}/>}
-        {actions && <div className={styles.actions}>{actions}</div>}
+        {actions &&
+        <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>}
         <PopupMenu
           hidden={!this.state.showPopup}
           onCloseAttempt={this.closePopup}
