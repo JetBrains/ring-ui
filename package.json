@@ -73,7 +73,7 @@
     "@storybook/addons": "^5.1.11",
     "@storybook/core": "^5.1.10",
     "@storybook/core-events": "^5.1.9",
-    "@storybook/html": "^5.1.9",
+    "@storybook/html": "^5.1.11",
     "@storybook/theming": "^5.1.9",
     "angular": "^1.7.8",
     "angular-mocks": "^1.7.8",
