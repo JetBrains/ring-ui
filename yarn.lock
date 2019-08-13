@@ -2000,15 +2000,15 @@
     prop-types "^15.7.2"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-storysource@^5.1.10":
-  version "5.1.10"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-5.1.10.tgz#4698f6c735a41a065e9225264130cda4eda9f5cd"
-  integrity sha512-Er/29GVqonxsfX1hSNzq0bja1xkdxPAZoxIvnHh86bwhZAeQlo/CwXOsLeZoApeeez14WrvgRn/E+pg93TzsNg==
+"@storybook/addon-storysource@^5.1.11":
+  version "5.1.11"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-storysource/-/addon-storysource-5.1.11.tgz#d842ffd8de67dff1eb04c8b5a368f3796c1e6a12"
+  integrity sha512-/SgxwxLHC+q6zXDBtx38yZ8ySavMtPf+rxR2X1XTT5rZeSs9yaVx8dQLzqvFZVZG72Jz0I03h5CdWn7TfKhmbQ==
   dependencies:
-    "@storybook/addons" "5.1.10"
-    "@storybook/components" "5.1.10"
-    "@storybook/router" "5.1.10"
-    "@storybook/theming" "5.1.10"
+    "@storybook/addons" "5.1.11"
+    "@storybook/components" "5.1.11"
+    "@storybook/router" "5.1.11"
+    "@storybook/theming" "5.1.11"
     core-js "^3.0.1"
     estraverse "^4.2.0"
     loader-utils "^1.2.3"
