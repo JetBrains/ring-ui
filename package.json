@@ -23,6 +23,7 @@
       "git add"
     ]
   },
+  "sideEffects": false,
   "config": {
     "clientId": "81a0bffb-6d0f-4a38-b93a-0a4d1e567698",
     "hub": "https://hub.jetbrains.com",
