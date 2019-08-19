@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@gemini-testing/commander/-/commander-2.15.2.tgz#9c2447a813454ade82dd13b907a06244e01758b5"
   integrity sha512-hjTona7ySenkm+qKGAJ2uEAa1Y/VFZ14ieMWUwlb7MGoBPL3VVoTwEL7bCQiOvbDc2ld5LnDmzzJYcWAw9psbg==
 
-"@gemini-testing/webdriverio@4.15.4":
-  version "4.15.4"
-  resolved "https://registry.yarnpkg.com/@gemini-testing/webdriverio/-/webdriverio-4.15.4.tgz#6de5976e4d586da94bf8652099d8d974f4ec0481"
-  integrity sha512-kHAbMhjv1UOLD6/Wxwi6aO8uiuzula129cvdKwisx7+M9n8UkjxSrvIIjGCqdM7pO5VQ/ocw054efepqFrT++Q==
+"@gemini-testing/webdriverio@4.16.1":
+  version "4.16.1"
+  resolved "https://registry.yarnpkg.com/@gemini-testing/webdriverio/-/webdriverio-4.16.1.tgz#1c55e228b519ca0a5013a93c3fccd60840dded1d"
+  integrity sha512-tZBl8RBMwPnw6OKtg+TaCDBUtpxkjlfkMAaDJ0xL/jGlQA6pIWwn5/L21wKuekybXqOpVeuVEqgFfW7hjBMN8g==
   dependencies:
     archiver "~2.1.0"
     babel-runtime "^6.26.0"
@@ -2246,13 +2246,13 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^2.12.4:
-  version "2.12.4"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.12.4.tgz#ac89940042e603438d885a83088ea573ba3123a9"
-  integrity sha512-ruq42Fs7WVMDZ9wGmr20+x5LNRmYRAyM3NwKb7PmaRVAtHiSoQd3ky9bmyZB9MoRRDxyI3wV/pjKos5TIF1Aow==
+hermione@^2.12.5:
+  version "2.12.5"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-2.12.5.tgz#043ae15e433304060d433c1849f228021cbb73e6"
+  integrity sha512-+izT4Wa2aTbF1Pu/ktnKZxCaTnw27VKU65dO3oNm7Chok0WIoW1Rj4M6Jp/n7IIUX8B93HJwfmH0MTrEBtCqfw==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
-    "@gemini-testing/webdriverio" "4.15.4"
+    "@gemini-testing/webdriverio" "4.16.1"
     bluebird "^3.5.1"
     bluebird-q "^2.1.1"
     chalk "^1.1.1"
