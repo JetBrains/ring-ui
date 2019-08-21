@@ -172,7 +172,7 @@
     "recompose": "^0.30.0",
     "remark-breaks": "^1.0.3",
     "sass": "^1.22.10",
-    "sass-loader": "^7.2.0",
+    "sass-loader": "^7.3.1",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
     "sniffr": "^1.2.0",
