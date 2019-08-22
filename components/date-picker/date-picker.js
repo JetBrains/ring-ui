@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import rerenderHOC from '../global/rerender-hoc';
 
 import Popup from '../popup/popup';
-import Dropdown from '../dropdown/dropdown';
+import Dropdown, {Anchor} from '../dropdown/dropdown';
 
 import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
@@ -31,7 +31,8 @@ export default class DatePicker extends PureComponent {
     datePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func,
-    dropdownProps: PropTypes.object
+    dropdownProps: PropTypes.object,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -66,29 +67,16 @@ export default class DatePicker extends PureComponent {
     this.popup._onCloseAttempt();
   };
 
-  render() {
-    const {
-      className,
-      popupClassName,
-      displayMonthFormat,
-      displayDayFormat,
-      datePlaceholder,
-      rangePlaceholder,
-      clear,
-      dropdownProps,
-      ...datePopupProps
-    } = this.props;
-
+  getAnchorText = () => {
     const {
       range,
       displayFormat,
-      inputFormat
-    } = datePopupProps;
-
-    const classes = classNames(
-      styles.datePicker,
-      className
-    );
+      inputFormat,
+      displayMonthFormat,
+      displayDayFormat,
+      datePlaceholder,
+      rangePlaceholder
+    } = this.props;
 
     const parse = text => parseDate(
       text,
@@ -118,6 +106,29 @@ export default class DatePicker extends PureComponent {
     } else {
       text = `${to.format(displayFormat)}`;
     }
+
+    return text;
+  };
+
+  render() {
+    const text = this.getAnchorText();
+
+    if (this.props.disabled) {
+      return <Anchor disabled>{text}</Anchor>;
+    }
+
+    const {
+      className,
+      popupClassName,
+      clear,
+      dropdownProps,
+      ...datePopupProps
+    } = this.props;
+
+    const classes = classNames(
+      styles.datePicker,
+      className
+    );
 
     return (
       <Dropdown
