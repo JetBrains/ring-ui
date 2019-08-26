@@ -1079,10 +1079,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.19":
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.19.tgz#363cf54a127445616fac73f7791a97ed37416d36"
-  integrity sha512-H7KE0bg9dI5NY9F1ZXu8Ai6AmcXYxA1ndO3zGunt4i7o+T/xqSZBxOQD4UelxAs315AjVzKiBCX6R5WlTxTdyQ==
+"@jetbrains/generator-ring-ui@^2.0.20":
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.20.tgz#30732aa05bffac0c16e1f72cd6d4da9adfb8fc98"
+  integrity sha512-Hckq+LGpnw7VwFiselpTJREFmjhNP90auQVuESMSkOlXEnUKV3kZHcASTWo0zhaC5ihj+40uFs+u3KX86wm7fA==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -8713,10 +8713,10 @@ linear-layout-vector@0.0.1:
   resolved "https://registry.yarnpkg.com/linear-layout-vector/-/linear-layout-vector-0.0.1.tgz#398114d7303b6ecc7fd6b273af7b8401d8ba9c70"
   integrity sha1-OYEU1zA7bsx/1rJzr3uEAdi6nHA=
 
-lint-staged@^9.2.3:
-  version "9.2.3"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-9.2.3.tgz#a4ef2b7033f83e8dbc718556610e20e0098356c0"
-  integrity sha512-ovDmF0c0VJDTP0VmwLetJQ+lVGyNqOkTniwO9S0MOJxGxIExpSRTL56/ZmvXZ1tHNA53GBbXQbfS8RnNGRXFjg==
+lint-staged@^9.2.4:
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-9.2.4.tgz#7a35839c9c6103ec98eabf43e35657c209509345"
+  integrity sha512-RAt5ogbLRiKy9+T3dKbbPKP6tN2I9VjEtTXQFxdkauUdMjIBsS70ikwwSgsBR8xVVCUSX7sVDyWCyem5xB8YDw==
   dependencies:
     chalk "^2.4.2"
     commander "^2.20.0"
