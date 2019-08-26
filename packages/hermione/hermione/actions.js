@@ -11,6 +11,12 @@ module.exports = {
       `document.querySelector('${selector}').dispatchEvent(new MouseEvent('${eventname}'))`
     ),
   sendKeys: (browser, {selector, value}) => browser.addValue(selector, value),
+  scroll: (browser, {selector, x, y}) =>
+    browser.execute(
+      `var element = document.querySelector('${selector}');
+      ${y && `element.scrollTop += ${y};`}
+      ${x && `element.scrollLeft += ${x};`}`
+    ),
   setWindowSize: (browser, {width, height}) =>
     browser.setWindowSize(width, height),
   waitForElementToShow: (browser, {timeout, selector, hidden}) =>
