@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
-import {withKnobs, boolean} from '@storybook/addon-knobs';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
@@ -545,10 +544,41 @@ storiesOf('Components|Select', module).
         compact
         selected={dataset[selectedIndex]}
         data={dataset}
-        disableScrollToActive={boolean('Disable scroll to active item', false)}
       />
     );
-  }, {decorators: [withKnobs], hermione: {skip: true}}).
+  }, {hermione: {skip: true}}).
+
+  add('with a large dataset and disabled scroll to active item', () => {
+    const elementsNum = 100000;
+    const selectedIndex = elementsNum / 2;
+    const dataset = [...Array(elementsNum)].map(
+      (elem, idx) => ({
+        label: `element ${idx}`,
+        key: idx,
+        type: 'user'
+      })
+    );
+
+    return (
+      <Select
+        filter
+        compact
+        selected={dataset[selectedIndex]}
+        data={dataset}
+        disableScrollToActive
+      />
+    );
+  }, {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test~=ring-select]'},
+        {type: 'scroll', selector: '.ReactVirtualized__List', y: 1000},
+        {type: 'click', selector: ':nth-child(2) > [data-test~=ring-list-item-action]'},
+        {type: 'click', selector: '[data-test~=ring-select]'},
+        {type: 'capture', name: 'selectWithPopup', selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']}
+      ]
+    }
+  }).
 
   add('multiple with a description', () => {
     const deFlag = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';

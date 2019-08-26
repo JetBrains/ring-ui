@@ -203,7 +203,7 @@ export default class SelectPopup extends Component {
   onClickHandler = () => this.filter.focus();
 
   getFilter() {
-    if ((this.props.filter || this.props.tags) && !this.props.hidden) {
+    if (this.props.filter || this.props.tags) {
       return (
         <div
           className={styles.filterWrapper}
@@ -261,7 +261,7 @@ export default class SelectPopup extends Component {
   }
 
   getFilterWithTags() {
-    if (this.props.tags && !this.props.hidden) {
+    if (this.props.tags) {
       const classes = classNames([
         styles.filterWithTags,
         {
@@ -429,8 +429,8 @@ export default class SelectPopup extends Component {
               />
             )
           }
-
-          {this.getFilterWithTags()}
+          {/* Add empty div to prevent the change of List position in DOM*/}
+          {this.props.hidden ? <div/> : this.getFilterWithTags()}
           {this.getList()}
           {this.getBottomLine()}
           {this.props.toolbar}
