@@ -31,6 +31,10 @@
     box-shadow: button-shadow var(--ring-border-hover-color);
   }
 
+  &:focus {
+    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
+  }
+
   &:active,
   &.active {
     background-color: var(--ring-selected-background-color);
@@ -93,17 +97,21 @@
 .dark {
   color: var(--ring-dark-secondary-color);
   background-color: var(--ring-navigation-background-color);
-  box-shadow: button-shadow var(--ring-dark-line-color);
+  box-shadow: button-shadow var(--ring-dark-borders-color);
 
   &:hover {
-    box-shadow: button-shadow var(--ring-main-color);
+    box-shadow: button-shadow var(--ring-dark-border-hover-color);
+  }
+
+  &:focus {
+    box-shadow: button-shadow var(--ring-dark-border-hover-color), 0 0 0 1px var(--ring-dark-border-hover-color);
   }
 
   &:active,
   &.active {
     color: var(--ring-dark-text-color);
     background-color: var(--ring-button-dark-active-color);
-    box-shadow: button-shadow var(--ring-main-color);
+    box-shadow: button-shadow var(--ring-dark-border-hover-color);
   }
 
   &[disabled] {
@@ -193,8 +201,6 @@
 
   &:focus {
     transition: none;
-
-    box-shadow: button-shadow var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
   }
 
   &[disabled] {
