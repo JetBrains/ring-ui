@@ -124,7 +124,7 @@
   color: var(--ring-text-color);
 
   border: none;
-  border-bottom: 1px solid var(--ring-line-color);
+  border-bottom: 1px solid var(--ring-borders-color);
   outline: none;
   background: transparent;
 

@@ -36,7 +36,7 @@
   padding-right: unit;
   padding-left: calc(unit * 5.5);
 
-  border-bottom: 1px solid var(--ring-line-color);
+  border-bottom: 1px solid var(--ring-borders-color);
 
   @nest [dir=rtl] & {
     padding-right: calc(unit * 5.5);

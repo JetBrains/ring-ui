@@ -174,11 +174,11 @@ textarea.input {
   border-bottom-style: solid;
 
   @nest .light & {
-    border-color: var(--ring-line-color);
+    border-color: var(--ring-borders-color);
   }
 
   @nest .dark & {
-    border-color: var(--ring-dark-line-color);
+    border-color: var(--ring-dark-borders-color);
   }
 }
 

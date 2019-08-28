@@ -29,10 +29,13 @@ export default {
   '--ring-popup-background-color': '#111314',
   '--ring-sidebar-background-color': '#28343d',
   '--ring-selected-background-color': '#062640',
-  '--ring-hover-background-color': '#062640',
+  '--ring-hover-background-color': '#0b1a26',
   '--ring-message-background-color': 'var(--ring-popup-background-color)',
   '--ring-navigation-background-color': '#111314',
   '--ring-tag-background-color': '#3e4d59',
+  '--ring-removed-background-color': '#8f5247',
+  '--ring-warning-background-color': '#593d01',
+  '--ring-added-background-color': '#294436',
 
   /* Code */
   '--ring-code-background-color': '#2b2b2b',
