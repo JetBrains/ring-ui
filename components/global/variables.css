@@ -5,13 +5,15 @@
 
   /* Element */
   --ring-line-color: #dfe5eb;
-  --ring-dark-line-color: #263b4c;
+  --ring-dark-line-color: #475159;
   --ring-borders-color: #b8d1e5;
+  --ring-dark-borders-color: #406380;
   --ring-icon-color: var(--ring-borders-color);
   --ring-icon-secondary-color: #999;
   --ring-border-disabled-color: #dbdbdb;
   --ring-icon-disabled-color: var(--ring-border-disabled-color);
   --ring-border-hover-color: #80c6ff;
+  --ring-dark-border-hover-color: #70b1e6;
   --ring-icon-hover-color: var(--ring-border-hover-color);
   --ring-main-color: #008eff;
   --ring-main-hover-color: #007ee5;
@@ -31,7 +33,7 @@
   --ring-link-hover-color: #ff008c;
   --ring-error-color: #c22731;
   --ring-warning-color: #cc8b00;
-  --ring-success-color: #1c8c32;
+  --ring-success-color: #1b8833;
   --ring-text-color: #1f2326;
   --ring-dark-text-color: #fff;
   --ring-heading-color: var(--ring-text-color);
@@ -46,11 +48,14 @@
   --ring-popup-background-color: #fff;
   --ring-sidebar-background-color: #f7f9fa;
   --ring-selected-background-color: #d4edff;
-  --ring-hover-background-color: #f2f9ff;
+  --ring-hover-background-color: #ebf6ff;
   --ring-dark-selected-background-color: #002a4d;
   --ring-message-background-color: #111314;
   --ring-navigation-background-color: #000;
   --ring-tag-background-color: #e6ecf2;
+  --ring-removed-background-color: #ffd5cb;
+  --ring-warning-background-color: #faeccd;
+  --ring-added-background-color: #bce8bb;
 
   /* Code */
   --ring-code-background-color: var(--ring-content-background-color);
