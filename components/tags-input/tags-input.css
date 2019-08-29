@@ -64,8 +64,7 @@
 .underline {
   height: 1px;
 
-  border-color: var(--ring-line-color);
-  border-bottom: var(--ring-line-color) 1px solid;
+  border-bottom: var(--ring-borders-color) 1px solid;
 }
 
 .focusUnderline {
