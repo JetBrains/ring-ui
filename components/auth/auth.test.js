@@ -619,6 +619,23 @@ describe('Auth', () => {
         calledWithMatch('users/me', 'token', matchParams);
       user.should.deep.equal({name: 'APIuser'});
     });
+
+    it('should not get user from API if cached', async () => {
+      const user = await auth.getUser('token');
+      HTTP.prototype.authorizedFetch.should.have.been.calledOnce;
+      const matchParams = sinon.match({
+        query: {
+          fields: 'guest,id,name,login,profile/avatar/url'
+        }
+      });
+      HTTP.prototype.authorizedFetch.should.have.been.
+        calledWithMatch('users/me', 'token', matchParams);
+      const fromCache = await auth.getUser('token');
+      user.should.deep.equal(fromCache);
+      HTTP.prototype.authorizedFetch.should.have.been.
+        calledTwice;
+    });
+
   });
 
   describe('login', () => {
