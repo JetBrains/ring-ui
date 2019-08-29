@@ -71,7 +71,6 @@ storiesOf('Components|Dropdown', module).
     >
       <Popup>
         <div>Outer popup</div>
-        <Popup>Inner popup</Popup>
       </Popup>
     </Dropdown>
   )).
