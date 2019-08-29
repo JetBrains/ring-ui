@@ -257,6 +257,13 @@ export default function position(attrs) {
       styles = sortedByIncreasingOverflow[0].styles;
       chosenDirection = sortedByIncreasingOverflow[0].direction;
     }
+
+    // because of the anchor negative margin top and left also may become negative
+    ['left', 'top'].forEach(key => {
+      if (styles[key] < 0) {
+        styles[key] = 0;
+      }
+    });
   }
 
   if (maxHeight === MaxHeight.SCREEN || maxHeight === 'screen') {
