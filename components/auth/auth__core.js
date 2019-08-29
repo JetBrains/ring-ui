@@ -120,7 +120,8 @@ export default class Auth {
     this._storage = new AuthStorage({
       messagePrefix: `${clientId}-message-`,
       stateKeyPrefix: `${clientId}-states-`,
-      tokenKey: `${clientId}-token`
+      tokenKey: `${clientId}-token`,
+      userKey: `${clientId}-user-`
     });
 
     this._domainStorage = new AuthStorage({messagePrefix: 'domain-message-'});
@@ -178,6 +179,8 @@ export default class Auth {
     this.addListener(USER_CHANGE_POSTPONED_EVENT, () => this._setPostponed(true));
     this.addListener(USER_CHANGED_EVENT, () => this._setPostponed(false));
     this.addListener(USER_CHANGED_EVENT, user => user && this._updateDomainUser(user.id));
+    this.addListener(LOGOUT_EVENT, () => this._storage.wipeCachedCurrentUser());
+    this.addListener(USER_CHANGED_EVENT, () => this._storage.onUserChanged());
 
     this._createInitDeferred();
 
@@ -417,7 +420,9 @@ export default class Auth {
    * @return {Promise.<object>}
    */
   getUser(accessToken) {
-    return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    return this._storage.getCachedUser(
+      () => this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
+    );
   }
 
   /**
@@ -444,6 +449,7 @@ export default class Auth {
   async updateUser() {
     this._setPostponed(false);
     const accessToken = await this.requestToken();
+    this._storage.wipeCachedCurrentUser();
     const user = await this.getUser(accessToken);
     this.user = user;
     this.listeners.trigger(USER_CHANGED_EVENT, user);
