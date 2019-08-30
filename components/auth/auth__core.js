@@ -25,6 +25,7 @@ export const USER_CHANGE_POSTPONED_EVENT = 'changePostponed';
 function noop() {}
 
 const DEFAULT_CONFIG = {
+  cacheCurrentUser: false,
   reloadOnUserChange: true,
   embeddedLogin: false,
   EmbeddedLoginFlow: null,
@@ -179,8 +180,10 @@ export default class Auth {
     this.addListener(USER_CHANGE_POSTPONED_EVENT, () => this._setPostponed(true));
     this.addListener(USER_CHANGED_EVENT, () => this._setPostponed(false));
     this.addListener(USER_CHANGED_EVENT, user => user && this._updateDomainUser(user.id));
-    this.addListener(LOGOUT_EVENT, () => this._storage.wipeCachedCurrentUser());
-    this.addListener(USER_CHANGED_EVENT, () => this._storage.onUserChanged());
+    if (this.config.cacheCurrentUser) {
+      this.addListener(LOGOUT_EVENT, () => this._storage.wipeCachedCurrentUser());
+      this.addListener(USER_CHANGED_EVENT, () => this._storage.onUserChanged());
+    }
 
     this._createInitDeferred();
 
@@ -420,9 +423,13 @@ export default class Auth {
    * @return {Promise.<object>}
    */
   getUser(accessToken) {
-    return this._storage.getCachedUser(
-      () => this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
-    );
+    if (this.config.cacheCurrentUser) {
+      return this._storage.getCachedUser(
+        () => this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams)
+      );
+    } else {
+      return this.http.authorizedFetch(Auth.API_PROFILE_PATH, accessToken, this.config.userParams);
+    }
   }
 
   /**
