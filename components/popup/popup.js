@@ -32,7 +32,6 @@ const stop = e => e.stopPropagation();
  * @name Popup
  * @extends {ReactComponent}
  */
-// eslint-disable-next-line react/no-deprecated
 export default class Popup extends PureComponent {
   static PopupProps = {
     Directions,
@@ -132,7 +131,7 @@ export default class Popup extends PureComponent {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     const shortcuts = nextProps.shortcuts && !nextProps.hidden;
     if (this.state.shortcuts !== shortcuts) {
       this.setState({shortcuts});

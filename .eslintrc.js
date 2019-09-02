@@ -26,6 +26,9 @@ module.exports = {
         '**/.hermione.conf.js'
       ],
       peerDependencies: true
+    }],
+    camelcase: [error, {
+      allow: ['^UNSAFE_']
     }]
   },
   env: {
@@ -76,6 +79,11 @@ module.exports = {
       },
       globals: {
         sandbox: false
+      },
+      rules: {
+        'new-cap': [error, {
+          capIsNewExceptionPattern: '^.*\.UNSAFE_'
+        }]
       }
     },
     {

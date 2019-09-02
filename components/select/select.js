@@ -51,7 +51,6 @@ const getStyle = memoize(iconsLength => ({
  * @constructor
  * @extends {Component}
  */
-// eslint-disable-next-line react/no-deprecated
 export default class Select extends Component {
   static Type = Type;
   static Size = Size;
@@ -189,7 +188,7 @@ export default class Select extends Component {
     showPopup: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.updateState(this.props, true);
   }
 
@@ -197,7 +196,7 @@ export default class Select extends Component {
     this._rebuildMultipleMap(this.state.selected, this.props.multiple);
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.updateState(newProps);
   }
 

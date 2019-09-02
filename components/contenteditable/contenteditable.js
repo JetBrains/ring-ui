@@ -8,7 +8,6 @@ import {render} from 'react-dom';
 
 function noop() {}
 
-// eslint-disable-next-line react/no-deprecated
 export default class ContentEditable extends Component {
   /** @override */
   static propTypes = {
@@ -28,11 +27,11 @@ export default class ContentEditable extends Component {
 
   state = {__html: ''};
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.renderStatic(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.renderStatic(nextProps);
   }
 
