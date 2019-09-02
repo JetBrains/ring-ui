@@ -30,7 +30,6 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-// eslint-disable-next-line react/no-deprecated
 export default class SelectPopup extends Component {
   static defaultProps = {
     data: [],
@@ -65,7 +64,7 @@ export default class SelectPopup extends Component {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.hidden !== this.props.hidden) {
       this.setState({
         popupShortcuts: !nextProps.hidden,

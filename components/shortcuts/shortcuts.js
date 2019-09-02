@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import shortcuts from '../shortcuts/core';
 
-// eslint-disable-next-line react/no-deprecated
 export default class Shortcuts extends PureComponent {
   static propTypes = {
     map: PropTypes.object.isRequired,
@@ -23,7 +22,7 @@ export default class Shortcuts extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {disabled} = this.props;
     if (!disabled && nextProps.disabled) {
       this.turnShorcutsOff();

@@ -12,7 +12,6 @@ const {
 } = Table.propTypes;
 /* eslint-enable */
 
-// eslint-disable-next-line react/no-deprecated
 class SmartTable extends PureComponent {
   static propTypes = {
     onSelectionChange: PropTypes.func,
@@ -31,7 +30,7 @@ class SmartTable extends PureComponent {
     })
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {data, isItemSelectable} = nextProps;
     if (this.props.data !== data || this.props.isItemSelectable !== isItemSelectable) {
       const selection = new Selection({data, isItemSelectable});
