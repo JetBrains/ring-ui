@@ -11,7 +11,6 @@ import styles from './tag.css';
  * @name Tag
  */
 
-// eslint-disable-next-line react/no-deprecated
 export default class Tag extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func,
@@ -41,7 +40,7 @@ export default class Tag extends PureComponent {
     focused: false
   };
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.updateStateFromProps(props);
   }
 

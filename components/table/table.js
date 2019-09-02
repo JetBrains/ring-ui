@@ -59,7 +59,6 @@ const DraggableRows = sortableContainer(props => {
   );
 });
 
-// eslint-disable-next-line react/no-deprecated
 class Table extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -135,7 +134,7 @@ class Table extends PureComponent {
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data && !this.props.remoteSelection) {

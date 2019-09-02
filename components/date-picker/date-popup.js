@@ -15,7 +15,6 @@ import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
 
-// eslint-disable-next-line react/no-deprecated
 export default class DatePopup extends Component {
   static propTypes = {
     className: PropTypes.string,
@@ -41,7 +40,7 @@ export default class DatePopup extends Component {
     active: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {range, from, to} = this.props;
 
     if (!range) {
@@ -53,7 +52,7 @@ export default class DatePopup extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const name = this.state.active;
     if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
       this.setState({text: null});

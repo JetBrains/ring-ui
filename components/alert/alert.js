@@ -58,7 +58,6 @@ const TypeToIconColor = {
  * @name Alert
  * @extends {ReactComponent}
  */
-// eslint-disable-next-line react/no-deprecated
 export default class Alert extends PureComponent {
   static Type = Type;
 
@@ -112,7 +111,7 @@ export default class Alert extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (newProps.isClosing) {
       this._close();
     }

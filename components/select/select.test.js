@@ -240,33 +240,33 @@ describe('Select', () => {
 
 
     it('Should update shown data', () => {
-      instance.componentWillReceiveProps({data: []});
+      instance.UNSAFE_componentWillReceiveProps({data: []});
 
       instance.setState.should.be.calledWithMatch({shownData: []});
     });
 
     it('Should not update shown data if data is not passed', () => {
-      instance.componentWillReceiveProps({});
+      instance.UNSAFE_componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
     });
 
     it('Should not update shown data if data the same as previous', () => {
-      instance.componentWillReceiveProps({data: instance.props.data});
+      instance.UNSAFE_componentWillReceiveProps({data: instance.props.data});
 
       instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
     });
 
     it('Should toggle multiple state', () => {
       const newMultiple = !instance.props.multiple;
-      instance.componentWillReceiveProps({multiple: newMultiple});
+      instance.UNSAFE_componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.be.calledWith(newMultiple);
     });
 
     it('Should not toggle multiple state if value the same as previous', () => {
       const newMultiple = instance.props.multiple;
-      instance.componentWillReceiveProps({multiple: newMultiple});
+      instance.UNSAFE_componentWillReceiveProps({multiple: newMultiple});
 
       instance._handleMultipleToggling.should.not.be.called;
     });
@@ -276,7 +276,10 @@ describe('Select', () => {
 
       instance.props = {multiple: false, selected: null, data: [selectedItem, createItem()]};
 
-      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.UNSAFE_componentWillReceiveProps({
+        selected: selectedItem,
+        data: instance.props.data
+      });
 
       instance.setState.should.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
@@ -290,7 +293,10 @@ describe('Select', () => {
         data: [selectedItem, createItem()]
       };
 
-      instance.componentWillReceiveProps({selected: selectedItem, data: instance.props.data});
+      instance.UNSAFE_componentWillReceiveProps({
+        selected: selectedItem,
+        data: instance.props.data
+      });
 
       instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
@@ -300,7 +306,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.componentWillReceiveProps({selected: [selectedItem]});
+      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem]});
 
       instance.setState.should.be.calledWithMatch({selectedIndex: 0});
     });
@@ -310,7 +316,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem, createItem()]};
 
-      instance.componentWillReceiveProps({selected: [selectedItem, createItem()]});
+      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem, createItem()]});
 
       instance.setState.should.be.calledWithMatch({selectedIndex: 0});
     });
@@ -320,7 +326,7 @@ describe('Select', () => {
 
       instance.props = {multiple: true, selected: [], data: [selectedItem]};
 
-      instance.componentWillReceiveProps({});
+      instance.UNSAFE_componentWillReceiveProps({});
 
       instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
@@ -335,7 +341,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
+      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
 
       instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });
@@ -350,7 +356,7 @@ describe('Select', () => {
         data: [selectedItem1, createItem(), selectedItem2]
       };
 
-      instance.componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
+      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
 
       instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
     });

@@ -18,7 +18,6 @@ import Item, {moreLessButtonStates} from './item';
 import styles from './data-list.css';
 
 
-// eslint-disable-next-line react/no-deprecated
 class DataList extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -53,7 +52,7 @@ class DataList extends PureComponent {
     shortcutsScope: getUID('ring-data-list-')
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
     if (data !== nextProps.data && !this.props.remoteSelection) {

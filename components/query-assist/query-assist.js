@@ -38,7 +38,6 @@ function cleanText(text) {
 /**
  * @name Query Assist
  */
-// eslint-disable-next-line react/no-deprecated
 export default class QueryAssist extends Component {
   static ngModelStateField = ngModelStateField;
   static Theme = Theme;
@@ -91,7 +90,7 @@ export default class QueryAssist extends Component {
     showPopup: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({shortcuts: !!this.props.focus});
   }
 
@@ -116,7 +115,7 @@ export default class QueryAssist extends Component {
     this.setCaretPosition();
   }
 
-  componentWillReceiveProps({caret, delay, query}) {
+  UNSAFE_componentWillReceiveProps({caret, delay, query}) {
     this.setupRequestHandler(delay);
     const shouldSetCaret = typeof caret === 'number';
 

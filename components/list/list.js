@@ -87,7 +87,6 @@ function isActivatable(item) {
  * @constructor
  * @extends {ReactComponent}
  */
-// eslint-disable-next-line react/no-deprecated
 export default class List extends Component {
   static isItemType = isItemType;
 
@@ -149,7 +148,7 @@ export default class List extends Component {
     scrolledToBottom: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {data, activeIndex} = this.props;
     this.checkActivatableItems(data);
     if (activeIndex != null && data[this.props.activeIndex]) {
@@ -177,7 +176,7 @@ export default class List extends Component {
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.data) {
       //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
       //props.data = props.data.map(normalizeListItemType);
