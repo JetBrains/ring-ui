@@ -80,9 +80,8 @@ export default class Icon extends PureComponent {
 
     const style = this.getStyle();
     if (style) {
-      Object.keys(style).forEach(key => {
-        svgNode.style[key] = style[key];
-      });
+      svgNode.style.width = `${style.width}px`;
+      svgNode.style.height = `${style.height}px`;
     }
   }
 
