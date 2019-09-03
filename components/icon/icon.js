@@ -85,12 +85,12 @@ export default class Icon extends PureComponent {
     }
   }
 
-  svgNodeRef = node => {
+  svgNodeRef(node) {
     if (!node || !node.firstChild) {
       return;
     }
     this.setSvgDOMAttributes(node.firstChild);
-  };
+  }
 
   render() {
     const {
@@ -114,6 +114,8 @@ export default class Icon extends PureComponent {
       className
     );
 
+    /* ref should be arrow function to ensure it is called on rerender */
+    /* eslint-disable react/jsx-no-bind */
     return (
       <span
         {...restProps}
@@ -121,9 +123,10 @@ export default class Icon extends PureComponent {
         dangerouslySetInnerHTML={{
           __html: iconSrc
         }}
-        ref={this.svgNodeRef}
+        ref={node => this.svgNodeRef(node)}
       />
     );
+    /* eslint-enable react/jsx-no-bind */
   }
 }
 
