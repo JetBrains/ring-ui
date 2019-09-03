@@ -5,9 +5,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import InlineSVG from 'svg-inline-react';
 import deprecate from 'util-deprecate';
-import {pure} from 'recompose';
 
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
@@ -18,8 +16,6 @@ const warnSize = deprecate(
 
 We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
 );
-
-const PureInlineSVG = pure(InlineSVG);
 
 export default class Icon extends PureComponent {
   static Color = Color;
@@ -71,6 +67,32 @@ export default class Icon extends PureComponent {
     return !hasWidth || !hasHeight;
   }
 
+  getIconSource() {
+    const {glyph} = this.props;
+    return glyph?.call ? String(glyph) : glyph;
+  }
+
+  setSvgDOMAttributes(svgNode) {
+    svgNode.classList.add(styles.glyph);
+    if (this.isCompatibilityMode(this.getIconSource())) {
+      svgNode.classList.add(styles.compatibilityMode);
+    }
+
+    const style = this.getStyle();
+    if (style) {
+      Object.keys(style).forEach(key => {
+        svgNode.style[key] = style[key];
+      });
+    }
+  }
+
+  svgNodeRef = node => {
+    if (!node || !node.firstChild) {
+      return;
+    }
+    this.setSvgDOMAttributes(node.firstChild);
+  };
+
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
@@ -78,7 +100,7 @@ export default class Icon extends PureComponent {
       ...restProps
     } = this.props;
 
-    const iconSrc = glyph?.call ? String(glyph) : glyph;
+    const iconSrc = this.getIconSource();
     if (!iconSrc) {
       // eslint-disable-next-line no-console
       console.warn('No icon source passed to Icon component', this.props);
@@ -93,22 +115,15 @@ export default class Icon extends PureComponent {
       className
     );
 
-    const glyphClasses = classNames(styles.glyph, {
-      [styles.compatibilityMode]: this.isCompatibilityMode(iconSrc)
-    });
-
     return (
       <span
         {...restProps}
         className={classes}
-      >
-        <PureInlineSVG
-          raw
-          src={iconSrc}
-          className={glyphClasses}
-          style={this.getStyle()}
-        />
-      </span>
+        dangerouslySetInnerHTML={{
+          __html: iconSrc
+        }}
+        ref={this.svgNodeRef}
+      />
     );
   }
 }
