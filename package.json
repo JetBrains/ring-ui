@@ -132,7 +132,7 @@
     "@babel/core": "^7.5.5",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.1.4",
-    "@jetbrains/icons": "^3.2.1",
+    "@jetbrains/icons": "^3.4.2",
     "@jetbrains/logos": "^1.1.4",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "angular-sanitize": "^1.7.8",
