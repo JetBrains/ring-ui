@@ -1066,10 +1066,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.23":
-  version "2.0.23"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.23.tgz#b9f2a73a7c936b479acdf70bdd12c77cc9dfbb3b"
-  integrity sha512-WoFV2wlZsspPjkgqBgSksvq6ZiYcx5G/ZX29G7E57Z5zopy2PXt46L88Ob+lwREz/Hvsl0ExpmyJwdm7teCN2Q==
+"@jetbrains/generator-ring-ui@^2.0.24":
+  version "2.0.24"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.24.tgz#06cb6ce7e32e24705f7683d978ef677be3d6e4a0"
+  integrity sha512-T8Y25UR9fyjDUA065lfQfxrJVB6uQzKZBCBXy7OpfKvs1PaZIriLTxofDCfWy1ogNZlhHyBNNm/bQfbz/3MHzA==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -11520,7 +11520,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -13769,13 +13769,6 @@ svg-inline-loader@^0.8.0:
     loader-utils "^0.2.11"
     object-assign "^4.0.1"
     simple-html-tokenizer "^0.1.1"
-
-svg-inline-react@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/svg-inline-react/-/svg-inline-react-3.1.0.tgz#fe2d55ca06fd4c8afa071c47224173781f98bac5"
-  integrity sha512-c39AIRQOUXLMD8fQ2rHmK1GOSO3tVuZk61bAXqIT05uhhm3z4VtQFITQSwyhL0WA2uxoJAIhPd2YV0CYQOolSA==
-  dependencies:
-    prop-types "^15.5.0"
 
 svg-tags@^1.0.0:
   version "1.0.0"
