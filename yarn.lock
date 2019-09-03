@@ -1066,10 +1066,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.22":
-  version "2.0.22"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.22.tgz#dd7429c21e748b6b5d0b23f0f8ffe4043515676a"
-  integrity sha512-eWRdSQnu//bOSmDm0j2N7uQnO/JdBGvJHEyjVTe/0UNj/51J3nGZdjUx2VpEPuSX2l8nYggTtUqnX+yqThknrQ==
+"@jetbrains/generator-ring-ui@^2.0.23":
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.23.tgz#b9f2a73a7c936b479acdf70bdd12c77cc9dfbb3b"
+  integrity sha512-WoFV2wlZsspPjkgqBgSksvq6ZiYcx5G/ZX29G7E57Z5zopy2PXt46L88Ob+lwREz/Hvsl0ExpmyJwdm7teCN2Q==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -1079,7 +1079,7 @@
     pify "^4.0.1"
     portscanner "^2.2.0"
     read-pkg-up "^6.0.0"
-    yeoman-generator "^4.0.1"
+    yeoman-generator "^4.0.2"
     yeoman-option-or-prompt "^2.0.1"
 
 "@jetbrains/icons@^3.2.1":
@@ -11874,14 +11874,15 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
-react-markdown@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-4.1.0.tgz#7fdf840ecbabc803f28156f7411c726b58f25a73"
-  integrity sha512-EOHsEAN+aoP8UVz7vTHx6Z63GJfhrO9KItKlfsiBtVVS9tmSWtUaBTw73+2SObrWiOiE2Cs9qUBL7ORsvVhOrA==
+react-markdown@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-4.2.1.tgz#212e3b64c61e8a3cd97b448a67f9f02bd7308648"
+  integrity sha512-VEHFX9uIzv/D24B3D1AqXTr0qIlcrsorNfbeX7JD47lbmEWumv/ow3s5zf3nj6HXRjeIWTp4c76hKW052MACvw==
   dependencies:
     html-to-react "^1.3.4"
     mdast-add-list-metadata "1.0.1"
     prop-types "^15.7.2"
+    react-is "^16.8.6"
     remark-parse "^5.0.0"
     unified "^6.1.5"
     unist-util-visit "^1.3.0"
@@ -15180,10 +15181,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.0.1.tgz#6454056e451ebdfe4ac69927343ae37086bbecb0"
-  integrity sha512-QFSHcJHfDwqNdcr5RPSCPLnRzVpPuDWb6By2Uz77YByqBqvR/r9QGBucCl58hs5QJl4NFgLFgIHZoNDCJP1byA==
+yeoman-generator@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.0.2.tgz#b61a5415c9ac12e7a4f6e406a97b0735d0d70b6f"
+  integrity sha512-Gf4O7sJdKrquvf1YAyo+h9K+hOr14fvmw6Mst3/a+82c562sRTs6OLEfuy485o73qqGaI7cezzWjZxHUrm7I5A==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
