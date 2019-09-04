@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {pure} from 'recompose';
 
+import sniffer from '../global/sniffer';
+
 import styles from './icon.css';
+
+const isIE = sniffer.browser.name === 'ie';
 
 function convertReactSVGDOMProperty(str) {
   return str.replace(/[-|:]([a-z])/g, g => g[1].toUpperCase());
@@ -34,6 +38,18 @@ function getSVGFromSource(src) {
   return svg;
 }
 
+function getSVGInnerHTML(svgNode) {
+  if (!isIE) {
+    return svgNode.innerHTML;
+  }
+  // IE11 doesn't support svg.innerHTML https://stackoverflow.com/questions/28129956/get-innerhtml-of-svg-tag-result-in-undefined-in-ie
+  const serializer = new XMLSerializer();
+
+  return Array.from(svgNode.childNodes).
+    map(child => serializer.serializeToString(child)).
+    join('');
+}
+
 function extractSVGProps(svgNode) {
   const map = svgNode.attributes;
   return (map.length > 0) ? serializeAttrs(map) : null;
@@ -58,7 +74,7 @@ function IconSVG({src, className, ...rest}) {
       {...rest}
       className={glyphClasses}
       dangerouslySetInnerHTML={{
-        __html: svgNode.innerHTML
+        __html: getSVGInnerHTML(svgNode)
       }}
     />
   );
