@@ -9,6 +9,7 @@ import deprecate from 'util-deprecate';
 
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
+import IconSVG from './icon__svg';
 
 const warnSize = deprecate(
   () => {},
@@ -61,35 +62,9 @@ export default class Icon extends PureComponent {
     return null;
   }
 
-  isCompatibilityMode(iconSrc) {
-    const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
-    const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
-    return !hasWidth || !hasHeight;
-  }
-
   getIconSource() {
     const {glyph} = this.props;
     return glyph?.call ? String(glyph) : glyph;
-  }
-
-  setSvgDOMAttributes(svgNode) {
-    svgNode.classList.add(styles.glyph);
-    if (this.isCompatibilityMode(this.getIconSource())) {
-      svgNode.classList.add(styles.compatibilityMode);
-    }
-
-    const style = this.getStyle();
-    if (style) {
-      svgNode.style.width = `${style.width}px`;
-      svgNode.style.height = `${style.height}px`;
-    }
-  }
-
-  svgNodeRef(node) {
-    if (!node || !node.firstChild) {
-      return;
-    }
-    this.setSvgDOMAttributes(node.firstChild);
   }
 
   render() {
@@ -114,19 +89,17 @@ export default class Icon extends PureComponent {
       className
     );
 
-    /* ref should be arrow function to ensure it is called on rerender */
-    /* eslint-disable react/jsx-no-bind */
     return (
       <span
         {...restProps}
         className={classes}
-        dangerouslySetInnerHTML={{
-          __html: iconSrc
-        }}
-        ref={node => this.svgNodeRef(node)}
-      />
+      >
+        <IconSVG
+          src={iconSrc}
+          style={this.getStyle()}
+        />
+      </span>
     );
-    /* eslint-enable react/jsx-no-bind */
   }
 }
 
