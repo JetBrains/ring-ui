@@ -1082,10 +1082,10 @@
     yeoman-generator "^4.0.2"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.4.4":
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.4.4.tgz#82d13adb7093dcfc0c69359e3eeac0425701c7df"
-  integrity sha512-57S+3ZRPPfMUfw7EWou8/Da0wbSx5DqnEaKqFjzxOkdRMYuDxOTQ+KmlJS8lYUixR0r3GsG5m8UBJtLkl2f0DA==
+"@jetbrains/icons@^3.4.5":
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.4.5.tgz#3fd0c964479668421b5240a783cf3025bf87b00e"
+  integrity sha512-smJc6ioxMzfsEDZlBCUC6wkOW2A1u2v+qW+eauR3iUBRLP24CX3szOKSgnnVVns1VsjKgBUr5hgeY2+iadbHcA==
 
 "@jetbrains/logos@^1.1.4":
   version "1.1.4"
