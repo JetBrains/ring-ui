@@ -20,8 +20,8 @@ describe('Icon', () => {
   });
 
   it('should set compatibility mode if rendering icon without width/height', () => {
-    const icon = mountIcon({glyph: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d=""/></svg>'});
-    icon.html().should.contain(styles.compatibilityMode);
+    const icon = renderIcon({glyph: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d=""/></svg>'});
+    icon.find('svg').should.have.className(styles.compatibilityMode);
   });
 
   it('should set custom class', () => {
