@@ -118,7 +118,7 @@
     "stylelint": "^10.1.0",
     "wallaby-webpack": "^3.9.15",
     "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7",
+    "webpack-cli": "^3.3.8",
     "xmlappend": "^1.0.4",
     "xvfb-maybe": "^0.2.1",
     "yo": "^3.1.0"
