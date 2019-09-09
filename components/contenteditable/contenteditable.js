@@ -12,6 +12,7 @@ export default class ContentEditable extends Component {
   /** @override */
   static propTypes = {
     disabled: PropTypes.bool,
+    tabIndex: PropTypes.number,
     componentDidUpdate: PropTypes.func,
     onComponentUpdate: PropTypes.func,
     className: PropTypes.string,
@@ -57,11 +58,13 @@ export default class ContentEditable extends Component {
   }
 
   render() {
-    const {children, onComponentUpdate, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, onComponentUpdate, disabled, tabIndex, ...props} = this.props; // eslint-disable-line no-unused-vars
 
     return (
       <div
         {...props}
+        disabled={disabled}
+        tabIndex={disabled ? null : tabIndex}
         contentEditable={!this.props.disabled}
         dangerouslySetInnerHTML={this.state}
       />
