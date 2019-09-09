@@ -20,6 +20,7 @@ storiesOf('Components|Button', module).
         <Button
           theme={theme}
           key={modifier}
+          data-test={`button-${modifier}`}
           {...{[modifier]: true}}
         >Button {modifier}</Button>
       ));
@@ -170,6 +171,11 @@ storiesOf('Components|Button', module).
       </div>
     );
   }, {
+    hermione: {actions: [
+      {type: 'capture', name: '', selector: '#root'},
+      {type: 'focus', selector: '[data-test=button-active]'},
+      {type: 'capture', name: 'focus active', selector: '#root'}
+    ]},
     storyStyles: `
 <style>
   .buttons > button {
