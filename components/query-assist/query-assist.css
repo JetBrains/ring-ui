@@ -16,8 +16,10 @@
 
     box-shadow: 0 0 0 1px var(--ring-borders-color);
 
-    &:active,
-    &:focus {
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:not([disabled]):active,
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:not([disabled]):focus {
       border-color: transparent;
       box-shadow: 0 0 0 1px var(--ring-main-color);
     }
