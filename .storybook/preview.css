@@ -2,7 +2,6 @@
 
 body {
   box-sizing: border-box;
-  height: calc(100% - 16px);
 
   color: var(--ring-text-color);
 
