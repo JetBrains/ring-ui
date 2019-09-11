@@ -58,6 +58,9 @@ const TypeToIconColor = {
  * @name Alert
  * @extends {ReactComponent}
  */
+/**
+ * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
+ */
 // eslint-disable-next-line react/no-deprecated
 export default class Alert extends PureComponent {
   static Type = Type;
