@@ -2856,10 +2856,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-kill-port@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/kill-port/-/kill-port-1.5.1.tgz#c567eca95824642aa489c8583a3a7d930a651fbf"
-  integrity sha512-hyjGDvVAE1Sosn4FFNYIWy6Ig2LD16GCkpv0+/EkLSrEEuapN5HW3VzA8e6mU5rzpKY0v/Y9kWt/MqqTqhZ8Ug==
+kill-port@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/kill-port/-/kill-port-1.5.2.tgz#260a5bc0bcc11d26ed262dc1ee2fca8b4d15e664"
+  integrity sha512-YZPDpVUv9oZAg9uB6xnjwi1JGzA+c65Z+q4dID8G4aFSla81dHmqpCB/jV7tj6Y15SwABuqQB4jVfHn9aziKYw==
   dependencies:
     get-them-args "^1.3.1"
     shell-exec "^1.0.2"
