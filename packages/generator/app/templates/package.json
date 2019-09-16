@@ -55,7 +55,7 @@
     "electron": "^6.0.9",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^6.3.0",
+    "eslint": "^6.4.0",
     "karma": "^4.3.0",
     "karma-chai-plugins": "^0.9.0",
     "karma-electron": "^6.3.0",
