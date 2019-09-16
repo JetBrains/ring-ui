@@ -7,6 +7,12 @@ module.exports = ({config}) => {
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
   ringConfig.loaders.svgInlineLoader.include.push(/octicons/);
   ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
+  ringConfig.loaders.babelLoader.options.plugins = [[
+    'babel-plugin-react-docgen',
+    {
+      DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES'
+    }
+  ]];
 
   config.module.rules = [
     ...ringConfig.config.module.rules,
