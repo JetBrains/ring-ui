@@ -10,7 +10,8 @@ import {
   Add10pxIcon,
   Add20pxIcon,
   ChevronDownIcon,
-  StarFilledIcon
+  StarFilledIcon,
+  OkIcon
 } from '../icon';
 
 import * as allIcons from './icons';
@@ -48,6 +49,8 @@ storiesOf('Components|Icon', module).
       <Add10pxIcon/>
       {' text '}
       <StarFilledIcon/>
+      {' text '}
+      <OkIcon/>
       {' Text '}
       <Add20pxIcon/>
       <div className="underline"/>
