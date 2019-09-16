@@ -56,6 +56,9 @@ const theme = variablesSupported
   : {};
 
 addParameters({
+  docs: {
+    inlineStories: false
+  },
   options: {
     theme: create({
       base: 'light',
