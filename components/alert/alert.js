@@ -58,15 +58,27 @@ const TypeToIconColor = {
  * @name Alert
  * @extends {ReactComponent}
  */
+/**
+ * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
+ */
 export default class Alert extends PureComponent {
   static Type = Type;
 
   static propTypes = {
     timeout: PropTypes.number,
+    /**
+     * Fires when alert starts closing if timeout is out or user clicks "Close" button
+     * @type {?function(SyntheticMouseEvent):undefined}
+     */
     onCloseRequest: PropTypes.func,
     onClose: PropTypes.func,
     isShaking: PropTypes.bool,
     isClosing: PropTypes.bool,
+    /**
+     * Whether an alert is rendered inside an {@code Alerts} container
+     * or standalone.
+     * @type {boolean}
+     */
     inline: PropTypes.bool,
     showWithAnimation: PropTypes.bool,
     closeable: PropTypes.bool,
@@ -84,20 +96,11 @@ export default class Alert extends PureComponent {
     closeable: true,
     showWithAnimation: true,
     type: Type.MESSAGE,
-    /**
-     * Whether an alert is rendered inside an {@code Alerts} container
-     * or standalone.
-     * @type {boolean}
-     */
     inline: true,
     isClosing: false,
     isShaking: false,
     timeout: 0,
     onClose: () => {},
-    /**
-     * Fires when alert starts closing if timeout is out or user clicks "Close" button
-     * @type {?function(SyntheticMouseEvent):undefined}
-     */
     onCloseRequest: () => {}
   };
 

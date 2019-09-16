@@ -10,7 +10,8 @@ import Alert, {Container} from './alert';
 
 storiesOf('Components|Alert', module).
   addParameters({
-    notes: '**Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.'
+    component: Alert,
+    framework: 'react'
   }).
   addDecorator(reactDecorator()).
   add('simple', () => {
@@ -22,11 +23,11 @@ storiesOf('Components|Alert', module).
 
       onClose = () => {
         this.setState({show: false});
-      }
+      };
 
       onCloseRequest = () => {
         this.setState({isClosing: true});
-      }
+      };
 
       render() {
         const {show, isClosing} = this.state;
@@ -79,14 +80,14 @@ storiesOf('Components|Alert', module).
             ...prevState.alerts
           ]
         }));
-      }
+      };
 
       onCloseAlert = closedAlert => {
         this.setState(prevState => ({
           ...prevState,
           alerts: prevState.alerts.filter(alert => alert !== closedAlert)
         }));
-      }
+      };
 
       onCloseAlertClick = alert => {
         const alertToClose = this.state.alerts.filter(it => alert.key === it.key)[0];
@@ -95,7 +96,7 @@ storiesOf('Components|Alert', module).
           ...prevState,
           alerts: [...prevState.alerts]
         }));
-      }
+      };
 
       render() {
         return (
