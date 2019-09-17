@@ -1,20 +1,27 @@
-import {storiesOf} from '@storybook/html';
-
 import '../island-legacy/island-legacy.scss';
 
-storiesOf('Style-only|Island', module).
-  addParameters({
+export default {
+  title: 'Style-only|Island',
+
+  parameters: {
     notes: 'Displays an island.'
-  }).
-  add('basic', () => `
+  }
+};
+
+export const basic = () => `
     <div class="ring-island">
       <div class="ring-island__header">
         <span class="ring-island__title">Title</span>
       </div>
       <div class="ring-island__content">Content</div>
     </div>
-    `).
-  add('with a header and buttons', () => `
+    `;
+
+basic.story = {
+  name: 'basic'
+};
+
+export const withAHeaderAndButtons = () => `
     <div class="ring-island">
       <div class="ring-island__header">
         <span class="ring-island__title">Title</span>
@@ -23,4 +30,8 @@ storiesOf('Style-only|Island', module).
       </div>
       <div class="ring-island__content">Content</div>
     </div>
-  `);
+  `;
+
+withAHeaderAndButtons.story = {
+  name: 'with a header and buttons'
+};

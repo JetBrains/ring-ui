@@ -1,18 +1,19 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import '../link/link__legacy.css';
 
 import FooterNG from './footer-ng';
 
-storiesOf('Legacy Angular|Footer Ng', module).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [FooterNG]);
+export default {
+  title: 'Legacy Angular|Footer Ng',
+  decorators: [angularDecorator()]
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [FooterNG]);
+
+  return `
       <rg-footer>
         <rg-footer-left>
           <rg-footer-line>Left</rg-footer-line>
@@ -29,4 +30,8 @@ storiesOf('Legacy Angular|Footer Ng', module).
         </rg-footer-right>
       </rg-footer>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

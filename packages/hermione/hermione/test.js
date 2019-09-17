@@ -17,8 +17,8 @@ for (const {kind, stories} of items) {
     join('/');
   describe(kindName, () => {
     for (const story of stories) {
-      const {name, parameters = {}} = story;
-      const testName = filenamify(name);
+      const {name, displayName, parameters = {}} = story;
+      const testName = filenamify(displayName);
       const {
         captureSelector = '[id=root]',
         skip,
@@ -40,7 +40,7 @@ for (const {kind, stories} of items) {
         for (const action of actions) {
           await Actions[action.type](
             this.browser,
-            {...action, name: addTestName(action.name, name)}
+            {...action, name: addTestName(action.name, displayName)}
           );
         }
       });

@@ -1,11 +1,13 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Code, {code} from '../code/code';
 
-storiesOf('Components|Code', module).
-  addParameters({
+export default {
+  title: 'Components|Code',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: `
 Displays a block of code. Syntax highlighting is available by default for the following languages: _cpp, xml, bash, clojure, coffeescript, cs, css, markdown, dockerfile, elixir, elm, ruby, erlang, glsl, go, gradle, groovy, handlebars, haskell, ava, javascript, json, kotlin, less, livescript, lua, makefile, perl, php, powershell, python, r, rust, scala, scss, shell, sql, swift, yaml, twig, typescript_.
 
@@ -17,11 +19,12 @@ Highlighting of other languages is available as well:
 
 \`highlight.registerLanguage('1c', 1c);\`
     `
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => (
-    <Code
-      code={`
+  }
+};
+
+export const basic = () => (
+  <Code
+    code={`
           import React, {Component} from 'react';
           import ChildComponent from './child-component';
 
@@ -31,15 +34,25 @@ Highlighting of other languages is available as well:
             </div>
           );
         `}
-    />
-  )).
-  add('tagged template', () => (
-    code`
+  />
+);
+
+basic.story = {
+  name: 'basic'
+};
+
+export const taggedTemplate = () =>
+  code`
       import React from 'react';
       import {code} from '@jetbrains/ring-ui/components/code/code';
 
       const el = code\`some('js')\`;
-    `
-  ), {
+    `;
+
+taggedTemplate.story = {
+  name: 'tagged template',
+
+  parameters: {
     hermione: {skip: true}
-  });
+  }
+};

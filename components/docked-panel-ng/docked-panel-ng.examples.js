@@ -1,23 +1,25 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import DockedPanelNG from '../docked-panel-ng/docked-panel-ng';
 import PanelNG from '../panel-ng/panel-ng';
 import ButtonNG from '../button-ng/button-ng';
 
-storiesOf('Legacy Angular|Docked Panel Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Docked Panel Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Creates a panel docked at the bottom of the page.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, DockedPanelNG, PanelNG]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG, DockedPanelNG, PanelNG]);
+
+  return `
       <div>
         <textarea placeholder="Add description" rows="70" cols="100"></textarea>
       </div>
@@ -31,4 +33,8 @@ storiesOf('Legacy Angular|Docked Panel Ng', module).
       </div>
     </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

@@ -1,84 +1,84 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import TagsInput from '../tags-input/tags-input';
 import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
 
-storiesOf('Components|Tags Input', module).
-  addParameters({
+export default {
+  title: 'Components|Tags Input',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Displays a tags input field.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    function dataSource() {
-      return new Promise(resolve => setTimeout(resolve, 200)).
-        then(
-          () => Promise.resolve(
-            [...Array(20)].
-              map((it, index) => ({key: `test${index}`, label: `test${index}`}))
-          )
-        );
-    }
+  }
+};
 
-    return (
-      <TagsInput
-        className="test-additional-class"
-        tags={[
-          {key: 'test1', label: 'test1'},
-          {key: 'test2', label: 'test2'}
-        ]}
-        maxPopupHeight={250}
-        dataSource={dataSource}
-        allowAddNewTags
-        filter
-      />
+export const basic = () => {
+  function dataSource() {
+    return new Promise(resolve => setTimeout(resolve, 200)).then(() =>
+      Promise.resolve(
+        [...Array(20)].map((it, index) => ({key: `test${index}`, label: `test${index}`}))
+      )
     );
-  }).
-  add('with icons', () => {
-    const tags = [
-      {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
-      {key: 'test2', label: 'test2'}
-    ];
+  }
 
-    function dataSource() {
-      return [
-        {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
-        {key: 'test4', label: 'test4', rgTagIcon: FrownIcon}
-      ];
-    }
-
-    return (
-      <TagsInput
-        tags={tags}
-        dataSource={dataSource}
-      />
-    );
-  }).
-  add('disabled', () => (
+  return (
     <TagsInput
-      disabled
-      tags={[{key: 'test2', label: 'test2'}]}
-      dataSource={() => []}
+      className="test-additional-class"
+      tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}
+      maxPopupHeight={250}
+      dataSource={dataSource}
+      allowAddNewTags
+      filter
     />
-  )).
-  add('with too long tag labels', () => {
-    const tags = [
-      {key: 'test1', label: 'Label'},
-      {key: 'test2', label: 'Very long label'}
+  );
+};
+
+basic.story = {
+  name: 'basic'
+};
+
+export const withIcons = () => {
+  const tags = [
+    {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
+    {key: 'test2', label: 'test2'}
+  ];
+
+  function dataSource() {
+    return [
+      {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
+      {key: 'test4', label: 'test4', rgTagIcon: FrownIcon}
     ];
+  }
 
-    function dataSource() {
-      return [
-        {key: 'test3', label: 'Very very long label'},
-        {key: 'test4', label: 'Very very very long label'}
-      ];
-    }
+  return <TagsInput tags={tags} dataSource={dataSource}/>;
+};
 
-    return (
-      <TagsInput
-        tags={tags}
-        dataSource={dataSource}
-      />
-    );
-  });
+withIcons.story = {
+  name: 'with icons'
+};
+
+export const disabled = () => (
+  <TagsInput disabled tags={[{key: 'test2', label: 'test2'}]} dataSource={() => []}/>
+);
+
+disabled.story = {
+  name: 'disabled'
+};
+
+export const withTooLongTagLabels = () => {
+  const tags = [{key: 'test1', label: 'Label'}, {key: 'test2', label: 'Very long label'}];
+
+  function dataSource() {
+    return [
+      {key: 'test3', label: 'Very very long label'},
+      {key: 'test4', label: 'Very very very long label'}
+    ];
+  }
+
+  return <TagsInput tags={tags} dataSource={dataSource}/>;
+};
+
+withTooLongTagLabels.story = {
+  name: 'with too long tag labels'
+};

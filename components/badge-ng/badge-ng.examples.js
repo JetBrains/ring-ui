@@ -1,21 +1,23 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import GroupNG from '../group-ng/group-ng';
 
 import BadgeNG from './badge-ng';
 
-storiesOf('Legacy Angular|Badge Ng', module).
-  addParameters({
-    notes: 'Provides an Angular wrapper for Badge.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [GroupNG, BadgeNG]);
+export default {
+  title: 'Legacy Angular|Badge Ng',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Provides an Angular wrapper for Badge.'
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [GroupNG, BadgeNG]);
+
+  return `
       <rg-group>
         <rg-badge>simple</rg-badge>
         <rg-badge gray="true">gray</rg-badge>
@@ -24,4 +26,8 @@ storiesOf('Legacy Angular|Badge Ng', module).
         <rg-badge disabled="true">disabled</rg-badge>
       </rg-group>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};
