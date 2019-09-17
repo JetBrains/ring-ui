@@ -41,7 +41,7 @@
     "react-dom": "^16.9.0",
     "redbox-react": "^1.6.0",
     "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.8",
+    "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.1"
   },
   "devDependencies": {
