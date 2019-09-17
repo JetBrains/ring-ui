@@ -1,24 +1,36 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import TemplateNG from './template-ng';
 
-storiesOf('Legacy Angular|Template Ng', module).
-  addParameters({hermione: {skip: true}}).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [TemplateNG]);
+export default {
+  title: 'Legacy Angular|Template Ng',
+  decorators: [angularDecorator()],
 
-    return '<rg-template template="\'<input/>\'"></rg-template>';
-  }).
-  add('with controller', () => {
-    angular.module(APP_NAME, [TemplateNG]).
-      controller('ExampleCtrl', function ctrl() {
-        this.template = '<button>button</button>';
-      });
+  parameters: {
+    hermione: {skip: true}
+  }
+};
 
-    return '<rg-template template="ctrl.template" ng-controller="ExampleCtrl as ctrl"></rg-template>';
+export const basic = () => {
+  angular.module(APP_NAME, [TemplateNG]);
+
+  return '<rg-template template="\'<input/>\'"></rg-template>';
+};
+
+basic.story = {
+  name: 'basic'
+};
+
+export const withController = () => {
+  angular.module(APP_NAME, [TemplateNG]).controller('ExampleCtrl', function ctrl() {
+    this.template = '<button>button</button>';
   });
+
+  return '<rg-template template="ctrl.template" ng-controller="ExampleCtrl as ctrl"></rg-template>';
+};
+
+withController.story = {
+  name: 'with controller'
+};

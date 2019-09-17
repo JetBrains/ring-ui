@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import '../form/form.scss';
@@ -12,20 +10,24 @@ import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import FormNG from '../form-ng/form-ng';
 import InputNG from '../input-ng/input-ng';
 
+export default {
+  title: 'Legacy Angular|Form Ng',
+  decorators: [angularDecorator()],
 
-storiesOf('Legacy Angular|Form Ng', module).
-  addParameters({
+  parameters: {
     notes: 'Provides an Angular wrapper for Form.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [FormNG, CheckboxNG, SelectNG, ButtonNG, InputNG]).
-      controller('FormExampleCtrl', function ctrl() {
-        this.checkedModel = true;
-        this.data = [{name: 'Ada'}, {name: 'Nik'}];
-      });
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.
+    module(APP_NAME, [FormNG, CheckboxNG, SelectNG, ButtonNG, InputNG]).
+    controller('FormExampleCtrl', function ctrl() {
+      this.checkedModel = true;
+      this.data = [{name: 'Ada'}, {name: 'Nik'}];
+    });
+
+  return `
       <div style="width: 700px"
         ng-controller="FormExampleCtrl as formExampleCtrl">
   
@@ -64,4 +66,8 @@ storiesOf('Legacy Angular|Form Ng', module).
         </form>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

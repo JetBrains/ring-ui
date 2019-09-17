@@ -1,5 +1,4 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -14,44 +13,54 @@ const lorem = (
   </div>
 );
 
-storiesOf('Components|Heading', module).
-  addParameters({
+export default {
+  title: 'Components|Heading',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'A component for rendering h1-h5 tags.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => (
-    <div>
-      <Heading level={Heading.Levels.H1}>Heading 1</Heading>
-      {lorem}
-      <H1 caps>Heading 1 caps</H1>
-      {lorem}
-      <H2>Heading 2</H2>
-      {lorem}
-      <H3>Heading 3</H3>
-      {lorem}
-      <H4>Heading 4</H4>
-      {lorem}
-    </div>
-  ), {
+  }
+};
+
+export const basic = () => (
+  <div>
+    <Heading level={Heading.Levels.H1}>Heading 1</Heading>
+    {lorem}
+    <H1 caps>Heading 1 caps</H1>
+    {lorem}
+    <H2>Heading 2</H2>
+    {lorem}
+    <H3>Heading 3</H3>
+    {lorem}
+    <H4>Heading 4</H4>
+    {lorem}
+  </div>
+);
+
+basic.story = {
+  name: 'basic',
+
+  parameters: {
     storyStyles: `
-<style>
-  h3 + div::after, 
-  h4 + div::after {
-    content: 'Heading';
-    display: block;
-    position: absolute;
-    color: #DDD;
-    z-index: -1;
+  <style>
+    h3 + div::after, 
+    h4 + div::after {
+      content: 'Heading';
+      display: block;
+      position: absolute;
+      color: #DDD;
+      z-index: -1;
+    }
+    
+    h3 + div::before, 
+    h4 + div::before {
+      content: 'Lorem ipsum';
+      display: block;
+      position: absolute;
+      color: #CCC;
+      z-index: -1;
+      transform: translateY(-100%);
+    }
+  </style>`
   }
-  
-  h3 + div::before, 
-  h4 + div::before {
-    content: 'Lorem ipsum';
-    display: block;
-    position: absolute;
-    color: #CCC;
-    z-index: -1;
-    transform: translateY(-100%);
-  }
-</style>`
-  });
+};

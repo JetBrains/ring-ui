@@ -1,23 +1,24 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import InputNG from '../input-ng/input-ng';
 
-storiesOf('Legacy Angular|Input Ng', module).
-  addParameters({
-    notes: 'Text input fields of varying size.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [InputNG]).
-      controller('InputTestCtrl', function controller() {
-        this.inputModel = 'Default value';
-      });
+export default {
+  title: 'Legacy Angular|Input Ng',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Text input fields of varying size.'
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [InputNG]).controller('InputTestCtrl', function controller() {
+    this.inputModel = 'Default value';
+  });
+
+  return `
       <div class="inputs" data-test="inputs">
         <rg-input
           size="M"
@@ -97,24 +98,30 @@ storiesOf('Legacy Angular|Input Ng', module).
         </div>
       </div>
     `;
-  }, {
+};
+
+basic.story = {
+  name: 'basic',
+
+  parameters: {
     storyStyles: `
-<style>
-  .inputs {
-    display: flex;
-    flex-flow: column wrap;
-    max-height: 100vh;
-    margin-top: 8px;
+  <style>
+    .inputs {
+      display: flex;
+      flex-flow: column wrap;
+      max-height: 100vh;
+      margin-top: 8px;
+    }
+    
+    .inputs rg-input {
+      margin: 0 16px;
+    }
+    
+    .dark {
+      background: #000;
+      margin-left: 0;
+      padding-left: 16px;
+    }
+  </style>`
   }
-  
-  .inputs rg-input {
-    margin: 0 16px;
-  }
-  
-  .dark {
-    background: #000;
-    margin-left: 0;
-    padding-left: 16px;
-  }
-</style>`
-  });
+};

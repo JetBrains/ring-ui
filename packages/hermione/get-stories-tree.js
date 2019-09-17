@@ -32,6 +32,7 @@ const getTree = window => {
           api._storyStore.getStoryAndParameters(item.kind, name);
         return {
           name,
+          displayName: parameters.displayName || name,
           parameters: parameters.hermione
         };
       })

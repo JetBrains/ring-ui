@@ -1,21 +1,23 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import IslandNg from '../island-ng/island-ng';
 
-storiesOf('Legacy Angular|Island Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Island Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Island.',
     hermione: {captureSelector: '*[data-test~=ring-island]'}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [IslandNg]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [IslandNg]);
+
+  return `
       <rg-island>
         <rg-island-header border="true">
           This is header
@@ -25,11 +27,16 @@ storiesOf('Legacy Angular|Island Ng', module).
         </rg-island-content>
       </rg-island>
     `;
-  }).
-  add('scrollable', () => {
-    angular.module(APP_NAME, [IslandNg]);
+};
 
-    return `
+basic.story = {
+  name: 'basic'
+};
+
+export const scrollable = () => {
+  angular.module(APP_NAME, [IslandNg]);
+
+  return `
       <rg-island narrow="true" style="height: 200px; width: 200px;">
         <rg-island-header border="true">
           Title
@@ -44,4 +51,8 @@ storiesOf('Legacy Angular|Island Ng', module).
         </rg-island-content>
       </rg-island>
     `;
-  });
+};
+
+scrollable.story = {
+  name: 'scrollable'
+};

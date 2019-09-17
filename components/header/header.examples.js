@@ -1,5 +1,4 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
 
@@ -24,201 +23,162 @@ import TrayIcon from './tray-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
 
-storiesOf('Components|Header', module).
-  addParameters({
+export default {
+  title: 'Components|Header',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Displays a configurable page header.',
+
     storyStyles: `
 <style>
   body {
     margin: 0;
   }
 </style>`
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    class HeaderDemo extends React.Component {
-      render() {
-        const auth = new Auth(hubConfig);
-        auth.setAuthDialogService(showAuthDialog);
-        auth.init();
+  }
+};
 
-        const Comp = props => <a {...props}>This is component</a>;
-        return (
-          <Header>
-            <Link href="#">
-              <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-            </Link>
-            <Link active href="#">Users</Link>
-            <Link href="#">Groups</Link>
-            <Link href="#">Spaces</Link>
-            <Link href="#">Services</Link>
-            <Tray>
-              <TrayIcon
-                primary
-                title="Create issue"
-                icon={Add20pxIcon}
-              />
-              <TrayIcon icon={Help20pxIcon}/>
-              <TrayIcon icon={Gift20pxIcon}/>
-              <TrayIcon icon={Search20pxIcon}/>
-              <Dropdown
-                anchor={({active}) => (
-                  <TrayIcon
-                    active={active}
-                    icon={Settings20pxIcon}
-                  />
-                )}
-              >
-                <PopupMenu
-                  top={-12}
-                  closeOnSelect
-                  data={[
-                    {label: 'Test'},
-                    {label: 'Test2'}
-                  ]}
-                />
-              </Dropdown>
-              <SmartServices auth={auth}/>
-              <SmartProfile
-                auth={auth}
-                hasUpdates
-                LinkComponent={Comp}
-              />
-            </Tray>
-          </Header>
-        );
-      }
+export const basic = () => {
+  class HeaderDemo extends React.Component {
+    render() {
+      const auth = new Auth(hubConfig);
+      auth.setAuthDialogService(showAuthDialog);
+      auth.init();
+
+      const Comp = props => <a {...props}>This is component</a>;
+      return (
+        <Header>
+          <Link href="#">
+            <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
+          </Link>
+          <Link active href="#">
+            Users
+          </Link>
+          <Link href="#">Groups</Link>
+          <Link href="#">Spaces</Link>
+          <Link href="#">Services</Link>
+          <Tray>
+            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
+            <TrayIcon icon={Help20pxIcon}/>
+            <TrayIcon icon={Gift20pxIcon}/>
+            <TrayIcon icon={Search20pxIcon}/>
+            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
+            </Dropdown>
+            <SmartServices auth={auth}/>
+            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
+          </Tray>
+        </Header>
+      );
     }
+  }
 
-    return <HeaderDemo/>;
-  }).
-  add('light', () => {
-    class LightHeaderDemo extends React.Component {
-      render() {
-        const auth = new Auth(hubConfig);
-        auth.setAuthDialogService(showAuthDialog);
-        auth.init();
+  return <HeaderDemo/>;
+};
 
-        const Comp = props => <a {...props}>This is component</a>;
+basic.story = {
+  name: 'basic'
+};
 
-        return (
-          <Header theme={Theme.LIGHT}>
-            <Link href="#">
-              <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-            </Link>
-            <Link active href="#">Users</Link>
-            <Link href="#">Groups</Link>
+export const light = () => {
+  class LightHeaderDemo extends React.Component {
+    render() {
+      const auth = new Auth(hubConfig);
+      auth.setAuthDialogService(showAuthDialog);
+      auth.init();
 
-            <Tray>
-              <TrayIcon
-                primary
-                title="Create issue"
-                icon={Add20pxIcon}
-              />
-              <TrayIcon icon={Help20pxIcon}/>
-              <TrayIcon icon={Gift20pxIcon}/>
-              <TrayIcon icon={Search20pxIcon}/>
-              <Dropdown
-                anchor={({active}) => (
-                  <TrayIcon
-                    active={active}
-                    icon={Settings20pxIcon}
-                  />
-                )}
-              >
-                <PopupMenu
-                  top={-12}
-                  closeOnSelect
-                  data={[
-                    {label: 'Test'},
-                    {label: 'Test2'}
-                  ]}
-                />
-              </Dropdown>
-              <SmartServices auth={auth}/>
-              <SmartProfile
-                auth={auth}
-                hasUpdates
-                LinkComponent={Comp}
-              />
-            </Tray>
-          </Header>
-        );
-      }
+      const Comp = props => <a {...props}>This is component</a>;
+
+      return (
+        <Header theme={Theme.LIGHT}>
+          <Link href="#">
+            <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
+          </Link>
+          <Link active href="#">
+            Users
+          </Link>
+          <Link href="#">Groups</Link>
+
+          <Tray>
+            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
+            <TrayIcon icon={Help20pxIcon}/>
+            <TrayIcon icon={Gift20pxIcon}/>
+            <TrayIcon icon={Search20pxIcon}/>
+            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
+            </Dropdown>
+            <SmartServices auth={auth}/>
+            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
+          </Tray>
+        </Header>
+      );
     }
+  }
 
-    return <LightHeaderDemo/>;
-  }).
-  add('compact', () => {
-    class CompactHeaderDemo extends React.Component {
-      render() {
-        const auth = new Auth(hubConfig);
-        auth.setAuthDialogService(showAuthDialog);
-        auth.init();
+  return <LightHeaderDemo/>;
+};
 
-        return (
-          <Header className="header">
-            <Link href="#">
-              <Logo className="logo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
-            </Link>
-            <Link active href="#">Users</Link>
-            <Link href="#">Groups</Link>
-            <Link href="#">Spaces</Link>
-            <Link href="#">Services</Link>
-            <Tray>
-              <TrayIcon
-                primary
-                title="Create issue"
-                icon={Add20pxIcon}
-              />
-              <TrayIcon icon={Help20pxIcon}/>
-              <TrayIcon icon={Gift20pxIcon}/>
-              <TrayIcon icon={Search20pxIcon}/>
-              <Dropdown
-                anchor={({active}) => (
-                  <TrayIcon
-                    active={active}
-                    icon={Settings20pxIcon}
-                  />
-                )}
-              >
-                <PopupMenu
-                  top={-12}
-                  closeOnSelect
-                  data={[
-                    {label: 'Test'},
-                    {label: 'Test2'}
-                  ]}
-                />
-              </Dropdown>
-              <SmartServices auth={auth}/>
-              <SmartProfile
-                auth={auth}
-                hasUpdates
-                size={SmartProfile.Size.Size24}
-              />
-            </Tray>
-          </Header>
-        );
-      }
+light.story = {
+  name: 'light'
+};
+
+export const compact = () => {
+  class CompactHeaderDemo extends React.Component {
+    render() {
+      const auth = new Auth(hubConfig);
+      auth.setAuthDialogService(showAuthDialog);
+      auth.init();
+
+      return (
+        <Header className="header">
+          <Link href="#">
+            <Logo className="logo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
+          </Link>
+          <Link active href="#">
+            Users
+          </Link>
+          <Link href="#">Groups</Link>
+          <Link href="#">Spaces</Link>
+          <Link href="#">Services</Link>
+          <Tray>
+            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
+            <TrayIcon icon={Help20pxIcon}/>
+            <TrayIcon icon={Gift20pxIcon}/>
+            <TrayIcon icon={Search20pxIcon}/>
+            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
+            </Dropdown>
+            <SmartServices auth={auth}/>
+            <SmartProfile auth={auth} hasUpdates size={SmartProfile.Size.Size24}/>
+          </Tray>
+        </Header>
+      );
     }
+  }
 
-    return <CompactHeaderDemo/>;
-  }, {
+  return <CompactHeaderDemo/>;
+};
+
+compact.story = {
+  name: 'compact',
+
+  parameters: {
     storyStyles: `
-<style>
-  body {
-    margin: 0;
-  }
-  
-  .header.header {
-    height: 40px;
-  }
+  <style>
+    body {
+      margin: 0;
+    }
+    
+    .header.header {
+      height: 40px;
+    }
 
-  .logo.logo {
-    color: #fff;
-    position: relative;
-    top: -2px;
+    .logo.logo {
+      color: #fff;
+      position: relative;
+      top: -2px;
+    }
+  </style>`
   }
-</style>`
-  });
+};

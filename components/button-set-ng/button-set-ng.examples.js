@@ -1,26 +1,32 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import ButtonNG from '../button-ng/button-ng';
 
 import ButtonSetNG from './button-set-ng';
 
-storiesOf('Legacy Angular|Button Set Ng', module).
-  addParameters({
-    notes: 'Provides an Angular wrapper for Button Set.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, ButtonSetNG]);
+export default {
+  title: 'Legacy Angular|Button Set Ng',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Provides an Angular wrapper for Button Set.'
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG, ButtonSetNG]);
+
+  return `
       <rg-button-set>
         <rg-button>Button 1</rg-button>
         <rg-button>Button 2</rg-button>
         <rg-button>Button 3</rg-button>
       </rg-button-set>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

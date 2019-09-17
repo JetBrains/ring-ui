@@ -1,32 +1,35 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import ButtonNG from '../button-ng/button-ng';
 
 import CheckboxNG from './checkbox-ng';
 
-storiesOf('Legacy Angular|Checkbox Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Checkbox Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Checkbox.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, CheckboxNG]).
-      controller('MainCtrl', function controller($scope) {
-        $scope.checked = false;
-        $scope.disabled = false;
+  }
+};
 
-        $scope.changeText = 'text will be changed on ng-change of inverted checkbox';
+export const basic = () => {
+  angular.
+    module(APP_NAME, [ButtonNG, CheckboxNG]).
+    controller('MainCtrl', function controller($scope) {
+      $scope.checked = false;
+      $scope.disabled = false;
 
-        $scope.onNgChange = () => {
-          $scope.changeText = `ngChange appear for the inverted checkbox at ${new Date()}`;
-        };
-      });
+      $scope.changeText = 'text will be changed on ng-change of inverted checkbox';
 
-    return `
+      $scope.onNgChange = () => {
+        $scope.changeText = `ngChange appear for the inverted checkbox at ${new Date()}`;
+      };
+    });
+
+  return `
        <div ng-controller="MainCtrl">
          <div>Checked: {{checked}}</div>
          <div>Disabled: {{disabled}}</div>
@@ -43,11 +46,16 @@ storiesOf('Legacy Angular|Checkbox Ng', module).
          </p>
        </div>
     `;
-  }).
-  add('with custom true-false values', () => {
-    angular.module(APP_NAME, [CheckboxNG]);
+};
 
-    return `
+basic.story = {
+  name: 'basic'
+};
+
+export const withCustomTrueFalseValues = () => {
+  angular.module(APP_NAME, [CheckboxNG]);
+
+  return `
        <div>
          <div>Checked: {{checked}}</div>
          <p style="width: 300px;">
@@ -55,13 +63,23 @@ storiesOf('Legacy Angular|Checkbox Ng', module).
          </p>
        </div>
     `;
-  }, {hermione: {skip: true}}).
-  add('disabled', () => {
-    angular.module(APP_NAME, [CheckboxNG]);
+};
 
-    return `
+withCustomTrueFalseValues.story = {
+  name: 'with custom true-false values',
+  parameters: {hermione: {skip: true}}
+};
+
+export const disabled = () => {
+  angular.module(APP_NAME, [CheckboxNG]);
+
+  return `
       <p style="width: 300px;">
         <rg-checkbox ng-disabled="true">Checkbox</rg-checkbox>
       </p>
     `;
-  });
+};
+
+disabled.story = {
+  name: 'disabled'
+};

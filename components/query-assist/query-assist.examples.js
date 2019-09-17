@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import QueryAssist from '../query-assist/query-assist';
@@ -13,8 +12,11 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 const queryAssistLog = action('queryAssistLog');
 
-storiesOf('Components|Query Assist', module).
-  addParameters({
+export default {
+  title: 'Components|Query Assist',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: `
 ## Component params
 
@@ -75,67 +77,74 @@ storiesOf('Components|Query Assist', module).
 + __icon__ \`string=\` Icon URI, Data URI is possible
 
     `
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    const auth = new Auth(hubConfig);
-    const http = new HTTP(auth, auth.getAPIPath());
+  }
+};
 
-    class QueryAssistExample extends Component {
-      constructor() {
-        super();
-        auth.init().
-          then(() => this.setState({authReady: true}));
-      }
+export const basic = () => {
+  const auth = new Auth(hubConfig);
+  const http = new HTTP(auth, auth.getAPIPath());
 
-      state = {authReady: false};
-
-      dataSource = props => {
-        const params = {
-          query: {
-            ...props,
-            fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-          }
-        };
-
-        return http.get('users/queryAssist', params);
-      };
-
-      render() {
-        if (!this.state.authReady) {
-          return <span>Loading...</span>;
-        }
-
-        return (
-          <QueryAssist
-            query="test"
-            placeholder="placeholder"
-            glass
-            clear
-            onApply={queryAssistLog}
-            focus
-            hint="lol"
-            hintOnSelection="lol selected"
-            popupClassName="test"
-            dataSource={this.dataSource}
-          />
-        );
-      }
+  class QueryAssistExample extends Component {
+    constructor() {
+      super();
+      auth.init().then(() => this.setState({authReady: true}));
     }
 
-    return <QueryAssistExample/>;
-  }, {hermione: {skip: true}}).
-  add('no auth', () => {
-    const dataSource = ({query, caret}) => ({
-      query,
-      caret,
-      styleRanges: [
-        {start: 0, length: 1, style: 'text'},
-        {start: 1, length: 1, style: 'field_value'},
-        {start: 2, length: 1, style: 'field_name'},
-        {start: 3, length: 1, style: 'operator'}
-      ],
-      suggestions: [{
+    state = {authReady: false};
+
+    dataSource = props => {
+      const params = {
+        query: {
+          ...props,
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+        }
+      };
+
+      return http.get('users/queryAssist', params);
+    };
+
+    render() {
+      if (!this.state.authReady) {
+        return <span>Loading...</span>;
+      }
+
+      return (
+        <QueryAssist
+          query="test"
+          placeholder="placeholder"
+          glass
+          clear
+          onApply={queryAssistLog}
+          focus
+          hint="lol"
+          hintOnSelection="lol selected"
+          popupClassName="test"
+          dataSource={this.dataSource}
+        />
+      );
+    }
+  }
+
+  return <QueryAssistExample/>;
+};
+
+basic.story = {
+  name: 'basic',
+  parameters: {hermione: {skip: true}}
+};
+
+export const noAuth = () => {
+  const dataSource = ({query, caret}) => ({
+    query,
+    caret,
+    styleRanges: [
+      {start: 0, length: 1, style: 'text'},
+      {start: 1, length: 1, style: 'field_value'},
+      {start: 2, length: 1, style: 'field_name'},
+      {start: 3, length: 1, style: 'operator'}
+    ],
+    suggestions: [
+      {
         prefix: 'login: ',
         option: 'test',
         suffix: ' ',
@@ -146,7 +155,8 @@ storiesOf('Components|Query Assist', module).
         completionStart: 0,
         completionEnd: query.length,
         group: 'Logins'
-      }, {
+      },
+      {
         prefix: 'login: ',
         option: 'test.1',
         suffix: ' ',
@@ -157,7 +167,8 @@ storiesOf('Components|Query Assist', module).
         completionStart: 0,
         completionEnd: query.length,
         group: 'Logins'
-      }, {
+      },
+      {
         prefix: 'name: ',
         option: 'another',
         suffix: ' ',
@@ -168,90 +179,111 @@ storiesOf('Components|Query Assist', module).
         completionStart: 0,
         completionEnd: query.length,
         group: 'Names'
-      }]
-    });
+      }
+    ]
+  });
 
-    return (
-      <QueryAssist
-        placeholder="placeholder"
-        glass
-        clear
-        onApply={queryAssistLog}
-        hint="hint"
-        hintOnSelection="hint on selection"
-        dataSource={dataSource}
-      />
-    );
-  }, {
+  return (
+    <QueryAssist
+      placeholder="placeholder"
+      glass
+      clear
+      onApply={queryAssistLog}
+      hint="hint"
+      hintOnSelection="hint on selection"
+      dataSource={dataSource}
+    />
+  );
+};
+
+noAuth.story = {
+  name: 'no auth',
+
+  parameters: {
     hermione: {
       actions: [
         {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
         {type: 'click', selector: '[data-test=ring-query-assist-input]'},
         {type: 'sendKeys', selector: '[data-test=ring-query-assist-input]', value: 'test '},
-        {type: 'capture', name: 'withPopup', selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']}
+        {
+          type: 'capture',
+          name: 'withPopup',
+          selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
+        }
       ]
     }
-  }).
-  add('with custom renderer', () => {
-    const template = item => (
-      React.createElement(
-        'span',
-        null,
-        `My name is ${item.description}, my ${item.prefix} is ${item.option}`
-      )
+  }
+};
+
+export const withCustomRenderer = () => {
+  const template = item =>
+    React.createElement(
+      'span',
+      null,
+      `My name is ${item.description}, my ${item.prefix} is ${item.option}`
     );
 
-    const dataSource = ({query, caret}) => ({
-      query,
-      caret,
-      styleRanges: [
-        {start: 0, length: 1, style: 'text'},
-        {start: 1, length: 1, style: 'field_value'},
-        {start: 2, length: 1, style: 'field_name'},
-        {start: 3, length: 1, style: 'operator'}
-      ],
-      suggestions: [{
+  const dataSource = ({query, caret}) => ({
+    query,
+    caret,
+    styleRanges: [
+      {start: 0, length: 1, style: 'text'},
+      {start: 1, length: 1, style: 'field_value'},
+      {start: 2, length: 1, style: 'field_name'},
+      {start: 3, length: 1, style: 'operator'}
+    ],
+    suggestions: [
+      {
         prefix: 'login:',
         option: 'John.Abrams',
         description: 'John Abrams',
         group: 'Logins'
-      }, {
+      },
+      {
         prefix: 'login:',
         option: 'lenni',
         description: 'Lenni Joy',
         group: 'Names'
-      }].map(i => {
-        i.rgItemType = List.ListProps.Type.CUSTOM;
-        i.template = template(i);
-        i.data = i;
-        return i;
-      })
-    });
+      }
+    ].map(i => {
+      i.rgItemType = List.ListProps.Type.CUSTOM;
+      i.template = template(i);
+      i.data = i;
+      return i;
+    })
+  });
 
-    return (
-      <QueryAssist
-        placeholder="placeholder"
-        glass
-        clear
-        onApply={queryAssistLog}
-        hint="hint"
-        hintOnSelection="hint on selection"
-        dataSource={dataSource}
-        useCustomItemRender
-      />
-    );
-  }, {hermione: {skip: true}}).
-  add('dark theme (no-auth)', () => {
-    const dataSource = async ({query, caret}) => ({
-      query,
-      caret,
-      styleRanges: [
-        {start: 0, length: 1, style: 'text'},
-        {start: 1, length: 1, style: 'field_value'},
-        {start: 2, length: 1, style: 'field_name'},
-        {start: 3, length: 1, style: 'operator'}
-      ],
-      suggestions: [{
+  return (
+    <QueryAssist
+      placeholder="placeholder"
+      glass
+      clear
+      onApply={queryAssistLog}
+      hint="hint"
+      hintOnSelection="hint on selection"
+      dataSource={dataSource}
+      useCustomItemRender
+    />
+  );
+};
+
+withCustomRenderer.story = {
+  name: 'with custom renderer',
+  parameters: {hermione: {skip: true}}
+};
+
+export const darkThemeNoAuth = () => {
+  const dataSource = async ({query, caret}) => ({
+    query,
+    caret,
+    styleRanges: [
+      {start: 0, length: 1, style: 'text'},
+      {start: 1, length: 1, style: 'field_value'},
+      {start: 2, length: 1, style: 'field_name'},
+      {start: 3, length: 1, style: 'operator'}
+    ],
+    suggestions: [
+      {
         prefix: 'login: ',
         option: 'test',
         suffix: ' ',
@@ -262,7 +294,8 @@ storiesOf('Components|Query Assist', module).
         completionStart: 0,
         completionEnd: query.length,
         group: 'logins'
-      }, {
+      },
+      {
         prefix: 'login: ',
         option: 'test.1',
         suffix: ' ',
@@ -273,78 +306,94 @@ storiesOf('Components|Query Assist', module).
         completionStart: 0,
         completionEnd: query.length,
         group: 'logins'
-      }]
-    });
+      }
+    ]
+  });
 
-    return (
-      <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
-        <QueryAssist
-          placeholder="placeholder"
-          theme={QueryAssist.Theme.DARK}
-          glass
-          clear
-          onApply={queryAssistLog}
-          hint="hint"
-          hintOnSelection="hint on selection"
-          dataSource={dataSource}
-        />
-      </div>
-    );
-  }, {
+  return (
+    <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
+      <QueryAssist
+        placeholder="placeholder"
+        theme={QueryAssist.Theme.DARK}
+        glass
+        clear
+        onApply={queryAssistLog}
+        hint="hint"
+        hintOnSelection="hint on selection"
+        dataSource={dataSource}
+      />
+    </div>
+  );
+};
+
+darkThemeNoAuth.story = {
+  name: 'dark theme (no-auth)',
+
+  parameters: {
     hermione: {
       actions: [
         {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
         {type: 'click', selector: '[data-test=ring-query-assist-input]'},
-        {type: 'capture', name: 'withPopup', selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']}
+        {
+          type: 'capture',
+          name: 'withPopup',
+          selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
+        }
       ]
     }
-  }).
-  add('with custom actions', () => {
-    const auth = new Auth(hubConfig);
-    const http = new HTTP(auth, auth.getAPIPath());
+  }
+};
 
-    class QueryAssistExample extends Component {
-      constructor() {
-        super();
-        auth.init().
-          then(() => this.setState({authReady: true}));
-      }
+export const withCustomActions = () => {
+  const auth = new Auth(hubConfig);
+  const http = new HTTP(auth, auth.getAPIPath());
 
-      state = {authReady: false};
-
-      dataSource = props => {
-        const params = {
-          query: {
-            ...props,
-            fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-          }
-        };
-
-        return http.get('users/queryAssist', params);
-      };
-
-      render() {
-        if (!this.state.authReady) {
-          return <span>Loading...</span>;
-        }
-
-        return (
-          <QueryAssist
-            query="test"
-            placeholder="placeholder"
-            glass
-            clear
-            onApply={queryAssistLog}
-            focus
-            hint="lol"
-            hintOnSelection="lol selected"
-            popupClassName="test"
-            dataSource={this.dataSource}
-            actions={[<PermissionIcon key="custom-action"/>]}
-          />
-        );
-      }
+  class QueryAssistExample extends Component {
+    constructor() {
+      super();
+      auth.init().then(() => this.setState({authReady: true}));
     }
 
-    return <QueryAssistExample/>;
-  }, {hermione: {skip: true}});
+    state = {authReady: false};
+
+    dataSource = props => {
+      const params = {
+        query: {
+          ...props,
+          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+        }
+      };
+
+      return http.get('users/queryAssist', params);
+    };
+
+    render() {
+      if (!this.state.authReady) {
+        return <span>Loading...</span>;
+      }
+
+      return (
+        <QueryAssist
+          query="test"
+          placeholder="placeholder"
+          glass
+          clear
+          onApply={queryAssistLog}
+          focus
+          hint="lol"
+          hintOnSelection="lol selected"
+          popupClassName="test"
+          dataSource={this.dataSource}
+          actions={[<PermissionIcon key="custom-action"/>]}
+        />
+      );
+    }
+  }
+
+  return <QueryAssistExample/>;
+};
+
+withCustomActions.story = {
+  name: 'with custom actions',
+  parameters: {hermione: {skip: true}}
+};
