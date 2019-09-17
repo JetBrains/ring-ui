@@ -68,16 +68,14 @@ export default class Alert extends PureComponent {
     timeout: PropTypes.number,
     /**
      * Fires when alert starts closing if timeout is out or user clicks "Close" button
-     * @type {?function(SyntheticMouseEvent):undefined}
      */
     onCloseRequest: PropTypes.func,
     onClose: PropTypes.func,
     isShaking: PropTypes.bool,
     isClosing: PropTypes.bool,
     /**
-     * Whether an alert is rendered inside an {@code Alerts} container
+     * Whether an alert is rendered inside an **Alerts** container
      * or standalone.
-     * @type {boolean}
      */
     inline: PropTypes.bool,
     showWithAnimation: PropTypes.bool,
@@ -92,7 +90,6 @@ export default class Alert extends PureComponent {
 
   /** @override */
   static defaultProps = {
-    /** @type {boolean} */
     closeable: true,
     showWithAnimation: true,
     type: Type.MESSAGE,
