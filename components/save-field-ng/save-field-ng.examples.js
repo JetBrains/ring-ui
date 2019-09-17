@@ -1,7 +1,6 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
@@ -10,66 +9,72 @@ import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
 import SaveFieldNG from './save-field-ng';
 
-storiesOf('Legacy Angular|Save Field Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Save Field Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Allows to create forms where some fields have their own Save buttons.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [SaveFieldNG, QueryAssistNG]).
-      config((shortcutsProvider, rgSaveFieldShortcutsMode) => {
-        shortcutsProvider.mode({
-          id: 'ring-shortcuts',
-          shortcuts: []
-        });
-        shortcutsProvider.mode(rgSaveFieldShortcutsMode);
-      }).
-      controller('SaveFieldDemoCtrl', function ctrl($scope, $q, $http) {
-        $scope.data = {
-          email: 'aa',
-          longText: null,
-          longTextList: ['one', 'two', 'three'],
-          num: 10,
-          someText: 'some text',
-          query: 'login: guest'
-        };
+  }
+};
 
-        // eslint-disable-next-line angular/deferred
-        const defer = $q.defer();
-        defer.resolve();
-        $scope.save = () => {
-          action('save')('data = ', $scope.data);
-          return defer.promise;
-        };
+export const basic = () => {
+  angular.
+    module(APP_NAME, [SaveFieldNG, QueryAssistNG]).
+    config((shortcutsProvider, rgSaveFieldShortcutsMode) => {
+      shortcutsProvider.mode({
+        id: 'ring-shortcuts',
+        shortcuts: []
+      });
+      shortcutsProvider.mode(rgSaveFieldShortcutsMode);
+    }).
+    controller('SaveFieldDemoCtrl', function ctrl($scope, $q, $http) {
+      $scope.data = {
+        email: 'aa',
+        longText: null,
+        longTextList: ['one', 'two', 'three'],
+        num: 10,
+        someText: 'some text',
+        query: 'login: guest'
+      };
 
-        $scope.invalidSave = currentValue => {
-          if (currentValue.length < 7) {
-            return $q.reject(`Length of the string must be greater than 7! >> ${currentValue}`);
-          } else {
-            return true;
+      // eslint-disable-next-line angular/deferred
+      const defer = $q.defer();
+      defer.resolve();
+      $scope.save = () => {
+        action('save')('data = ', $scope.data);
+        return defer.promise;
+      };
+
+      $scope.invalidSave = currentValue => {
+        if (currentValue.length < 7) {
+          return $q.reject(`Length of the string must be greater than 7! >> ${currentValue}`);
+        } else {
+          return true;
+        }
+      };
+
+      $scope.queryAssistSource = ({query, caret, omitSuggestions}) => {
+        const config = {
+          params: {
+            fields: `query,caret,styleRanges${omitSuggestions ? '' : ',suggestions'}`,
+            query,
+            caret
           }
         };
 
-        $scope.queryAssistSource = ({query, caret, omitSuggestions}) => {
-          const config = {
-            params: {
-              fields: `query,caret,styleRanges${omitSuggestions ? '' : ',suggestions'}`,
-              query,
-              caret
-            }
-          };
+        return $http.
+          get(`${hubConfig.serverUri}/api/rest/users/queryAssist`, config).
+          then(data => data.data);
+      };
 
-          return $http.get(`${hubConfig.serverUri}/api/rest/users/queryAssist`, config).
-            then(data => data.data);
-        };
+      $scope.updateQueryAssistValue = ({query}) => {
+        $scope.data.query = query;
+      };
+    });
 
-        $scope.updateQueryAssistValue = ({query}) => {
-          $scope.data.query = query;
-        };
-      });
-
-    return `
+  return `
       <div rg-shortcuts-app>
         <div class="ring-form" ng-controller="SaveFieldDemoCtrl">
   
@@ -204,4 +209,8 @@ storiesOf('Legacy Angular|Save Field Ng', module).
   
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import '../input/input.scss';
@@ -11,18 +9,20 @@ import '../input-size/input-size.scss';
 import SelectNG from '../select-ng/select-ng';
 import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
-storiesOf('Style-only|Input Sizes', module).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [QueryAssistNG, SelectNG]).
-      controller('ExampleCtrl', function ctrl() {
-        this.dataSource = () => [];
+export default {
+  title: 'Style-only|Input Sizes',
+  decorators: [angularDecorator()]
+};
 
-        this.options = ['one', 'two', 'three'];
-        this.selected = null;
-      });
+export const basic = () => {
+  angular.module(APP_NAME, [QueryAssistNG, SelectNG]).controller('ExampleCtrl', function ctrl() {
+    this.dataSource = () => [];
 
-    return `
+    this.options = ['one', 'two', 'three'];
+    this.selected = null;
+  });
+
+  return `
       <div ng-controller="ExampleCtrl as exampleCtrl">
         <h3 class="example-block">Query Assists</h3>
         <div class="example-block">
@@ -202,12 +202,18 @@ storiesOf('Style-only|Input Sizes', module).
         </div>
       </div>
     `;
-  }, {
+};
+
+basic.story = {
+  name: 'basic',
+
+  parameters: {
     storyStyles: `
-<style>
-  .example-block {
-    margin: 16px;
-    max-width: 600px;
+  <style>
+    .example-block {
+      margin: 16px;
+      max-width: 600px;
+    }
+  </style>`
   }
-</style>`
-  });
+};

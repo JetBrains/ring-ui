@@ -1,28 +1,29 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import RingPager from './pager-ng';
 
-storiesOf('Legacy Angular|Pager Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Pager Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Pager.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [RingPager]).
-      controller('testCtrl', function controller() {
-        this.total = 750;
-        this.currentPage = 1;
+  }
+};
 
-        this.onPageChange = page => {
-          this.currentPage = page;
-        };
-      });
+export const basic = () => {
+  angular.module(APP_NAME, [RingPager]).controller('testCtrl', function controller() {
+    this.total = 750;
+    this.currentPage = 1;
 
-    return `
+    this.onPageChange = page => {
+      this.currentPage = page;
+    };
+  });
+
+  return `
       <div ng-controller="testCtrl as ctrl">
         <rg-pager
           total="ctrl.total"
@@ -31,4 +32,8 @@ storiesOf('Legacy Angular|Pager Ng', module).
         ></rg-pager>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

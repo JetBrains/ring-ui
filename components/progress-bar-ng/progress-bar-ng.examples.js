@@ -1,31 +1,34 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import RingProgressBar from './progress-bar-ng';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
-storiesOf('Legacy Angular|Progress Bar Ng', module).
-  addParameters({
-    notes: 'Provides an Angular wrapper for Progress Bar.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [RingProgressBar]).
-      controller('ExampleCtrl', function controller($interval) {
-        this.value = disableAnimations ? 0.5 : 0;
+export default {
+  title: 'Legacy Angular|Progress Bar Ng',
+  decorators: [angularDecorator()],
 
-        if (!disableAnimations) {
-          $interval(() => {
-            const currentValue = this.value;
-            this.value = currentValue >= 1 ? 0 : currentValue + 0.1;
-          }, 500);
-        }
-      });
-    return `
+  parameters: {
+    notes: 'Provides an Angular wrapper for Progress Bar.'
+  }
+};
+
+export const basic = () => {
+  angular.
+    module(APP_NAME, [RingProgressBar]).
+    controller('ExampleCtrl', function controller($interval) {
+      this.value = disableAnimations ? 0.5 : 0;
+
+      if (!disableAnimations) {
+        $interval(() => {
+          const currentValue = this.value;
+          this.value = currentValue >= 1 ? 0 : currentValue + 0.1;
+        }, 500);
+      }
+    });
+  return `
       <div ng-controller="ExampleCtrl as ctrl">
         <div style="height: 25px; padding-top: 25px;">
           <rg-progress-bar value="ctrl.value"></rg-progress-bar>
@@ -38,4 +41,8 @@ storiesOf('Legacy Angular|Progress Bar Ng', module).
         </div>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

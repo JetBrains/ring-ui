@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import ButtonNG from '../button-ng/button-ng';
@@ -9,15 +7,19 @@ import ButtonGroupNg from '../button-group-ng/button-group-ng';
 
 import ButtonToolbarNG from './button-toolbar-ng';
 
-storiesOf('Legacy Angular|Button Toolbar Ng', module).
-  addParameters({
-    notes: 'Provides an Angular wrapper for Button Toolbar.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, ButtonToolbarNG, ButtonGroupNg]);
+export default {
+  title: 'Legacy Angular|Button Toolbar Ng',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Provides an Angular wrapper for Button Toolbar.'
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG, ButtonToolbarNG, ButtonGroupNg]);
+
+  return `
       <div rg-button-toolbar>
         <rg-button mode="primary" delayed="true">Run</rg-button>
         <div rg-button-group>
@@ -28,4 +30,8 @@ storiesOf('Legacy Angular|Button Toolbar Ng', module).
         <rg-button>Another action</rg-button>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

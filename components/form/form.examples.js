@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import '../input/input.scss';
@@ -10,15 +8,19 @@ import '../input-size/input-size.scss';
 
 import ButtonNG from '../button-ng/button-ng';
 
-storiesOf('Style-only|Form', module).
-  addParameters({
-    notes: 'Helps create forms with various types of controls.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG]);
+export default {
+  title: 'Style-only|Form',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Helps create forms with various types of controls.'
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG]);
+
+  return `
       <div style="width: 700px">
         <form class="ring-form">
           <span class="ring-form__title">Form Title</span>
@@ -120,4 +122,8 @@ storiesOf('Style-only|Form', module).
         </form>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

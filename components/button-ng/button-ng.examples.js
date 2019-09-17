@@ -1,36 +1,33 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IconNG from '../icon-ng/icon-ng';
 import ThemeNG from '../theme-ng/theme-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import Theme from '../global/theme';
 
-import {
-  PencilIcon,
-  Chevron10pxIcon,
-  CloseIcon,
-  PermissionIcon
-} from '../icon';
+import {PencilIcon, Chevron10pxIcon, CloseIcon, PermissionIcon} from '../icon';
 
 import ButtonNG from './button-ng';
 
-storiesOf('Legacy Angular|Button Ng', module).
-  addDecorator(angularDecorator()).
-  add('light', () => {
-    angular.module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
-      controller('testCtrl', function controller($scope) {
-        $scope.pencil = PencilIcon;
-        $scope.chevronDown = Chevron10pxIcon;
-        $scope.close = CloseIcon;
-        $scope.permission = PermissionIcon;
-        $scope.Theme = Theme;
-      });
+export default {
+  title: 'Legacy Angular|Button Ng',
+  decorators: [angularDecorator()]
+};
 
-    return `
+export const light = () => {
+  angular.
+    module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
+    controller('testCtrl', function controller($scope) {
+      $scope.pencil = PencilIcon;
+      $scope.chevronDown = Chevron10pxIcon;
+      $scope.close = CloseIcon;
+      $scope.permission = PermissionIcon;
+      $scope.Theme = Theme;
+    });
+
+  return `
       <div ng-controller="testCtrl">
         <rg-checkbox ng-model="$root.checkbox"><b>Dark theme</b></rg-checkbox>
   
@@ -105,22 +102,28 @@ storiesOf('Legacy Angular|Button Ng', module).
         </rg-theme>
       </div>
     `;
-  }).
-  add('dark', () => {
-    angular.module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
-      run($rootScope => {
-        $rootScope.checkbox = true;
-        $rootScope.currentTheme = 'dark';
-      }).
-      controller('testCtrl', function controller($scope) {
-        $scope.pencil = PencilIcon;
-        $scope.chevronDown = Chevron10pxIcon;
-        $scope.close = CloseIcon;
-        $scope.permission = PermissionIcon;
-        $scope.Theme = Theme;
-      });
+};
 
-    return `
+light.story = {
+  name: 'light'
+};
+
+export const dark = () => {
+  angular.
+    module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
+    run($rootScope => {
+      $rootScope.checkbox = true;
+      $rootScope.currentTheme = 'dark';
+    }).
+    controller('testCtrl', function controller($scope) {
+      $scope.pencil = PencilIcon;
+      $scope.chevronDown = Chevron10pxIcon;
+      $scope.close = CloseIcon;
+      $scope.permission = PermissionIcon;
+      $scope.Theme = Theme;
+    });
+
+  return `
       <div ng-controller="testCtrl">
         <rg-checkbox ng-model="$root.checkbox"
                      ng-change="$root.currentTheme = $root.checkbox ? Theme.DARK : Theme.LIGHT">
@@ -198,4 +201,8 @@ storiesOf('Legacy Angular|Button Ng', module).
         </rg-theme>
       </div>
     `;
-  });
+};
+
+dark.story = {
+  name: 'dark'
+};

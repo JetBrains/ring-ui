@@ -1,25 +1,27 @@
-import {storiesOf} from '@storybook/html';
-
 import '../old-browsers-message/old-browsers-message.css';
 import '../old-browsers-message/old-browsers-message';
 
-storiesOf('Style-only|Old Browsers Message', module).
-  addParameters({
+export default {
+  title: 'Style-only|Old Browsers Message',
+
+  parameters: {
     notes: `
 Displays a full-screen "Browser is unsupported" message if a JavaScript error occurs on page load in an old browser.
 
 Note: this script does not have any dependencies, you should include it directly.
 Once loaded, it attaches a global error handler. When your app finishes loading you should probably turn it off by calling oldBrowserMessage.stop();
     `
-  }).
-  add('basic', () => {
-    function triggerGlobalError() {
-      Object.unknownMethodToTriggerOldBrowsersMessage();
-    }
+  }
+};
 
-    setTimeout(triggerGlobalError);
+export const basic = () => {
+  function triggerGlobalError() {
+    Object.unknownMethodToTriggerOldBrowsersMessage();
+  }
 
-    return `
+  setTimeout(triggerGlobalError);
+
+  return `
       <div id="ring-old-browsers-message" class="ring-old-browsers-message ring-old-browsers-message_hidden" hidden>
         <span id="ring-old-browsers-message__smile" class="ring-old-browsers-message__smile">{{ (&gt;_&lt;) }}</span>
         <br/><br/>
@@ -29,4 +31,8 @@ Once loaded, it attaches a global error handler. When your app finishes loading 
         <br/><br/>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

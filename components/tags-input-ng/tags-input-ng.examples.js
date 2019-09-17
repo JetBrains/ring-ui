@@ -1,35 +1,32 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import TagsInputNG from './tags-input-ng';
 
-storiesOf('Legacy Angular|Tags Input Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Tags Input Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Tags Input.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [TagsInputNG]).
-      controller('ExampleCtrl', function ctrl($q) {
-        this.tags = [
-          {key: 'test1', label: 'test1'},
-          {key: 'test2', label: 'test2'}
-        ];
+  }
+};
 
-        this.dataSource = () => $q.when([
-          {key: 'test3', label: 'test3'},
-          {key: 'test4', label: 'test4'}
-        ]);
+export const basic = () => {
+  angular.module(APP_NAME, [TagsInputNG]).controller('ExampleCtrl', function ctrl($q) {
+    this.tags = [{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}];
 
-        this.onAddTag = action('onAddTag');
+    this.dataSource = () =>
+      $q.when([{key: 'test3', label: 'test3'}, {key: 'test4', label: 'test4'}]);
 
-        this.removeTag = action('removeTag');
-      });
-    return `
+    this.onAddTag = action('onAddTag');
+
+    this.removeTag = action('removeTag');
+  });
+  return `
       <div ng-controller="ExampleCtrl as ctrl">
         <rg-tags-input
           tags="ctrl.tags"
@@ -40,4 +37,8 @@ storiesOf('Legacy Angular|Tags Input Ng', module).
         ></rg-tags-input>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

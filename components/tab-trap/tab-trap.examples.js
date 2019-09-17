@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -10,37 +9,43 @@ import Group from '../group/group';
 
 import TabTrap from './tab-trap';
 
-storiesOf('Components|TabTrap', module).
-  addParameters({
+export default {
+  title: 'Components|TabTrap',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Disallows tabbing out of a designated area.',
     hermione: {skip: true}
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    class TabTrapDemo extends Component {
-      render() {
-        return (
-          <div>
-            <Button>Outside of trap</Button>
+  }
+};
 
-            <h4>Trap start</h4>
-            <TabTrap>
-              <Input placeholder="inside trap" autoFocus/>
-              <Group>
-                <Button>
-                  Test
-                </Button>
-                <Link href="#">Test link</Link>
-              </Group>
-            </TabTrap>
+export const basic = () => {
+  class TabTrapDemo extends Component {
+    render() {
+      return (
+        <div>
+          <Button>Outside of trap</Button>
 
-            <h4>Trap end</h4>
+          <h4>Trap start</h4>
+          <TabTrap>
+            <Input placeholder="inside trap" autoFocus/>
+            <Group>
+              <Button>Test</Button>
+              <Link href="#">Test link</Link>
+            </Group>
+          </TabTrap>
 
-            <Button>Outside of trap</Button>
-          </div>
-        );
-      }
+          <h4>Trap end</h4>
+
+          <Button>Outside of trap</Button>
+        </div>
+      );
     }
+  }
 
-    return <TabTrapDemo/>;
-  });
+  return <TabTrapDemo/>;
+};
+
+basic.story = {
+  name: 'basic'
+};

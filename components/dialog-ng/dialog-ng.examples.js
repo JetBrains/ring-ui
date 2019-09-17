@@ -1,6 +1,5 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
@@ -12,17 +11,23 @@ import SidebarNG from '../sidebar-ng/sidebar-ng';
 
 import DialogNG from './dialog-ng';
 
-storiesOf('Legacy Angular|Dialog Ng', module).
-  addParameters({
+export default {
+  title: 'Legacy Angular|Dialog Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Dialog.',
     hermione: {captureSelector: '*[data-test~=ring-dialog]'}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG]).
-      controller('ExampleCtrl', function controller($q, $timeout, dialog) {
-        this.showDialog = () => {
-          dialog.show({
+  }
+};
+
+export const basic = () => {
+  angular.
+    module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG]).
+    controller('ExampleCtrl', function controller($q, $timeout, dialog) {
+      this.showDialog = () => {
+        dialog.
+          show({
             cssClass: 'custom-css-class',
             title: 'Test',
             closeOnClick: true,
@@ -73,15 +78,16 @@ storiesOf('Legacy Angular|Dialog Ng', module).
                 action: () => $timeout(angular.noop, 2000).then(action('Some error'))
               }
             ]
-          }).catch(action('dialog rejected'));
-        };
+          }).
+          catch(action('dialog rejected'));
+      };
 
-        $timeout(() => this.showDialog());
-      }).
-      controller('DialogExampleCtrl', function controller() {
-        this.arr = [{name: 'Ada'}, {name: 'Nik'}];
-      });
-    return `
+      $timeout(() => this.showDialog());
+    }).
+    controller('DialogExampleCtrl', function controller() {
+      this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+    });
+  return `
       <div class="long-page">
         <div rg-dialog=""></div>
         <div ng-controller="ExampleCtrl as ctrl">
@@ -89,66 +95,74 @@ storiesOf('Legacy Angular|Dialog Ng', module).
         </div>
       </div>
     `;
-  }, {
+};
+
+basic.story = {
+  name: 'basic',
+
+  parameters: {
     storyStyles: `
-<style>
-    .custom-css-class-button-right {
-      float: right;
-      color: #C10000;
-    }
+  <style>
+      .custom-css-class-button-right {
+        float: right;
+        color: #C10000;
+      }
 
-    .form-with-inputs {
-      margin-top: -16px;
-    }
+      .form-with-inputs {
+        margin-top: -16px;
+      }
 
-    .long-page {
-      height: 2000px;
-    }
+      .long-page {
+        height: 2000px;
+      }
 
-    .high-field.high-field {
-      padding: 0;
-      line-height: 32px;
-    }
-</style>`
-  }).
-  add('in sidebar', () => {
-    angular.module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
-      controller('ExampleCtrl', function controller($q, $timeout, dialogInSidebar) {
-        this.showDialog = () => {
-          dialogInSidebar.show({
-            title: 'Test',
-            shortcuts: {
-              'ctrl+enter': angular.noop
-            },
-            template: `
+      .high-field.high-field {
+        padding: 0;
+        line-height: 32px;
+      }
+  </style>`
+  }
+};
+
+export const inSidebar = () => {
+  angular.
+    module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
+    controller('ExampleCtrl', function controller($q, $timeout, dialogInSidebar) {
+      this.showDialog = () => {
+        dialogInSidebar.show({
+          title: 'Test',
+          shortcuts: {
+            'ctrl+enter': angular.noop
+          },
+          template: `
               <div>
                 <div class="ring-form__group">
                   <rg-input id="dialog__key" type="text" label="Key">
                 </div>
               </div>
             `,
-            controllerAs: 'dialogExampleCtrl',
-            controller: function ctrl() {
-              this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+          controllerAs: 'dialogExampleCtrl',
+          controller: function ctrl() {
+            this.arr = [{name: 'Ada'}, {name: 'Nik'}];
+          },
+          buttons: [
+            {
+              label: 'Save',
+              default: true,
+              action: angular.noop
             },
-            buttons: [
-              {
-                label: 'Save',
-                default: true,
-                action: angular.noop
-              },
-              {
-                label: 'Cancel',
-                close: true
-              }
-            ]
-          });
-        };
+            {
+              label: 'Cancel',
+              close: true
+            }
+          ]
+        });
+      };
 
-        $timeout(() => this.showDialog(), 500);
-      });
+      $timeout(() => this.showDialog(), 500);
+    });
 
-    return `
+  return `
       <div>
         <rg-sidebar show="true">
           <rg-dialog in-sidebar="true" active="true"></rg-dialog>
@@ -159,12 +173,19 @@ storiesOf('Legacy Angular|Dialog Ng', module).
         </div>
       </div>
     `;
-  }).
-  add('with overridden styles', () => {
-    angular.module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
-      controller('ExampleCtrl', function controller($q, $timeout, dialog) {
-        this.showDialog = () => {
-          dialog.show({
+};
+
+inSidebar.story = {
+  name: 'in sidebar'
+};
+
+export const withOverriddenStyles = () => {
+  angular.
+    module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
+    controller('ExampleCtrl', function controller($q, $timeout, dialog) {
+      this.showDialog = () => {
+        dialog.
+          show({
             cssClass: 'custom-css-class',
             title: 'Test',
             closeOnClick: true,
@@ -181,13 +202,14 @@ storiesOf('Legacy Angular|Dialog Ng', module).
             `,
             controllerAs: 'dialogExampleCtrl',
             controller: function ctrl() {}
-          }).catch(action('dialog rejected'));
-        };
+          }).
+          catch(action('dialog rejected'));
+      };
 
-        $timeout(() => this.showDialog());
-      });
+      $timeout(() => this.showDialog());
+    });
 
-    return `
+  return `
       <div class="long-page">
         <div rg-dialog=""></div>
         <div ng-controller="ExampleCtrl as ctrl">
@@ -195,14 +217,20 @@ storiesOf('Legacy Angular|Dialog Ng', module).
         </div>
       </div>
     `;
-  }, {
+};
+
+withOverriddenStyles.story = {
+  name: 'with overridden styles',
+
+  parameters: {
     storyStyles: `
-<style>
-  .long-page {
-    height: 2000px;
+  <style>
+    .long-page {
+      height: 2000px;
+    }
+    .custom-css-class {
+      padding: 40px;
+    }
+  </style>`
   }
-  .custom-css-class {
-    padding: 40px;
-  }
-</style>`
-  });
+};

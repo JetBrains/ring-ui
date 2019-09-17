@@ -1,29 +1,34 @@
-import {storiesOf} from '@storybook/html';
-
 import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
 
+export default {
+  title: 'Utilities|HTTP service',
 
-storiesOf('Utilities|HTTP service', module).
-  addParameters({
+  parameters: {
     notes: 'Provides a way to perform authorized network requests.',
     hermione: {skip: true}
-  }).
-  add('basic', () => {
-    const node = document.createElement('div');
-    node.innerHTML = '<div id="output">Fetching user using HTTP service...</div>';
+  }
+};
 
-    const auth = new Auth(hubConfig);
-    const http = new HTTP(auth);
+export const basic = () => {
+  const node = document.createElement('div');
+  node.innerHTML = '<div id="output">Fetching user using HTTP service...</div>';
 
-    (async function initializeExample() {
-      await auth.init();
+  const auth = new Auth(hubConfig);
+  const http = new HTTP(auth);
 
-      const user = await http.get(`${hubConfig.serverUri}/api/rest/users/me?fields=name,login`);
+  (async function initializeExample() {
+    await auth.init();
 
-      node.querySelector('#output').innerText = JSON.stringify(user);
-    }());
+    const user = await http.get(`${hubConfig.serverUri}/api/rest/users/me?fields=name,login`);
 
-    return node;
-  });
+    node.querySelector('#output').innerText = JSON.stringify(user);
+  }());
+
+  return node;
+};
+
+basic.story = {
+  name: 'basic'
+};

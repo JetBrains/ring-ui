@@ -1,20 +1,29 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import LoaderNg from './loader-ng';
 
-storiesOf('Legacy Angular|Loader Ng', module).
-  addParameters({notes: 'Displays the loader.', hermione: {skip: true}}).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [LoaderNg]);
+export default {
+  title: 'Legacy Angular|Loader Ng',
+  decorators: [angularDecorator()],
 
-    return `
+  parameters: {
+    notes: 'Displays the loader.',
+    hermione: {skip: true}
+  }
+};
+
+export const basic = () => {
+  angular.module(APP_NAME, [LoaderNg]);
+
+  return `
       <div>
         <rg-loader/>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

@@ -1,17 +1,20 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Markdown, {md} from '../markdown/markdown';
 
-storiesOf('Components|Markdown', module).
-  addParameters({
+export default {
+  title: 'Components|Markdown',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Renders Markdown.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => (
-    <Markdown
-      source={`
+  }
+};
+
+export const basic = () => (
+  <Markdown
+    source={`
           # Header
 
           _Various_ types of **highlighting**
@@ -53,46 +56,59 @@ storiesOf('Components|Markdown', module).
           );
           \`\`\`
         `}
-    />
-  )).
-  add('tagged template', () => (
-    md`
-      # Header
+  />
+);
 
-      _Various_ types of **highlighting**
+basic.story = {
+  name: 'basic'
+};
 
-      [Link](/)
+export const taggedTemplate = () =>
+  md`
+    # Header
 
-      [Link with definition][definition]
+    _Various_ types of **highlighting**
 
-      [definition]: /
+    [Link](/)
 
-      > Blockquote
-      >
-      > Second line
+    [Link with definition][definition]
 
-      Unordered list:
+    [definition]: /
 
-      * List
-      * List
+    > Blockquote
+    >
+    > Second line
 
-      Ordered list:
+    Unordered list:
 
-      1. One
-      2. Two
+    - List
+    - List
 
-      Horizontal line
+    Ordered list:
 
-      ---
-      Some \`inline(code)\` inside text
+    1. One
+    2. Two
 
-      ## Block code
-      \`\`\`js
-      import React from 'react';
+    Horizontal line
 
-      import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
+    ---
 
-      const MarkdownHeader = ({children}) => md\`#\${children}\`;
-      \`\`\`
-    `
-  ));
+    Some \`inline(code)\` inside text
+
+    ## Block code
+
+    ~~~js
+    import React from 'react';
+
+    import { md } from '@jetbrains/ring-ui/components/markdown/markdown';
+
+    const MarkdownHeader = ({ children }) =>
+      md\`
+    #\${children}
+      \`;
+    ~~~
+  `;
+
+taggedTemplate.story = {
+  name: 'tagged template'
+};
