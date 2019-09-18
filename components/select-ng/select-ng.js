@@ -228,6 +228,9 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       };
 
       ctrl.loadOptionsToSelect = query => {
+        if (inProcessQueries > 0) {
+          return $q.resolve();
+        }
         if (ctrl.stopLoadingNewOptions && query === lastQuery) {
           return $q.resolve();
         }
