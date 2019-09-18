@@ -81,8 +81,8 @@ export const taggedTemplate = () =>
 
     Unordered list:
 
-    - List
-    - List
+    * List
+    * List
 
     Ordered list:
 
@@ -92,21 +92,16 @@ export const taggedTemplate = () =>
     Horizontal line
 
     ---
-
     Some \`inline(code)\` inside text
 
     ## Block code
-
-    ~~~js
+    \`\`\`js
     import React from 'react';
 
-    import { md } from '@jetbrains/ring-ui/components/markdown/markdown';
+    import {md} from '@jetbrains/ring-ui/components/markdown/markdown';
 
-    const MarkdownHeader = ({ children }) =>
-      md\`
-    #\${children}
-      \`;
-    ~~~
+    const MarkdownHeader = ({children}) => md\`#\${children}\`;
+    \`\`\`
   `;
 
 taggedTemplate.story = {
