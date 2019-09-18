@@ -72,7 +72,7 @@
     "@storybook/addon-notes": "^5.2.0",
     "@storybook/addon-storysource": "^5.2.0",
     "@storybook/cli": "^5.2.0",
-    "@storybook/client-api": "^5.2.0",
+    "@storybook/client-api": "^5.2.1",
     "@storybook/core": "^5.2.0",
     "@storybook/html": "^5.2.0",
     "@storybook/source-loader": "^5.2.0",
