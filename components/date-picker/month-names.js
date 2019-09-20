@@ -21,7 +21,8 @@ class MonthName extends PureComponent {
     const {month} = this.props;
 
     return (
-      <div
+      <button
+        type="button"
         className={classNames(
           styles.monthName,
           {
@@ -31,7 +32,7 @@ class MonthName extends PureComponent {
         onClick={this.handleClick}
       >
         {month.format('MMM')}
-      </div>
+      </button>
     );
   }
 }

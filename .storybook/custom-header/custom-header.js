@@ -49,7 +49,7 @@ class SiteHeader extends PureComponent {
   render() {
     return (
       <Header className={styles.header}>
-        <a href="">
+        <a href=".">
           <Logo
             className={styles.logo}
             glyph={jetbrainsLogo}

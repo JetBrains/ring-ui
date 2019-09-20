@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import dataTests from '../global/data-tests';
+import getEventKey from '../global/get-event-key';
 
 import styles from './list.css';
 
@@ -30,6 +31,13 @@ export default class ListCustom extends PureComponent {
     hover: false
   };
 
+  handleKeyPress = event => {
+    const key = getEventKey(event);
+    if (key === 'Enter' || key === ' ') {
+      this.props.onClick(event);
+    }
+  };
+
   render() {
     const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onCheckboxChange, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
     const classes = classNames(styles.item, className, {
@@ -46,9 +54,12 @@ export default class ListCustom extends PureComponent {
     const content = (typeof template === 'function') ? template(this.props) : template;
     return (
       <span
+        role="button"
         tabIndex={tabIndex}
         onClick={onClick}
+        onKeyPress={this.handleKeyPress}
         onMouseOver={onMouseOver}
+        onFocus={onMouseOver}
         onMouseUp={onMouseUp}
         className={classes}
         data-test={dataTest}

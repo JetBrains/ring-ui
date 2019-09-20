@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 
 .select {
   position: relative;
@@ -60,6 +60,8 @@
 }
 
 .selectedIcon {
+  composes: resetButton;
+
   display: inline-block;
 
   width: calc(2 * unit);
@@ -212,4 +214,18 @@
 .popup {
   min-width: calc(unit * 30);
   max-width: calc(unit * 40);
+}
+
+.chevron.chevron {
+  padding: 0;
+
+  transition: none;
+
+  color: inherit;
+}
+
+.chevronIcon.chevronIcon {
+  transition: none;
+
+  color: inherit;
 }

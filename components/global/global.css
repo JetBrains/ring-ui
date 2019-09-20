@@ -71,6 +71,27 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
   text-overflow: ellipsis;
 }
 
+.resetButton {
+  overflow: visible;
+
+  padding: 0;
+
+  text-align: left;
+
+  color: inherit;
+  border: 0;
+
+  background: transparent;
+
+  font: inherit;
+
+  &::-moz-focus-inner {
+    padding: 0;
+
+    border: 0;
+  }
+}
+
 /* Note: footer also has top margin which isn't taken into account here */
 @value footer-height: calc(unit * 8);
 

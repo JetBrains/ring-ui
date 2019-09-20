@@ -24,6 +24,8 @@ function simulateInput(target, value) {
   }
 }
 
+const selectedIconSelector = `.${styles.selectedIcon.split(/\s/)[0]}`;
+
 describe('Select', () => {
   const testData = [
     {key: 1, label: 'first1', type: List.ListProps.Type.ITEM},
@@ -406,12 +408,12 @@ describe('Select', () => {
           icon: 'fakeImageUrl'
         }
       });
-      wrapper.should.have.descendants(`.${styles.selectedIcon}`);
+      wrapper.should.have.descendants(selectedIconSelector);
     });
 
     it('Should not display selected item icon if it is not provided', () => {
       const wrapper = shallowSelect({selected: {key: 1, label: 'test', icon: null}});
-      wrapper.should.not.have.descendants(`.${styles.selectedIcon}`);
+      wrapper.should.not.have.descendants(selectedIconSelector);
     });
 
     it('Should display selected item icon', () => {
@@ -422,7 +424,7 @@ describe('Select', () => {
           icon: 'http://fake.image/'
         }
       });
-      const icon = wrapper.find(`.${styles.selectedIcon}`).getDOMNode();
+      const icon = wrapper.find(selectedIconSelector).getDOMNode();
       icon.style.backgroundImage.should.contain('http://fake.image/');
     });
 
@@ -435,7 +437,7 @@ describe('Select', () => {
       const wrapper = shallowSelect();
       const instance = wrapper.instance();
       sandbox.spy(instance, '_showPopup');
-      wrapper.simulate('click');
+      wrapper.find('button').simulate('click');
 
       instance._showPopup.should.be.called;
     });

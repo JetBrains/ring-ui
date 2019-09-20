@@ -37,10 +37,10 @@ export class Input extends PureComponent {
     borderless: PropTypes.bool,
     onChange: PropTypes.func,
     onClear: PropTypes.func,
-    inputRef: PropTypes.oneOfType(
+    inputRef: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.shape({current: PropTypes.instanceOf(HTMLInputElement)})
-    ),
+    ]),
     children: PropTypes.string,
     disabled: PropTypes.bool
   };

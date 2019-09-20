@@ -13,6 +13,10 @@ import styles from './dropdown.css';
 
 export default class Dropdown extends Component {
   static propTypes = {
+    /**
+     * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
+     * React element should render some interactive HTML element like `button` or `a`
+     */
     anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
@@ -151,6 +155,8 @@ export default class Dropdown extends Component {
         data-test={dataTests('ring-dropdown', dataTest)}
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
+        // anchorElement should be a `button` or an `a`
+        role="presentation"
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}

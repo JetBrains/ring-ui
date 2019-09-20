@@ -64,6 +64,7 @@ export default class ContentEditable extends Component {
       <div
         {...props}
         disabled={disabled}
+        role="textbox"
         tabIndex={disabled ? null : tabIndex}
         contentEditable={!this.props.disabled}
         dangerouslySetInnerHTML={this.state}

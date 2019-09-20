@@ -739,6 +739,7 @@ export default class List extends Component {
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}
+        onBlur={this.props.onMouseOut}
         onMouseLeave={this.clearSelected}
         data-test="ring-list"
       >

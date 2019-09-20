@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
 import Icon from '../icon';
+import Button from '../button/button';
 
 import styles from './tag.css';
 
@@ -98,6 +99,7 @@ export default class Tag extends PureComponent {
     });
     return (
       <img
+        alt={avatarSrc ? 'Avatar' : 'Icon'}
         className={classes}
         src={avatarSrc || this.props.icon}
       />
@@ -127,10 +129,11 @@ export default class Tag extends PureComponent {
   renderRemoveIcon() {
     if (!this.props.readOnly) {
       return (
-        <Icon
-          glyph={closeIcon}
+        <Button
+          icon={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}
+          iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
         />
       );
@@ -145,24 +148,28 @@ export default class Tag extends PureComponent {
       {
         [styles.focused]: this.state.focused,
         [styles.disabled]: this.props.disabled,
-        [styles.tagAngled]: this.props.angled
+        [styles.tagAngled]: this.props.angled,
+        [styles.withRemove]: !this.props.readOnly
       },
       this.props.className
     );
 
     return (
-      <span
-        data-test="ring-tag"
-        tabIndex="0"
-        className={classes}
-        ref={this.tagRef}
-        onClick={this.props.onClick}
-      >
-        {this.renderAvatar()}
-        {this.renderCustomIcon()}
-        {this.renderImage()}
-        <span className={styles.content}>{this.props.children}</span>
+      <span className={styles.container}>
+        <button
+          type="button"
+          data-test="ring-tag"
+          className={classes}
+          ref={this.tagRef}
+          onClick={this.props.onClick}
+        >
+          {this.renderAvatar()}
+          {this.renderCustomIcon()}
+          {this.renderImage()}
+          <span className={styles.content}>{this.props.children}</span>
+        </button>
         {this.renderRemoveIcon()}
-      </span>);
+      </span>
+    );
   }
 }
