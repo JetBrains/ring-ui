@@ -10,7 +10,6 @@ import Popup from '../popup/popup';
 import List from '../list/list';
 import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
-import Icon from '../icon';
 import Button from '../button/button';
 import buttonStyles from '../button/button.css';
 import getUID from '../global/get-uid';
@@ -62,6 +61,7 @@ export default class Select extends Component {
 
   static propTypes = {
     className: PropTypes.string,
+    id: PropTypes.string,
     multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     allowAny: PropTypes.bool,
     filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -879,7 +879,8 @@ export default class Select extends Component {
 
     if (this.state.selected && this.state.selected.icon) {
       icons.push(
-        <span
+        <button
+          type="button"
           className={styles.selectedIcon}
           key="selected"
           onClick={this._clickHandler}
@@ -901,8 +902,10 @@ export default class Select extends Component {
 
     if (!this.props.hideArrow) {
       icons.push(
-        <Icon
-          glyph={chevronDownIcon}
+        <Button
+          className={styles.chevron}
+          iconClassName={styles.chevronIcon}
+          icon={chevronDownIcon}
           key="hide"
           onClick={this._clickHandler}
         />
@@ -967,7 +970,6 @@ export default class Select extends Component {
         <div
           ref={this.nodeRef}
           className={classNames(classes, styles.inputMode)}
-          onClick={this._clickHandler}
           data-test="ring-select"
         >
           {shortcutsEnabled && (
@@ -977,6 +979,8 @@ export default class Select extends Component {
             />
           )}
           <Input
+            id={this.props.id}
+            onClick={this._clickHandler}
             inputRef={this.filterRef}
             disabled={this.props.disabled}
             value={this.state.filterValue}
@@ -1002,8 +1006,6 @@ export default class Select extends Component {
             ref={this.nodeRef}
             className={classNames(classes, styles.buttonMode)}
             data-test="ring-select"
-            onClick={this._clickHandler}
-            onKeyPress={this._selectButtonKeyboardHack}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1012,6 +1014,9 @@ export default class Select extends Component {
               />
             )}
             <div
+              id={this.props.id}
+              onClick={this._clickHandler}
+              onKeyPress={this._selectButtonKeyboardHack}
               className={classNames(
                 buttonStyles.button,
                 buttonStyles[this.props.theme],
@@ -1040,7 +1045,6 @@ export default class Select extends Component {
             ref={this.nodeRef}
             className={classNames(classes, styles.materialMode)}
             data-test="ring-select"
-            onClick={this._clickHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1052,6 +1056,8 @@ export default class Select extends Component {
               <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
             )}
             <button
+              id={this.props.id}
+              onClick={this._clickHandler}
               type="button"
               disabled={this.props.disabled}
               className={classNames(styles.value, {
@@ -1075,7 +1081,6 @@ export default class Select extends Component {
             className={classes}
             ref={this.nodeRef}
             data-test="ring-select"
-            onClick={this._clickHandler}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1084,6 +1089,8 @@ export default class Select extends Component {
               />
             )}
             <Anchor
+              id={this.props.id}
+              onClick={this._clickHandler}
               data-test="ring-select__focus"
               disabled={this.props.disabled}
             >
@@ -1108,6 +1115,7 @@ export default class Select extends Component {
                   'data-test': 'ring-select'
                 },
                 buttonProps: {
+                  id: this.props.id,
                   onClick: this._clickHandler,
                   disabled: this.props.disabled,
                   children: this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString(),
@@ -1119,7 +1127,7 @@ export default class Select extends Component {
           );
         }
         return (
-          <span ref={this.nodeRef} data-test="ring-select">
+          <span id={this.props.id} ref={this.nodeRef} data-test="ring-select">
             {this._renderPopup()}
           </span>
         );

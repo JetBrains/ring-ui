@@ -3,13 +3,15 @@ const {error, ignore} = require('@jetbrains/eslint-config/consts');
 
 module.exports = {
   parser: 'babel-eslint',
+  plugins: ['jsx-a11y'],
   extends: [
     '@jetbrains',
     '@jetbrains/eslint-config/es6',
     '@jetbrains/eslint-config/browser',
     '@jetbrains/eslint-config/react',
     '@jetbrains/eslint-config/angular',
-    '@jetbrains/eslint-config/test'
+    '@jetbrains/eslint-config/test',
+    'plugin:jsx-a11y/recommended'
   ],
   rules: {
     'valid-jsdoc': ignore,
@@ -29,7 +31,8 @@ module.exports = {
     }],
     camelcase: [error, {
       allow: ['^UNSAFE_']
-    }]
+    }],
+    'jsx-a11y/no-autofocus': ignore
   },
   env: {
     node: true

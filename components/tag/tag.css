@@ -1,10 +1,12 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value background-color: var(--ring-tag-background-color);
 @value max-height: 20px;
 
 .tag {
+  composes: resetButton;
+
   position: relative;
   z-index: 1;
 
@@ -28,6 +30,14 @@
 
   font-size: 12px;
   line-height: var(--ring-line-height);
+}
+
+.withRemove {
+  padding-right: 22px;
+}
+
+.container {
+  position: relative;
 }
 
 .focused,
@@ -84,21 +94,16 @@
 }
 
 .remove {
-  margin-right: calc(0 - unit);
+  position: absolute;
+  z-index: 1;
+  top: -3px;
+  right: 4px;
 
   padding: 0 calc(unit / 2);
+}
 
-  cursor: pointer;
-
+.removeIcon.removeIcon {
   color: var(--ring-icon-secondary-color);
-
-  & svg {
-    vertical-align: -3px;
-  }
-
-  &:hover {
-    color: var(--ring-border-hover-color);
-  }
 }
 
 .icon {

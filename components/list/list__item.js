@@ -16,6 +16,7 @@ import styles from './list.css';
 
 const RING_UNIT = 8;
 const DEFAULT_PADDING = 16;
+const CHECKBOX_WIDTH = 28;
 
 export default class ListItem extends PureComponent {
   static propTypes = {
@@ -111,7 +112,7 @@ export default class ListItem extends PureComponent {
     });
 
     const style = {
-      paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING}px`
+      paddingLeft: `${(+level || 0) * RING_UNIT + DEFAULT_PADDING + (showCheckbox ? CHECKBOX_WIDTH : 0)}px`
     };
 
     let computedTitle = null;
@@ -131,79 +132,82 @@ export default class ListItem extends PureComponent {
     }, restProps['data-test']);
 
     return (
-      <div
-        tabIndex={tabIndex}
-        onClick={onClick}
-        onMouseOver={onMouseOver}
-        onMouseUp={onMouseUp}
-        className={classes}
-        data-test={dataTest}
-        style={style}
-      >
-        <div className={styles.top} onMouseOut={this.stopBubbling}>
-          {!showCheckbox && (
-            <div className={styles.left}>
-              {leftNodes}
-              {glyph && (
+      <div className={styles.itemContainer} data-test={dataTest}>
+        {showCheckbox && (
+          <div
+            className={styles.checkboxContainer}
+          >
+            <Checkbox
+              onClick={this.stopBubbling}
+              checked={checkbox}
+              onChange={onCheckboxChange}
+            />
+          </div>
+        )}
+        <button
+          type="button"
+          tabIndex={tabIndex}
+          onClick={onClick}
+          onMouseOver={onMouseOver}
+          onFocus={onMouseOver}
+          onMouseUp={onMouseUp}
+          className={classes}
+          style={style}
+        >
+          <div className={styles.top} onMouseOut={this.stopBubbling} onBlur={this.stopBubbling}>
+            {!showCheckbox && (
+              <div className={styles.left}>
+                {leftNodes}
+                {glyph && (
+                  <Icon
+                    className={styles.glyph}
+                    glyph={glyph}
+                    size={this.props.iconSize}
+                  />
+                )}
+                {avatar && (
+                  <Avatar
+                    className={styles.avatar}
+                    url={avatar}
+                    size={AvatarSize.Size20}
+                  />
+                )}
+              </div>
+            )}
+
+            <span
+              className={styles.label}
+              title={computedTitle}
+              data-test="ring-list-item-label"
+            >{label}</span>
+
+            {description && (
+              <span
+                className={styles.description}
+                data-test="ring-list-item-description"
+              >{description}</span>
+            )}
+
+            <div className={styles.right}>
+              {rightGlyph && (
                 <Icon
-                  className={styles.glyph}
-                  glyph={glyph}
+                  className={styles.rightGlyph}
+                  glyph={rightGlyph}
                   size={this.props.iconSize}
                 />
               )}
-              {avatar && (
-                <Avatar
-                  className={styles.avatar}
-                  url={avatar}
-                  size={AvatarSize.Size20}
+              {icon && (
+                <div
+                  className={styles.icon}
+                  style={{backgroundImage: `url("${icon}")`}}
                 />
               )}
+              {rightNodes}
             </div>
-          )}
-          {showCheckbox && (
-            <div
-              onClick={this.stopBubbling}
-              className={classNames(styles.left, styles.checkboxContainer)}
-            >
-              <Checkbox
-                checked={checkbox}
-                onChange={onCheckboxChange}
-              />
-            </div>
-          )}
-
-          <span
-            className={styles.label}
-            title={computedTitle}
-            data-test="ring-list-item-label"
-          >{label}</span>
-
-          {description && (
-            <span
-              className={styles.description}
-              data-test="ring-list-item-description"
-            >{description}</span>
-          )}
-
-          <div className={styles.right}>
-            {rightGlyph && (
-              <Icon
-                className={styles.rightGlyph}
-                glyph={rightGlyph}
-                size={this.props.iconSize}
-              />
-            )}
-            {icon && (
-              <div
-                className={styles.icon}
-                style={{backgroundImage: `url("${icon}")`}}
-              />
-            )}
-            {rightNodes}
           </div>
-        </div>
 
-        {details && <div className={detailsClasses}>{details}</div>}
+          {details && <div className={detailsClasses}>{details}</div>}
+        </button>
       </div>
     );
   }

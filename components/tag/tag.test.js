@@ -12,7 +12,7 @@ describe('Tag', () => {
   const shallowTag = props => shallow(<Tag {...tagMock} {...props}/>);
 
   it('should render tags', () => {
-    shallowTag().should.have.data('test', 'ring-tag');
+    shallowTag().find('button').should.have.data('test', 'ring-tag');
   });
 
   it('should contains icon', () => {

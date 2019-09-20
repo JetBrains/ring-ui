@@ -69,7 +69,8 @@ export default class MonthSlider extends PureComponent {
     return (
       <div>
         {years.map(date => (
-          <div
+          <button
+            type="button"
             key={+date}
             className={classes}
             style={{

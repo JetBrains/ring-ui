@@ -85,7 +85,8 @@ export default class Years extends PureComponent {
         }}
       >
         {years.map(item => (
-          <div
+          <button
+            type="button"
             key={+item}
             className={classNames(
               styles.year,
@@ -102,7 +103,7 @@ export default class Years extends PureComponent {
             }}
           >
             {item.format('YYYY')}
-          </div>
+          </button>
         ))}
       </div>
     );

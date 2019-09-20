@@ -334,6 +334,8 @@ export default class Popup extends PureComponent {
       <span
         // prevent bubbling through portal
         onClick={stop}
+        // This handler only blocks bubbling through React portal
+        role="presentation"
         ref={this.portalRef}
       >
         {this.state.shortcuts &&
@@ -350,7 +352,9 @@ export default class Popup extends PureComponent {
             data-portaltarget={this.uid}
             ref={this.containerRef}
             onMouseOver={onMouseOver}
+            onFocus={onMouseOver}
             onMouseOut={onMouseOut}
+            onBlur={onMouseOut}
             onContextMenu={onContextMenu}
           >
             <div
@@ -362,6 +366,8 @@ export default class Popup extends PureComponent {
               style={style}
               onMouseDown={onMouseDown}
               onMouseUp={onMouseUp}
+              // mouse handlers are used to track clicking on inner elements
+              role="presentation"
             >
               {this.getInternalContent()}
             </div>

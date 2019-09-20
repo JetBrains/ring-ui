@@ -46,7 +46,9 @@ export default class Day extends Component {
 
     const spreadRange = makeSpreadRange(currentRange);
     const activeSpreadRange = makeSpreadRange(activeRange); return (
-      <div
+      // TODO make keyboard navigation actually work
+      <button
+        type="button"
         className={classNames(
           styles.day,
           styles[day.format('dddd')],
@@ -66,15 +68,17 @@ export default class Day extends Component {
             [styles.activeSpread]: this.inRange(activeSpreadRange)
           },
         )}
-        onClick={this. handleClick}
-        onMouseOver={this. handleMouseOver}
-        onMouseOut={this. handleMouseOut}
+        onClick={this.handleClick}
+        onMouseOver={this.handleMouseOver}
+        onFocus={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+        onBlur={this.handleMouseOut}
       >
         {empty || (
           <span className={classNames({[styles.today]: day.isSame(moment(), 'day')})}>
             {day.format('D')}</span>
         )}
-      </div>
+      </button>
     );
   }
 }

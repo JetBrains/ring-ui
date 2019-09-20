@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
@@ -187,6 +187,8 @@
 }
 
 .day {
+  composes: resetButton;
+
   position: relative;
 
   flex-basis: cellSize;
@@ -409,6 +411,7 @@
 
 .monthName {
   composes: hoverable;
+  composes: resetButton;
 
   position: relative;
 
@@ -419,10 +422,14 @@
 }
 
 .monthSlider {
+  composes: resetButton;
+
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   right: 0;
   left: -1px;
+
+  width: calc(100% + 1px);
 
   height: calc(unit * 6);
 
@@ -466,8 +473,11 @@
 
 .year {
   composes: hoverable;
+  composes: resetButton;
 
   position: relative;
+
+  width: 100%;
 
   height: yearHeight;
 
