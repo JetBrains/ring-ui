@@ -37,7 +37,10 @@ export class Input extends PureComponent {
     borderless: PropTypes.bool,
     onChange: PropTypes.func,
     onClear: PropTypes.func,
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.oneOfType(
+      PropTypes.func,
+      PropTypes.shape({current: PropTypes.instanceOf(HTMLInputElement)})
+    ),
     children: PropTypes.string,
     disabled: PropTypes.bool
   };
@@ -88,8 +91,14 @@ export class Input extends PureComponent {
   };
 
   inputRef = el => {
+    const {inputRef} = this.props;
+
     this.input = el;
-    this.props.inputRef(el);
+    if (typeof inputRef === 'function') {
+      inputRef(el);
+    } else {
+      inputRef.current = el;
+    }
   };
 
   clear = e => {

@@ -1,6 +1,8 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, useRef} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
+
+import Button from '../button/button';
 
 import Input, {Size, Theme} from './input';
 
@@ -102,5 +104,34 @@ basic.story = {
       padding-left: 16px;
     }
   </style>`
+  }
+};
+
+function SelectAll() {
+  const ref = useRef();
+
+  function select() {
+    if (ref.current != null) {
+      ref.current.select();
+    }
+  }
+
+  return (
+    <>
+      <Input defaultValue="Value" inputRef={ref}/>
+      <Button data-test-select onClick={select}>Select all</Button>
+    </>
+  );
+}
+
+export const selectAll = () => <SelectAll/>;
+selectAll.story = {
+  parameters: {
+    hermione: {
+      actions: [
+        {type: 'click', selector: '[data-test-select]'},
+        {type: 'capture', selector: '#root'}
+      ]
+    }
   }
 };
