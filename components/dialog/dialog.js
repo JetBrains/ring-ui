@@ -121,6 +121,7 @@ export default class Dialog extends PureComponent {
         ref={this.dialogRef}
         className={classes}
         onClick={this.handleClick}
+        role="presentation"
         {...restProps}
       >
         <Shortcuts

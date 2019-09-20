@@ -151,6 +151,8 @@ export default class Alert extends PureComponent {
       <span
         className={classNames(styles.caption, this.props.captionClassName)}
         onClick={this._handleCaptionsLinksClick}
+        // We only process clicks on `a` elements, see above
+        role="presentation"
       >
         {this.props.children}
       </span>

@@ -11,7 +11,9 @@ export default class ClickableLink extends PureComponent {
     onClick: PropTypes.func,
     onPlainLeftClick: PropTypes.func,
     onConditionalClick: PropTypes.func,
-    activeClassName: PropTypes.string
+    activeClassName: PropTypes.string,
+    href: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
   };
 
   onClick = e => {
@@ -34,9 +36,14 @@ export default class ClickableLink extends PureComponent {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const {onConditionalClick, onPlainLeftClick, activeClassName, ...restProps} = this.props;
+    const {
+      // eslint-disable-next-line no-unused-vars
+      onConditionalClick, onPlainLeftClick, activeClassName,
+      href,
+      children,
+      ...restProps
+    } = this.props;
 
-    return <a {...restProps} onClick={this.onClick}/>;
+    return <a href={href} {...restProps} onClick={this.onClick}>{children}</a>;
   }
 }

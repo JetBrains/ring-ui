@@ -7,8 +7,6 @@ import deepEqual from 'deep-equal';
 import searchIcon from '@jetbrains/icons/search.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
-
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
 import {getRect, preventDefault} from '../global/dom';
@@ -19,6 +17,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 import Theme from '../global/theme';
+import Button from '../button/button';
 
 import QueryAssistSuggestions from './query-assist__suggestions';
 
@@ -704,10 +703,11 @@ export default class QueryAssist extends Component {
 
     if (renderClear) {
       actions.push(
-        <Icon
-          glyph={closeIcon}
+        <Button
+          icon={closeIcon}
           key={'clearAction'}
-          className={classNames(styles.icon)}
+          className={styles.icon}
+          iconClassName={styles.iconInner}
           title={this.props.translations.clearTitle}
           ref={this.clearRef}
           onClick={this.clearQuery}
@@ -741,6 +741,8 @@ export default class QueryAssist extends Component {
         className={classNames(styles.queryAssist, styles[theme])}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
+        // mouse handlers are used to track clicking on inner elements
+        role="presentation"
         ref={this.nodeRef}
       >
         {this.state.shortcuts &&
@@ -753,9 +755,10 @@ export default class QueryAssist extends Component {
         }
 
         {renderGlass && (
-          <Icon
-            glyph={searchIcon}
-            className={classNames(styles.icon, styles.iconGlass)}
+          <Button
+            icon={searchIcon}
+            className={styles.icon}
+            iconClassName={styles.iconInner}
             title={this.props.translations.searchTitle}
             ref={this.glassRef}
             onClick={this.handleApply}
@@ -794,7 +797,8 @@ export default class QueryAssist extends Component {
         >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
 
         {renderPlaceholder && (
-          <span
+          <button
+            type="button"
             className={classNames(styles.placeholder, {
               [styles.placeholderSpaced]: glass
             })}
@@ -803,7 +807,7 @@ export default class QueryAssist extends Component {
             data-test="query-assist-placeholder"
           >
             {this.props.placeholder}
-          </span>
+          </button>
         )}
         {renderUnderline && <div className={styles.focusUnderline}/>}
         {actions &&

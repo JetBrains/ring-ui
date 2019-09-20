@@ -63,7 +63,7 @@ export const inDialogForm = () => {
           <Content>
             <form className="ring-form">
               <div className="ring-form__group">
-                <label className="ring-form__label">Field name</label>
+                <label htmlFor="select" className="ring-form__label">Field name</label>
                 <div className="ring-form__control ring-form__control_small">
                   <ErrorBubble
                     error={value ? null : 'Value is required'}
@@ -71,6 +71,7 @@ export const inDialogForm = () => {
                     placeholder="enter something"
                   >
                     <Select
+                      id="select"
                       type={Select.Type.BUTTON}
                       size={Select.Size.M}
                       data={[{label: 'One'}, {label: 'Two'}]}

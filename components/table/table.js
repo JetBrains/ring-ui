@@ -253,37 +253,40 @@ class Table extends PureComponent {
           )
         }
 
-        <table className={classes} onMouseDown={this.onMouseDown} data-test="ring-table">
-          <Header {...headerProps}/>
-          <DraggableRows
-            /* Sortable props */
-            useDragHandle
-            disabled={!draggable}
-            helperClass={style.draggingRow}
-            onSortEnd={this.onSortEnd}
-            getItemKey={getItemKey}
-            shouldCancelStart={alwaysFalse}
+        {/* Handler detects that user holds Shift key */}
+        <div role="presentation" onMouseDown={this.onMouseDown}>
+          <table className={classes} data-test="ring-table">
+            <Header {...headerProps}/>
+            <DraggableRows
+              /* Sortable props */
+              useDragHandle
+              disabled={!draggable}
+              helperClass={style.draggingRow}
+              onSortEnd={this.onSortEnd}
+              getItemKey={getItemKey}
+              shouldCancelStart={alwaysFalse}
 
-            /* Row props */
-            draggable={draggable}
-            alwaysShowDragHandle={alwaysShowDragHandle}
-            data={data}
-            columns={columns}
-            selectable={selectable}
-            isItemSelectable={isItemSelectable}
-            selection={selection}
-            onRowFocus={this.onRowFocus}
-            onRowSelect={this.onRowSelect}
-            getItemLevel={getItemLevel}
-            isItemCollapsible={isItemCollapsible}
-            isParentCollapsible={isParentCollapsible}
-            isItemCollapsed={isItemCollapsed}
-            onItemCollapse={onItemCollapse}
-            onItemExpand={onItemExpand}
-            isDisabledSelectionVisible={isDisabledSelectionVisible}
-            getCheckboxTooltip={getCheckboxTooltip}
-          />
-        </table>
+              /* Row props */
+              draggable={draggable}
+              alwaysShowDragHandle={alwaysShowDragHandle}
+              data={data}
+              columns={columns}
+              selectable={selectable}
+              isItemSelectable={isItemSelectable}
+              selection={selection}
+              onRowFocus={this.onRowFocus}
+              onRowSelect={this.onRowSelect}
+              getItemLevel={getItemLevel}
+              isItemCollapsible={isItemCollapsible}
+              isParentCollapsible={isParentCollapsible}
+              isItemCollapsed={isItemCollapsed}
+              onItemCollapse={onItemCollapse}
+              onItemExpand={onItemExpand}
+              isDisabledSelectionVisible={isDisabledSelectionVisible}
+              getCheckboxTooltip={getCheckboxTooltip}
+            />
+          </table>
+        </div>
 
         {loading && (
           <div className={style.loadingOverlay}>

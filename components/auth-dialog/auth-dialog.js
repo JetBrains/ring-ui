@@ -77,6 +77,7 @@ export default class AuthDialog extends Component {
         <div className={styles.content}>
           {serviceImage && (
             <img
+              alt={`${serviceName} logo`}
               className={styles.logo}
               src={serviceImage}
             />

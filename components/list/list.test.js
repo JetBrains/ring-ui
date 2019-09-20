@@ -201,7 +201,7 @@ describe('List', () => {
           {}
         ]
       }).instance();
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.should.have.className(styles.action);
       firstItemWrapper.should.have.text('');
     });
@@ -348,7 +348,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.simulate('click');
       clicked.should.have.been.called;
     });
@@ -361,7 +361,7 @@ describe('List', () => {
         data: [{label: 'Hello!'}]
       }).instance();
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.simulate('click');
       onSelect.should.have.been.called;
     });

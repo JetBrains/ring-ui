@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value overInputZIndex: 2;
 @value inputGap: calc(unit * 3);
 
@@ -52,12 +52,8 @@
     border-bottom: 1px solid var(--ring-icon-error-color);
   }
 
-  & .icon {
+  & .iconInner {
     color: var(--ring-icon-secondary-color);
-  }
-
-  & .icon:hover {
-    color: var(--ring-link-hover-color);
   }
 
   & .highlight {
@@ -135,17 +131,15 @@
   }
 
   & .icon {
-    top: 6px;
+    top: 8px;
+  }
 
+  & .iconInner {
     color: var(--ring-icon-color);
   }
 
   & .loader {
     top: 6px;
-  }
-
-  & .icon:hover {
-    color: var(--ring-link-hover-color);
   }
 
   & .highlight {
@@ -207,7 +201,7 @@
     }
   }
 
-  & .icon {
+  & .iconInner {
     color: var(--ring-icon-color);
   }
 
@@ -230,6 +224,8 @@
 }
 
 .placeholder {
+  composes: resetButton;
+
   position: absolute;
   top: 3px;
 
@@ -277,7 +273,9 @@
   z-index: overInputZIndex;
   top: 4px;
 
-  width: calc(unit * 2);
+  box-sizing: border-box;
+
+  width: calc(unit * 3);
   height: calc(unit * 2);
 
   padding: 0 4px;
@@ -285,13 +283,16 @@
   cursor: pointer;
   user-select: none;
 
+  line-height: normal;
+
   & svg {
     vertical-align: baseline;
   }
 
   @nest .actions & {
     position: relative;
-    top: auto;
+    top: 0;
+    left: -1px;
   }
 }
 
@@ -299,10 +300,6 @@
   right: 1px;
 
   left: auto;
-}
-
-.iconGlass {
-  left: 1px;
 }
 
 .focusUnderline {

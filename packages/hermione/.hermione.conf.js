@@ -39,6 +39,7 @@ module.exports = {
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
+        pageLoadStrategy: 'normal',
         version: '74.0',
         platform: WIN10,
         maxDuration
@@ -48,6 +49,7 @@ module.exports = {
       resetCursor: false, // Prevents SauceLabs failure on performing "moveto" command
       desiredCapabilities: {
         browserName: 'firefox',
+        pageLoadStrategy: 'normal',
         version: '68.0',
         platform: WIN10,
         maxDuration
@@ -57,6 +59,7 @@ module.exports = {
       testsPerSession: 20,
       desiredCapabilities: {
         browserName: 'internet explorer',
+        pageLoadStrategy: 'normal',
         version: '11.309',
         platform: WIN10,
         maxDuration
@@ -67,6 +70,7 @@ module.exports = {
       antialiasingTolerance: RELAXED_TOLERANCE,
       desiredCapabilities: {
         browserName: 'MicrosoftEdge',
+        pageLoadStrategy: 'normal',
         version: '17.17134',
         platform: WIN10,
         maxDuration

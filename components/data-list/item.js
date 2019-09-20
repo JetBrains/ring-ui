@@ -8,7 +8,7 @@ import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 
-import Icon from '../icon';
+import Button from '../button/button';
 
 import Title from './title';
 
@@ -157,29 +157,23 @@ export default class Item extends PureComponent {
     if (collapsible) {
       if (collapsed) {
         collapserExpander = (
-          <div
-            className={styles.expanderBox}
+          <Button
             onClick={onExpand}
-          >
-            <Icon
-              glyph={chevronRightIcon}
-              className={styles.collapseIcon}
-              data-test="ring-data-list-expand"
-            />
-          </div>
+            icon={chevronRightIcon}
+            className={styles.collapseButton}
+            iconClassName={styles.collapseIcon}
+            data-test="ring-data-list-expand"
+          />
         );
       } else {
         collapserExpander = (
-          <div
-            className={styles.expanderBox}
+          <Button
             onClick={onCollapse}
-          >
-            <Icon
-              glyph={chevronDownIcon}
-              className={styles.collapseIcon}
-              data-test="ring-data-list-collapse"
-            />
-          </div>
+            icon={chevronDownIcon}
+            className={styles.collapseButton}
+            iconClassName={styles.collapseIcon}
+            data-test="ring-data-list-collapse"
+          />
         );
       }
     }

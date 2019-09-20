@@ -18,7 +18,7 @@ describe('ListItem', () => {
 
 
   it('should use passed className', () => {
-    shallowListItem({className: 'test-class'}).should.
+    shallowListItem({className: 'test-class'}).find('button').should.
       have.className('test-class');
   });
 

@@ -74,7 +74,7 @@ describe('Link', () => {
 
   describe('ClickableLink', () => {
     it('should render "a" tag', () => {
-      shallow(<ClickableLink href="/"/>).should.containMatchingElement(<a href="/"/>);
+      shallow(<ClickableLink href="/">{'foo'}</ClickableLink>).should.containMatchingElement(<a href="/">{'foo'}</a>);
     });
 
     describe('events', () => {

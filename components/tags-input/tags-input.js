@@ -290,6 +290,8 @@ export default class TagsInput extends Component {
 
     return (
       <div
+        role="button"
+        tabIndex={0}
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}

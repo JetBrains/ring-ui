@@ -271,7 +271,6 @@ export default class SelectPopup extends Component {
       return (
         <div
           className={classes}
-          tabIndex="0"
         >
           {this.getTags()}
           {this.getFilter()}

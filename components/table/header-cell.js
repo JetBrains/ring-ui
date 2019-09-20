@@ -56,7 +56,8 @@ export default class HeaderCell extends PureComponent {
         onClick={this.onClick}
         data-test="ring-table-header-cell"
       >
-        <span onClick={this.onChildrenClick}>{this.props.children}</span>
+        {/* onClick only used to stop propagation */}
+        <span onClick={this.onChildrenClick} role="presentation">{this.props.children}</span>
 
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 
