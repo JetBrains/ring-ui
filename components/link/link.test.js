@@ -103,7 +103,8 @@ describe('Link', () => {
             onClick={onClick}
             onConditionalClick={onConditionalClick}
             onPlainLeftClick={onPlainLeftClick}
-          />
+            href="/"
+          >{'foo'}</ClickableLink>
         );
       });
 
