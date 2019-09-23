@@ -2286,10 +2286,10 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-reporter@^4.12.2:
-  version "4.12.2"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.12.2.tgz#4e0451118e734c3a1fd56ec3358e361fa2178d8a"
-  integrity sha512-swXbRJE4aHuRyginhmROoo/U33UdsStQCr1teIsNWzcw6qFYXMoRc7aC3ie8aOGkgQqGX/IZQfSYAVbTzr8mDQ==
+html-reporter@^4.12.4:
+  version "4.12.4"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-4.12.4.tgz#0a49e985e56c92beb8e73860083cb74bdb047a40"
+  integrity sha512-/XKB9uMbL4jdtjb0kSP/wqIWWFRrIp4MAiouUl2I8fDzZALv4B55oeHLb9UVQ6WkKJIng0oscrdLN18PWhdJeQ==
   dependencies:
     bluebird "^3.5.3"
     body-parser "^1.18.2"
