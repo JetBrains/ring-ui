@@ -133,7 +133,7 @@
     "react-dom": ">=16.4.0"
   },
   "dependencies": {
-    "@babel/core": "^7.6.0",
+    "@babel/core": "^7.6.2",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.1.4",
     "@jetbrains/icons": "^3.4.5",
