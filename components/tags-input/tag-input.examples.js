@@ -82,3 +82,24 @@ export const withTooLongTagLabels = () => {
 withTooLongTagLabels.story = {
   name: 'with too long tag labels'
 };
+
+export const autoOpen = () => {
+  const tags = [{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}];
+
+  function dataSource() {
+    return [
+      {key: 'test3', label: 'test3'},
+      {key: 'test4', label: 'test4'}
+    ];
+  }
+
+  return <TagsInput tags={tags} dataSource={dataSource} autoOpen/>;
+};
+
+autoOpen.story = {
+  parameters: {
+    hermione: {
+      captureSelector: ['#root', '[data-test~=ring-popup]']
+    }
+  }
+};

@@ -31,7 +31,7 @@ kill(saucePort).then(() => {
       });
       // eslint-disable-next-line no-use-before-define
       hermioneProcess.kill();
-      exec('git add hermione/screenshots');
+      exec('git add hermione');
     };
 
     process.on('SIGINT', () => {
