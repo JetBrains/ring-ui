@@ -121,7 +121,7 @@
     "storage-mock": "^1.0.3",
     "stylelint": "^10.1.0",
     "wallaby-webpack": "^3.9.15",
-    "webpack": "^4.40.2",
+    "webpack": "^4.41.0",
     "webpack-cli": "^3.3.9",
     "xmlappend": "^1.0.4",
     "xvfb-maybe": "^0.2.1",
