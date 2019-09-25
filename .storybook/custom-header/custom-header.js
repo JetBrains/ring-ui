@@ -29,7 +29,7 @@ import styles from './header-styles.css';
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {
-    const noAuth = window.location.hostname === 'teamcity.jetbrains.com';
+    const noAuth = window.location.hostname !== 'jetbrains.github.io';
 
     if (!noAuth) {
       this.auth.setAuthDialogService(authDialogService);
