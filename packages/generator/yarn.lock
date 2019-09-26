@@ -4281,10 +4281,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.0.2.tgz#b61a5415c9ac12e7a4f6e406a97b0735d0d70b6f"
-  integrity sha512-Gf4O7sJdKrquvf1YAyo+h9K+hOr14fvmw6Mst3/a+82c562sRTs6OLEfuy485o73qqGaI7cezzWjZxHUrm7I5A==
+yeoman-generator@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.1.0.tgz#dae31db7934c6d815338f7354a851a4c39aa8735"
+  integrity sha512-AULpLsX2CYr0sweIp03isXTl17YkBOOrqzpnErtYr0pUZz4ICqvJbvDPaC/ETMyf0bXHiuY56ATxSKDC/AXHWw==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
