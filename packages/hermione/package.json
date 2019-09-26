@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.0.6",
-    "commander": "^3.0.1",
+    "commander": "^3.0.2",
     "filenamify": "^4.1.0",
     "forever": "^1.0.0",
     "hermione": "^2.12.6",
