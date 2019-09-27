@@ -41,6 +41,8 @@
     "hermione-test-ci": "yarn --cwd packages/hermione run test-ci",
     "hermione-gather": "yarn --cwd packages/hermione run gather",
     "build": "build-storybook -c .storybook -o dist",
+    "preserve": "yarn build",
+    "serve": "yarn --cwd packages/hermione run serve",
     "start": "start-storybook -p 9999",
     "storybook-debug": "node --inspect-brk node_modules/.bin/start-storybook -p 9999",
     "lint:js": "eslint --report-unused-disable-directives",
