@@ -290,8 +290,8 @@ export default class TagsInput extends Component {
 
     return (
       <div
-        role="button"
-        tabIndex={0}
+        // it transfers focus to input
+        role="presentation"
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}
