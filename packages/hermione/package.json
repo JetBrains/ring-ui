@@ -10,6 +10,7 @@
     "gather": "yarn hermione --update-refs",
     "gui": "yarn hermione gui",
     "hermione": "node hermione.js",
+    "serve": "http-server ../../dist/ -p 9999",
     "test": "yarn hermione",
     "test-ci": "forever start .serve-static.json && yarn test --teamcity; forever stop serve-static"
   },
