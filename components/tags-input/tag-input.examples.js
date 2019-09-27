@@ -1,8 +1,11 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import TagsInput from '../tags-input/tags-input';
+import Dialog from '../dialog/dialog';
+import {Content} from '../island/island';
 import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
+
+import TagsInput from './tags-input';
 
 export default {
   title: 'Components|Tags Input',
@@ -100,6 +103,34 @@ autoOpen.story = {
   parameters: {
     hermione: {
       captureSelector: ['#root', '[data-test~=ring-popup]']
+    }
+  }
+};
+
+
+export const autoOpenInADialog = () => {
+  const tags = [{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}];
+
+  function dataSource() {
+    return [
+      {key: 'test3', label: 'test3'},
+      {key: 'test4', label: 'test4'}
+    ];
+  }
+
+  return (
+    <Dialog show trapFocus autoFocusFirst={false}>
+      <Content>
+        <TagsInput tags={tags} dataSource={dataSource} autoOpen/>
+      </Content>
+    </Dialog>
+  );
+};
+
+autoOpenInADialog.story = {
+  parameters: {
+    hermione: {
+      captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
     }
   }
 };
