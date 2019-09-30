@@ -7,11 +7,9 @@ import memoize from '../global/memoize';
 import Theme from '../global/theme';
 import dataTests from '../global/data-tests';
 
-import Link from '../link/link';
-
 import styles from './tabs.css';
 
-import Tab from './tab';
+import TabLink from './tab-link';
 
 export const CustomItem = ({children}) => children;
 CustomItem.propTypes = {
@@ -37,17 +35,6 @@ export default class Tabs extends PureComponent {
 
   handleSelect = memoize(key => () => this.props.onSelect(key));
 
-  getTabTitleCaption(title, isSelected) {
-    const renderedTitle = Tab.renderTitle(title, isSelected);
-    return (
-      <>
-        <span className={styles.visible}>{renderedTitle}</span>
-        {/* hack for preserving constant tab width*/}
-        <span className={styles.hidden}>{renderedTitle}</span>
-      </>
-    );
-  }
-
   getTabTitle = (child, i) => {
     if (child == null || typeof child !== 'object' || child.type === CustomItem) {
       return child;
@@ -62,7 +49,9 @@ export default class Tabs extends PureComponent {
     });
 
     return (
-      <Link
+      <TabLink
+        title={title}
+        isSelected={isSelected}
         active
         key={key}
         href={href}
@@ -70,7 +59,7 @@ export default class Tabs extends PureComponent {
         className={titleClasses}
         disabled={disabled}
         onPlainLeftClick={this.handleSelect(key)}
-      >{() => this.getTabTitleCaption(title, isSelected)}</Link>
+      />
     );
   };
 
