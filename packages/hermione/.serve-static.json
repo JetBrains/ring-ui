@@ -2,8 +2,8 @@
   "append": true,
   "outFile": "./http-server.log",
   "uid": "serve-static",
-  "script": "yarn",
+  "script": "http-server",
   "sourceDir": "./node_modules/.bin/",
   "workingDir": ".",
-  "args": ["serve"]
+  "args": ["../../dist/", "-p 9999"]
 }
