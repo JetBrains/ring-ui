@@ -2011,10 +2011,10 @@
     react-inspector "^3.0.2"
     uuid "^3.3.2"
 
-"@storybook/addon-docs@^5.2.1":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-5.2.1.tgz#7fe157a2bc10b935b9396c79f62f9a72ddb8bc5d"
-  integrity sha512-GC6SdB0fx6sbusVep9wVjPDD8m9QvJeKyL1dSkKElptc4sJaXYY1BABl/Auk7A6MtRTnO6ypjSJtOZpATB7zrQ==
+"@storybook/addon-docs@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-5.2.3.tgz#4ff4f401033735e5b929fd2809af1c86f3fbe2cb"
+  integrity sha512-xMg/LCUfVX1SNplaPbsNt9L78/QbxkR7pPpQuLjCvTAvzKkLNWNs8SlwM14ds/SfUNQ9EaCoAd1OQIdZrzrBRg==
   dependencies:
     "@babel/generator" "^7.4.0"
     "@babel/parser" "^7.4.2"
@@ -2022,12 +2022,12 @@
     "@mdx-js/loader" "^1.1.0"
     "@mdx-js/mdx" "^1.1.0"
     "@mdx-js/react" "^1.0.27"
-    "@storybook/addons" "5.2.1"
-    "@storybook/api" "5.2.1"
-    "@storybook/components" "5.2.1"
-    "@storybook/router" "5.2.1"
-    "@storybook/source-loader" "5.2.1"
-    "@storybook/theming" "5.2.1"
+    "@storybook/addons" "5.2.3"
+    "@storybook/api" "5.2.3"
+    "@storybook/components" "5.2.3"
+    "@storybook/router" "5.2.3"
+    "@storybook/source-loader" "5.2.3"
+    "@storybook/theming" "5.2.3"
     core-js "^3.0.1"
     global "^4.3.2"
     js-string-escape "^1.0.1"
@@ -2497,13 +2497,28 @@
     memoizerific "^1.11.3"
     qs "^6.6.0"
 
-"@storybook/source-loader@5.2.1", "@storybook/source-loader@^5.2.1":
+"@storybook/source-loader@5.2.1":
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/@storybook/source-loader/-/source-loader-5.2.1.tgz#87b47899c47e301d890f4135f85301a24a3313aa"
   integrity sha512-JbvcN9pLbT0mMq5fy/TXE8OcZGk/LVvpNhJtv0rOpREbm8Ia5Xk0tBF5IfGh7bWbHz8DndlgikaMx1mSTv6l9A==
   dependencies:
     "@storybook/addons" "5.2.1"
     "@storybook/router" "5.2.1"
+    core-js "^3.0.1"
+    estraverse "^4.2.0"
+    global "^4.3.2"
+    loader-utils "^1.2.3"
+    prettier "^1.16.4"
+    prop-types "^15.7.2"
+    regenerator-runtime "^0.12.1"
+
+"@storybook/source-loader@5.2.3", "@storybook/source-loader@^5.2.1":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@storybook/source-loader/-/source-loader-5.2.3.tgz#57f3fcd1ee8c3edd0870ca736e5e235cf8fdeb4c"
+  integrity sha512-4wKYslglYt/yC77zvRZ4OkmTVbnmnd98VMD99KP3Ap6IwkdxtGKIBTOOT36g6m0/1JaMFe+x7i+i9nbmK4hsDQ==
+  dependencies:
+    "@storybook/addons" "5.2.3"
+    "@storybook/router" "5.2.3"
     core-js "^3.0.1"
     estraverse "^4.2.0"
     global "^4.3.2"
