@@ -184,7 +184,7 @@
     "sniffr": "^1.2.0",
     "style-loader": "^1.0.0",
     "svg-inline-loader": "^0.8.0",
-    "url-loader": "^2.1.0",
+    "url-loader": "^2.2.0",
     "url-search-params": "^1.1.0",
     "util-deprecate": "^1.0.2",
     "whatwg-fetch": "^3.0.0"
