@@ -33,7 +33,7 @@ export default class ListItem extends PureComponent {
       PropTypes.array
     ]),
     avatar: PropTypes.string,
-    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     icon: PropTypes.string,
     iconSize: PropTypes.number,
     rightNodes: PropTypes.oneOfType([
@@ -50,7 +50,7 @@ export default class ListItem extends PureComponent {
     title: PropTypes.string,
     level: PropTypes.number,
     rgItemType: PropTypes.number,
-    rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    rightGlyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     compact: PropTypes.bool,
     onClick: PropTypes.func,
     onCheckboxChange: PropTypes.func,

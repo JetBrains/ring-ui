@@ -14,7 +14,7 @@ import styles from './error-message.css';
 
 export default class ErrorMessage extends Component {
   static propTypes = {
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     code: PropTypes.string,
     message: PropTypes.string,
     description: PropTypes.string,

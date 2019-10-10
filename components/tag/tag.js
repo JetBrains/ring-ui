@@ -16,7 +16,7 @@ export default class Tag extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
-    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     icon: PropTypes.string,
     avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,
