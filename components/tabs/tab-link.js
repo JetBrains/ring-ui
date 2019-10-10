@@ -26,7 +26,7 @@ function TabLink({isSelected, title, ...restProps}) {
 
 TabLink.propTypes = {
   isSelected: PropTypes.bool,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
 };
 
 export default pure(TabLink);
