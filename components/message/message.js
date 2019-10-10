@@ -40,7 +40,7 @@ export default class Message extends Component {
     children: PropTypes.node,
     className: PropTypes.string,
     title: PropTypes.string.isRequired,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     directions: PropTypes.arrayOf(PropTypes.string),
     direction: PropTypes.string,
     popupProps: PropTypes.object,
