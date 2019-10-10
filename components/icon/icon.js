@@ -64,7 +64,7 @@ export default class Icon extends PureComponent {
 
   getIconSource() {
     const {glyph} = this.props;
-    return glyph?.call ? String(glyph) : glyph;
+    return glyph?.isRingIcon ? glyph.glyph : glyph;
   }
 
   render() {
@@ -74,8 +74,8 @@ export default class Icon extends PureComponent {
       ...restProps
     } = this.props;
 
-    const iconSrc = this.getIconSource();
-    if (!iconSrc) {
+    const IconSrc = this.getIconSource();
+    if (!IconSrc) {
       // eslint-disable-next-line no-console
       console.warn('No icon source passed to Icon component', this.props);
       return null;
@@ -94,10 +94,10 @@ export default class Icon extends PureComponent {
         {...restProps}
         className={classes}
       >
-        <IconSVG
-          src={iconSrc}
-          style={this.getStyle()}
-        />
+        {typeof IconSrc === 'string'
+          ? <IconSVG src={IconSrc} style={this.getStyle()}/>
+          : <IconSrc className={styles.glyph} style={this.getStyle()}/>
+        }
       </span>
     );
   }
@@ -110,7 +110,10 @@ export function iconHOC(glyph, displayName) {
   return class BoundIcon extends PureComponent {
     static Color = Color;
     static Size = Size;
+    static isRingIcon = true;
+    static glyph = glyph;
 
+    // Compatibility with angular
     static toString() {
       return glyph;
     }

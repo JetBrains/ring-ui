@@ -24,10 +24,10 @@ describe.skip('Icon Ng', () => {
     $compile = _$compile_;
 
     element = $compile(`
-      <rg-icon 
-      color="{{color}}" 
-      glyph="{{icon}}" 
-      loading="loading" 
+      <rg-icon
+      color="{{color}}"
+      glyph="{{icon}}"
+      loading="loading"
       ></rg-icon>
     `)(scope)[0];
     scope.$digest();
@@ -39,13 +39,13 @@ describe.skip('Icon Ng', () => {
 
   it('should contain non-empty use element', () => {
     // queries like 'use[*|href="#ok"]' do not work in IE
-    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(CheckmarkIcon.toString());
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(CheckmarkIcon.glyph);
   });
 
   it('should change use element content', () => {
     scope.icon = WarningIcon;
     scope.$digest();
-    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(WarningIcon.toString());
+    element.query('use').getAttributeNS(XLINK_NS, 'href').should.equal(WarningIcon.glyph);
   });
 
   it('should remove use element content', () => {
