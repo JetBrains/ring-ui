@@ -96,7 +96,7 @@
     "deep-assign": "^3.0.0",
     "electron": "^6.0.12",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.5.1",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
