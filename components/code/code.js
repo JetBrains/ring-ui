@@ -7,6 +7,7 @@ import trivialTemplateTag from '../global/trivial-template-tag';
 
 import highlight from './highlight';
 import styles from './code.css';
+import highlightStyles from './highlight.css';
 
 function noop() {}
 
@@ -82,7 +83,9 @@ export default class Code extends PureComponent {
 
     return (
       <Tag className={classes}>
-        <code ref={this.initCodeRef}>{normalizeIndent(code)}</code>
+        <code ref={this.initCodeRef} className={highlightStyles.highlightContainer}>
+          {normalizeIndent(code)}
+        </code>
       </Tag>
     );
   }
