@@ -76,7 +76,7 @@
     "@storybook/cli": "^5.2.3",
     "@storybook/client-api": "^5.2.0",
     "@storybook/core": "^5.2.1",
-    "@storybook/html": "^5.2.3",
+    "@storybook/html": "^5.2.4",
     "@storybook/source-loader": "^5.2.1",
     "@storybook/theming": "^5.2.0",
     "angular": "^1.7.8",
