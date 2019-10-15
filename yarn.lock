@@ -2151,17 +2151,6 @@
     telejson "^3.0.2"
     util-deprecate "^1.0.2"
 
-"@storybook/channel-postmessage@5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.2.3.tgz#e6de415d848a20d0e8a1d32cea178475756d114a"
-  integrity sha512-ixlpr6aAYoRM72cKwEWU/W0rWzOn3mYqb/eUdIaz3Da5BtFGKm3yEFguII0l1my82uhMm5/d3UNfoh0rO3pUyg==
-  dependencies:
-    "@storybook/channels" "5.2.3"
-    "@storybook/client-logger" "5.2.3"
-    core-js "^3.0.1"
-    global "^4.3.2"
-    telejson "^3.0.2"
-
 "@storybook/channel-postmessage@5.2.4":
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/@storybook/channel-postmessage/-/channel-postmessage-5.2.4.tgz#e3735bdce42156e54bf462083aebaf23245ab5c3"
@@ -2187,14 +2176,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/cli@^5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.2.3.tgz#0ad13637c45cb43bce43f4db587ca060e3a9e574"
-  integrity sha512-4dCHBb+uXC11NyiN/Nveu2/ODQ0kfoY5mE4ScUzUSqsouApbOQdVetYeOq9415VnSF3lG9cgxGSAlfuC8GNMHQ==
+"@storybook/cli@^5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.2.4.tgz#88ee4a22a8c2a1ca23f4834de9ae28c43ea9abcb"
+  integrity sha512-cF1HxQZ59nSoPNG18XoqdQB3yb9IxuNvBK3pgjuI/WLGqYls3UjssuaTb+ssK6bkx4nPpviT9skC6SUiL8rdFg==
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/preset-env" "^7.4.5"
-    "@storybook/codemod" "5.2.3"
+    "@storybook/codemod" "5.2.4"
     chalk "^2.4.1"
     commander "^2.19.0"
     core-js "^3.0.1"
@@ -2210,27 +2199,6 @@
     semver "^6.0.0"
     shelljs "^0.8.3"
     update-notifier "^3.0.0"
-
-"@storybook/client-api@5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/client-api/-/client-api-5.2.3.tgz#3878cd93d2c1977dc3ef36682c79d0355a3c5872"
-  integrity sha512-anXxcf2z+KQAk94xxdbeG1N6nTEWXj087XHQ22L3pOoX9TRzfG71UjL0/S7vj4EFUiXVHj8d6YUFwLb5LwpUIw==
-  dependencies:
-    "@storybook/addons" "5.2.3"
-    "@storybook/channel-postmessage" "5.2.3"
-    "@storybook/channels" "5.2.3"
-    "@storybook/client-logger" "5.2.3"
-    "@storybook/core-events" "5.2.3"
-    "@storybook/router" "5.2.3"
-    common-tags "^1.8.0"
-    core-js "^3.0.1"
-    eventemitter3 "^4.0.0"
-    global "^4.3.2"
-    is-plain-object "^3.0.0"
-    lodash "^4.17.11"
-    memoizerific "^1.11.3"
-    qs "^6.6.0"
-    util-deprecate "^1.0.2"
 
 "@storybook/client-api@5.2.4", "@storybook/client-api@^5.2.0":
   version "5.2.4"
@@ -2267,14 +2235,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/codemod@5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.2.3.tgz#b824ffa62aa3a19969aa9772c90e208690ef4b72"
-  integrity sha512-6Cm94SB3/oROGNMY3/q2D4t7ktRgjDQGHFgXlZtfpgwYMJ6S4K+P8bQmBHFLBVeta827RlxTgxzYIP9AWmhiSg==
+"@storybook/codemod@5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.2.4.tgz#baebd9906863aa2647d5a21e3f1c0d12db41cce2"
+  integrity sha512-/PzGpjwhF3yrGhMSD/qm/kHIF1zp7GxVt4b/NDMkxktFkQ5s9jOuaYmaG9vwebBS2aAdfzO/vlY/9HZr/5Zing==
   dependencies:
     "@mdx-js/mdx" "^1.0.0"
-    "@storybook/node-logger" "5.2.3"
-    "@storybook/router" "5.2.3"
+    "@storybook/node-logger" "5.2.4"
+    "@storybook/router" "5.2.4"
     core-js "^3.0.1"
     cross-spawn "^6.0.5"
     globby "^10.0.1"
@@ -2432,17 +2400,6 @@
     core-js "^3.0.1"
     global "^4.3.2"
     html-loader "^0.5.5"
-    regenerator-runtime "^0.12.1"
-
-"@storybook/node-logger@5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-5.2.3.tgz#cb746dbe0d1e56d905bf5601d16bb3a054123792"
-  integrity sha512-5p+5ltLdr7cZTSCG+vdIMDLHq5AAaL/CQ/bygjl+Rw/RSpvBO5Rg8hryszFyhogToHJbn2JinUbypLA+P6tcuQ==
-  dependencies:
-    chalk "^2.4.2"
-    core-js "^3.0.1"
-    npmlog "^4.1.2"
-    pretty-hrtime "^1.0.3"
     regenerator-runtime "^0.12.1"
 
 "@storybook/node-logger@5.2.4":
