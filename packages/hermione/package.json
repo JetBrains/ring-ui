@@ -19,7 +19,7 @@
     "commander": "^3.0.2",
     "filenamify": "^4.1.0",
     "forever": "^1.0.0",
-    "hermione": "^2.13.0",
+    "hermione": "^2.13.1",
     "html-reporter": "^5.0.1",
     "http-server": "^0.11.1",
     "ip": "^1.1.5",
