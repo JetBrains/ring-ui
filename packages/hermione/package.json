@@ -23,7 +23,7 @@
     "html-reporter": "^5.0.1",
     "http-server": "^0.11.1",
     "ip": "^1.1.5",
-    "jsdom": "^15.1.1",
+    "jsdom": "^15.2.0",
     "kill-port": "^1.6.0",
     "sauce-connect-launcher": "^1.2.7"
   },
