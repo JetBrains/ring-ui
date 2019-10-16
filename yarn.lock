@@ -1994,10 +1994,10 @@
     react-inspector "^3.0.2"
     uuid "^3.3.2"
 
-"@storybook/addon-docs@^5.2.3":
-  version "5.2.3"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-5.2.3.tgz#4ff4f401033735e5b929fd2809af1c86f3fbe2cb"
-  integrity sha512-xMg/LCUfVX1SNplaPbsNt9L78/QbxkR7pPpQuLjCvTAvzKkLNWNs8SlwM14ds/SfUNQ9EaCoAd1OQIdZrzrBRg==
+"@storybook/addon-docs@^5.2.4":
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-docs/-/addon-docs-5.2.4.tgz#aac2b46854a07977952d7b7533de274e6633742f"
+  integrity sha512-rfzoQUseb3G1WanQckjH85OXJJXMigod/YEEqJv68vo7GVY5PdVkOISy9nSldjrnwH6ikT3pcfJKPuHWRKAx/A==
   dependencies:
     "@babel/generator" "^7.4.0"
     "@babel/parser" "^7.4.2"
@@ -2005,12 +2005,12 @@
     "@mdx-js/loader" "^1.1.0"
     "@mdx-js/mdx" "^1.1.0"
     "@mdx-js/react" "^1.0.27"
-    "@storybook/addons" "5.2.3"
-    "@storybook/api" "5.2.3"
-    "@storybook/components" "5.2.3"
-    "@storybook/router" "5.2.3"
-    "@storybook/source-loader" "5.2.3"
-    "@storybook/theming" "5.2.3"
+    "@storybook/addons" "5.2.4"
+    "@storybook/api" "5.2.4"
+    "@storybook/components" "5.2.4"
+    "@storybook/router" "5.2.4"
+    "@storybook/source-loader" "5.2.4"
+    "@storybook/theming" "5.2.4"
     core-js "^3.0.1"
     global "^4.3.2"
     js-string-escape "^1.0.1"
@@ -2454,7 +2454,7 @@
     prop-types "^15.7.2"
     regenerator-runtime "^0.12.1"
 
-"@storybook/source-loader@^5.2.4":
+"@storybook/source-loader@5.2.4", "@storybook/source-loader@^5.2.4":
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/@storybook/source-loader/-/source-loader-5.2.4.tgz#3ccfbc6a93a3d09f0af630f3ecd5449bbc2897e7"
   integrity sha512-TXqJhj0oSnUp4w5dyh2sf3OXt/ShF9m7ceTzI8H8ZfuI8kljVsv+KvGdv+Q4f4jrO3br4Qz7bE9Wvp70i9BY1g==
