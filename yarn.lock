@@ -3690,12 +3690,7 @@ blob@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/blob/-/blob-0.0.5.tgz#d680eeef25f8cd91ad533f5b01eed48e64caf683"
 
-bluebird@^3.3.0, bluebird@^3.3.5, bluebird@^3.5.1, bluebird@^3.5.3:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
-  integrity sha512-FG+nFEZChJrbQ9tIccIfZJBz3J7mLrAhxakAbnrJWn8d7aKOC+LWifa0G+p4ZqKp4y13T7juYvdhq9NzKdsrjw==
-
-bluebird@^3.5.0, bluebird@^3.5.5:
+bluebird@^3.3.0, bluebird@^3.3.5, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.3, bluebird@^3.5.5:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
@@ -4916,7 +4911,7 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
 
-core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.1.3, core-js@^3.1.4:
+core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.1.4:
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.4.tgz#3a2837fc48e582e1ae25907afcd6cf03b0cc7a07"
   integrity sha512-YNZN8lt82XIMLnLirj9MhKDFZHalwzzrL9YLt6eb0T5D0EDl4IQ90IGkua8mHbnxNrkj1d8hbdizMc0Qmg1WnQ==
@@ -9026,10 +9021,10 @@ karma-webpack@^4.0.2:
     source-map "^0.7.3"
     webpack-dev-middleware "^3.7.0"
 
-karma@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/karma/-/karma-4.3.0.tgz#e14471ea090a952265a42ebb442b1a3c09832559"
-  integrity sha512-NSPViHOt+RW38oJklvYxQC4BSQsv737oQlr/r06pCM+slDOr4myuI1ivkRmp+3dVpJDfZt2DmaPJ2wkx+ZZuMQ==
+karma@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/karma/-/karma-4.4.0.tgz#10f16117a37b388aa86618a8815b5c9acf1d7d6d"
+  integrity sha512-+mvzi+gBWHPrlqt1KE0WrrjcKuePX7WWJjTYNaewp6U00inno/DTSk+QHMbc+aV09scErWjhJukxswFyS7u2qw==
   dependencies:
     bluebird "^3.3.0"
     body-parser "^1.16.1"
@@ -9037,7 +9032,6 @@ karma@^4.3.0:
     chokidar "^3.0.0"
     colors "^1.1.0"
     connect "^3.6.0"
-    core-js "^3.1.3"
     di "^0.0.1"
     dom-serialize "^2.2.0"
     flatted "^2.0.0"
