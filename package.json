@@ -102,7 +102,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "glob": "^7.1.4",
     "husky": "^3.0.9",
-    "karma": "^4.3.0",
+    "karma": "^4.4.0",
     "karma-coverage": "^2.0.1",
     "karma-coverage-html-index-reporter": "^1.0.2",
     "karma-electron": "^6.3.0",
