@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {pure} from 'recompose';
 
 import sniffer from '../global/sniffer';
+import memoize from '../global/memoize';
 
 import styles from './icon.css';
 
@@ -30,14 +31,6 @@ function serializeAttrs(map) {
   return res;
 }
 
-function getSVGFromSource(src) {
-  const svgContainer = document.createElement('div');
-  svgContainer.innerHTML = src;
-  const svg = svgContainer.firstElementChild;
-  svg.remove ? svg.remove() : svgContainer.removeChild(svg);
-  return svg;
-}
-
 function getSVGInnerHTML(svgNode) {
   if (!isIE) {
     return svgNode.innerHTML;
@@ -55,6 +48,17 @@ function extractSVGProps(svgNode) {
   return (map.length > 0) ? serializeAttrs(map) : null;
 }
 
+const getSVGFromSource = memoize(src => {
+  const svgContainer = document.createElement('div');
+  svgContainer.innerHTML = src;
+  const svg = svgContainer.firstElementChild;
+  svg.remove ? svg.remove() : svgContainer.removeChild(svg);
+  return {
+    props: extractSVGProps(svg),
+    html: getSVGInnerHTML(svg)
+  };
+});
+
 function isCompatibilityMode(iconSrc) {
   const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
   const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
@@ -66,15 +70,15 @@ function IconSVG({src, className, ...rest}) {
     [styles.compatibilityMode]: isCompatibilityMode(src)
   }, className);
 
-  const svgNode = getSVGFromSource(src);
+  const {props, html} = getSVGFromSource(src);
 
   return (
     <svg
-      {...extractSVGProps(svgNode)}
+      {...props}
       {...rest}
       className={glyphClasses}
       dangerouslySetInnerHTML={{
-        __html: getSVGInnerHTML(svgNode)
+        __html: html
       }}
     />
   );

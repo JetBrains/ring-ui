@@ -36,7 +36,7 @@ export default class Button extends PureComponent {
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     iconSize: PropTypes.number,
     iconClassName: PropTypes.string,
     iconSuppressSizeWarning: PropTypes.bool,
