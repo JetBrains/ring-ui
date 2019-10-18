@@ -1,6 +1,6 @@
 {
   "name": "@ring-ui/hermione",
-  "version": "2.0.26",
+  "version": "2.0.31",
   "description": "Hermione tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -10,6 +10,7 @@
     "gather": "yarn hermione --update-refs",
     "gui": "yarn hermione gui",
     "hermione": "node hermione.js",
+    "serve": "http-server ../../dist/ -p 9999",
     "test": "yarn hermione",
     "test-ci": "forever start .serve-static.json && yarn test --teamcity; forever stop serve-static"
   },
@@ -18,12 +19,12 @@
     "commander": "^3.0.2",
     "filenamify": "^4.1.0",
     "forever": "^1.0.0",
-    "hermione": "^2.12.6",
-    "html-reporter": "^4.12.5",
+    "hermione": "^2.13.1",
+    "html-reporter": "^5.2.0",
     "http-server": "^0.11.1",
     "ip": "^1.1.5",
-    "jsdom": "^15.1.1",
-    "kill-port": "^1.5.2",
+    "jsdom": "^15.2.0",
+    "kill-port": "^1.6.0",
     "sauce-connect-launcher": "^1.2.7"
   },
   "resolutions": {

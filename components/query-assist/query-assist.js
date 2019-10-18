@@ -159,6 +159,12 @@ export default class QueryAssist extends Component {
 
   ngModelStateField = ngModelStateField;
 
+  handleBlur = e => {
+    if (e.relatedTarget) {
+      this.handleFocusChange(e);
+    }
+  }
+
   handleFocusChange = e => {
     // otherwise it's blur and false
     const focus = e.type === 'focus';
@@ -783,7 +789,7 @@ export default class QueryAssist extends Component {
           disabled={this.props.disabled}
           onComponentUpdate={this.setCaretPosition}
 
-          onBlur={this.handleFocusChange}
+          onBlur={this.handleBlur}
           onClick={this.handleCaretMove}
           onCompositionStart={this.trackCompositionState}
           onCompositionEnd={this.trackCompositionState}
