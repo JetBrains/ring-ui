@@ -38,6 +38,8 @@
 
 .container {
   position: relative;
+
+  white-space: nowrap;
 }
 
 .focused,

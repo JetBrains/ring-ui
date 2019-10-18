@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/generator-ring-ui",
-  "version": "2.0.26",
+  "version": "2.0.32",
   "description": "Generator for Ring UI frontend apps",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -16,11 +16,11 @@
     "chalk": "^2.4.2",
     "change-case": "^3.1.0",
     "find-port": "^2.0.1",
-    "ora": "^3.4.0",
+    "ora": "^4.0.2",
     "package-json": "^6.5.0",
     "pify": "^4.0.1",
     "portscanner": "^2.2.0",
-    "read-pkg-up": "^6.0.0",
+    "read-pkg-up": "^7.0.0",
     "yeoman-generator": "^4.1.0",
     "yeoman-option-or-prompt": "^2.0.1"
   },

@@ -30,7 +30,7 @@ const generate = (packageName, output, suffix = 'Icon') => {
   source += "\nimport {iconHOC} from './icon';\n\n";
   icons.forEach(({name}) => {
     const displayName = changeCase.pascalCase(name) + suffix;
-    source += `export const ${displayName} = iconHOC(${name}.toString(), '${displayName}');\n`;
+    source += `export const ${displayName} = iconHOC(${name}, '${displayName}');\n`;
   });
 
   fs.writeFileSync(path.resolve(__dirname, output), source);

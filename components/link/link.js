@@ -74,7 +74,7 @@ export function linkHOC(ComposedComponent) {
         innerClassName, children, onPlainLeftClick, onClick,
         ...props
       } = this.props;
-      const useButton = pseudo || !isCustom && href === undefined;
+      const useButton = pseudo || !isCustom && href == null;
 
       const classes = classNames(styles.link, className, {
         [styles.active]: active,
