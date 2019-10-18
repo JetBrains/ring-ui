@@ -1,3 +1,4 @@
+/* global hermione */
 const querystring = require('querystring');
 
 const filenamify = require('filenamify');
@@ -25,8 +26,11 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;
 
-      if (skip) {
+      if (skip === true) {
         continue;
+      }
+      if (skip) {
+        hermione.skip.in(skip);
       }
 
       it(testName, async function test() {
