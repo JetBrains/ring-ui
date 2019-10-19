@@ -17,7 +17,7 @@ export default {
 
   parameters: {
     notes: 'Provides an Angular wrapper for Dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+    hermione: {captureSelector: '*[data-test~=ring-dialog]', skip: 'ie'}
   }
 };
 
@@ -39,17 +39,17 @@ export const basic = () => {
                 <div class="ring-form__group">
                   <rg-input id="dialog__key" label="Key" type="text">
                 </div>
-      
+
                 <div class="ring-form__group">
                   <rg-input id="dialog__name" label="Name" type="text"
                             error="Wrong value"></rg-input>
                   <div class="ring-form__control__description">Description</div>
                 </div>
-      
+
                 <div class="ring-form__group">
                   <rg-input id="textarea-demo" multiline="true" label="Textarea"></rg-input>
                 </div>
-      
+
                 <div class="ring-form__group">
                   <rg-select
                     options="item.name for item in dialogExampleCtrl.arr track by item.name"
@@ -57,7 +57,7 @@ export const basic = () => {
                     label="Select name"
                   ></rg-select>
                 </div>
-      
+
               </div>
             `,
             controllerAs: 'dialogExampleCtrl',
@@ -167,7 +167,7 @@ export const inSidebar = () => {
         <rg-sidebar show="true">
           <rg-dialog in-sidebar="true" active="true"></rg-dialog>
         </rg-sidebar>
-  
+
         <div ng-controller="ExampleCtrl as ctrl">
           <rg-button ng-click="ctrl.showDialog()">Show dialog</rg-button>
         </div>
@@ -194,7 +194,7 @@ export const withOverriddenStyles = () => {
                 <div class="ring-form__group">
                   <rg-input id="dialog__key" type="text" label="Key">
                 </div>
-                  
+
                 <rg-dialog-footer>
                   <rg-button>A button</rg-button>
                 </rg-dialog-footer>

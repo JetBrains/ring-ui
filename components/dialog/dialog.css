@@ -12,10 +12,19 @@
 
   display: flex;
   overflow: auto;
+  align-items: center;
+  justify-content: center;
 
   padding: calc(unit * 4) unit;
 
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
 }
 
 .content {
@@ -23,7 +32,6 @@
 
   width: calc(unit * 58);
   min-height: calc(unit * 15);
-  max-height: 100%;
   margin: auto;
 
   cursor: default;
