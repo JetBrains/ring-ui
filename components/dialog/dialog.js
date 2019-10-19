@@ -128,25 +128,27 @@ export default class Dialog extends PureComponent {
           map={shortcutsMap}
           scope={this.state.shortcutsScope}
         />
-        <AdaptiveIsland
-          className={classNames(styles.content, contentClassName)}
-          data-test="ring-dialog"
-          role="dialog"
-        >
-          {children}
-          {showCloseButton &&
-            (
-              <Button
-                icon={closeIcon}
-                data-test="ring-dialog-close-button"
-                className={styles.closeButton}
-                iconClassName={styles.closeIcon}
-                onClick={this.onCloseClick}
-                aria-label="close dialog"
-              />
-            )
-          }
-        </AdaptiveIsland>
+        <div className={styles.innerContainer}>
+          <AdaptiveIsland
+            className={classNames(styles.content, contentClassName)}
+            data-test="ring-dialog"
+            role="dialog"
+          >
+            {children}
+            {showCloseButton &&
+              (
+                <Button
+                  icon={closeIcon}
+                  data-test="ring-dialog-close-button"
+                  className={styles.closeButton}
+                  iconClassName={styles.closeIcon}
+                  onClick={this.onCloseClick}
+                  aria-label="close dialog"
+                />
+              )
+            }
+          </AdaptiveIsland>
+        </div>
       </TabTrap>,
       document.body
     );
