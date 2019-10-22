@@ -100,7 +100,7 @@
     "eslint": "^6.5.1",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "glob": "^7.1.4",
+    "glob": "^7.1.5",
     "husky": "^3.0.9",
     "karma": "^4.4.1",
     "karma-coverage": "^2.0.1",
