@@ -69,7 +69,7 @@
     "@jetbrains/generator-ring-ui": "^2.0.32",
     "@jetbrains/stylelint-config": "^1.3.4",
     "@storybook/addon-actions": "^5.2.5",
-    "@storybook/addon-docs": "^5.2.4",
+    "@storybook/addon-docs": "^5.2.5",
     "@storybook/addon-knobs": "^5.2.4",
     "@storybook/addon-notes": "^5.2.4",
     "@storybook/addon-storysource": "^5.2.5",
