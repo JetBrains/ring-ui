@@ -81,8 +81,10 @@
 }
 
 .dark .selected {
-  color: var(--ring-dark-text-color);
-  box-shadow: selected-line-shadow var(--ring-main-color);
+  &.selected {
+    color: var(--ring-dark-text-color);
+    box-shadow: selected-line-shadow var(--ring-main-color);
+  }
 }
 
 .visible {
