@@ -52,9 +52,10 @@ const DEFAULT_CONFIG = {
     postpone: 'Postpone',
     youHaveLoggedInAs: 'You have logged in as another user: %userName%',
     applyChange: 'Apply change',
-    backendIsNotAvailable: 'Backend is not available',
-    checkAgain: 'Check again',
-    nothingHappensLink: 'Click here if nothing happens'
+    backendIsNotAvailable: 'Connection lost',
+    checkAgain: 'try again',
+    nothingHappensLink: 'Click here if nothing happens',
+    errorMessage: 'There may be a problem with your network connection. Make sure that you are online and'
   }
 };
 
