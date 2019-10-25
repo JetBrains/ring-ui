@@ -1096,10 +1096,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.32":
-  version "2.0.32"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.32.tgz#74d837db21df05298d13bab78e7a3b9afae6187a"
-  integrity sha512-7a9Q+n5jAeuW2z/ZfUb3mlW5Ms5hE8fgZ3ZQiRfvO3W0wpCg3HeoZFQM/mvQDIN9q0XNYVQyevm7OwuqarCkFA==
+"@jetbrains/generator-ring-ui@^2.0.33":
+  version "2.0.33"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.33.tgz#7f83fa51c93054f01854b5dc703351e8fecc8c1c"
+  integrity sha512-wT59O1ghOxam6nLaEuCfyTBtNdSwb8XPLMA/bHqUrUqGIXEDqYPyALcL91ul6Mw7w2rpABgDycH4nNiK+ysdkg==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -3608,13 +3608,13 @@ babel-plugin-minify-type-constructors@^0.4.3:
   dependencies:
     babel-helper-is-void-0 "^0.4.3"
 
-babel-plugin-react-docgen@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-docgen/-/babel-plugin-react-docgen-3.1.0.tgz#14b02b363a38cc9e08c871df16960d27ef92030f"
-  integrity sha512-W6xqZnZIWjZuE9IjP7XolxxgFGB5Y9GZk4cLPSWKa10MrT86q7bX4ke9jbrNhFVIRhbmzL8wE1Sn++mIWoJLbw==
+babel-plugin-react-docgen@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-docgen/-/babel-plugin-react-docgen-3.2.0.tgz#c072364d61d1f6bb19a6ca81734fc270870e8b96"
+  integrity sha512-MZ3fhnJ+/tUDhWFGgWsajuLct/dD1xoprmStqrBgtt9flFLPrKIOKOfqwjXjsn6/THs5QrG5rkcDFE3TMMZDjQ==
   dependencies:
-    lodash "^4.17.11"
-    react-docgen "^4.1.0"
+    lodash "^4.17.15"
+    react-docgen "^4.1.1"
     recast "^0.14.7"
 
 babel-plugin-syntax-jsx@^6.18.0:
@@ -12653,7 +12653,7 @@ react-dev-utils@^9.0.0:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-docgen@^4.1.0:
+react-docgen@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-docgen/-/react-docgen-4.1.1.tgz#8fef0212dbf14733e09edecef1de6b224d87219e"
   integrity sha512-o1wdswIxbgJRI4pckskE7qumiFyqkbvCO++TylEDOo2RbMiueIOg8YzKU4X9++r0DjrbXePw/LHnh81GRBTWRw==
