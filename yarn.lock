@@ -1096,10 +1096,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.32":
-  version "2.0.32"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.32.tgz#74d837db21df05298d13bab78e7a3b9afae6187a"
-  integrity sha512-7a9Q+n5jAeuW2z/ZfUb3mlW5Ms5hE8fgZ3ZQiRfvO3W0wpCg3HeoZFQM/mvQDIN9q0XNYVQyevm7OwuqarCkFA==
+"@jetbrains/generator-ring-ui@^2.0.33":
+  version "2.0.33"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.33.tgz#7f83fa51c93054f01854b5dc703351e8fecc8c1c"
+  integrity sha512-wT59O1ghOxam6nLaEuCfyTBtNdSwb8XPLMA/bHqUrUqGIXEDqYPyALcL91ul6Mw7w2rpABgDycH4nNiK+ysdkg==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -12247,10 +12247,10 @@ postcss@^6.0.1, postcss@^6.0.13, postcss@^6.0.14:
     source-map "^0.6.1"
     supports-color "^5.4.0"
 
-postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.17, postcss@^7.0.18, postcss@^7.0.2, postcss@^7.0.5, postcss@^7.0.6, postcss@^7.0.7:
-  version "7.0.18"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.18.tgz#4b9cda95ae6c069c67a4d933029eddd4838ac233"
-  integrity sha512-/7g1QXXgegpF+9GJj4iN7ChGF40sYuGYJ8WZu8DZWnmhQ/G36hfdk3q9LBJmoK+lZ+yzZ5KYpOoxq7LF1BxE8g==
+postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.17, postcss@^7.0.2, postcss@^7.0.20, postcss@^7.0.5, postcss@^7.0.6, postcss@^7.0.7:
+  version "7.0.20"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.20.tgz#a107b68ef1ad1c5e6e214ebb3c5ede2799322837"
+  integrity sha512-VOdO3a5nHVftPSEbG1zaG320b4mH5KAflH+pIeVAF5/hlw6YumELSgHZQBekjg29Oj4qw7XAyp9tIEBpeNWcyg==
   dependencies:
     chalk "^2.4.2"
     source-map "^0.6.1"
