@@ -156,7 +156,7 @@
     "es6-error": "^4.1.1",
     "extricate-loader": "^3.0.0",
     "file-loader": "^4.2.0",
-    "focus-trap": "^5.0.2",
+    "focus-trap": "^5.1.0",
     "highlight.js": "^9.15.10",
     "html-loader": "^0.5.5",
     "imports-loader": "^0.8.0",
