@@ -887,15 +887,15 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
-detect-conflict@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/detect-conflict/-/detect-conflict-1.0.1.tgz#088657a66a961c05019db7c4230883b1c6b4176e"
-  integrity sha1-CIZXpmqWHAUBnbfEIwiDsca0F24=
-
 diff@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
   integrity sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
+
+diff@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.1.tgz#0c667cb467ebbb5cea7f14f135cc2dba7780a8ff"
+  integrity sha512-s2+XdvhPCOF01LRQBC8hf4vhbVmI2CGS5aZnxLJlT5FtdhPCDFq80q++zK2KlrVorVDdL5BOGZ/VfLrVtYNF+Q==
 
 dir-glob@^2.0.0:
   version "2.0.0"
@@ -4363,10 +4363,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.1.0.tgz#dae31db7934c6d815338f7354a851a4c39aa8735"
-  integrity sha512-AULpLsX2CYr0sweIp03isXTl17YkBOOrqzpnErtYr0pUZz4ICqvJbvDPaC/ETMyf0bXHiuY56ATxSKDC/AXHWw==
+yeoman-generator@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.2.0.tgz#18fcf671e38a5eb5ec87aeaa862383b6075be31c"
+  integrity sha512-9+PXgEXm8U31mgigU064vSOzeQg/s5GUG0iF6cXaozV+CKf/iaioZ9n12iYh6ctVsS6I3lksriLGH+LmioA6lA==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
@@ -4375,7 +4375,7 @@ yeoman-generator@^4.1.0:
     dargs "^6.1.0"
     dateformat "^3.0.3"
     debug "^4.1.1"
-    detect-conflict "^1.0.0"
+    diff "^4.0.1"
     error "^7.0.2"
     find-up "^3.0.0"
     github-username "^3.0.0"
