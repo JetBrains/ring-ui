@@ -67,3 +67,10 @@
   margin: unit 0;
   padding: 0 calc(2 * unit);
 }
+
+.selectAll {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px 16px 0;
+}

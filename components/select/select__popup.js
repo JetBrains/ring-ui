@@ -19,6 +19,8 @@ import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import Shortcuts from '../shortcuts/shortcuts';
+import Button from '../button/button';
+import Text from '../text/text';
 
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
@@ -36,6 +38,7 @@ export default class SelectPopup extends Component {
     activeIndex: null,
     toolbar: null,
     filter: false, // can be either boolean or an object with "value" and "placeholder" properties
+    multiple: false, // multiple can be an object - see demo for more information
     message: null,
     anchorElement: null,
     maxHeight: 600,
@@ -48,7 +51,8 @@ export default class SelectPopup extends Component {
     onLoadMore: noop,
     selected: [],
     tags: null,
-    ringPopupTarget: null
+    ringPopupTarget: null,
+    onSelectAll: noop
   };
 
   state = {
@@ -333,6 +337,23 @@ export default class SelectPopup extends Component {
     return null;
   }
 
+  handleSelectAll = () => this.props.onSelectAll(
+    this.props.data.length !== this.props.selected.length
+  );
+
+  getSelectAll = () => (
+    <div className={styles.selectAll}>
+      <Button
+        text
+        inline
+        onClick={this.handleSelectAll}
+      >
+        {this.props.data.length !== this.props.selected.length ? 'Select all' : 'Deselect all'}
+      </Button>
+      <Text info>{`${this.props.selected.length} selected`}</Text>
+    </div>
+  );
+
   _adjustListMaxHeight(userDefinedMaxHeight) {
     // Calculate list's maximum height that can't
     // get beyond the screen
@@ -429,6 +450,7 @@ export default class SelectPopup extends Component {
           }
           {/* Add empty div to prevent the change of List position in DOM*/}
           {this.props.hidden ? <div/> : this.getFilterWithTags()}
+          {this.props.multiple && this.props.multiple.selectAll && this.getSelectAll()}
           {this.getList()}
           {this.getBottomLine()}
           {this.props.toolbar}

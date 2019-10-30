@@ -458,10 +458,12 @@ export default class Select extends Component {
         top={this.props.top}
         left={this.props.left}
         filter={this.isInputMode() ? false : this.props.filter} // disable popup filter in INPUT mode
+        multiple={this.props.multiple}
         filterValue={this.state.filterValue}
         anchorElement={anchorElement}
         onCloseAttempt={this._onCloseAttempt}
         onSelect={this._listSelectHandler}
+        onSelectAll={this._listSelectAllHandler}
         onFilter={this._filterChangeHandler}
         onClear={this.clearFilter}
         onLoadMore={this.props.onLoadMore}
@@ -803,8 +805,60 @@ export default class Select extends Component {
           this._redrawPopup();
         }
       });
-
     }
+  };
+
+  _listSelectAllHandler = (isSelectAll = true) => {
+    const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
+    const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
+
+    this.setState(prevState => {
+      const currentSelection = prevState.selected;
+      let nextSelection;
+
+      if (isSelectAll) {
+        nextSelection = this.props.data;
+        this.props.data.
+          filter(
+            item => !this.props.selected.find(selectedItem => item.key === selectedItem.key) &&
+              (isItem(item) || isCustomItem(item)) &&
+              !item.disabled
+          ).
+          forEach(item => {
+            this.props.onSelect && this.props.onSelect(item);
+          });
+      } else {
+        nextSelection = [];
+        currentSelection.
+          forEach(item => {
+            this.props.onDeselect && this.props.onDeselect(item);
+          });
+      }
+
+      this.props.onChange(nextSelection, event);
+
+      return {
+        filterValue: '',
+        selected: nextSelection,
+        selectedIndex: isSelectAll
+          ? this._getSelectedIndex(
+            nextSelection, this.props.data
+          )
+          : null,
+        shownData: prevState.shownData.map(item => ({...item, checkbox: isSelectAll}))
+      };
+    }, () => {
+      if (isSelectAll) {
+        this.props.data.
+          forEach(item => {
+            this._multipleMap[item.key] = true;
+          });
+      } else {
+        this._multipleMap = {};
+      }
+
+      this._redrawPopup();
+    });
   };
 
   _onCloseAttempt = (event, isEsc) => {

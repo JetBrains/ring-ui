@@ -1034,6 +1034,7 @@ export const withFilteredFields = () => {
             data={filtersData}
           />
           <Select
+            key={selectedFilterKey}
             selectedLabel="Option"
             label="Please select option"
             filter
@@ -1067,4 +1068,31 @@ withFilteredFields.story = {
   </style>
         `
   }
+};
+
+export const multipleWithSelectAll = () => {
+  const data = [
+    {label: 'One long label', key: '1'},
+    {label: 'Two long label', key: '2'},
+    {label: 'Three long label', key: '3'}
+  ];
+
+  const multipleConfig = {selectAll: true};
+
+  return (
+    <Select
+      filter
+      multiple={multipleConfig}
+      selected={[data[1]]}
+      data={data}
+      onSelect={action('selected')}
+      onDeselect={action('deselected')}
+      onChange={action('changed-selection')}
+    />
+  );
+};
+
+multipleWithSelectAll.story = {
+  name: 'multiple with select all',
+  parameters: {hermione: {skip: true}}
 };
