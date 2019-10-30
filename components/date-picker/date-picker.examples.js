@@ -97,3 +97,114 @@ export const clearable = () => {
 clearable.story = {
   name: 'clearable'
 };
+
+export const singleWithMinMax = () => {
+  class DatePickerExample extends Component {
+    state = {date: '01.02.19'};
+
+    setDate = date => {
+      this.setState({date});
+    };
+
+    render() {
+      return (
+        <div>
+          <div>
+            {'With min and max dates: '}
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              clear
+              minDate="25 January 2019"
+              maxDate="5 February 2019"
+            />
+          </div>
+          <div>
+            {'Only with min date: '}
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              clear
+              minDate="25 January 2019"
+            />
+          </div>
+          <div>
+            {'Only with max date: '}
+            <DatePicker
+              date={this.state.date}
+              onChange={this.setDate}
+              clear
+              maxDate="5 February 2019"
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+singleWithMinMax.story = {
+  name: 'single with min-max dates'
+};
+
+export const rangeWithMinMax = () => {
+  class DatePickerExample extends Component {
+    state = {
+      from: '27 January 2019',
+      to: '4 February 2019'
+    };
+
+    setRange = ({from, to}) => {
+      this.setState({from, to});
+    };
+
+    render() {
+      return (
+        <div>
+          <div>
+            {'With min and max dates: '}
+            <DatePicker
+              from={this.state.from}
+              to={this.state.to}
+              onChange={this.setRange}
+              clear
+              minDate="25 January 2019"
+              maxDate="5 February 2019"
+              range
+            />
+          </div>
+          <div>
+            {'Only with min date: '}
+            <DatePicker
+              from={this.state.from}
+              to={this.state.to}
+              onChange={this.setRange}
+              clear
+              minDate="25 January 2019"
+              range
+            />
+          </div>
+          <div>
+            {'Only with max date: '}
+            <DatePicker
+              from={this.state.from}
+              to={this.state.to}
+              onChange={this.setRange}
+              clear
+              maxDate="5 February 2019"
+              range
+            />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+rangeWithMinMax.story = {
+  name: 'range with min-max dates'
+};

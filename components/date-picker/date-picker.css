@@ -229,6 +229,10 @@
   background-color: var(--ring-date-picker-hover-color);
 }
 
+.disabled {
+  color: var(--ring-disabled-color);
+}
+
 .from {
   border-radius: var(--ring-border-radius) 0 0 var(--ring-border-radius);
 }
