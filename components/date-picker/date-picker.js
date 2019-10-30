@@ -32,7 +32,9 @@ export default class DatePicker extends PureComponent {
     rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func,
     dropdownProps: PropTypes.object,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    minDate: dateType,
+    maxDate: dateType
   };
 
   static defaultProps = {
@@ -48,6 +50,8 @@ export default class DatePicker extends PureComponent {
     inputFormat: 'D MMM YYYY',
     datePlaceholder: 'Set a date',
     rangePlaceholder: 'Set a period',
+    minDate: null,
+    maxDate: null,
     onChange() {}
   };
 

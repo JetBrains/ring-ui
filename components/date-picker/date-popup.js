@@ -26,7 +26,9 @@ export default class DatePopup extends Component {
     inputFormat: PropTypes.string,
     onChange: PropTypes.func,
     onComplete: PropTypes.func,
-    onClear: PropTypes.func
+    onClear: PropTypes.func,
+    minDate: dateType,
+    maxDate: dateType
   };
 
   static defaultProps = {

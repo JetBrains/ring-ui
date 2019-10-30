@@ -29,6 +29,9 @@ export default class Day extends Component {
 
   inRange = range => range && this.props.day.isBetween(...range, 'days');
 
+  isDisabled = date => (this.props.minDate && date.isBefore(this.props.minDate, 'day')) ||
+    (this.props.maxDate && date.isAfter(this.props.maxDate, 'day'));
+
   render() {
     const {
       day,
@@ -45,6 +48,7 @@ export default class Day extends Component {
     }
 
     const spreadRange = makeSpreadRange(currentRange);
+    const disabled = this.isDisabled(day);
     const activeSpreadRange = makeSpreadRange(activeRange); return (
       // TODO make keyboard navigation actually work
       <button
@@ -54,7 +58,7 @@ export default class Day extends Component {
           styles[day.format('dddd')],
           {
             [styles.current]: ['date', 'from', 'to'].some(this.is),
-            [styles.active]: this.is('activeDate'),
+            [styles.active]: !disabled && this.is('activeDate'),
             [styles.weekend]: [weekdays.SA, weekdays.SU].includes(day.day()),
             [styles.empty]: empty,
             [styles.from]: (currentRange && this.isDay(currentRange[0]) && !reverse ||
@@ -62,10 +66,11 @@ export default class Day extends Component {
             [styles.to]: (currentRange && this.isDay(currentRange[1])) ||
               activeRange && this.isDay(activeRange[1]),
             [styles.between]: this.inRange(currentRange),
-            [styles.activeBetween]: this.inRange(activeRange),
+            [styles.activeBetween]: !disabled && this.inRange(activeRange),
             [styles.first]: day.date() === 1,
             [styles.spread]: this.inRange(spreadRange),
-            [styles.activeSpread]: this.inRange(activeSpreadRange)
+            [styles.activeSpread]: !disabled && this.inRange(activeSpreadRange),
+            [styles.disabled]: disabled
           },
         )}
         onClick={this.handleClick}
@@ -73,6 +78,7 @@ export default class Day extends Component {
         onFocus={this.handleMouseOver}
         onMouseOut={this.handleMouseOut}
         onBlur={this.handleMouseOut}
+        disabled={disabled}
       >
         {empty || (
           <span className={classNames({[styles.today]: day.isSame(moment(), 'day')})}>
@@ -90,5 +96,7 @@ Day.propTypes = {
   activeRange: PropTypes.arrayOf(dateType),
   empty: PropTypes.bool,
   onSelect: PropTypes.func,
-  onHover: PropTypes.func
+  onHover: PropTypes.func,
+  minDate: dateType,
+  maxDate: dateType
 };
