@@ -54,6 +54,12 @@ export default class DatePopup extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.componentRef.current) {
+      this.componentRef.current.addEventListener('wheel', this.handleWheel);
+    }
+  }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const name = this.state.active;
     if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
@@ -71,6 +77,18 @@ export default class DatePopup extends Component {
       this.setState({text: null});
     }
   }
+
+  componentWillUnmount() {
+    if (this.componentRef.current) {
+      this.componentRef.current.removeEventListener('wheel', this.handleWheel);
+    }
+  }
+
+  componentRef = React.createRef();
+
+  handleWheel = e => {
+    e.preventDefault();
+  };
 
   sameDay(next, prev) {
     const nextMoment = this.parseDate(next);
@@ -251,6 +269,7 @@ export default class DatePopup extends Component {
       <div
         className={styles.datePopup}
         data-test="ring-date-popup"
+        ref={this.componentRef}
       >
         <div className={styles.filterWrapper}>
           <Icon
