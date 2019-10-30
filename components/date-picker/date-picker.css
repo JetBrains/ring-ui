@@ -230,6 +230,8 @@
 }
 
 .disabled {
+  cursor: not-allowed;
+
   color: var(--ring-disabled-color);
 }
 
