@@ -935,6 +935,76 @@ describe('Select', () => {
     });
   });
 
+  describe('On select all', () => {
+    it('Should react on select all action', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance.setState = sandbox.spy();
+
+      instance._listSelectAllHandler();
+
+      instance.setState.should.be.called;
+    });
+
+    it('Should react on select all action with false flag', () => {
+      const wrapper = shallowSelect();
+      const instance = wrapper.instance();
+      instance.setState = sandbox.spy();
+
+      instance._listSelectAllHandler(false);
+
+      instance.setState.should.be.called;
+    });
+
+    it('Should set selected on selecting all', () => {
+      const wrapper = mountSelect({
+        onSelect: sandbox.spy(),
+        multiple: true,
+        selected: [],
+        data: testData
+      });
+      const instance = wrapper.instance();
+      instance._listSelectAllHandler();
+      wrapper.should.have.state('selected', testData);
+    });
+
+    it('Should set call onSelect on selecting', () => {
+      const wrapper = mountSelect({
+        onSelect: sandbox.spy(),
+        multiple: true,
+        selected: [testData[0]],
+        data: testData
+      });
+      const instance = wrapper.instance();
+      instance._listSelectAllHandler();
+      wrapper.prop('onSelect').should.be.calledThrice;
+    });
+
+    it('Should set call onDeselect on call handler with false flag', () => {
+      const wrapper = mountSelect({
+        onDeselect: sandbox.spy(),
+        multiple: true,
+        selected: [testData[0], testData[1], testData[2]],
+        data: testData
+      });
+      const instance = wrapper.instance();
+      instance._listSelectAllHandler(false);
+      wrapper.prop('onDeselect').should.be.calledThrice;
+    });
+
+    it('Should set call onChange on selecting', () => {
+      const wrapper = mountSelect({
+        onChange: sandbox.spy(),
+        multiple: true,
+        selected: [testData[0]],
+        data: testData
+      });
+      const instance = wrapper.instance();
+      instance._listSelectAllHandler(testData[1]);
+      wrapper.prop('onChange').should.be.calledOnce;
+    });
+  });
+
   describe('Popup', () => {
     let container;
     const mountSelectToContainer = props => {
