@@ -201,10 +201,10 @@ export default class Select extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {showPopup} = this.state;
+    const {showPopup, selected} = this.state;
 
     if (prevState.showPopup && !showPopup) {
-      this.props.onClose();
+      this.props.onClose(selected);
     } else if (!prevState.showPopup && showPopup) {
       this.props.onOpen();
     }
@@ -614,6 +614,14 @@ export default class Select extends Component {
           item.checkbox = !!this._multipleMap[item.key];
         }
 
+        if (
+          this.props.multiple &&
+          this.props.multiple.limit
+        ) {
+          item.disabled = this.props.multiple.limit === this.state.selected.length &&
+            !this.state.selected.find(selectedItem => selectedItem.key === item.key);
+        }
+
         // Ignore item if it's multiple and is already selected
         if (
           !(this.props.multiple &&
@@ -788,11 +796,23 @@ export default class Select extends Component {
 
         this.props.onChange(nextSelection, event);
 
-        return {
+        const nextState = {
           filterValue: '',
           selected: nextSelection,
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
+
+        if (
+          this.props.multiple.limit &&
+          nextSelection.length === this.props.multiple.limit
+        ) {
+          nextState.shownData = prevState.shownData.
+            map(item => (nextSelection.find(selectedItem => selectedItem.key === item.key)
+              ? item
+              : {...item, disabled: true}));
+        }
+
+        return nextState;
 
       }, () => {
         if (!this._multipleMap[selected.key]) {

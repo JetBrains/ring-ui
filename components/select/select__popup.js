@@ -450,7 +450,11 @@ export default class SelectPopup extends Component {
           }
           {/* Add empty div to prevent the change of List position in DOM*/}
           {this.props.hidden ? <div/> : this.getFilterWithTags()}
-          {this.props.multiple && this.props.multiple.selectAll && this.getSelectAll()}
+          {this.props.multiple &&
+            !this.props.multiple.limit &&
+            this.props.multiple.selectAll &&
+            this.getSelectAll()
+          }
           {this.getList()}
           {this.getBottomLine()}
           {this.props.toolbar}
