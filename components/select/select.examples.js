@@ -1124,6 +1124,6 @@ export const multipleWithLimit = () => {
 };
 
 multipleWithLimit.story = {
-  name: 'multiple with select all',
+  name: 'multiple with limit',
   parameters: {hermione: {skip: true}}
 };
