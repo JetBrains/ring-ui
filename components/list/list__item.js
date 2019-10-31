@@ -101,7 +101,8 @@ export default class ListItem extends PureComponent {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
       [styles.compact]: compact,
-      [styles.scrolling]: scrolling
+      [styles.scrolling]: scrolling,
+      [styles.disabled]: disabled
     });
 
     const detailsClasses = classNames({
