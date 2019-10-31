@@ -285,3 +285,9 @@
 
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--ring-content-background-color));
 }
+
+.disabled {
+  pointer-events: none;
+
+  color: var(--ring-disabled-color);
+}
