@@ -1096,10 +1096,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.33":
-  version "2.0.33"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.33.tgz#7f83fa51c93054f01854b5dc703351e8fecc8c1c"
-  integrity sha512-wT59O1ghOxam6nLaEuCfyTBtNdSwb8XPLMA/bHqUrUqGIXEDqYPyALcL91ul6Mw7w2rpABgDycH4nNiK+ysdkg==
+"@jetbrains/generator-ring-ui@^2.0.34":
+  version "2.0.34"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.34.tgz#92dea9ec4551247eb018d41f834015e6ac9f4574"
+  integrity sha512-4tyWiSZLbA1mi861aZK8sywpx5QZDE51EEYcGVBe6YXUKBlvctSJWTtN8LXv4gftNa+yTo5yCKZo6yMm+XSCwQ==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -1109,7 +1109,7 @@
     pify "^4.0.1"
     portscanner "^2.2.0"
     read-pkg-up "^7.0.0"
-    yeoman-generator "^4.1.0"
+    yeoman-generator "^4.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
 "@jetbrains/icons@^3.5.0":
@@ -5539,11 +5539,6 @@ detab@2.0.2, detab@^2.0.0:
   dependencies:
     repeat-string "^1.5.4"
 
-detect-conflict@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/detect-conflict/-/detect-conflict-1.0.1.tgz#088657a66a961c05019db7c4230883b1c6b4176e"
-  integrity sha1-CIZXpmqWHAUBnbfEIwiDsca0F24=
-
 detect-file@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/detect-file/-/detect-file-1.0.0.tgz#f0d66d03672a825cb1b73bdb3fe62310c8e552b7"
@@ -5592,6 +5587,11 @@ didyoumean@^1.2.1:
 diff@3.5.0, diff@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
+
+diff@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.1.tgz#0c667cb467ebbb5cea7f14f135cc2dba7780a8ff"
+  integrity sha512-s2+XdvhPCOF01LRQBC8hf4vhbVmI2CGS5aZnxLJlT5FtdhPCDFq80q++zK2KlrVorVDdL5BOGZ/VfLrVtYNF+Q==
 
 diffie-hellman@^5.0.0:
   version "5.0.3"
@@ -7871,10 +7871,10 @@ header-case@^1.0.0:
     no-case "^2.2.0"
     upper-case "^1.1.3"
 
-highlight.js@^9.15.10:
-  version "9.15.10"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.10.tgz#7b18ed75c90348c045eef9ed08ca1319a2219ad2"
-  integrity sha512-RoV7OkQm0T3os3Dd2VHLNMoaoDVx77Wygln3n9l5YV172XonWG6rgQD3XnF/BuFFZw9A0TJgmMSO8FEWQgvcXw==
+highlight.js@^9.16.1:
+  version "9.16.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.16.1.tgz#827f49ca96eae006d8a2a0d5e3acd56041c26fc5"
+  integrity sha512-pyyiU56NR1XSm8M/l1QDKGGCA2n2GrcTxFahBo4v/2dH3gy4IiALczwhC9YJicyjoRh6JQWM+h3PvY1ZZ+D0+g==
 
 highlight.js@~9.12.0:
   version "9.12.0"
@@ -16275,10 +16275,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.1.0.tgz#dae31db7934c6d815338f7354a851a4c39aa8735"
-  integrity sha512-AULpLsX2CYr0sweIp03isXTl17YkBOOrqzpnErtYr0pUZz4ICqvJbvDPaC/ETMyf0bXHiuY56ATxSKDC/AXHWw==
+yeoman-generator@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.2.0.tgz#18fcf671e38a5eb5ec87aeaa862383b6075be31c"
+  integrity sha512-9+PXgEXm8U31mgigU064vSOzeQg/s5GUG0iF6cXaozV+CKf/iaioZ9n12iYh6ctVsS6I3lksriLGH+LmioA6lA==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
@@ -16287,7 +16287,7 @@ yeoman-generator@^4.1.0:
     dargs "^6.1.0"
     dateformat "^3.0.3"
     debug "^4.1.1"
-    detect-conflict "^1.0.0"
+    diff "^4.0.1"
     error "^7.0.2"
     find-up "^3.0.0"
     github-username "^3.0.0"
