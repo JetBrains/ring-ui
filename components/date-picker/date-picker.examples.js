@@ -100,7 +100,7 @@ clearable.story = {
 
 export const singleWithMinMax = () => {
   class DatePickerExample extends Component {
-    state = {date: '01.02.19'};
+    state = {date: '01.02.18'};
 
     setDate = date => {
       this.setState({date});
@@ -113,8 +113,8 @@ export const singleWithMinMax = () => {
             date={this.state.date}
             onChange={this.setDate}
             clear
-            minDate="25 January 2019"
-            maxDate="5 February 2019"
+            minDate="25 January 2018"
+            maxDate="5 February 2018"
           />
         </div>
       );
@@ -130,7 +130,7 @@ singleWithMinMax.story = {
 
 export const singleWithMin = () => {
   class DatePickerExample extends Component {
-    state = {date: '01.02.19'};
+    state = {date: '01.02.18'};
 
     setDate = date => {
       this.setState({date});
@@ -143,7 +143,7 @@ export const singleWithMin = () => {
             date={this.state.date}
             onChange={this.setDate}
             clear
-            minDate="25 January 2019"
+            minDate="25 January 2018"
           />
         </div>
       );
@@ -159,7 +159,7 @@ singleWithMin.story = {
 
 export const singleWithMax = () => {
   class DatePickerExample extends Component {
-    state = {date: '01.02.19'};
+    state = {date: '01.02.18'};
 
     setDate = date => {
       this.setState({date});
@@ -172,7 +172,7 @@ export const singleWithMax = () => {
             date={this.state.date}
             onChange={this.setDate}
             clear
-            maxDate="5 February 2019"
+            maxDate="5 February 2018"
           />
         </div>
       );
@@ -189,8 +189,8 @@ singleWithMax.story = {
 export const rangeWithMinMax = () => {
   class DatePickerExample extends Component {
     state = {
-      from: '27 January 2019',
-      to: '4 February 2019'
+      from: '27 January 2018',
+      to: '4 February 2018'
     };
 
     setRange = ({from, to}) => {
@@ -205,8 +205,8 @@ export const rangeWithMinMax = () => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            minDate="25 January 2019"
-            maxDate="5 February 2019"
+            minDate="25 January 2018"
+            maxDate="5 February 2018"
             range
           />
         </div>
@@ -224,8 +224,8 @@ rangeWithMinMax.story = {
 export const rangeWithMin = () => {
   class DatePickerExample extends Component {
     state = {
-      from: '27 January 2019',
-      to: '4 February 2019'
+      from: '27 January 2018',
+      to: '4 February 2018'
     };
 
     setRange = ({from, to}) => {
@@ -240,7 +240,7 @@ export const rangeWithMin = () => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            minDate="25 January 2019"
+            minDate="25 January 2018"
             range
           />
         </div>
@@ -258,8 +258,8 @@ rangeWithMin.story = {
 export const rangeWithMax = () => {
   class DatePickerExample extends Component {
     state = {
-      from: '27 January 2019',
-      to: '4 February 2019'
+      from: '27 January 2018',
+      to: '4 February 2018'
     };
 
     setRange = ({from, to}) => {
@@ -274,7 +274,7 @@ export const rangeWithMax = () => {
             to={this.state.to}
             onChange={this.setRange}
             clear
-            maxDate="5 February 2019"
+            maxDate="5 February 2018"
             range
           />
         </div>
