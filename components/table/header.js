@@ -8,6 +8,8 @@ import Checkbox from '../checkbox/checkbox';
 import style from './table.css';
 import HeaderCell from './header-cell';
 
+const waypointChild = <tr data-test="ring-table-header-row"/>;
+
 export default class Header extends PureComponent {
   static propTypes = {
     caption: PropTypes.string,
@@ -134,7 +136,7 @@ export default class Header extends PureComponent {
             onEnter={this.onScrollIn}
             onLeave={this.onScrollOut}
           >
-            <tr data-test="ring-table-header-row"/>
+            {waypointChild}
           </Waypoint>
         )
         }
