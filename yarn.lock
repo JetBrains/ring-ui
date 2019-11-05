@@ -8392,12 +8392,12 @@ insight@^0.10.3:
     tough-cookie "^3.0.1"
     uuid "^3.3.2"
 
-interpolate-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/interpolate-loader/-/interpolate-loader-2.0.0.tgz#a541ec4c52194e304f2a40f58f26271239284d47"
-  integrity sha1-pUHsTFIZTjBPKkD1jyYnEjkoTUc=
+interpolate-loader@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/interpolate-loader/-/interpolate-loader-2.0.1.tgz#bdf0092a3d4732842ac29c20bd03f1fb34891705"
+  integrity sha512-X5/cKHUnAS5gV/oK9Z6pEjg2xVH5EGgnC5QmaOPwK/o7qMOMyyafwFL1mtH3yAK+COCjyaH56MOs9G8uXG12yA==
   dependencies:
-    escape-string-regexp "^1.0.5"
+    escape-string-regexp "^2.0.0"
     loader-utils "^1.1.0"
 
 interpret@1.2.0, interpret@^1.0.0, interpret@^1.2.0:
