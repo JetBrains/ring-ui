@@ -177,7 +177,7 @@
     "react-waypoint": "^9.0.2",
     "recompose": "^0.30.0",
     "remark-breaks": "^1.0.3",
-    "sass": "^1.23.1",
+    "sass": "^1.23.3",
     "sass-loader": "^8.0.0",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
