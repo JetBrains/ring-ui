@@ -228,9 +228,6 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
       };
 
       ctrl.loadOptionsToSelect = query => {
-        if (inProcessQueries > 0) {
-          return $q.resolve();
-        }
         if (ctrl.stopLoadingNewOptions && query === lastQuery) {
           return $q.resolve();
         }
@@ -254,6 +251,12 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           inProcessQueries--;
           if (query !== lastQuery) {
             return; // do not process the result if queries don't match
+          }
+          if (skip &&
+            ctrl.lastSkip !== -1 &&
+            skip !== (ctrl.lastSkip + infiniteScrollPackSize) &&
+            ctrl.infiniteScrollPackSize) {
+            return; // do not process the result if skips not match
           }
 
           const items = memorizeOptions(results.data || results, skip).
