@@ -1133,10 +1133,10 @@
     eslint-plugin-import "^2.13.0"
     eslint-plugin-react "7.10.0"
 
-"@jetbrains/generator-ring-ui@^2.0.35":
-  version "2.0.35"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.35.tgz#92777f88bf4f8f46c5d3db3e10750298fd936453"
-  integrity sha512-zNzbll5dADIDG02M2Kr15wgEoU43iPQGVYWMH+fgBqWi8AxPB++9eZPrWZgD2aMd8Ft0mydIF5XsrWL/1qHu5Q==
+"@jetbrains/generator-ring-ui@^2.0.36":
+  version "2.0.36"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.36.tgz#09223d1237089385e1a8761dca8d5e71217c742b"
+  integrity sha512-Qw2EmNVCK/F/9FdgkLLnmy9VF2IfNJlEKd2kmZ81WQYi8Zjn6yXmtYCTnn3Wr5ql06wXOsCgwMh5Kc3yWy/gHA==
   dependencies:
     chalk "^2.4.2"
     change-case "^3.1.0"
@@ -2227,14 +2227,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/cli@^5.2.5":
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.2.5.tgz#24a4c77700ff0db041f6da67dcbef46a1f4bc3d4"
-  integrity sha512-JD+3OtjPgVXShFdq8Q1nf/wYUpKFR1lMK0deoxe5lhR1WLQ8T7J6Gri8ruG1I50kbn4637a+TUcPyD++V5RRSA==
+"@storybook/cli@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.2.6.tgz#171a67c9d871b18011418be9512b65f3a6c7d055"
+  integrity sha512-xPg3UW11y3VnzDCarVfWD+d2RnjV+N1fvUv6HSIBgJ2Hu0IAd6dDUDpRtghCYk3Ts7boTdl9rTWG83i4lzWkAA==
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/preset-env" "^7.4.5"
-    "@storybook/codemod" "5.2.5"
+    "@storybook/codemod" "5.2.6"
     chalk "^2.4.1"
     commander "^2.19.0"
     core-js "^3.0.1"
@@ -2307,14 +2307,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/codemod@5.2.5":
-  version "5.2.5"
-  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.2.5.tgz#93534e1e8ff590ab6fd79557daad1319caa6d6a7"
-  integrity sha512-G0+EF5LIhFLDsrsRrs665Cvju02/AgWWyUNcDYmz6TJki2nP2djtp/j4AelFXZMFd3vVTyMioU0Cx4cWmEsuow==
+"@storybook/codemod@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.2.6.tgz#2ae71bee88cf51f5ebc831af2fd87b404939624b"
+  integrity sha512-cLZJMNaTbj4rEcvlus6Fm3wImOkSfQI5U5rADUr0+5HHXuspiencUjstkgykV33QF8DdlxYlGGmSmQsY+VxnWw==
   dependencies:
     "@mdx-js/mdx" "^1.0.0"
-    "@storybook/node-logger" "5.2.5"
-    "@storybook/router" "5.2.5"
+    "@storybook/node-logger" "5.2.6"
+    "@storybook/router" "5.2.6"
     core-js "^3.0.1"
     cross-spawn "^6.0.5"
     globby "^10.0.1"
@@ -2486,6 +2486,17 @@
     pretty-hrtime "^1.0.3"
     regenerator-runtime "^0.12.1"
 
+"@storybook/node-logger@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-5.2.6.tgz#e353aff14375bef9e922c217a0afb50f93e2ceb1"
+  integrity sha512-Z3mn9CUSiG7kR2OBoz4lNeoeBS094h5d9wufZSp5S+M47L6KEXmTgNcuePKj+t8Z8KT/Ph8B63bjChseKp3DNw==
+  dependencies:
+    chalk "^2.4.2"
+    core-js "^3.0.1"
+    npmlog "^4.1.2"
+    pretty-hrtime "^1.0.3"
+    regenerator-runtime "^0.12.1"
+
 "@storybook/router@5.2.4":
   version "5.2.4"
   resolved "https://registry.yarnpkg.com/@storybook/router/-/router-5.2.4.tgz#e47af60478da7730c7d82de3d089d12c17077333"
@@ -2503,6 +2514,19 @@
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/@storybook/router/-/router-5.2.5.tgz#a005332bc6aa1e7849503187ad50c41b3f3bef92"
   integrity sha512-e6ElDAWSoEW1KSnsTbVwbpzaZ8CNWYw0Ok3b5AHfY2fuSH5L4l6s6k/bP7QSYqvWUeTvkFQYux7A2rOFCriAgA==
+  dependencies:
+    "@reach/router" "^1.2.1"
+    "@types/reach__router" "^1.2.3"
+    core-js "^3.0.1"
+    global "^4.3.2"
+    lodash "^4.17.15"
+    memoizerific "^1.11.3"
+    qs "^6.6.0"
+
+"@storybook/router@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/router/-/router-5.2.6.tgz#5180d3785501699283c6c3717986c877f84fead5"
+  integrity sha512-/FZd3fYg5s2QzOqSIP8UMOSnCIFFIlli/jKlOxvm3WpcpxgwQOY4lfHsLO+r9ThCLs2UvVg2R/HqGrOHqDFU7A==
   dependencies:
     "@reach/router" "^1.2.1"
     "@types/reach__router" "^1.2.3"
@@ -5114,12 +5138,7 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
 
-core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.4.tgz#3a2837fc48e582e1ae25907afcd6cf03b0cc7a07"
-  integrity sha512-YNZN8lt82XIMLnLirj9MhKDFZHalwzzrL9YLt6eb0T5D0EDl4IQ90IGkua8mHbnxNrkj1d8hbdizMc0Qmg1WnQ==
-
-core-js@^3.3.3:
+core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.1.4, core-js@^3.3.3:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.0.tgz#29ea478601789c72f2978e9bb98f43546f89d3aa"
   integrity sha512-lQxb4HScV71YugF/X28LtePZj9AB7WqOpcB+YztYxusvhrgZiQXPmCYfPC5LHsw/+ScEtDbXU3xbqH3CjBRmYA==
