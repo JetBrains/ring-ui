@@ -1,6 +1,7 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
+import Button from '../button/button';
 import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
 import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
@@ -119,11 +120,14 @@ export const autoOpenInADialog = () => {
   }
 
   return (
-    <Dialog show trapFocus autoFocusFirst={false}>
-      <Content>
-        <TagsInput tags={tags} dataSource={dataSource} autoOpen/>
-      </Content>
-    </Dialog>
+    <>
+      <Button>Button</Button>
+      <Dialog show trapFocus autoFocusFirst={false}>
+        <Content>
+          <TagsInput tags={tags} dataSource={dataSource} autoOpen/>
+        </Content>
+      </Dialog>
+    </>
   );
 };
 
