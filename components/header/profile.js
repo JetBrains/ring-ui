@@ -118,13 +118,13 @@ export default class Profile extends PureComponent {
     });
 
     const anchor = (
-      <div className={anchorClassName}>
+      <button type="button" className={anchorClassName}>
         <Avatar
           url={user.profile && user.profile.avatar && user.profile.avatar.url}
           size={size}
           round={round}
         />
-      </div>
+      </button>
     );
 
     const items = [
