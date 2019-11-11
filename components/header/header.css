@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value height: calc(unit * 8);
 @value compensate: 3px;
 @value compensated: calc(height - compensate);
@@ -134,6 +134,8 @@
 }
 
 .avatarWrapper {
+  composes: resetButton;
+
   line-height: 0;
 }
 
