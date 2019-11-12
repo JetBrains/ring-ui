@@ -11,6 +11,7 @@ import Table from './table';
 import MultiTable from './multitable';
 import Selection from './selection';
 import mock from './table.examples.json';
+import {continents, countries} from './table.examples2.json';
 
 export default {
   title: 'Components|Table',
@@ -243,8 +244,8 @@ basic.story = {
   name: 'basic'
 };
 
-const data1 = mock.continents;
-const data2 = mock.countries;
+const data1 = continents;
+const data2 = countries;
 
 class MultiTableDemo extends Component {
   state = {
