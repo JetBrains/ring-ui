@@ -128,7 +128,7 @@ export class Input extends PureComponent {
       value,
       onClear,
       disabled,
-      inputRef, onChange, // eslint-disable-line no-unused-vars
+      inputRef, onChange,
       ...restProps
     } = this.props;
     const {empty} = this.state;

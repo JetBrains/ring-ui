@@ -2,7 +2,8 @@ import React, {Fragment} from 'react';
 import {withState} from 'recompose';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Radio from '../radio/radio';
+
+import Radio from './radio';
 
 export default {
   title: 'Components|Radio',

@@ -23,7 +23,7 @@ export default class UserCardTooltip extends Component {
   static defaultProps = {
     renderUserCard: props => {
       const {className,
-        children, renderUserCard, renderNoUser, dropdownProps, ...restProps} = props; //eslint-disable-line no-unused-vars
+        children, renderUserCard, renderNoUser, dropdownProps, ...restProps} = props;
 
       return (
         <UserCard

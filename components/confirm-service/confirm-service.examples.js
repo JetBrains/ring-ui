@@ -2,8 +2,10 @@ import React from 'react';
 import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import confirm, {hideConfirm} from '../confirm-service/confirm-service';
+
 import Button from '../button/button';
+
+import confirm, {hideConfirm} from './confirm-service';
 
 export default {
   title: 'Services|Confirm Service',

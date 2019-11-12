@@ -1,7 +1,8 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Code, {code} from '../code/code';
+
+import Code, {code} from './code';
 
 export default {
   title: 'Components|Code',

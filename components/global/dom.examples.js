@@ -1,4 +1,4 @@
-import {getStyles, getRect, getPixelRatio, getWindowHeight} from '../global/dom';
+import {getStyles, getRect, getPixelRatio, getWindowHeight} from './dom';
 
 export default {
   title: 'Utilities|DOM',

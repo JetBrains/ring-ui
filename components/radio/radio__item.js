@@ -50,16 +50,20 @@ export class Radio extends Component {
   }
 }
 
-export default forwardRef((props, ref) => (
-  <RadioContext.Consumer>
-    {({value, onChange, ...restContext}) => (
-      <Radio
-        ref={ref}
-        {...restContext}
-        checked={value != null ? value === props.value : undefined}
-        onChange={onChange && (() => onChange(props.value))}
-        {...props}
-      />
-    )}
-  </RadioContext.Consumer>
-));
+const RadioItem = forwardRef(function RadioItem(props, ref) {
+  return (
+    <RadioContext.Consumer>
+      {({value, onChange, ...restContext}) => (
+        <Radio
+          ref={ref}
+          {...restContext}
+          checked={value != null ? value === props.value : undefined}
+          onChange={onChange && (() => onChange(props.value))}
+          {...props}
+        />
+      )}
+    </RadioContext.Consumer>
+  );
+});
+RadioItem.propTypes = Radio.propTypes;
+export default RadioItem;

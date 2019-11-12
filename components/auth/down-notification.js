@@ -21,7 +21,7 @@ function renderAlert(message, type = Alert.Type.WARNING) {
   }
 }
 
-// eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
 function Message({translations, onCheckAgain}) {
   const {backendIsNotAvailable, checkAgain, errorMessage} = translations;
 
@@ -35,6 +35,7 @@ function Message({translations, onCheckAgain}) {
     </div>
   );
 }
+/* eslint-enable */
 
 export default function onBackendDown({onCheckAgain, translations}) {
   async function checkAgainWithoutClosing(e) {

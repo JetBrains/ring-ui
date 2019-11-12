@@ -65,7 +65,6 @@ export default function Months(props) {
   return (
     <div
       className={styles.months}
-      // eslint-disable-next-line react/jsx-no-bind
       onWheel={function handleWheel(e) {
         e.preventDefault();
         dy += e.deltaY;

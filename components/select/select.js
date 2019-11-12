@@ -51,10 +51,6 @@ const getStyle = memoize(iconsLength => ({
  * @extends {Component}
  */
 export default class Select extends Component {
-  static Type = Type;
-  static Size = Size;
-  static Theme = Theme;
-
   static _getEmptyValue(multiple) {
     return multiple ? [] : null;
   }
@@ -209,6 +205,10 @@ export default class Select extends Component {
       this.props.onOpen();
     }
   }
+
+  static Type = Type;
+  static Size = Size;
+  static Theme = Theme;
 
   shortcutsScope = getUID('select-');
   _focusHandler = () => {

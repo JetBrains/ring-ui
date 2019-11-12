@@ -39,7 +39,20 @@ export default class ListCustom extends PureComponent {
   };
 
   render() {
-    const {scrolling, hover, className, disabled, template, rgItemType, tabIndex, onClick, onCheckboxChange, onMouseOver, onMouseUp, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {
+      scrolling,
+      hover,
+      className,
+      disabled,
+      template,
+      rgItemType,
+      tabIndex,
+      onClick,
+      onCheckboxChange,
+      onMouseOver,
+      onMouseUp,
+      ...restProps
+    } = this.props;
     const classes = classNames(styles.item, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,

@@ -12,8 +12,6 @@ import styles from './header.css';
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
 export default class Profile extends PureComponent {
-  static Size = Size;
-
   static propTypes = {
     className: PropTypes.string,
     closeOnSelect: PropTypes.bool,
@@ -38,7 +36,8 @@ export default class Profile extends PureComponent {
     }),
     user: PropTypes.shape({
       guest: PropTypes.bool,
-      profile: PropTypes.object
+      profile: PropTypes.object,
+      name: PropTypes.string
     }),
     size: PropTypes.number,
     round: PropTypes.bool,
@@ -73,6 +72,8 @@ export default class Profile extends PureComponent {
     )
   };
 
+  static Size = Size;
+
   render() {
     const {
       className,
@@ -93,7 +94,6 @@ export default class Profile extends PureComponent {
       translations,
       size,
       round,
-      // eslint-disable-next-line no-unused-vars
       loading, onLogin,
       ...props
     } = this.props;

@@ -14,6 +14,7 @@ const resizeDetector = createResizeDetector();
 
 const angularModule = angular.module('Ring.place-under', []);
 angularModule.directive('rgPlaceUnder',
+  // eslint-disable-next-line angular/di-unused
   function rgPlaceUnderDirective($window, getClosestElementWithCommonParent, rgPlaceUnderHelper) {
     return {
       restrict: 'A',

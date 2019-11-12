@@ -11,8 +11,6 @@ import styles from './tooltip.css';
  * @name Tooltip
  */
 export default class Tooltip extends Component {
-  static PopupProps = Popup.PopupProps;
-
   static propTypes = {
     delay: PropTypes.number,
     selfOverflowOnly: PropTypes.bool,
@@ -48,6 +46,8 @@ export default class Tooltip extends Component {
     clearTimeout(this.timeout);
     this.listeners.removeAll();
   }
+
+  static PopupProps = Popup.PopupProps;
 
   listeners = new Listeners();
   containerRef = el => {
@@ -111,7 +111,7 @@ export default class Tooltip extends Component {
 
   render() {
     const {children, 'data-test': dataTest,
-      title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+      title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
 
     return (
       <span

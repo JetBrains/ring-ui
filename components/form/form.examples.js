@@ -3,7 +3,7 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import '../input/input.scss';
-import '../form/form.scss';
+import './form.scss';
 import '../input-size/input-size.scss';
 
 import ButtonNG from '../button-ng/button-ng';

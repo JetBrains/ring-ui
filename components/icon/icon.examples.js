@@ -2,6 +2,10 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+
+import * as allIcons from './icons';
+import * as allLogos from './logos';
+
 import {
   SearchIcon,
   CheckmarkIcon,
@@ -11,10 +15,7 @@ import {
   ChevronDownIcon,
   StarFilledIcon,
   OkIcon
-} from '../icon';
-
-import * as allIcons from './icons';
-import * as allLogos from './logos';
+} from '.';
 
 export default {
   title: 'Components|Icon',

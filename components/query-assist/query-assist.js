@@ -38,9 +38,6 @@ function cleanText(text) {
  * @name Query Assist
  */
 export default class QueryAssist extends Component {
-  static ngModelStateField = ngModelStateField;
-  static Theme = Theme;
-
   static propTypes = {
     theme: PropTypes.string,
     autoOpen: PropTypes.bool,
@@ -156,6 +153,9 @@ export default class QueryAssist extends Component {
   componentDidUpdate(prevProps) {
     this.updateFocus(prevProps);
   }
+
+  static ngModelStateField = ngModelStateField;
+  static Theme = Theme;
 
   ngModelStateField = ngModelStateField;
 
@@ -333,7 +333,6 @@ export default class QueryAssist extends Component {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
   handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
 
   // eslint-disable-next-line max-len

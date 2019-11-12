@@ -17,7 +17,6 @@ CustomItem.propTypes = {
 };
 
 export default class Tabs extends PureComponent {
-  static Theme = Theme;
   static propTypes = {
     theme: PropTypes.string,
     selected: PropTypes.string,
@@ -32,6 +31,8 @@ export default class Tabs extends PureComponent {
     theme: Theme.LIGHT,
     onSelect() {}
   };
+
+  static Theme = Theme;
 
   handleSelect = memoize(key => () => this.props.onSelect(key));
 

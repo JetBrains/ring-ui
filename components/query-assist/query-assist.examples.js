@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {action} from '@storybook/addon-actions';
 
-import QueryAssist from '../query-assist/query-assist';
 import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
@@ -9,6 +8,8 @@ import List from '../list/list';
 import {PermissionIcon} from '../icon';
 
 import reactDecorator from '../../.storybook/react-decorator';
+
+import QueryAssist from './query-assist';
 
 const queryAssistLog = action('queryAssistLog');
 
@@ -80,53 +81,49 @@ export default {
   }
 };
 
-export const basic = () => {
-  const auth = new Auth(hubConfig);
-  const http = new HTTP(auth, auth.getAPIPath());
-
-  class QueryAssistExample extends Component {
-    constructor() {
-      super();
-      auth.init().then(() => this.setState({authReady: true}));
-    }
-
-    state = {authReady: false};
-
-    dataSource = props => {
-      const params = {
-        query: {
-          ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-        }
-      };
-
-      return http.get('users/queryAssist', params);
-    };
-
-    render() {
-      if (!this.state.authReady) {
-        return <span>Loading...</span>;
-      }
-
-      return (
-        <QueryAssist
-          query="test"
-          placeholder="placeholder"
-          glass
-          clear
-          onApply={queryAssistLog}
-          focus
-          hint="lol"
-          hintOnSelection="lol selected"
-          popupClassName="test"
-          dataSource={this.dataSource}
-        />
-      );
-    }
+class Basic extends Component {
+  constructor() {
+    super();
+    this.auth.init().then(() => this.setState({authReady: true}));
   }
 
-  return <QueryAssistExample/>;
-};
+  state = {authReady: false};
+  auth = new Auth(hubConfig);
+  http = new HTTP(this.auth, this.auth.getAPIPath());
+
+  dataSource = props => {
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+      }
+    };
+
+    return this.http.get('users/queryAssist', params);
+  };
+
+  render() {
+    if (!this.state.authReady) {
+      return <span>Loading...</span>;
+    }
+
+    return (
+      <QueryAssist
+        query="test"
+        placeholder="placeholder"
+        glass
+        clear
+        onApply={queryAssistLog}
+        focus
+        hint="lol"
+        hintOnSelection="lol selected"
+        popupClassName="test"
+        dataSource={this.dataSource}
+      />
+    );
+  }
+}
+export const basic = () => <Basic/>;
 
 basic.story = {
   name: 'basic',

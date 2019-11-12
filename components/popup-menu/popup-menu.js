@@ -37,7 +37,6 @@ export default class PopupMenu extends Popup {
 
   /** @override */
   getInternalContent() {
-    // eslint-disable-next-line no-unused-vars
     const {className, ...props} = this.props;
 
     return (

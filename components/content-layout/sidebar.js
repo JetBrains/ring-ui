@@ -53,8 +53,8 @@ export default class Sidebar extends Component {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars, max-len
-    const {right, children, className, containerClassName, fixedClassName, contentNode, ...restProps} = this.props;
+    const {right, children, className, containerClassName,
+      fixedClassName, contentNode, ...restProps} = this.props;
     const {topIsOutside, bottomIsOutside, sidebarVisibleHeight} = this.state;
 
     const shouldFixateTop = bottomIsOutside && topIsOutside && this.shouldUseFixation();

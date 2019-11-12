@@ -2,9 +2,11 @@
 import React, {Component, Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Button from '../button/button';
+
 import {PencilIcon, HourglassIcon} from '../icon';
 import Loader from '../loader-inline/loader-inline';
+
+import Button from './button';
 
 export default {
   title: 'Components|Button',

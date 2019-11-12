@@ -37,7 +37,6 @@ export default class ClickableLink extends PureComponent {
 
   render() {
     const {
-      // eslint-disable-next-line no-unused-vars
       onConditionalClick, onPlainLeftClick, activeClassName,
       href,
       children,

@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import InputNG from '../input-ng/input-ng';
+import InputNG from './input-ng';
 
 export default {
   title: 'Legacy Angular|Input Ng',

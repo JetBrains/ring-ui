@@ -1,7 +1,7 @@
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import shortcuts from '../shortcuts/core';
+import shortcuts from './core';
 
 export default class Shortcuts extends PureComponent {
   static propTypes = {

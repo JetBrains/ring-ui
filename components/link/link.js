@@ -70,7 +70,6 @@ export function linkHOC(ComposedComponent) {
         className,
         'data-test': dataTest,
         href,
-        // eslint-disable-next-line no-unused-vars
         innerClassName, children, onPlainLeftClick, onClick,
         ...props
       } = this.props;

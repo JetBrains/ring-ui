@@ -72,50 +72,47 @@ withAFilterAndTags.story = {
   parameters: {hermione: {skip: true}}
 };
 
-export const withAFilter = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class WithAFilter extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <>
-          <div className="demo">
-            <Select
-              selectedLabel="Option"
-              label="Please select option"
-              filter
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <>
+        <div className="demo">
+          <Select
+            selectedLabel="Option"
+            label="Please select option"
+            filter
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </>
+    );
+  }
+}
+export const withAFilter = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
@@ -123,7 +120,7 @@ export const withAFilter = () => {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ];
 
-  return <SelectExample data={data}/>;
+  return <WithAFilter data={data}/>;
 };
 
 withAFilter.story = {
@@ -150,51 +147,48 @@ withAFilter.story = {
   }
 };
 
-export const buttonModeWithAFilter = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class ButtonModeWithAFilter extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <>
-          <div className="demo">
-            <Select
-              type={Select.Type.BUTTON}
-              selectedLabel="Option"
-              label="Please select option"
-              filter
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <>
+        <div className="demo">
+          <Select
+            type={Select.Type.BUTTON}
+            selectedLabel="Option"
+            label="Please select option"
+            filter
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </>
+    );
+  }
+}
+export const buttonModeWithAFilter = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
@@ -202,7 +196,7 @@ export const buttonModeWithAFilter = () => {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ];
 
-  return <SelectExample data={data}/>;
+  return <ButtonModeWithAFilter data={data}/>;
 };
 
 buttonModeWithAFilter.story = {
@@ -220,58 +214,55 @@ buttonModeWithAFilter.story = {
   }
 };
 
-export const inlineWithAFilter = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class InlineWithAFilter extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <>
-          <div className="demo">
-            {'Selected option is '}
-            <Select
-              key="select"
-              type={Select.Type.INLINE}
-              filter
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <>
+        <div className="demo">
+          {'Selected option is '}
+          <Select
+            key="select"
+            type={Select.Type.INLINE}
+            filter
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </>
+    );
+  }
+}
+export const inlineWithAFilter = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
   ];
 
-  return <SelectExample data={data}/>;
+  return <InlineWithAFilter data={data}/>;
 };
 
 inlineWithAFilter.story = {
@@ -298,59 +289,56 @@ inlineWithAFilter.story = {
   }
 };
 
-export const inlineOpensToLeft = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class InlineOpensToLeft extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <div className="demo-container">
-          <div className="demo">
-            {'Selected option is '}
-            <Select
-              key="select"
-              type={Select.Type.INLINE}
-              filter
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-              directions={[Popup.PopupProps.Directions.BOTTOM_LEFT]}
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </div>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <div className="demo-container">
+        <div className="demo">
+          {'Selected option is '}
+          <Select
+            key="select"
+            type={Select.Type.INLINE}
+            filter
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+            directions={[Popup.PopupProps.Directions.BOTTOM_LEFT]}
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </div>
+    );
+  }
+}
+export const inlineOpensToLeft = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
   ];
 
-  return <SelectExample data={data}/>;
+  return <InlineOpensToLeft data={data}/>;
 };
 
 inlineOpensToLeft.story = {
@@ -374,58 +362,55 @@ inlineOpensToLeft.story = {
   }
 };
 
-export const withDisabledMoveOverflow = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class WithDisabledMoveOverflow extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <div className="demo-container">
-          <div className="demo">
-            <Select
-              selectedLabel="Option"
-              label="Please select option"
-              filter
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-              disableMoveOverflow
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </div>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <div className="demo-container">
+        <div className="demo">
+          <Select
+            selectedLabel="Option"
+            label="Please select option"
+            filter
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+            disableMoveOverflow
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </div>
+    );
+  }
+}
+export const withDisabledMoveOverflow = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
   ];
 
-  return <SelectExample data={data}/>;
+  return <WithDisabledMoveOverflow data={data}/>;
 };
 
 withDisabledMoveOverflow.story = {
@@ -447,114 +432,108 @@ withDisabledMoveOverflow.story = {
   }
 };
 
-export const withServerSideFiltering = () => {
-  const alwaysTrue = () => true;
+const alwaysTrue = () => true;
 
-  class UserList extends Component {
-    state = {
-      users: [],
-      request: null
-    };
+class WithServerSideFiltering extends Component {
+  state = {
+    users: [],
+    request: null
+  };
 
-    componentDidMount() {
-      this.initialize();
-    }
-
-    auth = new Auth(hubConfig);
-
-    source = new Source(this.auth, {
-      searchMax: 8
-    });
-
-    initialize = async () => {
-      await this.auth.init();
-      await this.loadData();
-    };
-
-    loadData = async query => {
-      const request = this.source.getForList(query);
-      this.setState({request});
-
-      const users = await request;
-
-      // only the latest request is relevant
-      if (this.state.request === request) {
-        this.setState({
-          users,
-          request: null
-        });
-      }
-    };
-
-    render() {
-      return (
-        <Select
-          data={this.state.users}
-          label="Set owner"
-          selectedLabel="Owner"
-          filter={{
-            placeholder: 'Search user or group',
-            fn: alwaysTrue // disable client filtering
-          }}
-          onFilter={this.loadData}
-          loading={!!this.state.request}
-        />
-      );
-    }
+  componentDidMount() {
+    this.initialize();
   }
 
-  return <UserList/>;
-};
+  auth = new Auth(hubConfig);
+
+  source = new Source(this.auth, {
+    searchMax: 8
+  });
+
+  initialize = async () => {
+    await this.auth.init();
+    await this.loadData();
+  };
+
+  loadData = async query => {
+    const request = this.source.getForList(query);
+    this.setState({request});
+
+    const users = await request;
+
+    // only the latest request is relevant
+    if (this.state.request === request) {
+      this.setState({
+        users,
+        request: null
+      });
+    }
+  };
+
+  render() {
+    return (
+      <Select
+        data={this.state.users}
+        label="Set owner"
+        selectedLabel="Owner"
+        filter={{
+          placeholder: 'Search user or group',
+          fn: alwaysTrue // disable client filtering
+        }}
+        onFilter={this.loadData}
+        loading={!!this.state.request}
+      />
+    );
+  }
+}
+export const withServerSideFiltering = () => <WithServerSideFiltering/>;
 
 withServerSideFiltering.story = {
   name: 'with server-side filtering',
   parameters: {hermione: {skip: true}}
 };
 
-export const withFuzzySearchFilter = () => {
-  class SelectExample extends Component {
-    static propTypes = {
-      data: PropTypes.arrayOf(Object)
-    };
+class WithFuzzySearchFilter extends Component {
+  static propTypes = {
+    data: PropTypes.arrayOf(Object)
+  };
 
-    constructor(props) {
-      super(props);
-      this.state = {selected: props.data[0]};
-    }
-
-    clearSelection = () => {
-      this.setState({selected: null});
-    };
-
-    onSelect = option => {
-      this.setState({selected: option});
-    };
-
-    render() {
-      return (
-        <div className="demo-container">
-          <div className="demo">
-            <Select
-              selectedLabel="Option"
-              label="Please select option"
-              filter={{fuzzy: true}}
-              clear
-              selected={this.state.selected}
-              data={this.props.data}
-              onSelect={this.onSelect}
-            />
-          </div>
-
-          <>
-            <Link pseudo onClick={this.clearSelection}>
-              Clear
-            </Link>
-          </>
-        </div>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.data[0]};
   }
 
+  clearSelection = () => {
+    this.setState({selected: null});
+  };
+
+  onSelect = option => {
+    this.setState({selected: option});
+  };
+
+  render() {
+    return (
+      <div className="demo-container">
+        <div className="demo">
+          <Select
+            selectedLabel="Option"
+            label="Please select option"
+            filter={{fuzzy: true}}
+            clear
+            selected={this.state.selected}
+            data={this.props.data}
+            onSelect={this.onSelect}
+          />
+        </div>
+
+        <Link pseudo onClick={this.clearSelection}>
+          Clear
+        </Link>
+      </div>
+    );
+  }
+}
+export const withFuzzySearchFilter = () => {
   const data = [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
@@ -562,7 +541,7 @@ export const withFuzzySearchFilter = () => {
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
   ];
 
-  return <SelectExample data={data}/>;
+  return <WithFuzzySearchFilter data={data}/>;
 };
 
 withFuzzySearchFilter.story = {
@@ -973,83 +952,80 @@ fitsToScreen.story = {
   }
 };
 
-export const withFilteredFields = () => {
-  class SelectWrapper extends Component {
-    constructor(props) {
-      super(props);
+class WithFilteredFields extends Component {
+  constructor(props) {
+    super(props);
 
-      const data = [...Array(100)].map((item, idx) => {
-        const label = `Label ${idx}`;
-        return {
-          key: idx,
-          label,
-          template: <span className="label">{label}</span>,
-          rgItemType: List.ListProps.Type.CUSTOM
-        };
-      });
-
-      const filtersData = [
-        {label: 'Show odd', key: '1'},
-        {label: 'Show even', key: '2'},
-        {label: 'Show all', key: '3'}
-      ];
-
-      this.state = {
-        data,
-        filtersData,
-        filteredData: data.filter(item => item.key % 2),
-        selectedDataKey: null,
-        selectedFilterKey: filtersData[0].key
+    const data = [...Array(100)].map((item, idx) => {
+      const label = `Label ${idx}`;
+      return {
+        key: idx,
+        label,
+        template: <span className="label">{label}</span>,
+        rgItemType: List.ListProps.Type.CUSTOM
       };
-    }
+    });
 
-    handleFilterSelect = selected => {
-      const {data} = this.state;
+    const filtersData = [
+      {label: 'Show odd', key: '1'},
+      {label: 'Show even', key: '2'},
+      {label: 'Show all', key: '3'}
+    ];
 
-      const filteredData =
-        selected.label === 'Show all'
-          ? [...data]
-          : data.filter(item => !!(item.key % 2) === (selected.label === 'Show odd'));
-
-      this.setState({
-        filteredData,
-        selectedFilterKey: selected.key,
-        selectedDataKey: null
-      });
+    this.state = {
+      data,
+      filtersData,
+      filteredData: data.filter(item => item.key % 2),
+      selectedDataKey: null,
+      selectedFilterKey: filtersData[0].key
     };
-
-    handleDataSelect = selected => this.setState({selectedDataKey: selected && selected.key});
-
-    render() {
-      const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
-      return (
-        <div className="filters-block">
-          <Select
-            selectedLabel="Filter"
-            label="Please select filter"
-            filter
-            clear
-            selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
-            onSelect={this.handleFilterSelect}
-            data={filtersData}
-          />
-          <Select
-            key={selectedFilterKey}
-            selectedLabel="Option"
-            label="Please select option"
-            filter
-            clear
-            selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
-            onSelect={this.handleDataSelect}
-            data={filteredData}
-          />
-        </div>
-      );
-    }
   }
 
-  return <SelectWrapper/>;
-};
+  handleFilterSelect = selected => {
+    const {data} = this.state;
+
+    const filteredData =
+      selected.label === 'Show all'
+        ? [...data]
+        : data.filter(item => !!(item.key % 2) === (selected.label === 'Show odd'));
+
+    this.setState({
+      filteredData,
+      selectedFilterKey: selected.key,
+      selectedDataKey: null
+    });
+  };
+
+  handleDataSelect = selected => this.setState({selectedDataKey: selected && selected.key});
+
+  render() {
+    const {filteredData, filtersData, selectedFilterKey, selectedDataKey} = this.state;
+    return (
+      <div className="filters-block">
+        <Select
+          selectedLabel="Filter"
+          label="Please select filter"
+          filter
+          clear
+          selected={filtersData.filter(item => item.key === selectedFilterKey)[0]}
+          onSelect={this.handleFilterSelect}
+          data={filtersData}
+        />
+        <Select
+          key={selectedFilterKey}
+          selectedLabel="Option"
+          label="Please select option"
+          filter
+          clear
+          selected={filteredData.filter(item => item.key === selectedDataKey)[0]}
+          onSelect={this.handleDataSelect}
+          data={filteredData}
+        />
+      </div>
+    );
+  }
+}
+export const withFilteredFields = () => <WithFilteredFields/>;
 
 withFilteredFields.story = {
   name: 'with filtered fields',
@@ -1061,7 +1037,7 @@ withFilteredFields.story = {
       .filters-block {
         padding: 8px 0;
       }
-      
+
       .filters-block > *:not(:nth-of-type(1)) {
         margin-left: 20px;
       }

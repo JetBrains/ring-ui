@@ -2,7 +2,8 @@ import React, {Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
-import Tooltip from '../tooltip/tooltip';
+
+import Tooltip from './tooltip';
 
 export default {
   title: 'Components|Tooltip',
@@ -54,7 +55,7 @@ export const displayedWhenNecessary = () => {
     <Fragment>
       <div style={{paddingBottom: '200px'}}>
         <Tooltip title={loremIpsum} selfOverflowOnly className="lorem-ipsum__text">
-          <b>Tooltip won't be displayed:</b> {loremIpsum}
+          <b>{"Tooltip won't be displayed:"}</b> {loremIpsum}
         </Tooltip>
       </div>
       <div style={{paddingBottom: '200px'}}>

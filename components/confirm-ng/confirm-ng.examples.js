@@ -3,8 +3,10 @@ import angular from 'angular';
 import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import ConfirmNG from '../confirm-ng/confirm-ng';
+
 import {hideConfirm} from '../confirm-service/confirm-service';
+
+import ConfirmNG from './confirm-ng';
 
 export default {
   title: 'Legacy Angular|Confirm Ng',

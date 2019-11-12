@@ -3,8 +3,10 @@ import React from 'react';
 import ReadMe from '../README.md';
 import Contributing from '../CONTRIBUTING.md';
 import Changelog from '../CHANGELOG.md';
-import Markdown from '../components/markdown/markdown';
+
 import reactDecorator from '../.storybook/react-decorator';
+
+import Markdown from './markdown/markdown';
 
 import License from 'raw-loader!../LICENSE.txt';
 

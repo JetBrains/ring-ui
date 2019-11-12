@@ -20,8 +20,6 @@ function noop() {}
 const POPUP_VERTICAL_SHIFT = 2;
 
 export default class TagsInput extends Component {
-  static ngModelStateField = 'tags';
-
   static propTypes = {
     className: PropTypes.string,
     tags: PropTypes.array,
@@ -96,6 +94,8 @@ export default class TagsInput extends Component {
   UNSAFE_componentWillReceiveProps(props) {
     this.updateStateFromProps(props);
   }
+
+  static ngModelStateField = 'tags';
 
   nodeRef = node => {
     this.node = node;
@@ -336,7 +336,8 @@ export default class TagsInput extends Component {
 
         {!legacyMode && <div className={styles.underline}/>}
         {!legacyMode && <div className={styles.focusUnderline}/>}
-      </div>);
+      </div>
+    );
   }
 }
 

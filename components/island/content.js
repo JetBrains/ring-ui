@@ -82,7 +82,10 @@ export default class Content extends Component {
   };
 
   render() {
-    const {children, className, bottomBorder, scrollableWrapperClassName, onScroll, onScrollToBottom, fade, ...restProps} = this.props; // eslint-disable-line no-unused-vars, max-len
+    const {
+      children, className, bottomBorder, scrollableWrapperClassName,
+      onScroll, onScrollToBottom, fade, ...restProps
+    } = this.props;
     const {scrolledToTop, scrolledToBottom} = this.state;
 
     const classes = classNames(styles.content, className, {

@@ -3,11 +3,11 @@ import {action} from '@storybook/addon-actions';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import {WarningIcon} from '../../components/icon';
-import Loader from '../../components/loader/loader';
-import Auth from '../../components/auth/auth';
-import Code from '../../components/code/code';
-import ContentLayout, {Sidebar} from '../../components/content-layout/content-layout';
+import {WarningIcon} from '../icon';
+import Loader from '../loader/loader';
+import Auth from '../auth/auth';
+import Code from '../code/code';
+import ContentLayout, {Sidebar} from '../content-layout/content-layout';
 
 import reactDecorator from '../../.storybook/react-decorator';
 

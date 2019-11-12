@@ -1,9 +1,0 @@
-{
-  "private": true,
-  "name": "@ring-ui/icon",
-  "version": "1.0.15",
-  "main": "index.js",
-  "scripts": {
-    "prepublish": "node generate-exports"
-  }
-}
