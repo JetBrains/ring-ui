@@ -45,7 +45,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "devDependencies": {
-    "@jetbrains/eslint-config": "^4.0.6",
+    "@jetbrains/eslint-config": "^5.2.1",
     "@jetbrains/stylelint-config": "^1.3.4",
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
