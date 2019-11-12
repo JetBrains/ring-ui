@@ -33,13 +33,6 @@ const stop = e => e.stopPropagation();
  * @extends {ReactComponent}
  */
 export default class Popup extends PureComponent {
-  static PopupProps = {
-    Directions,
-    Dimension,
-    MinWidth,
-    MaxHeight
-  };
-
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
     target: PropTypes.string,
@@ -164,6 +157,13 @@ export default class Popup extends PureComponent {
       ? Display.SHOWING
       : Display.SHOWN
   });
+
+  static PopupProps = {
+    Directions,
+    Dimension,
+    MinWidth,
+    MaxHeight
+  };
 
   portalRef = el => {
     this.node = el;

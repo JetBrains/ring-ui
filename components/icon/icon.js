@@ -19,9 +19,6 @@ We strongly recommend to use icons handcrafted for particular sizes. If your ico
 );
 
 export default class Icon extends PureComponent {
-  static Color = Color;
-  static Size = Size;
-
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
@@ -38,6 +35,9 @@ export default class Icon extends PureComponent {
     color: Color.DEFAULT,
     glyph: ''
   });
+
+  static Color = Color;
+  static Size = Size;
 
   warnSize() {
     if (this.props.suppressSizeWarning) {
@@ -69,7 +69,6 @@ export default class Icon extends PureComponent {
 
   render() {
     const {
-      // eslint-disable-next-line no-unused-vars
       className, size, color, loading, glyph, width, height, suppressSizeWarning,
       ...restProps
     } = this.props;
@@ -108,11 +107,6 @@ export {Size};
 export function iconHOC(glyph, displayName) {
   // eslint-disable-next-line react/no-multi-comp
   return class BoundIcon extends PureComponent {
-    static Color = Color;
-    static Size = Size;
-    static isRingIcon = true;
-    static glyph = glyph;
-
     // Compatibility with angular
     static toString() {
       return glyph;
@@ -123,6 +117,11 @@ export function iconHOC(glyph, displayName) {
     static propTypes = {
       iconRef: PropTypes.func
     };
+
+    static Color = Color;
+    static Size = Size;
+    static isRingIcon = true;
+    static glyph = glyph;
 
     render() {
       const {iconRef, ...restProps} = this.props;

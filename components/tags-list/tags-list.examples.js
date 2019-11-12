@@ -1,8 +1,10 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import TagsList from '../tags-list/tags-list';
+
 import {CheckmarkIcon} from '../icon';
+
+import TagsList from './tags-list';
 
 export default {
   title: 'Components|Tags List',

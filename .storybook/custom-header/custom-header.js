@@ -3,14 +3,6 @@ import {render} from 'react-dom';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
 import gitHubLogo from 'octicons/build/svg/octoface.svg';
 
-/* eslint-disable import/no-unresolved */
-import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
-
-import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
-
-import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
-/* eslint-enable */
-
 import packageInfo from '../../package.json';
 import Auth from '../../components/auth/auth';
 import IFrameFlow from '../../components/auth/iframe-flow';
@@ -26,6 +18,12 @@ import authDialogService from '../../components/auth-dialog-service/auth-dialog-
 
 import Version from './version';
 import styles from './header-styles.css';
+
+/* eslint-disable import/no-unresolved */
+import teamcityLogo from '!file-loader?publicPath=./!@jetbrains/logos/teamcity/teamcity.svg';
+import upsourceLogo from '!file-loader?publicPath=./!@jetbrains/logos/upsource/upsource.svg';
+import youtrackLogo from '!file-loader?publicPath=./!@jetbrains/logos/youtrack/youtrack.svg';
+/* eslint-enable */
 
 class SiteHeader extends PureComponent {
   async componentDidMount() {

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import DatePicker from '../date-picker/date-picker';
+
+import DatePicker from './date-picker';
 
 export default {
   title: 'Components|Date Picker',

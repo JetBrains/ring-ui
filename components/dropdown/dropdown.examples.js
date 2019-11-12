@@ -2,12 +2,14 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import {ChevronDownIcon} from '../icon';
-import Dropdown from '../dropdown/dropdown';
+
 import Popup from '../popup/popup';
 import PopupMenu from '../popup-menu/popup-menu';
 import Button from '../button/button';
 import Link from '../link/link';
 import {Input} from '../input/input';
+
+import Dropdown from './dropdown';
 
 export default {
   title: 'Components|Dropdown',

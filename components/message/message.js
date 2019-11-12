@@ -33,9 +33,6 @@ const getTailOffsets = offset => ({
 });
 
 export default class Message extends Component {
-  static Directions = Directions;
-  static PopupProps = Popup.PopupProps;
-
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -67,6 +64,9 @@ export default class Message extends Component {
   };
 
   state = {};
+
+  static Directions = Directions;
+  static PopupProps = Popup.PopupProps;
 
   _onDirectionChange = direction =>
     this.setState({direction});

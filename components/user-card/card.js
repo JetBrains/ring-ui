@@ -18,7 +18,10 @@ export default class UserCard extends PureComponent {
       login: PropTypes.string.isRequired,
       avatarUrl: PropTypes.string.isRequired,
       email: PropTypes.string,
-      href: PropTypes.string
+      href: PropTypes.string,
+      online: PropTypes.bool,
+      banned: PropTypes.bool,
+      banReason: PropTypes.string
     }).isRequired,
 
     wording: PropTypes.shape({

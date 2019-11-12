@@ -2,9 +2,11 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
-import {UserCard, UserCardTooltip, SmartUserCardTooltip} from '../user-card/user-card';
+
 import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
+
+import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
   title: 'Components|User Card',

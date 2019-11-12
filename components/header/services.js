@@ -27,7 +27,6 @@ const makeAnchor = loading => {
 };
 
 export default class Services extends PureComponent {
-  static Link = ServicesLink;
   static sort = (a, b) => {
     const aApplicationName = a.applicationName || '';
     const bApplicationName = b.applicationName || '';
@@ -45,10 +44,11 @@ export default class Services extends PureComponent {
     services: PropTypes.arrayOf(ServicesLink.propTypes.service)
   };
 
+  static Link = ServicesLink;
+
   serviceIsActive = service => service.id === this.props.clientId;
 
   render() {
-    // eslint-disable-next-line no-unused-vars
     const {clientId, loading, services, initShown, ...props} = this.props;
 
     if (!services) {

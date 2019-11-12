@@ -62,8 +62,6 @@ const TypeToIconColor = {
  * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
  */
 export default class Alert extends PureComponent {
-  static Type = Type;
-
   static propTypes = {
     timeout: PropTypes.number,
     /**
@@ -120,6 +118,8 @@ export default class Alert extends PureComponent {
   componentWillUnmount() {
     clearTimeout(this.hideTimeout);
   }
+
+  static Type = Type;
 
   closeRequest = (...args) => {
     const height = getRect(this.node).height;

@@ -1,6 +1,7 @@
 import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
-import HTTP from '../http/http';
+
+import HTTP from './http';
 
 export default {
   title: 'Utilities|HTTP service',

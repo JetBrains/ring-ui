@@ -7,8 +7,10 @@ import '../form/form.scss';
 import ButtonNG from '../button-ng/button-ng';
 import SelectNG from '../select-ng/select-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
-import FormNG from '../form-ng/form-ng';
+
 import InputNG from '../input-ng/input-ng';
+
+import FormNG from './form-ng';
 
 export default {
   title: 'Legacy Angular|Form Ng',

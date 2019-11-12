@@ -3,9 +3,11 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
-import UserCardNG from '../user-card-ng/user-card-ng';
+
 import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
+
+import UserCardNG from './user-card-ng';
 
 export default {
   title: 'Legacy Angular|User Card Ng',

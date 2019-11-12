@@ -109,7 +109,6 @@ export default class TabTrap extends Component {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars
     const {children, trapDisabled, autoFocusFirst, focusBackOnClose, ...restProps} = this.props;
 
     if (trapDisabled) {

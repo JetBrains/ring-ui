@@ -6,7 +6,6 @@ import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
 import Link from '../link/link';
 
-import {Auth} from '../index';
 
 import PopupMenu from '../popup-menu/popup-menu';
 import Dropdown from '../dropdown/dropdown';
@@ -22,6 +21,8 @@ import Tray from './tray';
 import TrayIcon from './tray-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
+
+import {Auth} from '..';
 
 export default {
   title: 'Components|Header',

@@ -11,7 +11,6 @@ describe('Input', () => {
   const shallowInput = props => shallow(<Input {...props}/>);
   const mountInput = props => mount(
     <Input
-      // eslint-disable-next-line react/jsx-no-bind
       inputRef={inputRef}
       {...props}
     />

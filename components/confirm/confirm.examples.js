@@ -3,7 +3,8 @@ import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
-import Confirm from '../confirm/confirm';
+
+import Confirm from './confirm';
 
 export default {
   title: 'Components|Confirm',

@@ -1,6 +1,6 @@
 import 'dom4';
 
-import sniffer from '../global/sniffer';
+import sniffer from './sniffer';
 
 import {
   encodeURL,

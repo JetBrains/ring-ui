@@ -3,7 +3,8 @@ import React from 'react';
 import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import ButtonGroup from '../button-group/button-group';
-import ButtonToolbar from '../button-toolbar/button-toolbar';
+
+import ButtonToolbar from './button-toolbar';
 
 export default {
   title: 'Components|Button Toolbar',

@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ToggleNG from '../toggle-ng/toggle-ng';
+import ToggleNG from './toggle-ng';
 
 export default {
   title: 'Legacy Angular|Toggle Ng',

@@ -2,7 +2,8 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
-import ButtonSet from '../button-set/button-set';
+
+import ButtonSet from './button-set';
 
 export default {
   title: 'Components|Button Set',

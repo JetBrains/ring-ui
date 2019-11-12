@@ -1,4 +1,4 @@
-import '../island-legacy/island-legacy.scss';
+import './island-legacy.scss';
 
 export default {
   title: 'Style-only|Island',

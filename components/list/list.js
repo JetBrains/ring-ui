@@ -88,15 +88,6 @@ function isActivatable(item) {
  * @extends {ReactComponent}
  */
 export default class List extends Component {
-  static isItemType = isItemType;
-
-  static ListHint = ListHint;
-
-  static ListProps = {
-    Type,
-    Dimension
-  };
-
   static propTypes = {
     className: PropTypes.string,
     hint: PropTypes.string,
@@ -246,6 +237,15 @@ export default class List extends Component {
     document.removeEventListener('mousemove', this.onDocumentMouseMove);
     document.removeEventListener('keydown', this.onDocumentKeyDown, true);
   }
+
+  static isItemType = isItemType;
+
+  static ListHint = ListHint;
+
+  static ListProps = {
+    Type,
+    Dimension
+  };
 
   hoverHandler = memoize(index => () =>
     scheduleHoverListener(() => {
@@ -522,7 +522,6 @@ export default class List extends Component {
     } else {
 
       // Hack around SelectNG implementation
-      // eslint-disable-next-line no-unused-vars
       const {selectedLabel, originalModel, ...cleanedProps} = item;
       const itemProps = Object.assign({rgItemType: DEFAULT_ITEM_TYPE}, cleanedProps);
 
@@ -638,7 +637,6 @@ export default class List extends Component {
             height={height}
             width={width}
             isScrolling={isScrolling}
-            // eslint-disable-next-line react/jsx-no-bind
             onScroll={e => {
               onChildScroll(e);
               this.scrollEndHandler(e);
@@ -651,7 +649,6 @@ export default class List extends Component {
             overscanRowCount={this._bufferSize}
 
             // ensure rerendering
-            // eslint-disable-next-line react/jsx-no-bind
             noop={() => {}}
 
             scrollToIndex={

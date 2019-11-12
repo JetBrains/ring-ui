@@ -34,7 +34,7 @@ export default class HeaderCell extends PureComponent {
   }
 
   render() {
-    const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props;
 
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;

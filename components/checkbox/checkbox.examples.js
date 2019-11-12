@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Checkbox from '../checkbox/checkbox';
+
+import Checkbox from './checkbox';
 
 export default {
   title: 'Components|Checkbox',

@@ -1,8 +1,10 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Avatar, {Size} from '../avatar/avatar';
+
 import hubConfig from '../../.storybook/hub-config';
+
+import Avatar, {Size} from './avatar';
 
 export default {
   title: 'Components|Avatar',

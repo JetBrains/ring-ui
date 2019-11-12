@@ -2,8 +2,10 @@ import React from 'react';
 import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Message from '../message/message';
+
 import Popup from '../popup/popup';
+
+import Message from './message';
 
 const {Directions} = Popup.PopupProps;
 

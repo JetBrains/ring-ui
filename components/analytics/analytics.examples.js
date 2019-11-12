@@ -1,8 +1,9 @@
 import {action} from '@storybook/addon-actions';
 
-import analytics from '../analytics/analytics';
 import linkStyles from '../link/link.css';
-import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
+
+import analytics from './analytics';
+import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 export default {
   title: 'Components|Analytics',

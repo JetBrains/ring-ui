@@ -4,9 +4,10 @@ import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import SelectNG from '../select-ng/select-ng';
 import TabsNG from '../tabs-ng/tabs-ng';
 import DialogNG from '../dialog-ng/dialog-ng';
+
+import SelectNG from './select-ng';
 
 export default {
   title: 'Legacy Angular|Select Ng',
