@@ -3,7 +3,8 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import hubConfig from '../../.storybook/hub-config';
 import {Size as AvatarSize} from '../avatar/avatar';
-import AvatarNG from '../avatar-ng/avatar-ng';
+
+import AvatarNG from './avatar-ng';
 
 export default {
   title: 'Legacy Angular|Avatar Ng',

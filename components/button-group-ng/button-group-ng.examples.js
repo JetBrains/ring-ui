@@ -3,7 +3,8 @@ import angular from 'angular';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import ButtonNG from '../button-ng/button-ng';
-import ButtonGroupNG from '../button-group-ng/button-group-ng';
+
+import ButtonGroupNG from './button-group-ng';
 
 export default {
   title: 'Legacy Angular|Button Group Ng',

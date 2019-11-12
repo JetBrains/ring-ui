@@ -40,7 +40,7 @@ export default class Loader extends PureComponent {
   };
 
   render() {
-    const {message, size, colors, 'data-test': dataTest, stop, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {message, size, colors, 'data-test': dataTest, stop, ...restProps} = this.props;
     return (
       <div
         data-test={dataTests('ring-loader', dataTest)}

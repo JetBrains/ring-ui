@@ -34,7 +34,6 @@ export const basic = () => {
     };
 
     render() {
-      // eslint-disable-next-line no-unused-vars
       const {defaultValue, ...restProps} = this.props;
       return (
         <Input
@@ -93,11 +92,11 @@ basic.story = {
       max-height: 100vh;
       margin-top: 8px;
     }
-    
+
     .inputs > div {
       margin: 0 16px;
     }
-    
+
     .dark {
       background: #000;
       margin-left: 0;

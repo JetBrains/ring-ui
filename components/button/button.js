@@ -13,9 +13,6 @@ import styles from './button.css';
  * @name Button
  */
 export default class Button extends PureComponent {
-  static IconSize = Size;
-  static Theme = Theme;
-
   static propTypes = {
     theme: PropTypes.string,
     active: PropTypes.bool,
@@ -52,6 +49,9 @@ export default class Button extends PureComponent {
     onMouseDown() {}
   };
 
+  static IconSize = Size;
+  static Theme = Theme;
+
   onMouseDown = e => {
     e.preventDefault();
     this.props.onMouseDown(e);
@@ -79,7 +79,7 @@ export default class Button extends PureComponent {
       iconSuppressSizeWarning,
       className,
       children,
-      onMouseDown, // eslint-disable-line no-unused-vars
+      onMouseDown,
       ...props
     } = this.props;
 

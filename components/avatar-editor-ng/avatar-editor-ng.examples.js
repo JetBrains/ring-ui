@@ -1,7 +1,8 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import AvatarEditorNG from '../avatar-editor-ng/avatar-editor-ng';
+
+import AvatarEditorNG from './avatar-editor-ng';
 
 export default {
   title: 'Legacy Angular|Avatar Editor Ng',

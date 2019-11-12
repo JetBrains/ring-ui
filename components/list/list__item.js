@@ -64,7 +64,6 @@ export default class ListItem extends PureComponent {
   _isString = val => typeof val === 'string' || val instanceof String;
 
   render() {
-    /* eslint-disable no-unused-vars */
     const {
       scrolling,
       className,
@@ -91,7 +90,6 @@ export default class ListItem extends PureComponent {
       leftNodes,
       ...restProps
     } = this.props;
-    /* eslint-enable */
 
     const checkable = checkbox !== undefined;
     const hasLeftNodes = leftNodes || glyph || avatar;

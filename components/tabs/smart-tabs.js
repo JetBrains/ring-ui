@@ -10,7 +10,7 @@ export default class SmartTabs extends PureComponent {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     initSelected: PropTypes.string,
     'data-test': PropTypes.string
-  }
+  };
 
   state = {
     selected: this.props.initSelected || this.props.children[0].props.id || '0'
@@ -19,7 +19,7 @@ export default class SmartTabs extends PureComponent {
   handleSelect = selected => this.setState({selected});
 
   render() {
-    const {children, initSelected, 'data-test': dataTest, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {children, initSelected, 'data-test': dataTest, ...restProps} = this.props;
     return (
       <Tabs
         data-test={dataTests('ring-smart-tabs', dataTest)}

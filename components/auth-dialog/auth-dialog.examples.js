@@ -4,9 +4,10 @@ import {action} from '@storybook/addon-actions';
 import Button from '../button/button';
 import reactDecorator from '../../.storybook/react-decorator';
 
+import AuthDialog from './auth-dialog';
+
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
-import AuthDialog from './auth-dialog';
 
 export default {
   title: 'Components|Auth Dialog',

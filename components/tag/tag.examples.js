@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import {CheckmarkIcon} from '../../components/icon/icons';
+import {CheckmarkIcon} from '../icon/icons';
 
 import Tag from './tag';
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
@@ -65,13 +64,13 @@ export default class UserAgreementService {
     this.intervalId = setInterval(this.checkConsentAndShowDialog, this.interval);
     window.addEventListener('storage', this.onStorageEvent);
     this.checkConsentAndShowDialog();
-  }
+  };
 
   stopChecking = () => {
     clearInterval(this.intervalId);
     window.removeEventListener('storage', this.onStorageEvent);
     this.hideDialog();
-  }
+  };
 
   onStorageEvent = event => {
     if (event.key === storageKey) {
@@ -85,7 +84,7 @@ export default class UserAgreementService {
         }
       }
     }
-  }
+  };
 
   _notifyAboutShowing = () => {
     localStorage.setItem(storageKey, JSON.stringify({command: showMessage, tabId: this.tabId}));
@@ -98,7 +97,7 @@ export default class UserAgreementService {
   getUserAgreement = async () => {
     this.userAgreement = await this.config.getUserAgreement() || DEFAULT_AGREEMENT;
     return this.userAgreement;
-  }
+  };
 
   getUserConsent = async () => {
     const {guest, endUserAgreementConsent} = await this.config.getUserConsent();
@@ -112,7 +111,7 @@ export default class UserAgreementService {
     }
 
     return this.userConsent;
-  }
+  };
 
   checkConsentAndShowDialog = async withoutNotifications => {
     if (await this.checkConsent()) {
@@ -120,7 +119,7 @@ export default class UserAgreementService {
     } else {
       return this.showDialogOrAlert(withoutNotifications);
     }
-  }
+  };
 
   checkConsent = async () => {
     if (!this.checkingPromise) {
@@ -137,7 +136,7 @@ export default class UserAgreementService {
     const {accepted, majorVersion: acceptedVersion} = userConsent;
 
     return !enabled || (accepted && actualVersion === acceptedVersion);
-  }
+  };
 
   showAlert = withoutNotifications => {
     if (this._alertPromise) {
@@ -167,7 +166,7 @@ export default class UserAgreementService {
     }
 
     return this._alertPromise;
-  }
+  };
 
   hideAlert = withoutNotifications => {
     const {onRemindLater} = this.config;
@@ -183,7 +182,7 @@ export default class UserAgreementService {
     if (!withoutNotifications) {
       this._notifyAboutHiding();
     }
-  }
+  };
 
   showDialog = (withoutNotifications, preview = false, restOptions) => {
     const {translations, onDialogShow} = this.config;
@@ -230,7 +229,7 @@ export default class UserAgreementService {
     }
 
     return this._dialogPromise;
-  }
+  };
 
   hideDialog = withoutNotifications => {
     const {onDialogHide} = this.config;
@@ -245,7 +244,7 @@ export default class UserAgreementService {
         this._notifyAboutHiding();
       }
     }
-  }
+  };
 
   showDialogOrAlert = (...args) => {
     if (this.guest && !this.userAgreement.requiredForREST) {

@@ -2,9 +2,10 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import DockedPanelNG from '../docked-panel-ng/docked-panel-ng';
 import PanelNG from '../panel-ng/panel-ng';
 import ButtonNG from '../button-ng/button-ng';
+
+import DockedPanelNG from './docked-panel-ng';
 
 export default {
   title: 'Legacy Angular|Docked Panel Ng',

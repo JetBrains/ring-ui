@@ -13,7 +13,6 @@ import injectStyles from './inject-styles';
  */
 
 export default class LoaderInline extends PureComponent {
-  static Theme = Theme;
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string,
@@ -28,6 +27,8 @@ export default class LoaderInline extends PureComponent {
   componentDidMount() {
     injectStyles();
   }
+
+  static Theme = Theme;
 
   render() {
     const {className, theme, 'data-test': dataTest, children, ...restProps} = this.props;

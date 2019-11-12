@@ -1,10 +1,13 @@
 import {action} from '@storybook/addon-actions';
 
-import Auth from '../auth/auth';
-import IFrameFlow from '../auth/iframe-flow';
 import authDialogService from '../auth-dialog-service/auth-dialog-service';
-import LandingEntryFileName from '../auth/landing-entry';
+
 import hubConfig from '../../.storybook/hub-config';
+
+import Auth from './auth';
+import IFrameFlow from './iframe-flow';
+import LandingEntryFileName from './landing-entry';
+
 import '../link/link__legacy.css';
 
 export default {

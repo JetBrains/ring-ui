@@ -3,15 +3,13 @@ const {error, ignore} = require('@jetbrains/eslint-config/consts');
 
 module.exports = {
   parser: 'babel-eslint',
-  plugins: ['jsx-a11y'],
   extends: [
     '@jetbrains',
     '@jetbrains/eslint-config/es6',
     '@jetbrains/eslint-config/browser',
     '@jetbrains/eslint-config/react',
     '@jetbrains/eslint-config/angular',
-    '@jetbrains/eslint-config/test',
-    'plugin:jsx-a11y/recommended'
+    '@jetbrains/eslint-config/test'
   ],
   rules: {
     'valid-jsdoc': ignore,
@@ -22,17 +20,18 @@ module.exports = {
         'wallaby.config.js',
         'karma-*.conf.js',
         '**/*.test.js',
+        '**/*.examples.js',
         '**/.eslintrc.js',
         '.storybook/**',
         'packages/hermione/**',
-        '**/.hermione.conf.js'
+        '**/.hermione.conf.js',
+        '**/generate-exports.js'
       ],
       peerDependencies: true
     }],
     camelcase: [error, {
       allow: ['^UNSAFE_']
-    }],
-    'jsx-a11y/no-autofocus': ignore
+    }]
   },
   env: {
     node: true
@@ -66,7 +65,8 @@ module.exports = {
         'angular/directive-name': [error, 'rg'],
 
         // Imports
-        'import/no-commonjs': error
+        'import/no-commonjs': error,
+        'import/no-unused-modules': ignore
       },
       settings: {
         'import/resolver': 'webpack',
@@ -101,15 +101,16 @@ module.exports = {
         sandbox: false
       },
       rules: {
-        'import/no-extraneous-dependencies': ignore,
         'react/no-multi-comp': ignore,
         // It's fine for examples:
         'react/jsx-no-literals': ignore,
-        'react/jsx-no-bind': ignore,
+        'react/no-this-in-sfc': ignore,
         'react/prop-types': ignore,
         'no-magic-numbers': ignore,
-        'angular/no-controller': ignore
+        'angular/no-controller': ignore,
+        'angular/di-unused': ignore
       }
     }
-  ]
+  ],
+  reportUnusedDisableDirectives: true
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Toggle from '../toggle/toggle';
+
+import Toggle from './toggle';
 
 export default {
   title: 'Components|Toggle',

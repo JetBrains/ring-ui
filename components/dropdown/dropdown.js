@@ -127,7 +127,7 @@ export default class Dropdown extends Component {
   render() {
     const {show, pinned} = this.state;
     const {
-      initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut, // eslint-disable-line no-unused-vars
+      initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut,
       children, anchor, className, activeClassName, hoverMode, clickMode, 'data-test': dataTest,
       ...restProps
     } = this.props;

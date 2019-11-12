@@ -16,6 +16,9 @@ module.exports = {
       },
       rules: {
         'import/no-commonjs': ignore
+      },
+      settings: {
+        'import/core-modules': ['path']
       }
     }
   ]

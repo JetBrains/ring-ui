@@ -107,8 +107,8 @@ export default class Dialog extends PureComponent {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars, max-len
-    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
+    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
+      children, className, contentClassName, trapFocus, ...restProps} = this.props;
     const classes = classNames(styles.container, className, {
       [styles.clickableOverlay]: onOverlayClick !== noop || onCloseAttempt !== noop
     });

@@ -1,8 +1,10 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Text from '../text/text';
+
 import Group from '../group/group';
+
+import Text from './text';
 
 export default {
   title: 'Components|Text',

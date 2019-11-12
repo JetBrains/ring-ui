@@ -4,7 +4,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import '../input/input.scss';
 import '../form/form.scss';
-import '../input-size/input-size.scss';
+import './input-size.scss';
 
 import SelectNG from '../select-ng/select-ng';
 import QueryAssistNG from '../query-assist-ng/query-assist-ng';

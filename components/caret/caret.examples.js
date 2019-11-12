@@ -1,5 +1,5 @@
 import '../link/link__legacy.css';
-import Caret from '../caret/caret';
+import Caret from './caret';
 
 export default {
   title: 'Utilities|Caret',

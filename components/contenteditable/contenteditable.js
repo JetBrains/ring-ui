@@ -58,7 +58,7 @@ export default class ContentEditable extends Component {
   }
 
   render() {
-    const {children, onComponentUpdate, disabled, tabIndex, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {children, onComponentUpdate, disabled, tabIndex, ...props} = this.props;
 
     return (
       <div
