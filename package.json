@@ -156,7 +156,7 @@
     "compile-code-loader": "^0.2.0",
     "conic-gradient": "^1.0.0",
     "css-loader": "^3.2.0",
-    "deep-equal": "^1.1.0",
+    "deep-equal": "^1.1.1",
     "dom4": "^1.8.5",
     "element-resize-detector": "^1.2.0",
     "es6-error": "^4.1.1",
