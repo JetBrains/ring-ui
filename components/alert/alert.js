@@ -109,8 +109,8 @@ export default class Alert extends PureComponent {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(newProps) {
-    if (newProps.isClosing) {
+  componentDidUpdate() {
+    if (this.props.isClosing) {
       this._close();
     }
   }
