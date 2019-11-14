@@ -837,12 +837,13 @@ export default class Select extends Component {
       let nextSelection;
 
       if (isSelectAll) {
-        nextSelection = this.props.data;
-        this.props.data.
+        nextSelection = this.props.data.filter(
+          item => (isItem(item) || isCustomItem(item)) &&
+            !item.disabled
+        );
+        nextSelection.
           filter(
-            item => !this.props.selected.find(selectedItem => item.key === selectedItem.key) &&
-              (isItem(item) || isCustomItem(item)) &&
-              !item.disabled
+            item => !this.props.selected.find(selectedItem => item.key === selectedItem.key)
           ).
           forEach(item => {
             this.props.onSelect && this.props.onSelect(item);
@@ -870,6 +871,7 @@ export default class Select extends Component {
     }, () => {
       if (isSelectAll) {
         this.props.data.
+          filter(item => !item.disabled).
           forEach(item => {
             this._multipleMap[item.key] = true;
           });

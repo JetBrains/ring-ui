@@ -338,7 +338,7 @@ export default class SelectPopup extends Component {
   }
 
   handleSelectAll = () => this.props.onSelectAll(
-    this.props.data.length !== this.props.selected.length
+    this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
   );
 
   getSelectAll = () => (
@@ -348,7 +348,9 @@ export default class SelectPopup extends Component {
         inline
         onClick={this.handleSelectAll}
       >
-        {this.props.data.length !== this.props.selected.length ? 'Select all' : 'Deselect all'}
+        {this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
+          ? 'Select all'
+          : 'Deselect all'}
       </Button>
       <Text info>{`${this.props.selected.length} selected`}</Text>
     </div>
