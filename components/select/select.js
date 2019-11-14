@@ -606,7 +606,7 @@ export default class Select extends Component {
     const check = this.getFilterFn();
 
     for (let i = 0; i < data.length; i++) {
-      const item = data[i];
+      const item = {...data[i]};
       if (check(item, lowerCaseString, data)) {
         exactMatch = (item.label === filterString);
 

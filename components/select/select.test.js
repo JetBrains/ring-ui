@@ -965,7 +965,7 @@ describe('Select', () => {
       });
       const instance = wrapper.instance();
       instance._listSelectAllHandler();
-      wrapper.should.have.state('selected', testData);
+      wrapper.state().selected.should.be.eql(testData);
     });
 
     it('Should set call onSelect on selecting', () => {
