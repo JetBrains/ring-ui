@@ -205,9 +205,7 @@ export default class QueryAssist extends Component {
   }
 
   setCaretPosition = () => {
-    const queryLength = this.immediateState.query != null &&
-      this.input.children[0] &&
-      this.input.children[0].childNodes.length;
+    const queryLength = this.immediateState.query != null && this.immediateState.query.length;
     const newCaretPosition =
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
