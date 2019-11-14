@@ -86,21 +86,32 @@ export default class Caret {
   setPosition(position) {
     const isContentEditable = this.isContentEditable();
     let correctedPosition;
-
-    if (position === -1) {
-      const value = isContentEditable
-        ? this.target.textContent
-        : this.constructor.normalizeNewlines(this.target.value);
-      correctedPosition = value.length;
-    } else {
-      correctedPosition = position;
+    let curNode = this.target && this.target.childNodes[0];
+    if (position !== undefined) {
+      let curPos = 0;
+      let i = -1;
+      const nodeTypeText = 3;
+      if (curNode && curNode.nodeType !== undefined) {
+        while (curPos < position && curNode.nodeType !== nodeTypeText) {
+          i++;
+          if (curNode.childNodes[i] !== null) {
+            curPos += curNode.childNodes[i].textContent.length;
+            if (curPos >= position) {
+              curNode = curNode.childNodes[i];
+              curPos -= curNode.textContent.length;
+              i = -1;
+            }
+          }
+        }
+      }
+      correctedPosition = position - curPos;
     }
 
     if (isContentEditable) {
       this.focus();
 
       try {
-        window.getSelection().collapse(this.target.firstChild || this.target, correctedPosition);
+        window.getSelection().collapse(curNode || this.target, correctedPosition);
       } catch (e) {
         // Do nothing
       }
