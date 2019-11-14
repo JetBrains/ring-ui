@@ -16,6 +16,17 @@ import styles from './date-picker.css';
 const scrollExpDelay = 10;
 
 export default class DatePopup extends Component {
+
+  static sameDay(next, prev, inputFormat, displayFormat) {
+    const nextMoment = parseDate(next, inputFormat, displayFormat);
+    const prevMoment = parseDate(prev, inputFormat, displayFormat);
+    if (nextMoment && prevMoment) {
+      return nextMoment.isSame(prevMoment, 'day');
+    }
+
+    return next === prev;
+  }
+
   static propTypes = {
     className: PropTypes.string,
     date: dateType,
@@ -35,35 +46,41 @@ export default class DatePopup extends Component {
     onChange() {}
   };
 
-  state = {
-    text: null,
-    hoverDate: null,
-    scrollDate: null,
-    active: null
-  };
-
-  UNSAFE_componentWillMount() {
-    const {range, from, to} = this.props;
+  constructor(props) {
+    super(props);
+    const defaultState = {
+      text: null,
+      hoverDate: null,
+      scrollDate: null
+    };
+    const {range, from, to} = props;
 
     if (!range) {
-      this.setState({active: 'date'});
+      this.state = {...defaultState, active: 'date'};
     } else if (from && !to) {
-      this.setState({active: 'to'});
+      this.state = {...defaultState, active: 'to'};
     } else {
-      this.setState({active: 'from'});
+      this.state = {...defaultState, active: 'from'};
     }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const name = prevState.active;
+    if (nextProps[name] &&
+      !DatePopup.sameDay(prevState[name],
+        nextProps[name],
+        nextProps.inputFormat,
+        nextProps.displayFormat
+      )
+    ) {
+      return {...prevState, text: null};
+    }
+    return null;
   }
 
   componentDidMount() {
     if (this.componentRef.current) {
       this.componentRef.current.addEventListener('wheel', this.handleWheel);
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const name = this.state.active;
-    if (nextProps[name] && !this.sameDay(this.props[name], nextProps[name])) {
-      this.setState({text: null});
     }
   }
 
@@ -89,16 +106,6 @@ export default class DatePopup extends Component {
   handleWheel = e => {
     e.preventDefault();
   };
-
-  sameDay(next, prev) {
-    const nextMoment = this.parseDate(next);
-    const prevMoment = this.parseDate(prev);
-    if (nextMoment && prevMoment) {
-      return nextMoment.isSame(prevMoment, 'day');
-    }
-
-    return next === prev;
-  }
 
   parseDate(text) {
     return parseDate(
@@ -168,7 +175,10 @@ export default class DatePopup extends Component {
       this.parseDate(this.props[this.state.active]) ||
       moment();
     const goal = this._scrollDate;
-    if (!current || !goal || this.sameDay(goal, current)) {
+    if (!current ||
+      !goal ||
+      this.sameDay(goal, current, this.props.inputFormat, this.props.displayFormat)
+    ) {
       this._scrollDate = null;
       this._scrollTS = null;
       return;
