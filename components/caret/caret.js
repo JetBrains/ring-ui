@@ -88,23 +88,30 @@ export default class Caret {
     let correctedPosition;
     let curNode = this.target && this.target.childNodes[0];
     if (position !== undefined) {
-      let curPos = 0;
-      let i = -1;
-      const nodeTypeText = 3;
-      if (curNode && curNode.nodeType !== undefined) {
-        while (curPos < position && curNode.nodeType !== nodeTypeText) {
-          i++;
-          if (curNode.childNodes[i] !== null) {
-            curPos += curNode.childNodes[i].textContent.length;
-            if (curPos >= position) {
-              curNode = curNode.childNodes[i];
-              curPos -= curNode.textContent.length;
-              i = -1;
+      if (position === -1) {
+        const value = isContentEditable
+          ? this.target.textContent
+          : this.constructor.normalizeNewlines(this.target.value);
+        correctedPosition = value.length;
+      } else {
+        let curPos = 0;
+        let i = -1;
+        const nodeTypeText = 3;
+        if (curNode && curNode.nodeType !== undefined) {
+          while (curPos < position && curNode.nodeType !== nodeTypeText) {
+            i++;
+            if (curNode.childNodes[i] !== null) {
+              curPos += curNode.childNodes[i].textContent.length;
+              if (curPos >= position) {
+                curNode = curNode.childNodes[i];
+                curPos -= curNode.textContent.length;
+                i = -1;
+              }
             }
           }
         }
+        correctedPosition = position - curPos;
       }
-      correctedPosition = position - curPos;
     }
 
     if (isContentEditable) {
