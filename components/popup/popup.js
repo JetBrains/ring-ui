@@ -70,7 +70,8 @@ export default class Popup extends PureComponent {
     onMouseOver: PropTypes.func,
     onMouseOut: PropTypes.func,
     onContextMenu: PropTypes.func,
-    onDirectionChange: PropTypes.func
+    onDirectionChange: PropTypes.func,
+    onShow: PropTypes.func
   };
 
   static contextTypes = {
@@ -131,7 +132,7 @@ export default class Popup extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props !== prevProps) {
       const {hidden} = this.props;
 
@@ -140,6 +141,14 @@ export default class Popup extends PureComponent {
       }
 
       this._redraw();
+    }
+
+    if (
+      this.props.onShow &&
+      this.state.display === Display.SHOWN &&
+      prevState.display !== Display.SHOWN
+    ) {
+      this.props.onShow();
     }
   }
 
