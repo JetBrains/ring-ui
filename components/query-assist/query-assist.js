@@ -250,12 +250,8 @@ export default class QueryAssist extends Component {
     }
   };
 
-  // To hide placeholder as quickly as possible, does not work in IE/Edge
-  handleInput = () => {
+  handleInput = e => {
     this.togglePlaceholder();
-  };
-
-  handleKeyUp = e => {
     const props = {
       dirty: true,
       query: this.getQuery(),
