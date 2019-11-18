@@ -42,7 +42,7 @@ export class Input extends PureComponent {
       PropTypes.shape({current: PropTypes.instanceOf(HTMLInputElement)})
     ]),
     children: PropTypes.string,
-    preventShortcuts: PropTypes.bool,
+    enableShortcuts: PropTypes.bool,
     disabled: PropTypes.bool
   };
 
@@ -51,7 +51,7 @@ export class Input extends PureComponent {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    preventShortcuts: false
+    enableShortcuts: false
   };
 
   state = {
@@ -131,7 +131,7 @@ export class Input extends PureComponent {
       onClear,
       disabled,
       inputRef, onChange,
-      preventShortcuts,
+      enableShortcuts,
       ...restProps
     } = this.props;
     const {empty} = this.state;
@@ -142,7 +142,7 @@ export class Input extends PureComponent {
       styles[theme],
       [styles[`size${size}`]],
       {
-        'ring-js-shortcuts': !preventShortcuts,
+        'ring-js-shortcuts': enableShortcuts,
         [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,

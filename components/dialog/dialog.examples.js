@@ -65,6 +65,7 @@ export const basic = () => {
               <Input
                 label="Enter action name"
                 value={text}
+                enableShortcuts
                 onChange={e => this.setState({text: e.target.value})}
               />
             </Content>
