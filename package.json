@@ -29,7 +29,7 @@
     "components": "./components/"
   },
   "scripts": {
-    "prepare": "node components/icon/generate-exports",
+    "postinstall": "node components/icon/generate-exports",
     "prebootstrap": "yarn install",
     "bootstrap": "lerna bootstrap",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
