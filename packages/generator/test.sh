@@ -12,7 +12,7 @@ function copyRingUI {
   set +e
   cp -f ../../../* ./node_modules/@jetbrains/ring-ui/
   set -e
-  cp -fr ../../../components ./node_modules/@jetbrains/ring-ui/components
+  cp -fr ../../../components ./node_modules/@jetbrains/ring-ui
 }
 
 function test {
