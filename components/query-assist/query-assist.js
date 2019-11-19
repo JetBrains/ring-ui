@@ -264,8 +264,6 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    this.togglePlaceholder();
-
     if (this.isComposing) {
       return;
     }
