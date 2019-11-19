@@ -310,7 +310,7 @@ export default class QueryAssist extends Component {
       preventDefault(e);
       const text = cleanText(e.clipboardData.getData('text/plain'));
       document.execCommand(INSERT_COMMAND, false, text);
-      this.handleKeyUp(e);
+      this.handleInput(e);
     }
   };
 
@@ -789,9 +789,9 @@ export default class QueryAssist extends Component {
           onCompositionStart={this.trackCompositionState}
           onCompositionEnd={this.trackCompositionState}
           onFocus={this.handleFocusChange}
-          onInput={this.handleInput}
+          onInput={this.handleInput} // To support IE use the same method
+          onKeyUp={this.handleInput} // to handle input and key up
           onKeyDown={this.handleEnter}
-          onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
 
           spellCheck="false"
