@@ -535,6 +535,9 @@ export default class List extends Component {
       itemKey = key || itemProps.key || this._deprecatedGenerateKeyFromContent(itemProps);
 
       itemProps.hover = (realIndex === this.state.activeIndex);
+      if (itemProps.hoverClassName != null && itemProps.hover) {
+        itemProps.className = classNames(itemProps.className, itemProps.hoverClassName);
+      }
       itemProps.onMouseOver = this.hoverHandler(realIndex);
       itemProps.tabIndex = -1;
       itemProps.scrolling = isScrolling;
