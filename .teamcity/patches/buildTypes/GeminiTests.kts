@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -13,4 +15,25 @@ changeBuildType(RelativeId("GeminiTests")) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
     maxRunningBuilds = 1
+
+    features {
+        val feature1 = find<CommitStatusPublisher> {
+            commitStatusPublisher {
+                publisher = upsource {
+                    serverUrl = "https://upsource.jetbrains.com"
+                    projectId = "ring-ui"
+                    userName = "TeamCityReporter"
+                    password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+                }
+            }
+        }
+        feature1.apply {
+            publisher = upsource {
+                serverUrl = "https://upsource.jetbrains.com"
+                projectId = "ring-ui"
+                userName = "TeamCityReporter"
+                password = "credentialsJSON:58d15732-d29f-42a6-a0e5-e88ab97c64dd"
+            }
+        }
+    }
 }
