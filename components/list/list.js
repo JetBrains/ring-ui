@@ -464,7 +464,7 @@ export default class List extends Component {
 
   shouldActivateFirstItem(props) {
     return props.activateFirstItem ||
-      props.activateSingleItem && props.length === 1;
+      props.activateSingleItem && props.data.length === 1;
   }
 
   scrollEndHandler = () => scheduleScrollListener(() => {
