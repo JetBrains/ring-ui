@@ -120,6 +120,9 @@ export const list2 = () => {
       description: 'Foo bar'
     },
     {
+      rgItemType: List.ListProps.Type.SEPARATOR
+    },
+    {
       label: 'Item 4',
       rgItemType: List.ListProps.Type.ITEM,
       description: 'Item description'

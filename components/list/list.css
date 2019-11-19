@@ -24,6 +24,8 @@
 .separator {
   display: block;
 
+  min-height: listSpacing;
+
   margin-top: listSpacing;
   padding: 0 calc(unit * 2) 1px;
 
