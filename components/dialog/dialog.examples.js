@@ -42,7 +42,7 @@ export const basic = () => {
     render() {
       const {show, text, autoFocusEnabled} = this.state;
       return (
-        <div>
+        <div className="long-page">
           <Group>
             <Button onClick={() => this.setState({show: true})}>Show dialog</Button>
             <Toggle
@@ -90,7 +90,7 @@ basic.story = {
     storyStyles: `
   <style>
     .long-page {
-      height: 2000px;
+      height: 200vh;
     }
   </style>`
   }
