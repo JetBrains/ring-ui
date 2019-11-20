@@ -93,4 +93,6 @@
 
 .bodyWithoutScroll {
   overflow: hidden;
+
+  height: 100%;
 }
