@@ -28,7 +28,10 @@ export default class TabTrap extends Component {
 
     if (this.props.autoFocusFirst) {
       this.focusFirst();
-    } else if (!this.node || !this.node.contains(this.previousFocusedNode)) {
+    } else if (
+      !this.props.trapDisabled &&
+      (!this.node || !this.node.contains(this.previousFocusedNode))
+    ) {
       this.trapWithoutFocus = true;
       this.trapButtonNode.focus();
     }
