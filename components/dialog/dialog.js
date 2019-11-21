@@ -29,6 +29,8 @@ export default class Dialog extends PureComponent {
     ]),
     show: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.bool,
+    // Set body width as calc(100% - scrollBarWidth) on dialog open
+    emulateScrollBarSpace: PropTypes.bool,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
@@ -45,6 +47,7 @@ export default class Dialog extends PureComponent {
     onEscPress: noop,
     onCloseClick: noop,
     onCloseAttempt: noop,
+    emulateScrollBarSpace: true,
     showCloseButton: false,
     trapFocus: false,
     autoFocusFirst: true
@@ -70,7 +73,7 @@ export default class Dialog extends PureComponent {
 
   toggleScrollPreventer() {
     if (this.props.show) {
-      ScrollPreventer.prevent();
+      ScrollPreventer.prevent(this.props.emulateScrollBarSpace);
     } else {
       ScrollPreventer.reset();
     }
