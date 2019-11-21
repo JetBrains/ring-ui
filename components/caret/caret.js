@@ -100,13 +100,15 @@ export default class Caret {
         if (curNode && curNode.nodeType !== undefined) {
           while (curPos < position && curNode.nodeType !== nodeTypeText) {
             i++;
-            if (curNode.childNodes[i] !== null) {
+            if (curNode.childNodes[i] !== null && curNode.childNodes[i]) {
               curPos += curNode.childNodes[i].textContent.length;
               if (curPos >= position) {
                 curNode = curNode.childNodes[i];
                 curPos -= curNode.textContent.length;
                 i = -1;
               }
+            } else {
+              break;
             }
           }
         }
