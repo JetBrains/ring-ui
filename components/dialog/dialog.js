@@ -110,8 +110,21 @@ export default class Dialog extends PureComponent {
   };
 
   render() {
-    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
-      children, className, contentClassName, trapFocus, ...restProps} = this.props;
+    const {
+      show,
+      showCloseButton,
+      onOverlayClick,
+      onCloseAttempt,
+      onEscPress,
+      onCloseClick,
+      children,
+      className,
+      contentClassName,
+      trapFocus,
+      emulateScrollBarSpace,
+      ...restProps
+    } = this.props;
+
     const classes = classNames(styles.container, className, {
       [styles.clickableOverlay]: onOverlayClick !== noop || onCloseAttempt !== noop
     });
