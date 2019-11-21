@@ -82,7 +82,7 @@
     "@storybook/theming": "^5.2.0",
     "angular": "^1.7.9",
     "angular-mocks": "^1.7.9",
-    "angular-route": "^1.7.8",
+    "angular-route": "^1.7.9",
     "babel-eslint": "^10.0.3",
     "babel-plugin-istanbul": "^5.2.0",
     "babel-plugin-react-docgen": "^3.2.0",
