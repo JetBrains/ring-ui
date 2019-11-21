@@ -12,14 +12,14 @@ export default {
       return;
     }
     isPrevented = true;
-    initialScrollPosition = document.body.parentNode.scrollTop;
+    initialScrollPosition = document.documentElement.scrollTop;
 
     document.body.classList.add(bodyWithoutScroll);
 
     const scrollWidth = scrollbarWidth();
     const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
 
-    document.body.scroll(0, initialScrollPosition);
+    document.body.scrollTop = initialScrollPosition;
 
     if (emulateScrollBarSpace && bodyHasScroll && scrollWidth > 0) {
       previousBodyWidth = document.body.style.width;
@@ -34,7 +34,8 @@ export default {
     isPrevented = false;
 
     document.body.classList.remove(bodyWithoutScroll);
-    document.body.parentNode.scroll(0, initialScrollPosition);
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = initialScrollPosition;
     initialScrollPosition = 0;
 
 
