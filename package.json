@@ -161,7 +161,7 @@
     "element-resize-detector": "^1.2.0",
     "es6-error": "^4.1.1",
     "extricate-loader": "^3.0.0",
-    "file-loader": "^4.2.0",
+    "file-loader": "^4.3.0",
     "focus-trap": "^5.1.0",
     "highlight.js": "^9.16.2",
     "html-loader": "^0.5.5",
