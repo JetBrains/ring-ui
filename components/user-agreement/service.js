@@ -149,7 +149,11 @@ export default class UserAgreementService {
         reject('Postponed');
       };
 
-      const onReview = () => this.showDialog(true, false, {onRemindLater: onRemind}).then(resolve);
+      const onReview = async () => {
+        await this.showDialog(true, false, {onRemindLater: onRemind});
+        this.hideAlert(withoutNotifications);
+        resolve();
+      };
 
       const message = (
         <Group>
