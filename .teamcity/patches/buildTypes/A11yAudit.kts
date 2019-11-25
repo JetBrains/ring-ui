@@ -12,6 +12,9 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("A11yAudit")) {
     params {
+        remove {
+            param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "false")
+        }
         expect {
             param("npmjs.com.auth.key", "")
         }
