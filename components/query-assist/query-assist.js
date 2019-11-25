@@ -214,7 +214,7 @@ export default class QueryAssist extends Component {
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
         : queryLength;
-    const currentCaretPosition = this.caret.getPosition();
+    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
 
     if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
       // Set to end of field value if newCaretPosition is inappropriate
