@@ -22,7 +22,8 @@ module.exports = function config(api) {
             exclude: [
               '**/*.test.js'
             ]
-          }]
+          }],
+          'require-context-hook'
         ]
       }
     }

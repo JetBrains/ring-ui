@@ -58,6 +58,7 @@ project {
             +:refs/heads/*
             -:refs/heads/gh-pages
         """.trimIndent())
+        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true")
     }
 
     features {
@@ -208,13 +209,13 @@ object Deploy : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 # To prevent lerna's "cannot run in wd" failure
                 npm config set unsafe-perm true
-                
+
                 npm run bootstrap
                 npm run build
             """.trimIndent()
@@ -343,10 +344,10 @@ object GeminiTests : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
-                
+
                 cd packages/hermione
                 yarn install
                 # ! We run tests against built Storybook from another build configuration
@@ -437,6 +438,89 @@ object GeminiTests : BuildType({
     }
 })
 
+object A11yAudit : BuildType({
+    name = "Accessibility Audit"
+
+    allowExternalStatus = true
+    artifactRules = "dist => dist.zip"
+    buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
+
+    params {
+        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "false")
+        param("vcs.branch.spec", """
+            +:refs/heads/*
+            +:refs/(pull/*)/merge
+            -:refs/heads/(gh-pages)
+        """.trimIndent())
+        param("github.com.builduser.name", "")
+        param("npmjs.com.auth.email", "")
+        param("github.com.builduser.email", "")
+        param("npmjs.com.auth.key", "")
+    }
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        script {
+            name = "Run audit"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+
+                node -v
+                npm -v
+
+                yarn install
+                yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
+            """.trimIndent()
+            dockerImage = "node:lts"
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:refs/heads/*"
+        }
+    }
+
+    features {
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
+                }
+            }
+        }
+        commitStatusPublisher {
+            publisher = upsource {
+                serverUrl = "https://upsource.jetbrains.com"
+                projectId = "ring-ui"
+                userName = "TeamCityReporter"
+                password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+            }
+        }
+    }
+
+    dependencies {
+        dependency(UnitTestsAndBuild) {
+            snapshot {}
+
+            artifacts {
+                cleanDestination = true
+                artifactRules = "dist.zip!**=>dist"
+            }
+        }
+    }
+
+    requirements {
+        exists("docker.version")
+        contains("docker.server.osType", "linux")
+    }
+})
+
 object GeneratorE2eTest : BuildType({
     name = "Generator E2E test"
 
@@ -452,12 +536,12 @@ object GeneratorE2eTest : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 yarn -v
-                
+
                 useradd user -m
-                
+
                 su user -c "yarn run bootstrap && yarn run test-generator-e2e"
             """.trimIndent()
             dockerImage = "huston007/node-electron"
@@ -558,7 +642,7 @@ object Publish : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -567,40 +651,40 @@ object Publish : BuildType({
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                 
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                 
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json yarn.lock packages/*/yarn.lock
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:10.15"
@@ -701,7 +785,7 @@ object Publish10hotfix : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -710,40 +794,40 @@ object Publish10hotfix : BuildType({
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                 
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                 
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json yarn.lock packages/*/yarn.lock
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:10.15"
@@ -821,7 +905,7 @@ object Publish10hotfix : BuildType({
             onDependencyFailure = FailureAction.FAIL_TO_START
         }
     }
-    
+
     disableSettings("vcsTrigger")
 })
 
@@ -850,7 +934,7 @@ object PublishCanary : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -859,40 +943,40 @@ object PublishCanary : BuildType({
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                 
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                 
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json yarn.lock packages/*/yarn.lock
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:9.11"
@@ -970,7 +1054,7 @@ object PublishCanary : BuildType({
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
     }
-    
+
     disableSettings("vcsTrigger")
 })
 
@@ -999,7 +1083,7 @@ object PublishNext : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 # Required for docker
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
@@ -1008,40 +1092,40 @@ object PublishNext : BuildType({
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                 
+
                 # GitHub and NPM authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                 
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 if [ -n "${'$'}(git status --porcelain)" ]; then
                   echo "Your git status is not clean. Aborting.";
                   exit 1;
                 fi
-                
+
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json yarn.lock packages/*/yarn.lock
                 npm run release-ci -- %lerna.publish.options%
-                
+
                 cat package.json
-                
+
                 function publishBuildNumber {
                     local VERSION=${'$'}(node -p 'require("./package.json").version')
                     echo "##teamcity[buildNumber '${'$'}VERSION']"
                 }
-                
+
                 publishBuildNumber
-                
+
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
             dockerImage = "node:10.15"
@@ -1139,7 +1223,7 @@ object PublishToGitHubPages : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 mkdir -p ~/.ssh/
                 touch ~/.ssh/config
                 cat << EOT >> ~/.ssh/config
@@ -1147,13 +1231,13 @@ object PublishToGitHubPages : BuildType({
                     StrictHostKeyChecking no
                     UserKnownHostsFile /dev/null
                 EOT
-                
+
                 chmod 644 ~/.ssh/config
-                 
+
                 # GitHub authorization
                 git config user.email "%github.com.builduser.email%"
                 git config user.name "%github.com.builduser.name%"
-                
+
                 npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
             """.trimIndent()
             dockerImage = "node:latest"
@@ -1277,14 +1361,14 @@ object UnitTestsAndBuild : BuildType({
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
                 yarn -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 yarn bootstrap
                 yarn run test-ci
                 yarn run build
@@ -1401,12 +1485,12 @@ object UnpublishSpecificVersion : BuildType({
             name = "Unpublish"
             scriptContent = """
                 echo "##teamcity[buildNumber '%env.PACKAGE_NAME%@%env.PACKAGE_VERSION%']"
-                
+
                 echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-                
+
                 node -v
                 npm -v
-                
+
                 npm unpublish %env.PACKAGE_NAME%@%env.PACKAGE_VERSION%
             """.trimIndent()
             dockerImage = "node:8"
