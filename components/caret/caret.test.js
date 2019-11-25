@@ -49,6 +49,12 @@ describe('Caret', () => {
 
       target.should.equal(document.activeElement);
     });
+
+    it('Shouldn\'t focus on get when prohibited', () => {
+      caret.getPosition({avoidFocus: true});
+
+      target.should.not.equal(document.activeElement);
+    });
   });
 
   describe('setPosition', () => {

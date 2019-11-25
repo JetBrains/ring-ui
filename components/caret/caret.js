@@ -41,11 +41,15 @@ export default class Caret {
 
   /**
    * Get caret position index
+   * @param {Object} [params]
+   * @param {boolean} params.avoidFocus
    * @return {number}
    */
-  getPosition() {
+  getPosition(params = {}) {
     if (this.isContentEditable()) {
-      this.focus();
+      if (!params.avoidFocus) {
+        this.focus();
+      }
 
       const selection = window.getSelection();
 
