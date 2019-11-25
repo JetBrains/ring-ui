@@ -51,6 +51,7 @@ changeBuildType(RelativeId("A11yAudit")) {
                 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD= yarn install
                 yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
             """.trimIndent()
+            dockerImage = "buildkite/puppeteer"
         }
     }
 }
