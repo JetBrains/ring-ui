@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -15,6 +17,37 @@ changeBuildType(RelativeId("A11yAudit")) {
         }
         update {
             param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        }
+    }
+
+    expectSteps {
+        script {
+            name = "Run audit"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                yarn install
+                yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
+            """.trimIndent()
+            dockerImage = "node:lts"
+        }
+    }
+    steps {
+        update<ScriptBuildStep>(0) {
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                PUPPETEER_SKIP_CHROMIUM_DOWNLOAD= yarn install
+                yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
+            """.trimIndent()
         }
     }
 }
