@@ -1,5 +1,6 @@
 import {configure, addParameters, addDecorator} from '@storybook/html';
 import {create} from '@storybook/theming';
+import {withA11y} from '@storybook/addon-a11y';
 
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
@@ -68,6 +69,7 @@ addParameters({
   }
 });
 
+addDecorator(withA11y);
 addDecorator(stylesDecorator());
 
 const req = require.context('../components', true, /\.examples\.js$/);
