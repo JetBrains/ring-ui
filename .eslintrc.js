@@ -78,7 +78,8 @@ module.exports = {
         '**/*.test.js'
       ],
       env: {
-        mocha: true
+        mocha: true,
+        jest: true
       },
       globals: {
         sandbox: false
