@@ -49,7 +49,7 @@ changeBuildType(RelativeId("A11yAudit")) {
                 npm -v
                 
                 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD= yarn install
-                yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
+                yarn a11y-audit --useStderr --testResultsProcessor=jest-teamcity-reporter
             """.trimIndent()
             dockerImage = "buildkite/puppeteer"
         }
