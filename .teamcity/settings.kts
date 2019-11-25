@@ -41,6 +41,7 @@ version = "2018.2"
 project {
     description = "https://jetbrains.github.io/ring-ui/"
 
+    buildType(A11yAudit)
     buildType(UnpublishSpecificVersion)
     buildType(GeminiTests)
     buildType(UnitTestsAndBuild)
@@ -979,7 +980,7 @@ object PublishCanary : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:9.11"
+            dockerImage = "node:10.15"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
