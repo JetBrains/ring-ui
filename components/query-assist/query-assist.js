@@ -214,9 +214,8 @@ export default class QueryAssist extends Component {
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
         : queryLength;
-    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
 
-    if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
+    if (this.immediateState.focus && !this.props.disabled) {
       // Set to end of field value if newCaretPosition is inappropriate
       this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
       this.scrollInput();
