@@ -41,15 +41,11 @@ export default class Caret {
 
   /**
    * Get caret position index
-   * @param {Object} [params]
-   * @param {boolean} params.avoidFocus
    * @return {number}
    */
-  getPosition(params = {}) {
+  getPosition() {
     if (this.isContentEditable()) {
-      if (!params.avoidFocus) {
-        this.focus();
-      }
+      this.focus();
 
       const selection = window.getSelection();
 
@@ -59,20 +55,12 @@ export default class Caret {
 
       const range1 = selection.getRangeAt(0);
 
-      if (range1.startOffset !== range1.endOffset) {
-        return -1;
-      }
-
       const range2 = range1.cloneRange();
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
 
       return range2.toString().length;
-    }
-
-    if (this.target.selectionStart !== this.target.selectionEnd) {
-      return -1;
     }
 
     return this.target.selectionStart;
