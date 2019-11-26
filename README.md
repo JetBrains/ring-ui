@@ -5,7 +5,7 @@
 
 This collection of UI components aims to provide all of the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
-### Quick start
+## Quick start
 
 1. Install Yeoman and Ring UI generator: `npm install -g yo @jetbrains/generator-ring-ui`
 2. Go to the root directory of your project (create one if necessary) and run `yo @jetbrains/ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
@@ -16,7 +16,7 @@ This collection of UI components aims to provide all of the necessary building b
    - `npm run build` to build a production bundle
    - `npm run create-component` to create a new component template with styles and tests
 
-### Not-so-quick start
+## Not-so-quick start
 
 In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
 
@@ -53,11 +53,11 @@ In case boilerplate generators are not your thing and you prefer to understand t
    module.exports = webpackConfig;
    ```
 
-### Contributing
+## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
-### Links
+## Links
 
 - [Living style guide][docsite]
 - [GitHub repository](https://github.com/JetBrains/ring-ui)

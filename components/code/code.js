@@ -83,7 +83,13 @@ export default class Code extends PureComponent {
 
     return (
       <Tag className={classes}>
-        <code ref={this.initCodeRef} className={highlightStyles.highlightContainer}>
+        <code
+          // should be focusable because it can be scrollable
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={inline ? -1 : 0}
+          ref={this.initCodeRef}
+          className={highlightStyles.highlightContainer}
+        >
           {normalizeIndent(code)}
         </code>
       </Tag>
