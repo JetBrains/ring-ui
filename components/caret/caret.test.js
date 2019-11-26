@@ -29,15 +29,6 @@ describe('Caret', () => {
       caret.getPosition().should.equal(0);
     });
 
-    it('Get of selection should return -1', () => {
-      const range = document.createRange();
-      range.setStart(target, 0);
-      range.setEnd(target, 1);
-      window.getSelection().addRange(range);
-
-      caret.getPosition().should.equal(-1);
-    });
-
     it('Should get correct positions', () => {
       window.getSelection().collapse(target.firstChild, 10);
 
@@ -48,12 +39,6 @@ describe('Caret', () => {
       caret.getPosition();
 
       target.should.equal(document.activeElement);
-    });
-
-    it('Shouldn\'t focus on get when prohibited', () => {
-      caret.getPosition({avoidFocus: true});
-
-      target.should.not.equal(document.activeElement);
     });
   });
 
