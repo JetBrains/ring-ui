@@ -3,6 +3,7 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.investigationsAutoAssigner
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -30,6 +31,12 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
         }
         feature1.apply {
             param("github_oauth_user", "Hypnosphi")
+        }
+        add {
+            investigationsAutoAssigner {
+                excludeUsers = "npmjs-buildserver"
+                assignOnSecondFailure = true
+            }
         }
     }
 }
