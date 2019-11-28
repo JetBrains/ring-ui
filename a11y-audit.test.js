@@ -10,13 +10,17 @@ const test = axeTest({
   storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'dist')}` : 'http://localhost:9999'
 });
 
+const suite = 'Accessibility audit';
+
 initStoryshots({
   framework: 'html',
-  suite: 'Accessibility audit',
+  suite,
+  // storyKindRegex: /^Services\|Alert Service$/,
+  // storyNameRegex: /^Simple$/,
   test: Object.assign(async (...args) => {
     const {story} = args[0];
     if (isTeamCity) {
-      tsm.testMetadata({type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
+      tsm.testMetadata({testName: `${suite} ${story.kind} ${story.name}`, type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
     }
     await test(...args);
   }, test)
