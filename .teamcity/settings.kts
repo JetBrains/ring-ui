@@ -447,7 +447,7 @@ object A11yAudit : BuildType({
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
 
     params {
-        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "false")
+        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
         param("vcs.branch.spec", """
             +:refs/heads/*
             +:refs/(pull/*)/merge
@@ -476,7 +476,7 @@ object A11yAudit : BuildType({
                 yarn install
                 yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
             """.trimIndent()
-            dockerImage = "node:lts"
+            dockerImage = "buildkite/puppeteer"
         }
     }
 
