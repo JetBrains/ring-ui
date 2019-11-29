@@ -25,7 +25,8 @@ module.exports = {
         '.storybook/**',
         'packages/hermione/**',
         '**/.hermione.conf.js',
-        '**/generate-exports.js'
+        '**/generate-exports.js',
+        'report-metadata.js'
       ],
       peerDependencies: true
     }],
@@ -113,5 +114,8 @@ module.exports = {
       }
     }
   ],
-  reportUnusedDisableDirectives: true
+  reportUnusedDisableDirectives: true,
+  settings: {
+    'import/core-modules': ['./metadata-messages.json']
+  }
 };
