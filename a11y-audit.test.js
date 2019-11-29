@@ -17,7 +17,7 @@ const metadataMessages = [];
 initStoryshots({
   framework: 'html',
   suite,
-  // storyKindRegex: /^Legacy Angular\|ShortcutsHint Ng$/,
+  // storyKindRegex: /^Legacy Angular\|Sidebar Ng$/,
   // storyNameRegex: /^Simple$/,
   test: Object.assign(async (...args) => {
     const {story} = args[0];

@@ -1214,6 +1214,13 @@
     "@babel/runtime" "^7.4.4"
     axe-puppeteer "^1.0.0"
 
+"@hypnosphi/jest-teamcity@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@hypnosphi/jest-teamcity/-/jest-teamcity-1.5.0.tgz#3c80b01d7273c04a4f8cba49a10c92bd9a2bdb6e"
+  integrity sha512-C3XFK5y/Q/8O9+h2C9cJWAkt+2hBmbCK1aEm42mgW4pnknOKCazX9RDAba3XfvMCKFEi2UwT9CWCWnk7ByNVDQ==
+  dependencies:
+    lodash "^4.17.15"
+
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
@@ -10520,13 +10527,6 @@ jest-specific-snapshot@^2.0.0:
   integrity sha512-aXaNqBg/svwEpY5iQEzEHc5I85cUBKgfeVka9KmpznxLnatpjiqjr7QLb/BYNYlsrZjZzgRHTjQJ+Svx+dbdvg==
   dependencies:
     jest-snapshot "^24.1.0"
-
-jest-teamcity@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.5.0.tgz#5e57c8cbc439fd19ece09d593f41111ab0f1898c"
-  integrity sha512-q9ML8PrqUTNzwq6DrdzcxFyxpLTK6dTrEN2/8lGUUssCJx8kk5LKMQfL/N+9DuQUie/IXIcwgEJwbxGaiMJU8w==
-  dependencies:
-    lodash "^4.17.15"
 
 jest-util@^24.9.0:
   version "24.9.0"
