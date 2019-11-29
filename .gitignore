@@ -29,3 +29,4 @@ npm-debug.log*
 saucelabs-session.log*
 yarn-error.log
 package-lock.json
+/metadata-messages.json

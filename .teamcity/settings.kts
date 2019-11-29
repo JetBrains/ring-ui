@@ -474,7 +474,7 @@ object A11yAudit : BuildType({
                 npm -v
 
                 yarn install
-                yarn a11y-audit --testResultsProcessor=jest-teamcity-reporter
+                yarn a11y-audit-ci
             """.trimIndent()
             dockerImage = "buildkite/puppeteer"
         }

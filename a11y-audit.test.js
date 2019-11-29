@@ -1,8 +1,8 @@
 import path from 'path';
+import fs from 'fs';
 
 import initStoryshots from '@storybook/addon-storyshots';
 import {axeTest} from '@storybook/addon-storyshots-puppeteer';
-import tsm from 'teamcity-service-messages';
 
 const isTeamCity = process.env.TEAMCITY_VERSION != null;
 
@@ -13,6 +13,7 @@ const test = axeTest({
 
 const suite = 'Accessibility audit';
 
+const metadataMessages = [];
 initStoryshots({
   framework: 'html',
   suite,
@@ -21,8 +22,13 @@ initStoryshots({
   test: Object.assign(async (...args) => {
     const {story} = args[0];
     if (isTeamCity) {
-      tsm.testMetadata({testName: `${suite} ${story.kind} ${story.name}`, type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
+      metadataMessages.push({testName: `${suite} ${story.kind} ${story.name}`, type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
     }
     await test(...args);
   }, test)
 });
+
+if (isTeamCity) {
+  afterAll(() =>
+    fs.writeFile('metadata-messages.json', JSON.stringify(metadataMessages)));
+}
