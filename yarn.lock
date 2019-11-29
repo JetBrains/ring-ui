@@ -10521,11 +10521,6 @@ jest-specific-snapshot@^2.0.0:
   dependencies:
     jest-snapshot "^24.1.0"
 
-jest-teamcity-reporter@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/jest-teamcity-reporter/-/jest-teamcity-reporter-0.9.0.tgz#a9f337a928a14e7e84163817456b930ecf7cbce8"
-  integrity sha512-q6W+ZaJSCIXmxC9wsY67zNn+vwG/EgKJygYJYH860jih5zS6mc2ZFc4v78gh6rgzgM9/siUtQm7SnRunYuWmVw==
-
 jest-teamcity@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.5.0.tgz#5e57c8cbc439fd19ece09d593f41111ab0f1898c"
