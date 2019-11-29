@@ -22,7 +22,7 @@ initStoryshots({
   test: Object.assign(async (...args) => {
     const {story} = args[0];
     if (isTeamCity) {
-      metadataMessages.push({testName: `${path.basename(__filename)}.${suite}.${story.kind}.${story.name}`, type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
+      metadataMessages.push({testName: `${path.basename(__filename)}:${suite}:${story.kind}:${story.name}`, type: 'artifact', value: `dist.zip!index.html?path=/story/${story.id}`});
     }
     await test(...args);
   }, test)
