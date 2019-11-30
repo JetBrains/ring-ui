@@ -158,7 +158,7 @@ basic.story = {
     .buttons > button {
       margin: 8px;
     }
-    
+
     .dark {
       background: #000;
     }
@@ -195,7 +195,7 @@ export const longAction = () => {
           <Button loader={loading} onClick={this.load}>
             Sleep
           </Button>
-          <Button loader={loading} icon={HourglassIcon} onClick={this.load}/>
+          <Button title="Sleep" loader={loading} icon={HourglassIcon} onClick={this.load}/>
           {loading && <Loader/>}
         </Fragment>
       );

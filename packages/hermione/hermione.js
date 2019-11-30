@@ -5,6 +5,7 @@ const sauceConnectLauncher = require('sauce-connect-launcher');
 const kill = require('kill-port');
 
 const storiesTreePromise = require('./get-stories-tree');
+require('dotenv').config();
 
 const saucePort = 4445;
 // eslint-disable-next-line no-magic-numbers

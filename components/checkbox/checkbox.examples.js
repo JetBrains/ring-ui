@@ -17,14 +17,16 @@ export const basic = () => (
   <Fragment>
     <h1>Base Examples</h1>
     <div id="checkbox-base">
-      <Checkbox/>
-      <Checkbox defaultChecked/>
+      <Checkbox label="One"/>
+      <br/>
+      <Checkbox label="Two" defaultChecked/>
     </div>
 
     <h1>Disabled checkboxes</h1>
-    <div id="checkbox-base">
-      <Checkbox disabled/>
-      <Checkbox disabled defaultChecked/>
+    <div id="checkbox-disabled">
+      <Checkbox label="One" disabled/>
+      <br/>
+      <Checkbox label="Two" disabled defaultChecked/>
     </div>
 
     <h1>Examples with outer styles</h1>

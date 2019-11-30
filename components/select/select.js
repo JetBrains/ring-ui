@@ -956,6 +956,7 @@ export default class Select extends Component {
     if (this.state.selected && this.state.selected.icon) {
       icons.push(
         <button
+          title="Toggle options popup"
           type="button"
           className={styles.selectedIcon}
           key="selected"
@@ -968,6 +969,7 @@ export default class Select extends Component {
     if (this.props.clear && !this.props.disabled && this.state.selected) {
       icons.push(
         <Button
+          title="Clear selection"
           className={styles.clearIcon}
           key="close"
           onClick={this.clear}
@@ -979,6 +981,7 @@ export default class Select extends Component {
     if (!this.props.hideArrow) {
       icons.push(
         <Button
+          title="Toggle options popup"
           className={styles.chevron}
           iconClassName={styles.chevronIcon}
           icon={chevronDownIcon}
