@@ -104,7 +104,7 @@
     "electron": "^7.1.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "eslint": "^6.6.0",
+    "eslint": "^6.7.1",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-plugin-angular": "^4.0.1",
     "eslint-plugin-bdd": "^2.1.1",
