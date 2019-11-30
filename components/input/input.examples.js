@@ -117,7 +117,7 @@ function SelectAll() {
 
   return (
     <>
-      <Input defaultValue="Value" inputRef={ref}/>
+      <Input defaultValue="Value" inputRef={ref} label="Label"/>
       <Button data-test-select onClick={select}>Select all</Button>
     </>
   );

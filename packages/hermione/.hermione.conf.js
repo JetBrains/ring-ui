@@ -1,6 +1,7 @@
 const path = require('path');
 
 const ip = require('ip');
+require('dotenv').config();
 
 const baseUrl = `http://${ip.address()}:9999/`;
 

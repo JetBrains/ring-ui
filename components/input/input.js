@@ -6,6 +6,8 @@ import closeIcon from '@jetbrains/icons/close.svg';
 import Theme from '../global/theme';
 import Button from '../button/button';
 
+import getUID from '../global/get-uid';
+
 import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
 
@@ -43,7 +45,9 @@ export class Input extends PureComponent {
     ]),
     children: PropTypes.string,
     enableShortcuts: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    id: PropTypes.string,
+    placeholder: PropTypes.string
   };
 
   static defaultProps = {
@@ -64,6 +68,11 @@ export class Input extends PureComponent {
 
   componentDidUpdate() {
     this.adapt();
+  }
+
+  id = getUID('ring-input-');
+  getId() {
+    return this.props.id || this.id;
   }
 
   checkValue() {
@@ -132,6 +141,8 @@ export class Input extends PureComponent {
       disabled,
       inputRef, onChange,
       enableShortcuts,
+      id,
+      placeholder,
       ...restProps
     } = this.props;
     const {empty} = this.state;
@@ -170,10 +181,14 @@ export class Input extends PureComponent {
           value={text}
           rows={multiline ? 1 : null}
           disabled={disabled}
+          id={this.getId()}
+          placeholder={placeholder}
+          aria-label={label || placeholder}
           {...restProps}
         />
         {clearable && !disabled && (
           <Button
+            title="Clear input"
             data-test="ring-input-clear"
             className={styles.clear}
             icon={closeIcon}
@@ -181,7 +196,7 @@ export class Input extends PureComponent {
           />
         )}
 
-        {!borderless && <label className={styles.label}>{label}</label>}
+        {!borderless && <label htmlFor={this.getId()} className={styles.label}>{label}</label>}
         {!borderless && <div className={styles.underline}/>}
         {!borderless && <div className={styles.focusUnderline}/>}
         {!borderless && <div className={styles.errorUnderline}/>}

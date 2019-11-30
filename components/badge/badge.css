@@ -24,7 +24,8 @@
   line-height: 17px;
 
   &.gray {
-    background-color: var(--ring-sidebar-background-color);
+    color: var(--ring-text-color);
+    background-color: var(--ring-tag-background-color);
   }
 
   &.valid {
