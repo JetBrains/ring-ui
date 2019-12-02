@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const path = require('path');
+const path = require('path').posix;
 
 const glob = require('glob');
 const changeCase = require('change-case');
