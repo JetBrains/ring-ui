@@ -1401,12 +1401,12 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.40":
-  version "2.0.40"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.40.tgz#92a93c86ba7036917dd9966cc5d72b64c71f76a9"
-  integrity sha512-7l8iuqAJcGYe5zDY0C+a2gqE00zOVjbO5ThiQqtiEyU39JkudB/cfzKdMaMQvb2oy/vL6EgzI27NRRWwLcA76A==
+"@jetbrains/generator-ring-ui@^2.0.41":
+  version "2.0.41"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.41.tgz#f6be952b8c06cb020d2e43729637badc48b302c0"
+  integrity sha512-H5aKENjCDQNL0mCpWExaecVUbF4F+fEdNe1AnF1qcgkRgzE2ZYYSvWxRbLidYRx5BLD82c3aCxcxpbc2gfuerw==
   dependencies:
-    chalk "^2.4.2"
+    chalk "^3.0.0"
     change-case "^3.1.0"
     find-port "^2.0.1"
     ora "^4.0.3"

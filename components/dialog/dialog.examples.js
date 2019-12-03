@@ -1,5 +1,6 @@
 import React from 'react';
 import {action} from '@storybook/addon-actions';
+import {useState} from '@storybook/client-api';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -160,4 +161,51 @@ export const withScroll = () => {
 
 withScroll.story = {
   name: 'with scroll'
+};
+
+export const withOverflowScrollOnHtml = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="container">
+      <div>Scroll down</div>
+      <Button className="button" onClick={() => setOpen(true)}>Show dialog</Button>
+      <Dialog show={open} onCloseAttempt={() => setOpen(false)}>
+        <Header>Dialog title</Header>
+      </Dialog>
+    </div>
+  );
+};
+withOverflowScrollOnHtml.story = {
+  parameters: {
+    storyStyles: `
+      <style>
+        html {
+          overflow-y: scroll;
+        }
+
+        html, body {
+          height: 100%;
+        }
+
+        body {
+          margin: 0;
+        }
+
+        .container {
+          height: 200vh;
+        }
+
+        .button {
+          margin-top: 100vh;
+        }
+      </style>
+    `,
+    hermione: {
+      actions: [
+        {type: 'click', selector: '.button'},
+        {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}
+      ]
+    }
+  }
 };
