@@ -16,7 +16,7 @@ export default class Confirm extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     text: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.node,
 
     show: PropTypes.bool,
     rejectOnEsc: PropTypes.bool,
