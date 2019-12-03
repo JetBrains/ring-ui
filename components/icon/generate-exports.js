@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const path = require('path').posix;
+const path = require('path');
 
 const glob = require('glob');
 const changeCase = require('change-case');
@@ -11,7 +11,7 @@ const generate = (packageName, output, suffix = 'Icon') => {
     // TODO: add deduplication instead
     filter(filename => !/apple-mask-icon\.svg$/.test(filename)).
     map(filename => ({
-      importPath: path.join(packageName, filename).replace(/\\/g, '/'),
+      importPath: path.posix.join(packageName, filename),
       // eslint-disable-next-line no-magic-numbers
       name: changeCase.camelCase(path.basename(filename).slice(0, -4), null, true)
     }));
