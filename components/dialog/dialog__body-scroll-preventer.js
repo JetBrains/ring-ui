@@ -11,15 +11,15 @@ export default {
       return;
     }
     isPrevented = true;
-    document.body.classList.add(bodyWithoutScroll);
+    document.documentElement.classList.add(bodyWithoutScroll);
 
     const scrollWidth = scrollbarWidth();
 
-    const bodyHasScroll = document.body.scrollHeight > window.innerHeight;
+    const bodyHasScroll = document.documentElement.scrollHeight > window.innerHeight;
 
     if (bodyHasScroll && scrollWidth > 0) {
-      previousBodyWidth = document.body.style.width;
-      document.body.style.width = `calc(100% - ${scrollWidth}px)`;
+      previousBodyWidth = document.documentElement.style.width;
+      document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
     }
   },
 
@@ -29,10 +29,10 @@ export default {
     }
     isPrevented = false;
 
-    document.body.classList.remove(bodyWithoutScroll);
+    document.documentElement.classList.remove(bodyWithoutScroll);
 
     if (previousBodyWidth !== null) {
-      document.body.style.width = previousBodyWidth;
+      document.documentElement.style.width = previousBodyWidth;
       previousBodyWidth = null;
     }
   }
