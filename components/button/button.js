@@ -1,3 +1,4 @@
+import 'focus-visible';
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -39,23 +40,16 @@ export default class Button extends PureComponent {
     iconSuppressSizeWarning: PropTypes.bool,
 
     className: PropTypes.string,
-    onMouseDown: PropTypes.func,
 
     children: PropTypes.node
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
-    onMouseDown() {}
+    theme: Theme.LIGHT
   };
 
   static IconSize = Size;
   static Theme = Theme;
-
-  onMouseDown = e => {
-    e.preventDefault();
-    this.props.onMouseDown(e);
-  };
 
   render() {
     const {
@@ -79,7 +73,6 @@ export default class Button extends PureComponent {
       iconSuppressSizeWarning,
       className,
       children,
-      onMouseDown,
       ...props
     } = this.props;
 
@@ -138,7 +131,6 @@ export default class Button extends PureComponent {
         tabIndex={loader ? -1 : 0}
         type={isLink ? null : 'button'}
         {...props}
-        onMouseDown={this.onMouseDown}
         className={classes}
       >
         {loader && !text && !icon && <div className={styles.loaderBackground}/>}
