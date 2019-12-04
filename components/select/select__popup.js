@@ -52,7 +52,8 @@ export default class SelectPopup extends Component {
     selected: [],
     tags: null,
     ringPopupTarget: null,
-    onSelectAll: noop
+    onSelectAll: noop,
+    onEmptyPopupEnter: noop
   };
 
   state = {
@@ -409,7 +410,9 @@ export default class SelectPopup extends Component {
       down: event => (this.list && this.list.downHandler(event)),
       home: event => (this.list && this.list.homeHandler(event)),
       end: event => (this.list && this.list.endHandler(event)),
-      enter: event => (this.list && this.list.enterHandler(event)),
+      enter: event => (this.list
+        ? this.list.enterHandler(event)
+        : this.props.onEmptyPopupEnter(event)),
       esc: event => this.props.onCloseAttempt(event, true),
       tab: event => this.tabPress(event),
       backspace: event => this.handleBackspace(event),

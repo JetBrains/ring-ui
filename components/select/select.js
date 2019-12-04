@@ -245,7 +245,17 @@ export default class Select extends Component {
   _addButton = null;
   _multipleMap = {};
 
+  onEmptyPopupEnter = () => {
+    if (this._addButton) {
+      this.addHandler();
+    }
+  };
+
   _onEnter = () => {
+    if (this._addButton && this.state.shownData.length === 0) {
+      this.addHandler();
+    }
+
     this.props.onDone();
 
     if (!this._popup.isVisible() && this.props.allowAny) {
@@ -476,6 +486,7 @@ export default class Select extends Component {
         disableMoveOverflow={this.props.disableMoveOverflow}
         disableScrollToActive={this.props.disableScrollToActive}
         dir={this.props.dir}
+        onEmptyPopupEnter={this.onEmptyPopupEnter}
       />
     );
   }
@@ -510,8 +521,9 @@ export default class Select extends Component {
   }
 
   addHandler = () => {
+    const value = this.filterValue();
     this._hidePopup();
-    this.props.onAdd(this.filterValue());
+    this.props.onAdd(value);
   };
 
   getToolbar() {
