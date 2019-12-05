@@ -6,13 +6,14 @@ import createResizeDetector from 'element-resize-detector';
 import scheduleRAF from '../global/schedule-raf';
 
 import styles from './island.css';
+import {ScrollHandlerContext} from './adaptive-island-hoc';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
 const resizeDetector = createResizeDetector();
 const END_DISTANCE = 16;
 
-export default class Content extends Component {
+class Content extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -122,3 +123,14 @@ export default class Content extends Component {
     );
   }
 }
+
+const ContentWrapper = props => (
+  <ScrollHandlerContext.Consumer>
+    {onScroll => {
+      const addProps = onScroll != null ? {onScroll, bottomBorder: true} : {};
+      return <Content {...props} {...addProps}/>;
+    }}
+  </ScrollHandlerContext.Consumer>
+);
+
+export default ContentWrapper;
