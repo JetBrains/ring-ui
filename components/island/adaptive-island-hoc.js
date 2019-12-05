@@ -1,12 +1,12 @@
-import React, {Children, cloneElement, Component} from 'react';
+import React, {Component, createContext} from 'react';
 
 import {interpolateLinear} from '../global/linear-function';
 
-import Header from './header';
-import Content from './content';
-
 const TITLE_RESIZE_END = 20;
 const TITLE_RESIZE_THRESHOLD = 36;
+
+export const PhaseContext = createContext();
+export const ScrollHandlerContext = createContext();
 
 export default function adaptiveIslandHOC(ComposedComponent) {
 
@@ -25,33 +25,13 @@ export default function adaptiveIslandHOC(ComposedComponent) {
       }
     };
 
-    addResizingProps(children) {
-      return Children.map(children, child => {
-        if (!child) {
-          return child;
-        }
-        let props;
-        const {phase} = this.state;
-
-        if (child.type === Content) {
-          props = {onScroll: this.onContentScroll, bottomBorder: true};
-        }
-
-        if (child.type === Header) {
-          props = {phase};
-        }
-
-        return props ? cloneElement(child, props) : child;
-      });
-    }
-
     render() {
-      const {children, ...restProps} = this.props;
-
       return (
-        <ComposedComponent {...restProps}>
-          {this.addResizingProps(children)}
-        </ComposedComponent>
+        <PhaseContext.Provider value={this.state.phase}>
+          <ScrollHandlerContext.Provider value={this.onContentScroll}>
+            <ComposedComponent {...this.props}/>
+          </ScrollHandlerContext.Provider>
+        </PhaseContext.Provider>
       );
     }
   };

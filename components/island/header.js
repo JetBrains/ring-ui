@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import {interpolateLinear} from '../global/linear-function';
 
 import styles from './island.css';
+import {PhaseContext} from './adaptive-island-hoc';
 
 const Start = {
   FONT_SIZE: 24,
@@ -24,7 +25,7 @@ const End = {
 
 const BORDER_APPEAR_PHASE = 0.5;
 
-export default class Header extends Component {
+class Header extends Component {
   static propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
@@ -88,3 +89,14 @@ export default class Header extends Component {
     );
   }
 }
+
+const HeaderWrapper = props => (
+  <PhaseContext.Consumer>
+    {phase => {
+      const addProps = phase != null ? {phase} : {};
+      return <Header {...props} {...addProps}/>;
+    }}
+  </PhaseContext.Consumer>
+);
+
+export default HeaderWrapper;
