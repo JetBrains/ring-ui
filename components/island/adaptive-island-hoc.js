@@ -1,9 +1,12 @@
 import React, {Children, cloneElement, Component} from 'react';
 
+import {interpolateLinear} from '../global/linear-function';
+
 import Header from './header';
 import Content from './content';
 
 const TITLE_RESIZE_END = 20;
+const TITLE_RESIZE_THRESHOLD = 36;
 
 export default function adaptiveIslandHOC(ComposedComponent) {
 
@@ -14,9 +17,12 @@ export default function adaptiveIslandHOC(ComposedComponent) {
       phase: 0
     };
 
-    onContentScroll = ({scrollTop}) => {
-      const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
-      this.setState({phase});
+    onContentScroll = ({scrollTop, scrollHeight, clientHeight}) => {
+      if (scrollHeight - clientHeight >=
+        interpolateLinear(TITLE_RESIZE_THRESHOLD, TITLE_RESIZE_END, this.state.phase)) {
+        const phase = Math.min(1, scrollTop / TITLE_RESIZE_END);
+        this.setState({phase});
+      }
     };
 
     addResizingProps(children) {

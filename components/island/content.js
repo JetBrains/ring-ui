@@ -68,8 +68,7 @@ export default class Content extends Component {
   });
 
   onScroll = () => {
-    const {scrollTop, scrollHeight} = this.scrollableNode;
-    this.props.onScroll({scrollTop, scrollHeight});
+    this.props.onScroll(this.scrollableNode);
     this.calculateScrollPosition();
   };
 
