@@ -47,15 +47,5 @@ changeBuildType(RelativeId("A11yAudit")) {
         feature1.apply {
             enabled = false
         }
-        add {
-            feature {
-                id = "KEEP_RULE_1"
-                type = "keepRules"
-                param("limit.type", "all")
-                param("keepData.1.type", "everything")
-                param("ruleDisabled", "false")
-                param("preserveArtifacts", "true")
-            }
-        }
     }
 }
