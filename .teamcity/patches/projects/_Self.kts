@@ -18,17 +18,4 @@ changeProject(DslContext.projectId) {
             text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
         }
     }
-
-    features {
-        add {
-            feature {
-                type = "keepRules"
-                id = "KEEP_RULE_2"
-                param("limit.type", "all")
-                param("keepData.1.type", "everything")
-                param("ruleDisabled", "false")
-                param("preserveArtifacts", "true")
-            }
-        }
-    }
 }
