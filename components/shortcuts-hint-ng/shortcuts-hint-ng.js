@@ -3,12 +3,12 @@ import angular from 'angular';
 import searchIcon from '@jetbrains/icons/search.svg';
 
 import RingAngularComponent from '../global/ring-angular-component';
-import sniffer from '../global/sniffer';
 import DialogNg from '../dialog-ng/dialog-ng';
 import ShortcutsNg from '../shortcuts-ng/shortcuts-ng';
 import RingTemplateNg from '../template-ng/template-ng';
 import IconNg from '../icon-ng/icon-ng';
 import InputNg from '../input-ng/input-ng';
+import {getShortcutTitle} from '../shortcuts/shortcut-title';
 
 import HintPopupTpl from './shortcuts-hint-ng.html';
 import './shortcuts-hint-ng.scss';
@@ -16,49 +16,6 @@ import './shortcuts-hint-ng.scss';
 /**
  * @name Shortcuts Ng Hint Popup
  */
-
-const macSymbolsMap = {
-  enter: '⏎',
-  shift: '⇧',
-  meta: '⌘',
-  alt: '⌥',
-  ctrl: '⌃',
-  backspace: '⌫',
-  esc: 'Esc',
-  tab: 'Tab',
-  del: 'Del',
-  home: 'Home',
-  end: 'End',
-  space: 'Space',
-  ins: 'Insert',
-
-  left: '←',
-  up: '↑',
-  right: '→',
-  down: '↓'
-};
-
-const winSymbolsMap = {
-  enter: 'Enter',
-  shift: 'Shift',
-  meta: 'Ctrl',
-  alt: 'Alt',
-  ctrl: 'Ctrl',
-  backspace: 'Backspace',
-  esc: 'Esc',
-  tab: 'Tab',
-  del: 'Delete',
-  home: 'Home',
-  end: 'End',
-  space: 'Space',
-  ins: 'Insert',
-
-  left: '←',
-  up: '↑',
-  right: '→',
-  down: '↓'
-};
-
 
 const angularModule = angular.module(
   'Ring.shortcuts.hint-popup',
@@ -112,14 +69,7 @@ class HintPopupService extends RingAngularComponent {
 }
 
 function shortcutKeySymbolFilter(shortcut) {
-  const MAC_OS = sniffer.os.name === 'macos';
-  const KEY_SEPARATOR = MAC_OS ? '' : '+';
-  const symbolsMap = MAC_OS ? macSymbolsMap : winSymbolsMap;
-
-  return shortcut.
-    split(/\+/g).
-    map(symbol => symbolsMap[symbol] || symbol.toUpperCase()).
-    join(KEY_SEPARATOR);
+  return getShortcutTitle(shortcut);
 }
 
 function shortcutSearchFilter(shortcuts, query = '') {
