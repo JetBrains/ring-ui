@@ -77,9 +77,6 @@ export default class Dialog extends PureComponent {
   }
 
   handleClick = event => {
-    if (event.target !== this.dialog) {
-      return;
-    }
     this.props.onOverlayClick(event);
     this.props.onCloseAttempt(event);
   };
@@ -102,25 +99,16 @@ export default class Dialog extends PureComponent {
     };
   };
 
-  dialogRef = tabTrap => {
-    this.dialog = tabTrap && tabTrap.node;
-  };
-
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, ...restProps} = this.props;
-    const classes = classNames(styles.container, className, {
-      [styles.clickableOverlay]: onOverlayClick !== noop || onCloseAttempt !== noop
-    });
     const shortcutsMap = this.getShortcutsMap();
 
     return show && createPortal(
       <TabTrap
         trapDisabled={!trapFocus}
         data-test="ring-dialog-container"
-        ref={this.dialogRef}
-        className={classes}
-        onClick={this.handleClick}
+        className={styles.container}
         role="presentation"
         {...restProps}
       >
@@ -128,6 +116,14 @@ export default class Dialog extends PureComponent {
           map={shortcutsMap}
           scope={this.state.shortcutsScope}
         />
+        {onOverlayClick !== noop || onCloseAttempt !== noop && (
+          <div
+            // click handler is duplicated in close button
+            role="presentation"
+            className={styles.clickableOverlay}
+            onClick={this.handleClick}
+          />
+        )}
         <div className={styles.innerContainer}>
           <AdaptiveIsland
             className={classNames(styles.content, contentClassName)}
