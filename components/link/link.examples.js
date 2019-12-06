@@ -45,21 +45,21 @@ export const allVariants = () => {
     render() {
       return (
         <div style={{display: 'flex', flexDirection: 'column'}} data-test="lik-example">
-          <Link href="#hash">Ordinary link</Link>
+          <Link href="/">Ordinary link</Link>
 
-          <Link href="#hash" active>
+          <Link href="/" active>
             Active link (inherits color)
           </Link>
 
-          <Link href="#hash" pseudo>
+          <Link href="/" pseudo>
             Pseudo link (no underline on hover)
           </Link>
 
-          <Link href="#hash">Link with a very long text, wrapping over lines</Link>
+          <Link href="/">Link with a very long text, wrapping over lines</Link>
 
-          <Link href="#hash">Link with a very long text, wrapping over lines</Link>
+          <Link href="/">Link with a very long text, wrapping over lines</Link>
 
-          <Link href="#hash" className="hub-link">
+          <Link href="/" className="hub-link">
             {WrapText => [
               <Icon key="icon" glyph={hubLogo} className="hub-icon"/>,
               <div key="text">
@@ -68,9 +68,9 @@ export const allVariants = () => {
             ]}
           </Link>
 
-          <CustomLink href="#hash">Custom link component</CustomLink>
+          <CustomLink href="/">Custom link component</CustomLink>
 
-          <CustomLink href="#hash" active>
+          <CustomLink href="/" active>
             Active custom link component
           </CustomLink>
 

@@ -5,6 +5,8 @@ import {Waypoint} from 'react-waypoint';
 
 import Checkbox from '../checkbox/checkbox';
 
+import getUID from '../global/get-uid';
+
 import style from './table.css';
 import HeaderCell from './header-cell';
 
@@ -43,6 +45,8 @@ export default class Header extends PureComponent {
     headerWidth: null,
     widths: []
   };
+
+  id = getUID('table-header-');
 
   onCheckboxFocus = event => {
     event.target.blur();
@@ -88,6 +92,7 @@ export default class Header extends PureComponent {
         {selectable &&
         (
           <Checkbox
+            aria-labelledby={this.id}
             disabled={checkboxDisabled}
             checked={checked}
             onChange={onCheckboxChange}
@@ -118,7 +123,7 @@ export default class Header extends PureComponent {
     const regularCells = this.createCells();
 
     return (
-      <thead data-test="ring-table-header" className={style.tableHead}>
+      <thead id={this.id} data-test="ring-table-header" className={style.tableHead}>
         {caption && (
           <tr data-test="ring-table-header-row">
             <th
