@@ -593,7 +593,11 @@ export default class List extends Component {
         rowIndex={index}
         columnIndex={0}
       >
-        <div style={style}>{el}</div>
+        <div style={style} role="row">
+          <div role="cell">
+            {el}
+          </div>
+        </div>
       </CellMeasurer>
     ) : cloneElement(el, {key: itemKey});
   };

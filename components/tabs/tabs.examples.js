@@ -31,7 +31,7 @@ class BasicDemo extends Component {
         <Tab id="third" title="Third tab">
           Third tab content
         </Tab>
-        <Tab id="fourth" title="Fourth tab (Link)" href="#href">
+        <Tab id="fourth" title="Fourth tab (Link)" href="/">
           Fourth tab content
         </Tab>
         <Tab disabled id="disabled" title="Disabled tab">
@@ -67,7 +67,7 @@ class DarkDemo extends Component {
         <Tab id="third" title="Third tab">
           Third tab content
         </Tab>
-        <Tab id="fourth" title="Fourth tab (Link)" href="#href">
+        <Tab id="fourth" title="Fourth tab (Link)" href="/">
           Fourth tab content
         </Tab>
         <Tab disabled id="disabled" title="Disabled tab">
@@ -88,6 +88,7 @@ dark.story = {
     .dark-wrapper {
       background: #000;
       padding: 8px;
+      color: #fff;
     }
   </style>`
   }
@@ -98,7 +99,7 @@ export const smart = () => (
     <Tab title="First tab">First tab content</Tab>
     <Tab title="Second tab">Second tab content</Tab>
     <Tab title="Third tab">Third tab content</Tab>
-    <Tab title="Fourth  tab (Link)" href="#href">
+    <Tab title="Fourth  tab (Link)" href="/">
       Fourth tab content
     </Tab>
     <Tab disabled title="Disabled tab">
@@ -110,10 +111,10 @@ smart.story = {
   name: 'smart'
 };
 
-function Title({Icon, children, className}) {
+function Title({Icon, title, children, className}) {
   return (
     <span className={className}>
-      <Icon className="icon"/>
+      <Icon title={title} className="icon"/>
       {children}
     </span>
   );
@@ -122,7 +123,7 @@ export const customTitles = () => (
   <SmartTabs>
     <Tab title={<Title Icon={SearchIcon}>First tab</Title>}>First tab content</Tab>
     <Tab title={<Title Icon={WarningIcon}>Second tab</Title>}>Second tab content</Tab>
-    <Tab title={<Title Icon={WarningIcon}>Third tab (Link)</Title>} href="#href">
+    <Tab title={<Title Icon={WarningIcon}>Third tab (Link)</Title>} href="/">
       Third tab content
     </Tab>
     <CustomItem>
@@ -148,14 +149,22 @@ customTitles.story = {
 
 export const customTitlesFunction = () => (
   <SmartTabs>
-    <Tab title={isSelected => <Title Icon={SearchIcon} className={isSelected ? 'has-content' : ''}>{isSelected && 'First tab'}</Title>}>
+    <Tab
+      title={isSelected => (
+        <Title title={isSelected ? undefined : 'First tab'} Icon={SearchIcon} className={isSelected ? 'has-content' : ''}>
+          {isSelected && 'First tab'}
+        </Title>
+      )}
+    >
       First tab content
     </Tab>
     <Tab
       title={isSelected => (
-        <Title Icon={WarningIcon} className={isSelected ? 'has-content' : ''}>{isSelected && 'Second tab (Link)'}</Title>
+        <Title title={isSelected ? undefined : 'Second tab (Link)'} Icon={WarningIcon} className={isSelected ? 'has-content' : ''}>
+          {isSelected && 'Second tab (Link)'}
+        </Title>
       )}
-      href="#href"
+      href="/"
     >
       Second tab content
     </Tab>

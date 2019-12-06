@@ -10,7 +10,7 @@ import {ScrollHandlerContext} from './adaptive-island-hoc';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const resizeDetector = createResizeDetector();
+const resizeDetector = createResizeDetector({strategy: 'scroll'});
 const END_DISTANCE = 16;
 
 class Content extends Component {
@@ -107,6 +107,9 @@ class Content extends Component {
         className={classes}
       >
         <div
+          // it has to be focusable because it can be scrollable
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
           className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.onScroll : noop}

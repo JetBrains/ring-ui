@@ -11,6 +11,8 @@ import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
 
+import getUID from '../global/get-uid';
+
 import Cell from './cell';
 import style from './table.css';
 
@@ -21,6 +23,7 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
 
   return (
     <Button
+      title="Drag"
       className={classes}
       icon={dragIcon}
     />
@@ -66,6 +69,8 @@ class Row extends PureComponent {
     onCollapse: () => {},
     onExpand: () => {}
   };
+
+  id = getUID('table-row-');
 
   onMouseEnter = () => {
     const {item, onHover} = this.props;
@@ -136,6 +141,7 @@ class Row extends PureComponent {
           (
             <Tooltip title={checkboxTooltip}>
               <Checkbox
+                aria-labelledby={this.id}
                 className={showFocus ? 'ring-checkbox_focus' : ''}
                 checked={selected}
                 onFocus={this.onCheckboxFocus}
@@ -150,6 +156,7 @@ class Row extends PureComponent {
           (
             <Tooltip title={checkboxTooltip}>
               <Checkbox
+                aria-labelledby={this.id}
                 checked={selected}
                 disabled
               />
@@ -194,6 +201,7 @@ class Row extends PureComponent {
 
     return (
       <tr
+        id={this.id}
         ref={this.rowRef}
         className={classes}
         tabIndex="0"

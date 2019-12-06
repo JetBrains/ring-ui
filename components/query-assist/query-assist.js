@@ -163,7 +163,7 @@ export default class QueryAssist extends Component {
     if (e.relatedTarget) {
       this.handleFocusChange(e);
     }
-  }
+  };
 
   handleFocusChange = e => {
     // otherwise it's blur and false
@@ -774,6 +774,7 @@ export default class QueryAssist extends Component {
         )}
 
         <ContentEditable
+          aria-label={this.props.translations.searchTitle}
           className={inputClasses}
           data-test="ring-query-assist-input"
           ref={this.inputRef}
