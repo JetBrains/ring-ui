@@ -122,7 +122,7 @@ export default class Dialog extends PureComponent {
           map={shortcutsMap}
           scope={this.state.shortcutsScope}
         />
-        {onOverlayClick !== noop || onCloseAttempt !== noop && (
+        {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
           <div
             // click handler is duplicated in close button
             role="presentation"
