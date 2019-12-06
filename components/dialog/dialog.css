@@ -58,27 +58,25 @@
 }
 
 .clickableOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
   cursor: pointer;
 }
 
-.clickableOverlay:hover .closeIcon {
+.clickableOverlay:hover + * .closeIcon {
   color: var(--ring-border-hover-color);
-}
-
-.content:hover .closeIcon {
-  color: var(--ring-icon-color);
 }
 
 .closeButton:hover .closeIcon {
   color: var(--ring-border-hover-color);
 }
 
-.clickableOverlay:active .closeIcon {
+.clickableOverlay:active + * .closeIcon {
   color: var(--ring-main-color);
-}
-
-.content:active .closeIcon {
-  color: var(--ring-icon-color);
 }
 
 .closeButton:active .closeIcon {
