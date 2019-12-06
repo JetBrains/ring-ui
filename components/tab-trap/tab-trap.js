@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './tab-trap.css';
 
-export const FOCUSABLE_ELEMENTS = 'input, button:not([data-trap-button]), select, textarea, a[href], *[tabindex]';
+export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button])';
 
 /**
  * @name TabTrap
@@ -130,8 +130,10 @@ export default class TabTrap extends Component {
         ref={this.containerRef}
         {...restProps}
       >
-        <button
-          type="button"
+        <div
+          // It never actually stays focused
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
           ref={this.trapButtonRef}
           className={styles.trapButton}
           onFocus={this.focusLastIfEnabled}
@@ -139,9 +141,10 @@ export default class TabTrap extends Component {
           data-trap-button
         />
         {children}
-        <button
-          type="button"
-          className={styles.trapButton}
+        <div
+          // It never actually stays focused
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
           onFocus={this.focusFirst}
           data-trap-button
         />

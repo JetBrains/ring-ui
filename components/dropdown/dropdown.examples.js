@@ -55,7 +55,7 @@ export const withActiveClassName = () => (
   <Dropdown
     className="chevron"
     activeClassName="rotated"
-    anchor={<Button icon={ChevronDownIcon}/>}
+    anchor={<Button title="Details" icon={ChevronDownIcon}/>}
   >
     <Popup>Popup content</Popup>
   </Dropdown>
@@ -72,7 +72,7 @@ withActiveClassName.story = {
       transform-origin: 50% 40%;
       transform: rotate(0deg);
     }
-    
+
     .rotated svg {
       transform: rotate(180deg);
     }

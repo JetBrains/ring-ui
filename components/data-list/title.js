@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 
+import getUID from '../global/get-uid';
+
 import styles from './data-list.css';
 
 
@@ -29,6 +31,7 @@ class Title extends PureComponent {
     showFocus: false
   };
 
+  id = getUID('data-list-title');
 
   onCheckboxFocus = () => {
     this.props.onFocusRestore();
@@ -59,6 +62,7 @@ class Title extends PureComponent {
 
     return (
       <div
+        id={this.id}
         className={classes}
         style={{paddingLeft: offset}}
       >
@@ -67,6 +71,7 @@ class Title extends PureComponent {
             (
               <div className={styles.checkboxBox}>
                 <Checkbox
+                  aria-labelledby={this.id}
                   className={showFocus ? 'ring-checkbox_focus' : ''}
                   checked={selected}
                   onFocus={this.onCheckboxFocus}

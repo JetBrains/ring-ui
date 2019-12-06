@@ -239,7 +239,7 @@ popupInAPopup.story = {
     body {
       min-height: 400px;
     }
-    
+
     .parent-popup {
       width: 100px;
       height: 100px;
@@ -256,20 +256,18 @@ popupInAPopup.story = {
   }
 };
 
-export const insideAScrollableContainer = () => {
-  const PopupDemo = (
-    <div className="container">
-      <div className="example">
-        <div className="anchor">
+export const insideAScrollableContainer = () => (
+  // Scrollable
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+  <div className="container" tabIndex={0}>
+    <div className="example">
+      <div className="anchor">
           Popup anchor
-          <Popup>Popup content</Popup>
-        </div>
+        <Popup>Popup content</Popup>
       </div>
     </div>
-  );
-
-  return PopupDemo;
-};
+  </div>
+);
 
 insideAScrollableContainer.story = {
   name: 'inside a scrollable container',

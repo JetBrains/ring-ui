@@ -50,9 +50,9 @@ export const basic = () => {
       const Comp = props => <a {...props}>This is component</a>;
       return (
         <Header>
-          <Link href="#">
+          <a title="Hub" href="/">
             <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-          </Link>
+          </a>
           <Link active href="#">
             Users
           </Link>
@@ -61,10 +61,14 @@ export const basic = () => {
           <Link href="#">Services</Link>
           <Tray>
             <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon icon={Help20pxIcon}/>
-            <TrayIcon icon={Gift20pxIcon}/>
-            <TrayIcon icon={Search20pxIcon}/>
-            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+            <TrayIcon title="Help" icon={Help20pxIcon}/>
+            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
+            <TrayIcon title="Search" icon={Search20pxIcon}/>
+            <Dropdown
+              anchor={({active}) => (
+                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
+              )}
+            >
               <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
             </Dropdown>
             <SmartServices auth={auth}/>
@@ -93,9 +97,9 @@ export const light = () => {
 
       return (
         <Header theme={Theme.LIGHT}>
-          <Link href="#">
+          <a title="Hub" href="/">
             <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-          </Link>
+          </a>
           <Link active href="#">
             Users
           </Link>
@@ -103,10 +107,14 @@ export const light = () => {
 
           <Tray>
             <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon icon={Help20pxIcon}/>
-            <TrayIcon icon={Gift20pxIcon}/>
-            <TrayIcon icon={Search20pxIcon}/>
-            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+            <TrayIcon title="Help" icon={Help20pxIcon}/>
+            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
+            <TrayIcon title="Search" icon={Search20pxIcon}/>
+            <Dropdown
+              anchor={({active}) => (
+                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
+              )}
+            >
               <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
             </Dropdown>
             <SmartServices auth={auth}/>
@@ -133,9 +141,9 @@ export const compact = () => {
 
       return (
         <Header className="header">
-          <Link href="#">
+          <a title="Hub" href="/">
             <Logo className="logo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
-          </Link>
+          </a>
           <Link active href="#">
             Users
           </Link>
@@ -144,10 +152,14 @@ export const compact = () => {
           <Link href="#">Services</Link>
           <Tray>
             <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon icon={Help20pxIcon}/>
-            <TrayIcon icon={Gift20pxIcon}/>
-            <TrayIcon icon={Search20pxIcon}/>
-            <Dropdown anchor={({active}) => <TrayIcon active={active} icon={Settings20pxIcon}/>}>
+            <TrayIcon title="Help" icon={Help20pxIcon}/>
+            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
+            <TrayIcon title="Search" icon={Search20pxIcon}/>
+            <Dropdown
+              anchor={({active}) => (
+                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
+              )}
+            >
               <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
             </Dropdown>
             <SmartServices auth={auth}/>
@@ -170,7 +182,7 @@ compact.story = {
     body {
       margin: 0;
     }
-    
+
     .header.header {
       height: 40px;
     }

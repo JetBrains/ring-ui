@@ -158,6 +158,7 @@ export default class Item extends PureComponent {
       if (collapsed) {
         collapserExpander = (
           <Button
+            title="Expand"
             onClick={onExpand}
             icon={chevronRightIcon}
             className={styles.collapseButton}
@@ -168,6 +169,7 @@ export default class Item extends PureComponent {
       } else {
         collapserExpander = (
           <Button
+            title="Collapse"
             onClick={onCollapse}
             icon={chevronDownIcon}
             className={styles.collapseButton}

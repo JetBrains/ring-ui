@@ -7,6 +7,8 @@ import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon';
 
+import getUID from '../global/get-uid';
+
 import styles from './list.css';
 
 /**
@@ -58,6 +60,8 @@ export default class ListItem extends PureComponent {
     onMouseUp: PropTypes.func,
     'data-test': PropTypes.string
   };
+
+  id = getUID('list-item-');
 
   stopBubbling = e => e.stopPropagation();
 
@@ -137,6 +141,7 @@ export default class ListItem extends PureComponent {
             className={styles.checkboxContainer}
           >
             <Checkbox
+              aria-labelledby={this.id}
               onClick={this.stopBubbling}
               checked={checkbox}
               onChange={onCheckboxChange}
@@ -144,6 +149,7 @@ export default class ListItem extends PureComponent {
           </div>
         )}
         <button
+          id={this.id}
           type="button"
           tabIndex={tabIndex}
           onClick={onClick}
