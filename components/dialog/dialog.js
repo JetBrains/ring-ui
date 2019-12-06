@@ -99,16 +99,22 @@ export default class Dialog extends PureComponent {
     };
   };
 
+  dialogRef = tabTrap => {
+    this.dialog = tabTrap && tabTrap.node;
+  };
+
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, ...restProps} = this.props;
+    const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
     return show && createPortal(
       <TabTrap
         trapDisabled={!trapFocus}
         data-test="ring-dialog-container"
-        className={styles.container}
+        ref={this.dialogRef}
+        className={classes}
         role="presentation"
         {...restProps}
       >
