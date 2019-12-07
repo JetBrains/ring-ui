@@ -17,7 +17,8 @@ export default {
 
   parameters: {
     notes: 'Provides an Angular wrapper for Dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]', skip: 'ie'}
+    hermione: {captureSelector: '*[data-test~=ring-dialog]', skip: 'ie'},
+    a11y: {element: '*[data-test~=ring-dialog]'}
   }
 };
 

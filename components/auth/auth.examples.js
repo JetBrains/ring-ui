@@ -94,7 +94,7 @@ export const landingPage = () => {
         <div><a href="#" id="open-link" class="ring-link">Open landing page</a></div>
         <div><a href="#" id="force-update" class="ring-link">Force token update</a></div>
         <div><a href="#" id="log-out" class="ring-link">Log out</a></div>
-        <div id="example"></div>
+        <div id="example-2"></div>
       </div>
     `;
 

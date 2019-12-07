@@ -130,6 +130,7 @@ export default class Tag extends PureComponent {
     if (!this.props.readOnly) {
       return (
         <Button
+          title="Remove"
           icon={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}

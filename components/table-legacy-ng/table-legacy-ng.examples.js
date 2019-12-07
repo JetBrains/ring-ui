@@ -54,7 +54,7 @@ export const basic = () => {
 
           <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
             <rg-legacy-table-column avatar>
-              <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+              <img alt="Avatar" ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
                 class="ring-table__avatar__img"/>
             </rg-legacy-table-column>
             <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
@@ -182,7 +182,7 @@ export const withSidebar = () => {
 
           <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
             <rg-legacy-table-column avatar>
-              <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+              <img alt="Avatar" ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
                 class="ring-table__avatar__img"/>
             </rg-legacy-table-column>
             <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
