@@ -68,7 +68,8 @@ basic.story = {
       right: 0;
       width: 50%;
       padding: 16px;
-      background-color: #888;
+      background-color: #666;
+      color: #fff;
     }
 
     .head {

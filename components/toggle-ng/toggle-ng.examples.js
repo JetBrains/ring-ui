@@ -16,7 +16,7 @@ export default {
 export const basic = () => {
   angular.module(APP_NAME, [ToggleNG]);
 
-  return '<rg-toggle></rg-toggle>';
+  return '<rg-toggle>Toggle</rg-toggle>';
 };
 
 basic.story = {

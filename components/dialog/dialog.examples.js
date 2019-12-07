@@ -19,7 +19,8 @@ export default {
 
   parameters: {
     notes: 'The Dialog component is a simple way to present content above an enclosing view.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    a11y: {element: '#root,*[data-test~=ring-dialog]'}
   }
 };
 

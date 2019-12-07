@@ -173,7 +173,7 @@ export const asModelLazy = () => {
           performance</p>
         <p>This case describe when we take from server ng-model and then
           asynchronous take options for this model</p>
-  
+
         <rg-select
           ng-model="ctrl.selectedItem"
           size="M"
@@ -357,7 +357,7 @@ export const insideForm = () => {
 
   return `
       <h4>Form with validation</h4>
-  
+
       <div ng-controller="testCtrl as ctrl">
         <form name="testForm" class="ring-form ring-form_border" novalidate>
           <div class="ring-form__wrap">
@@ -367,7 +367,7 @@ export const insideForm = () => {
                 options="item as item for item in ctrl.options"
                 size="M"
                 label="Select item" required name="requiredSelect"></rg-select>
-  
+
               <div class="installer-form__error-hint ring-error-bubble active"
                 ng-if="testForm.requiredSelect.$invalid">
                 Error {{testForm.requiredSelect.$error}}
@@ -418,7 +418,7 @@ export const lazyLoadingOnScroll = () => {
 
   return `
       <h4>Load more elements on scroll</h4>
-  
+
       <div ng-controller="testCtrl as ctrl">
         <rg-select ng-model="ctrl.selectedItem"
           external-filter="true"
@@ -460,13 +460,13 @@ export const performance = () => {
         <div style="padding: 8px">
           <button type="button" ng-click="ctrl.renderSelects()">Render</button>
           <button type="button" ng-click="ctrl.selects = []">Remove</button>
-  
-          <span style="color: gray;">
+
+          <span style="color: var(--ring-secondary-color);">
             Last render time: <span ng-bind="ctrl.renderTime"></span>
             | selects counts {{ctrl.selects.length || 0}}
           </span>
         </div>
-  
+
         <rg-select ng-repeat="selectId in ctrl.selects"
           ng-model="ctrl.selectedItem"
           size="M"

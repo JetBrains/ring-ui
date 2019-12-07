@@ -104,7 +104,8 @@ autoOpen.story = {
   parameters: {
     hermione: {
       captureSelector: ['#root', '[data-test~=ring-popup]']
-    }
+    },
+    a11y: {element: '#root,[data-test~=ring-popup]'}
   }
 };
 
@@ -135,6 +136,7 @@ autoOpenInADialog.story = {
   parameters: {
     hermione: {
       captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
-    }
+    },
+    a11y: {element: '[data-test~=ring-dialog],[data-test~=ring-popup]'}
   }
 };

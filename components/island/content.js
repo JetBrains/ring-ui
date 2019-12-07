@@ -110,6 +110,7 @@ class Content extends Component {
           // it has to be focusable because it can be scrollable
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
+          data-scrollable-container
           className={scrollableWrapperClasses}
           ref={this.setScrollableNodeAndCalculatePosition}
           onScroll={fade ? this.onScroll : noop}

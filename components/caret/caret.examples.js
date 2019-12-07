@@ -14,11 +14,14 @@ export default {
 export const basic = () => {
   const node = document.createElement('div');
 
-  node.innerHTML = ` 
-<textarea id="test-input" class="ring-input">
-Lorem ipsum
-dolor sit amet
-</textarea>
+  node.innerHTML = `
+<label>
+  Textarea
+  <textarea id="test-input" class="ring-input">
+  Lorem ipsum
+  dolor sit amet
+  </textarea>
+</label>
 <div><a href="" id="cursor-action" class="ring-link">Set caret position</a></div>
     `;
 

@@ -66,6 +66,14 @@ addParameters({
       brandTitle: 'JetBrains Ring UI',
       ...theme
     })
+  },
+  a11y: {
+    options: {
+      rules: {
+        // TODO enable when RG-2054 is fixed
+        'color-contrast': {enabled: false}
+      }
+    }
   }
 });
 

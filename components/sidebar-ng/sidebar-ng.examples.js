@@ -29,7 +29,7 @@ export const basic = () => {
           top-offset="1">
           <div>
 
-            <img class="ring-sidebar__avatar" ng-src="http://via.placeholder.com/64x64"/>
+            <img alt="Avatar" class="ring-sidebar__avatar" ng-src="http://via.placeholder.com/64x64"/>
 
             <h3 class="ring-sidebar__title">
               <a class="ring-link" href="#">User Link</a>

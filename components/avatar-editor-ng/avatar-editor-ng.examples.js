@@ -31,9 +31,9 @@ export const basic = () => {
           delete-label="Clear"
           ng-model="ctrl.data"
         ></rg-avatar-editor>
-        
+
         <h3>{{ ctrl.name || 'No file name' }}</h3>
-        <img style="max-width: 300px; max-height: 300px;" ng-src="{{ctrl.data}}" />
+        <img alt="Avatar" style="max-width: 300px; max-height: 300px;" ng-src="{{ctrl.data}}" />
       </div>
     `;
 };

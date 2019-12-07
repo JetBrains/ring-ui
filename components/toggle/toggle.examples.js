@@ -16,44 +16,31 @@ export default {
 export const basic = () => (
   <div>
     <div>
-      <div>Unchecked by default</div>
-      <Toggle/>
+      <Toggle>Unchecked by default</Toggle>
     </div>
     <div>
-      <div>Checked by default</div>
-      <Toggle defaultChecked/>
+      <Toggle defaultChecked>Checked by default</Toggle>
     </div>
     <div>
-      <div>Disabled unchecked</div>
-      <Toggle disabled/>
+      <Toggle disabled>Disabled unchecked</Toggle>
     </div>
     <div>
-      <div>Disabled checked</div>
-      <Toggle disabled defaultChecked/>
+      <Toggle disabled defaultChecked>Disabled checked</Toggle>
     </div>
     <div>
-      <div>Pale unchecked by default</div>
-      <Toggle pale/>
+      <Toggle pale>Pale unchecked by default</Toggle>
     </div>
     <div>
-      <div>Pale checked by default</div>
-      <Toggle pale defaultChecked/>
+      <Toggle pale defaultChecked>Pale checked by default</Toggle>
     </div>
     <div>
-      <div>Pale disabled unchecked</div>
-      <Toggle pale disabled/>
+      <Toggle pale disabled>Pale disabled unchecked</Toggle>
     </div>
     <div>
-      <div>Pale disabled checked</div>
-      <Toggle pale disabled defaultChecked/>
+      <Toggle pale disabled defaultChecked>Pale disabled checked</Toggle>
     </div>
     <div>
-      <div>With label</div>
-      <Toggle>Label</Toggle>
-    </div>
-    <div>
-      <div>With label on the left</div>
-      <Toggle leftLabel="Label"/>
+      <Toggle leftLabel="With label on the left"/>
     </div>
   </div>
 );

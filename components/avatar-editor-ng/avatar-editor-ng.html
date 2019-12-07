@@ -3,8 +3,8 @@
         'ring-avatar-editor_controlled': controlled,
         'ring-avatar-editor': !ngDisabled
     }" ng-show="model || default">
-    <img class="ring-avatar-editor__img" ng-src="{{ model }}" ng-show="model">
-    <img class="ring-avatar-editor__img" ng-src="{{ default }}"
+    <img alt="Avatar" class="ring-avatar-editor__img" ng-src="{{ model }}" ng-show="model">
+    <img alt="Default avatar" class="ring-avatar-editor__img" ng-src="{{ default }}"
          ng-show="!model && default" ng-click="!ngDisabled && controls.select()">
     <rg-icon glyph="{{editIcon}}" size="16" class="ring-avatar-editor__icon" ng-if="!ngDisabled"></rg-icon>
   </div>

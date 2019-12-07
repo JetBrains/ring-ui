@@ -204,6 +204,7 @@ buttonModeWithAFilter.story = {
 
   parameters: {
     hermione: {captureSelector: '*[data-test~=ring-select]'},
+    a11y: {element: '*[data-test~=ring-select]'},
     storyStyles: `
   <style>
     .demo {
@@ -598,7 +599,7 @@ withALargeDatasetAndDisabledScrollToActiveItem.story = {
       actions: [
         {type: 'click', selector: '[data-test~=ring-select]'},
         {type: 'scroll', selector: '.ReactVirtualized__List', y: 1000},
-        {type: 'click', selector: ':nth-child(2) > [data-test~=ring-list-item-action]'},
+        {type: 'click', selector: ':nth-child(2) > * > [data-test~=ring-list-item-action]'},
         {type: 'click', selector: '[data-test~=ring-select]'},
         {
           type: 'capture',

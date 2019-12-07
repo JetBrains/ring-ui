@@ -92,6 +92,7 @@ export const inDialogForm = () => {
 inDialogForm.story = {
   name: 'in dialog form',
   parameters: {
-    hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']}
+    hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
+    a11y: {element: '*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
   }
 };

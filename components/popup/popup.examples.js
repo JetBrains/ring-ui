@@ -70,6 +70,7 @@ basic.story = {
 
   parameters: {
     hermione: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
+    a11y: {element: '.topLeft,.topRight,.bottomLeft,.bottomRight'},
     storyStyles: `
   <style>
     body {
@@ -157,6 +158,7 @@ autoPositioning.story = {
 
   parameters: {
     hermione: {captureSelector: ['.left', '.right', '.bottom', '.top']},
+    a11y: {element: '.left,.right,.bottom,.top'},
     storyStyles: `
   <style>
     .message {
