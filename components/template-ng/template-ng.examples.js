@@ -16,7 +16,7 @@ export default {
 export const basic = () => {
   angular.module(APP_NAME, [TemplateNG]);
 
-  return '<rg-template template="\'<input/>\'"></rg-template>';
+  return '<rg-template template="\'<label>Input<br/><input/></label>\'"></rg-template>';
 };
 
 basic.story = {

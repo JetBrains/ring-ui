@@ -22,7 +22,7 @@ export const basic = () => {
 
   return `
       <div>
-        <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+        <textarea aria-label="Description" placeholder="Add description" rows="70" cols="100"></textarea>
       </div>
       <div rg-panel rg-docked-panel rg-docked-panel-class="customCssClass">
         <rg-button mode="primary">Save</rg-button>
@@ -30,7 +30,7 @@ export const basic = () => {
       </div>
       <br/>
       <div>
-        <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+        <textarea aria-label="Description" placeholder="Add steps" rows="10" cols="50"></textarea>
       </div>
     </div>
     `;

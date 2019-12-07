@@ -77,16 +77,17 @@ export const basic = () => {
   return `
       <div rg-shortcuts-app>
         <div class="ring-form" ng-controller="SaveFieldDemoCtrl">
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="input">
               Input
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.email"
                 on-save="save()">
                 <input type="text"
+                  id="input"
                   class="ring-input ring-input-size_md"
                   ng-required="true"
                   ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\\.]*[@][a-zA-Z0-9-_\\.]+$/"
@@ -95,16 +96,17 @@ export const basic = () => {
               <div class="ring-form__control__description">Enter valid email</div>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="email">
               Input
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.email" working-value="data.emailWorkingValue"
                 on-save="save()">
                 <input type="text"
+                  id="email"
                   class="ring-input ring-input-size_md"
                   ng-required="true"
                   ng-pattern="/^[a-zA-Z][a-zA-Z0-9-_\\.]*[@][a-zA-Z0-9-_\\.]+$/"
@@ -113,33 +115,35 @@ export const basic = () => {
               <div class="ring-form__control__description">value: {{data.email}}  working-value: {{data.emailWorkingValue}}</div>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="textarea">
               Textarea
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.longText"
                 on-save="save()">
                   <textarea type="text"
+                    id="textarea"
                     class="ring-input ring-input-size_l"
                     ng-required="true"
                     ng-model="data.longText"></textarea>
               </rg-save-field>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="list-mode">
               Textarea List Mode
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.longTextList"
                 multiline="list"
                 on-save="save()">
                   <textarea type="text"
+                    id="list-mode"
                     name="myMultilineArea"
                     class="ring-input ring-input-size_md"
                     ng-model="data.longTextList"></textarea>
@@ -149,48 +153,51 @@ export const basic = () => {
               </div>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="number">
               Number
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.num"
                 on-save="save()">
                 <input type="number"
+                  id="number"
                   max="10"
                   class="ring-input ring-input-size_xs"
                   ng-model="data.num">
               </rg-save-field>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="rejected">
               Rejected Save
             </label>
-  
+
             <div class="ring-form__control">
               <rg-save-field value="data.someText"
                 on-save="invalidSave(value)">
                 <input type="text"
+                  id="rejected"
                   class="ring-input ring-input-size_md"
                   ng-model="data.someText">
               </rg-save-field>
             </div>
           </div>
-  
+
           <div class="ring-form__group">
-            <label class="ring-form__label">
+            <label class="ring-form__label" for="query-assist">
               Query Assist
             </label>
-  
+
             <div class="ring-form__control">
               data.query={{data.query}}
               <rg-save-field value="data.query"
                 on-save="save(value)">
                 <rg-query-assist
+                  id="query-assist"
                   class="ring-input-size_l"
                   x-data-source="queryAssistSource"
                   query="data.query"
@@ -206,7 +213,7 @@ export const basic = () => {
             </div>
           </div>
         </div>
-  
+
       </div>
     `;
 };

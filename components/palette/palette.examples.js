@@ -10,7 +10,8 @@ export default {
 
   parameters: {
     notes: 'Defines the color palette used for tags and custom fields.',
-    hermione: {skip: true}
+    hermione: {skip: true},
+    a11y: {options: {rules: {'color-contrast': {enabled: false}}}}
   }
 };
 

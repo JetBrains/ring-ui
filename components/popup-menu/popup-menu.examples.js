@@ -10,7 +10,8 @@ export default {
 
   parameters: {
     notes: 'Displays a popup menu.',
-    hermione: {captureSelector: '*[data-test~=ring-popup]'}
+    hermione: {captureSelector: '*[data-test~=ring-popup]'},
+    a11y: {element: '*[data-test~=ring-popup]'}
   }
 };
 

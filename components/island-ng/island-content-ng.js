@@ -28,6 +28,7 @@ angularModule.directive('rgIslandContent', function islandContentDirective() {
   }"
 >
   <div
+    tabindex="0"
     class="${styles.scrollableWrapper} js-scrollable-wrapper"
     ng-transclude
   ></div>

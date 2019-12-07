@@ -13,7 +13,8 @@ import ButtonNG from './button-ng';
 
 export default {
   title: 'Legacy Angular|Button Ng',
-  decorators: [angularDecorator()]
+  decorators: [angularDecorator()],
+  parameters: {a11y: {options: {rules: {tabindex: {enabled: false}}}}}
 };
 
 export const light = () => {
@@ -30,7 +31,7 @@ export const light = () => {
   return `
       <div ng-controller="testCtrl">
         <rg-checkbox ng-model="$root.checkbox"><b>Dark theme</b></rg-checkbox>
-  
+
         <rg-theme theme="$root.checkbox ? Theme.DARK : Theme.LIGHT">
           <div style="margin: 8px 0 0 8px; padding: 1px 14px"
                ng-style="{'background-color': $root.checkbox === true ? 'black' : 'inherit'}">
@@ -42,7 +43,7 @@ export const light = () => {
               <rg-button delayed="true">Press me</rg-button>
               <rg-button text="true">Press me</rg-button>
             </p>
-  
+
             <p>
               <rg-button mode="primary">Press me</rg-button>
               <rg-button mode="primary">Press me Press me Press me Press me Press me</rg-button>
@@ -51,33 +52,33 @@ export const light = () => {
               <rg-button mode="primary" delayed="true">Press me</rg-button>
               <rg-button mode="primary" text="true">Press me</rg-button>
             </p>
-  
+
             <p>
               <rg-button>Press me</rg-button>
               <rg-button icon="{{close}}">Action with icon</rg-button>
               <rg-button narrow-right="true">Dropdown <rg-icon glyph="{{chevronDown}}" color="GRAY"></rg-icon></rg-button>
-              <rg-button icon="{{close}}" mode="primary"></rg-button>
-              <rg-button icon="{{permission}}" disabled="true"></rg-button>
-              <rg-button icon="{{pencil}}" loader="true"></rg-button>
+              <rg-button icon="{{close}}" mode="primary" title="Close"></rg-button>
+              <rg-button icon="{{permission}}" title="Permissions" disabled="true"></rg-button>
+              <rg-button icon="{{pencil}}" title="Edit" loader="true"></rg-button>
               <rg-button>Press me</rg-button>
             </p>
-  
+
             <p>
               <rg-button danger="true">Press me</rg-button>
               <rg-button danger="true" disabled="true">Press me</rg-button>
               <rg-button danger="true" loader="true">Press me</rg-button>
-              <rg-button danger="true" icon="{{pencil}}"></rg-button>
+              <rg-button danger="true" title="Edit" icon="{{pencil}}"></rg-button>
             </p>
-  
+
             <p>
               <rg-button-link href="/button-link">Button link</rg-button-link>
               <rg-button-link href="/button-link" disabled="true">Button link
               </rg-button-link>
               <rg-button-link href="/button-link" loader="true">Button link
               </rg-button-link>
-              <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
+              <rg-button-link href="/button-link" icon="{{pencil}}" title="Edit"></rg-button-link>
             </p>
-  
+
             <p>
               <rg-button tabindex="1">
                 <span>Press me</span>
@@ -129,7 +130,7 @@ export const dark = () => {
                      ng-change="$root.currentTheme = $root.checkbox ? Theme.DARK : Theme.LIGHT">
           <b>Dark theme</b>
         </rg-checkbox>
-    
+
         <rg-theme theme="$root.currentTheme">
           <div style="margin: 8px 0 0 8px; padding: 1px 14px"
                ng-style="{'background-color': $root.checkbox === true ? 'black' : 'inherit'}">
@@ -141,7 +142,7 @@ export const dark = () => {
               <rg-button delayed="true">Press me</rg-button>
               <rg-button text="true">Press me</rg-button>
             </p>
-    
+
             <p>
               <rg-button mode="primary">Press me</rg-button>
               <rg-button mode="primary">Press me Press me Press me Press me Press me</rg-button>
@@ -150,33 +151,33 @@ export const dark = () => {
               <rg-button mode="primary" delayed="true">Press me</rg-button>
               <rg-button mode="primary" text="true">Press me</rg-button>
             </p>
-    
+
             <p>
               <rg-button>Press me</rg-button>
               <rg-button icon="{{close}}">Action with icon</rg-button>
               <rg-button narrow-right="true">Dropdown <rg-icon glyph="{{chevronDown}}" color="GRAY"></rg-icon></rg-button>
-              <rg-button icon="{{close}}" mode="primary"></rg-button>
-              <rg-button icon="{{permission}}" disabled="true"></rg-button>
-              <rg-button icon="{{pencil}}" loader="true"></rg-button>
+              <rg-button icon="{{close}}" title="Close" mode="primary"></rg-button>
+              <rg-button icon="{{permission}}" title="Permissions" disabled="true"></rg-button>
+              <rg-button icon="{{pencil}}" title="Edit" loader="true"></rg-button>
               <rg-button>Press me</rg-button>
             </p>
-    
+
             <p>
               <rg-button danger="true">Press me</rg-button>
               <rg-button danger="true" disabled="true">Press me</rg-button>
               <rg-button danger="true" loader="true">Press me</rg-button>
-              <rg-button danger="true" icon="{{pencil}}"></rg-button>
+              <rg-button danger="true" icon="{{pencil}}" title="Edit"></rg-button>
             </p>
-    
+
             <p>
               <rg-button-link href="/button-link">Button link</rg-button-link>
               <rg-button-link href="/button-link" disabled="true">Button link
               </rg-button-link>
               <rg-button-link href="/button-link" loader="true">Button link
               </rg-button-link>
-              <rg-button-link href="/button-link" icon="{{pencil}}"></rg-button-link>
+              <rg-button-link href="/button-link" icon="{{pencil}}" title="Edit"></rg-button-link>
             </p>
-    
+
             <p>
               <rg-button tabindex="1">
                 <span>Press me</span>

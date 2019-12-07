@@ -99,11 +99,12 @@ class RingInputComponent extends RingAngularComponent {
   }
 
   static template = `
-<div 
+<div
   data-test="ring-input-container"
   ng-class="$ctrl.getContainerClasses()"
 >
-  <input 
+  <input
+    aria-label="{{$ctrl.label || $ctrl.placeholder}}"
     type="text"
     data-test="ring-input"
     class="${styles.input}"
@@ -118,8 +119,9 @@ class RingInputComponent extends RingAngularComponent {
     ng-change="$ctrl.onInputChange()"
     ng-keyup="$ctrl.onKeyUp()"
   />
-  
+
   <textarea
+    aria-label="{{$ctrl.label || $ctrl.placeholder}}"
     data-test="ring-input"
     ng-if="$ctrl.multiline"
     class="${styles.input}"
@@ -134,7 +136,7 @@ class RingInputComponent extends RingAngularComponent {
     ng-change="$ctrl.onInputChange()"
     ng-keyup="$ctrl.onKeyUp()"
   ></textarea>
-  
+
   <rg-button
     ng-if="$ctrl.clearable"
     data-test="ring-input-clear"
@@ -142,12 +144,12 @@ class RingInputComponent extends RingAngularComponent {
     icon="{{:: $ctrl.closeIcon}}"
     ng-click="$ctrl.onClear()"
   ></rg-button>
-  
+
   <label
     ng-if="!$ctrl.borderless"
     class="${styles.label}"
   >{{$ctrl.label}}</label>
-  
+
   <div ng-if="!$ctrl.borderless" class="${styles.underline}"></div>
   <div ng-if="!$ctrl.borderless" class="${styles.focusUnderline}"></div>
   <div ng-if="!$ctrl.borderless" class="${styles.errorUnderline}"></div>

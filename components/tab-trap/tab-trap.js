@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './tab-trap.css';
 
-export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button])';
+export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
 
 /**
  * @name TabTrap

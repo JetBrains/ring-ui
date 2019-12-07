@@ -14,7 +14,8 @@ export default {
 
   parameters: {
     notes: 'A component that displays a user agreement dialog.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    a11y: {element: '*[data-test~=ring-dialog]'}
   }
 };
 
@@ -83,5 +84,5 @@ export const service = () => {
 
 service.story = {
   name: 'service',
-  parameters: {hermione: {skip: true}}
+  parameters: {hermione: {skip: true}, a11y: {element: '*[data-test="alert-container"]'}}
 };
