@@ -68,3 +68,12 @@ After you make some visual changes, run `npm run hermione-test` to make sure the
 
 To update the reference images for a certain component (for example, `alert`):
 `yarn run hermione-gather --grep Components/Alert`.
+
+### Accessibility audit
+
+It is very important for web components to be accessible for everyone. We have some accessibility tests set up.
+
+To check current status on CI you may check [teamcity configuration](https://teamcity.jetbrains.com/buildConfiguration/JetBrainsUi_RingUi_A11yAudit).
+
+To run tests locally, run `yarn run a11y-audit`. Also, there is "Accessibility" tab on storybook pages, 
+so every component could be inspected via running storybook (`npm start`) and then checking this tab.
