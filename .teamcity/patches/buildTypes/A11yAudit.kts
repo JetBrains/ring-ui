@@ -47,5 +47,18 @@ changeBuildType(RelativeId("A11yAudit")) {
         feature1.apply {
             enabled = false
         }
+        val feature2 = find<CommitStatusPublisher> {
+            commitStatusPublisher {
+                publisher = upsource {
+                    serverUrl = "https://upsource.jetbrains.com"
+                    projectId = "ring-ui"
+                    userName = "TeamCityReporter"
+                    password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+                }
+            }
+        }
+        feature2.apply {
+            enabled = false
+        }
     }
 }
