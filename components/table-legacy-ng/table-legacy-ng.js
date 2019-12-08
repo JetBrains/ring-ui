@@ -302,13 +302,19 @@ angularModule.directive('rgLegacyTableCheckboxCell', function rgLegacyTableCheck
     transclude: true,
     require: '^rgLegacyTableRow',
     replace: true,
-    template: '<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}"><rg-checkbox ng-model="getRowItem().checked"/></td>',
+    template: `
+<td class="ring-table__selector ring-table__column_selector" ng-class="{\'ring-table__column\': !isEmbedded}">
+  <rg-checkbox ng-model="getRowItem().checked" title="{{getTitle()}}" aria-label="{{geAriaLabel()}}"/>
+</td>
+    `.trim(),
 
     link: function link(scope, iElement, iAttrs, rowCtrl) {
       /**
        * rowItem getter to use it as ng-model for checkbox
        */
       scope.getRowItem = () => rowCtrl.rowItem;
+      scope.getTitle = () => iAttrs.title || rowCtrl.rowItem.name;
+      scope.geAriaLabel = () => iAttrs.ariaLabel;
       scope.isEmbedded = angular.isDefined(iAttrs.embedded);
     }
   };
