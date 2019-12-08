@@ -30,6 +30,8 @@ angularModule.directive('rgCheckbox', function rgCheckboxDirective() {
     data-proxy-ng-true-value
     data-proxy-ng-false-value
     data-proxy-name
+    data-proxy-title
+    data-proxy-aria-label
     data-test="ring-checkbox"
     type="checkbox"
     class="${styles.input}"
