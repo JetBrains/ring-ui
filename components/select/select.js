@@ -1155,6 +1155,7 @@ export default class Select extends Component {
                 [styles.open]: this.state.showPopup,
                 [styles.label]: this._selectionIsEmpty()
               })}
+              aria-label={this._getLabel()}
               style={style}
               data-test="ring-select__focus"
               ref={this.buttonRef}
