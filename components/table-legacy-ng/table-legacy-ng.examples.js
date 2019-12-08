@@ -185,7 +185,7 @@ export const withSidebar = () => {
               <img alt="Avatar" ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
                 class="ring-table__avatar__img"/>
             </rg-legacy-table-column>
-            <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
+            <rg-legacy-table-checkbox-cell aria-label="Toggle row checked state"></rg-legacy-table-checkbox-cell>
             <rg-legacy-table-column limited>{{::item.name }}</rg-legacy-table-column>
             <rg-legacy-table-column>
               <rg-sidebar-toggle-button ng-show="item.active"
