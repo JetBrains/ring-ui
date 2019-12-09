@@ -11,6 +11,5 @@ initStoryshots({
     const consoleError = jest.spyOn(global.console, 'error');
     await renderOnly(...args);
     expect(consoleError).not.toBeCalled();
-    consoleError.mockRestore();
   }
 });
