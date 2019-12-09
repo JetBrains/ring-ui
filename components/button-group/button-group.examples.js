@@ -15,8 +15,8 @@ export default {
 };
 
 export const basic = () => (
-  <div>
-    <p>
+  <div className="container">
+    <div>
       <ButtonGroup>
         <Button>1st button</Button>
         <Button active>2nd button</Button>
@@ -24,15 +24,15 @@ export const basic = () => (
         <Button>4th button</Button>
         <Button short>...</Button>
       </ButtonGroup>
-    </p>
-    <p>
+    </div>
+    <div>
       <ButtonGroup>
         <Caption>Side:</Caption>
         <Button>Left</Button>
         <Button>Right</Button>
       </ButtonGroup>
-    </p>
-    <p>
+    </div>
+    <div>
       <ButtonGroup>
         <span>
           <Button>1st button</Button>
@@ -42,10 +42,19 @@ export const basic = () => (
         </span>
         <Button>3rd button</Button>
       </ButtonGroup>
-    </p>
+    </div>
   </div>
 );
 
 basic.story = {
-  name: 'basic'
+  name: 'basic',
+  parameters: {
+    storyStyles: `
+      <style>
+        .container > div {
+          margin: 1em 0;
+        }
+      </style>
+    `
+  }
 };
