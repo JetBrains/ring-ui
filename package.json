@@ -38,6 +38,7 @@
     "a11y-audit": "jest a11y-audit.test.js",
     "a11y-audit-ci": "jest a11y-audit.test.js --testResultsProcessor=@hypnosphi/jest-teamcity; node report-metadata.js",
     "console-errors": "jest console-errors.test.js --watchAll",
+    "console-errors-ci": "jest console-errors.test.js --testResultsProcessor=@hypnosphi/jest-teamcity",
     "test": "karma start",
     "test-generator-e2e": "yarn --cwd packages/generator test",
     "hermione-gui": "yarn --cwd packages/hermione run gui",
