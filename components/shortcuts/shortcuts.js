@@ -22,12 +22,12 @@ export default class Shortcuts extends PureComponent {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {disabled} = this.props;
-    if (!disabled && nextProps.disabled) {
+    if (!prevProps.disabled && disabled) {
       this.turnShorcutsOff();
     }
-    if (disabled && !nextProps.disabled) {
+    if (prevProps.disabled && !disabled) {
       this.turnShorcutsOn();
     }
   }
