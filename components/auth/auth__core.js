@@ -752,7 +752,7 @@ export default class Auth {
   }
 
   async _checkForStateRestoration() {
-    const authResponse = this._responseParser._authResponse;
+    const authResponse = this._responseParser.getAuthResponseFromURL();
     if (authResponse && this.config.cleanHash) {
       this.setHash('');
     }
