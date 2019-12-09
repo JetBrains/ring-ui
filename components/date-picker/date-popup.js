@@ -39,7 +39,8 @@ export default class DatePopup extends Component {
     onComplete: PropTypes.func,
     onClear: PropTypes.func,
     minDate: dateType,
-    maxDate: dateType
+    maxDate: dateType,
+    hidden: PropTypes.bool
   };
 
   static defaultProps = {
@@ -224,7 +225,7 @@ export default class DatePopup extends Component {
   handleScroll = scrollDate => this.setState({scrollDate});
 
   render() {
-    const {range} = this.props;
+    const {range, hidden} = this.props;
 
     const names = range ? ['from', 'to'] : ['date'];
     const dates = names.reduce((obj, key) => {
@@ -294,6 +295,7 @@ export default class DatePopup extends Component {
               key={name}
               date={dates[name]}
               active={this.state.active === name}
+              hidden={hidden}
               onActivate={this.handleActivate(name)}
               onInput={this.handleInput}
               onConfirm={this.handleConfirm(name)}
