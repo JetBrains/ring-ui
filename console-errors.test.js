@@ -1,6 +1,7 @@
 import initStoryshots, {renderOnly} from '@storybook/addon-storyshots';
 
 jest.mock('./components/loader/loader__core');
+jest.mock('./components/old-browsers-message/old-browsers-message');
 
 initStoryshots({
   framework: 'html',
