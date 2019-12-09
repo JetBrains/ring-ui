@@ -29,7 +29,7 @@
   background-color: background-color;
 
   font-size: 12px;
-  line-height: var(--ring-line-height);
+  line-height: var(--ring-line-height-lower);
 }
 
 .withRemove {
@@ -52,6 +52,7 @@
 
 .tagAngled {
   margin-left: unit;
+  padding-left: calc(unit / 2);
 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
