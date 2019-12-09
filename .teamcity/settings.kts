@@ -554,7 +554,7 @@ object ConsoleErrors : BuildType({
                 npm -v
 
                 yarn install
-                yarn jest console-errors.test.js
+                yarn console-errors-ci
             """.trimIndent()
             dockerImage = "node:lts"
         }
