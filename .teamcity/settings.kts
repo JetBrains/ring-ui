@@ -481,9 +481,7 @@ object A11yAudit : BuildType({
     }
 
     triggers {
-        vcs {
-            branchFilter = "+:refs/heads/*"
-        }
+        vcs {}
     }
 
     features {
@@ -512,6 +510,66 @@ object A11yAudit : BuildType({
             artifacts {
                 cleanDestination = true
                 artifactRules = "dist.zip!**=>dist"
+            }
+        }
+    }
+
+    requirements {
+        exists("docker.version")
+        contains("docker.server.osType", "linux")
+    }
+})
+
+
+object ConsoleErrors : BuildType({
+    name = "Console errors in examples"
+
+    allowExternalStatus = true
+
+    params {
+        param("vcs.branch.spec", """
+            +:refs/heads/*
+            +:refs/(pull/*)/merge
+            -:refs/heads/(gh-pages)
+        """.trimIndent())
+        param("github.com.builduser.name", "")
+        param("npmjs.com.auth.email", "")
+        param("github.com.builduser.email", "")
+        param("npmjs.com.auth.key", "")
+    }
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        script {
+            name = "Run test"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+
+                node -v
+                npm -v
+
+                yarn install
+                yarn jest console-errors.test.js
+            """.trimIndent()
+            dockerImage = "node:lts"
+        }
+    }
+
+    triggers {
+        vcs {}
+    }
+
+    features {
+        commitStatusPublisher {
+            publisher = upsource {
+                serverUrl = "https://upsource.jetbrains.com"
+                projectId = "ring-ui"
+                userName = "TeamCityReporter"
+                password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
             }
         }
     }
