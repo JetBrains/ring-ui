@@ -11,6 +11,46 @@ import DatePopup from './date-popup';
 import {dateType, parseDate} from './consts';
 import styles from './date-picker.css';
 
+const PopupComponent = ({
+  hidden,
+  className,
+  popupRef,
+  onClear,
+  datePopupProps,
+  onComplete,
+  ...restProps
+}) => (
+  <Popup
+    hidden={hidden}
+    keepMounted
+    className={className}
+    ref={popupRef}
+    directions={[
+      Popup.PopupProps.Directions.BOTTOM_RIGHT,
+      Popup.PopupProps.Directions.BOTTOM_LEFT,
+      Popup.PopupProps.Directions.TOP_LEFT,
+      Popup.PopupProps.Directions.TOP_RIGHT
+    ]}
+    {...restProps}
+  >
+    <DatePopup
+      onClear={onClear}
+      {...datePopupProps}
+      onComplete={onComplete}
+      hidden={hidden}
+    />
+  </Popup>
+);
+
+PopupComponent.propTypes = {
+  hidden: PropTypes.bool,
+  className: PropTypes.string,
+  popupRef: PropTypes.func,
+  onClear: PropTypes.func,
+  datePopupProps: PropTypes.shape(DatePopup.propTypes),
+  onComplete: PropTypes.func
+};
+
 /**
  * @name Date Picker
  */
@@ -140,23 +180,13 @@ export default class DatePicker extends PureComponent {
         anchor={text}
         {...dropdownProps}
       >
-        <Popup
-          keepMounted
+        <PopupComponent
           className={popupClassName}
-          ref={this.popupRef}
-          directions={[
-            Popup.PopupProps.Directions.BOTTOM_RIGHT,
-            Popup.PopupProps.Directions.BOTTOM_LEFT,
-            Popup.PopupProps.Directions.TOP_LEFT,
-            Popup.PopupProps.Directions.TOP_RIGHT
-          ]}
-        >
-          <DatePopup
-            onClear={clear ? this.clear : null}
-            {...datePopupProps}
-            onComplete={this.closePopup}
-          />
-        </Popup>
+          popupRef={this.popupRef}
+          onClear={clear ? this.clear : null}
+          datePopupProps={datePopupProps}
+          onComplete={this.closePopup}
+        />
       </Dropdown>
     );
   }

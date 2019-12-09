@@ -15,14 +15,18 @@ export default class DateInput extends Component {
     hoverDate: dateType,
     date: dateType,
     inputFormat: PropTypes.string,
+    hidden: PropTypes.bool,
     onInput: PropTypes.func,
     onActivate: PropTypes.func,
     onConfirm: PropTypes.func,
     onClear: PropTypes.func
   };
 
-  componentDidUpdate() {
-    this.updateInput(this.props);
+  componentDidUpdate(prevProps) {
+    const {hidden, text, active} = this.props;
+    if (!hidden && prevProps.hidden || text !== prevProps.text || active !== prevProps.active) {
+      this.updateInput({text, active});
+    }
   }
 
   inputRef = el => {
