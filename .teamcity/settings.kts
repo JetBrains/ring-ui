@@ -42,6 +42,7 @@ project {
     description = "https://jetbrains.github.io/ring-ui/"
 
     buildType(A11yAudit)
+    buildType(ConsoleErrors)
     buildType(UnpublishSpecificVersion)
     buildType(GeminiTests)
     buildType(UnitTestsAndBuild)
