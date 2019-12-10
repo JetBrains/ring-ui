@@ -1477,10 +1477,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.41":
-  version "2.0.41"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.41.tgz#f6be952b8c06cb020d2e43729637badc48b302c0"
-  integrity sha512-H5aKENjCDQNL0mCpWExaecVUbF4F+fEdNe1AnF1qcgkRgzE2ZYYSvWxRbLidYRx5BLD82c3aCxcxpbc2gfuerw==
+"@jetbrains/generator-ring-ui@^2.0.42":
+  version "2.0.42"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.42.tgz#7a3e85be3b8e3f20811319de1085997f8a6d2a1f"
+  integrity sha512-vTmxRRe7bXGy/lmcYKKNdyUNkCt+o5fmKL/Vu0fh+U35jX0zgn8L5TaCQu+7m6CxwS/t4e6s3cFwrWXyvR+4zA==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
@@ -4688,10 +4688,10 @@ babel-plugin-syntax-jsx@^6.18.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-jsx/-/babel-plugin-syntax-jsx-6.18.0.tgz#0af32a9a6e13ca7a3fd5069e62d7b0f58d0d8946"
   integrity sha1-CvMqmm4Tyno/1QaeYtew9Y0NiUY=
 
-babel-plugin-transform-define@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-define/-/babel-plugin-transform-define-1.3.1.tgz#b21b7bad3b84cf8e3f07cdc8c660b99cbbc01213"
-  integrity sha512-JXZ1xE9jIbKCGYZ4wbSMPSI5mdS4DRLi5+SkTHgZqWn5YIf/EucykkzUsPmzJlpkX8fsMVdLnA5vt/LvT97Zbg==
+babel-plugin-transform-define@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-define/-/babel-plugin-transform-define-2.0.0.tgz#79c3536635f899aabaf830b194b25519465675a4"
+  integrity sha512-0dv5RNRUlUKxGYIIErl01lpvi8b7W2R04Qcl1mCj70ahwZcgiklfXnFlh4FGnRh6aayCfSZKdhiMryVzcq5Dmg==
   dependencies:
     lodash "^4.17.11"
     traverse "0.6.6"
