@@ -10,7 +10,6 @@ import {ScrollHandlerContext} from './adaptive-island-hoc';
 
 const scheduleScrollAction = scheduleRAF();
 const noop = () => {};
-const resizeDetector = createResizeDetector({strategy: 'scroll'});
 const END_DISTANCE = 16;
 
 class Content extends Component {
@@ -41,15 +40,17 @@ class Content extends Component {
     if (!this.wrapperNode) {
       return;
     }
-    resizeDetector.removeAllListeners(this.wrapperNode);
+    this.resizeDetector.removeAllListeners(this.wrapperNode);
   }
+
+  resizeDetector = createResizeDetector({strategy: 'scroll'});
 
   setWrapper = node => {
     if (!node) {
       return;
     }
     this.wrapperNode = node;
-    resizeDetector.listenTo(node, this.calculateScrollPosition);
+    this.resizeDetector.listenTo(node, this.calculateScrollPosition);
   };
 
   calculateScrollPosition = () => scheduleScrollAction(() => {
