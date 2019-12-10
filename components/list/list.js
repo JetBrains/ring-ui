@@ -408,7 +408,9 @@ export default class List extends Component {
           return;
         }
 
-        preventDefault(e);
+        if (e.key !== 'Home' && e.key !== 'End') {
+          preventDefault(e);
+        }
       }
     );
   }
