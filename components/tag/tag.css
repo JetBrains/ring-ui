@@ -101,7 +101,7 @@
 .remove {
   position: absolute;
   z-index: 1;
-  top: -3px;
+  top: -1px;
   right: 4px;
 
   padding: 0 calc(unit / 2);
