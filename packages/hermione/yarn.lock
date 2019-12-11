@@ -2306,10 +2306,10 @@ html-encoding-sniffer@^1.0.2:
   dependencies:
     whatwg-encoding "^1.0.1"
 
-html-reporter@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-5.5.0.tgz#215dc48b07a3ee796c1189c58b3ac7b17a2492f0"
-  integrity sha512-SrY1euUxRHhg4N1pPAVEOhmI6NCdJ4lbX2QqR/f7EJU37Z/9noo4OzyW5nbpWet1fHfnOKzxxHxPy0j6WC+R8g==
+html-reporter@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-5.5.2.tgz#f416993c5630e0e9085636c8d776fdfa577e91bc"
+  integrity sha512-6qIlRAQjXRZPxFt1Egpg2GuSwVyLIdQFNqVBzWgCrTHs8S3LjJnzGj6/mWzfCv6/NAgkiOj4x4A+FZ1iLju2yQ==
   dependencies:
     "@gemini-testing/sql.js" "^1.0.1"
     bluebird "^3.5.3"
