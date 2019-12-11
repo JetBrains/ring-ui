@@ -39,6 +39,8 @@
 .container {
   position: relative;
 
+  display: inline-block;
+
   white-space: nowrap;
 }
 
