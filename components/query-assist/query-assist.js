@@ -226,7 +226,7 @@ export default class QueryAssist extends Component {
     const caretOffset = this.caret.getOffset();
 
     if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
-      this.input.scrollLeft = this.input.scrollLeft + caretOffset;
+      this.input.scrollLeft += caretOffset;
     }
   }
 
