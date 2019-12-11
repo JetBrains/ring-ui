@@ -1493,10 +1493,10 @@
     yeoman-generator "^4.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.5.0.tgz#c9800ddabaed6c9f5fac3cfbe41d0783bb5ec647"
-  integrity sha512-gznKgWPgm6CRZgqg3JFQXErj51pKlSiJXnIuggN63x0AILHbyMfECrqrxft3pPFp5db9sm6xTkq0k/0TW/SNnw==
+"@jetbrains/icons@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.6.0.tgz#20a1ff28d6a33f30a1b4f400748cc2f77c07ba42"
+  integrity sha512-PTe4BVpbAlVNKg8j8oh/66f4FrI7UykxhQ+0lngC7h4a63rh5ldkkdW9Bfk6tEpWXnM0yz1su3IUdyovmMaRFw==
 
 "@jetbrains/logos@^1.1.4":
   version "1.1.4"
