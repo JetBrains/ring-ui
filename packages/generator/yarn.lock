@@ -1339,7 +1339,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha1-FQStJSMVjKpA20onh8sBQRmU6k8=
 
-fullname@^3.2.0, fullname@^4.0.1:
+fullname@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/fullname/-/fullname-4.0.1.tgz#c4b0d85a90f8f4847980a5e7a859b86f89c49331"
   integrity sha512-jVT8q9Ah9JwqfIGKwKzTdbRRthdPpIjEe9kgvxM104Tv+q6SgOAQqJMVP90R0DBRAqejGMHDRWJtl3Ats6BjfQ==
@@ -2320,7 +2320,7 @@ lodash.padstart@^4.1.0:
   resolved "https://registry.yarnpkg.com/lodash.padstart/-/lodash.padstart-4.6.1.tgz#d2e3eebff0d9d39ad50f5cbd1b52a7bce6bb611b"
   integrity sha1-0uPuv/DZ05rVD1y9G1KnvOa7YRs=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.3.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.15, lodash@^4.17.2, lodash@^4.3.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -4464,10 +4464,10 @@ yeoman-option-or-prompt@^2.0.1:
   dependencies:
     pinkie-promise "2.0.1"
 
-yo@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/yo/-/yo-3.1.0.tgz#b835da951657ed5105ac7a47ba385983dba6bb51"
-  integrity sha512-boSESRRyvfyns3DfzxF2F0LVV97wSEFbKUi1oC7RwnZTA66KZ7Bo3JjOLe7mM6IjjeI0vEZcr4BbFjrSHh8d0Q==
+yo@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/yo/-/yo-3.1.1.tgz#ec8011ff8576015d2ace577470ff14aad48d57d3"
+  integrity sha512-GFg4QC1xi3gkbHGGUFme8/8XPg3kDISu/qJfx56X207yuv1FSevGY/eKuym7kh0bniCB4n3rseWW+QZXPH8LIw==
   dependencies:
     async "^2.6.1"
     chalk "^2.4.1"
@@ -4475,14 +4475,14 @@ yo@^3.1.0:
     configstore "^3.1.2"
     cross-spawn "^6.0.5"
     figures "^2.0.0"
-    fullname "^3.2.0"
+    fullname "^4.0.1"
     global-agent "^2.0.0"
     global-tunnel-ng "^2.7.1"
     got "^8.3.2"
     humanize-string "^1.0.2"
     inquirer "^6.0.0"
     insight "^0.10.3"
-    lodash "^4.17.11"
+    lodash "^4.17.15"
     meow "^3.0.0"
     npm-keyword "^5.0.0"
     open "^6.3.0"
