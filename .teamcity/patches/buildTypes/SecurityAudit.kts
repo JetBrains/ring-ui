@@ -10,6 +10,11 @@ To apply the patch, change the buildType with id = 'SecurityAudit'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("SecurityAudit")) {
+    check(artifactRules == "") {
+        "Unexpected option value: artifactRules = $artifactRules"
+    }
+    artifactRules = "yarn-audit.html"
+
     params {
         expect {
             param("npmjs.com.auth.key", "")
