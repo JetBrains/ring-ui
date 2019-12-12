@@ -102,7 +102,7 @@
     "core-js": "^2.6.5",
     "css-module-flow": "^1.0.0",
     "deep-assign": "^3.0.0",
-    "electron": "^7.1.2",
+    "electron": "^7.1.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.2",
