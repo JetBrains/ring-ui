@@ -43,6 +43,7 @@ project {
 
     buildType(A11yAudit)
     buildType(ConsoleErrors)
+    buildType(SecurityAudit)
     buildType(UnpublishSpecificVersion)
     buildType(GeminiTests)
     buildType(UnitTestsAndBuild)
@@ -573,6 +574,54 @@ object ConsoleErrors : BuildType({
                 password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
             }
         }
+    }
+
+    requirements {
+        exists("docker.version")
+        contains("docker.server.osType", "linux")
+    }
+})
+
+object SecurityAudit : BuildType({
+    name = "Dependencies security audit"
+
+    allowExternalStatus = true
+
+    params {
+        param("vcs.branch.spec", """
+            +:refs/heads/*
+            +:refs/(pull/*)/merge
+            -:refs/heads/(gh-pages)
+        """.trimIndent())
+        param("github.com.builduser.name", "")
+        param("npmjs.com.auth.email", "")
+        param("github.com.builduser.email", "")
+        param("npmjs.com.auth.key", "")
+    }
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    steps {
+        script {
+            name = "Run audit"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+
+                node -v
+                npm -v
+
+                yarn install
+                node security-audit-ci.js
+            """.trimIndent()
+            dockerImage = "node:lts"
+        }
+    }
+
+    triggers {
+        vcs {}
     }
 
     requirements {
