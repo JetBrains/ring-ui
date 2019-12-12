@@ -2,6 +2,7 @@ package patches.projects
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.Project
+import jetbrains.buildServer.configs.kotlin.v2018_2.projectFeatures.buildReportTab
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -16,6 +17,16 @@ changeProject(DslContext.projectId) {
         }
         update {
             text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
+        }
+    }
+
+    features {
+        add {
+            buildReportTab {
+                id = "PROJECT_EXT_156"
+                title = "Yarn audit"
+                startPage = "yarn-audit.html"
+            }
         }
     }
 }
