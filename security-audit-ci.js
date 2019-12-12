@@ -5,7 +5,6 @@ const tsm = require('teamcity-service-messages');
 
 try {
   execSync('yarn audit');
-  // eslint-disable-next-line no-process-exit
   process.exit(0);
 } catch (e) {
   writeFileSync(
