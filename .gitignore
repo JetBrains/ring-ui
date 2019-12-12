@@ -30,3 +30,4 @@ saucelabs-session.log*
 yarn-error.log
 package-lock.json
 /metadata-messages.json
+yarn-audit.html
