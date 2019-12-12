@@ -1477,10 +1477,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.42":
-  version "2.0.42"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.42.tgz#7a3e85be3b8e3f20811319de1085997f8a6d2a1f"
-  integrity sha512-vTmxRRe7bXGy/lmcYKKNdyUNkCt+o5fmKL/Vu0fh+U35jX0zgn8L5TaCQu+7m6CxwS/t4e6s3cFwrWXyvR+4zA==
+"@jetbrains/generator-ring-ui@^2.0.43":
+  version "2.0.43"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.43.tgz#7cd570f2b4cf7b9c7d8a0ccbd3a459a47fbd4890"
+  integrity sha512-HyNEoGNlWbjNCfMMGlyVBYqKRycry8pNQpoBYGPVzXnaZ1yM7utJaUHqpeDxf8SeyxYE9+4kSwMaFrCX2XmOIw==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
@@ -4351,7 +4351,7 @@ async@1.x:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.4, async@^2.5.0, async@^2.6.0, async@^2.6.1, async@^2.6.2:
+async@^2.1.4, async@^2.6.0, async@^2.6.1, async@^2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
@@ -8945,31 +8945,10 @@ gzip-size@5.0.0:
     duplexer "^0.1.1"
     pify "^3.0.0"
 
-handlebars@^4.0.1:
-  version "4.0.12"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.12.tgz#2c15c8a96d46da5e266700518ba8cb8d919d5bc5"
-  dependencies:
-    async "^2.5.0"
-    optimist "^0.6.1"
-    source-map "^0.6.1"
-  optionalDependencies:
-    uglify-js "^3.1.4"
-
-handlebars@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.0.tgz#0d6a6f34ff1f63cecec8423aa4169827bf787c3a"
-  integrity sha512-l2jRuU1NAWK6AW5qqcTATWQJvNPEwkM7NEKSiv/gqOsoSQbVoWyqVEY5GS+XPQ88zLNmqASRpzfdm8d79hJS+w==
-  dependencies:
-    async "^2.5.0"
-    optimist "^0.6.1"
-    source-map "^0.6.1"
-  optionalDependencies:
-    uglify-js "^3.1.4"
-
-handlebars@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
-  integrity sha512-nvfrjqvt9xQ8Z/w0ijewdD/vvWDTOweBUm96NTr66Wfvo1mJenBLwcYmPs3TIBP5ruzYGD7Hx/DaM9RmhroGPw==
+handlebars@^4.0.1, handlebars@^4.1.0, handlebars@^4.1.2, handlebars@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.3.tgz#5cf75bd8714f7605713511a56be7c349becb0482"
+  integrity sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -9171,10 +9150,12 @@ header-case@^1.0.0:
     no-case "^2.2.0"
     upper-case "^1.1.3"
 
-highlight.js@^9.16.2:
-  version "9.16.2"
-  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.16.2.tgz#68368d039ffe1c6211bcc07e483daf95de3e403e"
-  integrity sha512-feMUrVLZvjy0oC7FVJQcSQRqbBq9kwqnYE4+Kj9ZjbHh3g+BisiPgF49NyQbVLNdrL/qqZr3Ca9yOKwgn2i/tw==
+highlight.js@^9.17.0:
+  version "9.17.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.17.0.tgz#d2f3f746611a4d33b1920b9b067d39423bee7a9d"
+  integrity sha512-PyO7FK7z8ZC7FqBlmAxm4d+1DYaoS6+uaxt9KGkyP1AnmGRLnWmNod1yp9BFjUyHoDF00k+V57gF6X9ifY7f/A==
+  dependencies:
+    handlebars "^4.5.3"
 
 highlight.js@~9.12.0:
   version "9.12.0"
