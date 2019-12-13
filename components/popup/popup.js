@@ -169,7 +169,7 @@ export default class Popup extends PureComponent {
   }
 
   listeners = new Listeners();
-  redrawScheduler = scheduleRAF();
+  redrawScheduler = scheduleRAF(true);
   uid = getUID('popup-');
   calculateDisplay = prevState => ({
     ...prevState,
@@ -229,7 +229,7 @@ export default class Popup extends PureComponent {
         this.props.onDirectionChange(newDirection);
       }
     }
-  }
+  };
 
   _updatePosition = () => {
     if (this.popup) {
