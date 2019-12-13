@@ -256,11 +256,6 @@ async@^2.6.0, async@^2.6.1, async@^2.6.2:
   dependencies:
     lodash "^4.17.11"
 
-async@~0.2.9:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
-  integrity sha1-trvgsGdLnXGXCMo43owjfLUmw9E=
-
 asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
@@ -1242,13 +1237,6 @@ filter-obj@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/filter-obj/-/filter-obj-2.0.0.tgz#a6d579ee8c0778b0fc5cc2a859bf6e08dbfc3bac"
   integrity sha512-1zxy6OITvz/RlubpDlY6GG/eb38WAmSdy1j+LqxaqHhXYcFh/qIaLa+9usO2gaNSeVz8KgFUYubuX2gZhboziQ==
-
-find-port@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/find-port/-/find-port-2.0.1.tgz#e59923ce3283fcdfb1dfe029f8c19cc5c020a827"
-  integrity sha1-5ZkjzjKD/N+x3+Ap+MGcxcAgqCc=
-  dependencies:
-    async "~0.2.9"
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -3248,10 +3236,10 @@ read-pkg-up@^5.0.0:
     find-up "^3.0.0"
     read-pkg "^5.0.0"
 
-read-pkg-up@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.0.tgz#3f3e53858ec5ae5e6fe14bc479da0a7c98f85ff3"
-  integrity sha512-t2ODkS/vTTcRlKwZiZsaLGb5iwfx9Urp924aGzVyboU6+7Z2i6eGr/G1Z4mjvwLLQV3uFOBKobNRGM3ux2PD/w==
+read-pkg-up@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.1.tgz#f3a6135758459733ae2b95638056e1854e7ef507"
+  integrity sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==
   dependencies:
     find-up "^4.1.0"
     read-pkg "^5.2.0"
