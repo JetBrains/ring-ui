@@ -2,7 +2,7 @@
  * @name Popup
  */
 
-import React, {PureComponent} from 'react';
+import React, {createContext, forwardRef, PureComponent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -26,6 +26,33 @@ import position, {
 import styles from './popup.css';
 
 const stop = e => e.stopPropagation();
+
+const PopupTargetContext = createContext();
+export const PopupTarget = forwardRef(
+  function PopupTarget({id, className, children, ...restProps}, ref) {
+    const isFunctionChild = typeof children === 'function';
+    const target = (
+      <div
+        {...restProps}
+        className={classNames(styles.popupTarget, className)}
+        data-portaltarget={id}
+        ref={ref}
+      >
+        {!isFunctionChild && children}
+      </div>
+    );
+    return (
+      <PopupTargetContext.Provider value={id}>
+        {isFunctionChild ? children(target) : target}
+      </PopupTargetContext.Provider>
+    );
+  }
+);
+PopupTarget.propTypes = {
+  id: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
+};
 
 /**
  * @constructor
@@ -74,14 +101,6 @@ export default class Popup extends PureComponent {
     onShow: PropTypes.func
   };
 
-  static contextTypes = {
-    ringPopupTarget: PropTypes.string
-  };
-
-  static childContextTypes = {
-    ringPopupTarget: PropTypes.string
-  };
-
   static defaultProps = {
     shortcuts: true,
     hidden: false,
@@ -105,15 +124,8 @@ export default class Popup extends PureComponent {
   };
 
   state = {
-    shortcuts: this.props.shortcuts && !this.props.hidden,
     display: Display.SHOWING
   };
-
-  getChildContext() {
-    return {
-      ringPopupTarget: this.uid
-    };
-  }
 
   componentDidMount() {
     if (!this.props.client) {
@@ -122,13 +134,6 @@ export default class Popup extends PureComponent {
     }
     if (!this.props.hidden) {
       this._setListenersEnabled(true);
-    }
-  }
-
-  UNSAFE_componentWillUpdate(nextProps) {
-    const shortcuts = nextProps.shortcuts && !nextProps.hidden;
-    if (this.state.shortcuts !== shortcuts) {
-      this.setState({shortcuts});
     }
   }
 
@@ -193,7 +198,7 @@ export default class Popup extends PureComponent {
   };
 
   getContainer() {
-    const target = this.props.target || this.context.ringPopupTarget;
+    const target = this.props.target || this.ringPopupTarget;
     return target && document.querySelector(`[data-portaltarget=${target}]`);
   }
 
@@ -326,7 +331,7 @@ export default class Popup extends PureComponent {
 
   render() {
     const {
-      className, style, hidden, attached, keepMounted, client,
+      className, style, hidden, attached, keepMounted, client, shortcuts,
       onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -341,50 +346,57 @@ export default class Popup extends PureComponent {
       toLowerCase().replace(/[_]/g, '-');
 
     return (
-      <span
-        // prevent bubbling through portal
-        onClick={stop}
-        // This handler only blocks bubbling through React portal
-        role="presentation"
-        ref={this.portalRef}
-      >
-        {this.state.shortcuts &&
-          (
-            <Shortcuts
-              map={this.shortcutsMap}
-              scope={this.shortcutsScope}
-            />
-          )
-        }
-
-        {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
-          <div
-            data-portaltarget={this.uid}
-            ref={this.containerRef}
-            onMouseOver={onMouseOver}
-            onFocus={onMouseOver}
-            onMouseOut={onMouseOut}
-            onBlur={onMouseOut}
-            onContextMenu={onContextMenu}
-          >
-            <div
-              data-test={dataTests('ring-popup', dataTest)}
-              data-test-shown={!hidden && !showing}
-              data-test-direction={direction}
-              ref={this.popupRef}
-              className={classes}
-              style={style}
-              onMouseDown={onMouseDown}
-              onMouseUp={onMouseUp}
-              // mouse handlers are used to track clicking on inner elements
+      <PopupTargetContext.Consumer>
+        {value => {
+          this.ringPopupTarget = value;
+          return (
+            <span
+              // prevent bubbling through portal
+              onClick={stop}
+              // This handler only blocks bubbling through React portal
               role="presentation"
+              ref={this.portalRef}
             >
-              {this.getInternalContent()}
-            </div>
-          </div>,
-          this.getContainer() || document.body
-        )}
-      </span>
+              {shortcuts && !hidden &&
+                (
+                  <Shortcuts
+                    map={this.shortcutsMap}
+                    scope={this.shortcutsScope}
+                  />
+                )
+              }
+
+              {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
+                <PopupTarget
+                  id={this.uid}
+                  ref={this.containerRef}
+                  onMouseOver={onMouseOver}
+                  onFocus={onMouseOver}
+                  onMouseOut={onMouseOut}
+                  onBlur={onMouseOut}
+                  onContextMenu={onContextMenu}
+                >
+                  <div
+                    data-test={dataTests('ring-popup', dataTest)}
+                    data-test-shown={!hidden && !showing}
+                    data-test-direction={direction}
+                    ref={this.popupRef}
+                    className={classes}
+                    style={style}
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                    // mouse handlers are used to track clicking on inner elements
+                    role="presentation"
+                  >
+                    {this.getInternalContent()}
+                  </div>
+                </PopupTarget>,
+                this.getContainer() || document.body
+              )}
+            </span>
+          );
+        }}
+      </PopupTargetContext.Consumer>
     );
   }
 }
