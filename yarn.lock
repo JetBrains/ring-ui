@@ -1470,19 +1470,18 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.43":
-  version "2.0.43"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.43.tgz#7cd570f2b4cf7b9c7d8a0ccbd3a459a47fbd4890"
-  integrity sha512-HyNEoGNlWbjNCfMMGlyVBYqKRycry8pNQpoBYGPVzXnaZ1yM7utJaUHqpeDxf8SeyxYE9+4kSwMaFrCX2XmOIw==
+"@jetbrains/generator-ring-ui@^2.0.44":
+  version "2.0.44"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.44.tgz#f290af4a58020b0a472abcf6e664b830452500a9"
+  integrity sha512-Jm1717pZAqUFYc8mokVEKHKos961tscLcjZQmaXbD9lpDNDQ9uMLSWnr8UBw4lGa7AvtoYEOC+DKHFT6DHH7ug==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
-    find-port "^2.0.1"
     ora "^4.0.3"
     package-json "^6.5.0"
     pify "^4.0.1"
     portscanner "^2.2.0"
-    read-pkg-up "^7.0.0"
+    read-pkg-up "^7.0.1"
     yeoman-generator "^4.2.0"
     yeoman-option-or-prompt "^2.0.1"
 
@@ -4361,11 +4360,6 @@ async@^2.1.4, async@^2.6.0, async@^2.6.1, async@^2.6.2:
   integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
   dependencies:
     lodash "^4.17.14"
-
-async@~0.2.9:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/async/-/async-0.2.10.tgz#b6bbe0b0674b9d719708ca38de8c237cb526c3d1"
-  integrity sha1-trvgsGdLnXGXCMo43owjfLUmw9E=
 
 async@~3.0.1:
   version "3.0.1"
@@ -8114,13 +8108,6 @@ find-npm-prefix@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/find-npm-prefix/-/find-npm-prefix-1.0.2.tgz#8d8ce2c78b3b4b9e66c8acc6a37c231eb841cfdf"
   integrity sha512-KEftzJ+H90x6pcKtdXZEPsQse8/y/UnvzRKrOSQFprnrGaFuJ62fVkP34Iu2IYuMvyauCyoLTNkJZgrrGA2wkA==
-
-find-port@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/find-port/-/find-port-2.0.1.tgz#e59923ce3283fcdfb1dfe029f8c19cc5c020a827"
-  integrity sha1-5ZkjzjKD/N+x3+Ap+MGcxcAgqCc=
-  dependencies:
-    async "~0.2.9"
 
 find-root@^1.1.0:
   version "1.1.0"
@@ -14992,6 +14979,15 @@ read-pkg-up@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.0.tgz#3f3e53858ec5ae5e6fe14bc479da0a7c98f85ff3"
   integrity sha512-t2ODkS/vTTcRlKwZiZsaLGb5iwfx9Urp924aGzVyboU6+7Z2i6eGr/G1Z4mjvwLLQV3uFOBKobNRGM3ux2PD/w==
+  dependencies:
+    find-up "^4.1.0"
+    read-pkg "^5.2.0"
+    type-fest "^0.8.1"
+
+read-pkg-up@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-7.0.1.tgz#f3a6135758459733ae2b95638056e1854e7ef507"
+  integrity sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==
   dependencies:
     find-up "^4.1.0"
     read-pkg "^5.2.0"
