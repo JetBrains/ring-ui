@@ -8,6 +8,8 @@ import Button from '../button/button';
 
 import getUID from '../global/get-uid';
 
+import Icon from '../icon/icon';
+
 import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
 
@@ -37,6 +39,7 @@ export class Input extends PureComponent {
     error: PropTypes.string,
     multiline: PropTypes.bool,
     borderless: PropTypes.bool,
+    compact: PropTypes.bool,
     onChange: PropTypes.func,
     onClear: PropTypes.func,
     inputRef: PropTypes.oneOfType([
@@ -47,7 +50,8 @@ export class Input extends PureComponent {
     enableShortcuts: PropTypes.bool,
     disabled: PropTypes.bool,
     id: PropTypes.string,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
   };
 
   static defaultProps = {
@@ -129,6 +133,7 @@ export class Input extends PureComponent {
       active,
       multiline,
       borderless,
+      compact,
 
       // Props
       label,
@@ -143,8 +148,10 @@ export class Input extends PureComponent {
       enableShortcuts,
       id,
       placeholder,
+      icon,
       ...restProps
     } = this.props;
+    const minimizeMargins = compact || borderless;
     const {empty} = this.state;
     const clearable = !!onClear;
     const classes = classNames(
@@ -158,8 +165,9 @@ export class Input extends PureComponent {
         [styles.error]: error != null,
         [styles.empty]: empty,
         [styles.noLabel]: !this.props.label,
+        [styles.withIcon]: icon != null,
         [styles.clearable]: clearable,
-        [styles.borderless]: borderless
+        [styles.compact]: minimizeMargins
       }
     );
 
@@ -174,6 +182,7 @@ export class Input extends PureComponent {
         className={classes}
         data-test="ring-input"
       >
+        {icon && <Icon glyph={icon} className={styles.icon}/>}
         <TagName
           ref={this.inputRef}
           onChange={this.handleChange}
@@ -196,11 +205,11 @@ export class Input extends PureComponent {
           />
         )}
 
-        {!borderless && <label htmlFor={this.getId()} className={styles.label}>{label}</label>}
+        {!minimizeMargins && <label htmlFor={this.getId()} className={styles.label}>{label}</label>}
         {!borderless && <div className={styles.underline}/>}
         {!borderless && <div className={styles.focusUnderline}/>}
-        {!borderless && <div className={styles.errorUnderline}/>}
-        {!borderless && (
+        {!minimizeMargins && <div className={styles.errorUnderline}/>}
+        {!minimizeMargins && (
           <div
             className={styles.errorText}
             ref={this.errorRef}
