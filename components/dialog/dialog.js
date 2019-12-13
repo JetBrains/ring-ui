@@ -113,7 +113,7 @@ export default class Dialog extends PureComponent {
     const shortcutsMap = this.getShortcutsMap();
 
     return show && createPortal(
-      <PopupTarget id={this.uid}>
+      <PopupTarget id={this.uid} className={styles.popupTarget}>
         {
           target => (
             <TabTrap

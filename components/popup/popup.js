@@ -29,12 +29,11 @@ const stop = e => e.stopPropagation();
 
 const PopupTargetContext = createContext();
 export const PopupTarget = forwardRef(
-  function PopupTarget({id, className, children, ...restProps}, ref) {
+  function PopupTarget({id, children, ...restProps}, ref) {
     const isFunctionChild = typeof children === 'function';
     const target = (
       <div
         {...restProps}
-        className={classNames(styles.popupTarget, className)}
         data-portaltarget={id}
         ref={ref}
       >
@@ -50,7 +49,6 @@ export const PopupTarget = forwardRef(
 );
 PopupTarget.propTypes = {
   id: PropTypes.string.isRequired,
-  className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 };
 
