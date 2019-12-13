@@ -50,7 +50,7 @@ export const basic = () => {
   return (
     <form className="inputs">
       <Input label="Labeled input"/>
-      <Input name="login" label="Hint" placeholder="Hint"/>
+      <Input name="login" label="Label and hint" placeholder="Hint"/>
       <Input label="Label and value" defaultValue="Default value"/>
       <ClearableInput label="Clearable input" defaultValue="Default value"/>
       <ClearableInput
