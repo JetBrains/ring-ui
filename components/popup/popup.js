@@ -163,6 +163,11 @@ export default class Popup extends PureComponent {
     this.popup = null;
   }
 
+  shouldUseShortcuts() {
+    const {shortcuts, hidden} = this.props;
+    return shortcuts && !hidden;
+  }
+
   listeners = new Listeners();
   redrawScheduler = scheduleRAF();
   uid = getUID('popup-');
@@ -331,7 +336,7 @@ export default class Popup extends PureComponent {
 
   render() {
     const {
-      className, style, hidden, attached, keepMounted, client, shortcuts,
+      className, style, hidden, attached, keepMounted, client,
       onMouseDown, onMouseUp, onMouseOver, onMouseOut, onContextMenu, 'data-test': dataTest
     } = this.props;
     const showing = this.state.display === Display.SHOWING;
@@ -357,7 +362,7 @@ export default class Popup extends PureComponent {
               role="presentation"
               ref={this.portalRef}
             >
-              {shortcuts && !hidden &&
+              {this.shouldUseShortcuts() &&
                 (
                   <Shortcuts
                     map={this.shortcutsMap}

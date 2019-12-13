@@ -45,7 +45,7 @@ export default class PopupMenu extends Popup {
           ref={this.listRef}
           {...props}
           maxHeight={this.popup && this.popup.style.maxHeight}
-          shortcuts={this.state.shortcuts}
+          shortcuts={this.shouldUseShortcuts()}
           onSelect={this.onSelect}
         />
       </div>
