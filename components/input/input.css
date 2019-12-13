@@ -1,6 +1,7 @@
 @import "../global/variables.css";
 
 @value unit from "../global/global.css";
+@value iconOffset: calc(unit * 3 - 2px);
 
 .container {
   composes: font-lower from  "../global/global.css";
@@ -16,7 +17,7 @@
   }
 }
 
-.borderless {
+.compact {
   min-height: calc(unit * 4);
   padding: 0;
 }
@@ -82,10 +83,41 @@
   }
 }
 
-.clear {
+.withIcon .input,
+.withIcon .label {
+  padding-left: iconOffset;
+
+  @nest [dir=rtl] & {
+    padding-right: iconOffset;
+    padding-left: 0;
+  }
+}
+
+.icon,
+/* override Button */
+.clear.clear {
   position: absolute;
   top: 17px;
 
+  line-height: calc(unit * 4);
+
+  @nest .compact & {
+    top: 1px;
+  }
+}
+
+.icon {
+  left: 0;
+
+  color: var(--ring-icon-color);
+
+  @nest [dir=rtl] & {
+    right: 0;
+    left: auto;
+  }
+}
+
+.clear {
   right: 0;
 
   padding-right: 0;
@@ -94,19 +126,10 @@
     display: none;
   }
 
-  @nest .borderless & {
-    top: 0;
-  }
-
   @nest [dir=rtl] & {
     right: auto;
     left: 0;
   }
-}
-
-/* override Button */
-.clear.clear {
-  line-height: calc(unit * 4);
 }
 
 textarea.input {
@@ -120,7 +143,7 @@ textarea.input {
 
 .label {
   position: absolute;
-  top: calc(unit * 3 - 3px);
+  top: calc(unit * 3 - 1px);
   left: 0;
 
   transition: transform var(--ring-fast-ease), color var(--ring-fast-ease);
@@ -139,7 +162,7 @@ textarea.input {
 .input:focus ~ .label,
 .container.active > .label,
 .container:not(.empty) > .label {
-  transform: translateY(calc(unit * -2 - 1px)) scale(calc(12 / 13));
+  transform: translateY(calc(unit * -2.5)) scale(calc(12 / 13));
 }
 
 .noLabel ::placeholder,

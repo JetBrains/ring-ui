@@ -1,4 +1,5 @@
 import React, {PureComponent, useRef} from 'react';
+import searchIcon from '@jetbrains/icons/search.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -49,7 +50,7 @@ export const basic = () => {
   return (
     <form className="inputs">
       <Input label="Labeled input"/>
-      <Input name="login" label="Label and hint" placeholder="Hint"/>
+      <Input name="login" label="Hint" placeholder="Hint"/>
       <Input label="Label and value" defaultValue="Default value"/>
       <ClearableInput label="Clearable input" defaultValue="Default value"/>
       <ClearableInput
@@ -58,8 +59,9 @@ export const basic = () => {
         defaultValue="Default value"
         disabled
       />
+      <Input label="Input with icon" icon={searchIcon}/>
       <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
-      <Input label="Active input" active defaultValue="Default value"/>
+      <ClearableInput placeholder="Hint" defaultValue="Compact input" compact icon={searchIcon}/>
       <Input label="Disabled input" disabled defaultValue="Default value"/>
       <Input
         label="Invalid input"
