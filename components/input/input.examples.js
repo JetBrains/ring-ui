@@ -1,4 +1,5 @@
 import React, {PureComponent, useRef} from 'react';
+import searchIcon from '@jetbrains/icons/search.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -58,8 +59,9 @@ export const basic = () => {
         defaultValue="Default value"
         disabled
       />
+      <Input label="Input with icon" icon={searchIcon}/>
       <ClearableInput placeholder="Hint" defaultValue="Borderless input" borderless/>
-      <Input label="Active input" active defaultValue="Default value"/>
+      <ClearableInput placeholder="Hint" defaultValue="Compact input" compact icon={searchIcon}/>
       <Input label="Disabled input" disabled defaultValue="Default value"/>
       <Input
         label="Invalid input"
