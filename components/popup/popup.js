@@ -133,8 +133,8 @@ export default class Popup extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const {hidden} = this.props;
     if (this.props !== prevProps) {
-      const {hidden} = this.props;
 
       if (prevProps.hidden !== hidden) {
         this._setListenersEnabled(!hidden);
@@ -145,8 +145,9 @@ export default class Popup extends PureComponent {
 
     if (
       this.props.onShow &&
+      !hidden &&
       this.state.display === Display.SHOWN &&
-      prevState.display !== Display.SHOWN
+      (prevProps.hidden || prevState.display !== Display.SHOWN)
     ) {
       this.props.onShow();
     }
