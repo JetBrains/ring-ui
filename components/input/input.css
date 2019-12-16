@@ -35,12 +35,7 @@
   caret-color: var(--ring-main-color);
 
   @nest .clearable & {
-    padding-right: calc(unit * 3);
-
-    @nest [dir=rtl] & {
-      padding-right: 0;
-      padding-left: calc(unit * 3);
-    }
+    padding-inline-end: calc(unit * 3);
   }
 
   @nest .light & {
@@ -85,12 +80,7 @@
 
 .withIcon .input,
 .withIcon .label {
-  padding-left: iconOffset;
-
-  @nest [dir=rtl] & {
-    padding-right: iconOffset;
-    padding-left: 0;
-  }
+  padding-inline-start: iconOffset;
 }
 
 .icon,
