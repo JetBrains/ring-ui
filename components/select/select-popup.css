@@ -33,18 +33,28 @@
   position: relative;
 
   margin: 0;
-  padding-inline-start: calc(unit * 5.5);
-  padding-inline-end: unit;
+  padding-right: unit;
+  padding-left: calc(unit * 5.5);
 
   border-bottom: 1px solid var(--ring-borders-color);
+
+  @nest [dir=rtl] & {
+    padding-right: calc(unit * 5.5);
+    padding-left: unit;
+  }
 }
 
 .filterIcon {
   position: absolute;
   top: 7px;
-  padding-inline-start: calc(unit * 2);
+  left: calc(unit * 2);
 
   color: var(--ring-icon-color);
+
+  @nest [dir=rtl] & {
+    right: calc(unit * 2);
+    left: auto;
+  }
 }
 
 .bottomLine {
