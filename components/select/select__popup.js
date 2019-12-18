@@ -375,7 +375,7 @@ export default class SelectPopup extends Component {
       // a link on the container node. It looks awkward using popup in this component
       // maybe we can find a better solution
       const anchorNode = this.props.anchorElement;
-      const containerNode = this.popup && this.popup.getContainer();
+      const containerNode = document.documentElement; // A temporary fix for RG-2050. To be made permanent if working
       this._cachedAdjustedMaxHeight = (Math.min(
         directions.reduce((maxHeight, direction) => (
           Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
