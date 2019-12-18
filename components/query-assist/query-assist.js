@@ -270,6 +270,8 @@ export default class QueryAssist extends Component {
     this.immediateState = props;
     this.props.onChange(props);
 
+    // If we don't check, we can lose focus or break selection
+    // when popup is appears
     if (this.caret.getPosition() !== -1) {
       this.requestData();
     }
