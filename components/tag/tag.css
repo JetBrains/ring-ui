@@ -14,10 +14,11 @@
 
   box-sizing: border-box;
   max-width: 100%;
+  max-width: calc(100% - 4px);
   height: max-height;
 
   margin-right: calc(unit / 2);
-  margin-bottom: -6px; /* it needs to fix vertical alignment broken by "overflow: hidden" */
+  margin-bottom: 1px;
   padding: 1px unit;
 
   vertical-align: top;
