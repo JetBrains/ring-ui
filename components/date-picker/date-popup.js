@@ -151,10 +151,26 @@ export default class DatePopup extends Component {
   }
 
   confirm(name) {
+    const text = this.state.text;
+
     this.select({
-      [name]: this.parseDate(this.state.text) || this.props[name]
+      [name]: this.isTextValidDate(text) ? this.parseDate(text) : this.props[name]
     });
   }
+
+  isTextValidDate = text => {
+    const minDate = this.parseDate(this.props.minDate);
+    const maxDate = this.parseDate(this.props.maxDate);
+    const parsedText = this.parseDate(text);
+
+    if (parsedText) {
+      return (!(
+        minDate && parsedText.isBefore(minDate) ||
+        maxDate && parsedText.isAfter(maxDate)
+      ));
+    }
+    return false;
+  };
 
   scheduleScroll = () => {
     const current =
@@ -194,9 +210,8 @@ export default class DatePopup extends Component {
   handleActivate = memoize(name => () => this.setState({active: name}));
 
   handleInput = text => {
-    const scrollDate = this.parseDate(text);
-    if (scrollDate) {
-      this.scrollTo(scrollDate);
+    if (this.isTextValidDate(text)) {
+      this.scrollTo(this.parseDate(text));
     }
     this.setState({
       text,
