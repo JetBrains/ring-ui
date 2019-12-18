@@ -65,20 +65,6 @@ export default class DatePopup extends Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const name = prevState.active;
-    if (nextProps[name] &&
-      !DatePopup.sameDay(prevState[name],
-        nextProps[name],
-        nextProps.inputFormat,
-        nextProps.displayFormat
-      )
-    ) {
-      return {...prevState, text: null};
-    }
-    return null;
-  }
-
   componentDidMount() {
     if (this.componentRef.current) {
       this.componentRef.current.addEventListener('wheel', this.handleWheel);
@@ -178,7 +164,7 @@ export default class DatePopup extends Component {
     const goal = this._scrollDate;
     if (!current ||
       !goal ||
-      this.sameDay(goal, current, this.props.inputFormat, this.props.displayFormat)
+      DatePopup.sameDay(goal, current, this.props.inputFormat, this.props.displayFormat)
     ) {
       this._scrollDate = null;
       this._scrollTS = null;
