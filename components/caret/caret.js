@@ -54,6 +54,8 @@ export default class Caret {
       }
 
       const range1 = selection.getRangeAt(0);
+      // If we don't check, we can lose focus or break selection
+      // when popup is appears
       if (range1.startContainer !== range1.endContainer) {
         return -1;
       }
