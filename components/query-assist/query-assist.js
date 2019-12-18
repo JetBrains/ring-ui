@@ -269,7 +269,10 @@ export default class QueryAssist extends Component {
 
     this.immediateState = props;
     this.props.onChange(props);
-    this.requestData();
+
+    if (this.caret.getPosition() !== -1) {
+      this.requestData();
+    }
   };
 
   // It's necessary to prevent new element creation before any other hooks

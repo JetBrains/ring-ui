@@ -54,6 +54,9 @@ export default class Caret {
       }
 
       const range1 = selection.getRangeAt(0);
+      if (range1.startContainer !== range1.endContainer) {
+        return -1;
+      }
 
       const range2 = range1.cloneRange();
 
