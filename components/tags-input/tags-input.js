@@ -309,6 +309,7 @@ export default class TagsInput extends Component {
         >
           <Select
             ref={this.selectRef}
+            size={Select.Size.FULL}
             type={Select.Type.INPUT_WITHOUT_CONTROLS}
             inputPlaceholder={this.props.placeholder}
             data={this.state.suggestions}
