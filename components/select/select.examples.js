@@ -8,6 +8,7 @@ import {WarningIcon} from '../icon';
 import Link from '../link/link';
 import Popup from '../popup/popup';
 import List from '../list/list';
+import Dropdown from '../dropdown/dropdown';
 import Auth from '../auth/auth';
 import Source from '../list/list__users-groups-source';
 import '../input-size/input-size.scss';
@@ -1132,3 +1133,48 @@ multipleWithLimit.story = {
   name: 'multiple with limit',
   parameters: {hermione: {skip: true}}
 };
+
+export const selectInPopup = () => {
+  const data = [
+    {label: 'One long label', key: '1'},
+    {label: 'Two long label', key: '2'},
+    {label: 'Three long label', key: '3'},
+    {label: 'Four long label', key: '4'},
+    {label: 'Five long label', key: '5'},
+    {label: 'Six long label', key: '6'}
+  ];
+
+  function onSelect(selected) {
+    action('selected')(selected);
+  }
+
+  return (
+    <Dropdown
+      anchor="Open dropdown"
+    >
+      <Popup className={'popup-test-class'} maxHeight={100}>
+        <Select
+          filter
+          data={data}
+          onSelect={onSelect}
+        />
+      </Popup>
+    </Dropdown>
+  );
+};
+
+selectInPopup.story = {
+  name: 'Select in Popup',
+  parameters: {
+    hermione: {skip: true},
+    storyStyles: `
+  <style>
+    .popup-test-class {
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+        `
+  }
+};
+
