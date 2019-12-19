@@ -214,11 +214,17 @@ export default class QueryAssist extends Component {
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
         : queryLength;
-
     if (this.immediateState.focus && !this.props.disabled) {
-      // Set to end of field value if newCaretPosition is inappropriate
-      this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
-      this.scrollInput();
+      if (Number.isInteger(this.immediateState.selection)) {
+        // Set to end of field value if newCaretPosition is inappropriate
+        this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
+        this.scrollInput();
+      } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
+        undefined) {
+        this.caret.setPosition(this.immediateState.selection);
+      } else {
+        this.caret.setPosition(-1);
+      }
     }
   };
 
@@ -254,7 +260,9 @@ export default class QueryAssist extends Component {
     const props = {
       dirty: true,
       query: this.getQuery(),
-      caret: this.caret.getPosition(),
+      caret: Number.isInteger(this.caret.getPosition())
+        ? this.caret.getPosition()
+        : this.caret.getPosition().startOffset,
       focus: true
     };
 
@@ -269,12 +277,7 @@ export default class QueryAssist extends Component {
 
     this.immediateState = props;
     this.props.onChange(props);
-
-    // If we don't check, we can lose focus or break selection
-    // when popup is appears
-    if (this.caret.getPosition() !== -1) {
-      this.requestData();
-    }
+    this.requestData();
   };
 
   // It's necessary to prevent new element creation before any other hooks
@@ -321,7 +324,9 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    const caret = this.caret.getPosition();
+    const caret = Number.isInteger(this.caret.getPosition())
+      ? this.caret.getPosition()
+      : this.caret.getPosition().startOffset;
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
@@ -361,6 +366,7 @@ export default class QueryAssist extends Component {
         state.styleRanges = styleRanges;
       }
 
+      this.immediateState.selection = this.caret.getPosition();
       this.setState(state, resolve);
     } else {
       reject(new Error('Current and response queries mismatch'));
