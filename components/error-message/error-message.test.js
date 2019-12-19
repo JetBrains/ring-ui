@@ -18,6 +18,4 @@ describe('Error Message', () => {
   it('should use passed className', () => {
     shallowErrorMessage({className: 'test-class'}).should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });

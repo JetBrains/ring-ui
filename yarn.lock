@@ -1470,10 +1470,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.45":
-  version "2.0.45"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.45.tgz#3b78649a4ab68785e409f0d410b53f4d7c77b7b6"
-  integrity sha512-KMbclfAsJ8YbllUY/mePxTt/Ii+0N7zQQNdixUurNgy+n/d8D0IGAJ3OO7ZxjUTLvAHvoVlZOCRA5OryksmfNQ==
+"@jetbrains/generator-ring-ui@^2.0.46":
+  version "2.0.46"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.46.tgz#2c3602dd712fe389647947eba061407f88ec12b9"
+  integrity sha512-cH2zzkFyJBmesdJhNFdNGe+15IzK+s2zEpNs2W/Kx1g29SpQ+xiIc1fqDNA8JfIOWet+c6Hl1drPmJTpOlOzAw==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
@@ -1482,7 +1482,7 @@
     pify "^4.0.1"
     portscanner "^2.2.0"
     read-pkg-up "^7.0.1"
-    yeoman-generator "^4.2.0"
+    yeoman-generator "^4.3.0"
     yeoman-option-or-prompt "^2.0.1"
 
 "@jetbrains/icons@^3.6.0":
@@ -5086,6 +5086,15 @@ browserslist@^4.7.3:
     electron-to-chromium "^1.3.306"
     node-releases "^1.1.40"
 
+browserslist@^4.8.2:
+  version "4.8.2"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.8.2.tgz#b45720ad5fbc8713b7253c20766f701c9a694289"
+  integrity sha512-+M4oeaTplPm/f1pXDw84YohEv7B1i/2Aisei8s4s6k3QsoSHa7i5sz8u/cGQkkatCPxMASKxPualR4wwYgVboA==
+  dependencies:
+    caniuse-lite "^1.0.30001015"
+    electron-to-chromium "^1.3.322"
+    node-releases "^1.1.42"
+
 bser@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/bser/-/bser-2.1.1.tgz#e6787da20ece9d07998533cfd9de6f5c38f4bc05"
@@ -5342,6 +5351,11 @@ caniuse-lite@^1.0.30001010:
   version "1.0.30001010"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001010.tgz#397a14034d384260453cc81994f494626d34b938"
   integrity sha512-RA5GH9YjFNea4ZQszdWgh2SC+dpLiRAg4VDQS2b5JRI45OxmbGrYocYHTa9x0bKMQUE7uvHkNPNffUr+pCxSGw==
+
+caniuse-lite@^1.0.30001015, caniuse-lite@^1.0.30001016:
+  version "1.0.30001016"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001016.tgz#16ea48d7d6e8caf3cad3295c2d746fe38c4e7f66"
+  integrity sha512-yYQ2QfotceRiH4U+h1Us86WJXtVHDmy3nEKIdYPsZCYnOV5/tMgGbmoIlrMzmh2VXlproqYtVaKeGDBkMZifFA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -7015,6 +7029,11 @@ electron-to-chromium@^1.3.306:
   version "1.3.306"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.306.tgz#e8265301d053d5f74e36cb876486830261fbe946"
   integrity sha512-frDqXvrIROoYvikSKTIKbHbzO6M3/qC6kCIt/1FOa9kALe++c4VAJnwjSFvf1tYLEUsP2n9XZ4XSCyqc3l7A/A==
+
+electron-to-chromium@^1.3.322:
+  version "1.3.322"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.322.tgz#a6f7e1c79025c2b05838e8e344f6e89eb83213a8"
+  integrity sha512-Tc8JQEfGQ1MzfSzI/bTlSr7btJv/FFO7Yh6tanqVmIWOuNCu6/D1MilIEgLtmWqIrsv+o4IjpLAhgMBr/ncNAA==
 
 electron@^7.1.4:
   version "7.1.4"
@@ -12541,6 +12560,13 @@ node-releases@^1.1.40:
   dependencies:
     semver "^6.3.0"
 
+node-releases@^1.1.42:
+  version "1.1.43"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.43.tgz#2c6ca237f88ce11d49631f11190bb01f8d0549f2"
+  integrity sha512-Rmfnj52WNhvr83MvuAWHEqXVoZXCcDQssSOffU4n4XOL9sPrP61mSZ88g25NqmABDvH7PiAlFCzoSCSdzA293w==
+  dependencies:
+    semver "^6.3.0"
+
 nomnom@~1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/nomnom/-/nomnom-1.6.2.tgz#84a66a260174408fc5b77a18f888eccc44fb6971"
@@ -13807,6 +13833,15 @@ postcss-focus-within@^3.0.0:
   integrity sha512-W0APui8jQeBKbCGZudW37EeMCjDeVxKgiYfIIEo8Bdh5SpB9sxds/Iq8SEuzS0Q4YFOlG7EPFulbbxujpkrV2w==
   dependencies:
     postcss "^7.0.2"
+
+postcss-font-family-system-ui@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/postcss-font-family-system-ui/-/postcss-font-family-system-ui-4.2.0.tgz#324aa4400a06eb1283786b620dc4291813bf56b8"
+  integrity sha512-qTizXw0iwu/9K1+UPmu2BsC65VX2NiZI2hMreL/SkqJd+EwmCktE+juz/xoy7XH2WGfb9x0ES2yA4LuwUyV/Yg==
+  dependencies:
+    browserslist "^4.8.2"
+    caniuse-lite "^1.0.30001016"
+    postcss "^7.0.0"
 
 postcss-font-variant@^4.0.0:
   version "4.0.0"
@@ -18547,10 +18582,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.2.0.tgz#18fcf671e38a5eb5ec87aeaa862383b6075be31c"
-  integrity sha512-9+PXgEXm8U31mgigU064vSOzeQg/s5GUG0iF6cXaozV+CKf/iaioZ9n12iYh6ctVsS6I3lksriLGH+LmioA6lA==
+yeoman-generator@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.3.0.tgz#552b8eb19fc7160a43583fe84b56de3a8fda39d8"
+  integrity sha512-iFNNYbDBFWGNg36D2/vG5x5ngkjAMGyqUH8fI9bDR3Oeo+Zr8yIFy7J9NuJEEoTiaHJ9b2m9DcWt9prl9ZDnkw==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
