@@ -18,6 +18,4 @@ describe('Header', () => {
   it('should use passed className', () => {
     shallowHeader({className: 'test-class'}).should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });

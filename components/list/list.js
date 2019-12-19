@@ -169,9 +169,6 @@ export default class List extends Component {
 
   UNSAFE_componentWillReceiveProps(props) {
     if (props.data) {
-      //TODO investigate (https://youtrack.jetbrains.com/issue/RG-772)
-      //props.data = props.data.map(normalizeListItemType);
-
       this.checkActivatableItems(props.data);
 
       this.setState(prevState => {

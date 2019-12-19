@@ -22,6 +22,4 @@ describe('Tabs', () => {
   it('should use passed className', () => {
     shallowTabs({className: 'test-class'}).should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });
