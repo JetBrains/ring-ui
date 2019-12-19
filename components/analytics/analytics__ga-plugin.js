@@ -4,7 +4,7 @@
  * @constructor
  */
 export default class AnalyticsGAPlugin {
-  constructor(gaId, isDevelopment) {
+  constructor(gaId, isDevelopment, domain) {
     if (!gaId && !isDevelopment) {
       return;
     }
@@ -26,7 +26,8 @@ export default class AnalyticsGAPlugin {
      */
     const key = gaId || 'UA-57284711-1';
     /* global ga */
-    ga('create', key, (!gaId ? {cookieDomain: 'none'} : {}));
+    const gaCookieParams = domain ? {cookieDomain: domain} : {};
+    ga('create', key, (!gaId ? {cookieDomain: 'none'} : gaCookieParams));
     ga('set', 'anonymizeIp', true);
     ga('set', 'allowAdFeatures', false);
   }
