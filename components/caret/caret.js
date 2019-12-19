@@ -54,12 +54,9 @@ export default class Caret {
       }
 
       const range1 = selection.getRangeAt(0);
-      // If we don't check, we can lose focus or break selection
-      // when popup is appears
-      if (range1.startContainer !== range1.endContainer) {
-        return -1;
+      if (range1.startOffset !== range1.endOffset) {
+        return {startOffset: range1.startOffset, endOffset: range1.endOffset};
       }
-
       const range2 = range1.cloneRange();
 
       range2.selectNodeContents(this.target);
@@ -72,6 +69,43 @@ export default class Caret {
   }
 
   /**
+   * Get relative position of query
+   * @param  {Node} curNode
+   * @param {number} position
+   * @return {{_correctedPosition: number, _curNode: Node}}
+   */
+  getRelativePosition(curNode, position) {
+    let curPos = 0;
+    let _curNode = curNode;
+    const nodeTypeText = 3;
+    if (position === 0) {
+      while (_curNode.nodeType !== nodeTypeText) {
+        _curNode = _curNode.childNodes[0];
+      }
+      const _correctedPosition = position;
+      return {_curNode, _correctedPosition};
+    }
+    let i = -1;
+    if (_curNode && _curNode.nodeType !== undefined) {
+      while (curPos < position && _curNode.nodeType !== nodeTypeText) {
+        i++;
+        if (_curNode.childNodes[i] !== null && _curNode.childNodes[i]) {
+          curPos += _curNode.childNodes[i].textContent.length;
+          if (curPos >= position) {
+            _curNode = _curNode.childNodes[i];
+            curPos -= _curNode.textContent.length;
+            i = -1;
+          }
+        } else {
+          break;
+        }
+      }
+    }
+    const _correctedPosition = position - curPos;
+    return {_curNode, _correctedPosition};
+  }
+
+  /**
    * Set caret position index
    * @param  {number} position
    * @return {number}
@@ -81,31 +115,22 @@ export default class Caret {
     let correctedPosition;
     let curNode = this.target && this.target.childNodes[0];
     if (position !== undefined) {
-      if (position === -1) {
+      if (position.startOffset !== undefined) {
+        const range = new Range();
+        const start = this.getRelativePosition(curNode, position.startOffset);
+        range.setStart(start._curNode, start._correctedPosition);
+        const end = this.getRelativePosition(curNode, position.endOffset);
+        range.setEnd(end._curNode, end._correctedPosition);
+        correctedPosition = range;
+      } else if (position === -1) {
         const value = isContentEditable
           ? this.target.textContent
           : this.constructor.normalizeNewlines(this.target.value);
         correctedPosition = value.length;
       } else {
-        let curPos = 0;
-        let i = -1;
-        const nodeTypeText = 3;
-        if (curNode && curNode.nodeType !== undefined) {
-          while (curPos < position && curNode.nodeType !== nodeTypeText) {
-            i++;
-            if (curNode.childNodes[i] !== null && curNode.childNodes[i]) {
-              curPos += curNode.childNodes[i].textContent.length;
-              if (curPos >= position) {
-                curNode = curNode.childNodes[i];
-                curPos -= curNode.textContent.length;
-                i = -1;
-              }
-            } else {
-              break;
-            }
-          }
-        }
-        correctedPosition = position - curPos;
+        const {_curNode, _correctedPosition} = this.getRelativePosition(curNode, position);
+        curNode = _curNode;
+        correctedPosition = _correctedPosition;
       }
     }
 
@@ -113,7 +138,12 @@ export default class Caret {
       this.focus();
 
       try {
-        window.getSelection().collapse(curNode || this.target, correctedPosition);
+        if (correctedPosition instanceof Range) {
+          window.getSelection().removeAllRanges();
+          window.getSelection().addRange(correctedPosition);
+        } else {
+          window.getSelection().collapse(curNode || this.target, correctedPosition);
+        }
       } catch (e) {
         // Do nothing
       }
