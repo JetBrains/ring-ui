@@ -8,7 +8,6 @@ const changeCase = require('change-case');
 const generate = (packageName, output, suffix = 'Icon') => {
   const dirname = path.dirname(require.resolve(path.join(packageName, 'package.json')));
   const icons = glob.sync('**/*.svg', {cwd: dirname}).
-    // TODO: add deduplication instead
     filter(filename => !/apple-mask-icon\.svg$/.test(filename)).
     map(filename => ({
       importPath: path.posix.join(packageName, filename),
