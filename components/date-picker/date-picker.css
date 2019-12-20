@@ -109,7 +109,7 @@
 }
 
 .dateInput {
-  flex-basis: calc(unit * 10);
+  flex-basis: calc(unit * 11);
   flex-grow: 1;
   flex-shrink: 0;
 }

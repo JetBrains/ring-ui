@@ -76,7 +76,7 @@ export default class DateInput extends Component {
     } else if (date) {
       displayText = date.format(inputFormat);
     } else if (name === 'time') {
-      displayText = time;
+      displayText = time || '';
     }
 
     const classes = classNames(styles.filter, styles[`${name}Input`], 'ring-js-shortcuts');

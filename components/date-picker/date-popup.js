@@ -170,7 +170,7 @@ export default class DatePopup extends Component {
 
     let result = this.parse(text, name);
     if (name === 'time') {
-      result = (result && result !== '00:00') ? result : this.props.time || '00:00';
+      result = result || this.props.time || '00:00';
     } else if (!this.isValidDate(result)) {
       result = this.props[name];
     }
@@ -231,9 +231,9 @@ export default class DatePopup extends Component {
   handleActivate = memoize(name => () => this.setState({active: name}));
 
   handleInput = (text, name) => {
-    const parsedDate = this.parse(text, name);
-    if (name !== 'time' && this.isValidDate(parsedDate)) {
-      this.scrollTo(parsedDate);
+    const parsed = this.parse(text, name);
+    if (name !== 'time' && this.isValidDate(parsed)) {
+      this.scrollTo(parsed);
     }
     this.setState({
       text,
