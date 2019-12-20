@@ -225,142 +225,88 @@ describe('Select', () => {
     instance._popup.props.hidden.should.be.false;
   });
 
-  describe('componentWillReceiveProps', () => {
+  describe('Derived state', () => {
 
     let wrapper;
-    let instance;
     beforeEach(() => {
       wrapper = shallowSelect();
-      instance = wrapper.instance();
     });
-
-
-    beforeEach(() => {
-      sandbox.stub(instance, 'setState');
-      sandbox.stub(instance, '_handleMultipleToggling');
-    });
-
 
     it('Should update shown data', () => {
-      instance.UNSAFE_componentWillReceiveProps({data: []});
+      const {shownData} = wrapper.state();
+      wrapper.setProps({data: []});
 
-      instance.setState.should.be.calledWithMatch({shownData: []});
+      wrapper.state().shownData.should.deep.equal([]);
+      wrapper.state().shownData.should.not.equal(shownData);
     });
 
     it('Should not update shown data if data is not passed', () => {
-      instance.UNSAFE_componentWillReceiveProps({});
+      const {shownData} = wrapper.state();
+      wrapper.setProps({});
 
-      instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
+      wrapper.state().shownData.should.equal(shownData);
     });
 
     it('Should not update shown data if data the same as previous', () => {
-      instance.UNSAFE_componentWillReceiveProps({data: instance.props.data});
+      const {shownData} = wrapper.state();
+      wrapper.setProps({data: testData});
 
-      instance.setState.should.not.be.calledWithMatch({shownData: sandbox.match.defined});
+      wrapper.state().shownData.should.equal(shownData);
     });
 
-    it('Should toggle multiple state', () => {
-      const newMultiple = !instance.props.multiple;
-      instance.UNSAFE_componentWillReceiveProps({multiple: newMultiple});
+    it('Should reset selection when toggling multiple state', () => {
+      wrapper.setProps({multiple: true});
+      wrapper.state().selected.should.deep.equal([]);
 
-      instance._handleMultipleToggling.should.be.calledWith(newMultiple);
+      wrapper.setProps({multiple: false});
+      should.equal(wrapper.state().selected, null);
     });
 
-    it('Should not toggle multiple state if value the same as previous', () => {
-      const newMultiple = instance.props.multiple;
-      instance.UNSAFE_componentWillReceiveProps({multiple: newMultiple});
+    it('Should not reset selection if mulitiple prop is the same as previous', () => {
+      const {selected} = wrapper.state();
+      wrapper.setProps({multiple: false});
 
-      instance._handleMultipleToggling.should.not.be.called;
+      wrapper.state().selected.should.equal(selected);
     });
 
     it('Should update selected index for select', () => {
       const selectedItem = createItem();
 
-      instance.props = {multiple: false, selected: null, data: [selectedItem, createItem()]};
-
-      instance.UNSAFE_componentWillReceiveProps({
+      wrapper.setProps({
         selected: selectedItem,
-        data: instance.props.data
+        data: [createItem(), selectedItem]
       });
 
-      instance.setState.should.be.calledWithMatch({selectedIndex: sandbox.match.defined});
-    });
-
-    it('Should not update selected index if selected is the same as previous', () => {
-      const selectedItem = createItem();
-
-      instance.props = {
-        multiple: false,
-        selected: selectedItem,
-        data: [selectedItem, createItem()]
-      };
-
-      instance.UNSAFE_componentWillReceiveProps({
-        selected: selectedItem,
-        data: instance.props.data
-      });
-
-      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
+      wrapper.state().selectedIndex.should.equal(1);
     });
 
     it('Should update selected index for multiple select if selected is changed', () => {
       const selectedItem = createItem();
 
-      instance.props = {multiple: true, selected: [], data: [selectedItem]};
+      wrapper.setProps({
+        multiple: true,
+        selected: [selectedItem],
+        data: [createItem(), selectedItem]
+      });
 
-      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem]});
-
-      instance.setState.should.be.calledWithMatch({selectedIndex: 0});
+      wrapper.state().selectedIndex.should.equal(1);
     });
 
     it('Should update selected index for multiple select if selected is changed but count of element is the same', () => {
-      const selectedItem = createItem();
+      const firstItem = createItem();
+      const secondItem = createItem();
 
-      instance.props = {multiple: true, selected: [], data: [selectedItem, createItem()]};
-
-      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem, createItem()]});
-
-      instance.setState.should.be.calledWithMatch({selectedIndex: 0});
-    });
-
-    it('Should not update selected index for multiple select if selected is not changed', () => {
-      const selectedItem = createItem();
-
-      instance.props = {multiple: true, selected: [], data: [selectedItem]};
-
-      instance.UNSAFE_componentWillReceiveProps({});
-
-      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
-    });
-
-    it('Should not update selected index for multiple select if items inside the selected list are the same and order is same', () => {
-      const selectedItem1 = createItem();
-      const selectedItem2 = createItem();
-
-      instance.props = {
+      wrapper.setProps({
         multiple: true,
-        selected: [selectedItem1, selectedItem2],
-        data: [selectedItem1, createItem(), selectedItem2]
-      };
+        selected: [secondItem],
+        data: [firstItem, secondItem]
+      });
 
-      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem1, selectedItem2]});
+      wrapper.setProps({
+        selected: [firstItem]
+      });
 
-      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
-    });
-
-    it('Should not update selected index for multiple select if items inside the selected list are the same but order is changed', () => {
-      const selectedItem1 = createItem();
-      const selectedItem2 = createItem();
-
-      instance.props = {
-        multiple: true,
-        selected: [selectedItem1, selectedItem2],
-        data: [selectedItem1, createItem(), selectedItem2]
-      };
-
-      instance.UNSAFE_componentWillReceiveProps({selected: [selectedItem2, selectedItem1]});
-
-      instance.setState.should.not.be.calledWithMatch({selectedIndex: sandbox.match.defined});
+      wrapper.state().selectedIndex.should.equal(0);
     });
 
     function createItem() {
@@ -599,7 +545,7 @@ describe('Select', () => {
 
       instance.getListItems('foo');
 
-      instance._addButton.label.should.equal('foo');
+      wrapper.state().addButton.label.should.equal('foo');
     });
   });
 
@@ -712,17 +658,15 @@ describe('Select', () => {
       return mountWrapper;
     };
 
-    it('Should fill _multipleMap on initialization', () => {
+    it('Should fill multipleMap on initialization', () => {
       const wrapper = mountSelectMultiple();
-      const instance = wrapper.instance();
-      instance._multipleMap['1'].should.be.true;
+      wrapper.state().multipleMap.should.deep.equal({1: true, 2: true});
     });
 
-    it('Should fill _multipleMap on _rebuildMultipleMap', () => {
+    it('Should fill multipleMap on selection change', () => {
       const wrapper = mountSelectMultiple();
-      const instance = wrapper.instance();
-      instance._rebuildMultipleMap(testData.slice(1, 2));
-      instance._multipleMap['2'].should.be.true;
+      wrapper.setProps({selected: testData.slice(1, 2)});
+      wrapper.state().multipleMap.should.deep.equal({2: true});
     });
 
     it('Should construct label from selected array', () => {
@@ -791,7 +735,7 @@ describe('Select', () => {
 
       it('Should add item to multiple map on selecting item', () => {
         instance._listSelectHandler(testData[3]);
-        instance._multipleMap['4'].should.be.true;
+        wrapper.state().multipleMap['4'].should.be.true;
       });
 
       it('Should select just picked item on selecting by clicking item', () => {
@@ -1131,23 +1075,6 @@ describe('Select', () => {
     });
 
   });
-
-  describe('_resetMultipleSelectionMap', () => {
-    let instance;
-    beforeEach(() => {
-      instance = shallowSelect().instance();
-    });
-
-    it('should reset map', () => {
-      instance._multipleMap[0] = true;
-
-      instance._resetMultipleSelectionMap();
-
-      Object.keys(instance._multipleMap).length.
-        should.be.equal(0);
-    });
-  });
-
 
   describe('_getResetOption', () => {
     let instance;
