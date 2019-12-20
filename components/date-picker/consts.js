@@ -82,7 +82,7 @@ export function parseDate(text, ...addFormats) {
 }
 
 export function parseTime(time) {
-  let result = '00:00';
+  let result = null;
   if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
     result = time;
   } else if (/^([0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
