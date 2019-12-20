@@ -10,7 +10,7 @@ import DateInput from './date-input';
 import Months from './months';
 import Years from './years';
 import Weekdays from './weekdays';
-import {dateType, parseDate} from './consts';
+import {dateType, parseDate, parseTime} from './consts';
 import styles from './date-picker.css';
 
 const scrollExpDelay = 10;
@@ -31,6 +31,8 @@ export default class DatePopup extends Component {
     className: PropTypes.string,
     date: dateType,
     range: PropTypes.bool,
+    withTime: PropTypes.bool,
+    time: PropTypes.string,
     from: dateType,
     to: dateType,
     displayFormat: PropTypes.string,
@@ -54,10 +56,10 @@ export default class DatePopup extends Component {
       hoverDate: null,
       scrollDate: null
     };
-    const {range, from, to} = props;
+    const {range, from, to, time, withTime} = props;
 
     if (!range) {
-      this.state = {...defaultState, active: 'date'};
+      this.state = {...defaultState, active: withTime && !time ? 'time' : 'date'};
     } else if (from && !to) {
       this.state = {...defaultState, active: 'to'};
     } else {
@@ -76,7 +78,6 @@ export default class DatePopup extends Component {
       if (this.state.text && prevState.active) {
         this.confirm(prevState.active);
       }
-
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({text: null});
     }
@@ -94,29 +95,44 @@ export default class DatePopup extends Component {
     e.preventDefault();
   };
 
-  parseDate(text) {
-    return parseDate(
-      text,
-      this.props.inputFormat,
-      this.props.displayFormat
-    );
+  parse(text, type) {
+    return (type === 'time')
+      ? parseTime(text)
+      : parseDate(text, this.props.inputFormat, this.props.displayFormat);
   }
 
   select(changes) {
-    if (!this.props.range) {
+    if (!this.props.range && !this.props.withTime) {
       this.setState({
         text: null,
         scrollDate: null
       });
       this.props.onChange(changes.date);
       this.props.onComplete();
+    } else if (!this.props.range && this.props.withTime) {
+      const changeToSubmit = {
+        date: changes.date || this.props.date,
+        time: changes.time || this.props.time
+      };
+
+      this.props.onChange(changeToSubmit);
+
+      if (this.state.active === 'date') {
+        this.setState({
+          active: 'time',
+          text: null,
+          scrollDate: null
+        });
+      } else {
+        this.props.onComplete();
+      }
     } else {
       let {from, to} = {
         ...this.props,
         ...changes
       };
-      from = this.parseDate(from);
-      to = this.parseDate(to);
+      from = this.parse(from, 'from');
+      to = this.parse(to, 'to');
 
       // proceed to setting the end by default
       let active = 'to';
@@ -153,15 +169,21 @@ export default class DatePopup extends Component {
   confirm(name) {
     const text = this.state.text;
 
+    let result = this.parse(text, name);
+    if (name === 'time') {
+      result = result || this.props.time || '00:00';
+    } else if (!this.isValidDate(result)) {
+      result = this.props[name];
+    }
+
     this.select({
-      [name]: this.isTextValidDate(text) ? this.parseDate(text) : this.props[name]
+      [name]: result
     });
   }
 
-  isTextValidDate = text => {
-    const minDate = this.parseDate(this.props.minDate);
-    const maxDate = this.parseDate(this.props.maxDate);
-    const parsedText = this.parseDate(text);
+  isValidDate = parsedText => {
+    const minDate = this.parse(this.props.minDate, 'date');
+    const maxDate = this.parse(this.props.maxDate, 'date');
 
     if (parsedText) {
       return (!(
@@ -175,7 +197,7 @@ export default class DatePopup extends Component {
   scheduleScroll = () => {
     const current =
       this.state.scrollDate ||
-      this.parseDate(this.props[this.state.active]) ||
+      this.parse(this.props[this.state.active], 'date') ||
       moment();
     const goal = this._scrollDate;
     if (!current ||
@@ -209,9 +231,10 @@ export default class DatePopup extends Component {
 
   handleActivate = memoize(name => () => this.setState({active: name}));
 
-  handleInput = text => {
-    if (this.isTextValidDate(text)) {
-      this.scrollTo(this.parseDate(text));
+  handleInput = (text, name) => {
+    const parsedDate = this.parse(text, name);
+    if (name !== 'time' && this.isValidDate(parsedDate)) {
+      this.scrollTo(parsedDate);
     }
     this.setState({
       text,
@@ -221,23 +244,26 @@ export default class DatePopup extends Component {
 
   handleConfirm = memoize(name => () => this.confirm(name));
 
-  selectHandler = date => this.select({[this.state.active]: date});
+  selectHandler = date => this.select({[this.props.withTime ? 'date' : this.state.active]: date});
 
   handleScroll = scrollDate => this.setState({scrollDate});
 
   render() {
-    const {range, hidden} = this.props;
+    const {range, hidden, withTime, time} = this.props;
 
     const names = range ? ['from', 'to'] : ['date'];
     const dates = names.reduce((obj, key) => {
       const date = this.props[key];
       return {
         ...obj,
-        [key]: this.parseDate(date)
+        [key]: this.parse(date, key)
       };
     }, {});
 
-    const activeDate = this.state.hoverDate || this.state.text && this.parseDate(this.state.text);
+    const activeDate =
+      this.state.hoverDate ||
+      this.state.text &&
+      this.parse(this.state.text, 'date');
 
     const currentRange = range && dates.from && dates.to && [dates.from, dates.to] || null;
     let activeRange = null;
@@ -265,11 +291,15 @@ export default class DatePopup extends Component {
       }
     }
 
+    const scrollDate = withTime
+      ? this.state.scrollDate || dates.date || moment()
+      : this.state.scrollDate || dates[this.state.active] || moment();
+
     const calendarProps = {
       ...this.props,
       ...this.state,
       ...dates,
-      scrollDate: this.state.scrollDate || dates[this.state.active] || moment(),
+      scrollDate,
       activeDate,
       currentRange,
       activeRange,
@@ -303,6 +333,27 @@ export default class DatePopup extends Component {
               onClear={name === 'from' ? null : this.props.onClear}
             />
           ))}
+          {
+            withTime ? (
+              <DateInput
+                {...this.props}
+                {...this.state}
+                hoverDate={null}
+                name={'time'}
+                key={'time'}
+                date={null}
+                time={this.parse(time, 'time')}
+                active={this.state.active === 'time'}
+                hidden={hidden}
+                onActivate={this.handleActivate('time')}
+                onInput={this.handleInput}
+                onConfirm={this.handleConfirm('time')}
+                onClear={this.props.onClear}
+              />
+            ) : (
+              ''
+            )
+          }
         </div>
         <Weekdays/>
         <div
