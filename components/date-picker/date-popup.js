@@ -117,13 +117,12 @@ export default class DatePopup extends Component {
 
       this.props.onChange(changeToSubmit);
 
-      if (this.state.active === 'date') {
-        this.setState({
-          active: 'time',
-          text: null,
-          scrollDate: null
-        });
-      } else {
+      this.setState({
+        text: null,
+        scrollDate: null
+      });
+
+      if (this.state.active === 'time' && changes.time) {
         this.props.onComplete();
       }
     } else {
@@ -242,9 +241,25 @@ export default class DatePopup extends Component {
     });
   };
 
-  handleConfirm = memoize(name => () => this.confirm(name));
+  handleConfirm = memoize(name => () => {
+    if (this.props.withTime && this.state.active === 'date') {
+      this.setState({
+        active: 'time'
+      });
+    } else {
+      this.confirm(name);
+    }
+  });
 
-  selectHandler = date => this.select({[this.props.withTime ? 'date' : this.state.active]: date});
+  selectHandler = date => {
+    if (this.props.withTime) {
+      this.setState({
+        active: 'date'
+      }, () => this.select({date}));
+    } else {
+      this.select({[this.state.active]: date});
+    }
+  };
 
   handleScroll = scrollDate => this.setState({scrollDate});
 
