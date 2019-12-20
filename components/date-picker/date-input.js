@@ -75,7 +75,7 @@ export default class DateInput extends Component {
       displayText = text;
     } else if (date) {
       displayText = date.format(inputFormat);
-    } else if (name === 'time' && time) {
+    } else if (name === 'time') {
       displayText = time;
     }
 

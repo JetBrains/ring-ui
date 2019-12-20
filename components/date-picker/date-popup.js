@@ -170,7 +170,7 @@ export default class DatePopup extends Component {
 
     let result = this.parse(text, name);
     if (name === 'time') {
-      result = result || this.props.time || '00:00';
+      result = (result && result !== '00:00') ? result : this.props.time || '00:00';
     } else if (!this.isValidDate(result)) {
       result = this.props[name];
     }
@@ -242,7 +242,9 @@ export default class DatePopup extends Component {
   };
 
   handleConfirm = memoize(name => () => {
-    if (this.props.withTime && this.state.active === 'date') {
+    const {withTime, range} = this.props;
+
+    if (!range && withTime && this.state.active === 'date') {
       this.setState({
         active: 'time'
       });
@@ -252,7 +254,7 @@ export default class DatePopup extends Component {
   });
 
   selectHandler = date => {
-    if (this.props.withTime) {
+    if (this.props.withTime && !this.props.range) {
       this.setState({
         active: 'date'
       }, () => this.select({date}));
@@ -306,7 +308,7 @@ export default class DatePopup extends Component {
       }
     }
 
-    const scrollDate = withTime
+    const scrollDate = withTime && !range
       ? this.state.scrollDate || dates.date || moment()
       : this.state.scrollDate || dates[this.state.active] || moment();
 
@@ -345,11 +347,11 @@ export default class DatePopup extends Component {
               onActivate={this.handleActivate(name)}
               onInput={this.handleInput}
               onConfirm={this.handleConfirm(name)}
-              onClear={name === 'from' ? null : this.props.onClear}
+              onClear={name === 'from' || withTime ? null : this.props.onClear}
             />
           ))}
           {
-            withTime ? (
+            withTime && !range ? (
               <DateInput
                 {...this.props}
                 {...this.state}
