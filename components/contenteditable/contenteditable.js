@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {render} from 'react-dom';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 /**
  * @name ContentEditable
@@ -26,15 +26,11 @@ export default class ContentEditable extends Component {
     onComponentUpdate: noop
   };
 
+  static getDerivedStateFromProps = ({children}) => ({
+    __html: children ? renderToStaticMarkup(children) : ''
+  });
+
   state = {__html: ''};
-
-  UNSAFE_componentWillMount() {
-    this.renderStatic(this.props);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.renderStatic(nextProps);
-  }
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.disabled !== this.props.disabled ||
@@ -43,18 +39,6 @@ export default class ContentEditable extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
-  }
-
-  onRender = node => {
-    this.setState({__html: node ? node.innerHTML : ''});
-  };
-
-  renderStatic(nextProps) {
-    if (!nextProps.children) {
-      this.setState({__html: ''});
-    }
-
-    render(<i ref={this.onRender}>{nextProps.children}</i>, document.createElement('i'));
   }
 
   render() {
