@@ -68,6 +68,7 @@ export const singleDateAndTime = () => {
             time={this.state.time}
             onChange={this.setDate}
             withTime
+            clear
           />
         </div>
       );
