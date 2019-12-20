@@ -86,7 +86,7 @@
 .fromInput {
   position: relative;
 
-  flex-basis: calc(unit * 13);
+  flex-basis: calc(unit * 12);
   flex-grow: 0;
   flex-shrink: 0;
 
@@ -106,6 +106,25 @@
   flex-shrink: 0;
 
   width: calc(unit * 13);
+}
+
+.dateInput {
+  flex-basis: calc(unit * 10);
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.timeInput {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    left: calc(-1 * unit);
+
+    content: ',';
+
+    line-height: calc(4 * unit - 3px);
+  }
 }
 
 .weekdays {
