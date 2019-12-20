@@ -14,6 +14,7 @@ export default class DateInput extends Component {
     text: PropTypes.string,
     hoverDate: dateType,
     date: dateType,
+    time: PropTypes.string,
     inputFormat: PropTypes.string,
     hidden: PropTypes.bool,
     onInput: PropTypes.func,
@@ -50,7 +51,7 @@ export default class DateInput extends Component {
     }
   }
 
-  handleChange = e => this.props.onInput(e.target.value);
+  handleChange = e => this.props.onInput(e.target.value, e.target.dataset.name);
 
   handleKeyDown = e => e.key === 'Enter' && this.props.onConfirm();
 
@@ -58,6 +59,7 @@ export default class DateInput extends Component {
     const {
       active,
       text,
+      time,
       name,
       hoverDate,
       date,
@@ -65,6 +67,7 @@ export default class DateInput extends Component {
       onActivate,
       onClear
     } = this.props;
+
     let displayText = '';
     if (active && hoverDate) {
       displayText = hoverDate.format(inputFormat);
@@ -72,6 +75,8 @@ export default class DateInput extends Component {
       displayText = text;
     } else if (date) {
       displayText = date.format(inputFormat);
+    } else if (name === 'time' && time) {
+      displayText = time;
     }
 
     const classes = classNames(styles.filter, styles[`${name}Input`], 'ring-js-shortcuts');
@@ -79,6 +84,7 @@ export default class DateInput extends Component {
     return (
       <Input
         borderless
+        data-name={name}
         inputRef={this.inputRef}
         className={classes}
         value={displayText}
