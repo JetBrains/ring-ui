@@ -42,7 +42,7 @@
     "redbox-react": "^1.6.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.0"
+    "webpack-dev-server": "^3.10.1"
   },
   "devDependencies": {
     "@jetbrains/eslint-config": "^4.0.6",
