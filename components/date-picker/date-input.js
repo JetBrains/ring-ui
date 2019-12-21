@@ -79,6 +79,17 @@ export default class DateInput extends Component {
       displayText = time || '';
     }
 
+    const placeholder = (() => {
+      switch (name) {
+        case 'from':
+          return 'Add first date';
+        case 'to':
+          return 'Add second date';
+        default:
+          return `Add ${name}`;
+      }
+    })();
+
     const classes = classNames(styles.filter, styles[`${name}Input`], 'ring-js-shortcuts');
 
     return (
@@ -92,6 +103,7 @@ export default class DateInput extends Component {
         onFocus={onActivate}
         onKeyDown={this.handleKeyDown}
         onClear={onClear}
+        placeholder={placeholder}
       />
     );
   }

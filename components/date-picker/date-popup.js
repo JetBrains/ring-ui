@@ -102,17 +102,22 @@ export default class DatePopup extends Component {
   }
 
   select(changes) {
-    if (!this.props.range && !this.props.withTime) {
+    const {range, withTime} = this.props;
+    const date = this.parse(this.props.date, 'date');
+    const time = this.parse(this.props.time, 'time');
+
+    if (!range && !withTime) {
       this.setState({
         text: null,
         scrollDate: null
       });
       this.props.onChange(changes.date);
       this.props.onComplete();
-    } else if (!this.props.range && this.props.withTime) {
+    } else if (!range && withTime) {
+      const defaultTime = changes.date || date ? '00:00' : null;
       const changeToSubmit = {
-        date: changes.date || this.props.date,
-        time: changes.time || this.props.time
+        date: changes.date || date,
+        time: changes.time || time || defaultTime
       };
 
       this.props.onChange(changeToSubmit);
@@ -121,8 +126,7 @@ export default class DatePopup extends Component {
         text: null,
         scrollDate: null
       });
-
-      if (this.state.active === 'time' && changes.time) {
+      if (this.state.active === 'time' && date && changes.time) {
         this.props.onComplete();
       }
     } else {
@@ -170,7 +174,11 @@ export default class DatePopup extends Component {
 
     let result = this.parse(text, name);
     if (name === 'time') {
-      result = result || this.props.time || '00:00';
+      const time = this.parse(this.props.time, 'time');
+      const date = this.parse(this.props.date, 'date');
+
+      const emptyCase = date ? '00:00' : '';
+      result = result || time || emptyCase;
     } else if (!this.isValidDate(result)) {
       result = this.props[name];
     }
@@ -266,7 +274,8 @@ export default class DatePopup extends Component {
   handleScroll = scrollDate => this.setState({scrollDate});
 
   render() {
-    const {range, hidden, withTime, time} = this.props;
+    const {range, hidden, withTime} = this.props;
+    const time = this.parse(this.props.time, 'time');
 
     const names = range ? ['from', 'to'] : ['date'];
     const dates = names.reduce((obj, key) => {
@@ -359,7 +368,7 @@ export default class DatePopup extends Component {
                 name={'time'}
                 key={'time'}
                 date={null}
-                time={this.parse(time, 'time')}
+                time={time}
                 active={this.state.active === 'time'}
                 hidden={hidden}
                 onActivate={this.handleActivate('time')}
