@@ -86,7 +86,7 @@
 .fromInput {
   position: relative;
 
-  flex-basis: calc(unit * 12);
+  flex-basis: calc(unit * 13);
   flex-grow: 0;
   flex-shrink: 0;
 
