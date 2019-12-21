@@ -264,7 +264,7 @@ export default class DatePopup extends Component {
   selectHandler = date => {
     if (this.props.withTime && !this.props.range) {
       this.setState({
-        active: 'date'
+        active: 'time'
       }, () => this.select({date}));
     } else {
       this.select({[this.state.active]: date});
