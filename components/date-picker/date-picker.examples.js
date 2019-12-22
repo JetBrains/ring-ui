@@ -53,7 +53,7 @@ export const singleDateAndTime = () => {
   class DatePickerExample extends Component {
     state = {
       date: '01.01.18',
-      time: '9:4hu5'
+      time: '9:45'
     };
 
     setDate = ({date, time}) => {
