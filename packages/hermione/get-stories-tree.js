@@ -64,11 +64,10 @@ module.exports = JSDOM.fromURL('http://localhost:9999/iframe.html', {
     window.document.addEventListener('DOMContentLoaded', () => {
       getTree(window);
     });
-    const {querySelectorAll} = window.document;
-    // eslint-disable-next-line func-names
-    window.document.querySelectorAll = function () {
+    const originalQSA = window.document.querySelectorAll;
+    window.document.querySelectorAll = function querySelectorAll() {
       try {
-        return querySelectorAll.apply(this, arguments);
+        return originalQSA.apply(this, arguments);
       } catch (e) {
         return [];
       }

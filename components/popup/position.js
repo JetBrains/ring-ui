@@ -172,17 +172,16 @@ function handleTopOffScreen({
 
 
 export function maxHeightForDirection(direction, anchorNode, containerNode) {
-  // eslint-disable-next-line no-param-reassign
-  containerNode = containerNode || document.documentElement;
+  const container = containerNode || document.documentElement;
   const domRect = anchorNode.getBoundingClientRect();
-  const containerRect = containerNode.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
   const topMaxHeight = Math.max(domRect.top - containerRect.top, 0);
   const containerHeight = Math.max(containerRect.height,
     // XXX
     // If container is the document element
     // then we check client height too because we may have situation when
     // "height" from "getBoundingClientRect" less then "clientHeight".
-    containerNode === document.documentElement ? containerNode.clientHeight : 0);
+    container === document.documentElement ? container.clientHeight : 0);
   const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
   switch (direction) {
     case Directions.TOP_LEFT:
