@@ -54,14 +54,16 @@ export default class Caret {
       }
 
       const range1 = selection.getRangeAt(0);
-      if (range1.startOffset !== range1.endOffset) {
-        return {startOffset: range1.startOffset, endOffset: range1.endOffset};
-      }
       const range2 = range1.cloneRange();
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
 
+      if (range1.startOffset !== range1.endOffset) {
+        return {startOffset: range1.startOffset,
+          endOffset: range1.endOffset,
+          position: range2.toString().length};
+      }
       return range2.toString().length;
     }
 
@@ -78,6 +80,9 @@ export default class Caret {
     let curPos = 0;
     let _curNode = curNode;
     const nodeTypeText = 3;
+    if (!_curNode) {
+      return {_curNode: this.target, _correctedPosition: position};
+    }
     if (position === 0) {
       while (_curNode.nodeType !== nodeTypeText) {
         _curNode = _curNode.childNodes[0];
