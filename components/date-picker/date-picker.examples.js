@@ -79,6 +79,7 @@ export const singleDateAndTime = () => {
 };
 
 singleDateAndTime.story = {
+  hermione: {skip: true},
   name: 'single date and time'
 };
 
