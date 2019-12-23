@@ -262,7 +262,7 @@ export default class QueryAssist extends Component {
       query: this.getQuery(),
       caret: Number.isInteger(this.caret.getPosition())
         ? this.caret.getPosition()
-        : this.caret.getPosition().startOffset,
+        : this.caret.getPosition().position,
       focus: true
     };
 
@@ -326,7 +326,7 @@ export default class QueryAssist extends Component {
 
     const caret = Number.isInteger(this.caret.getPosition())
       ? this.caret.getPosition()
-      : this.caret.getPosition().startOffset;
+      : this.caret.getPosition().position;
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
