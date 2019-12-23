@@ -338,8 +338,12 @@ export default class QueryAssist extends Component {
 
   handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
 
-  // eslint-disable-next-line max-len
-  handleResponse = ({query = '', caret = 0, styleRanges, suggestions = []}) => new Promise((resolve, reject) => {
+  handleResponse = ({
+    query = '',
+    caret = 0,
+    styleRanges,
+    suggestions = []
+  }) => new Promise((resolve, reject) => {
     if (
       query === this.getQuery() &&
       (caret === this.immediateState.caret ||

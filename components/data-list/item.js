@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
@@ -135,7 +134,7 @@ export default class Item extends PureComponent {
             inherit
             pseudo
             onClick={this.onShowMore}
-          >Show more</Link>
+          >{'Show more'}</Link>
           {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
             <LoaderInline className={styles.showMoreLoader}/>
           }
@@ -148,7 +147,7 @@ export default class Item extends PureComponent {
             inherit
             pseudo
             onClick={this.onShowLess}
-          >Show less</Link>
+          >{'Show less'}</Link>
         </Text>
       );
     }
