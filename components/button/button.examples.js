@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React, {Component, Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -46,8 +45,8 @@ export const basic = () => {
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
       {label: 'danger-disabled', danger: true, disabled: true}
-    ].map((modifiers, index) => (
-      <Button theme={theme} key={index} icon={PencilIcon} {...modifiers}>
+    ].map(modifiers => (
+      <Button theme={theme} key={modifiers.label} icon={PencilIcon} {...modifiers}>
         Icon action {modifiers.label}
       </Button>
     ));
@@ -60,10 +59,10 @@ export const basic = () => {
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
       {label: 'danger-disabled', danger: true, disabled: true}
-    ].map((modifiers, index) => (
+    ].map(modifiers => (
       <Button
         theme={theme}
-        key={index}
+        key={modifiers.label}
         title={`Just icon action (${modifiers.label})`}
         icon={PencilIcon}
         {...modifiers}
