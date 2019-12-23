@@ -90,7 +90,7 @@
     "angular-mocks": "^1.7.9",
     "angular-route": "^1.7.9",
     "babel-eslint": "^10.0.3",
-    "babel-plugin-istanbul": "^5.2.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-react-docgen": "^3.2.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "chai": "^4.2.0",
