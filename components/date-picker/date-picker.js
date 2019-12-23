@@ -148,7 +148,7 @@ export default class DatePicker extends PureComponent {
     if (!range && !withTime) {
       text = date ? date.format(displayFormat) : datePlaceholder;
     } else if (!range && withTime) {
-      text = date ? `${date.format(displayFormat)}, ${time || '00:00'}` : dateTimePlaceholder;
+      text = date ? `${date.format(displayFormat)}, ${time || '—'}` : dateTimePlaceholder;
     } else if (!from && !to) {
       text = rangePlaceholder;
     } else if (!to) {
