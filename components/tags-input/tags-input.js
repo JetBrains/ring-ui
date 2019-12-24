@@ -79,11 +79,9 @@ export default class TagsInput extends Component {
     activeIndex: 0
   };
 
-  UNSAFE_componentWillMount() {
-    this.updateStateFromProps(this.props);
-  }
-
   componentDidMount() {
+    this.updateStateFromProps(this.props);
+
     if (this.props.autoOpen && !this.props.disabled) {
       this.focusInput();
       this.loadSuggestions();
@@ -91,8 +89,10 @@ export default class TagsInput extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(props) {
-    this.updateStateFromProps(props);
+  componentDidUpdate(prevProps) {
+    if (prevProps.tags !== this.props.tags) {
+      this.updateStateFromProps(this.props);
+    }
   }
 
   static ngModelStateField = 'tags';
@@ -116,9 +116,9 @@ export default class TagsInput extends Component {
   }
 
   updateStateFromProps(props) {
-    if (props.tags) {
-      this.setState({tags: props.tags});
-      this.setActiveIndex(props.tags.length);
+    const {tags} = props;
+    if (tags) {
+      this.setState({tags, activeIndex: tags.length});
     }
   }
 
