@@ -92,8 +92,8 @@ inText.story = {
 
 export const allIconsList = () => (
   <div className="icon-example__container">
-    {Object.values(allIcons).map(Icon => (
-      <Icon key={Icon} title={Icon.displayName} className="ring-icon"/>
+    {Object.entries(allIcons).map(([name, Icon]) => (
+      <Icon key={name} title={Icon.displayName} className="ring-icon"/>
     ))}
   </div>
 );
@@ -124,8 +124,8 @@ allIconsList.story = {
 
 export const jetBrainsProductLogosList = () => (
   <div>
-    {Object.values(allLogos).map(Logo => (
-      <Logo key={Logo} title={Logo.displayName} className="ring-icon"/>
+    {Object.entries(allLogos).map(([name, Logo]) => (
+      <Logo key={name} title={Logo.displayName} className="ring-icon"/>
     ))}
   </div>
 );
