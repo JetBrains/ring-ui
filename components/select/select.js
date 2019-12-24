@@ -1063,6 +1063,7 @@ export default class Select extends Component {
             />
           )}
           <Input
+            autocomplete="off"
             id={this.props.id}
             onClick={this._clickHandler}
             inputRef={this.filterRef}
