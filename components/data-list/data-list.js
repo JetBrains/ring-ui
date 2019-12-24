@@ -28,6 +28,7 @@ class DataList extends PureComponent {
     selection: PropTypes.object,
     selectable: PropTypes.bool,
     shortcutsMap: PropTypes.object,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
 
     itemFormatter: PropTypes.func.isRequired,
 
@@ -97,7 +98,7 @@ class DataList extends PureComponent {
     const {
       data, className, loading,
       selection, disabledHover,
-      itemFormatter, focused
+      itemFormatter, focused, innerRef
     } = this.props;
 
     const shortcutsMap = {...this.shortcutsMap, ...this.props.shortcutsMap};
@@ -109,7 +110,7 @@ class DataList extends PureComponent {
     });
 
     return (
-      <div className={styles.dataListWrapper} data-test="ring-data-list">
+      <div className={styles.dataListWrapper} data-test="ring-data-list" ref={innerRef}>
         {focused &&
           (
             <Shortcuts
