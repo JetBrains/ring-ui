@@ -175,7 +175,7 @@
     "file-loader": "^5.0.2",
     "focus-trap": "^5.1.0",
     "focus-visible": "^5.0.2",
-    "highlight.js": "^9.17.0",
+    "highlight.js": "^9.17.1",
     "html-loader": "^0.5.5",
     "imports-loader": "^0.8.0",
     "interpolate-loader": "^2.0.1",
