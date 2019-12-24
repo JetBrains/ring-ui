@@ -15851,9 +15851,10 @@ simply-uuid@^1.0.1:
   resolved "https://registry.yarnpkg.com/simply-uuid/-/simply-uuid-1.0.1.tgz#539241d81528969cef23892faf4588005fa99ab8"
   integrity sha1-U5JB2BUolpzvI4kvr0WIAF+pmrg=
 
-sinon-chai@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-3.3.0.tgz#8084ff99451064910fbe2c2cb8ab540c00b740ea"
+sinon-chai@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/sinon-chai/-/sinon-chai-3.4.0.tgz#06fb88dee80decc565106a3061d380007f21e18d"
+  integrity sha512-BpVxsjEkGi6XPbDXrgWUe7Cb1ZzIfxKUbu/MmH5RoUnS7AXpKo3aIYIyQUg0FMvlUL05aPt7VZuAdaeQhEnWxg==
 
 sinon@^7.5.0:
   version "7.5.0"
