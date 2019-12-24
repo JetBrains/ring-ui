@@ -6,7 +6,7 @@ jest.mock('./components/old-browsers-message/old-browsers-message');
 initStoryshots({
   framework: 'html',
   suite: 'Console errors',
-  // storyKindRegex: /^Components\|Loader$/,
+  storyKindRegex: /^Components\|Icon$/,
   // storyNameRegex: /^Basic$/,
   async test(...args) {
     const consoleError = jest.spyOn(global.console, 'error');

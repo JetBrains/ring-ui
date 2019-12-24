@@ -21,7 +21,8 @@ export default {
 export const allVariants = () => {
   class CustomComponent extends React.Component {
     render() {
-      const {active, activeClassName, className, href, children, ...props} = this.props;
+      const {active, activeClassName, onPlainLeftClick, className, href, children,
+        ...props} = this.props;
       const classes = classNames(className, {
         [activeClassName]: active
       });
