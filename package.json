@@ -181,7 +181,7 @@
     "interpolate-loader": "^2.0.1",
     "just-debounce-it": "^1.1.0",
     "moment": "^2.24.0",
-    "postcss": "^7.0.24",
+    "postcss": "^7.0.25",
     "postcss-calc": "^7.0.1",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
