@@ -14,11 +14,12 @@
 
   box-sizing: border-box;
   max-width: 100%;
+  max-width: calc(100% - 4px);
   height: max-height;
 
   margin-right: calc(unit / 2);
-  margin-bottom: -6px; /* it needs to fix vertical alignment broken by "overflow: hidden" */
-  padding: 1px unit;
+  margin-bottom: 1px;
+  padding: 0 unit;
 
   vertical-align: top;
 
@@ -29,7 +30,7 @@
   background-color: background-color;
 
   font-size: 12px;
-  line-height: var(--ring-line-height-lower);
+  line-height: var(--ring-line-height);
 }
 
 .withRemove {
@@ -53,6 +54,7 @@
 }
 
 .tagAngled {
+  margin-bottom: -5px !important; /* it needs to fix vertical alignment broken by "overflow: hidden". Remove this class, when IE11 will be deprecated */
   margin-left: unit;
   padding-left: calc(unit / 2);
 
@@ -128,7 +130,6 @@
   box-sizing: border-box;
   width: max-height;
   height: max-height;
-  margin-top: -1px;
   margin-right: calc(unit / 2);
   margin-left: calc(0 - unit);
 
