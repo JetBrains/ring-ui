@@ -252,10 +252,14 @@ export default class DatePopup extends Component {
   handleConfirm = memoize(name => () => {
     const {withTime, range} = this.props;
 
-    if (!range && withTime && this.state.active === 'date') {
+    const active = this.state.active;
+    if (!range && withTime) {
       this.setState({
-        active: 'time'
+        active: active === 'time' ? 'date' : 'time'
       });
+      if (active === 'time') {
+        this.confirm(name);
+      }
     } else {
       this.confirm(name);
     }
