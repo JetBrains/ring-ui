@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import Input from '../input/input';
 import {dateType} from './consts';
 import styles from './date-picker.css';
 
-export default class DateInput extends Component {
+export default class DateInput extends React.PureComponent {
   static propTypes = {
     active: PropTypes.bool,
     name: PropTypes.string,
@@ -68,6 +68,15 @@ export default class DateInput extends Component {
       onClear
     } = this.props;
 
+    // const color = getRandomColor();
+    // console.log(`%cactive: ${active}`, `color: ${color};`);
+    // console.log(`%choverDate: ${hoverDate}`, `color: ${color};`);
+    // console.log(`%cinputFormat: ${inputFormat}`, `color: ${color};`);
+    // console.log(`%ctext: ${text}`, `color: ${color};`);
+    // console.log(`%cname: ${name}`, `color: ${color};`);
+    // console.log(`%cdate: ${date}`, `color: ${color};`);
+    // console.log(`%ctime: ${time}`, `color: ${color};`);
+
     let displayText = '';
     if (active && hoverDate) {
       displayText = hoverDate.format(inputFormat);
@@ -85,8 +94,10 @@ export default class DateInput extends Component {
           return 'Add first date';
         case 'to':
           return 'Add second date';
+        case 'time':
+          return 'Add time';
         default:
-          return `Add ${name}`;
+          return `Select ${name}`;
       }
     })();
 
@@ -108,3 +119,14 @@ export default class DateInput extends Component {
     );
   }
 }
+
+// function getRandomColor() {
+//   const letters = '0123456789ABCDEF';
+//   let color = '#';
+//   // eslint-disable-next-line no-magic-numbers
+//   for (let i = 0; i < 6; i++) {
+//     // eslint-disable-next-line no-magic-numbers
+//     color += letters[Math.floor(Math.random() * 16)];
+//   }
+//   return color;
+// }
