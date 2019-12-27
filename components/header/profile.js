@@ -59,7 +59,6 @@ export default class Profile extends PureComponent {
         className={classNames(styles.profileEmpty, className)}
       >
         <Button
-          theme={Button.Theme.DARK}
           primary
           data-test="ring-header-login-button"
           disabled={loading}

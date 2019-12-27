@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './tabs.css';
@@ -16,7 +16,7 @@ CustomItem.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export default class Tabs extends PureComponent {
+class Tabs extends PureComponent {
   static propTypes = {
     theme: PropTypes.string,
     selected: PropTypes.string,
@@ -28,7 +28,6 @@ export default class Tabs extends PureComponent {
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
     onSelect() {}
   };
 
@@ -81,3 +80,4 @@ export default class Tabs extends PureComponent {
     );
   }
 }
+export default withTheme()(Tabs);

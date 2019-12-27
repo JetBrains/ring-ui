@@ -14,8 +14,7 @@ export default class TrayIcon extends Component {
   };
 
   static defaultProps = {
-    ...Button.defaultProps,
-    theme: Button.Theme.DARK
+    ...Button.defaultProps
   };
 
   render() {

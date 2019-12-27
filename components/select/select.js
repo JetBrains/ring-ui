@@ -15,7 +15,7 @@ import buttonStyles from '../button/button.css';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
-import Theme from '../global/theme';
+import Theme, {ThemeContext} from '../global/theme';
 import memoize from '../global/memoize';
 import getEventKey from '../global/get-event-key';
 
@@ -318,7 +318,6 @@ export default class Select extends Component {
     tags: null,
     onRemoveTag: noop,
     ringPopupTarget: null,
-    theme: Theme.LIGHT,
     dir: 'ltr'
   };
 
@@ -1102,28 +1101,32 @@ export default class Select extends Component {
                 scope={this.shortcutsScope}
               />
             )}
-            <div
-              id={this.props.id}
-              onClick={this._clickHandler}
-              onKeyPress={this._selectButtonKeyboardHack}
-              className={classNames(
-                buttonStyles.button,
-                buttonStyles[this.props.theme],
-                styles.buttonValue,
-                {
-                  [styles.buttonValueOpen]: this.state.showPopup
-                })
-              }
-              role="button"
-              tabIndex={0}
-              disabled={this.props.disabled}
-              style={style}
-              data-test="ring-select__button ring-select__focus"
-            >
-              {this._getAvatar()}
-              {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
-              {iconsNode}
-            </div>
+            <ThemeContext.Consumer>
+              {contextTheme => (
+                <div
+                  id={this.props.id}
+                  onClick={this._clickHandler}
+                  onKeyPress={this._selectButtonKeyboardHack}
+                  className={classNames(
+                    buttonStyles.button,
+                    buttonStyles[this.props.theme || contextTheme || Theme.LIGHT],
+                    styles.buttonValue,
+                    {
+                      [styles.buttonValueOpen]: this.state.showPopup
+                    })
+                  }
+                  role="button"
+                  tabIndex={0}
+                  disabled={this.props.disabled}
+                  style={style}
+                  data-test="ring-select__button ring-select__focus"
+                >
+                  {this._getAvatar()}
+                  {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
+                  {iconsNode}
+                </div>
+              )}
+            </ThemeContext.Consumer>
             {this._renderPopup()}
           </div>
         );
