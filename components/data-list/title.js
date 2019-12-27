@@ -20,6 +20,7 @@ class Title extends PureComponent {
     onSelect: PropTypes.func,
     showFocus: PropTypes.bool,
     collapserExpander: PropTypes.node,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
 
     // focusSensorHOC
     onFocusRestore: PropTypes.func
@@ -50,7 +51,7 @@ class Title extends PureComponent {
 
   render() {
     const {
-      className, title, offset, showFocus,
+      className, title, offset, showFocus, innerRef,
       selectable, selected, collapserExpander
     } = this.props;
 
@@ -65,6 +66,7 @@ class Title extends PureComponent {
         id={this.id}
         className={classes}
         style={{paddingLeft: offset}}
+        ref={innerRef}
       >
         <div className={styles.boxes}>
           {selectable &&

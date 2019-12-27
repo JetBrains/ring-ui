@@ -22,8 +22,14 @@ export default class Island extends Component {
   };
 
   render() {
-    // eslint-disable-next-line max-len
-    const {children, className, narrow, withoutPaddings, 'data-test': dataTest, ...restProps} = this.props;
+    const {
+      children,
+      className,
+      narrow,
+      withoutPaddings,
+      'data-test': dataTest,
+      ...restProps
+    } = this.props;
     const classes = classNames(styles.island, className, {
       [styles.narrowIsland]: narrow,
       [styles.withoutPaddings]: withoutPaddings
