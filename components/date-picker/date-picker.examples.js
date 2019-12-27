@@ -52,7 +52,7 @@ singleDate.story = {
 export const singleDateAndTime = () => {
   class DatePickerExample extends Component {
     state = {
-      date: '01.01.18',
+      date: '8 January 2020',
       time: '9:45'
     };
 

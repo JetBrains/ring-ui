@@ -274,7 +274,9 @@ export default class DatePopup extends Component {
 
   render() {
     const {range, hidden, withTime} = this.props;
-    const time = this.parse(this.props.time, 'time');
+    const parsedTime = this.parse(this.props.time, 'time');
+    const parsedDate = this.parse(this.props.date, 'date');
+    const parsedTo = this.parse(this.props.to, 'to');
 
     const names = range ? ['from', 'to'] : ['date'];
     const dates = names.reduce((obj, key) => {
@@ -347,6 +349,7 @@ export default class DatePopup extends Component {
             <DateInput
               {...this.props}
               {...this.state}
+              divider={name === 'from' && (dates[name] || parsedTo)}
               name={name}
               key={name}
               date={dates[name]}
@@ -363,11 +366,12 @@ export default class DatePopup extends Component {
               <DateInput
                 {...this.props}
                 {...this.state}
+                divider={!!parsedDate}
                 hoverDate={null}
                 name={'time'}
                 key={'time'}
                 date={null}
-                time={time}
+                time={parsedTime}
                 active={this.state.active === 'time'}
                 hidden={hidden}
                 onActivate={this.handleActivate('time')}
