@@ -130,7 +130,7 @@ export default class Profile extends PureComponent {
     const items = [
       showApplyChangedUser && {
         rgItemType,
-        label: translations.applyChangedUser || 'Apply changeduser',
+        label: translations.applyChangedUser || 'Apply changed user',
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },
