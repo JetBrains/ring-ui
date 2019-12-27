@@ -21,7 +21,8 @@ export default {
 export const allVariants = () => {
   class CustomComponent extends React.Component {
     render() {
-      const {active, activeClassName, className, href, children, ...props} = this.props;
+      const {active, activeClassName, onPlainLeftClick, className, href, children,
+        ...props} = this.props;
       const classes = classNames(className, {
         [activeClassName]: active
       });
@@ -34,13 +35,11 @@ export const allVariants = () => {
   class LinkDemo extends React.Component {
     state = {compatibility: false};
 
-    changeCompatibility = () => {
-      // eslint-disable-next-line react/no-access-state-in-setstate
-      const newCompat = !this.state.compatibility;
+    changeCompatibility = () => this.setState(({compatibility}) => {
+      const newCompat = !compatibility;
       setCompatibilityMode(newCompat);
-
-      this.setState({compatibility: newCompat});
-    };
+      return {compatibility: newCompat};
+    });
 
     render() {
       return (

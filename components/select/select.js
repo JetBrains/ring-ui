@@ -45,6 +45,151 @@ const getStyle = memoize(iconsLength => ({
   paddingRight: iconsLength * ICON_WIDTH
 }));
 
+const isInputMode = type => type === Type.INPUT || type === Type.INPUT_WITHOUT_CONTROLS;
+
+function getLowerCaseLabel(item) {
+  if (
+    List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
+    List.isItemType(List.ListProps.Type.HINT, item) ||
+    item.label == null
+  ) {
+    return null;
+  }
+
+  return item.label.toLowerCase();
+}
+
+function doesLabelMatch(itemToCheck, fn) {
+  const lowerCaseLabel = getLowerCaseLabel(itemToCheck);
+
+  if (lowerCaseLabel == null) {
+    return true;
+  }
+
+  return fn(lowerCaseLabel);
+}
+
+function getFilterFn(filter) {
+  if (filter.fn) {
+    return filter.fn;
+  }
+
+  if (filter.fuzzy) {
+    return (itemToCheck, checkString) =>
+      doesLabelMatch(itemToCheck, lowerCaseLabel =>
+        fuzzyHighlight(checkString, lowerCaseLabel).matched
+      );
+  }
+
+  return (itemToCheck, checkString) =>
+    doesLabelMatch(itemToCheck, lowerCaseLabel =>
+      lowerCaseLabel.indexOf(checkString) >= 0
+    );
+}
+
+const buildMultipleMap = selected => Object.fromEntries(selected.map(({key}) => [key, true]));
+
+function getListItems(props, state, rawFilterString, data = props.data) {
+  let filterString = rawFilterString.trim();
+
+  if (isInputMode(props.type) && state.selected && filterString === state.selected.label) {
+    filterString = ''; // ignore multiple if it is exactly the selected item
+  }
+  const lowerCaseString = filterString.toLowerCase();
+
+  const filteredData = [];
+  let exactMatch = false;
+
+  const check = getFilterFn(props.filter);
+
+  for (let i = 0; i < data.length; i++) {
+    const item = {...data[i]};
+    if (check(item, lowerCaseString, data)) {
+      exactMatch = (item.label === filterString);
+
+      if (props.multiple && !props.multiple.removeSelectedItems) {
+        item.checkbox = !!state.multipleMap[item.key];
+      }
+
+      if (
+        props.multiple &&
+        props.multiple.limit
+      ) {
+        item.disabled = props.multiple.limit === state.selected.length &&
+          !state.selected.find(selectedItem => selectedItem.key === item.key);
+      }
+
+      // Ignore item if it's multiple and is already selected
+      if (
+        !(props.multiple &&
+          props.multiple.removeSelectedItems &&
+          state.multipleMap[item.key])
+      ) {
+        filteredData.push(item);
+      }
+    }
+  }
+
+  let addButton = null;
+  const {add} = props;
+  if (
+    (add && filterString && !exactMatch) ||
+    (add && add.alwaysVisible)
+  ) {
+    if (!(add.regexp && !add.regexp.test(filterString)) &&
+      !(add.minlength && filterString.length < +add.minlength) ||
+      add.alwaysVisible) {
+
+      addButton = {
+        prefix: add.prefix,
+        label: add.label || filterString,
+        delayed: add.hasOwnProperty('delayed') ? add.delayed : true
+      };
+    }
+  }
+
+  return {filteredData, addButton};
+}
+
+function getSelectedIndex(selected, data, multiple) {
+  const firstSelected = multiple ? selected[0] : selected;
+  if (firstSelected == null) {
+    return null;
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+
+    if (item.key === undefined) {
+      continue;
+    }
+
+    if (item.key === firstSelected.key) {
+      return i;
+    }
+  }
+
+  return null;
+}
+
+const getItemLabel = ({selectedLabel, label}) => (selectedLabel != null ? selectedLabel : label);
+
+const getValueForFilter = (selected, type, filterValue) =>
+  (selected && isInputMode(type) ? getItemLabel(selected) : filterValue);
+
+function isSameSelected(prevSelected, selected) {
+  if (!prevSelected || !selected || prevSelected.length !== selected.length) {
+    return false;
+  }
+
+  const keysMap = selected.reduce((result, item) => {
+    result[item.key] = true;
+    return result;
+  }, {});
+
+  return prevSelected.every(it => keysMap[it.key]);
+}
+
 /**
  * @name Select
  * @constructor
@@ -100,7 +245,11 @@ export default class Select extends Component {
     disabled: PropTypes.bool,
     hideSelected: PropTypes.bool,
     label: PropTypes.string,
-    selectedLabel: PropTypes.string,
+    selectedLabel: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ]),
     inputPlaceholder: PropTypes.string,
     clear: PropTypes.bool,
     hideArrow: PropTypes.bool,
@@ -173,6 +322,58 @@ export default class Select extends Component {
     dir: 'ltr'
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {multiple, data, type} = nextProps;
+    const {prevSelected, prevData, prevMultiple, filterValue} = prevState;
+    const nextState = {prevData: data, prevSelected: nextProps.selected, prevMultiple: multiple};
+
+    if ('data' in nextProps && data !== prevData) {
+      const {filteredData, addButton} = getListItems(nextProps, prevState, filterValue, data);
+      Object.assign(nextState, {shownData: filteredData, addButton});
+
+      if (prevState.selected) {
+        Object.assign(nextState, {
+          selectedIndex: getSelectedIndex(
+            prevState.selected,
+            data,
+            multiple,
+          ),
+          prevFilterValue: getValueForFilter(prevState.selected, type, filterValue)
+        });
+      }
+    }
+
+    if ('selected' in nextProps && nextProps.selected !== prevSelected) {
+      const selected = nextProps.selected || Select._getEmptyValue(multiple);
+
+      const selectedIndex = getSelectedIndex(
+        selected,
+        data || prevData,
+        multiple,
+      );
+
+      Object.assign(nextState, {
+        selected,
+        prevFilterValue: getValueForFilter(selected, type, filterValue)
+      });
+
+      if (!multiple || !isSameSelected(prevSelected, selected)) {
+        Object.assign(nextState, {selectedIndex});
+      }
+    }
+
+    if (prevMultiple !== multiple) {
+      nextState.selected = Select._getEmptyValue(multiple);
+    }
+
+    const {selected} = {...prevState, ...nextState};
+    if (selected && multiple) {
+      nextState.multipleMap = buildMultipleMap(selected);
+    }
+
+    return nextState;
+  }
+
   state = {
     data: [],
     shownData: [],
@@ -181,28 +382,26 @@ export default class Select extends Component {
     filterValue: this.props.filter && this.props.filter.value || '',
     shortcutsEnabled: false,
     popupShortcuts: false,
-    showPopup: false
+    showPopup: false,
+    prevData: this.props.data,
+    prevSelected: null,
+    prevMultiple: this.props.multiple,
+    multipleMap: {},
+    addButton: null
   };
-
-  UNSAFE_componentWillMount() {
-    this.updateState(this.props, true);
-  }
-
-  componentDidMount() {
-    this._rebuildMultipleMap(this.state.selected, this.props.multiple);
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    this.updateState(newProps);
-  }
 
   componentDidUpdate(prevProps, prevState) {
     const {showPopup, selected} = this.state;
+    const {onClose, onOpen, onChange, multiple} = this.props;
 
     if (prevState.showPopup && !showPopup) {
-      this.props.onClose(selected);
+      onClose(selected);
     } else if (!prevState.showPopup && showPopup) {
-      this.props.onOpen();
+      onOpen();
+    }
+
+    if (multiple !== prevProps.multiple) {
+      onChange(selected);
     }
   }
 
@@ -242,17 +441,15 @@ export default class Select extends Component {
   };
 
   _popup = null;
-  _addButton = null;
-  _multipleMap = {};
 
   onEmptyPopupEnter = () => {
-    if (this._addButton) {
+    if (this.state.addButton) {
       this.addHandler();
     }
   };
 
   _onEnter = () => {
-    if (this._addButton && this.state.shownData.length === 0) {
+    if (this.state.addButton && this.state.shownData.length === 0) {
       this.addHandler();
     }
 
@@ -294,101 +491,12 @@ export default class Select extends Component {
     }
   };
 
-  _handleMultipleToggling(multiple) {
-    const empty = Select._getEmptyValue(multiple);
-    this.setState({selected: empty}, () => {
-      this.props.onChange(empty);
-    });
-    this._rebuildMultipleMap(empty, multiple);
-  }
-
   getValueForFilter(selected) {
-    return selected && this.isInputMode() ? this._getItemLabel(selected) : this.state.filterValue;
-  }
-
-  updateState(props, initial) {
-    const {multiple} = this.props;
-
-    if ('data' in props && props.data !== this.props.data) {
-      const shownData = this.getListItems(this.filterValue(), props.data);
-      this.setState({shownData});
-
-      if (this.state.selected && props.data !== this.props.data) {
-        this.setState(prevState => ({
-          selectedIndex: this._getSelectedIndex(
-            prevState.selected,
-            props.data
-          ),
-          prevFilterValue: this.getValueForFilter(prevState.selected)
-        }));
-        this._rebuildMultipleMap(this.state.selected, multiple);
-      }
-    }
-
-    if ('selected' in props && (
-      initial ||
-      props.selected !== this.props.selected
-    )) {
-      const selected = props.selected || Select._getEmptyValue(multiple);
-
-      const selectedIndex = this._getSelectedIndex(
-        selected,
-        props.data || this.props.data
-      );
-
-      const newState = {
-        selected,
-        prevFilterValue: this.getValueForFilter(selected)
-      };
-
-      if (!multiple || !isSameSelected(this.props.selected, selected)) {
-        Object.assign(newState, {selectedIndex});
-      }
-
-      this.setState(newState);
-
-      this._rebuildMultipleMap(selected, multiple);
-    }
-
-    if (props.multiple !== multiple) {
-      this._handleMultipleToggling(props.multiple);
-    }
-
-    function isSameSelected(prevSelected, selected) {
-      if (!prevSelected || !selected || prevSelected.length !== selected.length) {
-        return false;
-      }
-
-      const keysMap = selected.reduce((result, item) => {
-        result[item.key] = true;
-        return result;
-      }, {});
-
-      return prevSelected.every(it => keysMap[it.key]);
-    }
+    return getValueForFilter(selected, this.props.type, this.state.filterValue);
   }
 
   _getSelectedIndex(selected, data) {
-    if ((this.props.multiple && !selected.length) || (!this.props.multiple && !selected)) {
-      return null;
-    }
-
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
-
-      if (item.key === undefined) {
-        continue;
-      }
-
-      if (
-        (this.props.multiple && item.key === selected[0].key) ||
-        (!this.props.multiple && item.key === selected.key)
-      ) {
-        return i;
-      }
-    }
-
-    return null;
+    return getSelectedIndex(selected, data, this.props.multiple);
   }
 
   popupRef = el => {
@@ -413,11 +521,11 @@ export default class Select extends Component {
       className: 'ring-select__clear-tags',
       onClick: (item, event) => {
         this.clear(event);
-        this._resetMultipleSelectionMap();
         this.clearFilter();
         this.props.onFilter('');
         this.setState(prevState => ({
-          shownData: prevState.shownData.slice(reset.separator ? 2 : 1)
+          shownData: prevState.shownData.slice(reset.separator ? 2 : 1),
+          multipleMap: {}
         }));
         this._redrawPopup();
       }
@@ -528,8 +636,8 @@ export default class Select extends Component {
 
   getToolbar() {
     const {hint} = this.props;
-    const {prefix, label, delayed} = this._addButton || {};
-    const isToolbarHasElements = this._addButton || hint;
+    const {prefix, label, delayed} = this.state.addButton || {};
+    const isToolbarHasElements = this.state.addButton || hint;
     if (!isToolbarHasElements) {
       return null;
     }
@@ -537,11 +645,11 @@ export default class Select extends Component {
     return (
       <div
         className={classNames({
-          [styles.toolbar]: !!this._addButton
+          [styles.toolbar]: !!this.state.addButton
         })}
         data-test="ring-select-toolbar"
       >
-        {this._addButton && (
+        {this.state.addButton && (
           <Button
             text
             delayed={delayed}
@@ -562,106 +670,16 @@ export default class Select extends Component {
     );
   }
 
-  getLowerCaseLabel(item) {
-    if (
-      List.isItemType(List.ListProps.Type.SEPARATOR, item) ||
-      List.isItemType(List.ListProps.Type.HINT, item) ||
-      item.label == null
-    ) {
-      return null;
-    }
-
-    return item.label.toLowerCase();
-  }
-
-  doesLabelMatch(itemToCheck, fn) {
-    const lowerCaseLabel = this.getLowerCaseLabel(itemToCheck);
-
-    if (lowerCaseLabel == null) {
-      return true;
-    }
-
-    return fn(lowerCaseLabel);
-  }
+  getLowerCaseLabel = getLowerCaseLabel;
+  doesLabelMatch = doesLabelMatch;
 
   getFilterFn() {
-    const {filter} = this.props;
-
-    if (filter.fn) {
-      return filter.fn;
-    }
-
-    if (filter.fuzzy) {
-      return (itemToCheck, checkString) =>
-        this.doesLabelMatch(itemToCheck, lowerCaseLabel =>
-          fuzzyHighlight(checkString, lowerCaseLabel).matched
-        );
-    }
-
-    return (itemToCheck, checkString) =>
-      this.doesLabelMatch(itemToCheck, lowerCaseLabel =>
-        lowerCaseLabel.indexOf(checkString) >= 0
-      );
+    return getFilterFn(this.props.filter);
   }
 
-  getListItems(rawFilterString, data = this.props.data) {
-    let filterString = rawFilterString.trim();
-
-    if (this.isInputMode() && this.state.selected && filterString === this.state.selected.label) {
-      filterString = ''; // ignore multiple if it is exactly the selected item
-    }
-    const lowerCaseString = filterString.toLowerCase();
-
-    const filteredData = [];
-    let exactMatch = false;
-
-    const check = this.getFilterFn();
-
-    for (let i = 0; i < data.length; i++) {
-      const item = {...data[i]};
-      if (check(item, lowerCaseString, data)) {
-        exactMatch = (item.label === filterString);
-
-        if (this.props.multiple && !this.props.multiple.removeSelectedItems) {
-          item.checkbox = !!this._multipleMap[item.key];
-        }
-
-        if (
-          this.props.multiple &&
-          this.props.multiple.limit
-        ) {
-          item.disabled = this.props.multiple.limit === this.state.selected.length &&
-            !this.state.selected.find(selectedItem => selectedItem.key === item.key);
-        }
-
-        // Ignore item if it's multiple and is already selected
-        if (
-          !(this.props.multiple &&
-            this.props.multiple.removeSelectedItems &&
-            this._multipleMap[item.key])
-        ) {
-          filteredData.push(item);
-        }
-      }
-    }
-
-    this._addButton = null;
-    const {add} = this.props;
-    if (
-      (add && filterString && !exactMatch) ||
-      (add && add.alwaysVisible)
-    ) {
-      if (!(add.regexp && !add.regexp.test(filterString)) &&
-        !(add.minlength && filterString.length < +add.minlength) ||
-        add.alwaysVisible) {
-
-        this._addButton = {
-          prefix: add.prefix,
-          label: add.label || filterString,
-          delayed: add.hasOwnProperty('delayed') ? add.delayed : true
-        };
-      }
-    }
+  getListItems(rawFilterString, data) {
+    const {filteredData, addButton} = getListItems(this.props, this.state, rawFilterString, data);
+    this.setState({addButton});
 
     return filteredData;
   }
@@ -676,7 +694,7 @@ export default class Select extends Component {
   }
 
   isInputMode() {
-    return (this.props.type === Type.INPUT || this.props.type === Type.INPUT_WITHOUT_CONTROLS);
+    return isInputMode(this.props.type);
   }
 
   _clickHandler = () => {
@@ -732,17 +750,9 @@ export default class Select extends Component {
     });
   };
 
-  _resetMultipleSelectionMap() {
-    this._multipleMap = {};
-    return this._multipleMap;
-  }
-
   _rebuildMultipleMap(selected, multiple) {
     if (selected && multiple) {
-      this._resetMultipleSelectionMap();
-      for (let i = 0; i < selected.length; i++) {
-        this._multipleMap[selected[i].key] = true;
-      }
+      this.setState({multipleMap: buildMultipleMap(selected)});
     }
   }
 
@@ -778,7 +788,7 @@ export default class Select extends Component {
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
         const newFilterValue = this.isInputMode() && !this.props.hideSelected
-          ? this._getItemLabel(selected)
+          ? getItemLabel(selected)
           : '';
         this.filterValue(newFilterValue);
         this.props.onFilter(newFilterValue);
@@ -798,7 +808,7 @@ export default class Select extends Component {
         const currentSelection = prevState.selected;
         let nextSelection;
 
-        if (!this._multipleMap[selected.key]) {
+        if (!prevState.multipleMap[selected.key]) {
           nextSelection = currentSelection.concat(selected);
           this.props.onSelect && this.props.onSelect(selected, event);
         } else {
@@ -824,15 +834,16 @@ export default class Select extends Component {
               : {...item, disabled: true}));
         }
 
+        if (!prevState.multipleMap[selected.key]) {
+          nextState.multipleMap = {...prevState.multipleMap, [selected.key]: true};
+        } else {
+          const {[selected.key]: _, ...restMultipleMap} = prevState.multipleMap;
+          nextState.multipleMap = restMultipleMap;
+        }
+
         return nextState;
 
       }, () => {
-        if (!this._multipleMap[selected.key]) {
-          this._multipleMap[selected.key] = true;
-        } else {
-          delete this._multipleMap[selected.key];
-        }
-
         if (tryKeepOpen) {
           this._redrawPopup();
         }
@@ -878,21 +889,12 @@ export default class Select extends Component {
             nextSelection, this.props.data
           )
           : null,
-        shownData: prevState.shownData.map(item => ({...item, checkbox: isSelectAll}))
+        shownData: prevState.shownData.map(item => ({...item, checkbox: isSelectAll})),
+        multipleMap: isSelectAll
+          ? buildMultipleMap(this.props.data.filter(item => !item.disabled))
+          : {}
       };
-    }, () => {
-      if (isSelectAll) {
-        this.props.data.
-          filter(item => !item.disabled).
-          forEach(item => {
-            this._multipleMap[item.key] = true;
-          });
-      } else {
-        this._multipleMap = {};
-      }
-
-      this._redrawPopup();
-    });
+    }, this._redrawPopup);
   };
 
   _onCloseAttempt = (event, isEsc) => {
@@ -901,7 +903,7 @@ export default class Select extends Component {
         if (this.props.hideSelected || !this.state.selected || this.props.multiple) {
           this.clearFilter();
         } else if (this.state.selected) {
-          this.filterValue(this._getItemLabel(this.state.selected));
+          this.filterValue(getItemLabel(this.state.selected));
         }
       }
     }
@@ -949,17 +951,12 @@ export default class Select extends Component {
     if (this.props.multiple) {
       const labels = [];
       for (let i = 0; i < this.state.selected.length; i++) {
-        labels.push(this._getItemLabel(this.state.selected[i]));
+        labels.push(getItemLabel(this.state.selected[i]));
       }
       return labels.filter(Boolean).join(', ');
     } else {
-      return this._getItemLabel(this.state.selected);
+      return getItemLabel(this.state.selected);
     }
-  }
-
-  _getItemLabel(item) {
-    const {selectedLabel, label} = item;
-    return selectedLabel != null ? selectedLabel : label;
   }
 
   _getIcons() {
@@ -1070,6 +1067,7 @@ export default class Select extends Component {
             />
           )}
           <Input
+            autoComplete="off"
             id={this.props.id}
             onClick={this._clickHandler}
             inputRef={this.filterRef}

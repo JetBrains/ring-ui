@@ -47,7 +47,7 @@ describe('ContentEditable', () => {
       children: <span/>
     });
 
-    stub.should.have.been.calledThrice;
+    stub.should.have.been.calledTwice;
   });
 
   it('should not render on other props change', () => {
@@ -56,7 +56,7 @@ describe('ContentEditable', () => {
       className: 'testtest'
     });
 
-    stub.should.have.been.calledOnce;
+    stub.should.not.have.been.called;
   });
 
   it('should set tabindex equal zero by default', () => {

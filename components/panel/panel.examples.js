@@ -20,7 +20,7 @@ export const basic = () => {
     render() {
       return (
         <Panel>
-          <Button blue>{'Apply changes'}</Button>
+          <Button primary>{'Apply changes'}</Button>
           <Button>{'Cancel'}</Button>
         </Panel>
       );

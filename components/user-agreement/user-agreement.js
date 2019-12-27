@@ -44,8 +44,16 @@ export default class UserAgreement extends PureComponent {
 
   render() {
     const {scrolledDown} = this.state;
-    // eslint-disable-next-line max-len
-    const {translations, onAccept, onDecline, onClose, onRemindLater, text, show, preview} = this.props;
+    const {
+      translations,
+      onAccept,
+      onDecline,
+      onClose,
+      onRemindLater,
+      text,
+      show,
+      preview
+    } = this.props;
 
     return (
       <Dialog

@@ -1,4 +1,4 @@
-/* eslint-disable no-shadow,no-console */
+/* eslint-disable no-console */
 const {execSync} = require('child_process');
 const path = require('path');
 const {promisify} = require('util');
@@ -57,9 +57,9 @@ function unzip(buffer) {
   };
 }
 
-async function ensureWriteStream(path) {
-  await fs.ensureFile(path);
-  return fs.createWriteStream(path);
+async function ensureWriteStream(filePath) {
+  await fs.ensureFile(filePath);
+  return fs.createWriteStream(filePath);
 }
 
 async function downloadArtifacts(buildLocator, src, dest) {

@@ -1,5 +1,7 @@
 import angular from 'angular';
 
+import {action} from '@storybook/addon-actions';
+
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import BreadcrumbNG from './breadcrumb-ng';
@@ -15,8 +17,7 @@ export default {
 
 export const basic = () => {
   angular.module(APP_NAME, [BreadcrumbNG]).controller('DemoCtrl', function controller() {
-    // eslint-disable-next-line no-alert
-    this.clickSecondLevel = () => alert('Second level was clicked');
+    this.clickSecondLevel = action('Second level was clicked');
   });
 
   return `
