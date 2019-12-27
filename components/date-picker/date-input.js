@@ -10,6 +10,7 @@ import styles from './date-picker.css';
 export default class DateInput extends React.PureComponent {
   static propTypes = {
     active: PropTypes.bool,
+    divider: PropTypes.bool,
     name: PropTypes.string,
     text: PropTypes.string,
     hoverDate: dateType,
@@ -58,6 +59,7 @@ export default class DateInput extends React.PureComponent {
   render() {
     const {
       active,
+      divider,
       text,
       time,
       name,
@@ -67,15 +69,6 @@ export default class DateInput extends React.PureComponent {
       onActivate,
       onClear
     } = this.props;
-
-    // const color = getRandomColor();
-    // console.log(`%cactive: ${active}`, `color: ${color};`);
-    // console.log(`%choverDate: ${hoverDate}`, `color: ${color};`);
-    // console.log(`%cinputFormat: ${inputFormat}`, `color: ${color};`);
-    // console.log(`%ctext: ${text}`, `color: ${color};`);
-    // console.log(`%cname: ${name}`, `color: ${color};`);
-    // console.log(`%cdate: ${date}`, `color: ${color};`);
-    // console.log(`%ctime: ${time}`, `color: ${color};`);
 
     let displayText = '';
     if (active && hoverDate) {
@@ -101,7 +94,12 @@ export default class DateInput extends React.PureComponent {
       }
     })();
 
-    const classes = classNames(styles.filter, styles[`${name}Input`], 'ring-js-shortcuts');
+    const classes = classNames(
+      styles.filter,
+      styles[`${name}Input`],
+      divider && styles[`${name}InputWithDivider`],
+      'ring-js-shortcuts'
+    );
 
     return (
       <Input
@@ -119,14 +117,3 @@ export default class DateInput extends React.PureComponent {
     );
   }
 }
-
-// function getRandomColor() {
-//   const letters = '0123456789ABCDEF';
-//   let color = '#';
-//   // eslint-disable-next-line no-magic-numbers
-//   for (let i = 0; i < 6; i++) {
-//     // eslint-disable-next-line no-magic-numbers
-//     color += letters[Math.floor(Math.random() * 16)];
-//   }
-//   return color;
-// }
