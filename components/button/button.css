@@ -393,20 +393,22 @@
   }
 }
 
-.withNormalIcon .icon {
+.withNormalIconLight .icon {
   transition: color var(--ring-ease);
-}
 
-.withNormalIcon.light .icon {
   color: var(--ring-icon-color);
 }
 
-.withNormalIcon.dark .icon {
+.withNormalIconDark .icon {
+  transition: color var(--ring-ease);
+
   color: var(--ring-button-dark-icon-color);
 }
 
-.withNormalIcon:active,
-.withNormalIcon.active {
+.withNormalIconLight:active,
+.withNormalIconLight.active,
+.withNormalIconDark:active,
+.withNormalIconDark.active {
   color: var(--ring-main-color);
 
   & .icon {
@@ -416,7 +418,8 @@
   }
 }
 
-.withNormalIcon:hover .icon,
+.withNormalIconLight:hover .icon,
+.withNormalIconDark:hover .icon,
 .withDangerIconLight:hover .icon,
 .withDangerIconDark:hover .icon {
   transition: none;
@@ -432,11 +435,6 @@
 .withDangerIconDark .icon,
 .withDangerIconDark:active .icon {
   color: var(--ring-error-color);
-}
-
-/* backward compatibility */
-.withNormalIconLight {
-  composes: withNormalIcon;
 }
 
 .buttonWithoutIcon .icon {

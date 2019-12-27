@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './loader-inline.css';
@@ -12,16 +12,12 @@ import injectStyles from './inject-styles';
  * @name Loader Inline
  */
 
-export default class LoaderInline extends PureComponent {
+class LoaderInline extends PureComponent {
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(Theme)),
     className: PropTypes.string,
     'data-test': PropTypes.string,
     children: PropTypes.node
-  };
-
-  static defaultProps = {
-    theme: Theme.LIGHT
   };
 
   componentDidMount() {
@@ -55,3 +51,5 @@ export default class LoaderInline extends PureComponent {
     ) : loader;
   }
 }
+
+export default withTheme()(LoaderInline);
