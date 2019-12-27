@@ -89,7 +89,9 @@
   flex-basis: calc(unit * 13);
   flex-grow: 0;
   flex-shrink: 0;
+}
 
+.fromInputWithDivider {
   &::after {
     position: absolute;
     right: unit;
@@ -114,7 +116,7 @@
   flex-shrink: 0;
 }
 
-.timeInput {
+.timeInputWithDivider {
   position: relative;
 
   &::before {
