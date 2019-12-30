@@ -23,7 +23,7 @@
     "forever": "^1.0.0",
     "fs-extra": "^8.1.0",
     "hermione": "^2.13.5",
-    "html-reporter": "^5.5.2",
+    "html-reporter": "^5.8.0",
     "http-server": "^0.12.0",
     "ip": "^1.1.5",
     "jsdom": "^15.2.1",
