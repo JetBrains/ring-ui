@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search.svg';
+import memoizeOne from 'memoize-one';
 
 import Icon from '../icon/icon';
 
@@ -57,7 +58,6 @@ export default class SelectPopup extends Component {
   };
 
   state = {
-    popupShortcuts: false,
     popupFilterShortcutsOptions: {
       modal: true,
       disabled: true
@@ -67,16 +67,6 @@ export default class SelectPopup extends Component {
 
   componentDidMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.hidden !== this.props.hidden) {
-      this.setState({
-        popupShortcuts: !nextProps.hidden,
-        shortcuts: !nextProps.hidden && this.props.filter
-      });
-      this._cachedAdjustedMaxHeight = null;
-    }
   }
 
   componentWillUnmount() {
@@ -307,7 +297,7 @@ export default class SelectPopup extends Component {
       let {maxHeight} = this.props;
 
       if (this.props.anchorElement) {
-        maxHeight = this._adjustListMaxHeight(maxHeight);
+        maxHeight = this._adjustListMaxHeight(this.props.hidden, maxHeight);
       }
 
       if (this.props.filter) {
@@ -325,7 +315,7 @@ export default class SelectPopup extends Component {
           onSelect={this.onListSelect}
           onResize={this.handleListResize}
           onScrollToBottom={this.props.onLoadMore}
-          shortcuts={this.state.popupShortcuts}
+          shortcuts={!this.props.hidden}
           disableMoveOverflow={this.props.disableMoveOverflow}
           disableMoveDownOverflow={this.props.loading}
           disableScrollToActive={this.props.disableScrollToActive}
@@ -357,34 +347,37 @@ export default class SelectPopup extends Component {
     </div>
   );
 
-  _adjustListMaxHeight(userDefinedMaxHeight) {
+
+  // Cache the value because this method is called
+  // inside `render` function which can be called N times
+  // and should be fast as possible.
+  // Cache invalidates each time hidden or userDefinedMaxHeight changes
+  _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight) => {
+    if (hidden) {
+      return userDefinedMaxHeight;
+    }
+
     // Calculate list's maximum height that can't
     // get beyond the screen
     // @see RG-1838, JT-48358
     const minMaxHeight = 100;
     const directions = this.props.directions || DEFAULT_DIRECTIONS;
 
-    if (!this._cachedAdjustedMaxHeight) {
-      // Cache the value because this method is called
-      // inside `render` function which can be called N times
-      // and should be fast as possible.
-      // Note:
-      // 1. Create a method which'll be called only when the popup opens and before
-      // render the list would be a better way
-      // 2. We use this.popup.getContainer because there is the logic about how to extract
-      // a link on the container node. It looks awkward using popup in this component
-      // maybe we can find a better solution
-      const anchorNode = this.props.anchorElement;
-      const containerNode = document.documentElement; // A temporary fix for RG-2050. To be made permanent if working
-      this._cachedAdjustedMaxHeight = (Math.min(
-        directions.reduce((maxHeight, direction) => (
-          Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
-        ), minMaxHeight),
-        userDefinedMaxHeight));
-    }
-
-    return this._cachedAdjustedMaxHeight;
-  }
+    // Note:
+    // 1. Create a method which'll be called only when the popup opens and before
+    // render the list would be a better way
+    // 2. We use this.popup.getContainer because there is the logic about how to extract
+    // a link on the container node. It looks awkward using popup in this component
+    // maybe we can find a better solution
+    const anchorNode = this.props.anchorElement;
+    const containerNode = document.documentElement; // A temporary fix for RG-2050. To be made permanent if working
+    return Math.min(
+      directions.reduce((maxHeight, direction) => (
+        Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
+      ), minMaxHeight),
+      userDefinedMaxHeight
+    );
+  });
 
   popupRef = el => {
     this.popup = el;
@@ -445,7 +438,7 @@ export default class SelectPopup extends Component {
         style={this.props.style}
       >
         <div dir={this.props.dir}>
-          {this.state.shortcuts &&
+          {!this.props.hidden && this.props.filter &&
             (
               <Shortcuts
                 map={this.shortcutsMap}
