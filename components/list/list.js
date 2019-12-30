@@ -11,6 +11,7 @@ import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/es/WindowScroller';
 import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
 import deprecate from 'util-deprecate';
+import memoizeOne from 'memoize-one';
 
 import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
@@ -82,6 +83,9 @@ function isActivatable(item) {
     item.disabled);
 }
 
+const shouldActivateFirstItem = props => props.activateFirstItem ||
+    props.activateSingleItem && props.data.length === 1;
+
 /**
  * @name List
  * @constructor
@@ -131,6 +135,7 @@ export default class List extends Component {
 
   state = {
     activeIndex: null,
+    prevActiveIndex: null,
     activeItem: null,
     needScrollToActive: false,
     scrolling: false,
@@ -139,81 +144,50 @@ export default class List extends Component {
     scrolledToBottom: false
   };
 
-  UNSAFE_componentWillMount() {
-    const {data, activeIndex} = this.props;
-    this.checkActivatableItems(data);
-    if (activeIndex != null && data[this.props.activeIndex]) {
-      this.setState({
+  static getDerivedStateFromProps(nextProps, {prevActiveIndex, activeItem}) {
+    const {data, activeIndex, restoreActiveIndex} = nextProps;
+    const nextState = {prevActiveIndex: activeIndex};
+    if (activeIndex != null && activeIndex !== prevActiveIndex && data[activeIndex] != null) {
+      Object.assign(nextState, {
         activeIndex,
         activeItem: data[activeIndex],
         needScrollToActive: true
       });
     } else if (
-      activeIndex == null &&
-      this.shouldActivateFirstItem(this.props) &&
-      this.hasActivatableItems()
+      restoreActiveIndex &&
+      activeItem != null &&
+      activeItem.key != null
+    ) {
+      // Restore active index if there is an item with the same "key" property
+      const index = data.findIndex(item => item.key === activeItem.key);
+      if (index >= 0) {
+        Object.assign(nextState, {
+          activeIndex: index,
+          activeItem: data[index]
+        });
+      }
+    }
+
+    if (
+      nextState.activeIndex == null &&
+      shouldActivateFirstItem(nextState)
     ) {
       const firstActivatableIndex = data.findIndex(isActivatable);
-      this.setState({
-        activeIndex: firstActivatableIndex,
-        activeItem: data[firstActivatableIndex],
-        needScrollToActive: true
-      });
+      if (firstActivatableIndex >= 0) {
+        Object.assign(nextState, {
+          activeIndex: firstActivatableIndex,
+          activeItem: data[firstActivatableIndex],
+          needScrollToActive: true
+        });
+      }
     }
+
+    return nextState;
   }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
-  }
-
-  UNSAFE_componentWillReceiveProps(props) {
-    if (props.data) {
-      this.checkActivatableItems(props.data);
-
-      this.setState(prevState => {
-        let activeIndex = null;
-        let activeItem = null;
-
-        if (
-          props.restoreActiveIndex &&
-          prevState.activeItem &&
-          prevState.activeItem.key != null
-        ) {
-          for (let i = 0; i < props.data.length; i++) {
-            // Restore active index if there is an item with the same "key" property
-            if (props.data[i].key !== undefined && props.data[i].key === prevState.activeItem.key) {
-              activeIndex = i;
-              activeItem = props.data[i];
-              break;
-            }
-          }
-        }
-
-        if (
-          activeIndex === null &&
-          this.shouldActivateFirstItem(props) &&
-          this.hasActivatableItems()
-        ) {
-          activeIndex = props.data.findIndex(isActivatable);
-          activeItem = props.data[activeIndex];
-        } else if (
-          props.activeIndex != null &&
-          props.activeIndex !== this.props.activeIndex &&
-          props.data[props.activeIndex]
-        ) {
-          activeIndex = props.activeIndex;
-          activeItem = props.data[props.activeIndex];
-        }
-
-        return {
-          activeIndex,
-          activeItem,
-          needScrollToActive:
-            activeIndex !== prevState.activeIndex ? true : prevState.needScrollToActive
-        };
-      });
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -296,18 +270,9 @@ export default class List extends Component {
     keyMapper: this.sizeCacheKey
   });
 
+  _hasActivatableItems = memoizeOne(items => items.some(isActivatable));
   hasActivatableItems() {
-    return this._activatableItems;
-  }
-
-  checkActivatableItems(items) {
-    this._activatableItems = false;
-    for (let i = 0; i < items.length; i++) {
-      if (isActivatable(items[i])) {
-        this._activatableItems = true;
-        return;
-      }
-    }
+    return this._hasActivatableItems(this.props.data);
   }
 
   selectHandler = memoize(index => (event, tryKeepOpen = false) => {
@@ -459,11 +424,6 @@ export default class List extends Component {
 
   defaultItemHeight() {
     return this.props.compact ? Dimension.COMPACT_ITEM_HEIGHT : Dimension.ITEM_HEIGHT;
-  }
-
-  shouldActivateFirstItem(props) {
-    return props.activateFirstItem ||
-      props.activateSingleItem && props.data.length === 1;
   }
 
   scrollEndHandler = () => scheduleScrollListener(() => {
