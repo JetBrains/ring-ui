@@ -1,6 +1,5 @@
 import React, {createContext, forwardRef} from 'react';
-import {wrapDisplayName} from 'recompose';
-import PropTypes from 'prop-types';
+import {pure, wrapDisplayName} from 'recompose';
 
 const Theme = {
   LIGHT: 'light',
@@ -10,27 +9,26 @@ const Theme = {
 export const ThemeContext = createContext();
 
 export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
-  const WithTheme = forwardRef(({theme, ...restProps}, ref) => (
-    <ThemeContext.Consumer>
-      {contextTheme => {
-        const usedTheme = theme || contextTheme || defaultTheme;
-        return (
-          <ThemeContext.Provider value={usedTheme}>
-            <ComposedComponent
-              ref={ref}
-              {...restProps}
-              theme={usedTheme}
-            />
-          </ThemeContext.Provider>
-        );
-      }}
-    </ThemeContext.Consumer>
-  ));
+  // eslint-disable-next-line react/prop-types
+  const WithTheme = pure(forwardRef(function WithTheme({theme, ...restProps}, ref) {
+    return (
+      <ThemeContext.Consumer>
+        {contextTheme => {
+          const usedTheme = theme || contextTheme || defaultTheme;
+          return (
+            <ThemeContext.Provider value={usedTheme}>
+              <ComposedComponent
+                ref={ref}
+                {...restProps}
+                theme={usedTheme}
+              />
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }));
   Object.assign(WithTheme, ComposedComponent);
-  WithTheme.propTypes = {
-    theme: PropTypes.oneOf(Object.values(Theme)),
-    ...ComposedComponent.propTypes
-  };
   WithTheme.displayName = wrapDisplayName(ComposedComponent, 'withTheme');
   return WithTheme;
 };
