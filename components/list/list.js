@@ -170,7 +170,7 @@ export default class List extends Component {
 
     if (
       nextState.activeIndex == null &&
-      shouldActivateFirstItem(nextState)
+      shouldActivateFirstItem(nextProps)
     ) {
       const firstActivatableIndex = data.findIndex(isActivatable);
       if (firstActivatableIndex >= 0) {
