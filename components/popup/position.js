@@ -191,15 +191,16 @@ export function maxHeightForDirection(direction, anchorNode, containerNode) {
     case Directions.BOTTOM_LEFT:
     case Directions.BOTTOM_CENTER:
     case Directions.BOTTOM_RIGHT:
+      return bottomMaxHeight;
     case Directions.LEFT_BOTTOM:
     case Directions.RIGHT_BOTTOM:
-      return bottomMaxHeight;
+      return domRect.height + bottomMaxHeight;
     case Directions.LEFT_TOP:
     case Directions.RIGHT_TOP:
-      return domRect.height + bottomMaxHeight;
+      return domRect.height + topMaxHeight;
     case Directions.RIGHT_CENTER:
     case Directions.LEFT_CENTER:
-      return (domRect.height / 2) + bottomMaxHeight;
+      return (domRect.height / 2) + Math.min(bottomMaxHeight / 2, topMaxHeight / 2);
     default:
       return null;
   }
