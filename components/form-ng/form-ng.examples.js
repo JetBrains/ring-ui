@@ -13,7 +13,7 @@ import InputNG from '../input-ng/input-ng';
 import FormNG from './form-ng';
 
 export default {
-  title: 'Legacy Angular|Form Ng',
+  title: 'Legacy Angular/Form Ng',
   decorators: [angularDecorator()],
 
   parameters: {

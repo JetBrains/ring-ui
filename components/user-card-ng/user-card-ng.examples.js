@@ -10,7 +10,7 @@ import {createHubUserCardSource} from '../hub-source/hub-source__user';
 import UserCardNG from './user-card-ng';
 
 export default {
-  title: 'Legacy Angular|User Card Ng',
+  title: 'Legacy Angular/User Card Ng',
   decorators: [angularDecorator()],
 
   parameters: {

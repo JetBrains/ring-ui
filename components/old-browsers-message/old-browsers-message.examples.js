@@ -2,7 +2,7 @@ import './old-browsers-message.css';
 import './old-browsers-message';
 
 export default {
-  title: 'Style-only|Old Browsers Message',
+  title: 'Style-only/Old Browsers Message',
 
   parameters: {
     notes: `

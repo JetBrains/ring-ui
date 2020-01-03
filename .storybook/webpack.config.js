@@ -16,13 +16,16 @@ module.exports = ({config}) => {
 
   config.module.rules = [
     ...ringConfig.config.module.rules,
+    config.module.rules.find(rule =>
+      rule.include instanceof RegExp &&
+      rule.include.test('node_modules/acorn-jsx')),
     {
       test: /\.md$/,
       loader: 'raw-loader'
     },
     {
       test: /\.examples\.js$/,
-      loaders: [require.resolve('@storybook/addon-storysource/loader')],
+      loaders: [require.resolve('@storybook/source-loader')],
       enforce: 'pre'
     }
   ];

@@ -14,7 +14,7 @@ const lorem = (
 );
 
 export default {
-  title: 'Components|Heading',
+  title: 'Components/Heading',
   decorators: [reactDecorator()],
 
   parameters: {

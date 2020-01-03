@@ -10,7 +10,7 @@ import Toggle from '../toggle/toggle';
 import Link, {linkHOC, setCompatibilityMode} from './link';
 
 export default {
-  title: 'Components|Link',
+  title: 'Components/Link',
   decorators: [reactDecorator()],
 
   parameters: {

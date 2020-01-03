@@ -11,7 +11,7 @@ import Markdown from './markdown/markdown';
 import License from 'raw-loader!../LICENSE.txt';
 
 export default {
-  title: 'Ring UI|Welcome',
+  title: 'Ring UI/Welcome',
   decorators: [reactDecorator()],
 
   parameters: {

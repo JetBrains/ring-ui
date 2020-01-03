@@ -11,7 +11,7 @@ import LandingEntryFileName from './landing-entry';
 import '../link/link__legacy.css';
 
 export default {
-  title: 'Utilities|Auth',
+  title: 'Utilities/Auth',
 
   parameters: {
     notes: 'Authenticates a user in [Hub](https://www.jetbrains.com/hub/).',

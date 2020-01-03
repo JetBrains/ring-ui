@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RingTabs from './tabs-ng';
 
 export default {
-  title: 'Legacy Angular|Tabs Ng',
+  title: 'Legacy Angular/Tabs Ng',
   decorators: [angularDecorator()],
 
   parameters: {

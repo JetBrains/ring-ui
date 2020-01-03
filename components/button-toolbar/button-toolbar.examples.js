@@ -7,7 +7,7 @@ import ButtonGroup from '../button-group/button-group';
 import ButtonToolbar from './button-toolbar';
 
 export default {
-  title: 'Components|Button Toolbar',
+  title: 'Components/Button Toolbar',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -10,7 +10,7 @@ import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 import SaveFieldNG from './save-field-ng';
 
 export default {
-  title: 'Legacy Angular|Save Field Ng',
+  title: 'Legacy Angular/Save Field Ng',
   decorators: [angularDecorator()],
 
   parameters: {

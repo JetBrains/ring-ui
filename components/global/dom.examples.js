@@ -1,7 +1,7 @@
 import {getStyles, getRect, getPixelRatio, getWindowHeight} from './dom';
 
 export default {
-  title: 'Utilities|DOM',
+  title: 'Utilities/DOM',
 
   parameters: {
     notes: 'A collection of DOM utilities.',

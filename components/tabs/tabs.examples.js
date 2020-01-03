@@ -8,7 +8,7 @@ import Button from '../button/button';
 import {Tabs, Tab, SmartTabs, CustomItem} from './tabs';
 
 export default {
-  title: 'Components|Tabs',
+  title: 'Components/Tabs',
   decorators: [reactDecorator()],
 
   parameters: {

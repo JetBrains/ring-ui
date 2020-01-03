@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RadioNG from './radio-ng';
 
 export default {
-  title: 'Legacy Angular|Radio Ng',
+  title: 'Legacy Angular/Radio Ng',
   decorators: [angularDecorator()],
 
   parameters: {

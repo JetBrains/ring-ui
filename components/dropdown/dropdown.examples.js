@@ -12,7 +12,7 @@ import {Input} from '../input/input';
 import Dropdown from './dropdown';
 
 export default {
-  title: 'Components|Dropdown',
+  title: 'Components/Dropdown',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -7,7 +7,7 @@ import ButtonToolbar from '../button-toolbar/button-toolbar';
 import alert from './alert-service';
 
 export default {
-  title: 'Services|Alert Service',
+  title: 'Services/Alert Service',
   decorators: [reactDecorator()],
 
   parameters: {

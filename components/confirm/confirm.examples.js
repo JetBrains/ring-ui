@@ -7,7 +7,7 @@ import Button from '../button/button';
 import Confirm from './confirm';
 
 export default {
-  title: 'Components|Confirm',
+  title: 'Components/Confirm',
   decorators: [reactDecorator()],
 
   parameters: {
