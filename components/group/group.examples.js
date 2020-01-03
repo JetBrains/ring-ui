@@ -7,7 +7,7 @@ import Link from '../link/link';
 import Group from './group';
 
 export default {
-  title: 'Components|Group',
+  title: 'Components/Group',
   decorators: [reactDecorator()],
 
   parameters: {

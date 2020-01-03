@@ -1,7 +1,7 @@
 import Storage from './storage';
 
 export default {
-  title: 'Components|Storage',
+  title: 'Components/Storage',
 
   parameters: {
     notes: 'Provides a façade to localStorage/sessionStorage/cookies.',

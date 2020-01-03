@@ -7,7 +7,7 @@ import ButtonNG from '../button-ng/button-ng';
 import CheckboxNG from './checkbox-ng';
 
 export default {
-  title: 'Legacy Angular|Checkbox Ng',
+  title: 'Legacy Angular/Checkbox Ng',
   decorators: [angularDecorator()],
 
   parameters: {

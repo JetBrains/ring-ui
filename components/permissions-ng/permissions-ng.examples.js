@@ -7,7 +7,7 @@ import hubConfig from '../../.storybook/hub-config';
 import PermissionsNG from './permissions-ng';
 
 export default {
-  title: 'Legacy Angular|Permissions Ng',
+  title: 'Legacy Angular/Permissions Ng',
   decorators: [angularDecorator()],
 
   parameters: {

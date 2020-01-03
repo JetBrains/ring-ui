@@ -6,7 +6,7 @@ import Group from '../group/group';
 import Badge from './badge';
 
 export default {
-  title: 'Components|Badge',
+  title: 'Components/Badge',
   decorators: [reactDecorator()],
 
   parameters: {

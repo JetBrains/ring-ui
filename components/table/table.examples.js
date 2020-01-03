@@ -14,7 +14,7 @@ import mock from './table.examples.json';
 import {continents, countries} from './table.examples2.json';
 
 export default {
-  title: 'Components|Table',
+  title: 'Components/Table',
   decorators: [reactDecorator()],
 
   parameters: {

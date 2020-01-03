@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Island, {AdaptiveIsland, Header, Content} from './island';
 
 export default {
-  title: 'Components|Island',
+  title: 'Components/Island',
   decorators: [reactDecorator()],
 
   parameters: {
