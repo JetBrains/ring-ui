@@ -14,7 +14,7 @@ import QueryAssist from './query-assist';
 const queryAssistLog = action('queryAssistLog');
 
 export default {
-  title: 'Components|Query Assist',
+  title: 'Components/Query Assist',
   decorators: [reactDecorator()],
 
   parameters: {

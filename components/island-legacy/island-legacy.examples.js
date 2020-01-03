@@ -1,7 +1,7 @@
 import './island-legacy.scss';
 
 export default {
-  title: 'Style-only|Island',
+  title: 'Style-only/Island',
 
   parameters: {
     notes: 'Displays an island.'

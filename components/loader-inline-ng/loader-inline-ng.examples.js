@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LoaderInlineNg from './loader-inline-ng';
 
 export default {
-  title: 'Legacy Angular|Loader Inline Ng',
+  title: 'Legacy Angular/Loader Inline Ng',
   decorators: [angularDecorator()],
 
   parameters: {

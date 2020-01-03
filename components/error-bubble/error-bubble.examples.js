@@ -11,7 +11,7 @@ import '../input-size/input-size.scss';
 import ErrorBubble from './error-bubble';
 
 export default {
-  title: 'Components|ErrorBubble',
+  title: 'Components/ErrorBubble',
   decorators: [reactDecorator()],
 
   parameters: {

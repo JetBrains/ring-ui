@@ -7,7 +7,7 @@ import Group from '../group/group';
 import Text from './text';
 
 export default {
-  title: 'Components|Text',
+  title: 'Components/Text',
   decorators: [reactDecorator()],
 
   parameters: {

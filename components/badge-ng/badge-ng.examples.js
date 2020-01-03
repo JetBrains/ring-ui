@@ -6,7 +6,7 @@ import GroupNG from '../group-ng/group-ng';
 import BadgeNG from './badge-ng';
 
 export default {
-  title: 'Legacy Angular|Badge Ng',
+  title: 'Legacy Angular/Badge Ng',
   decorators: [angularDecorator()],
 
   parameters: {

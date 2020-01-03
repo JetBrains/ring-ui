@@ -7,7 +7,7 @@ import {Size as AvatarSize} from '../avatar/avatar';
 import AvatarNG from './avatar-ng';
 
 export default {
-  title: 'Legacy Angular|Avatar Ng',
+  title: 'Legacy Angular/Avatar Ng',
   decorators: [angularDecorator()],
 
   parameters: {

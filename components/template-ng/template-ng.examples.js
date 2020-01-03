@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import TemplateNG from './template-ng';
 
 export default {
-  title: 'Legacy Angular|Template Ng',
+  title: 'Legacy Angular/Template Ng',
   decorators: [angularDecorator()],
 
   parameters: {

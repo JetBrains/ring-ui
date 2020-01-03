@@ -7,7 +7,7 @@ import SelectNg from '../select-ng/select-ng';
 import AutofocusNG from './autofocus-ng';
 
 export default {
-  title: 'Legacy Angular|Autofocus Ng',
+  title: 'Legacy Angular/Autofocus Ng',
   decorators: [angularDecorator()],
 
   parameters: {

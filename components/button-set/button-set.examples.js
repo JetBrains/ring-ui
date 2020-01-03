@@ -6,7 +6,7 @@ import Button from '../button/button';
 import ButtonSet from './button-set';
 
 export default {
-  title: 'Components|Button Set',
+  title: 'Components/Button Set',
   decorators: [reactDecorator()],
 
   parameters: {
