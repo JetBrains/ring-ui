@@ -27,15 +27,12 @@ const getTree = window => {
 
   const simpleTree = tree.map(item =>
     Object.assign({}, item, {
-      stories: item.stories.map(({name}) => {
-        const {parameters} =
-          api._storyStore.getStoryAndParameters(item.kind, name);
-        return {
+      stories: api._storyStore.getStoriesForKind(item.kind).
+        map(({id, name, parameters}) => ({
+          id,
           name,
-          displayName: parameters.displayName || name,
           parameters: parameters.hermione
-        };
-      })
+        }))
     }),
   );
   fs.writeFileSync(
