@@ -175,8 +175,8 @@ export default class List extends Component {
     }
 
     if (
+      activeIndex == null &&
       prevState.activeIndex == null &&
-      nextState.activeIndex == null &&
       shouldActivateFirstItem(nextProps)
     ) {
       const firstActivatableIndex = data.findIndex(isActivatable);
