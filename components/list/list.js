@@ -76,11 +76,14 @@ function isItemType(listItemType, item) {
   return type === listItemType;
 }
 
+const nonActivatableTypes = [
+  Type.SEPARATOR,
+  Type.TITLE,
+  Type.MARGIN
+];
+
 function isActivatable(item) {
-  return !(item.rgItemType === Type.HINT ||
-    item.rgItemType === Type.SEPARATOR ||
-    item.rgItemType === Type.TITLE ||
-    item.disabled);
+  return !nonActivatableTypes.includes(item.rgItemType) && !item.disabled;
 }
 
 const shouldActivateFirstItem = props => props.activateFirstItem ||
@@ -136,6 +139,7 @@ export default class List extends Component {
   state = {
     activeIndex: null,
     prevActiveIndex: null,
+    prevData: [],
     activeItem: null,
     needScrollToActive: false,
     scrolling: false,
@@ -144,9 +148,10 @@ export default class List extends Component {
     scrolledToBottom: false
   };
 
-  static getDerivedStateFromProps(nextProps, {prevActiveIndex, activeItem}) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {prevActiveIndex, prevData, activeItem} = prevState;
     const {data, activeIndex, restoreActiveIndex} = nextProps;
-    const nextState = {prevActiveIndex: activeIndex};
+    const nextState = {prevActiveIndex: activeIndex, prevData: data};
     if (activeIndex != null && activeIndex !== prevActiveIndex && data[activeIndex] != null) {
       Object.assign(nextState, {
         activeIndex,
@@ -154,6 +159,7 @@ export default class List extends Component {
         needScrollToActive: true
       });
     } else if (
+      data !== prevData &&
       restoreActiveIndex &&
       activeItem != null &&
       activeItem.key != null
@@ -169,6 +175,7 @@ export default class List extends Component {
     }
 
     if (
+      prevState.activeIndex == null &&
       nextState.activeIndex == null &&
       shouldActivateFirstItem(nextProps)
     ) {
