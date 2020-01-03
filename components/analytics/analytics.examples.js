@@ -6,7 +6,7 @@ import analytics from './analytics';
 import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 export default {
-  title: 'Components|Analytics',
+  title: 'Components/Analytics',
 
   parameters: {
     notes:

@@ -10,7 +10,7 @@ import Message from './message';
 const {Directions} = Popup.PopupProps;
 
 export default {
-  title: 'Components|Message',
+  title: 'Components/Message',
   decorators: [reactDecorator()],
 
   parameters: {

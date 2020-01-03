@@ -25,7 +25,7 @@ import SmartProfile from './smart-profile';
 import {Auth} from '..';
 
 export default {
-  title: 'Components|Header',
+  title: 'Components/Header',
   decorators: [reactDecorator()],
 
   parameters: {

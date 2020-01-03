@@ -19,7 +19,7 @@ const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
 
 export default {
-  title: 'Components|Select',
+  title: 'Components/Select',
   decorators: [reactDecorator()],
 
   parameters: {

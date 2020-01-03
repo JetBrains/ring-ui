@@ -9,7 +9,7 @@ import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
 import TagsInput from './tags-input';
 
 export default {
-  title: 'Components|Tags Input',
+  title: 'Components/Tags Input',
   decorators: [reactDecorator()],
 
   parameters: {

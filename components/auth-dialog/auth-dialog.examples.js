@@ -10,7 +10,7 @@ import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 
 
 export default {
-  title: 'Components|Auth Dialog',
+  title: 'Components/Auth Dialog',
   decorators: [reactDecorator()],
 
   parameters: {
