@@ -6,7 +6,7 @@ import LoaderInline from './loader-inline';
 import injectStyles from './inject-styles';
 
 export default {
-  title: 'Components|Inline Loader',
+  title: 'Components/Inline Loader',
   decorators: [reactDecorator()],
 
   parameters: {

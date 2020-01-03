@@ -7,7 +7,7 @@ import Button from '../button/button';
 import Alert, {Container} from './alert';
 
 export default {
-  title: 'Components|Alert',
+  title: 'Components/Alert',
   decorators: [reactDecorator()],
 
   parameters: {

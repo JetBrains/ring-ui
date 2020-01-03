@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LoaderNg from './loader-ng';
 
 export default {
-  title: 'Legacy Angular|Loader Ng',
+  title: 'Legacy Angular/Loader Ng',
   decorators: [angularDecorator()],
 
   parameters: {

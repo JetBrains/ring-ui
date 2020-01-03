@@ -7,7 +7,7 @@ import Button from '../button/button';
 import Panel from './panel';
 
 export default {
-  title: 'Components|Panel',
+  title: 'Components/Panel',
   decorators: [reactDecorator()],
 
   parameters: {

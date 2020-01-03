@@ -10,7 +10,7 @@ import Group from '../group/group';
 import TabTrap from './tab-trap';
 
 export default {
-  title: 'Components|TabTrap',
+  title: 'Components/TabTrap',
   decorators: [reactDecorator()],
 
   parameters: {

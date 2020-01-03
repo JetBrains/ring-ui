@@ -7,7 +7,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import BreadcrumbNG from './breadcrumb-ng';
 
 export default {
-  title: 'Legacy Angular|Breadcrumb Ng',
+  title: 'Legacy Angular/Breadcrumb Ng',
   decorators: [angularDecorator()],
 
   parameters: {

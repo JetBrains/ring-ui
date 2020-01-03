@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Checkbox from './checkbox';
 
 export default {
-  title: 'Components|Checkbox',
+  title: 'Components/Checkbox',
   decorators: [reactDecorator()],
 
   parameters: {

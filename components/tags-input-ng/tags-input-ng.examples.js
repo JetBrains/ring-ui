@@ -7,7 +7,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import TagsInputNG from './tags-input-ng';
 
 export default {
-  title: 'Legacy Angular|Tags Input Ng',
+  title: 'Legacy Angular/Tags Input Ng',
   decorators: [angularDecorator()],
 
   parameters: {

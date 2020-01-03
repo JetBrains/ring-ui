@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Markdown, {md} from './markdown';
 
 export default {
-  title: 'Components|Markdown',
+  title: 'Components/Markdown',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -6,7 +6,7 @@ import ButtonNG from '../button-ng/button-ng';
 import PromisedClickNG from './promised-click-ng';
 
 export default {
-  title: 'Legacy Angular|Promised Click Ng',
+  title: 'Legacy Angular/Promised Click Ng',
   decorators: [angularDecorator()],
 
   parameters: {

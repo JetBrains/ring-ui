@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import RingPager from './pager-ng';
 
 export default {
-  title: 'Legacy Angular|Pager Ng',
+  title: 'Legacy Angular/Pager Ng',
   decorators: [angularDecorator()],
 
   parameters: {
