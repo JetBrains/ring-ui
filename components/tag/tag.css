@@ -14,10 +14,8 @@
 
   box-sizing: border-box;
   max-width: 100%;
-  max-width: calc(100% - 4px);
   height: max-height;
 
-  margin-right: calc(unit / 2);
   margin-bottom: 1px;
   padding: 0 unit;
 
@@ -42,7 +40,9 @@
 
   display: inline-block;
 
-  max-width: 100%;
+  max-width: calc(100% - unit / 2);
+
+  margin-right: calc(unit / 2);
 
   white-space: nowrap;
 }
@@ -106,7 +106,7 @@
   position: absolute;
   z-index: 1;
   top: -1px;
-  right: 4px;
+  right: 0;
 
   padding: 0 calc(unit / 2);
 }
