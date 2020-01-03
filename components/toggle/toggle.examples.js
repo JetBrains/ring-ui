@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Toggle from './toggle';
 
 export default {
-  title: 'Components|Toggle',
+  title: 'Components/Toggle',
   decorators: [reactDecorator()],
 
   parameters: {

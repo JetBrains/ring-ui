@@ -6,7 +6,7 @@ import Button from '../button/button';
 import Tooltip from './tooltip';
 
 export default {
-  title: 'Components|Tooltip',
+  title: 'Components/Tooltip',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -8,7 +8,7 @@ import ButtonNG from '../button-ng/button-ng';
 import DockedPanelNG from './docked-panel-ng';
 
 export default {
-  title: 'Legacy Angular|Docked Panel Ng',
+  title: 'Legacy Angular/Docked Panel Ng',
   decorators: [angularDecorator()],
 
   parameters: {

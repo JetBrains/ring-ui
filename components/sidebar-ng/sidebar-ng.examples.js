@@ -8,7 +8,7 @@ import SelectNG from '../select-ng/select-ng';
 import SidebarNG from './sidebar-ng';
 
 export default {
-  title: 'Legacy Angular|Sidebar Ng',
+  title: 'Legacy Angular/Sidebar Ng',
   decorators: [angularDecorator()],
 
   parameters: {

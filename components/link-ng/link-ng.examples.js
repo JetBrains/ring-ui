@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LinkNG from './link-ng';
 
 export default {
-  title: 'Legacy Angular|Link Ng',
+  title: 'Legacy Angular/Link Ng',
   decorators: [angularDecorator()],
 
   parameters: {

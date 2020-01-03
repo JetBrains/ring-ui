@@ -7,7 +7,7 @@ import {WarningIcon} from '../icon';
 import TooltipNG from './tooltip-ng';
 
 export default {
-  title: 'Legacy Angular|Tooltip Ng',
+  title: 'Legacy Angular/Tooltip Ng',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -9,7 +9,7 @@ import {hideConfirm} from '../confirm-service/confirm-service';
 import ConfirmNG from './confirm-ng';
 
 export default {
-  title: 'Legacy Angular|Confirm Ng',
+  title: 'Legacy Angular/Confirm Ng',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -18,7 +18,7 @@ import {
 } from '.';
 
 export default {
-  title: 'Components|Icon',
+  title: 'Components/Icon',
   decorators: [reactDecorator()],
 
   parameters: {

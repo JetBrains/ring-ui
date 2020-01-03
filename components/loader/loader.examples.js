@@ -6,7 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Loader from './loader';
 
 export default {
-  title: 'Components|Loader',
+  title: 'Components/Loader',
   decorators: [reactDecorator(), withKnobs],
 
   parameters: {

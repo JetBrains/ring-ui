@@ -9,7 +9,7 @@ import ProgressBar from './progress-bar';
 const disableAnimations = window.location.search.includes('block-animations');
 
 export default {
-  title: 'Components|Progress Bar',
+  title: 'Components/Progress Bar',
   decorators: [reactDecorator()]
 };
 

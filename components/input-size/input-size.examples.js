@@ -10,7 +10,7 @@ import SelectNG from '../select-ng/select-ng';
 import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 
 export default {
-  title: 'Style-only|Input Sizes',
+  title: 'Style-only/Input Sizes',
   decorators: [angularDecorator()]
 };
 

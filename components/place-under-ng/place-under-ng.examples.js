@@ -6,7 +6,7 @@ import {getDocumentScrollTop} from '../global/dom';
 import RingPlaceUnder from './place-under-ng';
 
 export default {
-  title: 'Legacy Angular|Place Under Ng',
+  title: 'Legacy Angular/Place Under Ng',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -10,7 +10,7 @@ import DialogNG from '../dialog-ng/dialog-ng';
 import SelectNG from './select-ng';
 
 export default {
-  title: 'Legacy Angular|Select Ng',
+  title: 'Legacy Angular/Select Ng',
   decorators: [angularDecorator()],
 
   parameters: {

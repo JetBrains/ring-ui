@@ -10,7 +10,7 @@ import Theme, {ThemeContext} from '../global/theme';
 import Button from './button';
 
 export default {
-  title: 'Components|Button',
+  title: 'Components/Button',
   decorators: [reactDecorator()],
 
   parameters: {
