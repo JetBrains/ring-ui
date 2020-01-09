@@ -152,6 +152,14 @@ export default class List extends Component {
     const {prevActiveIndex, prevData, activeItem} = prevState;
     const {data, activeIndex, restoreActiveIndex} = nextProps;
     const nextState = {prevActiveIndex: activeIndex, prevData: data};
+
+    if (data !== prevData) {
+      Object.assign(nextState, {
+        activeIndex: null,
+        activeItem: null
+      });
+    }
+
     if (activeIndex != null && activeIndex !== prevActiveIndex && data[activeIndex] != null) {
       Object.assign(nextState, {
         activeIndex,
