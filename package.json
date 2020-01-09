@@ -127,7 +127,7 @@
     "karma-webpack": "^4.0.2",
     "lerna": "^3.20.1",
     "lint-staged": "^9.5.0",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.0",
     "octicons": "^8.5.0",
     "puppeteer": "^2.0.0",
     "raw-loader": "^4.0.0",
