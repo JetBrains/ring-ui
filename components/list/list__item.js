@@ -35,6 +35,7 @@ export default class ListItem extends PureComponent {
       PropTypes.array
     ]),
     avatar: PropTypes.string,
+    groupAvatar: PropTypes.string,
     glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     icon: PropTypes.string,
     iconSize: PropTypes.number,
@@ -74,6 +75,7 @@ export default class ListItem extends PureComponent {
       disabled,
       checkbox,
       avatar,
+      groupAvatar,
       glyph,
       icon,
       rightGlyph,
@@ -175,6 +177,7 @@ export default class ListItem extends PureComponent {
                     className={styles.avatar}
                     url={avatar}
                     size={AvatarSize.Size20}
+                    groupAvatar={groupAvatar}
                   />
                 )}
               </div>
