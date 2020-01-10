@@ -99,7 +99,7 @@ export default class Avatar extends PureComponent {
       const queryParams = {
         ...parseQueryString(query),
         dpr,
-        groupAvatarSizeString
+        size
       };
 
       groupSrc = encodeURL(urlStart, queryParams);
