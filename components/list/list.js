@@ -9,7 +9,8 @@ import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/es/List';
 import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/es/WindowScroller';
-import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
+// TODO move back when https://github.com/bvaughn/react-virtualized/pull/1477 is merged and released
+import {CellMeasurer, CellMeasurerCache} from '@hypnosphi/react-virtualized/dist/es/CellMeasurer';
 import deprecate from 'util-deprecate';
 import memoizeOne from 'memoize-one';
 
@@ -567,11 +568,13 @@ export default class List extends Component {
         rowIndex={index}
         columnIndex={0}
       >
-        <div style={style} role="row">
-          <div role="cell">
-            {el}
+        {({registerChild}) => (
+          <div ref={registerChild} style={style} role="row">
+            <div role="cell">
+              {el}
+            </div>
           </div>
-        </div>
+        )}
       </CellMeasurer>
     ) : cloneElement(el, {key: itemKey});
   };
@@ -603,46 +606,49 @@ export default class List extends Component {
     rowCount,
     isScrolling,
     onChildScroll = noop,
-    scrollTop
+    scrollTop,
+    registerChild
   }) {
     const dirOverride = {direction: 'auto'}; // Virtualized sets "direction: ltr" by defaulthttps://github.com/bvaughn/react-virtualized/issues/457
     return (
       <AutoSizer disableHeight onResize={this.props.onResize}>
         {({width}) => (
-          <VirtualizedList
-            ref={this.virtualizedListRef}
-            className="ring-list__i"
-            autoHeight={autoHeight}
-            style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
-            autoContainerWidth
-            height={height}
-            width={width}
-            isScrolling={isScrolling}
-            onScroll={e => {
-              onChildScroll(e);
-              this.scrollEndHandler(e);
-            }}
-            scrollTop={scrollTop}
-            rowCount={rowCount}
-            estimatedRowSize={this.defaultItemHeight()}
-            rowHeight={this._cache.rowHeight}
-            rowRenderer={this.renderItem}
-            overscanRowCount={this._bufferSize}
+          <div ref={registerChild}>
+            <VirtualizedList
+              ref={this.virtualizedListRef}
+              className="ring-list__i"
+              autoHeight={autoHeight}
+              style={maxHeight ? {maxHeight, height: 'auto', ...dirOverride} : dirOverride}
+              autoContainerWidth
+              height={height}
+              width={width}
+              isScrolling={isScrolling}
+              onScroll={e => {
+                onChildScroll(e);
+                this.scrollEndHandler(e);
+              }}
+              scrollTop={scrollTop}
+              rowCount={rowCount}
+              estimatedRowSize={this.defaultItemHeight()}
+              rowHeight={this._cache.rowHeight}
+              rowRenderer={this.renderItem}
+              overscanRowCount={this._bufferSize}
 
-            // ensure rerendering
-            noop={() => {}}
+              // ensure rerendering
+              noop={() => {}}
 
-            scrollToIndex={
-              !this.props.disableScrollToActive &&
-                this.state.needScrollToActive &&
-                this.state.activeIndex != null
-                ? this.state.activeIndex + 1
-                : undefined
-            }
-            scrollToAlignment="center"
-            deferredMeasurementCache={this._cache}
-            onRowsRendered={this.checkOverflow}
-          />
+              scrollToIndex={
+                !this.props.disableScrollToActive &&
+                  this.state.needScrollToActive &&
+                  this.state.activeIndex != null
+                  ? this.state.activeIndex + 1
+                  : undefined
+              }
+              scrollToAlignment="center"
+              deferredMeasurementCache={this._cache}
+              onRowsRendered={this.checkOverflow}
+            />
+          </div>
         )}
       </AutoSizer>
     );

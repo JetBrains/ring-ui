@@ -12,7 +12,7 @@ module.exports = {
     '<rootDir>/test-helpers/register-context.js'
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!react-virtualized)'
+    'node_modules/(?!(?:@hypnosphi/)?react-virtualized)'
   ],
   restoreMocks: true
 };
