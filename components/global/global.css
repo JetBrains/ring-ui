@@ -78,7 +78,6 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
 
   text-align: left;
 
-  color: inherit;
   border: 0;
 
   background: transparent;
@@ -89,6 +88,10 @@ Also it won't form in FF47 https://bugzilla.mozilla.org/show_bug.cgi?id=594933
     padding: 0;
 
     border: 0;
+  }
+
+  &:active {
+    color: inherit;
   }
 }
 
