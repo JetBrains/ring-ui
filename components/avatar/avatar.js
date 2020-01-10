@@ -12,7 +12,6 @@ import styles from './avatar.css';
  */
 
 export const Size = {
-  Size10: 10,
   Size18: 18,
   Size20: 20,
   Size24: 24,
@@ -37,7 +36,7 @@ export default class Avatar extends PureComponent {
   static defaultProps = {
     dpr: getPixelRatio(),
     size: Size.Size20,
-    groupAvatarSize: Size.Size10,
+    groupAvatarSize: Size.Size20 / 2,
     style: {}
   };
 
@@ -99,7 +98,7 @@ export default class Avatar extends PureComponent {
       const queryParams = {
         ...parseQueryString(query),
         dpr,
-        size
+        groupAvatarSizeString
       };
 
       groupSrc = encodeURL(urlStart, queryParams);
