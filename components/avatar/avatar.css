@@ -7,6 +7,14 @@
   border-radius: var(--ring-border-radius); /* This is a "graceful degradation" fallback, while the real value is controlled by JS */
 }
 
+.group {
+  position: absolute;
+  top: 15px;
+  left: 27px;
+
+  border: 1px var(--ring-content-background-color) solid;
+}
+
 .empty {
   display: inline-block;
 

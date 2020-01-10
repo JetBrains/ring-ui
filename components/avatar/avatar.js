@@ -12,6 +12,7 @@ import styles from './avatar.css';
  */
 
 export const Size = {
+  Size10: 10,
   Size18: 18,
   Size20: 20,
   Size24: 24,
@@ -28,12 +29,15 @@ export default class Avatar extends PureComponent {
     size: PropTypes.number,
     style: PropTypes.object,
     url: PropTypes.string,
-    round: PropTypes.bool
+    round: PropTypes.bool,
+    groupAvatar: PropTypes.string,
+    groupAvatarSize: PropTypes.number
   };
 
   static defaultProps = {
     dpr: getPixelRatio(),
     size: Size.Size20,
+    groupAvatarSize: Size.Size10,
     style: {}
   };
 
@@ -50,13 +54,21 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size, url, dpr, style, round, ...restProps} = this.props;
+    const {size, url, dpr, style, round, groupAvatar, groupAvatarSize, ...restProps} = this.props;
     const sizeString = `${size}px`;
+    const groupAvatarSizeString = `${groupAvatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
     const styleObj = {
       borderRadius: round ? '50%' : borderRadius,
       height: sizeString,
       width: sizeString,
+      ...style
+    };
+
+    const styleObjGroup = {
+      borderRadius: '2px',
+      height: groupAvatarSizeString,
+      width: groupAvatarSizeString,
       ...style
     };
 
@@ -81,17 +93,50 @@ export default class Avatar extends PureComponent {
 
       src = encodeURL(urlStart, queryParams);
     }
+    let groupSrc = null;
+    if (groupAvatar && !isDataURI(groupAvatar)) {
+      const [urlStart, query] = groupAvatar.split('?');
+      const queryParams = {
+        ...parseQueryString(query),
+        dpr,
+        groupAvatarSizeString
+      };
 
-    return (
-      <img
-        {...restProps}
-        onError={this.handleError}
-        onLoad={this.handleSuccess}
-        className={classNames(styles.avatar, this.props.className)}
-        style={styleObj}
-        src={src}
-        alt="User avatar"
-      />
-    );
+      groupSrc = encodeURL(urlStart, queryParams);
+      return (
+        <div>
+          <img
+            {...restProps}
+            onError={this.handleError}
+            onLoad={this.handleSuccess}
+            className={classNames(styles.avatar, this.props.className)}
+            style={styleObj}
+            src={src}
+            alt="User avatar"
+          />
+          <img
+            {...restProps}
+            onError={this.handleError}
+            onLoad={this.handleSuccess}
+            className={classNames(styles.group)}
+            style={styleObjGroup}
+            src={groupSrc}
+            alt="Group avatar"
+          />
+        </div>
+      );
+    } else {
+      return (
+        <img
+          {...restProps}
+          onError={this.handleError}
+          onLoad={this.handleSuccess}
+          className={classNames(styles.avatar, this.props.className)}
+          style={styleObj}
+          src={src}
+          alt="User avatar"
+        />
+      );
+    }
   }
 }
