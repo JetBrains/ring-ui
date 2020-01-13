@@ -8,7 +8,7 @@ import Popup from '../popup/popup';
 import Dropdown, {Anchor} from '../dropdown/dropdown';
 
 import DatePopup from './date-popup';
-import {dateType, parseDate} from './consts';
+import {dateType, parseDate, parseTime} from './consts';
 import styles from './date-picker.css';
 
 const PopupComponent = ({
@@ -60,6 +60,8 @@ export default class DatePicker extends PureComponent {
     className: PropTypes.string,
     popupClassName: PropTypes.string,
     date: dateType,
+    time: PropTypes.string,
+    withTime: PropTypes.bool,
     range: PropTypes.bool,
     from: dateType,
     to: dateType,
@@ -69,6 +71,7 @@ export default class DatePicker extends PureComponent {
     displayDayFormat: PropTypes.string,
     inputFormat: PropTypes.string,
     datePlaceholder: PropTypes.string,
+    dateTimePlaceholder: PropTypes.string,
     rangePlaceholder: PropTypes.string,
     onChange: PropTypes.func,
     dropdownProps: PropTypes.object,
@@ -80,6 +83,8 @@ export default class DatePicker extends PureComponent {
   static defaultProps = {
     className: '',
     date: null,
+    time: null,
+    withTime: false,
     range: false,
     from: null,
     to: null,
@@ -89,6 +94,7 @@ export default class DatePicker extends PureComponent {
     displayDayFormat: 'D',
     inputFormat: 'D MMM YYYY',
     datePlaceholder: 'Set a date',
+    dateTimePlaceholder: 'Set date and time',
     rangePlaceholder: 'Set a period',
     minDate: null,
     maxDate: null,
@@ -96,11 +102,14 @@ export default class DatePicker extends PureComponent {
   };
 
   clear = () => {
-    this.props.onChange(
-      this.props.range
-        ? {from: null, to: null}
-        : null
-    );
+    let change = null;
+    if (this.props.range) {
+      change = {from: null, to: null};
+    } else if (this.props.withTime) {
+      change = {date: null, time: null};
+    }
+
+    this.props.onChange(change);
   };
 
   popupRef = el => {
@@ -119,7 +128,9 @@ export default class DatePicker extends PureComponent {
       displayMonthFormat,
       displayDayFormat,
       datePlaceholder,
-      rangePlaceholder
+      dateTimePlaceholder,
+      rangePlaceholder,
+      withTime
     } = this.props;
 
     const parse = text => parseDate(
@@ -131,10 +142,17 @@ export default class DatePicker extends PureComponent {
     const date = parse(this.props.date);
     const from = parse(this.props.from);
     const to = parse(this.props.to);
+    const time = withTime ? parseTime(this.props.time) : null;
 
     let text;
-    if (!range) {
+    if (!range && !withTime) {
       text = date ? date.format(displayFormat) : datePlaceholder;
+    } else if (!range && withTime) {
+      if (!date && !time) {
+        text = dateTimePlaceholder;
+      } else {
+        text = `${date && date.format(displayFormat) || '—'}, ${time || '—'}`;
+      }
     } else if (!from && !to) {
       text = rangePlaceholder;
     } else if (!to) {
