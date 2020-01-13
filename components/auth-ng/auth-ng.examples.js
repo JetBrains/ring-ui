@@ -6,7 +6,7 @@ import hubConfig from '../../.storybook/hub-config';
 import AuthNG from './auth-ng';
 
 export default {
-  title: 'Legacy Angular|Auth Ng',
+  title: 'Legacy Angular/Auth Ng',
   decorators: [angularDecorator()],
 
   parameters: {

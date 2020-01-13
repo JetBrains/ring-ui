@@ -20,7 +20,7 @@ function hrefGenerator(linkPageNumber, pageSize) {
 }
 
 export default {
-  title: 'Components|Pager',
+  title: 'Components/Pager',
   decorators: [reactDecorator()],
 
   parameters: {

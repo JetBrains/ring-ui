@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React, {Component, Fragment} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -6,10 +5,12 @@ import reactDecorator from '../../.storybook/react-decorator';
 import {PencilIcon, HourglassIcon} from '../icon';
 import Loader from '../loader-inline/loader-inline';
 
+import Theme, {ThemeContext} from '../global/theme';
+
 import Button from './button';
 
 export default {
-  title: 'Components|Button',
+  title: 'Components/Button',
   decorators: [reactDecorator()],
 
   parameters: {
@@ -18,10 +19,9 @@ export default {
 };
 
 export const basic = () => {
-  function renderButtonModifications(theme) {
+  function renderButtonModifications() {
     return ['active', 'primary', 'danger', 'delayed', 'disabled', 'dropdown'].map(modifier => (
       <Button
-        theme={theme}
         key={modifier}
         data-test={`button-${modifier}`}
         {...{[modifier]: true}}
@@ -31,39 +31,38 @@ export const basic = () => {
     ));
   }
 
-  function renderTextModifications(theme) {
+  function renderTextModifications() {
     return ['primary', 'danger', 'disabled', 'loader'].map(modifier => (
-      <Button text theme={theme} key={modifier} {...{[modifier]: true}}>
+      <Button text key={modifier} {...{[modifier]: true}}>
         Text action {modifier}
       </Button>
     ));
   }
 
-  function renderIconWithTextModifications(theme) {
+  function renderIconWithTextModifications() {
     return [
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
       {label: 'danger-disabled', danger: true, disabled: true}
-    ].map((modifiers, index) => (
-      <Button theme={theme} key={index} icon={PencilIcon} {...modifiers}>
+    ].map(modifiers => (
+      <Button key={modifiers.label} icon={PencilIcon} {...modifiers}>
         Icon action {modifiers.label}
       </Button>
     ));
   }
 
-  function renderIconActionModifications(theme) {
+  function renderIconActionModifications() {
     return [
       {label: 'primary', primary: true},
       {label: 'danger', danger: true},
       {label: 'disabled', disabled: true},
       {label: 'primary-disabled', primary: true, disabled: true},
       {label: 'danger-disabled', danger: true, disabled: true}
-    ].map((modifiers, index) => (
+    ].map(modifiers => (
       <Button
-        theme={theme}
-        key={index}
+        key={modifiers.label}
         title={`Just icon action (${modifiers.label})`}
         icon={PencilIcon}
         {...modifiers}
@@ -106,37 +105,39 @@ export const basic = () => {
       </div>
 
       <div className="buttons dark">
-        <Button theme={Button.Theme.DARK}>Button default</Button>
+        <ThemeContext.Provider value={Theme.DARK}>
+          <Button>Button default</Button>
 
-        <Button theme={Button.Theme.DARK} short>
-          ...
-        </Button>
+          <Button short>
+            ...
+          </Button>
 
-        <Button theme={Button.Theme.DARK} href="/">
-          Button link
-        </Button>
+          <Button href="/">
+            Button link
+          </Button>
 
-        <Button theme={Button.Theme.DARK} loader>
-          Dark loader
-        </Button>
+          <Button loader>
+            Dark loader
+          </Button>
 
-        {renderButtonModifications(Button.Theme.DARK)}
+          {renderButtonModifications()}
 
-        <Button theme={Button.Theme.DARK} text>
-          Text action
-        </Button>
+          <Button text>
+            Text action
+          </Button>
 
-        {renderTextModifications(Button.Theme.DARK)}
+          {renderTextModifications()}
 
-        <Button theme={Button.Theme.DARK} icon={PencilIcon}>
-          Icon action
-        </Button>
+          <Button icon={PencilIcon}>
+            Icon action
+          </Button>
 
-        {renderIconWithTextModifications(Button.Theme.DARK)}
+          {renderIconWithTextModifications()}
 
-        <Button icon={PencilIcon} theme={Button.Theme.DARK} title="Icon action"/>
+          <Button icon={PencilIcon} title="Icon action"/>
 
-        {renderIconActionModifications(Button.Theme.DARK)}
+          {renderIconActionModifications()}
+        </ThemeContext.Provider>
       </div>
     </div>
   );

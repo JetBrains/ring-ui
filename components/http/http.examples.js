@@ -4,7 +4,7 @@ import Auth from '../auth/auth';
 import HTTP from './http';
 
 export default {
-  title: 'Utilities|HTTP service',
+  title: 'Utilities/HTTP service',
 
   parameters: {
     notes: 'Provides a way to perform authorized network requests.',

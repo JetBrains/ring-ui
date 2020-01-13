@@ -6,7 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Radio from './radio';
 
 export default {
-  title: 'Components|Radio',
+  title: 'Components/Radio',
   decorators: [reactDecorator()],
 
   parameters: {

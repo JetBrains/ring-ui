@@ -37,6 +37,4 @@ describe('Data List', () => {
   it('should use passed className', () => {
     renderDataList({className: 'test-class'}).find('ul').should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {findDOMNode} from 'react-dom';
 
 export default function focusSensorHOC(ComposedComponent) {
   return class FocusSensor extends Component {
@@ -54,9 +53,10 @@ export default function focusSensorHOC(ComposedComponent) {
 
     _skipNextCapture = false;
 
-    onRefUpdate = component => {
-      // eslint-disable-next-line react/no-find-dom-node
-      this.node = findDOMNode(component);
+    onRefUpdate = node => {
+      if (node) {
+        this.node = node;
+      }
     };
 
     onFocusCapture = ({target}) => {
@@ -97,7 +97,7 @@ export default function focusSensorHOC(ComposedComponent) {
       return (
         <ComposedComponent
           {...this.props}
-          ref={this.onRefUpdate}
+          innerRef={this.onRefUpdate}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}
           onFocusRestore={this.onFocusRestore}

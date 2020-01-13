@@ -6,7 +6,7 @@ import ButtonNG from '../button-ng/button-ng';
 import GroupNG from './group-ng';
 
 export default {
-  title: 'Legacy Angular|Group Ng',
+  title: 'Legacy Angular/Group Ng',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import ContentEditable from './contenteditable';
 
 export default {
-  title: 'Components|ContentEditable',
+  title: 'Components/ContentEditable',
   decorators: [reactDecorator()],
 
   parameters: {

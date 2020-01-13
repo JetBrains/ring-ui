@@ -12,7 +12,7 @@ import {PencilIcon, Chevron10pxIcon, CloseIcon, PermissionIcon} from '../icon';
 import ButtonNG from './button-ng';
 
 export default {
-  title: 'Legacy Angular|Button Ng',
+  title: 'Legacy Angular/Button Ng',
   decorators: [angularDecorator()],
   parameters: {a11y: {options: {rules: {tabindex: {enabled: false}}}}}
 };

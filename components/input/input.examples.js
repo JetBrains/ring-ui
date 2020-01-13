@@ -8,7 +8,7 @@ import Button from '../button/button';
 import Input, {Size, Theme} from './input';
 
 export default {
-  title: 'Components|Input',
+  title: 'Components/Input',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -85,6 +85,7 @@ class Table extends PureComponent {
     onItemExpand: PropTypes.func,
     isDisabledSelectionVisible: PropTypes.func,
     getCheckboxTooltip: PropTypes.func,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
 
     // focusSensorHOC
     focused: PropTypes.bool,
@@ -243,7 +244,7 @@ class Table extends PureComponent {
     });
 
     return (
-      <div className={wrapperClasses} data-test="ring-table-wrapper">
+      <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
         {this.state.shortcutsEnabled &&
           (
             <Shortcuts

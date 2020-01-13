@@ -6,7 +6,7 @@ import Button from '../button/button';
 import ButtonGroup, {Caption} from './button-group';
 
 export default {
-  title: 'Components|Button Group',
+  title: 'Components/Button Group',
   decorators: [reactDecorator()],
 
   parameters: {

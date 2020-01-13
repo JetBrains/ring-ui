@@ -42,7 +42,10 @@
 .tagsList {
   display: inline-block;
 
+  box-sizing: border-box;
+
   width: 100%;
+  margin-bottom: -1px;
 
   padding-left: 2px;
 

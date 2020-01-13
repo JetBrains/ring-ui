@@ -7,7 +7,7 @@ import {CheckmarkIcon} from '../icon/icons';
 import Tag from './tag';
 
 export default {
-  title: 'Components|Tag',
+  title: 'Components/Tag',
   decorators: [reactDecorator()],
 
   parameters: {

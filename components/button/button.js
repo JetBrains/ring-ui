@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import chevronDown from '@jetbrains/icons/chevron-10px.svg';
 
 import Icon, {Size} from '../icon';
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import ClickableLink from '../link/clickableLink';
 
 import styles from './button.css';
@@ -13,7 +13,7 @@ import styles from './button.css';
 /**
  * @name Button
  */
-export default class Button extends PureComponent {
+class Button extends PureComponent {
   static propTypes = {
     theme: PropTypes.string,
     active: PropTypes.bool,
@@ -44,10 +44,6 @@ export default class Button extends PureComponent {
     children: PropTypes.node
   };
 
-  static defaultProps = {
-    theme: Theme.LIGHT
-  };
-
   static IconSize = Size;
   static Theme = Theme;
 
@@ -76,6 +72,7 @@ export default class Button extends PureComponent {
       ...props
     } = this.props;
 
+    const withNormalIcon = icon && !active && !danger && !primary && !props.disabled;
     const classes = classNames(
       styles.button,
       className,
@@ -87,10 +84,16 @@ export default class Button extends PureComponent {
         [styles.withIcon]: icon,
         [styles.onlyIcon]: icon && !children,
         [styles.withNormalIconLight]: (
-          icon && !active && !danger && !primary && theme === Theme.LIGHT
+          withNormalIcon && theme === Theme.LIGHT
+        ),
+        [styles.withNormalIconDark]: (
+          withNormalIcon && theme === Theme.DARK
         ),
         [styles.withDangerIconLight]: (
           icon && danger && theme === Theme.LIGHT
+        ),
+        [styles.withDangerIconDark]: (
+          icon && danger && theme === Theme.DARK
         ),
         [styles.loader]: loader && !icon,
         [styles.primary]: primary || blue,
@@ -141,3 +144,5 @@ export default class Button extends PureComponent {
 }
 
 export {Size as IconSize};
+
+export default withTheme()(Button);

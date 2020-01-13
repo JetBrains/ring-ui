@@ -11,13 +11,14 @@
   --ring-button-primary-background-color: #1a98ff;
   --ring-button-primary-border-color: #0062b2;
   --ring-button-danger-active-color: #ffe7e8;
-  --ring-button-danger-hover-color: #ffb3b8;
+  --ring-button-danger-hover-color: var(--ring-icon-error-color);
   --ring-button-loader-background: #33a3ff;
+  --ring-button-dark-icon-color: #80929d;
   --ring-button-dark-border-disabled-color: #333;
-  --ring-button-dark-icon-disabled-color: var(--ring-button-dark-border-disabled-color);
+  --ring-button-dark-icon-disabled-color: var(--ring-dark-disabled-color);
   --ring-button-dark-danger-active-color: #26080a;
-  --ring-button-dark-danger-hover-color: #db5860;
-  --ring-button-dark-active-color: #001526; /* TODO: Can't it be replaced with #002A4D? */
+  --ring-button-dark-danger-hover-color: var(--ring-error-color);
+  --ring-button-dark-active-color: #062640;
   --ring-button-dark-loader-background: #002039;
   /* stylelint-enable color-no-hex */
 }
@@ -135,7 +136,7 @@
 
   &.danger:active,
   &.danger.active {
-    color: var(--ring-error-color);
+    color: var(--ring-icon-error-color);
     background-color: var(--ring-button-dark-danger-active-color);
   }
 
@@ -274,8 +275,7 @@
 }
 
 .danger {
-  color: var(--ring-error-color);
-
+  &,
   &.withIcon,
   &.withIcon:active,
   &.withIcon.active,
@@ -285,13 +285,18 @@
     color: var(--ring-error-color);
   }
 
-  &:global(.focus-visible) {
+  &:global(.focus-visible),
+  &:hover {
     transition: none;
   }
 }
 
-.danger:hover {
-  transition: none;
+.dark.danger {
+  &,
+  &:active,
+  &.active {
+    color: var(--ring-icon-error-color);
+  }
 }
 
 .text.text,
@@ -325,7 +330,7 @@
   box-shadow: none;
 }
 
-.withIcon.withIcon:hover {
+.withIcon:hover:not(:global(.focus-visible)) {
   background-color: transparent;
   box-shadow: none;
 }
@@ -394,14 +399,18 @@
   color: var(--ring-icon-color);
 }
 
-.withNormalIconLight:active,
-.withNormalIconLight.active {
-  color: var(--ring-main-color);
+.withNormalIconDark .icon {
+  transition: color var(--ring-ease);
+
+  color: var(--ring-button-dark-icon-color);
 }
 
-.withNormalIconLight:global(.focus-visible),
 .withNormalIconLight:active,
-.withDangerIconLight:global(.focus-visible) {
+.withNormalIconLight.active,
+.withNormalIconDark:active,
+.withNormalIconDark.active {
+  color: var(--ring-main-color);
+
   & .icon {
     transition: none;
 
@@ -409,23 +418,23 @@
   }
 }
 
-.withNormalIconLight:hover .icon {
+.withNormalIconLight:hover .icon,
+.withNormalIconDark:hover .icon,
+.withDangerIconLight:hover .icon,
+.withDangerIconDark:hover .icon {
   transition: none;
 
   color: inherit;
 }
 
-.withDangerIconLight:hover .icon {
-  transition: none;
-
-  color: inherit;
+.withDangerIconLight .icon,
+.withDangerIconLight:active .icon {
+  color: var(--ring-icon-error-color);
 }
 
-.withDangerIconLight,
-.withDangerIconLight:active {
-  & .icon {
-    color: var(--ring-icon-error-color);
-  }
+.withDangerIconDark .icon,
+.withDangerIconDark:active .icon {
+  color: var(--ring-error-color);
 }
 
 .buttonWithoutIcon .icon {

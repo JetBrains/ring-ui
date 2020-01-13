@@ -7,7 +7,7 @@ import Link from '../link/link';
 import ErrorMessage from './error-message';
 
 export default {
-  title: 'Components|Error Message',
+  title: 'Components/Error Message',
   decorators: [reactDecorator()],
 
   parameters: {

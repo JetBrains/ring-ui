@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Code, {code} from './code';
 
 export default {
-  title: 'Components|Code',
+  title: 'Components/Code',
   decorators: [reactDecorator()],
 
   parameters: {

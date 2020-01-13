@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IslandNg from './island-ng';
 
 export default {
-  title: 'Legacy Angular|Island Ng',
+  title: 'Legacy Angular/Island Ng',
   decorators: [angularDecorator()],
 
   parameters: {

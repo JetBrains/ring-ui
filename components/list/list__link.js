@@ -45,6 +45,7 @@ export default class ListLink extends PureComponent {
       disabled,
       LinkComponent,
       compact,
+      hoverClassName,
       ...restProps
     } = this.props;
     const classes = classNames(styles.item, className, {

@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import LoaderScreen from './loader-screen-ng';
 
 export default {
-  title: 'Legacy Angular|Loader Screen Ng',
+  title: 'Legacy Angular/Loader Screen Ng',
   decorators: [angularDecorator()],
 
   parameters: {
