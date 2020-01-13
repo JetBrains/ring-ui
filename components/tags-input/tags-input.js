@@ -164,7 +164,7 @@ export default class TagsInput extends PureComponent {
     this.setState({loading: true, query});
     try {
       let allSuggestions = this.props.dataSource({query});
-      if (allSuggestions instanceof Promise) {
+      if (typeof allSuggestions.then === 'function') {
         allSuggestions = await allSuggestions;
       }
       const suggestions = this.filterExistingTags(allSuggestions);
