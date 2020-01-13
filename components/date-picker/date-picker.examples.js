@@ -49,6 +49,42 @@ singleDate.story = {
   name: 'single date'
 };
 
+export const singleDateAndTime = () => {
+  class DatePickerExample extends Component {
+    state = {
+      date: '8 January 2020',
+      time: '9:45'
+    };
+
+    setDate = ({date, time}) => {
+      this.setState({date, time});
+    };
+
+    render() {
+      return (
+        <div>
+          <DatePicker
+            date={this.state.date}
+            time={this.state.time}
+            onChange={this.setDate}
+            withTime
+            clear
+          />
+        </div>
+      );
+    }
+  }
+
+  return <DatePickerExample/>;
+};
+
+singleDateAndTime.story = {
+  parameters: {
+    hermione: {skip: true}
+  },
+  name: 'single date and time'
+};
+
 export const range = () => {
   class DatePickerExample extends Component {
     state = {
