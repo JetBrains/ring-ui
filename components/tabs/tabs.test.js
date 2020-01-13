@@ -1,27 +1,26 @@
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import React from 'react';
 
 import {Tabs, Tab} from './tabs';
 
 describe('Tabs', () => {
-  const shallowTabs = props => shallow(
+  const mountTabs = props => mount(
     <Tabs {...props}>
       <Tab title="1"/>
       <Tab title="2"/>
     </Tabs>
   );
+  const getTabsDiv = props => mountTabs(props).find('div').at(0);
 
   it('should create component', () => {
-    shallowTabs().should.be.present();
+    mountTabs().should.exist;
   });
 
   it('should wrap children with div', () => {
-    shallowTabs().should.have.tagName('div');
+    getTabsDiv().should.exist;
   });
 
   it('should use passed className', () => {
-    shallowTabs({className: 'test-class'}).should.have.className('test-class');
+    getTabsDiv({className: 'test-class'}).should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });

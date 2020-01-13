@@ -9,7 +9,7 @@ import QueryAssistNG from '../query-assist-ng/query-assist-ng';
 import TableNG from './table-legacy-ng';
 
 export default {
-  title: 'Legacy Angular|TableLegacy Ng',
+  title: 'Legacy Angular/TableLegacy Ng',
   decorators: [angularDecorator()],
 
   parameters: {

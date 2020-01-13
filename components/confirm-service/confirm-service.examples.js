@@ -8,7 +8,7 @@ import Button from '../button/button';
 import confirm, {hideConfirm} from './confirm-service';
 
 export default {
-  title: 'Services|Confirm Service',
+  title: 'Services/Confirm Service',
   decorators: [reactDecorator()],
 
   parameters: {

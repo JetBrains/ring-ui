@@ -15,6 +15,7 @@ module.exports = ctx => {
         }
       }
     }),
+    require('postcss-font-family-system-ui')(),
     require('postcss-flexbugs-fixes')(),
     require('@jetbrains/postcss-require-hover')(),
     require('postcss-calc')({mediaQueries: true})

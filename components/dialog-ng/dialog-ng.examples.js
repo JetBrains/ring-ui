@@ -12,7 +12,7 @@ import SidebarNG from '../sidebar-ng/sidebar-ng';
 import DialogNG from './dialog-ng';
 
 export default {
-  title: 'Legacy Angular|Dialog Ng',
+  title: 'Legacy Angular/Dialog Ng',
   decorators: [angularDecorator()],
 
   parameters: {

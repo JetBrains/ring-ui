@@ -1,9 +1,10 @@
 import React, {PureComponent} from 'react';
+import {compose} from 'recompose';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';
 
 import getUID from '../global/get-uid';
@@ -55,7 +56,6 @@ export class Input extends PureComponent {
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
     size: Size.M,
     onChange: noop,
     inputRef: noop,
@@ -220,6 +220,9 @@ export class Input extends PureComponent {
   }
 }
 
-export default ieCompatibleInputHOC(Input);
+export default compose(
+  ieCompatibleInputHOC,
+  withTheme(),
+)(Input);
 
 export {Size, Theme};

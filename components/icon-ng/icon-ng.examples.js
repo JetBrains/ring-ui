@@ -6,7 +6,7 @@ import {CheckmarkIcon, WarningIcon} from '../icon';
 import IconNG from './icon-ng';
 
 export default {
-  title: 'Legacy Angular|Icon Ng',
+  title: 'Legacy Angular/Icon Ng',
   decorators: [angularDecorator()],
 
   parameters: {

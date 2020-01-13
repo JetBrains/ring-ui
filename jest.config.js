@@ -2,7 +2,8 @@ process.env.IS_JEST = true;
 
 module.exports = {
   moduleNameMapper: {
-    '\\.(html|gif|ico|md|txt)$': '<rootDir>/__mocks__/fileMock.js',
+    '\\.(gif|ico|md|txt)$': '<rootDir>/__mocks__/fileMock.js',
+    '\\.html$': '<rootDir>/__mocks__/htmlMock.js',
     '\\.svg$': '<rootDir>/__mocks__/svgMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy'
   },
@@ -11,7 +12,7 @@ module.exports = {
     '<rootDir>/test-helpers/register-context.js'
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!react-virtualized)'
+    'node_modules/(?!(?:@hypnosphi/)?react-virtualized)'
   ],
   restoreMocks: true
 };

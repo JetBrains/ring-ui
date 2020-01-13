@@ -13,13 +13,13 @@ function addTestName(name, storyName) {
 
 for (const {kind, stories} of items) {
   const kindName = kind.
-    split(/[|/]/g).
+    split(/\//g).
     map(filenamify).
     join('/');
   describe(kindName, () => {
     for (const story of stories) {
-      const {name, displayName, parameters = {}} = story;
-      const testName = filenamify(displayName);
+      const {name, id, parameters = {}} = story;
+      const testName = filenamify(name);
       const {
         captureSelector = '[id=root]',
         skip,
@@ -35,16 +35,13 @@ for (const {kind, stories} of items) {
 
       it(testName, async function test() {
         await this.browser.url(
-          `iframe.html?${querystring.stringify({
-            selectedKind: kind,
-            selectedStory: name
-          })}&block-animations`,
+          `iframe.html?${querystring.stringify({id, 'block-animations': true})}`,
         );
 
         for (const action of actions) {
           await Actions[action.type](
             this.browser,
-            {...action, name: addTestName(action.name, displayName)}
+            {...action, name: addTestName(action.name, name)}
           );
         }
       });

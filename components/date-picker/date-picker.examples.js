@@ -5,7 +5,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import DatePicker from './date-picker';
 
 export default {
-  title: 'Components|Date Picker',
+  title: 'Components/Date Picker',
   decorators: [reactDecorator()],
 
   parameters: {

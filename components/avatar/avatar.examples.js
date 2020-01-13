@@ -7,7 +7,7 @@ import hubConfig from '../../.storybook/hub-config';
 import Avatar, {Size} from './avatar';
 
 export default {
-  title: 'Components|Avatar',
+  title: 'Components/Avatar',
   decorators: [reactDecorator()],
 
   parameters: {

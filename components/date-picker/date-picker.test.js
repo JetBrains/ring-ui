@@ -102,5 +102,4 @@ describe('Date Picker', () => {
     picker.simulate('click');
     document.body.should.contain(`.${styles.datePopup}`);
   });
-  // TODO Add more tests
 });

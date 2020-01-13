@@ -9,7 +9,7 @@ import {createHubUserCardSource} from '../hub-source/hub-source__user';
 import {UserCard, UserCardTooltip, SmartUserCardTooltip} from './user-card';
 
 export default {
-  title: 'Components|User Card',
+  title: 'Components/User Card',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -9,7 +9,7 @@ import {moreLessButtonStates} from './item';
 import mock, {moreItems} from './data-list.mock';
 
 export default {
-  title: 'Components|DataList',
+  title: 'Components/DataList',
   decorators: [reactDecorator()],
 
   parameters: {

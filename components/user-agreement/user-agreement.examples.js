@@ -9,7 +9,7 @@ import UserAgreementService from './service';
 import text from './toolbox.eula';
 
 export default {
-  title: 'Components|User Agreement',
+  title: 'Components/User Agreement',
   decorators: [reactDecorator()],
 
   parameters: {

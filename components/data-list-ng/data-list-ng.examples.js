@@ -7,7 +7,7 @@ import data from '../data-list/data-list.mock';
 import RingDataList from './data-list-ng';
 
 export default {
-  title: 'Legacy Angular|DataList Ng',
+  title: 'Legacy Angular/DataList Ng',
   decorators: [angularDecorator()],
 
   parameters: {

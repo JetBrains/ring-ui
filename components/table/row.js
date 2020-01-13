@@ -50,7 +50,8 @@ class Row extends PureComponent {
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func,
     showDisabledSelection: PropTypes.bool,
-    checkboxTooltip: PropTypes.string
+    checkboxTooltip: PropTypes.string,
+    innerRef: PropTypes.func
   };
 
   static defaultProps = {
@@ -100,6 +101,9 @@ class Row extends PureComponent {
 
   rowRef = el => {
     this.row = el;
+    if (this.props.innerRef) {
+      this.props.innerRef(el);
+    }
   };
 
   render() {

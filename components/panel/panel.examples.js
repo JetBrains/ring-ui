@@ -7,7 +7,7 @@ import Button from '../button/button';
 import Panel from './panel';
 
 export default {
-  title: 'Components|Panel',
+  title: 'Components/Panel',
   decorators: [reactDecorator()],
 
   parameters: {
@@ -20,7 +20,7 @@ export const basic = () => {
     render() {
       return (
         <Panel>
-          <Button blue>{'Apply changes'}</Button>
+          <Button primary>{'Apply changes'}</Button>
           <Button>{'Cancel'}</Button>
         </Panel>
       );

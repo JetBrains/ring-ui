@@ -100,7 +100,7 @@ describe('Tags Input', () => {
       const instance = wrapper.instance();
       instance.select.props.onBeforeOpen();
 
-      dataSource.should.have.been.calledWith({query: undefined});
+      dataSource.should.have.been.calledWith({query: ''});
     });
   });
 

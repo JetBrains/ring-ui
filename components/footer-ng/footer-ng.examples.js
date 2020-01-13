@@ -6,7 +6,7 @@ import '../link/link__legacy.css';
 import FooterNG from './footer-ng';
 
 export default {
-  title: 'Legacy Angular|Footer Ng',
+  title: 'Legacy Angular/Footer Ng',
   decorators: [angularDecorator()]
 };
 
