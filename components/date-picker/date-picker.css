@@ -89,7 +89,9 @@
   flex-basis: calc(unit * 13);
   flex-grow: 0;
   flex-shrink: 0;
+}
 
+.fromInputWithDivider {
   &::after {
     position: absolute;
     right: unit;
@@ -106,6 +108,25 @@
   flex-shrink: 0;
 
   width: calc(unit * 13);
+}
+
+.dateInput {
+  flex-basis: calc(unit * 11);
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.timeInputWithDivider {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    left: calc(-1 * unit);
+
+    content: ',';
+
+    line-height: calc(4 * unit - 3px);
+  }
 }
 
 .weekdays {

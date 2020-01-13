@@ -81,3 +81,13 @@ export function parseDate(text, ...addFormats) {
   return date.isValid() ? date : null;
 }
 
+export function parseTime(time) {
+  let result = null;
+  if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
+    result = time;
+  } else if (/^([0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
+    result = `0${time}`;
+  }
+
+  return result;
+}
