@@ -29,14 +29,14 @@ export default class Avatar extends PureComponent {
     style: PropTypes.object,
     url: PropTypes.string,
     round: PropTypes.bool,
-    groupAvatar: PropTypes.string,
-    groupAvatarSize: PropTypes.number
+    subavatar: PropTypes.string,
+    subavatarSize: PropTypes.number
   };
 
   static defaultProps = {
     dpr: getPixelRatio(),
     size: Size.Size20,
-    groupAvatarSize: Size.Size20 / 2,
+    subavatarSize: Size.Size20 / 2,
     style: {}
   };
 
@@ -53,9 +53,9 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size, url, dpr, style, round, groupAvatar, groupAvatarSize, ...restProps} = this.props;
+    const {size, url, dpr, style, round, subavatar, subavatarSize, ...restProps} = this.props;
     const sizeString = `${size}px`;
-    const groupAvatarSizeString = `${groupAvatarSize}px`;
+    const subavatarSizeString = `${subavatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
     const styleObj = {
       borderRadius: round ? '50%' : borderRadius,
@@ -66,8 +66,8 @@ export default class Avatar extends PureComponent {
 
     const styleObjGroup = {
       borderRadius: '2px',
-      height: groupAvatarSizeString,
-      width: groupAvatarSizeString,
+      height: subavatarSizeString,
+      width: subavatarSizeString,
       ...style
     };
 
@@ -92,16 +92,16 @@ export default class Avatar extends PureComponent {
 
       src = encodeURL(urlStart, queryParams);
     }
-    let groupSrc = null;
-    if (groupAvatar && !isDataURI(groupAvatar)) {
-      const [urlStart, query] = groupAvatar.split('?');
+    let subavatarSrc = null;
+    if (subavatar && !isDataURI(subavatar)) {
+      const [urlStart, query] = subavatar.split('?');
       const queryParams = {
         ...parseQueryString(query),
         dpr,
-        groupAvatarSizeString
+        subavatarSizeString
       };
 
-      groupSrc = encodeURL(urlStart, queryParams);
+      subavatarSrc = encodeURL(urlStart, queryParams);
       return (
         <div>
           <img
@@ -117,10 +117,10 @@ export default class Avatar extends PureComponent {
             {...restProps}
             onError={this.handleError}
             onLoad={this.handleSuccess}
-            className={classNames(styles.group)}
+            className={classNames(styles.subavatar)}
             style={styleObjGroup}
-            src={groupSrc}
-            alt="Group avatar"
+            src={subavatarSrc}
+            alt="Subavatar"
           />
         </div>
       );
