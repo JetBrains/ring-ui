@@ -287,10 +287,9 @@ export default class DatePopup extends Component {
       };
     }, {});
 
-    const activeDate =
-      this.state.hoverDate ||
-      this.state.text &&
-      this.parse(this.state.text, 'date');
+    const activeDate = this.state.active !== 'time'
+      ? this.state.hoverDate || this.state.text && this.parse(this.state.text, 'date')
+      : this.state.hoverDate || null;
 
     const currentRange = range && dates.from && dates.to && [dates.from, dates.to] || null;
     let activeRange = null;
