@@ -125,7 +125,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webpack": "^4.0.2",
-    "lerna": "^3.20.1",
+    "lerna": "^3.20.2",
     "lint-staged": "^9.5.0",
     "mocha": "^7.0.0",
     "octicons": "^8.5.0",
