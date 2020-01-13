@@ -1,7 +1,6 @@
 import React from 'react';
-import {render, unmountComponentAtNode} from 'react-dom';
 import {Simulate} from 'react-dom/test-utils';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
 import Radio from './radio';
 
@@ -43,19 +42,11 @@ describe('Radio', () => {
   });
 
   describe('refs', () => {
-    // TODO move back to enzyme when https://github.com/airbnb/enzyme/pull/1592 gets released
-    const container = document.createElement('div');
-    const renderRadio = (props, refOne, refTwo) =>
-      render(factory(props, refOne, refTwo), container);
-
-    afterEach(() => {
-      unmountComponentAtNode(container);
-    });
-
+    const mountRadio = (props, refOne, refTwo) => mount(factory(props, refOne, refTwo));
     it('should generate same name for items', () => {
       let item1;
       let item2;
-      renderRadio(
+      mountRadio(
         {},
         itemRef => {
           item1 = itemRef;
@@ -72,7 +63,7 @@ describe('Radio', () => {
 
     it('should select item with value equal to one provided to group', () => {
       let item;
-      renderRadio(
+      mountRadio(
         {
           onChange: () => {}, // avoid "checked without onChange" warning
           value: 'one'
@@ -88,7 +79,7 @@ describe('Radio', () => {
     it('should call handler for onChange event', () => {
       const onChange = sandbox.spy();
       let item;
-      renderRadio({onChange}, itemRef => {
+      mountRadio({onChange}, itemRef => {
         item = itemRef;
       });
       Simulate.change(item.input);

@@ -6,7 +6,7 @@ import ContentLayout from './content-layout';
 import Sidebar from './sidebar';
 
 export default {
-  title: 'Components|Content Layout',
+  title: 'Components/Content Layout',
   decorators: [reactDecorator()],
 
   parameters: {

@@ -181,6 +181,15 @@ describe('List', () => {
       wrapper.state('activeItem').key.should.equal(activeIndex);
     });
 
+    it('should reset activeIndex when data changed', () => {
+      instance.hoverHandler(1)();
+      wrapper.setProps({
+        data: [{key: 5}]
+      });
+      wrapper.should.have.state('activeIndex', null);
+      wrapper.should.have.state('activeItem', null);
+    });
+
     it('shouldn\'t reset activeIndex when it isn\'t changed in props', () => {
       instance.hoverHandler(1)();
       wrapper.setProps({

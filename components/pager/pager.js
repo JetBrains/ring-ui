@@ -2,7 +2,6 @@
  * @name Pager
  */
 
-/* eslint-disable react/jsx-no-literals */
 /* eslint-disable no-magic-numbers */
 
 import React, {PureComponent} from 'react';
@@ -299,7 +298,7 @@ export default class Pager extends PureComponent {
                 href={this.generateHref(end + 1)}
                 disabled={this.props.loader}
                 {...this.getClickProps(this.handleLoadMore(end + 1))}
-              >...</Button>
+              >{'...'}</Button>
             )}
           </ButtonGroup>
 

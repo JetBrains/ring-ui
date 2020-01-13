@@ -9,7 +9,7 @@ import '../input-size/input-size.scss';
 import ButtonNG from '../button-ng/button-ng';
 
 export default {
-  title: 'Style-only|Form',
+  title: 'Style-only/Form',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Theme from '../global/theme';
+import {withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
@@ -11,7 +11,7 @@ import styles from './toggle.css';
   * @name Toggle
   */
 
-export default class Toggle extends PureComponent {
+class Toggle extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     name: PropTypes.string,
@@ -26,10 +26,6 @@ export default class Toggle extends PureComponent {
     onTransitionEnd: PropTypes.func,
     theme: PropTypes.string,
     'data-test': PropTypes.string
-  };
-
-  static defaultProps = {
-    theme: Theme.LIGHT
   };
 
   render() {
@@ -71,3 +67,4 @@ export default class Toggle extends PureComponent {
     );
   }
 }
+export default withTheme()(Toggle);

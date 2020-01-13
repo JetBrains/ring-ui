@@ -27,15 +27,12 @@ const getTree = window => {
 
   const simpleTree = tree.map(item =>
     Object.assign({}, item, {
-      stories: item.stories.map(({name}) => {
-        const {parameters} =
-          api._storyStore.getStoryAndParameters(item.kind, name);
-        return {
+      stories: api._storyStore.getStoriesForKind(item.kind).
+        map(({id, name, parameters}) => ({
+          id,
           name,
-          displayName: parameters.displayName || name,
           parameters: parameters.hermione
-        };
-      })
+        }))
     }),
   );
   fs.writeFileSync(
@@ -64,11 +61,10 @@ module.exports = JSDOM.fromURL('http://localhost:9999/iframe.html', {
     window.document.addEventListener('DOMContentLoaded', () => {
       getTree(window);
     });
-    const {querySelectorAll} = window.document;
-    // eslint-disable-next-line func-names
-    window.document.querySelectorAll = function () {
+    const originalQSA = window.document.querySelectorAll;
+    window.document.querySelectorAll = function querySelectorAll() {
       try {
-        return querySelectorAll.apply(this, arguments);
+        return originalQSA.apply(this, arguments);
       } catch (e) {
         return [];
       }

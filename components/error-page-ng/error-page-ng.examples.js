@@ -9,7 +9,7 @@ import authMock from '../auth-ng/auth-ng.mock';
 import ErrorPageNG from './error-page-ng';
 
 export default {
-  title: 'Legacy Angular|Error Page Ng',
+  title: 'Legacy Angular/Error Page Ng',
   decorators: [angularDecorator()],
 
   parameters: {

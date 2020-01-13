@@ -155,8 +155,10 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
             window.removeEventListener('resize', _onResize);
           });
 
-          saveInitialPos();
-          checkPanelPosition();
+          scheduleRAF(() => {
+            saveInitialPos();
+            checkPanelPosition();
+          })();
         });
       }
 

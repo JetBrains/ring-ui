@@ -70,7 +70,5 @@
   border-width: unit unit 0;
   border-style: solid;
 
-  /* TODO: Replace with palette color */
-
   border-color: var(--ring-message-background-color) transparent transparent; /* stylelint-disable-line color-no-hex */
 }

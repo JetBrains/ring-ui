@@ -6,7 +6,7 @@ import reactDecorator from '../../.storybook/react-decorator';
 import Popup from './popup';
 
 export default {
-  title: 'Components|Popup',
+  title: 'Components/Popup',
   decorators: [reactDecorator()],
 
   parameters: {

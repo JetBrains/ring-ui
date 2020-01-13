@@ -3,6 +3,8 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.RetryBuildTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -15,6 +17,18 @@ changeBuildType(RelativeId("GeminiTests")) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
     maxRunningBuilds = 1
+
+    triggers {
+        val trigger1 = find<RetryBuildTrigger> {
+            retryBuild {
+                delaySeconds = 60
+                attempts = 2
+            }
+        }
+        trigger1.apply {
+            enabled = false
+        }
+    }
 
     features {
         val feature1 = find<CommitStatusPublisher> {

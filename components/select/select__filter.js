@@ -50,6 +50,7 @@ export default class SelectFilter extends Component {
     return (
       <Input
         {...restProps}
+        autoComplete="off"
         autoFocus
         borderless
         inputRef={this.inputRef}

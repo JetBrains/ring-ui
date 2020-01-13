@@ -8,7 +8,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import AnalyticsNG from './analytics-ng';
 
 export default {
-  title: 'Legacy Angular|Analytics Ng',
+  title: 'Legacy Angular/Analytics Ng',
   decorators: [angularDecorator()],
 
   parameters: {

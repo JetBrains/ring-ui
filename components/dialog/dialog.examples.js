@@ -14,7 +14,7 @@ import Panel from '../panel/panel';
 import Dialog from './dialog';
 
 export default {
-  title: 'Components|Dialog',
+  title: 'Components/Dialog',
   decorators: [reactDecorator()],
 
   parameters: {

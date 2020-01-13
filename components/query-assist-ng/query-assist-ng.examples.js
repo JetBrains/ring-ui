@@ -10,7 +10,7 @@ import AuthNG from '../auth-ng/auth-ng';
 import QueryAssistNG from './query-assist-ng';
 
 export default {
-  title: 'Legacy Angular|Query Assist Ng',
+  title: 'Legacy Angular/Query Assist Ng',
   decorators: [angularDecorator()],
 
   parameters: {

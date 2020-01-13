@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import ShortcutsHintNg from './shortcuts-hint-ng';
 
 export default {
-  title: 'Legacy Angular|ShortcutsHint Ng',
+  title: 'Legacy Angular/ShortcutsHint Ng',
   decorators: [angularDecorator()],
 
   parameters: {

@@ -8,7 +8,7 @@ import ButtonGroupNg from '../button-group-ng/button-group-ng';
 import ButtonToolbarNG from './button-toolbar-ng';
 
 export default {
-  title: 'Legacy Angular|Button Toolbar Ng',
+  title: 'Legacy Angular/Button Toolbar Ng',
   decorators: [angularDecorator()],
 
   parameters: {

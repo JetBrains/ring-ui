@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import CompilerNG from './compiler-ng';
 
 export default {
-  title: 'Legacy Angular|Compiler Ng',
+  title: 'Legacy Angular/Compiler Ng',
   decorators: [angularDecorator()],
 
   parameters: {

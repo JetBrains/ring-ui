@@ -7,7 +7,7 @@ import {FrownIcon} from '../icon';
 import ErrorMessageNG from './error-message-ng';
 
 export default {
-  title: 'Legacy Angular|Error Message Ng',
+  title: 'Legacy Angular/Error Message Ng',
   decorators: [angularDecorator()],
 
   parameters: {

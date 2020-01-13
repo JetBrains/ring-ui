@@ -8,7 +8,7 @@ import data from '../table/table.examples.json';
 import TableNG from './table-ng';
 
 export default {
-  title: 'Legacy Angular|Table Ng',
+  title: 'Legacy Angular/Table Ng',
   decorators: [angularDecorator()],
 
   parameters: {

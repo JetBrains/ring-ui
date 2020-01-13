@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import InputNG from './input-ng';
 
 export default {
-  title: 'Legacy Angular|Input Ng',
+  title: 'Legacy Angular/Input Ng',
   decorators: [angularDecorator()],
 
   parameters: {
