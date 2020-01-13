@@ -1501,10 +1501,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
   integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
 
-"@jetbrains/generator-ring-ui@^2.0.50":
-  version "2.0.50"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.50.tgz#d1b0d796cb86635dfc73cfaf6bd59831e3e3e4ca"
-  integrity sha512-bSohYkUeclFm5pqNsW337oVBbBAZSYFAslaRiN2+9MJz1BQ4yBKKs/d6F/gdoq+P5HUgszBBAjp3uJknD6XGJw==
+"@jetbrains/generator-ring-ui@^2.0.51":
+  version "2.0.51"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.51.tgz#a1a0a2c38acc639a78e50137c2b22b3933837d77"
+  integrity sha512-GYnDq7vr3XHNuny6erJ8yew06JkF7VAxsi8G5wB/EICBSgE3zGdYKs7yWXt2XI+7P8CYjcLYYYxRCwzZBsjBkw==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
@@ -16887,10 +16887,10 @@ strong-log-transformer@^2.0.0:
     minimist "^1.2.0"
     through "^2.3.4"
 
-style-loader@^1.0.0, style-loader@~1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.0.2.tgz#433d72eab8d1dd7d64c648b8ad7d9cbff3184111"
-  integrity sha512-xehHGWeCPrr+R/bU82To0j7L7ENzH30RHYmMhmAumbuIpQ/bHmv3SAj1aTRfBSszkXoqNtpKnJyWXEDydS+KeA==
+style-loader@^1.0.0, style-loader@~1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.1.2.tgz#1b519c19faf548df6182b93e72ea1a4156022c2f"
+  integrity sha512-0Mpq1ZHFDCNq1F+6avNBgv+7q8V+mWRuzehxyJT+aKgzyN/yfKTwjYqaYwBgx+11UpQxL21zNQfzzlz+JcGURw==
   dependencies:
     loader-utils "^1.2.3"
     schema-utils "^2.0.1"
