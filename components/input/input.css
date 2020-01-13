@@ -57,6 +57,8 @@
 
   &[disabled] {
     color: var(--ring-disabled-color);
+
+    -webkit-text-fill-color: var(--ring-disabled-color); /* Required for Safari, see RG-2063 for details */
   }
 
   /*
