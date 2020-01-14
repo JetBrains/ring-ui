@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit, resetButton from "../global/global.css";
+@value unit from "../global/global.css";
 @value listSpacing: unit;
 
 .list {
@@ -46,8 +46,6 @@
 }
 
 .item {
-  composes: resetButton;
-
   display: block;
 
   box-sizing: border-box;

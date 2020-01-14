@@ -8,6 +8,7 @@ import Checkbox from '../checkbox/checkbox';
 import Icon from '../icon';
 
 import getUID from '../global/get-uid';
+import globalStyles from '../global/global.css';
 
 import styles from './list.css';
 
@@ -101,7 +102,7 @@ export default class ListItem extends PureComponent {
     const hasLeftNodes = leftNodes || glyph || avatar;
     const showCheckbox = checkable && (checkbox || !hasLeftNodes || (hover && !disabled));
 
-    const classes = classNames(styles.item, className, {
+    const classes = classNames(styles.item, globalStyles.resetButton, className, {
       [styles.action]: !disabled,
       [styles.hover]: hover && !disabled,
       [styles.compact]: compact,
