@@ -1496,10 +1496,10 @@
     "@babel/runtime" "^7.4.3"
     babel-plugin-angularjs-annotate "^0.9.0"
 
-"@jetbrains/eslint-config@^5.2.1":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.2.1.tgz#c29dfb1ea6d7126dbc2ebcd7f92defe403c3d36a"
-  integrity sha512-oVaX99184ZkdBQjt+1RhNfGUWGBiFHNzuof5ADzRUeLXiy9bDsWyiAkRVhwE9KgmKLe+9tgUZNDW+rE2msbk9w==
+"@jetbrains/eslint-config@^5.3.1":
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
+  integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
 "@jetbrains/generator-ring-ui@^2.0.53":
   version "2.0.53"
