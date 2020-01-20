@@ -69,7 +69,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^7.7.7",
-    "@jetbrains/eslint-config": "^5.2.1",
+    "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^2.0.53",
     "@jetbrains/stylelint-config": "^2.0.0",
     "@storybook/addon-a11y": "5.3.0-rc.8",
