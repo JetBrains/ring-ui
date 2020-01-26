@@ -5,14 +5,20 @@ const path = require('path');
 const glob = require('glob');
 const changeCase = require('change-case');
 
+const {camelCase, camelCaseTransformMerge, pascalCase} = changeCase;
+
+const SVG_EXT_LEN = '.svg'.length;
+
 const generate = (packageName, output, suffix = 'Icon') => {
   const dirname = path.dirname(require.resolve(path.join(packageName, 'package.json')));
   const icons = glob.sync('**/*.svg', {cwd: dirname}).
     filter(filename => !/apple-mask-icon\.svg$/.test(filename)).
     map(filename => ({
       importPath: path.posix.join(packageName, filename),
-      // eslint-disable-next-line no-magic-numbers
-      name: changeCase.camelCase(path.basename(filename).slice(0, -4), null, true)
+      name: camelCase(
+        path.basename(filename).slice(0, -SVG_EXT_LEN),
+        {transform: camelCaseTransformMerge}
+      )
     }));
 
   let source = '';
@@ -29,7 +35,7 @@ const generate = (packageName, output, suffix = 'Icon') => {
   });
   source += "\nimport {iconHOC} from './icon';\n\n";
   icons.forEach(({name}) => {
-    const displayName = changeCase.pascalCase(name) + suffix;
+    const displayName = pascalCase(name) + suffix;
     source += `export const ${displayName} = iconHOC(${name}, '${displayName}');\n`;
   });
 
