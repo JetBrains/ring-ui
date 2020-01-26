@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
 import React, {StrictMode} from 'react';
 import ReactDOM from 'react-dom';
 import {useEffect, useMemo} from '@storybook/client-api';
