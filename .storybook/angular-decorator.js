@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import angular from 'angular';
 import {useEffect} from '@storybook/client-api';
 
