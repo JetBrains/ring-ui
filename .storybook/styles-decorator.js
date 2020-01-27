@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import {useEffect} from '@storybook/client-api';
 
 import {injectStyleSheet} from '../components/global/inject-styles';

@@ -28,12 +28,15 @@ export default class Avatar extends PureComponent {
     size: PropTypes.number,
     style: PropTypes.object,
     url: PropTypes.string,
-    round: PropTypes.bool
+    round: PropTypes.bool,
+    subavatar: PropTypes.string,
+    subavatarSize: PropTypes.number
   };
 
   static defaultProps = {
     dpr: getPixelRatio(),
     size: Size.Size20,
+    subavatarSize: Size.Size20 / 2,
     style: {}
   };
 
@@ -50,13 +53,21 @@ export default class Avatar extends PureComponent {
   };
 
   render() {
-    const {size, url, dpr, style, round, ...restProps} = this.props;
+    const {size, url, dpr, style, round, subavatar, subavatarSize, ...restProps} = this.props;
     const sizeString = `${size}px`;
+    const subavatarSizeString = `${subavatarSize}px`;
     const borderRadius = size <= Size.Size18 ? 'var(--ring-border-radius-small)' : 'var(--ring-border-radius)';
     const styleObj = {
       borderRadius: round ? '50%' : borderRadius,
       height: sizeString,
       width: sizeString,
+      ...style
+    };
+
+    const styleObjGroup = {
+      borderRadius: '2px',
+      height: subavatarSizeString,
+      width: subavatarSizeString,
       ...style
     };
 
@@ -81,17 +92,50 @@ export default class Avatar extends PureComponent {
 
       src = encodeURL(urlStart, queryParams);
     }
+    let subavatarSrc = null;
+    if (subavatar && !isDataURI(subavatar)) {
+      const [urlStart, query] = subavatar.split('?');
+      const queryParams = {
+        ...parseQueryString(query),
+        dpr,
+        subavatarSizeString
+      };
 
-    return (
-      <img
-        {...restProps}
-        onError={this.handleError}
-        onLoad={this.handleSuccess}
-        className={classNames(styles.avatar, this.props.className)}
-        style={styleObj}
-        src={src}
-        alt="User avatar"
-      />
-    );
+      subavatarSrc = encodeURL(urlStart, queryParams);
+      return (
+        <div>
+          <img
+            {...restProps}
+            onError={this.handleError}
+            onLoad={this.handleSuccess}
+            className={classNames(styles.avatar, this.props.className)}
+            style={styleObj}
+            src={src}
+            alt="User avatar"
+          />
+          <img
+            {...restProps}
+            onError={this.handleError}
+            onLoad={this.handleSuccess}
+            className={classNames(styles.subavatar)}
+            style={styleObjGroup}
+            src={subavatarSrc}
+            alt="Subavatar"
+          />
+        </div>
+      );
+    } else {
+      return (
+        <img
+          {...restProps}
+          onError={this.handleError}
+          onLoad={this.handleSuccess}
+          className={classNames(styles.avatar, this.props.className)}
+          style={styleObj}
+          src={src}
+          alt="User avatar"
+        />
+      );
+    }
   }
 }

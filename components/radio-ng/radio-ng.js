@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import angular from 'angular';
 
 import styles from '../radio/radio.css';
@@ -19,7 +20,7 @@ angularModule.directive('rgRadio', function rgCheckboxDirective() {
         <input
           type="radio"
           class=${styles.input}
-          
+
           data-proxy-ng-disabled
           data-proxy-ng-model
           data-proxy-ng-change
