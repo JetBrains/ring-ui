@@ -115,7 +115,7 @@
     "glob": "^7.1.6",
     "husky": "^4.0.10",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "jest-teamcity": "^1.6.0",
     "karma": "^4.4.1",
     "karma-coverage": "^2.0.1",
