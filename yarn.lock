@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@babel/cli@^7.7.7":
-  version "7.7.7"
-  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.7.7.tgz#56849acbf81d1a970dd3d1b3097c8ebf5da3f534"
-  integrity sha512-XQw5KyCZyu/M8/0rYiZyuwbgIQNzOrJzs9dDLX+MieSgBwTLvTj4QVbLmxJACAIvQIDT7PtyHN2sC48EOWTgaA==
+"@babel/cli@^7.8.3":
+  version "7.8.3"
+  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.8.3.tgz#121beb7c273e0521eb2feeb3883a2b7435d12328"
+  integrity sha512-K2UXPZCKMv7KwWy9Bl4sa6+jTNP7JyDiHKzoOiUUygaEDbC60vaargZDnO9oFMvlq8pIKOOyUUgeMYrsaN9djA==
   dependencies:
     commander "^4.0.1"
     convert-source-map "^1.1.0"
@@ -1458,10 +1458,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.53":
-  version "2.0.53"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.53.tgz#3f3e9854fbf7d984f033b0d9deaaa6c58faddbad"
-  integrity sha512-9O1D4V7zKdo0mkEodK4dacTVScCqMeWGsIyMZu/Yi6ZeZ3wYvRElI2MfvORCRrvuFgeAGyIPjAmmOiVQzXe+1Q==
+"@jetbrains/generator-ring-ui@^2.0.54":
+  version "2.0.54"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.54.tgz#9940adc89d0f149a5f6e2ed8d62ec09e935e4d07"
+  integrity sha512-ci0FWBlxnVCbpa3StZYhVih1SaJ4g8TS0pyrCihvqAwaM7zLlcFuR0WbhnC+4lysKeghOko7+sTGAoYBVndKMw==
   dependencies:
     chalk "^3.0.0"
     change-case "^3.1.0"
