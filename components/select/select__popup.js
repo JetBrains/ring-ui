@@ -332,20 +332,31 @@ export default class SelectPopup extends Component {
     this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
   );
 
-  getSelectAll = () => (
-    <div className={styles.selectAll}>
-      <Button
-        text
-        inline
-        onClick={this.handleSelectAll}
-      >
-        {this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
-          ? 'Select all'
-          : 'Deselect all'}
-      </Button>
-      <Text info>{`${this.props.selected.length} selected`}</Text>
-    </div>
-  );
+  getSelectAll = () => {
+    const activeFilters = this.props.data.filter(item => !item.disabled);
+    return (
+      <div className={styles.selectAll}>
+        {
+          activeFilters.length === 0
+            ? (
+              <span/>
+            )
+            : (
+              <Button
+                text
+                inline
+                onClick={this.handleSelectAll}
+              >
+                {activeFilters.length !== this.props.selected.length
+                  ? 'Select all'
+                  : 'Deselect all'}
+              </Button>
+            )
+        }
+        <Text info>{`${this.props.selected.length} selected`}</Text>
+      </div>
+    );
+  };
 
 
   // Cache the value because this method is called
