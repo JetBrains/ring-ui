@@ -704,6 +704,12 @@ describe('Select', () => {
       wrapper.state('selected').length.should.equal(0);
     });
 
+    it('Should not draw "clear" button if multiple and nothing selected', () => {
+      const wrapper = shallowSelectMultiple();
+      wrapper.setProps({clear: true, selected: []});
+      wrapper.should.not.have.descendants('[data-test~="ring-clear-select"]');
+    });
+
     it('Should call onChange on clearing', () => {
       const wrapper = mountSelectMultiple();
       const instance = wrapper.instance();

@@ -4,6 +4,8 @@ import RingAngularComponent from '../global/ring-angular-component';
 import styles from '../footer/footer.css';
 import {copyright} from '../footer/footer';
 
+import template from './footer-ng.html';
+
 /**
  * @name Footer Ng
  */
@@ -20,7 +22,7 @@ class rgFooterComponent extends RingAngularComponent {
     right: '?rgFooterRight'
   };
 
-  static template = require('./footer-ng.html');
+  static template = template;
 }
 
 class rgFooterLineComponent extends RingAngularComponent {
