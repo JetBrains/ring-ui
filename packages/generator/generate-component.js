@@ -4,6 +4,7 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 const green = require('chalk').green;
 const changeCase = require('change-case');
+const {titleCase} = require('title-case');
 const readPkgUp = require('read-pkg-up');
 
 const RING_UI_PACKAGE = '@jetbrains/ring-ui';
@@ -66,7 +67,7 @@ module.exports = params => class ComponentGenerator extends Generator {
         ? RING_UI_CLASS_PREFIX + paramCaseName
         : paramCaseName;
       const pascalCaseName = changeCase.pascalCase(componentName);
-      const titleCaseName = changeCase.titleCase(componentNameSuffix);
+      const titleCaseName = titleCase(componentNameSuffix);
       const ngComponentName = isRingUI
         ? RING_UI_DIRECTIVE_PREFIX + pascalCaseName
         : camelCaseName;
