@@ -1080,7 +1080,8 @@ export const multipleWithSelectAllAndDisabledItem = () => {
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
     {label: 'Three long label', key: '3'},
-    {label: 'Four long label', key: '4', disabled: true}
+    {label: 'Four long label', key: '4', disabled: true},
+    {label: 'Four long selected and disabled', key: '5', disabled: true}
   ];
 
   const multipleConfig = {selectAll: true};
@@ -1089,7 +1090,7 @@ export const multipleWithSelectAllAndDisabledItem = () => {
     <Select
       filter
       multiple={multipleConfig}
-      selected={[data[1]]}
+      selected={[data[1], data[4]]}
       data={data}
       onSelect={action('selected')}
       onDeselect={action('deselected')}
