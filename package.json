@@ -69,7 +69,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@babel/cli": "^7.7.7",
-    "@jetbrains/eslint-config": "^5.2.1",
+    "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^2.0.54",
     "@jetbrains/stylelint-config": "^2.0.0",
     "@storybook/addon-a11y": "5.3.0-rc.8",
@@ -173,6 +173,7 @@
     "dom4": "^1.8.5",
     "element-resize-detector": "^1.2.1",
     "es6-error": "^4.1.1",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "extricate-loader": "^3.0.0",
     "file-loader": "^5.0.2",
     "focus-trap": "^5.1.0",
