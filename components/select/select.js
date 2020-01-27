@@ -959,9 +959,11 @@ export default class Select extends Component {
   }
 
   _getIcons() {
+    const {selected} = this.state;
+    const {disabled, clear, hideArrow} = this.props;
     const icons = [];
 
-    if (this.state.selected && this.state.selected.icon) {
+    if (selected?.icon) {
       icons.push(
         <button
           title="Toggle options popup"
@@ -969,15 +971,16 @@ export default class Select extends Component {
           className={styles.selectedIcon}
           key="selected"
           onClick={this._clickHandler}
-          style={{backgroundImage: `url(${this.state.selected.icon})`}}
+          style={{backgroundImage: `url(${selected.icon})`}}
         />
       );
     }
 
-    if (this.props.clear && !this.props.disabled && this.state.selected) {
+    if (clear && !disabled && !this._selectionIsEmpty()) {
       icons.push(
         <Button
           title="Clear selection"
+          data-test="ring-clear-select"
           className={styles.clearIcon}
           key="close"
           onClick={this.clear}
@@ -986,7 +989,7 @@ export default class Select extends Component {
       );
     }
 
-    if (!this.props.hideArrow) {
+    if (!hideArrow) {
       icons.push(
         <Button
           title="Toggle options popup"
