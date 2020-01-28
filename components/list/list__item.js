@@ -145,9 +145,10 @@ export default class ListItem extends PureComponent {
           >
             <Checkbox
               aria-labelledby={this.id}
-              onClick={this.stopBubbling}
               checked={checkbox}
+              disabled={disabled}
               onChange={onCheckboxChange}
+              onClick={this.stopBubbling}
             />
           </div>
         )}
