@@ -111,7 +111,7 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.0",
-    "events": "^3.0.0",
+    "events": "^3.1.0",
     "glob": "^7.1.6",
     "husky": "^4.0.10",
     "identity-obj-proxy": "^3.0.0",
