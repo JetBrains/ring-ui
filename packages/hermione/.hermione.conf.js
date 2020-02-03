@@ -41,7 +41,7 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'chrome',
         pageLoadStrategy: 'normal',
-        version: '74.0',
+        version: '79.0',
         platform: WIN10,
         maxDuration
       }
@@ -51,7 +51,7 @@ module.exports = {
       desiredCapabilities: {
         browserName: 'firefox',
         pageLoadStrategy: 'normal',
-        version: '68.0',
+        version: '72.0',
         platform: WIN10,
         maxDuration
       }
