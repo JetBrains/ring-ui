@@ -14,7 +14,7 @@
   align-items: center;
   flex-direction: column;
 
-  margin: calc(unit * 4);
+  margin: calc(unit * 2) 0;
 }
 
 .button {
@@ -43,6 +43,11 @@
   height: calc(unit * 12);
   margin-bottom: 12px;
   object-fit: contain;
+
+  @media (max-height: 400px) {
+    width: calc(unit * 4);
+    height: calc(unit * 4);
+  }
 }
 
 .error {
