@@ -20,7 +20,7 @@
     "commander": "^4.1.1",
     "dotenv": "^8.2.0",
     "filenamify": "^4.1.0",
-    "forever": "^1.0.0",
+    "forever": "^2.0.0",
     "fs-extra": "^8.1.0",
     "hermione": "^3.0.0",
     "html-reporter": "^5.9.2",
