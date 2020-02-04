@@ -264,7 +264,7 @@ export const insideAScrollableContainer = () => (
   <div className="container" tabIndex={0}>
     <div className="example">
       <div className="anchor">
-          Popup anchor
+        Popup anchor
         <Popup>Popup content</Popup>
       </div>
     </div>
