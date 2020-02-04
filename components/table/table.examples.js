@@ -165,7 +165,7 @@ class BasicDemo extends Component {
               <span id="button-non-selectable">
                 {selectable ? (
                   <Button onClick={() => this.setState({selectable: false})}>
-                      Non-selectable
+                    Non-selectable
                   </Button>
                 ) : (
                   <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
@@ -204,13 +204,13 @@ class BasicDemo extends Component {
                     <Button
                       onClick={() => this.setState({selection: selection.deselect(data[3])})}
                     >
-                        Deselect {data[3].country}
+                      Deselect {data[3].country}
                     </Button>
                   ) : (
                     <Button
                       onClick={() => this.setState({selection: selection.select(data[3])})}
                     >
-                        Select {data[3].country}
+                      Select {data[3].country}
                     </Button>
                   )}
                 </span>
