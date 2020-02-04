@@ -14419,10 +14419,10 @@ postcss-modules-scope@^2.1.1:
     postcss "^7.0.6"
     postcss-selector-parser "^6.0.0"
 
-postcss-modules-values-replace@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-modules-values-replace/-/postcss-modules-values-replace-3.0.1.tgz#7d5a0f60f7fd83b7abbd05e7f33b8b3e13a92b6b"
-  integrity sha512-Da7nV8J8IjEXM6TMDuEQfo0QyIYKMS3VZ3NbZQliVbVMm8XlGAvFgg2Gnmkr7SjUrVNYoKjYJhRAhifHAShqsg==
+postcss-modules-values-replace@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-values-replace/-/postcss-modules-values-replace-3.1.0.tgz#109921647061f3dddec75f422ad2a2a2132ab3e7"
+  integrity sha512-9UPidpGUjJPZEangWQF09JNKm2A3LeWytV2KuSY9OgUXZm6sQw5W6lIIG4XoGji43CD0gZf17nR5br5WMUCMyQ==
   dependencies:
     enhanced-resolve "^3.1.0"
     es6-promisify "^5.0.0"
