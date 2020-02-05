@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import Button from '../button/button';
 
 import styles from './tag.css';
