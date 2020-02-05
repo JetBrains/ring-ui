@@ -25,6 +25,8 @@ import SmartProfile from './smart-profile';
 
 import {Auth} from '..';
 
+const blockAuth = window.location.search.includes('block-auth');
+
 export default {
   title: 'Components/Header',
   decorators: [reactDecorator(), withKnobs],
@@ -45,8 +47,10 @@ export const header = () => {
   class HeaderDemo extends React.Component {
     render() {
       const auth = new Auth(hubConfig);
-      auth.setAuthDialogService(showAuthDialog);
-      auth.init();
+      if (!blockAuth) {
+        auth.setAuthDialogService(showAuthDialog);
+        auth.init();
+      }
 
       const isCompact = boolean('Compact', false);
 
@@ -92,7 +96,6 @@ header.story = {
   name: 'basic',
   notes: 'See available presentation options in knobs panel',
   parameters: {
-    hermione: {skip: true},
     storyStyles: `
 <style>
   body {
@@ -110,50 +113,4 @@ header.story = {
   }
 </style>`
   }
-};
-
-/* A special example for Hermione */
-export const withoutAuth = () => {
-  class HeaderDemo extends React.Component {
-    render() {
-      // Never init auth to avoid redirects
-      const auth = new Auth(hubConfig);
-
-      const Comp = props => <a {...props}>This is component</a>;
-      return (
-        <Header theme={radios('Theme', Theme, Theme.DARK)}>
-          <a title="Hub" href="/">
-            <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-          </a>
-          <Link active href="#">
-            Users
-          </Link>
-          <Link href="#">Groups</Link>
-          <Link href="#">Spaces</Link>
-          <Link href="#">Services</Link>
-          <Tray>
-            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon title="Help" icon={Help20pxIcon}/>
-            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
-            <TrayIcon title="Search" icon={Search20pxIcon}/>
-            <Dropdown
-              anchor={({active}) => (
-                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
-              )}
-            >
-              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
-            </Dropdown>
-            <SmartServices auth={auth}/>
-            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
-          </Tray>
-        </Header>
-      );
-    }
-  }
-
-  return <HeaderDemo/>;
-};
-
-withoutAuth.story = {
-  name: 'without auth'
 };
