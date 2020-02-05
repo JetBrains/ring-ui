@@ -1,4 +1,5 @@
 import React from 'react';
+import {withKnobs, boolean, radios} from '@storybook/addon-knobs';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
 
@@ -26,10 +27,10 @@ import {Auth} from '..';
 
 export default {
   title: 'Components/Header',
-  decorators: [reactDecorator()],
+  decorators: [reactDecorator(), withKnobs],
 
   parameters: {
-    notes: 'Displays a configurable page header.',
+    notes: 'Displays a configurable page header. See available presentation options in the knobs panel.',
 
     storyStyles: `
 <style>
@@ -40,16 +41,87 @@ export default {
   }
 };
 
-export const basic = () => {
+export const header = () => {
   class HeaderDemo extends React.Component {
     render() {
       const auth = new Auth(hubConfig);
       auth.setAuthDialogService(showAuthDialog);
       auth.init();
 
+      const isCompact = boolean('Compact', false);
+
       const Comp = props => <a {...props}>This is component</a>;
       return (
-        <Header>
+        <Header theme={radios('Theme', Theme, Theme.DARK)} className={isCompact ? 'compactHeader' : ''}>
+          <a title="Hub" href="/">
+            {isCompact
+              ? <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
+              : <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
+            }
+          </a>
+          <Link active href="#">
+            Users
+          </Link>
+          <Link href="#">Groups</Link>
+          <Link href="#">Spaces</Link>
+          <Link href="#">Services</Link>
+          <Tray>
+            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
+            <TrayIcon title="Help" icon={Help20pxIcon}/>
+            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
+            <TrayIcon title="Search" icon={Search20pxIcon}/>
+            <Dropdown
+              anchor={({active}) => (
+                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
+              )}
+            >
+              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
+            </Dropdown>
+            <SmartServices auth={auth}/>
+            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
+          </Tray>
+        </Header>
+      );
+    }
+  }
+
+  return <HeaderDemo/>;
+};
+
+header.story = {
+  name: 'basic',
+  notes: 'See available presentation options in knobs panel',
+  parameters: {
+    hermione: {skip: true},
+    storyStyles: `
+<style>
+  body {
+    margin: 0;
+  }
+
+  .compactHeader.compactHeader {
+    height: 40px;
+  }
+
+  .compactLogo.compactLogo {
+    color: #fff;
+    position: relative;
+    top: -2px;
+  }
+</style>`
+  }
+};
+
+/* A special example for Hermione */
+export const withoutAuth = () => {
+  class HeaderDemo extends React.Component {
+    render() {
+      // Never init auth to avoid redirects
+      const auth = new Auth(hubConfig);
+
+      const Comp = props => <a {...props}>This is component</a>;
+      return (
+        <Header theme={radios('Theme', Theme, Theme.DARK)}>
           <a title="Hub" href="/">
             <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
           </a>
@@ -82,116 +154,6 @@ export const basic = () => {
   return <HeaderDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
-
-export const light = () => {
-  class LightHeaderDemo extends React.Component {
-    render() {
-      const auth = new Auth(hubConfig);
-      auth.setAuthDialogService(showAuthDialog);
-      auth.init();
-
-      const Comp = props => <a {...props}>This is component</a>;
-
-      return (
-        <Header theme={Theme.LIGHT}>
-          <a title="Hub" href="/">
-            <Logo glyph={hubLogo} size={Logo.Size.Size48}/>
-          </a>
-          <Link active href="#">
-            Users
-          </Link>
-          <Link href="#">Groups</Link>
-
-          <Tray>
-            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon title="Help" icon={Help20pxIcon}/>
-            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
-            <TrayIcon title="Search" icon={Search20pxIcon}/>
-            <Dropdown
-              anchor={({active}) => (
-                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
-              )}
-            >
-              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
-            </Dropdown>
-            <SmartServices auth={auth}/>
-            <SmartProfile auth={auth} hasUpdates LinkComponent={Comp}/>
-          </Tray>
-        </Header>
-      );
-    }
-  }
-
-  return <LightHeaderDemo/>;
-};
-
-light.story = {
-  name: 'light'
-};
-
-export const compact = () => {
-  class CompactHeaderDemo extends React.Component {
-    render() {
-      const auth = new Auth(hubConfig);
-      auth.setAuthDialogService(showAuthDialog);
-      auth.init();
-
-      return (
-        <Header className="header">
-          <a title="Hub" href="/">
-            <Logo className="logo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
-          </a>
-          <Link active href="#">
-            Users
-          </Link>
-          <Link href="#">Groups</Link>
-          <Link href="#">Spaces</Link>
-          <Link href="#">Services</Link>
-          <Tray>
-            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon title="Help" icon={Help20pxIcon}/>
-            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
-            <TrayIcon title="Search" icon={Search20pxIcon}/>
-            <Dropdown
-              anchor={({active}) => (
-                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
-              )}
-            >
-              <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>
-            </Dropdown>
-            <SmartServices auth={auth}/>
-            <SmartProfile auth={auth} hasUpdates size={SmartProfile.Size.Size24}/>
-          </Tray>
-        </Header>
-      );
-    }
-  }
-
-  return <CompactHeaderDemo/>;
-};
-
-compact.story = {
-  name: 'compact',
-
-  parameters: {
-    storyStyles: `
-  <style>
-    body {
-      margin: 0;
-    }
-
-    .header.header {
-      height: 40px;
-    }
-
-    .logo.logo {
-      color: #fff;
-      position: relative;
-      top: -2px;
-    }
-  </style>`
-  }
+withoutAuth.story = {
+  name: 'without auth'
 };
