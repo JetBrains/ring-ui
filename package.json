@@ -113,7 +113,7 @@
     "eslint-plugin-react": "^7.18.3",
     "events": "^3.1.0",
     "glob": "^7.1.6",
-    "husky": "^4.0.10",
+    "husky": "^4.2.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.1.0",
     "jest-teamcity": "^1.6.0",
