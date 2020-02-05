@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import dataTests from '../global/data-tests';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Checkbox from '../checkbox/checkbox';
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import getUID from '../global/get-uid';
 import globalStyles from '../global/global.css';

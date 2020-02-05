@@ -8,7 +8,7 @@ import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 import warningIcon from '@jetbrains/icons/warning.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';

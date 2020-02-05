@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-10px.svg';
 import sortedIcon from '@jetbrains/icons/chevron-10px.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import style from './table.css';
 

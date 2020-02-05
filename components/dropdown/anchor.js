@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import chevronDown from '@jetbrains/icons/chevron-10px.svg';
 import classNames from 'classnames';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import Button from '../button/button';
 
