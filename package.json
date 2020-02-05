@@ -84,7 +84,7 @@
     "@storybook/cli": "5.3.10",
     "@storybook/client-api": "5.3.10",
     "@storybook/core": "5.3.10",
-    "@storybook/html": "5.3.10",
+    "@storybook/html": "5.3.12",
     "@storybook/source-loader": "5.3.10",
     "@storybook/theming": "5.3.10",
     "angular": "^1.7.9",
