@@ -1,5 +1,5 @@
 import './old-browsers-message.css';
-import './old-browsers-message';
+import {stop} from './old-browsers-message';
 
 export default {
   title: 'Style-only/Old Browsers Message',
@@ -17,6 +17,7 @@ Once loaded, it attaches a global error handler. When your app finishes loading 
 export const basic = () => {
   function triggerGlobalError() {
     Object.unknownMethodToTriggerOldBrowsersMessage();
+    setTimeout(stop);
   }
 
   setTimeout(triggerGlobalError);
