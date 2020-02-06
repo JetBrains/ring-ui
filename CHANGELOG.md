@@ -1,4 +1,4 @@
-## 2.1.20
+## [2.1.20]
 
 The JS part of Ring UI package is now marked as "sideEffect free". This means that webpack will [tree-shake](https://webpack.js.org/guides/tree-shaking/) unused imports of Ring UI files.
 Theoretically this may be breaking change, but we don't know any real case yet. We consider advantages of this change are more important 
