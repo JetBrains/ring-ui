@@ -82,6 +82,7 @@ const externalCssLoader = {
 
 const babelLoader = {
   test: /\.js$/,
+  sideEffects: false,
   include: componentsPath,
   loader: require.resolve('babel-loader'),
   options: {
