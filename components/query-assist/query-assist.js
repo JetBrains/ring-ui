@@ -160,6 +160,7 @@ export default class QueryAssist extends Component {
   ngModelStateField = ngModelStateField;
 
   handleBlur = e => {
+    this.immediateState.selection = {};
     if (e.relatedTarget) {
       this.handleFocusChange(e);
     }
