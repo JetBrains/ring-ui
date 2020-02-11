@@ -798,6 +798,7 @@ export default class Auth {
     linkNode.rel = 'preconnect';
     linkNode.href = url;
     linkNode.pr = '1.0';
+    linkNode.crossorigin = 'use-credentials';
     document.head.appendChild(linkNode);
   }
 
