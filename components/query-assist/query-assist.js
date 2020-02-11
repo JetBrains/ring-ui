@@ -566,6 +566,7 @@ export default class QueryAssist extends Component {
   };
 
   blurInput() {
+    this.immediateState.selection = {};
     this.caret.target.blur();
   }
 
