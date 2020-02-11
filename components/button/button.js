@@ -33,6 +33,7 @@ class Button extends PureComponent {
     dropdown: PropTypes.bool,
 
     href: PropTypes.string,
+    target: PropTypes.string,
 
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     iconSize: PropTypes.number,
