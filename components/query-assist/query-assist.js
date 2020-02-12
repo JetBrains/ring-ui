@@ -371,7 +371,7 @@ export default class QueryAssist extends Component {
         state.styleRanges = styleRanges;
       }
 
-      this.immediateState.selection = this.caret.getPosition();
+      this.immediateState.selection = this.caret.getPosition({avoidFocus: true});
       this.setState(state, resolve);
     } else {
       reject(new Error('Current and response queries mismatch'));

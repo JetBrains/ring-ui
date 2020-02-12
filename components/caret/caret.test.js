@@ -41,6 +41,12 @@ describe('Caret', () => {
       target.should.equal(document.activeElement);
     });
 
+    it('Shouldn\'t focus on get when prohibited', () => {
+      caret.getPosition({avoidFocus: true});
+
+      target.should.not.equal(document.activeElement);
+    });
+
     it('Should get correct position with deep markup 1', () => {
       target.innerHTML = '<span>foo<span>test<span>hello</span></span><span>123</span></span>';
       // target.focus();
