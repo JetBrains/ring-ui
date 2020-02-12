@@ -1625,10 +1625,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.57":
-  version "2.0.57"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.57.tgz#4e72d004b53608db37588513b939e1bab6ad19ec"
-  integrity sha512-3dtZPI2FviPRKqmeSClrtvnwMrMzsgqWEGE1gfrKuW3i5HZ9DOHCBA+A5csxfOJsZ1iR5JGQVyt5vdHa7rkXLQ==
+"@jetbrains/generator-ring-ui@^2.0.58":
+  version "2.0.58"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.58.tgz#2121560d2f69155efbebdab79da5fa50ecd73499"
+  integrity sha512-BfvHt2zGxt7SYvfEPRW7UwgP3vQ1Y+puADukNCzO5Dlk3yN0N3lFYF8kDta7VUGnAYhWod43UqAM1j7xnpUUGA==
   dependencies:
     chalk "^3.0.0"
     change-case "^4.1.1"
@@ -18795,10 +18795,10 @@ webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-webpack-cli@^3.3.10:
-  version "3.3.10"
-  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.3.10.tgz#17b279267e9b4fb549023fae170da8e6e766da13"
-  integrity sha512-u1dgND9+MXaEt74sJR4PR7qkPxXUSQ0RXYq8x1L6Jg1MYVEmGPrH6Ah6C4arD4r0J1P5HKjRqpab36k0eIzPqg==
+webpack-cli@^3.3.11:
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-3.3.11.tgz#3bf21889bf597b5d82c38f215135a411edfdc631"
+  integrity sha512-dXlfuml7xvAFwYUPsrtQAA9e4DOe58gnzSxhgrO/ZM/gyXTBowrsYeubyN4mqGhYdpXMFNyQ6emjJS9M7OBd4g==
   dependencies:
     chalk "2.4.2"
     cross-spawn "6.0.5"
