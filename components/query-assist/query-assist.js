@@ -223,7 +223,7 @@ export default class QueryAssist extends Component {
       } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
         undefined) {
         this.caret.setPosition(this.immediateState.selection);
-      } else {
+      } else if (!this.immediateState.selection) {
         this.caret.setPosition(-1);
       }
     }
