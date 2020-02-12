@@ -81,7 +81,7 @@
     "@storybook/addon-storyshots-puppeteer": "5.3.12",
     "@storybook/addon-storysource": "5.3.12",
     "@storybook/addons": "5.3.12",
-    "@storybook/cli": "5.3.12",
+    "@storybook/cli": "5.3.13",
     "@storybook/client-api": "5.3.12",
     "@storybook/core": "5.3.12",
     "@storybook/html": "5.3.12",

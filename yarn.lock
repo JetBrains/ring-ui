@@ -1625,10 +1625,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.57":
-  version "2.0.57"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.57.tgz#4e72d004b53608db37588513b939e1bab6ad19ec"
-  integrity sha512-3dtZPI2FviPRKqmeSClrtvnwMrMzsgqWEGE1gfrKuW3i5HZ9DOHCBA+A5csxfOJsZ1iR5JGQVyt5vdHa7rkXLQ==
+"@jetbrains/generator-ring-ui@^2.0.58":
+  version "2.0.58"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.58.tgz#2121560d2f69155efbebdab79da5fa50ecd73499"
+  integrity sha512-BfvHt2zGxt7SYvfEPRW7UwgP3vQ1Y+puADukNCzO5Dlk3yN0N3lFYF8kDta7VUGnAYhWod43UqAM1j7xnpUUGA==
   dependencies:
     chalk "^3.0.0"
     change-case "^4.1.1"
@@ -2771,14 +2771,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/cli@5.3.12":
-  version "5.3.12"
-  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.3.12.tgz#2198e7631a843a7cff21f6b42f18cbe2bb0eac7a"
-  integrity sha512-2tqneEOa1vjWtawTeWsSN5JARicsywtvI5TI/2J0dLaEJgkJjGbm89BG4venhcvC5wGQsrEL0mRbw16/xZchnw==
+"@storybook/cli@5.3.13":
+  version "5.3.13"
+  resolved "https://registry.yarnpkg.com/@storybook/cli/-/cli-5.3.13.tgz#42828093d0620d4d56f74b075d3878bc886a2d52"
+  integrity sha512-8ya8miSzlbLny7QX2b0l8MLntGPC626KXEERR+XuMlTHeDwQKWFhi5k+kEykWQmH2EiKfugLFJHqaLX52AF+uw==
   dependencies:
     "@babel/core" "^7.4.5"
     "@babel/preset-env" "^7.4.5"
-    "@storybook/codemod" "5.3.12"
+    "@storybook/codemod" "5.3.13"
     chalk "^3.0.0"
     commander "^4.0.1"
     core-js "^3.0.1"
@@ -2827,14 +2827,14 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/codemod@5.3.12":
-  version "5.3.12"
-  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.3.12.tgz#2ab3fb3f305d843068aca6139ef4e4b65d219c97"
-  integrity sha512-G/fdYO7p5M8jKxoMhYnKiwSXhipALnXObvyfXZG21UnXyhr+RVmrx2B0y6MEhmRqlYRnEbZxct4BQxB+0n+j2Q==
+"@storybook/codemod@5.3.13":
+  version "5.3.13"
+  resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-5.3.13.tgz#57ef3db0052cc3776a24e7351ce06f6446460163"
+  integrity sha512-3X05p3OOlb5Fbb7OgkPrcs9bn5fvOJlExJc7M7pmG/nDNigowDGDmU5t63FtINNPSnVEBVIANP/5XpUAyDop0g==
   dependencies:
     "@mdx-js/mdx" "^1.5.1"
     "@storybook/csf" "0.0.1"
-    "@storybook/node-logger" "5.3.12"
+    "@storybook/node-logger" "5.3.13"
     core-js "^3.0.1"
     cross-spawn "^7.0.0"
     globby "^11.0.0"
@@ -2983,6 +2983,18 @@
   version "5.3.12"
   resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-5.3.12.tgz#df25b725583cb5aa799b6c5b8103a8ea0921d3ba"
   integrity sha512-ytIqS1Lx+gWFBNxwWOK7F63702YYsoU90UFQNUMC44lC1L7tOI9BQXtGIWTvmXJYns+O5pHHOVKkHLT9EGX2OA==
+  dependencies:
+    "@types/npmlog" "^4.1.2"
+    chalk "^3.0.0"
+    core-js "^3.0.1"
+    npmlog "^4.1.2"
+    pretty-hrtime "^1.0.3"
+    regenerator-runtime "^0.13.3"
+
+"@storybook/node-logger@5.3.13":
+  version "5.3.13"
+  resolved "https://registry.yarnpkg.com/@storybook/node-logger/-/node-logger-5.3.13.tgz#f41c611c3b200add8d85777f19970bdabaa94634"
+  integrity sha512-ZpuyKALHq/ZyynXnsW254JaULWZLPBFw007tkJhE5z/CLy059cIVovQhX/8Ivt3FG3qwWmcqQ0ISHFi0dJpqnA==
   dependencies:
     "@types/npmlog" "^4.1.2"
     chalk "^3.0.0"
