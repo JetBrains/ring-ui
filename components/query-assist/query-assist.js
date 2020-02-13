@@ -160,6 +160,7 @@ export default class QueryAssist extends Component {
   ngModelStateField = ngModelStateField;
 
   handleBlur = e => {
+    this.immediateState.selection = {};
     if (e.relatedTarget) {
       this.handleFocusChange(e);
     }
@@ -222,7 +223,7 @@ export default class QueryAssist extends Component {
       } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
         undefined) {
         this.caret.setPosition(this.immediateState.selection);
-      } else {
+      } else if (!this.immediateState.selection) {
         this.caret.setPosition(-1);
       }
     }
@@ -370,7 +371,7 @@ export default class QueryAssist extends Component {
         state.styleRanges = styleRanges;
       }
 
-      this.immediateState.selection = this.caret.getPosition();
+      this.immediateState.selection = this.caret.getPosition({avoidFocus: true});
       this.setState(state, resolve);
     } else {
       reject(new Error('Current and response queries mismatch'));
@@ -566,6 +567,7 @@ export default class QueryAssist extends Component {
   };
 
   blurInput() {
+    this.immediateState.selection = {};
     this.caret.target.blur();
   }
 
