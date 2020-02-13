@@ -40,12 +40,33 @@ export default class Caret {
   }
 
   /**
-   * Get caret position index
+   * Get absolute caret position index
    * @return {number}
    */
-  getPosition() {
+  getAbsolutePosition(node) {
+    let _curNode = node;
+    let curPos = 0;
+    while (_curNode !== this.target) {
+      while (_curNode.previousSibling !== null && _curNode.previousSibling !== undefined) {
+        curPos += _curNode.previousSibling.textContent.length;
+        _curNode = _curNode.previousSibling;
+      }
+      _curNode = _curNode.parentNode;
+    }
+    return curPos;
+  }
+
+  /**
+   * Get caret position index
+   * @param {Object} [params]
+   * @param {boolean} params.avoidFocus
+   * @return {number}
+   */
+  getPosition(params = {}) {
     if (this.isContentEditable()) {
-      this.focus();
+      if (!params.avoidFocus) {
+        this.focus();
+      }
 
       const selection = window.getSelection();
 
@@ -58,13 +79,32 @@ export default class Caret {
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
-
-      if (range1.startOffset !== range1.endOffset) {
-        return {startOffset: range1.startOffset,
-          endOffset: range1.endOffset,
-          position: range2.toString().length};
+      let curPos = 0;
+      let _curNode = range1.startContainer;
+      if (!this.target.contains(_curNode)) {
+        return -1;
       }
-      return range2.toString().length;
+      if (!_curNode) {
+        return this.target.selectionStart;
+      }
+      if (range1.startContainer === range1.endContainer) {
+        curPos = this.getAbsolutePosition(_curNode);
+        if (range1.startOffset === range1.endOffset) {
+          return curPos + range1.startOffset;
+        } else {
+          return {startOffset: curPos + range1.startOffset,
+            endOffset: curPos + range1.endOffset,
+            position: range2.toString().length};
+        }
+      } else {
+        curPos = this.getAbsolutePosition(_curNode);
+        const startOffset = curPos + range1.startOffset;
+        curPos = 0;
+        _curNode = range1.endContainer;
+        curPos = this.getAbsolutePosition(_curNode);
+        const endOffset = curPos + range1.endOffset;
+        return {startOffset, endOffset, position: range2.toString().length};
+      }
     }
 
     return this.target.selectionStart;
