@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {findDOMNode} from 'react-dom';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
@@ -77,18 +76,23 @@ export default class QueryAssist extends Component {
     }
   };
 
+  static getDerivedStateFromProps({query}, {prevQuery}) {
+    const nextState = {prevQuery: query};
+    if (typeof query === 'string' && query !== prevQuery) {
+      nextState.query = query;
+      nextState.placeholderEnabled = !query;
+    }
+    return nextState;
+  }
+
   state = {
     dirty: !this.props.query,
     query: this.props.query,
     placeholderEnabled: !this.props.query,
-    shortcuts: true,
+    shortcuts: !!this.props.focus,
     suggestions: [],
     showPopup: false
   };
-
-  UNSAFE_componentWillMount() {
-    this.setState({shortcuts: !!this.props.focus});
-  }
 
   componentDidMount() {
     const query = this.props.query || '';
@@ -111,28 +115,6 @@ export default class QueryAssist extends Component {
     this.setCaretPosition();
   }
 
-  UNSAFE_componentWillReceiveProps({caret, delay, query}) {
-    this.setupRequestHandler(delay);
-    const shouldSetCaret = typeof caret === 'number';
-
-    if (shouldSetCaret) {
-      this.immediateState.caret = caret;
-    }
-
-    if (typeof query === 'string' && query !== this.immediateState.query) {
-      this.immediateState.query = query;
-      let callback = noop;
-
-      if (query && this.props.autoOpen) {
-        callback = this.requestData;
-      } else if (query) {
-        callback = this.requestStyleRanges;
-      }
-
-      this.setState({query, placeholderEnabled: !query}, callback);
-    }
-  }
-
   shouldComponentUpdate(props, state) {
     return state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
@@ -151,7 +133,25 @@ export default class QueryAssist extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {caret, delay, query} = this.props;
+
     this.updateFocus(prevProps);
+    this.setupRequestHandler(delay);
+
+    const shouldSetCaret = typeof caret === 'number';
+    if (shouldSetCaret) {
+      this.immediateState.caret = caret;
+    }
+
+    if (typeof query === 'string' && query !== this.immediateState.query) {
+      this.immediateState.query = query;
+
+      if (query && !prevProps.autoOpen) {
+        this.requestData();
+      } else if (query) {
+        this.requestStyleRanges();
+      }
+    }
   }
 
   static ngModelStateField = ngModelStateField;
@@ -673,8 +673,7 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    // eslint-disable-next-line react/no-find-dom-node
-    this.input = findDOMNode(node);
+    this.input = node;
     this.caret = new Caret(this.input);
   };
 
@@ -796,7 +795,7 @@ export default class QueryAssist extends Component {
           aria-label={this.props.translations.searchTitle}
           className={inputClasses}
           data-test="ring-query-assist-input"
-          ref={this.inputRef}
+          inputRef={this.inputRef}
           disabled={this.props.disabled}
           onComponentUpdate={this.setCaretPosition}
 

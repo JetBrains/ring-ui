@@ -16,7 +16,8 @@ export default class ContentEditable extends Component {
     componentDidUpdate: PropTypes.func,
     onComponentUpdate: PropTypes.func,
     className: PropTypes.string,
-    children: PropTypes.node
+    children: PropTypes.node,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
   };
 
   static defaultProps = {
@@ -42,11 +43,12 @@ export default class ContentEditable extends Component {
   }
 
   render() {
-    const {children, onComponentUpdate, disabled, tabIndex, ...props} = this.props;
+    const {children, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
 
     return (
       <div
         {...props}
+        ref={inputRef}
         disabled={disabled}
         role="textbox"
         tabIndex={disabled ? null : tabIndex}
