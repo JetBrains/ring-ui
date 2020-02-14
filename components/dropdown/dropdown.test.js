@@ -80,7 +80,7 @@ describe('Dropdown', () => {
     mountDropdown();
     Simulate.click(anchor);
     setTimeout(() => {
-      document.dispatchEvent(new Event('click'));
+      document.dispatchEvent(new Event('mouseup'));
       popup.isVisible().should.be.false;
       done();
     }, 0);
