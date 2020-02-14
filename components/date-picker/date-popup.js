@@ -348,7 +348,7 @@ export default class DatePopup extends Component {
             <DateInput
               {...this.props}
               {...this.state}
-              divider={name === 'from' && (dates[name] || parsedTo)}
+              divider={name === 'from' && (dates[name] != null || parsedTo != null)}
               name={name}
               key={name}
               date={dates[name]}
