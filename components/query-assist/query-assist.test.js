@@ -624,9 +624,11 @@ describe('Query Assist', () => {
 
       const wrapper = mountQueryAssist();
       const instance = wrapper.find('QueryAssist').instance();
+      const prevProps = instance.props;
       wrapper.setProps({
         delay: 100
       }, () => {
+        instance.componentDidUpdate(prevProps);
         wrapper.prop('dataSource').resetHistory();
 
         instance.requestData();
