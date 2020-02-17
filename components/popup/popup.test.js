@@ -25,9 +25,9 @@ describe('Popup', () => {
     onCloseAttempt.should.have.been.called;
   });
 
-  describe('close by click (mouseup)', () => {
+  describe('close by click', () => {
     const click = document.createEvent('MouseEvent');
-    click.initEvent('mouseup', true, false);
+    click.initEvent('click', true, false);
     let clock;
 
     beforeEach(() => {
@@ -49,7 +49,7 @@ describe('Popup', () => {
 
       clock.tick();
       document.body.dispatchEvent(click);
-      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'mouseup'}));
+      onCloseAttempt.should.have.been.calledWith(sinon.match({type: 'click'}));
     });
 
     it('should not close popup if popup hidden', () => {
