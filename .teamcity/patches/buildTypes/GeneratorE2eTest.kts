@@ -11,7 +11,7 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("GeneratorE2eTest")) {
     params {
         add {
-            param("env.ELECTRON_ENABLE_LOGGING", "true")
+            param("env.ELECTRON_ENABLE_LOGGING", "false")
         }
     }
 }
