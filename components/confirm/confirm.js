@@ -68,6 +68,7 @@ export default class Confirm extends PureComponent {
         onEscPress={this.onEscPress}
         show={show}
         trapFocus
+        data-test="ring-confirm"
       >
         {text && <Header>{text}</Header>}
         <Content>
