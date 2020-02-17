@@ -268,7 +268,7 @@ export default class Popup extends PureComponent {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
         this.listeners.add(window, 'scroll', this._redraw);
-        this.listeners.add(document, 'mouseup', this._onDocumentMouseUp);
+        this.listeners.add(document, 'click', this._onDocumentClick);
         let el = this._getAnchor();
         while (el) {
           this.listeners.add(el, 'scroll', this._redraw);
@@ -306,7 +306,7 @@ export default class Popup extends PureComponent {
    * @param {jQuery.Event} evt
    * @private
    */
-  _onDocumentMouseUp = evt => {
+  _onDocumentClick = evt => {
     if (
       this.container && this.container.contains(evt.target) ||
       !this._listenersEnabled ||
