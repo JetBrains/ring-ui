@@ -15,7 +15,7 @@ describe('AuthDialog', () => {
   };
   afterEach(() => wrapper.unmount());
 
-  const getContainer = () => document.querySelector('*[data-test="ring-auth-dialog"]');
+  const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');
 
   it('should create component', () => {
     mountAuthDialog(defaultProps).should.have.type(AuthDialog);
