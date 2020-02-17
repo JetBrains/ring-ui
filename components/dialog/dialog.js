@@ -6,6 +6,7 @@ import closeIcon from '@jetbrains/icons/close.svg';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
+import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap from '../tab-trap/tab-trap';
 import Button from '../button/button';
@@ -38,7 +39,8 @@ export default class Dialog extends PureComponent {
     onCloseAttempt: PropTypes.func,
     // focusTrap may break popups inside dialog, so use it carefully
     trapFocus: PropTypes.bool,
-    autoFocusFirst: PropTypes.bool
+    autoFocusFirst: PropTypes.bool,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -108,7 +110,8 @@ export default class Dialog extends PureComponent {
 
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
-      children, className, contentClassName, trapFocus, ...restProps} = this.props;
+      children, className, contentClassName, trapFocus, 'data-test': dataTest,
+      ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -118,7 +121,7 @@ export default class Dialog extends PureComponent {
           target => (
             <TabTrap
               trapDisabled={!trapFocus}
-              data-test="ring-dialog-container"
+              data-test={dataTests('ring-dialog-container', dataTest)}
               ref={this.dialogRef}
               className={classes}
               role="presentation"
