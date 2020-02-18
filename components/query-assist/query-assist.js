@@ -257,13 +257,17 @@ export default class QueryAssist extends Component {
   };
 
   handleInput = e => {
+    if (e.key === 'Escape') {
+      return;
+    }
     this.togglePlaceholder();
+    const currentCaret = this.caret.getPosition();
     const props = {
       dirty: true,
       query: this.getQuery(),
-      caret: Number.isInteger(this.caret.getPosition())
-        ? this.caret.getPosition()
-        : this.caret.getPosition().position,
+      caret: Number.isInteger(currentCaret)
+        ? currentCaret
+        : currentCaret.position,
       focus: true
     };
 
@@ -325,9 +329,10 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    const caret = Number.isInteger(this.caret.getPosition())
-      ? this.caret.getPosition()
-      : this.caret.getPosition().position;
+    const currentCaret = this.caret.getPosition();
+    const caret = Number.isInteger(currentCaret)
+      ? currentCaret
+      : currentCaret.position;
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
