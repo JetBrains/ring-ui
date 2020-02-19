@@ -1,6 +1,10 @@
 import initStoryshots, {renderOnly} from '@storybook/addon-storyshots';
 
-jest.mock('./components/loader/loader__core');
+jest.mock('./components/loader/loader__core', () => (
+  class FakeLoader {
+    updateMessage = jest.fn()
+  }
+));
 jest.mock('./components/old-browsers-message/old-browsers-message');
 
 initStoryshots({
