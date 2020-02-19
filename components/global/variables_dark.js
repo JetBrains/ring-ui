@@ -35,7 +35,7 @@ export default {
   '--ring-tag-background-color': '#3e4d59',
   '--ring-removed-background-color': '#8f5247',
   '--ring-warning-background-color': '#593d01',
-  '--ring-added-background-color': '#294436',
+  '--ring-added-background-color': '#365947',
 
   /* Code */
   '--ring-code-background-color': '#2b2b2b',
