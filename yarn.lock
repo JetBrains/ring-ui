@@ -1625,10 +1625,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.59":
-  version "2.0.59"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.59.tgz#dee7b3a28465f3e275480fb791c3c1f84dcc5636"
-  integrity sha512-J4mGDp8sFkPpwON2l4vsokyDeY2A9xFTaWWTTFRMYjsTvgIy2Jrpq6z0D18R9JiS+GtfsSUh6eslmPZf1H5Tlg==
+"@jetbrains/generator-ring-ui@^2.0.60":
+  version "2.0.60"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.60.tgz#c614f098443f631028f6b7729b160e2505c620ee"
+  integrity sha512-mH7hQkbb/gc7oYW1lOgzOHXGUnSTiMgNpak4KmBPijr17+ycr6Wkch9vqHEbvtvZMopX/hAQlQTOf34JEH/paw==
   dependencies:
     chalk "^3.0.0"
     change-case "^4.1.1"
@@ -9213,7 +9213,14 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.0.tgz#71e87f931de3fe09e56661ab9a29aadec707b491"
   integrity sha512-a4u9BeERWGu/S8JiWEAQcdrg9v4QArtP9keViQjGMdff20fBdd8waotXaNmODqBe6uZ3Nafi7K/ho4gCQHV3Ig==
 
-html-loader@^0.5.5:
+html-loader-jest@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/html-loader-jest/-/html-loader-jest-0.2.1.tgz#1803c2bcd9e41ccc738a0979cc6de0acbabac3f8"
+  integrity sha512-Sq9eDpsr/8kI+kyiQAL8jawa+aGRphANCeIeoLyU05DEfHd9vCi4Zz8AXUQTbqnF0TRGfVn9qN69/ox378kyGg==
+  dependencies:
+    html-loader "^0.5.1"
+
+html-loader@^0.5.1, html-loader@^0.5.5:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/html-loader/-/html-loader-0.5.5.tgz#6356dbeb0c49756d8ebd5ca327f16ff06ab5faea"
   integrity sha512-7hIW7YinOYUpo//kSYcPB6dCKoceKLmOwjEMmhIobHuWGDVl0Nwe4l68mdG/Ru0wcUxQjVMEoZpkalZ/SE7zog==
