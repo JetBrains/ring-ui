@@ -47,7 +47,7 @@ export default class Caret {
     let _curNode = node;
     let curPos = 0;
     while (_curNode !== this.target) {
-      while (_curNode.previousSibling !== null && _curNode.previousSibling !== undefined) {
+      while (_curNode.previousSibling) {
         curPos += _curNode.previousSibling.textContent.length;
         _curNode = _curNode.previousSibling;
       }
@@ -79,16 +79,16 @@ export default class Caret {
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
-      let curPos = 0;
-      let _curNode = range1.startContainer;
-      if (!this.target.contains(_curNode)) {
+      const _curNode = range1.startContainer;
+      if (this.target === _curNode) {
+        return range1.startOffset === 0 ? 0 : _curNode.textContent.length;
+      } else if (!this.target.contains(_curNode)) {
         return -1;
-      }
-      if (!_curNode) {
+      } else if (!_curNode) {
         return this.target.selectionStart;
       }
+      const curPos = this.getAbsolutePosition(_curNode);
       if (range1.startContainer === range1.endContainer) {
-        curPos = this.getAbsolutePosition(_curNode);
         if (range1.startOffset === range1.endOffset) {
           return curPos + range1.startOffset;
         } else {
@@ -97,12 +97,9 @@ export default class Caret {
             position: range2.toString().length};
         }
       } else {
-        curPos = this.getAbsolutePosition(_curNode);
         const startOffset = curPos + range1.startOffset;
-        curPos = 0;
-        _curNode = range1.endContainer;
-        curPos = this.getAbsolutePosition(_curNode);
-        const endOffset = curPos + range1.endOffset;
+        const endPos = this.getAbsolutePosition(range1.endContainer);
+        const endOffset = endPos + range1.endOffset;
         return {startOffset, endOffset, position: range2.toString().length};
       }
     }
