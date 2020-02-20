@@ -79,15 +79,15 @@ export default class Caret {
 
       range2.selectNodeContents(this.target);
       range2.setEnd(range1.endContainer, range1.endOffset);
-      let curPos = 0;
       const _curNode = range1.startContainer;
-      if (!this.target.contains(_curNode)) {
+      if (this.target === _curNode) {
+        return range1.startOffset === 0 ? 0 : _curNode.textContent.length;
+      } else if (!this.target.contains(_curNode)) {
         return -1;
-      }
-      if (!_curNode) {
+      } else if (!_curNode) {
         return this.target.selectionStart;
       }
-      curPos = this.getAbsolutePosition(_curNode);
+      const curPos = this.getAbsolutePosition(_curNode);
       if (range1.startContainer === range1.endContainer) {
         if (range1.startOffset === range1.endOffset) {
           return curPos + range1.startOffset;
