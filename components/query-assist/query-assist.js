@@ -209,7 +209,7 @@ export default class QueryAssist extends Component {
     }
   }
 
-  setCaretPosition = () => {
+  setCaretPosition = (params = {}) => {
     const queryLength = this.immediateState.query != null && this.immediateState.query.length;
     const newCaretPosition =
       this.immediateState.caret < queryLength
@@ -223,7 +223,7 @@ export default class QueryAssist extends Component {
       } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
         undefined) {
         this.caret.setPosition(this.immediateState.selection);
-      } else if (!this.immediateState.selection) {
+      } else if (!this.immediateState.selection || params.forceSetCaret) {
         this.caret.setPosition(-1);
       }
     }
@@ -257,9 +257,6 @@ export default class QueryAssist extends Component {
   };
 
   handleInput = e => {
-    if (e.key === 'Escape') {
-      return;
-    }
     this.togglePlaceholder();
     const currentCaret = this.caret.getPosition();
     const props = {
@@ -667,7 +664,7 @@ export default class QueryAssist extends Component {
       this.blurInput();
     } else if (focus === true && !isComponentFocused) {
       this.immediateState.focus = focus;
-      this.setCaretPosition();
+      this.setCaretPosition({forceSetCaret: true});
     }
   }
 
