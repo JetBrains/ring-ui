@@ -1625,16 +1625,16 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.60":
-  version "2.0.60"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.60.tgz#c614f098443f631028f6b7729b160e2505c620ee"
-  integrity sha512-mH7hQkbb/gc7oYW1lOgzOHXGUnSTiMgNpak4KmBPijr17+ycr6Wkch9vqHEbvtvZMopX/hAQlQTOf34JEH/paw==
+"@jetbrains/generator-ring-ui@^2.0.61":
+  version "2.0.61"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.61.tgz#50da72ffa273322beddea3283aa38e32add17fee"
+  integrity sha512-3XDzdUC6k0OgVIWJbNKkePjgNexabCffWN76mwTfcZlkUyDpYlU+uuTCbFd+/8/PRLtNtwf4ULX5jpVJOk9k8Q==
   dependencies:
     chalk "^3.0.0"
     change-case "^4.1.1"
     ora "^4.0.3"
     package-json "^6.5.0"
-    pify "^4.0.1"
+    pify "^5.0.0"
     portscanner "^2.2.0"
     read-pkg-up "^7.0.1"
     title-case "^3.0.2"
@@ -6960,10 +6960,10 @@ electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.349:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.349.tgz#663f26a69d348a462df47b4d7ab162a2f29bbcb7"
   integrity sha512-uEb2zs6EJ6OZIqaMsCSliYVgzE/f7/s1fLWqtvRtHg/v5KBF2xds974fUnyatfxIDgkqzQVwFtam5KExqywx0Q==
 
-electron@^7.1.7:
-  version "7.1.7"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-7.1.7.tgz#520e2bc422e3dfd4bae166dd3be62101f2cbdc52"
-  integrity sha512-aCLJ4BJwnvOckJgovNul22AYlMFDzm4S4KqKCG2iBlFJyMHBxXAKFKMsgYd40LBZWS3hcY6RHpaYjHSAPLS1pw==
+electron@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-8.0.2.tgz#8dfd62fd42529fed94040b643660f2a82b4f8e95"
+  integrity sha512-hiQaFtFhd9X2Vjs01l3GXb8hPWSCa31o/kXydo+RC7vwcx9AGuzG7jWIq8vidzAWsF/YPM0LFVjFRZrfkqi03Q==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -13938,6 +13938,11 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
+
+pify@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/pify/-/pify-5.0.0.tgz#1f5eca3f5e87ebec28cc6d54a0e4aaf00acc127f"
+  integrity sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==
 
 pinkie-promise@2.0.1, pinkie-promise@^2.0.0:
   version "2.0.1"
