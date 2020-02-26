@@ -87,7 +87,12 @@ function getFilterFn(filter) {
     );
 }
 
-const buildMultipleMap = selected => Object.fromEntries(selected.map(({key}) => [key, true]));
+const buildMultipleMap = selected => (
+  selected.reduce((acc, item) => {
+    acc[item.key] = true;
+    return acc;
+  }, {})
+);
 
 function getListItems(props, state, rawFilterString, data = props.data) {
   let filterString = rawFilterString.trim();
