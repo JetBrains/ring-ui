@@ -76,7 +76,7 @@ module.exports = config => {
           height: 1024,
           width: 768
         },
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox', '--disable-gpu']
       }
     },
 
