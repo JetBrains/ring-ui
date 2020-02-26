@@ -85,7 +85,7 @@
     "@storybook/client-api": "5.3.12",
     "@storybook/core": "5.3.12",
     "@storybook/html": "5.3.12",
-    "@storybook/source-loader": "5.3.12",
+    "@storybook/source-loader": "5.3.14",
     "@storybook/theming": "5.3.12",
     "angular": "^1.7.9",
     "angular-mocks": "^1.7.9",
