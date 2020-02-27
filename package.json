@@ -82,7 +82,7 @@
     "@storybook/addon-storysource": "5.3.12",
     "@storybook/addons": "5.3.12",
     "@storybook/cli": "5.3.12",
-    "@storybook/client-api": "5.3.12",
+    "@storybook/client-api": "5.3.14",
     "@storybook/core": "5.3.12",
     "@storybook/html": "5.3.12",
     "@storybook/source-loader": "5.3.12",
