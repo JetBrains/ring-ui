@@ -132,7 +132,7 @@
     "puppeteer": "^2.1.1",
     "raw-loader": "^4.0.0",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.0",
     "react-test-renderer": "^16.12.0",
     "sinon": "^9.0.0",
     "sinon-chai": "^3.5.0",
