@@ -148,8 +148,8 @@
   },
   "peerDependencies": {
     "core-js": ">=2.0.0",
-    "react": ">=16.4.0",
-    "react-dom": ">=16.4.0"
+    "react": ">=16.6.0",
+    "react-dom": ">=16.6.0"
   },
   "dependencies": {
     "@babel/core": "^7.8.4",

@@ -1,5 +1,4 @@
-import React from 'react';
-import {pure} from 'recompose';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 
 import Link from '../link/link';
@@ -29,4 +28,4 @@ TabLink.propTypes = {
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
 };
 
-export default pure(TabLink);
+export default memo(TabLink);
