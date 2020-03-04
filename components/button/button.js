@@ -13,7 +13,7 @@ import styles from './button.css';
 /**
  * @name Button
  */
-export class Button extends PureComponent {
+class Button extends PureComponent {
   static propTypes = {
     theme: PropTypes.string,
     active: PropTypes.bool,
