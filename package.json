@@ -70,7 +70,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@jetbrains/eslint-config": "^5.3.1",
-    "@jetbrains/generator-ring-ui": "^2.0.61",
+    "@jetbrains/generator-ring-ui": "^2.0.62",
     "@jetbrains/stylelint-config": "^2.0.0",
     "@storybook/addon-a11y": "5.3.14",
     "@storybook/addon-actions": "5.3.14",
