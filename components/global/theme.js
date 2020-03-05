@@ -1,5 +1,5 @@
-import React, {createContext, forwardRef} from 'react';
-import {pure, wrapDisplayName} from 'recompose';
+import React, {createContext, forwardRef, memo} from 'react';
+import {wrapDisplayName} from 'recompose';
 
 const Theme = {
   LIGHT: 'light',
@@ -10,7 +10,7 @@ export const ThemeContext = createContext();
 
 export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
   // eslint-disable-next-line react/prop-types
-  const WithTheme = pure(forwardRef(function WithTheme({theme, ...restProps}, ref) {
+  const WithTheme = memo(forwardRef(function WithTheme({theme, ...restProps}, ref) {
     return (
       <ThemeContext.Consumer>
         {contextTheme => {

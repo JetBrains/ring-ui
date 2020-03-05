@@ -13,7 +13,7 @@ describe('Button', () => {
   const renderButton = props => render(<Button {...props}/>);
 
   it('should create component', () => {
-    mountButton().should.have.type(Button);
+    mountButton().type().should.equal(Button.type);
   });
 
   it('should set _default modifier', () => {
