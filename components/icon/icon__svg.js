@@ -1,8 +1,7 @@
 // Inspired by https://github.com/sairion/svg-inline-react
-import React from 'react';
+import React, {memo} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {pure} from 'recompose';
 
 import sniffer from '../global/sniffer';
 import memoize from '../global/memoize';
@@ -90,4 +89,4 @@ IconSVG.propTypes = {
   style: PropTypes.object
 };
 
-export default pure(IconSVG);
+export default memo(IconSVG);
