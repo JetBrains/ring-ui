@@ -1194,6 +1194,7 @@ export default class Select extends Component {
               onClick={this._clickHandler}
               data-test="ring-select__focus"
               disabled={this.props.disabled}
+              active={this.state.showPopup}
             >
               {this._selectionIsEmpty() ? this._getLabel() : this._getSelectedString()}
             </Anchor>
