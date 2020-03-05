@@ -138,16 +138,18 @@ export default class Dropdown extends Component {
 
     let anchorElement;
 
+    const active = hoverMode ? pinned : show;
+
     switch (typeof anchor) {
       case 'string':
-        anchorElement = (<Anchor>{anchor}</Anchor>);
+        anchorElement = (<Anchor active={active}>{anchor}</Anchor>);
         break;
       case 'function':
         anchorElement = anchor({active: show, pinned});
         break;
 
       default:
-        anchorElement = anchor;
+        anchorElement = cloneElement(anchor, {active});
     }
 
     return (
