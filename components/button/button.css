@@ -352,8 +352,14 @@
   padding: 0 unit;
 }
 
-.withIcon,
 .text {
+  &:active,
+  &.active {
+    color: var(--ring-link-hover-color);
+  }
+}
+
+.withIcon {
   &:active,
   &.active {
     color: var(--ring-main-color);
