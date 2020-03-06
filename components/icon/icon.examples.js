@@ -12,8 +12,8 @@ import reactDecorator from '../../.storybook/react-decorator';
 
 import Icon from './icon';
 
-const allIcons = require.context('@jetbrains/icons', false, /\.svg$/);
-const allLogos = require.context('@jetbrains/logos', true, /\.svg$/);
+const allIcons = require.context('../../node_modules/@jetbrains/icons', false, /\.svg$/);
+const allLogos = require.context('../../node_modules/@jetbrains/logos', true, /\.svg$/);
 
 export default {
   title: 'Components/Icon',
