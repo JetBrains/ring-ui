@@ -5,6 +5,7 @@ import warningIcon from '@jetbrains/icons/warning.svg';
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Button from '../button/button';
+import Icon from '../icon/icon';
 
 import {Tabs, Tab, SmartTabs, CustomItem} from './tabs';
 
@@ -112,19 +113,19 @@ smart.story = {
   name: 'smart'
 };
 
-function Title({Icon, title, children, className}) {
+function Title({glyph, title, children, className}) {
   return (
     <span className={className}>
-      <Icon title={title} className="icon"/>
+      <Icon glyph={glyph} title={title} className="icon"/>
       {children}
     </span>
   );
 }
 export const customTitles = () => (
   <SmartTabs>
-    <Tab title={<Title Icon={searchIcon}>First tab</Title>}>First tab content</Tab>
-    <Tab title={<Title Icon={warningIcon}>Second tab</Title>}>Second tab content</Tab>
-    <Tab title={<Title Icon={warningIcon}>Third tab (Link)</Title>} href="/">
+    <Tab title={<Title glyph={searchIcon}>First tab</Title>}>First tab content</Tab>
+    <Tab title={<Title glyph={warningIcon}>Second tab</Title>}>Second tab content</Tab>
+    <Tab title={<Title glyph={warningIcon}>Third tab (Link)</Title>} href="/">
       Third tab content
     </Tab>
     <CustomItem>
@@ -152,7 +153,7 @@ export const customTitlesFunction = () => (
   <SmartTabs>
     <Tab
       title={isSelected => (
-        <Title title={isSelected ? undefined : 'First tab'} Icon={searchIcon} className={isSelected ? 'has-content' : ''}>
+        <Title title={isSelected ? undefined : 'First tab'} glyph={searchIcon} className={isSelected ? 'has-content' : ''}>
           {isSelected && 'First tab'}
         </Title>
       )}
@@ -161,7 +162,7 @@ export const customTitlesFunction = () => (
     </Tab>
     <Tab
       title={isSelected => (
-        <Title title={isSelected ? undefined : 'Second tab (Link)'} Icon={warningIcon} className={isSelected ? 'has-content' : ''}>
+        <Title title={isSelected ? undefined : 'Second tab (Link)'} glyph={warningIcon} className={isSelected ? 'has-content' : ''}>
           {isSelected && 'Second tab (Link)'}
         </Title>
       )}
