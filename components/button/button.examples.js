@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react';
+import pencilIcon from '@jetbrains/icons/pencil.svg';
+import hourglassIcon from '@jetbrains/icons/hourglass.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import {PencilIcon, HourglassIcon} from '../icon';
 import Loader from '../loader-inline/loader-inline';
 
 import Theme, {ThemeContext} from '../global/theme';
@@ -47,7 +48,7 @@ export const basic = () => {
       {label: 'primary-disabled', primary: true, disabled: true},
       {label: 'danger-disabled', danger: true, disabled: true}
     ].map(modifiers => (
-      <Button key={modifiers.label} icon={PencilIcon} {...modifiers}>
+      <Button key={modifiers.label} icon={pencilIcon} {...modifiers}>
         Icon action {modifiers.label}
       </Button>
     ));
@@ -64,7 +65,7 @@ export const basic = () => {
       <Button
         key={modifiers.label}
         title={`Just icon action (${modifiers.label})`}
-        icon={PencilIcon}
+        icon={pencilIcon}
         {...modifiers}
       />
     ));
@@ -85,7 +86,7 @@ export const basic = () => {
           Primary loader
         </Button>
 
-        <Button icon={PencilIcon} loader>
+        <Button icon={pencilIcon} loader>
           Icon loader
         </Button>
 
@@ -95,11 +96,11 @@ export const basic = () => {
 
         {renderTextModifications()}
 
-        <Button icon={PencilIcon}>Icon action</Button>
+        <Button icon={pencilIcon}>Icon action</Button>
 
         {renderIconWithTextModifications()}
 
-        <Button icon={PencilIcon} title="Icon action"/>
+        <Button icon={pencilIcon} title="Icon action"/>
 
         {renderIconActionModifications()}
       </div>
@@ -128,13 +129,13 @@ export const basic = () => {
 
           {renderTextModifications()}
 
-          <Button icon={PencilIcon}>
+          <Button icon={pencilIcon}>
             Icon action
           </Button>
 
           {renderIconWithTextModifications()}
 
-          <Button icon={PencilIcon} title="Icon action"/>
+          <Button icon={pencilIcon} title="Icon action"/>
 
           {renderIconActionModifications()}
         </ThemeContext.Provider>
@@ -196,7 +197,7 @@ export const longAction = () => {
           <Button loader={loading} onClick={this.load}>
             Sleep
           </Button>
-          <Button title="Sleep" loader={loading} icon={HourglassIcon} onClick={this.load}/>
+          <Button title="Sleep" loader={loading} icon={hourglassIcon} onClick={this.load}/>
           {loading && <Loader/>}
         </Fragment>
       );

@@ -1,8 +1,9 @@
 import angular from 'angular';
 
+import warningIcon from '@jetbrains/icons/warning.svg';
+
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IconNG from '../icon-ng/icon-ng';
-import {WarningIcon} from '../icon';
 
 import TooltipNG from './tooltip-ng';
 
@@ -17,7 +18,7 @@ export default {
 
 export const basic = () => {
   angular.module(APP_NAME, [IconNG, TooltipNG]).controller('testController', function ctrl() {
-    this.warningIcon = WarningIcon;
+    this.warningIcon = warningIcon;
     this.testMessageWithQuote = "It's a message with a single quotation mark";
   });
 

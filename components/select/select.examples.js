@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {action} from '@storybook/addon-actions';
+import warningIcon from '@jetbrains/icons/warning.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
-import {WarningIcon} from '../icon';
 import Link from '../link/link';
 import Popup from '../popup/popup';
 import List from '../list/list';
@@ -37,7 +37,7 @@ export const withAFilterAndTags = () => {
       reset: {
         separator: true,
         label: 'Reset the list',
-        glyph: WarningIcon
+        glyph: warningIcon
       }
     }
   };

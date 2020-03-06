@@ -1,7 +1,7 @@
 import React from 'react';
+import frownIcon from '@jetbrains/icons/frown.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import {FrownIcon} from '../icon';
 import Link from '../link/link';
 
 import ErrorMessage from './error-message';
@@ -19,7 +19,7 @@ export default {
 export const basic = () => (
   <div style={{height: '300px'}}>
     <ErrorMessage
-      icon={FrownIcon}
+      icon={frownIcon}
       code="Disconnected"
       message="no answer from server."
       description="Please try again soon."

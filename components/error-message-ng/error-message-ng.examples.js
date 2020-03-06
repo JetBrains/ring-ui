@@ -1,8 +1,8 @@
 import angular from 'angular';
 
-import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
+import frownIcon from '@jetbrains/icons/frown.svg';
 
-import {FrownIcon} from '../icon';
+import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import ErrorMessageNG from './error-message-ng';
 
@@ -18,7 +18,7 @@ export default {
 
 export const basic = () => {
   angular.module(APP_NAME, [ErrorMessageNG]).controller('DemoCtrl', function ctrl() {
-    this.errorIcon = FrownIcon;
+    this.errorIcon = frownIcon;
   });
 
   return `

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {action} from '@storybook/addon-actions';
+import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
 import HTTP from '../http/http';
 import List from '../list/list';
-import {PermissionIcon} from '../icon';
+import Icon from '../icon/icon';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -381,7 +382,7 @@ export const withCustomActions = () => {
           hintOnSelection="lol selected"
           popupClassName="test"
           dataSource={this.dataSource}
-          actions={[<PermissionIcon key="custom-action"/>]}
+          actions={[<Icon glyph={permissionIcon} key="custom-action"/>]}
         />
       );
     }

@@ -2,6 +2,11 @@ import React from 'react';
 import {withKnobs, boolean, radios} from '@storybook/addon-knobs';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
+import addIcon from '@jetbrains/icons/add-20px.svg';
+import giftIcon from '@jetbrains/icons/gift-20px.svg';
+import helpIcon from '@jetbrains/icons/help-20px.svg';
+import searchIcon from '@jetbrains/icons/search-20px.svg';
+import settingsIcon from '@jetbrains/icons/settings-20px.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
@@ -11,9 +16,10 @@ import Link from '../link/link';
 import PopupMenu from '../popup-menu/popup-menu';
 import Dropdown from '../dropdown/dropdown';
 import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
-import {Add20pxIcon, Gift20pxIcon, Help20pxIcon, Search20pxIcon, Settings20pxIcon} from '../icon';
 
 import Theme from '../global/theme';
+
+import Auth from '../auth/auth';
 
 import Header from './header';
 import Logo from './logo';
@@ -22,8 +28,6 @@ import Tray from './tray';
 import TrayIcon from './tray-icon';
 import SmartServices from './smart-services';
 import SmartProfile from './smart-profile';
-
-import {Auth} from '..';
 
 const blockAuth = window.location.search.includes('block-auth');
 
@@ -70,13 +74,13 @@ export const header = () => {
           <Link href="#">Spaces</Link>
           <Link href="#">Services</Link>
           <Tray>
-            <TrayIcon primary title="Create issue" icon={Add20pxIcon}/>
-            <TrayIcon title="Help" icon={Help20pxIcon}/>
-            <TrayIcon title="What's new" icon={Gift20pxIcon}/>
-            <TrayIcon title="Search" icon={Search20pxIcon}/>
+            <TrayIcon primary title="Create issue" icon={addIcon}/>
+            <TrayIcon title="Help" icon={helpIcon}/>
+            <TrayIcon title="What's new" icon={giftIcon}/>
+            <TrayIcon title="Search" icon={searchIcon}/>
             <Dropdown
               anchor={({active}) => (
-                <TrayIcon title="Settings" active={active} icon={Settings20pxIcon}/>
+                <TrayIcon title="Settings" active={active} icon={settingsIcon}/>
               )}
             >
               <PopupMenu top={-12} closeOnSelect data={[{label: 'Test'}, {label: 'Test2'}]}/>

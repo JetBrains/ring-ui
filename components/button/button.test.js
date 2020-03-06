@@ -2,8 +2,6 @@ import React from 'react';
 import {mount, render} from 'enzyme';
 import caretDownSVG from '@jetbrains/icons/caret-down-10px.svg';
 
-import {CaretDown10pxIcon} from '../icon/icons';
-
 import Button from './button';
 import styles from './button.css';
 
@@ -40,7 +38,7 @@ describe('Button', () => {
 
   it('should add icon', () => {
     const wrapper = renderButton({
-      icon: CaretDown10pxIcon
+      icon: caretDownSVG
     });
 
     wrapper.hasClass(styles.withIcon).should.be.true;

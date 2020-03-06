@@ -2,7 +2,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import Tag from './tag';
 
