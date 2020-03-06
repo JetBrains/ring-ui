@@ -10866,10 +10866,10 @@ jest-specific-snapshot@^2.0.0:
   dependencies:
     jest-snapshot "^24.1.0"
 
-jest-teamcity@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.6.0.tgz#96ee3b5a99dde511c2966c78ed2630024a199cab"
-  integrity sha512-m6CoWSyhmZOyNFDF6eR49tSMHXT0UjNQxVjzShh4ILwPLNGJO1BoCCN0jBUI0lUqLcwIy+LDUV2w/BieIoLp/g==
+jest-teamcity@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.7.0.tgz#31401d3b353c62809c2a51aac215c4986df088f8"
+  integrity sha512-pj1s59qoMOMaOdCNvptgCyHLSkL6R2A35XCG+iljRLKXdrCfewAQpzPwDZDlcfxJQi4s7eSYZTDeVfbJl6yYVw==
   dependencies:
     lodash "^4.17.15"
 
