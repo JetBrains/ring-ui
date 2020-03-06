@@ -1,8 +1,7 @@
 import React from 'react';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-
-import {CheckmarkIcon} from '../icon';
 
 import TagsList from './tags-list';
 
@@ -29,7 +28,7 @@ basic.story = {
 export const withIcons = () => (
   <TagsList
     tags={[
-      {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
+      {key: 'test1', label: 'test1', rgTagIcon: checkmarkIcon},
       {key: 'test2', label: 'test2'}
     ]}
   />

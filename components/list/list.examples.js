@@ -1,9 +1,9 @@
 import React from 'react';
 import {action} from '@storybook/addon-actions';
+import warningIcon from '@jetbrains/icons/warning.svg';
 
 import hubConfig from '../../.storybook/hub-config';
 
-import {WarningIcon} from '../icon';
 import Loader from '../loader/loader';
 import Auth from '../auth/auth';
 import Code from '../code/code';
@@ -161,8 +161,8 @@ export const withItemIcons = () => {
         'Long long long long long long long long long long long long long long long description',
       key: '1',
       rgItemType: List.ListProps.Type.ITEM,
-      glyph: WarningIcon,
-      rightGlyph: WarningIcon
+      glyph: warningIcon,
+      rightGlyph: warningIcon
     },
     {
       label: 'Some item with a long long label, much longer than description',

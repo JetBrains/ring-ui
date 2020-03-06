@@ -1,13 +1,16 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
+import pencilIcon from '@jetbrains/icons/pencil.svg';
+import chevronIcon from '@jetbrains/icons/chevron-10px.svg';
+import closeIcons from '@jetbrains/icons/close.svg';
+import permissionIcon from '@jetbrains/icons/permission.svg';
+
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import IconNG from '../icon-ng/icon-ng';
 import ThemeNG from '../theme-ng/theme-ng';
 import CheckboxNG from '../checkbox-ng/checkbox-ng';
 import Theme from '../global/theme';
-
-import {PencilIcon, Chevron10pxIcon, CloseIcon, PermissionIcon} from '../icon';
 
 import ButtonNG from './button-ng';
 
@@ -21,10 +24,10 @@ export const light = () => {
   angular.
     module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
     controller('testCtrl', function controller($scope) {
-      $scope.pencil = PencilIcon;
-      $scope.chevronDown = Chevron10pxIcon;
-      $scope.close = CloseIcon;
-      $scope.permission = PermissionIcon;
+      $scope.pencil = pencilIcon;
+      $scope.chevronDown = chevronIcon;
+      $scope.close = closeIcons;
+      $scope.permission = permissionIcon;
       $scope.Theme = Theme;
     });
 
@@ -117,10 +120,10 @@ export const dark = () => {
       $rootScope.currentTheme = 'dark';
     }).
     controller('testCtrl', function controller($scope) {
-      $scope.pencil = PencilIcon;
-      $scope.chevronDown = Chevron10pxIcon;
-      $scope.close = CloseIcon;
-      $scope.permission = PermissionIcon;
+      $scope.pencil = pencilIcon;
+      $scope.chevronDown = chevronIcon;
+      $scope.close = closeIcons;
+      $scope.permission = permissionIcon;
       $scope.Theme = Theme;
     });
 

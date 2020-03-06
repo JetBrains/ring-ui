@@ -1,7 +1,7 @@
 import React from 'react';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import {ChevronDownIcon} from '../icon';
 
 import Popup from '../popup/popup';
 import PopupMenu from '../popup-menu/popup-menu';
@@ -55,7 +55,7 @@ export const withActiveClassName = () => (
   <Dropdown
     className="chevron"
     activeClassName="rotated"
-    anchor={<Button title="Details" icon={ChevronDownIcon}/>}
+    anchor={<Button title="Details" icon={chevronDownIcon}/>}
   >
     <Popup>Popup content</Popup>
   </Dropdown>

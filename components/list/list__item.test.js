@@ -1,7 +1,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import Checkbox from '../checkbox/checkbox';
 
 import ListItem from './list__item';
