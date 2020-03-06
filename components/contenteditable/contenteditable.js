@@ -8,16 +8,19 @@ import {renderToStaticMarkup} from 'react-dom/server';
 
 function noop() {}
 
-export default class ContentEditable extends Component {
-  /** @override */
+const commonPropTypes = {
+  disabled: PropTypes.bool,
+  tabIndex: PropTypes.number,
+  componentDidUpdate: PropTypes.func,
+  onComponentUpdate: PropTypes.func,
+  className: PropTypes.string,
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+};
+
+class ContentEditableBase extends Component {
   static propTypes = {
-    disabled: PropTypes.bool,
-    tabIndex: PropTypes.number,
-    componentDidUpdate: PropTypes.func,
-    onComponentUpdate: PropTypes.func,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+    ...commonPropTypes,
+    __html: PropTypes.string
   };
 
   static defaultProps = {
@@ -27,15 +30,9 @@ export default class ContentEditable extends Component {
     onComponentUpdate: noop
   };
 
-  static getDerivedStateFromProps = ({children}) => ({
-    __html: children ? renderToStaticMarkup(children) : ''
-  });
-
-  state = {__html: ''};
-
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.disabled !== this.props.disabled ||
-      nextState.__html !== this.state.__html;
+      nextProps.__html !== this.props.__html;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -43,7 +40,7 @@ export default class ContentEditable extends Component {
   }
 
   render() {
-    const {children, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
+    const {__html, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
 
     return (
       <div
@@ -53,8 +50,17 @@ export default class ContentEditable extends Component {
         role="textbox"
         tabIndex={disabled ? null : tabIndex}
         contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={this.state}
+        dangerouslySetInnerHTML={{__html}}
       />
     );
   }
 }
+
+const ContentEditable = ({children, ...props}) =>
+  <ContentEditableBase {...props} __html={renderToStaticMarkup(children)}/>;
+ContentEditable.propTypes = {
+  ...commonPropTypes,
+  children: PropTypes.node
+};
+
+export default ContentEditable;
