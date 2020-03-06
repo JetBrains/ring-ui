@@ -1,10 +1,12 @@
 import React from 'react';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import exceptionIcon from '@jetbrains/icons/exception.svg';
+import frownIcon from '@jetbrains/icons/frown.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import Button from '../button/button';
 import Dialog from '../dialog/dialog';
 import {Content} from '../island/island';
-import {CheckmarkIcon, ExceptionIcon, FrownIcon} from '../icon';
 
 import TagsInput from './tags-input';
 
@@ -44,14 +46,14 @@ basic.story = {
 
 export const withIcons = () => {
   const tags = [
-    {key: 'test1', label: 'test1', rgTagIcon: CheckmarkIcon},
+    {key: 'test1', label: 'test1', rgTagIcon: checkmarkIcon},
     {key: 'test2', label: 'test2'}
   ];
 
   function dataSource() {
     return [
-      {key: 'test3', label: 'test3', rgTagIcon: ExceptionIcon, rgTagTitle: 'I am the tag title'},
-      {key: 'test4', label: 'test4', rgTagIcon: FrownIcon}
+      {key: 'test3', label: 'test3', rgTagIcon: exceptionIcon, rgTagTitle: 'I am the tag title'},
+      {key: 'test4', label: 'test4', rgTagIcon: frownIcon}
     ];
   }
 

@@ -1,8 +1,7 @@
 import React from 'react';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-
-import {CheckmarkIcon} from '../icon/icons';
 
 import Tag from './tag';
 
@@ -30,7 +29,7 @@ export const demo = () => {
             With angle and long truncated text
           </Tag>
           <Tag className="limited-width">With long truncated text</Tag>
-          <Tag rgTagIcon={CheckmarkIcon} rgTagTitle="I am an icon title">
+          <Tag rgTagIcon={checkmarkIcon} rgTagTitle="I am an icon title">
             With icon title
           </Tag>
           <Tag avatar={avatarUrl} readOnly={false}>

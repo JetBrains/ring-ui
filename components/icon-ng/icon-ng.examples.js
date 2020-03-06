@@ -1,7 +1,9 @@
 import angular from 'angular';
 
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import warningIcon from '@jetbrains/icons/warning.svg';
+
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import {CheckmarkIcon, WarningIcon} from '../icon';
 
 import IconNG from './icon-ng';
 
@@ -16,8 +18,8 @@ export default {
 
 export const basic = () => {
   angular.module(APP_NAME, [IconNG]).controller('testCtrl', function ctrl() {
-    this.icon = CheckmarkIcon;
-    this.error = WarningIcon;
+    this.icon = checkmarkIcon;
+    this.error = warningIcon;
   });
 
   return `

@@ -1,7 +1,8 @@
 import angular from 'angular';
 import 'dom4';
 
-import {FrownIcon, PermissionIcon} from '../icon';
+import frownIcon from '@jetbrains/icons/frown.svg';
+import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import '../error-page/error-page.scss';
 import ErrorMessage from '../error-message-ng/error-message-ng';
@@ -66,35 +67,35 @@ angularModule.factory('getErrorPagePresentation', RingMessageBundle => error => 
       status: 401,
       title: RingMessageBundle.errorpage_401(),
       description: RingMessageBundle.errorpage_401msg(),
-      icon: PermissionIcon
+      icon: permissionIcon
     },
     404: {
       status: 404,
       title: RingMessageBundle.errorpage_404(),
       description: RingMessageBundle.errorpage_404msg(),
-      icon: FrownIcon
+      icon: frownIcon
     },
     403: {
       status: 403,
       title: RingMessageBundle.errorpage_403(),
       description: RingMessageBundle.errorpage_403msg(),
-      icon: PermissionIcon
+      icon: permissionIcon
     },
     500: {
       status: 500,
       title: RingMessageBundle.errorpage_500(),
       description: RingMessageBundle.errorpage_500msg(),
-      icon: FrownIcon
+      icon: frownIcon
     },
     0: {
       status: RingMessageBundle.errorpage_disconnected(),
       title: RingMessageBundle.errorpage_disconnectedmsg(),
       description: RingMessageBundle.errorpage_offline(),
-      icon: FrownIcon
+      icon: frownIcon
     },
     default: {
       title: RingMessageBundle.errorpage_seriouslywrong(),
-      icon: FrownIcon
+      icon: frownIcon
     }
   };
 
@@ -219,9 +220,9 @@ angularModule.directive('rgErrorPage', [
 
             const template = `
               <div class="${styles.errorPageNg}">
-                <rg-error-message 
-                  code="{{ error.status }}" 
-                  message="{{ error.title }}" 
+                <rg-error-message
+                  code="{{ error.status }}"
+                  message="{{ error.title }}"
                   links="links"
                   icon="{{ error.icon }}"
                 >

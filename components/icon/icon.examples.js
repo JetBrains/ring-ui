@@ -1,21 +1,19 @@
 import React from 'react';
+import searchIcon from '@jetbrains/icons/search.svg';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import pencilIcon from '@jetbrains/icons/pencil.svg';
+import add10pxIcon from '@jetbrains/icons/add-10px.svg';
+import add20pxIcon from '@jetbrains/icons/add-20px.svg';
+import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
+import starFilledIcon from '@jetbrains/icons/star-filled.svg';
+import okIcon from '@jetbrains/icons/ok.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
+import Icon from './icon';
 
-import * as allIcons from './icons';
-import * as allLogos from './logos';
-
-import {
-  SearchIcon,
-  CheckmarkIcon,
-  PencilIcon,
-  Add10pxIcon,
-  Add20pxIcon,
-  ChevronDownIcon,
-  StarFilledIcon,
-  OkIcon
-} from '.';
+const allIcons = require.context('@jetbrains/icons', false, /\.svg$/);
+const allLogos = require.context('@jetbrains/logos', true, /\.svg$/);
 
 export default {
   title: 'Components/Icon',
@@ -28,9 +26,13 @@ export default {
 
 export const basic = () => (
   <div>
-    <CheckmarkIcon className="additional-class ring-icon" color={CheckmarkIcon.Color.MAGENTA}/>
-    <SearchIcon className="ring-icon"/>
-    <PencilIcon className="ring-icon"/>
+    <Icon
+      glyph={checkmarkIcon}
+      className="additional-class ring-icon"
+      color={Icon.Color.MAGENTA}
+    />
+    <Icon glyph={searchIcon} className="ring-icon"/>
+    <Icon glyph={pencilIcon} className="ring-icon"/>
   </div>
 );
 
@@ -52,15 +54,15 @@ basic.story = {
 export const inText = () => (
   <div className="icons">
     {'Some text '}
-    <ChevronDownIcon/>
+    <Icon glyph={chevronDownIcon}/>
     {' Text '}
-    <Add10pxIcon/>
+    <Icon glyph={add10pxIcon}/>
     {' text '}
-    <StarFilledIcon/>
+    <Icon glyph={starFilledIcon}/>
     {' text '}
-    <OkIcon/>
+    <Icon glyph={okIcon}/>
     {' Text '}
-    <Add20pxIcon/>
+    <Icon glyph={add20pxIcon}/>
     <div className="underline"/>
   </div>
 );
@@ -92,8 +94,8 @@ inText.story = {
 
 export const allIconsList = () => (
   <div className="icon-example__container">
-    {Object.entries(allIcons).map(([name, Icon]) => (
-      <Icon key={name} title={Icon.displayName} className="ring-icon"/>
+    {allIcons.keys().map(key => (
+      <Icon glyph={allIcons(key)} key={key} title={key.slice(2)} className="ring-icon"/>
     ))}
   </div>
 );
@@ -124,8 +126,8 @@ allIconsList.story = {
 
 export const jetBrainsProductLogosList = () => (
   <div>
-    {Object.entries(allLogos).map(([name, Logo]) => (
-      <Logo key={name} title={Logo.displayName} className="ring-icon"/>
+    {allLogos.keys().map(key => (
+      <Icon glyph={allLogos(key)} key={key} title={key.slice(2)} className="ring-icon"/>
     ))}
   </div>
 );

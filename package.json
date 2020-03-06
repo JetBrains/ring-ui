@@ -12,7 +12,6 @@
     "extract-css-vars.js",
     "jslint-xml.js"
   ],
-  "main": "components/index.js",
   "lint-staged": {
     "*.js": [
       "npm run lint:js -- --fix",
