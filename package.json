@@ -212,10 +212,6 @@
     "util-deprecate": "^1.0.2",
     "whatwg-fetch": "^3.0.0"
   },
-  "resolutions": {
-    "**/webpack/acorn": "^7.1.1",
-    "**/jest-environment-jsdom/**/acorn": "^7.1.1"
-  },
   "engines": {
     "node": ">=7.4"
   },
