@@ -22,7 +22,7 @@
     "filenamify": "^4.1.0",
     "forever": "^2.0.0",
     "fs-extra": "^8.1.0",
-    "hermione": "^3.0.0",
+    "hermione": "^3.0.1",
     "html-reporter": "^5.12.0",
     "http-server": "^0.12.1",
     "ip": "^1.1.5",
