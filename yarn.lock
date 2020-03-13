@@ -1655,10 +1655,10 @@
   dependencies:
     postcss "^6.0.1"
 
-"@jetbrains/stylelint-config@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/stylelint-config/-/stylelint-config-2.0.0.tgz#85a2f81fa6b2314b96c29bd9832988bb410bf64e"
-  integrity sha512-ch4GHrxNXstm6Sj5ipsNztOPB+/sMFfYHQe8XaiJZV4WKkW0CWb87C3W7HUhZhb9qlRIdUqbjS8wYbFqaz6TJQ==
+"@jetbrains/stylelint-config@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@jetbrains/stylelint-config/-/stylelint-config-2.0.1.tgz#aa2fcd5ede3a3498bd9e3de5e9b2f84c79d82a0b"
+  integrity sha512-cIdiPQQMXn2bYvoQ8631KS3By2v65wMg1L/S4MGPRPdj7MGR/1pGOWkQT34wiWu+YxojxIERnP/bcFeimuvhCg==
   dependencies:
     stylelint-config-css-modules "^2.1.0"
     stylelint-config-standard "^19.0.0"
