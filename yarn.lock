@@ -1644,10 +1644,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.6.0.tgz#20a1ff28d6a33f30a1b4f400748cc2f77c07ba42"
   integrity sha512-PTe4BVpbAlVNKg8j8oh/66f4FrI7UykxhQ+0lngC7h4a63rh5ldkkdW9Bfk6tEpWXnM0yz1su3IUdyovmMaRFw==
 
-"@jetbrains/logos@^1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.5.tgz#da77b8ba41214099a5ec96f2c29ac602b6c8ae56"
-  integrity sha512-Hm0aRFrH1+z0P+OSKCp65B1LOsQJ2VdEiaE/ZV2JDt1MA8ooutkXy3tjTmYx69yYul58RbHhWusiVF4hBaM5sg==
+"@jetbrains/logos@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@jetbrains/logos/-/logos-1.1.6.tgz#aad68769f2df501e52fec93d49cbc19be39c734a"
+  integrity sha512-E/ZBlz7g6K+yoQdAfgg17cFyrZx+iXJUpfpZZc/vgjZM21vkrpiWQ3C5GfE881QOhFHJsMxG0X9H3R6l85+LSg==
 
 "@jetbrains/postcss-require-hover@^0.1.2":
   version "0.1.2"
