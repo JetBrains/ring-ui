@@ -75,7 +75,7 @@
     "@storybook/addon-a11y": "5.3.14",
     "@storybook/addon-actions": "5.3.14",
     "@storybook/addon-docs": "5.3.14",
-    "@storybook/addon-knobs": "5.3.14",
+    "@storybook/addon-knobs": "5.3.17",
     "@storybook/addon-notes": "5.3.14",
     "@storybook/addon-storyshots": "5.3.14",
     "@storybook/addon-storyshots-puppeteer": "5.3.14",
