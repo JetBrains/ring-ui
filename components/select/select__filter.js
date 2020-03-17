@@ -13,7 +13,9 @@ export default class SelectFilter extends Component {
   static propTypes = {
     placeholder: PropTypes.string,
     className: PropTypes.string,
-    inputRef: PropTypes.func
+    inputRef: PropTypes.func,
+    listId: PropTypes.string,
+    activeItemId: PropTypes.string
   };
 
   static defaultProps = {
@@ -44,12 +46,14 @@ export default class SelectFilter extends Component {
   };
 
   render() {
-    const {className, ...restProps} = this.props;
+    const {className, listId, activeItemId, ...restProps} = this.props;
     const classes = classNames(styles.filter, className);
 
     return (
       <Input
         {...restProps}
+        aria-owns={listId}
+        aria-activedescendant={activeItemId}
         autoComplete="off"
         autoFocus
         borderless

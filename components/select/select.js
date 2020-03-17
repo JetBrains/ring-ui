@@ -391,7 +391,8 @@ export default class Select extends Component {
     prevSelected: null,
     prevMultiple: this.props.multiple,
     multipleMap: {},
-    addButton: null
+    addButton: null,
+    activeItemId: null
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -413,7 +414,9 @@ export default class Select extends Component {
   static Size = Size;
   static Theme = Theme;
 
-  shortcutsScope = getUID('select-');
+  id = getUID('select-');
+  shortcutsScope = this.id;
+  listId = `${this.id}:list`;
   _focusHandler = () => {
     this.props.onFocus();
 
@@ -599,6 +602,9 @@ export default class Select extends Component {
         disableScrollToActive={this.props.disableScrollToActive}
         dir={this.props.dir}
         onEmptyPopupEnter={this.onEmptyPopupEnter}
+        onNavigate={activeItemId => this.setState({activeItemId})}
+        activeItemId={this.state.activeItemId}
+        listId={this.listId}
       />
     );
   }
@@ -1074,6 +1080,8 @@ export default class Select extends Component {
             />
           )}
           <Input
+            aria-owns={this.state.showPopup ? this.listId : undefined}
+            aria-activedescendant={this.state.showPopup ? this.state.activeItemId : undefined}
             autoComplete="off"
             id={this.props.id}
             onClick={this._clickHandler}
