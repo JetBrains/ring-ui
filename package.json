@@ -215,6 +215,13 @@
     "util-deprecate": "^1.0.2",
     "whatwg-fetch": "^3.0.0"
   },
+  "resolutions": {
+    "**/gonzales-pe/minimist": "^1.2.5",
+    "**/karma-mocha/minimist": "^1.2.5",
+    "**/optimist/minimist": "^1.2.5",
+    "**/mocha/mkdirp": "^0.5.3",
+    "**/extract-zip/mkdirp": "^0.5.3"
+  },
   "engines": {
     "node": ">=7.4"
   },
