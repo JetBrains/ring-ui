@@ -84,7 +84,7 @@ const nonActivatableTypes = [
 ];
 
 function isActivatable(item) {
-  return !nonActivatableTypes.includes(item.rgItemType) && !item.disabled;
+  return item != null && !nonActivatableTypes.includes(item.rgItemType) && !item.disabled;
 }
 
 const shouldActivateFirstItem = props => props.activateFirstItem ||
@@ -97,6 +97,7 @@ const shouldActivateFirstItem = props => props.activateFirstItem ||
  */
 export default class List extends Component {
   static propTypes = {
+    id: PropTypes.string,
     className: PropTypes.string,
     hint: PropTypes.string,
     hintOnSelection: PropTypes.string,
@@ -115,6 +116,7 @@ export default class List extends Component {
     onScrollToBottom: PropTypes.func,
     onResize: PropTypes.func,
     useMouseUp: PropTypes.bool,
+    onNavigate: PropTypes.func,
     visible: PropTypes.bool,
     renderOptimization: PropTypes.bool,
     disableMoveOverflow: PropTypes.bool,
@@ -204,6 +206,11 @@ export default class List extends Component {
   componentDidMount() {
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
+
+    const activeItemId = this.getId(this.state.activeItem);
+    if (this.props.onNavigate != null) {
+      this.props.onNavigate(activeItemId);
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -211,12 +218,21 @@ export default class List extends Component {
       Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
       this.virtualizedList.recomputeRowHeights();
     }
 
     this.checkOverflow();
+
+    const activeItemId = this.getId(this.state.activeItem);
+    if (
+      this.props.onNavigate != null &&
+      isActivatable(this.state.activeItem) &&
+      activeItemId !== this.getId(prevState.activeItem)
+    ) {
+      this.props.onNavigate(activeItemId);
+    }
   }
 
   componentWillUnmount() {
@@ -482,6 +498,10 @@ export default class List extends Component {
     return `${itemProps.rgItemType}_${identificator}`;
   }
 
+  getId(item) {
+    return item != null ? `${this.id}:${item.key || this._deprecatedGenerateKeyFromContent(item)}` : null;
+  }
+
   renderItem = ({index, style, isScrolling, parent, key}) => {
     let itemKey;
     let el;
@@ -490,6 +510,7 @@ export default class List extends Component {
 
     const item = this.props.data[realIndex];
 
+    const itemId = this.getId(item);
     // top and bottom margins
     if (index === 0 || index === this.props.data.length + 1 || item.rgItemType === Type.MARGIN) {
       itemKey = key || `${Type.MARGIN}_${index}`;
@@ -507,7 +528,7 @@ export default class List extends Component {
         itemProps.rgItemType = Type.LINK;
       }
 
-      itemKey = key || itemProps.key || this._deprecatedGenerateKeyFromContent(itemProps);
+      itemKey = key || itemId;
 
       itemProps.hover = (realIndex === this.state.activeIndex);
       if (itemProps.hoverClassName != null && itemProps.hover) {
@@ -569,7 +590,7 @@ export default class List extends Component {
         columnIndex={0}
       >
         {({registerChild}) => (
-          <div ref={registerChild} style={style} role="row">
+          <div ref={registerChild} style={style} role="row" id={itemId}>
             <div role="cell">
               {el}
             </div>
@@ -594,7 +615,7 @@ export default class List extends Component {
 
   get inner() {
     if (!this._inner) {
-      this._inner = this.container && this.container.query('.ring-list__i');
+      this._inner = this.container && this.container.querySelector('.ring-list__i');
     }
     return this._inner;
   }
@@ -694,7 +715,8 @@ export default class List extends Component {
     );
   }
 
-  shortcutsScope = getUID('list-');
+  id = getUID('list-');
+  shortcutsScope = this.id;
   shortcutsMap = {
     up: this.upHandler,
     down: this.downHandler,
@@ -720,6 +742,7 @@ export default class List extends Component {
 
     return (
       <div
+        id={this.props.id}
         ref={this.containerRef}
         className={classes}
         onMouseOut={this.props.onMouseOut}

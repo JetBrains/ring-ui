@@ -1623,10 +1623,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.62":
-  version "2.0.62"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.62.tgz#e3b8727383e8f97de5b3ec61c3f84c7808a1af4d"
-  integrity sha512-GlarH8GHj9vMo+S8Pl28rcaxAfBvykGyvVsL2rCG3MLo0DNqxF2RxZAvtBfQo1M1lDCOuxmg+A0+VFoujc2Hsw==
+"@jetbrains/generator-ring-ui@^2.0.63":
+  version "2.0.63"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.63.tgz#02b2cc425a535df451ad4cae7b87823bbd0a0d2f"
+  integrity sha512-ZMYR24//mrDSw1HV4uj5GOhxnm4oK62/7Li+tB4HOFWysizmpSRWlSbvEomlfv24PNp1GboIFRyl8/OW7sczxA==
   dependencies:
     chalk "^3.0.0"
     change-case "^4.1.1"
@@ -1636,7 +1636,7 @@
     portscanner "^2.2.0"
     read-pkg-up "^7.0.1"
     title-case "^3.0.2"
-    yeoman-generator "^4.6.0"
+    yeoman-generator "^4.7.1"
     yeoman-option-or-prompt "^2.0.1"
 
 "@jetbrains/icons@^3.6.0":
@@ -19208,10 +19208,10 @@ yeoman-environment@^2.3.4, yeoman-environment@^2.4.0:
     text-table "^0.2.0"
     untildify "^3.0.3"
 
-yeoman-generator@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.6.0.tgz#dce30db1b30d25b03a7e61fd16b43d3149f3d84a"
-  integrity sha512-Hq65rLqMNCS0h0n1yakSZjHsEZHm0ZpOM02Nja6O03s2k5WHvAhGOx7uxs93vrJv62zFrJtD9e9mVhgoVbi7CQ==
+yeoman-generator@^4.7.1:
+  version "4.7.2"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.7.2.tgz#07edfc14208b1411032711ba89330915b9da345f"
+  integrity sha512-huqFGIDkS8tPWl9cnOsied8eYz0l4wh6O6Ce71y86Phiq9E2WCrpoqRFL4C6znkgmzTAq5QX3eh9IYeuxZMqzQ==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"

@@ -224,6 +224,8 @@ export default class SelectPopup extends Component {
             onClear={this.props.onClear}
 
             data-test-custom="ring-select-popup-filter-input"
+            listId={this.props.listId}
+            activeItemId={this.props.activeItemId}
           />
         </div>
       );
@@ -306,6 +308,7 @@ export default class SelectPopup extends Component {
 
       return (
         <List
+          id={this.props.listId}
           maxHeight={maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
@@ -321,6 +324,7 @@ export default class SelectPopup extends Component {
           disableScrollToActive={this.props.disableScrollToActive}
           compact={this.props.compact}
           renderOptimization={this.props.renderOptimization}
+          onNavigate={this.props.onNavigate}
         />
       );
     }
