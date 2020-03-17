@@ -41,6 +41,8 @@
     "hermione/**/lodash": "^4.17.13",
     "hermione/mocha": "^5.2.0",
     "**/uglifyify/extend": "^2.0.2",
-    "forever/**/chokidar": "^2.1.8"
+    "forever/**/chokidar": "^2.1.8",
+    "**/optimist/minimist": "^1.2.5",
+    "**/mocha/mkdirp": "^0.5.3"
   }
 }
