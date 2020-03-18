@@ -127,7 +127,7 @@
     "karma-webpack": "^4.0.2",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.8",
-    "mocha": "^7.1.0",
+    "mocha": "^7.1.1",
     "octicons": "^8.5.0",
     "puppeteer": "^2.1.1",
     "raw-loader": "^4.0.0",
@@ -219,7 +219,6 @@
     "**/gonzales-pe/minimist": "^1.2.5",
     "**/karma-mocha/minimist": "^1.2.5",
     "**/optimist/minimist": "^1.2.5",
-    "**/mocha/mkdirp": "^0.5.3",
     "**/extract-zip/mkdirp": "^0.5.3"
   },
   "engines": {
