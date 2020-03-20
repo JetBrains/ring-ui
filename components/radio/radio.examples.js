@@ -1,5 +1,4 @@
-import React, {Fragment} from 'react';
-import {withState} from 'recompose';
+import React, {Fragment, useState} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -15,20 +14,21 @@ export default {
   }
 };
 
-export const basic = () => {
-  const RadioExample = withState('value', 'onChange', 'one')(props => (
+function RadioExample() {
+  const [value, onChange] = useState('one');
+  return (
     <Fragment>
-      Selected: {props.value}
-      <Radio {...props}>
+      Selected: {value}
+      <Radio value={value} onChange={onChange}>
         <Radio.Item value="one">One</Radio.Item>
         <Radio.Item value="two">Two</Radio.Item>
         <Radio.Item value="three">Three</Radio.Item>
       </Radio>
     </Fragment>
-  ));
+  );
+}
 
-  return <RadioExample/>;
-};
+export const basic = () => <RadioExample/>;
 
 basic.story = {
   name: 'basic'
