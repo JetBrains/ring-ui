@@ -27,7 +27,7 @@
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@jetbrains/babel-preset-jetbrains": "^2.1.4",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "json-loader": "^0.5.7",
