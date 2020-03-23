@@ -133,7 +133,7 @@
     "raw-loader": "^4.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-is": "^16.13.0",
+    "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.0",
     "regenerator-runtime": "^0.13.5",
     "sinon": "^9.0.1",
