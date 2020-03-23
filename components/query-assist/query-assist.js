@@ -134,16 +134,17 @@ export default class QueryAssist extends Component {
 
   componentDidUpdate(prevProps) {
     const {caret, delay, query} = this.props;
+    const queryChanged = query !== prevProps.query;
 
     this.updateFocus(prevProps);
     this.setupRequestHandler(delay);
 
-    const shouldSetCaret = typeof caret === 'number';
+    const shouldSetCaret = typeof caret === 'number' && caret !== prevProps.caret;
     if (shouldSetCaret) {
       this.immediateState.caret = caret;
     }
 
-    if (typeof query === 'string' && query !== this.immediateState.query) {
+    if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
       if (query && !prevProps.autoOpen) {
