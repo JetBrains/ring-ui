@@ -42,7 +42,7 @@
     "hermione/mocha": "^5.2.0",
     "**/uglifyify/extend": "^2.0.2",
     "forever/**/chokidar": "^2.1.8",
-    "**/optimist/minimist": "^1.2.5",
+    "**/optimist/minimist": "^0.2.1",
     "**/mocha/mkdirp": "^0.5.3"
   }
 }
