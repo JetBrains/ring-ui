@@ -77,7 +77,7 @@ describe('Select', () => {
   });
 
   it('Should take provided className', () => {
-    const wrapper = shallowSelect({className: 'foo-bar'});
+    const wrapper = mountSelect({className: 'foo-bar'});
     wrapper.should.have.className('foo-bar');
   });
 
@@ -317,7 +317,7 @@ describe('Select', () => {
 
   describe('DOM', () => {
     it('Should place select button inside container', () => {
-      const wrapper = shallowSelect();
+      const wrapper = mountSelect();
       wrapper.should.have.className(styles.select);
     });
 
@@ -337,17 +337,17 @@ describe('Select', () => {
     });
 
     it('Should place input inside in INPUT mode', () => {
-      const wrapper = shallowSelect({type: Select.Type.INPUT});
+      const wrapper = mountSelect({type: Select.Type.INPUT});
       wrapper.should.have.descendants(Input);
     });
 
     it('Should place icons inside', () => {
-      const wrapper = shallowSelect();
+      const wrapper = mountSelect();
       wrapper.should.have.descendants(`.${styles.icons}`);
     });
 
     it('Should add selected item icon to button', () => {
-      const wrapper = shallowSelect({
+      const wrapper = mountSelect({
         selected: {
           key: 1,
           label: 'test',
@@ -375,15 +375,15 @@ describe('Select', () => {
     });
 
     it('Should place icons inside in INPUT mode', () => {
-      const wrapper = shallowSelect({type: Select.Type.INPUT});
+      const wrapper = mountSelect({type: Select.Type.INPUT});
       wrapper.should.have.descendants(`.${styles.icons}`);
     });
 
     it('Should open select dropdown on click', () => {
-      const wrapper = shallowSelect();
+      const wrapper = mountSelect();
       const instance = wrapper.instance();
       sandbox.spy(instance, '_showPopup');
-      wrapper.find('button').simulate('click');
+      wrapper.find('button').first().simulate('click');
 
       instance._showPopup.should.be.called;
     });
