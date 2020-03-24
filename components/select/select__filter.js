@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import Input from '../input/input';
 import sniffr from '../global/sniffer';
+import {ActiveItemContext} from '../list/list';
 
 import styles from './select-popup.css';
 
@@ -46,20 +47,24 @@ export default class SelectFilter extends Component {
   };
 
   render() {
-    const {className, listId, activeItemId, ...restProps} = this.props;
+    const {className, listId, ...restProps} = this.props;
     const classes = classNames(styles.filter, className);
 
     return (
-      <Input
-        {...restProps}
-        aria-owns={listId}
-        aria-activedescendant={activeItemId}
-        autoComplete="off"
-        autoFocus
-        borderless
-        inputRef={this.inputRef}
-        className={classes}
-      />
+      <ActiveItemContext.ValueContext.Consumer>
+        {activeItemId => (
+          <Input
+            {...restProps}
+            aria-owns={listId}
+            aria-activedescendant={activeItemId}
+            autoComplete="off"
+            autoFocus
+            borderless
+            inputRef={this.inputRef}
+            className={classes}
+          />
+        )}
+      </ActiveItemContext.ValueContext.Consumer>
     );
   }
 }
