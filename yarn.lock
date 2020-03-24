@@ -15710,10 +15710,10 @@ relateurl@0.2.x:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/relateurl/-/relateurl-0.2.7.tgz#54dbf377e51440aca90a4cd274600d3ff2d888a9"
 
-remark-breaks@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/remark-breaks/-/remark-breaks-1.0.3.tgz#9ca5dbf99ad04154bbf0b6e8f227b3735dfe637a"
-  integrity sha512-ip5hvJE8vsUJCGfgHaEJbf/JfO6KTZV+NBG68AWkEMhrjHW3Qh7EorED41mCt0FFSTrUDeRiNHovKO7cqgPZmw==
+remark-breaks@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/remark-breaks/-/remark-breaks-1.0.5.tgz#e9785f8b174f45c05af542fbeb18354b766e1139"
+  integrity sha512-lr8+TlJI273NjEqL27eUthPYPTCgXEj4NaLbnazS3bQaQL2FySlsbtgo52gE36fE1gWeQgkn1VdmWsoT+uA7FA==
 
 remark-external-links@^5.0.0:
   version "5.0.0"
