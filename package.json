@@ -155,7 +155,7 @@
     "react-dom": ">=16.8.0"
   },
   "dependencies": {
-    "@babel/core": "^7.8.7",
+    "@babel/core": "^7.9.0",
     "@hypnosphi/react-virtualized": "^9.21.2",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.1.4",
