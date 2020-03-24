@@ -1064,6 +1064,12 @@ export default class Select extends Component {
     const style = getStyle(icons.length);
 
     const iconsNode = <span className={styles.icons}>{icons}</span>;
+    const ariaProps = this.state.showPopup
+      ? {
+        'aria-owns': this.listId,
+        'aria-activedescendant': this.state.activeItemId
+      }
+      : {};
 
     switch (this.props.type) {
       case Type.INPUT_WITHOUT_CONTROLS:
@@ -1080,8 +1086,7 @@ export default class Select extends Component {
             />
           )}
           <Input
-            aria-owns={this.state.showPopup ? this.listId : undefined}
-            aria-activedescendant={this.state.showPopup ? this.state.activeItemId : undefined}
+            {...ariaProps}
             autoComplete="off"
             id={this.props.id}
             onClick={this._clickHandler}
@@ -1120,6 +1125,7 @@ export default class Select extends Component {
             <ThemeContext.Consumer>
               {contextTheme => (
                 <div
+                  {...ariaProps}
                   id={this.props.id}
                   onClick={this._clickHandler}
                   onKeyPress={this._selectButtonKeyboardHack}
@@ -1164,6 +1170,7 @@ export default class Select extends Component {
               <span className={styles.selectedLabel}>{this.props.selectedLabel}</span>
             )}
             <button
+              {...ariaProps}
               id={this.props.id}
               onClick={this._clickHandler}
               type="button"
@@ -1198,6 +1205,7 @@ export default class Select extends Component {
               />
             )}
             <Anchor
+              {...ariaProps}
               id={this.props.id}
               onClick={this._clickHandler}
               data-test="ring-select__focus"
@@ -1225,6 +1233,7 @@ export default class Select extends Component {
                   'data-test': 'ring-select'
                 },
                 buttonProps: {
+                  ...ariaProps,
                   id: this.props.id,
                   onClick: this._clickHandler,
                   disabled: this.props.disabled,
