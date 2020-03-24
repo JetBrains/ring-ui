@@ -21,6 +21,8 @@ import memoize from '../global/memoize';
 import {preventDefault} from '../global/dom';
 import Shortcuts from '../shortcuts/shortcuts';
 
+import createStatefulContext from '../global/create-stateful-context';
+
 import styles from './list.css';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
@@ -90,6 +92,8 @@ function isActivatable(item) {
 const shouldActivateFirstItem = props => props.activateFirstItem ||
     props.activateSingleItem && props.data.length === 1;
 
+export const ActiveItemContext = createStatefulContext();
+
 /**
  * @name List
  * @constructor
@@ -116,7 +120,6 @@ export default class List extends Component {
     onScrollToBottom: PropTypes.func,
     onResize: PropTypes.func,
     useMouseUp: PropTypes.bool,
-    onNavigate: PropTypes.func,
     visible: PropTypes.bool,
     renderOptimization: PropTypes.bool,
     disableMoveOverflow: PropTypes.bool,
@@ -206,11 +209,6 @@ export default class List extends Component {
   componentDidMount() {
     document.addEventListener('mousemove', this.onDocumentMouseMove);
     document.addEventListener('keydown', this.onDocumentKeyDown, true);
-
-    const activeItemId = this.getId(this.state.activeItem);
-    if (this.props.onNavigate != null) {
-      this.props.onNavigate(activeItemId);
-    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -218,21 +216,12 @@ export default class List extends Component {
       Object.keys(nextState).some(key => nextState[key] !== this.state[key]);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.virtualizedList && prevProps.data !== this.props.data) {
       this.virtualizedList.recomputeRowHeights();
     }
 
     this.checkOverflow();
-
-    const activeItemId = this.getId(this.state.activeItem);
-    if (
-      this.props.onNavigate != null &&
-      isActivatable(this.state.activeItem) &&
-      activeItemId !== this.getId(prevState.activeItem)
-    ) {
-      this.props.onNavigate(activeItemId);
-    }
   }
 
   componentWillUnmount() {
@@ -741,39 +730,45 @@ export default class List extends Component {
     const classes = classNames(styles.list, this.props.className);
 
     return (
-      <div
-        id={this.props.id}
-        ref={this.containerRef}
-        className={classes}
-        onMouseOut={this.props.onMouseOut}
-        onBlur={this.props.onMouseOut}
-        onMouseLeave={this.clearSelected}
-        data-test="ring-list"
-      >
-        {this.props.shortcuts &&
-        (
-          <Shortcuts
-            map={this.shortcutsMap}
-            scope={this.shortcutsScope}
-          />
-        )
-        }
-        {this.props.renderOptimization
-          ? this.renderVirtualized(maxHeight, rowCount)
-          : this.renderSimple(maxHeight, rowCount)
-        }
-        {this.state.hasOverflow && !this.state.scrolledToBottom && (
-          <div
-            className={styles.fade}
-            style={fadeStyles}
-          />
-        )}
-        {hint && (
-          <ListHint
-            label={hint}
-          />
-        )}
-      </div>
+      <>
+        <ActiveItemContext.Updater
+          value={this.getId(this.state.activeItem)}
+          skipUpdate={!isActivatable(this.state.activeItem)}
+        />
+        <div
+          id={this.props.id}
+          ref={this.containerRef}
+          className={classes}
+          onMouseOut={this.props.onMouseOut}
+          onBlur={this.props.onMouseOut}
+          onMouseLeave={this.clearSelected}
+          data-test="ring-list"
+        >
+          {this.props.shortcuts &&
+          (
+            <Shortcuts
+              map={this.shortcutsMap}
+              scope={this.shortcutsScope}
+            />
+          )
+          }
+          {this.props.renderOptimization
+            ? this.renderVirtualized(maxHeight, rowCount)
+            : this.renderSimple(maxHeight, rowCount)
+          }
+          {this.state.hasOverflow && !this.state.scrolledToBottom && (
+            <div
+              className={styles.fade}
+              style={fadeStyles}
+            />
+          )}
+          {hint && (
+            <ListHint
+              label={hint}
+            />
+          )}
+        </div>
+      </>
     );
   }
 }

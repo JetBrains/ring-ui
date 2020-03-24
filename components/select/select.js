@@ -7,7 +7,7 @@ import closeIcon from '@jetbrains/icons/close.svg';
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
 import Popup from '../popup/popup';
-import List from '../list/list';
+import List, {ActiveItemContext} from '../list/list';
 import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
@@ -391,8 +391,7 @@ export default class Select extends Component {
     prevSelected: null,
     prevMultiple: this.props.multiple,
     multipleMap: {},
-    addButton: null,
-    activeItemId: null
+    addButton: null
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -602,8 +601,6 @@ export default class Select extends Component {
         disableScrollToActive={this.props.disableScrollToActive}
         dir={this.props.dir}
         onEmptyPopupEnter={this.onEmptyPopupEnter}
-        onNavigate={activeItemId => this.setState({activeItemId})}
-        activeItemId={this.state.activeItemId}
         listId={this.listId}
       />
     );
@@ -1052,7 +1049,7 @@ export default class Select extends Component {
     };
   }
 
-  render() {
+  renderSelect(activeItemId) {
     const {shortcutsEnabled} = this.state;
     const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, {
       [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
@@ -1067,7 +1064,7 @@ export default class Select extends Component {
     const ariaProps = this.state.showPopup
       ? {
         'aria-owns': this.listId,
-        'aria-activedescendant': this.state.activeItemId
+        'aria-activedescendant': activeItemId
       }
       : {};
 
@@ -1251,6 +1248,16 @@ export default class Select extends Component {
           </span>
         );
     }
+  }
+
+  render() {
+    return (
+      <ActiveItemContext.Provider>
+        <ActiveItemContext.ValueContext.Consumer>
+          {activeItemId => this.renderSelect(activeItemId)}
+        </ActiveItemContext.ValueContext.Consumer>
+      </ActiveItemContext.Provider>
+    );
   }
 }
 
