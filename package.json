@@ -132,7 +132,7 @@
     "puppeteer": "^2.1.1",
     "raw-loader": "^4.0.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.0",
+    "react-dom": "^16.13.1",
     "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "regenerator-runtime": "^0.13.5",
