@@ -125,7 +125,8 @@ export default class List extends Component {
     disableMoveOverflow: PropTypes.bool,
     disableMoveDownOverflow: PropTypes.bool,
     compact: PropTypes.bool,
-    disableScrollToActive: PropTypes.bool
+    disableScrollToActive: PropTypes.bool,
+    hidden: PropTypes.bool
   };
 
   static defaultProps = {
@@ -733,7 +734,7 @@ export default class List extends Component {
       <>
         <ActiveItemContext.Updater
           value={this.getId(this.state.activeItem)}
-          skipUpdate={!isActivatable(this.state.activeItem)}
+          skipUpdate={this.props.hidden || !isActivatable(this.state.activeItem)}
         />
         <div
           id={this.props.id}
