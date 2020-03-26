@@ -3,7 +3,7 @@
  */
 /* eslint-disable react/prop-types */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search.svg';
 import memoizeOne from 'memoize-one';
@@ -33,7 +33,7 @@ function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-export default class SelectPopup extends Component {
+export default class SelectPopup extends PureComponent {
   static defaultProps = {
     data: [],
     activeIndex: null,
