@@ -24,7 +24,6 @@
 
   overflow: hidden;
 
-  max-width: calc(36 * unit);
   height: calc(unit / 2);
   margin-bottom: calc(unit / 2);
 
@@ -36,7 +35,6 @@
   top: 0;
 
   width: 100%;
-  max-width: none;
 
   background: transparent;
 }

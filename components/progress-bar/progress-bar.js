@@ -40,6 +40,8 @@ export default class ProgressBar extends PureComponent {
      */
     className: PropTypes.string,
 
+    style: PropTypes.object,
+
     /**
      * A floating point number that specifies minimum completion rate for a task to be considered
      * complete. Default value is 1.0.
