@@ -149,7 +149,9 @@ export default class Alert extends PureComponent {
   _getCaption() {
     return (
       <span
-        className={classNames(styles.caption, this.props.captionClassName)}
+        className={classNames(styles.caption, this.props.captionClassName, {
+          [styles.withCloseButton]: this.props.closeable
+        })}
         onClick={this._handleCaptionsLinksClick}
         // We only process clicks on `a` elements, see above
         role="presentation"
