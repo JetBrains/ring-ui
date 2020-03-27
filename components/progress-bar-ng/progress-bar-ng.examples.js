@@ -31,18 +31,26 @@ export const basic = () => {
   return `
       <div ng-controller="ExampleCtrl as ctrl">
         <div style="height: 25px; padding-top: 25px;">
-          <rg-progress-bar value="ctrl.value"></rg-progress-bar>
+          <rg-progress-bar value="ctrl.value" class="example-progress"></rg-progress-bar>
         </div>
         <div style="height: 25px; background: #000; padding-top: 25px;">
-          <rg-progress-bar value="ctrl.value" theme="'dark'"></rg-progress-bar>
+          <rg-progress-bar value="ctrl.value" theme="'dark'" class="example-progress"></rg-progress-bar>
         </div>
         <div style="height: 25px; background: #F0F0F0; padding-top: 25px;">
-          <rg-progress-bar value="ctrl.value"></rg-progress-bar>
+          <rg-progress-bar value="ctrl.value" class="example-progress"></rg-progress-bar>
         </div>
       </div>
     `;
 };
 
 basic.story = {
-  name: 'basic'
+  name: 'basic',
+  parameters: {
+    storyStyles: `
+  <style>
+    .example-progress > * {
+      width: calc(var(--ring-unit) * 36);
+    }
+  </style>`
+  }
 };
