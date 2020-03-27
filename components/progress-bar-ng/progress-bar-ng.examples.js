@@ -49,7 +49,7 @@ basic.story = {
     storyStyles: `
   <style>
     .example-progress > * {
-      width: calc(var(--ring-unit) * 36);
+      width: 288px;
     }
   </style>`
   }
