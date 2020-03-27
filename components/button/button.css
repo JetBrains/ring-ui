@@ -243,9 +243,12 @@
   }
 
   &[disabled] {
-    color: var(--ring-dark-text-color);
     background-color: var(--ring-content-background-color);
     box-shadow: button-shadow var(--ring-borders-color);
+  }
+
+  &[disabled].loader {
+    color: var(--ring-dark-text-color);
   }
 
   & .loaderBackground {
