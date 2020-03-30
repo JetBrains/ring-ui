@@ -2344,10 +2344,10 @@ html-encoding-sniffer@^2.0.1:
   dependencies:
     whatwg-encoding "^1.0.5"
 
-html-reporter@^5.13.0:
-  version "5.13.0"
-  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-5.13.0.tgz#274ca4df718fa3e9453c8b4ceac15589ba83f464"
-  integrity sha512-CrW5zM67uX9ahH1yIhK4Jc7JZG479tlKf49MFwfYus4BlnvSDlTQtk/I2B6L1sX2m4KqjlZk91u7MnOo8lfrjw==
+html-reporter@^5.14.0:
+  version "5.14.0"
+  resolved "https://registry.yarnpkg.com/html-reporter/-/html-reporter-5.14.0.tgz#a9dc884604365a1cc34c15bb9a30b6caf3aa20a0"
+  integrity sha512-oMoFUKIewLq1tOmxzGUdkFQyB1tGt4SAS2Mda1V4dq73sP+cIW9xkcTh26pdsfkHvNCfIKRMO0rhmZCYnx4nPw==
   dependencies:
     "@gemini-testing/sql.js" "^1.0.1"
     better-sqlite3 "^5.4.3"
