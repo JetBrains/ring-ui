@@ -5231,9 +5231,10 @@ chai-as-promised@^7.1.1:
   dependencies:
     check-error "^1.0.2"
 
-chai-dom@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/chai-dom/-/chai-dom-1.8.1.tgz#ce7978ac93d623314742aeb6ada86c9e4d8736de"
+chai-dom@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/chai-dom/-/chai-dom-1.8.2.tgz#e06353baeafa8fddaaabda96a67f859c111a3c7c"
+  integrity sha512-kk2SnCuJliouO5M58OjA7M8VXN338WAxHOm+LbpjeL09pJgRpXugSC5aj8uwFm/6Lmpcdtq7hf+DldTdBm5/Sw==
 
 chai-enzyme@1.0.0-beta.1:
   version "1.0.0-beta.1"
