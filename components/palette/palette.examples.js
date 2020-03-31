@@ -5,7 +5,7 @@ import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import './palette.scss';
 
 export default {
-  title: 'Style-only/Pallete',
+  title: 'Style-only/Color fields palette',
   decorators: [angularDecorator()],
 
   parameters: {
