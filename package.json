@@ -178,7 +178,7 @@
     "es6-error": "^4.1.1",
     "eslint-plugin-react-hooks": "^2.5.1",
     "extricate-loader": "^3.0.0",
-    "file-loader": "^5.1.0",
+    "file-loader": "^6.0.0",
     "focus-trap": "^5.1.0",
     "focus-visible": "^5.0.2",
     "highlight.js": "^9.18.1",
