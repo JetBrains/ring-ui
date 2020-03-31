@@ -98,11 +98,11 @@ const renderColors = () => `
 
 export const basic = () => `
   <div>
-    <h1>Default theme</h1>
+    <h2>Default theme</h2>
     ${renderColors()}
 
     <div style="${getDarkThemeStyle()}">
-      <h1>Dark theme</h1>
+      <h2>Dark theme</h2>
       ${renderColors()}
     </div>
   </div>
