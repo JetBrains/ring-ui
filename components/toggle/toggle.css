@@ -82,11 +82,11 @@
 
   transition: background-color timing-function duration;
 
-  border-radius: unit;
-
   @nest .input:focus + & {
     box-shadow: inset 0 0 0 1px var(--ring-border-hover-color), 0 0 0 1px var(--ring-border-hover-color);
   }
+
+  border-radius: unit;
 
   &::before {
     position: absolute;
@@ -112,6 +112,31 @@
 
 .input:checked + ::before {
   transform: translateX(calc(unit * 1.5 - padding));
+}
+
+.size20 {
+  & .switchWrapper {
+    width: calc(unit * 4);
+    height: calc(unit * 2.5);
+
+    vertical-align: -5px;
+  }
+
+  & .switch {
+    border-radius: calc(unit * 1.25);
+
+    &::before {
+      width: calc(unit * 2);
+      height: calc(unit * 2);
+
+      border-radius: calc(unit);
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  & .input:checked + ::before {
+    transform: translateX(calc(unit * 2 - padding));
+  }
 }
 
 .input[disabled] + ::after {
