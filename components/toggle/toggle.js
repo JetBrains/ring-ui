@@ -7,6 +7,11 @@ import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
 
+export const Size = {
+  Size16: styles.size16,
+  Size20: styles.size20
+};
+
 /**
   * @name Toggle
   */
@@ -25,15 +30,17 @@ class Toggle extends PureComponent {
     onChange: PropTypes.func,
     onTransitionEnd: PropTypes.func,
     theme: PropTypes.string,
+    size: PropTypes.oneOf(Object.values(Size)),
     'data-test': PropTypes.string
   };
 
   render() {
-    const {className, children, disabled, pale, title, leftLabel, theme, 'data-test': dataTest,
-      onTransitionEnd, ...restProps} = this.props;
+    const {className, children, disabled, pale, title, leftLabel, theme, size = Size.Size16,
+      'data-test': dataTest, onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
+      size,
       styles.toggle,
       styles[theme],
       disabled && styles.disabled
