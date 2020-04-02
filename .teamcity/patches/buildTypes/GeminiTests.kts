@@ -22,9 +22,6 @@ changeBuildType(RelativeId("GeminiTests")) {
         add {
             password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40")
         }
-        add {
-            param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
-        }
     }
 
     triggers {
