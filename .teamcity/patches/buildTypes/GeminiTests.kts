@@ -18,6 +18,12 @@ changeBuildType(RelativeId("GeminiTests")) {
     }
     maxRunningBuilds = 2
 
+    params {
+        add {
+            param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
+        }
+    }
+
     triggers {
         val trigger1 = find<RetryBuildTrigger> {
             retryBuild {
