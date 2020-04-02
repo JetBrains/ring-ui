@@ -18,12 +18,6 @@ changeBuildType(RelativeId("GeminiTests")) {
     }
     maxRunningBuilds = 2
 
-    params {
-        add {
-            password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40")
-        }
-    }
-
     triggers {
         val trigger1 = find<RetryBuildTrigger> {
             retryBuild {
