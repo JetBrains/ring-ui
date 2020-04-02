@@ -1,5 +1,5 @@
 # Ring UI — JetBrains Web UI components
-[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
+[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Storybook][browserstack-img]][docsite] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
@@ -78,3 +78,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md)
 [npm-version-img]: https://img.shields.io/npm/v/@jetbrains/ring-ui.svg
 [npm-count-img]: https://img.shields.io/npm/dt/@jetbrains/ring-ui.svg
 [storybook-img]: https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg
+[browserstack-img]: https://automate.browserstack.com/badge.svg?badge_key=elc3S1IvemtCdHBjcHdmQzdRcm9xYWxTakFvSWFqT2lrOGtrTjZRbFVRaz0tLXE0VnpyUjRqSk1Xc2xIQ1NnL1pkbnc9PQ==--f96a555ca0fe3ce50d0770cb975be0f3b6a6cf79
+[browserstack-build-page]: https://automate.browserstack.com/public-build/elc3S1IvemtCdHBjcHdmQzdRcm9xYWxTakFvSWFqT2lrOGtrTjZRbFVRaz0tLXE0VnpyUjRqSk1Xc2xIQ1NnL1pkbnc9PQ==--f96a555ca0fe3ce50d0770cb975be0f3b6a6cf79
