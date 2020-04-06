@@ -180,7 +180,7 @@
     "extricate-loader": "^3.0.0",
     "file-loader": "^6.0.0",
     "focus-trap": "^5.1.0",
-    "focus-visible": "^5.0.2",
+    "focus-visible": "^5.1.0",
     "highlight.js": "^9.18.1",
     "html-loader": "^0.5.5",
     "html-loader-jest": "^0.2.1",
