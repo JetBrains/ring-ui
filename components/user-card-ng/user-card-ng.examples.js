@@ -7,6 +7,8 @@ import hubConfig from '../../.storybook/hub-config';
 import Auth from '../auth/auth';
 import {createHubUserCardSource} from '../hub-source/hub-source__user';
 
+import {avatarDataUri} from '../avatar/avatar-example-datauri';
+
 import UserCardNG from './user-card-ng';
 
 export default {
@@ -25,7 +27,7 @@ export const basic = () => {
       login: 'testuser',
       name: 'Test User',
       email: 'testuser@mail.com',
-      avatarUrl: `${hubConfig.serverUri}/api/rest/avatar/default?username=Jet%20Brains`,
+      avatarUrl: avatarDataUri,
       href: `${hubConfig.serverUri}/users/0`
     };
   });
