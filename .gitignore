@@ -26,7 +26,7 @@ http-server.log
 jetbrains-ring-ui-*.tgz
 lerna-debug.log
 npm-debug.log*
-saucelabs-session.log*
+browserstack.log*
 yarn-error.log
 package-lock.json
 /metadata-messages.json

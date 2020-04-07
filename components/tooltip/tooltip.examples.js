@@ -29,6 +29,7 @@ basic.story = {
     hermione: {
       actions: [
         {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
+        {type: 'wait', delay: 500},
         {type: 'capture', name: '', selector: '#root'}
       ]
     }

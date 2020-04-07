@@ -1,5 +1,5 @@
 # Ring UI — JetBrains Web UI components
-[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Storybook][browserstack-img]][docsite] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
+[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Storybook][browserstack-img]][browserstack-build-page] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
