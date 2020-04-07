@@ -177,7 +177,15 @@ export const inSidebar = () => {
 };
 
 inSidebar.story = {
-  name: 'in sidebar'
+  name: 'in sidebar',
+  parameters: {
+    hermione: {
+      actions: [
+        {type: 'waitForElementToShow', selector: '[data-test~=ring-input-container]'},
+        {type: 'capture', name: '', selector: '*[data-test~=ring-dialog]'}
+      ]
+    }
+  }
 };
 
 export const withOverriddenStyles = () => {
