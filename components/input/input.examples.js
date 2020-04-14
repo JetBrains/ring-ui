@@ -3,9 +3,9 @@ import searchIcon from '@jetbrains/icons/search.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '../button/button';
+import Button from '@jetbrains/ring-ui/components/button/button';
 
-import Input, {Size, Theme} from './input';
+import Input, {Size, Theme} from '@jetbrains/ring-ui/components/input/input';
 
 export default {
   title: 'Components/Input',

@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import IslandNg from './island-ng';
+import IslandNg from '@jetbrains/ring-ui/components/island-ng/island-ng';
 
 export default {
   title: 'Legacy Angular/Island Ng',

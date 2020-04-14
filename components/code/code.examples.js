@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Code, {code} from './code';
+import Code, {code} from '@jetbrains/ring-ui/components/code/code';
 
 export default {
   title: 'Components/Code',

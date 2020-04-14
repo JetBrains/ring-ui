@@ -1,9 +1,10 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Button from '../button/button';
 
-import ButtonSet from './button-set';
+import Button from '@jetbrains/ring-ui/components/button/button';
+
+import ButtonSet from '@jetbrains/ring-ui/components/button-set/button-set';
 
 export default {
   title: 'Components/Button Set',

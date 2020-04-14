@@ -3,9 +3,9 @@ import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '../button/button';
+import Button from '@jetbrains/ring-ui/components/button/button';
 
-import confirm, {hideConfirm} from './confirm-service';
+import confirm, {hideConfirm} from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
 
 export default {
   title: 'Services/Confirm Service',

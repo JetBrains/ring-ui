@@ -7,12 +7,13 @@ import closeIcons from '@jetbrains/icons/close.svg';
 import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import IconNG from '../icon-ng/icon-ng';
-import ThemeNG from '../theme-ng/theme-ng';
-import CheckboxNG from '../checkbox-ng/checkbox-ng';
-import Theme from '../global/theme';
 
-import ButtonNG from './button-ng';
+import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
+import ThemeNG from '@jetbrains/ring-ui/components/theme-ng/theme-ng';
+import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
+import Theme from '@jetbrains/ring-ui/components/global/theme';
+
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
 export default {
   title: 'Legacy Angular/Button Ng',

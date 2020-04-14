@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Markdown, {md} from './markdown';
+import Markdown, {md} from '@jetbrains/ring-ui/components/markdown/markdown';
 
 export default {
   title: 'Components/Markdown',

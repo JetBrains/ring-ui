@@ -2,9 +2,10 @@ import React from 'react';
 import frownIcon from '@jetbrains/icons/frown.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Link from '../link/link';
 
-import ErrorMessage from './error-message';
+import Link from '@jetbrains/ring-ui/components/link/link';
+
+import ErrorMessage from '@jetbrains/ring-ui/components/error-message/error-message';
 
 export default {
   title: 'Components/Error Message',

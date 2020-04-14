@@ -1,10 +1,11 @@
 import React from 'react';
 import {action} from '@storybook/addon-actions';
 
-import Button from '../button/button';
 import reactDecorator from '../../.storybook/react-decorator';
 
-import AuthDialog from './auth-dialog';
+import Button from '@jetbrains/ring-ui/components/button/button';
+
+import AuthDialog from '@jetbrains/ring-ui/components/auth-dialog/auth-dialog';
 
 import youtrackLogo from '!file-loader!@jetbrains/logos/youtrack/youtrack.svg';
 

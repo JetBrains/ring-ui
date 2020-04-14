@@ -3,10 +3,10 @@ import React, {PureComponent} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import DataList from './data-list';
-import Selection from './selection';
-import {moreLessButtonStates} from './item';
-import mock, {moreItems} from './data-list.mock';
+import DataList from '@jetbrains/ring-ui/components/data-list/data-list';
+import Selection from '@jetbrains/ring-ui/components/data-list/selection';
+import {moreLessButtonStates} from '@jetbrains/ring-ui/components/data-list/item';
+import mock, {moreItems} from '@jetbrains/ring-ui/components/data-list/data-list.mock';
 
 export default {
   title: 'Components/DataList',

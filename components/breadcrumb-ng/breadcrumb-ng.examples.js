@@ -4,7 +4,7 @@ import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import BreadcrumbNG from './breadcrumb-ng';
+import BreadcrumbNG from '@jetbrains/ring-ui/components/breadcrumb-ng/breadcrumb-ng';
 
 export default {
   title: 'Legacy Angular/Breadcrumb Ng',

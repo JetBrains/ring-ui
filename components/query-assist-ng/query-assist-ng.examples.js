@@ -5,9 +5,10 @@ import {action} from '@storybook/addon-actions';
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
-import AuthNG from '../auth-ng/auth-ng';
 
-import QueryAssistNG from './query-assist-ng';
+import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
+
+import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
 export default {
   title: 'Legacy Angular/Query Assist Ng',
@@ -62,10 +63,10 @@ export const basic = () => {
   return `
       <div ng-controller="testCtrl as ctrl">
         <button ng-click="ctrl.disabled = !ctrl.disabled">Disable/Enable</button>
-  
+
         <div>
           <p>{{ ctrl.query || 'no value' }}</p>
-  
+
           <rg-query-assist
             x-clear="true"
             x-data-source="ctrl.source"
@@ -79,7 +80,7 @@ export const basic = () => {
             placeholder="'placeholder'"
             hint="'Press ⇥ to complete first item'"
             hint-on-selection="'Press ↩ to complete selected item'"></rg-query-assist>
-  
+
           <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
         </div>
       </div>

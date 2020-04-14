@@ -103,6 +103,13 @@ module.exports = {
       globals: {
         sandbox: false
       },
+      settings: {
+        'import/resolver': {
+          webpack: {
+            config: 'eslint.webpack.config.js'
+          }
+        }
+      },
       rules: {
         'react/no-multi-comp': ignore,
         // It's fine for examples:

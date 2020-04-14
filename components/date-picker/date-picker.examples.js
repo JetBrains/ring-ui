@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import DatePicker from './date-picker';
+import DatePicker from '@jetbrains/ring-ui/components/date-picker/date-picker';
 
 export default {
   title: 'Components/Date Picker',

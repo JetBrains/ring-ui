@@ -3,14 +3,16 @@ import {action} from '@storybook/addon-actions';
 import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import hubConfig from '../../.storybook/hub-config';
-import Auth from '../auth/auth';
-import HTTP from '../http/http';
-import List from '../list/list';
-import Icon from '../icon/icon';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import QueryAssist from './query-assist';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import HTTP from '@jetbrains/ring-ui/components/http/http';
+import List from '@jetbrains/ring-ui/components/list/list';
+import Icon from '@jetbrains/ring-ui/components/icon/icon';
+
+
+import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
 
 const queryAssistLog = action('queryAssistLog');
 

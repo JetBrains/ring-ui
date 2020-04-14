@@ -2,12 +2,12 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '../input/input.scss';
-import '../form/form.scss';
-import './input-size.scss';
+import '@jetbrains/ring-ui/components/input/input.scss';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-import SelectNG from '../select-ng/select-ng';
-import QueryAssistNG from '../query-assist-ng/query-assist-ng';
+import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
 export default {
   title: 'Style-only/Input Sizes',

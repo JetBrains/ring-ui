@@ -1,4 +1,4 @@
-import Storage from './storage';
+import Storage from '@jetbrains/ring-ui/components/storage/storage';
 
 export default {
   title: 'Components/Storage',
