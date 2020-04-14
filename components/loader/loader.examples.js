@@ -3,7 +3,7 @@ import {withKnobs, boolean} from '@storybook/addon-knobs';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Loader from './loader';
+import Loader from '@jetbrains/ring-ui/components/loader/loader';
 
 export default {
   title: 'Components/Loader',

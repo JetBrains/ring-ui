@@ -3,13 +3,13 @@ import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Popup from '../popup/popup';
-import PopupMenu from '../popup-menu/popup-menu';
-import Button from '../button/button';
-import Link from '../link/link';
-import {Input} from '../input/input';
+import Popup from '@jetbrains/ring-ui/components/popup/popup';
+import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
+import Button from '@jetbrains/ring-ui/components/button/button';
+import Link from '@jetbrains/ring-ui/components/link/link';
+import {Input} from '@jetbrains/ring-ui/components/input/input';
 
-import Dropdown from './dropdown';
+import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
 
 export default {
   title: 'Components/Dropdown',

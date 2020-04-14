@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Popup from './popup';
+import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
 export default {
   title: 'Components/Popup',

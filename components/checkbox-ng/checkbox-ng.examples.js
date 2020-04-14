@@ -2,9 +2,10 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import ButtonNG from '../button-ng/button-ng';
 
-import CheckboxNG from './checkbox-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+
+import CheckboxNG from '@jetbrains/ring-ui/components/checkbox-ng/checkbox-ng';
 
 export default {
   title: 'Legacy Angular/Checkbox Ng',

@@ -2,9 +2,9 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Group from '../group/group';
+import Group from '@jetbrains/ring-ui/components/group/group';
 
-import Text from './text';
+import Text from '@jetbrains/ring-ui/components/text/text';
 
 export default {
   title: 'Components/Text',

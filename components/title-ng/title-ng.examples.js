@@ -2,7 +2,7 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import TitleNG from './title-ng';
+import TitleNG from '@jetbrains/ring-ui/components/title-ng/title-ng';
 
 export default {
   title: 'Legacy Angular/Title Ng',

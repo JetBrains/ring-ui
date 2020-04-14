@@ -3,9 +3,9 @@ import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Popup from '../popup/popup';
+import Popup from '@jetbrains/ring-ui/components/popup/popup';
 
-import Message from './message';
+import Message from '@jetbrains/ring-ui/components/message/message';
 
 const {Directions} = Popup.PopupProps;
 

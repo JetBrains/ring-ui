@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Theme from '../global/theme';
+import Theme from '@jetbrains/ring-ui/components/global/theme';
 
-import ProgressBar from './progress-bar';
+import ProgressBar from '@jetbrains/ring-ui/components/progress-bar/progress-bar';
 
 const disableAnimations = window.location.search.includes('block-animations');
 

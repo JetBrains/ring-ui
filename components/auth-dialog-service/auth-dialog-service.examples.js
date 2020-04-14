@@ -3,12 +3,13 @@ import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Auth from '../auth/auth';
-import HTTP from '../http/http';
-import Button from '../button/button';
 import hubConfig from '../../.storybook/hub-config';
 
-import showAuthDialog from './auth-dialog-service';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
+import HTTP from '@jetbrains/ring-ui/components/http/http';
+import Button from '@jetbrains/ring-ui/components/button/button';
+
+import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 
 export default {
   title: 'Services/Auth Dialog Service',

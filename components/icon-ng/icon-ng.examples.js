@@ -5,7 +5,7 @@ import warningIcon from '@jetbrains/icons/warning.svg';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import IconNG from './icon-ng';
+import IconNG from '@jetbrains/ring-ui/components/icon-ng/icon-ng';
 
 export default {
   title: 'Legacy Angular/Icon Ng',

@@ -2,7 +2,7 @@ import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import LoaderScreen from './loader-screen';
+import LoaderScreen from '@jetbrains/ring-ui/components/loader-screen/loader-screen';
 
 export default {
   title: 'Components/Loader Screen',

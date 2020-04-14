@@ -1,10 +1,12 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import AuthNG from '../auth-ng/auth-ng';
+
 import hubConfig from '../../.storybook/hub-config';
 
-import PermissionsNG from './permissions-ng';
+import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
+
+import PermissionsNG from '@jetbrains/ring-ui/components/permissions-ng/permissions-ng';
 
 export default {
   title: 'Legacy Angular/Permissions Ng',

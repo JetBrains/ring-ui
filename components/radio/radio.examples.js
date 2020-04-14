@@ -2,7 +2,7 @@ import React, {Fragment, useState} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Radio from './radio';
+import Radio from '@jetbrains/ring-ui/components/radio/radio';
 
 export default {
   title: 'Components/Radio',

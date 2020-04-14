@@ -4,7 +4,7 @@ import frownIcon from '@jetbrains/icons/frown.svg';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ErrorMessageNG from './error-message-ng';
+import ErrorMessageNG from '@jetbrains/ring-ui/components/error-message-ng/error-message-ng';
 
 export default {
   title: 'Legacy Angular/Error Message Ng',

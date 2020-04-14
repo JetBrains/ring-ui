@@ -4,9 +4,9 @@ import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import {hideConfirm} from '../confirm-service/confirm-service';
+import {hideConfirm} from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
 
-import ConfirmNG from './confirm-ng';
+import ConfirmNG from '@jetbrains/ring-ui/components/confirm-ng/confirm-ng';
 
 export default {
   title: 'Legacy Angular/Confirm Ng',

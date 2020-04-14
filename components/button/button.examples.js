@@ -4,11 +4,11 @@ import hourglassIcon from '@jetbrains/icons/hourglass.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Loader from '../loader-inline/loader-inline';
+import Loader from '@jetbrains/ring-ui/components/loader-inline/loader-inline';
 
-import Theme, {ThemeContext} from '../global/theme';
+import Theme, {ThemeContext} from '@jetbrains/ring-ui/components/global/theme';
 
-import Button from './button';
+import Button from '@jetbrains/ring-ui/components/button/button';
 
 export default {
   title: 'Components/Button',

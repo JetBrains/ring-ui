@@ -10,24 +10,25 @@ import settingsIcon from '@jetbrains/icons/settings-20px.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 import hubConfig from '../../.storybook/hub-config';
-import Link from '../link/link';
+
+import Link from '@jetbrains/ring-ui/components/link/link';
 
 
-import PopupMenu from '../popup-menu/popup-menu';
-import Dropdown from '../dropdown/dropdown';
-import showAuthDialog from '../auth-dialog-service/auth-dialog-service';
+import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu';
+import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown';
+import showAuthDialog from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
 
-import Theme from '../global/theme';
+import Theme from '@jetbrains/ring-ui/components/global/theme';
 
-import Auth from '../auth/auth';
+import Auth from '@jetbrains/ring-ui/components/auth/auth';
 
-import Header from './header';
-import Logo from './logo';
+import Header from '@jetbrains/ring-ui/components/header/header';
+import Logo from '@jetbrains/ring-ui/components/header/logo';
 
-import Tray from './tray';
-import TrayIcon from './tray-icon';
-import SmartServices from './smart-services';
-import SmartProfile from './smart-profile';
+import Tray from '@jetbrains/ring-ui/components/header/tray';
+import TrayIcon from '@jetbrains/ring-ui/components/header/tray-icon';
+import SmartServices from '@jetbrains/ring-ui/components/header/smart-services';
+import SmartProfile from '@jetbrains/ring-ui/components/header/smart-profile';
 
 const blockAuth = window.location.search.includes('block-auth');
 

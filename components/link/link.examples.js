@@ -4,10 +4,10 @@ import hubLogo from '@jetbrains/logos/hub/hub.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Icon from '../icon/icon';
-import Toggle from '../toggle/toggle';
+import Icon from '@jetbrains/ring-ui/components/icon/icon';
+import Toggle from '@jetbrains/ring-ui/components/toggle/toggle';
 
-import Link, {linkHOC, setCompatibilityMode} from './link';
+import Link, {linkHOC, setCompatibilityMode} from '@jetbrains/ring-ui/components/link/link';
 
 export default {
   title: 'Components/Link',

@@ -1,9 +1,10 @@
 import React from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Group from '../group/group';
 
-import Badge from './badge';
+import Group from '@jetbrains/ring-ui/components/group/group';
+
+import Badge from '@jetbrains/ring-ui/components/badge/badge';
 
 export default {
   title: 'Components/Badge',
