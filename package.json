@@ -216,10 +216,8 @@
     "whatwg-fetch": "^3.0.0"
   },
   "resolutions": {
-    "**/gonzales-pe/minimist": "^1.2.5",
     "**/karma-mocha/minimist": "^1.2.5",
-    "**/optimist/minimist": "^0.2.1",
-    "**/extract-zip/mkdirp": "^0.5.3"
+    "**/optimist/minimist": "^0.2.1"
   },
   "engines": {
     "node": ">=7.4"
