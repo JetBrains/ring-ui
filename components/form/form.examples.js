@@ -2,11 +2,11 @@ import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '../input/input.scss';
-import './form.scss';
-import '../input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/input/input.scss';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-import ButtonNG from '../button-ng/button-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
 export default {
   title: 'Style-only/Form',
@@ -24,7 +24,7 @@ export const basic = () => {
       <div style="width: 700px">
         <form class="ring-form">
           <span class="ring-form__title">Form Title</span>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-1" class="ring-form__label">Full-Width
               Input</label>
@@ -32,7 +32,7 @@ export const basic = () => {
               <input class="ring-input" id="ring-form-1" type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-2" class="ring-form__label">Medium Input</label>
             <div class="ring-form__control">
@@ -40,7 +40,7 @@ export const basic = () => {
                 type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-3" class="ring-form__label">Medium Input & Error</label>
             <div class="ring-form__control">
@@ -49,7 +49,7 @@ export const basic = () => {
               <div class="ring-error-bubble active">Error bubble</div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-4" class="ring-form__label">Long Input</label>
             <div class="ring-form__control">
@@ -60,7 +60,7 @@ export const basic = () => {
               </div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-5" class="ring-form__label">Full-Width
               Control</label>
@@ -71,7 +71,7 @@ export const basic = () => {
               </div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-7" class="ring-form__label">Textarea</label>
             <div class="ring-form__control">
@@ -79,7 +79,7 @@ export const basic = () => {
                 id="ring-form-7"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-8" class="ring-form__label">Long
               Textarea</label>
@@ -88,7 +88,7 @@ export const basic = () => {
                 id="ring-form-8"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-9" class="ring-form__label">Full-Width
               Textarea</label>
@@ -96,7 +96,7 @@ export const basic = () => {
               <textarea class="ring-input" id="ring-form-9"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-11" class="ring-form__label">Input in
               a small container</label>
@@ -105,7 +105,7 @@ export const basic = () => {
                 type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-12" class="ring-form__label">Textarea in
               a small container</label>
@@ -114,7 +114,7 @@ export const basic = () => {
                 id="ring-form-12"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__footer">
             <rg-button mode="primary">Save</rg-button>
             <rg-button>Cancel</rg-button>

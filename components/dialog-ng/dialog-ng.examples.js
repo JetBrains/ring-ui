@@ -4,12 +4,12 @@ import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '../button-ng/button-ng';
-import SelectNG from '../select-ng/select-ng';
-import InputNG from '../input-ng/input-ng';
-import SidebarNG from '../sidebar-ng/sidebar-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
+import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import InputNG from '@jetbrains/ring-ui/components/input-ng/input-ng';
+import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
 
-import DialogNG from './dialog-ng';
+import DialogNG from '@jetbrains/ring-ui/components/dialog-ng/dialog-ng';
 
 export default {
   title: 'Legacy Angular/Dialog Ng',

@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Select from '../select/select';
 
-import Dialog from '../dialog/dialog';
-import {Header, Content} from '../island/island';
-import '../form/form.scss';
-import '../input-size/input-size.scss';
+import Select from '@jetbrains/ring-ui/components/select/select';
 
-import ErrorBubble from './error-bubble';
+import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
+
+import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
 
 export default {
   title: 'Components/ErrorBubble',

@@ -1,4 +1,4 @@
-import {getStyles, getRect, getPixelRatio, getWindowHeight} from './dom';
+import {getStyles, getRect, getPixelRatio, getWindowHeight} from '@jetbrains/ring-ui/components/global/dom';
 
 export default {
   title: 'Utilities/DOM',

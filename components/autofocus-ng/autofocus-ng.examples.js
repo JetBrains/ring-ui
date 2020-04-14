@@ -1,10 +1,11 @@
 import angular from 'angular';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import InputNg from '../input-ng/input-ng';
-import SelectNg from '../select-ng/select-ng';
 
-import AutofocusNG from './autofocus-ng';
+import InputNg from '@jetbrains/ring-ui/components/input-ng/input-ng';
+import SelectNg from '@jetbrains/ring-ui/components/select-ng/select-ng';
+
+import AutofocusNG from '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
 
 export default {
   title: 'Legacy Angular/Autofocus Ng',

@@ -3,7 +3,7 @@ import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Tag from './tag';
+import Tag from '@jetbrains/ring-ui/components/tag/tag';
 
 export default {
   title: 'Components/Tag',

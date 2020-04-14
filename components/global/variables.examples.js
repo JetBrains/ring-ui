@@ -1,4 +1,4 @@
-import darkVariables from './variables_dark';
+import darkVariables from '@jetbrains/ring-ui/components/global/variables_dark';
 
 export default {
   title: 'Style-only/Theme palette',
