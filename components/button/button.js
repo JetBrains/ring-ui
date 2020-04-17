@@ -83,6 +83,7 @@ class Button extends PureComponent {
         [styles.danger]: danger,
         [styles.delayed]: delayed,
         [styles.withIcon]: icon,
+        [styles.onlyIcon]: icon && !children,
         [styles.withNormalIconLight]: (
           withNormalIcon && theme === Theme.LIGHT
         ),
