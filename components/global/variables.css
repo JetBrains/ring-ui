@@ -14,7 +14,7 @@
   --ring-icon-disabled-color: #bbb;
   --ring-border-hover-color: #80c6ff;
   --ring-dark-border-hover-color: #70b1e6;
-  --ring-icon-hover-color: var(--ring-border-hover-color);
+  --ring-icon-hover-color: var(--ring-link-hover-color);
   --ring-main-color: #008eff;
   --ring-main-hover-color: #007ee5;
   --ring-icon-error-color: #db5860;
