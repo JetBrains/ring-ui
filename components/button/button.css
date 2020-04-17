@@ -76,10 +76,6 @@
     color: var(--ring-secondary-color);
   }
 
-  &.onlyIcon {
-    color: var(--ring-icon-secondary-color);
-  }
-
   & .loaderBackground::before {
     background-image:
       linear-gradient(
@@ -376,21 +372,6 @@
 
 .text:hover {
   color: var(--ring-link-hover-color);
-}
-
-.onlyIcon {
-  &:global(.focus-visible) {
-    color: var(--ring-border-hover-color);
-  }
-
-  &:active,
-  &.active {
-    color: var(--ring-main-color);
-  }
-}
-
-.onlyIcon:hover {
-  color: var(--ring-border-hover-color);
 }
 
 .icon {
