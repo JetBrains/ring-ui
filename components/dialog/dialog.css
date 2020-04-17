@@ -68,11 +68,11 @@
 }
 
 .clickableOverlay:hover + * .closeIcon {
-  color: var(--ring-border-hover-color);
+  color: var(--ring-icon-hover-color);
 }
 
 .closeButton:hover .closeIcon {
-  color: var(--ring-border-hover-color);
+  color: var(--ring-icon-hover-color);
 }
 
 .clickableOverlay:active + * .closeIcon {
