@@ -76,6 +76,10 @@
     color: var(--ring-secondary-color);
   }
 
+  &.onlyIcon {
+    color: var(--ring-icon-secondary-color);
+  }
+
   & .loaderBackground::before {
     background-image:
       linear-gradient(
