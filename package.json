@@ -210,7 +210,7 @@
     "sniffr": "^1.2.0",
     "style-loader": "~1.1.4",
     "svg-inline-loader": "^0.8.2",
-    "url-loader": "^3.0.0",
+    "url-loader": "^4.1.0",
     "url-search-params": "^1.1.0",
     "util-deprecate": "^1.0.2",
     "whatwg-fetch": "^3.0.0"
