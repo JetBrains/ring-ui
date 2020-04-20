@@ -4,7 +4,7 @@ import 'dom4';
 import classNames from 'classnames';
 
 import RingAngularComponent from '../global/ring-angular-component';
-import {addClasses, applyMethodToClasses, removeClasses} from '../global/dom';
+import {addClasses, applyMethodToClasses, removeClasses, toggleClasses} from '../global/dom';
 import IconNG from '../icon-ng/icon-ng';
 import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
@@ -138,11 +138,21 @@ class ButtonController extends RingAngularComponent {
       icon.removeAttribute('size');
     }
 
-    if (glyph && !transcludeNode.textContent) {
-      addClasses(cl, styles.onlyIcon);
-    } else {
-      removeClasses(cl, styles.onlyIcon);
-    }
+    const withNormalIcon =
+      glyph != null &&
+      !$attrs.active &&
+      !$attrs.danger &&
+      $attrs.mode !== 'primary' &&
+      !$attrs.disabled;
+    const isDarkTheme = $attrs.theme === Theme.DARK;
+    toggleClasses(cl, {
+      [styles.withNormalIconLight]: (
+        withNormalIcon && !isDarkTheme
+      ),
+      [styles.withNormalIconDark]: (
+        withNormalIcon && isDarkTheme
+      )
+    });
 
     $compile(icon)($scope);
   }
