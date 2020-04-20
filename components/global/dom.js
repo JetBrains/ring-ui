@@ -50,6 +50,8 @@ export const applyMethodToClasses = method => (classList, classes = '') => {
 
 export const addClasses = applyMethodToClasses('add');
 export const removeClasses = applyMethodToClasses('remove');
+export const toggleClasses = (classList, classes) =>
+  Object.entries(classes).forEach(([className, on]) => classList.toggle(className, on));
 
 export function setRootStyleProperties(properties = {}) {
   const rootStyle = document.documentElement.style;
