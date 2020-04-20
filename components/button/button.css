@@ -77,7 +77,7 @@
   }
 
   &.onlyIcon {
-    color: var(--ring-icon-secondary-color);
+    color: var(--ring-icon-color);
   }
 
   & .loaderBackground::before {
