@@ -126,7 +126,7 @@
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webpack": "^4.0.2",
     "lerna": "^3.20.2",
-    "lint-staged": "^10.1.3",
+    "lint-staged": "^10.1.6",
     "mocha": "^7.1.1",
     "octicons": "^8.5.0",
     "puppeteer": "^2.1.1",
