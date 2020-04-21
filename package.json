@@ -165,7 +165,7 @@
     "angular-sanitize": "^1.7.9",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-define": "^2.0.0",
-    "browserslist": "^4.11.1",
+    "browserslist": "^4.12.0",
     "change-case": "^4.1.1",
     "classnames": "^2.2.6",
     "combokeys": "^3.0.1",
