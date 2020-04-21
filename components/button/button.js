@@ -9,6 +9,7 @@ import Theme, {withTheme} from '../global/theme';
 import ClickableLink from '../link/clickableLink';
 
 import styles from './button.css';
+import {getButtonClasses} from './button__classes';
 
 /**
  * @name Button
@@ -73,35 +74,8 @@ class Button extends PureComponent {
       ...props
     } = this.props;
 
-    const withNormalIcon = icon && !active && !danger && !primary && !props.disabled;
-    const classes = classNames(
-      styles.button,
-      className,
-      styles[theme],
-      {
-        [styles.active]: active,
-        [styles.danger]: danger,
-        [styles.delayed]: delayed,
-        [styles.withIcon]: icon,
-        [styles.withNormalIconLight]: (
-          withNormalIcon && theme === Theme.LIGHT
-        ),
-        [styles.withNormalIconDark]: (
-          withNormalIcon && theme === Theme.DARK
-        ),
-        [styles.withDangerIconLight]: (
-          icon && danger && theme === Theme.LIGHT
-        ),
-        [styles.withDangerIconDark]: (
-          icon && danger && theme === Theme.DARK
-        ),
-        [styles.loader]: loader && !icon,
-        [styles.primary]: primary || blue,
-        [styles.short]: short,
-        [styles.text]: text,
-        [styles.inline]: inline
-      }
-    );
+    const classes = getButtonClasses({className, active, danger, delayed, icon, theme, loader,
+      primary: primary || blue, short, text, inline});
 
     const content = (
       <span className={styles.content}>

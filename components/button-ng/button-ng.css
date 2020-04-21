@@ -13,3 +13,11 @@
 .transcludeSpacer:not(:empty) {
   margin-left: 4px;
 }
+
+.buttonWithoutIcon .iconNg {
+  display: none;
+}
+
+.narrowRight {
+  padding-right: 12px;
+}

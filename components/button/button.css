@@ -76,10 +76,6 @@
     color: var(--ring-secondary-color);
   }
 
-  &.onlyIcon {
-    color: var(--ring-icon-color);
-  }
-
   & .loaderBackground::before {
     background-image:
       linear-gradient(
@@ -213,10 +209,6 @@
 
     border: 0;
     outline: 0;
-  }
-
-  &.narrowRight {
-    padding-right: 12px;
   }
 }
 
@@ -430,10 +422,6 @@
 .withDangerIconDark .icon,
 .withDangerIconDark:active .icon {
   color: var(--ring-error-color);
-}
-
-.buttonWithoutIcon .icon {
-  display: none;
 }
 
 .loader {
