@@ -22,6 +22,12 @@ const {ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
 const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';
 
+const buttonClassesMap = Object.values({...styles, ...overrides}).
+  reduce((acc, classes) => {
+    classes.split(' ').forEach(value => (acc[value] = true));
+    return acc;
+  }, {});
+
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
 class ButtonController extends RingAngularComponent {
@@ -48,7 +54,9 @@ class ButtonController extends RingAngularComponent {
         }
 
         if (mod === 'loader') {
-          applyMethodToClasses(val ? 'add' : 'remove')(
+          const isText = this.getAttrValue($attrs.text);
+          const withIcon = !!$attrs.icon;
+          applyMethodToClasses((val && !isText && !withIcon) ? 'add' : 'remove')(
             this.element.querySelector(LOADER_BACKGROUND_SELECTOR).classList,
             styles.loaderBackground
           );
@@ -99,7 +107,10 @@ class ButtonController extends RingAngularComponent {
 
     const theme = this.element.classList.contains(styles.light) ? Theme.LIGHT : Theme.DARK;
 
+    const foreignClasses = [...this.element.classList].filter(name => !buttonClassesMap[name]);
+
     this.element.className = classNames(
+      foreignClasses,
       getButtonClasses({
         className: styles.button,
         active: this.getAttrValue($attrs.active),
@@ -146,6 +157,13 @@ class ButtonController extends RingAngularComponent {
     const transcludeNode = this.findTranscludeNode();
     const glyph = $attrs.icon;
     const size = $attrs.iconSize;
+    const isLoading = this.getAttrValue($attrs.loader);
+
+    if (glyph && isLoading) {
+      icon.setAttribute('loading', true);
+    } else {
+      icon.setAttribute('loading', false);
+    }
 
     if (glyph) {
       addClasses(transcludeNode.classList, transcludeSpacer);
