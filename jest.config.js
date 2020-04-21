@@ -5,7 +5,8 @@ module.exports = {
     '\\.(gif|ico|md|txt)$': '<rootDir>/__mocks__/fileMock.js',
     '\\.svg$': '<rootDir>/__mocks__/svgMock.js',
     '\\.(css|scss)$': 'identity-obj-proxy',
-    '!!file-loader.+': '<rootDir>/__mocks__/fileMock.js'
+    '!!file-loader.+': '<rootDir>/__mocks__/fileMock.js',
+    '^@jetbrains/ring-ui(.*)$': '<rootDir>$1'
   },
   setupFiles: [
     '<rootDir>/test-helpers/inject-hub-config.js',
