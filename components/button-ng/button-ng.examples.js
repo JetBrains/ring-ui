@@ -2,9 +2,6 @@
 import angular from 'angular';
 
 import pencilIcon from '@jetbrains/icons/pencil.svg';
-import chevronIcon from '@jetbrains/icons/chevron-10px.svg';
-import closeIcons from '@jetbrains/icons/close.svg';
-import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
@@ -21,193 +18,103 @@ export default {
   parameters: {a11y: {options: {rules: {tabindex: {enabled: false}}}}}
 };
 
-export const light = () => {
+export const basic = () => {
   angular.
     module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
     controller('testCtrl', function controller($scope) {
       $scope.pencil = pencilIcon;
-      $scope.chevronDown = chevronIcon;
-      $scope.close = closeIcons;
-      $scope.permission = permissionIcon;
       $scope.Theme = Theme;
     });
 
-  return `
-      <div ng-controller="testCtrl">
-        <rg-checkbox ng-model="$root.checkbox"><b>Dark theme</b></rg-checkbox>
+  function renderButtonModifications() {
+    return ['active', 'primary', 'danger', 'delayed', 'disabled'].
+      map(modifier => `<rg-button ${modifier}="true" data-test="button-${modifier}">Button ${modifier}</rg-button>`).join('');
+  }
 
-        <rg-theme theme="$root.checkbox ? Theme.DARK : Theme.LIGHT">
-          <div style="margin: 8px 0 0 8px; padding: 1px 14px"
-               ng-style="{'background-color': $root.checkbox === true ? 'black' : 'inherit'}">
-            <p>
-              <rg-button>Press me</rg-button>
-              <rg-button>Press me Press me Press me Press me Press me</rg-button>
-              <rg-button disabled="true">Press me</rg-button>
-              <rg-button loader="true">Press me</rg-button>
-              <rg-button delayed="true">Press me</rg-button>
-              <rg-button text="true">Press me</rg-button>
-            </p>
+  function renderTextModifications() {
+    return ['primary', 'danger', 'disabled', 'loader'].
+      map(modifier => `<rg-button text="true" ${modifier}="true">Text action ${modifier}</rg-button>`).join('');
+  }
 
-            <p>
-              <rg-button mode="primary">Press me</rg-button>
-              <rg-button mode="primary">Press me Press me Press me Press me Press me</rg-button>
-              <rg-button mode="primary" disabled="true">Press me</rg-button>
-              <rg-button mode="primary" loader="true">Press me</rg-button>
-              <rg-button mode="primary" delayed="true">Press me</rg-button>
-              <rg-button mode="primary" text="true">Press me</rg-button>
-            </p>
+  function renderIconWithTextModifications() {
+    return [
+      {label: 'primary', attrs: 'primary="true"'},
+      {label: 'danger', attrs: 'danger="true"'},
+      {label: 'disabled', attrs: 'disabled="true"'},
+      {label: 'primary-disabled', attrs: 'primary="true" disabled="true"'},
+      {label: 'danger-disabled', attrs: 'danger="true" disabled=true'}
+    ].map(mod => `<rg-button icon="{{pencil}}" ${mod.attrs}>Icon action ${mod.label}</rg-button>`).join('');
+  }
 
-            <p>
-              <rg-button>Press me</rg-button>
-              <rg-button icon="{{close}}">Action with icon</rg-button>
-              <rg-button narrow-right="true">Dropdown <rg-icon glyph="{{chevronDown}}" color="GRAY"></rg-icon></rg-button>
-              <rg-button icon="{{close}}" mode="primary" title="Close"></rg-button>
-              <rg-button icon="{{permission}}" title="Permissions" disabled="true"></rg-button>
-              <rg-button icon="{{pencil}}" title="Edit" loader="true"></rg-button>
-              <rg-button>Press me</rg-button>
-            </p>
+  function renderIconActionModifications() {
+    return [
+      {label: 'primary', attrs: 'primary="true"'},
+      {label: 'danger', attrs: 'danger="true"'},
+      {label: 'disabled', attrs: 'disabled="true"'},
+      {label: 'primary-disabled', attrs: 'primary="true" disabled="true"'},
+      {label: 'danger-disabled', attrs: 'danger="true" disabled=true'}
+    ].map(mod => `<rg-button title="Just icon action (${mod.label})" icon="{{pencil}}" ${mod.attrs}></rg-button>`).join('');
+  }
 
-            <p>
-              <rg-button danger="true">Press me</rg-button>
-              <rg-button danger="true" disabled="true">Press me</rg-button>
-              <rg-button danger="true" loader="true">Press me</rg-button>
-              <rg-button danger="true" title="Edit" icon="{{pencil}}"></rg-button>
-            </p>
+  function renderAllButtons() {
+    return `
+        <rg-button>Button default</rg-button>
+        <rg-button short="true">...</rg-button>
+        <rg-button-link href="/">Button link</rg-button-link>
+        <rg-button loader="true">Button loader</rg-button>
+        <rg-button mode="primary" loader="true">Primary loader</rg-button>
 
-            <p>
-              <rg-button-link href="/button-link">Button link</rg-button-link>
-              <rg-button-link href="/button-link" disabled="true">Button link
-              </rg-button-link>
-              <rg-button-link href="/button-link" loader="true">Button link
-              </rg-button-link>
-              <rg-button-link href="/button-link" icon="{{pencil}}" title="Edit"></rg-button-link>
-            </p>
+        <rg-button loader="true" icon="{{pencil}}">Icon loader</rg-button>
 
-            <p>
-              <rg-button tabindex="1">
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-              </rg-button>
-              <rg-button tabindex="2">
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-              </rg-button>
-              <rg-button tabindex="3">
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-              </rg-button>
-              <rg-button tabindex="4">
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-              </rg-button>
-            </p>
-          </div>
-        </rg-theme>
-      </div>
+        <rg-button>
+          <span>With rg-icon inside:</span>
+          <rg-icon glyph="{{pencil}}"></rg-icon>
+        </rg-button>
+
+        ${renderButtonModifications()}
+
+        <rg-button text="true">Text action</rg-button>
+        ${renderTextModifications()}
+
+        <rg-button icon="{{pencil}}">Icon action</rg-button>
+        ${renderIconWithTextModifications()}
+
+        <rg-button icon="{{pencil}}" title="Icon action"></rg-button>
+        ${renderIconActionModifications()}
     `;
-};
-
-light.story = {
-  name: 'light'
-};
-
-export const dark = () => {
-  angular.
-    module(APP_NAME, [IconNG, ThemeNG, CheckboxNG, ButtonNG]).
-    run($rootScope => {
-      $rootScope.checkbox = true;
-      $rootScope.currentTheme = 'dark';
-    }).
-    controller('testCtrl', function controller($scope) {
-      $scope.pencil = pencilIcon;
-      $scope.chevronDown = chevronIcon;
-      $scope.close = closeIcons;
-      $scope.permission = permissionIcon;
-      $scope.Theme = Theme;
-    });
+  }
 
   return `
-      <div ng-controller="testCtrl">
-        <rg-checkbox ng-model="$root.checkbox"
-                     ng-change="$root.currentTheme = $root.checkbox ? Theme.DARK : Theme.LIGHT">
-          <b>Dark theme</b>
-        </rg-checkbox>
+    <div ng-controller="testCtrl">
+      <div class="buttons">${renderAllButtons()}</div>
 
-        <rg-theme theme="$root.currentTheme">
-          <div style="margin: 8px 0 0 8px; padding: 1px 14px"
-               ng-style="{'background-color': $root.checkbox === true ? 'black' : 'inherit'}">
-            <p>
-              <rg-button>Press me</rg-button>
-              <rg-button>Press me Press me Press me Press me Press me</rg-button>
-              <rg-button disabled="true">Press me</rg-button>
-              <rg-button loader="true">Press me</rg-button>
-              <rg-button delayed="true">Press me</rg-button>
-              <rg-button text="true">Press me</rg-button>
-            </p>
+      <rg-theme theme="Theme.DARK">
+        <div class="buttons dark">${renderAllButtons()}</div>
+      </rg-theme>
+    </div>
+  `;
 
-            <p>
-              <rg-button mode="primary">Press me</rg-button>
-              <rg-button mode="primary">Press me Press me Press me Press me Press me</rg-button>
-              <rg-button mode="primary" disabled="true">Press me</rg-button>
-              <rg-button mode="primary" loader="true">Press me</rg-button>
-              <rg-button mode="primary" delayed="true">Press me</rg-button>
-              <rg-button mode="primary" text="true">Press me</rg-button>
-            </p>
-
-            <p>
-              <rg-button>Press me</rg-button>
-              <rg-button icon="{{close}}">Action with icon</rg-button>
-              <rg-button narrow-right="true">Dropdown <rg-icon glyph="{{chevronDown}}" color="GRAY"></rg-icon></rg-button>
-              <rg-button icon="{{close}}" title="Close" mode="primary"></rg-button>
-              <rg-button icon="{{permission}}" title="Permissions" disabled="true"></rg-button>
-              <rg-button icon="{{pencil}}" title="Edit" loader="true"></rg-button>
-              <rg-button>Press me</rg-button>
-            </p>
-
-            <p>
-              <rg-button danger="true">Press me</rg-button>
-              <rg-button danger="true" disabled="true">Press me</rg-button>
-              <rg-button danger="true" loader="true">Press me</rg-button>
-              <rg-button danger="true" icon="{{pencil}}" title="Edit"></rg-button>
-            </p>
-
-            <p>
-              <rg-button-link href="/button-link">Button link</rg-button-link>
-              <rg-button-link href="/button-link" disabled="true">Button link
-              </rg-button-link>
-              <rg-button-link href="/button-link" loader="true">Button link
-              </rg-button-link>
-              <rg-button-link href="/button-link" icon="{{pencil}}" title="Edit"></rg-button-link>
-            </p>
-
-            <p>
-              <rg-button tabindex="1">
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-              </rg-button>
-              <rg-button tabindex="2">
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-              </rg-button>
-              <rg-button tabindex="3">
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-              </rg-button>
-              <rg-button tabindex="4">
-                <span>Press me</span>
-                <rg-icon glyph="{{close}}"></rg-icon>
-                <span>Press me</span>
-              </rg-button>
-            </p>
-          </div>
-        </rg-theme>
-      </div>
-    `;
 };
 
-dark.story = {
-  name: 'dark'
+basic.story = {
+  name: 'basic',
+  parameters: {
+    hermione: {
+      actions: [
+        {type: 'capture', name: '', selector: '#root'},
+        {type: 'focus', selector: '[data-test=button-active]'},
+        {type: 'capture', name: 'focus active', selector: '#root'}
+      ]
+    },
+    storyStyles: `
+  <style>
+    .buttons > button {
+      margin: 8px;
+    }
+
+    .dark {
+      background: #000;
+    }
+  </style>`
+  }
 };
