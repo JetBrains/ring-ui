@@ -50,12 +50,12 @@ export default class ContentLayout extends Component {
         className={classes}
       >
         {sidebar}
-        <div
+        <main
           className={contentClasses}
           ref={this.saveContentNode}
         >
           {contentChildren}
-        </div>
+        </main>
       </div>
     );
   }
