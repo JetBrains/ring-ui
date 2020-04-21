@@ -143,7 +143,7 @@ export default class Footer extends PureComponent {
     });
 
     return (
-      <div
+      <footer
         className={classes}
         data-test="ring-footer"
       >{
@@ -152,7 +152,7 @@ export default class Footer extends PureComponent {
             content(this.props.center, 'center'),
             content(this.props.right, 'right')
           ]
-        }</div>
+        }</footer>
     );
   }
 }

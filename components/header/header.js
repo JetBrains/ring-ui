@@ -31,12 +31,12 @@ class Header extends Component {
     });
 
     return (
-      <div
+      <header
         {...restProps}
         className={classes}
       >
         {children}
-      </div>
+      </header>
     );
   }
 }

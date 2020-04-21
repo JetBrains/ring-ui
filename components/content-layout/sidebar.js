@@ -76,7 +76,7 @@ export default class Sidebar extends Component {
     };
 
     return (
-      <div
+      <aside
         className={containerClasses}
         ref={this.sidebarRef}
       >
@@ -99,7 +99,7 @@ export default class Sidebar extends Component {
             onLeave={this.handleBottomWaypoint}
           />
         </div>
-      </div>
+      </aside>
     );
   }
 }
