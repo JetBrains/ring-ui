@@ -5,13 +5,13 @@ import Header from './header';
 
 describe('Header', () => {
   const mountHeader = props => mount(<Header {...props}/>);
-  const getHeaderDiv = props => mountHeader(props).find('div');
+  const getHeaderDiv = props => mountHeader(props).find('header');
 
   it('should create component', () => {
     mountHeader().type().should.equal(Header.type);
   });
 
-  it('should wrap children with div', () => {
+  it('should wrap children with руфвук', () => {
     getHeaderDiv().should.exist;
   });
 
