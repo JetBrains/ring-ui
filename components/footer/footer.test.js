@@ -15,7 +15,7 @@ describe('Footer', () => {
 
   it('should be empty by default', () => {
     const wrapper = shallowFooter();
-    wrapper.should.have.tagName('div');
+    wrapper.should.have.tagName('footer');
     wrapper.should.be.blank();
   });
 
