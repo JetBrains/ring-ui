@@ -15,7 +15,7 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "change-case": "^4.1.1",
-    "ora": "^4.0.3",
+    "ora": "^4.0.4",
     "package-json": "^6.5.0",
     "pify": "^5.0.0",
     "portscanner": "^2.2.0",
