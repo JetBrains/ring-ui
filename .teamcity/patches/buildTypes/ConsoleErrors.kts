@@ -23,6 +23,11 @@ changeBuildType(RelativeId("ConsoleErrors")) {
     }
 
     failureConditions {
+
+        check(nonZeroExitCode == true) {
+            "Unexpected option value: nonZeroExitCode = $nonZeroExitCode"
+        }
+        nonZeroExitCode = false
         add {
             failOnMetricChange {
                 metric = BuildFailureOnMetric.MetricType.TEST_COUNT
