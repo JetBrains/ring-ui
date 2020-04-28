@@ -2102,10 +2102,10 @@ gemini-core@^3.7.0:
     uglifyify "^3.0.4"
     yallist "^3.0.3"
 
-gemini-core@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.0.1.tgz#73c3b022f810f522fe140c2b416dd7a3ceadb593"
-  integrity sha512-DRmfVkbwxdjl3pxTe9PxRTqqY9ehS3cTGqxJqShOXHX0aNF9LyZfF0i8xZBnsR3eLc7cB6ke9bRQm6S+iELKuw==
+gemini-core@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.1.0.tgz#c732089b5805e7f2acd11785b6a9cd5e9d09a18f"
+  integrity sha512-QowTgfSBmZJFwsoKt4u4kDF/cXqpaEbk2oEDgeW5rg3nYOUkRsQVD5cWpG/LrgyTj2evZ59qN7Ju5bInd4BGtw==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -2311,10 +2311,10 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.1.0.tgz#d41982e280d760ad525287d5a6e9d204b59a6a08"
-  integrity sha512-GZdsATiHXTT0JUZha5yKAhey/MkWZhxH5HJKD486l5t9zN6w0LwU/58r1D0qwOopqeR4ir3HVsPXfxT29RWxHg==
+hermione@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.2.0.tgz#1078acf84a62fe8744b98494689d6edd49bf5358"
+  integrity sha512-hCWXTSL/+i5gLRFYGAO6pvPPb3NUmUobPG4csnFu1r5vX5SuiZ8AKZXuDgPfr1WYqT9OXdnyU8gb4rLXdWV5hg==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
     "@gemini-testing/webdriverio" "4.16.2"
@@ -2324,7 +2324,7 @@ hermione@^3.1.0:
     clear-require "^1.0.1"
     fs-extra "^5.0.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^5.0.1"
+    gemini-core "^5.1.0"
     inherit "^2.2.2"
     lodash "^4.17.4"
     mocha "~2.4.5"
