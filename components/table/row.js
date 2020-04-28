@@ -93,9 +93,9 @@ class Row extends PureComponent {
   };
 
   toggleSelection() {
-    const {selectable, selected, onSelect} = this.props;
+    const {selectable, selected, onSelect, item} = this.props;
     if (selectable) {
-      onSelect(!selected);
+      onSelect(item, !selected);
     }
   }
 
@@ -173,7 +173,7 @@ class Row extends PureComponent {
             <Button
               className={style.rowCollapseExpandButton}
               icon={chevronRightIcon}
-              onClick={onExpand}
+              onClick={() => onExpand(item)}
             />
           )
         }
@@ -183,7 +183,7 @@ class Row extends PureComponent {
             <Button
               className={style.rowCollapseExpandButton}
               icon={chevronDownIcon}
-              onClick={onCollapse}
+              onClick={() => onCollapse(item)}
             />
           )
         }

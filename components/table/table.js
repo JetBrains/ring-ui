@@ -18,23 +18,24 @@ import style from './table.css';
 import DraggableRow from './draggable-row';
 import selectionShortcutsHOC from './selection-shortcuts-hoc';
 import disableHoverHOC from './disable-hover-hoc';
+import Row from './row';
 
 const alwaysFalse = () => false;
 
-const DraggableRows = sortableContainer(props => {
-  const {
-    data, getItemKey, selection, selectable,
-    isItemSelectable, onRowFocus, onRowSelect,
-    getItemLevel, isItemCollapsible, isParentCollapsible,
-    isItemCollapsed, onItemCollapse, onItemExpand,
-    isDisabledSelectionVisible, getCheckboxTooltip,
-    ...restProps
-  } = props;
+function Rows({
+  data, getItemKey, selection, selectable,
+  isItemSelectable, onRowFocus, onRowSelect,
+  getItemLevel, isItemCollapsible, isParentCollapsible,
+  isItemCollapsed, onItemCollapse, onItemExpand,
+  isDisabledSelectionVisible, getCheckboxTooltip,
+  ...restProps
+}) {
+  const RowComponent = restProps.draggable ? DraggableRow : Row;
 
   return (
     <tbody data-test="ring-table-body">
       {data.map((item, index) => (
-        <DraggableRow
+        <RowComponent
           key={getItemKey(item)}
           level={getItemLevel(item)}
           index={index}
@@ -57,7 +58,26 @@ const DraggableRows = sortableContainer(props => {
       ))}
     </tbody>
   );
-});
+}
+Rows.propTypes = {
+  data: PropTypes.array.isRequired,
+  getItemKey: PropTypes.func,
+  selection: PropTypes.instanceOf(Selection).isRequired,
+  selectable: PropTypes.bool,
+  isItemSelectable: PropTypes.func,
+  onRowFocus: PropTypes.func,
+  onRowSelect: PropTypes.func,
+  getItemLevel: PropTypes.func,
+  isItemCollapsible: PropTypes.func,
+  isParentCollapsible: PropTypes.func,
+  isItemCollapsed: PropTypes.func,
+  onItemCollapse: PropTypes.func,
+  onItemExpand: PropTypes.func,
+  isDisabledSelectionVisible: PropTypes.func,
+  getCheckboxTooltip: PropTypes.func
+};
+
+const DraggableRows = sortableContainer(Rows);
 
 class Table extends PureComponent {
   static propTypes = {
@@ -235,6 +255,27 @@ class Table extends PureComponent {
       [style.disabledHover]: this.props.disabledHover
     });
 
+    const rowProps = {
+      getItemKey,
+      draggable,
+      alwaysShowDragHandle,
+      data,
+      columns,
+      selectable,
+      isItemSelectable,
+      selection,
+      onRowFocus: this.onRowFocus,
+      onRowSelect: this.onRowSelect,
+      getItemLevel,
+      isItemCollapsible,
+      isParentCollapsible,
+      isItemCollapsed,
+      onItemCollapse,
+      onItemExpand,
+      isDisabledSelectionVisible,
+      getCheckboxTooltip
+    };
+
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
         {selectable && focused &&
@@ -250,34 +291,17 @@ class Table extends PureComponent {
         <div role="presentation" onMouseDown={this.onMouseDown}>
           <table className={classes} data-test="ring-table">
             <Header {...headerProps}/>
-            <DraggableRows
-              /* Sortable props */
-              useDragHandle
-              disabled={!draggable}
-              helperClass={style.draggingRow}
-              onSortEnd={this.onSortEnd}
-              getItemKey={getItemKey}
-              shouldCancelStart={alwaysFalse}
-
-              /* Row props */
-              draggable={draggable}
-              alwaysShowDragHandle={alwaysShowDragHandle}
-              data={data}
-              columns={columns}
-              selectable={selectable}
-              isItemSelectable={isItemSelectable}
-              selection={selection}
-              onRowFocus={this.onRowFocus}
-              onRowSelect={this.onRowSelect}
-              getItemLevel={getItemLevel}
-              isItemCollapsible={isItemCollapsible}
-              isParentCollapsible={isParentCollapsible}
-              isItemCollapsed={isItemCollapsed}
-              onItemCollapse={onItemCollapse}
-              onItemExpand={onItemExpand}
-              isDisabledSelectionVisible={isDisabledSelectionVisible}
-              getCheckboxTooltip={getCheckboxTooltip}
-            />
+            {draggable
+              ? (
+                <DraggableRows
+                  useDragHandle
+                  helperClass={style.draggingRow}
+                  onSortEnd={this.onSortEnd}
+                  shouldCancelStart={alwaysFalse}
+                  {...rowProps}
+                />
+              )
+              : <Rows {...rowProps}/>}
           </table>
         </div>
 
