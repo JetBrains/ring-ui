@@ -1,4 +1,5 @@
 import initStoryshots, {renderOnly} from '@storybook/addon-storyshots';
+import {act} from 'react-dom/test-utils';
 
 jest.mock('./components/loader/loader__core', () => (
   class FakeLoader {
@@ -14,7 +15,7 @@ initStoryshots({
   // storyNameRegex: /^Basic$/,
   async test(...args) {
     const consoleError = jest.spyOn(global.console, 'error');
-    await renderOnly(...args);
+    await act(async () => renderOnly(...args));
     expect(consoleError).not.toBeCalled();
   }
 });
