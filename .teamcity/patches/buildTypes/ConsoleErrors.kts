@@ -3,6 +3,8 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -17,6 +19,20 @@ changeBuildType(RelativeId("ConsoleErrors")) {
         }
         update {
             param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
+        }
+    }
+
+    failureConditions {
+        add {
+            failOnMetricChange {
+                metric = BuildFailureOnMetric.MetricType.TEST_COUNT
+                threshold = 50
+                units = BuildFailureOnMetric.MetricUnit.PERCENTS
+                comparison = BuildFailureOnMetric.MetricComparison.LESS
+                compareTo = build {
+                    buildRule = lastSuccessful()
+                }
+            }
         }
     }
 
