@@ -126,7 +126,6 @@ class Table extends PureComponent {
   };
 
   state = {
-    shortcutsEnabled: this.props.selectable && this.props.focused,
     shortcutsScope: getUID('ring-table-'),
     userSelectNone: false
   };
@@ -135,20 +134,13 @@ class Table extends PureComponent {
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const {data, selection, onSelect, selectable} = this.props;
-
-    if (data !== nextProps.data && !this.props.remoteSelection) {
-      onSelect(selection.cloneWith({data: nextProps.data}));
+  componentDidUpdate({data, selection, onSelect, selectable, remoteSelection}) {
+    if (data !== this.props.data && remoteSelection) {
+      onSelect(selection.cloneWith({data: this.props.data}));
     }
 
-    if (!nextProps.selectable && nextProps.selectable !== selectable) {
+    if (!this.props.selectable && this.props.selectable !== selectable) {
       onSelect(selection.resetSelection());
-    }
-
-    const shortcutsEnabled = nextProps.focused;
-    if (shortcutsEnabled !== this.state.shortcutsEnabled) {
-      this.setState({shortcutsEnabled});
     }
   }
 
@@ -208,7 +200,7 @@ class Table extends PureComponent {
 
   render() {
     const {
-      data, selection, columns, caption, getItemKey, selectable,
+      data, selection, columns, caption, getItemKey, selectable, focused,
       isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
@@ -245,7 +237,7 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
-        {this.state.shortcutsEnabled &&
+        {selectable && focused &&
           (
             <Shortcuts
               map={this.props.shortcutsMap}
