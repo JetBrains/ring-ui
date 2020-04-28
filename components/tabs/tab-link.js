@@ -25,7 +25,7 @@ function TabLink({isSelected, title, ...restProps}) {
 
 TabLink.propTypes = {
   isSelected: PropTypes.bool,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
+  title: PropTypes.oneOfType([PropTypes.func, PropTypes.string, PropTypes.node])
 };
 
 export default memo(TabLink);
