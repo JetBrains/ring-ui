@@ -600,9 +600,6 @@ withALargeDatasetAndDisabledScrollToActiveItem.story = {
     hermione: {
       actions: [
         {type: 'click', selector: '[data-test~=ring-select]'},
-        {type: 'scroll', selector: '.ReactVirtualized__List', y: 1000},
-        {type: 'click', selector: ':nth-child(2) > * > [data-test~=ring-list-item-action]'},
-        {type: 'click', selector: '[data-test~=ring-select]'},
         {
           type: 'capture',
           name: 'selectWithPopup',

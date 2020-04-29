@@ -439,7 +439,6 @@ export default class SelectPopup extends PureComponent {
         attached={this.props.isInputMode}
         className={classes}
         dontCloseOnAnchorClick
-        keepMounted
         anchorElement={this.props.anchorElement}
         minWidth={this.props.minWidth}
         onCloseAttempt={this.props.onCloseAttempt}
