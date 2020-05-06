@@ -406,6 +406,7 @@ export default class QueryAssist extends Component {
 
     const state = {
       caret: suggestion.caret,
+      selection: suggestion.caret,
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
