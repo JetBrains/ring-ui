@@ -188,7 +188,7 @@
     "interpolate-loader": "^2.0.1",
     "just-debounce-it": "^1.1.0",
     "memoize-one": "^5.1.1",
-    "moment": "^2.24.0",
+    "moment": "^2.25.3",
     "postcss": "^7.0.29",
     "postcss-calc": "^7.0.2",
     "postcss-flexbugs-fixes": "^4.2.1",
