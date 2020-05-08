@@ -517,24 +517,35 @@ export default class Select extends Component {
     }
 
     const {reset} = this.props.tags;
+
+    const resetHandler = (item, event) => {
+      this.clear(event);
+      this.clearFilter();
+      this.props.onFilter('');
+      this.setState(prevState => ({
+        shownData: prevState.shownData.slice(reset.separator ? 2 : 1),
+        multipleMap: {}
+      }));
+      this._redrawPopup();
+    };
+
     return {
       isResetItem: true,
       separator: reset.separator,
       key: reset.label,
       rgItemType: List.ListProps.Type.ITEM,
-      label: reset.label,
+      label: (
+        <Button
+          text
+          className={styles.button}
+          onClick={resetHandler}
+          data-test="ring-select-reset-tags-button"
+        >
+          {reset.label}
+        </Button>
+      ),
       glyph: reset.glyph,
-      className: 'ring-select__clear-tags',
-      onClick: (item, event) => {
-        this.clear(event);
-        this.clearFilter();
-        this.props.onFilter('');
-        this.setState(prevState => ({
-          shownData: prevState.shownData.slice(reset.separator ? 2 : 1),
-          multipleMap: {}
-        }));
-        this._redrawPopup();
-      }
+      onClick: resetHandler
     };
   }
 

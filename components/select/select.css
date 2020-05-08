@@ -18,8 +18,6 @@
 
 .button {
   width: 100%;
-  height: calc(4 * unit);
-  margin: unit 0;
   padding: 0 calc(2 * unit);
 
   text-align: left;
@@ -27,6 +25,11 @@
   @nest [dir=rtl] & {
     text-align: right;
     direction: ltr;
+  }
+
+  @nest .toolbar & {
+    height: calc(4 * unit);
+    margin: unit 0;
   }
 }
 
