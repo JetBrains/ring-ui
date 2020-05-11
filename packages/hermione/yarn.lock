@@ -2102,10 +2102,10 @@ gemini-core@^3.7.0:
     uglifyify "^3.0.4"
     yallist "^3.0.3"
 
-gemini-core@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.1.0.tgz#c732089b5805e7f2acd11785b6a9cd5e9d09a18f"
-  integrity sha512-QowTgfSBmZJFwsoKt4u4kDF/cXqpaEbk2oEDgeW5rg3nYOUkRsQVD5cWpG/LrgyTj2evZ59qN7Ju5bInd4BGtw==
+gemini-core@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.1.1.tgz#9ac5f16672e4ce8a4696e8ea3edddf2a6b6e386a"
+  integrity sha512-hDfHaz/1p7JROI+ZftxmGAr3HnlKzFevqkUJ2616IPKfXmVdCD/lx84qxPIXWsBMDISdv0GHj7jCiqAabCkXxg==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -2113,10 +2113,10 @@ gemini-core@^5.1.0:
     debug "^2.2.0"
     gemini-configparser "^1.0.0"
     glob-extra "^4.0.1"
-    lodash "^4.15.0"
+    lodash "^4.17.15"
     looks-same "^7.1.1"
     micromatch "^4.0.2"
-    png-img "^2.1.1"
+    png-img "^2.3.0"
     sizzle "^2.3.3"
     temp "^0.8.3"
     uglify-js "^2.8.29"
@@ -2311,10 +2311,10 @@ he@^1.1.1:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.3.0.tgz#37b357582bf3fee9ac7d232a3d1c9ee093d668d3"
-  integrity sha512-4wzFk8BxZV3YMl/jbdkMZ1z5IDj00E56ZcQyn9NBPITLCGqUdPRSN2zaVUYkxmfEQO+Fg6jb19fUW0fsQD/XBQ==
+hermione@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.3.1.tgz#895adabad9d04392085cf0804ef5d30fbd27b289"
+  integrity sha512-Qf8h7foSBTsEyVVoqlPT91zCbv4eIVB2mEEba59/t2zUUgMvj2V49uaYevzmpNoSShJ0eLq/DTUs6cxPVf3ATw==
   dependencies:
     "@gemini-testing/commander" "2.15.2"
     "@gemini-testing/webdriverio" "4.16.2"
@@ -2324,7 +2324,7 @@ hermione@^3.3.0:
     clear-require "^1.0.1"
     fs-extra "^5.0.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^5.1.0"
+    gemini-core "^5.1.1"
     inherit "^2.2.2"
     lodash "^4.17.4"
     mocha "~2.4.5"
@@ -3658,6 +3658,13 @@ png-img@^2.1.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/png-img/-/png-img-2.2.1.tgz#c66795c281cde17bcc0410050c524f55e0be391a"
   integrity sha512-08t30gTNhwf6atyP7vplsVmncHxnORXMfI449aKa8Rnhbh9mZkHouoGNE27T3fqpHdFHALoRTYkj7gms6EeCvg==
+  dependencies:
+    nan "^2.14.0"
+
+png-img@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/png-img/-/png-img-2.3.0.tgz#ae5e24e4f8601d6f20692874be60a69d0684b14d"
+  integrity sha512-niTERtbYrszcFHdUbsM0JnKMvCUnT/5AJfozWKf8jKYf4gRoyF+xTMhgOKcM3H9rdZX9G8K+MJjPLeM90u/92w==
   dependencies:
     nan "^2.14.0"
 
