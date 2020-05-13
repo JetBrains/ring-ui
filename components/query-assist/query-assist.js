@@ -147,7 +147,7 @@ export default class QueryAssist extends Component {
     if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
       this.immediateState.query = query;
 
-      if (query && !prevProps.autoOpen) {
+      if (query && prevProps.autoOpen) {
         this.requestData();
       } else if (query) {
         this.requestStyleRanges();
@@ -216,6 +216,11 @@ export default class QueryAssist extends Component {
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
         : queryLength;
+    if (params.fromContentEditable) {
+      this.immediateState.selection = this.immediateState.selection
+        ? this.immediateState.selection
+        : newCaretPosition;
+    }
     if (this.immediateState.focus && !this.props.disabled) {
       if (Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {
         // Set to end of field value if newCaretPosition is inappropriate
@@ -799,7 +804,7 @@ export default class QueryAssist extends Component {
           data-test="ring-query-assist-input"
           inputRef={this.inputRef}
           disabled={this.props.disabled}
-          onComponentUpdate={this.setCaretPosition}
+          onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
 
           onBlur={this.handleBlur}
           onClick={this.handleCaretMove}
