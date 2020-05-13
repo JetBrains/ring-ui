@@ -1727,10 +1727,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.73":
-  version "2.0.73"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.73.tgz#0543c35a56566e8cee9fbc341b76f52eb5ae9a56"
-  integrity sha512-alcNAR5UfjW6PfAoxj91XuV7MSLp8AcM6pEUrMi98yCH+dNyA589jhpF77O/3D+V3sJQ9NCKax0mf81Syk8xTQ==
+"@jetbrains/generator-ring-ui@^2.0.74":
+  version "2.0.74"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.74.tgz#b46b8e0f12f3bd2c9e8443aea49cd5b31ebe37d1"
+  integrity sha512-eHLp6ZH5NVOYSkXGMj+k0x7xqYybUK1qVPPknA91dXdGqy0SQ0ylrUzFhWXSi9YiCF4Q1V4v723kstt+ezOyLA==
   dependencies:
     chalk "^4.0.0"
     change-case "^4.1.1"
@@ -1740,7 +1740,7 @@
     portscanner "^2.2.0"
     read-pkg-up "^7.0.1"
     title-case "^3.0.2"
-    yeoman-generator "^4.10.0"
+    yeoman-generator "^4.10.1"
     yeoman-option-or-prompt "^2.0.1"
 
 "@jetbrains/icons@^3.6.0":
@@ -11531,10 +11531,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-lint-staged@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.0.tgz#e0356ab593ddc2cd4205d7f880c2205bb01f5e48"
-  integrity sha512-4Dw2XMtEOGpICl0wvicE5KT/eFlt/kmwMmpNS4v09I/ywRWuR5udbMWjdfZez24jE6r0bQmPpkLZ1+wUGE1S+w==
+lint-staged@^10.2.2:
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.2.2.tgz#901403c120eb5d9443a0358b55038b04c8a7db9b"
+  integrity sha512-78kNqNdDeKrnqWsexAmkOU3Z5wi+1CsQmUmfCuYgMTE8E4rAIX8RHW7xgxwAZ+LAayb7Cca4uYX4P3LlevzjVg==
   dependencies:
     chalk "^4.0.0"
     commander "^5.0.0"
@@ -19409,10 +19409,10 @@ yeoman-environment@^2.9.5:
     untildify "^3.0.3"
     yeoman-generator "^4.8.2"
 
-yeoman-generator@^4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.10.0.tgz#37d0e2db6af7035c62849132bb61ba5f223ee98c"
-  integrity sha512-NuY9bt7r6kvjvWjAVcujZwHux5xXy4Vdmz3uabyjioh679ry97+dl+MgtlAkgdSQ7kGI0Iz1GC92tZ33XdxaDw==
+yeoman-generator@^4.10.1:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-4.10.1.tgz#82853f55856ba14f180ab6c6a70acd89b11c956b"
+  integrity sha512-QgbtHSaqBAkyJJM0heQUhT63ubCt34NBFMEBydOBUdAuy8RBvGSzeqVBSZOjdh1tSLrwWXlU3Ck6y14awinF6Q==
   dependencies:
     async "^2.6.2"
     chalk "^2.4.2"
