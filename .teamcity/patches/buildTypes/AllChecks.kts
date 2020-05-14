@@ -20,5 +20,10 @@ changeBuildType(RelativeId("AllChecks")) {
             }
         }
 
+        add(RelativeId("A11yAudit")) {
+            snapshot {
+            }
+        }
+
     }
 }
