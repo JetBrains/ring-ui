@@ -32,7 +32,7 @@ export default class UserCardTooltip extends Component {
         />
       );
     },
-    renderNoUser: () => null,
+    renderNoUser: () => '',
     dropdownProps: {
       hoverShowTimeOut: DEFAULT_TIMEOUT,
       hoverHideTimeOut: DEFAULT_TIMEOUT

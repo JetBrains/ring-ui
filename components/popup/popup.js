@@ -71,10 +71,7 @@ export default class Popup extends PureComponent {
     // onCloseAttempt is a common callback for ESC pressing and outside clicking.
     // Use it if you don't need different behaviors for this cases.
     onCloseAttempt: PropTypes.func,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ]),
+    children: PropTypes.node.isRequired,
     dontCloseOnAnchorClick: PropTypes.bool,
     shortcuts: PropTypes.bool,
     keepMounted: PropTypes.bool, // pass this prop to preserve the popup's DOM state while hidden
