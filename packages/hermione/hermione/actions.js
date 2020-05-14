@@ -1,6 +1,10 @@
+const TIMEOUT = 1000;
+
 module.exports = {
-  capture: (browser, {name, selector}) =>
-    browser.assertView(name.toLowerCase(), selector),
+  async capture(browser, {name, selector}) {
+    await browser.waitForVisible(selector, TIMEOUT);
+    await browser.assertView(name.toLowerCase(), selector);
+  },
   click: (browser, {selector}) => browser.click(selector),
   executeJS: (browser, {script}) => browser.execute(script),
   focus: (browser, {selector}) =>

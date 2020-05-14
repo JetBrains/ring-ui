@@ -6,22 +6,15 @@ import {shallow, mount} from 'enzyme';
 
 import List from '../list/list';
 import Input from '../input/input';
-import sniffr from '../global/sniffer';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Select from './select';
 import styles from './select.css';
 
-const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
-
 function simulateInput(target, value) {
   target.value = value;
 
   Simulate.change(target, {target});
-
-  if (isIE11) {
-    Simulate.input(target, {target: {value}});
-  }
 }
 
 const selectedIconSelector = `.${styles.selectedIcon.split(/\s/)[0]}`;
