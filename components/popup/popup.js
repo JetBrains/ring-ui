@@ -119,7 +119,7 @@ export default class Popup extends PureComponent {
 
     attached: false,
     trapFocus: true,
-    autoFocusFirst: true,
+    autoFocusFirst: false,
 
     legacy: false
   };
