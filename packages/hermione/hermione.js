@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-const {exec} = require('child_process');
+const {exec, execSync} = require('child_process');
+const path = require('path');
 
 const browserStackLocal = require('browserstack-local');
 const kill = require('kill-port');
 
-const storiesTreePromise = require('./get-stories-tree');
 require('dotenv').config();
 
 const browserstack = new browserStackLocal.Local();
@@ -19,7 +19,7 @@ kill(browserstackPort).then(() => {
     key: process.env.BROWSERSTACK_KEY,
     verbose: true,
     logfile: 'browserstack.log'
-  }, async err => {
+  }, err => {
     if (err) {
       console.error(err.message);
       return;
@@ -41,7 +41,10 @@ kill(browserstackPort).then(() => {
       cleanup();
     });
 
-    await storiesTreePromise;
+    execSync('yarn jest packages/hermione/get-stories-tree.js \'--testMatch=**\'', {
+      cwd: path.resolve(__dirname, '../..'),
+      stdio: 'inherit'
+    });
     const hermioneProcess = exec(
       // eslint-disable-next-line no-magic-numbers
       `node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`,
