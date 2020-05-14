@@ -107,7 +107,7 @@ export const autofocusOnOpen = () => (
   <div>
     <div style={{height: '90vh'}}/>
     <Dropdown anchor="Scroll and then click me">
-      <Popup>
+      <Popup autoFocusFirst>
         <Input className="ring-js-shortcuts"/>
       </Popup>
     </Dropdown>
