@@ -434,6 +434,7 @@ export default class SelectPopup extends PureComponent {
 
     return (
       <Popup
+        trapFocus={false}
         ref={this.popupRef}
         hidden={this.props.hidden}
         attached={this.props.isInputMode}

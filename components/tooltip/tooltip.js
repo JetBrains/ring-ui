@@ -121,6 +121,7 @@ export default class Tooltip extends Component {
       >
         {children}
         <Popup
+          trapFocus={false}
           hidden={!this.state.showPopup}
           onCloseAttempt={this.hidePopup}
           maxHeight={400}
