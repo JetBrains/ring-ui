@@ -29,6 +29,10 @@ initStoryshots({
 });
 
 if (isTeamCity) {
-  afterAll(() =>
-    fs.writeFile('metadata-messages.json', JSON.stringify(metadataMessages)));
+  afterAll(done =>
+    fs.writeFile(
+      'metadata-messages.json',
+      JSON.stringify(metadataMessages),
+      done
+    ));
 }
