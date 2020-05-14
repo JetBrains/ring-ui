@@ -28,6 +28,7 @@ import styles from './select-popup.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;
+const TOOLBAR_HEIGHT = 49;
 
 function noop() {}
 
@@ -303,6 +304,10 @@ export default class SelectPopup extends PureComponent {
 
       if (this.props.filter) {
         maxHeight -= FILTER_HEIGHT;
+      }
+
+      if (this.props.toolbar) {
+        maxHeight -= TOOLBAR_HEIGHT;
       }
 
       return (
