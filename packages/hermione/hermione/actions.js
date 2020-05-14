@@ -4,7 +4,7 @@ module.exports = {
   async capture(browser, {name, selector}) {
     const selectors = Array.isArray(selector) ? selector : [selector];
     await Promise.all(
-      selectors.map(() => browser.waitForVisible(selector, TIMEOUT))
+      selectors.map(selectorString => browser.waitForVisible(selectorString, TIMEOUT))
     );
     await browser.assertView(name.toLowerCase(), selector);
   },
