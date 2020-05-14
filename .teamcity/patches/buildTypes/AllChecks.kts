@@ -13,4 +13,12 @@ changeBuildType(RelativeId("AllChecks")) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
     maxRunningBuilds = 1
+
+    dependencies {
+        add(RelativeId("ConsoleErrors")) {
+            snapshot {
+            }
+        }
+
+    }
 }
