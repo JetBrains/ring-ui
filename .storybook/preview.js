@@ -28,6 +28,9 @@ addParameters({
         'color-contrast': {enabled: false}
       }
     }
+  },
+  hermione: {
+    skip: 'ie'
   }
 });
 

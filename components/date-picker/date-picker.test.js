@@ -1,8 +1,6 @@
 import React from 'react';
 import {mount, shallow, render} from 'enzyme';
 
-import sniffer from '../global/sniffer';
-
 import DatePicker from './date-picker';
 import styles from './date-picker.css';
 
@@ -24,18 +22,11 @@ describe('Date Picker', () => {
   });
 
   it('should parse and display passed date', () => {
-    if (sniffer.browser.name === 'edge') {
-      return;
-    }
-
     renderDatePicker({date: '01.11.16'}).should.have.text('1 Nov 2016');
   });
 
   it('should display a placeholder when date unspecified or invalid',
     () => {
-      if (sniffer.browser.name === 'edge') {
-        return;
-      }
       renderDatePicker({
         datePlaceholder: 'set date pls',
         date: 'hbkj'
@@ -45,10 +36,6 @@ describe('Date Picker', () => {
   );
 
   it('should parse and display passed date and time', () => {
-    if (sniffer.browser.name === 'edge') {
-      return;
-    }
-
     renderDatePicker({
       withTime: true,
       date: '01.11.16',
@@ -58,10 +45,6 @@ describe('Date Picker', () => {
 
   it('should display a placeholder when time and date unspecified or invalid (in case of withTime=true)',
     () => {
-      if (sniffer.browser.name === 'edge') {
-        return;
-      }
-
       renderDatePicker({
         dateTimePlaceholder: 'set date & time',
         withTime: true,
@@ -79,9 +62,6 @@ describe('Date Picker', () => {
 
   it('should display a "—" when either time or date unspecified or invalid (withTime=true usecase)',
     () => {
-      if (sniffer.browser.name === 'edge') {
-        return;
-      }
       renderDatePicker({withTime: true, date: 'hbkj', time: '9:34'}).should.have.text('—, 09:34');
       renderDatePicker({withTime: true, time: '9:34'}).should.have.text('—, 09:34');
       renderDatePicker({withTime: true, date: '12.01.2013', time: 'hdfgn'}).should.have.text('12 Jan 2013, —');
@@ -90,10 +70,6 @@ describe('Date Picker', () => {
   );
 
   it('should accept a Date instance', () => {
-    if (sniffer.browser.name === 'edge') {
-      return;
-    }
-
     renderDatePicker({date: new Date(0)}).should.have.text('1 Jan 1970');
   });
 
