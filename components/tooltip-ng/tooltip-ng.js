@@ -55,7 +55,8 @@ name.factory('RgTooltipPopup', function RgTooltipPopupDirective() {
       anchorElement,
       maxHeight: 400,
       attached: false,
-      dontCloseOnAnchorClick: true
+      dontCloseOnAnchorClick: true,
+      trapFocus: false
     };
 
     this.renderPopup = props => {
