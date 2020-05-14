@@ -40,7 +40,7 @@ export default class SmartUserCardTooltip extends Component {
           <LoaderInline/>
         </div>
       )
-      : null
+      : ''
   );
 
   render() {
