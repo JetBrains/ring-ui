@@ -81,18 +81,6 @@ module.exports = {
         os_version,
         maxDuration
       }
-    },
-    edge: {
-      tolerance: RELAXED_TOLERANCE,
-      antialiasingTolerance: RELAXED_TOLERANCE,
-      desiredCapabilities: {
-        browser: 'Edge',
-        pageLoadStrategy: 'normal',
-        version: '17.0',
-        os,
-        os_version,
-        maxDuration
-      }
     }
   }
 };

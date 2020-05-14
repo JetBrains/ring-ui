@@ -55,7 +55,8 @@ export const simple = () => {
 };
 
 simple.story = {
-  name: 'simple'
+  name: 'simple',
+  parameters: {hermione: {skip: false}}
 };
 
 export const alertContainer = () => {

@@ -201,7 +201,6 @@ noAuth.story = {
 
   parameters: {
     hermione: {
-      skip: 'ie',
       actions: [
         {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
         {type: 'click', selector: '[data-test=ring-query-assist-input]'},
