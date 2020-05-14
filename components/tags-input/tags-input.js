@@ -160,21 +160,21 @@ export default class TagsInput extends PureComponent {
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   };
 
-  loadSuggestions = async (query = '') => {
-    this.setState({loading: true, query});
-    try {
-      let allSuggestions = this.props.dataSource({query});
-      if (typeof allSuggestions.then === 'function') {
-        allSuggestions = await allSuggestions;
+  loadSuggestions = (query = '') =>
+    this.setState({loading: true, query}, async () => {
+      try {
+        let allSuggestions = this.props.dataSource({query});
+        if (typeof allSuggestions.then === 'function') {
+          allSuggestions = await allSuggestions;
+        }
+        const suggestions = this.filterExistingTags(allSuggestions);
+        if (this.node && query === this.state.query) {
+          this.setState({suggestions, loading: false});
+        }
+      } catch (e) {
+        this.setState({loading: false});
       }
-      const suggestions = this.filterExistingTags(allSuggestions);
-      if (this.node && query === this.state.query) {
-        this.setState({suggestions, loading: false});
-      }
-    } catch (e) {
-      this.setState({loading: false});
-    }
-  };
+    });
 
   _focusHandler = () => {
     this.setActiveIndex(null);
