@@ -14,6 +14,8 @@ import {Listeners, getStyles} from '../global/dom';
 import Shortcuts from '../shortcuts/shortcuts';
 import dataTests from '../global/data-tests';
 
+import TabTrap from '../tab-trap/tab-trap';
+
 import position, {
   DEFAULT_DIRECTIONS,
   Dimension,
@@ -96,7 +98,9 @@ export default class Popup extends PureComponent {
     onMouseOut: PropTypes.func,
     onContextMenu: PropTypes.func,
     onDirectionChange: PropTypes.func,
-    onShow: PropTypes.func
+    onShow: PropTypes.func,
+    trapFocus: PropTypes.bool,
+    autoFocusFirst: PropTypes.bool
   };
 
   static defaultProps = {
@@ -117,6 +121,8 @@ export default class Popup extends PureComponent {
     sidePadding: 8,
 
     attached: false,
+    trapFocus: true,
+    autoFocusFirst: true,
 
     legacy: false
   };
@@ -324,7 +330,15 @@ export default class Popup extends PureComponent {
   };
 
   getInternalContent() {
-    return this.props.children;
+    const {trapFocus, autoFocusFirst} = this.props;
+    return (
+      <TabTrap
+        trapDisabled={!trapFocus}
+        autoFocusFirst={autoFocusFirst}
+      >
+        {this.props.children}
+      </TabTrap>
+    );
   }
 
   shortcutsScope = this.uid;
