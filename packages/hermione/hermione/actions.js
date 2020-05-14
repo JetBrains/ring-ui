@@ -2,7 +2,10 @@ const TIMEOUT = 1000;
 
 module.exports = {
   async capture(browser, {name, selector}) {
-    await browser.waitForVisible(selector, TIMEOUT);
+    const selectors = Array.isArray(selector) ? selector : [selector];
+    await Promise.all(
+      selectors.map(() => browser.waitForVisible(selector, TIMEOUT))
+    );
     await browser.assertView(name.toLowerCase(), selector);
   },
   click: (browser, {selector}) => browser.click(selector),
