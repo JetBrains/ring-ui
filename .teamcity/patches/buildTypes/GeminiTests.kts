@@ -3,6 +3,8 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.RetryBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -24,6 +26,43 @@ changeBuildType(RelativeId("GeminiTests")) {
         }
         add {
             param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
+        }
+    }
+
+    expectSteps {
+        script {
+            name = "Run hermione"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                cd packages/hermione
+                yarn install
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
+            dockerImage = "node:10"
+            dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+        }
+    }
+    steps {
+        update<ScriptBuildStep>(0) {
+            clearConditions()
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                yarn bootstrap
+                cd packages/hermione
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
         }
     }
 
