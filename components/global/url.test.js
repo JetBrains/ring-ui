@@ -74,15 +74,9 @@ describe('Url', () => {
   describe('resolveRelative', () => {
     const baseUrl = 'http://example.com/';
 
-    it(
-      'should resolve url fragment relative to the base url when <base> tag (standards-compliant)',
-      () => {
-        resolveRelativeURL('#test', () => 'uri', () => baseUrl).
-          should.
-          be.
-          equal('http://example.com/#test');
-      }
-    );
+    it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', () => {
+      resolveRelativeURL('#test', () => 'uri', () => baseUrl).should.be.equal('#test');
+    });
 
     it(
       'should not resolve url fragment relative to the base url when there is no <base> tag',
