@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Popup from '../popup/popup';
 import List from '../list/list';
 
-const {children, ...popupPropTypes} = Popup.propTypes;
+const {children, ...popupPropTypes} = Popup.propTypes || {};
 
 /**
  * @name Popup Menu
