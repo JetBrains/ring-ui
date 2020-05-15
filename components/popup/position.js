@@ -145,7 +145,7 @@ const defaultcontainerRect = {
 };
 
 function handleTopOffScreen({
-  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction
+  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction, scroll
 }) {
   const BORDER_COMPENSATION = 1;
   const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
@@ -163,7 +163,7 @@ function handleTopOffScreen({
   const hypotheticalTop = attachingPointY - effectiveHeight;
 
   if (hypotheticalTop <= sidePadding) {
-    styles.top = sidePadding;
+    styles.top = sidePadding + scroll.top;
     styles.maxHeight = attachingPointY - sidePadding + BORDER_COMPENSATION;
   }
 
@@ -280,7 +280,8 @@ export default function position(attrs) {
       anchorRect,
       maxHeight,
       direction: chosenDirection,
-      popupScrollHeight: popup.scrollHeight
+      popupScrollHeight: popup.scrollHeight,
+      scroll
     });
   }
 
