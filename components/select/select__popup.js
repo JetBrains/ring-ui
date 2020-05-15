@@ -15,6 +15,7 @@ import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
+import {getStyles} from '../global/dom';
 import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
@@ -389,7 +390,11 @@ export default class SelectPopup extends PureComponent {
     const containerNode = getPopupContainer(ringPopupTarget) || document.documentElement;
     return Math.min(
       directions.reduce((maxHeight, direction) => (
-        Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
+        Math.max(maxHeight, maxHeightForDirection(
+          direction,
+          anchorNode,
+          getStyles(containerNode).position !== 'static' ? containerNode : null
+        ))
       ), minMaxHeight),
       userDefinedMaxHeight
     );
@@ -435,47 +440,49 @@ export default class SelectPopup extends PureComponent {
     const classes = classNames(styles.popup, this.props.className);
 
     return (
-      <Popup
-        trapFocus={false}
-        ref={this.popupRef}
-        hidden={this.props.hidden}
-        attached={this.props.isInputMode}
-        className={classes}
-        dontCloseOnAnchorClick
-        anchorElement={this.props.anchorElement}
-        minWidth={this.props.minWidth}
-        onCloseAttempt={this.props.onCloseAttempt}
-        directions={this.props.directions}
-        top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
-        left={this.props.left}
-        onMouseDown={this.mouseDownHandler}
-        target={this.props.ringPopupTarget}
-        autoCorrectTopOverflow={false}
-        style={this.props.style}
-      >
-        <div dir={this.props.dir}>
-          {!this.props.hidden && this.props.filter &&
-            (
-              <Shortcuts
-                map={this.shortcutsMap}
-                scope={this.shortcutsScope}
-              />
-            )
-          }
-          {/* Add empty div to prevent the change of List position in DOM*/}
-          {this.props.hidden ? <div/> : this.getFilterWithTags()}
-          {this.props.multiple &&
-            !this.props.multiple.limit &&
-            this.props.multiple.selectAll &&
-            this.getSelectAll()
-          }
-          <PopupTargetContext.Consumer>
-            {ringPopupTarget => this.getList(this.props.ringPopupTarget || ringPopupTarget)}
-          </PopupTargetContext.Consumer>
-          {this.getBottomLine()}
-          {this.props.toolbar}
-        </div>
-      </Popup>
+      <PopupTargetContext.Consumer>
+        {ringPopupTarget => (
+          <Popup
+            trapFocus={false}
+            ref={this.popupRef}
+            hidden={this.props.hidden}
+            attached={this.props.isInputMode}
+            className={classes}
+            dontCloseOnAnchorClick
+            anchorElement={this.props.anchorElement}
+            minWidth={this.props.minWidth}
+            onCloseAttempt={this.props.onCloseAttempt}
+            directions={this.props.directions}
+            top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
+            left={this.props.left}
+            onMouseDown={this.mouseDownHandler}
+            target={this.props.ringPopupTarget}
+            autoCorrectTopOverflow={false}
+            style={this.props.style}
+          >
+            <div dir={this.props.dir}>
+              {!this.props.hidden && this.props.filter &&
+                  (
+                    <Shortcuts
+                      map={this.shortcutsMap}
+                      scope={this.shortcutsScope}
+                    />
+                  )
+              }
+              {/* Add empty div to prevent the change of List position in DOM*/}
+              {this.props.hidden ? <div/> : this.getFilterWithTags()}
+              {this.props.multiple &&
+                  !this.props.multiple.limit &&
+                  this.props.multiple.selectAll &&
+                  this.getSelectAll()
+              }
+              {this.getList(this.props.ringPopupTarget || ringPopupTarget)}
+              {this.getBottomLine()}
+              {this.props.toolbar}
+            </div>
+          </Popup>
+        )}
+      </PopupTargetContext.Consumer>
     );
   }
 }
