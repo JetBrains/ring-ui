@@ -10,7 +10,7 @@ import memoizeOne from 'memoize-one';
 
 import Icon from '../icon/icon';
 
-import Popup from '../popup/popup';
+import Popup, {getPopupContainer, PopupTargetContext} from '../popup/popup';
 import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
@@ -294,12 +294,12 @@ export default class SelectPopup extends PureComponent {
     this.forceUpdate();
   };
 
-  getList() {
+  getList(ringPopupTarget) {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
 
       if (this.props.anchorElement) {
-        maxHeight = this._adjustListMaxHeight(this.props.hidden, maxHeight);
+        maxHeight = this._adjustListMaxHeight(this.props.hidden, maxHeight, ringPopupTarget);
       }
 
       if (this.props.filter) {
@@ -371,7 +371,7 @@ export default class SelectPopup extends PureComponent {
   // inside `render` function which can be called N times
   // and should be fast as possible.
   // Cache invalidates each time hidden or userDefinedMaxHeight changes
-  _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight) => {
+  _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight, ringPopupTarget) => {
     if (hidden) {
       return userDefinedMaxHeight;
     }
@@ -383,13 +383,10 @@ export default class SelectPopup extends PureComponent {
     const directions = this.props.directions || DEFAULT_DIRECTIONS;
 
     // Note:
-    // 1. Create a method which'll be called only when the popup opens and before
+    // Create a method which'll be called only when the popup opens and before
     // render the list would be a better way
-    // 2. We use this.popup.getContainer because there is the logic about how to extract
-    // a link on the container node. It looks awkward using popup in this component
-    // maybe we can find a better solution
     const anchorNode = this.props.anchorElement;
-    const containerNode = document.documentElement; // A temporary fix for RG-2050. To be made permanent if working
+    const containerNode = getPopupContainer(ringPopupTarget) || document.documentElement;
     return Math.min(
       directions.reduce((maxHeight, direction) => (
         Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
@@ -472,7 +469,9 @@ export default class SelectPopup extends PureComponent {
             this.props.multiple.selectAll &&
             this.getSelectAll()
           }
-          {this.getList()}
+          <PopupTargetContext.Consumer>
+            {ringPopupTarget => this.getList(this.props.ringPopupTarget || ringPopupTarget)}
+          </PopupTargetContext.Consumer>
           {this.getBottomLine()}
           {this.props.toolbar}
         </div>
