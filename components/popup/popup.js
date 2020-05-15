@@ -29,7 +29,7 @@ import styles from './popup.css';
 
 const stop = e => e.stopPropagation();
 
-const PopupTargetContext = createContext();
+export const PopupTargetContext = createContext();
 export const PopupTarget = forwardRef(
   function PopupTarget({id, children, ...restProps}, ref) {
     const isFunctionChild = typeof children === 'function';
@@ -53,6 +53,8 @@ PopupTarget.propTypes = {
   id: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 };
+
+export const getPopupContainer = target => document.querySelector(`[data-portaltarget=${target}]`);
 
 /**
  * @constructor
@@ -205,7 +207,7 @@ export default class Popup extends PureComponent {
 
   getContainer() {
     const target = this.props.target || this.ringPopupTarget;
-    return target && document.querySelector(`[data-portaltarget=${target}]`);
+    return target && getPopupContainer(target);
   }
 
   position() {
