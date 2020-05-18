@@ -73,6 +73,7 @@ export default class Message extends Component {
 
   popupRef = el => {
     this.popup = el;
+    this.node = this.popup?.node;
   };
 
   render() {
