@@ -1729,10 +1729,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.76":
-  version "2.0.76"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.76.tgz#ec40084b8d023744d0abb5f15893d8f53c9ef713"
-  integrity sha512-EQLPh/gyWhk5dpJG65CSuYTrTi6H8POmaRSikynVb02uF65xzy5g3VrPR7CM4ZOLh2MgMagmXIVOQyo0boGdsA==
+"@jetbrains/generator-ring-ui@^2.0.77":
+  version "2.0.77"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.77.tgz#6ec78d80a074bbfe47f6931e4744f337a772d0a9"
+  integrity sha512-riqclSoS4Ddl3ztrfZZIgHlYk9OvQ2CeG6ZSBM5AjATx+wZh+SbTvp124AMCQMQJIFPX8QZ38FrRTOqy9s9wpw==
   dependencies:
     chalk "^4.0.0"
     change-case "^4.1.1"
@@ -17317,10 +17317,10 @@ stylelint-order@^3.1.1:
     postcss "^7.0.17"
     postcss-sorting "^5.0.1"
 
-stylelint@^13.4.0:
-  version "13.4.0"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-13.4.0.tgz#15071c4cc15138365acf2396395c17823cf652b9"
-  integrity sha512-VOAOkTil5GmUfEJH+O6LdsggoUt692QTSu+YfLhVP5sFTVCVp0+PS2oCjjG8ZdUAP9aNNNYxTP6GWVbB1tl2bg==
+stylelint@^13.5.0:
+  version "13.5.0"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-13.5.0.tgz#9edbf90c8c02c47fd0c4818376e3799145f22cab"
+  integrity sha512-+Jy7ieKAWKTf2tmcAE7jgScxH39Urb87i0bjK/enScFaGWWaFn4kAPwepGOSk2b7CLUDVt/O6kwA0x0p/V7moQ==
   dependencies:
     "@stylelint/postcss-css-in-js" "^0.37.1"
     "@stylelint/postcss-markdown" "^0.36.1"
