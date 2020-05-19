@@ -80,7 +80,8 @@ export function linkHOC(ComposedComponent) {
         [styles.inherit]: inherit,
         [styles.hover]: hover,
         [styles.compatibilityUnderlineMode]: isCompatibilityMode,
-        [styles.pseudo]: useButton
+        [styles.pseudo]: useButton,
+        [styles.text]: typeof children !== 'function'
       });
 
       if (isCustom && !props.activeClassName) {
