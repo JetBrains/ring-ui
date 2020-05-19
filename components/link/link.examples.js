@@ -43,7 +43,7 @@ export const allVariants = () => {
 
     render() {
       return (
-        <div style={{display: 'flex', flexDirection: 'column'}} data-test="lik-example">
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}} data-test="lik-example">
           <Link href="/">Ordinary link</Link>
 
           <Link href="/" active>
