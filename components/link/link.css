@@ -1,6 +1,8 @@
 @import "../global/variables.css";
 
 .link {
+  border-radius: var(--ring-border-radius);
+
   & {
     composes: link from "../alert/alert.css"; /* To override link stiles inside alert */
 
@@ -52,7 +54,6 @@
   }
 
   &:global(.focus-visible) {
-    border-radius: var(--ring-border-radius);
     outline: none;
     box-shadow: 0 0 0 2px var(--ring-border-hover-color);
   }
