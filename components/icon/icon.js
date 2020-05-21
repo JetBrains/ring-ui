@@ -126,4 +126,4 @@ export const iconHOC = deprecate((glyph, displayName) => class BoundIcon extends
     const {iconRef, ...restProps} = this.props;
     return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
   }
-}, 'Importing icons and logos from Ring UI is deprecated. Please import them from corresponding packages: `@jetbrains/icons` and `@jetbrains/icons`.');
+}, 'Importing icons and logos from Ring UI is deprecated. Please import them from corresponding packages: `@jetbrains/icons` and `@jetbrains/logos`.');
