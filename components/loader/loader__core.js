@@ -134,7 +134,7 @@ export default class LoaderCore {
   }
 
   handleLimits(coord, radius, speed, limit) {
-    const randomFunc = this.deterministic ? deterministic : Math.random;
+    const randomFunc = this.props.deterministic ? deterministic : Math.random;
     const randomizedSpeedChange = randomFunc(this.baseSpeed) - this.baseSpeed / 2;
 
     if (coord + (radius * 2) + this.baseSpeed >= limit) {
