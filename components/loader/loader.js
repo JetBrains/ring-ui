@@ -16,7 +16,8 @@ export default class Loader extends PureComponent {
     colors: PropTypes.array,
     message: PropTypes.string,
     'data-test': PropTypes.string,
-    stop: PropTypes.bool
+    stop: PropTypes.bool,
+    deterministic: PropTypes.bool
   };
 
   componentDidUpdate(prevProps) {
@@ -40,7 +41,16 @@ export default class Loader extends PureComponent {
   };
 
   render() {
-    const {message, size, colors, 'data-test': dataTest, stop, ...restProps} = this.props;
+    const {
+      message,
+      size,
+      colors,
+      'data-test': dataTest,
+      stop,
+      deterministic,
+      ...restProps
+    } = this.props;
+
     return (
       <div
         data-test={dataTests('ring-loader', dataTest)}
