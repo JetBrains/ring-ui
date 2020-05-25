@@ -70,7 +70,6 @@ export const wishNarrowAnchor = () => (
       <Message
         title="This is title"
         direction={Directions.TOP_RIGHT}
-        tailOffset={14}
         popupProps={{left: -8}}
       >
         This is long long long long long long long long long long long long long long long long long
