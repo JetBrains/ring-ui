@@ -80,6 +80,5 @@ export const wishNarrowAnchor = () => (
 );
 
 wishNarrowAnchor.story = {
-  name: 'with narrow anchor',
-  parameters: {hermione: {skip: true}}
+  name: 'with narrow anchor'
 };
