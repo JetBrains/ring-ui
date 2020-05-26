@@ -149,7 +149,11 @@ export default class Dropdown extends Component {
         break;
 
       default:
-        anchorElement = typeof anchor.type === 'string' ? anchor : cloneElement(anchor, {active});
+        if (typeof anchor.type === 'string' || Array.isArray(anchor)) {
+          anchorElement = anchor;
+        } else {
+          anchorElement = cloneElement(anchor, {active});
+        }
     }
 
     return (
