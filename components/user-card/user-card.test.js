@@ -59,6 +59,18 @@ describe('UserCard', () => {
 
       wrapper.should.have.descendants('[data-test="anchor"]');
     });
+
+    it('should allow to render multiple children', () => {
+      const tooltip = props => mount(
+        <UserCardTooltip user={fakeUser} {...props}>
+          <span data-test="anchor">{'foo'}</span>
+          <span data-test="anchor">{'foo'}</span>
+        </UserCardTooltip>
+      );
+
+      const wrapper = tooltip();
+      wrapper.should.have.descendants('[data-test="anchor"]');
+    });
   });
 
   describe('SmartUserCardTooltip', () => {
