@@ -98,6 +98,7 @@ export default class Popup extends PureComponent {
     onContextMenu: PropTypes.func,
     onDirectionChange: PropTypes.func,
     onShow: PropTypes.func,
+    // set to true whenever popup contains focusable and scrollable content
     trapFocus: PropTypes.bool,
     autoFocusFirst: PropTypes.bool
   };
@@ -120,7 +121,7 @@ export default class Popup extends PureComponent {
     sidePadding: 8,
 
     attached: false,
-    trapFocus: true,
+    trapFocus: false,
     autoFocusFirst: false,
 
     legacy: false
@@ -331,7 +332,7 @@ export default class Popup extends PureComponent {
   getInternalContent() {
     const {trapFocus, autoFocusFirst, children} = this.props;
     return trapFocus ? (
-      <TabTrap autoFocusFirst={autoFocusFirst}>
+      <TabTrap autoFocusFirst={autoFocusFirst} focusBackOnExit>
         {children}
       </TabTrap>
     ) : children;

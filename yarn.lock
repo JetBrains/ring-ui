@@ -1729,10 +1729,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.78":
-  version "2.0.78"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.78.tgz#a545444b770025f1178b0aae61a8c8790f0c7b4c"
-  integrity sha512-6Ln16FpEdi9EY0w2eNo+hk63rUX0y8SYBN78UeJkKL+31dJSr6ukrSC9iZu1/WtGGZxEsMRfyMi6p88RLmyyNw==
+"@jetbrains/generator-ring-ui@^2.0.79":
+  version "2.0.79"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.79.tgz#dddc5b4e91055c4572987aac56afea9fea8e4b43"
+  integrity sha512-Hln5ZuVmT+cszHzZOlL/G2EGaP4npcoX6NKjB1WT7WCVuWqzLAD7MvWcISe75eEBzMKYGyIhnrs3ZniktqEdAQ==
   dependencies:
     chalk "^4.0.0"
     change-case "^4.1.1"
