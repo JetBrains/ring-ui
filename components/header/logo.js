@@ -12,7 +12,8 @@ export default class Logo extends PureComponent {
   };
 
   static defaultProps = {
-    size: Size.Size48
+    size: Size.Size48,
+    suppressSizeWarning: true
   };
 
   static Size = Size;
