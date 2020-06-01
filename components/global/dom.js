@@ -31,6 +31,15 @@ export function getWindowHeight() {
   return window.innerHeight;
 }
 
+export function getWindowWidth() {
+  return window.innerWidth;
+}
+
+export function isNodeInVisiblePartOfPage(node) {
+  const {top, bottom, left, right} = getRect(node);
+  return !(bottom < 0 || right < 0 || getWindowHeight() - top < 0 || getWindowWidth() - left < 0);
+}
+
 export function getDocumentScrollTop() {
   return (document.documentElement && document.documentElement.scrollTop) ||
     document.body.scrollTop;
