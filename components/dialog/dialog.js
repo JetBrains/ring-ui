@@ -31,6 +31,7 @@ export default class Dialog extends PureComponent {
     ]),
     show: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.bool,
+    closeButtonInside: PropTypes.bool,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
@@ -49,6 +50,7 @@ export default class Dialog extends PureComponent {
     onCloseClick: noop,
     onCloseAttempt: noop,
     showCloseButton: false,
+    closeButtonInside: false,
     trapFocus: false,
     autoFocusFirst: true
   };
@@ -110,7 +112,7 @@ export default class Dialog extends PureComponent {
 
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
-      children, className, contentClassName, trapFocus, 'data-test': dataTest,
+      children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
       ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
@@ -151,7 +153,9 @@ export default class Dialog extends PureComponent {
                       <Button
                         icon={closeIcon}
                         data-test="ring-dialog-close-button"
-                        className={styles.closeButton}
+                        className={classNames(styles.closeButton, {
+                          [styles.closeButtonInside]: closeButtonInside
+                        })}
                         iconClassName={styles.closeIcon}
                         onClick={this.onCloseClick}
                         aria-label="close dialog"
