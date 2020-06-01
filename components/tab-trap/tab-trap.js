@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {isNodeInVisiblePartOfPage} from '../global/dom';
+
 import styles from './tab-trap.css';
 
 export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
@@ -47,7 +49,11 @@ export default class TabTrap extends Component {
 
   restoreFocus = () => {
     const {previousFocusedNode} = this;
-    if (previousFocusedNode && previousFocusedNode.focus) {
+    if (
+      previousFocusedNode &&
+      previousFocusedNode.focus &&
+      isNodeInVisiblePartOfPage(previousFocusedNode)
+    ) {
       previousFocusedNode.focus();
     }
   };
