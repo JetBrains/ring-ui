@@ -83,7 +83,7 @@
   color: var(--ring-main-color);
 }
 
-.closeButton {
+.closeButton.closeButton {
   position: absolute;
   top: 0;
   right: calc(unit * -4);
