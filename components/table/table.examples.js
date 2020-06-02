@@ -18,7 +18,14 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Interactive table with selection and keyboard navigation support.'
+    notes: 'Interactive table with selection and keyboard navigation support.',
+    hermione: {
+      actions: [
+        {type: 'capture', name: '', selector: '#root'},
+        {type: 'click', selector: '#table-row-1 > td'},
+        {type: 'capture', name: 'selected', selector: '#root'}
+      ]
+    }
   }
 };
 
