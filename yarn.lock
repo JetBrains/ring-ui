@@ -1904,10 +1904,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.79":
-  version "2.0.79"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.79.tgz#dddc5b4e91055c4572987aac56afea9fea8e4b43"
-  integrity sha512-Hln5ZuVmT+cszHzZOlL/G2EGaP4npcoX6NKjB1WT7WCVuWqzLAD7MvWcISe75eEBzMKYGyIhnrs3ZniktqEdAQ==
+"@jetbrains/generator-ring-ui@^2.0.81":
+  version "2.0.81"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.81.tgz#a7be8ff99940969d1511817e3622e622056a3cd7"
+  integrity sha512-8p9mw9Ysg+uIenXLBkf0iR42DLxRkmGNd5G3u3v8VJt4gkLShAlgJrXdQoJV4EVW4uxEkZ1G6QGWT/ChRBc7yA==
   dependencies:
     chalk "^4.0.0"
     change-case "^4.1.1"
@@ -7268,10 +7268,10 @@ electron-to-chromium@^1.3.122, electron-to-chromium@^1.3.413:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.414.tgz#9d0a92defefda7cc1cf8895058b892795ddd6b41"
   integrity sha512-UfxhIvED++qLwWrAq9uYVcqF8FdeV9sU2S7qhiHYFODxzXRrd1GZRl/PjITHsTEejgibcWDraD8TQqoHb1aCBQ==
 
-electron@^7.1.7:
-  version "7.1.7"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-7.1.7.tgz#520e2bc422e3dfd4bae166dd3be62101f2cbdc52"
-  integrity sha512-aCLJ4BJwnvOckJgovNul22AYlMFDzm4S4KqKCG2iBlFJyMHBxXAKFKMsgYd40LBZWS3hcY6RHpaYjHSAPLS1pw==
+electron@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-9.0.1.tgz#99283942221cd3fd5e79a8cd858aa1a5defdc0cc"
+  integrity sha512-PZsQ0juL5YyDfOKES3HWz7zbWidcRcmtTzFCHSNzeVMjlkWB+hQToWVczFuGEWzwbAM1rCFs9MT0V/zpYT3pqQ==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
