@@ -18,7 +18,7 @@ import style from './table.css';
 import DraggableRow from './draggable-row';
 import selectionShortcutsHOC from './selection-shortcuts-hoc';
 import disableHoverHOC from './disable-hover-hoc';
-import Row from './row';
+import Row from './row-with-focus-sensor';
 
 const alwaysFalse = () => false;
 
