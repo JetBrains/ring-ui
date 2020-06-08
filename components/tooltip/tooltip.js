@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createContext} from 'react';
 import PropTypes from 'prop-types';
 
 import Popup from '../popup/popup';
@@ -6,6 +6,8 @@ import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
 
 import styles from './tooltip.css';
+
+const TooltipContext = createContext();
 
 /**
  * @name Tooltip
@@ -26,7 +28,10 @@ export default class Tooltip extends Component {
     popupProps: {}
   };
 
-  state = {showPopup: false};
+  state = {
+    showPopup: false,
+    showNestedPopup: false
+  };
 
   componentDidMount() {
     if (this.props.title) {
@@ -48,6 +53,7 @@ export default class Tooltip extends Component {
   }
 
   static PopupProps = Popup.PopupProps;
+  static contextType = TooltipContext;
 
   listeners = new Listeners();
   containerRef = el => {
@@ -84,6 +90,8 @@ export default class Tooltip extends Component {
           return;
         }
       }
+
+      this.context?.onNestedTooltipShow();
       this.setState({showPopup: true});
     };
 
@@ -96,6 +104,7 @@ export default class Tooltip extends Component {
 
   hidePopup = () => {
     clearTimeout(this.timeout);
+    this.context?.onNestedTooltipHide();
     this.setState({showPopup: false});
   };
 
@@ -109,30 +118,42 @@ export default class Tooltip extends Component {
     this.popup = el;
   };
 
+  onNestedTooltipShow = () => {
+    this.setState({showNestedPopup: true});
+  };
+
+  onNestedTooltipHide = () => {
+    this.setState({showNestedPopup: false});
+  };
+
   render() {
     const {children, 'data-test': dataTest,
       title, delay, selfOverflowOnly, popupProps, ...restProps} = this.props;
 
+    const {onNestedTooltipShow, onNestedTooltipHide} = this;
+
     return (
-      <span
-        {...restProps}
-        ref={this.containerRef}
-        data-test={dataTests('ring-tooltip', dataTest)}
-      >
-        {children}
-        <Popup
-          trapFocus={false}
-          hidden={!this.state.showPopup}
-          onCloseAttempt={this.hidePopup}
-          maxHeight={400}
-          className={styles.tooltip}
-          attached={false}
-          top={4}
-          dontCloseOnAnchorClick
-          ref={this.popupRef}
-          {...popupProps}
-        >{title}</Popup>
-      </span>
+      <TooltipContext.Provider value={{onNestedTooltipShow, onNestedTooltipHide}}>
+        <span
+          {...restProps}
+          ref={this.containerRef}
+          data-test={dataTests('ring-tooltip', dataTest)}
+        >
+          {children}
+          <Popup
+            trapFocus={false}
+            hidden={!this.state.showPopup || this.state.showNestedPopup}
+            onCloseAttempt={this.hidePopup}
+            maxHeight={400}
+            className={styles.tooltip}
+            attached={false}
+            top={4}
+            dontCloseOnAnchorClick
+            ref={this.popupRef}
+            {...popupProps}
+          >{title}</Popup>
+        </span>
+      </TooltipContext.Provider>
     );
   }
 }
