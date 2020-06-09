@@ -60,46 +60,46 @@ export default class Tooltip extends Component {
     this.containerNode = el;
   };
 
-  showPopup = () => {
-    const {delay, title, selfOverflowOnly} = this.props;
+  tryToShowPopup = () => {
+    const {delay, title} = this.props;
 
     if (!title) {
       return;
     }
 
-    const showPopup = () => {
-      if (selfOverflowOnly) {
-        const {containerNode} = this;
+    if (delay) {
+      this.timeout = setTimeout(this.showPopup, delay);
+    } else {
+      this.showPopup();
+    }
+  };
 
-        // rare cases when containerNode is null are possible;
-        // probably the collision is due to the asynchronous nature of the code,
-        // i.e. this code runs after the component is unmounted,
-        // although at first glance it looks unlikely.
-        if (!containerNode) {
-          return;
-        }
+  showPopup = () => {
+    if (this.props.selfOverflowOnly) {
+      const {containerNode} = this;
 
-        // inline element?
-        if (containerNode.clientWidth === 0 && containerNode.clientHeight === 0) {
-          return;
-        }
-        if (
-          containerNode.scrollWidth <= containerNode.clientWidth &&
-          containerNode.scrollHeight <= containerNode.clientHeight
-        ) {
-          return;
-        }
+      // rare cases when containerNode is null are possible;
+      // probably the collision is due to the asynchronous nature of the code,
+      // i.e. this code runs after the component is unmounted,
+      // although at first glance it looks unlikely.
+      if (!containerNode) {
+        return;
       }
 
-      this.context?.onNestedTooltipShow();
-      this.setState({showPopup: true});
-    };
-
-    if (delay) {
-      this.timeout = setTimeout(showPopup, delay);
-    } else {
-      showPopup();
+      // inline element?
+      if (containerNode.clientWidth === 0 && containerNode.clientHeight === 0) {
+        return;
+      }
+      if (
+        containerNode.scrollWidth <= containerNode.clientWidth &&
+        containerNode.scrollHeight <= containerNode.clientHeight
+      ) {
+        return;
+      }
     }
+
+    this.context?.onNestedTooltipShow();
+    this.setState({showPopup: true});
   };
 
   hidePopup = () => {
@@ -109,7 +109,7 @@ export default class Tooltip extends Component {
   };
 
   addListeners() {
-    this.listeners.add(this.containerNode, 'mouseover', this.showPopup);
+    this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
     this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
     this.listeners.add(document, 'scroll', this.hidePopup);
   }
