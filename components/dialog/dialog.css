@@ -85,6 +85,9 @@
 
 .closeButton.closeButton {
   position: absolute;
+}
+
+.closeButtonOutside {
   top: 0;
   right: calc(unit * -4);
 }
