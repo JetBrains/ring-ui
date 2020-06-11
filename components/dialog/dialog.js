@@ -154,6 +154,7 @@ export default class Dialog extends PureComponent {
                         icon={closeIcon}
                         data-test="ring-dialog-close-button"
                         className={classNames(styles.closeButton, {
+                          [styles.closeButtonOutside]: !closeButtonInside,
                           [styles.closeButtonInside]: closeButtonInside
                         })}
                         iconClassName={styles.closeIcon}
