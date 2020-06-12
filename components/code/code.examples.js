@@ -21,6 +21,11 @@ You can also preload the languages you need:
 \`import 1c from 'highlight.js/lib/languages/1c';\`
 
 \`highlight.registerLanguage('1c', 1c);\`
+
+To opt out of preloading default set of languages and decrease your bundle size, add following to your plugins list in webpack config:
+\`\`\`
+new webpack.NormalModuleReplacementPlugin(/@jetbrains\\/ring-ui\\/components\\/code\\/highlight.js$/, './highlight-lazy.js')
+\`\`\`
     `
   }
 };
