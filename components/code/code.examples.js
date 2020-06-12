@@ -10,9 +10,11 @@ export default {
 
   parameters: {
     notes: `
-Displays a block of code. Syntax highlighting is available by default for the following languages: _cpp, xml, bash, clojure, coffeescript, cs, css, markdown, dockerfile, elixir, elm, ruby, erlang, glsl, go, gradle, groovy, handlebars, haskell, ava, javascript, json, kotlin, less, livescript, lua, makefile, perl, php, powershell, python, r, rust, scala, scss, shell, sql, swift, yaml, twig, typescript_.
+Displays a block of code. Syntax highlighting is preloaded by default for the following languages: _cpp, xml, bash, clojure, coffeescript, cs, css, markdown, dockerfile, elixir, elm, ruby, erlang, glsl, go, gradle, groovy, handlebars, haskell, ava, javascript, json, kotlin, less, livescript, lua, makefile, perl, php, powershell, python, r, rust, scala, scss, shell, sql, swift, yaml, twig, typescript_.
 
-Highlighting of other languages is available as well:
+Highlighting of other languages is loaded lazily using [dynamic imports](https://webpack.js.org/api/module-methods/#import-1).
+
+You can also preload the languages you need:
 
 \`import {highlight} from '@jetbrains/ring-ui/components/code/code'\`
 
@@ -41,6 +43,38 @@ export const basic = () => (
 basic.story = {
   name: 'basic'
 };
+
+export const lazy = () => (
+  <Code
+    language="actionscript"
+    code={`
+      package org.example.dummy {
+          import org.dummy.*;
+
+          /*define package inline interface*/
+          public interface IFooBarzable {
+              public function foo(... pairs):Array;
+          }
+
+          public class FooBar implements IFooBarzable {
+              static private var cnt:uint = 0;
+              private var bar:String;
+
+              //constructor
+              public function TestBar(bar:String):void {
+                  bar = bar;
+                  ++cnt;
+              }
+
+              public function foo(... pairs):Array {
+                  pairs.push(bar);
+                  return pairs;
+              }
+          }
+      }
+    `}
+  />
+);
 
 export const taggedTemplate = () =>
   code`
