@@ -138,6 +138,7 @@ export default class Tooltip extends Component {
           {...restProps}
           ref={this.containerRef}
           data-test={dataTests('ring-tooltip', dataTest)}
+          data-test-title={title}
         >
           {children}
           <Popup
