@@ -1404,10 +1404,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@jetbrains/hermione-teamcity-reporter@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@jetbrains/hermione-teamcity-reporter/-/hermione-teamcity-reporter-1.0.6.tgz#946d583ad31e36448dc8d7611ad53871df2a90c1"
-  integrity sha512-wqCEChkbs3fHWU28oYQrzJIzscKI8CI7777Uj9gP+JgbUuBxFxHbuiXNcShlX3BmfbuNt5qcjHMo9WGCNElHmw==
+"@jetbrains/hermione-teamcity-reporter@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/hermione-teamcity-reporter/-/hermione-teamcity-reporter-1.1.0.tgz#2192e4788f88a5e2b06ec8eb01f2161b95404c50"
+  integrity sha512-YdBSp5CHDm/ic8zEJajV2joHLbLiOHm9iZajMpMz6HGvxBfnC5T6Gsf3a3sFeI3b3u+k3DyhchLp06XCnr17+A==
   dependencies:
     fs-extra "^7.0.1"
     teamcity-service-messages "^0.1.10"
