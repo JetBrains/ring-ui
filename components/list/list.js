@@ -67,7 +67,7 @@ function isActivatable(item) {
 const shouldActivateFirstItem = props => props.activateFirstItem ||
     props.activateSingleItem && props.data.length === 1;
 
-export const ActiveItemContext = createStatefulContext();
+export const ActiveItemContext = createStatefulContext(undefined, 'ActiveItem');
 
 /**
  * @name List

@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
-export default function createStatefulContext(initialValue) {
+export default function createStatefulContext(initialValue, name = '') {
   const ValueContext = createContext(initialValue);
   const UpdateContext = createContext(() => {});
 
@@ -18,6 +18,7 @@ export default function createStatefulContext(initialValue) {
   Provider.propTypes = {
     children: PropTypes.node
   };
+  Provider.displayName = `${name}Provider`;
 
   function useUpdate(value, skipUpdate) {
     const update = useContext(UpdateContext);
