@@ -52,7 +52,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.8.2",
     "chai-enzyme": "1.0.0-beta.1",
-    "electron": "^8.3.0",
+    "electron": "^9.0.4",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",
