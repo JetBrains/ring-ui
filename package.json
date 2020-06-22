@@ -127,7 +127,7 @@
     "lint-staged": "^10.2.6",
     "mocha": "^7.1.2",
     "octicons": "^8.5.0",
-    "puppeteer": "^2.1.1",
+    "puppeteer": "^4.0.0",
     "raw-loader": "^4.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
