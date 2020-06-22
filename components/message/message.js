@@ -56,7 +56,6 @@ export default class Message extends Component {
       Directions.RIGHT_TOP, Directions.RIGHT_BOTTOM, Directions.RIGHT_CENTER,
       Directions.LEFT_TOP, Directions.LEFT_BOTTOM, Directions.LEFT_CENTER
     ],
-    tailOffset: 56,
     translations: {
       gotIt: 'Got it',
       dismiss: 'Dismiss'
@@ -76,13 +75,35 @@ export default class Message extends Component {
     this.node = this.popup?.node;
   };
 
+  getTailOffset() {
+    const DEFAULT_OFFSET = 32;
+    const {popupProps} = this.props;
+    if ('tailOffset' in this.props) {
+      return this.props.tailOffset;
+    }
+
+    const anchor = popupProps?.anchorElement || this.popup?.parent;
+    if (!anchor) {
+      return DEFAULT_OFFSET;
+    }
+
+    const offset = Math.floor(anchor.offsetWidth / 2);
+
+    const isOpenedToRight = [Directions.TOP_RIGHT, Directions.BOTTOM_RIGHT].
+      includes(this.state.direction);
+    if (popupProps?.left && isOpenedToRight) {
+      return offset - popupProps?.left;
+    }
+
+    return offset;
+  }
+
   render() {
     const {
       children,
       className,
       title,
       icon,
-      tailOffset,
       popupProps,
       buttonProps,
       onClose,
@@ -106,9 +127,12 @@ export default class Message extends Component {
         onDirectionChange={this._onDirectionChange}
         {...popupProps}
       >
-        {direction && <div className={styles.tail} style={getTailOffsets(tailOffset)[direction]}/>}
+        {direction && (
+          <div className={styles.tail} style={getTailOffsets(this.getTailOffset())[direction]}/>
+        )}
+
         {icon && <Icon className={styles.icon} glyph={icon}/>}
-        <h1 className={styles.title}>{title}</h1>
+        <h1 data-test="rgMessageTitle" className={styles.title}>{title}</h1>
         {children && <div className={styles.description}>{children}</div>}
         {(onClose || buttonProps) && (
           <Button

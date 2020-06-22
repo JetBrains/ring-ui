@@ -1,9 +1,11 @@
 import React from 'react';
 import {action} from '@storybook/addon-actions';
+import searchIcon from '@jetbrains/icons/search.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
 import Popup from '@jetbrains/ring-ui/components/popup/popup';
+import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
 import Message from '@jetbrains/ring-ui/components/message/message';
 
@@ -59,4 +61,24 @@ export const withOnDissmiss = () => (
 
 withOnDissmiss.story = {
   name: 'with onDissmiss'
+};
+
+export const wishNarrowAnchor = () => (
+  <div style={{padding: 200}}>
+    <span>
+      <Icon glyph={searchIcon}/>
+      <Message
+        title="This is title"
+        direction={Directions.TOP_RIGHT}
+        popupProps={{left: -8}}
+      >
+        This is long long long long long long long long long long long long long long long long long
+        long description
+      </Message>
+    </span>
+  </div>
+);
+
+wishNarrowAnchor.story = {
+  name: 'with narrow anchor'
 };

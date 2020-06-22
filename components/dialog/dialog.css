@@ -83,10 +83,18 @@
   color: var(--ring-main-color);
 }
 
-.closeButton {
+.closeButton.closeButton {
   position: absolute;
+}
+
+.closeButtonOutside {
   top: 0;
   right: calc(unit * -4);
+}
+
+.closeButtonInside {
+  top: calc(unit * 1.5);
+  right: unit;
 }
 
 .bodyWithoutScroll {

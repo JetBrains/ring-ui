@@ -18,7 +18,7 @@ import style from './table.css';
 import DraggableRow from './draggable-row';
 import selectionShortcutsHOC from './selection-shortcuts-hoc';
 import disableHoverHOC from './disable-hover-hoc';
-import Row from './row';
+import Row from './row-with-focus-sensor';
 
 const alwaysFalse = () => false;
 
@@ -278,7 +278,7 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
-        {selectable && focused &&
+        {focused &&
           (
             <Shortcuts
               map={this.props.shortcutsMap}

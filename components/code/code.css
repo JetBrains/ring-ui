@@ -8,6 +8,8 @@
 
 /* override hljs */
 .code code {
+  display: block;
+
   padding: calc(unit * 1.5) calc(unit * 2) calc(unit * 2);
 
   border-radius: var(--ring-border-radius);

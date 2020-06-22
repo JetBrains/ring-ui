@@ -4,12 +4,24 @@ import classNames from 'classnames';
 
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
+import memoize from '../global/memoize';
 
-import highlight from './highlight';
 import styles from './code.css';
 import highlightStyles from './highlight.css';
 
+// TODO remove in 4.0
+import highlight from './highlight';
+
 function noop() {}
+
+const registerLanguage = memoize(async language => {
+  const languageExports = await import(
+    // https://github.com/babel/babel-eslint/issues/799#issuecomment-567598343
+    // eslint-disable-next-line prefer-template
+    /* webpackChunkName: "highlight-[request]" */ 'highlight.js/lib/languages/' + language
+  );
+  highlight.registerLanguage(language, languageExports.default);
+});
 
 /**
  * @name Code
@@ -43,11 +55,15 @@ export default class Code extends PureComponent {
     this.highlight();
   }
 
-  highlight() {
-    if (!this.props.inline) {
+  async highlight() {
+    const {language, inline, replacer} = this.props;
+    if (!inline) {
+      if (language != null && highlight.getLanguage(language) == null) {
+        await registerLanguage(language);
+      }
       highlight.highlightBlock(this.codeRef);
     }
-    this.props.replacer(this.codeRef);
+    replacer(this.codeRef);
   }
 
   get codeRef() {

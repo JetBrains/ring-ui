@@ -160,13 +160,6 @@ export default class QueryAssist extends Component {
 
   ngModelStateField = ngModelStateField;
 
-  handleBlur = e => {
-    this.immediateState.selection = {};
-    if (e.relatedTarget) {
-      this.handleFocusChange(e);
-    }
-  };
-
   handleFocusChange = e => {
     // otherwise it's blur and false
     const focus = e.type === 'focus';
@@ -577,7 +570,9 @@ export default class QueryAssist extends Component {
 
   blurInput() {
     this.immediateState.selection = {};
-    this.caret.target.blur();
+    if (!this.props.focus) {
+      this.caret.target.blur();
+    }
   }
 
   /**
@@ -806,7 +801,7 @@ export default class QueryAssist extends Component {
           disabled={this.props.disabled}
           onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
 
-          onBlur={this.handleBlur}
+          onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
           onCompositionStart={this.trackCompositionState}
           onCompositionEnd={this.trackCompositionState}

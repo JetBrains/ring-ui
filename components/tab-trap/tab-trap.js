@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {isNodeInVisiblePartOfPage} from '../global/dom';
+
 import styles from './tab-trap.css';
 
 export const FOCUSABLE_ELEMENTS = 'input, button, select, textarea, a[href], *[tabindex]:not([data-trap-button]):not([data-scrollable-container])';
@@ -14,13 +16,15 @@ export default class TabTrap extends Component {
     children: PropTypes.node.isRequired,
     trapDisabled: PropTypes.bool,
     autoFocusFirst: PropTypes.bool,
-    focusBackOnClose: PropTypes.bool
+    focusBackOnClose: PropTypes.bool,
+    focusBackOnExit: PropTypes.bool
   };
 
   static defaultProps = {
     trapDisabled: false,
     autoFocusFirst: true,
-    focusBackOnClose: true
+    focusBackOnClose: true,
+    focusBackOnExit: false
   };
 
   componentDidMount() {
@@ -38,18 +42,21 @@ export default class TabTrap extends Component {
   }
 
   componentWillUnmount() {
-    this.restoreFocus();
+    if (this.props.focusBackOnClose) {
+      this.restoreFocus();
+    }
   }
 
-  restoreFocus() {
-    if (!this.props.focusBackOnClose) {
-      return;
-    }
+  restoreFocus = () => {
     const {previousFocusedNode} = this;
-    if (previousFocusedNode && previousFocusedNode.focus) {
+    if (
+      previousFocusedNode &&
+      previousFocusedNode.focus &&
+      isNodeInVisiblePartOfPage(previousFocusedNode)
+    ) {
       previousFocusedNode.focus();
     }
-  }
+  };
 
   containerRef = node => {
     if (!node) {
@@ -78,11 +85,18 @@ export default class TabTrap extends Component {
 
   focusLast = () => this.focusElement(false);
 
-  focusLastIfEnabled = () => {
+  focusLastIfEnabled = event => {
     if (this.trapWithoutFocus) {
       return;
     }
-    this.focusLast();
+    if (this.props.focusBackOnExit) {
+      const prevFocused = event.nativeEvent.relatedTarget;
+      if (prevFocused != null && this.node != null && this.node.contains(prevFocused)) {
+        this.restoreFocus();
+      }
+    } else {
+      this.focusLast();
+    }
   };
 
   handleBlurIfWithoutFocus = event => {
@@ -112,7 +126,14 @@ export default class TabTrap extends Component {
   };
 
   render() {
-    const {children, trapDisabled, autoFocusFirst, focusBackOnClose, ...restProps} = this.props;
+    const {
+      children,
+      trapDisabled,
+      autoFocusFirst,
+      focusBackOnClose,
+      focusBackOnExit,
+      ...restProps
+    } = this.props;
 
     if (trapDisabled) {
       return (
@@ -145,7 +166,7 @@ export default class TabTrap extends Component {
           // It never actually stays focused
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
-          onFocus={this.focusFirst}
+          onFocus={focusBackOnExit ? this.restoreFocus : this.focusFirst}
           data-trap-button
         />
       </div>

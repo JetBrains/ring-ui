@@ -6,7 +6,6 @@ import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
 import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 import dragIcon from '@jetbrains/icons/drag.svg';
 
-import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
@@ -30,7 +29,7 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
   );
 });
 
-class Row extends PureComponent {
+export default class Row extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -217,5 +216,3 @@ class Row extends PureComponent {
     );
   }
 }
-
-export default focusSensorHOC(Row);

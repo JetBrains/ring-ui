@@ -3,7 +3,7 @@
  */
 
 import 'dom4';
-import React, {Component, cloneElement} from 'react';
+import React, {cloneElement, Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/es/List';
@@ -30,35 +30,10 @@ import ListLink from './list__link';
 import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import ListHint from './list__hint';
+import {DEFAULT_ITEM_TYPE, Dimension, Type} from './consts';
 
 const scheduleScrollListener = scheduleRAF();
 const scheduleHoverListener = scheduleRAF();
-/**
- * @enum {number}
- */
-const Type = {
-  SEPARATOR: 0,
-  LINK: 1,
-  ITEM: 2,
-  HINT: 3,
-  CUSTOM: 4,
-  TITLE: 5,
-  MARGIN: 6
-};
-
-const Dimension = {
-  ITEM_PADDING: 16,
-  ITEM_HEIGHT: 32,
-  COMPACT_ITEM_HEIGHT: 24,
-  SEPARATOR_HEIGHT: 25,
-  SEPARATOR_FIRST_HEIGHT: 16,
-  SEPARATOR_TEXT_HEIGHT: 18,
-  TITLE_HEIGHT: 42,
-  INNER_PADDING: 8,
-  MARGIN: 8
-};
-
-const DEFAULT_ITEM_TYPE = Type.ITEM;
 
 function noop() {}
 
@@ -92,7 +67,7 @@ function isActivatable(item) {
 const shouldActivateFirstItem = props => props.activateFirstItem ||
     props.activateSingleItem && props.data.length === 1;
 
-export const ActiveItemContext = createStatefulContext();
+export const ActiveItemContext = createStatefulContext(undefined, 'ActiveItem');
 
 /**
  * @name List

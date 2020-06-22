@@ -1,6 +1,6 @@
 {
   "name": "@ring-ui/hermione",
-  "version": "2.0.80",
+  "version": "2.0.85",
   "description": "Hermione tests runner for Ring UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -15,9 +15,11 @@
     "test-ci": "forever start .serve-static.json && yarn test --teamcity; forever stop serve-static"
   },
   "devDependencies": {
-    "@jetbrains/hermione-teamcity-reporter": "^1.0.6",
+    "@babel/core": "^7.10.1",
+    "@jetbrains/hermione-teamcity-reporter": "^1.1.0",
     "@storybook/addon-storyshots": "^5.3.18",
     "axios": "^0.19.2",
+    "babel-loader": "^8.1.0",
     "browserstack-local": "^1.4.5",
     "dotenv": "^8.2.0",
     "filenamify": "^4.1.0",
@@ -28,12 +30,14 @@
     "html-reporter": "^5.16.4",
     "http-server": "^0.12.3",
     "ip": "^1.1.5",
+    "jest": "^26.0.1",
     "kill-port": "^1.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "webpack": "^4.43.0",
     "yauzl": "^2.10.0"
   },
   "resolutions": {
