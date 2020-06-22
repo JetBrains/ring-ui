@@ -168,6 +168,8 @@ export default class QueryAssist extends Component {
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
     if (!this.node || (!focus && this.mouseIsDownOnInput)) {
+      this.immediateState.focus = true;
+      this.setCaretPosition();
       return;
     }
 
