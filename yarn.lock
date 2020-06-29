@@ -1920,10 +1920,10 @@
     yeoman-generator "^4.10.1"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.6.0.tgz#20a1ff28d6a33f30a1b4f400748cc2f77c07ba42"
-  integrity sha512-PTe4BVpbAlVNKg8j8oh/66f4FrI7UykxhQ+0lngC7h4a63rh5ldkkdW9Bfk6tEpWXnM0yz1su3IUdyovmMaRFw==
+"@jetbrains/icons@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.7.0.tgz#8640569afc9c78c210e0541bf128a7bcc8caa5be"
+  integrity sha512-i7+U7iceYiewMEXhz227I0P461iN9v7008RllzXcxh7ZybMduKRqpvzpbIpx2oJXYTlVOTsuFinaBT+yNl3WDQ==
 
 "@jetbrains/logos@^1.2.10":
   version "1.2.10"
