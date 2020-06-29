@@ -52,4 +52,13 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             }
         }
     }
+
+    requirements {
+        remove {
+            contains("system.agent.name", "ubuntu")
+        }
+        add {
+            contains("docker.server.osType", "linux")
+        }
+    }
 }
