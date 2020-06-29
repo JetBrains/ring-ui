@@ -59,6 +59,7 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
                 yarn run test-ci
                 yarn run build
             """.trimIndent()
+            dockerImage = "huston007/node-electron:node12"
         }
     }
 
