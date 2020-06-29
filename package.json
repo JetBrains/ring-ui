@@ -160,7 +160,7 @@
     "@jetbrains/icons": "^3.7.0",
     "@jetbrains/logos": "^1.2.10",
     "@jetbrains/postcss-require-hover": "^0.1.2",
-    "angular-sanitize": "^1.7.9",
+    "angular-sanitize": "^1.8.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-define": "^2.0.0",
     "browserslist": "^4.12.0",
