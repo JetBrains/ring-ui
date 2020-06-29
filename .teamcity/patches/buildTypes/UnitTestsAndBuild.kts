@@ -55,6 +55,9 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
                 npm -v
                 yarn -v
                 
+                # Testing if this helps https://github.com/electron/electron/issues/13161
+                dbus-launch
+                
                 yarn bootstrap
                 yarn run test-ci
                 yarn run build
