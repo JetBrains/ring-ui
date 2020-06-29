@@ -157,7 +157,7 @@
     "@hypnosphi/react-virtualized": "^9.21.2",
     "@jetbrains/angular-elastic": "^2.5.1",
     "@jetbrains/babel-preset-jetbrains": "^2.1.4",
-    "@jetbrains/icons": "^3.6.0",
+    "@jetbrains/icons": "^3.7.0",
     "@jetbrains/logos": "^1.2.10",
     "@jetbrains/postcss-require-hover": "^0.1.2",
     "angular-sanitize": "^1.7.9",
