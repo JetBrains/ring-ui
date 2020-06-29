@@ -28,7 +28,7 @@ ${e.stdout.toString().replace(/.\[\d+m/g, '')}
 }
 
 try {
-  execSync('yarn audit --json');
+  execSync(`yarn audit --level ${MIN_LEVEL} --json`);
 } catch (e) {
   e.stdout.
     toString().
