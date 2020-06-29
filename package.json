@@ -215,6 +215,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "resolutions": {
+    "markdown-to-jsx": "^6.11.4",
     "**/karma-mocha/minimist": "^1.2.5",
     "**/optimist/minimist": "^0.2.1"
   },
