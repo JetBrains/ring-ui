@@ -59,6 +59,7 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
                 yarn run test-ci
                 yarn run build
             """.trimIndent()
+            dockerImage = "zenika/alpine-chrome:with-node"
         }
     }
 
