@@ -3,8 +3,11 @@ const {writeFileSync} = require('fs');
 
 const tsm = require('teamcity-service-messages');
 
+// see https://classic.yarnpkg.com/en/docs/cli/audit/
+const MIN_LEVEL = process.env.SEVERITY_LEVEL || 'moderate';
+
 try {
-  execSync('yarn audit');
+  execSync(`yarn audit --level ${MIN_LEVEL}`);
   process.exit(0);
 } catch (e) {
   writeFileSync(
@@ -25,7 +28,7 @@ ${e.stdout.toString().replace(/.\[\d+m/g, '')}
 }
 
 try {
-  execSync('yarn audit --json');
+  execSync(`yarn audit --level ${MIN_LEVEL} --json`);
 } catch (e) {
   e.stdout.
     toString().

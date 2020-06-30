@@ -278,7 +278,7 @@ class Table extends PureComponent {
 
     return (
       <div className={wrapperClasses} data-test="ring-table-wrapper" ref={this.props.innerRef}>
-        {selectable && focused &&
+        {focused &&
           (
             <Shortcuts
               map={this.props.shortcutsMap}
