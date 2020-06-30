@@ -1,3 +1,3 @@
-export default function (username = 'World') {
+export default function sayHello(username = 'World') {
   return `Hello, ${username}`;
 }
