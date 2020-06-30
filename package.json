@@ -107,7 +107,7 @@
     "eslint-import-resolver-webpack": "^0.12.2",
     "eslint-plugin-angular": "^4.0.1",
     "eslint-plugin-bdd": "^2.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.0",
     "events": "^3.1.0",
