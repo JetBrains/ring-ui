@@ -31,7 +31,7 @@ const additionalDevServerOptions = `
     disableHostCheck: true,`;
 
 const additionalWebpackPlugins = `,
-    new (require('copy-webpack-plugin'))(['manifest.json'], {})
+    new (require('copy-webpack-plugin'))({patterns: ['manifest.json']}, {})
 `;
 
 module.exports = class HubWidgetGenerator extends Generator {
