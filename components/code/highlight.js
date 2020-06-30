@@ -1,4 +1,4 @@
-import highlight from 'highlight.js/lib/highlight';
+import highlight from 'highlight.js/lib/core';
 
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';
