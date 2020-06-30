@@ -1,6 +1,6 @@
 import highlight from 'highlight.js/lib/core';
 
-import cpp from 'highlight.js/lib/languages/cpp';
+import clike from 'highlight.js/lib/languages/c-like';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import clojure from 'highlight.js/lib/languages/clojure';
@@ -42,7 +42,7 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import twig from 'highlight.js/lib/languages/twig';
 import typescript from 'highlight.js/lib/languages/typescript';
 
-highlight.registerLanguage('cpp', cpp);
+highlight.registerLanguage('clike', clike);
 highlight.registerLanguage('xml', xml);
 highlight.registerLanguage('bash', bash);
 highlight.registerLanguage('clojure', clojure);
