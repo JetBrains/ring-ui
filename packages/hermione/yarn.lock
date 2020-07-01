@@ -1008,10 +1008,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@gemini-testing/commander@2.15.2":
-  version "2.15.2"
-  resolved "https://registry.yarnpkg.com/@gemini-testing/commander/-/commander-2.15.2.tgz#9c2447a813454ade82dd13b907a06244e01758b5"
-  integrity sha512-hjTona7ySenkm+qKGAJ2uEAa1Y/VFZ14ieMWUwlb7MGoBPL3VVoTwEL7bCQiOvbDc2ld5LnDmzzJYcWAw9psbg==
+"@gemini-testing/commander@2.15.3":
+  version "2.15.3"
+  resolved "https://registry.yarnpkg.com/@gemini-testing/commander/-/commander-2.15.3.tgz#6caf264ff08de09cd81188138e370551d73835ef"
+  integrity sha512-HPV73pHeL7BozcIaJTJVXIY3kwoAscy+yVVehG0QqVhfmdx6RPqpQ9KIFwV1amlBMObXvcS3gI7LojlwiI9eXw==
 
 "@gemini-testing/sql.js@^1.0.1":
   version "1.0.1"
@@ -1794,10 +1794,20 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
+"@types/mocha@^2.2.48":
+  version "2.2.48"
+  resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
+  integrity sha512-nlK/iyETgafGli8Zh9zJVCTicvU3iajSkRwOh3Hhiva598CMqNJ4NcVCGMTGKpGpTYj/9R8RLzS9NAykSSCqGw==
+
 "@types/node@*":
   version "14.0.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.1.tgz#5d93e0a099cd0acd5ef3d5bde3c086e1f49ff68c"
   integrity sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==
+
+"@types/node@^8.5.10":
+  version "8.10.61"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.61.tgz#d299136ce54bcaf1abaa4a487f9e4bedf6b0d393"
+  integrity sha512-l+zSbvT8TPRaCxL1l9cwHCb0tSqGAGcjPJFItGGYat5oCTiq1uQQKYg5m7AF1mgnEBzFXGLJ2LRmNjtreRX76Q==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1875,6 +1885,13 @@
   integrity sha512-rdBIeMQyRBOXogop/EYBvSkYFn9D9yGxUa5hagBVG55KIdSUbp22EACJSHCs6kmmfunojAhf7zJH+Ds06/qLaQ==
   dependencies:
     source-map "^0.6.1"
+
+"@types/webdriverio@^4.13.3":
+  version "4.13.3"
+  resolved "https://registry.yarnpkg.com/@types/webdriverio/-/webdriverio-4.13.3.tgz#c1571c4e62724135c0b11e7d7e36b07af5168856"
+  integrity sha512-AfSQM1xTO9Ax+u9uSQPDuw69DQ0qA2RMoKHn86jCgWNcwKVUjGMSP4sfSl3JOfcZN8X/gWvn7znVPp2/g9zcJA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/webpack-env@^1.15.0":
   version "1.15.2"
@@ -5703,10 +5720,10 @@ gemini-core@^3.7.0:
     uglifyify "^3.0.4"
     yallist "^3.0.3"
 
-gemini-core@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.1.1.tgz#9ac5f16672e4ce8a4696e8ea3edddf2a6b6e386a"
-  integrity sha512-hDfHaz/1p7JROI+ZftxmGAr3HnlKzFevqkUJ2616IPKfXmVdCD/lx84qxPIXWsBMDISdv0GHj7jCiqAabCkXxg==
+gemini-core@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/gemini-core/-/gemini-core-5.2.0.tgz#1c0b4a22374a49c9b820948e45992acd77bd9627"
+  integrity sha512-9Fe4QrXaMIrbhlM3B3ZjLsem6bLKv4zUtoLM0QkG7ll3JyoIemTHSGn+0EhR5t8dmnNjhP9RlqsM54WAqOhruA==
   dependencies:
     aliasify "^1.9.0"
     bluebird "^3.4.6"
@@ -6072,20 +6089,23 @@ he@^1.1.1, he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.3.1.tgz#895adabad9d04392085cf0804ef5d30fbd27b289"
-  integrity sha512-Qf8h7foSBTsEyVVoqlPT91zCbv4eIVB2mEEba59/t2zUUgMvj2V49uaYevzmpNoSShJ0eLq/DTUs6cxPVf3ATw==
+hermione@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.6.0.tgz#4cb34874a6fb07aed3a92fd9fcc45634c750a70e"
+  integrity sha512-megdiGgAXaF0DyFDywusWmbW1A1P7biXzjbihMZsG0s691tUh8q/pUVeUCgGCitw9O4afGRfTcyowtKmf4SfQQ==
   dependencies:
-    "@gemini-testing/commander" "2.15.2"
+    "@gemini-testing/commander" "2.15.3"
     "@gemini-testing/webdriverio" "4.16.2"
+    "@types/mocha" "^2.2.48"
+    "@types/node" "^8.5.10"
+    "@types/webdriverio" "^4.13.3"
     bluebird "^3.5.1"
     bluebird-q "^2.1.1"
     chalk "^1.1.1"
     clear-require "^1.0.1"
     fs-extra "^5.0.0"
     gemini-configparser "^1.0.0"
-    gemini-core "^5.1.1"
+    gemini-core "^5.2.0"
     inherit "^2.2.2"
     lodash "^4.17.4"
     mocha "~2.4.5"
