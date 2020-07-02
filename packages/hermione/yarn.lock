@@ -4360,12 +4360,7 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
-deep-equal@*:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
-  integrity sha1-9dJgKStmDghO/0zbyfCK0yR0SLU=
-
-deep-equal@^1.1.1:
+deep-equal@*, deep-equal@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
   integrity sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g==
@@ -5404,7 +5399,7 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-flatiron@~0.4.2:
+flatiron@~0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/flatiron/-/flatiron-0.4.3.tgz#248cf79a3da7d7dc379e2a11c92a2719cbb540f6"
   integrity sha1-JIz3mj2n19w3nioRySonGcu1QPY=
@@ -5461,10 +5456,10 @@ forever-agent@~0.6.1:
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=
 
-forever-monitor@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/forever-monitor/-/forever-monitor-2.0.0.tgz#5bfb8e1de253ce3bf23ffd48d91419496928baae"
-  integrity sha512-5tMNrrDjeI2tkS+m+fxETWXaUIYEarY9Sy2pw9AOq9sVENA/8B7pl3xVAQTG0fND8ypet3rQhg+G4D4f+fVw2w==
+forever-monitor@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/forever-monitor/-/forever-monitor-3.0.0.tgz#f2e8f0c1cc5883203b0fe0dbc59900ab9f7337f5"
+  integrity sha512-F3E8C9CTPK+uRGdVTMBHGo7mHX+KRtClLzkegR6ux1yy+ByxOziumpTzxajzfhICHfYdnGWY4Bokl8dirYsDeA==
   dependencies:
     broadway "~0.3.6"
     chokidar "^2.1.8"
@@ -5472,23 +5467,23 @@ forever-monitor@^2.0.0:
     ps-tree "0.0.x"
     utile "^0.3.0"
 
-forever@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/forever/-/forever-2.0.0.tgz#beaf02125b6c650b61b6b58b15341e722a4b4043"
-  integrity sha512-lPq2AJackIVZT7Zey7XmRgv6vLShadqf4GYAkdS1+BxI+yTor/xiy1CzGPMWYF98lBs5dFClIn4PJ/EtqScBcQ==
+forever@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/forever/-/forever-3.0.0.tgz#d5f4d16c0c64ac427bcd2e992df63a4fae29d941"
+  integrity sha512-jA3zD1pl57cwBlhF6V6lZIOk6//77nQyQ3UGkxxYr4X9+F8nI6SGGan69hdohtmsPZCG3vMlqdtBhwlqEn4thA==
   dependencies:
     async "^1.5.2"
     cliff "^0.1.10"
     clone "^2.1.2"
     colors "^0.6.2"
-    flatiron "~0.4.2"
-    forever-monitor "^2.0.0"
-    mkdirp "^0.5.1"
+    deep-equal "^1.1.1"
+    flatiron "~0.4.3"
+    forever-monitor "^3.0.0"
+    mkdirp "^0.5.5"
     nconf "^0.10.0"
     nssocket "^0.6.0"
     object-assign "^4.1.1"
     optimist "^0.6.1"
-    path-is-absolute "^2.0.0"
     prettyjson "^1.2.1"
     shush "^1.0.0"
     utile "~0.3.0"
@@ -8259,10 +8254,10 @@ mixin-deep@^1.2.0:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
 
-mkdirp@0.5.1, mkdirp@0.x.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.3.tgz#5a514b7179259287952881e94410ec5465659f8c"
-  integrity sha512-P+2gwrFqx8lhew375MQHHeTlY8AuOJSrGf0R5ddkEndUkmwpgUob/vQuBD1V22/Cw1/lJr4x+EjllSezBThzBg==
+mkdirp@0.5.1, mkdirp@0.x.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.5, mkdirp@~0.5.1:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
+  integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
 
@@ -9001,11 +8996,6 @@ path-is-absolute@^1.0.0, path-is-absolute@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
   integrity sha1-F0uSaHNVNP+8es5r9TpanhtcX18=
-
-path-is-absolute@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-2.0.0.tgz#cba416f4f3be5d068afe2083d9b3b3707414533d"
-  integrity sha512-ajROpjq1SLxJZsgSVCcVIt+ZebVH+PwJtPnVESjfg6JKwJGwAgHRC3zIcjvI0LnecjIHCJhtfNZ/Y/RregqyXg==
 
 path-key@^2.0.0, path-key@^2.0.1:
   version "2.0.1"
