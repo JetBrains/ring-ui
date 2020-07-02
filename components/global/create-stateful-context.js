@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, memo, useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
 export default function createStatefulContext(initialValue, name = '') {
@@ -34,12 +34,13 @@ export default function createStatefulContext(initialValue, name = '') {
 
     return null;
   }
+  Provider.displayName = `${name}Updater`;
 
   return {
     ValueContext,
     UpdateContext,
     Provider,
     useUpdate,
-    Updater
+    Updater: memo(Updater)
   };
 }
