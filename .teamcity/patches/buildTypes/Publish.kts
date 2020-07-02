@@ -71,7 +71,7 @@ changeBuildType(RelativeId("Publish")) {
         update<ScriptBuildStep>(0) {
             id = "RUNNER_1461"
             clearConditions()
-            dockerImage = "node:12"
+            dockerImage = "node:lts"
         }
     }
 
