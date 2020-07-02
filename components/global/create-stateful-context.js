@@ -34,7 +34,7 @@ export default function createStatefulContext(initialValue, name = '') {
 
     return null;
   }
-  Provider.displayName = `${name}Updater`;
+  Updater.displayName = `${name}Updater`;
 
   return {
     ValueContext,
