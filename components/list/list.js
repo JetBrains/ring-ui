@@ -285,6 +285,8 @@ export default class List extends Component {
     }
   });
 
+  checkboxHandler = memoize(index => event => this.selectHandler(index)(event, true));
+
   upHandler = e => {
     const {data, disableMoveOverflow} = this.props;
     const index = this.state.activeIndex;
@@ -510,7 +512,7 @@ export default class List extends Component {
       } else {
         itemProps.onClick = selectHandler;
       }
-      itemProps.onCheckboxChange = event => selectHandler(event, true);
+      itemProps.onCheckboxChange = this.checkboxHandler(realIndex);
 
       if (itemProps.compact == null) {
         itemProps.compact = this.props.compact;
