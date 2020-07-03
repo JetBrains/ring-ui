@@ -548,23 +548,25 @@ export default class List extends Component {
       el = <ItemComponent {...itemProps}/>;
     }
 
-    return parent ? (
-      <CellMeasurer
-        cache={this._cache}
-        key={itemKey}
-        parent={parent}
-        rowIndex={index}
-        columnIndex={0}
-      >
-        {({registerChild}) => (
-          <div ref={registerChild} style={style} role="row" id={itemId}>
-            <div role="cell">
-              {el}
+    return parent
+      ? (
+        <CellMeasurer
+          cache={this._cache}
+          key={itemKey}
+          parent={parent}
+          rowIndex={index}
+          columnIndex={0}
+        >
+          {({registerChild}) => (
+            <div ref={registerChild} style={style} role="row" id={itemId}>
+              <div role="cell">
+                {el}
+              </div>
             </div>
-          </div>
-        )}
-      </CellMeasurer>
-    ) : cloneElement(el, {key: itemKey});
+          )}
+        </CellMeasurer>
+      )
+      : cloneElement(el, {key: itemKey});
   };
 
   addItemDataTestToProp = props => {
