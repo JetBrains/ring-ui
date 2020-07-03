@@ -163,36 +163,38 @@ class BasicDemo extends Component {
                 Recreate data array
               </Button>{' '}
               <span id="button-non-selectable">
-                {selectable ? (
-                  <Button onClick={() => this.setState({selectable: false})}>
-                    Non-selectable
-                  </Button>
-                ) : (
-                  <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
-                )}
+                {selectable
+                  ? (
+                    <Button onClick={() => this.setState({selectable: false})}>
+                      Non-selectable
+                    </Button>
+                  )
+                  : <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
+                }
               </span>{' '}
-              {draggable ? (
-                <Button onClick={() => this.setState({draggable: false})}>Non-draggable</Button>
-              ) : (
-                <Button onClick={() => this.setState({draggable: true})}>Draggable</Button>
-              )}{' '}
+              {draggable
+                ? <Button onClick={() => this.setState({draggable: false})}>Non-draggable</Button>
+                : <Button onClick={() => this.setState({draggable: true})}>Draggable</Button>}
+              {' '}
               <span id="button-with-a-caption">
                 {' '}
-                {caption ? (
-                  <Button onClick={() => this.setState({caption: undefined})}>
-                    Without a caption
-                  </Button>
-                ) : (
-                  <Button onClick={() => this.setState({caption: 'Countries'})}>
-                    With a caption
-                  </Button>
-                )}{' '}
+                {caption
+                  ? (
+                    <Button onClick={() => this.setState({caption: undefined})}>
+                      Without a caption
+                    </Button>
+                  )
+                  : (
+                    <Button onClick={() => this.setState({caption: 'Countries'})}>
+                      With a caption
+                    </Button>
+                  )}
+                {' '}
               </span>{' '}
-              {loading ? (
-                <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
-              ) : (
-                <Button onClick={() => this.setState({loading: true})}>Loading</Button>
-              )}
+              {loading
+                ? <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
+                : <Button onClick={() => this.setState({loading: true})}>Loading</Button>
+              }
             </Col>
           </Row>
 
@@ -200,36 +202,40 @@ class BasicDemo extends Component {
             <Row>
               <Col>
                 <span id="button-select-bulgaria">
-                  {selection.isSelected(data[3]) ? (
-                    <Button
-                      onClick={() => this.setState({selection: selection.deselect(data[3])})}
-                    >
-                      Deselect {data[3].country}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => this.setState({selection: selection.select(data[3])})}
-                    >
-                      Select {data[3].country}
-                    </Button>
-                  )}
+                  {selection.isSelected(data[3])
+                    ? (
+                      <Button
+                        onClick={() => this.setState({selection: selection.deselect(data[3])})}
+                      >
+                        Deselect {data[3].country}
+                      </Button>
+                    )
+                    : (
+                      <Button
+                        onClick={() => this.setState({selection: selection.select(data[3])})}
+                      >
+                        Select {data[3].country}
+                      </Button>
+                    )}
                 </span>
 
                 <span id="button-select-finland">
                   {' '}
-                  {selection.isSelected(data[5]) ? (
-                    <Button
-                      onClick={() => this.setState({selection: selection.deselect(data[5])})}
-                    >
-                      Deselect {data[5].country}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => this.setState({selection: selection.select(data[5])})}
-                    >
-                      Select {data[5].country}
-                    </Button>
-                  )}
+                  {selection.isSelected(data[5])
+                    ? (
+                      <Button
+                        onClick={() => this.setState({selection: selection.deselect(data[5])})}
+                      >
+                        Deselect {data[5].country}
+                      </Button>
+                    )
+                    : (
+                      <Button
+                        onClick={() => this.setState({selection: selection.select(data[5])})}
+                      >
+                        Select {data[5].country}
+                      </Button>
+                    )}
                 </span>
               </Col>
             </Row>

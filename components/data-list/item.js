@@ -196,16 +196,18 @@ export default class Item extends PureComponent {
           offset={offset}
         />
 
-        {!itemIsEmpty ? (
-          <ul className={styles.itemContent}>
-            {items.map(model => this.renderItem(model, parentShift))}
+        {!itemIsEmpty
+          ? (
+            <ul className={styles.itemContent}>
+              {items.map(model => this.renderItem(model, parentShift))}
 
-            {showMoreLessButton !== moreLessButtonStates.UNUSED
-              ? <li className={styles.showMore}>{moreLessButton}</li>
-              : null
-            }
-          </ul>
-        ) : null}
+              {showMoreLessButton !== moreLessButtonStates.UNUSED
+                ? <li className={styles.showMore}>{moreLessButton}</li>
+                : null
+              }
+            </ul>
+          )
+          : null}
       </li>
     );
   }
