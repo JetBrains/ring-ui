@@ -43,12 +43,14 @@ class LoaderInline extends PureComponent {
       />
     );
 
-    return children ? (
-      <>
-        {loader}
-        <span className={styles.children}>{children}</span>
-      </>
-    ) : loader;
+    return children
+      ? (
+        <>
+          {loader}
+          <span className={styles.children}>{children}</span>
+        </>
+      )
+      : loader;
   }
 }
 

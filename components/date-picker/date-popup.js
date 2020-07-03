@@ -361,26 +361,26 @@ export default class DatePopup extends Component {
             />
           ))}
           {
-            this.isInTimeMode() ? (
-              <DateInput
-                {...this.props}
-                {...this.state}
-                divider={!!parsedDate}
-                hoverDate={null}
-                name={'time'}
-                key={'time'}
-                date={null}
-                time={parsedTime}
-                active={this.state.active === 'time'}
-                hidden={hidden}
-                onActivate={this.handleActivate('time')}
-                onInput={this.handleInput}
-                onConfirm={this.handleConfirm('time')}
-                onClear={this.props.onClear}
-              />
-            ) : (
-              ''
-            )
+            this.isInTimeMode()
+              ? (
+                <DateInput
+                  {...this.props}
+                  {...this.state}
+                  divider={!!parsedDate}
+                  hoverDate={null}
+                  name={'time'}
+                  key={'time'}
+                  date={null}
+                  time={parsedTime}
+                  active={this.state.active === 'time'}
+                  hidden={hidden}
+                  onActivate={this.handleActivate('time')}
+                  onInput={this.handleInput}
+                  onConfirm={this.handleConfirm('time')}
+                  onClear={this.props.onClear}
+                />
+              )
+              : ('')
           }
         </div>
         <Weekdays/>

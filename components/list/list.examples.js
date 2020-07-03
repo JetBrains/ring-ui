@@ -276,23 +276,23 @@ export const withUsers = () => {
 
     render() {
       const {listData, selected} = this.state;
-      return listData ? (
-        <ContentLayout>
-          <Sidebar>
-            <List
-              className="list"
-              data={this.state.listData}
-              shortcuts
-              onSelect={this.handleSelect}
-            />
-          </Sidebar>
-          {selected && (
-            <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
-          )}
-        </ContentLayout>
-      ) : (
-        <Loader/>
-      );
+      return listData
+        ? (
+          <ContentLayout>
+            <Sidebar>
+              <List
+                className="list"
+                data={this.state.listData}
+                shortcuts
+                onSelect={this.handleSelect}
+              />
+            </Sidebar>
+            {selected && (
+              <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
+            )}
+          </ContentLayout>
+        )
+        : <Loader/>;
     }
   }
 
