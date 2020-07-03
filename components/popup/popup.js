@@ -331,11 +331,13 @@ export default class Popup extends PureComponent {
 
   getInternalContent() {
     const {trapFocus, autoFocusFirst, children} = this.props;
-    return trapFocus ? (
-      <TabTrap autoFocusFirst={autoFocusFirst} focusBackOnExit>
-        {children}
-      </TabTrap>
-    ) : children;
+    return trapFocus
+      ? (
+        <TabTrap autoFocusFirst={autoFocusFirst} focusBackOnExit>
+          {children}
+        </TabTrap>
+      )
+      : children;
   }
 
   shortcutsScope = this.uid;
