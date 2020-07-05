@@ -49,7 +49,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Chrome',
         pageLoadStrategy: 'normal',
-        browser_version: '79.0',
+        browser_version: '83.0',
         chromeOptions: {
           excludeSwitches: ['enable-automation']
         },
@@ -64,7 +64,7 @@ module.exports = {
       desiredCapabilities: {
         browser: 'Firefox',
         pageLoadStrategy: 'normal',
-        browser_version: '74.0',
+        browser_version: '78.0',
         os: 'OS X',
         os_version: 'Catalina',
         maxDuration
