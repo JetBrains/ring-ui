@@ -16,7 +16,9 @@ if (params.has('block-animations')) {
 
 addParameters({
   docs: {
-    inlineStories: false
+    inlineStories: false,
+    extractComponentDescription: (component, {notes}) =>
+      notes ?? component?.__docgenInfo?.description
   },
   options: {
     showRoots: true
