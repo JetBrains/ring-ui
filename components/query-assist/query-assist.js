@@ -748,9 +748,9 @@ export default class QueryAssist extends Component {
 
     const inputClasses = classNames({
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: actions.length,
+      [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
       [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
-      [styles.inputLeftGap]: this.isRenderingGlassOrLoader(),
+      [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass,
       [styles.inputDisabled]: this.props.disabled
     });
 
