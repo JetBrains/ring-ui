@@ -1859,10 +1859,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.86":
-  version "2.0.86"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.86.tgz#fca61916f98f5bc9c31c683fb644acafb2d43040"
-  integrity sha512-dtC7kU86flJduyInKaVpBPKrqRBp5NoetpzZWkiVsD7gGwlnS7BCC/6MW9oV6I9JvFJ1t99qRDYHziDi2t1FYA==
+"@jetbrains/generator-ring-ui@^2.0.87":
+  version "2.0.87"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.87.tgz#4c89025ab79324ffd285376335fc2821c30ab228"
+  integrity sha512-ikJc9iBSYkJ4iAxN9t+4Msutm9l4OA2A9CSTLpnd/Y2hFHG+HBWwHDtuc2Q0YUheihxSoxdzNj2fsD3aIVwfeA==
   dependencies:
     chalk "^4.1.0"
     change-case "^4.1.1"
@@ -19186,10 +19186,10 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.1.1.tgz#03f6b16271619003a5d42c1f14026523787a931e"
-  integrity sha512-UlBvc5VApYAwNutfXFeuC9Jp3QCMazcqobfNqSK/RghRr3F8b0+i/QELUlEPsHjDHfijio6H5KPJcZwYXhuZsA==
+whatwg-fetch@>=0.10.0, whatwg-fetch@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.2.0.tgz#8e134f701f0a4ab5fda82626f113e2b647fd16dc"
+  integrity sha512-SdGPoQMMnzVYThUbSrEvqTlkvC1Ux27NehaJ/GUHBfNrh5Mjg+1/uRyFMwVnxO2MrikMWvWAqUGgQOfVU4hT7w==
 
 whatwg-mimetype@^2.2.0, whatwg-mimetype@^2.3.0:
   version "2.3.0"
