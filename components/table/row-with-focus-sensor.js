@@ -13,8 +13,8 @@ export default class RowWithFocusSensorCallbacks extends PureComponent {
     this.props.onFocus(this.props.item);
   };
 
-  onSelect = selected => {
-    this.props.onSelect(this.props.item, selected);
+  onSelect = (item, selected) => {
+    this.props.onSelect(item, selected);
   };
 
   onCollapse = () => {
