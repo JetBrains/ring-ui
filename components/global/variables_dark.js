@@ -12,6 +12,7 @@ export default {
   '--ring-popup-border-color': 'rgba(var(--ring-popup-border-components), 0.1)',
   '--ring-popup-shadow-color': 'rgba(var(--ring-popup-border-components), 0.15)',
   '--ring-message-shadow-color': 'rgba(var(--ring-popup-border-components), 0.3)',
+  '--ring-pinned-shadow-color': '#000',
 
   /* Text */
   '--ring-hint-color': '#80929d',
