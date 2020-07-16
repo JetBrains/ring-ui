@@ -11285,10 +11285,10 @@ karma-coverage@^2.0.2:
     istanbul-reports "^3.0.0"
     minimatch "^3.0.4"
 
-karma-electron@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/karma-electron/-/karma-electron-6.3.0.tgz#e16ed122245d461e53cbd8dbc1899121b06859a8"
-  integrity sha512-Go9NVZTUPF7V0LyitC8w2B4LiI2aojVbPF8myqAE14/QlikCtlqULig9WXIlNTSVOkf5Du4fSLP3D6l/2XvzQw==
+karma-electron@^6.3.1:
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/karma-electron/-/karma-electron-6.3.1.tgz#3eb2d1a7938fa27b592b9a8d685ee1cfd39ca6a4"
+  integrity sha512-TbHmmgnahSJutzQPhr1hM/vJp0vTK+DHUOck5lQJ8p76N3hBhkZCntND2qOLXmn9W/1W0beoe4YGMnoeUU3Ynw==
   dependencies:
     async "~3.0.1"
     combine-source-map "~0.8.0"
