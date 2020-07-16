@@ -1,3 +1,5 @@
+const {ignore} = require('@jetbrains/eslint-config/consts');
+
 module.exports = {
   root: true,
   parser: 'babel-eslint',
@@ -7,6 +9,6 @@ module.exports = {
     '@jetbrains/eslint-config/es6'
   ],
   rules: {
-    'import/no-commonjs': 'off'
+    'import/no-commonjs': ignore
   }
 };
