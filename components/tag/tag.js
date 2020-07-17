@@ -25,6 +25,9 @@ export default class Tag extends PureComponent {
     focused: PropTypes.bool,
     angled: PropTypes.bool,
 
+    backgroundColor: PropTypes.string,
+    textColor: PropTypes.string,
+
     children: PropTypes.node,
     className: PropTypes.string
   };
@@ -151,6 +154,8 @@ export default class Tag extends PureComponent {
       this.props.className
     );
 
+    const {backgroundColor, textColor} = this.props;
+
     return (
       <span className={styles.container}>
         <button
@@ -159,6 +164,7 @@ export default class Tag extends PureComponent {
           className={classes}
           ref={this.tagRef}
           onClick={this.props.onClick}
+          style={{backgroundColor, color: textColor}}
         >
           {this.renderAvatar()}
           {this.renderCustomIcon()}
