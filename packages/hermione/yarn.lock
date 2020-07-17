@@ -6083,10 +6083,10 @@ he@^1.1.1, he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.8.0.tgz#91486b614bf1bdfc7a2a210f6e583624ef8566b7"
-  integrity sha512-Nx2cZrOrJ0+iqTim53m0Khb/x6T6bcSBQy+b4raNzQdt50AP4cNoftZ6+Pb7HG4fzYe/wEjk1PozBHvycNBs1A==
+hermione@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.8.1.tgz#2be4e8e896e978a7bf7354353a329370ac75baae"
+  integrity sha512-+ZUaGdAr5ihW6QmPkJjJuTxFsgs0JtvpyPp8SKDCpN9h4/SjlXYn+eU8rluO7M3SU+hKvKKaojkEqG78Zt/60w==
   dependencies:
     "@gemini-testing/commander" "2.15.3"
     "@gemini-testing/webdriverio" "4.16.2"
