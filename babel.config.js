@@ -26,13 +26,13 @@ module.exports = function config(api) {
     ],
     env: {
       test: {
-        plugins: [
-          ['istanbul', {
+        plugins: [process.env.IS_JEST
+          ? 'require-context-hook'
+          : ['istanbul', {
             exclude: [
               '**/*.test.js'
             ]
-          }]
-        ]
+          }]]
       }
     }
   };

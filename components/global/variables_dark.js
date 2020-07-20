@@ -12,6 +12,7 @@ export default {
   '--ring-popup-border-color': 'rgba(var(--ring-popup-border-components), 0.1)',
   '--ring-popup-shadow-color': 'rgba(var(--ring-popup-border-components), 0.15)',
   '--ring-message-shadow-color': 'rgba(var(--ring-popup-border-components), 0.3)',
+  '--ring-pinned-shadow-color': '#000',
 
   /* Text */
   '--ring-hint-color': '#80929d',
@@ -29,10 +30,13 @@ export default {
   '--ring-popup-background-color': '#111314',
   '--ring-sidebar-background-color': '#28343d',
   '--ring-selected-background-color': '#062640',
-  '--ring-hover-background-color': '#062640',
+  '--ring-hover-background-color': '#0b1a26',
   '--ring-message-background-color': 'var(--ring-popup-background-color)',
   '--ring-navigation-background-color': '#111314',
   '--ring-tag-background-color': '#3e4d59',
+  '--ring-removed-background-color': '#8f5247',
+  '--ring-warning-background-color': '#593d01',
+  '--ring-added-background-color': '#365947',
 
   /* Code */
   '--ring-code-background-color': '#2b2b2b',

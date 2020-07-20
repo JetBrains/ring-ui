@@ -1,28 +1,30 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '../input/input.scss';
-import '../form/form.scss';
-import '../input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/input/input.scss';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-import ButtonNG from '../button-ng/button-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
-storiesOf('Style-only|Form', module).
-  addParameters({
+export default {
+  title: 'Style-only/Form',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Helps create forms with various types of controls.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG]);
+
+  return `
       <div style="width: 700px">
         <form class="ring-form">
           <span class="ring-form__title">Form Title</span>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-1" class="ring-form__label">Full-Width
               Input</label>
@@ -30,7 +32,7 @@ storiesOf('Style-only|Form', module).
               <input class="ring-input" id="ring-form-1" type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-2" class="ring-form__label">Medium Input</label>
             <div class="ring-form__control">
@@ -38,7 +40,7 @@ storiesOf('Style-only|Form', module).
                 type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-3" class="ring-form__label">Medium Input & Error</label>
             <div class="ring-form__control">
@@ -47,7 +49,7 @@ storiesOf('Style-only|Form', module).
               <div class="ring-error-bubble active">Error bubble</div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-4" class="ring-form__label">Long Input</label>
             <div class="ring-form__control">
@@ -58,7 +60,7 @@ storiesOf('Style-only|Form', module).
               </div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-5" class="ring-form__label">Full-Width
               Control</label>
@@ -69,7 +71,7 @@ storiesOf('Style-only|Form', module).
               </div>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-7" class="ring-form__label">Textarea</label>
             <div class="ring-form__control">
@@ -77,7 +79,7 @@ storiesOf('Style-only|Form', module).
                 id="ring-form-7"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-8" class="ring-form__label">Long
               Textarea</label>
@@ -86,7 +88,7 @@ storiesOf('Style-only|Form', module).
                 id="ring-form-8"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-9" class="ring-form__label">Full-Width
               Textarea</label>
@@ -94,7 +96,7 @@ storiesOf('Style-only|Form', module).
               <textarea class="ring-input" id="ring-form-9"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-11" class="ring-form__label">Input in
               a small container</label>
@@ -103,7 +105,7 @@ storiesOf('Style-only|Form', module).
                 type="text">
             </div>
           </div>
-        
+
           <div class="ring-form__group">
             <label for="ring-form-12" class="ring-form__label">Textarea in
               a small container</label>
@@ -112,7 +114,7 @@ storiesOf('Style-only|Form', module).
                 id="ring-form-12"></textarea>
             </div>
           </div>
-        
+
           <div class="ring-form__footer">
             <rg-button mode="primary">Save</rg-button>
             <rg-button>Cancel</rg-button>
@@ -120,4 +122,8 @@ storiesOf('Style-only|Form', module).
         </form>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

@@ -1,27 +1,25 @@
 import React from 'react';
-import {shallow, mount, render} from 'enzyme';
+import {mount, render} from 'enzyme';
 import caretDownSVG from '@jetbrains/icons/caret-down-10px.svg';
-
-import {CaretDown10pxIcon} from '../icon';
 
 import Button from './button';
 import styles from './button.css';
 
 describe('Button', () => {
-  const shallowButton = props => shallow(<Button {...props}/>);
   const mountButton = props => mount(<Button {...props}/>);
+  const getButtonOutput = props => mountButton(props).find('button');
   const renderButton = props => render(<Button {...props}/>);
 
   it('should create component', () => {
-    mountButton().should.have.type(Button);
+    mountButton().type().should.equal(Button.type);
   });
 
   it('should set _default modifier', () => {
-    shallowButton().should.have.className(styles.button);
+    getButtonOutput().hasClass(styles.button).should.be.true;
   });
 
   it('should set modifiers', () => {
-    const wrapper = shallowButton({
+    const wrapper = getButtonOutput({
       active: true,
       danger: true,
       delayed: true,
@@ -30,37 +28,36 @@ describe('Button', () => {
       short: true
     });
 
-    wrapper.should.have.className(styles.active);
-    wrapper.should.have.className(styles.danger);
-    wrapper.should.have.className(styles.delayed);
-    wrapper.should.have.className(styles.loader);
-    wrapper.should.have.className(styles.primary);
-    wrapper.should.have.className(styles.short);
+    wrapper.hasClass(styles.active).should.be.true;
+    wrapper.hasClass(styles.danger).should.be.true;
+    wrapper.hasClass(styles.delayed).should.be.true;
+    wrapper.hasClass(styles.loader).should.be.true;
+    wrapper.hasClass(styles.primary).should.be.true;
+    wrapper.hasClass(styles.short).should.be.true;
   });
 
   it('should add icon', () => {
     const wrapper = renderButton({
-      icon: CaretDown10pxIcon
+      icon: caretDownSVG
     });
 
-    wrapper.should.have.className(styles.withIcon);
+    wrapper.hasClass(styles.withIcon).should.be.true;
     caretDownSVG.should.include(wrapper.find('svg').html());
   });
 
   it('should set custom class', () => {
     const CUSTOM_CLASS = 'test';
 
-    const wrapper = shallowButton({
+    const wrapper = getButtonOutput({
       className: CUSTOM_CLASS
     });
 
-    wrapper.should.have.className(CUSTOM_CLASS);
+    wrapper.hasClass(CUSTOM_CLASS).should.be.true;
   });
 
   it('should render link instead of button if href specified', () => {
-    const linkButton = shallow(<Button href="http://www.jetbrains.com"/>);
-    linkButton.should.have.tagName('a');
-    linkButton.should.not.have.tagName('button');
+    const linkButton = mountButton({href: 'http://www.jetbrains.com'}).find('a');
+    linkButton.should.exist;
     linkButton.should.have.attr('href', 'http://www.jetbrains.com');
   });
 });

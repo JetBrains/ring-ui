@@ -3,13 +3,15 @@ import moment from 'moment';
 
 import formats from './formats';
 
-import styles from './date-picker.css';
-
-const units = ['unit', 'cellSize', 'calHeight', 'yearHeight'].
-  reduce((obj, key) => {
-    obj[key] = parseInt(styles[key], 10);
-    return obj;
-  }, {});
+const unit = 8; // px;
+const units = {
+  unit,
+  /* eslint-disable no-magic-numbers */
+  cellSize: unit * 3,
+  calHeight: unit * 36,
+  yearHeight: unit * 4
+  /* eslint-enable */
+};
 
 export default units;
 
@@ -79,3 +81,13 @@ export function parseDate(text, ...addFormats) {
   return date.isValid() ? date : null;
 }
 
+export function parseTime(time) {
+  let result = null;
+  if (/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
+    result = time;
+  } else if (/^([0-9]|2[0-3]):[0-5][0-9]$/.test(time)) {
+    result = `0${time}`;
+  }
+
+  return result;
+}

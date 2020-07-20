@@ -1,18 +1,18 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 
 import LoaderInline from './loader-inline';
 
 describe('Loader Inline', () => {
-  const shallowLoaderInline = props => shallow(<LoaderInline {...props}/>);
   const mountLoaderInline = props => mount(<LoaderInline {...props}/>);
+  const getLoaderInlineDiv = props => mountLoaderInline(props).find('div');
 
   it('should create component', () => {
-    mountLoaderInline().should.have.type(LoaderInline);
+    mountLoaderInline().type().should.equal(LoaderInline.type);
   });
 
   it('should add custom class', () => {
-    const wrapper = shallowLoaderInline({
+    const wrapper = getLoaderInlineDiv({
       className: 'test'
     });
 

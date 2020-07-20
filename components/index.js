@@ -1,3 +1,7 @@
+import deprecate from 'util-deprecate';
+
+deprecate(() => {}, 'Importing from `@jetbrains/ring-ui` index is deprecated. Please import components directly')();
+
 export {default as Alert} from './alert/alert';
 export {default as AlertService} from './alert-service/alert-service';
 export {default as Analytics} from './analytics/analytics';
@@ -57,7 +61,7 @@ export {
 export {default as Heading, H1, H2, H3, H4} from './heading/heading';
 export {default as Http} from './http/http';
 export {default as HubSource} from './hub-source/hub-source';
-export {default as Icon} from './icon';
+export {default as Icon} from './icon/icon';
 export {default as IconNg} from './icon-ng/icon-ng';
 export {default as Input} from './input/input';
 export {default as Island} from './island/island';

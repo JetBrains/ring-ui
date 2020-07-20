@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
 
-  max-height: inherit;
+  min-height: auto;
 
   & :global(.ring-form__group:last-child) {
     margin-bottom: 0;

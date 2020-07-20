@@ -12,8 +12,6 @@ import styles from './header.css';
 const rgItemType = PopupMenu.ListProps.Type.LINK;
 
 export default class Profile extends PureComponent {
-  static Size = Size;
-
   static propTypes = {
     className: PropTypes.string,
     closeOnSelect: PropTypes.bool,
@@ -38,7 +36,8 @@ export default class Profile extends PureComponent {
     }),
     user: PropTypes.shape({
       guest: PropTypes.bool,
-      profile: PropTypes.object
+      profile: PropTypes.object,
+      name: PropTypes.string
     }),
     size: PropTypes.number,
     round: PropTypes.bool,
@@ -60,7 +59,6 @@ export default class Profile extends PureComponent {
         className={classNames(styles.profileEmpty, className)}
       >
         <Button
-          theme={Button.Theme.DARK}
           primary
           data-test="ring-header-login-button"
           disabled={loading}
@@ -72,6 +70,8 @@ export default class Profile extends PureComponent {
       </div>
     )
   };
+
+  static Size = Size;
 
   render() {
     const {
@@ -93,7 +93,6 @@ export default class Profile extends PureComponent {
       translations,
       size,
       round,
-      // eslint-disable-next-line no-unused-vars
       loading, onLogin,
       ...props
     } = this.props;
@@ -118,19 +117,19 @@ export default class Profile extends PureComponent {
     });
 
     const anchor = (
-      <div className={anchorClassName}>
+      <button type="button" className={anchorClassName}>
         <Avatar
           url={user.profile && user.profile.avatar && user.profile.avatar.url}
           size={size}
           round={round}
         />
-      </div>
+      </button>
     );
 
     const items = [
       showApplyChangedUser && {
         rgItemType,
-        label: translations.applyChangedUser || 'Apply changeduser',
+        label: translations.applyChangedUser || 'Apply changed user',
         className: styles.profileMenuItem,
         onClick: onRevertPostponement
       },

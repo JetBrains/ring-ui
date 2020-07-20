@@ -9,6 +9,7 @@
     role="tablist"
   >
     <button
+      role="tab"
       type="button"
       ng-repeat="pane in panes | orderBy:'tabIndex'"
       ng-click="control.select(pane)"

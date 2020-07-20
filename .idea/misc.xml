@@ -2,7 +2,7 @@
 <project version="4">
   <component name="IdProvider" IDEtalkID="AB51B4593FEADBA0B24683B91757F6BA" />
   <component name="JavaScriptSettings">
-    <option name="languageLevel" value="FLOW" />
+    <option name="languageLevel" value="JSX" />
   </component>
   <component name="NullableNotNullManager">
     <option name="myNullables">

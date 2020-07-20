@@ -59,24 +59,22 @@
   min-width: calc(unit * 3);
 }
 
-.checkboxBox,
-.expanderBox {
+.checkboxBox {
   width: calc(unit * 3);
-
-  color: var(--ring-disabled-color);
 }
 
-.expanderBox {
-  cursor: pointer;
+.collapseButton {
+  top: 1px;
+  left: -5px;
 
-  &:hover {
-    color: var(--ring-link-hover-color);
-  }
+  height: auto;
+  padding: 0 5px;
+
+  line-height: inherit;
 }
 
-.collapseIcon {
-  top: calc(0 - compensate);
-  left: compensate;
+.collapseIcon.collapseIcon {
+  color: var(--ring-icon-secondary-color);
 }
 
 .loadingOverlay {

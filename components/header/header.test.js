@@ -1,23 +1,21 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {mount} from 'enzyme';
 
 import Header from './header';
 
 describe('Header', () => {
-  const shallowHeader = props => shallow(<Header {...props}/>);
   const mountHeader = props => mount(<Header {...props}/>);
+  const getHeaderDiv = props => mountHeader(props).find('header');
 
   it('should create component', () => {
-    mountHeader().should.have.type(Header);
+    mountHeader().type().should.equal(Header.type);
   });
 
-  it('should wrap children with div', () => {
-    shallowHeader().should.have.tagName('div');
+  it('should wrap children with руфвук', () => {
+    getHeaderDiv().should.exist;
   });
 
   it('should use passed className', () => {
-    shallowHeader({className: 'test-class'}).should.have.className('test-class');
+    getHeaderDiv({className: 'test-class'}).should.have.className('test-class');
   });
-
-  // TODO Add more tests
 });

@@ -5,7 +5,7 @@ import styles from '../auth-dialog/auth-dialog.css';
 import authDialog from './auth-dialog-service';
 
 describe('Auth Dialog Service', () => {
-  const getContainer = () => document.querySelector('*[data-test="ring-auth-dialog"]');
+  const getContainer = () => document.querySelector('*[data-test~="ring-auth-dialog"]');
   let hideAuthDialog;
 
   afterEach(() => {
@@ -14,9 +14,9 @@ describe('Auth Dialog Service', () => {
 
   it('should show auth dialog', () => {
     hideAuthDialog = authDialog();
-    const classList = getContainer().
-      querySelector('[data-test~="ring-dialog"]').children[0].classList;
-    [...classList].join(' ').should.equal(styles.content);
+    const container = getContainer().
+      querySelector(`.${styles.content.split(' ').join('.')}`);
+    container.should.not.be.undefined;
   });
 
   it('should show auth dialog text', () => {

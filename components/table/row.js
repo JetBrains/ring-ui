@@ -6,10 +6,11 @@ import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
 import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 import dragIcon from '@jetbrains/icons/drag.svg';
 
-import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
+
+import getUID from '../global/get-uid';
 
 import Cell from './cell';
 import style from './table.css';
@@ -21,13 +22,14 @@ const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
 
   return (
     <Button
+      title="Drag"
       className={classes}
       icon={dragIcon}
     />
   );
 });
 
-class Row extends PureComponent {
+export default class Row extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     item: PropTypes.object.isRequired,
@@ -47,7 +49,8 @@ class Row extends PureComponent {
     onCollapse: PropTypes.func,
     onExpand: PropTypes.func,
     showDisabledSelection: PropTypes.bool,
-    checkboxTooltip: PropTypes.string
+    checkboxTooltip: PropTypes.string,
+    innerRef: PropTypes.func
   };
 
   static defaultProps = {
@@ -66,6 +69,8 @@ class Row extends PureComponent {
     onCollapse: () => {},
     onExpand: () => {}
   };
+
+  id = getUID('table-row-');
 
   onMouseEnter = () => {
     const {item, onHover} = this.props;
@@ -87,14 +92,17 @@ class Row extends PureComponent {
   };
 
   toggleSelection() {
-    const {selectable, selected, onSelect} = this.props;
+    const {selectable, selected, onSelect, item} = this.props;
     if (selectable) {
-      onSelect(!selected);
+      onSelect(item, !selected);
     }
   }
 
   rowRef = el => {
     this.row = el;
+    if (this.props.innerRef) {
+      this.props.innerRef(el);
+    }
   };
 
   render() {
@@ -136,6 +144,7 @@ class Row extends PureComponent {
           (
             <Tooltip title={checkboxTooltip}>
               <Checkbox
+                aria-labelledby={this.id}
                 className={showFocus ? 'ring-checkbox_focus' : ''}
                 checked={selected}
                 onFocus={this.onCheckboxFocus}
@@ -150,6 +159,7 @@ class Row extends PureComponent {
           (
             <Tooltip title={checkboxTooltip}>
               <Checkbox
+                aria-labelledby={this.id}
                 checked={selected}
                 disabled
               />
@@ -162,7 +172,7 @@ class Row extends PureComponent {
             <Button
               className={style.rowCollapseExpandButton}
               icon={chevronRightIcon}
-              onClick={onExpand}
+              onClick={() => onExpand(item)}
             />
           )
         }
@@ -172,7 +182,7 @@ class Row extends PureComponent {
             <Button
               className={style.rowCollapseExpandButton}
               icon={chevronDownIcon}
-              onClick={onCollapse}
+              onClick={() => onCollapse(item)}
             />
           )
         }
@@ -194,6 +204,7 @@ class Row extends PureComponent {
 
     return (
       <tr
+        id={this.id}
         ref={this.rowRef}
         className={classes}
         tabIndex="0"
@@ -205,5 +216,3 @@ class Row extends PureComponent {
     );
   }
 }
-
-export default focusSensorHOC(Row);

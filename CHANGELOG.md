@@ -1,3 +1,15 @@
+## [3.0.0]
+
+Minimum required React version is now 16.8.0 (was 16.4.0 before). This allows Ring UI to use hooks and utilities such as `React.memo`.
+This release also stopped indirectly using deprecated `React.createFactory` API, which warns since React@16.13.
+If your project uses React@16.8.0+, there **are no action required** to be compatible with this release.
+
+## [2.1.20]
+
+The JS part of Ring UI package is now marked as "sideEffect free". This means that webpack will [tree-shake](https://webpack.js.org/guides/tree-shaking/) unused imports of Ring UI files.
+Theoretically this may be breaking change, but we don't know any real case yet. We consider advantages of this change are more important 
+than potential disadvantages.
+
 ## [2.0.2] 
 
 - Due to deprecation, `postcss-cssnext` has been replaced with `postcss-preset-env`.

@@ -13,6 +13,10 @@ import styles from './dropdown.css';
 
 export default class Dropdown extends Component {
   static propTypes = {
+    /**
+     * Can be string, React element, or a function accepting an object with {active, pinned} properties and returning a React element
+     * React element should render some interactive HTML element like `button` or `a`
+     */
     anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     children: PropTypes.element.isRequired,
     initShown: PropTypes.bool,
@@ -123,7 +127,7 @@ export default class Dropdown extends Component {
   render() {
     const {show, pinned} = this.state;
     const {
-      initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut, // eslint-disable-line no-unused-vars
+      initShown, onShow, onHide, hoverShowTimeOut, hoverHideTimeOut,
       children, anchor, className, activeClassName, hoverMode, clickMode, 'data-test': dataTest,
       ...restProps
     } = this.props;
@@ -134,16 +138,22 @@ export default class Dropdown extends Component {
 
     let anchorElement;
 
+    const active = hoverMode ? pinned : show;
+
     switch (typeof anchor) {
       case 'string':
-        anchorElement = (<Anchor>{anchor}</Anchor>);
+        anchorElement = (<Anchor active={active}>{anchor}</Anchor>);
         break;
       case 'function':
         anchorElement = anchor({active: show, pinned});
         break;
 
       default:
-        anchorElement = anchor;
+        if (typeof anchor.type === 'string' || Array.isArray(anchor)) {
+          anchorElement = anchor;
+        } else {
+          anchorElement = cloneElement(anchor, {active});
+        }
     }
 
     return (
@@ -151,6 +161,8 @@ export default class Dropdown extends Component {
         data-test={dataTests('ring-dropdown', dataTest)}
         {...restProps}
         onClick={clickMode ? this.onClick : undefined}
+        // anchorElement should be a `button` or an `a`
+        role="presentation"
         onMouseEnter={hoverMode ? this.onMouseEnter : undefined}
         onMouseLeave={hoverMode ? this.onMouseLeave : undefined}
         className={classes}

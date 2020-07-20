@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import {
   Simulate
@@ -27,7 +26,7 @@ describe('Dropdown', () => {
       ref={function popupRef(el) {
         popup = el;
       }}
-    />
+    >{'foo'}</Popup>
   );
 
   const shallowDropdown = (props, children = popupElement) => shallow(
@@ -132,7 +131,7 @@ describe('Dropdown', () => {
           ref={function popupRef(el) {
             popupEl = el;
           }}
-        />
+        >{'foo'}</Popup>
       );
 
       wrapper = mountDropdown(dropDownProps, popupComponent);

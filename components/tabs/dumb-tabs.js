@@ -4,22 +4,19 @@ import classNames from 'classnames';
 
 import memoize from '../global/memoize';
 
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
-
-import Link from '../link/link';
 
 import styles from './tabs.css';
 
-import Tab from './tab';
+import TabLink from './tab-link';
 
 export const CustomItem = ({children}) => children;
 CustomItem.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export default class Tabs extends PureComponent {
-  static Theme = Theme;
+class Tabs extends PureComponent {
   static propTypes = {
     theme: PropTypes.string,
     selected: PropTypes.string,
@@ -31,22 +28,12 @@ export default class Tabs extends PureComponent {
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
     onSelect() {}
   };
 
-  handleSelect = memoize(key => () => this.props.onSelect(key));
+  static Theme = Theme;
 
-  getTabTitleCaption(title, isSelected) {
-    const renderedTitle = Tab.renderTitle(title, isSelected);
-    return (
-      <>
-        <span className={styles.visible}>{renderedTitle}</span>
-        {/* hack for preserving constant tab width*/}
-        <span className={styles.hidden}>{renderedTitle}</span>
-      </>
-    );
-  }
+  handleSelect = memoize(key => () => this.props.onSelect(key));
 
   getTabTitle = (child, i) => {
     if (child == null || typeof child !== 'object' || child.type === CustomItem) {
@@ -62,7 +49,9 @@ export default class Tabs extends PureComponent {
     });
 
     return (
-      <Link
+      <TabLink
+        title={title}
+        isSelected={isSelected}
         active
         key={key}
         href={href}
@@ -70,7 +59,7 @@ export default class Tabs extends PureComponent {
         className={titleClasses}
         disabled={disabled}
         onPlainLeftClick={this.handleSelect(key)}
-      >{() => this.getTabTitleCaption(title, isSelected)}</Link>
+      />
     );
   };
 
@@ -91,3 +80,4 @@ export default class Tabs extends PureComponent {
     );
   }
 }
+export default withTheme()(Tabs);

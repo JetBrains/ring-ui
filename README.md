@@ -1,11 +1,11 @@
 # Ring UI — JetBrains Web UI components
-[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
+[![Storybook][storybook-img]][docsite] [![Build Status][ci-img]][ci-bt] [![Storybook][browserstack-img]][browserstack-build-page] [![Dependencies Status][deps-img]][deps] [![Dev Dependencies Status][dev-deps-img]][dev-deps] [![NPM version][npm-version-img]][npm-package] [![NPM downloads][npm-count-img]][npm-package]
 
 [![official JetBrains project](https://jb.gg/badges/official-flat-square.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 
 This collection of UI components aims to provide all of the necessary building blocks for web-based products built inside JetBrains, as well as third-party plugins developed for JetBrains' products.
 
-### Quick start
+## Quick start
 
 1. Install Yeoman and Ring UI generator: `npm install -g yo @jetbrains/generator-ring-ui`
 2. Go to the root directory of your project (create one if necessary) and run `yo @jetbrains/ring-ui`. After you enter the name of the project all the necessary npm dependencies will be installed.
@@ -16,7 +16,7 @@ This collection of UI components aims to provide all of the necessary building b
    - `npm run build` to build a production bundle
    - `npm run create-component` to create a new component template with styles and tests
 
-### Not-so-quick start
+## Not-so-quick start
 
 In case boilerplate generators are not your thing and you prefer to understand the inner workings a bit better.
 
@@ -53,11 +53,11 @@ In case boilerplate generators are not your thing and you prefer to understand t
    module.exports = webpackConfig;
    ```
 
-### Contributing
+## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
-### Links
+## Links
 
 - [Living style guide][docsite]
 - [GitHub repository](https://github.com/JetBrains/ring-ui)
@@ -78,3 +78,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md)
 [npm-version-img]: https://img.shields.io/npm/v/@jetbrains/ring-ui.svg
 [npm-count-img]: https://img.shields.io/npm/dt/@jetbrains/ring-ui.svg
 [storybook-img]: https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg
+[browserstack-img]: https://automate.browserstack.com/badge.svg?badge_key=elc3S1IvemtCdHBjcHdmQzdRcm9xYWxTakFvSWFqT2lrOGtrTjZRbFVRaz0tLXE0VnpyUjRqSk1Xc2xIQ1NnL1pkbnc9PQ==--f96a555ca0fe3ce50d0770cb975be0f3b6a6cf79
+[browserstack-build-page]: https://automate.browserstack.com/public-build/elc3S1IvemtCdHBjcHdmQzdRcm9xYWxTakFvSWFqT2lrOGtrTjZRbFVRaz0tLXE0VnpyUjRqSk1Xc2xIQ1NnL1pkbnc9PQ==--f96a555ca0fe3ce50d0770cb975be0f3b6a6cf79

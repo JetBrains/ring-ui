@@ -10,8 +10,6 @@ import RadioItem, {RadioContext} from './radio__item';
  */
 
 export default class Radio extends Component {
-  static Item = RadioItem;
-
   static propTypes = {
     name: PropTypes.string,
     disabled: PropTypes.bool,
@@ -23,6 +21,8 @@ export default class Radio extends Component {
     onChange: PropTypes.func,
     children: PropTypes.node.isRequired
   };
+
+  static Item = RadioItem;
 
   uid = getUID('ring-radio-');
 

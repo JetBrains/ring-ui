@@ -1,28 +1,35 @@
 import React, {Component} from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Button from '../button/button';
+import Button from '@jetbrains/ring-ui/components/button/button';
 
-import Panel from './panel';
+import Panel from '@jetbrains/ring-ui/components/panel/panel';
 
-storiesOf('Components|Panel', module).
-  addParameters({
+export default {
+  title: 'Components/Panel',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Displays a button panel.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    class PanelDemo extends Component {
-      render() {
-        return (
-          <Panel>
-            <Button blue>{'Apply changes'}</Button>
-            <Button>{'Cancel'}</Button>
-          </Panel>
-        );
-      }
-    }
+  }
+};
 
-    return <PanelDemo/>;
-  });
+export const basic = () => {
+  class PanelDemo extends Component {
+    render() {
+      return (
+        <Panel>
+          <Button primary>{'Apply changes'}</Button>
+          <Button>{'Cancel'}</Button>
+        </Panel>
+      );
+    }
+  }
+
+  return <PanelDemo/>;
+};
+
+basic.story = {
+  name: 'basic'
+};

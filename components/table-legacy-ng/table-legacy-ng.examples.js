@@ -1,43 +1,42 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import SelectNG from '../select-ng/select-ng';
-import SidebarNG from '../sidebar-ng/sidebar-ng';
-import QueryAssistNG from '../query-assist-ng/query-assist-ng';
+import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
+import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
-import TableNG from './table-legacy-ng';
+import TableNG from '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng';
 
-storiesOf('Legacy Angular|TableLegacy Ng', module).
-  addDecorator(angularDecorator()).
-  addParameters({
+export default {
+  title: 'Legacy Angular/TableLegacy Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Displays tabular data.',
     hermione: {skip: true}
-  }).
-  add('basic', () => {
-    angular.module(APP_NAME, [TableNG]).
-      controller('testCtrl', function controller() {
-        this.itemsArray = [{
-          name: 'test1',
-          subList: [{name: 'some group'}],
-          iconUrl: 'http://via.placeholder.com/16x16'
-        }];
+  }
+};
 
-        for (let i = 0; i < 20; i++) {
-          this.itemsArray.push({
-            name: Math.random(),
-            subList: [
-              {name: Math.random()},
-              {name: Math.random()},
-              {name: Math.random()}
-            ]
-          });
-        }
+export const basic = () => {
+  angular.module(APP_NAME, [TableNG]).controller('testCtrl', function controller() {
+    this.itemsArray = [
+      {
+        name: 'test1',
+        subList: [{name: 'some group'}],
+        iconUrl: 'http://via.placeholder.com/16x16'
+      }
+    ];
+
+    for (let i = 0; i < 20; i++) {
+      this.itemsArray.push({
+        name: Math.random(),
+        subList: [{name: Math.random()}, {name: Math.random()}, {name: Math.random()}]
       });
+    }
+  });
 
-    return `
+  return `
       <div ng-controller="testCtrl as ctrl">
         <rg-legacy-table-toolbar stick>
           <div>Some toolbar content. Selected item:
@@ -55,10 +54,10 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
 
           <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
             <rg-legacy-table-column avatar>
-              <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+              <img alt="Avatar" ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
                 class="ring-table__avatar__img"/>
             </rg-legacy-table-column>
-            <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
+            <rg-legacy-table-checkbox-cell aria-label="Toggle row checked state"></rg-legacy-table-checkbox-cell>
             <rg-legacy-table-column limited>{{ ::item.name }}</rg-legacy-table-column>
             <rg-legacy-table-column wide limited>
               <span class="ring-table__column-list"
@@ -68,11 +67,16 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         </rg-legacy-table>
       </div>
     `;
-  }).
-  add('without selection', () => {
-    angular.module(APP_NAME, [TableNG]);
+};
 
-    return `
+basic.story = {
+  name: 'basic'
+};
+
+export const withoutSelection = () => {
+  angular.module(APP_NAME, [TableNG]);
+
+  return `
       <div ng-init="itemsArray = ['first', 'second', 'third', 'fourth']">
         <rg-legacy-table items="itemsArray" disable-selection="true">
           <rg-legacy-table-row row-item="item" ng-repeat="item in itemsArray">
@@ -81,36 +85,49 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         </rg-legacy-table>
       </div>
     `;
-  }, {hermione: {skip: true}}).
-  add('with sidebar', () => {
-    angular.module(APP_NAME, [TableNG, SidebarNG, SelectNG, QueryAssistNG]).
-      controller('testCtrl', function controller($timeout) {
-        this.query = 'fooo';
+};
 
-        this.isShowSideBar = true;
+withoutSelection.story = {
+  name: 'without selection',
+  parameters: {hermione: {skip: true}}
+};
 
-        $timeout(() => {
-          this.itemsArray = [{
+export const withSidebar = () => {
+  angular.
+    module(APP_NAME, [TableNG, SidebarNG, SelectNG, QueryAssistNG]).
+    controller('testCtrl', function controller($timeout) {
+      this.query = 'fooo';
+
+      this.isShowSideBar = true;
+
+      $timeout(() => {
+        this.itemsArray = [
+          {
             name: 'test1',
-            iconUrl: 'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
-          }];
-
-          for (let i = 0; i < 20; i++) {
-            this.itemsArray.push({name: Math.random()});
+            iconUrl:
+              'https://d13yacurqjgara.cloudfront.net/users/317408/avatars/mini/Layout_Behance_Avatar_(1).jpg?1376382552'
           }
-        }, 500);
+        ];
 
-        this.queryAssistSource = ({query, caret, omitSuggestions}) => ({
-          caret,
-          query,
-          styleRanges: omitSuggestions
-            ? [{
+        for (let i = 0; i < 20; i++) {
+          this.itemsArray.push({name: Math.random()});
+        }
+      }, 500);
+
+      this.queryAssistSource = ({query, caret, omitSuggestions}) => ({
+        caret,
+        query,
+        styleRanges: omitSuggestions
+          ? [
+            {
               start: 0,
               length: 1,
               style: 'text'
-            }]
-            : [],
-          suggestions: [{
+            }
+          ]
+          : [],
+        suggestions: [
+          {
             prefix: 'login: ',
             option: 'test',
             suffix: ' ',
@@ -122,11 +139,12 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
             completionEnd: 4,
             group: 'logins',
             icon: 'data:uri'
-          }]
-        });
+          }
+        ]
       });
+    });
 
-    return `
+  return `
       <h3>Scroll down to see the effect</h3>
       <div ng-controller="testCtrl as ctrl">
         <rg-sidebar show="ctrl.isShowSideBar"
@@ -164,10 +182,10 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
 
           <rg-legacy-table-row row-item="item" ng-repeat="item in ctrl.itemsArray">
             <rg-legacy-table-column avatar>
-              <img ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
+              <img alt="Avatar" ng-if="::item.iconUrl" ng-src="{{ ::item.iconUrl }}"
                 class="ring-table__avatar__img"/>
             </rg-legacy-table-column>
-            <rg-legacy-table-checkbox-cell></rg-legacy-table-checkbox-cell>
+            <rg-legacy-table-checkbox-cell aria-label="Toggle row checked state"></rg-legacy-table-checkbox-cell>
             <rg-legacy-table-column limited>{{::item.name }}</rg-legacy-table-column>
             <rg-legacy-table-column>
               <rg-sidebar-toggle-button ng-show="item.active"
@@ -177,4 +195,9 @@ storiesOf('Legacy Angular|TableLegacy Ng', module).
         </rg-legacy-table>
       </div>
     `;
-  }, {hermione: {skip: true}});
+};
+
+withSidebar.story = {
+  name: 'with sidebar',
+  parameters: {hermione: {skip: true}}
+};

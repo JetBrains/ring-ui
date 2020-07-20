@@ -145,7 +145,7 @@ const defaultcontainerRect = {
 };
 
 function handleTopOffScreen({
-  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction
+  sidePadding, styles, anchorRect, maxHeight, popupScrollHeight, direction, scroll
 }) {
   const BORDER_COMPENSATION = 1;
   const {TOP_LEFT, TOP_RIGHT, TOP_CENTER, RIGHT_TOP, LEFT_TOP} = Directions;
@@ -163,7 +163,7 @@ function handleTopOffScreen({
   const hypotheticalTop = attachingPointY - effectiveHeight;
 
   if (hypotheticalTop <= sidePadding) {
-    styles.top = sidePadding;
+    styles.top = sidePadding + scroll.top;
     styles.maxHeight = attachingPointY - sidePadding + BORDER_COMPENSATION;
   }
 
@@ -172,17 +172,16 @@ function handleTopOffScreen({
 
 
 export function maxHeightForDirection(direction, anchorNode, containerNode) {
-  // eslint-disable-next-line no-param-reassign
-  containerNode = containerNode || document.documentElement;
+  const container = containerNode || document.documentElement;
   const domRect = anchorNode.getBoundingClientRect();
-  const containerRect = containerNode.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
   const topMaxHeight = Math.max(domRect.top - containerRect.top, 0);
   const containerHeight = Math.max(containerRect.height,
     // XXX
     // If container is the document element
     // then we check client height too because we may have situation when
     // "height" from "getBoundingClientRect" less then "clientHeight".
-    containerNode === document.documentElement ? containerNode.clientHeight : 0);
+    container === document.documentElement ? container.clientHeight : 0);
   const bottomMaxHeight = Math.max(containerHeight - (topMaxHeight + domRect.height), 0);
   switch (direction) {
     case Directions.TOP_LEFT:
@@ -192,15 +191,16 @@ export function maxHeightForDirection(direction, anchorNode, containerNode) {
     case Directions.BOTTOM_LEFT:
     case Directions.BOTTOM_CENTER:
     case Directions.BOTTOM_RIGHT:
+      return bottomMaxHeight;
     case Directions.LEFT_BOTTOM:
     case Directions.RIGHT_BOTTOM:
-      return bottomMaxHeight;
+      return domRect.height + bottomMaxHeight;
     case Directions.LEFT_TOP:
     case Directions.RIGHT_TOP:
-      return domRect.height + bottomMaxHeight;
+      return domRect.height + topMaxHeight;
     case Directions.RIGHT_CENTER:
     case Directions.LEFT_CENTER:
-      return (domRect.height / 2) + bottomMaxHeight;
+      return (domRect.height / 2) + Math.min(bottomMaxHeight / 2, topMaxHeight / 2);
     default:
       return null;
   }
@@ -257,6 +257,13 @@ export default function position(attrs) {
       styles = sortedByIncreasingOverflow[0].styles;
       chosenDirection = sortedByIncreasingOverflow[0].direction;
     }
+
+    // because of the anchor negative margin top and left also may become negative
+    ['left', 'top'].forEach(key => {
+      if (styles[key] < 0) {
+        styles[key] = 0;
+      }
+    });
   }
 
   if (maxHeight === MaxHeight.SCREEN || maxHeight === 'screen') {
@@ -273,7 +280,8 @@ export default function position(attrs) {
       anchorRect,
       maxHeight,
       direction: chosenDirection,
-      popupScrollHeight: popup.scrollHeight
+      popupScrollHeight: popup.scrollHeight,
+      scroll
     });
   }
 

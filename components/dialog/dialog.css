@@ -12,10 +12,19 @@
 
   display: flex;
   overflow: auto;
+  align-items: center;
+  justify-content: center;
 
   padding: calc(unit * 4) unit;
 
   background-color: rgba(255, 255, 255, 0.4);
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 100%;
 }
 
 .content {
@@ -23,7 +32,6 @@
 
   width: calc(unit * 58);
   min-height: calc(unit * 15);
-  max-height: 100%;
   margin: auto;
 
   cursor: default;
@@ -50,41 +58,62 @@
 }
 
 .clickableOverlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
   cursor: pointer;
 }
 
-.clickableOverlay:hover .closeIcon {
-  color: var(--ring-border-hover-color);
-}
-
-.content:hover .closeIcon {
-  color: var(--ring-icon-color);
+.clickableOverlay:hover + * .closeIcon {
+  color: var(--ring-icon-hover-color);
 }
 
 .closeButton:hover .closeIcon {
-  color: var(--ring-border-hover-color);
+  color: var(--ring-icon-hover-color);
 }
 
-.clickableOverlay:active .closeIcon {
+.clickableOverlay:active + * .closeIcon {
   color: var(--ring-main-color);
-}
-
-.content:active .closeIcon {
-  color: var(--ring-icon-color);
 }
 
 .closeButton:active .closeIcon {
   color: var(--ring-main-color);
 }
 
-.closeButton {
+.closeButton.closeButton {
   position: absolute;
+}
+
+.closeButtonOutside {
   top: 0;
   right: calc(unit * -4);
+}
+
+.closeButtonInside {
+  top: calc(unit * 1.5);
+  right: unit;
 }
 
 .bodyWithoutScroll {
   overflow: hidden;
 
   height: 100%;
+}
+
+.popupTarget {
+  position: fixed;
+  z-index: var(--ring-overlay-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  pointer-events: none;
+
+  & > :not(.popupTarget) {
+    pointer-events: initial;
+  }
 }

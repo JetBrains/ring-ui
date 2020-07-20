@@ -7,15 +7,16 @@ import Icon, {Size} from '../icon/icon';
 import styles from './header.css';
 
 export default class Logo extends PureComponent {
-  static Size = Size
-
   static propTypes = {
     className: PropTypes.string
-  }
+  };
 
   static defaultProps = {
-    size: Size.Size48
-  }
+    size: Size.Size48,
+    suppressSizeWarning: true
+  };
+
+  static Size = Size;
 
   render() {
     const {className, ...restProps} = this.props;

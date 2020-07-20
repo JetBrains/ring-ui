@@ -6,7 +6,7 @@ import {getDocumentScrollTop, getWindowHeight} from '../global/dom';
 
 import './docked-panel-ng.scss';
 
-const scheduleScroll = scheduleRAF();
+const scheduleAction = scheduleRAF();
 
 /**
  * @name Docked Panel Ng
@@ -139,7 +139,7 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
           checkPanelPosition();
           onResize();
         };
-        const scrollListener = () => scheduleScroll(checkPanelPosition);
+        const scrollListener = () => scheduleAction(checkPanelPosition);
 
         /**
          * Wait until all content on the page is loaded
@@ -155,8 +155,10 @@ angularModule.directive('rgDockedPanel', function rgDockedPanelDirective($parse)
             window.removeEventListener('resize', _onResize);
           });
 
-          saveInitialPos();
-          checkPanelPosition();
+          scheduleAction(() => {
+            saveInitialPos();
+            checkPanelPosition();
+          });
         });
       }
 

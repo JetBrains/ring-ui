@@ -1,7 +1,8 @@
 import GroupIcon from '@jetbrains/icons/group.svg';
 
-import List from '../list/list';
 import HubSourceUsersGroups from '../hub-source/hub-source__users-groups';
+
+import List from './list';
 
 const defaultOptions = {
   GroupsTitle: 'Groups',

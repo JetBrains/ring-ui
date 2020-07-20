@@ -6,9 +6,11 @@ import closeIcon from '@jetbrains/icons/close.svg';
 
 import {AdaptiveIsland} from '../island/island';
 import getUID from '../global/get-uid';
+import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap from '../tab-trap/tab-trap';
 import Button from '../button/button';
+import {PopupTarget} from '../popup/popup';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
@@ -29,6 +31,7 @@ export default class Dialog extends PureComponent {
     ]),
     show: PropTypes.bool.isRequired,
     showCloseButton: PropTypes.bool,
+    closeButtonInside: PropTypes.bool,
     onOverlayClick: PropTypes.func,
     onEscPress: PropTypes.func,
     onCloseClick: PropTypes.func,
@@ -37,7 +40,8 @@ export default class Dialog extends PureComponent {
     onCloseAttempt: PropTypes.func,
     // focusTrap may break popups inside dialog, so use it carefully
     trapFocus: PropTypes.bool,
-    autoFocusFirst: PropTypes.bool
+    autoFocusFirst: PropTypes.bool,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -46,6 +50,7 @@ export default class Dialog extends PureComponent {
     onCloseClick: noop,
     onCloseAttempt: noop,
     showCloseButton: false,
+    closeButtonInside: false,
     trapFocus: false,
     autoFocusFirst: true
   };
@@ -68,6 +73,8 @@ export default class Dialog extends PureComponent {
     ScrollPreventer.reset();
   }
 
+  uid = getUID('dialog-');
+
   toggleScrollPreventer() {
     if (this.props.show) {
       ScrollPreventer.prevent();
@@ -77,9 +84,6 @@ export default class Dialog extends PureComponent {
   }
 
   handleClick = event => {
-    if (event.target !== this.dialog) {
-      return;
-    }
     this.props.onOverlayClick(event);
     this.props.onCloseAttempt(event);
   };
@@ -107,46 +111,65 @@ export default class Dialog extends PureComponent {
   };
 
   render() {
-    // eslint-disable-next-line no-unused-vars, max-len
-    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick, children, className, contentClassName, trapFocus, ...restProps} = this.props;
-    const classes = classNames(styles.container, className, {
-      [styles.clickableOverlay]: onOverlayClick !== noop || onCloseAttempt !== noop
-    });
+    const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
+      children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
+      ...restProps} = this.props;
+    const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
     return show && createPortal(
-      <TabTrap
-        trapDisabled={!trapFocus}
-        data-test="ring-dialog-container"
-        ref={this.dialogRef}
-        className={classes}
-        onClick={this.handleClick}
-        {...restProps}
-      >
-        <Shortcuts
-          map={shortcutsMap}
-          scope={this.state.shortcutsScope}
-        />
-        <AdaptiveIsland
-          className={classNames(styles.content, contentClassName)}
-          data-test="ring-dialog"
-          role="dialog"
-        >
-          {children}
-          {showCloseButton &&
-            (
-              <Button
-                icon={closeIcon}
-                data-test="ring-dialog-close-button"
-                className={styles.closeButton}
-                iconClassName={styles.closeIcon}
-                onClick={this.onCloseClick}
-                aria-label="close dialog"
+      <PopupTarget id={this.uid} className={styles.popupTarget}>
+        {
+          target => (
+            <TabTrap
+              trapDisabled={!trapFocus}
+              data-test={dataTests('ring-dialog-container', dataTest)}
+              ref={this.dialogRef}
+              className={classes}
+              role="presentation"
+              {...restProps}
+            >
+              <Shortcuts
+                map={shortcutsMap}
+                scope={this.state.shortcutsScope}
               />
-            )
-          }
-        </AdaptiveIsland>
-      </TabTrap>,
+              {(onOverlayClick !== noop || onCloseAttempt !== noop) && (
+                <div
+                  // click handler is duplicated in close button
+                  role="presentation"
+                  className={styles.clickableOverlay}
+                  onClick={this.handleClick}
+                />
+              )}
+              <div className={styles.innerContainer}>
+                <AdaptiveIsland
+                  className={classNames(styles.content, contentClassName)}
+                  data-test="ring-dialog"
+                  role="dialog"
+                >
+                  {children}
+                  {showCloseButton &&
+                    (
+                      <Button
+                        icon={closeIcon}
+                        data-test="ring-dialog-close-button"
+                        className={classNames(styles.closeButton, {
+                          [styles.closeButtonOutside]: !closeButtonInside,
+                          [styles.closeButtonInside]: closeButtonInside
+                        })}
+                        iconClassName={styles.closeIcon}
+                        onClick={this.onCloseClick}
+                        aria-label="close dialog"
+                      />
+                    )
+                  }
+                </AdaptiveIsland>
+              </div>
+              {target}
+            </TabTrap>
+          )
+        }
+      </PopupTarget>,
       document.body
     );
   }

@@ -1,3 +1,4 @@
+/* global hermione */
 const querystring = require('querystring');
 
 const filenamify = require('filenamify');
@@ -12,12 +13,12 @@ function addTestName(name, storyName) {
 
 for (const {kind, stories} of items) {
   const kindName = kind.
-    split(/[|/]/g).
+    split(/\//g).
     map(filenamify).
     join('/');
   describe(kindName, () => {
     for (const story of stories) {
-      const {name, parameters = {}} = story;
+      const {name, id, parameters = {}} = story;
       const testName = filenamify(name);
       const {
         captureSelector = '[id=root]',
@@ -25,16 +26,16 @@ for (const {kind, stories} of items) {
         actions = [{type: 'capture', name: '', selector: captureSelector}]
       } = parameters;
 
-      if (skip) {
+      if (skip === true) {
         continue;
+      }
+      if (skip) {
+        hermione.skip.in(skip);
       }
 
       it(testName, async function test() {
         await this.browser.url(
-          `iframe.html?${querystring.stringify({
-            selectedKind: kind,
-            selectedStory: name
-          })}&block-animations`,
+          `iframe.html?${querystring.stringify({id, 'block-animations': true, 'block-auth': true})}`,
         );
 
         for (const action of actions) {

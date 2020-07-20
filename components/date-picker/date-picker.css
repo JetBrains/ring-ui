@@ -1,6 +1,6 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value cellSize: calc(unit * 3);
 @value calHeight: calc(unit * 36);
 @value calWidth: calc(unit * 37);
@@ -89,7 +89,9 @@
   flex-basis: calc(unit * 13);
   flex-grow: 0;
   flex-shrink: 0;
+}
 
+.fromInputWithDivider {
   &::after {
     position: absolute;
     right: unit;
@@ -106,6 +108,25 @@
   flex-shrink: 0;
 
   width: calc(unit * 13);
+}
+
+.dateInput {
+  flex-basis: calc(unit * 11);
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.timeInputWithDivider {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    left: calc(-1 * unit);
+
+    content: ',';
+
+    line-height: calc(4 * unit - 3px);
+  }
 }
 
 .weekdays {
@@ -187,6 +208,8 @@
 }
 
 .day {
+  composes: resetButton;
+
   position: relative;
 
   flex-basis: cellSize;
@@ -225,6 +248,12 @@
   color: var(--ring-link-hover-color);
   border-radius: var(--ring-border-radius);
   background-color: var(--ring-date-picker-hover-color);
+}
+
+.disabled {
+  cursor: not-allowed;
+
+  color: var(--ring-disabled-color);
 }
 
 .from {
@@ -409,6 +438,7 @@
 
 .monthName {
   composes: hoverable;
+  composes: resetButton;
 
   position: relative;
 
@@ -419,10 +449,14 @@
 }
 
 .monthSlider {
+  composes: resetButton;
+
   position: absolute;
   z-index: var(--ring-fixed-z-index);
   right: 0;
   left: -1px;
+
+  width: calc(100% + 1px);
 
   height: calc(unit * 6);
 
@@ -466,8 +500,11 @@
 
 .year {
   composes: hoverable;
+  composes: resetButton;
 
   position: relative;
+
+  width: 100%;
 
   height: yearHeight;
 

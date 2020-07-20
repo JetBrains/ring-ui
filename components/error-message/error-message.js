@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import {Size} from '../icon/icon__constants';
 
 import styles from './error-message.css';
@@ -14,7 +14,7 @@ import styles from './error-message.css';
 
 export default class ErrorMessage extends Component {
   static propTypes = {
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     code: PropTypes.string,
     message: PropTypes.string,
     description: PropTypes.string,

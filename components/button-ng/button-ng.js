@@ -8,6 +8,7 @@ import {addClasses, applyMethodToClasses, removeClasses} from '../global/dom';
 import IconNG from '../icon-ng/icon-ng';
 import Theme, {applyTheme} from '../global/theme';
 import styles from '../button/button.css';
+import {getButtonClasses} from '../button/button__classes';
 
 import overrides from './button-ng.css';
 
@@ -20,11 +21,12 @@ const {ringIconDefaultColor, iconMarginFix, transcludeSpacer} = overrides;
 
 const angularModule = angular.module('Ring.button', [IconNG]);
 const ORDER_NOT_DEFINED = '-1';
-const buttonClasses = classNames(
-  styles.button,
-  styles.buttonWithoutIcon,
-  styles.light
-);
+
+const buttonClassesMap = Object.values({...styles, ...overrides}).
+  reduce((acc, classes) => {
+    classes.split(' ').forEach(value => (acc[value] = true));
+    return acc;
+  }, {});
 
 export const LOADER_BACKGROUND_SELECTOR = '.js-button-loader';
 
@@ -39,22 +41,22 @@ class ButtonController extends RingAngularComponent {
     this.element = $element[0];
 
     const modifiers = ['delayed', 'loader', 'danger', 'short', 'active', 'text', 'inline', 'narrowRight'];
-    const cl = this.element.classList;
 
     modifiers.forEach(mod => {
       $scope.$watch(() => $scope.$eval($attrs[mod]), val => {
+        this.updateClasses();
         const attrName = `data-test-${mod}`;
 
         if (val) {
-          addClasses(cl, styles[mod]);
           this.element.setAttribute(attrName, true);
         } else {
-          removeClasses(cl, styles[mod]);
           this.element.removeAttribute(attrName);
         }
 
         if (mod === 'loader') {
-          applyMethodToClasses(val ? 'add' : 'remove')(
+          const isText = this.getAttrValue($attrs.text);
+          const withIcon = !!$attrs.icon;
+          applyMethodToClasses((val && !isText && !withIcon) ? 'add' : 'remove')(
             this.element.querySelector(LOADER_BACKGROUND_SELECTOR).classList,
             styles.loaderBackground
           );
@@ -79,38 +81,73 @@ class ButtonController extends RingAngularComponent {
   }
 
   $postLink() {
+    this.updateClasses();
+
     const {$attrs} = this.$inject;
-    if (!$attrs.hasOwnProperty('mode')) {
-      addClasses(this.findTranscludeNode().classList, ringIconDefaultColor);
-    }
-    $attrs.$observe('mode', this.updateMode);
-    $attrs.$observe('icon', this.updateIcon);
-    $attrs.$observe('iconSize', this.updateIcon);
-    $attrs.$observe('theme', this.updateTheme);
+    $attrs.$observe('mode', this.updateClasses);
+    $attrs.$observe('icon', () => {
+      this.updateClasses();
+      this.updateIcon();
+    });
+    $attrs.$observe('iconSize', () => {
+      this.updateClasses();
+      this.updateIcon();
+    });
+    $attrs.$observe('theme', this.updateClasses);
   }
 
-  updateTheme = themeName => {
-    if (isValidTheme(themeName)) {
-      changeTheme(this.element, {currentTheme: themeName});
+  getAttrValue(attribute) {
+    const {$scope} = this.$inject;
+    return $scope.$eval(attribute);
+  }
+
+  updateClasses = () => {
+    const {$attrs} = this.$inject;
+    this.warnDeprecations($attrs);
+
+    const theme = this.element.classList.contains(styles.light) ? Theme.LIGHT : Theme.DARK;
+
+    const foreignClasses = [...this.element.classList].filter(name => !buttonClassesMap[name]);
+
+    this.element.className = classNames(
+      foreignClasses,
+      getButtonClasses({
+        className: styles.button,
+        active: this.getAttrValue($attrs.active),
+        disabled: this.getAttrValue($attrs.disabled),
+        loader: this.getAttrValue($attrs.loader),
+        primary: $attrs.mode === 'primary' || $attrs.mode === 'blue',
+        short: this.getAttrValue($attrs.short),
+        text: this.getAttrValue($attrs.text),
+        inline: this.getAttrValue($attrs.inline),
+        danger: this.getAttrValue($attrs.danger),
+        delayed: this.getAttrValue($attrs.delayed),
+        icon: $attrs.icon,
+        theme
+      }),
+      {
+        // Some overrides for angular buttons
+        [overrides.buttonWithoutIcon]: !$attrs.icon,
+        [overrides.narrowRight]: this.getAttrValue($attrs.narrowRight)
+      },
+    );
+
+    if (!$attrs.hasOwnProperty('mode')) {
+      addClasses(this.findTranscludeNode().classList, ringIconDefaultColor);
+    } else {
+      removeClasses(this.findTranscludeNode().classList, ringIconDefaultColor);
     }
   };
 
   findTranscludeNode = () => this.element.query('ng-transclude');
 
-  updateMode = val => {
-    const cl = this.element.classList;
-    if (val === 'primary' || val === 'blue') {
-      // Deprecation fallback. Someone please remove this one day.
-      if (val === 'blue') {
-        this.$inject.$log.warn(
-          'Ring UI ButtonNG doesn\'t have "blue" mode anymore. Use "primary" mode instead.',
-          this.element
-        );
-      }
-
-      addClasses(cl, styles.primary);
-    } else {
-      removeClasses(cl, styles.primary);
+  warnDeprecations = $attrs => {
+    // Deprecation fallback. Someone please remove this one day.
+    if ($attrs.mode === 'blue') {
+      this.$inject.$log.warn(
+        'Ring UI ButtonNG doesn\'t have "blue" mode anymore. Use "primary" mode instead.',
+        this.element
+      );
     }
   };
 
@@ -120,37 +157,28 @@ class ButtonController extends RingAngularComponent {
     const transcludeNode = this.findTranscludeNode();
     const glyph = $attrs.icon;
     const size = $attrs.iconSize;
-    const cl = this.element.classList;
+    const isLoading = this.getAttrValue($attrs.loader);
+
+    if (glyph && isLoading) {
+      icon.setAttribute('loading', true);
+    } else {
+      icon.setAttribute('loading', false);
+    }
 
     if (glyph) {
-      removeClasses(cl, styles.buttonWithoutIcon);
-      addClasses(cl, styles.withIcon);
       addClasses(transcludeNode.classList, transcludeSpacer);
       icon.setAttribute('glyph', glyph);
       if (size) {
         icon.setAttribute('size', size);
       }
     } else {
-      removeClasses(cl, styles.withIcon);
-      addClasses(cl, styles.buttonWithoutIcon);
       removeClasses(transcludeNode.classList, transcludeSpacer);
       icon.removeAttribute('glyph');
       icon.removeAttribute('size');
     }
 
-    if (glyph && !transcludeNode.textContent) {
-      addClasses(cl, styles.onlyIcon);
-    } else {
-      removeClasses(cl, styles.onlyIcon);
-    }
-
     $compile(icon)($scope);
   }
-}
-
-
-function isValidTheme(themeName) {
-  return themeName && Object.values(Theme).some(theme => theme === themeName);
 }
 
 function changeTheme(element, data) {
@@ -170,9 +198,9 @@ function createButtonDirective(tagName) {
       rgThemeCtrl: '?^^rgTheme'
     },
     template: `
-  <${tagName} class="${buttonClasses}">
+  <${tagName} class="${styles.button} ${styles.light}">
   <span class="${styles.content}"
-  ><rg-icon class="${classNames(styles.icon, iconMarginFix)}"></rg-icon
+  ><rg-icon class="${classNames(styles.icon, overrides.iconNg, iconMarginFix)}"></rg-icon
   ><ng-transclude></ng-transclude
   ></span
   ><div class="js-button-loader"></div>

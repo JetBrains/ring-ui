@@ -25,7 +25,8 @@ class TestComponent extends PureComponent {
   render() {
     const {id, someObj, className} = this.props;
     return (
-      <div
+      <button
+        type="button"
         id={id}
         data-some-obj={someObj.foo}
         onClick={this.handleClick}

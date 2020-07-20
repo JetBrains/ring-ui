@@ -1,14 +1,17 @@
+/* eslint-disable camelcase */
 const path = require('path');
 
 const ip = require('ip');
+require('dotenv').config();
 
 const baseUrl = `http://${ip.address()}:9999/`;
 
 const gridUrl = process.env.SELENIUM_GRID ||
-  `http://${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY}@ondemand.saucelabs.com/wd/hub`;
+  `https://${process.env.BROWSERSTACK_NAME}:${process.env.BROWSERSTACK_KEY}@hub-cloud.browserstack.com/wd/hub`;
 // Supports Firefox
 const windowSize = '1024x1000';
-const WIN10 = 'Windows 10';
+const os = 'Windows';
+const os_version = '10';
 const RELAXED_TOLERANCE = 7;
 const maxDuration = 3600;
 const isTeamCity = process.argv.indexOf('--teamcity') !== -1;
@@ -34,41 +37,48 @@ module.exports = {
   },
   screenshotsDir: test =>
     path.join('hermione', test.browserId, test.parent.title.toLowerCase()),
-  // See all platforms here https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
+
+  desiredCapabilities: {
+    project: 'Ring UI',
+    build: `Screenshots comparision [build ${process.env.BUILD_NUMBER || `local ${Date.now()}`}]`,
+    'browserstack.local': true
+  },
+  // See all platforms here https://www.browserstack.com/automate/capabilities
   browsers: {
     chrome: {
       desiredCapabilities: {
-        browserName: 'chrome',
-        version: '74.0',
-        platform: WIN10,
+        browser: 'Chrome',
+        pageLoadStrategy: 'normal',
+        browser_version: '83.0',
+        chromeOptions: {
+          excludeSwitches: ['enable-automation']
+        },
+        os,
+        os_version,
         maxDuration
       }
     },
     firefox: {
-      resetCursor: false, // Prevents SauceLabs failure on performing "moveto" command
+      resetCursor: false, // Prevents grid failure on performing "moveto" command
+      screenshotDelay: 500, // Wait while macOS scrollbars disappear
       desiredCapabilities: {
-        browserName: 'firefox',
-        version: '68.0',
-        platform: WIN10,
+        browser: 'Firefox',
+        pageLoadStrategy: 'normal',
+        browser_version: '78.0',
+        os: 'OS X',
+        os_version: 'Catalina',
         maxDuration
       }
     },
     ie: {
+      tolerance: RELAXED_TOLERANCE,
       testsPerSession: 20,
       desiredCapabilities: {
-        browserName: 'internet explorer',
-        version: '11.309',
-        platform: WIN10,
-        maxDuration
-      }
-    },
-    edge: {
-      tolerance: RELAXED_TOLERANCE,
-      antialiasingTolerance: RELAXED_TOLERANCE,
-      desiredCapabilities: {
-        browserName: 'MicrosoftEdge',
-        version: '17.17134',
-        platform: WIN10,
+        browser: 'IE',
+        pageLoadStrategy: 'normal',
+        version: '11',
+        os,
+        os_version,
         maxDuration
       }
     }

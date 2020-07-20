@@ -252,6 +252,12 @@ angularModule.directive('rgSelect', function rgSelectDirective() {
           if (query !== lastQuery) {
             return; // do not process the result if queries don't match
           }
+          if (skip &&
+            ctrl.lastSkip !== -1 &&
+            skip !== (ctrl.lastSkip + infiniteScrollPackSize) &&
+            ctrl.infiniteScrollPackSize) {
+            return; // do not process the result if skips not match
+          }
 
           const items = memorizeOptions(results.data || results, skip).
             map(ctrl.convertNgModelToSelect);

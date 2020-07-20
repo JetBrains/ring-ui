@@ -10,7 +10,8 @@ export default async function parseAndStoreResponse(clientId) {
   const storage = new AuthStorage({
     messagePrefix: `${clientId}-message-`,
     stateKeyPrefix: `${clientId}-states-`,
-    tokenKey: `${clientId}-token`
+    tokenKey: `${clientId}-token`,
+    userKey: `${clientId}-user-`
   });
 
   if (!authResponse) {

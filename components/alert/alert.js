@@ -8,7 +8,7 @@ import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 import warningIcon from '@jetbrains/icons/warning.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 import Loader from '../loader-inline/loader-inline';
 import {getRect} from '../global/dom';
 import dataTests from '../global/data-tests';
@@ -58,16 +58,23 @@ const TypeToIconColor = {
  * @name Alert
  * @extends {ReactComponent}
  */
-// eslint-disable-next-line react/no-deprecated
+/**
+ * **Alert** is a component for displaying contextual notifications. If you want to display a stack of notifications, use **Alerts** instead.
+ */
 export default class Alert extends PureComponent {
-  static Type = Type;
-
   static propTypes = {
     timeout: PropTypes.number,
+    /**
+     * Fires when alert starts closing if timeout is out or user clicks "Close" button
+     */
     onCloseRequest: PropTypes.func,
     onClose: PropTypes.func,
     isShaking: PropTypes.bool,
     isClosing: PropTypes.bool,
+    /**
+     * Whether an alert is rendered inside an **Alerts** container
+     * or standalone.
+     */
     inline: PropTypes.bool,
     showWithAnimation: PropTypes.bool,
     closeable: PropTypes.bool,
@@ -81,24 +88,14 @@ export default class Alert extends PureComponent {
 
   /** @override */
   static defaultProps = {
-    /** @type {boolean} */
     closeable: true,
     showWithAnimation: true,
     type: Type.MESSAGE,
-    /**
-     * Whether an alert is rendered inside an {@code Alerts} container
-     * or standalone.
-     * @type {boolean}
-     */
     inline: true,
     isClosing: false,
     isShaking: false,
     timeout: 0,
     onClose: () => {},
-    /**
-     * Fires when alert starts closing if timeout is out or user clicks "Close" button
-     * @type {?function(SyntheticMouseEvent):undefined}
-     */
     onCloseRequest: () => {}
   };
 
@@ -112,8 +109,8 @@ export default class Alert extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.isClosing) {
+  componentDidUpdate() {
+    if (this.props.isClosing) {
       this._close();
     }
   }
@@ -121,6 +118,8 @@ export default class Alert extends PureComponent {
   componentWillUnmount() {
     clearTimeout(this.hideTimeout);
   }
+
+  static Type = Type;
 
   closeRequest = (...args) => {
     const height = getRect(this.node).height;
@@ -150,8 +149,12 @@ export default class Alert extends PureComponent {
   _getCaption() {
     return (
       <span
-        className={classNames(styles.caption, this.props.captionClassName)}
+        className={classNames(styles.caption, this.props.captionClassName, {
+          [styles.withCloseButton]: this.props.closeable
+        })}
         onClick={this._handleCaptionsLinksClick}
+        // We only process clicks on `a` elements, see above
+        role="presentation"
       >
         {this.props.children}
       </span>

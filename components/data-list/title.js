@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import Checkbox from '../checkbox/checkbox';
 
+import getUID from '../global/get-uid';
+
 import styles from './data-list.css';
 
 
@@ -18,6 +20,7 @@ class Title extends PureComponent {
     onSelect: PropTypes.func,
     showFocus: PropTypes.bool,
     collapserExpander: PropTypes.node,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
 
     // focusSensorHOC
     onFocusRestore: PropTypes.func
@@ -29,6 +32,7 @@ class Title extends PureComponent {
     showFocus: false
   };
 
+  id = getUID('data-list-title');
 
   onCheckboxFocus = () => {
     this.props.onFocusRestore();
@@ -47,7 +51,7 @@ class Title extends PureComponent {
 
   render() {
     const {
-      className, title, offset, showFocus,
+      className, title, offset, showFocus, innerRef,
       selectable, selected, collapserExpander
     } = this.props;
 
@@ -59,14 +63,17 @@ class Title extends PureComponent {
 
     return (
       <div
+        id={this.id}
         className={classes}
         style={{paddingLeft: offset}}
+        ref={innerRef}
       >
         <div className={styles.boxes}>
           {selectable &&
             (
               <div className={styles.checkboxBox}>
                 <Checkbox
+                  aria-labelledby={this.id}
                   className={showFocus ? 'ring-checkbox_focus' : ''}
                   checked={selected}
                   onFocus={this.onCheckboxFocus}

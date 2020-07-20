@@ -1,34 +1,45 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import InputNg from '../input-ng/input-ng';
-import SelectNg from '../select-ng/select-ng';
 
-import AutofocusNG from './autofocus-ng';
+import InputNg from '@jetbrains/ring-ui/components/input-ng/input-ng';
+import SelectNg from '@jetbrains/ring-ui/components/select-ng/select-ng';
 
-// TODO: calling .focus() doesn't actually focus inputs in Storybook by some reason
+import AutofocusNG from '@jetbrains/ring-ui/components/autofocus-ng/autofocus-ng';
 
-storiesOf('Legacy Angular|Autofocus Ng', module).
-  addParameters({
-    notes: 'Sets focus to the element if the condition is true. Supports standard input elements as well as Select.',
+export default {
+  title: 'Legacy Angular/Autofocus Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
+    notes:
+      'Sets focus to the element if the condition is true. Supports standard input elements as well as Select.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('autofocus on input', () => {
-    angular.module(APP_NAME, [AutofocusNG, InputNg]);
+  }
+};
 
-    return `
+export const autofocusOnInput = () => {
+  angular.module(APP_NAME, [AutofocusNG, InputNg]);
+
+  return `
       <rg-input
         rg-autofocus="true"
         size="M"
         placeholder="Should be focused"
       ></rg-input>
     `;
-  }).
-  add('autofocus on select', () => {
-    angular.module(APP_NAME, [AutofocusNG, SelectNg]);
+};
 
-    return '<rg-select options="item in []" size="M" rg-autofocus="true"></rg-select>';
-  });
+autofocusOnInput.story = {
+  name: 'autofocus on input'
+};
+
+export const autofocusOnSelect = () => {
+  angular.module(APP_NAME, [AutofocusNG, SelectNg]);
+
+  return '<rg-select options="item in []" size="M" rg-autofocus="true"></rg-select>';
+};
+
+autofocusOnSelect.story = {
+  name: 'autofocus on select'
+};

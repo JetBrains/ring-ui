@@ -31,6 +31,15 @@ export function getWindowHeight() {
   return window.innerHeight;
 }
 
+export function getWindowWidth() {
+  return window.innerWidth;
+}
+
+export function isNodeInVisiblePartOfPage(node) {
+  const {top, bottom, left, right} = getRect(node);
+  return !(bottom < 0 || right < 0 || getWindowHeight() - top < 0 || getWindowWidth() - left < 0);
+}
+
 export function getDocumentScrollTop() {
   return (document.documentElement && document.documentElement.scrollTop) ||
     document.body.scrollTop;
@@ -50,6 +59,8 @@ export const applyMethodToClasses = method => (classList, classes = '') => {
 
 export const addClasses = applyMethodToClasses('add');
 export const removeClasses = applyMethodToClasses('remove');
+export const toggleClasses = (classList, classes) =>
+  Object.entries(classes).forEach(([className, on]) => classList.toggle(className, on));
 
 export function setRootStyleProperties(properties = {}) {
   const rootStyle = document.documentElement.style;

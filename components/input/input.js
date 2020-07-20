@@ -1,10 +1,15 @@
 import React, {PureComponent} from 'react';
+import {compose} from 'recompose';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Theme from '../global/theme';
+import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';
+
+import getUID from '../global/get-uid';
+
+import Icon from '../icon/icon';
 
 import ieCompatibleInputHOC from './ie-compatible-hoc';
 import styles from './input.css';
@@ -35,18 +40,26 @@ export class Input extends PureComponent {
     error: PropTypes.string,
     multiline: PropTypes.bool,
     borderless: PropTypes.bool,
+    compact: PropTypes.bool,
     onChange: PropTypes.func,
     onClear: PropTypes.func,
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape({current: PropTypes.instanceOf(HTMLInputElement)})
+    ]),
     children: PropTypes.string,
-    disabled: PropTypes.bool
+    enableShortcuts: PropTypes.bool,
+    disabled: PropTypes.bool,
+    id: PropTypes.string,
+    placeholder: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
   };
 
   static defaultProps = {
-    theme: Theme.LIGHT,
     size: Size.M,
     onChange: noop,
-    inputRef: noop
+    inputRef: noop,
+    enableShortcuts: false
   };
 
   state = {
@@ -59,6 +72,11 @@ export class Input extends PureComponent {
 
   componentDidUpdate() {
     this.adapt();
+  }
+
+  id = getUID('ring-input-');
+  getId() {
+    return this.props.id || this.id;
   }
 
   checkValue() {
@@ -88,8 +106,14 @@ export class Input extends PureComponent {
   };
 
   inputRef = el => {
+    const {inputRef} = this.props;
+
     this.input = el;
-    this.props.inputRef(el);
+    if (typeof inputRef === 'function') {
+      inputRef(el);
+    } else {
+      inputRef.current = el;
+    }
   };
 
   clear = e => {
@@ -109,6 +133,7 @@ export class Input extends PureComponent {
       active,
       multiline,
       borderless,
+      compact,
 
       // Props
       label,
@@ -119,9 +144,14 @@ export class Input extends PureComponent {
       value,
       onClear,
       disabled,
-      inputRef, onChange, // eslint-disable-line no-unused-vars
+      inputRef, onChange,
+      enableShortcuts,
+      id,
+      placeholder,
+      icon,
       ...restProps
     } = this.props;
+    const minimizeMargins = compact || borderless;
     const {empty} = this.state;
     const clearable = !!onClear;
     const classes = classNames(
@@ -130,12 +160,14 @@ export class Input extends PureComponent {
       styles[theme],
       [styles[`size${size}`]],
       {
+        'ring-js-shortcuts': enableShortcuts,
         [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,
         [styles.noLabel]: !this.props.label,
+        [styles.withIcon]: icon != null,
         [styles.clearable]: clearable,
-        [styles.borderless]: borderless
+        [styles.compact]: minimizeMargins
       }
     );
 
@@ -150,6 +182,7 @@ export class Input extends PureComponent {
         className={classes}
         data-test="ring-input"
       >
+        {icon && <Icon glyph={icon} className={styles.icon}/>}
         <TagName
           ref={this.inputRef}
           onChange={this.handleChange}
@@ -157,10 +190,14 @@ export class Input extends PureComponent {
           value={text}
           rows={multiline ? 1 : null}
           disabled={disabled}
+          id={this.getId()}
+          placeholder={placeholder}
+          aria-label={label || placeholder}
           {...restProps}
         />
         {clearable && !disabled && (
           <Button
+            title="Clear input"
             data-test="ring-input-clear"
             className={styles.clear}
             icon={closeIcon}
@@ -168,11 +205,11 @@ export class Input extends PureComponent {
           />
         )}
 
-        {!borderless && <label className={styles.label}>{label}</label>}
+        {!minimizeMargins && <label htmlFor={this.getId()} className={styles.label}>{label}</label>}
         {!borderless && <div className={styles.underline}/>}
         {!borderless && <div className={styles.focusUnderline}/>}
-        {!borderless && <div className={styles.errorUnderline}/>}
-        {!borderless && (
+        {!minimizeMargins && <div className={styles.errorUnderline}/>}
+        {!minimizeMargins && (
           <div
             className={styles.errorText}
             ref={this.errorRef}
@@ -183,6 +220,9 @@ export class Input extends PureComponent {
   }
 }
 
-export default ieCompatibleInputHOC(Input);
+export default compose(
+  ieCompatibleInputHOC,
+  withTheme(),
+)(Input);
 
 export {Size, Theme};

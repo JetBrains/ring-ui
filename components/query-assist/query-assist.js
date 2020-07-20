@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {findDOMNode} from 'react-dom';
 import debounce from 'just-debounce-it';
 import classNames from 'classnames';
 import deepEqual from 'deep-equal';
 import searchIcon from '@jetbrains/icons/search.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
-
-import Icon from '../icon';
 
 import getUID from '../global/get-uid';
 import dataTests from '../global/data-tests';
@@ -19,6 +16,7 @@ import LoaderInline from '../loader-inline/loader-inline';
 import Shortcuts from '../shortcuts/shortcuts';
 import rerenderHOC from '../global/rerender-hoc';
 import Theme from '../global/theme';
+import Button from '../button/button';
 
 import QueryAssistSuggestions from './query-assist__suggestions';
 
@@ -38,11 +36,7 @@ function cleanText(text) {
 /**
  * @name Query Assist
  */
-// eslint-disable-next-line react/no-deprecated
 export default class QueryAssist extends Component {
-  static ngModelStateField = ngModelStateField;
-  static Theme = Theme;
-
   static propTypes = {
     theme: PropTypes.string,
     autoOpen: PropTypes.bool,
@@ -82,18 +76,23 @@ export default class QueryAssist extends Component {
     }
   };
 
+  static getDerivedStateFromProps({query}, {prevQuery}) {
+    const nextState = {prevQuery: query};
+    if (typeof query === 'string' && query !== prevQuery) {
+      nextState.query = query;
+      nextState.placeholderEnabled = !query;
+    }
+    return nextState;
+  }
+
   state = {
     dirty: !this.props.query,
     query: this.props.query,
     placeholderEnabled: !this.props.query,
-    shortcuts: true,
+    shortcuts: !!this.props.focus,
     suggestions: [],
     showPopup: false
   };
-
-  componentWillMount() {
-    this.setState({shortcuts: !!this.props.focus});
-  }
 
   componentDidMount() {
     const query = this.props.query || '';
@@ -116,28 +115,6 @@ export default class QueryAssist extends Component {
     this.setCaretPosition();
   }
 
-  componentWillReceiveProps({caret, delay, query}) {
-    this.setupRequestHandler(delay);
-    const shouldSetCaret = typeof caret === 'number';
-
-    if (shouldSetCaret) {
-      this.immediateState.caret = caret;
-    }
-
-    if (typeof query === 'string' && query !== this.immediateState.query) {
-      this.immediateState.query = query;
-      let callback = noop;
-
-      if (query && this.props.autoOpen) {
-        callback = this.requestData;
-      } else if (query) {
-        callback = this.requestStyleRanges;
-      }
-
-      this.setState({query, placeholderEnabled: !query}, callback);
-    }
-  }
-
   shouldComponentUpdate(props, state) {
     return state.query !== this.state.query ||
       state.dirty !== this.state.dirty ||
@@ -156,8 +133,30 @@ export default class QueryAssist extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const {caret, delay, query} = this.props;
+    const queryChanged = query !== prevProps.query;
+
     this.updateFocus(prevProps);
+    this.setupRequestHandler(delay);
+
+    const shouldSetCaret = typeof caret === 'number' && caret !== prevProps.caret;
+    if (shouldSetCaret) {
+      this.immediateState.caret = caret;
+    }
+
+    if (typeof query === 'string' && queryChanged && query !== this.immediateState.query) {
+      this.immediateState.query = query;
+
+      if (query && prevProps.autoOpen) {
+        this.requestData();
+      } else if (query) {
+        this.requestStyleRanges();
+      }
+    }
   }
+
+  static ngModelStateField = ngModelStateField;
+  static Theme = Theme;
 
   ngModelStateField = ngModelStateField;
 
@@ -169,6 +168,8 @@ export default class QueryAssist extends Component {
     // Track mouse state to avoid focus loss on clicks on icons.
     // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
     if (!this.node || (!focus && this.mouseIsDownOnInput)) {
+      this.immediateState.focus = true;
+      this.setCaretPosition();
       return;
     }
 
@@ -204,18 +205,28 @@ export default class QueryAssist extends Component {
     }
   }
 
-  setCaretPosition = () => {
+  setCaretPosition = (params = {}) => {
     const queryLength = this.immediateState.query != null && this.immediateState.query.length;
     const newCaretPosition =
       this.immediateState.caret < queryLength
         ? this.immediateState.caret
         : queryLength;
-    const currentCaretPosition = this.caret.getPosition({avoidFocus: true});
-
-    if (this.immediateState.focus && !this.props.disabled && currentCaretPosition !== -1) {
-      // Set to end of field value if newCaretPosition is inappropriate
-      this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
-      this.scrollInput();
+    if (params.fromContentEditable) {
+      this.immediateState.selection = this.immediateState.selection
+        ? this.immediateState.selection
+        : newCaretPosition;
+    }
+    if (this.immediateState.focus && !this.props.disabled) {
+      if (Number.isInteger(this.immediateState.selection) && this.immediateState.selection > -1) {
+        // Set to end of field value if newCaretPosition is inappropriate
+        this.caret.setPosition(newCaretPosition >= 0 ? newCaretPosition : -1);
+        this.scrollInput();
+      } else if (this.immediateState.selection && this.immediateState.selection.startOffset !==
+        undefined) {
+        this.caret.setPosition(this.immediateState.selection);
+      } else if (!this.immediateState.selection || params.forceSetCaret) {
+        this.caret.setPosition(-1);
+      }
     }
   };
 
@@ -223,7 +234,7 @@ export default class QueryAssist extends Component {
     const caretOffset = this.caret.getOffset();
 
     if (this.input.clientWidth !== this.input.scrollWidth && caretOffset > this.input.clientWidth) {
-      this.input.scrollLeft = this.input.scrollLeft + caretOffset;
+      this.input.scrollLeft += caretOffset;
     }
   }
 
@@ -246,16 +257,15 @@ export default class QueryAssist extends Component {
     }
   };
 
-  // To hide placeholder as quickly as possible, does not work in IE/Edge
-  handleInput = () => {
+  handleInput = e => {
     this.togglePlaceholder();
-  };
-
-  handleKeyUp = e => {
+    const currentCaret = this.caret.getPosition();
     const props = {
       dirty: true,
       query: this.getQuery(),
-      caret: this.caret.getPosition(),
+      caret: Number.isInteger(currentCaret)
+        ? currentCaret
+        : currentCaret.position,
       focus: true
     };
 
@@ -263,8 +273,6 @@ export default class QueryAssist extends Component {
       this.handleCaretMove(e);
       return;
     }
-
-    this.togglePlaceholder();
 
     if (this.isComposing) {
       return;
@@ -310,7 +318,7 @@ export default class QueryAssist extends Component {
       preventDefault(e);
       const text = cleanText(e.clipboardData.getData('text/plain'));
       document.execCommand(INSERT_COMMAND, false, text);
-      this.handleKeyUp(e);
+      this.handleInput(e);
     }
   };
 
@@ -319,7 +327,10 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    const caret = this.caret.getPosition();
+    const currentCaret = this.caret.getPosition();
+    const caret = Number.isInteger(currentCaret)
+      ? currentCaret
+      : currentCaret.position;
     const popupHidden = (!this.state.showPopup) && e.type === 'click';
 
     if (!this.props.disabled && (caret !== this.immediateState.caret || popupHidden)) {
@@ -329,15 +340,18 @@ export default class QueryAssist extends Component {
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
   handleStyleRangesResponse = ({suggestions, ...restProps}) => this.handleResponse(restProps);
 
-  // eslint-disable-next-line max-len
-  handleResponse = ({query = '', caret = 0, styleRanges, suggestions = []}) => new Promise((resolve, reject) => {
+  handleResponse = ({
+    query = '',
+    caret = 0,
+    styleRanges,
+    suggestions = []
+  }) => new Promise((resolve, reject) => {
     if (
       query === this.getQuery() &&
       (caret === this.immediateState.caret ||
-      this.immediateState.caret === undefined)
+        this.immediateState.caret === undefined)
     ) {
       // Do not setState on unmounted component
       if (!this.node) {
@@ -360,6 +374,7 @@ export default class QueryAssist extends Component {
         state.styleRanges = styleRanges;
       }
 
+      this.immediateState.selection = this.caret.getPosition({avoidFocus: true});
       this.setState(state, resolve);
     } else {
       reject(new Error('Current and response queries mismatch'));
@@ -391,6 +406,7 @@ export default class QueryAssist extends Component {
 
     const state = {
       caret: suggestion.caret,
+      selection: suggestion.caret,
       query: query.substr(0, suggestion.completionStart) + prefix + suggestion.option + suffix
     };
 
@@ -554,9 +570,11 @@ export default class QueryAssist extends Component {
     });
   };
 
-  // See http://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
   blurInput() {
-    window.getSelection().removeAllRanges();
+    this.immediateState.selection = {};
+    if (!this.props.focus) {
+      this.caret.target.blur();
+    }
   }
 
   /**
@@ -650,7 +668,7 @@ export default class QueryAssist extends Component {
       this.blurInput();
     } else if (focus === true && !isComponentFocused) {
       this.immediateState.focus = focus;
-      this.setCaretPosition();
+      this.setCaretPosition({forceSetCaret: true});
     }
   }
 
@@ -659,8 +677,7 @@ export default class QueryAssist extends Component {
       return;
     }
 
-    // eslint-disable-next-line react/no-find-dom-node
-    this.input = findDOMNode(node);
+    this.input = node;
     this.caret = new Caret(this.input);
   };
 
@@ -705,10 +722,11 @@ export default class QueryAssist extends Component {
 
     if (renderClear) {
       actions.push(
-        <Icon
-          glyph={closeIcon}
+        <Button
+          icon={closeIcon}
           key={'clearAction'}
-          className={classNames(styles.icon)}
+          className={styles.icon}
+          iconClassName={styles.iconInner}
           title={this.props.translations.clearTitle}
           ref={this.clearRef}
           onClick={this.clearQuery}
@@ -730,9 +748,9 @@ export default class QueryAssist extends Component {
 
     const inputClasses = classNames({
       [`${styles.input} ring-js-shortcuts`]: true,
-      [styles.inputGap]: actions.length,
+      [styles.inputGap]: actions.length || this.isRenderingGlassOrLoader() && !glass,
       [styles.inputGap2]: actions.length === 2, // TODO: replace with flex-box layout
-      [styles.inputLeftGap]: this.isRenderingGlassOrLoader(),
+      [styles.inputLeftGap]: this.isRenderingGlassOrLoader() && glass,
       [styles.inputDisabled]: this.props.disabled
     });
 
@@ -742,6 +760,8 @@ export default class QueryAssist extends Component {
         className={classNames(styles.queryAssist, styles[theme])}
         onMouseDown={this.trackInputMouseState}
         onMouseUp={this.trackInputMouseState}
+        // mouse handlers are used to track clicking on inner elements
+        role="presentation"
         ref={this.nodeRef}
       >
         {this.state.shortcuts &&
@@ -754,9 +774,10 @@ export default class QueryAssist extends Component {
         }
 
         {renderGlass && (
-          <Icon
-            glyph={searchIcon}
-            className={classNames(styles.icon, styles.iconGlass)}
+          <Button
+            icon={searchIcon}
+            className={styles.icon}
+            iconClassName={styles.iconInner}
             title={this.props.translations.searchTitle}
             ref={this.glassRef}
             onClick={this.handleApply}
@@ -775,27 +796,29 @@ export default class QueryAssist extends Component {
         )}
 
         <ContentEditable
+          aria-label={this.props.translations.searchTitle}
           className={inputClasses}
           data-test="ring-query-assist-input"
-          ref={this.inputRef}
+          inputRef={this.inputRef}
           disabled={this.props.disabled}
-          onComponentUpdate={this.setCaretPosition}
+          onComponentUpdate={() => this.setCaretPosition({fromContentEditable: true})}
 
           onBlur={this.handleFocusChange}
           onClick={this.handleCaretMove}
           onCompositionStart={this.trackCompositionState}
           onCompositionEnd={this.trackCompositionState}
           onFocus={this.handleFocusChange}
-          onInput={this.handleInput}
+          onInput={this.handleInput} // To support IE use the same method
+          onKeyUp={this.handleInput} // to handle input and key up
           onKeyDown={this.handleEnter}
-          onKeyUp={this.handleKeyUp}
           onPaste={this.handlePaste}
 
           spellCheck="false"
         >{this.state.query && <span>{this.renderQuery()}</span>}</ContentEditable>
 
         {renderPlaceholder && (
-          <span
+          <button
+            type="button"
             className={classNames(styles.placeholder, {
               [styles.placeholderSpaced]: glass
             })}
@@ -804,10 +827,11 @@ export default class QueryAssist extends Component {
             data-test="query-assist-placeholder"
           >
             {this.props.placeholder}
-          </span>
+          </button>
         )}
         {renderUnderline && <div className={styles.focusUnderline}/>}
-        {actions && <div className={styles.actions}>{actions}</div>}
+        {actions &&
+        <div data-test="ring-query-assist-actions" className={styles.actions}>{actions}</div>}
         <PopupMenu
           hidden={!this.state.showPopup}
           onCloseAttempt={this.closePopup}

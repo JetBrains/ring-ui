@@ -1,14 +1,12 @@
 @import "../global/variables.css";
 
 .link {
-  & {
-    composes: link from "../alert/alert.css"; /* To override link stiles inside alert */
+  composes: link from "../alert/alert.css"; /* To override link stiles inside alert */
 
-    cursor: pointer;
-    transition: color var(--ring-fast-ease);
+  cursor: pointer;
+  transition: color var(--ring-fast-ease);
 
-    color: var(--ring-link-color);
-  }
+  color: var(--ring-link-color);
 
   &,
   &:hover {
@@ -50,12 +48,22 @@
       border: none;
     }
   }
+
+  outline: none;
+
+  &:global(.focus-visible) {
+    box-shadow: 0 0 0 2px var(--ring-border-hover-color);
+  }
 }
 
 @media (min-resolution: 2dppx) {
   .link:hover .inner {
     border-bottom-width: 1px;
   }
+}
+
+.text {
+  border-radius: var(--ring-border-radius);
 }
 
 .inherit:not(:hover) {

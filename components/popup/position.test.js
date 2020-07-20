@@ -9,21 +9,22 @@ describe('position', () => {
           top: 10,
           left: 10,
           width: 30,
-          height: 30
+          height: 40
         })
       );
 
+      const topMaxHeight = 20;
+      const bottomMaxHeight = 10;
+
       const anchorNode = createNode({},
         createClientRectMock({
-          top: containerNode.getBoundingClientRect().top + 10,
+          top: containerNode.getBoundingClientRect().top + topMaxHeight,
           left: containerNode.getBoundingClientRect().left + 10,
           width: 10,
           height: 10
         })
       );
 
-      const topMaxHeight = 10;
-      const bottomMaxHeight = 10;
       checkMaxHeight(anchorNode, containerNode, [
         topMaxHeight,
         bottomMaxHeight
@@ -105,8 +106,10 @@ describe('position', () => {
     const expectedValues = [
       topMaxHeight,
       bottomMaxHeight,
+      bottomMaxHeight + anchorNode.getBoundingClientRect().height,
       topMaxHeight + anchorNode.getBoundingClientRect().height,
-      bottomMaxHeight + anchorNode.getBoundingClientRect().height / 2
+      Math.min(bottomMaxHeight / 2, topMaxHeight / 2) +
+        anchorNode.getBoundingClientRect().height / 2
     ];
 
     [
@@ -118,7 +121,9 @@ describe('position', () => {
       [
         Directions.BOTTOM_LEFT,
         Directions.BOTTOM_RIGHT,
-        Directions.BOTTOM_CENTER,
+        Directions.BOTTOM_CENTER
+      ],
+      [
         Directions.RIGHT_BOTTOM,
         Directions.LEFT_BOTTOM
       ],

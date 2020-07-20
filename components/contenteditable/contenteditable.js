@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {render} from 'react-dom';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 /**
  * @name ContentEditable
@@ -8,15 +8,19 @@ import {render} from 'react-dom';
 
 function noop() {}
 
-// eslint-disable-next-line react/no-deprecated
-export default class ContentEditable extends Component {
-  /** @override */
+const commonPropTypes = {
+  disabled: PropTypes.bool,
+  tabIndex: PropTypes.number,
+  componentDidUpdate: PropTypes.func,
+  onComponentUpdate: PropTypes.func,
+  className: PropTypes.string,
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
+};
+
+class ContentEditableBase extends Component {
   static propTypes = {
-    disabled: PropTypes.bool,
-    componentDidUpdate: PropTypes.func,
-    onComponentUpdate: PropTypes.func,
-    className: PropTypes.string,
-    children: PropTypes.node
+    ...commonPropTypes,
+    __html: PropTypes.string
   };
 
   static defaultProps = {
@@ -26,46 +30,37 @@ export default class ContentEditable extends Component {
     onComponentUpdate: noop
   };
 
-  state = {__html: ''};
-
-  componentWillMount() {
-    this.renderStatic(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.renderStatic(nextProps);
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return nextProps.disabled !== this.props.disabled ||
-      nextState.__html !== this.state.__html;
+      nextProps.__html !== this.props.__html;
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.props.onComponentUpdate(prevProps, prevState);
   }
 
-  onRender = node => {
-    this.setState({__html: node ? node.innerHTML : ''});
-  };
-
-  renderStatic(nextProps) {
-    if (!nextProps.children) {
-      this.setState({__html: ''});
-    }
-
-    render(<i ref={this.onRender}>{nextProps.children}</i>, document.createElement('i'));
-  }
-
   render() {
-    const {children, onComponentUpdate, ...props} = this.props; // eslint-disable-line no-unused-vars
+    const {__html, onComponentUpdate, disabled, tabIndex, inputRef, ...props} = this.props;
 
     return (
       <div
         {...props}
+        ref={inputRef}
+        disabled={disabled}
+        role="textbox"
+        tabIndex={disabled ? null : tabIndex}
         contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={this.state}
+        dangerouslySetInnerHTML={{__html}}
       />
     );
   }
 }
+
+const ContentEditable = ({children, ...props}) =>
+  <ContentEditableBase {...props} __html={renderToStaticMarkup(children)}/>;
+ContentEditable.propTypes = {
+  ...commonPropTypes,
+  children: PropTypes.node
+};
+
+export default ContentEditable;

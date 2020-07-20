@@ -18,6 +18,7 @@ import sniffr from '../global/sniffer';
 const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of scopes
 // eslint-disable-next-line no-magic-numbers
 const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24; // nobody will need auth state after a day
+const UPDATE_USER_TIMEOUT = 1000;
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default class AuthStorage {
@@ -29,6 +30,7 @@ export default class AuthStorage {
     this.messagePrefix = config.messagePrefix || '';
     this.stateKeyPrefix = config.stateKeyPrefix;
     this.tokenKey = config.tokenKey;
+    this.userKey = config.userKey || 'user-key';
     this.stateTTL = config.stateTTL || DEFAULT_STATE_TTL;
     this._lastMessage = null;
 
@@ -47,6 +49,9 @@ export default class AuthStorage {
     });
     this._messagesStorage = new StorageConstructor({
       cookieName: 'ring-message'
+    });
+    this._currentUserStorage = new StorageConstructor({
+      cookieName: 'ring-user'
     });
   }
 
@@ -204,6 +209,39 @@ export default class AuthStorage {
    */
   wipeToken() {
     return this._tokenStorage.remove(this.tokenKey);
+  }
+
+  /**
+   * @param {function} loadUser user loader
+   * @return {Promise.<object>>} promise that is resolved to stored current user
+   */
+  async getCachedUser(loadUser) {
+    const user = await this._currentUserStorage.get(this.userKey);
+    const loadAndCache = () => loadUser().then(response => {
+      this._currentUserStorage.set(this.userKey, response);
+      return response;
+    });
+
+    if (user && user.id) {
+      setTimeout(loadAndCache, UPDATE_USER_TIMEOUT);
+      return user;
+    } else {
+      return loadAndCache();
+    }
+  }
+
+  /**
+   * Remove cached user if any
+   */
+  wipeCachedCurrentUser() {
+    return this._currentUserStorage.remove(this.userKey);
+  }
+
+  /**
+   * Wipes cache if user has changed
+   */
+  onUserChanged() {
+    this.wipeCachedCurrentUser();
   }
 }
 

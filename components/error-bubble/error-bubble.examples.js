@@ -1,80 +1,99 @@
 import React, {Component} from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Select from '../select/select';
 
-import Dialog from '../dialog/dialog';
-import {Header, Content} from '../island/island';
-import '../form/form.scss';
-import '../input-size/input-size.scss';
+import Select from '@jetbrains/ring-ui/components/select/select';
 
-import ErrorBubble from './error-bubble';
+import Dialog from '@jetbrains/ring-ui/components/dialog/dialog';
+import {Header, Content} from '@jetbrains/ring-ui/components/island/island';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-storiesOf('Components|ErrorBubble', module).
-  addParameters({
-    notes: 'Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop. * Passes any prop except `className` down to the input.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    class ErrorBubbleDemo extends Component {
-      state = {value: null};
+import ErrorBubble from '@jetbrains/ring-ui/components/error-bubble/error-bubble';
 
-      render() {
-        const {value} = this.state;
+export default {
+  title: 'Components/ErrorBubble',
+  decorators: [reactDecorator()],
 
-        return (
-          <ErrorBubble
-            error={value ? null : 'Value is required'}
-            onSelect={selected => this.setState({value: selected})}
-            placeholder="enter something"
-          >
-            <Select
-              type={Select.Type.BUTTON}
-              size={Select.Size.M}
-              data={[{label: 'One'}, {label: 'Two'}]}
-            />
-          </ErrorBubble>
-        );
-      }
+  parameters: {
+    notes:
+      'Displays an error bubble near the wrapped input component when a non-empty string is passed to the `error` prop. * Passes any prop except `className` down to the input.'
+  }
+};
+
+export const basic = () => {
+  class ErrorBubbleDemo extends Component {
+    state = {value: null};
+
+    render() {
+      const {value} = this.state;
+
+      return (
+        <ErrorBubble
+          error={value ? null : 'Value is required'}
+          onSelect={selected => this.setState({value: selected})}
+          placeholder="enter something"
+        >
+          <Select
+            type={Select.Type.BUTTON}
+            size={Select.Size.M}
+            data={[{label: 'One'}, {label: 'Two'}]}
+          />
+        </ErrorBubble>
+      );
     }
+  }
 
-    return <ErrorBubbleDemo/>;
-  }).
-  add('in dialog form', () => {
-    class ErrorBubbleDemo extends Component {
-      state = {value: null};
+  return <ErrorBubbleDemo/>;
+};
 
-      render() {
-        const {value} = this.state;
+basic.story = {
+  name: 'basic'
+};
 
-        return (
-          <Dialog show>
-            <Header>Dialog example</Header>
-            <Content>
-              <form className="ring-form">
-                <div className="ring-form__group">
-                  <label className="ring-form__label">Field name</label>
-                  <div className="ring-form__control ring-form__control_small">
-                    <ErrorBubble
-                      error={value ? null : 'Value is required'}
-                      onSelect={selected => this.setState({value: selected})}
-                      placeholder="enter something"
-                    >
-                      <Select
-                        type={Select.Type.BUTTON}
-                        size={Select.Size.M}
-                        data={[{label: 'One'}, {label: 'Two'}]}
-                      />
-                    </ErrorBubble>
-                  </div>
+export const inDialogForm = () => {
+  class ErrorBubbleDemo extends Component {
+    state = {value: null};
+
+    render() {
+      const {value} = this.state;
+
+      return (
+        <Dialog show>
+          <Header>Dialog example</Header>
+          <Content>
+            <form className="ring-form">
+              <div className="ring-form__group">
+                <label htmlFor="select" className="ring-form__label">Field name</label>
+                <div className="ring-form__control ring-form__control_small">
+                  <ErrorBubble
+                    error={value ? null : 'Value is required'}
+                    onSelect={selected => this.setState({value: selected})}
+                    placeholder="enter something"
+                  >
+                    <Select
+                      id="select"
+                      type={Select.Type.BUTTON}
+                      size={Select.Size.M}
+                      data={[{label: 'One'}, {label: 'Two'}]}
+                    />
+                  </ErrorBubble>
                 </div>
-              </form>
-            </Content>
-          </Dialog>
-        );
-      }
+              </div>
+            </form>
+          </Content>
+        </Dialog>
+      );
     }
+  }
 
-    return <ErrorBubbleDemo/>;
-  }, {hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']}});
+  return <ErrorBubbleDemo/>;
+};
+
+inDialogForm.story = {
+  name: 'in dialog form',
+  parameters: {
+    hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
+    a11y: {element: '*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
+  }
+};

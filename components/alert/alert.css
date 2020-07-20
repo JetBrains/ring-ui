@@ -49,7 +49,7 @@
 
   max-width: calc(100% - calc(unit * 5));
 
-  margin: 12px calc(unit * 5) 12px 0;
+  margin: 12px 0;
 
   white-space: normal;
 
@@ -61,6 +61,10 @@
   /* This link styles are used in link.css */
   & .link {
     color: var(--ring-main-color);
+  }
+
+  &.withCloseButton {
+    margin-right: calc(unit * 5);
   }
 }
 

@@ -9,9 +9,6 @@ import Services from './services';
 function noop() {}
 
 export default class SmartServices extends Component {
-  static allFields = 'id,name,applicationName,homeUrl,iconUrl';
-  static countFields = 'key';
-
   static propTypes = {
     auth: PropTypes.instanceOf(Auth).isRequired
   };
@@ -33,6 +30,9 @@ export default class SmartServices extends Component {
       }
     }).catch(noop);
   }
+
+  static allFields = 'id,name,applicationName,homeUrl,iconUrl';
+  static countFields = 'key';
 
   stopLoading = () => {
     this.setState({loading: false});

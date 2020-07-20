@@ -7,12 +7,6 @@ import dataTests from '../global/data-tests';
 import styles from './tabs.css';
 
 export default class Tab extends PureComponent {
-  static renderTitle(title, isSelected) {
-    return typeof title === 'function'
-      ? title(isSelected)
-      : title;
-  }
-
   static propTypes = {
     title: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
     id: PropTypes.string,

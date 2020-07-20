@@ -1,53 +1,58 @@
 import React, {Component} from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
-import Theme from '../global/theme';
+import Theme from '@jetbrains/ring-ui/components/global/theme';
 
-import ProgressBar from './progress-bar';
+import ProgressBar from '@jetbrains/ring-ui/components/progress-bar/progress-bar';
 
 const disableAnimations = window.location.search.includes('block-animations');
 
-storiesOf('Components|Progress Bar', module).
-  addDecorator(reactDecorator()).
-  add('basic', () => {
-    class ProgressBarDemo extends Component {
-      state = {
-        value: disableAnimations ? 0.5 : 0
-      };
+export default {
+  title: 'Components/Progress Bar',
+  decorators: [reactDecorator()]
+};
 
-      componentDidMount() {
-        if (disableAnimations) {
-          return;
-        }
-        setInterval(() => {
-          // eslint-disable-next-line react/no-access-state-in-setstate
-          const value = this.state.value >= 1 ? 0 : this.state.value + 0.1;
-          this.setState({value});
-        }, 500);
+export const basic = () => {
+  class ProgressBarDemo extends Component {
+    state = {
+      value: disableAnimations ? 0.5 : 0
+    };
+
+    componentDidMount() {
+      if (disableAnimations) {
+        return;
       }
-
-      render() {
-        const {value} = this.state;
-
-        return (
-          <div>
-            <div style={{height: '25px', paddingTop: '25px'}}>
-              <ProgressBar value={value}/>
-            </div>
-
-            <div style={{height: '25px', paddingTop: '25px', background: '#000'}}>
-              <ProgressBar value={value} theme={Theme.DARK}/>
-            </div>
-
-            <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
-              <ProgressBar value={value}/>
-            </div>
-          </div>
-        );
-      }
+      setInterval(
+        () => this.setState(({value}) => ({value: value >= 1 ? 0 : value + 0.1})),
+        500
+      );
     }
 
-    return <ProgressBarDemo/>;
-  });
+    render() {
+      const {value} = this.state;
+
+      return (
+        <div>
+          <div style={{height: '25px', paddingTop: '25px'}}>
+            <ProgressBar value={value} style={{width: 288}}/>
+          </div>
+
+          <div style={{height: '25px', paddingTop: '25px', background: '#000'}}>
+            <ProgressBar value={value} theme={Theme.DARK} style={{width: 288}}/>
+          </div>
+
+          <div style={{height: '25px', paddingTop: '25px', background: '#F0F0F0'}}>
+            <ProgressBar value={value} style={{width: 288}}/>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return <ProgressBarDemo/>;
+};
+
+basic.story = {
+  name: 'basic'
+};

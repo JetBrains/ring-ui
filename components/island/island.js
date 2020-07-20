@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import adaptiveIslandHOC from '../island/adaptive-island-hoc';
 import dataTests from '../global/data-tests';
+
+import adaptiveIslandHOC from './adaptive-island-hoc';
 
 import styles from './island.css';
 
@@ -21,8 +22,14 @@ export default class Island extends Component {
   };
 
   render() {
-    // eslint-disable-next-line max-len
-    const {children, className, narrow, withoutPaddings, 'data-test': dataTest, ...restProps} = this.props;
+    const {
+      children,
+      className,
+      narrow,
+      withoutPaddings,
+      'data-test': dataTest,
+      ...restProps
+    } = this.props;
     const classes = classNames(styles.island, className, {
       [styles.narrowIsland]: narrow,
       [styles.withoutPaddings]: withoutPaddings

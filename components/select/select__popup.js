@@ -3,40 +3,45 @@
  */
 /* eslint-disable react/prop-types */
 
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search.svg';
+import memoizeOne from 'memoize-one';
 
 import Icon from '../icon/icon';
 
-import Popup from '../popup/popup';
+import Popup, {getPopupContainer, PopupTargetContext} from '../popup/popup';
 import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
+import {getStyles} from '../global/dom';
 import getUID from '../global/get-uid';
 import memoize from '../global/memoize';
 import TagsList from '../tags-list/tags-list';
 import Caret from '../caret/caret';
 import Shortcuts from '../shortcuts/shortcuts';
+import Button from '../button/button';
+import Text from '../text/text';
 
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';
 
 const INPUT_MARGIN_COMPENSATION = -14;
 const FILTER_HEIGHT = 35;
+const TOOLBAR_HEIGHT = 49;
 
 function noop() {}
 
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
-// eslint-disable-next-line react/no-deprecated
-export default class SelectPopup extends Component {
+export default class SelectPopup extends PureComponent {
   static defaultProps = {
     data: [],
     activeIndex: null,
     toolbar: null,
     filter: false, // can be either boolean or an object with "value" and "placeholder" properties
+    multiple: false, // multiple can be an object - see demo for more information
     message: null,
     anchorElement: null,
     maxHeight: 600,
@@ -49,11 +54,12 @@ export default class SelectPopup extends Component {
     onLoadMore: noop,
     selected: [],
     tags: null,
-    ringPopupTarget: null
+    ringPopupTarget: null,
+    onSelectAll: noop,
+    onEmptyPopupEnter: noop
   };
 
   state = {
-    popupShortcuts: false,
     popupFilterShortcutsOptions: {
       modal: true,
       disabled: true
@@ -63,16 +69,6 @@ export default class SelectPopup extends Component {
 
   componentDidMount() {
     window.document.addEventListener('mouseup', this.mouseUpHandler);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.hidden !== this.props.hidden) {
-      this.setState({
-        popupShortcuts: !nextProps.hidden,
-        shortcuts: !nextProps.hidden && this.props.filter
-      });
-      this._cachedAdjustedMaxHeight = null;
-    }
   }
 
   componentWillUnmount() {
@@ -203,7 +199,7 @@ export default class SelectPopup extends Component {
   onClickHandler = () => this.filter.focus();
 
   getFilter() {
-    if ((this.props.filter || this.props.tags) && !this.props.hidden) {
+    if (this.props.filter || this.props.tags) {
       return (
         <div
           className={styles.filterWrapper}
@@ -230,6 +226,7 @@ export default class SelectPopup extends Component {
             onClear={this.props.onClear}
 
             data-test-custom="ring-select-popup-filter-input"
+            listId={this.props.listId}
           />
         </div>
       );
@@ -261,7 +258,7 @@ export default class SelectPopup extends Component {
   }
 
   getFilterWithTags() {
-    if (this.props.tags && !this.props.hidden) {
+    if (this.props.tags) {
       const classes = classNames([
         styles.filterWithTags,
         {
@@ -272,7 +269,6 @@ export default class SelectPopup extends Component {
       return (
         <div
           className={classes}
-          tabIndex="0"
         >
           {this.getTags()}
           {this.getFilter()}
@@ -299,20 +295,25 @@ export default class SelectPopup extends Component {
     this.forceUpdate();
   };
 
-  getList() {
+  getList(ringPopupTarget) {
     if (this.props.data.length) {
       let {maxHeight} = this.props;
 
       if (this.props.anchorElement) {
-        maxHeight = this._adjustListMaxHeight(maxHeight);
+        maxHeight = this._adjustListMaxHeight(this.props.hidden, maxHeight, ringPopupTarget);
       }
 
       if (this.props.filter) {
         maxHeight -= FILTER_HEIGHT;
       }
 
+      if (this.props.toolbar) {
+        maxHeight -= TOOLBAR_HEIGHT;
+      }
+
       return (
         <List
+          id={this.props.listId}
           maxHeight={maxHeight}
           data={this.props.data}
           activeIndex={this.props.activeIndex}
@@ -322,7 +323,8 @@ export default class SelectPopup extends Component {
           onSelect={this.onListSelect}
           onResize={this.handleListResize}
           onScrollToBottom={this.props.onLoadMore}
-          shortcuts={this.state.popupShortcuts}
+          hidden={this.props.hidden}
+          shortcuts={!this.props.hidden}
           disableMoveOverflow={this.props.disableMoveOverflow}
           disableMoveDownOverflow={this.props.loading}
           disableScrollToActive={this.props.disableScrollToActive}
@@ -335,34 +337,68 @@ export default class SelectPopup extends Component {
     return null;
   }
 
-  _adjustListMaxHeight(userDefinedMaxHeight) {
+  handleSelectAll = () => this.props.onSelectAll(
+    this.props.data.filter(item => !item.disabled).length !== this.props.selected.length
+  );
+
+  getSelectAll = () => {
+    const activeFilters = this.props.data.filter(item => !item.disabled);
+    return (
+      <div className={styles.selectAll}>
+        {
+          activeFilters.length === 0
+            ? (
+              <span/>
+            )
+            : (
+              <Button
+                text
+                inline
+                onClick={this.handleSelectAll}
+              >
+                {activeFilters.length !== this.props.selected.length
+                  ? 'Select all'
+                  : 'Deselect all'}
+              </Button>
+            )
+        }
+        <Text info>{`${this.props.selected.length} selected`}</Text>
+      </div>
+    );
+  };
+
+
+  // Cache the value because this method is called
+  // inside `render` function which can be called N times
+  // and should be fast as possible.
+  // Cache invalidates each time hidden or userDefinedMaxHeight changes
+  _adjustListMaxHeight = memoizeOne((hidden, userDefinedMaxHeight, ringPopupTarget) => {
+    if (hidden) {
+      return userDefinedMaxHeight;
+    }
+
     // Calculate list's maximum height that can't
     // get beyond the screen
     // @see RG-1838, JT-48358
     const minMaxHeight = 100;
     const directions = this.props.directions || DEFAULT_DIRECTIONS;
 
-    if (!this._cachedAdjustedMaxHeight) {
-      // Cache the value because this method is called
-      // inside `render` function which can be called N times
-      // and should be fast as possible.
-      // Note:
-      // 1. Create a method which'll be called only when the popup opens and before
-      // render the list would be a better way
-      // 2. We use this.popup.getContainer because there is the logic about how to extract
-      // a link on the container node. It looks awkward using popup in this component
-      // maybe we can find a better solution
-      const anchorNode = this.props.anchorElement;
-      const containerNode = this.popup && this.popup.getContainer();
-      this._cachedAdjustedMaxHeight = (Math.min(
-        directions.reduce((maxHeight, direction) => (
-          Math.max(maxHeight, maxHeightForDirection(direction, anchorNode, containerNode))
-        ), minMaxHeight),
-        userDefinedMaxHeight));
-    }
-
-    return this._cachedAdjustedMaxHeight;
-  }
+    // Note:
+    // Create a method which'll be called only when the popup opens and before
+    // render the list would be a better way
+    const anchorNode = this.props.anchorElement;
+    const containerNode = getPopupContainer(ringPopupTarget) || document.documentElement;
+    return Math.min(
+      directions.reduce((maxHeight, direction) => (
+        Math.max(maxHeight, maxHeightForDirection(
+          direction,
+          anchorNode,
+          getStyles(containerNode).position !== 'static' ? containerNode : null
+        ))
+      ), minMaxHeight),
+      userDefinedMaxHeight
+    );
+  });
 
   popupRef = el => {
     this.popup = el;
@@ -388,7 +424,9 @@ export default class SelectPopup extends Component {
       down: event => (this.list && this.list.downHandler(event)),
       home: event => (this.list && this.list.homeHandler(event)),
       end: event => (this.list && this.list.endHandler(event)),
-      enter: event => (this.list && this.list.enterHandler(event)),
+      enter: event => (this.list
+        ? this.list.enterHandler(event)
+        : this.props.onEmptyPopupEnter(event)),
       esc: event => this.props.onCloseAttempt(event, true),
       tab: event => this.tabPress(event),
       backspace: event => this.handleBackspace(event),
@@ -402,40 +440,49 @@ export default class SelectPopup extends Component {
     const classes = classNames(styles.popup, this.props.className);
 
     return (
-      <Popup
-        ref={this.popupRef}
-        hidden={this.props.hidden}
-        attached={this.props.isInputMode}
-        className={classes}
-        dontCloseOnAnchorClick
-        keepMounted
-        anchorElement={this.props.anchorElement}
-        minWidth={this.props.minWidth}
-        onCloseAttempt={this.props.onCloseAttempt}
-        directions={this.props.directions}
-        top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
-        left={this.props.left}
-        onMouseDown={this.mouseDownHandler}
-        target={this.props.ringPopupTarget}
-        autoCorrectTopOverflow={false}
-        style={this.props.style}
-      >
-        <div dir={this.props.dir}>
-          {this.state.shortcuts &&
-            (
-              <Shortcuts
-                map={this.shortcutsMap}
-                scope={this.shortcutsScope}
-              />
-            )
-          }
-
-          {this.getFilterWithTags()}
-          {this.getList()}
-          {this.getBottomLine()}
-          {this.props.toolbar}
-        </div>
-      </Popup>
+      <PopupTargetContext.Consumer>
+        {ringPopupTarget => (
+          <Popup
+            trapFocus={false}
+            ref={this.popupRef}
+            hidden={this.props.hidden}
+            attached={this.props.isInputMode}
+            className={classes}
+            dontCloseOnAnchorClick
+            anchorElement={this.props.anchorElement}
+            minWidth={this.props.minWidth}
+            onCloseAttempt={this.props.onCloseAttempt}
+            directions={this.props.directions}
+            top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
+            left={this.props.left}
+            onMouseDown={this.mouseDownHandler}
+            target={this.props.ringPopupTarget}
+            autoCorrectTopOverflow={false}
+            style={this.props.style}
+          >
+            <div dir={this.props.dir}>
+              {!this.props.hidden && this.props.filter &&
+                  (
+                    <Shortcuts
+                      map={this.shortcutsMap}
+                      scope={this.shortcutsScope}
+                    />
+                  )
+              }
+              {/* Add empty div to prevent the change of List position in DOM*/}
+              {this.props.hidden ? <div/> : this.getFilterWithTags()}
+              {this.props.multiple &&
+                  !this.props.multiple.limit &&
+                  this.props.multiple.selectAll &&
+                  this.getSelectAll()
+              }
+              {this.getList(this.props.ringPopupTarget || ringPopupTarget)}
+              {this.getBottomLine()}
+              {this.props.toolbar}
+            </div>
+          </Popup>
+        )}
+      </PopupTargetContext.Consumer>
     );
   }
 }

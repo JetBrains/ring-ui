@@ -3,7 +3,7 @@ import angular from 'angular';
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
-import RingAngularComponent from '../global/ring-angular-component';
+import RingAngularComponent from './ring-angular-component';
 
 import DomRenderer from './react-dom-renderer';
 

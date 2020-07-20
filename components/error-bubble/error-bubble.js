@@ -28,6 +28,7 @@ export default class ErrorBubble extends PureComponent {
 
         {restProps.error && (
           <Popup
+            trapFocus={false}
             className={styles.errorBubblePopup}
             hidden={false}
             attached={false}

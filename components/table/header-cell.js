@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import sortableIcon from '@jetbrains/icons/unsorted-10px.svg';
 import sortedIcon from '@jetbrains/icons/chevron-10px.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
 
 import style from './table.css';
 
@@ -34,7 +34,7 @@ export default class HeaderCell extends PureComponent {
   }
 
   render() {
-    const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props; // eslint-disable-line no-unused-vars
+    const {className, column, onSort, sortKey, sortOrder, ...restProps} = this.props;
 
     this.sortable = column.sortable === true;
     this.sorted = sortKey === column.id;
@@ -56,7 +56,8 @@ export default class HeaderCell extends PureComponent {
         onClick={this.onClick}
         data-test="ring-table-header-cell"
       >
-        <span onClick={this.onChildrenClick}>{this.props.children}</span>
+        {/* onClick only used to stop propagation */}
+        <span onClick={this.onChildrenClick} role="presentation">{this.props.children}</span>
 
         {column.getHeaderValue ? column.getHeaderValue() : column.title}
 

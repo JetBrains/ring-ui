@@ -3,112 +3,110 @@
   Based on "idea.css" and "darcula.css" themes of hljs distributive
 */
 
-:global(.hljs) {
-  display: block;
-  overflow-x: auto;
+.highlightContainer {
+  &:global(.hljs) {
+    display: block;
+    overflow-x: auto;
 
-  padding: 0.5em;
+    color: var(--ring-code-color);
+  }
 
-  color: var(--ring-code-color);
+  & :global(.hljs-subst),
+  & :global(.hljs-title) {
+    color: var(--ring-code-color);
 
-  background: var(--ring-content-background-color);
-}
+    font-weight: normal;
+  }
 
-:global(.hljs-subst),
-:global(.hljs-title) {
-  color: var(--ring-code-color);
+  & :global(.hljs-comment),
+  & :global(.hljs-quote) {
+    color: var(--ring-code-comment-color);
 
-  font-weight: normal;
-}
+    font-style: italic;
+  }
 
-:global(.hljs-comment),
-:global(.hljs-quote) {
-  color: var(--ring-code-comment-color);
+  & :global(.hljs-meta) {
+    color: var(--ring-code-meta-color);
+  }
 
-  font-style: italic;
-}
+  & :global(.hljs-tag) {
+    background: var(--ring-code-tag-background-color);
+    box-shadow: 0 1px var(--ring-code-tag-background-color), 0 -1px var(--ring-code-tag-background-color);
+  }
 
-:global(.hljs-meta) {
-  color: var(--ring-code-meta-color);
-}
+  & :global(.hljs-section),
+  & :global(.hljs-literal),
+  & :global(.hljs-keyword),
+  & :global(.hljs-type) {
+    color: var(--ring-code-keyword-color);
 
-:global(.hljs-tag) {
-  background: var(--ring-code-tag-background-color);
-  box-shadow: 0 1px var(--ring-code-tag-background-color), 0 -1px var(--ring-code-tag-background-color);
-}
+    font-weight: bold;
+  }
 
-:global(.hljs-section),
-:global(.hljs-literal),
-:global(.hljs-keyword),
-:global(.hljs-type) {
-  color: var(--ring-code-keyword-color);
+  & :global(.hljs-name),
+  & :global(.hljs-selector-pseudo),
+  & :global(.hljs-selector-id),
+  & :global(.hljs-selector-class) {
+    color: var(--ring-code-tag-color);
 
-  font-weight: bold;
-}
+    font-weight: var(--ring-code-tag-font-weight);
+  }
 
-:global(.hljs-name),
-:global(.hljs-selector-pseudo),
-:global(.hljs-selector-id),
-:global(.hljs-selector-class) {
-  color: var(--ring-code-tag-color);
+  & :global(.hljs-selector-tag) {
+    color: var(--ring-code-keyword-color);
 
-  font-weight: var(--ring-code-tag-font-weight);
-}
+    font-weight: var(--ring-code-tag-font-weight);
+  }
 
-:global(.hljs-selector-tag) {
-  color: var(--ring-code-keyword-color);
+  & :global(.hljs-attr) {
+    color: var(--ring-code-field-color);
 
-  font-weight: var(--ring-code-tag-font-weight);
-}
+    font-weight: bold;
+  }
 
-:global(.hljs-attr) {
-  color: var(--ring-code-field-color);
+  & :global(.hljs-tag) > :global(.hljs-attr),
+  & :global(.hljs-attribute) {
+    color: var(--ring-code-attribute-color);
 
-  font-weight: bold;
-}
+    font-weight: var(--ring-code-tag-font-weight);
+  }
 
-:global(.hljs-tag > .hljs-attr),
-:global(.hljs-attribute) {
-  color: var(--ring-code-attribute-color);
+  & :global(.hljs-number),
+  & :global(.hljs-regexp),
+  & :global(.hljs-link) {
+    color: var(--ring-code-number-color);
 
-  font-weight: var(--ring-code-tag-font-weight);
-}
+    font-weight: normal;
+  }
 
-:global(.hljs-number),
-:global(.hljs-regexp),
-:global(.hljs-link) {
-  color: var(--ring-code-number-color);
+  & :global(.hljs-string) {
+    color: var(--ring-code-string-color);
 
-  font-weight: normal;
-}
+    font-weight: bold;
+  }
 
-:global(.hljs-string) {
-  color: var(--ring-code-string-color);
+  & :global(.hljs-doctag) {
+    text-decoration: underline;
+  }
 
-  font-weight: bold;
-}
+  & :global(.hljs-variable),
+  & :global(.hljs-template-variable) {
+    color: var(--ring-code-field-color);
+  }
 
-:global(.hljs-doctag) {
-  text-decoration: underline;
-}
+  & :global(.hljs-addition) {
+    background: var(--ring-code-addition-color);
+  }
 
-:global(.hljs-variable),
-:global(.hljs-template-variable) {
-  color: var(--ring-code-field-color);
-}
+  & :global(.hljs-deletion) {
+    background: var(--ring-code-deletion-color);
+  }
 
-:global(.hljs-addition) {
-  background: var(--ring-code-addition-color);
-}
+  & :global(.hljs-emphasis) {
+    font-style: italic;
+  }
 
-:global(.hljs-deletion) {
-  background: var(--ring-code-deletion-color);
-}
-
-:global(.hljs-emphasis) {
-  font-style: italic;
-}
-
-:global(.hljs-strong) {
-  font-weight: bold;
+  & :global(.hljs-strong) {
+    font-weight: bold;
+  }
 }

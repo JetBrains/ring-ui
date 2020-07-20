@@ -1,10 +1,12 @@
 @import "../global/variables.css";
 
-@value unit from "../global/global.css";
+@value unit, resetButton from "../global/global.css";
 @value background-color: var(--ring-tag-background-color);
 @value max-height: 20px;
 
 .tag {
+  composes: resetButton;
+
   position: relative;
   z-index: 1;
 
@@ -14,9 +16,8 @@
   max-width: 100%;
   height: max-height;
 
-  margin-right: calc(unit / 2);
-  margin-bottom: -6px; /* it needs to fix vertical alignment broken by "overflow: hidden" */
-  padding: 1px unit;
+  margin-bottom: 1px;
+  padding: 0 unit;
 
   vertical-align: top;
 
@@ -30,6 +31,22 @@
   line-height: var(--ring-line-height);
 }
 
+.withRemove {
+  padding-right: 22px;
+}
+
+.container {
+  position: relative;
+
+  display: inline-block;
+
+  max-width: calc(100% - unit / 2);
+
+  margin-right: calc(unit / 2);
+
+  white-space: nowrap;
+}
+
 .focused,
 .tag:focus {
   position: relative;
@@ -39,7 +56,9 @@
 }
 
 .tagAngled {
+  margin-bottom: -5px !important; /* it needs to fix vertical alignment broken by "overflow: hidden". Remove this class, when IE11 will be deprecated */
   margin-left: unit;
+  padding-left: calc(unit / 2);
 
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -84,21 +103,16 @@
 }
 
 .remove {
-  margin-right: calc(0 - unit);
+  position: absolute;
+  z-index: 1;
+  top: -1px;
+  right: 0;
 
   padding: 0 calc(unit / 2);
+}
 
-  cursor: pointer;
-
+.removeIcon.removeIcon {
   color: var(--ring-icon-secondary-color);
-
-  & svg {
-    vertical-align: -3px;
-  }
-
-  &:hover {
-    color: var(--ring-border-hover-color);
-  }
 }
 
 .icon {
@@ -118,7 +132,6 @@
   box-sizing: border-box;
   width: max-height;
   height: max-height;
-  margin-top: -1px;
   margin-right: calc(unit / 2);
   margin-left: calc(0 - unit);
 

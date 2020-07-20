@@ -1,25 +1,32 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import ButtonNG from '../button-ng/button-ng';
-import ButtonGroupNG from '../button-group-ng/button-group-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
-storiesOf('Legacy Angular|Button Group Ng', module).
-  addParameters({
+import ButtonGroupNG from '@jetbrains/ring-ui/components/button-group-ng/button-group-ng';
+
+export default {
+  title: 'Legacy Angular/Button Group Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Button Group.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, ButtonGroupNG]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG, ButtonGroupNG]);
+
+  return `
       <div rg-button-group>
         <span rg-button-group-caption>Side</span>
         <rg-button>Left</rg-button>
         <rg-button>Right</rg-button>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

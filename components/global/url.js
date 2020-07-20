@@ -1,4 +1,4 @@
-import sniffer from '../global/sniffer';
+import sniffer from './sniffer';
 
 /**
  * @description Provides a set of utilities for URL manipulation.

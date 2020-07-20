@@ -16,7 +16,7 @@ export default class Confirm extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     text: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.node,
 
     show: PropTypes.bool,
     rejectOnEsc: PropTypes.bool,
@@ -68,6 +68,7 @@ export default class Confirm extends PureComponent {
         onEscPress={this.onEscPress}
         show={show}
         trapFocus
+        data-test="ring-confirm"
       >
         {text && <Header>{text}</Header>}
         <Content>

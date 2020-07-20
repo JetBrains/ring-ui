@@ -1,9 +1,10 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 import VirtualizedList from 'react-virtualized/dist/es/List';
+import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
 
 import getUID from '../global/get-uid';
-import Icon, {CheckmarkIcon} from '../icon';
+import Icon from '../icon/icon';
 
 import List from './list';
 import ListItem from './list__item';
@@ -181,6 +182,15 @@ describe('List', () => {
       wrapper.state('activeItem').key.should.equal(activeIndex);
     });
 
+    it('should reset activeIndex when data changed', () => {
+      instance.hoverHandler(1)();
+      wrapper.setProps({
+        data: [{key: 5}]
+      });
+      wrapper.should.have.state('activeIndex', null);
+      wrapper.should.have.state('activeItem', null);
+    });
+
     it('shouldn\'t reset activeIndex when it isn\'t changed in props', () => {
       instance.hoverHandler(1)();
       wrapper.setProps({
@@ -201,7 +211,7 @@ describe('List', () => {
           {}
         ]
       }).instance();
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.should.have.className(styles.action);
       firstItemWrapper.should.have.text('');
     });
@@ -320,11 +330,11 @@ describe('List', () => {
     it('should render glyph if provided', () => {
       const instance = shallowList({
         data: [
-          {label: 'Hello!', glyph: CheckmarkIcon, type: List.ListProps.Type.ITEM}
+          {label: 'Hello!', glyph: checkmarkIcon, type: List.ListProps.Type.ITEM}
         ]
       }).instance();
 
-      mountFirstItem(instance).find(Icon).should.have.prop('glyph', CheckmarkIcon);
+      mountFirstItem(instance).find(Icon).should.have.prop('glyph', checkmarkIcon);
     });
 
     it('should throw error on unknown type', () => {
@@ -348,7 +358,7 @@ describe('List', () => {
         ]
       }).instance();
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.simulate('click');
       clicked.should.have.been.called;
     });
@@ -361,7 +371,7 @@ describe('List', () => {
         data: [{label: 'Hello!'}]
       }).instance();
 
-      const firstItemWrapper = mountFirstItem(instance).find(ListItem);
+      const firstItemWrapper = mountFirstItem(instance).find(ListItem).find('button');
       firstItemWrapper.simulate('click');
       onSelect.should.have.been.called;
     });

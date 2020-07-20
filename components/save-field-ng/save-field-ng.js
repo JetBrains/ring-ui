@@ -4,7 +4,7 @@
 import angular from 'angular';
 import 'dom4';
 import '../form/form.scss';
-import '../save-field-ng/save-field-ng.scss';
+import './save-field-ng.scss';
 
 import '../loader-inline/loader-inline';
 import ButtonSet from '../button-set-ng/button-set-ng';

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Popup from '../popup/popup';
 import List from '../list/list';
 
+const {children, ...popupPropTypes} = Popup.propTypes || {};
+
 /**
  * @name Popup Menu
  */
@@ -12,7 +14,7 @@ export default class PopupMenu extends Popup {
   static ListProps = List.ListProps;
 
   static propTypes = {
-    ...Popup.propTypes,
+    ...popupPropTypes,
     ...List.propTypes,
     closeOnSelect: PropTypes.bool
   };
@@ -37,7 +39,6 @@ export default class PopupMenu extends Popup {
 
   /** @override */
   getInternalContent() {
-    // eslint-disable-next-line no-unused-vars
     const {className, ...props} = this.props;
 
     return (
@@ -46,7 +47,7 @@ export default class PopupMenu extends Popup {
           ref={this.listRef}
           {...props}
           maxHeight={this.popup && this.popup.style.maxHeight}
-          shortcuts={this.state.shortcuts}
+          shortcuts={this.shouldUseShortcuts()}
           onSelect={this.onSelect}
         />
       </div>

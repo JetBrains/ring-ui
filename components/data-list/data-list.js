@@ -18,7 +18,6 @@ import Item, {moreLessButtonStates} from './item';
 import styles from './data-list.css';
 
 
-// eslint-disable-next-line react/no-deprecated
 class DataList extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
@@ -29,6 +28,7 @@ class DataList extends PureComponent {
     selection: PropTypes.object,
     selectable: PropTypes.bool,
     shortcutsMap: PropTypes.object,
+    innerRef: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
 
     itemFormatter: PropTypes.func.isRequired,
 
@@ -48,28 +48,19 @@ class DataList extends PureComponent {
     remoteSelection: false
   };
 
-  state = {
-    shortcutsEnabled: this.props.focused,
-    shortcutsScope: getUID('ring-data-list-')
-  };
-
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {data, selection, onSelect, selectable} = this.props;
 
-    if (data !== nextProps.data && !this.props.remoteSelection) {
-      onSelect(selection.cloneWith({data: nextProps.data}));
+    if (data !== prevProps.data && !prevProps.remoteSelection) {
+      onSelect(selection.cloneWith({data}));
     }
 
-    if (!nextProps.selectable && nextProps.selectable !== selectable) {
+    if (!selectable && prevProps.selectable) {
       onSelect(selection.resetSelection());
-    }
-
-    const shortcutsEnabled = nextProps.focused;
-    if (shortcutsEnabled !== this.state.shortcutsEnabled) {
-      this.setState({shortcutsEnabled});
     }
   }
 
+  shortcutsScope = getUID('ring-data-list-');
 
   onItemFocus = item => {
     const {selection, onSelect} = this.props;
@@ -97,7 +88,7 @@ class DataList extends PureComponent {
     } else {
       item.onCollapse();
     }
-  }
+  };
 
   shortcutsMap = {
     '=': this.onEqualPress
@@ -107,7 +98,7 @@ class DataList extends PureComponent {
     const {
       data, className, loading,
       selection, disabledHover,
-      itemFormatter
+      itemFormatter, focused, innerRef
     } = this.props;
 
     const shortcutsMap = {...this.shortcutsMap, ...this.props.shortcutsMap};
@@ -119,12 +110,12 @@ class DataList extends PureComponent {
     });
 
     return (
-      <div className={styles.dataListWrapper} data-test="ring-data-list">
-        {this.state.shortcutsEnabled &&
+      <div className={styles.dataListWrapper} data-test="ring-data-list" ref={innerRef}>
+        {focused &&
           (
             <Shortcuts
               map={shortcutsMap}
-              scope={this.state.shortcutsScope}
+              scope={this.shortcutsScope}
             />
           )
         }

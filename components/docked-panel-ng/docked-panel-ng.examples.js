@@ -1,25 +1,28 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import DockedPanelNG from '../docked-panel-ng/docked-panel-ng';
-import PanelNG from '../panel-ng/panel-ng';
-import ButtonNG from '../button-ng/button-ng';
+import PanelNG from '@jetbrains/ring-ui/components/panel-ng/panel-ng';
+import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
 
-storiesOf('Legacy Angular|Docked Panel Ng', module).
-  addParameters({
+import DockedPanelNG from '@jetbrains/ring-ui/components/docked-panel-ng/docked-panel-ng';
+
+export default {
+  title: 'Legacy Angular/Docked Panel Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Creates a panel docked at the bottom of the page.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ButtonNG, DockedPanelNG, PanelNG]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [ButtonNG, DockedPanelNG, PanelNG]);
+
+  return `
       <div>
-        <textarea placeholder="Add description" rows="70" cols="100"></textarea>
+        <textarea aria-label="Description" placeholder="Add description" rows="70" cols="100"></textarea>
       </div>
       <div rg-panel rg-docked-panel rg-docked-panel-class="customCssClass">
         <rg-button mode="primary">Save</rg-button>
@@ -27,8 +30,12 @@ storiesOf('Legacy Angular|Docked Panel Ng', module).
       </div>
       <br/>
       <div>
-        <textarea placeholder="Add steps" rows="10" cols="50"></textarea>
+        <textarea aria-label="Description" placeholder="Add steps" rows="10" cols="50"></textarea>
       </div>
     </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

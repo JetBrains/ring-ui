@@ -103,6 +103,7 @@ export default class LoginDialog extends Component {
       >
         <Content>
           <iframe
+            title="Login dialog"
             style={iFrameStyle}
             src={url}
             className={styles.iFrame}

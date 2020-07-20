@@ -40,12 +40,11 @@ export default class SmartUserCardTooltip extends Component {
           <LoaderInline/>
         </div>
       )
-      : null
+      : ''
   );
 
   render() {
     const {user} = this.state;
-    // eslint-disable-next-line no-unused-vars
     const {children, userDataSource, ...restProps} = this.props;
 
     const dropdownProps = {

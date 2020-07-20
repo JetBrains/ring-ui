@@ -32,6 +32,7 @@
 
   overflow: hidden;
 
+  transform: rotate(0);
   animation: spin 1s linear infinite;
   vertical-align: -3px;
 

@@ -1,66 +1,72 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
 import {action} from '@storybook/addon-actions';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
-import AuthNG from '../auth-ng/auth-ng';
 
-import QueryAssistNG from './query-assist-ng';
+import AuthNG from '@jetbrains/ring-ui/components/auth-ng/auth-ng';
 
-storiesOf('Legacy Angular|Query Assist Ng', module).
-  addParameters({
+import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
+
+export default {
+  title: 'Legacy Angular/Query Assist Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Query Assist.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [QueryAssistNG, AuthNG]).
-      config(authProvider => {
-        authProvider.config(hubConfig);
-      }).
-      controller('testCtrl', function ctrl($http) {
-        this.queries = [];
-        this.query = 'query';
-        this.focus = true;
-        this.disabled = true;
+  }
+};
 
-        this.save = ({query}) => {
-          this.queries.unshift(query);
+export const basic = () => {
+  angular.
+    module(APP_NAME, [QueryAssistNG, AuthNG]).
+    config(authProvider => {
+      authProvider.config(hubConfig);
+    }).
+    controller('testCtrl', function ctrl($http) {
+      this.queries = [];
+      this.query = 'query';
+      this.focus = true;
+      this.disabled = true;
+
+      this.save = ({query}) => {
+        this.queries.unshift(query);
+      };
+
+      this.change = ({query}) => {
+        this.query = query;
+        action('onChange')('Query = ', query);
+      };
+
+      this.focusChange = ({focus}) => {
+        this.focus = focus;
+      };
+
+      this.source = ({query, caret, omitSuggestions}) => {
+        const config = {
+          params: {
+            fields: `query,caret,styleRanges${omitSuggestions ? '' : ',suggestions'}`,
+            query,
+            caret
+          }
         };
 
-        this.change = ({query}) => {
-          this.query = query;
-          action('onChange')('Query = ', query);
-        };
+        return $http.
+          get(`${hubConfig.serverUri}/api/rest/users/queryAssist`, config).
+          then(data => data.data);
+      };
+    });
 
-        this.focusChange = ({focus}) => {
-          this.focus = focus;
-        };
-
-        this.source = ({query, caret, omitSuggestions}) => {
-          const config = {
-            params: {
-              fields: `query,caret,styleRanges${omitSuggestions ? '' : ',suggestions'}`,
-              query,
-              caret
-            }
-          };
-
-          return $http.get(`${hubConfig.serverUri}/api/rest/users/queryAssist`, config).
-            then(data => data.data);
-        };
-      });
-
-    return `
+  return `
       <div ng-controller="testCtrl as ctrl">
         <button ng-click="ctrl.disabled = !ctrl.disabled">Disable/Enable</button>
-  
+
         <div>
           <p>{{ ctrl.query || 'no value' }}</p>
-  
+
           <rg-query-assist
             x-clear="true"
             x-data-source="ctrl.source"
@@ -74,9 +80,13 @@ storiesOf('Legacy Angular|Query Assist Ng', module).
             placeholder="'placeholder'"
             hint="'Press ⇥ to complete first item'"
             hint-on-selection="'Press ↩ to complete selected item'"></rg-query-assist>
-  
+
           <p ng-repeat="query in ctrl.queries track by $index">{{ query }}</p>
         </div>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

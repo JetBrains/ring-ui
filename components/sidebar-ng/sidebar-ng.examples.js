@@ -1,24 +1,27 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '../link/link__legacy.css';
-import SelectNG from '../select-ng/select-ng';
+import '@jetbrains/ring-ui/components/link/link__legacy.css';
+import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
 
-import SidebarNG from './sidebar-ng';
+import SidebarNG from '@jetbrains/ring-ui/components/sidebar-ng/sidebar-ng';
 
-storiesOf('Legacy Angular|Sidebar Ng', module).
-  addParameters({
-    notes: 'Provides an Angular wrapper for Sidebar. To make sidebar have fixed positioning under some other element (e.g. toolbar), a selector for that element should be passed as placeUnderSibling parameter.',
+export default {
+  title: 'Legacy Angular/Sidebar Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
+    notes:
+      'Provides an Angular wrapper for Sidebar. To make sidebar have fixed positioning under some other element (e.g. toolbar), a selector for that element should be passed as placeUnderSibling parameter.',
     hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [SidebarNG, SelectNG]);
+  }
+};
 
-    return `
+export const basic = () => {
+  angular.module(APP_NAME, [SidebarNG, SelectNG]);
+
+  return `
       <div ng-init="isShowSideBar = true" style="position: relative;">
         <rg-sidebar
           show="isShowSideBar"
@@ -26,7 +29,7 @@ storiesOf('Legacy Angular|Sidebar Ng', module).
           top-offset="1">
           <div>
 
-            <img class="ring-sidebar__avatar" ng-src="http://via.placeholder.com/64x64"/>
+            <img alt="Avatar" class="ring-sidebar__avatar" ng-src="http://via.placeholder.com/64x64"/>
 
             <h3 class="ring-sidebar__title">
               <a class="ring-link" href="#">User Link</a>
@@ -45,21 +48,26 @@ storiesOf('Legacy Angular|Sidebar Ng', module).
         </div>
       </div>
     `;
-  }).
-  add('a lot of content', () => {
-    angular.module(APP_NAME, [SidebarNG, SelectNG]);
+};
 
-    let bigContent = '';
-    let after = '';
+basic.story = {
+  name: 'basic'
+};
 
-    for (let i = 0; i < 100; i++) {
-      bigContent += ` ${Math.random()}<br/>`;
-      after += ` ${Math.random()}<br/>`;
-    }
+export const aLotOfContent = () => {
+  angular.module(APP_NAME, [SidebarNG, SelectNG]);
 
-    bigContent += '===== The end of sidebar =====';
+  let bigContent = '';
+  let after = '';
 
-    return `
+  for (let i = 0; i < 100; i++) {
+    bigContent += ` ${Math.random()}<br/>`;
+    after += ` ${Math.random()}<br/>`;
+  }
+
+  bigContent += '===== The end of sidebar =====';
+
+  return `
       <div>
         <div>
           <div>Lorem</div>
@@ -83,4 +91,8 @@ storiesOf('Legacy Angular|Sidebar Ng', module).
         <div>${after}</div>
       </div>
     `;
-  });
+};
+
+aLotOfContent.story = {
+  name: 'a lot of content'
+};

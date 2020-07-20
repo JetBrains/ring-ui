@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -19,10 +19,7 @@ function noop() {}
 
 const POPUP_VERTICAL_SHIFT = 2;
 
-// eslint-disable-next-line react/no-deprecated
-export default class TagsInput extends Component {
-  static ngModelStateField = 'tags';
-
+export default class TagsInput extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     tags: PropTypes.array,
@@ -75,6 +72,7 @@ export default class TagsInput extends Component {
 
   state = {
     tags: [],
+    prevTags: null,
     suggestions: [],
     loading: true,
     focused: false,
@@ -82,8 +80,12 @@ export default class TagsInput extends Component {
     activeIndex: 0
   };
 
-  componentWillMount() {
-    this.updateStateFromProps(this.props);
+  static getDerivedStateFromProps({tags}, {prevTags}) {
+    const nextState = {prevTags: tags};
+    if (tags != null && tags !== prevTags) {
+      Object.assign(nextState, {tags, activeIndex: tags.length});
+    }
+    return nextState;
   }
 
   componentDidMount() {
@@ -94,9 +96,7 @@ export default class TagsInput extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
-    this.updateStateFromProps(props);
-  }
+  static ngModelStateField = 'tags';
 
   nodeRef = node => {
     this.node = node;
@@ -114,13 +114,6 @@ export default class TagsInput extends Component {
 
   setActiveIndex(activeIndex) {
     this.setState({activeIndex});
-  }
-
-  updateStateFromProps(props) {
-    if (props.tags) {
-      this.setState({tags: props.tags});
-      this.setActiveIndex(props.tags.length);
-    }
   }
 
   focusInput = () => {
@@ -167,17 +160,21 @@ export default class TagsInput extends Component {
     return suggestions.filter(suggestion => !tagsMap.has(suggestion.key));
   };
 
-  loadSuggestions = query => {
-    this.setState({loading: true, query});
-    return Promise.resolve(this.props.dataSource({query})).
-      then(this.filterExistingTags).
-      then(suggestions => {
+  loadSuggestions = (query = '') =>
+    this.setState({loading: true, query}, async () => {
+      try {
+        let allSuggestions = this.props.dataSource({query});
+        if (typeof allSuggestions.then === 'function') {
+          allSuggestions = await allSuggestions;
+        }
+        const suggestions = this.filterExistingTags(allSuggestions);
         if (this.node && query === this.state.query) {
           this.setState({suggestions, loading: false});
         }
-      }).
-      catch(() => this.node && this.setState({loading: false}));
-  };
+      } catch (e) {
+        this.setState({loading: false});
+      }
+    });
 
   _focusHandler = () => {
     this.setActiveIndex(null);
@@ -291,6 +288,8 @@ export default class TagsInput extends Component {
 
     return (
       <div
+        // it transfers focus to input
+        role="presentation"
         className={classes}
         onKeyDown={this.handleKeyDown}
         onClick={this.clickHandler}
@@ -308,6 +307,7 @@ export default class TagsInput extends Component {
         >
           <Select
             ref={this.selectRef}
+            size={Select.Size.AUTO}
             type={Select.Type.INPUT_WITHOUT_CONTROLS}
             inputPlaceholder={this.props.placeholder}
             data={this.state.suggestions}
@@ -335,7 +335,8 @@ export default class TagsInput extends Component {
 
         {!legacyMode && <div className={styles.underline}/>}
         {!legacyMode && <div className={styles.focusUnderline}/>}
-      </div>);
+      </div>
+    );
   }
 }
 

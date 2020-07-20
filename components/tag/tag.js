@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
-import Icon from '../icon';
+import Icon from '../icon/icon';
+import Button from '../button/button';
 
 import styles from './tag.css';
 
@@ -11,12 +12,11 @@ import styles from './tag.css';
  * @name Tag
  */
 
-// eslint-disable-next-line react/no-deprecated
 export default class Tag extends PureComponent {
   static propTypes = {
     onRemove: PropTypes.func,
     onClick: PropTypes.func,
-    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    rgTagIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     icon: PropTypes.string,
     avatar: PropTypes.string,
     rgTagTitle: PropTypes.string,
@@ -24,6 +24,9 @@ export default class Tag extends PureComponent {
     disabled: PropTypes.bool,
     focused: PropTypes.bool,
     angled: PropTypes.bool,
+
+    backgroundColor: PropTypes.string,
+    textColor: PropTypes.string,
 
     children: PropTypes.node,
     className: PropTypes.string
@@ -41,14 +44,15 @@ export default class Tag extends PureComponent {
     focused: false
   };
 
-  componentWillReceiveProps(props) {
-    this.updateStateFromProps(props);
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.focused !== prevProps.focused) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({focused: this.props.focused});
+    }
     if (this.state.focused) {
       this.tagNode.focus();
     }
+    this.setDocumentClickListener(this.state.focused);
   }
 
   componentWillUnmount() {
@@ -74,11 +78,6 @@ export default class Tag extends PureComponent {
     }
   }
 
-  updateStateFromProps(props) {
-    this.setState({focused: props.focused});
-    this.setDocumentClickListener(props.focused);
-  }
-
   renderCustomIcon() {
     if (this.props.rgTagIcon) {
       return (
@@ -99,6 +98,7 @@ export default class Tag extends PureComponent {
     });
     return (
       <img
+        alt={avatarSrc ? 'Avatar' : 'Icon'}
         className={classes}
         src={avatarSrc || this.props.icon}
       />
@@ -128,10 +128,12 @@ export default class Tag extends PureComponent {
   renderRemoveIcon() {
     if (!this.props.readOnly) {
       return (
-        <Icon
-          glyph={closeIcon}
+        <Button
+          title="Remove"
+          icon={closeIcon}
           data-test="ring-tag-remove"
           className={styles.remove}
+          iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
         />
       );
@@ -146,24 +148,31 @@ export default class Tag extends PureComponent {
       {
         [styles.focused]: this.state.focused,
         [styles.disabled]: this.props.disabled,
-        [styles.tagAngled]: this.props.angled
+        [styles.tagAngled]: this.props.angled,
+        [styles.withRemove]: !this.props.readOnly
       },
       this.props.className
     );
 
+    const {backgroundColor, textColor} = this.props;
+
     return (
-      <span
-        data-test="ring-tag"
-        tabIndex="0"
-        className={classes}
-        ref={this.tagRef}
-        onClick={this.props.onClick}
-      >
-        {this.renderAvatar()}
-        {this.renderCustomIcon()}
-        {this.renderImage()}
-        <span className={styles.content}>{this.props.children}</span>
+      <span className={styles.container}>
+        <button
+          type="button"
+          data-test="ring-tag"
+          className={classes}
+          ref={this.tagRef}
+          onClick={this.props.onClick}
+          style={{backgroundColor, color: textColor}}
+        >
+          {this.renderAvatar()}
+          {this.renderCustomIcon()}
+          {this.renderImage()}
+          <span className={styles.content}>{this.props.children}</span>
+        </button>
         {this.renderRemoveIcon()}
-      </span>);
+      </span>
+    );
   }
 }

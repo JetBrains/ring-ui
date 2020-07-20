@@ -1,27 +1,29 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import './palette.scss';
+import '@jetbrains/ring-ui/components/palette/palette.scss';
 
-storiesOf('Style-only|Pallete', module).
-  addParameters({
+export default {
+  title: 'Style-only/Color fields palette',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Defines the color palette used for tags and custom fields.',
-    hermione: {skip: true}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, []).
-      controller('TestCtrl', function controller() {
-        const xrange = num => [...Array(num)].map((val, index) => index);
+    hermione: {skip: true},
+    a11y: {options: {rules: {'color-contrast': {enabled: false}}}}
+  }
+};
 
-        this.arr5 = xrange(5);
-        this.arr7 = xrange(7);
-      });
+export const basic = () => {
+  angular.module(APP_NAME, []).controller('TestCtrl', function controller() {
+    const xrange = num => [...Array(num)].map((val, index) => index);
 
-    return `
+    this.arr5 = xrange(5);
+    this.arr7 = xrange(7);
+  });
+
+  return `
       <div ng-controller="TestCtrl as testCtrl">
         <h4>ColorId</h4>
         <div ng-repeat="i in testCtrl.arr5" class="example">
@@ -41,17 +43,23 @@ storiesOf('Style-only|Pallete', module).
         </div>
       </div>
     `;
-  }, {
-    storyStyles: `
-<style>
-  .example {
-    margin: 4px;
-  }
+};
 
-  .example div {
-    width: 90px;
-    display: inline-block;
+basic.story = {
+  name: 'basic',
+
+  parameters: {
+    storyStyles: `
+  <style>
+    .example {
+      margin: 4px;
+    }
+
+    .example div {
+      width: 90px;
+      display: inline-block;
+    }
+  </style>
+        `
   }
-</style>
-      `
-  });
+};

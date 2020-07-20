@@ -64,7 +64,7 @@ describe('Tooltip', () => {
     it('should render popup', () => {
       const wrapper = mountTooltip();
       const instance = wrapper.instance();
-      instance.showPopup();
+      instance.tryToShowPopup();
 
       isCompositeComponentWithType(instance.popup, Popup).should.be.true;
     });
@@ -75,7 +75,7 @@ describe('Tooltip', () => {
       });
       const instance = wrapper.instance();
 
-      instance.showPopup();
+      instance.tryToShowPopup();
       instance.popup.isVisible().should.be.false;
     });
 
@@ -86,7 +86,7 @@ describe('Tooltip', () => {
       });
       const instance = wrapper.instance();
 
-      instance.showPopup();
+      instance.tryToShowPopup();
 
       instance.popup.isVisible().should.be.false;
 
@@ -103,14 +103,14 @@ describe('Tooltip', () => {
       });
       const instance = wrapper.instance();
 
-      instance.showPopup();
+      instance.tryToShowPopup();
       instance.popup.popup.should.have.class('tooltip-test-popup');
     });
 
     it('should close popup on unmount', () => {
       const wrapper = mountTooltip();
       const instance = wrapper.instance();
-      instance.showPopup();
+      instance.tryToShowPopup();
       wrapper.unmount();
 
       should.not.exist(instance.popup);
@@ -119,7 +119,7 @@ describe('Tooltip', () => {
     it('should not close popup on click on tooltip', () => {
       const wrapper = mountTooltip();
       const instance = wrapper.instance();
-      instance.showPopup();
+      instance.tryToShowPopup();
       wrapper.simulate('click');
 
       instance.popup.isVisible().should.be.true;

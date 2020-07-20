@@ -5,12 +5,11 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import InlineSVG from 'svg-inline-react';
 import deprecate from 'util-deprecate';
-import {pure} from 'recompose';
 
 import {Color, Size} from './icon__constants';
 import styles from './icon.css';
+import IconSVG from './icon__svg';
 
 const warnSize = deprecate(
   () => {},
@@ -19,16 +18,11 @@ const warnSize = deprecate(
 We strongly recommend to use icons handcrafted for particular sizes. If your icon doesn't exist in the desired size, please ask your designer to draw one. "Responsive" checkmark should be unchecked when exporting icon.'`
 );
 
-const PureInlineSVG = pure(InlineSVG);
-
 export default class Icon extends PureComponent {
-  static Color = Color;
-  static Size = Size;
-
   static propTypes = {
     className: PropTypes.string,
     color: PropTypes.string,
-    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    glyph: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
     height: PropTypes.number,
     size: PropTypes.number,
     width: PropTypes.number,
@@ -41,6 +35,9 @@ export default class Icon extends PureComponent {
     color: Color.DEFAULT,
     glyph: ''
   });
+
+  static Color = Color;
+  static Size = Size;
 
   warnSize() {
     if (this.props.suppressSizeWarning) {
@@ -65,21 +62,19 @@ export default class Icon extends PureComponent {
     return null;
   }
 
-  isCompatibilityMode(iconSrc) {
-    const hasWidth = /width="[\d\.]+"/ig.test(iconSrc);
-    const hasHeight = /height="[\d\.]+"/ig.test(iconSrc);
-    return !hasWidth || !hasHeight;
+  getIconSource() {
+    const {glyph} = this.props;
+    return glyph?.isRingIcon ? glyph.glyph : glyph;
   }
 
   render() {
     const {
-      // eslint-disable-next-line no-unused-vars
       className, size, color, loading, glyph, width, height, suppressSizeWarning,
       ...restProps
     } = this.props;
 
-    const iconSrc = glyph?.call ? String(glyph) : glyph;
-    if (!iconSrc) {
+    const IconSrc = this.getIconSource();
+    if (!IconSrc) {
       // eslint-disable-next-line no-console
       console.warn('No icon source passed to Icon component', this.props);
       return null;
@@ -93,21 +88,15 @@ export default class Icon extends PureComponent {
       className
     );
 
-    const glyphClasses = classNames(styles.glyph, {
-      [styles.compatibilityMode]: this.isCompatibilityMode(iconSrc)
-    });
-
     return (
       <span
         {...restProps}
         className={classes}
       >
-        <PureInlineSVG
-          raw
-          src={iconSrc}
-          className={glyphClasses}
-          style={this.getStyle()}
-        />
+        {typeof IconSrc === 'string'
+          ? <IconSVG src={IconSrc} style={this.getStyle()}/>
+          : <IconSrc className={styles.glyph} style={this.getStyle()}/>
+        }
       </span>
     );
   }
@@ -115,25 +104,26 @@ export default class Icon extends PureComponent {
 
 export {Size};
 
-export function iconHOC(glyph, displayName) {
-  // eslint-disable-next-line react/no-multi-comp
-  return class BoundIcon extends PureComponent {
-    static Color = Color;
-    static Size = Size;
+// eslint-disable-next-line react/no-multi-comp
+export const iconHOC = deprecate((glyph, displayName) => class BoundIcon extends PureComponent {
+  // Compatibility with angular
+  static toString() {
+    return glyph;
+  }
 
-    static toString() {
-      return glyph;
-    }
+  static displayName = displayName;
 
-    static displayName = displayName;
-
-    static propTypes = {
-      iconRef: PropTypes.func
-    };
-
-    render() {
-      const {iconRef, ...restProps} = this.props;
-      return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
-    }
+  static propTypes = {
+    iconRef: PropTypes.func
   };
-}
+
+  static Color = Color;
+  static Size = Size;
+  static isRingIcon = true;
+  static glyph = glyph;
+
+  render() {
+    const {iconRef, ...restProps} = this.props;
+    return <Icon ref={iconRef} {...restProps} glyph={glyph}/>;
+  }
+}, 'Importing icons and logos from Ring UI is deprecated. Please import them from corresponding packages: `@jetbrains/icons` and `@jetbrains/logos`.');

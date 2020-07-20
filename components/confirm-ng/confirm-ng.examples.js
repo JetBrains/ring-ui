@@ -1,32 +1,46 @@
 import angular from 'angular';
 
 import {action} from '@storybook/addon-actions';
-import {storiesOf} from '@storybook/html';
 
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import ConfirmNG from '../confirm-ng/confirm-ng';
-import {hideConfirm} from '../confirm-service/confirm-service';
 
-storiesOf('Legacy Angular|Confirm Ng', module).
-  addParameters({
+import {hideConfirm} from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
+
+import ConfirmNG from '@jetbrains/ring-ui/components/confirm-ng/confirm-ng';
+
+export default {
+  title: 'Legacy Angular/Confirm Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Displays a confirmation prompt.',
-    hermione: {captureSelector: '*[data-test~=ring-dialog]'}
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [ConfirmNG]).
-      controller('TestCtrl', function controller($scope, confirm) {
-        confirm('Do you really wish to proceed?', 'A description of an action that is about to take place.').
-          then(action('confirmed')).
-          catch(action('declined'));
+    hermione: {captureSelector: '*[data-test~=ring-dialog]'},
+    a11y: {element: '*[data-test~=ring-dialog]'}
+  }
+};
 
-        $scope.$on('$destroy', hideConfirm);
-      });
+export const basic = () => {
+  angular.
+    module(APP_NAME, [ConfirmNG]).
+    controller('TestCtrl', function controller($scope, confirm) {
+      confirm(
+        'Do you really wish to proceed?',
+        'A description of an action that is about to take place.'
+      ).
+        then(action('confirmed')).
+        catch(action('declined'));
 
-    return `
+      $scope.$on('$destroy', hideConfirm);
+    });
+
+  return `
       <div>
         <div rg-dialog></div>
         <div ng-controller="TestCtrl"></div>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

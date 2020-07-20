@@ -1,37 +1,39 @@
 /* eslint-disable no-console */
-const {exec} = require('child_process');
+const {exec, execSync} = require('child_process');
+const path = require('path');
 
-const sauceConnectLauncher = require('sauce-connect-launcher');
+const browserStackLocal = require('browserstack-local');
 const kill = require('kill-port');
 
-const storiesTreePromise = require('./get-stories-tree');
+require('dotenv').config();
 
-const saucePort = 4445;
+const browserstack = new browserStackLocal.Local();
+
+const browserstackPort = 45691;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
-kill(saucePort).then(() => {
-  sauceConnectLauncher({
-    username: process.env.SAUCE_USERNAME,
-    accessKey: process.env.SAUCE_ACCESS_KEY,
-    logfile: 'saucelabs-session.log',
-    connectRetries: 3,
-    directDomains: ['hub.jetbrains.com', 'via.placeholder.com', '*.microsoft.com', 'icons.iconarchive.com']
-  }, async (err, sauceConnectProcess) => {
+kill(browserstackPort).then(() => {
+
+  browserstack.start({
+    key: process.env.BROWSERSTACK_KEY,
+    verbose: true,
+    logfile: 'browserstack.log'
+  }, err => {
     if (err) {
       console.error(err.message);
       return;
     }
 
-    console.log('Sauce Connect ready');
+    console.log('BrowserStack is connected and ready');
 
     const cleanup = () => {
-      sauceConnectProcess.close(() => {
-        console.log('Closed Sauce Connect process');
+      browserstack.stop(error => {
+        console.log('Closed BrowserStack process', error || '');
       });
       // eslint-disable-next-line no-use-before-define
       hermioneProcess.kill();
-      exec('git add hermione/screenshots');
+      exec('git add hermione');
     };
 
     process.on('SIGINT', () => {
@@ -39,7 +41,10 @@ kill(saucePort).then(() => {
       cleanup();
     });
 
-    await storiesTreePromise;
+    execSync('yarn jest packages/hermione/get-stories-tree.js \'--testMatch=**\'', {
+      cwd: path.resolve(__dirname, '../..'),
+      stdio: 'inherit'
+    });
     const hermioneProcess = exec(
       // eslint-disable-next-line no-magic-numbers
       `node_modules/.bin/hermione ${process.argv.slice(2).join(' ')}`,

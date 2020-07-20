@@ -1,57 +1,63 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
-import TableLegacyToolbar from '../table-legacy-ng/table-legacy-ng__toolbar';
-import Selection from '../table/selection';
-import data from '../table/table.examples.json';
 
-import TableNG from './table-ng';
+import TableLegacyToolbar from '@jetbrains/ring-ui/components/table-legacy-ng/table-legacy-ng__toolbar';
+import Selection from '@jetbrains/ring-ui/components/table/selection';
+import data from '@jetbrains/ring-ui/components/table/table.examples.json';
 
-storiesOf('Legacy Angular|Table Ng', module).
-  addParameters({
+import TableNG from '@jetbrains/ring-ui/components/table-ng/table-ng';
+
+export default {
+  title: 'Legacy Angular/Table Ng',
+  decorators: [angularDecorator()],
+
+  parameters: {
     notes: 'Provides an Angular wrapper for Table.'
-  }).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [TableNG, TableLegacyToolbar]).
-      controller('testCtrl', function controller() {
-        const columns = [
-          {
-            id: 'country',
-            title: 'Country'
-          },
-          {
-            id: 'city',
-            title: 'City',
-            sortable: true
-          },
-          {
-            id: 'url',
-            title: 'URL'
-          }
-        ];
+  }
+};
 
-        this.data = data;
-        this.columns = columns;
-        this.selection = new Selection({data});
-        this.sortKey = 'city';
-        this.sortOrder = false;
+export const basic = () => {
+  angular.
+    module(APP_NAME, [TableNG, TableLegacyToolbar]).
+    controller('testCtrl', function controller() {
+      const columns = [
+        {
+          id: 'country',
+          title: 'Country'
+        },
+        {
+          id: 'city',
+          title: 'City',
+          sortable: true
+        },
+        {
+          id: 'url',
+          title: 'URL'
+        }
+      ];
 
-        this.onSelect = selection => {
-          this.selection = selection;
-        };
+      this.data = data;
+      this.columns = columns;
+      this.selection = new Selection({data});
+      this.sortKey = 'city';
+      this.sortOrder = false;
 
-        this.onSort = ({column: {id: key}, order}) => {
-          this.sortOrder = order;
-          this.data = this.data.slice().sort((itemA, itemB) => (
-            order ? itemA[key].localeCompare(itemB[key]) : itemB[key].localeCompare(itemA[key])
-          ));
-        };
-      });
+      this.onSelect = selection => {
+        this.selection = selection;
+      };
 
-    return `
+      this.onSort = ({column: {id: key}, order}) => {
+        this.sortOrder = order;
+        this.data = this.data.
+          slice().
+          sort((itemA, itemB) =>
+            (order ? itemA[key].localeCompare(itemB[key]) : itemB[key].localeCompare(itemA[key]))
+          );
+      };
+    });
+
+  return `
       <div ng-controller="testCtrl as ctrl">
         <h3>Title of the page</h3>
 
@@ -73,4 +79,8 @@ storiesOf('Legacy Angular|Table Ng', module).
         ></rg-table>
       </div>
     `;
-  });
+};
+
+basic.story = {
+  name: 'basic'
+};

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
@@ -8,7 +7,7 @@ import Link from '../link/link';
 import Text from '../text/text';
 import LoaderInline from '../loader-inline/loader-inline';
 
-import Icon from '../icon';
+import Button from '../button/button';
 
 import Title from './title';
 
@@ -135,7 +134,7 @@ export default class Item extends PureComponent {
             inherit
             pseudo
             onClick={this.onShowMore}
-          >Show more</Link>
+          >{'Show more'}</Link>
           {showMoreLessButton === moreLessButtonStates.MORE_LOADING &&
             <LoaderInline className={styles.showMoreLoader}/>
           }
@@ -148,7 +147,7 @@ export default class Item extends PureComponent {
             inherit
             pseudo
             onClick={this.onShowLess}
-          >Show less</Link>
+          >{'Show less'}</Link>
         </Text>
       );
     }
@@ -157,29 +156,25 @@ export default class Item extends PureComponent {
     if (collapsible) {
       if (collapsed) {
         collapserExpander = (
-          <div
-            className={styles.expanderBox}
+          <Button
+            title="Expand"
             onClick={onExpand}
-          >
-            <Icon
-              glyph={chevronRightIcon}
-              className={styles.collapseIcon}
-              data-test="ring-data-list-expand"
-            />
-          </div>
+            icon={chevronRightIcon}
+            className={styles.collapseButton}
+            iconClassName={styles.collapseIcon}
+            data-test="ring-data-list-expand"
+          />
         );
       } else {
         collapserExpander = (
-          <div
-            className={styles.expanderBox}
+          <Button
+            title="Collapse"
             onClick={onCollapse}
-          >
-            <Icon
-              glyph={chevronDownIcon}
-              className={styles.collapseIcon}
-              data-test="ring-data-list-collapse"
-            />
-          </div>
+            icon={chevronDownIcon}
+            className={styles.collapseButton}
+            iconClassName={styles.collapseIcon}
+            data-test="ring-data-list-collapse"
+          />
         );
       }
     }
@@ -201,16 +196,18 @@ export default class Item extends PureComponent {
           offset={offset}
         />
 
-        {!itemIsEmpty ? (
-          <ul className={styles.itemContent}>
-            {items.map(model => this.renderItem(model, parentShift))}
+        {!itemIsEmpty
+          ? (
+            <ul className={styles.itemContent}>
+              {items.map(model => this.renderItem(model, parentShift))}
 
-            {showMoreLessButton !== moreLessButtonStates.UNUSED
-              ? <li className={styles.showMore}>{moreLessButton}</li>
-              : null
-            }
-          </ul>
-        ) : null}
+              {showMoreLessButton !== moreLessButtonStates.UNUSED
+                ? <li className={styles.showMore}>{moreLessButton}</li>
+                : null
+              }
+            </ul>
+          )
+          : null}
       </li>
     );
   }

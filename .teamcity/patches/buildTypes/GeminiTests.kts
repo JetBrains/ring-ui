@@ -1,6 +1,12 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.RetryBuildTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -13,4 +19,83 @@ changeBuildType(RelativeId("GeminiTests")) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
     maxRunningBuilds = 1
+
+    params {
+        add {
+            password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40", display = ParameterDisplay.HIDDEN)
+        }
+        add {
+            param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
+        }
+    }
+
+    expectSteps {
+        script {
+            name = "Run hermione"
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                cd packages/hermione
+                yarn install
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
+            dockerImage = "node:10"
+            dockerRunParameters = "-p 4445:4445 -v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
+        }
+    }
+    steps {
+        update<ScriptBuildStep>(0) {
+            clearConditions()
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                yarn bootstrap
+                cd packages/hermione
+                # ! We run tests against built Storybook from another build configuration
+                npm run test-ci
+            """.trimIndent()
+        }
+    }
+
+    triggers {
+        val trigger1 = find<RetryBuildTrigger> {
+            retryBuild {
+                delaySeconds = 60
+                attempts = 2
+            }
+        }
+        trigger1.apply {
+            enabled = false
+        }
+    }
+
+    features {
+        val feature1 = find<CommitStatusPublisher> {
+            commitStatusPublisher {
+                publisher = upsource {
+                    serverUrl = "https://upsource.jetbrains.com"
+                    projectId = "ring-ui"
+                    userName = "TeamCityReporter"
+                    password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+                }
+            }
+        }
+        feature1.apply {
+            publisher = upsource {
+                serverUrl = "https://upsource.jetbrains.com"
+                projectId = "ring-ui"
+                userName = "TeamCityReporter"
+                password = "credentialsJSON:58d15732-d29f-42a6-a0e5-e88ab97c64dd"
+            }
+        }
+    }
 }

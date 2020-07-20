@@ -34,10 +34,17 @@ class Particle {
   }
 }
 
+const DETERMINISTIC_VALUE = 0.5;
+
+function deterministic() {
+  return DETERMINISTIC_VALUE;
+}
+
 export default class LoaderCore {
   static defaultProps = {
     size: 64,
     stop: false,
+    deterministic: false,
     colors: [
       {r: 215, g: 60, b: 234}, //#D73CEA
       {r: 145, g: 53, b: 224}, //#9135E0
@@ -127,7 +134,8 @@ export default class LoaderCore {
   }
 
   handleLimits(coord, radius, speed, limit) {
-    const randomizedSpeedChange = Math.random(this.baseSpeed) - this.baseSpeed / 2;
+    const randomFunc = this.props.deterministic ? deterministic : Math.random;
+    const randomizedSpeedChange = randomFunc(this.baseSpeed) - this.baseSpeed / 2;
 
     if (coord + (radius * 2) + this.baseSpeed >= limit) {
       return -(this.baseSpeed + randomizedSpeedChange);

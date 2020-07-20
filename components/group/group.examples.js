@@ -1,21 +1,29 @@
 import React from 'react';
-import {storiesOf} from '@storybook/html';
 
 import reactDecorator from '../../.storybook/react-decorator';
-import Badge from '../badge/badge';
-import Link from '../link/link';
 
-import Group from './group';
+import Badge from '@jetbrains/ring-ui/components/badge/badge';
+import Link from '@jetbrains/ring-ui/components/link/link';
 
-storiesOf('Components|Group', module).
-  addParameters({
+import Group from '@jetbrains/ring-ui/components/group/group';
+
+export default {
+  title: 'Components/Group',
+  decorators: [reactDecorator()],
+
+  parameters: {
     notes: 'Places inner components with fixed spacing between them.'
-  }).
-  addDecorator(reactDecorator()).
-  add('basic', () => (
-    <Group>
-      <Badge valid>Badge</Badge>
-      <span>Text</span>
-      <Link>Link</Link>
-    </Group>
-  ));
+  }
+};
+
+export const basic = () => (
+  <Group>
+    <Badge valid>Badge</Badge>
+    <span>Text</span>
+    <Link>Link</Link>
+  </Group>
+);
+
+basic.story = {
+  name: 'basic'
+};

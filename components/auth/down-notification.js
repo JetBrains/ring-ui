@@ -21,25 +21,23 @@ function renderAlert(message, type = Alert.Type.WARNING) {
   }
 }
 
-// eslint-disable-next-line react/prop-types
-function Message({backendError, translations, onCheckAgain}) {
-  const {backendIsNotAvailable, checkAgain} = translations;
-
-  const errorMessage = backendError.message ||
-    (backendError.toString ? backendError.toString() : null);
+/* eslint-disable react/prop-types */
+function Message({translations, onCheckAgain}) {
+  const {backendIsNotAvailable, checkAgain, errorMessage} = translations;
 
   return (
     <div data-test="ring-backend-down-notification">
       <Group>
-        <span className={styles.title}>{backendIsNotAvailable}</span>
-        <Link onClick={onCheckAgain} data-test="check-again">{checkAgain}</Link>
+        <div className={styles.title}>{backendIsNotAvailable}</div>
       </Group>
-      <div className={styles.error}>{errorMessage}</div>
+      <span className={styles.error}>{errorMessage} </span>
+      <Link onClick={onCheckAgain} data-test="check-again">{checkAgain}</Link>
     </div>
   );
 }
+/* eslint-enable */
 
-export default function onBackendDown({backendError, onCheckAgain, translations}) {
+export default function onBackendDown({onCheckAgain, translations}) {
   async function checkAgainWithoutClosing(e) {
     // Alert has weird behaviour of handling clicks by "a" tags
     e.stopPropagation();
@@ -49,7 +47,6 @@ export default function onBackendDown({backendError, onCheckAgain, translations}
     } catch (err) {
       renderAlert(
         <Message
-          backendError={err}
           translations={translations}
           onCheckAgain={checkAgainWithoutClosing}
         />
@@ -59,7 +56,6 @@ export default function onBackendDown({backendError, onCheckAgain, translations}
 
   renderAlert(
     <Message
-      backendError={backendError}
       translations={translations}
       onCheckAgain={checkAgainWithoutClosing}
     />

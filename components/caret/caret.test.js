@@ -29,15 +29,6 @@ describe('Caret', () => {
       caret.getPosition().should.equal(0);
     });
 
-    it('Get of selection should return -1', () => {
-      const range = document.createRange();
-      range.setStart(target, 0);
-      range.setEnd(target, 1);
-      window.getSelection().addRange(range);
-
-      caret.getPosition().should.equal(-1);
-    });
-
     it('Should get correct positions', () => {
       window.getSelection().collapse(target.firstChild, 10);
 
@@ -54,6 +45,64 @@ describe('Caret', () => {
       caret.getPosition({avoidFocus: true});
 
       target.should.not.equal(document.activeElement);
+    });
+
+    it('Should get correct position with simple deep markup', () => {
+      target.innerHTML = '<span>foo<span>test<span>hello</span></span><span>123</span></span>';
+      window.getSelection().collapse(target.children[0].children[0].children[0].firstChild,
+        2);
+      caret.getPosition().should.equal(9);
+    });
+
+    it('Should get correct position with difficult deep markup 2', () => {
+      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
+        '</span><span>span3</span>';
+      window.getSelection().collapse(target.children[1].children[0].firstChild, 4);
+      caret.getPosition().should.equal(20);
+    });
+
+    it('Should get correct positions for the same node selection - second node', () => {
+      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
+        '</span><span>span3</span>';
+      const range = new Range();
+      range.setStart(target.children[1].children[0].firstChild, 1);
+      range.setEnd(target.children[1].children[0].firstChild, 4);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      caret.getPosition().should.deep.equal({startOffset: 17, endOffset: 20, position: 20});
+    });
+
+    it('Should get correct positions for the same node selection - first node', () => {
+      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
+        '</span><span>span3</span>';
+      const range = new Range();
+      range.setStart(target.children[0].childNodes[0], 0);
+      range.setEnd(target.children[0].childNodes[0], 5);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      caret.getPosition().should.deep.equal({startOffset: 0, endOffset: 5, position: 5});
+    });
+
+    it('Should get correct positions for different nodes selection', () => {
+      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
+        '</span><span>span3</span>';
+      const range = new Range();
+      range.setStart(target.children[0].children[0].firstChild, 1);
+      range.setEnd(target.children[1].children[0].firstChild, 4);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      caret.getPosition().should.deep.equal({startOffset: 6, endOffset: 20, position: 20});
+    });
+
+    it('Should get correct positions for different nodes selection - whole text', () => {
+      target.innerHTML = '<span>span1<span>span11</span></span><span>span2<span>span21</span>' +
+        '</span><span>span3</span>';
+      const range = new Range();
+      range.setStart(target.children[0].childNodes[0], 0);
+      range.setEnd(target.children[2].firstChild, 5);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      caret.getPosition().should.deep.equal({startOffset: 0, endOffset: 27, position: 27});
     });
   });
 

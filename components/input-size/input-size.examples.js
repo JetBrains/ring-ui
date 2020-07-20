@@ -1,28 +1,28 @@
 import angular from 'angular';
 
-import {storiesOf} from '@storybook/html';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
-import '../input/input.scss';
-import '../form/form.scss';
-import '../input-size/input-size.scss';
+import '@jetbrains/ring-ui/components/input/input.scss';
+import '@jetbrains/ring-ui/components/form/form.scss';
+import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
-import SelectNG from '../select-ng/select-ng';
-import QueryAssistNG from '../query-assist-ng/query-assist-ng';
+import SelectNG from '@jetbrains/ring-ui/components/select-ng/select-ng';
+import QueryAssistNG from '@jetbrains/ring-ui/components/query-assist-ng/query-assist-ng';
 
-storiesOf('Style-only|Input Sizes', module).
-  addDecorator(angularDecorator()).
-  add('basic', () => {
-    angular.module(APP_NAME, [QueryAssistNG, SelectNG]).
-      controller('ExampleCtrl', function ctrl() {
-        this.dataSource = () => [];
+export default {
+  title: 'Style-only/Input Sizes',
+  decorators: [angularDecorator()]
+};
 
-        this.options = ['one', 'two', 'three'];
-        this.selected = null;
-      });
+export const basic = () => {
+  angular.module(APP_NAME, [QueryAssistNG, SelectNG]).controller('ExampleCtrl', function ctrl() {
+    this.dataSource = () => [];
 
-    return `
+    this.options = ['one', 'two', 'three'];
+    this.selected = null;
+  });
+
+  return `
       <div ng-controller="ExampleCtrl as exampleCtrl">
         <h3 class="example-block">Query Assists</h3>
         <div class="example-block">
@@ -71,7 +71,7 @@ storiesOf('Style-only|Input Sizes', module).
             <div class="ring-error-bubble active">Full-width Query Assist</div>
           </div>
         </div>
-  
+
         <h3 class="example-block">Rg Selects: Buttons</h3>
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
@@ -109,7 +109,7 @@ storiesOf('Style-only|Input Sizes', module).
             <div class="ring-error-bubble active">Full-width Select</div>
           </div>
         </div>
-  
+
         <h3 class="example-block">Rg Selects: Inputs</h3>
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
@@ -152,62 +152,68 @@ storiesOf('Style-only|Input Sizes', module).
             <div class="ring-error-bubble active">Full-width Select</div>
           </div>
         </div>
-  
+
         <h3 class="example-block">Inputs</h3>
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
-            <input type="number" class="ring-input ring-input-size_xs">
-            <div class="ring-error-bubble active">Extra-short Input</div>
+            <input id="extra-short-input" type="number" class="ring-input ring-input-size_xs">
+            <label for="extra-short-input" class="ring-error-bubble active">Extra-short Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <input type="number" class="ring-input ring-input-size_s">
-            <div class="ring-error-bubble active">Short Input</div>
+            <input id="short-input" type="number" class="ring-input ring-input-size_s">
+            <label for="short-input" class="ring-error-bubble active">Short Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <input type="number" class="ring-input ring-input-size_md">
-            <div class="ring-error-bubble active">Medium Input</div>
+            <input id="medium-input" type="number" class="ring-input ring-input-size_md">
+            <label for="medium-input" class="ring-error-bubble active">Medium Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <input type="number" class="ring-input ring-input-size_l">
-            <div class="ring-error-bubble active">Long Input</div>
+            <input id="long-input" type="number" class="ring-input ring-input-size_l">
+            <label for="long-input" class="ring-error-bubble active">Long Input</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <input type="number" class="ring-input">
-            <div class="ring-error-bubble active">Full-width Input</div>
+            <input id="full-width-input" type="number" class="ring-input">
+            <label for="full-width-input" class="ring-error-bubble active">Full-width Input</label>
           </div>
         </div>
-  
+
         <h3 class="example-block">Textareas</h3>
         <div class="example-block">
           <div class="ring-error-bubble-wrapper">
-            <textarea class="ring-input ring-input-size_xs"></textarea>
-            <div class="ring-error-bubble active">Extra-short Textarea</div>
+            <textarea id="extra-short-textarea" class="ring-input ring-input-size_xs"></textarea>
+            <label for="extra-short-textarea" class="ring-error-bubble active">Extra-short Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <textarea class="ring-input ring-input-size_s"></textarea>
-            <div class="ring-error-bubble active">Short Textarea</div>
+            <textarea id="short-textarea" class="ring-input ring-input-size_s"></textarea>
+            <label for="short-textarea" class="ring-error-bubble active">Short Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <textarea class="ring-input ring-input-size_md"></textarea>
-            <div class="ring-error-bubble active">Medium Textarea</div>
+            <textarea id="medium-textarea" class="ring-input ring-input-size_md"></textarea>
+            <label for="medium-textarea" class="ring-error-bubble active">Medium Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <textarea class="ring-input ring-input-size_l"></textarea>
-            <div class="ring-error-bubble active">Long Textarea</div>
+            <textarea id="long-textarea" class="ring-input ring-input-size_l"></textarea>
+            <label for="long-textarea" class="ring-error-bubble active">Long Textarea</label>
           </div>
           <div class="ring-error-bubble-wrapper">
-            <textarea class="ring-input"></textarea>
-            <div class="ring-error-bubble active">Full-width Textarea</div>
+            <textarea id="full-width-textarea" class="ring-input"></textarea>
+            <label for="full-width-textarea" class="ring-error-bubble active">Full-width Textarea</label>
           </div>
         </div>
       </div>
     `;
-  }, {
+};
+
+basic.story = {
+  name: 'basic',
+
+  parameters: {
     storyStyles: `
-<style>
-  .example-block {
-    margin: 16px;
-    max-width: 600px;
+  <style>
+    .example-block {
+      margin: 16px;
+      max-width: 600px;
+    }
+  </style>`
   }
-</style>`
-  });
+};

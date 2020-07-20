@@ -2,16 +2,21 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Theme from '../global/theme';
+import {withTheme} from '../global/theme';
 import dataTests from '../global/data-tests';
 
 import styles from './toggle.css';
+
+export const Size = {
+  Size16: styles.size16,
+  Size20: styles.size20
+};
 
 /**
   * @name Toggle
   */
 
-export default class Toggle extends PureComponent {
+class Toggle extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     name: PropTypes.string,
@@ -25,19 +30,17 @@ export default class Toggle extends PureComponent {
     onChange: PropTypes.func,
     onTransitionEnd: PropTypes.func,
     theme: PropTypes.string,
+    size: PropTypes.oneOf(Object.values(Size)),
     'data-test': PropTypes.string
   };
 
-  static defaultProps = {
-    theme: Theme.LIGHT
-  };
-
   render() {
-    const {className, children, disabled, pale, title, leftLabel, theme, 'data-test': dataTest,
-      onTransitionEnd, ...restProps} = this.props;
+    const {className, children, disabled, pale, title, leftLabel, theme, size = Size.Size16,
+      'data-test': dataTest, onTransitionEnd, ...restProps} = this.props;
 
     const classes = classNames(
       className,
+      size,
       styles.toggle,
       styles[theme],
       disabled && styles.disabled
@@ -71,3 +74,4 @@ export default class Toggle extends PureComponent {
     );
   }
 }
+export default withTheme()(Toggle);
