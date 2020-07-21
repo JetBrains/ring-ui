@@ -13,4 +13,19 @@ changeBuildType(RelativeId("PublishCanary")) {
         "Unexpected paused: '$paused'"
     }
     paused = true
+
+    params {
+        expect {
+            param("vcs.branch.spec", """
+                -:refs/heads/(master)
+                +:refs/heads/develop-(*)
+            """.trimIndent())
+        }
+        update {
+            param("vcs.branch.spec", """
+                -:refs/heads/(master)
+                +:refs/heads/(develop-*)
+            """.trimIndent())
+        }
+    }
 }
