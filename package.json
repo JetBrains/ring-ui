@@ -113,7 +113,7 @@
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
     "jest": "~25.5.4",
-    "jest-teamcity": "^1.7.0",
+    "jest-teamcity": "^1.8.0",
     "karma": "^5.1.0",
     "karma-coverage": "^2.0.2",
     "karma-coverage-html-index-reporter": "^1.0.2",
