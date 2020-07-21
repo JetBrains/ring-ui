@@ -1695,14 +1695,14 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.89":
-  version "2.0.89"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.89.tgz#3dc33f35ed7a5d0510c8f8941459075b4ad3117c"
-  integrity sha512-gIMTsw8ox/QGHp1twZZXngF30S7TRWrrqJXpeqGohbeHzKdp0awZd3XGFkDL5KmshSB57ReAE6Y+UvuU7+8CcQ==
+"@jetbrains/generator-ring-ui@^2.0.90":
+  version "2.0.90"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.90.tgz#8c0eb57aee65761542fe1d388af9870a4410826b"
+  integrity sha512-gi8kj0uc/k6Vd/Wgli9IvkXaIX7GVjf/pT2lMaU55Wu4WlpvweAUUBFpulkAJA/AVkdt8Uktgf3RGLVhDFnNWw==
   dependencies:
     chalk "^4.1.0"
     change-case "^4.1.1"
-    ora "^4.0.4"
+    ora "^4.0.5"
     package-json "^6.5.0"
     pify "^5.0.0"
     portscanner "^2.2.0"
@@ -10964,12 +10964,10 @@ jest-specific-snapshot@^2.0.0:
   dependencies:
     jest-snapshot "^24.1.0"
 
-jest-teamcity@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.7.0.tgz#31401d3b353c62809c2a51aac215c4986df088f8"
-  integrity sha512-pj1s59qoMOMaOdCNvptgCyHLSkL6R2A35XCG+iljRLKXdrCfewAQpzPwDZDlcfxJQi4s7eSYZTDeVfbJl6yYVw==
-  dependencies:
-    lodash "^4.17.15"
+jest-teamcity@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/jest-teamcity/-/jest-teamcity-1.8.0.tgz#7ca482ca8562bf3dbea42546d5f6e6cc3029b306"
+  integrity sha512-wrQLTOSgTEtqlMG0rwMubHGAKVI7V061GFA9XIW2BVq5xcO5k+0VhF9W5co6Yp1ZmuQ3FUauwqjkoauv6lnKQw==
 
 jest-util@^24.9.0:
   version "24.9.0"
@@ -13415,10 +13413,10 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
-ora@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/ora/-/ora-4.0.4.tgz#e8da697cc5b6a47266655bf68e0fb588d29a545d"
-  integrity sha512-77iGeVU1cIdRhgFzCK8aw1fbtT1B/iZAvWjS+l/o1x0RShMgxHUZaD2yDpWsNCPwXg9z1ZA78Kbdvr8kBmG/Ww==
+ora@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/ora/-/ora-4.0.5.tgz#7410b5cc2d99fa637fd5099bbb9f02bfbb5a361e"
+  integrity sha512-jCDgm9DqvRcNIAEv2wZPrh7E5PcQiDUnbnWbAfu4NGAE2ZNqPFbDixmWldy1YG2QfLeQhuiu6/h5VRrk6cG50w==
   dependencies:
     chalk "^3.0.0"
     cli-cursor "^3.1.0"
