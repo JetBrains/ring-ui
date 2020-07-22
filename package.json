@@ -132,7 +132,7 @@
     "react-dom": "^16.13.1",
     "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.1",
-    "regenerator-runtime": "^0.13.5",
+    "regenerator-runtime": "^0.13.6",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
     "storage-mock": "^1.0.3",
