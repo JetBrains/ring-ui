@@ -1695,10 +1695,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.90":
-  version "2.0.90"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.90.tgz#8c0eb57aee65761542fe1d388af9870a4410826b"
-  integrity sha512-gi8kj0uc/k6Vd/Wgli9IvkXaIX7GVjf/pT2lMaU55Wu4WlpvweAUUBFpulkAJA/AVkdt8Uktgf3RGLVhDFnNWw==
+"@jetbrains/generator-ring-ui@^2.0.91":
+  version "2.0.91"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.91.tgz#8d3d483259a0869fe866b94d08216fab9e34e90a"
+  integrity sha512-sY1j/fNxdYxA1UnKNmVVn88MWJmMybQEYtejXtTslsUDoNaLW5ZaTOVqgzJu9H/DkI6axJpCQuydfzzbeKCQ8A==
   dependencies:
     chalk "^4.1.0"
     change-case "^4.1.1"
@@ -1711,10 +1711,10 @@
     yeoman-generator "^4.11.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.7.0.tgz#8640569afc9c78c210e0541bf128a7bcc8caa5be"
-  integrity sha512-i7+U7iceYiewMEXhz227I0P461iN9v7008RllzXcxh7ZybMduKRqpvzpbIpx2oJXYTlVOTsuFinaBT+yNl3WDQ==
+"@jetbrains/icons@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.8.0.tgz#4232c5884867643c4e0d2c5d873988561b9e8cfb"
+  integrity sha512-MRW12Gnm/ibA4iy8iKu/GJvktqoBOaqMJm89jcHD4aAX/bsJfG6CnJ4mO7iLrB8+w2LWLTuS0aijJdIsACTBIw==
 
 "@jetbrains/logos@^1.2.10":
   version "1.2.10"
