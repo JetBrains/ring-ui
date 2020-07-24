@@ -1695,10 +1695,10 @@
   resolved "https://registry.yarnpkg.com/@jetbrains/eslint-config/-/eslint-config-5.3.1.tgz#a50f28dfd9159ad7521ed1f7136054c6cdb53ff7"
   integrity sha512-duQH/feMncnDhCr9K57nT4rc4DBvdJc2oPK6qzWFrghVsjQC9z9cnK1Vw0PC2wxrtwAZjJirUexjclUW87t6XQ==
 
-"@jetbrains/generator-ring-ui@^2.0.90":
-  version "2.0.90"
-  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.90.tgz#8c0eb57aee65761542fe1d388af9870a4410826b"
-  integrity sha512-gi8kj0uc/k6Vd/Wgli9IvkXaIX7GVjf/pT2lMaU55Wu4WlpvweAUUBFpulkAJA/AVkdt8Uktgf3RGLVhDFnNWw==
+"@jetbrains/generator-ring-ui@^2.0.91":
+  version "2.0.91"
+  resolved "https://registry.yarnpkg.com/@jetbrains/generator-ring-ui/-/generator-ring-ui-2.0.91.tgz#8d3d483259a0869fe866b94d08216fab9e34e90a"
+  integrity sha512-sY1j/fNxdYxA1UnKNmVVn88MWJmMybQEYtejXtTslsUDoNaLW5ZaTOVqgzJu9H/DkI6axJpCQuydfzzbeKCQ8A==
   dependencies:
     chalk "^4.1.0"
     change-case "^4.1.1"
@@ -11271,10 +11271,10 @@ karma-coverage-html-index-reporter@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/karma-coverage-html-index-reporter/-/karma-coverage-html-index-reporter-1.0.2.tgz#0d40ce78b4eba7ac26ab65b3c0d884759152e010"
 
-karma-coverage@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/karma-coverage/-/karma-coverage-2.0.2.tgz#75d5ce983033d8f738d57df82948dc3534392519"
-  integrity sha512-zge5qiGEIKDdzWciQwP4p0LSac4k/L6VfrBsERMUn5mpDvxhv1sPVOrSlpzpi70T7NhuEy4bgnpAKIYuumIMCw==
+karma-coverage@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/karma-coverage/-/karma-coverage-2.0.3.tgz#c10f4711f4cf5caaaa668b1d6f642e7da122d973"
+  integrity sha512-atDvLQqvPcLxhED0cmXYdsPMCQuh6Asa9FMZW1bhNqlVEhJoB9qyZ2BY1gu7D/rr5GLGb5QzYO4siQskxaWP/g==
   dependencies:
     istanbul-lib-coverage "^3.0.0"
     istanbul-lib-instrument "^4.0.1"
