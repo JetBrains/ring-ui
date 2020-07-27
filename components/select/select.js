@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import chevronDownIcon from '@jetbrains/icons/chevron-10px.svg';
 import closeIcon from '@jetbrains/icons/close.svg';
+import deepEqual from 'deep-equal';
 
 import {Anchor} from '../dropdown/dropdown';
 import Avatar, {Size as AvatarSize} from '../avatar/avatar';
@@ -366,7 +367,7 @@ export default class Select extends Component {
       }
     }
 
-    if (prevMultiple !== multiple) {
+    if (prevMultiple !== multiple && !deepEqual(prevMultiple, multiple)) {
       nextState.selected = Select._getEmptyValue(multiple);
     }
 
@@ -404,7 +405,7 @@ export default class Select extends Component {
       onOpen();
     }
 
-    if (multiple !== prevProps.multiple) {
+    if (multiple !== prevProps.multiple && !deepEqual(multiple, prevProps.multiple)) {
       onChange(selected);
     }
   }
