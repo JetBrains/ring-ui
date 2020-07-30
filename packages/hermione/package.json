@@ -37,7 +37,7 @@
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.1",
     "yauzl": "^2.10.0"
   },
   "resolutions": {
