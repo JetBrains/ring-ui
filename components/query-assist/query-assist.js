@@ -165,14 +165,6 @@ export default class QueryAssist extends Component {
     const focus = e.type === 'focus';
     this.immediateState.focus = focus;
 
-    // Track mouse state to avoid focus loss on clicks on icons.
-    // Doesn't handle really edge cases like shift+tab while mouse button is pressed.
-    if (!this.node || (!focus && this.mouseIsDownOnInput)) {
-      this.immediateState.focus = true;
-      this.setCaretPosition();
-      return;
-    }
-
     if (!focus) {
       this.blurInput();
 
@@ -534,10 +526,6 @@ export default class QueryAssist extends Component {
     this.mouseIsDownOnPopup = e.type === 'mousedown';
   };
 
-  trackInputMouseState = e => {
-    this.mouseIsDownOnInput = e.type === 'mousedown';
-  };
-
   trackCompositionState = e => {
     this.isComposing = e.type !== 'compositionend';
   };
@@ -756,9 +744,6 @@ export default class QueryAssist extends Component {
       <div
         data-test={dataTests('ring-query-assist', dataTest)}
         className={classNames(styles.queryAssist, styles[theme])}
-        onMouseDown={this.trackInputMouseState}
-        onMouseUp={this.trackInputMouseState}
-        // mouse handlers are used to track clicking on inner elements
         role="presentation"
         ref={this.nodeRef}
       >
