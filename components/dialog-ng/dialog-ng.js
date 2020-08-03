@@ -237,7 +237,6 @@ class DialogController extends RingAngularComponent {
   }
 
   getErrorMessage(errorResponse) {
-    // eslint-disable-next-line camelcase
     if (errorResponse?.data?.error_description) {
       return errorResponse.data.error_description;
     }
