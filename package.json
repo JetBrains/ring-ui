@@ -211,7 +211,7 @@
     "url-loader": "^4.1.0",
     "url-search-params": "^1.1.0",
     "util-deprecate": "^1.0.2",
-    "whatwg-fetch": "^3.2.0"
+    "whatwg-fetch": "^3.3.1"
   },
   "resolutions": {
     "markdown-to-jsx": "^6.11.4",
