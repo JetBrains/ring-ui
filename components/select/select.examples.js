@@ -15,6 +15,7 @@ import Source from '@jetbrains/ring-ui/components/list/list__users-groups-source
 import '@jetbrains/ring-ui/components/input-size/input-size.scss';
 
 import Select from '@jetbrains/ring-ui/components/select/select';
+import Input from '@jetbrains/ring-ui/components/input/input';
 
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
@@ -903,6 +904,48 @@ export const asADropdownWithoutFilter = () => {
 
 asADropdownWithoutFilter.story = {
   name: 'as a dropdown without filter',
+  parameters: {hermione: {skip: true}}
+};
+
+export const withCustomInputAnchor = () => {
+  const data = [...Array(20)].map((elem, idx) => ({
+    label: `Item ${idx}`,
+    description: `Description for the item lalalalala ${idx}`,
+    key: idx
+  }));
+
+  const DemoComponent = () => {
+    const [inputValue, setInputValue] = React.useState('');
+    const selectRef = React.useRef(null);
+
+    const onInputChange = React.useCallback(e => {
+      setInputValue(e.target.value);
+      if (selectRef.current) {
+        selectRef.current._filterChangeHandler(e);
+      }
+    }, [setInputValue, selectRef]);
+
+    return (
+      <Select
+        ref={selectRef}
+        type={Select.Type.CUSTOM}
+        data={data}
+        onChange={item => setInputValue(item.label)}
+        customAnchor={({wrapperProps, buttonProps, popup}) => (
+          <span {...wrapperProps}>
+            <Input value={inputValue} onChange={onInputChange} {...buttonProps}/>
+            {popup}
+          </span>
+        )}
+      />
+    );
+  };
+
+  return <DemoComponent/>;
+};
+
+withCustomInputAnchor.story = {
+  name: 'with custom input anchor',
   parameters: {hermione: {skip: true}}
 };
 
