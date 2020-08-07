@@ -6086,10 +6086,10 @@ he@^1.1.1, he@^1.2.0:
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
 
-hermione@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.8.1.tgz#2be4e8e896e978a7bf7354353a329370ac75baae"
-  integrity sha512-+ZUaGdAr5ihW6QmPkJjJuTxFsgs0JtvpyPp8SKDCpN9h4/SjlXYn+eU8rluO7M3SU+hKvKKaojkEqG78Zt/60w==
+hermione@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/hermione/-/hermione-3.8.2.tgz#29236baf4b2a7701a5284a31ecc1b2950241ac94"
+  integrity sha512-9qkMGjIlHjoF9+G0gE27Jaj4YUOFMe1rTYLPOM0d8G/YJnn2noYjrtBotRcGpVSvDGcBuqegrki7QRsqcLgJBg==
   dependencies:
     "@gemini-testing/commander" "2.15.3"
     "@gemini-testing/webdriverio" "4.16.2"
@@ -6104,6 +6104,7 @@ hermione@^3.8.1:
     gemini-configparser "^1.0.0"
     gemini-core "^5.2.2"
     inherit "^2.2.2"
+    json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
     mocha "~2.4.5"
     plugins-loader "^1.1.0"
