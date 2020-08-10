@@ -13,18 +13,6 @@ const svgInlineLoader = {
   include: [require('@jetbrains/icons')]
 };
 
-const svgSpriteLoaderBackwardCompatibilityHack = {
-  get include() {
-    throw new Error(`
-***
-  ERROR: Ring UI svgSpriteLoader is REMOVED in 2.0.0. Looks like your webpack config is patching it.
-  The most simple fix is to replace "svgSpriteLoader.include.push(...)" with "svgInlineLoader.include.push(...)"
-  Please consider using your own "svg-inline-loader". More details: https://youtrack.jetbrains.com/issue/RG-1646
-***
-    `);
-  }
-};
-
 const svgLoader = {
   test: /\.svg$/,
   loader: `${require.resolve('url-loader')}?limit=10000`,
@@ -134,7 +122,6 @@ module.exports = {
   componentsPath,
 
   loaders: {
-    ...loaders,
-    svgSpriteLoader: svgSpriteLoaderBackwardCompatibilityHack
+    ...loaders
   }
 };
