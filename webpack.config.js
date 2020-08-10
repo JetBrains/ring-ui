@@ -122,6 +122,14 @@ module.exports = {
   componentsPath,
 
   loaders: {
-    ...loaders
+    ...loaders,
+    get whatwgLoader() {
+      // eslint-disable-next-line no-console
+      console.error(`***
+  DEPRECATION: Ring UI's whatwgLoader is about to be removed from webpack.config – there are no more browsers we support that doesn't have Fetch API embedded.
+  Looks like your webpack config is patching it. The most simple fix is to replace remove any usages of it.
+***`);
+      return whatwgLoader;
+    }
   }
 };

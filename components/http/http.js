@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import ExtendableError from 'es6-error';
 
 import {encodeURL, joinBaseURLAndPath} from '../global/url';
