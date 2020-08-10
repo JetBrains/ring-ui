@@ -9,8 +9,7 @@ import classNames from 'classnames';
 import VirtualizedList from 'react-virtualized/dist/es/List';
 import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import WindowScroller from 'react-virtualized/dist/es/WindowScroller';
-// TODO move back when https://github.com/bvaughn/react-virtualized/pull/1477 is merged and released
-import {CellMeasurer, CellMeasurerCache} from '@hypnosphi/react-virtualized/dist/es/CellMeasurer';
+import {CellMeasurer, CellMeasurerCache} from 'react-virtualized/dist/es/CellMeasurer';
 import deprecate from 'util-deprecate';
 import memoizeOne from 'memoize-one';
 
@@ -101,7 +100,8 @@ export default class List extends Component {
     disableMoveDownOverflow: PropTypes.bool,
     compact: PropTypes.bool,
     disableScrollToActive: PropTypes.bool,
-    hidden: PropTypes.bool
+    hidden: PropTypes.bool,
+    ariaLabel: PropTypes.string
   };
 
   static defaultProps = {
@@ -115,7 +115,8 @@ export default class List extends Component {
     onResize: noop,
     shortcuts: false,
     renderOptimization: true,
-    disableMoveDownOverflow: false
+    disableMoveDownOverflow: false,
+    ariaLabel: 'List'
   };
 
   state = {
@@ -605,6 +606,7 @@ export default class List extends Component {
         {({width}) => (
           <div ref={registerChild}>
             <VirtualizedList
+              aria-label={this.props.ariaLabel}
               ref={this.virtualizedListRef}
               className="ring-list__i"
               autoHeight={autoHeight}
@@ -673,6 +675,7 @@ export default class List extends Component {
         onMouseMove={this.mouseHandler}
       >
         <div
+          aria-label={this.props.ariaLabel}
           style={maxHeight
             ? {maxHeight: this.getVisibleListHeight(this.props)}
             : null
