@@ -164,8 +164,7 @@ withScroll.story = {
   name: 'with scroll'
 };
 
-export const withOverflowScrollOnHtml = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export const WithOverflowScrollOnHtml = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -178,7 +177,7 @@ export const withOverflowScrollOnHtml = () => {
     </div>
   );
 };
-withOverflowScrollOnHtml.story = {
+WithOverflowScrollOnHtml.story = {
   parameters: {
     storyStyles: `
       <style>

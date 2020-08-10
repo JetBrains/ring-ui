@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import alertService from '../alert-service/alert-service';
 import Alert from '../alert/alert';
@@ -21,7 +22,6 @@ function renderAlert(message, type = Alert.Type.WARNING) {
   }
 }
 
-/* eslint-disable react/prop-types */
 function Message({translations, onCheckAgain}) {
   const {backendIsNotAvailable, checkAgain, errorMessage} = translations;
 
@@ -35,7 +35,14 @@ function Message({translations, onCheckAgain}) {
     </div>
   );
 }
-/* eslint-enable */
+Message.propTypes = {
+  translations: PropTypes.shape({
+    backendIsNotAvailable: PropTypes.string,
+    checkAgain: PropTypes.string,
+    errorMessage: PropTypes.string
+  }),
+  onCheckAgain: PropTypes.func
+};
 
 export default function onBackendDown({onCheckAgain, translations}) {
   async function checkAgainWithoutClosing(e) {
