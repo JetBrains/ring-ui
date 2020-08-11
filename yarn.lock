@@ -1706,10 +1706,10 @@
     yeoman-generator "^4.11.0"
     yeoman-option-or-prompt "^2.0.1"
 
-"@jetbrains/icons@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.8.0.tgz#4232c5884867643c4e0d2c5d873988561b9e8cfb"
-  integrity sha512-MRW12Gnm/ibA4iy8iKu/GJvktqoBOaqMJm89jcHD4aAX/bsJfG6CnJ4mO7iLrB8+w2LWLTuS0aijJdIsACTBIw==
+"@jetbrains/icons@^3.9.1":
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/@jetbrains/icons/-/icons-3.9.1.tgz#0195c493134700538981413c0f8fe0fae37b9e37"
+  integrity sha512-C1bzcucmyfxbgiXcTb0Kw5u+HLPg+9RbgKiv40fq6sxN9lvu9rf0evOlw/AeG4qNW509yMTk0dTcwMiLAhrlHA==
 
 "@jetbrains/logos@^1.2.10":
   version "1.2.10"
