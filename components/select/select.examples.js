@@ -933,7 +933,7 @@ export const withCustomInputAnchor = () => {
         onChange={item => setInputValue(item.label)}
         customAnchor={({wrapperProps, buttonProps, popup}) => (
           <span {...wrapperProps}>
-            <Input value={inputValue} onChange={onInputChange} {...buttonProps}/>
+            <Input value={inputValue} label="Custom" onChange={onInputChange} {...buttonProps}/>
             {popup}
           </span>
         )}
