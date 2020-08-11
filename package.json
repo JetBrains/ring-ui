@@ -112,7 +112,7 @@
     "events": "^3.2.0",
     "husky": "^4.2.5",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "~25.5.4",
+    "jest": "~26.3.0",
     "jest-teamcity": "^1.8.0",
     "karma": "^5.1.1",
     "karma-coverage": "^2.0.3",
