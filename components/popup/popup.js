@@ -274,7 +274,7 @@ export default class Popup extends PureComponent {
         this._listenersEnabled = true;
         this.listeners.add(window, 'resize', this._redraw);
         this.listeners.add(window, 'scroll', this._redraw);
-        this.listeners.add(document, 'click', this._onDocumentClick);
+        this.listeners.add(document, 'click', this._onDocumentClick, true);
         let el = this._getAnchor();
         while (el) {
           this.listeners.add(el, 'scroll', this._redraw);
