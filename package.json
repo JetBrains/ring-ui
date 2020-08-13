@@ -84,7 +84,7 @@
     "@storybook/core": "5.3.19",
     "@storybook/html": "5.3.19",
     "@storybook/source-loader": "5.3.19",
-    "@storybook/theming": "5.3.19",
+    "@storybook/theming": "6.0.6",
     "angular": "^1.8.0",
     "angular-mocks": "^1.8.0",
     "angular-route": "^1.8.0",
