@@ -1083,9 +1083,9 @@ describe('Select', () => {
       const tagsMock = {
         reset: {
           key: labelMock,
-          label: labelMock,
+          template: labelMock,
           glyph: 'glyph',
-          rgItemType: List.ListProps.Type.LINK,
+          rgItemType: List.ListProps.Type.CUSTOM,
           className: 'cssClass',
           onClick: () => {}
         }
@@ -1097,7 +1097,7 @@ describe('Select', () => {
 
       const resetOption = instance._getResetOption();
 
-      resetOption.rgItemType.should.be.equal(List.ListProps.Type.ITEM);
+      resetOption.rgItemType.should.be.equal(List.ListProps.Type.CUSTOM);
       resetOption.glyph.should.be.equal(tagsMock.reset.glyph);
       resetOption.onClick.should.be.an.instanceof(Function);
     });
