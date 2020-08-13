@@ -534,8 +534,8 @@ export default class Select extends Component {
       isResetItem: true,
       separator: reset.separator,
       key: reset.label,
-      rgItemType: List.ListProps.Type.ITEM,
-      label: (
+      rgItemType: List.ListProps.Type.CUSTOM,
+      template: (
         <Button
           text
           className={styles.button}
