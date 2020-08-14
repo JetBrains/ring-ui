@@ -30,9 +30,7 @@ export const autofocusOnInput = () => {
     `;
 };
 
-autofocusOnInput.story = {
-  name: 'autofocus on input'
-};
+autofocusOnInput.storyName = 'autofocus on input';
 
 export const autofocusOnSelect = () => {
   angular.module(APP_NAME, [AutofocusNG, SelectNg]);
@@ -40,6 +38,4 @@ export const autofocusOnSelect = () => {
   return '<rg-select options="item in []" size="M" rg-autofocus="true"></rg-select>';
 };
 
-autofocusOnSelect.story = {
-  name: 'autofocus on select'
-};
+autofocusOnSelect.storyName = 'autofocus on select';

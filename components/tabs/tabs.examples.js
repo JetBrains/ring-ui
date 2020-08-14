@@ -45,9 +45,7 @@ class BasicDemo extends Component {
 }
 export const basic = () => <BasicDemo/>;
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 class DarkDemo extends Component {
   state = {selected: 'first'};
@@ -81,19 +79,17 @@ class DarkDemo extends Component {
 }
 export const dark = () => <DarkDemo/>;
 
-dark.story = {
-  name: 'dark',
+dark.storyName = 'dark';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .dark-wrapper {
-      background: #000;
-      padding: 8px;
-      color: #fff;
-    }
-  </style>`
+dark.parameters = {
+  storyStyles: `
+<style>
+  .dark-wrapper {
+    background: #000;
+    padding: 8px;
+    color: #fff;
   }
+</style>`
 };
 
 export const smart = () => (
@@ -109,9 +105,7 @@ export const smart = () => (
     </Tab>
   </SmartTabs>
 );
-smart.story = {
-  name: 'smart'
-};
+smart.storyName = 'smart';
 
 function Title({glyph, title, children, className}) {
   return (
@@ -133,20 +127,18 @@ export const customTitles = () => (
     </CustomItem>
   </SmartTabs>
 );
-customTitles.story = {
-  name: 'custom titles',
+customTitles.storyName = 'custom titles';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .icon.icon {
-      vertical-align: 1px;
-      line-height: normal;
-      margin-right: 4px;
-    }
-  </style>
-        `
+customTitles.parameters = {
+  storyStyles: `
+<style>
+  .icon.icon {
+    vertical-align: 1px;
+    line-height: normal;
+    margin-right: 4px;
   }
+</style>
+      `
 };
 
 export const customTitlesFunction = () => (
@@ -172,21 +164,19 @@ export const customTitlesFunction = () => (
     </Tab>
   </SmartTabs>
 );
-customTitlesFunction.story = {
-  name: 'custom titles (function)',
+customTitlesFunction.storyName = 'custom titles (function)';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .icon.icon {
-      vertical-align: 3px;
-      line-height: normal;
-    }
-
-    .has-content .icon.icon {
-      margin-right: 4px;
-    }
-  </style>
-        `
+customTitlesFunction.parameters = {
+  storyStyles: `
+<style>
+  .icon.icon {
+    vertical-align: 3px;
+    line-height: normal;
   }
+
+  .has-content .icon.icon {
+    margin-right: 4px;
+  }
+</style>
+      `
 };

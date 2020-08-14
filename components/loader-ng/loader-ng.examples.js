@@ -24,6 +24,4 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

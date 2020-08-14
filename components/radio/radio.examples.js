@@ -30,9 +30,7 @@ function RadioExample() {
 
 export const basic = () => <RadioExample/>;
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const uncontrolled = () => (
   <Radio>
@@ -44,10 +42,8 @@ export const uncontrolled = () => (
   </Radio>
 );
 
-uncontrolled.story = {
-  name: 'uncontrolled',
-  parameters: {hermione: {skip: true}}
-};
+uncontrolled.storyName = 'uncontrolled';
+uncontrolled.parameters = {hermione: {skip: true}};
 
 export const disabled = () => (
   <Radio disabled>
@@ -59,6 +55,4 @@ export const disabled = () => (
   </Radio>
 );
 
-disabled.story = {
-  name: 'disabled'
-};
+disabled.storyName = 'disabled';

@@ -19,9 +19,7 @@ export const basic = () => {
   return '<rg-template template="\'<label>Input<br/><input/></label>\'"></rg-template>';
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withController = () => {
   angular.module(APP_NAME, [TemplateNG]).controller('ExampleCtrl', function ctrl() {
@@ -31,6 +29,4 @@ export const withController = () => {
   return '<rg-template template="ctrl.template" ng-controller="ExampleCtrl as ctrl"></rg-template>';
 };
 
-withController.story = {
-  name: 'with controller'
-};
+withController.storyName = 'with controller';

@@ -36,19 +36,17 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .ring-icon {
-      display: inline-block;
-      margin: 8px;
-      padding: 8px;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .ring-icon {
+    display: inline-block;
+    margin: 8px;
+    padding: 8px;
   }
+</style>`
 };
 
 export const inText = () => (
@@ -67,29 +65,27 @@ export const inText = () => (
   </div>
 );
 
-inText.story = {
-  name: 'in text',
+inText.storyName = 'in text';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .icons {
-      position: relative;
-    }
-
-    .icons svg {
-      background-color: #eeea;
-    }
-
-    .underline {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      border-bottom: 0.1em solid rgba(0, 255, 0, 0.4);
-      bottom: 0.3em;
-    }
-  </style>`
+inText.parameters = {
+  storyStyles: `
+<style>
+  .icons {
+    position: relative;
   }
+
+  .icons svg {
+    background-color: #eeea;
+  }
+
+  .underline {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    border-bottom: 0.1em solid rgba(0, 255, 0, 0.4);
+    bottom: 0.3em;
+  }
+</style>`
 };
 
 export const allIconsList = () => (
@@ -100,28 +96,26 @@ export const allIconsList = () => (
   </div>
 );
 
-allIconsList.story = {
-  name: 'all icons list',
+allIconsList.storyName = 'all icons list';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .icon-example__container {
-      margin-left: -16px;
-    }
-
-    .ring-icon {
-      display: inline-block;
-      margin: 8px;
-      padding: 8px;
-      color: var(--ring-link-color);
-    }
-
-    .secondary {
-      fill: var(--ring-link-hover-color);
-    }
-  </style>`
+allIconsList.parameters = {
+  storyStyles: `
+<style>
+  .icon-example__container {
+    margin-left: -16px;
   }
+
+  .ring-icon {
+    display: inline-block;
+    margin: 8px;
+    padding: 8px;
+    color: var(--ring-link-color);
+  }
+
+  .secondary {
+    fill: var(--ring-link-hover-color);
+  }
+</style>`
 };
 
 export const jetBrainsProductLogosList = () => (
@@ -132,19 +126,17 @@ export const jetBrainsProductLogosList = () => (
   </div>
 );
 
-jetBrainsProductLogosList.story = {
-  name: 'JetBrains product logos list',
+jetBrainsProductLogosList.storyName = 'JetBrains product logos list';
 
-  parameters: {
-    hermione: {skip: true}, // Logos example is too big and have no much sense to test
-    storyStyles: `
-  <style>
-    .ring-icon {
-      display: inline-block;
-      color: black;
-      margin: 8px;
-      padding: 8px;
-    }
-  </style>`
+jetBrainsProductLogosList.parameters = {
+  hermione: {skip: true}, // Logos example is too big and have no much sense to test
+  storyStyles: `
+<style>
+  .ring-icon {
+    display: inline-block;
+    color: black;
+    margin: 8px;
+    padding: 8px;
   }
+</style>`
 };

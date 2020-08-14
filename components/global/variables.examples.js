@@ -108,54 +108,53 @@ export const basic = () => `
   </div>
 `;
 
-basic.story = {
-  name: 'palette',
-  parameters: {
-    storyStyles: `
-  <style>
-    .container {
-      background-color: var(--ring-content-background-color);
-      color: var(--ring-text-color);
-      font-family: var(--ring-font-family);
-    }
+basic.storyName = 'palette';
 
-    .colors-group {
-      display: flex;
-      flex-wrap: wrap;
-      font-family: var(--ring-font-family-monospace);
-    }
-
-    .dark-background {
-      background-color: var(--ring-navigation-background-color);
-      color: var(--ring-dark-text-color);
-    }
-
-    .color-square {
-      width: calc(var(--ring-unit) * 4);
-      height: calc(var(--ring-unit) * 4);
-      border-radius: var(--ring-border-radius);
-    }
-
-    .color-info {
-      margin-left: var(--ring-unit);
-    }
-
-    .color-value {
-      font-size: var(--ring-font-size-smaller);
-      color: var(--ring-secondary-color);
-    }
-
-    .dark-background .color-value {
-      color: var(--ring-dark-secondary-color);
-    }
-
-    .color-item {
-      display: flex;
-      flex-basis: 30%;
-      padding: 4px var(--ring-unit);
-      align-items: center;
-    }
-  </style>
-        `
+basic.parameters = {
+  storyStyles: `
+<style>
+  .container {
+    background-color: var(--ring-content-background-color);
+    color: var(--ring-text-color);
+    font-family: var(--ring-font-family);
   }
+
+  .colors-group {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: var(--ring-font-family-monospace);
+  }
+
+  .dark-background {
+    background-color: var(--ring-navigation-background-color);
+    color: var(--ring-dark-text-color);
+  }
+
+  .color-square {
+    width: calc(var(--ring-unit) * 4);
+    height: calc(var(--ring-unit) * 4);
+    border-radius: var(--ring-border-radius);
+  }
+
+  .color-info {
+    margin-left: var(--ring-unit);
+  }
+
+  .color-value {
+    font-size: var(--ring-font-size-smaller);
+    color: var(--ring-secondary-color);
+  }
+
+  .dark-background .color-value {
+    color: var(--ring-dark-secondary-color);
+  }
+
+  .color-item {
+    display: flex;
+    flex-basis: 30%;
+    padding: 4px var(--ring-unit);
+    align-items: center;
+  }
+</style>
+      `
 };

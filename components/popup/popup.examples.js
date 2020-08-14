@@ -65,56 +65,54 @@ export const basic = () => {
   return <PopupDemo/>;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    hermione: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
-    a11y: {element: '.topLeft,.topRight,.bottomLeft,.bottomRight'},
-    storyStyles: `
-  <style>
-    body {
-      overflow: hidden;
-    }
-
-    .button {
-      position: absolute;
-      left: 50px;
-      bottom: 50px;
-    }
-
-    .anchor {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-    }
-
-    .topLeft {
-      left: 0;
-      top: 0;
-      background-color: red;
-    }
-
-    .topRight {
-      right: 0;
-      top: 0;
-      background-color: blue;
-    }
-
-    .bottomLeft {
-      left: 0;
-      bottom: 0;
-      background-color: green;
-    }
-
-    .bottomRight {
-      right: 0;
-      bottom: 0;
-      background-color: orange;
-    }
-  </style>
-        `
+basic.parameters = {
+  hermione: {captureSelector: ['.topLeft', '.topRight', '.bottomLeft', '.bottomRight']},
+  a11y: {element: '.topLeft,.topRight,.bottomLeft,.bottomRight'},
+  storyStyles: `
+<style>
+  body {
+    overflow: hidden;
   }
+
+  .button {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+  }
+
+  .anchor {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+  }
+
+  .topLeft {
+    left: 0;
+    top: 0;
+    background-color: red;
+  }
+
+  .topRight {
+    right: 0;
+    top: 0;
+    background-color: blue;
+  }
+
+  .bottomLeft {
+    left: 0;
+    bottom: 0;
+    background-color: green;
+  }
+
+  .bottomRight {
+    right: 0;
+    bottom: 0;
+    background-color: orange;
+  }
+</style>
+      `
 };
 
 export const autoPositioning = () => {
@@ -153,52 +151,50 @@ export const autoPositioning = () => {
   return PopupDemo;
 };
 
-autoPositioning.story = {
-  name: 'auto-positioning',
+autoPositioning.storyName = 'auto-positioning';
 
-  parameters: {
-    hermione: {captureSelector: ['.left', '.right', '.bottom', '.top']},
-    a11y: {element: '.left,.right,.bottom,.top'},
-    storyStyles: `
-  <style>
-    .message {
-      position: absolute;
+autoPositioning.parameters = {
+  hermione: {captureSelector: ['.left', '.right', '.bottom', '.top']},
+  a11y: {element: '.left,.right,.bottom,.top'},
+  storyStyles: `
+<style>
+  .message {
+    position: absolute;
 
-      top: 50%;
-      left: 300px;
-    }
-
-    .vert {
-      top: 20%;
-      width: 150px;
-    }
-
-    .anchor {
-      position: absolute;
-    }
-
-    .left {
-      left: 0;
-      top: 50px;
-    }
-
-    .right {
-      right: 0;
-      top: 50px;
-    }
-
-    .bottom {
-      left: 150px;
-      bottom: 0;
-    }
-
-    .top {
-      right: 150px;
-      top: 0;
-    }
-  </style>
-        `
+    top: 50%;
+    left: 300px;
   }
+
+  .vert {
+    top: 20%;
+    width: 150px;
+  }
+
+  .anchor {
+    position: absolute;
+  }
+
+  .left {
+    left: 0;
+    top: 50px;
+  }
+
+  .right {
+    right: 0;
+    top: 50px;
+  }
+
+  .bottom {
+    left: 150px;
+    bottom: 0;
+  }
+
+  .top {
+    right: 150px;
+    top: 0;
+  }
+</style>
+      `
 };
 
 export const popupInAPopup = () => {
@@ -231,31 +227,29 @@ export const popupInAPopup = () => {
   return PopupDemo;
 };
 
-popupInAPopup.story = {
-  name: 'popup in a popup',
+popupInAPopup.storyName = 'popup in a popup';
 
-  parameters: {
-    hermione: {captureSelector: 'body'},
-    storyStyles: `
-  <style>
-    body {
-      min-height: 400px;
-    }
-
-    .parent-popup {
-      width: 100px;
-      height: 100px;
-      text-align: center;
-    }
-
-    .child-popup {
-      background-color: red;
-      text-align: center;
-      margin: 8px;
-    }
-  </style>
-        `
+popupInAPopup.parameters = {
+  hermione: {captureSelector: 'body'},
+  storyStyles: `
+<style>
+  body {
+    min-height: 400px !important;
   }
+
+  .parent-popup {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+  }
+
+  .child-popup {
+    background-color: red;
+    text-align: center;
+    margin: 8px;
+  }
+</style>
+      `
 };
 
 export const insideAScrollableContainer = () => (
@@ -271,33 +265,31 @@ export const insideAScrollableContainer = () => (
   </div>
 );
 
-insideAScrollableContainer.story = {
-  name: 'inside a scrollable container',
+insideAScrollableContainer.storyName = 'inside a scrollable container';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-      body {
-        margin: 0;
-      }
+insideAScrollableContainer.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+    body {
+      margin: 0 !important;
+    }
 
-      .container {
-        height: 100vh;
-        overflow: auto;
-      }
+    .container {
+      height: 100vh;
+      overflow: auto;
+    }
 
-      .example {
-        height: 200vh;
-        display: inline-block;
-      }
+    .example {
+      height: 200vh;
+      display: inline-block;
+    }
 
-      .anchor {
-        display: inline-block;
-      }
-  </style>
-        `
-  }
+    .anchor {
+      display: inline-block;
+    }
+</style>
+      `
 };
 
 export const fitsScreen = () => {
@@ -316,35 +308,33 @@ export const fitsScreen = () => {
   return PopupDemo;
 };
 
-fitsScreen.story = {
-  name: 'fits screen',
+fitsScreen.storyName = 'fits screen';
 
-  parameters: {
-    hermione: {captureSelector: 'body'},
-    storyStyles: `
-  <style>
-      body {
-        margin: 0;
-      }
+fitsScreen.parameters = {
+  hermione: {captureSelector: 'body'},
+  storyStyles: `
+<style>
+    body {
+      margin: 0 !important;
+    }
 
-      html,
-      body {
-        height: 100%;
-      }
+    html,
+    body {
+      height: 100%;
+    }
 
-      .popupContent {
-        height: 1300px;
-        padding: 8px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
+    .popupContent {
+      height: 1300px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-      .anchorBottom {
-        position: absolute;
-        bottom: 20px;
-      }
-  </style>
-        `
-  }
+    .anchorBottom {
+      position: absolute;
+      bottom: 20px;
+    }
+</style>
+      `
 };

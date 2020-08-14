@@ -74,6 +74,4 @@ export const dialog = () => {
   return <AuthDialogDemo/>;
 };
 
-dialog.story = {
-  name: 'dialog'
-};
+dialog.storyName = 'dialog';

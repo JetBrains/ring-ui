@@ -57,41 +57,39 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .place-under {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 50%;
-      padding: 16px;
-      background-color: #666;
-      color: #fff;
-    }
-
-    .head {
-      height: 30px;
-    }
-
-    .target-element {
-      position: static;
-      top: 0;
-      width: 100%;
-      padding: 16px;
-      background-color: #CCC;
-    }
-
-    .scrollable {
-      height: 1000px;
-      padding: 16px;
-      padding-top: 64px;
-      background-color: #EEE;
-    }
-  </style>
-        `
+basic.parameters = {
+  storyStyles: `
+<style>
+  .place-under {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    padding: 16px;
+    background-color: #666;
+    color: #fff;
   }
+
+  .head {
+    height: 30px;
+  }
+
+  .target-element {
+    position: static;
+    top: 0;
+    width: 100%;
+    padding: 16px;
+    background-color: #CCC;
+  }
+
+  .scrollable {
+    height: 1000px;
+    padding: 16px;
+    padding-top: 64px;
+    background-color: #EEE;
+  }
+</style>
+      `
 };
