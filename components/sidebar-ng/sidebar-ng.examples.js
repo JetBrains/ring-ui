@@ -50,9 +50,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const aLotOfContent = () => {
   angular.module(APP_NAME, [SidebarNG, SelectNG]);
@@ -93,6 +91,4 @@ export const aLotOfContent = () => {
     `;
 };
 
-aLotOfContent.story = {
-  name: 'a lot of content'
-};
+aLotOfContent.storyName = 'a lot of content';

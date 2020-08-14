@@ -87,30 +87,28 @@ export const basic = () => {
   );
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .inputs {
-      display: flex;
-      flex-flow: column wrap;
-      max-height: 100vh;
-      margin-top: 8px;
-    }
-
-    .inputs > div {
-      margin: 0 16px;
-    }
-
-    .dark {
-      background: #000;
-      margin-left: 0;
-      padding-left: 16px;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .inputs {
+    display: flex;
+    flex-flow: column wrap;
+    max-height: 100vh;
+    margin-top: 8px;
   }
+
+  .inputs > div {
+    margin: 0 16px;
+  }
+
+  .dark {
+    background: #000;
+    margin-left: 0;
+    padding-left: 16px;
+  }
+</style>`
 };
 
 function SelectAll() {
@@ -131,13 +129,12 @@ function SelectAll() {
 }
 
 export const selectAll = () => <SelectAll/>;
-selectAll.story = {
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test-select]'},
-        {type: 'capture', selector: '#root'}
-      ]
-    }
+
+selectAll.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test-select]'},
+      {type: 'capture', selector: '#root'}
+    ]
   }
 };

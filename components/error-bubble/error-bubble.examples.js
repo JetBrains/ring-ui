@@ -47,9 +47,7 @@ export const basic = () => {
   return <ErrorBubbleDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const inDialogForm = () => {
   class ErrorBubbleDemo extends Component {
@@ -90,10 +88,9 @@ export const inDialogForm = () => {
   return <ErrorBubbleDemo/>;
 };
 
-inDialogForm.story = {
-  name: 'in dialog form',
-  parameters: {
-    hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
-    a11y: {element: '*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
-  }
+inDialogForm.storyName = 'in dialog form';
+
+inDialogForm.parameters = {
+  hermione: {captureSelector: ['*[data-test~=ring-dialog]', '*[data-test~=ring-error-bubble]']},
+  a11y: {element: '*[data-test~=ring-dialog],*[data-test~=ring-error-bubble]'}
 };

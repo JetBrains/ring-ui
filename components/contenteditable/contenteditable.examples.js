@@ -28,20 +28,18 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-      .my-input {
-        padding-left: 4px;
-      }
+basic.parameters = {
+  storyStyles: `
+<style>
+    .my-input {
+      padding-left: 4px;
+    }
 
-      .my-input[disabled] {
-        border: 1px solid var(--ring-border-disabled-color);
-        background-color: var(--ring-disabled-color);
-      }
-  </style>`
-  }
+    .my-input[disabled] {
+      border: 1px solid var(--ring-border-disabled-color);
+      background-color: var(--ring-disabled-color);
+    }
+</style>`
 };

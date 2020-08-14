@@ -37,9 +37,7 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withOnDissmiss = () => (
   <div style={{padding: 200}}>
@@ -59,9 +57,7 @@ export const withOnDissmiss = () => (
   </div>
 );
 
-withOnDissmiss.story = {
-  name: 'with onDissmiss'
-};
+withOnDissmiss.storyName = 'with onDissmiss';
 
 export const wishNarrowAnchor = () => (
   <div style={{padding: 200}}>
@@ -79,6 +75,4 @@ export const wishNarrowAnchor = () => (
   </div>
 );
 
-wishNarrowAnchor.story = {
-  name: 'with narrow anchor'
-};
+wishNarrowAnchor.storyName = 'with narrow anchor';

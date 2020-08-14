@@ -32,18 +32,16 @@ export const basic = () => {
   return <Example/>;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .avatar-demo {
-      display: flex;
-      justify-content: space-between;
-      width: 200px;
-      margin-bottom: 16px;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .avatar-demo {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    margin-bottom: 16px;
   }
+</style>`
 };

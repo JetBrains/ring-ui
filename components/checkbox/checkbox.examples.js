@@ -51,6 +51,4 @@ export const basic = () => (
   </Fragment>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

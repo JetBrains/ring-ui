@@ -49,9 +49,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withCustomTrueFalseValues = () => {
   angular.module(APP_NAME, [CheckboxNG]);
@@ -66,10 +64,8 @@ export const withCustomTrueFalseValues = () => {
     `;
 };
 
-withCustomTrueFalseValues.story = {
-  name: 'with custom true-false values',
-  parameters: {hermione: {skip: true}}
-};
+withCustomTrueFalseValues.storyName = 'with custom true-false values';
+withCustomTrueFalseValues.parameters = {hermione: {skip: true}};
 
 export const disabled = () => {
   angular.module(APP_NAME, [CheckboxNG]);
@@ -81,6 +77,4 @@ export const disabled = () => {
     `;
 };
 
-disabled.story = {
-  name: 'disabled'
-};
+disabled.storyName = 'disabled';

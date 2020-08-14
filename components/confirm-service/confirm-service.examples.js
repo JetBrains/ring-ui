@@ -59,6 +59,4 @@ export const basic = () => {
   return <ConfirmDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
