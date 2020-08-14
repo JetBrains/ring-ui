@@ -26,6 +26,4 @@ export const basic = () => {
   return <Example/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

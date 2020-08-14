@@ -45,21 +45,19 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .example {
-      margin: 4px;
-    }
-
-    .example div {
-      width: 90px;
-      display: inline-block;
-    }
-  </style>
-        `
+basic.parameters = {
+  storyStyles: `
+<style>
+  .example {
+    margin: 4px;
   }
+
+  .example div {
+    width: 90px;
+    display: inline-block;
+  }
+</style>
+      `
 };

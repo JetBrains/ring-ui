@@ -21,9 +21,7 @@ export const basic = () => (
   </Island>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withScroll = () => (
   <Island className="limited-island" narrow>
@@ -37,19 +35,17 @@ export const withScroll = () => (
   </Island>
 );
 
-withScroll.story = {
-  name: 'with scroll',
+withScroll.storyName = 'with scroll';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .limited-island {
-      height: 200px;
-      width: 200px;
-    }
-  </style>
-        `
+withScroll.parameters = {
+  storyStyles: `
+<style>
+  .limited-island {
+    height: 200px;
+    width: 200px;
   }
+</style>
+      `
 };
 
 export const withResizeableHeader = () => (
@@ -64,17 +60,15 @@ export const withResizeableHeader = () => (
   </AdaptiveIsland>
 );
 
-withResizeableHeader.story = {
-  name: 'with resizeable header',
+withResizeableHeader.storyName = 'with resizeable header';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .limited-island {
-      height: 200px;
-      width: 200px;
-    }
-  </style>
-        `
+withResizeableHeader.parameters = {
+  storyStyles: `
+<style>
+  .limited-island {
+    height: 200px;
+    width: 200px;
   }
+</style>
+      `
 };

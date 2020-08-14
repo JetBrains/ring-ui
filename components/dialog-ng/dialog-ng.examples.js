@@ -98,31 +98,29 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-      .custom-css-class-button-right {
-        float: right;
-        color: #C10000;
-      }
+basic.parameters = {
+  storyStyles: `
+<style>
+    .custom-css-class-button-right {
+      float: right;
+      color: #C10000;
+    }
 
-      .form-with-inputs {
-        margin-top: -16px;
-      }
+    .form-with-inputs {
+      margin-top: -16px;
+    }
 
-      .long-page {
-        height: 2000px;
-      }
+    .long-page {
+      height: 2000px;
+    }
 
-      .high-field.high-field {
-        padding: 0;
-        line-height: 32px;
-      }
-  </style>`
-  }
+    .high-field.high-field {
+      padding: 0;
+      line-height: 32px;
+    }
+</style>`
 };
 
 export const inSidebar = () => {
@@ -176,15 +174,14 @@ export const inSidebar = () => {
     `;
 };
 
-inSidebar.story = {
-  name: 'in sidebar',
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'waitForElementToShow', selector: '[data-test~=ring-input-container]'},
-        {type: 'capture', name: '', selector: '*[data-test~=ring-dialog]'}
-      ]
-    }
+inSidebar.storyName = 'in sidebar';
+
+inSidebar.parameters = {
+  hermione: {
+    actions: [
+      {type: 'waitForElementToShow', selector: '[data-test~=ring-input-container]'},
+      {type: 'capture', name: '', selector: '*[data-test~=ring-dialog]'}
+    ]
   }
 };
 
@@ -228,18 +225,16 @@ export const withOverriddenStyles = () => {
     `;
 };
 
-withOverriddenStyles.story = {
-  name: 'with overridden styles',
+withOverriddenStyles.storyName = 'with overridden styles';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .long-page {
-      height: 2000px;
-    }
-    .custom-css-class {
-      padding: 40px;
-    }
-  </style>`
+withOverriddenStyles.parameters = {
+  storyStyles: `
+<style>
+  .long-page {
+    height: 2000px;
   }
+  .custom-css-class {
+    padding: 40px;
+  }
+</style>`
 };

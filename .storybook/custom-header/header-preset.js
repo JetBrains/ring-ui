@@ -1,8 +1,6 @@
 /**
  * Storybook preset that patches manager's webpack config to enable loading Ring UI components
  */
-const path = require('path');
-
 const webpack = require('webpack');
 
 const pkgConfig = require('../../package.json').config;
@@ -10,7 +8,13 @@ const ringConfig = require('../../webpack.config');
 
 exports.managerWebpack = function managerWebpack(config) {
   config.module.rules.forEach(rule => {
-    rule.include = path.resolve(__dirname, '../../node_modules/@storybook/');
+    rule.exclude = [
+      /\.storybook/,
+      ringConfig.componentsPath,
+      /octicons/,
+      /@jetbrains\/logos/,
+      /@jetbrains\/icons/
+    ].concat(rule.exclude || []);
   });
 
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);

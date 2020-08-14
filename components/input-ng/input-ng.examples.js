@@ -100,28 +100,26 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .inputs {
-      display: flex;
-      flex-flow: column wrap;
-      max-height: 100vh;
-      margin-top: 8px;
-    }
-    
-    .inputs rg-input {
-      margin: 0 16px;
-    }
-    
-    .dark {
-      background: #000;
-      margin-left: 0;
-      padding-left: 16px;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .inputs {
+    display: flex;
+    flex-flow: column wrap;
+    max-height: 100vh;
+    margin-top: 8px;
   }
+  
+  .inputs rg-input {
+    margin: 0 16px;
+  }
+  
+  .dark {
+    background: #000;
+    margin-left: 0;
+    padding-left: 16px;
+  }
+</style>`
 };

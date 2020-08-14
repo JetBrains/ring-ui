@@ -21,9 +21,7 @@ export const basic = () => (
   />
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withIcons = () => (
   <TagsList
@@ -34,14 +32,10 @@ export const withIcons = () => (
   />
 );
 
-withIcons.story = {
-  name: 'with icons'
-};
+withIcons.storyName = 'with icons';
 
 export const disabled = () => (
   <TagsList disabled tags={[{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}]}/>
 );
 
-disabled.story = {
-  name: 'disabled'
-};
+disabled.storyName = 'disabled';

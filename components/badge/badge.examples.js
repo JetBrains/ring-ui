@@ -25,6 +25,4 @@ export const basic = () => (
   </Group>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

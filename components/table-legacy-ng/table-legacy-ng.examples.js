@@ -69,9 +69,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withoutSelection = () => {
   angular.module(APP_NAME, [TableNG]);
@@ -87,10 +85,8 @@ export const withoutSelection = () => {
     `;
 };
 
-withoutSelection.story = {
-  name: 'without selection',
-  parameters: {hermione: {skip: true}}
-};
+withoutSelection.storyName = 'without selection';
+withoutSelection.parameters = {hermione: {skip: true}};
 
 export const withSidebar = () => {
   angular.
@@ -197,7 +193,5 @@ export const withSidebar = () => {
     `;
 };
 
-withSidebar.story = {
-  name: 'with sidebar',
-  parameters: {hermione: {skip: true}}
-};
+withSidebar.storyName = 'with sidebar';
+withSidebar.parameters = {hermione: {skip: true}};

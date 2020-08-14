@@ -70,10 +70,8 @@ export const withAFilterAndTags = () => {
   return <Select {...selectProps} {...data}/>;
 };
 
-withAFilterAndTags.story = {
-  name: 'with a filter and tags',
-  parameters: {hermione: {skip: true}}
-};
+withAFilterAndTags.storyName = 'with a filter and tags';
+withAFilterAndTags.parameters = {hermione: {skip: true}};
 
 class WithAFilter extends Component {
   static propTypes = {
@@ -126,28 +124,26 @@ export const withAFilter = () => {
   return <WithAFilter data={data}/>;
 };
 
-withAFilter.story = {
-  name: 'with a filter',
+withAFilter.storyName = 'with a filter';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-select]'},
-        {
-          type: 'capture',
-          name: 'selectWithPopup',
-          selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-        }
-      ]
-    },
-    storyStyles: `
-  <style>
-    .demo {
-      padding: 16px 0;
-    }
-  </style>
-        `
+withAFilter.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      {
+        type: 'capture',
+        name: 'selectWithPopup',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
+      }
+    ]
+  },
+  storyStyles: `
+<style>
+  .demo {
+    padding: 16px 0;
   }
+</style>
+      `
 };
 
 class ButtonModeWithAFilter extends Component {
@@ -202,20 +198,18 @@ export const buttonModeWithAFilter = () => {
   return <ButtonModeWithAFilter data={data}/>;
 };
 
-buttonModeWithAFilter.story = {
-  name: 'button mode with a filter',
+buttonModeWithAFilter.storyName = 'button mode with a filter';
 
-  parameters: {
-    hermione: {captureSelector: '*[data-test~=ring-select]'},
-    a11y: {element: '*[data-test~=ring-select]'},
-    storyStyles: `
-  <style>
-    .demo {
-      margin: 32px 0 16px 0;
-    }
-  </style>
-        `
+buttonModeWithAFilter.parameters = {
+  hermione: {captureSelector: '*[data-test~=ring-select]'},
+  a11y: {element: '*[data-test~=ring-select]'},
+  storyStyles: `
+<style>
+  .demo {
+    margin: 32px 0 16px 0;
   }
+</style>
+      `
 };
 
 class InlineWithAFilter extends Component {
@@ -269,28 +263,26 @@ export const inlineWithAFilter = () => {
   return <InlineWithAFilter data={data}/>;
 };
 
-inlineWithAFilter.story = {
-  name: 'inline with a filter',
+inlineWithAFilter.storyName = 'inline with a filter';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-select]'},
-        {
-          type: 'capture',
-          name: 'selectWithPopup',
-          selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-        }
-      ]
-    },
-    storyStyles: `
-  <style>
-    .demo {
-      margin: 16px 0;
-    }
-  </style>
-        `
+inlineWithAFilter.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      {
+        type: 'capture',
+        name: 'selectWithPopup',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
+      }
+    ]
+  },
+  storyStyles: `
+<style>
+  .demo {
+    margin: 16px 0;
   }
+</style>
+      `
 };
 
 class InlineOpensToLeft extends Component {
@@ -345,25 +337,23 @@ export const inlineOpensToLeft = () => {
   return <InlineOpensToLeft data={data}/>;
 };
 
-inlineOpensToLeft.story = {
-  name: 'inline (opens to left)',
+inlineOpensToLeft.storyName = 'inline (opens to left)';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .demo-container {
-      padding: 8px;
-      padding-left: 128px;
-      width: 50%;
-    }
-
-    .demo {
-      margin: 16px 0;
-    }
-  </style>
-        `
+inlineOpensToLeft.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .demo-container {
+    padding: 8px;
+    padding-left: 128px;
+    width: 50%;
   }
+
+  .demo {
+    margin: 16px 0;
+  }
+</style>
+      `
 };
 
 class WithDisabledMoveOverflow extends Component {
@@ -417,23 +407,21 @@ export const withDisabledMoveOverflow = () => {
   return <WithDisabledMoveOverflow data={data}/>;
 };
 
-withDisabledMoveOverflow.story = {
-  name: 'with disabled move overflow',
+withDisabledMoveOverflow.storyName = 'with disabled move overflow';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .demo-container {
-      padding: 8px;
-      width: 50%;
-    }
-
-    .demo {
-      margin: 16px 0;
-    }
-  </style>`
+withDisabledMoveOverflow.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .demo-container {
+    padding: 8px;
+    width: 50%;
   }
+
+  .demo {
+    margin: 16px 0;
+  }
+</style>`
 };
 
 const alwaysTrue = () => true;
@@ -492,10 +480,8 @@ class WithServerSideFiltering extends Component {
 }
 export const withServerSideFiltering = () => <WithServerSideFiltering/>;
 
-withServerSideFiltering.story = {
-  name: 'with server-side filtering',
-  parameters: {hermione: {skip: true}}
-};
+withServerSideFiltering.storyName = 'with server-side filtering';
+withServerSideFiltering.parameters = {hermione: {skip: true}};
 
 class WithFuzzySearchFilter extends Component {
   static propTypes = {
@@ -548,19 +534,17 @@ export const withFuzzySearchFilter = () => {
   return <WithFuzzySearchFilter data={data}/>;
 };
 
-withFuzzySearchFilter.story = {
-  name: 'with fuzzy search filter',
+withFuzzySearchFilter.storyName = 'with fuzzy search filter';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .demo {
-      margin: 32px 0 16px 0;
-    }
-  </style>
-        `
+withFuzzySearchFilter.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .demo {
+    margin: 32px 0 16px 0;
   }
+</style>
+      `
 };
 
 export const withALargeDataset = () => {
@@ -575,10 +559,8 @@ export const withALargeDataset = () => {
   return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
 };
 
-withALargeDataset.story = {
-  name: 'with a large dataset',
-  parameters: {hermione: {skip: true}}
-};
+withALargeDataset.storyName = 'with a large dataset';
+withALargeDataset.parameters = {hermione: {skip: true}};
 
 export const withALargeDatasetAndDisabledScrollToActiveItem = () => {
   const elementsNum = 100000;
@@ -594,20 +576,18 @@ export const withALargeDatasetAndDisabledScrollToActiveItem = () => {
   );
 };
 
-withALargeDatasetAndDisabledScrollToActiveItem.story = {
-  name: 'with a large dataset and disabled scroll to active item',
+withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-select]'},
-        {
-          type: 'capture',
-          name: 'selectWithPopup',
-          selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-        }
-      ]
-    }
+withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      {
+        type: 'capture',
+        name: 'selectWithPopup',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
+      }
+    ]
   }
 };
 
@@ -632,20 +612,18 @@ export const multipleWithADescription = () => {
   return <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>;
 };
 
-multipleWithADescription.story = {
-  name: 'multiple with a description',
+multipleWithADescription.storyName = 'multiple with a description';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-select]'},
-        {
-          type: 'capture',
-          name: 'selectWithPopup',
-          selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-        }
-      ]
-    }
+multipleWithADescription.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-select]'},
+      {
+        type: 'capture',
+        name: 'selectWithPopup',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
+      }
+    ]
   }
 };
 
@@ -660,18 +638,16 @@ export const disabled = () => (
   </div>
 );
 
-disabled.story = {
-  name: 'disabled',
+disabled.storyName = 'disabled';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .demo-wrapper {
-      margin: 8px;
-    }
-  </style>
-        `
+disabled.parameters = {
+  storyStyles: `
+<style>
+  .demo-wrapper {
+    margin: 8px;
   }
+</style>
+      `
 };
 
 export const inputBased = () => {
@@ -680,20 +656,18 @@ export const inputBased = () => {
   return <Select type={Select.Type.INPUT} data={data} clear/>;
 };
 
-inputBased.story = {
-  name: 'input-based',
+inputBased.storyName = 'input-based';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'click', selector: '[data-test~=ring-input]'},
-        {
-          type: 'capture',
-          name: 'selectWithPopup',
-          selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
-        }
-      ]
-    }
+inputBased.parameters = {
+  hermione: {
+    actions: [
+      {type: 'click', selector: '[data-test~=ring-input]'},
+      {
+        type: 'capture',
+        name: 'selectWithPopup',
+        selector: ['[data-test=ring-select]', '[data-test~=ring-popup]']
+      }
+    ]
   }
 };
 
@@ -712,10 +686,8 @@ export const inputBasedInSuggestOnlyMode = () => {
   );
 };
 
-inputBasedInSuggestOnlyMode.story = {
-  name: 'input-based in suggest-only mode',
-  parameters: {hermione: {skip: true}}
-};
+inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
+inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 
 export const withSubLevelsForListElement = () => {
   const data = [
@@ -729,10 +701,8 @@ export const withSubLevelsForListElement = () => {
   return <Select filter data={data}/>;
 };
 
-withSubLevelsForListElement.story = {
-  name: 'with sub levels for list element',
-  parameters: {hermione: {skip: true}}
-};
+withSubLevelsForListElement.storyName = 'with sub levels for list element';
+withSubLevelsForListElement.parameters = {hermione: {skip: true}};
 
 export const withDefaultFilterModeAndALoadingIndicator = () => {
   const data = [
@@ -744,10 +714,8 @@ export const withDefaultFilterModeAndALoadingIndicator = () => {
   return <Select filter loading data={data} selected={data[1]}/>;
 };
 
-withDefaultFilterModeAndALoadingIndicator.story = {
-  name: 'with default filter mode and a loading indicator',
-  parameters: {hermione: {skip: true}}
-};
+withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
+withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
 
 export const withACustomizedFilterAndAnAddItemButton = () => {
   const data = [...Array(100)].map((elem, idx) => ({
@@ -773,10 +741,8 @@ export const withACustomizedFilterAndAnAddItemButton = () => {
   );
 };
 
-withACustomizedFilterAndAnAddItemButton.story = {
-  name: "with a customized filter and an 'Add item' button",
-  parameters: {hermione: {skip: true}}
-};
+withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
+withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
 
 export const withCustomItemsAndAnAddItemButton = () => {
   const data = [...Array(100)].map((elem, idx) => {
@@ -803,23 +769,21 @@ export const withCustomItemsAndAnAddItemButton = () => {
   );
 };
 
-withCustomItemsAndAnAddItemButton.story = {
-  name: "with custom items and an 'Add item' button",
+withCustomItemsAndAnAddItemButton.storyName = "with custom items and an 'Add item' button";
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .label {
-      border-radius: 3px;
-      color: #669ECC;
-      background-color: #E5F4FF;
-      padding-left: 8px;
-      margin: 2px 0;
-    }
-  </style>
-        `
+withCustomItemsAndAnAddItemButton.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .label {
+    border-radius: 3px;
+    color: #669ECC;
+    background-color: #E5F4FF;
+    padding-left: 8px;
+    margin: 2px 0;
   }
+</style>
+      `
 };
 
 export const withAnAlwaysVisibleAddItemButton = () => {
@@ -845,10 +809,8 @@ export const withAnAlwaysVisibleAddItemButton = () => {
   );
 };
 
-withAnAlwaysVisibleAddItemButton.story = {
-  name: "with an always visible 'Add item' button",
-  parameters: {hermione: {skip: true}}
-};
+withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
+withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
 
 export const multipleWithCustomView = () => {
   const data = [
@@ -875,10 +837,8 @@ export const multipleWithCustomView = () => {
   );
 };
 
-multipleWithCustomView.story = {
-  name: 'multiple with custom view',
-  parameters: {hermione: {skip: true}}
-};
+multipleWithCustomView.storyName = 'multiple with custom view';
+multipleWithCustomView.parameters = {hermione: {skip: true}};
 
 export const asADropdownWithoutFilter = () => {
   const data = [...Array(20)].map((elem, idx) => ({
@@ -902,10 +862,8 @@ export const asADropdownWithoutFilter = () => {
   );
 };
 
-asADropdownWithoutFilter.story = {
-  name: 'as a dropdown without filter',
-  parameters: {hermione: {skip: true}}
-};
+asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
+asADropdownWithoutFilter.parameters = {hermione: {skip: true}};
 
 export const withCustomInputAnchor = () => {
   const data = [...Array(20)].map((elem, idx) => ({
@@ -944,10 +902,8 @@ export const withCustomInputAnchor = () => {
   return <DemoComponent/>;
 };
 
-withCustomInputAnchor.story = {
-  name: 'with custom input anchor',
-  parameters: {hermione: {skip: true}}
-};
+withCustomInputAnchor.storyName = 'with custom input anchor';
+withCustomInputAnchor.parameters = {hermione: {skip: true}};
 
 export const withRenderOptimization = () => {
   const data = [...Array(1000)].map((item, idx) => ({
@@ -959,10 +915,8 @@ export const withRenderOptimization = () => {
   return <Select filter data={data}/>;
 };
 
-withRenderOptimization.story = {
-  name: 'with render optimization',
-  parameters: {hermione: {skip: true}}
-};
+withRenderOptimization.storyName = 'with render optimization';
+withRenderOptimization.parameters = {hermione: {skip: true}};
 
 export const fitsToScreen = () => {
   const dataset = [...Array(1000)].map((item, idx) => ({
@@ -979,20 +933,18 @@ export const fitsToScreen = () => {
   );
 };
 
-fitsToScreen.story = {
-  name: 'fits to screen',
+fitsToScreen.storyName = 'fits to screen';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .demo {
-      position: absolute;
-      bottom: 20px;
-    }
-  </style>
-        `
+fitsToScreen.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .demo {
+    position: absolute;
+    bottom: 20px;
   }
+</style>
+      `
 };
 
 class WithFilteredFields extends Component {
@@ -1070,23 +1022,21 @@ class WithFilteredFields extends Component {
 }
 export const withFilteredFields = () => <WithFilteredFields/>;
 
-withFilteredFields.story = {
-  name: 'with filtered fields',
+withFilteredFields.storyName = 'with filtered fields';
 
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-      .filters-block {
-        padding: 8px 0;
-      }
+withFilteredFields.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+    .filters-block {
+      padding: 8px 0;
+    }
 
-      .filters-block > *:not(:nth-of-type(1)) {
-        margin-left: 20px;
-      }
-  </style>
-        `
-  }
+    .filters-block > *:not(:nth-of-type(1)) {
+      margin-left: 20px;
+    }
+</style>
+      `
 };
 
 export const multipleWithSelectAll = () => {
@@ -1111,10 +1061,8 @@ export const multipleWithSelectAll = () => {
   );
 };
 
-multipleWithSelectAll.story = {
-  name: 'multiple with select all',
-  parameters: {hermione: {skip: true}}
-};
+multipleWithSelectAll.storyName = 'multiple with select all';
+multipleWithSelectAll.parameters = {hermione: {skip: true}};
 
 export const multipleWithSelectAllAndDisabledItem = () => {
   const data = [
@@ -1140,10 +1088,8 @@ export const multipleWithSelectAllAndDisabledItem = () => {
   );
 };
 
-multipleWithSelectAllAndDisabledItem.story = {
-  name: 'multiple with select all and disabled item',
-  parameters: {hermione: {skip: true}}
-};
+multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
+multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
 
 
 export const multipleWithLimit = () => {
@@ -1171,10 +1117,8 @@ export const multipleWithLimit = () => {
   );
 };
 
-multipleWithLimit.story = {
-  name: 'multiple with limit',
-  parameters: {hermione: {skip: true}}
-};
+multipleWithLimit.storyName = 'multiple with limit';
+multipleWithLimit.parameters = {hermione: {skip: true}};
 
 export const selectInPopup = () => {
   const data = [
@@ -1205,18 +1149,17 @@ export const selectInPopup = () => {
   );
 };
 
-selectInPopup.story = {
-  name: 'Select in Popup',
-  parameters: {
-    hermione: {skip: true},
-    storyStyles: `
-  <style>
-    .popup-test-class {
-      width: 300px;
-      height: 300px;
-    }
-  </style>
-        `
+selectInPopup.storyName = 'Select in Popup';
+
+selectInPopup.parameters = {
+  hermione: {skip: true},
+  storyStyles: `
+<style>
+  .popup-test-class {
+    width: 300px;
+    height: 300px;
   }
+</style>
+      `
 };
 

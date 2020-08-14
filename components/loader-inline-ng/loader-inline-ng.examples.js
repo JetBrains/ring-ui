@@ -25,6 +25,4 @@ export const simple = () => {
     `;
 };
 
-simple.story = {
-  name: 'simple'
-};
+simple.storyName = 'simple';

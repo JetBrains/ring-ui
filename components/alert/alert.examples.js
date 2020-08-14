@@ -54,10 +54,8 @@ export const simple = () => {
   return <AlertDemo/>;
 };
 
-simple.story = {
-  name: 'simple',
-  parameters: {hermione: {skip: false}}
-};
+simple.storyName = 'simple';
+simple.parameters = {hermione: {skip: false}};
 
 export const alertContainer = () => {
   class AlertContainerDemo extends React.Component {
@@ -138,11 +136,9 @@ export const alertContainer = () => {
   return <AlertContainerDemo/>;
 };
 
-alertContainer.story = {
-  parameters: {
-    hermione: {
-      captureSelector: '*[data-test="alert-container"]'
-    },
-    a11y: {element: '*[data-test="alert-container"]'}
-  }
+alertContainer.parameters = {
+  hermione: {
+    captureSelector: '*[data-test="alert-container"]'
+  },
+  a11y: {element: '*[data-test="alert-container"]'}
 };

@@ -25,9 +25,7 @@ export const basic = () => {
   return <Example/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withMessage = () => {
   class Example extends React.Component {
@@ -39,6 +37,4 @@ export const withMessage = () => {
   return <Example/>;
 };
 
-withMessage.story = {
-  name: 'with message'
-};
+withMessage.storyName = 'with message';

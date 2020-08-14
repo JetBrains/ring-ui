@@ -17,9 +17,7 @@ export const basic = () => `
     </div>
     `;
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withAHeaderAndButtons = () => `
     <div class="ring-island">
@@ -32,6 +30,4 @@ export const withAHeaderAndButtons = () => `
     </div>
   `;
 
-withAHeaderAndButtons.story = {
-  name: 'with a header and buttons'
-};
+withAHeaderAndButtons.storyName = 'with a header and buttons';
