@@ -37,30 +37,28 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    h3 + div::after, 
-    h4 + div::after {
-      content: 'Heading';
-      display: block;
-      position: absolute;
-      color: #DDD;
-      z-index: -1;
-    }
-    
-    h3 + div::before, 
-    h4 + div::before {
-      content: 'Lorem ipsum';
-      display: block;
-      position: absolute;
-      color: #CCC;
-      z-index: -1;
-      transform: translateY(-100%);
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  h3 + div::after, 
+  h4 + div::after {
+    content: 'Heading';
+    display: block;
+    position: absolute;
+    color: #DDD;
+    z-index: -1;
   }
+  
+  h3 + div::before, 
+  h4 + div::before {
+    content: 'Lorem ipsum';
+    display: block;
+    position: absolute;
+    color: #CCC;
+    z-index: -1;
+    transform: translateY(-100%);
+  }
+</style>`
 };

@@ -40,9 +40,7 @@ export const inline = () => {
   );
 };
 
-inline.story = {
-  name: 'inline'
-};
+inline.storyName = 'inline';
 
 export const smartTooltip = () => {
   const user = {
@@ -67,10 +65,8 @@ export const smartTooltip = () => {
   );
 };
 
-smartTooltip.story = {
-  name: 'smart tooltip',
-  parameters: {hermione: {skip: true}}
-};
+smartTooltip.storyName = 'smart tooltip';
+smartTooltip.parameters = {hermione: {skip: true}};
 
 export const hubUserCard = () => {
   const auth = new Auth(hubConfig);
@@ -88,7 +84,5 @@ export const hubUserCard = () => {
   );
 };
 
-hubUserCard.story = {
-  name: 'hub user card',
-  parameters: {hermione: {skip: true}}
-};
+hubUserCard.storyName = 'hub user card';
+hubUserCard.parameters = {hermione: {skip: true}};

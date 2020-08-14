@@ -34,6 +34,4 @@ export const basic = () => {
   return node;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

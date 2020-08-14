@@ -30,6 +30,4 @@ export const basic = () => {
   return <PanelDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

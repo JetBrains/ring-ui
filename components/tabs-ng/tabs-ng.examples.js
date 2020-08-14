@@ -27,9 +27,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const dark = () => {
   angular.module(APP_NAME, [RingTabs]);
@@ -45,16 +43,14 @@ export const dark = () => {
     `;
 };
 
-dark.story = {
-  name: 'dark',
+dark.storyName = 'dark';
 
-  parameters: {
-    storyStyles: `
-      <style>
-        body {
-          background: #000;
-          color: #fff;
-        }
-      </style>`
-  }
+dark.parameters = {
+  storyStyles: `
+    <style>
+      body {
+        background: #000;
+        color: #fff;
+      }
+    </style>`
 };

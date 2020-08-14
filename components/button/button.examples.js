@@ -144,28 +144,26 @@ export const basic = () => {
   );
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'capture', name: '', selector: '#root'},
-        {type: 'focus', selector: '[data-test=button-active]'},
-        {type: 'capture', name: 'focus active', selector: '#root'}
-      ]
-    },
-    storyStyles: `
-  <style>
-    .buttons > button {
-      margin: 8px;
-    }
-
-    .dark {
-      background: #000;
-    }
-  </style>`
+basic.parameters = {
+  hermione: {
+    actions: [
+      {type: 'capture', name: '', selector: '#root'},
+      {type: 'focus', selector: '[data-test=button-active]'},
+      {type: 'capture', name: 'focus active', selector: '#root'}
+    ]
+  },
+  storyStyles: `
+<style>
+  .buttons > button {
+    margin: 8px;
   }
+
+  .dark {
+    background: #000;
+  }
+</style>`
 };
 
 export const longAction = () => {
@@ -207,7 +205,5 @@ export const longAction = () => {
   return <Sleeper/>;
 };
 
-longAction.story = {
-  name: 'long action',
-  parameters: {hermione: {skip: true}}
-};
+longAction.storyName = 'long action';
+longAction.parameters = {hermione: {skip: true}};

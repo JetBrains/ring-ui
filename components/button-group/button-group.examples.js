@@ -47,15 +47,14 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic',
-  parameters: {
-    storyStyles: `
-      <style>
-        .container > div {
-          margin: 1em 0;
-        }
-      </style>
-    `
-  }
+basic.storyName = 'basic';
+
+basic.parameters = {
+  storyStyles: `
+    <style>
+      .container > div {
+        margin: 1em 0;
+      }
+    </style>
+  `
 };

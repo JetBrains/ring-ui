@@ -32,9 +32,7 @@ export const dialog = () => (
   </div>
 );
 
-dialog.story = {
-  name: 'dialog'
-};
+dialog.storyName = 'dialog';
 
 export const service = () => {
   const fakeUserAgreement = {
@@ -83,7 +81,5 @@ export const service = () => {
   return <UserAgreementServiceDemo/>;
 };
 
-service.story = {
-  name: 'service',
-  parameters: {hermione: {skip: true}, a11y: {element: '*[data-test="alert-container"]'}}
-};
+service.storyName = 'service';
+service.parameters = {hermione: {skip: true}, a11y: {element: '*[data-test="alert-container"]'}};

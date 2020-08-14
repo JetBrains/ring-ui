@@ -55,9 +55,7 @@ export const basic = () => {
   return node;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const inIFrame = () => {
   const node = document.createElement('div');
@@ -83,9 +81,7 @@ export const inIFrame = () => {
   return node;
 };
 
-inIFrame.story = {
-  name: 'in IFrame'
-};
+inIFrame.storyName = 'in IFrame';
 
 export const landingPage = () => {
   const log = action('auth-log');
@@ -125,6 +121,4 @@ export const landingPage = () => {
   return node;
 };
 
-landingPage.story = {
-  name: 'landing page'
-};
+landingPage.storyName = 'landing page';

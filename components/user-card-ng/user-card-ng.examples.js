@@ -41,9 +41,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const loadOnHover = () => {
   angular.module(APP_NAME, [UserCardNG]).controller('ExampleCtrl', function ctrl() {
@@ -65,6 +63,4 @@ export const loadOnHover = () => {
     `;
 };
 
-loadOnHover.story = {
-  name: 'load on hover'
-};
+loadOnHover.storyName = 'load on hover';
