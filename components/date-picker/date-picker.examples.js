@@ -45,9 +45,7 @@ export const singleDate = () => {
   return <DatePickerExample/>;
 };
 
-singleDate.story = {
-  name: 'single date'
-};
+singleDate.storyName = 'single date';
 
 export const singleDateAndTime = () => {
   class DatePickerExample extends Component {
@@ -78,12 +76,11 @@ export const singleDateAndTime = () => {
   return <DatePickerExample/>;
 };
 
-singleDateAndTime.story = {
-  parameters: {
-    hermione: {skip: true}
-  },
-  name: 'single date and time'
+singleDateAndTime.parameters = {
+  hermione: {skip: true}
 };
+
+singleDateAndTime.storyName = 'single date and time';
 
 export const range = () => {
   class DatePickerExample extends Component {
@@ -107,9 +104,7 @@ export const range = () => {
   return <DatePickerExample/>;
 };
 
-range.story = {
-  name: 'range'
-};
+range.storyName = 'range';
 
 export const clearable = () => {
   class DatePickerExample extends Component {
@@ -131,9 +126,7 @@ export const clearable = () => {
   return <DatePickerExample/>;
 };
 
-clearable.story = {
-  name: 'clearable'
-};
+clearable.storyName = 'clearable';
 
 export const singleWithMinMax = () => {
   class DatePickerExample extends Component {
@@ -161,9 +154,7 @@ export const singleWithMinMax = () => {
   return <DatePickerExample/>;
 };
 
-singleWithMinMax.story = {
-  name: 'single with min-max dates'
-};
+singleWithMinMax.storyName = 'single with min-max dates';
 
 export const singleWithMin = () => {
   class DatePickerExample extends Component {
@@ -190,9 +181,7 @@ export const singleWithMin = () => {
   return <DatePickerExample/>;
 };
 
-singleWithMin.story = {
-  name: 'single with min date'
-};
+singleWithMin.storyName = 'single with min date';
 
 export const singleWithMax = () => {
   class DatePickerExample extends Component {
@@ -219,9 +208,7 @@ export const singleWithMax = () => {
   return <DatePickerExample/>;
 };
 
-singleWithMax.story = {
-  name: 'single with max date'
-};
+singleWithMax.storyName = 'single with max date';
 
 export const rangeWithMinMax = () => {
   class DatePickerExample extends Component {
@@ -254,9 +241,7 @@ export const rangeWithMinMax = () => {
   return <DatePickerExample/>;
 };
 
-rangeWithMinMax.story = {
-  name: 'range with min-max dates'
-};
+rangeWithMinMax.storyName = 'range with min-max dates';
 
 export const rangeWithMin = () => {
   class DatePickerExample extends Component {
@@ -288,9 +273,7 @@ export const rangeWithMin = () => {
   return <DatePickerExample/>;
 };
 
-rangeWithMin.story = {
-  name: 'range with min date'
-};
+rangeWithMin.storyName = 'range with min date';
 
 export const rangeWithMax = () => {
   class DatePickerExample extends Component {
@@ -322,6 +305,4 @@ export const rangeWithMax = () => {
   return <DatePickerExample/>;
 };
 
-rangeWithMax.story = {
-  name: 'range with max date'
-};
+rangeWithMax.storyName = 'range with max date';

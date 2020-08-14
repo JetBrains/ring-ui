@@ -69,6 +69,4 @@ export const simple = () => {
   return <AlertServiceDemo/>;
 };
 
-simple.story = {
-  name: 'simple'
-};
+simple.storyName = 'simple';

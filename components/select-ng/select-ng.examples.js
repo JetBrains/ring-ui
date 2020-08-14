@@ -78,9 +78,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const inRgTabs = () => {
   angular.module(APP_NAME, [SelectNG, TabsNG]).controller('testCtrl', function ctrl() {
@@ -107,9 +105,7 @@ export const inRgTabs = () => {
     `;
 };
 
-inRgTabs.story = {
-  name: 'in rg-tabs'
-};
+inRgTabs.storyName = 'in rg-tabs';
 
 export const asInput = () => {
   angular.module(APP_NAME, [SelectNG, TabsNG]).controller('testCtrl', function ctrl() {
@@ -133,9 +129,7 @@ export const asInput = () => {
     `;
 };
 
-asInput.story = {
-  name: 'as input'
-};
+asInput.storyName = 'as input';
 
 export const asModel = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl() {
@@ -154,9 +148,7 @@ export const asModel = () => {
     `;
 };
 
-asModel.story = {
-  name: 'as model'
-};
+asModel.storyName = 'as model';
 
 export const asModelLazy = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($timeout) {
@@ -184,9 +176,7 @@ export const asModelLazy = () => {
     `;
 };
 
-asModelLazy.story = {
-  name: 'as model lazy'
-};
+asModelLazy.storyName = 'as model lazy';
 
 export const withPromise = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($timeout, $q) {
@@ -223,9 +213,7 @@ export const withPromise = () => {
     `;
 };
 
-withPromise.story = {
-  name: 'with promise'
-};
+withPromise.storyName = 'with promise';
 
 export const dropdownMode = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl() {
@@ -254,9 +242,7 @@ export const dropdownMode = () => {
     `;
 };
 
-dropdownMode.story = {
-  name: 'dropdown mode'
-};
+dropdownMode.storyName = 'dropdown mode';
 
 export const insideDialog = () => {
   function fillScrollableContent() {
@@ -309,9 +295,7 @@ export const insideDialog = () => {
     `;
 };
 
-insideDialog.story = {
-  name: 'inside dialog'
-};
+insideDialog.storyName = 'inside dialog';
 
 export const multipleMode = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl() {
@@ -343,9 +327,7 @@ export const multipleMode = () => {
     `;
 };
 
-multipleMode.story = {
-  name: 'multiple mode'
-};
+multipleMode.storyName = 'multiple mode';
 
 export const insideForm = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl() {
@@ -381,9 +363,7 @@ export const insideForm = () => {
     `;
 };
 
-insideForm.story = {
-  name: 'inside form'
-};
+insideForm.storyName = 'inside form';
 
 export const lazyLoadingOnScroll = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($q, $timeout) {
@@ -430,9 +410,7 @@ export const lazyLoadingOnScroll = () => {
     `;
 };
 
-lazyLoadingOnScroll.story = {
-  name: 'lazy loading on scroll'
-};
+lazyLoadingOnScroll.storyName = 'lazy loading on scroll';
 
 export const performance = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($timeout) {
@@ -477,9 +455,7 @@ export const performance = () => {
     `;
 };
 
-performance.story = {
-  name: 'performance'
-};
+performance.storyName = 'performance';
 
 export const multipleWithManyValues = () => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl() {
@@ -504,6 +480,4 @@ export const multipleWithManyValues = () => {
     `;
 };
 
-multipleWithManyValues.story = {
-  name: 'multiple with many values'
-};
+multipleWithManyValues.storyName = 'multiple with many values';

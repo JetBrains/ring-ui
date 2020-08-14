@@ -204,16 +204,14 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .example-block {
-      margin: 16px;
-      max-width: 600px;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .example-block {
+    margin: 16px;
+    max-width: 600px;
   }
+</style>`
 };

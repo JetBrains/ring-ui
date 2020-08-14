@@ -29,6 +29,4 @@ export const basic = () => {
   return '<div id="for-compiled"></div>';
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

@@ -246,9 +246,7 @@ class BasicDemo extends Component {
   }
 }
 export const basic = () => <BasicDemo/>;
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 const data1 = continents;
 const data2 = countries;
@@ -309,6 +307,4 @@ class MultiTableDemo extends Component {
   }
 }
 export const multiTable = () => <MultiTableDemo/>;
-multiTable.story = {
-  name: 'multi table'
-};
+multiTable.storyName = 'multi table';

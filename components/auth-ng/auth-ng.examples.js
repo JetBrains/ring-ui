@@ -38,6 +38,4 @@ export const authorization = () => {
     `;
 };
 
-authorization.story = {
-  name: 'authorization'
-};
+authorization.storyName = 'authorization';

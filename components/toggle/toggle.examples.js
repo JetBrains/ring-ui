@@ -76,6 +76,4 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

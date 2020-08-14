@@ -49,9 +49,7 @@ export const basic = () => {
   );
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withAHintBelow = () => {
   const listData = [
@@ -78,9 +76,7 @@ export const withAHintBelow = () => {
   );
 };
 
-withAHintBelow.story = {
-  name: 'with a hint below'
-};
+withAHintBelow.storyName = 'with a hint below';
 
 export const longList = () => {
   const listData = [];
@@ -94,10 +90,8 @@ export const longList = () => {
   return <List maxHeight={400} data={listData} shortcuts compact onSelect={action('selected')}/>;
 };
 
-longList.story = {
-  name: 'long list',
-  parameters: {hermione: {skip: true}}
-};
+longList.storyName = 'long list';
+longList.parameters = {hermione: {skip: true}};
 
 export const list2 = () => {
   const listData = [
@@ -150,9 +144,7 @@ export const list2 = () => {
   );
 };
 
-list2.story = {
-  name: 'list #2'
-};
+list2.storyName = 'list #2';
 
 export const withItemIcons = () => {
   const listData = [
@@ -202,9 +194,7 @@ export const withItemIcons = () => {
   );
 };
 
-withItemIcons.story = {
-  name: 'with item icons'
-};
+withItemIcons.storyName = 'with item icons';
 
 export const withDeprecatedItemTypeParameter = () => {
   const listData = [
@@ -218,10 +208,8 @@ export const withDeprecatedItemTypeParameter = () => {
   return <List data={listData} shortcuts onSelect={action('selected')}/>;
 };
 
-withDeprecatedItemTypeParameter.story = {
-  name: 'with deprecated item.type parameter',
-  parameters: {hermione: {skip: true}}
-};
+withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
+withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
 
 export const withCustomItems = () => {
   const listData = [
@@ -248,9 +236,7 @@ export const withCustomItems = () => {
   );
 };
 
-withCustomItems.story = {
-  name: 'with custom items'
-};
+withCustomItems.storyName = 'with custom items';
 
 export const withUsers = () => {
   class UserList extends React.Component {
@@ -299,7 +285,5 @@ export const withUsers = () => {
   return <UserList/>;
 };
 
-withUsers.story = {
-  name: 'with users',
-  parameters: {hermione: {skip: true}}
-};
+withUsers.storyName = 'with users';
+withUsers.parameters = {hermione: {skip: true}};

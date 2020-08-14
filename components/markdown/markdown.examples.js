@@ -60,9 +60,7 @@ export const basic = () => (
   />
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const taggedTemplate = () =>
   md`
@@ -105,6 +103,4 @@ export const taggedTemplate = () =>
     \`\`\`
   `;
 
-taggedTemplate.story = {
-  name: 'tagged template'
-};
+taggedTemplate.storyName = 'tagged template';

@@ -30,6 +30,4 @@ export const basic = () => (
   </ButtonToolbar>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

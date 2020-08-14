@@ -128,10 +128,8 @@ class Basic extends Component {
 }
 export const basic = () => <Basic/>;
 
-basic.story = {
-  name: 'basic',
-  parameters: {hermione: {skip: true}}
-};
+basic.storyName = 'basic';
+basic.parameters = {hermione: {skip: true}};
 
 export const noAuth = () => {
   const dataSource = ({query, caret}) => ({
@@ -196,22 +194,20 @@ export const noAuth = () => {
   );
 };
 
-noAuth.story = {
-  name: 'no auth',
+noAuth.storyName = 'no auth';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
-        {type: 'click', selector: '[data-test=ring-query-assist-input]'},
-        {type: 'sendKeys', selector: '[data-test=ring-query-assist-input]', value: 'test '},
-        {
-          type: 'capture',
-          name: 'withPopup',
-          selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
-        }
-      ]
-    }
+noAuth.parameters = {
+  hermione: {
+    actions: [
+      {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
+      {type: 'click', selector: '[data-test=ring-query-assist-input]'},
+      {type: 'sendKeys', selector: '[data-test=ring-query-assist-input]', value: 'test '},
+      {
+        type: 'capture',
+        name: 'withPopup',
+        selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
+      }
+    ]
   }
 };
 
@@ -267,10 +263,8 @@ export const withCustomRenderer = () => {
   );
 };
 
-withCustomRenderer.story = {
-  name: 'with custom renderer',
-  parameters: {hermione: {skip: true}}
-};
+withCustomRenderer.storyName = 'with custom renderer';
+withCustomRenderer.parameters = {hermione: {skip: true}};
 
 export const darkThemeNoAuth = () => {
   const dataSource = async ({query, caret}) => ({
@@ -326,21 +320,19 @@ export const darkThemeNoAuth = () => {
   );
 };
 
-darkThemeNoAuth.story = {
-  name: 'dark theme (no-auth)',
+darkThemeNoAuth.storyName = 'dark theme (no-auth)';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
-        {type: 'click', selector: '[data-test=ring-query-assist-input]'},
-        {
-          type: 'capture',
-          name: 'withPopup',
-          selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
-        }
-      ]
-    }
+darkThemeNoAuth.parameters = {
+  hermione: {
+    actions: [
+      {type: 'capture', name: 'queryAssist', selector: ['[data-test~=ring-query-assist]']},
+      {type: 'click', selector: '[data-test=ring-query-assist-input]'},
+      {
+        type: 'capture',
+        name: 'withPopup',
+        selector: ['[data-test~=ring-query-assist]', '[data-test~=ring-query-assist-popup]']
+      }
+    ]
   }
 };
 
@@ -393,7 +385,5 @@ export const withCustomActions = () => {
   return <QueryAssistExample/>;
 };
 
-withCustomActions.story = {
-  name: 'with custom actions',
-  parameters: {hermione: {skip: true}}
-};
+withCustomActions.storyName = 'with custom actions';
+withCustomActions.parameters = {hermione: {skip: true}};

@@ -42,7 +42,7 @@ export default {
     storyStyles: `
 <style>
   body {
-    margin: 0;
+    margin: 0 !important;
   }
 </style>`
   }
@@ -97,25 +97,24 @@ export const header = () => {
   return <HeaderDemo/>;
 };
 
-header.story = {
-  name: 'basic',
-  notes: 'See available presentation options in knobs panel',
-  parameters: {
-    storyStyles: `
+header.storyName = 'basic';
+header.notes = 'See available presentation options in knobs panel';
+
+header.parameters = {
+  storyStyles: `
 <style>
-  body {
-    margin: 0;
-  }
+body {
+  margin: 0 !important;
+}
 
-  .compactHeader.compactHeader {
-    height: 40px;
-  }
+.compactHeader.compactHeader {
+  height: 40px;
+}
 
-  .compactLogo.compactLogo {
-    color: #fff;
-    position: relative;
-    top: -2px;
-  }
+.compactLogo.compactLogo {
+  color: #fff;
+  position: relative;
+  top: -2px;
+}
 </style>`
-  }
 };

@@ -19,6 +19,4 @@ export const basic = () => {
   return '<rg-link href="http://example.com" class="test-class">Open example</rg-link>';
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
