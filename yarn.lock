@@ -3193,6 +3193,14 @@
     core-js "^3.0.1"
     global "^4.3.2"
 
+"@storybook/client-logger@6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.0.7.tgz#817dcff78f93fcf81a6997716f2c4a0dd5e00741"
+  integrity sha512-CZb2Hf+E3tATsGiD2Z3VC8R7x/7fn2oiUuSTiZn1TiJC5rdjwC4nF9b47JSry4ZlQ6nhlhiHzljtqXGmj+Gxyg==
+  dependencies:
+    core-js "^3.0.1"
+    global "^4.3.2"
+
 "@storybook/codemod@6.0.6":
   version "6.0.6"
   resolved "https://registry.yarnpkg.com/@storybook/codemod/-/codemod-6.0.6.tgz#e7a59ab6bf14b6b3456dbc25b1b4a26d17f40cac"
@@ -3432,6 +3440,24 @@
     "@emotion/is-prop-valid" "^0.8.6"
     "@emotion/styled" "^10.0.17"
     "@storybook/client-logger" "6.0.6"
+    core-js "^3.0.1"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.19"
+    global "^4.3.2"
+    memoizerific "^1.11.3"
+    polished "^3.4.4"
+    resolve-from "^5.0.0"
+    ts-dedent "^1.1.1"
+
+"@storybook/theming@6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-6.0.7.tgz#ce4cfbe691efea3812c11b57a5c8ca6472a7c602"
+  integrity sha512-nvNwYd9LM6NfhA0LtOUgNvUZUz8NC/8+nbL5PYCiBdUt+4vI8D8On7Xgsn3us+9iuPRQXgDKNhr2nxmol/DwUg==
+  dependencies:
+    "@emotion/core" "^10.0.20"
+    "@emotion/is-prop-valid" "^0.8.6"
+    "@emotion/styled" "^10.0.17"
+    "@storybook/client-logger" "6.0.7"
     core-js "^3.0.1"
     deep-object-diff "^1.1.0"
     emotion-theming "^10.0.19"
@@ -6575,12 +6601,7 @@ core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
   integrity sha512-klh/kDpwX8hryYL14M9w/xei6vrv6sE8gTHDG7/T/+SEovB/G4ejwcfE/CBzO6Edsu+OETZMZ3wcX/EjUkrl5A==
 
-core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.3.3:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.0.tgz#29ea478601789c72f2978e9bb98f43546f89d3aa"
-  integrity sha512-lQxb4HScV71YugF/X28LtePZj9AB7WqOpcB+YztYxusvhrgZiQXPmCYfPC5LHsw/+ScEtDbXU3xbqH3CjBRmYA==
-
-core-js@^3.6.5:
+core-js@^3.0.0, core-js@^3.0.1, core-js@^3.0.4, core-js@^3.3.3, core-js@^3.6.5:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
