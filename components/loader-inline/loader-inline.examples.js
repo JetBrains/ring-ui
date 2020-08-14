@@ -33,9 +33,7 @@ export const basic = () => {
   return <Example/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withChildren = () => {
   class Example extends React.Component {
@@ -47,9 +45,7 @@ export const withChildren = () => {
   return <Example/>;
 };
 
-withChildren.story = {
-  name: 'with children'
-};
+withChildren.storyName = 'with children';
 
 export const onBlackBackground = () => {
   class Example extends React.Component {
@@ -69,9 +65,7 @@ export const onBlackBackground = () => {
   return <Example/>;
 };
 
-onBlackBackground.story = {
-  name: 'on black background'
-};
+onBlackBackground.storyName = 'on black background';
 
 export const onCustomBackground = () => {
   class Example extends React.Component {
@@ -91,9 +85,7 @@ export const onCustomBackground = () => {
   return <Example/>;
 };
 
-onCustomBackground.story = {
-  name: 'on custom background'
-};
+onCustomBackground.storyName = 'on custom background';
 
 export const withoutReact = () => {
   class Example extends React.Component {
@@ -111,6 +103,4 @@ export const withoutReact = () => {
   return <Example/>;
 };
 
-withoutReact.story = {
-  name: 'without React'
-};
+withoutReact.storyName = 'without React';

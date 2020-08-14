@@ -37,9 +37,7 @@ export const basic = () => (
   </Dropdown>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withCustomAnchorAndPopup = () => (
   <Dropdown anchor={<Button delayed>Edit</Button>}>
@@ -47,9 +45,7 @@ export const withCustomAnchorAndPopup = () => (
   </Dropdown>
 );
 
-withCustomAnchorAndPopup.story = {
-  name: 'with custom anchor and popup'
-};
+withCustomAnchorAndPopup.storyName = 'with custom anchor and popup';
 
 export const withActiveClassName = () => (
   <Dropdown
@@ -61,23 +57,21 @@ export const withActiveClassName = () => (
   </Dropdown>
 );
 
-withActiveClassName.story = {
-  name: 'with activeClassName',
+withActiveClassName.storyName = 'with activeClassName';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .chevron svg {
-      transition: transform 0.3s ease-out;
-      transform-origin: 50% 40%;
-      transform: rotate(0deg);
-    }
-
-    .rotated svg {
-      transform: rotate(180deg);
-    }
-  </style>`
+withActiveClassName.parameters = {
+  storyStyles: `
+<style>
+  .chevron svg {
+    transition: transform 0.3s ease-out;
+    transform-origin: 50% 40%;
+    transform: rotate(0deg);
   }
+
+  .rotated svg {
+    transform: rotate(180deg);
+  }
+</style>`
 };
 
 export const withHoverMode = () => (
@@ -88,9 +82,7 @@ export const withHoverMode = () => (
   </Dropdown>
 );
 
-withHoverMode.story = {
-  name: 'with hover mode'
-};
+withHoverMode.storyName = 'with hover mode';
 
 export const withHoverModeAndDisabledClickMode = () => (
   <Dropdown anchor={<Link href="">Hover over me</Link>} clickMode={false} hoverMode>
@@ -98,10 +90,8 @@ export const withHoverModeAndDisabledClickMode = () => (
   </Dropdown>
 );
 
-withHoverModeAndDisabledClickMode.story = {
-  name: 'with hover mode and disabled click mode',
-  parameters: {hermione: {skip: true}}
-};
+withHoverModeAndDisabledClickMode.storyName = 'with hover mode and disabled click mode';
+withHoverModeAndDisabledClickMode.parameters = {hermione: {skip: true}};
 
 export const autofocusOnOpen = () => (
   <div>
@@ -115,7 +105,5 @@ export const autofocusOnOpen = () => (
   </div>
 );
 
-autofocusOnOpen.story = {
-  name: 'autofocus on open',
-  parameters: {hermione: {skip: true}}
-};
+autofocusOnOpen.storyName = 'autofocus on open';
+autofocusOnOpen.parameters = {hermione: {skip: true}};

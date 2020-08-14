@@ -47,6 +47,4 @@ export const analyticsStory = () => {
   return node;
 };
 
-analyticsStory.story = {
-  name: 'analytics'
-};
+analyticsStory.storyName = 'analytics';

@@ -29,9 +29,7 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const scrollable = () => {
   angular.module(APP_NAME, [IslandNg]);
@@ -53,6 +51,4 @@ export const scrollable = () => {
     `;
 };
 
-scrollable.story = {
-  name: 'scrollable'
-};
+scrollable.storyName = 'scrollable';

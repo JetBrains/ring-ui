@@ -53,6 +53,4 @@ export const basic = () => {
   return <ProgressBarDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

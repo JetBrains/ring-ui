@@ -52,9 +52,7 @@ export const basic = () => {
   return <PagerDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const customFrameSize = () => {
   class PagerDemo extends Component {
@@ -80,10 +78,8 @@ export const customFrameSize = () => {
   return <PagerDemo/>;
 };
 
-customFrameSize.story = {
-  name: 'custom frame size',
-  parameters: {hermione: {skip: true}}
-};
+customFrameSize.storyName = 'custom frame size';
+customFrameSize.parameters = {hermione: {skip: true}};
 
 export const customFrameSize2 = () => {
   class PagerDemo extends Component {
@@ -109,10 +105,8 @@ export const customFrameSize2 = () => {
   return <PagerDemo/>;
 };
 
-customFrameSize2.story = {
-  name: 'custom frame size #2',
-  parameters: {hermione: {skip: true}}
-};
+customFrameSize2.storyName = 'custom frame size #2';
+customFrameSize2.parameters = {hermione: {skip: true}};
 
 export const customFrameSize3 = () => {
   class PagerDemo extends Component {
@@ -138,10 +132,8 @@ export const customFrameSize3 = () => {
   return <PagerDemo/>;
 };
 
-customFrameSize3.story = {
-  name: 'custom frame size #3',
-  parameters: {hermione: {skip: true}}
-};
+customFrameSize3.storyName = 'custom frame size #3';
+customFrameSize3.parameters = {hermione: {skip: true}};
 
 export const pageSizeSelector = () => {
   class PagerDemo extends Component {
@@ -168,9 +160,7 @@ export const pageSizeSelector = () => {
   return <PagerDemo/>;
 };
 
-pageSizeSelector.story = {
-  name: 'page size selector'
-};
+pageSizeSelector.storyName = 'page size selector';
 
 export const openTotal = () => {
   class PagerDemo extends Component {
@@ -200,9 +190,7 @@ export const openTotal = () => {
   return <PagerDemo/>;
 };
 
-openTotal.story = {
-  name: 'open total'
-};
+openTotal.storyName = 'open total';
 
 export const openTotalAndHistorySupport = () => {
   class PagerDemo extends Component {
@@ -271,10 +259,8 @@ export const openTotalAndHistorySupport = () => {
   return <PagerDemo/>;
 };
 
-openTotalAndHistorySupport.story = {
-  name: 'open total and history support',
-  parameters: {hermione: {skip: true}}
-};
+openTotalAndHistorySupport.storyName = 'open total and history support';
+openTotalAndHistorySupport.parameters = {hermione: {skip: true}};
 
 export const reloadOnCurrentPageChange = () => {
   class PagerDemo extends Component {
@@ -301,7 +287,5 @@ export const reloadOnCurrentPageChange = () => {
   return <PagerDemo/>;
 };
 
-reloadOnCurrentPageChange.story = {
-  name: 'reload on current page change',
-  parameters: {hermione: {skip: true}}
-};
+reloadOnCurrentPageChange.storyName = 'reload on current page change';
+reloadOnCurrentPageChange.parameters = {hermione: {skip: true}};

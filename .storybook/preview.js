@@ -1,5 +1,4 @@
-import {addParameters, addDecorator} from '@storybook/html';
-import {withA11y} from '@storybook/addon-a11y';
+import {parameters as docsReactParameters} from '@storybook/addon-docs/dist/frameworks/react/config';
 
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
@@ -14,14 +13,12 @@ if (params.has('block-animations')) {
   document.body.classList.add(styles.blockAnimations);
 }
 
-addParameters({
+export const parameters = {
   docs: {
+    ...docsReactParameters.docs,
     inlineStories: false,
     extractComponentDescription: (component, {notes}) =>
       notes ?? component?.__docgenInfo?.description
-  },
-  options: {
-    showRoots: true
   },
   a11y: {
     options: {
@@ -34,7 +31,6 @@ addParameters({
   hermione: {
     skip: 'ie'
   }
-});
+};
 
-addDecorator(withA11y);
-addDecorator(stylesDecorator());
+export const decorators = [stylesDecorator()];

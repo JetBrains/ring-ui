@@ -23,6 +23,4 @@ export const basic = () => (
   </ButtonSet>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

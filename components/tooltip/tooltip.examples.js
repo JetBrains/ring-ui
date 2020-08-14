@@ -23,17 +23,15 @@ export const basic = () => (
   </div>
 );
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
-        {type: 'wait', delay: 500},
-        {type: 'capture', name: '', selector: '#root'}
-      ]
-    }
+basic.parameters = {
+  hermione: {
+    actions: [
+      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
+      {type: 'wait', delay: 500},
+      {type: 'capture', name: '', selector: '#root'}
+    ]
   }
 };
 
@@ -74,18 +72,16 @@ export const displayedWhenNecessary = () => {
   );
 };
 
-displayedWhenNecessary.story = {
-  name: 'displayed when necessary',
+displayedWhenNecessary.storyName = 'displayed when necessary';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
-        {type: 'capture', name: 'full text element', selector: '#root'},
-        {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseover'},
-        {type: 'capture', name: 'cut text element', selector: '#root'}
-      ]
-    }
+displayedWhenNecessary.parameters = {
+  hermione: {
+    actions: [
+      {type: 'mouseEvent', selector: '.lorem-ipsum__text', eventname: 'mouseover'},
+      {type: 'capture', name: 'full text element', selector: '#root'},
+      {type: 'mouseEvent', selector: '.lorem-ipsum__text_overflow', eventname: 'mouseover'},
+      {type: 'capture', name: 'cut text element', selector: '#root'}
+    ]
   }
 };
 
@@ -109,16 +105,14 @@ export const nested = () => (
   </div>
 );
 
-nested.story = {
-  name: 'nested',
+nested.storyName = 'nested';
 
-  parameters: {
-    hermione: {
-      actions: [
-        {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
-        {type: 'wait', delay: 500},
-        {type: 'capture', name: '', selector: '#root'}
-      ]
-    }
+nested.parameters = {
+  hermione: {
+    actions: [
+      {type: 'mouseEvent', selector: '[data-test~=ring-tooltip]', eventname: 'mouseover'},
+      {type: 'wait', delay: 500},
+      {type: 'capture', name: '', selector: '#root'}
+    ]
   }
 };

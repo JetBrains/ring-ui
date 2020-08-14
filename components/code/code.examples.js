@@ -45,9 +45,7 @@ export const basic = () => (
   />
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const lazy = () => (
   <Code
@@ -89,10 +87,8 @@ export const taggedTemplate = () =>
       const el = code\`some('js')\`;
     `;
 
-taggedTemplate.story = {
-  name: 'tagged template',
+taggedTemplate.storyName = 'tagged template';
 
-  parameters: {
-    hermione: {skip: true}
-  }
+taggedTemplate.parameters = {
+  hermione: {skip: true}
 };
