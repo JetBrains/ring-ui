@@ -83,7 +83,7 @@
     "@storybook/client-api": "6.0.6",
     "@storybook/core": "6.0.6",
     "@storybook/html": "6.0.6",
-    "@storybook/source-loader": "6.0.6",
+    "@storybook/source-loader": "6.0.12",
     "@storybook/theming": "6.0.6",
     "angular": "^1.8.0",
     "angular-mocks": "^1.8.0",
