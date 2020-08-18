@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import Popup from '../popup/popup';
 import {Listeners} from '../global/dom';
 import dataTests from '../global/data-tests';
+import scheduleRAF from '../global/schedule-raf';
 
 import styles from './tooltip.css';
+
+const scheduleScroll = scheduleRAF();
 
 const TooltipContext = createContext();
 
@@ -111,7 +114,7 @@ export default class Tooltip extends Component {
   addListeners() {
     this.listeners.add(this.containerNode, 'mouseover', this.tryToShowPopup);
     this.listeners.add(this.containerNode, 'mouseout', this.hidePopup);
-    this.listeners.add(document, 'scroll', this.hidePopup);
+    this.listeners.add(document, 'scroll', () => scheduleScroll(this.hidePopup), {passive: true});
   }
 
   popupRef = el => {
