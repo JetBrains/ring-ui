@@ -31,6 +31,10 @@
     height: calc(4 * unit);
     margin: unit 0;
   }
+
+  &.buttonSpaced {
+    padding: 0 calc(2 * unit);
+  }
 }
 
 .icons {
