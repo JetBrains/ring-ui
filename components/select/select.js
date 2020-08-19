@@ -672,7 +672,7 @@ export default class Select extends Component {
           <Button
             text
             delayed={delayed}
-            className={styles.button}
+            className={classNames(styles.button, styles.buttonSpaced)}
             onClick={this.addHandler}
             data-test="ring-select-toolbar-button"
           >
