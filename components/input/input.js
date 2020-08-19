@@ -35,7 +35,7 @@ export class Input extends PureComponent {
     className: PropTypes.string,
     inputClassName: PropTypes.string,
     size: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     active: PropTypes.bool,
     error: PropTypes.string,
     multiline: PropTypes.bool,
@@ -201,7 +201,7 @@ export class Input extends PureComponent {
           disabled={disabled}
           id={this.getId()}
           placeholder={placeholder}
-          aria-label={label || placeholder}
+          aria-label={typeof label === 'string' && label ? label : placeholder}
           {...restProps}
         />
         {clearable && !disabled && (
