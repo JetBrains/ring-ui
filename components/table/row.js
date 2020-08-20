@@ -41,6 +41,8 @@ export default class Row extends PureComponent {
     selected: PropTypes.bool,
     onHover: PropTypes.func,
     onSelect: PropTypes.func,
+    onDoubleClick: PropTypes.func,
+    onClick: PropTypes.func,
     onFocusRestore: PropTypes.func,
     level: PropTypes.number,
     collapsible: PropTypes.bool,
@@ -61,6 +63,8 @@ export default class Row extends PureComponent {
     selected: false,
     onHover: () => {},
     onSelect: () => {},
+    onDoubleClick: () => {},
+    onClick: () => {},
     onFocusRestore: () => {},
     level: 0,
     collapsible: false,
@@ -78,6 +82,10 @@ export default class Row extends PureComponent {
   };
 
   onClick = e => {
+    const {item} = this.props;
+
+    this.props.onClick(item);
+
     if (e.shiftKey) {
       this.toggleSelection();
     }
@@ -97,6 +105,11 @@ export default class Row extends PureComponent {
       onSelect(item, !selected);
     }
   }
+
+  onDoubleClick = () => {
+    const {item} = this.props;
+    this.props.onDoubleClick(item);
+  };
 
   rowRef = el => {
     this.row = el;
@@ -210,7 +223,7 @@ export default class Row extends PureComponent {
         tabIndex="0"
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
-        onDoubleClick={item.onRowDoubleClick}
+        onDoubleClick={this.onDoubleClick}
         data-test="ring-table-row"
         {...testAttrs}
       >{cells}</tr>
