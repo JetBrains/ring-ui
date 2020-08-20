@@ -24,7 +24,7 @@ const alwaysFalse = () => false;
 
 function Rows({
   data, getItemKey, selection, selectable,
-  isItemSelectable, onRowFocus, onRowSelect,
+  isItemSelectable, onRowFocus, onRowSelect, onRowDoubleClick, onRowClick,
   getItemLevel, getItemClassName, isItemCollapsible, isParentCollapsible,
   isItemCollapsed, onItemCollapse, onItemExpand,
   isDisabledSelectionVisible, getCheckboxTooltip,
@@ -46,6 +46,8 @@ function Rows({
           selected={selectable && selection.isSelected(item)}
           onFocus={onRowFocus}
           onSelect={onRowSelect}
+          onDoubleClick={onRowDoubleClick}
+          onClick={onRowClick}
           collapsible={isItemCollapsible(item)}
           parentCollapsible={isParentCollapsible(item)}
           collapsed={isItemCollapsed(item)}
@@ -68,6 +70,8 @@ Rows.propTypes = {
   isItemSelectable: PropTypes.func,
   onRowFocus: PropTypes.func,
   onRowSelect: PropTypes.func,
+  onRowClick: PropTypes.func,
+  onRowDoubleClick: PropTypes.func,
   getItemLevel: PropTypes.func,
   getItemClassName: PropTypes.func,
   isItemCollapsible: PropTypes.func,
@@ -118,6 +122,8 @@ class Table extends PureComponent {
     selection: PropTypes.instanceOf(Selection).isRequired,
     selectable: PropTypes.bool,
     onSelect: PropTypes.func,
+    onItemDoubleClick: PropTypes.func,
+    onItemClick: PropTypes.func,
     shortcutsMap: PropTypes.object,
 
     // disableHoverHOC
@@ -144,6 +150,8 @@ class Table extends PureComponent {
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
+    onItemDoubleClick: () => {},
+    onItemClick: () => {},
     remoteSelection: false,
     isDisabledSelectionVisible: () => {},
     getCheckboxTooltip: () => {}
@@ -228,7 +236,8 @@ class Table extends PureComponent {
       isItemSelectable, getItemLevel, getItemClassName, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip
+      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
+      onItemDoubleClick, onItemClick
     } = this.props;
 
 
@@ -270,6 +279,8 @@ class Table extends PureComponent {
       selection,
       onRowFocus: this.onRowFocus,
       onRowSelect: this.onRowSelect,
+      onRowDoubleClick: onItemDoubleClick,
+      onRowClick: onItemClick,
       getItemLevel,
       getItemClassName,
       isItemCollapsible,
