@@ -210,6 +210,7 @@ export default class Row extends PureComponent {
         tabIndex="0"
         onMouseMove={this.onMouseEnter}
         onClick={this.onClick}
+        onDoubleClick={item.onRowDoubleClick}
         data-test="ring-table-row"
         {...testAttrs}
       >{cells}</tr>
