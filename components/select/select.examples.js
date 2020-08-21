@@ -1143,6 +1143,7 @@ export const selectInPopup = () => {
           filter
           data={data}
           onSelect={onSelect}
+          ringPopupTarget={'body'}
         />
       </Popup>
     </Dropdown>
