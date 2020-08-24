@@ -1,5 +1,4 @@
 import React, {createContext, forwardRef, memo} from 'react';
-import {wrapDisplayName} from 'recompose';
 
 const Theme = {
   LIGHT: 'light',
@@ -7,6 +6,8 @@ const Theme = {
 };
 
 export const ThemeContext = createContext();
+
+const getDisplayName = Component => (typeof Component === 'string' ? Component : (Component.name ?? Component.displayName ?? 'Component'));
 
 export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
   // eslint-disable-next-line react/prop-types
@@ -29,7 +30,7 @@ export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
     );
   }));
   Object.assign(WithTheme, ComposedComponent);
-  WithTheme.displayName = wrapDisplayName(ComposedComponent, 'withTheme');
+  WithTheme.displayName = `withTheme(${getDisplayName(ComposedComponent)})`;
   return WithTheme;
 };
 
