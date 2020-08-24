@@ -43,7 +43,6 @@ export function linkHOC(ComposedComponent) {
       active: PropTypes.bool,
       inherit: PropTypes.bool,
       pseudo: PropTypes.bool,
-      inline: PropTypes.bool,
       hover: PropTypes.bool,
       children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
       'data-test': PropTypes.string,
@@ -71,7 +70,6 @@ export function linkHOC(ComposedComponent) {
         className,
         'data-test': dataTest,
         href,
-        inline,
         innerClassName, children, onPlainLeftClick, onClick,
         ...props
       } = this.props;
@@ -91,27 +89,15 @@ export function linkHOC(ComposedComponent) {
       }
 
       if (useButton) {
-        if (inline) {
-          return (
-            // eslint-disable-next-line
-            <span
-              {...props}
-              className={classes}
-              onClick={onClick || onPlainLeftClick}
-              data-test={dataTests('ring-link', dataTest)}
-            >{this.getChildren()}</span>
-          );
-        } else {
-          return (
-            <button
-              type="button"
-              {...props}
-              className={classes}
-              onClick={onClick || onPlainLeftClick}
-              data-test={dataTests('ring-link', dataTest)}
-            >{this.getChildren()}</button>
-          );
-        }
+        return (
+          <button
+            type="button"
+            {...props}
+            className={classes}
+            onClick={onClick || onPlainLeftClick}
+            data-test={dataTests('ring-link', dataTest)}
+          >{this.getChildren()}</button>
+        );
       }
 
       return (
