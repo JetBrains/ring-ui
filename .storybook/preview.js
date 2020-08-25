@@ -3,7 +3,7 @@ import {parameters as docsReactParameters} from '@storybook/addon-docs/dist/fram
 // eslint-disable-next-line import/no-unresolved
 import 'file-loader?name=ring-ui-favicon.ico!@jetbrains/logos/ring-ui/favicon.ico';
 
-import URLSearchParams from 'url-search-params';
+import URLSearchParams from '@ungap/url-search-params';
 
 import styles from './preview.css';
 import stylesDecorator from './styles-decorator';

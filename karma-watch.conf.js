@@ -1,9 +1,9 @@
-const deepAssign = require('deep-assign');
+const mergeOptions = require('merge-options');
 
 const baseConfig = require('./karma-base.conf.js');
 
 module.exports = config => {
-  const configWatch = deepAssign(baseConfig(config), {
+  const configWatch = mergeOptions(baseConfig(config), {
     singleRun: false,
     reporters: ['progress', 'osx'],
     osxReporter: {
