@@ -1,11 +1,11 @@
-const deepAssign = require('deep-assign');
+const mergeOptions = require('merge-options');
 
 const generateConfig = require('./karma-base.conf.js');
 
 process.env.BABEL_ENV = 'test';
 
 module.exports = config => {
-  const configCIDev = deepAssign(generateConfig(config), {
+  const configCIDev = mergeOptions(generateConfig(config), {
     coverageReporter: {
       reporters: [
         {type: 'html', dir: 'coverage/'},
