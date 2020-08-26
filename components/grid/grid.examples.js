@@ -30,17 +30,15 @@ export const responsive = () => (
   </Grid>
 );
 
-responsive.story = {
-  name: 'responsive',
+responsive.storyName = 'responsive';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .cell {
-      background-color: silver;
-    }
-  </style>`
+responsive.parameters = {
+  storyStyles: `
+<style>
+  .cell {
+    background-color: silver;
   }
+</style>`
 };
 
 export const offset = () => (
@@ -108,20 +106,18 @@ export const offset = () => (
   </div>
 );
 
-offset.story = {
-  name: 'offset',
+offset.storyName = 'offset';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .cell {
-      background-color: silver;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  </style>`
+offset.parameters = {
+  storyStyles: `
+<style>
+  .cell {
+    background-color: silver;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+</style>`
 };
 
 export const autoSize = () => (
@@ -151,20 +147,18 @@ export const autoSize = () => (
   </div>
 );
 
-autoSize.story = {
-  name: 'auto size',
+autoSize.storyName = 'auto size';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .cell {
-      background-color: silver;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  </style>`
+autoSize.parameters = {
+  storyStyles: `
+<style>
+  .cell {
+    background-color: silver;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+</style>`
 };
 
 export const alignment = () => (
@@ -241,20 +235,18 @@ export const alignment = () => (
   </div>
 );
 
-alignment.story = {
-  name: 'alignment',
+alignment.storyName = 'alignment';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .cell {
-      background-color: silver;
-    }
-    .cell_tall {
-      height: 64px;
-    }
-  </style>`
+alignment.parameters = {
+  storyStyles: `
+<style>
+  .cell {
+    background-color: silver;
   }
+  .cell_tall {
+    height: 64px;
+  }
+</style>`
 };
 
 export const columnsDistribution = () => (
@@ -287,15 +279,13 @@ export const columnsDistribution = () => (
   </div>
 );
 
-columnsDistribution.story = {
-  name: 'columns distribution',
+columnsDistribution.storyName = 'columns distribution';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .cell {
-      background-color: silver;
-    }
-  </style>`
+columnsDistribution.parameters = {
+  storyStyles: `
+<style>
+  .cell {
+    background-color: silver;
   }
+</style>`
 };

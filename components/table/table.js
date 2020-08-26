@@ -24,8 +24,8 @@ const alwaysFalse = () => false;
 
 function Rows({
   data, getItemKey, selection, selectable,
-  isItemSelectable, onRowFocus, onRowSelect,
-  getItemLevel, isItemCollapsible, isParentCollapsible,
+  isItemSelectable, onRowFocus, onRowSelect, onRowDoubleClick, onRowClick,
+  getItemLevel, getItemClassName, isItemCollapsible, isParentCollapsible,
   isItemCollapsed, onItemCollapse, onItemExpand,
   isDisabledSelectionVisible, getCheckboxTooltip,
   ...restProps
@@ -46,6 +46,8 @@ function Rows({
           selected={selectable && selection.isSelected(item)}
           onFocus={onRowFocus}
           onSelect={onRowSelect}
+          onDoubleClick={onRowDoubleClick}
+          onClick={onRowClick}
           collapsible={isItemCollapsible(item)}
           parentCollapsible={isParentCollapsible(item)}
           collapsed={isItemCollapsed(item)}
@@ -53,6 +55,7 @@ function Rows({
           onExpand={onItemExpand}
           showDisabledSelection={isDisabledSelectionVisible(item)}
           checkboxTooltip={getCheckboxTooltip(item)}
+          className={getItemClassName(item)}
           {...restProps}
         />
       ))}
@@ -67,7 +70,10 @@ Rows.propTypes = {
   isItemSelectable: PropTypes.func,
   onRowFocus: PropTypes.func,
   onRowSelect: PropTypes.func,
+  onRowClick: PropTypes.func,
+  onRowDoubleClick: PropTypes.func,
   getItemLevel: PropTypes.func,
+  getItemClassName: PropTypes.func,
   isItemCollapsible: PropTypes.func,
   isParentCollapsible: PropTypes.func,
   isItemCollapsed: PropTypes.func,
@@ -91,6 +97,7 @@ class Table extends PureComponent {
     stickyHeaderOffset: PropTypes.string,
     loading: PropTypes.bool,
     getItemKey: PropTypes.func,
+    getItemClassName: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
@@ -115,6 +122,8 @@ class Table extends PureComponent {
     selection: PropTypes.instanceOf(Selection).isRequired,
     selectable: PropTypes.bool,
     onSelect: PropTypes.func,
+    onItemDoubleClick: PropTypes.func,
+    onItemClick: PropTypes.func,
     shortcutsMap: PropTypes.object,
 
     // disableHoverHOC
@@ -135,11 +144,14 @@ class Table extends PureComponent {
     alwaysShowDragHandle: false,
     stickyHeader: true,
     getItemLevel: () => 0,
+    getItemClassName: () => null,
     isItemCollapsible: () => false,
     isParentCollapsible: () => false,
     isItemCollapsed: () => false,
     onItemCollapse: () => {},
     onItemExpand: () => {},
+    onItemDoubleClick: () => {},
+    onItemClick: () => {},
     remoteSelection: false,
     isDisabledSelectionVisible: () => {},
     getCheckboxTooltip: () => {}
@@ -221,10 +233,11 @@ class Table extends PureComponent {
   render() {
     const {
       data, selection, columns, caption, getItemKey, selectable, focused,
-      isItemSelectable, getItemLevel, draggable, alwaysShowDragHandle,
+      isItemSelectable, getItemLevel, getItemClassName, draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
-      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip
+      onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
+      onItemDoubleClick, onItemClick
     } = this.props;
 
 
@@ -266,7 +279,10 @@ class Table extends PureComponent {
       selection,
       onRowFocus: this.onRowFocus,
       onRowSelect: this.onRowSelect,
+      onRowDoubleClick: onItemDoubleClick,
+      onRowClick: onItemClick,
       getItemLevel,
+      getItemClassName,
       isItemCollapsible,
       isParentCollapsible,
       isItemCollapsed,

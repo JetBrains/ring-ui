@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {compose} from 'recompose';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import compose from '../global/compose';
 import rerenderHOC from '../global/rerender-hoc';
 import Theme, {withTheme} from '../global/theme';
 

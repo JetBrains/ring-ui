@@ -18,7 +18,7 @@
 
 .button {
   width: 100%;
-  padding: 0 calc(2 * unit);
+  padding: 0;
 
   text-align: left;
 
@@ -30,6 +30,10 @@
   @nest .toolbar & {
     height: calc(4 * unit);
     margin: unit 0;
+  }
+
+  &.buttonSpaced {
+    padding: 0 calc(2 * unit);
   }
 }
 

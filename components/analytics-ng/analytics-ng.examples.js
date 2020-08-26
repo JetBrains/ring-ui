@@ -58,6 +58,4 @@ export const analyticsStory = () => {
     `;
 };
 
-analyticsStory.story = {
-  name: 'analytics'
-};
+analyticsStory.storyName = 'analytics';

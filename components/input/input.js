@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
-import {compose} from 'recompose';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import closeIcon from '@jetbrains/icons/close.svg';
 
+import compose from '../global/compose';
 import Theme, {withTheme} from '../global/theme';
 import Button from '../button/button';
 
@@ -35,7 +35,7 @@ export class Input extends PureComponent {
     className: PropTypes.string,
     inputClassName: PropTypes.string,
     size: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     active: PropTypes.bool,
     error: PropTypes.string,
     multiline: PropTypes.bool,
@@ -52,14 +52,22 @@ export class Input extends PureComponent {
     disabled: PropTypes.bool,
     id: PropTypes.string,
     placeholder: PropTypes.string,
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
+
+    renderUnderline: PropTypes.func
   };
 
   static defaultProps = {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: false
+    enableShortcuts: false,
+    renderUnderline: (underlineRef, errorText) => (
+      <div
+        className={styles.errorText}
+        ref={underlineRef}
+      >{errorText}</div>
+    )
   };
 
   state = {
@@ -90,7 +98,7 @@ export class Input extends PureComponent {
   }
 
   stretch(el) {
-    if (!el) {
+    if (!el || !el.style) {
       return;
     }
     el.style.height = `${el.scrollHeight}px`;
@@ -98,11 +106,11 @@ export class Input extends PureComponent {
 
   adapt() {
     this.checkValue();
-    this.stretch(this.error);
+    this.stretch(this.underlineNode);
   }
 
-  errorRef = el => {
-    this.error = el;
+  underlineRef = el => {
+    this.underlineNode = el;
   };
 
   inputRef = el => {
@@ -149,6 +157,7 @@ export class Input extends PureComponent {
       id,
       placeholder,
       icon,
+      renderUnderline,
       ...restProps
     } = this.props;
     const minimizeMargins = compact || borderless;
@@ -192,7 +201,7 @@ export class Input extends PureComponent {
           disabled={disabled}
           id={this.getId()}
           placeholder={placeholder}
-          aria-label={label || placeholder}
+          aria-label={typeof label === 'string' && label ? label : placeholder}
           {...restProps}
         />
         {clearable && !disabled && (
@@ -209,12 +218,7 @@ export class Input extends PureComponent {
         {!borderless && <div className={styles.underline}/>}
         {!borderless && <div className={styles.focusUnderline}/>}
         {!minimizeMargins && <div className={styles.errorUnderline}/>}
-        {!minimizeMargins && (
-          <div
-            className={styles.errorText}
-            ref={this.errorRef}
-          >{error}</div>
-        )}
+        {!minimizeMargins && renderUnderline(this.underlineRef, error)}
       </div>
     );
   }

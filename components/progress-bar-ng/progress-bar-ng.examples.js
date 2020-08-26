@@ -43,14 +43,13 @@ export const basic = () => {
     `;
 };
 
-basic.story = {
-  name: 'basic',
-  parameters: {
-    storyStyles: `
-  <style>
-    .example-progress > * {
-      width: 288px;
-    }
-  </style>`
+basic.storyName = 'basic';
+
+basic.parameters = {
+  storyStyles: `
+<style>
+  .example-progress > * {
+    width: 288px;
   }
+</style>`
 };

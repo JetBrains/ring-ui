@@ -64,6 +64,4 @@ export const basic = () => {
   return <AuthDialogDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

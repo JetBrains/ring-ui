@@ -41,9 +41,7 @@ export const basic = () => {
   );
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withIcons = () => {
   const tags = [
@@ -61,17 +59,13 @@ export const withIcons = () => {
   return <TagsInput tags={tags} dataSource={dataSource}/>;
 };
 
-withIcons.story = {
-  name: 'with icons'
-};
+withIcons.storyName = 'with icons';
 
 export const disabled = () => (
   <TagsInput disabled tags={[{key: 'test2', label: 'test2'}]} dataSource={() => []}/>
 );
 
-disabled.story = {
-  name: 'disabled'
-};
+disabled.storyName = 'disabled';
 
 export const withTooLongTagLabels = () => {
   const tags = [{key: 'test1', label: 'Label'}, {key: 'test2', label: 'Very long label'}];
@@ -86,9 +80,7 @@ export const withTooLongTagLabels = () => {
   return <TagsInput tags={tags} dataSource={dataSource}/>;
 };
 
-withTooLongTagLabels.story = {
-  name: 'with too long tag labels'
-};
+withTooLongTagLabels.storyName = 'with too long tag labels';
 
 export const autoOpen = () => {
   const tags = [{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}];
@@ -103,13 +95,11 @@ export const autoOpen = () => {
   return <TagsInput tags={tags} dataSource={dataSource} autoOpen/>;
 };
 
-autoOpen.story = {
-  parameters: {
-    hermione: {
-      captureSelector: ['#root', '[data-test~=ring-popup]']
-    },
-    a11y: {element: '#root,[data-test~=ring-popup]'}
-  }
+autoOpen.parameters = {
+  hermione: {
+    captureSelector: ['#root', '[data-test~=ring-popup]']
+  },
+  a11y: {element: '#root,[data-test~=ring-popup]'}
 };
 
 
@@ -135,11 +125,9 @@ export const autoOpenInADialog = () => {
   );
 };
 
-autoOpenInADialog.story = {
-  parameters: {
-    hermione: {
-      captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
-    },
-    a11y: {element: '[data-test~=ring-dialog],[data-test~=ring-popup]'}
-  }
+autoOpenInADialog.parameters = {
+  hermione: {
+    captureSelector: ['[data-test~=ring-dialog]', '[data-test~=ring-popup]']
+  },
+  a11y: {element: '[data-test~=ring-dialog],[data-test~=ring-popup]'}
 };

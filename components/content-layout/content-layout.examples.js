@@ -24,9 +24,7 @@ export const basic = () => (
   </ContentLayout>
 );
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';
 
 export const withSidebarOnTheLeft = () => (
   <div>
@@ -93,22 +91,19 @@ export const withSidebarOnTheLeft = () => (
   </div>
 );
 
-withSidebarOnTheLeft.story = {
-  name: 'with sidebar on the left',
+withSidebarOnTheLeft.storyName = 'with sidebar on the left';
 
-  parameters: {
-    storyStyles: `
-  <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+withSidebarOnTheLeft.parameters = {
+  storyStyles: `
+<style>
+    body {
+      margin: 0 !important;
+    }
 
-      .sidebar {
-        background-color: #EEEEEE;
-      }
-  </style>`
-  }
+    .sidebar {
+      background-color: #EEEEEE;
+    }
+</style>`
 };
 
 export const withSidebarOnTheRight = () => (
@@ -176,21 +171,18 @@ export const withSidebarOnTheRight = () => (
   </div>
 );
 
-withSidebarOnTheRight.story = {
-  name: 'with sidebar on the right',
+withSidebarOnTheRight.storyName = 'with sidebar on the right';
 
-  parameters: {
-    storyStyles: `
-  <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+withSidebarOnTheRight.parameters = {
+  storyStyles: `
+<style>
+    body {
+      margin: 0 !important;
+    }
 
-      .sidebar {
-        background-color: #EEEEEE;
-      }
-  </style>
-        `
-  }
+    .sidebar {
+      background-color: #EEEEEE;
+    }
+</style>
+      `
 };

@@ -112,6 +112,4 @@ export const basic = () => {
   return <DataListDemo/>;
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

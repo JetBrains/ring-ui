@@ -19,6 +19,4 @@ export const basic = () => {
   return '<rg-toggle>Toggle</rg-toggle>';
 };
 
-basic.story = {
-  name: 'basic'
-};
+basic.storyName = 'basic';

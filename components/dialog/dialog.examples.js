@@ -85,17 +85,15 @@ export const basic = () => {
   return <DialogDemo/>;
 };
 
-basic.story = {
-  name: 'basic',
+basic.storyName = 'basic';
 
-  parameters: {
-    storyStyles: `
-  <style>
-    .long-page {
-      height: 200vh;
-    }
-  </style>`
+basic.parameters = {
+  storyStyles: `
+<style>
+  .long-page {
+    height: 200vh;
   }
+</style>`
 };
 
 const lorem = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
@@ -160,12 +158,9 @@ export const withScroll = () => {
   return <DialogDemo/>;
 };
 
-withScroll.story = {
-  name: 'with scroll'
-};
+withScroll.storyName = 'with scroll';
 
-export const withOverflowScrollOnHtml = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export const WithOverflowScrollOnHtml = () => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -178,36 +173,35 @@ export const withOverflowScrollOnHtml = () => {
     </div>
   );
 };
-withOverflowScrollOnHtml.story = {
-  parameters: {
-    storyStyles: `
-      <style>
-        html {
-          overflow-y: scroll;
-        }
 
-        html, body {
-          height: 100%;
-        }
+WithOverflowScrollOnHtml.parameters = {
+  storyStyles: `
+    <style>
+      html {
+        overflow-y: scroll;
+      }
 
-        body {
-          margin: 0;
-        }
+      html, body {
+        height: 100%;
+      }
 
-        .container {
-          height: 200vh;
-        }
+      body {
+        margin: 0 !important;
+      }
 
-        .button {
-          margin-top: 100vh;
-        }
-      </style>
-    `,
-    hermione: {
-      actions: [
-        {type: 'click', selector: '.button'},
-        {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}
-      ]
-    }
+      .container {
+        height: 200vh;
+      }
+
+      .button {
+        margin-top: 100vh;
+      }
+    </style>
+  `,
+  hermione: {
+    actions: [
+      {type: 'click', selector: '.button'},
+      {type: 'capture', selector: '*[data-test~=ring-dialog-container]'}
+    ]
   }
 };

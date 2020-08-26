@@ -13,18 +13,6 @@ const svgInlineLoader = {
   include: [require('@jetbrains/icons')]
 };
 
-const svgSpriteLoaderBackwardCompatibilityHack = {
-  get include() {
-    throw new Error(`
-***
-  ERROR: Ring UI svgSpriteLoader is REMOVED in 2.0.0. Looks like your webpack config is patching it.
-  The most simple fix is to replace "svgSpriteLoader.include.push(...)" with "svgInlineLoader.include.push(...)"
-  Please consider using your own "svg-inline-loader". More details: https://youtrack.jetbrains.com/issue/RG-1646
-***
-    `);
-  }
-};
-
 const svgLoader = {
   test: /\.svg$/,
   loader: `${require.resolve('url-loader')}?limit=10000`,
@@ -135,6 +123,13 @@ module.exports = {
 
   loaders: {
     ...loaders,
-    svgSpriteLoader: svgSpriteLoaderBackwardCompatibilityHack
+    get whatwgLoader() {
+      // eslint-disable-next-line no-console
+      console.error(`***
+  DEPRECATION: Ring UI's whatwgLoader is about to be removed from webpack.config – there are no more browsers we support that doesn't have Fetch API embedded.
+  Looks like your webpack config is patching it. The most simple fix is to replace remove any usages of it.
+***`);
+      return whatwgLoader;
+    }
   }
 };
