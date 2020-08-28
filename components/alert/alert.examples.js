@@ -55,7 +55,6 @@ export const simple = () => {
 };
 
 simple.storyName = 'simple';
-simple.parameters = {hermione: {skip: false}};
 
 export const alertContainer = () => {
   class AlertContainerDemo extends React.Component {

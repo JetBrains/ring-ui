@@ -27,9 +27,6 @@ export const parameters = {
         'color-contrast': {enabled: false}
       }
     }
-  },
-  hermione: {
-    skip: 'ie'
   }
 };
 
