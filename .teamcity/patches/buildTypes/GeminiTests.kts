@@ -6,7 +6,9 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.RetryBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -94,6 +96,15 @@ changeBuildType(RelativeId("GeminiTests")) {
         }
         feature1.apply {
             threshold = 50
+        }
+        remove {
+            failOnText {
+                conditionType = BuildFailureOnText.ConditionType.CONTAINS
+                pattern = "Sauce Connect could not establish a connection"
+                failureMessage = "Sauce Connect could not establish a connection"
+                reverse = false
+                stopBuildOnFailure = true
+            }
         }
     }
 
