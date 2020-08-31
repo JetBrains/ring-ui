@@ -22,7 +22,7 @@ changeBuildType(RelativeId("GeminiTests")) {
     check(maxRunningBuilds == 3) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
-    maxRunningBuilds = 1
+    maxRunningBuilds = 2
 
     params {
         add {
