@@ -5,6 +5,8 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.RetryBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -75,6 +77,23 @@ changeBuildType(RelativeId("GeminiTests")) {
         }
         trigger1.apply {
             enabled = false
+        }
+    }
+
+    failureConditions {
+        val feature1 = find<BuildFailureOnMetric> {
+            failOnMetricChange {
+                metric = BuildFailureOnMetric.MetricType.TEST_COUNT
+                threshold = 30
+                units = BuildFailureOnMetric.MetricUnit.PERCENTS
+                comparison = BuildFailureOnMetric.MetricComparison.LESS
+                compareTo = build {
+                    buildRule = lastSuccessful()
+                }
+            }
+        }
+        feature1.apply {
+            threshold = 50
         }
     }
 
