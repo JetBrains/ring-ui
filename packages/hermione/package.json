@@ -15,7 +15,7 @@
     "test-ci": "forever start .serve-static.json && yarn test --teamcity; forever stop serve-static"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
+    "@babel/core": "^7.11.5",
     "@jetbrains/hermione-teamcity-reporter": "^1.1.0",
     "@storybook/addon-storyshots": "^6.0.7",
     "axios": "^0.19.2",
