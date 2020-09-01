@@ -5908,10 +5908,10 @@ forever-monitor@^3.0.0:
     ps-tree "0.0.x"
     utile "^0.3.0"
 
-forever@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/forever/-/forever-3.0.0.tgz#d5f4d16c0c64ac427bcd2e992df63a4fae29d941"
-  integrity sha512-jA3zD1pl57cwBlhF6V6lZIOk6//77nQyQ3UGkxxYr4X9+F8nI6SGGan69hdohtmsPZCG3vMlqdtBhwlqEn4thA==
+forever@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/forever/-/forever-3.0.2.tgz#4e48538ad195a2ec2c6085450b610f809eff16c7"
+  integrity sha512-GKZLVs3RQh52kF3kuCrlR1e5npaOqomQzTQryZOFJZ9GKNqLya75LSn1rdjFQ8XixwX3jT76pIJmtGN4XXv1aw==
   dependencies:
     async "^1.5.2"
     cliff "^0.1.10"
@@ -5924,11 +5924,11 @@ forever@^3.0.0:
     nconf "^0.10.0"
     nssocket "^0.6.0"
     object-assign "^4.1.1"
-    optimist "^0.6.1"
     prettyjson "^1.2.1"
     shush "^1.0.0"
     utile "~0.3.0"
     winston "~0.8.1"
+    yargs "^3.32.0"
 
 fork-ts-checker-webpack-plugin@3.1.1:
   version "3.1.1"
@@ -9114,7 +9114,7 @@ optimist@0.6.0:
     minimist "~0.0.1"
     wordwrap "~0.0.2"
 
-optimist@^0.6.1, optimist@~0.6.1:
+optimist@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
   integrity sha1-2j6nRob6IaGaERwybpDrFaAZZoY=
@@ -12734,7 +12734,7 @@ yargs@^15.3.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.1"
 
-yargs@^3.19.0:
+yargs@^3.19.0, yargs@^3.32.0:
   version "3.32.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.32.0.tgz#03088e9ebf9e756b69751611d2a5ef591482c995"
   integrity sha1-AwiOnr+edWtpdRYR0qXvWRSCyZU=
