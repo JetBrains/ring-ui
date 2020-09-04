@@ -1,7 +1,7 @@
 @import "../global/variables.css";
 
 .avatar {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 
   border-radius: var(--ring-border-radius); /* This is a "graceful degradation" fallback, while the real value is controlled by JS */
