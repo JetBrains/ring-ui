@@ -7,7 +7,19 @@ const Theme = {
 
 export const ThemeContext = createContext();
 
-const getDisplayName = Component => (typeof Component === 'string' ? Component : (Component.name ?? Component.displayName ?? 'Component'));
+const getComponentName = Component => {
+  if (Component.name !== null && Component.name !== undefined) {
+    return Component.name;
+  }
+  if (Component.displayName !== null && Component.displayName !== undefined) {
+    return Component.displayName;
+  }
+  return 'Component';
+};
+
+const getDisplayName = Component => (
+  typeof Component === 'string' ? Component : getComponentName(Component)
+);
 
 export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
   // eslint-disable-next-line react/prop-types
