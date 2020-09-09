@@ -18,6 +18,13 @@ describe('Popup', () => {
     popup.should.exist;
   });
 
+  it('should allow pass DOM node as a target', () => {
+    const targetNode = document.createElement('div');
+    const instance = mountPopup({target: targetNode}).instance();
+    const popupElement = instance.popup;
+    targetNode.contains(popupElement).should.be.true;
+  });
+
   it('should attempt to close by pressing esc', () => {
     const onCloseAttempt = sandbox.stub();
     mountPopup({onCloseAttempt});
