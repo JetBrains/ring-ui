@@ -54,7 +54,7 @@ PopupTarget.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 };
 
-export const getPopupContainer = target => document.querySelector(`[data-portaltarget=${target}]`);
+export const getPopupContainer = target => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 
 /**
  * @constructor
@@ -64,7 +64,7 @@ export const getPopupContainer = target => document.querySelector(`[data-portalt
 export default class Popup extends PureComponent {
   static propTypes = {
     anchorElement: PropTypes.instanceOf(Node),
-    target: PropTypes.string,
+    target: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Element)]),
     className: PropTypes.string,
     style: PropTypes.object,
     hidden: PropTypes.bool.isRequired,
@@ -374,12 +374,12 @@ export default class Popup extends PureComponent {
               ref={this.portalRef}
             >
               {this.shouldUseShortcuts() &&
-                (
-                  <Shortcuts
-                    map={this.shortcutsMap}
-                    scope={this.shortcutsScope}
-                  />
-                )
+              (
+                <Shortcuts
+                  map={this.shortcutsMap}
+                  scope={this.shortcutsScope}
+                />
+              )
               }
 
               {(client || this.state.client) && (keepMounted || !hidden) && createPortal(
