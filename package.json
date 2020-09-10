@@ -113,7 +113,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "~26.4.2",
     "jest-teamcity": "^1.8.0",
-    "karma": "^5.1.1",
+    "karma": "^5.2.2",
     "karma-coverage": "^2.0.3",
     "karma-coverage-html-index-reporter": "^1.0.2",
     "karma-electron": "^6.3.1",
