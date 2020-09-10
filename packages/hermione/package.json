@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
-    "@jetbrains/hermione-teamcity-reporter": "^1.1.0",
+    "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
     "@storybook/addon-storyshots": "^6.0.7",
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
