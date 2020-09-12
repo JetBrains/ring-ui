@@ -20,7 +20,7 @@
     "@storybook/addon-storyshots": "^6.0.7",
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
-    "browserstack-local": "^1.4.5",
+    "browserstack-local": "^1.4.7",
     "dotenv": "^8.2.0",
     "filenamify": "^4.1.0",
     "font-awesome": "^4.7.0",
