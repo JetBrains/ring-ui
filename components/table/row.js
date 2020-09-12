@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {sortableHandle} from 'react-sortable-hoc';
 import chevronRightIcon from '@jetbrains/icons/chevron-right.svg';
 import chevronDownIcon from '@jetbrains/icons/chevron-down.svg';
 import dragIcon from '@jetbrains/icons/drag.svg';
@@ -11,23 +10,28 @@ import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
 
 import getUID from '../global/get-uid';
+import composeRefs from '../global/composeRefs';
 
 import Cell from './cell';
 import style from './table.css';
 
-const DragHandle = sortableHandle(({alwaysShowDragHandle}) => {
+const DragHandle = ({alwaysShowDragHandle}) => {
   const classes = classNames(style.dragHandle, {
     [style.visibleDragHandle]: alwaysShowDragHandle
   });
 
   return (
     <Button
+      data-movable-handle
       title="Drag"
       className={classes}
       icon={dragIcon}
     />
   );
-});
+};
+DragHandle.propTypes = {
+  alwaysShowDragHandle: PropTypes.bool
+};
 
 export default class Row extends PureComponent {
   static propTypes = {
@@ -52,7 +56,10 @@ export default class Row extends PureComponent {
     onExpand: PropTypes.func,
     showDisabledSelection: PropTypes.bool,
     checkboxTooltip: PropTypes.string,
-    innerRef: PropTypes.func
+    innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    focused: PropTypes.bool,
+    autofocus: PropTypes.bool,
+    onFocusReset: PropTypes.func
   };
 
   static defaultProps = {
@@ -113,9 +120,6 @@ export default class Row extends PureComponent {
 
   rowRef = el => {
     this.row = el;
-    if (this.props.innerRef) {
-      this.props.innerRef(el);
-    }
   };
 
   render() {
@@ -124,10 +128,11 @@ export default class Row extends PureComponent {
       showFocus, draggable, alwaysShowDragHandle, level,
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection,
-      checkboxTooltip
+      checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
+      onFocusRestore, onHover, className, ...restProps
     } = this.props;
 
-    const classes = classNames(this.props.className, {
+    const classes = classNames(className, {
       [style.row]: true,
       [style.rowFocused]: showFocus,
       [style.rowSelected]: selected
@@ -218,7 +223,7 @@ export default class Row extends PureComponent {
     return (
       <tr
         id={this.id}
-        ref={this.rowRef}
+        ref={composeRefs(this.rowRef, innerRef)}
         className={classes}
         tabIndex="0"
         onMouseMove={this.onMouseEnter}
@@ -226,6 +231,7 @@ export default class Row extends PureComponent {
         onDoubleClick={this.onDoubleClick}
         data-test="ring-table-row"
         {...testAttrs}
+        {...restProps}
       >{cells}</tr>
     );
   }
