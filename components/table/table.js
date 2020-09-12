@@ -5,7 +5,7 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {arrayMove, sortableContainer} from 'react-sortable-hoc';
+import {arrayMove, List} from 'react-movable';
 
 import focusSensorHOC from '../global/focus-sensor-hoc';
 import getUID from '../global/get-uid';
@@ -15,75 +15,9 @@ import Loader from '../loader/loader';
 import Selection from './selection';
 import Header from './header';
 import style from './table.css';
-import DraggableRow from './draggable-row';
 import selectionShortcutsHOC from './selection-shortcuts-hoc';
 import disableHoverHOC from './disable-hover-hoc';
 import Row from './row-with-focus-sensor';
-
-const alwaysFalse = () => false;
-
-function Rows({
-  data, getItemKey, selection, selectable,
-  isItemSelectable, onRowFocus, onRowSelect, onRowDoubleClick, onRowClick,
-  getItemLevel, getItemClassName, isItemCollapsible, isParentCollapsible,
-  isItemCollapsed, onItemCollapse, onItemExpand,
-  isDisabledSelectionVisible, getCheckboxTooltip,
-  ...restProps
-}) {
-  const RowComponent = restProps.draggable ? DraggableRow : Row;
-
-  return (
-    <tbody data-test="ring-table-body">
-      {data.map((item, index) => (
-        <RowComponent
-          key={getItemKey(item)}
-          level={getItemLevel(item)}
-          index={index}
-          item={item}
-          showFocus={selection.isFocused(item)}
-          focused={selection.isFocused(item)}
-          selectable={selectable && isItemSelectable(item)}
-          selected={selectable && selection.isSelected(item)}
-          onFocus={onRowFocus}
-          onSelect={onRowSelect}
-          onDoubleClick={onRowDoubleClick}
-          onClick={onRowClick}
-          collapsible={isItemCollapsible(item)}
-          parentCollapsible={isParentCollapsible(item)}
-          collapsed={isItemCollapsed(item)}
-          onCollapse={onItemCollapse}
-          onExpand={onItemExpand}
-          showDisabledSelection={isDisabledSelectionVisible(item)}
-          checkboxTooltip={getCheckboxTooltip(item)}
-          className={getItemClassName(item)}
-          {...restProps}
-        />
-      ))}
-    </tbody>
-  );
-}
-Rows.propTypes = {
-  data: PropTypes.array.isRequired,
-  getItemKey: PropTypes.func,
-  selection: PropTypes.instanceOf(Selection).isRequired,
-  selectable: PropTypes.bool,
-  isItemSelectable: PropTypes.func,
-  onRowFocus: PropTypes.func,
-  onRowSelect: PropTypes.func,
-  onRowClick: PropTypes.func,
-  onRowDoubleClick: PropTypes.func,
-  getItemLevel: PropTypes.func,
-  getItemClassName: PropTypes.func,
-  isItemCollapsible: PropTypes.func,
-  isParentCollapsible: PropTypes.func,
-  isItemCollapsed: PropTypes.func,
-  onItemCollapse: PropTypes.func,
-  onItemExpand: PropTypes.func,
-  isDisabledSelectionVisible: PropTypes.func,
-  getCheckboxTooltip: PropTypes.func
-};
-
-const DraggableRows = sortableContainer(Rows);
 
 class Table extends PureComponent {
   static propTypes = {
@@ -268,28 +202,52 @@ class Table extends PureComponent {
       [style.disabledHover]: this.props.disabledHover
     });
 
-    const rowProps = {
-      getItemKey,
-      draggable,
-      alwaysShowDragHandle,
-      data,
-      columns,
-      selectable,
-      isItemSelectable,
-      selection,
-      onRowFocus: this.onRowFocus,
-      onRowSelect: this.onRowSelect,
-      onRowDoubleClick: onItemDoubleClick,
-      onRowClick: onItemClick,
-      getItemLevel,
-      getItemClassName,
-      isItemCollapsible,
-      isParentCollapsible,
-      isItemCollapsed,
-      onItemCollapse,
-      onItemExpand,
-      isDisabledSelectionVisible,
-      getCheckboxTooltip
+    const renderList = ({children, props}) => (
+      <table className={classes} data-test="ring-table">
+        <Header {...headerProps}/>
+        <tbody {...props} data-test="ring-table-body">{children}</tbody>
+      </table>
+    );
+
+    const renderItem = ({value, index, props = {}, isDragged}) => {
+      const {ref, ...restProps} = props;
+      const row = (
+        <Row
+          innerRef={ref}
+          key={getItemKey(value)}
+          level={getItemLevel(value)}
+          index={index}
+          item={value}
+          showFocus={selection.isFocused(value)}
+          focused={selection.isFocused(value)}
+          selectable={selectable && isItemSelectable(value)}
+          selected={selectable && selection.isSelected(value)}
+          onFocus={this.onRowFocus}
+          onSelect={this.onRowSelect}
+          onDoubleClick={onItemDoubleClick}
+          onClick={onItemClick}
+          collapsible={isItemCollapsible(value)}
+          parentCollapsible={isParentCollapsible(value)}
+          collapsed={isItemCollapsed(value)}
+          onCollapse={onItemCollapse}
+          onExpand={onItemExpand}
+          showDisabledSelection={isDisabledSelectionVisible(value)}
+          checkboxTooltip={getCheckboxTooltip(value)}
+          className={classNames(getItemClassName(value), {[style.draggingRow]: isDragged})}
+          draggable={draggable}
+          alwaysShowDragHandle={alwaysShowDragHandle}
+          columns={columns}
+          {...restProps}
+        />
+      );
+
+      return isDragged
+        ? (
+          <table style={{...props.style, borderSpacing: 0}}>
+            <tbody>{row}</tbody>
+          </table>
+        )
+        : row;
     };
 
     return (
@@ -305,20 +263,16 @@ class Table extends PureComponent {
 
         {/* Handler detects that user holds Shift key */}
         <div role="presentation" onMouseDown={this.onMouseDown}>
-          <table className={classes} data-test="ring-table">
-            <Header {...headerProps}/>
-            {draggable
-              ? (
-                <DraggableRows
-                  useDragHandle
-                  helperClass={style.draggingRow}
-                  onSortEnd={this.onSortEnd}
-                  shouldCancelStart={alwaysFalse}
-                  {...rowProps}
-                />
-              )
-              : <Rows {...rowProps}/>}
-          </table>
+          {draggable
+            ? (
+              <List
+                values={data}
+                renderList={renderList}
+                renderItem={renderItem}
+                onChange={this.onSortEnd}
+              />
+            )
+            : renderList({children: data.map((value, index) => renderItem({value, index}))})}
         </div>
 
         {loading && (

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import composeRefs from './composeRefs';
+
 export default function focusSensorHOC(ComposedComponent) {
   return class FocusSensor extends Component {
     static propTypes = {
@@ -8,7 +10,8 @@ export default function focusSensorHOC(ComposedComponent) {
       focused: PropTypes.bool,
       autofocus: PropTypes.bool,
       onFocus: PropTypes.func,
-      onBlur: PropTypes.func
+      onBlur: PropTypes.func,
+      innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     };
 
     static defaultProps = {
@@ -97,7 +100,7 @@ export default function focusSensorHOC(ComposedComponent) {
       return (
         <ComposedComponent
           {...this.props}
-          innerRef={this.onRefUpdate}
+          innerRef={composeRefs(this.props.innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}
           onFocusRestore={this.onFocusRestore}
