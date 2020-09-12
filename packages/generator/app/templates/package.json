@@ -68,7 +68,7 @@
     "react-test-renderer": "^16.13.1",
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0",
-    "stylelint": "^13.7.0",
+    "stylelint": "^13.7.1",
     "xvfb-maybe": "^0.2.1",
     "yo": "^3.1.1"
   },
