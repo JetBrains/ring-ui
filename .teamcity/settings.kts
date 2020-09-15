@@ -4,6 +4,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.merge
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.sshAgent
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.investigationsAutoAssigner
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
@@ -13,6 +14,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -1456,6 +1458,7 @@ object UnitTestsAndBuild : BuildType({
         param("env.GIT_COMMITTER_NAME", "")
         param("env.GIT_AUTHOR_EMAIL", "")
         param("npmjs.com.auth.key", "credentialsJSON:075c2e9e-0e12-4b18-9ec2-cb2f366d424e")
+        param("env.ELECTRON_ENABLE_LOGGING", "false")
     }
 
     vcs {
@@ -1475,9 +1478,6 @@ object UnitTestsAndBuild : BuildType({
                 npm -v
                 yarn -v
 
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
                 yarn bootstrap
                 yarn run test-ci
                 yarn run build
@@ -1494,7 +1494,8 @@ object UnitTestsAndBuild : BuildType({
             branchFilter = "+:refs/heads/*"
         }
         retryBuild {
-            delaySeconds = 60
+          enabled = false
+          delaySeconds = 60
         }
     }
 
@@ -1559,6 +1560,7 @@ object UnitTestsAndBuild : BuildType({
                     token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
                 }
             }
+            param("github_oauth_user", "Hypnosphi")
         }
         commitStatusPublisher {
             enabled = false
@@ -1569,10 +1571,14 @@ object UnitTestsAndBuild : BuildType({
                 password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
             }
         }
+        investigationsAutoAssigner {
+          excludeUsers = "npmjs-buildserver"
+          assignOnSecondFailure = true
+        }
     }
 
     requirements {
-        contains("system.agent.name", "ubuntu")
+      contains("docker.server.osType", "linux")
     }
 })
 
