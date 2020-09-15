@@ -10,6 +10,7 @@ import {
   parseQueryString,
   resolveRelativeURL
 } from './url';
+import sniffr from './sniffer';
 
 describe('Url', () => {
   describe('fixUrl', () => {
@@ -75,6 +76,7 @@ describe('Url', () => {
     const baseUrl = 'http://example.com/';
 
     it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', () => {
+      sandbox.stub(sniffr.browser, 'name').value('foo');
       resolveRelativeURL('#test', () => 'uri', () => baseUrl).should.be.equal('#test');
     });
 
