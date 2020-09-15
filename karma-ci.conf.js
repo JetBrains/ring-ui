@@ -19,6 +19,7 @@ module.exports = config => {
         timeout: 60000
       }
     },
+    browsers: ['ChromeHeadlessNoSandbox'],
     browserDisconnectTimeout: 15000,
     browserDisconnectTolerance: 3
   });
