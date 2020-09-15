@@ -1449,6 +1449,7 @@ object UnitTestsAndBuild : BuildType({
             +:refs/(pull/*)/merge
             -:refs/heads/gh-pages
         """.trimIndent())
+        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "")
         param("env.GIT_AUTHOR_NAME", "")
         param("env.GIT_COMMITTER_EMAIL", "")
         param("github.com.builduser.name", "")
