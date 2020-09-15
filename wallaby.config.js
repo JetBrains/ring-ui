@@ -29,9 +29,7 @@ module.exports = wallaby => {
     testFramework: 'mocha',
 
     compilers: {
-      '**/*.js': wallaby.compilers.babel(
-        JSON.parse(require('fs').readFileSync('.babelrc'))
-      )
+      '**/*.js': wallaby.compilers.babel()
     },
 
     postprocessor: wallabyWebpack(webpackTestConfig),
@@ -42,7 +40,8 @@ module.exports = wallaby => {
     },
 
     env: {
-      kind: 'electron'
+      kind: 'chrome',
+      runner: require('puppeteer').executablePath()
     },
 
     reportConsoleErrorAsError: true
