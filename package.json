@@ -56,7 +56,7 @@
     "stylelint-ci": "stylelint --ignore-path .eslintignore --custom-formatter './jslint-xml.js' '**/*.css' | xmlappend eslint-report.xml",
     "stylelint": "stylelint --ignore-path .eslintignore '**/*.css'",
     "pretest-ci": "npm run lint-ci",
-    "test-ci": "xvfb-maybe karma start karma-ci.conf.js",
+    "test-ci": "karma start karma-ci.conf.js",
     "test-watch": "karma start karma-watch.conf.js",
     "prerelease-ci": "git pull",
     "release-ci": "lerna publish --yes"
@@ -142,7 +142,6 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "xmlappend": "^1.0.4",
-    "xvfb-maybe": "^0.2.1",
     "yo": "^3.1.1"
   },
   "peerDependencies": {
