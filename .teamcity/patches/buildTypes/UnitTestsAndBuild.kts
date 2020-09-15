@@ -28,19 +28,19 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
                 yarn -v
-                
+
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
-                
+
                 yarn bootstrap
                 yarn run test-ci
                 yarn run build
             """.trimIndent()
-            dockerImage = "huston007/node-electron:latest"
+            dockerImage = "buildkite/puppeteer"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
@@ -50,11 +50,11 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
             scriptContent = """
                 #!/bin/bash
                 set -e -x
-                
+
                 node -v
                 npm -v
                 yarn -v
-                
+
                 yarn bootstrap
                 yarn run test-ci
                 yarn run build
