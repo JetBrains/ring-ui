@@ -1478,7 +1478,7 @@ object UnitTestsAndBuild : BuildType({
                 npm -v
                 yarn -v
 
-                yarn bootstrap
+                yarn install
                 yarn run test-ci
                 yarn run build
             """.trimIndent()
