@@ -58,7 +58,7 @@ module.exports = config => ({
   autoWatch: true,
 
   // Start these browsers
-  browsers: [process.env.TEAMCITY_VERSION ? 'ChromeHeadlessNoSandbox' : 'ChromeHeadless'],
+  browsers: ['ChromeHeadless'],
 
   customLaunchers: {
     ChromeHeadlessNoSandbox: {
