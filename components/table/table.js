@@ -63,7 +63,9 @@ class Table extends PureComponent {
     // disableHoverHOC
     disabledHover: PropTypes.bool,
 
-    remoteSelection: PropTypes.bool
+    remoteSelection: PropTypes.bool,
+
+    renderEmpty: PropTypes.func
   };
 
   static defaultProps = {
@@ -171,7 +173,7 @@ class Table extends PureComponent {
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
-      onItemDoubleClick, onItemClick
+      onItemDoubleClick, onItemClick, renderEmpty
     } = this.props;
 
 
@@ -202,12 +204,29 @@ class Table extends PureComponent {
       [style.disabledHover]: this.props.disabledHover
     });
 
-    const renderList = ({children, props}) => (
-      <table className={classes} data-test="ring-table">
-        <Header {...headerProps}/>
-        <tbody {...props} data-test="ring-table-body">{children}</tbody>
-      </table>
-    );
+    const renderList = ({children, props}) => {
+      const empty = (
+        <tr>
+          <td
+            colSpan={this.props.columns.length || '1'}
+            className={style.tableMessage}
+          >
+            {renderEmpty ? renderEmpty() : null}
+          </td>
+        </tr>
+      );
+      const tbody = (children || []).length > 0
+        ? children
+        : empty;
+      return (
+        <table className={classes} data-test="ring-table">
+          <Header {...headerProps}/>
+          <tbody {...props} data-test="ring-table-body">
+            {tbody}
+          </tbody>
+        </table>
+      );
+    };
 
     const renderItem = ({value, index, props = {}, isDragged}) => {
       const {ref, ...restProps} = props;
