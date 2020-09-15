@@ -1482,7 +1482,7 @@ object UnitTestsAndBuild : BuildType({
                 yarn run test-ci
                 yarn run build
             """.trimIndent()
-            dockerImage = "huston007/node-electron:latest"
+            dockerImage = "buildkite/puppeteer"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
