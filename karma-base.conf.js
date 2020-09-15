@@ -1,3 +1,5 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+
 module.exports = config => ({
   // base path that will be used to resolve files and excludes
   basePath: '',
@@ -56,18 +58,12 @@ module.exports = config => ({
   autoWatch: true,
 
   // Start these browsers
-  browsers: ['CustomElectron'],
+  browsers: [process.env.TEAMCITY_VERSION ? 'ChromeHeadlessNoSandbox' : 'ChromeHeadless'],
 
   customLaunchers: {
-    CustomElectron: {
-      base: 'Electron',
-      browserWindowOptions: {
-        show: false,
-        skipTaskbar: true,
-        height: 1024,
-        width: 768
-      },
-      flags: ['--no-sandbox', '--disable-gpu', '--headless']
+    ChromeHeadlessNoSandbox: {
+      base: 'ChromeHeadless',
+      flags: ['--no-sandbox', '--disable-setuid-sandbox']
     }
   },
 
