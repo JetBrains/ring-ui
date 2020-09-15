@@ -282,3 +282,9 @@
     }
   }
 }
+
+.tableMessage {
+  padding: calc(var(--ring-unit) * 2) calc(var(--ring-unit) * 4);
+
+  color: var(--ring-secondary-color);
+}

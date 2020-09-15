@@ -308,3 +308,43 @@ class MultiTableDemo extends Component {
 }
 export const multiTable = () => <MultiTableDemo/>;
 multiTable.storyName = 'multi table';
+
+
+class EmptyTableDemo extends Component {
+
+  state = {
+    selection1: new Selection({data: data1}),
+    selection2: new Selection({data: data2})
+  };
+
+  columns2 = [
+    {
+      id: 'country',
+      title: 'Country'
+    },
+    {
+      id: 'city',
+      title: 'City'
+    },
+    {
+      id: 'url',
+      title: 'URL'
+    }
+  ];
+
+  render() {
+    return (
+      <Table
+        data={[]}
+        columns={this.columns2}
+        renderEmpty={() => 'Empty table'}
+        selectable={false}
+        selection={this.state.selection2}
+        onSelect={selection => this.setState({selection2: selection})}
+      />
+    );
+  }
+}
+
+export const emptyTable = () => <EmptyTableDemo/>;
+emptyTable.storyName = 'empty table';
