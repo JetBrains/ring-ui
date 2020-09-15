@@ -18,7 +18,8 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Interactive table with selection and keyboard navigation support.'
+    notes: 'Interactive table with selection and keyboard navigation support.',
+    hermione: {skip: true}
   }
 };
 
