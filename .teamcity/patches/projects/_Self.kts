@@ -28,5 +28,22 @@ changeProject(DslContext.projectId) {
                 startPage = "yarn-audit.html"
             }
         }
+        add {
+            feature {
+                type = "Invitation"
+                id = "PROJECT_EXT_346"
+                param("createdByUserId", "7441")
+                param("invitationType", "joinProjectInvitation")
+                param("roleId", "PROJECT_ADMIN")
+                param("secure:token", "credentialsJSON:49ae2465-4363-4742-8ad6-416b1470f807")
+                param("name", "Join project administration")
+                param("welcomeText", "Andrey Skladchikov invites you to join the JetBrains Public Projects / JetBrains UI / Ring UI project")
+                param("disabled", "false")
+                param("multi", "true")
+            }
+        }
     }
+
+    expectBuildTypesOrder(RelativeId("GeminiTests"), RelativeId("UnitTestsAndBuild"), RelativeId("Publish"), RelativeId("Publish10hotfix"), RelativeId("Deploy"), RelativeId("PublishToGitHubPages"), RelativeId("GeneratorE2eTest"), RelativeId("PublishNext"), RelativeId("UnpublishSpecificVersion"), RelativeId("PublishCanary"), RelativeId("AllChecks"))
+    buildTypesOrderIds = arrayListOf(RelativeId("GeminiTests"), RelativeId("UnitTestsAndBuild"), RelativeId("Publish"), RelativeId("Deploy"), RelativeId("PublishToGitHubPages"), RelativeId("GeneratorE2eTest"), RelativeId("PublishNext"), RelativeId("UnpublishSpecificVersion"), RelativeId("PublishCanary"), RelativeId("AllChecks"))
 }
