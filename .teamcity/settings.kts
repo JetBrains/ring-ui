@@ -1483,7 +1483,6 @@ object UnitTestsAndBuild : BuildType({
                 yarn run build
             """.trimIndent()
             dockerImage = "buildkite/puppeteer"
-            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
     }
 
