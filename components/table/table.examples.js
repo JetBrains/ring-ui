@@ -18,7 +18,8 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Interactive table with selection and keyboard navigation support.'
+    notes: 'Interactive table with selection and keyboard navigation support.',
+    hermione: {skip: true}
   }
 };
 
@@ -308,3 +309,42 @@ class MultiTableDemo extends Component {
 }
 export const multiTable = () => <MultiTableDemo/>;
 multiTable.storyName = 'multi table';
+
+
+class EmptyTableDemo extends Component {
+
+  state = {
+    selection: new Selection({})
+  };
+
+  columns = [
+    {
+      id: 'country',
+      title: 'Country'
+    },
+    {
+      id: 'city',
+      title: 'City'
+    },
+    {
+      id: 'url',
+      title: 'URL'
+    }
+  ];
+
+  render() {
+    return (
+      <Table
+        data={[]}
+        columns={this.columns}
+        renderEmpty={() => 'Empty table'}
+        selectable={false}
+        selection={this.state.selection}
+        onSelect={selection => this.setState({selection})}
+      />
+    );
+  }
+}
+
+export const emptyTable = () => <EmptyTableDemo/>;
+emptyTable.storyName = 'empty table';
