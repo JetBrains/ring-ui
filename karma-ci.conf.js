@@ -12,7 +12,6 @@ module.exports = config => {
         {type: 'teamcity'}
       ]
     },
-    logLevel: config.LOG_DEBUG,
     reporters: ['teamcity', 'coverage', 'coverage-html-index'],
     webpack: require('./webpack-test.config'),
     client: {
