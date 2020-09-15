@@ -313,11 +313,10 @@ multiTable.storyName = 'multi table';
 class EmptyTableDemo extends Component {
 
   state = {
-    selection1: new Selection({data: data1}),
-    selection2: new Selection({data: data2})
+    selection: new Selection({})
   };
 
-  columns2 = [
+  columns = [
     {
       id: 'country',
       title: 'Country'
@@ -336,11 +335,11 @@ class EmptyTableDemo extends Component {
     return (
       <Table
         data={[]}
-        columns={this.columns2}
+        columns={this.columns}
         renderEmpty={() => 'Empty table'}
         selectable={false}
-        selection={this.state.selection2}
-        onSelect={selection => this.setState({selection2: selection})}
+        selection={this.state.selection}
+        onSelect={selection => this.setState({selection})}
       />
     );
   }
