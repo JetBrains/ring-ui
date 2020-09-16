@@ -31,7 +31,7 @@ changeBuildType(RelativeId("UnitTestsAndBuild")) {
     steps {
         update<ScriptBuildStep>(0) {
             clearConditions()
-            dockerRunParameters = "--user=1001"
+            dockerRunParameters = "--rm --user=1001"
         }
     }
 }
