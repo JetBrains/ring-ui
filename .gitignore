@@ -29,6 +29,6 @@ lerna-debug.log
 npm-debug.log*
 browserstack.log*
 yarn-error.log
-package-lock.json
+yarn.lock
 /metadata-messages.json
-yarn-audit.html
+npm-audit.html

@@ -133,8 +133,8 @@ project {
         }
         buildReportTab {
             id = "PROJECT_EXT_156"
-            title = "Yarn audit"
-            startPage = "yarn-audit.html"
+            title = "NPM audit"
+            startPage = "npm-audit.html"
         }
         feature {
             type = "Invitation"
@@ -373,7 +373,7 @@ object GeminiTests : BuildType({
                 node -v
                 npm -v
 
-                yarn bootstrap
+                npm run bootstrap
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
@@ -486,8 +486,8 @@ object A11yAudit : BuildType({
                 node -v
                 npm -v
 
-                yarn install
-                yarn a11y-audit-ci
+                npm install
+                npm run a11y-audit-ci
             """.trimIndent()
             dockerImage = "buildkite/puppeteer"
         }
@@ -546,8 +546,8 @@ object ConsoleErrors : BuildType({
                 node -v
                 npm -v
 
-                yarn install
-                yarn console-errors-ci
+                npm install
+                npm run console-errors-ci
             """.trimIndent()
             dockerImage = "node:lts"
         }
@@ -581,7 +581,7 @@ object SecurityAudit : BuildType({
 
     allowExternalStatus = true
 
-    artifactRules = "yarn-audit.html"
+    artifactRules = "npm-audit.html"
 
     params {
         param("vcs.branch.spec", """
@@ -609,7 +609,7 @@ object SecurityAudit : BuildType({
                 node -v
                 npm -v
 
-                yarn install
+                npm install
                 node security-audit-ci.js
             """.trimIndent()
             dockerImage = "node:lts"
@@ -652,11 +652,11 @@ object GeneratorE2eTest : BuildType({
                 set -e -x
 
                 node -v
-                yarn -v
+                npm -v
 
                 useradd user -m
 
-                su user -c "yarn run bootstrap && yarn run test-generator-e2e"
+                su user -c "npm run bootstrap && npm run test-generator-e2e"
             """.trimIndent()
             dockerImage = "huston007/node-electron"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -787,7 +787,7 @@ object Publish : BuildType({
 
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json yarn.lock packages/*/yarn.lock
+                git checkout package.json package-lock.json packages/*/package-lock.json
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -935,7 +935,7 @@ object PublishCanary : BuildType({
 
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json yarn.lock packages/*/yarn.lock
+                git checkout package.json package-lock.json packages/*/package-lock.json
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -1084,7 +1084,7 @@ object PublishNext : BuildType({
 
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json yarn.lock packages/*/yarn.lock
+                git checkout package.json package-lock.json packages/*/package-lock.json
                 npm run release-ci -- %lerna.publish.options%
 
                 cat package.json
@@ -1336,11 +1336,10 @@ object UnitTestsAndBuild : BuildType({
 
                 node -v
                 npm -v
-                yarn -v
 
-                yarn install
-                yarn run test-ci
-                yarn run build
+                npm install
+                npm run test-ci
+                npm run build
             """.trimIndent()
             dockerImage = "buildkite/puppeteer"
         }

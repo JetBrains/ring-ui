@@ -41,7 +41,7 @@ kill(browserstackPort).then(() => {
       cleanup();
     });
 
-    execSync('yarn jest packages/hermione/get-stories-tree.js \'--testMatch=**\'', {
+    execSync('npx jest packages/hermione/get-stories-tree.js \'--testMatch=**\'', {
       cwd: path.resolve(__dirname, '../..'),
       stdio: 'inherit'
     });
