@@ -19,6 +19,7 @@ dist
 html-report
 node_modules
 test_gen
+.teamcity/target
 
 # Generated files
 eslint-report.xml
