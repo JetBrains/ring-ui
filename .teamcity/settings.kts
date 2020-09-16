@@ -10,11 +10,8 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailu
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnText
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.finishBuildTrigger
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.retryBuild
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
-import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.projectFeatures.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.*
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -50,7 +47,6 @@ project {
     buildType(GeminiTests)
     buildType(UnitTestsAndBuild)
     buildType(Publish)
-    buildType(Publish10hotfix)
     buildType(Deploy)
     buildType(PublishNext)
     buildType(AllChecks)
@@ -63,7 +59,7 @@ project {
             +:refs/heads/*
             -:refs/heads/gh-pages
         """.trimIndent())
-        param("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true")
+        text("env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD", "true", allowEmpty = true)
     }
 
     features {
@@ -136,14 +132,33 @@ project {
             param("disabled", "false")
             param("multi", "true")
         }
+        buildReportTab {
+            id = "PROJECT_EXT_156"
+            title = "Yarn audit"
+            startPage = "yarn-audit.html"
+        }
+        feature {
+            type = "Invitation"
+            id = "PROJECT_EXT_346"
+            param("createdByUserId", "7441")
+            param("invitationType", "joinProjectInvitation")
+            param("roleId", "PROJECT_ADMIN")
+            param("secure:token", "credentialsJSON:49ae2465-4363-4742-8ad6-416b1470f807")
+            param("name", "Join project administration")
+            param("welcomeText", "Andrey Skladchikov invites you to join the JetBrains Public Projects / JetBrains UI / Ring UI project")
+            param("disabled", "false")
+            param("multi", "true")
+        }
     }
-    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Publish10hotfix, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
+    buildTypesOrder = arrayListOf(GeminiTests, UnitTestsAndBuild, Publish, Deploy, PublishToGitHubPages, GeneratorE2eTest, PublishNext, UnpublishSpecificVersion, PublishCanary, AllChecks)
 }
 
 object AllChecks : BuildType({
     name = "All checks"
 
-    type = BuildTypeSettings.Type.COMPOSITE
+    type = Type.COMPOSITE
+
+    maxRunningBuilds = 1
 
     vcs {
         root(DslContext.settingsRoot)
@@ -182,6 +197,12 @@ object AllChecks : BuildType({
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
         snapshot(GeneratorE2eTest) {
+            onDependencyCancel = FailureAction.ADD_PROBLEM
+        }
+        snapshot(A11yAudit) {
+            onDependencyCancel = FailureAction.ADD_PROBLEM
+        }
+        snapshot(ConsoleErrors) {
             onDependencyCancel = FailureAction.ADD_PROBLEM
         }
     }
@@ -323,7 +344,7 @@ object GeminiTests : BuildType({
         packages/hermione/*.log
     """.trimIndent()
     buildNumberPattern = "${UnitTestsAndBuild.depParamRefs.buildNumber}"
-    maxRunningBuilds = 3
+    maxRunningBuilds = 2
 
     params {
         param("vcs.branch.spec", """
@@ -332,8 +353,8 @@ object GeminiTests : BuildType({
             -:refs/heads/(gh-pages)
         """.trimIndent())
         param("github.com.builduser.name", "")
-        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:5cf1318c-510e-4f61-ba26-425fa3b3990a", display = ParameterDisplay.HIDDEN)
-        param("env.SAUCE_USERNAME", "jetbrains-ui")
+        password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40", display = ParameterDisplay.HIDDEN)
+        param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
         param("npmjs.com.auth.key", "credentialsJSON:175b3950-943c-4803-99c4-56d5f6ac422a")
@@ -353,8 +374,8 @@ object GeminiTests : BuildType({
                 node -v
                 npm -v
 
+                yarn bootstrap
                 cd packages/hermione
-                yarn install
                 # ! We run tests against built Storybook from another build configuration
                 npm run test-ci
             """.trimIndent()
@@ -368,10 +389,6 @@ object GeminiTests : BuildType({
             enabled = false
             branchFilter = "+:refs/heads/*"
         }
-        retryBuild {
-            delaySeconds = 60
-            attempts = 2
-        }
     }
 
     failureConditions {
@@ -379,19 +396,12 @@ object GeminiTests : BuildType({
         errorMessage = true
         failOnMetricChange {
             metric = BuildFailureOnMetric.MetricType.TEST_COUNT
-            threshold = 30
+            threshold = 50
             units = BuildFailureOnMetric.MetricUnit.PERCENTS
             comparison = BuildFailureOnMetric.MetricComparison.LESS
             compareTo = build {
                 buildRule = lastSuccessful()
             }
-        }
-        failOnText {
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "Sauce Connect could not establish a connection"
-            failureMessage = "Sauce Connect could not establish a connection"
-            reverse = false
-            stopBuildOnFailure = true
         }
     }
 
@@ -419,7 +429,7 @@ object GeminiTests : BuildType({
                 serverUrl = "https://upsource.jetbrains.com"
                 projectId = "ring-ui"
                 userName = "TeamCityReporter"
-                password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+                password = "credentialsJSON:58d15732-d29f-42a6-a0e5-e88ab97c64dd"
             }
         }
     }
@@ -460,7 +470,7 @@ object A11yAudit : BuildType({
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
-        param("npmjs.com.auth.key", "")
+        param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
     }
 
     vcs {
@@ -486,25 +496,6 @@ object A11yAudit : BuildType({
 
     triggers {
         vcs {}
-    }
-
-    features {
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:5ffe2d7e-531e-4f6f-b1fc-a41bfea26eaa"
-                }
-            }
-        }
-        commitStatusPublisher {
-            publisher = upsource {
-                serverUrl = "https://upsource.jetbrains.com"
-                projectId = "ring-ui"
-                userName = "TeamCityReporter"
-                password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
-            }
-        }
     }
 
     dependencies {
@@ -539,7 +530,7 @@ object ConsoleErrors : BuildType({
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
-        param("npmjs.com.auth.key", "")
+        param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
     }
 
     vcs {
@@ -567,13 +558,15 @@ object ConsoleErrors : BuildType({
         vcs {}
     }
 
-    features {
-        commitStatusPublisher {
-            publisher = upsource {
-                serverUrl = "https://upsource.jetbrains.com"
-                projectId = "ring-ui"
-                userName = "TeamCityReporter"
-                password = "credentialsJSON:9eaa3cf0-4b14-49db-83f2-b141b3721922"
+    failureConditions {
+        nonZeroExitCode = false
+        failOnMetricChange {
+            metric = BuildFailureOnMetric.MetricType.TEST_COUNT
+            threshold = 50
+            units = BuildFailureOnMetric.MetricUnit.PERCENTS
+            comparison = BuildFailureOnMetric.MetricComparison.LESS
+            compareTo = build {
+                buildRule = lastSuccessful()
             }
         }
     }
@@ -589,6 +582,8 @@ object SecurityAudit : BuildType({
 
     allowExternalStatus = true
 
+    artifactRules = "yarn-audit.html"
+
     params {
         param("vcs.branch.spec", """
             +:refs/heads/*
@@ -598,7 +593,7 @@ object SecurityAudit : BuildType({
         param("github.com.builduser.name", "")
         param("npmjs.com.auth.email", "")
         param("github.com.builduser.email", "")
-        param("npmjs.com.auth.key", "")
+        param("npmjs.com.auth.key", "credentialsJSON:7f08c5e7-ed45-4767-b103-5802c98c1d6c")
     }
 
     vcs {
@@ -624,6 +619,11 @@ object SecurityAudit : BuildType({
 
     triggers {
         vcs {}
+        schedule {
+            branchFilter = "+:<default>"
+            triggerBuild = always()
+            withPendingChangesOnly = false
+        }
     }
 
     requirements {
@@ -639,6 +639,10 @@ object GeneratorE2eTest : BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
+    }
+
+    params {
+        param("env.ELECTRON_ENABLE_LOGGING", "false")
     }
 
     steps {
@@ -798,7 +802,7 @@ object Publish : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:10.15"
+            dockerImage = "node:lts"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -869,168 +873,24 @@ object Publish : BuildType({
 
     dependencies {
         snapshot(GeminiTests) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
+            onDependencyFailure = FailureAction.CANCEL
+            onDependencyCancel = FailureAction.CANCEL
         }
     }
-})
-
-object Publish10hotfix : BuildType({
-    templates(AbsoluteId("JetBrainsUi_LernaPublish"))
-    name = "Publish 1.0 hotfix (release-1.0)"
-
-    allowExternalStatus = true
-
-    params {
-        param("lerna.publish.options", "--cd-version patch")
-        param("vcs.branch.spec", "+:refs/heads/(release-1.0)")
-    }
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
-    steps {
-        script {
-            name = "Publish"
-            id = "RUNNER_1461"
-            scriptContent = """
-                #!/bin/bash
-                set -e -x
-
-                # Required for docker
-                mkdir -p ~/.ssh/
-                touch ~/.ssh/config
-                cat << EOT >> ~/.ssh/config
-                Host github.com
-                    StrictHostKeyChecking no
-                    UserKnownHostsFile /dev/null
-                EOT
-
-                chmod 644 ~/.ssh/config
-
-                # GitHub and NPM authorization
-                git config user.email "%github.com.builduser.email%"
-                git config user.name "%github.com.builduser.name%"
-
-                echo "//registry.npmjs.org/:_authToken=%npmjs.com.auth.key%" > ~/.npmrc
-
-                node -v
-                npm -v
-
-                # Temporary until docker is not updated
-                npm config set unsafe-perm true
-
-                if [ -n "${'$'}(git status --porcelain)" ]; then
-                  echo "Your git status is not clean. Aborting.";
-                  exit 1;
-                fi
-
-                npm run bootstrap
-                # Reset possibly changed lock to avoid "git status is not clear" error
-                git checkout package.json yarn.lock packages/*/yarn.lock
-                npm run release-ci -- %lerna.publish.options%
-
-                cat package.json
-
-                function publishBuildNumber {
-                    local VERSION=${'$'}(node -p 'require("./package.json").version')
-                    echo "##teamcity[buildNumber '${'$'}VERSION']"
-                }
-
-                publishBuildNumber
-
-                #chmod 777 ~/.ssh/config
-            """.trimIndent()
-            dockerImage = "node:10.15"
-            dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
-        }
-        stepsOrder = arrayListOf("RUNNER_1461")
-    }
-
-    triggers {
-        retryBuild {
-            id = "retryBuildTrigger"
-            enabled = false
-            delaySeconds = 60
-        }
-    }
-
-    failureConditions {
-        failOnText {
-            id = "BUILD_EXT_184"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "ERROR:"
-            failureMessage = "console.error appeared in log"
-            reverse = false
-        }
-        failOnText {
-            id = "BUILD_EXT_185"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "WARN:"
-            failureMessage = "console.warn appeared in log"
-            reverse = false
-        }
-        failOnText {
-            id = "BUILD_EXT_186"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "LOG:"
-            failureMessage = "console.log appeared in log"
-            reverse = false
-        }
-        failOnMetricChange {
-            id = "BUILD_EXT_187"
-            metric = BuildFailureOnMetric.MetricType.INSPECTION_WARN_COUNT
-            threshold = 0
-            units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
-            comparison = BuildFailureOnMetric.MetricComparison.MORE
-            compareTo = value()
-            param("anchorBuild", "lastSuccessful")
-        }
-        failOnText {
-            id = "BUILD_EXT_180"
-            conditionType = BuildFailureOnText.ConditionType.CONTAINS
-            pattern = "cannot run in wd"
-            failureMessage = "Failed to generate icons.js"
-            reverse = false
-            stopBuildOnFailure = true
-        }
-    }
-
-    features {
-        sshAgent {
-            id = "ssh-agent-build-feature"
-            teamcitySshKey = "GitHub ring-ui"
-            param("secure:passphrase", "credentialsJSON:60650742-17f8-4b5d-82b2-7108f9408655")
-        }
-        swabra {
-            id = "swabra"
-            filesCleanup = Swabra.FilesCleanup.AFTER_BUILD
-            forceCleanCheckout = true
-            verbose = true
-            paths = ".npmrc"
-        }
-    }
-
-    dependencies {
-        snapshot(GeminiTests) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
-        }
-    }
-
-    disableSettings("vcsTrigger")
 })
 
 object PublishCanary : BuildType({
     templates(AbsoluteId("JetBrainsUi_LernaPublish"))
     name = "Publish @canary"
 
+    paused = true
     allowExternalStatus = true
 
     params {
         param("lerna.publish.options", "--cd-version prerelease --preid beta --npm-tag canary")
         param("vcs.branch.spec", """
             -:refs/heads/(master)
-            +:refs/heads/develop-(*)
+            +:refs/heads/(develop-*)
         """.trimIndent())
     }
 
@@ -1090,7 +950,7 @@ object PublishCanary : BuildType({
 
                 #chmod 777 ~/.ssh/config
             """.trimIndent()
-            dockerImage = "node:10.15"
+            dockerImage = "node:lts"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
         }
         stepsOrder = arrayListOf("RUNNER_1461")
@@ -1184,7 +1044,7 @@ object PublishNext : BuildType({
     vcs {
         root(DslContext.settingsRoot)
 
-        buildDefaultBranch = false
+        branchFilter = "-:<default>"
     }
 
     steps {
@@ -1313,14 +1173,14 @@ object PublishToGitHubPages : BuildType({
     allowExternalStatus = true
     enablePersonalBuilds = false
     artifactRules = "%teamcity.build.workingDir%/npmlogs/*.log=>npmlogs"
-    type = BuildTypeSettings.Type.DEPLOYMENT
+    type = Type.DEPLOYMENT
     maxRunningBuilds = 1
 
     params {
         param("vcs.branch.spec", """
             +:refs/heads/(master)
             +:refs/heads/(release-1.0)
-            +:refs/heads/(develop-storybook)
+            +:refs/heads/(storybook-5.2)
         """.trimIndent())
     }
 
