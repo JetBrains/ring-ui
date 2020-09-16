@@ -30,7 +30,7 @@
   },
   "scripts": {
     "postinstall": "node components/icon/generate-exports",
-    "prebootstrap": "yarn install",
+    "prebootstrap": "npm install",
     "bootstrap": "lerna bootstrap",
     "component:ng": "yo @jetbrains/ring-ui:ng --path $npm_package_config_components",
     "component:react": "yo @jetbrains/ring-ui:react --path $npm_package_config_components",
@@ -40,13 +40,13 @@
     "console-errors": "jest console-errors.test.js --watchAll",
     "console-errors-ci": "jest console-errors.test.js --testResultsProcessor=jest-teamcity",
     "test": "karma start",
-    "test-generator-e2e": "yarn --cwd packages/generator test",
-    "hermione-gui": "yarn --cwd packages/hermione run gui",
-    "hermione-test": "yarn --cwd packages/hermione run test",
-    "hermione-test-ci": "yarn --cwd packages/hermione run test-ci",
-    "hermione-gather": "yarn --cwd packages/hermione run gather",
+    "test-generator-e2e": "npm --prefix packages/generator test",
+    "hermione-gui": "npm --prefix packages/hermione run gui",
+    "hermione-test": "npm --prefix packages/hermione run test",
+    "hermione-test-ci": "npm --prefix packages/hermione run test-ci",
+    "hermione-gather": "npm --prefix packages/hermione run gather",
     "build": "build-storybook --quiet -c .storybook -o dist",
-    "serve": "yarn --cwd packages/hermione run serve",
+    "serve": "npm --prefix packages/hermione run serve",
     "start": "start-storybook -p 9999",
     "storybook-debug": "node --inspect-brk node_modules/.bin/start-storybook -p 9999",
     "lint:js": "eslint",
@@ -214,7 +214,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn bootstrap && lint-staged"
+      "pre-commit": "npm run bootstrap && lint-staged"
     }
   }
 }

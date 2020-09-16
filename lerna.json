@@ -4,12 +4,9 @@
     "packages/*",
     "."
   ],
-  "npmClient": "yarn",
+  "npmClient": "npm",
   "version": "independent",
   "command": {
-    "bootstrap": {
-      "npmClientArgs": ["--force", "--check-files"]
-    },
     "init": {
       "exact": true
     },

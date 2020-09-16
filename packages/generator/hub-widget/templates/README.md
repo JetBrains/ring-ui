@@ -37,7 +37,7 @@ Configuration screen is rendered by the `renderConfiguration` function. Let's pu
 
 To set input's placeholder use the `label` property.
 
-If you haven't launched the dev server yet, run `yarn start`, open the widget playground (`<your_hub_server>/dashboard/widgets-playground`), 
+If you haven't launched the dev server yet, run `npm start`, open the widget playground (`<your_hub_server>/dashboard/widgets-playground`), 
 specify the URL of the dev server (e.g., `http://localhost:9010/`) and reload the widget by clicking the corresponding button.
 
 An input we've just added should appear on the configuration screen of the widget.

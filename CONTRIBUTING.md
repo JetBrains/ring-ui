@@ -2,8 +2,7 @@
 
 1. (macOS only) Install Xcode Command Line Tools: `xcode-select --install`
 2. Install Node.js
-3. Install [yarn](https://yarnpkg.com/en/docs/install)
-4. Bootstrap the packages: `yarn bootstrap`
+4. Bootstrap the packages: `npm run bootstrap`
 5. (Optional, macOS and Linux) Install the [status bar indicator](https://github.com/roman01la/anybar-webpack#known-apps) app to receive webpack build notifications.
 
 ### Available commands
@@ -52,7 +51,7 @@ To enable the `Wallaby.js` test runner follow these steps:
 
 ### Visual regression testing
 
-Run the development server with `yarn start` before executing the commands listed below*
+Run the development server with `npm start` before executing the commands listed below*
 
 Ring UI uses [Hermione](https://github.com/gemini-testing/hermione) for visual regression testing. Hermione works by taking screenshots and comparing them to existing reference images. 
 
@@ -68,12 +67,12 @@ export BROWSERSTACK_KEY=yourkey
 ```
  
  Or prepend these variables before your commands:
- `BROWSERSTACK_NAME=**** BROWSERSTACK_KEY=**** yarn run hermione-test`
+ `BROWSERSTACK_NAME=**** BROWSERSTACK_KEY=**** npm run hermione-test`
 
 After you make some visual changes, run `npm run hermione-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`):
-`yarn run hermione-gather --grep Components/Alert`.
+`npm run hermione-gather --grep Components/Alert`.
 
 ### Accessibility audit
 
@@ -81,5 +80,5 @@ It is very important for web components to be accessible for everyone. We have s
 
 To check current status on CI you may check [teamcity configuration](https://teamcity.jetbrains.com/buildConfiguration/JetBrainsUi_RingUi_A11yAudit).
 
-To run tests locally, run `yarn run a11y-audit`. Also, there is "Accessibility" tab on storybook pages, 
+To run tests locally, run `npm run a11y-audit`. Also, there is "Accessibility" tab on storybook pages, 
 so every component could be inspected via running storybook (`npm start`) and then checking this tab.
