@@ -7,11 +7,11 @@ const tsm = require('teamcity-service-messages');
 const MIN_LEVEL = process.env.SEVERITY_LEVEL || 'moderate';
 
 try {
-  execSync(`yarn audit --level ${MIN_LEVEL}`);
+  execSync(`npm audit --audit-level ${MIN_LEVEL}`);
   process.exit(0);
 } catch (e) {
   writeFileSync(
-    'yarn-audit.html',
+    'npm-audit.html',
     `
 <html lang="en">
 <head>
@@ -28,27 +28,17 @@ ${e.stdout.toString().replace(/.\[\d+m/g, '')}
 }
 
 try {
-  execSync(`yarn audit --level ${MIN_LEVEL} --json`);
+  execSync(`npm audit --audit-level ${MIN_LEVEL} --json`);
 } catch (e) {
-  e.stdout.
-    toString().
-    split(/\n/g).
-    filter(Boolean).
-    map(line => JSON.parse(line)).
-    filter(({type}) => type === 'auditAdvisory').
-    forEach(({data}) => {
-      const {
-        id,
-        severity,
-        overview,
-        recommendation,
-        references
-      } = data.advisory;
+  const {advisories} = JSON.parse(e.stdout.toString());
+
+  Object.values(advisories).
+    forEach(({id, severity, overview, recommendation, references}) =>
       tsm.buildProblem({
         identity: id,
         description: `[${severity} severity] ${overview}.
 ${recommendation}
 ${references}`
-      });
-    });
+      })
+    );
 }

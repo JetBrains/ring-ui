@@ -3,9 +3,9 @@
 set -e -x
 
 cd ../..
-yarn link
+npm link
 cd packages/generator
-yarn link
+npm link
 
 # We have to copy instead of linking because of possible different versions of dependencies like Webpack
 function copyRingUI {
@@ -19,13 +19,13 @@ function test {
   rm -rf test_gen
   mkdir test_gen
   cd test_gen
-  yarn link @jetbrains/generator-ring-ui
+  npm link @jetbrains/generator-ring-ui
   ../../../node_modules/.bin/yo --no-insight @jetbrains/ring-ui:$1 my-app --widget-name=widget --widget-description=description --widget-author=author
-  yarn link @jetbrains/generator-ring-ui
+  npm link @jetbrains/generator-ring-ui
   copyRingUI
-  yarn create-component my-component
-  yarn ci-test
-  yarn build
+  npm run create-component my-component
+  npm run ci-test
+  npm run build
   cd ..
 }
 

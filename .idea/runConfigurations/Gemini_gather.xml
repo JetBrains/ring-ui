@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Gemini gather" type="js.build_tools.npm" factoryName="npm" editBeforeRun="true" singleton="true">
+  <configuration default="false" name="Gemini gather" type="js.build_tools.npm" editBeforeRun="true" singleton="true">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
@@ -7,6 +7,7 @@
     </scripts>
     <arguments value="../../components/**/*.gemini.js" />
     <node-interpreter value="project" />
+    <package-manager value="npm" />
     <envs />
     <method v="2" />
   </configuration>
