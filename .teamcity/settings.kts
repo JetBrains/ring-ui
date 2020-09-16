@@ -69,7 +69,6 @@ project {
             param("buildTypeId", "JetBrainsUi_RingUi_Deploy")
             param("startPage", "dist.zip!index.html")
             param("revisionRuleName", "lastSuccessful")
-            param("revisionRuleRevision", "latest.lastSuccessful")
             param("title", "Storybook")
             param("type", "ProjectReportTab")
         }
@@ -100,7 +99,7 @@ project {
             param("buildTypeId", "JetBrainsUi_RingUi_Build")
             param("startPage", "ring-ui/index.html")
             param("revisionRuleName", "buildTag")
-            param("revisionRuleRevision", "1.0.tcbuildtag")
+            param("revisionRuleBuildTag", "1.0")
             param("title", "Docs 1.0")
             param("type", "ProjectReportTab")
         }
