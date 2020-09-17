@@ -5,13 +5,13 @@ module.exports = function config(api) {
 
   return {
     presets: [
-      ['@jetbrains/jetbrains', {
+      ['@jetbrains/babel-preset-jetbrains', {
         angular: true,
         useBuiltIns: 'usage'
       }]
     ],
     plugins: [
-      ['transform-define', {
+      ['babel-plugin-transform-define', {
         SUPPORTED_BROWSERS: browserslist()
       }]
     ],
@@ -19,7 +19,7 @@ module.exports = function config(api) {
       test: {
         plugins: [process.env.IS_JEST
           ? 'require-context-hook'
-          : ['istanbul', {
+          : ['babel-plugin-istanbul', {
             exclude: [
               '**/*.test.js'
             ]
