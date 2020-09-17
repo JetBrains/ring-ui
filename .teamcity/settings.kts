@@ -241,6 +241,7 @@ object Deploy : BuildType({
                 # To prevent lerna's "cannot run in wd" failure
                 npm config set unsafe-perm true
 
+                npm install
                 npm run bootstrap
                 npm run build
             """.trimIndent()
@@ -373,6 +374,7 @@ object GeminiTests : BuildType({
                 node -v
                 npm -v
 
+                npm install
                 npm run bootstrap
                 cd packages/hermione
                 # ! We run tests against built Storybook from another build configuration
@@ -656,7 +658,7 @@ object GeneratorE2eTest : BuildType({
 
                 useradd user -m
 
-                su user -c "npm run bootstrap && npm run test-generator-e2e"
+                su user -c "npm install && npm run bootstrap && npm run test-generator-e2e"
             """.trimIndent()
             dockerImage = "huston007/node-electron"
             dockerRunParameters = "-v %teamcity.build.workingDir%/npmlogs:/root/.npm/_logs"
@@ -785,6 +787,7 @@ object Publish : BuildType({
                   exit 1;
                 fi
 
+                npm install
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -933,6 +936,7 @@ object PublishCanary : BuildType({
                   exit 1;
                 fi
 
+                npm install
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
@@ -1082,6 +1086,7 @@ object PublishNext : BuildType({
                   exit 1;
                 fi
 
+                npm install
                 npm run bootstrap
                 # Reset possibly changed lock to avoid "git status is not clear" error
                 git checkout package.json package-lock.json packages/*/package-lock.json
