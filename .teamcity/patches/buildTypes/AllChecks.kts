@@ -19,7 +19,7 @@ changeBuildType(RelativeId("AllChecks")) {
             }
         }
         feature1.apply {
-            branchFilter = "+:dependencabot/*"
+            branchFilter = "+:dependabot/*"
             mergePolicy = AutoMerge.MergePolicy.FAST_FORWARD
         }
     }
