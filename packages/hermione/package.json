@@ -8,12 +8,12 @@
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
     "pregui": "kill-port 8000",
-    "gather": "npm run hermione --update-refs",
+    "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
     "hermione": "node hermione.js",
     "serve": "http-server ../../dist/ -p 9999",
     "test": "npm run hermione",
-    "test-ci": "forever start .serve-static.json && npm test --teamcity; forever stop serve-static"
+    "test-ci": "forever start .serve-static.json && npm test -- --teamcity; forever stop serve-static"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
