@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: core-js
+    versions:
+    - ">= 3.a"
+    - "< 4"
+  - dependency-name: css-loader
+    versions:
+    - "< 3"
+    - ">= 2.a"
+  - dependency-name: dom4
+    versions:
+    - "< 3"
+    - ">= 2.a"
+  - dependency-name: imports-loader
+    versions:
+    - ">= 1.a"
+    - "< 2"
+- package-ecosystem: npm
+  directory: "/packages/generator/app/templates"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
