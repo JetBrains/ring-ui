@@ -87,10 +87,7 @@ const whatwgLoader = {
 const htmlLoader = {
   test: /-ng(\\|\/)\S*(-ng|-ng__)\S*\.html$/,
   include: componentsPath,
-  loader: require.resolve('html-loader'),
-  query: {
-    collapseBooleanAttributes: false
-  }
+  loader: require.resolve('html-loader')
 };
 
 const gifLoader = {
