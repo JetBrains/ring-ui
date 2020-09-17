@@ -19,7 +19,7 @@
     "@babel/core": "^7.11.5",
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
     "@storybook/addon-storyshots": "^6.0.7",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "babel-loader": "^8.1.0",
     "browserstack-local": "^1.4.7",
     "dotenv": "^8.2.0",
