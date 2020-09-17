@@ -17,7 +17,7 @@ module.exports = {
     '^.+\\.html?$': 'html-loader-jest'
   },
   transformIgnorePatterns: [
-    'node_modules/react-virtualized'
+    'node_modules/(?!react-virtualized)'
   ],
   restoreMocks: true
 };
