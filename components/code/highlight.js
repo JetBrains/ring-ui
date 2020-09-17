@@ -1,11 +1,12 @@
-import highlight from 'highlight.js/lib/highlight';
+import highlight from 'highlight.js/lib/core';
 
+import cLike from 'highlight.js/lib/languages/c-like';
 import cpp from 'highlight.js/lib/languages/cpp';
 import xml from 'highlight.js/lib/languages/xml';
 import bash from 'highlight.js/lib/languages/bash';
 import clojure from 'highlight.js/lib/languages/clojure';
 import coffeescript from 'highlight.js/lib/languages/coffeescript';
-import cs from 'highlight.js/lib/languages/cs';
+import cs from 'highlight.js/lib/languages/csharp';
 import css from 'highlight.js/lib/languages/css';
 import markdown from 'highlight.js/lib/languages/markdown';
 import dockerfile from 'highlight.js/lib/languages/dockerfile';
@@ -42,6 +43,7 @@ import yaml from 'highlight.js/lib/languages/yaml';
 import twig from 'highlight.js/lib/languages/twig';
 import typescript from 'highlight.js/lib/languages/typescript';
 
+highlight.registerLanguage('c-like', cLike);
 highlight.registerLanguage('cpp', cpp);
 highlight.registerLanguage('xml', xml);
 highlight.registerLanguage('bash', bash);
