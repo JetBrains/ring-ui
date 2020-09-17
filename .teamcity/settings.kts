@@ -1343,6 +1343,7 @@ object UnitTestsAndBuild : BuildType({
                 npm -v
 
                 npm install
+                npm run postinstall
                 npm run test-ci
                 npm run build
             """.trimIndent()
