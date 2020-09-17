@@ -89,7 +89,7 @@
     "angular-route": "^1.8.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
-    "babel-plugin-react-docgen": "^3.2.0",
+    "babel-plugin-react-docgen": "^4.1.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
