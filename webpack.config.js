@@ -79,6 +79,7 @@ const babelLoader = {
   }
 };
 
+// TODO remove in 4.0
 const whatwgLoader = {
   test: require.resolve('whatwg-fetch'),
   loader: require.resolve('imports-loader')
