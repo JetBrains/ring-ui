@@ -72,7 +72,7 @@ export BROWSERSTACK_KEY=yourkey
 After you make some visual changes, run `npm run hermione-test` to make sure there are no regressions.
 
 To update the reference images for a certain component (for example, `alert`):
-`npm run hermione-gather --grep Components/Alert`.
+`npm run hermione-gather -- -- --grep Components/Alert`.
 
 ### Accessibility audit
 
