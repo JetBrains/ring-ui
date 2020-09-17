@@ -12,10 +12,6 @@ updates:
     versions:
     - ">= 3.a"
     - "< 4"
-  - dependency-name: css-loader
-    versions:
-    - "< 3"
-    - ">= 2.a"
   - dependency-name: dom4
     versions:
     - "< 3"
