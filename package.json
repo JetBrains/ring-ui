@@ -214,7 +214,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run bootstrap && lint-staged"
+      "pre-commit": "lerna bootstrap && lint-staged"
     }
   }
 }
