@@ -63,7 +63,7 @@ export default class Services extends PureComponent {
       );
     }
 
-    const sortedServices = services.sort(Services.sort);
+    const sortedServices = [...services].sort(Services.sort);
     const servicesWithIcons = sortedServices.filter(service => service.iconUrl);
     const servicesWithOutIcons = sortedServices.filter(service => !service.iconUrl);
     const separatorIsRequired = servicesWithIcons.length !== 0 && servicesWithOutIcons.length !== 0;
