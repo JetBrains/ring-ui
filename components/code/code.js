@@ -16,9 +16,7 @@ function noop() {}
 
 const registerLanguage = memoize(async language => {
   const languageExports = await import(
-    // https://github.com/babel/babel-eslint/issues/799#issuecomment-567598343
-    // eslint-disable-next-line prefer-template
-    /* webpackChunkName: "highlight-[request]" */ 'highlight.js/lib/languages/' + language
+    /* webpackChunkName: "highlight-[request]" */ `highlight.js/lib/languages/${language}`
   );
   highlight.registerLanguage(language, languageExports.default);
 });
