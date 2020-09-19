@@ -44,9 +44,9 @@
     "webpack-dev-server": "^3.11.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.11.5",
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/stylelint-config": "^2.0.1",
+    "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-dom": "^1.8.2",
