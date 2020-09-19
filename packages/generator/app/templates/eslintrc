@@ -1,6 +1,6 @@
 {
   "root": true,
-  "parser": "@babel/eslint-parser",
+  "parser": "babel-eslint",
   "extends": [
     "@jetbrains",
     "@jetbrains/eslint-config/es6",
