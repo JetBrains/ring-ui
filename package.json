@@ -172,7 +172,7 @@
     "eslint-plugin-react-hooks": "^4.1.0",
     "extricate-loader": "^3.0.0",
     "file-loader": "^6.1.0",
-    "focus-trap": "^5.1.0",
+    "focus-trap": "^6.0.1",
     "focus-visible": "^5.1.0",
     "glob": "^7.1.6",
     "highlight.js": "^10.2.0",
