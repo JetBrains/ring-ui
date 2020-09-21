@@ -1,3 +1,3 @@
-import highlight from 'highlight.js/lib/highlight';
+import highlight from 'highlight.js/lib/core';
 
 export default highlight;
