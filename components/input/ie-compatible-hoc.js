@@ -1,3 +1,4 @@
+// TODO remove in 4.0
 import React, {PureComponent} from 'react';
 
 import sniffr from '../global/sniffer';
