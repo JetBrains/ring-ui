@@ -25,6 +25,10 @@ export default class RowWithFocusSensorCallbacks extends PureComponent {
     this.props.onExpand(this.props.item);
   };
 
+  onDoubleClick = () => {
+    this.props.onDoubleClick(this.props.item);
+  };
+
   render() {
     return (
       <RowWithFocusSensor
@@ -33,6 +37,7 @@ export default class RowWithFocusSensorCallbacks extends PureComponent {
         onSelect={this.onSelect}
         onCollapse={this.onCollapse}
         onExpand={this.onExpand}
+        onDoubleClick={this.onDoubleClick}
       />
     );
   }
