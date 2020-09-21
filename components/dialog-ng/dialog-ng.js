@@ -3,7 +3,7 @@ import angular from 'angular';
 import angularSanitize from 'angular-sanitize';
 
 import 'dom4';
-import createFocusTrap from 'focus-trap';
+import {createFocusTrap} from 'focus-trap';
 
 import {getRect, getStyles} from '../global/dom';
 import RingAngularComponent from '../global/ring-angular-component';
