@@ -226,12 +226,12 @@ export default class Row extends PureComponent {
         ref={composeRefs(this.rowRef, innerRef)}
         className={classes}
         tabIndex="0"
-        onMouseMove={this.onMouseEnter}
-        onClick={this.onClick}
-        onDoubleClick={this.onDoubleClick}
         data-test="ring-table-row"
         {...testAttrs}
         {...restProps}
+        onMouseMove={this.onMouseEnter}
+        onClick={this.onClick}
+        onDoubleClick={this.onDoubleClick}
       >{cells}</tr>
     );
   }
