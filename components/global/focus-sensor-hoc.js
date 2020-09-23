@@ -97,10 +97,11 @@ export default function focusSensorHOC(ComposedComponent) {
     };
 
     render() {
+      const {autofocus, focused, onFocus, onBlur, innerRef, ...rest} = this.props;
       return (
         <ComposedComponent
-          {...this.props}
-          innerRef={composeRefs(this.props.innerRef, this.onRefUpdate)}
+          {...rest}
+          innerRef={composeRefs(innerRef, this.onRefUpdate)}
           focused={this.state.focused}
           onFocusReset={this.onFocusReset}
           onFocusRestore={this.onFocusRestore}
