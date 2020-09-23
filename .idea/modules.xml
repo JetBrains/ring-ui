@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.teamcity/JetBrainsUi_RingUi_dsl.iml" filepath="$PROJECT_DIR$/.teamcity/JetBrainsUi_RingUi_dsl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ring-ui.iml" filepath="$PROJECT_DIR$/.idea/ring-ui.iml" />
     </modules>
   </component>
