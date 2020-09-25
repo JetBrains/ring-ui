@@ -40,12 +40,6 @@
   &:visited:not(:hover) {
     color: var(--ring-dark-text-color);
   }
-
-  /* Disable animation .ring-icon_loading in Header in Edge, see https://youtrack.jetbrains.com/issue/RG-928 */
-  /* Supports MS Edge */
-  @supports (-ms-accelerator: true) {
-    animation-name: none;
-  }
 }
 
 .itemLogo {
