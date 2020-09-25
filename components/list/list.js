@@ -600,7 +600,7 @@ export default class List extends Component {
     scrollTop,
     registerChild
   }) {
-    const dirOverride = {}; // Virtualized sets "direction: ltr" by default https://github.com/bvaughn/react-virtualized/issues/457
+    const dirOverride = {direction: 'auto'}; // Virtualized sets "direction: ltr" by default https://github.com/bvaughn/react-virtualized/issues/457
     return (
       <AutoSizer disableHeight onResize={this.props.onResize}>
         {({width}) => (
