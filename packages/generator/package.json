@@ -12,6 +12,11 @@
   "scripts": {
     "test": "bash ./test.sh"
   },
+  "repository": {
+    "type": "git",
+    "url": "ssh://github.com/JetBrains/ring-ui.git",
+    "directory": "packages/generator"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "change-case": "^4.1.1",
