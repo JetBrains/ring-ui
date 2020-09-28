@@ -70,7 +70,7 @@
     "@jetbrains/eslint-config": "^5.3.1",
     "@jetbrains/generator-ring-ui": "^2.0.105",
     "@jetbrains/stylelint-config": "^2.0.1",
-    "@storybook/addon-a11y": "6.0.21",
+    "@storybook/addon-a11y": "6.0.22",
     "@storybook/addon-actions": "6.0.21",
     "@storybook/addon-docs": "6.0.21",
     "@storybook/addon-knobs": "6.0.21",
