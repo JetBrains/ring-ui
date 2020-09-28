@@ -60,7 +60,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.21.2",
     "eslint-plugin-react-hooks": "^4.1.2",
-    "karma": "^5.2.2",
+    "karma": "^5.2.3",
     "karma-chai-plugins": "^0.9.0",
     "karma-electron": "^6.3.1",
     "karma-mocha": "^2.0.1",
