@@ -34,9 +34,9 @@ export default class Checkbox extends PureComponent {
     const {children, label, ...restProps} = this.props;
 
     const classes = classNames(styles.input, this.props.className);
-    const containerClasses = classNames(styles.input, this.props.containerClassName);
-    const cellClasses = classNames(styles.input, this.props.cellClassName);
-    const labelClasses = classNames(styles.input, this.props.labelClassName);
+    const containerClasses = classNames(styles.checkbox, this.props.containerClassName);
+    const cellClasses = classNames(styles.cell, this.props.cellClassName);
+    const labelClasses = classNames(styles.label, this.props.labelClassName);
 
     return (
       <label
