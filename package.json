@@ -99,7 +99,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.9.0",
-    "eslint-import-resolver-webpack": "^0.12.2",
+    "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-angular": "^4.0.1",
     "eslint-plugin-bdd": "^2.1.1",
     "eslint-plugin-import": "^2.22.1",
