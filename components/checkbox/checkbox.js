@@ -17,6 +17,7 @@ export default class Checkbox extends PureComponent {
     label: PropTypes.string,
     className: PropTypes.string,
     containerClassName: PropTypes.string,
+    containerStyle: PropTypes.object,
     cellClassName: PropTypes.string,
     labelClassName: PropTypes.string,
     defaultChecked: PropTypes.bool,
@@ -31,16 +32,26 @@ export default class Checkbox extends PureComponent {
   };
 
   render() {
-    const {children, label, ...restProps} = this.props;
+    const {
+      children,
+      label,
+      className,
+      containerClassName,
+      containerStyle,
+      cellClassName,
+      labelClassName,
+      ...restProps
+    } = this.props;
 
-    const classes = classNames(styles.input, this.props.className);
-    const containerClasses = classNames(styles.checkbox, this.props.containerClassName);
-    const cellClasses = classNames(styles.cell, this.props.cellClassName);
-    const labelClasses = classNames(styles.label, this.props.labelClassName);
+    const classes = classNames(styles.input, className);
+    const containerClasses = classNames(styles.checkbox, containerClassName);
+    const cellClasses = classNames(styles.cell, cellClassName);
+    const labelClasses = classNames(styles.label, labelClassName);
 
     return (
       <label
         className={containerClasses}
+        style={containerStyle}
         data-test="ring-checkbox"
       >
         <input
