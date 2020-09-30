@@ -22,14 +22,15 @@ import Shortcuts from '../shortcuts/shortcuts';
 
 import createStatefulContext from '../global/create-stateful-context';
 
-import styles from './list.css';
+import ListLink from './list__link';
 import ListItem from './list__item';
 import ListCustom from './list__custom';
-import ListLink from './list__link';
 import ListTitle from './list__title';
 import ListSeparator from './list__separator';
 import ListHint from './list__hint';
 import {DEFAULT_ITEM_TYPE, Dimension, Type} from './consts';
+
+import styles from './list.css';
 
 const scheduleScrollListener = scheduleRAF();
 const scheduleHoverListener = scheduleRAF();
