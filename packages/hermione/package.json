@@ -40,7 +40,7 @@
   },
   "resolutions": {
     "lodash": "^4.17.13",
-    "mocha": "^5.2.0",
+    "mocha": "^7.1.1",
     "extend": "^3.0.0",
     "minimist": "^1.2.3"
   }
