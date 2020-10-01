@@ -238,6 +238,7 @@ class Table extends PureComponent {
           index={index}
           item={value}
           showFocus={selection.isFocused(value)}
+          autofocus={selection.isFocused(value)}
           focused={selection.isFocused(value)}
           selectable={selectable && isItemSelectable(value)}
           selected={selectable && selection.isSelected(value)}
