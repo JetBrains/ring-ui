@@ -42,8 +42,6 @@
 
 .icon.icon {
   position: absolute;
-  top: calc(unit * -1.5);
-  left: 1px;
 
   width: calc(unit * 2);
   height: calc(unit * 2);
@@ -59,6 +57,22 @@
   }
 }
 
+.check {
+  composes: icon;
+
+  top: calc(unit * -1.5);
+  left: 1px;
+}
+
+.minus {
+  composes: icon;
+
+  top: 1px;
+  left: 2px;
+
+  opacity: 0;
+}
+
 .input {
   position: absolute;
   top: 0;
@@ -72,16 +86,18 @@
 
   opacity: 0;
 
-  &:checked + .cell {
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:checked + .cell,
+  &:indeterminate[checked] + .cell {
     border-color: var(--ring-border-hover-color);
     background-color: var(--ring-selected-background-color);
+  }
 
-    /* stylelint-disable-next-line selector-max-specificity */
-    & .icon {
-      transform: translateY(unit);
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:checked + .cell .check {
+    transform: translateY(unit);
 
-      opacity: 1;
-    }
+    opacity: 1;
   }
 
   &:focus + .cell,
@@ -92,18 +108,32 @@
     box-shadow: 0 0 0 1px var(--ring-border-hover-color);
   }
 
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:indeterminate + .cell .minus {
+    opacity: 1;
+  }
+
   &[disabled] {
     pointer-events: none;
   }
 
-  &[disabled] + .cell {
+  /* stylelint-disable-next-line selector-max-specificity */
+  &[disabled][disabled] + .cell {
     border-color: var(--ring-line-color);
     background-color: var(--ring-content-background-color);
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  &[disabled]:checked + .cell .icon {
+  &[disabled]:checked + .cell .check,
+  &[disabled]:indeterminate + .cell .minus {
     opacity: 0.5;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:indeterminate:indeterminate + .cell .check {
+    transition: none;
+
+    opacity: 0;
   }
 
   &[disabled] ~ .label {
