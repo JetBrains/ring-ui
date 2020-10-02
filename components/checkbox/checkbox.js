@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import checkmarkIcon from '@jetbrains/icons/checkmark.svg';
+import minusIcon from '@jetbrains/icons/remove-10px.svg';
 
 import Icon from '../icon/icon';
 
@@ -22,12 +23,16 @@ export default class Checkbox extends PureComponent {
     labelClassName: PropTypes.string,
     defaultChecked: PropTypes.bool,
     checked: PropTypes.bool,
+    indeterminate: PropTypes.bool,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.node
   };
 
   inputRef = el => {
+    if (el != null) {
+      el.indeterminate = this.props.indeterminate;
+    }
     this.input = el;
   };
 
@@ -40,6 +45,7 @@ export default class Checkbox extends PureComponent {
       containerStyle,
       cellClassName,
       labelClassName,
+      indeterminate,
       ...restProps
     } = this.props;
 
@@ -63,7 +69,11 @@ export default class Checkbox extends PureComponent {
         <span className={cellClasses}>
           <Icon
             glyph={checkmarkIcon}
-            className={styles.icon}
+            className={styles.check}
+          />
+          <Icon
+            glyph={minusIcon}
+            className={styles.minus}
           />
         </span>
         <span className={labelClasses}>{label || children}</span>

@@ -20,6 +20,10 @@ export const basic = () => (
       <Checkbox label="One"/>
       <br/>
       <Checkbox label="Two" defaultChecked/>
+      <br/>
+      <Checkbox label="Indeterminate" indeterminate/>
+      <br/>
+      <Checkbox label="Indeterminate checked" indeterminate defaultChecked/>
     </div>
 
     <h1>Disabled checkboxes</h1>
@@ -27,6 +31,10 @@ export const basic = () => (
       <Checkbox label="One" disabled/>
       <br/>
       <Checkbox label="Two" disabled defaultChecked/>
+      <br/>
+      <Checkbox label="Indeterminate" disabled indeterminate/>
+      <br/>
+      <Checkbox label="Indeterminate checked" disabled indeterminate defaultChecked/>
     </div>
 
     <h1>Examples with outer styles</h1>
