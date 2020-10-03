@@ -13,9 +13,8 @@ module.exports = {
   ],
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
-    '@storybook/addon-docs',
+    '@storybook/addon-essentials',
     '@storybook/addon-storysource',
-    '@storybook/addon-actions',
     '@storybook/addon-knobs',
     '@storybook/addon-a11y'
   ],

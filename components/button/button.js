@@ -14,9 +14,12 @@ import {getButtonClasses} from './button__classes';
 /**
  * @name Button
  */
+/**
+ * A component for displaying variously styled buttons.
+ */
 class Button extends PureComponent {
   static propTypes = {
-    theme: PropTypes.string,
+    theme: PropTypes.oneOf(['light', 'dark']),
     active: PropTypes.bool,
     danger: PropTypes.bool,
     delayed: PropTypes.bool,
@@ -43,7 +46,8 @@ class Button extends PureComponent {
 
     className: PropTypes.string,
 
-    children: PropTypes.node
+    children: PropTypes.node,
+    onClick: PropTypes.func
   };
 
   static IconSize = Size;
