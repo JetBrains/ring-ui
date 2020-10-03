@@ -15,9 +15,14 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'A component for displaying variously styled buttons.'
+    component: Button,
+    framework: 'react'
   }
 };
+
+export const single = args => <Button {...args}/>;
+single.args = {children: 'Label'};
+single.parameters = {hermione: {skip: true}};
 
 export const basic = () => {
   function renderButtonModifications() {

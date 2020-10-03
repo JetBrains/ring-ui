@@ -27,7 +27,8 @@ export const parameters = {
         'color-contrast': {enabled: false}
       }
     }
-  }
+  },
+  actions: {argTypesRegex: '^on.*'}
 };
 
 export const decorators = [stylesDecorator()];
