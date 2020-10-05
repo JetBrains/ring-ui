@@ -772,12 +772,6 @@ describe('Select', () => {
         instance._listSelectHandler(testData[3], {}, {tryKeepOpen: true});
         instance._hidePopup.should.not.be.called;
       });
-
-      it('Should reset filter', () => {
-        wrapper.setState({filterValue: 'query'});
-        instance._listSelectHandler(testData[3]);
-        wrapper.state('filterValue').should.equal('');
-      });
     });
 
     describe('On deselecting', () => {
