@@ -9,9 +9,14 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a checkbox.'
+    component: Checkbox,
+    framework: 'react'
   }
 };
+
+export const controls = args => <Checkbox {...args}/>;
+controls.args = {label: 'label'};
+controls.parameters = {hermione: {skip: true}};
 
 export const basic = () => (
   <Fragment>
