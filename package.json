@@ -185,7 +185,7 @@
     "memoize-one": "^5.1.1",
     "moment": "^2.29.0",
     "postcss": "^8.1.1",
-    "postcss-calc": "^7.0.3",
+    "postcss-calc": "^7.0.5",
     "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-font-family-system-ui": "^5.0.0",
     "postcss-loader": "^4.0.2",
