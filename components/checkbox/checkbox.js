@@ -11,6 +11,9 @@ import styles from './checkbox.css';
 /**
  * @name Checkbox
  */
+/**
+ * Displays a checkbox.
+ */
 export default class Checkbox extends PureComponent {
 
   static propTypes = {
@@ -28,6 +31,19 @@ export default class Checkbox extends PureComponent {
     onChange: PropTypes.func,
     children: PropTypes.node
   };
+
+  componentDidMount() {
+    if (this.input != null) {
+      this.input.indeterminate = this.props.indeterminate;
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const {indeterminate} = this.props;
+    if (this.input != null && indeterminate !== prevProps.indeterminate) {
+      this.input.indeterminate = this.props.indeterminate;
+    }
+  }
 
   inputRef = el => {
     if (el != null) {
@@ -62,6 +78,7 @@ export default class Checkbox extends PureComponent {
       >
         <input
           {...restProps}
+          data-checked={restProps.checked}
           ref={this.inputRef}
           type="checkbox"
           className={classes}
