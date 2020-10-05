@@ -788,7 +788,6 @@ export default class Select extends Component {
     const isItem = List.isItemType.bind(null, List.ListProps.Type.ITEM);
     const isCustomItem = List.isItemType.bind(null, List.ListProps.Type.CUSTOM);
     const isSelectItemEvent = event && (event.type === 'select' || event.type === 'keydown');
-
     if (isSelectItemEvent) {
       event.preventDefault();
     }
@@ -802,7 +801,6 @@ export default class Select extends Component {
     if (!this.props.multiple) {
       this._hidePopup(isSelectItemEvent);
       this.setState({
-        filterValue: '',
         selected,
         selectedIndex: this._getSelectedIndex(selected, this.props.data)
       }, () => {
@@ -838,7 +836,7 @@ export default class Select extends Component {
         this.props.onChange(nextSelection, event);
 
         const nextState = {
-          filterValue: '',
+
           selected: nextSelection,
           selectedIndex: this._getSelectedIndex(selected, this.props.data)
         };
