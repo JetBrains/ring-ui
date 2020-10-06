@@ -25,6 +25,7 @@ export const demo = () => {
           <Tag>Simple</Tag>
           <Tag readOnly>Read-only</Tag>
           <Tag angled>With angle</Tag>
+          <Tag backgroundColor="#422" textColor="#FFF">Colored</Tag>
           <Tag angled className="limited-width">
             With angle and long truncated text
           </Tag>
