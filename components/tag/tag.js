@@ -135,6 +135,7 @@ export default class Tag extends PureComponent {
           className={styles.remove}
           iconClassName={styles.removeIcon}
           onClick={this.props.onRemove}
+          style={{'--ring-icon-secondary-color': this.props.textColor}}
         />
       );
     }
