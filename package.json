@@ -72,7 +72,7 @@
     "@jetbrains/stylelint-config": "^2.0.1",
     "@storybook/addon-a11y": "6.0.26",
     "@storybook/addon-actions": "6.0.26",
-    "@storybook/addon-docs": "6.0.22",
+    "@storybook/addon-docs": "6.0.26",
     "@storybook/addon-essentials": "^6.0.26",
     "@storybook/addon-knobs": "6.0.22",
     "@storybook/addon-storyshots": "6.0.22",
