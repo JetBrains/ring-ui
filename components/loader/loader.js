@@ -8,7 +8,9 @@ import LoaderCore from './loader__core';
 /**
  * @name Loader
  */
-
+/**
+ * Displays a large animated loader with an optional caption. Typical use cases: page loading animation, major action animation.
+ */
 export default class Loader extends PureComponent {
   static propTypes = {
     className: PropTypes.string,

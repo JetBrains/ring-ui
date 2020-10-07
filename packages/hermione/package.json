@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
+    "postinstall": "npx npm-force-resolutions",
     "pregui": "kill-port 8000",
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",

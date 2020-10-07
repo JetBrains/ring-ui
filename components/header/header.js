@@ -11,13 +11,15 @@ import styles from './header.css';
 /**
  * @name Header
  */
-
+/**
+ * Displays a configurable page header. See available presentation options in the knobs panel.
+ */
 class Header extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['light', 'dark']),
     className: PropTypes.string,
     children: PropTypes.node,
-    spaced: PropTypes.bool,
-    theme: PropTypes.string
+    spaced: PropTypes.bool
   };
 
   static defaultProps = {
