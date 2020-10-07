@@ -15,7 +15,6 @@ module.exports = {
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-storysource',
-    '@storybook/addon-knobs',
     '@storybook/addon-a11y'
   ],
   webpackFinal(config) {
