@@ -85,7 +85,7 @@
     "@storybook/source-loader": "6.0.22",
     "@storybook/theming": "6.0.26",
     "angular": "^1.8.1",
-    "angular-mocks": "^1.8.0",
+    "angular-mocks": "^1.8.1",
     "angular-route": "^1.8.1",
     "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
