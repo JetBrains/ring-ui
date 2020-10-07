@@ -1,5 +1,4 @@
 import React from 'react';
-import {withKnobs, boolean, radios} from '@storybook/addon-knobs';
 import hubLogo from '@jetbrains/logos/hub/hub.svg';
 import hubTextLogo from '@jetbrains/logos/hub/hub-text.svg';
 import addIcon from '@jetbrains/icons/add-20px.svg';
@@ -34,10 +33,11 @@ const blockAuth = window.location.search.includes('block-auth');
 
 export default {
   title: 'Components/Header',
-  decorators: [reactDecorator(), withKnobs],
+  decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a configurable page header. See available presentation options in the knobs panel.',
+    component: Header,
+    framework: 'react',
 
     storyStyles: `
 <style>
@@ -48,7 +48,7 @@ export default {
   }
 };
 
-export const header = () => {
+export const header = ({isCompact, ...args}) => {
   class HeaderDemo extends React.Component {
     render() {
       const auth = new Auth(hubConfig);
@@ -57,11 +57,9 @@ export const header = () => {
         auth.init();
       }
 
-      const isCompact = boolean('Compact', false);
-
       const Comp = props => <a {...props}>This is component</a>;
       return (
-        <Header theme={radios('Theme', Theme, Theme.DARK)} className={isCompact ? 'compactHeader' : ''}>
+        <Header {...args} className={isCompact ? 'compactHeader' : ''}>
           <a title="Hub" href="/">
             {isCompact
               ? <Logo className="compactLogo" glyph={hubTextLogo} size={Logo.Size.Size96}/>
@@ -99,6 +97,7 @@ export const header = () => {
 
 header.storyName = 'basic';
 header.notes = 'See available presentation options in knobs panel';
+header.args = {isCompact: false, theme: Theme.DARK};
 
 header.parameters = {
   storyStyles: `
