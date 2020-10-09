@@ -16,15 +16,7 @@ export default {
   }
 };
 
-export const basic = args => {
-  class Example extends React.Component {
-    render() {
-      return <Loader {...args}/>;
-    }
-  }
-
-  return <Example/>;
-};
+export const basic = args => <Loader {...args}/>;
 
 basic.storyName = 'basic';
 basic.args = {message: 'Loading...'};

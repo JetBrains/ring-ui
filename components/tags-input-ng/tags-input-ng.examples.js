@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import TagsInputNG from '@jetbrains/ring-ui/components/tags-input-ng/tags-input-ng';
@@ -15,16 +13,16 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onAddTag, onRemoveTag}) => {
   angular.module(APP_NAME, [TagsInputNG]).controller('ExampleCtrl', function ctrl($q) {
     this.tags = [{key: 'test1', label: 'test1'}, {key: 'test2', label: 'test2'}];
 
     this.dataSource = () =>
       $q.when([{key: 'test3', label: 'test3'}, {key: 'test4', label: 'test4'}]);
 
-    this.onAddTag = action('onAddTag');
+    this.onAddTag = onAddTag;
 
-    this.removeTag = action('removeTag');
+    this.removeTag = onRemoveTag;
   });
   return `
       <div ng-controller="ExampleCtrl as ctrl">
@@ -40,3 +38,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onAddTag: {}, onRemoveTag: {}};
