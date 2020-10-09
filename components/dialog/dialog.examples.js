@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 import {useState} from '@storybook/client-api';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -24,7 +23,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true,
@@ -33,7 +32,7 @@ export const basic = () => {
     };
 
     doAction = () => {
-      action('doAction')(`${this.state.text} performed`);
+      onAction(`${this.state.text} performed`);
       this.setState({show: false});
     };
 
@@ -86,6 +85,7 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onAction: {}};
 
 basic.parameters = {
   storyStyles: `
@@ -102,14 +102,14 @@ unknown printer took a galley of type and scrambled it to make a type specimen
 book. It has survived not only five centuries, but also the leap into electronic
 typesetting, remaining essentially unchanged.`;
 
-export const withScroll = () => {
+export const withScroll = ({onAction}) => {
   class DialogDemo extends React.Component {
     state = {
       show: true
     };
 
     doAction = () => {
-      action('doAction')('action performed');
+      onAction('action performed');
       this.setState({show: false});
     };
 
@@ -159,6 +159,7 @@ export const withScroll = () => {
 };
 
 withScroll.storyName = 'with scroll';
+withScroll.argTypes = {onAction: {}};
 
 export const WithOverflowScrollOnHtml = () => {
   const [open, setOpen] = useState(false);

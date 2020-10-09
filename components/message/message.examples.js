@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 import searchIcon from '@jetbrains/icons/search.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -16,63 +15,63 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a popup containing a message.'
+    component: Message,
+    framework: 'react'
+  },
+  args: {
+    // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
+    ...Message.defaultProps,
+    title: 'This is title',
+    direction: Directions.TOP_RIGHT,
+    children: 'This is long long long long long long long long long long long long long long long long long long description'
+  },
+  argTypes: {
+    onClose: {},
+    onDismiss: {}
   }
 };
 
-export const basic = () => (
+export const basic = args => (
   <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
-      <Message
-        title="This is title"
-        onClose={action('got it')}
-        direction={Directions.TOP_RIGHT}
-        tailOffset={32}
-      >
-        This is long long long long long long long long long long long long long long long long long
-        long description
-      </Message>
+      <Message {...args}/>
     </span>
   </div>
 );
 
 basic.storyName = 'basic';
+basic.args = {
+  tailOffset: 32,
+  onDismiss: null
+};
 
-export const withOnDissmiss = () => (
-  <div style={{padding: 200}}>
+export const withOnDissmiss = args => (
+  <div style={{padding: 200}} id="message-example">
     <span>
       Anchor
-      <Message
-        title="This is title"
-        onClose={action('got it')}
-        onDismiss={action('dismiss')}
-        direction={Directions.TOP_RIGHT}
-        tailOffset={32}
-      >
-        This is long long long long long long long long long long long long long long long long long
-        long description
-      </Message>
+      <Message {...args}/>
     </span>
   </div>
 );
 
 withOnDissmiss.storyName = 'with onDissmiss';
+withOnDissmiss.args = {
+  tailOffset: 32
+};
 
-export const wishNarrowAnchor = () => (
+export const wishNarrowAnchor = args => (
   <div style={{padding: 200}}>
     <span>
       <Icon glyph={searchIcon}/>
-      <Message
-        title="This is title"
-        direction={Directions.TOP_RIGHT}
-        popupProps={{left: -8}}
-      >
-        This is long long long long long long long long long long long long long long long long long
-        long description
-      </Message>
+      <Message {...args}/>
     </span>
   </div>
 );
 
 wishNarrowAnchor.storyName = 'with narrow anchor';
+wishNarrowAnchor.args = {
+  popupProps: {left: -8},
+  onClose: null,
+  onDismiss: null
+};

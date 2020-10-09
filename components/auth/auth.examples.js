@@ -1,5 +1,3 @@
-import {action} from '@storybook/addon-actions';
-
 import hubConfig from '../../.storybook/hub-config';
 
 import authDialogService from '@jetbrains/ring-ui/components/auth-dialog-service/auth-dialog-service';
@@ -20,9 +18,7 @@ export default {
   }
 };
 
-export const basic = () => {
-  const log = action('auth-log');
-
+export const basic = ({onAuthLog}) => {
   const auth = new Auth(hubConfig);
   auth.setAuthDialogService(authDialogService);
 
@@ -33,13 +29,13 @@ export const basic = () => {
   (async () => {
     try {
       const location = await auth.init();
-      log('Location to restore:', location);
+      onAuthLog('Location to restore:', location);
       const token = await auth.requestToken();
-      log('Token:', token);
+      onAuthLog('Token:', token);
       const data = await auth.requestUser();
-      log('User profile data:', data);
+      onAuthLog('User profile data:', data);
     } catch (e) {
-      log('error', e.toString());
+      onAuthLog('error', e.toString());
       // eslint-disable-next-line no-console
       console.error('Auth error', e);
     }
@@ -48,7 +44,7 @@ export const basic = () => {
 
     forceUpdateLink.addEventListener('click', async () => {
       const newToken = await auth.forceTokenUpdate();
-      log('Token has been refreshed:', newToken);
+      onAuthLog('Token has been refreshed:', newToken);
     });
   })();
 
@@ -56,8 +52,9 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onAuthLog: {}};
 
-export const inIFrame = () => {
+export const inIFrame = ({onAuth, onAuthError}) => {
   const node = document.createElement('div');
 
   const auth = new Auth({
@@ -69,12 +66,12 @@ export const inIFrame = () => {
   (async () => {
     try {
       const location = await auth.init();
-      action('auth')(location);
+      onAuth(location);
       await auth.login();
       const data = await auth.requestUser();
       node.innerHTML = JSON.stringify(data);
     } catch (e) {
-      action('auth-error')('Failed', e.toString());
+      onAuthError('Failed', e.toString());
     }
   })();
 
@@ -82,9 +79,9 @@ export const inIFrame = () => {
 };
 
 inIFrame.storyName = 'in IFrame';
+inIFrame.argTypes = {onAuth: {}, onAuthError: {}};
 
-export const landingPage = () => {
-  const log = action('auth-log');
+export const landingPage = ({onAuthLog}) => {
   const node = document.createElement('div');
   node.innerHTML = `
       <div id="example">
@@ -102,13 +99,13 @@ export const landingPage = () => {
     await auth.init();
 
     const user = await auth.requestUser();
-    log('Logged in as:', user.name);
+    onAuthLog('Logged in as:', user.name);
 
     node.querySelector('#open-link').href = LandingEntryFileName;
 
     node.querySelector('#force-update').addEventListener('click', async () => {
       const newToken = await auth.forceTokenUpdate();
-      log('New token:', newToken);
+      onAuthLog('New token:', newToken);
     });
 
     node.querySelector('#log-out').addEventListener('click', () => {
@@ -122,3 +119,4 @@ export const landingPage = () => {
 };
 
 landingPage.storyName = 'landing page';
+landingPage.argTypes = {onAuthLog: {}};

@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import {hideConfirm} from '@jetbrains/ring-ui/components/confirm-service/confirm-service';
@@ -19,7 +17,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onConfirm, onCancel}) => {
   angular.
     module(APP_NAME, [ConfirmNG]).
     controller('TestCtrl', function controller($scope, confirm) {
@@ -27,8 +25,8 @@ export const basic = () => {
         'Do you really wish to proceed?',
         'A description of an action that is about to take place.'
       ).
-        then(action('confirmed')).
-        catch(action('declined'));
+        then(onConfirm).
+        catch(onCancel);
 
       $scope.$on('$destroy', hideConfirm);
     });
@@ -42,3 +40,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onConfirm: {}, onCancel: {}};

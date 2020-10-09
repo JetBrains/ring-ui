@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -21,7 +20,7 @@ export default {
   }
 };
 
-export const dialog = () => {
+export const dialog = ({onConfirm, onCancel}) => {
   class AuthDialogDemo extends React.Component {
     state = {
       confirm: {
@@ -51,8 +50,8 @@ export const dialog = () => {
           }
         });
       }).
-        then(action('confirm')).
-        catch(action('cancel'));
+        then(onConfirm).
+        catch(onCancel);
 
     render() {
       return (
@@ -75,3 +74,4 @@ export const dialog = () => {
 };
 
 dialog.storyName = 'dialog';
+dialog.argTypes = {onConfirm: {}, onCancel: {}};

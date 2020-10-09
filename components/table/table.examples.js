@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -8,21 +7,25 @@ import Link from '@jetbrains/ring-ui/components/link/link';
 import Pager from '@jetbrains/ring-ui/components/pager/pager';
 import Button from '@jetbrains/ring-ui/components/button/button';
 
-import Table from '@jetbrains/ring-ui/components/table/table';
+import Table, {Table as BaseTable} from '@jetbrains/ring-ui/components/table/table';
 import MultiTable from '@jetbrains/ring-ui/components/table/multitable';
 import Selection from '@jetbrains/ring-ui/components/table/selection';
 import mock from '@jetbrains/ring-ui/components/table/table.examples.json';
 import {continents, countries} from '@jetbrains/ring-ui/components/table/table.examples2.json';
-
-const log = action('table');
 
 export default {
   title: 'Components/Table',
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Interactive table with selection and keyboard navigation support.',
+    component: BaseTable,
+    framework: 'react',
     hermione: {skip: true}
+  },
+  argTypes: {
+    selection: {
+      control: {disable: true}
+    }
   }
 };
 
@@ -32,15 +35,11 @@ class BasicDemo extends Component {
   state = {
     data: [],
     selection: new Selection(),
-    caption: undefined,
-    selectable: true,
-    draggable: true,
     page: 1,
     pageSize: PAGE_SIZE,
     total: TOTAL,
     sortKey: 'country',
-    sortOrder: true,
-    loading: false
+    sortOrder: true
   };
 
   componentDidMount() {
@@ -58,34 +57,9 @@ class BasicDemo extends Component {
     }
   }
 
-  columns = [
-    {
-      id: 'country',
-      title: 'Country',
-      sortable: true
-    },
-
-    {
-      id: 'id',
-      title: 'ID',
-      rightAlign: true
-    },
-
-    {
-      id: 'city',
-      title: 'City',
-      sortable: true
-    },
-
-    {
-      id: 'url',
-      title: 'URL',
-      getValue: ({url}) => <Link href={url}>{url}</Link>
-    }
-  ];
-
-  onSort = ({column: {id: sortKey}, order: sortOrder}) => {
-    this.setState({sortKey, sortOrder});
+  onSort = event => {
+    this.props.onSort(event);
+    this.setState({sortKey: event.column.id, sortOrder: event.order});
   };
 
   onPageChange = page => {
@@ -109,12 +83,9 @@ class BasicDemo extends Component {
   };
 
   render() {
+    const {onSelect, withCaption, onReorder, ...restProps} = this.props;
     const {
       data,
-      caption,
-      selectable,
-      draggable,
-      loading,
       page,
       pageSize,
       total,
@@ -126,21 +97,22 @@ class BasicDemo extends Component {
     return (
       <div>
         <Table
+          {...restProps}
           data={data}
-          columns={this.columns}
           selection={selection}
-          onSelect={newSelection => this.setState({selection: newSelection})}
-          onItemDoubleClick={item => log('onItemDoubleClick', item)}
-          onReorder={({data: newData}) => this.setState({data: newData})}
-          loading={loading}
+          onSelect={newSelection => {
+            onSelect(newSelection);
+            this.setState({selection: newSelection});
+          }}
+          onReorder={event => {
+            onReorder(event);
+            this.setState({data: event.data});
+          }}
           onSort={this.onSort}
           sortKey={sortKey}
           sortOrder={sortOrder}
-          caption={caption}
-          selectable={selectable}
+          caption={withCaption ? 'Countries' : undefined}
           isItemSelectable={this.isItemSelectable}
-          draggable={draggable}
-          autofocus
         />
 
         <Grid>
@@ -166,91 +138,104 @@ class BasicDemo extends Component {
             <Col>
               <Button onClick={() => this.setState({data: [...data]})}>
                 Recreate data array
-              </Button>{' '}
-              <span id="button-non-selectable">
-                {selectable
-                  ? (
-                    <Button onClick={() => this.setState({selectable: false})}>
-                      Non-selectable
-                    </Button>
-                  )
-                  : <Button onClick={() => this.setState({selectable: true})}>Selectable</Button>
-                }
-              </span>{' '}
-              {draggable
-                ? <Button onClick={() => this.setState({draggable: false})}>Non-draggable</Button>
-                : <Button onClick={() => this.setState({draggable: true})}>Draggable</Button>}
-              {' '}
-              <span id="button-with-a-caption">
-                {' '}
-                {caption
-                  ? (
-                    <Button onClick={() => this.setState({caption: undefined})}>
-                      Without a caption
-                    </Button>
-                  )
-                  : (
-                    <Button onClick={() => this.setState({caption: 'Countries'})}>
-                      With a caption
-                    </Button>
-                  )}
-                {' '}
-              </span>{' '}
-              {loading
-                ? <Button onClick={() => this.setState({loading: false})}>Not loading</Button>
-                : <Button onClick={() => this.setState({loading: true})}>Loading</Button>
-              }
+              </Button>
+              {page === 1 && data.length > 5 && (
+                <>
+                  {' '}
+                  <span id="button-select-bulgaria">
+                    {selection.isSelected(data[3])
+                      ? (
+                        <Button
+                          onClick={() => this.setState({selection: selection.deselect(data[3])})}
+                        >
+                          Deselect {data[3].country}
+                        </Button>
+                      )
+                      : (
+                        <Button
+                          onClick={() => this.setState({selection: selection.select(data[3])})}
+                        >
+                          Select {data[3].country}
+                        </Button>
+                      )}
+                  </span>
+
+                  <span id="button-select-finland">
+                    {' '}
+                    {selection.isSelected(data[5])
+                      ? (
+                        <Button
+                          onClick={() => this.setState({selection: selection.deselect(data[5])})}
+                        >
+                          Deselect {data[5].country}
+                        </Button>
+                      )
+                      : (
+                        <Button
+                          onClick={() => this.setState({selection: selection.select(data[5])})}
+                        >
+                          Select {data[5].country}
+                        </Button>
+                      )}
+                  </span>
+                </>
+              )}
             </Col>
           </Row>
-
-          {page === 1 && data.length > 5 && (
-            <Row>
-              <Col>
-                <span id="button-select-bulgaria">
-                  {selection.isSelected(data[3])
-                    ? (
-                      <Button
-                        onClick={() => this.setState({selection: selection.deselect(data[3])})}
-                      >
-                        Deselect {data[3].country}
-                      </Button>
-                    )
-                    : (
-                      <Button
-                        onClick={() => this.setState({selection: selection.select(data[3])})}
-                      >
-                        Select {data[3].country}
-                      </Button>
-                    )}
-                </span>
-
-                <span id="button-select-finland">
-                  {' '}
-                  {selection.isSelected(data[5])
-                    ? (
-                      <Button
-                        onClick={() => this.setState({selection: selection.deselect(data[5])})}
-                      >
-                        Deselect {data[5].country}
-                      </Button>
-                    )
-                    : (
-                      <Button
-                        onClick={() => this.setState({selection: selection.select(data[5])})}
-                      >
-                        Select {data[5].country}
-                      </Button>
-                    )}
-                </span>
-              </Col>
-            </Row>
-          )}
         </Grid>
       </div>
     );
   }
 }
-export const basic = () => <BasicDemo/>;
+export const basic = args => <BasicDemo {...args}/>;
+basic.args = {
+  columns: [
+    {
+      id: 'country',
+      title: 'Country',
+      sortable: true
+    },
+
+    {
+      id: 'id',
+      title: 'ID',
+      rightAlign: true
+    },
+
+    {
+      id: 'city',
+      title: 'City',
+      sortable: true
+    },
+
+    {
+      id: 'url',
+      title: 'URL',
+      getValue({url}) {
+        return <Link href={url}>{url}</Link>;
+      }
+    }
+  ],
+  autofocus: true,
+  selectable: true,
+  draggable: true,
+  withCaption: false,
+  isItemSelectable: item => item.id !== 14
+};
+basic.argTypes = {
+  data: {
+    control: {disable: true}
+  },
+  sortKey: {
+    control: {disable: true}
+  },
+  sortOrder: {
+    control: {disable: true}
+  },
+  caption: {
+    control: {disable: true}
+  }
+};
 basic.storyName = 'basic';
 
 const data1 = continents;
@@ -316,12 +301,30 @@ multiTable.storyName = 'multi table';
 
 
 class EmptyTableDemo extends Component {
-
   state = {
     selection: new Selection({})
   };
 
-  columns = [
+  render() {
+    const {onSelect, ...restProps} = this.props;
+
+    return (
+      <Table
+        {...restProps}
+        selection={this.state.selection}
+        onSelect={selection => {
+          onSelect(selection);
+          this.setState({selection});
+        }}
+      />
+    );
+  }
+}
+
+export const emptyTable = args => <EmptyTableDemo {...args}/>;
+emptyTable.args = {
+  data: [],
+  columns: [
     {
       id: 'country',
       title: 'Country'
@@ -334,21 +337,8 @@ class EmptyTableDemo extends Component {
       id: 'url',
       title: 'URL'
     }
-  ];
-
-  render() {
-    return (
-      <Table
-        data={[]}
-        columns={this.columns}
-        renderEmpty={() => 'Empty table'}
-        selectable={false}
-        selection={this.state.selection}
-        onSelect={selection => this.setState({selection})}
-      />
-    );
-  }
-}
-
-export const emptyTable = () => <EmptyTableDemo/>;
+  ],
+  renderEmpty: () => 'Empty table',
+  selectable: false
+};
 emptyTable.storyName = 'empty table';
