@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {action} from '@storybook/addon-actions';
 import warningIcon from '@jetbrains/icons/warning.svg';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -20,30 +19,25 @@ import Input from '@jetbrains/ring-ui/components/input/input';
 const FLAG_DE_URL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
 
+const {type, size, directions} = Select.defaultProps;
 export default {
   title: 'Components/Select',
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a select.'
+    component: Select,
+    framework: 'react'
+  },
+  args: {
+    type,
+    size,
+    directions
   }
 };
 
-export const withAFilterAndTags = () => {
-  const selectProps = {
-    multiple: true,
-    filter: {
-      placeholder: 'Search'
-    },
-    tags: {
-      reset: {
-        separator: true,
-        label: 'Reset the list',
-        glyph: warningIcon
-      }
-    }
-  };
+export const withAFilterAndTags = args => <Select {...args}/>;
 
+{
   const avatarUrl = `${hubConfig.serverUri}/api/rest/avatar/default?username=blue`;
 
   const tags = [
@@ -62,18 +56,27 @@ export const withAFilterAndTags = () => {
     }
   ];
 
-  const data = {
+  withAFilterAndTags.args = {
+    multiple: true,
+    filter: {
+      placeholder: 'Search'
+    },
+    tags: {
+      reset: {
+        separator: true,
+        label: 'Reset the list',
+        glyph: warningIcon
+      }
+    },
     data: tags,
     selected: [tags[0]]
   };
-
-  return <Select {...selectProps} {...data}/>;
-};
+}
 
 withAFilterAndTags.storyName = 'with a filter and tags';
 withAFilterAndTags.parameters = {hermione: {skip: true}};
 
-class WithAFilter extends Component {
+class Stateful extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(Object)
   };
@@ -89,19 +92,18 @@ class WithAFilter extends Component {
 
   onSelect = option => {
     this.setState({selected: option});
+    this.props.onSelect(option);
   };
 
   render() {
+    const {text, ...restProps} = this.props;
     return (
-      <>
+      <div className="demo-container">
         <div className="demo">
+          {text}
           <Select
-            selectedLabel="Option"
-            label="Please select option"
-            filter
-            clear
+            {...restProps}
             selected={this.state.selected}
-            data={this.props.data}
             onSelect={this.onSelect}
           />
         </div>
@@ -109,19 +111,29 @@ class WithAFilter extends Component {
         <Link pseudo onClick={this.clearSelection}>
           Clear
         </Link>
-      </>
+      </div>
     );
   }
 }
-export const withAFilter = () => {
-  const data = [
+
+export const withAFilter = args => <Stateful {...args}/>;
+
+withAFilter.args = {
+  selectedLabel: 'Option',
+  label: 'Please select option',
+  filter: true,
+  clear: true,
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ];
-
-  return <WithAFilter data={data}/>;
+  ]
+};
+withAFilter.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 withAFilter.storyName = 'with a filter';
@@ -146,56 +158,25 @@ withAFilter.parameters = {
       `
 };
 
-class ButtonModeWithAFilter extends Component {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
+export const buttonModeWithAFilter = args => <Stateful {...args}/>;
 
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.data[0]};
-  }
-
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
-
-  onSelect = option => {
-    this.setState({selected: option});
-  };
-
-  render() {
-    return (
-      <>
-        <div className="demo">
-          <Select
-            type={Select.Type.BUTTON}
-            selectedLabel="Option"
-            label="Please select option"
-            filter
-            clear
-            selected={this.state.selected}
-            data={this.props.data}
-            onSelect={this.onSelect}
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
-      </>
-    );
-  }
-}
-export const buttonModeWithAFilter = () => {
-  const data = [
+buttonModeWithAFilter.args = {
+  type: Select.Type.BUTTON,
+  selectedLabel: 'Option',
+  label: 'Please select option',
+  filter: true,
+  clear: true,
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', description: 'Long descriptions', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ];
-
-  return <ButtonModeWithAFilter data={data}/>;
+  ]
+};
+buttonModeWithAFilter.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 buttonModeWithAFilter.storyName = 'button mode with a filter';
@@ -212,55 +193,24 @@ buttonModeWithAFilter.parameters = {
       `
 };
 
-class InlineWithAFilter extends Component {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
+export const inlineWithAFilter = args => <Stateful {...args}/>;
 
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.data[0]};
-  }
-
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
-
-  onSelect = option => {
-    this.setState({selected: option});
-  };
-
-  render() {
-    return (
-      <>
-        <div className="demo">
-          {'Selected option is '}
-          <Select
-            key="select"
-            type={Select.Type.INLINE}
-            filter
-            clear
-            selected={this.state.selected}
-            data={this.props.data}
-            onSelect={this.onSelect}
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
-      </>
-    );
-  }
-}
-export const inlineWithAFilter = () => {
-  const data = [
+inlineWithAFilter.args = {
+  text: 'Selected option is ',
+  key: 'select',
+  type: Select.Type.INLINE,
+  filter: true,
+  clear: true,
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
-  ];
-
-  return <InlineWithAFilter data={data}/>;
+  ]
+};
+inlineWithAFilter.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 inlineWithAFilter.storyName = 'inline with a filter';
@@ -285,56 +235,25 @@ inlineWithAFilter.parameters = {
       `
 };
 
-class InlineOpensToLeft extends Component {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
+export const inlineOpensToLeft = args => <Stateful {...args}/>;
 
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.data[0]};
-  }
-
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
-
-  onSelect = option => {
-    this.setState({selected: option});
-  };
-
-  render() {
-    return (
-      <div className="demo-container">
-        <div className="demo">
-          {'Selected option is '}
-          <Select
-            key="select"
-            type={Select.Type.INLINE}
-            filter
-            clear
-            selected={this.state.selected}
-            data={this.props.data}
-            onSelect={this.onSelect}
-            directions={[Popup.PopupProps.Directions.BOTTOM_LEFT]}
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
-      </div>
-    );
-  }
-}
-export const inlineOpensToLeft = () => {
-  const data = [
+inlineOpensToLeft.args = {
+  text: 'Selected option is ',
+  key: 'select',
+  type: Select.Type.INLINE,
+  filter: true,
+  clear: true,
+  directions: [Popup.PopupProps.Directions.BOTTOM_LEFT],
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
-  ];
-
-  return <InlineOpensToLeft data={data}/>;
+  ]
+};
+inlineOpensToLeft.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 inlineOpensToLeft.storyName = 'inline (opens to left)';
@@ -356,55 +275,24 @@ inlineOpensToLeft.parameters = {
       `
 };
 
-class WithDisabledMoveOverflow extends Component {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
+export const withDisabledMoveOverflow = args => <Stateful {...args}/>;
 
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.data[0]};
-  }
-
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
-
-  onSelect = option => {
-    this.setState({selected: option});
-  };
-
-  render() {
-    return (
-      <div className="demo-container">
-        <div className="demo">
-          <Select
-            selectedLabel="Option"
-            label="Please select option"
-            filter
-            clear
-            selected={this.state.selected}
-            data={this.props.data}
-            onSelect={this.onSelect}
-            disableMoveOverflow
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
-      </div>
-    );
-  }
-}
-export const withDisabledMoveOverflow = () => {
-  const data = [
+withDisabledMoveOverflow.args = {
+  selectedLabel: 'Option',
+  label: 'Please select option',
+  filter: true,
+  clear: true,
+  disableMoveOverflow: true,
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'}
-  ];
-
-  return <WithDisabledMoveOverflow data={data}/>;
+  ]
+};
+withDisabledMoveOverflow.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 withDisabledMoveOverflow.storyName = 'with disabled move overflow';
@@ -448,6 +336,7 @@ class WithServerSideFiltering extends Component {
   };
 
   loadData = async query => {
+    this.props.onFilter(query);
     const request = this.source.getForList(query);
     this.setState({request});
 
@@ -465,73 +354,47 @@ class WithServerSideFiltering extends Component {
   render() {
     return (
       <Select
+        {...this.props}
         data={this.state.users}
-        label="Set owner"
-        selectedLabel="Owner"
-        filter={{
-          placeholder: 'Search user or group',
-          fn: alwaysTrue // disable client filtering
-        }}
         onFilter={this.loadData}
         loading={!!this.state.request}
       />
     );
   }
 }
+
 export const withServerSideFiltering = () => <WithServerSideFiltering/>;
+
+withServerSideFiltering.args = {
+  label: 'Set owner',
+  selectedLabel: 'Owner',
+  filter: {
+    placeholder: 'Search user or group',
+    fn: alwaysTrue // disable client filtering
+  }
+};
 
 withServerSideFiltering.storyName = 'with server-side filtering';
 withServerSideFiltering.parameters = {hermione: {skip: true}};
 
-class WithFuzzySearchFilter extends Component {
-  static propTypes = {
-    data: PropTypes.arrayOf(Object)
-  };
+export const withFuzzySearchFilter = args => <Stateful {...args}/>;
 
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.data[0]};
-  }
-
-  clearSelection = () => {
-    this.setState({selected: null});
-  };
-
-  onSelect = option => {
-    this.setState({selected: option});
-  };
-
-  render() {
-    return (
-      <div className="demo-container">
-        <div className="demo">
-          <Select
-            selectedLabel="Option"
-            label="Please select option"
-            filter={{fuzzy: true}}
-            clear
-            selected={this.state.selected}
-            data={this.props.data}
-            onSelect={this.onSelect}
-          />
-        </div>
-
-        <Link pseudo onClick={this.clearSelection}>
-          Clear
-        </Link>
-      </div>
-    );
-  }
-}
-export const withFuzzySearchFilter = () => {
-  const data = [
+withFuzzySearchFilter.args = {
+  selectedLabel: 'Option',
+  label: 'Please select option',
+  filter: {fuzzy: true},
+  clear: true,
+  data: [
     {label: 'One', key: '1', type: 'user'},
     {label: 'Group', key: '2', type: 'user'},
     {label: 'Three', key: '3', type: 'user'},
     {label: 'With icon', key: 4, icon: FLAG_DE_URL}
-  ];
-
-  return <WithFuzzySearchFilter data={data}/>;
+  ]
+};
+withFuzzySearchFilter.argTypes = {
+  selected: {
+    control: {disable: true}
+  }
 };
 
 withFuzzySearchFilter.storyName = 'with fuzzy search filter';
@@ -547,34 +410,12 @@ withFuzzySearchFilter.parameters = {
       `
 };
 
-export const withALargeDataset = () => {
-  const elementsNum = 100000;
-  const selectedIndex = elementsNum / 2;
-  const dataset = [...Array(elementsNum)].map((elem, idx) => ({
-    label: `element ${idx}`,
-    key: idx,
-    type: 'user'
-  }));
-
-  return <Select filter compact selected={dataset[selectedIndex]} data={dataset}/>;
-};
+export const withALargeDataset = args => <Select {...args}/>;
 
 withALargeDataset.storyName = 'with a large dataset';
 withALargeDataset.parameters = {hermione: {skip: true}};
 
-export const withALargeDatasetAndDisabledScrollToActiveItem = () => {
-  const elementsNum = 100000;
-  const selectedIndex = elementsNum / 2;
-  const dataset = [...Array(elementsNum)].map((elem, idx) => ({
-    label: `element ${idx}`,
-    key: idx,
-    type: 'user'
-  }));
-
-  return (
-    <Select filter compact selected={dataset[selectedIndex]} data={dataset} disableScrollToActive/>
-  );
-};
+export const withALargeDatasetAndDisabledScrollToActiveItem = args => <Select {...args}/>;
 
 withALargeDatasetAndDisabledScrollToActiveItem.storyName = 'with a large dataset and disabled scroll to active item';
 
@@ -591,7 +432,34 @@ withALargeDatasetAndDisabledScrollToActiveItem.parameters = {
   }
 };
 
-export const multipleWithADescription = () => {
+{
+  const elementsNum = 100000;
+  const selectedIndex = elementsNum / 2;
+  const dataset = [...Array(elementsNum)].map((elem, idx) => ({
+    label: `element ${idx}`,
+    key: idx,
+    type: 'user'
+  }));
+
+  withALargeDataset.args = {
+    filter: true,
+    compact: true,
+    selected: dataset[selectedIndex],
+    data: dataset
+  };
+
+  withALargeDatasetAndDisabledScrollToActiveItem.args = {
+    filter: true,
+    compact: true,
+    selected: dataset[selectedIndex],
+    data: dataset,
+    disableScrollToActive: true
+  };
+}
+
+export const multipleWithADescription = args => <Select {...args}/>;
+
+{
   const deFlag =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAUCAIAAACMMcMmAAAAKklEQVRIx2NgGAWjgAbAh/aI4S7t0agdI9COzx00Rwz/z9Ecjdox8uwAACkGSkKIaGlAAAAAAElFTkSuQmCC';
   const ruFlag =
@@ -609,8 +477,13 @@ export const multipleWithADescription = () => {
     avatar: idx % 2 ? avatarUrl : null
   }));
 
-  return <Select filter selected={[dataset[0], dataset[3]]} multiple data={dataset}/>;
-};
+  multipleWithADescription.args = {
+    filter: true,
+    selected: [dataset[0], dataset[3]],
+    multiple: true,
+    data: dataset
+  };
+}
 
 multipleWithADescription.storyName = 'multiple with a description';
 
@@ -650,11 +523,7 @@ disabled.parameters = {
       `
 };
 
-export const inputBased = () => {
-  const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
-
-  return <Select type={Select.Type.INPUT} data={data} clear/>;
-};
+export const inputBased = args => <Select {...args}/>;
 
 inputBased.storyName = 'input-based';
 
@@ -671,81 +540,92 @@ inputBased.parameters = {
   }
 };
 
-export const inputBasedInSuggestOnlyMode = () => {
-  const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
-
-  return (
-    <Select
-      type={Select.Type.INPUT}
-      allowAny
-      hideArrow
-      label="Placeholder without arrow"
-      data={data}
-      selected={data[1]}
-    />
-  );
-};
+export const inputBasedInSuggestOnlyMode = args => <Select {...args}/>;
 
 inputBasedInSuggestOnlyMode.storyName = 'input-based in suggest-only mode';
 inputBasedInSuggestOnlyMode.parameters = {hermione: {skip: true}};
 
-export const withSubLevelsForListElement = () => {
-  const data = [
+{
+  const data = [...Array(20)].map((elem, idx) => ({label: `Item ${idx}`, key: idx}));
+
+  inputBased.args = {
+    type: Select.Type.INPUT,
+    data,
+    clear: true
+  };
+
+  inputBasedInSuggestOnlyMode.args = {
+    type: Select.Type.INPUT,
+    allowAny: true,
+    hideArrow: true,
+    label: 'Placeholder without arrow',
+    data,
+    selected: data[1]
+  };
+}
+
+export const withSubLevelsForListElement = args => <Select {...args}/>;
+
+withSubLevelsForListElement.args = {
+  filter: true,
+  data: [
     {label: 'One', key: '1'},
     {label: 'Two', key: '2', disabled: true},
     {label: 'Two One', key: '2.1', level: 1},
     {label: 'Two Two', key: '2.2', level: 1},
     {label: 'Three', key: '3'}
-  ];
-
-  return <Select filter data={data}/>;
+  ]
 };
 
 withSubLevelsForListElement.storyName = 'with sub levels for list element';
 withSubLevelsForListElement.parameters = {hermione: {skip: true}};
 
-export const withDefaultFilterModeAndALoadingIndicator = () => {
+export const withDefaultFilterModeAndALoadingIndicator = args => <Select {...args}/>;
+{
   const data = [
     {label: 'One', key: '1'},
     {label: 'Group', key: '2'},
     {label: 'Three', key: '3'}
   ];
 
-  return <Select filter loading data={data} selected={data[1]}/>;
-};
+  withDefaultFilterModeAndALoadingIndicator.args = {
+    filter: true,
+    loading: true,
+    data,
+    selected: data[1]
+  };
+}
 
 withDefaultFilterModeAndALoadingIndicator.storyName = 'with default filter mode and a loading indicator';
 withDefaultFilterModeAndALoadingIndicator.parameters = {hermione: {skip: true}};
 
-export const withACustomizedFilterAndAnAddItemButton = () => {
+export const withACustomizedFilterAndAnAddItemButton = args => <Select {...args}/>;
+{
   const data = [...Array(100)].map((elem, idx) => ({
     label: `Item long long long long long long long long label ${idx}`,
     key: idx
   }));
 
-  return (
-    <Select
-      filter={{
-        placeholder: 'Select me',
-        value: 'One'
-      }}
-      hint="Press down to do something"
-      add={{
-        prefix: 'Add name'
-      }}
-      onAdd={action('added')}
-      data={data}
-      selected={data[49]}
-      onSelect={action('selected')}
-    />
-  );
-};
+  withACustomizedFilterAndAnAddItemButton.args = {
+    filter: {
+      placeholder: 'Select me',
+      value: 'One'
+    },
+    hint: 'Press down to do something',
+    add: {
+      prefix: 'Add name'
+    },
+    data,
+    selected: data[49]
+  };
+}
 
 withACustomizedFilterAndAnAddItemButton.storyName = "with a customized filter and an 'Add item' button";
 withACustomizedFilterAndAnAddItemButton.parameters = {hermione: {skip: true}};
 
-export const withCustomItemsAndAnAddItemButton = () => {
-  const data = [...Array(100)].map((elem, idx) => {
+export const withCustomItemsAndAnAddItemButton = args => <Select {...args}/>;
+withCustomItemsAndAnAddItemButton.args = {
+  data: [...Array(100)].map((elem, idx) => {
     const label = `Label ${idx}`;
     return {
       label,
@@ -753,20 +633,12 @@ export const withCustomItemsAndAnAddItemButton = () => {
       template: <span className="label">{label}</span>,
       rgItemType: List.ListProps.Type.CUSTOM
     };
-  });
-
-  return (
-    <Select
-      filter
-      hint="Press down to do something"
-      add={{
-        prefix: 'Add label'
-      }}
-      onAdd={action('added')}
-      data={data}
-      onSelect={action('selected')}
-    />
-  );
+  }),
+  filter: true,
+  hint: 'Press down to do something',
+  add: {
+    prefix: 'Add label'
+  }
 };
 
 withCustomItemsAndAnAddItemButton.storyName = "with custom items and an 'Add item' button";
@@ -786,33 +658,27 @@ withCustomItemsAndAnAddItemButton.parameters = {
       `
 };
 
-export const withAnAlwaysVisibleAddItemButton = () => {
-  const data = [...Array(10)].map((elem, idx) => ({
+export const withAnAlwaysVisibleAddItemButton = args => <Select {...args}/>;
+withAnAlwaysVisibleAddItemButton.args = {
+  data: [...Array(10)].map((elem, idx) => ({
     key: idx,
     label: `Item ${idx}`
-  }));
-
-  return (
-    <Select
-      filter={{
-        placeholder: 'Select me',
-        value: 'One'
-      }}
-      add={{
-        alwaysVisible: true,
-        label: 'Create New Blah Blah'
-      }}
-      onAdd={action('added')}
-      data={data}
-      onSelect={action('selected')}
-    />
-  );
+  })),
+  filter: {
+    placeholder: 'Select me',
+    value: 'One'
+  },
+  add: {
+    alwaysVisible: true,
+    label: 'Create New Blah Blah'
+  }
 };
 
 withAnAlwaysVisibleAddItemButton.storyName = "with an always visible 'Add item' button";
 withAnAlwaysVisibleAddItemButton.parameters = {hermione: {skip: true}};
 
-export const multipleWithCustomView = () => {
+export const multipleWithCustomView = args => <Select {...args}/>;
+{
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
@@ -821,104 +687,101 @@ export const multipleWithCustomView = () => {
 
   const multipleConfig = {label: 'Change selected items', removeSelectedItems: false};
 
-  return (
-    <Select
-      filter
-      add={{
-        prefix: 'Add some item'
-      }}
-      multiple={multipleConfig}
-      selected={[data[1]]}
-      data={data}
-      onSelect={action('selected')}
-      onDeselect={action('deselected')}
-      onChange={action('changed-selection')}
-    />
-  );
-};
+  multipleWithCustomView.args = {
+    filter: true,
+    add: {
+      prefix: 'Add some item'
+    },
+    multiple: multipleConfig,
+    selected: [data[1]],
+    data
+  };
+}
 
 multipleWithCustomView.storyName = 'multiple with custom view';
 multipleWithCustomView.parameters = {hermione: {skip: true}};
 
-export const asADropdownWithoutFilter = () => {
-  const data = [...Array(20)].map((elem, idx) => ({
+export const asADropdownWithoutFilter = args => <Select {...args}/>;
+asADropdownWithoutFilter.args = {
+  data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
     description: `Description for the item lalalalala ${idx}`,
     key: idx
-  }));
+  })),
+  type: Select.Type.CUSTOM,
+  label: 'Click me',
+  customAnchor({wrapperProps, buttonProps, popup}) {
+    return (
+      <span {...wrapperProps}>
+        <button type="button" {...buttonProps}/>
+        {popup}
+      </span>
+    );
+  }
+};
+
+asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
+asADropdownWithoutFilter.parameters = {hermione: {skip: true}};
+
+const DemoComponent = ({onChange, ...restProps}) => {
+  const [inputValue, setInputValue] = React.useState('');
+  const selectRef = React.useRef(null);
+
+  const onInputChange = React.useCallback(e => {
+    onChange(e);
+    setInputValue(e.target.value);
+    if (selectRef.current) {
+      selectRef.current._filterChangeHandler(e);
+    }
+  }, [onChange]);
 
   return (
     <Select
-      type={Select.Type.CUSTOM}
-      data={data}
-      label="Click me"
+      {...restProps}
+      ref={selectRef}
+      onChange={item => setInputValue(item.label)}
       customAnchor={({wrapperProps, buttonProps, popup}) => (
         <span {...wrapperProps}>
-          <button type="button" {...buttonProps}/>
+          <Input value={inputValue} label="Custom" onChange={onInputChange} {...buttonProps}/>
           {popup}
         </span>
       )}
     />
   );
 };
-
-asADropdownWithoutFilter.storyName = 'as a dropdown without filter';
-asADropdownWithoutFilter.parameters = {hermione: {skip: true}};
-
-export const withCustomInputAnchor = () => {
-  const data = [...Array(20)].map((elem, idx) => ({
+export const withCustomInputAnchor = args => <DemoComponent {...args}/>;
+withCustomInputAnchor.args = {
+  data: [...Array(20)].map((elem, idx) => ({
     label: `Item ${idx}`,
     description: `Description for the item lalalalala ${idx}`,
     key: idx
-  }));
-
-  const DemoComponent = () => {
-    const [inputValue, setInputValue] = React.useState('');
-    const selectRef = React.useRef(null);
-
-    const onInputChange = React.useCallback(e => {
-      setInputValue(e.target.value);
-      if (selectRef.current) {
-        selectRef.current._filterChangeHandler(e);
-      }
-    }, [setInputValue, selectRef]);
-
-    return (
-      <Select
-        ref={selectRef}
-        type={Select.Type.CUSTOM}
-        data={data}
-        onChange={item => setInputValue(item.label)}
-        customAnchor={({wrapperProps, buttonProps, popup}) => (
-          <span {...wrapperProps}>
-            <Input value={inputValue} label="Custom" onChange={onInputChange} {...buttonProps}/>
-            {popup}
-          </span>
-        )}
-      />
-    );
-  };
-
-  return <DemoComponent/>;
+  })),
+  type: Select.Type.CUSTOM
 };
 
 withCustomInputAnchor.storyName = 'with custom input anchor';
 withCustomInputAnchor.parameters = {hermione: {skip: true}};
 
-export const withRenderOptimization = () => {
-  const data = [...Array(1000)].map((item, idx) => ({
+export const withRenderOptimization = args => <Select {...args}/>;
+withRenderOptimization.args = {
+  data: [...Array(1000)].map((item, idx) => ({
     label: `Label ${idx}`,
     key: idx,
     rgItemType: idx % 10 ? List.ListProps.Type.ITEM : List.ListProps.Type.TITLE
-  }));
-
-  return <Select filter data={data}/>;
+  })),
+  filter: true
 };
 
 withRenderOptimization.storyName = 'with render optimization';
 withRenderOptimization.parameters = {hermione: {skip: true}};
 
-export const fitsToScreen = () => {
+export const fitsToScreen = args => (
+  <div className="demo">
+    <Select {...args}/>
+  </div>
+);
+
+{
   const dataset = [...Array(1000)].map((item, idx) => ({
     label: `element ${idx}`,
     key: idx,
@@ -926,12 +789,14 @@ export const fitsToScreen = () => {
   }));
   const selectedIndex = dataset.length / 2;
 
-  return (
-    <div className="demo">
-      <Select maxHeight={5000} filter compact selected={dataset[selectedIndex]} data={dataset}/>
-    </div>
-  );
-};
+  fitsToScreen.args = {
+    maxHeight: 5000,
+    filter: true,
+    compact: true,
+    selected: dataset[selectedIndex],
+    data: dataset
+  };
+}
 
 fitsToScreen.storyName = 'fits to screen';
 
@@ -1039,7 +904,8 @@ withFilteredFields.parameters = {
       `
 };
 
-export const multipleWithSelectAll = () => {
+export const multipleWithSelectAll = args => <Select {...args}/>;
+{
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
@@ -1048,23 +914,19 @@ export const multipleWithSelectAll = () => {
 
   const multipleConfig = {selectAll: true};
 
-  return (
-    <Select
-      filter
-      multiple={multipleConfig}
-      selected={[data[1]]}
-      data={data}
-      onSelect={action('selected')}
-      onDeselect={action('deselected')}
-      onChange={action('changed-selection')}
-    />
-  );
-};
+  multipleWithSelectAll.args = {
+    filter: true,
+    multiple: multipleConfig,
+    selected: [data[1]],
+    data
+  };
+}
 
 multipleWithSelectAll.storyName = 'multiple with select all';
 multipleWithSelectAll.parameters = {hermione: {skip: true}};
 
-export const multipleWithSelectAllAndDisabledItem = () => {
+export const multipleWithSelectAllAndDisabledItem = args => <Select {...args}/>;
+{
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
@@ -1075,24 +937,20 @@ export const multipleWithSelectAllAndDisabledItem = () => {
 
   const multipleConfig = {selectAll: true};
 
-  return (
-    <Select
-      filter
-      multiple={multipleConfig}
-      selected={[data[1], data[4]]}
-      data={data}
-      onSelect={action('selected')}
-      onDeselect={action('deselected')}
-      onChange={action('changed-selection')}
-    />
-  );
-};
+  multipleWithSelectAllAndDisabledItem.args = {
+    filter: true,
+    multiple: multipleConfig,
+    selected: [data[1], data[4]],
+    data
+  };
+}
 
 multipleWithSelectAllAndDisabledItem.storyName = 'multiple with select all and disabled item';
 multipleWithSelectAllAndDisabledItem.parameters = {hermione: {skip: true}};
 
 
-export const multipleWithLimit = () => {
+export const multipleWithLimit = args => <Select {...args}/>;
+{
   const data = [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
@@ -1104,49 +962,36 @@ export const multipleWithLimit = () => {
 
   const multipleConfig = {limit: 2};
 
-  return (
-    <Select
-      filter
-      multiple={multipleConfig}
-      selected={[data[1]]}
-      data={data}
-      onSelect={action('selected')}
-      onDeselect={action('deselected')}
-      onChange={action('changed-selection')}
-    />
-  );
-};
+  multipleWithLimit.args = {
+    filter: true,
+    multiple: multipleConfig,
+    selected: [data[1]],
+    data
+  };
+}
 
 multipleWithLimit.storyName = 'multiple with limit';
 multipleWithLimit.parameters = {hermione: {skip: true}};
 
-export const selectInPopup = () => {
-  const data = [
+export const selectInPopup = args => (
+  <Dropdown
+    anchor="Open dropdown"
+  >
+    <Popup className={'popup-test-class'} maxHeight={100}>
+      <Select {...args}/>
+    </Popup>
+  </Dropdown>
+);
+selectInPopup.args = {
+  data: [
     {label: 'One long label', key: '1'},
     {label: 'Two long label', key: '2'},
     {label: 'Three long label', key: '3'},
     {label: 'Four long label', key: '4'},
     {label: 'Five long label', key: '5'},
     {label: 'Six long label', key: '6'}
-  ];
-
-  function onSelect(selected) {
-    action('selected')(selected);
-  }
-
-  return (
-    <Dropdown
-      anchor="Open dropdown"
-    >
-      <Popup className={'popup-test-class'} maxHeight={100}>
-        <Select
-          filter
-          data={data}
-          onSelect={onSelect}
-        />
-      </Popup>
-    </Dropdown>
-  );
+  ],
+  filter: true
 };
 
 selectInPopup.storyName = 'Select in Popup';

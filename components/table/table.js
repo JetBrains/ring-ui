@@ -19,7 +19,10 @@ import selectionShortcutsHOC from './selection-shortcuts-hoc';
 import disableHoverHOC from './disable-hover-hoc';
 import Row from './row-with-focus-sensor';
 
-class Table extends PureComponent {
+/**
+ * Interactive table with selection and keyboard navigation support.
+ */
+export class Table extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     loaderClassName: PropTypes.string,

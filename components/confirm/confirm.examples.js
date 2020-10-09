@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -18,7 +17,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onConfirm, onCancel}) => {
   class ConfirmDemo extends React.Component {
     state = {
       confirm: {
@@ -51,8 +50,8 @@ export const basic = () => {
           }
         });
       }).
-        then(action('Confirmed')).
-        catch(action('Rejected'));
+        then(onConfirm).
+        catch(onCancel);
 
     showWithAnotherText = () =>
       new Promise((resolve, reject) => {
@@ -65,8 +64,8 @@ export const basic = () => {
           }
         });
       }).
-        then(action('Confirmed')).
-        catch(action('Rejected'));
+        then(onConfirm).
+        catch(onCancel);
 
     render() {
       return (
@@ -92,3 +91,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onConfirm: {}, onCancel: {}};

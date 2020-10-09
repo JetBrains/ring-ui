@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 import warningIcon from '@jetbrains/icons/warning.svg';
 
 import hubConfig from '../../.storybook/hub-config';
@@ -24,35 +23,37 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'Displays a list of items.',
+    component: List,
+    framework: 'react',
     hermione: {captureSelector: '*[data-test~=ring-list]'}
   }
 };
 
-export const basic = () => {
-  const listData = [
+export const basic = args => <List {...args}/>;
+
+basic.storyName = 'basic';
+basic.args = {
+  activeIndex: 2,
+  shortcuts: true,
+  renderOptimization: false,
+  data: [
     {label: 'One', key: 1, href: 'http://example.com', rgItemType: List.ListProps.Type.LINK},
     {label: <b>foo</b>, key: 2, rgItemType: List.ListProps.Type.ITEM},
     {label: 'Active as default', key: 3, rgItemType: List.ListProps.Type.ITEM},
     {label: 'Four', key: 4, rgItemType: List.ListProps.Type.ITEM},
     {label: 'Five', key: 5, rgItemType: List.ListProps.Type.ITEM}
-  ];
-
-  return (
-    <List
-      data={listData}
-      activeIndex={2}
-      shortcuts
-      onSelect={action('selected')}
-      renderOptimization={false}
-    />
-  );
+  ]
 };
 
-basic.storyName = 'basic';
+export const withAHintBelow = args => <List {...args}/>;
 
-export const withAHintBelow = () => {
-  const listData = [
+withAHintBelow.storyName = 'with a hint below';
+withAHintBelow.args = {
+  shortcuts: true,
+  activeIndex: 2,
+  hint: 'Hint about the list',
+  renderOptimization: false,
+  data: [
     {label: 'One', rgItemType: List.ListProps.Type.ITEM},
     {label: 'Two', rgItemType: List.ListProps.Type.ITEM},
     {label: 'Active as default', rgItemType: List.ListProps.Type.ITEM},
@@ -62,39 +63,30 @@ export const withAHintBelow = () => {
       rgItemType: List.ListProps.Type.ITEM,
       disabled: true
     }
-  ];
-
-  return (
-    <List
-      data={listData}
-      shortcuts
-      onSelect={action('selected')}
-      activeIndex={2}
-      hint="Hint about the list"
-      renderOptimization={false}
-    />
-  );
+  ]
 };
 
-withAHintBelow.storyName = 'with a hint below';
-
-export const longList = () => {
-  const listData = [];
-  for (let i = 0; i < 1000; i++) {
-    listData.push({
-      label: `Item ${i}`,
-      rgItemType: List.ListProps.Type.ITEM
-    });
-  }
-
-  return <List maxHeight={400} data={listData} shortcuts compact onSelect={action('selected')}/>;
-};
+export const longList = args => <List {...args}/>;
 
 longList.storyName = 'long list';
 longList.parameters = {hermione: {skip: true}};
+longList.args = {
+  maxHeight: 400,
+  compact: true,
+  shortcuts: true,
+  data: Array(1000).fill().map((_, i) => ({
+    label: `Item ${i}`,
+    rgItemType: List.ListProps.Type.ITEM
+  }))
+};
 
-export const list2 = () => {
-  const listData = [
+export const list2 = args => <List {...args}/>;
+
+list2.storyName = 'list #2';
+list2.args = {
+  shortcuts: true,
+  renderOptimization: false,
+  data: [
     {
       rgItemType: List.ListProps.Type.SEPARATOR,
       description: 'First separator'
@@ -137,17 +129,16 @@ export const list2 = () => {
       details:
         'Additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text. And once again, additional details line, a long long text.'
     }
-  ];
-
-  return (
-    <List data={listData} shortcuts onSelect={action('selected')} renderOptimization={false}/>
-  );
+  ]
 };
 
-list2.storyName = 'list #2';
+export const withItemIcons = args => <List {...args}/>;
 
-export const withItemIcons = () => {
-  const listData = [
+withItemIcons.storyName = 'with item icons';
+withItemIcons.args = {
+  shortcuts: true,
+  renderOptimization: false,
+  data: [
     {
       label: 'Some item',
       description:
@@ -187,32 +178,31 @@ export const withItemIcons = () => {
       description: 'Test item',
       icon: FLAG_EN_URL
     }
-  ];
-
-  return (
-    <List data={listData} shortcuts onSelect={action('selected')} renderOptimization={false}/>
-  );
+  ]
 };
 
-withItemIcons.storyName = 'with item icons';
+export const withDeprecatedItemTypeParameter = args => <List {...args}/>;
 
-export const withDeprecatedItemTypeParameter = () => {
-  const listData = [
+withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
+withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
+withDeprecatedItemTypeParameter.args = {
+  shortcuts: true,
+  data: [
     {label: 'One', type: List.ListProps.Type.ITEM},
     {label: 'Two', type: List.ListProps.Type.ITEM},
     {label: 'Three', type: List.ListProps.Type.ITEM},
     {label: 'Four', type: List.ListProps.Type.ITEM},
     {label: 'Five', type: List.ListProps.Type.ITEM}
-  ];
-
-  return <List data={listData} shortcuts onSelect={action('selected')}/>;
+  ]
 };
 
-withDeprecatedItemTypeParameter.storyName = 'with deprecated item.type parameter';
-withDeprecatedItemTypeParameter.parameters = {hermione: {skip: true}};
+export const withCustomItems = args => <List {...args}/>;
 
-export const withCustomItems = () => {
-  const listData = [
+withCustomItems.storyName = 'with custom items';
+withCustomItems.args = {
+  shortcuts: true,
+  renderOptimization: false,
+  data: [
     {
       key: '1',
       rgItemType: List.ListProps.Type.CUSTOM,
@@ -229,61 +219,53 @@ export const withCustomItems = () => {
       rgItemType: List.ListProps.Type.CUSTOM,
       template: React.createElement('span', {}, 'custom item 3')
     }
-  ];
-
-  return (
-    <List data={listData} shortcuts onSelect={action('selected')} renderOptimization={false}/>
-  );
+  ]
 };
 
-withCustomItems.storyName = 'with custom items';
+class UserList extends React.Component {
+  state = {
+    listData: null,
+    selected: null
+  };
 
-export const withUsers = () => {
-  class UserList extends React.Component {
-    state = {
-      listData: null,
-      selected: null
-    };
-
-    componentDidMount() {
-      this.loadUsers();
-    }
-
-    auth = new Auth(hubConfig);
-    source = new Source(this.auth);
-
-    async loadUsers() {
-      await this.auth.init();
-      const listData = await this.source.getForList('ring', Source.Filter.USERS);
-      this.setState({listData});
-    }
-
-    handleSelect = selected => this.setState({selected});
-
-    render() {
-      const {listData, selected} = this.state;
-      return listData
-        ? (
-          <ContentLayout>
-            <Sidebar>
-              <List
-                className="list"
-                data={this.state.listData}
-                shortcuts
-                onSelect={this.handleSelect}
-              />
-            </Sidebar>
-            {selected && (
-              <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
-            )}
-          </ContentLayout>
-        )
-        : <Loader/>;
-    }
+  componentDidMount() {
+    this.loadUsers();
   }
 
-  return <UserList/>;
-};
+  auth = new Auth(hubConfig);
+  source = new Source(this.auth);
+
+  async loadUsers() {
+    await this.auth.init();
+    const listData = await this.source.getForList('ring', Source.Filter.USERS);
+    this.setState({listData});
+  }
+
+  handleSelect = selected => this.setState({selected});
+
+  render() {
+    const {listData, selected} = this.state;
+    return listData
+      ? (
+        <ContentLayout>
+          <Sidebar>
+            <List
+              className="list"
+              data={this.state.listData}
+              shortcuts
+              onSelect={this.handleSelect}
+            />
+          </Sidebar>
+          {selected && (
+            <Code className="selected" language="json" code={JSON.stringify(selected, null, 2)}/>
+          )}
+        </ContentLayout>
+      )
+      : <Loader/>;
+  }
+}
+
+export const withUsers = () => <UserList/>;
 
 withUsers.storyName = 'with users';
 withUsers.parameters = {hermione: {skip: true}};

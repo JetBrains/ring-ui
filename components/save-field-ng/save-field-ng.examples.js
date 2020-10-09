@@ -1,8 +1,6 @@
 /* eslint-disable angular/controller-as */
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 import hubConfig from '../../.storybook/hub-config';
 
@@ -20,7 +18,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onSave}) => {
   angular.
     module(APP_NAME, [SaveFieldNG, QueryAssistNG]).
     config((shortcutsProvider, rgSaveFieldShortcutsMode) => {
@@ -44,7 +42,7 @@ export const basic = () => {
       const defer = $q.defer();
       defer.resolve();
       $scope.save = () => {
-        action('save')('data = ', $scope.data);
+        onSave('data = ', $scope.data);
         return defer.promise;
       };
 
@@ -220,3 +218,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onSave: {}};

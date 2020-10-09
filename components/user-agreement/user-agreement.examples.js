@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -14,27 +13,41 @@ export default {
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: 'A component that displays a user agreement dialog.',
+    component: UserAgreement,
+    framework: 'react',
     hermione: {captureSelector: '*[data-test~=ring-dialog]'},
     a11y: {element: '*[data-test~=ring-dialog]'}
   }
 };
 
-export const dialog = () => (
+export const dialog = args => (
   <div>
-    <UserAgreement
-      show
-      text={text}
-      onAccept={action('onAccept')}
-      onDecline={action('onDecline')}
-      onClose={action('onClose')}
-    />
+    <UserAgreement {...args}/>
   </div>
 );
 
+dialog.args = {
+  // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
+  translations: UserAgreement.defaultProps.translations,
+  show: true,
+  text,
+  onRemindLater: null
+};
+dialog.argTypes = {
+  onRemindLater: {}
+};
 dialog.storyName = 'dialog';
 
-export const service = () => {
+function noop() {}
+export const service = ({
+  onGetUserAgreemen,
+  onGetUserConsent,
+  onSetUserConsent = noop,
+  onAccept,
+  onDecline,
+  onDialogShow,
+  onDialogHide
+}) => {
   const fakeUserAgreement = {
     enabled: true,
     majorVersion: 1.0,
@@ -48,18 +61,18 @@ export const service = () => {
 
   const agreementService = new UserAgreementService({
     getUserAgreement: async () => {
-      action('getUserAgreement')(fakeUserAgreement);
+      onGetUserAgreemen(fakeUserAgreement);
       return fakeUserAgreement;
     },
     getUserConsent: async () => {
-      action('getUserConsent')(fakeUserConsent);
+      onGetUserConsent(fakeUserConsent);
       return fakeUserConsent;
     },
-    setUserConsent: action('User consent has been set'),
-    onAccept: action('Agreement accepted'),
-    onDecline: action('Agreement declined'),
-    onDialogShow: action('Dialog shown'),
-    onDialogHide: action('Dialog hidden'),
+    setUserConsent: onSetUserConsent,
+    onAccept,
+    onDecline,
+    onDialogShow,
+    onDialogHide,
     interval: 10000
   });
 
@@ -81,5 +94,18 @@ export const service = () => {
   return <UserAgreementServiceDemo/>;
 };
 
+service.argTypes = {
+  onGetUserAgreemen: {},
+  onGetUserConsent: {},
+  onSetUserConsent: {},
+  onAccept: {},
+  onDecline: {},
+  onDialogShow: {},
+  onDialogHide: {}
+};
 service.storyName = 'service';
-service.parameters = {hermione: {skip: true}, a11y: {element: '*[data-test="alert-container"]'}};
+service.parameters = {
+  component: null,
+  hermione: {skip: true},
+  a11y: {element: '*[data-test="alert-container"]'}
+};
