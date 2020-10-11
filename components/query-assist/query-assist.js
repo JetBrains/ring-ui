@@ -36,27 +36,120 @@ function cleanText(text) {
 /**
  * @name Query Assist
  */
+/**
+ * ## Data source function
+
+ Component class calls a data source function when user input happens and passes an object with fields \`caret\`, \`focus\` and \`query\` as the only argument.
+ The function must return an object with the fields described below. The object can be optionally wrapped in a Promise.
+
+ ### Return object fields
+
+ \`caret\` and \`query\` should just return server values provided to data source function.
+ These fields allow the Query Assist component to recognise and drop earlier responses from the server.
+
+ + __caret__ (\`string=0\`) Caret from request
+ + __query__ (\`string=''\`) Query from request
+ + __styleRanges__ (\`Array<suggestion>=\`) Array of \`styleRange\` objects, used to highlight the request in the input field
+ + __suggestions__ (\`Array<styleRange>\`) Array of \`suggestion\` objects to show.
+
+ ### **styleRange** object fields
+
+ start \`number\` Range start (in characters)
+ length \`number\` Range length (in characters)
+ style \`string\` Style of the range. Possible values: \`text\`, \`field_value\`, \`field_name\`, \`operator\`
+
+ ### **suggestion** object fields
+
+ + __prefix__ \`string=\` Suggestion option prefix
+ + __option__ \`string\` Suggestion option
+ + __suffix__ \`string=\` Suggestion option suffix
+ + __description__ \`string=\` Suggestion option description. Is not visible when a group is set
+ + __matchingStart__ \`number\` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)
+ + __matchingEnd__ \`number\` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)
+ + __caret__ \`number\` Caret position after option completion (in characters)
+ + __completionStart__ \`number\` Where to start insertion (or replacement, when completing with the \`Tab\` key) of the completion option (in characters)
+ + __completionEnd__ \`number\` Where to end insertion of the completion option (in characters)
+ + __group__ \`string=\` Group title. Options with the same title are grouped under it
+ + __icon__ \`string=\` Icon URI, Data URI is possible
+ */
 export default class QueryAssist extends Component {
   static propTypes = {
     theme: PropTypes.string,
+    /**
+     * Open suggestions popup during the initial render
+     */
     autoOpen: PropTypes.bool,
+    /**
+     * Initial caret position
+     */
     caret: PropTypes.number,
+    /**
+     * Show clickable "cross" icon on the right which clears the query
+     */
     clear: PropTypes.bool,
+    /**
+     * Additional class for the component
+     */
     className: PropTypes.string,
+    /**
+     * Additional class for the popup
+     */
     popupClassName: PropTypes.string,
+    /**
+     * Data source function
+     */
     dataSource: PropTypes.func.isRequired,
+    /**
+     * Input debounce delay
+     */
     delay: PropTypes.number,
+    /**
+     * Disable the component
+     */
     disabled: PropTypes.bool,
+    /**
+     * Initial focus
+     */
     focus: PropTypes.bool,
+    /**
+     * Hint under the suggestions list
+     */
     hint: PropTypes.string,
+    /**
+     * Hint under the suggestions list visible when a suggestion is selected
+     */
     hintOnSelection: PropTypes.string,
+    /**
+     * Show clickable "glass" icon on the right which applies the query
+     */
     glass: PropTypes.bool,
+    /**
+     * Show loader when a data request is in process
+     */
     loader: PropTypes.bool,
+    /**
+     * Field placeholder value
+     */
     placeholder: PropTypes.string,
+    /**
+     * Called when the query is applied. An object with fields `caret`, `focus` and `query` is passed as an argument
+     */
     onApply: PropTypes.func,
+    /**
+     * Called when the query is changed. An object with fields `caret` and `query` is passed as an argument
+     */
     onChange: PropTypes.func,
+    /**
+     * Called when the query is cleared. Called without arguments
+     */
     onClear: PropTypes.func,
+    /**
+     * Called when the focus status is changed. An object with fields `focus` is passed as an argument
+     */
     onFocusChange: PropTypes.func,
+    /**
+     * Initial query
+     */
     query: PropTypes.string,
     useCustomItemRender: PropTypes.bool,
     translations: PropTypes.object,

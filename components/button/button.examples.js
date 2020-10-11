@@ -17,6 +17,11 @@ export default {
   parameters: {
     component: Button,
     framework: 'react'
+  },
+  argTypes: {
+    blue: {
+      table: {disable: true}
+    }
   }
 };
 

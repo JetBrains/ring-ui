@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import ButtonNG from '@jetbrains/ring-ui/components/button-ng/button-ng';
@@ -22,7 +20,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onError, onReject}) => {
   angular.
     module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG]).
     controller('ExampleCtrl', function controller($q, $timeout, dialog) {
@@ -76,11 +74,11 @@ export const basic = () => {
               {
                 label: 'Dangerous Action',
                 cssClasses: 'custom-css-class-button-right',
-                action: () => $timeout(angular.noop, 2000).then(action('Some error'))
+                action: () => $timeout(angular.noop, 2000).then(onError)
               }
             ]
           }).
-          catch(action('dialog rejected'));
+          catch(onReject);
       };
 
       $timeout(() => this.showDialog());
@@ -99,6 +97,7 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onError: {}, onReject: {}};
 
 basic.parameters = {
   storyStyles: `
@@ -185,7 +184,7 @@ inSidebar.parameters = {
   }
 };
 
-export const withOverriddenStyles = () => {
+export const withOverriddenStyles = ({onReject}) => {
   angular.
     module(APP_NAME, [DialogNG, ButtonNG, SelectNG, InputNG, SidebarNG]).
     controller('ExampleCtrl', function controller($q, $timeout, dialog) {
@@ -209,7 +208,7 @@ export const withOverriddenStyles = () => {
             controllerAs: 'dialogExampleCtrl',
             controller: function ctrl() {}
           }).
-          catch(action('dialog rejected'));
+          catch(onReject);
       };
 
       $timeout(() => this.showDialog());
@@ -226,6 +225,7 @@ export const withOverriddenStyles = () => {
 };
 
 withOverriddenStyles.storyName = 'with overridden styles';
+withOverriddenStyles.argTypes = {onReject: {}};
 
 withOverriddenStyles.parameters = {
   storyStyles: `

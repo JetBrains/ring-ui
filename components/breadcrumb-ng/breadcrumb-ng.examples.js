@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import BreadcrumbNG from '@jetbrains/ring-ui/components/breadcrumb-ng/breadcrumb-ng';
@@ -15,9 +13,9 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onClickSecondLevel}) => {
   angular.module(APP_NAME, [BreadcrumbNG]).controller('DemoCtrl', function controller() {
-    this.clickSecondLevel = action('Second level was clicked');
+    this.clickSecondLevel = onClickSecondLevel;
   });
 
   return `
@@ -32,3 +30,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onClickSecondLevel: {}};

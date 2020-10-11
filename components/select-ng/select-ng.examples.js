@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import TabsNG from '@jetbrains/ring-ui/components/tabs-ng/tabs-ng';
@@ -365,13 +363,13 @@ export const insideForm = () => {
 
 insideForm.storyName = 'inside form';
 
-export const lazyLoadingOnScroll = () => {
+export const lazyLoadingOnScroll = ({onGetOptions}) => {
   angular.module(APP_NAME, [SelectNG]).controller('testCtrl', function ctrl($q, $timeout) {
     const PAGE_SIZE = 20;
 
     // Result array is increasing after each method call
     this.getOptions = (skip, query) => {
-      action('getOptions')('query = ', query, 'skip = ', skip);
+      onGetOptions('query = ', query, 'skip = ', skip);
       const arr = [];
       if (skip < 50) {
         for (let i = 0; i < PAGE_SIZE; ++i) {
@@ -410,6 +408,7 @@ export const lazyLoadingOnScroll = () => {
     `;
 };
 
+lazyLoadingOnScroll.argTypes = {onGetOptions: {}};
 lazyLoadingOnScroll.storyName = 'lazy loading on scroll';
 
 export const performance = () => {

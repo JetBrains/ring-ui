@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -22,7 +21,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onConfirm, onCancel}) => {
   const auth = new Auth(hubConfig);
   const http = new HTTP(auth, auth.getAPIPath());
 
@@ -47,8 +46,8 @@ export const basic = () => {
       this.hideAuthDialog = showAuthDialog({
         serviceDetails,
         errorMessage: 'Error message',
-        onConfirm: action('onConfirm'),
-        onCancel: action('onCancel')
+        onConfirm,
+        onCancel
       });
     };
 
@@ -65,3 +64,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onConfirm: {}, onCancel: {}};

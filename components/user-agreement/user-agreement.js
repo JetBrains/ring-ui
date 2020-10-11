@@ -13,14 +13,19 @@ import Markdown from '../markdown/markdown';
 
 import style from './user-agreement.css';
 
+function noop() {}
+
+/**
+ * A component that displays a user agreement dialog.
+ */
 export default class UserAgreement extends PureComponent {
   static propTypes = {
     show: PropTypes.bool,
     preview: PropTypes.bool,
     text: PropTypes.string.isRequired,
-    onAccept: PropTypes.func.isRequired,
-    onDecline: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    onAccept: PropTypes.func,
+    onDecline: PropTypes.func,
+    onClose: PropTypes.func,
     onRemindLater: PropTypes.func,
     translations: PropTypes.object
   };
@@ -33,7 +38,10 @@ export default class UserAgreement extends PureComponent {
       scrollToAccept: 'View the entire agreement to continue',
       remindLater: 'Remind me later'
     },
-    show: false
+    show: false,
+    onAccept: noop,
+    onDecline: noop,
+    onClose: noop
   };
 
   state = {

@@ -74,6 +74,9 @@ export const ActiveItemContext = createStatefulContext(undefined, 'ActiveItem');
  * @constructor
  * @extends {ReactComponent}
  */
+/**
+ * Displays a list of items.
+ */
 export default class List extends Component {
   static propTypes = {
     id: PropTypes.string,

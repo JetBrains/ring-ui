@@ -1,5 +1,3 @@
-import {action} from '@storybook/addon-actions';
-
 import linkStyles from '@jetbrains/ring-ui/components/link/link.css';
 
 import analytics from '@jetbrains/ring-ui/components/analytics/analytics';
@@ -12,10 +10,11 @@ export default {
     notes:
       'Provides a façade to Google Analytics and other web analytics services through a system of plugins.',
     hermione: {skip: true}
-  }
+  },
+  argTypes: {onAnalytics: {}}
 };
 
-export const analyticsStory = () => {
+export const analyticsStory = ({onAnalytics}) => {
   const node = document.createElement('div');
 
   node.innerHTML = `
@@ -32,7 +31,7 @@ export const analyticsStory = () => {
   const FLUSH_INTERVAL = 100;
 
   const customPlugin = new AnalyticsCustomPlugin(
-    events => action('analytics')('Custom plugin receives:', events[0].category, events[0].action),
+    events => onAnalytics('Custom plugin receives:', events[0].category, events[0].action),
     false,
     FLUSH_INTERVAL
   );
