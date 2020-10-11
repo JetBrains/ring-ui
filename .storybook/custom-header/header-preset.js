@@ -11,14 +11,14 @@ exports.managerWebpack = function managerWebpack(config) {
     rule.exclude = [
       /\.storybook/,
       ringConfig.componentsPath,
-      /octicons/,
+      /@primer\/octicons/,
       /@jetbrains\/logos/,
       /@jetbrains\/icons/
     ].concat(rule.exclude || []);
   });
 
   ringConfig.loaders.cssLoader.include.push(/\.storybook/);
-  ringConfig.loaders.svgInlineLoader.include.push(/octicons/);
+  ringConfig.loaders.svgInlineLoader.include.push(/@primer\/octicons/);
   ringConfig.loaders.svgInlineLoader.include.push(/@jetbrains\/logos/);
 
   const serverUri = pkgConfig.hub;
