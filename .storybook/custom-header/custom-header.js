@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {render} from 'react-dom';
 import jetbrainsLogo from '@jetbrains/logos/jetbrains/jetbrains.svg';
-import gitHubLogo from 'octicons/build/svg/octoface.svg';
+import gitHubLogo from '@primer/octicons/build/svg/mark-github-16.svg';
 
 import packageInfo from '../../package.json';
 import Auth from '../../components/auth/auth';
