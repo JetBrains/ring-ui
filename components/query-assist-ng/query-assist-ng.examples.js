@@ -1,7 +1,5 @@
 import angular from 'angular';
 
-import {action} from '@storybook/addon-actions';
-
 import angularDecorator, {APP_NAME} from '../../.storybook/angular-decorator';
 
 import hubConfig from '../../.storybook/hub-config';
@@ -20,7 +18,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onChange}) => {
   angular.
     module(APP_NAME, [QueryAssistNG, AuthNG]).
     config(authProvider => {
@@ -38,7 +36,7 @@ export const basic = () => {
 
       this.change = ({query}) => {
         this.query = query;
-        action('onChange')('Query = ', query);
+        onChange('Query = ', query);
       };
 
       this.focusChange = ({focus}) => {
@@ -88,3 +86,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onChange: {}};

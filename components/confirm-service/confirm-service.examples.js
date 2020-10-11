@@ -1,5 +1,4 @@
 import React from 'react';
-import {action} from '@storybook/addon-actions';
 
 import reactDecorator from '../../.storybook/react-decorator';
 
@@ -19,7 +18,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const basic = ({onConfirm, onCancel}) => {
   class ConfirmDemo extends React.Component {
     componentDidMount() {
       this.showConfirm();
@@ -31,8 +30,8 @@ export const basic = () => {
 
     showConfirm = () =>
       confirm({text: 'Do you really wish to proceed?'}).
-        then(action('Confirmed')).
-        catch(action('Rejected'));
+        then(onConfirm).
+        catch(onCancel);
 
     showWithAnotherText = () =>
       confirm({
@@ -43,8 +42,8 @@ export const basic = () => {
         cancelIsDefault: true,
         onBeforeConfirm: () => new Promise(resolve => setTimeout(resolve, 1000))
       }).
-        then(action('Confirmed')).
-        catch(action('Rejected'));
+        then(onConfirm).
+        catch(onCancel);
 
     render() {
       return (
@@ -60,3 +59,4 @@ export const basic = () => {
 };
 
 basic.storyName = 'basic';
+basic.argTypes = {onConfirm: {}, onCancel: {}};

@@ -201,6 +201,9 @@ function isSameSelected(prevSelected, selected) {
  * @constructor
  * @extends {Component}
  */
+/**
+ * Displays a select.
+ */
 export default class Select extends Component {
   static _getEmptyValue(multiple) {
     return multiple ? [] : null;

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {action} from '@storybook/addon-actions';
 import permissionIcon from '@jetbrains/icons/permission.svg';
 
 import hubConfig from '../../.storybook/hub-config';
@@ -14,73 +13,27 @@ import Icon from '@jetbrains/ring-ui/components/icon/icon';
 
 import QueryAssist from '@jetbrains/ring-ui/components/query-assist/query-assist';
 
-const queryAssistLog = action('queryAssistLog');
-
 export default {
   title: 'Components/Query Assist',
   decorators: [reactDecorator()],
 
   parameters: {
-    notes: `
-## Component params
-
-+ __autoOpen__ \`bool=false\` Open suggestions popup during the initial render
-+ __caret__ \`number=query.length\` Initial caret position
-+ __clear__ \`bool=false\` Show clickable "cross" icon on the right which clears the query
-+ __className__ \`string=''\` Additional class for the component
-+ __popupClassName__ \`string=''\` Additional class for the popup
-+ __dataSource__ \`func\` Data source function
-+ __delay__ \`number=0\` Input debounce delay
-+ __disabled__ \`bool=false\` Disable the component
-+ __focus__ \`bool=false\` Initial focus
-+ __hint__ \`string=''\` Hint under the suggestions list
-+ __hintOnSelection__ \`string=''\` Hint under the suggestions list visible when a suggestion is selected
-+ __glass__ \`bool=false\` Show clickable "glass" icon on the right which applies the query
-+ __loader__ \`bool=false\` Show loader when a data request is in process
-+ __placeholder__ \`string=''\` Field placeholder value
-+ __onApply__ \`func=\` Called when the query is applied. An object with fields \`caret\`, \`focus\` and \`query\` is passed as an argument
-+ __onChange__ \`func=\`  Called when the query is changed. An object with fields \`caret\` and \`query\` is passed as an argument
-+ __onClear__ \`func=\` Called when the query is cleared. Called without arguments
-+ __onFocusChange__ \`func\` Called when the focus status is changed. An object with fields \`focus\` is passed as an argument
-+ __shortcuts__ \`bool=true\` Enable shortcut
-+ __query__ \`string=''\` Initial query
-
- ## Data source function
-
- Component class calls a data source function when user input happens and passes an object with fields \`caret\`, \`focus\` and \`query\` as the only argument.
- The function must return an object with the fields described below. The object can be optionally wrapped in a Promise.
-
- ### Return object fields
-
- \`caret\` and \`query\` should just return server values provided to data source function.
- These fields allow the Query Assist component to recognise and drop earlier responses from the server.
-
-+ __caret__ (\`string=0\`) Caret from request
-+ __query__ (\`string=''\`) Query from request
-+ __styleRanges__ (\`Array<suggestion>=\`) Array of \`styleRange\` objects, used to highlight the request in the input field
-+ __suggestions__ (\`Array<styleRange>\`) Array of \`suggestion\` objects to show.
-
- ### **styleRange** object fields
-
- start \`number\` Range start (in characters)
- length \`number\` Range length (in characters)
- style \`string\` Style of the range. Possible values: \`text\`, \`field_value\`, \`field_name\`, \`operator\`
-
- ### **suggestion** object fields
-
-+ __prefix__ \`string=\` Suggestion option prefix
-+ __option__ \`string\` Suggestion option
-+ __suffix__ \`string=\` Suggestion option suffix
-+ __description__ \`string=\` Suggestion option description. Is not visible when a group is set
-+ __matchingStart__ \`number\` (required when matchingEnd is set) Start of the highlighted part of an option in the suggestions list (in characters)
-+ __matchingEnd__ \`number\` (required when matchingEnd is set) End of the highlighted part of an option in the suggestions list (in characters)
-+ __caret__ \`number\` Caret position after option completion (in characters)
-+ __completionStart__ \`number\` Where to start insertion (or replacement, when completing with the \`Tab\` key) of the completion option (in characters)
-+ __completionEnd__ \`number\` Where to end insertion of the completion option (in characters)
-+ __group__ \`string=\` Group title. Options with the same title are grouped under it
-+ __icon__ \`string=\` Icon URI, Data URI is possible
-
-    `
+    component: QueryAssist,
+    framework: 'react'
+  },
+  args: {
+    // https://github.com/storybookjs/storybook/issues/12635#issuecomment-703392498
+    theme: undefined,
+    translations: undefined,
+    placeholder: 'placeholder',
+    glass: true,
+    clear: true,
+    hint: 'hint',
+    hintOnSelection: 'hint on selection'
+  },
+  argTypes: {
+    theme: {},
+    translations: {}
   }
 };
 
@@ -112,27 +65,29 @@ class Basic extends Component {
 
     return (
       <QueryAssist
-        query="test"
-        placeholder="placeholder"
-        glass
-        clear
-        onApply={queryAssistLog}
-        focus
-        hint="lol"
-        hintOnSelection="lol selected"
-        popupClassName="test"
+        {...this.props}
         dataSource={this.dataSource}
       />
     );
   }
 }
-export const basic = () => <Basic/>;
+export const basic = args => <Basic {...args}/>;
 
 basic.storyName = 'basic';
 basic.parameters = {hermione: {skip: true}};
+basic.args = {
+  query: 'test',
+  focus: true,
+  hint: 'lol',
+  hintOnSelection: 'lol selected',
+  popupClassName: 'test'
+};
 
-export const noAuth = () => {
-  const dataSource = ({query, caret}) => ({
+export const noAuth = args => <QueryAssist {...args}/>;
+
+noAuth.storyName = 'no auth';
+noAuth.args = {
+  dataSource: ({query, caret}) => ({
     query,
     caret,
     styleRanges: [
@@ -179,23 +134,8 @@ export const noAuth = () => {
         group: 'Names'
       }
     ]
-  });
-
-  return (
-    <QueryAssist
-      placeholder="placeholder"
-      glass
-      clear
-      onApply={queryAssistLog}
-      hint="hint"
-      hintOnSelection="hint on selection"
-      dataSource={dataSource}
-    />
-  );
+  })
 };
-
-noAuth.storyName = 'no auth';
-
 noAuth.parameters = {
   hermione: {
     actions: [
@@ -211,15 +151,18 @@ noAuth.parameters = {
   }
 };
 
-export const withCustomRenderer = () => {
-  const template = item =>
-    React.createElement(
-      'span',
-      null,
-      `My name is ${item.description}, my ${item.prefix} is ${item.option}`
-    );
+const template = item =>
+  React.createElement(
+    'span',
+    null,
+    `My name is ${item.description}, my ${item.prefix} is ${item.option}`
+  );
 
-  const dataSource = ({query, caret}) => ({
+export const withCustomRenderer = args => <QueryAssist {...args}/>;
+
+withCustomRenderer.args = {
+  useCustomItemRender: true,
+  dataSource: ({query, caret}) => ({
     query,
     caret,
     styleRanges: [
@@ -247,27 +190,20 @@ export const withCustomRenderer = () => {
       i.data = i;
       return i;
     })
-  });
-
-  return (
-    <QueryAssist
-      placeholder="placeholder"
-      glass
-      clear
-      onApply={queryAssistLog}
-      hint="hint"
-      hintOnSelection="hint on selection"
-      dataSource={dataSource}
-      useCustomItemRender
-    />
-  );
+  })
 };
-
 withCustomRenderer.storyName = 'with custom renderer';
 withCustomRenderer.parameters = {hermione: {skip: true}};
 
-export const darkThemeNoAuth = () => {
-  const dataSource = async ({query, caret}) => ({
+export const darkThemeNoAuth = args => (
+  <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
+    <QueryAssist {...args}/>
+  </div>
+);
+
+darkThemeNoAuth.args = {
+  theme: QueryAssist.Theme.DARK,
+  dataSource: async ({query, caret}) => ({
     query,
     caret,
     styleRanges: [
@@ -302,22 +238,7 @@ export const darkThemeNoAuth = () => {
         group: 'logins'
       }
     ]
-  });
-
-  return (
-    <div style={{background: '#000', padding: '24px', margin: '-16px', paddingBottom: 0}}>
-      <QueryAssist
-        placeholder="placeholder"
-        theme={QueryAssist.Theme.DARK}
-        glass
-        clear
-        onApply={queryAssistLog}
-        hint="hint"
-        hintOnSelection="hint on selection"
-        dataSource={dataSource}
-      />
-    </div>
-  );
+  })
 };
 
 darkThemeNoAuth.storyName = 'dark theme (no-auth)';
@@ -336,54 +257,50 @@ darkThemeNoAuth.parameters = {
   }
 };
 
-export const withCustomActions = () => {
-  const auth = new Auth(hubConfig);
-  const http = new HTTP(auth, auth.getAPIPath());
-
-  class QueryAssistExample extends Component {
-    constructor() {
-      super();
-      auth.init().then(() => this.setState({authReady: true}));
-    }
-
-    state = {authReady: false};
-
-    dataSource = props => {
-      const params = {
-        query: {
-          ...props,
-          fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
-        }
-      };
-
-      return http.get('users/queryAssist', params);
-    };
-
-    render() {
-      if (!this.state.authReady) {
-        return <span>Loading...</span>;
-      }
-
-      return (
-        <QueryAssist
-          query="test"
-          placeholder="placeholder"
-          glass
-          clear
-          onApply={queryAssistLog}
-          focus
-          hint="lol"
-          hintOnSelection="lol selected"
-          popupClassName="test"
-          dataSource={this.dataSource}
-          actions={[<Icon glyph={permissionIcon} key="custom-action"/>]}
-        />
-      );
-    }
+class QueryAssistExample extends Component {
+  constructor() {
+    super();
+    const auth = new Auth(hubConfig);
+    this.http = new HTTP(auth, auth.getAPIPath());
+    auth.init().then(() => this.setState({authReady: true}));
   }
 
-  return <QueryAssistExample/>;
-};
+  state = {authReady: false};
 
+  dataSource = props => {
+    const params = {
+      query: {
+        ...props,
+        fields: `query,caret,styleRanges${props.omitSuggestions ? '' : ',suggestions'}`
+      }
+    };
+
+    return this.http.get('users/queryAssist', params);
+  };
+
+  render() {
+    if (!this.state.authReady) {
+      return <span>Loading...</span>;
+    }
+
+    return (
+      <QueryAssist
+        {...this.props}
+        dataSource={this.dataSource}
+      />
+    );
+  }
+}
+
+export const withCustomActions = args => <QueryAssistExample {...args}/>;
+
+withCustomActions.args = {
+  query: 'test',
+  focus: true,
+  hint: 'lol',
+  hintOnSelection: 'lol selected',
+  popupClassName: 'test',
+  actions: [<Icon glyph={permissionIcon} key="custom-action"/>]
+};
 withCustomActions.storyName = 'with custom actions';
 withCustomActions.parameters = {hermione: {skip: true}};
