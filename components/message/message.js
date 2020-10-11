@@ -32,6 +32,10 @@ const getTailOffsets = offset => ({
   [Directions.LEFT_CENTER]: {top: offset, right: -UNIT, transform: 'rotate(-90deg)'}
 });
 
+
+/**
+ * Displays a popup containing a message.
+ */
 export default class Message extends Component {
   static propTypes = {
     children: PropTypes.node,
