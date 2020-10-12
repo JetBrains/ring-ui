@@ -108,7 +108,7 @@
     "events": "^3.2.0",
     "husky": "^4.3.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "~26.5.2",
+    "jest": "~26.5.3",
     "jest-teamcity": "^1.9.0",
     "karma": "^5.2.3",
     "karma-chrome-launcher": "3.1.0",
