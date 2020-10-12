@@ -11,10 +11,10 @@
     "pregui": "kill-port 8000",
     "gather": "npm run hermione -- --update-refs",
     "gui": "npm run hermione gui",
-    "hermione": "node hermione.js",
+    "hermione": "node hermione-local.js",
     "serve": "http-server ../../dist/ -p 9999",
     "test": "npm run hermione",
-    "test-ci": "forever start .serve-static.json && npm test -- -- --teamcity; forever stop serve-static"
+    "test-ci": "node hermione-ci.js"
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
@@ -24,7 +24,6 @@
     "dotenv": "^8.2.0",
     "filenamify": "^4.2.0",
     "font-awesome": "^4.7.0",
-    "forever": "^3.0.2",
     "fs-extra": "^9.0.1",
     "hermione": "^3.9.0",
     "html-reporter": "^5.16.4",

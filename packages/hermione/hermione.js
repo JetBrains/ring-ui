@@ -13,7 +13,7 @@ const browserstackPort = 45691;
 // eslint-disable-next-line no-magic-numbers
 const STDOUT_BUFFER_SIZE = 1024 * 1024 * 20; // 20 Mb
 
-kill(browserstackPort).then(() => {
+module.exports = callback => kill(browserstackPort).then(() => {
 
   browserstack.start({
     key: process.env.BROWSERSTACK_KEY,
@@ -34,6 +34,7 @@ kill(browserstackPort).then(() => {
       // eslint-disable-next-line no-use-before-define
       hermioneProcess.kill();
       exec('git add hermione');
+      callback();
     };
 
     process.on('SIGINT', () => {
