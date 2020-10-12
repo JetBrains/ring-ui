@@ -1,6 +1,6 @@
 import scrollbarWidth from 'scrollbar-width';
 
-import {bodyWithoutScroll} from './dialog.css';
+import styles from './dialog.css';
 
 let isPrevented = false;
 let previousBodyWidth = null;
@@ -11,7 +11,7 @@ export default {
       return;
     }
     isPrevented = true;
-    document.documentElement.classList.add(bodyWithoutScroll);
+    document.documentElement.classList.add(styles.bodyWithoutScroll);
 
     const scrollWidth = scrollbarWidth();
 
@@ -29,7 +29,7 @@ export default {
     }
     isPrevented = false;
 
-    document.documentElement.classList.remove(bodyWithoutScroll);
+    document.documentElement.classList.remove(styles.bodyWithoutScroll);
 
     if (previousBodyWidth !== null) {
       document.documentElement.style.width = previousBodyWidth;
