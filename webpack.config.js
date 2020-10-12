@@ -15,7 +15,10 @@ const svgInlineLoader = {
 
 const svgLoader = {
   test: /\.svg$/,
-  loader: `${require.resolve('url-loader')}?limit=10000`,
+  loader: require.resolve('url-loader'),
+  options: {
+    limit: 10000
+  },
   include: componentsPath
 };
 
@@ -29,8 +32,9 @@ const scssLoader = {
       loader: require.resolve('postcss-loader')
     },
     {
-      loader: `${require.resolve('sass-loader')}?outputStyle=expanded`,
+      loader: require.resolve('sass-loader'),
       options: {
+        outputStyle: 'expanded',
         implementation: require('sass') // Dart implementation of SASS compiler
       }
     }
