@@ -13,8 +13,8 @@ module.exports = {
   ],
   presets: [require.resolve('./custom-header/header-preset')],
   addons: [
-    '@storybook/addon-essentials',
     '@storybook/addon-storysource',
+    '@storybook/addon-essentials',
     '@storybook/addon-a11y'
   ],
   webpackFinal(config) {
