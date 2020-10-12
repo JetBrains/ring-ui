@@ -51,7 +51,10 @@ const webpackConfig = () => ({
       {
         test: /\.js$/,
         include: [componentsPath],
-        loader: 'babel-loader?cacheDirectory'
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true
+        }
       }
     ]
   },
