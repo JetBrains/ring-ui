@@ -4,4 +4,7 @@ const hermione = require('./hermione');
 
 const server = exec('yarn serve');
 
-hermione(() => server.kill());
+hermione(() => {
+  server.kill();
+  process.exit(0);
+});
