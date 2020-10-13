@@ -14,7 +14,7 @@
     "hermione": "node hermione-local.js",
     "serve": "http-server ../../dist/ -p 9999",
     "test": "npm run hermione",
-    "test-ci": "node hermione-ci.js"
+    "test-ci": "node hermione-ci.js --teamcity"
   },
   "devDependencies": {
     "@jetbrains/hermione-teamcity-reporter": "^1.1.2",
