@@ -55,7 +55,8 @@ module.exports = {
         os,
         os_version,
         maxDuration
-      }
+      },
+      sessionsPerBrowser: 4
     },
     firefox: {
       resetCursor: false, // Prevents grid failure on performing "moveto" command
@@ -67,7 +68,8 @@ module.exports = {
         os: 'OS X',
         os_version: 'Catalina',
         maxDuration
-      }
+      },
+      sessionsPerBrowser: 4
     }
   }
 };
