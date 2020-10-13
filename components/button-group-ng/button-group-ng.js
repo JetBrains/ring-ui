@@ -5,14 +5,14 @@ import 'dom4';
 
 import styles from '../button-group/button-group.css';
 
-import {buttonGroup} from './button-group-ng.css';
+import ngStyles from './button-group-ng.css';
 
 /**
  * @name Button Group Ng
  */
 
 const angularModule = angular.module('Ring.button-group', []);
-const buttonGroupClasses = classNames(styles.buttonGroup, buttonGroup);
+const buttonGroupClasses = classNames(styles.buttonGroup, ngStyles.buttonGroup);
 
 function rgButtonGroup() {
   return {
