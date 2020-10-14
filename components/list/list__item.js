@@ -59,6 +59,7 @@ export default class ListItem extends PureComponent {
     onClick: PropTypes.func,
     onCheckboxChange: PropTypes.func,
     onMouseOver: PropTypes.func,
+    onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
     'data-test': PropTypes.string
   };
@@ -92,6 +93,7 @@ export default class ListItem extends PureComponent {
       onClick,
       onCheckboxChange,
       onMouseOver,
+      onMouseDown,
       onMouseUp,
       rightNodes,
       leftNodes,
@@ -158,6 +160,7 @@ export default class ListItem extends PureComponent {
           tabIndex={tabIndex}
           onClick={onClick}
           onMouseOver={onMouseOver}
+          onMouseDown={onMouseDown}
           onFocus={onMouseOver}
           onMouseUp={onMouseUp}
           className={classes}
