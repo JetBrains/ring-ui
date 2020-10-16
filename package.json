@@ -127,7 +127,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-is": "^16.13.1",
-    "react-test-renderer": "^16.13.1",
+    "react-test-renderer": "^16.14.0",
     "regenerator-runtime": "^0.13.7",
     "sinon": "^9.2.0",
     "sinon-chai": "^3.5.0",
