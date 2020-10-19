@@ -47,7 +47,12 @@ const cssLoader = {
   test: /\.css$/,
   include: componentsPath,
   use: [
-    require.resolve('style-loader'),
+    {
+      loader: require.resolve('style-loader'),
+      options: {
+        esModule: false
+      }
+    },
     {
       loader: require.resolve('css-loader'),
       options: {
