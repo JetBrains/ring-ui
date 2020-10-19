@@ -51,6 +51,10 @@ module.exports = {
     config.plugins.push(new webpack.DefinePlugin({hubConfig}));
 
     config.resolve.alias['@jetbrains/ring-ui'] = path.resolve(__dirname, '..');
+    config.node = {
+      Buffer: false,
+      process: false
+    };
 
     return config;
   }
