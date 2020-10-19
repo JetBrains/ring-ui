@@ -4,6 +4,7 @@
 
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Dialog from '../dialog/dialog';
 import {Content, Header} from '../island/island';
@@ -27,7 +28,8 @@ export default class UserAgreement extends PureComponent {
     onDecline: PropTypes.func,
     onClose: PropTypes.func,
     onRemindLater: PropTypes.func,
-    translations: PropTypes.object
+    translations: PropTypes.object,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -60,15 +62,18 @@ export default class UserAgreement extends PureComponent {
       onRemindLater,
       text,
       show,
-      preview
+      preview,
+      className
     } = this.props;
 
     return (
       <Dialog
         show={show}
+        className={classNames(style.agreementDialog, className)}
         contentClassName={style.dialogContent}
         trapFocus
         autoFocusFirst={false}
+        data-test="user-agreement"
       >
         <Header>&nbsp;</Header>
         <Content
