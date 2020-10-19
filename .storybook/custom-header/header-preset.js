@@ -41,6 +41,10 @@ exports.managerWebpack = function managerWebpack(config) {
     plugins: [
       ...config.plugins,
       new webpack.DefinePlugin({hubConfig})
-    ]
+    ],
+    node: {
+      Buffer: false,
+      process: false
+    }
   };
 };

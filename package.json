@@ -122,6 +122,7 @@
     "lint-staged": "^10.4.2",
     "merge-options": "^3.0.3",
     "mocha": "^8.2.0",
+    "process": "^0.11.10",
     "puppeteer": "^5.3.1",
     "raw-loader": "^4.0.2",
     "react": "^16.14.0",
