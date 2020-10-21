@@ -8,6 +8,7 @@ import dragIcon from '@jetbrains/icons/drag.svg';
 import Checkbox from '../checkbox/checkbox';
 import Button from '../button/button';
 import Tooltip from '../tooltip/tooltip';
+import dataTests from '../global/data-tests';
 
 import getUID from '../global/get-uid';
 import composeRefs from '../global/composeRefs';
@@ -59,7 +60,8 @@ export default class Row extends PureComponent {
     innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     focused: PropTypes.bool,
     autofocus: PropTypes.bool,
-    onFocusReset: PropTypes.func
+    onFocusReset: PropTypes.func,
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -129,7 +131,7 @@ export default class Row extends PureComponent {
       collapsible, parentCollapsible, collapsed,
       onCollapse, onExpand, showDisabledSelection,
       checkboxTooltip, innerRef, focused, autofocus, onFocusReset,
-      onFocusRestore, onHover, className, ...restProps
+      onFocusRestore, onHover, className, 'data-test': dataTest, ...restProps
     } = this.props;
 
     const classes = classNames(className, {
@@ -226,7 +228,7 @@ export default class Row extends PureComponent {
         ref={composeRefs(this.rowRef, innerRef)}
         className={classes}
         tabIndex="0"
-        data-test="ring-table-row"
+        data-test={dataTests('ring-table-row', dataTest)}
         {...testAttrs}
         {...restProps}
         onMouseMove={this.onMouseEnter}
