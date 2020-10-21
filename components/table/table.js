@@ -35,6 +35,7 @@ export class Table extends PureComponent {
     loading: PropTypes.bool,
     getItemKey: PropTypes.func,
     getItemClassName: PropTypes.func,
+    getItemDataTest: PropTypes.func,
     onSort: PropTypes.func,
     onReorder: PropTypes.func,
     sortKey: PropTypes.string,
@@ -84,6 +85,7 @@ export class Table extends PureComponent {
     stickyHeader: true,
     getItemLevel: () => 0,
     getItemClassName: () => null,
+    getItemDataTest: () => null,
     isItemCollapsible: () => false,
     isParentCollapsible: () => false,
     isItemCollapsed: () => false,
@@ -172,7 +174,8 @@ export class Table extends PureComponent {
   render() {
     const {
       data, selection, columns, caption, getItemKey, selectable, focused,
-      isItemSelectable, getItemLevel, getItemClassName, draggable, alwaysShowDragHandle,
+      isItemSelectable, getItemLevel, getItemClassName, getItemDataTest,
+      draggable, alwaysShowDragHandle,
       loading, onSort, sortKey, sortOrder, loaderClassName, stickyHeader,
       stickyHeaderOffset, isItemCollapsible, isParentCollapsible, isItemCollapsed,
       onItemCollapse, onItemExpand, isDisabledSelectionVisible, getCheckboxTooltip,
@@ -260,6 +263,7 @@ export class Table extends PureComponent {
           draggable={draggable}
           alwaysShowDragHandle={alwaysShowDragHandle}
           columns={columns}
+          data-test={getItemDataTest(value)}
           {...restProps}
         />
       );

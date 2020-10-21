@@ -113,6 +113,7 @@ class BasicDemo extends Component {
           sortOrder={sortOrder}
           caption={withCaption ? 'Countries' : undefined}
           isItemSelectable={this.isItemSelectable}
+          getItemDataTest={it => it.country}
         />
 
         <Grid>
