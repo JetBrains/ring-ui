@@ -211,11 +211,12 @@ export default class Row extends PureComponent {
 
     const cells = columns.map((column, index) => {
       const getValue = column.getValue || (() => item[column.id]);
+      const getDataTest = column.getDataTest || (() => undefined);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
 
       return (
-        <Cell key={column.id} className={cellClasses}>
+        <Cell key={column.id} className={cellClasses} data-test={getDataTest(item, column)}>
           {index === 0 && (draggable || selectable || showDisabledSelection) && metaColumn}
           {value}
         </Cell>
