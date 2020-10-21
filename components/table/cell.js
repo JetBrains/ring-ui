@@ -2,12 +2,15 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import dataTests from '../global/data-tests';
+
 import style from './table.css';
 
 export default class Cell extends PureComponent {
   static propTypes = {
     children: PropTypes.any,
-    className: PropTypes.string
+    className: PropTypes.string,
+    'data-test': PropTypes.string
   };
 
   render() {
@@ -16,7 +19,7 @@ export default class Cell extends PureComponent {
       <td
         {...this.props}
         className={classes}
-        data-test="ring-table-cell"
+        data-test={dataTests('ring-table-cell', this.props['data-test'])}
       >{this.props.children}</td>
     );
   }

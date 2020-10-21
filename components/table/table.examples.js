@@ -206,6 +206,7 @@ basic.args = {
     {
       id: 'city',
       title: 'City',
+      getDataTest: item => item.city,
       sortable: true
     },
 
