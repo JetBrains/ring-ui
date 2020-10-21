@@ -211,7 +211,7 @@ export default class Row extends PureComponent {
 
     const cells = columns.map((column, index) => {
       const getValue = column.getValue || (() => item[column.id]);
-      const getDataTest = column.getDataTest || (() => undefined);
+      const getDataTest = column.getDataTest || (() => column.id);
       const value = getValue(item, column);
       const cellClasses = classNames({[style.cellRight]: column.rightAlign}, column.className);
 
