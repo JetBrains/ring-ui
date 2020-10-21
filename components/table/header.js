@@ -108,6 +108,7 @@ export default class Header extends PureComponent {
       return (
         <HeaderCell
           key={column.id}
+          data-test={column.id}
           {...props}
         >
           {index === 0 && (draggable || selectable) && metaColumn}
