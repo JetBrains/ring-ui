@@ -86,7 +86,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.1.1",
     "angular": "^1.8.1",
     "angular-mocks": "^1.8.2",
-    "angular-route": "^1.8.1",
+    "angular-route": "^1.8.2",
     "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-react-docgen": "^4.2.1",
