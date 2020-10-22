@@ -98,7 +98,11 @@ const whatwgLoader = {
 
 const vfileLoader = {
   test: /node_modules\/vfile\/core\.js/,
-  loader: 'imports-loader?process=process/browser'
+  loader: require.resolve('imports-loader'),
+  options: {
+    type: 'commonjs',
+    imports: ['single process/browser process']
+  }
 };
 
 const htmlLoader = {
