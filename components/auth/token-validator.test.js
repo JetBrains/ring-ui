@@ -5,7 +5,7 @@ import Auth from './auth';
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
-import MockedStorage from 'imports-loader?window=storage-mock!../storage/storage__local';
+import MockedStorage from 'imports-loader?imports=default|storage-mock|window!../storage/storage__local';
 
 describe('Auth', () => {
   describe('TokenValidator', () => {
