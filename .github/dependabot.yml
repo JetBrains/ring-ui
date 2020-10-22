@@ -16,10 +16,6 @@ updates:
     versions:
     - "< 3"
     - ">= 2.a"
-  - dependency-name: imports-loader
-    versions:
-    - ">= 1.a"
-    - "< 2"
 - package-ecosystem: npm
   directory: "/packages/generator/app/templates"
   schedule:

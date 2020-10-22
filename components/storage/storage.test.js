@@ -2,7 +2,7 @@
 import Storage from './storage__local';
 import FallbackStorage from './storage__fallback';
 
-import MockedStorage from 'imports-loader?window=storage-mock!./storage__local';
+import MockedStorage from 'imports-loader?imports=default|storage-mock|window!./storage__local';
 
 function noop() {}
 
