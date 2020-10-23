@@ -542,7 +542,6 @@ export default class Select extends Component {
         <Button
           text
           className={styles.button}
-          onClick={resetHandler}
           data-test="ring-select-reset-tags-button"
         >
           {reset.label}
