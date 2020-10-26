@@ -80,7 +80,7 @@
     "@storybook/addons": "6.0.27",
     "@storybook/client-api": "6.0.27",
     "@storybook/core": "6.0.27",
-    "@storybook/html": "6.0.26",
+    "@storybook/html": "6.0.27",
     "@storybook/source-loader": "6.0.27",
     "@storybook/theming": "6.0.26",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.1.1",
