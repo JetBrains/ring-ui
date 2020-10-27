@@ -123,7 +123,7 @@
     "merge-options": "^3.0.3",
     "mocha": "^8.2.0",
     "process": "^0.11.10",
-    "puppeteer": "^5.3.1",
+    "puppeteer": "^5.4.0",
     "raw-loader": "^4.0.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
