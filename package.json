@@ -103,7 +103,7 @@
     "eslint-plugin-angular": "^4.0.1",
     "eslint-plugin-bdd": "^2.1.1",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.21.5",
     "events": "^3.2.0",
     "husky": "^4.3.0",
