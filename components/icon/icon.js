@@ -104,6 +104,7 @@ export default class Icon extends PureComponent {
 
 export {Size};
 
+// TODO remove in 4.0
 // eslint-disable-next-line react/no-multi-comp
 export const iconHOC = deprecate((glyph, displayName) => class BoundIcon extends PureComponent {
   // Compatibility with angular

@@ -25,8 +25,7 @@ describe('Dialog Ng', () => {
   beforeEach(window.module(
     Dialog,
     $controllerProvider => {
-      // eslint-disable-next-line func-names
-      $controllerProvider.register('testCtrl', function () {
+      $controllerProvider.register('testCtrl', function testCtrl() {
         this.text = text;
       });
     }

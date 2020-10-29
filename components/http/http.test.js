@@ -1,5 +1,8 @@
 import HTTP, {defaultFetchConfig} from './http';
 
+const OK = 200;
+const METHOD_NOT_ALLOWED = 405;
+
 describe('HTTP', () => {
   const FAKE_TOKEN = 'fake-token';
   let fakeAuth;
@@ -8,7 +11,7 @@ describe('HTTP', () => {
 
   function mockFetch(httpInstance) {
     sandbox.stub(httpInstance, '_fetch').resolves({
-      status: 200,
+      status: OK,
       headers: new Headers({'content-type': 'application/json'}),
       json: async () => fetchResult
     });
@@ -68,7 +71,7 @@ describe('HTTP', () => {
 
   it('should perform request and return text result if no "application/json" header', async () => {
     http._fetch.resolves({
-      status: 200,
+      status: OK,
       headers: new Headers({'content-type': 'text/html'}),
       json: async () => sandbox.spy(),
       text: async () => 'some text'
@@ -82,13 +85,13 @@ describe('HTTP', () => {
     const res = await http.request('testurl');
 
     const meta = http.getMetaForResponse(res);
-    meta.status.should.equal(200); // eslint-disable-line no-magic-numbers
+    meta.status.should.equal(OK);
     meta.headers.get('content-type').should.equal('application/json');
   });
 
   it('should allow to get meta information of string response', async () => {
     http._fetch.resolves({
-      status: 200,
+      status: OK,
       headers: new Headers({'content-type': 'text/html'}),
       json: async () => sandbox.spy(),
       text: async () => 'some text'
@@ -96,7 +99,7 @@ describe('HTTP', () => {
     const res = await http.request('testurl');
 
     const meta = http.getMetaForResponse(res);
-    meta.status.should.equal(200); // eslint-disable-line no-magic-numbers
+    meta.status.should.equal(OK);
     meta.headers.get('content-type').should.equal('text/html');
   });
 
@@ -136,7 +139,7 @@ describe('HTTP', () => {
 
   it('should throw if response status is not OK', async () => {
     http._fetch.resolves({
-      status: 405,
+      status: METHOD_NOT_ALLOWED,
       json: async () => fetchResult
     });
 
@@ -151,12 +154,12 @@ describe('HTTP', () => {
 
     http._fetch.
       onFirstCall().resolves({
-        status: 405,
+        status: METHOD_NOT_ALLOWED,
         json: async () => ({error: 'invalid_token'}),
         headers: new Headers({'content-type': 'application/json'})
       }).
       onSecondCall().resolves({
-        status: 200,
+        status: OK,
         json: async () => fetchResult,
         headers: new Headers({'content-type': 'application/json'})
       });

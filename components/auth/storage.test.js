@@ -1,5 +1,3 @@
-import sniffer from '../global/sniffer';
-
 import AuthStorage from './storage';
 import TokenValidator from './token-validator';
 
@@ -68,10 +66,6 @@ describe('Auth', () => {
       });
 
       it('should clean state by quota', async () => {
-        // Looks like weird race condition in Fx
-        if (sniffer.browser.name === 'firefox') {
-          return;
-        }
 
         const limitedAuthStorage = new AuthStorage({
           stateKeyPrefix: 'state',

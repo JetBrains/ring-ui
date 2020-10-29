@@ -12,6 +12,7 @@ if (!SUPPORTED_BROWSERS) {
 }
 const SUPPORTED = SUPPORTED_BROWSERS || [];
 
+// TODO remove ie in 4.0
 const WHITE_LISTED_BROWSERS = ['chrome', 'firefox', 'safari', 'ie', 'edge'];
 
 export const WHITE_LIST = SUPPORTED.

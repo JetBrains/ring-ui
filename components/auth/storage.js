@@ -19,6 +19,7 @@ const DEFAULT_STATE_QUOTA = 102400; // 100 kb ~~ 200 tabs with a large list of s
 // eslint-disable-next-line no-magic-numbers
 const DEFAULT_STATE_TTL = 1000 * 60 * 60 * 24; // nobody will need auth state after a day
 const UPDATE_USER_TIMEOUT = 1000;
+// TODO remove in 4.0
 const isIE11 = sniffr.browser.name === 'ie' && sniffr.browser.versionString === '11.0';
 
 export default class AuthStorage {

@@ -7,10 +7,8 @@ import {
   getBaseURI,
   getOrigin,
   isDataURI,
-  parseQueryString,
-  resolveRelativeURL
+  parseQueryString
 } from './url';
-import sniffr from './sniffer';
 
 describe('Url', () => {
   describe('fixUrl', () => {
@@ -70,22 +68,6 @@ describe('Url', () => {
     it('should return undefined for broken URLs', () => {
       should.not.exist(getOrigin('http:/'));
     });
-  });
-
-  describe('resolveRelative', () => {
-    const baseUrl = 'http://example.com/';
-
-    it('should resolve url fragment relative to the base url when <base> tag (not standards-compliant)', () => {
-      sandbox.stub(sniffr.browser, 'name').value('foo');
-      resolveRelativeURL('#test', () => 'uri', () => baseUrl).should.be.equal('#test');
-    });
-
-    it(
-      'should not resolve url fragment relative to the base url when there is no <base> tag',
-      () => {
-        resolveRelativeURL('#test', () => undefined, () => baseUrl).should.be.equal('#test');
-      }
-    );
   });
 
   describe('parseQueryString', () => {
