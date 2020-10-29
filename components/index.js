@@ -1,3 +1,4 @@
+// TODO remove in 4.0
 import deprecate from 'util-deprecate';
 
 deprecate(() => {}, 'Importing from `@jetbrains/ring-ui` index is deprecated. Please import components directly')();

@@ -8,10 +8,8 @@ import Popup from './popup';
 import {MinWidth} from './position';
 
 describe('Popup', () => {
-  // eslint-disable-next-line react/no-children-prop
-  const shallowPopup = props => shallow(<Popup children="" {...props}/>);
-  // eslint-disable-next-line react/no-children-prop
-  const mountPopup = props => mount(<Popup children="" {...props}/>);
+  const shallowPopup = props => shallow(<Popup {...{children: '', ...props}}/>);
+  const mountPopup = props => mount(<Popup {...{children: '', ...props}}/>);
 
   it('should create component', () => {
     const popup = shallowPopup();

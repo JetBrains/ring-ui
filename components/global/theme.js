@@ -10,7 +10,6 @@ export const ThemeContext = createContext();
 const getDisplayName = Component => (typeof Component === 'string' ? Component : (Component.name ?? Component.displayName ?? 'Component'));
 
 export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
-  // eslint-disable-next-line react/prop-types
   const WithTheme = memo(forwardRef(function WithTheme({theme, ...restProps}, ref) {
     return (
       <ThemeContext.Consumer>
@@ -30,6 +29,7 @@ export const withTheme = (defaultTheme = Theme.LIGHT) => ComposedComponent => {
     );
   }));
   Object.assign(WithTheme, ComposedComponent);
+  WithTheme.propTypes = ComposedComponent.propTypes;
   WithTheme.displayName = `withTheme(${getDisplayName(ComposedComponent)})`;
   return WithTheme;
 };

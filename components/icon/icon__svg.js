@@ -8,6 +8,7 @@ import memoize from '../global/memoize';
 
 import styles from './icon.css';
 
+// TODO remove in 4.0
 const isIE = sniffer.browser.name === 'ie';
 
 function convertReactSVGDOMProperty(str) {

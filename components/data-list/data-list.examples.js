@@ -1,4 +1,3 @@
-/* eslint-disable react/sort-comp */
 import React, {PureComponent} from 'react';
 
 import reactDecorator from '../../.storybook/react-decorator';
@@ -19,6 +18,8 @@ export default {
 
 export const basic = () => {
   class DataListDemo extends PureComponent {
+    // state uses getChildren
+    // eslint-disable-next-line react/sort-comp
     expandedItems = new Set();
     isItemCollapsible = item => item.collapsible && item.items && item.id > 10;
     isItemCollapsed = item => !this.expandedItems.has(item.id);

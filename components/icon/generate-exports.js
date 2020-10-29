@@ -1,3 +1,4 @@
+// TODO remove in 4.0
 const fs = require('fs');
 
 const path = require('path');

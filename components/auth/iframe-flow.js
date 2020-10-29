@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React from 'react';
 
 import loginDialogService from '../login-dialog/service';
@@ -35,6 +34,7 @@ export default class IFrameFlow {
           cleanUp();
           this.stop();
         },
+        // eslint-disable-next-line react/display-name
         renderFallbackLink: () => (
           <Link href={authRequest.url} target="_self">{this._translations.nothingHappensLink}</Link>
         )

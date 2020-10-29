@@ -1,12 +1,11 @@
 /**
  * @description Displays a popup with select's options.
  */
-/* eslint-disable react/prop-types */
-
 import React, {PureComponent} from 'react';
 import classNames from 'classnames';
 import searchIcon from '@jetbrains/icons/search.svg';
 import memoizeOne from 'memoize-one';
+import PropTypes from 'prop-types';
 
 import Icon from '../icon/icon';
 
@@ -36,12 +35,57 @@ function noop() {}
 const FilterWithShortcuts = shortcutsHOC(SelectFilter);
 
 export default class SelectPopup extends PureComponent {
+  static propTypes = {
+    activeIndex: PropTypes.number,
+    anchorElement: PropTypes.instanceOf(HTMLElement),
+    className: PropTypes.string,
+    compact: PropTypes.bool,
+    data: PropTypes.array,
+    dir: PropTypes.oneOf(['ltr', 'rtl']),
+    directions: PropTypes.array,
+    disabled: PropTypes.bool,
+    disableMoveOverflow: PropTypes.bool,
+    disableScrollToActive: PropTypes.bool,
+    filter: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
+      value: PropTypes.string,
+      placeholder: PropTypes.string
+    })]),
+    filterValue: PropTypes.string,
+    hidden: PropTypes.bool,
+    isInputMode: PropTypes.bool,
+    listId: PropTypes.string,
+    maxHeight: PropTypes.number,
+    message: PropTypes.string,
+    minWidth: PropTypes.number,
+    multiple: PropTypes.oneOfType([PropTypes.bool, PropTypes.shape({
+      label: PropTypes.string,
+      limit: PropTypes.number,
+      selectAll: PropTypes.bool
+    })]),
+    left: PropTypes.bool,
+    loading: PropTypes.bool,
+    onClear: PropTypes.func,
+    onCloseAttempt: PropTypes.func,
+    onEmptyPopupEnter: PropTypes.func,
+    onFilter: PropTypes.func,
+    onLoadMore: PropTypes.func,
+    onSelect: PropTypes.func,
+    onSelectAll: PropTypes.func,
+    renderOptimization: PropTypes.bool,
+    ringPopupTarget: PropTypes.string,
+    selected: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    style: PropTypes.object,
+    tags: PropTypes.object,
+    toolbar: PropTypes.node,
+    top: PropTypes.number
+  };
+
   static defaultProps = {
     data: [],
     activeIndex: null,
     toolbar: null,
-    filter: false, // can be either boolean or an object with "value" and "placeholder" properties
-    multiple: false, // multiple can be an object - see demo for more information
+    filter: false,
+    multiple: false,
     message: null,
     anchorElement: null,
     maxHeight: 600,
