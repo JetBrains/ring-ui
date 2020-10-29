@@ -1,5 +1,7 @@
 const path = require('path');
 
+const deprecate = require('util-deprecate');
+
 const componentsPath = [path.join(__dirname, 'components')];
 
 function loadersObjectToArray(loaders) {
@@ -95,6 +97,10 @@ const whatwgLoader = {
   test: require.resolve('whatwg-fetch'),
   loader: require.resolve('imports-loader')
 };
+const getWhatwgLoader = deprecate(() => whatwgLoader, `***
+  DEPRECATION: Ring UI's whatwgLoader is about to be removed from webpack.config – there are no more browsers we support that doesn't have Fetch API embedded.
+  Looks like your webpack config is patching it. The simplest fix is to remove any usages of it.
+***`);
 
 const vfileLoader = {
   test: /node_modules\/vfile\/core\.js/,
@@ -124,7 +130,6 @@ const loaders = {
   externalCssLoader,
   scssLoader,
   babelLoader,
-  whatwgLoader,
   vfileLoader,
   htmlLoader,
   gifLoader
@@ -143,12 +148,7 @@ module.exports = {
   loaders: {
     ...loaders,
     get whatwgLoader() {
-      // eslint-disable-next-line no-console
-      console.error(`***
-  DEPRECATION: Ring UI's whatwgLoader is about to be removed from webpack.config – there are no more browsers we support that doesn't have Fetch API embedded.
-  Looks like your webpack config is patching it. The most simple fix is to replace remove any usages of it.
-***`);
-      return whatwgLoader;
+      return getWhatwgLoader();
     }
   }
 };

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deprecate from 'util-deprecate';
@@ -21,61 +21,57 @@ const fallbackHeading = deprecate(
   'Headings of level 5 and higher are replaced with h3'
 );
 
-export default class Heading extends PureComponent {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    level: PropTypes.number
-  };
+const Heading = memo(function Heading({children, className, level, ...restProps}) {
+  const classes = classNames(styles.heading, className);
 
-  static defaultProps = {
-    level: Levels.H1
-  };
+  const Tag = level <= Levels.H4 ? `h${level}` : fallbackHeading();
 
-  static Levels = Levels;
+  return (
+    <Tag
+      {...restProps}
+      className={classes}
+    >
+      {children}
+    </Tag>
+  );
+});
 
-  render() {
-    const {children, className, level, ...restProps} = this.props;
-    const classes = classNames(styles.heading, className);
+Heading.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  level: PropTypes.number
+};
 
-    const Tag = level <= Levels.H4 ? `h${level}` : fallbackHeading();
+Heading.defaultProps = {
+  level: Levels.H1
+};
 
-    return (
-      <Tag
-        {...restProps}
-        className={classes}
-      >
-        {children}
-      </Tag>
-    );
-  }
-}
+Heading.Levels = Levels;
+
+export default Heading;
 
 function makeHeading(level, useCaps) {
-  return class H extends PureComponent { //eslint-disable-line react/no-multi-comp
-    static propTypes = {
-      children: PropTypes.node,
-      className: PropTypes.string,
-      // use only for short h1 headers, no longer than three words
-      caps: PropTypes.bool
-    };
+  const H = memo(({className, caps, ...restProps}) => {
+    const classes = classNames(className, {
+      [styles.caps]: useCaps && caps
+    });
 
-    render() {
-      const {className, caps, ...restProps} = this.props;
-
-      const classes = classNames(className, {
-        [styles.caps]: useCaps && caps
-      });
-
-      return (
-        <Heading
-          {...restProps}
-          level={level}
-          className={classes}
-        />
-      );
-    }
+    return (
+      <Heading
+        {...restProps}
+        level={level}
+        className={classes}
+      />
+    );
+  });
+  H.displayName = `H${level}`;
+  H.propTypes = {
+    children: PropTypes.node,
+    className: PropTypes.string,
+    // use only for short h1 headers, no longer than three words
+    caps: PropTypes.bool
   };
+  return H;
 }
 
 const H1 = makeHeading(Levels.H1, true);

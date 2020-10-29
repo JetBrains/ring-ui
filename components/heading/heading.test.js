@@ -8,7 +8,7 @@ describe('Heading', () => {
   const mountHeading = props => mount(<Heading {...props}/>);
 
   it('should create component', () => {
-    mountHeading().should.have.type(Heading);
+    mountHeading().should.have.type(Heading.type);
   });
 
   it('should wrap children with h1 by default', () => {

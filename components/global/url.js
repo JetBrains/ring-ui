@@ -1,3 +1,5 @@
+import deprecate from 'util-deprecate';
+
 import sniffer from './sniffer';
 
 /**
@@ -104,7 +106,8 @@ export function joinBaseURLAndPath(baseUrl, path) {
  * @param {Function} absoluteURLGetter a function that returns absolute URI of current page
  * @return {string} The URL relative to base URL for current page
  */
-export function resolveRelativeURL(
+// TODO remove in 4.0
+export const resolveRelativeURL = deprecate(function resolveRelativeURL(
   relUrl,
   baseURIGetter = getBaseURI,
   absoluteURLGetter = getAbsoluteURL
@@ -121,7 +124,7 @@ export function resolveRelativeURL(
   }
 
   return String(relUrl);
-}
+}, 'resolveRelativeURL is deprecated');
 
 /**
  * Parses a queryString into an object.

@@ -3,6 +3,7 @@ import sniffer from '../global/sniffer';
 import AuthResponseParser from './response-parser';
 
 const NAVBAR_HEIGHT = 50;
+// TODO remove in 4.0
 const isEdge = sniffer.browser.name === 'edge';
 const CLOSED_CHECK_INTERVAL = 200;
 

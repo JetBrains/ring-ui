@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import angular from 'angular';
 
 import styles from '../radio/radio.css';
@@ -37,7 +36,7 @@ angularModule.directive('rgRadio', function rgCheckboxDirective() {
       const element = iElement[0];
       const input = element.querySelector('input[type="radio"]');
 
-      function usePassedID() {
+      function applyPassedID() {
         const {id} = element;
         element.setAttribute('for', id);
         input.setAttribute('id', id);
@@ -51,7 +50,7 @@ angularModule.directive('rgRadio', function rgCheckboxDirective() {
       }
 
       if (element.id) {
-        usePassedID();
+        applyPassedID();
       } else {
         generateID();
       }
