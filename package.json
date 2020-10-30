@@ -196,7 +196,7 @@
     "react-virtualized": "^9.22.2",
     "react-waypoint": "^9.0.3",
     "remark-breaks": "^2.0.1",
-    "sass": "^1.27.1",
+    "sass": "^1.28.0",
     "sass-loader": "^10.0.4",
     "scrollbar-width": "^3.1.1",
     "simply-uuid": "^1.0.1",
