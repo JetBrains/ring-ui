@@ -13,6 +13,7 @@ import Input, {Size} from '../input/input';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import buttonStyles from '../button/button.css';
+import dataTests from '../global/data-tests';
 import getUID from '../global/get-uid';
 import rerenderHOC from '../global/rerender-hoc';
 import fuzzyHighlight from '../global/fuzzy-highlight';
@@ -268,7 +269,8 @@ export default class Select extends Component {
     customAnchor: PropTypes.func,
     disableMoveOverflow: PropTypes.bool,
     disableScrollToActive: PropTypes.bool,
-    dir: PropTypes.oneOf(['ltr', 'rtl'])
+    dir: PropTypes.oneOf(['ltr', 'rtl']),
+    'data-test': PropTypes.string
   };
 
   static defaultProps = {
@@ -1062,6 +1064,7 @@ export default class Select extends Component {
   }
 
   renderSelect(activeItemId) {
+    const dataTest = this.props['data-test'];
     const {shortcutsEnabled} = this.state;
     const classes = classNames(styles.select, 'ring-js-shortcuts', this.props.className, {
       [styles[`size${this.props.size}`]]: this.props.type !== Type.INLINE,
@@ -1086,7 +1089,7 @@ export default class Select extends Component {
         <div
           ref={this.nodeRef}
           className={classNames(classes, styles.inputMode)}
-          data-test="ring-select"
+          data-test={dataTests('ring-select', dataTest)}
         >
           {shortcutsEnabled && (
             <Shortcuts
@@ -1123,7 +1126,7 @@ export default class Select extends Component {
           <div
             ref={this.nodeRef}
             className={classNames(classes, styles.buttonMode)}
-            data-test="ring-select"
+            data-test={dataTests('ring-select', dataTest)}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1167,7 +1170,7 @@ export default class Select extends Component {
           <div
             ref={this.nodeRef}
             className={classNames(classes, styles.materialMode)}
-            data-test="ring-select"
+            data-test={dataTests('ring-select', dataTest)}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1205,7 +1208,7 @@ export default class Select extends Component {
           <div
             className={classes}
             ref={this.nodeRef}
-            data-test="ring-select"
+            data-test={dataTests('ring-select', dataTest)}
           >
             {shortcutsEnabled && (
               <Shortcuts
@@ -1239,7 +1242,7 @@ export default class Select extends Component {
               {this.props.customAnchor({
                 wrapperProps: {
                   ref: this.nodeRef,
-                  'data-test': 'ring-select'
+                  'data-test': dataTests('ring-select', dataTest)
                 },
                 buttonProps: {
                   ...ariaProps,
