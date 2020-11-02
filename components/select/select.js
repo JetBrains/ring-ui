@@ -379,6 +379,8 @@ export default class Select extends Component {
     const {selected} = {...prevState, ...nextState};
     if (selected && multiple) {
       nextState.multipleMap = buildMultipleMap(selected);
+      const {filteredData, addButton} = getListItems(nextProps, nextState, filterValue, data);
+      Object.assign(nextState, {shownData: filteredData, addButton});
     }
 
     return nextState;
