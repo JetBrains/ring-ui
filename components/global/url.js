@@ -158,6 +158,11 @@ export function parseQueryString(queryString) {
   return urlParams;
 }
 
+function customEncodeURIComponent(str) {
+  const commaRE = /%2C/g;
+  return encodeURIComponent(str).replace(commaRE, ',');
+}
+
 /**
  * Takes a URL as input and a params object.
  * Each property in the params is added to the URL as query string parameters
@@ -176,7 +181,7 @@ export function encodeURL(url, params) {
   for (k in params) {
     if (params.hasOwnProperty(k) && params[k] != null) {
       res += (i++ === 0 ? firstSeparator : '&') +
-        encodeURIComponent(k) + equalsSign + encodeURIComponent(params[k]);
+        customEncodeURIComponent(k) + equalsSign + customEncodeURIComponent(params[k]);
     }
   }
 
