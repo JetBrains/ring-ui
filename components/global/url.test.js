@@ -121,6 +121,11 @@ describe('Url', () => {
       encodeURL('hub', {'i am naughty': 'with%23some+problems'}).
         should.be.equal('hub?i%20am%20naughty=with%2523some%2Bproblems');
     });
+
+    it('should not encode comma', () => {
+      encodeURL('hub', {test: 'with(some,allowed)'}).
+        should.be.equal('hub?test=with(some,allowed)');
+    });
   });
 
   describe('isDataURI', () => {
