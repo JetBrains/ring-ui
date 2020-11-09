@@ -95,6 +95,7 @@ changeBuildType(RelativeId("Publish")) {
                 
                 node -v
                 npm -v
+                npm whoami
                 
                 # Temporary until docker is not updated
                 npm config set unsafe-perm true
