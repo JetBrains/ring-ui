@@ -75,10 +75,4 @@ changeBuildType(RelativeId("Publish")) {
             dockerImage = "node:12"
         }
     }
-
-    requirements {
-        add {
-            contains("system.agent.name", "Ubuntu", "RQ_353")
-        }
-    }
 }
