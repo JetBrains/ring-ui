@@ -40,6 +40,7 @@ export default class Dialog extends PureComponent {
     onCloseAttempt: PropTypes.func,
     // focusTrap may break popups inside dialog, so use it carefully
     trapFocus: PropTypes.bool,
+    portalTarget: PropTypes.shape({current: PropTypes.instanceOf(HTMLElement)}),
     autoFocusFirst: PropTypes.bool,
     'data-test': PropTypes.string
   };
@@ -113,7 +114,7 @@ export default class Dialog extends PureComponent {
   render() {
     const {show, showCloseButton, onOverlayClick, onCloseAttempt, onEscPress, onCloseClick,
       children, className, contentClassName, trapFocus, 'data-test': dataTest, closeButtonInside,
-      ...restProps} = this.props;
+      portalTarget, ...restProps} = this.props;
     const classes = classNames(styles.container, className);
     const shortcutsMap = this.getShortcutsMap();
 
@@ -170,7 +171,9 @@ export default class Dialog extends PureComponent {
           )
         }
       </PopupTarget>,
-      document.body
+      portalTarget && portalTarget.current instanceof HTMLElement
+        ? portalTarget.current
+        : document.body
     );
   }
 }
