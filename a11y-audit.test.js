@@ -7,8 +7,9 @@ import {axeTest} from '@storybook/addon-storyshots-puppeteer';
 const isTeamCity = process.env.TEAMCITY_VERSION != null;
 
 const test = axeTest({
-  storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'dist')}` : 'http://localhost:9999',
-  customizePage: page => page.setViewport({width: 1000, height: 600})
+  storybookUrl: isTeamCity ? `file://${path.resolve(__dirname, 'dist')}` : 'http://localhost:9999?block-auth',
+  customizePage: page => page.setViewport({width: 1000, height: 600}),
+  testTimeout: 20000
 });
 
 const suite = 'Accessibility audit';
