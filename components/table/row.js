@@ -93,7 +93,7 @@ export default class Row extends PureComponent {
   onClick = e => {
     const {item} = this.props;
 
-    this.props.onClick(item);
+    this.props.onClick(item, e);
 
     if (e.shiftKey) {
       this.toggleSelection();
