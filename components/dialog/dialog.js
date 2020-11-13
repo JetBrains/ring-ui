@@ -10,7 +10,8 @@ import dataTests from '../global/data-tests';
 import Shortcuts from '../shortcuts/shortcuts';
 import TabTrap from '../tab-trap/tab-trap';
 import Button from '../button/button';
-import {PopupTarget} from '../popup/popup';
+
+import {PopupTarget} from '../popup/popup.target';
 
 import ScrollPreventer from './dialog__body-scroll-preventer';
 import styles from './dialog.css';
