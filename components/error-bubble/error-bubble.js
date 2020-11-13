@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Popup from '../popup/popup';
-import {Directions} from '../popup/position';
+
+import {Directions} from '../popup/popup.consts';
 
 import styles from './error-bubble.css';
 /**

@@ -5,7 +5,7 @@ import {getRect, getStyles} from '../global/dom';
 import simulateCombo from '../../test-helpers/simulate-combo';
 
 import Popup from './popup';
-import {MinWidth} from './position';
+import {MinWidth} from './popup.consts';
 
 describe('Popup', () => {
   const shallowPopup = props => shallow(<Popup {...{children: '', ...props}}/>);
