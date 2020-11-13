@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Icon from '../icon/icon';
 
 import Popup, {getPopupContainer, PopupTargetContext} from '../popup/popup';
-import {DEFAULT_DIRECTIONS, maxHeightForDirection} from '../popup/position';
+import {maxHeightForDirection} from '../popup/position';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
@@ -22,6 +22,8 @@ import Caret from '../caret/caret';
 import Shortcuts from '../shortcuts/shortcuts';
 import Button from '../button/button';
 import Text from '../text/text';
+
+import {DEFAULT_DIRECTIONS} from '../popup/popup.consts';
 
 import SelectFilter from './select__filter';
 import styles from './select-popup.css';

@@ -16,16 +16,16 @@ import dataTests from '../global/data-tests';
 
 import TabTrap from '../tab-trap/tab-trap';
 
-import position, {
+import position, {positionPropKeys} from './position';
+import styles from './popup.css';
+import {
   DEFAULT_DIRECTIONS,
   Dimension,
   Directions,
   Display,
   MaxHeight,
-  MinWidth,
-  positionPropKeys
-} from './position';
-import styles from './popup.css';
+  MinWidth
+} from './popup.consts';
 
 const stop = e => e.stopPropagation();
 

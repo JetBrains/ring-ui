@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
-import {Directions, maxHeightForDirection} from './position';
+import {maxHeightForDirection} from './position';
+import {Directions} from './popup.consts';
 
 describe('position', () => {
   describe('maxHeightForDirection', () => {
