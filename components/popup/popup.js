@@ -2,7 +2,7 @@
  * @name Popup
  */
 
-import React, {createContext, forwardRef, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import {createPortal} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -26,33 +26,11 @@ import {
   MaxHeight,
   MinWidth
 } from './popup.consts';
+import {PopupTargetContext, PopupTarget} from './popup.target';
+
+export {PopupTargetContext, PopupTarget};
 
 const stop = e => e.stopPropagation();
-
-export const PopupTargetContext = createContext();
-export const PopupTarget = forwardRef(
-  function PopupTarget({id, children, ...restProps}, ref) {
-    const isFunctionChild = typeof children === 'function';
-    const target = (
-      <div
-        {...restProps}
-        data-portaltarget={id}
-        ref={ref}
-      >
-        {!isFunctionChild && children}
-      </div>
-    );
-    return (
-      <PopupTargetContext.Provider value={id}>
-        {isFunctionChild ? children(target) : target}
-      </PopupTargetContext.Provider>
-    );
-  }
-);
-PopupTarget.propTypes = {
-  id: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
-};
 
 export const getPopupContainer = target => (typeof target === 'string' ? document.querySelector(`[data-portaltarget=${target}]`) : target);
 

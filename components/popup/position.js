@@ -9,6 +9,8 @@ import {
 
 import {Dimension, Directions, MaxHeight, MinWidth} from './popup.consts';
 
+export {Dimension, Directions, MaxHeight, MinWidth};
+
 function getScrollingCoordinates(container) {
   if (container !== null) {
     return {

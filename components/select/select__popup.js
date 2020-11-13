@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 
 import Icon from '../icon/icon';
 
-import Popup, {getPopupContainer, PopupTargetContext} from '../popup/popup';
+import Popup, {getPopupContainer} from '../popup/popup';
 import {maxHeightForDirection} from '../popup/position';
+import {PopupTargetContext} from '../popup/popup.target';
 import List from '../list/list';
 import LoaderInline from '../loader-inline/loader-inline';
 import shortcutsHOC from '../shortcuts/shortcuts-hoc';
