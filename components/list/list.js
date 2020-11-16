@@ -81,7 +81,7 @@ export default class List extends Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
-    hint: PropTypes.string,
+    hint: PropTypes.node,
     hintOnSelection: PropTypes.string,
     data: PropTypes.array,
     maxHeight: PropTypes.oneOfType([

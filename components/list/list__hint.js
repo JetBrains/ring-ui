@@ -10,10 +10,7 @@ import styles from './list.css';
  */
 export default class ListHint extends PureComponent {
   static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.string
-    ])
+    label: PropTypes.node
   };
 
   render() {
