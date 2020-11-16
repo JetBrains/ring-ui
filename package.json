@@ -1,6 +1,6 @@
 {
   "name": "@jetbrains/ring-ui",
-  "version": "3.0.90",
+  "version": "3.0.91",
   "description": "JetBrains UI library",
   "author": "JetBrains",
   "license": "Apache-2.0",
@@ -68,7 +68,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@jetbrains/eslint-config": "^5.3.1",
-    "@jetbrains/generator-ring-ui": "^2.0.118",
+    "@jetbrains/generator-ring-ui": "^2.0.119",
     "@jetbrains/stylelint-config": "^2.0.1",
     "@primer/octicons": "^11.0.0",
     "@storybook/addon-a11y": "6.1.0-rc.3",
