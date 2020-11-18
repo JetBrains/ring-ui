@@ -79,7 +79,7 @@
     "@storybook/addon-storysource": "6.1.0-rc.4",
     "@storybook/addons": "6.1.0-rc.4",
     "@storybook/client-api": "6.1.0-rc.3",
-    "@storybook/core": "6.1.0-rc.3",
+    "@storybook/core": "6.1.0-rc.4",
     "@storybook/html": "6.1.0-rc.4",
     "@storybook/source-loader": "6.1.0-rc.4",
     "@storybook/theming": "6.1.0-rc.4",
