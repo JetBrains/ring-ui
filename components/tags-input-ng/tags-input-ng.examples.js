@@ -37,5 +37,5 @@ export const basic = ({onAddTag, onRemoveTag}) => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Tags Input Ng';
 basic.argTypes = {onAddTag: {}, onRemoveTag: {}};

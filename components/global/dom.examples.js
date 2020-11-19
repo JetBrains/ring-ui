@@ -36,4 +36,4 @@ export const basic = () => {
   return node;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'DOM';

@@ -96,7 +96,7 @@ export const basic = () => {
 
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Button Ng';
 
 basic.parameters = {
   hermione: {

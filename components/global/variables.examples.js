@@ -108,7 +108,7 @@ export const basic = () => `
   </div>
 `;
 
-basic.storyName = 'palette';
+basic.storyName = 'Theme palette';
 
 basic.parameters = {
   storyStyles: `

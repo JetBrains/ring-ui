@@ -39,4 +39,4 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Promised Click Ng';

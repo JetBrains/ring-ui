@@ -20,7 +20,7 @@ export default {
   }
 };
 
-export const dialog = ({onConfirm, onCancel}) => {
+export const authDialog = ({onConfirm, onCancel}) => {
   class AuthDialogDemo extends React.Component {
     state = {
       confirm: {
@@ -73,5 +73,4 @@ export const dialog = ({onConfirm, onCancel}) => {
   return <AuthDialogDemo/>;
 };
 
-dialog.storyName = 'dialog';
-dialog.argTypes = {onConfirm: {}, onCancel: {}};
+authDialog.argTypes = {onConfirm: {}, onCancel: {}};

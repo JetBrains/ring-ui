@@ -204,7 +204,7 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Input Sizes';
 
 basic.parameters = {
   storyStyles: `
