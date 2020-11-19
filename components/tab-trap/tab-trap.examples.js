@@ -46,4 +46,4 @@ export const basic = () => {
   return <TabTrapDemo/>;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'TabTrap';

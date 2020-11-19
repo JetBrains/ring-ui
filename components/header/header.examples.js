@@ -95,7 +95,7 @@ export const header = ({isCompact, ...args}) => {
   return <HeaderDemo/>;
 };
 
-header.storyName = 'basic';
+header.storyName = 'Header';
 header.notes = 'See available presentation options in knobs panel';
 header.args = {isCompact: false, theme: Theme.DARK};
 

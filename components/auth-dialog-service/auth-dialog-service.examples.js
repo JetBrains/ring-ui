@@ -21,7 +21,7 @@ export default {
   }
 };
 
-export const basic = ({onConfirm, onCancel}) => {
+export const authDialogService = ({onConfirm, onCancel}) => {
   const auth = new Auth(hubConfig);
   const http = new HTTP(auth, auth.getAPIPath());
 
@@ -63,5 +63,4 @@ export const basic = ({onConfirm, onCancel}) => {
   return <AuthDialogDemo/>;
 };
 
-basic.storyName = 'basic';
-basic.argTypes = {onConfirm: {}, onCancel: {}};
+authDialogService.argTypes = {onConfirm: {}, onCancel: {}};

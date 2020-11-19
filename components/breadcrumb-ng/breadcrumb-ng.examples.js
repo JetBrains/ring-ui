@@ -29,5 +29,5 @@ export const basic = ({onClickSecondLevel}) => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Breadcrumb Ng';
 basic.argTypes = {onClickSecondLevel: {}};

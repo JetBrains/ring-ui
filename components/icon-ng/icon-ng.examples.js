@@ -31,4 +31,4 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Icon Ng';

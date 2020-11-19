@@ -18,5 +18,5 @@ export default {
 
 export const basic = args => <Loader {...args}/>;
 
-basic.storyName = 'basic';
+basic.storyName = 'Loader';
 basic.args = {message: 'Loading...'};

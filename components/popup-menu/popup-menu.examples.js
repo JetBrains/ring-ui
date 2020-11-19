@@ -35,4 +35,4 @@ export const basic = () => {
   return <PopupMenu data={data}/>;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'PopupMenu';

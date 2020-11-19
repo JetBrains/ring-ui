@@ -45,7 +45,7 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Color fields palette';
 
 basic.parameters = {
   storyStyles: `
