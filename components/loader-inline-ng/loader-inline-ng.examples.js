@@ -25,4 +25,4 @@ export const simple = () => {
     `;
 };
 
-simple.storyName = 'simple';
+simple.storyName = 'Loader Inline Ng';

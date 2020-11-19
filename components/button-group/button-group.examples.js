@@ -15,7 +15,7 @@ export default {
   }
 };
 
-export const basic = () => (
+export const buttonGroup = () => (
   <div className="container">
     <div>
       <ButtonGroup>
@@ -47,9 +47,7 @@ export const basic = () => (
   </div>
 );
 
-basic.storyName = 'basic';
-
-basic.parameters = {
+buttonGroup.parameters = {
   storyStyles: `
     <style>
       .container > div {

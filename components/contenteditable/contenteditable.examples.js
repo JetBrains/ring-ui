@@ -28,7 +28,7 @@ export const basic = () => (
   </div>
 );
 
-basic.storyName = 'basic';
+basic.storyName = 'ContentEditable';
 
 basic.parameters = {
   storyStyles: `

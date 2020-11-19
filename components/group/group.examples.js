@@ -24,4 +24,4 @@ export const basic = () => (
   </Group>
 );
 
-basic.storyName = 'basic';
+basic.storyName = 'Group';

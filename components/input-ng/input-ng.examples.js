@@ -24,71 +24,71 @@ export const basic = () => {
           size="M"
           label="Type something"
         ></rg-input>
-  
+
         <rg-input
           name="login"
           size="M"
           label="Label and hint"
           placeholder="Hint"
         ></rg-input>
-  
+
         <rg-input
           label="Label and value"
           size="M"
           ng-model="ctrl.inputModel"
         ></rg-input>
-  
+
         <rg-input
           label="Clearable input"
           size="M"
           ng-model="ctrl.inputModel"
           clearable="true"
         ></rg-input>
-  
+
         <rg-input
           placeholder="Hint"
           size="M"
           ng-model="ctrl.inputModel"
           borderless="true"
         ></rg-input>
-  
+
         <rg-input
           label="Active input"
           active="true"
           size="M"
           ng-model="ctrl.inputModel"
         ></rg-input>
-  
+
         <rg-input
           label="Disabled input"
           data-disabled="true"
           size="M"
           ng-model="ctrl.inputModel"
         ></rg-input>
-  
+
         <rg-input
           label="Invalid input"
           size="M"
           error="Error description that wraps over lines because of being really long"
           ng-model="ctrl.inputModel"
         ></rg-input>
-  
+
         <rg-input
           label="Short input"
           size="S"
         ></rg-input>
-  
+
         <rg-input
           label="Long input"
           size="L"
         ></rg-input>
-  
+
         <rg-input
           label="Autogrowing textarea"
           size="M"
           multiline="true"
         ></rg-input>
-  
+
         <div class="dark">
           <rg-input
             label="Input on dark background"
@@ -100,7 +100,7 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Input Ng';
 
 basic.parameters = {
   storyStyles: `
@@ -111,11 +111,11 @@ basic.parameters = {
     max-height: 100vh;
     margin-top: 8px;
   }
-  
+
   .inputs rg-input {
     margin: 0 16px;
   }
-  
+
   .dark {
     background: #000;
     margin-left: 0;

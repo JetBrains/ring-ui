@@ -58,4 +58,4 @@ export const analyticsStory = ({onAnalytics = noop}) => {
     `;
 };
 
-analyticsStory.storyName = 'analytics';
+analyticsStory.storyName = 'Analytics Ng';

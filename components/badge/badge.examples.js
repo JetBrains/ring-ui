@@ -15,7 +15,7 @@ export default {
   }
 };
 
-export const basic = () => (
+export const badge = () => (
   <Group>
     <Badge>simple</Badge>
     <Badge gray>gray</Badge>
@@ -24,5 +24,3 @@ export const basic = () => (
     <Badge disabled>disabled</Badge>
   </Group>
 );
-
-basic.storyName = 'basic';

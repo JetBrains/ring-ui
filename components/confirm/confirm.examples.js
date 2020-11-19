@@ -17,7 +17,7 @@ export default {
   }
 };
 
-export const basic = ({onConfirm, onCancel}) => {
+export const confirm = ({onConfirm, onCancel}) => {
   class ConfirmDemo extends React.Component {
     state = {
       confirm: {
@@ -90,5 +90,4 @@ export const basic = ({onConfirm, onCancel}) => {
   return <ConfirmDemo/>;
 };
 
-basic.storyName = 'basic';
-basic.argTypes = {onConfirm: {}, onCancel: {}};
+confirm.argTypes = {onConfirm: {}, onCancel: {}};
