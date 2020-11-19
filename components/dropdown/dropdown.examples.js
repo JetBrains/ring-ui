@@ -107,3 +107,10 @@ export const autofocusOnOpen = () => (
 
 autofocusOnOpen.storyName = 'autofocus on open';
 autofocusOnOpen.parameters = {hermione: {skip: true}};
+
+export const renderProps = () => (
+  <Dropdown anchor="Click me">
+    {props => <Popup {...props}><Button onClick={props.onCloseAttempt} text>Close</Button></Popup>}
+  </Dropdown>
+);
+renderProps.parameters = {hermione: {skip: true}};

@@ -18,7 +18,7 @@ export default class Dropdown extends Component {
      * React element should render some interactive HTML element like `button` or `a`
      */
     anchor: PropTypes.oneOfType([PropTypes.node, PropTypes.func]).isRequired,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
     initShown: PropTypes.bool,
     className: PropTypes.string,
     activeClassName: PropTypes.string,
@@ -156,6 +156,14 @@ export default class Dropdown extends Component {
         }
     }
 
+    const childProps = {
+      hidden: !show,
+      onCloseAttempt: this.onChildCloseAttempt,
+      onMouseDown: hoverMode ? this.handlePopupInteraction : undefined,
+      onContextMenu: hoverMode ? this.handlePopupInteraction : undefined,
+      dontCloseOnAnchorClick: true
+    };
+
     return (
       <div
         data-test={dataTests('ring-dropdown', dataTest)}
@@ -168,13 +176,7 @@ export default class Dropdown extends Component {
         className={classes}
       >
         {anchorElement}
-        {cloneElement(children, {
-          hidden: !show,
-          onCloseAttempt: this.onChildCloseAttempt,
-          onMouseDown: hoverMode ? this.handlePopupInteraction : undefined,
-          onContextMenu: hoverMode ? this.handlePopupInteraction : undefined,
-          dontCloseOnAnchorClick: true
-        })}
+        {typeof children === 'function' ? children(childProps) : cloneElement(children, childProps)}
       </div>
     );
   }
