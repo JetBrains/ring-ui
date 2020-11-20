@@ -217,5 +217,5 @@ export const basic = ({onSave}) => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Save Field Ng';
 basic.argTypes = {onSave: {}};

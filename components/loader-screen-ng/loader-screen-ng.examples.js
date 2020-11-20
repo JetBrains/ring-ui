@@ -27,4 +27,4 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Loader Screen Ng';

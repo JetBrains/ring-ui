@@ -19,4 +19,4 @@ export const basic = () => {
   return '<rg-toggle>Toggle</rg-toggle>';
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Toggle Ng';

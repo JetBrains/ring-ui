@@ -43,7 +43,7 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Progress Bar Ng';
 
 basic.parameters = {
   storyStyles: `

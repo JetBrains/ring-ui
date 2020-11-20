@@ -22,10 +22,10 @@ export const basic = () => {
       <div ng-controller="ExampleCtrl as ctrl">
         <rg-radio ng-model="ctrl.selected" value="one" name="first" id="one-option">One</rg-radio>
         <rg-radio ng-model="ctrl.selected" value="two" name="second">Two</rg-radio>
-  
+
         <div>Selected value is "{{ctrl.selected}}"</div>
       </div>
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Radio Ng';

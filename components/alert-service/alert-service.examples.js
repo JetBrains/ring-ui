@@ -17,7 +17,7 @@ export default {
   }
 };
 
-export const simple = () => {
+export const alertService = () => {
   const MSG_TIMEOUT = 5000;
   const MSG_LONG_TIMEOUT = 30000;
 
@@ -68,5 +68,3 @@ export const simple = () => {
 
   return <AlertServiceDemo/>;
 };
-
-simple.storyName = 'simple';

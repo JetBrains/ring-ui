@@ -19,4 +19,4 @@ export const basic = () => {
   return '<rg-link href="http://example.com" class="test-class">Open example</rg-link>';
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Link Ng';

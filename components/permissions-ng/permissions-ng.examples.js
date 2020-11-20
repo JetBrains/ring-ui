@@ -46,4 +46,4 @@ export const rgPermissionIf = () => {
     `;
 };
 
-rgPermissionIf.storyName = 'rg-permission-if';
+rgPermissionIf.storyName = 'Permissions Ng';

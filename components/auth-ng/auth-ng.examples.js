@@ -38,4 +38,4 @@ export const authorization = () => {
     `;
 };
 
-authorization.storyName = 'authorization';
+authorization.storyName = 'Auth Ng';
