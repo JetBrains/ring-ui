@@ -30,4 +30,4 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Avatar Ng';

@@ -39,5 +39,5 @@ export const basic = ({onConfirm, onCancel}) => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Confirm Ng';
 basic.argTypes = {onConfirm: {}, onCancel: {}};

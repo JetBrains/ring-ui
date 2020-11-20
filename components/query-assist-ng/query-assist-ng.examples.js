@@ -85,5 +85,5 @@ export const basic = ({onChange}) => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'Query Assist Ng';
 basic.argTypes = {onChange: {}};
