@@ -14,7 +14,7 @@ export default {
   }
 };
 
-export const basic = () => {
+export const avatar = () => {
   function Example() {
     return (
       <div>
@@ -32,9 +32,7 @@ export const basic = () => {
   return <Example/>;
 };
 
-basic.storyName = 'basic';
-
-basic.parameters = {
+avatar.parameters = {
   storyStyles: `
 <style>
   .avatar-demo {

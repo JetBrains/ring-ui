@@ -16,7 +16,7 @@ export default {
   }
 };
 
-export const basic = () => (
+export const buttonToolbar = () => (
   <ButtonToolbar>
     <Button primary delayed>
       Run
@@ -29,5 +29,3 @@ export const basic = () => (
     <Button>Another action</Button>
   </ButtonToolbar>
 );
-
-basic.storyName = 'basic';

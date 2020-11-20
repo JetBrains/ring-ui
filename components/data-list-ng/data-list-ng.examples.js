@@ -51,4 +51,4 @@ export const basic = () => {
     `;
 };
 
-basic.storyName = 'basic';
+basic.storyName = 'DataList Ng';

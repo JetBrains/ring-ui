@@ -37,12 +37,12 @@ export const basic = () => (
   </div>
 );
 
-basic.storyName = 'basic';
+basic.storyName = 'Heading';
 
 basic.parameters = {
   storyStyles: `
 <style>
-  h3 + div::after, 
+  h3 + div::after,
   h4 + div::after {
     content: 'Heading';
     display: block;
@@ -50,8 +50,8 @@ basic.parameters = {
     color: #DDD;
     z-index: -1;
   }
-  
-  h3 + div::before, 
+
+  h3 + div::before,
   h4 + div::before {
     content: 'Lorem ipsum';
     display: block;

@@ -14,7 +14,7 @@ export default {
   argTypes: {onAnalytics: {}}
 };
 
-export const analyticsStory = ({onAnalytics}) => {
+export const Analytics = ({onAnalytics}) => {
   const node = document.createElement('div');
 
   node.innerHTML = `
@@ -45,5 +45,3 @@ export const analyticsStory = ({onAnalytics}) => {
 
   return node;
 };
-
-analyticsStory.storyName = 'analytics';

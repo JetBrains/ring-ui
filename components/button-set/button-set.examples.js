@@ -15,12 +15,10 @@ export default {
   }
 };
 
-export const basic = () => (
+export const buttonSet = () => (
   <ButtonSet>
     <Button>1st button</Button>
     <Button>2nd button</Button>
     <Button>3rd button</Button>
   </ButtonSet>
 );
-
-basic.storyName = 'basic';

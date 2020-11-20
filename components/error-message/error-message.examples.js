@@ -30,4 +30,4 @@ export const basic = () => (
   </div>
 );
 
-basic.storyName = 'basic';
+basic.storyName = 'Error Message';

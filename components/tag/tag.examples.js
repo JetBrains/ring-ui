@@ -44,4 +44,4 @@ export const demo = () => {
   return <TagDemo/>;
 };
 
-demo.storyName = 'demo';
+demo.storyName = 'Tag';
