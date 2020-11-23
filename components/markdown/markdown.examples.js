@@ -42,6 +42,10 @@ export const basic = () => (
 
           Horizontal line
 
+          | Some | Table |
+          | --- | --- |
+          | One | Two |
+
           ---
           Some \`inline(code)\` inside text
 

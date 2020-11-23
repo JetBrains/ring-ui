@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import classNames from 'classnames';
 import RemarkBreaks from 'remark-breaks';
+import RemarkGFM from 'remark-gfm';
 
 import normalizeIndent from '../global/normalize-indent';
 import trivialTemplateTag from '../global/trivial-template-tag';
@@ -21,11 +22,12 @@ export default class Markdown extends PureComponent {
     inline: PropTypes.bool,
     source: PropTypes.string,
     className: PropTypes.string,
-    renderers: PropTypes.object
+    renderers: PropTypes.object,
+    plugins: PropTypes.array
   };
 
   render() {
-    const {className, renderers, inline, source, ...restProps} = this.props;
+    const {className, renderers, inline, source, plugins = [], ...restProps} = this.props;
 
     const classes = classNames(className, {
       [styles.markdown]: !inline,
@@ -36,7 +38,7 @@ export default class Markdown extends PureComponent {
       <ReactMarkdown
         className={classes}
         source={normalizeIndent(source)}
-        plugins={[RemarkBreaks]}
+        plugins={[RemarkBreaks, RemarkGFM, ...plugins]}
         renderers={{
           link: Link,
           linkReference: Link,
