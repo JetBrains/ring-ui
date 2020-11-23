@@ -78,7 +78,7 @@
     "@storybook/addon-storyshots-puppeteer": "6.1.1",
     "@storybook/addon-storysource": "6.1.2",
     "@storybook/addons": "6.1.1",
-    "@storybook/client-api": "6.1.1",
+    "@storybook/client-api": "6.1.2",
     "@storybook/core": "6.1.1",
     "@storybook/html": "6.1.1",
     "@storybook/source-loader": "6.1.1",
