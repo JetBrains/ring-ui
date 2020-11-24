@@ -15,12 +15,10 @@
   "main": "components/index.js",
   "lint-staged": {
     "*.js": [
-      "npm run lint:js -- --fix",
-      "git add"
+      "npm run lint:js -- --fix"
     ],
     "*.css": [
-      "stylelint --fix",
-      "git add"
+      "stylelint --fix"
     ]
   },
   "config": {
