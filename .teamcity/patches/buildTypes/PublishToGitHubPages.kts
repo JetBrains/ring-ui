@@ -41,6 +41,29 @@ changeBuildType(RelativeId("PublishToGitHubPages")) {
     steps {
         update<ScriptBuildStep>(0) {
             clearConditions()
+            scriptContent = """
+                #!/bin/bash
+                set -e -x
+                
+                node -v
+                npm -v
+                
+                mkdir -p ~/.ssh/
+                touch ~/.ssh/config
+                cat << EOT >> ~/.ssh/config
+                Host github.com
+                    StrictHostKeyChecking no
+                    UserKnownHostsFile /dev/null
+                EOT
+                
+                chmod 644 ~/.ssh/config
+                
+                # GitHub authorization
+                git config user.email "%github.com.builduser.email%"
+                git config user.name "%github.com.builduser.name%"
+                
+                npx gh-pages --dist dist --dest %teamcity.build.branch% --message "Deploy %teamcity.build.branch%"
+            """.trimIndent()
             dockerImage = "node:14"
         }
     }
