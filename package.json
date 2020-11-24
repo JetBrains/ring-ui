@@ -117,7 +117,7 @@
     "karma-teamcity-reporter": "^2.0.0",
     "karma-webpack": "^4.0.2",
     "lerna": "^3.22.1",
-    "lint-staged": "^10.5.1",
+    "lint-staged": "^10.5.2",
     "merge-options": "^3.0.3",
     "mocha": "^8.2.1",
     "process": "^0.11.10",
