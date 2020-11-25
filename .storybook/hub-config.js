@@ -15,5 +15,6 @@ export default {
   serverUri,
   clientId,
   requestCredentials: 'skip',
-  redirectUri: `${origin + base}iframe.html?id=utilities-auth--landing-page`
+  redirectUri: origin + base // TODO: switch back to landing page when is fixed: https://github.com/storybookjs/storybook/issues/13273
+  // redirectUri: `${origin + base}iframe.html?id=utilities-auth--landing-page`
 };
