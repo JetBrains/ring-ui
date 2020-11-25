@@ -209,6 +209,13 @@
 .selectedLabel {
   position: absolute;
   top: calc(unit * -1.5);
+  left: 0;
+
+  overflow: hidden;
+
+  max-width: 100%;
+
+  text-overflow: ellipsis;
 
   color: var(--ring-secondary-color);
 
