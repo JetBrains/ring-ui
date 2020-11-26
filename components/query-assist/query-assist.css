@@ -266,6 +266,8 @@
   z-index: overInputZIndex;
   top: 4px;
   right: 1px;
+
+  background-color: var(--ring-content-background-color);
 }
 
 .icon {
