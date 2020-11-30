@@ -75,7 +75,7 @@
     "@storybook/addon-storyshots": "6.1.9",
     "@storybook/addon-storyshots-puppeteer": "6.1.8",
     "@storybook/addon-storysource": "6.1.9",
-    "@storybook/addons": "6.1.8",
+    "@storybook/addons": "6.1.9",
     "@storybook/client-api": "6.1.8",
     "@storybook/core": "6.1.8",
     "@storybook/html": "6.1.9",
