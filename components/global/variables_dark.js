@@ -21,7 +21,7 @@ export default {
   '--ring-warning-color': '#eda200',
   '--ring-success-color': '#59a869',
   '--ring-text-color': '#bbb',
-  '--ring-heading-color': '#fff',
+  '--ring-heading-color': 'var(--ring-text-color)',
   '--ring-secondary-color': '#80929d',
   '--ring-disabled-color': '#80929d',
 
