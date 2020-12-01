@@ -186,12 +186,14 @@ class Shortcuts {
     return !!(this._scopes[scope] && this._scopes[scope][key]);
   }
 
-  _defaultFilter = (e, element/*, key*/) => {
+  _defaultFilter = (e, element, key) => {
     // if the element or its parents have the class "ring-js-shortcuts" then no need to stop
     if (
       element === document ||
       element.matches(this.ALLOW_SHORTCUTS_SELECTOR) ||
-      element.closest(this.ALLOW_SHORTCUTS_SELECTOR)
+      element.closest(this.ALLOW_SHORTCUTS_SELECTOR) ||
+      element.dataset.enabledShortcuts != null &&
+      element.dataset.enabledShortcuts.split(',').includes(key)
     ) {
       return false;
     }

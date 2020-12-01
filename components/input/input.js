@@ -48,7 +48,7 @@ export class Input extends PureComponent {
       PropTypes.shape({current: PropTypes.instanceOf(HTMLInputElement)})
     ]),
     children: PropTypes.string,
-    enableShortcuts: PropTypes.bool,
+    enableShortcuts: PropTypes.oneOfType([PropTypes.bool, PropTypes.arrayOf(PropTypes.string)]),
     disabled: PropTypes.bool,
     id: PropTypes.string,
     placeholder: PropTypes.string,
@@ -61,7 +61,7 @@ export class Input extends PureComponent {
     size: Size.M,
     onChange: noop,
     inputRef: noop,
-    enableShortcuts: false,
+    enableShortcuts: ['esc'],
     renderUnderline: (underlineRef, errorText) => (
       <div
         className={styles.errorText}
@@ -169,7 +169,7 @@ export class Input extends PureComponent {
       styles[theme],
       [styles[`size${size}`]],
       {
-        'ring-js-shortcuts': enableShortcuts,
+        'ring-js-shortcuts': enableShortcuts === true,
         [styles.active]: active,
         [styles.error]: error != null,
         [styles.empty]: empty,
@@ -202,6 +202,7 @@ export class Input extends PureComponent {
           id={this.getId()}
           placeholder={placeholder}
           aria-label={typeof label === 'string' && label ? label : placeholder}
+          data-enabled-shortcuts={Array.isArray(enableShortcuts) ? enableShortcuts.join(',') : null}
           {...restProps}
         />
         {clearable && !disabled && (
