@@ -5,10 +5,11 @@ import reactDecorator from '../../.storybook/react-decorator';
 import DatePicker from '@jetbrains/ring-ui/components/date-picker/date-picker';
 
 export default {
-  title: 'Components/Date Picker',
+  title: 'Components/Date Picker/Legacy',
   decorators: [reactDecorator()],
 
   parameters: {
+    storyshots: {disable: true},
     notes:
       'Allows picking a date or a date range. Uses [moment.js](http://momentjs.com/) under the hood. You may want to either [bundle only the needed locales](https://webpack.js.org/plugins/context-replacement-plugin/#newcontentresource-newcontentrecursive-newcontentregexp) or even to [ignore all of them](https://webpack.js.org/plugins/ignore-plugin/#ignore-moment-locales).',
 
@@ -36,7 +37,7 @@ export const singleDate = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onDateChange={this.setDate}/>
+          <DatePicker date={this.state.date} onChange={this.setDate}/>
         </div>
       );
     }
@@ -50,11 +51,12 @@ singleDate.storyName = 'single date';
 export const singleDateAndTime = () => {
   class DatePickerExample extends Component {
     state = {
-      date: '8 January 2020, 9:45'
+      date: '8 January 2020',
+      time: '9:45'
     };
 
-    setDate = date => {
-      this.setState({date});
+    setDate = ({date, time}) => {
+      this.setState({date, time});
     };
 
     render() {
@@ -62,7 +64,8 @@ export const singleDateAndTime = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            time={this.state.time}
+            onChange={this.setDate}
             withTime
             clear
           />
@@ -94,7 +97,7 @@ export const range = () => {
     render() {
       return (
         <div>
-          <DatePicker from={this.state.from} to={this.state.to} onDateChange={this.setRange} range/>
+          <DatePicker from={this.state.from} to={this.state.to} onChange={this.setRange} range/>
         </div>
       );
     }
@@ -115,7 +118,7 @@ export const clearable = () => {
     render() {
       return (
         <div>
-          <DatePicker date={this.state.date} onDateChange={this.setDate} clear/>
+          <DatePicker date={this.state.date} onChange={this.setDate} clear/>
         </div>
       );
     }
@@ -139,7 +142,7 @@ export const singleWithMinMax = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             minDate="25 January 2018"
             maxDate="5 February 2018"
@@ -167,7 +170,7 @@ export const singleWithMin = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             minDate="25 January 2018"
           />
@@ -194,7 +197,7 @@ export const singleWithMax = () => {
         <div>
           <DatePicker
             date={this.state.date}
-            onDateChange={this.setDate}
+            onChange={this.setDate}
             clear
             maxDate="5 February 2018"
           />
@@ -225,7 +228,7 @@ export const rangeWithMinMax = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             minDate="25 January 2018"
             maxDate="5 February 2018"
@@ -258,7 +261,7 @@ export const rangeWithMin = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             minDate="25 January 2018"
             range
@@ -290,7 +293,7 @@ export const rangeWithMax = () => {
           <DatePicker
             from={this.state.from}
             to={this.state.to}
-            onDateChange={this.setRange}
+            onChange={this.setRange}
             clear
             maxDate="5 February 2018"
             range
