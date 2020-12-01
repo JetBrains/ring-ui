@@ -1,3 +1,18 @@
+## [3.1.0]
+Some of the props of `date-picker` are changed or deprecared to allow removing the dependency on `moment` package in v4:
+- passing `moment` instance as `date`, `from`, `to`, `minDate`, and `maxDate` props is deprecated. They still accept js `Date` objects, strings, and numeric timestamps
+- in `withTime` mode, the time should be passed as a part of `date` prop:
+    ```js
+    // before
+    <DatePicker date="8 January 2020" time="9:45"/>
+  
+    // after
+    <DatePicker date="8 January 2020, 9:45"/>
+    ```
+- `displayFormat`, `displayMonthFormat`, and `displayDateFormat` now accept a function of type `Date => string` instead of string
+- `inputFormat` is replaced with `parseDateInput` which accepts a function of type `string => Date`
+- `onChange` is replaced with `onDateChange` which has a different signature: all `moment` objects are replaced with js `Date` objects. In `withTime` mode, `onDateChange` is called with a single js `Date` object containing both date and time info instead of an object with separate `date` and `time` fields
+
 ## [3.0.0]
 
 Minimum required React version is now 16.8.0 (was 16.4.0 before). This allows Ring UI to use hooks and utilities such as `React.memo`.

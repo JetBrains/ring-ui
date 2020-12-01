@@ -6,7 +6,7 @@ import moment from 'moment';
 import linearFunction from '../global/linear-function';
 
 import MonthSlider from './month-slider';
-import {dateType, HALF, YEAR, MIDDLE_DAY, yearScrollSpeed} from './consts';
+import {HALF, YEAR, MIDDLE_DAY, yearScrollSpeed, momentType} from './consts';
 import styles from './date-picker.css';
 
 class MonthName extends PureComponent {
@@ -38,7 +38,7 @@ class MonthName extends PureComponent {
 }
 
 MonthName.propTypes = {
-  month: dateType,
+  month: momentType,
   onScrollChange: PropTypes.func
 };
 
@@ -97,7 +97,7 @@ export default function MonthNames(props) {
 }
 
 MonthNames.propTypes = {
-  scrollDate: dateType,
+  scrollDate: momentType,
   onScrollChange: PropTypes.func,
-  currentRange: PropTypes.arrayOf(dateType)
+  currentRange: PropTypes.arrayOf(momentType)
 };
