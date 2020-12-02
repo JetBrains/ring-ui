@@ -158,7 +158,7 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-define": "^2.0.0",
     "browserslist": "^4.15.0",
-    "change-case": "^4.1.1",
+    "change-case": "^4.1.2",
     "classnames": "^2.2.6",
     "combokeys": "^3.0.1",
     "compile-code-loader": "^1.0.0",
