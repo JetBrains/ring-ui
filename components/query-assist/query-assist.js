@@ -144,6 +144,10 @@ export default class QueryAssist extends Component {
      */
     onClear: PropTypes.func,
     /**
+     * Called when the suggestion is applied
+     */
+    onApplySuggestion: PropTypes.func,
+    /**
      * Called when the focus status is changed. An object with fields `focus` is passed as an argument
      */
     onFocusChange: PropTypes.func,
@@ -161,6 +165,7 @@ export default class QueryAssist extends Component {
     theme: Theme.LIGHT,
     onApply: noop,
     onChange: noop,
+    onApplySuggestion: noop,
     onClear: noop,
     onFocusChange: noop,
     translations: {
@@ -500,6 +505,7 @@ export default class QueryAssist extends Component {
     }
 
     this.props.onChange(state);
+    this.props.onApplySuggestion(data.data, state);
 
     const focusState = {focus: true};
     this.props.onFocusChange(focusState);
