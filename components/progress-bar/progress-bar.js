@@ -23,7 +23,14 @@ export default class ProgressBar extends PureComponent {
   }
 
   static propTypes = {
-    light: PropTypes.bool, // Obsolete prop, should be replaced with theme
+    // TODO Remove in 4.0
+    // Obsolete prop, should be replaced with theme
+    light(props, propName) {
+      if (propName in props) {
+        return new Error(`"${propName}" prop is deprecated. Use "theme" instead`);
+      }
+      return undefined;
+    },
     theme: PropTypes.string,
 
     /**
@@ -61,13 +68,6 @@ export default class ProgressBar extends PureComponent {
     value: 0,
     theme: Theme.LIGHT
   };
-
-  componentDidMount() {
-    if (typeof this.props.light === 'boolean') {
-      // eslint-disable-next-line no-console
-      console.warn('Ring UI Progress component doesn\'t have "light" prop anymore. Please use "theme" instead');
-    }
-  }
 
   progressbarWrapperRef = el => {
     this.progressbarWrapper = el;
