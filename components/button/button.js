@@ -25,6 +25,7 @@ class Button extends PureComponent {
     delayed: PropTypes.bool,
     loader: PropTypes.bool,
     primary: PropTypes.bool,
+    // TODO Remove in 4.0
     blue(props, propName) {
       if (propName in props) {
         return new Error(`"${propName}" prop is deprecated. Use "primary" instead`);
