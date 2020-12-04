@@ -9,6 +9,7 @@ import styles from './text.css';
  * @name Text
  */
 
+// TODO remove in 4.0
 const deprecateComment = deprecate(
   () => {},
   '<Text comment> is deprecated, use <Text info> instead'
