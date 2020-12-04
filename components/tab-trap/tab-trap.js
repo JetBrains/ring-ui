@@ -54,7 +54,7 @@ export default class TabTrap extends Component {
       previousFocusedNode.focus &&
       isNodeInVisiblePartOfPage(previousFocusedNode)
     ) {
-      previousFocusedNode.focus();
+      previousFocusedNode.focus({preventScroll: true});
     }
   };
 
