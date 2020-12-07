@@ -3,7 +3,7 @@ import scrollbarWidth from 'scrollbar-width';
 import styles from './dialog.css';
 
 let isPrevented = false;
-let previousBodyWidth = null;
+let previousDocumentWidth = null;
 
 export default {
   prevent() {
@@ -11,14 +11,14 @@ export default {
       return;
     }
     isPrevented = true;
-    document.documentElement.classList.add(styles.bodyWithoutScroll);
+    const documentHasScroll = document.documentElement.scrollHeight > window.innerHeight ||
+      getComputedStyle(document.documentElement).overflowY === 'scroll';
+    document.documentElement.classList.add(styles.documentWithoutScroll);
 
     const scrollWidth = scrollbarWidth();
 
-    const bodyHasScroll = document.documentElement.scrollHeight > window.innerHeight;
-
-    if (bodyHasScroll && scrollWidth > 0) {
-      previousBodyWidth = document.documentElement.style.width;
+    if (documentHasScroll && scrollWidth > 0) {
+      previousDocumentWidth = document.documentElement.style.width;
       document.documentElement.style.width = `calc(100% - ${scrollWidth}px)`;
     }
   },
@@ -29,11 +29,11 @@ export default {
     }
     isPrevented = false;
 
-    document.documentElement.classList.remove(styles.bodyWithoutScroll);
+    document.documentElement.classList.remove(styles.documentWithoutScroll);
 
-    if (previousBodyWidth !== null) {
-      document.documentElement.style.width = previousBodyWidth;
-      previousBodyWidth = null;
+    if (previousDocumentWidth !== null) {
+      document.documentElement.style.width = previousDocumentWidth;
+      previousDocumentWidth = null;
     }
   }
 };

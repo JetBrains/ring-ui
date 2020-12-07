@@ -97,7 +97,7 @@
   right: unit;
 }
 
-.bodyWithoutScroll {
+.documentWithoutScroll {
   overflow: hidden;
 
   height: 100%;
