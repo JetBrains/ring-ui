@@ -116,7 +116,6 @@ export default class DatePicker extends PureComponent {
   };
 
   handleChange = change => {
-    // eslint-disable-next-line react/prop-types
     const {onChange, onDateChange, range, withTime, applyTimeInput} = this.props;
     if (onChange != null) {
       onChange(change);
@@ -148,7 +147,6 @@ export default class DatePicker extends PureComponent {
 
   // TODO Remove in 4.0
   parse = dateString => {
-    // eslint-disable-next-line react/prop-types
     const {parseDateInput, displayFormat, inputFormat} = this.props;
 
     if (parseDateInput != null) {
@@ -165,7 +163,6 @@ export default class DatePicker extends PureComponent {
   };
 
   formatTime() {
-    // eslint-disable-next-line react/prop-types
     const {time, displayTimeFormat} = this.props;
     const date = this.parse(this.props.date);
     if (time != null) {
