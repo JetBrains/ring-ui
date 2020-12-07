@@ -327,12 +327,13 @@ export default class SelectPopup extends PureComponent {
   }
 
   getBottomLine() {
-    return (
+    const {loading, message} = this.props;
+    return (loading || message) && (
       <div className={styles.bottomLine}>
-        {this.props.loading && <LoaderInline/>}
+        {loading && <LoaderInline/>}
 
-        {this.props.message && (
-          <div className={styles.message}>{this.props.message}</div>
+        {message && (
+          <div className={styles.message}>{message}</div>
         )}
       </div>
     );
@@ -484,51 +485,70 @@ export default class SelectPopup extends PureComponent {
   };
 
   render() {
-    const classes = classNames(styles.popup, this.props.className);
+    const {
+      toolbar,
+      className,
+      multiple,
+      hidden,
+      isInputMode,
+      anchorElement,
+      minWidth,
+      onCloseAttempt,
+      directions,
+      top,
+      left,
+      style,
+      dir,
+      filter
+    } = this.props;
+    const classes = classNames(styles.popup, className);
 
     return (
       <PopupTargetContext.Consumer>
-        {ringPopupTarget => (
-          <Popup
-            trapFocus={false}
-            ref={this.popupRef}
-            hidden={this.props.hidden}
-            attached={this.props.isInputMode}
-            className={classes}
-            dontCloseOnAnchorClick
-            anchorElement={this.props.anchorElement}
-            minWidth={this.props.minWidth}
-            onCloseAttempt={this.props.onCloseAttempt}
-            directions={this.props.directions}
-            top={this.props.top || (this.props.isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
-            left={this.props.left}
-            onMouseDown={this.mouseDownHandler}
-            target={this.props.ringPopupTarget}
-            autoCorrectTopOverflow={false}
-            style={this.props.style}
-          >
-            <div dir={this.props.dir}>
-              {!this.props.hidden && this.props.filter &&
+        {ringPopupTarget => {
+          const filterWithTags = this.getFilterWithTags();
+          const selectAll = multiple && !multiple.limit && multiple.selectAll &&
+            this.getSelectAll();
+          const list = this.getList(this.props.ringPopupTarget || ringPopupTarget);
+          const bottomLine = this.getBottomLine();
+          const hasContent = filterWithTags || selectAll || list || bottomLine || toolbar;
+          return (
+            <Popup
+              trapFocus={false}
+              ref={this.popupRef}
+              hidden={hidden || !hasContent}
+              attached={isInputMode}
+              className={classes}
+              dontCloseOnAnchorClick
+              anchorElement={anchorElement}
+              minWidth={minWidth}
+              onCloseAttempt={onCloseAttempt}
+              directions={directions}
+              top={top || (isInputMode ? INPUT_MARGIN_COMPENSATION : null)}
+              left={left}
+              onMouseDown={this.mouseDownHandler}
+              target={this.props.ringPopupTarget}
+              autoCorrectTopOverflow={false}
+              style={style}
+            >
+              <div dir={dir}>
+                {!hidden && filter &&
                   (
                     <Shortcuts
                       map={this.shortcutsMap}
                       scope={this.shortcutsScope}
                     />
-                  )
-              }
-              {/* Add empty div to prevent the change of List position in DOM*/}
-              {this.props.hidden ? <div/> : this.getFilterWithTags()}
-              {this.props.multiple &&
-                  !this.props.multiple.limit &&
-                  this.props.multiple.selectAll &&
-                  this.getSelectAll()
-              }
-              {this.getList(this.props.ringPopupTarget || ringPopupTarget)}
-              {this.getBottomLine()}
-              {this.props.toolbar}
-            </div>
-          </Popup>
-        )}
+                  )}
+                {/* Add empty div to prevent the change of List position in DOM*/}
+                {hidden ? <div/> : filterWithTags}
+                {selectAll}
+                {list}
+                {bottomLine}
+                {toolbar}
+              </div>
+            </Popup>
+          );
+        }}
       </PopupTargetContext.Consumer>
     );
   }
