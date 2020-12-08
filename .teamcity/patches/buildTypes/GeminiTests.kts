@@ -16,6 +16,12 @@ changeBuildType(RelativeId("GeminiTests")) {
 
     params {
         expect {
+            password("env.BROWSERSTACK_KEY", "credentialsJSON:af3ef3c7-cc5c-4703-bdfa-76073b0dac40", display = ParameterDisplay.HIDDEN)
+        }
+        update {
+            password("env.BROWSERSTACK_KEY", "credentialsJSON:080a4e07-08b0-4450-8347-ddd8760b4f42", display = ParameterDisplay.HIDDEN)
+        }
+        expect {
             param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
         }
         update {
