@@ -13,4 +13,13 @@ changeBuildType(RelativeId("GeminiTests")) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
     maxRunningBuilds = 1
+
+    params {
+        expect {
+            param("env.BROWSERSTACK_NAME", "jetbrainsuiteam1")
+        }
+        update {
+            param("env.BROWSERSTACK_NAME", "sadf7")
+        }
+    }
 }
