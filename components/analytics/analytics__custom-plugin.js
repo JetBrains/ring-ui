@@ -1,4 +1,4 @@
-import AnalyticsCustomPluginUtils from './analytics__custom-plugin-utils';
+import AnalyticsPluginUtils from './analytics__plugin-utils';
 
 const DEFAULT_FLUSH_INTERVAL = 10000;
 const DEFAULT_FLUSH_MAX_PACK_SIZE = 100;
@@ -53,23 +53,23 @@ export default class AnalyticsCustomPlugin {
     this._processEvent('ring-page', path);
     this._processEvent(
       'ring-navigator_user-agent',
-      AnalyticsCustomPluginUtils.getUserAgentPresentation()
+      AnalyticsPluginUtils.getUserAgentPresentation()
     );
     this._processEvent(
       'ring-navigator_platform',
-      AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.platform)
+      AnalyticsPluginUtils.npeSaveLowerCase(navigator.platform)
     );
     this._processEvent(
       'ring-navigator_lang',
-      AnalyticsCustomPluginUtils.npeSaveLowerCase(navigator.language)
+      AnalyticsPluginUtils.npeSaveLowerCase(navigator.language)
     );
     this._processEvent(
       'ring-device-pixel-ratio',
-      AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation()
+      AnalyticsPluginUtils.getDevicePixelRatioPresentation()
     );
     this._processEvent(
       'ring-screen-width',
-      AnalyticsCustomPluginUtils.getScreenWidthPresentation()
+      AnalyticsPluginUtils.getScreenWidthPresentation()
     );
   }
 
@@ -87,8 +87,8 @@ export default class AnalyticsCustomPlugin {
     if (!this._hasSendSchedule && this._flush) {
       this._initSendSchedule();
     }
-    const category = AnalyticsCustomPluginUtils.reformatString(rawCategory, true);
-    const action = AnalyticsCustomPluginUtils.reformatString(rawAction);
+    const category = AnalyticsPluginUtils.reformatString(rawCategory, true);
+    const action = AnalyticsPluginUtils.reformatString(rawAction);
     if (this._isDevelopment) {
       console.log('TRACKING DATA = ', category, action); // eslint-disable-line no-console
     }
@@ -99,7 +99,7 @@ export default class AnalyticsCustomPlugin {
     const currentTime = (new Date()).getTime();
     if (this._lastPagePath) {
       if (this._lastPageViewTime) {
-        const duration = AnalyticsCustomPluginUtils.
+        const duration = AnalyticsPluginUtils.
           getPageViewDurationPresentation(currentTime - this._lastPageViewTime);
         this._processEvent(`ring-pageview-duration_${this._lastPagePath}`, duration);
       }
@@ -114,5 +114,9 @@ export default class AnalyticsCustomPlugin {
     if (this._data.length >= this._flushMaxPackSize) {
       this._flush();
     }
+  }
+
+  get serializeAdditionalInfo() {
+    return true;
   }
 }
