@@ -1,5 +1,6 @@
 import analytics from './analytics';
 import AnalyticsGAPlugin from './analytics__ga-plugin';
+import AnalyticsFUSPlugin from './analytics__fus-plugin';
 import AnalyticsCustomPlugin from './analytics__custom-plugin';
 
 const Analytics = analytics.constructor;
@@ -73,6 +74,84 @@ describe('Analytics', () => {
       should.not.exist(window.ga);
       gaPlugin.trackEvent.should.be.an.instanceof(Function);
       gaPlugin.trackPageView.should.be.an.instanceof(Function);
+    });
+  });
+
+  describe('fus plugin', () => {
+    let fusPlugin;
+
+    beforeEach(() => {
+      Reflect.deleteProperty(window, 'fus');
+      fusPlugin = new AnalyticsFUSPlugin({
+        productId: 'YTD',
+        productBuild: '2020.1.3',
+        recorderVersion: 1,
+        groups: [{
+          id: 'ring.page.view',
+          version: '1',
+          baseline: 'registered'
+        }, {
+          id: 'yt.issue.view',
+          version: '1',
+          baseline: 'registered'
+        }]
+      });
+    });
+
+    it('should init fus', () => {
+      window.fusra.should.exist;
+    });
+
+    it('should export interface', () => {
+      fusPlugin.trackPageView.should.exist;
+      fusPlugin.trackEvent.should.exist;
+    });
+
+    it('should send pageview event', () => {
+      const rememberFUSra = window.fusra;
+      window.fusra = sandbox.spy();
+      fusPlugin.trackPageView('issues');
+
+      window.fusra.should.have.been.calledWith('event', {
+        groupId: 'ring.page.view',
+        groupVersion: '1',
+        eventId: 'open',
+        eventData: {
+          path: 'issues',
+          browser: sinon.match.any,
+          lang: sinon.match.any,
+          'pixel-ratio': sinon.match.any,
+          platform: sinon.match.any,
+          screen: sinon.match.any
+        }
+      });
+
+      window.fusra = rememberFUSra;
+    });
+
+    it('should send action event', () => {
+      const rememberGA = window.fusra;
+      window.fusra = sandbox.spy();
+      fusPlugin.trackEvent('yt-issue-view', 'open', {demo: true});
+
+      window.fusra.should.calledWith('event', {
+        groupId: 'yt.issue.view',
+        groupVersion: '1',
+        eventId: 'open',
+        eventData: {demo: true}
+      });
+
+      window.fusra = rememberGA;
+    });
+
+    it('should not send event which was not mentioned in groups', () => {
+      const rememberFUSra = window.fusra;
+      window.fusra = sandbox.spy();
+      fusPlugin.trackEvent('some-category', 'some-action');
+
+      window.fusra.should.not.have.been.called;
+
+      window.fusra = rememberFUSra;
     });
   });
 

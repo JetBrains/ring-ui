@@ -47,4 +47,8 @@ export default class AnalyticsGAPlugin {
       ga('send', 'pageview', path);
     }
   }
+
+  get serializeAdditionalInfo() {
+    return true;
+  }
 }

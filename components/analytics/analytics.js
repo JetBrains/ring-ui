@@ -38,9 +38,13 @@ class Analytics {
   trackEvent(category, action, /* optional */ additionalData) {
     const subaction = additionalData ? action + this._buildSuffix(additionalData) : null;
     this._plugins.forEach(plugin => {
-      plugin.trackEvent(category, action);
-      if (subaction) {
-        plugin.trackEvent(category, subaction);
+      if (plugin.serializeAdditionalInfo) {
+        plugin.trackEvent(category, action);
+        if (subaction) {
+          plugin.trackEvent(category, subaction);
+        }
+      } else {
+        plugin.trackEvent(category, action, additionalData);
       }
     });
   }
