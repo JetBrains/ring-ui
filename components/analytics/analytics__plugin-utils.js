@@ -1,6 +1,6 @@
 import sniffer from '../global/sniffer';
 
-const AnalyticsCustomPluginUtils = {};
+const AnalyticsPluginUtils = {};
 const SECOND = 1000;
 const HOUR = 3600;
 
@@ -10,7 +10,7 @@ const HOUR = 3600;
  * @param isCategory
  * @returns string, where forbidden symbols are replaced with '_'
  */
-AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
+AnalyticsPluginUtils.reformatString = (value, isCategory) => {
   const str = String(value);
   /**
    * Category also cannot contain the '/' character (but an action can)
@@ -19,7 +19,7 @@ AnalyticsCustomPluginUtils.reformatString = (value, isCategory) => {
   return str.replace(regexp, '_');
 };
 
-AnalyticsCustomPluginUtils.getPageViewDurationPresentation = durationMs => {
+AnalyticsPluginUtils.getPageViewDurationPresentation = durationMs => {
   const duration = durationMs / SECOND;
   if (duration > HOUR) {
     return 'more-than-hour';
@@ -40,7 +40,7 @@ AnalyticsCustomPluginUtils.getPageViewDurationPresentation = durationMs => {
   return `less-than-${roundedDuration}-sec`;
 };
 
-AnalyticsCustomPluginUtils.getScreenWidthPresentation = () => {
+AnalyticsPluginUtils.getScreenWidthPresentation = () => {
   /**
    * Sizes were taken from bootstrap's grid (xs, sm, md, lg)
    */
@@ -54,21 +54,21 @@ AnalyticsCustomPluginUtils.getScreenWidthPresentation = () => {
   return '[1200px;inf)';
 };
 
-AnalyticsCustomPluginUtils.npeSaveLowerCase = val => (val || 'unknown').toLowerCase();
+AnalyticsPluginUtils.npeSaveLowerCase = val => (val || 'unknown').toLowerCase();
 
-AnalyticsCustomPluginUtils.getUserAgentPresentation = () => {
-  const name = AnalyticsCustomPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
+AnalyticsPluginUtils.getUserAgentPresentation = () => {
+  const name = AnalyticsPluginUtils.npeSaveLowerCase(sniffer.browser.name || 'unknown');
   const majorVersion = sniffer.browser.version[0];
   const version = majorVersion || 'unknown';
 
   return `${name}$${version}`;
 };
 
-AnalyticsCustomPluginUtils.getDevicePixelRatioPresentation = () => {
+AnalyticsPluginUtils.getDevicePixelRatioPresentation = () => {
   if (!window.devicePixelRatio || !window.devicePixelRatio.toFixed) {
     return 'unknown';
   }
   return String(window.devicePixelRatio.toFixed(1));
 };
 
-export default AnalyticsCustomPluginUtils;
+export default AnalyticsPluginUtils;
