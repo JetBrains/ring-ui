@@ -24,7 +24,7 @@ export default class HubSource {
     this.filterFn = null;
   }
 
-  async makeRequest(queryParams) {
+  makeRequest(queryParams) {
     return this.http.get(this.relativeUrl, {query: queryParams});
   }
 

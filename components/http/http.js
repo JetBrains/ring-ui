@@ -56,11 +56,11 @@ export default class HTTP {
     this.requestToken = () => auth.requestToken();
     this.shouldRefreshToken = auth.constructor.shouldRefreshToken;
     this.forceTokenUpdate = () => auth.forceTokenUpdate();
-  }
+  };
 
   setBaseUrl = baseUrl => {
     this.baseUrl = baseUrl;
-  }
+  };
 
   _fetch(...args) {
     return fetch(...args);
@@ -143,7 +143,7 @@ export default class HTTP {
     );
 
     return this._processResponse(response);
-  }
+  };
 
   async authorizedFetch(...args) {
     const response = await this._performRequest(...args);
@@ -176,7 +176,7 @@ export default class HTTP {
 
       throw error;
     }
-  }
+  };
 
   getMetaForResponse = response => this._requestsMeta.get(response);
 
@@ -185,7 +185,7 @@ export default class HTTP {
       method: 'GET',
       ...params
     })
-  )
+  );
 
   post = (url, params) => (
     this.request(url, {

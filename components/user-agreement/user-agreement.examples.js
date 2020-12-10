@@ -60,11 +60,11 @@ export const service = ({
   };
 
   const agreementService = new UserAgreementService({
-    getUserAgreement: async () => {
+    getUserAgreement: () => {
       onGetUserAgreemen(fakeUserAgreement);
       return fakeUserAgreement;
     },
-    getUserConsent: async () => {
+    getUserConsent: () => {
       onGetUserConsent(fakeUserConsent);
       return fakeUserConsent;
     },

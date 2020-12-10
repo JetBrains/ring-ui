@@ -15,7 +15,7 @@ initStoryshots({
   // storyNameRegex: /^Basic$/,
   async test(...args) {
     const consoleError = jest.spyOn(global.console, 'error');
-    await act(async () => renderOnly(...args));
+    await act(() => Promise.resolve(renderOnly(...args)));
     expect(consoleError).not.toBeCalled();
   }
 });

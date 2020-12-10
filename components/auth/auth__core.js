@@ -507,7 +507,7 @@ export default class Auth {
     this.logout();
   }
 
-  async _showAuthDialog({nonInteractive, error, canCancel} = {}) {
+  _showAuthDialog({nonInteractive, error, canCancel} = {}) {
     const {embeddedLogin, onPostponeLogout, translations} = this.config;
     const cancelable = this.user.guest || canCancel;
 
@@ -572,7 +572,7 @@ export default class Auth {
     );
   }
 
-  async _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
+  _showUserChangedDialog({newUser, onApply, onPostpone} = {}) {
     const {translations} = this.config;
 
     this._createInitDeferred();
@@ -601,7 +601,7 @@ export default class Auth {
     });
   }
 
-  async _showBackendDownDialog(backendError) {
+  _showBackendDownDialog(backendError) {
     const {onBackendDown, translations} = this.config;
     const REPEAT_TIMEOUT = 5000;
     let timerId = null;
@@ -784,7 +784,7 @@ export default class Auth {
     try {
       await this._checkBackendsAreUp();
     } catch (backendDownErr) {
-      await this._showBackendDownDialog(backendDownErr);
+      this._showBackendDownDialog(backendDownErr);
     }
   }
 
@@ -793,7 +793,7 @@ export default class Auth {
    * See https://w3c.github.io/resource-hints/
    * @param url Url to preconnect to.
    */
-  async setUpPreconnect(url) {
+  setUpPreconnect(url) {
     const linkNode = document.createElement('link');
     linkNode.rel = 'preconnect';
     linkNode.href = url;

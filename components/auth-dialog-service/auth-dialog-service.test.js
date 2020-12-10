@@ -54,7 +54,7 @@ describe('Auth Dialog Service', () => {
     getContainer().should.contain.text('reject text');
   });
 
-  it('should call onConfirm on confirm click', async () => {
+  it('should call onConfirm on confirm click', () => {
     const onConfirm = sandbox.spy();
     hideAuthDialog = authDialog({onConfirm});
     const okButton = getContainer().querySelector('*[data-test="auth-dialog-confirm-button"]');
@@ -64,7 +64,7 @@ describe('Auth Dialog Service', () => {
     onConfirm.should.have.been.called;
   });
 
-  it('should call onCancel on cancel click', async () => {
+  it('should call onCancel on cancel click', () => {
     const onCancel = sandbox.spy();
     hideAuthDialog = authDialog({onCancel});
     const cancelButton = getContainer().querySelector('*[data-test="auth-dialog-cancel-button"]');
