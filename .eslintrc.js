@@ -33,7 +33,9 @@ module.exports = {
     }],
     camelcase: [error, {
       allow: ['^UNSAFE_']
-    }]
+    }],
+    // TODO move to @jetbrains/eslint-config
+    'require-await': error
   },
   env: {
     node: true

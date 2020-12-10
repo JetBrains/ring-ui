@@ -54,7 +54,7 @@ export const smartTooltip = () => {
     banReason: 'Bad guy: is accused of stealing potatoes'
   };
 
-  async function loadUser() {
+  function loadUser() {
     return new Promise(resolve => setTimeout(resolve, 10000)).then(() => user);
   }
 
