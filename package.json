@@ -181,7 +181,7 @@
     "just-debounce-it": "^1.1.0",
     "memoize-one": "^5.1.1",
     "moment": "^2.29.1",
-    "postcss": "^8.2.0",
+    "postcss": "^8.2.1",
     "postcss-calc": "^7.0.5",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-font-family-system-ui": "^5.0.0",
