@@ -203,7 +203,7 @@ export const darkThemeNoAuth = args => (
 
 darkThemeNoAuth.args = {
   theme: QueryAssist.Theme.DARK,
-  dataSource: async ({query, caret}) => ({
+  dataSource: ({query, caret}) => ({
     query,
     caret,
     styleRanges: [

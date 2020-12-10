@@ -13,7 +13,7 @@ describe('HTTP', () => {
     sandbox.stub(httpInstance, '_fetch').resolves({
       status: OK,
       headers: new Headers({'content-type': 'application/json'}),
-      json: async () => fetchResult
+      json: () => fetchResult
     });
   }
 
@@ -73,8 +73,8 @@ describe('HTTP', () => {
     http._fetch.resolves({
       status: OK,
       headers: new Headers({'content-type': 'text/html'}),
-      json: async () => sandbox.spy(),
-      text: async () => 'some text'
+      json: () => sandbox.spy(),
+      text: () => 'some text'
     });
 
     const res = await http.request('testurl');
@@ -93,8 +93,8 @@ describe('HTTP', () => {
     http._fetch.resolves({
       status: OK,
       headers: new Headers({'content-type': 'text/html'}),
-      json: async () => sandbox.spy(),
-      text: async () => 'some text'
+      json: () => sandbox.spy(),
+      text: () => 'some text'
     });
     const res = await http.request('testurl');
 
@@ -140,7 +140,7 @@ describe('HTTP', () => {
   it('should throw if response status is not OK', async () => {
     http._fetch.resolves({
       status: METHOD_NOT_ALLOWED,
-      json: async () => fetchResult
+      json: () => fetchResult
     });
 
     const onError = sandbox.spy();
@@ -155,12 +155,12 @@ describe('HTTP', () => {
     http._fetch.
       onFirstCall().resolves({
         status: METHOD_NOT_ALLOWED,
-        json: async () => ({error: 'invalid_token'}),
+        json: () => ({error: 'invalid_token'}),
         headers: new Headers({'content-type': 'application/json'})
       }).
       onSecondCall().resolves({
         status: OK,
-        json: async () => fetchResult,
+        json: () => fetchResult,
         headers: new Headers({'content-type': 'application/json'})
       });
 

@@ -483,7 +483,7 @@ describe('Auth', () => {
       accessToken.should.be.equal('token');
     });
 
-    it('should reload page if user change was applied', async () => {
+    it('should reload page if user change was applied', () => {
       auth.user = {id: 'initUser'};
       auth.listeners.trigger(USER_CHANGED_EVENT);
       Auth.prototype._redirectCurrentPage.should.have.been.calledWith(window.location.href);

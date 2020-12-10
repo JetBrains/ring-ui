@@ -280,7 +280,7 @@ export default class UserAgreementService {
     }
   };
 
-  onDecline = async () => {
+  onDecline = () => {
     const {onDecline} = this.config;
 
     this.hideDialog();

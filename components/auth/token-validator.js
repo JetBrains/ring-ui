@@ -72,7 +72,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static async _validateExistence(storedToken) {
+  static _validateExistence(storedToken) {
     if (!storedToken || !storedToken.accessToken) {
       throw new TokenValidator.TokenValidationError('Token not found');
     }
@@ -84,7 +84,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  static async _validateExpiration({expires, lifeTime}) {
+  static _validateExpiration({expires, lifeTime}) {
     const REFRESH_BEFORE_RATIO = 6;
     const refreshBefore = lifeTime
       ? Math.ceil(lifeTime / REFRESH_BEFORE_RATIO)
@@ -101,7 +101,7 @@ export default class TokenValidator {
    * @return {Promise.<StoredToken>}
    * @private
    */
-  async _validateScopes(storedToken) {
+  _validateScopes(storedToken) {
     const {scope, optionalScopes} = this._config;
     const requiredScopes = optionalScopes
       ? scope.filter(scopeId => !optionalScopes.includes(scopeId))

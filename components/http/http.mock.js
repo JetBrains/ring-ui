@@ -2,7 +2,7 @@
 import HTTP from './http';
 
 const authMock = {
-  requestToken: async () => 'mock token',
+  requestToken: () => 'mock token',
   shouldRefreshToken: () => false,
   forceTokenUpdate: async () => {}
 };
@@ -16,7 +16,7 @@ export default class HTTPMock extends HTTP {
     this.responsesByUrlMap = new Map();
   }
 
-  async _fetch(url, params) {
+  _fetch(url, params) {
     this.requests = [...this.requests, {
       url,
       params: {
@@ -28,7 +28,7 @@ export default class HTTPMock extends HTTP {
     return {
       status: 200,
       headers: new Headers({'content-type': 'application/json'}),
-      json: async () => (this._getResponseForUrl(url) || this.defaultResponse)
+      json: () => (this._getResponseForUrl(url) || this.defaultResponse)
     };
   }
 
