@@ -2,6 +2,7 @@ import angular from 'angular';
 
 import analyticsInstance from '../analytics/analytics';
 import AnalyticsGAPlugin from '../analytics/analytics__ga-plugin';
+import AnalyticsFUSPlugin from '../analytics/analytics__fus-plugin';
 import AnalyticsCustomPlugin from '../analytics/analytics__custom-plugin';
 
 /**
@@ -45,6 +46,7 @@ angularModule.provider('analytics', function provider() {
 
 angularModule.constant('AnalyticsGAPlugin', AnalyticsGAPlugin);
 angularModule.constant('AnalyticsCustomPlugin', AnalyticsCustomPlugin);
+angularModule.constant('AnalyticsFUSPlugin', AnalyticsFUSPlugin);
 
 /**
  * Enable page tracking
