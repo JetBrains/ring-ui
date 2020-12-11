@@ -62,7 +62,7 @@
   }
 
   /*
-    Kill yellow webkit autocomplete
+    Kill yellow/blue webkit autocomplete
     https://css-tricks.com/snippets/css/change-autocomplete-styles-webkit-browsers/
   */
   &:-webkit-autofill {
@@ -70,12 +70,6 @@
     &:hover,
     &:focus {
       transition: background-color 50000s ease-in-out 0s;
-    }
-
-    & ~ .label {
-      top: calc(unit / 2);
-
-      font-size: var(--ring-font-size-smaller);
     }
   }
 
