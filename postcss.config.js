@@ -1,5 +1,3 @@
-const path = require('path');
-
 const scssRE = /\.scss$/;
 const EMBRACED_STAGE = 3; // See https://cssdb.org/#staging-process
 
@@ -7,12 +5,8 @@ module.exports = ctx => {
   const commonPlugins = [
     require('postcss-preset-env')({
       stage: EMBRACED_STAGE,
-      importFrom: path.resolve(__dirname, './components/global/variables.css'),
       features: {
-        'nesting-rules': true,
-        'custom-properties': {
-          preserve: true
-        }
+        'nesting-rules': true
       }
     }),
     require('postcss-font-family-system-ui')(),
