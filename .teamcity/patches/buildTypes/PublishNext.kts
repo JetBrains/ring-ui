@@ -32,7 +32,7 @@ changeBuildType(RelativeId("PublishNext")) {
         }
         branchFilter = """
             -:<default>
-            +:%vcs.branch.spec%
+            %vcs.branch.spec%
         """.trimIndent()
     }
 
